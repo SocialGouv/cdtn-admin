@@ -19,7 +19,7 @@
     "graphql": "^15.0.0",
     "http-proxy-middleware": "^1.0.3",
     "jsonwebtoken": "^8.5.1",
-    "next": "^9.4.0",
+    "next": "^9.4.2",
     "next-urql": "^0.3.7",
     "nodemailer": "^6.4.6",
     "polished": "^3.6.3",
