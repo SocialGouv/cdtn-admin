@@ -17,7 +17,7 @@
     "cookie": "^0.4.1",
     "dotenv": "^8.2.0",
     "graphql": "^15.0.0",
-    "http-proxy-middleware": "^1.0.3",
+    "http-proxy-middleware": "^1.0.4",
     "jsonwebtoken": "^8.5.1",
     "next": "^9.4.0",
     "next-urql": "^0.3.7",
