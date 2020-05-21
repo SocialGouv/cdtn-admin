@@ -1,0 +1,66 @@
+{
+  "name": "cdtn-admin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/boom": "^9.1.0",
+    "@hapi/joi": "^17.1.1",
+    "@reach/menu-button": "^0.10.2",
+    "@sentry/browser": "^5.15.5",
+    "@sentry/integrations": "^5.15.5",
+    "@sentry/node": "^5.15.5",
+    "@sentry/webpack-plugin": "^1.11.1",
+    "@socialgouv/matomo-next": "^1.0.1",
+    "@zeit/next-source-maps": "0.0.4-canary.1",
+    "argon2": "^0.26.2",
+    "cookie": "^0.4.1",
+    "dotenv": "^8.2.0",
+    "graphql": "^15.0.0",
+    "http-proxy-middleware": "^1.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "next": "^9.4.0",
+    "next-urql": "^0.3.7",
+    "nodemailer": "^6.4.6",
+    "polished": "^3.6.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-icons": "^3.10.0",
+    "react-is": "^16.13.1",
+    "sentry-testkit": "^3.2.1",
+    "theme-ui": "^0.3.1",
+    "urql": "^1.9.7",
+    "uuid": "^8.0.0",
+    "wonka": "^4.0.13"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "eslint src/*",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "scripts": {
+    "dev": "next dev -p ${NEXT_PUBLIC_FRONTEND_PORT:=3000}",
+    "build": "next build",
+    "start": "next start -p ${NEXT_PUBLIC_FRONTEND_PORT:=3000}",
+    "lint": "eslint src/*",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@socialgouv/eslint-config-react": "^0.21.0",
+    "@socialgouv/eslint-config-recommended": "^0.21.0",
+    "eslint": "^7.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "husky": "^4.2.5",
+    "jest-cli": "^26.0.1",
+    "prettier": "^2.0.5",
+    "prop-types": "^15.7.2"
+  }
+}
