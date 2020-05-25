@@ -50,16 +50,16 @@ export function useAuth() {
   const { user, setUser } = useContext(AuthContext);
   async function logout() {
     setToken(null);
+    setUser(null);
     try {
       await request("/api/logout", {
         credentials: "include",
         mode: "same-origin",
       });
-      setUser(null);
-      window.location.reload();
     } catch (error) {
       console.error("[ client logout ] failed", error);
     }
+    window.location.reload();
   }
 
   const isAuth = Boolean(user);

@@ -51,6 +51,8 @@ async function refreshToken(ctx) {
     setToken(tokenData);
   } catch (error) {
     console.error("[ auth.refreshToken error ]", { error });
+    console.log("[auth.refreshToken error]", token);
+    setToken(null);
     if (ctx && ctx.res) {
       ctx.res.writeHead(302, { Location: "/login" });
       ctx.res.end();
@@ -65,7 +67,7 @@ async function refreshToken(ctx) {
 }
 
 function setToken(tokenData) {
-  token = { ...tokenData };
+  token = tokenData;
 }
 
 export { getToken, getUserId, isTokenExpired, refreshToken, setToken };
