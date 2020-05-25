@@ -8,9 +8,7 @@ let token = null;
 function getToken() {
   return token ? token.jwt_token : null;
 }
-function getRawtoken() {
-  return token ? { ...token } : token;
-}
+
 function getUserId() {
   return token ? token.user_id : null;
 }
@@ -67,11 +65,4 @@ function setToken(tokenData) {
   token = { ...tokenData };
 }
 
-export {
-  getRawtoken,
-  getToken,
-  getUserId,
-  isTokenExpired,
-  refreshToken,
-  setToken,
-};
+export { getToken, getUserId, isTokenExpired, refreshToken, setToken };

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { getToken, setToken, refreshToken, getRawtoken } from "src/lib/auth";
+import { getToken, setToken, refreshToken } from "src/lib/auth";
 import { useQuery } from "urql";
 import { request } from "src/lib/request";
 import { getDisplayName } from "next/dist/next-server/lib/utils";
