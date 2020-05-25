@@ -41,6 +41,6 @@ deployment:
       value: "${PORT}"
   envFrom:
     - secretRef:
-        name:cdtn-admin-secrets
+        name: cdtn-admin-secrets
 ingress:
   enabled: true
