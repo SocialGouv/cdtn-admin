@@ -8,7 +8,7 @@ variables:
   PROJECT: "cdtn-admin"
   ENABLE_AZURE_POSTGRES: 1
   VALUES_FILE: ./.k8s/app.values.yml
-  RANCHER_PROJECT_ID: c-kk8xm:p-krfg9
+  RANCHER_PROJECT_ID: "c-kk8xm:p-krfg9"
 
 Create namespace:
   extends:
