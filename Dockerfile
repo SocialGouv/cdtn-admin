@@ -8,6 +8,7 @@ RUN yarn --production --frozen-lockfile
 
 COPY next.config.js  ./
 COPY .next/ ./.next
+COPY public/ ./public
 
 USER node
 

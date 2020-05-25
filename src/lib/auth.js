@@ -49,7 +49,7 @@ async function refreshToken(ctx) {
 
     setToken(tokenData);
   } catch (error) {
-    console.error("[ auth.refreshToken error]", { error });
+    console.error("[ auth.refreshToken error ]", { error });
     if (ctx && ctx.res) {
       ctx.res.writeHead(302, { Location: "/login" });
       ctx.res.end();

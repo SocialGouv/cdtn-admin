@@ -1,5 +1,6 @@
 import jwt, { verify } from "jsonwebtoken";
 const { HASURA_GRAPHQL_JWT_SECRET, JWT_TOKEN_EXPIRES = 15 } = process.env;
+console.log({ HASURA_GRAPHQL_JWT_SECRET });
 const jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
 
 export function generateJwtToken(user) {
