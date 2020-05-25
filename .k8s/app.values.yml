@@ -37,7 +37,7 @@ deployment:
       value: "http://hasura-cdtn-admin/v1/graphql"
     - name: ACCOUNT_MAIL_SENDER
       value: "contact@fabrique.social.gouv.fr"
-    - name: NEXT_PUBLIC_FRONTEND_URL
+    - name: NEXT_PUBLIC_FRONTEND_PORT
       value: "${PORT}"
   envFrom:
     - secretRef:
