@@ -14,6 +14,7 @@ function getUserId() {
 }
 
 function isTokenExpired() {
+  console.log("[ isTokenExpired ]", token);
   if (!token) return true;
   return Date.now() > new Date(token.jwt_token_expiry);
 }
@@ -24,13 +25,15 @@ async function refreshToken(ctx) {
       "Cache-Control": "no-cache",
     };
     if (ctx && ctx.req) {
-      const cookies = parse(ctx.req.headers.cookie);
+      const cookies = parse(ctx.req.headers.cookie || "");
       if (cookies && cookies.refresh_token) {
         headers["Cookie"] = serialize("refresh_token", cookies.refresh_token);
       }
     }
     const tokenData = await request(
-      `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/refresh_token`,
+      ctx && ctx.req
+        ? `http://localhost:${process.env.PORT}/api/refresh_token`
+        : "/api/refresh_token",
       {
         credentials: "include",
         mode: "same-origin",

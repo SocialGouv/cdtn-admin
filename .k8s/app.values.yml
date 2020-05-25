@@ -31,13 +31,13 @@ deployment:
   env:
     - name: PRODUCTION
       value: "${PRODUCTION}"
-    - name: NEXT_PUBLIC_FRONTEND_URL
+    - name: FRONTEND_URL
       value: https://${HOST}
     - name: GRAPHQL_ENDPOINT
       value: "http://hasura-cdtn-admin/v1/graphql"
     - name: ACCOUNT_MAIL_SENDER
       value: "contact@fabrique.social.gouv.fr"
-    - name: NEXT_PUBLIC_FRONTEND_PORT
+    - name: PORT
       value: "${PORT}"
   envFrom:
     - secretRef:

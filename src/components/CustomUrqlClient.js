@@ -6,7 +6,10 @@ export const withCustomUrqlClient = (Component) =>
   withUrqlClient(
     (ctx) => {
       return {
-        url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/graphql`,
+        url:
+          ctx && ctx.req
+            ? `http://localhost:${process.env.PORT}/api/graphql`
+            : "/api/graphql",
         fetchOptions: {
           refreshToken: () => refreshToken(ctx),
         },
