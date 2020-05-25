@@ -6,7 +6,7 @@ COPY package.json yarn.lock ./
 
 RUN yarn --production --frozen-lockfile
 
-COPY next.config.js server.js  ./
+COPY next.config.js  ./
 COPY src/sentry.js ./src/sentry.js
 COPY .next/ ./.next
 
