@@ -22,7 +22,9 @@ class MyApp extends App {
   }
 
   render() {
-    console.log("_app render");
+    console.log("_app render", {
+      NEXT_PUBLIC_FRONTEND_URL: process.env.NEXT_PUBLIC_FRONTEND_URL,
+    });
     const { Component, pageProps } = this.props;
 
     // Workaround for https://github.com/zeit/next.js/issues/8592

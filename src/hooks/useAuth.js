@@ -25,19 +25,15 @@ query getUser {
 }
 `;
 
-export function AuthProvider({ token, children }) {
-  // hydrate jwt-token from server
-  if (token && !getToken()) {
-    setToken(token);
-  }
-  console.log("[AuthProvider] token", token ? "✅" : "❌");
+export function AuthProvider({ children }) {
+  console.log("[AuthProvider] token", getToken() ? "✅" : "❌");
   const [user, setUser] = useState(null);
   const [result] = useQuery({ query: getUserQuery });
   useEffect(() => {
     if (result.data) {
       setUser(result.data.user[0]);
     }
-  }, [result.data, token]);
+  }, [result.data]);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
@@ -96,12 +92,12 @@ export function withAuthProvider(WrappedComponent) {
       const componentProps =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx));
-      const rawToken = getRawtoken();
-      return { ...componentProps, rawToken };
+
+      return { ...componentProps };
     }
     render() {
       return (
-        <AuthProvider token={this.props.rawToken}>
+        <AuthProvider>
           <WrappedComponent {...this.props} />
         </AuthProvider>
       );
