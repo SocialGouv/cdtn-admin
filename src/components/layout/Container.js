@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-export function Container({ props }) {
+export function Container(props) {
   return (
     <div
       {...props}

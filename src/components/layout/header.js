@@ -9,7 +9,6 @@ import { Container } from "next/app";
 export function Header() {
   console.log("[header]");
   const { user, logout } = useAuth();
-  console.log({ user });
   return (
     <Container>
       <header

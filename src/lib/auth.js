@@ -8,7 +8,6 @@ import { setRefreshTokenCookie } from "./setRefreshTokenCookie";
 
 let token = null;
 
-console.log("[ AUTHJS ]", { token });
 function getToken() {
   return token ? token.jwt_token : null;
 }
@@ -18,9 +17,9 @@ function getUserId() {
 }
 
 function isTokenExpired() {
-  console.log("[ isTokenExpired ]", token);
-  if (!token) return true;
-  return Date.now() > new Date(token.jwt_token_expiry);
+  const expired = !token || Date.now() > new Date(token.jwt_token_expiry);
+  console.log("[ isTokenExpired ]", { expired });
+  return expired;
 }
 
 async function refreshToken(ctx) {
@@ -51,11 +50,10 @@ async function refreshToken(ctx) {
     if (ctx && ctx.res) {
       setRefreshTokenCookie(ctx.res, tokenData.refresh_token);
     }
-
-    setToken(tokenData);
+    return tokenData;
   } catch (error) {
     console.error("[ auth.refreshToken error ]", { error });
-    console.log("[auth.refreshToken error]", token);
+    console.log("[auth.refreshToken error]", { token });
     if (ctx && ctx.res) {
       ctx.res.writeHead(302, { Location: "/login" });
       ctx.res.end();
@@ -65,8 +63,6 @@ async function refreshToken(ctx) {
       return;
     }
   }
-
-  return getToken();
 }
 
 function setToken(tokenData) {
@@ -75,26 +71,27 @@ function setToken(tokenData) {
 
 function withAuthProvider(WrappedComponent) {
   return class extends React.Component {
-    static displayName = `withAuthSync(${getDisplayName(WrappedComponent)})`;
+    static displayName = `withAuthProvider(${getDisplayName(
+      WrappedComponent
+    )})`;
     static async getInitialProps(ctx) {
       console.log(
         "[withAuthProvider] getInitialProps",
         ctx.req ? "server" : "client",
-        getToken() ? "found token" : "no token"
+        token ? "found token" : "no token"
       );
 
+      // eachtime we render a page on the server
+      // we need to set token to null to be sure
+      // that will not re-use an old token since
+      // token is a global var
+      // Once urlq exchange will have access to context
+      // we could use context to pass token to urlqclient
       if (ctx?.req) {
-        console.log("init page context for server");
-        setToken(null);
+        token = null;
       }
-
-      const jwt_token = getToken();
-      if (!jwt_token) {
-        try {
-          await refreshToken(ctx);
-        } catch {
-          console.error("[withAuthProvider] no token");
-        }
+      if (!token) {
+        token = await refreshToken(ctx);
       }
 
       const componentProps =

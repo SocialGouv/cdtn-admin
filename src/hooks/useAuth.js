@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { getToken, setToken } from "src/lib/auth";
+import { setToken } from "src/lib/auth";
 import { request } from "src/lib/request";
 import { useQuery } from "urql";
 
@@ -25,7 +25,6 @@ query getUser {
 `;
 
 export function AuthProvider({ children }) {
-  console.log("[AuthProvider] token", getToken() ? "✅" : "❌");
   const [user, setUser] = useState(null);
   const [result] = useQuery({ query: getUserQuery });
   useEffect(() => {
@@ -45,7 +44,6 @@ AuthProvider.propTypes = {
 };
 
 export function useAuth() {
-  console.log("[useAuth]");
   const { user, setUser } = useContext(AuthContext);
   async function logout() {
     setToken(null);

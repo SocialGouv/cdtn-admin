@@ -1,4 +1,5 @@
 /** @jsx jsx */
+import PropTypes from "prop-types";
 import { IconContext } from "react-icons";
 import { Box, Flex, jsx } from "theme-ui";
 import { Header } from "./header";
@@ -19,3 +20,6 @@ export function Layout({ children }) {
     </IconContext.Provider>
   );
 }
+Layout.propTypes = {
+  children: PropTypes.node,
+};

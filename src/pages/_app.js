@@ -18,7 +18,7 @@ class MyApp extends App {
     });
     // force onload swapping on stylesheet since it's not work on nextjs
     // @see _document.js
-    const fontCss = window.document.getElementById("fonts");
+    const fontCss = document.getElementById("fonts");
     if (fontCss) {
       fontCss.media = "all";
     }

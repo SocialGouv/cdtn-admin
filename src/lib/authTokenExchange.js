@@ -67,12 +67,10 @@ export const authExchange = ({ forward }) => {
         const refreshTokenFn = operation.context.fetchOptions.refreshToken;
         // check whether the token is expired
         const isExpired = isTokenExpired();
-        console.log(["authExchange"], getToken() ? " ok !!" : "nope :(");
         // If it's not expired then just add it to the operation immediately
         if (!isExpired) {
           return fromValue(addTokenToOperation(operation, getToken()));
         }
-        console.log("[authExchange] expired token");
 
         // If it's expired and we aren't refreshing it yet, start refreshing it
         if (isExpired && !refreshTokenPromise) {

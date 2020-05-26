@@ -45,9 +45,9 @@
     ]
   },
   "scripts": {
-    "dev": "next dev -p ${PORT:=3000}",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start -p ${PORT:=3000}",
+    "start": "next start",
     "lint": "eslint src/*",
     "test": "jest"
   },
