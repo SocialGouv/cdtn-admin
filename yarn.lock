@@ -7007,7 +7007,7 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-next-urql@^0.3.7:
+next-urql@^0.3.8:
   version "0.3.8"
   resolved "https://registry.yarnpkg.com/next-urql/-/next-urql-0.3.8.tgz#b9af59be9bcf037558fc78b26ddbb51e26bcea0b"
   integrity sha512-i0fOKI4tUmGh/4n8F+7r1UedyLDtDdaei+e6RC6eR0wPkcF04S4bX5N+JBLkvzVRONO5XRNcIBgo5UEmQS5YfQ==

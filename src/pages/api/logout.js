@@ -37,6 +37,7 @@ export default async function logout(req, res) {
     console.error(e);
     // let this error pass. Just log out the user by sending https status code 200 back
   }
+  console.log("[ logout ]", { refresh_token });
   res.setHeader(
     "Set-Cookie",
     cookie.serialize("refresh_token", "deleted", {

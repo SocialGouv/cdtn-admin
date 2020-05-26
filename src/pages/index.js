@@ -1,10 +1,9 @@
 /** @jsx jsx  */
-import { jsx, Text } from "theme-ui";
 import Head from "next/head";
-
 import { withCustomUrqlClient } from "src/components/CustomUrqlClient";
-import { withAuthProvider } from "src/hooks/useAuth";
 import { Layout } from "src/components/layout/auth.layout";
+import { withAuthProvider } from "src/lib/auth";
+import { jsx, Text } from "theme-ui";
 
 export function IndexPage() {
   return (

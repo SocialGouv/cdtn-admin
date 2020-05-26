@@ -1,9 +1,8 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { getToken, setToken, refreshToken } from "src/lib/auth";
-import { useQuery } from "urql";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { getToken, setToken } from "src/lib/auth";
 import { request } from "src/lib/request";
-import { getDisplayName } from "next/dist/next-server/lib/utils";
+import { useQuery } from "urql";
 
 export const AuthContext = createContext({
   user: null,
@@ -59,7 +58,7 @@ export function useAuth() {
     } catch (error) {
       console.error("[ client logout ] failed", error);
     }
-    window.location.reload();
+    window.location.reload(true);
   }
 
   const isAuth = Boolean(user);
@@ -67,40 +66,5 @@ export function useAuth() {
     user,
     isAuth,
     logout,
-  };
-}
-
-export function withAuthProvider(WrappedComponent) {
-  return class extends React.Component {
-    static displayName = `withAuthSync(${getDisplayName(WrappedComponent)})`;
-    static async getInitialProps(ctx) {
-      console.log(
-        "[withAuthProvider] getInitialProps",
-        ctx.req ? "server" : "client",
-        getToken() ? "found token" : "no token"
-      );
-
-      const jwt_token = getToken();
-      if (!jwt_token) {
-        try {
-          await refreshToken(ctx);
-        } catch {
-          console.error("[withAuthProvider] no token");
-        }
-      }
-
-      const componentProps =
-        WrappedComponent.getInitialProps &&
-        (await WrappedComponent.getInitialProps(ctx));
-
-      return { ...componentProps };
-    }
-    render() {
-      return (
-        <AuthProvider>
-          <WrappedComponent {...this.props} />
-        </AuthProvider>
-      );
-    }
   };
 }

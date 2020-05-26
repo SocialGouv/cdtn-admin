@@ -1,14 +1,13 @@
 /** @jsx jsx  */
-import { jsx, Flex, Heading } from "theme-ui";
 import Head from "next/head";
-
+import Link from "next/link";
+import { IoIosAdd } from "react-icons/io";
+import { Button } from "src/components/button";
 import { withCustomUrqlClient } from "src/components/CustomUrqlClient";
-import { withAuthProvider } from "src/hooks/useAuth";
 import { Layout } from "src/components/layout/auth.layout";
 import { UserList } from "src/components/UserList";
-import Link from "next/link";
-import { Button } from "src/components/button";
-import { IoIosAdd } from "react-icons/io";
+import { withAuthProvider } from "src/lib/auth";
+import { Flex, Heading, jsx } from "theme-ui";
 
 export function UserPage() {
   return (

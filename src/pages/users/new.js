@@ -1,12 +1,11 @@
 /** @jsx jsx  */
-import { jsx, Heading, NavLink, Field } from "theme-ui";
 import Head from "next/head";
-
-import { withCustomUrqlClient } from "src/components/CustomUrqlClient";
-import { withAuthProvider } from "src/hooks/useAuth";
-import { Layout } from "src/components/layout/auth.layout";
 import Link from "next/link";
 import { Button } from "src/components/button";
+import { withCustomUrqlClient } from "src/components/CustomUrqlClient";
+import { Layout } from "src/components/layout/auth.layout";
+import { withAuthProvider } from "src/lib/auth";
+import { Field, Heading, jsx, NavLink } from "theme-ui";
 
 export function UserPage() {
   return (

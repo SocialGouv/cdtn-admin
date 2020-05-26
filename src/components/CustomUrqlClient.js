@@ -1,15 +1,16 @@
-import { dedupExchange, cacheExchange, fetchExchange } from "@urql/core";
+import { cacheExchange, dedupExchange, fetchExchange } from "@urql/core";
 import { withUrqlClient } from "next-urql";
 import { refreshToken } from "src/lib/auth";
 import { authExchange } from "src/lib/authTokenExchange";
 export const withCustomUrqlClient = (Component) =>
   withUrqlClient(
     (ctx) => {
+      const url = ctx?.req
+        ? `http://localhost:${process.env.PORT}/api/graphql`
+        : `/api/graphql`;
+      console.log("[ withUrqlClient ]", { url });
       return {
-        url:
-          ctx && ctx.req
-            ? `http://localhost:${process.env.PORT}/api/graphql`
-            : "/api/graphql",
+        url,
         fetchOptions: {
           refreshToken: () => refreshToken(ctx),
         },
