@@ -7,7 +7,7 @@ export const withCustomUrqlClient = (Component) =>
   withUrqlClient(
     (ctx) => {
       const url = ctx?.req
-        ? `http://localhost:${process.env.PORT}/api/graphql`
+        ? `${process.env.FRONTEND_URL}/api/graphql`
         : `/api/graphql`;
       console.log("[ withUrqlClient ]", { url });
       return {

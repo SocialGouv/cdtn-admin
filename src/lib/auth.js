@@ -35,7 +35,7 @@ async function refreshToken(ctx) {
     }
     const tokenData = await request(
       ctx && ctx.req
-        ? `http://localhost:${process.env.PORT}/api/refresh_token`
+        ? `${process.env.FRONTEND_URL}/api/refresh_token`
         : "/api/refresh_token",
       {
         credentials: "include",
@@ -53,7 +53,6 @@ async function refreshToken(ctx) {
     return tokenData;
   } catch (error) {
     console.error("[ auth.refreshToken error ]", { error });
-    console.log("[auth.refreshToken error]", { token });
     if (ctx && ctx.res) {
       ctx.res.writeHead(302, { Location: "/login" });
       ctx.res.end();
