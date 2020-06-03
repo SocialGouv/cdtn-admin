@@ -35,12 +35,11 @@ export default async function refresh_token(req, res) {
   if (error) {
     return apiError(Boom.badRequest(error.details[0].message));
   }
-  const { refresh_token } = value;
   let result;
   try {
     result = await client
       .query(getRefreshTokenQuery, {
-        refresh_token,
+        refresh_token: value.refresh_token,
         current_timestampz: new Date(),
       })
       .toPromise();
@@ -51,7 +50,7 @@ export default async function refresh_token(req, res) {
   }
   console.log(
     "[api/refresh_token]",
-    { refreshToken },
+    { refreshToken: value.refresh_token },
     result.data.refresh_tokens
   );
 
