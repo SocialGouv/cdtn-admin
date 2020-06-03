@@ -34,7 +34,7 @@ deployment:
     - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
       value: "anonymous"
     - name: ACCOUNT_EMAIL_WEBHOOK_URL
-      value: ${FRONTEND_URL}/api/webhooks/account
+      value: https://${HOST}/api/webhooks/account
 
   envFrom:
     - secretRef:
