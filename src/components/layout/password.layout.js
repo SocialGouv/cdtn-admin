@@ -1,31 +1,34 @@
 /** @jsx jsx */
 import PropTypes from "prop-types";
-import { IconContext } from "react-icons";
 import { Box, Flex, jsx, Card, Heading } from "theme-ui";
 import { Header } from "./header";
-import { Nav } from "./Nav";
 import Head from "next/head";
+import { Stack } from "./Stack";
 
-export function Layout({ children, title }) {
+export function PasswordLayout({ children, title }) {
   return (
-    <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
+    <>
       <Head>
         <title>{title} | Admin cdtn </title>
       </Head>
       <Box>
         <Header />
-        <Flex>
-          <Nav />
-          <Box as="main" sx={{ flex: "1 1 auto" }} padding="large">
+        <Flex
+          as="main"
+          paddingTop="xxlarge"
+          px="xxsmall"
+          sx={{ flex: 1, justifyContent: "center" }}
+        >
+          <Card sx={{ flexBasis: ["auto", "30em", "40em"] }}>
             <Heading>{title}</Heading>
-            <Card>{children}</Card>
-          </Box>
+            <Stack>{children}</Stack>
+          </Card>
         </Flex>
       </Box>
-    </IconContext.Provider>
+    </>
   );
 }
-Layout.propTypes = {
+PasswordLayout.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node,
 };

@@ -64,28 +64,14 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
               Se connecter
             </Button>
             <Button
-              variant="secondary"
+              variant="link"
               size="small"
-              outline
               title="Saisissez votre email pour récupérer votre mot de passe"
-              onClick={() => resetPassword(email)}
+              onClick={resetPassword}
               type="button"
             >
               Mot de passe perdu
             </Button>
-            <div>
-              <Button
-                type="button"
-                size="small"
-                outline
-                onClick={() => {
-                  setEmail("sre@fabrique.social.gouv.fr");
-                  setPassword("admin");
-                }}
-              >
-                admin
-              </Button>
-            </div>
           </Stack>
         </form>
       </Card>

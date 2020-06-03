@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { setToken } from "src/lib/auth";
+import { getUserId } from "src/lib/auth";
 import { request } from "src/lib/request";
 import { useQuery } from "urql";
 
@@ -9,15 +9,16 @@ export const AuthContext = createContext({
   setUser: () => {},
 });
 
-const getUserQuery = `
-query getUser {
-  user: users {
+export const getUserQuery = `
+query getUser($id: uuid!) {
+  user:auth_users_by_pk(id: $id) {
+    __typename
     id
     email
     name
     active
     default_role
-    roles {
+    roles: user_roles {
       role
     }
   }
@@ -26,12 +27,17 @@ query getUser {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [result] = useQuery({ query: getUserQuery });
+  const id = getUserId();
+  const [result] = useQuery({
+    query: getUserQuery,
+    variables: { id },
+  });
+
   useEffect(() => {
-    if (result.data) {
-      setUser(result.data.user[0]);
+    if (result.data?.user) {
+      setUser(result.data?.user);
     }
-  }, [result.data]);
+  }, [result.data?.user]);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
@@ -44,10 +50,8 @@ AuthProvider.propTypes = {
 };
 
 export function useAuth() {
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   async function logout() {
-    setToken(null);
-    setUser(null);
     try {
       await request("/api/logout", {
         credentials: "include",
@@ -56,12 +60,14 @@ export function useAuth() {
     } catch (error) {
       console.error("[ client logout ] failed", error);
     }
-    window.location.reload(true);
+    window.location = "/login";
   }
 
   const isAuth = Boolean(user);
+  const isAdmin = user?.roles.some((item) => item.role === "admin");
   return {
     user,
+    isAdmin,
     isAuth,
     logout,
   };

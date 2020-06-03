@@ -1,14 +1,18 @@
 /** @jsx jsx */
-import { jsx, Box, Image, Text } from "theme-ui";
-import { IoMdContact } from "react-icons/io";
-import { Button } from "src/components/button";
-import { useAuth } from "../../hooks/useAuth";
-import Link from "next/link";
 import { Container } from "next/app";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { IoMdContact } from "react-icons/io";
+import { MenuButton, MenuItem } from "src/components/button";
+import { Box, Image, jsx, Text } from "theme-ui";
+import { useAuth } from "../../hooks/useAuth";
 
 export function Header() {
-  console.log("[header]");
   const { user, logout } = useAuth();
+  const router = useRouter();
+  function updateProfile() {
+    router.push("/user/account");
+  }
   return (
     <Container>
       <header
@@ -63,9 +67,10 @@ export function Header() {
             <Text color="heading" sx={{ fontWeight: "semibold", px: "xsmall" }}>
               {user?.name}
             </Text>
-            <Button variant="secondary" outline size="small" onClick={logout}>
-              Déconnexion
-            </Button>
+            <MenuButton>
+              <MenuItem onSelect={updateProfile}>Mon compte</MenuItem>
+              <MenuItem onSelect={logout}>Déconnexion</MenuItem>
+            </MenuButton>
           </div>
         )}
       </header>

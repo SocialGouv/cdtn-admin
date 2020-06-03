@@ -4,6 +4,8 @@ import * as Sentry from "@sentry/node";
 import { init } from "@socialgouv/matomo-next";
 import { theme } from "src/theme";
 import { ThemeProvider } from "theme-ui";
+import "@reach/menu-button/styles.css";
+import "@reach/dialog/styles.css";
 
 Sentry.init({
   enabled: process.env.NODE_ENV === "production",
@@ -25,7 +27,6 @@ class MyApp extends App {
   }
 
   render() {
-    console.log("_app render");
     const { Component, pageProps } = this.props;
 
     // Workaround for https://github.com/zeit/next.js/issues/8592

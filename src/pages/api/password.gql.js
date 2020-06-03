@@ -34,3 +34,22 @@ mutation updatePassword($secret_token: uuid!, $now: timestamptz!, $password: Str
     affected_rows
   }
 }`;
+export const getOldPassword = `
+query getPassword($id: uuid!) {
+	user: auth_users_by_pk(id: $id) { password }
+}
+`;
+
+export const changeMyPasswordMutation = `
+mutation updateMyPassword($id: uuid!, $password: String!) {
+  update_user: update_auth_users_by_pk(
+    _set: {
+      password: $password
+    }
+    pk_columns: {
+      id: $id
+    }
+  ){
+    id
+  }
+}`;

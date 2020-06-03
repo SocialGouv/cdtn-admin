@@ -2,7 +2,8 @@ import { createErrorFor } from "../../../../src/lib/apiError";
 import Joi from "@hapi/joi";
 import Boom from "@hapi/boom";
 import sendmail from "../../../lib/sendmail";
-
+const BASE_URL =
+  process.env.FRONTEND_URL || `http://localhost:${process.env.PORT}`;
 export default async function accountWebhook(req, res) {
   const apiError = createErrorFor(res);
 
@@ -47,7 +48,7 @@ export default async function accountWebhook(req, res) {
   const { data, op } = value.event;
   const { email, secret_token } = data.new;
   let subject = "Activation de votre compte";
-  let activateUrl = `${process.env.FRONTEND_URL}/change_password?token=${secret_token}&activate=1`; // todo: dynamic hostname
+  let activateUrl = `${BASE_URL}/change_password?token=${secret_token}&activate=1`; // todo: dynamic hostname
   let text = `Bonjour,
   Vous pouvez activer votre compte ${email} afin d'accéder à
   l'outil d'administration du cdtn en suivant ce lien : ${activateUrl}
@@ -56,7 +57,7 @@ export default async function accountWebhook(req, res) {
   `;
 
   if (op === "UPDATE") {
-    activateUrl = `${process.env.FRONTEND_URL}/change_password?token=${secret_token}`; // todo: dynamic hostname
+    activateUrl = `${BASE_URL}/change_password?token=${secret_token}`; // todo: dynamic hostname
     subject = "Réinitialisation de votre mot de passe";
     text = `
 Bonjour,

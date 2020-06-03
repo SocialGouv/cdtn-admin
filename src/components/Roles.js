@@ -2,15 +2,16 @@ import React from "react";
 import { useQuery } from "urql";
 import { Alert, Badge } from "theme-ui";
 
-const query = `
+export const getRoleQuery = `
 query getRoles{
   roles {
     role
   }
 }
 `;
+
 export function Roles() {
-  const [results] = useQuery({ query });
+  const [results] = useQuery({ getRoleQuery });
   const { data, error, fetching } = results;
 
   if (fetching) return <p>loading</p>;

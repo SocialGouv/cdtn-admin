@@ -44,7 +44,7 @@ create schema auth;
 create table auth.users(
   id uuid DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY,
   email email UNIQUE NOT NULL,
-  password text NOT NULL CONSTRAINT password_min_length CHECK ( char_length(password) >= 8 ),
+  password text DEFAULT 'mot de passe'::text NOT NULL CONSTRAINT password_min_length CHECK ( char_length(password) >= 8 ),
   name text NOT NULL,
   active boolean DEFAULT false NOT NULL,
   default_role text DEFAULT 'user'::text NOT NULL REFERENCES public.roles (role) on update cascade on delete restrict,
@@ -110,9 +110,3 @@ CREATE TRIGGER "set_auth_refresh_tokens_updated_at"
 
 COMMENT ON TRIGGER "set_auth_refresh_tokens_updated_at" ON auth.refresh_tokens
   IS 'trigger to set value of column "updated_at" to current timestamp on row update';
-
-
---
--- Public user view
---
-CREATE VIEW users AS SELECT id, name, email, active, default_role, secret_token, secret_token_expires_at, created_at, updated_at from auth.users;

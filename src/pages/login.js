@@ -12,7 +12,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   const resetPassword = () => {
-    router.push("/reset-password");
+    router.push("/reset_password");
   };
 
   const goAdmin = () => {

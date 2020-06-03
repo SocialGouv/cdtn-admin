@@ -21,7 +21,18 @@
       columns:
       - id
       - role
-      filter: {}
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - role
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
 - table:
     schema: auth
     name: users
@@ -44,6 +55,32 @@
         table:
           schema: auth
           name: user_roles
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - active
+      - created_at
+      - default_role
+      - email
+      - id
+      - name
+      - secret_token
+      - secret_token_expires_at
+      - updated_at
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - email
+      - name
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
   event_triggers:
   - name: account_email
     definition:
@@ -85,31 +122,3 @@
       columns:
       - role
       filter: {}
-- table:
-    schema: public
-    name: users
-  array_relationships:
-  - name: roles
-    using:
-      manual_configuration:
-        remote_table:
-          schema: auth
-          name: user_roles
-        column_mapping:
-          id: user_id
-  select_permissions:
-  - role: user
-    permission:
-      columns:
-      - active
-      - created_at
-      - default_role
-      - email
-      - id
-      - name
-      - secret_token
-      - secret_token_expires_at
-      - updated_at
-      filter:
-        id:
-          _eq: X-Hasura-User-Id

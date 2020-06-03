@@ -9,7 +9,7 @@ import {
   share,
   takeUntil,
 } from "wonka";
-import { getToken, isTokenExpired } from "./auth";
+import { getToken, isTokenExpired, setToken } from "./auth";
 
 // come from https://gist.github.com/kitten/6050e4f447cb29724546dd2e0e68b470#file-authexchangewithteardown-js
 
@@ -18,7 +18,6 @@ const addTokenToOperation = (operation, token) => {
     typeof operation.context.fetchOptions === "function"
       ? operation.context.fetchOptions()
       : operation.context.fetchOptions || {};
-
   return {
     ...operation,
     context: {
@@ -74,7 +73,10 @@ export const authExchange = ({ forward }) => {
 
         // If it's expired and we aren't refreshing it yet, start refreshing it
         if (isExpired && !refreshTokenPromise) {
-          refreshTokenPromise = refreshTokenFn(); // we share the promise
+          refreshTokenPromise = refreshTokenFn().then((data) => {
+            setToken(data);
+            return data.jwt_token;
+          });
         }
 
         const { key } = operation;
