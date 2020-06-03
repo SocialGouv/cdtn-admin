@@ -7,6 +7,8 @@ const BASE_URL =
 export default async function accountWebhook(req, res) {
   const apiError = createErrorFor(res);
 
+  console.log("[webhook] start webhook");
+
   if (req.headers["email-secret"] !== process.env.ACCOUNT_EMAIL_SECRET) {
     return apiError(Boom.unauthorized("Invalid secret token"));
   }
@@ -79,6 +81,7 @@ L'equipe veille CDTN
   };
   try {
     const results = await sendmail(mailOptions);
+    console.log("[webhook] email send", op);
     res.json(results);
   } catch (error) {
     console.error(error);
