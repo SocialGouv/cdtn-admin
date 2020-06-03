@@ -30,6 +30,10 @@ async function refreshToken(ctx) {
     if (ctx && ctx.req) {
       const cookies = parse(ctx.req.headers.cookie || "");
       if (cookies && cookies.refresh_token) {
+        console.log(
+          "[ auth.refreshToken ] add cookie",
+          tokenData.refresh_token
+        );
         headers["Cookie"] = serialize("refresh_token", cookies.refresh_token);
       }
     }
@@ -48,6 +52,10 @@ async function refreshToken(ctx) {
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
     if (ctx && ctx.res) {
+      console.log(
+        "[ auth.refreshToken ] setting cookie",
+        tokenData.refresh_token
+      );
       setRefreshTokenCookie(ctx.res, tokenData.refresh_token);
     }
     return tokenData;
@@ -75,7 +83,8 @@ function withAuthProvider(WrappedComponent) {
     )})`;
     static async getInitialProps(ctx) {
       console.log(
-        "[withAuthProvider] getInitialProps",
+        "[withAuthProvider] getInitialProps ",
+        ctx.pathname,
         ctx.req ? "server" : "client",
         token ? "found token" : "no token"
       );

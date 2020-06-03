@@ -10,6 +10,7 @@ import {
   deletePreviousRefreshTokenMutation,
   getRefreshTokenQuery,
 } from "./refreshToken.gql";
+import { refreshToken } from "src/lib/auth";
 
 export default async function refresh_token(req, res) {
   const apiError = createErrorFor(res);
@@ -48,6 +49,11 @@ export default async function refresh_token(req, res) {
     console.error("Error connecting to GraphQL");
     return apiError(Boom.unauthorized("Invalid 'refresh_token'"));
   }
+  console.log(
+    "[api/refresh_token]",
+    { refreshToken },
+    result.data.refresh_tokens
+  );
 
   if (result.data.refresh_tokens.length === 0) {
     console.error("Incorrect user id or refresh token", refresh_token);
