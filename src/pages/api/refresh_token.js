@@ -11,12 +11,12 @@ import {
   getRefreshTokenQuery,
 } from "./refreshToken.gql";
 
-export default async function refresh_token(req, res) {
+export default async function refreshToken(req, res) {
   const apiError = createErrorFor(res);
   const schema = Joi.object({
     refresh_token: Joi.string().guid({ version: "uuidv4" }).required(),
   }).unknown();
-
+  console.log("[ /api/refresh_token ]", req.cookies, req.headers.referer);
   let { error, value } = schema.validate(req.query);
 
   if (error) {
@@ -31,6 +31,8 @@ export default async function refresh_token(req, res) {
     value = temp.value;
   }
 
+  const { refresh_token } = value;
+
   if (error) {
     return apiError(Boom.badRequest(error.details[0].message));
   }
@@ -38,7 +40,7 @@ export default async function refresh_token(req, res) {
   try {
     result = await client
       .query(getRefreshTokenQuery, {
-        refresh_token: value.refresh_token,
+        refresh_token,
         current_timestampz: new Date(),
       })
       .toPromise();
@@ -49,8 +51,8 @@ export default async function refresh_token(req, res) {
   }
   console.log(
     "[api/refresh_token]",
-    { refreshToken: value.refresh_token },
-    result.data.refresh_tokens
+    { refreshToken },
+    result.data.refresh_tokens.length > 0 ? "found" : "unknown"
   );
 
   if (result.data.refresh_tokens.length === 0) {

@@ -65,7 +65,7 @@ export const authExchange = ({ forward }) => {
       mergeMap((operation) => {
         const refreshTokenFn = operation.context.fetchOptions.refreshToken;
         // check whether the token is expired
-        console.log("[ authExchange ]", operation);
+        console.log("[ authExchange ]", operation.operationName);
         const isExpired = isTokenExpired();
         // If it's not expired then just add it to the operation immediately
         if (!isExpired) {
@@ -74,6 +74,7 @@ export const authExchange = ({ forward }) => {
 
         // If it's expired and we aren't refreshing it yet, start refreshing it
         if (isExpired && !refreshTokenPromise) {
+          console.log("[ authExchange ] no pending refresh");
           refreshTokenPromise = refreshTokenFn().then((data) => {
             setToken(data);
             return data.jwt_token;
