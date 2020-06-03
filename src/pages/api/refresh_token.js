@@ -10,7 +10,6 @@ import {
   deletePreviousRefreshTokenMutation,
   getRefreshTokenQuery,
 } from "./refreshToken.gql";
-import { refreshToken } from "src/lib/auth";
 
 export default async function refresh_token(req, res) {
   const apiError = createErrorFor(res);
