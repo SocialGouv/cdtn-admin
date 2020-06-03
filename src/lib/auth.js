@@ -30,10 +30,7 @@ async function refreshToken(ctx) {
     if (ctx && ctx.req) {
       const cookies = parse(ctx.req.headers.cookie || "");
       if (cookies && cookies.refresh_token) {
-        console.log(
-          "[ auth.refreshToken ] add cookie",
-          tokenData.refresh_token
-        );
+        console.log("[ auth.refreshToken ] add cookie", cookies.refresh_token);
         headers["Cookie"] = serialize("refresh_token", cookies.refresh_token);
       }
     }

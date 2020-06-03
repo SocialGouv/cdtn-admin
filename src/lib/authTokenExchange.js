@@ -65,6 +65,7 @@ export const authExchange = ({ forward }) => {
       mergeMap((operation) => {
         const refreshTokenFn = operation.context.fetchOptions.refreshToken;
         // check whether the token is expired
+        console.log("[ authExchange ]", operation);
         const isExpired = isTokenExpired();
         // If it's not expired then just add it to the operation immediately
         if (!isExpired) {
