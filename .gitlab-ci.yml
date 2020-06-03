@@ -3,6 +3,14 @@ include:
     file: /autodevops_simple_app.yml
     ref: v15.7.0
 
+workflow:
+  rules:
+    # Skip GitHub pull requests pipelines
+    - if: $CI_PIPELINE_SOURCE == 'external_pull_request_event'
+      when: never
+    # Otherwise include the job and set to run normally
+    - when: always
+
 variables:
   PORT: 3000
   PROJECT: "cdtn-admin"
