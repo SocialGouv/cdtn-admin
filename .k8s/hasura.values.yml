@@ -34,7 +34,7 @@ deployment:
     - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
       value: "anonymous"
     - name: ACCOUNT_EMAIL_WEBHOOK_URL
-      value: https://${HOST}/api/webhooks/account
+      value: http://cdtn-admin:3000/api/webhooks/account
 
   envFrom:
     - secretRef:
