@@ -57,7 +57,7 @@ export default function ResetPasswordPage() {
             Vous avez perdu votre mot de passe&nbsp;?
             <br />
             Saissisez votre adresse email et validez pour recevoir par mail un
-            lien pour ré-initialisation votre mot de passe.
+            lien pour ré-initialiser votre mot de passe.
           </Text>
           <Field
             label="adresse email"
