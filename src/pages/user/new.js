@@ -6,6 +6,7 @@ import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withAuthProvider } from "src/lib/auth";
 import { Alert, jsx } from "theme-ui";
 import { useMutation } from "urql";
+import { getExpiryDate } from "src/lib/duration";
 
 const registerUserMutation = `
 mutation registerUser($user: auth_users_insert_input! ) {
@@ -22,9 +23,8 @@ function prepareMutationData(input) {
   return {
     user: {
       ...input,
-      secret_token_expires_at: parseInt(
-        process.env.NEXT_PUBLIC_REFRESH_TOKEN_EXPIRES,
-        10
+      secret_token_expires_at: getExpiryDate(
+        parseInt(process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES, 10)
       ),
       user_roles: { data: { role: input.default_role } },
     },
