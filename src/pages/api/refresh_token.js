@@ -16,7 +16,7 @@ export default async function refreshToken(req, res) {
   const schema = Joi.object({
     refresh_token: Joi.string().guid({ version: "uuidv4" }).required(),
   }).unknown();
-  console.log("[ /api/refresh_token ]", req.cookies, req.headers.referer);
+  console.log("[ /api/refresh_token ]", req.cookies, req.hostname);
   let { error, value } = schema.validate(req.query);
 
   if (error) {
@@ -38,6 +38,10 @@ export default async function refreshToken(req, res) {
   }
   let result;
   try {
+    console.log({
+      refresh_token,
+      current_timestampz: new Date(),
+    });
     result = await client
       .query(getRefreshTokenQuery, {
         refresh_token,
@@ -50,8 +54,8 @@ export default async function refreshToken(req, res) {
     return apiError(Boom.unauthorized("Invalid 'refresh_token'"));
   }
   console.log(
-    "[api/refresh_token]",
-    { refreshToken },
+    "[ api/refresh_token ]",
+    { refresh_token },
     result.data.refresh_tokens.length > 0 ? "found" : "unknown"
   );
 
@@ -70,6 +74,11 @@ export default async function refreshToken(req, res) {
   });
 
   try {
+    console.log("[ /api/refrehs_token ] update new token", {
+      user_id: user.id,
+      refresh_token: new_refresh_token,
+      expires_at: getExpiryDate(process.env.REFRESH_TOKEN_EXPIRES),
+    });
     await client
       .query(deletePreviousRefreshTokenMutation, {
         old_refresh_token: refresh_token,
