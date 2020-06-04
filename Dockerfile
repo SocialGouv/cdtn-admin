@@ -1,10 +1,13 @@
-FROM node:12.16.3-alpine
+FROM node:14.4-alpine3.11
 
 WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN yarn --production --frozen-lockfile
+RUN apk add make python libc-dev g++
+
+RUN npm install -g node-gyp
+RUN yarn   --frozen-lockfile
 
 COPY next.config.js  ./
 COPY .env  ./.env
