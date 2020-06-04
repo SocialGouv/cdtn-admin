@@ -77,6 +77,9 @@ export default async function refreshToken(req, res) {
     console.log("[ /api/refrehs_token ] update new token", {
       user_id: user.id,
       refresh_token: new_refresh_token,
+      REFRESH_TOKEN_EXPIRES: process.env.REFRESH_TOKEN_EXPIRES,
+      JWT_TOKEN_EXPIRES: process.env.JWT_TOKEN_EXPIRES,
+      ACTIVATION_TOKEN_EXPIRES: process.env.ACTIVATION_TOKEN_EXPIRES,
       expires_at: getExpiryDate(process.env.REFRESH_TOKEN_EXPIRES),
     });
     await client
