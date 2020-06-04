@@ -19,12 +19,12 @@
     "cookie": "^0.4.1",
     "dotenv": "^8.2.0",
     "graphql": "^15.0.0",
-    "http-proxy-middleware": "^1.0.3",
+    "http-proxy-middleware": "^1.0.4",
     "jsonwebtoken": "^8.5.1",
-    "next": "^9.4.0",
+    "next": "^9.4.4",
     "next-urql": "^0.3.8",
-    "nodemailer": "^6.4.6",
-    "polished": "^3.6.3",
+    "nodemailer": "^6.4.8",
+    "polished": "^3.6.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^5.7.2",
@@ -34,7 +34,7 @@
     "theme-ui": "^0.3.1",
     "urql": "^1.9.7",
     "uuid": "^8.0.0",
-    "wonka": "^4.0.13"
+    "wonka": "^4.0.14"
   },
   "husky": {
     "hooks": {
