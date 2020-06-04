@@ -1,5 +1,7 @@
 /** @jsx jsx */
+
 import { jsx } from "theme-ui";
+import { spacePropTypes } from "./spaces";
 
 export function Stack({ gap = "medium", ...props }) {
   return (
@@ -12,3 +14,6 @@ export function Stack({ gap = "medium", ...props }) {
     />
   );
 }
+Stack.propTypes = {
+  gap: spacePropTypes,
+};

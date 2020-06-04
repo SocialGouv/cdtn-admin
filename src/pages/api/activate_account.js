@@ -3,7 +3,7 @@ import Joi from "@hapi/joi";
 import { hash } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 import { client } from "src/lib/graphqlApiClient";
-import { activateUserMutation } from "./activate.gql";
+import { activateUserMutation } from "./password.gql";
 
 export function createRequestHandler({
   mutation,
@@ -20,7 +20,7 @@ export function createRequestHandler({
 
     const schema = Joi.object({
       token: Joi.string().guid({ version: "uuidv4" }).required(),
-      password: Joi.string().required().min(8),
+      password: Joi.string().required(),
     });
 
     const { error, value } = schema.validate(req.body);
@@ -39,7 +39,11 @@ export function createRequestHandler({
         .toPromise();
     } catch (error) {
       console.error(error);
-      return apiError(Boom.unauthorized("Invalid secret_token"));
+      return apiError(Boom.serverUnavailable("update failed"));
+    }
+    if (result.error) {
+      console.error(error);
+      return apiError(Boom.unauthorized("request failed"));
     }
 
     if (result.data["update_user"].affected_rows === 0) {

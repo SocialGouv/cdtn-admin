@@ -7,7 +7,9 @@ COPY package.json yarn.lock ./
 RUN yarn --production --frozen-lockfile
 
 COPY next.config.js  ./
+COPY .env  ./.env
 COPY .next/ ./.next
+COPY public/ ./public
 
 USER node
 

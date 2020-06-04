@@ -24,15 +24,20 @@ export default async function reset_password(req, res) {
   }
 
   const { email } = value;
-
+  let result;
   try {
-    await client
+    result = await client
       .query(udpateSecretTokenMutation, {
         email,
         secret_token: uuidv4(),
-        expires: getExpiryDate(process.env.ACTIVATION_TOKEN_EXPIRES || 10080),
+        expires: getExpiryDate(
+          parseInt(process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES, 10)
+        ),
       })
       .toPromise();
+    if (result.error) {
+      throw result.error;
+    }
   } catch (error) {
     // silently fail to not disclose if user exists or not
     console.error(error);
@@ -49,11 +54,9 @@ mutation updateSecretTokenMutation(
   $expires: timestamptz!,
   $secret_token: uuid
 ) {
-  update_user: update_users(
+  update_user: update_auth_users(
     where: {
-      _and: {
-        email: { _eq: $email} ,
-      }
+      email: { _eq: $email} ,
   	}
     _set: {
     	secret_token_expires_at: $expires

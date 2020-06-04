@@ -105,6 +105,11 @@ export const theme = {
       color: "secondary",
       colorHover: "secondaryHover",
     },
+    link: {
+      text: "text",
+      color: "transparent",
+      colorHover: "muted",
+    },
     icon: {
       bgHover: transparentize(0.8, "#3e486e"),
     },
@@ -124,15 +129,16 @@ export const theme = {
   },
   badges: {
     primary: {
-      px: "xxsmall",
       bg: "primary",
       color: "white",
       fontSize: "medium",
+      px: "xxsmall",
     },
     secondary: {
       bg: "secondary",
       color: "white",
       fontSize: "medium",
+      px: "xxsmall",
     },
   },
   forms: {
@@ -141,6 +147,9 @@ export const theme = {
       fontWeight: "body",
     },
     input: {
+      padding: "xsmall",
+    },
+    select: {
       padding: "xsmall",
     },
   },

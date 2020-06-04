@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Error from "next/error";
 import * as Sentry from "@sentry/node";
 
@@ -11,6 +12,12 @@ const MyError = ({ hasGetInitialPropsRun, statusCode, err }) => {
   }
 
   return <Error statusCode={statusCode} />;
+};
+
+MyError.propTypes = {
+  err: PropTypes.object,
+  hasGetInitialPropsRun: PropTypes.bool,
+  statusCode: PropTypes.number.isRequired,
 };
 
 MyError.getInitialProps = async ({ res, err, asPath }) => {

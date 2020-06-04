@@ -11,12 +11,12 @@ import {
   getRefreshTokenQuery,
 } from "./refreshToken.gql";
 
-export default async function refresh_token(req, res) {
+export default async function refreshToken(req, res) {
   const apiError = createErrorFor(res);
   const schema = Joi.object({
     refresh_token: Joi.string().guid({ version: "uuidv4" }).required(),
   }).unknown();
-
+  console.log("[ /api/refresh_token ]", req.cookies, req.hostname);
   let { error, value } = schema.validate(req.query);
 
   if (error) {
@@ -31,12 +31,17 @@ export default async function refresh_token(req, res) {
     value = temp.value;
   }
 
+  const { refresh_token } = value;
+
   if (error) {
     return apiError(Boom.badRequest(error.details[0].message));
   }
-  const { refresh_token } = value;
   let result;
   try {
+    console.log({
+      refresh_token,
+      current_timestampz: new Date(),
+    });
     result = await client
       .query(getRefreshTokenQuery, {
         refresh_token,
@@ -48,6 +53,11 @@ export default async function refresh_token(req, res) {
     console.error("Error connecting to GraphQL");
     return apiError(Boom.unauthorized("Invalid 'refresh_token'"));
   }
+  console.log(
+    "[ api/refresh_token ]",
+    { refresh_token },
+    result.data.refresh_tokens.length > 0 ? "found" : "unknown"
+  );
 
   if (result.data.refresh_tokens.length === 0) {
     console.error("Incorrect user id or refresh token", refresh_token);
@@ -70,7 +80,9 @@ export default async function refresh_token(req, res) {
         new_refresh_token_data: {
           user_id: user.id,
           refresh_token: new_refresh_token,
-          expires_at: getExpiryDate(process.env.REFRESH_TOKEN_EXPIRES),
+          expires_at: getExpiryDate(
+            parseInt(process.env.REFRESH_TOKEN_EXPIRES, 10)
+          ),
         },
       })
       .toPromise();

@@ -17,6 +17,14 @@ variables:
   ENABLE_AZURE_POSTGRES: 1
   VALUES_FILE: ./.k8s/app.values.yml
 
+Build:
+  extends: .autodevops_build
+  variables:
+    # these variables are needed at build time because embedded in the front
+    NEXT_PUBLIC_SENTRY_DSN: https://yyy@sentry.fabrique.social.gouv.fr/yyy
+    NEXT_PUBLIC_MATOMO_URL: https://matomo.io
+    NEXT_PUBLIC_MATOMO_SITE_ID: 4242
+
 Create namespace:
   extends:
     - .autodevops_create_namespace
@@ -53,7 +61,7 @@ Deploy app Hasura (dev):
     - .autodevops_deploy_app_dev
     - .deploy_hasura
   variables:
-    PG_HOST: cdtnadmin.postgres.database.azure.com
+    PG_HOST: cdtnadmindevserver.postgres.database.azure.com
     HELM_RENDER_ARGS: >-
       --set deployment.env[7].name=HASURA_GRAPHQL_DATABASE_URL
       --set deployment.env[7].value=postgresql://user_${CI_COMMIT_SHORT_SHA}%40${PG_HOST}:pass_${CI_COMMIT_SHORT_SHA}@${PG_HOST}:5432/db_${CI_COMMIT_SHORT_SHA}?sslmode=require

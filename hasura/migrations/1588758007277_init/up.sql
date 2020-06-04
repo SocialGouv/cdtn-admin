@@ -44,7 +44,7 @@ create schema auth;
 create table auth.users(
   id uuid DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY,
   email email UNIQUE NOT NULL,
-  password text NOT NULL CONSTRAINT password_min_length CHECK ( char_length(password) >= 8 ),
+  password text DEFAULT 'mot de passe'::text NOT NULL CONSTRAINT password_min_length CHECK ( char_length(password) >= 8 ),
   name text NOT NULL,
   active boolean DEFAULT false NOT NULL,
   default_role text DEFAULT 'user'::text NOT NULL REFERENCES public.roles (role) on update cascade on delete restrict,
@@ -80,7 +80,7 @@ COMMENT ON TABLE auth.user_roles
   IS 'User_role table allow many-to-many relationship between users and roles';
 
 WITH admin_row AS (
-  INSERT INTO auth.users(email, password, name, default_role, active) VALUES ('sre@fabrique.social.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8', 'big boss', 'admin', true)
+  INSERT INTO auth.users(email, password, name, default_role, active) VALUES ('codedutravailnumerique@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8', 'big boss', 'admin', true)
   RETURNING id, default_role
 )
 INSERT INTO auth.user_roles(role, user_id) SELECT default_role, id FROM admin_row;
@@ -110,9 +110,3 @@ CREATE TRIGGER "set_auth_refresh_tokens_updated_at"
 
 COMMENT ON TRIGGER "set_auth_refresh_tokens_updated_at" ON auth.refresh_tokens
   IS 'trigger to set value of column "updated_at" to current timestamp on row update';
-
-
---
--- Public user view
---
-CREATE VIEW users AS SELECT id, name, email, active, default_role, secret_token, secret_token_expires_at, created_at, updated_at from auth.users;
