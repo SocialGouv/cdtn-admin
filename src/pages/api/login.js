@@ -70,7 +70,9 @@ export default async function login(req, res) {
       .query(refreshTokenMutation, {
         refresh_token_data: {
           user_id: user.id,
-          expires_at: getExpiryDate(process.env.REFRESH_TOKEN_EXPIRES || 43200),
+          expires_at: getExpiryDate(
+            parseInt(process.env.REFRESH_TOKEN_EXPIRES, 10)
+          ),
         },
       })
       .toPromise();

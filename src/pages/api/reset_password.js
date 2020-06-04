@@ -30,7 +30,9 @@ export default async function reset_password(req, res) {
       .query(udpateSecretTokenMutation, {
         email,
         secret_token: uuidv4(),
-        expires: getExpiryDate(process.env.ACTIVATION_TOKEN_EXPIRES || 10080),
+        expires: getExpiryDate(
+          parseInt(process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES, 10)
+        ),
       })
       .toPromise();
     if (result.error) {

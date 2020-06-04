@@ -22,6 +22,10 @@ function prepareMutationData(input) {
   return {
     user: {
       ...input,
+      secret_token_expires_at: parseInt(
+        process.env.NEXT_PUBLIC_REFRESH_TOKEN_EXPIRES,
+        10
+      ),
       user_roles: { data: { role: input.default_role } },
     },
   };
