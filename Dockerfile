@@ -4,10 +4,7 @@ WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN apk add make python libc-dev g++
-
-RUN npm install -g node-gyp
-RUN yarn   --frozen-lockfile
+RUN yarn --frozen-lockfile
 
 COPY next.config.js  ./
 COPY .env  ./.env
