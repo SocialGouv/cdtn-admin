@@ -1,7 +1,8 @@
-import { createErrorFor } from "../../../../src/lib/apiError";
-import Joi from "@hapi/joi";
 import Boom from "@hapi/boom";
-import sendmail from "../../../lib/sendmail";
+import Joi from "@hapi/joi";
+import { createErrorFor } from "src/lib/apiError";
+import sendmail from "src/lib/sendmail";
+
 const BASE_URL =
   process.env.FRONTEND_URL || `http://localhost:${process.env.PORT}`;
 export default async function accountWebhook(req, res) {
