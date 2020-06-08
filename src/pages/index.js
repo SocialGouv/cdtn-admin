@@ -8,7 +8,7 @@ import { jsx, Text } from "theme-ui";
 export function IndexPage() {
   return (
     <Layout title="Home">
-      <Text>Administration des Contenu est gestion des alertes</Text>
+      <Text>Administration des contenus et gestion des alertes</Text>
     </Layout>
   );
 }

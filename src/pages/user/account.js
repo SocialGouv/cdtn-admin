@@ -32,7 +32,7 @@ export function UserPage() {
           <Inline>
             <Link href="/user/edit" passHref>
               <Button as="a" size="small" variant="primary">
-                Modifier mes Informations
+                Modifier mes informations
               </Button>
             </Link>
             <Link href="/user/password" passHref>
