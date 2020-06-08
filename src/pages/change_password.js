@@ -35,8 +35,8 @@ export default function ChangePasswordPage() {
     return (
       <PasswordLayout title={title}>
         <Text sx={{ fontWeight: 300 }}>
-          Votre mot de passe à été ré-initialisez, suiviez le lien en dessous
-          pour vous connecter.
+          Votre mot de passe a été ré-initialisé, suivez le lien fourni pour
+          vous connecter.
         </Text>
         <Link href="/login" passHref>
           <NavLink>Se connecter</NavLink>
