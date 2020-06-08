@@ -24,28 +24,25 @@ export default async function reset_password(req, res) {
   }
 
   const { email } = value;
-  let result;
-  try {
-    result = await client
-      .query(udpateSecretTokenMutation, {
-        email,
-        secret_token: uuidv4(),
-        expires: getExpiryDate(
-          parseInt(process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES, 10)
-        ),
-      })
-      .toPromise();
-    if (result.error) {
-      throw result.error;
-    }
-  } catch (error) {
+  const result = await client
+    .query(udpateSecretTokenMutation, {
+      email,
+      secret_token: uuidv4(),
+      expires: getExpiryDate(
+        parseInt(process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES, 10)
+      ),
+    })
+    .toPromise();
+
+  if (result.error) {
     // silently fail to not disclose if user exists or not
-    console.error(error);
+    console.error(result.error);
+    res.json({ message: "reset password" });
+    return;
   }
 
   console.log("[reset_password]", email);
-
-  res.json({ message: "reset password started" });
+  res.json({ message: "reset password" });
 }
 
 const udpateSecretTokenMutation = `

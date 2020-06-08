@@ -30,21 +30,19 @@ export default async function login(req, res) {
 
   const { username, password } = value;
 
-  let result;
-  try {
-    result = await client
-      .query(loginQuery, {
-        username,
-      })
-      .toPromise();
-  } catch (e) {
-    console.error(e);
-    // console.error('Error connection to GraphQL');
-    return apiError(Boom.unauthorized("Unable to find 'user'"));
+  let result = await client
+    .query(loginQuery, {
+      username,
+    })
+    .toPromise();
+
+  if (result.error) {
+    console.error(result.error);
+    return apiError(Boom.serverUnavailable("login error"));
   }
 
-  if (result.data.users.length === 0) {
-    // console.error("No user with this 'username'");
+  if (result.data.users?.length === 0) {
+    console.error("No user with 'username'", username);
     return apiError(Boom.unauthorized("Invalid 'username' or 'password'"));
   }
 
@@ -65,23 +63,28 @@ export default async function login(req, res) {
   }
 
   const jwt_token = generateJwtToken(user);
-  try {
-    result = await client
-      .query(refreshTokenMutation, {
-        refresh_token_data: {
-          user_id: user.id,
-          expires_at: getExpiryDate(
-            parseInt(process.env.REFRESH_TOKEN_EXPIRES, 10)
-          ),
-        },
-      })
-      .toPromise();
-  } catch (e) {
-    console.error(e);
+
+  result = await client
+    .query(refreshTokenMutation, {
+      refresh_token_data: {
+        user_id: user.id,
+        expires_at: getExpiryDate(
+          parseInt(process.env.REFRESH_TOKEN_EXPIRES, 10)
+        ),
+      },
+    })
+    .toPromise();
+
+  if (result.error) {
+    console.error(result.error);
     return apiError(
-      Boom.badImplementation("Could not update 'refresh token' for user")
+      Boom.badImplementation(
+        "Could not update 'refresh token' for user",
+        username
+      )
     );
   }
+
   console.log("[login]", user.id);
   const { refresh_token } = result.data.insert_data.returning[0];
 
