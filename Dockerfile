@@ -4,7 +4,10 @@ WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN yarn --frozen-lockfile
+RUN apk add --no-cache build-base libgit2-dev python --virtual .build-deps \
+  && ln -s /usr/lib/libcurl.so.4 /usr/lib/libcurl-gnutls.so.4 \
+  && yarn --production --frozen-lockfile \
+  && apk del .build-deps
 
 COPY next.config.js  ./
 COPY .env  ./.env
