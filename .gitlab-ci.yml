@@ -17,6 +17,10 @@ variables:
   ENABLE_AZURE_POSTGRES: 1
   VALUES_FILE: ./.k8s/app.values.yml
 
+Install:
+  extends: .autodevops_install
+  image: node:12.18.0-alpine3.11
+
 Build:
   extends: .autodevops_build
   variables:
