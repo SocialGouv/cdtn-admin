@@ -1,7 +1,5 @@
-import parents from "unist-util-parents";
-import unistSelect from "unist-util-select";
-
-const { selectAll } = unistSelect;
+const parents = require("unist-util-parents");
+const { selectAll } = require("unist-util-select");
 
 const getParents = (node) => {
   var chain = [];
@@ -154,4 +152,4 @@ const compareArticles = (tree1, tree2, comparator) => {
   return changes;
 };
 
-export { compareArticles };
+module.exports = { compareArticles };
