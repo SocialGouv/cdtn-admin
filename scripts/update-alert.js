@@ -1,12 +1,9 @@
-import { client } from "../src/lib/graphqlApiClient.js";
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
-import nodegit from "nodegit";
-import semver from "semver";
-import { ccns } from "./lib/ccn-list.js";
-import { compareArticles } from "./lib/compareTree.js";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const { client } = require("../src/lib/graphqlApiClient.js");
+const path = require("path");
+const nodegit = require("nodegit");
+const semver = require("semver");
+const { ccns } = require("./lib/ccn-list.js");
+const { compareArticles } = require("./lib/compareTree.js");
 
 const sourcesQuery = `
 query getSources {
