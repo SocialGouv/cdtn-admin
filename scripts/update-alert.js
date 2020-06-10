@@ -110,7 +110,7 @@ async function insertAlert(changes) {
     console.error(result.error);
     throw new Error("insertAlert");
   }
-  console.info("insert alert", result.data.alert.returning);
+  return result.data.alert;
 }
 
 async function updateSource(repository, tag) {
@@ -125,10 +125,7 @@ async function updateSource(repository, tag) {
     console.error(result.error);
     throw new Error("updateSource");
   }
-
-  console.log(
-    `update source ${result.data.source.repository} to ${result.data.source.tag}`
-  );
+  return result.data.source;
 }
 
 async function openRepo({ repository }) {
@@ -210,50 +207,61 @@ async function getDiffFromTags(tags, id) {
   return changes;
 }
 
-async function getFileDiffFromTrees(filePath, treeA, treeB, compareFn) {
-  const [fileA, fileB] = await Promise.all([
-    treeA.getEntry(filePath).then((entry) => entry.getBlob()),
-    treeB.getEntry(filePath).then((entry) => entry.getBlob()),
+async function getFileDiffFromTrees(
+  filePath,
+  currGitTree,
+  prevGitTree,
+  compareFn
+) {
+  const [currentFile, prevFile] = await Promise.all([
+    currGitTree.getEntry(filePath).then((entry) => entry.getBlob()),
+    prevGitTree.getEntry(filePath).then((entry) => entry.getBlob()),
   ]);
-  const jsonTreeA = JSON.parse(fileA.toString());
-  const jsonTreeB = JSON.parse(fileB.toString());
+  const currTree = JSON.parse(currentFile.toString());
+  const prevTree = JSON.parse(prevFile.toString());
   return {
     file: filePath,
-    id: jsonTreeA.data.id,
-    num: jsonTreeA.data.num,
-    title: jsonTreeA.data.title,
-    ...compareArticles(jsonTreeA, jsonTreeB, compareFn),
+    id: currTree.data.id,
+    num: currTree.data.num,
+    title: currTree.data.title,
+    ...compareArticles(prevTree, currTree, compareFn),
   };
 }
 
 async function main() {
   const sources = await getSources();
-  // const results = [];
+  const results = [];
   for (const source of sources) {
     const repo = await openRepo(source);
     const tags = await getNewerTagsFromRepo(repo, source.tag);
     const diffs = await getDiffFromTags(tags, source.repository);
+    const [lastTag] = tags.slice(-1);
 
-    await Promise.all(
-      diffs.map(async (diff) => {
-        diff.repository = source.repository;
-        return await insertAlert(diff);
-
-        // results.push({
-        //   repository: source.repository,
-        //   ...diff,
-        // });
-      })
-    );
-    if (diffs.length > 0) {
-      const [lastTag] = tags.slice(-1);
-      await updateSource(source.repository, lastTag.ref);
-    } else {
-      console.log(`no update for ${source.repository}`);
-    }
+    results.push({
+      repository: source.repository,
+      changes: diffs,
+      newRef: lastTag.ref,
+    });
   }
 
-  // console.log(JSON.stringify(results, 0, 2));
+  if (process.env.DUMP) {
+    console.log(JSON.stringify(results, 0, 2));
+  } else {
+    for (const result of results) {
+      if (result.changes.length === 0) {
+        console.log(`no update for ${result.repository}`);
+        continue;
+      }
+      const inserts = await Promise.all(
+        result.changes.map((diff) => insertAlert(diff))
+      );
+      inserts.forEeach((insert) => {
+        console.log("insert alert", insert.returning[0]);
+      });
+      const update = await updateSource(result.repository, result.newRef);
+      console.log(`update source ${update.repository} to ${update.tag}`);
+    }
+  }
 }
 
 main().catch(console.error);

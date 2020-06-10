@@ -58,6 +58,7 @@
     "start": "next start",
     "alert": " node scripts/update-alert.js",
     "alert:dev": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node scripts/update-alert.js",
+    "alert:dump": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 DUMP=true node scripts/update-alert.js >! data/dump.js",
     "lint": "eslint src/*",
     "test": "jest"
   },
