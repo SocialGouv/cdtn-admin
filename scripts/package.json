@@ -5,7 +5,10 @@
     "execa": "^4.0.2",
     "isomorphic-unfetch": "^3.0.0",
     "semver": "^7.3.2",
-    "src": "link:../src"
+    "src": "link:../src",
+    "unist-util-parents": "^1.0.3",
+    "unist-util-select": "^3.0.1",
+    "urql": "^1.9.8"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",
