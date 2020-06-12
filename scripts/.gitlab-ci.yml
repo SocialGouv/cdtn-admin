@@ -34,7 +34,7 @@ Build scripts:
 
 Register scripts:
   extends: .autodevops_register_image
-  dependencies: []
+  dependencies: null
   needs:
     - job: Build scripts
       artifacts: true
