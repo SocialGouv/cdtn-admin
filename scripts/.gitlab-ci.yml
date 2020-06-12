@@ -51,3 +51,18 @@ Register scripts:
       --shm-size 512M
       -f ./scripts/Dockerfile
     IMAGE_NAME: $CI_REGISTRY_IMAGE/scripts
+
+#
+#
+#
+
+.deploy_scripts_stage:
+  script:
+    - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
+    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
+    - envsubst < scripts/.k8s/update-alert.cronjob.yaml | kubectl apply -f -
+
+Deploy scripts (dev):
+  extends:
+    - .autodevops_deploy_app_dev
+    - .deploy_scripts_stage
