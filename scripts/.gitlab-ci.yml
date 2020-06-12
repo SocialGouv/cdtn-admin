@@ -6,11 +6,13 @@ Install scripts:
       - yarn
   script:
     - yarn config set cache-folder $CI_PROJECT_DIR/yarn
-    - yarn --cwd scripts --frozen-lockfile
+    - yarn --cwd yarn-workspace-focus-install --frozen-lockfile
+    - yarn --cwd scripts node ../yarn-workspace-focus-install/index.js
   artifacts:
     expire_in: 1 week
     paths:
       - scripts/node_modules
+      - node_modules
 
 #
 #
@@ -26,9 +28,6 @@ Build scripts:
     # Ensure that all the sources in the repo can access to the installed node_modules
     # Avoid unresolved dependencies for `../src` files
     - mv scripts/node_modules node_modules
-    - mkdir -p scripts/node_modules/.bin
-    - ln -s ../../../node_modules/rollup/dist/bin/rollup scripts/node_modules/.bin/rollup
-
     - yarn --cwd scripts build
   artifacts:
     expire_in: 1 week

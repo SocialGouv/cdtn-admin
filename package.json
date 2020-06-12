@@ -74,5 +74,9 @@
     "jest-cli": "^26.0.1",
     "prettier": "^2.0.5",
     "prop-types": "^15.7.2"
-  }
+  },
+  "workspaces": [
+    "@cdtn-admin/*",
+    "scripts"
+  ]
 }
