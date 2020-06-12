@@ -18,10 +18,9 @@ Install scripts:
 
 Build scripts:
   extends: .base_yarn_script
-  dependencies:
-    - Install scripts
   needs:
-    - Install scripts
+    - job: Install scripts
+      artifacts: true
   script:
     - yarn --cwd scripts build
   artifacts:
@@ -35,10 +34,9 @@ Build scripts:
 
 Register scripts:
   extends: .autodevops_register_image
-  dependencies:
-    - Build scripts
   needs:
-    - Build scripts
+    - job: Build scripts
+      artifacts: true
   variables:
     CONTEXT: ./
     DOCKER_BUILD_ARGS: >-
