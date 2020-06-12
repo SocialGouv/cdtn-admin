@@ -1,0 +1,25 @@
+{
+  "name": "cdtn-admin...scripts",
+  "version": "1.0.0",
+  "dependencies": {
+    "execa": "^4.0.2",
+    "isomorphic-unfetch": "^3.0.0",
+    "semver": "^7.3.2",
+    "src": "link:../src"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.1",
+    "builtin-modules": "^3.1.0",
+    "rollup": "^2.15.0"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "rollup -c",
+    "start": "node --enable-source-maps ./dist/update-alert.js",
+    "start:dev": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 yarn start",
+    "start:dump": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 DUMP=true yarn start"
+  }
+}

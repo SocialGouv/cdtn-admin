@@ -1,0 +1,42 @@
+Install scripts:
+  extends: .autodevops_install
+  cache:
+    key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
+    paths:
+      - yarn
+  script:
+    - yarn config set cache-folder $CI_PROJECT_DIR/yarn
+    - yarn --cwd scripts --frozen-lockfile
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - scripts/node_modules
+
+#
+#
+#
+
+Build scripts:
+  extends: .base_yarn_script
+  dependencies:
+    - Install scripts
+  needs:
+    - Install scripts
+  script:
+    - yarn --cwd scripts build
+
+#
+#
+#
+
+Register scripts:
+  extends: .autodevops_register_image
+  dependencies:
+    - Build scripts
+  needs:
+    - Build scripts
+  variables:
+    CONTEXT: ./
+    DOCKER_BUILD_ARGS: "--shm-size 512M"
+    DOCKERFILE_PATH: ./scripts/Dockerfile
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/scripts

@@ -2,6 +2,8 @@ include:
   - project: SocialGouv/gitlab-ci-yml
     file: /autodevops_simple_app.yml
     ref: v15.9.0
+  #
+  - /scripts/.gitlab-ci.yml
 
 workflow:
   rules:
