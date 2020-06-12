@@ -27,7 +27,7 @@ Build scripts:
     # Avoid unresolved dependencies for `../src` files
     - mv scripts/node_modules node_modules
     - mkdir -p scripts/node_modules/.bin
-    - ln -s node_modules/rollup/dist/bin/rollup scripts/node_modules/.bin/rollup
+    - ln -s ../../../node_modules/rollup/dist/bin/rollup scripts/node_modules/.bin/rollup
 
     - yarn --cwd scripts build
   artifacts:
