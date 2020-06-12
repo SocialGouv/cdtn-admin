@@ -37,6 +37,7 @@ Register scripts:
     - Build scripts
   variables:
     CONTEXT: ./
-    DOCKER_BUILD_ARGS: "--shm-size 512M"
-    DOCKERFILE_PATH: ./scripts/Dockerfile
+    DOCKER_BUILD_ARGS: >-
+      --shm-size 512M
+      -f ./scripts/Dockerfile
     IMAGE_NAME: $CI_REGISTRY_IMAGE/scripts
