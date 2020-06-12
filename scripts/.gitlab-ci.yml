@@ -22,6 +22,11 @@ Build scripts:
     - job: Install scripts
       artifacts: true
   script:
+    # HACK(douglasduteil): move scripts/node_modules to root
+    # Ensure that all the sources in the repo can access to the installed node_modules
+    # Avoid unresolved dependencies for `../src` files
+    - mv scripts/node_modules node_modules
+
     - yarn --cwd scripts build
   artifacts:
     expire_in: 1 week
