@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "dependencies": {
     "execa": "^4.0.2",
+    "graphql": "^15.1.0",
     "isomorphic-unfetch": "^3.0.0",
+    "react": "^16.13.1",
     "semver": "^7.3.2",
     "src": "link:../src",
     "unist-util-parents": "^1.0.3",
