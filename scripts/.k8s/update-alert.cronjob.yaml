@@ -1,0 +1,30 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: scripts
+  labels:
+    app.kubernetes.io/part-of: ${CI_PROJECT_NAME}
+    owner: ${CI_PROJECT_NAME}
+    team: ${CI_PROJECT_NAME}
+spec:
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: update-alert
+              image: ${CI_REGISTRY_IMAGE}/scripts:${IMAGE_TAG}
+              resources:
+                requests:
+                  cpu: 1m
+                  memory: 2Mi
+                limits:
+                  cpu: 1000m
+                  memory: 512Mi
+              workingDir: /app
+          restartPolicy: Never
