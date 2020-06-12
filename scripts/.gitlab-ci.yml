@@ -24,6 +24,10 @@ Build scripts:
     - Install scripts
   script:
     - yarn --cwd scripts build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - scripts/dist
 
 #
 #
