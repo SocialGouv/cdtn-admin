@@ -1,5 +1,6 @@
 Install scripts:
   extends: .autodevops_install
+  image: node:12.18.0-alpine3.11
   cache:
     key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
     paths:
@@ -19,6 +20,7 @@ Install scripts:
 
 Build scripts:
   extends: .base_yarn_script
+  image: node:12.18.0-alpine3.11
   needs:
     - job: Install scripts
       artifacts: true
