@@ -1,4 +1,4 @@
-const { createClient } = require("@cdtn-admin/infra");
+const { client } = require("@cdtn-admin/infra/lib/graphqlApiClient");
 const path = require("path");
 const nodegit = require("nodegit");
 const semver = require("semver");
@@ -226,11 +226,6 @@ async function getFileDiffFromTrees(
 }
 
 async function main() {
-  const { HASURA_GRAPHQL_ADMIN_SECRET, HASURA_GRAPHQL_ENDPOINT } = process.env;
-  const sources = await createClient({
-    url: HASURA_GRAPHQL_ENDPOINT,
-    secret: HASURA_GRAPHQL_ADMIN_SECRET,
-  });
   const sources = await getSources();
   const results = [];
   for (const source of sources) {
