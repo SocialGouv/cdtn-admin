@@ -36,6 +36,10 @@ Build www:
     NEXT_PUBLIC_MATOMO_SITE_ID: 4242
   before_script:
     - cd targets/www
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - targets/www/.next
 
 Test www:
   extends: .autodevops_test
