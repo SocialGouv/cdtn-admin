@@ -25,6 +25,10 @@ Install www:
 
 Build www:
   extends: .autodevops_build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - targets/www/.next/cache
   dependencies: null
   needs:
     - job: Install www
