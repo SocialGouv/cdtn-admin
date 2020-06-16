@@ -2,8 +2,8 @@
  * using require syntax  here because graphqlClient is alos used
  * within the nodejs scripts
  */
-require("isomorphic-unfetch");
-const { createClient } = require("urql");
+import "isomorphic-unfetch";
+import { createClient } from "urql";
 
 const HASURA_GRAPHQL_ADMIN_SECRET = process.env.HASURA_GRAPHQL_ADMIN_SECRET;
 const HASURA_GRAPHQL_ENDPOINT = process.env.GRAPHQL_ENDPOINT;

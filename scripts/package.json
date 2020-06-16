@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "@cdtn-admin/infra": "1.0.0",
-    "nodegit": "^0.26.5",
+    "nodegit": "0.25.0",
     "semver": "^7.3.2"
   },
   "devDependencies": {

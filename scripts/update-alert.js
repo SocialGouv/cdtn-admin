@@ -227,12 +227,17 @@ async function getFileDiffFromTrees(
 
 async function main() {
   const sources = await getSources();
+  console.log({ sources });
   const results = [];
   for (const source of sources) {
     const repo = await openRepo(source);
+    console.log({ repo });
     const tags = await getNewerTagsFromRepo(repo, source.tag);
+    console.log({ tags });
     const diffs = await getDiffFromTags(tags, source.repository);
+    console.log({ diffs });
     const [lastTag] = tags.slice(-1);
+    console.log({ lastTag });
 
     results.push({
       repository: source.repository,

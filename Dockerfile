@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 
 RUN apk add --no-cache build-base python --virtual .build-deps \
-  && yarn --production --frozen-lockfile \
+  && yarn --production --frozen-lockfile --cache-folder /dev/shm/yarn \
   && apk del .build-deps
 
 COPY next.config.js  ./

@@ -3,7 +3,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import builtins from "builtin-modules";
 
 const plugins = [resolve({ preferBuiltins: true }), commonjs()];
-const external = [...builtins];
+const external = [...builtins, "nodegit"];
 const watch = {
   clearScreen: false,
 };

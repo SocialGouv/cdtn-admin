@@ -1,8 +1,14 @@
-FROM node:12.18.0-alpine3.11
+FROM node:12.18.0-slim
 
-RUN apk --no-cache add git
+RUN set -x \
+  && apt-get update \
+  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+
+COPY yarn.lock /app/
+RUN yarn add nodegit --frozen-lockfile --pure-lockfile --cache-folder /dev/shm/yarn
 
 COPY scripts/package.json /app/
 COPY scripts/dist/ /app/dist
