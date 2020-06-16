@@ -34,6 +34,8 @@ Build www:
     NEXT_PUBLIC_SENTRY_DSN: https://yyy@sentry.fabrique.social.gouv.fr/yyy
     NEXT_PUBLIC_MATOMO_URL: https://matomo.io
     NEXT_PUBLIC_MATOMO_SITE_ID: 4242
+  before_script:
+    - cd targets/www
 
 Test www:
   extends: .autodevops_test
@@ -41,6 +43,8 @@ Test www:
   needs:
     - job: Install www
       artifacts: true
+  before_script:
+    - cd targets/www
 
 Lint www:
   extends: .autodevops_lint
@@ -48,6 +52,8 @@ Lint www:
   needs:
     - job: Install www
       artifacts: true
+  before_script:
+    - cd targets/www
 
 #
 #
