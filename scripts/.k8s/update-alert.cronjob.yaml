@@ -24,8 +24,8 @@ spec:
                   cpu: 1m
                   memory: 2Mi
                 limits:
-                  cpu: 1000m
-                  memory: 512Mi
+                  cpu: 2000m
+                  memory: 2Gi
               workingDir: /app
               env:
                 - name: PRODUCTION
