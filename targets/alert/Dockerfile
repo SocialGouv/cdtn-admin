@@ -12,8 +12,8 @@ USER node
 COPY yarn.lock /app/
 RUN yarn add nodegit --frozen-lockfile --pure-lockfile --cache-folder /dev/shm/yarn
 
-COPY scripts/package.json /app/
-COPY scripts/dist/ /app/dist
+COPY targets/alert/package.json /app/
+COPY targets/alert/dist/ /app/dist
 
 ENV NODE_ENV=production
 
