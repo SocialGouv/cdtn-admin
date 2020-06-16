@@ -1,48 +1,7 @@
 {
-  "name": "cdtn-admin",
-  "version": "1.0.0",
-  "main": "index.js",
   "private": true,
-  "license": "MIT",
-  "dependencies": {
-    "@hapi/boom": "^9.1.0",
-    "@hapi/joi": "^17.1.1",
-    "@reach/dialog": "^0.10.3",
-    "@reach/menu-button": "^0.10.3",
-    "@reach/visually-hidden": "^0.10.2",
-    "@sentry/browser": "^5.16.1",
-    "@sentry/integrations": "^5.16.1",
-    "@sentry/node": "^5.16.1",
-    "@sentry/webpack-plugin": "^1.11.1",
-    "@socialgouv/matomo-next": "^1.1.0",
-    "@zeit/next-source-maps": "0.0.4-canary.1",
-    "argon2": "^0.26.2",
-    "cookie": "^0.4.1",
-    "graphql": "^15.0.0",
-    "http-proxy-middleware": "^1.0.4",
-    "isomorphic-unfetch": "^3.0.0",
-    "jsonwebtoken": "^8.5.1",
-    "next": "^9.4.4",
-    "next-urql": "^0.3.8",
-    "nodemailer": "^6.4.8",
-    "polished": "^3.6.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-hook-form": "^5.7.2",
-    "react-icons": "^3.10.0",
-    "react-is": "^16.13.1",
-    "semver": "^7.3.2",
-    "sentry-testkit": "^3.2.1",
-    "theme-ui": "^0.3.1",
-    "unist-util-parents": "^1.0.3",
-    "unist-util-select": "^3.0.1",
-    "urql": "^1.9.7",
-    "uuid": "^8.1.0",
-    "wonka": "^4.0.14"
-  },
   "husky": {
     "hooks": {
-      "pre-commit": "eslint src/*",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
@@ -51,31 +10,12 @@
       "@commitlint/config-conventional"
     ]
   },
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "alert": "yarn --cwd scripts start",
-    "alert:dev": "yarn --cwd scripts start:dev",
-    "alert:dump": "yarn --cwd scripts start:dump > data/dump.json",
-    "lint": "eslint src/*",
-    "test": "jest"
-  },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
-    "@socialgouv/eslint-config-react": "^0.25.0",
-    "@socialgouv/eslint-config-recommended": "^0.25.0",
-    "@urql/devtools": "^2.0.2",
-    "eslint": "^7.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "husky": "^4.2.5",
-    "jest-cli": "^26.0.1",
-    "prettier": "^2.0.5",
-    "prop-types": "^15.7.2"
+    "@commitlint/config-conventional": "^8.3.4"
   },
   "workspaces": [
     "@cdtn-admin/*",
-    "scripts"
+    "targets/*"
   ]
 }
