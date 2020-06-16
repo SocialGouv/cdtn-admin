@@ -9,10 +9,11 @@ services:
       POSTGRES_PASSWORD: postgrespassword
 
   hasura:
-    build: targets/hasura
+    build:
+      context: targets/hasura
     volumes:
-      - ./hasura/migrations:/hasura-migrations
-      - ./hasura/metadata:/hasura-metadata
+      - ./targets/hasura/migrations:/hasura-migrations
+      - ./targets/hasura/metadata:/hasura-metadata
     ports:
       - "8080:8080"
     depends_on:
@@ -26,7 +27,10 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
 
   www:
-    build: targets/www
+    build:
+      context: .
+      dockerfile: targets/www/Dockerfile
+      shm_size: 512m
     depends_on:
       - hasura
     ports:
