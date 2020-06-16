@@ -27,4 +27,12 @@ spec:
                   cpu: 1000m
                   memory: 512Mi
               workingDir: /app
+              env:
+                - name: PRODUCTION
+                  value: "${PRODUCTION}"
+                - name: GRAPHQL_ENDPOINT
+                  value: "http://hasura-cdtn-admin/v1/graphql"
+              envFrom:
+                - secretRef:
+                    name: cdtn-admin-secrets
           restartPolicy: Never
