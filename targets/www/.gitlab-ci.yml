@@ -72,7 +72,7 @@ Lint www:
 
 Register www:
   extends: .autodevops_register_image
-  dependencies: null
+  dependencies: []
   needs:
     - job: Build www
       artifacts: true

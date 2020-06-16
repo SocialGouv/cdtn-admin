@@ -1,6 +1,6 @@
 Register image Hasura:
   extends: .autodevops_register_image
-  dependencies: null
+  dependencies: []
   needs: null
   variables:
     CONTEXT: ./targets/hasura
