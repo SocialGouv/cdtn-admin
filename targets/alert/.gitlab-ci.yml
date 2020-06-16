@@ -63,4 +63,11 @@ Register alert:
 Deploy alert (dev):
   extends:
     - .autodevops_deploy_app_dev
-    - .deploy_scripts_stage
+    - .deploy_alert_stage
+
+Deploy www (prod):
+  extends:
+    - .autodevops_deploy_app_prod
+    - .deploy_alert_stage
+  variables:
+    PRODUCTION: "true"
