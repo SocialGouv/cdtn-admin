@@ -35,6 +35,20 @@ Build www:
     NEXT_PUBLIC_MATOMO_URL: https://matomo.io
     NEXT_PUBLIC_MATOMO_SITE_ID: 4242
 
+Test www:
+  extends: .autodevops_test
+  dependencies: null
+  needs:
+    - job: Install www
+      artifacts: true
+
+Lint www:
+  extends: .autodevops_lint
+  dependencies: null
+  needs:
+    - job: Install www
+      artifacts: true
+
 #
 #
 #
