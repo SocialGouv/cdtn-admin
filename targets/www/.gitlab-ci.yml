@@ -11,7 +11,7 @@ Install www:
       - yarn
   script:
     - yarn config set cache-folder $CI_PROJECT_DIR/yarn
-    - npx @socialgouv/yarn-workspace-focus-install --cwd www
+    - npx @socialgouv/yarn-workspace-focus-install --cwd targets/www
   artifacts:
     expire_in: 1 week
     paths:
