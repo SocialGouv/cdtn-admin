@@ -25,6 +25,7 @@ Install www:
 
 Build www:
   extends: .autodevops_build
+  dependencies: null
   needs:
     - job: Install www
       artifacts: true
