@@ -44,13 +44,18 @@ Create Azure DB (dev):
   variables:
     NEW_DB_EXTENSIONS: "pgcrypto hstore citext"
 
+Register image:
+  extends: .autodevops_register_image
+  variables:
+    DOCKER_BUILD_ARGS: >-
+      --shm-size 512M
+
 Register image Hasura:
   extends: .autodevops_register_image
   dependencies: []
   needs: []
   variables:
     CONTEXT: ./hasura
-    DOCKERFILE_PATH: Dockerfile
     IMAGE_NAME: $CI_REGISTRY_IMAGE/hasura
 
 Deploy app (dev):
