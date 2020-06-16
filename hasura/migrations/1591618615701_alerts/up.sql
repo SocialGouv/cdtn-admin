@@ -1,11 +1,11 @@
 
-CREATE TABLE "public"."status"("name" text NOT NULL DEFAULT 'new', PRIMARY KEY ("name") );
-COMMENT ON TABLE "public"."status" IS E'alert statuses';
+CREATE TABLE "public"."alert_status"("name" text NOT NULL DEFAULT 'new', PRIMARY KEY ("name") );
+COMMENT ON TABLE "public"."alert_status" IS E'alert statuses';
 
-INSERT INTO public.status (name) VALUES ('todo');
-INSERT INTO public.status (name) VALUES ('doing');
-INSERT INTO public.status (name) VALUES ('done');
-INSERT INTO public.status (name) VALUES ('rejected');
+INSERT INTO public.alert_status (name) VALUES ('todo');
+INSERT INTO public.alert_status (name) VALUES ('doing');
+INSERT INTO public.alert_status (name) VALUES ('done');
+INSERT INTO public.alert_status (name) VALUES ('rejected');
 
 CREATE TABLE "public"."sources"(
   "repository" text NOT NULL,
@@ -20,7 +20,6 @@ COMMENT ON TABLE "public"."sources" IS E'sources are git repository that acts  a
 INSERT INTO public.sources (repository, label, tag) VALUES ('socialgouv/legi-data', 'code du travail', 'v1.9.0');
 INSERT INTO public.sources (repository, label, tag) VALUES ('socialgouv/kali-data', 'conventions collectives', 'v1.60.0');
 
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE TABLE "public"."alerts"(
   "id" uuid NOT NULL DEFAULT gen_random_uuid(),
   "info" jsonb NOT NULL,
@@ -31,7 +30,8 @@ CREATE TABLE "public"."alerts"(
   "created_at" timestamptz NULL DEFAULT now(),
   "updated_at" timestamptz NULL DEFAULT now();
   PRIMARY KEY ("id") ,
-  FOREIGN KEY ("status") REFERENCES "public"."status"("name") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("repository") REFERENCES "public"."sources"("repository") ON UPDATE restrict ON DELETE cascade);
+  FOREIGN KEY ("status") REFERENCES "public"."alert_status"("name") ON UPDATE restrict ON DELETE restrict,
+  FOREIGN KEY ("repository") REFERENCES "public"."sources"("repository") ON UPDATE restrict ON DELETE cascade);
 
 COMMENT ON TABLE "public"."alerts" IS
   E'alerts reprensent a change in a text from a source';

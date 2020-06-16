@@ -145,7 +145,7 @@
           name: alerts
 - table:
     schema: public
-    name: status
+    name: alert_status
   array_relationships:
   - name: alerts
     using:
