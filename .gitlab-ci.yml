@@ -30,25 +30,21 @@ Create Azure DB (dev):
     NEW_DB_EXTENSIONS: "pgcrypto hstore citext"
 
 Install:
-  rules:
-    - when: never
+  only:
+    - never
 
 Build:
-  rules:
-    - when: never
+  only:
+    - never
 
 Register image:
-  rules:
-    - when: never
+  only:
+    - never
 
 Deploy app (dev):
-  except: []
-  only: []
-  rules:
-    - when: never
+  only:
+    - never
 
 Deploy app (prod):
-  except: []
-  only: []
-  rules:
-    - when: never
+  only:
+    - never
