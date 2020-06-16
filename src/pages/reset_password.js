@@ -34,9 +34,9 @@ export default function ResetPasswordPage() {
     return (
       <PasswordLayout title="Nouveau mot de passe">
         <Text sx={{ fontWeight: 300 }}>
-          Nous venons de vous envoyer un lien pour ré-initialisez votre mot de
-          passe par mail. Vous pouvez consulter votre boîte au mail et suivre
-          les instructions pour definir un nouveau mot de passe.
+          Nous venons de vous envoyer un lien pour ré-initialiser votre mot de
+          passe par mail. Vous pouvez consulter votre boîte mail et suivre les
+          instructions pour définir un nouveau mot de passe.
           <br />
         </Text>
         <Link href="/login" passHref>
@@ -56,7 +56,7 @@ export default function ResetPasswordPage() {
           <Text sx={{ fontWeight: 300 }}>
             Vous avez perdu votre mot de passe&nbsp;?
             <br />
-            Saissisez votre adresse email et validez pour recevoir par mail un
+            Saisissez votre adresse email et validez pour recevoir par mail un
             lien pour ré-initialiser votre mot de passe.
           </Text>
           <Field

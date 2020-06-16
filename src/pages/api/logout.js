@@ -27,16 +27,16 @@ export default async function logout(req, res) {
 
   // delete refresh token passed in data
 
-  try {
-    await client
-      .query(mutation, {
-        refresh_token: refresh_token,
-      })
-      .toPromise();
-  } catch (e) {
-    console.error(e);
-    // let this error pass. Just log out the user by sending https status code 200 back
+  const result = await client
+    .query(mutation, {
+      refresh_token: refresh_token,
+    })
+    .toPromise();
+
+  if (result.error) {
+    console.error("logout error", result.error);
   }
+
   console.log("[ logout ]", { refresh_token });
   res.setHeader(
     "Set-Cookie",
