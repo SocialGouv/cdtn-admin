@@ -1,4 +1,4 @@
-Register image Hasura:
+Register Hasura:
   extends: .autodevops_register_image
   dependencies: []
   needs: null
@@ -16,7 +16,7 @@ Register image Hasura:
     CONTEXT: hasura
     VALUES_FILE: ./targets/hasura/.k8s/hasura.values.yml
 
-Deploy app Hasura (dev):
+Deploy Hasura (dev):
   extends:
     - .autodevops_deploy_app_dev
     - .deploy_hasura
@@ -26,7 +26,7 @@ Deploy app Hasura (dev):
       --set deployment.env[7].name=HASURA_GRAPHQL_DATABASE_URL
       --set deployment.env[7].value=postgresql://user_${CI_COMMIT_SHORT_SHA}%40${PG_HOST}:pass_${CI_COMMIT_SHORT_SHA}@${PG_HOST}:5432/db_${CI_COMMIT_SHORT_SHA}?sslmode=require
 
-Deploy app Hasura (prod):
+Deploy Hasura (prod):
   extends:
     - .autodevops_deploy_app_prod
     - .deploy_hasura
