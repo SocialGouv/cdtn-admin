@@ -21,8 +21,8 @@ spec:
               image: ${CI_REGISTRY_IMAGE}/scripts:${IMAGE_TAG}
               resources:
                 requests:
-                  cpu: 1m
-                  memory: 2Mi
+                  cpu: 1000m
+                  memory: 1Gi
                 limits:
                   cpu: 2000m
                   memory: 2Gi
