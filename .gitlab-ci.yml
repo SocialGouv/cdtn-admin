@@ -36,6 +36,15 @@ Install:
     - never
 
 Build:
+  needs: []
+  only:
+    - never
+Test:
+  needs: []
+  only:
+    - never
+Lint:
+  needs: []
   only:
     - never
 

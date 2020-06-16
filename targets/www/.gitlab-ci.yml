@@ -25,6 +25,9 @@ Install www:
 
 Build www:
   extends: .autodevops_build
+  needs:
+    - job: Install www
+      artifacts: true
   variables:
     # these variables are needed at build time because embedded in the front
     NEXT_PUBLIC_SENTRY_DSN: https://yyy@sentry.fabrique.social.gouv.fr/yyy
