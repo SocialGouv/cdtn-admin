@@ -12,7 +12,7 @@ export default [
     input: `update-alert.js`,
     output: [
       {
-        file: `dist/update-alert.js`,
+        file: `dist/index.js`,
         format: "cjs",
         sourcemap: true,
       },

@@ -3,6 +3,8 @@ include:
     file: /autodevops_simple_app.yml
     ref: v15.9.0
   #
+  - /targets/hasura/.gitlab-ci.yml
+  - /targets/update-alert-cron/.gitlab-ci.yml
   - /targets/www/.gitlab-ci.yml
 
 workflow:

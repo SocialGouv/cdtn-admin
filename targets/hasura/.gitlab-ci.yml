@@ -1,9 +1,9 @@
 Register image Hasura:
   extends: .autodevops_register_image
-  dependencies: []
-  needs: []
+  dependencies: null
+  needs: null
   variables:
-    CONTEXT: ./hasura
+    CONTEXT: ./targets/hasura
     IMAGE_NAME: $CI_REGISTRY_IMAGE/hasura
 
 #
@@ -14,7 +14,7 @@ Register image Hasura:
   variables:
     PORT: 80
     CONTEXT: hasura
-    VALUES_FILE: ./.k8s/hasura.values.yml
+    VALUES_FILE: ./targets/hasura/.k8s/hasura.values.yml
 
 Deploy app Hasura (dev):
   extends:
