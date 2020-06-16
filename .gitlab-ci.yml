@@ -42,11 +42,13 @@ Register image:
     - when: never
 
 Deploy app (dev):
-  except: ~
+  except: []
+  only: []
   rules:
     - when: never
 
 Deploy app (prod):
-  except: ~
+  except: []
+  only: []
   rules:
     - when: never
