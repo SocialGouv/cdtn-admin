@@ -6,6 +6,7 @@
   "dependencies": {
     "@hapi/boom": "^9.1.0",
     "@hapi/joi": "^17.1.1",
+    "@reach/accordion": "^0.10.3",
     "@reach/dialog": "^0.10.3",
     "@reach/menu-button": "^0.10.3",
     "@reach/visually-hidden": "^0.10.2",
@@ -17,6 +18,7 @@
     "@zeit/next-source-maps": "0.0.4-canary.1",
     "argon2": "^0.26.2",
     "cookie": "^0.4.1",
+    "diff": "^4.0.2",
     "graphql": "^15.0.0",
     "http-proxy-middleware": "^1.0.4",
     "isomorphic-unfetch": "^3.0.0",
@@ -54,10 +56,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "prestart": "node scripts/update-alert.js",
     "start": "next start",
     "alert": " node scripts/update-alert.js",
-    "alert:dev": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node scripts/update-alert.js",
-    "alert:dump": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 DUMP=true node scripts/update-alert.js > data/dump.json",
+    "alert:dev": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node scripts/update-alerts.js",
+    "alert:dump": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 DUMP=true node scripts/update-alerts.js > data/dump.json",
+    "alert:populate": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node scripts/add-alerts.js",
     "lint": "eslint src/*",
     "test": "jest"
   },
