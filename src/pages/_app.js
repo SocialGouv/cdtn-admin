@@ -6,6 +6,7 @@ import { theme } from "src/theme";
 import { ThemeProvider } from "theme-ui";
 import "@reach/menu-button/styles.css";
 import "@reach/dialog/styles.css";
+import "@reach/accordion/styles.css";
 
 Sentry.init({
   enabled: process.env.NODE_ENV === "production",

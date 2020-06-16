@@ -84,8 +84,9 @@ async function getSources() {
   return result.data.sources;
 }
 
-async function insertAlert(changes) {
+async function insertAlert(repository, changes) {
   const data = {
+    repository,
     info: {
       num: changes.num,
       title: changes.title,
@@ -93,7 +94,6 @@ async function insertAlert(changes) {
       file: changes.file,
     },
     ref: changes.ref,
-    repository: changes.repository,
     changes: {
       added: changes.added,
       removed: changes.removed,
@@ -250,9 +250,9 @@ async function main() {
         continue;
       }
       const inserts = await Promise.all(
-        result.changes.map((diff) => insertAlert(diff))
+        result.changes.map((diff) => insertAlert(result.repository, diff))
       );
-      inserts.forEeach((insert) => {
+      inserts.forEach((insert) => {
         console.log("insert alert", insert.returning[0]);
       });
       const update = await updateSource(result.repository, result.newRef);
@@ -262,3 +262,9 @@ async function main() {
 }
 
 main().catch(console.error);
+
+module.exports = {
+  getSources,
+  insertAlert,
+  updateSource,
+};
