@@ -2,7 +2,10 @@ Install alert:
   extends: .autodevops_install
   image: node:12.18.0-alpine3.11
   cache:
-    key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
     paths:
       - yarn
   script:
