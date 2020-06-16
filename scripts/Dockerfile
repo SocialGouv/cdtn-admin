@@ -6,14 +6,14 @@ RUN set -x \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+RUN chown -R node:node /app
+USER node
 
 COPY yarn.lock /app/
 RUN yarn add nodegit --frozen-lockfile --pure-lockfile --cache-folder /dev/shm/yarn
 
 COPY scripts/package.json /app/
 COPY scripts/dist/ /app/dist
-
-USER node
 
 ENV NODE_ENV=production
 
