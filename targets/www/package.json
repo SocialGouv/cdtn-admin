@@ -23,6 +23,7 @@
     "@zeit/next-source-maps": "0.0.4-canary.1",
     "argon2": "^0.26.2",
     "cookie": "^0.4.1",
+    "diff": "^4.0.2",
     "graphql": "^15.1.0",
     "http-proxy-middleware": "^1.0.4",
     "isomorphic-unfetch": "^3.0.0",
