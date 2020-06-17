@@ -17,7 +17,7 @@ import { getStatusLabel } from "src/models";
 
 const getAlertQuery = `
 query getAlerts($status: String!, $repository: String!) {
-  statuses: status {
+  statuses: alert_status {
     name
     alerts: alerts_aggregate(where: {
       repository: {_eq: $repository }
@@ -102,8 +102,9 @@ export function AlertPage() {
         ))}
       </Tabs>
       {alerts.map((alert) => (
-        <Container key={`${alert.info.filename}-${alert.ref}`}>
+        <Container key={`${alert.info.file}-${alert.ref}`}>
           <AlertTitle alertId={alert.id}>
+            IDCC{alert.info.num} -{" "}
             {new Date(alert.created_at).toLocaleDateString()} ({alert.ref})
           </AlertTitle>
           <Accordion collapsible multiple>

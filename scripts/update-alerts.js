@@ -20,6 +20,7 @@ mutation insert_alerts($data: alerts_insert_input!) {
     returning {
       ref,
       repository,
+      info
     }
   }
 }
@@ -131,7 +132,8 @@ async function openRepo({ repository }) {
   let repo;
   try {
     repo = await nodegit.Repository.open(localPath);
-    await repo.fetch("origin");
+    await repo.checkoutBranch("master");
+    await repo.mergeBranches("master", "origin/master");
   } catch (err) {
     repo = await nodegit.Clone(
       `git://github.com/${org}/${repositoryName}`,
@@ -155,10 +157,15 @@ async function getNewerTagsFromRepo(repo, tag) {
         return t;
       })
       .sort((a, b) => (semver.lt(a, b) ? -1 : 1))
-      .map(async (tag) => ({
-        ref: tag,
-        commit: await repo.getReferenceCommit(tag),
-      }))
+      .map(async (tag) => {
+        const reference = await repo.getReference(tag);
+        const targetRef = await reference.peel(nodegit.Object.TYPE.COMMIT);
+        const commit = await repo.getCommit(targetRef);
+        return {
+          ref: tag,
+          commit,
+        };
+      })
   );
 }
 
@@ -253,8 +260,10 @@ async function main() {
         result.changes.map((diff) => insertAlert(result.repository, diff))
       );
       inserts.forEach((insert) => {
-        console.log("insert alert", insert.returning[0]);
+        const { ref, repository, info } = insert.returning[0];
+        console.log(`insert alert for ${ref} on ${repository} (${info.file})`);
       });
+      console.log(`create ${inserts.length} alert for ${result.repository}`);
       const update = await updateSource(result.repository, result.newRef);
       console.log(`update source ${update.repository} to ${update.tag}`);
     }

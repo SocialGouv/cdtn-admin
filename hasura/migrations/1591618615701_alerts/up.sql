@@ -17,8 +17,8 @@ CREATE TABLE "public"."sources"(
 
 COMMENT ON TABLE "public"."sources" IS E'sources are git repository that acts  as data sources to track changes';
 
-INSERT INTO public.sources (repository, label, tag) VALUES ('socialgouv/legi-data', 'code du travail', 'v1.9.0');
-INSERT INTO public.sources (repository, label, tag) VALUES ('socialgouv/kali-data', 'conventions collectives', 'v1.60.0');
+INSERT INTO public.sources (repository, label, tag) VALUES ('socialgouv/legi-data', 'code du travail', 'v1.12.0');
+INSERT INTO public.sources (repository, label, tag) VALUES ('socialgouv/kali-data', 'conventions collectives', 'v1.64.0');
 
 CREATE TABLE "public"."alerts"(
   "id" uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -28,7 +28,7 @@ CREATE TABLE "public"."alerts"(
   "ref" text NOT NULL,
   "changes" jsonb NOT NULL,
   "created_at" timestamptz NULL DEFAULT now(),
-  "updated_at" timestamptz NULL DEFAULT now();
+  "updated_at" timestamptz NULL DEFAULT now(),
   PRIMARY KEY ("id") ,
   FOREIGN KEY ("status") REFERENCES "public"."alert_status"("name") ON UPDATE restrict ON DELETE restrict,
   FOREIGN KEY ("repository") REFERENCES "public"."sources"("repository") ON UPDATE restrict ON DELETE cascade);

@@ -93,39 +93,34 @@ const compareArticles = (tree1, tree2, comparator) => {
   );
 
   // all sections from tree1
-  const sections1 = selectAll("section", parentsTree1).map(addContext);
+  const sections1 = selectAll("section", parentsTree1.children).map(addContext);
 
-  // special case, kali sections have no id, but cid
-  const idField =
-    (sections1.length && sections1[0].data && sections1[0].data.cid && "cid") ||
-    "id";
-
-  const sections1cids = sections1.map((a) => a.data[idField]);
+  const sections1cids = sections1.map((a) => a.data.cid);
 
   // all sections from tree2
-  const sections2 = selectAll("section", parentsTree2).map(addContext);
-  const sections2cids = sections2.map((a) => a.data[idField]);
+  const sections2 = selectAll("section", parentsTree2.children).map(addContext);
+  const sections2cids = sections2.map((a) => a.data.cid);
 
   // new : sections in tree2 not in tree1
   const newSections = sections2.filter(
-    (section) => !sections1cids.includes(section.data[idField])
+    (section) => !sections1cids.includes(section.data.cid)
   );
-  const newSectionsCids = newSections.map((a) => a.data[idField]);
+  const newSectionsCids = newSections.map((a) => a.data.cid);
 
   // supressed: sections in tree1 not in tree2
   const missingSections = sections1.filter(
-    (section) => !sections2cids.includes(section.data[idField])
+    (section) => !sections2cids.includes(section.data.cid)
   );
 
   // modified : sections with modified texte
   const modifiedSections = sections2.filter(
     (section) =>
       // exclude new sections
-      !newSectionsCids.includes(section.data[idField]) &&
+      !newSectionsCids.includes(section.data.cid) &&
       sections1.find(
         // same section, different etat
         (section2) =>
-          section2.data[idField] === section.data[idField] &&
+          section2.data.cid === section.data.cid &&
           section2.data.etat !== section.data.etat
       )
   );
