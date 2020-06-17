@@ -1,0 +1,106 @@
+#
+#
+#
+
+Install www:
+  extends: .autodevops_install
+  image: node:12.18.0-alpine3.11
+  cache:
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
+    paths:
+      - yarn
+  script:
+    - yarn config set cache-folder $CI_PROJECT_DIR/yarn
+    - npx @socialgouv/yarn-workspace-focus-install --cwd targets/www
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - "@cdtn-admin/*/node_modules"
+      - targets/www/node_modules
+      - node_modules
+
+#
+#
+#
+
+Build www:
+  extends: .autodevops_build
+  cache:
+    key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
+    paths:
+      - targets/www/.next/cache
+  dependencies: null
+  needs:
+    - job: Install www
+      artifacts: true
+  variables:
+    # these variables are needed at build time because embedded in the front
+    NEXT_PUBLIC_SENTRY_DSN: https://yyy@sentry.fabrique.social.gouv.fr/yyy
+    NEXT_PUBLIC_MATOMO_URL: https://matomo.io
+    NEXT_PUBLIC_MATOMO_SITE_ID: 4242
+  before_script:
+    - cd targets/www
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - targets/www/.next
+
+Test www:
+  extends: .autodevops_test
+  dependencies: null
+  needs:
+    - job: Install www
+      artifacts: true
+  before_script:
+    - cd targets/www
+
+Lint www:
+  extends: .autodevops_lint
+  dependencies: null
+  needs:
+    - job: Install www
+      artifacts: true
+  before_script:
+    - cd targets/www
+
+#
+#
+#
+
+Register www:
+  extends: .autodevops_register_image
+  dependencies: null
+  needs:
+    - job: Build www
+      artifacts: true
+  variables:
+    CONTEXT: .
+    DOCKER_BUILD_ARGS: >-
+      --shm-size 512M
+      -f targets/www/Dockerfile
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/www
+
+#
+#
+#
+
+.deploy_www_stage:
+  variables:
+    PORT: 3000
+    CONTEXT: www
+    VALUES_FILE: targets/www/.k8s/app.values.yml
+
+Deploy www (dev):
+  extends:
+    - .autodevops_deploy_app_dev
+    - .deploy_www_stage
+
+Deploy www (prod):
+  extends:
+    - .autodevops_deploy_app_prod
+    - .deploy_www_stage
+  variables:
+    PRODUCTION: "true"

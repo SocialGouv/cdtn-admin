@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scripts
+  name: alert
   labels:
     app.kubernetes.io/part-of: ${CI_PROJECT_NAME}
     owner: ${CI_PROJECT_NAME}
@@ -18,7 +18,7 @@ spec:
         spec:
           containers:
             - name: update-alert
-              image: ${CI_REGISTRY_IMAGE}/scripts:${IMAGE_TAG}
+              image: ${CI_REGISTRY_IMAGE}/alert:${IMAGE_TAG}
               resources:
                 requests:
                   cpu: 1500m
