@@ -8,7 +8,7 @@ image:
   repository: $CI_REGISTRY_IMAGE
   tag: master
 
-# nameOverride: app
+fullnameOverride: www
 
 deployment:
   resources:
