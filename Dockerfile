@@ -1,14 +1,18 @@
-FROM node:14.4-alpine3.11
+FROM node:12.18.0-alpine3.11
 
 WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN yarn --frozen-lockfile
+RUN apk add --no-cache build-base python --virtual .build-deps \
+  && yarn --production --frozen-lockfile \
+  && apk del .build-deps
 
 COPY next.config.js  ./
 COPY .env  ./.env
 COPY .next/ ./.next
+COPY scripts/ ./scripts
+COPY data/ ./data
 COPY public/ ./public
 
 USER node

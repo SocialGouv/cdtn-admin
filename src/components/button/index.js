@@ -13,7 +13,13 @@ import {
   MenuList,
   MenuItem as ReachMenuItem,
 } from "@reach/menu-button";
-import { IoMdMore } from "react-icons/io";
+
+import {
+  AccordionButton as ReachAccordionButton,
+  useAccordionItemContext,
+} from "@reach/accordion";
+
+import { IoMdMore, IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 
 const buttonPropTypes = {
   variant: PropTypes.oneOf(["secondary", "primary", "link"]),
@@ -187,4 +193,29 @@ export function MenuItem(props) {
       }}
     />
   );
+}
+
+export function AccordionButton({ children, ...props }) {
+  return (
+    <ReachAccordionButton
+      {...props}
+      sx={{
+        ...defaultButtonStyles,
+        color: "text",
+        bg: "white",
+        border: "none",
+        "&[aria-expanded=true]": {
+          color: "accent",
+        },
+      }}
+    >
+      <ExpandedIcon />
+      {children}
+    </ReachAccordionButton>
+  );
+}
+
+export function ExpandedIcon() {
+  const { isExpanded } = useAccordionItemContext();
+  return isExpanded ? <IoIosArrowDown /> : <IoIosArrowForward />;
 }

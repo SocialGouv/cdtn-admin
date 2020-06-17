@@ -1,12 +1,18 @@
 import { rgba, darken, transparentize } from "polished";
 
 export const theme = {
+  fonts: {
+    body: "muli",
+    heading: "muli",
+    monospace: "monospace",
+  },
   sizes: {
     container: 1440,
     normal: "xsmall",
     small: "xxsmall",
   },
   fontSizes: {
+    0: "0.8rem",
     xsmall: "0.8rem",
     small: "0.9rem",
     medium: "1rem",
@@ -15,11 +21,13 @@ export const theme = {
     xxlarge: "3.2rem",
     icons: "1.5rem",
   },
+  // fontSizes: [12, 14, 16, 20, 24, 32, 48, 64],
   fontWeights: {
     body: 300,
     regular: 400,
     heading: 600,
     semibold: 600,
+    bold: 600,
   },
   lineHeights: {
     body: 1.625,
@@ -69,6 +77,7 @@ export const theme = {
   radii: {
     small: "4px",
     large: "8px",
+    xlarge: "16px",
   },
   breakpoints: ["40rem", "56rem", "64rem"],
   styles: {
@@ -131,14 +140,24 @@ export const theme = {
     primary: {
       bg: "primary",
       color: "white",
-      fontSize: "medium",
       px: "xxsmall",
     },
     secondary: {
       bg: "secondary",
       color: "white",
-      fontSize: "medium",
       px: "xxsmall",
+    },
+    outline: {
+      color: "primary",
+      bg: "transparent",
+      boxShadow: "inset 0 0 0 1px",
+    },
+    circle: {
+      bg: "accent",
+      borderRadius: "xlarge",
+      px: "5px",
+      py: "3px",
+      lineHeight: 1,
     },
   },
   forms: {
