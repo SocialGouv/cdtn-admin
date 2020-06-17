@@ -28,21 +28,16 @@ export function createRequestHandler({
       return apiError(Boom.badRequest(error.details[0].message));
     }
 
-    let result;
-    try {
-      result = await client
-        .query(mutation, {
-          secret_token: value.token,
-          password: await hash(value.password),
-          now: new Date().toISOString(),
-        })
-        .toPromise();
-    } catch (error) {
-      console.error(error);
-      return apiError(Boom.serverUnavailable("update failed"));
-    }
+    const result = await client
+      .query(mutation, {
+        secret_token: value.token,
+        password: await hash(value.password),
+        now: new Date().toISOString(),
+      })
+      .toPromise();
+
     if (result.error) {
-      console.error(error);
+      console.error(result.error);
       return apiError(Boom.unauthorized("request failed"));
     }
 

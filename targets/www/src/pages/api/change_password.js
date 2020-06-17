@@ -24,21 +24,15 @@ export default async function changePassword(req, res) {
     return apiError(Boom.badRequest(error.details[0].message));
   }
 
-  let result;
-  try {
-    result = await client
-      .query(getOldPassword, {
-        id: value.id,
-      })
-      .toPromise();
-  } catch (error) {
-    console.error(error);
-    return apiError(Boom.serverUnavailable("get old password failed"));
-  }
+  let result = await client
+    .query(getOldPassword, {
+      id: value.id,
+    })
+    .toPromise();
 
   if (result.error) {
     console.error(result.error);
-    return apiError(Boom.badRequest("request error"));
+    return apiError(Boom.serverUnavailable("get old password failed"));
   }
 
   const { user } = result.data;
@@ -53,20 +47,16 @@ export default async function changePassword(req, res) {
     return apiError(Boom.unauthorized("Invalid id or password"));
   }
 
-  try {
-    result = await client
-      .query(changeMyPasswordMutation, {
-        id: value.id,
-        password: await hash(value.password),
-      })
-      .toPromise();
-  } catch (error) {
-    console.error(error);
-    return apiError(Boom.serverUnavailable("set new password failed"));
-  }
+  result = await client
+    .query(changeMyPasswordMutation, {
+      id: value.id,
+      password: await hash(value.password),
+    })
+    .toPromise();
+
   if (result.error) {
     console.error(result.error);
-    return apiError(Boom.badRequest("request error"));
+    return apiError(Boom.serverUnavailable("set new password failed"));
   }
 
   console.log("[change password]", value.id);

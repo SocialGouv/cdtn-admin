@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "dependencies": {
     "graphql": "^15.1.0",
-    "react": "^16.13.1",
     "isomorphic-unfetch": "^3.0.0",
+    "react": "^16.13.1",
     "urql": "^1.9.8"
   },
   "main": "lib/index.js",
