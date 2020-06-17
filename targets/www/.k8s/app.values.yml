@@ -5,7 +5,7 @@
 # See https://github.com/SocialGouv/helm-charts/tree/master/charts/app
 ---
 image:
-  repository: $CI_REGISTRY_IMAGE
+  repository: $CI_REGISTRY_IMAGE/www
   tag: master
 
 fullnameOverride: www
