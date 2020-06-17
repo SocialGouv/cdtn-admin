@@ -4,7 +4,8 @@
   "dependencies": {
     "@cdtn-admin/infra": "1.0.0",
     "nodegit": "0.25.0",
-    "semver": "^7.3.2"
+    "semver": "^7.3.2",
+    "unist-util-parents": "^1.0.3"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",
