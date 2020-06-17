@@ -1,0 +1,64 @@
+Install scripts:
+  extends: .autodevops_install
+  image: node:12.18.0-alpine3.11
+  cache:
+    key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
+    paths:
+      - yarn
+  script:
+    - yarn config set cache-folder $CI_PROJECT_DIR/yarn
+    - npx @socialgouv/yarn-workspace-focus-install --cwd scripts
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - scripts/node_modules
+      - node_modules
+
+#
+#
+#
+
+Build scripts:
+  extends: .base_yarn_script
+  image: node:12.18.0-alpine3.11
+  needs:
+    - job: Install scripts
+      artifacts: true
+  script:
+    - yarn --cwd scripts build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - scripts/dist
+
+#
+#
+#
+
+Register scripts:
+  extends: .autodevops_register_image
+  dependencies: null
+  needs:
+    - job: Build scripts
+      artifacts: true
+  variables:
+    CONTEXT: ./
+    DOCKER_BUILD_ARGS: >-
+      --shm-size 512M
+      -f ./scripts/Dockerfile
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/scripts
+
+#
+#
+#
+
+.deploy_scripts_stage:
+  script:
+    - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
+    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
+    - envsubst < scripts/.k8s/update-alert.cronjob.yaml | kubectl apply -f -
+
+Deploy scripts (dev):
+  extends:
+    - .autodevops_deploy_app_dev
+    - .deploy_scripts_stage

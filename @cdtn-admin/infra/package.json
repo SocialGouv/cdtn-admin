@@ -1,0 +1,17 @@
+{
+  "name": "@cdtn-admin/infra",
+  "version": "1.0.0",
+  "dependencies": {
+    "graphql": "^15.1.0",
+    "isomorphic-unfetch": "^3.0.0",
+    "react": "^16.13.1",
+    "semver": "^7.3.2",
+    "unist-util-parents": "^1.0.3",
+    "unist-util-select": "^3.0.1",
+    "urql": "^1.9.8"
+  },
+  "devDependencies": {},
+  "main": "lib/index.js",
+  "private": true,
+  "scripts": {}
+}

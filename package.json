@@ -2,6 +2,7 @@
   "name": "cdtn-admin",
   "version": "1.0.0",
   "main": "index.js",
+  "private": true,
   "license": "MIT",
   "dependencies": {
     "@hapi/boom": "^9.1.0",
@@ -58,10 +59,10 @@
     "build": "next build",
     "prestart": "node scripts/update-alerts.js",
     "start": "next start",
-    "alert": " node scripts/update-alerts.js",
-    "alert:dev": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node scripts/update-alerts.js",
-    "alert:dump": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 DUMP=true node scripts/update-alerts.js > data/dump.json",
-    "alert:populate": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node scripts/add-alerts.js",
+    "alert": "yarn --cwd scripts start",
+    "alert:dev": "yarn --cwd scripts start:dev",
+    "alert:dump": "yarn --cwd scripts start:dump > data/dump.json",
+    "alert:populate": "yarn --cwd scripts start:populate",
     "lint": "eslint src/*",
     "test": "jest"
   },
@@ -77,5 +78,9 @@
     "jest-cli": "^26.0.1",
     "prettier": "^2.0.5",
     "prop-types": "^15.7.2"
-  }
+  },
+  "workspaces": [
+    "@cdtn-admin/*",
+    "scripts"
+  ]
 }
