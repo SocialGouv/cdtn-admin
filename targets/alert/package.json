@@ -15,11 +15,11 @@
     "rollup": "^2.15.0"
   },
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/update-alerts.js",
   "private": true,
   "scripts": {
     "build": "rollup -c",
-    "start": "node --enable-source-maps ./dist/index.js",
+    "start": "node --enable-source-maps ./dist/update-alerts.js",
     "start:dev": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 yarn start",
     "start:dump": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 DUMP=true yarn start"
   }

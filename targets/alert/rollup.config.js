@@ -9,10 +9,23 @@ const watch = {
 };
 export default [
   {
-    input: `update-alert.js`,
+    input: `add-alerts.js`,
     output: [
       {
-        file: `dist/index.js`,
+        file: `dist/add-alerts.js`,
+        format: "cjs",
+        sourcemap: true,
+      },
+    ],
+    external,
+    plugins,
+    watch,
+  },
+  {
+    input: `update-alerts.js`,
+    output: [
+      {
+        file: `dist/update-alerts.js`,
         format: "cjs",
         sourcemap: true,
       },

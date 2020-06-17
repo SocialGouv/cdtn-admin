@@ -1,4 +1,5 @@
 const { client } = require("@cdtn-admin/infra/lib/graphqlApiClient");
+
 const path = require("path");
 const nodegit = require("nodegit");
 const semver = require("semver");
@@ -20,6 +21,7 @@ mutation insert_alerts($data: alerts_insert_input!) {
     returning {
       ref,
       repository,
+      info
     }
   }
 }
@@ -84,8 +86,9 @@ async function getSources() {
   return result.data.sources;
 }
 
-async function insertAlert(changes) {
+async function insertAlert(repository, changes) {
   const data = {
+    repository,
     info: {
       num: changes.num,
       title: changes.title,
@@ -93,7 +96,6 @@ async function insertAlert(changes) {
       file: changes.file,
     },
     ref: changes.ref,
-    repository: changes.repository,
     changes: {
       added: changes.added,
       removed: changes.removed,
@@ -131,7 +133,8 @@ async function openRepo({ repository }) {
   let repo;
   try {
     repo = await nodegit.Repository.open(localPath);
-    await repo.fetch("origin");
+    await repo.checkoutBranch("master");
+    await repo.mergeBranches("master", "origin/master");
   } catch (err) {
     repo = await nodegit.Clone(
       `git://github.com/${org}/${repositoryName}`,
@@ -155,10 +158,15 @@ async function getNewerTagsFromRepo(repo, tag) {
         return t;
       })
       .sort((a, b) => (semver.lt(a, b) ? -1 : 1))
-      .map(async (tag) => ({
-        ref: tag,
-        commit: await repo.getReferenceCommit(tag),
-      }))
+      .map(async (tag) => {
+        const reference = await repo.getReference(tag);
+        const targetRef = await reference.peel(nodegit.Object.TYPE.COMMIT);
+        const commit = await repo.getCommit(targetRef);
+        return {
+          ref: tag,
+          commit,
+        };
+      })
   );
 }
 
@@ -227,17 +235,12 @@ async function getFileDiffFromTrees(
 
 async function main() {
   const sources = await getSources();
-  console.log({ sources });
   const results = [];
   for (const source of sources) {
     const repo = await openRepo(source);
-    console.log({ repo });
     const tags = await getNewerTagsFromRepo(repo, source.tag);
-    console.log({ tags });
     const diffs = await getDiffFromTags(tags, source.repository);
-    console.log({ diffs });
     const [lastTag] = tags.slice(-1);
-    console.log({ lastTag });
 
     results.push({
       repository: source.repository,
@@ -255,18 +258,23 @@ async function main() {
         continue;
       }
       const inserts = await Promise.all(
-        result.changes.map((diff) => insertAlert(diff))
+        result.changes.map((diff) => insertAlert(result.repository, diff))
       );
-      inserts.forEeach((insert) => {
-        console.log("insert alert", insert.returning[0]);
+      inserts.forEach((insert) => {
+        const { ref, repository, info } = insert.returning[0];
+        console.log(`insert alert for ${ref} on ${repository} (${info.file})`);
       });
+      console.log(`create ${inserts.length} alert for ${result.repository}`);
       const update = await updateSource(result.repository, result.newRef);
       console.log(`update source ${update.repository} to ${update.tag}`);
     }
   }
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+main().catch(console.error);
+
+module.exports = {
+  getSources,
+  insertAlert,
+  updateSource,
+};
