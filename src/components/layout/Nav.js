@@ -45,7 +45,7 @@ export function Nav() {
           )}
         </List>
         <Text>Alertes</Text>
-        {!fetching && data && (
+        {!fetching && (
           <List>
             {data.sources.map((source) => (
               <Li key={source.repository}>
@@ -57,7 +57,11 @@ export function Nav() {
                   <NavLink>{source.label}</NavLink>
                 </Link>
                 {"  "}
-                <Badge variant="circle">{source.alerts.aggregate.count}</Badge>
+                {source.alerts.aggregate.count > 0 && (
+                  <Badge variant="circle">
+                    {source.alerts.aggregate.count}
+                  </Badge>
+                )}
               </Li>
             ))}
           </List>
