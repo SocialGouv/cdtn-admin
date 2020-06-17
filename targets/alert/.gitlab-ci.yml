@@ -68,7 +68,7 @@ Deploy alert (dev):
     - .autodevops_deploy_app_dev
     - .deploy_alert_stage
 
-Deploy www (prod):
+Deploy alert (prod):
   extends:
     - .autodevops_deploy_app_prod
     - .deploy_alert_stage
