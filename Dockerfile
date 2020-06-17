@@ -11,6 +11,8 @@ RUN apk add --no-cache build-base python --virtual .build-deps \
 COPY next.config.js  ./
 COPY .env  ./.env
 COPY .next/ ./.next
+COPY scripts/ ./scripts
+COPY data/ ./data
 COPY public/ ./public
 
 USER node
