@@ -1,0 +1,12 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: www-env
+data:
+  ACCOUNT_MAIL_SENDER: "contact@fabrique.social.gouv.fr"
+  FRONTEND_HOST: "${HOST}"
+  FRONTEND_PORT: "${PORT}"
+  GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
+  NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES: "10080"
+  NODE_ENV: "production"
+  REFRESH_TOKEN_EXPIRES: "43200"

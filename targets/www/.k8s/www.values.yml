@@ -28,18 +28,9 @@ deployment:
     path: /health
     periodSeconds: 15
 
-  env:
-    - name: PRODUCTION
-      value: "${PRODUCTION}"
-    - name: FRONTEND_URL
-      value: https://${HOST}
-    - name: GRAPHQL_ENDPOINT
-      value: "http://hasura-cdtn-admin/v1/graphql"
-    - name: ACCOUNT_MAIL_SENDER
-      value: "contact@fabrique.social.gouv.fr"
-    - name: PORT
-      value: "${PORT}"
   envFrom:
+    - configMapRef:
+        name: www-env
     - secretRef:
         name: cdtn-admin-secrets
 ingress:
