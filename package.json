@@ -6,7 +6,10 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4"
+    "@commitlint/config-conventional": "^8.3.4",
+    "lerna": "^3.22.1",
+    "nps": "^5.9.12",
+    "nps-utils": "^1.7.0"
   },
   "husky": {
     "hooks": {
@@ -14,8 +17,16 @@
     }
   },
   "private": true,
+  "scripts": {
+    "build": "nps build",
+    "dev": "nps dev",
+    "lint": "nps lint",
+    "start": "nps",
+    "test": "nps test"
+  },
   "workspaces": [
     "@cdtn-admin/*",
     "targets/*"
-  ]
+  ],
+  "name": "cdtn-admin"
 }

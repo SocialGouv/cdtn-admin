@@ -1,5 +1,5 @@
 {
-  "name": "alert",
+  "name": "targets.alert",
   "version": "1.0.0",
   "dependencies": {
     "@cdtn-admin/infra": "1.0.0",

@@ -1,0 +1,16 @@
+scripts:
+  build:
+    default: lerna run --stream build
+    internals: lerna run --stream --scope @cdtn-admin/* build
+    targets: lerna run --stream --scope targets.* build
+
+  dev:
+    default: concurrent
+      "lerna run --stream dev"
+      "sleep 5s && docker-compose up --build postgres hasura"
+
+  lint:
+    default: lerna run --stream --parallel lint
+
+  test:
+    default: lerna run --stream --parallel test

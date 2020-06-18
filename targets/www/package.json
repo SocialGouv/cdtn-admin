@@ -1,5 +1,5 @@
 {
-  "name": "cdtn-admin",
+  "name": "targets.www",
   "version": "1.0.0",
   "commitlint": {
     "extends": [
