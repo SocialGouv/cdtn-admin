@@ -5,9 +5,9 @@ scripts:
     targets: lerna run --stream --scope targets.* build
 
   dev:
-    default: concurrent
+    default: concurrently
       "lerna run --stream dev"
-      "sleep 5s && docker-compose up --build postgres hasura"
+      "docker-compose up --build postgres hasura"
 
   e2e:
     default: lerna run --stream --parallel e2e
@@ -23,3 +23,10 @@ scripts:
 
   pre-push:
     default: nps build && nps lint && nps test && nps e2e
+
+  docker:
+    up:
+      default: docker-compose up --build postgres hasura
+    stop: docker-compose stop
+    rm: docker-compose rm -sfv && docker volume rm -f cdtn-admin_db_data
+    purge: nps docker.stop && nps docker.rm
