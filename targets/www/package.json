@@ -1,11 +1,6 @@
 {
   "name": "targets.www",
   "version": "1.0.0",
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "dependencies": {
     "@cdtn-admin/infra": "^1.0.0",
     "@hapi/boom": "^9.1.0",
@@ -59,22 +54,14 @@
     "prettier": "^2.0.5",
     "prop-types": "^15.7.2"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "eslint src/*",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "license": "MIT",
   "main": "index.js",
   "private": true,
   "scripts": {
-    "alert": "yarn --cwd scripts start",
-    "alert:dev": "yarn --cwd scripts start:dev",
-    "alert:dump": "yarn --cwd scripts start:dump > data/dump.json",
     "build": "next build",
     "dev": "next dev",
-    "lint": "eslint src/*",
+    "lint": "lint-staged",
+    "pre-commit": "eslint src/*",
     "start": "next start",
     "test": "jest"
   }
