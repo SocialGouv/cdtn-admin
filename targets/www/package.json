@@ -60,8 +60,8 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "lint": "lint-staged",
-    "pre-commit": "eslint src/*",
+    "lint": "eslint src/*",
+    "pre-commit": "lint-staged",
     "start": "next start",
     "test": "jest"
   },
