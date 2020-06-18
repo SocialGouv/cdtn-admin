@@ -55,6 +55,7 @@
     "eslint-plugin-import": "^2.21.2",
     "husky": "^4.2.5",
     "jest-cli": "^26.0.1",
+    "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "prop-types": "^15.7.2"
   },
