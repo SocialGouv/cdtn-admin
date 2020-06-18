@@ -11,11 +11,9 @@ services:
     environment:
       POSTGRES_PASSWORD: postgrespassword
 
-
   hasura:
     build:
       context: targets/hasura
-    network_mode: host
     volumes:
       - ./targets/hasura/migrations:/hasura-migrations
       - ./targets/hasura/metadata:/hasura-metadata

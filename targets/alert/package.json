@@ -12,6 +12,7 @@
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.0.1",
     "builtin-modules": "^3.1.0",
+    "esm": "^3.2.25",
     "rollup": "^2.15.0"
   },
   "license": "MIT",
@@ -20,7 +21,7 @@
   "scripts": {
     "build": "rollup -c",
     "start": "node --enable-source-maps ./dist/index.js",
-    "start:dev": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 yarn start",
-    "start:dump": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 DUMP=true yarn start > data/dump.json"
+    "start:dev": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node -r esm src/index.js",
+    "start:dump": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 DUMP=true node -r esm src/index.js > data/dump.json"
   }
 }
