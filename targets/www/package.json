@@ -64,5 +64,11 @@
     "pre-commit": "eslint src/*",
     "start": "next start",
     "test": "jest"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
