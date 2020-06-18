@@ -22,4 +22,4 @@ scripts:
     default: lerna run --concurrency 1 --stream pre-commit --since HEAD --exclude-dependents
 
   pre-push:
-    default: nps lint && nps test && nps build && nps e2e
+    default: nps build && nps lint && nps test && nps e2e
