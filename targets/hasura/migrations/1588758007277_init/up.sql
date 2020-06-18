@@ -83,7 +83,7 @@ WITH admin_row AS (
   INSERT INTO auth.users(email, password, name, default_role, active) VALUES
   (
     'codedutravailnumerique@travail.gouv.fr',
-    '$argon2i$v=19$m=4096,t=3,p=1$jQ6s4CKMJ1XZVXswJ3mVVQ$11iB3X1U6o+I2DzU0Ykgg0U76d4+wMYcWxuYxTAFras',
+    '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8',
     'big boss',
     'admin',
     true
