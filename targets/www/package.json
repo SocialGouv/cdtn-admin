@@ -66,8 +66,9 @@
     "test": "jest"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix"
+    "*.{j,t}s": [
+      "eslint --fix",
+      "jest --bail --findRelatedTests"
     ]
   }
 }
