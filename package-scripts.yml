@@ -9,8 +9,14 @@ scripts:
       "lerna run --stream dev"
       "sleep 5s && docker-compose up --build postgres hasura"
 
+  e2e:
+    default: lerna run --stream --parallel e2e
+
   lint:
     default: lerna run --stream --parallel lint
 
   test:
     default: lerna run --stream --parallel test
+
+  pre-push:
+    default: nps lint && nps test && nps build && nps e2e

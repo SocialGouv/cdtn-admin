@@ -13,6 +13,8 @@
   },
   "husky": {
     "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": " nps pre-push",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
