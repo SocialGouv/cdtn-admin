@@ -24,7 +24,7 @@ module.exports = withSourceMaps({
     // So ask Webpack to replace @sentry/node imports with @sentry/browser when
     // building the browser's bundle
     if (!options.isServer) {
-      config.resolve.alias["@sentry/node"] == "@sentry/browser";
+      config.resolve.alias["@sentry/node"] = "@sentry/browser";
     }
 
     // When all the Sentry configuration env variables are available/configured
