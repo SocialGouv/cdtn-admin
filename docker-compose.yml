@@ -4,12 +4,15 @@ services:
     image: postgres:10
     volumes:
       - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     env_file:
       - .env
 
   hasura:
     build:
       context: targets/hasura
+    network_mode: host
     volumes:
       - ./targets/hasura/migrations:/hasura-migrations
       - ./targets/hasura/metadata:/hasura-metadata
