@@ -74,3 +74,24 @@ Deploy alert (prod):
     - .deploy_alert_stage
   variables:
     PRODUCTION: "true"
+
+#
+#
+#
+
+.trigger_alert_cron:
+  when: manual
+  script:
+    - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
+    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
+    - kubectl create job --from=cronjob/alert triggered-from-job-${CI_JOB_ID}-${RANDOM}
+
+Trigger alert (dev):
+  extends:
+    - .autodevops_deploy_app_dev
+    - .trigger_alert_cron
+
+Trigger alert (prod):
+  extends:
+    - .autodevops_deploy_app_prod
+    - .trigger_alert_cron
