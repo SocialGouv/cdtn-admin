@@ -65,6 +65,10 @@ export default async function login(req, res) {
   const jwt_token = generateJwtToken(user);
   console.log("[login]", {
     user_id: user.id,
+    REFRESH_TOKEN_EXPIRES: process.env.REFRESH_TOKEN_EXPIRES,
+    JWT_TOKEN_EXPIRES: process.env.JWT_TOKEN_EXPIRES,
+    NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES:
+      process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES,
     expires_at: getExpiryDate(parseInt(process.env.REFRESH_TOKEN_EXPIRES, 10)),
   });
   result = await client
