@@ -92,16 +92,23 @@ Register www:
   variables:
     PORT: 3000
     CONTEXT: www
-    VALUES_FILE: targets/www/.k8s/app.values.yml
+    VALUES_FILE: targets/www/.k8s/www.values.yml
+  after_script:
+    - find ${MANIFEST_FOLDER} -name '*.yaml' -exec
+      echo '---' \; -exec cat {} \; |
+      envsubst >> manifest.yaml
+    - kubectl apply --namespace=${K8S_NAMESPACE} -f manifest.yaml
 
 Deploy www (dev):
   extends:
     - .autodevops_deploy_app_dev
     - .deploy_www_stage
+  variables:
+    MANIFEST_FOLDER: targets/www/.k8s/environments/dev
 
 Deploy www (prod):
   extends:
     - .autodevops_deploy_app_prod
     - .deploy_www_stage
   variables:
-    PRODUCTION: "true"
+    MANIFEST_FOLDER: targets/www/.k8s/environments/prod
