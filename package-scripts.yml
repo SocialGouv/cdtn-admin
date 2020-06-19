@@ -1,0 +1,32 @@
+scripts:
+  build:
+    default: lerna run --stream build
+    internals: lerna run --stream --scope @cdtn-admin/* build
+    targets: lerna run --stream --scope targets.* build
+
+  dev:
+    default: concurrently --kill-others --kill-others-on-fail
+      "lerna run --stream dev"
+      "docker-compose up --build postgres hasura"
+
+  e2e:
+    default: lerna run --stream --parallel e2e
+
+  lint:
+    default: lerna run --stream --parallel lint
+
+  test:
+    default: lerna run --stream --parallel test
+
+  pre-commit:
+    default: lerna run --concurrency 1 --stream pre-commit --since HEAD --exclude-dependents
+
+  pre-push:
+    default: nps lint && nps test && nps e2e
+
+  docker:
+    up:
+      default: docker-compose up --build postgres hasura
+    stop: docker-compose stop
+    rm: docker-compose rm -sfv && docker volume rm -f cdtn-admin_db_data
+    purge: nps docker.stop && nps docker.rm

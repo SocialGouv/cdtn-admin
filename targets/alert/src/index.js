@@ -3,8 +3,8 @@ const { client } = require("@cdtn-admin/infra/lib/graphqlApiClient");
 const path = require("path");
 const nodegit = require("nodegit");
 const semver = require("semver");
-const { ccns } = require("./lib/ccn-list.js");
-const { compareArticles } = require("./lib/compareTree.js");
+const { ccns } = require("./ccn-list.js");
+const { compareArticles } = require("./compareTree.js");
 
 const sourcesQuery = `
 query getSources {

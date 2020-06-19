@@ -10,6 +10,7 @@ RUN chown -R node:node /app
 USER node
 
 COPY yarn.lock /app/
+# TODO: sync nodegit version with package.json
 RUN yarn add nodegit --frozen-lockfile --pure-lockfile --cache-folder /dev/shm/yarn
 
 COPY targets/alert/package.json /app/

@@ -1,9 +1,9 @@
 DO
 $do$
 BEGIN
-   IF (select usesuper=TRUE from pg_user where usename = CURRENT_USER) THEN
-      CREATE EXTENSION citext;
-   END IF;
+  IF (select usesuper=TRUE from pg_user where usename = CURRENT_USER) THEN
+    CREATE EXTENSION citext;
+  END IF;
 END
 $do$;
 
@@ -80,7 +80,14 @@ COMMENT ON TABLE auth.user_roles
   IS 'User_role table allow many-to-many relationship between users and roles';
 
 WITH admin_row AS (
-  INSERT INTO auth.users(email, password, name, default_role, active) VALUES ('codedutravailnumerique@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8', 'big boss', 'admin', true)
+  INSERT INTO auth.users(email, password, name, default_role, active) VALUES
+  (
+    'codedutravailnumerique@travail.gouv.fr',
+    '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8',
+    'big boss',
+    'admin',
+    true
+  )
   RETURNING id, default_role
 )
 INSERT INTO auth.user_roles(role, user_id) SELECT default_role, id FROM admin_row;

@@ -2,7 +2,7 @@ const { promises: fs } = require("fs");
 const path = require("path");
 const filename =
   process.env.DUMP_FILE || path.join(__dirname, "..", "data", "dump.json");
-const { updateSource, insertAlert } = require("./update-alerts");
+const { updateSource, insertAlert } = require(".");
 
 async function main() {
   console.log(filename);

@@ -1,5 +1,11 @@
+// we use rollup to create a js bundle and thanks to the monorepo
+
+
+// transform cjs module to es6
 import commonjs from "@rollup/plugin-commonjs";
+// Locate and bundle third-party dependencies in node_modules
 import resolve from "@rollup/plugin-node-resolve";
+// list node builtin modules
 import builtins from "builtin-modules";
 
 const plugins = [resolve({ preferBuiltins: true }), commonjs()];
@@ -9,23 +15,10 @@ const watch = {
 };
 export default [
   {
-    input: `add-alerts.js`,
+    input: `src/index.js`,
     output: [
       {
-        file: `dist/add-alerts.js`,
-        format: "cjs",
-        sourcemap: true,
-      },
-    ],
-    external,
-    plugins,
-    watch,
-  },
-  {
-    input: `update-alerts.js`,
-    output: [
-      {
-        file: `dist/update-alerts.js`,
+        file: `dist/index.js`,
         format: "cjs",
         sourcemap: true,
       },
