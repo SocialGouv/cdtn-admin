@@ -103,11 +103,11 @@ Deploy www (dev):
     - .autodevops_deploy_app_dev
     - .deploy_www_stage
   variables:
-    MANIFEST_FOLDER: .k8s/environments/dev
+    MANIFEST_FOLDER: targets/www/.k8s/environments/dev
 
 Deploy www (prod):
   extends:
     - .autodevops_deploy_app_prod
     - .deploy_www_stage
   variables:
-    MANIFEST_FOLDER: .k8s/environments/prod
+    MANIFEST_FOLDER: targets/www/.k8s/environments/prod
