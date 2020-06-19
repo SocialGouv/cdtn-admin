@@ -84,7 +84,10 @@ Deploy alert (prod):
   script:
     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
-    - kubectl create job --from=cronjob/alert triggered-from-job-${CI_JOB_ID}-${RANDOM}
+    - JOB_NAME="triggered-from-job-${CI_JOB_ID}-${RANDOM}"
+    - kubectl create job --from=cronjob/alert "${JOB_NAME}"
+    - kubectl get events
+    - kubectl logs -f job/"${JOB_NAME}"
 
 Trigger alert (dev):
   extends:
