@@ -42,6 +42,7 @@ Build www:
     NEXT_PUBLIC_MATOMO_URL: https://matomo.io
     NEXT_PUBLIC_MATOMO_SITE_ID: 4242
   before_script:
+    - cp .env targets/www/.env.production
     - cd targets/www
   artifacts:
     expire_in: 1 week

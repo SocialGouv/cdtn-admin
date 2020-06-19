@@ -8,7 +8,8 @@ COPY targets/www/package.json /app/targets/www/
 
 RUN  npx @socialgouv/yarn-workspace-focus-install --cwd targets/www --production  --cache-folder /dev/shm/yarn
 
-COPY .env targets/www/next.config.js  /app/
+COPY targets/www/next.config.js  /app/
+COPY targets/www/.env.production  /app/
 COPY targets/www/.next/ /app/targets/www/.next
 COPY targets/www/public/ /app/targets/www/public
 
