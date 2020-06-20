@@ -88,7 +88,7 @@ Deploy alert (prod):
     - kubectl create job --from=cronjob/alert "${JOB_NAME}"
     - kubectl wait --for=condition=available --timeout=5s job/"${JOB_NAME}" || true
     - kubectl get events
-    - kubectl logs -f job/"${JOB_NAME}"
+    - kubectl logs -f "${JOB_NAME}"
 
     - |
       set -x
