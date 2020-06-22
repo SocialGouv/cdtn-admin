@@ -81,19 +81,20 @@ Deploy alert (prod):
 
 .trigger_alert_cron:
   when: manual
+  stage: .pre
   script:
     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
     - JOB_NAME="triggered-from-job-${CI_JOB_ID}-${RANDOM}"
     - kubectl create job --from=cronjob/alert "${JOB_NAME}"
-    - kubectl wait --for=condition=available --timeout=5s job/"${JOB_NAME}" || true
+    - kubectl get job
     - kubectl get events
-    - kubectl logs -f "${JOB_NAME}"
+    - kubectl logs -f "job/${JOB_NAME}"
 
     - |
       set -x
 
-      WAIT_TIMEOUT=60s
+      WAIT_TIMEOUT=5min
       kubectl wait --for=condition=complete --timeout=$WAIT_TIMEOUT job/"${JOB_NAME}" &
       success_pid=$!
       kubectl wait --for=condition=failed --timeout=$WAIT_TIMEOUT job/"${JOB_NAME}" && exit 1 &
