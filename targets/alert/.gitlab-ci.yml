@@ -81,7 +81,6 @@ Deploy alert (prod):
 
 .trigger_alert_cron:
   when: manual
-  stage: .pre
   script:
     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
