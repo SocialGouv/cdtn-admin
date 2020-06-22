@@ -26,7 +26,6 @@ spec:
                 limits:
                   cpu: 2000m
                   memory: 2Gi
-              workingDir: /app
               env:
                 - name: PRODUCTION
                   value: "${PRODUCTION}"
@@ -35,4 +34,22 @@ spec:
               envFrom:
                 - secretRef:
                     name: cdtn-admin-secrets
+              volumeMounts:
+                - name: data
+                  mountPath: "/app/data"
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: alert-repo
           restartPolicy: Never
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alert-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
