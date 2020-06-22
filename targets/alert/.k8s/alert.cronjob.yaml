@@ -26,6 +26,7 @@ spec:
                 limits:
                   cpu: 2000m
                   memory: 2Gi
+              workingDir: /app
               env:
                 - name: PRODUCTION
                   value: "${PRODUCTION}"
@@ -40,7 +41,7 @@ spec:
           volumes:
             - name: data
               persistentVolumeClaim:
-                claimName: alert-repo
+                claimName: alert-data
           restartPolicy: Never
 ---
 apiVersion: v1
