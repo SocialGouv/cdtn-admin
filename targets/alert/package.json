@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "@cdtn-admin/infra": "1.0.0",
-    "nodegit": "0.25.0",
+    "nodegit": "0.25.1",
     "semver": "^7.3.2",
     "unist-util-parents": "^1.0.3",
     "unist-util-select": "^3.0.1"
