@@ -1,4 +1,4 @@
 {
-  "packages": ["@cdtn-admin/*", "targets/*"],
+  "packages": ["shared/*", "targets/*"],
   "version": "0.0.0"
 }

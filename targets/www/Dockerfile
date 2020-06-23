@@ -3,7 +3,7 @@ FROM node:12.18.1-alpine3.11
 WORKDIR /app
 
 COPY package.json yarn.lock /app/
-COPY @cdtn-admin/infra/package.json /app/@cdtn-admin/infra/
+COPY shared/graphql-client/package.json /app/shared/graphql-client/
 COPY targets/www/package.json /app/targets/www/
 
 RUN  npx @socialgouv/yarn-workspace-focus-install --cwd targets/www --production  --cache-folder /dev/shm/yarn

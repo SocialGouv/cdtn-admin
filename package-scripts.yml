@@ -1,7 +1,7 @@
 scripts:
   build:
     default: lerna run --stream build
-    internals: lerna run --stream --scope @cdtn-admin/* build
+    internals: lerna run --stream --scope @shared/* build
     targets: lerna run --stream --scope targets.* build
 
   dev:

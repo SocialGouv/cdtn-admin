@@ -18,7 +18,7 @@ Install www:
   artifacts:
     expire_in: 1 week
     paths:
-      - "@cdtn-admin/*/node_modules"
+      - "shared/*/node_modules"
       - targets/www/node_modules
       - node_modules
 
