@@ -86,20 +86,12 @@ Deploy alert (prod):
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
     - JOB_NAME="triggered-from-job-${CI_JOB_ID}-${RANDOM}"
     - kubectl create job --from=cronjob/alert "${JOB_NAME}"
-    - kubectl get job
-    - kubectl get events
-    - until kubectl logs -f "job/${JOB_NAME}"; do sleep 1; done
 
-    - |
-      set -x
+    - timeout 1m bash -c "until kubectl logs -f job/${JOB_NAME}; do sleep 1; done"
 
-      WAIT_TIMEOUT=5m
-      kubectl wait --for=condition=complete --timeout=$WAIT_TIMEOUT job/"${JOB_NAME}" &
-      success_pid=$!
-      kubectl wait --for=condition=failed --timeout=$WAIT_TIMEOUT job/"${JOB_NAME}" && exit 1 &
-      fail_pid=$!
+    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
+    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
 
-      wait -n $success_pid $fail_pid
 Trigger alert (dev):
   extends:
     - .autodevops_deploy_app_dev
