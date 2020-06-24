@@ -91,15 +91,18 @@ Deploy alert (prod):
     - until kubectl logs -f "job/${JOB_NAME}"; do sleep 1; done
 
     - |
-      set -x
-
-      WAIT_TIMEOUT=5m
-      kubectl wait --for=condition=complete --timeout=$WAIT_TIMEOUT job/"${JOB_NAME}" &
-      success_pid=$!
-      kubectl wait --for=condition=failed --timeout=$WAIT_TIMEOUT job/"${JOB_NAME}" && exit 1 &
-      fail_pid=$!
-
-      wait -n $success_pid $fail_pid
+      echo '
+        set -e;
+        kubectl wait --for=condition=$1 --timeout 2ms $2;
+        if [[ $1 == "failure" ]]; then exit 1; fi
+      ' > job-condition.sh
+    - parallel
+        --keep-order
+        --line-buffer
+        --halt now,done=1
+        sh -x ./job-condition.sh {} {}
+          ::: failed complete
+          ::: job/"${JOB_NAME}"
 Trigger alert (dev):
   extends:
     - .autodevops_deploy_app_dev
