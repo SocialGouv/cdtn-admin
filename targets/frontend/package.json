@@ -24,6 +24,7 @@
     "isomorphic-unfetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "next": "^9.4.4",
+    "next-transpile-modules": "^3.3.0",
     "next-urql": "^0.3.8",
     "nodemailer": "^6.4.10",
     "polished": "^3.6.5",
@@ -51,7 +52,6 @@
     "husky": "^4.2.5",
     "jest-cli": "^26.0.1",
     "lint-staged": "^10.2.11",
-    "next-transpile-modules": "^3.3.0",
     "prettier": "^2.0.5",
     "prop-types": "^15.7.2"
   },
