@@ -81,6 +81,14 @@ Deploy alert (prod):
 
 .trigger_alert_cron:
   when: manual
+  before_script:
+    - apk add parallel
+    - |
+      echo '
+        set -e;
+        kubectl wait --for=condition=$1 --timeout 2ms $2;
+        if [[ $1 == "failure" ]]; then exit 1; fi
+      ' > job-condition.sh
   script:
     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
@@ -90,12 +98,6 @@ Deploy alert (prod):
     - kubectl get events
     - until kubectl logs -f "job/${JOB_NAME}"; do sleep 1; done
 
-    - |
-      echo '
-        set -e;
-        kubectl wait --for=condition=$1 --timeout 2ms $2;
-        if [[ $1 == "failure" ]]; then exit 1; fi
-      ' > job-condition.sh
     - |
       parallel
         --keep-order
