@@ -2,12 +2,12 @@ const { promises: fs } = require("fs");
 const path = require("path");
 const filename =
   process.env.DUMP_FILE || path.join(__dirname, "..", "data", "dump.json");
-const { updateSource, insertAlert } = require(".");
+const { updateSource, insertAlert } = require("./index");
 
 async function main() {
   console.log(filename);
   const fileContent = await fs.readFile(filename);
-  const data = JSON.parse(fileContent);
+  const data = JSON.parse(fileContent.toString('utf-8'));
 
   for (const result of data) {
     if (result.changes.length === 0) {
