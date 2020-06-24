@@ -38,6 +38,13 @@ spec:
               volumeMounts:
                 - name: data
                   mountPath: "/app/data"
+
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            fsGroup: 1000
+            supplementalGroups:
+              - 1000
           volumes:
             - name: data
               persistentVolumeClaim:
