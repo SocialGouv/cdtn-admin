@@ -27,7 +27,7 @@
     "test": "nps test"
   },
   "workspaces": [
-    "@cdtn-admin/*",
+    "shared/*",
     "targets/*"
   ],
   "name": "cdtn-admin"

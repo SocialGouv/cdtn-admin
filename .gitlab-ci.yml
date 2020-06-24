@@ -3,9 +3,9 @@ include:
     file: /autodevops_simple_app.yml
     ref: v15.9.0
   #
-  - /targets/alert/.gitlab-ci.yml
+  - /targets/alert-cli/.gitlab-ci.yml
   - /targets/hasura/.gitlab-ci.yml
-  - /targets/www/.gitlab-ci.yml
+  - /targets/frontend/.gitlab-ci.yml
 
 workflow:
   rules:

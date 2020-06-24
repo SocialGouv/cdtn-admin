@@ -1,4 +1,4 @@
-const { client } = require("@cdtn-admin/infra/lib/graphqlApiClient");
+const { client } = require("@shared/graphql-client");
 
 const path = require("path");
 const nodegit = require("nodegit");

@@ -27,7 +27,7 @@ services:
   www:
     build:
       context: .
-      dockerfile: targets/www/Dockerfile
+      dockerfile: targets/frontend/Dockerfile
       shm_size: 512m
     depends_on:
       - hasura

@@ -2,7 +2,7 @@ import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
 import { createErrorFor } from "src/lib/apiError";
 import { getExpiryDate } from "src/lib/duration";
-import { client } from "src/lib/graphqlApiClient";
+import { client } from "@shared/graphql-client";
 import { v4 as uuidv4 } from "uuid";
 
 export default async function reset_password(req, res) {
