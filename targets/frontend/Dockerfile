@@ -18,4 +18,4 @@ USER node
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-CMD ["yarn", "--cwd", "targets/web", "start"]
+CMD ["yarn", "--cwd", "targets/frontend", "start"]
