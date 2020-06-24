@@ -96,7 +96,8 @@ Deploy alert (prod):
         kubectl wait --for=condition=$1 --timeout 2ms $2;
         if [[ $1 == "failure" ]]; then exit 1; fi
       ' > job-condition.sh
-    - parallel
+    - |
+      parallel
         --keep-order
         --line-buffer
         --halt now,done=1
