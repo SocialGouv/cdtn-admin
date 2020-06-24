@@ -1,8 +1,7 @@
 {
-  "name": "targets.www",
+  "name": "frontend",
   "version": "1.0.0",
   "dependencies": {
-    "@cdtn-admin/infra": "^1.0.0",
     "@hapi/boom": "^9.1.0",
     "@hapi/joi": "^17.1.1",
     "@reach/accordion": "^0.10.4",
@@ -13,6 +12,7 @@
     "@sentry/integrations": "^5.16.1",
     "@sentry/node": "^5.16.1",
     "@sentry/webpack-plugin": "^1.11.1",
+    "@shared/graphql-client": "^1.0.0",
     "@socialgouv/matomo-next": "^1.1.2",
     "@urql/core": "^1.12.1",
     "@zeit/next-source-maps": "0.0.4-canary.1",
@@ -24,6 +24,7 @@
     "isomorphic-unfetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "next": "^9.4.4",
+    "next-transpile-modules": "^3.3.0",
     "next-urql": "^0.3.8",
     "nodemailer": "^6.4.10",
     "polished": "^3.6.5",

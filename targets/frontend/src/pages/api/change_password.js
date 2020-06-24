@@ -2,7 +2,7 @@ import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
 import { hash, verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
-import { client } from "src/lib/graphqlApiClient";
+import { client } from "@shared/graphql-client";
 import { changeMyPasswordMutation, getOldPassword } from "./password.gql";
 
 export default async function changePassword(req, res) {

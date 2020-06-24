@@ -2,7 +2,7 @@ import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
 import cookie from "cookie";
 import { createErrorFor } from "src/lib/apiError";
-import { client } from "src/lib/graphqlApiClient";
+import { client } from "@shared/graphql-client";
 
 export default async function logout(req, res) {
   const apiError = createErrorFor(res);

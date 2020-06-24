@@ -2,7 +2,7 @@ import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
 import { createErrorFor } from "src/lib/apiError";
 import { getExpiryDate } from "src/lib/duration";
-import { client } from "src/lib/graphqlApiClient";
+import { client } from "@shared/graphql-client";
 import { generateJwtToken } from "src/lib/jwt";
 import { setRefreshTokenCookie } from "src/lib/setRefreshTokenCookie";
 import { v4 as uuidv4 } from "uuid";

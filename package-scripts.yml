@@ -1,13 +1,15 @@
 scripts:
   build:
     default: lerna run --stream build
-    internals: lerna run --stream --scope @cdtn-admin/* build
-    targets: lerna run --stream --scope targets.* build
+    internals: lerna run --stream --scope shared* build
+    targets: lerna run --stream --scope frontend --scope alert-cli build
 
   dev:
     default: concurrently --kill-others --kill-others-on-fail
       "lerna run --stream dev"
       "docker-compose up --build postgres hasura"
+    frontend: yarn --cwd targets/frontend dev
+
 
   e2e:
     default: lerna run --stream --parallel e2e
