@@ -93,7 +93,7 @@ Deploy alert (prod):
     - |
       set -x
 
-      WAIT_TIMEOUT=5min
+      WAIT_TIMEOUT=5m
       kubectl wait --for=condition=complete --timeout=$WAIT_TIMEOUT job/"${JOB_NAME}" &
       success_pid=$!
       kubectl wait --for=condition=failed --timeout=$WAIT_TIMEOUT job/"${JOB_NAME}" && exit 1 &
