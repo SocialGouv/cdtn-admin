@@ -38,6 +38,8 @@ spec:
               volumeMounts:
                 - name: data
                   mountPath: "/app/data"
+                - name: tz-paris
+                  mountPath: "/etc/localtime"
 
           securityContext:
             runAsNonRoot: true
@@ -49,6 +51,9 @@ spec:
             - name: data
               persistentVolumeClaim:
                 claimName: alert-data
+            - name: tz-paris
+              hostPath:
+                path: /usr/share/zoneinfo/Europe/Paris
           restartPolicy: Never
 ---
 apiVersion: v1
