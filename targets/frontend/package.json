@@ -1,5 +1,5 @@
 {
-  "name": "targets.www",
+  "name": "frontend",
   "version": "1.0.0",
   "dependencies": {
     "@hapi/boom": "^9.1.0",

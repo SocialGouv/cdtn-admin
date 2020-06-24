@@ -1,5 +1,5 @@
 {
-  "name": "targets.alert",
+  "name": "alert-cli",
   "version": "1.0.0",
   "dependencies": {
     "@shared/graphql-client": "1.0.0",

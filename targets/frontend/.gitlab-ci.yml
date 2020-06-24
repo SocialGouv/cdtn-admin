@@ -14,12 +14,12 @@ Install www:
       - yarn
   script:
     - yarn config set cache-folder $CI_PROJECT_DIR/yarn
-    - npx @socialgouv/yarn-workspace-focus-install --cwd targets/www
+    - npx @socialgouv/yarn-workspace-focus-install --cwd targets/frontend
   artifacts:
     expire_in: 1 week
     paths:
       - "shared/*/node_modules"
-      - targets/www/node_modules
+      - targets/frontend/node_modules
       - node_modules
 
 #
@@ -31,7 +31,7 @@ Build www:
   cache:
     key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
     paths:
-      - targets/www/.next/cache
+      - targets/frontend/.next/cache
   dependencies: null
   needs:
     - job: Install www
@@ -42,12 +42,12 @@ Build www:
     NEXT_PUBLIC_MATOMO_URL: https://matomo.io
     NEXT_PUBLIC_MATOMO_SITE_ID: 4242
   before_script:
-    - cp .env targets/www/.env.production
-    - cd targets/www
+    - cp .env targets/frontend/.env.production
+    - cd targets/frontend
   artifacts:
     expire_in: 1 week
     paths:
-      - targets/www/.next
+      - targets/frontend/.next
 
 Test www:
   extends: .autodevops_test
@@ -56,7 +56,7 @@ Test www:
     - job: Install www
       artifacts: true
   before_script:
-    - cd targets/www
+    - cd targets/frontend
 
 Lint www:
   extends: .autodevops_lint
@@ -65,7 +65,7 @@ Lint www:
     - job: Install www
       artifacts: true
   before_script:
-    - cd targets/www
+    - cd targets/frontend
 
 #
 #
@@ -81,7 +81,7 @@ Register www:
     CONTEXT: .
     DOCKER_BUILD_ARGS: >-
       --shm-size 512M
-      -f targets/www/Dockerfile
+      -f targets/frontend/Dockerfile
     IMAGE_NAME: $CI_REGISTRY_IMAGE/www
 
 #
@@ -92,7 +92,7 @@ Register www:
   variables:
     PORT: 3000
     CONTEXT: www
-    VALUES_FILE: targets/www/.k8s/www.values.yml
+    VALUES_FILE: targets/frontend/.k8s/www.values.yml
   after_script:
     - find ${MANIFEST_FOLDER} -name '*.yaml' -exec
       echo '---' \; -exec cat {} \; |
@@ -104,11 +104,11 @@ Deploy www (dev):
     - .autodevops_deploy_app_dev
     - .deploy_www_stage
   variables:
-    MANIFEST_FOLDER: targets/www/.k8s/environments/dev
+    MANIFEST_FOLDER: targets/frontend/.k8s/environments/dev
 
 Deploy www (prod):
   extends:
     - .autodevops_deploy_app_prod
     - .deploy_www_stage
   variables:
-    MANIFEST_FOLDER: targets/www/.k8s/environments/prod
+    MANIFEST_FOLDER: targets/frontend/.k8s/environments/prod

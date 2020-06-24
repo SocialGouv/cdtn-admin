@@ -8,6 +8,7 @@
     "urql": "^1.9.8"
   },
   "main": "src/index.js",
+  "module": "src/index.js",
   "private": true,
   "scripts": {}
 }

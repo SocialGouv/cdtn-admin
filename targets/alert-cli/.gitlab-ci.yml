@@ -10,11 +10,11 @@ Install alert:
       - yarn
   script:
     - yarn config set cache-folder $CI_PROJECT_DIR/yarn
-    - npx @socialgouv/yarn-workspace-focus-install --cwd targets/alert
+    - npx @socialgouv/yarn-workspace-focus-install --cwd targets/alert-cli
   artifacts:
     expire_in: 1 week
     paths:
-      - targets/alert/node_modules
+      - targets/alert-cli/node_modules
       - node_modules
 
 #
@@ -28,13 +28,13 @@ Build alert:
     - job: Install alert
       artifacts: true
   before_script:
-    - cd targets/alert
+    - cd targets/alert-cli
   script:
     - yarn build
   artifacts:
     expire_in: 1 week
     paths:
-      - targets/alert/dist
+      - targets/alert-cli/dist
 
 #
 #
@@ -50,7 +50,7 @@ Register alert:
     CONTEXT: .
     DOCKER_BUILD_ARGS: >-
       --shm-size 512M
-      -f ./targets/alert/Dockerfile
+      -f ./targets/alert-cli/Dockerfile
     IMAGE_NAME: $CI_REGISTRY_IMAGE/alert
 
 #
@@ -61,7 +61,7 @@ Register alert:
   script:
     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
-    - envsubst < targets/alert/.k8s/alert.cronjob.yaml | kubectl apply -f -
+    - envsubst < targets/alert-cli/.k8s/alert.cronjob.yaml | kubectl apply -f -
 
 Deploy alert (dev):
   extends:
