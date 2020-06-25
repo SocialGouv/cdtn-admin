@@ -5,10 +5,11 @@
     "graphql": "^15.1.0",
     "isomorphic-unfetch": "^3.0.0",
     "react": "^16.13.1",
-    "urql": "^1.9.8"
+    "@urql/core": "^1.12.1"
   },
   "main": "src/index.js",
   "module": "src/index.js",
+  "types": "src/index.d.ts",
   "private": true,
   "scripts": {}
 }

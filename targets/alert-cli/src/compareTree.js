@@ -1,6 +1,9 @@
-const parents = require("unist-util-parents");
-const { selectAll } = require("unist-util-select");
+import parents from "unist-util-parents";
+import { selectAll } from "unist-util-select";
 
+/**
+ * @param {import("unist-util-parents").NodeWithParent} node
+ */
 const getParents = (node) => {
   var chain = [];
   while (node) {
@@ -11,6 +14,9 @@ const getParents = (node) => {
 };
 
 // find the first parent text id to make legifrance links later
+/**
+ * @param {import("unist-util-parents").NodeWithParent} node
+ */
 const getParentTextId = (node) => {
   let id;
   node = node.parent;
@@ -29,6 +35,9 @@ const getParentTextId = (node) => {
 };
 
 // find the root text id to make legifrance links later
+/**
+ * @param {import("unist-util-parents").NodeWithParent} node
+ */
 const getRootId = (node) => {
   let id;
   while (node) {
@@ -38,6 +47,10 @@ const getRootId = (node) => {
   return id || null;
 };
 
+/**
+ * @param {import("unist-util-parents").NodeWithParent} node
+ * @returns {import("unist-util-parents").NodeWithParent} node
+ */
 const addContext = (node) => ({
   ...node,
   parents: getParents(node),
@@ -46,10 +59,20 @@ const addContext = (node) => ({
 });
 
 // dont include children in final results
+/**
+ * @param {import("unist").Node} node
+ */
 const stripChildren = (node) => node; //({ children, ...props }) => props;
 
-// return diffed articles nodes
-const compareArticles = (tree1, tree2, comparator) => {
+
+/**
+ *
+ * @param {import("unist-util-parents").NodeWithParent} tree1
+ * @param {import("unist-util-parents").NodeWithParent} tree2
+ * @param {alerts.nodeComparatorFn} comparator
+ * @returns {alerts.Changes} diffed articles nodes
+ */
+export const compareArticles = (tree1, tree2, comparator) => {
   const parentsTree1 = parents(tree1);
   const parentsTree2 = parents(tree2);
 
@@ -133,7 +156,7 @@ const compareArticles = (tree1, tree2, comparator) => {
         ...modif,
         // add the previous version in the result so we can diff later
         previous: sections1.find(
-          (a) => a.data[idField] === modif.data[idField]
+          (a) => a.data.cid === modif.data.cid
         ),
       })),
       ...modifiedArticles.map((modif) => ({
@@ -146,5 +169,3 @@ const compareArticles = (tree1, tree2, comparator) => {
 
   return changes;
 };
-
-module.exports = { compareArticles };

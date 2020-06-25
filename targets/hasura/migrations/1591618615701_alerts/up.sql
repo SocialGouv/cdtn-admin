@@ -17,8 +17,8 @@ CREATE TABLE "public"."sources"(
 
 COMMENT ON TABLE "public"."sources" IS E'sources are git repository that acts  as data sources to track changes';
 
-INSERT INTO public.sources (repository, label, tag) VALUES ('socialgouv/legi-data', 'code du travail', 'v1.12.0');
-INSERT INTO public.sources (repository, label, tag) VALUES ('socialgouv/kali-data', 'conventions collectives', 'v1.64.0');
+INSERT INTO public.sources (repository, label, tag) VALUES ('socialgouv/legi-data', 'code du travail', 'v1.16.0');
+INSERT INTO public.sources (repository, label, tag) VALUES ('socialgouv/kali-data', 'conventions collectives', 'v1.72.0');
 
 CREATE TABLE "public"."alerts"(
   "id" uuid NOT NULL DEFAULT gen_random_uuid(),
