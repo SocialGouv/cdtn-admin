@@ -4,9 +4,9 @@
   "dependencies": {
     "@hapi/boom": "^9.1.0",
     "@hapi/joi": "^17.1.1",
-    "@reach/accordion": "^0.10.4",
-    "@reach/dialog": "^0.10.4",
-    "@reach/menu-button": "^0.10.4",
+    "@reach/accordion": "^0.10.5",
+    "@reach/dialog": "^0.10.5",
+    "@reach/menu-button": "^0.10.5",
     "@reach/visually-hidden": "^0.10.4",
     "@sentry/browser": "^5.16.1",
     "@sentry/integrations": "^5.16.1",
