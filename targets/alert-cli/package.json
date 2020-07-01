@@ -3,21 +3,21 @@
   "version": "1.0.0",
   "dependencies": {
     "@shared/graphql-client": "1.0.0",
-    "nodegit": "0.25.1",
+    "nodegit": "0.26.5",
     "semver": "^7.3.2",
     "unist-util-parents": "^1.0.3",
     "unist-util-select": "^3.0.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.1",
+    "@rollup/plugin-node-resolve": "^8.1.0",
     "@types/node": "^12.12.47",
     "@types/nodegit": "^0.26.5",
-    "@types/semver": "^7.2.0",
+    "@types/semver": "^7.3.1",
     "@types/unist": "^2.0.3",
     "builtin-modules": "^3.1.0",
     "esm": "^3.2.25",
-    "rollup": "^2.15.0",
+    "rollup": "^2.18.1",
     "typescript": "^3.9.5"
   },
   "license": "MIT",
