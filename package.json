@@ -6,7 +6,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^9.0.1",
-    "@commitlint/config-conventional": "^8.3.4",
+    "@commitlint/config-conventional": "^9.0.1",
     "lerna": "^3.22.1",
     "nps": "^5.9.12",
     "nps-utils": "^1.7.0"
