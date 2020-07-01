@@ -1,10 +1,10 @@
-const { client } = require("@shared/graphql-client");
+import { client } from "@shared/graphql-client";
+import path from "path";
+import nodegit from "nodegit";
+import semver from "semver";
 
-const path = require("path");
-const nodegit = require("nodegit");
-const semver = require("semver");
-const { ccns } = require("./ccn-list.js");
-const { compareArticles } = require("./compareTree.js");
+import { ccns } from "./ccn-list.js";
+import { compareArticles } from "./compareTree.js";
 
 const sourcesQuery = `
 query getSources {
@@ -16,13 +16,11 @@ query getSources {
 `;
 
 const insertAlertsMutation = `
-mutation insert_alerts($data: alerts_insert_input!) {
-  alert: insert_alerts(objects: [$data]) {
-    returning {
-      ref,
-      repository,
-      info
-    }
+mutation insert_alert($alert: alerts_insert_input!) {
+  alert: insert_alerts_one(object: $alert) {
+    repository,
+    ref
+    info
   }
 }
 `;
@@ -42,6 +40,11 @@ mutation updateSource($repository: String!, $tag: String!){
 }
 `;
 
+/**
+ *
+ * @param { string } repository
+ * @returns { alerts.fileFilterFn }
+ */
 function getFileFilter(repository) {
   switch (repository) {
     case "socialgouv/legi-data":
@@ -55,6 +58,11 @@ function getFileFilter(repository) {
   }
 }
 
+/**
+ *
+ * @param { string } repository
+ * @returns { alerts.nodeComparatorFn }
+ */
 function getFileComparator(repository) {
   switch (repository) {
     case "socialgouv/legi-data":
@@ -73,10 +81,17 @@ function getFileComparator(repository) {
   }
 }
 
+/**
+ * @param { nodegit.ConvenientPatch } patche
+ * @returns { string }
+ */
 function getFilename(patche) {
   return patche.newFile().path();
 }
 
+/**
+ * @returns { Promise<alerts.Source[]> }
+ */
 async function getSources() {
   const result = await client.query(sourcesQuery).toPromise();
   if (result.error) {
@@ -86,8 +101,13 @@ async function getSources() {
   return result.data.sources;
 }
 
-async function insertAlert(repository, changes) {
-  const data = {
+/**
+ * @param { string } repository
+ * @param { alerts.AlertChangesWithRef } changes
+ * @returns { Promise<alerts.Alert> }
+ */
+export async function insertAlert(repository, changes) {
+  const alert = {
     repository,
     info: {
       num: changes.num,
@@ -103,7 +123,7 @@ async function insertAlert(repository, changes) {
     },
   };
   const result = await client
-    .mutation(insertAlertsMutation, { data })
+    .mutation(insertAlertsMutation, { alert })
     .toPromise();
   if (result.error) {
     console.error(result.error);
@@ -111,8 +131,14 @@ async function insertAlert(repository, changes) {
   }
   return result.data.alert;
 }
-
-async function updateSource(repository, tag) {
+/**
+ *
+ * @param { string } repository
+ * @param { string } tag
+ * @returns {Promise<alerts.Source>}
+ */
+export async function updateSource(repository, tag) {
+  console.log({repository, tag})
   const result = await client
     .mutation(updateSourceMutation, {
       repository,
@@ -126,42 +152,51 @@ async function updateSource(repository, tag) {
   }
   return result.data.source;
 }
-
+/**
+ *
+ * @param {alerts.Source} source
+ * @returns {Promise<nodegit.Repository>}
+ */
 async function openRepo({ repository }) {
   const [org, repositoryName] = repository.split("/");
   const localPath = path.join(__dirname, "..", "data", repositoryName);
   let repo;
   try {
     repo = await nodegit.Repository.open(localPath);
+    await repo.fetch("origin");
     await repo.checkoutBranch("master");
     await repo.mergeBranches("master", "origin/master");
   } catch (err) {
-    repo = await nodegit.Clone(
-      `git://github.com/${org}/${repositoryName}`,
-      localPath
-    );
+    console.error(err)
+    repo = await nodegit.Clone.clone(`git://github.com/${org}/${repositoryName}`,localPath);
   }
   return repo;
 }
-
-async function getNewerTagsFromRepo(repo, tag) {
-  const tags = await nodegit.Tag.list(repo);
+/**
+ *
+ * @param {nodegit.Repository} repository
+ * @param {string} lastTag
+ * @returns {Promise<alerts.GitTagData[]>}
+ */
+async function getNewerTagsFromRepo(repository, lastTag) {
+  /** @type {string[]} */
+  const tags = await nodegit.Tag.list(repository);
   return await Promise.all(
     tags
       .flatMap((t) => {
         if (!semver.valid(t)) {
           return [];
         }
-        if (semver.lt(t, tag)) {
+        if (semver.lt(t, lastTag)) {
           return [];
         }
         return t;
       })
       .sort((a, b) => (semver.lt(a, b) ? -1 : 1))
       .map(async (tag) => {
-        const reference = await repo.getReference(tag);
+        const reference = await repository.getReference(tag);
         const targetRef = await reference.peel(nodegit.Object.TYPE.COMMIT);
-        const commit = await repo.getCommit(targetRef);
+        const commit = await repository.getCommit(targetRef.id());
         return {
           ref: tag,
           commit,
@@ -169,31 +204,37 @@ async function getNewerTagsFromRepo(repo, tag) {
       })
   );
 }
-
-async function getDiffFromTags(tags, id) {
+/**
+ *
+ * @param {alerts.GitTagData[]} tags
+ * @param {string} repositoryId
+ * @returns {Promise<alerts.AlertChangesWithRef[]>}
+ */
+async function getDiffFromTags(tags, repositoryId) {
   let [previousTag] = tags;
   const [, ...newTags] = tags;
+  /** @type alerts.AlertChangesWithRef[] */
   const changes = [];
-  const fileFilter = getFileFilter(id);
+  const fileFilter = getFileFilter(repositoryId);
 
   for (const tag of newTags) {
-    const { commit: previousCommit } = previousTag;
+    const previousCommit = previousTag.commit;
     const { commit } = tag;
     const [prevTree, currTree] = await Promise.all([
       previousCommit.getTree(),
       commit.getTree(),
     ]);
 
-    const patches = await currTree
-      .diff(prevTree)
-      .then((diff) => diff.patches());
+
+    const diff =  await currTree.diff(prevTree)
+    const patches = await diff.patches();
 
     const files = patches.map(getFilename).filter(fileFilter);
 
     if (files.length > 0) {
       const fileChanges = await Promise.all(
         files.map((file) =>
-          getFileDiffFromTrees(file, currTree, prevTree, getFileComparator(id))
+          getFileDiffFromTrees(file, currTree, prevTree, getFileComparator(repositoryId))
         )
       );
       fileChanges
@@ -211,7 +252,14 @@ async function getDiffFromTags(tags, id) {
   }
   return changes;
 }
-
+/**
+ *
+ * @param {string} filePath
+ * @param {nodegit.Tree} currGitTree
+ * @param {nodegit.Tree} prevGitTree
+ * @param {alerts.nodeComparatorFn} compareFn
+ * @returns {Promise<alerts.AlertChanges>}
+ */
 async function getFileDiffFromTrees(
   filePath,
   currGitTree,
@@ -222,8 +270,11 @@ async function getFileDiffFromTrees(
     currGitTree.getEntry(filePath).then((entry) => entry.getBlob()),
     prevGitTree.getEntry(filePath).then((entry) => entry.getBlob()),
   ]);
+
   const currTree = JSON.parse(currentFile.toString());
+
   const prevTree = JSON.parse(prevFile.toString());
+
   return {
     file: filePath,
     id: currTree.data.id,
@@ -250,7 +301,7 @@ async function main() {
   }
 
   if (process.env.DUMP) {
-    console.log(JSON.stringify(results, 0, 2));
+    console.log(JSON.stringify(results, null, 2));
   } else {
     for (const result of results) {
       if (result.changes.length === 0) {
@@ -261,7 +312,7 @@ async function main() {
         result.changes.map((diff) => insertAlert(result.repository, diff))
       );
       inserts.forEach((insert) => {
-        const { ref, repository, info } = insert.returning[0];
+        const { ref, repository, info } = insert;
         console.log(`insert alert for ${ref} on ${repository} (${info.file})`);
       });
       console.log(`create ${inserts.length} alert for ${result.repository}`);
@@ -272,9 +323,3 @@ async function main() {
 }
 
 main().catch(console.error);
-
-module.exports = {
-  getSources,
-  insertAlert,
-  updateSource,
-};
