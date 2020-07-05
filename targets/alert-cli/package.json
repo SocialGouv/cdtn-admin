@@ -12,13 +12,13 @@
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "@types/node": "^12.12.47",
-    "@types/nodegit": "^0.26.5",
+    "@types/nodegit": "^0.26.6",
     "@types/semver": "^7.3.1",
     "@types/unist": "^2.0.3",
     "builtin-modules": "^3.1.0",
     "esm": "^3.2.25",
     "rollup": "^2.18.1",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.6"
   },
   "license": "MIT",
   "main": "dist/index.js",
