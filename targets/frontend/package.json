@@ -14,7 +14,7 @@
     "@sentry/webpack-plugin": "^1.11.1",
     "@shared/graphql-client": "^1.0.0",
     "@socialgouv/matomo-next": "^1.1.2",
-    "@urql/core": "^1.12.1",
+    "@urql/core": "^1.12.2",
     "@zeit/next-source-maps": "0.0.4-canary.1",
     "argon2": "^0.26.2",
     "cookie": "^0.4.1",
