@@ -1,8 +1,8 @@
 /** @jsx jsx  */
 
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
+import { withUserProvider } from "src/hoc/UserProvider";
 import { Layout } from "src/components/layout/auth.layout";
-import { withAuthProvider } from "src/lib/auth";
 import { jsx, Text } from "theme-ui";
 
 export function IndexPage() {
@@ -13,4 +13,4 @@ export function IndexPage() {
   );
 }
 
-export default withCustomUrqlClient(withAuthProvider(IndexPage));
+export default withCustomUrqlClient(withUserProvider(IndexPage));

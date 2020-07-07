@@ -34,10 +34,17 @@ export default function ChangePasswordPage() {
   if (success) {
     return (
       <PasswordLayout title={title}>
-        <Text sx={{ fontWeight: 300 }}>
-          Votre mot de passe a été ré-initialisé, suivez le lien fourni pour
-          vous connecter.
-        </Text>
+        {activate ? (
+          <Text sx={{ fontWeight: 300 }}>
+            Votre compte a été activé. Suivez le lien fourni pour vous
+            connecter.
+          </Text>
+        ) : (
+          <Text sx={{ fontWeight: 300 }}>
+            Votre mot de passe a été ré-initialisé, suivez le lien fourni pour
+            vous connecter.
+          </Text>
+        )}
         <Link href="/login" passHref>
           <NavLink>Se connecter</NavLink>
         </Link>
@@ -49,7 +56,7 @@ export default function ChangePasswordPage() {
       <PasswordForm
         onSubmit={updatePassword}
         loading={loading}
-        lostPassword
+        lostPassword={!activate}
         action={url}
       />
     </PasswordLayout>

@@ -4,8 +4,8 @@ import { verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 import { getExpiryDate } from "src/lib/duration";
 import { client } from "@shared/graphql-client";
-import { generateJwtToken } from "src/lib/jwt";
-import { setRefreshTokenCookie } from "src/lib/setRefreshTokenCookie";
+import { generateJwtToken } from "src/lib/auth/jwt";
+import { setRefreshTokenCookie } from "src/lib/auth/setRefreshTokenCookie";
 import { loginQuery, refreshTokenMutation } from "./login.gql";
 
 export default async function login(req, res) {

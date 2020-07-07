@@ -1,7 +1,7 @@
 import { cacheExchange, dedupExchange, fetchExchange } from "@urql/core";
 import { withUrqlClient } from "next-urql";
-import { refreshToken } from "src/lib/auth";
-import { authExchange } from "src/lib/authTokenExchange";
+import { refreshToken } from "src/lib/auth/token";
+import { authExchange } from "src/lib/auth/authTokenExchange";
 
 export const withCustomUrqlClient = (Component) =>
   withUrqlClient(

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { UserForm } from "src/components/user/UserForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withAuthProvider } from "src/lib/auth";
+import { withUserProvider } from "src/hoc/UserProvider";
 import { Alert, jsx } from "theme-ui";
 import { useMutation } from "urql";
 import { getExpiryDate } from "src/lib/duration";
@@ -55,4 +55,4 @@ export function UserPage() {
   );
 }
 
-export default withCustomUrqlClient(withAuthProvider(UserPage));
+export default withCustomUrqlClient(withUserProvider(UserPage));

@@ -1,5 +1,5 @@
 /**
- * using require syntax  here because graphqlClient is alos used
+ * using require syntax here because graphqlClient is also used
  * within the nodejs scripts
  */
 import "isomorphic-unfetch";

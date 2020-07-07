@@ -2,6 +2,7 @@ import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
 import cookie from "cookie";
 import { createErrorFor } from "src/lib/apiError";
+import { setToken } from "src/lib/auth/token";
 import { client } from "@shared/graphql-client";
 
 export default async function logout(req, res) {
@@ -25,8 +26,9 @@ export default async function logout(req, res) {
 
   const { refresh_token } = value;
 
+  // delete JWT (optional)
+  setToken(null);
   // delete refresh token passed in data
-
   const result = await client
     .query(mutation, {
       refresh_token: refresh_token,
@@ -48,6 +50,7 @@ export default async function logout(req, res) {
       path: "/",
     })
   );
+
   console.log("[logout]", refresh_token);
   res.json({ message: "user logout !" });
 }

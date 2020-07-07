@@ -109,6 +109,20 @@
         table:
           schema: public
           name: alerts
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - name
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - name
+      filter: {}
+      check: {}
 - table:
     schema: public
     name: alerts
@@ -116,6 +130,34 @@
   - name: source
     using:
       foreign_key_constraint_on: repository
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - info
+      - status
+      - repository
+      - ref
+      - changes
+      - created_at
+      - updated_at
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - info
+      - status
+      - repository
+      - ref
+      - changes
+      - created_at
+      - updated_at
+      filter: {}
+      check: {}
 - table:
     schema: public
     name: roles
@@ -151,3 +193,23 @@
         table:
           schema: public
           name: alerts
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - repository
+      - label
+      - tag
+      - created_at
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - repository
+      - label
+      - tag
+      - created_at
+      filter: {}
+      check: {}

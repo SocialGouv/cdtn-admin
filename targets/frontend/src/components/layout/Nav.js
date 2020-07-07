@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, Box, NavLink, Text, Badge } from "theme-ui";
-import { useAuth } from "src/hooks/useAuth";
+import { useUser } from "src/hooks/useUser";
 import Link from "next/link";
 import { Li, List } from "../list";
 import { useQuery } from "urql";
@@ -22,7 +22,7 @@ query getAlerts{
 `;
 
 export function Nav() {
-  const { user } = useAuth();
+  const { user } = useUser();
   const isAdmin = user?.roles.some(({ role }) => role === "admin");
   // https://formidable.com/open-source/urql/docs/basics/document-caching/#adding-typenames
   const context = useMemo(
@@ -34,16 +34,18 @@ export function Nav() {
   return (
     <Box as="nav" bg="highlight" padding="large" sx={{ flexBasis: "300px" }}>
       <Box>
-        <Text>Utilisateurs</Text>
-        <List>
-          {isAdmin && (
-            <Li>
-              <Link href="/users">
-                <NavLink href="/users">Gestion des utilisateurs</NavLink>
-              </Link>
-            </Li>
-          )}
-        </List>
+        {isAdmin && (
+          <>
+            <Text>Utilisateurs</Text>
+            <List>
+              <Li>
+                <Link href="/users">
+                  <NavLink href="/users">Gestion des utilisateurs</NavLink>
+                </Link>
+              </Li>
+            </List>
+          </>
+        )}
         <Text>Alertes</Text>
         {!fetching && (
           <List>

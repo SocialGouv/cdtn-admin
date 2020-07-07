@@ -1,10 +1,7 @@
 import { parse, serialize } from "cookie";
-import { getDisplayName } from "next/dist/next-server/lib/utils";
 import Router from "next/router";
-import React from "react";
-import { AuthProvider } from "../hooks/useAuth";
-import { request } from "./request";
 import { setRefreshTokenCookie } from "./setRefreshTokenCookie";
+import { request } from "../request";
 
 let token = null;
 
@@ -73,53 +70,4 @@ function setToken(tokenData) {
   token = tokenData;
 }
 
-function withAuthProvider(WrappedComponent) {
-  return class extends React.Component {
-    static displayName = `withAuthProvider(${getDisplayName(
-      WrappedComponent
-    )})`;
-    static async getInitialProps(ctx) {
-      console.log(
-        "[withAuthProvider] getInitialProps ",
-        ctx.pathname,
-        ctx.req ? "server" : "client",
-        token ? "found token" : "no token"
-      );
-
-      // eachtime we render a page on the server
-      // we need to set token to null to be sure
-      // that will not re-use an old token since
-      // token is a global var
-      // Once urlq exchange will have access to context
-      // we could use context to pass token to urlqclient
-      if (ctx?.req) {
-        token = null;
-      }
-      if (!token) {
-        token = await refreshToken(ctx);
-      }
-
-      const componentProps =
-        WrappedComponent.getInitialProps &&
-        (await WrappedComponent.getInitialProps(ctx));
-
-      return { ...componentProps };
-    }
-    render() {
-      return (
-        <AuthProvider>
-          <WrappedComponent {...this.props} />
-        </AuthProvider>
-      );
-    }
-  };
-}
-
-export {
-  getToken,
-  getUserId,
-  isTokenExpired,
-  refreshToken,
-  setToken,
-  withAuthProvider,
-};
+export { getToken, getUserId, isTokenExpired, refreshToken, setToken };

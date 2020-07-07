@@ -4,7 +4,7 @@ import { jsx, Box } from "theme-ui";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import LoginForm from "src/components/login";
-import { setToken } from "src/lib/auth";
+import { setToken } from "src/lib/auth/token";
 import { request } from "src/lib/request";
 import { Header } from "src/components/layout/header";
 

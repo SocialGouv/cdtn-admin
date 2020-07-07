@@ -1,7 +1,8 @@
-import { Button } from "../button";
-
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { IoMdGitNetwork } from "react-icons/io";
+
+import { Button } from "../button";
 
 export function Collapsible({ label, children, ...props }) {
   const [isVisible, setVisible] = useState(false);
@@ -14,3 +15,8 @@ export function Collapsible({ label, children, ...props }) {
     </div>
   );
 }
+
+Collapsible.propTypes = {
+  children: PropTypes.node,
+  label: PropTypes.string,
+};

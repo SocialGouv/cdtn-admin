@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { UserForm } from "src/components/user/UserForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { useAuth } from "src/hooks/useAuth";
-import { withAuthProvider } from "src/lib/auth";
+import { withUserProvider } from "src/hoc/UserProvider";
+import { useUser } from "src/hooks/useUser";
 import { jsx } from "theme-ui";
 import { useMutation } from "urql";
 
@@ -40,7 +40,7 @@ mutation saveRole($id: uuid!, $role:String!) {
 `;
 
 export function EditUserPage() {
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin } = useUser();
   const router = useRouter();
   const [userResult, saveUser] = useMutation(saveUserMutation);
   const [roleResult, saveRole] = useMutation(saveRoleMutation);
@@ -74,4 +74,4 @@ export function EditUserPage() {
   );
 }
 
-export default withCustomUrqlClient(withAuthProvider(EditUserPage));
+export default withCustomUrqlClient(withUserProvider(EditUserPage));
