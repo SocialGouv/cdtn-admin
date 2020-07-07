@@ -6,12 +6,12 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { useAuth } from "src/hooks/useAuth";
-import { withAuthProvider } from "src/lib/auth";
+import { withUserProvider } from "src/hoc/UserProvider";
+import { useUser } from "src/hooks/useUser";
 import { jsx, Label, Text } from "theme-ui";
 
 export function UserPage() {
-  const { user } = useAuth();
+  const { user } = useUser();
 
   return (
     <Layout title="Mon compte">
@@ -47,4 +47,4 @@ export function UserPage() {
   );
 }
 
-export default withCustomUrqlClient(withAuthProvider(UserPage));
+export default withCustomUrqlClient(withUserProvider(UserPage));

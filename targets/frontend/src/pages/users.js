@@ -4,9 +4,9 @@ import Link from "next/link";
 import { IoIosAdd } from "react-icons/io";
 import { Button } from "src/components/button";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
+import { withUserProvider } from "src/hoc/UserProvider";
 import { Layout } from "src/components/layout/auth.layout";
 import { UserList } from "src/components/user/List";
-import { withAuthProvider } from "src/lib/auth";
 import { Flex, jsx } from "theme-ui";
 
 export function UserPage() {
@@ -24,4 +24,4 @@ export function UserPage() {
   );
 }
 
-export default withCustomUrqlClient(withAuthProvider(UserPage));
+export default withCustomUrqlClient(withUserProvider(UserPage));

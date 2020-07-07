@@ -12,9 +12,9 @@ export function Layout({ children, title }) {
       <Head>
         <title>{title} | Admin cdtn </title>
       </Head>
-      <Box>
+      <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
         <Header />
-        <Flex>
+        <Flex sx={{ flexBasis: "100%" }}>
           <Nav />
           <Box as="main" sx={{ flex: "1 1 auto" }} padding="large">
             <Heading>{title}</Heading>

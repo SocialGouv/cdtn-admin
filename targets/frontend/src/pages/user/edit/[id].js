@@ -5,10 +5,10 @@ import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { UserForm } from "src/components/user/UserForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withAuthProvider } from "src/lib/auth";
+import { withUserProvider } from "src/hoc/UserProvider";
 import { jsx } from "theme-ui";
 import { useMutation } from "urql";
-import { getUserQuery, useAuth } from "src/hooks/useAuth";
+import { getUserQuery, useUser } from "src/hooks/useUser";
 
 const saveUserMutation = `
 mutation saveUser($id: uuid!, $name:String!, $email: citext!) {
@@ -34,7 +34,7 @@ mutation saveRole($id: uuid!, $role:String!) {
 
 export function EditUserPage({ user }) {
   const router = useRouter();
-  const { isAdmin } = useAuth();
+  const { isAdmin } = useUser();
   const [userResult, saveUser] = useMutation(saveUserMutation);
   const [roleResult, saveRole] = useMutation(saveRoleMutation);
   function handleSubmit(data) {
@@ -80,4 +80,4 @@ EditUserPage.getInitialProps = async function ({ urqlClient, query }) {
   return { user: result.data.user };
 };
 
-export default withCustomUrqlClient(withAuthProvider(EditUserPage));
+export default withCustomUrqlClient(withUserProvider(EditUserPage));

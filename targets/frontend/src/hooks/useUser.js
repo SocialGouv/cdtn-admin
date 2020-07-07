@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { getUserId } from "src/lib/auth";
+import { getUserId } from "src/lib/auth/token";
 import { request } from "src/lib/request";
 import { useQuery } from "urql";
 
-export const AuthContext = createContext({
+export const UserContext = createContext({
   user: null,
   setUser: () => {},
 });
@@ -25,7 +25,7 @@ query getUser($id: uuid!) {
 }
 `;
 
-export function AuthProvider({ children }) {
+export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const id = getUserId();
   const [result] = useQuery({
@@ -40,17 +40,17 @@ export function AuthProvider({ children }) {
   }, [result.data?.user]);
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
-    </AuthContext.Provider>
+    </UserContext.Provider>
   );
 }
-AuthProvider.propTypes = {
+UserProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export function useAuth() {
-  const { user } = useContext(AuthContext);
+export function useUser() {
+  const { user } = useContext(UserContext);
   async function logout() {
     try {
       await request("/api/logout", {

@@ -214,6 +214,9 @@ export function AccordionButton({ children, ...props }) {
     </ReachAccordionButton>
   );
 }
+AccordionButton.propTypes = {
+  children: PropTypes.node,
+};
 
 export function ExpandedIcon() {
   const { isExpanded } = useAccordionItemContext();

@@ -3,8 +3,8 @@ import Joi from "@hapi/joi";
 import { createErrorFor } from "src/lib/apiError";
 import { getExpiryDate } from "src/lib/duration";
 import { client } from "@shared/graphql-client";
-import { generateJwtToken } from "src/lib/jwt";
-import { setRefreshTokenCookie } from "src/lib/setRefreshTokenCookie";
+import { generateJwtToken } from "src/lib/auth/jwt";
+import { setRefreshTokenCookie } from "src/lib/auth/setRefreshTokenCookie";
 import { v4 as uuidv4 } from "uuid";
 import {
   deletePreviousRefreshTokenMutation,

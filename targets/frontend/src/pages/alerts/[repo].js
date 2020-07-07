@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
+import { withUserProvider } from "src/hoc/UserProvider";
 import { Layout } from "src/components/layout/auth.layout";
-import { withAuthProvider } from "src/lib/auth";
 import { jsx, Message, NavLink, Container, Divider } from "theme-ui";
 import { useRouter } from "next/router";
 import { useQuery } from "urql";
@@ -141,4 +141,4 @@ export function AlertPage() {
   );
 }
 
-export default withCustomUrqlClient(withAuthProvider(AlertPage));
+export default withCustomUrqlClient(withUserProvider(AlertPage));

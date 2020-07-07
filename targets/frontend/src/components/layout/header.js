@@ -5,10 +5,10 @@ import { useRouter } from "next/router";
 import { IoMdContact } from "react-icons/io";
 import { MenuButton, MenuItem } from "src/components/button";
 import { Box, Image, jsx, Text } from "theme-ui";
-import { useAuth } from "../../hooks/useAuth";
+import { useUser } from "../../hooks/useUser";
 
 export function Header() {
-  const { user, logout } = useAuth();
+  const { user, logout } = useUser();
   const router = useRouter();
   function updateProfile() {
     router.push("/user/account");

@@ -1,7 +1,8 @@
 // adapted from https://github.com/davidmason/react-stylable-diff/blob/master/lib/react-diff.js
 /** @jsx jsx */
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import { jsx } from "theme-ui";
 var jsdiff = require("diff");
 
@@ -16,7 +17,7 @@ export const ViewDiff = ({ sx, type, inputA, inputB }) => {
   const [mode, setMode] = useState(type);
   const diff = fnMap[mode](inputA, inputB);
 
-  const groupName = useMemo(() => Math.random());
+  const groupName = Math.random();
 
   const result = diff.map((part, index) => {
     if (part.added) {
@@ -65,5 +66,12 @@ ViewDiff.defaultProps = {
   inputA: "",
   inputB: "",
   type: "chars",
-  className: "Difference",
+  sx: {},
+};
+
+ViewDiff.propTypes = {
+  inputA: PropTypes.string,
+  inputB: PropTypes.string,
+  type: PropTypes.string,
+  sx: PropTypes.object,
 };

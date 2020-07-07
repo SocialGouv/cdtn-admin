@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { PasswordForm } from "src/components/user/PasswordForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withAuthProvider } from "src/lib/auth";
+import { withUserProvider } from "src/hoc/UserProvider";
 import { request } from "src/lib/request";
 import { jsx } from "theme-ui";
 
@@ -25,4 +25,4 @@ export function ChangeMyPasswordPage() {
   );
 }
 
-export default withCustomUrqlClient(withAuthProvider(ChangeMyPasswordPage));
+export default withCustomUrqlClient(withUserProvider(ChangeMyPasswordPage));

@@ -8,7 +8,7 @@ import { Stack } from "../layout/Stack";
 
 import Link from "next/link";
 import { Inline } from "../layout/Inline";
-import { useAuth } from "src/hooks/useAuth";
+import { useUser } from "src/hooks/useUser";
 
 export function PasswordForm({
   onSubmit,
@@ -17,10 +17,10 @@ export function PasswordForm({
   backHref = "/account",
 }) {
   let loading;
-  const { user } = useAuth();
+  const { user } = useUser();
   const { register, handleSubmit, errors, setError, watch } = useForm();
   const hasError = Object.keys(errors).length > 0;
-  const buttonLabel = "Changer le mot de passe";
+  const buttonLabel = lostPassword ? "Changer le mot de passe" : "Activer";
   const passwordFieldRegistration = {
     required: { value: true, message: "Ce champ est requis" },
     minLength: {
