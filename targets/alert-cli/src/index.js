@@ -5,6 +5,7 @@ import semver from "semver";
 
 import { ccns } from "./ccn-list.js";
 import { compareArticles } from "./compareTree.js";
+import { getRelevantDocuments } from "./relevantContent.js";
 
 const sourcesQuery = `
 query getSources {
@@ -90,6 +91,19 @@ function getFilename(patche) {
 }
 
 /**
+ *
+ * @param {string} file
+ * @returns {(tree:nodegit.Tree) => import("unist-util-parents").NodeWithParent}
+ */
+function createToAst(file) {
+  return (tree) =>
+    tree
+      .getEntry(file)
+      .then((entry) => entry.getBlob())
+      .then((blob) => JSON.parse(blob.toString()));
+}
+
+/**
  * @returns { Promise<alerts.Source[]> }
  */
 async function getSources() {
@@ -103,7 +117,7 @@ async function getSources() {
 
 /**
  * @param { string } repository
- * @param { alerts.AlertChangesWithRef } changes
+ * @param { alerts.AlertChanges } changes
  * @returns { Promise<alerts.Alert> }
  */
 export async function insertAlert(repository, changes) {
@@ -138,7 +152,6 @@ export async function insertAlert(repository, changes) {
  * @returns {Promise<alerts.Source>}
  */
 export async function updateSource(repository, tag) {
-  console.log({repository, tag})
   const result = await client
     .mutation(updateSourceMutation, {
       repository,
@@ -167,8 +180,11 @@ async function openRepo({ repository }) {
     await repo.checkoutBranch("master");
     await repo.mergeBranches("master", "origin/master");
   } catch (err) {
-    console.error(err)
-    repo = await nodegit.Clone.clone(`git://github.com/${org}/${repositoryName}`,localPath);
+    console.error(err);
+    repo = await nodegit.Clone.clone(
+      `git://github.com/${org}/${repositoryName}`,
+      localPath
+    );
   }
   return repo;
 }
@@ -204,18 +220,22 @@ async function getNewerTagsFromRepo(repository, lastTag) {
       })
   );
 }
+
 /**
  *
  * @param {alerts.GitTagData[]} tags
  * @param {string} repositoryId
- * @returns {Promise<alerts.AlertChangesWithRef[]>}
+ * @returns {Promise<alerts.AlertChanges[]>}
  */
 async function getDiffFromTags(tags, repositoryId) {
   let [previousTag] = tags;
   const [, ...newTags] = tags;
-  /** @type alerts.AlertChangesWithRef[] */
+
+  /** @type alerts.AlertChanges[] */
   const changes = [];
+
   const fileFilter = getFileFilter(repositoryId);
+  const compareFn = getFileComparator(repositoryId);
 
   for (const tag of newTags) {
     const previousCommit = previousTag.commit;
@@ -225,18 +245,32 @@ async function getDiffFromTags(tags, repositoryId) {
       commit.getTree(),
     ]);
 
-
-    const diff =  await currTree.diff(prevTree)
+    const diff = await currTree.diff(prevTree);
     const patches = await diff.patches();
 
     const files = patches.map(getFilename).filter(fileFilter);
 
     if (files.length > 0) {
       const fileChanges = await Promise.all(
-        files.map((file) =>
-          getFileDiffFromTrees(file, currTree, prevTree, getFileComparator(repositoryId))
-        )
+        files.map(async (file) => {
+          const toAst = createToAst(file);
+          const [currAst, prevAst] = await Promise.all(
+            [currTree, prevTree].map(toAst)
+          );
+
+          const changes = compareArticles(prevAst, currAst, compareFn);
+          const documents = getRelevantDocuments(changes);
+          return {
+            file,
+            id: currAst.data.id,
+            num: currAst.data.num,
+            title: currAst.data.title,
+            documents,
+            ...changes
+          };
+        })
       );
+
       fileChanges
         .filter(
           (file) =>
@@ -251,37 +285,6 @@ async function getDiffFromTags(tags, repositoryId) {
     previousTag = tag;
   }
   return changes;
-}
-/**
- *
- * @param {string} filePath
- * @param {nodegit.Tree} currGitTree
- * @param {nodegit.Tree} prevGitTree
- * @param {alerts.nodeComparatorFn} compareFn
- * @returns {Promise<alerts.AlertChanges>}
- */
-async function getFileDiffFromTrees(
-  filePath,
-  currGitTree,
-  prevGitTree,
-  compareFn
-) {
-  const [currentFile, prevFile] = await Promise.all([
-    currGitTree.getEntry(filePath).then((entry) => entry.getBlob()),
-    prevGitTree.getEntry(filePath).then((entry) => entry.getBlob()),
-  ]);
-
-  const currTree = JSON.parse(currentFile.toString());
-
-  const prevTree = JSON.parse(prevFile.toString());
-
-  return {
-    file: filePath,
-    id: currTree.data.id,
-    num: currTree.data.num,
-    title: currTree.data.title,
-    ...compareArticles(prevTree, currTree, compareFn),
-  };
 }
 
 async function main() {
@@ -316,8 +319,8 @@ async function main() {
         console.log(`insert alert for ${ref} on ${repository} (${info.file})`);
       });
       console.log(`create ${inserts.length} alert for ${result.repository}`);
-      const update = await updateSource(result.repository, result.newRef);
-      console.log(`update source ${update.repository} to ${update.tag}`);
+      // const update = await updateSource(result.repository, result.newRef);
+      // console.log(`update source ${update.repository} to ${update.tag}`);
     }
   }
 }

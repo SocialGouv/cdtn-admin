@@ -1,48 +1,47 @@
-import { NodeWithChildren } from "unist";
+import { NodeWithChildren, Node } from "unist";
 import {Commit} from "nodegit"
+import {Reference} from "@socialgouv/contributions-data"
+import { NodeWithParent } from "unist-util-parents";
 
 export as namespace alerts
 
-export function fileFilterFn(path: string): Boolean
+function fileFilterFn(path: string): Boolean
 
-export function nodeComparatorFn(node1: NodeWithChildren, node2: NodeWithChildren): Boolean
+function nodeComparatorFn(node1: NodeWithChildren, node2: NodeWithChildren): Boolean
 
-export function compareTreeFn(tree: NodeWithChildren, tree2: NodeWithChildren): Changes
+function compareTreeFn(tree: NodeWithChildren, tree2: NodeWithChildren): Changes
 
-export function insertAlert(repository: string, changes: AlertChangesWithRef): Promise<alerts.Alert>
+function insertAlert(repository: string, changes: AlertChangesWithRef): Promise<alerts.Alert>
 
-export function updateSource(repository: string, tag: string): Promise<alerts.Source>
+function updateSource(repository: string, tag: string): Promise<alerts.Source>
 
-export type Source = {
+type Source = {
   repository: string
   tag: string
 }
 
-export type Changes = {
-  modified: Object[]
-  removed: Object[]
-  added: Object[]
+type Changes = {
+  modified: NodeWithParent[]
+  removed: NodeWithParent[]
+  added: NodeWithParent[]
 }
 
-export type AlertChanges = {
+type AlertChanges = {
+  ref: string
   file: string
   id: string
   num: Number
   title: string
 } & Changes
 
-export type AlertChangesWithRef = {
-  ref: string
-} & AlertChanges
-
-export type AlertInfo = {
+type AlertInfo = {
   num: Number,
   title: string,
   id: string, // Kalicont
   file: string, //
 }
 
-export type Alert = {
+type Alert = {
   info: AlertInfo
   changes: Changes
   repository: string
@@ -51,13 +50,32 @@ export type Alert = {
   ref: string
 }
 
-export type RepoAlert = {
+type RepoAlert = {
   repository: string
   newRef: string
   changes: AlertChangesWithRef[]
 }
 
-export type GitTagData = {
+type GitTagData = {
   ref: string
   commit: Commit
+}
+
+type DocumentReference = {
+  document: Document
+  references: Reference[]
+}
+type Document = {
+  id: string
+  idcc?: string
+  title: string
+  type: "fiche-travail" | "contribution"
+}
+
+type DocumentWithRef = {
+  id: string
+  idcc?: string
+  title: string
+  type: "fiche-travail" | "contribution"
+  reference: Reference
 }

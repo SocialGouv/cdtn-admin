@@ -23,6 +23,10 @@ services:
       - postgres
     env_file:
       - .env
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: admin1
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+
 
   www:
     build:
