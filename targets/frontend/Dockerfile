@@ -6,7 +6,7 @@ COPY package.json yarn.lock /app/
 COPY shared/graphql-client/package.json /app/shared/graphql-client/
 COPY targets/frontend/package.json /app/targets/frontend/
 
-RUN  npx @socialgouv/yarn-workspace-focus-install --cwd targets/frontend --production  --cache-folder /dev/shm/yarn
+RUN  npx @socialgouv/yarn-workspace-focus-install --cwd targets/frontend --production -- --cache-folder /dev/shm/yarn
 
 COPY targets/frontend/next.config.js  /app/targets/frontend/
 COPY targets/frontend/.env  /app/targets/frontend/
