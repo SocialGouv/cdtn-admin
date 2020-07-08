@@ -4,9 +4,9 @@ import { Layout } from "src/components/layout/auth.layout";
 import { UserForm } from "src/components/user/UserForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Alert, jsx } from "theme-ui";
-import { useMutation } from "urql";
 import { getExpiryDate } from "src/lib/duration";
+import { jsx, Message } from "theme-ui";
+import { useMutation } from "urql";
 
 const registerUserMutation = `
 mutation registerUser($user: auth_users_insert_input! ) {
@@ -46,9 +46,9 @@ export function UserPage() {
   return (
     <Layout title="Création de compte">
       {error && (
-        <Alert>
+        <Message>
           <pre>{JSON.stringify(error, 0, 2)}</pre>
-        </Alert>
+        </Message>
       )}
       <UserForm onSubmit={handleCreate} isAdmin={true} loading={fetching} />
     </Layout>

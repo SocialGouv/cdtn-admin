@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import { jsx, Box, NavLink, Text, Badge } from "theme-ui";
+import { jsx, Box, NavLink, Text, Badge, Message } from "theme-ui";
 import { useUser } from "src/hooks/useUser";
 import Link from "next/link";
 import { Li, List } from "../list";
@@ -30,7 +30,14 @@ export function Nav() {
     []
   );
   const [result] = useQuery({ query: getSourcesQuery, context });
-  const { fetching, data } = result;
+  const { fetching, data, error } = result;
+  if (error) {
+    return (
+      <Message>
+        <pre>{JSON.stringify(error, 0, null)}</pre>
+      </Message>
+    );
+  }
   return (
     <Box as="nav" bg="highlight" padding="large" sx={{ flexBasis: "300px" }}>
       <Box>

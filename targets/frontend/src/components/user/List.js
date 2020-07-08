@@ -1,11 +1,11 @@
 /** @jsx jsx */
-import { useQuery, useMutation } from "urql";
-import { css, jsx, Badge, Text } from "theme-ui";
-import { IoIosCheckmark, IoMdCloseCircle } from "react-icons/io";
-import PropTypes from "prop-types";
-import { MenuButton, MenuItem, Button } from "../button";
 import { useRouter } from "next/router";
+import PropTypes from "prop-types";
 import { useState } from "react";
+import { IoIosCheckmark, IoMdCloseCircle } from "react-icons/io";
+import { Badge, css, jsx, Message, Text } from "theme-ui";
+import { useMutation, useQuery } from "urql";
+import { Button, MenuButton, MenuItem } from "../button";
 import { Dialog } from "../dialog";
 import { Inline } from "../layout/Inline";
 
@@ -60,9 +60,9 @@ export function UserList() {
   if (fetching) return <p>chargement...</p>;
   if (error)
     return (
-      <div className="alert alert-warning">
+      <Message>
         <pre>{JSON.stringify(error, 0, 2)}</pre>
-      </div>
+      </Message>
     );
 
   return (

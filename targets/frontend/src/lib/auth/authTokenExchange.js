@@ -9,7 +9,7 @@ import {
   share,
   takeUntil,
 } from "wonka";
-import { getToken, isTokenExpired, setToken } from "./token";
+import { getToken, refreshToken, isTokenExpired, setToken } from "./token";
 
 // come from https://gist.github.com/kitten/6050e4f447cb29724546dd2e0e68b470#file-authexchangewithteardown-js
 
@@ -51,7 +51,7 @@ export const tapExchange = (fn) => ({ forward }) => (ops$) => {
   The `refreshToken` function calls fetch to get a new token and stores it in local storage.
   */
 
-export const authExchange = ({ forward }) => {
+export const authExchange = (ctx) => ({ forward }) => {
   let refreshTokenPromise = null;
 
   return (ops$) => {
@@ -63,7 +63,6 @@ export const authExchange = ({ forward }) => {
       // Filter by non-teardowns
       filter((operation) => operation.operationName !== "teardown"),
       mergeMap((operation) => {
-        const refreshTokenFn = operation.context.fetchOptions.refreshToken;
         // check whether the token is expired
         console.log("[ authExchange ]", operation.operationName);
         const isExpired = isTokenExpired();
@@ -75,7 +74,7 @@ export const authExchange = ({ forward }) => {
         // If it's expired and we aren't refreshing it yet, start refreshing it
         if (isExpired && !refreshTokenPromise) {
           console.log("[ authExchange ] no pending refresh");
-          refreshTokenPromise = refreshTokenFn().then((data) => {
+          refreshTokenPromise = refreshToken(ctx).then((data) => {
             setToken(data);
             return data.jwt_token;
           });
