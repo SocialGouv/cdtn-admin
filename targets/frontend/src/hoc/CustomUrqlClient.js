@@ -8,15 +8,13 @@ export const withCustomUrqlClient = (Component) =>
     const url = ctx?.req
       ? `${process.env.FRONTEND_URL}/api/graphql`
       : `/api/graphql`;
-
     console.log("[ withUrqlClient ]", ctx?.req ? "server" : "client", url);
-
     return {
       url,
       exchanges: [
         process.env.NODE_ENV !== "production"
           ? require("@urql/devtools").devtoolsExchange
-          : [],
+          : null,
         dedupExchange,
         cacheExchange,
         ssrExchange,
