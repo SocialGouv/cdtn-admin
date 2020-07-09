@@ -1,6 +1,6 @@
 import React from "react";
+import { Badge, Message } from "theme-ui";
 import { useQuery } from "urql";
-import { Alert, Badge } from "theme-ui";
 
 export const getRoleQuery = `
 query getRoles{
@@ -17,9 +17,9 @@ export function Roles() {
   if (fetching) return <p>loading</p>;
   if (error)
     return (
-      <Alert variant="warning">
+      <Message>
         <pre>{JSON.stringify(error, 0, 2)}</pre>
-      </Alert>
+      </Message>
     );
   return (
     <p>

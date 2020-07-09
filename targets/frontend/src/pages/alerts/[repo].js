@@ -77,7 +77,7 @@ export function AlertPage() {
   }
   if (error) {
     return (
-      <Message variant="primary">
+      <Message>
         <pre>{JSON.stringify(error, 0, 2)}</pre>
       </Message>
     );
