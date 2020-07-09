@@ -3363,10 +3363,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/contributions-data@^2.2.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data/-/contributions-data-2.3.0.tgz#e1eaf10ea76db926a11f596758adc2359f428ced"
-  integrity sha512-PW+I84HzFq1RHfZM7zN7FepXX6flhvAffzZLj26uCFvT8W6trrHdEqGw6S+T1H7bAfLWA3Y063PDO7eck/ZyRg==
+"@socialgouv/contributions-data@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data/-/contributions-data-2.6.0.tgz#81b84794fbce3f07af1862446d4b2d5e1c848057"
+  integrity sha512-WD7+xhd4VyW+Qw0ZYo9ph/9FlxYGE58aXWQs5vBjfHGFFAPYKuBhOwE1lZovkKs0XpDwJuD8lWmMNZuo1M5ZnA==
   dependencies:
     esm "^3.2.25"
     node-fetch "^2.6.0"
