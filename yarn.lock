@@ -2478,10 +2478,10 @@
   dependencies:
     tslib "^2.0.0"
 
-"@rollup/plugin-commonjs@^13.0.0":
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-13.0.0.tgz#8a1d684ba6848afe8b9e3d85649d4b2f6f7217ec"
-  integrity sha512-Anxc3qgkAi7peAyesTqGYidG5GRim9jtg8xhmykNaZkImtvjA7Wsqep08D2mYsqw1IF7rA3lYfciLgzUSgRoqw==
+"@rollup/plugin-commonjs@^13.0.1":
+  version "13.0.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-13.0.1.tgz#4fe12144271af724db35bac07b9bf718f22332e0"
+  integrity sha512-4G08+lhTIPxp6g5eDGiwD4BKr3Pf467h+Sfhvd7kztSpZyplQv0dAtcWbGqJ9kV0ovgGo/Z6Hhl1d/q6egkl6Q==
   dependencies:
     "@rollup/pluginutils" "^3.0.8"
     commondir "^1.0.1"
@@ -2928,10 +2928,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.13.tgz#ee1128e881b874c371374c1f72201893616417c9"
   integrity sha512-rouEWBImiRaSJsVA+ITTFM6ZxibuAlTuNOCyxVbwreu6k6+ujs7DfnU9o+PShFhET78pMBl3eH+AGSI5eOTkPA==
 
-"@types/node@^12.12.47":
-  version "12.12.47"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.47.tgz#5007b8866a2f9150de82335ca7e24dd1d59bdfb5"
-  integrity sha512-yzBInQFhdY8kaZmqoL2+3U5dSTMrKaYcb561VU+lDzAYvqt+2lojvBEy+hmpSNuXnPTx7m9+04CzWYOUqWME2A==
+"@types/node@^12.12.50":
+  version "12.12.50"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.50.tgz#e9b2e85fafc15f2a8aa8fdd41091b983da5fd6ee"
+  integrity sha512-5ImO01Fb8YsEOYpV+aeyGYztcYcjGsBvN4D7G5r1ef2cuQOpymjWNQi5V0rKHE6PC2ru3HkoUr/Br2/8GUA84w==
 
 "@types/nodegit@^0.26.6":
   version "0.26.6"
@@ -7026,15 +7026,15 @@ http-proxy-agent@^2.1.0:
     agent-base "4"
     debug "3.1.0"
 
-http-proxy-middleware@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/http-proxy-middleware/-/http-proxy-middleware-1.0.4.tgz#425ea177986a0cda34f9c81ec961c719adb6c2a9"
-  integrity sha512-8wiqujNWlsZNbeTSSWMLUl/u70xbJ5VYRwPR8RcAbvsNxzAZbgwLzRvT96btbm3fAitZUmo5i8LY6WKGyHDgvA==
+http-proxy-middleware@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/http-proxy-middleware/-/http-proxy-middleware-1.0.5.tgz#4c6e25d95a411e3d750bc79ccf66290675176dc2"
+  integrity sha512-CKzML7u4RdGob8wuKI//H8Ein6wNTEQR7yjVEzPbhBLGdOfkfvgTnp2HLnniKBDP9QW4eG10/724iTWLBeER3g==
   dependencies:
     "@types/http-proxy" "^1.17.4"
     http-proxy "^1.18.1"
     is-glob "^4.0.1"
-    lodash "^4.17.15"
+    lodash "^4.17.19"
     micromatch "^4.0.2"
 
 http-proxy@^1.18.1:
@@ -8558,10 +8558,10 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4, lodash@^4.2.1, lodash@^4.5.1:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.4, lodash@^4.2.1, lodash@^4.5.1:
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 log-symbols@^4.0.0:
   version "4.0.0"
