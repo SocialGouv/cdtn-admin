@@ -2,7 +2,7 @@ import parents from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
 /**
- * @param {import("unist-util-parents").NodeWithParent} node
+ * @param {import("src").DilaNode | null} node
  */
 const getParents = (node) => {
   var chain = [];
@@ -15,28 +15,28 @@ const getParents = (node) => {
 
 // find the first parent text id to make legifrance links later
 /**
- * @param {import("unist-util-parents").NodeWithParent} node
+ * @param {import("src").DilaNode} node
  */
 const getParentTextId = (node) => {
   let id;
-  node = node.parent;
-  while (node) {
+  let tempNode = node.parent;
+  while (tempNode) {
     if (
-      node.data &&
-      node.data.id &&
-      node.data.id.match(/^(KALI|LEGI)TEXT\d+$/)
+      tempNode.data &&
+      tempNode.data.id &&
+      tempNode.data.id.match(/^(KALI|LEGI)TEXT\d+$/)
     ) {
-      id = node.data.id;
+      id = tempNode.data.id;
       break;
     }
-    node = node.parent;
+    tempNode = tempNode.parent;
   }
   return id || null;
 };
 
 // find the root text id to make legifrance links later
 /**
- * @param {import("unist-util-parents").NodeWithParent} node
+ * @param {import("src").DilaNode | null} node
  */
 const getRootId = (node) => {
   let id;
@@ -48,14 +48,16 @@ const getRootId = (node) => {
 };
 
 /**
- * @param {import("unist-util-parents").NodeWithParent} node
- * @returns {import("unist-util-parents").NodeWithParent} node
+ * @param {import("src").DilaNode} node
+ * @returns {import("src").DilaNodeWithContext} node
  */
 const addContext = (node) => ({
   ...node,
-  parents: getParents(node),
-  textId: getParentTextId(node) || null,
-  rootId: getRootId(node) || null,
+  context: {
+    parents: getParents(node),
+    textId: getParentTextId(node),
+    containerId: getRootId(node),
+  },
 });
 
 // dont include children in final results
@@ -64,13 +66,12 @@ const addContext = (node) => ({
  */
 const stripChildren = (node) => node; //({ children, ...props }) => props;
 
-
 /**
  *
- * @param {import("unist-util-parents").NodeWithParent} tree1
- * @param {import("unist-util-parents").NodeWithParent} tree2
+ * @param {import("src").DilaNode} tree1
+ * @param {import("src").DilaNode} tree2
  * @param {alerts.nodeComparatorFn} comparator
- * @returns {alerts.Changes} diffed articles nodes
+ * @returns {alerts.AstChanges} diffed articles nodes
  */
 export const compareArticles = (tree1, tree2, comparator) => {
   const parentsTree1 = parents(tree1);
@@ -116,12 +117,12 @@ export const compareArticles = (tree1, tree2, comparator) => {
   );
 
   // all sections from tree1
-  const sections1 = selectAll("section", parentsTree1.children).map(addContext);
+  const sections1 = selectAll("section", parentsTree1).map(addContext);
 
   const sections1cids = sections1.map((a) => a.data.cid);
 
   // all sections from tree2
-  const sections2 = selectAll("section", parentsTree2.children).map(addContext);
+  const sections2 = selectAll("section", parentsTree2).map(addContext);
   const sections2cids = sections2.map((a) => a.data.cid);
 
   // new : sections in tree2 not in tree1
@@ -155,9 +156,7 @@ export const compareArticles = (tree1, tree2, comparator) => {
       ...modifiedSections.map((modif) => ({
         ...modif,
         // add the previous version in the result so we can diff later
-        previous: sections1.find(
-          (a) => a.data.cid === modif.data.cid
-        ),
+        previous: sections1.find((a) => a.data.cid === modif.data.cid),
       })),
       ...modifiedArticles.map((modif) => ({
         ...modif,

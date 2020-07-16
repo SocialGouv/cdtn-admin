@@ -131,6 +131,7 @@ export async function insertAlert(repository, changes) {
     },
     ref: changes.ref,
     changes: {
+      documents: changes.documents,
       added: changes.added,
       removed: changes.removed,
       modified: changes.modified,
@@ -260,13 +261,14 @@ async function getDiffFromTags(tags, repositoryId) {
 
           const changes = compareArticles(prevAst, currAst, compareFn);
           const documents = getRelevantDocuments(changes);
+
           return {
             file,
             id: currAst.data.id,
             num: currAst.data.num,
             title: currAst.data.title,
             documents,
-            ...changes
+            ...changes,
           };
         })
       );
@@ -276,7 +278,8 @@ async function getDiffFromTags(tags, repositoryId) {
           (file) =>
             file.modified.length > 0 ||
             file.removed.length > 0 ||
-            file.added.length > 0
+            file.added.length > 0 ||
+            file.documents.length > 0
         )
         .forEach((change) => {
           changes.push({ ref: tag.ref, ...change });

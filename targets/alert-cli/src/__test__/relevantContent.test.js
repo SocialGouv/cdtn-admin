@@ -1,10 +1,5 @@
 import { it, describe, expect, jest } from "@jest/globals";
-import {
-  extractContributionsRef,
-  getRelevantDocuments,
-} from "../relevantContent";
-
-import contributions from "@socialgouv/contributions-data/data/contributions.json";
+import { getRelevantDocuments } from "../relevantContent";
 
 jest.mock("@socialgouv/contributions-data/data/contributions.json", () => [
   {
@@ -56,68 +51,6 @@ jest.mock("@socialgouv/contributions-data/data/contributions.json", () => [
   },
 ]);
 
-describe("extractContributionRef", () => {
-  const expected = [
-    {
-      document: {
-        id: "answer1",
-        type: "contribution",
-        title: "question1",
-      },
-      references: [
-        {
-          category: "ag",
-          dila_id: "1",
-          dila_cid: "c1",
-          dila_container_id: "kalicont123",
-        },
-        {
-          category: "ag",
-          dila_id: "3",
-          dila_cid: "3",
-          dila_container_id: "kalicont42",
-        },
-      ],
-    },
-    {
-      document: {
-        id: "answer1",
-        type: "contribution",
-        title: "question1",
-        idcc: "123",
-      },
-      references: [
-        {
-          category: "ag",
-          dila_id: "125",
-          dila_cid: "c123",
-          dila_container_id: "kalicont123",
-        },
-        {
-          category: "ag",
-          dila_id: "ext",
-          dila_cid: "ext",
-          dila_container_id: "kalicont123",
-        },
-        {
-          category: "ag",
-          dila_id: "4",
-          dila_cid: "4",
-          dila_container_id: "kalicont42",
-        },
-      ],
-    },
-  ];
-
-  it("should return an array of references", () => {
-    expect(
-      extractContributionsRef(
-        /** @type {import("@socialgouv/contributions-data").Question[]} */ (contributions)
-      )
-    ).toEqual(expected);
-  });
-});
-
 describe("getRelevantContent", () => {
   it("should return an array of document that match modified changes", () => {
     const changes = {
@@ -129,7 +62,7 @@ describe("getRelevantContent", () => {
       {
         document: {
           id: "answer1",
-          type: "contribution",
+          type: "contributions",
           title: "question1",
           idcc: "123",
         },
@@ -153,7 +86,7 @@ describe("getRelevantContent", () => {
       {
         document: {
           id: "answer1",
-          type: "contribution",
+          type: "contributions",
           title: "question1",
         },
         reference: {

@@ -33,7 +33,7 @@ query getAlerts($status: String!, $repository: String!) {
       {status: {_eq: $status}},
       {repository: {_eq: $repository}},
     ]
-  }) {
+  } order_by: {ref: asc}) {
     id
     ref
     info
@@ -88,6 +88,18 @@ export function AlertPage() {
     return <DiffChange key={key} change={change} repository={repository} />;
   }
 
+  function getTitle(alert) {
+    if (alert.info.num) {
+      return `IDCC ${alert.info.num} - ${new Date(
+        alert.created_at
+      ).toLocaleDateString()} (${alert.ref})`;
+    } else {
+      return `${alert.info.title} - ${new Date(
+        alert.created_at
+      ).toLocaleDateString()} (${alert.ref})`;
+    }
+  }
+  console.log(alerts);
   return (
     <Layout title="Gestion des alertes">
       <Tabs id="statustab">
@@ -103,10 +115,7 @@ export function AlertPage() {
       </Tabs>
       {alerts.map((alert) => (
         <Container key={`${alert.info.file}-${alert.ref}`}>
-          <AlertTitle alertId={alert.id}>
-            IDCC{alert.info.num} -{" "}
-            {new Date(alert.created_at).toLocaleDateString()} ({alert.ref})
-          </AlertTitle>
+          <AlertTitle alertId={alert.id}>{getTitle(alert)}</AlertTitle>
           <Accordion collapsible multiple>
             {alert.changes.added.length > 0 && (
               <ChangesGroup
@@ -133,6 +142,19 @@ export function AlertPage() {
               renderChange={(changes, i) =>
                 renderChange(changes, `${alert.ref}-removed-${i}`)
               }
+            />
+            {alert.changes.documents?.length > 0 && <Divider />}
+            <ChangesGroup
+              changes={alert.changes.documents}
+              label="Contenus liés"
+              renderChange={(item) => (
+                <a
+                  key={item.document.id}
+                  href={`https://code.travail.gouv.fr/contributions/${item.document.title}`}
+                >
+                  {item.document.title}
+                </a>
+              )}
             />
           </Accordion>
         </Container>

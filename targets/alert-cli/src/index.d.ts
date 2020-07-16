@@ -1,29 +1,33 @@
-import { NodeWithChildren, Node } from "unist";
-import {Commit} from "nodegit"
-import {Reference} from "@socialgouv/contributions-data"
+import { Node } from "unist";
+import { Commit } from "nodegit"
 import { NodeWithParent } from "unist-util-parents";
+import { SOURCES } from "@socialgouv/cdtn-sources";
+
+export function fileFilterFn(path: string): Boolean
+
+export function nodeComparatorFn<T>(node1: T, node2: T): Boolean
+
+export function compareTreeFn<T>(tree: T, tree2: T): Changes
+
+export function insertAlert(repository: string, changes: AlertChanges): Promise<alerts.Alert>
+
+export function updateSource(repository: string, tag: string): Promise<alerts.Source>
 
 export as namespace alerts
-
-function fileFilterFn(path: string): Boolean
-
-function nodeComparatorFn(node1: NodeWithChildren, node2: NodeWithChildren): Boolean
-
-function compareTreeFn(tree: NodeWithChildren, tree2: NodeWithChildren): Changes
-
-function insertAlert(repository: string, changes: AlertChangesWithRef): Promise<alerts.Alert>
-
-function updateSource(repository: string, tag: string): Promise<alerts.Source>
 
 type Source = {
   repository: string
   tag: string
 }
 
-type Changes = {
+type AstChanges = {
   modified: NodeWithParent[]
   removed: NodeWithParent[]
   added: NodeWithParent[]
+}
+
+type Changes = AstChanges & {
+  documents: { document: Document, reference: Reference }[]
 }
 
 type AlertChanges = {
@@ -53,7 +57,7 @@ type Alert = {
 type RepoAlert = {
   repository: string
   newRef: string
-  changes: AlertChangesWithRef[]
+  changes: AlertChanges[]
 }
 
 type GitTagData = {
@@ -61,7 +65,15 @@ type GitTagData = {
   commit: Commit
 }
 
-type DocumentReference = {
+type Reference = {
+  category: string
+  title: string
+  dila_id: string
+  dila_cid: string
+  dila_container_id: string
+}
+
+type DocumentReferences = {
   document: Document
   references: Reference[]
 }
@@ -69,13 +81,31 @@ type Document = {
   id: string
   idcc?: string
   title: string
-  type: "fiche-travail" | "contribution"
+  type: "contributions" | "fiches_ministere_travail"
 }
 
-type DocumentWithRef = {
-  id: string
-  idcc?: string
-  title: string
-  type: "fiche-travail" | "contribution"
+
+type DocumentWithRef = Document & {
   reference: Reference
+}
+
+type DilaNode = {
+  type: "article" | "section" | "code" | "convention collective"
+  parent: DilaNode | null
+  data: {
+    id: string
+    cid: string
+    title: string
+    etat: string
+    num: title
+  }
+  children?: DilaNode[]
+}
+
+type DilaNodeWithContext = DilaNode & {
+  context: {
+    parents: string[],
+    textId: string | null,
+    containerId: string | null,
+  }
 }
