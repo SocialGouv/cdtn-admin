@@ -3373,10 +3373,10 @@
   resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.26.0.tgz#efc31f54a76835f39f37848f6259dadfaadd285b"
   integrity sha512-1IS1CDTCqFKCteL8roXE4kuQ/6xtW1GhvknqckDFB3DlKTw+5x6ZOD/NUVIJKcq1igYEAquqL5hw/hcDEfiZNQ==
 
-"@socialgouv/contributions-data@^2.8.2":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data/-/contributions-data-2.8.2.tgz#22cac6c7703bec3ed91f7a3fb8017f7756f9e96a"
-  integrity sha512-egj9AwBeZl/uXpwT5QoR+vm0PT96hXlDDdh4ubvslAEaTf8Kq8DW2takmJaTsmJTRp/V9Zl55ljPKL49f/Zfow==
+"@socialgouv/contributions-data@^2.8.3":
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data/-/contributions-data-2.8.3.tgz#74eb0d48846e61c739ac40d8285135187f9d0110"
+  integrity sha512-OGHWeya4XCN4Q9OJR9vqm7Z0fwMLCRxzazzW6D8N9RtIQVpXzaVxEbPobmK82WuZebmqjf5jgqD+vn9jxNzEQg==
   dependencies:
     esm "^3.2.25"
     node-fetch "^2.6.0"

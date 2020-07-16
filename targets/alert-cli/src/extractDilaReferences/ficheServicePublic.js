@@ -2,7 +2,7 @@
  * Structure de données
 {
   id: "F1"
-  children: [{
+  children: [{
     type: "element",
     name: "Publication",
     children: [

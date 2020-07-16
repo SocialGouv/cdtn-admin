@@ -6,7 +6,6 @@ declare module "@socialgouv/cdtn-sources" {
   export function getSourceByRouteFn(slug: string): string
 
   export type SOURCES = {
-    YOLO: "yolo",
     CCN: "conventions_collectives",
     CCN_PAGE: "page_convention_collective",
     CDT: "code_du_travail",

@@ -1,5 +1,5 @@
-import contributions from "@socialgouv/contributions-data/data/contributions.json";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import contributions from "@socialgouv/contributions-data/data/contributions.json";
 
 /**
  * @param {import("@socialgouv/contributions-data").Question[]} questions
@@ -24,9 +24,9 @@ export function extractContributionsRef(questions) {
       references.push({
         document: {
           id: question.id,
+          idcc: answer.idcc,
           title: question.title,
           type: SOURCES.CONTRIBUTIONS,
-          idcc: answer.idcc,
         },
         references: /** @type {import("@socialgouv/contributions-data").DilaRef} */ /** @type {any} */ (answer.references.flatMap(
           getDilaRef
@@ -47,10 +47,10 @@ function getDilaRef(reference) {
   }
   return {
     category: reference.category,
-    title: reference.title,
-    dila_id: reference.dila_id,
     dila_cid: reference.dila_cid,
     dila_container_id: reference.dila_container_id,
+    dila_id: reference.dila_id,
+    title: reference.title,
   };
 }
 

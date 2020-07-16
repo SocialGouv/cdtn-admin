@@ -70,7 +70,7 @@ const stripChildren = (node) => node; //({ children, ...props }) => props;
  *
  * @param {import("src").DilaNode} tree1
  * @param {import("src").DilaNode} tree2
- * @param {alerts.nodeComparatorFn} comparator
+ * @param {alerts.nodeComparatorFn<import("src").DilaNode>} comparator
  * @returns {alerts.AstChanges} diffed articles nodes
  */
 export const compareArticles = (tree1, tree2, comparator) => {

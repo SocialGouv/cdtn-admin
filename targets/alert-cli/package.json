@@ -5,7 +5,7 @@
     "@shared/graphql-client": "1.0.0",
     "@socialgouv/cdtn-slugify": "^4.26.0",
     "@socialgouv/cdtn-sources": "^4.26.0",
-    "@socialgouv/contributions-data": "^2.8.2",
+    "@socialgouv/contributions-data": "^2.8.3",
     "@socialgouv/fiches-travail-data": "^3.135.0",
     "nodegit": "0.26.5",
     "semver": "^7.3.2",
@@ -40,7 +40,7 @@
     "start": "node --enable-source-maps --unhandled-rejections=strict ./dist/index.js",
     "start:dev": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node -r esm src/index.js",
     "start:dump": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 DUMP=true node -r esm src/index.js > data/dump.json",
-    "lint": "eslint src/*",
+    "lint": "eslint src/**/*.js",
     "types": "tsc",
     "test": "jest"
   },

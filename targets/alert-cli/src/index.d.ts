@@ -5,7 +5,7 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 
 export function fileFilterFn(path: string): Boolean
 
-export function nodeComparatorFn<T>(node1: T, node2: T): Boolean
+export function nodeComparatorFn(node1: DilaNode, node2: DilaNode): Boolean
 
 export function compareTreeFn<T>(tree: T, tree2: T): Changes
 
@@ -98,6 +98,9 @@ type DilaNode = {
     title: string
     etat: string
     num: title
+    content?: string
+    nota?: string
+    texte?: string
   }
   children?: DilaNode[]
 }

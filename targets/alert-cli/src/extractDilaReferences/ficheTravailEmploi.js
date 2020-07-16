@@ -1,5 +1,5 @@
-import fiches from "@socialgouv/fiches-travail-data/data/fiches-travail.json";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import fiches from "@socialgouv/fiches-travail-data/data/fiches-travail.json";
 
 /**
  *
@@ -16,10 +16,10 @@ export function extractFicheTravailEmploiRef(fiches) {
           if (name === "code du travail") {
             return articles.map((ref) => ({
               category: "labor_code",
-              title: ref.fmt,
-              dila_id: ref.id,
               dila_cid: ref.cid,
               dila_container_id: codeId,
+              dila_id: ref.id,
+              title: ref.fmt,
             }));
           }
           return [];

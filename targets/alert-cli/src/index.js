@@ -1,6 +1,6 @@
 import { client } from "@shared/graphql-client";
-import path from "path";
 import nodegit from "nodegit";
+import path from "path";
 import semver from "semver";
 
 import { ccns } from "./ccn-list.js";
@@ -62,7 +62,7 @@ function getFileFilter(repository) {
 /**
  *
  * @param { string } repository
- * @returns { alerts.nodeComparatorFn }
+ * @returns { alerts.nodeComparatorFn<import("./index.js").DilaNode> }
  */
 function getFileComparator(repository) {
   switch (repository) {
@@ -93,7 +93,7 @@ function getFilename(patche) {
 /**
  *
  * @param {string} file
- * @returns {(tree:nodegit.Tree) => import("unist-util-parents").NodeWithParent}
+ * @returns {(tree:nodegit.Tree) => Promise<import("./index.js").DilaNode>}
  */
 function createToAst(file) {
   return (tree) =>
@@ -122,20 +122,20 @@ async function getSources() {
  */
 export async function insertAlert(repository, changes) {
   const alert = {
-    repository,
+    changes: {
+      added: changes.added,
+      documents: changes.documents,
+      modified: changes.modified,
+      removed: changes.removed,
+    },
     info: {
+      file: changes.file,
+      id: changes.id,
       num: changes.num,
       title: changes.title,
-      id: changes.id,
-      file: changes.file,
     },
     ref: changes.ref,
-    changes: {
-      documents: changes.documents,
-      added: changes.added,
-      removed: changes.removed,
-      modified: changes.modified,
-    },
+    repository,
   };
   const result = await client
     .mutation(insertAlertsMutation, { alert })
@@ -215,8 +215,8 @@ async function getNewerTagsFromRepo(repository, lastTag) {
         const targetRef = await reference.peel(nodegit.Object.TYPE.COMMIT);
         const commit = await repository.getCommit(targetRef.id());
         return {
-          ref: tag,
           commit,
+          ref: tag,
         };
       })
   );
@@ -263,11 +263,11 @@ async function getDiffFromTags(tags, repositoryId) {
           const documents = getRelevantDocuments(changes);
 
           return {
+            documents,
             file,
             id: currAst.data.id,
             num: currAst.data.num,
             title: currAst.data.title,
-            documents,
             ...changes,
           };
         })
@@ -300,9 +300,9 @@ async function main() {
     const [lastTag] = tags.slice(-1);
 
     results.push({
-      repository: source.repository,
       changes: diffs,
       newRef: lastTag.ref,
+      repository: source.repository,
     });
   }
 

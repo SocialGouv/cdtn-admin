@@ -1,53 +1,54 @@
-import { it, describe, expect, jest } from "@jest/globals";
+import { describe, expect, it, jest } from "@jest/globals";
+
 import { getRelevantDocuments } from "../relevantContent";
 
 jest.mock("@socialgouv/contributions-data/data/contributions.json", () => [
   {
-    id: "answer1",
-    title: "question1",
     answers: {
-      generic: {
-        references: [
-          {
-            category: "ag",
-            dila_id: "1",
-            dila_cid: "c1",
-            dila_container_id: "kalicont123",
-          },
-          {
-            category: "ag",
-            dila_id: "3",
-            dila_cid: "3",
-            dila_container_id: "kalicont42",
-          },
-        ],
-      },
       conventions: [
         {
           idcc: "123",
           references: [
             {
               category: "ag",
-              dila_id: "125",
               dila_cid: "c123",
               dila_container_id: "kalicont123",
+              dila_id: "125",
             },
             {
               category: "ag",
-              dila_id: "ext",
               dila_cid: "ext",
               dila_container_id: "kalicont123",
+              dila_id: "ext",
             },
             {
               category: "ag",
-              dila_id: "4",
               dila_cid: "4",
               dila_container_id: "kalicont42",
+              dila_id: "4",
             },
           ],
         },
       ],
+      generic: {
+        references: [
+          {
+            category: "ag",
+            dila_cid: "c1",
+            dila_container_id: "kalicont123",
+            dila_id: "1",
+          },
+          {
+            category: "ag",
+            dila_cid: "3",
+            dila_container_id: "kalicont42",
+            dila_id: "3",
+          },
+        ],
+      },
     },
+    id: "answer1",
+    title: "question1",
   },
 ]);
 
@@ -55,22 +56,22 @@ describe("getRelevantContent", () => {
   it("should return an array of document that match modified changes", () => {
     const changes = {
       added: [],
-      modified: [{ type: "article", data: { id: "123", cid: "c123" } }],
+      modified: [{ data: { cid: "c123", id: "123" }, type: "article" }],
       removed: [],
     };
     const expected = [
       {
         document: {
           id: "answer1",
-          type: "contributions",
-          title: "question1",
           idcc: "123",
+          title: "question1",
+          type: "contributions",
         },
         reference: {
           category: "ag",
-          dila_id: "125",
           dila_cid: "c123",
           dila_container_id: "kalicont123",
+          dila_id: "125",
         },
       },
     ];
@@ -80,20 +81,20 @@ describe("getRelevantContent", () => {
     const changes = {
       added: [],
       modified: [],
-      removed: [{ type: "article", data: { id: "3", cid: "3" } }],
+      removed: [{ data: { cid: "3", id: "3" }, type: "article" }],
     };
     const expected = [
       {
         document: {
           id: "answer1",
-          type: "contributions",
           title: "question1",
+          type: "contributions",
         },
         reference: {
           category: "ag",
-          dila_id: "3",
           dila_cid: "3",
           dila_container_id: "kalicont42",
+          dila_id: "3",
         },
       },
     ];

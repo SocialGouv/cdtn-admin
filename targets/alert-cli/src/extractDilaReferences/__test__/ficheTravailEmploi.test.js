@@ -117,7 +117,11 @@ const expected = [
 ];
 
 test("extractContributionRef should return an array of references", () => {
-  expect(extractFicheTravailEmploiRef(fiches)).toEqual(expected);
+  expect(
+    extractFicheTravailEmploiRef(
+      /** @type {import("@socialgouv/fiches-travail-data").FicheTravailEmploi[]} */ (fiches)
+    )
+  ).toEqual(expected);
 });
 
 test("default export should return an array of references", () => {
