@@ -91,7 +91,7 @@ Deploy alert (prod):
       bash -c "
       until
       kubectl get pod -l job-name=${JOB_NAME}
-      -o jsonpath='{.items[0].status.conditions[?(@.type=="ContainersReady")].status}' |
+      -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
       grep True
       ; do sleep 1; done"
 
