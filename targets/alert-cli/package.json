@@ -7,6 +7,7 @@
     "@socialgouv/cdtn-sources": "^4.26.0",
     "@socialgouv/contributions-data": "^2.8.3",
     "@socialgouv/fiches-travail-data": "^3.135.0",
+    "node-git": "^0.0.0",
     "nodegit": "0.26.5",
     "semver": "^7.3.2",
     "unist-util-parents": "^1.0.3",
