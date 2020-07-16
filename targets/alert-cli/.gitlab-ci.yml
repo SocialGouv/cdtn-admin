@@ -87,7 +87,10 @@ Deploy alert (prod):
     - JOB_NAME="triggered-from-job-${CI_JOB_ID}-${RANDOM}"
     - kubectl create job --from=cronjob/alert "${JOB_NAME}"
 
-    - timeout 1m bash -c "until kubectl logs -f job/${JOB_NAME}; do sleep 1; done"
+    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
+    - sleep 2
+    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
+    - timeout 2m bash -c "until kubectl logs -f job/${JOB_NAME}; do sleep 1; done"
 
     - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
     - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
