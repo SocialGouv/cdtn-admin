@@ -54,9 +54,9 @@ const getRootId = (node) => {
 const addContext = (node) => ({
   ...node,
   context: {
+    containerId: getRootId(node),
     parents: getParents(node),
     textId: getParentTextId(node),
-    containerId: getRootId(node),
   },
 });
 
@@ -151,7 +151,6 @@ export const compareArticles = (tree1, tree2, comparator) => {
 
   const changes = {
     added: [...newSections, ...newArticles].map(stripChildren),
-    removed: [...missingSections, ...missingArticles].map(stripChildren),
     modified: [
       ...modifiedSections.map((modif) => ({
         ...modif,
@@ -164,6 +163,7 @@ export const compareArticles = (tree1, tree2, comparator) => {
         previous: articles1.find((a) => a.data.cid === modif.data.cid),
       })),
     ].map(stripChildren),
+    removed: [...missingSections, ...missingArticles].map(stripChildren),
   };
 
   return changes;

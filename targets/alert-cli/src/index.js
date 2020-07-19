@@ -1,4 +1,5 @@
 import { client } from "@shared/graphql-client";
+import fiches from "@socialgouv/datafiller-data/data/externals.json";
 import nodegit from "nodegit";
 import path from "path";
 import semver from "semver";
@@ -6,6 +7,13 @@ import semver from "semver";
 import { ccns } from "./ccn-list.js";
 import { compareArticles } from "./compareTree.js";
 import { getRelevantDocuments } from "./relevantContent.js";
+
+/** @type {string[]} */
+let listFichesVddId = [];
+const fichesVdd = fiches.find(({ title }) => title === "service-public.fr");
+if (fichesVdd) {
+  listFichesVddId = fichesVdd.urls.flatMap((url) => url.match(/\w\d+$/) || []);
+}
 
 const sourcesQuery = `
 query getSources {
@@ -57,15 +65,20 @@ function getFileFilter(repository) {
     case "socialgouv/kali-data":
       // only a ccn matching our list
       return (path) => ccns.some((ccn) => new RegExp(ccn.id).test(path));
+    case "socialgouv/fiches-vdd":
+      return (path) =>
+        ["index.json", ...listFichesVddId].some((id) =>
+          new RegExp(id).test(path)
+        );
     default:
-      return () => true;
+      return () => false;
   }
 }
 
 /**
  *
  * @param { string } repository
- * @returns { alerts.nodeComparatorFn<import("./index.js").DilaNode> }
+ * @returns { alerts.nodeComparatorFn<alerts.DilaNode> }
  */
 function getFileComparator(repository) {
   switch (repository) {
@@ -81,8 +94,132 @@ function getFileComparator(repository) {
         art1.data.content !== art2.data.content ||
         art1.data.etat !== art2.data.etat;
     default:
-      return () => true;
+      return () => false;
   }
+}
+/**
+ *
+ * @param { string } repository
+ */
+function getDiffProcessor(repository) {
+  switch (repository) {
+    case "socialgouv/legi-data":
+    case "socialgouv/kali-data":
+      return processDilaDiff;
+    case "socialgouv/fiches-vdd":
+      return processVddDiff;
+    default:
+      return () => Promise.resolve([]);
+  }
+}
+
+/**
+ *
+ * @param {string} repositoryId
+ * @param {alerts.GitTagData} tag
+ * @param {string[]} files
+ * @param {nodegit.Tree} prevTree
+ * @param {nodegit.Tree} currTree
+ * @returns {Promise<alerts.DilaAlertChanges[]>}
+ */
+async function processDilaDiff(repositoryId, tag, files, prevTree, currTree) {
+  const compareFn = getFileComparator(repositoryId);
+  const fileChanges = await Promise.all(
+    files.map(async (file) => {
+      const toAst = createToAst(file);
+
+      const [
+        currAst,
+        prevAst,
+      ] = /** @type {alerts.DilaNode[]} */ (await Promise.all(
+        [currTree, prevTree].map(toAst)
+      ));
+
+      const changes = compareArticles(prevAst, currAst, compareFn);
+      const documents = getRelevantDocuments(changes);
+
+      return {
+        documents,
+        file,
+        id: currAst.data.id,
+        num: currAst.data.num,
+        title: currAst.data.title,
+        ...changes,
+      };
+    })
+  );
+
+  return fileChanges
+    .filter(
+      (file) =>
+        file.modified.length > 0 ||
+        file.removed.length > 0 ||
+        file.added.length > 0 ||
+        file.documents.length > 0
+    )
+    .map((change) => ({
+      date: tag.commit.date(),
+      ref: tag.ref,
+      ...change,
+      type: "dila",
+    }));
+}
+
+/**
+ *
+ * @param {string} repositoryId
+ * @param {alerts.GitTagData} tag
+ * @param {string[]} files
+ * @param {nodegit.Tree} prevTree
+ * @param {nodegit.Tree} currTree
+ * @returns {Promise<alerts.VddAlertChanges[]>}
+ */
+async function processVddDiff(repositoryId, tag, files, prevTree, currTree) {
+  const indexFile = files.find((file) => /^data\/index\.json$/.test(file));
+  /** @type {alerts.AstChanges} */
+  const changes = {
+    added: [],
+    modified: [],
+    removed: [],
+  };
+
+  const currList = /** @type {alerts.FicheVddIndex[]}*/ (await createToAst(
+    "data/index.json"
+  )(currTree));
+
+  if (indexFile) {
+    const toAst = createToAst(indexFile);
+    const prevList = /** @type {alerts.FicheVddIndex[]}*/ (await toAst(
+      prevTree
+    ));
+
+    changes.removed = prevList.filter(
+      ({ id }) => currList.find((item) => item.id === id) === undefined
+    );
+    changes.added = currList.filter(
+      ({ id }) => prevList.find((item) => item.id === id) === undefined
+    );
+  }
+
+  changes.modified = await Promise.all(
+    files
+      .filter((file) => !/index\.json/.test(file))
+      .map(async (file) => {
+        const toAst = createToAst(file);
+        const currAst = /** @type {alerts.FicheVdd}*/ (await toAst(currTree));
+        return currList.find(({ id }) => id === currAst.id);
+      })
+  );
+
+  return [
+    {
+      date: tag.commit.date(),
+      ref: tag.ref,
+      title: "fiche service-public",
+      type: "vdd",
+      ...changes,
+    },
+  ];
 }
 
 /**
@@ -96,7 +233,7 @@ function getFilename(patche) {
 /**
  *
  * @param {string} file
- * @returns {(tree:nodegit.Tree) => Promise<import("./index.js").DilaNode>}
+ * @returns {(tree:nodegit.Tree) => Object}
  */
 function createToAst(file) {
   return (tree) =>
@@ -127,19 +264,25 @@ export async function insertAlert(repository, changes) {
   const alert = {
     changes: {
       added: changes.added,
-      documents: changes.documents,
       modified: changes.modified,
       removed: changes.removed,
+      ...(changes.type === "dila" && { documents: changes.documents }),
     },
+    created_at: changes.date,
     info: {
-      file: changes.file,
-      id: changes.id,
-      num: changes.num,
       title: changes.title,
+      type: changes.type,
+      ...(changes.type === "dila" && {
+        file: changes.file,
+        id: changes.id,
+        num: changes.num,
+        title: changes.title,
+      }),
     },
     ref: changes.ref,
     repository,
   };
+
   const result = await client
     .mutation(insertAlertsMutation, { alert })
     .toPromise();
@@ -184,7 +327,9 @@ async function openRepo({ repository }) {
     await repo.checkoutBranch("master");
     await repo.mergeBranches("master", "origin/master");
   } catch (err) {
-    console.error(err);
+    console.error(
+      `[error] openRepo: unable to open repository ${repository}, trying to clone it`
+    );
     repo = await nodegit.Clone.clone(
       `git://github.com/${org}/${repositoryName}`,
       localPath
@@ -229,17 +374,16 @@ async function getNewerTagsFromRepo(repository, lastTag) {
  *
  * @param {alerts.GitTagData[]} tags
  * @param {string} repositoryId
- * @returns {Promise<alerts.AlertChanges[]>}
  */
 async function getDiffFromTags(tags, repositoryId) {
   let [previousTag] = tags;
   const [, ...newTags] = tags;
 
-  /** @type alerts.AlertChanges[] */
-  const changes = [];
+  /** @type {(alerts.AlertChanges)[]}  */
+  const allChanges = [];
 
   const fileFilter = getFileFilter(repositoryId);
-  const compareFn = getFileComparator(repositoryId);
+  const diffProcessor = getDiffProcessor(repositoryId);
 
   for (const tag of newTags) {
     const previousCommit = previousTag.commit;
@@ -254,47 +398,24 @@ async function getDiffFromTags(tags, repositoryId) {
 
     const files = patches.map(getFilename).filter(fileFilter);
 
-    if (files.length > 0) {
-      const fileChanges = await Promise.all(
-        files.map(async (file) => {
-          const toAst = createToAst(file);
-          const [currAst, prevAst] = await Promise.all(
-            [currTree, prevTree].map(toAst)
-          );
-
-          const changes = compareArticles(prevAst, currAst, compareFn);
-          const documents = getRelevantDocuments(changes);
-
-          return {
-            documents,
-            file,
-            id: currAst.data.id,
-            num: currAst.data.num,
-            title: currAst.data.title,
-            ...changes,
-          };
-        })
-      );
-
-      fileChanges
-        .filter(
-          (file) =>
-            file.modified.length > 0 ||
-            file.removed.length > 0 ||
-            file.added.length > 0 ||
-            file.documents.length > 0
-        )
-        .forEach((change) => {
-          changes.push({ ref: tag.ref, ...change });
-        });
+    const changes = await diffProcessor(
+      repositoryId,
+      tag,
+      files,
+      prevTree,
+      currTree
+    );
+    if (changes.length > 0) {
+      allChanges.push(...changes);
     }
     previousTag = tag;
   }
-  return changes;
+  return allChanges;
 }
 
 async function main() {
   const sources = await getSources();
+
   const results = [];
   for (const source of sources) {
     const repo = await openRepo(source);
@@ -325,8 +446,8 @@ async function main() {
         console.log(`insert alert for ${ref} on ${repository} (${info.file})`);
       });
       console.log(`create ${inserts.length} alert for ${result.repository}`);
-      // const update = await updateSource(result.repository, result.newRef);
-      // console.log(`update source ${update.repository} to ${update.tag}`);
+      const update = await updateSource(result.repository, result.newRef);
+      console.log(`update source ${update.repository} to ${update.tag}`);
     }
   }
 }

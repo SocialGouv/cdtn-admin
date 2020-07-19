@@ -213,3 +213,12 @@
       - created_at
       filter: {}
       check: {}
+- table:
+    schema: v1
+    name: fiche_vdd_alerts
+- table:
+    schema: v1
+    name: kali_alerts
+- table:
+    schema: v1
+    name: legi_alerts

@@ -30,13 +30,24 @@ type Changes = AstChanges & {
   documents: { document: Document, reference: Reference }[]
 }
 
-type AlertChanges = {
+type DilaAlertChanges = {
+  type: "dila"
   ref: string
   file: string
   id: string
   num: Number
   title: string
+  date: Date
 } & Changes
+
+type VddAlertChanges = {
+  type: "vdd"
+  title: string
+  ref: string
+  date: Date
+} & AstChanges
+
+type AlertChanges = DilaAlertChanges | VddAlertChanges
 
 type AlertInfo = {
   num: Number,
@@ -108,7 +119,35 @@ type DilaNode = {
 type DilaNodeWithContext = DilaNode & {
   context: {
     parents: string[],
-    textId: string | null,
-    containerId: string | null,
+    textId: string | null
+    containerId: string | null
   }
+}
+
+type FicheVddIndex = {
+  id: string
+  date: string
+  subject: string
+  theme: string
+  title: string
+  type: string
+}
+
+type FicheVdd = {
+  id: string
+  children: FicheVddChildren[]
+}
+
+type FicheVddChildren = FicheVddLeaf | FicheVddNode
+
+type FicheVddNode = {
+  type: string,
+  name: string
+  attributes: { [k: string]: string }
+  children?: FicheVddChildren[]
+}
+
+type FicheVddLeaf = {
+  type: "text"
+  text: string
 }

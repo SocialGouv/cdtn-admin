@@ -6,6 +6,7 @@
     "@socialgouv/cdtn-slugify": "^4.26.0",
     "@socialgouv/cdtn-sources": "^4.26.0",
     "@socialgouv/contributions-data": "^2.8.3",
+    "@socialgouv/datafiller-data": "^1.37.0",
     "@socialgouv/fiches-travail-data": "^3.135.0",
     "node-git": "^0.0.0",
     "nodegit": "0.26.5",
