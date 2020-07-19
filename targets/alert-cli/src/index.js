@@ -18,7 +18,10 @@ query getSources {
 
 const insertAlertsMutation = `
 mutation insert_alert($alert: alerts_insert_input!) {
-  alert: insert_alerts_one(object: $alert) {
+  alert: insert_alerts_one(object: $alert,  on_conflict: {
+    constraint: alerts_ref_info_key,
+    update_columns: [changes]
+  }) {
     repository,
     ref
     info
