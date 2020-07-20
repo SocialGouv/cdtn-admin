@@ -421,7 +421,6 @@ async function main() {
     const repo = await openRepo(source);
     const tags = await getNewerTagsFromRepo(repo, source.tag);
     const [lastTag] = tags.slice(-1);
-    console.error(source, tags);
     if (lastTag) {
       const diffs = await getDiffFromTags(tags, source.repository);
       results.push({
