@@ -43,7 +43,7 @@ WHERE
   repository = 'socialgouv/fiches-vdd';
 
 INSERT INTO public.sources (repository, label, tag)
-  VALUES ('socialgouv/fiches-vdd', 'fiches service-public', 'v1.127.0');
+  VALUES ('socialgouv/fiches-vdd', 'fiches service-public', 'v1.125.0');
 
 UPDATE
   public.sources

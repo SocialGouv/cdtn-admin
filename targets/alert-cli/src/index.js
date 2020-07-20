@@ -352,10 +352,10 @@ async function getNewerTagsFromRepo(repository, lastTag) {
         if (!semver.valid(t)) {
           return [];
         }
-        if (semver.lt(t, lastTag)) {
-          return [];
+        if (semver.gt(t, lastTag)) {
+          return t;
         }
-        return t;
+        return [];
       })
       .sort((a, b) => (semver.lt(a, b) ? -1 : 1))
       .map(async (tag) => {
@@ -421,6 +421,7 @@ async function main() {
     const repo = await openRepo(source);
     const tags = await getNewerTagsFromRepo(repo, source.tag);
     const [lastTag] = tags.slice(-1);
+    console.error(source, tags);
     if (lastTag) {
       const diffs = await getDiffFromTags(tags, source.repository);
       results.push({
@@ -437,16 +438,19 @@ async function main() {
     for (const result of results) {
       if (result.changes.length === 0) {
         console.log(`no update for ${result.repository}`);
-        continue;
+      } else {
+        const inserts = await Promise.all(
+          result.changes.map((diff) => insertAlert(result.repository, diff))
+        );
+        inserts.forEach((insert) => {
+          const { ref, repository, info } = insert;
+          console.log(
+            `insert alert for ${ref} on ${repository} (${info.file})`
+          );
+        });
+        console.log(`create ${inserts.length} alert for ${result.repository}`);
       }
-      const inserts = await Promise.all(
-        result.changes.map((diff) => insertAlert(result.repository, diff))
-      );
-      inserts.forEach((insert) => {
-        const { ref, repository, info } = insert;
-        console.log(`insert alert for ${ref} on ${repository} (${info.file})`);
-      });
-      console.log(`create ${inserts.length} alert for ${result.repository}`);
+
       const update = await updateSource(result.repository, result.newRef);
       console.log(`update source ${update.repository} to ${update.tag}`);
     }
