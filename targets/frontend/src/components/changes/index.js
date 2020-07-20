@@ -4,7 +4,7 @@ import { ViewDiff } from "./ViewDiff";
 import { Collapsible } from "../collapsible";
 import PropTypes from "prop-types";
 
-export function DiffChange({ change, repository }) {
+export function DilaDiffChange({ change, repository }) {
   const { data, previous } = change;
   const textFieldname = /legi-data/.test(repository) ? "texte" : "content";
   const content = data[textFieldname] || "";
@@ -63,6 +63,20 @@ export function DiffChange({ change, repository }) {
       )}
     </div>
   );
+}
+export function FicheVddDiffchange({ change }) {
+  console.log({ change });
+  return <div>{change.title}</div>;
+}
+
+export function DiffChange({ change, repository }) {
+  switch (repository) {
+    case "socialgouv/legi-data":
+    case "socialgouv/kali-data":
+      return <DilaDiffChange change={change} repository={repository} />;
+    case "socialgouv/fiches-vdd":
+      return <FicheVddDiffchange change={change} />;
+  }
 }
 
 DiffChange.propTypes = {

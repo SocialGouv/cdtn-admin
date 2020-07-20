@@ -7,6 +7,7 @@ import { Nav } from "./Nav";
 import Head from "next/head";
 
 export function Layout({ children, title }) {
+  console.log("-- <Layout>");
   return (
     <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
       <Head>

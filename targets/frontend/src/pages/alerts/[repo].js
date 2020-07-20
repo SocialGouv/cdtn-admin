@@ -33,7 +33,7 @@ query getAlerts($status: String!, $repository: String!) {
       {status: {_eq: $status}},
       {repository: {_eq: $repository}},
     ]
-  } order_by: {ref: asc}) {
+  } order_by: [{created_at: asc},{info: asc}]) {
     id
     ref
     info
@@ -46,6 +46,7 @@ query getAlerts($status: String!, $repository: String!) {
 `;
 
 export function AlertPage() {
+  console.log("AlertPage");
   const router = useRouter();
   const [, initialHash = "todo"] = router.asPath.split("#");
   const [hash, setHash] = useState(initialHash);
@@ -60,7 +61,9 @@ export function AlertPage() {
   });
 
   useEffect(() => {
+    console.log("useEffects");
     function onHashChange(url) {
+      console.log("onHashChange");
       const [, hash = "todo"] = url.split("#");
       setHash(hash);
     }
@@ -69,7 +72,7 @@ export function AlertPage() {
     return function () {
       router.events.off("hashChangeComplete", onHashChange);
     };
-  });
+  }, [router.events]);
 
   const { fetching, error, data } = result;
   if (fetching) {
@@ -99,7 +102,7 @@ export function AlertPage() {
       ).toLocaleDateString()} (${alert.ref})`;
     }
   }
-  console.log(alerts);
+  console.log("<AlertPage> render", fetching, error, hash, alerts);
   return (
     <Layout title="Gestion des alertes">
       <Tabs id="statustab">
@@ -114,7 +117,7 @@ export function AlertPage() {
         ))}
       </Tabs>
       {alerts.map((alert) => (
-        <Container key={`${alert.info.file}-${alert.ref}`}>
+        <Container key={`${alert.id}`}>
           <AlertTitle alertId={alert.id}>{getTitle(alert)}</AlertTitle>
           <Accordion collapsible multiple>
             {alert.changes.added.length > 0 && (
@@ -122,7 +125,7 @@ export function AlertPage() {
                 changes={alert.changes.added}
                 label="Éléments ajoutés"
                 renderChange={(changes, i) =>
-                  renderChange(changes, `${alert.ref}-added-${i}`)
+                  renderChange(changes, `${alert.id}-added-${i}`)
                 }
               />
             )}
@@ -132,7 +135,7 @@ export function AlertPage() {
               changes={alert.changes.modified}
               label="Éléments modifiés"
               renderChange={(changes, i) =>
-                renderChange(changes, `${alert.ref}-modified-${i}`)
+                renderChange(changes, `${alert.id}-modified-${i}`)
               }
             />
             {alert.changes.removed.length > 0 && <Divider />}
@@ -140,20 +143,22 @@ export function AlertPage() {
               changes={alert.changes.removed}
               label="Éléments supprimés"
               renderChange={(changes, i) =>
-                renderChange(changes, `${alert.ref}-removed-${i}`)
+                renderChange(changes, `${alert.id}-removed-${i}`)
               }
             />
             {alert.changes.documents?.length > 0 && <Divider />}
             <ChangesGroup
               changes={alert.changes.documents}
               label="Contenus liés"
-              renderChange={(item) => (
-                <a
-                  key={item.document.id}
-                  href={`https://code.travail.gouv.fr/contributions/${item.document.title}`}
-                >
-                  {item.document.title}
-                </a>
+              renderChange={(item, i) => (
+                <li key={`${alert.id}-documents-${i}`}>
+                  <a
+                    key={item.document.id}
+                    href={`https://code.travail.gouv.fr/contributions/${item.document.title}`}
+                  >
+                    {item.document.title}
+                  </a>
+                </li>
               )}
             />
           </Accordion>
