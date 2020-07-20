@@ -420,14 +420,15 @@ async function main() {
   for (const source of sources) {
     const repo = await openRepo(source);
     const tags = await getNewerTagsFromRepo(repo, source.tag);
-    const diffs = await getDiffFromTags(tags, source.repository);
     const [lastTag] = tags.slice(-1);
-
-    results.push({
-      changes: diffs,
-      newRef: lastTag.ref,
-      repository: source.repository,
-    });
+    if (lastTag) {
+      const diffs = await getDiffFromTags(tags, source.repository);
+      results.push({
+        changes: diffs,
+        newRef: lastTag.ref,
+        repository: source.repository,
+      });
+    }
   }
 
   if (process.env.DUMP) {
