@@ -323,9 +323,9 @@ async function openRepo({ repository }) {
   let repo;
   try {
     repo = await nodegit.Repository.open(localPath);
-    await repo.fetch("origin");
-    await repo.checkoutBranch("master");
-    await repo.mergeBranches("master", "origin/master");
+    // await repo.fetch("origin");
+    // await repo.checkoutBranch("master");
+    // await repo.mergeBranches("master", "origin/master");
   } catch (err) {
     console.error(
       `[error] openRepo: unable to open repository ${repository}, trying to clone it`
@@ -352,10 +352,10 @@ async function getNewerTagsFromRepo(repository, lastTag) {
         if (!semver.valid(t)) {
           return [];
         }
-        if (semver.gt(t, lastTag)) {
-          return t;
+        if (semver.lt(t, lastTag)) {
+          return [];
         }
-        return [];
+        return t;
       })
       .sort((a, b) => (semver.lt(a, b) ? -1 : 1))
       .map(async (tag) => {
@@ -372,7 +372,7 @@ async function getNewerTagsFromRepo(repository, lastTag) {
 
 /**
  *
- * @param {alerts.GitTagData[]} tags
+ * @param {alerts.GitTagData[]} tags include the last tag from the previous run
  * @param {string} repositoryId
  */
 async function getDiffFromTags(tags, repositoryId) {
@@ -386,6 +386,7 @@ async function getDiffFromTags(tags, repositoryId) {
   const diffProcessor = getDiffProcessor(repositoryId);
 
   for (const tag of newTags) {
+    console.error(tag.ref);
     const previousCommit = previousTag.commit;
     const { commit } = tag;
     const [prevTree, currTree] = await Promise.all([
@@ -419,16 +420,17 @@ async function main() {
   const results = [];
   for (const source of sources) {
     const repo = await openRepo(source);
-    const tags = await getNewerTagsFromRepo(repo, source.tag);
+    const tags = (await getNewerTagsFromRepo(repo, source.tag)).slice(0, 2);
     const [lastTag] = tags.slice(-1);
-    if (lastTag) {
-      const diffs = await getDiffFromTags(tags, source.repository);
-      results.push({
-        changes: diffs,
-        newRef: lastTag.ref,
-        repository: source.repository,
-      });
+    if (!lastTag) {
+      throw new Error(`Error: last tag not found for ${source.repository}`);
     }
+    const diffs = await getDiffFromTags(tags, source.repository);
+    results.push({
+      changes: diffs,
+      newRef: lastTag.ref,
+      repository: source.repository,
+    });
   }
 
   if (process.env.DUMP) {

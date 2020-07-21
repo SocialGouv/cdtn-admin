@@ -46,20 +46,9 @@ query getAlerts($status: String!, $repository: String!) {
 `;
 
 export function AlertPage() {
-  console.log("AlertPage");
   const router = useRouter();
   const [, initialHash = "todo"] = router.asPath.split("#");
   const [hash, setHash] = useState(initialHash);
-  // https://formidable.com/open-source/urql/docs/basics/document-caching/#adding-typenames
-  const context = useMemo(() => ({ additionalTypenames: ["alerts"] }), []);
-
-  const repository = router.query.repo.replace(/–/g, "/");
-  const [result] = useQuery({
-    query: getAlertQuery,
-    variables: { repository, status: hash },
-    context,
-  });
-
   useEffect(() => {
     console.log("useEffects");
     function onHashChange(url) {
@@ -74,7 +63,18 @@ export function AlertPage() {
     };
   }, [router.events]);
 
+  // https://formidable.com/open-source/urql/docs/basics/document-caching/#adding-typenames
+  const context = useMemo(() => ({ additionalTypenames: ["alerts"] }), []);
+  const repository = router.query.repo.replace(/–/, "/");
+  const [result] = useQuery({
+    query: getAlertQuery,
+    variables: { repository, status: hash },
+    context,
+    requestPolicy: "network-only",
+  });
   const { fetching, error, data } = result;
+  console.log("<AlertPage> render", result, hash, repository);
+
   if (fetching) {
     return <div>Chargement...</div>;
   }
@@ -87,8 +87,8 @@ export function AlertPage() {
   }
   const { statuses, alerts } = data;
 
-  function renderChange(change, key) {
-    return <DiffChange key={key} change={change} repository={repository} />;
+  function renderChange(change, key, type) {
+    return <DiffChange key={key} change={change} type={type} />;
   }
 
   function getTitle(alert) {
@@ -102,7 +102,6 @@ export function AlertPage() {
       ).toLocaleDateString()} (${alert.ref})`;
     }
   }
-  console.log("<AlertPage> render", fetching, error, hash, alerts);
   return (
     <Layout title="Gestion des alertes">
       <Tabs id="statustab">
@@ -125,7 +124,11 @@ export function AlertPage() {
                 changes={alert.changes.added}
                 label="Éléments ajoutés"
                 renderChange={(changes, i) =>
-                  renderChange(changes, `${alert.id}-added-${i}`)
+                  renderChange(
+                    changes,
+                    `${alert.id}-added-${i}`,
+                    alert.info.type
+                  )
                 }
               />
             )}
@@ -135,7 +138,11 @@ export function AlertPage() {
               changes={alert.changes.modified}
               label="Éléments modifiés"
               renderChange={(changes, i) =>
-                renderChange(changes, `${alert.id}-modified-${i}`)
+                renderChange(
+                  changes,
+                  `${alert.id}-modified-${i}`,
+                  alert.info.type
+                )
               }
             />
             {alert.changes.removed.length > 0 && <Divider />}
@@ -143,7 +150,11 @@ export function AlertPage() {
               changes={alert.changes.removed}
               label="Éléments supprimés"
               renderChange={(changes, i) =>
-                renderChange(changes, `${alert.id}-removed-${i}`)
+                renderChange(
+                  changes,
+                  `${alert.id}-removed-${i}`,
+                  alert.info.type
+                )
               }
             />
             {alert.changes.documents?.length > 0 && <Divider />}
