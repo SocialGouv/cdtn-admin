@@ -323,9 +323,9 @@ async function openRepo({ repository }) {
   let repo;
   try {
     repo = await nodegit.Repository.open(localPath);
-    // await repo.fetch("origin");
-    // await repo.checkoutBranch("master");
-    // await repo.mergeBranches("master", "origin/master");
+    await repo.fetch("origin");
+    await repo.checkoutBranch("master");
+    await repo.mergeBranches("master", "origin/master");
   } catch (err) {
     console.error(
       `[error] openRepo: unable to open repository ${repository}, trying to clone it`
@@ -420,7 +420,7 @@ async function main() {
   const results = [];
   for (const source of sources) {
     const repo = await openRepo(source);
-    const tags = (await getNewerTagsFromRepo(repo, source.tag)).slice(0, 2);
+    const tags = await getNewerTagsFromRepo(repo, source.tag);
     const [lastTag] = tags.slice(-1);
     if (!lastTag) {
       throw new Error(`Error: last tag not found for ${source.repository}`);
