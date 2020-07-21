@@ -88,7 +88,8 @@ const addContext = (node) => ({
 /**
  * @param {import("unist").Node} node
  */
-const stripChildren = (node) => node; //({ children, ...props }) => props;
+// eslint-disable-next-line no-unused-vars
+const stripChildren = ({ children, ...props }) => props;
 
 /**
  *
@@ -108,10 +109,7 @@ export const compareArticles = (tree1, tree2, comparator) => {
   const articles1cids = articles1
     .map((a) => a && a.data && a.data.cid)
     .filter(Boolean);
-  console.error(
-    selectAll("article", parentsTree1).filter(uniq).length,
-    selectAll("article", parentsTree1).length
-  );
+
   // all articles from tree2
   const articles2 = selectAll("article", parentsTree2)
     .filter(uniq)

@@ -70,7 +70,6 @@ export function AlertPage() {
     query: getAlertQuery,
     variables: { repository, status: hash },
     context,
-    requestPolicy: "network-only",
   });
   const { fetching, error, data } = result;
   console.log("<AlertPage> render", result, hash, repository);

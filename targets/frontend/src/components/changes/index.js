@@ -4,6 +4,43 @@ import { ViewDiff } from "./ViewDiff";
 import { Collapsible } from "../collapsible";
 import PropTypes from "prop-types";
 
+export function DilaLink({ info, children }) {
+  const { context, data, type } = info;
+  let url = "https://legifrance.gouv.fr/affichCode";
+  if (context.containerId.startsWith("LEGI")) {
+    if (type === "article") {
+      // article d'un code
+      url = `https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=${data.id}&cidTexte=${context.textId}`;
+    } else if (type === "section") {
+      // section d'un code
+      url = `https://www.legifrance.gouv.fr/affichCode.do?idSectionTA=${data.id}&cidTexte=${context.textId}`;
+    }
+  }
+  if (context.containerId.startsWith("KALI")) {
+    if (type === "article") {
+      // article d'une CC ou teste annexe
+      url = `https://www.legifrance.gouv.fr/affichIDCCArticle.do?idArticle=${data.id}&cidTexte=${context.textId}`;
+    } else if (type === "section") {
+      // si section
+      if (data.id && data.id.match(/^KALISCTA/)) {
+        url = `https://www.legifrance.gouv.fr/affichIDCC.do?idSectionTA=${
+          data.id
+        }&idConvention=${context.textId || context.containerId}`;
+        // si texte attaché/annexe
+      } else if (data.id && data.id.match(/^KALITEXT/)) {
+        url = `https://www.legifrance.gouv.fr/affichIDCC.do?cidTexte=${
+          data.id
+        }&idConvention=${context.textId || context.containerId}`;
+      }
+    }
+  }
+  return (
+    <a rel="nooppener noreferrer" target="_blank" href={url}>
+      {children}
+    </a>
+  );
+}
+
 export function DilaDiffChange({ change }) {
   const { data, previous } = change;
   const textFieldname =
@@ -12,9 +49,18 @@ export function DilaDiffChange({ change }) {
   const previousContent = previous?.data[textFieldname] || "";
   const showDiff = previous && content !== previousContent;
   const showNotaDiff = previous && previous.data.nota !== data.nota;
+
   return (
-    <div>
-      Article {data.num}{" "}
+    <li>
+      {change.type === "section" && (
+        <>
+          {change.context.parents.slice(-3, -1).join(" › ")} -
+          <DilaLink info={change}>{change.data.title}</DilaLink>
+        </>
+      )}
+      {change.type === "article" && (
+        <DilaLink info={change}>Article {data.num}</DilaLink>
+      )}
       {previous?.data.etat && previous?.data.etat !== data.etat && (
         <>
           <Badge sx={{ px: "xxsmall", bg: getBadgeColor(previous.data.etat) }}>
@@ -62,7 +108,7 @@ export function DilaDiffChange({ change }) {
           </Card>
         </Collapsible>
       )}
-    </div>
+    </li>
   );
 }
 const ficheVddTypeSlug = {
