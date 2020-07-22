@@ -50,9 +50,11 @@ UPDATE
 SET
   tag = 'v1.20.0'
 WHERE
-  repository = 'socialgouv/legi-data' UPDATE
-    public.sources
-  SET
-    tag = 'v1.77.0'
-  WHERE
-    repository = 'socialgouv/kali-data'
+  repository = 'socialgouv/legi-data';
+
+UPDATE
+  public.sources
+SET
+  tag = 'v1.77.0'
+WHERE
+  repository = 'socialgouv/kali-data';
