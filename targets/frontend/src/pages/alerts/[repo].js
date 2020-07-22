@@ -59,13 +59,14 @@ export function AlertPage() {
 
     router.events.on("hashChangeComplete", onHashChange);
     return function () {
+      console.log("unmount");
       router.events.off("hashChangeComplete", onHashChange);
     };
   }, [router.events]);
 
   // https://formidable.com/open-source/urql/docs/basics/document-caching/#adding-typenames
-  const context = useMemo(() => ({ additionalTypenames: ["alerts"] }), []);
   const repository = router.query.repo.replace(/–/, "/");
+  const context = useMemo(() => ({ additionalTypenames: ["alerts"] }), []);
   const [result] = useQuery({
     query: getAlertQuery,
     variables: { repository, status: hash },
