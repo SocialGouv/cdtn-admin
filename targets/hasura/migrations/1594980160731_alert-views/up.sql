@@ -1,6 +1,6 @@
 CREATE SCHEMA v1;
 
-CREATE VIEW v1.legi_alerts AS
+CREATE VIEW v1.legi_data_alerts AS
 SELECT
   id,
   info,
@@ -14,7 +14,7 @@ FROM
 WHERE
   repository = 'socialgouv/legi-data';
 
-CREATE VIEW v1.kali_alerts AS
+CREATE VIEW v1.kali_data_alerts AS
 SELECT
   id,
   info,
