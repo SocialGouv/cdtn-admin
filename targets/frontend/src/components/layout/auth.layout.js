@@ -18,7 +18,7 @@ export function Layout({ children, title }) {
         <Flex sx={{ flexBasis: "100%" }}>
           <Nav />
           <Box as="main" sx={{ flex: "1 1 auto" }} padding="large">
-            <Heading sx={{ py: ["none", "none"] }}>{title}</Heading>
+            <Heading>{title}</Heading>
             <Card>{children}</Card>
           </Box>
         </Flex>

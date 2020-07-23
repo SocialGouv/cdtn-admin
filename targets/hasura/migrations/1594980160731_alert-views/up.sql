@@ -26,7 +26,7 @@ SELECT
 FROM
   alerts
 WHERE
-  repository = 'socialgouv/legi-data';
+  repository = 'socialgouv/kali-data';
 
 CREATE VIEW v1.fiche_vdd_alerts AS
 SELECT
@@ -48,7 +48,7 @@ INSERT INTO public.sources (repository, label, tag)
 UPDATE
   public.sources
 SET
-  tag = 'v1.20.0'
+  tag = 'v1.16.0'
 WHERE
   repository = 'socialgouv/legi-data';
 
