@@ -109,6 +109,30 @@
         table:
           schema: public
           name: alerts
+  - name: fiches_vdd_alerts
+    using:
+      manual_configuration:
+        remote_table:
+          schema: v1
+          name: fiche_vdd_alerts
+        column_mapping:
+          name: status
+  - name: kali_data_alerts
+    using:
+      manual_configuration:
+        remote_table:
+          schema: v1
+          name: kali_data_alerts
+        column_mapping:
+          name: status
+  - name: legi_data_alerts
+    using:
+      manual_configuration:
+        remote_table:
+          schema: v1
+          name: legi_data_alerts
+        column_mapping:
+          name: status
   select_permissions:
   - role: user
     permission:
@@ -127,6 +151,9 @@
     schema: public
     name: alerts
   object_relationships:
+  - name: alert_status
+    using:
+      foreign_key_constraint_on: status
   - name: source
     using:
       foreign_key_constraint_on: repository
@@ -213,3 +240,12 @@
       - created_at
       filter: {}
       check: {}
+- table:
+    schema: v1
+    name: fiche_vdd_alerts
+- table:
+    schema: v1
+    name: kali_data_alerts
+- table:
+    schema: v1
+    name: legi_data_alerts

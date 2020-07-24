@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
+    "downlevelIteration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -9,7 +10,10 @@
     "skipLibCheck": true,
     "strict": true,
     "lib": ["es2019"],
-    "typeRoots": ["node_modules/@types", "typings"]
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "src/@types/*"]
+    }
   },
-  "include": ["src/**/*.js"]
+  "include": ["src"]
 }

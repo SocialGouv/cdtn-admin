@@ -3,7 +3,7 @@
  * within the nodejs scripts
  */
 import "isomorphic-unfetch";
-import { createClient } from "urql";
+import { createClient } from "@urql/core";
 
 const HASURA_GRAPHQL_ADMIN_SECRET = process.env.HASURA_GRAPHQL_ADMIN_SECRET;
 const HASURA_GRAPHQL_ENDPOINT = process.env.GRAPHQL_ENDPOINT;

@@ -2,7 +2,31 @@ import parents from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
 /**
- * @param {import("unist-util-parents").NodeWithParent} node
+ * Transform a Kali or Legi id into a number
+ * @param {string} id
+ */
+function numify(id) {
+  return parseInt(id.replace(/(LEGIARTI|KALIARTI)/, ""), 10) || 0;
+}
+/**
+ * filter DilaTree with uniq / latest article since there is a bug
+ * in legi-data wich don't correctly filter article
+ * this function could be removed once the last alert from legi will be 1.24
+ *
+ * @param {alerts.DilaNode} node
+ * @param {*} _
+ * @param {alerts.DilaNode[]} nodes
+ */
+export function uniq(node, _, nodes) {
+  const ids = nodes
+    .filter((item) => item.data.cid === node.data.cid)
+    .map((item) => numify(item.data.id));
+  const max = Math.max(0, ...ids);
+  return numify(node.data.id) === max;
+}
+
+/**
+ * @param {alerts.DilaNode | null} node
  */
 const getParents = (node) => {
   var chain = [];
@@ -15,28 +39,28 @@ const getParents = (node) => {
 
 // find the first parent text id to make legifrance links later
 /**
- * @param {import("unist-util-parents").NodeWithParent} node
+ * @param {alerts.DilaNode} node
  */
 const getParentTextId = (node) => {
   let id;
-  node = node.parent;
-  while (node) {
+  let tempNode = node.parent;
+  while (tempNode) {
     if (
-      node.data &&
-      node.data.id &&
-      node.data.id.match(/^(KALI|LEGI)TEXT\d+$/)
+      tempNode.data &&
+      tempNode.data.id &&
+      tempNode.data.id.match(/^(KALI|LEGI)TEXT\d+$/)
     ) {
-      id = node.data.id;
+      id = tempNode.data.id;
       break;
     }
-    node = node.parent;
+    tempNode = tempNode.parent;
   }
   return id || null;
 };
 
 // find the root text id to make legifrance links later
 /**
- * @param {import("unist-util-parents").NodeWithParent} node
+ * @param {alerts.DilaNode | null} node
  */
 const getRootId = (node) => {
   let id;
@@ -48,41 +72,48 @@ const getRootId = (node) => {
 };
 
 /**
- * @param {import("unist-util-parents").NodeWithParent} node
- * @returns {import("unist-util-parents").NodeWithParent} node
+ * @param {alerts.DilaNode} node
+ * @returns {alerts.DilaNodeWithContext} node
  */
 const addContext = (node) => ({
   ...node,
-  parents: getParents(node),
-  textId: getParentTextId(node) || null,
-  rootId: getRootId(node) || null,
+  context: {
+    containerId: getRootId(node),
+    parents: getParents(node),
+    textId: getParentTextId(node),
+  },
 });
 
 // dont include children in final results
 /**
  * @param {import("unist").Node} node
  */
-const stripChildren = (node) => node; //({ children, ...props }) => props;
-
+// eslint-disable-next-line no-unused-vars
+const stripChildren = ({ children, ...props }) => props;
 
 /**
  *
- * @param {import("unist-util-parents").NodeWithParent} tree1
- * @param {import("unist-util-parents").NodeWithParent} tree2
- * @param {alerts.nodeComparatorFn} comparator
- * @returns {alerts.Changes} diffed articles nodes
+ * @param {alerts.DilaNode} tree1
+ * @param {alerts.DilaNode} tree2
+ * @param {alerts.nodeComparatorFn<alerts.DilaNode>} comparator
+ * @returns {alerts.AstChanges} diffed articles nodes
  */
 export const compareArticles = (tree1, tree2, comparator) => {
   const parentsTree1 = parents(tree1);
   const parentsTree2 = parents(tree2);
 
   // all articles from tree1
-  const articles1 = selectAll("article", parentsTree1).map(addContext);
+  const articles1 = selectAll("article", parentsTree1)
+    .filter(uniq)
+    .map(addContext);
   const articles1cids = articles1
     .map((a) => a && a.data && a.data.cid)
     .filter(Boolean);
+
   // all articles from tree2
-  const articles2 = selectAll("article", parentsTree2).map(addContext);
+  const articles2 = selectAll("article", parentsTree2)
+    .filter(uniq)
+    .map(addContext);
   const articles2cids = articles2
     .map((a) => a && a.data && a.data.cid)
     .filter(Boolean);
@@ -116,12 +147,12 @@ export const compareArticles = (tree1, tree2, comparator) => {
   );
 
   // all sections from tree1
-  const sections1 = selectAll("section", parentsTree1.children).map(addContext);
+  const sections1 = selectAll("section", parentsTree1).map(addContext);
 
   const sections1cids = sections1.map((a) => a.data.cid);
 
   // all sections from tree2
-  const sections2 = selectAll("section", parentsTree2.children).map(addContext);
+  const sections2 = selectAll("section", parentsTree2).map(addContext);
   const sections2cids = sections2.map((a) => a.data.cid);
 
   // new : sections in tree2 not in tree1
@@ -150,14 +181,11 @@ export const compareArticles = (tree1, tree2, comparator) => {
 
   const changes = {
     added: [...newSections, ...newArticles].map(stripChildren),
-    removed: [...missingSections, ...missingArticles].map(stripChildren),
     modified: [
       ...modifiedSections.map((modif) => ({
         ...modif,
         // add the previous version in the result so we can diff later
-        previous: sections1.find(
-          (a) => a.data.cid === modif.data.cid
-        ),
+        previous: sections1.find((a) => a.data.cid === modif.data.cid),
       })),
       ...modifiedArticles.map((modif) => ({
         ...modif,
@@ -165,6 +193,7 @@ export const compareArticles = (tree1, tree2, comparator) => {
         previous: articles1.find((a) => a.data.cid === modif.data.cid),
       })),
     ].map(stripChildren),
+    removed: [...missingSections, ...missingArticles].map(stripChildren),
   };
 
   return changes;

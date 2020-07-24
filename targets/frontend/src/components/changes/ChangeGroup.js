@@ -4,7 +4,7 @@ import { AccordionButton } from "src/components/button";
 import { AccordionItem, AccordionPanel } from "@reach/accordion";
 
 export const ChangesGroup = ({ changes, label, renderChange }) => {
-  return changes.length > 0 ? (
+  return changes && changes.length > 0 ? (
     <AccordionItem>
       <AccordionButton>{label}</AccordionButton>
       <AccordionPanel>

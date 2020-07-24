@@ -3,20 +3,35 @@
   "version": "1.0.0",
   "dependencies": {
     "@shared/graphql-client": "1.0.0",
+    "@socialgouv/cdtn-slugify": "^4.26.0",
+    "@socialgouv/cdtn-sources": "^4.26.0",
+    "@socialgouv/contributions-data": "^2.8.3",
+    "@socialgouv/datafiller-data": "^1.37.0",
+    "@socialgouv/fiches-travail-data": "^3.135.0",
+    "node-git": "^0.0.0",
     "nodegit": "0.26.5",
     "semver": "^7.3.2",
     "unist-util-parents": "^1.0.3",
     "unist-util-select": "^3.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
     "@rollup/plugin-commonjs": "^13.0.1",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
+    "@socialgouv/eslint-config-recommended": "^1.9.0",
+    "@types/jest": "^26.0.4",
     "@types/node": "^12.12.50",
     "@types/nodegit": "^0.26.6",
     "@types/semver": "^7.3.1",
     "@types/unist": "^2.0.3",
+    "babel-jest": "^26.1.0",
     "builtin-modules": "^3.1.0",
+    "eslint": "^7.4.0",
     "esm": "^3.2.25",
+    "jest": "^26.1.0",
+    "lint-staged": "^10.2.11",
     "rollup": "^2.18.1",
     "typescript": "^3.9.6"
   },
@@ -28,6 +43,28 @@
     "start": "node --enable-source-maps --unhandled-rejections=strict ./dist/index.js",
     "start:dev": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node -r esm src/index.js",
     "start:dump": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 DUMP=true node -r esm src/index.js > data/dump.json",
-    "types": "tsc"
+    "lint": "eslint src/**/*.js",
+    "types": "tsc",
+    "test": "jest"
+  },
+  "jest": {
+    "clearMocks": true,
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!**/node_modules/**",
+      "!**/data/**"
+    ],
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/data/"
+    ]
+  },
+  "lint-staged": {
+    "*.{j,t}s": [
+      "eslint --fix",
+      "jest --bail --findRelatedTests"
+    ]
   }
 }

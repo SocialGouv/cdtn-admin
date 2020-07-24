@@ -1,19 +1,66 @@
 /** @jsx jsx */
-import { jsx, Badge, Card } from "theme-ui";
+import { jsx, Badge, Card, Text } from "theme-ui";
 import { ViewDiff } from "./ViewDiff";
 import { Collapsible } from "../collapsible";
 import PropTypes from "prop-types";
 
-export function DiffChange({ change, repository }) {
+export function DilaLink({ info, children }) {
+  const { context, data, type } = info;
+  let url = "https://legifrance.gouv.fr/affichCode";
+  if (context.containerId.startsWith("LEGI")) {
+    if (type === "article") {
+      // article d'un code
+      url = `https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=${data.id}&cidTexte=${context.textId}`;
+    } else if (type === "section") {
+      // section d'un code
+      url = `https://www.legifrance.gouv.fr/affichCode.do?idSectionTA=${data.id}&cidTexte=${context.textId}`;
+    }
+  }
+  if (context.containerId.startsWith("KALI")) {
+    if (type === "article") {
+      // article d'une CC ou teste annexe
+      url = `https://www.legifrance.gouv.fr/affichIDCCArticle.do?idArticle=${data.id}&cidTexte=${context.textId}`;
+    } else if (type === "section") {
+      // si section
+      if (data.id && data.id.match(/^KALISCTA/)) {
+        url = `https://www.legifrance.gouv.fr/affichIDCC.do?idSectionTA=${
+          data.id
+        }&idConvention=${context.textId || context.containerId}`;
+        // si texte attaché/annexe
+      } else if (data.id && data.id.match(/^KALITEXT/)) {
+        url = `https://www.legifrance.gouv.fr/affichIDCC.do?cidTexte=${
+          data.id
+        }&idConvention=${context.textId || context.containerId}`;
+      }
+    }
+  }
+  return (
+    <a rel="nooppener noreferrer" target="_blank" href={url}>
+      {children}
+    </a>
+  );
+}
+
+export function DilaDiffChange({ change }) {
   const { data, previous } = change;
-  const textFieldname = /legi-data/.test(repository) ? "texte" : "content";
+  const textFieldname =
+    change.context.containerId === "LEGITEXT000006072050" ? "text" : "content";
   const content = data[textFieldname] || "";
   const previousContent = previous?.data[textFieldname] || "";
   const showDiff = previous && content !== previousContent;
   const showNotaDiff = previous && previous.data.nota !== data.nota;
+
   return (
-    <div>
-      Article {data.num}{" "}
+    <li>
+      {change.type === "section" && (
+        <>
+          {change.context.parents.slice(-3, -1).join(" › ")} -
+          <DilaLink info={change}>{change.data.title}</DilaLink>
+        </>
+      )}
+      {change.type === "article" && (
+        <DilaLink info={change}>Article {data.num}</DilaLink>
+      )}
       {previous?.data.etat && previous?.data.etat !== data.etat && (
         <>
           <Badge sx={{ px: "xxsmall", bg: getBadgeColor(previous.data.etat) }}>
@@ -61,8 +108,42 @@ export function DiffChange({ change, repository }) {
           </Card>
         </Collapsible>
       )}
-    </div>
+    </li>
   );
+}
+const ficheVddTypeSlug = {
+  associations: "associations",
+  particuliers: "particuliers",
+  professionnels: "professionnels-entreprise",
+};
+function getFicheVddUrl(change) {
+  return `https://www.service-public.fr/${
+    ficheVddTypeSlug[change.type]
+  }/vosdroits/${change.id}`;
+}
+export function FicheVddDiffchange({ change }) {
+  return (
+    <li>
+      <a
+        target="_blank"
+        rel="noreferrer noopener"
+        href={getFicheVddUrl(change)}
+      >
+        {change.title}
+      </a>
+      <br />
+      <Text sx={{ fontSize: "small" }}>{change.theme}</Text>
+    </li>
+  );
+}
+
+export function DiffChange({ change, type }) {
+  switch (type) {
+    case "dila":
+      return <DilaDiffChange change={change} />;
+    case "vdd":
+      return <FicheVddDiffchange change={change} />;
+  }
 }
 
 DiffChange.propTypes = {
