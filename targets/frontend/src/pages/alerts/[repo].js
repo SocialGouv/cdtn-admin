@@ -14,6 +14,8 @@ import { ChangesGroup } from "src/components/changes/ChangeGroup";
 import { DiffChange } from "src/components/changes";
 import { AlertTitle } from "src/components/alerts/AlertTitle";
 import { getStatusLabel } from "src/models";
+import slugify from "@socialgouv/cdtn-slugify";
+import { getRouteBySource } from "@socialgouv/cdtn-sources";
 
 const getAlertQuery = `
 query getAlerts($status: String!, $repository: String!) {
@@ -76,13 +78,15 @@ export function AlertPage() {
   console.log("<AlertPage> render", result, hash, repository);
 
   if (fetching) {
-    return <div>Chargement...</div>;
+    return <Layout title="Gestion des alertes">Chargement...</Layout>;
   }
   if (error) {
     return (
-      <Message>
-        <pre>{JSON.stringify(error, 0, 2)}</pre>
-      </Message>
+      <Layout title="Gestion des alertes">
+        <Message>
+          <pre>{JSON.stringify(error, 0, 2)}</pre>
+        </Message>
+      </Layout>
     );
   }
   const { statuses, alerts } = data;
@@ -161,16 +165,24 @@ export function AlertPage() {
             <ChangesGroup
               changes={alert.changes.documents}
               label="Contenus liés"
-              renderChange={(item, i) => (
-                <li key={`${alert.id}-documents-${i}`}>
-                  <a
-                    key={item.document.id}
-                    href={`https://code.travail.gouv.fr/contributions/${item.document.title}`}
-                  >
-                    {item.document.title}
-                  </a>
-                </li>
-              )}
+              renderChange={(item, i) => {
+                const [title, anchor] = item.document.title.split("#");
+
+                return (
+                  <li key={`${alert.id}-documents-${i}`}>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      key={item.document.id}
+                      href={`https://code.travail.gouv.fr/${getRouteBySource(
+                        item.document.type
+                      )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
+                    >
+                      {title}
+                    </a>
+                  </li>
+                );
+              }}
             />
           </Accordion>
         </Container>
