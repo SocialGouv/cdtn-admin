@@ -1,21 +1,21 @@
 /** @jsx jsx  */
 
-import Link from "next/link";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
-import { Layout } from "src/components/layout/auth.layout";
-import { jsx, Message, NavLink, Container, Divider } from "theme-ui";
-import { useRouter } from "next/router";
-import { useQuery } from "urql";
-import { useState, useEffect, useMemo } from "react";
 import { Accordion } from "@reach/accordion";
-import { Tabs, TabItem } from "src/components/tabs";
-import { ChangesGroup } from "src/components/changes/ChangeGroup";
-import { DiffChange } from "src/components/changes";
-import { AlertTitle } from "src/components/alerts/AlertTitle";
-import { getStatusLabel } from "src/models";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
+import { AlertTitle } from "src/components/alerts/AlertTitle";
+import { DiffChange } from "src/components/changes";
+import { ChangesGroup } from "src/components/changes/ChangeGroup";
+import { Layout } from "src/components/layout/auth.layout";
+import { TabItem, Tabs } from "src/components/tabs";
+import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
+import { withUserProvider } from "src/hoc/UserProvider";
+import { getStatusLabel } from "src/models";
+import { Container, Divider, jsx, Message, NavLink } from "theme-ui";
+import { useQuery } from "urql";
 
 const getAlertQuery = `
 query getAlerts($status: String!, $repository: String!) {
