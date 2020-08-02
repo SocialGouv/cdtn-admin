@@ -25,7 +25,8 @@
     "dev": "nps dev",
     "lint": "nps lint",
     "start": "nps",
-    "test": "nps test"
+    "test": "nps test",
+    "k8s": "yarn --silent --cwd .k8s"
   },
   "workspaces": [
     "shared/*",

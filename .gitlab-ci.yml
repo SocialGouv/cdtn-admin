@@ -1,7 +1,7 @@
 include:
   - project: SocialGouv/gitlab-ci-yml
     file: /autodevops_simple_app.yml
-    ref: v16.2.0
+    ref: v17.3.0
   #
   - /targets/alert-cli/.gitlab-ci.yml
   - /targets/hasura/.gitlab-ci.yml
@@ -14,24 +14,6 @@ workflow:
       when: never
     # Otherwise include the job and set to run normally
     - when: always
-
-variables:
-  ENABLE_AZURE_POSTGRES: 1
-
-Create namespace:
-  extends:
-    - .autodevops_create_namespace
-  after_script:
-    # Copy namespace default creds
-    - kubectl get secret cdtn-admin-secrets --namespace=cdtn-admin-secret --export -o yaml |
-      kubectl apply --namespace=${K8S_NAMESPACE} -f -
-
-Create Azure DB (dev):
-  extends: .autodevops_create_azure_db_dev
-  variables:
-    NEW_DB_EXTENSIONS: "pgcrypto hstore citext"
-
-#
 
 Install:
   only:
