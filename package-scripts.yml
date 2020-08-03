@@ -10,7 +10,6 @@ scripts:
       "docker-compose up --build postgres hasura"
     frontend: yarn --cwd targets/frontend dev
 
-
   e2e:
     default: lerna run --stream --parallel e2e
 
@@ -18,7 +17,7 @@ scripts:
     default: lerna run --stream --parallel lint
 
   test:
-    default: lerna run --stream --parallel test
+    default: lerna run --stream --parallel test && yarn k8s test
 
   pre-commit:
     default: lerna run --concurrency 1 --stream pre-commit --since HEAD --exclude-dependents

@@ -34,7 +34,7 @@ spec:
                   value: "http://hasura-cdtn-admin/v1/graphql"
               envFrom:
                 - secretRef:
-                    name: cdtn-admin-secrets
+                    name: app-sealed-secret
               volumeMounts:
                 - name: data
                   mountPath: "/app/data"
