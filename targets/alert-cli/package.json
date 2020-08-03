@@ -21,7 +21,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "@socialgouv/eslint-config-recommended": "^1.9.0",
-    "@types/jest": "^26.0.7",
+    "@types/jest": "^26.0.8",
     "@types/node": "^12.12.53",
     "@types/nodegit": "^0.26.7",
     "@types/semver": "^7.3.1",
