@@ -82,4 +82,4 @@ Register www:
     DOCKER_BUILD_ARGS: >-
       --shm-size 512M
       -f targets/frontend/Dockerfile
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/www
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/app
