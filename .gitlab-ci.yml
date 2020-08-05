@@ -14,19 +14,24 @@ workflow:
       when: never
     # Otherwise include the job and set to run normally
     - when: always
-# Build:
-#   needs: []
-#   only:
-#     - never
-# Test:
-#   needs: []
-#   only:
-#     - never
-# Lint:
-#   needs: []
-#   only:
-#     - never
 
-# Register image:
-#   only:
-#     - never
+Install:
+  needs: []
+
+Build:
+  needs: []
+
+Test:
+  needs: []
+
+Lint:
+  needs: []
+
+Register image:
+  needs: []
+
+Review:
+  needs: []
+
+Production:
+  needs: []
