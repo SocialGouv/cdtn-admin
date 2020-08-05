@@ -104,8 +104,12 @@ Trigger alert (dev):
   extends:
     - .autodevops_review
     #- .trigger_alert_cron
+  rules:
+    - when: manual
 
 Trigger alert (prod):
   extends:
     - .autodevops_production
     # - .trigger_alert_cron
+  rules:
+    - when: manual
