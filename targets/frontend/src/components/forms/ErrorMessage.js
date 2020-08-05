@@ -1,8 +1,8 @@
 /** @jsx jsx */
 
-import { jsx } from "theme-ui";
 import PropTypes from "prop-types";
 import { ErrorMessage } from "react-hook-form";
+import { jsx } from "theme-ui";
 
 export function FormErrorMessage({ errors, fieldName }) {
   return (
@@ -13,6 +13,6 @@ export function FormErrorMessage({ errors, fieldName }) {
 }
 
 FormErrorMessage.propTypes = {
-  fieldName: PropTypes.string,
   errors: PropTypes.object,
+  fieldName: PropTypes.string,
 };

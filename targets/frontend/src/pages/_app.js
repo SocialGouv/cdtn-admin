@@ -1,23 +1,24 @@
-import React from "react";
-import App from "next/app";
-import * as Sentry from "@sentry/node";
-import { init } from "@socialgouv/matomo-next";
-import { theme } from "src/theme";
-import { ThemeProvider } from "theme-ui";
 import "@reach/menu-button/styles.css";
 import "@reach/dialog/styles.css";
 import "@reach/accordion/styles.css";
 
+import * as Sentry from "@sentry/node";
+import { init } from "@socialgouv/matomo-next";
+import App from "next/app";
+import React from "react";
+import { theme } from "src/theme";
+import { ThemeProvider } from "theme-ui";
+
 Sentry.init({
-  enabled: process.env.NODE_ENV === "production",
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  enabled: process.env.NODE_ENV === "production",
 });
 
 class MyApp extends App {
   componentDidMount() {
     init({
-      url: process.env.NEXT_PUBLIC_MATOMO_URL,
       siteId: process.env.NEXT_PUBLIC_MATOMO_SITE_ID,
+      url: process.env.NEXT_PUBLIC_MATOMO_URL,
     });
     // force onload swapping on stylesheet since it's not work on nextjs
     // @see _document.js

@@ -5,6 +5,7 @@ import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
 import { IoMdClose } from "react-icons/io";
 import { css, jsx } from "theme-ui";
+
 import { IconButton } from "../button";
 import { Stack } from "../layout/Stack";
 
@@ -21,18 +22,18 @@ export function Dialog({ isOpen = false, onDismiss, children }) {
 }
 
 const styles = {
-  dialog: css({
-    position: "relative",
-  }),
   closeBt: css({
     position: "absolute",
     right: "xxsmall",
     top: "xxsmall",
   }),
+  dialog: css({
+    position: "relative",
+  }),
 };
 
 Dialog.propTypes = {
+  children: PropTypes.nodes,
   isOpen: PropTypes.bool,
   onDismiss: PropTypes.func.isRequired,
-  children: PropTypes.nodes,
 };

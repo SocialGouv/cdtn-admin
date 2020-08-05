@@ -5,8 +5,8 @@ import { request } from "src/lib/request";
 import { useQuery } from "urql";
 
 export const UserContext = createContext({
-  user: null,
   setUser: () => {},
+  user: null,
 });
 
 export const getUserQuery = `
@@ -37,10 +37,10 @@ export function UserProvider({ children }) {
     if (result.data?.user) {
       setUser(result.data?.user);
     }
-  }, [result.data?.user]);
+  }, [result.data]);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ setUser, user }}>
       {children}
     </UserContext.Provider>
   );
@@ -66,9 +66,9 @@ export function useUser() {
   const isAuth = Boolean(user);
   const isAdmin = user?.roles.some((item) => item.role === "admin");
   return {
-    user,
     isAdmin,
     isAuth,
     logout,
+    user,
   };
 }

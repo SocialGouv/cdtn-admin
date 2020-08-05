@@ -1,8 +1,9 @@
 /** @jsx jsx */
-import { jsx, Badge, Card, Text } from "theme-ui";
-import { ViewDiff } from "./ViewDiff";
-import { Collapsible } from "../collapsible";
 import PropTypes from "prop-types";
+import { Badge, Card, jsx, Text } from "theme-ui";
+
+import { Collapsible } from "../collapsible";
+import { ViewDiff } from "./ViewDiff";
 
 export function DilaLink({ info, children }) {
   const { context, data, type } = info;
@@ -41,6 +42,20 @@ export function DilaLink({ info, children }) {
   );
 }
 
+DilaLink.propTypes = {
+  children: PropTypes.nodes,
+  info: PropTypes.shape({
+    context: PropTypes.shape({
+      containerId: PropTypes.string,
+      textId: PropTypes.string,
+    }),
+    data: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    type: PropTypes.string,
+  }),
+};
+
 export function DilaDiffChange({ change }) {
   const { data, previous } = change;
   const textFieldname =
@@ -63,13 +78,13 @@ export function DilaDiffChange({ change }) {
       )}
       {previous?.data.etat && previous?.data.etat !== data.etat && (
         <>
-          <Badge sx={{ px: "xxsmall", bg: getBadgeColor(previous.data.etat) }}>
+          <Badge sx={{ bg: getBadgeColor(previous.data.etat), px: "xxsmall" }}>
             {previous.data.etat}
           </Badge>{" "}
           ›{" "}
         </>
       )}
-      <Badge sx={{ px: "xxsmall", bg: getBadgeColor(data.etat) }}>
+      <Badge sx={{ bg: getBadgeColor(data.etat), px: "xxsmall" }}>
         {data.etat}
       </Badge>
       {showDiff && (
@@ -80,11 +95,11 @@ export function DilaDiffChange({ change }) {
               inputB={content}
               type={"words"}
               style={{
+                background: "#fff",
+                border: "1px solid silver",
+                borderRadius: 3,
                 padding: 5,
                 whiteSpace: "pre-line",
-                border: "1px solid silver",
-                background: "#fff",
-                borderRadius: 3,
               }}
             />
           </Card>
@@ -98,11 +113,11 @@ export function DilaDiffChange({ change }) {
               inputB={data.nota}
               type={"words"}
               style={{
+                background: "#fff",
+                border: "1px solid silver",
+                borderRadius: 3,
                 padding: 5,
                 whiteSpace: "pre-line",
-                border: "1px solid silver",
-                background: "#fff",
-                borderRadius: 3,
               }}
             />
           </Card>
@@ -111,6 +126,16 @@ export function DilaDiffChange({ change }) {
     </li>
   );
 }
+
+DilaDiffChange.propTypes = {
+  change: PropTypes.shape({
+    context: PropTypes.object,
+    data: PropTypes.object,
+    previous: PropTypes.object,
+    type: PropTypes.string,
+  }).isRequired,
+};
+
 const ficheVddTypeSlug = {
   associations: "associations",
   particuliers: "particuliers",
@@ -137,6 +162,14 @@ export function FicheVddDiffchange({ change }) {
   );
 }
 
+FicheVddDiffchange.propTypes = {
+  change: PropTypes.shape({
+    theme: PropTypes.string,
+    title: PropTypes.string,
+  }).isRequired,
+  type: PropTypes.string.isRequired,
+};
+
 export function DiffChange({ change, type }) {
   switch (type) {
     case "dila":
@@ -147,8 +180,8 @@ export function DiffChange({ change, type }) {
 }
 
 DiffChange.propTypes = {
-  repository: PropTypes.string.isRequired,
   change: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 function getBadgeColor(etat) {

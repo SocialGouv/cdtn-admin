@@ -9,7 +9,8 @@ import {
   share,
   takeUntil,
 } from "wonka";
-import { getToken, refreshToken, isTokenExpired, setToken } from "./token";
+
+import { getToken, isTokenExpired, refreshToken, setToken } from "./token";
 
 // come from https://gist.github.com/kitten/6050e4f447cb29724546dd2e0e68b470#file-authexchangewithteardown-js
 

@@ -52,7 +52,7 @@ export function EditUserPage() {
       rolePromise = saveRole({ id: user.id, role });
     }
     rolePromise
-      .then(() => saveUser({ id: user.id, name, email }))
+      .then(() => saveUser({ email, id: user.id, name }))
       .then((result) => {
         if (!result.error) {
           router.push("/users");

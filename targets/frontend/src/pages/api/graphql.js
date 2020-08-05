@@ -7,12 +7,8 @@ export const config = {
 };
 
 const proxy = createProxyMiddleware({
-  target: process.env.GRAPHQL_ENDPOINT,
   changeOrigin: true,
-  xfwd: true,
-  prependPath: false,
   followRedirects: true,
-  pathRewrite: { "^/api/graphql": "/v1/graphql" },
   logLevel: "debug",
   onError: (err, req, res) => {
     res.writeHead(500, {
@@ -21,7 +17,11 @@ const proxy = createProxyMiddleware({
     // todo: sentry
     res.end("Something went wrong. We've been notified.");
   },
-  ws: true, // proxy websockets
+  pathRewrite: { "^/api/graphql": "/v1/graphql" },
+  prependPath: false,
+  target: process.env.GRAPHQL_ENDPOINT,
+  ws: true,
+  xfwd: true, // proxy websockets
 });
 
 export default proxy;

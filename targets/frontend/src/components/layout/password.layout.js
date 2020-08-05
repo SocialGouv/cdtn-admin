@@ -1,8 +1,9 @@
 /** @jsx jsx */
-import PropTypes from "prop-types";
-import { Box, Flex, jsx, Card, Heading } from "theme-ui";
-import { Header } from "./header";
 import Head from "next/head";
+import PropTypes from "prop-types";
+import { Box, Card, Flex, Heading, jsx } from "theme-ui";
+
+import { Header } from "./header";
 import { Stack } from "./Stack";
 
 export function PasswordLayout({ children, title }) {
@@ -29,6 +30,6 @@ export function PasswordLayout({ children, title }) {
   );
 }
 PasswordLayout.propTypes = {
-  title: PropTypes.string.isRequired,
   children: PropTypes.node,
+  title: PropTypes.string.isRequired,
 };

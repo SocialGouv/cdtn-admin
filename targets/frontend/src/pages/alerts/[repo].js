@@ -70,9 +70,9 @@ export function AlertPage() {
   const repository = router.query.repo.replace(/–/, "/");
   const context = useMemo(() => ({ additionalTypenames: ["alerts"] }), []);
   const [result] = useQuery({
+    context,
     query: getAlertQuery,
     variables: { repository, status: hash },
-    context,
   });
   const { fetching, error, data } = result;
   console.log("<AlertPage> render", result, hash, repository);

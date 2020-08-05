@@ -1,10 +1,11 @@
 /** @jsx jsx */
+import Head from "next/head";
 import PropTypes from "prop-types";
 import { IconContext } from "react-icons";
-import { Box, Flex, jsx, Card, Heading } from "theme-ui";
+import { Box, Card, Flex, Heading, jsx } from "theme-ui";
+
 import { Header } from "./header";
 import { Nav } from "./Nav";
-import Head from "next/head";
 
 export function Layout({ children, title }) {
   console.log("-- <Layout>");
@@ -27,6 +28,6 @@ export function Layout({ children, title }) {
   );
 }
 Layout.propTypes = {
-  title: PropTypes.string.isRequired,
   children: PropTypes.node,
+  title: PropTypes.string.isRequired,
 };

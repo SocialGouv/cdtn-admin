@@ -1,12 +1,11 @@
 /** @jsx jsx */
-import { jsx, Box } from "theme-ui";
-
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { Header } from "src/components/layout/header";
 import LoginForm from "src/components/login";
 import { setToken } from "src/lib/auth/token";
 import { request } from "src/lib/request";
-import { Header } from "src/components/layout/header";
+import { Box, jsx } from "theme-ui";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,10 +21,10 @@ export default function LoginPage() {
 
   const authenticate = ({ email, password }) => {
     return request("/api/login", {
+      body: { password, username: email },
       headers: {
         "Cache-Control": "no-cache",
       },
-      body: { username: email, password },
     }).then((tokenData) => {
       setToken(tokenData);
     });
@@ -39,9 +38,9 @@ export default function LoginPage() {
       <Header />
       <div
         sx={{
-          minHeight: "90vh",
-          display: "flex",
           alignItems: "center",
+          display: "flex",
+          minHeight: "90vh",
         }}
       >
         <Box p="large" sx={{ flex: 1 }}>

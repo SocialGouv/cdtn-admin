@@ -1,7 +1,8 @@
 import { parse, serialize } from "cookie";
 import Router from "next/router";
-import { setRefreshTokenCookie } from "./setRefreshTokenCookie";
+
 import { request } from "../request";
+import { setRefreshTokenCookie } from "./setRefreshTokenCookie";
 
 let token = null;
 
@@ -36,10 +37,10 @@ async function refreshToken(ctx) {
         ? `${process.env.FRONTEND_URL}/api/refresh_token`
         : "/api/refresh_token",
       {
-        credentials: "include",
-        mode: "same-origin",
-        headers,
         body: {},
+        credentials: "include",
+        headers,
+        mode: "same-origin",
       }
     );
 

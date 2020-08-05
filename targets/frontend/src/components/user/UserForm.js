@@ -1,14 +1,15 @@
 /** @jsx jsx  */
+import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { Field, jsx, Label, Select, NavLink } from "theme-ui";
-import { FormErrorMessage } from "../forms/ErrorMessage";
-import { Stack } from "../layout/Stack";
+import { Field, jsx, Label, NavLink, Select } from "theme-ui";
 import { useQuery } from "urql";
-import { getRoleQuery } from "../Roles";
-import Link from "next/link";
+
+import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Inline } from "../layout/Inline";
+import { Stack } from "../layout/Stack";
+import { getRoleQuery } from "../Roles";
 
 export function UserForm({
   onSubmit,
@@ -36,7 +37,7 @@ export function UserForm({
             label="Nom d’utilisateur"
             defaultValue={user?.name}
             ref={register({
-              required: { value: true, message: "Ce champ est requis" },
+              required: { message: "Ce champ est requis", value: true },
             })}
           />
           <FormErrorMessage errors={errors} fieldName="name" />
@@ -49,8 +50,8 @@ export function UserForm({
             name="email"
             defaultValue={user?.email}
             ref={register({
-              required: { value: true, message: "Ce champ est requis" },
-              pattern: { value: /^\S+@\S+$/i, message: "L'email est invalide" },
+              pattern: { message: "L'email est invalide", value: /^\S+@\S+$/i },
+              required: { message: "Ce champ est requis", value: true },
             })}
           />
           <FormErrorMessage errors={errors} fieldName="email" />
@@ -85,9 +86,9 @@ export function UserForm({
 }
 
 UserForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
-  user: PropTypes.object,
-  isAdmin: PropTypes.bool,
   backHref: PropTypes.string,
+  isAdmin: PropTypes.bool,
+  loading: PropTypes.bool,
+  onSubmit: PropTypes.func.isRequired,
+  user: PropTypes.object,
 };

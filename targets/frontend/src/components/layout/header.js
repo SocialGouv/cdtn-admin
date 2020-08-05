@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { IoMdContact } from "react-icons/io";
 import { MenuButton, MenuItem } from "src/components/button";
 import { Box, Image, jsx, Text } from "theme-ui";
+
 import { useUser } from "../../hooks/useUser";
 
 export function Header() {
@@ -17,26 +18,26 @@ export function Header() {
     <Container>
       <header
         sx={{
+          boxShadow: "medium",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          position: "relative",
           px: ["small", "large"],
           py: "xxsmall",
-          display: "flex",
-          boxShadow: "medium",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          position: "relative",
         }}
       >
         <Link href="/">
           <a
             sx={{
-              textDecoration: "none",
-              color: "text",
-              transition: "color .15s ease",
               "&:hover": {
                 color: "secondary",
               },
-              display: "inline-flex",
               alignItems: "center",
+              color: "text",
+              display: "inline-flex",
+              textDecoration: "none",
+              transition: "color .15s ease",
             }}
             href="/"
             title="Retour à l'accueil"
@@ -49,10 +50,10 @@ export function Header() {
               }}
             />
             <Box paddingLeft="small">
-              <Text sx={{ lineHeight: "heading", fontSize: "large" }}>
+              <Text sx={{ fontSize: "large", lineHeight: "heading" }}>
                 veille & administration
               </Text>
-              <Text sx={{ fontWeight: 300, fontSize: "small" }}>
+              <Text sx={{ fontSize: "small", fontWeight: 300 }}>
                 Code du travail numérique
               </Text>
             </Box>
@@ -60,7 +61,7 @@ export function Header() {
         </Link>
         {user && (
           <div
-            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+            sx={{ alignItems: "center", display: "flex", flexDirection: "row" }}
           >
             {" "}
             <IoMdContact sx={{ fontSize: "icons" }} />

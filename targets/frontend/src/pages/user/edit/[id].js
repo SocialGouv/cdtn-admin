@@ -1,14 +1,14 @@
 /** @jsx jsx  */
 
-import PropTypes from "prop-types";
 import { useRouter } from "next/router";
+import PropTypes from "prop-types";
 import { Layout } from "src/components/layout/auth.layout";
 import { UserForm } from "src/components/user/UserForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
+import { getUserQuery, useUser } from "src/hooks/useUser";
 import { jsx } from "theme-ui";
 import { useMutation } from "urql";
-import { getUserQuery, useUser } from "src/hooks/useUser";
 
 const saveUserMutation = `
 mutation saveUser($id: uuid!, $name:String!, $email: citext!) {
@@ -44,7 +44,7 @@ export function EditUserPage({ user }) {
       rolePromise = saveRole({ id: user.id, role: default_role });
     }
     rolePromise
-      .then(() => saveUser({ id: user.id, name, email }))
+      .then(() => saveUser({ email, id: user.id, name }))
       .then((result) => {
         if (!result.error) {
           router.push("/users");
@@ -72,9 +72,9 @@ EditUserPage.getInitialProps = async function ({ urqlClient, query }) {
   const result = await urqlClient.query(getUserQuery, { id }).toPromise();
   if (!result.data.user) {
     return Promise.reject({
+      message: "User not found",
       name: "not found",
       statusCode: 404,
-      message: "User not found",
     });
   }
   return { user: result.data.user };

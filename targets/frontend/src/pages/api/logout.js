@@ -1,9 +1,9 @@
 import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
+import { client } from "@shared/graphql-client";
 import cookie from "cookie";
 import { createErrorFor } from "src/lib/apiError";
 import { setToken } from "src/lib/auth/token";
-import { client } from "@shared/graphql-client";
 
 export default async function logout(req, res) {
   const apiError = createErrorFor(res);
@@ -43,11 +43,11 @@ export default async function logout(req, res) {
   res.setHeader(
     "Set-Cookie",
     cookie.serialize("refresh_token", "deleted", {
+      httpOnly: true,
+      maxAge: 0,
+      path: "/",
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 0,
-      httpOnly: true,
-      path: "/",
     })
   );
 
