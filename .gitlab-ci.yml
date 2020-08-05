@@ -35,11 +35,3 @@ Lint:
 Register image:
   only:
     - never
-
-Review:
-  only:
-    - never
-
-Production:
-  only:
-    - never
