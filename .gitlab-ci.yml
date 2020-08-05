@@ -36,10 +36,10 @@ Register image:
   only:
     - never
 
-Deploy app (dev):
+Review:
   only:
     - never
 
-Deploy app (prod):
+Production:
   only:
     - never
