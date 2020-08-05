@@ -1,6 +1,6 @@
 include:
   - project: SocialGouv/gitlab-ci-yml
-    file: /autodevops.yml
+    file: /base_autodevops.yml
     ref: v17.3.0
   #
   - /targets/alert-cli/.gitlab-ci.yml
@@ -14,24 +14,44 @@ workflow:
       when: never
     # Otherwise include the job and set to run normally
     - when: always
+# Install:
+#   needs: []
 
-Install:
-  needs: []
+# Build:
+#   needs: []
 
-Build:
-  needs: []
+# Test:
+#   needs: []
 
-Test:
-  needs: []
+# Lint:
+#   needs: []
 
-Lint:
-  needs: []
+# Register image:
+#   needs: []
 
-Register image:
-  needs: []
+# Review:
+#   needs: []
 
-Review:
-  needs: []
+# Production:
+#   needs: []
 
-Production:
-  needs: []
+# include:
+#   - /base_autodevops.yml
+
+# #
+
+# Install:
+#   extends:
+#     - .autodevops_install
+
+# Lint:
+#   extends: .autodevops_lint
+
+# Test:
+#   extends: .autodevops_test
+
+# Build:
+#   extends: .autodevops_build
+
+# Register image:
+#   extends: .autodevops_register_image
