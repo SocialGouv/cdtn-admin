@@ -65,12 +65,12 @@ Register alert:
 
 Deploy alert (dev):
   extends:
-    - .autodevops_deploy_app_dev
+    - .autodevops_review
     - .deploy_alert_stage
 
 Deploy alert (prod):
   extends:
-    - .autodevops_deploy_app_prod
+    - .autodevops_production
     - .deploy_alert_stage
   variables:
     PRODUCTION: "true"
@@ -102,10 +102,10 @@ Deploy alert (prod):
 
 Trigger alert (dev):
   extends:
-    - .autodevops_deploy_app_dev
+    - .autodevops_review
     - .trigger_alert_cron
 
 Trigger alert (prod):
   extends:
-    - .autodevops_deploy_app_prod
+    - .autodevops_production
     - .trigger_alert_cron
