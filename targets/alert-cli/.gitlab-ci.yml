@@ -61,6 +61,7 @@ Register alert:
   script:
     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
+    - cat targets/alert-cli/.k8s/alert.cronjob.yaml | envsubst
     - envsubst < targets/alert-cli/.k8s/alert.cronjob.yaml | kubectl apply -f -
 
 Deploy alert (dev):
