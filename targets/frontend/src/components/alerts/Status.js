@@ -1,10 +1,11 @@
 /** @jsx jsx */
 
-import { IoIosCheckmark, IoIosClose } from "react-icons/io";
-import { MenuButton, MenuItem } from "../button";
-import { jsx } from "theme-ui";
 import PropTypes from "prop-types";
+import { IoIosCheckmark, IoIosClose } from "react-icons/io";
+import { jsx } from "theme-ui";
 import { useMutation } from "urql";
+
+import { MenuButton, MenuItem } from "../button";
 
 export const alertMutation = `
 mutation updateAlertStatus($id:uuid!, $status:String!) {
@@ -32,10 +33,10 @@ export function AlertStatus({ alertId }) {
         En cours
       </MenuItem>
       <MenuItem onSelect={() => updateStatus("done")}>
-        <IoIosCheckmark style={{ width: "1.5em", height: "1.5em" }} /> Traité
+        <IoIosCheckmark style={{ height: "1.5em", width: "1.5em" }} /> Traité
       </MenuItem>
       <MenuItem onSelect={() => updateStatus("rejected")}>
-        <IoIosClose style={{ width: "1.5em", height: "1.5em" }} /> Rejeté
+        <IoIosClose style={{ height: "1.5em", width: "1.5em" }} /> Rejeté
       </MenuItem>
     </MenuButton>
   );

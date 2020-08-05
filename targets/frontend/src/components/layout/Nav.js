@@ -1,11 +1,12 @@
 /** @jsx jsx */
 
-import { jsx, Box, NavLink, Text, Badge, Message } from "theme-ui";
-import { useUser } from "src/hooks/useUser";
 import Link from "next/link";
-import { Li, List } from "../list";
-import { useQuery } from "urql";
 import { useMemo } from "react";
+import { useUser } from "src/hooks/useUser";
+import { Badge, Box, jsx, Message, NavLink, Text } from "theme-ui";
+import { useQuery } from "urql";
+
+import { Li, List } from "../list";
 
 const getSourcesQuery = `
 query getAlerts{
@@ -29,7 +30,7 @@ export function Nav() {
     () => ({ additionalTypenames: ["alerts", "sources"] }),
     []
   );
-  const [result] = useQuery({ query: getSourcesQuery, context });
+  const [result] = useQuery({ context, query: getSourcesQuery });
   const { fetching, data, error } = result;
   if (error) {
     return (

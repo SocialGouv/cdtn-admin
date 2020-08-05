@@ -5,6 +5,7 @@ import { useState } from "react";
 import { IoIosCheckmark, IoMdCloseCircle } from "react-icons/io";
 import { Badge, css, jsx, Message, Text } from "theme-ui";
 import { useMutation, useQuery } from "urql";
+
 import { Button, MenuButton, MenuItem } from "../button";
 import { Dialog } from "../dialog";
 import { Inline } from "../layout/Inline";
@@ -48,7 +49,7 @@ export function UserList() {
   const [, executeDelete] = useMutation(deleteUserMutation);
 
   function confirmDeleteUser(id, email) {
-    setSelectedUser({ id, email });
+    setSelectedUser({ email, id });
     open();
   }
 
@@ -146,21 +147,23 @@ const styles = {
     overflow: "hidden",
     width: "100%",
   }),
-  th: css({
-    px: "xsmall",
-    py: "xsmall",
-    borderBottom: "1px solid",
-    // bg: "info",
-    // color: "white",
-    fontWeight: "semibold",
-    fontSize: "medium",
-  }),
   td: css({
+    fontWeight: 300,
     px: "xsmall",
     py: "xxsmall",
-    fontWeight: 300,
     "tr:nth-of-type(even) &": {
       bg: "highlight",
     },
+  }),
+  th: css({
+    borderBottom: "1px solid",
+    fontSize: "medium",
+    // bg: "info",
+    // color: "white",
+    fontWeight: "semibold",
+
+    px: "xsmall",
+
+    py: "xsmall",
   }),
 };

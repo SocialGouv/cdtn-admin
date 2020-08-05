@@ -23,20 +23,20 @@ export default async function accountWebhook(req, res) {
     .keys({
       event: Joi.object()
         .keys({
-          op: Joi.string().pattern(/^(INSERT|UPDATE)$/, "OP"),
           data: Joi.object()
             .keys({
               new: Joi.object({
+                email: Joi.string().required(),
                 secret_token: Joi.string()
                   .guid({ version: "uuidv4" })
                   .required(),
-                email: Joi.string().required(),
               })
                 .required()
                 .unknown(),
             })
             .required()
             .unknown(),
+          op: Joi.string().pattern(/^(INSERT|UPDATE)$/, "OP"),
         })
         .required()
         .unknown(),
@@ -76,9 +76,9 @@ L'equipe veille CDTN
 
   var mailOptions = {
     from: process.env.ACCOUNT_MAIL_SENDER,
-    to: email,
     subject,
     text,
+    to: email,
   };
   try {
     const results = await sendmail(mailOptions);

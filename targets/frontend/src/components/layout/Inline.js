@@ -1,9 +1,10 @@
 /** @jsx jsx  */
 
 import PropTypes from "prop-types";
-import { jsx, Box, Flex } from "theme-ui";
-import { spacePropTypes, invertSpace } from "./spaces";
 import React from "react";
+import { Box, Flex, jsx } from "theme-ui";
+
+import { invertSpace, spacePropTypes } from "./spaces";
 
 export function Inline({ space = "medium", component = "div", children }) {
   const negativeSpace = invertSpace(space);
@@ -12,7 +13,7 @@ export function Inline({ space = "medium", component = "div", children }) {
   return (
     <Flex
       as={component}
-      sx={{ flexWrap: "wrap", alignItems: "center" }}
+      sx={{ alignItems: "center", flexWrap: "wrap" }}
       marginLeft={negativeSpace}
       marginTop={negativeSpace}
     >
@@ -30,7 +31,7 @@ export function Inline({ space = "medium", component = "div", children }) {
   );
 }
 Inline.propTypes = {
-  space: spacePropTypes,
-  component: PropTypes.oneOf(["div", "ul", "ol"]),
   children: PropTypes.node,
+  component: PropTypes.oneOf(["div", "ul", "ol"]),
+  space: spacePropTypes,
 };

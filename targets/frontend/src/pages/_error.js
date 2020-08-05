@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Error from "next/error";
 import * as Sentry from "@sentry/node";
+import Error from "next/error";
+import PropTypes from "prop-types";
+import React from "react";
 
 const MyError = ({ hasGetInitialPropsRun, statusCode, err }) => {
   if (!hasGetInitialPropsRun && err) {
@@ -21,7 +21,7 @@ MyError.propTypes = {
 };
 
 MyError.getInitialProps = async ({ res, err, asPath }) => {
-  const errorInitialProps = await Error.getInitialProps({ res, err });
+  const errorInitialProps = await Error.getInitialProps({ err, res });
   // Workaround for https://github.com/zeit/next.js/issues/8592, mark when
   // getInitialProps has run
   errorInitialProps.hasGetInitialPropsRun = true;

@@ -1,8 +1,8 @@
 export const statusLabels = {
-  todo: "À traiter",
   doing: "En cours de traitement",
   done: "Traités",
   rejected: "Rejetés",
+  todo: "À traiter",
 };
 
 export function getStatusLabel(status) {

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
 import { IoMdGitNetwork } from "react-icons/io";
 
 import { Button } from "../button";
