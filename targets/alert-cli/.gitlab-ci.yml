@@ -103,9 +103,9 @@ Deploy alert (prod):
 Trigger alert (dev):
   extends:
     - .autodevops_review
-    - .trigger_alert_cron
+    #- .trigger_alert_cron
 
 Trigger alert (prod):
   extends:
     - .autodevops_production
-    - .trigger_alert_cron
+    # - .trigger_alert_cron
