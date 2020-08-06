@@ -34,11 +34,10 @@ export function PasswordForm({
       await onSubmit(data);
     } catch (err) {
       console.error("[ PasswordForm ]", err);
-      setError(
-        "oldPassword",
-        "validate",
-        "L'ancien mot de passe ne correspond pas."
-      );
+      setError("oldPassword", {
+        message: "L'ancien mot de passe ne correspond pas.",
+        type: "validate",
+      });
     }
     loading = false;
   }
