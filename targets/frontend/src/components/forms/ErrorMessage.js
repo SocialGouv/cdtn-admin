@@ -1,14 +1,16 @@
 /** @jsx jsx */
 
+import { ErrorMessage } from "@hookform/error-message";
 import PropTypes from "prop-types";
-import { ErrorMessage } from "react-hook-form";
 import { jsx } from "theme-ui";
 
 export function FormErrorMessage({ errors, fieldName }) {
   return (
-    <ErrorMessage errors={errors} name={fieldName}>
-      {({ message }) => <div sx={{ color: "critical" }}>{message}</div>}
-    </ErrorMessage>
+    <ErrorMessage
+      errors={errors}
+      name={fieldName}
+      render={({ message }) => <div sx={{ color: "critical" }}>{message}</div>}
+    />
   );
 }
 

@@ -4,6 +4,7 @@
   "dependencies": {
     "@hapi/boom": "^9.1.0",
     "@hapi/joi": "^17.1.1",
+    "@hookform/error-message": "^0.0.4",
     "@reach/accordion": "^0.10.5",
     "@reach/dialog": "^0.10.5",
     "@reach/menu-button": "^0.10.5",
@@ -32,7 +33,7 @@
     "polished": "^3.6.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-hook-form": "^5.7.2",
+    "react-hook-form": "^6.3.0",
     "react-icons": "^3.10.0",
     "react-is": "^16.13.1",
     "semver": "^7.3.2",
