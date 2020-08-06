@@ -2,6 +2,7 @@ const { getEnvManifests } = require("./lib/helpers");
 
 const envVars = {
   CI_COMMIT_REF_NAME: "master",
+  CI_COMMIT_TAG: "v1.5.4",
   CI_ENVIRONMENT_NAME: "prod2",
   CI_ENVIRONMENT_SLUG: "cdtn-admin-master",
   CI_ENVIRONMENT_URL:

@@ -2,10 +2,6 @@ import env from "@kosko/env";
 import { ok } from "assert";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
-import { Ingress } from "kubernetes-models/api/networking/v1beta1/Ingress";
-
-import { IoK8sApiAppsV1Deployment } from "kubernetes-models/_definitions/IoK8sApiAppsV1Deployment";
-import { IoK8sApiNetworkingV1beta1Ingress } from "kubernetes-models/_definitions/IoK8sApiNetworkingV1beta1Ingress";
 
 import { create } from "@socialgouv/kosko-charts/components/app";
 import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
