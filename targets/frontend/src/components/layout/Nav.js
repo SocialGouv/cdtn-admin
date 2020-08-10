@@ -60,8 +60,9 @@ export function Nav() {
             {data.sources.map((source) => (
               <Li key={source.repository}>
                 <Link
-                  href="/alerts/[repo]"
-                  as={`/alerts/${source.repository.replace(/\//g, "–")}#todo`}
+                  shallow
+                  href="/alerts/[repo]/[status]"
+                  as={`/alerts/${source.repository.replace(/\//g, "–")}/todo`}
                   passHref
                 >
                   <NavLink>{source.label}</NavLink>
