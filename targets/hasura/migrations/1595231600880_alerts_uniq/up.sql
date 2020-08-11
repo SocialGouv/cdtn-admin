@@ -1,4 +1,8 @@
+ALTER TABLE "public"."alerts"
+  DROP CONSTRAINT IF EXISTS "alerts_ref_info_key";
 
-alter table "public"."alerts" add constraint "alerts_ref_info_key" unique ("ref", "info");
+ALTER TABLE "public"."alerts"
+  ADD CONSTRAINT "alerts_ref_info_key" UNIQUE ("ref", "info");
 
-DELETE FROM alerts where (info -> 'type') is null;
+DELETE FROM alerts
+WHERE (info -> 'type') IS NULL;
