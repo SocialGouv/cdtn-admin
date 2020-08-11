@@ -61,7 +61,7 @@ export function Nav() {
               <Li key={source.repository}>
                 <Link
                   shallow
-                  href="/alerts/[repo]/[status]"
+                  href="/alerts/[[...params]]"
                   as={`/alerts/${source.repository.replace(/\//g, "–")}/todo`}
                   passHref
                 >

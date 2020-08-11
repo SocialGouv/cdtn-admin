@@ -7,7 +7,12 @@ export const withCustomUrqlClient = (Component) =>
     const url = ctx?.req
       ? `${process.env.FRONTEND_URL}/api/graphql`
       : `/api/graphql`;
-    console.log("[ withUrqlClient ]", ctx?.req ? "server" : "client", url);
+    console.log(
+      "[ withUrqlClient ]",
+      ctx?.pathname,
+      ctx?.req ? "server" : "client",
+      url
+    );
     return {
       exchanges: [
         process.env.NODE_ENV !== "production"

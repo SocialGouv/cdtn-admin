@@ -52,7 +52,6 @@ export function AlertPage() {
 
   const [repo, status = "todo"] = router.query.params;
   const repository = repo.replace(/–/, "/");
-  console.log({ repository, status });
   // https://formidable.com/open-source/urql/docs/basics/document-caching/#adding-typenames
   const context = useMemo(() => ({ additionalTypenames: ["alerts"] }), []);
   const [result] = useQuery({
@@ -100,7 +99,7 @@ export function AlertPage() {
           <Link
             key={status.name}
             as={`/alerts/${repo}/${status.name}`}
-            href="/alerts/[repo]/[status]"
+            href="/alerts/[[...params]]"
             passHref
           >
             <NavLink>
