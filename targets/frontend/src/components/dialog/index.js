@@ -9,9 +9,14 @@ import { css, jsx } from "theme-ui";
 import { IconButton } from "../button";
 import { Stack } from "../layout/Stack";
 
-export function Dialog({ isOpen = false, onDismiss, children }) {
+export function Dialog({ ariaLabel, isOpen = false, onDismiss, children }) {
   return (
-    <ReachDialog css={styles.dialog} isOpen={isOpen} onDismiss={onDismiss}>
+    <ReachDialog
+      css={styles.dialog}
+      isOpen={isOpen}
+      onDismiss={onDismiss}
+      aria-label={ariaLabel}
+    >
       <IconButton css={styles.closeBt} variant="secondary" onClick={onDismiss}>
         <VisuallyHidden>Close</VisuallyHidden>
         <IoMdClose />
@@ -33,6 +38,7 @@ const styles = {
 };
 
 Dialog.propTypes = {
+  ariaLabel: PropTypes.string,
   children: PropTypes.node,
   isOpen: PropTypes.bool,
   onDismiss: PropTypes.func.isRequired,
