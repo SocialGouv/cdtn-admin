@@ -99,15 +99,12 @@ export function AlertPage() {
         {statuses.map((status) => (
           <Link
             key={status.name}
-            as={`/alerts/${router.query.repo}/${status.name}`}
+            as={`/alerts/${repo}/${status.name}`}
             href="/alerts/[repo]/[status]"
             passHref
           >
             <NavLink>
-              <TabItem
-                controls="statustab"
-                selected={status.name === router.query.status}
-              >
+              <TabItem controls="statustab" selected={status.name === status}>
                 {getStatusLabel(status.name)} ({status.alerts.aggregate.count})
               </TabItem>
             </NavLink>
