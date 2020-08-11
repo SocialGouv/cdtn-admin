@@ -43,7 +43,7 @@ export function DilaLink({ info, children }) {
 }
 
 DilaLink.propTypes = {
-  children: PropTypes.nodes,
+  children: PropTypes.node,
   info: PropTypes.shape({
     context: PropTypes.shape({
       containerId: PropTypes.string,

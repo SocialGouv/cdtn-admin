@@ -33,7 +33,7 @@ const styles = {
 };
 
 Dialog.propTypes = {
-  children: PropTypes.nodes,
+  children: PropTypes.node,
   isOpen: PropTypes.bool,
   onDismiss: PropTypes.func.isRequired,
 };

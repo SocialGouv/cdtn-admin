@@ -5,7 +5,7 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { AlertTitle } from "src/components/alerts/AlertTitle";
 import { DiffChange } from "src/components/changes";
 import { ChangesGroup } from "src/components/changes/ChangeGroup";
@@ -35,7 +35,7 @@ query getAlerts($status: String!, $repository: String!) {
       {status: {_eq: $status}},
       {repository: {_eq: $repository}},
     ]
-  } order_by: [{created_at: asc},{info: asc}]) {
+  } order_by: [{created_at: desc},{info: asc}]) {
     id
     ref
     info
@@ -49,33 +49,19 @@ query getAlerts($status: String!, $repository: String!) {
 
 export function AlertPage() {
   const router = useRouter();
-  const [, initialHash = "todo"] = router.asPath.split("#");
-  const [hash, setHash] = useState(initialHash);
-  useEffect(() => {
-    console.log("useEffects");
-    function onHashChange(url) {
-      console.log("onHashChange");
-      const [, hash = "todo"] = url.split("#");
-      setHash(hash);
-    }
 
-    router.events.on("hashChangeComplete", onHashChange);
-    return function () {
-      console.log("unmount");
-      router.events.off("hashChangeComplete", onHashChange);
-    };
-  }, [router.events]);
-
+  const [repo, status = "todo"] = router.query.params;
+  const repository = repo.replace(/–/, "/");
   // https://formidable.com/open-source/urql/docs/basics/document-caching/#adding-typenames
-  const repository = router.query.repo.replace(/–/, "/");
   const context = useMemo(() => ({ additionalTypenames: ["alerts"] }), []);
   const [result] = useQuery({
     context,
     query: getAlertQuery,
-    variables: { repository, status: hash },
+    variables: { repository, status },
   });
+
   const { fetching, error, data } = result;
-  console.log("<AlertPage> render", result, hash, repository);
+  console.log("<AlertPage> render", result, repository, status);
 
   if (fetching) {
     return <Layout title="Gestion des alertes">Chargement...</Layout>;
@@ -110,9 +96,14 @@ export function AlertPage() {
     <Layout title="Gestion des alertes">
       <Tabs id="statustab">
         {statuses.map((status) => (
-          <Link key={status.name} href={`#${status.name}`} passHref>
+          <Link
+            key={status.name}
+            as={`/alerts/${repo}/${status.name}`}
+            href="/alerts/[[...params]]"
+            passHref
+          >
             <NavLink>
-              <TabItem controls="statustab" selected={status.name == hash}>
+              <TabItem controls="statustab" selected={status.name === status}>
                 {getStatusLabel(status.name)} ({status.alerts.aggregate.count})
               </TabItem>
             </NavLink>

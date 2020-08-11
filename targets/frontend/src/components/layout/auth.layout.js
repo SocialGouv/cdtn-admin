@@ -8,7 +8,6 @@ import { Header } from "./header";
 import { Nav } from "./Nav";
 
 export function Layout({ children, title }) {
-  console.log("-- <Layout>");
   return (
     <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
       <Head>
