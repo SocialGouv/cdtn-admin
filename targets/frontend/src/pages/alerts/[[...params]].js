@@ -50,8 +50,8 @@ query getAlerts($status: String!, $repository: String!) {
 export function AlertPage() {
   const router = useRouter();
 
-  const status = router.query.status || "todo";
-  const repository = router.query.repo.replace(/–/, "/");
+  const [repo, status = "todo"] = router.query.params;
+  const repository = repo.replace(/–/, "/");
   console.log({ repository, status });
   // https://formidable.com/open-source/urql/docs/basics/document-caching/#adding-typenames
   const context = useMemo(() => ({ additionalTypenames: ["alerts"] }), []);
