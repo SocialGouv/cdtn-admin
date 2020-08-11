@@ -70,7 +70,6 @@ function getFileFilter(repository) {
         const matched = ["index.json", ...listFichesVddId].some((id) =>
           new RegExp(`${id}.json$`).test(path)
         );
-        console.error(path, matched);
         return matched;
       };
     default:
@@ -421,9 +420,7 @@ async function main() {
   const sources = await getSources();
 
   const results = [];
-  for (const source of sources.filter((source) =>
-    /fiches-vdd/.test(source.repository)
-  )) {
+  for (const source of sources) {
     const repo = await openRepo(source);
     const tags = await getNewerTagsFromRepo(repo, source.tag);
     const [lastTag] = tags.slice(-1);
