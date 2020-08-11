@@ -66,10 +66,13 @@ function getFileFilter(repository) {
       // only a ccn matching our list
       return (path) => ccns.some((ccn) => new RegExp(ccn.id).test(path));
     case "socialgouv/fiches-vdd":
-      return (path) =>
-        ["index.json", ...listFichesVddId].some((id) =>
-          new RegExp(id).test(path)
+      return (path) => {
+        const matched = ["index.json", ...listFichesVddId].some((id) =>
+          new RegExp(`${id}.json$`).test(path)
         );
+        console.error(path, matched);
+        return matched;
+      };
     default:
       return () => false;
   }
@@ -386,7 +389,7 @@ async function getDiffFromTags(tags, repositoryId) {
   const diffProcessor = getDiffProcessor(repositoryId);
 
   for (const tag of newTags) {
-    console.error(tag.ref);
+    console.error(repositoryId, tag.ref);
     const previousCommit = previousTag.commit;
     const { commit } = tag;
     const [prevTree, currTree] = await Promise.all([
@@ -418,7 +421,9 @@ async function main() {
   const sources = await getSources();
 
   const results = [];
-  for (const source of sources) {
+  for (const source of sources.filter((source) =>
+    /fiches-vdd/.test(source.repository)
+  )) {
     const repo = await openRepo(source);
     const tags = await getNewerTagsFromRepo(repo, source.tag);
     const [lastTag] = tags.slice(-1);
