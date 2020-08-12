@@ -68,7 +68,11 @@ export function UserList() {
 
   return (
     <>
-      <Dialog isOpen={showDialog} onDismiss={close}>
+      <Dialog
+        isOpen={showDialog}
+        onDismiss={close}
+        ariaLabel="Supprimer l'utilisateur"
+      >
         <Text>Etes vous sur de vouloir supprimer l’utilisateur</Text>
         <strong>{selectedUser?.email}</strong>
         <Inline>

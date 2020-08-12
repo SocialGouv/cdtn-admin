@@ -167,7 +167,6 @@ FicheVddDiffchange.propTypes = {
     theme: PropTypes.string,
     title: PropTypes.string,
   }).isRequired,
-  type: PropTypes.string.isRequired,
 };
 
 export function DiffChange({ change, type }) {
