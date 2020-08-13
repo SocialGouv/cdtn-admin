@@ -11,7 +11,7 @@ import { Li, List } from "../list";
 
 const getSourcesQuery = `
 query getAlerts{
-  sources {
+  sources(order_by:{label:asc}) {
     repository,
     label,
     alerts: alerts_aggregate(where: {status: {_eq: "todo"}}) {
