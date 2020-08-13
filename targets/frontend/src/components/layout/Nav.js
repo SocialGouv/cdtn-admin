@@ -41,8 +41,14 @@ export function Nav() {
     );
   }
   return (
-    <Box as="nav" bg="highlight" padding="large" sx={{ flexBasis: "300px" }}>
-      <Box>
+    <Box
+      as="nav"
+      bg="highlight"
+      padding="large"
+      sx={{ flexShrink: 0, width: "17.5rem" }}
+    >
+      <ActiveLink href="/">Accueil</ActiveLink>
+      <Box sx={{ paddingTop: "medium" }}>
         {isAdmin && (
           <>
             <Text
@@ -100,7 +106,7 @@ export function Nav() {
 
 function ActiveLink({ as, children, href }) {
   const router = useRouter();
-  const isCurrentRoute = router.asPath.match(as ? as : href);
+  const isCurrentRoute = as ? router.asPath.match(as) : router.asPath === href;
   return (
     <Link shallow href={href} as={as} passHref>
       <NavLink
