@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { useLayoutEffect, useRef } from "react";
-import { jsx } from "theme-ui";
+import { jsx, Text } from "theme-ui";
 
 import { Stack } from "../layout/Stack";
 import { Comment, commentPropTypes } from "./Comment";
@@ -25,7 +25,9 @@ export function CommentList({ comments }) {
             <Comment key={comment.id} comment={comment} />
           ))
         ) : (
-          <p>Aucun commentaire</p>
+          <Text as="p" sx={{ color: "muted" }}>
+            Aucun commentaire
+          </Text>
         )}
       </Stack>
     </div>

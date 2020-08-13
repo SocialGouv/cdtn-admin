@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 import { getUserId } from "src/lib/auth/token";
-import { Flex, jsx, Message } from "theme-ui";
+import { Card, jsx, Message } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 import { Stack } from "../layout/Stack";
@@ -25,7 +25,30 @@ query getComments($alertId: uuid!) {
 }
 `;
 
-export function Comments({ alertId }) {
+function CommentsContainer({ alertId }) {
+  return (
+    <div sx={{ position: "relative" }}>
+      <Card
+        sx={{
+          background: "white",
+          boxShadow: "large",
+          flexDirection: "column",
+          minWidth: "30rem",
+          position: "absolute",
+          right: 0,
+          top: "1em",
+        }}
+      >
+        <Comments alertId={alertId} />
+      </Card>
+    </div>
+  );
+}
+CommentsContainer.propTypes = {
+  alertId: PropTypes.string.isRequired,
+};
+
+function Comments({ alertId }) {
   const [, postComment] = useMutation(commentMutation);
   const userId = getUserId();
 
@@ -46,7 +69,7 @@ export function Comments({ alertId }) {
     variables: { alertId },
   });
   const { data, error, fetching } = results;
-  if (fetching) return <p>loading</p>;
+  if (fetching) return <Stack>chargement...</Stack>;
   if (error) {
     return (
       <Message>
@@ -54,31 +77,15 @@ export function Comments({ alertId }) {
       </Message>
     );
   }
-  console.log(data.comments);
   return (
-    <div sx={{ position: "relative" }}>
-      <Flex
-        sx={{
-          background: "white",
-          borderRadius: "small",
-          boxShadow: "large",
-          flexDirection: "column",
-          minWidth: "30rem",
-          padding: "small",
-          position: "absolute",
-          right: 0,
-          top: "1em",
-        }}
-      >
-        <Stack gap="small">
-          <CommentList comments={data.comments} />
-          <CommentForm onSubmit={sendComment} />
-        </Stack>
-      </Flex>
-    </div>
+    <Stack gap="small">
+      <CommentList comments={data.comments} />
+      <CommentForm onSubmit={sendComment} />
+    </Stack>
   );
 }
-
 Comments.propTypes = {
   alertId: PropTypes.string.isRequired,
 };
+
+export { CommentsContainer as Comments };

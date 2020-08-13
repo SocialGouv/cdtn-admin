@@ -74,7 +74,7 @@ export const theme = {
     info: "#2AB7CA",
     link: "#2765cf",
     linkVisited: "#733d90",
-    muted: "#bbcadf",
+    muted: "#717780",
     neutral: "#d1dffd",
 
     positive: "#43AA8B",
@@ -163,7 +163,7 @@ export const theme = {
   },
   styles: {
     hr: {
-      color: "muted",
+      color: "neutral",
     },
     root: {
       bg: "white",
