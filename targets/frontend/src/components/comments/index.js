@@ -61,7 +61,7 @@ export function Comments({ alertId }) {
         sx={{
           background: "white",
           borderRadius: "small",
-          boxShadow: "medium",
+          boxShadow: "large",
           flexDirection: "column",
           minWidth: "30rem",
           padding: "small",

@@ -9,10 +9,10 @@ export function Tabs(props) {
         borderBottom: "1px solid",
         borderColor: "neutral",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         listStyle: "none",
         margin: 0,
-        px: "large",
+        px: "xxsmall",
       }}
       {...props}
     />
@@ -25,8 +25,9 @@ export function TabItem({ selected, controls, ...props }) {
       role="tab"
       sx={{
         border: "1px solid",
-        borderBottomColor: selected ? "white" : "transparent",
         borderColor: "neutral",
+        // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+        borderBottomColor: selected ? "white" : "transparent",
         borderTopLeftRadius: "small",
         borderTopRightRadius: "small",
         color: selected ? "primary" : "text",
