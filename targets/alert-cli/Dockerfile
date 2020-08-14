@@ -2,7 +2,7 @@ FROM node:14.7.0-slim
 
 RUN set -x \
   && apt-get update \
-  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 \
+  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 git \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
