@@ -1,6 +1,7 @@
 /** @jsx jsx */
-
 import Link from "next/link";
+import { useRouter } from "next/router";
+import PropTypes from "prop-types";
 import { useMemo } from "react";
 import { useUser } from "src/hooks/useUser";
 import { Badge, Box, jsx, Message, NavLink, Text } from "theme-ui";
@@ -10,7 +11,7 @@ import { Li, List } from "../list";
 
 const getSourcesQuery = `
 query getAlerts{
-  sources {
+  sources(order_by:{label:asc}) {
     repository,
     label,
     alerts: alerts_aggregate(where: {status: {_eq: "todo"}}) {
@@ -40,44 +41,87 @@ export function Nav() {
     );
   }
   return (
-    <Box as="nav" bg="highlight" padding="large" sx={{ flexBasis: "300px" }}>
-      <Box>
+    <Box
+      as="nav"
+      bg="highlight"
+      padding="large"
+      sx={{ flexShrink: 0, width: "17.5rem" }}
+    >
+      <ActiveLink href="/">Accueil</ActiveLink>
+      <Box sx={{ paddingTop: "medium" }}>
         {isAdmin && (
           <>
-            <Text>Utilisateurs</Text>
+            <Text
+              sx={{
+                fontWeight: "light",
+                textTransform: "uppercase",
+              }}
+            >
+              Utilisateurs
+            </Text>
             <List>
               <Li>
-                <Link href="/users">
-                  <NavLink href="/users">Gestion des utilisateurs</NavLink>
-                </Link>
+                <ActiveLink href="/users">Gestion des utilisateurs</ActiveLink>
               </Li>
             </List>
           </>
         )}
-        <Text>Alertes</Text>
+      </Box>
+      <Box sx={{ paddingTop: "medium" }}>
+        <Text
+          sx={{
+            fontWeight: "light",
+            textTransform: "uppercase",
+          }}
+        >
+          alertes
+        </Text>
         {!fetching && (
           <List>
-            {data.sources.map((source) => (
-              <Li key={source.repository}>
-                <Link
-                  shallow
-                  href="/alerts/[[...params]]"
-                  as={`/alerts/${source.repository.replace(/\//g, "–")}/todo`}
-                  passHref
-                >
-                  <NavLink>{source.label}</NavLink>
-                </Link>
-                {"  "}
-                {source.alerts.aggregate.count > 0 && (
-                  <Badge variant="circle">
-                    {source.alerts.aggregate.count}
-                  </Badge>
-                )}
-              </Li>
-            ))}
+            {data.sources.map((source) => {
+              return (
+                <Li key={source.repository}>
+                  <ActiveLink
+                    href="/alerts/[[...params]]"
+                    as={`/alerts/${source.repository.replace(/\//, "_")}/todo`}
+                  >
+                    {source.label}
+                  </ActiveLink>
+
+                  {"  "}
+                  {source.alerts.aggregate.count > 0 && (
+                    <Badge variant="circle">
+                      {source.alerts.aggregate.count}
+                    </Badge>
+                  )}
+                </Li>
+              );
+            })}
           </List>
         )}
       </Box>
     </Box>
   );
 }
+
+function ActiveLink({ as, children, href }) {
+  const router = useRouter();
+  const isCurrentRoute = as ? router.asPath.match(as) : router.asPath === href;
+  return (
+    <Link shallow href={href} as={as} passHref>
+      <NavLink
+        sx={{
+          color: isCurrentRoute ? "primary" : "text",
+        }}
+      >
+        {children}
+      </NavLink>
+    </Link>
+  );
+}
+
+ActiveLink.propTypes = {
+  as: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  href: PropTypes.string.isRequired,
+};

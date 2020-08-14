@@ -1,5 +1,6 @@
 import { client } from "@shared/graphql-client";
 import fiches from "@socialgouv/datafiller-data/data/externals.json";
+import { rmdirSync } from "fs";
 import nodegit from "nodegit";
 import path from "path";
 import semver from "semver";
@@ -333,6 +334,8 @@ async function openRepo({ repository }) {
     console.error(
       `[error] openRepo: unable to open repository ${repository}, trying to clone it`
     );
+    console.error(err);
+    //rmdirSync(localPath, { recursive: true });
     repo = await nodegit.Clone.clone(
       `git://github.com/${org}/${repositoryName}`,
       localPath

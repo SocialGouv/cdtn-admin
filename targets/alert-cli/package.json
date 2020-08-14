@@ -8,7 +8,6 @@
     "@socialgouv/contributions-data": "^2.12.0",
     "@socialgouv/datafiller-data": "^1.48.0",
     "@socialgouv/fiches-travail-data": "^3.168.0",
-    "node-git": "^0.0.0",
     "nodegit": "0.27.0",
     "semver": "^7.3.2",
     "unist-util-parents": "^1.0.3",

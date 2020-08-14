@@ -100,6 +100,13 @@
       value_from_env: ACCOUNT_EMAIL_SECRET
 - table:
     schema: public
+    name: alert_notes
+  object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+- table:
+    schema: public
     name: alert_status
   array_relationships:
   - name: alerts
@@ -157,6 +164,14 @@
   - name: source
     using:
       foreign_key_constraint_on: repository
+  array_relationships:
+  - name: alert_notes
+    using:
+      foreign_key_constraint_on:
+        column: alert_id
+        table:
+          schema: public
+          name: alert_notes
   select_permissions:
   - role: user
     permission:

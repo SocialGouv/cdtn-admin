@@ -48,7 +48,6 @@ export const theme = {
       text: "white",
     },
   },
-
   cards: {
     compact: {
       border: "1px solid",
@@ -62,7 +61,6 @@ export const theme = {
       padding: "small",
     },
   },
-
   colors: {
     accent: "#DA4167",
     accentHover: darken(0.05, "#DA4167"),
@@ -76,7 +74,7 @@ export const theme = {
     info: "#2AB7CA",
     link: "#2765cf",
     linkVisited: "#733d90",
-    muted: "#bbcadf",
+    muted: "#717780",
     neutral: "#d1dffd",
 
     positive: "#43AA8B",
@@ -89,7 +87,6 @@ export const theme = {
     text: "#3e486e",
     white: "#fff",
   },
-
   fontSizes: {
     0: "0.8rem",
     icons: "1.5rem",
@@ -105,6 +102,7 @@ export const theme = {
     body: 300,
     bold: 600,
     heading: 600,
+    light: 300,
     regular: 400,
     semibold: 600,
   },
@@ -164,6 +162,9 @@ export const theme = {
     xxsmall: "0.4rem",
   },
   styles: {
+    hr: {
+      color: "neutral",
+    },
     root: {
       bg: "white",
       color: "paragraph",
@@ -183,7 +184,7 @@ export const theme = {
       fontSize: "xlarge",
       fontWeight: "heading",
       lineHeight: "heading",
-      py: ["xsmall", "large"],
+      py: ["xsmall", "small"],
     },
   },
 };

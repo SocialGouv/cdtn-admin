@@ -2,10 +2,11 @@
 import Head from "next/head";
 import PropTypes from "prop-types";
 import { IconContext } from "react-icons";
-import { Box, Card, Flex, Heading, jsx } from "theme-ui";
+import { Box, Flex, Heading, jsx } from "theme-ui";
 
 import { Header } from "./header";
 import { Nav } from "./Nav";
+import { Stack } from "./Stack";
 
 export function Layout({ children, title }) {
   return (
@@ -18,8 +19,10 @@ export function Layout({ children, title }) {
         <Flex sx={{ flexBasis: "100%" }}>
           <Nav />
           <Box as="main" sx={{ flex: "1 1 auto" }} padding="large">
-            <Heading>{title}</Heading>
-            <Card>{children}</Card>
+            <Stack>
+              <Heading>{title}</Heading>
+              {children}
+            </Stack>
           </Box>
         </Flex>
       </Box>

@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { IoIosArrowDown, IoIosArrowForward, IoMdMore } from "react-icons/io";
 import {
+  Box,
   Button as BaseButton,
   IconButton as BaseIconButton,
   jsx,
@@ -206,7 +207,9 @@ export function AccordionButton({ children, ...props }) {
         color: "text",
       }}
     >
-      <ExpandedIcon />
+      <Box sx={{ px: "xxsmall" }}>
+        <ExpandedIcon />
+      </Box>
       {children}
     </ReachAccordionButton>
   );
