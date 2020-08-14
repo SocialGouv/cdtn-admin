@@ -4,6 +4,7 @@ import nodegit from "nodegit";
 import path from "path";
 import semver from "semver";
 
+import { batchPromises } from "./batchPromises";
 import { ccns } from "./ccn-list.js";
 import { compareArticles } from "./compareTree.js";
 import { getRelevantDocuments } from "./relevantContent.js";
@@ -388,7 +389,6 @@ async function getDiffFromTags(tags, repositoryId) {
   const diffProcessor = getDiffProcessor(repositoryId);
 
   for (const tag of newTags) {
-    console.error(repositoryId, tag.ref);
     const previousCommit = previousTag.commit;
     const { commit } = tag;
     const [prevTree, currTree] = await Promise.all([
@@ -442,16 +442,30 @@ async function main() {
       if (result.changes.length === 0) {
         console.log(`no update for ${result.repository}`);
       } else {
-        const inserts = await Promise.all(
-          result.changes.map((diff) => insertAlert(result.repository, diff))
+        const inserts = await batchPromises(
+          result.changes,
+          (diff) => insertAlert(result.repository, diff),
+          5
         );
-        inserts.forEach((insert) => {
-          const { ref, repository, info } = insert;
+
+        const fullfilledInserts = /**@type {{status:"fullfilled", value:alerts.Alert}[]} */ (inserts.filter(
+          ({ status }) => status === "fullfilled"
+        ));
+        const rejectedInsert = inserts.filter(
+          ({ status }) => status === "rejected"
+        );
+        fullfilledInserts.forEach((insert) => {
+          const { ref, repository, info } = insert.value;
           console.log(
             `insert alert for ${ref} on ${repository} (${info.file})`
           );
         });
-        console.log(`create ${inserts.length} alert for ${result.repository}`);
+        console.log(
+          `create ${fullfilledInserts.length} alerts for ${result.repository}`
+        );
+        console.error(
+          `${rejectedInsert.length} alerts failed to insert in ${result.repository}`
+        );
       }
 
       const update = await updateSource(result.repository, result.newRef);
