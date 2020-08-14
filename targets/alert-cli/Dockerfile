@@ -13,6 +13,7 @@ COPY yarn.lock /app/
 # TODO: sync nodegit version with package.json
 RUN yarn add nodegit --frozen-lockfile --pure-lockfile --cache-folder /dev/shm/yarn
 
+COPY targets/alert-cli/scripts/ /app/scripts
 COPY targets/alert-cli/package.json /app/
 COPY targets/alert-cli/dist/ /app/dist
 
