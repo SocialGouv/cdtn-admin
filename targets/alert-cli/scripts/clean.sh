@@ -6,6 +6,7 @@ do
     dir=`dirname "$0"`/../data/${dir%*/}      # remove the trailing "/"
     echo "››› cleaning git ${dir##*/}"
     cd ${dir##*/}    # print everything after the final "/"
+
     git remote prune origin
     git gc --auto
     cd ..
