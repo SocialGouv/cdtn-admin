@@ -1,13 +1,19 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
+if [ ! -d data ]; then
+  echo "no data dir"
+  exit 0
+fi
 
-for dir in `dirname "$0"`/../data/*/     # list directories in the form "/tmp/dirname/"
-do
-    dir=`dirname "$0"`/../data/${dir%*/}      # remove the trailing "/"
-    echo "››› cleaning git ${dir##*/}"
-    cd ${dir##*/}    # print everything after the final "/"
+for dir in data/*; do  # list directories in the form "/app/data/
+  if [ "$dir" = "data/*" ]; then
+    echo "data dir is empty"
+    exit 0
+  fi
 
-    git remote prune origin
-    git gc --auto
-    cd ..
+  cd ${dir}
+  echo "››› cleaning git repo ${dir}"
+  git remote prune origin
+  git gc --auto
+  cd ../..
 done
