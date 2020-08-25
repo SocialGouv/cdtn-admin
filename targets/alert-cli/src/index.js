@@ -403,7 +403,6 @@ async function main() {
     if (!lastTag) {
       throw new Error(`Error: last tag not found for ${source.repository}`);
     }
-    console.error(source, tags);
     const diffs = await getDiffFromTags(tags, source.repository);
     results.push({
       changes: diffs,
@@ -424,9 +423,8 @@ async function main() {
           (diff) => insertAlert(result.repository, diff),
           5
         );
-
-        const fullfilledInserts = /**@type {{status:"fullfilled", value:alerts.Alert}[]} */ (inserts.filter(
-          ({ status }) => status === "fullfilled"
+        const fullfilledInserts = /**@type {{status:"fulfilled", value:alerts.Alert}[]} */ (inserts.filter(
+          ({ status }) => status === "fulfilled"
         ));
         const rejectedInsert = inserts.filter(
           ({ status }) => status === "rejected"
@@ -437,16 +435,15 @@ async function main() {
             `insert alert for ${ref} on ${repository} (${info.file})`
           );
         });
-        console.log(
-          `create ${fullfilledInserts.length} alerts for ${result.repository}`
-        );
-        console.error(
-          `${rejectedInsert.length} alerts failed to insert in ${result.repository}`
-        );
+
+        rejectedInsert.length &&
+          console.error(
+            `${rejectedInsert.length} alerts failed to insert in ${result.repository}`
+          );
       }
 
-      const update = await updateSource(result.repository, result.newRef);
-      console.log(`update source ${update.repository} to ${update.tag}`);
+      // const update = await updateSource(result.repository, result.newRef);
+      // console.log(`update source ${update.repository} to ${update.tag}`);
     }
   }
 }
