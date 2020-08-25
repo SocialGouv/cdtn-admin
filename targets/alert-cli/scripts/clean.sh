@@ -15,8 +15,6 @@ for dir in data/*; do  # list directories in the form "/app/data/
 
   cd ${dir}
 
-  echo "› $(pwd)\n$(ls)\n---"
-
   echo "››› cleaning git repo ${dir}"
   git remote prune origin
   git gc --auto
