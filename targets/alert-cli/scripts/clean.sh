@@ -9,7 +9,7 @@ for dir in data/*; do  # list directories in the form "/app/data/
   if [ "$dir" = "data/*" ]; then
     echo "data dir is empty"
     exit 0
-  elif [ "$dir" = "data/lost+found"]; then
+  elif [ "$dir" = "data/lost+found" ]; then
     continue
   fi
 
