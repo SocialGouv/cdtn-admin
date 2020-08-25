@@ -39,7 +39,7 @@
   "private": true,
   "scripts": {
     "build": "rollup -c",
-    "poststart": "sh scripts/clean.sh",
+    "prestart": "sh scripts/clean.sh",
     "start": "node --enable-source-maps --unhandled-rejections=strict ./dist/index.js",
     "start:dev": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node -r esm src/index.js",
     "start:dump": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 DUMP=true node -r esm src/index.js > data/dump.json",
