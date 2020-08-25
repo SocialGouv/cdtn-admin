@@ -1,13 +1,12 @@
 import { client } from "@shared/graphql-client";
 import fiches from "@socialgouv/datafiller-data/data/externals.json";
-import { rmdirSync } from "fs";
 import nodegit from "nodegit";
-import path from "path";
 import semver from "semver";
 
 import { batchPromises } from "./batchPromises";
 import { ccns } from "./ccn-list.js";
 import { compareArticles } from "./compareTree.js";
+import { openRepo } from "./openRepo";
 import { getRelevantDocuments } from "./relevantContent.js";
 
 /** @type {string[]} */
@@ -316,33 +315,7 @@ export async function updateSource(repository, tag) {
   }
   return result.data.source;
 }
-/**
- *
- * @param {alerts.Source} source
- * @returns {Promise<nodegit.Repository>}
- */
-async function openRepo({ repository }) {
-  const [org, repositoryName] = repository.split("/");
-  const localPath = path.join(__dirname, "..", "data", repositoryName);
-  let repo;
-  try {
-    repo = await nodegit.Repository.open(localPath);
-    await repo.fetch("origin");
-    await repo.checkoutBranch("master");
-    await repo.mergeBranches("master", "origin/master");
-  } catch (err) {
-    console.error(
-      `[error] openRepo: unable to open repository ${repository}, trying to clone it`
-    );
-    console.error(err);
-    //rmdirSync(localPath, { recursive: true });
-    repo = await nodegit.Clone.clone(
-      `git://github.com/${org}/${repositoryName}`,
-      localPath
-    );
-  }
-  return repo;
-}
+
 /**
  *
  * @param {nodegit.Repository} repository
@@ -450,9 +423,8 @@ async function main() {
           (diff) => insertAlert(result.repository, diff),
           5
         );
-
-        const fullfilledInserts = /**@type {{status:"fullfilled", value:alerts.Alert}[]} */ (inserts.filter(
-          ({ status }) => status === "fullfilled"
+        const fullfilledInserts = /**@type {{status:"fulfilled", value:alerts.Alert}[]} */ (inserts.filter(
+          ({ status }) => status === "fulfilled"
         ));
         const rejectedInsert = inserts.filter(
           ({ status }) => status === "rejected"
@@ -463,16 +435,15 @@ async function main() {
             `insert alert for ${ref} on ${repository} (${info.file})`
           );
         });
-        console.log(
-          `create ${fullfilledInserts.length} alerts for ${result.repository}`
-        );
-        console.error(
-          `${rejectedInsert.length} alerts failed to insert in ${result.repository}`
-        );
+
+        rejectedInsert.length &&
+          console.error(
+            `${rejectedInsert.length} alerts failed to insert in ${result.repository}`
+          );
       }
 
-      const update = await updateSource(result.repository, result.newRef);
-      console.log(`update source ${update.repository} to ${update.tag}`);
+      // const update = await updateSource(result.repository, result.newRef);
+      // console.log(`update source ${update.repository} to ${update.tag}`);
     }
   }
 }

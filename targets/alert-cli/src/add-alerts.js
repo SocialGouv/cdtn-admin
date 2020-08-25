@@ -1,6 +1,7 @@
-import { insertAlert, updateSource } from "./index";
 import { promises as fs } from "fs";
 import path from "path";
+
+import { insertAlert, updateSource } from "./index";
 
 const filename =
   process.env.DUMP_FILE || path.join(__dirname, "..", "data", "dump.json");

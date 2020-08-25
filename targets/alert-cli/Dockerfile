@@ -2,7 +2,7 @@ FROM node:14.7.0-slim
 
 RUN set -x \
   && apt-get update \
-  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 \
+  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -11,8 +11,10 @@ USER node
 
 COPY yarn.lock /app/
 # TODO: sync nodegit version with package.json
-RUN yarn add nodegit --frozen-lockfile --pure-lockfile --cache-folder /dev/shm/yarn
+RUN yarn add nodegit --frozen-lockfile --pure-lockfile
+RUN mkdir data
 
+COPY targets/alert-cli/scripts/ /app/scripts
 COPY targets/alert-cli/package.json /app/
 COPY targets/alert-cli/dist/ /app/dist
 
