@@ -4,14 +4,12 @@ import PropTypes from "prop-types";
 import { AccordionButton } from "src/components/button";
 import { jsx } from "theme-ui";
 
-import { List } from "../list";
-
 export const ChangesGroup = ({ changes, label, renderChange }) => {
   return changes && changes.length > 0 ? (
     <AccordionItem>
       <AccordionButton>{label}</AccordionButton>
       <AccordionPanel>
-        <List sx={{ px: "xsmall" }}>{changes.map(renderChange)}</List>
+        <ul sx={{ margin: 0, px: "large" }}>{changes.map(renderChange)}</ul>
       </AccordionPanel>
     </AccordionItem>
   ) : null;

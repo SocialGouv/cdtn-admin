@@ -1,14 +1,7 @@
 /** @jsx jsx */
 import PropTypes from "prop-types";
-import { useRef, useState } from "react";
-import {
-  IoIosArrowDown,
-  IoIosArrowDropdown,
-  IoIosArrowDropright,
-  IoIosArrowForward,
-  IoIosArrowUp,
-  IoMdGitCompare,
-} from "react-icons/io";
+import { useState } from "react";
+import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import {
   Badge,
   Box,
@@ -20,11 +13,7 @@ import {
   Text,
 } from "theme-ui";
 
-import { Button } from "../button";
-import { Collapsible } from "../collapsible";
-import { Inline } from "../layout/Inline";
 import { Stack } from "../layout/Stack";
-import { Li } from "../list";
 import { ViewDiff } from "./ViewDiff";
 
 export function DilaLink({ info, children }) {
@@ -78,9 +67,9 @@ DilaLink.propTypes = {
   }),
 };
 
-const COLLAPSIBLE_ID = 1;
+let COLLAPSIBLE_ID = 1;
 
-export function DilaDiffChange({ change, id }) {
+export function DilaDiffChange({ change }) {
   const { data, previous } = change;
   const textFieldname =
     change.context.containerId === "LEGITEXT000006072050" ? "texte" : "content";
@@ -89,14 +78,10 @@ export function DilaDiffChange({ change, id }) {
   const showDiff = previous && content !== previousContent;
   const showNotaDiff = previous && previous.data.nota !== data.nota;
   const [isVisible, setVisible] = useState(false);
-
-  const collapsibleRef = useRef(COLLAPSIBLE_ID);
-  if (!id) {
-    id = `collapsible-component-${collapsibleRef.current++}`;
-  }
+  const id = `collapsible-component-${COLLAPSIBLE_ID++}`;
 
   return (
-    <Li>
+    <li>
       <Flex sx={{ alignItems: "center" }}>
         <Box>
           {change.type === "section" && (
@@ -184,7 +169,7 @@ export function DilaDiffChange({ change, id }) {
           )}
         </Stack>
       </Card>
-    </Li>
+    </li>
   );
 }
 
