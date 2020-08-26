@@ -20,7 +20,7 @@ export function Layout({ children, title }) {
           <Nav />
           <Box as="main" sx={{ flex: "1 1 auto" }} padding="large">
             <Stack>
-              <Heading>{title}</Heading>
+              <Heading as="h1">{title}</Heading>
               {children}
             </Stack>
           </Box>

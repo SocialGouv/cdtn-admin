@@ -1,14 +1,15 @@
+/** @jsx jsx */
 import { AccordionItem, AccordionPanel } from "@reach/accordion";
 import PropTypes from "prop-types";
-import React from "react";
 import { AccordionButton } from "src/components/button";
+import { jsx } from "theme-ui";
 
 export const ChangesGroup = ({ changes, label, renderChange }) => {
   return changes && changes.length > 0 ? (
     <AccordionItem>
       <AccordionButton>{label}</AccordionButton>
       <AccordionPanel>
-        <ul>{changes.map(renderChange)}</ul>
+        <ul sx={{ margin: 0, px: "large" }}>{changes.map(renderChange)}</ul>
       </AccordionPanel>
     </AccordionItem>
   ) : null;
