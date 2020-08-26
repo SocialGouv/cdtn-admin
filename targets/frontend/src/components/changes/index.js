@@ -1,8 +1,30 @@
 /** @jsx jsx */
 import PropTypes from "prop-types";
-import { Badge, Card, jsx, Text } from "theme-ui";
+import { useRef, useState } from "react";
+import {
+  IoIosArrowDown,
+  IoIosArrowDropdown,
+  IoIosArrowDropright,
+  IoIosArrowForward,
+  IoIosArrowUp,
+  IoMdGitCompare,
+} from "react-icons/io";
+import {
+  Badge,
+  Box,
+  Button as TButton,
+  Card,
+  Divider,
+  Flex,
+  jsx,
+  Text,
+} from "theme-ui";
 
+import { Button } from "../button";
 import { Collapsible } from "../collapsible";
+import { Inline } from "../layout/Inline";
+import { Stack } from "../layout/Stack";
+import { Li } from "../list";
 import { ViewDiff } from "./ViewDiff";
 
 export function DilaLink({ info, children }) {
@@ -56,74 +78,113 @@ DilaLink.propTypes = {
   }),
 };
 
-export function DilaDiffChange({ change }) {
+const COLLAPSIBLE_ID = 1;
+
+export function DilaDiffChange({ change, id }) {
   const { data, previous } = change;
   const textFieldname =
-    change.context.containerId === "LEGITEXT000006072050" ? "text" : "content";
+    change.context.containerId === "LEGITEXT000006072050" ? "texte" : "content";
   const content = data[textFieldname] || "";
   const previousContent = previous?.data[textFieldname] || "";
   const showDiff = previous && content !== previousContent;
   const showNotaDiff = previous && previous.data.nota !== data.nota;
+  const [isVisible, setVisible] = useState(false);
+
+  const collapsibleRef = useRef(COLLAPSIBLE_ID);
+  if (!id) {
+    id = `collapsible-component-${collapsibleRef.current++}`;
+  }
 
   return (
-    <li>
-      {change.type === "section" && (
-        <>
-          {change.context.parents.slice(-3, -1).join(" › ")} -
-          <DilaLink info={change}>{change.data.title}</DilaLink>
-        </>
+    <Li>
+      <Flex sx={{ alignItems: "center" }}>
+        <Box>
+          {change.type === "section" && (
+            <>
+              {change.context.parents.slice(-3, -1).join(" › ")} -
+              <DilaLink info={change}>{change.data.title}</DilaLink>
+            </>
+          )}
+          {change.type === "article" && (
+            <DilaLink info={change}>Article {data.num}</DilaLink>
+          )}
+        </Box>
+
+        <Box px="xxsmall">
+          {previous?.data.etat && previous?.data.etat !== data.etat && (
+            <>
+              <Badge
+                sx={{ bg: getBadgeColor(previous.data.etat), px: "xxsmall" }}
+              >
+                {previous.data.etat}
+              </Badge>{" "}
+              ›{" "}
+            </>
+          )}
+          <Badge sx={{ bg: getBadgeColor(data.etat), px: "xxsmall" }}>
+            {data.etat}
+          </Badge>
+        </Box>
+      </Flex>
+      {(showDiff || showNotaDiff) && (
+        <TButton
+          aria-controls={id}
+          aria-expanded={isVisible}
+          size="small"
+          variant="link"
+          sx={{
+            "&:hover": {
+              color: "link",
+            },
+            cursor: "pointer",
+            px: 0,
+          }}
+          onClick={() => setVisible(!isVisible)}
+        >
+          Voir les modifications{" "}
+          {isVisible ? <IoIosArrowDown /> : <IoIosArrowForward />}
+        </TButton>
       )}
-      {change.type === "article" && (
-        <DilaLink info={change}>Article {data.num}</DilaLink>
-      )}
-      {previous?.data.etat && previous?.data.etat !== data.etat && (
-        <>
-          <Badge sx={{ bg: getBadgeColor(previous.data.etat), px: "xxsmall" }}>
-            {previous.data.etat}
-          </Badge>{" "}
-          ›{" "}
-        </>
-      )}
-      <Badge sx={{ bg: getBadgeColor(data.etat), px: "xxsmall" }}>
-        {data.etat}
-      </Badge>
-      {showDiff && (
-        <Collapsible label="voir les modifications">
-          <Card>
-            <ViewDiff
-              inputA={previousContent}
-              inputB={content}
-              type={"words"}
-              style={{
-                background: "#fff",
-                border: "1px solid silver",
-                borderRadius: 3,
-                padding: 5,
-                whiteSpace: "pre-line",
-              }}
-            />
-          </Card>
-        </Collapsible>
-      )}
-      {showNotaDiff && (
-        <Collapsible label="voir le changement de nota">
-          <Card>
-            <ViewDiff
-              inputA={previous.data.nota}
-              inputB={data.nota}
-              type={"words"}
-              style={{
-                background: "#fff",
-                border: "1px solid silver",
-                borderRadius: 3,
-                padding: 5,
-                whiteSpace: "pre-line",
-              }}
-            />
-          </Card>
-        </Collapsible>
-      )}
-    </li>
+      <Card id={id} hidden={!isVisible}>
+        <Stack>
+          {showDiff && (
+            <>
+              <strong>Modification du texte</strong>
+              <ViewDiff
+                inputA={previousContent}
+                inputB={content}
+                type={"words"}
+                style={{
+                  background: "#fff",
+                  border: "1px solid silver",
+                  borderRadius: 3,
+                  padding: 5,
+                  whiteSpace: "pre-line",
+                }}
+              />
+            </>
+          )}
+          {showDiff && showNotaDiff && <Divider />}
+          {showNotaDiff && (
+            <>
+              <strong>Modification du Nota</strong>
+              <ViewDiff
+                inputA={previous.data.nota}
+                inputB={data.nota}
+                type={"words"}
+                style={{
+                  background: "#fff",
+                  border: "1px solid silver",
+                  borderRadius: 3,
+                  padding: 5,
+                  whiteSpace: "pre-line",
+                }}
+              />
+            </>
+          )}
+        </Stack>
+      </Card>
+    </Li>
   );
 }
 

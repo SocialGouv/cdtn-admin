@@ -33,19 +33,19 @@ export const theme = {
       bgHover: transparentize(0.8, "#3e486e"),
     },
     link: {
-      color: "transparent",
-      colorHover: "muted",
-      text: "text",
+      bg: "transparent",
+      bgHover: "highlight",
+      color: "text",
     },
     primary: {
-      color: "primary",
-      colorHover: "primaryHover",
-      text: "white",
+      bg: "primary",
+      bgHover: "primaryHover",
+      color: "white",
     },
     secondary: {
-      color: "secondary",
-      colorHover: "secondaryHover",
-      text: "white",
+      bg: "secondary",
+      bgHover: "secondaryHover",
+      color: "white",
     },
   },
   cards: {
@@ -72,7 +72,7 @@ export const theme = {
     highlight: "#E6E6EA",
 
     info: "#2AB7CA",
-    link: "#2765cf",
+    link: "#004cce",
     linkVisited: "#733d90",
     muted: "#717780",
     neutral: "#d1dffd",
@@ -166,6 +166,9 @@ export const theme = {
       color: "neutral",
     },
     root: {
+      "a:link": {
+        color: "link",
+      },
       bg: "white",
       color: "paragraph",
       fontFamily: "Muli",

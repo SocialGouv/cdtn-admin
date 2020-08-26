@@ -20,7 +20,7 @@ import {
 } from "theme-ui";
 
 const buttonPropTypes = {
-  size: PropTypes.oneOf(["small", "normal"]),
+  size: PropTypes.oneOf(["xsmall", "small", "normal"]),
   variant: PropTypes.oneOf(["secondary", "primary", "link"]),
 };
 
@@ -49,7 +49,6 @@ const smallSize = {
   px: "xxsmall",
   py: "xxsmall",
 };
-
 // function _Button({ outline = false, ...props }) {}
 
 export const Button = React.forwardRef(({ outline, ...props }, ref) => (
@@ -70,17 +69,17 @@ function SolidButton({ variant = "primary", size = "normal", ...props }) {
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
         "&:hover:not([disabled])": {
-          bg: (theme) => theme.buttons[variant].colorHover,
-          borderColor: (theme) => theme.buttons[variant].colorHover,
+          bg: (theme) => theme.buttons[variant].bgHover,
+          borderColor: (theme) => theme.buttons[variant].bgHover,
         },
         "&[disabled]": {
           bg: "muted",
           borderColor: "muted",
         },
-        bg: (theme) => theme.buttons[variant].color,
-        borderColor: (theme) => theme.buttons[variant].color,
+        bg: (theme) => theme.buttons[variant].bg,
+        borderColor: (theme) => theme.buttons[variant].bg,
         borderRadius: "small",
-        color: (theme) => theme.buttons[variant].text,
+        color: (theme) => theme.buttons[variant].color,
       }}
     />
   );
@@ -95,16 +94,16 @@ function OutlineButton({ variant = "primary", size = "normal", ...props }) {
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
         "&:hover:not([disabled])": {
-          borderColor: (theme) => theme.buttons[variant].colorHover,
-          color: (theme) => theme.buttons[variant].colorHover,
+          borderColor: (theme) => theme.buttons[variant].bgHover,
+          color: (theme) => theme.buttons[variant].bgHover,
         },
         "&[disabled]": {
           borderColor: "muted",
           color: "muted",
         },
-        bg: (theme) => theme.buttons[variant].text,
-        borderColor: (theme) => theme.buttons[variant].color,
-        color: (theme) => theme.buttons[variant].color,
+        bg: (theme) => theme.buttons[variant].color,
+        borderColor: (theme) => theme.buttons[variant].bg,
+        color: (theme) => theme.buttons[variant].bg,
       }}
     />
   );
@@ -119,7 +118,7 @@ export function IconButton({ variant = "primary", size = "large", ...props }) {
         ...defaultButtonStyles,
         "&:hover:not([disabled])": {
           bg: (theme) => theme.buttons.icon.bgHover,
-          color: (theme) => theme.buttons[variant].text,
+          color: (theme) => theme.buttons[variant].color,
         },
         "&[disabled]": {
           bg: "neutral",
@@ -145,7 +144,7 @@ export function MenuButton({ variant = "primary", size = "large", children }) {
           ...defaultButtonStyles,
           "&:hover:not([disabled])": {
             bg: (theme) => theme.buttons.icon.bgHover,
-            color: (theme) => theme.buttons[variant].text,
+            color: (theme) => theme.buttons[variant].color,
           },
           "&[disabled]": {
             bg: "neutral",
@@ -154,7 +153,7 @@ export function MenuButton({ variant = "primary", size = "large", children }) {
           bg: "transparent",
           border: "none",
           borderRadius: 32,
-          color: (theme) => theme.buttons[variant].color,
+          color: (theme) => theme.buttons[variant].bg,
           fontSize: size,
           height: 32,
           justifyContent: "center",
