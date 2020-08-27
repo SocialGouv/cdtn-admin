@@ -130,45 +130,47 @@ export function DilaDiffChange({ change }) {
           {isVisible ? <IoIosArrowDown /> : <IoIosArrowForward />}
         </TButton>
       )}
-      <Card id={id} hidden={!isVisible}>
-        <Stack>
-          {showDiff && (
-            <>
-              <strong>Modification du texte</strong>
-              <ViewDiff
-                inputA={previousContent}
-                inputB={content}
-                type={"words"}
-                style={{
-                  background: "#fff",
-                  border: "1px solid silver",
-                  borderRadius: 3,
-                  padding: 5,
-                  whiteSpace: "pre-line",
-                }}
-              />
-            </>
-          )}
-          {showDiff && showNotaDiff && <Divider />}
-          {showNotaDiff && (
-            <>
-              <strong>Modification du Nota</strong>
-              <ViewDiff
-                inputA={previous.data.nota}
-                inputB={data.nota}
-                type={"words"}
-                style={{
-                  background: "#fff",
-                  border: "1px solid silver",
-                  borderRadius: 3,
-                  padding: 5,
-                  whiteSpace: "pre-line",
-                }}
-              />
-            </>
-          )}
-        </Stack>
-      </Card>
+      {isVisible && (
+        <Card id={id}>
+          <Stack>
+            {showDiff && (
+              <>
+                <strong>Modification du texte</strong>
+                <ViewDiff
+                  inputA={previousContent}
+                  inputB={content}
+                  type={"words"}
+                  style={{
+                    background: "#fff",
+                    border: "1px solid silver",
+                    borderRadius: 3,
+                    padding: 5,
+                    whiteSpace: "pre-line",
+                  }}
+                />
+              </>
+            )}
+            {showDiff && showNotaDiff && <Divider />}
+            {showNotaDiff && (
+              <>
+                <strong>Modification du Nota</strong>
+                <ViewDiff
+                  inputA={previous.data.nota}
+                  inputB={data.nota}
+                  type={"words"}
+                  style={{
+                    background: "#fff",
+                    border: "1px solid silver",
+                    borderRadius: 3,
+                    padding: 5,
+                    whiteSpace: "pre-line",
+                  }}
+                />
+              </>
+            )}
+          </Stack>
+        </Card>
+      )}
     </li>
   );
 }

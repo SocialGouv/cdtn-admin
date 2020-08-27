@@ -44,7 +44,7 @@ export const ViewDiff = ({ sx, type, inputA, inputB }) => {
         <input
           type="radio"
           name={groupName}
-          onClick={() => setMode("words")}
+          onChange={() => setMode("words")}
           style={{ marginLeft: 10 }}
           checked={mode === "words"}
         />{" "}
@@ -52,7 +52,7 @@ export const ViewDiff = ({ sx, type, inputA, inputB }) => {
         <input
           type="radio"
           name={groupName}
-          onClick={() => setMode("sentences")}
+          onChange={() => setMode("sentences")}
           style={{ marginLeft: 10 }}
           checked={mode === "sentences"}
         />{" "}

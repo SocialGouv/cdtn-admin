@@ -5,12 +5,13 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { AlertTitle } from "src/components/alerts/AlertTitle";
 import { DiffChange } from "src/components/changes";
 import { ChangesGroup } from "src/components/changes/ChangeGroup";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
+import { Pagination } from "src/components/pagination";
 import { TabItem, Tabs } from "src/components/tabs";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
@@ -19,7 +20,7 @@ import { Card, Container, Divider, jsx, Message, NavLink } from "theme-ui";
 import { useQuery } from "urql";
 
 const getAlertQuery = `
-query getAlerts($status: String!, $repository: String!) {
+query getAlerts($status: String!, $repository: String!, $limit: Int!, $offset: Int!) {
   statuses: alert_status {
     name
     alerts: alerts_aggregate(where: {
@@ -31,7 +32,7 @@ query getAlerts($status: String!, $repository: String!) {
       __typename
     }
   }
-  alerts(where: {
+  alerts(limit: $limit, offset: $offset, where: {
     _and: [
       {status: {_eq: $status}},
       {repository: {_eq: $repository}},
@@ -50,6 +51,8 @@ query getAlerts($status: String!, $repository: String!) {
 
 export function AlertPage() {
   const router = useRouter();
+  const [offset, setOffset] = useState(0);
+  const pageSize = 10;
 
   const [repo, activeStatus = "todo"] = router.query.params;
   const repository = repo.replace(/_/, "/");
@@ -58,11 +61,15 @@ export function AlertPage() {
   const [result] = useQuery({
     context,
     query: getAlertQuery,
-    variables: { repository, status: activeStatus },
+    variables: {
+      limit: pageSize,
+      offset,
+      repository,
+      status: activeStatus,
+    },
   });
 
   const { fetching, error, data } = result;
-  console.log("<AlertPage> render", result, repository, activeStatus);
 
   if (fetching) {
     return <Layout title="Gestion des alertes">Chargement...</Layout>;
@@ -93,6 +100,7 @@ export function AlertPage() {
       ).toLocaleDateString()} (${alert.ref})`;
     }
   }
+
   return (
     <Layout title="Gestion des alertes">
       <Tabs id="statustab">
@@ -186,8 +194,27 @@ export function AlertPage() {
           </Card>
         </Container>
       ))}
+      <Pagination
+        count={
+          statuses.find(({ name }) => name === activeStatus).alerts.aggregate
+            .count
+        }
+        pageSize={pageSize}
+        offset={offset}
+        onChange={({ offset }) => setOffset(offset)}
+      />
     </Layout>
   );
 }
+/**
+ * This getInitialProps ensure useState to reset while page url change
+ * @see https://github.com/vercel/next.js/issues/9992
+ */
+AlertPage.getInitialProps = async function ({ query }) {
+  const [repo, activeStatus = "todo"] = query.params;
+  return {
+    key: `${repo}/${activeStatus}`,
+  };
+};
 
 export default withCustomUrqlClient(withUserProvider(AlertPage));

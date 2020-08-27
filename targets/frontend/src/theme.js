@@ -1,5 +1,7 @@
 import { darken, rgba, transparentize } from "polished";
 
+/* eslint-disable sort-keys-fix/sort-keys-fix */
+
 export const theme = {
   badges: {
     circle: {
@@ -13,6 +15,11 @@ export const theme = {
       bg: "transparent",
       boxShadow: "inset 0 0 0 1px",
       color: "primary",
+    },
+    accent: {
+      bg: "accent",
+      color: "white",
+      px: "xxsmall",
     },
     primary: {
       bg: "primary",
@@ -36,6 +43,11 @@ export const theme = {
       bg: "transparent",
       bgHover: "highlight",
       color: "text",
+    },
+    accent: {
+      bg: "accent",
+      bgHover: "accentHover",
+      color: "white",
     },
     primary: {
       bg: "primary",
@@ -61,50 +73,51 @@ export const theme = {
       padding: "small",
     },
   },
+
   colors: {
     accent: "#DA4167",
     accentHover: darken(0.05, "#DA4167"),
-    background: "#fff",
-    black: "#232323",
-    caution: "#FED766",
-    critical: "#E03616",
-    focus: rgba("#1e90ff", 0.7),
-    highlight: "#E6E6EA",
 
-    info: "#2AB7CA",
+    text: "#3e486e",
+    background: "#fff",
+    white: "#fff",
+    black: "#232323",
     link: "#004cce",
     linkVisited: "#733d90",
-    muted: "#717780",
-    neutral: "#d1dffd",
+    focus: rgba("#1e90ff", 0.7),
 
+    info: "#2AB7CA",
+    caution: "#FED766",
+    critical: "#E03616",
     positive: "#43AA8B",
-    primary: "#f66663",
+    neutral: "#d1dffd",
+    muted: "#717780",
+    highlight: "#E6E6EA",
 
+    primary: "#f66663",
     primaryHover: darken(0.05, "#f66663"),
     secondary: "#7994d4",
-
     secondaryHover: darken(0.05, "#7994d4"),
-    text: "#3e486e",
-    white: "#fff",
   },
   fontSizes: {
     0: "0.8rem",
-    icons: "1.5rem",
-    large: "1.4rem",
-    medium: "1rem",
-    small: "0.9rem",
-    xlarge: "2rem",
+    xxsmall: "0.7rem",
     xsmall: "0.8rem",
+    small: "0.9rem",
+    medium: "1rem",
+    large: "1.4rem",
+    xlarge: "2rem",
     xxlarge: "3.2rem",
+    icons: "1.5rem",
   },
   // fontSizes: [12, 14, 16, 20, 24, 32, 48, 64],
   fontWeights: {
     body: 300,
-    bold: 600,
     heading: 600,
     light: 300,
     regular: 400,
     semibold: 600,
+    bold: 600,
   },
   fonts: {
     body: "muli",
@@ -132,34 +145,35 @@ export const theme = {
     heading: 1.125,
   },
   radii: {
-    large: "8px",
     small: "4px",
+    large: "8px",
     xlarge: "16px",
   },
   shadows: {
     card1: "0 0 8px rgba(0, 0, 0, 0.125)",
-    large:
-      "0 0 4px 0px rgba(28,28,28,.1), 0 3px 18px -4px rgba(28,28,28,.1), 0 5px 30px -12px rgba(28,28,28,.2)",
-    medium:
-      "0 0 4px 0px rgba(28,28,28,.1), 0 8px 8px -4px rgba(28,28,28,.1), 0 12px 12px -8px rgba(28,28,28,.2)",
     small:
       "0 0 4px 0px rgba(28,28,28,.1), 0 2px 2px -2px rgba(28,28,28,.1), 0 4px 4px -4px rgba(28,28,28,.2)",
+    medium:
+      "0 0 4px 0px rgba(28,28,28,.1), 0 8px 8px -4px rgba(28,28,28,.1), 0 12px 12px -8px rgba(28,28,28,.2)",
+    large:
+      "0 0 4px 0px rgba(28,28,28,.1), 0 3px 18px -4px rgba(28,28,28,.1), 0 5px 30px -12px rgba(28,28,28,.2)",
   },
   sizes: {
-    container: 1440,
     normal: "xsmall",
     small: "xxsmall",
+    container: 1440,
   },
   space: {
-    large: "2rem",
-    larger: "4rem",
-    medium: "1.6rem",
+    0: 0,
     none: "0",
-    small: "1rem",
-    xlarge: "2.4rem",
-    xsmall: "0.8rem",
-    xxlarge: "3.2rem",
     xxsmall: "0.4rem",
+    xsmall: "0.8rem",
+    small: "1rem",
+    medium: "1.6rem",
+    large: "2rem",
+    xlarge: "2.4rem",
+    xxlarge: "3.2rem",
+    larger: "4rem",
   },
   styles: {
     hr: {
