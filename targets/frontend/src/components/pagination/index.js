@@ -67,14 +67,13 @@ export function Pagination({
   if (nbPage === 1) {
     return null;
   }
+  if (nbPage <= visibleRange * 2) {
+    return <PaginationList>{allPages}</PaginationList>;
+  }
   return (
-    <Flex sx={{ justifyContent: "center" }}>
-      <List sx={{ display: "flex", fontSize: "xxsmall" }}>
-        <Inline space="xxsmall">
-          {startPagination.concat(pages, endPagination)}
-        </Inline>
-      </List>
-    </Flex>
+    <PaginationList>
+      {startPagination.concat(pages, endPagination)}
+    </PaginationList>
   );
 }
 
@@ -85,3 +84,11 @@ Pagination.propTypes = {
   pageSize: PropTypes.number,
   visibleRange: PropTypes.number,
 };
+
+function PaginationList({ children }) {
+  <Flex sx={{ justifyContent: "center" }}>
+    <List sx={{ display: "flex", fontSize: "xxsmall" }}>
+      <Inline space="xxsmall">{children}</Inline>
+    </List>
+  </Flex>;
+}
