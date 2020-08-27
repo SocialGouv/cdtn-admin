@@ -37,7 +37,6 @@ const defaultButtonStyles = {
   lineHeight: "inherit",
   m: 0,
   minWidth: 0,
-  p: 1,
   textAlign: "center",
   textDecoration: "none",
 };
@@ -51,11 +50,13 @@ const smallSize = {
 };
 // function _Button({ outline = false, ...props }) {}
 
-export const Button = React.forwardRef(({ outline, ...props }, ref) => (
-  <div ref={ref}>
-    {outline ? <OutlineButton {...props} /> : <SolidButton {...props} />}
-  </div>
-));
+export const Button = React.forwardRef(({ outline, ...props }, ref) =>
+  outline ? (
+    <OutlineButton ref={ref} {...props} />
+  ) : (
+    <SolidButton ref={ref} {...props} />
+  )
+);
 Button.propTypes = {
   outline: PropTypes.bool,
   ...buttonPropTypes,
