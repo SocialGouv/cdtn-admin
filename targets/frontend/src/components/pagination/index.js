@@ -86,9 +86,14 @@ Pagination.propTypes = {
 };
 
 function PaginationList({ children }) {
-  <Flex sx={{ justifyContent: "center" }}>
-    <List sx={{ display: "flex", fontSize: "xxsmall" }}>
-      <Inline space="xxsmall">{children}</Inline>
-    </List>
-  </Flex>;
+  return (
+    <Flex sx={{ justifyContent: "center" }}>
+      <List sx={{ display: "flex", fontSize: "xxsmall" }}>
+        <Inline space="xxsmall">{children}</Inline>
+      </List>
+    </Flex>
+  );
 }
+PaginationList.propTypes = {
+  children: PropTypes.node.required,
+};
