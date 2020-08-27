@@ -64,7 +64,9 @@ export function Pagination({
     Math.max(rangeStartIndex, 2),
     Math.min(rangeEndIndex, nbPage - 2)
   );
-
+  if (nbPage === 1) {
+    return null;
+  }
   return (
     <Flex sx={{ justifyContent: "center" }}>
       <List sx={{ display: "flex", fontSize: "xxsmall" }}>
