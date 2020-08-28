@@ -21,7 +21,7 @@ import {
 
 const buttonPropTypes = {
   size: PropTypes.oneOf(["xsmall", "small", "normal"]),
-  variant: PropTypes.oneOf(["secondary", "primary", "link"]),
+  variant: PropTypes.oneOf(["accent", "secondary", "primary", "link"]),
 };
 
 const defaultButtonStyles = {

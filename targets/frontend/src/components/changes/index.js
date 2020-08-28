@@ -18,36 +18,43 @@ import { ViewDiff } from "./ViewDiff";
 
 export function DilaLink({ info, children }) {
   const { context, data, type } = info;
-  let url = "https://legifrance.gouv.fr/affichCode";
+  let url = "";
+  const baseUrl = "https://beta.legifrance.gouv.fr";
   if (context.containerId.startsWith("LEGI")) {
     if (type === "article") {
       // article d'un code
-      url = `https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=${data.id}&cidTexte=${context.textId}`;
+      const today = new Date();
+      url = `${baseUrl}/codes/article_lc/${
+        data.id
+      }/${today.getUTCFullYear()}-${("0" + (today.getUTCMonth() + 1)).slice(
+        -2
+      )}-${today.getUTCDate()}`;
     } else if (type === "section") {
       // section d'un code
-      url = `https://www.legifrance.gouv.fr/affichCode.do?idSectionTA=${data.id}&cidTexte=${context.textId}`;
+      url = `${baseUrl}/codes/section_lc/${context.containerId}/${data.id}`;
     }
   }
   if (context.containerId.startsWith("KALI")) {
     if (type === "article") {
       // article d'une CC ou teste annexe
-      url = `https://www.legifrance.gouv.fr/affichIDCCArticle.do?idArticle=${data.id}&cidTexte=${context.textId}`;
+      url = `${baseUrl}/conv_coll/article/${data.id}/?idConteneur=${context.containerId}`;
     } else if (type === "section") {
       // si section
       if (data.id && data.id.match(/^KALISCTA/)) {
-        url = `https://www.legifrance.gouv.fr/affichIDCC.do?idSectionTA=${
-          data.id
-        }&idConvention=${context.textId || context.containerId}`;
+        url = `${baseUrl}/conv_coll/id/${data.id}/?idConteneur=${context.containerId}`;
         // si texte attaché/annexe
       } else if (data.id && data.id.match(/^KALITEXT/)) {
-        url = `https://www.legifrance.gouv.fr/affichIDCC.do?cidTexte=${
-          data.id
-        }&idConvention=${context.textId || context.containerId}`;
+        url = `${baseUrl}/conv_coll/id/${data.id}/?idConteneur=${context.containerId}`;
       }
     }
   }
   return (
-    <a rel="nooppener noreferrer" target="_blank" href={url}>
+    <a
+      rel="nooppener noreferrer"
+      target="_blank"
+      href={url}
+      title={context.parents && context.parents.join(" › ")}
+    >
       {children}
     </a>
   );
@@ -58,6 +65,7 @@ DilaLink.propTypes = {
   info: PropTypes.shape({
     context: PropTypes.shape({
       containerId: PropTypes.string,
+      parents: PropTypes.arrayOf(PropTypes.string),
       textId: PropTypes.string,
     }),
     data: PropTypes.shape({
@@ -82,12 +90,13 @@ export function DilaDiffChange({ change }) {
 
   return (
     <li>
-      <Flex sx={{ alignItems: "center" }}>
+      <Flex sx={{ alignItems: "center", flexWrap: "wrap" }}>
         <Box>
           {change.type === "section" && (
             <>
-              {change.context.parents.slice(-3, -1).join(" › ")} -
-              <DilaLink info={change}>{change.data.title}</DilaLink>
+              {change.context.parents.length > 2 &&
+                change.context.parents.slice(-2, -1).join(" › ")}{" "}
+              › <DilaLink info={change}>{change.data.title}</DilaLink>
             </>
           )}
           {change.type === "article" && (
