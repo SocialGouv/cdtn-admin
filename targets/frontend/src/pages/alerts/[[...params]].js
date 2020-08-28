@@ -100,7 +100,7 @@ export function AlertPage() {
       ).toLocaleDateString()} (${alert.ref})`;
     }
   }
-
+  console.log(alerts);
   return (
     <Layout title="Gestion des alertes">
       <Tabs id="statustab">
@@ -126,7 +126,9 @@ export function AlertPage() {
         <Container sx={{ paddingTop: "large" }} key={`${alert.id}`}>
           <Card>
             <Stack>
-              <AlertTitle alertId={alert.id}>{getTitle(alert)}</AlertTitle>
+              <AlertTitle alertId={alert.id} info={alert.info}>
+                {getTitle(alert)}
+              </AlertTitle>
               <Accordion collapsible multiple>
                 {alert.changes.added.length > 0 && (
                   <ChangesGroup
