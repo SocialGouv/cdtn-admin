@@ -119,7 +119,7 @@ export function IconButton({ variant = "primary", size = "large", ...props }) {
         ...defaultButtonStyles,
         "&:hover:not([disabled])": {
           bg: (theme) => theme.buttons.icon.bgHover,
-          color: (theme) => theme.buttons[variant].color,
+          color: (theme) => theme.buttons[variant].bg,
         },
         "&[disabled]": {
           bg: "neutral",
@@ -127,7 +127,7 @@ export function IconButton({ variant = "primary", size = "large", ...props }) {
         },
         border: "none",
         borderRadius: 32,
-        color: (theme) => theme.buttons[variant].color,
+        color: (theme) => theme.buttons[variant].bg,
         fontSize: size,
         lineHeight: 1,
         overflow: "hidden",
@@ -145,7 +145,7 @@ export function MenuButton({ variant = "primary", size = "large", children }) {
           ...defaultButtonStyles,
           "&:hover:not([disabled])": {
             bg: (theme) => theme.buttons.icon.bgHover,
-            color: (theme) => theme.buttons[variant].color,
+            color: (theme) => theme.buttons[variant].bg,
           },
           "&[disabled]": {
             bg: "neutral",
