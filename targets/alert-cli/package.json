@@ -30,7 +30,7 @@
     "eslint": "^7.6.0",
     "esm": "^3.2.25",
     "jest": "^26.2.2",
-    "lint-staged": "^10.2.11",
+    "lint-staged": "^10.2.13",
     "rollup": "^2.23.1",
     "typescript": "^3.9.7"
   },
