@@ -8,7 +8,7 @@ scripts:
     default: concurrently --kill-others --kill-others-on-fail
       "lerna run --stream dev"
       "docker-compose up --build postgres hasura"
-    frontend: yarn --cwd targets/frontend dev
+    frontend: yarn workspace frontend dev
 
   e2e:
     default: lerna run --stream --parallel e2e

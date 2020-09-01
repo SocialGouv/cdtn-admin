@@ -1,8 +1,9 @@
 import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
+import { client } from "@shared/graphql-client";
 import { hash } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
-import { client } from "@shared/graphql-client";
+
 import { activateUserMutation } from "./password.gql";
 
 export function createRequestHandler({
@@ -19,8 +20,8 @@ export function createRequestHandler({
     }
 
     const schema = Joi.object({
-      token: Joi.string().guid({ version: "uuidv4" }).required(),
       password: Joi.string().required(),
+      token: Joi.string().guid({ version: "uuidv4" }).required(),
     });
 
     const { error, value } = schema.validate(req.body);
@@ -30,9 +31,9 @@ export function createRequestHandler({
 
     const result = await client
       .query(mutation, {
-        secret_token: value.token,
-        password: await hash(value.password),
         now: new Date().toISOString(),
+        password: await hash(value.password),
+        secret_token: value.token,
       })
       .toPromise();
 
@@ -52,8 +53,8 @@ export function createRequestHandler({
 }
 
 export default createRequestHandler({
-  mutation: activateUserMutation,
   errorMessage:
     "Account is already activated, the secret token has expired or there is no account.",
+  mutation: activateUserMutation,
   success_message: "user activated !",
 });

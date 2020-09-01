@@ -1,13 +1,14 @@
 /** @jsx jsx */
+import Head from "next/head";
 import PropTypes from "prop-types";
 import { IconContext } from "react-icons";
-import { Box, Flex, jsx, Card, Heading } from "theme-ui";
+import { Box, Flex, Heading, jsx } from "theme-ui";
+
 import { Header } from "./header";
 import { Nav } from "./Nav";
-import Head from "next/head";
+import { Stack } from "./Stack";
 
 export function Layout({ children, title }) {
-  console.log("-- <Layout>");
   return (
     <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
       <Head>
@@ -18,8 +19,10 @@ export function Layout({ children, title }) {
         <Flex sx={{ flexBasis: "100%" }}>
           <Nav />
           <Box as="main" sx={{ flex: "1 1 auto" }} padding="large">
-            <Heading>{title}</Heading>
-            <Card>{children}</Card>
+            <Stack>
+              <Heading as="h1">{title}</Heading>
+              {children}
+            </Stack>
           </Box>
         </Flex>
       </Box>
@@ -27,6 +30,6 @@ export function Layout({ children, title }) {
   );
 }
 Layout.propTypes = {
-  title: PropTypes.string.isRequired,
   children: PropTypes.node,
+  title: PropTypes.string.isRequired,
 };

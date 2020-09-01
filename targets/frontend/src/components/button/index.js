@@ -1,47 +1,44 @@
 /** @jsx jsx */
-import React from "react";
-import {
-  jsx,
-  Button as BaseButton,
-  IconButton as BaseIconButton,
-} from "theme-ui";
-import PropTypes from "prop-types";
-
-import {
-  Menu,
-  MenuButton as ReachMenuButton,
-  MenuList,
-  MenuItem as ReachMenuItem,
-} from "@reach/menu-button";
-
 import {
   AccordionButton as ReachAccordionButton,
   useAccordionItemContext,
 } from "@reach/accordion";
-
-import { IoMdMore, IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
+import {
+  Menu,
+  MenuButton as ReachMenuButton,
+  MenuItem as ReachMenuItem,
+  MenuList,
+} from "@reach/menu-button";
+import PropTypes from "prop-types";
+import React from "react";
+import { IoIosArrowDown, IoIosArrowForward, IoMdMore } from "react-icons/io";
+import {
+  Box,
+  Button as BaseButton,
+  IconButton as BaseIconButton,
+  jsx,
+} from "theme-ui";
 
 const buttonPropTypes = {
-  variant: PropTypes.oneOf(["secondary", "primary", "link"]),
-  size: PropTypes.oneOf(["small", "normal"]),
+  size: PropTypes.oneOf(["xsmall", "small", "normal"]),
+  variant: PropTypes.oneOf(["accent", "secondary", "primary", "link"]),
 };
 
 const defaultButtonStyles = {
-  cursor: "pointer",
-  appearance: "none",
-  display: "inline-flex",
   alignItems: "center",
-  textAlign: "center",
-  lineHeight: "inherit",
-  textDecoration: "none",
+  appearance: "none",
+  borderRadius: "small",
+  borderStyle: "solid",
+  borderWidth: 2,
+  cursor: "pointer",
+  display: "inline-flex",
   fontSize: "inherit",
   fontWeight: "bold",
-  minWidth: 0,
+  lineHeight: "inherit",
   m: 0,
-  p: 1,
-  borderRadius: "small",
-  borderWidth: 2,
-  borderStyle: "solid",
+  minWidth: 0,
+  textAlign: "center",
+  textDecoration: "none",
 };
 const normalSize = {
   px: "xsmall",
@@ -51,14 +48,15 @@ const smallSize = {
   px: "xxsmall",
   py: "xxsmall",
 };
-
 // function _Button({ outline = false, ...props }) {}
 
-export const Button = React.forwardRef(({ outline, ...props }, ref) => (
-  <div ref={ref}>
-    {outline ? <OutlineButton {...props} /> : <SolidButton {...props} />}
-  </div>
-));
+export const Button = React.forwardRef(({ outline, ...props }, ref) =>
+  outline ? (
+    <OutlineButton ref={ref} {...props} />
+  ) : (
+    <SolidButton ref={ref} {...props} />
+  )
+);
 Button.propTypes = {
   outline: PropTypes.bool,
   ...buttonPropTypes,
@@ -71,18 +69,18 @@ function SolidButton({ variant = "primary", size = "normal", ...props }) {
       sx={{
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
-        borderColor: (theme) => theme.buttons[variant].color,
-        bg: (theme) => theme.buttons[variant].color,
-        color: (theme) => theme.buttons[variant].text,
-        borderRadius: "small",
         "&:hover:not([disabled])": {
-          borderColor: (theme) => theme.buttons[variant].colorHover,
-          bg: (theme) => theme.buttons[variant].colorHover,
+          bg: (theme) => theme.buttons[variant].bgHover,
+          borderColor: (theme) => theme.buttons[variant].bgHover,
         },
         "&[disabled]": {
           bg: "muted",
           borderColor: "muted",
         },
+        bg: (theme) => theme.buttons[variant].bg,
+        borderColor: (theme) => theme.buttons[variant].bg,
+        borderRadius: "small",
+        color: (theme) => theme.buttons[variant].color,
       }}
     />
   );
@@ -96,17 +94,17 @@ function OutlineButton({ variant = "primary", size = "normal", ...props }) {
       sx={{
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
-        borderColor: (theme) => theme.buttons[variant].color,
-        bg: (theme) => theme.buttons[variant].text,
-        color: (theme) => theme.buttons[variant].color,
         "&:hover:not([disabled])": {
-          color: (theme) => theme.buttons[variant].colorHover,
-          borderColor: (theme) => theme.buttons[variant].colorHover,
+          borderColor: (theme) => theme.buttons[variant].bgHover,
+          color: (theme) => theme.buttons[variant].bgHover,
         },
         "&[disabled]": {
-          color: "muted",
           borderColor: "muted",
+          color: "muted",
         },
+        bg: (theme) => theme.buttons[variant].color,
+        borderColor: (theme) => theme.buttons[variant].bg,
+        color: (theme) => theme.buttons[variant].bg,
       }}
     />
   );
@@ -119,20 +117,20 @@ export function IconButton({ variant = "primary", size = "large", ...props }) {
       {...props}
       sx={{
         ...defaultButtonStyles,
-        lineHeight: 1,
-        borderRadius: 32,
-        overflow: "hidden",
-        border: "none",
-        fontSize: size,
-        color: (theme) => theme.buttons[variant].color,
         "&:hover:not([disabled])": {
-          color: (theme) => theme.buttons[variant].text,
           bg: (theme) => theme.buttons.icon.bgHover,
+          color: (theme) => theme.buttons[variant].bg,
         },
         "&[disabled]": {
-          color: "text",
           bg: "neutral",
+          color: "text",
         },
+        border: "none",
+        borderRadius: 32,
+        color: (theme) => theme.buttons[variant].bg,
+        fontSize: size,
+        lineHeight: 1,
+        overflow: "hidden",
       }}
     />
   );
@@ -145,32 +143,32 @@ export function MenuButton({ variant = "primary", size = "large", children }) {
       <ReachMenuButton
         sx={{
           ...defaultButtonStyles,
-          borderRadius: 32,
-          height: 32,
-          width: 32,
-          padding: 0,
-          border: "none",
-          bg: "transparent",
-          overflow: "hidden",
-          justifyContent: "center",
-          lineHeight: 1,
-          fontSize: size,
-          color: (theme) => theme.buttons[variant].color,
           "&:hover:not([disabled])": {
-            color: (theme) => theme.buttons[variant].text,
             bg: (theme) => theme.buttons.icon.bgHover,
+            color: (theme) => theme.buttons[variant].bg,
           },
           "&[disabled]": {
-            color: "text",
             bg: "neutral",
+            color: "text",
           },
+          bg: "transparent",
+          border: "none",
+          borderRadius: 32,
+          color: (theme) => theme.buttons[variant].bg,
+          fontSize: size,
+          height: 32,
+          justifyContent: "center",
+          lineHeight: 1,
+          overflow: "hidden",
+          padding: 0,
+          width: 32,
         }}
       >
         <div aria-label="Actions">
           <IoMdMore />
         </div>
       </ReachMenuButton>
-      <MenuList sx={{ bg: "white", right: 0, boxShadow: "large" }}>
+      <MenuList sx={{ bg: "white", boxShadow: "large", right: 0 }}>
         {children}
       </MenuList>
     </Menu>
@@ -187,8 +185,8 @@ export function MenuItem(props) {
       {...props}
       sx={{
         "&[data-selected]": {
-          color: "white",
           bg: "secondary",
+          color: "white",
         },
       }}
     />
@@ -201,15 +199,17 @@ export function AccordionButton({ children, ...props }) {
       {...props}
       sx={{
         ...defaultButtonStyles,
-        color: "text",
-        bg: "white",
-        border: "none",
         "&[aria-expanded=true]": {
           color: "accent",
         },
+        bg: "white",
+        border: "none",
+        color: "text",
       }}
     >
-      <ExpandedIcon />
+      <Box sx={{ px: "xxsmall" }}>
+        <ExpandedIcon />
+      </Box>
       {children}
     </ReachAccordionButton>
   );

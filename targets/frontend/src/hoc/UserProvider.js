@@ -1,8 +1,8 @@
-import React from "react";
 import { getDisplayName } from "next/dist/next-server/lib/utils";
+import React from "react";
 
-import { getToken, refreshToken, setToken } from "../lib/auth/token";
 import { UserProvider } from "../hooks/useUser";
+import { getToken, refreshToken, setToken } from "../lib/auth/token";
 
 function withUserProvider(WrappedComponent) {
   return class extends React.Component {
@@ -35,7 +35,6 @@ function withUserProvider(WrappedComponent) {
       const componentProps =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx));
-
       return { ...componentProps };
     }
     render() {

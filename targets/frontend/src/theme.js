@@ -1,18 +1,107 @@
-import { rgba, darken, transparentize } from "polished";
+import { darken, rgba, transparentize } from "polished";
+
+/* eslint-disable sort-keys-fix/sort-keys-fix */
 
 export const theme = {
-  fonts: {
-    body: "muli",
-    heading: "muli",
-    monospace: "monospace",
+  badges: {
+    circle: {
+      bg: "accent",
+      borderRadius: "xlarge",
+      lineHeight: 1,
+      px: "5px",
+      py: "3px",
+    },
+    outline: {
+      bg: "transparent",
+      boxShadow: "inset 0 0 0 1px",
+      color: "primary",
+    },
+    accent: {
+      bg: "accent",
+      color: "white",
+      px: "xxsmall",
+    },
+    primary: {
+      bg: "primary",
+      color: "white",
+      px: "xxsmall",
+    },
+    secondary: {
+      bg: "secondary",
+      color: "white",
+      px: "xxsmall",
+    },
   },
-  sizes: {
-    container: 1440,
-    normal: "xsmall",
-    small: "xxsmall",
+
+  breakpoints: ["40rem", "56rem", "64rem"],
+
+  buttons: {
+    icon: {
+      bgHover: transparentize(0.8, "#3e486e"),
+    },
+    link: {
+      bg: "transparent",
+      bgHover: "highlight",
+      color: "text",
+    },
+    accent: {
+      bg: "accent",
+      bgHover: "accentHover",
+      color: "white",
+    },
+    primary: {
+      bg: "primary",
+      bgHover: "primaryHover",
+      color: "white",
+    },
+    secondary: {
+      bg: "secondary",
+      bgHover: "secondaryHover",
+      color: "white",
+    },
+  },
+  cards: {
+    compact: {
+      border: "1px solid",
+      borderColor: "muted",
+      borderRadius: "small",
+      padding: "small",
+    },
+    primary: {
+      borderRadius: "small",
+      boxShadow: "large",
+      padding: "small",
+    },
+  },
+
+  colors: {
+    accent: "#DA4167",
+    accentHover: darken(0.05, "#DA4167"),
+
+    text: "#3e486e",
+    background: "#fff",
+    white: "#fff",
+    black: "#232323",
+    link: "#004cce",
+    linkVisited: "#733d90",
+    focus: rgba("#1e90ff", 0.7),
+
+    info: "#2AB7CA",
+    caution: "#FED766",
+    critical: "#E03616",
+    positive: "#43AA8B",
+    neutral: "#d1dffd",
+    muted: "#717780",
+    highlight: "#E6E6EA",
+
+    primary: "#f66663",
+    primaryHover: darken(0.05, "#f66663"),
+    secondary: "#7994d4",
+    secondaryHover: darken(0.05, "#7994d4"),
   },
   fontSizes: {
     0: "0.8rem",
+    xxsmall: "0.7rem",
     xsmall: "0.8rem",
     small: "0.9rem",
     medium: "1rem",
@@ -24,46 +113,58 @@ export const theme = {
   // fontSizes: [12, 14, 16, 20, 24, 32, 48, 64],
   fontWeights: {
     body: 300,
-    regular: 400,
     heading: 600,
+    light: 300,
+    regular: 400,
     semibold: 600,
     bold: 600,
   },
-  lineHeights: {
-    body: 1.625,
-    heading: 1.125,
+  fonts: {
+    body: "muli",
+    heading: "muli",
+    monospace: "monospace",
+  },
+  forms: {
+    input: {
+      padding: "xsmall",
+    },
+    label: {
+      fontSize: "small",
+      fontWeight: "body",
+    },
+    select: {
+      padding: "xsmall",
+    },
   },
   letterSpacings: {
     body: "normal",
     caps: "0.2em",
   },
-  colors: {
-    text: "#3e486e",
-    background: "#fff",
-    primary: "#f66663",
-    primaryHover: darken(0.05, "#f66663"),
-    secondary: "#7994d4",
-    secondaryHover: darken(0.05, "#7994d4"),
-    accent: "#DA4167",
-    accentHover: darken(0.05, "#DA4167"),
-
-    positive: "#43AA8B",
-    neutral: "#d1dffd",
-    info: "#2AB7CA",
-    caution: "#FED766",
-    critical: "#E03616",
-
-    white: "#fff",
-    black: "#232323",
-
-    highlight: "#E6E6EA",
-    muted: "#bbcadf",
-
-    link: "#2765cf",
-    linkVisited: "#733d90",
-    focus: rgba("#1e90ff", 0.7),
+  lineHeights: {
+    body: 1.625,
+    heading: 1.125,
+  },
+  radii: {
+    small: "4px",
+    large: "8px",
+    xlarge: "16px",
+  },
+  shadows: {
+    card1: "0 0 8px rgba(0, 0, 0, 0.125)",
+    small:
+      "0 0 4px 0px rgba(28,28,28,.1), 0 2px 2px -2px rgba(28,28,28,.1), 0 4px 4px -4px rgba(28,28,28,.2)",
+    medium:
+      "0 0 4px 0px rgba(28,28,28,.1), 0 8px 8px -4px rgba(28,28,28,.1), 0 12px 12px -8px rgba(28,28,28,.2)",
+    large:
+      "0 0 4px 0px rgba(28,28,28,.1), 0 3px 18px -4px rgba(28,28,28,.1), 0 5px 30px -12px rgba(28,28,28,.2)",
+  },
+  sizes: {
+    normal: "xsmall",
+    small: "xxsmall",
+    container: 1440,
   },
   space: {
+    0: 0,
     none: "0",
     xxsmall: "0.4rem",
     xsmall: "0.8rem",
@@ -74,19 +175,19 @@ export const theme = {
     xxlarge: "3.2rem",
     larger: "4rem",
   },
-  radii: {
-    small: "4px",
-    large: "8px",
-    xlarge: "16px",
-  },
-  breakpoints: ["40rem", "56rem", "64rem"],
   styles: {
+    hr: {
+      color: "neutral",
+    },
     root: {
-      color: "paragraph",
+      "a:link": {
+        color: "link",
+      },
       bg: "white",
-      fontWeight: 400,
+      color: "paragraph",
       fontFamily: "Muli",
       fontSize: "medium",
+      fontWeight: 400,
       lineHeight: "body",
     },
   },
@@ -97,88 +198,10 @@ export const theme = {
     },
     heading: {
       fontFamily: "Muli",
+      fontSize: "xlarge",
       fontWeight: "heading",
       lineHeight: "heading",
-      py: ["xsmall", "large"],
-      fontSize: "xlarge",
+      py: ["xsmall", "small"],
     },
-  },
-  buttons: {
-    primary: {
-      text: "white",
-      color: "primary",
-      colorHover: "primaryHover",
-    },
-    secondary: {
-      text: "white",
-      color: "secondary",
-      colorHover: "secondaryHover",
-    },
-    link: {
-      text: "text",
-      color: "transparent",
-      colorHover: "muted",
-    },
-    icon: {
-      bgHover: transparentize(0.8, "#3e486e"),
-    },
-  },
-  cards: {
-    primary: {
-      padding: "small",
-      borderRadius: "small",
-      boxShadow: "large",
-    },
-    compact: {
-      padding: "small",
-      borderRadius: "small",
-      border: "1px solid",
-      borderColor: "muted",
-    },
-  },
-  badges: {
-    primary: {
-      bg: "primary",
-      color: "white",
-      px: "xxsmall",
-    },
-    secondary: {
-      bg: "secondary",
-      color: "white",
-      px: "xxsmall",
-    },
-    outline: {
-      color: "primary",
-      bg: "transparent",
-      boxShadow: "inset 0 0 0 1px",
-    },
-    circle: {
-      bg: "accent",
-      borderRadius: "xlarge",
-      px: "5px",
-      py: "3px",
-      lineHeight: 1,
-    },
-  },
-  forms: {
-    label: {
-      fontSize: "small",
-      fontWeight: "body",
-    },
-    input: {
-      padding: "xsmall",
-    },
-    select: {
-      padding: "xsmall",
-    },
-  },
-  shadows: {
-    card1: "0 0 8px rgba(0, 0, 0, 0.125)",
-    small:
-      "0 0 4px 0px rgba(28,28,28,.1), 0 2px 2px -2px rgba(28,28,28,.1), 0 4px 4px -4px rgba(28,28,28,.2)",
-    medium:
-      "0 0 4px 0px rgba(28,28,28,.1), 0 8px 8px -4px rgba(28,28,28,.1), 0 12px 12px -8px rgba(28,28,28,.2)",
-    large:
-      "0 0 4px 0px rgba(28,28,28,.1), 0 3px 18px -4px rgba(28,28,28,.1), 0 5px 30px -12px rgba(28,28,28,.2)",
   },
 };

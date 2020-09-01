@@ -1,11 +1,12 @@
 import { client } from "@shared/graphql-client";
 import fiches from "@socialgouv/datafiller-data/data/externals.json";
 import nodegit from "nodegit";
-import path from "path";
 import semver from "semver";
 
+import { batchPromises } from "./batchPromises";
 import { ccns } from "./ccn-list.js";
 import { compareArticles } from "./compareTree.js";
+import { openRepo } from "./openRepo";
 import { getRelevantDocuments } from "./relevantContent.js";
 
 /** @type {string[]} */
@@ -66,10 +67,12 @@ function getFileFilter(repository) {
       // only a ccn matching our list
       return (path) => ccns.some((ccn) => new RegExp(ccn.id).test(path));
     case "socialgouv/fiches-vdd":
-      return (path) =>
-        ["index.json", ...listFichesVddId].some((id) =>
-          new RegExp(id).test(path)
+      return (path) => {
+        const matched = ["index.json", ...listFichesVddId].some((id) =>
+          new RegExp(`${id}.json$`).test(path)
         );
+        return matched;
+      };
     default:
       return () => false;
   }
@@ -312,31 +315,7 @@ export async function updateSource(repository, tag) {
   }
   return result.data.source;
 }
-/**
- *
- * @param {alerts.Source} source
- * @returns {Promise<nodegit.Repository>}
- */
-async function openRepo({ repository }) {
-  const [org, repositoryName] = repository.split("/");
-  const localPath = path.join(__dirname, "..", "data", repositoryName);
-  let repo;
-  try {
-    repo = await nodegit.Repository.open(localPath);
-    await repo.fetch("origin");
-    await repo.checkoutBranch("master");
-    await repo.mergeBranches("master", "origin/master");
-  } catch (err) {
-    console.error(
-      `[error] openRepo: unable to open repository ${repository}, trying to clone it`
-    );
-    repo = await nodegit.Clone.clone(
-      `git://github.com/${org}/${repositoryName}`,
-      localPath
-    );
-  }
-  return repo;
-}
+
 /**
  *
  * @param {nodegit.Repository} repository
@@ -386,7 +365,6 @@ async function getDiffFromTags(tags, repositoryId) {
   const diffProcessor = getDiffProcessor(repositoryId);
 
   for (const tag of newTags) {
-    console.error(tag.ref);
     const previousCommit = previousTag.commit;
     const { commit } = tag;
     const [prevTree, currTree] = await Promise.all([
@@ -440,20 +418,32 @@ async function main() {
       if (result.changes.length === 0) {
         console.log(`no update for ${result.repository}`);
       } else {
-        const inserts = await Promise.all(
-          result.changes.map((diff) => insertAlert(result.repository, diff))
+        const inserts = await batchPromises(
+          result.changes,
+          (diff) => insertAlert(result.repository, diff),
+          5
         );
-        inserts.forEach((insert) => {
-          const { ref, repository, info } = insert;
+        const fullfilledInserts = /**@type {{status:"fulfilled", value:alerts.Alert}[]} */ (inserts.filter(
+          ({ status }) => status === "fulfilled"
+        ));
+        const rejectedInsert = inserts.filter(
+          ({ status }) => status === "rejected"
+        );
+        fullfilledInserts.forEach((insert) => {
+          const { ref, repository, info } = insert.value;
           console.log(
             `insert alert for ${ref} on ${repository} (${info.file})`
           );
         });
-        console.log(`create ${inserts.length} alert for ${result.repository}`);
+
+        rejectedInsert.length &&
+          console.error(
+            `${rejectedInsert.length} alerts failed to insert in ${result.repository}`
+          );
       }
 
-      const update = await updateSource(result.repository, result.newRef);
-      console.log(`update source ${update.repository} to ${update.tag}`);
+      // const update = await updateSource(result.repository, result.newRef);
+      // console.log(`update source ${update.repository} to ${update.tag}`);
     }
   }
 }

@@ -1,15 +1,14 @@
 /** @jsx jsx */
 
-import { jsx, Field, Text, NavLink } from "theme-ui";
-import { PasswordLayout } from "src/components/layout/password.layout";
-
+import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { request } from "src/lib/request";
-import { Stack } from "src/components/layout/Stack";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
-import { useState } from "react";
-import Link from "next/link";
+import { PasswordLayout } from "src/components/layout/password.layout";
+import { Stack } from "src/components/layout/Stack";
+import { request } from "src/lib/request";
+import { Field, jsx, NavLink, Text } from "theme-ui";
 
 export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);
@@ -25,7 +24,10 @@ export default function ResetPasswordPage() {
       setSuccess(true);
     } catch (error) {
       console.error(error);
-      setError("email", "validate", "désolé, une erreur est survenue :(");
+      setError("email", {
+        message: "désolé, une erreur est survenue :(",
+        type: "validate",
+      });
     }
     loading = false;
   }
@@ -63,11 +65,11 @@ export default function ResetPasswordPage() {
             label="adresse email"
             name="email"
             ref={register({
-              required: { value: true, message: "Ce champ est requis" },
               pattern: {
-                value: /^\S+@\S+$/i,
                 message: "L'email est invalide",
+                value: /^\S+@\S+$/i,
               },
+              required: { message: "Ce champ est requis", value: true },
             })}
           />
           <FormErrorMessage errors={errors} fieldName="email" />

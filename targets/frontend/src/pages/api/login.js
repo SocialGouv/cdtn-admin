@@ -1,11 +1,12 @@
 import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
+import { client } from "@shared/graphql-client";
 import { verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
-import { getExpiryDate } from "src/lib/duration";
-import { client } from "@shared/graphql-client";
 import { generateJwtToken } from "src/lib/auth/jwt";
 import { setRefreshTokenCookie } from "src/lib/auth/setRefreshTokenCookie";
+import { getExpiryDate } from "src/lib/duration";
+
 import { loginQuery, refreshTokenMutation } from "./login.gql";
 
 export default async function login(req, res) {
@@ -17,8 +18,8 @@ export default async function login(req, res) {
   }
   // validate username and password
   const schema = Joi.object({
-    username: Joi.string().required(),
     password: Joi.string().required(),
+    username: Joi.string().required(),
   });
 
   const { error, value } = schema.validate(req.body);
@@ -66,10 +67,10 @@ export default async function login(req, res) {
   result = await client
     .query(refreshTokenMutation, {
       refresh_token_data: {
-        user_id: user.id,
         expires_at: getExpiryDate(
           parseInt(process.env.REFRESH_TOKEN_EXPIRES, 10)
         ),
+        user_id: user.id,
       },
     })
     .toPromise();
@@ -90,11 +91,11 @@ export default async function login(req, res) {
   setRefreshTokenCookie(res, refresh_token);
 
   res.json({
-    refresh_token,
-    user_id: user.id,
     jwt_token,
     jwt_token_expiry: getExpiryDate(
       parseInt(process.env.JWT_TOKEN_EXPIRES, 10) || 15
     ),
+    refresh_token,
+    user_id: user.id,
   });
 }

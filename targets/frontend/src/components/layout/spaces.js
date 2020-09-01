@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { theme } from "src/theme";
 import { get } from "theme-ui";
+
 const spaces = Object.keys(theme.space);
 
 export const spacePropTypes = PropTypes.oneOfType([

@@ -5,12 +5,18 @@ import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
 import { IoMdClose } from "react-icons/io";
 import { css, jsx } from "theme-ui";
+
 import { IconButton } from "../button";
 import { Stack } from "../layout/Stack";
 
-export function Dialog({ isOpen = false, onDismiss, children }) {
+export function Dialog({ ariaLabel, isOpen = false, onDismiss, children }) {
   return (
-    <ReachDialog css={styles.dialog} isOpen={isOpen} onDismiss={onDismiss}>
+    <ReachDialog
+      css={styles.dialog}
+      isOpen={isOpen}
+      onDismiss={onDismiss}
+      aria-label={ariaLabel}
+    >
       <IconButton css={styles.closeBt} variant="secondary" onClick={onDismiss}>
         <VisuallyHidden>Close</VisuallyHidden>
         <IoMdClose />
@@ -21,18 +27,19 @@ export function Dialog({ isOpen = false, onDismiss, children }) {
 }
 
 const styles = {
-  dialog: css({
-    position: "relative",
-  }),
   closeBt: css({
     position: "absolute",
     right: "xxsmall",
     top: "xxsmall",
   }),
+  dialog: css({
+    position: "relative",
+  }),
 };
 
 Dialog.propTypes = {
+  ariaLabel: PropTypes.string,
+  children: PropTypes.node,
   isOpen: PropTypes.bool,
   onDismiss: PropTypes.func.isRequired,
-  children: PropTypes.nodes,
 };

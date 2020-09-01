@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { Box, Card, Text, Field, Heading } from "theme-ui";
-import { Stack } from "../layout/Stack";
+import { Box, Card, Field, Heading, Text } from "theme-ui";
+
 import { Button } from "../button";
+import { Stack } from "../layout/Stack";
 
 const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
   const [status, setStatus] = useState("idle");
@@ -83,6 +84,6 @@ export default LoginForm;
 
 LoginForm.propTypes = {
   authenticate: PropTypes.func.isRequired,
-  resetPassword: PropTypes.func.isRequired,
   onSuccess: PropTypes.func.isRequired,
+  resetPassword: PropTypes.func.isRequired,
 };

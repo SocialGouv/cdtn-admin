@@ -2,12 +2,12 @@ import { createClient } from "urql";
 
 export function getConnectedUser(jwt_token) {
   createClient({
-    url: `${process.env.FRONTEND_URL}/graphql`,
-    requestPolicy: "cache-and-network",
     fetchOptions: {
       headers: {
         authorization: `bearer ${jwt_token}`,
       },
     },
+    requestPolicy: "cache-and-network",
+    url: `${process.env.FRONTEND_URL}/graphql`,
   });
 }

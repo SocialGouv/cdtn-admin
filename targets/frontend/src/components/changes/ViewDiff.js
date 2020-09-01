@@ -1,16 +1,17 @@
 // adapted from https://github.com/davidmason/react-stylable-diff/blob/master/lib/react-diff.js
 /** @jsx jsx */
 
-import { useState } from "react";
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { jsx } from "theme-ui";
+
 var jsdiff = require("diff");
 
 const fnMap = {
   chars: jsdiff.diffChars,
-  words: jsdiff.diffWords,
-  sentences: jsdiff.diffSentences,
   json: jsdiff.diffJson,
+  sentences: jsdiff.diffSentences,
+  words: jsdiff.diffWords,
 };
 
 export const ViewDiff = ({ sx, type, inputA, inputB }) => {
@@ -43,7 +44,7 @@ export const ViewDiff = ({ sx, type, inputA, inputB }) => {
         <input
           type="radio"
           name={groupName}
-          onClick={() => setMode("words")}
+          onChange={() => setMode("words")}
           style={{ marginLeft: 10 }}
           checked={mode === "words"}
         />{" "}
@@ -51,7 +52,7 @@ export const ViewDiff = ({ sx, type, inputA, inputB }) => {
         <input
           type="radio"
           name={groupName}
-          onClick={() => setMode("sentences")}
+          onChange={() => setMode("sentences")}
           style={{ marginLeft: 10 }}
           checked={mode === "sentences"}
         />{" "}
@@ -65,13 +66,13 @@ export const ViewDiff = ({ sx, type, inputA, inputB }) => {
 ViewDiff.defaultProps = {
   inputA: "",
   inputB: "",
-  type: "chars",
   sx: {},
+  type: "chars",
 };
 
 ViewDiff.propTypes = {
   inputA: PropTypes.string,
   inputB: PropTypes.string,
-  type: PropTypes.string,
   sx: PropTypes.object,
+  type: PropTypes.string,
 };

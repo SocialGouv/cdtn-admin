@@ -1,14 +1,14 @@
 /** @jsx jsx  */
+import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { Field, jsx, NavLink } from "theme-ui";
-import { FormErrorMessage } from "../forms/ErrorMessage";
-import { Stack } from "../layout/Stack";
-
-import Link from "next/link";
-import { Inline } from "../layout/Inline";
 import { useUser } from "src/hooks/useUser";
+import { Field, jsx, NavLink } from "theme-ui";
+
+import { FormErrorMessage } from "../forms/ErrorMessage";
+import { Inline } from "../layout/Inline";
+import { Stack } from "../layout/Stack";
 
 export function PasswordForm({
   onSubmit,
@@ -22,11 +22,11 @@ export function PasswordForm({
   const hasError = Object.keys(errors).length > 0;
   const buttonLabel = lostPassword ? "Changer le mot de passe" : "Activer";
   const passwordFieldRegistration = {
-    required: { value: true, message: "Ce champ est requis" },
     minLength: {
-      value: 8,
       message: "Le mot de passe doit faire au moins 8 caractères",
+      value: 8,
     },
+    required: { message: "Ce champ est requis", value: true },
   };
   async function localSubmit(data) {
     loading = true;
@@ -34,11 +34,10 @@ export function PasswordForm({
       await onSubmit(data);
     } catch (err) {
       console.error("[ PasswordForm ]", err);
-      setError(
-        "oldPassword",
-        "validate",
-        "L'ancien mot de passe ne correspond pas."
-      );
+      setError("oldPassword", {
+        message: "L'ancien mot de passe ne correspond pas.",
+        type: "validate",
+      });
     }
     loading = false;
   }
@@ -53,7 +52,7 @@ export function PasswordForm({
               name="oldPassword"
               label="Ancien mot de passe"
               ref={register({
-                required: { value: true, message: "Ce champ est requis" },
+                required: { message: "Ce champ est requis", value: true },
               })}
             />
             <FormErrorMessage errors={errors} fieldName="oldPassword" />
@@ -97,8 +96,8 @@ export function PasswordForm({
 }
 
 PasswordForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
   action: PropTypes.string,
-  lostPassword: PropTypes.bool,
   backHref: PropTypes.string,
+  lostPassword: PropTypes.bool,
+  onSubmit: PropTypes.func.isRequired,
 };

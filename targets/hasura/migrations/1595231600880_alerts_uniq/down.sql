@@ -1,2 +1,2 @@
 ALTER TABLE "public"."alerts"
-  DROP CONSTRAINT "alerts_ref_info_key";
+  DROP IF EXISTS CONSTRAINT "alerts_ref_info_key";

@@ -1,8 +1,8 @@
 /** @jsx jsx  */
 
+import { Layout } from "src/components/layout/auth.layout";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Layout } from "src/components/layout/auth.layout";
 import { jsx, Text } from "theme-ui";
 
 export function IndexPage() {
