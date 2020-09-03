@@ -29,3 +29,11 @@ $ yarn start e2e
 # Watch the e2e
 $ yarn start e2e --watch
 ```
+
+## Hasura console
+
+You can launch hasura console using
+
+```sh
+$ hasura console  --envfile ../../.env --project targets/hasura
+```
