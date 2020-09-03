@@ -1,17 +1,18 @@
 import { parse, serialize } from "cookie";
+import { decode } from "jsonwebtoken";
 import Router from "next/router";
 
 import { request } from "../request";
 import { setRefreshTokenCookie } from "./setRefreshTokenCookie";
 
 let token = null;
+let user = null;
 
 function getToken() {
   return token ? token.jwt_token : null;
 }
-
-function getUserId() {
-  return token ? token.user_id : null;
+function getUser() {
+  return user;
 }
 
 function isTokenExpired() {
@@ -63,6 +64,16 @@ async function refreshToken(ctx) {
 
 function setToken(tokenData) {
   token = tokenData;
+  if (tokenData && tokenData.jwt_token) {
+    const claims = decode(tokenData.jwt_token)["https://hasura.io/jwt/claims"];
+    user = {
+      id: claims["x-hasura-user-id"],
+      name: claims["x-hasura-user-name"],
+      roles: claims["x-hasura-allowed-roles"],
+    };
+  } else {
+    user = null;
+  }
 }
 
-export { getToken, getUserId, isTokenExpired, refreshToken, setToken };
+export { getToken, getUser, isTokenExpired, refreshToken, setToken };

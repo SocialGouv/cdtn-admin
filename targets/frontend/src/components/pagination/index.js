@@ -95,5 +95,5 @@ function PaginationList({ children }) {
   );
 }
 PaginationList.propTypes = {
-  children: PropTypes.node.required,
+  children: PropTypes.node.isRequired,
 };

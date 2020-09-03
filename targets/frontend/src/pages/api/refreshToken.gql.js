@@ -17,6 +17,7 @@ query get_refresh_token(
     user {
       id
       active
+      name
       default_role
       roles: user_roles {
         role

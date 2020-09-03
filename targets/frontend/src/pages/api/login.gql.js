@@ -10,6 +10,7 @@ export const loginQuery = `
       id
       password
       active
+      name
       default_role
       roles: user_roles {
         role
