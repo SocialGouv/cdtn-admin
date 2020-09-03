@@ -442,8 +442,8 @@ async function main() {
           );
       }
 
-      // const update = await updateSource(result.repository, result.newRef);
-      // console.log(`update source ${update.repository} to ${update.tag}`);
+      const update = await updateSource(result.repository, result.newRef);
+      console.log(`update source ${update.repository} to ${update.tag}`);
     }
   }
 }
