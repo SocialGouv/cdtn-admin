@@ -178,9 +178,71 @@
       check: {}
 - table:
     schema: public
-    name: documents
+    name: document_relations
+  object_relationships:
+  - name: a
+    using:
+      foreign_key_constraint_on: document_a
+  - name: b
+    using:
+      foreign_key_constraint_on: document_b
   select_permissions:
   - role: public
+    permission:
+      columns:
+      - id
+      - document_a
+      - document_b
+      - type
+      - data
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+      - id
+      - document_a
+      - document_b
+      - type
+      - data
+      filter: {}
+      allow_aggregations: true
+- table:
+    schema: public
+    name: documents
+  array_relationships:
+  - name: relation_a
+    using:
+      foreign_key_constraint_on:
+        column: document_a
+        table:
+          schema: public
+          name: document_relations
+  - name: relation_b
+    using:
+      foreign_key_constraint_on:
+        column: document_b
+        table:
+          schema: public
+          name: document_relations
+  select_permissions:
+  - role: public
+    permission:
+      columns:
+      - cdtn_id
+      - initial_id
+      - title
+      - meta_description
+      - source
+      - slug
+      - text
+      - document
+      - is_published
+      - is_searchable
+      - created_at
+      - updated_at
+      filter: {}
+  - role: user
     permission:
       columns:
       - cdtn_id

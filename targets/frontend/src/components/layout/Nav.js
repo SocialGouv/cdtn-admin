@@ -39,12 +39,13 @@ export function Nav() {
       </Message>
     );
   }
+
   return (
     <Box
       as="nav"
       bg="highlight"
       padding="large"
-      sx={{ flexShrink: 0, width: "17.5rem" }}
+      sx={{ flexBasis: "17.5rem", flexShrink: 0 }}
     >
       <ActiveLink href="/">Accueil</ActiveLink>
       <Box sx={{ paddingTop: "medium" }}>
@@ -60,7 +61,7 @@ export function Nav() {
         )}
       </Box>
       <Box sx={{ paddingTop: "medium" }}>
-        <Text css={styles.titleSection}>Alertes</Text>
+        <Text sx={TitleStyles}>Alertes</Text>
         {!fetching && (
           <List>
             {data.sources.map((source) => {
@@ -86,11 +87,16 @@ export function Nav() {
         )}
       </Box>
       <Box sx={{ paddingTop: "medium" }}>
-        <Text css={styles.titleSection}>Administration</Text>
+        <Text sx={TitleStyles}>Administration</Text>
         <List>
           <Li>
             <Link href="/contenus" passHref>
               <NavLink>Contenus</NavLink>
+            </Link>
+          </Li>
+          <Li>
+            <Link href="/themes/[[...id]]" as="/themes" passHref>
+              <NavLink>Thèmes</NavLink>
             </Link>
           </Li>
         </List>
@@ -123,9 +129,7 @@ ActiveLink.propTypes = {
   href: PropTypes.string.isRequired,
 };
 
-const styles = css({
-  titleSection: {
-    fontWeight: "light",
-    textTransform: "uppercase",
-  },
-});
+const TitleStyles = {
+  fontWeight: "light",
+  textTransform: "uppercase",
+};
