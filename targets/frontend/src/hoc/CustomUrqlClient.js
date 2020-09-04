@@ -24,6 +24,7 @@ export const withCustomUrqlClient = (Component) =>
         authExchange(ctx),
         fetchExchange,
       ].filter(Boolean),
+      requestPolicy: "cache-first",
       url,
     };
   })(Component);

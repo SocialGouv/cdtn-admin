@@ -210,6 +210,46 @@
         check: {}
 - table:
     schema: public
+    name: content_relations
+  object_relationships:
+  - name: content
+    using:
+      foreign_key_constraint_on: content_id
+  - name: theme
+    using:
+      foreign_key_constraint_on: theme_id
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - content_id
+      - theme_id
+      - theme_position
+      filter: {}
+- table:
+    schema: public
+    name: contents
+  array_relationships:
+  - name: relations
+    using:
+      foreign_key_constraint_on:
+        column: content_id
+        table:
+          schema: public
+          name: content_relations
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - cdtn_id
+      - title
+      - url
+      - slug
+      - source
+      filter: {}
+- table:
+    schema: public
     name: roles
   array_relationships:
     - name: user_roles
@@ -275,3 +315,61 @@
 - table:
     schema: v1
     name: legi_data_alerts
+- table:
+    schema: public
+    name: theme_relations
+  object_relationships:
+  - name: child_theme
+    using:
+      foreign_key_constraint_on: child
+  - name: parent_theme
+    using:
+      foreign_key_constraint_on: parent
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - parent
+      - child
+      - position
+      - is_weak
+      filter: {}
+- table:
+    schema: public
+    name: themes
+  array_relationships:
+  - name: children
+    using:
+      foreign_key_constraint_on:
+        column: parent
+        table:
+          schema: public
+          name: theme_relations
+  - name: contents
+    using:
+      foreign_key_constraint_on:
+        column: theme_id
+        table:
+          schema: public
+          name: content_relations
+  - name: parents
+    using:
+      foreign_key_constraint_on:
+        column: child
+        table:
+          schema: public
+          name: theme_relations
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - title
+      - short_title
+      - icon
+      - description
+      - is_published
+      - is_special
+      filter: {}
+      allow_aggregations: true

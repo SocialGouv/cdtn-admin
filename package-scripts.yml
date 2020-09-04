@@ -10,6 +10,12 @@ scripts:
       "docker-compose up --build postgres hasura"
     frontend: yarn workspace frontend dev
 
+  populate:
+    default: docker-compose exec -T postgres psql -U postgres < ./targets/hasura/dev-theme-dump.sql
+
+  dump:
+    default: docker-compose exec postgres pg_dump --column-inserts --data-only postgres --schema public -t contents -t content_relations -t themes -t theme_relations -U postgres > ./targets/hasura/dev-theme-dump.sql
+
   e2e:
     default: lerna run --stream --parallel e2e
 
