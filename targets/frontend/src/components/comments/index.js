@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { useMemo } from "react";
-import { getUser } from "src/lib/auth/token";
+import { useUser } from "src/hooks/useUser";
 import { Card, jsx, Message } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
@@ -50,7 +50,7 @@ CommentsContainer.propTypes = {
 
 function Comments({ alertId }) {
   const [, postComment] = useMutation(commentMutation);
-  const user = getUser();
+  const { user } = useUser();
 
   function sendComment(comment) {
     return postComment({
