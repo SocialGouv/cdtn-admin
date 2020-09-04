@@ -10,12 +10,14 @@ export function generateJwtToken(user) {
   if (!user_roles.includes(user.default_role)) {
     user_roles.push(user.default_role);
   }
+  console.log({ user });
   return jwt.sign(
     {
       "https://hasura.io/jwt/claims": {
         "x-hasura-allowed-roles": user_roles,
         "x-hasura-default-role": user.default_role,
         "x-hasura-user-id": user.id.toString(),
+        "x-hasura-user-name": user.name,
       },
     },
     jwtSecret.key,

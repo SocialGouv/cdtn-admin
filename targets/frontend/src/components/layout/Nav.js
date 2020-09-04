@@ -24,8 +24,7 @@ query getAlerts{
 `;
 
 export function Nav() {
-  const { user } = useUser();
-  const isAdmin = user?.roles.some(({ role }) => role === "admin");
+  const { isAdmin } = useUser();
   // https://formidable.com/open-source/urql/docs/basics/document-caching/#adding-typenames
   const context = useMemo(
     () => ({ additionalTypenames: ["alerts", "sources"] }),
@@ -83,7 +82,7 @@ export function Nav() {
                 <Li key={source.repository}>
                   <ActiveLink
                     href="/alerts/[[...params]]"
-                    as={`/alerts/${source.repository.replace(/\//, "_")}/todo`}
+                    as={`/alerts/${source.repository.replace(/\//, "_")}`}
                   >
                     {source.label}
                   </ActiveLink>
@@ -106,7 +105,9 @@ export function Nav() {
 
 function ActiveLink({ as, children, href }) {
   const router = useRouter();
-  const isCurrentRoute = as ? router.asPath.match(as) : router.asPath === href;
+  const isCurrentRoute = as
+    ? router.asPath.startsWith(as)
+    : router.asPath === href;
   return (
     <Link shallow href={href} as={as} passHref>
       <NavLink

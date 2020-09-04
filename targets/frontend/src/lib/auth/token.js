@@ -10,10 +10,6 @@ function getToken() {
   return token ? token.jwt_token : null;
 }
 
-function getUserId() {
-  return token ? token.user_id : null;
-}
-
 function isTokenExpired() {
   const expired = !token || Date.now() > new Date(token.jwt_token_expiry);
   return expired;
@@ -65,4 +61,4 @@ function setToken(tokenData) {
   token = tokenData;
 }
 
-export { getToken, getUserId, isTokenExpired, refreshToken, setToken };
+export { getToken, isTokenExpired, refreshToken, setToken };

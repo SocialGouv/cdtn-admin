@@ -180,9 +180,6 @@ export const theme = {
       color: "neutral",
     },
     root: {
-      "a:link": {
-        color: "link",
-      },
       bg: "white",
       color: "paragraph",
       fontFamily: "Muli",

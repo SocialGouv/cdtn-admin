@@ -92,6 +92,5 @@ export default async function refreshToken(req, res) {
       parseInt(process.env.JWT_TOKEN_EXPIRES, 10) || 15
     ),
     refresh_token: new_refresh_token,
-    user_id: user.id,
   });
 }

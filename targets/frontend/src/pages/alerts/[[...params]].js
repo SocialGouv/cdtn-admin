@@ -100,12 +100,13 @@ export function AlertPage() {
       ).toLocaleDateString()} (${alert.ref})`;
     }
   }
-  console.log(alerts);
+  // console.log(alerts);
   return (
     <Layout title="Gestion des alertes">
       <Tabs id="statustab">
         {statuses.map((status) => (
           <Link
+            shallow
             key={status.name}
             as={`/alerts/${repo}/${status.name}`}
             href="/alerts/[[...params]]"
