@@ -62,10 +62,14 @@ Button.propTypes = {
   ...buttonPropTypes,
 };
 
-function SolidButton({ variant = "primary", size = "normal", ...props }) {
+const SolidButton = React.forwardRef(function _SolidButton(
+  { variant = "primary", size = "normal", ...props },
+  ref
+) {
   return (
     <BaseButton
       {...props}
+      ref={ref}
       sx={{
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
@@ -84,13 +88,17 @@ function SolidButton({ variant = "primary", size = "normal", ...props }) {
       }}
     />
   );
-}
+});
 SolidButton.propTypes = buttonPropTypes;
 
-function OutlineButton({ variant = "primary", size = "normal", ...props }) {
+const OutlineButton = React.forwardRef(function _OutlineButton(
+  { variant = "primary", size = "normal", ...props },
+  ref
+) {
   return (
     <BaseButton
       {...props}
+      ref={ref}
       sx={{
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
@@ -108,13 +116,17 @@ function OutlineButton({ variant = "primary", size = "normal", ...props }) {
       }}
     />
   );
-}
+});
 OutlineButton.propTypes = buttonPropTypes;
 
-export function IconButton({ variant = "primary", size = "large", ...props }) {
+export const IconButton = React.forwardRef(function _IconButton(
+  { variant = "primary", size = "large", ...props },
+  ref
+) {
   return (
     <BaseIconButton
       {...props}
+      ref={ref}
       sx={{
         ...defaultButtonStyles,
         "&:hover:not([disabled])": {
@@ -134,7 +146,7 @@ export function IconButton({ variant = "primary", size = "large", ...props }) {
       }}
     />
   );
-}
+});
 IconButton.propTypes = buttonPropTypes;
 
 export function MenuButton({ variant = "primary", size = "large", children }) {
