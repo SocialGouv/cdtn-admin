@@ -87,8 +87,11 @@ EditUserPage.propTypes = {
 EditUserPage.getInitialProps = async function ({ urqlClient, query }) {
   const { id } = query;
   const result = await urqlClient.query(getUserQuery, { id }).toPromise();
-  if (!result.data?.user) {
-    return { errorCode: 404, user: {} };
+
+  if (result.error) {
+    const error = new Error("user not found");
+    error.statusCode = 404;
+    return Promise.reject(error);
   }
   return { user: result.data.user };
 };

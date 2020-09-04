@@ -10,7 +10,7 @@ import {
   takeUntil,
 } from "wonka";
 
-import { getToken, isTokenExpired, refreshToken, setToken } from "./token";
+import { auth, getToken, isTokenExpired } from "./token";
 
 // come from https://gist.github.com/kitten/6050e4f447cb29724546dd2e0e68b470#file-authexchangewithteardown-js
 
@@ -49,11 +49,11 @@ export const tapExchange = (fn) => ({ forward }) => (ops$) => {
   This exchange performs authentication and is a recipe.
   The `getToken` function gets a token, e.g. from local storage.
   The `isTokenExpired` function checks whether we need to refresh.
-  The `refreshToken` function calls fetch to get a new token and stores it in local storage.
+  The `auth` function calls fetch to get a new token and stores it in local storage.
   */
 
 export const authExchange = (ctx) => ({ forward }) => {
-  let refreshTokenPromise = null;
+  let authPromise = null;
 
   return (ops$) => {
     // We share the operations stream
@@ -72,11 +72,8 @@ export const authExchange = (ctx) => ({ forward }) => {
         }
 
         // If it's expired and we aren't refreshing it yet, start refreshing it
-        if (isExpired && !refreshTokenPromise) {
-          refreshTokenPromise = refreshToken(ctx).then((data) => {
-            setToken(data);
-            return data.jwt_token;
-          });
+        if (isExpired && !authPromise) {
+          authPromise = auth(ctx).then(({ jwt_token }) => jwt_token);
         }
 
         const { key } = operation;
@@ -87,12 +84,12 @@ export const authExchange = (ctx) => ({ forward }) => {
         );
 
         return pipe(
-          fromPromise(refreshTokenPromise),
+          fromPromise(authPromise),
           // Don't bother to forward the operation, if it has been cancelled
           // while we were refreshing
           takeUntil(teardown$),
           map((token) => {
-            refreshTokenPromise = null; // reset the promise variable
+            authPromise = null; // reset the promise variable
             return addTokenToOperation(operation, token);
           })
         );

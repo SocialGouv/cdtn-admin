@@ -10,7 +10,8 @@ export function setRefreshTokenCookie(res, refresh_token) {
       maxAge: (process.env.REFRESH_TOKEN_EXPIRES || 43200) * 60,
       path: "/",
       sameSite: "Strict",
-      secure: process.env.NODE_ENV === "production",
+      // secure: process.env.NODE_ENV === "production",
+      secure: false,
     })
   );
 }
