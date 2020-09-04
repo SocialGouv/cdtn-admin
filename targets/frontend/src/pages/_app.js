@@ -20,24 +20,14 @@ class MyApp extends App {
       siteId: process.env.NEXT_PUBLIC_MATOMO_SITE_ID,
       url: process.env.NEXT_PUBLIC_MATOMO_URL,
     });
-    // force onload swapping on stylesheet since it's not work on nextjs
-    // @see _document.js
-    const fontCss = document.getElementById("fonts");
-    if (fontCss) {
-      fontCss.media = "all";
-    }
   }
 
   render() {
     const { Component, pageProps } = this.props;
 
-    // Workaround for https://github.com/zeit/next.js/issues/8592
-    const { err } = this.props;
-    const modifiedPageProps = { ...pageProps, err };
-
     return (
       <ThemeProvider theme={theme}>
-        <Component {...modifiedPageProps} />
+        <Component {...pageProps} />
       </ThemeProvider>
     );
   }

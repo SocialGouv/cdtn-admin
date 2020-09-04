@@ -48,7 +48,7 @@ mutation saveRole($id: uuid!, $role:String!) {
 }
 `;
 
-export function EditUserPage({ user }) {
+export function EditUserPage({ errorCode, user }) {
   const router = useRouter();
   const { isAdmin } = useUser();
   const [userResult, saveUser] = useMutation(saveUserMutation);
@@ -68,7 +68,7 @@ export function EditUserPage({ user }) {
       });
   }
   return (
-    <Layout title="Modifier mes informations">
+    <Layout errorCode={errorCode} title="Modifier mes informations">
       <UserForm
         user={user}
         loading={userResult.fetching || roleResult.fetching}
@@ -80,18 +80,15 @@ export function EditUserPage({ user }) {
   );
 }
 EditUserPage.propTypes = {
+  errorCode: PropTypes.number,
   user: PropTypes.object.isRequired,
 };
 
 EditUserPage.getInitialProps = async function ({ urqlClient, query }) {
   const { id } = query;
   const result = await urqlClient.query(getUserQuery, { id }).toPromise();
-  if (!result.data.user) {
-    return Promise.reject({
-      message: "User not found",
-      name: "not found",
-      statusCode: 404,
-    });
+  if (!result.data?.user) {
+    return { errorCode: 404, user: {} };
   }
   return { user: result.data.user };
 };

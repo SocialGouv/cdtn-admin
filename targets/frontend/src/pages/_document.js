@@ -22,7 +22,7 @@ class MyDocument extends Document {
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
           <link rel="preload" href="/fonts.css" as="style" />
-          <link rel="stylesheet" id="fonts" href="/fonts.css" media="print" />
+          <link rel="stylesheet" href="/fonts.css" />
         </Head>
         <body>
           <Main />
