@@ -6,9 +6,25 @@ import { Layout } from "src/components/layout/auth.layout";
 import { UserForm } from "src/components/user/UserForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { getUserQuery, useUser } from "src/hooks/useUser";
+import { useUser } from "src/hooks/useUser";
 import { jsx } from "theme-ui";
 import { useMutation } from "urql";
+
+const getUserQuery = `
+query getUser($id: uuid!) {
+  user:auth_users_by_pk(id: $id) {
+    __typename
+    id
+    email
+    name
+    active
+    default_role
+    roles: user_roles {
+      role
+    }
+  }
+}
+`;
 
 const saveUserMutation = `
 mutation saveUser($id: uuid!, $name:String!, $email: citext!) {

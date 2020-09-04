@@ -1,28 +1,9 @@
+import { decode } from "jsonwebtoken";
 import { getDisplayName } from "next/dist/next-server/lib/utils";
 import PropTypes from "prop-types";
 import React, { createContext } from "react";
-
-import { getToken, getUser, refreshToken, setToken } from "../lib/auth/token";
-
-const userPropType = PropTypes.shape({
-  id: PropTypes.string,
-  name: PropTypes.string,
-  roles: PropTypes.arrayOf(PropTypes.string),
-});
-
-export const UserContext = createContext({
-  user: null,
-});
-
-export const UserProvider = ({ children, user }) => {
-  console.log("[userprovider]", user);
-  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
-};
-
-UserProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-  user: userPropType,
-};
+import { getToken, refreshToken, setToken } from "src/lib/auth/token";
+import { request } from "src/lib/request";
 
 function withUserProvider(WrappedComponent) {
   return class extends React.Component {
@@ -31,12 +12,11 @@ function withUserProvider(WrappedComponent) {
     )})`;
 
     static propTypes = {
-      user: userPropType,
+      tokenData: PropTypes.object,
     };
 
     static async getInitialProps(ctx) {
       const token = getToken();
-      let user = null;
       console.log(
         "[withUserProvider] getInitialProps ",
         ctx.pathname,
@@ -57,22 +37,63 @@ function withUserProvider(WrappedComponent) {
         const newToken = await refreshToken(ctx);
         setToken(newToken);
       }
-      user = getUser();
-
+      const tokenData = decode(getToken());
+      console.log({ tokenData });
       const componentProps =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx));
-      return { ...componentProps, user };
+      return { ...componentProps, tokenData };
     }
     render() {
       console.log("---- withUserProvider");
       return (
-        <UserProvider user={this.props.user}>
+        <ProvideUser tokenData={this.props.tokenData}>
           <WrappedComponent {...this.props} />
-        </UserProvider>
+        </ProvideUser>
       );
     }
   };
 }
 
-export { withUserProvider };
+const UserContext = createContext({});
+
+const ProvideUser = ({ children, tokenData }) => {
+  let user = null;
+  if (tokenData) {
+    const claims = tokenData["https://hasura.io/jwt/claims"];
+    if (claims) {
+      user = {
+        id: claims["x-hasura-user-id"],
+        name: claims["x-hasura-user-name"],
+        roles: claims["x-hasura-allowed-roles"],
+      };
+    }
+  }
+
+  async function logout() {
+    try {
+      await request("/api/logout", {
+        credentials: "include",
+        mode: "same-origin",
+      });
+    } catch (error) {
+      console.error("[ client logout ] failed", error);
+    }
+    window.location = "/login";
+  }
+  const isAuth = Boolean(user);
+  const isAdmin = user?.roles.includes("admin");
+  console.log({ provideUser: user });
+  return (
+    <UserContext.Provider value={{ isAdmin, isAuth, logout, user }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+ProvideUser.propTypes = {
+  children: PropTypes.node.isRequired,
+  tokenData: PropTypes.object,
+};
+
+export { withUserProvider, UserContext };
