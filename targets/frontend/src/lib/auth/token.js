@@ -50,17 +50,13 @@ async function auth(ctx) {
       if (ctx && ctx.req) {
         ctx.res.writeHead(302, { Location: "/login" });
         ctx.res.end();
+      } else {
+        Router.push("/login");
       }
-      console.log("Router login", ctx.req ? "server" : "client");
-      Router.push("/login");
     }
   }
   const jwt_token = inMemoryToken;
   if (!jwt_token) {
-    console.log(
-      "redir to login(should be on client)",
-      ctx.req ? "server" : "client"
-    );
     Router.push("/login");
   }
   return jwt_token;

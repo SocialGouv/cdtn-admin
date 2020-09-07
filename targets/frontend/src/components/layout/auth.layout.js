@@ -2,17 +2,13 @@
 import Head from "next/head";
 import PropTypes from "prop-types";
 import { IconContext } from "react-icons";
-import ErrorPage from "src/pages/_error";
 import { Box, Flex, Heading, jsx } from "theme-ui";
 
 import { Header } from "./header";
 import { Nav } from "./Nav";
 import { Stack } from "./Stack";
 
-export function Layout({ children, errorCode, title }) {
-  if (errorCode) {
-    return <ErrorPage statusCode={errorCode} />;
-  }
+export function Layout({ children, title }) {
   return (
     <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
       <Head>
@@ -35,6 +31,5 @@ export function Layout({ children, errorCode, title }) {
 }
 Layout.propTypes = {
   children: PropTypes.node,
-  errorCode: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
   title: PropTypes.string.isRequired,
 };

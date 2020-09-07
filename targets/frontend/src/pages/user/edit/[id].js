@@ -48,7 +48,7 @@ mutation saveRole($id: uuid!, $role:String!) {
 }
 `;
 
-export function EditUserPage({ errorCode, user }) {
+export function EditUserPage({ user }) {
   const router = useRouter();
   const { isAdmin } = useUser();
   const [userResult, saveUser] = useMutation(saveUserMutation);
@@ -68,7 +68,7 @@ export function EditUserPage({ errorCode, user }) {
       });
   }
   return (
-    <Layout errorCode={errorCode} title="Modifier mes informations">
+    <Layout title="Modifier mes informations">
       <UserForm
         user={user}
         loading={userResult.fetching || roleResult.fetching}
@@ -80,7 +80,6 @@ export function EditUserPage({ errorCode, user }) {
   );
 }
 EditUserPage.propTypes = {
-  errorCode: PropTypes.number,
   user: PropTypes.object.isRequired,
 };
 
