@@ -2,7 +2,7 @@ import { decode } from "jsonwebtoken";
 import { getDisplayName } from "next/dist/next-server/lib/utils";
 import PropTypes from "prop-types";
 import React, { createContext } from "react";
-import { getToken, refreshToken, setToken } from "src/lib/auth/token";
+import { auth, getToken, setToken } from "src/lib/auth/token";
 import { request } from "src/lib/request";
 
 function withUserProvider(WrappedComponent) {
@@ -16,36 +16,27 @@ function withUserProvider(WrappedComponent) {
     };
 
     static async getInitialProps(ctx) {
-      const token = getToken();
       console.log(
         "[withUserProvider] getInitialProps ",
         ctx.pathname,
         ctx.req ? "server" : "client",
-        token ? "found token" : "no token"
+        getToken() ? "found token" : "no token"
       );
 
-      // eachtime we render a page on the server
-      // we need to set token to null to be sure
-      // that will not re-use an old token since
-      // token is a global var
-      // Once urlq exchange will have access to context
-      // we could use context to pass token to urlqclient
-      if (ctx?.req) {
-        setToken(null);
+      const token = await auth(ctx);
+      if (!getToken()) {
+        setToken(token);
       }
-      if (!token) {
-        const newToken = await refreshToken(ctx);
-        setToken(newToken);
-      }
+
       const tokenData = decode(getToken());
-      console.log({ tokenData });
+
       const componentProps =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx));
       return { ...componentProps, tokenData };
     }
     render() {
-      console.log("---- withUserProvider");
+      console.log("---- withUserProvider", this.props.tokenData);
       return (
         <ProvideUser tokenData={this.props.tokenData}>
           <WrappedComponent {...this.props} />
