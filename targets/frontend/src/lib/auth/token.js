@@ -74,5 +74,5 @@ export async function auth(ctx) {
 }
 
 export function setToken(token) {
-  inMemoryToken = token ? { ...token } : null;
+  inMemoryToken = token;
 }
