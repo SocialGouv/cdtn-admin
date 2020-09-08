@@ -1,8 +1,4 @@
-/**
- * using require syntax here because graphqlClient is also used
- * within the nodejs scripts
- */
-import "isomorphic-unfetch";
+import fetch from "isomorphic-unfetch";
 import { createClient } from "@urql/core";
 
 const HASURA_GRAPHQL_ADMIN_SECRET = process.env.HASURA_GRAPHQL_ADMIN_SECRET;
@@ -17,4 +13,5 @@ export const client = createClient({
       "x-hasura-admin-secret": HASURA_GRAPHQL_ADMIN_SECRET,
     },
   },
+  fetch,
 });
