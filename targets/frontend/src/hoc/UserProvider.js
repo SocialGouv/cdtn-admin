@@ -1,11 +1,13 @@
 import { decode } from "jsonwebtoken";
-import { getDisplayName } from "next/dist/next-server/lib/utils";
 import PropTypes from "prop-types";
 import React, { createContext } from "react";
-import { auth, getToken, setToken } from "src/lib/auth/token";
+import { getDisplayName } from "src/hoc/getDisplayName";
+import { auth } from "src/lib/auth/token";
 import { request } from "src/lib/request";
 
-function withUserProvider(WrappedComponent) {
+export const UserContext = createContext({});
+
+export function withUserProvider(WrappedComponent) {
   return class extends React.Component {
     static displayName = `withUserProvider(${getDisplayName(
       WrappedComponent
@@ -16,27 +18,18 @@ function withUserProvider(WrappedComponent) {
     };
 
     static async getInitialProps(ctx) {
-      console.log(
-        "[withUserProvider] getInitialProps ",
-        ctx.pathname,
-        ctx.req ? "server" : "client",
-        getToken() ? "found token" : "no token"
-      );
-
       const token = await auth(ctx);
-      if (!getToken()) {
-        setToken(token);
-      }
-
-      const tokenData = decode(getToken());
 
       const componentProps =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx));
-      return { ...componentProps, tokenData };
+
+      return {
+        ...componentProps,
+        tokenData: token ? decode(token.jwt_token) : null,
+      };
     }
     render() {
-      console.log("---- withUserProvider", this.props.tokenData);
       return (
         <ProvideUser tokenData={this.props.tokenData}>
           <WrappedComponent {...this.props} />
@@ -46,9 +39,7 @@ function withUserProvider(WrappedComponent) {
   };
 }
 
-const UserContext = createContext({});
-
-const ProvideUser = ({ children, tokenData }) => {
+export const ProvideUser = ({ children, tokenData }) => {
   let user = null;
   if (tokenData) {
     const claims = tokenData["https://hasura.io/jwt/claims"];
@@ -86,5 +77,3 @@ ProvideUser.propTypes = {
   children: PropTypes.node.isRequired,
   tokenData: PropTypes.object,
 };
-
-export { withUserProvider, UserContext };

@@ -73,7 +73,10 @@ export const authExchange = (ctx) => ({ forward }) => {
 
         // If it's expired and we aren't refreshing it yet, start refreshing it
         if (isExpired && !authPromise) {
-          authPromise = auth(ctx).then(({ jwt_token }) => jwt_token);
+          authPromise = auth(ctx).then(({ jwt_token }) => {
+            console.log("[ authExchange ]", { jwt_token });
+            return jwt_token;
+          });
         }
 
         const { key } = operation;
