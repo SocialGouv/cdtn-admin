@@ -14,6 +14,7 @@ import {
 } from "theme-ui";
 
 import { Stack } from "../layout/Stack";
+import { FicheTravailDiffchange } from "./FicheTravailDataChange";
 import { ViewDiff } from "./ViewDiff";
 
 export function DilaLink({ info, children }) {
@@ -232,7 +233,10 @@ export function DiffChange({ change, type }) {
       return <DilaDiffChange change={change} />;
     case "vdd":
       return <FicheVddDiffchange change={change} />;
+    case "travail-data":
+      return <FicheTravailDiffchange change={change} />;
   }
+  return null;
 }
 
 DiffChange.propTypes = {

@@ -47,7 +47,18 @@ type VddAlertChanges = {
   date: Date
 } & AstChanges
 
-type AlertChanges = DilaAlertChanges | VddAlertChanges
+type TravailDataAlertChanges = {
+  type: "travail-data"
+  title: string
+  ref: string
+  date: Date
+} & TravailDataChanges
+type TravailDataChanges = {
+  added: FicheTravailEmploiInfo[]
+  removed: FicheTravailEmploiInfo[]
+  modified: FicheTravailEmploi[]
+}
+type AlertChanges = DilaAlertChanges | VddAlertChanges | TravailDataAlertChanges
 
 type AlertInfo = {
   num: Number,
@@ -133,6 +144,7 @@ type FicheVddIndex = {
   type: string
 }
 
+
 type FicheVdd = {
   id: string
   children: FicheVddChildren[]
@@ -149,5 +161,46 @@ type FicheVddNode = {
 
 type FicheVddLeaf = {
   type: "text"
+  text: string
+}
+
+export type FicheTravailEmploi = {
+  date: string
+  description: string
+  intro: string
+  previousIntro?: string
+  pubId: string
+  sections: Section[]
+  title: string
+  url: string
+}
+
+export type FicheTravailEmploiInfo = {
+  pubId: string
+  title: string
+  url: string
+}
+
+export type Section = {
+  anchor: string
+  description: string
+  html: string
+  references: ReferencesMap
+  text: string
+  previousText?: string
+  titre: string
+}
+
+export type ReferencesMap = {
+  [key: string]: {
+    name: string
+    articles: ReferenceFTE[]
+  }
+}
+
+export type ReferenceFTE = {
+  id: string
+  cid: string
+  fmt: string
   text: string
 }
