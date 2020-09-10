@@ -6,6 +6,9 @@ import semver from "semver";
 import { batchPromises } from "./batchPromises";
 import { ccns } from "./ccn-list.js";
 import { compareArticles } from "./compareTree.js";
+import { processTravailDataDiff } from "./diff/fiches-travail-data";
+import { processVddDiff } from "./diff/fiches-vdd";
+import { createToJson, getFilename } from "./node-git.helpers";
 import { openRepo } from "./openRepo";
 import { getRelevantDocuments } from "./relevantContent.js";
 
@@ -73,6 +76,8 @@ function getFileFilter(repository) {
         );
         return matched;
       };
+    case "socialgouv/fiches-travail-data":
+      return (path) => /fiches-travail\.json$/.test(path);
     default:
       return () => false;
   }
@@ -111,6 +116,8 @@ function getDiffProcessor(repository) {
       return processDilaDiff;
     case "socialgouv/fiches-vdd":
       return processVddDiff;
+    case "socialgouv/fiches-travail-data":
+      return processTravailDataDiff;
     default:
       return () => Promise.resolve([]);
   }
@@ -129,7 +136,7 @@ async function processDilaDiff(repositoryId, tag, files, prevTree, currTree) {
   const compareFn = getFileComparator(repositoryId);
   const fileChanges = await Promise.all(
     files.map(async (file) => {
-      const toAst = createToAst(file);
+      const toAst = createToJson(file);
 
       const [
         currAst,
@@ -166,84 +173,6 @@ async function processDilaDiff(repositoryId, tag, files, prevTree, currTree) {
       ...change,
       type: "dila",
     }));
-}
-
-/**
- *
- * @param {string} repositoryId
- * @param {alerts.GitTagData} tag
- * @param {string[]} files
- * @param {nodegit.Tree} prevTree
- * @param {nodegit.Tree} currTree
- * @returns {Promise<alerts.VddAlertChanges[]>}
- */
-async function processVddDiff(repositoryId, tag, files, prevTree, currTree) {
-  const indexFile = files.find((file) => /^data\/index\.json$/.test(file));
-  /** @type {alerts.AstChanges} */
-  const changes = {
-    added: [],
-    modified: [],
-    removed: [],
-  };
-
-  const currList = /** @type {alerts.FicheVddIndex[]}*/ (await createToAst(
-    "data/index.json"
-  )(currTree));
-
-  if (indexFile) {
-    const toAst = createToAst(indexFile);
-    const prevList = /** @type {alerts.FicheVddIndex[]}*/ (await toAst(
-      prevTree
-    ));
-
-    changes.removed = prevList.filter(
-      ({ id }) => currList.find((item) => item.id === id) === undefined
-    );
-    changes.added = currList.filter(
-      ({ id }) => prevList.find((item) => item.id === id) === undefined
-    );
-  }
-
-  changes.modified = await Promise.all(
-    files
-      .filter((file) => !/index\.json/.test(file))
-      .map(async (file) => {
-        const toAst = createToAst(file);
-        const currAst = /** @type {alerts.FicheVdd}*/ (await toAst(currTree));
-        return currList.find(({ id }) => id === currAst.id);
-      })
-  );
-
-  return [
-    {
-      date: tag.commit.date(),
-      ref: tag.ref,
-      title: "fiche service-public",
-      type: "vdd",
-      ...changes,
-    },
-  ];
-}
-
-/**
- * @param { nodegit.ConvenientPatch } patche
- * @returns { string }
- */
-function getFilename(patche) {
-  return patche.newFile().path();
-}
-
-/**
- *
- * @param {string} file
- * @returns {(tree:nodegit.Tree) => Object}
- */
-function createToAst(file) {
-  return (tree) =>
-    tree
-      .getEntry(file)
-      .then((entry) => entry.getBlob())
-      .then((blob) => JSON.parse(blob.toString()));
 }
 
 /**
