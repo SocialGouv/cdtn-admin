@@ -13,10 +13,16 @@ import { ThemeProvider } from "theme-ui";
 
 if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   const config = getConfig();
+  console.log(
+    "production ? ",
+    process.env.NODE_ENV === "production" && process.env.PRODUCTION === "true"
+  );
   const distDir = `${config.serverRuntimeConfig.rootDir}/.next`;
   Sentry.init({
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-    enabled: process.env.NODE_ENV === "production",
+    enabled:
+      process.env.NODE_ENV === "production" &&
+      process.env.PRODUCTION === "true",
     integrations: [
       new RewriteFrames({
         iteratee: (frame) => {

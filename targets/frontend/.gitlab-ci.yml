@@ -41,6 +41,7 @@ Build www:
     NEXT_PUBLIC_SENTRY_DSN: https://yyy@sentry.fabrique.social.gouv.fr/yyy
     NEXT_PUBLIC_MATOMO_URL: https://matomo.io
     NEXT_PUBLIC_MATOMO_SITE_ID: 4242
+    PRODUCTION: ${PRODUCTION}
   before_script:
     - cp .env targets/frontend/.env.production
     - cd targets/frontend
