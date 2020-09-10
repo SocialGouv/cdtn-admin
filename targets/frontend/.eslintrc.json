@@ -8,6 +8,9 @@
       "node": {
         "moduleDirectory": ["node_modules", "."]
       }
+    },
+    "jest": {
+      "version": 26
     }
   },
   "rules": {
