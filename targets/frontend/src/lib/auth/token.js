@@ -69,7 +69,6 @@ export async function auth(ctx) {
       // if we are on the client
       Router.push("/login");
     }
-    return Promise.reject(error);
   }
 }
 
