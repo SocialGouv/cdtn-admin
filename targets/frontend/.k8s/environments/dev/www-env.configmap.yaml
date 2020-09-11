@@ -6,7 +6,7 @@ data:
   ACCOUNT_MAIL_SENDER: "contact@fabrique.social.gouv.fr"
   FRONTEND_URL: "https://${HOST}"
   FRONTEND_PORT: "${PORT}"
-  CI_COMMIT_SHA: "${CI_COMMIT_SHA}"
+  CI_COMMIT_SHORT_SHA: "${CI_COMMIT_SHORT_SHA}"
   GRAPHQL_ENDPOINT: "http://hasura-cdtn-admin/v1/graphql"
   NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES: "10080"
   NODE_ENV: "production"
