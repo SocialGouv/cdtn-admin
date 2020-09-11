@@ -37,14 +37,14 @@ Build www:
     - job: Install www
       artifacts: true
   variables:
-    # these variables are needed at build time because embedded in the front
-    NEXT_PUBLIC_SENTRY_DSN: https://yyy@sentry.fabrique.social.gouv.fr/yyy
-    NEXT_PUBLIC_MATOMO_URL: https://matomo.io
-    NEXT_PUBLIC_MATOMO_SITE_ID: 4242
-    PRODUCTION: ${PRODUCTION}
+    # these variables are needed at build time and provided by gitlab
+    # NEXT_PUBLIC_SENTRY_DSN: https://yyy@sentry.fabrique.social.gouv.fr/yyy
+    # NEXT_PUBLIC_MATOMO_URL: https://matomo.io
+    # NEXT_PUBLIC_MATOMO_SITE_ID: 4242
   before_script:
     - cp .env targets/frontend/.env.production
     - cd targets/frontend
+    - echo "-${PRODUCTION}-"
   artifacts:
     expire_in: 1 week
     paths:
