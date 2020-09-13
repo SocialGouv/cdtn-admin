@@ -1,4 +1,4 @@
-FROM node:14.10.0-slim
+FROM node:14.10.1-slim
 
 RUN set -x \
   && apt-get update \
