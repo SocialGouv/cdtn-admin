@@ -33,8 +33,6 @@ mutation CreateTheme(
   $shortTitle: String = null,
   $description: String = null,
   $icon: String = null,
-  $isPublished: Boolean = true,
-  $isSpecial: Boolean = false,
   $parentId: uuid = null,
   $position: Int!
 ) {
@@ -45,9 +43,7 @@ mutation CreateTheme(
           title: $title,
           short_title: $shortTitle,
           description: $description,
-          icon: $icon,
-          is_special: $isSpecial,
-          is_published: $isPublished
+          icon: $icon
         }
       },
       parent: $parentId,

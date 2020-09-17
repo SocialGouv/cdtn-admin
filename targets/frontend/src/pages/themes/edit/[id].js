@@ -25,8 +25,6 @@ query GetTheme($id: uuid!) {
     title
     shortTitle: short_title
     description
-    isSpecial: is_special
-    isPublished: is_published
     icon
     children {
       child
@@ -42,7 +40,7 @@ query GetTheme($id: uuid!) {
         url
       }
     }
-    parents(where: {is_weak: {_eq: false}}) {
+    parents {
       parentTheme: parent_theme {
         title
         id
@@ -58,9 +56,7 @@ mutation EditTheme(
   $title: String!,
   $shortTitle: String = null,
   $description: String = null,
-  $icon: String = null,
-  $isSpecial: Boolean = false,
-  $isPublished: Boolean = true
+  $icon: String = null
 ) {
   update_themes_by_pk(
     pk_columns: {id: $id},
@@ -68,9 +64,7 @@ mutation EditTheme(
       title: $title,
       short_title: $shortTitle,
       description: $description,
-      icon: $icon,
-      is_special: $isSpecial,
-      is_published: $isPublished
+      icon: $icon
     }
   ) {
     __typename

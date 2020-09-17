@@ -8,7 +8,7 @@ import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { IconPicker } from "src/components/forms/IconPicker";
 import { useUser } from "src/hooks/useUser";
-import { Checkbox, Field, Flex, jsx, Label, NavLink, Textarea } from "theme-ui";
+import { Field, Flex, jsx, Label, NavLink, Textarea } from "theme-ui";
 
 const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
   const { isAdmin } = useUser();
@@ -25,44 +25,6 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <>
-        <Flex sx={{ mb: "small" }}>
-          <Label
-            htmlFor="isPublished"
-            sx={{
-              color: "primary",
-              fontSize: "large",
-              ...(isAdmin && { cursor: "pointer" }),
-            }}
-          >
-            <span sx={{ mr: "xsmall" }}>Publié</span>
-            <Checkbox
-              disabled={!isAdmin}
-              name="isPublished"
-              id="isPublished"
-              defaultChecked={theme.id ? theme.isPublished : true}
-              ref={register()}
-              sx={{ height: "2.2rem", width: "2.2rem" }}
-            />
-          </Label>
-          <Label
-            htmlFor="isSpecial"
-            sx={{
-              color: "primary",
-              fontSize: "large",
-              ...(isAdmin && { cursor: "pointer" }),
-            }}
-          >
-            <span sx={{ mr: "xsmall" }}>Spécial</span>
-            <Checkbox
-              disabled={!isAdmin}
-              name="isSpecial"
-              id="isSpecial"
-              defaultChecked={theme.id ? theme.isSpecial : false}
-              ref={register()}
-              sx={{ height: "2.2rem", width: "2.2rem" }}
-            />
-          </Label>
-        </Flex>
         <div sx={{ mb: "small" }}>
           <Field
             disabled={!isAdmin}

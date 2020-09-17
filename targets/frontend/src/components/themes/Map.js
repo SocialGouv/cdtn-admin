@@ -16,11 +16,9 @@ query getThemes {
       position: asc
     }
   ) {
-    isWeak: is_weak
     parentId: parent
     child: child_theme {
       id
-      isSpecial: is_special
       title
       shortTitle: short_title
     }
@@ -82,15 +80,13 @@ const buildChildren = ({ parentId, relations, depth = 0 }) =>
     ? []
     : relations
         .filter((relation) => relation.parentId === parentId)
-        .map(({ isWeak, child }) => ({
+        .map(({ child }) => ({
           children: buildChildren({
             depth: depth + 1,
             parentId: child.id,
             relations,
           }),
           id: child.id,
-          isRelationWeak: isWeak,
-          isSpecial: child.isSpecial,
           name: child.shortTitle || child.title,
         }));
 
@@ -144,11 +140,7 @@ const buildMap = ({ theme, onClickTheme, themeRelationsData, svg }) => {
     .selectAll("path")
     .data(structuredTree.links())
     .join("path")
-    .attr("stroke", (d) =>
-      d.target.data.isRelationWeak
-        ? theme.colors.secondary
-        : theme.colors.primary
-    )
+    .attr("stroke", theme.colors.primary)
     .attr(
       "d",
       d3
@@ -182,9 +174,7 @@ const buildMap = ({ theme, onClickTheme, themeRelationsData, svg }) => {
     .append("circle")
     .attr("stroke", theme.colors.neutral)
     .attr("stroke-width", 3)
-    .attr("fill", (d) =>
-      d.data.isSpecial ? theme.colors.primary : theme.colors.secondary
-    )
+    .attr("fill", theme.colors.secondary)
     .attr("r", "6px");
 
   node

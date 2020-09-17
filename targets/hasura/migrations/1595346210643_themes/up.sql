@@ -3,16 +3,13 @@ CREATE TABLE public.themes(
   title text NOT NULL,
   short_title text,
   icon text,
-  description text,
-  is_special boolean NOT NULL DEFAULT false,
-  is_published boolean NOT NULL DEFAULT true);
+  description text);
 
 CREATE TABLE public.theme_relations(
   id uuid NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
   parent uuid,
   child uuid,
   position integer NOT NULL,
-  is_weak boolean NOT NULL DEFAULT false,
   FOREIGN KEY (parent) REFERENCES public.themes(id) ON UPDATE cascade ON DELETE cascade,
   FOREIGN KEY (child) REFERENCES public.themes(id) ON UPDATE cascade ON DELETE cascade);
 
