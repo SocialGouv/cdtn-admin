@@ -188,7 +188,7 @@ export type Section = {
   references: ReferencesMap
   text: string
   previousText?: string
-  titre: string
+  title: string
 }
 
 export type ReferencesMap = {
