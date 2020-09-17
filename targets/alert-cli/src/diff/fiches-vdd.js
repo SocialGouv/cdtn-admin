@@ -53,7 +53,13 @@ export async function processVddDiff(
         return currList.find(({ id }) => id === currAst.id);
       })
   );
-
+  if (
+    changes.added.length === 0 &&
+    changes.modified.length === 0 &&
+    changes.removed.length === 0
+  ) {
+    return [];
+  }
   return [
     {
       date: tag.commit.date(),
