@@ -73,7 +73,7 @@ Map.propTypes = {
 /* D3 Related stuff */
 
 const MAX_DEPTH = 20;
-const NODE_VERTICAL_DISTANCE = 75;
+const NODE_VERTICAL_DISTANCE = 40;
 const NODE_HORIZONTAL_DISTANCE = 300;
 
 /* beware, this one is recursive */
@@ -181,11 +181,11 @@ const buildMap = ({ theme, onClickTheme, themeRelationsData, svg }) => {
   node
     .append("circle")
     .attr("stroke", theme.colors.neutral)
-    .attr("stroke-width", 6)
+    .attr("stroke-width", 3)
     .attr("fill", (d) =>
       d.data.isSpecial ? theme.colors.primary : theme.colors.secondary
     )
-    .attr("r", "15px");
+    .attr("r", "6px");
 
   node
     .append("text")
@@ -193,7 +193,7 @@ const buildMap = ({ theme, onClickTheme, themeRelationsData, svg }) => {
     .attr("fill", theme.colors.text)
     .attr("stroke-line-join", "round")
     .attr("stroke-width", 3)
-    .attr("y", (d) => (d.depth % 2 === 1 ? -30 : 30))
+    .attr("y", (d) => (d.depth % 2 === 1 ? -20 : 20))
     .attr("text-anchor", "middle")
     .text((d) => d.data.name)
     .clone(true)
