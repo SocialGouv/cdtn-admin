@@ -4,7 +4,7 @@ import getTravailEmploiReferences from "./extractDilaReferences/ficheTravailEmpl
 /**
  * @param {alerts.AstChanges} changes
  */
-export function getRelevantDocuments({ modified, removed }) {
+export function getRelevantDocuments({ added, modified, removed }) {
   const references = getContribReferences().concat(
     getTravailEmploiReferences()
   );
@@ -19,7 +19,10 @@ export function getRelevantDocuments({ modified, removed }) {
         removed.find(
           (node) =>
             node.data.id === ref.dila_id || node.data.cid === ref.dila_cid
-        )
+        ) ||
+        // added articles can be an old article which version has bumped
+        // so id is new but cid hasn't change
+        added.find((node) => node.data.cid === ref.dila_cid)
     );
     if (reference) {
       return { document: item.document, reference };
