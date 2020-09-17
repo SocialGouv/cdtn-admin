@@ -72,20 +72,45 @@ export function getChanges(previousJson, currentJson) {
       previousDoc &&
       hasDocumentChanged(previousDoc, doc)
     ) {
+      const removedSections = previousDoc.sections.filter(
+        ({ title: prevTitle }) =>
+          doc.sections.find(({ title }) => title === prevTitle) === undefined
+      );
+      const addedSections = doc.sections.filter(
+        ({ title }) =>
+          previousDoc.sections.find(
+            ({ title: prevTitle }) => title === prevTitle
+          ) === undefined
+      );
+      const sections = doc.sections.filter(({ title }) =>
+        addedSections.every(({ title: newTitle }) => title !== newTitle)
+      );
       return [
         {
           ...doc,
           ...(previousDoc.intro !== doc.intro && {
             previousIntro: previousDoc.intro,
           }),
-          sections: doc.sections.flatMap((section, index) => {
-            if (section.text !== previousDoc.sections[index].text) {
-              return [
-                { ...section, previousText: previousDoc.sections[index].text },
-              ];
-            }
-            return [];
-          }),
+          sections: [
+            ...removedSections.map(({ text: previousText, ...section }) => ({
+              ...section,
+              previousText,
+              text: "",
+            })),
+            ...sections.flatMap((section) => {
+              const prevSection = previousDoc.sections.find(
+                ({ title }) => title === section.title
+              );
+              if (prevSection && prevSection.text !== section.text) {
+                return [{ ...section, previousText: prevSection.text }];
+              }
+              return [];
+            }),
+            ...addedSections.map((section) => ({
+              ...section,
+              previousText: "",
+            })),
+          ],
         },
       ];
     }
@@ -107,10 +132,11 @@ export function getChanges(previousJson, currentJson) {
 function hasDocumentChanged(previousDocument, document) {
   return (
     document.intro !== previousDocument.intro ||
+    previousDocument.sections.length !== document.sections.length ||
     document.sections.some((section, index) => {
       return (
         previousDocument.sections[index].text !== section.text ||
-        previousDocument.sections[index].titre !== section.titre
+        previousDocument.sections[index].title !== section.title
       );
     })
   );
