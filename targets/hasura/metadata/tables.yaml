@@ -210,6 +210,9 @@
         check: {}
 - table:
     schema: public
+    name: documents
+- table:
+    schema: public
     name: roles
   array_relationships:
     - name: user_roles
