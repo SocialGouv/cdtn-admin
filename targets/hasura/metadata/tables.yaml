@@ -116,38 +116,6 @@
           table:
             schema: public
             name: alerts
-    - name: fiches_vdd_alerts
-      using:
-        manual_configuration:
-          remote_table:
-            schema: v1
-            name: fiches_vdd_alerts
-          column_mapping:
-            name: status
-    - name: fiches_travail_data_alerts
-      using:
-        manual_configuration:
-          remote_table:
-            schema: v1
-            name: fiches_travail_data_alerts
-          column_mapping:
-            name: status
-    - name: kali_data_alerts
-      using:
-        manual_configuration:
-          remote_table:
-            schema: v1
-            name: kali_data_alerts
-          column_mapping:
-            name: status
-    - name: legi_data_alerts
-      using:
-        manual_configuration:
-          remote_table:
-            schema: v1
-            name: legi_data_alerts
-          column_mapping:
-            name: status
   select_permissions:
     - role: user
       permission:
@@ -210,9 +178,6 @@
         check: {}
 - table:
     schema: public
-    name: documents
-- table:
-    schema: public
     name: roles
   array_relationships:
     - name: user_roles
@@ -268,10 +233,10 @@
         check: {}
 - table:
     schema: v1
-    name: fiches_vdd_alerts
+    name: fiches_travail_data_alerts
 - table:
     schema: v1
-    name: fiches_travail_data_alerts
+    name: fiches_vdd_alerts
 - table:
     schema: v1
     name: kali_data_alerts
