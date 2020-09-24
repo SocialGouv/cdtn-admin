@@ -53,11 +53,15 @@ export function DocumentsPage() {
   const { fetching, error, data } = result;
 
   if (fetching) {
-    return "...";
+    return <Layout title="Contenus">chargement...</Layout>;
   }
 
   if (error) {
-    return <Message variant="primary">{error.message}</Message>;
+    return (
+      <Layout title="Contenus">
+        <Message variant="primary">{error.message}</Message>
+      </Layout>
+    );
   }
   function isSourceDisabled(source) {
     return (
@@ -65,7 +69,7 @@ export function DocumentsPage() {
     );
   }
   return (
-    <Layout title="Documents">
+    <Layout title="Contenus">
       <Card>
         <form onSubmit={handleSubmit(onSearchSubmit)}>
           <Inline>

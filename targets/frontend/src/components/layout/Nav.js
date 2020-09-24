@@ -89,8 +89,8 @@ export function Nav() {
         <Text css={styles.titleSection}>Administration</Text>
         <List>
           <Li>
-            <Link href="/documents" passHref>
-              <NavLink>Documents</NavLink>
+            <Link href="/contenus" passHref>
+              <NavLink>Contenus</NavLink>
             </Link>
           </Li>
         </List>
