@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 import { useUser } from "src/hooks/useUser";
-import { Badge, Box, jsx, Message, NavLink, Text } from "theme-ui";
+import { Badge, Box, css, jsx, Message, NavLink, Text } from "theme-ui";
 import { useQuery } from "urql";
 
 import { Li, List } from "../list";
@@ -50,14 +50,7 @@ export function Nav() {
       <Box sx={{ paddingTop: "medium" }}>
         {isAdmin && (
           <>
-            <Text
-              sx={{
-                fontWeight: "light",
-                textTransform: "uppercase",
-              }}
-            >
-              Utilisateurs
-            </Text>
+            <Text css={styles.titleSection}>Utilisateurs</Text>
             <List>
               <Li>
                 <ActiveLink href="/users">Gestion des utilisateurs</ActiveLink>
@@ -67,14 +60,7 @@ export function Nav() {
         )}
       </Box>
       <Box sx={{ paddingTop: "medium" }}>
-        <Text
-          sx={{
-            fontWeight: "light",
-            textTransform: "uppercase",
-          }}
-        >
-          alertes
-        </Text>
+        <Text css={styles.titleSection}>Alertes</Text>
         {!fetching && (
           <List>
             {data.sources.map((source) => {
@@ -98,6 +84,16 @@ export function Nav() {
             })}
           </List>
         )}
+      </Box>
+      <Box sx={{ paddingTop: "medium" }}>
+        <Text css={styles.titleSection}>Administration</Text>
+        <List>
+          <Li>
+            <Link href="/documents" passHref>
+              <NavLink>Documents</NavLink>
+            </Link>
+          </Li>
+        </List>
       </Box>
     </Box>
   );
@@ -126,3 +122,10 @@ ActiveLink.propTypes = {
   children: PropTypes.node.isRequired,
   href: PropTypes.string.isRequired,
 };
+
+const styles = css({
+  titleSection: {
+    fontWeight: "light",
+    textTransform: "uppercase",
+  },
+});
