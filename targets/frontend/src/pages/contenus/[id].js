@@ -122,7 +122,7 @@ export function DocumentsPage() {
           </Card>
           <Inline>
             <Button disabled={submitIdle || !hasChanged}>Enregistrer</Button>
-            <Link href="/documents" passHref>
+            <Link href="/contenus" passHref>
               <NavLink>Retour</NavLink>
             </Link>
           </Inline>

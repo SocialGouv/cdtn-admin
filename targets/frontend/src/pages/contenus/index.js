@@ -113,11 +113,7 @@ export function DocumentsPage() {
       <ul>
         {data.documents.map((doc) => (
           <li key={doc.cdtnId}>
-            <Link
-              href="/documents/[id]"
-              as={`/documents/${doc.cdtnId}`}
-              passHref
-            >
+            <Link href="/contenus/[id]" as={`/contenus/${doc.cdtnId}`} passHref>
               <NavLink>
                 {doc.source} › {doc.title}
               </NavLink>
