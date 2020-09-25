@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoIosSearch } from "react-icons/io";
-import { IconButton } from "src/components/button";
+import { Button } from "src/components/button";
 /** @jsx jsx  */
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
@@ -38,24 +38,31 @@ query documents($source: String, $search: String!) {
 
 export function DocumentsPage() {
   const { register, handleSubmit } = useForm();
-  const [search, setSearch] = useState({ search: "%%", source: null });
+  const [search, setSearch] = useState({ source: null, value: "" });
   const onSearchSubmit = ({ search, source }) => {
-    console.log({ source: source ? source : null });
     setSearch({
-      search: `%${search}%`,
       source: source ? source : null,
+      value: search,
     });
   };
   const [result] = useQuery({
     query: searchDocumentQuery,
-    variables: search,
+    variables: {
+      search: `%${search.value}%`,
+      source: search.source,
+    },
   });
   const { fetching, error, data } = result;
+
+  function isSourceDisabled(source) {
+    return (
+      data.sources.nodes.find((node) => node.source === source) === undefined
+    );
+  }
 
   if (fetching) {
     return <Layout title="Contenus">chargement...</Layout>;
   }
-
   if (error) {
     return (
       <Layout title="Contenus">
@@ -63,32 +70,21 @@ export function DocumentsPage() {
       </Layout>
     );
   }
-  function isSourceDisabled(source) {
-    return (
-      data.sources.nodes.find((node) => node.source === source) === undefined
-    );
-  }
+
   return (
     <Layout title="Contenus">
       <Card>
         <form onSubmit={handleSubmit(onSearchSubmit)}>
           <Inline>
-            <span>Rechercher: </span>
             <Input
               sx={{ flex: 1 }}
               name="search"
               type="search"
-              defaultValue=""
+              placeholder="titre..."
+              defaultValue={search.value}
               ref={register}
             />
-            <Select
-              name="source"
-              ref={register}
-              defaultValue=""
-              onChange={(event) =>
-                setSearch({ ...search, source: event.target.value || null })
-              }
-            >
+            <Select name="source" ref={register} defaultValue={search.source}>
               <option value="">toutes les sources</option>
               {Object.values(SOURCES).flatMap((source) =>
                 getLabelBySource(source)
@@ -104,23 +100,31 @@ export function DocumentsPage() {
                   : []
               )}
             </Select>
-            <IconButton>
-              <IoIosSearch />
-            </IconButton>
+            <Button>
+              <IoIosSearch /> Rechercher
+            </Button>
           </Inline>
         </form>
       </Card>
-      <ul>
-        {data.documents.map((doc) => (
-          <li key={doc.cdtnId}>
-            <Link href="/contenus/[id]" as={`/contenus/${doc.cdtnId}`} passHref>
-              <NavLink>
-                {doc.source} › {doc.title}
-              </NavLink>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {data.documents.length ? (
+        <ul>
+          {data.documents.map((doc) => (
+            <li key={doc.cdtnId}>
+              <Link
+                href="/contenus/[id]"
+                as={`/contenus/${doc.cdtnId}`}
+                passHref
+              >
+                <NavLink>
+                  {doc.source} › {doc.title}
+                </NavLink>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Pas de résultats.</p>
+      )}
     </Layout>
   );
 }
