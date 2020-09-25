@@ -76,3 +76,7 @@ Deploy app (prod):
 .notify_review:
   environment:
     name: ${CI_COMMIT_REF_NAME}-dev2
+
+.notify_prod:
+  environment:
+    name: ${CI_COMMIT_REF_NAME}-prod2
