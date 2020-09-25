@@ -67,11 +67,15 @@ Deploy alert (dev):
   extends:
     - .autodevops_deploy_app_dev
     - .deploy_alert_stage
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}-dev2
 
 Deploy alert (prod):
   extends:
     - .autodevops_deploy_app_prod
     - .deploy_alert_stage
+  environment:
+    name: prod2
   variables:
     PRODUCTION: "true"
 
@@ -104,8 +108,12 @@ Trigger alert (dev):
   extends:
     - .autodevops_deploy_app_dev
     - .trigger_alert_cron
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}-dev2
 
 Trigger alert (prod):
   extends:
     - .autodevops_deploy_app_prod
     - .trigger_alert_cron
+  environment:
+    name: prod2

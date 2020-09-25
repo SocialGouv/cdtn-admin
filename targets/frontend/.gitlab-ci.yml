@@ -104,6 +104,8 @@ Deploy www (dev):
   extends:
     - .autodevops_deploy_app_dev
     - .deploy_www_stage
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}-dev2
   variables:
     MANIFEST_FOLDER: targets/frontend/.k8s/environments/dev
 
@@ -111,5 +113,7 @@ Deploy www (prod):
   extends:
     - .autodevops_deploy_app_prod
     - .deploy_www_stage
+  environment:
+    name: prod2
   variables:
     MANIFEST_FOLDER: targets/frontend/.k8s/environments/prod

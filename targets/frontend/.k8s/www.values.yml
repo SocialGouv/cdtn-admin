@@ -35,3 +35,5 @@ deployment:
         name: cdtn-admin-secrets
 ingress:
   enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
