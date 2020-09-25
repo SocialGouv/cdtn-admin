@@ -20,6 +20,8 @@ Deploy Hasura (dev):
   extends:
     - .autodevops_deploy_app_dev
     - .deploy_hasura
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}-dev2
   variables:
     PG_HOST: cdtnadmindevserver.postgres.database.azure.com
     HELM_RENDER_ARGS: >-
@@ -30,5 +32,7 @@ Deploy Hasura (prod):
   extends:
     - .autodevops_deploy_app_prod
     - .deploy_hasura
+  environment:
+    name: prod2
   variables:
     PRODUCTION: "true"
