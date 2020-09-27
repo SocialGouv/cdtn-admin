@@ -3084,10 +3084,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.6.4.tgz#a145cc0bb14ef9c4777361b7bbafa5cf8e3acb5a"
   integrity sha512-Wk7nG1JSaMfMpoMJDKUsWYugliB2Vy55pdjLpmLixeyMi7HizW2I/9QoxsPCkXl3dO+ZOVqPumKaDUv5zJu2uQ==
 
-"@types/nodegit@^0.26.8":
-  version "0.26.8"
-  resolved "https://registry.yarnpkg.com/@types/nodegit/-/nodegit-0.26.8.tgz#81a79307fbdd1cf028a8ec7cbc94020bac54be6f"
-  integrity sha512-CwcynPazar6cJxjn8PG2RIujNgFvH2pAoA/bBBvPTUrONVzc9hj0DRMYzioy7zI/+e8TfJJLP+DK26mEU0eErg==
+"@types/nodegit@^0.26.9":
+  version "0.26.9"
+  resolved "https://registry.yarnpkg.com/@types/nodegit/-/nodegit-0.26.9.tgz#dede96ad382177c45576f1744c470491927bb832"
+  integrity sha512-dRL9cVhWzbpf6b33zW8yFmp0NHoQMcKrSBdXgU5lNFYQSAPdesqhH1+z8T3D4UZ++JQmjb/75JRjyP153rJc5A==
   dependencies:
     "@types/node" "*"
 
@@ -11015,10 +11015,10 @@ react-focus-lock@^2.3.1:
     use-callback-ref "^1.2.1"
     use-sidecar "^1.0.1"
 
-react-hook-form@^6.8.3:
-  version "6.8.3"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.8.3.tgz#208f46b96ced2859e2a3465eef8125751e99e4ee"
-  integrity sha512-IsYcATD4fodv9BiwWBwiBHE50+IyvhpPTi+jIab4fQZLbDPJnN7YXnJ+/2oMXDJ94n+PnUs4wklr9pg8TNdOrQ==
+react-hook-form@^6.8.6:
+  version "6.8.6"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.8.6.tgz#c82b38b01e0a77689214c3ceb873eab9405d27a0"
+  integrity sha512-ZCp7Y+IrlsQma08uy3H6l/qF7dZWqAWMkZ4vVbHVfh1EHjsO1SwU7aYVHgJSQpriHtEdGszCW8NS/aujGsLk0g==
 
 react-icons@^3.11.0:
   version "3.11.0"
