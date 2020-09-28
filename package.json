@@ -25,9 +25,7 @@
     "dev": "nps dev",
     "lint": "nps lint",
     "start": "nps",
-    "test": "nps test",
-    "dump": "nps dump",
-    "populate": "nps populate"
+    "test": "nps test"
   },
   "workspaces": [
     "shared/*",
