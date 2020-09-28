@@ -90,8 +90,8 @@ export function Nav() {
         <Text sx={TitleStyles}>Administration</Text>
         <List>
           <Li>
-            <Link href="/contenus" passHref>
-              <NavLink>Contenus</NavLink>
+            <Link href="/glossary" passHref>
+              <NavLink>Glossaire</NavLink>
             </Link>
           </Li>
           <Li>

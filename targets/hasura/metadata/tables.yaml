@@ -261,6 +261,20 @@
       allow_aggregations: true
 - table:
     schema: public
+    name: glossary
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - term
+      - abbreviations
+      - variants
+      - definition
+      - references
+      filter: {}
+- table:
+    schema: public
     name: roles
   array_relationships:
   - name: user_roles
