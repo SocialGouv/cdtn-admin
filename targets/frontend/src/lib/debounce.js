@@ -1,9 +1,9 @@
 export const debounce = (debouncedFunction, debounceDuration) => {
   let currentTimeout = null;
-  return (currentParams) => {
+  return function () {
     if (currentTimeout) clearTimeout(currentTimeout);
     currentTimeout = setTimeout(
-      () => debouncedFunction(currentParams),
+      () => debouncedFunction(...arguments),
       debounceDuration
     );
   };
