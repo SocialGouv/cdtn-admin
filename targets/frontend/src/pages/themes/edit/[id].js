@@ -196,7 +196,6 @@ export function EditThemePage() {
               deleteResult.fetching
             }
             onSubmit={onSubmit}
-            onDelete={onDelete}
           />
         </>
       )}

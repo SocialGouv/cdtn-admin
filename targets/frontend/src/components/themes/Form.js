@@ -126,7 +126,6 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
 };
 
 ThemeForm.propTypes = {
-  edit: PropTypes.bool,
   loading: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   parentId: PropTypes.string,
@@ -135,7 +134,8 @@ ThemeForm.propTypes = {
 
 export { ThemeForm };
 
-const DisplayField = ({ children, label }) => (
+// TODO instead of disabling the field when not admin, simply display the value
+const DisplayValue = ({ children, label }) => (
   <div sx={{ m: "small" }}>
     <div sx={{ fontWeight: "bold", mb: "xxsmall" }}>{label} :</div>
     <div
@@ -151,7 +151,7 @@ const DisplayField = ({ children, label }) => (
   </div>
 );
 
-DisplayField.propTypes = {
+DisplayValue.propTypes = {
   children: PropTypes.node,
   label: PropTypes.string,
 };
