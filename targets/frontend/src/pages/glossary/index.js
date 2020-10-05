@@ -30,7 +30,7 @@ const filterGlossary = (glossary, search, setDisplayedTerms, setSearching) => {
   setSearching(false);
 };
 
-const debouncedFilterGlossary = debounce(filterGlossary, 100);
+const debouncedFilterGlossary = debounce(filterGlossary, 300);
 
 const getGlossaryQuery = `
   query getGlossary {
