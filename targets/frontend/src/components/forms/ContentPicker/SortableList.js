@@ -10,13 +10,13 @@ import {
 import { Button, IconButton } from "src/components/button";
 import { Alert, Box, Flex, jsx } from "theme-ui";
 
-export const ContentList = SortableContainer(({ contents, ...props }) => {
+export const SortableList = SortableContainer(({ contents, ...props }) => {
   return (
     <ul sx={{ listStyleType: "none", m: "0", p: "0" }}>
       {contents
         .sort(({ position: a }, { position: b }) => a - b)
         .map((content, index) => (
-          <ContentRow
+          <SortableRow
             key={content.cdtnId}
             content={content}
             index={index}
@@ -28,7 +28,7 @@ export const ContentList = SortableContainer(({ contents, ...props }) => {
   );
 });
 
-const ContentRow = SortableElement(
+const SortableRow = SortableElement(
   ({
     content: { cdtnId, source, title },
     isAdmin,

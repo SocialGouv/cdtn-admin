@@ -5,8 +5,8 @@ import { Controller } from "react-hook-form";
 import { useUser } from "src/hooks/useUser";
 import { jsx } from "theme-ui";
 
-import { ContentList } from "./ContentList";
 import { ContentSearch } from "./ContentSearch";
+import { SortableList } from "./SortableList";
 
 const ContentPicker = ({ defaultValue, disabled, ...props }) => {
   return (
@@ -34,7 +34,7 @@ function RootContentPicker({ disabled, value: contents = [], onChange }) {
 
   return (
     <>
-      <ContentList
+      <SortableList
         contents={contents}
         isAdmin={isAdmin}
         useDragHandle={true}

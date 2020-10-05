@@ -45,6 +45,7 @@
     "react-sortable-hoc": "^1.11.0",
     "semver": "^7.3.2",
     "sentry-testkit": "^3.2.1",
+    "styled-components": "^5.1.1",
     "theme-ui": "^0.3.1",
     "unist-util-parents": "^1.0.3",
     "unist-util-select": "^3.0.1",

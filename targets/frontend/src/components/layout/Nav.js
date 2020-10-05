@@ -51,7 +51,7 @@ export function Nav() {
       <Box sx={{ paddingTop: "medium" }}>
         {isAdmin && (
           <>
-            <Text css={styles.titleSection}>Utilisateurs</Text>
+            <Text sx={TitleStyles}>Utilisateurs</Text>
             <List>
               <Li>
                 <ActiveLink href="/users">Gestion des utilisateurs</ActiveLink>

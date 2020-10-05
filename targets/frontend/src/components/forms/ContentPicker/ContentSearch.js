@@ -76,7 +76,7 @@ export const ContentSearch = ({ contents = [], onChange }) => {
       { suggestions: articles, title: "Articles" },
       { suggestions: themes, title: "Thèmes" },
     ]);
-  }, [results]);
+  }, [results.data]);
 
   const onSearchValueChange = (event, { newValue }) => {
     setInputSearchValue(newValue);
