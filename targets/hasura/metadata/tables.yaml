@@ -196,6 +196,7 @@
       - created_at
       - updated_at
       filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: roles
