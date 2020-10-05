@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 import { useUser } from "src/hooks/useUser";
-import { Badge, Box, css, jsx, Message, NavLink, Text } from "theme-ui";
+import { Badge, Box, jsx, Message, NavLink, Text } from "theme-ui";
 import { useQuery } from "urql";
 
 import { Li, List } from "../list";
