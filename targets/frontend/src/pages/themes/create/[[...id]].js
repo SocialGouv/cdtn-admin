@@ -1,4 +1,5 @@
 /** @jsx jsx  */
+import { generateIds } from "@shared/id-generator";
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";
@@ -10,7 +11,6 @@ import {
 import { ThemeForm } from "src/components/themes/Form";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { generateIds } from "src/lib/idGenerators";
 import { RELATIONS } from "src/lib/relations";
 import { jsx, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";

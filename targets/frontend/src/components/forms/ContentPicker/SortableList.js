@@ -8,11 +8,12 @@ import {
   SortableHandle,
 } from "react-sortable-hoc";
 import { Button, IconButton } from "src/components/button";
+import { List } from "src/components/list";
 import { Alert, Box, Flex, jsx } from "theme-ui";
 
 export const SortableList = SortableContainer(({ contents, ...props }) => {
   return (
-    <ul sx={{ listStyleType: "none", m: "0", p: "0" }}>
+    <List>
       {contents
         .sort(({ position: a }, { position: b }) => a - b)
         .map((content, index) => (
@@ -24,7 +25,7 @@ export const SortableList = SortableContainer(({ contents, ...props }) => {
             {...props}
           />
         ))}
-    </ul>
+    </List>
   );
 });
 

@@ -23,7 +23,7 @@ export function PasswordForm({
   const hasError = Object.keys(errors).length > 0;
   const buttonLabel = lostPassword
     ? "Réinitialiser le mot de passe"
-    : "Changer le mot de passe";
+    : "Définir le mot de passe";
   const passwordFieldRegistration = {
     minLength: {
       message: "Le mot de passe doit faire au moins 8 caractères",
