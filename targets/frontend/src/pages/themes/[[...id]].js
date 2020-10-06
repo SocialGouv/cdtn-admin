@@ -127,9 +127,9 @@ export function ThemePage() {
                       <IoMdCreate
                         sx={{
                           flex: "0 0 auto",
-                          height: "1.5rem",
+                          height: "iconSmall",
                           mr: "xxsmall",
-                          width: "1.5rem",
+                          width: "iconSmall",
                         }}
                       />
                       Éditer
@@ -139,9 +139,9 @@ export function ThemePage() {
                       <IoMdEye
                         sx={{
                           flex: "0 0 auto",
-                          height: "1.5rem",
+                          height: "iconSmall",
                           mr: "xxsmall",
-                          width: "1.5rem",
+                          width: "iconSmall",
                         }}
                       />
                       Consulter
@@ -192,7 +192,9 @@ const AddAThemeButton = ({ themeId }) => (
       passHref
     >
       <Button as="a" sx={{ mr: "medium" }}>
-        <IoMdAdd sx={{ height: "2rem", mr: "xxsmall", width: "2rem" }} />
+        <IoMdAdd
+          sx={{ height: "iconMedium", mr: "xxsmall", width: "iconMedium" }}
+        />
         Ajouter un thème ici
       </Button>
     </Link>
@@ -221,9 +223,9 @@ const ParentLink = ({ id, ...props }) => (
         <IoIosArrowDropleftCircle
           sx={{
             color: "secondary",
-            height: "2rem",
+            height: "iconMedium",
             mr: "small",
-            width: "2rem",
+            width: "iconMedium",
           }}
         />
         <div {...props} />

@@ -126,9 +126,9 @@ const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
           <IoIosArrowDroprightCircle
             sx={{
               color: "secondary",
-              height: "2rem",
+              height: "iconMedium",
               ml: "small",
-              width: "2rem",
+              width: "iconMedium",
             }}
           />
         </Flex>
@@ -142,6 +142,6 @@ const SortHandle = SortableHandle(() => (
     variant="secondary"
     sx={{ cursor: "grab", height: "auto", mr: "xsmall" }}
   >
-    <IoIosReorder sx={{ height: "2rem", width: "2rem" }} />
+    <IoIosReorder sx={{ height: "iconMedium", width: "iconMedium" }} />
   </IconButton>
 ));

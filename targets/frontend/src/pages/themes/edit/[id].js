@@ -180,7 +180,11 @@ export function EditThemePage() {
                     }}
                   >
                     <IoMdTrash
-                      sx={{ height: "1.5rem", mr: "xsmall", width: "1.5rem" }}
+                      sx={{
+                        height: "iconSmall",
+                        mr: "xsmall",
+                        width: "iconSmall",
+                      }}
                     />
                     Supprimer le thème
                   </Button>

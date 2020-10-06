@@ -65,7 +65,7 @@ const SortableRow = SortableElement(
               onDeleteContent(cdtnId);
             }}
           >
-            <IoMdTrash sx={{ height: "1.4rem", width: "1.4rem" }} />
+            <IoMdTrash sx={{ height: "iconSmall", width: "iconSmall" }} />
           </Button>
         </Flex>
       )}
@@ -79,6 +79,6 @@ const SortHandle = SortableHandle(() => (
     type="button"
     sx={{ cursor: "grab", flex: "0 0 auto", height: "auto", mr: "xsmall" }}
   >
-    <IoIosReorder sx={{ height: "2rem", width: "2rem" }} />
+    <IoIosReorder sx={{ height: "iconMedium", width: "iconMedium" }} />
   </IconButton>
 ));

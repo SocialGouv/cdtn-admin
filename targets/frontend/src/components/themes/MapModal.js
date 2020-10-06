@@ -15,7 +15,9 @@ export const MapModal = () => {
     <>
       <Flex sx={{ justifyContent: "flex-end" }}>
         <Button variant="secondary" onClick={() => setShowThemeMap(true)}>
-          <IoMdMap sx={{ height: "2rem", mr: "small", width: "2rem" }} />
+          <IoMdMap
+            sx={{ height: "iconMedium", mr: "small", width: "iconMedium" }}
+          />
           Carte des thèmes
         </Button>
       </Flex>

@@ -189,8 +189,9 @@ export const theme = {
       "0 0 4px 0px rgba(28,28,28,.1), 0 3px 18px -4px rgba(28,28,28,.1), 0 5px 30px -12px rgba(28,28,28,.2)",
   },
   sizes: {
-    normal: "xsmall",
-    small: "xxsmall",
+    iconsXSmall: "1rem",
+    iconSmall: "1.5rem",
+    iconMedium: "2rem",
     container: 1440,
   },
   space: {

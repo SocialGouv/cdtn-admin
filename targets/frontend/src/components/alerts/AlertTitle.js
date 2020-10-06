@@ -25,7 +25,7 @@ export function AlertTitle({ alertId, info, ...props }) {
           <IconButton variant="secondary">
             <IoIosLink
               aria-label="Voir la convention sur legifrance"
-              style={{ height: "1em", width: "1em" }}
+              style={{ height: "iconXSmall", width: "iconXSmall" }}
             />
           </IconButton>
         </a>
@@ -38,7 +38,7 @@ export function AlertTitle({ alertId, info, ...props }) {
       >
         <IoMdChatbubbles
           aria-label="Voir les commentaires"
-          style={{ height: "1em", width: "1em" }}
+          style={{ height: "iconXSmall", width: "iconXSmall" }}
         />
       </IconButton>
       {showComment && <Comments alertId={alertId} />}

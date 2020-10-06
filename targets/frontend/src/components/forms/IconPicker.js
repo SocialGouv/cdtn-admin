@@ -78,18 +78,18 @@ function RootIconPicker({ disabled, value, onChange }) {
             }}
             sx={{
               bg: "white",
-              height: "2rem",
+              height: "iconMedium",
               ml: "xsmall",
               position: "absolute",
               right: "-0.5rem",
               top: "-0.5rem",
-              width: "2rem",
+              width: "iconMedium",
             }}
           >
             <IoMdCloseCircle
               sx={{
-                height: "1.5rem",
-                width: "1.5rem",
+                height: "iconSmall",
+                width: "iconSmall",
               }}
             />
           </IconButton>
