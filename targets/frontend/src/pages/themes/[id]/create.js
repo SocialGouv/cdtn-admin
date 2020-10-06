@@ -63,13 +63,13 @@ mutation CreateTheme(
   }
 `;
 
-export function EditThemePage() {
+export function CreateThemePage() {
   const router = useRouter();
-  const { id: [parentId = null] = [] } = router.query;
+  const { id: parentId = null } = router.query;
 
   const [
     {
-      error,
+      // error,
       fetching,
       data: { siblingRelations = [], parentThemes = [] } = {},
     },
@@ -120,8 +120,7 @@ export function EditThemePage() {
     }
   }
 
-  const notFound =
-    !fetching && ((parentId && error) || (parentId && !parentThemes.length));
+  // const notFound = !fetching && ((parentId && error) || (parentId && !parentThemes.length));
 
   const pageTitle = `Ajouter un thème ${
     parentThemes.length
@@ -130,7 +129,7 @@ export function EditThemePage() {
   }`;
 
   return (
-    <Layout errorCode={(notFound && 404) || null} title={pageTitle}>
+    <Layout /* errorCode={(notFound && 404) || null}*/ title={pageTitle}>
       {fetching ? (
         <Spinner />
       ) : (
@@ -144,4 +143,4 @@ export function EditThemePage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(EditThemePage));
+export default withCustomUrqlClient(withUserProvider(CreateThemePage));

@@ -73,8 +73,7 @@ function RootIconPicker({ disabled, value, onChange }) {
         {value && !disabled && (
           <IconButton
             type="button"
-            onClick={(evt) => {
-              evt.stopPropagation();
+            onClick={() => {
               onChange(null);
             }}
             sx={{

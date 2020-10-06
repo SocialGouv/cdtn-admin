@@ -96,7 +96,7 @@ WITH admin_row AS (
   INSERT INTO auth.users(email, password, name, default_role, active) VALUES
   (
     'utilisateur@travail.gouv.fr',
-    '$argon2i$v=19$m=4096,t=3,p=1$24ZPwUH2pZlM7veCdzhR3A$texekJvD1Jlum8A5wY4VguFx+d5G5e6ffKjNnPP6U6U',
+    '$argon2i$v=19$m=4096,t=3,p=1$PqKPf9cxunVLLtEcINHhWQ$CwHKhk71fc8LGp6BWbcFPzQ2ftOiHa7vUkp1eAqVHSM',
     'Utilisateur',
     'user',
     true

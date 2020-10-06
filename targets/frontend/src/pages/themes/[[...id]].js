@@ -102,10 +102,12 @@ export function ThemePage() {
     (relationA, relationB) => relationA.position - relationB.position
   );
 
-  const notFound = themeId && !fetching && !themeData?.cdtnId;
+  // const notFound = themeId && !fetching && !themeData?.cdtnId;
 
   return (
-    <Layout errorCode={(notFound && 404) || null} title={`Gestion des thèmes`}>
+    <Layout
+      /* errorCode={(notFound && 404) || null}*/ title={`Gestion des thèmes`}
+    >
       <MapModal />
       {fetching || rootFetching ? (
         <Spinner />
@@ -185,8 +187,8 @@ export default withCustomUrqlClient(withUserProvider(ThemePage));
 const AddAThemeButton = ({ themeId }) => (
   <Box sx={{ mt: "medium" }}>
     <Link
-      href="/themes/create/[[...id]]"
-      as={`/themes/create${themeId ? `/${themeId}` : ""}`}
+      href={`/themes/${themeId ? "[id]/" : ""}create`}
+      as={`/themes/${themeId ? `${themeId}/` : ""}create`}
       passHref
     >
       <Button as="a" sx={{ mr: "medium" }}>

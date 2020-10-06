@@ -130,12 +130,12 @@ export function EditThemePage() {
     });
   }
 
-  const notFound = !fetching && !deleteResult.fetching && !theme?.cdtnId;
+  // const notFound = !fetching && !deleteResult.fetching && !theme?.cdtnId;
 
   const pageTitle = `${isAdmin ? "Modifier" : "Consulter"} le thème`;
 
   return (
-    <Layout errorCode={(notFound && 404) || null} title={pageTitle}>
+    <Layout /* errorCode={(notFound && 404) || null} */ title={pageTitle}>
       {fetching ? (
         <Spinner />
       ) : (
