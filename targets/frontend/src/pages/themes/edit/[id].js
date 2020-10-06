@@ -7,11 +7,11 @@ import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
+import { ThemeForm } from "src/components/themes/Form";
 import {
   formatContentsMutation,
   updateContentsMutation,
-} from "src/components/themes/common";
-import { ThemeForm } from "src/components/themes/Form";
+} from "src/components/themes/updateContentsMutation";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useUser } from "src/hooks/useUser";

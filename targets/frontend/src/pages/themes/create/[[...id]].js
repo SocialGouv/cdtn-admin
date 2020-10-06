@@ -4,11 +4,11 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
+import { ThemeForm } from "src/components/themes/Form";
 import {
   formatContentsMutation,
   updateContentsMutation,
-} from "src/components/themes/common";
-import { ThemeForm } from "src/components/themes/Form";
+} from "src/components/themes/updateContentsMutation";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
