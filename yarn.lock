@@ -3084,10 +3084,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.6.4.tgz#a145cc0bb14ef9c4777361b7bbafa5cf8e3acb5a"
   integrity sha512-Wk7nG1JSaMfMpoMJDKUsWYugliB2Vy55pdjLpmLixeyMi7HizW2I/9QoxsPCkXl3dO+ZOVqPumKaDUv5zJu2uQ==
 
-"@types/nodegit@^0.26.9":
-  version "0.26.9"
-  resolved "https://registry.yarnpkg.com/@types/nodegit/-/nodegit-0.26.9.tgz#dede96ad382177c45576f1744c470491927bb832"
-  integrity sha512-dRL9cVhWzbpf6b33zW8yFmp0NHoQMcKrSBdXgU5lNFYQSAPdesqhH1+z8T3D4UZ++JQmjb/75JRjyP153rJc5A==
+"@types/nodegit@^0.26.10":
+  version "0.26.10"
+  resolved "https://registry.yarnpkg.com/@types/nodegit/-/nodegit-0.26.10.tgz#6815b7a06113df168d483557a24ecb62773a15f6"
+  integrity sha512-k2GzJCIdTfqBMTT9f6KWJvuBEx+QCWeVsIBCAcxK5fG0EvM+UN/x7asZB1hQJhWt/xg5fmlo7bWxSAhf9lGB1Q==
   dependencies:
     "@types/node" "*"
 
@@ -3192,10 +3192,10 @@
     "@typescript-eslint/types" "4.1.0"
     eslint-visitor-keys "^2.0.0"
 
-"@urql/core@^1.12.3", "@urql/core@^1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@urql/core/-/core-1.13.0.tgz#811154b5951b4282dd698a8c9dff4ff3825ca215"
-  integrity sha512-g7Kn2a0TDQotOqvGR7bRC+JqviA4TYtiDZH5M9Roszx7LiqZBkViSr5zmdwlNZjR4kSDn+kSXlCV+Ht0Uqls0Q==
+"@urql/core@^1.12.3", "@urql/core@^1.13.1":
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/@urql/core/-/core-1.13.1.tgz#7247c27dccd7570010de91730d1f16fd15892829"
+  integrity sha512-Zl4UwvcE9JbWKzrtxnlmfF+rkX50GzK5dpMlB6FnUYF0sLmuGMxp67lnhTQsfTNJ+41bkj4lk0PMWEnG7KUsTw==
   dependencies:
     wonka "^4.0.14"
 
@@ -5972,7 +5972,7 @@ eslint-config-prettier@~6.11.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-import-resolver-node@^0.3.3:
+eslint-import-resolver-node@^0.3.4:
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.4.tgz#85ffa81942c25012d8231096ddf679c03042c717"
   integrity sha512-ogtf+5AB/O+nM6DIeBUNr2fuT7ot9Qg/1harBfBtaP13ekEWFQEEMP94BCB7zaNW3gyY+8SHYF00rnqYwXKWOA==
@@ -5988,17 +5988,17 @@ eslint-module-utils@^2.6.0:
     debug "^2.6.9"
     pkg-dir "^2.0.0"
 
-eslint-plugin-import@^2.22.0, eslint-plugin-import@~2.22.0:
-  version "2.22.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.22.0.tgz#92f7736fe1fde3e2de77623c838dd992ff5ffb7e"
-  integrity sha512-66Fpf1Ln6aIS5Gr/55ts19eUuoDhAbZgnr6UxK5hbDx6l/QgQgx61AePq+BV4PP2uXQFClgMVzep5zZ94qqsxg==
+eslint-plugin-import@^2.22.1, eslint-plugin-import@~2.22.0:
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.22.1.tgz#0896c7e6a0cf44109a2d97b95903c2bb689d7702"
+  integrity sha512-8K7JjINHOpH64ozkAhpT3sd+FswIZTfMZTjdx052pnWrgRCVfp8op9tbjpAk3DdUeI/Ba4C8OjdC0r90erHEOw==
   dependencies:
     array-includes "^3.1.1"
     array.prototype.flat "^1.2.3"
     contains-path "^0.1.0"
     debug "^2.6.9"
     doctrine "1.5.0"
-    eslint-import-resolver-node "^0.3.3"
+    eslint-import-resolver-node "^0.3.4"
     eslint-module-utils "^2.6.0"
     has "^1.0.3"
     minimatch "^3.0.4"
@@ -9816,10 +9816,10 @@ nodegit@0.27.0:
     ramda "^0.25.0"
     tar-fs "^1.16.3"
 
-nodemailer@^6.4.11:
-  version "6.4.11"
-  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.11.tgz#1f00b4ffd106403f17c03f3d43d5945b2677046c"
-  integrity sha512-BVZBDi+aJV4O38rxsUh164Dk1NCqgh6Cm0rQSb9SK/DHGll/DrCMnycVDD7msJgZCnmVa8ASo8EZzR7jsgTukQ==
+nodemailer@^6.4.13:
+  version "6.4.13"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.13.tgz#40e67cf5a32f2052258822a9394e190ea9714801"
+  integrity sha512-XmtiiKza2Cqtr+ZRMchMZn9s2nmwQDeakbf+yL0ODsIXOv58UZgk/MKPOkDKqY+mvxHs87PrJK7Nf/tcpKHqYQ==
 
 "nopt@2 || 3":
   version "3.0.6"
@@ -11039,10 +11039,10 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-ace@^9.1.3:
-  version "9.1.3"
-  resolved "https://registry.yarnpkg.com/react-ace/-/react-ace-9.1.3.tgz#848dc3741d5460f3ac73468b6c39879aab9238bc"
-  integrity sha512-1TZBs/9hFGgPuzu6DUiBogyhRA5Z1Po2wzPfZslbrTFGQtbNe+JXHuPoJNlUu/uerElzOLLsuJEDTO9FfLnZJA==
+react-ace@^9.1.4:
+  version "9.1.4"
+  resolved "https://registry.yarnpkg.com/react-ace/-/react-ace-9.1.4.tgz#7c45c361aa5fe1efa3313fa876bce30aa64a244f"
+  integrity sha512-4DBWvElbVR3WhsA2HhQ524K9Yoa/J/sjuBV9NUZ+yar3Q4BGJRTnhY6pM0INffH1IkBZHKIOyz34XHjc7RNTpw==
   dependencies:
     ace-builds "^1.4.6"
     diff-match-patch "^1.0.4"
@@ -13417,10 +13417,10 @@ uuid@^3.0.1, uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
-uuid@^8.3.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.0.tgz#ab738085ca22dc9a8c92725e459b1d507df5d6ea"
-  integrity sha512-fX6Z5o4m6XsXBdli9g7DtWgAx+osMsRRZFKma1mIUsLCz6vRvv+pz5VNbyu9UEDzpMWulZfvpgb/cmDXVulYFQ==
+uuid@^8.3.0, uuid@^8.3.1:
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.1.tgz#2ba2e6ca000da60fce5a196954ab241131e05a31"
+  integrity sha512-FOmRr+FmWEIG8uhZv6C2bTgEVXsHk08kE7mPlrBbEe+c3r9pjceVPgupIfNIhc4yx55H69OXANrUaSuu9eInKg==
 
 v8-compile-cache@^2.0.3:
   version "2.1.1"
