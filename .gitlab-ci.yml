@@ -30,9 +30,14 @@ Create namespace:
 
 Create Azure DB (dev):
   extends: .autodevops_create_azure_db_dev
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}-dev2
   variables:
     NEW_DB_EXTENSIONS: "pgcrypto hstore citext"
 
+Drop Azure DB (dev):
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}-dev2
 #
 
 Stop review:
