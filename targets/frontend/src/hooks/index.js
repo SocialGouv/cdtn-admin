@@ -1,4 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import { debounce } from "../lib/debounce";
 
 export function usePrevious(value) {
   // The ref object is a generic container whose current property is mutable ...
@@ -12,4 +14,15 @@ export function usePrevious(value) {
 
   // Return previous value (happens before update in useEffect above)
   return ref.current;
+}
+
+export function useDebouncedState(defaultState, delay) {
+  const [state, setState] = useState(defaultState);
+  //eslint-disable-next-line react-hooks/exhaustive-deps
+  const setDebouncedState = useCallback(debounce(setState, delay), [
+    setState,
+    delay,
+  ]);
+
+  return [state, setState, setDebouncedState];
 }

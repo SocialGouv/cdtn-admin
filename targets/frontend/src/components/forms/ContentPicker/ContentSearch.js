@@ -2,9 +2,9 @@
 
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Autosuggest from "react-autosuggest";
-import { debounce } from "src/lib/debounce";
+import { useDebouncedState } from "src/hooks/index";
 import { Input, jsx } from "theme-ui";
 import { useQuery } from "urql";
 
@@ -36,13 +36,7 @@ query searchDocuments($sources: [String!]! = "", $search: String = "") {
 export const ContentSearch = ({ contents = [], onChange }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [inputSearchValue, setInputSearchValue] = useState("");
-  const [searchValue, setSearchValue] = useState("");
-
-  const debouncedSetSearchValue = useRef();
-
-  useEffect(() => {
-    debouncedSetSearchValue.current = debounce(setSearchValue, 500);
-  }, [setSearchValue]);
+  const [searchValue, , setDebouncedSearchValue] = useDebouncedState("", 500);
 
   const [results] = useQuery({
     pause: searchValue.length < 3,
@@ -80,7 +74,7 @@ export const ContentSearch = ({ contents = [], onChange }) => {
 
   const onSearchValueChange = (event, { newValue }) => {
     setInputSearchValue(newValue);
-    debouncedSetSearchValue.current(newValue);
+    setDebouncedSearchValue(newValue);
   };
   const onSuggestionSelected = (
     event,
@@ -96,7 +90,7 @@ export const ContentSearch = ({ contents = [], onChange }) => {
 
   const onSuggestionsFetchRequested = async ({ value }) => {
     setInputSearchValue(value);
-    debouncedSetSearchValue.current(value);
+    setDebouncedSearchValue(value);
   };
 
   const onSuggestionsClearRequested = () => {
