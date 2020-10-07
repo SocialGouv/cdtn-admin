@@ -7,6 +7,7 @@ COPY shared/graphql-client/package.json /app/shared/graphql-client/
 COPY shared/id-generator/package.json /app/shared/id-generator/
 COPY targets/frontend/package.json /app/targets/frontend/
 
+RUN  npx @socialgouv/yarn-workspace-focus-install --cwd shared/id-generator --cache-folder /dev/shm/yarn
 RUN  npx @socialgouv/yarn-workspace-focus-install --cwd targets/frontend --production -- --cache-folder /dev/shm/yarn
 
 COPY targets/frontend/next.config.js  /app/targets/frontend/
