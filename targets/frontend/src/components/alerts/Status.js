@@ -33,10 +33,12 @@ export function AlertStatus({ alertId }) {
         En cours
       </MenuItem>
       <MenuItem onSelect={() => updateStatus("done")}>
-        <IoIosCheckmark style={{ height: "1.5em", width: "1.5em" }} /> Traité
+        <IoIosCheckmark style={{ height: "iconSmall", width: "iconSmall" }} />{" "}
+        Traité
       </MenuItem>
       <MenuItem onSelect={() => updateStatus("rejected")}>
-        <IoIosClose style={{ height: "1.5em", width: "1.5em" }} /> Rejeté
+        <IoIosClose style={{ height: "iconSmall", width: "iconSmall" }} />{" "}
+        Rejeté
       </MenuItem>
     </MenuButton>
   );

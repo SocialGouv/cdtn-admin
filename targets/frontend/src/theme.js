@@ -3,6 +3,26 @@ import { darken, rgba, transparentize } from "polished";
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 
 export const theme = {
+  alerts: {
+    primary: {
+      color: "white",
+      bg: "primary",
+      py: "xsmall",
+      px: "small",
+    },
+    secondary: {
+      color: "white",
+      bg: "secondary",
+      py: "xsmall",
+      px: "small",
+    },
+    highlight: {
+      color: "text",
+      bg: "highlight",
+      py: "xsmall",
+      px: "small",
+    },
+  },
   badges: {
     circle: {
       bg: "accent",
@@ -92,7 +112,7 @@ export const theme = {
     positive: "#43AA8B",
     neutral: "#d1dffd",
     muted: "#717780",
-    highlight: "#E6E6EA",
+    highlight: "#F3F3F7",
 
     primary: "#f66663",
     primaryHover: darken(0.05, "#f66663"),
@@ -119,23 +139,23 @@ export const theme = {
     semibold: 600,
     bold: 600,
   },
-  fonts: {
-    body: "muli",
-    heading: "muli",
-    monospace: "monospace",
-  },
   forms: {
     input: {
       padding: "xsmall",
     },
     label: {
-      fontSize: "small",
-      fontWeight: "body",
+      fontSize: "medium",
+      fontWeight: "bold",
     },
     select: {
       padding: "xsmall",
     },
+    textarea: {
+      fontFamily: "Muli",
+      padding: "xsmall",
+    },
   },
+
   letterSpacings: {
     body: "normal",
     caps: "0.2em",
@@ -144,6 +164,15 @@ export const theme = {
     body: 1.625,
     heading: 1.125,
   },
+  messages: {
+    primary: {
+      p: "small",
+    },
+    secondary: {
+      borderLeftColor: "secondary",
+      p: "small",
+    },
+  },
   radii: {
     small: "4px",
     large: "8px",
@@ -151,6 +180,7 @@ export const theme = {
   },
   shadows: {
     card1: "0 0 8px rgba(0, 0, 0, 0.125)",
+    cardHover: "0px 0px 16px rgba(0, 0, 0, 0.325)",
     small:
       "0 0 4px 0px rgba(28,28,28,.1), 0 2px 2px -2px rgba(28,28,28,.1), 0 4px 4px -4px rgba(28,28,28,.2)",
     medium:
@@ -159,8 +189,9 @@ export const theme = {
       "0 0 4px 0px rgba(28,28,28,.1), 0 3px 18px -4px rgba(28,28,28,.1), 0 5px 30px -12px rgba(28,28,28,.2)",
   },
   sizes: {
-    normal: "xsmall",
-    small: "xxsmall",
+    iconsXSmall: "1rem",
+    iconSmall: "1.5rem",
+    iconMedium: "2rem",
     container: 1440,
   },
   space: {

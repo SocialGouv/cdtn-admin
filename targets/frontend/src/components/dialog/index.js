@@ -9,13 +9,20 @@ import { css, jsx } from "theme-ui";
 import { IconButton } from "../button";
 import { Stack } from "../layout/Stack";
 
-export function Dialog({ ariaLabel, isOpen = false, onDismiss, children }) {
+export function Dialog({
+  ariaLabel,
+  isOpen = false,
+  onDismiss,
+  children,
+  ...props
+}) {
   return (
     <ReachDialog
       css={styles.dialog}
       isOpen={isOpen}
       onDismiss={onDismiss}
       aria-label={ariaLabel}
+      {...props}
     >
       <IconButton css={styles.closeBt} variant="secondary" onClick={onDismiss}>
         <VisuallyHidden>Close</VisuallyHidden>
@@ -28,7 +35,7 @@ export function Dialog({ ariaLabel, isOpen = false, onDismiss, children }) {
 
 const styles = {
   closeBt: css({
-    position: "absolute",
+    position: "fixed",
     right: "xxsmall",
     top: "xxsmall",
   }),

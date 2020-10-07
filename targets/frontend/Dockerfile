@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY package.json yarn.lock /app/
 COPY shared/graphql-client/package.json /app/shared/graphql-client/
+COPY shared/id-generator/package.json /app/shared/id-generator/
 COPY targets/frontend/package.json /app/targets/frontend/
 
 RUN  npx @socialgouv/yarn-workspace-focus-install --cwd targets/frontend --production -- --cache-folder /dev/shm/yarn
