@@ -13,6 +13,7 @@
     "@sentry/integrations": "^5.23.0",
     "@sentry/node": "^5.23.0",
     "@shared/graphql-client": "^1.0.0",
+    "@shared/id-generator": "^1.0.0",
     "@socialgouv/cdtn-slugify": "^4.30.0",
     "@socialgouv/cdtn-sources": "^4.30.0",
     "@socialgouv/matomo-next": "^1.1.2",
