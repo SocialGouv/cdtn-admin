@@ -1,0 +1,64 @@
+{
+  "name": "ingester",
+  "version": "1.0.0",
+  "dependencies": {
+    "@shared/graphql-client": "1.0.0",
+    "@shared/id-generator": "^1.0.0",
+    "@socialgouv/cdtn-monolog": "^1.1.2",
+    "@socialgouv/cdtn-slugify": "^4.31.1",
+    "@socialgouv/cdtn-sources": "^4.31.1",
+    "@socialgouv/contributions-data": "^2.18.0",
+    "@socialgouv/datafiller-data": "^1.64.0",
+    "@socialgouv/fiches-travail-data": "^3.220.0",
+    "@socialgouv/fiches-vdd": "^1.172.0",
+    "@socialgouv/kali-data": "^1.115.0",
+    "@socialgouv/legi-data": "^1.40.0",
+    "esm": "^3.2.25",
+    "query-string": "^6.13.5",
+    "remark": "^12.0.1",
+    "remark-html": "^13.0.1",
+    "unist-util-find": "^1.0.1",
+    "unist-util-parents": "^1.0.3",
+    "unist-util-select": "^3.0.1",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@socialgouv/eslint-config-recommended": "^1.30.0",
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.6.4",
+    "@types/unist": "^2.0.3",
+    "eslint": "^7.8.1",
+    "jest": "^26.4.2",
+    "lint-staged": "^10.3.0",
+    "typescript": "^4.0.3"
+  },
+  "license": "MIT",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "start": "GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node -r esm src/index.js",
+    "lint": "eslint src/**/*.js",
+    "types": "tsc",
+    "test": "jest"
+  },
+  "jest": {
+    "clearMocks": true,
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!**/node_modules/**"
+    ],
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "lint-staged": {
+    "*.{j,t}s": [
+      "eslint --fix",
+      "jest --bail --findRelatedTests"
+    ]
+  }
+}
