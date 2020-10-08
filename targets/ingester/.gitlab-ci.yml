@@ -30,7 +30,7 @@ Register ingester:
   variables:
     CONTEXT: .
     DOCKER_BUILD_ARGS: >-
-      --shm-size 512M
+      --shm-size 1024M
       -f ./targets/ingester/Dockerfile
     IMAGE_NAME: $CI_REGISTRY_IMAGE/ingester
 
