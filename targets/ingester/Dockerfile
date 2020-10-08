@@ -6,6 +6,7 @@ COPY package.json yarn.lock /app/
 COPY shared/graphql-client/package.json /app/shared/graphql-client/
 COPY shared/id-generator/package.json /app/shared/id-generator/
 COPY targets/ingester/package.json /app/targets/ingester/
+COPY targets/ingester/src /app/targets/ingester/src
 
 RUN  npx @socialgouv/yarn-workspace-focus-install --cwd targets/ingester --production -- --cache-folder /dev/shm/yarn
 
