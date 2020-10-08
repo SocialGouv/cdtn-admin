@@ -45,7 +45,7 @@ export function Nav() {
       as="nav"
       bg="highlight"
       padding="large"
-      sx={{ flexShrink: 1, width: "17.5rem" }}
+      sx={{ flexShrink: 0, width: "16rem" }}
     >
       <ActiveLink href="/">Accueil</ActiveLink>
       <Box sx={{ paddingTop: "medium" }}>

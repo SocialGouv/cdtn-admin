@@ -6,31 +6,10 @@ import { Button, IconButton } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
+import { useDebouncedState } from "src/hooks/";
 import { useUser } from "src/hooks/useUser";
 import { Flex, Input, jsx, Label, Spinner } from "theme-ui";
 import { useQuery } from "urql";
-
-export const debounce = (debouncedFunction, debounceDuration) => {
-  let currentTimeout = null;
-  return (...args) => {
-    if (currentTimeout) clearTimeout(currentTimeout);
-    currentTimeout = setTimeout(
-      () => debouncedFunction(...args),
-      debounceDuration
-    );
-  };
-};
-
-const filterGlossary = (glossary, search, setDisplayedTerms, setSearching) => {
-  setDisplayedTerms(
-    glossary.filter((entry) =>
-      entry.term.toLowerCase().includes(search.toLowerCase().trim())
-    )
-  );
-  setSearching(false);
-};
-
-const debouncedFilterGlossary = debounce(filterGlossary, 300);
 
 const getGlossaryQuery = `
   query getGlossary {
@@ -46,7 +25,11 @@ const context = { additionalTypenames: ["glossary"] };
 export function GlossaryPage() {
   const { isAdmin } = useUser();
   const [search, setSearch] = useState("");
-  const [displayedTerms, setDisplayedTerms] = useState(undefined);
+  const [
+    displayedTerms,
+    setDisplayedTerms,
+    setDebouncedDisplayedTerms,
+  ] = useDebouncedState(undefined);
   const [isSearching, setSearching] = useState(false);
   const [{ isFetching, data: { glossary = [] } = {} }] = useQuery({
     context,
@@ -55,12 +38,19 @@ export function GlossaryPage() {
 
   useEffect(() => {
     // prevent loader at first display of page
-    if (!displayedTerms && !search)
-      return filterGlossary(glossary, search, setDisplayedTerms, setSearching);
+    if (!displayedTerms && !search) return setDisplayedTerms(glossary);
     setSearching(true);
-    debouncedFilterGlossary(glossary, search, setDisplayedTerms, setSearching);
+    setDebouncedDisplayedTerms(
+      glossary.filter((entry) =>
+        entry.term.toLowerCase().includes(search.toLowerCase().trim())
+      )
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [glossary, search]);
+  }, [glossary, search, setDisplayedTerms, setDebouncedDisplayedTerms]);
+
+  useEffect(() => {
+    setSearching(false);
+  }, [displayedTerms]);
 
   const termsByLetters = useMemo(() => getTermsByLetter(displayedTerms), [
     displayedTerms,
