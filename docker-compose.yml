@@ -39,5 +39,15 @@ services:
     env_file:
       - .env
 
+  ingester:
+    build:
+      context: .
+      dockerfile: targets/ingester/Dockerfile
+      shm_size: 1.5g
+    depends_on:
+      - hasura
+    env_file:
+      - .env
+
 volumes:
   db_data:
