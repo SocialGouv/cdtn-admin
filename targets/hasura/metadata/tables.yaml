@@ -384,6 +384,9 @@
       filter: {}
 - table:
     schema: public
+    name: kali_blocs
+- table:
+    schema: public
     name: roles
   array_relationships:
   - name: user_roles
