@@ -109,6 +109,11 @@ export function Nav() {
               <NavLink>Blocs KALI</NavLink>
             </ActiveLink>
           </Li>
+          <Li>
+            <Link href="/kali/blocs" passHref>
+              <NavLink>Blocs KALI</NavLink>
+            </Link>
+          </Li>
         </List>
       </Box>
     </Box>
