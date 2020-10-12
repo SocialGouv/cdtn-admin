@@ -5,4 +5,6 @@ export type generatedId = {
   initial_id: string
 };
 
-
+export function generateCdtnId(content: string, maxIdLength?: number): string
+export function generateInitialId(): string
+export function generateIds(source: string, maxIdLength?: number): generatedId

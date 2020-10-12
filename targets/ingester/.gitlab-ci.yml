@@ -1,0 +1,119 @@
+Install ingester:
+  extends: .autodevops_install
+  image: node:14.7.0-alpine3.11
+  cache:
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
+    paths:
+      - yarn
+  script:
+    - yarn config set cache-folder $CI_PROJECT_DIR/yarn
+    - npx @socialgouv/yarn-workspace-focus-install --cwd targets/ingester
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - targets/ingester/node_modules
+      - node_modules
+
+#
+#
+#
+
+Build ingester:
+  extends: .base_yarn_script
+  image: node:14.7.0-alpine3.11
+  needs:
+    - job: Install Ingester
+      artifacts: true
+  before_script:
+    - cd targets/ingester
+  script:
+    - yarn build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - targets/ingester/dist
+
+#
+#
+#
+
+Register ingester:
+  extends: .autodevops_register_image
+  dependencies: null
+  needs:
+    - job: Install ingester
+      artifacts: true
+  variables:
+    CONTEXT: .
+    DOCKER_BUILD_ARGS: >-
+      --shm-size 512M
+      -f ./targets/ingester/Dockerfile
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/ingester
+
+#
+#
+#
+
+.deploy_ingester_stage:
+  script:
+    - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
+    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
+    - envsubst < targets/ingester/.k8s/ingester.cronjob.yaml | kubectl apply -f -
+
+Deploy ingester (dev):
+  extends:
+    - .autodevops_deploy_app_dev
+    - .deploy_ingester_stage
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}-dev2
+
+Deploy ingester (prod):
+  extends:
+    - .autodevops_deploy_app_prod
+    - .deploy_ingester_stage
+  environment:
+    name: prod2
+  variables:
+    PRODUCTION: "true"
+
+#
+#
+#
+
+.trigger_ingester_cron:
+  when: manual
+  script:
+    - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
+    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
+    - JOB_NAME="triggered-from-job-${CI_JOB_ID}-${RANDOM}"
+    - kubectl create job --from=cronjob/ingester "${JOB_NAME}"
+
+    - timeout 15m
+      bash -c "
+      until
+      kubectl get pod -l job-name=${JOB_NAME}
+      -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
+      grep True
+      ; do sleep 1; done"
+
+    - kubectl logs -f job/${JOB_NAME}
+
+    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
+    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
+
+Trigger Ingester (dev):
+  extends:
+    - .autodevops_deploy_app_dev
+    - .trigger_ingester_cron
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}-dev2
+
+Trigger Ingester (prod):
+  extends:
+    - .autodevops_deploy_app_prod
+    - .trigger_ingester_cron
+  environment:
+    name: prod2
