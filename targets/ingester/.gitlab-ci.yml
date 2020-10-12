@@ -44,7 +44,7 @@ Register ingester:
   extends: .autodevops_register_image
   dependencies: null
   needs:
-    - job: Install ingester
+    - job: Build ingester
       artifacts: true
   variables:
     CONTEXT: .

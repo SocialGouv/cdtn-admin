@@ -6,6 +6,7 @@ include:
   - /targets/alert-cli/.gitlab-ci.yml
   - /targets/hasura/.gitlab-ci.yml
   - /targets/frontend/.gitlab-ci.yml
+  - /targets/ingester/.gitlab-ci.yml
 
 workflow:
   rules:
