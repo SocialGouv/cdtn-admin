@@ -72,7 +72,7 @@ export default async function getAgreementDocuments(pkgName) {
 }
 
 /**
- * Get CCn geenral information
+ * Get CCN general information
  * @param {import("@socialgouv/kali-data").IndexedAgreement} agreement
  */
 function getCCNInfo({
