@@ -7,7 +7,6 @@ import gunzip from "gunzip-maybe";
 import path from "path";
 import semver from "semver";
 import tar from "tar-fs";
-import { fileURLToPath } from "url";
 import yargs from "yargs";
 
 import getAgreementDocuments from "./transform/agreements.js";
@@ -34,14 +33,12 @@ mutation insert_documents($document: documents_insert_input!) {
 }
 `;
 
-const _dirname = path.dirname(fileURLToPath(import.meta.url));
-
 /**
  *
  * @param {string} pkgName
  */
 function getPkgPath(pkgName) {
-  return path.join(_dirname, "..", "..", "data", pkgName);
+  return path.join(__dirname, "..", "..", "data", pkgName);
 }
 
 /**
