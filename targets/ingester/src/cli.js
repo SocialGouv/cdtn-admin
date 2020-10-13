@@ -86,13 +86,14 @@ async function download(pkgName, url) {
   });
 }
 
-/** @type {[string, (pkgName:string)=>Promise<import("./index.js").CdtnDocument[]>][]} */
+/** @type {[string, (pkgName:string)=>Promise<import("./index.js").CdtnDocument[]>|void][]} */
 const dataPackages = [
   ["@socialgouv/contributions-data", getContributionsDocuments],
   ["@socialgouv/kali-data", getAgreementDocuments],
   ["@socialgouv/legi-data", getCdtDocuments],
   ["@socialgouv/fiches-vdd", getFichesServicePublic],
   ["@socialgouv/fiches-travail-data", getFicheTravailEmploi],
+  ["@socialgouv/datafiller-data", () => {}],
 ];
 /**
  *
