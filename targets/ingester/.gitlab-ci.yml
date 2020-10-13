@@ -16,3 +16,22 @@ Install ingester:
     paths:
       - targets/ingester/node_modules
       - node_modules
+
+#
+#
+#
+
+Build ingester:
+  extends: .base_yarn_script
+  image: node:14.7.0-alpine3.11
+  needs:
+    - job: Install Ingester
+      artifacts: true
+  before_script:
+    - cd targets/ingester
+  script:
+    - yarn build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - targets/ingester/dist
