@@ -17,7 +17,7 @@ import getFichesServicePublic from "./transform/fichesServicePublic/index.js";
 
 const args = yargs
   .command("ingest", "ingest document into database")
-  .example("$0 ingest --dry", "count the lines in the given file")
+  .example("$0 ingest --dry-run", "count the lines in the given file")
   .alias("d", "dry-run")
   .describe("d", "dry run mode")
   .help().argv;
