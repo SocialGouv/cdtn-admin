@@ -1,7 +1,7 @@
 import slugify from "@socialgouv/cdtn-slugify";
-import parents from "unist-util-parents";
 
 import { getJson } from "../../lib/getJson.js";
+import { referenceResolver } from "../../lib/referenceResolver";
 import { format } from "./format.js";
 // Extract external content url from Content tag markdown
 /**
@@ -40,6 +40,8 @@ export default async function getFichesServicePublic(pkgName) {
     /** @type {Promise<import("@socialgouv/legi-data").Code>} */
     getJson(`@socialgouv/legi-data/data/LEGITEXT000006072050.json`),
   ]);
+
+  const resolveCdtReference = referenceResolver(cdt);
 
   const fichesIdFromContrib = contributions
     .map(({ answers }) => extractMdxContentUrl(answers.generic.markdown))
@@ -83,7 +85,7 @@ export default async function getFichesServicePublic(pkgName) {
       );
       continue;
     }
-    const ficheSp = format(fiche, parents(cdt), agreements);
+    const ficheSp = format(fiche, resolveCdtReference, agreements);
     fiches.push({
       ...ficheSp,
       excludeFromSearch: fichesIdFromContrib.includes(ficheSp.id),

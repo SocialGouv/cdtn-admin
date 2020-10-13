@@ -1,10 +1,10 @@
 // Do we really need this one ?
 import slugify from "@socialgouv/cdtn-slugify";
-import cdtnSources from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import queryString from "query-string";
-import find from "unist-util-find";
 
-const { SOURCES, getRouteBySource } = cdtnSources;
+import { articletoReference } from "../../lib/referenceResolver";
+
 /**
  * check if qs params come from a ccn url
  * @param {{[key:string]:string}} qs
@@ -47,46 +47,36 @@ const getTextType = (qs) => {
 };
 
 /**
- * resolve article.num in LEGI extract
- * @param {import("unist-util-parents").RootNodeWithParent<import("@socialgouv/legi-data").Code>} cdt
+ * @param {(id:string) => (import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeSection> | import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeArticle> | import("unist-util-parents").NodeWithParent<import("@socialgouv/kali-data").AgreementSection> | import("unist-util-parents").NodeWithParent<import("@socialgouv/kali-data").AgreementArticle> )[]} resolveCdtReference
  * @param {string} id
- * @returns {import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeArticle>}
- */
-const getArticleFromId = (cdt, id) => {
-  return find(cdt, (node) => node.type === "article" && node.data.id === id);
-};
-
-/**
- * @param {import("unist-util-parents").RootNodeWithParent<import("@socialgouv/legi-data").Code>} cdt
- * @param {string} id
- */
-const getArticlesFromSection = (cdt, id) => {
-  const section = /** @type {import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeSection>}*/ (find(
-    cdt,
-    (node) => node.data.id === id
-  ));
-  if (section) {
-    const articles = /** @type {import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeArticle>[]}*/ (section.children.filter(
-      (child) => child.type === "article"
-    ));
-
-    return articles.map((article) => ({
-      id: article.data.id,
-      title: `Article ${article.data.id} du code du travail`,
-      type: getRouteBySource(SOURCES.CDT),
-      url: `https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006072050/${article.parent.data.id}/#${article.data.id}`,
-    }));
-  }
-  return [];
-};
-
-/**
- * @param {import("unist-util-parents").RootNodeWithParent<import("@socialgouv/legi-data").Code>} cdt
- * @param {import("@socialgouv/kali-data").IndexedAgreement[]} agreements
- * @param {import("@socialgouv/fiches-vdd").RawJson} reference
  * @returns {ingester.Reference[]}
  */
-export function parseReference(reference, cdt, agreements) {
+const getArticlesFromSection = (resolveCdtReference, id) => {
+  const [
+    section,
+  ] = /** @type {import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeSection>[]} */ (resolveCdtReference(
+    id
+  ));
+  if (!section) {
+    return [];
+  }
+  return section.children.flatMap((child) => {
+    if (child.type !== "article") {
+      return [];
+    }
+    return articletoReference(
+      /** @type {import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeArticle>} */ (child)
+    );
+  });
+};
+
+/**
+ * @param {import("@socialgouv/fiches-vdd").RawJson} reference
+ * @param {(id:string) => (import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeSection> | import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeArticle> | import("unist-util-parents").NodeWithParent<import("@socialgouv/kali-data").AgreementSection> | import("unist-util-parents").NodeWithParent<import("@socialgouv/kali-data").AgreementArticle> )[]} resolveCdtReference
+ * @param {import("@socialgouv/kali-data").IndexedAgreement[]} agreements
+ * @returns {ingester.Reference[]}
+ */
+export function parseReference(reference, resolveCdtReference, agreements) {
   const { URL: url } = reference.attributes;
   const qs = /** @type {{[key:string]: string}} */ (queryString.parse(
     url.split("?")[1]
@@ -95,21 +85,12 @@ export function parseReference(reference, cdt, agreements) {
   switch (type) {
     case "code-du-travail":
       if (qs.idArticle) {
-        // resolve related article num from CDT structure
-        const article = getArticleFromId(cdt, qs.idArticle);
-        if (!article) return [];
-        return [
-          {
-            id: article.data.id,
-            title: `Article ${article.data.id} du code du travail`,
-            type: getRouteBySource(SOURCES.CDT),
-            url: `https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006072050/${article.parent.data.id}/#${article.data.id}`,
-          },
-        ];
+        const [article] = resolveCdtReference(qs.idArticle);
+        return article ? [articletoReference(article)] : [];
       }
       if (qs.idSectionTA) {
         // resolve related articles from CDT structure
-        return getArticlesFromSection(cdt, qs.idSectionTA);
+        return getArticlesFromSection(resolveCdtReference, qs.idSectionTA);
       }
       return [];
     case "convention-collective": {

@@ -32,11 +32,11 @@ function getText(element) {
 /**
  *
  * @param {import("@socialgouv/fiches-vdd").RawJson} fiche
- * @param {import("unist-util-parents").RootNodeWithParent<import("@socialgouv/legi-data").Code>} cdt
+ * @param {(id:string) => (import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeSection> | import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeArticle> | import("unist-util-parents").NodeWithParent<import("@socialgouv/kali-data").AgreementSection> | import("unist-util-parents").NodeWithParent<import("@socialgouv/kali-data").AgreementArticle> )[]} resolveCdtReference
  * @param {import("@socialgouv/kali-data").IndexedAgreement[]} agreement
  * @returns {Pick<ingester.FicheServicePublic, Exclude<keyof ingester.FicheServicePublic, keyof {slug, url:string, excludeFromSearch: string}>> }
  */
-export function format(fiche, cdt, agreement) {
+export function format(fiche, resolveCdtReference, agreement) {
   const publication = fiche.children[0];
   const { ID: id } = publication.attributes;
 
@@ -58,7 +58,7 @@ export function format(fiche, cdt, agreement) {
 
   const references_juridiques = publication.children
     .filter((el) => el.name === "Reference")
-    .flatMap((refs) => parseReference(refs, cdt, agreement));
+    .flatMap((refs) => parseReference(refs, resolveCdtReference, agreement));
 
   return {
     date,
