@@ -39,7 +39,7 @@ mutation insert_documents($document: documents_insert_input!) {
  * @param {string} pkgName
  */
 function getPkgPath(pkgName) {
-  return path.join(__dirname, "..", "data", pkgName);
+  return path.join(process.cwd(), "data", pkgName);
 }
 
 /**

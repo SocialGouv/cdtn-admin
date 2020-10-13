@@ -1,5 +1,5 @@
 import slugify from "@socialgouv/cdtn-slugify";
-import cdtnSources from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import remark from "remark";
 import html from "remark-html";
 import find from "unist-util-find";
@@ -15,8 +15,6 @@ const compiler = remark().use(html, { sanitize: true });
  * @returns {(a:A, b:A) => number}
  */
 const createSorter = (fn) => (a, b) => fn(a) - fn(b);
-
-const { SOURCES } = cdtnSources;
 
 /**
  *
