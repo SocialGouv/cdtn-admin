@@ -15,7 +15,7 @@ import getContributionsDocuments from "./transform/contributions.js";
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi.js";
 import getFichesServicePublic from "./transform/fichesServicePublic/index.js";
 
-const args = yargs
+const args = yargs(process.argv)
   .command("ingest", "ingest document into database")
   .example("$0 ingest --dry-run", "count the lines in the given file")
   .alias("d", "dry-run")
@@ -53,7 +53,7 @@ async function isPkgOutdated(pkgName, latest) {
     const pkgInfo = JSON.parse(pkgData);
     return semver.lt(pkgInfo.version, latest);
   } catch (error) {
-    console.error("[isPkgOutdated]", error);
+    console.error(`[isPkgOutdated] ${pkgName} not found, download a fresh one`);
     return true;
   }
 }
