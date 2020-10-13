@@ -115,9 +115,11 @@ async function getPackage(pkgName, pkgVersion = "latest") {
 /**
  *
  * @param {ingester.CdtnDocument} doc
+ * @returns {Promise<string>}
  */
 async function insertDocument(doc) {
   const { id, title, text, slug, source, ...document } = doc;
+  console.log(id, title);
   const result = await client
     .mutation(insertDocumentsMutation, {
       document: {
@@ -137,7 +139,7 @@ async function insertDocument(doc) {
     console.error(result.error);
     throw new Error(`insert document alert ${title}`);
   }
-  return result.data.document;
+  return result.data.document.cdtn_id;
 }
 
 async function main() {
@@ -161,5 +163,5 @@ async function main() {
 }
 
 main()
-  .then(() => console.log(`Finish Ingest`))
+  .then((data) => console.log(`Finish Ingest ${data.length} documents`))
   .catch(console.error);
