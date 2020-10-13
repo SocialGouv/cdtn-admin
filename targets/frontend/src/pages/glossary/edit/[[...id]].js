@@ -70,7 +70,6 @@ export function EditTermPage() {
   const [{ fetching, data: { term = {} } = {} }] = useQuery({
     pause: !termId,
     query: getTermQuery,
-    requestPolicy: "network-only",
     variables: { id: termId },
   });
   const [deleteResult, deleteTerm] = useMutation(deleteTermMutation);

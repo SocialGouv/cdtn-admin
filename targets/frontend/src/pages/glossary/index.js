@@ -31,7 +31,7 @@ export function GlossaryPage() {
     setDebouncedDisplayedTerms,
   ] = useDebouncedState(undefined);
   const [isSearching, setSearching] = useState(false);
-  const [{ isFetching, data: { glossary = [] } = {} }] = useQuery({
+  const [{ fetching: isFetching, data: { glossary = [] } = {} }] = useQuery({
     context,
     query: getGlossaryQuery,
   });
@@ -62,42 +62,38 @@ export function GlossaryPage() {
         <Spinner />
       ) : (
         <>
-          <Flex
+          {isAdmin && (
+            <Flex sx={{ justifyContent: "flex-end" }}>
+              <AddATermButton />
+            </Flex>
+          )}
+          <ul
             sx={{
-              alignItems: "center",
-              justifyContent: "space-between",
+              display: "flex",
+              flex: "1 1 auto",
+              flexWrap: "wrap",
+              listStyleType: "none",
+              m: 0,
+              p: 0,
             }}
           >
-            <ul
-              sx={{
-                display: "flex",
-                flex: "1 1 auto",
-                flexWrap: "wrap",
-                listStyleType: "none",
-                m: 0,
-                mr: "xsmall",
-                p: 0,
-              }}
-            >
-              {termsByLetters.map(({ letter, terms }) => (
-                <li key={`letter-${letter}`} sx={{ fontSize: "large" }}>
-                  {terms.length > 0 ? (
-                    <a
-                      href={`#ancre-${letter}`}
-                      sx={{ padding: "xxsmall", ...linkStyles }}
-                    >
-                      {letter}
-                    </a>
-                  ) : (
-                    <span sx={{ color: "muted", padding: "xxsmall" }}>
-                      {letter}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-            {isAdmin && <AddATermButton />}
-          </Flex>
+            {termsByLetters.map(({ letter, terms }) => (
+              <li key={`letter-${letter}`} sx={{ fontSize: "large" }}>
+                {terms.length > 0 ? (
+                  <a
+                    href={`#ancre-${letter}`}
+                    sx={{ padding: "xxsmall", ...linkStyles }}
+                  >
+                    {letter}
+                  </a>
+                ) : (
+                  <span sx={{ color: "muted", padding: "xxsmall" }}>
+                    {letter}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
           <form
             sx={{
               alignItems: "center",
@@ -119,6 +115,7 @@ export function GlossaryPage() {
             <Input
               id="search"
               name="search"
+              placeholder="renseignez le terme que vous cherchez ici"
               sx={{ maxWidth: "400px" }}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -144,7 +141,11 @@ export function GlossaryPage() {
           ) : (
             <h2>Aucun terme trouvé</h2>
           )}
-          {isAdmin && !search && !isSearching && <AddATermButton />}
+          {isAdmin && !search && !isSearching && (
+            <div>
+              <AddATermButton />
+            </div>
+          )}
         </>
       )}
     </Layout>
@@ -154,14 +155,12 @@ export function GlossaryPage() {
 export default withCustomUrqlClient(withUserProvider(GlossaryPage));
 
 const AddATermButton = () => (
-  <div sx={{ flex: "1 0 auto" }}>
-    <Link href="/glossary/edit" passHref>
-      <Button as="a">
-        <IoMdAdd sx={{ height: "2rem", mr: "xxsmall", width: "2rem" }} />
-        Ajouter un terme
-      </Button>
-    </Link>
-  </div>
+  <Link href="/glossary/edit" passHref>
+    <Button as="a" size="small">
+      <IoMdAdd sx={{ height: "2rem", mr: "xxsmall", width: "2rem" }} />
+      Ajouter un terme
+    </Button>
+  </Link>
 );
 
 function getTermsByLetter(glossary = []) {
