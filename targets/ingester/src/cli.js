@@ -9,6 +9,7 @@ import semver from "semver";
 import tar from "tar-fs";
 import yargs from "yargs";
 
+import { batchPromises } from "./lib/batchPromises";
 import getAgreementDocuments from "./transform/agreements.js";
 import getCdtDocuments from "./transform/code-du-travail.js";
 import getContributionsDocuments from "./transform/contributions.js";
@@ -111,6 +112,34 @@ async function getPackage(pkgName, pkgVersion = "latest") {
   }
 }
 
+/**
+ *
+ * @param {ingester.CdtnDocument} doc
+ */
+async function insertDocument(doc) {
+  const { id, title, text, slug, source, ...document } = doc;
+  const result = await client
+    .mutation(insertDocumentsMutation, {
+      document: {
+        cdtn_id: generateCdtnId(`${source}${id}`),
+        document,
+        initial_id: id,
+        meta_description: document.description || "",
+        slug,
+        source,
+        text,
+        title,
+      },
+    })
+    .toPromise();
+
+  if (result.error) {
+    console.error(result.error);
+    throw new Error(`insert document alert ${title}`);
+  }
+  return result.data.document;
+}
+
 async function main() {
   for (const [pkgName] of dataPackages) {
     await getPackage(pkgName);
@@ -118,38 +147,17 @@ async function main() {
   if (args.dryRun) {
     console.log("dry-run mode");
   }
+  const ids = [];
   for (const [pkgName, getDocument] of dataPackages) {
-    if (!getDocument) {
-      continue;
-    }
     const documents = await getDocument(pkgName);
-    if (args.dryRun) {
+    if (args.dryRun || !documents) {
       continue;
     }
     console.log(`ready to ingest ${pkgName}`);
-    for (const doc of documents) {
-      const { id, title, text, slug, source, ...document } = doc;
-      const result = await client
-        .mutation(insertDocumentsMutation, {
-          document: {
-            cdtn_id: generateCdtnId(`${source}${id}`),
-            document,
-            initial_id: id,
-            meta_description: document.description || "",
-            slug,
-            source,
-            text,
-            title,
-          },
-        })
-        .toPromise();
-
-      if (result.error) {
-        console.error(result.error);
-        throw new Error(`insert document alert ${title}`);
-      }
-    }
+    const inserts = await batchPromises(documents, insertDocument, 20);
+    ids.push(inserts);
   }
+  return ids;
 }
 
 main()
