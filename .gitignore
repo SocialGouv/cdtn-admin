@@ -1,5 +1,2 @@
 node_modules
 .env.production
-dist
-targets/alert-cli/data/*/
-targets/ingester/data/*/
