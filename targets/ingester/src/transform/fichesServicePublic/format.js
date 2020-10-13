@@ -1,8 +1,7 @@
-import cdtnSources from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 
 import { parseReference } from "./parseReference.js";
 
-const { SOURCES } = cdtnSources;
 /**
  *
  * @param {import("@socialgouv/fiches-vdd").RawJson} element

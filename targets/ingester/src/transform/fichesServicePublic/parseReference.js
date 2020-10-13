@@ -1,6 +1,6 @@
 // Do we really need this one ?
 import slugify from "@socialgouv/cdtn-slugify";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { getRouteBysource, SOURCES } from "@socialgouv/cdtn-sources";
 import queryString from "query-string";
 
 import { articletoReference } from "../../lib/referenceResolver";
