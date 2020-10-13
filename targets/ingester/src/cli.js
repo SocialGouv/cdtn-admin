@@ -149,19 +149,29 @@ async function main() {
   if (args.dryRun) {
     console.log("dry-run mode");
   }
-  const ids = [];
+  /** @type {({status:"fulfilled", value:string}|{status: "rejected", reason:Object})[]} */
+  let ids = [];
   for (const [pkgName, getDocument] of dataPackages) {
     const documents = await getDocument(pkgName);
     if (args.dryRun || !documents) {
       continue;
     }
     console.log(`ready to ingest ${pkgName}`);
-    const inserts = await batchPromises(documents, insertDocument, 20);
-    ids.push(inserts);
+    const inserts = await batchPromises(documents, insertDocument, 10);
+    ids = ids.concat(inserts);
   }
   return ids;
 }
 
 main()
-  .then((data) => console.log(`Finish Ingest ${data.length} documents`))
+  .then((data) => {
+    const fullfilledInserts = /**@type {{status:"fulfilled", value:string}[]} */ (data.filter(
+      ({ status }) => status === "fulfilled"
+    ));
+    const rejectedInsert = data.filter(({ status }) => status === "rejected");
+    console.log(`Finish ingest ${fullfilledInserts.length} documents`);
+    if (rejectedInsert.length) {
+      console.log(` fail to ingest ${fullfilledInserts.length} documents`);
+    }
+  })
   .catch(console.error);
