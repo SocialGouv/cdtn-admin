@@ -3,7 +3,7 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 
 import { getJson } from "../lib/getJson.js";
 import {
-  articletoReference,
+  articleToReference,
   referenceResolver,
 } from "../lib/referenceResolver";
 
@@ -32,11 +32,15 @@ export default async function getFicheTravailEmploi(pkgName) {
           }
           const { articles } = references[key];
           return articles.flatMap(({ id }) => {
-            const [article] = resolveCdtReference(id);
+            const [
+              article,
+            ] = /**@type {import("@socialgouv/legi-data").CodeArticle[]}*/ (resolveCdtReference(
+              id
+            ));
             if (!article) {
               return [];
             }
-            return articletoReference(article);
+            return articleToReference(article);
           });
         }),
       })),

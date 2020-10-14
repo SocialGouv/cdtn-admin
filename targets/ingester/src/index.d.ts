@@ -1,4 +1,4 @@
-import type { SourceValues } from "@socialgouv/cdtn-sources"
+import type { SOURCES, SourceValues } from "@socialgouv/cdtn-sources"
 import type { Answer, Question, DilaRef } from "@socialgouv/contributions-data"
 import type { IndexedAgreement } from "@socialgouv/kali-data"
 
@@ -28,7 +28,8 @@ type FicheServicePublic = ExternalDocument & {
   date: string //"O1/01/2021"
   raw: string
   excludeFromSearch: Boolean
-  references_juridiques: Reference[]
+  referencedTexts: ReferencedTexts[]
+  legalReferences: LegalReference[]
 }
 
 type FicheTravailEmploi = ExternalDocument & {
@@ -75,16 +76,35 @@ type AgreementArticleByBlock = {
   }[];
 };
 
-type Reference = {
-  id: string
+
+type InternalReference = {
+  title: string
+  slug: string
+  type: Exclude<cdtnSources.SourceRoute, "external">
+}
+
+type ExternalReference = {
   title: string
   url: string
-  type: cdtnSources.RouteValues
+  type: "external"
 }
+
+type LegalReference = {
+  id: string
+  cid: string
+  title: string
+  type: "conventions_collectives" | "code_du_travail"
+  url: string
+  slug: string
+}
+
+type ReferencedTexts = ExternalReference | InternalReference
 
 
 /** Document type */
 type CdtnDocument = Contribution | LegiArticle | AgreementPage | FicheServicePublic | FicheTravailEmploi
+
+type referenceResolver = (id: string) => (import("@socialgouv/legi-data").CodeSection | import("@socialgouv/legi-data").CodeArticle | import("@socialgouv/kali-data").AgreementSection | import("@socialgouv/kali-data").AgreementArticle)[]
 
 
 

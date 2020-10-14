@@ -143,11 +143,11 @@ function getArticleByBlock(groups, agreementTree) {
           treeWithParents,
           (node) => node.data.id === articleId
         );
-        // if (!node) {
-        //   console.error(
-        //     `${articleId} not found in idcc ${agreementTree.data.num}`
-        //   );
-        // }
+        if (!node) {
+          console.error(
+            `${articleId} not found in idcc ${agreementTree.data.num}`
+          );
+        }
         return node
           ? [
               {

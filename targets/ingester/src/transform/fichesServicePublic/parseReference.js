@@ -1,9 +1,9 @@
 // Do we really need this one ?
 import slugify from "@socialgouv/cdtn-slugify";
-import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import queryString from "query-string";
 
-import { articletoReference } from "../../lib/referenceResolver";
+import { articleToReference, fixArticleNum } from "../../lib/referenceResolver";
 
 /**
  * check if qs params come from a ccn url
@@ -47,82 +47,91 @@ const getTextType = (qs) => {
 };
 
 /**
- * @param {(id:string) => (import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeSection> | import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeArticle> | import("unist-util-parents").NodeWithParent<import("@socialgouv/kali-data").AgreementSection> | import("unist-util-parents").NodeWithParent<import("@socialgouv/kali-data").AgreementArticle> )[]} resolveCdtReference
- * @param {string} id
- * @returns {ingester.Reference[]}
- */
-const getArticlesFromSection = (resolveCdtReference, id) => {
-  const [
-    section,
-  ] = /** @type {import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeSection>[]} */ (resolveCdtReference(
-    id
-  ));
-  if (!section) {
-    return [];
-  }
-  return section.children.flatMap((child) => {
-    if (child.type !== "article") {
-      return [];
-    }
-    return articletoReference(
-      /** @type {import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeArticle>} */ (child)
-    );
-  });
-};
-
-/**
- * @param {import("@socialgouv/fiches-vdd").RawJson} reference
- * @param {(id:string) => (import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeSection> | import("unist-util-parents").NodeWithParent<import("@socialgouv/legi-data").CodeArticle> | import("unist-util-parents").NodeWithParent<import("@socialgouv/kali-data").AgreementSection> | import("unist-util-parents").NodeWithParent<import("@socialgouv/kali-data").AgreementArticle> )[]} resolveCdtReference
+ * @param {import("@socialgouv/fiches-vdd").RawJson[]} references
+ * @param {ingester.referenceResolver} resolveCdtReference
  * @param {import("@socialgouv/kali-data").IndexedAgreement[]} agreements
- * @returns {ingester.Reference[]}
+ * @returns {[ingester.LegalReference[], ingester.ReferencedTexts[]]}
  */
-export function parseReference(reference, resolveCdtReference, agreements) {
-  const { URL: url } = reference.attributes;
-  const qs = /** @type {{[key:string]: string}} */ (queryString.parse(
-    url.split("?")[1]
-  ));
-  const type = getTextType(qs);
-  switch (type) {
-    case "code-du-travail":
-      if (qs.idArticle) {
-        const [article] = resolveCdtReference(qs.idArticle);
-        return article ? [articletoReference(article)] : [];
-      }
-      if (qs.idSectionTA) {
-        // resolve related articles from CDT structure
-        return getArticlesFromSection(resolveCdtReference, qs.idSectionTA);
-      }
-      return [];
-    case "convention-collective": {
-      const convention = agreements.find(
-        (convention) => convention.id === qs.idConvention
-      );
-      if (!convention) {
-        return [];
-      }
-      const { num, shortTitle } = convention;
+export function parseReferences(references, resolveCdtReference, agreements) {
+  /** @type {ingester.LegalReference[]} */
+  const legalReferences = [];
 
-      return [
-        {
-          id: convention.id,
-          title: `${shortTitle}`,
-          type: "external",
-          url: `${getRouteBySource(SOURCES.CCN)}/${slugify(
-            `${num}-${shortTitle}`.substring(0, 80)
-          )}`,
-        },
-      ];
-    }
-    case "journal-officiel":
-      return [
-        {
-          id: qs.cidTexte,
+  /** @type {ingester.ReferencedTexts[]} */
+  const referencedTexts = [];
+
+  for (const reference of references) {
+    const { URL: url } = reference.attributes;
+    const qs = /** @type {{[key:string]: string}} */ (queryString.parse(
+      url.split("?")[1]
+    ));
+    const type = getTextType(qs);
+    switch (type) {
+      case "code-du-travail": {
+        if (qs.idArticle) {
+          const [
+            article,
+          ] = /** @type {import("@socialgouv/legi-data").CodeArticle[]} */ (resolveCdtReference(
+            qs.idArticle
+          ));
+          if (!article) {
+            break;
+          }
+          legalReferences.push(articleToReference(article));
+          referencedTexts.push({
+            slug: slugify(fixArticleNum(article.data.id, article.data.num)),
+            title: article.data.num,
+            type: SOURCES.CDT,
+          });
+        }
+        if (qs.idSectionTA) {
+          const [
+            section,
+          ] = /** @type {import("@socialgouv/legi-data").CodeSection[]} */ (resolveCdtReference(
+            qs.idSectionTA
+          ));
+          if (!section) {
+            break;
+          }
+          for (const child of section.children) {
+            if (child.type !== "article") {
+              break;
+            }
+            legalReferences.push(articleToReference(child));
+            referencedTexts.push({
+              slug: slugify(fixArticleNum(child.data.id, child.data.num)),
+              title: child.data.num,
+              type: SOURCES.CDT,
+            });
+          }
+        }
+        break;
+      }
+
+      case "convention-collective": {
+        const convention = agreements.find(
+          (convention) => convention.id === qs.idConvention
+        );
+        if (!convention) {
+          break;
+        }
+        const { num, shortTitle } = convention;
+        referencedTexts.push({
+          slug: slugify(`${num}-${shortTitle}`.substring(0, 80)),
+          title: shortTitle,
+          type: SOURCES.CCN,
+        });
+        break;
+      }
+
+      case "journal-officiel": {
+        referencedTexts.push({
           title: reference.children[0].children[0].text,
-          type: "external",
+          type: SOURCES.EXTERNALS,
           url,
-        },
-      ];
-    default:
-      return [];
+        });
+        break;
+      }
+    }
   }
+  return [legalReferences, referencedTexts];
 }
