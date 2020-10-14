@@ -119,7 +119,6 @@ async function getPackage(pkgName, pkgVersion = "latest") {
  */
 async function insertDocument(doc) {
   const { id, title, text, slug, source, ...document } = doc;
-  console.log(id, title);
   const result = await client
     .mutation(insertDocumentsMutation, {
       document: {
