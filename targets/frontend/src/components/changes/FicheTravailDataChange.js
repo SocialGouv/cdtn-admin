@@ -8,7 +8,6 @@ import { ViewDiff } from "./ViewDiff";
 
 export function FicheTravailDiffchange({ change }) {
   const [isVisible, setVisible] = useState(false);
-  console.log(change);
   return (
     <li>
       <a target="_blank" rel="noreferrer noopener" href={change.url}>

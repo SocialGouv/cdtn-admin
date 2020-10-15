@@ -20,7 +20,7 @@ import {
 } from "theme-ui";
 
 const buttonPropTypes = {
-  size: PropTypes.oneOf(["xsmall", "small", "normal"]),
+  size: PropTypes.oneOf(["small", "normal"]),
   variant: PropTypes.oneOf(["accent", "secondary", "primary", "link"]),
 };
 
