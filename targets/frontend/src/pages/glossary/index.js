@@ -1,13 +1,13 @@
 /** @jsx jsx  */
 import Link from "next/link";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IoMdAdd, IoMdCloseCircleOutline } from "react-icons/io";
 import { Button, IconButton } from "src/components/button";
+import { TermList } from "src/components/glossary/TermList";
 import { Layout } from "src/components/layout/auth.layout";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useDebouncedState } from "src/hooks/";
-import { useUser } from "src/hooks/useUser";
 import { Flex, Input, jsx, Label, Spinner } from "theme-ui";
 import { useQuery } from "urql";
 
@@ -22,8 +22,18 @@ const getGlossaryQuery = `
 
 const context = { additionalTypenames: ["glossary"] };
 
+function getTermsByLetter(glossary = []) {
+  const letterA = "A".charCodeAt(0);
+  const alphabet = Array.from({ length: 26 }, (_, index) =>
+    String.fromCharCode(letterA + index)
+  );
+  return alphabet.map((letter) => ({
+    letter,
+    terms: glossary.filter(({ term }) => term[0].toUpperCase() === letter),
+  }));
+}
+
 export function GlossaryPage() {
-  const { isAdmin } = useUser();
   const [search, setSearch] = useState("");
   const [
     displayedTerms,
@@ -62,11 +72,9 @@ export function GlossaryPage() {
         <Spinner />
       ) : (
         <>
-          {isAdmin && (
-            <Flex sx={{ justifyContent: "flex-end" }}>
-              <AddATermButton />
-            </Flex>
-          )}
+          <Flex sx={{ justifyContent: "flex-end" }}>
+            <AddATermButton />
+          </Flex>
           <ul
             sx={{
               display: "flex",
@@ -137,11 +145,11 @@ export function GlossaryPage() {
           {isSearching ? (
             <Spinner />
           ) : displayedTerms?.length ? (
-            <ListTerms termsByLetters={termsByLetters} />
+            <TermList termsByLetters={termsByLetters} />
           ) : (
             <h2>Aucun terme trouvé</h2>
           )}
-          {isAdmin && !search && !isSearching && (
+          {!search && !isSearching && (
             <div>
               <AddATermButton />
             </div>
@@ -162,63 +170,6 @@ const AddATermButton = () => (
     </Button>
   </Link>
 );
-
-function getTermsByLetter(glossary = []) {
-  const letterA = "A".charCodeAt(0);
-  const alphabet = Array.from({ length: 26 }, (_, index) =>
-    String.fromCharCode(letterA + index)
-  );
-  return alphabet.map((letter) => ({
-    letter,
-    terms: glossary.filter(({ term }) => term[0].toUpperCase() === letter),
-  }));
-}
-
-const ListTerms = React.memo(({ termsByLetters = [] }) => (
-  <Flex sx={{ flexWrap: "wrap", gap: "xsmall", justifyContent: "stretch" }}>
-    {termsByLetters.map(
-      ({ letter, terms }) =>
-        terms.length > 0 && (
-          <div
-            key={letter}
-            sx={{
-              border: "2px solid",
-              borderColor: "neutral",
-              borderRadius: "small",
-              flex: "1 0 auto",
-              p: "xsmall",
-            }}
-          >
-            <h2 id={`ancre-${letter}`} sx={{ fontSize: "xlarge", mt: 0 }}>
-              {letter}
-            </h2>
-            <ul sx={{ listStyleType: "none", m: 0, p: 0 }}>
-              {terms.map(({ term, id }) => (
-                <li key={id}>
-                  <Link
-                    href="/glossary/edit/[id]"
-                    as={`/glossary/edit/${id}`}
-                    passHref
-                  >
-                    {/* eslint-disable-next-line */}
-                          <a
-                      sx={{
-                        display: "block",
-                        p: "0.2rem 0",
-                        ...linkStyles,
-                      }}
-                    >
-                      {term}
-                    </a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )
-    )}
-  </Flex>
-));
 
 const linkStyles = {
   ":hover": {

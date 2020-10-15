@@ -41,17 +41,26 @@ function RootLister({ disabled, value: rawEntries, onChange, name }) {
     entriesCopy.splice(entriesCopy.indexOf(deletedEntry), 1);
     onChange(JSON.stringify(entriesCopy));
   };
-  const onReorderEntry = ({ oldIndex, newIndex }) => {
-    const entriesCopy = [...entries];
-    entriesCopy.splice(newIndex, 0, entriesCopy.splice(oldIndex, 1)[0]);
-    onChange(JSON.stringify(entriesCopy));
+
+  const handleKeyDown = (event) => {
+    // 13 is the keyCode for "enter"
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      onAddEntry();
+    }
   };
 
   return (
     <>
       {!disabled && (
         <Flex>
-          <Input sx={{ p: "xxsmall" }} id={name} name={name} ref={inputRef} />
+          <Input
+            sx={{ p: "xxsmall" }}
+            id={name}
+            name={name}
+            ref={inputRef}
+            onKeyDown={handleKeyDown}
+          />
           <Button
             size="small"
             onClick={onAddEntry}
@@ -69,7 +78,6 @@ function RootLister({ disabled, value: rawEntries, onChange, name }) {
           disabled={disabled}
           useDragHandle={true}
           lockAxis="y"
-          onSortEnd={onReorderEntry}
           onDeleteEntry={onDeleteEntry}
         />
       )}
