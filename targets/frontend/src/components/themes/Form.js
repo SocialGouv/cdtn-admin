@@ -7,11 +7,9 @@ import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { IconPicker } from "src/components/forms/IconPicker";
-import { useUser } from "src/hooks/useUser";
 import { Field, Flex, jsx, Label, NavLink, Textarea } from "theme-ui";
 
 const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
-  const { isAdmin } = useUser();
   const { control, register, handleSubmit, errors } = useForm();
   const hasError = Object.keys(errors).length > 0;
   let buttonLabel = "Créer";
@@ -27,7 +25,6 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
       <>
         <div sx={{ mb: "small" }}>
           <Field
-            disabled={!isAdmin}
             type="text"
             name="title"
             label="Titre"
@@ -41,7 +38,6 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
 
         <div sx={{ mb: "small" }}>
           <Field
-            disabled={!isAdmin}
             type="text"
             name="shortTitle"
             label="Titre court"
@@ -52,7 +48,6 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
 
         <div sx={{ mb: "small" }}>
           <Field
-            disabled={!isAdmin}
             type="text"
             name="metaDescription"
             label="Meta description (référencement)"
@@ -64,7 +59,6 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
         <div sx={{ mb: "small" }}>
           <Label htmlFor={"description"}>Description</Label>
           <Textarea
-            disabled={!isAdmin}
             name="description"
             id="description"
             rows={5}
@@ -77,7 +71,6 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
           <Label htmlFor={"icon"}>Icône</Label>
           <IconPicker
             control={control}
-            disabled={!isAdmin}
             name="icon"
             id="icon"
             defaultValue={theme.document?.icon}
@@ -88,7 +81,6 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
           <h2>Contenus du thème</h2>
           <ContentPicker
             control={control}
-            disabled={!isAdmin}
             name="contents"
             id="contents"
             defaultValue={
@@ -104,22 +96,14 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
           />
         </div>
 
-        {isAdmin ? (
-          <Flex sx={{ alignItems: "center", mt: "medium" }}>
-            <Button variant="secondary" disabled={hasError || loading}>
-              {buttonLabel}
-            </Button>
-            <Link href="/themes/[[...id]]" as={backLink} passHref>
-              <NavLink sx={{ ml: "medium" }}>Annuler</NavLink>
-            </Link>
-          </Flex>
-        ) : (
+        <Flex sx={{ alignItems: "center", mt: "medium" }}>
+          <Button variant="secondary" disabled={hasError || loading}>
+            {buttonLabel}
+          </Button>
           <Link href="/themes/[[...id]]" as={backLink} passHref>
-            <Button as="a" variant="secondary" sx={{ display: "inline-block" }}>
-              Retour à la liste
-            </Button>
+            <NavLink sx={{ ml: "medium" }}>Annuler</NavLink>
           </Link>
-        )}
+        </Flex>
       </>
     </form>
   );

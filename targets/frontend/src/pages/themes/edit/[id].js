@@ -14,7 +14,6 @@ import {
 } from "src/components/themes/updateContentsMutation";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { useUser } from "src/hooks/useUser";
 import { RELATIONS } from "src/lib/relations";
 import { jsx, Message, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
@@ -80,7 +79,6 @@ mutation DeleteTheme($cdtnId: String!) {
 `;
 
 export function EditThemePage() {
-  const { isAdmin } = useUser();
   const router = useRouter();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
@@ -132,10 +130,8 @@ export function EditThemePage() {
 
   // const notFound = !fetching && !deleteResult.fetching && !theme?.cdtnId;
 
-  const pageTitle = `${isAdmin ? "Modifier" : "Consulter"} le thème`;
-
   return (
-    <Layout /* errorCode={(notFound && 404) || null} */ title={pageTitle}>
+    <Layout /* errorCode={(notFound && 404) || null} */ title="Éditer le theme">
       {fetching ? (
         <Spinner />
       ) : (
@@ -158,7 +154,7 @@ export function EditThemePage() {
               </Inline>
             </>
           </Dialog>
-          {theme?.cdtnId && isAdmin && (
+          {theme?.cdtnId && (
             <>
               <div
                 sx={{
@@ -167,7 +163,7 @@ export function EditThemePage() {
                   mb: "small",
                 }}
               >
-                {theme?.childRelations.length && isAdmin ? (
+                {theme?.childRelations.length ? (
                   <Message variant="secondary">
                     Supprimez les sous-thèmes de ce thème avant de pouvoir le
                     supprimer

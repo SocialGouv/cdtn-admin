@@ -30,12 +30,7 @@ export const SortableList = SortableContainer(({ contents, ...props }) => {
 });
 
 const SortableRow = SortableElement(
-  ({
-    content: { cdtnId, source, title },
-    isAdmin,
-    sortable,
-    onDeleteContent,
-  }) => (
+  ({ content: { cdtnId, source, title }, sortable, onDeleteContent }) => (
     <li
       sx={{
         alignItems: "stretch",
@@ -44,7 +39,7 @@ const SortableRow = SortableElement(
         mb: "small",
       }}
     >
-      {isAdmin && sortable && <SortHandle />}
+      {sortable && <SortHandle />}
       <Alert
         variant="highlight"
         sx={{
@@ -55,20 +50,18 @@ const SortableRow = SortableElement(
       >
         <Box>{`${title} - ${getLabelBySource(source)}`}</Box>
       </Alert>
-      {isAdmin && (
-        <Flex sx={{ alignItems: "stretch", ml: "xsmall" }}>
-          <Button
-            sx={{ padding: "small" }}
-            type="button"
-            variant="secondary"
-            onClick={() => {
-              onDeleteContent(cdtnId);
-            }}
-          >
-            <IoMdTrash sx={{ height: "iconSmall", width: "iconSmall" }} />
-          </Button>
-        </Flex>
-      )}
+      <Flex sx={{ alignItems: "stretch", ml: "xsmall" }}>
+        <Button
+          sx={{ padding: "small" }}
+          type="button"
+          variant="secondary"
+          onClick={() => {
+            onDeleteContent(cdtnId);
+          }}
+        >
+          <IoMdTrash sx={{ height: "iconSmall", width: "iconSmall" }} />
+        </Button>
+      </Flex>
     </li>
   )
 );
