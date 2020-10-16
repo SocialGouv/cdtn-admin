@@ -5,6 +5,7 @@ import React from "react";
 import Page404 from "src/pages/404";
 
 const MyError = ({ statusCode, hasGetInitialPropsRun, err }) => {
+  console.log("Status code is :", statusCode);
   if (!hasGetInitialPropsRun && err) {
     // getInitialProps is not called in case of
     // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass

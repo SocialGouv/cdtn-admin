@@ -36,6 +36,9 @@ if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
 }
 
 export default function App({ Component, pageProps, err }) {
+  console.log("--------- New ---------");
+  console.log(pageProps);
+  console.log(err);
   useEffect(() => {
     init({
       siteId: process.env.NEXT_PUBLIC_MATOMO_SITE_ID,
