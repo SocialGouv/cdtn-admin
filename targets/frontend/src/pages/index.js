@@ -1,7 +1,5 @@
 /** @jsx jsx  */
 import Link from "next/link";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { jsx } from "theme-ui";
 
 export const IndexPage = () => (
@@ -83,4 +81,4 @@ export const IndexPage = () => (
   </div>
 );
 
-export default withCustomUrqlClient(withUserProvider(IndexPage));
+export default IndexPage;

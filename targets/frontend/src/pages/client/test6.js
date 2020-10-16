@@ -2,7 +2,7 @@
 import { jsx } from "theme-ui";
 
 const Test6 = () => {
-  if (Math.random > 0.3) {
+  if (Math.random() > 0) {
     // ???
     throw new Error({ statusCode: 404 });
   }
