@@ -63,7 +63,7 @@ export default async function getAgreementDocuments(pkgName) {
       description: `Idcc ${formatIdcc(agreement.num)} : ${
         agreement.shortTitle
       }`,
-      source: SOURCES.CCN_PAGE,
+      source: SOURCES.CCN,
     });
   }
   return agreementPages.sort(createSorter(({ num }) => num));
