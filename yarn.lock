@@ -2775,13 +2775,6 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/cdtn-slugify@^4.31.1":
-  version "4.31.1"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-slugify/-/cdtn-slugify-4.31.1.tgz#494ee2c9900e811197a3797638805fe6a6489287"
-  integrity sha512-TgN2jOp1SrQkp5IRHUiGHMSQqXMI4hjSG90bvtSxOS98lhifV0H52Fuw8hnP0fu2TDtgKlMAQJI3QecYKnomZA==
-  dependencies:
-    "@types/jest" "^26.0.14"
-
 "@socialgouv/cdtn-slugify@^4.32.0":
   version "4.32.0"
   resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-slugify/-/cdtn-slugify-4.32.0.tgz#dbff03164f8abc6a425793c5a525b98c3c90046b"
@@ -2789,15 +2782,10 @@
   dependencies:
     "@types/jest" "^26.0.14"
 
-"@socialgouv/cdtn-sources@^4.31.1":
-  version "4.31.1"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.31.1.tgz#8bd3082ae4fb5d29218a07e32fa1e2f4ceb8dd63"
-  integrity sha512-5M7GUXS5SYpUyvbKe/u4QJYgySl/I1JqrXwjhwvU7tpNxapQuyzuaQHoMADDYardDbPgsepXiBSCyMR6J57VYg==
-
-"@socialgouv/cdtn-sources@^4.32.0":
-  version "4.32.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.32.0.tgz#27992b52753a125e8fd7d32a363708765115a255"
-  integrity sha512-uwNuu74FxiBVoNxO/NmZmi31EMazRBe7h5XT/jIbxVOEltFNiw/Bdu5kxdxSPQwan3f/0DF5DQ34krSISN0gRA==
+"@socialgouv/cdtn-sources@^4.33.0":
+  version "4.33.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.33.0.tgz#f5374c7efc29f6d3e8c611258e4d423f17d718eb"
+  integrity sha512-uNc3Epesaz6voVGCQgLpBp5LmOP6Cosa8V92uTQpvRuMPAqd/rXf7hkosr7MFIpC9trY0IPysxvB5n0nOmEsJg==
 
 "@socialgouv/contributions-data@^2.18.0", "@socialgouv/contributions-data@^2.19.0":
   version "2.19.0"

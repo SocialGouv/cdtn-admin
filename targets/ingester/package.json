@@ -5,7 +5,7 @@
     "@shared/graphql-client": "1.0.0",
     "@shared/id-generator": "^1.0.0",
     "@socialgouv/cdtn-slugify": "^4.32.0",
-    "@socialgouv/cdtn-sources": "^4.32.0",
+    "@socialgouv/cdtn-sources": "^4.33.0",
     "get-uri": "^3.0.2",
     "got": "^11.7.0",
     "gunzip-maybe": "^1.4.2",
