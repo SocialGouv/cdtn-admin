@@ -26,7 +26,7 @@ const args = yargs(process.argv)
 const insertDocumentsMutation = `
 mutation insert_documents($document: documents_insert_input!) {
   document: insert_documents_one(object: $document,  on_conflict: {
-    constraint: documents_initial_id_source_key,
+    constraint: documents_pkey,
     update_columns: [title, source, slug, text, document]
   }) {
    cdtn_id
