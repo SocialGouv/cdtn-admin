@@ -2,7 +2,6 @@
 
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
-import { useUser } from "src/hooks/useUser";
 import { jsx } from "theme-ui";
 
 import { ContentSearch } from "./ContentSearch";
@@ -26,8 +25,6 @@ ContentPicker.propTypes = {
 export { ContentPicker };
 
 function RootContentPicker({ disabled, value: contents = [], onChange }) {
-  const { isAdmin } = useUser();
-
   const onDeleteContent = (cdtnId) => {
     onChange(contents.filter((content) => content.cdtnId !== cdtnId));
   };
@@ -36,7 +33,6 @@ function RootContentPicker({ disabled, value: contents = [], onChange }) {
     <>
       <SortableList
         contents={contents}
-        isAdmin={isAdmin}
         useDragHandle={true}
         lockAxis="y"
         onSortEnd={({ oldIndex, newIndex }) => {
@@ -46,13 +42,7 @@ function RootContentPicker({ disabled, value: contents = [], onChange }) {
         }}
         onDeleteContent={onDeleteContent}
       />
-      {!disabled && (
-        <ContentSearch
-          onChange={onChange}
-          contents={contents}
-          isAdmin={isAdmin}
-        />
-      )}
+      {!disabled && <ContentSearch onChange={onChange} contents={contents} />}
     </>
   );
 }

@@ -2,19 +2,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import {
-  IoIosArrowDropleftCircle,
-  IoMdAdd,
-  IoMdCreate,
-  IoMdEye,
-} from "react-icons/io";
+import { IoIosArrowDropleftCircle, IoMdAdd, IoMdCreate } from "react-icons/io";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { List } from "src/components/themes/List";
 import { MapModal } from "src/components/themes/MapModal";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { useUser } from "src/hooks/useUser";
 import { RELATIONS } from "src/lib/relations";
 import { Box, Card, Flex, jsx, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
@@ -78,7 +72,6 @@ const context = { additionalTypenames: ["documents", "document_relations"] };
 
 export function ThemePage() {
   const router = useRouter();
-  const { isAdmin } = useUser();
   const { id: [themeId] = [] } = router.query;
 
   const [, updateThemesPosition] = useMutation(updateThemesPositionMutation);
@@ -122,31 +115,17 @@ export function ThemePage() {
                 passHref
               >
                 <Button as="a" sx={{ ml: "medium" }}>
-                  {isAdmin ? (
-                    <>
-                      <IoMdCreate
-                        sx={{
-                          flex: "0 0 auto",
-                          height: "iconSmall",
-                          mr: "xxsmall",
-                          width: "iconSmall",
-                        }}
-                      />
-                      Éditer
-                    </>
-                  ) : (
-                    <>
-                      <IoMdEye
-                        sx={{
-                          flex: "0 0 auto",
-                          height: "iconSmall",
-                          mr: "xxsmall",
-                          width: "iconSmall",
-                        }}
-                      />
-                      Consulter
-                    </>
-                  )}
+                  <>
+                    <IoMdCreate
+                      sx={{
+                        flex: "0 0 auto",
+                        height: "iconSmall",
+                        mr: "xxsmall",
+                        width: "iconSmall",
+                      }}
+                    />
+                    Éditer
+                  </>
                 </Button>
               </Link>
             </Flex>
@@ -167,7 +146,7 @@ export function ThemePage() {
             relations={themeId ? themeData?.childRelations : rootThemeRelations}
             updateThemesPosition={updateThemesPosition}
           />
-          {isAdmin && <AddAThemeButton themeId={themeId} />}
+          <AddAThemeButton themeId={themeId} />
         </Card>
       ) : (
         <div>
@@ -175,7 +154,7 @@ export function ThemePage() {
             relations={themeId ? themeData?.childRelations : rootThemeRelations}
             updateThemesPosition={updateThemesPosition}
           />
-          {isAdmin && <AddAThemeButton themeId={themeId} />}
+          <AddAThemeButton themeId={themeId} />
         </div>
       )}
     </Layout>

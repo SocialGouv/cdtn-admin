@@ -186,6 +186,17 @@
   - name: b
     using:
       foreign_key_constraint_on: document_b
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - document_a
+      - document_b
+      - type
+      - data
+      backend_only: false
   select_permissions:
   - role: public
     permission:
@@ -207,6 +218,21 @@
       - data
       filter: {}
       allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - data
+      - document_a
+      - document_b
+      - type
+      - id
+      filter: {}
+      check: {}
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
 - table:
     schema: public
     name: documents
@@ -225,6 +251,24 @@
         table:
           schema: public
           name: document_relations
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - cdtn_id
+      - initial_id
+      - title
+      - meta_description
+      - source
+      - slug
+      - text
+      - document
+      - is_published
+      - is_searchable
+      - created_at
+      - updated_at
+      backend_only: false
   select_permissions:
   - role: public
     permission:
@@ -259,6 +303,28 @@
       - updated_at
       filter: {}
       allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - is_published
+      - is_searchable
+      - document
+      - cdtn_id
+      - initial_id
+      - meta_description
+      - slug
+      - source
+      - text
+      - title
+      - created_at
+      - updated_at
+      filter: {}
+      check: {}
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
 - table:
     schema: public
     name: glossary
