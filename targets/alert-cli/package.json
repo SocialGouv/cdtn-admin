@@ -10,6 +10,7 @@
     "@socialgouv/fiches-travail-data": "^3.221.0",
     "node-fetch": "^2.6.1",
     "nodegit": "0.27.0",
+    "p-all": "^3.0.0",
     "semver": "^7.3.2",
     "unist-util-parents": "^1.0.3",
     "unist-util-select": "^3.0.1"

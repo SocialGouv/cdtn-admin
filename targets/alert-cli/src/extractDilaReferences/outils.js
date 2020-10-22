@@ -1,6 +1,7 @@
 import { client } from "@shared/graphql-client";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
+import pAll from "p-all";
 
 // query outils
 const toolsQuery = `
@@ -69,12 +70,11 @@ async function getDilaRef(reference) {
   // KALI agreement
   const articleId = getIdFromLegifranceUrl(reference.refUrl);
   if (!articleId) {
-    console.log("invalid", reference);
     return null;
   }
   if (reference.idcc && reference.idcc != 0) {
     const apiRes = await fetchCdtApi(
-      `agreement/articles?articleIdsOrCids=${articleId}`
+      `/agreement/articles?articleIdsOrCids=${articleId}`
     );
     if (!apiRes) {
       return;
@@ -165,16 +165,17 @@ export async function getOutilsReferences() {
   const references = [];
 
   for (const outil of outils) {
-    //console.log("outil", outil);
     const toolRefs = await extractReferences(outil);
-    console.log("toolRefs", toolRefs.length);
     references.push({
       document: {
         id: outil.cdtn_id,
         title: outil.document.title,
         type: SOURCES.TOOLS,
       },
-      references: await Promise.all(toolRefs.map(getDilaRef)),
+      references: await pAll(
+        toolRefs.map((ref) => () => getDilaRef(ref)),
+        { concurrency: 3 }
+      ),
     });
   }
 
@@ -184,14 +185,3 @@ export async function getOutilsReferences() {
 export default function main() {
   return getOutilsReferences();
 }
-
-// getOutilsReferences().then((d) => {
-//   //console.log(JSON.stringify(d, null, 2));
-// });
-
-getDilaRef({
-  ref: "Article 3.3",
-  refUrl:
-    "https://www.legifrance.gouv.fr/affichCodeArticle.do?cidTexte=LEGITEXT000006072050&idArticle=LEGIARTI000006901133",
-  idcc: 0,
-}).then(console.log);
