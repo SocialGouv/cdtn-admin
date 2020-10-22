@@ -1,13 +1,14 @@
 import getContribReferences from "./extractDilaReferences/contribution";
 import getTravailEmploiReferences from "./extractDilaReferences/ficheTravailEmploi";
+import getOutilsReferences from "./extractDilaReferences/outils";
 
 /**
  * @param {alerts.AstChanges} changes
  */
-export function getRelevantDocuments({ added, modified, removed }) {
-  const references = getContribReferences().concat(
-    getTravailEmploiReferences()
-  );
+export async function getRelevantDocuments({ added, modified, removed }) {
+  const references = getContribReferences()
+    .concat(getTravailEmploiReferences())
+    .concat(await getOutilsReferences());
 
   const documents = references.flatMap((item) => {
     const reference = item.references.find(

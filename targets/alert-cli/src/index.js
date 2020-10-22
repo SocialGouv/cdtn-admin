@@ -146,7 +146,7 @@ async function processDilaDiff(repositoryId, tag, files, prevTree, currTree) {
       ));
 
       const changes = compareArticles(prevAst, currAst, compareFn);
-      const documents = getRelevantDocuments(changes);
+      const documents = await getRelevantDocuments(changes);
 
       return {
         documents,
