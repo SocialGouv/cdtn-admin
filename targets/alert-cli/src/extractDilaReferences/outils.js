@@ -3,6 +3,9 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
 import pAll from "p-all";
 
+const CDTN_API_ENDPOINT =
+  process.env.CDTN_API_ENDPOINT || "https://cdtn-api.fabrique.social.gouv.fr";
+
 // query outils
 const toolsQuery = `
 query ToolsQuery {
@@ -56,7 +59,7 @@ const getIdFromLegifranceUrl = (url) => {
 };
 
 function fetchCdtApi(path) {
-  const url = `https://cdtn-api.fabrique.social.gouv.fr${path}`;
+  const url = `${CDTN_API_ENDPOINT}${path}`;
   return fetch(url)
     .then((r) => r.json())
     .then((rows) => rows[0]);
@@ -121,9 +124,9 @@ const extractReferences = async (tool) => {
         const urls = situation.refUrl.split("\n");
         return urls
           .map((refUrl, i) => ({
+            idcc: situation.idcc,
             ref: labels[i].trim(),
             refUrl: cleanUrl(refUrl),
-            idcc: situation.idcc,
           }))
           .filter((s) => !!s.refUrl)
           .filter(isUniqueUrl); // uniquify url
@@ -134,9 +137,9 @@ const extractReferences = async (tool) => {
     const refs = doc.situations
       .filter((s) => !!s.refUrl)
       .map((situation) => ({
+        idcc: situation.idcc,
         ref: situation.ref.trim(),
         refUrl: cleanUrl(situation.refUrl),
-        idcc: situation.idcc,
       }))
       .filter((s) => !!s.refUrl)
       .filter(isUniqueUrl); // uniquify url
