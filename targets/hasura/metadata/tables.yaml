@@ -286,6 +286,7 @@
       - created_at
       - updated_at
       filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -321,58 +322,6 @@
       - updated_at
       filter: {}
       check: {}
-  delete_permissions:
-  - role: user
-    permission:
-      filter: {}
-- table:
-    schema: public
-    name: glossary
-  insert_permissions:
-  - role: user
-    permission:
-      check: {}
-      columns:
-      - abbreviations
-      - definition
-      - references
-      - term
-      - variants
-      - id
-      backend_only: false
-  select_permissions:
-  - role: public
-    permission:
-      columns:
-      - abbreviations
-      - definition
-      - references
-      - term
-      - variants
-      - id
-      filter: {}
-  - role: user
-    permission:
-      columns:
-      - abbreviations
-      - definition
-      - references
-      - term
-      - variants
-      - id
-      filter: {}
-  update_permissions:
-  - role: user
-    permission:
-      columns:
-      - abbreviations
-      - definition
-      - references
-      - term
-      - variants
-      - id
-      filter: {}
-      check: null
   delete_permissions:
   - role: user
     permission:

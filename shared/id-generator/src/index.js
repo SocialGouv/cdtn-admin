@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
-import * as XXH from "xxhashjs";
+import XXH from "xxhashjs";
 
 const H = XXH.h64(0x1e7f);
-
 
 export const MAX_ID_LENGTH = 10;
 

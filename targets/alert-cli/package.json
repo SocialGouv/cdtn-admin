@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "dependencies": {
     "@shared/graphql-client": "1.0.0",
-    "@socialgouv/cdtn-slugify": "^4.31.1",
-    "@socialgouv/cdtn-sources": "^4.31.1",
+    "@socialgouv/cdtn-slugify": "^4.32.0",
+    "@socialgouv/cdtn-sources": "^4.33.0",
     "@socialgouv/contributions-data": "^2.19.0",
     "@socialgouv/datafiller-data": "^1.66.0",
     "@socialgouv/fiches-travail-data": "^3.221.0",

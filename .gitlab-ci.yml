@@ -4,6 +4,7 @@ include:
     ref: v16.2.0
   #
   - /targets/alert-cli/.gitlab-ci.yml
+  - /targets/ingester/.gitlab-ci.yml
   - /targets/hasura/.gitlab-ci.yml
   - /targets/frontend/.gitlab-ci.yml
 
