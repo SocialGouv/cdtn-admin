@@ -2,10 +2,10 @@
   "name": "@shared/graphql-client",
   "version": "1.0.0",
   "dependencies": {
-    "@urql/core": "^1.13.1",
-    "graphql": "^15.3.0",
+    "@urql/core": "^1.14.1",
+    "graphql": "^15.4.0",
     "isomorphic-unfetch": "^3.1.0",
-    "react": "^16.13.1"
+    "react": "^16.14.0"
   },
   "main": "src/index.js",
   "module": "src/index.js",
