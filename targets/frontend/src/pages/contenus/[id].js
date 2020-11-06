@@ -10,6 +10,7 @@ import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
+import { request } from "src/lib/request";
 import { Card, jsx, Message, NavLink } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
@@ -46,7 +47,7 @@ mutation updateDocument($cdtnId: String!, $metaDescription: String!, $title: Str
       cdtn_id: $cdtnId
     }
   ){
-    cdtn_id
+    cdtnId:cdtn_id, title, metaDescription: meta_description, document
   }
 }`;
 
@@ -78,7 +79,11 @@ export function DocumentsPage() {
       document: jsonDoc.current.document,
       metaDescription: jsonDoc.current.meta_description,
       title: jsonDoc.current.title,
-    }).then((result) => {
+    }).then(({ data }) => {
+      const { cdtnId, title, metaDescription, document } = data.document;
+      request("/api/preview", {
+        body: { cdtnId, document: { ...document, metaDescription, title } },
+      });
       if (result.error) {
         console.error(result.error);
       }

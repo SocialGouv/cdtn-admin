@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "1.0.0",
   "dependencies": {
+    "@elastic/elasticsearch": "^7.9.1",
     "@hapi/boom": "^9.1.0",
     "@hapi/joi": "^17.1.1",
     "@hookform/error-message": "^0.0.4",
