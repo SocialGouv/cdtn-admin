@@ -13,10 +13,10 @@ const { selectAll } = unistUtilSelect;
  * @returns {Promise<ingester.LegiArticle[]>}
  */
 export default async function getCdtDocuments(pkgName) {
-  /** @type {import("@socialgouv/legi-data").Code} */
+  /** @type {import("@socialgouv/legi-data-types").Code} */
   const cdt = await getJson(`${pkgName}/data/LEGITEXT000006072050.json`);
 
-  const articles = /** @type {import("@socialgouv/legi-data").CodeArticle[]} */ (
+  const articles = /** @type {import("@socialgouv/legi-data-types").CodeArticle[]} */ (
     /** @type {any[]} */ (selectAll("article", cdt))
   );
 
@@ -46,7 +46,9 @@ function getArticleUrl(id) {
 }
 
 /**
- *
+ * Some articles have a num wich is annexe
+ * Since we use num as a slug to identify article,
+ * we need to create a slug version
  * @param {string} id
  * @param {string} num
  */

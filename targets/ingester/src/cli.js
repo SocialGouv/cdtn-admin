@@ -122,7 +122,7 @@ async function getPackage(pkgName, pkgVersion = "latest") {
   const url = pkgInfo.dist.tarball;
   const latest = pkgInfo.version;
   if (await isPkgOutdated(pkgName, latest)) {
-    console.log(`download ${pkgName}@${latest}`);
+    console.debug(`download package ${pkgName}@${latest}`);
     await download(pkgName, url);
   }
 }

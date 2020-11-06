@@ -25,14 +25,14 @@ function extractMdxContentUrl(markdown) {
  * @param {string} pkgName
  */
 export default async function getFichesServicePublic(pkgName) {
-  const [contributions, ficheVddIndex, agreements, cdt] = await Promise.all([
-    /** @type {Promise<import("@socialgouv/contributions-data").Question[]>} */
+  const [contributions, externals, agreements, cdt] = await Promise.all([
+    /** @type {Promise<import("@socialgouv/contributions-data-types").Question[]>} */
     (getJson("@socialgouv/contributions-data/data/contributions.json")),
-    /** @type {Promise<import("@socialgouv/fiches-vdd").FicheIndex[]>} */
-    (getJson("@socialgouv/fiches-vdd/data/index.json")),
-    /** @type {Promise<import("@socialgouv/kali-data").IndexedAgreement[]>} */
+    /** @type {Promise<import("@socialgouv/datafiller-data-types/src/externalDocs").ExternalDoc[]>} */
+    (getJson("@socialgouv/datafiller-data/data/externals.json")),
+    /** @type {Promise<import("@socialgouv/kali-data-types").IndexedAgreement[]>} */
     (getJson("@socialgouv/kali-data/data/index.json")),
-    /** @type {Promise<import("@socialgouv/legi-data").Code>} */
+    /** @type {Promise<import("@socialgouv/legi-data-types").Code>} */
     getJson(`@socialgouv/legi-data/data/LEGITEXT000006072050.json`),
   ]);
 

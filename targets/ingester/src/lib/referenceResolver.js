@@ -3,7 +3,7 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 import find from "unist-util-find";
 
 /**
- * @param { import("@socialgouv/legi-data").Code | import("@socialgouv/kali-data").Agreement} tree
+ * @param { import("@socialgouv/legi-data-types").Code | import("@socialgouv/kali-data").Agreement} tree
  * @returns {ingester.referenceResolver}}
  */
 export function referenceResolver(tree) {
@@ -17,7 +17,7 @@ export function referenceResolver(tree) {
 }
 
 /**
- * @param {import("@socialgouv/legi-data").CodeArticle | import("@socialgouv/kali-data").AgreementArticle} node
+ * @param {import("@socialgouv/legi-data-types").CodeArticle | import("@socialgouv/kali-data").AgreementArticle} node
  * @returns {ingester.LegalReference}
  */
 export function articleToReference(node) {

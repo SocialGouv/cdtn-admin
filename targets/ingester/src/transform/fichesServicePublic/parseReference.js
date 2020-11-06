@@ -47,9 +47,9 @@ const getTextType = (qs) => {
 };
 
 /**
- * @param {import("@socialgouv/fiches-vdd").RawJson[]} references
+ * @param {import("@socialgouv/fiches-vdd-types").RawJson[]} references
  * @param {ingester.referenceResolver} resolveCdtReference
- * @param {import("@socialgouv/kali-data").IndexedAgreement[]} agreements
+ * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
  * @returns {[ingester.LegalReference[], ingester.ReferencedTexts[]]}
  */
 export function parseReferences(references, resolveCdtReference, agreements) {
@@ -70,7 +70,7 @@ export function parseReferences(references, resolveCdtReference, agreements) {
         if (qs.idArticle) {
           const [
             article,
-          ] = /** @type {import("@socialgouv/legi-data").CodeArticle[]} */ (resolveCdtReference(
+          ] = /** @type {import("@socialgouv/legi-data-types").CodeArticle[]} */ (resolveCdtReference(
             qs.idArticle
           ));
           if (!article) {
@@ -86,7 +86,7 @@ export function parseReferences(references, resolveCdtReference, agreements) {
         if (qs.idSectionTA) {
           const [
             section,
-          ] = /** @type {import("@socialgouv/legi-data").CodeSection[]} */ (resolveCdtReference(
+          ] = /** @type {import("@socialgouv/legi-data-types").CodeSection[]} */ (resolveCdtReference(
             qs.idSectionTA
           ));
           if (!section) {
