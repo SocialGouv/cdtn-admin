@@ -35,7 +35,7 @@
     "next-urql": "^1.2.0",
     "nodemailer": "^6.4.14",
     "polished": "^3.6.7",
-    "react": "^16.14.0",
+    "react": "^17.0.1",
     "react-ace": "^9.2.0",
     "react-autosuggest": "^10.0.3",
     "react-dom": "^16.14.0",

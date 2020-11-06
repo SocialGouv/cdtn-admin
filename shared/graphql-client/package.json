@@ -5,7 +5,7 @@
     "@urql/core": "^1.14.1",
     "graphql": "^15.4.0",
     "isomorphic-unfetch": "^3.1.0",
-    "react": "^16.14.0"
+    "react": "^17.0.1"
   },
   "main": "src/index.js",
   "module": "src/index.js",
