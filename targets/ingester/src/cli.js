@@ -89,12 +89,12 @@ async function download(pkgName, url) {
 
 /** @type {[string, (pkgName:string)=>Promise<import("./index.js").CdtnDocument[]>|void][]} */
 const dataPackages = [
+  ["@socialgouv/datafiller-data", () => {}],
   ["@socialgouv/contributions-data", getContributionsDocuments],
   ["@socialgouv/kali-data", getAgreementDocuments],
   ["@socialgouv/legi-data", getCdtDocuments],
   ["@socialgouv/fiches-vdd", getFichesServicePublic],
   ["@socialgouv/fiches-travail-data", getFicheTravailEmploi],
-  ["@socialgouv/datafiller-data", () => {}],
 ];
 /**
  *
@@ -108,6 +108,7 @@ async function getPackage(pkgName, pkgVersion = "latest") {
   const url = pkgInfo.dist.tarball;
   const latest = pkgInfo.version;
   if (await isPkgOutdated(pkgName, latest)) {
+    console.log(`download ${pkgName}@${latest}`);
     await download(pkgName, url);
   }
 }
@@ -155,7 +156,9 @@ async function main() {
     if (args.dryRun || !documents) {
       continue;
     }
-    console.log(`ready to ingest ${pkgName}`);
+    console.log(
+      `ready to ingest ${documents.length} documents from ${pkgName}`
+    );
     const inserts = await batchPromises(documents, insertDocument, 10);
     ids = ids.concat(inserts);
   }

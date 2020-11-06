@@ -33,7 +33,7 @@ function getText(element) {
  * @param {import("@socialgouv/fiches-vdd").RawJson} fiche
  * @param {ingester.referenceResolver} resolveCdtReference
  * @param {import("@socialgouv/kali-data").IndexedAgreement[]} agreements
- * @returns {Pick<ingester.FicheServicePublic, Exclude<keyof ingester.FicheServicePublic, keyof {slug, url:string, excludeFromSearch: string}>> }
+ * @returns {Pick<ingester.FicheServicePublic, Exclude<keyof ingester.FicheServicePublic, keyof {slug, excludeFromSearch: string}>> }
  */
 export function format(fiche, resolveCdtReference, agreements) {
   const publication = fiche.children[0];
@@ -49,6 +49,11 @@ export function format(fiche, resolveCdtReference, agreements) {
   const dateRaw = getText(getChild(publication, "dc:date"));
   const [year, month, day] = dateRaw.split(" ")[1].split("-");
   const date = `${day}/${month}/${year}`;
+
+  const audience = getText(getChild(publication, "Audience"));
+  const urlSlug =
+    audience === "Particuliers" ? "particuliers" : "professionnels-entreprises";
+  const url = `https://www.service-public.fr/${urlSlug}/vosdroits/${id}`;
 
   const intro = getText(getChild(publication, "Introduction"));
   const texte = getText(getChild(publication, "Texte"));
@@ -75,5 +80,6 @@ export function format(fiche, resolveCdtReference, agreements) {
     source: SOURCES.SHEET_SP,
     text,
     title,
+    url,
   };
 }

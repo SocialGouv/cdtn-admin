@@ -2,6 +2,7 @@ import slugify from "@socialgouv/cdtn-slugify";
 
 import { getJson } from "../../lib/getJson.js";
 import { referenceResolver } from "../../lib/referenceResolver";
+import { filter } from "./filter.js";
 import { format } from "./format.js";
 // Extract external content url from Content tag markdown
 /**
@@ -19,22 +20,16 @@ function extractMdxContentUrl(markdown) {
   return matchUrl ? matchUrl[0] : null;
 }
 
-const slugMap = {
-  associations: "associations",
-  particuliers: "particuliers",
-  "professionnels-entreprises": "professionnels",
-};
-
 /**
  *
  * @param {string} pkgName
  */
 export default async function getFichesServicePublic(pkgName) {
-  const [contributions, externals, agreements, cdt] = await Promise.all([
+  const [contributions, ficheVddIndex, agreements, cdt] = await Promise.all([
     /** @type {Promise<import("@socialgouv/contributions-data").Question[]>} */
     (getJson("@socialgouv/contributions-data/data/contributions.json")),
-    /** @type {Promise<import("@socialgouv/datafiller-data").ExternalDoc[]>} */
-    (getJson("@socialgouv/datafiller-data/data/externals.json")),
+    /** @type {Promise<import("@socialgouv/fiches-vdd").FicheIndex[]>} */
+    (getJson("@socialgouv/fiches-vdd/data/index.json")),
     /** @type {Promise<import("@socialgouv/kali-data").IndexedAgreement[]>} */
     (getJson("@socialgouv/kali-data/data/index.json")),
     /** @type {Promise<import("@socialgouv/legi-data").Code>} */
@@ -42,6 +37,8 @@ export default async function getFichesServicePublic(pkgName) {
   ]);
 
   const resolveCdtReference = referenceResolver(cdt);
+
+  const listFicheVdd = filter(ficheVddIndex);
 
   const fichesIdFromContrib = contributions
     .map(({ answers }) => extractMdxContentUrl(answers.generic.markdown))
@@ -51,38 +48,14 @@ export default async function getFichesServicePublic(pkgName) {
       return id;
     });
 
-  const vddExternals = externals.find(
-    ({ title }) => title === "service-public.fr"
-  );
-
-  if (!vddExternals || !vddExternals.urls.length) {
-    throw new Error("fiches sp urls not found");
-  }
   /** @type {ingester.FicheServicePublic[]} */
   const fiches = [];
-  for (const url of vddExternals.urls) {
-    const [, slugType, idFiche] =
-      url.match(/([a-z-]+)\/vosdroits\/(F[0-9]+)$/) || [];
-    if (!Object.prototype.hasOwnProperty.call(slugMap, slugType) || !idFiche) {
-      // throw new Error(`Unknown fiche ${url}`);
-      console.error(`[getFichesServicePublic] - error | Unknown fiche ${url}`);
-      continue;
-    }
+  for (const { id: idFiche, type } of listFicheVdd) {
     let fiche;
     try {
-      fiche = await getJson(
-        `${pkgName}/data/${
-          slugMap[/** @type { keyof slugMap } */ (slugType)]
-        }/${idFiche}.json`
-      );
+      fiche = await getJson(`${pkgName}/data/${type}/${idFiche}.json`);
     } catch (err) {
-      console.error(
-        ">",
-        `${pkgName}/data/${
-          slugMap[/** @type { keyof slugMap } */ (slugType)]
-        }/${idFiche}.json`,
-        url
-      );
+      console.error(">", `${pkgName}/data/${type}/${idFiche}.json`);
       continue;
     }
     const ficheSp = format(fiche, resolveCdtReference, agreements);
@@ -90,7 +63,6 @@ export default async function getFichesServicePublic(pkgName) {
       ...ficheSp,
       excludeFromSearch: fichesIdFromContrib.includes(ficheSp.id),
       slug: slugify(ficheSp.title),
-      url,
     });
   }
 
