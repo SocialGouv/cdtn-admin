@@ -19,7 +19,7 @@ export default async function (req, res) {
         doc: document,
       },
       id: cdtnId,
-      index: `cdtn_master_documents`,
+      index: `cdtn-master_documents`,
     });
     res.json({ message: "doc updated!" });
   } catch (response) {
