@@ -1541,6 +1541,11 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
+"@graphql-typed-document-node/core@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
+  integrity sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
+
 "@hapi/accept@5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@hapi/accept/-/accept-5.0.1.tgz#068553e867f0f63225a506ed74e899441af53e10"
@@ -2905,17 +2910,17 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/cdtn-slugify@^4.32.0":
-  version "4.32.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-slugify/-/cdtn-slugify-4.32.0.tgz#dbff03164f8abc6a425793c5a525b98c3c90046b"
-  integrity sha512-sc7TPJRpAzSymN/MmQJWD8/CO8aS7kKPmZdplrUHEhICx87aXdjuQ8xLX0ha0gmXvike6JUCUlFN/T1VA88JgQ==
+"@socialgouv/cdtn-slugify@^4.35.0":
+  version "4.35.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-slugify/-/cdtn-slugify-4.35.0.tgz#93a863ca001f05dd3ae71f9866938c7b0fee519a"
+  integrity sha512-D2ggtlZefIgpxEK+PBnm6wBuUZTgD76BkmW7AW9VCaJJ0OVQ8f9n9cCqYZkth1tMZ/PEKZcjqB9fuyjstFeVzA==
   dependencies:
-    "@types/jest" "^26.0.14"
+    "@types/jest" "^26.0.15"
 
-"@socialgouv/cdtn-sources@^4.33.0":
-  version "4.33.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.33.0.tgz#f5374c7efc29f6d3e8c611258e4d423f17d718eb"
-  integrity sha512-uNc3Epesaz6voVGCQgLpBp5LmOP6Cosa8V92uTQpvRuMPAqd/rXf7hkosr7MFIpC9trY0IPysxvB5n0nOmEsJg==
+"@socialgouv/cdtn-sources@^4.35.0":
+  version "4.35.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.35.0.tgz#5ba5384a039e937c638615d93191d6678503e6ec"
+  integrity sha512-oMocHctzlMXxIuDXqNsqMNMFyczxDwP19FQHGWvSGEzRUay/HTsuQZiN7CQRuZbmRN116nb+AAJFT6e2ZDygKg==
 
 "@socialgouv/contributions-data@^2.20.0":
   version "2.20.0"
@@ -2927,15 +2932,15 @@
     remark "^12.0.1"
     strip-markdown "^3.1.2"
 
-"@socialgouv/datafiller-data@^1.78.0":
-  version "1.78.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/datafiller-data/-/datafiller-data-1.78.0.tgz#cd797dc4d73a62dee8259fa6e9e69a87e4b2cb73"
-  integrity sha512-XNKOjO1Da2Hqghd37hEfaye4xjYTgVcopHRYFIuIWNItT1hZeVGjhyYbQNhTi7EXxt9IncuL13RcNqj0wCC/eg==
+"@socialgouv/datafiller-data@^1.79.0":
+  version "1.79.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/datafiller-data/-/datafiller-data-1.79.0.tgz#8c22570f65cf5327c33b158b089d0e360f5403d1"
+  integrity sha512-FYMKzBR2ZPDzIplgjcYhUrWRC/ww7bLrFYX+pNtr+C5aPP/LKa3FCvLM/lpdot3Nv9HHajuQu5QRx+WveQuwdA==
   dependencies:
     node-fetch "^2.6.1"
     p-pipe "^3.1.0"
     remark "^12.0.1"
-    remark-html "^12.0.0"
+    remark-html "^13.0.1"
 
 "@socialgouv/eslint-config-react@^1.46.0":
   version "1.46.0"
@@ -2965,29 +2970,29 @@
   resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data/-/fiches-travail-data-3.221.0.tgz#bf1877a442b172ccb167f8972f3f4a603dfd13c3"
   integrity sha512-Zu3R4ERMenMYxDZmKbkz2xSCHKXQ7whlBUwzH5O1q5/LaYjPekOIggdXSPLtf0hEOOzrCnFc7cmdz6llyMqFEQ==
 
-"@socialgouv/fiches-vdd@^1.195.0":
-  version "1.195.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-vdd/-/fiches-vdd-1.195.0.tgz#5a440c80767f99e38b21d4772bd546abde3c442a"
-  integrity sha512-Udw/+1WLg7rUeYFtpIzcmV3RI1hBBcz9ffcih4mxptInXHC+810RwIiUv0m85fnN1KM+TWRaKEOcxtx3WLYOEg==
+"@socialgouv/fiches-vdd@^1.199.0":
+  version "1.199.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-vdd/-/fiches-vdd-1.199.0.tgz#31302b1689ac598d081d09c2a0731720a31543c1"
+  integrity sha512-2ZVdqg08KP/2s769Vh4O7tns2GkM75SsUpH2XKH9UjsFQCArp1ExWf1z3NcTvOWMbV2369XCTMQ1JmilH/zGYA==
   dependencies:
     node-fetch "^2.6.1"
     ora "^5.1.0"
     unzipper "^0.10.11"
     xml-js "^1.6.11"
 
-"@socialgouv/kali-data@^1.128.0":
-  version "1.128.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kali-data/-/kali-data-1.128.0.tgz#20089078b4331c3b36147125942e9f76a9ad79f5"
-  integrity sha512-+X5HF3Q77HL10x6YmTZxxQDvre1lEKi5d+8E/Aeu2EctzlQpfsGVpcpPm8mwaiLAPV6fPKatAiblZ3rLFlufxA==
+"@socialgouv/kali-data@^1.131.0":
+  version "1.131.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kali-data/-/kali-data-1.131.0.tgz#fb57ce386ca0392a45d67bd3b28460591bf7ba82"
+  integrity sha512-78k/0wkqWF/5dbdxaWsm8838oX8J+OIChtYmMG5RgRUs9Hb7gJyql9Ni0fKi1DCS7COQbSBquL5W6oHijKEgug==
   dependencies:
     unist-util-find "1.0.1"
     unist-util-flat-filter "1.0.0"
     unist-util-parents "1.0.3"
 
-"@socialgouv/legi-data@^1.44.0":
-  version "1.44.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/legi-data/-/legi-data-1.44.0.tgz#1cc4c94645ffe480eb7bd1594913ceb3cfbaa3d8"
-  integrity sha512-RgGLqfmzZBaIC9lzYILD76MJU+xs6lrxOi3EUkJ0Xz76CJ+ujvg4MJMyk3moHtsktJKJs7UE4qzyUW71oeiAKw==
+"@socialgouv/legi-data@^1.46.0":
+  version "1.46.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/legi-data/-/legi-data-1.46.0.tgz#50d82ac9440349ec3bfd8096240223111be778a4"
+  integrity sha512-3roPe+ufiasGjo/SxuSCkD/CuQlgTB2UHkmseokwNEc5VaDEe8Q+9YSBjADo9Poz+kk4yNpRWY1YLZQrur8AcQ==
   dependencies:
     unist-util-find "1.0.1"
     unist-util-parents "1.0.3"
@@ -3270,7 +3275,7 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^26.0.14", "@types/jest@^26.0.15":
+"@types/jest@^26.0.15":
   version "26.0.15"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.15.tgz#12e02c0372ad0548e07b9f4e19132b834cb1effe"
   integrity sha512-s2VMReFXRg9XXxV+CW9e5Nz8fH2K1aEhwgjUqPPbQd7g95T0laAcvLv032EhFHIa5GHsZ8W7iJEQVaJq6k3Gog==
@@ -3452,11 +3457,12 @@
     "@typescript-eslint/types" "4.4.0"
     eslint-visitor-keys "^2.0.0"
 
-"@urql/core@^1.14.1":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@urql/core/-/core-1.14.1.tgz#eadd3f4dbbb9d194a67bc84fcce082bb511d13fe"
-  integrity sha512-yRpGazoqn4eSzcVcnwKCYcXEePiwc/fwkKAzguPP9sNZu3qWMBSHzH7huu0FeuwTiSxu6S1x3l0s7QYere0ZFQ==
+"@urql/core@^1.15.1":
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/@urql/core/-/core-1.15.1.tgz#fa49909f2841d092796dd540cef6e9df89222560"
+  integrity sha512-a05ablx/aKNCUc9dEbx0GvE28UC0sJ1FmfsSfmJNqecYlYeb4XvSQW4FLVy0e/MjQeB9op/weiVIEw+za2ssGw==
   dependencies:
+    "@graphql-typed-document-node/core" "^3.1.0"
     wonka "^4.0.14"
 
 "@urql/devtools@^2.0.2":
@@ -3466,10 +3472,10 @@
   dependencies:
     wonka ">= 4.0.9"
 
-"@vercel/ncc@0.24.1", "@vercel/ncc@^0.24.1":
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/@vercel/ncc/-/ncc-0.24.1.tgz#3ea2932c85ba87f4de6fe550d60e1bf5c005985e"
-  integrity sha512-r9m7brz2hNmq5TF3sxrK4qR/FhXn44XIMglQUir4sT7Sh5GOaYXlMYikHFwJStf8rmQGTlvOoBXt4yHVonRG8A==
+"@vercel/ncc@0.25.1", "@vercel/ncc@^0.25.1":
+  version "0.25.1"
+  resolved "https://registry.yarnpkg.com/@vercel/ncc/-/ncc-0.25.1.tgz#a4aacdb508ac496fc0c63a3c3203d700a619cc0e"
+  integrity sha512-dGecC5+1wLof1MQpey4+6i2KZv4Sfs6WfXkl9KfO32GED4ZPiKxRfvtGPjbjZv0IbqMl6CxtcV1RotXYfd5SSA==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -6794,10 +6800,10 @@ eslint-visitor-keys@^2.0.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-2.0.0.tgz#21fdc8fbcd9c795cc0321f0563702095751511a8"
   integrity sha512-QudtT6av5WXels9WjIM7qz1XD1cWGvX4gGXvp/zBn9nXG02D0utdU3Em2m/QjTnrsk6bBjmCygl3rmj118msQQ==
 
-eslint@^7.12.1:
-  version "7.12.1"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.12.1.tgz#bd9a81fa67a6cfd51656cdb88812ce49ccec5801"
-  integrity sha512-HlMTEdr/LicJfN08LB3nM1rRYliDXOmfoO4vj39xN6BLpFzF00hbwBoqHk8UcJ2M/3nlARZWy/mslvGEuZFvsg==
+eslint@^7.13.0:
+  version "7.13.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.13.0.tgz#7f180126c0dcdef327bfb54b211d7802decc08da"
+  integrity sha512-uCORMuOO8tUzJmsdRtrvcGq5qposf7Rw0LwkTJkoDbOycVQtQjmnhZSuLQnozLE4TmAzlMVV45eCHmQ1OpDKUQ==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     "@eslint/eslintrc" "^0.2.1"
@@ -9972,13 +9978,6 @@ mdast-util-compact@^2.0.0:
   dependencies:
     unist-util-visit "^2.0.0"
 
-mdast-util-definitions@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/mdast-util-definitions/-/mdast-util-definitions-3.0.1.tgz#06af6c49865fc63d6d7d30125569e2f7ae3d0a86"
-  integrity sha512-BAv2iUm/e6IK/b2/t+Fx69EL/AGcq/IG2S+HxHjDJGfLJtd6i9SZUS76aC9cig+IEucsqxKTR0ot3m933R3iuA==
-  dependencies:
-    unist-util-visit "^2.0.0"
-
 mdast-util-definitions@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/mdast-util-definitions/-/mdast-util-definitions-4.0.0.tgz#c5c1a84db799173b4dcf7643cda999e440c24db2"
@@ -9994,20 +9993,6 @@ mdast-util-to-hast@^10.0.0:
     "@types/mdast" "^3.0.0"
     "@types/unist" "^2.0.0"
     mdast-util-definitions "^4.0.0"
-    mdurl "^1.0.0"
-    unist-builder "^2.0.0"
-    unist-util-generated "^1.0.0"
-    unist-util-position "^3.0.0"
-    unist-util-visit "^2.0.0"
-
-mdast-util-to-hast@^9.0.0:
-  version "9.1.2"
-  resolved "https://registry.yarnpkg.com/mdast-util-to-hast/-/mdast-util-to-hast-9.1.2.tgz#10fa5ed9d45bf3755891e5801d0f32e2584a9423"
-  integrity sha512-OpkFLBC2VnNAb2FNKcKWu9FMbJhQKog+FCT8nuKmQNIKXyT1n3SIskE7uWDep6x+cA20QXlK5AETHQtYmQmxtQ==
-  dependencies:
-    "@types/mdast" "^3.0.0"
-    "@types/unist" "^2.0.0"
-    mdast-util-definitions "^3.0.0"
     mdurl "^1.0.0"
     unist-builder "^2.0.0"
     unist-util-generated "^1.0.0"
@@ -12127,10 +12112,10 @@ react-focus-lock@^2.2.1, react-focus-lock@^2.3.1:
     use-callback-ref "^1.2.1"
     use-sidecar "^1.0.1"
 
-react-hook-form@^6.10.1:
-  version "6.10.1"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.10.1.tgz#71ff7eb07ec2588af3007a09adcdfa65d3451b33"
-  integrity sha512-tPfNu2q8HUUKL4gOsJzzoBX8+3y2brJk+61TO+RO9GtpLnWPptLrAIupMtyPeENMpLmLfBKHhT9nfezHLTW2mA==
+react-hook-form@^6.11.0:
+  version "6.11.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.11.0.tgz#db041861414799e002ea482e54da6f9bc452f1b0"
+  integrity sha512-YoiNCKSfrLv0CCK9fiVorNt1YM5xOV4Fo+O3e3CphS6N4xrXah3rJo1YIA34qSbIJwXgcsS2WOIb2K/Wb6e56A==
 
 react-icons@^3.11.0:
   version "3.11.0"
@@ -12485,16 +12470,6 @@ regjsparser@^0.6.4:
   integrity sha512-64O87/dPDgfk8/RQqC4gkZoGyyWFIEUTTh80CU6CWuK5vkCGyekIx+oKcEIYtP/RAxSQltCZHCNu/mdd7fqlJw==
   dependencies:
     jsesc "~0.5.0"
-
-remark-html@^12.0.0:
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/remark-html/-/remark-html-12.0.0.tgz#f39d2a5e173cce777981cb4171b4ea860313d72a"
-  integrity sha512-M104NMHs48+uswChJkCDXCdabzxAinpHikpt6kS3gmGMyIvPZ5kn53tB9shFsL2O4HUJ9DIEsah1SX1Ve5FXHA==
-  dependencies:
-    hast-util-sanitize "^3.0.0"
-    hast-util-to-html "^7.0.0"
-    mdast-util-to-hast "^9.0.0"
-    xtend "^4.0.1"
 
 remark-html@^13.0.1:
   version "13.0.1"
@@ -14717,12 +14692,12 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-urql@^1.10.3:
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/urql/-/urql-1.10.3.tgz#cc2e5355d74210055c0cb08cf3a5792a706ca8d7"
-  integrity sha512-dR3SLG0S+DUeiedIzAKvzzZnl+QOxsxbLneqft26ewYiJQPLqTJLGnD63cXYGpkcst5+/QlPFF9nMH0xz6DV2A==
+urql@^1.11.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/urql/-/urql-1.11.1.tgz#f73576d94f129ea329340c7b9ade026d4b91c7df"
+  integrity sha512-2oHC1FMnvHEMlC/WmeWe2mHzuQ37Od6xYkURvqIC25/CDe4dr0oDbhSuSPCw0PDNRWutaqmY6/ltZCk6Yu8NUw==
   dependencies:
-    "@urql/core" "^1.14.1"
+    "@urql/core" "^1.15.1"
     wonka "^4.0.14"
 
 use-callback-ref@^1.2.1, use-callback-ref@^1.2.3:
