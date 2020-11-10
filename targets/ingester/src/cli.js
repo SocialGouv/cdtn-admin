@@ -25,7 +25,7 @@ const args = yargs(process.argv)
 
 const updateDocumentAvailability = `
 mutation update_documents {
-	nbDocuments: update_documents(_set: {is_available: false}, where: {source: {_in: [
+	documents: update_documents(_set: {is_available: false}, where: {source: {_in: [
     "code_du_travail",
     "fiches_service_public",
     "page_fiche_ministere_travail",
@@ -162,7 +162,7 @@ async function initDocAvailabity() {
     console.error(result.error);
     throw new Error(`error initializing documents availability`);
   }
-  return result.data.nbDocuments;
+  return result.data.documents.affected_rows;
 }
 
 async function main() {
@@ -172,8 +172,8 @@ async function main() {
   if (args.dryRun) {
     console.log("dry-run mode");
   } else {
-    const nbDoc = await initDocAvailabity();
-    console.log(`Update availability of ${nbDoc.affected_rows} documents`);
+    const nbDocs = await initDocAvailabity();
+    console.log(`Update availability of ${nbDocs} documents`);
   }
   /** @type {({status:"fulfilled", value:{cdtn_id:string}[]}|{status: "rejected", reason:Object})[]} */
   let ids = [];
@@ -185,7 +185,7 @@ async function main() {
     console.log(
       `ready to ingest ${documents.length} documents from ${pkgName}`
     );
-    const chunks = chunk(documents, 100);
+    const chunks = chunk(documents, 50);
     const inserts = await batchPromises(chunks, insertDocuments, 10);
     ids = ids.concat(inserts);
   }
