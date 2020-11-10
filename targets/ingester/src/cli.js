@@ -185,8 +185,8 @@ async function main() {
     console.log(
       `ready to ingest ${documents.length} documents from ${pkgName}`
     );
-    const chunks = chunk(documents, 50);
-    const inserts = await batchPromises(chunks, insertDocuments, 10);
+    const chunks = chunk(documents, 80);
+    const inserts = await batchPromises(chunks, insertDocuments, 15);
     ids = ids.concat(inserts);
   }
   return ids;
