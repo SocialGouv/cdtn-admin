@@ -21,15 +21,17 @@ export default async function getCdtDocuments(pkgName) {
   );
 
   return articles.map(
-    ({ data: { id, num, dateDebut, nota, notaHtml, texte, texteHtml } }) => ({
+    ({
+      data: { id, cid, num, dateDebut, nota, notaHtml, texte, texteHtml },
+    }) => ({
       dateDebut,
       description: texte.slice(0, texte.indexOf("…", 150)),
       html: texteHtml,
-      id,
-      slug: slugify(fixArticleNum(id, num)),
+      id: cid,
+      slug: slugify(fixArticleNum(cid, num)),
       source: SOURCES.CDT,
       text: `${texte}\n${nota}`,
-      title: fixArticleNum(id, num),
+      title: fixArticleNum(cid, num),
       ...(nota.length > 0 && { notaHtml }),
       url: getArticleUrl(id),
     })

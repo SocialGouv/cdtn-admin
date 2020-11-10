@@ -9,7 +9,7 @@ import semver from "semver";
 import tar from "tar-fs";
 import yargs from "yargs";
 
-import { batchPromises } from "./lib/batchPromises";
+import { batchPromises, chunk } from "./lib/batchPromises";
 import getAgreementDocuments from "./transform/agreements.js";
 import getCdtDocuments from "./transform/code-du-travail.js";
 import getContributionsDocuments from "./transform/contributions.js";
@@ -23,13 +23,27 @@ const args = yargs(process.argv)
   .describe("d", "dry run mode")
   .help().argv;
 
+const updateDocumentAvailability = `
+mutation update_documents {
+	documents: update_documents(_set: {is_available: false}, where: {source: {_in: [
+    "code_du_travail",
+    "fiches_service_public",
+    "page_fiche_ministere_travail",
+    "conventions_collectives",
+    "contributions"
+  ]}}) {
+    affected_rows
+  }
+}
+`;
+
 const insertDocumentsMutation = `
-mutation insert_documents($document: documents_insert_input!) {
-  document: insert_documents_one(object: $document,  on_conflict: {
+mutation insert_documents($documents: [documents_insert_input!]!) {
+  documents: insert_documents(objects: $documents,  on_conflict: {
     constraint: documents_pkey,
-    update_columns: [title, source, slug, text, document]
+    update_columns: [title, source, slug, text, document, is_available]
   }) {
-   cdtn_id
+   returning {cdtn_id}
   }
 }
 `;
@@ -115,31 +129,40 @@ async function getPackage(pkgName, pkgVersion = "latest") {
 
 /**
  *
- * @param {ingester.CdtnDocument} doc
- * @returns {Promise<string>}
+ * @param {ingester.CdtnDocument[]} docs
+ * @returns {Promise<{cdtn_id:string}[]>}
  */
-async function insertDocument(doc) {
-  const { id, title, text, slug, source, ...document } = doc;
+async function insertDocuments(docs) {
   const result = await client
     .mutation(insertDocumentsMutation, {
-      document: {
+      documents: docs.map(({ id, text, title, slug, source, ...document }) => ({
         cdtn_id: generateCdtnId(`${source}${id}`),
         document,
         initial_id: id,
+        is_available: true,
         meta_description: document.description || "",
         slug,
         source,
         text,
         title,
-      },
+      })),
     })
     .toPromise();
 
   if (result.error) {
     console.error(result.error);
-    throw new Error(`insert document alert ${title}`);
+    throw new Error(`error inserting documents`);
   }
-  return result.data.document.cdtn_id;
+  return result.data.documents.returning;
+}
+
+async function initDocAvailabity() {
+  const result = await client.mutation(updateDocumentAvailability).toPromise();
+  if (result.error) {
+    console.error(result.error);
+    throw new Error(`error initializing documents availability`);
+  }
+  return result.data.documents.affected_rows;
 }
 
 async function main() {
@@ -148,8 +171,11 @@ async function main() {
   }
   if (args.dryRun) {
     console.log("dry-run mode");
+  } else {
+    const nbDocs = await initDocAvailabity();
+    console.log(`Update availability of ${nbDocs} documents`);
   }
-  /** @type {({status:"fulfilled", value:string}|{status: "rejected", reason:Object})[]} */
+  /** @type {({status:"fulfilled", value:{cdtn_id:string}[]}|{status: "rejected", reason:Object})[]} */
   let ids = [];
   for (const [pkgName, getDocument] of dataPackages) {
     const documents = await getDocument(pkgName);
@@ -159,7 +185,8 @@ async function main() {
     console.log(
       `ready to ingest ${documents.length} documents from ${pkgName}`
     );
-    const inserts = await batchPromises(documents, insertDocument, 10);
+    const chunks = chunk(documents, 80);
+    const inserts = await batchPromises(chunks, insertDocuments, 15);
     ids = ids.concat(inserts);
   }
   return ids;
@@ -167,13 +194,23 @@ async function main() {
 
 main()
   .then((data) => {
-    const fullfilledInserts = /**@type {{status:"fulfilled", value:string}[]} */ (data.filter(
+    const fullfilledInserts = /**@type {{status:"fulfilled", value:{cdtn_id:string}[]}[]} */ (data.filter(
       ({ status }) => status === "fulfilled"
     ));
     const rejectedInsert = data.filter(({ status }) => status === "rejected");
-    console.log(`Finish ingest ${fullfilledInserts.length} documents`);
+    console.log(
+      `Finish ingest ${fullfilledInserts.reduce(
+        (value, items) => value + items.value.length,
+        0
+      )} documents`
+    );
     if (rejectedInsert.length) {
-      console.log(` fail to ingest ${fullfilledInserts.length} documents`);
+      console.log(
+        ` fail to ingest ${fullfilledInserts.reduce(
+          (value, items) => value + items.value.length,
+          0
+        )} documents`
+      );
     }
   })
   .catch(console.error);
