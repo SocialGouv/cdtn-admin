@@ -146,15 +146,14 @@ async function processDilaDiff(repositoryId, tag, files, prevTree, currTree) {
       ));
 
       const changes = compareArticles(prevAst, currAst, compareFn);
-      const documents = getRelevantDocuments(changes);
-
+      const documents = await getRelevantDocuments(changes);
       return {
+        ...changes,
         documents,
         file,
         id: currAst.data.id,
         num: currAst.data.num,
         title: currAst.data.title,
-        ...changes,
       };
     })
   );
@@ -369,8 +368,8 @@ async function main() {
           console.error(
             `${rejectedInsert.length} alerts failed to insert in ${result.repository}`
           );
-        const update = await updateSource(result.repository, result.newRef);
-        console.log(`update source ${update.repository} to ${update.tag}`);
+        // const update = await updateSource(result.repository, result.newRef);
+        // console.log(`update source ${update.repository} to ${update.tag}`);
       }
     }
   }

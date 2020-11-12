@@ -1,8 +1,8 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import contributions from "@socialgouv/contributions-data/data/contributions.json";
 
+import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
 /**
- * @param {import("@socialgouv/contributions-data").Question[]} questions
+ * @param {import("@shared/types").ContributionDocument[]} questions
  */
 export function extractContributionsRef(questions) {
   /** @type {alerts.DocumentReferences[]} */
@@ -12,50 +12,28 @@ export function extractContributionsRef(questions) {
     references.push({
       document: {
         id: question.id,
+        source: SOURCES.CONTRIBUTIONS,
         title: question.title,
-        type: SOURCES.CONTRIBUTIONS,
       },
-      references: /** @type {import("@socialgouv/contributions-data").DilaRef} */ /** @type {any} */ (question.answers.generic.references.flatMap(
-        getDilaRef
-      )),
+      references: question.document.answers.generic.references,
     });
 
-    question.answers.conventions.forEach((answer) =>
+    question.document.answers.conventions.forEach((answer) =>
       references.push({
         document: {
           id: question.id,
-          idcc: answer.idcc,
+          source: SOURCES.CONTRIBUTIONS,
           title: question.title,
-          type: SOURCES.CONTRIBUTIONS,
         },
-        references: /** @type {import("@socialgouv/contributions-data").DilaRef} */ /** @type {any} */ (answer.references.flatMap(
-          getDilaRef
-        )),
+        references: answer.references,
       })
     );
   }
   return references;
 }
 
-/**
- *
- * @param {import("@socialgouv/contributions-data").Reference} reference
- */
-function getDilaRef(reference) {
-  if (reference.category === null) {
-    return [];
-  }
-  return {
-    category: reference.category,
-    dila_cid: reference.dila_cid,
-    dila_container_id: reference.dila_container_id,
-    dila_id: reference.dila_id,
-    title: reference.title,
-  };
-}
-
-export default function main() {
-  return extractContributionsRef(
-    /** @type {import("@socialgouv/contributions-data").Question[]} */ /** @type {any} */ (contributions)
-  );
+export default async function main() {
+  /** @type {import("@shared/types").ContributionDocument[]} */
+  const contributions = await getAllDocumentsBySource(SOURCES.CONTRIBUTIONS);
+  return extractContributionsRef(contributions);
 }

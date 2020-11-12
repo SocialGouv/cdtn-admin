@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "lib": ["es2019"],
+    "lib": ["es2020"],
     "baseUrl": ".",
     "paths": {
       "*": ["*", "src/@types/*"]

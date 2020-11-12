@@ -2,6 +2,7 @@ import { Node } from "unist";
 import { Commit } from "nodegit"
 import { NodeWithParent } from "unist-util-parents";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import { ParseDilaReference } from "@shared/types";
 
 export function fileFilterFn(path: string): Boolean
 
@@ -27,7 +28,7 @@ type AstChanges = {
 }
 
 type Changes = AstChanges & {
-  documents: { document: Document, reference: Reference }[]
+  documents: { document: DocumentInfo, reference: ParseDilaReference }[]
 }
 
 type DilaAlertChanges = {
@@ -53,11 +54,13 @@ type TravailDataAlertChanges = {
   ref: string
   date: Date
 } & TravailDataChanges
+
 type TravailDataChanges = {
   added: FicheTravailEmploiInfo[]
   removed: FicheTravailEmploiInfo[]
   modified: FicheTravailEmploi[]
 }
+
 type AlertChanges = DilaAlertChanges | VddAlertChanges | TravailDataAlertChanges
 
 type AlertInfo = {
@@ -86,30 +89,12 @@ type GitTagData = {
   ref: string
   commit: Commit
 }
-
-type Reference = {
-  category: string
-  title: string
-  dila_id: string
-  dila_cid: string
-  dila_container_id: string
-}
-
+type DocumentInfo = Pick<HasuraDocument, "id" | "title" | "source">
 type DocumentReferences = {
-  document: Document
-  references: Reference[]
-}
-type Document = {
-  id: string
-  idcc?: string
-  title: string
-  type: "contributions" | "fiches_ministere_travail"
+  document: DocumentInfo
+  references: ParseDilaReference[]
 }
 
-
-type DocumentWithRef = Document & {
-  reference: Reference
-}
 
 type DilaNode = {
   type: "article" | "section" | "code" | "convention collective"
@@ -164,6 +149,7 @@ type FicheVddLeaf = {
   text: string
 }
 
+/*
 export type FicheTravailEmploi = {
   date: string
   description: string
@@ -204,3 +190,4 @@ export type ReferenceFTE = {
   fmt: string
   text: string
 }
+*/

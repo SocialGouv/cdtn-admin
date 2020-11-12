@@ -26,7 +26,7 @@
     "@socialgouv/contributions-data-types": "^3.0.0",
     "@socialgouv/datafiller-data-types": "^2.0.0",
     "@socialgouv/eslint-config-recommended": "^1.46.0",
-    "@socialgouv/fiches-travail-data-types": "^4.2.0",
+    "@socialgouv/fiches-travail-data-types": "^4.3.0",
     "@socialgouv/fiches-vdd-types": "^2.4.0",
     "@socialgouv/kali-data-types": "^2.0.1",
     "@socialgouv/legi-data-types": "^2.0.1",

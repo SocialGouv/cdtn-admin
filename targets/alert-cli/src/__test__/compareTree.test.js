@@ -43,5 +43,7 @@ const expected = [
 ];
 
 it("should keep only last version", () => {
-  expect(data.filter(uniq)).toEqual(expected);
+  expect(/** @type {alerts.DilaNode[]} */ (data).filter(uniq)).toEqual(
+    expected
+  );
 });

@@ -2927,16 +2927,6 @@
   resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data-types/-/contributions-data-types-3.0.0.tgz#bf189e54d28dda026431f4f6b1992bb72e27865f"
   integrity sha512-BaqHuZz+8rXy8y6o506N3tNk06Vc+PRxM/3J4Aj/63pMth7oZ2bn8edzt7IQA5kVJm1CA94zsotqYChNUl6vDA==
 
-"@socialgouv/contributions-data@^2.20.0":
-  version "2.20.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data/-/contributions-data-2.20.0.tgz#948cf3ad0cc7742b3aea818f9c9b90324ff2e6b9"
-  integrity sha512-RnofKhbEacZsYPDy90YuHWeAyI5OnSOqXSiqQ/GTpXa2aCkU4tivJhJLow2CdM8DFEFmaFhf2F5JFvt6bSOAzg==
-  dependencies:
-    esm "^3.2.25"
-    node-fetch "^2.6.1"
-    remark "^12.0.1"
-    strip-markdown "^3.1.2"
-
 "@socialgouv/datafiller-data-types@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@socialgouv/datafiller-data-types/-/datafiller-data-types-2.0.0.tgz#9debd3e4e25a7d8d9b72d37d339ab3b7fe49ffb1"
@@ -2975,15 +2965,15 @@
     eslint-plugin-simple-import-sort "~5.0.3"
     eslint-plugin-sort-keys-fix "~1.1.1"
 
-"@socialgouv/fiches-travail-data-types@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data-types/-/fiches-travail-data-types-4.2.0.tgz#c11d162862f680137d54fe09c4827031cdd87a45"
-  integrity sha512-IiGAlGhr71zkS4w2nwXpjOxzMfaZA27pXNCTtxzXBgWfLradFaWZkbnnD0aTT31bvr8/gTWthj1fs+m4wft/fQ==
+"@socialgouv/fiches-travail-data-types@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data-types/-/fiches-travail-data-types-4.3.0.tgz#8d5d0328769c6aae643d52078b254bc72649d01a"
+  integrity sha512-+AvRpimUnC3sa4TjlBuvLnUXgDl0laI9Ga73zJtI8nz8yhgrUJIKa8LvD/jgw3JNGuHK1WGXUl0YsT23kzmaXQ==
 
-"@socialgouv/fiches-travail-data@^3.221.0":
-  version "3.221.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data/-/fiches-travail-data-3.221.0.tgz#bf1877a442b172ccb167f8972f3f4a603dfd13c3"
-  integrity sha512-Zu3R4ERMenMYxDZmKbkz2xSCHKXQ7whlBUwzH5O1q5/LaYjPekOIggdXSPLtf0hEOOzrCnFc7cmdz6llyMqFEQ==
+"@socialgouv/fiches-travail-data-types@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data-types/-/fiches-travail-data-types-4.4.0.tgz#cae58a58ddd71d532a9b721f0089e8cd69591c9e"
+  integrity sha512-ui2bag3QRikGxu/40+jLEmeqoyC70PdBss8wqvnWrJg39GnklLTnEs02kccN2hZ2a6S0oB3Lxq6wkQBHhNIn5A==
 
 "@socialgouv/fiches-vdd-types@^2.4.0":
   version "2.4.0"
@@ -13670,11 +13660,6 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
-
-strip-markdown@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/strip-markdown/-/strip-markdown-3.1.2.tgz#172f6f89f9a98896e65a65422e0507f2bbac1667"
-  integrity sha512-NjwW6CEefesmHQPs7lof/lgnSriqUnRNOWpnrNPq9A7/yOCdnhaB7DcxlhYuN7WiiRUe349aitAsTQ/ajM9Dmw==
 
 strong-log-transformer@^2.0.0:
   version "2.1.0"
