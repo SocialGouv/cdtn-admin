@@ -28,7 +28,7 @@ type AstChanges = {
 }
 
 type Changes = AstChanges & {
-  documents: { document: DocumentInfo, reference: ParseDilaReference }[]
+  documents: { document: DocumentInfo, reference: ParseDilaReference[] }[]
 }
 
 type DilaAlertChanges = {

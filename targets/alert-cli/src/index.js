@@ -7,6 +7,7 @@ import { ccns } from "./ccn-list.js";
 import { compareArticles } from "./compareTree.js";
 import { processTravailDataDiff } from "./diff/fiches-travail-data";
 import { processVddDiff } from "./diff/fiches-vdd";
+import { exportContributionAlerts } from "./exportContributionAlerts";
 import { getFicheServicePublicIds } from "./getFicheServicePublicIds";
 import { createToJson, getFilename } from "./node-git.helpers";
 import { openRepo } from "./openRepo";
@@ -356,6 +357,9 @@ async function main() {
       if (result.changes.length === 0) {
         console.log(`no update for ${result.repository}`);
       } else {
+        // forward alert to contributions
+        exportContributionAlerts(result.changes);
+
         const inserts = await batchPromises(
           result.changes,
           (diff) => insertAlert(result.repository, diff),
@@ -380,8 +384,8 @@ async function main() {
           );
           process.exit(-1);
         }
-        const update = await updateSource(result.repository, result.newRef);
-        console.log(`update source ${update.repository} to ${update.tag}`);
+        // const update = await updateSource(result.repository, result.newRef);
+        // console.log(`update source ${update.repository} to ${update.tag}`);
       }
     }
   }

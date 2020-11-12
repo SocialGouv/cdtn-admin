@@ -10,7 +10,7 @@ export async function getRelevantDocuments({ added, modified, removed }) {
 
   const references = contribReferences.concat(travailEmploiReferences);
   const documents = references.flatMap((item) => {
-    const reference = item.references.find(
+    const references = item.references.filter(
       (ref) =>
         modified.find(
           (node) =>
@@ -25,8 +25,8 @@ export async function getRelevantDocuments({ added, modified, removed }) {
         added.find((node) => node.data.cid === ref.dila_cid)
     );
 
-    if (reference) {
-      return { document: item.document, reference };
+    if (references) {
+      return { document: item.document, references };
     }
     return [];
   });
