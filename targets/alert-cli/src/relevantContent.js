@@ -9,7 +9,6 @@ export async function getRelevantDocuments({ added, modified, removed }) {
   const travailEmploiReferences = await getTravailEmploiReferences();
 
   const references = contribReferences.concat(travailEmploiReferences);
-
   const documents = references.flatMap((item) => {
     const reference = item.references.find(
       (ref) =>

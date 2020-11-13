@@ -2,7 +2,14 @@ import { expect, test } from "@jest/globals";
 
 import main, { extractFicheTravailEmploiRef } from "../ficheTravailEmploi";
 
-const fiches = [
+jest.mock("../getAllDocumentsBySource", () => {
+  return {
+    getAllDocumentsBySource: () => mockFiches,
+  };
+});
+
+//using name starting with mock allow jest to hoist variable and then mock
+const mockFiches = [
   {
     document: {
       date: "01/01/01",
@@ -17,19 +24,19 @@ const fiches = [
           references: [
             {
               category: "code_du_travail",
-              dila_cid: "cid1337",
+              dila_cid: "cid123",
               dila_container_id: "LEGITEXT000006072050",
-              dila_id: "id1337",
-              title: "L1337",
-              url: "legifrance.url/id1337",
+              dila_id: "id123",
+              title: "L123",
+              url: "legifrance.url/id123",
             },
             {
               category: "code_du_travail",
-              dila_cid: "cid42",
+              dila_cid: "cid14",
               dila_container_id: "LEGITEXT000006072050",
-              dila_id: "id42",
-              title: "L42",
-              url: "legifrance.url/id42",
+              dila_id: "id14",
+              title: "L14",
+              url: "legifrance.url/id14",
             },
           ],
           text: "text",
@@ -42,17 +49,19 @@ const fiches = [
           references: [
             {
               category: "code_du_travail",
-              cid: "cid123",
-              id: "id123",
-              text: "L. 123",
+              dila_cid: "cid123",
+              dila_container_id: "LEGITEXT000006072050",
+              dila_id: "id123",
+              title: "L123",
               url: "legifrance.url/id123",
             },
             {
-              category: "legifrance.url/id14",
-              cid: "cid14",
-              id: "id14",
-              text: "L. 14",
-              type: "code_du_travail",
+              category: "code_du_travail",
+              dila_cid: "cid14",
+              dila_container_id: "LEGITEXT000006072050",
+              dila_id: "id14",
+              title: "L14",
+              url: "legifrance.url/id14",
             },
           ],
           text: "text",
@@ -61,7 +70,7 @@ const fiches = [
       ],
       url: "https://travail-emploi",
     },
-    id: "doc1",
+    id: "cdtn-id1",
     initial_id: "fiche-sp-1",
     is_available: false,
     is_published: false,
@@ -77,7 +86,7 @@ const fiches = [
 const expected = [
   {
     document: {
-      id: "fiche-sp-1",
+      id: "cdtn-id1",
       source: "fiches_ministere_travail",
       title: "fiche1#sous-titre",
     },
@@ -102,7 +111,7 @@ const expected = [
   },
   {
     document: {
-      id: "fiche-sp-1",
+      id: "cdtn-id1",
       source: "fiches_ministere_travail",
       title: "fiche1#sous-titre-2",
     },
@@ -130,11 +139,11 @@ const expected = [
 test("extractContributionRef should return an array of references", () => {
   expect(
     extractFicheTravailEmploiRef(
-      /** @type {import("@shared/types").FicheTravailEmploiDocument[]} */ (fiches)
+      /** @type {import("@shared/types").FicheTravailEmploiDocument[]} */ (mockFiches)
     )
   ).toEqual(expected);
 });
 
-test("default export should return an array of references", () => {
-  expect(main()).toEqual(expected);
+test("default export should return an array of references", async () => {
+  expect(await main()).toEqual(expected);
 });

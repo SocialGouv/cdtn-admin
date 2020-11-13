@@ -25,7 +25,7 @@ export function extractContributionsRef(questions) {
     question.document.answers.conventions.forEach((answer) =>
       references.push({
         document: {
-          id: question.id,
+          id: answer.id,
           source: SOURCES.CONTRIBUTIONS,
           title: question.title,
         },

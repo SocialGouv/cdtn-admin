@@ -1,59 +1,71 @@
-import { describe, expect, it, jest } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 
 import { getRelevantDocuments } from "../relevantContent";
 
-jest.mock("@socialgouv/contributions-data/data/contributions.json", () => [
+jest.mock("../extractDilaReferences/ficheTravailEmploi", () => () => []);
+jest.mock("../extractDilaReferences/contribution", () => () => [
   {
-    answers: {
-      conventions: [
-        {
-          idcc: "123",
-          references: [
-            {
-              category: "ag",
-              dila_cid: "c123",
-              dila_container_id: "kalicont123",
-              dila_id: "125",
-            },
-            {
-              category: "ag",
-              dila_cid: "ext",
-              dila_container_id: "kalicont123",
-              dila_id: "ext",
-            },
-            {
-              category: "ag",
-              dila_cid: "4",
-              dila_container_id: "kalicont42",
-              dila_id: "4",
-            },
-          ],
-        },
-      ],
-      generic: {
-        references: [
-          {
-            category: "ag",
-            dila_cid: "c1",
-            dila_container_id: "kalicont123",
-            dila_id: "1",
-          },
-          {
-            category: "ag",
-            dila_cid: "3",
-            dila_container_id: "kalicont42",
-            dila_id: "3",
-          },
-        ],
-      },
+    document: {
+      id: "id-generic",
+      source: "contributions",
+      title: "question1",
     },
-    id: "answer1",
-    title: "question1",
+    references: [
+      {
+        category: "agreement",
+        dila_cid: "c1",
+        dila_container_id: "kalicont123",
+        dila_id: "1",
+        title: "Accord du 4 juin",
+        url: "legifrance.url/kalicont123",
+      },
+      {
+        category: "agreement",
+        dila_cid: "3",
+        dila_container_id: "kalicont42",
+        dila_id: "3",
+        title: "Accord du 3 novembre",
+        url: "legifrance.url/kalicont42",
+      },
+    ],
+  },
+  {
+    document: {
+      id: "id-answer-123",
+      source: "contributions",
+      title: "question1",
+    },
+    references: [
+      {
+        category: "agreement",
+        dila_cid: "c123",
+        dila_container_id: "kalicont123",
+        dila_id: "125",
+        title: "accord c123",
+        url: "url/c123",
+      },
+      {
+        category: "agreement",
+        dila_cid: "ext",
+        dila_container_id: "kalicont123",
+        dila_id: "ext125",
+        title: "accord c125",
+        url: "url/c125",
+      },
+      {
+        category: "agreement",
+        dila_cid: "4",
+        dila_container_id: "kalicont42",
+        dila_id: "4",
+        title: "accord 42",
+        url: "url/42",
+      },
+    ],
   },
 ]);
 
 describe("getRelevantContent", () => {
-  it("should return an array of document that match modified changes", () => {
+  it("should return an array of document that match modified changes", async () => {
     const changes = {
       added: [],
       modified: [{ data: { cid: "c123", id: "123" }, type: "article" }],
@@ -62,22 +74,23 @@ describe("getRelevantContent", () => {
     const expected = [
       {
         document: {
-          id: "answer1",
-          idcc: "123",
+          id: "id-answer-123",
+          source: "contributions",
           title: "question1",
-          type: "contributions",
         },
         reference: {
-          category: "ag",
+          category: "agreement",
           dila_cid: "c123",
           dila_container_id: "kalicont123",
           dila_id: "125",
+          title: "accord c123",
+          url: "url/c123",
         },
       },
     ];
-    expect(getRelevantDocuments(changes)).toEqual(expected);
+    expect(await getRelevantDocuments(changes)).toEqual(expected);
   });
-  it("should return an array of document that match deleted changes", () => {
+  it("should return an array of document that match deleted changes", async () => {
     const changes = {
       added: [],
       modified: [],
@@ -86,18 +99,20 @@ describe("getRelevantContent", () => {
     const expected = [
       {
         document: {
-          id: "answer1",
+          id: "id-generic",
+          source: "contributions",
           title: "question1",
-          type: "contributions",
         },
         reference: {
-          category: "ag",
+          category: "agreement",
           dila_cid: "3",
           dila_container_id: "kalicont42",
           dila_id: "3",
+          title: "Accord du 3 novembre",
+          url: "legifrance.url/kalicont42",
         },
       },
     ];
-    expect(getRelevantDocuments(changes)).toEqual(expected);
+    expect(await getRelevantDocuments(changes)).toEqual(expected);
   });
 });

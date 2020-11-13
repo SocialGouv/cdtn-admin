@@ -2,13 +2,20 @@ import { expect, test } from "@jest/globals";
 
 import main, { extractContributionsRef } from "../contribution";
 
-const contributions = [
+jest.mock("../getAllDocumentsBySource", () => {
+  return {
+    getAllDocumentsBySource: () => mockContributions,
+  };
+});
+
+//using name starting with mock allow jest to hoist variable and then mock
+const mockContributions = [
   {
     document: {
       answers: {
         conventions: [
           {
-            id: "ccn-123",
+            id: "id-answer-123",
             idcc: "123",
             markdown: "## markdown answer",
             references: [
@@ -83,9 +90,9 @@ const contributions = [
 const expected = [
   {
     document: {
-      id: "id-generic",
+      id: "answer1",
+      source: "contributions",
       title: "question1",
-      type: "contributions",
     },
     references: [
       {
@@ -108,9 +115,9 @@ const expected = [
   },
   {
     document: {
-      id: "ccn-123",
+      id: "id-answer-123",
+      source: "contributions",
       title: "question1",
-      type: "contributions",
     },
     references: [
       {
@@ -144,11 +151,11 @@ const expected = [
 test("extractContributionRef should return an array of references", () => {
   expect(
     extractContributionsRef(
-      /** @type {import("@shared/types").ContributionDocument[]} */ (contributions)
+      /** @type {import("@shared/types").ContributionDocument[]} */ (mockContributions)
     )
   ).toEqual(expected);
 });
 
-test("default export should return an array of references", () => {
-  expect(main()).toEqual(expected);
+test("default export should return an array of references", async () => {
+  expect(await main()).toEqual(expected);
 });
