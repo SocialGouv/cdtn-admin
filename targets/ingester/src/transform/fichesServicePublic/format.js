@@ -4,7 +4,7 @@ import { parseReferences } from "./parseReference.js";
 
 /**
  *
- * @param {import("@socialgouv/fiches-vdd").RawJson} element
+ * @param {import("@socialgouv/fiches-vdd-types").RawJson} element
  * @param {string} name
  */
 function getChild(element, name) {
@@ -13,7 +13,7 @@ function getChild(element, name) {
 
 /**
  * Beware, this one is recursive
- * @param {import("@socialgouv/fiches-vdd").RawJson | undefined} element
+ * @param {import("@socialgouv/fiches-vdd-types").RawJson | undefined} element
  * @returns {string}
  */
 function getText(element) {
@@ -30,9 +30,9 @@ function getText(element) {
 }
 /**
  *
- * @param {import("@socialgouv/fiches-vdd").RawJson} fiche
+ * @param {import("@socialgouv/fiches-vdd-types").RawJson} fiche
  * @param {ingester.referenceResolver} resolveCdtReference
- * @param {import("@socialgouv/kali-data").IndexedAgreement[]} agreements
+ * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
  * @returns {Pick<ingester.FicheServicePublic, Exclude<keyof ingester.FicheServicePublic, keyof {slug, excludeFromSearch: string}>> }
  */
 export function format(fiche, resolveCdtReference, agreements) {

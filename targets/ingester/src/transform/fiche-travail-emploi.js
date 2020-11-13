@@ -14,9 +14,9 @@ import {
  */
 export default async function getFicheTravailEmploi(pkgName) {
   const [fichesMT, cdt] = await Promise.all([
-    /** @type {Promise<import("@socialgouv/fiches-travail-data").FicheTravailEmploi[]>} */
+    /** @type {Promise<import("@socialgouv/fiches-travail-data-types").FicheTravailEmploi[]>} */
     (getJson(`${pkgName}/data/fiches-travail.json`)),
-    /** @type {Promise<import("@socialgouv/legi-data").Code>} */
+    /** @type {Promise<import("@socialgouv/legi-data-types").Code>} */
     (getJson(`@socialgouv/legi-data/data/LEGITEXT000006072050.json`)),
   ]);
   const resolveCdtReference = referenceResolver(cdt);
@@ -34,7 +34,7 @@ export default async function getFicheTravailEmploi(pkgName) {
           return articles.flatMap(({ id }) => {
             const [
               article,
-            ] = /**@type {import("@socialgouv/legi-data").CodeArticle[]}*/ (resolveCdtReference(
+            ] = /**@type {import("@socialgouv/legi-data-types").CodeArticle[]}*/ (resolveCdtReference(
               id
             ));
             if (!article) {

@@ -1,6 +1,5 @@
-import type { SOURCES, SourceValues } from "@socialgouv/cdtn-sources"
-import type { Answer, Question, DilaRef } from "@socialgouv/contributions-data"
-import type { IndexedAgreement } from "@socialgouv/kali-data"
+import type { SourceValues } from "@socialgouv/cdtn-sources"
+import type { Answer, Question, DilaRef } from "@socialgouv/contributions-data-types"
 
 export as namespace ingester
 
@@ -44,7 +43,7 @@ type TravailEmploiSection = {
   html: string
   text: string
   description: string
-  references: Reference[]
+  references: LegalReference[]
 }
 
 type AgreementPage = Document & {
@@ -104,7 +103,7 @@ type ReferencedTexts = ExternalReference | InternalReference
 /** Document type */
 type CdtnDocument = Contribution | LegiArticle | AgreementPage | FicheServicePublic | FicheTravailEmploi
 
-type referenceResolver = (id: string) => (import("@socialgouv/legi-data").CodeSection | import("@socialgouv/legi-data").CodeArticle | import("@socialgouv/kali-data").AgreementSection | import("@socialgouv/kali-data").AgreementArticle)[]
+type referenceResolver = (id: string) => (import("@socialgouv/legi-data-types").CodeSection | import("@socialgouv/legi-data-types").CodeArticle | import("@socialgouv/kali-data").AgreementSection | import("@socialgouv/kali-data").AgreementArticle)[]
 
 
 

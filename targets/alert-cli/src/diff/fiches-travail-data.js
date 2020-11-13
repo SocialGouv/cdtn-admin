@@ -26,7 +26,7 @@ export async function processTravailDataDiff(
       const [
         currAst,
         prevAst,
-      ] = /** @type {alerts.FicheTravailEmploi[][]} */ (await Promise.all(
+      ] = /** @type {import("@socialgouv/fiches-travail-data").FicheTravailEmploi[][]} */ (await Promise.all(
         [currTree, prevTree].map(toAst)
       ));
       return getChanges(prevAst, currAst);
@@ -50,12 +50,12 @@ export async function processTravailDataDiff(
 
 /**
  *
- * @param {alerts.FicheTravailEmploi[]} previousJson
- * @param {alerts.FicheTravailEmploi[]} currentJson
+ * @param {import("@socialgouv/fiches-travail-data").FicheTravailEmploi[]} previousJson
+ * @param {import("@socialgouv/fiches-travail-data").FicheTravailEmploi[]} currentJson
  * @return {alerts.TravailDataChanges}
  */
 export function getChanges(previousJson, currentJson) {
-  /** @type {(item: alerts.FicheTravailEmploi) => string } */
+  /** @type {(item: import("@socialgouv/fiches-travail-data").FicheTravailEmploi) => string } */
   const toId = ({ pubId }) => pubId;
   const previousIds = previousJson.map(toId);
   const currentIds = currentJson.map(toId);
@@ -72,6 +72,7 @@ export function getChanges(previousJson, currentJson) {
       previousDoc &&
       hasDocumentChanged(previousDoc, doc)
     ) {
+      previousDoc.sections[0];
       const removedSections = previousDoc.sections.filter(
         ({ title: prevTitle }) =>
           doc.sections.find(({ title }) => title === prevTitle) === undefined
@@ -126,8 +127,8 @@ export function getChanges(previousJson, currentJson) {
 
 /**
  *
- * @param {alerts.FicheTravailEmploi} previousDocument
- * @param {alerts.FicheTravailEmploi} document
+ * @param {import("@socialgouv/fiches-travail-data").FicheTravailEmploi} previousDocument
+ * @param {import("@socialgouv/fiches-travail-data").FicheTravailEmploi} document
  */
 function hasDocumentChanged(previousDocument, document) {
   return (

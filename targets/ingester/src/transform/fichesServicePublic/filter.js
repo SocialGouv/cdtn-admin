@@ -1,6 +1,6 @@
 /**
  * Return a filtered set of FicheIndex
- * @param {import("@socialgouv/fiches-vdd").FicheIndex[]} fiches
+ * @param {import("@socialgouv/fiches-vdd-types").FicheIndex[]} fiches
  */
 export function filter(fiches) {
   const filteredFiches = fiches.filter((fiche) => {

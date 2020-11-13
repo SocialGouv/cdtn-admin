@@ -183,7 +183,7 @@ export function AlertPage() {
                           rel="noopener noreferrer"
                           key={item.document.id}
                           href={`https://code.travail.gouv.fr/${getRouteBySource(
-                            item.document.type
+                            item.document.source
                           )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
                         >
                           {title}

@@ -11,7 +11,7 @@ const { SOURCES } = cdtnSources;
  * @returns {Promise<ingester.Contribution[]>}
  */
 export default async function getContributionsDocuments(pkgName) {
-  /** @type {import("@socialgouv/contributions-data").Question[]} */
+  /** @type {import("@socialgouv/contributions-data-types").Question[]} */
   const data = await getJson(`${pkgName}/data/contributions.json`);
 
   return data.map(({ title, answers, id, index }) => {
