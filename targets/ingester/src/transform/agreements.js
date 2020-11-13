@@ -25,7 +25,7 @@ export default async function getAgreementDocuments(pkgName) {
   /** @type {import("@socialgouv/kali-data-types").IndexedAgreement[]} */
   const agreements = await getJson(`${pkgName}/data/index.json`);
 
-  /** @type {import("@socialgouv/contributions-data").Question[]} */
+  /** @type {import("@socialgouv/contributions-data-types").Question[]} */
   const contributions = await getJson(
     `@socialgouv/contributions-data/data/contributions.json`
   );
@@ -100,7 +100,7 @@ function getCCNInfo({
 /**
  * Return contribution answer for a given idcc
  *
- * @param {(import("@socialgouv/contributions-data").Question & {slug: string})[]} contributionsWithSlug
+ * @param {(import("@socialgouv/contributions-data-types").Question & {slug: string})[]} contributionsWithSlug
  * @param {Number} agreementNum
  * @returns {ingester.AgreementAnswer[]}
  */
@@ -117,7 +117,7 @@ function getContributionAnswers(contributionsWithSlug, agreementNum) {
             answer: compiler.processSync(answer.markdown).contents.toString(),
             index,
             question: title.trim(),
-            references: /** @type {import("@socialgouv/contributions-data").DilaRef[]} */ (answer.references),
+            references: /** @type {import("@socialgouv/contributions-data-types").DilaRef[]} */ (answer.references),
             slug,
           },
         ];
