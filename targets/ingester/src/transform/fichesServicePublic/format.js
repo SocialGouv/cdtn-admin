@@ -32,7 +32,7 @@ function getText(element) {
  *
  * @param {import("@socialgouv/fiches-vdd-types").RawJson} fiche
  * @param {ingester.referenceResolver} resolveCdtReference
- * @param {import("@socialgouv/kali-data").IndexedAgreement[]} agreements
+ * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
  * @returns {Pick<ingester.FicheServicePublic, Exclude<keyof ingester.FicheServicePublic, keyof {slug, excludeFromSearch: string}>> }
  */
 export function format(fiche, resolveCdtReference, agreements) {

@@ -2927,10 +2927,10 @@
   resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data-types/-/contributions-data-types-3.0.0.tgz#bf189e54d28dda026431f4f6b1992bb72e27865f"
   integrity sha512-BaqHuZz+8rXy8y6o506N3tNk06Vc+PRxM/3J4Aj/63pMth7oZ2bn8edzt7IQA5kVJm1CA94zsotqYChNUl6vDA==
 
-"@socialgouv/datafiller-data-types@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/datafiller-data-types/-/datafiller-data-types-2.0.0.tgz#9debd3e4e25a7d8d9b72d37d339ab3b7fe49ffb1"
-  integrity sha512-nSsOciimkQcfHk0+phIIaX6nNoZ7b4PLmG5E8Pwl1dJ11aPu8aqUTXqUc6DSw7/IB5Si1TJuePaixo/4yJ0h7Q==
+"@socialgouv/datafiller-data-types@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/datafiller-data-types/-/datafiller-data-types-2.4.0.tgz#e197428bfd5d4ea73b316ba3862a6e49284d1330"
+  integrity sha512-Zy1nq+luiPSadPt3BHiy4omnvQrccl80f6H6X2K/AZlIFFokVUVIFvfz4hj9zKsIFgJ9K3mH10EWeo9T8v8KQw==
 
 "@socialgouv/datafiller-data@^1.79.0":
   version "1.79.0"
@@ -2965,30 +2965,25 @@
     eslint-plugin-simple-import-sort "~5.0.3"
     eslint-plugin-sort-keys-fix "~1.1.1"
 
-"@socialgouv/fiches-travail-data-types@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data-types/-/fiches-travail-data-types-4.3.0.tgz#8d5d0328769c6aae643d52078b254bc72649d01a"
-  integrity sha512-+AvRpimUnC3sa4TjlBuvLnUXgDl0laI9Ga73zJtI8nz8yhgrUJIKa8LvD/jgw3JNGuHK1WGXUl0YsT23kzmaXQ==
+"@socialgouv/fiches-travail-data-types@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data-types/-/fiches-travail-data-types-4.6.0.tgz#c138d1aa4f64c161ea0d1ad9354f876ae981e0d0"
+  integrity sha512-U8Acc5ITEZSYSwJoQrr9hki3h9aT9zwKpz35xST4A70h4kv4Jx9pVpK2kWK+J9jrKbROWIvW39PFokp9nsDMAg==
 
-"@socialgouv/fiches-travail-data-types@^4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data-types/-/fiches-travail-data-types-4.4.0.tgz#cae58a58ddd71d532a9b721f0089e8cd69591c9e"
-  integrity sha512-ui2bag3QRikGxu/40+jLEmeqoyC70PdBss8wqvnWrJg39GnklLTnEs02kccN2hZ2a6S0oB3Lxq6wkQBHhNIn5A==
+"@socialgouv/fiches-vdd-types@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-vdd-types/-/fiches-vdd-types-2.6.0.tgz#3e0948cbfb8965c752d85c8d66e3067f4a2a616e"
+  integrity sha512-s9ikY654EVXH91e855ZhI9VtBi8iypew4g2i7IuQzYTDg1DlJ69itBJjGUepYE9OIcRfqQH0gMlchrwXwfR5xw==
 
-"@socialgouv/fiches-vdd-types@^2.4.0":
+"@socialgouv/kali-data-types@^2.4.0":
   version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-vdd-types/-/fiches-vdd-types-2.4.0.tgz#85c783cf8a557dbeae45e3ffc1c182cb522ed7c0"
-  integrity sha512-NEjMg0q5O/ngTuA36Yp/e2nuUm8DMUf9PaccyK8FSCSPMbV6acsrz1BYJxf7SUvUUMnf86mlaEkAegW6GYV7Cw==
+  resolved "https://registry.yarnpkg.com/@socialgouv/kali-data-types/-/kali-data-types-2.4.0.tgz#db9b4e29bc0b4779931085d9a0b3ede6070fcee9"
+  integrity sha512-VMzQKs37EfsldEwR+YYzYeso//e+HxFRka+1sg8d5R2l+m1TogdfmM1I3jWzMYww/vVPJBbU/YkICTvEcC1fMg==
 
-"@socialgouv/kali-data-types@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kali-data-types/-/kali-data-types-2.0.1.tgz#0cd13a39bee1c4855d84dc718c9c4dbfb96f96c2"
-  integrity sha512-j1kbVhASikbkwgVGE+lInJWwlfhA4/yAQAJdPzFzIhk5CqCDRR5Brde5wu7qFBKFK/YQY57gEtCVnKT6qnqacQ==
-
-"@socialgouv/legi-data-types@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@socialgouv/legi-data-types/-/legi-data-types-2.0.1.tgz#3a9f186eb419ae6cb8192c78e7958755bb024b4b"
-  integrity sha512-h8Kb/0juyElIXuvhdYNpbOEv3NcA0z/3OWWyKRoOJ3cUJkH3wT6w+sfv+6gBFtV7s+0sUG2JnVkvRXdOM/C77A==
+"@socialgouv/legi-data-types@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@socialgouv/legi-data-types/-/legi-data-types-2.2.1.tgz#70f0d20d900e303cdbe2b2821611760cedd63a6e"
+  integrity sha512-s0s9Jr86GNFjzouVtbl+I1CjlNu6RwH2Bh2aErhMg7Od+anuuih9xTR6kHEuzjpCIkAMb054N175JWaykUGaig==
 
 "@socialgouv/matomo-next@^1.1.2":
   version "1.1.2"
@@ -3465,12 +3460,7 @@
   dependencies:
     wonka ">= 4.0.9"
 
-"@vercel/ncc@0.25.1":
-  version "0.25.1"
-  resolved "https://registry.yarnpkg.com/@vercel/ncc/-/ncc-0.25.1.tgz#a4aacdb508ac496fc0c63a3c3203d700a619cc0e"
-  integrity sha512-dGecC5+1wLof1MQpey4+6i2KZv4Sfs6WfXkl9KfO32GED4ZPiKxRfvtGPjbjZv0IbqMl6CxtcV1RotXYfd5SSA==
-
-"@vercel/ncc@^0.24.1":
+"@vercel/ncc@0.24.1", "@vercel/ncc@^0.24.1":
   version "0.24.1"
   resolved "https://registry.yarnpkg.com/@vercel/ncc/-/ncc-0.24.1.tgz#3ea2932c85ba87f4de6fe550d60e1bf5c005985e"
   integrity sha512-r9m7brz2hNmq5TF3sxrK4qR/FhXn44XIMglQUir4sT7Sh5GOaYXlMYikHFwJStf8rmQGTlvOoBXt4yHVonRG8A==

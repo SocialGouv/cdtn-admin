@@ -8,9 +8,9 @@
     "noEmit": true,
     "skipLibCheck": true,
     "strict": true,
+    "lib": ["es2020"],
     "module": "esnext",
-    "moduleResolution": "Node",
-    "lib": ["es2019"]
+    "moduleResolution": "Node"
   },
   "include": ["src", "@types"]
 }

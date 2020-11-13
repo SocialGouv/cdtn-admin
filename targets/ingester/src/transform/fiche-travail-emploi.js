@@ -14,7 +14,7 @@ import {
  */
 export default async function getFicheTravailEmploi(pkgName) {
   const [fichesMT, cdt] = await Promise.all([
-    /** @type {Promise<import("@socialgouv/fiches-travail-data").FicheTravailEmploi[]>} */
+    /** @type {Promise<import("@socialgouv/fiches-travail-data-types").FicheTravailEmploi[]>} */
     (getJson(`${pkgName}/data/fiches-travail.json`)),
     /** @type {Promise<import("@socialgouv/legi-data-types").Code>} */
     (getJson(`@socialgouv/legi-data/data/LEGITEXT000006072050.json`)),
