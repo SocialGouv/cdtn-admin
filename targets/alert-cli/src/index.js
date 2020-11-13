@@ -1,5 +1,4 @@
 import { client } from "@shared/graphql-client";
-import fiches from "@socialgouv/datafiller-data/data/externals.json";
 import nodegit from "nodegit";
 import semver from "semver";
 
@@ -8,16 +7,10 @@ import { ccns } from "./ccn-list.js";
 import { compareArticles } from "./compareTree.js";
 import { processTravailDataDiff } from "./diff/fiches-travail-data";
 import { processVddDiff } from "./diff/fiches-vdd";
+import { getFicheServicePublicIds } from "./getFicheServicePublicIds";
 import { createToJson, getFilename } from "./node-git.helpers";
 import { openRepo } from "./openRepo";
 import { getRelevantDocuments } from "./relevantContent.js";
-
-/** @type {string[]} */
-let listFichesVddId = [];
-const fichesVdd = fiches.find(({ title }) => title === "service-public.fr");
-if (fichesVdd) {
-  listFichesVddId = fichesVdd.urls.flatMap((url) => url.match(/\w\d+$/) || []);
-}
 
 const sourcesQuery = `
 query getSources {
@@ -59,9 +52,10 @@ mutation updateSource($repository: String!, $tag: String!){
 /**
  *
  * @param { string } repository
+ * @param {string[]} ficheVddIDs
  * @returns { alerts.fileFilterFn }
  */
-function getFileFilter(repository) {
+function getFileFilter(repository, ficheVddIDs) {
   switch (repository) {
     case "socialgouv/legi-data":
       // only code-du-travail
@@ -71,7 +65,7 @@ function getFileFilter(repository) {
       return (path) => ccns.some((ccn) => new RegExp(ccn.id).test(path));
     case "socialgouv/fiches-vdd":
       return (path) => {
-        const matched = ["index.json", ...listFichesVddId].some((id) =>
+        const matched = ["index.json", ...ficheVddIDs].some((id) =>
           new RegExp(`${id}.json$`).test(path)
         );
         return matched;
@@ -292,15 +286,16 @@ async function getNewerTagsFromRepo(repository, lastTag) {
  *
  * @param {alerts.GitTagData[]} tags include the last tag from the previous run
  * @param {string} repositoryId
+ * @param {string[]} ficheVddIDs
  */
-async function getDiffFromTags(tags, repositoryId) {
+async function getDiffFromTags(tags, repositoryId, ficheVddIDs) {
   let [previousTag] = tags;
   const [, ...newTags] = tags;
 
   /** @type {(alerts.AlertChanges)[]}  */
   const allChanges = [];
 
-  const fileFilter = getFileFilter(repositoryId);
+  const fileFilter = getFileFilter(repositoryId, ficheVddIDs);
   const diffProcessor = getDiffProcessor(repositoryId);
 
   for (const tag of newTags) {
@@ -337,7 +332,7 @@ async function getDiffFromTags(tags, repositoryId) {
 
 async function main() {
   const sources = await getSources();
-
+  const ficheVddIDs = await getFicheServicePublicIds();
   const results = [];
   for (const source of sources) {
     const repo = await openRepo(source);
@@ -346,7 +341,7 @@ async function main() {
     if (!lastTag) {
       throw new Error(`Error: last tag not found for ${source.repository}`);
     }
-    const diffs = await getDiffFromTags(tags, source.repository);
+    const diffs = await getDiffFromTags(tags, source.repository, ficheVddIDs);
     results.push({
       changes: diffs,
       newRef: lastTag.ref,

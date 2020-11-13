@@ -2932,16 +2932,6 @@
   resolved "https://registry.yarnpkg.com/@socialgouv/datafiller-data-types/-/datafiller-data-types-2.4.0.tgz#e197428bfd5d4ea73b316ba3862a6e49284d1330"
   integrity sha512-Zy1nq+luiPSadPt3BHiy4omnvQrccl80f6H6X2K/AZlIFFokVUVIFvfz4hj9zKsIFgJ9K3mH10EWeo9T8v8KQw==
 
-"@socialgouv/datafiller-data@^1.79.0":
-  version "1.79.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/datafiller-data/-/datafiller-data-1.79.0.tgz#8c22570f65cf5327c33b158b089d0e360f5403d1"
-  integrity sha512-FYMKzBR2ZPDzIplgjcYhUrWRC/ww7bLrFYX+pNtr+C5aPP/LKa3FCvLM/lpdot3Nv9HHajuQu5QRx+WveQuwdA==
-  dependencies:
-    node-fetch "^2.6.1"
-    p-pipe "^3.1.0"
-    remark "^12.0.1"
-    remark-html "^13.0.1"
-
 "@socialgouv/eslint-config-react@^1.46.0":
   version "1.46.0"
   resolved "https://registry.yarnpkg.com/@socialgouv/eslint-config-react/-/eslint-config-react-1.46.0.tgz#deb930471e8d84110d8c112fb80592297abbb524"
@@ -11162,11 +11152,6 @@ p-pipe@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/p-pipe/-/p-pipe-1.2.0.tgz#4b1a11399a11520a67790ee5a0c1d5881d6befe9"
   integrity sha1-SxoROZoRUgpneQ7loMHViB1r7+k=
-
-p-pipe@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/p-pipe/-/p-pipe-3.1.0.tgz#48b57c922aa2e1af6a6404cb7c6bf0eb9cc8e60e"
-  integrity sha512-08pj8ATpzMR0Y80x50yJHn37NF6vjrqHutASaX5LiH5npS9XPvrUmscd9MF5R4fuYRHOxQR1FfMIlF7AzwoPqw==
 
 p-queue@^4.0.0:
   version "4.0.0"
