@@ -383,8 +383,8 @@ async function main() {
           console.error(
             `${rejectedInsert.length} alerts failed to insert in ${result.repository}`
           );
-        // const update = await updateSource(result.repository, result.newRef);
-        // console.log(`update source ${update.repository} to ${update.tag}`);
+        const update = await updateSource(result.repository, result.newRef);
+        console.log(`update source ${update.repository} to ${update.tag}`);
       }
     }
   }
