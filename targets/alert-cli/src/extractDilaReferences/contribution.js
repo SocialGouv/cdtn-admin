@@ -1,6 +1,10 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
+
+/** @type {alerts.DocumentReferences[]} */
+let references;
+
 /**
  * @param {import("@shared/types").ContributionDocument[]} questions
  */
@@ -33,7 +37,10 @@ export function extractContributionsRef(questions) {
 }
 
 export default async function main() {
-  /** @type {import("@shared/types").ContributionDocument[]} */
-  const contributions = await getAllDocumentsBySource(SOURCES.CONTRIBUTIONS);
-  return extractContributionsRef(contributions);
+  if (!references) {
+    /** @type {import("@shared/types").ContributionDocument[]} */
+    const contributions = await getAllDocumentsBySource(SOURCES.CONTRIBUTIONS);
+    references = extractContributionsRef(contributions);
+  }
+  return references;
 }

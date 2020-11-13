@@ -147,6 +147,17 @@ async function processDilaDiff(repositoryId, tag, files, prevTree, currTree) {
 
       const changes = compareArticles(prevAst, currAst, compareFn);
       const documents = await getRelevantDocuments(changes);
+      if (documents.length) {
+        console.log(
+          "found",
+          documents.length,
+          "documents impacted by release",
+          repositoryId,
+          tag.ref,
+          currAst.data.num,
+          { file }
+        );
+      }
       return {
         ...changes,
         documents,
@@ -293,6 +304,9 @@ async function getDiffFromTags(tags, repositoryId) {
   const diffProcessor = getDiffProcessor(repositoryId);
 
   for (const tag of newTags) {
+    console.log(
+      `get diff from ${previousTag.ref} › ${tag.ref} for ${repositoryId}`
+    );
     const previousCommit = previousTag.commit;
     const { commit } = tag;
     const [prevTree, currTree] = await Promise.all([
@@ -313,6 +327,7 @@ async function getDiffFromTags(tags, repositoryId) {
       currTree
     );
     if (changes.length > 0) {
+      console.log(`› ${changes.length} changes found`);
       allChanges.push(...changes);
     }
     previousTag = tag;

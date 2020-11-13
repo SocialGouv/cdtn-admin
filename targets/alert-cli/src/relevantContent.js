@@ -25,6 +25,7 @@ export async function getRelevantDocuments({ added, modified, removed }) {
         // so id is new but cid hasn't change
         added.find((node) => node.data.cid === ref.dila_cid)
     );
+
     if (reference) {
       return { document: item.document, reference };
     }

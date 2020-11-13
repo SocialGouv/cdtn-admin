@@ -4,7 +4,7 @@ query getAllDocumentsBySource($source: String!, $limit:Int=10,$offset:Int=0 ) {
     order_by: {cdtn_id: asc},
     limit: $limit
     offset: $offset
-    where: {source: {_eq: $source}}) {
+    where: {is_available: {_eq: true}, source: {_eq: $source}}) {
     id:initial_id
     cdtnId:cdtn_id
     title
@@ -16,7 +16,7 @@ query getAllDocumentsBySource($source: String!, $limit:Int=10,$offset:Int=0 ) {
 
 export const countDocumentsBySourceQuery = `
 query coundDocumentsBySource($source:String!){
-  documents_aggregate(where: {source: {_eq: $source}}){
+  documents_aggregate(where: {is_available: {_eq: true}, source: {_eq: $source}}){
     aggregate {
       count
     }

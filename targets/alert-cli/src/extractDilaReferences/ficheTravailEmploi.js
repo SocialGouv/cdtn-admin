@@ -2,6 +2,8 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
 
+/** @type {alerts.DocumentReferences[]} */
+let references;
 /**
  *
  * @param {import("@shared/types").FicheTravailEmploiDocument[]}  fiches
@@ -26,7 +28,10 @@ export function extractFicheTravailEmploiRef(fiches) {
 }
 
 export default async function main() {
-  /** @type {import("@shared/types").FicheTravailEmploiDocument[]} */
-  const fiches = await getAllDocumentsBySource(SOURCES.SHEET_MT_PAGE);
-  return extractFicheTravailEmploiRef(fiches);
+  if (!references) {
+    /** @type {import("@shared/types").FicheTravailEmploiDocument[]} */
+    const fiches = await getAllDocumentsBySource(SOURCES.SHEET_MT_PAGE);
+    references = extractFicheTravailEmploiRef(fiches);
+  }
+  return references;
 }
