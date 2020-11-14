@@ -291,16 +291,17 @@
     permission:
       columns:
       - cdtn_id
-      - initial_id
-      - title
-      - meta_description
-      - source
-      - slug
-      - text
+      - created_at
       - document
+      - initial_id
+      - is_available
       - is_published
       - is_searchable
-      - created_at
+      - meta_description
+      - slug
+      - source
+      - text
+      - title
       - updated_at
       filter: {}
       allow_aggregations: true
