@@ -26,6 +26,7 @@ query getDocumentById($id: String!) {
     initial_id
     is_published
     is_searchable
+    is_available
     meta_description
     slug
     source
