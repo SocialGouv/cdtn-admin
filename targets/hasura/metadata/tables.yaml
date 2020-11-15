@@ -257,16 +257,17 @@
       check: {}
       columns:
       - cdtn_id
-      - initial_id
-      - title
-      - meta_description
-      - source
-      - slug
-      - text
+      - created_at
       - document
+      - initial_id
+      - is_available
       - is_published
       - is_searchable
-      - created_at
+      - meta_description
+      - slug
+      - source
+      - text
+      - title
       - updated_at
       backend_only: false
   select_permissions:
@@ -285,6 +286,7 @@
       - is_searchable
       - created_at
       - updated_at
+      - is_available
       filter: {}
       allow_aggregations: true
   - role: user
@@ -309,17 +311,18 @@
   - role: user
     permission:
       columns:
+      - cdtn_id
+      - created_at
+      - document
+      - initial_id
+      - is_available
       - is_published
       - is_searchable
-      - document
-      - cdtn_id
-      - initial_id
       - meta_description
       - slug
       - source
       - text
       - title
-      - created_at
       - updated_at
       filter: {}
       check: {}
