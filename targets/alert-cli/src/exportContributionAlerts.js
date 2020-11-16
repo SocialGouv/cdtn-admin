@@ -1,3 +1,5 @@
+import fetch from "node-fetch";
+
 const contribApi =
   "https://contributions-api.codedutravail.fabrique.social.gouv.fr/alerts";
 
@@ -11,7 +13,7 @@ export async function exportContributionAlerts(changes) {
   ));
   const contributions = dilaAlertChanges.flatMap((alert) => {
     const targetedContribs = alert.documents.filter(
-      (targetDoc) => targetDoc.document.type == "contributions"
+      (targetDoc) => targetDoc.document.source == "contributions"
     );
     if (targetedContribs.length === 0) {
       return [];
@@ -27,6 +29,11 @@ export async function exportContributionAlerts(changes) {
       }));
     });
   });
-  console.log(JSON.stringify(contributions, null, 2));
-  return contributions;
+  await fetch(contribApi, {
+    body: JSON.stringify(contributions),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+  });
 }
