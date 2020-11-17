@@ -11,25 +11,25 @@ import { useMutation, useQuery } from "urql";
 const searchKaliDocumentQuery = `
 
 query KaliDocumentQuery {
-  kali_blocs(order_by: {title: asc}) {
+  kali_blocks(order_by: {title: asc}) {
     id
     idcc
     title
-    blocs
+    blocks
   }
 }
 
 `;
 
-const editKaliBlocsMutation = `
-mutation EditBlocs(
+const editKaliBlocksMutation = `
+mutation EditBlocks(
   $id: String!,
-  $blocs: jsonb!,
+  $blocks: jsonb!,
 ) {
-  update_kali_blocs_by_pk(
+  update_kali_blocks_by_pk(
     pk_columns: {id: $id},
     _set: {
-      blocs: $blocs
+      blocks: $blocks
     }) {
     id: id
   }
@@ -38,7 +38,7 @@ mutation EditBlocs(
 
 // todo: move somewhere ?
 // d'après la note DGT "DGT - Fiche 2018-29 - Ordonnances 2017 -Fiche Hiérarchie des normes"
-const blocsDefinition = [
+const blocksDefinition = [
   { id: 1, label: `Bloc 1 : Salaires minima hiérarchiques` },
   { id: 2, label: `Bloc 2 : Classifications` },
   {
@@ -88,18 +88,18 @@ const blocsDefinition = [
   { id: 17, label: `Bloc 17 : Primes pour travaux dangereux ou insalubres` },
 ];
 
-function CcnBlocs({ id, blocs, onChange }) {
-  const nbBlocs = 17;
+function CcnBlocks({ id, blocks, onChange }) {
+  const nbBlocks = 17;
   const initialSelections = useMemo(
     () =>
       Array.from(
-        { length: nbBlocs },
-        (k, v) => (blocs && blocs[v + 1] && blocs[v + 1]) || []
+        { length: nbBlocks },
+        (k, v) => (blocks && blocks[v + 1] && blocks[v + 1]) || []
       ),
-    [id, blocs]
+    [id, blocks]
   );
   useEffect(() => {
-    // reset selection state when input blocs change
+    // reset selection state when input blocks change
     setSelections(initialSelections);
     setDirty(false);
   }, [id]);
@@ -142,7 +142,7 @@ function CcnBlocs({ id, blocs, onChange }) {
         const boxHeight = Math.max(100, 50 + selection.length * 30);
         return (
           <div key={i}>
-            <h3>{blocsDefinition.find((b) => b.id === i + 1).label}</h3>
+            <h3>{blocksDefinition.find((b) => b.id === i + 1).label}</h3>
             <Textarea
               style={{ height: boxHeight }}
               value={
@@ -157,7 +157,7 @@ function CcnBlocs({ id, blocs, onChange }) {
   );
 }
 
-export function KaliBlocsPage() {
+export function KaliBlocksPage() {
   const [ccnId, setCcnId] = useState("573");
   const [result] = useQuery({
     query: searchKaliDocumentQuery,
@@ -165,7 +165,9 @@ export function KaliBlocsPage() {
   const { fetching, error, data } = result;
 
   // eslint-disable-next-line no-unused-vars
-  const [updateBlocsResult, updateBlocs] = useMutation(editKaliBlocsMutation);
+  const [updateBlocksResult, updateBlocks] = useMutation(
+    editKaliBlocksMutation
+  );
 
   if (fetching) {
     return <Layout title="Blocs KALI">chargement...</Layout>;
@@ -184,19 +186,19 @@ export function KaliBlocsPage() {
       setCcnId(null);
     }
   };
-  const onBlocsChange = (blocs) => {
-    return updateBlocs({
-      blocs,
+  const onBlocksChange = (blocks) => {
+    return updateBlocks({
+      blocks,
       id: ccnId,
     });
   };
-  const ccn = ccnId && data.kali_blocs.find((kali) => kali.id === ccnId);
+  const ccn = ccnId && data.kali_blocks.find((kali) => kali.id === ccnId);
   return (
     <Layout title="Blocs KALI">
       <Card>
         <Select style={{ maxWidth: 800 }} onChange={onCcnSelectChange}>
           <option value="">---</option>
-          {data.kali_blocs.map((ccn) => (
+          {data.kali_blocks.map((ccn) => (
             <option key={ccn.id} value={ccn.id}>
               {ccn.idcc} - {ccn.title}
             </option>
@@ -206,10 +208,14 @@ export function KaliBlocsPage() {
 
       <Card>
         {(ccn && (
-          <CcnBlocs id={ccn.id} blocs={ccn.blocs} onChange={onBlocsChange} />
+          <CcnBlocks
+            id={ccn.id}
+            blocks={ccn.blocks}
+            onChange={onBlocksChange}
+          />
         )) || (
           <Message variant="primary">
-            Choisissez une convention collective pour définir les blocs
+            Choisissez une convention collective pour définir les blocks
           </Message>
         )}
       </Card>
@@ -217,4 +223,4 @@ export function KaliBlocsPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(KaliBlocsPage));
+export default withCustomUrqlClient(withUserProvider(KaliBlocksPage));
