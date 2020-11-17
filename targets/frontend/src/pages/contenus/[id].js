@@ -48,7 +48,7 @@ mutation updateDocument($cdtnId: String!, $metaDescription: String!, $title: Str
       cdtn_id: $cdtnId
     }
   ){
-    cdtnId:cdtn_id, title, metaDescription: meta_description, document
+    cdtnId:cdtn_id, title, source, metaDescription: meta_description, document
   }
 }`;
 
@@ -81,9 +81,19 @@ export function DocumentsPage() {
       metaDescription: jsonDoc.current.meta_description,
       title: jsonDoc.current.title,
     }).then(({ data }) => {
-      const { cdtnId, title, metaDescription, document } = data.document;
+      const {
+        cdtnId,
+        title,
+        source,
+        metaDescription,
+        document,
+      } = data.document;
       request("/api/preview", {
-        body: { cdtnId, document: { ...document, metaDescription, title } },
+        body: {
+          cdtnId,
+          document: { ...document, metaDescription, title },
+          source,
+        },
       });
       if (result.error) {
         console.error(result.error);
