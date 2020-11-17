@@ -14,6 +14,7 @@ export default function CodeEditor({ onChange, value }) {
       theme="github"
       name="EditJsonContent"
       setOptions={{
+        useWorker: false,
         wrap: true,
       }}
       editorProps={{ $blockScrolling: true }}
