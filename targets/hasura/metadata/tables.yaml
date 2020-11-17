@@ -384,7 +384,7 @@
       filter: {}
 - table:
     schema: public
-    name: kali_blocs
+    name: kali_blocks
 - table:
     schema: public
     name: roles

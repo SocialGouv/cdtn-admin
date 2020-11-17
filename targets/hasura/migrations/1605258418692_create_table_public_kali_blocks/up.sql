@@ -1,0 +1,1 @@
+CREATE TABLE "public"."kali_blocks"("id" text NOT NULL, "title" text NOT NULL, "idcc" integer NOT NULL, "blocks" jsonb, PRIMARY KEY ("id") , UNIQUE ("id"), UNIQUE ("title"), UNIQUE ("idcc")); COMMENT ON TABLE "public"."kali_blocks" IS E'Kali Blocks';
