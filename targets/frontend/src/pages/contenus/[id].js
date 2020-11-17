@@ -88,7 +88,7 @@ export function DocumentPage() {
         metaDescription,
         document,
       } = data.document;
-      request("/api/preview", {
+      request("/api/elasticcloud/preview", {
         body: {
           cdtnId,
           document: { ...document, metaDescription, title },

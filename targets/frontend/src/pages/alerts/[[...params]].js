@@ -108,8 +108,7 @@ export function AlertPage() {
           <Link
             shallow
             key={status.name}
-            as={`/alerts/${repo}/${status.name}`}
-            href="/alerts/[[...params]]"
+            href={`/alerts/${repo}/${status.name}`}
             passHref
           >
             <NavLink>

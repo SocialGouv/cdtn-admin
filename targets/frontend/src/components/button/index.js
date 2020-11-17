@@ -17,6 +17,7 @@ import {
   Button as BaseButton,
   IconButton as BaseIconButton,
   jsx,
+  NavLink,
 } from "theme-ui";
 
 const buttonPropTypes = {
@@ -234,3 +235,39 @@ export function ExpandedIcon() {
   const { isExpanded } = useAccordionItemContext();
   return isExpanded ? <IoIosArrowDown /> : <IoIosArrowForward />;
 }
+
+export const NavButton = React.forwardRef(function _SolidButton(
+  { variant = "primary", ...props },
+  ref
+) {
+  return (
+    <NavLink
+      ref={ref}
+      color="white"
+      px="xsmall"
+      py="xxsmall"
+      sx={{
+        ...defaultButtonStyles,
+        "&:active": { color: "white" },
+        "&:focus": { color: "link" },
+        "&:hover:not([disabled])": {
+          bg: (theme) => theme.buttons[variant].bgHover,
+          borderColor: (theme) => theme.buttons[variant].bgHover,
+          color: (theme) => theme.buttons[variant].color,
+        },
+        "&[disabled]": {
+          bg: "muted",
+          borderColor: "muted",
+        },
+        bg: (theme) => theme.buttons[variant].bg,
+        borderColor: (theme) => theme.buttons[variant].bg,
+        borderRadius: "small",
+        color: (theme) => theme.buttons[variant].color,
+        display: "inline-flex",
+        fontWeight: "bold",
+      }}
+      {...props}
+    />
+  );
+});
+NavButton.propTypes = buttonPropTypes;

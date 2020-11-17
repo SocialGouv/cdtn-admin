@@ -1,17 +1,20 @@
+/** @jsx jsx  */
+
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { memo, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { IoIosSearch } from "react-icons/io";
+import { MdSearch } from "react-icons/md";
 import { Button } from "src/components/button";
-/** @jsx jsx  */
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Pagination } from "src/components/pagination";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Card, Input, jsx, Message, NavLink, Select } from "theme-ui";
-import { useQuery } from "urql";
+import { theme } from "src/theme";
+import { Card, Input, jsx, Label, Message, NavLink, Select } from "theme-ui";
+import { useMutation, useQuery } from "urql";
 
 const searchDocumentQuery = `
 query documents($source: String, $search: String!, $offset: Int = 0, $limit: Int = 50) {
@@ -31,6 +34,7 @@ query documents($source: String, $search: String!, $offset: Int = 0, $limit: Int
     cdtnId:cdtn_id
     title
     source
+    isPublished: is_published
   }
 
 	documents_aggregate(
@@ -52,6 +56,17 @@ query documents($source: String, $search: String!, $offset: Int = 0, $limit: Int
 }
 `;
 
+const updatePublicationMutation = `
+mutation publication($cdtnId:String!, $isPublished:Boolean!) {
+  document: update_documents_by_pk(
+    _set: {is_published: $isPublished}
+    pk_columns: { cdtn_id: $cdtnId }
+  ) {
+    cdtnId:cdtn_id, isPublished:is_published
+  }
+}
+`;
+
 const documentSources = [
   [SOURCES.CCN, getLabelBySource(SOURCES.CCN)],
   [SOURCES.CDT, getLabelBySource(SOURCES.CDT)],
@@ -65,41 +80,65 @@ const documentSources = [
   [SOURCES.TOOLS, getLabelBySource(SOURCES.TOOLS)],
 ];
 
-export function DocumentsPage() {
-  const { register, handleSubmit } = useForm();
-  const [search, setSearch] = useState({ source: null, value: "" });
-  const [offset, setOffset] = useState(0);
+const DEFAULT_ITEMS_PER_PAGE = 25;
 
-  const onSearchSubmit = ({ search, source }) => {
+export function DocumentsPage() {
+  const router = useRouter();
+
+  const context = useMemo(() => ({ additionalTypenames: ["documents"] }), []);
+
+  const [, updatePublication] = useMutation(updatePublicationMutation);
+
+  const { register, handleSubmit } = useForm();
+
+  const [itemsPerPage, setItemsPerPage] = useState(DEFAULT_ITEMS_PER_PAGE);
+
+  const currentPage = parseInt(router.query.page, 10) || 0;
+
+  const [search, setSearch] = useState({
+    source: router.query.source || null,
+    value: router.query.q?.trim() || "",
+  });
+
+  const onSearchSubmit = ({ q, source }) => {
     setSearch({
-      source: source ? source : null,
-      value: search,
+      source: source || null,
+      value: q || "",
     });
   };
 
-  const ITEMS_PER_PAGE = 50;
+  function updateUrl(event) {
+    const query = { ...router.query };
+    query[event.target.name] = event.target.value.trim();
+    setSearch({
+      source: query.source || null,
+      value: query.q || "",
+    });
+    router.push({ pathname: router.route, query });
+  }
 
   const [result] = useQuery({
     query: searchDocumentQuery,
     variables: {
-      limit: ITEMS_PER_PAGE,
-      offset,
+      limit: itemsPerPage,
+      offset: currentPage * itemsPerPage,
       search: `%${search.value}%`,
       source: search.source,
     },
   });
 
+  function updatePublish(cdtnId, checked) {
+    return updatePublication({ cdtnId, isPublished: checked }, context);
+  }
+
   const { fetching, error, data } = result;
 
   function isSourceDisabled(source) {
     return (
-      data.sources.nodes.find((node) => node.source === source) === undefined
+      data?.sources.nodes.find((node) => node.source === source) === undefined
     );
   }
 
-  if (fetching) {
-    return <Layout title="Contenus">chargement...</Layout>;
-  }
   if (error) {
     return (
       <Layout title="Contenus">
@@ -110,18 +149,24 @@ export function DocumentsPage() {
 
   return (
     <Layout title="Contenus">
-      <Card>
+      <Card sx={{ position: "sticky", top: 0 }} bg="white">
         <form onSubmit={handleSubmit(onSearchSubmit)}>
           <Inline>
             <Input
               sx={{ flex: 1 }}
-              name="search"
+              name="q"
               type="search"
               placeholder="titre..."
               defaultValue={search.value}
               ref={register}
+              onBlur={updateUrl}
             />
-            <Select name="source" ref={register} defaultValue={search.source}>
+            <Select
+              name="source"
+              ref={register}
+              onChange={updateUrl}
+              defaultValue={search.source}
+            >
               <option value="">toutes les sources</option>
               {documentSources.map(([source, label]) => (
                 <option
@@ -134,33 +179,57 @@ export function DocumentsPage() {
               ))}
             </Select>
             <Button>
-              <IoIosSearch /> Rechercher
+              <MdSearch /> Rechercher
             </Button>
+            <div />
+            <Label htmlFor="itemsPerPage">Documents par page</Label>
+            <Select
+              sx={{ width: "4rem" }}
+              name="itemsPerPage"
+              id="itemsPerPage"
+              defaultValue={itemsPerPage}
+              onChange={(event) =>
+                setItemsPerPage(
+                  Number.parseInt(event.target.value, 10) ||
+                    DEFAULT_ITEMS_PER_PAGE
+                )
+              }
+            >
+              {[10, 25, 50, 100].map((size) => (
+                <option key={`items-per-page${size}`} value={size}>
+                  {size}
+                </option>
+              ))}
+            </Select>
           </Inline>
         </form>
       </Card>
-      {data.documents.length ? (
+
+      {fetching ? (
+        "chargement..."
+      ) : data.documents.length ? (
         <>
-          <ul>
-            {data.documents.map((doc) => (
-              <li key={doc.cdtnId}>
-                <Link
-                  href="/contenus/[id]"
-                  as={`/contenus/${doc.cdtnId}`}
-                  passHref
-                >
-                  <NavLink>
-                    {doc.source} › {doc.title}
-                  </NavLink>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <table>
+            <thead>
+              <tr>
+                <th sx={{ textAlign: "left" }}>Publié</th>
+                <th sx={{ textAlign: "left" }}>Document</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.documents.map((doc) => (
+                <DocumentRow
+                  key={doc.cdtnId}
+                  document={doc}
+                  updatePublish={updatePublish}
+                />
+              ))}
+            </tbody>
+          </table>
           <Pagination
             count={data.documents_aggregate.aggregate.count}
-            offset={offset}
-            pageSize={ITEMS_PER_PAGE}
-            onChange={({ offset }) => setOffset(offset)}
+            currentPage={currentPage}
+            pageSize={itemsPerPage}
           />
         </>
       ) : (
@@ -169,5 +238,47 @@ export function DocumentsPage() {
     </Layout>
   );
 }
+
+const DocumentRow = memo(function _DocumentRow({
+  document: { cdtnId, source, title, isPublished },
+  updatePublish,
+}) {
+  const [isChecked, setChecked] = useState(isPublished);
+  return (
+    <tr>
+      <td sx={{ padding: "0.4em" }}>
+        <input
+          type="checkbox"
+          sx={{
+            cursor: "pointer",
+            display: "block",
+            height: "1.2rem",
+            m: "0 0 0 small",
+            padding: 0,
+            width: "1.2rem",
+          }}
+          checked={isChecked}
+          onChange={() => {
+            setChecked(!isChecked);
+            updatePublish(cdtnId, !isChecked);
+          }}
+        />
+      </td>
+      <td>
+        <Link href={`/contenus/${cdtnId}`} passHref>
+          <NavLink>
+            <span
+              sx={{
+                color: isChecked ? theme.colors.link : theme.colors.muted,
+              }}
+            >
+              {source} › {title}
+            </span>
+          </NavLink>
+        </Link>
+      </td>
+    </tr>
+  );
+});
 
 export default withCustomUrqlClient(withUserProvider(DocumentsPage));

@@ -24,13 +24,9 @@ export const TermList = React.memo(({ termsByLetters = [] }) => (
             <ul sx={{ listStyleType: "none", m: 0, p: 0 }}>
               {terms.map(({ term, id }) => (
                 <li key={id}>
-                  <Link
-                    href="/glossary/edit/[id]"
-                    as={`/glossary/edit/${id}`}
-                    passHref
-                  >
+                  <Link href={`/glossary/edit/${id}`} passHref>
                     {/* eslint-disable-next-line */}
-                          <a
+                    <a
                       sx={{
                         display: "inline-block",
                         p: "0.2rem 0",

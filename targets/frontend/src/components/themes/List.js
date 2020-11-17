@@ -98,7 +98,7 @@ const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
     }}
   >
     {isAdmin && sortable && <SortHandle />}
-    <Link href="/themes/[[...id]]" as={`/themes/${theme.cdtnId}`} passHref>
+    <Link href={`/themes/${theme.cdtnId}`} passHref>
       <Card
         as="a"
         sx={{

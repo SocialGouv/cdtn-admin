@@ -109,11 +109,7 @@ export function ThemePage() {
           <>
             <Flex sx={{ alignItems: "center", justifyContent: "center" }}>
               <h2>{themeData?.title}</h2>
-              <Link
-                href="/themes/edit/[id]"
-                as={`/themes/edit/${themeId}`}
-                passHref
-              >
+              <Link href={`/themes/edit/${themeId}`} passHref>
                 <Button as="a" sx={{ ml: "medium" }}>
                   <>
                     <IoMdCreate
@@ -165,11 +161,7 @@ export default withCustomUrqlClient(withUserProvider(ThemePage));
 
 const AddAThemeButton = ({ themeId }) => (
   <Box sx={{ mt: "medium" }}>
-    <Link
-      href={`/themes/${themeId ? "[id]/" : ""}create`}
-      as={`/themes/${themeId ? `${themeId}/` : ""}create`}
-      passHref
-    >
+    <Link href={`/themes/${themeId ? `${themeId}/` : ""}create`} passHref>
       <Button as="a" sx={{ mr: "medium" }}>
         <IoMdAdd
           sx={{ height: "iconMedium", mr: "xxsmall", width: "iconMedium" }}
@@ -185,7 +177,7 @@ AddAThemeButton.propTypes = {
 };
 
 const ParentLink = ({ id, ...props }) => (
-  <Link href="/themes/[[...id]]" as={`/themes${id ? `/${id}` : ""}`} passHref>
+  <Link href={`/themes${id ? `/${id}` : ""}`} passHref>
     <Card
       as="a"
       sx={{
