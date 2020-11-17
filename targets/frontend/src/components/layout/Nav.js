@@ -16,7 +16,7 @@ query getAlerts{
     label,
     alerts: alerts_aggregate(where: {status: {_eq: "todo"}}) {
       aggregate {
-      	count
+        count
       }
     }
   }
@@ -108,11 +108,6 @@ export function Nav() {
             <ActiveLink href="/kali/blocks" passHref>
               <NavLink>Blocs KALI</NavLink>
             </ActiveLink>
-          </Li>
-          <Li>
-            <Link href="/kali/blocs" passHref>
-              <NavLink>Blocs KALI</NavLink>
-            </Link>
           </Li>
         </List>
       </Box>
