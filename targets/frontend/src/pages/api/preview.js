@@ -56,7 +56,11 @@ export default async function (req, res) {
     });
     res.json({ message: "doc updated!" });
   } catch (response) {
-    console.error(response.body.error);
+    if (response.body) {
+      console.error(response.body.error);
+    } else {
+      console.error(response);
+    }
     res.status(response.statusCode).json({ message: response.body.error });
   }
 }

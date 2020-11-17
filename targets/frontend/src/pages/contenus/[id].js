@@ -52,7 +52,7 @@ mutation updateDocument($cdtnId: String!, $metaDescription: String!, $title: Str
   }
 }`;
 
-export function DocumentsPage() {
+export function DocumentPage() {
   const router = useRouter();
 
   const [result] = useQuery({
@@ -148,4 +148,4 @@ export function DocumentsPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(DocumentsPage));
+export default withCustomUrqlClient(withUserProvider(DocumentPage));
