@@ -96,13 +96,13 @@ function CcnBlocks({ id, blocks, onChange }) {
         { length: nbBlocks },
         (k, v) => (blocks && blocks[v + 1] && blocks[v + 1]) || []
       ),
-    [id, blocks]
+    [blocks]
   );
   useEffect(() => {
     // reset selection state when input blocks change
     setSelections(initialSelections);
     setDirty(false);
-  }, [id]);
+  }, [initialSelections, id]);
   const [selections, setSelections] = useState(initialSelections);
   const [dirty, setDirty] = useState(false);
   const onTextAreaChange = (e, index) => {
