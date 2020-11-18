@@ -146,7 +146,6 @@ function getContributionAnswers(contributionsWithSlug, agreementNum) {
  * @returns {ingester.AgreementArticleByBlock[]}
  */
 function getArticleByBlock(blocks, agreementTree) {
-  console.log("getArticleByBlock");
   const treeWithParents = parents(agreementTree);
   return Object.keys(blocks)
     .filter((key) => blocks[key].length > 0)
