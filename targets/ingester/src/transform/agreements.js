@@ -18,10 +18,8 @@ const compiler = remark().use(html, { sanitize: true });
 const createSorter = (fn) => (a, b) => fn(a) - fn(b);
 
 const getKaliBlocksQuery = `
-query Blocks($id: String) {
-  kali_blocks(where: {id: {_eq: $id}}) {
-    blocks
-  }
+query Blocks($id: String!) {
+  kali_blocks_by_pk(id: $id) {blocks}
 }
 `;
 
@@ -36,7 +34,7 @@ async function getKaliBlocks(id) {
     console.error(result.error);
     throw new Error(`error initializing documents availability`);
   }
-  return result.data.blocks;
+  return result.data.kali_blocks_by_pk && result.data.kali_blocks_by_pk.blocks;
 }
 
 /**
@@ -148,32 +146,35 @@ function getContributionAnswers(contributionsWithSlug, agreementNum) {
  * @returns {ingester.AgreementArticleByBlock[]}
  */
 function getArticleByBlock(blocks, agreementTree) {
+  console.log("getArticleByBlock");
   const treeWithParents = parents(agreementTree);
   return Object.keys(blocks)
     .filter((key) => blocks[key].length > 0)
     .sort(createSorter((a) => parseInt(a, 10)))
     .map((key) => ({
-      articles: blocks[key].flatMap((articleId) => {
-        const node = find(
-          treeWithParents,
-          (node) => node.data.id === articleId
-        );
-        // if (!node) {
-        //   console.debug(
-        //     `${articleId} not found in idcc ${agreementTree.data.num}`
-        //   );
-        // }
-        return node
-          ? [
-              {
-                cid: node.data.cid,
-                id: node.data.id,
-                section: node.parent.data.title,
-                title: node.data.num || "non numéroté",
-              },
-            ]
-          : [];
-      }),
+      articles:
+        blocks[key] &&
+        blocks[key].flatMap((articleId) => {
+          const node = find(
+            treeWithParents,
+            (node) => node.data.id === articleId
+          );
+          // if (!node) {
+          //   console.debug(
+          //     `${articleId} not found in idcc ${agreementTree.data.num}`
+          //   );
+          // }
+          return node
+            ? [
+                {
+                  cid: node.data.cid,
+                  id: node.data.id,
+                  section: node.parent.data.title,
+                  title: node.data.num || "non numéroté",
+                },
+              ]
+            : [];
+        }),
       bloc: key,
     }))
     .filter(({ articles }) => articles.length > 0);
