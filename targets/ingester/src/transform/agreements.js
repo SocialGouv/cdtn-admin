@@ -1,11 +1,11 @@
+import { client } from "@shared/graphql-client";
+import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import remark from "remark";
 import html from "remark-html";
 import find from "unist-util-find";
 import parents from "unist-util-parents";
-import slugify from "@socialgouv/cdtn-slugify";
 
-import { client } from "@shared/graphql-client";
 import { formatIdcc } from "../lib/formatIdcc.js";
 import { getJson } from "../lib/getJson.js";
 
