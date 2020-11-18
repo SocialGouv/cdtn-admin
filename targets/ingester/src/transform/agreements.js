@@ -1,10 +1,11 @@
-import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import remark from "remark";
 import html from "remark-html";
 import find from "unist-util-find";
 import parents from "unist-util-parents";
+import slugify from "@socialgouv/cdtn-slugify";
 
+import { client } from "@shared/graphql-client";
 import { formatIdcc } from "../lib/formatIdcc.js";
 import { getJson } from "../lib/getJson.js";
 
@@ -15,6 +16,28 @@ const compiler = remark().use(html, { sanitize: true });
  * @returns {(a:A, b:A) => number}
  */
 const createSorter = (fn) => (a, b) => fn(a) - fn(b);
+
+const getKaliBlocksQuery = `
+query Blocks($id: String) {
+  kali_blocks(where: {id: {_eq: $id}}) {
+    blocks
+  }
+}
+`;
+
+/**
+ *
+ * @param {string} id
+ * @returns {Promise<ingester.AgreementKaliBlocks>}
+ */
+async function getKaliBlocks(id) {
+  const result = await client.query(getKaliBlocksQuery, { id }).toPromise();
+  if (result.error) {
+    console.error(result.error);
+    throw new Error(`error initializing documents availability`);
+  }
+  return result.data.blocks;
+}
 
 /**
  *
@@ -30,11 +53,6 @@ export default async function getAgreementDocuments(pkgName) {
     `@socialgouv/contributions-data/data/contributions.json`
   );
 
-  /** @type {import("@socialgouv/datafiller-data-types/src/agreements").AgreementsItem[]} */
-  const agreementsBlocks = await getJson(
-    "@socialgouv/datafiller-data/data/agreements.json"
-  );
-
   const contributionsWithSlug = contributions.map((contrib) => {
     const slug = slugify(contrib.title);
     return {
@@ -45,21 +63,18 @@ export default async function getAgreementDocuments(pkgName) {
 
   const agreementPages = [];
 
+  // build agreement documents from kali-data, contributions, and cdtn-admin/kali_blocks
   for (const agreement of agreements) {
     const agreementTree = await getJson(
       `@socialgouv/kali-data/data/${agreement.id}.json`
     );
-    const blocksData = agreementsBlocks.find(
-      // cid = container-id not chronical-id
-      (data) => data.cid === agreement.id
-    );
+    const agreementBlocks = await getKaliBlocks(agreement.id);
     agreementPages.push({
       ...getCCNInfo(agreement),
       answers: getContributionAnswers(contributionsWithSlug, agreement.num),
-      articlesByTheme:
-        blocksData && blocksData.groups
-          ? getArticleByBlock(blocksData.groups, agreementTree)
-          : [],
+      articlesByTheme: agreementBlocks
+        ? getArticleByBlock(agreementBlocks, agreementTree)
+        : [],
       description: `Idcc ${formatIdcc(agreement.num)} : ${
         agreement.shortTitle
       }`,
@@ -128,17 +143,17 @@ function getContributionAnswers(contributionsWithSlug, agreementNum) {
 }
 
 /**
- * @param {{id:string, selection:string[]}[]} groups
+ * @param {ingester.AgreementKaliBlocks} blocks
  * @param {import("@socialgouv/kali-data-types").Agreement} agreementTree
  * @returns {ingester.AgreementArticleByBlock[]}
  */
-function getArticleByBlock(groups, agreementTree) {
+function getArticleByBlock(blocks, agreementTree) {
   const treeWithParents = parents(agreementTree);
-  return groups
-    .filter(({ selection }) => selection.length > 0)
-    .sort(createSorter((a) => parseInt(a.id, 10)))
-    .map(({ id, selection }) => ({
-      articles: selection.flatMap((articleId) => {
+  return Object.keys(blocks)
+    .filter((key) => blocks[key].length > 0)
+    .sort(createSorter((a) => parseInt(a, 10)))
+    .map((key) => ({
+      articles: blocks[key].flatMap((articleId) => {
         const node = find(
           treeWithParents,
           (node) => node.data.id === articleId
@@ -159,7 +174,7 @@ function getArticleByBlock(groups, agreementTree) {
             ]
           : [];
       }),
-      bloc: id,
+      bloc: key,
     }))
     .filter(({ articles }) => articles.length > 0);
 }
