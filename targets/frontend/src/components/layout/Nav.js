@@ -90,19 +90,24 @@ export function Nav() {
         <Text sx={TitleStyles}>Administration</Text>
         <List>
           <Li>
-            <Link href="/contenus" passHref>
+            <ActiveLink href="/contenus" passHref>
               <NavLink>Contenus</NavLink>
-            </Link>
+            </ActiveLink>
           </Li>
           <Li>
-            <Link href="/glossary" passHref>
+            <ActiveLink href="/glossary" passHref>
               <NavLink>Glossaire</NavLink>
-            </Link>
+            </ActiveLink>
           </Li>
           <Li>
-            <Link href="/themes/[[...id]]" as="/themes" passHref>
+            <ActiveLink href="/themes/[[...id]]" as="/themes" passHref>
               <NavLink>Thèmes</NavLink>
-            </Link>
+            </ActiveLink>
+          </Li>
+          <Li>
+            <ActiveLink href="/kali/blocks" passHref>
+              <NavLink>Blocs KALI</NavLink>
+            </ActiveLink>
           </Li>
         </List>
       </Box>
