@@ -18,7 +18,7 @@ deployment:
       memory: 256Mi
     limits:
       cpu: 1000m
-      memory: 1024Mi
+      memory: 1500Mi
 
   env:
     - name: NODE_ENV

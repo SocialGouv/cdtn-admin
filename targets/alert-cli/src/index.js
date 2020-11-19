@@ -374,10 +374,12 @@ async function main() {
           );
         });
 
-        rejectedInsert.length &&
+        if (rejectedInsert.length) {
           console.error(
             `${rejectedInsert.length} alerts failed to insert in ${result.repository}`
           );
+          process.exit(-1);
+        }
         const update = await updateSource(result.repository, result.newRef);
         console.log(`update source ${update.repository} to ${update.tag}`);
       }
