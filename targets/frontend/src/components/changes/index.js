@@ -197,7 +197,7 @@ DilaDiffChange.propTypes = {
 const ficheVddTypeSlug = {
   associations: "associations",
   particuliers: "particuliers",
-  professionnels: "professionnels-entreprise",
+  professionnels: "professionnels-entreprises",
 };
 function getFicheVddUrl(change) {
   return `https://www.service-public.fr/${
