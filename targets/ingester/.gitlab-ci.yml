@@ -38,6 +38,9 @@ Lint ingester:
       artifacts: true
   before_script:
     - cd targets/ingester
+  script:
+    - yarn types
+    - yarn lint
 
 #
 #
