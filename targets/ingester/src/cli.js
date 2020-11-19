@@ -209,8 +209,6 @@ main()
           0
         )} documents`
       );
-    }
-    if (rejectedInsert.length) {
       process.exit(-1);
     }
   })
