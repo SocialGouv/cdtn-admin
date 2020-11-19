@@ -24,14 +24,8 @@ const args = yargs(process.argv)
   .help().argv;
 
 const updateDocumentAvailability = `
-mutation update_documents {
-	documents: update_documents(_set: {is_available: false}, where: {source: {_in: [
-    "code_du_travail",
-    "fiches_service_public",
-    "page_fiche_ministere_travail",
-    "conventions_collectives",
-    "contributions"
-  ]}}) {
+mutation update_documents($source:String!) {
+	documents: update_documents(_set: {is_available: false}, where: {source: {_eq: $source}}) {
     affected_rows
   }
 }
@@ -155,9 +149,14 @@ async function insertDocuments(docs) {
   }
   return result.data.documents.returning;
 }
-
-async function initDocAvailabity() {
-  const result = await client.mutation(updateDocumentAvailability).toPromise();
+/**
+ *
+ * @param {string} source
+ */
+async function initDocAvailabity(source) {
+  const result = await client
+    .mutation(updateDocumentAvailability, { source })
+    .toPromise();
   if (result.error) {
     console.error(result.error);
     throw new Error(`error initializing documents availability`);
@@ -171,20 +170,19 @@ async function main() {
   }
   if (args.dryRun) {
     console.log("dry-run mode");
-  } else {
-    const nbDocs = await initDocAvailabity();
-    console.log(`Update availability of ${nbDocs} documents`);
   }
   /** @type {({status:"fulfilled", value:{cdtn_id:string}[]}|{status: "rejected", reason:Object})[]} */
   let ids = [];
   for (const [pkgName, getDocument] of dataPackages) {
     const documents = await getDocument(pkgName);
-    if (args.dryRun || !documents) {
+    if (args.dryRun || !documents || !documents.length) {
       continue;
     }
     console.log(
       `ready to ingest ${documents.length} documents from ${pkgName}`
     );
+    const nbDocs = await initDocAvailabity(documents[0].source);
+    console.log(`update availability of ${nbDocs} documents`);
     const chunks = chunk(documents, 80);
     const inserts = await batchPromises(chunks, insertDocuments, 15);
     ids = ids.concat(inserts);
@@ -211,6 +209,7 @@ main()
           0
         )} documents`
       );
+      process.exit(-1);
     }
   })
   .catch(console.error);
