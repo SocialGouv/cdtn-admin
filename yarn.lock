@@ -2927,11 +2927,6 @@
   resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data-types/-/contributions-data-types-3.0.0.tgz#bf189e54d28dda026431f4f6b1992bb72e27865f"
   integrity sha512-BaqHuZz+8rXy8y6o506N3tNk06Vc+PRxM/3J4Aj/63pMth7oZ2bn8edzt7IQA5kVJm1CA94zsotqYChNUl6vDA==
 
-"@socialgouv/datafiller-data-types@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/datafiller-data-types/-/datafiller-data-types-2.4.0.tgz#e197428bfd5d4ea73b316ba3862a6e49284d1330"
-  integrity sha512-Zy1nq+luiPSadPt3BHiy4omnvQrccl80f6H6X2K/AZlIFFokVUVIFvfz4hj9zKsIFgJ9K3mH10EWeo9T8v8KQw==
-
 "@socialgouv/datafiller-data-types@^2.6.0":
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/@socialgouv/datafiller-data-types/-/datafiller-data-types-2.6.0.tgz#e804353ca5780bbe509c16ef1b49c4578c6f192e"
