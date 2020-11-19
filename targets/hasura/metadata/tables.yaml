@@ -385,6 +385,47 @@
 - table:
     schema: public
     name: kali_blocks
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - title
+      - idcc
+      - blocks
+      backend_only: false
+  select_permissions:
+  - role: public
+    permission:
+      columns:
+      - id
+      - title
+      - idcc
+      - blocks
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - idcc
+      - blocks
+      - id
+      - title
+      filter: {}
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - idcc
+      - blocks
+      - id
+      - title
+      filter: {}
+      check: {}
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
 - table:
     schema: public
     name: roles
