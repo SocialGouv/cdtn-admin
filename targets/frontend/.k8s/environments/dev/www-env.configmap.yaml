@@ -7,7 +7,7 @@ data:
   FRONTEND_URL: "https://${HOST}"
   FRONTEND_PORT: "${PORT}"
   CI_COMMIT_SHORT_SHA: "${CI_COMMIT_SHORT_SHA}"
-  GRAPHQL_ENDPOINT: "http://hasura-cdtn-admin/v1/graphql"
+  HASURA_GRAPHQL_ENDPOINT: "http://hasura-cdtn-admin/v1/graphql"
   NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES: "10080"
   NODE_ENV: "production"
   REFRESH_TOKEN_EXPIRES: "43200"
