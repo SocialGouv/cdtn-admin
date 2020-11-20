@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import {
   deletePreviousRefreshTokenMutation,
   getRefreshTokenQuery,
-} from "./refreshToken.gql";
+} from "./refresh_token.gql";
 
 export default async function refreshToken(req, res) {
   const apiError = createErrorFor(res);
@@ -85,7 +85,7 @@ export default async function refreshToken(req, res) {
   const jwt_token = generateJwtToken(user);
 
   setRefreshTokenCookie(res, new_refresh_token);
-  console.log("refresh", { jwtTokenExpire: process.env.JWT_TOKEN_EXPIRES });
+
   res.json({
     jwt_token,
     jwt_token_expiry: getExpiryDate(
