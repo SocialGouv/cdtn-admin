@@ -30,7 +30,7 @@ export default async function getAgreementDocuments(pkgName) {
     `@socialgouv/contributions-data/data/contributions.json`
   );
 
-  /** @type {import("@socialgouv/datafiller-data-types/src/agreements").AgreementsItem[]} */
+  /** @type {import("@socialgouv/datafiller-data-types").AgreementsItem[]} */
   const agreementsBlocks = await getJson(
     "@socialgouv/datafiller-data/data/agreements.json"
   );
