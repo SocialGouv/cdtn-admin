@@ -6,7 +6,7 @@ import { setRefreshTokenCookie } from "./setRefreshTokenCookie";
 let inMemoryToken;
 
 export function getToken() {
-  return inMemoryToken ? inMemoryToken.jwt_token : null;
+  return inMemoryToken || null;
 }
 
 export function isTokenExpired() {

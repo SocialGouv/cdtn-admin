@@ -1,9 +1,12 @@
 import jwt, { verify } from "jsonwebtoken";
 
-const { HASURA_GRAPHQL_JWT_SECRET, JWT_TOKEN_EXPIRES = 15 } = process.env;
+const { HASURA_GRAPHQL_JWT_SECRET, JWT_TOKEN_EXPIRES } = process.env;
 const jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
 
 export function generateJwtToken(user) {
+  console.log("generateJwtToken", {
+    jwtTokenExpire: process.env.JWT_TOKEN_EXPIRES,
+  });
   const user_roles = user.roles.map((role) => {
     return role.role;
   });

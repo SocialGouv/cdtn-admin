@@ -10,6 +10,11 @@ import { getExpiryDate } from "src/lib/duration";
 import { loginQuery, refreshTokenMutation } from "./login.gql";
 
 export default async function login(req, res) {
+  console.log("login", {
+    refreshTokenExpire: process.env.REFRESH_TOKEN_EXPIRES,
+  });
+  console.log(("login", { jwtTokenExpire: process.env.JWT_TOKEN_EXPIRES }));
+
   const apiError = createErrorFor(res);
 
   if (req.method === "GET") {
@@ -89,7 +94,6 @@ export default async function login(req, res) {
   const { refresh_token } = result.data.insert_data.returning[0];
 
   setRefreshTokenCookie(res, refresh_token);
-
   res.json({
     jwt_token,
     jwt_token_expiry: getExpiryDate(

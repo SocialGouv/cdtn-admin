@@ -1,5 +1,9 @@
+import { makeOperation } from "@urql/core";
+import { authExchange } from "@urql/exchange-auth";
 import { withUrqlClient } from "next-urql";
-import { authExchange } from "src/lib/auth/authTokenExchange";
+import { auth, getToken, isTokenExpired, setToken } from "src/lib/auth/token";
+import { request } from "src/lib/request";
+// import { authExchange } from "src/lib/auth/authTokenExchange";
 import { cacheExchange, dedupExchange, fetchExchange } from "urql";
 
 export const withCustomUrqlClient = (Component) =>
@@ -21,7 +25,80 @@ export const withCustomUrqlClient = (Component) =>
         dedupExchange,
         cacheExchange,
         ssrExchange,
-        authExchange(ctx),
+        authExchange({
+          addAuthToOperation: function addAuthToOperation({
+            authState,
+            operation,
+          }) {
+            console.log("addAuthToOperation", { authState });
+            if (!authState?.token) {
+              return operation;
+            }
+            const fetchOptions =
+              typeof operation.context.fetchOptions === "function"
+                ? operation.context.fetchOptions()
+                : operation.context.fetchOptions || {};
+
+            return makeOperation(operation.kind, operation, {
+              ...operation.context,
+              fetchOptions: {
+                ...fetchOptions,
+                headers: {
+                  ...fetchOptions.headers,
+                  Authorization: `Bearer ${authState.token}`,
+                },
+              },
+            });
+          },
+          didAuthError: ({ error }) => {
+            console.log("didAuthError", error.graphQLErrors);
+            // check if the error was an auth error (this can be implemented in various ways, e.g. 401 or a special error code)
+            return error.graphQLErrors.some(
+              (e) => e.extensions?.code === "FORBIDDEN"
+            );
+          },
+          getAuth: async ({ authState }) => {
+            // for initial launch, fetch the auth state from storage (local storage, async storage etc)
+            console.log("getAuth", { authState });
+            if (!authState) {
+              const token = getToken() || (await auth(ctx));
+              if (token) {
+                console.log();
+                return { token: token.jwt_token };
+              }
+              return null;
+            }
+
+            /**
+             * the following code gets executed when an auth error has occurred
+             * we should refresh the token if possible and return a new auth state
+             * If refresh fails, we should log out
+             **/
+
+            // if your refresh logic is in graphQL, you must use this mutate function to call it
+            // if your refresh logic is a separate RESTful endpoint, use fetch or similar
+            const result = await auth(ctx);
+            console.log({ result });
+            if (result?.jwt_token) {
+              // return the new tokens
+              return { token: result.jwt_token };
+            }
+
+            // your app logout logic should trigger here
+            setToken(null);
+            await request("/api/logout", {
+              credentials: "include",
+              mode: "same-origin",
+            });
+            return null;
+          },
+          willAuthError: ({ authState }) => {
+            console.log("willAuthError", !authState || isTokenExpired());
+            if (!authState || isTokenExpired()) return true;
+            // e.g. check for expiration, existence of auth etc
+            return false;
+          },
+        }),
         fetchExchange,
       ].filter(Boolean),
       requestPolicy: "cache-first",

@@ -99,8 +99,16 @@ export function Nav() {
             </ActiveLink>
           </Li>
           <Li>
+<<<<<<< HEAD
             <ActiveLink href="/themes" passHref>
               Thèmes
+||||||| parent of dcbcac1... fix(frontend): update rereshToken
+            <ActiveLink href="/themes/[[...id]]" as="/themes" passHref>
+              <NavLink>Thèmes</NavLink>
+=======
+            <ActiveLink href="/themes/[[...id]]" as="/themes" passHref>
+              Thèmes
+>>>>>>> dcbcac1... fix(frontend): update rereshToken
             </ActiveLink>
           </Li>
           <Li>
