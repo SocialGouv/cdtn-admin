@@ -51,10 +51,9 @@ export const withCustomUrqlClient = (Component) =>
             });
           },
           didAuthError: ({ error }) => {
-            console.log("didAuthError", error.graphQLErrors);
             // check if the error was an auth error (this can be implemented in various ways, e.g. 401 or a special error code)
             return error.graphQLErrors.some(
-              (e) => e.extensions?.code === "FORBIDDEN"
+              (e) => e.extensions?.code === "invalid-jwt"
             );
           },
           getAuth: async ({ authState }) => {
@@ -63,7 +62,6 @@ export const withCustomUrqlClient = (Component) =>
             if (!authState) {
               const token = getToken() || (await auth(ctx));
               if (token) {
-                console.log();
                 return { token: token.jwt_token };
               }
               return null;
@@ -77,6 +75,7 @@ export const withCustomUrqlClient = (Component) =>
 
             // if your refresh logic is in graphQL, you must use this mutate function to call it
             // if your refresh logic is a separate RESTful endpoint, use fetch or similar
+            setToken(null);
             const result = await auth(ctx);
             console.log({ result });
             if (result?.jwt_token) {
@@ -85,7 +84,7 @@ export const withCustomUrqlClient = (Component) =>
             }
 
             // your app logout logic should trigger here
-            setToken(null);
+
             await request("/api/logout", {
               credentials: "include",
               mode: "same-origin",
