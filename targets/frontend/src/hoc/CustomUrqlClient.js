@@ -4,7 +4,12 @@ import { withUrqlClient } from "next-urql";
 import { auth, getToken, isTokenExpired, setToken } from "src/lib/auth/token";
 import { request } from "src/lib/request";
 // import { authExchange } from "src/lib/auth/authTokenExchange";
-import { cacheExchange, dedupExchange, fetchExchange } from "urql";
+import {
+  cacheExchange,
+  dedupExchange,
+  errorExchange,
+  fetchExchange,
+} from "urql";
 
 export const withCustomUrqlClient = (Component) =>
   withUrqlClient((ssrExchange, ctx) => {
@@ -25,6 +30,23 @@ export const withCustomUrqlClient = (Component) =>
         dedupExchange,
         cacheExchange,
         ssrExchange,
+        errorExchange({
+          onError: (error) => {
+            const { graphQLErrors } = error;
+            // we only get an auth error here when the auth exchange had attempted to refresh auth and getting an auth error again for the second time
+            const isAuthError = graphQLErrors.some(
+              (e) => e.extensions?.code === "invalid-jwt"
+            );
+            if (isAuthError) {
+              // clear storage, log the user out etc
+              // your app logout logic should trigger here
+              request("/api/logout", {
+                credentials: "include",
+                mode: "same-origin",
+              });
+            }
+          },
+        }),
         authExchange({
           addAuthToOperation: function addAuthToOperation({
             authState,
@@ -83,14 +105,9 @@ export const withCustomUrqlClient = (Component) =>
               return { token: result.jwt_token };
             }
 
-            // your app logout logic should trigger here
-
-            await request("/api/logout", {
-              credentials: "include",
-              mode: "same-origin",
-            });
             return null;
           },
+
           willAuthError: ({ authState }) => {
             console.log("willAuthError", !authState || isTokenExpired());
             if (!authState || isTokenExpired()) return true;

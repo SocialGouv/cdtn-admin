@@ -9,6 +9,10 @@ export function getToken() {
   return inMemoryToken || null;
 }
 
+export function setToken(token) {
+  inMemoryToken = token;
+}
+
 export function isTokenExpired() {
   const expired =
     !inMemoryToken || Date.now() > new Date(inMemoryToken.jwt_token_expiry);
@@ -70,8 +74,4 @@ export async function auth(ctx) {
       Router.push("/login");
     }
   }
-}
-
-export function setToken(token) {
-  inMemoryToken = token;
 }
