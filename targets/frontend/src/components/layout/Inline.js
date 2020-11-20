@@ -6,12 +6,18 @@ import { Box, Flex, jsx } from "theme-ui";
 
 import { invertSpace, spacePropTypes } from "./spaces";
 
-export function Inline({ space = "medium", component = "div", children }) {
+export function Inline({
+  space = "medium",
+  component = "div",
+  children,
+  ...props
+}) {
   const negativeSpace = invertSpace(space);
   const isList = /^(ul|ol)$/.test(component);
   const inlineItemComponent = isList ? "li" : "div";
   return (
     <Flex
+      {...props}
       as={component}
       sx={{ alignItems: "center", flexWrap: "wrap" }}
       marginLeft={negativeSpace}

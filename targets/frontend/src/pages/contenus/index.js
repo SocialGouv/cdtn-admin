@@ -13,16 +13,27 @@ import { Pagination } from "src/components/pagination";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { theme } from "src/theme";
-import { Card, Input, jsx, Label, Message, NavLink, Select } from "theme-ui";
+import {
+  Box,
+  Card,
+  Input,
+  jsx,
+  Label,
+  Message,
+  NavLink,
+  Radio,
+  Select,
+} from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const searchDocumentQuery = `
-query documents($source: String, $search: String!, $offset: Int = 0, $limit: Int = 50) {
+query documents($source: String, $search: String!, $published: [Boolean!]!, $offset: Int = 0, $limit: Int = 50) {
   documents(
     where: {
       _and: {
         source: {_eq: $source}
         title: {_ilike: $search }
+        is_published: {_in: $published}
       }
     }
     offset: $offset,
@@ -42,6 +53,7 @@ query documents($source: String, $search: String!, $offset: Int = 0, $limit: Int
       _and: {
         source: {_eq: $source},
         title: {_ilike: $search}
+        is_published: {_in: $published}
       }
     }
   )
@@ -96,34 +108,45 @@ export function DocumentsPage() {
   const currentPage = parseInt(router.query.page, 10) || 0;
 
   const [search, setSearch] = useState({
+    currentPage: parseInt(router.query.page, 10) || 0,
+    published: router.query.published || "all",
     source: router.query.source || null,
     value: router.query.q?.trim() || "",
   });
 
-  const onSearchSubmit = ({ q, source }) => {
+  const onSearchSubmit = ({ q, source, published }) => {
+    console.log("onSearchSubmit", { published, q, source });
     setSearch({
+      published,
       source: source || null,
       value: q || "",
     });
   };
 
   function updateUrl(event) {
-    const query = { ...router.query };
+    const query = { ...search, ...router.query };
+    console.log("updateURl", query);
     query[event.target.name] = event.target.value.trim();
-    setSearch({
-      source: query.source || null,
-      value: query.q || "",
-    });
+
+    setSearch(query);
     router.push({ pathname: router.route, query });
   }
+
+  console.log(search);
 
   const [result] = useQuery({
     query: searchDocumentQuery,
     variables: {
       limit: itemsPerPage,
-      offset: currentPage * itemsPerPage,
+      offset: search.currentPage * itemsPerPage,
+      published:
+        search.published === "all"
+          ? [true, false]
+          : search.published === "published"
+          ? [true]
+          : [false],
       search: `%${search.value}%`,
-      source: search.source,
+      source: search.source || null,
     },
   });
 
@@ -181,26 +204,66 @@ export function DocumentsPage() {
             <Button>
               <MdSearch /> Rechercher
             </Button>
-            <div />
-            <Label htmlFor="itemsPerPage">Documents par page</Label>
-            <Select
-              sx={{ width: "4rem" }}
-              name="itemsPerPage"
-              id="itemsPerPage"
-              defaultValue={itemsPerPage}
-              onChange={(event) =>
-                setItemsPerPage(
-                  Number.parseInt(event.target.value, 10) ||
-                    DEFAULT_ITEMS_PER_PAGE
-                )
-              }
-            >
-              {[10, 25, 50, 100].map((size) => (
-                <option key={`items-per-page${size}`} value={size}>
-                  {size}
-                </option>
-              ))}
-            </Select>
+            <Box sx={{ alignSelf: "flex-end" }}>
+              <Label
+                htmlFor="itemsPerPage"
+                sx={{
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Select
+                  sx={{ width: "4rem" }}
+                  name="itemsPerPage"
+                  id="itemsPerPage"
+                  defaultValue={itemsPerPage}
+                  onChange={(event) =>
+                    setItemsPerPage(
+                      Number.parseInt(event.target.value, 10) ||
+                        DEFAULT_ITEMS_PER_PAGE
+                    )
+                  }
+                >
+                  {[10, 25, 50, 100].map((size) => (
+                    <option key={`items-per-page${size}`} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </Select>
+              </Label>
+            </Box>
+          </Inline>
+          <Inline paddingTop="xsmall">
+            <Label sx={{ alignItems: "center" }}>
+              Tous{" "}
+              <Radio
+                name="published"
+                value="all"
+                ref={register}
+                defaultChecked={search.published === "all"}
+                onChange={updateUrl}
+              />
+            </Label>
+            <Label sx={{ alignItems: "center" }}>
+              Publié{" "}
+              <Radio
+                name="published"
+                value="published"
+                ref={register}
+                defaultChecked={search.published === "published"}
+                onChange={updateUrl}
+              />
+            </Label>
+            <Label sx={{ alignItems: "center" }}>
+              Non-publié{" "}
+              <Radio
+                name="published"
+                value="unpublished"
+                ref={register}
+                defaultChecked={search.published === "unpublished"}
+                onChange={updateUrl}
+              />
+            </Label>
           </Inline>
         </form>
       </Card>
@@ -249,14 +312,7 @@ const DocumentRow = memo(function _DocumentRow({
       <td sx={{ padding: "0.4em" }}>
         <input
           type="checkbox"
-          sx={{
-            cursor: "pointer",
-            display: "block",
-            height: "1.2rem",
-            m: "0 0 0 small",
-            padding: 0,
-            width: "1.2rem",
-          }}
+          sx={checkboxStyles}
           checked={isChecked}
           onChange={() => {
             setChecked(!isChecked);
@@ -281,4 +337,12 @@ const DocumentRow = memo(function _DocumentRow({
   );
 });
 
+const checkboxStyles = {
+  cursor: "pointer",
+  display: "block",
+  height: "1.2rem",
+  m: "0 0 0 small",
+  padding: 0,
+  width: "1.2rem",
+};
 export default withCustomUrqlClient(withUserProvider(DocumentsPage));

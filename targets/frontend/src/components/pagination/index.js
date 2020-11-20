@@ -103,7 +103,7 @@ function PageButton({ currentPage, pageIndex }) {
   const qs = Object.entries(router.query)
     .flatMap(([key, value]) => (key === "page" ? [] : `${key}=${value}`))
     .join("&");
-  console.log(pageIndex, currentPage);
+
   return (
     <Link href={`${router.route}?${qs}&page=${pageIndex}`} passHref>
       <NavButton variant={pageIndex === currentPage ? "accent" : "secondary"}>
