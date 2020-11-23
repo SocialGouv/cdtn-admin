@@ -13,14 +13,14 @@ import { Stack } from "../layout/Stack";
 export function PasswordForm({
   onSubmit,
   action = "/api/change_password",
-  lostPassword = false,
   backHref = "/account",
+  changeOldPassword = false,
 }) {
   let loading;
   const { user } = useUser();
   const { register, handleSubmit, errors, setError, watch } = useForm();
   const hasError = Object.keys(errors).length > 0;
-  const buttonLabel = lostPassword ? "Changer le mot de passe" : "Activer";
+  const buttonLabel = changeOldPassword ? "Changer le mot de passe" : "Activer";
   const passwordFieldRegistration = {
     minLength: {
       message: "Le mot de passe doit faire au moins 8 caractères",
@@ -45,7 +45,7 @@ export function PasswordForm({
   return (
     <form onSubmit={handleSubmit(localSubmit)} action={action}>
       <Stack gap={["small", "large"]}>
-        {!lostPassword && (
+        {changeOldPassword && (
           <div>
             <Field
               type="password"
@@ -98,6 +98,6 @@ export function PasswordForm({
 PasswordForm.propTypes = {
   action: PropTypes.string,
   backHref: PropTypes.string,
-  lostPassword: PropTypes.bool,
+  changeOldPassword: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
 };

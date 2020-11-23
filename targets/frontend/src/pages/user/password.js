@@ -20,7 +20,7 @@ export function ChangeMyPasswordPage() {
 
   return (
     <Layout title="Modifier mon mot de passe">
-      <PasswordForm onSubmit={handleChangePasword} />
+      <PasswordForm changeOldPassword onSubmit={handleChangePasword} />
     </Layout>
   );
 }
