@@ -68,8 +68,7 @@ export function Nav() {
               return (
                 <Li key={source.repository}>
                   <ActiveLink
-                    href="/alerts/[[...params]]"
-                    as={`/alerts/${source.repository.replace(/\//, "_")}`}
+                    href={`/alerts/${source.repository.replace(/\//, "_")}`}
                   >
                     {source.label}
                   </ActiveLink>
@@ -91,22 +90,22 @@ export function Nav() {
         <List>
           <Li>
             <ActiveLink href="/contenus" passHref>
-              <NavLink>Contenus</NavLink>
+              Contenus
             </ActiveLink>
           </Li>
           <Li>
             <ActiveLink href="/glossary" passHref>
-              <NavLink>Glossaire</NavLink>
+              Glossaire
             </ActiveLink>
           </Li>
           <Li>
-            <ActiveLink href="/themes/[[...id]]" as="/themes" passHref>
-              <NavLink>Thèmes</NavLink>
+            <ActiveLink href="/themes" passHref>
+              Thèmes
             </ActiveLink>
           </Li>
           <Li>
             <ActiveLink href="/kali/blocks" passHref>
-              <NavLink>Blocs KALI</NavLink>
+              Blocs KALI
             </ActiveLink>
           </Li>
         </List>
@@ -115,13 +114,11 @@ export function Nav() {
   );
 }
 
-function ActiveLink({ as, children, href }) {
+function ActiveLink({ children, href }) {
   const router = useRouter();
-  const isCurrentRoute = as
-    ? router.asPath.startsWith(as)
-    : router.asPath === href;
+  const isCurrentRoute = router.asPath.startsWith(href);
   return (
-    <Link shallow href={href} as={as} passHref>
+    <Link shallow href={href} passHref>
       <NavLink
         sx={{
           color: isCurrentRoute ? "primary" : "text",
@@ -134,7 +131,6 @@ function ActiveLink({ as, children, href }) {
 }
 
 ActiveLink.propTypes = {
-  as: PropTypes.string,
   children: PropTypes.node.isRequired,
   href: PropTypes.string.isRequired,
 };

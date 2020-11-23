@@ -100,7 +100,7 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
           <Button variant="secondary" disabled={hasError || loading}>
             {buttonLabel}
           </Button>
-          <Link href="/themes/[[...id]]" as={backLink} passHref>
+          <Link href={backLink} passHref>
             <NavLink sx={{ ml: "medium" }}>Annuler</NavLink>
           </Link>
         </Flex>

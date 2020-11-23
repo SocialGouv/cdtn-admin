@@ -32,7 +32,10 @@ const fetchGlossary = memoizee(_fetchGlossary, {
 });
 
 export default async function (req, res) {
-  if (!process.env.ELASTICSEARCH_API_KEY || !process.env.ELASTICSEARCH_URL) {
+  if (
+    !process.env.ELASTICSEARCH_APIKEY_DEV ||
+    !process.env.ELASTICSEARCH_URL_DEV
+  ) {
     res.status(304).json({ message: "not modified" });
   }
 
@@ -40,9 +43,9 @@ export default async function (req, res) {
 
   const client = new Client({
     auth: {
-      apiKey: process.env.ELASTICSEARCH_API_KEY,
+      apiKey: process.env.ELASTICSEARCH_APIKEY_DEV,
     },
-    node: `${process.env.ELASTICSEARCH_URL}`,
+    node: `${process.env.ELASTICSEARCH_URL_DEV}`,
   });
 
   const { cdtnId, source, document } = req.body;
