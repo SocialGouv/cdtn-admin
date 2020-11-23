@@ -25,7 +25,7 @@ export async function getRelevantDocuments({ added, modified, removed }) {
         added.find((node) => node.data.cid === ref.dila_cid)
     );
 
-    if (references) {
+    if (references.length) {
       return { document: item.document, references };
     }
     return [];
