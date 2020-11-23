@@ -107,46 +107,40 @@ export function DocumentsPage() {
 
   const currentPage = parseInt(router.query.page, 10) || 0;
 
-  const [search, setSearch] = useState({
+  const [facets, setFacets] = useState({
     currentPage: parseInt(router.query.page, 10) || 0,
     published: router.query.published || "all",
+    q: router.query.q?.trim() || "",
     source: router.query.source || null,
-    value: router.query.q?.trim() || "",
   });
 
   const onSearchSubmit = ({ q, source, published }) => {
     console.log("onSearchSubmit", { published, q, source });
-    setSearch({
-      published,
-      source: source || null,
-      value: q || "",
-    });
+    setFacets({ published, q, source });
   };
 
   function updateUrl(event) {
-    const query = { ...search, ...router.query };
-    console.log("updateURl", query);
+    const query = { ...facets };
     query[event.target.name] = event.target.value.trim();
-
-    setSearch(query);
     router.push({ pathname: router.route, query });
+    setFacets(query);
   }
 
-  console.log(search);
+  console.log(facets);
 
   const [result] = useQuery({
     query: searchDocumentQuery,
     variables: {
       limit: itemsPerPage,
-      offset: search.currentPage * itemsPerPage,
+      offset: facets.currentPage * itemsPerPage,
       published:
-        search.published === "all"
-          ? [true, false]
-          : search.published === "published"
+        facets.published === "yes"
           ? [true]
-          : [false],
-      search: `%${search.value}%`,
-      source: search.source || null,
+          : facets.published === "no"
+          ? [false]
+          : [true, false],
+      search: `%${facets.q}%`,
+      source: facets.source || null,
     },
   });
 
@@ -180,7 +174,7 @@ export function DocumentsPage() {
               name="q"
               type="search"
               placeholder="titre..."
-              defaultValue={search.value}
+              defaultValue={facets.q}
               ref={register}
               onBlur={updateUrl}
             />
@@ -188,7 +182,7 @@ export function DocumentsPage() {
               name="source"
               ref={register}
               onChange={updateUrl}
-              defaultValue={search.source}
+              defaultValue={facets.source}
             >
               <option value="">toutes les sources</option>
               {documentSources.map(([source, label]) => (
@@ -240,7 +234,7 @@ export function DocumentsPage() {
                 name="published"
                 value="all"
                 ref={register}
-                defaultChecked={search.published === "all"}
+                defaultChecked={facets.published === "all"}
                 onChange={updateUrl}
               />
             </Label>
@@ -248,9 +242,9 @@ export function DocumentsPage() {
               Publié{" "}
               <Radio
                 name="published"
-                value="published"
+                value="yes"
                 ref={register}
-                defaultChecked={search.published === "published"}
+                defaultChecked={facets.published === "yes"}
                 onChange={updateUrl}
               />
             </Label>
@@ -258,9 +252,9 @@ export function DocumentsPage() {
               Non-publié{" "}
               <Radio
                 name="published"
-                value="unpublished"
+                value="no"
                 ref={register}
-                defaultChecked={search.published === "unpublished"}
+                defaultChecked={facets.published === "no"}
                 onChange={updateUrl}
               />
             </Label>
