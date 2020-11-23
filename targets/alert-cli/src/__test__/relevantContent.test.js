@@ -78,14 +78,16 @@ describe("getRelevantContent", () => {
           source: "contributions",
           title: "question1",
         },
-        reference: {
-          category: "agreement",
-          dila_cid: "c123",
-          dila_container_id: "kalicont123",
-          dila_id: "125",
-          title: "accord c123",
-          url: "url/c123",
-        },
+        references: [
+          {
+            category: "agreement",
+            dila_cid: "c123",
+            dila_container_id: "kalicont123",
+            dila_id: "125",
+            title: "accord c123",
+            url: "url/c123",
+          },
+        ],
       },
     ];
     expect(await getRelevantDocuments(changes)).toEqual(expected);
@@ -103,14 +105,16 @@ describe("getRelevantContent", () => {
           source: "contributions",
           title: "question1",
         },
-        reference: {
-          category: "agreement",
-          dila_cid: "3",
-          dila_container_id: "kalicont42",
-          dila_id: "3",
-          title: "Accord du 3 novembre",
-          url: "legifrance.url/kalicont42",
-        },
+        references: [
+          {
+            category: "agreement",
+            dila_cid: "3",
+            dila_container_id: "kalicont42",
+            dila_id: "3",
+            title: "Accord du 3 novembre",
+            url: "legifrance.url/kalicont42",
+          },
+        ],
       },
     ];
     expect(await getRelevantDocuments(changes)).toEqual(expected);

@@ -28,7 +28,7 @@ type AstChanges = {
 }
 
 type Changes = AstChanges & {
-  documents: { document: DocumentInfo, reference: ParseDilaReference }[]
+  documents: { document: DocumentInfo, references: ParseDilaReference[] }[]
 }
 
 type DilaAlertChanges = {
@@ -118,6 +118,10 @@ type DilaNodeWithContext = DilaNode & {
     textId: string | null
     containerId: string | null
   }
+}
+
+type DilaNodeForDiff = DilaNodeWithContext & {
+  previous: DilaNodeWithContext
 }
 
 type FicheVddIndex = {
