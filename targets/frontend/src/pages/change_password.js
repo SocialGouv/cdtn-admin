@@ -53,12 +53,7 @@ export default function ChangePasswordPage() {
   }
   return (
     <PasswordLayout title={title}>
-      <PasswordForm
-        onSubmit={updatePassword}
-        loading={loading}
-        lostPassword={!activate}
-        action={url}
-      />
+      <PasswordForm onSubmit={updatePassword} loading={loading} action={url} />
     </PasswordLayout>
   );
 }
