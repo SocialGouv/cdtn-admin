@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import {
   deletePreviousRefreshTokenMutation,
   getRefreshTokenQuery,
-} from "./refreshToken.gql";
+} from "./refresh_token.gql";
 
 export default async function refreshToken(req, res) {
   const apiError = createErrorFor(res);

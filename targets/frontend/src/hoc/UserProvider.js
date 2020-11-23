@@ -65,7 +65,7 @@ export const ProvideUser = ({ children, tokenData }) => {
   }
   const isAuth = Boolean(user);
   const isAdmin = user?.roles.includes("admin");
-  console.log({ provideUser: user });
+
   return (
     <UserContext.Provider value={{ isAdmin, isAuth, logout, user }}>
       {children}

@@ -1,5 +1,8 @@
 import { withUrqlClient } from "next-urql";
-import { authExchange } from "src/lib/auth/authTokenExchange";
+import {
+  customAuthExchange,
+  customErrorExchange,
+} from "src/lib/auth/exchanges";
 import { cacheExchange, dedupExchange, fetchExchange } from "urql";
 
 export const withCustomUrqlClient = (Component) =>
@@ -21,7 +24,8 @@ export const withCustomUrqlClient = (Component) =>
         dedupExchange,
         cacheExchange,
         ssrExchange,
-        authExchange(ctx),
+        customErrorExchange(),
+        customAuthExchange(ctx),
         fetchExchange,
       ].filter(Boolean),
       requestPolicy: "cache-first",

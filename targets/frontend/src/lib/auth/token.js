@@ -6,7 +6,11 @@ import { setRefreshTokenCookie } from "./setRefreshTokenCookie";
 let inMemoryToken;
 
 export function getToken() {
-  return inMemoryToken ? inMemoryToken.jwt_token : null;
+  return inMemoryToken || null;
+}
+
+export function setToken(token) {
+  inMemoryToken = token;
 }
 
 export function isTokenExpired() {
@@ -16,7 +20,7 @@ export function isTokenExpired() {
 }
 
 export async function auth(ctx) {
-  console.log("[ auth ] ");
+  console.log("[ auth ] ", { ctxToken: ctx?.token }, inMemoryToken);
   if (ctx?.token) {
     return ctx.token;
   }
@@ -70,8 +74,4 @@ export async function auth(ctx) {
       Router.push("/login");
     }
   }
-}
-
-export function setToken(token) {
-  inMemoryToken = token;
 }
