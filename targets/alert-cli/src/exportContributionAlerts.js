@@ -24,7 +24,9 @@ export async function exportContributionAlerts(changes) {
         answer_id: contrib.id,
         cid: reference.dila_cid,
         id: reference.dila_id,
-        value: nodes.find((node) => node.data.cid === reference.dila_cid),
+        value: computeDiff(
+          nodes.find((node) => node.data.cid === reference.dila_cid)
+        ),
         version: alert.ref,
       }));
     });
@@ -36,4 +38,33 @@ export async function exportContributionAlerts(changes) {
     },
     method: "POST",
   });
+}
+
+/**
+ *
+ * @param {alerts.DilaNodeForDiff} node
+ */
+function computeDiff(node) {
+  const textFieldname =
+    node.context.containerId === "LEGITEXT000006072050" ? "texte" : "content";
+  const content = node.data[textFieldname] || "";
+  const previousContent = node.previous?.data[textFieldname] || "";
+  const showDiff = content !== previousContent;
+  const showNotaDiff = node.previous.data.nota !== node.data.nota;
+  const texts = [];
+  if (showDiff) {
+    texts.push({ current: content, previous: previousContent });
+  }
+
+  if (showNotaDiff) {
+    texts.push({
+      current: node.data.nota,
+      previous: node.previous.data.nota,
+    });
+  }
+
+  return {
+    etat: { current: node.data.etat, previous: node.previous.data.etat },
+    texts,
+  };
 }

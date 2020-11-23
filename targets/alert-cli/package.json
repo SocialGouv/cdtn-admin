@@ -5,6 +5,7 @@
     "@shared/graphql-client": "1.0.0",
     "@socialgouv/cdtn-slugify": "^4.35.0",
     "@socialgouv/cdtn-sources": "^4.35.0",
+    "@types/node-fetch": "^2.5.7",
     "node-fetch": "^2.6.1",
     "nodegit": "0.27.0",
     "semver": "^7.3.2",

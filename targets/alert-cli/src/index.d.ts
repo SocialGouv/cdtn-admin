@@ -120,6 +120,10 @@ type DilaNodeWithContext = DilaNode & {
   }
 }
 
+type DilaNodeForDiff = DilaNodeWithContext & {
+  previous: DilaNodeWithContext
+}
+
 type FicheVddIndex = {
   id: string
   date: string
