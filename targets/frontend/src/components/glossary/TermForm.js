@@ -1,4 +1,5 @@
 /** @jsx jsx  */
+import slugify from "@socialgouv/cdtn-slugify";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -44,6 +45,7 @@ export const TermForm = ({ term = {} }) => {
       term: {
         ...(term.id && { id: term.id }),
         ...data,
+        slug: slugify(data.term),
       },
     });
     if (!result.error) {
