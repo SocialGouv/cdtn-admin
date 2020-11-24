@@ -330,6 +330,21 @@
   - role: user
     permission:
       filter: {}
+  event_triggers:
+  - name: publication
+    definition:
+      enable_manual: false
+      update:
+        columns:
+        - is_published
+    retry_conf:
+      num_retries: 2
+      interval_sec: 10
+      timeout_sec: 60
+    webhook_from_env: PUBLICATION_WEBHOOK_URL
+    headers:
+    - name: publication-secret
+      value_from_env: PUBLICATION_SECRET
 - table:
     schema: public
     name: glossary
