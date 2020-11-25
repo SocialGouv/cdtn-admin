@@ -37,12 +37,13 @@ query getDocumentById($id: String!) {
 `;
 
 const updateDocumentMutation = `
-mutation updateDocument($cdtnId: String!, $metaDescription: String!, $title: String!, $document: jsonb!){
+mutation updateDocument($cdtnId: String!, $metaDescription: String!, $title: String!, $isAvailable: Boolean!, $document: jsonb!){
   document: update_documents_by_pk(
     _set:{
       document: $document
       meta_description: $metaDescription
       title: $title
+      is_available: $isAvailable
     },
     pk_columns: {
       cdtn_id: $cdtnId
@@ -78,6 +79,7 @@ export function DocumentPage() {
     return executeUpdate({
       cdtnId: data.document.cdtn_id,
       document: jsonDoc.current.document,
+      isAvailable: data.document.is_available,
       metaDescription: jsonDoc.current.meta_description,
       title: jsonDoc.current.title,
     }).then(({ data }) => {
@@ -98,6 +100,7 @@ export function DocumentPage() {
       if (result.error) {
         console.error(result.error);
       }
+      setHasChanged(false);
       setSubmitIdle(false);
     });
   }
