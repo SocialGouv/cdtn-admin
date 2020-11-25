@@ -1,4 +1,5 @@
 /** @jsx jsx  */
+import slugify from "@socialgouv/cdtn-slugify";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -40,10 +41,13 @@ export const TermForm = ({ term = {} }) => {
   const [duplicateTermError, setDuplicateTermError] = useState(false);
 
   async function onSubmit(data) {
+    data.term = data.term.trim();
+    data.definition = data.definition.trim();
     const result = await editTerm({
       term: {
         ...(term.id && { id: term.id }),
         ...data,
+        slug: slugify(data.term),
       },
     });
     if (!result.error) {

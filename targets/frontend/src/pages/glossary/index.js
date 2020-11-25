@@ -14,8 +14,9 @@ import { useQuery } from "urql";
 const getGlossaryQuery = `
   query getGlossary {
     glossary(order_by: {term: asc}) {
-      term
       id
+      slug
+      term
     }
   }
 `;
@@ -29,7 +30,9 @@ function getTermsByLetter(glossary = []) {
   );
   return alphabet.map((letter) => ({
     letter,
-    terms: glossary.filter(({ term }) => term[0].toUpperCase() === letter),
+    terms: glossary.filter(
+      ({ slug }) => slug.substring(0, 1).toUpperCase() === letter
+    ),
   }));
 }
 

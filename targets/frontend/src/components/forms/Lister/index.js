@@ -19,27 +19,26 @@ const Lister = ({ defaultValue = "[]", disabled, ...props }) => {
 };
 
 Lister.propTypes = {
-  defaultValue: PropTypes.string,
+  defaultValue: PropTypes.arrayOf(PropTypes.string),
   disabled: PropTypes.bool,
 };
 
 export { Lister };
 
-function RootLister({ disabled, value: rawEntries, onChange, name }) {
-  const entries = JSON.parse(rawEntries);
+function RootLister({ disabled, value: entries, onChange, name }) {
   const inputRef = useRef(null);
   const onAddEntry = () => {
     const value = inputRef.current.value;
     if (value === "") return;
     if (!entries.includes(value)) {
-      onChange(JSON.stringify([...entries, value]));
+      onChange([...entries, value.trim()]);
     }
     inputRef.current.value = "";
   };
   const onDeleteEntry = (deletedEntry) => {
     const entriesCopy = [...entries];
     entriesCopy.splice(entriesCopy.indexOf(deletedEntry), 1);
-    onChange(JSON.stringify(entriesCopy));
+    onChange(entriesCopy);
   };
 
   const handleKeyDown = (event) => {
@@ -89,5 +88,5 @@ RootLister.propTypes = {
   disabled: PropTypes.bool,
   name: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.arrayOf(PropTypes.string),
 };

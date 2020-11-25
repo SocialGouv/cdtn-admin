@@ -16,10 +16,10 @@ const getTermQuery = `
 query getTerm($id: uuid!) {
   term: glossary_by_pk(id: $id) {
     id
-    abbreviations
-    definition
-    references
     term
+    definition
+    abbreviations
+    references
     variants
   }
 }
