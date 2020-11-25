@@ -19,7 +19,7 @@ const Lister = ({ defaultValue = "[]", disabled, ...props }) => {
 };
 
 Lister.propTypes = {
-  defaultValue: PropTypes.array,
+  defaultValue: PropTypes.arrayOf(PropTypes.string),
   disabled: PropTypes.bool,
 };
 
@@ -88,5 +88,5 @@ RootLister.propTypes = {
   disabled: PropTypes.bool,
   name: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.array,
+  value: PropTypes.arrayOf(PropTypes.string),
 };

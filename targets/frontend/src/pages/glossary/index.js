@@ -30,7 +30,9 @@ function getTermsByLetter(glossary = []) {
   );
   return alphabet.map((letter) => ({
     letter,
-    terms: glossary.filter(({ slug }) => slug[0].toUpperCase() === letter),
+    terms: glossary.filter(
+      ({ slug }) => slug.substring(0, 1).toUpperCase() === letter
+    ),
   }));
 }
 
