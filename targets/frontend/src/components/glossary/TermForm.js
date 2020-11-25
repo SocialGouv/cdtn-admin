@@ -41,6 +41,8 @@ export const TermForm = ({ term = {} }) => {
   const [duplicateTermError, setDuplicateTermError] = useState(false);
 
   async function onSubmit(data) {
+    data.term = data.term.trim();
+    data.definition = data.definition.trim();
     const result = await editTerm({
       term: {
         ...(term.id && { id: term.id }),

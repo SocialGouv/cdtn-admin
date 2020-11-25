@@ -31,7 +31,7 @@ function RootLister({ disabled, value: entries, onChange, name }) {
     const value = inputRef.current.value;
     if (value === "") return;
     if (!entries.includes(value)) {
-      onChange([...entries, value]);
+      onChange([...entries, value.trim()]);
     }
     inputRef.current.value = "";
   };
