@@ -1,5 +1,6 @@
 version: 2
 endpoint: http://localhost:8080
+enable_telemetry: false
 metadata_directory: metadata
 actions:
   kind: synchronous
