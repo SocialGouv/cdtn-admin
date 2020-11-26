@@ -42,10 +42,10 @@ mutation insert_documents($documents: [documents_insert_input!]!) {
 }
 `;
 
-const insertDocumentsVersionMutation = `
-mutation insert_document_version($object:document_version_insert_input!) {
-  version: insert_document_version_one(object: $object,  on_conflict: {
-    constraint: document_version_pkey,
+const insertPackageVersionMutation = `
+mutation insert_package_version($object:package_version_insert_input!) {
+  version: insert_package_version_one(object: $object,  on_conflict: {
+    constraint: package_version_pkey,
     update_columns: version
   }) {
     repository, version
@@ -182,13 +182,13 @@ async function initDocAvailabity(source) {
  */
 async function updateVersion(repository, version) {
   const result = await client
-    .mutation(insertDocumentsVersionMutation, {
+    .mutation(insertPackageVersionMutation, {
       object: { repository, version },
     })
     .toPromise();
   if (result.error) {
     console.error(result.error);
-    throw new Error(`error updating document_version ${repository}@${version}`);
+    throw new Error(`error updating package_version ${repository}@${version}`);
   }
   return result.data.version;
 }

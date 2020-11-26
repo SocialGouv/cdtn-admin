@@ -347,7 +347,7 @@
           value_from_env: PUBLICATION_SECRET
 - table:
     schema: public
-    name: document_version
+    name: package_version
   select_permissions:
     - role: public
       permission:

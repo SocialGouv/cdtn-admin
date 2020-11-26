@@ -1,1 +1,1 @@
-DROP TABLE "public"."document_version";
+DROP TABLE "public"."package_version";
