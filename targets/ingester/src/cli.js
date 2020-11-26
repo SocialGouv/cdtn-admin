@@ -42,6 +42,17 @@ mutation insert_documents($documents: [documents_insert_input!]!) {
 }
 `;
 
+const insertDocumentsVersionMutation = `
+mutation insert_document_version($object:document_version_insert_input!) {
+  version: insert_document_version_one(object: $object,  on_conflict: {
+    constraint: document_version_pkey,
+    update_columns: version
+  }) {
+    repository, version
+  }
+}
+`;
+
 /**
  *
  * @param {string} pkgName
@@ -119,6 +130,7 @@ async function getPackage(pkgName, pkgVersion = "latest") {
     console.debug(`download package ${pkgName}@${latest}`);
     await download(pkgName, url);
   }
+  return latest;
 }
 
 /**
@@ -163,10 +175,29 @@ async function initDocAvailabity(source) {
   }
   return result.data.documents.affected_rows;
 }
+/**
+ *
+ * @param {string} repository
+ * @param {string} version
+ */
+async function updateVersion(repository, version) {
+  const result = await client
+    .mutation(insertDocumentsVersionMutation, {
+      object: { repository, version },
+    })
+    .toPromise();
+  if (result.error) {
+    console.error(result.error);
+    throw new Error(`error updating document_version ${repository}@${version}`);
+  }
+  return result.data.version;
+}
 
 async function main() {
+  /** @type {{[key:string]:string}} */
+  const pkgVersions = {};
   for (const [pkgName] of dataPackages) {
-    await getPackage(pkgName);
+    pkgVersions[pkgName] = await getPackage(pkgName);
   }
   if (args.dryRun) {
     console.log("dry-run mode");
@@ -186,6 +217,7 @@ async function main() {
     const chunks = chunk(documents, 80);
     const inserts = await batchPromises(chunks, insertDocuments, 15);
     ids = ids.concat(inserts);
+    await updateVersion(pkgName, pkgVersions[pkgName]);
   }
   return ids;
 }
