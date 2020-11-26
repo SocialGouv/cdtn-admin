@@ -60,7 +60,7 @@ export default async function (req, res) {
         doc: { isPublished: is_published },
       },
       id: cdtn_id,
-      index: `cdtn-master_documents`,
+      index: `cdtn-preprod_documents`,
     });
     res.json({ message: "doc updated!" });
   } catch (response) {
