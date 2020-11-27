@@ -23,38 +23,28 @@ export function addGlossary(entries, htmlContent) {
   let idHtmlContent = htmlContent;
 
   let glossary = [];
-  entries.forEach(
-    ({
-      abbreviations: abbreviationsRaw,
-      definition,
-      term,
-      variants: variantsRaw,
-    }) => {
-      const abbreviations = JSON.parse(abbreviationsRaw);
-      const variants = JSON.parse(variantsRaw);
+  entries.forEach(({ abbreviations, definition, term, variants }) => {
+    glossary = glossary.concat(
+      [term, ...variants].map((term) => ({
+        definition,
+        pattern: new RegExp(
+          `${startTag}${wordBoundaryStart}(${term})${wordBoundaryEnd}${endTag}`,
+          "gi"
+        ),
+        term,
+      }))
+    );
 
-      glossary = glossary.concat(
-        [term, ...variants].map((term) => ({
+    if (abbreviations.length) {
+      for (const word of abbreviations) {
+        glossary.push({
           definition,
-          pattern: new RegExp(
-            `${startTag}${wordBoundaryStart}(${term})${wordBoundaryEnd}${endTag}`,
-            "gi"
-          ),
-          term,
-        }))
-      );
-
-      if (abbreviations.length) {
-        for (const word of abbreviations) {
-          glossary.push({
-            definition,
-            pattern: new RegExp(`${startTag}\\b(${word})\\b${endTag}`, "g"),
-            term: word,
-          });
-        }
+          pattern: new RegExp(`${startTag}\\b(${word})\\b${endTag}`, "g"),
+          term: word,
+        });
       }
     }
-  );
+  });
 
   // we make sure that bigger terms are replaced first
   glossary.sort((previous, next) => {
