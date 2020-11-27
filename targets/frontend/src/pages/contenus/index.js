@@ -27,41 +27,21 @@ import {
 import { useMutation, useQuery } from "urql";
 
 const searchDocumentQuery = `
-query documents($source: String, $search: String!, $published: [Boolean!]!, $offset: Int = 0, $limit: Int = 50) {
-  documents(
-    where: {
-      _and: {
-        source: {_eq: $source}
-        title: {_ilike: $search }
-        is_published: {_in: $published}
-      }
-    }
-    offset: $offset,
-    limit: $limit,
-    order_by:[{source: asc}, {slug: asc}]
-  )
-  {
-    id:initial_id
-    cdtnId:cdtn_id
+query documents($offset: Int = 0, $limit: Int = 50, $and: [documents_bool_exp]!) {
+  documents(where: {_and: $and}, offset: $offset, limit: $limit, order_by: [{source: asc}, {slug: asc}]) {
+    id: initial_id
+    cdtnId: cdtn_id
     title
     source
     isPublished: is_published
   }
-
-	documents_aggregate(
-    where: {
-      _and: {
-        source: {_eq: $source},
-        title: {_ilike: $search}
-        is_published: {_in: $published}
-      }
+  documents_aggregate(where: {_and: $and}) {
+    aggregate {
+      count
     }
-  )
-  {
-    aggregate{count}
   }
   sources: documents_aggregate(distinct_on: source) {
-    nodes{
+    nodes {
       source
     }
   }
@@ -109,7 +89,7 @@ export function DocumentsPage() {
 
   const [facets, setFacets] = useState({
     currentPage: parseInt(router.query.page, 10) || 0,
-    published: router.query.published || "all",
+    ...(router.query.published && { published: router.query.published }),
     q: router.query.q?.trim() || "",
     source: router.query.source || null,
   });
@@ -121,26 +101,36 @@ export function DocumentsPage() {
 
   function updateUrl(event) {
     const query = { ...facets };
-    query[event.target.name] = event.target.value.trim();
+    query[event.target.name] =
+      typeof event.target.checked !== "undefined"
+        ? event.target.checked
+        : event.target.value.trim();
+
     router.push({ pathname: router.route, query });
     setFacets(query);
   }
 
-  console.log(facets);
+  const whereQueryParam = useMemo(() => {
+    const params = {
+      source: { _eq: facets.source || null },
+      title: { _ilike: `%${facets.q}%` },
+    };
+    if (facets.published) {
+      params.is_published = { _eq: facets.published === "true" ? true : false };
+    }
+    console.log(facets.unthemed);
+    if (facets.unthemed) {
+      params._not = { relation_b: { type: { _eq: "theme-content" } } };
+    }
+    return params;
+  }, [facets]);
 
   const [result] = useQuery({
     query: searchDocumentQuery,
     variables: {
+      and: whereQueryParam,
       limit: itemsPerPage,
       offset: facets.currentPage * itemsPerPage,
-      published:
-        facets.published === "yes"
-          ? [true]
-          : facets.published === "no"
-          ? [false]
-          : [true, false],
-      search: `%${facets.q}%`,
-      source: facets.source || null,
     },
   });
 
@@ -232,29 +222,39 @@ export function DocumentsPage() {
               Tous{" "}
               <Radio
                 name="published"
-                value="all"
+                value=""
                 ref={register}
-                defaultChecked={facets.published === "all"}
+                defaultChecked={!facets.published}
                 onChange={updateUrl}
               />
             </Label>
             <Label sx={{ alignItems: "center" }}>
-              Publié{" "}
+              Publiés{" "}
               <Radio
                 name="published"
-                value="yes"
+                value="true"
                 ref={register}
-                defaultChecked={facets.published === "yes"}
+                defaultChecked={facets.published === "true"}
                 onChange={updateUrl}
               />
             </Label>
             <Label sx={{ alignItems: "center" }}>
-              Non-publié{" "}
+              Dépubliés{" "}
               <Radio
                 name="published"
-                value="no"
+                value="false"
                 ref={register}
-                defaultChecked={facets.published === "no"}
+                defaultChecked={facets.published === "false"}
+                onChange={updateUrl}
+              />
+            </Label>
+            <Label sx={{ alignItems: "center" }}>
+              Non-thémés{" "}
+              <input
+                name="unthemed"
+                type="checkbox"
+                sx={checkboxStyles}
+                defaultChecked={facets.unthemed === "true"}
                 onChange={updateUrl}
               />
             </Label>
@@ -266,6 +266,7 @@ export function DocumentsPage() {
         "chargement..."
       ) : data.documents.length ? (
         <>
+          {data.documents_aggregate.aggregate.count} documents trouvés
           <table>
             <thead>
               <tr>
