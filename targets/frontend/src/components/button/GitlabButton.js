@@ -21,17 +21,14 @@ export function GitlabButton({ env, children }) {
       console.log("no no ");
       return;
     }
+    setStatus("pending");
     await request("/api/trigger_pipeline", {
       body: {
         env,
       },
-    })
-      .then(() => {
-        setStatus("pending");
-      })
-      .catch(() => {
-        setStatus("disable");
-      });
+    }).catch(() => {
+      setStatus("disable");
+    });
     mutate("/api/pipelines");
   }
 
