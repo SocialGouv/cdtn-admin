@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import PropTypes from "prop-types";
-import { useState } from "react";
+import React, { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { Button as TButton, Card, jsx, Text } from "theme-ui";
 
@@ -52,22 +52,23 @@ export function FicheTravailDiffchange({ change }) {
           )}
           {change.sections.map(({ title, text, previousText }, index) => {
             return (
-              <>
+              <React.Fragment key={`${change.pubId}-section-${index}`}>
                 <Text>Section {title}</Text>
-                <ViewDiff
-                  key={`${change.pubId}-section-${index}`}
-                  inputA={previousText}
-                  inputB={text}
-                  type={"words"}
-                  style={{
-                    background: "#fff",
-                    border: "1px solid silver",
-                    borderRadius: 3,
-                    padding: 5,
-                    whiteSpace: "pre-line",
-                  }}
-                />
-              </>
+                {
+                  <ViewDiff
+                    inputA={previousText}
+                    inputB={text}
+                    type={"sentences"}
+                    style={{
+                      background: "#fff",
+                      border: "1px solid silver",
+                      borderRadius: 3,
+                      padding: 5,
+                      whiteSpace: "pre-line",
+                    }}
+                  />
+                }
+              </React.Fragment>
             );
           })}
         </Card>
@@ -78,8 +79,8 @@ export function FicheTravailDiffchange({ change }) {
 
 FicheTravailDiffchange.propTypes = {
   change: PropTypes.shape({
-    intro: PropTypes.string.isRequired,
-    previousIntro: PropTypes.string.isRequired,
+    intro: PropTypes.string,
+    previousIntro: PropTypes.string,
     pubId: PropTypes.string.isRequired,
     sections: PropTypes.arrayOf(
       PropTypes.shape({

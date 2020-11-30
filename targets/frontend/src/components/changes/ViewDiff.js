@@ -15,7 +15,8 @@ const fnMap = {
 };
 
 export const ViewDiff = ({ sx, type, inputA, inputB }) => {
-  const [mode, setMode] = useState(type);
+  const isSentencesForced = !inputA || !inputB;
+  const [mode, setMode] = useState(isSentencesForced ? "sentences" : type);
   const diff = fnMap[mode](inputA, inputB);
 
   const groupName = Math.random();
@@ -47,6 +48,7 @@ export const ViewDiff = ({ sx, type, inputA, inputB }) => {
           onChange={() => setMode("words")}
           style={{ marginLeft: 10 }}
           checked={mode === "words"}
+          disabled={isSentencesForced}
         />{" "}
         Mots
         <input
@@ -55,6 +57,7 @@ export const ViewDiff = ({ sx, type, inputA, inputB }) => {
           onChange={() => setMode("sentences")}
           style={{ marginLeft: 10 }}
           checked={mode === "sentences"}
+          disabled={isSentencesForced}
         />{" "}
         Phrases
       </div>
