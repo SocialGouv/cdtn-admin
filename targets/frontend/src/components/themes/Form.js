@@ -117,25 +117,3 @@ ThemeForm.propTypes = {
 };
 
 export { ThemeForm };
-
-// TODO instead of disabling the field when not admin, simply display the value
-const DisplayValue = ({ children, label }) => (
-  <div sx={{ m: "small" }}>
-    <div sx={{ fontWeight: "bold", mb: "xxsmall" }}>{label} :</div>
-    <div
-      sx={{
-        bg: "highlight",
-        borderRadius: "small",
-        display: "inline-block",
-        p: "small",
-      }}
-    >
-      {children}
-    </div>
-  </div>
-);
-
-DisplayValue.propTypes = {
-  children: PropTypes.node,
-  label: PropTypes.string,
-};

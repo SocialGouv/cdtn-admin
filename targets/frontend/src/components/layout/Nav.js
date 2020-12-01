@@ -1,4 +1,5 @@
 /** @jsx jsx */
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -95,6 +96,11 @@ export function Nav() {
             </ActiveLink>
           </Li>
           <Li>
+            <ActiveLink href="/contenus?source=information" passHref>
+              Contenus éditoriaux
+            </ActiveLink>
+          </Li>
+          <Li>
             <ActiveLink href="/glossary" passHref>
               Glossaire
             </ActiveLink>
@@ -115,9 +121,32 @@ export function Nav() {
   );
 }
 
+// used to make sure two links are not highlighted at the same time
+const subRouteSources = [SOURCES.EDITORIAL_CONTENT];
+
 function ActiveLink({ children, href }) {
   const router = useRouter();
-  const isCurrentRoute = router.asPath.startsWith(href);
+  const [pathname, query = ""] = href.split("?");
+  let isCurrentRoute = router.pathname === pathname;
+  if (isCurrentRoute) {
+    if (query) {
+      isCurrentRoute = query.includes(router.query?.source);
+    } else {
+      /** when href is "/contenus" and current url is
+       * "/contenus?source=editorial_content" we don't want to highlight
+       * this generic link since there is a more specific link that match the
+       * current url`. We ensure taht source param is not included in the
+       * specific sources.
+       * url | href | highlighted
+       * - | - | -
+       * /contenus?source=editorial_content` | /contenus | :cross:
+       * /contenus?source=contributions` | /contenus | :check:
+       **/
+
+      isCurrentRoute = !subRouteSources.includes(router.query?.source);
+    }
+  }
+
   return (
     <Link shallow href={href} passHref>
       <NavLink

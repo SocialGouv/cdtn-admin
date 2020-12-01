@@ -145,7 +145,14 @@ export function DocumentPage() {
           <Inline>
             <Button disabled={submitIdle || !hasChanged}>Enregistrer</Button>
             <Link href="/contenus" passHref>
-              <NavLink onClick={() => router.back()}>Retour</NavLink>
+              <NavLink
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.back();
+                }}
+              >
+                Retour
+              </NavLink>
             </Link>
           </Inline>
         </Stack>
