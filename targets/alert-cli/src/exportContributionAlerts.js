@@ -48,7 +48,8 @@ function computeDiff(node) {
   const textFieldname =
     node.context.containerId === "LEGITEXT000006072050" ? "texte" : "content";
   const content = node.data[textFieldname] || "";
-  const previousContent = node.previous?.data[textFieldname] || "";
+  const previousContent =
+    (node.previous && node.previous.data[textFieldname]) || "";
   const showDiff = content !== previousContent;
   const showNotaDiff = node.previous.data.nota !== node.data.nota;
   const texts = [];
