@@ -37,19 +37,20 @@ query getDocumentById($id: String!) {
 `;
 
 const updateDocumentMutation = `
-mutation updateDocument($cdtnId: String!, $metaDescription: String!, $title: String!, $isAvailable: Boolean!, $document: jsonb!){
+mutation updateDocument($cdtnId: String!, $metaDescription: String!, $title: String!, $isAvailable: Boolean!, $document: jsonb!, $text: String!){
   document: update_documents_by_pk(
     _set:{
       document: $document
       meta_description: $metaDescription
       title: $title
       is_available: $isAvailable
+      text: $text
     },
     pk_columns: {
       cdtn_id: $cdtnId
     }
   ){
-    cdtnId:cdtn_id, title, source, metaDescription: meta_description, document
+    cdtnId:cdtn_id, title, source, metaDescription: meta_description, document, text
   }
 }`;
 
@@ -81,19 +82,21 @@ export function DocumentPage() {
       document: jsonDoc.current.document,
       isAvailable: data.document.is_available,
       metaDescription: jsonDoc.current.meta_description,
+      text: jsonDoc.current.text,
       title: jsonDoc.current.title,
     }).then(({ data }) => {
       const {
         cdtnId,
-        title,
         source,
-        metaDescription,
         document,
+        metaDescription,
+        text,
+        title,
       } = data.document;
       request("/api/elasticcloud/preview", {
         body: {
           cdtnId,
-          document: { ...document, metaDescription, title },
+          document: { ...document, metaDescription, text, title },
           source,
         },
       });
