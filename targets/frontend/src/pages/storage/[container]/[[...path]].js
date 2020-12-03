@@ -4,6 +4,7 @@ import Link from "next/link";
 import prettyBytes from "pretty-bytes";
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { IoIosTrash } from "react-icons/io";
 import { Layout } from "src/components/layout/auth.layout";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
@@ -22,6 +23,13 @@ const listFiles = (container) => () => {
   return fetch(`/api/storage/${container}`, {
     credentials: "include",
     method: "GET",
+  }).then((res) => res.json());
+};
+
+const deleteFile = (container, path) => {
+  return fetch(`/api/storage/${container}/${path}`, {
+    credentials: "include",
+    method: "DELETE",
   }).then((res) => res.json());
 };
 
@@ -80,12 +88,17 @@ const TimeSince = ({ date }) => (
   </span>
 );
 
-function FileList({ files }) {
+function FileList({ files, onDeleteClick }) {
   return (
     <div>
       {files.map((file) => {
         return (
-          <li key={file.name}>
+          <div key={file.name}>
+            <IoIosTrash
+              style={{ cursor: "pointer" }}
+              size="1.5em"
+              onClick={() => onDeleteClick(file)}
+            />
             <Link
               target="_blank"
               rel="noopener noreferrer"
@@ -96,7 +109,7 @@ function FileList({ files }) {
             </Link>{" "}
             ({prettyBytes(file.contentLength)}){" "}
             <TimeSince date={file.lastModified} />
-          </li>
+          </div>
         );
       })}
     </div>
@@ -110,11 +123,26 @@ function FilesPage(props) {
     return <Message variant="primary">erreur au chargement...</Message>;
   if (!data) return <Spinner />;
   const sortedFiles = data.sort((a, b) => a.name.localeCompare(b.name));
+  const onDeleteClick = function (file) {
+    const confirmed = confirm(
+      "Êtes-vous sûr(e) de vouloir définitivement supprimer ce fichier ?"
+    );
+    if (confirmed) {
+      deleteFile(container, file.name)
+        .then(() => {
+          mutate("files");
+        })
+        .catch((e) => {
+          console.log("e", e);
+          alert("Impossible de supprimer le fichier :/");
+        });
+    }
+  };
   return (
     (container && (
       <Layout title={`Fichiers ${container} (${sortedFiles.length})`}>
         <DropZone container={container} />
-        <FileList files={sortedFiles} />
+        <FileList files={sortedFiles} onDeleteClick={onDeleteClick} />
       </Layout>
     )) ||
     null
