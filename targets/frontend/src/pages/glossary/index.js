@@ -43,7 +43,7 @@ export function GlossaryPage() {
     displayedTerms,
     setDisplayedTerms,
     setDebouncedDisplayedTerms,
-  ] = useDebouncedState(undefined);
+  ] = useDebouncedState(undefined, 200);
   const [isSearching, setSearching] = useState(false);
   const [{ fetching: isFetching, data: { glossary = [] } = {} }] = useQuery({
     context,

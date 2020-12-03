@@ -108,8 +108,11 @@ Deploy www (dev):
     name: ${CI_COMMIT_REF_SLUG}-dev2
   variables:
     MANIFEST_FOLDER: targets/frontend/.k8s/environments/dev
+    # secrets have a different name in dev or prod...
     HELM_RENDER_ARGS: >-
       --set ingress.annotations.nginx\.ingress\.kubernetes\.io\/whitelist-source-range=$IP_ALLOWLIST
+      --set deployment.env[0].valueFrom.secretKeyRef.name=azure-cdtnadmindev-volume
+      --set deployment.env[1].valueFrom.secretKeyRef.name=azure-cdtnadmindev-volume
 
 Deploy www (prod):
   extends:

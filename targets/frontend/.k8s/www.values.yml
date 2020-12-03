@@ -28,6 +28,18 @@ deployment:
     path: /health
     periodSeconds: 15
 
+  env:
+    - name: AZURE_STORAGE_ACCOUNT_KEY
+      valueFrom:
+        secretKeyRef:
+          name: azure-cdtnadminprod-volume
+          key: azurestorageaccountkey
+    - name: AZURE_STORAGE_ACCOUNT_NAME
+      valueFrom:
+        secretKeyRef:
+          name: azure-cdtnadminprod-volume
+          key: azurestorageaccountname
+
   envFrom:
     - configMapRef:
         name: www-env

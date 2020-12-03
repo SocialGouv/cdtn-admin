@@ -30,5 +30,6 @@ export function Layout({ children, title }) {
 }
 Layout.propTypes = {
   children: PropTypes.node,
+  noStack: PropTypes.bool,
   title: PropTypes.string.isRequired,
 };

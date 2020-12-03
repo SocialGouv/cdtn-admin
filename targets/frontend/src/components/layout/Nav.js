@@ -11,6 +11,9 @@ import { useQuery } from "urql";
 
 import { Li, List } from "../list";
 
+const FILE_CONTAINER = process.env.NEXT_PUBLIC_PRODUCTION;
+const FILE_CONTAINER1 = process.env.NEXT_PUBLIC_PRODUCTION1;
+
 const getSourcesQuery = `
 query getAlerts{
   sources(order_by:{label:asc}) {
@@ -115,6 +118,12 @@ export function Nav() {
               Blocs KALI
             </ActiveLink>
           </Li>
+          <Li>
+            <ActiveLink href={`/storage/${FILE_CONTAINER}`} passHref>
+              Fichiers
+            </ActiveLink>
+          </Li>
+          {JSON.stringify({ FILE_CONTAINER, FILE_CONTAINER1 }, null, 2)}
         </List>
       </Box>
     </Box>
