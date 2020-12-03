@@ -108,6 +108,11 @@ export function Nav() {
               Blocs KALI
             </ActiveLink>
           </Li>
+          <Li>
+            <ActiveLink href="/storage/cdtn-test1" passHref>
+              Fichiers
+            </ActiveLink>
+          </Li>
         </List>
       </Box>
     </Box>

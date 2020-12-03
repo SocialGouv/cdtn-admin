@@ -1,11 +1,14 @@
 import { formatDistanceToNow, parseISO } from "date-fns";
 import frLocale from "date-fns/locale/fr";
 import Link from "next/link";
-import React, { useCallback } from "react";
+import prettyBytes from "pretty-bytes";
+import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { Layout } from "src/components/layout/auth.layout";
+import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
+import { withUserProvider } from "src/hoc/UserProvider";
 import useSWR, { mutate } from "swr";
-
-const ACCOUNT_NAME = process.env.AZURE_STORAGE_ACCOUNT_NAME;
+import { Message, Spinner } from "theme-ui";
 
 const uploadFiles = (container, formData) => {
   return fetch(`/api/storage/${container}`, {
@@ -22,31 +25,51 @@ const listFiles = (container) => () => {
   }).then((res) => res.json());
 };
 
-const getUrl = (container, fileName) => {
-  const CONTAINER_URL = `https://${ACCOUNT_NAME}.blob.core.windows.net/${container}`;
-  return `${CONTAINER_URL}/${fileName}`;
-};
-
-function DropZone({ container }) {
-  const onDrop = useCallback(async (acceptedFiles) => {
-    const formData = new FormData();
-    for (const i in acceptedFiles) {
-      if (acceptedFiles[i] instanceof File) {
-        formData.append(acceptedFiles[i].path, acceptedFiles[i]);
+function DropZone({ container, children }) {
+  const [uploading, setUploading] = useState(false);
+  const onDrop = useCallback(
+    async (acceptedFiles) => {
+      setUploading(true);
+      const formData = new FormData();
+      for (const i in acceptedFiles) {
+        if (acceptedFiles[i] instanceof File) {
+          formData.append(acceptedFiles[i].path, acceptedFiles[i]);
+        }
       }
-    }
-    uploadFiles(container, formData).then(() => mutate("files"));
-  }, []);
+      uploadFiles(container, formData)
+        .then(() => {
+          setUploading(false);
+          mutate("files");
+        })
+        .catch(() => {
+          setUploading(false);
+          mutate("files");
+        });
+    },
+    [container]
+  );
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragAccept } = useDropzone({
+    accept:
+      "image/jpeg, image/png, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    onDrop,
+  });
 
+  const style = {
+    border: "2px dotted silver",
+    borderRadius: 3,
+    padding: 5,
+    width: "100%",
+  };
+
+  if (isDragAccept) {
+    style.background = "#d1ffd9"; // some light green
+  }
   return (
-    <div
-      {...getRootProps()}
-      style={{ background: "#dedede", height: 200, width: "100%" }}
-    >
+    <div {...getRootProps()} style={style}>
       <input {...getInputProps()} />
-      <p>Drop it</p>
+      {uploading ? <Spinner /> : <p>Glissez vos fichiers ici</p>}
+      {children}
     </div>
   );
 }
@@ -57,25 +80,22 @@ const TimeSince = ({ date }) => (
   </span>
 );
 
-function FileList({ container }) {
-  const { data, error } = useSWR("files", listFiles(container));
-  if (error) return <div>erreur...</div>;
-  if (!data) return <div>chargement...</div>;
-  const sortedFiles = data.sort((a, b) => a.name.localeCompare(b.name));
+function FileList({ files }) {
   return (
     <div>
-      <h4>{sortedFiles.length}</h4>
-      {sortedFiles.map((file) => {
+      {files.map((file) => {
         return (
           <li key={file.name}>
             <Link
               target="_blank"
               rel="noopener noreferrer"
-              href={getUrl(file.name)}
+              href={file.url}
+              passHref
             >
               {file.name}
             </Link>{" "}
-            ({file.contentLength}) <TimeSince date={file.lastModified} />
+            ({prettyBytes(file.contentLength)}){" "}
+            <TimeSince date={file.lastModified} />
           </li>
         );
       })}
@@ -83,29 +103,28 @@ function FileList({ container }) {
   );
 }
 
-export default function Files({ container }) {
+function FilesPage(props) {
+  const container = props.query.container;
+  const { data, error } = useSWR("files", listFiles(container));
+  if (error)
+    return <Message variant="primary">erreur au chargement...</Message>;
+  if (!data) return <Spinner />;
+  const sortedFiles = data.sort((a, b) => a.name.localeCompare(b.name));
   return (
     (container && (
-      <React.Fragment>
-        <h4>{container}</h4>
+      <Layout title={`Fichiers ${container} (${sortedFiles.length})`}>
         <DropZone container={container} />
-        <FileList container={container} />
-      </React.Fragment>
+        <FileList files={sortedFiles} />
+      </Layout>
     )) ||
     null
   );
 }
 
-export function getStaticProps({ params }) {
-  const { container } = params;
+FilesPage.getInitialProps = function getInitialProps({ query }) {
   return {
-    props: { container },
+    query,
   };
-}
+};
 
-export async function getStaticPaths() {
-  return {
-    fallback: true,
-    paths: [],
-  };
-}
+export default withCustomUrqlClient(withUserProvider(FilesPage));

@@ -31,6 +31,7 @@ export const getContainerBlobs = async (containerName) => {
       contentLength: blob.properties.contentLength,
       lastModified: blob.properties.lastModified,
       name: blob.name,
+      url: `https://${AZURE_STORAGE_ACCOUNT.name}.blob.core.windows.net/${containerName}/${blob.name}`,
     });
   }
   return blobs;
