@@ -106,6 +106,10 @@ Deploy www (dev):
     - .deploy_www_stage
   environment:
     name: ${CI_COMMIT_REF_SLUG}-dev2
+    # secrets have a different name in dev or prod...
+    HELM_RENDER_ARGS: >-
+      --set deployment.env[0].valueFrom.secretKeyRef.name=azure-cdtnadmindev-volume
+      --set deployment.env[1].valueFrom.secretKeyRef.name=azure-cdtnadmindev-volume
   variables:
     MANIFEST_FOLDER: targets/frontend/.k8s/environments/dev
 
