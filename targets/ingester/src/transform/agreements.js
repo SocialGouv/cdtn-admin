@@ -64,6 +64,7 @@ export default async function getAgreementDocuments(pkgName) {
         agreement.shortTitle
       }`,
       source: SOURCES.CCN,
+      synonymes: agreement.synonymes,
     });
   }
   return agreementPages.sort(createSorter(({ num }) => num));

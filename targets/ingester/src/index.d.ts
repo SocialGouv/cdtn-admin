@@ -55,6 +55,7 @@ type AgreementPage = Document & {
   answers: AgreementAnswer[]
   url?: string,
   articlesByTheme: AgreementArticleByBlock[]
+  synonymes?: string[]
 }
 
 type AgreementAnswer = {
