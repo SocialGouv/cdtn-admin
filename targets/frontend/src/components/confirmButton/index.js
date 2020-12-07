@@ -78,7 +78,7 @@ export const ConfirmButton = React.forwardRef(
       >
         {needConfirm ? (
           <>
-            Vraimment ? <MdClose onClick={cancel} />
+            Vraiment ? <MdClose onClick={cancel} />
           </>
         ) : (
           children
