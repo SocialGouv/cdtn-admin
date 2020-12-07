@@ -14,13 +14,17 @@ import { jsx } from "theme-ui";
 
 import { ConfirmButton } from "../confirmButton";
 
+function fetchPipelines(url, token) {
+  return request(url, { headers: { token } });
+}
+
 export function GitlabButton({ env, children }) {
   const [errorCount, setErrorCount] = useState(0);
   const [status, setStatus] = useState("disabled");
-  const { error, data, mutate } = useSWR([
+  const { error, data, mutate } = useSWR(
     () => (errorCount < 3 ? "/api/pipelines" : null),
-    { token: getToken()?.jwt_token },
-  ]);
+    fetchPipelines
+  );
 
   if (error) {
     setStatus("disabled");
