@@ -7,6 +7,7 @@ import {
   MdSyncProblem,
   MdTimelapse,
 } from "react-icons/md";
+import { getToken } from "src/lib/auth/token";
 import { request } from "src/lib/request";
 import useSWR from "swr";
 import { jsx } from "theme-ui";
@@ -16,9 +17,10 @@ import { ConfirmButton } from "../confirmButton";
 export function GitlabButton({ env, children }) {
   const [errorCount, setErrorCount] = useState(0);
   const [status, setStatus] = useState("disabled");
-  const { error, data, mutate } = useSWR(() =>
-    errorCount < 3 ? "/api/pipelines" : null
-  );
+  const { error, data, mutate } = useSWR([
+    () => (errorCount < 3 ? "/api/pipelines" : null),
+    { token: getToken()?.jwt_token },
+  ]);
 
   if (error) {
     setStatus("disabled");
@@ -39,6 +41,9 @@ export function GitlabButton({ env, children }) {
     await request("/api/trigger_pipeline", {
       body: {
         env,
+      },
+      headers: {
+        token: getToken()?.jwt_token,
       },
     }).catch(() => {
       setStatus("disable");

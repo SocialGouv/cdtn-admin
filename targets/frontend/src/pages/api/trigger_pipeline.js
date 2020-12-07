@@ -1,5 +1,6 @@
 import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
+import { verify } from "jsonwebtoken";
 import { createErrorFor } from "src/lib/apiError";
 import { triggerDeploy } from "src/lib/gitlab.api";
 
@@ -9,6 +10,11 @@ export default async function (req, res) {
   if (req.method === "GET") {
     res.setHeader("Allow", ["POST"]);
     return apiError(Boom.methodNotAllowed("GET method not allowed"));
+  }
+
+  const { token } = req.headers;
+  if (!verify(token)) {
+    return apiError(Boom.badRequest("wrong token"));
   }
 
   const schema = Joi.object({

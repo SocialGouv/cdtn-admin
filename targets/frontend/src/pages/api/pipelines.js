@@ -1,6 +1,16 @@
+import Boom from "@hapi/boom";
+import { verify } from "jsonwebtoken";
+import { createErrorFor } from "src/lib/apiError";
 import { getPipelines, getPipelineVariables } from "src/lib/gitlab.api";
 
 export default async function pipelines(req, res) {
+  const apiError = createErrorFor(res);
+  const { token } = req.headers;
+
+  if (!verify(token)) {
+    return apiError(Boom.badRequest("wrong token"));
+  }
+
   const pipelines = await getPipelines({ ref: "master" });
 
   const activePipelines = pipelines.filter(
