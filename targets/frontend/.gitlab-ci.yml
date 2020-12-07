@@ -108,6 +108,8 @@ Deploy www (dev):
     name: ${CI_COMMIT_REF_SLUG}-dev2
   variables:
     MANIFEST_FOLDER: targets/frontend/.k8s/environments/dev
+    HELM_RENDER_ARGS: >-
+      --set ingress.annotations[1]=null
 
 Deploy www (prod):
   extends:
