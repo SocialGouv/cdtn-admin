@@ -103,36 +103,33 @@ export function DocumentsPage() {
 
   const { register, handleSubmit } = useForm();
 
-  const [itemsPerPage, setItemsPerPage] = useState(DEFAULT_ITEMS_PER_PAGE);
-
-  const currentPage = parseInt(router.query.page, 10) || 0;
-
-  const [facets, setFacets] = useState({
-    currentPage: parseInt(router.query.page, 10) || 0,
-    published: router.query.published || "all",
-    q: router.query.q?.trim() || "",
-    source: router.query.source || null,
-  });
-
   const onSearchSubmit = ({ q, source, published }) => {
     console.log("onSearchSubmit", { published, q, source });
-    setFacets({ published, q, source });
   };
 
   function updateUrl(event) {
     const query = { ...facets };
-    query[event.target.name] = event.target.value.trim();
-    router.push({ pathname: router.route, query });
-    setFacets(query);
+    const { value, name } = event.target;
+    query[name] = value;
+    router.push({ pathname: router.route, query }, undefined, {
+      shallow: true,
+    });
   }
 
-  console.log(facets);
+  const facets = {
+    currentPage: parseInt(router.query.page, 10) || 0,
+    itemsPerPage:
+      parseInt(router.query.itemsPerPage, 10) || DEFAULT_ITEMS_PER_PAGE,
+    published: router.query.published || "all",
+    q: router.query.q?.trim() || "",
+    source: router.query.source || null,
+  };
 
   const [result] = useQuery({
     query: searchDocumentQuery,
     variables: {
-      limit: itemsPerPage,
-      offset: facets.currentPage * itemsPerPage,
+      limit: facets.itemsPerPage,
+      offset: facets.currentPage * facets.itemsPerPage,
       published:
         facets.published === "yes"
           ? [true]
@@ -210,13 +207,10 @@ export function DocumentsPage() {
                   sx={{ width: "4rem" }}
                   name="itemsPerPage"
                   id="itemsPerPage"
-                  defaultValue={itemsPerPage}
-                  onChange={(event) =>
-                    setItemsPerPage(
-                      Number.parseInt(event.target.value, 10) ||
-                        DEFAULT_ITEMS_PER_PAGE
-                    )
-                  }
+                  defaultValue={facets.itemsPerPage}
+                  onChange={(event) => {
+                    updateUrl(event);
+                  }}
                 >
                   {[10, 25, 50, 100].map((size) => (
                     <option key={`items-per-page${size}`} value={size}>
@@ -285,8 +279,8 @@ export function DocumentsPage() {
           </table>
           <Pagination
             count={data.documents_aggregate.aggregate.count}
-            currentPage={currentPage}
-            pageSize={itemsPerPage}
+            currentPage={facets.currentPage}
+            pageSize={facets.itemsPerPage}
           />
         </>
       ) : (
@@ -315,7 +309,7 @@ const DocumentRow = memo(function _DocumentRow({
         />
       </td>
       <td>
-        <Link href={`/contenus/${cdtnId}`} passHref>
+        <Link href={`/contenus/${cdtnId}`} passHref shallow>
           <NavLink>
             <span
               sx={{
