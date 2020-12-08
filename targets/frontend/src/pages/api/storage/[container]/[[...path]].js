@@ -7,7 +7,7 @@ async function endPoint(req, res) {
   if (req.method === "POST") {
     const form = new IncomingForm({ multiples: true });
 
-    const done = () => res.status(200).json({ success: false }).end();
+    const done = () => res.status(200).json({ success: true }).end();
 
     let wait = 1; // expect at least a close event
     form.onPart = async function (part) {
