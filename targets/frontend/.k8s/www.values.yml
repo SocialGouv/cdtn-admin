@@ -37,4 +37,3 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/whitelist-source-range: 109.221.140.106,185.24.184.196,185.24.185.196,185.24.186.196,185.24.187.196,45.87.212.184,54.216.19.70,86.247.251.159,90.52.73.222,86.247.227.133,90.119.197.249,78.193.26.225,90.92.100.236,51.11.226.128
