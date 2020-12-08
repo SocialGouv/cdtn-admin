@@ -7,12 +7,10 @@
  */
 export async function batchPromises(items, handler, batchSize) {
   const array = items.slice();
-  /** @type {PromiseSettledResult<B>[]} */
+  /** @type {B[]} */
   let results = [];
   while (array.length) {
-    const res = await Promise.allSettled(
-      array.splice(0, batchSize).map(handler)
-    );
+    const res = await Promise.all(array.splice(0, batchSize).map(handler));
     results = results.concat(res);
   }
   return results;
