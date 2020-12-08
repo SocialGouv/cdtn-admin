@@ -14,27 +14,37 @@ import { jsx } from "theme-ui";
 
 import { ConfirmButton } from "../confirmButton";
 
-function fetchPipelines(url, token) {
-  return request(url, { headers: { token } });
+function fetchPipelines(url) {
+  const { jwt_token } = getToken();
+  return request(url, { headers: { token: jwt_token } });
 }
 
 export function GitlabButton({ env, children }) {
   const [errorCount, setErrorCount] = useState(0);
   const [status, setStatus] = useState("disabled");
-  const { error, data, mutate } = useSWR(
-    () => (errorCount < 3 ? "/api/pipelines" : null),
+  const token = getToken();
+  const { error, data, isValidating, mutate } = useSWR(
+    `/api/pipelines`,
     fetchPipelines
   );
 
-  if (error) {
-    setStatus("disabled");
-    setErrorCount(errorCount + 1);
-    setTimeout(() => mutate("/api/pipelines"), 2000);
-  }
+  console.log("swr", { data, error, isValidating });
 
-  if (errorCount >= 3) {
-    setStatus("error");
-  }
+  useEffect(() => {
+    if (error && errorCount < 3) {
+      console.log("inc errro count", errorCount);
+      setErrorCount(errorCount + 1);
+    }
+  }, [error, errorCount, setErrorCount]);
+
+  useEffect(() => {
+    console.log("udpate status ", errorCount);
+    if (errorCount < 3) {
+      setStatus("disabled");
+    } else {
+      setStatus("error");
+    }
+  }, [setStatus, errorCount]);
 
   async function clickHandler() {
     if (isDisabled) {
@@ -47,7 +57,7 @@ export function GitlabButton({ env, children }) {
         env,
       },
       headers: {
-        token: getToken()?.jwt_token,
+        token: token?.jwt_token,
       },
     }).catch(() => {
       setStatus("disable");
@@ -72,7 +82,7 @@ export function GitlabButton({ env, children }) {
     <ConfirmButton disabled={isDisabled} onClick={clickHandler}>
       {status === "pending" && <MdTimelapse />}
       {status === "ready" && <MdLoop />}
-      {status === "disabled" && <MdDoNotDisturbAlt />} {children}
+      {status === "disabled" && <MdDoNotDisturbAlt />}
       {status === "error" && <MdSyncProblem />} {children}
     </ConfirmButton>
   );

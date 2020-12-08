@@ -3,11 +3,14 @@ import { verify } from "jsonwebtoken";
 import { createErrorFor } from "src/lib/apiError";
 import { getPipelines, getPipelineVariables } from "src/lib/gitlab.api";
 
+const { HASURA_GRAPHQL_JWT_SECRET } = process.env;
+const jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
+
 export default async function pipelines(req, res) {
   const apiError = createErrorFor(res);
   const { token } = req.headers;
 
-  if (!verify(token)) {
+  if (!token || !verify(token, jwtSecret.key, { algorithms: jwtSecret.type })) {
     return apiError(Boom.badRequest("wrong token"));
   }
 

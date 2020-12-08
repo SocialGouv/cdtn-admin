@@ -11,7 +11,7 @@ export function IndexPage() {
     <Layout title="Home">
       <Text>Administration des contenus et gestion des alertes</Text>
       <Inline>
-        <GitlabButton env="prod">Mettre à jour la prod</GitlabButton>
+        {/* <GitlabButton env="prod">Mettre à jour la prod</GitlabButton> */}
         <GitlabButton env="preprod">Mettre à jour la preprod</GitlabButton>
       </Inline>
     </Layout>

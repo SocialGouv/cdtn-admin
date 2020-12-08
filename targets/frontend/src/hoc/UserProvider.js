@@ -18,6 +18,7 @@ export function withUserProvider(WrappedComponent) {
     };
 
     static async getInitialProps(ctx) {
+      console.log("GIP");
       const token = await auth(ctx);
 
       const componentProps =
