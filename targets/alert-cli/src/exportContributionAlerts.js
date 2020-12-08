@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-const contribApi =
+export const contribApiUrl =
   "https://contributions-api.codedutravail.fabrique.social.gouv.fr/alerts";
 
 /**
@@ -28,7 +28,7 @@ export async function exportContributionAlerts(changes) {
       }));
     });
   });
-  await fetch(contribApi, {
+  await fetch(contribApiUrl, {
     body: JSON.stringify(contributions),
     headers: {
       "Content-Type": "application/json",
