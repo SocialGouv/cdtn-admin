@@ -109,7 +109,7 @@ Deploy www (dev):
   variables:
     MANIFEST_FOLDER: targets/frontend/.k8s/environments/dev
     HELM_RENDER_ARGS: >-
-      --set ingress.annotations."nginx.ingress.kubernetes.io/whitelist-source-range"=""
+      --set ingress.annotations.'nginx\.ingress.\kubernetes\.io\/whitelist-source-range'=""
 
 Deploy www (prod):
   extends:
