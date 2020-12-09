@@ -4,6 +4,7 @@ import { access, readFile } from "fs/promises";
 import getUri from "get-uri";
 import got from "got";
 import gunzip from "gunzip-maybe";
+import pRetry from "p-retry";
 import path from "path";
 import semver from "semver";
 import tar from "tar-fs";
@@ -202,7 +203,7 @@ async function main() {
   if (args.dryRun) {
     console.log("dry-run mode");
   }
-  /** @type {({status:"fulfilled", value:{cdtn_id:string}[]}|{status: "rejected", reason:Object})[]} */
+  /** @type {{cdtn_id:string}[]}} */
   let ids = [];
   for (const [pkgName, getDocument] of dataPackages) {
     const documents = await getDocument(pkgName);
@@ -215,8 +216,24 @@ async function main() {
     const nbDocs = await initDocAvailabity(documents[0].source);
     console.log(`update availability of ${nbDocs} documents`);
     const chunks = chunk(documents, 80);
-    const inserts = await batchPromises(chunks, insertDocuments, 15);
-    ids = ids.concat(inserts);
+    const inserts = await batchPromises(
+      chunks,
+      (docs) =>
+        pRetry(() => insertDocuments(docs), {
+          onFailedAttempt: (error) => {
+            console.error(
+              `insert failed ${error.attemptNumber}/${
+                error.retriesLeft + error.attemptNumber
+              }`,
+              error.name,
+              error.message
+            );
+          },
+          retries: 5,
+        }),
+      15
+    );
+    ids = ids.concat(inserts.flat());
     await updateVersion(pkgName, pkgVersions[pkgName]);
   }
   return ids;
@@ -224,24 +241,9 @@ async function main() {
 
 main()
   .then((data) => {
-    const fullfilledInserts = /**@type {{status:"fulfilled", value:{cdtn_id:string}[]}[]} */ (data.filter(
-      ({ status }) => status === "fulfilled"
-    ));
-    const rejectedInsert = data.filter(({ status }) => status === "rejected");
-    console.log(
-      `Finish ingest ${fullfilledInserts.reduce(
-        (value, items) => value + items.value.length,
-        0
-      )} documents`
-    );
-    if (rejectedInsert.length) {
-      console.log(
-        ` fail to ingest ${fullfilledInserts.reduce(
-          (value, items) => value + items.value.length,
-          0
-        )} documents`
-      );
-      process.exit(-1);
-    }
+    console.log(`Finish ingest ${data.length} documents`);
   })
-  .catch(console.error);
+  .catch((err) => {
+    console.error(err);
+    process.exit(-1);
+  });
