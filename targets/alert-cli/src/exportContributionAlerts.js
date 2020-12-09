@@ -58,10 +58,10 @@ function computeDiff(reference, { added, removed, modified }) {
     (node) => node.data.cid === reference.dila_cid
   );
 
-  const textFieldname =
-    modifiedNode.context.containerId === "LEGITEXT000006072050"
-      ? "texte"
-      : "content";
+  const textFieldname = /^KALITEXT\d+$/.test(modifiedNode.context.containerId)
+    ? "content"
+    : "text";
+
   const content = modifiedNode.data[textFieldname] || "";
 
   const previousContent =
