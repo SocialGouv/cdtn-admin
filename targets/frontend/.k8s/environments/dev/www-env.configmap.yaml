@@ -4,7 +4,7 @@ metadata:
   name: www-env
 data:
   ACCOUNT_MAIL_SENDER: "contact@fabrique.social.gouv.fr"
-  FRONTEND_URL: "https://${HOST}"
+  FRONTEND_URL: "http://www:${PORT}"
   FRONTEND_PORT: "${PORT}"
   CI_COMMIT_SHORT_SHA: "${CI_COMMIT_SHORT_SHA}"
   HASURA_GRAPHQL_ENDPOINT: "http://hasura-cdtn-admin/v1/graphql"
