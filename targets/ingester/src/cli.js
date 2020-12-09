@@ -218,7 +218,19 @@ async function main() {
     const chunks = chunk(documents, 80);
     const inserts = await batchPromises(
       chunks,
-      (docs) => pRetry(() => insertDocuments(docs), { retries: 5 }),
+      (docs) =>
+        pRetry(() => insertDocuments(docs), {
+          onFailedAttempt: (error) => {
+            console.error(
+              `insert failed ${error.attemptNumber}/${
+                error.retriesLeft + error.attemptNumber
+              }`,
+              error.name,
+              error.message
+            );
+          },
+          retries: 5,
+        }),
       15
     );
     ids = ids.concat(inserts.flat());
