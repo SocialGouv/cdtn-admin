@@ -80,8 +80,9 @@ let COLLAPSIBLE_ID = 1;
 
 export function DilaDiffChange({ change }) {
   const { data, previous } = change;
-  const textFieldname =
-    change.context.containerId === "LEGITEXT000006072050" ? "texte" : "content";
+  const textFieldname = /^KALITEXT\d+$/.test(change.context.containerId)
+    ? "content"
+    : "texte";
   const content = data[textFieldname] || "";
   const previousContent = previous?.data[textFieldname] || "";
   const showDiff = previous && content !== previousContent;

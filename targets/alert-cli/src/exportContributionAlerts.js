@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-const contribApi =
+export const contribApiUrl =
   "https://contributions-api.codedutravail.fabrique.social.gouv.fr/alerts";
 
 /**
@@ -18,20 +18,17 @@ export async function exportContributionAlerts(changes) {
     if (targetedContribs.length === 0) {
       return [];
     }
-    const nodes = [...alert.modified, ...alert.removed, ...alert.added];
     return targetedContribs.flatMap(({ references, document: contrib }) => {
       return references.map((reference) => ({
         answer_id: contrib.id,
         cid: reference.dila_cid,
         id: reference.dila_id,
-        value: computeDiff(
-          nodes.find((node) => node.data.cid === reference.dila_cid)
-        ),
+        value: computeDiff(reference, alert),
         version: alert.ref,
       }));
     });
   });
-  await fetch(contribApi, {
+  await fetch(contribApiUrl, {
     body: JSON.stringify(contributions),
     headers: {
       "Content-Type": "application/json",
@@ -42,16 +39,35 @@ export async function exportContributionAlerts(changes) {
 
 /**
  *
- * @param {alerts.DilaNodeForDiff} node
+ * @param {import("@shared/types").ParseDilaReference} reference
+ * @param {alerts.DilaAlertChanges} nodes
  */
-function computeDiff(node) {
-  const textFieldname =
-    node.context.containerId === "LEGITEXT000006072050" ? "texte" : "content";
-  const content = node.data[textFieldname] || "";
+function computeDiff(reference, { added, removed, modified }) {
+  const addedNode = added.find((node) => node.data.cid === reference.dila_cid);
+  if (addedNode) {
+    return { type: "added" };
+  }
+  const removedNode = removed.find(
+    (node) => node.data.cid === reference.dila_cid
+  );
+  if (removedNode) {
+    return { type: "removed" };
+  }
+
+  const modifiedNode = modified.find(
+    (node) => node.data.cid === reference.dila_cid
+  );
+
+  const textFieldname = /^KALITEXT\d+$/.test(modifiedNode.context.containerId)
+    ? "content"
+    : "texte";
+  const content = modifiedNode.data[textFieldname] || "";
+
   const previousContent =
-    (node.previous && node.previous.data[textFieldname]) || "";
+    (modifiedNode.previous && modifiedNode.previous.data[textFieldname]) || "";
   const showDiff = content !== previousContent;
-  const showNotaDiff = node.previous.data.nota !== node.data.nota;
+  const showNotaDiff =
+    modifiedNode.previous.data.nota !== modifiedNode.data.nota;
   const texts = [];
   if (showDiff) {
     texts.push({ current: content, previous: previousContent });
@@ -59,13 +75,17 @@ function computeDiff(node) {
 
   if (showNotaDiff) {
     texts.push({
-      current: node.data.nota,
-      previous: node.previous.data.nota,
+      current: modifiedNode.data.nota,
+      previous: modifiedNode.previous.data.nota,
     });
   }
 
   return {
-    etat: { current: node.data.etat, previous: node.previous.data.etat },
+    etat: {
+      current: modifiedNode.data.etat,
+      previous: modifiedNode.previous.data.etat,
+    },
     texts,
+    type: "modified",
   };
 }
