@@ -60,8 +60,7 @@ function computeDiff(reference, { added, removed, modified }) {
 
   const textFieldname = /^KALITEXT\d+$/.test(modifiedNode.context.containerId)
     ? "content"
-    : "text";
-
+    : "texte";
   const content = modifiedNode.data[textFieldname] || "";
 
   const previousContent =
