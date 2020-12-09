@@ -108,6 +108,8 @@ Deploy www (dev):
     name: ${CI_COMMIT_REF_SLUG}-dev2
   variables:
     MANIFEST_FOLDER: targets/frontend/.k8s/environments/dev
+    HELM_RENDER_ARGS: >-
+      --set ingress.annotations.nginx\.ingress\.kubernetes\.io\/whitelist-source-range=$IP_ALLOWLIST
 
 Deploy www (prod):
   extends:
@@ -117,3 +119,5 @@ Deploy www (prod):
     name: prod2
   variables:
     MANIFEST_FOLDER: targets/frontend/.k8s/environments/prod
+    HELM_RENDER_ARGS: >-
+      --set ingress.annotations.nginx\.ingress\.kubernetes\.io\/whitelist-source-range=$IP_ALLOWLIST
