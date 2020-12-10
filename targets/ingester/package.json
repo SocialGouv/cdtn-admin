@@ -11,7 +11,7 @@
     "gunzip-maybe": "^1.4.2",
     "p-retry": "^4.2.0",
     "query-string": "^6.13.7",
-    "remark": "^12.0.1",
+    "remark": "^13.0.0",
     "remark-html": "^13.0.1",
     "semver": "^7.3.4",
     "tar-fs": "^2.1.1",
