@@ -58,10 +58,10 @@ query documents($source: String, $search: String!, $published: [Boolean!]!, $off
     }
   )
   {
-    aggregate{count}
+    aggregate { count }
   }
   sources: documents_aggregate(distinct_on: source) {
-    nodes{
+    nodes {
       source
     }
   }

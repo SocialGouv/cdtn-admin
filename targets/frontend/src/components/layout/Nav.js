@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 import { useUser } from "src/hooks/useUser";
+import { slugifyRepository } from "src/models";
 import { Badge, Box, jsx, Message, NavLink, Text } from "theme-ui";
 import { useQuery } from "urql";
 
@@ -68,7 +69,7 @@ export function Nav() {
               return (
                 <Li key={source.repository}>
                   <ActiveLink
-                    href={`/alerts/${source.repository.replace(/\//, "_")}`}
+                    href={`/alerts/${slugifyRepository(source.repository)}`}
                   >
                     {source.label}
                   </ActiveLink>

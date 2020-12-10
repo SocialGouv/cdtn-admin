@@ -101,11 +101,23 @@ PaginationList.propTypes = {
 function PageButton({ currentPage, pageIndex }) {
   const router = useRouter();
   const qs = Object.entries(router.query)
-    .flatMap(([key, value]) => (key === "page" ? [] : `${key}=${value}`))
+    .flatMap(([key, value]) => {
+      if (key === "page") {
+        return [];
+      }
+      if (new RegExp(`[([...)?${key}]?]`).test(router.route)) {
+        return [];
+      }
+      return [`${key}=${value}`];
+    })
     .join("&");
 
   return (
-    <Link href={`${router.route}?${qs}&page=${pageIndex}`} passHref>
+    <Link
+      href={`${router.asPath.replace(/\?.*$/, "")}?${qs}&page=${pageIndex}`}
+      passHref
+      shallow
+    >
       <NavButton variant={pageIndex === currentPage ? "accent" : "secondary"}>
         {pageIndex + 1}
       </NavButton>
