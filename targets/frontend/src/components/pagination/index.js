@@ -100,29 +100,32 @@ PaginationList.propTypes = {
 
 function PageButton({ currentPage, pageIndex }) {
   const router = useRouter();
-  const qs = Object.entries(router.query)
-    .flatMap(([key, value]) => {
-      if (key === "page") {
-        return [];
-      }
-      if (new RegExp(`[([...)?${key}]?]`).test(router.route)) {
-        return [];
-      }
-      return [`${key}=${value}`];
-    })
-    .join("&");
 
   return (
-    <Link
-      href={`${router.asPath.replace(/\?.*$/, "")}?${qs}&page=${pageIndex}`}
-      passHref
-      shallow
-    >
+    <Link href={addPaginationParam(router.asPath, pageIndex)} passHref shallow>
       <NavButton variant={pageIndex === currentPage ? "accent" : "secondary"}>
         {pageIndex + 1}
       </NavButton>
     </Link>
   );
+}
+
+/**
+ * add pagination param to a given url
+ * 3 cases:
+ *  - querystring param with a page param
+ *  - querystring without page param
+ *  - no querystring param
+ */
+function addPaginationParam(url, pageIndex) {
+  if (url.includes("?")) {
+    if (/page=(\d+)/.test(url)) {
+      return url.replace(/(&|\?)page=(\d+)(&|$)/, `$1page=${pageIndex}$3`);
+    } else {
+      return `${url}&page=${pageIndex}`;
+    }
+  }
+  return `${url}?page=${pageIndex}`;
 }
 
 PageButton.propTypes = {
