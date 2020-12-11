@@ -58,10 +58,10 @@ query documents($source: String, $search: String!, $published: [Boolean!]!, $off
     }
   )
   {
-    aggregate{count}
+    aggregate { count }
   }
   sources: documents_aggregate(distinct_on: source) {
-    nodes{
+    nodes {
       source
     }
   }
@@ -117,9 +117,9 @@ export function DocumentsPage() {
   }
 
   const facets = {
-    currentPage: parseInt(router.query.page, 10) || 0,
     itemsPerPage:
       parseInt(router.query.itemsPerPage, 10) || DEFAULT_ITEMS_PER_PAGE,
+    page: parseInt(router.query.page, 10) || 0,
     published: router.query.published || "all",
     q: router.query.q?.trim() || "",
     source: router.query.source || null,
@@ -129,7 +129,7 @@ export function DocumentsPage() {
     query: searchDocumentQuery,
     variables: {
       limit: facets.itemsPerPage,
-      offset: facets.currentPage * facets.itemsPerPage,
+      offset: facets.page * facets.itemsPerPage,
       published:
         facets.published === "yes"
           ? [true]
@@ -279,7 +279,7 @@ export function DocumentsPage() {
           </table>
           <Pagination
             count={data.documents_aggregate.aggregate.count}
-            currentPage={facets.currentPage}
+            currentPage={facets.page}
             pageSize={facets.itemsPerPage}
           />
         </>

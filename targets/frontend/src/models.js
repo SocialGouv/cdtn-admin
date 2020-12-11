@@ -8,3 +8,10 @@ export const statusLabels = {
 export function getStatusLabel(status) {
   return statusLabels[status] || status;
 }
+
+export function slugifyRepository(name) {
+  return name.replace(/\//, "_");
+}
+export function unslugifyRepository(name) {
+  return name.replace(/_/, "/");
+}

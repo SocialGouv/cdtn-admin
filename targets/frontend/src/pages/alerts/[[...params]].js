@@ -3,35 +3,22 @@
 import { Accordion } from "@reach/accordion";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { AlertTabs } from "src/components/alerts/AlertTabs";
 import { AlertTitle } from "src/components/alerts/AlertTitle";
 import { DiffChange } from "src/components/changes";
 import { ChangesGroup } from "src/components/changes/ChangeGroup";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { Pagination } from "src/components/pagination";
-import { TabItem, Tabs } from "src/components/tabs";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { getStatusLabel } from "src/models";
-import { Card, Container, Divider, jsx, Message, NavLink } from "theme-ui";
+import { Card, Container, Divider, jsx, Message } from "theme-ui";
 import { useQuery } from "urql";
 
 const getAlertQuery = `
 query getAlerts($status: String!, $repository: String!, $limit: Int!, $offset: Int!) {
-  statuses: alert_status {
-    name
-    alerts: alerts_aggregate(where: {
-      repository: {_eq: $repository }
-    }) {
-      aggregate {
-        count
-      }
-      __typename
-    }
-  }
   alerts(limit: $limit, offset: $offset, where: {
     _and: [
       {status: {_eq: $status}},
@@ -44,26 +31,38 @@ query getAlerts($status: String!, $repository: String!, $limit: Int!, $offset: I
     changes
     status
     created_at
-    __typename
+  }
+  alerts_aggregate(
+    where: {
+      _and: {
+        status: {_eq: $status},
+        repository: {_eq: $repository},
+      }
+    }
+  )
+  {
+    aggregate { count }
   }
 }
 `;
 
 export function AlertPage() {
   const router = useRouter();
-  const [offset, setOffset] = useState(0);
-  const pageSize = 10;
+  const currentPage = parseInt(router.query.page, 10) || 0;
 
+  const pageSize = 10;
   const [repo, activeStatus = "todo"] = router.query.params;
   const repository = repo.replace(/_/, "/");
+
   // https://formidable.com/open-source/urql/docs/basics/document-caching/#adding-typenames
   const context = useMemo(() => ({ additionalTypenames: ["alerts"] }), []);
+
   const [result] = useQuery({
     context,
     query: getAlertQuery,
     variables: {
       limit: pageSize,
-      offset,
+      offset: currentPage * pageSize,
       repository,
       status: activeStatus,
     },
@@ -72,7 +71,12 @@ export function AlertPage() {
   const { fetching, error, data } = result;
 
   if (fetching) {
-    return <Layout title="Gestion des alertes">Chargement...</Layout>;
+    return (
+      <Layout title="Gestion des alertes">
+        <AlertTabs repository={repository} activeStatus={activeStatus} />
+        Chargement...
+      </Layout>
+    );
   }
   if (error) {
     return (
@@ -83,7 +87,7 @@ export function AlertPage() {
       </Layout>
     );
   }
-  const { statuses, alerts } = data;
+  const { alerts_aggregate, alerts } = data;
 
   function renderChange(change, key, type) {
     return <DiffChange key={key} change={change} type={type} />;
@@ -103,25 +107,7 @@ export function AlertPage() {
   // console.log(alerts);
   return (
     <Layout title="Gestion des alertes">
-      <Tabs id="statustab">
-        {statuses.map((status) => (
-          <Link
-            shallow
-            key={status.name}
-            href={`/alerts/${repo}/${status.name}`}
-            passHref
-          >
-            <NavLink>
-              <TabItem
-                controls="statustab"
-                selected={status.name === activeStatus}
-              >
-                {getStatusLabel(status.name)} ({status.alerts.aggregate.count})
-              </TabItem>
-            </NavLink>
-          </Link>
-        ))}
-      </Tabs>
+      <AlertTabs repository={repository} activeStatus={activeStatus} />
       {alerts.map((alert) => (
         <Container sx={{ paddingTop: "large" }} key={`${alert.id}`}>
           <Card>
@@ -197,13 +183,9 @@ export function AlertPage() {
         </Container>
       ))}
       <Pagination
-        count={
-          statuses.find(({ name }) => name === activeStatus).alerts.aggregate
-            .count
-        }
+        count={alerts_aggregate.aggregate.count}
+        currentPage={currentPage}
         pageSize={pageSize}
-        offset={offset}
-        onChange={({ offset }) => setOffset(offset)}
       />
     </Layout>
   );
@@ -212,11 +194,11 @@ export function AlertPage() {
  * This getInitialProps ensure useState to reset while page url change
  * @see https://github.com/vercel/next.js/issues/9992
  */
-AlertPage.getInitialProps = async function ({ query }) {
-  const [repo, activeStatus = "todo"] = query.params;
-  return {
-    key: `${repo}/${activeStatus}`,
-  };
-};
+// AlertPage.getInitialProps = async function ({ query }) {
+//   const [repo, activeStatus = "todo"] = query.params;
+//   return {
+//     key: `${repo}/${activeStatus}`,
+//   };
+// };
 
 export default withCustomUrqlClient(withUserProvider(AlertPage));
