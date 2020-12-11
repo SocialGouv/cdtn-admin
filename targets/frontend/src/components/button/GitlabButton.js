@@ -42,9 +42,9 @@ export function GitlabButton({ env, children }) {
         token: token?.jwt_token,
       },
     }).catch(() => {
-      setStatus("disable");
+      setStatus("disabled");
     });
-    mutate("/api/pipelines");
+    mutate();
   }
 
   useEffect(() => {
