@@ -81,6 +81,7 @@ const SolidButton = React.forwardRef(function _SolidButton(
         "&[disabled]": {
           bg: "muted",
           borderColor: "muted",
+          cursor: "default",
         },
         bg: (theme) => theme.buttons[variant].bg,
         borderColor: (theme) => theme.buttons[variant].bg,
