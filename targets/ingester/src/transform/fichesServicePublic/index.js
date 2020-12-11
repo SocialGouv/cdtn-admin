@@ -40,13 +40,14 @@ export default async function getFichesServicePublic(pkgName) {
 
   const listFicheVdd = filter(ficheVddIndex);
 
-  const fichesIdFromContrib = contributions
-    .map(({ answers }) => extractMdxContentUrl(answers.generic.markdown))
-    .filter(Boolean)
-    .map((url) => {
-      const [, id] = /** @type {string} */ (url).match(/\/(\w+)$/);
+  const fichesIdFromContrib = contributions.flatMap(({ answers }) => {
+    const url = extractMdxContentUrl(answers.generic.markdown);
+    if (url) {
+      const [, id] = url.match(/\/(\w+)$/);
       return id;
-    });
+    }
+    return [];
+  });
 
   /** @type {ingester.FicheServicePublic[]} */
   const fiches = [];
