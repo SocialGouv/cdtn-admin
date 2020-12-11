@@ -20,7 +20,6 @@ function fetchPipelines(url) {
 }
 
 export function GitlabButton({ env, children }) {
-  const [errorCount, setErrorCount] = useState(0);
   const [status, setStatus] = useState("disabled");
   const token = getToken();
   const { error, data, isValidating, mutate } = useSWR(
@@ -30,25 +29,8 @@ export function GitlabButton({ env, children }) {
 
   console.log("swr", { data, error, isValidating });
 
-  useEffect(() => {
-    if (error && errorCount < 3) {
-      console.log("inc errro count", errorCount);
-      setErrorCount(errorCount + 1);
-    }
-  }, [error, errorCount, setErrorCount]);
-
-  useEffect(() => {
-    console.log("udpate status ", errorCount);
-    if (errorCount < 3) {
-      setStatus("disabled");
-    } else {
-      setStatus("error");
-    }
-  }, [setStatus, errorCount]);
-
   async function clickHandler() {
     if (isDisabled) {
-      console.log("no no ");
       return;
     }
     setStatus("pending");
@@ -77,13 +59,15 @@ export function GitlabButton({ env, children }) {
     }
   }, [env, data, error]);
 
-  const isDisabled = status === "disabled" || status === "pending" || "error";
+  const isDisabled =
+    status === "disabled" || status === "pending" || status === "error";
   return (
     <ConfirmButton disabled={isDisabled} onClick={clickHandler}>
       {status === "pending" && <MdTimelapse />}
       {status === "ready" && <MdLoop />}
       {status === "disabled" && <MdDoNotDisturbAlt />}
-      {status === "error" && <MdSyncProblem />} {children}
+      {status === "error" && <MdSyncProblem />}
+      {children}
     </ConfirmButton>
   );
 }

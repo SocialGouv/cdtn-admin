@@ -4,6 +4,9 @@ import { verify } from "jsonwebtoken";
 import { createErrorFor } from "src/lib/apiError";
 import { triggerDeploy } from "src/lib/gitlab.api";
 
+const { HASURA_GRAPHQL_JWT_SECRET } = process.env;
+const jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
+
 export default async function (req, res) {
   const apiError = createErrorFor(res);
 
@@ -13,7 +16,7 @@ export default async function (req, res) {
   }
 
   const { token } = req.headers;
-  if (!verify(token)) {
+  if (!verify(token, jwtSecret.key, { algorithms: jwtSecret.type })) {
     return apiError(Boom.badRequest("wrong token"));
   }
 
