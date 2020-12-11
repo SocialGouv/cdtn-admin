@@ -3,7 +3,9 @@ FROM node:14.15.1-alpine3.11
 WORKDIR /app
 
 COPY package.json yarn.lock /app/
+COPY shared/graphql-client/src /app/shared/graphql-client/src
 COPY shared/graphql-client/package.json /app/shared/graphql-client/
+COPY shared/id-generator/src /app/shared/id-generator/src
 COPY shared/id-generator/package.json /app/shared/id-generator/
 COPY targets/frontend/package.json /app/targets/frontend/
 
