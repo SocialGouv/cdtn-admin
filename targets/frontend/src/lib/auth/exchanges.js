@@ -55,7 +55,6 @@ export function customAuthExchange(ctx) {
       // if your refresh logic is a separate RESTful endpoint, use fetch or similar
       setToken(null);
       const result = await auth(ctx);
-      console.log({ result });
       if (result?.jwt_token) {
         // return the new tokens
         return { token: result.jwt_token };
