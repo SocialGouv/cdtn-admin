@@ -43,7 +43,7 @@ export default async function getFichesServicePublic(pkgName) {
   const fichesIdFromContrib = contributions.flatMap(({ answers }) => {
     const url = extractMdxContentUrl(answers.generic.markdown);
     if (url) {
-      const [, id] = url.match(/\/(\w+)$/);
+      const [, id] = /** @type {RegExpMatchArray} */ (url.match(/\/(\w+)$/));
       return id;
     }
     return [];
