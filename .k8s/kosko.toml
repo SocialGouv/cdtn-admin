@@ -1,0 +1,5 @@
+components = ["!restore"]
+require = ["ts-node/register"]
+
+[environments.prod]
+components = ["!(_*)"]
