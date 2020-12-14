@@ -155,11 +155,11 @@ spec:
 
           env:
             - name: PGDATABASE
-              value: db_8843083e
+              value: some-database
             - name: OWNER
-              value: user_8843083e
+              value: some-owner
             - name: FILE
-              value: product_prod_db.psql.gz
+              value: some-backup.sql.gz
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user-dev

@@ -112,6 +112,12 @@ Restore container:
   environment:
     name: prod2
   variables:
+    # storage copy
     SOURCE_CONTAINER: "prod-container"
     DESTINATION_CONTAINER: "dev-container"
+    # db restore
+    BACKUP_DB_NAME: "db_${CI_COMMIR_SHORT_SHA}"
+    BACKUP_DB_OWNER: "user_${CI_COMMIR_SHORT_SHA}"
+    BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
+    # kosko options
     KOSKO_GENERATE_ARGS: --env dev restore
