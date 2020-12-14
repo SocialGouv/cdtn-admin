@@ -1,3 +1,4 @@
 import containerJob from "./container";
+import dbJob from "./db";
 
-export default [containerJob];
+export default [containerJob, dbJob];
