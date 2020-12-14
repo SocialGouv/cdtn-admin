@@ -2683,10 +2683,10 @@
   resolved "https://registry.yarnpkg.com/@socialgouv/fiches-vdd-types/-/fiches-vdd-types-2.28.0.tgz#3a1e5d152e6e6f7287be42a329916db50f8fd772"
   integrity sha512-K+Oiotw8lI2KALhk+NIy2kiKcGTEZB/PNY5uiCKXB3ILA3LQA2OarDfOCRonz3nz9Omef8cB3+Cc8RGtAxO4aw==
 
-"@socialgouv/kali-data-types@^2.15.0":
-  version "2.15.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kali-data-types/-/kali-data-types-2.15.0.tgz#af6795b2af9da3b01c9efaec6b5ef1c53d6b07e6"
-  integrity sha512-02P3uXHv6c3nbY/kW7iACXj3a2tUOALdAL5Dgyq4Rq13JF82rEKhcc7ibEGpYbohjp/eUG+lUU7ZsArvGqbaWQ==
+"@socialgouv/kali-data-types@^2.17.0":
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kali-data-types/-/kali-data-types-2.17.0.tgz#5bcd2fc8cd0e3a4b76901f3c8ed48ca7d3ff907b"
+  integrity sha512-cYgIQwme2PG6Sl+mjx9ZZbe5SH2Xnqgp+Sgyi4bXSiAgMQ9gNLcG6nr63QF4ywBM2mMFGYSHIJBXUHvd3n1Spw==
 
 "@socialgouv/legi-data-types@^2.12.0":
   version "2.12.0"

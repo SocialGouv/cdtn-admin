@@ -29,7 +29,7 @@
     "@socialgouv/eslint-config-recommended": "^1.46.0",
     "@socialgouv/fiches-travail-data-types": "^4.22.0",
     "@socialgouv/fiches-vdd-types": "^2.28.0",
-    "@socialgouv/kali-data-types": "^2.15.0",
+    "@socialgouv/kali-data-types": "^2.17.0",
     "@socialgouv/legi-data-types": "^2.12.0",
     "@types/gunzip-maybe": "^1.4.0",
     "@types/jest": "^26.0.17",
