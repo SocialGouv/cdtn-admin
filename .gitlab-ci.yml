@@ -109,6 +109,8 @@ Restore container:
   when: manual
   extends:
     - .base_deploy_kosko_stage
+  environment:
+    name: prod2
   variables:
     SOURCE_CONTAINER: "prod-container"
     DESTINATION_CONTAINER: "dev-container"
