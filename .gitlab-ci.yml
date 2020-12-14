@@ -2,6 +2,9 @@ include:
   - project: SocialGouv/gitlab-ci-yml
     file: /autodevops_simple_app.yml
     ref: v16.2.0
+  - project: SocialGouv/gitlab-ci-yml
+    file: /base_deploy_kosko_stage.yml
+    ref: v20.1.1
   #
   - /targets/alert-cli/.gitlab-ci.yml
   - /targets/ingester/.gitlab-ci.yml
@@ -98,3 +101,15 @@ Deploy app (dev):
 Deploy app (prod):
   only:
     - never
+
+#
+
+Restore container:
+  stage: .post
+  when: manual
+  extends:
+    - .base_deploy_kosko_stage
+  variables:
+    SOURCE_CONTAINER: "prod-container"
+    DESTINATION_CONTAINER: "dev-container"
+    KOSKO_GENERATE_ARGS: --env dev restore

@@ -1,5 +1,8 @@
-components = ["!restore"]
+
+# dont include restore jobs on deploys
+components = ["!restore", "*"]
 require = ["ts-node/register"]
 
+# dont include underscores-prefix components
 [environments.prod]
 components = ["!(_*)"]
