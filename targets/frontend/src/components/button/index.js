@@ -33,6 +33,7 @@ const defaultButtonStyles = {
   borderWidth: 2,
   cursor: "pointer",
   display: "inline-flex",
+  fontFamily: "muli",
   fontSize: "inherit",
   fontWeight: "bold",
   lineHeight: "inherit",

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { memo, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { IoMdAdd } from "react-icons/io";
 import { MdSearch } from "react-icons/md";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
@@ -16,6 +17,7 @@ import { theme } from "src/theme";
 import {
   Box,
   Card,
+  Flex,
   Input,
   jsx,
   Label,
@@ -163,6 +165,20 @@ export function DocumentsPage() {
 
   return (
     <Layout title="Contenus">
+      <Flex sx={{ justifyContent: "flex-end" }}>
+        <Link href="/contenus/create/" passHref>
+          <Button as="a" size="small" outline variant="secondary">
+            <IoMdAdd
+              sx={{
+                height: "iconSmall",
+                mr: "xxsmall",
+                width: "iconSmall",
+              }}
+            />
+            Ajouter un contenu
+          </Button>
+        </Link>
+      </Flex>
       <Card sx={{ position: "sticky", top: 0 }} bg="white">
         <form onSubmit={handleSubmit(onSearchSubmit)}>
           <Inline>
@@ -179,7 +195,7 @@ export function DocumentsPage() {
               name="source"
               ref={register}
               onChange={updateUrl}
-              defaultValue={facets.source}
+              value={facets.source || ""}
             >
               <option value="">toutes les sources</option>
               {documentSources.map(([source, label]) => (
@@ -207,7 +223,7 @@ export function DocumentsPage() {
                   sx={{ width: "4rem" }}
                   name="itemsPerPage"
                   id="itemsPerPage"
-                  defaultValue={facets.itemsPerPage}
+                  value={facets.itemsPerPage}
                   onChange={(event) => {
                     updateUrl(event);
                   }}
@@ -228,7 +244,7 @@ export function DocumentsPage() {
                 name="published"
                 value="all"
                 ref={register}
-                defaultChecked={facets.published === "all"}
+                checked={facets.published === "all"}
                 onChange={updateUrl}
               />
             </Label>
@@ -238,7 +254,7 @@ export function DocumentsPage() {
                 name="published"
                 value="yes"
                 ref={register}
-                defaultChecked={facets.published === "yes"}
+                checked={facets.published === "yes"}
                 onChange={updateUrl}
               />
             </Label>
@@ -248,7 +264,7 @@ export function DocumentsPage() {
                 name="published"
                 value="no"
                 ref={register}
-                defaultChecked={facets.published === "no"}
+                checked={facets.published === "no"}
                 onChange={updateUrl}
               />
             </Label>
@@ -309,7 +325,13 @@ const DocumentRow = memo(function _DocumentRow({
         />
       </td>
       <td>
-        <Link href={`/contenus/${cdtnId}`} passHref shallow>
+        <Link
+          href={`/contenus/${
+            source === SOURCES.EDITORIAL_CONTENT ? "edit/" : ""
+          }${cdtnId}`}
+          passHref
+          shallow
+        >
           <NavLink>
             <span
               sx={{

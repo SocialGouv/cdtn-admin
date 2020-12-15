@@ -4,7 +4,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import PropTypes from "prop-types";
 import { jsx } from "theme-ui";
 
-export function FormErrorMessage({ errors, fieldName }) {
+export function FormErrorMessage({ errors = {}, fieldName }) {
   return (
     <ErrorMessage
       errors={errors}

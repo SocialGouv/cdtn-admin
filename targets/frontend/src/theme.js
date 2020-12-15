@@ -113,6 +113,7 @@ export const theme = {
     neutral: "#d1dffd",
     muted: "#717780",
     highlight: "#F3F3F7",
+    nested: "#E9E9ED",
 
     primary: "#f66663",
     primaryHover: darken(0.05, "#f66663"),
@@ -142,6 +143,7 @@ export const theme = {
   forms: {
     input: {
       padding: "xsmall",
+      backgroundColor: "white",
     },
     label: {
       fontSize: "medium",
@@ -153,6 +155,10 @@ export const theme = {
     textarea: {
       fontFamily: "Muli",
       padding: "xsmall",
+      backgroundColor: "white",
+    },
+    radio: {
+      backgroundColor: "white",
     },
   },
 
@@ -212,7 +218,7 @@ export const theme = {
     },
     root: {
       bg: "white",
-      color: "paragraph",
+      color: "text",
       fontFamily: "Muli",
       fontSize: "medium",
       fontWeight: 400,
