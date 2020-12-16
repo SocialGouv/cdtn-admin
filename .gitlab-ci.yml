@@ -123,4 +123,4 @@ Restore container:
     # BACKUP_DB_OWNER: "user_${CI_COMMIR_SHORT_SHA}"
     # BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
     # kosko options
-    KOSKO_GENERATE_ARGS: --env dev restore
+    KOSKO_GENERATE_ARGS: --env prod restore
