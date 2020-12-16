@@ -10,7 +10,7 @@ Pour chaque environnement, il faudra spécifier, l'url du serveur ainsi que le n
 déploiement | container | instance azure
 - | - | -
 branche | cdtn-dev | dev
-master | cdtn-dev | dev
+master | cdtn | dev
 preprod | cdtn | dev 
 prod | cdtn | prod
 
