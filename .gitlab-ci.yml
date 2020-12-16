@@ -106,7 +106,9 @@ Deploy app (prod):
 
 # todo: restrict to branches ?
 Restore container:
-  stage: .post
+  stage: Deploy
+  only:
+    - branches
   when: manual
   extends:
     - .base_deploy_kosko_stage
