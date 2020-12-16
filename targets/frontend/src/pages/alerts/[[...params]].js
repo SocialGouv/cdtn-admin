@@ -107,86 +107,88 @@ export function AlertPage() {
   // console.log(alerts);
   return (
     <Layout title="Gestion des alertes">
-      <AlertTabs repository={repository} activeStatus={activeStatus} />
-      {alerts.map((alert) => (
-        <Container sx={{ paddingTop: "large" }} key={`${alert.id}`}>
-          <Card>
-            <Stack>
-              <AlertTitle alertId={alert.id} info={alert.info}>
-                {getTitle(alert)}
-              </AlertTitle>
-              <Accordion collapsible multiple>
-                {alert.changes.added.length > 0 && (
+      <Stack>
+        <AlertTabs repository={repository} activeStatus={activeStatus} />
+        {alerts.map((alert) => (
+          <Container sx={{ paddingTop: "large" }} key={`${alert.id}`}>
+            <Card>
+              <Stack>
+                <AlertTitle alertId={alert.id} info={alert.info}>
+                  {getTitle(alert)}
+                </AlertTitle>
+                <Accordion collapsible multiple>
+                  {alert.changes.added.length > 0 && (
+                    <ChangesGroup
+                      changes={alert.changes.added}
+                      label="Éléments ajoutés"
+                      renderChange={(changes, i) =>
+                        renderChange(
+                          changes,
+                          `${alert.id}-added-${i}`,
+                          alert.info.type
+                        )
+                      }
+                    />
+                  )}
+                  {alert.changes.added.length > 0 &&
+                    alert.changes.modified.length > 0 && <Divider />}
                   <ChangesGroup
-                    changes={alert.changes.added}
-                    label="Éléments ajoutés"
+                    changes={alert.changes.modified}
+                    label="Éléments modifiés"
                     renderChange={(changes, i) =>
                       renderChange(
                         changes,
-                        `${alert.id}-added-${i}`,
+                        `${alert.id}-modified-${i}`,
                         alert.info.type
                       )
                     }
                   />
-                )}
-                {alert.changes.added.length > 0 &&
-                  alert.changes.modified.length > 0 && <Divider />}
-                <ChangesGroup
-                  changes={alert.changes.modified}
-                  label="Éléments modifiés"
-                  renderChange={(changes, i) =>
-                    renderChange(
-                      changes,
-                      `${alert.id}-modified-${i}`,
-                      alert.info.type
-                    )
-                  }
-                />
-                {alert.changes.removed.length > 0 && <Divider />}
-                <ChangesGroup
-                  changes={alert.changes.removed}
-                  label="Éléments supprimés"
-                  renderChange={(changes, i) =>
-                    renderChange(
-                      changes,
-                      `${alert.id}-removed-${i}`,
-                      alert.info.type
-                    )
-                  }
-                />
-                {alert.changes.documents?.length > 0 && <Divider />}
-                <ChangesGroup
-                  changes={alert.changes.documents}
-                  label="Contenus liés"
-                  renderChange={(item, i) => {
-                    const [title, anchor] = item.document.title.split("#");
+                  {alert.changes.removed.length > 0 && <Divider />}
+                  <ChangesGroup
+                    changes={alert.changes.removed}
+                    label="Éléments supprimés"
+                    renderChange={(changes, i) =>
+                      renderChange(
+                        changes,
+                        `${alert.id}-removed-${i}`,
+                        alert.info.type
+                      )
+                    }
+                  />
+                  {alert.changes.documents?.length > 0 && <Divider />}
+                  <ChangesGroup
+                    changes={alert.changes.documents}
+                    label="Contenus liés"
+                    renderChange={(item, i) => {
+                      const [title, anchor] = item.document.title.split("#");
 
-                    return (
-                      <li key={`${alert.id}-documents-${i}`}>
-                        <a
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          key={item.document.id}
-                          href={`https://code.travail.gouv.fr/${getRouteBySource(
-                            item.document.source
-                          )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
-                        >
-                          {title}
-                        </a>
-                      </li>
-                    );
-                  }}
-                />
-              </Accordion>
-            </Stack>
-          </Card>
-        </Container>
-      ))}
-      <Pagination
-        count={alerts_aggregate.aggregate.count}
-        currentPage={currentPage}
-        pageSize={pageSize}
-      />
+                      return (
+                        <li key={`${alert.id}-documents-${i}`}>
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            key={item.document.id}
+                            href={`https://code.travail.gouv.fr/${getRouteBySource(
+                              item.document.source
+                            )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
+                          >
+                            {title}
+                          </a>
+                        </li>
+                      );
+                    }}
+                  />
+                </Accordion>
+              </Stack>
+            </Card>
+          </Container>
+        ))}
+        <Pagination
+          count={alerts_aggregate.aggregate.count}
+          currentPage={currentPage}
+          pageSize={pageSize}
+        />
+      </Stack>
     </Layout>
   );
 }

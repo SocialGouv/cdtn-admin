@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { IoIosArrowDropleftCircle, IoMdAdd, IoMdCreate } from "react-icons/io";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
+import { Stack } from "src/components/layout/Stack";
 import { List } from "src/components/themes/List";
 import { MapModal } from "src/components/themes/MapModal";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
@@ -101,58 +102,64 @@ export function ThemePage() {
     <Layout
       /* errorCode={(notFound && 404) || null}*/ title={`Gestion des thèmes`}
     >
-      <MapModal />
-      {fetching || rootFetching ? (
-        <Spinner />
-      ) : themeId ? (
-        <Card>
-          <>
-            <Flex sx={{ alignItems: "center", justifyContent: "center" }}>
-              <h2>{themeData?.title}</h2>
-              <Link href={`/themes/edit/${themeId}`} passHref>
-                <Button as="a" sx={{ ml: "medium" }}>
-                  <>
-                    <IoMdCreate
-                      sx={{
-                        flex: "0 0 auto",
-                        height: "iconSmall",
-                        mr: "xxsmall",
-                        width: "iconSmall",
-                      }}
-                    />
-                    Éditer
-                  </>
-                </Button>
-              </Link>
-            </Flex>
-            <h3 sx={{ mr: "small" }}>Niveau précédent</h3>
-            {themeData?.parentRelations.length === 0 ? (
-              <ParentLink>Racine des thèmes</ParentLink>
-            ) : (
-              themeData?.parentRelations.map(({ parent }) => (
-                <div key={parent.cdtnId}>
-                  <ParentLink id={parent.cdtnId}>{parent.title}</ParentLink>
-                </div>
-              ))
-            )}
+      <Stack>
+        <MapModal />
+        {fetching || rootFetching ? (
+          <Spinner />
+        ) : themeId ? (
+          <Card>
+            <>
+              <Flex sx={{ alignItems: "center", justifyContent: "center" }}>
+                <h2>{themeData?.title}</h2>
+                <Link href={`/themes/edit/${themeId}`} passHref>
+                  <Button as="a" sx={{ ml: "medium" }}>
+                    <>
+                      <IoMdCreate
+                        sx={{
+                          flex: "0 0 auto",
+                          height: "iconSmall",
+                          mr: "xxsmall",
+                          width: "iconSmall",
+                        }}
+                      />
+                      Éditer
+                    </>
+                  </Button>
+                </Link>
+              </Flex>
+              <h3 sx={{ mr: "small" }}>Niveau précédent</h3>
+              {themeData?.parentRelations.length === 0 ? (
+                <ParentLink>Racine des thèmes</ParentLink>
+              ) : (
+                themeData?.parentRelations.map(({ parent }) => (
+                  <div key={parent.cdtnId}>
+                    <ParentLink id={parent.cdtnId}>{parent.title}</ParentLink>
+                  </div>
+                ))
+              )}
 
-            <h3 sx={{ mt: "medium" }}>Sous-thèmes</h3>
-          </>
-          <List
-            relations={themeId ? themeData?.childRelations : rootThemeRelations}
-            updateThemesPosition={updateThemesPosition}
-          />
-          <AddAThemeButton themeId={themeId} />
-        </Card>
-      ) : (
-        <div>
-          <List
-            relations={themeId ? themeData?.childRelations : rootThemeRelations}
-            updateThemesPosition={updateThemesPosition}
-          />
-          <AddAThemeButton themeId={themeId} />
-        </div>
-      )}
+              <h3 sx={{ mt: "medium" }}>Sous-thèmes</h3>
+            </>
+            <List
+              relations={
+                themeId ? themeData?.childRelations : rootThemeRelations
+              }
+              updateThemesPosition={updateThemesPosition}
+            />
+            <AddAThemeButton themeId={themeId} />
+          </Card>
+        ) : (
+          <div>
+            <List
+              relations={
+                themeId ? themeData?.childRelations : rootThemeRelations
+              }
+              updateThemesPosition={updateThemesPosition}
+            />
+            <AddAThemeButton themeId={themeId} />
+          </div>
+        )}
+      </Stack>
     </Layout>
   );
 }

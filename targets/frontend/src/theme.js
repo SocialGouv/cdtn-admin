@@ -235,7 +235,7 @@ export const theme = {
       fontSize: "xlarge",
       fontWeight: "heading",
       lineHeight: "heading",
-      py: ["xsmall", "small"],
+      py: "small",
     },
   },
 };

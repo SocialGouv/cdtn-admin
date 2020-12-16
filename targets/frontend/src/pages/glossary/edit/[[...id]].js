@@ -7,6 +7,7 @@ import { Dialog } from "src/components/dialog";
 import { TermForm } from "src/components/glossary/TermForm";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
+import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { jsx, Spinner } from "theme-ui";
@@ -58,54 +59,56 @@ export function EditTermPage() {
 
   return (
     <Layout title={`${term.id ? "Modifier" : "Ajouter"}  un terme`}>
-      {fetching || deleteResult.fetching ? (
-        <Spinner />
-      ) : (
-        <>
-          {term.id && (
-            <>
-              <Dialog
-                isOpen={showDeleteConfirmation}
-                onDismiss={() => setShowDeleteConfirmation(false)}
-                ariaLabel="Supprimer"
-              >
-                <>
-                  <span>Êtes-vous sûr de vouloir supprimer ce terme ?</span>
-                  <Inline>
-                    <Button onClick={onDelete}>Confirmer</Button>
-                    <Button
-                      variant="link"
-                      onClick={() => setShowDeleteConfirmation(false)}
-                    >
-                      Annuler
-                    </Button>
-                  </Inline>
-                </>
-              </Dialog>
-              <div
-                sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  mb: "small",
-                }}
-              >
-                <Button
-                  type="button"
-                  onClick={() => {
-                    setShowDeleteConfirmation(true);
+      <Stack>
+        {fetching || deleteResult.fetching ? (
+          <Spinner />
+        ) : (
+          <>
+            {term.id && (
+              <>
+                <Dialog
+                  isOpen={showDeleteConfirmation}
+                  onDismiss={() => setShowDeleteConfirmation(false)}
+                  ariaLabel="Supprimer"
+                >
+                  <>
+                    <span>Êtes-vous sûr de vouloir supprimer ce terme ?</span>
+                    <Inline>
+                      <Button onClick={onDelete}>Confirmer</Button>
+                      <Button
+                        variant="link"
+                        onClick={() => setShowDeleteConfirmation(false)}
+                      >
+                        Annuler
+                      </Button>
+                    </Inline>
+                  </>
+                </Dialog>
+                <div
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    mb: "small",
                   }}
                 >
-                  <IoMdTrash
-                    sx={{ height: "1.5rem", mr: "xsmall", width: "1.5rem" }}
-                  />
-                  Supprimer le terme
-                </Button>
-              </div>
-            </>
-          )}
-          <TermForm term={term} />
-        </>
-      )}
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setShowDeleteConfirmation(true);
+                    }}
+                  >
+                    <IoMdTrash
+                      sx={{ height: "1.5rem", mr: "xsmall", width: "1.5rem" }}
+                    />
+                    Supprimer le terme
+                  </Button>
+                </div>
+              </>
+            )}
+            <TermForm term={term} />
+          </>
+        )}
+      </Stack>
     </Layout>
   );
 }

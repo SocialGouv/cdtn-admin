@@ -8,6 +8,7 @@ import { Dialog } from "src/components/dialog";
 import { EditorialContentForm } from "src/components/editorialContent/Form";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
+import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { jsx, Spinner } from "theme-ui";
@@ -95,62 +96,64 @@ export function EditInformationPage() {
 
   return (
     <Layout title="Éditer le contenu">
-      {fetching ? (
-        <Spinner />
-      ) : (
-        <>
-          <Dialog
-            isOpen={showDeleteConfirmation}
-            onDismiss={() => setShowDeleteConfirmation(false)}
-            aria-label="Supprimer"
-          >
-            <>
-              <span>Êtes-vous sûr de vouloir supprimer ce contenu ?</span>
-              <Inline>
-                <Button onClick={onDelete}>Confirmer</Button>
-                <Button
-                  variant="link"
-                  onClick={() => setShowDeleteConfirmation(false)}
-                >
-                  Annuler
-                </Button>
-              </Inline>
-            </>
-          </Dialog>
-          {editorialContent?.cdtnId && (
-            <>
-              <div
-                sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  mb: "small",
-                }}
-              >
-                <Button
-                  type="button"
-                  onClick={() => {
-                    setShowDeleteConfirmation(true);
+      <Stack>
+        {fetching ? (
+          <Spinner />
+        ) : (
+          <>
+            <Dialog
+              isOpen={showDeleteConfirmation}
+              onDismiss={() => setShowDeleteConfirmation(false)}
+              aria-label="Supprimer"
+            >
+              <>
+                <span>Êtes-vous sûr de vouloir supprimer ce contenu ?</span>
+                <Inline>
+                  <Button onClick={onDelete}>Confirmer</Button>
+                  <Button
+                    variant="link"
+                    onClick={() => setShowDeleteConfirmation(false)}
+                  >
+                    Annuler
+                  </Button>
+                </Inline>
+              </>
+            </Dialog>
+            {editorialContent?.cdtnId && (
+              <>
+                <div
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    mb: "small",
                   }}
                 >
-                  <IoMdTrash
-                    sx={{
-                      height: "iconSmall",
-                      mr: "xsmall",
-                      width: "iconSmall",
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setShowDeleteConfirmation(true);
                     }}
-                  />
-                  Supprimer le contenu
-                </Button>
-              </div>
-            </>
-          )}
-          <EditorialContentForm
-            editorialContent={editorialContent}
-            loading={editResult.fetching || deleteResult.fetching}
-            onSubmit={onSubmit}
-          />
-        </>
-      )}
+                  >
+                    <IoMdTrash
+                      sx={{
+                        height: "iconSmall",
+                        mr: "xsmall",
+                        width: "iconSmall",
+                      }}
+                    />
+                    Supprimer le contenu
+                  </Button>
+                </div>
+              </>
+            )}
+            <EditorialContentForm
+              editorialContent={editorialContent}
+              loading={editResult.fetching || deleteResult.fetching}
+              onSubmit={onSubmit}
+            />
+          </>
+        )}
+      </Stack>
     </Layout>
   );
 }

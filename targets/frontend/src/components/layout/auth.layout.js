@@ -6,7 +6,6 @@ import { Box, Flex, Heading, jsx } from "theme-ui";
 
 import { Header } from "./header";
 import { Nav } from "./Nav";
-import { Stack } from "./Stack";
 
 export function Layout({ children, title }) {
   return (
@@ -19,10 +18,10 @@ export function Layout({ children, title }) {
         <Flex sx={{ flexBasis: "100%" }}>
           <Nav />
           <Box as="main" sx={{ flex: "1 1 auto" }} padding="large">
-            <Stack>
-              <Heading as="h1">{title}</Heading>
-              {children}
-            </Stack>
+            <Heading sx={{ pb: "medium" }} as="h1">
+              {title}
+            </Heading>
+            {children}
           </Box>
         </Flex>
       </Box>
