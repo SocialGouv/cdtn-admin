@@ -119,8 +119,8 @@ Restore container:
     DESTINATION_CONTAINER: "cdtn-dev"
     DESTINATION_SERVER: "dev"
     # db restore
-    BACKUP_DB_NAME: "db_${CI_COMMIR_SHORT_SHA}"
-    BACKUP_DB_OWNER: "user_${CI_COMMIR_SHORT_SHA}"
-    BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
+    # BACKUP_DB_NAME: "db_${CI_COMMIR_SHORT_SHA}"
+    # BACKUP_DB_OWNER: "user_${CI_COMMIR_SHORT_SHA}"
+    # BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
     # kosko options
     KOSKO_GENERATE_ARGS: --env dev restore
