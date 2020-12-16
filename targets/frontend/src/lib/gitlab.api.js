@@ -15,7 +15,7 @@ export function getPipelines({ ref = "master", since }) {
   return request(
     `${url}/projects/${projectId}/pipelines?updated_after=${since.toISOString()}&ref=${ref}&order_by=updated_at`,
     {
-      headers: { private_token: accessToken },
+      headers: { Authorization: `Bearer ${accessToken}` },
     }
   );
 }

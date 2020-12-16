@@ -10,7 +10,7 @@ export function request(endpoint, { body, ...customConfig } = {}) {
   if (body) {
     config.body = JSON.stringify(body);
   }
-  console.log("[request]", endpoint);
+  console.log("[request]", endpoint, config.headers);
   return fetch(endpoint, config).then(async (response) => {
     const data = await response.json();
     if (response.ok) {
