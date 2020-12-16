@@ -2640,10 +2640,10 @@
   resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.39.0.tgz#33fb97b2947cc1ea8b808ea443286afea557541d"
   integrity sha512-mZW9GXDquBY1G9rDU5V2VXJhLBmhMq5/Q38ZkIiKPqMRdc7h6ctrhIy7gRTNEw9sf2+r1hAGpn+wkDrUFkjYvw==
 
-"@socialgouv/contributions-data-types@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data-types/-/contributions-data-types-3.0.0.tgz#bf189e54d28dda026431f4f6b1992bb72e27865f"
-  integrity sha512-BaqHuZz+8rXy8y6o506N3tNk06Vc+PRxM/3J4Aj/63pMth7oZ2bn8edzt7IQA5kVJm1CA94zsotqYChNUl6vDA==
+"@socialgouv/contributions-data-types@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data-types/-/contributions-data-types-3.1.0.tgz#de895d45b1815e094fad721beecbda0a0c58fdb0"
+  integrity sha512-knffdOnLKQLWDQZhAWXf7sb7KG/Gu4zC0rMaqGmkKyqVxEA5oP22Y6kn63uOoaOn2TqstmPZvOree8IKc9Y44g==
 
 "@socialgouv/datafiller-data-types@^2.9.0":
   version "2.9.0"
@@ -2673,25 +2673,25 @@
     eslint-plugin-simple-import-sort "~5.0.3"
     eslint-plugin-sort-keys-fix "~1.1.1"
 
-"@socialgouv/fiches-travail-data-types@^4.22.0":
-  version "4.22.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data-types/-/fiches-travail-data-types-4.22.0.tgz#402ab5ea9fa6c9545c5ad7915051e771c4c10862"
-  integrity sha512-fmBL013aZGuMDBqUrmjiYrSpW1XIYn7+RRtp0/xp1zQ/1dtAVAGn5ERG4YTBychLsRaeqq/AGlM+ztN5cEz4eg==
+"@socialgouv/fiches-travail-data-types@^4.27.0":
+  version "4.27.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data-types/-/fiches-travail-data-types-4.27.0.tgz#b7707d5453cd304b8e80fd44d500acb61f223279"
+  integrity sha512-qBbr28g9rJ6YbUrstrOv7ulfgOkc1LFPvjhlIBslC1YcCEzIcE8/ycJI1WnwyBG7CBx1rtOkvuwqkatZ4hh6JQ==
 
-"@socialgouv/fiches-vdd-types@^2.28.0":
-  version "2.28.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-vdd-types/-/fiches-vdd-types-2.28.0.tgz#3a1e5d152e6e6f7287be42a329916db50f8fd772"
-  integrity sha512-K+Oiotw8lI2KALhk+NIy2kiKcGTEZB/PNY5uiCKXB3ILA3LQA2OarDfOCRonz3nz9Omef8cB3+Cc8RGtAxO4aw==
+"@socialgouv/fiches-vdd-types@^2.33.0":
+  version "2.33.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-vdd-types/-/fiches-vdd-types-2.33.0.tgz#33c9d516f8e94a559df681eeb87c5e39d61a46e3"
+  integrity sha512-oJObOwvLGlb8LnCuMaXmgL2TpAE+rxvGsEMmuyL+5xh8BQxkSeBPKrxLqOXohHN1OQyT1zxQ/VFMIQCO3AsQwg==
 
-"@socialgouv/kali-data-types@^2.17.0":
+"@socialgouv/kali-data-types@^2.19.0":
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kali-data-types/-/kali-data-types-2.19.0.tgz#40507f97bff15ae58e5d89b0088d7f9d28c565b8"
+  integrity sha512-4fE5LpVHgIps//p85oYyTcnxF3ljSUiGzwSPFROfx0uHovAqt0DP+KyBSllWNtrKDZEF3ASmUecPZKaE8UJYzQ==
+
+"@socialgouv/legi-data-types@^2.17.0":
   version "2.17.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kali-data-types/-/kali-data-types-2.17.0.tgz#5bcd2fc8cd0e3a4b76901f3c8ed48ca7d3ff907b"
-  integrity sha512-cYgIQwme2PG6Sl+mjx9ZZbe5SH2Xnqgp+Sgyi4bXSiAgMQ9gNLcG6nr63QF4ywBM2mMFGYSHIJBXUHvd3n1Spw==
-
-"@socialgouv/legi-data-types@^2.12.0":
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/legi-data-types/-/legi-data-types-2.12.0.tgz#0d518cccb583fb83ba15dadcdc84cfbbe35f01f5"
-  integrity sha512-767Gr1qdYZ2uBo0+pm3aWig4XbSkLZOrHtuIMrIEGY2W3zePH6juKECorG8YRoUC+h0aKo9d3F57gU+IM3dDzA==
+  resolved "https://registry.yarnpkg.com/@socialgouv/legi-data-types/-/legi-data-types-2.17.0.tgz#800ce0472d523db8c8b0a6685968bb3ffe5437eb"
+  integrity sha512-r07jnCcze4T4DZCbhDlKKdk+R9UyoNjVk+biPn40y3Ad9YVnfCiqre0Op6eHLmMqi2Z1TU0P+IKPJKxAzhRkTg==
 
 "@socialgouv/matomo-next@^1.1.2":
   version "1.1.2"
@@ -3201,10 +3201,10 @@
     "@urql/core" ">=1.14.0"
     wonka "^4.0.14"
 
-"@vercel/ncc@0.24.1":
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/@vercel/ncc/-/ncc-0.24.1.tgz#3ea2932c85ba87f4de6fe550d60e1bf5c005985e"
-  integrity sha512-r9m7brz2hNmq5TF3sxrK4qR/FhXn44XIMglQUir4sT7Sh5GOaYXlMYikHFwJStf8rmQGTlvOoBXt4yHVonRG8A==
+"@vercel/ncc@0.25.1":
+  version "0.25.1"
+  resolved "https://registry.yarnpkg.com/@vercel/ncc/-/ncc-0.25.1.tgz#a4aacdb508ac496fc0c63a3c3203d700a619cc0e"
+  integrity sha512-dGecC5+1wLof1MQpey4+6i2KZv4Sfs6WfXkl9KfO32GED4ZPiKxRfvtGPjbjZv0IbqMl6CxtcV1RotXYfd5SSA==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -11806,10 +11806,10 @@ react-focus-lock@^2.2.1, react-focus-lock@^2.3.1:
     use-callback-ref "^1.2.1"
     use-sidecar "^1.0.1"
 
-react-hook-form@^6.12.2:
-  version "6.12.2"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.12.2.tgz#aa67f47da4730a7bce44768583bdf5b749eed521"
-  integrity sha512-O72E2DXyk7djFqyy6eYi5yESGweKe0CNHHPS0Mx4JazpLbE4Ox+66ldZ23f0J5ZN/krEjDWRD+hUfg5Shvfhtw==
+react-hook-form@^6.13.1:
+  version "6.13.1"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.13.1.tgz#b9c0aa61f746db8169ed5e1050de21cacb1947d6"
+  integrity sha512-Q0N7MYcbA8SigYufb02h9z97ZKCpIbe62rywOTPsK4Ntvh6fRTGDXSuzWuRhLHhArLoWbGrWYSNSS4tlb+OFXg==
 
 react-icons@^3.11.0:
   version "3.11.0"
