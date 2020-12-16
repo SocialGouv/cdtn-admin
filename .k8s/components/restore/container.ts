@@ -4,7 +4,13 @@ import { ok } from "assert";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { restoreContainerJob } from "@socialgouv/kosko-charts/components/azure-storage/restore-container.job";
 
-ok(process.env.SOURCE_CONTAINER, process.env.DESTINATION_CONTAINER);
+ok(process.env.SOURCE_CONTAINER);
+ok(process.env.DESTINATION_CONTAINER);
+ok(process.env.SOURCE_SERVER === "prod" || process.env.SOURCE_SERVER === "dev");
+ok(
+  process.env.DESTINATION_SERVER === "prod" ||
+    process.env.DESTINATION_SERVER === "dev"
+);
 
 const manifests = restoreContainerJob({
   env: [
@@ -18,8 +24,8 @@ const manifests = restoreContainerJob({
     }),
   ],
   project: "cdtn-admin",
-  from: "prod",
-  to: "dev",
+  from: process.env.SOURCE_SERVER,
+  to: process.env.DESTINATION_SERVER,
 });
 
 export default manifests;

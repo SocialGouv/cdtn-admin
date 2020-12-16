@@ -104,6 +104,7 @@ Deploy app (prod):
 
 #
 
+# todo: restrict to branches ?
 Restore container:
   stage: .post
   when: manual
@@ -113,8 +114,10 @@ Restore container:
     name: prod2
   variables:
     # storage copy
-    SOURCE_CONTAINER: "prod-container"
-    DESTINATION_CONTAINER: "dev-container"
+    SOURCE_CONTAINER: "cdtn"
+    SOURCE_SERVER: "dev"
+    DESTINATION_CONTAINER: "cdtn-dev"
+    DESTINATION_SERVER: "dev"
     # db restore
     BACKUP_DB_NAME: "db_${CI_COMMIR_SHORT_SHA}"
     BACKUP_DB_OWNER: "user_${CI_COMMIR_SHORT_SHA}"
