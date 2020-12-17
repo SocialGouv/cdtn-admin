@@ -22,13 +22,13 @@ export function getPipelines({ ref = "master", since }) {
 
 export function getPipelineInfos(id) {
   return request(`${url}/projects/${projectId}/pipelines/${id}`, {
-    headers: { private_token: accessToken },
+    headers: { Authorization: `Bearer ${accessToken}` },
   });
 }
 
 export function getPipelineVariables(id) {
   return request(`${url}/projects/${projectId}/pipelines/${id}/variables`, {
-    headers: { private_token: accessToken },
+    headers: { Authorization: `Bearer ${accessToken}` },
   });
 }
 
