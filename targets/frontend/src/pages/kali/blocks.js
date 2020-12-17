@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { IoMdSave } from "react-icons/io";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
+import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { Card, jsx, Message, Select, Textarea } from "theme-ui";
@@ -195,30 +196,32 @@ export function KaliBlocksPage() {
   const ccn = ccnId && data.kali_blocks.find((kali) => kali.id === ccnId);
   return (
     <Layout title="Blocs KALI">
-      <Card>
-        <Select style={{ maxWidth: 800 }} onChange={onCcnSelectChange}>
-          <option value="">---</option>
-          {data.kali_blocks.map((ccn) => (
-            <option key={ccn.id} value={ccn.id}>
-              {ccn.idcc} - {ccn.title}
-            </option>
-          ))}
-        </Select>
-      </Card>
+      <Stack>
+        <Card>
+          <Select style={{ maxWidth: 800 }} onChange={onCcnSelectChange}>
+            <option value="">---</option>
+            {data.kali_blocks.map((ccn) => (
+              <option key={ccn.id} value={ccn.id}>
+                {ccn.idcc} - {ccn.title}
+              </option>
+            ))}
+          </Select>
+        </Card>
 
-      <Card>
-        {(ccn && (
-          <CcnBlocks
-            id={ccn.id}
-            blocks={ccn.blocks}
-            onChange={onBlocksChange}
-          />
-        )) || (
-          <Message variant="primary">
-            Choisissez une convention collective pour définir les blocks
-          </Message>
-        )}
-      </Card>
+        <Card>
+          {(ccn && (
+            <CcnBlocks
+              id={ccn.id}
+              blocks={ccn.blocks}
+              onChange={onBlocksChange}
+            />
+          )) || (
+            <Message variant="primary">
+              Choisissez une convention collective pour définir les blocks
+            </Message>
+          )}
+        </Card>
+      </Stack>
     </Layout>
   );
 }

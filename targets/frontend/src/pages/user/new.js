@@ -1,6 +1,7 @@
 /** @jsx jsx  */
 import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
+import { Stack } from "src/components/layout/Stack";
 import { UserForm } from "src/components/user/UserForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
@@ -45,12 +46,14 @@ export function UserPage() {
 
   return (
     <Layout title="Création de compte">
-      {error && (
-        <Message>
-          <pre>{JSON.stringify(error, 0, 2)}</pre>
-        </Message>
-      )}
-      <UserForm onSubmit={handleCreate} isAdmin={true} loading={fetching} />
+      <Stack>
+        {error && (
+          <Message>
+            <pre>{JSON.stringify(error, 0, 2)}</pre>
+          </Message>
+        )}
+        <UserForm onSubmit={handleCreate} isAdmin={true} loading={fetching} />
+      </Stack>
     </Layout>
   );
 }

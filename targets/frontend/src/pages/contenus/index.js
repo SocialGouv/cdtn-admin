@@ -10,6 +10,7 @@ import { MdSearch } from "react-icons/md";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
+import { Stack } from "src/components/layout/Stack";
 import { Pagination } from "src/components/pagination";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
@@ -165,143 +166,145 @@ export function DocumentsPage() {
 
   return (
     <Layout title="Contenus">
-      <Flex sx={{ justifyContent: "flex-end" }}>
-        <Link href="/contenus/create/" passHref>
-          <Button as="a" size="small" outline variant="secondary">
-            <IoMdAdd
-              sx={{
-                height: "iconSmall",
-                mr: "xxsmall",
-                width: "iconSmall",
-              }}
-            />
-            Ajouter un contenu
-          </Button>
-        </Link>
-      </Flex>
-      <Card sx={{ position: "sticky", top: 0 }} bg="white">
-        <form onSubmit={handleSubmit(onSearchSubmit)}>
-          <Inline>
-            <Input
-              sx={{ flex: 1 }}
-              name="q"
-              type="search"
-              placeholder="titre..."
-              defaultValue={facets.q}
-              ref={register}
-              onBlur={updateUrl}
-            />
-            <Select
-              name="source"
-              ref={register}
-              onChange={updateUrl}
-              value={facets.source || ""}
-            >
-              <option value="">toutes les sources</option>
-              {documentSources.map(([source, label]) => (
-                <option
-                  key={source}
-                  value={source}
-                  disabled={isSourceDisabled(source)}
-                >
-                  {label}
-                </option>
-              ))}
-            </Select>
-            <Button>
-              <MdSearch /> Rechercher
-            </Button>
-            <Box sx={{ alignSelf: "flex-end" }}>
-              <Label
-                htmlFor="itemsPerPage"
+      <Stack>
+        <Flex sx={{ justifyContent: "flex-end" }}>
+          <Link href="/contenus/create/" passHref>
+            <Button as="a" size="small" outline variant="secondary">
+              <IoMdAdd
                 sx={{
-                  alignItems: "center",
-                  justifyContent: "space-between",
+                  height: "iconSmall",
+                  mr: "xxsmall",
+                  width: "iconSmall",
                 }}
+              />
+              Ajouter un contenu
+            </Button>
+          </Link>
+        </Flex>
+        <Card sx={{ position: "sticky", top: 0 }} bg="white">
+          <form onSubmit={handleSubmit(onSearchSubmit)}>
+            <Inline>
+              <Input
+                sx={{ flex: 1 }}
+                name="q"
+                type="search"
+                placeholder="titre..."
+                defaultValue={facets.q}
+                ref={register}
+                onBlur={updateUrl}
+              />
+              <Select
+                name="source"
+                ref={register}
+                onChange={updateUrl}
+                value={facets.source || ""}
               >
-                <Select
-                  sx={{ width: "4rem" }}
-                  name="itemsPerPage"
-                  id="itemsPerPage"
-                  value={facets.itemsPerPage}
-                  onChange={(event) => {
-                    updateUrl(event);
+                <option value="">toutes les sources</option>
+                {documentSources.map(([source, label]) => (
+                  <option
+                    key={source}
+                    value={source}
+                    disabled={isSourceDisabled(source)}
+                  >
+                    {label}
+                  </option>
+                ))}
+              </Select>
+              <Button>
+                <MdSearch /> Rechercher
+              </Button>
+              <Box sx={{ alignSelf: "flex-end" }}>
+                <Label
+                  htmlFor="itemsPerPage"
+                  sx={{
+                    alignItems: "center",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {[10, 25, 50, 100].map((size) => (
-                    <option key={`items-per-page${size}`} value={size}>
-                      {size}
-                    </option>
-                  ))}
-                </Select>
-              </Label>
-            </Box>
-          </Inline>
-          <Inline paddingTop="xsmall">
-            <Label sx={{ alignItems: "center" }}>
-              Tous{" "}
-              <Radio
-                name="published"
-                value="all"
-                ref={register}
-                checked={facets.published === "all"}
-                onChange={updateUrl}
-              />
-            </Label>
-            <Label sx={{ alignItems: "center" }}>
-              Publié{" "}
-              <Radio
-                name="published"
-                value="yes"
-                ref={register}
-                checked={facets.published === "yes"}
-                onChange={updateUrl}
-              />
-            </Label>
-            <Label sx={{ alignItems: "center" }}>
-              Non-publié{" "}
-              <Radio
-                name="published"
-                value="no"
-                ref={register}
-                checked={facets.published === "no"}
-                onChange={updateUrl}
-              />
-            </Label>
-          </Inline>
-        </form>
-      </Card>
-
-      {fetching ? (
-        "chargement..."
-      ) : data.documents.length ? (
-        <>
-          <table>
-            <thead>
-              <tr>
-                <th sx={{ textAlign: "left" }}>Publié</th>
-                <th sx={{ textAlign: "left" }}>Document</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.documents.map((doc) => (
-                <DocumentRow
-                  key={doc.cdtnId}
-                  document={doc}
-                  updatePublish={updatePublish}
+                  <Select
+                    sx={{ width: "4rem" }}
+                    name="itemsPerPage"
+                    id="itemsPerPage"
+                    value={facets.itemsPerPage}
+                    onChange={(event) => {
+                      updateUrl(event);
+                    }}
+                  >
+                    {[10, 25, 50, 100].map((size) => (
+                      <option key={`items-per-page${size}`} value={size}>
+                        {size}
+                      </option>
+                    ))}
+                  </Select>
+                </Label>
+              </Box>
+            </Inline>
+            <Inline paddingTop="xsmall">
+              <Label sx={{ alignItems: "center" }}>
+                Tous{" "}
+                <Radio
+                  name="published"
+                  value="all"
+                  ref={register}
+                  checked={facets.published === "all"}
+                  onChange={updateUrl}
                 />
-              ))}
-            </tbody>
-          </table>
-          <Pagination
-            count={data.documents_aggregate.aggregate.count}
-            currentPage={facets.page}
-            pageSize={facets.itemsPerPage}
-          />
-        </>
-      ) : (
-        <p>Pas de résultats.</p>
-      )}
+              </Label>
+              <Label sx={{ alignItems: "center" }}>
+                Publié{" "}
+                <Radio
+                  name="published"
+                  value="yes"
+                  ref={register}
+                  checked={facets.published === "yes"}
+                  onChange={updateUrl}
+                />
+              </Label>
+              <Label sx={{ alignItems: "center" }}>
+                Non-publié{" "}
+                <Radio
+                  name="published"
+                  value="no"
+                  ref={register}
+                  checked={facets.published === "no"}
+                  onChange={updateUrl}
+                />
+              </Label>
+            </Inline>
+          </form>
+        </Card>
+
+        {fetching ? (
+          "chargement..."
+        ) : data.documents.length ? (
+          <>
+            <table>
+              <thead>
+                <tr>
+                  <th sx={{ textAlign: "left" }}>Publié</th>
+                  <th sx={{ textAlign: "left" }}>Document</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.documents.map((doc) => (
+                  <DocumentRow
+                    key={doc.cdtnId}
+                    document={doc}
+                    updatePublish={updatePublish}
+                  />
+                ))}
+              </tbody>
+            </table>
+            <Pagination
+              count={data.documents_aggregate.aggregate.count}
+              currentPage={facets.page}
+              pageSize={facets.itemsPerPage}
+            />
+          </>
+        ) : (
+          <p>Pas de résultats.</p>
+        )}
+      </Stack>
     </Layout>
   );
 }

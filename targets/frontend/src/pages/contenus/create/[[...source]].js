@@ -5,6 +5,7 @@ import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";
 import { EditorialContentForm } from "src/components/editorialContent/Form";
 import { Layout } from "src/components/layout/auth.layout";
+import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { jsx, Label, Select } from "theme-ui";
@@ -62,39 +63,41 @@ export function CreateDocumentPage() {
 
   return (
     <Layout title="Créer un contenu">
-      <form>
-        <Label htmlFor="source">
-          Quel type de document souhaitez vous créer&nbsp;?
-        </Label>
-        <Select
-          name="source"
-          id="source"
-          defaultValue={source}
-          onChange={(event) => {
-            router.replace(
-              `/contenus/create/${event.target.value}`,
-              undefined,
-              { shallow: true }
-            );
-          }}
-        >
-          <option disabled value="">
-            ...
-          </option>
-          {CREATABLE_SOURCES.map((item) => (
-            <option key={item} value={item}>
-              {getLabelBySource(item)}
+      <Stack>
+        <form>
+          <Label htmlFor="source">
+            Quel type de document souhaitez vous créer&nbsp;?
+          </Label>
+          <Select
+            name="source"
+            id="source"
+            defaultValue={source}
+            onChange={(event) => {
+              router.replace(
+                `/contenus/create/${event.target.value}`,
+                undefined,
+                { shallow: true }
+              );
+            }}
+          >
+            <option disabled value="">
+              ...
             </option>
-          ))}
-        </Select>
-      </form>
-      {source === SOURCES.EDITORIAL_CONTENT && (
-        <EditorialContentForm
-          loading={createResult.fetching}
-          onSubmit={onSubmit}
-        />
-      )}
-      {source === SOURCES.THEMATIC_FILES && <strong>soon</strong>}
+            {CREATABLE_SOURCES.map((item) => (
+              <option key={item} value={item}>
+                {getLabelBySource(item)}
+              </option>
+            ))}
+          </Select>
+        </form>
+        {source === SOURCES.EDITORIAL_CONTENT && (
+          <EditorialContentForm
+            loading={createResult.fetching}
+            onSubmit={onSubmit}
+          />
+        )}
+        {source === SOURCES.THEMATIC_FILES && <strong>soon</strong>}
+      </Stack>
     </Layout>
   );
 }
