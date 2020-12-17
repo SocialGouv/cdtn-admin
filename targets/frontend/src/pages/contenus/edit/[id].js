@@ -96,8 +96,8 @@ export function EditInformationPage() {
       },
       source: result.source,
     }).then((response) => {
-      if (response.errors) {
-        console.error("preview impossible", response.errors);
+      if (response.error) {
+        console.error("preview impossible", response.error.message);
       }
     });
 
