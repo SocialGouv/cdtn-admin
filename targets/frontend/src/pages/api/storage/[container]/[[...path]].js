@@ -44,6 +44,9 @@ async function endPoint(req, res) {
         errored(res, err);
         return;
       }
+      if (!uploadingFilesNumber) {
+        done(res);
+      }
     });
   } else if (req.method === "DELETE") {
     if (path) {

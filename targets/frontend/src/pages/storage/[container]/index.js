@@ -75,6 +75,11 @@ function FilesPage() {
   const [uploading, setUploading] = useState(false);
   const [currentClip, setCurrentClip] = useState("");
 
+  // trigger refetch of files at first paint
+  useEffect(() => {
+    mutate("files");
+  }, []);
+
   // Maybe we should limit displayed files to a number. Like 50 ?
   useEffect(() => {
     setDisplayedFiles(
@@ -109,7 +114,7 @@ function FilesPage() {
         uploading={uploading}
         onDrop={(files) => {
           setUploading(true);
-          uploadFiles(container, files).then(() => {
+          uploadFiles(container, files).finally(() => {
             mutate("files");
             setUploading(false);
           });
