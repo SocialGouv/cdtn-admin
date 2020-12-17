@@ -109,6 +109,9 @@ Restore container:
   stage: Deploy
   only:
     - branches
+  except:
+    - master
+    - tags
   extends:
     - .base_deploy_kosko_stage
   environment:
