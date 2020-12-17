@@ -14,11 +14,14 @@ import { withUserProvider } from "src/hoc/UserProvider";
 import { jsx, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
+import { previewContentAction } from "../preview.gql";
+
 const getEditorialContentQuery = `
 query getEditorialContent($cdtnId: String!) {
   editorialContent: documents_by_pk(cdtn_id: $cdtnId) {
     cdtnId: cdtn_id
     title
+    source
     document
     metaDescription: meta_description
   }
@@ -43,6 +46,9 @@ mutation EditEditorialContent(
       text: $title
     }) {
     cdtnId: cdtn_id
+    slug
+    source
+    metaDescription: meta_description
   }
 }
 `;
@@ -70,6 +76,7 @@ export function EditInformationPage() {
   const [deleteResult, deleteEditorialContent] = useMutation(
     deleteEditorialContentMutation
   );
+  const [, previewContent] = useMutation(previewContentAction);
 
   async function onSubmit({ title, metaDescription, document }) {
     const result = await editEditorialContent({
@@ -79,6 +86,22 @@ export function EditInformationPage() {
       slug: slugify(title),
       title,
     });
+
+    previewContent({
+      cdtn_id: result.cdtnId,
+      document: {
+        ...document,
+        metaDescription: result.metaDescription,
+        slug: result.slug,
+        title,
+      },
+      source: result.source,
+    }).then((response) => {
+      if (response.errors) {
+        console.error("preview impossible", response.errors);
+      }
+    });
+
     if (!result.error) {
       router.back();
     }
