@@ -1,6 +1,8 @@
 type Mutation {
   preview_document (
-    data: PreviewDocument!
+    cdtnId: String!
+    document: jsonb!
+    source: String!
   ): Status
 }
 
