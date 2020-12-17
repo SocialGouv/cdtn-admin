@@ -54,5 +54,6 @@ export const uploadBlob = async (containerName, stream) => {
     return client.uploadStream(stream, blockSize, concurrency, options);
   } catch (err) {
     console.log("Error", err);
+    throw new Error("Error while uploading the file to azure");
   }
 };

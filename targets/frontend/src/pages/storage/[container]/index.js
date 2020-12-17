@@ -30,20 +30,18 @@ import {
   Spinner,
 } from "theme-ui";
 
-const listFiles = (container) =>
+const listFiles = (container) => () =>
   request(`/api/storage/${container}`, {
-    headers: { token: getToken().jwt_token },
-    method: "GET",
+    headers: { token: getToken()?.jwt_token || "" },
   });
 const uploadFiles = (container, formData) =>
   request(`/api/storage/${container}`, {
     body: formData,
-    headers: { token: getToken().jwt_token },
-    method: "POST",
+    headers: { token: getToken()?.jwt_token || "" },
   });
 const deleteFile = (container, path) =>
   request(`/api/storage/${container}/${path}`, {
-    headers: { token: getToken().jwt_token },
+    headers: { token: getToken()?.jwt_token || "" },
     method: "DELETE",
   });
 

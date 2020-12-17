@@ -8,7 +8,13 @@ export function request(endpoint, { body, ...customConfig } = {}) {
     },
   };
   if (body) {
-    config.body = JSON.stringify(body);
+    if (FormData && body instanceof FormData) {
+      config.body = body;
+      // auto set by the browser with its specific multipart/form-data boundaries
+      delete config.headers["Content-Type"];
+    } else {
+      config.body = JSON.stringify(body);
+    }
   }
   return fetch(endpoint, config).then(async (response) => {
     const data = await response.json();
