@@ -8,12 +8,11 @@ import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
+import { previewContentAction } from "src/gql/preview.gql";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { Card, jsx, Message, NavLink } from "theme-ui";
 import { useMutation, useQuery } from "urql";
-
-import { previewContentAction } from "./preview.gql";
 
 const CodeWithCodemirror = dynamic(import("src/components/editor/CodeEditor"), {
   ssr: false,

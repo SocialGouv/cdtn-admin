@@ -9,12 +9,11 @@ import { EditorialContentForm } from "src/components/editorialContent/Form";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
+import { previewContentAction } from "src/gql/preview.gql";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { jsx, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
-
-import { previewContentAction } from "../preview.gql";
 
 const getEditorialContentQuery = `
 query getEditorialContent($cdtnId: String!) {
