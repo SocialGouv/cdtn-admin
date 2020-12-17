@@ -8,9 +8,9 @@ import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
-import { previewContentAction } from "src/gql/preview.gql";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
+import { previewContentAction } from "src/lib/preview/preview.gql";
 import { Card, jsx, Message, NavLink } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
