@@ -2,15 +2,14 @@
 
 import { useRouter } from "next/router";
 import prettyBytes from "pretty-bytes";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   IoIosTrash,
-  IoMdCheckmark,
-  IoMdClipboard,
   IoMdCloseCircleOutline,
   IoMdDownload,
 } from "react-icons/io";
 import { Button, IconButton } from "src/components/button";
+import { CopyButton } from "src/components/button/CopyButton";
 import { Layout } from "src/components/layout/auth.layout";
 import { DropZone } from "src/components/storage/DropZone";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
@@ -48,69 +47,37 @@ const onDeleteClick = function (container, file) {
 function FilesPage() {
   const router = useRouter();
   const container = router.query.container;
-  const { data = [], error } = useSWR("files", listFiles(container));
-
-  const [hasClipboardApi, setHasClipboardApi] = useState(false);
-  const [currentClip, setCurrentClip] = useState("");
+  const { data, error, isValidating } = useSWR("files", listFiles(container), {
+    initialData: [],
+  });
+  const [search, setSearch, setDebouncedSearch] = useDebouncedState("", 400);
+  const searchInputEl = useRef(null);
   const [isSearching, setSearching] = useState(false);
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("mostRecent");
   const [filter, setFilter] = useState("");
-  const [
-    displayedFiles,
-    setDisplayedFiles,
-    setDebouncedDisplayedFiles,
-  ] = useDebouncedState([], 400);
+  const [sort, setSort] = useState("mostRecent");
+  const [displayedFiles, setDisplayedFiles] = useState([], 400);
+  const [uploading, setUploading] = useState(false);
+  const [currentClip, setCurrentClip] = useState("");
 
   // Maybe we should limit displayed files to a number. Like 50 ?
   useEffect(() => {
-    // prevent loader at first display of page
-    if (!displayedFiles.length && !search)
-      return setDisplayedFiles(
-        data.filter(filterCallback(filter)).sort(getSortCallback(sort))
-      );
-    setSearching(true);
-    setDebouncedDisplayedFiles(
+    setDisplayedFiles(
       data
-        .filter((file) =>
-          file.name.toLowerCase().includes(search.toLowerCase().trim())
+        .filter(
+          (file) =>
+            filterCallback(filter, file) &&
+            (search
+              ? file.name.toLowerCase().includes(search.toLowerCase().trim())
+              : true)
         )
-        .filter(filterCallback(filter))
         .sort(getSortCallback(sort))
     );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    data,
-    sort,
-    filter,
-    search,
-    setDisplayedFiles,
-    setDebouncedDisplayedFiles,
-  ]);
+  }, [data, sort, filter, search, setDisplayedFiles]);
 
   useEffect(() => {
     setSearching(false);
-  }, [displayedFiles]);
+  }, [search]);
 
-  useEffect(() => {
-    setHasClipboardApi(Boolean(navigator?.clipboard));
-  }, [setHasClipboardApi]);
-
-  useEffect(() => {
-    if (!currentClip) return;
-    const timeout = window.setTimeout(() => {
-      setCurrentClip("");
-    }, 5000);
-    return () => {
-      if (timeout) window.clearTimeout(timeout);
-    };
-  }, [currentClip, setCurrentClip]);
-
-  function copyToClipboard(data) {
-    navigator.clipboard.writeText(data);
-    setCurrentClip(data);
-  }
   if (error) {
     return (
       <Layout title="Fichiers">
@@ -123,7 +90,14 @@ function FilesPage() {
     <Layout title={`Fichiers ${container} (${displayedFiles.length})`}>
       <DropZone
         customStyles={{ my: "medium" }}
-        onDrop={(files) => uploadFiles(container, files)}
+        uploading={uploading}
+        onDrop={(files) => {
+          setUploading(true);
+          uploadFiles(container, files).then(() => {
+            mutate("files");
+            setUploading(false);
+          });
+        }}
       />
       <form
         sx={{
@@ -137,16 +111,18 @@ function FilesPage() {
             name="search"
             label="Rechercher un fichier"
             sx={{ maxWidth: "200px" }}
+            ref={searchInputEl}
             onChange={(e) => {
-              setSearch(e.target.value);
+              setDebouncedSearch(e.target.value);
+              setSearching(true);
             }}
-            value={search}
           />
           {search.length > 0 && (
             <IconButton
               type="button"
               sx={{ color: "text", mb: "0.6rem" }}
               onClick={() => {
+                searchInputEl.current.value = "";
                 setSearch("");
               }}
             >
@@ -187,88 +163,81 @@ function FilesPage() {
           </Select>
         </Flex>
       </form>
-      {isSearching || !data ? (
+      {isSearching || isValidating ? (
         <Spinner />
-      ) : (
-        <ul sx={{ listStyleType: "none", m: 0, p: 0 }}>
-          {displayedFiles.map((file) => {
-            return (
-              <li key={file.name}>
-                <Card
-                  as="a"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={file.url}
-                  key={file.name}
-                  title={file.name}
-                  sx={{
-                    alignItems: "center",
-                    color: "text",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    mt: "small",
-                    textDecoration: "none",
-                  }}
-                >
-                  <IoMdDownload
-                    sx={{ flex: "0 0 auto", mr: "small", ...iconSx }}
-                  />
-                  <div sx={{ flex: "1 1 auto", minWidth: 0 }}>
-                    <div
-                      sx={{
-                        fontSize: "1.1rem",
-                        fontWeight: "bold",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {file.name}
-                    </div>
-                    <div sx={{ fontSize: "small" }}>
-                      <span sx={{ fontWeight: "bold" }}>Poids&nbsp;:</span>{" "}
-                      {prettyBytes(file.contentLength)} | Mise en ligne il y a{" "}
-                      {timeSince(file.lastModified)}
-                    </div>
-                  </div>
-                  {hasClipboardApi && (
-                    <Button
-                      {...buttonProps}
-                      variant="secondary"
-                      {...(currentClip === file.name && { disabled: true })}
-                      onClick={(evt) => {
-                        evt.preventDefault();
-                        copyToClipboard(file.name);
-                      }}
-                    >
-                      {currentClip === file.name ? (
-                        <>
-                          <IoMdCheckmark sx={iconSx} /> Copié !
-                        </>
-                      ) : (
-                        <>
-                          <IoMdClipboard sx={iconSx} />
-                          Copier le lien
-                        </>
-                      )}
-                    </Button>
-                  )}
-                  <Button
-                    {...buttonProps}
-                    variant="primary"
-                    onClick={(evt) => {
-                      evt.preventDefault();
-                      onDeleteClick(container, file);
+      ) : displayedFiles.length > 0 ? (
+        <>
+          <ul sx={{ listStyleType: "none", m: 0, p: 0 }}>
+            {displayedFiles.map((file) => {
+              return (
+                <li key={file.name}>
+                  <Card
+                    as="a"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={file.url}
+                    key={file.name}
+                    title={file.name}
+                    sx={{
+                      alignItems: "center",
+                      color: "text",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mt: "small",
+                      textDecoration: "none",
                     }}
                   >
-                    <IoIosTrash sx={iconSx} />
-                    Supprimer
-                  </Button>
-                </Card>
-              </li>
-            );
-          })}
-        </ul>
+                    <IoMdDownload
+                      sx={{ flex: "0 0 auto", mr: "small", ...iconSx }}
+                    />
+                    <div sx={{ flex: "1 1 auto", minWidth: 0 }}>
+                      <div
+                        sx={{
+                          fontSize: "1.1rem",
+                          fontWeight: "bold",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {file.name}
+                      </div>
+                      <div sx={{ fontSize: "small" }}>
+                        <span sx={{ fontWeight: "bold" }}>Poids&nbsp;:</span>{" "}
+                        {prettyBytes(file.contentLength)} | Mise en ligne il y a{" "}
+                        {timeSince(file.lastModified)}
+                      </div>
+                    </div>
+                    <CopyButton
+                      {...buttonProps}
+                      variant="secondary"
+                      text={file.name}
+                      copied={currentClip === file.name}
+                      onClip={(text) => {
+                        setCurrentClip(text);
+                      }}
+                    >
+                      Copier le lien
+                    </CopyButton>
+                    <Button
+                      {...buttonProps}
+                      variant="primary"
+                      onClick={(evt) => {
+                        evt.preventDefault();
+                        onDeleteClick(container, file);
+                      }}
+                    >
+                      <IoIosTrash sx={iconSx} />
+                      Supprimer
+                    </Button>
+                  </Card>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      ) : (
+        <>Pas de résultats</>
       )}
     </Layout>
   );
@@ -289,7 +258,7 @@ const iconSx = {
   width: "iconSmall",
 };
 
-const filterCallback = (filter) => (file) => {
+const filterCallback = (filter, file) => {
   const extension = file.name.split(".").pop().toLowerCase();
   switch (filter) {
     case "jpg":

@@ -1,9 +1,8 @@
 /** @jsx jsx */
 
 import PropTypes from "prop-types";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { mutate } from "swr";
 import { jsx, Spinner } from "theme-ui";
 
 const defaultStyles = {
@@ -12,23 +11,16 @@ const defaultStyles = {
   p: "medium",
 };
 
-export function DropZone({ onDrop: onDropCallback, customStyles }) {
-  const [uploading, setUploading] = useState(false);
+export function DropZone({ onDrop: onDropCallback, uploading, customStyles }) {
   const onDrop = useCallback(
     async (acceptedFiles) => {
-      setUploading(true);
       const formData = new FormData();
       for (const i in acceptedFiles) {
         if (acceptedFiles[i] instanceof File) {
-          console.log(acceptedFiles[i].path);
-          console.log(acceptedFiles[i]);
           formData.append(acceptedFiles[i].path, acceptedFiles[i]);
         }
       }
-      onDropCallback(formData).finally(() => {
-        setUploading(false);
-        mutate("files");
-      });
+      onDropCallback(formData);
     },
     [onDropCallback]
   );
@@ -40,9 +32,9 @@ export function DropZone({ onDrop: onDropCallback, customStyles }) {
   });
 
   if (isDragAccept) {
-    defaultStyles.background = "#d1ffd9"; // some light green
+    defaultStyles.backgroundColor = "dropZone";
   } else {
-    delete defaultStyles.background;
+    delete defaultStyles.backgroundColor;
   }
   return (
     <div {...getRootProps()} sx={{ ...defaultStyles, ...customStyles }}>
@@ -55,4 +47,5 @@ export function DropZone({ onDrop: onDropCallback, customStyles }) {
 DropZone.propTypes = {
   customStyles: PropTypes.object,
   onDrop: PropTypes.func.isRequired,
+  uploading: PropTypes.bool.isRequired,
 };

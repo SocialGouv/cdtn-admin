@@ -110,6 +110,7 @@ export const theme = {
     caution: "#FED766",
     critical: "#E03616",
     positive: "#43AA8B",
+    dropZone: "#d1ffd9",
     neutral: "#d1dffd",
     muted: "#717780",
     highlight: "#F3F3F7",
