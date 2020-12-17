@@ -32,7 +32,7 @@ const fetchGlossary = memoizee(_fetchGlossary, {
 });
 
 export default async function (req, res) {
-  const { data } = req.body.input;
+  const { cdtnId, document, source } = req.body.input;
 
   if (
     req.headers["preview-secret"] !== process.env.PUBLICATION_SECRET ||
@@ -58,9 +58,9 @@ export default async function (req, res) {
   try {
     await client.update({
       body: {
-        doc: await transform(data.source, data.document, glossary),
+        doc: await transform(source, document, glossary),
       },
-      id: data.cdtnId,
+      id: cdtnId,
       index: `cdtn-preprod_documents`,
     });
     res.json({ message: "doc updated!", statusCode: 200 });

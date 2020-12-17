@@ -87,7 +87,7 @@ export function EditInformationPage() {
     });
 
     previewContent({
-      cdtn_id: result.cdtnId,
+      cdtnId: result.cdtnId,
       document: {
         ...document,
         metaDescription: result.metaDescription,
