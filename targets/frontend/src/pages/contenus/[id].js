@@ -8,9 +8,9 @@ import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
+import { previewContentAction } from "src/gql/preview.gql";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { request } from "src/lib/request";
 import { Card, jsx, Message, NavLink } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
@@ -68,6 +68,7 @@ export function DocumentPage() {
   const [hasChanged, setHasChanged] = useState(false);
   const [submitIdle, setSubmitIdle] = useState(false);
   const [, executeUpdate] = useMutation(updateDocumentMutation);
+  const [, previewContent] = useMutation(previewContentAction);
   const { handleSubmit } = useForm();
 
   const jsonDoc = useRef(null);
@@ -93,13 +94,22 @@ export function DocumentPage() {
         text,
         title,
       } = data.document;
-      request("/api/elasticcloud/preview", {
-        body: {
-          cdtnId,
-          document: { ...document, metaDescription, text, title },
-          source,
+
+      previewContent({
+        cdtnId,
+        document: {
+          ...document,
+          metaDescription,
+          text,
+          title,
         },
+        source,
+      }).then((response) => {
+        if (response.errors) {
+          console.error("preview impossible", response.errors);
+        }
       });
+
       if (result.error) {
         console.error(result.error);
       }

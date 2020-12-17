@@ -37,6 +37,8 @@ deployment:
       value: http://www:3000/api/webhooks/account
     - name: PUBLICATION_WEBHOOK_URL
       value: http://www:3000/api/webhooks/publication
+    - name: API_URL
+      value: http://www:3000/api
 
   envFrom:
     - secretRef:

@@ -32,11 +32,18 @@ const fetchGlossary = memoizee(_fetchGlossary, {
 });
 
 export default async function (req, res) {
+  const { data } = req.body.input;
+
   if (
+    req.headers["preview-secret"] !== process.env.PUBLICATION_SECRET ||
     !process.env.ELASTICSEARCH_APIKEY_DEV ||
     !process.env.ELASTICSEARCH_URL_DEV
   ) {
-    res.status(304).json({ message: "not modified" });
+    return res.status(403).json({
+      error: "Forbidden",
+      message: "Missing secret or env",
+      statusCode: "403",
+    });
   }
 
   const glossary = await fetchGlossary();
@@ -48,23 +55,24 @@ export default async function (req, res) {
     node: `${process.env.ELASTICSEARCH_URL_DEV}`,
   });
 
-  const { cdtnId, source, document } = req.body;
   try {
     await client.update({
       body: {
-        doc: await transform(source, document, glossary),
+        doc: await transform(data.source, data.document, glossary),
       },
-      id: cdtnId,
+      id: data.cdtnId,
       index: `cdtn-preprod_documents`,
     });
-    res.json({ message: "doc updated!" });
+    res.json({ message: "doc updated!", statusCode: 200 });
   } catch (response) {
     if (response.body) {
       console.error(response.body.error);
     } else {
       console.error(response);
     }
-    res.status(response.statusCode).json({ message: response.body.error });
+    res
+      .status(response.statusCode)
+      .json({ message: response.body.error, statusCode: response.statusCode });
   }
 }
 

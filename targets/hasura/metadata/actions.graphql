@@ -1,2 +1,20 @@
+type Mutation {
+  preview_document (
+    data: PreviewDocument!
+  ): Status
+}
 
+
+
+
+input PreviewDocument {
+  cdtn_id : String
+  document : jsonb
+  source : String
+}
+
+type Status {
+  message : String!
+  statusCode : Int!
+}
 
