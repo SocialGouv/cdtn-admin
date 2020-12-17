@@ -3,39 +3,10 @@ import {
   BlobServiceClient,
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
-import { getToken } from "src/lib/auth/token";
 
 const AZURE_STORAGE_ACCOUNT = {
   key: process.env.AZURE_STORAGE_ACCOUNT_KEY || "",
   name: process.env.AZURE_STORAGE_ACCOUNT_NAME || "",
-};
-
-export const uploadFiles = (container, formData) => {
-  const { jwt_token } = getToken();
-  return fetch(`/api/storage/${container}`, {
-    body: formData,
-    credentials: "include",
-    headers: { token: jwt_token },
-    method: "POST",
-  }).then((res) => res.json());
-};
-
-export const listFiles = (container) => () => {
-  const { jwt_token } = getToken();
-  return fetch(`/api/storage/${container}`, {
-    credentials: "include",
-    headers: { token: jwt_token },
-    method: "GET",
-  }).then((res) => res.json());
-};
-
-export const deleteFile = (container, path) => {
-  const { jwt_token } = getToken();
-  return fetch(`/api/storage/${container}/${path}`, {
-    credentials: "include",
-    headers: { token: jwt_token },
-    method: "DELETE",
-  }).then((res) => res.json());
 };
 
 export const getBlobContainer = (containerName) => {

@@ -15,8 +15,9 @@ import { DropZone } from "src/components/storage/DropZone";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useDebouncedState } from "src/hooks/";
-import { deleteFile, listFiles, uploadFiles } from "src/lib/azure";
+import { getToken } from "src/lib/auth/token";
 import { timeSince } from "src/lib/duration";
+import { request } from "src/lib/request";
 import useSWR, { mutate } from "swr";
 import {
   Card,
@@ -28,6 +29,23 @@ import {
   Select,
   Spinner,
 } from "theme-ui";
+
+const listFiles = (container) =>
+  request(`/api/storage/${container}`, {
+    headers: { token: getToken().jwt_token },
+    method: "GET",
+  });
+const uploadFiles = (container, formData) =>
+  request(`/api/storage/${container}`, {
+    body: formData,
+    headers: { token: getToken().jwt_token },
+    method: "POST",
+  });
+const deleteFile = (container, path) =>
+  request(`/api/storage/${container}/${path}`, {
+    headers: { token: getToken().jwt_token },
+    method: "DELETE",
+  });
 
 const onDeleteClick = function (container, file) {
   const confirmed = confirm(
@@ -216,9 +234,7 @@ function FilesPage() {
                       onClip={(text) => {
                         setCurrentClip(text);
                       }}
-                    >
-                      Copier le lien
-                    </CopyButton>
+                    />
                     <Button
                       {...buttonProps}
                       variant="primary"
