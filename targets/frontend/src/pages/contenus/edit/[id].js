@@ -85,16 +85,21 @@ export function EditInformationPage() {
       slug: slugify(title),
       title,
     });
-
+    const {
+      cdtnId,
+      slug,
+      metaDescription: metaDesc,
+      source,
+    } = result.data.update_documents_by_pk;
     previewContent({
-      cdtnId: result.cdtnId,
+      cdtnId,
       document: {
         ...document,
-        metaDescription: result.metaDescription,
-        slug: result.slug,
+        metaDescription: metaDesc,
+        slug,
         title,
       },
-      source: result.source,
+      source,
     }).then((response) => {
       if (response.error) {
         console.error("preview impossible", response.error.message);

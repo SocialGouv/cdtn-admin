@@ -85,7 +85,7 @@ export function DocumentPage() {
       metaDescription: jsonDoc.current.meta_description,
       text: jsonDoc.current.text,
       title: jsonDoc.current.title,
-    }).then(({ data }) => {
+    }).then(({ data, error }) => {
       const {
         cdtnId,
         source,
@@ -94,7 +94,9 @@ export function DocumentPage() {
         text,
         title,
       } = data.document;
-
+      if (error) {
+        console.error("update impossible", error.message);
+      }
       previewContent({
         cdtnId,
         document: {
@@ -109,10 +111,6 @@ export function DocumentPage() {
           console.error("preview impossible", response.error.message);
         }
       });
-
-      if (result.error) {
-        console.error(result.error);
-      }
       setHasChanged(false);
       setSubmitIdle(false);
     });
