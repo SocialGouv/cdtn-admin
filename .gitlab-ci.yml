@@ -4,7 +4,7 @@ include:
     ref: v16.2.0
   - project: SocialGouv/gitlab-ci-yml
     file: /base_deploy_kosko_stage.yml
-    ref: v20.1.1
+    ref: v20.1.2
   #
   - /targets/alert-cli/.gitlab-ci.yml
   - /targets/ingester/.gitlab-ci.yml
