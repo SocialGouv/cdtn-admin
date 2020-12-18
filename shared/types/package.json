@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {},
   "devDependencies": {
-    "@socialgouv/contributions-data-types": "^3.0.0",
-    "@socialgouv/fiches-travail-data-types": "^4.22.0"
+    "@socialgouv/contributions-data-types": "^3.1.0",
+    "@socialgouv/fiches-travail-data-types": "^4.27.0"
   }
 }
