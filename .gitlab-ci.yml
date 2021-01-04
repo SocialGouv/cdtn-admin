@@ -31,6 +31,8 @@ Create namespace:
     # Copy namespace default creds
     - kubectl get secret cdtn-admin-secrets --namespace=cdtn-admin-secret --export -o yaml |
       kubectl apply --namespace=${K8S_NAMESPACE} -f -
+    - kubectl get secret azure-cdtnadmindev-volume --namespace=cdtn-admin-secret --export -o yaml |
+      kubectl apply --namespace=${K8S_NAMESPACE} -f -
 
 Create Azure DB (dev):
   extends: .autodevops_create_azure_db_dev

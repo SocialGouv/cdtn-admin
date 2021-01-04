@@ -11,6 +11,8 @@ import { useQuery } from "urql";
 
 import { Li, List } from "../list";
 
+const CONTAINER_NAME = process.env.NEXT_PUBLIC_CONTAINER_NAME || "cdtn-dev";
+
 const getSourcesQuery = `
 query getAlerts{
   sources(order_by:{label:asc}) {
@@ -113,6 +115,11 @@ export function Nav() {
           <Li>
             <ActiveLink href="/kali/blocks" passHref>
               Blocs KALI
+            </ActiveLink>
+          </Li>
+          <Li>
+            <ActiveLink href={`/storage/${CONTAINER_NAME}`} passHref>
+              Fichiers
             </ActiveLink>
           </Li>
         </List>
