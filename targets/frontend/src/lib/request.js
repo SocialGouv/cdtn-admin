@@ -8,7 +8,7 @@ export function request(endpoint, { body, ...customConfig } = {}) {
     },
   };
   if (body) {
-    if (FormData && body instanceof FormData) {
+    if (typeof FormData !== "undefined" && body instanceof FormData) {
       config.body = body;
       // auto set by the browser with its specific multipart/form-data boundaries
       delete config.headers["Content-Type"];
