@@ -11,8 +11,8 @@ import { useQuery } from "urql";
 
 import { Li, List } from "../list";
 
-const FILE_CONTAINER = process.env.NEXT_PUBLIC_PRODUCTION;
-const FILE_CONTAINER1 = process.env.NEXT_PUBLIC_PRODUCTION1;
+const AZURE_STORAGE_CONTAINER_FILES =
+  process.env.AZURE_STORAGE_CONTAINER_FILES || "fail";
 
 const getSourcesQuery = `
 query getAlerts{
@@ -123,7 +123,7 @@ export function Nav() {
               Fichiers
             </ActiveLink>
           </Li>
-          {JSON.stringify({ FILE_CONTAINER, FILE_CONTAINER1 }, null, 2)}
+          {JSON.stringify({ AZURE_STORAGE_CONTAINER_FILES }, null, 2)}
         </List>
       </Box>
     </Box>
