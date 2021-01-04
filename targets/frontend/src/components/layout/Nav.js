@@ -11,8 +11,7 @@ import { useQuery } from "urql";
 
 import { Li, List } from "../list";
 
-const AZURE_STORAGE_CONTAINER_FILES =
-  process.env.AZURE_STORAGE_CONTAINER_FILES || "fail";
+const CONTAINER_NAME = process.env.NEXT_PUBLIC_CONTAINER_NAME || "cdtn-dev";
 
 const getSourcesQuery = `
 query getAlerts{
@@ -119,11 +118,10 @@ export function Nav() {
             </ActiveLink>
           </Li>
           <Li>
-            <ActiveLink href={`/storage/cdtn-test1`} passHref>
+            <ActiveLink href={`/storage/${CONTAINER_NAME}`} passHref>
               Fichiers
             </ActiveLink>
           </Li>
-          {JSON.stringify({ AZURE_STORAGE_CONTAINER_FILES }, null, 2)}
         </List>
       </Box>
     </Box>
