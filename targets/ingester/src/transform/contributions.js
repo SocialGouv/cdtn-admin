@@ -14,15 +14,9 @@ export default async function getContributionsDocuments(pkgName) {
   /** @type {import("@socialgouv/contributions-data-types").Question[]} */
   const data = await getJson(`${pkgName}/data/contributions.json`);
 
-  return data.map(({ title, answers, id, index }) => {
-    return {
-      answers: {
-        ...answers,
-        generic: {
-          ...answers.generic,
-          markdown: answers.generic.markdown,
-        },
-      },
+  return data.flatMap(({ title, answers, id, index }) => {
+    const allAnswers = {
+      answers,
       description: (answers.generic && answers.generic.description) || title,
       id,
       index,
@@ -31,5 +25,23 @@ export default async function getContributionsDocuments(pkgName) {
       text: (answers.generic && answers.generic.text) || title,
       title,
     };
+    const ccnAnswers = answers.conventions.map((conventionalAnswer) => {
+      return {
+        answers: {
+          conventions: [conventionalAnswer],
+          generic: answers.generic,
+        },
+        description: (answers.generic && answers.generic.description) || title,
+        excludeFromSearch: true,
+        id: conventionalAnswer.id,
+        index,
+        slug: slugify(`${parseInt(conventionalAnswer.idcc, 10)}-${title}`),
+        source: SOURCES.CONTRIBUTIONS,
+        text: `${conventionalAnswer.idcc} ${title}`,
+        title,
+      };
+    });
+
+    return [allAnswers, ...ccnAnswers];
   });
 }
