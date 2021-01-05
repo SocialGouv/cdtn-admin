@@ -119,7 +119,7 @@ export function Nav() {
           </Li>
           <Li>
             <ActiveLink href={`/storage/${CONTAINER_NAME}`} passHref>
-              Fichiers
+              Fichiers {process.env.NEXT_PUBLIC_CONTAINER_NAME}
             </ActiveLink>
           </Li>
         </List>
