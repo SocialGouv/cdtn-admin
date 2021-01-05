@@ -14,6 +14,9 @@ export default async function getContributionsDocuments(pkgName) {
   /** @type {import("@socialgouv/contributions-data-types").Question[]} */
   const data = await getJson(`${pkgName}/data/contributions.json`);
 
+  /** @type {import("@socialgouv/kali-data-types").IndexedAgreement[]} */
+  const agreements = await getJson(`${pkgName}/data/index.json`);
+
   return data.flatMap(({ title, answers, id, index }) => {
     const allAnswers = {
       answers,
@@ -28,7 +31,14 @@ export default async function getContributionsDocuments(pkgName) {
     const ccnAnswers = answers.conventions.map((conventionalAnswer) => {
       return {
         answers: {
-          conventions: [conventionalAnswer],
+          conventionAnswer: {
+            ...conventionalAnswer,
+            shortName:
+              agreements.find(
+                (ccn) => ccn.num === parseInt(conventionalAnswer.idcc, 10)
+              )?.shortTitle ||
+              `err - no ccn found for ${conventionalAnswer.idcc}`,
+          },
           generic: answers.generic,
         },
         description: (answers.generic && answers.generic.description) || title,

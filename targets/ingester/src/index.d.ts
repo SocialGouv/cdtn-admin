@@ -1,5 +1,5 @@
 import type { SourceValues } from "@socialgouv/cdtn-sources"
-import type { Answer, Question, DilaRef } from "@socialgouv/contributions-data-types"
+import type { Answer, Question, DilaRef, GenericAnswer } from "@socialgouv/contributions-data-types"
 
 export as namespace ingester
 
@@ -16,7 +16,17 @@ type ExternalDocument = Document & {
   url: string
 }
 
-type Contribution = Document & Question
+type ExtendedQuestion = Omit<Question, "answers"> & {
+  answers: {
+    generic: GenericAnswer,
+    conventionAnswer?: Answer & {
+      shortName: string
+    }
+    conventions?: Answer[]
+  }
+}
+
+type Contribution = Document & ExtendedQuestion
 
 type LegiArticle = ExternalDocument & {
   dateDebut: number
