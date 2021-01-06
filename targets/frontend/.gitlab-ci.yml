@@ -44,8 +44,7 @@ Install www:
     paths:
       - targets/frontend/.next
 
-Build www (dev):
-  extends: .build_www
+.env_dev_rules:
   except:
     refs:
       - tags
@@ -53,13 +52,22 @@ Build www (dev):
   environment:
     name: ${CI_COMMIT_REF_SLUG}-dev2
 
-Build www (prod):
-  extends: .build_www
+.env_prod_rules:
   only:
     refs:
       - master
   environment:
     name: prod2
+
+Build www (dev):
+  extends:
+    - .build_www
+    - .env_dev_rules
+
+Build www (prod):
+  extends:
+    - .build_www
+    - .env_prod_rules
 
 Test www:
   extends: .autodevops_test
@@ -83,16 +91,33 @@ Lint www:
 #
 #
 
-Register www:
+.register_www:
   extends: .autodevops_register_image
   dependencies: null
-  needs: []
   variables:
     CONTEXT: .
     DOCKER_BUILD_ARGS: >-
       --shm-size 512M
       -f targets/frontend/Dockerfile
     IMAGE_NAME: $CI_REGISTRY_IMAGE/www
+
+Register www (dev):
+  extends:
+    - .register_www
+    - .env_dev_rules
+  needs:
+    - Build www (dev)
+  dependencies:
+    - Build www (dev)
+
+Register www (prod):
+  extends:
+    - .register_www
+    - .env_prod_rules
+  needs:
+    - Build www (prod)
+  dependencies:
+    - Build www (prod)
 
 #
 #
