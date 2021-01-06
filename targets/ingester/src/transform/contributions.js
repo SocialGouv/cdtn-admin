@@ -15,7 +15,7 @@ export default async function getContributionsDocuments(pkgName) {
   const data = await getJson(`${pkgName}/data/contributions.json`);
 
   /** @type {import("@socialgouv/kali-data-types").IndexedAgreement[]} */
-  const agreements = await getJson(`${pkgName}/data/index.json`);
+  const agreements = await getJson(`@socialgouv/kali-data/data/index.json`);
 
   return data.flatMap(({ title, answers, id, index }) => {
     const allAnswers = {
