@@ -118,6 +118,9 @@ Restore container:
     - .base_deploy_kosko_stage
   environment:
     name: prod2
+  needs:
+    - job: Create Azure DB (dev)
+  dependencies: null
   variables:
     # storage copy
     SOURCE_CONTAINER: "cdtn"
@@ -125,8 +128,8 @@ Restore container:
     DESTINATION_CONTAINER: "cdtn-dev"
     DESTINATION_SERVER: "dev"
     # db restore
-    # BACKUP_DB_NAME: "db_${CI_COMMIR_SHORT_SHA}"
-    # BACKUP_DB_OWNER: "user_${CI_COMMIR_SHORT_SHA}"
-    # BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
+    BACKUP_DB_NAME: "db_${CI_COMMIT_SHORT_SHA}"
+    BACKUP_DB_OWNER: "user_${CI_COMMIT_SHORT_SHA}"
+    BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod restore
