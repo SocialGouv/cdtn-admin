@@ -16,8 +16,6 @@ COPY targets/frontend/.env  /app/targets/frontend/
 COPY targets/frontend/.next/ /app/targets/frontend/.next
 COPY targets/frontend/public/ /app/targets/frontend/public
 
-RUN cat /app/targets/frontend/.env
-
 USER node
 
 ENV NODE_ENV=production
