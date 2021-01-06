@@ -45,6 +45,7 @@ Install www:
     expire_in: 1 week
     paths:
       - targets/frontend/.next
+      - targets/frontend/.env
 
 .env_dev_rules:
   except:
