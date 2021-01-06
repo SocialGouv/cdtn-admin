@@ -26,7 +26,7 @@ Install www:
 #
 #
 
-Build www:
+.build_www:
   extends: .autodevops_build
   cache:
     key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
@@ -36,11 +36,6 @@ Build www:
   needs:
     - job: Install www
       artifacts: true
-  variables:
-    # these variables are needed at build time and provided by gitlab
-    # NEXT_PUBLIC_SENTRY_DSN: https://yyy@sentry.fabrique.social.gouv.fr/yyy
-    # NEXT_PUBLIC_MATOMO_URL: https://matomo.io
-    # NEXT_PUBLIC_MATOMO_SITE_ID: 4242
   before_script:
     - cp .env targets/frontend/.env.production
     - cd targets/frontend
@@ -48,6 +43,23 @@ Build www:
     expire_in: 1 week
     paths:
       - targets/frontend/.next
+
+Build www (dev):
+  extends: .build_www
+  except:
+    refs:
+      - tags
+      - master
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}-dev2
+
+Build www (prod):
+  extends: .build_www
+  only:
+    refs:
+      - master
+  environment:
+    name: prod2
 
 Test www:
   extends: .autodevops_test
@@ -74,9 +86,6 @@ Lint www:
 Register www:
   extends: .autodevops_register_image
   dependencies: null
-  needs:
-    - job: Build www
-      artifacts: true
   variables:
     CONTEXT: .
     DOCKER_BUILD_ARGS: >-
