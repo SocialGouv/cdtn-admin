@@ -39,7 +39,7 @@ Install www:
   before_script:
     # - cp .env targets/frontend/.env.production
     - cd targets/frontend
-    # - echo "NEXT_PUBLIC_CONTAINER_NAME=${AZ_CONTAINER_NAME}" >> .env
+    - echo "NEXT_PUBLIC_CONTAINER_NAME = ${AZ_CONTAINER_NAME}" >> .env
     - cat .env
   artifacts:
     expire_in: 1 week
