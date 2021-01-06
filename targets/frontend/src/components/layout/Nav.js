@@ -118,7 +118,9 @@ export function Nav() {
             </ActiveLink>
           </Li>
           <Li>
-            <ActiveLink href={`/storage/${CONTAINER_NAME}`} passHref />
+            <ActiveLink href={`/storage/${CONTAINER_NAME}`} passHref>
+              Fichiers
+            </ActiveLink>
           </Li>
         </List>
       </Box>
