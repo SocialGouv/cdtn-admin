@@ -36,7 +36,7 @@ const insertDocumentsMutation = `
 mutation insert_documents($documents: [documents_insert_input!]!) {
   documents: insert_documents(objects: $documents,  on_conflict: {
     constraint: documents_pkey,
-    update_columns: [title, source, slug, text, document, is_available]
+    update_columns: [title, source, slug, text, document, is_available, is_searchable]
   }) {
    returning {cdtn_id}
   }
@@ -142,17 +142,20 @@ async function getPackage(pkgName, pkgVersion = "latest") {
 async function insertDocuments(docs) {
   const result = await client
     .mutation(insertDocumentsMutation, {
-      documents: docs.map(({ id, text, title, slug, source, ...document }) => ({
-        cdtn_id: generateCdtnId(`${source}${id}`),
-        document,
-        initial_id: id,
-        is_available: true,
-        meta_description: document.description || "",
-        slug,
-        source,
-        text,
-        title,
-      })),
+      documents: docs.map(
+        ({ id, text, title, slug, is_searchable, source, ...document }) => ({
+          cdtn_id: generateCdtnId(`${source}${id}`),
+          document,
+          initial_id: id,
+          is_available: true,
+          is_searchable,
+          meta_description: document.description || "",
+          slug,
+          source,
+          text,
+          title,
+        })
+      ),
     })
     .toPromise();
 

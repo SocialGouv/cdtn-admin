@@ -24,6 +24,7 @@ export default async function getFicheTravailEmploi(pkgName) {
     return {
       id: pubId,
       ...content,
+      is_searchable: true,
       sections: sections.map(({ references, ...section }) => ({
         ...section,
         references: Object.keys(references).flatMap((key) => {

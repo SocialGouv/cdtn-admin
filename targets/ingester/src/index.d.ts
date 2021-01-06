@@ -10,6 +10,7 @@ type Document = {
   source: SourceValues
   text: string
   slug: string
+  is_searchable: Boolean
 }
 
 type ExternalDocument = Document & {
@@ -36,7 +37,6 @@ type LegiArticle = ExternalDocument & {
 type FicheServicePublic = ExternalDocument & {
   date: string //"O1/01/2021"
   raw: string
-  excludeFromSearch: Boolean
   referencedTexts: ReferencedTexts[]
   legalReferences: LegalReference[]
 }

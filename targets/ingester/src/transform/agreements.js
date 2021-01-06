@@ -63,6 +63,7 @@ export default async function getAgreementDocuments(pkgName) {
       description: `Idcc ${formatIdcc(agreement.num)} : ${
         agreement.shortTitle
       }`,
+      is_searchable: true,
       source: SOURCES.CCN,
       synonymes: agreement.synonymes,
     });
