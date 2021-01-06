@@ -5,8 +5,7 @@ export function setRefreshTokenCookie(res, refresh_token) {
     "Set-Cookie",
     cookie.serialize("refresh_token", refresh_token, {
       httpOnly: true,
-      // maxAge in second
-      maxAge: (process.env.REFRESH_TOKEN_EXPIRES || 43200) * 60,
+      maxAge: parseInt(process.env.NEXT_PUBLIC_REFRESH_TOKEN_EXPIRES, 10) * 60, // maxAge in second
       path: "/",
       sameSite: "Strict",
       secure: process.env.NODE_ENV === "production",

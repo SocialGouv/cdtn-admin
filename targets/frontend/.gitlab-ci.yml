@@ -44,7 +44,6 @@ Build www:
   before_script:
     - cp .env targets/frontend/.env.production
     - cd targets/frontend
-    - echo "-${PRODUCTION}-"
   artifacts:
     expire_in: 1 week
     paths:
@@ -94,6 +93,9 @@ Register www:
     PORT: 3000
     CONTEXT: www
     VALUES_FILE: targets/frontend/.k8s/www.values.yml
+    HELM_RENDER_ARGS: >-
+      --set ingress.annotations.nginx\.ingress\.kubernetes\.io\/whitelist-source-range=$IP_ALLOWLIST
+
   after_script:
     - find ${MANIFEST_FOLDER} -name '*.yaml' -exec
       echo '---' \; -exec cat {} \; |
@@ -108,9 +110,6 @@ Deploy www (dev):
     name: ${CI_COMMIT_REF_SLUG}-dev2
   variables:
     MANIFEST_FOLDER: targets/frontend/.k8s/environments/dev
-    # secrets have a different name in dev or prod...
-    HELM_RENDER_ARGS: >-
-      --set ingress.annotations.nginx\.ingress\.kubernetes\.io\/whitelist-source-range=$IP_ALLOWLIST
 
 Deploy www (prod):
   extends:
@@ -120,5 +119,3 @@ Deploy www (prod):
     name: prod2
   variables:
     MANIFEST_FOLDER: targets/frontend/.k8s/environments/prod
-    HELM_RENDER_ARGS: >-
-      --set ingress.annotations.nginx\.ingress\.kubernetes\.io\/whitelist-source-range=$IP_ALLOWLIST
