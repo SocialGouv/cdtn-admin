@@ -32,12 +32,12 @@ deployment:
     - name: AZURE_STORAGE_ACCOUNT_KEY
       valueFrom:
         secretKeyRef:
-          name: azure-cdtnadminprod-volume
+          name: azure-cdtnadmindev-volume
           key: azurestorageaccountkey
     - name: AZURE_STORAGE_ACCOUNT_NAME
       valueFrom:
         secretKeyRef:
-          name: azure-cdtnadminprod-volume
+          name: azure-cdtnadmindev-volume
           key: azurestorageaccountname
 
   envFrom:

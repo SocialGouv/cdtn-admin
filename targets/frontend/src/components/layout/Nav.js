@@ -11,7 +11,7 @@ import { useQuery } from "urql";
 
 import { Li, List } from "../list";
 
-const CONTAINER_NAME = process.env.NEXT_PUBLIC_CONTAINER_NAME || "cdtn-dev";
+const CONTAINER_NAME = process.env.NEXT_PUBLIC_CONTAINER_NAME;
 
 const getSourcesQuery = `
 query getAlerts{
@@ -118,9 +118,7 @@ export function Nav() {
             </ActiveLink>
           </Li>
           <Li>
-            <ActiveLink href={`/storage/${CONTAINER_NAME}`} passHref>
-              Fichiers
-            </ActiveLink>
+            <ActiveLink href={`/storage/${CONTAINER_NAME}`} passHref />
           </Li>
         </List>
       </Box>
