@@ -11,9 +11,6 @@ const basePath = "";
 module.exports = withTM(
   withSourceMaps({
     basePath,
-    env: {
-      NEXT_PUBLIC_CONTAINER_NAME: process.env.NEXT_PUBLIC_CONTAINER_NAME,
-    },
     serverRuntimeConfig: {
       rootDir: __dirname,
     },
