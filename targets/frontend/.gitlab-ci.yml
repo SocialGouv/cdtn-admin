@@ -86,6 +86,7 @@ Lint www:
 Register www:
   extends: .autodevops_register_image
   dependencies: null
+  needs: []
   variables:
     CONTEXT: .
     DOCKER_BUILD_ARGS: >-
