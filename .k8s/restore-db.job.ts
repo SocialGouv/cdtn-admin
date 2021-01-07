@@ -5,32 +5,32 @@ import { EnvFromSource } from "kubernetes-models/v1/EnvFromSource";
 import type { EnvVar } from "kubernetes-models/v1/EnvVar";
 
 //import { addInitContainer } from "@socialgouv/kosko-charts/utils/addInitContainer";
-import { waitForPostgres } from "@socialgouv/kosko-charts/utils/waitForPostgres";
+//import { waitForPostgres } from "@socialgouv/kosko-charts/utils/waitForPostgres";
 
 import type { IIoK8sApiCoreV1Container } from "kubernetes-models/_definitions/IoK8sApiCoreV1Container";
 import type { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import type { Job as JobType } from "kubernetes-models/batch/v1/Job";
 
-type Manifest = Deployment | JobType;
+//type Manifest = Deployment | JobType;
 
-export const addInitContainer = (
-  deployment: Manifest,
-  initContainer: IIoK8sApiCoreV1Container
-): Manifest => {
-  if (!deployment.spec?.template) {
-    return deployment;
-  }
+// export const addInitContainer = (
+//   deployment: Manifest,
+//   initContainer: IIoK8sApiCoreV1Container
+// ): Manifest => {
+//   if (!deployment.spec?.template) {
+//     return deployment;
+//   }
 
-  deployment.spec.template.spec = deployment.spec.template.spec ?? {
-    containers: [],
-    initContainers: [],
-  };
-  const containers = deployment.spec.template.spec.initContainers ?? [];
-  containers.push(initContainer);
-  deployment.spec.template.spec.initContainers = containers;
+//   deployment.spec.template.spec = deployment.spec.template.spec ?? {
+//     containers: [],
+//     initContainers: [],
+//   };
+//   const containers = deployment.spec.template.spec.initContainers ?? [];
+//   containers.push(initContainer);
+//   deployment.spec.template.spec.initContainers = containers;
 
-  return deployment;
-};
+//   return deployment;
+// };
 
 interface RestoreDbJobArgs {
   project: string;
@@ -181,12 +181,6 @@ export const restoreDbJob = ({
       },
     },
   });
-
-  const initContainer = waitForPostgres({
-    secretRefName: "azure-pg-admin-user-dev",
-  });
-
-  addInitContainer(job, initContainer);
 
   manifests.push(job);
 

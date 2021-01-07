@@ -225,24 +225,6 @@ spec:
         - configMap:
             name: post-restore-script-configmap-8843083e
           name: scripts
-      initContainers:
-        - env:
-            - name: WAIT_FOR_RETRIES
-              value: '24'
-          envFrom:
-            - secretRef:
-                name: azure-pg-admin-user-dev
-          image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:2.0.0
-          imagePullPolicy: Always
-          name: wait-for-postgres
-          resources:
-            limits:
-              cpu: 20m
-              memory: 32Mi
-            requests:
-              cpu: 5m
-              memory: 16Mi
 apiVersion: batch/v1
 kind: Job
 "
