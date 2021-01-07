@@ -70,7 +70,7 @@ pg_restore \
 
 psql -v ON_ERROR_STOP=1 \${PGDATABASE} -c "ALTER SCHEMA public owner to \${OWNER};"
 
-[ -f "/mnt/scripts/post-restore.sql" ] && psql -v ON_ERROR_STOP=1 -f -a /mnt/scripts/post-restore.sql
+[ -f "/mnt/scripts/post-restore.sql" ] && psql -v ON_ERROR_STOP=1 \${PGDATABASE} -f -a /mnt/scripts/post-restore.sql
 `;
 
 const getProjectSecretNamespace = (project: string) => `${project}-secret`;

@@ -188,7 +188,7 @@ spec:
 
 
               [ -f \\"/mnt/scripts/post-restore.sql\\" ] && psql -v ON_ERROR_STOP=1
-              -f -a /mnt/scripts/post-restore.sql
+              \${PGDATABASE} -f -a /mnt/scripts/post-restore.sql
           env:
             - name: PGDATABASE
               value: some-database
