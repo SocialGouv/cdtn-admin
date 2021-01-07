@@ -30,14 +30,15 @@ export default async function getContributionsDocuments(pkgName) {
       title,
     };
     const ccnAnswers = answers.conventions.map((conventionalAnswer) => {
+      const agreement = agreements.find(
+        (ccn) => ccn.num === parseInt(conventionalAnswer.idcc, 10)
+      );
       return {
         answers: {
           conventionAnswer: {
             ...conventionalAnswer,
             shortName:
-              agreements.find(
-                (ccn) => ccn.num === parseInt(conventionalAnswer.idcc, 10)
-              )?.shortTitle ||
+              (agreement && agreement.shortTitle) ||
               `err - no ccn found for ${conventionalAnswer.idcc}`,
           },
           generic: answers.generic,
