@@ -105,6 +105,39 @@ spec:
 apiVersion: batch/v1
 kind: Job
 ---
+data:
+  post-restore.sql: |
+    TRUNCATE TABLE \\"auth\\".\\"users\\" CASCADE;
+
+    WITH admin_row AS (
+    INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
+        VALUES ('codedutravailnumerique@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8', 'Administrateur', 'admin', TRUE)
+      RETURNING
+        id, default_role)
+      INSERT INTO auth.user_roles (ROLE, user_id)
+      SELECT
+        default_role,
+        id
+      FROM
+        admin_row;
+
+    WITH admin_row AS (
+    INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
+        VALUES ('utilisateur@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$PqKPf9cxunVLLtEcINHhWQ$CwHKhk71fc8LGp6BWbcFPzQ2ftOiHa7vUkp1eAqVHSM', 'Utilisateur', 'user', TRUE)
+      RETURNING
+        id, default_role)
+      INSERT INTO auth.user_roles (ROLE, user_id)
+      SELECT
+        default_role,
+        id
+      FROM
+        admin_row;
+metadata:
+  name: post-restore-script-configmap-8843083e
+  namespace: cdtn-admin-secret
+apiVersion: v1
+kind: ConfigMap
+---
 metadata:
   name: restore-db-8843083e
   namespace: cdtn-admin-secret
@@ -117,7 +150,7 @@ spec:
         - command:
             - sh
             - '-c'
-            - >+
+            - >
 
 
               echo \\"starting restore into $PGHOST/$PGDATABASE\\"
@@ -153,6 +186,9 @@ spec:
               psql -v ON_ERROR_STOP=1 \${PGDATABASE} -c \\"ALTER SCHEMA public
               owner to \${OWNER};\\"
 
+
+              [ -f \\"/mnt/scripts/post-restore.sql\\" ] && psql -v ON_ERROR_STOP=1
+              -f -a /mnt/scripts/post-restore.sql
           env:
             - name: PGDATABASE
               value: some-database
@@ -164,7 +200,7 @@ spec:
             - secretRef:
                 name: azure-pg-admin-user-dev
           image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/azure-db:2.1.0
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/azure-db:2.6.1
           imagePullPolicy: IfNotPresent
           name: restore-db
           resources:
@@ -177,6 +213,8 @@ spec:
           volumeMounts:
             - mountPath: /mnt/data
               name: backups
+            - mountPath: /mnt/scripts
+              name: scripts
       restartPolicy: OnFailure
       volumes:
         - azureFile:
@@ -184,6 +222,27 @@ spec:
             secretName: azure-cdtnadminprod-volume
             shareName: cdtn-admin-backup-restore
           name: backups
+        - configMap:
+            name: post-restore-script-configmap-8843083e
+          name: scripts
+      initContainers:
+        - env:
+            - name: WAIT_FOR_RETRIES
+              value: '24'
+          envFrom:
+            - secretRef:
+                name: azure-pg-admin-user-dev
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:2.0.0
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
 apiVersion: batch/v1
 kind: Job
 "
