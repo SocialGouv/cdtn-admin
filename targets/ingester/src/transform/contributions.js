@@ -49,6 +49,7 @@ export default async function getContributionsDocuments(pkgName) {
         is_searchable: false,
         slug: slugify(`${parseInt(conventionalAnswer.idcc, 10)}-${title}`),
         source: SOURCES.CONTRIBUTIONS,
+        split: true, // convenient way to know if a document is a split version of another
         text: `${conventionalAnswer.idcc} ${title}`,
         title,
       };

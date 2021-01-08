@@ -34,6 +34,7 @@ export const MarkdownPreviewModal = ({ markdown }) => {
           margin: 0,
           maxHeight: "90vh",
           maxWidth: "50rem",
+          overflow: "auto",
           top: "50%",
           transform: "translate(-50%, -50%)",
           width: "90vw",

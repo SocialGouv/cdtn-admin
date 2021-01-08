@@ -38,7 +38,7 @@ const addComputedFields = (onSubmit) => (data) => {
 const EditorialContentForm = ({
   onSubmit,
   loading = false,
-  editorialContent = {
+  content = {
     document: { contents: [{ type: SECTION_TYPES.MARKDOWN }] },
   },
 }) => {
@@ -50,11 +50,11 @@ const EditorialContentForm = ({
     errors,
     formState: { isDirty },
   } = useForm({
-    defaultValues: editorialContent,
+    defaultValues: content,
   });
   const hasError = Object.keys(errors).length > 0;
   let buttonLabel = "Créer le contenu";
-  if (editorialContent.cdtnId) {
+  if (content.cdtnId) {
     buttonLabel = "Enregistrer les changements";
   }
 
@@ -66,7 +66,7 @@ const EditorialContentForm = ({
             sx={{ width: "10rem" }}
             name="document.date"
             label="Date"
-            defaultValue={editorialContent.document?.date}
+            defaultValue={content.document?.date}
             ref={register({
               validate: (value) => {
                 const trimmed = value.trim();
@@ -91,7 +91,7 @@ const EditorialContentForm = ({
             type="text"
             name="title"
             label="Titre"
-            defaultValue={editorialContent.title}
+            defaultValue={content.title}
             ref={register({
               required: { message: "Le titre est requis", value: true },
             })}
@@ -104,7 +104,7 @@ const EditorialContentForm = ({
             type="text"
             name="metaDescription"
             label="Meta description (référencement)"
-            defaultValue={editorialContent.metaDescription}
+            defaultValue={content.metaDescription}
             ref={register}
           />
         </div>
@@ -115,7 +115,7 @@ const EditorialContentForm = ({
             name="document.description"
             id="description"
             rows={3}
-            defaultValue={editorialContent.document?.description}
+            defaultValue={content.document?.description}
             ref={register({
               required: { message: "La description est requise", value: true },
             })}
@@ -131,7 +131,7 @@ const EditorialContentForm = ({
             name="document.intro"
             id="intro"
             rows={3}
-            defaultValue={editorialContent.document?.intro}
+            defaultValue={content.document?.intro}
             ref={register}
           />
         </div>
@@ -184,7 +184,7 @@ const EditorialContentForm = ({
 };
 
 EditorialContentForm.propTypes = {
-  editorialContent: PropTypes.object,
+  content: PropTypes.object,
   loading: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
 };

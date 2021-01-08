@@ -12,7 +12,10 @@ const ContentPicker = ({ defaultValue, disabled, ...props }) => {
     <Controller
       {...props}
       defaultValue={defaultValue}
-      render={(props) => <RootContentPicker disabled={disabled} {...props} />}
+      // eslint-disable-next-line no-unused-vars
+      render={({ ref, ...props }) => (
+        <RootContentPicker disabled={disabled} {...props} />
+      )}
     />
   );
 };
@@ -24,7 +27,7 @@ ContentPicker.propTypes = {
 
 export { ContentPicker };
 
-function RootContentPicker({ disabled, value: contents = [], onChange }) {
+const RootContentPicker = ({ disabled, value: contents = [], onChange }) => {
   const onDeleteContent = (cdtnId) => {
     onChange(contents.filter((content) => content.cdtnId !== cdtnId));
   };
@@ -45,7 +48,7 @@ function RootContentPicker({ disabled, value: contents = [], onChange }) {
       {!disabled && <ContentSearch onChange={onChange} contents={contents} />}
     </>
   );
-}
+};
 
 RootContentPicker.propTypes = {
   disabled: PropTypes.bool,
