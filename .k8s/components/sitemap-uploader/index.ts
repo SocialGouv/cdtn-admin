@@ -7,7 +7,7 @@ const AZ_DOCKER_TAG = "2.9.1";
 const uploadSitemapScript = `
 echo "Fetch sitemap from $SITEMAP_ENDPOINT"
 
-curl -L $SITEMAP_ENDPOINT -o sitemap.xml
+curl --fail -L $SITEMAP_ENDPOINT -o sitemap.xml
 
 if [[ -f sitemap.xml ]]; then
   # replace the default urls hostname if $BASE_URL is given
