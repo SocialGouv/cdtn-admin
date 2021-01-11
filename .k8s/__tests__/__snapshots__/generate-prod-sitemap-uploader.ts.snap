@@ -2,13 +2,13 @@
 
 exports[`kosko generate --prod sitemap-uploader 1`] = `
 "metadata:
-  name: sitemap-uploader
+  name: sitemap-uploader-424242
   namespace: cdtn-admin-secret
 spec:
   backoffLimit: 3
   template:
     metadata:
-      name: sitemap-uploader
+      name: sitemap-uploader-424242
       namespace: cdtn-admin-secret
     spec:
       restartPolicy: OnFailure

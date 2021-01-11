@@ -25,7 +25,7 @@ ok(process.env.SECRET_NAME); // azure-cdtnadmindev-volume | azure-cdtnadminprod-
 const createSitemapJob = () => {
   const job = new Job({
     metadata: {
-      name: "sitemap-uploader",
+      name: `sitemap-uploader-${process.env.CI_JOB_ID}`,
       namespace: "cdtn-admin-secret",
     },
 
@@ -33,7 +33,7 @@ const createSitemapJob = () => {
       backoffLimit: 3,
       template: {
         metadata: {
-          name: "sitemap-uploader",
+          name: `sitemap-uploader-${process.env.CI_JOB_ID}`,
           namespace: "cdtn-admin-secret",
         },
         spec: {
