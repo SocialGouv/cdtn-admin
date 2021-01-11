@@ -5,15 +5,20 @@ import { Job } from "kubernetes-models/batch/v1/Job";
 const AZ_DOCKER_TAG = "2.9.1";
 
 const uploadSitemapScript = `
-
 echo "Fetch sitemap from $SITEMAP_ENDPOINT"
-wget $SITEMAP_ENDPOINT -O sitemap.xml
 
-# replace the default urls hostname if \$BASE_URL is given
-[[ -z $BASE_URL ]] && sed -i -e 's/<loc>https:\/\/[^/]\+\//<loc>'$BASE_URL'\//' sitemap.xml
+curl -L $SITEMAP_ENDPOINT -o sitemap.xml
 
-echo "Upload sitemap to azure/$DESTINATION_CONTAINER/$DESTINATION_NAME"
-az storage blob upload --account-name $AZ_ACCOUNT_NAME --account-key $AZ_ACCOUNT_KEY --container-name $DESTINATION_CONTAINER --file sitemap.xml --name $DESTINATION_NAME
+if [[ -f sitemap.xml ]]; then
+  # replace the default urls hostname if $BASE_URL is given
+  [[ -n $BASE_URL ]] && sed -i -E 's#<loc>https?://[^/]*/#<loc>'$BASE_URL'/#' sitemap.xml
+  # upload
+  echo "Upload sitemap to azure/$DESTINATION_CONTAINER/$DESTINATION_NAME"
+  az storage blob upload --account-name $AZ_ACCOUNT_NAME --account-key $AZ_ACCOUNT_KEY --container-name $DESTINATION_CONTAINER --file sitemap.xml --name $DESTINATION_NAME
+else
+  echo "Cannot fetch sitemap.xml, abort"
+  exit 1
+fi
 
 `;
 
@@ -58,6 +63,7 @@ const createSitemapJob = () => {
                   value: process.env.SITEMAP_ENDPOINT,
                 },
                 {
+                  // should not contain ending slash
                   name: "BASE_URL",
                   value: process.env.BASE_URL,
                 },
