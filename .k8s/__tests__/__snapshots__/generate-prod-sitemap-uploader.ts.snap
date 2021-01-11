@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`kosko generate --prod restore 1`] = `
+exports[`kosko generate --prod sitemap-uploader 1`] = `
 "metadata:
   name: sitemap-uploader
   namespace: cdtn-admin-secret
@@ -36,18 +36,18 @@ spec:
 
           env:
             - name: DESTINATION_CONTAINER
-              value: sitemap
+              value: destination-container
             - name: DESTINATION_NAME
-              value: test.xml
+              value: sitemap.xml
+            - name: SITEMAP_ENDPOINT
+              value: 'https://path/to/sitemap'
             - name: AZ_ACCOUNT_NAME
               value: $(azurestorageaccountname)
             - name: AZ_ACCOUNT_KEY
               value: $(azurestorageaccountkey)
-            - name: SITEMAP_ENDPOINT
-              value: 'https://code.travail.gouv.fr'
           envFrom:
             - secretRef:
-                name: azure-cdtnadmindev-volume
+                name: azure-volume-dev-secret
 apiVersion: batch/v1
 kind: Job
 "

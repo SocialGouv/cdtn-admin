@@ -1,3 +1,4 @@
+import { ok } from "assert";
 import { Job } from "kubernetes-models/batch/v1/Job";
 
 // renovate: datasource=docker depName=mcr.microsoft.com/azure-cli versioning=2.9.1
@@ -13,61 +14,70 @@ az storage blob upload --account-name $AZ_ACCOUNT_NAME --account-key $AZ_ACCOUNT
 
 `;
 
-const job = new Job({
-  metadata: {
-    name: "sitemap-uploader",
-    namespace: "cdtn-admin-secret",
-  },
+ok(process.env.SITEMAP_ENDPOINT); // https://url/sitemap
+ok(process.env.DESTINATION_CONTAINER); // sitemap
+ok(process.env.DESTINATION_NAME); // sitemap.xml
+ok(process.env.SECRET_NAME); // azure-cdtnadmindev-volume | azure-cdtnadminprod-volume
 
-  spec: {
-    backoffLimit: 3,
-    template: {
-      metadata: {
-        name: "sitemap-uploader",
-        namespace: "cdtn-admin-secret",
-      },
-      spec: {
-        restartPolicy: "OnFailure",
-        containers: [
-          {
-            name: "az-sitemap-uploader",
-            image: `mcr.microsoft.com/azure-cli:${AZ_DOCKER_TAG}`,
-            command: ["bash"],
-            args: ["-c", uploadSitemapScript],
-            env: [
-              {
-                name: "DESTINATION_CONTAINER",
-                value: "sitemap",
-              },
-              {
-                name: "DESTINATION_NAME",
-                value: "test.xml",
-              },
-              {
-                name: "AZ_ACCOUNT_NAME",
-                value: "$(azurestorageaccountname)",
-              },
-              {
-                name: "AZ_ACCOUNT_KEY",
-                value: "$(azurestorageaccountkey)",
-              },
-              {
-                name: "SITEMAP_ENDPOINT",
-                value: "https://code.travail.gouv.fr",
-              },
-            ],
-            envFrom: [
-              {
-                secretRef: {
-                  name: "azure-cdtnadmindev-volume",
+const createSitemapJob = () => {
+  const job = new Job({
+    metadata: {
+      name: "sitemap-uploader",
+      namespace: "cdtn-admin-secret",
+    },
+
+    spec: {
+      backoffLimit: 3,
+      template: {
+        metadata: {
+          name: "sitemap-uploader",
+          namespace: "cdtn-admin-secret",
+        },
+        spec: {
+          restartPolicy: "OnFailure",
+          containers: [
+            {
+              name: "az-sitemap-uploader",
+              image: `mcr.microsoft.com/azure-cli:${AZ_DOCKER_TAG}`,
+              command: ["bash"],
+              args: ["-c", uploadSitemapScript],
+              env: [
+                {
+                  name: "DESTINATION_CONTAINER",
+                  value: process.env.DESTINATION_CONTAINER,
                 },
-              },
-            ],
-          },
-        ],
+                {
+                  name: "DESTINATION_NAME",
+                  value: process.env.DESTINATION_NAME,
+                },
+                {
+                  name: "SITEMAP_ENDPOINT",
+                  value: process.env.SITEMAP_ENDPOINT,
+                },
+                {
+                  name: "AZ_ACCOUNT_NAME",
+                  value: "$(azurestorageaccountname)",
+                },
+                {
+                  name: "AZ_ACCOUNT_KEY",
+                  value: "$(azurestorageaccountkey)",
+                },
+              ],
+              envFrom: [
+                {
+                  secretRef: {
+                    name: process.env.SECRET_NAME,
+                  },
+                },
+              ],
+            },
+          ],
+        },
       },
     },
-  },
-});
+  });
+  return job;
+};
 
+const job = createSitemapJob();
 export default job;
