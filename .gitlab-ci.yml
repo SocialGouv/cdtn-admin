@@ -150,5 +150,5 @@ Generate sitemap (prod):
     SITEMAP_ENDPOINT: "https://cdtn-admin.fabrique.social.gouv.fr/api/sitemap"
     DESTINATION_CONTAINER: sitemap
     DESTINATION_NAME: sitemap.xml
-    SECRET_NAME: azure-volume-prod-secret
+    SECRET_NAME: azure-cdtnadminprod-volume
     KOSKO_GENERATE_ARGS: --env prod sitemap-uploader
