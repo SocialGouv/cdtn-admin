@@ -9,6 +9,9 @@ const uploadSitemapScript = `
 echo "Fetch sitemap from $SITEMAP_ENDPOINT"
 wget $SITEMAP_ENDPOINT -O sitemap.xml
 
+# replace the default urls hostname if \$BASE_URL is given
+[[ -z $BASE_URL ]] && sed -i -e 's/<loc>https:\/\/[^/]\+\//<loc>'$BASE_URL'\//' sitemap.xml
+
 echo "Upload sitemap to azure/$DESTINATION_CONTAINER/$DESTINATION_NAME"
 az storage blob upload --account-name $AZ_ACCOUNT_NAME --account-key $AZ_ACCOUNT_KEY --container-name $DESTINATION_CONTAINER --file sitemap.xml --name $DESTINATION_NAME
 
@@ -53,6 +56,10 @@ const createSitemapJob = () => {
                 {
                   name: "SITEMAP_ENDPOINT",
                   value: process.env.SITEMAP_ENDPOINT,
+                },
+                {
+                  name: "BASE_URL",
+                  value: process.env.BASE_URL,
                 },
                 {
                   name: "AZ_ACCOUNT_NAME",

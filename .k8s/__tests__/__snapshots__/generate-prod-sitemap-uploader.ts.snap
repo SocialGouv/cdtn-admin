@@ -27,6 +27,12 @@ spec:
               wget $SITEMAP_ENDPOINT -O sitemap.xml
 
 
+              # replace the default urls hostname if $BASE_URL is given
+
+              [[ -z $BASE_URL ]] && sed -i -e
+              's/<loc>https://[^/]+//<loc>'$BASE_URL'//' sitemap.xml
+
+
               echo \\"Upload sitemap to
               azure/$DESTINATION_CONTAINER/$DESTINATION_NAME\\"
 
@@ -41,6 +47,8 @@ spec:
               value: sitemap.xml
             - name: SITEMAP_ENDPOINT
               value: 'https://path/to/sitemap'
+            - name: BASE_URL
+              value: 'https://host.tmp'
             - name: AZ_ACCOUNT_NAME
               value: $(azurestorageaccountname)
             - name: AZ_ACCOUNT_KEY

@@ -12,6 +12,7 @@ test("kosko generate --prod sitemap-uploader", async () => {
       DESTINATION_CONTAINER: "destination-container",
       DESTINATION_NAME: "sitemap.xml",
       SECRET_NAME: "azure-volume-dev-secret",
+      BASE_URL: "https://host.tmp",
     })
   ).toMatchSnapshot();
 });
