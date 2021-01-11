@@ -3,7 +3,7 @@ import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import pLimit from "p-limit";
 
 export default async function Sitemap(req, res) {
-  const baseUrl = "host.domain";
+  const baseUrl = "https://code.travail.gouv.fr";
   const documents = await getDocuments();
 
   let latestPost = 0;
