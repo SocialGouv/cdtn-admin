@@ -136,6 +136,7 @@ Restore container:
 
 Generate sitemap (prod):
   stage: Deploy
+  allow_failure: true
   extends:
     - .base_deploy_kosko_stage
   rules:
