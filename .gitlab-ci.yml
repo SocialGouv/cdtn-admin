@@ -148,7 +148,7 @@ Generate sitemap (prod):
   environment:
     name: prod2
   variables:
-    SITEMAP_ENDPOINT: "https://cdtn-admin.fabrique.social.gouv.fr/api/sitemap"
+    SITEMAP_ENDPOINT: "https://www/api/sitemap"
     DESTINATION_CONTAINER: sitemap
     DESTINATION_NAME: sitemap.xml
     SECRET_NAME: azure-cdtnadminprod-volume
