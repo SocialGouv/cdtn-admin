@@ -60,6 +60,18 @@ export function getChanges(previousJson, currentJson) {
   const previousIds = previousJson.map(toId);
   const currentIds = currentJson.map(toId);
 
+  if (
+    previousIds.filter(Boolean).length !== previousIds.length ||
+    currentIds.filter(Boolean).length !== currentIds.length
+  ) {
+    // Some ids are missing so data is corrupted
+    // In that case we return no changes
+    return {
+      added: [],
+      modified: [],
+      removed: [],
+    };
+  }
   const added = currentJson.filter((doc) => !previousIds.includes(doc.pubId));
   const addedIds = added.map(toId);
   const removed = previousJson.filter((doc) => !currentIds.includes(doc.pubId));
