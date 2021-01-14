@@ -21,17 +21,20 @@ export async function exportContributionAlerts(changes) {
     return targetedContribs.flatMap(({ references, document: contrib }) => {
       return references.map((reference) => ({
         answer_id: contrib.id,
-        cid: reference.dila_cid,
-        id: reference.dila_id,
+        dila_cid: reference.dila_cid,
+        dila_container_id: reference.dila_container_id,
+        dila_id: reference.dila_id,
         value: computeDiff(reference, alert),
         version: alert.ref,
       }));
     });
   });
+  console.log(`Sending ${contributions} contrib alert(s) to contribution api`);
   await fetch(contribApiUrl, {
     body: JSON.stringify(contributions),
     headers: {
       "Content-Type": "application/json",
+      Prefer: "merge-duplicates",
     },
     method: "POST",
   });
@@ -42,18 +45,7 @@ export async function exportContributionAlerts(changes) {
  * @param {import("@shared/types").ParseDilaReference} reference
  * @param {alerts.DilaAlertChanges} nodes
  */
-function computeDiff(reference, { added, removed, modified }) {
-  const addedNode = added.find((node) => node.data.cid === reference.dila_cid);
-  if (addedNode) {
-    return { type: "added" };
-  }
-  const removedNode = removed.find(
-    (node) => node.data.cid === reference.dila_cid
-  );
-  if (removedNode) {
-    return { type: "removed" };
-  }
-
+function computeDiff(reference, { modified }) {
   const modifiedNode = modified.find(
     (node) => node.data.cid === reference.dila_cid
   );
@@ -86,6 +78,5 @@ function computeDiff(reference, { added, removed, modified }) {
       previous: modifiedNode.previous.data.etat,
     },
     texts,
-    type: "modified",
   };
 }
