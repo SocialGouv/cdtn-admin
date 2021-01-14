@@ -1,5 +1,5 @@
 import type { SourceValues } from "@socialgouv/cdtn-sources"
-import type { Answer, Question, DilaRef } from "@socialgouv/contributions-data-types"
+import type { Answer, Question, DilaRef, GenericAnswer } from "@socialgouv/contributions-data-types"
 
 export as namespace ingester
 
@@ -10,13 +10,24 @@ type Document = {
   source: SourceValues
   text: string
   slug: string
+  is_searchable: Boolean
 }
 
 type ExternalDocument = Document & {
   url: string
 }
 
-type Contribution = Document & Question
+type ExtendedQuestion = Omit<Question, "answers"> & {
+  answers: {
+    generic: GenericAnswer,
+    conventionAnswer?: Answer & {
+      shortName: string
+    }
+    conventions?: Answer[]
+  }
+}
+
+type Contribution = Document & ExtendedQuestion
 
 type LegiArticle = ExternalDocument & {
   dateDebut: number
@@ -26,7 +37,6 @@ type LegiArticle = ExternalDocument & {
 type FicheServicePublic = ExternalDocument & {
   date: string //"O1/01/2021"
   raw: string
-  excludeFromSearch: Boolean
   referencedTexts: ReferencedTexts[]
   legalReferences: LegalReference[]
 }

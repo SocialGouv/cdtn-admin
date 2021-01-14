@@ -62,7 +62,7 @@ export default async function getFichesServicePublic(pkgName) {
     const ficheSp = format(fiche, resolveCdtReference, agreements);
     fiches.push({
       ...ficheSp,
-      excludeFromSearch: fichesIdFromContrib.includes(ficheSp.id),
+      is_searchable: !fichesIdFromContrib.includes(ficheSp.id),
       slug: slugify(ficheSp.title),
     });
   }

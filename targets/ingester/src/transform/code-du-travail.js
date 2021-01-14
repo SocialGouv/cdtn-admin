@@ -28,6 +28,7 @@ export default async function getCdtDocuments(pkgName) {
       description: texte.slice(0, texte.indexOf("…", 150)),
       html: texteHtml,
       id: cid,
+      is_searchable: true,
       slug: slugify(fixArticleNum(cid, num)),
       source: SOURCES.CDT,
       text: `${texte}\n${nota}`,
