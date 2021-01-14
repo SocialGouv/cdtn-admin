@@ -60,12 +60,17 @@ export function getChanges(previousJson, currentJson) {
   const previousIds = previousJson.map(toId);
   const currentIds = currentJson.map(toId);
 
-  const added = currentJson.filter((doc) => !previousIds.includes(doc.pubId));
+  const added = currentJson.filter(
+    (doc) => Boolean(doc.pubId) && !previousIds.includes(doc.pubId)
+  );
   const addedIds = added.map(toId);
-  const removed = previousJson.filter((doc) => !currentIds.includes(doc.pubId));
+  const removed = previousJson.filter(
+    (doc) => Boolean(doc.pubId) && !currentIds.includes(doc.pubId)
+  );
   const modified = currentJson.flatMap((doc) => {
     const previousDoc = previousJson.find(
-      (previousDoc) => doc.pubId === previousDoc.pubId
+      (previousDoc) => Boolean(doc.pubId) && doc.pubId === previousDoc.pubId
+      // Boolean(doc.pubId) ensure that we have a valid pubId since there was pubId===null
     );
     if (
       !addedIds.includes(doc.pubId) &&
