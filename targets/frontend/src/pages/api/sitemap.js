@@ -24,10 +24,10 @@ export default async function Sitemap(req, res) {
     `/mentions-legales`,
     `/politique-confidentialite`,
     `/integration`,
+    `/modeles-de-courriers`,
+    `/outils`,
     `/glossaire`,
-  ]
-    .map((path) => `${baseUrl}${path}`)
-    .map(toUrlEntry);
+  ].map((path) => toUrlEntry(`${baseUrl}${path}`));
 
   const glossaryTerms = await getGlossary();
   const glossaryPages = glossaryTerms.map(({ slug, modified }) =>
@@ -98,7 +98,7 @@ query countDocuments($sources: [String!]!) {
 async function getDocuments() {
   const gqlListDocument = `query listDocuments($sources: [String!]!,  $offset: Int = 0, $limit: Int = 50) {
   documents(
-    order_by: {cdtn_id: asc},
+    order_by: [{source: asc}, {slug: asc}],
     limit: $limit
     offset: $offset
     where: {source: {_in: $sources},  is_available: {_eq: true}, is_published: {_eq: true} }) {
@@ -111,6 +111,7 @@ async function getDocuments() {
 
   const sources = [
     SOURCES.CDT,
+    SOURCES.CCN,
     SOURCES.CONTRIBUTIONS,
     SOURCES.EDITORIAL_CONTENT,
     SOURCES.LETTERS,
