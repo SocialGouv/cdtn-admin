@@ -150,7 +150,9 @@ async function getDocuments() {
 }
 
 async function getGlossary() {
-  const gqlListGlossryTerm = `glossary(order_by: {slug: asc}) {slug, modified: updated_at}`;
+  const gqlListGlossryTerm = `query getGlossary {
+  glossary(order_by: {slug: asc}) {slug, modified: updated_at}
+}`;
   const terms = client.query(gqlListGlossryTerm).toPromise();
   if (terms.error) {
     throw terms.error;
