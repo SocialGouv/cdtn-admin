@@ -4,7 +4,7 @@ import getTravailEmploiReferences from "./extractDilaReferences/ficheTravailEmpl
 /**
  * @param {alerts.AstChanges} changes
  */
-export async function getRelevantDocuments({ added, modified, removed }) {
+export async function getRelevantDocuments({ modified, removed }) {
   const contribReferences = await getContribReferences();
   const travailEmploiReferences = await getTravailEmploiReferences();
 
@@ -19,10 +19,7 @@ export async function getRelevantDocuments({ added, modified, removed }) {
         removed.find(
           (node) =>
             node.data.id === ref.dila_id || node.data.cid === ref.dila_cid
-        ) ||
-        // added articles can be an old article which version has bumped
-        // so id is new but cid hasn't change
-        added.find((node) => node.data.cid === ref.dila_cid)
+        )
     );
 
     if (references.length) {

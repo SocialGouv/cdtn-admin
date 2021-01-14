@@ -5,7 +5,7 @@ export const contribApiUrl =
 
 /**
  *
- * @param {alerts.AlertChanges[]} changes
+ * @param {Pick<alerts.AlertChanges, "type" | "modified" | "added" | "removed">[]} changes
  */
 export async function exportContributionAlerts(changes) {
   const dilaAlertChanges = /** @type {alerts.DilaAlertChanges[]} */ (changes.filter(
@@ -13,20 +13,28 @@ export async function exportContributionAlerts(changes) {
   ));
   const contributions = dilaAlertChanges.flatMap((alert) => {
     const targetedContribs = alert.documents.filter(
-      (targetDoc) => targetDoc.document.source == "contributions"
+      ({ document }) => document.source == "contributions"
     );
     if (targetedContribs.length === 0) {
       return [];
     }
     return targetedContribs.flatMap(({ references, document: contrib }) => {
-      return references.map((reference) => ({
-        answer_id: contrib.id,
-        dila_cid: reference.dila_cid,
-        dila_container_id: reference.dila_container_id,
-        dila_id: reference.dila_id,
-        value: computeDiff(reference, alert),
-        version: alert.ref,
-      }));
+      return references.flatMap((reference) => {
+        const modifiedNode = alert.modified.find(
+          ({ data: { cid } }) => reference.dila_cid === cid
+        );
+        if (!modifiedNode) {
+          return [];
+        }
+        return {
+          answer_id: contrib.id,
+          dila_cid: reference.dila_cid,
+          dila_container_id: reference.dila_container_id,
+          dila_id: reference.dila_id,
+          value: computeDiff(reference, modifiedNode),
+          version: alert.ref,
+        };
+      });
     });
   });
   console.log(`Sending ${contributions} contrib alert(s) to contribution api`);
@@ -43,14 +51,12 @@ export async function exportContributionAlerts(changes) {
 /**
  *
  * @param {import("@shared/types").ParseDilaReference} reference
- * @param {alerts.DilaAlertChanges} nodes
+ * @param {alerts.DilaNodeForDiff} modifiedNode
  */
-function computeDiff(reference, { modified }) {
-  const modifiedNode = modified.find(
-    (node) => node.data.cid === reference.dila_cid
-  );
-
-  const textFieldname = /^KALITEXT\d+$/.test(modifiedNode.context.containerId)
+function computeDiff(reference, modifiedNode) {
+  const textFieldname = /^KALITEXT\d+$/.test(
+    modifiedNode.context.containerId || ""
+  )
     ? "content"
     : "texte";
   const content = modifiedNode.data[textFieldname] || "";
