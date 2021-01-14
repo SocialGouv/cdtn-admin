@@ -134,7 +134,7 @@ async function getDocuments() {
         client
           .query(gqlListDocument, {
             limit: PAGE_SIZE,
-            offset: page,
+            offset: page * PAGE_SIZE,
             sources,
           })
           .toPromise()
