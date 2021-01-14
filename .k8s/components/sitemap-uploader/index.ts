@@ -26,13 +26,12 @@ ok(process.env.SITEMAP_ENDPOINT); // https://url/sitemap
 ok(process.env.DESTINATION_CONTAINER); // sitemap
 ok(process.env.DESTINATION_NAME); // sitemap.xml
 ok(process.env.SECRET_NAME); // azure-cdtnadmindev-volume | azure-cdtnadminprod-volume
-ok(process.env.KUBE_NAMESPACE); // cdtn-admin
 
 const createSitemapJob = () => {
   const job = new Job({
     metadata: {
       name: `sitemap-uploader-${process.env.CI_JOB_ID}`,
-      namespace: process.env.KUBE_NAMESPACE,
+      namespace: "cdtn-admin-secret",
     },
 
     spec: {
@@ -40,7 +39,7 @@ const createSitemapJob = () => {
       template: {
         metadata: {
           name: `sitemap-uploader-${process.env.CI_JOB_ID}`,
-          namespace: process.env.KUBE_NAMESPACE,
+          namespace: "cdtn-admin-secret",
         },
         spec: {
           restartPolicy: "OnFailure",
