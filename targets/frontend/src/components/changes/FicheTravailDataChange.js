@@ -8,29 +8,32 @@ import { ViewDiff } from "./ViewDiff";
 
 export function FicheTravailDiffchange({ change }) {
   const [isVisible, setVisible] = useState(false);
+  const hasChange = (change.previousIntro && change.intro) || change.sections;
   return (
     <li>
       <a target="_blank" rel="noreferrer noopener" href={change.url}>
         {change.title}
       </a>
       <br />
-      <TButton
-        aria-controls={change.pubId}
-        aria-expanded={isVisible}
-        size="small"
-        variant="link"
-        sx={{
-          "&:hover": {
-            color: "link",
-          },
-          cursor: "pointer",
-          px: 0,
-        }}
-        onClick={() => setVisible(!isVisible)}
-      >
-        Voir les modifications{" "}
-        {isVisible ? <IoIosArrowDown /> : <IoIosArrowForward />}
-      </TButton>
+      {hasChange && (
+        <TButton
+          aria-controls={change.pubId}
+          aria-expanded={isVisible}
+          size="small"
+          variant="link"
+          sx={{
+            "&:hover": {
+              color: "link",
+            },
+            cursor: "pointer",
+            px: 0,
+          }}
+          onClick={() => setVisible(!isVisible)}
+        >
+          Voir les modifications{" "}
+          {isVisible ? <IoIosArrowDown /> : <IoIosArrowForward />}
+        </TButton>
+      )}
       {isVisible && (
         <Card id={change.pubId}>
           {change.previousIntro && (
