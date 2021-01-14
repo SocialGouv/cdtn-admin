@@ -1,8 +1,10 @@
+import fs from "fs";
+import path from "path";
 import env from "@kosko/env";
 import { ok } from "assert";
 
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
-import { restoreDbJob } from "@socialgouv/kosko-charts/components/azure-pg/restore-db.job";
+import { restoreDbJob } from "../../restore-db.job";
 
 ok(process.env.BACKUP_DB_NAME);
 ok(process.env.BACKUP_DB_OWNER);
@@ -24,6 +26,9 @@ const manifests = restoreDbJob({
       value: process.env.BACKUP_DB_FILE,
     }),
   ],
+  postRestoreScript: fs
+    .readFileSync(path.join(__dirname, "./post-restore.sql"))
+    .toString(),
 });
 
 export default manifests;

@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`kosko generate --prod restore 1`] = `
-"metadata:
+"---
+metadata:
   name: restore-container-8843083e
   namespace: cdtn-admin-secret
 spec:
@@ -101,6 +102,129 @@ spec:
               cpu: 50m
               memory: 64Mi
       restartPolicy: Never
+apiVersion: batch/v1
+kind: Job
+---
+data:
+  post-restore.sql: |
+    TRUNCATE TABLE \\"auth\\".\\"users\\" CASCADE;
+
+    WITH admin_row AS (
+    INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
+        VALUES ('codedutravailnumerique@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8', 'Administrateur', 'admin', TRUE)
+      RETURNING
+        id, default_role)
+      INSERT INTO auth.user_roles (ROLE, user_id)
+      SELECT
+        default_role,
+        id
+      FROM
+        admin_row;
+
+    WITH admin_row AS (
+    INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
+        VALUES ('utilisateur@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$PqKPf9cxunVLLtEcINHhWQ$CwHKhk71fc8LGp6BWbcFPzQ2ftOiHa7vUkp1eAqVHSM', 'Utilisateur', 'user', TRUE)
+      RETURNING
+        id, default_role)
+      INSERT INTO auth.user_roles (ROLE, user_id)
+      SELECT
+        default_role,
+        id
+      FROM
+        admin_row;
+metadata:
+  name: post-restore-script-configmap-8843083e
+  namespace: cdtn-admin-secret
+apiVersion: v1
+kind: ConfigMap
+---
+metadata:
+  name: restore-db-8843083e
+  namespace: cdtn-admin-secret
+spec:
+  backoffLimit: 0
+  template:
+    metadata: {}
+    spec:
+      containers:
+        - command:
+            - sh
+            - '-c'
+            - >
+
+
+              echo \\"starting restore into $PGHOST/$PGDATABASE\\"
+
+
+              [ ! -z $PGDATABASE ] || (echo \\"No PGDATABASE\\"; exit 1)
+
+              [ ! -z $PGHOST ] || (echo \\"No PGHOST\\"; exit 1)
+
+              [ ! -z $PGUSER ] || (echo \\"No PGUSER\\"; exit 1)
+
+              [ ! -z $PGPASSWORD ] || (echo \\"No PGPASSWORD\\"; exit 1)
+
+              [ ! -z $OWNER ] || (echo \\"No OWNER\\"; exit 1)
+
+
+              # get latest backup folder
+
+              LATEST=$(ls -1Fr /mnt/data | head -n 1);
+
+              DUMP=\\"/mnt/data/\${LATEST}\${FILE}\\"
+
+              echo \\"Restore \${DUMP} into \${PGDATABASE}\\";
+
+
+              pg_isready;
+
+
+              pg_restore   --dbname \${PGDATABASE}   --clean --if-exists  
+              --no-owner   --role \${OWNER}   --no-acl   --verbose   \${DUMP};
+
+
+              psql -v ON_ERROR_STOP=1 \${PGDATABASE} -c \\"ALTER SCHEMA public
+              owner to \${OWNER};\\"
+
+
+              [ -f \\"/mnt/scripts/post-restore.sql\\" ] && psql -v ON_ERROR_STOP=1
+              -a < /mnt/scripts/post-restore.sql
+          env:
+            - name: PGDATABASE
+              value: some-database
+            - name: OWNER
+              value: some-owner
+            - name: FILE
+              value: some-backup.sql.gz
+          envFrom:
+            - secretRef:
+                name: azure-pg-admin-user-dev
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/azure-db:2.6.1
+          imagePullPolicy: IfNotPresent
+          name: restore-db
+          resources:
+            limits:
+              cpu: 300m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: /mnt/data
+              name: backups
+            - mountPath: /mnt/scripts
+              name: scripts
+      restartPolicy: OnFailure
+      volumes:
+        - azureFile:
+            readOnly: true
+            secretName: azure-cdtnadminprod-volume
+            shareName: cdtn-admin-backup-restore
+          name: backups
+        - configMap:
+            name: post-restore-script-configmap-8843083e
+          name: scripts
 apiVersion: batch/v1
 kind: Job
 "
