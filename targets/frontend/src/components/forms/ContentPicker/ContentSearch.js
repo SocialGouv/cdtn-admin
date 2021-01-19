@@ -25,7 +25,7 @@ const AUTOSUGGEST_MAX_RESULTS = 15;
 
 const searchDocumentsQuery = `
 query searchDocuments($sources: [String!]! = "", $search: String = "") {
-  documents(where: {title: {_ilike: $search}, source: {_in: $sources}}, limit: ${AUTOSUGGEST_MAX_RESULTS}) {
+  documents(where: {title: {_ilike: $search}, source: {_in: $sources}, _not: {document: {_has_key: "split"}}}, limit: ${AUTOSUGGEST_MAX_RESULTS}) {
     source
     title
     cdtnId: cdtn_id

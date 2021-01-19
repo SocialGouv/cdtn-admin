@@ -93,6 +93,7 @@ const documentSources = [
   [SOURCES.LETTERS, getLabelBySource(SOURCES.LETTERS)],
   [SOURCES.EXTERNALS, getLabelBySource(SOURCES.EXTERNALS)],
   [SOURCES.TOOLS, getLabelBySource(SOURCES.TOOLS)],
+  [SOURCES.HIGHLIGHTS, getLabelBySource(SOURCES.HIGHLIGHTS)],
 ];
 
 const DEFAULT_ITEMS_PER_PAGE = 25;
@@ -328,13 +329,7 @@ const DocumentRow = memo(function _DocumentRow({
         />
       </td>
       <td>
-        <Link
-          href={`/contenus/${
-            source === SOURCES.EDITORIAL_CONTENT ? "edit/" : ""
-          }${cdtnId}`}
-          passHref
-          shallow
-        >
+        <Link href={sourceToRoute({ cdtnId, source })} passHref shallow>
           <NavLink>
             <span
               sx={{
@@ -359,3 +354,13 @@ const checkboxStyles = {
   width: "1.2rem",
 };
 export default withCustomUrqlClient(withUserProvider(DocumentsPage));
+
+const sourceToRoute = ({ cdtnId, source }) => {
+  switch (source) {
+    case SOURCES.EDITORIAL_CONTENT:
+    case SOURCES.HIGHLIGHTS:
+      return `/contenus/edit/${cdtnId}`;
+    default:
+      return `/contenus/${cdtnId}`;
+  }
+};
