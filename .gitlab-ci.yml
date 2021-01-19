@@ -153,3 +153,23 @@ Generate sitemap (prod):
     DESTINATION_NAME: sitemap.xml
     SECRET_NAME: azure-cdtnadminprod-volume
     KOSKO_GENERATE_ARGS: --env prod sitemap-uploader
+
+Generate sitemap (dev):
+  stage: Deploy
+  allow_failure: true
+  extends:
+    - .base_deploy_kosko_stage
+  rules:
+    - when: manual
+    - if: '($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "web") && $ACTION == "SITEMAP"'
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "push"
+      when: never
+  environment:
+    name: dev2
+  variables:
+    SITEMAP_ENDPOINT: "https://cdtn-admin.fabrique.social.gouv.fr/api/sitemap"
+    DESTINATION_CONTAINER: sitemap
+    DESTINATION_NAME: sitemap.xml
+    SECRET_NAME: azure-cdtnadmindev-volume
+    KOSKO_GENERATE_ARGS: --env dev sitemap-uploader
