@@ -4,7 +4,7 @@
 
 ## Créer un fichier sitemap-branch.xml
 
-lancer la tache Generate Sitemap (dev) en spécifiant les parametres
+Lancer la tâche `Generate Sitemap (dev)` en spécifiant les paramètres
 
 ```sh
 SITEMAP_ENDPOINT: "https://cdtn-admin.fabrique.social.gouv.fr/api/sitemap"
