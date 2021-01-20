@@ -1,4 +1,3 @@
-import React from "react";
 import { Badge, Message } from "theme-ui";
 import { useQuery } from "urql";
 

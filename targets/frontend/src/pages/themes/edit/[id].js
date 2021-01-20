@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import slugify from "@socialgouv/cdtn-slugify";
+import slugify from "@socialgouv/cdtn-slugify";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { IoMdTrash } from "react-icons/io";

@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import micromark from "micromark";
 import PropTypes from "prop-types";
 import { useState } from "react";

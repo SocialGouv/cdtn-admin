@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import {

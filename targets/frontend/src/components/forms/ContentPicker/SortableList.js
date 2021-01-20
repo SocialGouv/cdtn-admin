@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import { getLabelBySource } from "@socialgouv/cdtn-sources";
 import { IoIosReorder, IoMdTrash } from "react-icons/io";
 import {

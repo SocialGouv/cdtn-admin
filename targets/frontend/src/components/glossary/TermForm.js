@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import slugify from "@socialgouv/cdtn-slugify";
+import slugify from "@socialgouv/cdtn-slugify";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";

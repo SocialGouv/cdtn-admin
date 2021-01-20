@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import { useRef } from "react";
 import { Controller } from "react-hook-form";

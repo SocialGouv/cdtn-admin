@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import dynamic from "next/dynamic";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";

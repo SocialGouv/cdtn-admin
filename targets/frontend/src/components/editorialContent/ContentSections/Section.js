@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useWatch } from "react-hook-form";

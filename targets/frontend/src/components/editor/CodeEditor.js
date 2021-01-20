@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 /* eslint-disable-next-line simple-import-sort/sort */
 import PropTypes from "prop-types";
 

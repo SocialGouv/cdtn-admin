@@ -1,8 +1,4 @@
-/** jsxImportSource theme-ui */ import {
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IoMdSave } from "react-icons/io";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";

@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import { ErrorMessage } from "@hookform/error-message";
 import PropTypes from "prop-types";
 

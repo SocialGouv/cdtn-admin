@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import {
+import {
   AccordionButton as ReachAccordionButton,
   useAccordionItemContext,
 } from "@reach/accordion";
@@ -50,13 +50,16 @@ const smallSize = {
 };
 // function _Button({ outline = false, ...props }) {}
 
-export const Button = React.forwardRef(({ outline, ...props }, ref) =>
-  outline ? (
+export const Button = React.forwardRef(function _Button(
+  { outline, ...props },
+  ref
+) {
+  return outline ? (
     <OutlineButton ref={ref} {...props} />
   ) : (
     <SolidButton ref={ref} {...props} />
-  )
-);
+  );
+});
 Button.propTypes = {
   outline: PropTypes.bool,
   ...buttonPropTypes,

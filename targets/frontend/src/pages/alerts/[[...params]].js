@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import { Accordion } from "@reach/accordion";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";

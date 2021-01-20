@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import Link from "next/link";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { IoIosArrowDropleftCircle, IoMdAdd, IoMdCreate } from "react-icons/io";

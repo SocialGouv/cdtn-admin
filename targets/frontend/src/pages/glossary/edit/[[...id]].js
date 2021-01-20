@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { IoMdTrash } from "react-icons/io";
 import { Button } from "src/components/button";

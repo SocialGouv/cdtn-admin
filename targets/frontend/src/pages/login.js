@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import Head from "next/head";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { Header } from "src/components/layout/header";
 import LoginForm from "src/components/login";

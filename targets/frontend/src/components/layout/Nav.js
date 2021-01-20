@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";

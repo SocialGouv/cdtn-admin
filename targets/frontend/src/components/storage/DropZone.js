@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";

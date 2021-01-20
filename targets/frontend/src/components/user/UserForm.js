@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import Link from "next/link";
+import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";

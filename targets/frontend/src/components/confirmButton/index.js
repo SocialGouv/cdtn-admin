@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
@@ -34,58 +33,56 @@ const smallSize = {
   py: "xxsmall",
 };
 
-export const ConfirmButton = React.forwardRef(
-  (
-    { variant = "primary", size = "normal", children, onClick, ...props },
-    ref
-  ) => {
-    const [needConfirm, setNeedConfirm] = useState(false);
+export const ConfirmButton = React.forwardRef(function _ConfirmButton(
+  { variant = "primary", size = "normal", children, onClick, ...props },
+  ref
+) {
+  const [needConfirm, setNeedConfirm] = useState(false);
 
-    const onClickCustom = (event) => {
-      if (!needConfirm) {
-        setNeedConfirm(true);
-      } else {
-        setNeedConfirm(false);
-        onClick(event);
-      }
-    };
-    const cancel = (event) => {
-      event.stopPropagation();
+  const onClickCustom = (event) => {
+    if (!needConfirm) {
+      setNeedConfirm(true);
+    } else {
       setNeedConfirm(false);
-    };
-    return (
-      <BaseButton
-        {...props}
-        ref={ref}
-        sx={{
-          ...defaultButtonStyles,
-          ...(size === "small" ? smallSize : normalSize),
-          "&:hover:not([disabled])": {
-            bg: (theme) => theme.buttons[variant].bgHover,
-            borderColor: (theme) => theme.buttons[variant].bgHover,
-          },
-          "&[disabled]": {
-            bg: "muted",
-            borderColor: "muted",
-          },
-          bg: (theme) => theme.buttons[variant].bg,
-          borderColor: (theme) => theme.buttons[variant].bg,
-          borderRadius: "small",
-          color: (theme) => theme.buttons[variant].color,
-        }}
-        onClick={onClickCustom}
-      >
-        {needConfirm ? (
-          <>
-            Vraiment ? <MdClose onClick={cancel} />
-          </>
-        ) : (
-          children
-        )}
-      </BaseButton>
-    );
-  }
-);
+      onClick(event);
+    }
+  };
+  const cancel = (event) => {
+    event.stopPropagation();
+    setNeedConfirm(false);
+  };
+  return (
+    <BaseButton
+      {...props}
+      ref={ref}
+      sx={{
+        ...defaultButtonStyles,
+        ...(size === "small" ? smallSize : normalSize),
+        "&:hover:not([disabled])": {
+          bg: (theme) => theme.buttons[variant].bgHover,
+          borderColor: (theme) => theme.buttons[variant].bgHover,
+        },
+        "&[disabled]": {
+          bg: "muted",
+          borderColor: "muted",
+        },
+        bg: (theme) => theme.buttons[variant].bg,
+        borderColor: (theme) => theme.buttons[variant].bg,
+        borderRadius: "small",
+        color: (theme) => theme.buttons[variant].color,
+      }}
+      onClick={onClickCustom}
+    >
+      {needConfirm ? (
+        <>
+          Vraiment ? <MdClose onClick={cancel} />
+        </>
+      ) : (
+        children
+      )}
+    </BaseButton>
+  );
+});
 ConfirmButton.propTypes = {
   ...buttonPropTypes,
 };

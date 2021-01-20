@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import { GitlabButton } from "src/components/button/GitlabButton";
+import { GitlabButton } from "src/components/button/GitlabButton";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";

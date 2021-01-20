@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import {
   MdDoNotDisturbAlt,

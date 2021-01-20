@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import { useFieldArray } from "react-hook-form";
 import { IoMdAdd, IoMdTrash } from "react-icons/io";

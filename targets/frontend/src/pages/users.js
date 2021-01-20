@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import Link from "next/link";
 import { IoIosAdd } from "react-icons/io";
 import { Button } from "src/components/button";

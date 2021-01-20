@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";

@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import Link from "next/link";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { IoMdAdd, IoMdCloseCircleOutline } from "react-icons/io";
 import { Button, IconButton } from "src/components/button";

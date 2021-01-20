@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import { useLayoutEffect, useRef } from "react";
 import { Text } from "theme-ui";

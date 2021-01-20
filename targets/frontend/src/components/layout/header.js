@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import Link from "next/link";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { IoMdContact } from "react-icons/io";
 import { MenuButton, MenuItem } from "src/components/button";

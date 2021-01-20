@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosLink, IoMdChatbubbles } from "react-icons/io";

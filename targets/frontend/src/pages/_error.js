@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/node";
 import NextErrorPage from "next/error";
 import PropTypes from "prop-types";
-import React from "react";
 import Page404 from "src/pages/404";
 
 const MyError = ({ statusCode, hasGetInitialPropsRun, err }) => {

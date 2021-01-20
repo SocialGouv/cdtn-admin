@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { UserForm } from "src/components/user/UserForm";

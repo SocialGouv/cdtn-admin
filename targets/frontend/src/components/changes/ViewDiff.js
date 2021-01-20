@@ -1,5 +1,5 @@
 // adapted from https://github.com/davidmason/react-stylable-diff/blob/master/lib/react-diff.js
-/** jsxImportSource theme-ui */
+
 import PropTypes from "prop-types";
 import { useState } from "react";
 

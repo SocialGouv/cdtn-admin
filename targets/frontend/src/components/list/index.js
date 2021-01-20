@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 export function List({ className, children }) {
   return (

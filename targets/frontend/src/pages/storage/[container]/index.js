@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import { useRouter } from "next/router";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";

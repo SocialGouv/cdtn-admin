@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import Link from "next/link";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";

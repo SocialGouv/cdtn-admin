@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useFieldArray } from "react-hook-form";

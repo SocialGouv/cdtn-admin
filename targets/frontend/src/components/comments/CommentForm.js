@@ -1,4 +1,4 @@
-/** jsxImportSource theme-ui */ import VisuallyHidden from "@reach/visually-hidden";
+import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 

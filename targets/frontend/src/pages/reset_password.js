@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

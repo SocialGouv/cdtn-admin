@@ -1,4 +1,3 @@
-/** jsxImportSource theme-ui */
 import lowGet from "lodash.get";
 import PropTypes from "prop-types";
 import { useFieldArray } from "react-hook-form";
