@@ -50,7 +50,7 @@
     "react-autosuggest": "^10.0.4",
     "react-dom": "^16.14.0",
     "react-dropzone": "^11.2.4",
-    "react-hook-form": "^6.14.1",
+    "react-hook-form": "^6.14.2",
     "react-icons": "^3.11.0",
     "react-is": "^16.13.1",
     "react-sortable-hoc": "^1.11.0",
@@ -68,7 +68,7 @@
     "unified": "^9.2.0",
     "unist-util-parents": "^1.0.3",
     "unist-util-select": "^3.0.4",
-    "urql": "^1.11.5",
+    "urql": "^1.11.6",
     "uuid": "^8.3.2",
     "wonka": "^4.0.15"
   },
