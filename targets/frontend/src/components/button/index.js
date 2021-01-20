@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import {
+/** jsxImportSource theme-ui */ import {
   AccordionButton as ReachAccordionButton,
   useAccordionItemContext,
 } from "@reach/accordion";
@@ -16,7 +15,6 @@ import {
   Box,
   Button as BaseButton,
   IconButton as BaseIconButton,
-  jsx,
   NavLink,
 } from "theme-ui";
 

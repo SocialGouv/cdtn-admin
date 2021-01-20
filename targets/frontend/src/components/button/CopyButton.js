@@ -1,10 +1,8 @@
-/** @jsx jsx  */
-
+/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { IoMdCheckmark, IoMdClipboard } from "react-icons/io";
 import { Button } from "src/components/button";
-import { jsx } from "theme-ui";
 
 export const CopyButton = ({
   onClip,

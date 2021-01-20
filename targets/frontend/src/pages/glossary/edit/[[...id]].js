@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-import { useRouter } from "next/router";
+/** jsxImportSource theme-ui */ import { useRouter } from "next/router";
 import { useState } from "react";
 import { IoMdTrash } from "react-icons/io";
 import { Button } from "src/components/button";
@@ -10,7 +9,7 @@ import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { jsx, Spinner } from "theme-ui";
+import { Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const getTermQuery = `

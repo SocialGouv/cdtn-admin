@@ -1,12 +1,10 @@
-/** @jsx jsx  */
-
+/** jsxImportSource theme-ui */
 import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { PasswordForm } from "src/components/user/PasswordForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { request } from "src/lib/request";
-import { jsx } from "theme-ui";
 
 export function ChangeMyPasswordPage() {
   const router = useRouter();

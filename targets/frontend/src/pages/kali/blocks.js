@@ -1,12 +1,15 @@
-/** @jsx jsx  */
-import { useEffect, useMemo, useState } from "react";
+/** jsxImportSource theme-ui */ import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { IoMdSave } from "react-icons/io";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Card, jsx, Message, Select, Textarea } from "theme-ui";
+import { Card, Message, Select, Textarea } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const searchKaliDocumentQuery = `

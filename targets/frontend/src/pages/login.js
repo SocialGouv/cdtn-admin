@@ -1,11 +1,10 @@
-/** @jsx jsx */
-import Head from "next/head";
+/** jsxImportSource theme-ui */ import Head from "next/head";
 import { useRouter } from "next/router";
 import { Header } from "src/components/layout/header";
 import LoginForm from "src/components/login";
 import { setToken } from "src/lib/auth/token";
 import { request } from "src/lib/request";
-import { Box, jsx } from "theme-ui";
+import { Box } from "theme-ui";
 
 export default function LoginPage() {
   const router = useRouter();

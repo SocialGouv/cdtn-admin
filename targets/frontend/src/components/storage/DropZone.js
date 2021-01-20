@@ -1,9 +1,8 @@
-/** @jsx jsx */
-
+/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { jsx, Spinner } from "theme-ui";
+import { Spinner } from "theme-ui";
 
 const defaultStyles = {
   border: "2px dotted silver",

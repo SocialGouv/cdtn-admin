@@ -1,7 +1,6 @@
-/** @jsx jsx */
-
+/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
-import { Box, jsx } from "theme-ui";
+import { Box } from "theme-ui";
 
 export function Comment({ comment }) {
   return (

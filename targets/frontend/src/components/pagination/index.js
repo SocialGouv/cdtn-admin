@@ -1,9 +1,8 @@
-/** @jsx jsx */
-import Link from "next/link";
+/** jsxImportSource theme-ui */ import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { memo } from "react";
-import { Flex, jsx } from "theme-ui";
+import { Flex } from "theme-ui";
 
 import { NavButton } from "../button";
 import { Inline } from "../layout/Inline";

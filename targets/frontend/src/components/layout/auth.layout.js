@@ -1,8 +1,7 @@
-/** @jsx jsx */
-import Head from "next/head";
+/** jsxImportSource theme-ui */ import Head from "next/head";
 import PropTypes from "prop-types";
 import { IconContext } from "react-icons";
-import { Box, Flex, Heading, jsx } from "theme-ui";
+import { Box, Flex, Heading } from "theme-ui";
 
 import { Header } from "./header";
 import { Nav } from "./Nav";

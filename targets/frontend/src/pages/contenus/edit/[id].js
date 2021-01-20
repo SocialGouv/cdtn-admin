@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-import slugify from "@socialgouv/cdtn-slugify";
+/** jsxImportSource theme-ui */ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
@@ -15,7 +14,7 @@ import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
 import { RELATIONS } from "src/lib/relations";
-import { jsx, Spinner } from "theme-ui";
+import { Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const getContentQuery = `

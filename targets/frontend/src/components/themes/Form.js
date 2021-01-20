@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-
+/** jsxImportSource theme-ui */
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
@@ -7,7 +6,7 @@ import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { IconPicker } from "src/components/forms/IconPicker";
-import { Field, Flex, jsx, Label, NavLink, Textarea } from "theme-ui";
+import { Field, Flex, Label, NavLink, Textarea } from "theme-ui";
 
 const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
   const { control, register, handleSubmit, errors } = useForm();

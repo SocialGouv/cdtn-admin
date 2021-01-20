@@ -1,12 +1,11 @@
-/** @jsx jsx */
-import { SOURCES } from "@socialgouv/cdtn-sources";
+/** jsxImportSource theme-ui */ import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 import { useUser } from "src/hooks/useUser";
 import { slugifyRepository } from "src/models";
-import { Badge, Box, jsx, Message, NavLink, Text } from "theme-ui";
+import { Badge, Box, Message, NavLink, Text } from "theme-ui";
 import { useQuery } from "urql";
 
 import { Li, List } from "../list";

@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-
+/** jsxImportSource theme-ui */
 import { getLabelBySource } from "@socialgouv/cdtn-sources";
 import { IoIosReorder, IoMdTrash } from "react-icons/io";
 import {
@@ -9,7 +8,7 @@ import {
 } from "react-sortable-hoc";
 import { Button, IconButton } from "src/components/button";
 import { List } from "src/components/list";
-import { Alert, Box, Flex, jsx } from "theme-ui";
+import { Alert, Box, Flex } from "theme-ui";
 
 export const SortableList = SortableContainer(({ contents, ...props }) => {
   return (

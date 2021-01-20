@@ -1,8 +1,6 @@
-/** @jsx jsx  */
-
+/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
-import { jsx } from "theme-ui";
 
 import { ContentSearch } from "./ContentSearch";
 import { SortableList } from "./SortableList";

@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-import dynamic from "next/dynamic";
+/** jsxImportSource theme-ui */ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -11,7 +10,7 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
-import { Card, jsx, Message, NavLink } from "theme-ui";
+import { Card, Message, NavLink } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const CodeWithCodemirror = dynamic(import("src/components/editor/CodeEditor"), {

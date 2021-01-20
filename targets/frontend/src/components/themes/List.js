@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-
+/** jsxImportSource theme-ui */
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
@@ -11,7 +10,7 @@ import {
 } from "react-sortable-hoc";
 import { IconButton } from "src/components/button";
 import { useUser } from "src/hooks/useUser";
-import { Alert, Card, Flex, jsx, Text } from "theme-ui";
+import { Alert, Card, Flex, Text } from "theme-ui";
 
 const formatRelationsIntoThemes = (relations = []) =>
   relations

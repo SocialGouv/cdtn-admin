@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-
+/** jsxImportSource theme-ui */
 import Link from "next/link";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
@@ -8,7 +7,7 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useUser } from "src/hooks/useUser";
-import { jsx, Label, Text } from "theme-ui";
+import { Label, Text } from "theme-ui";
 
 export function UserPage() {
   const { user } = useUser();

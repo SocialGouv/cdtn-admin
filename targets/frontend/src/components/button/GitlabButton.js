@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-import PropTypes from "prop-types";
+/** jsxImportSource theme-ui */ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import {
   MdDoNotDisturbAlt,
@@ -10,7 +9,6 @@ import {
 import { getToken } from "src/lib/auth/token";
 import { request } from "src/lib/request";
 import useSWR from "swr";
-import { jsx } from "theme-ui";
 
 import { ConfirmButton } from "../confirmButton";
 

@@ -1,12 +1,11 @@
-/** @jsx jsx  */
-
+/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import { useFieldArray } from "react-hook-form";
 import { IoMdAdd, IoMdTrash } from "react-icons/io";
 import { Button } from "src/components/button";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Stack } from "src/components/layout/Stack";
-import { Container, Flex, jsx, Label, Radio } from "theme-ui";
+import { Container, Flex, Label, Radio } from "theme-ui";
 
 import { References } from "./References";
 

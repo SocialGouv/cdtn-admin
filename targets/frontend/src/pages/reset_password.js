@@ -1,5 +1,4 @@
-/** @jsx jsx */
-
+/** jsxImportSource theme-ui */
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -8,7 +7,7 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { PasswordLayout } from "src/components/layout/password.layout";
 import { Stack } from "src/components/layout/Stack";
 import { request } from "src/lib/request";
-import { Field, jsx, NavLink, Text } from "theme-ui";
+import { Field, NavLink, Text } from "theme-ui";
 
 export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);

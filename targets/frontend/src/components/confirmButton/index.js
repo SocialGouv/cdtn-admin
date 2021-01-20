@@ -1,9 +1,8 @@
-/** @jsx jsx */
-
+/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
-import { Button as BaseButton, jsx } from "theme-ui";
+import { Button as BaseButton } from "theme-ui";
 
 const buttonPropTypes = {
   size: PropTypes.oneOf(["small", "normal"]),

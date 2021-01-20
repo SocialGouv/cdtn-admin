@@ -1,9 +1,8 @@
-/** @jsx jsx */
-
+/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosLink, IoMdChatbubbles } from "react-icons/io";
-import { Box, Flex, jsx } from "theme-ui";
+import { Box, Flex } from "theme-ui";
 
 import { IconButton } from "../button";
 import { Comments } from "../comments";

@@ -1,7 +1,6 @@
-/** @jsx jsx */
-import Head from "next/head";
+/** jsxImportSource theme-ui */ import Head from "next/head";
 import PropTypes from "prop-types";
-import { Box, Card, Flex, Heading, jsx } from "theme-ui";
+import { Box, Card, Flex, Heading } from "theme-ui";
 
 import { Header } from "./header";
 import { Stack } from "./Stack";

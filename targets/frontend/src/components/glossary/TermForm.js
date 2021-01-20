@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-import slugify from "@socialgouv/cdtn-slugify";
+/** jsxImportSource theme-ui */ import slugify from "@socialgouv/cdtn-slugify";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -9,7 +8,7 @@ import { Button } from "src/components/button";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Lister } from "src/components/forms/Lister";
 import { MarkdownLink } from "src/components/MarkdownLink";
-import { Field, Flex, jsx, Label, NavLink, Textarea } from "theme-ui";
+import { Field, Flex, Label, NavLink, Textarea } from "theme-ui";
 import { useMutation } from "urql";
 
 const editTermMutation = `

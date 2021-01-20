@@ -1,8 +1,7 @@
-/** @jsx jsx  */
-
+/** jsxImportSource theme-ui */
 import PropTypes from "prop-types";
 import React from "react";
-import { Box, Flex, jsx } from "theme-ui";
+import { Box, Flex } from "theme-ui";
 
 import { invertSpace, spacePropTypes } from "./spaces";
 

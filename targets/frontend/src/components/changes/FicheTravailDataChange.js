@@ -1,8 +1,7 @@
-/** @jsx jsx */
-import PropTypes from "prop-types";
+/** jsxImportSource theme-ui */ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
-import { Button as TButton, Card, jsx, Text } from "theme-ui";
+import { Button as TButton, Card, Text } from "theme-ui";
 
 import { ViewDiff } from "./ViewDiff";
 

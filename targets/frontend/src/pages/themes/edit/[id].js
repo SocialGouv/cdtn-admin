@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-import slugify from "@socialgouv/cdtn-slugify";
+/** jsxImportSource theme-ui */ import slugify from "@socialgouv/cdtn-slugify";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { IoMdTrash } from "react-icons/io";
@@ -16,7 +15,7 @@ import {
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { jsx, Message, Spinner } from "theme-ui";
+import { Message, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const getThemeQuery = `

@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-import { generateIds } from "@shared/id-generator";
+/** jsxImportSource theme-ui */ import { generateIds } from "@shared/id-generator";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";
@@ -10,7 +9,7 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { jsx, Label, Select } from "theme-ui";
+import { Label, Select } from "theme-ui";
 import { useMutation } from "urql";
 
 const CREATABLE_SOURCES = [

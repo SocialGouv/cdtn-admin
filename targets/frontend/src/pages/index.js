@@ -1,11 +1,10 @@
-/** @jsx jsx  */
-import { GitlabButton } from "src/components/button/GitlabButton";
+/** jsxImportSource theme-ui */ import { GitlabButton } from "src/components/button/GitlabButton";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { jsx, Text } from "theme-ui";
+import { Text } from "theme-ui";
 
 export function IndexPage() {
   return (

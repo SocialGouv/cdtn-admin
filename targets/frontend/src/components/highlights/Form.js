@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-import Link from "next/link";
+/** jsxImportSource theme-ui */ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -7,7 +6,7 @@ import { IoMdCheckmark } from "react-icons/io";
 import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
-import { Field, Flex, jsx, NavLink } from "theme-ui";
+import { Field, Flex, NavLink } from "theme-ui";
 
 const HighlightsForm = React.memo(
   ({ content = { contentRelations: [] }, onSubmit, loading }) => {

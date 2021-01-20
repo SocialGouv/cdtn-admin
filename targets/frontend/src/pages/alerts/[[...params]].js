@@ -1,5 +1,4 @@
-/** @jsx jsx  */
-
+/** jsxImportSource theme-ui */
 import { Accordion } from "@reach/accordion";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
@@ -14,7 +13,7 @@ import { Stack } from "src/components/layout/Stack";
 import { Pagination } from "src/components/pagination";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Card, Container, Divider, jsx, Message } from "theme-ui";
+import { Card, Container, Divider, Message } from "theme-ui";
 import { useQuery } from "urql";
 
 const getAlertQuery = `

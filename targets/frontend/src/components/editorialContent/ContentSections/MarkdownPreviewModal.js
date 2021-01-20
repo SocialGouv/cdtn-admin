@@ -1,12 +1,11 @@
-/** @jsx jsx  */
-
+/** jsxImportSource theme-ui */
 import micromark from "micromark";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosEye } from "react-icons/io";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
-import { Flex, jsx } from "theme-ui";
+import { Flex } from "theme-ui";
 
 export const MarkdownPreviewModal = ({ markdown }) => {
   const [showMarkdownPreview, setShowMarkdownPreview] = useState(false);

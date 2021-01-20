@@ -1,8 +1,7 @@
-/** @jsx jsx */
-
+/** jsxImportSource theme-ui */
 /* eslint-disable-next-line simple-import-sort/sort */
 import PropTypes from "prop-types";
-import { jsx } from "theme-ui";
+
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-github";

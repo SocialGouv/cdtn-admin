@@ -1,7 +1,6 @@
-/** @jsx jsx  */
-import Link from "next/link";
+/** jsxImportSource theme-ui */ import Link from "next/link";
 import React from "react";
-import { Flex, jsx } from "theme-ui";
+import { Flex } from "theme-ui";
 
 export const TermList = React.memo(({ termsByLetters = [] }) => (
   <Flex sx={{ flexWrap: "wrap", gap: "xsmall", justifyContent: "stretch" }}>

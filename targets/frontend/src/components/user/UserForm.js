@@ -1,9 +1,8 @@
-/** @jsx jsx  */
-import Link from "next/link";
+/** jsxImportSource theme-ui */ import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { Field, jsx, Label, NavLink, Select } from "theme-ui";
+import { Field, Label, NavLink, Select } from "theme-ui";
 import { useQuery } from "urql";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";
