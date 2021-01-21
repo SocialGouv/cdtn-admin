@@ -1,4 +1,3 @@
-/** @jsx jsx  */
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
