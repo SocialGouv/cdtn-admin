@@ -6,6 +6,7 @@ import { EditorialContentForm } from "src/components/editorialContent/Form";
 import { HighlightsForm } from "src/components/highlights/Form";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
+import { PrequalifiedForm } from "src/components/prequalified/Form";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
@@ -16,6 +17,7 @@ const CREATABLE_SOURCES = [
   SOURCES.EDITORIAL_CONTENT,
   SOURCES.THEMATIC_FILES,
   SOURCES.HIGHLIGHTS,
+  SOURCES.PREQUALIFIED,
 ];
 
 const createContentMutation = `
@@ -24,6 +26,7 @@ mutation CreateContent(
   $document: jsonb!,
   $initial_id: String!,
   $isSearchable: Boolean!,
+  $isPublished: Boolean!,
   $metaDescription: String!,
   $relations: [document_relations_insert_input!]!,
   $slug: String!,
@@ -41,7 +44,7 @@ mutation CreateContent(
     text: "",
     is_available: true,
     is_searchable: $isSearchable,
-    is_published: true
+    is_published: $isPublished
   }) {
     cdtn_id
   }
@@ -62,6 +65,7 @@ export function CreateDocumentPage() {
     contents = [],
     document = {},
     isSearchable,
+    isPublished,
     metaDescription,
     slug,
     title,
@@ -70,6 +74,7 @@ export function CreateDocumentPage() {
     const result = await createContent({
       ...newIds,
       document,
+      isPublished: typeof isPublished !== "undefined" ? isPublished : true,
       isSearchable: typeof isSearchable !== "undefined" ? isSearchable : true,
       metaDescription: metaDescription || document.description || title,
       relations: contents.map(({ cdtnId }, index) => ({
@@ -94,6 +99,9 @@ export function CreateDocumentPage() {
       break;
     case SOURCES.EDITORIAL_CONTENT:
       ContentForm = EditorialContentForm;
+      break;
+    case SOURCES.PREQUALIFIED:
+      ContentForm = PrequalifiedForm;
       break;
     default:
       //eslint-disable-next-line react/display-name

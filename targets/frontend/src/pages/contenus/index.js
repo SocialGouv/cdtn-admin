@@ -93,6 +93,7 @@ const documentSources = [
   [SOURCES.EXTERNALS, getLabelBySource(SOURCES.EXTERNALS)],
   [SOURCES.TOOLS, getLabelBySource(SOURCES.TOOLS)],
   [SOURCES.HIGHLIGHTS, getLabelBySource(SOURCES.HIGHLIGHTS)],
+  [SOURCES.PREQUALIFIED, getLabelBySource(SOURCES.PREQUALIFIED)],
 ];
 
 const DEFAULT_ITEMS_PER_PAGE = 25;
@@ -358,6 +359,7 @@ const sourceToRoute = ({ cdtnId, source }) => {
   switch (source) {
     case SOURCES.EDITORIAL_CONTENT:
     case SOURCES.HIGHLIGHTS:
+    case SOURCES.PREQUALIFIED:
       return `/contenus/edit/${cdtnId}`;
     default:
       return `/contenus/${cdtnId}`;

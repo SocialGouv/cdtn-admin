@@ -107,6 +107,11 @@ export function Nav() {
             </ActiveLink>
           </Li>
           <Li>
+            <ActiveLink href="/contenus?source=prequalified" passHref>
+              Requetes pré-qualifiées
+            </ActiveLink>
+          </Li>
+          <Li>
             <ActiveLink href="/glossary" passHref>
               Glossaire
             </ActiveLink>
