@@ -1,5 +1,3 @@
-/** @jsx jsx  */
-
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -20,7 +18,6 @@ import {
   Card,
   Flex,
   Input,
-  jsx,
   Label,
   Message,
   NavLink,

@@ -1,5 +1,3 @@
-/** @jsx jsx  */
-
 import Link from "next/link";
 import { IoIosAdd } from "react-icons/io";
 import { Button } from "src/components/button";
@@ -8,7 +6,7 @@ import { Stack } from "src/components/layout/Stack";
 import { UserList } from "src/components/user/List";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Flex, jsx } from "theme-ui";
+import { Flex } from "theme-ui";
 
 export function UserPage() {
   return (

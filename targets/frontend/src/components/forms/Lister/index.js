@@ -1,10 +1,8 @@
-/** @jsx jsx  */
-
 import PropTypes from "prop-types";
 import { useRef } from "react";
 import { Controller } from "react-hook-form";
 import { Button } from "src/components/button";
-import { Flex, Input, jsx } from "theme-ui";
+import { Flex, Input } from "theme-ui";
 
 import { List } from "./List";
 

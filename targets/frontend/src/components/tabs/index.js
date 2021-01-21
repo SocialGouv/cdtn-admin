@@ -1,6 +1,4 @@
-/** @jsx jsx */
 import PropTypes from "prop-types";
-import { jsx } from "theme-ui";
 
 export function Tabs(props) {
   return (

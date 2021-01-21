@@ -1,11 +1,9 @@
-/** @jsx jsx  */
 import lowGet from "lodash.get";
 import PropTypes from "prop-types";
 import { useFieldArray } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
 import { SortableContainer } from "react-sortable-hoc";
 import { Button } from "src/components/button";
-import { jsx } from "theme-ui";
 
 import { SortableSection, TYPES } from "./Section";
 

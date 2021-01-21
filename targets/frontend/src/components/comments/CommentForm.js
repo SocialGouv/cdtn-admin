@@ -1,8 +1,6 @@
-/** @jsx jsx */
 import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { jsx } from "theme-ui";
 
 import { Button } from "../button";
 

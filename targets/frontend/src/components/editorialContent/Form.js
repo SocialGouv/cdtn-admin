@@ -1,4 +1,3 @@
-/** @jsx jsx  */
 import { ErrorMessage } from "@hookform/error-message";
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
@@ -12,7 +11,7 @@ import { ContentSections } from "src/components/editorialContent/ContentSections
 import { ReferenceBlocks } from "src/components/editorialContent/ReferenceBlocks";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { MarkdownLink } from "src/components/MarkdownLink";
-import { Field, Flex, jsx, Label, NavLink, Textarea } from "theme-ui";
+import { Field, Flex, Label, NavLink, Textarea } from "theme-ui";
 
 import { TYPES as SECTION_TYPES } from "./ContentSections/Section";
 

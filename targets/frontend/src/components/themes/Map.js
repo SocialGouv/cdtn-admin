@@ -1,12 +1,10 @@
-/** @jsx jsx  */
-
 import * as d3 from "d3";
 import { hierarchy, tree } from "d3-hierarchy";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useRef } from "react";
 import { RELATIONS } from "src/lib/relations";
-import { jsx, Spinner, useThemeUI } from "theme-ui";
+import { Spinner, useThemeUI } from "theme-ui";
 import { useQuery } from "urql";
 
 const getThemesQuery = `

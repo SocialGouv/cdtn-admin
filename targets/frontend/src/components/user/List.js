@@ -1,9 +1,8 @@
-/** @jsx jsx */
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosCheckmark, IoMdCloseCircle } from "react-icons/io";
-import { Badge, css, jsx, Message, Text } from "theme-ui";
+import { Badge, css, Message, Text } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 import { Button, MenuButton, MenuItem } from "../button";

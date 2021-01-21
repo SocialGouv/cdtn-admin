@@ -1,9 +1,8 @@
-/** @jsx jsx */
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { IoMdContact } from "react-icons/io";
 import { MenuButton, MenuItem } from "src/components/button";
-import { Box, Image, jsx, Text } from "theme-ui";
+import { Box, Image, Text } from "theme-ui";
 
 import { useUser } from "../../hooks/useUser";
 

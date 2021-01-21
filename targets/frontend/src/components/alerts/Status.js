@@ -1,8 +1,5 @@
-/** @jsx jsx */
-
 import PropTypes from "prop-types";
 import { IoIosCheckmark, IoIosClose } from "react-icons/io";
-import { jsx } from "theme-ui";
 import { useMutation } from "urql";
 
 import { MenuButton, MenuItem } from "../button";

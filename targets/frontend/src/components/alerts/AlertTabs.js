@@ -1,6 +1,5 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
-import React from "react";
 import { getStatusLabel, slugifyRepository } from "src/models";
 import { Message, NavLink, Spinner } from "theme-ui";
 import { useQuery } from "urql";

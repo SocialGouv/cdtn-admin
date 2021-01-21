@@ -1,5 +1,3 @@
-/** @jsx jsx */
-
 import { useRouter } from "next/router";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
@@ -19,16 +17,7 @@ import { getToken } from "src/lib/auth/token";
 import { timeSince } from "src/lib/duration";
 import { request } from "src/lib/request";
 import useSWR, { mutate } from "swr";
-import {
-  Card,
-  Field,
-  Flex,
-  jsx,
-  Label,
-  Message,
-  Select,
-  Spinner,
-} from "theme-ui";
+import { Card, Field, Flex, Label, Message, Select, Spinner } from "theme-ui";
 
 const listFiles = (container) => () =>
   request(`/api/storage/${container}`, {

@@ -1,8 +1,6 @@
-/** @jsx jsx */
 import { AccordionItem, AccordionPanel } from "@reach/accordion";
 import PropTypes from "prop-types";
 import { AccordionButton } from "src/components/button";
-import { jsx } from "theme-ui";
 
 export const ChangesGroup = ({ changes, label, renderChange }) => {
   return changes && changes.length > 0 ? (

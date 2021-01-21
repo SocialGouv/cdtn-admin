@@ -1,4 +1,3 @@
-/** @jsx jsx  */
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { IoMdAdd, IoMdCloseCircleOutline } from "react-icons/io";
@@ -9,7 +8,7 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useDebouncedState } from "src/hooks/";
-import { Flex, Input, jsx, Label, Spinner } from "theme-ui";
+import { Flex, Input, Label, Spinner } from "theme-ui";
 import { useQuery } from "urql";
 
 const getGlossaryQuery = `

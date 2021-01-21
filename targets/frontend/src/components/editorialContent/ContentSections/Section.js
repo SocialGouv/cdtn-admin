@@ -1,5 +1,3 @@
-/** @jsx jsx  */
-
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useWatch } from "react-hook-form";
@@ -15,7 +13,7 @@ import { ReferenceBlocks } from "src/components/editorialContent/ReferenceBlocks
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Stack } from "src/components/layout/Stack";
 import { MarkdownLink } from "src/components/MarkdownLink";
-import { Container, Field, Flex, jsx, Label, Radio, Textarea } from "theme-ui";
+import { Container, Field, Flex, Label, Radio, Textarea } from "theme-ui";
 
 import { MarkdownPreviewModal } from "./MarkdownPreviewModal";
 

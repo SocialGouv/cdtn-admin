@@ -1,10 +1,8 @@
-/** @jsx jsx */
-
 import { Dialog as ReachDialog } from "@reach/dialog";
 import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
 import { IoMdClose } from "react-icons/io";
-import { css, jsx } from "theme-ui";
+import { css } from "theme-ui";
 
 import { IconButton } from "../button";
 import { Stack } from "../layout/Stack";

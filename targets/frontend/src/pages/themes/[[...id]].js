@@ -1,4 +1,3 @@
-/** @jsx jsx  */
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -11,7 +10,7 @@ import { MapModal } from "src/components/themes/MapModal";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Card, Flex, jsx, Spinner } from "theme-ui";
+import { Box, Card, Flex, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const getThemeQuery = `
