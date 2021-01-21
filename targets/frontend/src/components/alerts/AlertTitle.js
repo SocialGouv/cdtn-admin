@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosLink, IoMdChatbubbles } from "react-icons/io";
@@ -28,7 +30,7 @@ export function AlertTitle({ alertId, info, ...props }) {
           </IconButton>
         </a>
       )}
-      <div sx={{ flex: "1 1 0" }} />
+      <Box sx={{ flex: "1 1 0" }} />
       <IconButton
         sx={{ justifyItems: "flex-end" }}
         variant="secondary"

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Spinner } from "theme-ui";
+import { Box, Input, Spinner } from "theme-ui";
 
 const defaultStyles = {
   border: "2px dotted silver",
@@ -35,10 +35,10 @@ export function DropZone({ onDrop: onDropCallback, uploading, customStyles }) {
     delete defaultStyles.backgroundColor;
   }
   return (
-    <div {...getRootProps()} sx={{ ...defaultStyles, ...customStyles }}>
-      <input {...getInputProps()} />
+    <Box {...getRootProps()} sx={{ ...defaultStyles, ...customStyles }}>
+      <Input {...getInputProps()} />
       {uploading ? <Spinner /> : <p>Glissez vos fichiers ici</p>}
-    </div>
+    </Box>
   );
 }
 

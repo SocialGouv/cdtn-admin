@@ -6,7 +6,7 @@ import { IoMdCheckmark } from "react-icons/io";
 import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
-import { Field, Flex, NavLink } from "theme-ui";
+import { Box, Field, Flex, NavLink } from "theme-ui";
 
 const HighlightsForm = React.memo(function _HighlightsForm({
   content = { contentRelations: [] },
@@ -28,7 +28,7 @@ const HighlightsForm = React.memo(function _HighlightsForm({
       )}
     >
       <>
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Field
             type="text"
             name="title"
@@ -39,8 +39,8 @@ const HighlightsForm = React.memo(function _HighlightsForm({
             })}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
-        </div>
-        <div sx={{ mb: "small" }}>
+        </Box>
+        <Box mb="small">
           <Field
             type="text"
             name="slug"
@@ -51,7 +51,7 @@ const HighlightsForm = React.memo(function _HighlightsForm({
             })}
           />
           <FormErrorMessage errors={errors} fieldName="slug" />
-        </div>
+        </Box>
 
         <h3>Contenus: </h3>
         <ContentPicker

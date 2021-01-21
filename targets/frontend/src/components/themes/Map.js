@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import * as d3 from "d3";
 import { hierarchy, tree } from "d3-hierarchy";
 import { useRouter } from "next/router";

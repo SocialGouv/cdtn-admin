@@ -1,9 +1,11 @@
+/** @jsxImportSource theme-ui */
+
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
-import { Input } from "theme-ui";
+import { Box, Input } from "theme-ui";
 import { useQuery } from "urql";
 
 const sources = [
@@ -134,15 +136,9 @@ function shouldRenderSuggestions(value) {
 }
 function renderSectionTitle(section) {
   return section.suggestions.length ? (
-    <div
-      sx={{
-        bg: "neutral",
-        fontWeight: "bold",
-        p: "xxsmall",
-      }}
-    >
+    <Box bg="neutral" fontWeight="bold" p="xxsmall">
       {section.title}
-    </div>
+    </Box>
   ) : null;
 }
 
