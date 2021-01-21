@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import PropTypes from "prop-types";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { IoMdCheckmark } from "react-icons/io";
@@ -8,11 +9,11 @@ import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Box, Field, Flex, NavLink } from "theme-ui";
 
-const HighlightsForm = React.memo(function _HighlightsForm({
+const HighlightsForm = ({
   content = { contentRelations: [] },
   onSubmit,
-  loading,
-}) {
+  loading = false,
+}) => {
   const router = useRouter();
   const {
     control,
@@ -94,6 +95,14 @@ const HighlightsForm = React.memo(function _HighlightsForm({
       </>
     </form>
   );
-});
+};
 
-export { HighlightsForm };
+HighlightsForm.propTypes = {
+  content: PropTypes.object,
+  loading: PropTypes.bool,
+  onSubmit: PropTypes.func.isRequired,
+};
+
+const MemoisedHighlightsForm = React.memo(HighlightsForm);
+
+export { MemoisedHighlightsForm as HighlightsForm };

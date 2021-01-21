@@ -1,9 +1,10 @@
 import Link from "next/link";
+import PropTypes from "prop-types";
 import React from "react";
 import { Li, List } from "src/components/list";
 import { Box, Flex, NavLink, Text } from "theme-ui";
 
-export const TermList = React.memo(function _TermList({ termsByLetters = [] }) {
+const TermList = ({ termsByLetters = [] }) => {
   return (
     <Flex sx={{ flexWrap: "wrap", gap: "xsmall", justifyContent: "stretch" }}>
       {termsByLetters.map(
@@ -45,7 +46,15 @@ export const TermList = React.memo(function _TermList({ termsByLetters = [] }) {
       )}
     </Flex>
   );
-});
+};
+
+TermList.PropTypes = {
+  termsByLetters: PropTypes.object,
+};
+
+const MemoisedTermList = React.memo(TermList);
+
+export { MemoisedTermList as TermList };
 
 const linkStyles = {
   ":hover": {

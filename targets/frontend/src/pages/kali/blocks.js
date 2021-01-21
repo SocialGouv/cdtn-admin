@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 
+import PropTypes from "prop-types";
 import { useEffect, useMemo, useState } from "react";
 import { IoMdSave } from "react-icons/io";
 import { Button } from "src/components/button";
@@ -158,6 +159,12 @@ function CcnBlocks({ id, blocks, onChange }) {
     </div>
   );
 }
+
+CcnBlocks.propTypes = {
+  blocks: PropTypes.array.isRequired,
+  id: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 export function KaliBlocksPage() {
   const [ccnId, setCcnId] = useState("573");

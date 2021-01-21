@@ -3,6 +3,7 @@
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import PropTypes from "prop-types";
 import { memo, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
@@ -344,6 +345,11 @@ const DocumentRow = memo(function _DocumentRow({
     </tr>
   );
 });
+
+DocumentRow.propTypes = {
+  document: PropTypes.object.isRequired,
+  updatePublish: PropTypes.func.isRequired,
+};
 
 const checkboxStyles = {
   cursor: "pointer",
