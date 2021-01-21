@@ -39,7 +39,7 @@ const PrequalifiedForm = React.memo(
               label="Requete"
               defaultValue={content.title}
               ref={register({
-                required: { message: "La requete est requiss", value: true },
+                required: { message: "La requete est requise", value: true },
               })}
             />
             <FormErrorMessage errors={errors} fieldName="title" />
