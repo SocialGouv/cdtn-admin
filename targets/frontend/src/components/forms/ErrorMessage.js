@@ -1,12 +1,13 @@
 import { ErrorMessage } from "@hookform/error-message";
 import PropTypes from "prop-types";
+import { Box } from "theme-ui";
 
 export function FormErrorMessage({ errors = {}, fieldName }) {
   return (
     <ErrorMessage
       errors={errors}
       name={fieldName}
-      render={({ message }) => <div sx={{ color: "critical" }}>{message}</div>}
+      render={({ message }) => <Box sx={{ color: "critical" }}>{message}</Box>}
     />
   );
 }

@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";
@@ -14,7 +16,7 @@ import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
 import { RELATIONS } from "src/lib/relations";
-import { Spinner } from "theme-ui";
+import { Flex, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const getContentQuery = `
@@ -216,12 +218,11 @@ export function EditInformationPage() {
             </Dialog>
             {content.cdtnId && (
               <>
-                <div
+                <Flex
                   sx={{
-                    display: "flex",
                     justifyContent: "flex-end",
-                    mb: "small",
                   }}
+                  mb="small"
                 >
                   <Button
                     type="button"
@@ -238,7 +239,7 @@ export function EditInformationPage() {
                     />
                     Supprimer le contenu
                   </Button>
-                </div>
+                </Flex>
                 <ContentForm
                   content={content}
                   loading={updating || deleting}

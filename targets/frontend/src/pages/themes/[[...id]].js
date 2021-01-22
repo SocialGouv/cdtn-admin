@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -10,7 +12,7 @@ import { MapModal } from "src/components/themes/MapModal";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Card, Flex, Spinner } from "theme-ui";
+import { Box, Card, Flex, Spinner, Text } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const getThemeQuery = `
@@ -126,7 +128,9 @@ export function ThemePage() {
                   </Button>
                 </Link>
               </Flex>
-              <h3 sx={{ mr: "small" }}>Niveau précédent</h3>
+              <Text as="h3" mr="small">
+                Niveau précédent
+              </Text>
               {themeData?.parentRelations.length === 0 ? (
                 <ParentLink>Racine des thèmes</ParentLink>
               ) : (
@@ -137,7 +141,9 @@ export function ThemePage() {
                 ))
               )}
 
-              <h3 sx={{ mt: "medium" }}>Sous-thèmes</h3>
+              <Text as="h3" mt="medium">
+                Sous-thèmes
+              </Text>
             </>
             <List
               relations={
@@ -166,9 +172,9 @@ export function ThemePage() {
 export default withCustomUrqlClient(withUserProvider(ThemePage));
 
 const AddAThemeButton = ({ themeId }) => (
-  <Box sx={{ mt: "medium" }}>
+  <Box mt="medium">
     <Link href={`/themes/${themeId ? `${themeId}/` : ""}create`} passHref>
-      <Button as="a" sx={{ mr: "medium" }}>
+      <Button as="a" mr="medium">
         <IoMdAdd
           sx={{ height: "iconMedium", mr: "xxsmall", width: "iconMedium" }}
         />
@@ -192,9 +198,9 @@ const ParentLink = ({ id, ...props }) => (
         color: "text",
         cursor: "pointer",
         display: "block",
-        mb: "small",
         textDecoration: "none",
       }}
+      mb="small"
     >
       <Flex sx={{ alignItems: "center" }}>
         <IoIosArrowDropleftCircle

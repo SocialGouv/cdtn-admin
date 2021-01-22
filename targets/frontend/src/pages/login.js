@@ -4,7 +4,7 @@ import { Header } from "src/components/layout/header";
 import LoginForm from "src/components/login";
 import { setToken } from "src/lib/auth/token";
 import { request } from "src/lib/request";
-import { Box } from "theme-ui";
+import { Box, Flex } from "theme-ui";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -35,10 +35,9 @@ export default function LoginPage() {
         <title>login | Admin cdtn</title>
       </Head>
       <Header />
-      <div
+      <Flex
         sx={{
           alignItems: "center",
-          display: "flex",
           minHeight: "90vh",
         }}
       >
@@ -49,7 +48,7 @@ export default function LoginPage() {
             onSuccess={goAdmin}
           />
         </Box>
-      </div>
+      </Flex>
     </>
   );
 }

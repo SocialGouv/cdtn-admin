@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import { icons } from "@socialgouv/react-ui";
 import PropTypes from "prop-types";
 import { useState } from "react";

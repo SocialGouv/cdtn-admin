@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import slugify from "@socialgouv/cdtn-slugify";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -15,7 +17,7 @@ import {
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Message, Spinner } from "theme-ui";
+import { Flex, Message, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const getThemeQuery = `
@@ -157,12 +159,12 @@ export function EditThemePage() {
             </Dialog>
             {theme?.cdtnId && (
               <>
-                <div
+                <Flex
                   sx={{
                     display: "flex",
                     justifyContent: "flex-end",
-                    mb: "small",
                   }}
+                  mb="small"
                 >
                   {theme?.childRelations.length ? (
                     <Message variant="secondary">
@@ -186,7 +188,7 @@ export function EditThemePage() {
                       Supprimer le thème
                     </Button>
                   )}
-                </div>
+                </Flex>
               </>
             )}
             <ThemeForm

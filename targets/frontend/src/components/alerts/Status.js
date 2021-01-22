@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import PropTypes from "prop-types";
 import { IoIosCheckmark, IoIosClose } from "react-icons/io";
 import { useMutation } from "urql";

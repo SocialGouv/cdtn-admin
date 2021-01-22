@@ -1,8 +1,10 @@
+/** @jsxImportSource theme-ui */
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { IoMdContact } from "react-icons/io";
 import { MenuButton, MenuItem } from "src/components/button";
-import { Box, Image, Text } from "theme-ui";
+import { Box, Flex, Image, NavLink, Text } from "theme-ui";
 
 import { useUser } from "../../hooks/useUser";
 
@@ -13,19 +15,19 @@ export function Header() {
     router.push("/user/account");
   }
   return (
-    <header
+    <Flex
+      as="header"
       sx={{
         boxShadow: "medium",
-        display: "flex",
         flexWrap: "wrap",
         justifyContent: "space-between",
         position: "relative",
-        px: ["small", "large"],
-        py: "xxsmall",
       }}
+      px={["small", "large"]}
+      py="xxsmall"
     >
       <Link href="/">
-        <a
+        <NavLink
           sx={{
             "&:hover": {
               color: "secondary",
@@ -47,19 +49,17 @@ export function Header() {
             }}
           />
           <Box paddingLeft="small">
-            <Text sx={{ fontSize: "large", lineHeight: "heading" }}>
+            <Box sx={{ fontSize: "large", lineHeight: "heading" }}>
               veille & administration
-            </Text>
-            <Text sx={{ fontSize: "small", fontWeight: 300 }}>
+            </Box>
+            <Box sx={{ fontSize: "small", fontWeight: 300 }}>
               Code du travail numérique
-            </Text>
+            </Box>
           </Box>
-        </a>
+        </NavLink>
       </Link>
       {user && (
-        <div
-          sx={{ alignItems: "center", display: "flex", flexDirection: "row" }}
-        >
+        <Flex sx={{ alignItems: "center", flexDirection: "row" }}>
           {" "}
           <IoMdContact sx={{ fontSize: "icons" }} />
           <Text color="heading" sx={{ fontWeight: "semibold", px: "xsmall" }}>
@@ -69,8 +69,8 @@ export function Header() {
             <MenuItem onSelect={updateProfile}>Mon compte</MenuItem>
             <MenuItem onSelect={logout}>Déconnexion</MenuItem>
           </MenuButton>
-        </div>
+        </Flex>
       )}
-    </header>
+    </Flex>
   );
 }

@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import { AccordionItem, AccordionPanel } from "@reach/accordion";
 import PropTypes from "prop-types";
 import { AccordionButton } from "src/components/button";
