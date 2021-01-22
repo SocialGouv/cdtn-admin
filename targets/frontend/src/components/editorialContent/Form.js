@@ -1,4 +1,5 @@
-/** @jsx jsx  */
+/** @jsxImportSource theme-ui */
+
 import { ErrorMessage } from "@hookform/error-message";
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
@@ -12,7 +13,7 @@ import { ContentSections } from "src/components/editorialContent/ContentSections
 import { ReferenceBlocks } from "src/components/editorialContent/ReferenceBlocks";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { MarkdownLink } from "src/components/MarkdownLink";
-import { Field, Flex, jsx, Label, NavLink, Textarea } from "theme-ui";
+import { Box, Field, Flex, Label, NavLink, Textarea } from "theme-ui";
 
 import { TYPES as SECTION_TYPES } from "./ContentSections/Section";
 
@@ -38,7 +39,7 @@ const addComputedFields = (onSubmit) => (data) => {
 const EditorialContentForm = ({
   onSubmit,
   loading = false,
-  editorialContent = {
+  content = {
     document: { contents: [{ type: SECTION_TYPES.MARKDOWN }] },
   },
 }) => {
@@ -50,23 +51,23 @@ const EditorialContentForm = ({
     errors,
     formState: { isDirty },
   } = useForm({
-    defaultValues: editorialContent,
+    defaultValues: content,
   });
   const hasError = Object.keys(errors).length > 0;
   let buttonLabel = "Créer le contenu";
-  if (editorialContent.cdtnId) {
+  if (content.cdtnId) {
     buttonLabel = "Enregistrer les changements";
   }
 
   return (
     <form onSubmit={handleSubmit(addComputedFields(onSubmit))}>
       <>
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Field
             sx={{ width: "10rem" }}
             name="document.date"
             label="Date"
-            defaultValue={editorialContent.document?.date}
+            defaultValue={content.document?.date}
             ref={register({
               validate: (value) => {
                 const trimmed = value.trim();
@@ -78,51 +79,51 @@ const EditorialContentForm = ({
             errors={errors}
             name="document.date"
             render={() => (
-              <div sx={{ color: "critical" }}>
+              <Box color="critical">
                 La date n’est pas formatée correctement. Le format attendu est
                 &quot;jour/mois/année&quot;
-              </div>
+              </Box>
             )}
           />
-        </div>
+        </Box>
 
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Field
             type="text"
             name="title"
             label="Titre"
-            defaultValue={editorialContent.title}
+            defaultValue={content.title}
             ref={register({
               required: { message: "Le titre est requis", value: true },
             })}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
-        </div>
+        </Box>
 
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Field
             type="text"
             name="metaDescription"
             label="Meta description (référencement)"
-            defaultValue={editorialContent.metaDescription}
+            defaultValue={content.metaDescription}
             ref={register}
           />
-        </div>
+        </Box>
 
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Label htmlFor={"description"}>Description</Label>
           <Textarea
             name="document.description"
             id="description"
             rows={3}
-            defaultValue={editorialContent.document?.description}
+            defaultValue={content.document?.description}
             ref={register({
               required: { message: "La description est requise", value: true },
             })}
           />
           <FormErrorMessage errors={errors} fieldName="document.description" />
-        </div>
-        <div sx={{ mb: "small" }}>
+        </Box>
+        <Box mb="small">
           <Label htmlFor={"intro"}>
             Introduction&nbsp;
             <MarkdownLink />
@@ -131,10 +132,10 @@ const EditorialContentForm = ({
             name="document.intro"
             id="intro"
             rows={3}
-            defaultValue={editorialContent.document?.intro}
+            defaultValue={content.document?.intro}
             ref={register}
           />
-        </div>
+        </Box>
         <ContentSections
           control={control}
           register={register}
@@ -150,7 +151,7 @@ const EditorialContentForm = ({
           />
         </Flex>
 
-        <Flex sx={{ alignItems: "center", mt: "medium" }}>
+        <Flex mt="medium" sx={{ alignItems: "center" }}>
           <Button
             variant="secondary"
             disabled={hasError || loading || !isDirty}
@@ -172,7 +173,7 @@ const EditorialContentForm = ({
                 e.preventDefault();
                 router.back();
               }}
-              sx={{ ml: "medium" }}
+              ml="medium"
             >
               Annuler
             </NavLink>
@@ -184,7 +185,7 @@ const EditorialContentForm = ({
 };
 
 EditorialContentForm.propTypes = {
-  editorialContent: PropTypes.object,
+  content: PropTypes.object,
   loading: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
 };

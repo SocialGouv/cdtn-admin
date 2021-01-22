@@ -1,10 +1,8 @@
-/** @jsx jsx  */
-
 import { useState } from "react";
 import { IoMdMap } from "react-icons/io";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
-import { Flex, jsx } from "theme-ui";
+import { Box, Flex } from "theme-ui";
 
 import { Map } from "./Map";
 
@@ -35,16 +33,16 @@ export const MapModal = () => {
           width: "90vw",
         }}
       >
-        <div
+        <Box
           sx={{
             maxHeight: "90vh",
             maxWidth: "100%",
             overflow: "scroll",
-            padding: "2rem",
           }}
+          p="2rem"
         >
           <Map setShowThemeMap={setShowThemeMap} />
-        </div>
+        </Box>
       </Dialog>
     </>
   );

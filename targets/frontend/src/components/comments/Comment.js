@@ -1,18 +1,20 @@
-/** @jsx jsx */
-
 import PropTypes from "prop-types";
-import { Box, jsx } from "theme-ui";
+import { Box, Text } from "theme-ui";
 
 export function Comment({ comment }) {
   return (
     <Box sx={{ alignItems: "center" }}>
       <Box>
-        <b sx={{ color: "secondary" }}>{comment.user.name}</b>{" "}
-        <span sx={{ color: "muted" }}>
+        <Text sx={{ color: "secondary", fontWeight: "600" }}>
+          {comment.user.name}
+        </Text>{" "}
+        <Text sx={{ color: "muted" }}>
           {new Date(comment.createdAt).toLocaleDateString()}
-        </span>
+        </Text>
       </Box>
-      <p sx={{ margin: 0, padding: 0 }}>{comment.text}</p>
+      <Text as="p" m="0" p="0">
+        {comment.text}
+      </Text>
     </Box>
   );
 }

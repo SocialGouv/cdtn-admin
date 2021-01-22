@@ -1,4 +1,4 @@
-/** @jsx jsx */
+/** @jsxImportSource theme-ui */
 
 import { useRouter } from "next/router";
 import prettyBytes from "pretty-bytes";
@@ -11,6 +11,7 @@ import {
 import { Button, IconButton } from "src/components/button";
 import { CopyButton } from "src/components/button/CopyButton";
 import { Layout } from "src/components/layout/auth.layout";
+import { Li, List } from "src/components/list";
 import { DropZone } from "src/components/storage/DropZone";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
@@ -20,14 +21,15 @@ import { timeSince } from "src/lib/duration";
 import { request } from "src/lib/request";
 import useSWR, { mutate } from "swr";
 import {
+  Box,
   Card,
   Field,
   Flex,
-  jsx,
   Label,
   Message,
   Select,
   Spinner,
+  Text,
 } from "theme-ui";
 
 const listFiles = (container) => () =>
@@ -120,12 +122,7 @@ function FilesPage() {
           });
         }}
       />
-      <form
-        sx={{
-          display: "flex",
-          my: "medium",
-        }}
-      >
+      <Flex as="form" my="medium">
         <Flex sx={{ alignItems: "flex-end" }}>
           <Field
             id="search"
@@ -183,15 +180,15 @@ function FilesPage() {
             <option value="word">document word</option>
           </Select>
         </Flex>
-      </form>
+      </Flex>
       {isSearching || isValidating ? (
         <Spinner />
       ) : displayedFiles.length > 0 ? (
         <>
-          <ul sx={{ listStyleType: "none", m: 0, p: 0 }}>
+          <List sx={{ listStyleType: "none", m: 0, p: 0 }}>
             {displayedFiles.map((file) => {
               return (
-                <li key={file.name}>
+                <Li key={file.name}>
                   <Card
                     as="a"
                     target="_blank"
@@ -211,8 +208,8 @@ function FilesPage() {
                     <IoMdDownload
                       sx={{ flex: "0 0 auto", mr: "small", ...iconSx }}
                     />
-                    <div sx={{ flex: "1 1 auto", minWidth: 0 }}>
-                      <div
+                    <Box sx={{ flex: "1 1 auto", minWidth: 0 }}>
+                      <Box
                         sx={{
                           fontSize: "1.1rem",
                           fontWeight: "bold",
@@ -222,13 +219,13 @@ function FilesPage() {
                         }}
                       >
                         {file.name}
-                      </div>
-                      <div sx={{ fontSize: "small" }}>
-                        <span sx={{ fontWeight: "bold" }}>Poids&nbsp;:</span>{" "}
+                      </Box>
+                      <Box sx={{ fontSize: "small" }}>
+                        <Text sx={{ fontWeight: "bold" }}>Poids&nbsp;:</Text>{" "}
                         {prettyBytes(file.contentLength)} | Mise en ligne il y a{" "}
                         {timeSince(file.lastModified)}
-                      </div>
-                    </div>
+                      </Box>
+                    </Box>
                     <CopyButton
                       {...buttonProps}
                       variant="secondary"
@@ -250,10 +247,10 @@ function FilesPage() {
                       Supprimer
                     </Button>
                   </Card>
-                </li>
+                </Li>
               );
             })}
-          </ul>
+          </List>
         </>
       ) : (
         <>Pas de résultats</>

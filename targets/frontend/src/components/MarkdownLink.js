@@ -1,5 +1,3 @@
-import React from "react";
-
 export const MarkdownLink = () => (
   <a
     href=" https://docs.framasoft.org/fr/grav/markdown.html"

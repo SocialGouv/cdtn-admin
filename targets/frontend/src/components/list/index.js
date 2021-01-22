@@ -1,12 +1,11 @@
-/** @jsx jsx */
 import PropTypes from "prop-types";
-import { jsx } from "theme-ui";
+import { Box } from "theme-ui";
 
 export function List({ className, children }) {
   return (
-    <ul className={className} sx={{ margin: 0, px: 0 }}>
+    <Box as="ul" className={className} m="0" px="0">
       {children}
-    </ul>
+    </Box>
   );
 }
 List.propTypes = {
@@ -15,7 +14,11 @@ List.propTypes = {
 };
 
 export function Li({ children }) {
-  return <li sx={{ listStyle: "none" }}>{children}</li>;
+  return (
+    <Box as="li" sx={{ listStyle: "none" }}>
+      {children}
+    </Box>
+  );
 }
 Li.propTypes = {
   children: PropTypes.node,

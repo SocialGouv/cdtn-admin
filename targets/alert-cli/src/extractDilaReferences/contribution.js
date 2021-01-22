@@ -21,7 +21,17 @@ export function extractContributionsRef(questions) {
       },
       references: question.document.answers.generic.references,
     });
-
+    if (
+      !Object.prototype.hasOwnProperty.call(
+        question.document.answers,
+        "conventions"
+      )
+    ) {
+      continue;
+    }
+    if (!isMultiConventionAnswer(question.document)) {
+      continue;
+    }
     question.document.answers.conventions.forEach((answer) =>
       references.push({
         document: {
@@ -34,6 +44,15 @@ export function extractContributionsRef(questions) {
     );
   }
   return references;
+}
+
+/**
+ *  This is only to fool TS compiler
+ * @param {import("@shared/types").CCMultipleAnswers | import("@shared/types").CCSingleAnswer} a
+ * @returns {a is import("@shared/types").CCMultipleAnswers}
+ */
+function isMultiConventionAnswer(a) {
+  return "conventions" in a.answers;
 }
 
 export default async function main() {

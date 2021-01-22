@@ -1,4 +1,3 @@
-/** @jsx jsx  */
 import slugify from "@socialgouv/cdtn-slugify";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -9,7 +8,7 @@ import { Button } from "src/components/button";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Lister } from "src/components/forms/Lister";
 import { MarkdownLink } from "src/components/MarkdownLink";
-import { Field, Flex, jsx, Label, NavLink, Textarea } from "theme-ui";
+import { Box, Field, Flex, Label, NavLink, Text, Textarea } from "theme-ui";
 import { useMutation } from "urql";
 
 const editTermMutation = `
@@ -68,7 +67,7 @@ export const TermForm = ({ term = {} }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <>
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Field
             type="text"
             name="term"
@@ -81,11 +80,11 @@ export const TermForm = ({ term = {} }) => {
           />
           <FormErrorMessage errors={errors} fieldName="term" />
           {duplicateTermError && (
-            <div sx={{ color: "critical" }}>Ce terme existe déjà !</div>
+            <Text color="critical">Ce terme existe déjà !</Text>
           )}
-        </div>
+        </Box>
 
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Label htmlFor={"definition"}>
             Définition&nbsp;
             <MarkdownLink />
@@ -99,7 +98,7 @@ export const TermForm = ({ term = {} }) => {
               required: { message: "Ce champ est requis", value: true },
             })}
           />
-        </div>
+        </Box>
 
         <Flex
           sx={{
@@ -110,7 +109,7 @@ export const TermForm = ({ term = {} }) => {
             mb: "small",
           }}
         >
-          <div sx={{ flex: "1 1 auto" }}>
+          <Box sx={{ flex: "1 1 auto" }}>
             <Label htmlFor={"variants"}>Variantes / Synonymes</Label>
             <Lister
               control={control}
@@ -118,8 +117,8 @@ export const TermForm = ({ term = {} }) => {
               id="variants"
               defaultValue={term.variants}
             />
-          </div>
-          <div sx={{ flex: "1 1 auto" }}>
+          </Box>
+          <Box sx={{ flex: "1 1 auto" }}>
             <Label htmlFor={"abbreviations"}>Abréviations</Label>
             <Lister
               control={control}
@@ -127,8 +126,8 @@ export const TermForm = ({ term = {} }) => {
               id="abbreviations"
               defaultValue={term.abbreviations}
             />
-          </div>
-          <div sx={{ flex: "1 1 auto" }}>
+          </Box>
+          <Box sx={{ flex: "1 1 auto" }}>
             <Label htmlFor={"references"}>Références</Label>
             <Lister
               control={control}
@@ -136,7 +135,7 @@ export const TermForm = ({ term = {} }) => {
               id="references"
               defaultValue={term.references}
             />
-          </div>
+          </Box>
         </Flex>
 
         <Flex sx={{ alignItems: "center", mt: "medium" }}>

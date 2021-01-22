@@ -1,6 +1,5 @@
 import * as Sentry from "@sentry/browser";
 import Document, { Head, Html, Main, NextScript } from "next/document";
-import React from "react";
 
 process.on("unhandledRejection", (err) => {
   Sentry.captureException(err);

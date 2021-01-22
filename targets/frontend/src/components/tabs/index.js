@@ -1,10 +1,10 @@
-/** @jsx jsx */
 import PropTypes from "prop-types";
-import { jsx } from "theme-ui";
+import { Box } from "theme-ui";
 
 export function Tabs(props) {
   return (
-    <ul
+    <Box
+      as="ul"
       sx={{
         borderBottom: "1px solid",
         borderColor: "neutral",
@@ -21,7 +21,8 @@ export function Tabs(props) {
 
 export function TabItem({ selected, controls, ...props }) {
   return (
-    <li
+    <Box
+      as="li"
       role="tab"
       sx={{
         border: "1px solid",

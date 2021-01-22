@@ -1,4 +1,5 @@
-/** @jsx jsx */
+/** @jsxImportSource theme-ui */
+
 import {
   AccordionButton as ReachAccordionButton,
   useAccordionItemContext,
@@ -16,7 +17,6 @@ import {
   Box,
   Button as BaseButton,
   IconButton as BaseIconButton,
-  jsx,
   NavLink,
 } from "theme-ui";
 
@@ -52,13 +52,16 @@ const smallSize = {
 };
 // function _Button({ outline = false, ...props }) {}
 
-export const Button = React.forwardRef(({ outline, ...props }, ref) =>
-  outline ? (
+export const Button = React.forwardRef(function _Button(
+  { outline, ...props },
+  ref
+) {
+  return outline ? (
     <OutlineButton ref={ref} {...props} />
   ) : (
     <SolidButton ref={ref} {...props} />
-  )
-);
+  );
+});
 Button.propTypes = {
   outline: PropTypes.bool,
   ...buttonPropTypes,
@@ -123,7 +126,7 @@ const OutlineButton = React.forwardRef(function _OutlineButton(
 OutlineButton.propTypes = buttonPropTypes;
 
 export const IconButton = React.forwardRef(function _IconButton(
-  { variant = "primary", size = "large", ...props },
+  { variant = "primary", size = "large", sx, ...props },
   ref
 ) {
   return (
@@ -146,6 +149,7 @@ export const IconButton = React.forwardRef(function _IconButton(
         fontSize: size,
         lineHeight: 1,
         overflow: "hidden",
+        ...sx,
       }}
     />
   );

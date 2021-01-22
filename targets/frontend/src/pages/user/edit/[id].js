@@ -1,5 +1,3 @@
-/** @jsx jsx  */
-
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { Layout } from "src/components/layout/auth.layout";
@@ -7,7 +5,6 @@ import { UserForm } from "src/components/user/UserForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useUser } from "src/hooks/useUser";
-import { jsx } from "theme-ui";
 import { useMutation } from "urql";
 
 const getUserQuery = `

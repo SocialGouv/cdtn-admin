@@ -1,11 +1,11 @@
-/** @jsx jsx  */
+/** @jsxImportSource theme-ui */
 
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
-import { Input, jsx } from "theme-ui";
+import { Box, Input } from "theme-ui";
 import { useQuery } from "urql";
 
 const sources = [
@@ -25,7 +25,7 @@ const AUTOSUGGEST_MAX_RESULTS = 15;
 
 const searchDocumentsQuery = `
 query searchDocuments($sources: [String!]! = "", $search: String = "") {
-  documents(where: {title: {_ilike: $search}, source: {_in: $sources}}, limit: ${AUTOSUGGEST_MAX_RESULTS}) {
+  documents(where: {title: {_ilike: $search}, source: {_in: $sources}, _not: {document: {_has_key: "split"}}}, limit: ${AUTOSUGGEST_MAX_RESULTS}) {
     source
     title
     cdtnId: cdtn_id
@@ -136,15 +136,9 @@ function shouldRenderSuggestions(value) {
 }
 function renderSectionTitle(section) {
   return section.suggestions.length ? (
-    <div
-      sx={{
-        bg: "neutral",
-        fontWeight: "bold",
-        p: "xxsmall",
-      }}
-    >
+    <Box bg="neutral" fontWeight="bold" p="xxsmall">
       {section.title}
-    </div>
+    </Box>
   ) : null;
 }
 

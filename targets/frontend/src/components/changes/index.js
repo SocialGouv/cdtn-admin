@@ -1,4 +1,3 @@
-/** @jsx jsx */
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
@@ -9,7 +8,6 @@ import {
   Card,
   Divider,
   Flex,
-  jsx,
   Text,
 } from "theme-ui";
 

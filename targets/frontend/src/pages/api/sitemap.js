@@ -24,9 +24,18 @@ export default async function Sitemap(req, res) {
     `/mentions-legales`,
     `/politique-confidentialite`,
     `/integration`,
-  ]
-    .map((path) => `${baseUrl}${path}`)
-    .map(toUrlEntry);
+    `/modeles-de-courriers`,
+    `/outils`,
+    `/glossaire`,
+  ].map((path) => toUrlEntry(`${baseUrl}${path}`));
+
+  const glossaryTerms = await getGlossary();
+  const glossaryPages = glossaryTerms.map(({ slug, modified }) =>
+    toUrlEntry(
+      `${baseUrl}/${getRouteBySource(SOURCES.GLOSSARY)}/${slug}`,
+      modified
+    )
+  );
 
   res.setHeader("Content-Type", "text/xml");
   res.write(`<?xml version="1.0" encoding="UTF-8"?>
@@ -36,7 +45,7 @@ export default async function Sitemap(req, res) {
       <lastmod>${new Date(latestPost).toISOString()}</lastmod>
       <priority>0.8</priority>
     </url>
-    ${pages.concat(staticPages).join("")}
+    ${pages.concat(staticPages, glossaryPages).join("")}
   </urlset>
 `);
   res.end();
@@ -89,7 +98,7 @@ query countDocuments($sources: [String!]!) {
 async function getDocuments() {
   const gqlListDocument = `query listDocuments($sources: [String!]!,  $offset: Int = 0, $limit: Int = 50) {
   documents(
-    order_by: {cdtn_id: asc},
+    order_by: [{source: asc}, {slug: asc}],
     limit: $limit
     offset: $offset
     where: {source: {_in: $sources},  is_available: {_eq: true}, is_published: {_eq: true} }) {
@@ -102,9 +111,9 @@ async function getDocuments() {
 
   const sources = [
     SOURCES.CDT,
+    SOURCES.CCN,
     SOURCES.CONTRIBUTIONS,
     SOURCES.EDITORIAL_CONTENT,
-    SOURCES.EXTERNALS,
     SOURCES.LETTERS,
     SOURCES.SHEET_MT_PAGE,
     SOURCES.SHEET_SP,
@@ -126,7 +135,7 @@ async function getDocuments() {
         client
           .query(gqlListDocument, {
             limit: PAGE_SIZE,
-            offset: page,
+            offset: page * PAGE_SIZE,
             sources,
           })
           .toPromise()
@@ -139,4 +148,17 @@ async function getDocuments() {
       )
     )
   );
+}
+
+async function getGlossary() {
+  const gqlListGlossryTerm = `query getGlossary {
+  glossary(order_by: {slug: asc}) {
+    slug, modified: updated_at
+  }
+}`;
+  const terms = await client.query(gqlListGlossryTerm).toPromise();
+  if (terms.error) {
+    throw terms.error;
+  }
+  return terms.data.glossary;
 }

@@ -1,4 +1,4 @@
-/** @jsx jsx  */
+/** @jsxImportSource theme-ui */
 
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -6,7 +6,7 @@ import { useFieldArray } from "react-hook-form";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "src/components/button";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
-import { Field, Flex, jsx } from "theme-ui";
+import { Box, Field, Flex } from "theme-ui";
 
 export const References = ({ control, nestName, register, errors }) => {
   const { fields: references, append, remove } = useFieldArray({
@@ -27,7 +27,7 @@ export const References = ({ control, nestName, register, errors }) => {
           sx={{ alignItems: "flex-start", flexWrap: "wrap" }}
           key={reference.key}
         >
-          <div sx={{ flex: "1 0 auto", mr: "small" }}>
+          <Box mr="small" sx={{ flex: "1 0 auto" }}>
             <Field
               type="text"
               label="Label"
@@ -44,8 +44,8 @@ export const References = ({ control, nestName, register, errors }) => {
               errors={errors}
               fieldName={`${nestName}[${index}].title`}
             />
-          </div>
-          <div sx={{ flex: "1 0 auto", mr: "small" }}>
+          </Box>
+          <Box mr="small" sx={{ flex: "1 0 auto" }}>
             <Field
               type="text"
               label="URL"
@@ -62,7 +62,7 @@ export const References = ({ control, nestName, register, errors }) => {
               errors={errors}
               fieldName={`${nestName}[${index}].url`}
             />
-          </div>
+          </Box>
           {references.length > 1 && (
             <Button
               type="button"

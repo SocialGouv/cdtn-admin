@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp, IoMdGitCompare } from "react-icons/io";
 
 import { Button } from "../button";

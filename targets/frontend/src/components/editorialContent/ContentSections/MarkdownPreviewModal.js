@@ -1,4 +1,4 @@
-/** @jsx jsx  */
+/** @jsxImportSource theme-ui */
 
 import micromark from "micromark";
 import PropTypes from "prop-types";
@@ -6,7 +6,7 @@ import { useState } from "react";
 import { IoIosEye } from "react-icons/io";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
-import { Flex, jsx } from "theme-ui";
+import { Flex } from "theme-ui";
 
 export const MarkdownPreviewModal = ({ markdown }) => {
   const [showMarkdownPreview, setShowMarkdownPreview] = useState(false);
@@ -34,6 +34,8 @@ export const MarkdownPreviewModal = ({ markdown }) => {
           margin: 0,
           maxHeight: "90vh",
           maxWidth: "50rem",
+          overflow: "auto",
+          position: "absolute",
           top: "50%",
           transform: "translate(-50%, -50%)",
           width: "90vw",

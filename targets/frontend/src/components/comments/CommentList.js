@@ -1,8 +1,6 @@
-/** @jsx jsx */
-
 import PropTypes from "prop-types";
 import { useLayoutEffect, useRef } from "react";
-import { jsx, Text } from "theme-ui";
+import { Box, Text } from "theme-ui";
 
 import { Stack } from "../layout/Stack";
 import { Comment, commentPropTypes } from "./Comment";
@@ -15,7 +13,7 @@ export function CommentList({ comments }) {
     }
   });
   return (
-    <div
+    <Box
       ref={scrollContainer}
       sx={{ maxHeight: "200px", overflow: "hidden", overflowY: "auto" }}
     >
@@ -30,7 +28,7 @@ export function CommentList({ comments }) {
           </Text>
         )}
       </Stack>
-    </div>
+    </Box>
   );
 }
 

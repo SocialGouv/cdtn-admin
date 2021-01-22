@@ -1,4 +1,3 @@
-/** @jsx jsx  */
 import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
@@ -6,7 +5,7 @@ import { UserForm } from "src/components/user/UserForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { getExpiryDate } from "src/lib/duration";
-import { jsx, Message } from "theme-ui";
+import { Message } from "theme-ui";
 import { useMutation } from "urql";
 
 const registerUserMutation = `

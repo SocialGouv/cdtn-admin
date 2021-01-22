@@ -1,14 +1,12 @@
-/** @jsx jsx  */
-
 import PropTypes from "prop-types";
 import { useRef } from "react";
 import { Controller } from "react-hook-form";
 import { Button } from "src/components/button";
-import { Flex, Input, jsx } from "theme-ui";
+import { Flex, Input } from "theme-ui";
 
 import { List } from "./List";
 
-const Lister = ({ defaultValue = "[]", disabled, ...props }) => {
+const Lister = ({ defaultValue = [], disabled, ...props }) => {
   return (
     <Controller
       {...props}
@@ -54,7 +52,7 @@ function RootLister({ disabled, value: entries, onChange, name }) {
       {!disabled && (
         <Flex>
           <Input
-            sx={{ p: "xxsmall" }}
+            p="xxsmall"
             id={name}
             name={name}
             ref={inputRef}
@@ -65,7 +63,8 @@ function RootLister({ disabled, value: entries, onChange, name }) {
             onClick={onAddEntry}
             variant="secondary"
             type="button"
-            sx={{ flex: "1 0 auto", ml: "xxsmall" }}
+            sx={{ flex: "1 0 auto" }}
+            ml="xxsmall"
           >
             Ajouter
           </Button>

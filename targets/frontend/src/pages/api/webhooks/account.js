@@ -4,7 +4,7 @@ import { createErrorFor } from "src/lib/apiError";
 import sendmail from "src/lib/sendmail";
 
 const BASE_URL =
-  process.env.FRONTEND_URL || `http://localhost:${process.env.PORT}`;
+  process.env.CI_ENVIRONMENT_URL || `http://localhost:${process.env.PORT}`;
 export default async function accountWebhook(req, res) {
   const apiError = createErrorFor(res);
 

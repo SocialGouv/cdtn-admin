@@ -44,10 +44,19 @@ export type ParseDilaReference = {
   dila_container_id: string
 }
 
-export type Contribution = Omit<QuestionRaw, "title" | "answers"> & {
+export type Contribution = Omit<QuestionRaw, "title" | "answers"> & Answers
+
+type CCMultipleAnswers = {
   answers: {
     generic: GenericAnswer
     conventions: Answer[]
+  }
+}
+
+type CCSingleAnswer = {
+  answers: {
+    generic: GenericAnswer
+    conventionAnswer: Answer
   }
 }
 
@@ -58,3 +67,5 @@ type GenericAnswer = Omit<GenericAnswerRaw, "references"> & {
 type Answer = Omit<AnswerRaw, "references"> & {
   references: ParseDilaReference[]
 }
+
+type Answers = CCSingleAnswer | CCMultipleAnswers

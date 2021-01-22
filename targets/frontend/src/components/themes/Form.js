@@ -1,5 +1,3 @@
-/** @jsx jsx  */
-
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
@@ -7,7 +5,7 @@ import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { IconPicker } from "src/components/forms/IconPicker";
-import { Field, Flex, jsx, Label, NavLink, Textarea } from "theme-ui";
+import { Box, Field, Flex, Label, NavLink, Textarea } from "theme-ui";
 
 const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
   const { control, register, handleSubmit, errors } = useForm();
@@ -23,7 +21,7 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <>
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Field
             type="text"
             name="title"
@@ -34,9 +32,9 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
             })}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
-        </div>
+        </Box>
 
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Field
             type="text"
             name="shortTitle"
@@ -44,9 +42,9 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
             defaultValue={theme.document?.shortTitle}
             ref={register}
           />
-        </div>
+        </Box>
 
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Field
             type="text"
             name="metaDescription"
@@ -54,9 +52,9 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
             defaultValue={theme.metaDescription}
             ref={register}
           />
-        </div>
+        </Box>
 
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Label htmlFor={"description"}>Description</Label>
           <Textarea
             name="description"
@@ -65,9 +63,9 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
             defaultValue={theme.document?.description}
             ref={register}
           />
-        </div>
+        </Box>
 
-        <div sx={{ mb: "small" }}>
+        <Box mb="small">
           <Label htmlFor={"icon"}>Icône</Label>
           <IconPicker
             control={control}
@@ -75,9 +73,9 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
             id="icon"
             defaultValue={theme.document?.icon}
           />
-        </div>
+        </Box>
 
-        <div sx={{ my: "larger" }}>
+        <Box my="larger">
           <h2>Contenus du thème</h2>
           <ContentPicker
             control={control}
@@ -94,7 +92,7 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
               []
             }
           />
-        </div>
+        </Box>
 
         <Flex sx={{ alignItems: "center", mt: "medium" }}>
           <Button variant="secondary" disabled={hasError || loading}>

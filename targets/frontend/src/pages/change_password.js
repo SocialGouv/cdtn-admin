@@ -1,12 +1,10 @@
-/** @jsx jsx */
-
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { PasswordLayout } from "src/components/layout/password.layout";
 import { PasswordForm } from "src/components/user/PasswordForm";
 import { request } from "src/lib/request";
-import { jsx, NavLink, Text } from "theme-ui";
+import { NavLink, Text } from "theme-ui";
 
 export default function ChangePasswordPage() {
   const router = useRouter();

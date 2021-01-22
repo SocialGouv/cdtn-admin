@@ -1,4 +1,4 @@
-/** @jsx jsx  */
+/** @jsxImportSource theme-ui */
 
 import { icons } from "@socialgouv/react-ui";
 import PropTypes from "prop-types";
@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 import { IoMdCloseCircle } from "react-icons/io";
 import { IconButton } from "src/components/button";
 import { Dialog } from "src/components/dialog";
-import { Card, jsx } from "theme-ui";
+import { Card } from "theme-ui";
 
 const IconPicker = ({ defaultValue = null, disabled, ...props }) => {
   return (

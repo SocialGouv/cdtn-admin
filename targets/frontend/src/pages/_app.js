@@ -7,7 +7,7 @@ import * as Sentry from "@sentry/node";
 import { init } from "@socialgouv/matomo-next";
 import getConfig from "next/config";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { theme } from "src/theme";
 import { ThemeProvider } from "theme-ui";
 

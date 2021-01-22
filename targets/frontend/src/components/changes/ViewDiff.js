@@ -1,11 +1,11 @@
-// adapted from https://github.com/davidmason/react-stylable-diff/blob/master/lib/react-diff.js
-/** @jsx jsx */
+/** @jsxImportSource theme-ui */
 
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { jsx } from "theme-ui";
 
 var jsdiff = require("diff");
+
+// adapted from https://github.com/davidmason/react-stylable-diff/blob/master/lib/react-diff.js
 
 const fnMap = {
   chars: jsdiff.diffChars,
