@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";

@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import micromark from "micromark";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -33,6 +35,7 @@ export const MarkdownPreviewModal = ({ markdown }) => {
           maxHeight: "90vh",
           maxWidth: "50rem",
           overflow: "auto",
+          position: "absolute",
           top: "50%",
           transform: "translate(-50%, -50%)",
           width: "90vw",

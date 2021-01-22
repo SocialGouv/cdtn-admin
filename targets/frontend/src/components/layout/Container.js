@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 export function Container(props) {
   return (
     <div

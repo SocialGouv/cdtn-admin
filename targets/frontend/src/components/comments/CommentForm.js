@@ -1,6 +1,7 @@
 import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
+import { Input, Label } from "theme-ui";
 
 import { Button } from "../button";
 
@@ -18,8 +19,8 @@ export function CommentForm({ onSubmit }) {
 
   return (
     <form onSubmit={handleSubmit(submitHandler)}>
-      <label sx={{ alignItems: "center", display: "flex" }}>
-        <input
+      <Label sx={{ alignItems: "center", display: "flex" }}>
+        <Input
           sx={{
             border: "1px solid",
             borderColor: "neutral",
@@ -37,7 +38,7 @@ export function CommentForm({ onSubmit }) {
         <VisuallyHidden>
           <Button type="submit">Envoyer le commentaire</Button>
         </VisuallyHidden>
-      </label>
+      </Label>
     </form>
   );
 }

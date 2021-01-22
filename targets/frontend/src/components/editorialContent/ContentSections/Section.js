@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useWatch } from "react-hook-form";
@@ -12,8 +14,9 @@ import { Button, IconButton } from "src/components/button";
 import { ReferenceBlocks } from "src/components/editorialContent/ReferenceBlocks";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Stack } from "src/components/layout/Stack";
+import { Li } from "src/components/list";
 import { MarkdownLink } from "src/components/MarkdownLink";
-import { Container, Field, Flex, Label, Radio, Textarea } from "theme-ui";
+import { Box, Container, Field, Flex, Label, Radio, Textarea } from "theme-ui";
 
 import { MarkdownPreviewModal } from "./MarkdownPreviewModal";
 
@@ -64,7 +67,7 @@ const RootSection = ({
   }, [errors, setOpen]);
 
   return (
-    <li sx={{ listStyleType: "none" }}>
+    <Li>
       <Container
         key={block.key}
         bg="highlight"
@@ -78,7 +81,7 @@ const RootSection = ({
             }}
           >
             {numberOfBlocks > 1 && <DragHandle />}
-            <div sx={{ flex: "1 0 auto", mx: "small", my: "0" }}>
+            <Box mx="small" my="0" sx={{ flex: "1 0 auto" }}>
               <Field
                 name={`${name}.title`}
                 label="Titre de la section"
@@ -91,8 +94,8 @@ const RootSection = ({
                 })}
               />
               <FormErrorMessage errors={errors} fieldName="title" />
-            </div>
-            <div sx={{ mt: "medium" }}>
+            </Box>
+            <Box mt="medium">
               <Button
                 type="button"
                 variant="secondary"
@@ -109,9 +112,9 @@ const RootSection = ({
                   />
                 )}
               </Button>
-            </div>
+            </Box>
           </Flex>
-          <div sx={{ display: isOpen ? "block" : "none" }}>
+          <Box sx={{ display: isOpen ? "block" : "none" }}>
             <Stack>
               <div>
                 <Flex sx={{ justifyContent: "flex-start" }}>
@@ -150,7 +153,7 @@ const RootSection = ({
                   >
                     Graphique{" "}
                     <Radio
-                      sx={{ ml: "xxsmall" }}
+                      ml="xxsmall"
                       name={`${name}.type`}
                       value={TYPES.GRAPHIC}
                       defaultChecked={block.type === TYPES.GRAPHIC}
@@ -273,10 +276,10 @@ const RootSection = ({
                 />
               </div>
             </Stack>
-          </div>
+          </Box>
         </Stack>
       </Container>
-    </li>
+    </Li>
   );
 };
 

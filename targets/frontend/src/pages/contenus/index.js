@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";

@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import {
   AccordionButton as ReachAccordionButton,
   useAccordionItemContext,
@@ -124,7 +126,7 @@ const OutlineButton = React.forwardRef(function _OutlineButton(
 OutlineButton.propTypes = buttonPropTypes;
 
 export const IconButton = React.forwardRef(function _IconButton(
-  { variant = "primary", size = "large", ...props },
+  { variant = "primary", size = "large", sx, ...props },
   ref
 ) {
   return (
@@ -147,6 +149,7 @@ export const IconButton = React.forwardRef(function _IconButton(
         fontSize: size,
         lineHeight: 1,
         overflow: "hidden",
+        ...sx,
       }}
     />
   );

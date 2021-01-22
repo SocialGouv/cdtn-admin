@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import PropTypes from "prop-types";
 import { IoMdClose } from "react-icons/io";
 import { IconButton } from "src/components/button";
@@ -30,11 +32,7 @@ export const List = ({
         >
           <Flex>
             {!disabled && (
-              <Flex
-                sx={{
-                  mr: "xxsmall",
-                }}
-              >
+              <Flex mr="xxsmall">
                 <IconButton
                   sx={{ flex: "0 0 auto", padding: "small" }}
                   type="button"

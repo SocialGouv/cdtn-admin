@@ -8,7 +8,7 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useDebouncedState } from "src/hooks/";
-import { Flex, Input, Label, Spinner } from "theme-ui";
+import { Flex, Input, Label, NavLink, Spinner, Text } from "theme-ui";
 import { useQuery } from "urql";
 
 const getGlossaryQuery = `
@@ -79,37 +79,49 @@ export function GlossaryPage() {
             <Flex sx={{ justifyContent: "flex-end" }}>
               <AddATermButton />
             </Flex>
-            <ul
+            <Flex
+              as="ul"
+              p="0"
               sx={{
+                alignItems: "center",
                 display: "flex",
                 flex: "1 1 auto",
                 flexWrap: "wrap",
                 listStyleType: "none",
-                m: 0,
-                p: 0,
               }}
             >
               {termsByLetters.map(({ letter, terms }) => (
-                <li key={`letter-${letter}`} sx={{ fontSize: "large" }}>
+                <li key={`letter-${letter}`}>
                   {terms.length > 0 ? (
-                    <a
+                    <NavLink
                       href={`#ancre-${letter}`}
-                      sx={{ padding: "xxsmall", ...linkStyles }}
+                      sx={{
+                        fontSize: "large",
+                        textDecoration: "underline",
+                        ...linkStyles,
+                        padding: "xxsmall",
+                      }}
                     >
                       {letter}
-                    </a>
+                    </NavLink>
                   ) : (
-                    <span sx={{ color: "muted", padding: "xxsmall" }}>
+                    <Text
+                      sx={{
+                        color: "muted",
+                        fontSize: "large",
+                        padding: "xxsmall",
+                      }}
+                    >
                       {letter}
-                    </span>
+                    </Text>
                   )}
                 </li>
               ))}
-            </ul>
-            <form
+            </Flex>
+            <Flex
+              as="form"
               sx={{
                 alignItems: "center",
-                display: "flex",
                 justifyContent: "flex-start",
               }}
             >
@@ -145,7 +157,7 @@ export function GlossaryPage() {
                   <IoMdCloseCircleOutline />
                 </IconButton>
               )}
-            </form>
+            </Flex>
             {isSearching ? (
               <Spinner />
             ) : displayedTerms?.length ? (

@@ -20,12 +20,7 @@ function fetchPipelines(url) {
 export function GitlabButton({ env, children }) {
   const [status, setStatus] = useState("disabled");
   const token = getToken();
-  const { error, data, isValidating, mutate } = useSWR(
-    `/api/pipelines`,
-    fetchPipelines
-  );
-
-  console.log("swr", { data, error, isValidating });
+  const { error, data, mutate } = useSWR(`/api/pipelines`, fetchPipelines);
 
   async function clickHandler() {
     if (isDisabled) {

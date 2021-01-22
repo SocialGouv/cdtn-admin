@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 import { useUser } from "src/hooks/useUser";

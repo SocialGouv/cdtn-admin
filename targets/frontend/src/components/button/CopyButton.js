@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { IoMdCheckmark, IoMdClipboard } from "react-icons/io";

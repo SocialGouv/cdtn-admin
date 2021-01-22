@@ -1,8 +1,10 @@
+import { Box } from "theme-ui";
+
 import { spacePropTypes } from "./spaces";
 
 export function Stack({ gap = "medium", ...props }) {
   return (
-    <div
+    <Box
       {...props}
       sx={{
         display: "grid",

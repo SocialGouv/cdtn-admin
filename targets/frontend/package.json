@@ -64,7 +64,7 @@
     "strip-markdown": "^4.0.0",
     "styled-components": "^5.2.1",
     "swr": "^0.3.11",
-    "theme-ui": "0.6.0-alpha.3",
+    "theme-ui": "0.6.0-alpha.4",
     "unified": "^9.2.0",
     "unist-util-parents": "^1.0.3",
     "unist-util-select": "^3.0.4",
