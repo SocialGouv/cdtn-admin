@@ -139,12 +139,12 @@ Generate sitemap (prod):
   needs: []
   extends:
     - .base_deploy_kosko_stage
+  allow_failure: true
   rules:
     - if: '($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "web") && $ACTION == "SITEMAP"'
       when: always
     - if: '($CI_COMMIT_TAG || $CI_COMMIT_REF_SLUG == "master")'
       when: manual
-      allow_failure: true
     - when: never
   environment:
     name: prod2
@@ -158,6 +158,7 @@ Generate sitemap (prod):
 Generate sitemap (dev):
   stage: Install
   needs: []
+  allow_failure: true
   extends:
     - .base_deploy_kosko_stage
   rules:
