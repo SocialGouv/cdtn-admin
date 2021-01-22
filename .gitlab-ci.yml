@@ -137,6 +137,7 @@ Restore container:
 Generate sitemap (prod):
   stage: .post
   allow_failure: true
+  needs: []
   extends:
     - .base_deploy_kosko_stage
   rules:
@@ -156,6 +157,7 @@ Generate sitemap (prod):
 Generate sitemap (dev):
   stage: .post
   allow_failure: true
+  needs: []
   extends:
     - .base_deploy_kosko_stage
   rules:
