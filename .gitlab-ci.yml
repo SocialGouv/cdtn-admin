@@ -108,7 +108,7 @@ Deploy app (prod):
 
 # todo: restrict to branches ?
 Restore container:
-  stage: Deploy
+  stage: .post
   only:
     - branches
   except:
@@ -135,11 +135,11 @@ Restore container:
     KOSKO_GENERATE_ARGS: --env prod restore
 
 Generate sitemap (prod):
-  stage: Deploy
+  stage: .post
   allow_failure: true
   extends:
     - .base_deploy_kosko_stage
-  rules: 
+  rules:
     - if: '($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "web") && $ACTION == "SITEMAP"'
       when: manual
     - if: '($CI_COMMIT_TAG == "" && $CI_COMMIT_REF_SLUG != "master")'
@@ -154,13 +154,13 @@ Generate sitemap (prod):
     KOSKO_GENERATE_ARGS: --env prod sitemap-uploader
 
 Generate sitemap (dev):
-  stage: Deploy
+  stage: .post
   allow_failure: true
   extends:
     - .base_deploy_kosko_stage
   rules:
     - if: '($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "web") && $ACTION == "SITEMAP"'
-      when: manual 
+      when: manual
     - if: '($CI_COMMIT_TAG != "" || $CI_COMMIT_REF_SLUG == "master")'
       when: never
   environment:
