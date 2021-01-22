@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`kosko generate --prod sitemap-uploader 1`] = `
+"metadata:
+  name: sitemap-uploader-424242
+  namespace: cdtn-admin-secret
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      name: sitemap-uploader-424242
+      namespace: cdtn-admin-secret
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: az-sitemap-uploader
+          image: 'mcr.microsoft.com/azure-cli:2.9.1'
+          command:
+            - bash
+          args:
+            - '-c'
+            - |+
+
+              echo \\"Fetch sitemap from $SITEMAP_ENDPOINT\\"
+
+              curl --fail -L $SITEMAP_ENDPOINT -o sitemap.xml
+
+              if [[ -f sitemap.xml ]]; then
+                # replace the default urls hostname if $BASE_URL is given
+                [[ -n $BASE_URL ]] && sed -i -E 's#<loc>https?://[^/]*/#<loc>'$BASE_URL'/#' sitemap.xml
+                # upload
+                echo \\"Upload sitemap to azure/$DESTINATION_CONTAINER/$DESTINATION_NAME\\"
+                az storage blob upload --account-name $AZ_ACCOUNT_NAME --account-key $AZ_ACCOUNT_KEY --container-name $DESTINATION_CONTAINER --file sitemap.xml --name $DESTINATION_NAME
+              else
+                echo \\"Cannot fetch sitemap.xml, abort\\"
+                exit 1
+              fi
+
+          env:
+            - name: DESTINATION_CONTAINER
+              value: destination-container
+            - name: DESTINATION_NAME
+              value: sitemap.xml
+            - name: SITEMAP_ENDPOINT
+              value: 'https://path/to/sitemap'
+            - name: BASE_URL
+              value: 'https://host.tmp'
+            - name: AZ_ACCOUNT_NAME
+              value: $(azurestorageaccountname)
+            - name: AZ_ACCOUNT_KEY
+              value: $(azurestorageaccountkey)
+          envFrom:
+            - secretRef:
+                name: azure-volume-dev-secret
+apiVersion: batch/v1
+kind: Job
+"
+`;
