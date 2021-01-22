@@ -4,7 +4,7 @@ TRUNCATE TABLE "auth"."users" CASCADE;
 -- DISABLE TRIGGERS
 --
 
-SET session_replication_role = REPLICA;
+ALTER TABLE auth.users DISABLE TRIGGER USER;
 
 WITH admin_row AS (
 INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
@@ -34,4 +34,4 @@ INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
 -- ENABLE TRIGGERS
 --
 
-SET session_replication_role = DEFAULT;
+ALTER TABLE auth.users ENABLE TRIGGER USER;
