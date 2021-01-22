@@ -1,4 +1,20 @@
 type Mutation {
+  email_account_activation (
+    email: citext!
+    secret_token: uuid!
+  ): Status
+}
+
+
+type Mutation {
+  email_password_request (
+    email: citext!
+    secret_token: uuid!
+  ): Status
+}
+
+
+type Mutation {
   preview_document (
     cdtnId: String!
     document: jsonb!
@@ -13,6 +29,11 @@ input PreviewDocument {
   cdtn_id : String
   document : jsonb
   source : String
+}
+
+input EmailInput {
+  email : String!
+  secret_token : uuid!
 }
 
 type Status {

@@ -3,3 +3,7 @@ export function createErrorFor(res) {
     res.status(statusCode).json(payload);
   };
 }
+
+export function apiError(res, { output: { statusCode, payload } }) {
+  return res.status(statusCode).json(payload);
+}

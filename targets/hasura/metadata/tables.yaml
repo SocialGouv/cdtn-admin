@@ -81,23 +81,6 @@
         id:
           _eq: X-Hasura-User-Id
       check: null
-  event_triggers:
-  - name: account_email
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-      update:
-        columns:
-        - secret_token
-    retry_conf:
-      num_retries: 1
-      interval_sec: 10
-      timeout_sec: 60
-    webhook_from_env: ACCOUNT_EMAIL_WEBHOOK_URL
-    headers:
-    - name: email-secret
-      value_from_env: ACCOUNT_EMAIL_SECRET
 - table:
     schema: public
     name: alert_notes

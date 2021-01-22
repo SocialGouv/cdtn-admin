@@ -10,12 +10,18 @@ import { useMutation } from "urql";
 
 const registerUserMutation = `
 mutation registerUser($user: auth_users_insert_input! ) {
-  insert_auth_users( objects: [$user] ) {
-    returning {
-      id
-      __typename
-    }
+  user: insert_auth_users_one( object: $user ) {
+    id
+    email
+    secret_token
+    __typename
   }
+}
+`;
+
+const emailAccountMutation = `
+mutation email($email: citext!, $secret_token: uuid!) {
+	email_account_activation(email: $email, secret_token:$secret_token)
 }
 `;
 
@@ -33,12 +39,15 @@ function prepareMutationData(input) {
 export function UserPage() {
   const router = useRouter();
   const [result, registerUser] = useMutation(registerUserMutation);
+  const [, emailAccount] = useMutation(emailAccountMutation);
   const { fetching, error } = result;
 
   function handleCreate(data) {
     registerUser(prepareMutationData(data)).then((result) => {
       if (!result.error) {
         router.push("/users");
+        const { email, secret_token } = result.data.user;
+        emailAccount({ email, secret_token });
       }
     });
   }
