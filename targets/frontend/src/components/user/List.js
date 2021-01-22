@@ -64,7 +64,6 @@ export function UserList() {
         <pre>{JSON.stringify(error, 0, 2)}</pre>
       </Message>
     );
-  console.log(data.users);
   return (
     <>
       <Dialog
