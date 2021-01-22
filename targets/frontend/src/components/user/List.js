@@ -64,7 +64,7 @@ export function UserList() {
         <pre>{JSON.stringify(error, 0, 2)}</pre>
       </Message>
     );
-
+  console.log(data.users);
   return (
     <>
       <Dialog
@@ -94,7 +94,14 @@ export function UserList() {
         </thead>
         <tbody>
           {data.users.map(
-            ({ id, roles: [{ role }], name, email, created_at, active }) => (
+            ({
+              id,
+              roles: [{ role } = {}],
+              name,
+              email,
+              created_at,
+              active,
+            }) => (
               <Tr key={id}>
                 <Td align="center">
                   <Badge variant={role === "admin" ? "primary" : "secondary"}>

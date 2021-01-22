@@ -24,13 +24,14 @@ export default async function reset_password(req, res) {
   }
 
   const { email } = value;
+  const secret_token = uuidv4();
   const result = await client
     .query(udpateSecretTokenMutation, {
       email,
       expires: getExpiryDate(
         parseInt(process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES, 10)
       ),
-      secret_token: uuidv4(),
+      secret_token,
     })
     .toPromise();
 
@@ -40,6 +41,10 @@ export default async function reset_password(req, res) {
     res.json({ message: "reset password" });
     return;
   }
+
+  await client
+    .mutation(emailPasswordRequestMutation, { email, secret_token })
+    .toPromise();
 
   console.log("[reset_password]", email);
   res.json({ message: "reset password" });
@@ -62,5 +67,11 @@ mutation updateSecretTokenMutation(
   ){
     affected_rows
   }
+}
+`;
+
+const emailPasswordRequestMutation = `
+mutation email($email: citext!, $secret_token: uuid!) {
+	email_password_request(email: $email, secret_token:$secret_token)
 }
 `;
