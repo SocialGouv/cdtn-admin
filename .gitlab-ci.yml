@@ -104,6 +104,14 @@ Deploy app (prod):
   only:
     - never
 
+Release:
+  variables:
+    SEMANTIC_RELEASE_PLUGINS: "
+      @semantic-release/changelog
+      @semantic-release/exec
+      @semantic-release/git
+    "
+
 #
 
 # todo: restrict to branches ?
