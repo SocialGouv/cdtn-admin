@@ -1,10 +1,7 @@
 include:
   - project: SocialGouv/gitlab-ci-yml
-    file: /autodevops_simple_app.yml
-    ref: v16.2.0
-  - project: SocialGouv/gitlab-ci-yml
-    file: /base_deploy_kosko_stage.yml
-    ref: v20.1.5
+    file: /base_autodevops.yml
+    ref: v20.6.0
   #
   - /targets/alert-cli/.gitlab-ci.yml
   - /targets/ingester/.gitlab-ci.yml
@@ -70,39 +67,6 @@ Notify Fail (review):
   extends: .autodevops_notify_fail_review
   environment:
     name: ${CI_COMMIT_REF_SLUG}-dev2
-
-#
-
-Install:
-  only:
-    - never
-
-Build:
-  needs: []
-  only:
-    - never
-Test:
-  needs: []
-  only:
-    - never
-Lint:
-  needs: []
-  only:
-    - never
-
-Register image:
-  only:
-    - never
-
-Deploy app (dev):
-  only:
-    - never
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
-
-Deploy app (prod):
-  only:
-    - never
 
 #
 
