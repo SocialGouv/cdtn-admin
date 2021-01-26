@@ -93,7 +93,7 @@ Lint www:
 #
 
 .register_www:
-  extends: .autodevops_register_image
+  extends: .autodevops_register_docker_image
   dependencies: null
   variables:
     CONTEXT: .

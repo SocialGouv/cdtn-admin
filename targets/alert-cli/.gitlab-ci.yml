@@ -63,7 +63,7 @@ Build alert:
 #
 
 Register alert:
-  extends: .autodevops_register_image
+  extends: .autodevops_register_docker_image
   dependencies: null
   needs:
     - job: Build alert

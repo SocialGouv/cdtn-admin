@@ -1,5 +1,5 @@
 Register Hasura:
-  extends: .autodevops_register_image
+  extends: .autodevops_register_docker_image
   dependencies: []
   needs: null
   variables:
