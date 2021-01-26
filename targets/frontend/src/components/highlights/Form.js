@@ -7,6 +7,7 @@ import { IoMdCheckmark } from "react-icons/io";
 import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
+import { Fieldset } from "src/components/forms/Fieldset";
 import { Box, Field, Flex, NavLink } from "theme-ui";
 
 const HighlightsForm = ({
@@ -54,18 +55,19 @@ const HighlightsForm = ({
           <FormErrorMessage errors={errors} fieldName="slug" />
         </Box>
 
-        <h3>Contenus: </h3>
-        <ContentPicker
-          control={control}
-          name="contents"
-          id="contents"
-          defaultValue={content.contentRelations
-            .sort(({ position: a }, { position: b }) => a - b)
-            .map(({ relationId, content }) => ({
-              relationId,
-              ...content,
-            }))}
-        />
+        <Fieldset title="Contenus à mettre en avant">
+          <ContentPicker
+            control={control}
+            name="contents"
+            id="contents"
+            defaultValue={content.contentRelations
+              .sort(({ position: a }, { position: b }) => a - b)
+              .map(({ relationId, content }) => ({
+                relationId,
+                ...content,
+              }))}
+          />
+        </Fieldset>
 
         <Flex sx={{ alignItems: "center", mt: "medium" }}>
           <Button variant="secondary" disabled={loading || !isDirty}>

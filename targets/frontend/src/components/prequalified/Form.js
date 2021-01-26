@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -7,8 +9,9 @@ import { IoMdCheckmark } from "react-icons/io";
 import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
+import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
-import { Field, Flex, Label, NavLink } from "theme-ui";
+import { Field, Flex, NavLink } from "theme-ui";
 
 const PrequalifiedForm = ({
   content = { contentRelations: [] },
@@ -48,28 +51,28 @@ const PrequalifiedForm = ({
           <FormErrorMessage errors={errors} fieldName="title" />
         </div>
 
-        <div sx={{ mb: "small" }}>
-          <Label htmlFor={"variants"}>Variantes / Synonymes</Label>
+        <Fieldset title="Variantes / Synonymes" sx={{ mb: "small" }}>
           <Lister
             control={control}
             name="document.variants"
             id="variants"
             defaultValue={content.document?.variants}
           />
-        </div>
+        </Fieldset>
 
-        <h3>Contenus: </h3>
-        <ContentPicker
-          control={control}
-          name="contents"
-          id="contents"
-          defaultValue={content.contentRelations
-            .sort(({ position: a }, { position: b }) => a - b)
-            .map(({ relationId, content }) => ({
-              relationId,
-              ...content,
-            }))}
-        />
+        <Fieldset title="Contenus">
+          <ContentPicker
+            control={control}
+            name="contents"
+            id="contents"
+            defaultValue={content.contentRelations
+              .sort(({ position: a }, { position: b }) => a - b)
+              .map(({ relationId, content }) => ({
+                relationId,
+                ...content,
+              }))}
+          />
+        </Fieldset>
 
         <Flex sx={{ alignItems: "center", mt: "medium" }}>
           <Button variant="secondary" disabled={loading || !isDirty}>

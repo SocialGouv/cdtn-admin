@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import PropTypes from "prop-types";
 import { useRef } from "react";
 import { Controller } from "react-hook-form";
@@ -11,7 +13,10 @@ const Lister = ({ defaultValue = [], disabled, ...props }) => {
     <Controller
       {...props}
       defaultValue={defaultValue}
-      render={(props) => <RootLister disabled={disabled} {...props} />}
+      // eslint-disable-next-line no-unused-vars
+      render={({ ref, ...props }) => (
+        <RootLister disabled={disabled} {...props} />
+      )}
     />
   );
 };
@@ -49,6 +54,15 @@ function RootLister({ disabled, value: entries, onChange, name }) {
 
   return (
     <>
+      {entries.length > 0 && (
+        <List
+          entries={entries}
+          disabled={disabled}
+          useDragHandle={true}
+          lockAxis="y"
+          onDeleteEntry={onDeleteEntry}
+        />
+      )}
       {!disabled && (
         <Flex>
           <Input
@@ -63,21 +77,11 @@ function RootLister({ disabled, value: entries, onChange, name }) {
             onClick={onAddEntry}
             variant="secondary"
             type="button"
-            sx={{ flex: "1 0 auto" }}
-            ml="xxsmall"
+            sx={{ flex: "1 0 auto", ml: "xxsmall" }}
           >
             Ajouter
           </Button>
         </Flex>
-      )}
-      {entries.length > 0 && (
-        <List
-          entries={entries}
-          disabled={disabled}
-          useDragHandle={true}
-          lockAxis="y"
-          onDeleteEntry={onDeleteEntry}
-        />
       )}
     </>
   );

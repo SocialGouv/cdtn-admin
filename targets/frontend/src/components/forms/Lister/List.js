@@ -13,12 +13,11 @@ export const List = ({
   return (
     <ul
       sx={{
-        backgroundColor: "#f9f9f9",
         borderRadius: "small",
         listStyleType: "none",
         m: "0",
-        mt: "xxsmall",
-        p: "0.4rem",
+        mb: "xxsmall",
+        p: 0,
       }}
     >
       {entries.map((entry) => (
