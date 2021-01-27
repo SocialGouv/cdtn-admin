@@ -3,11 +3,11 @@ plugins:
   - "@semantic-release/release-notes-generator"
   - - "@semantic-release/exec"
     - prepareCmd: |
-        yarn lerna version ${nextRelease.version} \
+        lerna version ${nextRelease.version} \
           --no-git-tag-version \
           --yes
       publishCmd: |
-        yarn lerna publish from-git --yes
+        lerna publish from-git --yes
   - - "@semantic-release/git"
     - assets:
       - CHANGELOG.md
