@@ -111,6 +111,8 @@ Release:
       @semantic-release/exec
       @semantic-release/git
     "
+  before_script:
+    - yarn global add lerna
 
 #
 
