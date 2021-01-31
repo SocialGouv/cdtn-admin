@@ -2,6 +2,8 @@
 
 exports[`kosko generate --prod restore 1`] = `
 "---
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: restore-container-8843083e
   namespace: cdtn-admin-secret
@@ -69,29 +71,29 @@ spec:
             - name: SOURCE_ACCOUNT_NAME
               valueFrom:
                 secretKeyRef:
-                  name: azure-cdtnadminprod-volume
                   key: azurestorageaccountname
+                  name: azure-cdtnadminprod-volume
             - name: SOURCE_ACCOUNT_KEY
               valueFrom:
                 secretKeyRef:
-                  name: azure-cdtnadminprod-volume
                   key: azurestorageaccountkey
+                  name: azure-cdtnadminprod-volume
             - name: DESTINATION_ACCOUNT_NAME
               valueFrom:
                 secretKeyRef:
-                  name: azure-cdtnadmindev-volume
                   key: azurestorageaccountname
+                  name: azure-cdtnadmindev-volume
             - name: DESTINATION_ACCOUNT_KEY
               valueFrom:
                 secretKeyRef:
-                  name: azure-cdtnadmindev-volume
                   key: azurestorageaccountkey
+                  name: azure-cdtnadmindev-volume
             - name: SOURCE_CONTAINER
               value: source-container
             - name: DESTINATION_CONTAINER
               value: destination-container
           envFrom: []
-          image: 'mcr.microsoft.com/azure-cli:2.15.1'
+          image: mcr.microsoft.com/azure-cli:2.15.1
           imagePullPolicy: IfNotPresent
           name: restore-db
           resources:
@@ -102,12 +104,19 @@ spec:
               cpu: 50m
               memory: 64Mi
       restartPolicy: Never
-apiVersion: batch/v1
-kind: Job
+  ttlSecondsAfterFinished: 86400
 ---
+apiVersion: v1
+kind: ConfigMap
 data:
   post-restore.sql: |
     TRUNCATE TABLE \\"auth\\".\\"users\\" CASCADE;
+
+    --
+    -- DISABLE TRIGGERS
+    --
+
+    ALTER TABLE auth.users DISABLE TRIGGER USER;
 
     WITH admin_row AS (
     INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
@@ -132,12 +141,18 @@ data:
         id
       FROM
         admin_row;
+
+    --
+    -- ENABLE TRIGGERS
+    --
+
+    ALTER TABLE auth.users ENABLE TRIGGER USER;
 metadata:
   name: post-restore-script-configmap-8843083e
   namespace: cdtn-admin-secret
-apiVersion: v1
-kind: ConfigMap
 ---
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: restore-db-8843083e
   namespace: cdtn-admin-secret
@@ -225,7 +240,30 @@ spec:
         - configMap:
             name: post-restore-script-configmap-8843083e
           name: scripts
-apiVersion: batch/v1
-kind: Job
+      initContainers:
+        - env:
+            - name: PGHOST
+              value: cdtnadmindevserver.postgres.database.azure.com
+            - name: PGDATABASE
+              value: autodevops_8843083e
+            - name: PGPASSWORD
+              value: password_8843083e
+            - name: PGUSER
+              value: user_8843083e
+            - name: PGSSLMODE
+              value: require
+          envFrom: []
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:2.6.1
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+  ttlSecondsAfterFinished: 86400
 "
 `;
