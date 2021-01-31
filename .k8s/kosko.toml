@@ -1,6 +1,6 @@
 
-# dont include restore jobs on deploys
-components = ["!restore", "!sitemap-uploader","*"]
+# dont include jobs on deploys
+components = ["!jobs", "*"]
 require = ["ts-node/register"]
 
 # dont include underscores-prefix components
