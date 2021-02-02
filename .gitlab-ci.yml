@@ -104,6 +104,16 @@ Deploy app (prod):
   only:
     - never
 
+Release:
+  variables:
+    SEMANTIC_RELEASE_PLUGINS: "
+      @semantic-release/changelog
+      @semantic-release/exec
+      @semantic-release/git
+    "
+  before_script:
+    - yarn global add lerna
+
 #
 
 # todo: restrict to branches ?
