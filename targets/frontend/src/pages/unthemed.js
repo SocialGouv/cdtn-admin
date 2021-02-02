@@ -1,4 +1,4 @@
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { ThemePicker } from "src/components/forms/ContentPicker/ThemePicker";
@@ -9,7 +9,7 @@ import { Li, List } from "src/components/list";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Flex, Message, Spinner, Text } from "theme-ui";
+import { Box, Flex, Heading, Message, Spinner, Text } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const insertRelationMutation = `
@@ -41,7 +41,6 @@ export function UnthemedPage() {
   const [resultInsert, insertRelations] = useMutation(insertRelationMutation);
 
   function onSubmit(data) {
-    console.log("submit", data);
     const themedDocuments = Object.entries(data).flatMap(
       ([contentId, theme]) => {
         if (!theme) return [];
@@ -53,15 +52,20 @@ export function UnthemedPage() {
         };
       }
     );
-    console.log("insert");
     insertRelations({ relations: themedDocuments }).then(() => {
       console.log("fetch");
       reexecuteQuery({ requestPolicy: "network-only" });
     });
   }
   const { data, fetching, error } = result;
-  console.log(resultInsert.fetching, fetching, result.stale);
-
+  const documentMap =
+    data?.documents.reduce((state, { cdtnId, source, title }) => {
+      if (Object.prototype.hasOwnProperty.call(state, source)) {
+        state[source].push({ cdtnId, title });
+      } else state[source] = [{ cdtnId, title }];
+      return state;
+    }, {}) || {};
+  const documentsBySource = Object.entries(documentMap);
   if (error) {
     return (
       <Layout title="Contenus sans thèmes">
@@ -75,46 +79,51 @@ export function UnthemedPage() {
   }
 
   return (
-    <Layout title="Contenus sans thèmes">
+    <Layout title="Contenus sans thème">
       {!data && fetching && <Spinner />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
-          <List>
-            {data?.documents.map(({ cdtnId, source, title }) => {
-              return (
-                <Li key={cdtnId}>
-                  <Flex pt="small">
-                    <Box sx={{ flex: 1, lineHeight: 1.2 }} title={title}>
-                      <Text sx={{ color: "grey", fontSize: "small" }}>
-                        {source}
-                      </Text>
-                      <Box sx={{ minWidth: 0 }}>
-                        <Text
-                          sx={{
-                            display: "block",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}
+          {documentsBySource.map(([source, documents]) => {
+            return (
+              <>
+                <Heading as="h2" sx={{ fontSize: "large" }}>
+                  {getLabelBySource(source)}
+                </Heading>
+                <List>
+                  {documents.map(({ cdtnId, title }) => (
+                    <Li key={cdtnId}>
+                      <Flex pt="small">
+                        <Box
+                          sx={{ flex: 1, marginRight: "small", minWidth: 0 }}
+                          title={title}
                         >
-                          {title}
-                        </Text>
-                      </Box>
-                    </Box>
-                    <Box sx={{ flex: 1 }}>
-                      <ThemePicker
-                        name={`${cdtnId}`}
-                        control={control}
-                        defaultValue=""
-                      />
-                    </Box>
-                  </Flex>
-                </Li>
-              );
-            })}
-          </List>
+                          <Text
+                            sx={{
+                              display: "block",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {title}
+                          </Text>
+                        </Box>
+                        <Box sx={{ flex: 1 }}>
+                          <ThemePicker
+                            name={`${cdtnId}`}
+                            control={control}
+                            defaultValue=""
+                          />
+                        </Box>
+                      </Flex>
+                    </Li>
+                  ))}
+                </List>
+              </>
+            );
+          })}
 
-          {data?.documents.length > 0 && (
+          {documentsBySource.length > 0 && (
             <Box>
               <Button
                 type="submit"

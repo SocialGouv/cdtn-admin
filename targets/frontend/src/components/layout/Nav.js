@@ -128,7 +128,7 @@ export function Nav() {
           </Li>
           <Li>
             <ActiveLink href="/unthemed" passHref>
-              Contenus sans thèmes
+              Contenus sans thème
             </ActiveLink>
           </Li>
         </List>
