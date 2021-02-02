@@ -126,6 +126,11 @@ export function Nav() {
               Fichiers
             </ActiveLink>
           </Li>
+          <Li>
+            <ActiveLink href="/unthemed" passHref>
+              Contenus sans thèmes
+            </ActiveLink>
+          </Li>
         </List>
       </Box>
     </Box>

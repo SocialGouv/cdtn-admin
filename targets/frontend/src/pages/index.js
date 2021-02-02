@@ -1,5 +1,5 @@
 import { GitlabButton } from "src/components/button/GitlabButton";
-import { UnthemedContent } from "src/components/home/UnthemedContent";
+import { UnThemedContent } from "src/components/home/UnThemedContent";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
@@ -15,7 +15,7 @@ export function IndexPage() {
         <Inline>
           <GitlabButton env="prod">Mettre à jour la prod</GitlabButton>
           <GitlabButton env="preprod">Mettre à jour la preprod</GitlabButton>
-          <UnthemedContent />
+          <UnThemedContent />
         </Inline>
       </Stack>
     </Layout>
