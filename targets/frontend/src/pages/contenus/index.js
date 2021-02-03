@@ -3,6 +3,7 @@
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import PropTypes from "prop-types";
 import { memo, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
@@ -93,6 +94,7 @@ const documentSources = [
   [SOURCES.EXTERNALS, getLabelBySource(SOURCES.EXTERNALS)],
   [SOURCES.TOOLS, getLabelBySource(SOURCES.TOOLS)],
   [SOURCES.HIGHLIGHTS, getLabelBySource(SOURCES.HIGHLIGHTS)],
+  [SOURCES.PREQUALIFIED, getLabelBySource(SOURCES.PREQUALIFIED)],
 ];
 
 const DEFAULT_ITEMS_PER_PAGE = 25;
@@ -344,6 +346,11 @@ const DocumentRow = memo(function _DocumentRow({
   );
 });
 
+DocumentRow.propTypes = {
+  document: PropTypes.object.isRequired,
+  updatePublish: PropTypes.func.isRequired,
+};
+
 const checkboxStyles = {
   cursor: "pointer",
   display: "block",
@@ -358,6 +365,7 @@ const sourceToRoute = ({ cdtnId, source }) => {
   switch (source) {
     case SOURCES.EDITORIAL_CONTENT:
     case SOURCES.HIGHLIGHTS:
+    case SOURCES.PREQUALIFIED:
       return `/contenus/edit/${cdtnId}`;
     default:
       return `/contenus/${cdtnId}`;

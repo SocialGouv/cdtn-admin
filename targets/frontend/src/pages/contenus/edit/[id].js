@@ -12,6 +12,7 @@ import { HighlightsForm } from "src/components/highlights/Form";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
+import { PrequalifiedForm } from "src/components/prequalified/Form";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
@@ -181,6 +182,9 @@ export function EditInformationPage() {
       break;
     case SOURCES.EDITORIAL_CONTENT:
       ContentForm = EditorialContentForm;
+      break;
+    case SOURCES.PREQUALIFIED:
+      ContentForm = PrequalifiedForm;
       break;
     default:
       //eslint-disable-next-line react/display-name

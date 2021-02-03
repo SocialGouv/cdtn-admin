@@ -107,6 +107,11 @@ export function Nav() {
             </ActiveLink>
           </Li>
           <Li>
+            <ActiveLink href="/contenus?source=prequalified" passHref>
+              Requetes pré-qualifiées
+            </ActiveLink>
+          </Li>
+          <Li>
             <ActiveLink href="/glossary" passHref>
               Glossaire
             </ActiveLink>
@@ -133,7 +138,11 @@ export function Nav() {
 }
 
 // used to make sure two links are not highlighted at the same time
-const subRouteSources = [SOURCES.EDITORIAL_CONTENT, SOURCES.HIGHLIGHTS];
+const subRouteSources = [
+  SOURCES.EDITORIAL_CONTENT,
+  SOURCES.HIGHLIGHTS,
+  SOURCES.PREQUALIFIED,
+];
 
 function ActiveLink({ children, href }) {
   const router = useRouter();

@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -8,12 +10,13 @@ import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
-import { Box, Field, Flex, NavLink } from "theme-ui";
+import { Lister } from "src/components/forms/Lister";
+import { Field, Flex, NavLink } from "theme-ui";
 
-const HighlightsForm = ({
+const PrequalifiedForm = ({
   content = { contentRelations: [] },
   onSubmit,
-  loading = false,
+  loading,
 }) => {
   const router = useRouter();
   const {
@@ -26,36 +29,38 @@ const HighlightsForm = ({
   return (
     <form
       onSubmit={handleSubmit((values) =>
-        onSubmit({ ...values, isSearchable: false })
+        onSubmit({
+          ...values,
+          isPublished: false,
+          isSearchable: false,
+          text: values.title,
+        })
       )}
     >
       <>
-        <Box mb="small">
+        <div sx={{ mb: "small" }}>
           <Field
             type="text"
             name="title"
-            label="Nom"
+            label="Requete"
             defaultValue={content.title}
             ref={register({
-              required: { message: "Le nom est requis", value: true },
+              required: { message: "La requete est requise", value: true },
             })}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
-        </Box>
-        <Box mb="small">
-          <Field
-            type="text"
-            name="slug"
-            label="Indentifiant (modifiez le uniquement si vous savez très précisément ce que vous faites)"
-            defaultValue={content.slug}
-            ref={register({
-              required: { message: "L’identifiant est requis", value: true },
-            })}
-          />
-          <FormErrorMessage errors={errors} fieldName="slug" />
-        </Box>
+        </div>
 
-        <Fieldset title="Contenus à mettre en avant">
+        <Fieldset title="Variantes / Synonymes" sx={{ mb: "small" }}>
+          <Lister
+            control={control}
+            name="document.variants"
+            id="variants"
+            defaultValue={content.document?.variants}
+          />
+        </Fieldset>
+
+        <Fieldset title="Contenus">
           <ContentPicker
             control={control}
             name="contents"
@@ -99,12 +104,12 @@ const HighlightsForm = ({
   );
 };
 
-HighlightsForm.propTypes = {
+PrequalifiedForm.propTypes = {
   content: PropTypes.object,
   loading: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
 };
 
-const MemoisedHighlightsForm = React.memo(HighlightsForm);
+const MemoisedPrequalifiedForm = React.memo(PrequalifiedForm);
 
-export { MemoisedHighlightsForm as HighlightsForm };
+export { MemoisedPrequalifiedForm as PrequalifiedForm };

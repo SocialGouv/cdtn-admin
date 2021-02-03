@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import slugify from "@socialgouv/cdtn-slugify";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -6,6 +8,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
+import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
 import { MarkdownLink } from "src/components/MarkdownLink";
 import { Box, Field, Flex, Label, NavLink, Text, Textarea } from "theme-ui";
@@ -109,33 +112,30 @@ export const TermForm = ({ term = {} }) => {
             mb: "small",
           }}
         >
-          <Box sx={{ flex: "1 1 auto" }}>
-            <Label htmlFor={"variants"}>Variantes / Synonymes</Label>
+          <Fieldset title="Variantes / Synonymes" sx={{ flex: "1 1 auto" }}>
             <Lister
               control={control}
               name="variants"
               id="variants"
               defaultValue={term.variants}
             />
-          </Box>
-          <Box sx={{ flex: "1 1 auto" }}>
-            <Label htmlFor={"abbreviations"}>Abréviations</Label>
+          </Fieldset>
+          <Fieldset title="Abréviations" sx={{ flex: "1 1 auto" }}>
             <Lister
               control={control}
               name="abbreviations"
               id="abbreviations"
               defaultValue={term.abbreviations}
             />
-          </Box>
-          <Box sx={{ flex: "1 1 auto" }}>
-            <Label htmlFor={"references"}>Références</Label>
+          </Fieldset>
+          <Fieldset title="Références" sx={{ flex: "1 1 auto" }}>
             <Lister
               control={control}
               name="references"
               id="references"
               defaultValue={term.references}
             />
-          </Box>
+          </Fieldset>
         </Flex>
 
         <Flex sx={{ alignItems: "center", mt: "medium" }}>
