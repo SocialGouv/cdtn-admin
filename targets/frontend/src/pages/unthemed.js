@@ -1,8 +1,11 @@
-import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
+import { getLabelBySource } from "@socialgouv/cdtn-sources";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { ThemePicker } from "src/components/forms/ContentPicker/ThemePicker";
-import { getUnthemedContentQuery } from "src/components/home/UnThemedContent";
+import {
+  getUnthemedContentQuery,
+  THEMABLE_CONTENT,
+} from "src/components/home/UnThemedContent";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { Li, List } from "src/components/list";
@@ -26,15 +29,7 @@ export function UnthemedPage() {
   const [result, reexecuteQuery] = useQuery({
     query: getUnthemedContentQuery,
     variables: {
-      themeSources: [
-        SOURCES.SHEET_MT_PAGE,
-        SOURCES.SHEET_SP,
-        SOURCES.CONTRIBUTIONS,
-        SOURCES.EDITORIAL_CONTENT,
-        SOURCES.LETTERS,
-        SOURCES.EXTERNALS,
-        SOURCES.TOOLS,
-      ],
+      themeSources: THEMABLE_CONTENT,
     },
   });
 
@@ -53,14 +48,14 @@ export function UnthemedPage() {
       }
     );
     insertRelations({ relations: themedDocuments }).then(() => {
-      console.log("fetch");
       reexecuteQuery({ requestPolicy: "network-only" });
     });
   }
   const { data, fetching, error } = result;
   const documentMap =
     data?.documents.reduce((state, { cdtnId, source, title }) => {
-      if (Object.prototype.hasOwnProperty.call(state, source)) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (state.hasOwnProperty("source")) {
         state[source].push({ cdtnId, title });
       } else state[source] = [{ cdtnId, title }];
       return state;

@@ -28,19 +28,22 @@ query getUnthemed($themeSources: [String!]!) {
 }
 `;
 
+export const THEMABLE_CONTENT = [
+  SOURCES.SHEET_MT_PAGE,
+  SOURCES.SHEET_SP,
+  SOURCES.CONTRIBUTIONS,
+  SOURCES.EDITORIAL_CONTENT,
+  SOURCES.LETTERS,
+  SOURCES.EXTERNALS,
+  SOURCES.THEMATIC_FILES,
+  SOURCES.TOOLS,
+];
+
 export function UnThemedContent() {
   const [result] = useQuery({
     query: getUnthemedContentQuery,
     variables: {
-      themeSources: [
-        SOURCES.SHEET_MT_PAGE,
-        SOURCES.SHEET_SP,
-        SOURCES.CONTRIBUTIONS,
-        SOURCES.EDITORIAL_CONTENT,
-        SOURCES.LETTERS,
-        SOURCES.EXTERNALS,
-        SOURCES.TOOLS,
-      ],
+      themeSources: THEMABLE_CONTENT,
     },
   });
 
