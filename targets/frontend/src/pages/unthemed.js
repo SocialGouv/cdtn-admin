@@ -1,4 +1,4 @@
-import { getLabelBySource } from "@socialgouv/cdtn-sources";
+import { getLabelBySource, getRouteBySource } from "@socialgouv/cdtn-sources";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { ThemePicker } from "src/components/forms/ContentPicker/ThemePicker";
@@ -12,7 +12,7 @@ import { Li, List } from "src/components/list";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Flex, Heading, Message, Spinner, Text } from "theme-ui";
+import { Box, Flex, Heading, Message, NavLink, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const insertRelationMutation = `
@@ -53,11 +53,11 @@ export function UnthemedPage() {
   }
   const { data, fetching, error } = result;
   const documentMap =
-    data?.documents.reduce((state, { cdtnId, source, title }) => {
+    data?.documents.reduce((state, { cdtnId, source, title, slug }) => {
       // eslint-disable-next-line no-prototype-builtins
       if (state.hasOwnProperty(source)) {
-        state[source].push({ cdtnId, title });
-      } else state[source] = [{ cdtnId, title }];
+        state[source].push({ cdtnId, slug, title });
+      } else state[source] = [{ cdtnId, slug, title }];
       return state;
     }, {}) || {};
   const documentsBySource = Object.entries(documentMap);
@@ -80,28 +80,35 @@ export function UnthemedPage() {
         <Stack>
           {documentsBySource.map(([source, documents]) => {
             return (
-              <>
-                <Heading as="h2" sx={{ fontSize: "large" }}>
+              <Stack key={source} gap="small">
+                <Heading as="h2" p="0" sx={{ fontSize: "large" }}>
                   {getLabelBySource(source)}
                 </Heading>
                 <List>
-                  {documents.map(({ cdtnId, title }) => (
+                  {documents.map(({ cdtnId, title, slug }) => (
                     <Li key={cdtnId}>
-                      <Flex pt="small">
+                      <Flex paddingBottom="xxsmall">
                         <Box
                           sx={{ flex: 1, marginRight: "small", minWidth: 0 }}
                           title={title}
                         >
-                          <Text
+                          <NavLink
+                            href={`https://cdtn-preprod-code-travail.dev2.fabrique.social.gouv.fr/${getRouteBySource(
+                              source
+                            )}/${slug}`}
+                            target="_blank"
+                            rel="noreferrer noopener"
                             sx={{
                               display: "block",
+                              fontWeight: "300",
                               overflow: "hidden",
+                              textDecoration: "underline",
                               textOverflow: "ellipsis",
                               whiteSpace: "nowrap",
                             }}
                           >
                             {title}
-                          </Text>
+                          </NavLink>
                         </Box>
                         <Box sx={{ flex: 1 }}>
                           <ThemePicker
@@ -114,7 +121,7 @@ export function UnthemedPage() {
                     </Li>
                   ))}
                 </List>
-              </>
+              </Stack>
             );
           })}
 
