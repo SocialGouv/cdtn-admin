@@ -72,6 +72,7 @@ export function ThemeSearch({ onChange }) {
 
   const inputProps = {
     onChange: onSearchValueChange,
+    placeholder: "Entrer le nom d'un thème et sélectionner le (ex: travail)",
     value: inputSearchValue,
   };
   return (
