@@ -55,7 +55,7 @@ export function UnthemedPage() {
   const documentMap =
     data?.documents.reduce((state, { cdtnId, source, title }) => {
       // eslint-disable-next-line no-prototype-builtins
-      if (state.hasOwnProperty("source")) {
+      if (state.hasOwnProperty(source)) {
         state[source].push({ cdtnId, title });
       } else state[source] = [{ cdtnId, title }];
       return state;
