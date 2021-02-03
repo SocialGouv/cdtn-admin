@@ -1,4 +1,4 @@
-/* eslint-disable-next-line simple-import-sort/sort */
+/* eslint-disable simple-import-sort/imports */
 import PropTypes from "prop-types";
 
 import AceEditor from "react-ace";
