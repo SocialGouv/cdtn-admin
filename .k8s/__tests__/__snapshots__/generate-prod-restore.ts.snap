@@ -249,12 +249,12 @@ spec:
             - name: PGPASSWORD
               value: password_8843083e
             - name: PGUSER
-              value: user_8843083e
+              value: user_8843083e@cdtnadmindevserver.postgres.database.azure.com
             - name: PGSSLMODE
               value: require
           envFrom: []
           image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:2.6.1
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:4.3.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
