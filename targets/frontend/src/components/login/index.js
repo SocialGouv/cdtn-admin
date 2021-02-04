@@ -56,7 +56,6 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
               label="Mot de passe"
               name="password"
               type="password"
-              placeholder="•••••••••"
               defaultValue={password}
               onChange={(e) => setPassword(e.target.value)}
             />

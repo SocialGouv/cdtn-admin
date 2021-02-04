@@ -1,19 +1,25 @@
 import { GitlabButton } from "src/components/button/GitlabButton";
+import { UnThemedContent } from "src/components/home/UnThemedContent";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Text } from "theme-ui";
+import { Heading } from "theme-ui";
 
 export function IndexPage() {
   return (
-    <Layout title="Home">
+    <Layout title="Administration des contenus et gestion des alertes">
       <Stack>
-        <Text>Administration des contenus et gestion des alertes</Text>
         <Inline>
           <GitlabButton env="prod">Mettre à jour la prod</GitlabButton>
           <GitlabButton env="preprod">Mettre à jour la preprod</GitlabButton>
+        </Inline>
+        <Heading as="h2" sx={{ fontSize: "large" }}>
+          Tableau de bord
+        </Heading>
+        <Inline>
+          <UnThemedContent />
         </Inline>
       </Stack>
     </Layout>
