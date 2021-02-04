@@ -2804,10 +2804,10 @@
   dependencies:
     "@types/jest" "^26.0.20"
 
-"@socialgouv/cdtn-sources@^4.42.0":
-  version "4.42.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.42.0.tgz#338dfef1d63f14e87bad0bbdef87af44b1bb230a"
-  integrity sha512-aigRYG95c/i9w2lMzlwb7mxEXA2ArpydyHWc3MMUyJmu9/hwCZPAFrkFGtyyk8ItanjXssalyUDagZ63r6rOCg==
+"@socialgouv/cdtn-sources@^4.43.0":
+  version "4.43.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.43.0.tgz#0f5d884e6caed24905dc37e487dce7d52accf9a4"
+  integrity sha512-Iy6H1WZ4DbjmhdRHeVAiQxSDdx89YXE19hXWBMKq5sc0sr7ujt44qdTo346l2Wkv/7dGjck8l7eQqIcWIMyZVA==
 
 "@socialgouv/contributions-data-types@^3.8.0":
   version "3.8.0"
@@ -2842,20 +2842,20 @@
     eslint-plugin-simple-import-sort "~7.0.0"
     eslint-plugin-sort-keys-fix "~1.1.1"
 
-"@socialgouv/fiches-travail-data-types@^4.59.0":
-  version "4.59.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data-types/-/fiches-travail-data-types-4.59.0.tgz#88b2fbdbe623478350360127c661d8cd2522485f"
-  integrity sha512-D8RMHE4qVuZIDAemahJD2PklbI6UFe3A70kMdTNUerHqEUfUAX0gozo5Uf1KbMbzj+qAxMockeoHnayfz4nQ1Q==
+"@socialgouv/fiches-travail-data-types@^4.61.0":
+  version "4.61.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-travail-data-types/-/fiches-travail-data-types-4.61.0.tgz#7d472df20b0b4d0382e3a7c0be33f88e3f19133f"
+  integrity sha512-86pT46bYoRZMr9bCS1NmOAmDc5K1RO4Z04y8FbvyeCwOoQmSLzA9Gs1C+7iPw1qmL4pz4O1l76uwXj1UJqO03g==
 
-"@socialgouv/fiches-vdd-types@^2.72.0":
-  version "2.72.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-vdd-types/-/fiches-vdd-types-2.72.0.tgz#413f5c91f602ee14824f892b80697c531ce3526e"
-  integrity sha512-dtRfWJfHfkapfosNBJ/TaC7yRmuAyvsrU9OLNYKQBzQlExOXRPwPnl7MnlUsa9sb9a+jdB1wECr2dpnlGu1cMw==
+"@socialgouv/fiches-vdd-types@^2.73.0":
+  version "2.73.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/fiches-vdd-types/-/fiches-vdd-types-2.73.0.tgz#45dbd70df03c019ba56fe1bef886d8d6760eb3ff"
+  integrity sha512-YeU3wFnIci/bUOBM80lJo6Nc1pWu7KzlR2IbnC2rClRZXNLTyt6unmZiBMS3xMsdhZTHmUT7Q9VbhkAV5koWBg==
 
-"@socialgouv/kali-data-types@^2.45.0":
-  version "2.45.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kali-data-types/-/kali-data-types-2.45.0.tgz#a3576284cc3001acd7760689d6114fbb46ab4f4c"
-  integrity sha512-jjTDEdQ8PfWoQ05qZRRzyqssjUkUZptzEEd5FzmXblNe6p51B05J9zER6cPxnECyVCauBgfInX4RlXfksZ9fPg==
+"@socialgouv/kali-data-types@^2.46.0":
+  version "2.46.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kali-data-types/-/kali-data-types-2.46.0.tgz#56e237c673bc5ac1521e27a2c63d6dd036ba03e1"
+  integrity sha512-Q8i+U7WypzMXz/Qiu0P/WrB6sxXValH3iuOWm5rfi9zu0BX+znE5JoFVcsL/aZtPEqRXqghtkrO77OiVoYDFKQ==
 
 "@socialgouv/legi-data-types@^2.27.0":
   version "2.27.0"
@@ -6022,10 +6022,10 @@ end-of-stream@^1.0.0, end-of-stream@^1.1.0, end-of-stream@^1.4.1:
   dependencies:
     once "^1.4.0"
 
-enhanced-resolve@^5.3.2:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-5.4.1.tgz#c89b0c34f17f931902ef2913a125d4b825b49b6f"
-  integrity sha512-4GbyIMzYktTFoRSmkbgZ1LU+RXwf4AQ8Z+rSuuh1dC8plp0PPeaWvx6+G4hh4KnUJ48VoxKbNyA1QQQIUpXjYA==
+enhanced-resolve@^5.7.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-5.7.0.tgz#525c5d856680fbd5052de453ac83e32049958b5c"
+  integrity sha512-6njwt/NsZFUKhM6j9U8hzVyD4E4r0x7NQzhTCbcWOJ0IQjNSAoalWmb0AE51Wn+fwan5qVESWi7t2ToBxs9vrw==
   dependencies:
     graceful-fs "^4.2.4"
     tapable "^2.2.0"
@@ -9961,12 +9961,12 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-next-transpile-modules@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/next-transpile-modules/-/next-transpile-modules-6.1.0.tgz#f5673044a9a955855733b15ab48ff12a05e5c5f4"
-  integrity sha512-IVjXHXnvr/n7liIe7SZcDbq3Gab4zltmKk7sC8zqn/L3TJt1V49W0OnUdtD/LRUdET3i34EfH/4p45SjgyQbNw==
+next-transpile-modules@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/next-transpile-modules/-/next-transpile-modules-6.2.0.tgz#fcc55babdc2a2b2883589b4be4d9f0cc3922d2ff"
+  integrity sha512-THMOWVuLqA16LsdU84pY+pKFfTHVykV1sJz2w6ANMZ7/yjfISHVHDxUnnGRP2XRK9Q/Wl9KBb5AK+spWv6j7yw==
   dependencies:
-    enhanced-resolve "^5.3.2"
+    enhanced-resolve "^5.7.0"
     escalade "^3.1.1"
 
 next-urql@^2.2.0:
