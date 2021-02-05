@@ -142,7 +142,7 @@ Restore container:
     BACKUP_DB_OWNER: "user_${CI_COMMIT_SHORT_SHA}"
     BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
     # kosko options
-    KOSKO_GENERATE_ARGS: --env prod restore
+    KOSKO_GENERATE_ARGS: --env prod jobs/restore
 
 Generate sitemap (prod):
   stage: Install
@@ -163,7 +163,7 @@ Generate sitemap (prod):
     DESTINATION_CONTAINER: sitemap
     DESTINATION_NAME: sitemap.xml
     SECRET_NAME: azure-cdtnadminprod-volume
-    KOSKO_GENERATE_ARGS: --env prod sitemap-uploader
+    KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
 
 Generate sitemap (dev):
   stage: Install
@@ -184,4 +184,4 @@ Generate sitemap (dev):
     DESTINATION_CONTAINER: sitemap
     DESTINATION_NAME: sitemap.xml
     SECRET_NAME: azure-cdtnadmindev-volume
-    KOSKO_GENERATE_ARGS: --env dev sitemap-uploader
+    KOSKO_GENERATE_ARGS: --env dev jobs/sitemap-uploader

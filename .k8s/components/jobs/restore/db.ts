@@ -4,7 +4,7 @@ import env from "@kosko/env";
 import { ok } from "assert";
 
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
-import { restoreDbJob } from "../../restore-db.job";
+import { restoreDbJob } from "@socialgouv/kosko-charts/components/azure-pg/restore-db.job";
 
 ok(process.env.BACKUP_DB_NAME);
 ok(process.env.BACKUP_DB_OWNER);

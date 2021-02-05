@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`kosko generate --prod sitemap-uploader 1`] = `
-"metadata:
+exports[`kosko generate --prod jobs/sitemap-uploader 1`] = `
+"apiVersion: batch/v1
+kind: Job
+metadata:
   name: sitemap-uploader-424242
   namespace: cdtn-admin-secret
 spec:
@@ -14,7 +16,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: az-sitemap-uploader
-          image: 'mcr.microsoft.com/azure-cli:2.9.1'
+          image: mcr.microsoft.com/azure-cli:2.9.1
           command:
             - bash
           args:
@@ -42,9 +44,9 @@ spec:
             - name: DESTINATION_NAME
               value: sitemap.xml
             - name: SITEMAP_ENDPOINT
-              value: 'https://path/to/sitemap'
+              value: https://path/to/sitemap
             - name: BASE_URL
-              value: 'https://host.tmp'
+              value: https://host.tmp
             - name: AZ_ACCOUNT_NAME
               value: $(azurestorageaccountname)
             - name: AZ_ACCOUNT_KEY
@@ -52,7 +54,5 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-volume-dev-secret
-apiVersion: batch/v1
-kind: Job
 "
 `;
