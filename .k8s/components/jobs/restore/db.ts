@@ -31,13 +31,16 @@ const manifests = restoreDbJob({
     .toString(),
 });
 
-// override initContainer PGDATABASE because this project pipeline use the legacy `db_SHA` convention instead of `autodevops_SHA`
+// override initContainer PGDATABASE/PGPASSWORD because this project pipeline use the legacy `db_SHA` convention instead of `autodevops_SHA`
 const job = manifests.find((m) => m.kind === "Job");
 if (job) {
   //@ts-expect-error
-  job.spec.template.spec.initContainers[0].env.find(
-    (e: EnvVar) => e.name === "PGDATABASE"
-  ).value = process.env.BACKUP_DB_NAME;
+  const initContainer = job.spec.template.spec.initContainers[0];
+  initContainer.env.find((e: EnvVar) => e.name === "PGDATABASE").value =
+    process.env.BACKUP_DB_NAME;
+  initContainer.env.find(
+    (e: EnvVar) => e.name === "PGPASSWORD"
+  ).value = `pass_${process.env.CI_COMMIT_SHORT_SHA}`;
 }
 
 export default manifests;
