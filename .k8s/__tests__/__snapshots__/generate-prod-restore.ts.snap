@@ -245,7 +245,7 @@ spec:
             - name: PGHOST
               value: cdtnadmindevserver.postgres.database.azure.com
             - name: PGDATABASE
-              value: autodevops_8843083e
+              value: some-database
             - name: PGPASSWORD
               value: password_8843083e
             - name: PGUSER
