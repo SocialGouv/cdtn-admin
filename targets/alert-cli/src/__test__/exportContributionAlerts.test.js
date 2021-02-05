@@ -112,8 +112,10 @@ describe("exportContributionAlerts", () => {
       },
     ];
 
+    fetch.mockImplementation(() => {
+      return Promise.resolve({ ok: true });
+    });
     await exportContributionAlerts(changes);
-    fetch.mockReturnValue(Promise.resolve());
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(contribApiUrl, {
       body: JSON.stringify([

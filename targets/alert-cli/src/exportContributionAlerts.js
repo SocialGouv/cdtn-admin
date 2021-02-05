@@ -37,15 +37,29 @@ export async function exportContributionAlerts(changes) {
       });
     });
   });
-  console.log(`Sending ${contributions} contrib alert(s) to contribution api`);
-  await fetch(contribApiUrl, {
+
+  fetch(contribApiUrl, {
     body: JSON.stringify(contributions),
     headers: {
       "Content-Type": "application/json",
       Prefer: "merge-duplicates",
     },
     method: "POST",
-  });
+  })
+    .then((response) => {
+      if (!response.ok) {
+        const err = new Error(response.statusText);
+        // @ts-ignore
+        err.status = response.status;
+        return Promise.reject(err);
+      }
+      console.info(
+        `Sending ${contributions.length} contrib alert(s) to contributions (${contribApiUrl})`
+      );
+    })
+    .catch((err) => {
+      console.error(`Sending alerts fails`, err);
+    });
 }
 
 /**
