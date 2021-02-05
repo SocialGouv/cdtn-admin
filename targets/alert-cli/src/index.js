@@ -144,12 +144,8 @@ async function processDilaDiff(repositoryId, tag, files, prevTree, currTree) {
       const documents = await getRelevantDocuments(changes);
       if (documents.length) {
         console.log(
-          "found",
-          documents.length,
-          "documents impacted by release",
-          repositoryId,
-          tag.ref,
-          currAst.data.num,
+          `[info] found ${documents.length} documents impacted by release v${tag.ref} on ${repositoryId},
+           (idcc: ${currAst.data.num})`,
           { file }
         );
       }
@@ -213,7 +209,6 @@ export async function insertAlert(repository, changes) {
         file: changes.file,
         id: changes.id,
         num: changes.num,
-        title: changes.title,
       }),
     },
     ref: changes.ref,
@@ -359,7 +354,7 @@ async function main() {
       } else {
         // forward alert to contributions
         console.log(`››› ${result.repository}`);
-        exportContributionAlerts(result.changes);
+        exportContributionAlerts(result);
 
         const inserts = await batchPromises(
           result.changes,

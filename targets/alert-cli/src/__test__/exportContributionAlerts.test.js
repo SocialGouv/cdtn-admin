@@ -10,7 +10,7 @@ jest.mock("node-fetch");
 
 describe("exportContributionAlerts", () => {
   it("should export changes to contributions API", async () => {
-    const changes = [
+    const changes = /** @type {alerts.AlertChanges[]}*/ ([
       {
         added: [
           {
@@ -22,30 +22,43 @@ describe("exportContributionAlerts", () => {
         documents: [
           {
             document: {
+              id: "cdtnId-contrib-1",
+              title: "title doc",
               source: "contributions",
             },
             references: [
               {
-                dila_cid: 55,
-              },
-              {
-                dila_cid: 45,
-                dila_id: 46,
+                dila_cid: "KALIARTI-42",
+                dila_id: "KALIARTI-43",
+                url: "ref.url",
+                category: "agreement",
+                title: "article 1",
+                dila_container_id: "kalicont42",
               },
             ],
           },
           {
             document: {
+              id: "cdtnId-contrib-2",
+              title: "title source doc",
               source: "not-contributions",
             },
             references: [
               {
-                x: 2021,
-                y: 2022,
+                dila_cid: "KALIARTI-45",
+                dila_id: "KALIARTI-46",
+                url: "ref.url",
+                category: "agreement",
+                title: "article 3",
+                dila_container_id: "kalicont123",
               },
               {
-                x: 2023,
-                y: 2024,
+                dila_cid: "KALIARTI-13",
+                dila_id: "KALIARTI-13",
+                url: "ref.url",
+                category: "agreement",
+                title: "article 13",
+                dila_container_id: "kalicont123",
               },
             ],
           },
@@ -56,7 +69,7 @@ describe("exportContributionAlerts", () => {
               containerId: "LEGITEXT000006072050",
             },
             data: {
-              cid: 45,
+              cid: "KALIARTI-42",
               etat: "NON VIGUEUR",
               nota: "nota 1",
               texte: "new text",
@@ -77,51 +90,32 @@ describe("exportContributionAlerts", () => {
             },
           },
         ],
+        date: new Date(2021, 0 /* january */, 1),
+        ref: "va.b.c",
         type: "dila",
+        title: "Convention collective Lambda",
+        file: "kalicont42.json",
+        id: "kalicont42",
+        num: 42,
       },
-      {
-        documents: [
-          {
-            document: {
-              source: "contributions",
-            },
-            references: [
-              {
-                dila_cid: 123,
-                dila_id: 456,
-              },
-              {
-                dila_cid: 789,
-                dila_id: 987,
-              },
-            ],
-          },
-          {
-            document: {
-              source: "not-contributions",
-            },
-            references: [
-              {
-                id: 99,
-                x: 66,
-              },
-            ],
-          },
-        ],
-        type: "vdd",
-      },
-    ];
+    ]);
 
     fetch.mockImplementation(() => {
       return Promise.resolve({ ok: true });
     });
-    await exportContributionAlerts(changes);
+    await exportContributionAlerts({
+      changes,
+      newRef: "v0.0.0",
+      repository: "test",
+    });
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(contribApiUrl, {
       body: JSON.stringify([
         {
-          dila_cid: 45,
-          dila_id: 46,
+          answer_id: "cdtnId-contrib-1",
+          dila_cid: "KALIARTI-42",
+          dila_container_id: "kalicont42",
+          dila_id: "KALIARTI-43",
           value: {
             etat: { current: "NON VIGUEUR", previous: "VIGUEUR" },
             texts: [
@@ -129,6 +123,7 @@ describe("exportContributionAlerts", () => {
               { current: "nota 1", previous: "nota 2" },
             ],
           },
+          version: "va.b.c",
         },
       ]),
       headers: {
