@@ -5,14 +5,17 @@ export const contribApiUrl =
 
 /**
  *
- * @param {Pick<alerts.AlertChanges, "type" | "modified" | "added" | "removed">[]} changes
+ * @param {alerts.RepoAlert} alert
  */
-export async function exportContributionAlerts(changes) {
-  const dilaAlertChanges = /** @type {alerts.DilaAlertChanges[]} */ (changes.filter(
+export async function exportContributionAlerts(alert) {
+  const dilaAlertChanges = /** @type {alerts.DilaAlertChanges[]} */ (alert.changes.filter(
     (change) => change.type === "dila"
   ));
-  const contributions = dilaAlertChanges.flatMap((alert) => {
-    const targetedContribs = alert.documents.filter(
+  const contributions = dilaAlertChanges.flatMap((changes) => {
+    console.log(
+      `searching for contributions impacted by alert v${changes.ref} from ${alert.repository}`
+    );
+    const targetedContribs = changes.documents.filter(
       ({ document }) => document.source == "contributions"
     );
     if (targetedContribs.length === 0) {
@@ -20,7 +23,7 @@ export async function exportContributionAlerts(changes) {
     }
     return targetedContribs.flatMap(({ references, document: contrib }) => {
       return references.flatMap((reference) => {
-        const modifiedNode = alert.modified.find(
+        const modifiedNode = changes.modified.find(
           ({ data: { cid } }) => reference.dila_cid === cid
         );
         if (!modifiedNode) {
@@ -32,20 +35,34 @@ export async function exportContributionAlerts(changes) {
           dila_container_id: reference.dila_container_id,
           dila_id: reference.dila_id,
           value: computeDiff(reference, modifiedNode),
-          version: alert.ref,
+          version: changes.ref,
         };
       });
     });
   });
-  console.log(`Sending ${contributions} contrib alert(s) to contribution api`);
-  await fetch(contribApiUrl, {
+
+  fetch(contribApiUrl, {
     body: JSON.stringify(contributions),
     headers: {
       "Content-Type": "application/json",
       Prefer: "merge-duplicates",
     },
     method: "POST",
-  });
+  })
+    .then((response) => {
+      if (!response.ok) {
+        const err = new Error(response.statusText);
+        // @ts-ignore
+        err.status = response.status;
+        return Promise.reject(err);
+      }
+      console.info(
+        `Sending ${contributions.length} contrib alert(s) to contributions (${contribApiUrl})`
+      );
+    })
+    .catch((err) => {
+      console.error(`Sending alerts fails`, err);
+    });
 }
 
 /**
