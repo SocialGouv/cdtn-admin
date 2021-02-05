@@ -17,24 +17,9 @@ import { fetchCovisits } from "./monolog";
 import { populateSuggestions } from "./suggestion";
 import { vectorizeDocument } from "./vectorizer";
 
-const ES_INDEX_PREFIX = process.env.ES_INDEX_PREFIX || "cdtn";
-
-const DOCUMENT_INDEX_NAME = `${ES_INDEX_PREFIX}_${DOCUMENTS}`;
-const SUGGEST_INDEX_NAME = `${ES_INDEX_PREFIX}_${SUGGESTIONS}`;
-
-const ELASTICSEARCH_URL =
-  process.env.ELASTICSEARCH_URL || "http://localhost:9200";
-
-const NLP_URL = process.env.NLP_URL;
-
-const esClientConfig = {
-  auth: { apiKey: process.env.ELASTICSEARCH_DATA_TOKEN },
-  node: `${ELASTICSEARCH_URL}`,
-};
-
-const client = new Client(esClientConfig);
-
 export async function addVector(data) {
+  const NLP_URL = process.env.NLP_URL;
+
   if (NLP_URL) {
     if (!data.title) {
       logger.error(`No title for document ${data.source} / ${data.slug}`);
@@ -65,7 +50,26 @@ const excludeSources = [
   SOURCES.VERSIONS,
 ];
 
-async function main() {
+export async function main() {
+  const ELASTICSEARCH_URL =
+    process.env.ELASTICSEARCH_URL || "http://localhost:9200";
+
+  const ES_INDEX_PREFIX = process.env.ES_INDEX_PREFIX || "cdtn";
+
+  const DOCUMENT_INDEX_NAME = `${ES_INDEX_PREFIX}_${DOCUMENTS}`;
+  const SUGGEST_INDEX_NAME = `${ES_INDEX_PREFIX}_${SUGGESTIONS}`;
+
+  const NLP_URL = process.env.NLP_URL;
+
+  const esClientConfig = {
+    auth: { apiKey: process.env.ELASTICSEARCH_DATA_TOKEN },
+    node: `${ELASTICSEARCH_URL}`,
+  };
+
+  const client = new Client(esClientConfig);
+
+  //
+
   const ts = Date.now();
   const nlpQueue = new PQueue({ concurrency: 5 });
 
@@ -116,7 +120,15 @@ async function main() {
   logger.info(`done in ${(Date.now() - t0) / 1000} s`);
 
   // Indexing Suggestions
+  logger.info(`populateSuggestions ${SUGGEST_INDEX_NAME}-${ts}`);
   await populateSuggestions(client, `${SUGGEST_INDEX_NAME}-${ts}`);
+
+  logger.info(
+    `updateAliases ${DOCUMENT_INDEX_NAME} => ${DOCUMENT_INDEX_NAME}-${ts}`
+  );
+  logger.info(
+    `updateAliases ${SUGGEST_INDEX_NAME} => ${SUGGEST_INDEX_NAME}-${ts}`
+  );
 
   // Creating aliases
   await client.indices.updateAliases({
@@ -155,16 +167,3 @@ async function main() {
 
   await deleteOldIndex({ client, patterns, timestamp: ts });
 }
-
-main().catch((response) => {
-  console.error(response);
-  if (response.body) {
-    logger.error({ statusCode: response.meta.statusCode });
-    logger.error({ name: response.name });
-    logger.error({ request: response.meta.meta.request });
-    logger.error({ body: response.body });
-  } else {
-    logger.error({ response });
-  }
-  process.exit(1);
-});

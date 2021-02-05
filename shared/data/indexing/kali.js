@@ -1,5 +1,13 @@
+import fetch from "node-fetch";
+import pRetry from "p-retry";
+import { setTimeout } from "timers/promises";
 import find from "unist-util-find";
 import parents from "unist-util-parents";
+
+import pkg from "../package.json";
+import { logger } from "./logger";
+
+const KALI_DATA_VERSION = pkg.devDependencies["@socialgouv/kali-data-types"];
 
 /**
  * @template A
@@ -13,9 +21,42 @@ const createSorter = (fn) => (a, b) => fn(a) - fn(b);
  * @param {import("@socialgouv/kali-data-types").Agreement} agreementTree
  * @returns {ingester.AgreementArticleByBlock[]}
  */
-export function getArticlesByTheme(allBlocks, id) {
+export async function getArticlesByTheme(allBlocks, id) {
   const conventionBlocks = allBlocks.find((blocks) => blocks.id === id);
-  const agreementTree = require(`@socialgouv/kali-data/data/${id}.json`);
+
+  const agreementTree = await pRetry(
+    () =>
+      fetch(
+        `https://unpkg.com/@socialgouv/kali-data@${KALI_DATA_VERSION}/data/${id}.json`
+      )
+        .then(async (r) => {
+          try {
+            return { data: await r.json(), response: r };
+          } catch (e) {
+            logger.error(e);
+            logger.error("from");
+            logger.error(r);
+            throw e;
+          }
+        })
+        .then(async ({ response, data }) => {
+          if (response.ok) {
+            return data;
+          }
+          return Promise.reject(data);
+        }),
+    {
+      onFailedAttempt: async (error) => {
+        console.log(
+          `On "https://unpkg.com/@socialgouv/kali-data@${KALI_DATA_VERSION}/data/${id}.json".` +
+            ` Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`
+        );
+        await setTimeout(33 * 1000);
+      },
+      retries: 5,
+    }
+  );
+
   const treeWithParents = parents(agreementTree);
   if (!conventionBlocks) {
     return [];

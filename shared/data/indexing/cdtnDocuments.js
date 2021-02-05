@@ -1,5 +1,7 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
+import pMap from "p-map";
+import pRetry from "p-retry";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";
 import { buildThemes } from "./buildThemes";
@@ -15,11 +17,6 @@ import { getArticlesByTheme } from "./kali";
 import { logger } from "./logger";
 import { markdownTransform } from "./markdown";
 import { getVersions } from "./versions";
-
-const CDTN_ADMIN_ENDPOINT =
-  process.env.CDTN_ADMIN_ENDPOINT || "http://localhost:8080/v1/graphql";
-
-console.info(`Accessing cdtn admin on ${CDTN_ADMIN_ENDPOINT}`);
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -52,7 +49,7 @@ const themesQuery = JSON.stringify({
  * Find duplicate slugs
  * @param {iterable} allDocuments is an iterable generator
  */
-async function getDuplicateSlugs(allDocuments) {
+export async function getDuplicateSlugs(allDocuments) {
   let slugs = [];
   for await (const documents of allDocuments) {
     slugs = slugs.concat(
@@ -66,19 +63,47 @@ async function getDuplicateSlugs(allDocuments) {
     .reduce((state, { slug, count }) => ({ ...state, [slug]: count }), {});
 }
 
-async function* cdtnDocumentsGen() {
-  const themesQueryResult = await fetch(CDTN_ADMIN_ENDPOINT, {
-    body: themesQuery,
-    method: "POST",
-  }).then(async (r) => {
-    const data = await r.json();
-    if (r.ok) {
-      return data;
-    }
-    return Promise.reject(data);
-  });
+export async function* cdtnDocumentsGen() {
+  const CDTN_ADMIN_ENDPOINT =
+    process.env.CDTN_ADMIN_ENDPOINT || "http://localhost:8080/v1/graphql";
 
-  console.error("themes fetched");
+  logger.info(`Accessing cdtn admin on ${CDTN_ADMIN_ENDPOINT}`);
+  const themesQueryResult = await pRetry(
+    async () => {
+      const response = await fetch(CDTN_ADMIN_ENDPOINT, {
+        body: themesQuery,
+        method: "POST",
+      });
+
+      if (response.status >= 400) {
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data);
+      }
+
+      if (data.errors) {
+        logger.error(data);
+        throw new Error(data.errors);
+      }
+
+      return data;
+    },
+    {
+      onFailedAttempt: (error) => {
+        console.log(
+          `On "${CDTN_ADMIN_ENDPOINT}".` +
+            ` Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`
+        );
+      },
+      retries: 5,
+    }
+  );
+
+  logger.info("themes fetched");
 
   const themes = themesQueryResult.data.themes;
 
@@ -161,32 +186,42 @@ async function* cdtnDocumentsGen() {
   const ccnData = await getDocumentBySource(SOURCES.CCN);
   const allKaliBlocks = await getAllKaliBlocks();
   yield {
-    documents: ccnData.map(({ title, shortTitle, ...content }) => {
-      // we use our custom description
-      delete content.description;
-      return {
-        description: ccnQR,
-        longTitle: title,
-        shortTitle,
-        title: shortTitle,
-        ...content,
-        answers: content.answers.map((data) => {
-          const contrib = contributions.find(({ slug }) => data.slug === slug);
-          if (!contrib) {
-            throw "unknown contribution";
-          }
-          const [theme] = contrib.breadcrumbs;
-          return {
-            ...data,
-            answer: addGlossary(data.answer),
-            theme: theme && theme.label,
-          };
-        }),
-        articlesByTheme: getArticlesByTheme(allKaliBlocks, content.id),
-        contributions: contribIDCCs.has(content.num),
-        source: SOURCES.CCN,
-      };
-    }),
+    documents: await pMap(
+      ccnData,
+      async ({ title, shortTitle, ...content }) => {
+        // we use our custom description
+        delete content.description;
+        const articlesByTheme = await getArticlesByTheme(
+          allKaliBlocks,
+          content.id
+        );
+        return {
+          description: ccnQR,
+          longTitle: title,
+          shortTitle,
+          title: shortTitle,
+          ...content,
+          answers: content.answers.map((data) => {
+            const contrib = contributions.find(
+              ({ slug }) => data.slug === slug
+            );
+            if (!contrib) {
+              throw "unknown contribution";
+            }
+            const [theme] = contrib.breadcrumbs;
+            return {
+              ...data,
+              answer: addGlossary(data.answer),
+              theme: theme && theme.label,
+            };
+          }),
+          articlesByTheme,
+          contributions: contribIDCCs.has(content.num),
+          source: SOURCES.CCN,
+        };
+      },
+      { concurrency: 2 }
+    ),
     source: SOURCES.CCN,
   };
 
@@ -280,5 +315,3 @@ async function* cdtnDocumentsGen() {
     source: SOURCES.VERSIONS,
   };
 }
-
-export { getDuplicateSlugs, cdtnDocumentsGen };

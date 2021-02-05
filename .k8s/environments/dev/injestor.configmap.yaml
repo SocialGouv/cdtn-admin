@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: injester
+data:
+  NODE_ENV: "production"
+  ES_INDEX_PREFIX: "cdtn-dev"
+  CDTN_ADMIN_ENDPOINT: "http://hasura-cdtn-admin/v1/graphql"

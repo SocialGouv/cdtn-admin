@@ -1,5 +1,5 @@
-import stopwords from "../dataset/stop_words";
-import synonyms from "../dataset/synonyms";
+import stopwords from "@cdt/data...stopwords";
+import synonyms from "@cdt/data...synonyms";
 
 const filter = {
   // Normalize acronyms so that no matter the format, the resulting token will be the same.
@@ -148,4 +148,4 @@ const tokenizer = {
   },
 };
 
-export { char_filter, analyzer, filter, tokenizer };
+export { analyzer, char_filter, filter, tokenizer };

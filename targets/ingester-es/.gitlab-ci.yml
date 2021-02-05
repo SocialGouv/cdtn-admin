@@ -1,0 +1,98 @@
+Install ingester-es:
+  extends: .autodevops_install
+  image: node:14.7.0-alpine3.11
+  cache:
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
+    paths:
+      - yarn
+  script:
+    - yarn config set cache-folder $CI_PROJECT_DIR/yarn
+    - npx @socialgouv/yarn-workspace-focus-install --cwd targets/ingester-es
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - targets/ingester-es/node_modules
+      - node_modules
+
+#
+#
+#
+
+Test ingester-es:
+  extends: .autodevops_test
+  dependencies: null
+  needs:
+    - job: Install ingester-es
+      artifacts: true
+  before_script:
+    - cd targets/ingester-es
+
+Lint ingester-es:
+  extends: .autodevops_lint
+  dependencies: null
+  needs:
+    - job: Install ingester-es
+      artifacts: true
+  before_script:
+    - cd targets/ingester-es
+  script:
+    - yarn types
+    - yarn lint
+
+#
+#
+#
+
+Build ingester-es:
+  extends: .base_yarn_script
+  image: node:14.7.0-alpine3.11
+  needs:
+    - job: Install ingester-es
+      artifacts: true
+  before_script:
+    - cd targets/ingester-es
+  script:
+    - yarn build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - targets/ingester-es/dataset
+      - targets/ingester-es/dist
+
+#
+#
+#
+
+Register ingester-es:
+  extends: .autodevops_register_image
+  dependencies: null
+  needs:
+    - job: Build ingester-es
+      artifacts: true
+  variables:
+    CONTEXT: .
+    DOCKER_BUILD_ARGS: >-
+      -f ./targets/ingester-es/Dockerfile
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/ingester-es
+
+#
+
+Deploy ingester-es (dev):
+  stage: Deploy
+  only:
+    - branches
+  extends:
+    - .base_deploy_kosko_stage
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}-dev2
+  needs:
+    - job: Register ingester-es
+  variables:
+    # kosko options
+    KOSKO_GENERATE_ARGS: jobs/injestor --env dev
+    # jobs/injestor variables
+    CDTN_ADMIN_ENDPOINT: "https://douglasduteil-fea-s0wou6-cdtn-admin.dev2.fabrique.social.gouv.fr/api/graphql"
+    ES_INDEX_PREFIX: "cdtn-dev"

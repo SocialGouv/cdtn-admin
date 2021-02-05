@@ -1,7 +1,7 @@
 Register Hasura:
   extends: .autodevops_register_image
   dependencies: []
-  needs: null
+  needs: []
   variables:
     CONTEXT: ./targets/hasura
     IMAGE_NAME: $CI_REGISTRY_IMAGE/hasura
@@ -11,6 +11,8 @@ Register Hasura:
 #
 
 .deploy_hasura:
+  needs:
+    - job: Register Hasura
   variables:
     PORT: 80
     CONTEXT: hasura
@@ -20,6 +22,8 @@ Deploy Hasura (dev):
   extends:
     - .autodevops_deploy_app_dev
     - .deploy_hasura
+  needs:
+    - job: Create Azure DB (dev)
   environment:
     name: ${CI_COMMIT_REF_SLUG}-dev2
   variables:

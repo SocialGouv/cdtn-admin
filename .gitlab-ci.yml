@@ -8,6 +8,7 @@ include:
   #
   - /targets/alert-cli/.gitlab-ci.yml
   - /targets/ingester/.gitlab-ci.yml
+  - /targets/ingester-es/.gitlab-ci.yml
   - /targets/hasura/.gitlab-ci.yml
   - /targets/frontend/.gitlab-ci.yml
 
@@ -23,6 +24,7 @@ variables:
   ENABLE_AZURE_POSTGRES: 1
 
 Create namespace:
+  needs: []
   extends:
     - .autodevops_create_namespace
   environment:
@@ -35,6 +37,7 @@ Create namespace:
       kubectl apply --namespace=${K8S_NAMESPACE} -f -
 
 Create Azure DB (dev):
+  needs: []
   extends: .autodevops_create_azure_db_dev
   environment:
     name: ${CI_COMMIT_REF_SLUG}-dev2

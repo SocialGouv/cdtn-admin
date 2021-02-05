@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "lib": ["es2020"],
+    "module": "esnext",
+    "moduleResolution": "Node"
+  },
+  "files": ["src/cli.ts"]
+}

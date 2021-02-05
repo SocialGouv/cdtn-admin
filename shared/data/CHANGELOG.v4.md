@@ -1,5 +1,7 @@
 # Change Log
 
+Imported from https://github.com/SocialGouv/code-du-travail-numerique/blob/cf34cd8ced0ae1215fc927678288cc132e74bc21/packages/code-du-travail-data/CHANGELOG.md
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

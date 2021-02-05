@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["es2020"],
+    "module": "esnext",
+    "moduleResolution": "Node"
+  }
+}
