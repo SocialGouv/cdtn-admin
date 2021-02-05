@@ -38,6 +38,7 @@ if (job) {
   //@ts-expect-error
   initContainer.env.find((e: EnvVar) => e.name === "PGDATABASE").value =
     process.env.BACKUP_DB_NAME;
+  //@ts-expect-error
   initContainer.env.find(
     (e: EnvVar) => e.name === "PGPASSWORD"
   ).value = `pass_${process.env.CI_COMMIT_SHORT_SHA}`;
