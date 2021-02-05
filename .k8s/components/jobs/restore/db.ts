@@ -34,11 +34,10 @@ const manifests = restoreDbJob({
 // override initContainer PGDATABASE/PGPASSWORD because this project pipeline use the legacy `db_SHA` convention instead of `autodevops_SHA`
 const job = manifests.find((m) => m.kind === "Job");
 if (job) {
-  const initContainer = job.spec.template.spec.initContainers[0];
   //@ts-expect-error
+  const initContainer = job.spec.template.spec.initContainers[0];
   initContainer.env.find((e: EnvVar) => e.name === "PGDATABASE").value =
     process.env.BACKUP_DB_NAME;
-  //@ts-expect-error
   initContainer.env.find(
     (e: EnvVar) => e.name === "PGPASSWORD"
   ).value = `pass_${process.env.CI_COMMIT_SHORT_SHA}`;
