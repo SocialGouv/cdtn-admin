@@ -1,0 +1,138 @@
+[
+  {
+    "icon": "Indemnity",
+    "title": "Indemnité de licenciement",
+    "slug": "indemnite-licenciement",
+    "questions": [
+      "Quelle est mon indemnité de licenciement",
+      "Comment calculer mon indemnité de licenciement",
+      "indemnité de licenciement pour inaptitude d'origine professionnelle",
+      "indemnité de licenciement pour inaptitude d'origine professionnelle",
+      "indemnité spéciale de licenciement pour inaptitude 'origine professionnelle",
+      "indemnité de licenciement en cas d'alternance temps plein temps partiel",
+      "calculez le montant d'une indemnité de licenciement en fonction de votre situation"
+    ],
+    "description": "Estimez simplement le montant de l’indemnité de licenciement",
+    "action": "Estimer",
+    "date": "18/10/2018",
+    "id": "085a07ba-2936-4b0c-89c5-89c3e0cdb773"
+  },
+  {
+    "icon": "Rules",
+    "title": "Préavis de démission",
+    "slug": "preavis-demission",
+    "questions": [
+      "preavis de demission",
+      "preavis de demission CDI",
+      "délais avant démission",
+      "durée du préavis",
+      "calculer la durée de son préavis",
+      "calcul durée préavis démission"
+    ],
+    "description": "Calculez la durée de préavis à respecter en cas de démission",
+    "action": "Calculer",
+    "date": "24/07/2019",
+    "id": "0a7cbd40-fe2f-4c21-9799-88564a45f30a"
+  },
+  {
+    "icon": "Salary",
+    "title": "Salaire brut/net",
+    "slug": "simulateur-embauche",
+    "questions": [
+      "Comment calculer mon salaire",
+      "calculer mon salaire",
+      "calcul salaire",
+      "montant de mon salaire",
+      "montant du salaire",
+      "montant salaire",
+      "montant salaire net",
+      "montant salaire brut",
+      "calcul du salaire net",
+      "net en brut",
+      "brut en net",
+      "calcul net en brut",
+      "calcul brut en net",
+      "montant net en brut",
+      "montant brut en net",
+      "cout embauche CDD",
+      "cout embauche CDI"
+    ],
+    "description": "Estimer le salaire : brut en net, net après impôt, calcul heures supplémentaires, coût total employeur",
+    "action": "Estimer",
+    "date": "14/03/2019",
+    "id": "4718de1b-dda5-47e7-a797-c14e62cf7259"
+  },
+  {
+    "icon": "Precarity",
+    "title": "Indemnité de précarité",
+    "slug": "indemnite-precarite",
+    "questions": [
+      "fin de contrat cdd",
+      "prime fin de contrat",
+      "prime de précarité",
+      "indemnité fin de contrat",
+      "indemnité cdd",
+      "calcul de la prime de précarité",
+      "Comment se calcul la prime de précarité",
+      "montant prime de précarité",
+      "montant indemnité fin de contrat"
+    ],
+    "description": "Estimez le montant de l’indemnité de fin de CDD ou intérim",
+    "action": "Estimer",
+    "date": "14/03/2019",
+    "id": "1f092661-e948-4f27-aafd-7f5142f25f46"
+  },
+  {
+    "icon": "Termination",
+    "title": "Préavis de licenciement",
+    "slug": "preavis-licenciement",
+    "questions": [
+      "preavis de licenciement",
+      "preavis de licenciement CDI",
+      "durée du préavis de licenciement",
+      "calculer la durée de son préavis de licenciement",
+      "calcul durée préavis licenciement"
+    ],
+    "description": "Calculez la durée de préavis à respecter en cas de licenciement",
+    "action": "Calculer",
+    "date": "08/11/2019",
+    "id": "fcc43645-9ac1-433d-bd95-0eb44239b864"
+  },
+  {
+    "icon": "Time",
+    "title": "Heures pour recherche d’emploi",
+    "slug": "heures-recherche-emploi",
+    "questions": [
+      "ai-je droit à des heures de recherche d'emploi",
+      "quel est le nombre d'heures pour rechercher un emploi",
+      "rechercher un emploi en période de préavis",
+      "comment prendre ses heures de recherche d'emploi",
+      "démission recherche emploi pendant préavis",
+      "licenciement recherche d emploi pendant préavis",
+      "heures de recherche d'emploi en cas de licenciement",
+      "Ai-je droit aux heures pour recherche d’emploi dans le cadre d'une démission",
+      "autorisation d absence pour recherche d emploi",
+      "chercher un emploi pendant son préavis",
+      "absence 2h pour recherche d'emploi pendant préavis"
+    ],
+    "description": "Calculez le nombre d'heures pour recherche d'emploi prévues pendant le préavis",
+    "action": "Calculer",
+    "date": "08/11/2019",
+    "id": "d09665fc-961c-44bf-a399-c34cfedf1d24"
+  },
+  {
+    "icon": "Nego",
+    "title": "Convention collective",
+    "slug": "convention-collective",
+    "questions": [
+      "trouver ma convention collective",
+      "convention collective",
+      "recherche ccn",
+      "trouver ma cc"
+    ],
+    "description": "Recherchez une convention collective par Entreprise, SIRET, Nom ou numéro IDCC",
+    "action": "Consulter",
+    "date": "01/01/2020",
+    "id": "c249bd2a-6f33-4176-ad09-166bb8e5747b"
+  }
+]

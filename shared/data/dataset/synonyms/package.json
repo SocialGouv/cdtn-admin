@@ -1,0 +1,10 @@
+{
+  "name": "@cdt/data...synonyms",
+  "private": true,
+  "version": "4.43.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js > synonyms.json"
+  }
+}

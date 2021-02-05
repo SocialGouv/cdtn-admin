@@ -80,6 +80,7 @@
     "eslint-plugin-import": "^2.22.1",
     "jest-cli": "^26.6.3",
     "lint-staged": "^10.5.4",
+    "tsutils": "^3.17.1",
     "prettier": "^2.2.1",
     "prop-types": "^15.7.2"
   },

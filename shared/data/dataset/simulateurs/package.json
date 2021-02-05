@@ -1,0 +1,14 @@
+{
+  "name": "@cdt/data...simulateurs",
+  "version": "4.31.1",
+  "private": true,
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node -r esm index.js "
+  },
+  "dependencies": {
+    "esm": "^3.2.25",
+    "google-spreadsheets": "^2.0.0"
+  }
+}
