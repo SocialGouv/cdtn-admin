@@ -3,7 +3,7 @@
   "version": "1.0.0-alpha.1",
   "dependencies": {
     "@azure/abort-controller": "^1.0.2",
-    "@azure/storage-blob": "^12.4.0",
+    "@azure/storage-blob": "^12.4.1",
     "@elastic/elasticsearch": "^7.10.0",
     "@hapi/boom": "^9.1.1",
     "@hapi/joi": "^17.1.1",
@@ -37,7 +37,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash.get": "^4.4.2",
     "memoizee": "^0.4.15",
-    "micromark": "^2.11.2",
+    "micromark": "^2.11.4",
     "next": "^10.0.6",
     "next-transpile-modules": "^6.2.0",
     "next-urql": "^2.2.0",
@@ -79,7 +79,7 @@
     "eslint": "^7.19.0",
     "eslint-plugin-import": "^2.22.1",
     "jest-cli": "^26.6.3",
-    "lint-staged": "^10.5.3",
+    "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
     "prop-types": "^15.7.2"
   },
