@@ -35,39 +35,48 @@ export async function processVddDiff(
   ));
 
   changes.removed = prevList.filter(
-    ({ id }) => currList.find((item) => item.id === id) === undefined
+    ({ id, type }) =>
+      !currList.some((item) => item.id === id && item.type === type)
   );
   changes.added = currList.filter(
-    ({ id }) => prevList.find((item) => item.id === id) === undefined
+    ({ id, type }) =>
+      !prevList.some((item) => item.id === id && item.type === type)
   );
 
   changes.modified = await Promise.all(
-    files
-      .filter((file) => !/index\.json/.test(file))
-      .map(async (file) => {
-        const previousJSON = /** @type {alerts.FicheVdd}*/ (await createToJson(
-          file
-        )(prevTree));
-        const currentJSON = /** @type {alerts.FicheVdd}*/ (await createToJson(
-          file
-        )(currTree));
+    files.map(async (fichePath) => {
+      if (/index\.json/.test(fichePath)) return;
+      if (
+        changes.removed
+          .concat(changes.added)
+          .some((fiche) => `data/${fiche.type}/${fiche.id}.json` === fichePath)
+      ) {
+        return;
+      }
 
-        if (!changes.added.includes(currentJSON.id) && previousJSON) {
-          const previousText = getTextFromRawFiche(previousJSON);
-          const currentText = getTextFromRawFiche(currentJSON);
-          if (previousText !== currentText) {
-            return {
-              currentText,
-              id: currentJSON.id,
-              previousText,
-              title: getTitleFromRawFiche(currentJSON),
-            };
-          }
-        }
-        return false;
-      })
+      const toJson = createToJson(fichePath);
+      const [
+        previousJSON,
+        currentJSON,
+      ] = /** @type {alerts.FicheVdd[]}*/ (await Promise.all(
+        [prevTree, currTree].map(toJson)
+      ));
+      const previousText = getTextFromRawFiche(previousJSON);
+      const currentText = getTextFromRawFiche(currentJSON);
+      if (previousText !== currentText) {
+        return {
+          currentText,
+          id: currentJSON.id,
+          previousText,
+          title: getTitleFromRawFiche(currentJSON),
+          type: fichePath.split("/")[1],
+        };
+      }
+    })
   );
+  // cannot flat map because of async;
   changes.modified = changes.modified.filter(Boolean);
+
   if (
     changes.added.length === 0 &&
     changes.modified.length === 0 &&

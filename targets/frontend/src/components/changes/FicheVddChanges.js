@@ -26,6 +26,7 @@ export function FicheVddChanges({ change }) {
         href={getFicheVddUrl(change)}
       >
         {change.title}
+        {change.type && <strong> - {change.type.toUpperCase()}</strong>}
       </a>
       <br />
       {hasChange && (
@@ -52,7 +53,7 @@ export function FicheVddChanges({ change }) {
           <ViewDiff
             inputA={change.previousText}
             inputB={change.currentText}
-            type={"words"}
+            type={"sentences"}
             style={{
               background: "#fff",
               border: "1px solid silver",
@@ -73,5 +74,6 @@ FicheVddChanges.propTypes = {
     id: PropTypes.string.isRequired,
     previousText: PropTypes.string,
     title: PropTypes.string.isRequired,
+    type: PropTypes.string,
   }).isRequired,
 };
