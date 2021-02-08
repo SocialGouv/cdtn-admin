@@ -24,6 +24,14 @@ const args = yargs(process.argv)
   .describe("d", "dry run mode")
   .help().argv;
 
+const getPackageVersionQuery = `
+query package_version ($repository: String!) {
+  packageVersion: package_version_by_pk(repository: $repository) {
+    version
+  }
+}
+`;
+
 const updateDocumentAvailability = `
 mutation update_documents($source:String!) {
 	documents: update_documents(_set: {is_available: false}, where: {source: {_eq: $source}}) {
@@ -116,22 +124,40 @@ const dataPackages = [
   ["@socialgouv/fiches-vdd", getFichesServicePublic],
   ["@socialgouv/fiches-travail-data", getFicheTravailEmploi],
 ];
+
 /**
  *
  * @param {string} pkgName
- * @param {string} pkgVersion
+ * @returns {Promise<{url: string, version: string}>}
  */
-async function getPackage(pkgName, pkgVersion = "latest") {
+async function getPackageInfo(pkgName) {
   const pkgInfo = await got(
-    `http://registry.npmjs.org/${pkgName}/${pkgVersion}`
+    `http://registry.npmjs.org/${pkgName}/latest`
   ).json();
-  const url = pkgInfo.dist.tarball;
-  const latest = pkgInfo.version;
-  if (await isPkgOutdated(pkgName, latest)) {
-    console.debug(`download package ${pkgName}@${latest}`);
-    await download(pkgName, url);
+  return {
+    url: pkgInfo.dist.tarball,
+    version: pkgInfo.version,
+  };
+}
+
+/**
+ *
+ * @param {string} pkgName
+ * @returns {Promise<string|undefined>}
+ */
+async function getLastIngestedVersion(pkgName) {
+  const result = await client
+    .query(getPackageVersionQuery, { repository: pkgName })
+    .toPromise();
+
+  if (result.error) {
+    console.error(result.error);
+    throw new Error(`error while retrieving ingester packages version`);
   }
-  return latest;
+
+  if (result.data.packageVersion) {
+    return result.data.packageVersion.version;
+  }
 }
 
 /**
@@ -160,7 +186,7 @@ async function insertDocuments(docs) {
     .toPromise();
 
   if (result.error) {
-    console.error(result.error);
+    console.error(result.error.graphQLErrors[0]);
     throw new Error(`error inserting documents`);
   }
   return result.data.documents.returning;
@@ -198,27 +224,36 @@ async function updateVersion(repository, version) {
 }
 
 async function main() {
-  /** @type {{[key:string]:string}} */
-  const pkgVersions = {};
-  for (const [pkgName] of dataPackages) {
-    pkgVersions[pkgName] = await getPackage(pkgName);
+  const packagesToUpdate = new Map();
+  for (const [pkgName, getDocuments] of dataPackages) {
+    const pkgInfo = await getPackageInfo(pkgName);
+    if (await isPkgOutdated(pkgName, pkgInfo.version)) {
+      console.debug(`download package ${pkgName}@${pkgInfo.version}`);
+      await download(pkgName, pkgInfo.url);
+    }
+    const ingestedVersion = await getLastIngestedVersion(pkgName);
+    if (ingestedVersion && semver.gt(pkgInfo.version, ingestedVersion)) {
+      packagesToUpdate.set(pkgName, { getDocuments, version: pkgInfo.version });
+    }
   }
+
   if (args.dryRun) {
     console.log("dry-run mode");
   }
   /** @type {{cdtn_id:string}[]}} */
   let ids = [];
-  for (const [pkgName, getDocument] of dataPackages) {
-    const documents = await getDocument(pkgName);
+  for (const [pkgName, { version, getDocuments }] of packagesToUpdate) {
+    console.log(`ingest ${pkgName} documents`);
+    const documents = await getDocuments(pkgName);
     if (args.dryRun || !documents || !documents.length) {
       continue;
     }
-    console.log(
-      `ready to ingest ${documents.length} documents from ${pkgName}`
-    );
     const nbDocs = await initDocAvailabity(documents[0].source);
     console.log(`update availability of ${nbDocs} documents`);
-    const chunks = chunk(documents, 80);
+    console.log(
+      ` › ready to ingest ${documents.length} documents from ${pkgName}`
+    );
+    const chunks = chunk(documents, 50);
     const inserts = await batchPromises(
       chunks,
       (docs) =>
@@ -237,7 +272,7 @@ async function main() {
       15
     );
     ids = ids.concat(inserts.flat());
-    await updateVersion(pkgName, pkgVersions[pkgName]);
+    await updateVersion(pkgName, version);
   }
   return ids;
 }
