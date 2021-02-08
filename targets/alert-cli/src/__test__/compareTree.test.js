@@ -1,4 +1,4 @@
-import { uniq } from "../compareTree";
+import { uniq } from "../diff/compareDilaTree";
 
 const data = [
   {

@@ -141,7 +141,7 @@ type FicheVdd = {
 
 type FicheVddNode = {
   type: string,
-  name: string
+  name: string,
   children?: FicheVddNode[]
   text?: string
 }

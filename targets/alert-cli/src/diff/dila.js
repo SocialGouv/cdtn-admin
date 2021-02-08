@@ -1,7 +1,7 @@
 /* eslint-disable-next-line*/
 import nodegit from "nodegit";
 
-import { compareArticles } from "../compareTree.js";
+import { compareArticles } from "./compareDilaTree.js";
 import { createToJson } from "../node-git.helpers";
 import { getRelevantDocuments } from "../relevantContent.js";
 

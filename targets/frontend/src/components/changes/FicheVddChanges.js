@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
-import { Button, Card, Text } from "theme-ui";
+import { Button, Card } from "theme-ui";
 
 import { ViewDiff } from "./ViewDiff";
 
@@ -49,9 +49,6 @@ export function FicheVddChanges({ change }) {
       )}
       {isVisible && (
         <Card id={change.id}>
-          <Text sx={{ fontSize: "large", fontWeight: "xsmall", mb: "small" }}>
-            Intro
-          </Text>
           <ViewDiff
             inputA={change.previousText}
             inputB={change.currentText}

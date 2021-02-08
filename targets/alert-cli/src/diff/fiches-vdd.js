@@ -25,12 +25,14 @@ export async function processVddDiff(
     removed: [],
   };
 
-  const currList = /** @type {alerts.FicheVddIndex[]}*/ (await createToJson(
-    "data/index.json"
-  )(currTree));
-  const prevList = /** @type {alerts.FicheVddIndex[]}*/ (await createToJson(
-    "data/index.json"
-  )(prevTree));
+  const toJson = createToJson("data/index.json");
+
+  const [
+    currList,
+    prevList,
+  ] = /** @type {alerts.FicheVddIndex[][]} */ (await Promise.all(
+    [currTree, prevTree].map(toJson)
+  ));
 
   changes.removed = prevList.filter(
     ({ id }) => currList.find((item) => item.id === id) === undefined
