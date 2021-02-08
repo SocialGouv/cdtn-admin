@@ -186,7 +186,6 @@ async function insertDocuments(docs) {
     .toPromise();
 
   if (result.error) {
-    console.log(docs.map(({ id }) => id));
     console.error(result.error.graphQLErrors[0]);
     throw new Error(`error inserting documents`);
   }
