@@ -13,7 +13,7 @@ export async function exportContributionAlerts(alert) {
   ));
   const contributions = dilaAlertChanges.flatMap((changes) => {
     console.log(
-      `searching for contributions impacted by alert v${changes.ref} from ${alert.repository}`
+      `searching for contributions impacted by alert ${changes.ref} from ${alert.repository}`
     );
     const targetedContribs = changes.documents.filter(
       ({ document }) => document.source == "contributions"
@@ -41,6 +41,11 @@ export async function exportContributionAlerts(alert) {
     });
   });
 
+  if (contributions.length === 0) {
+    console.log(`Sending no alert for ${alert.repository} (${alert.newRef})`);
+    return;
+  }
+
   fetch(contribApiUrl, {
     body: JSON.stringify(contributions),
     headers: {
@@ -57,11 +62,14 @@ export async function exportContributionAlerts(alert) {
         return Promise.reject(err);
       }
       console.info(
-        `Sending ${contributions.length} contrib alert(s) to contributions (${contribApiUrl})`
+        `Sending ${contributions.length} alert(s) from ${alert.repository} to ${contribApiUrl}`
       );
     })
     .catch((err) => {
-      console.error(`Sending alerts fails`, err);
+      console.error(
+        `[FAIL] Sending ${contributions.length} alerts from ${alert.repository} to ${contribApiUrl} fails`,
+        err
+      );
     });
 }
 
