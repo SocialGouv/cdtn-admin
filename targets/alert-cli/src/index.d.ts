@@ -136,21 +136,14 @@ type FicheVddIndex = {
 
 type FicheVdd = {
   id: string
-  children: FicheVddChildren[]
+  children: FicheVddNode[]
 }
-
-type FicheVddChildren = FicheVddLeaf | FicheVddNode
 
 type FicheVddNode = {
   type: string,
   name: string
-  attributes: { [k: string]: string }
-  children?: FicheVddChildren[]
-}
-
-type FicheVddLeaf = {
-  type: "text"
-  text: string
+  children?: FicheVddNode[]
+  text?: string
 }
 
 /*

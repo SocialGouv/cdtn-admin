@@ -54,7 +54,7 @@ export async function processTravailDataDiff(
  * @param {import("@socialgouv/fiches-travail-data").FicheTravailEmploi[]} currentJson
  * @return {alerts.TravailDataChanges}
  */
-export function getChanges(previousJson, currentJson) {
+function getChanges(previousJson, currentJson) {
   /** @type {(item: import("@socialgouv/fiches-travail-data").FicheTravailEmploi) => string } */
   const toId = ({ pubId }) => pubId;
   const previousIds = previousJson.map(toId);
