@@ -57,6 +57,12 @@ mutation updateSource($repository: String!, $tag: String!){
  */
 function getFileFilter(repository, ficheVddIDs) {
   switch (repository) {
+    case "socialgouv/legi-data":
+      // only code-du-travail
+      return (path) => /LEGITEXT000006072050\.json$/.test(path);
+    case "socialgouv/kali-data":
+      // only a ccn matching our list
+      return (path) => ccns.some((ccn) => new RegExp(ccn.id).test(path));
     case "socialgouv/fiches-vdd":
       return (path) => {
         const matched = ["index.json", ...ficheVddIDs].some((id) =>
@@ -64,6 +70,8 @@ function getFileFilter(repository, ficheVddIDs) {
         );
         return matched;
       };
+    case "socialgouv/fiches-travail-data":
+      return (path) => /fiches-travail\.json$/.test(path);
     default:
       return () => false;
   }
