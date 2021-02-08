@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
-import { Button as TButton, Card, Text } from "theme-ui";
+import { Button, Card, Text } from "theme-ui";
 
 import { ViewDiff } from "./ViewDiff";
 
-export function FicheTravailDiffchange({ change }) {
+export function FicheTravailDataChanges({ change }) {
   const [isVisible, setVisible] = useState(false);
   const hasChange = (change.previousIntro && change.intro) || change.sections;
   return (
@@ -15,7 +15,7 @@ export function FicheTravailDiffchange({ change }) {
       </a>
       <br />
       {hasChange && (
-        <TButton
+        <Button
           aria-controls={change.pubId}
           aria-expanded={isVisible}
           size="small"
@@ -31,13 +31,17 @@ export function FicheTravailDiffchange({ change }) {
         >
           Voir les modifications{" "}
           {isVisible ? <IoIosArrowDown /> : <IoIosArrowForward />}
-        </TButton>
+        </Button>
       )}
       {isVisible && (
         <Card id={change.pubId}>
           {change.previousIntro && (
             <>
-              <Text>Intro</Text>
+              <Text
+                sx={{ fontSize: "large", fontWeight: "xsmall", mb: "small" }}
+              >
+                Intro
+              </Text>
               <ViewDiff
                 inputA={change.previousIntro}
                 inputB={change.intro}
@@ -55,7 +59,11 @@ export function FicheTravailDiffchange({ change }) {
           {change.sections.map(({ title, text, previousText }, index) => {
             return (
               <React.Fragment key={`${change.pubId}-section-${index}`}>
-                <Text>Section {title}</Text>
+                <Text
+                  sx={{ fontSize: "large", fontWeight: "xsmall", mb: "small" }}
+                >
+                  Section: {title}
+                </Text>
                 {
                   <ViewDiff
                     inputA={previousText}
@@ -79,7 +87,7 @@ export function FicheTravailDiffchange({ change }) {
   );
 }
 
-FicheTravailDiffchange.propTypes = {
+FicheTravailDataChanges.propTypes = {
   change: PropTypes.shape({
     intro: PropTypes.string,
     previousIntro: PropTypes.string,

@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import { useState } from "react";
 import { IoMdMap } from "react-icons/io";
 import { Button } from "src/components/button";
