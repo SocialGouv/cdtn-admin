@@ -102,7 +102,7 @@ export function AlertPage() {
       ).toLocaleDateString()} (${alert.ref})`;
     }
   }
-  // console.log(alerts);
+
   return (
     <Layout title="Gestion des alertes">
       <Stack>

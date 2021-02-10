@@ -1,3 +1,5 @@
+/** @jsxImportSource theme-ui */
+
 import { Dialog as ReachDialog } from "@reach/dialog";
 import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";

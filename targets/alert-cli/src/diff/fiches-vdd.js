@@ -18,7 +18,6 @@ export async function processVddDiff(
   prevTree,
   currTree
 ) {
-  const indexFile = files.find((file) => /^data\/index\.json$/.test(file));
   /** @type {alerts.AstChanges} */
   const changes = {
     added: [],
@@ -26,33 +25,58 @@ export async function processVddDiff(
     removed: [],
   };
 
-  const currList = /** @type {alerts.FicheVddIndex[]}*/ (await createToJson(
-    "data/index.json"
-  )(currTree));
+  const toJson = createToJson("data/index.json");
 
-  if (indexFile) {
-    const toJson = createToJson(indexFile);
-    const prevList = /** @type {alerts.FicheVddIndex[]}*/ (await toJson(
-      prevTree
-    ));
+  const [
+    currList,
+    prevList,
+  ] = /** @type {alerts.FicheVddIndex[][]} */ (await Promise.all(
+    [currTree, prevTree].map(toJson)
+  ));
 
-    changes.removed = prevList.filter(
-      ({ id }) => currList.find((item) => item.id === id) === undefined
-    );
-    changes.added = currList.filter(
-      ({ id }) => prevList.find((item) => item.id === id) === undefined
-    );
-  }
+  changes.removed = prevList.filter(
+    ({ id, type }) =>
+      !currList.some((item) => item.id === id && item.type === type)
+  );
+  changes.added = currList.filter(
+    ({ id, type }) =>
+      !prevList.some((item) => item.id === id && item.type === type)
+  );
 
   changes.modified = await Promise.all(
-    files
-      .filter((file) => !/index\.json/.test(file))
-      .map(async (file) => {
-        const toAst = createToJson(file);
-        const currAst = /** @type {alerts.FicheVdd}*/ (await toAst(currTree));
-        return currList.find(({ id }) => id === currAst.id);
-      })
+    files.map(async (fichePath) => {
+      if (/index\.json/.test(fichePath)) return;
+      if (
+        changes.removed
+          .concat(changes.added)
+          .some((fiche) => `data/${fiche.type}/${fiche.id}.json` === fichePath)
+      ) {
+        return;
+      }
+
+      const toJson = createToJson(fichePath);
+      const [
+        previousJSON,
+        currentJSON,
+      ] = /** @type {alerts.FicheVdd[]}*/ (await Promise.all(
+        [prevTree, currTree].map(toJson)
+      ));
+      const previousText = getTextFromRawFiche(previousJSON);
+      const currentText = getTextFromRawFiche(currentJSON);
+      if (previousText !== currentText) {
+        return {
+          currentText,
+          id: currentJSON.id,
+          previousText,
+          title: getTitleFromRawFiche(currentJSON),
+          type: fichePath.split("/")[1],
+        };
+      }
+    })
   );
+  // cannot flat map because of async;
+  changes.modified = changes.modified.filter(Boolean);
+
   if (
     changes.added.length === 0 &&
     changes.modified.length === 0 &&
@@ -69,4 +93,68 @@ export async function processVddDiff(
       ...changes,
     },
   ];
+}
+
+/**
+ *
+ * @param {alerts.FicheVdd} fiche
+ * @returns {string}
+ */
+const getTitleFromRawFiche = (fiche) => {
+  const publication = fiche.children[0];
+
+  return getText(getChild(publication, "dc:title"));
+};
+
+/**
+ *
+ * @param {alerts.FicheVdd} fiche
+ * @returns {string}
+ */
+const getTextFromRawFiche = (fiche) => {
+  const publication = fiche.children[0];
+
+  // We filter out the elements we will never use nor display
+  if (publication.children) {
+    publication.children = publication.children.filter(
+      (child) => child.name !== "OuSAdresser" && child.name !== "ServiceEnLigne"
+    );
+  }
+
+  const intro = getText(getChild(publication, "Introduction"));
+  const texte = getText(getChild(publication, "Texte"));
+  const listeSituations = getText(getChild(publication, "ListeSituations"));
+  const text = intro + " " + texte + " " + listeSituations;
+
+  return text;
+};
+
+/**
+ *
+ * @param {alerts.FicheVddNode} element
+ * @param {string} name
+ * @returns {alerts.FicheVddNode | undefined}
+ */
+function getChild(element, name) {
+  if (element.children) {
+    return element.children.find((el) => el.name === name);
+  }
+}
+
+/**
+ * Beware, this one is recursive
+ * @param {alerts.FicheVddNode | undefined} element
+ * @returns {string}
+ */
+function getText(element) {
+  if (!element) {
+    return "";
+  }
+  if (element.type === "text" && element.text) {
+    return element.text.trim();
+  }
+  if (element.children) {
+    return element.children.map((child) => getText(child)).join(" ");
+  }
+  return "";
 }

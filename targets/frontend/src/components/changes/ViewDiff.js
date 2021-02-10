@@ -39,7 +39,7 @@ export const ViewDiff = ({ sx, type, inputA, inputB }) => {
     return <span key={index}>{part.value}</span>;
   });
   return (
-    <div sx={sx}>
+    <div sx={{ mb: "large", ...sx }}>
       <div sx={{ marginBottom: 20 }}>
         Diff mode :
         <input
