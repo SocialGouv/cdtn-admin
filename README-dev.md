@@ -30,7 +30,7 @@ There is, at this moment (February 2021), 4 sources:
  * [@SocialGouv/kali-data](https://github.com/SocialGouv/kali-data)
  * [@SocialGouv/legi-data](https://github.com/SocialGouv/legi-data)
 
-Each github repo has released. In the release, we have the content as json. 
+Each GitHub repo uses releases to track changes. Each release exposes content as JSON.
 Ingester retrieves the last version and inject data into Hasura.
 
 ### alert-cli
