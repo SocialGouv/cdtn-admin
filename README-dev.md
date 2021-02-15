@@ -81,7 +81,7 @@ To access to the Hasura console, run this command:
 hasura console --envfile ../../.env --project targets/hasura
 ```
 
-A webpage is opened in your browser. The password is `admin1`.
+A webpage is opened in your browser. The password is `admin1` as set in the `.env` file (`HASURA_GRAPHQL_ADMIN_SECRET` key).
 
 > Start only the Hasura instance (it starts the postgreSQL as dependency):
 > ```sh
