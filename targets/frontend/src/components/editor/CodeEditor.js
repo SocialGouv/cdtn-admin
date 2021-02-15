@@ -1,3 +1,4 @@
+// Imports order are important and can't be in alphabetical order.
 /* eslint-disable simple-import-sort/imports */
 import PropTypes from "prop-types";
 
