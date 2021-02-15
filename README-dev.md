@@ -8,7 +8,7 @@
 
 ## Overview
 
-This git is a monorepo composed of 4 projects.
+This git repository is a monorepo composed of 4 projects.
 
 ### Hasura
 
@@ -131,5 +131,4 @@ That's all 🎉
 At this moment, the database is populated only by external documents (contributions, code du travail...). 
 All CDTN data (written by the CDTN team) are not populated in the database.
 An [issue](https://github.com/SocialGouv/cdtn-admin/issues/320) has been opened to find the better way to import data from the production into a dev environment.
-
 
