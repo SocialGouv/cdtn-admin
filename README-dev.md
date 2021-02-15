@@ -16,7 +16,9 @@ Used to expose data through a GraphQL API.
 It contains the metadata and migrations for Hasura.
 
 See the [Hasura documentation](https://hasura.io/docs/1.0/graphql/core/index.html) for more information.
+We recommend to [install the hasura console](https://hasura.io/docs/1.0/graphql/core/hasura-cli/install-hasura-cli.html) which provides a graphql sandbox and an administration UI for hasura.
 
+` ``
 ### Ingester
 
 Used to populate the database with documents provided by external sources.
@@ -131,4 +133,3 @@ That's all 🎉
 At this moment, the database is populated only by external documents (contributions, code du travail...). 
 All CDTN data (written by the CDTN team) are not populated in the database.
 An [issue](https://github.com/SocialGouv/cdtn-admin/issues/320) has been opened to find the better way to import data from the production into a dev environment.
-
