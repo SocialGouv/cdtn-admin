@@ -117,7 +117,7 @@ Release:
 #
 
 # todo: restrict to branches ?
-Restore container:
+Restore data:
   stage: Deploy
   only:
     - branches
