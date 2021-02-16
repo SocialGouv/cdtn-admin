@@ -29,3 +29,7 @@ CREATE TRIGGER documents_audit_update_selective
 CREATE TRIGGER documents_audit_insert_delete
   AFTER INSERT OR DELETE ON documents FOR EACH ROW
   EXECUTE PROCEDURE audit.if_modified_func('true');
+
+CREATE TRIGGER logged_actions_delete
+    AFTER INSERT ON audit.logged_actions
+    EXECUTE PROCEDURE audit.delete_old_actions();

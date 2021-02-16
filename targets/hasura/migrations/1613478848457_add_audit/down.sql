@@ -13,3 +13,5 @@ DROP TRIGGER audit_trigger_row on sources;
 
 DROP TRIGGER documents_audit_update_selective on documents;
 DROP TRIGGER documents_audit_insert_delete on documents;
+
+DROP TRIGGER logged_actions_delete on audit.logged_actions;
