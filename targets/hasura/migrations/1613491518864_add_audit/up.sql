@@ -22,8 +22,8 @@ select audit.audit_table('sources');
 --
 CREATE TRIGGER documents_audit_update_selective
   AFTER UPDATE ON documents FOR EACH ROW
-  WHEN ( (OLD.title, OLD.meta_description, OLD.slug, OLD.is_published, OLD.is_searchable, OLD.is_available)
-  IS DISTINCT FROM (NEW.title, NEW.meta_description, NEW.slug, NEW.is_published, NEW.is_searchable, NEW.is_available) )
+  WHEN ( (OLD.title, OLD.meta_description, OLD.slug, OLD.is_published, OLD.is_searchable)
+  IS DISTINCT FROM (NEW.title, NEW.meta_description, NEW.slug, NEW.is_published, NEW.is_searchable) )
   EXECUTE PROCEDURE audit.if_modified_func('true');
 
 CREATE TRIGGER documents_audit_insert_delete
