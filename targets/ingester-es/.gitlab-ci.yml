@@ -95,4 +95,4 @@ Deploy ingester-es (dev):
     KOSKO_GENERATE_ARGS: jobs/injestor --env dev
     # jobs/injestor variables
     CDTN_ADMIN_ENDPOINT: "https://douglasduteil-fea-s0wou6-cdtn-admin.dev2.fabrique.social.gouv.fr/api/graphql"
-    ES_INDEX_PREFIX: "cdtn-dev"
+    ES_INDEX_PREFIX: "cdtn-dev-${CI_COMMIT_REF_SLUG}"
