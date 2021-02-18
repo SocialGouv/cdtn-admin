@@ -8,7 +8,6 @@ metadata:
   name: injester
 data:
   NODE_ENV: production
-  ES_INDEX_PREFIX: cdtn-dev
   CDTN_ADMIN_ENDPOINT: http://hasura-cdtn-admin/v1/graphql
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -44,7 +43,7 @@ spec:
         - args:
             - http://hasura-cdtn-admin/healthz
           image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-http:2.4.0
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-http:4.5.4
           imagePullPolicy: Always
           name: wait-for-wait-for-hasura
           resources:
@@ -71,6 +70,9 @@ spec:
                 name: injester
             - secretRef:
                 name: injester
+          env:
+            - name: ES_INDEX_PREFIX
+              value: cdtn-dev-cdtn-admin-branch
       restartPolicy: Never
   ttlSecondsAfterFinished: 86400
 "

@@ -10,7 +10,6 @@ import { waitForHttp } from "@socialgouv/kosko-charts/utils"
 
 ok(process.env.CI_REGISTRY_IMAGE, "Missing CI_REGISTRY_IMAGE"); // cdtn-dev
 ok(process.env.ES_INDEX_PREFIX, "Missing ES_INDEX_PREFIX"); // cdtn-dev
-ok(process.env.CDTN_ADMIN_ENDPOINT, "Missing CDTN_ADMIN_ENDPOINT"); // //___/api/graphql
 
 const configMap = loadYaml<ConfigMap>(env, `injestor.configmap.yaml`);
 const secret = loadYaml<SealedSecret>(env, "injestor.sealed-secret.yaml");
@@ -37,7 +36,7 @@ const injestor = () => {
             {
               name: "ingester-es",
               image:
-                `registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester-es:${process.env.CI_COMMIT_SHA}`,
+                `${process.env.CI_REGISTRY_IMAGE}/ingester-es:${process.env.CI_COMMIT_SHA}`,
               imagePullPolicy: "IfNotPresent",
               resources: {
                 limits: {
@@ -61,6 +60,12 @@ const injestor = () => {
                   }
                 },
               ],
+              env: [
+                {
+                  name: 'ES_INDEX_PREFIX',
+                  value: process.env.ES_INDEX_PREFIX
+                }
+              ]
             },
           ],
           restartPolicy: "Never",
