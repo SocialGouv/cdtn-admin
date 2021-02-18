@@ -628,10 +628,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/kosko-charts@^4.7.11":
-  version "4.7.11"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-4.7.11.tgz#d983c8c44af0dfce690eef02c821ca83cd0cb598"
-  integrity sha512-ytg2iugCaAnA6bfZpHo/3tk/PYhfcrk1G5FkUWj+Xytl67tC1+bz/aony2cepjBLMQvM0/2cVjKcbjzXKNhIPg==
+"@socialgouv/kosko-charts@^4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-4.8.0.tgz#cb8347959a919e37eb69f7b44b6731b85be706e1"
+  integrity sha512-IW9WL8holKYmPEisx5WluSFZXvjBwOJ4gYe2yOxxJVrl4yiIP1641xoWZjh+dWRfw4zoJDWLMXFMedF/sGu3NA==
   dependencies:
     "@kosko/env" "^1.0.3"
     "@kubernetes-models/sealed-secrets" "^1.1.0"
@@ -3907,9 +3907,9 @@ unset-value@^1.0.0:
     isobject "^3.0.0"
 
 uri-js@^4.2.2:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/uri-js/-/uri-js-4.4.0.tgz#aa714261de793e8a82347a7bcc9ce74e86f28602"
-  integrity sha512-B0yRTzYdUCCn9n+F4+Gh4yIDtMQcaJsmYBDsTSG8g/OejKBodLQ2IHfN3bM7jUsRXndopT7OIXWdYqc1fjmV6g==
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/uri-js/-/uri-js-4.4.1.tgz#9b1a52595225859e55f669d928f88c6c57f2a77e"
+  integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
 
