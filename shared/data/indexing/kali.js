@@ -1,6 +1,5 @@
 import fetch from "node-fetch";
 import pRetry from "p-retry";
-import { setTimeout } from "timers/promises";
 import find from "unist-util-find";
 import parents from "unist-util-parents";
 
@@ -51,7 +50,7 @@ export async function getArticlesByTheme(allBlocks, id) {
           `On "https://unpkg.com/@socialgouv/kali-data@${KALI_DATA_VERSION}/data/${id}.json".` +
             ` Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`
         );
-        await setTimeout(33 * 1000);
+        await new Promise((resolve) => setTimeout(resolve, 33 * 1000));
       },
       retries: 5,
     }
