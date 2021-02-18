@@ -93,13 +93,18 @@ export async function* cdtnDocumentsGen() {
       return data;
     },
     {
-      onFailedAttempt: (error) => {
+      onFailedAttempt: async (error) => {
         console.log(
           `On "${CDTN_ADMIN_ENDPOINT}".` +
             ` Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`
         );
+
+        // NOTE(douglasduteil): wait ~1min x 10 for the database to be restore
+        // In dev cases, the script could run before the database is restored
+        // To make the scirpt less floppy we retry 10 times every minutes
+        await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
       },
-      retries: 5,
+      retries: 10,
     }
   );
 
@@ -220,7 +225,10 @@ export async function* cdtnDocumentsGen() {
           source: SOURCES.CCN,
         };
       },
-      { concurrency: 2 }
+      // NOTE(douglasduteil): limite the concurrent request to unpkg
+      // As we get kali data from unpkg now, we should limit the concurrent
+      // request to it to ensure not having many http errors.
+      { concurrency: 5 }
     ),
     source: SOURCES.CCN,
   };

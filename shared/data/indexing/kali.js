@@ -50,9 +50,12 @@ export async function getArticlesByTheme(allBlocks, id) {
           `On "https://unpkg.com/@socialgouv/kali-data@${KALI_DATA_VERSION}/data/${id}.json".` +
             ` Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`
         );
+        // NOTE(douglasduteil): wait ~33s x 6 on fetching errors
+        // unpkg could throw if the socket hand up or else...
+        // If it's the case, it will take ~30s before allowing new request from use
         await new Promise((resolve) => setTimeout(resolve, 33 * 1000));
       },
-      retries: 5,
+      retries: 6,
     }
   );
 
