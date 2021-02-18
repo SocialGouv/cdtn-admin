@@ -79,7 +79,7 @@ COMMENT ON COLUMN audit.logged_actions.session_user_name IS 'Login / session use
 COMMENT ON COLUMN audit.logged_actions.hasura_user IS 'hasura user info whose statement caused the audited event';
 COMMENT ON COLUMN audit.logged_actions.action_tstamp_tx IS 'Transaction start timestamp for tx in which audited event occurred';
 COMMENT ON COLUMN audit.logged_actions.action_tstamp_stm IS 'Statement start timestamp for tx in which audited event occurred';
-COMMENT ON COLUMN audit.logged_actions.action_tstamp_clk IS 'Wall clock time at which audited event''s trigger call occurred';
+COMMENT ON COLUMN audit.logged_actions.action_tstamp_clk IS 'Timestamp with timezone (return by the function clock_timestamp()) at which audited event''s trigger call occurred';
 COMMENT ON COLUMN audit.logged_actions.transaction_id IS 'Identifier of transaction that made the change. May wrap, but unique paired with action_tstamp_tx.';
 COMMENT ON COLUMN audit.logged_actions.client_addr IS 'IP address of client that issued query. Null for unix domain socket.';
 COMMENT ON COLUMN audit.logged_actions.client_port IS 'Remote peer IP port address of client that issued query. Undefined for unix socket.';
