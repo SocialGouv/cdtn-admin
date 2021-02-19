@@ -4,11 +4,11 @@
 
 select audit.audit_table('auth.refresh_tokens');
 select audit.audit_table('auth.user_roles');
-select audit.audit_table('auth.users');
+select audit.audit_table('auth.users', 'true', 'true', '{password,secret_token}');
 select audit.audit_table('alert_notes');
 select audit.audit_table('alert_status');
-select audit.audit_table('alerts');
-select audit.audit_table('document_relations');
+select audit.audit_table('alerts', 'false');
+select audit.audit_table('document_relations', 'false');
 select audit.audit_table('glossary');
 select audit.audit_table('kali_blocks');
 select audit.audit_table('package_version');
@@ -21,14 +21,14 @@ select audit.audit_table('sources');
 -- to log actions only if data updated since document is updated daily by the ingester,
 --
 CREATE TRIGGER documents_audit_update_selective
-  AFTER UPDATE ON documents FOR EACH ROW
+  AFTER UPDATE ON documents FOR EACH STATEMENT
   WHEN ( (OLD.title, OLD.meta_description, OLD.slug, OLD.is_published, OLD.is_searchable)
   IS DISTINCT FROM (NEW.title, NEW.meta_description, NEW.slug, NEW.is_published, NEW.is_searchable) )
-  EXECUTE PROCEDURE audit.if_modified_func('true');
+  EXECUTE PROCEDURE audit.if_modified_func();
 
 CREATE TRIGGER documents_audit_insert_delete
-  AFTER INSERT OR DELETE ON documents FOR EACH ROW
-  EXECUTE PROCEDURE audit.if_modified_func('true');
+  AFTER INSERT OR DELETE ON documents FOR EACH STATEMENT
+  EXECUTE PROCEDURE audit.if_modified_func();
 
 CREATE TRIGGER logged_actions_delete
     AFTER INSERT ON audit.logged_actions

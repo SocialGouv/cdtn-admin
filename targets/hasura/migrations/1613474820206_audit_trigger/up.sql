@@ -53,8 +53,6 @@ CREATE TABLE audit.logged_actions (
     hasura_user jsonb,
 
     action_tstamp_tx TIMESTAMP WITH TIME ZONE NOT NULL,
-    action_tstamp_stm TIMESTAMP WITH TIME ZONE NOT NULL,
-    action_timestamp_clock TIMESTAMP WITH TIME ZONE NOT NULL,
     transaction_id bigint,
 
     application_name text,
@@ -78,8 +76,6 @@ COMMENT ON COLUMN audit.logged_actions.relid IS 'Table OID. Changes with drop/cr
 COMMENT ON COLUMN audit.logged_actions.session_user_name IS 'Login / session user whose statement caused the audited event';
 COMMENT ON COLUMN audit.logged_actions.hasura_user IS 'hasura user info whose statement caused the audited event';
 COMMENT ON COLUMN audit.logged_actions.action_tstamp_tx IS 'Transaction start timestamp for tx in which audited event occurred';
-COMMENT ON COLUMN audit.logged_actions.action_tstamp_stm IS 'Statement start timestamp for tx in which audited event occurred';
-COMMENT ON COLUMN audit.logged_actions.action_tstamp_clk IS 'Timestamp with timezone (return by the function clock_timestamp()) at which audited event''s trigger call occurred';
 COMMENT ON COLUMN audit.logged_actions.transaction_id IS 'Identifier of transaction that made the change. May wrap, but unique paired with action_tstamp_tx.';
 COMMENT ON COLUMN audit.logged_actions.client_addr IS 'IP address of client that issued query. Null for unix domain socket.';
 COMMENT ON COLUMN audit.logged_actions.client_port IS 'Remote peer IP port address of client that issued query. Undefined for unix socket.';
@@ -113,8 +109,6 @@ BEGIN
         session_user::text,                           -- session_user_name
         current_setting('hasura.user', 't')::jsonb,   -- user information from hasura graphql engine
         current_timestamp,                            -- action_tstamp_tx
-        statement_timestamp(),                        -- action_tstamp_stm
-        clock_timestamp(),                            -- action_tstamp_clk
         txid_current(),                               -- transaction ID
         current_setting('application_name'),          -- client application
         inet_client_addr(),                           -- client_addr
@@ -257,10 +251,10 @@ Add auditing support to the given table. Row-level changes will be logged with f
 $body$;
 
 
-CREATE FUNCTION  audit.delete_old_actions() RETURNS trigger AS $body$
+CREATE FUNCTION audit.delete_old_actions() RETURNS trigger AS $body$
 
 BEGIN
-  DELETE FROM audit.logged_actions WHERE action_tstamp_clk < NOW() - INTERVAL '3 month';
+  DELETE FROM audit.logged_actions WHERE action_tstamp_tx < NOW() - INTERVAL '3 month';
   RETURN NULL;
 END;
 $body$
