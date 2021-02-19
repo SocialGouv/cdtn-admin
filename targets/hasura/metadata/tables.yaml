@@ -161,6 +161,9 @@
       check: {}
 - table:
     schema: public
+    name: clean_jobs
+- table:
+    schema: public
     name: document_relations
   object_relationships:
   - name: a

@@ -1,1 +1,9 @@
-[]
+- name: clean_data
+  webhook: '{{API_URL}}/api/clean_jobs'
+  schedule: 0 4 * * 6
+  include_in_metadata: true
+  payload: {}
+  headers:
+  - name: jobs-secret
+    value_from_env: JOBS_SECRET
+  comment: cron trigger that launch clean triggers associated with the clean_job table
