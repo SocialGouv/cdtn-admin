@@ -25,9 +25,10 @@ Pour voir la [configuration du trigger](targets/hasura/migrations/1613474820206_
 
 ## Suppression des données anciennes
 
-Les données de certaines table sont nettoyé automatiquement.
-Pour ce faire nous utilisons les cron trigger Hasura pour faire un appel sur notre api Next.Js
-L'api va mettre à jour les entrées de la table `clean_jobs` qui va alors déclenchées des trigger associés à chaque ligne.
+Les données de certaines tables sont nettoyées automatiquement.
+
+Pour ce faire nous utilisons les [cron trigger Hasura](https://hasura.io/docs/1.0/graphql/core/scheduled-triggers/create-cron-trigger.html) pour faire un appel sur notre API Next.Js. L'API va mettre à jour les entrées de la table `clean_jobs` ce qui va alors déclencher des triggers associés à chaque ligne.
+
 Pour l'instant seulement 2 triggers sont en place:
 
 - nettoyage de la table `alerts` (alertes traitées conservés pour 3mois)
