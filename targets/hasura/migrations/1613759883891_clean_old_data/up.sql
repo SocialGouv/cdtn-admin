@@ -4,7 +4,7 @@
 
 CREATE OR REPLACE FUNCTION public.delete_old_alerts() RETURNS trigger AS $body$
 BEGIN
-  DELETE FROM alerts WHERE created_at < NOW() - INTERVAL '3 month';
+  DELETE FROM alerts WHERE created_at < NOW() - INTERVAL '3 month' AND status IN ('done', 'rejected');
   RETURN NULL;
 END;
 $body$
@@ -42,7 +42,7 @@ CREATE TRIGGER logged_actions_delete
 AFTER UPDATE ON public.clean_jobs FOR EACH ROW
 WHEN (OLD.job = 'logged_actions')
 EXECUTE PROCEDURE  audit.delete_old_actions();
- 
+
 CREATE TRIGGER alerts_delete
 AFTER UPDATE ON public.clean_jobs FOR EACH ROW
 WHEN (OLD.job = 'alerts')
