@@ -14,7 +14,7 @@ select audit.audit_table('kali_blocks'::regclass);
 select audit.audit_table('package_version'::regclass);
 select audit.audit_table('roles'::regclass);
 select audit.audit_table('sources'::regclass);
-select audit.audit_table('documents'::regclass, true, true, '{document}');
+select audit.audit_table('documents'::regclass, true, true, '{document,is_available}');
 
 --
 -- Remove old logged actions
