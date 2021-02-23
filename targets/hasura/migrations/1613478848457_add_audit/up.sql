@@ -31,4 +31,9 @@ CREATE TRIGGER documents_audit_insert_delete
 AFTER INSERT OR DELETE ON documents FOR EACH STATEMENT
 EXECUTE PROCEDURE audit.if_modified_func();
 
-
+--
+-- Remove old logged actions
+--
+CREATE TRIGGER logged_actions_delete
+    AFTER INSERT ON audit.logged_actions
+    EXECUTE PROCEDURE audit.delete_old_actions();

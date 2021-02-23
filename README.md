@@ -8,14 +8,14 @@ Lorsqu'on rajoute une table, ne pas oublier de rajouter dans la migration l'appe
 
 ```sql
 
--- ajout des triggers d'audit sur la table document
+-- ajout des triggers d'audit sur la table documents
 select audit.audit_table('documents');
 
--- Le trigger peut etre configurer pour
+-- Le trigger peut être configuré pour
 select audit.audit_table('documents',
 -- se declencher au niveau ROW ou STATEMENT
 'false',
--- enregister le text de la requète
+-- enregistrer le text de la requête
 'false',
 -- ignorer d'enregistrer certains champs
 '{text}');
