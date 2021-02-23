@@ -103,11 +103,7 @@ describe("exportContributionAlerts", () => {
     fetch.mockImplementation(() => {
       return Promise.resolve({ ok: true });
     });
-    await exportContributionAlerts({
-      changes,
-      newRef: "v0.0.0",
-      repository: "test",
-    });
+    await exportContributionAlerts("repositoryTest", "v0.0.0", changes);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(contribApiUrl, {
       body: JSON.stringify([

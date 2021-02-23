@@ -15,7 +15,7 @@ import { openRepo } from "./openRepo";
 
 const sourcesQuery = `
 query getSources {
-  sources(where: {repository: {_like: "%kali%"}}) {
+  sources {
     repository
     tag
   }
