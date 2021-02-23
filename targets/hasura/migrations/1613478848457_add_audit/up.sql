@@ -18,13 +18,17 @@ select audit.audit_table('sources'::regclass);
 --
 -- select audit.audit_table('documents');
 -- we use audit trigger directly to take advantage of WHEN clause
--- to log actions only if data updated since document is updated daily by the ingester,
+-- to log update for fields other than documents, is_available, updated_at
+-- since documents are updated daily by the ingester,
 --
 
 CREATE TRIGGER documents_audit_update_selective
 AFTER UPDATE ON documents FOR EACH ROW
-WHEN ((OLD.title, OLD.meta_description, OLD.slug, OLD.is_published, OLD.is_searchable)
-IS DISTINCT FROM (NEW.title, NEW.meta_description, NEW.slug, NEW.is_published, NEW.is_searchable))
+WHEN (OLD.title IS DISTINCT FROM NEW.title
+    OR OLD.meta_description IS DISTINCT FROM NEW.meta_description
+    OR OLD.slug IS DISTINCT FROM NEW.slug
+    OR OLD.is_published IS DISTINCT FROM NEW.is_published
+    OR OLD.is_searchable IS DISTINCT FROM NEW.is_searchable)
 EXECUTE PROCEDURE audit.if_modified_func();
 
 CREATE TRIGGER documents_audit_insert_delete
