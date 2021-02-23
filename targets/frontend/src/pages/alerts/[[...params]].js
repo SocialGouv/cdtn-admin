@@ -1,3 +1,4 @@
+/** @jsxImportSource theme-ui */
 import { Accordion } from "@reach/accordion";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
@@ -9,10 +10,11 @@ import { DiffChange } from "src/components/changes";
 import { ChangesGroup } from "src/components/changes/ChangeGroup";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
+import { Li } from "src/components/list";
 import { Pagination } from "src/components/pagination";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Card, Container, Divider, Message } from "theme-ui";
+import { Box, Card, Container, Divider, Message, NavLink } from "theme-ui";
 import { useQuery } from "urql";
 
 const getAlertQuery = `
@@ -157,21 +159,41 @@ export function AlertPage() {
                   <ChangesGroup
                     changes={alert.changes.documents}
                     label="Contenus liés"
-                    renderChange={(item, i) => {
+                    renderChange={(item) => {
                       const [title, anchor] = item.document.title.split("#");
 
                       return (
-                        <li key={`${alert.id}-documents-${i}`}>
+                        <li
+                          sx={{ lineHeight: 1.4, paddingBottom: "xxsmall" }}
+                          key={`${alert.id}-documents-${item.document.id}`}
+                        >
                           <a
                             target="_blank"
                             rel="noopener noreferrer"
-                            key={item.document.id}
                             href={`https://code.travail.gouv.fr/${getRouteBySource(
                               item.document.source
                             )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
                           >
                             {title}
                           </a>
+                          <Box>
+                            {jsxJoin(
+                              item.references.map((node) => (
+                                <NavLink
+                                  sx={{
+                                    fontSize: "xsmall",
+                                    color: "muted",
+                                    lineHeight: 1,
+                                  }}
+                                  href={node.url}
+                                  key={node.dila_cid}
+                                >
+                                  {node.title}
+                                </NavLink>
+                              )),
+                              ", "
+                            )}
+                          </Box>
                         </li>
                       );
                     }}
@@ -202,3 +224,15 @@ export function AlertPage() {
 // };
 
 export default withCustomUrqlClient(withUserProvider(AlertPage));
+
+function jsxJoin(array, str) {
+  return array.length > 0
+    ? array.reduce((result, item) => (
+        <>
+          {result}
+          {str}
+          {item}
+        </>
+      ))
+    : null;
+}
