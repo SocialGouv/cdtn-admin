@@ -48,21 +48,7 @@ spec:
             supplementalGroups:
               - 1000
           volumes:
-            - name: data
-              persistentVolumeClaim:
-                claimName: alert-data
             - name: tz-paris
               hostPath:
                 path: /usr/share/zoneinfo/Europe/Paris
           restartPolicy: Never
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: alert-data
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi

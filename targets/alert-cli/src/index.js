@@ -1,4 +1,5 @@
 import { client } from "@shared/graphql-client";
+import memoizee from "memoizee";
 import nodegit from "nodegit";
 import semver from "semver";
 
@@ -8,13 +9,13 @@ import { processDilaDiff } from "./diff/dila";
 import { processTravailDataDiff } from "./diff/fiches-travail-data";
 import { processVddDiff } from "./diff/fiches-vdd";
 import { exportContributionAlerts } from "./exportContributionAlerts";
-import { getFicheServicePublicIds } from "./getFicheServicePublicIds";
+import { getFicheServicePublicIds as _getFicheServicePublicIds } from "./getFicheServicePublicIds";
 import { getFilename } from "./node-git.helpers";
 import { openRepo } from "./openRepo";
 
 const sourcesQuery = `
 query getSources {
-  sources {
+  sources(where: {repository: {_like: "%kali%"}}) {
     repository
     tag
   }
@@ -49,13 +50,16 @@ mutation updateSource($repository: String!, $tag: String!){
 }
 `;
 
+const getFicheServicePublicIds = memoizee(_getFicheServicePublicIds, {
+  promise: true,
+});
+
 /**
  *
  * @param { string } repository
- * @param {string[]} ficheVddIDs
- * @returns { alerts.fileFilterFn }
+ * @returns { Promise<alerts.fileFilterFn> }
  */
-function getFileFilter(repository, ficheVddIDs) {
+async function getFileFilter(repository) {
   switch (repository) {
     case "socialgouv/legi-data":
       // only code-du-travail
@@ -63,20 +67,21 @@ function getFileFilter(repository, ficheVddIDs) {
     case "socialgouv/kali-data":
       // only a ccn matching our list
       return (path) => ccns.some((ccn) => new RegExp(ccn.id).test(path));
-    case "socialgouv/fiches-vdd":
+    case "socialgouv/fiches-vdd": {
+      const ficheVddIDs = await getFicheServicePublicIds();
       return (path) => {
         const matched = ["index.json", ...ficheVddIDs].some((id) =>
           new RegExp(`${id}.json$`).test(path)
         );
         return matched;
       };
+    }
     case "socialgouv/fiches-travail-data":
       return (path) => /fiches-travail\.json$/.test(path);
     default:
       return () => false;
   }
 }
-
 /**
  *
  * @param { string } repository
@@ -199,110 +204,89 @@ async function getNewerTagsFromRepo(repository, lastTag) {
 
 /**
  *
- * @param {alerts.GitTagData[]} tags include the last tag from the previous run
- * @param {string} repositoryId
- * @param {string[]} ficheVddIDs
+ * @param {string} repository
+ * @param {alerts.GitTagData} currentTag first tag to compute diff (most recent)
+ * @param {alerts.GitTagData} previousTag second tag to compute diff (least recent)
+ * @returns {Promise<alerts.AlertChanges[]>}
  */
-async function getDiffFromTags(tags, repositoryId, ficheVddIDs) {
-  let [previousTag] = tags;
-  const [, ...newTags] = tags;
+async function getAlertChangesFromTags(repository, currentTag, previousTag) {
+  const fileFilter = await getFileFilter(repository);
+  const diffProcessor = getDiffProcessor(repository);
 
-  /** @type {(alerts.AlertChanges)[]}  */
-  const allChanges = [];
+  const currentCommit = currentTag.commit;
+  const previousCommit = previousTag.commit;
+  const [prevTree, currTree] = await Promise.all([
+    previousCommit.getTree(),
+    currentCommit.getTree(),
+  ]);
+  const diff = await currTree.diff(prevTree);
+  const patches = await diff.patches();
 
-  const fileFilter = getFileFilter(repositoryId, ficheVddIDs);
-  const diffProcessor = getDiffProcessor(repositoryId);
+  const files = patches.map(getFilename).filter(fileFilter);
 
-  for (const tag of newTags) {
-    console.log(
-      `get diff from ${previousTag.ref} › ${tag.ref} for ${repositoryId}`
+  return diffProcessor(repository, currentTag, files, prevTree, currTree);
+}
+
+/**
+ *
+ * @param {string} repository
+ * @param {alerts.AlertChanges[]} alertChanges
+ */
+async function saveAlertChanges(repository, alertChanges) {
+  const inserts = await batchPromises(
+    alertChanges,
+    (diff) => insertAlert(repository, diff),
+    5
+  );
+  const fullfilledInserts = /**@type {{status:"fulfilled", value:alerts.Alert}[]} */ (inserts.filter(
+    ({ status }) => status === "fulfilled"
+  ));
+  const rejectedInsert = inserts.filter(({ status }) => status === "rejected");
+  fullfilledInserts.forEach((insert) => {
+    const { ref, repository, info } = insert.value;
+    console.log(`insert alert for ${ref} on ${repository} (${info.file})`);
+  });
+
+  if (rejectedInsert.length) {
+    console.error(
+      `${rejectedInsert.length} alerts failed to insert in ${repository}`
     );
-    const previousCommit = previousTag.commit;
-    const { commit } = tag;
-    const [prevTree, currTree] = await Promise.all([
-      previousCommit.getTree(),
-      commit.getTree(),
-    ]);
-
-    const diff = await currTree.diff(prevTree);
-    const patches = await diff.patches();
-
-    const files = patches.map(getFilename).filter(fileFilter);
-
-    const changes = await diffProcessor(
-      repositoryId,
-      tag,
-      files,
-      prevTree,
-      currTree
-    );
-    if (changes.length > 0) {
-      console.log(`› ${changes.length} changes found`);
-      allChanges.push(...changes);
-    }
-    previousTag = tag;
+    process.exit(1);
   }
-  return allChanges;
 }
 
 async function main() {
   const sources = await getSources();
-  const ficheVddIDs = await getFicheServicePublicIds();
-  const results = [];
   for (const source of sources) {
     const repo = await openRepo(source);
     const tags = await getNewerTagsFromRepo(repo, source.tag);
+
     const [lastTag] = tags.slice(-1);
     if (!lastTag) {
       throw new Error(`Error: last tag not found for ${source.repository}`);
     }
-    const diffs = await getDiffFromTags(tags, source.repository, ficheVddIDs);
-    results.push({
-      changes: diffs,
-      newRef: lastTag.ref,
-      repository: source.repository,
-    });
-  }
 
-  if (process.env.DUMP) {
-    console.log(JSON.stringify(results, null, 2));
-  } else {
-    for (const result of results) {
-      if (result.changes.length === 0) {
-        console.log(`no update for ${result.repository}`);
-      } else {
-        // forward alert to contributions
-        console.log(`››› ${result.repository}`);
-        exportContributionAlerts(result);
+    let [previousTag] = tags;
+    const [, ...newTags] = tags;
+    for (const tag of newTags) {
+      console.log(
+        `get diff from ${previousTag.ref} › ${tag.ref} for ${source.repository}`
+      );
 
-        const inserts = await batchPromises(
-          result.changes,
-          (diff) => insertAlert(result.repository, diff),
-          5
-        );
-        const fullfilledInserts = /**@type {{status:"fulfilled", value:alerts.Alert}[]} */ (inserts.filter(
-          ({ status }) => status === "fulfilled"
-        ));
-        const rejectedInsert = inserts.filter(
-          ({ status }) => status === "rejected"
-        );
-        fullfilledInserts.forEach((insert) => {
-          const { ref, repository, info } = insert.value;
-          console.log(
-            `insert alert for ${ref} on ${repository} (${info.file})`
-          );
-        });
-
-        if (rejectedInsert.length) {
-          console.error(
-            `${rejectedInsert.length} alerts failed to insert in ${result.repository}`
-          );
-          process.exit(1);
-        }
-        const update = await updateSource(result.repository, result.newRef);
-        console.log(`update source ${update.repository} to ${update.tag}`);
+      const alertChanges = await getAlertChangesFromTags(
+        source.repository,
+        tag,
+        previousTag
+      );
+      console.log(`› ${alertChanges.length} changes found`);
+      if (alertChanges.length > 0) {
+        exportContributionAlerts(source.repository, lastTag, alertChanges);
+        await saveAlertChanges(source.repository, alertChanges);
       }
+      previousTag = tag;
     }
+    const update = await updateSource(source.repository, lastTag.ref);
+    console.log(`update source ${update.repository} to ${update.tag}`);
   }
 }
 

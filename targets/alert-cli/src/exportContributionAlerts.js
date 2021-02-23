@@ -4,16 +4,21 @@ export const contribApiUrl =
   "https://contributions-api.codedutravail.fabrique.social.gouv.fr/alerts";
 
 /**
- *
- * @param {alerts.RepoAlert} alert
+ * @param {string} repository
+ * @param {alerts.GitTagData} lastTag
+ * @param {alerts.AlertChanges[]} alertChanges
  */
-export async function exportContributionAlerts(alert) {
-  const dilaAlertChanges = /** @type {alerts.DilaAlertChanges[]} */ (alert.changes.filter(
+export async function exportContributionAlerts(
+  repository,
+  lastTag,
+  alertChanges
+) {
+  const dilaAlertChanges = /** @type {alerts.DilaAlertChanges[]} */ (alertChanges.filter(
     (change) => change.type === "dila"
   ));
   const contributions = dilaAlertChanges.flatMap((changes) => {
     console.log(
-      `searching for contributions impacted by alert ${changes.ref} from ${alert.repository}`
+      `searching for contributions impacted by alert ${changes.ref} from ${repository}`
     );
     const targetedContribs = changes.documents.filter(
       ({ document }) => document.source == "contributions"
@@ -42,7 +47,7 @@ export async function exportContributionAlerts(alert) {
   });
 
   if (contributions.length === 0) {
-    console.log(`Sending no alert for ${alert.repository} (${alert.newRef})`);
+    console.log(`Sending no alert for ${repository} (${lastTag.ref})`);
     return;
   }
 
@@ -62,12 +67,12 @@ export async function exportContributionAlerts(alert) {
         return Promise.reject(err);
       }
       console.info(
-        `Sending ${contributions.length} alert(s) from ${alert.repository} to ${contribApiUrl}`
+        `Sending ${contributions.length} alert(s) from ${repository} to ${contribApiUrl}`
       );
     })
     .catch((err) => {
       console.error(
-        `[FAIL] Sending ${contributions.length} alerts from ${alert.repository} to ${contribApiUrl} fails`,
+        `[FAIL] Sending ${contributions.length} alerts from ${repository} to ${contribApiUrl} fails`,
         err
       );
     });
