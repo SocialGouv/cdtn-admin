@@ -64,7 +64,7 @@ export function format(fiche, resolveCdtReference, agreements) {
     (el) => el.name === "Reference"
   );
 
-  const [legalReferences, referencedTexts] = parseReferences(
+  const referencedTexts = parseReferences(
     references,
     resolveCdtReference,
     agreements
@@ -74,7 +74,6 @@ export function format(fiche, resolveCdtReference, agreements) {
     date,
     description,
     id,
-    legalReferences,
     raw: JSON.stringify(publication),
     referencedTexts,
     source: SOURCES.SHEET_SP,
