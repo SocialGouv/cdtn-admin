@@ -10,7 +10,6 @@ import { DiffChange } from "src/components/changes";
 import { ChangesGroup } from "src/components/changes/ChangeGroup";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
-import { Li } from "src/components/list";
 import { Pagination } from "src/components/pagination";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
