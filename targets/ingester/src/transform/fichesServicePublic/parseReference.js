@@ -20,7 +20,6 @@ function isCodeDuTravail(qs) {
   return qs.cidTexte === "LEGITEXT000006072050";
 }
 
-
 /**
  * determine url type based on qs params
  * @param {{[key:string]:string}} qs
@@ -144,7 +143,7 @@ export function extractOldReference(
           console.error(
             `extractOldReferences: unkown article id ${qs.idArticle}, maybe reference is obsolete`
           );
-          return [];
+          return [externalReference(url, label)];
         }
         return [cdtArticleReference(article)];
       }
@@ -158,7 +157,10 @@ export function extractOldReference(
           console.error(
             `extractOldReferences: unkown section id ${qs.idSectionTA}, maybe reference is obsolete`
           );
-          return [];
+          return [externalReference(url, label)];
+        }
+        if (section.children.every((child) => child.type !== "article")) {
+          return [externalReference(url, label)];
         }
         return section.children.flatMap((child) => {
           if (child.type !== "article") {
@@ -170,7 +172,7 @@ export function extractOldReference(
       console.error(
         `extractOldReferences: cannot extract article reference from url ${url}`
       );
-      return [];
+      return [externalReference(url, label)];
     }
 
     case "convention-collective": {
@@ -181,7 +183,7 @@ export function extractOldReference(
         console.error(
           `extractOldReferences: unkown convention id ${qs.idConvention}`
         );
-        return [];
+        return [externalReference(url, label)];
       }
       return [agreementReference(convention)];
     }
@@ -246,6 +248,9 @@ export function extractNewReference(
       ));
 
       if (section) {
+        if (section.children.every((child) => child.type !== "article")) {
+          return [externalReference(url, label)];
+        }
         return section.children.flatMap((child) => {
           if (child.type !== "article") {
             return [];
@@ -265,7 +270,7 @@ export function extractNewReference(
       console.error(
         `extractOldReferences: unkown convention id ${kalicontainerId}`
       );
-      return [];
+      return [externalReference(url, label)];
     }
     return [agreementReference(convention)];
   }

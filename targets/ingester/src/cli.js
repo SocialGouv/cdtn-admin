@@ -253,31 +253,31 @@ async function main() {
     if (args.dryRun || !documents || !documents.length) {
       continue;
     }
-    // const nbDocs = await initDocAvailabity(documents[0].source);
-    // console.log(`update availability of ${nbDocs} documents`);
-    // console.log(
-    //   ` › ready to ingest ${documents.length} documents from ${pkgName}`
-    // );
-    // const chunks = chunk(documents, 50);
-    // const inserts = await batchPromises(
-    //   chunks,
-    //   (docs) =>
-    //     pRetry(() => insertDocuments(docs), {
-    //       onFailedAttempt: (error) => {
-    //         console.error(
-    //           `insert failed ${error.attemptNumber}/${
-    //             error.retriesLeft + error.attemptNumber
-    //           }`,
-    //           error.name,
-    //           error.message
-    //         );
-    //       },
-    //       retries: 5,
-    //     }),
-    //   15
-    // );
-    // ids = ids.concat(inserts.flat());
-    // await updateVersion(pkgName, version);
+    const nbDocs = await initDocAvailabity(documents[0].source);
+    console.log(`update availability of ${nbDocs} documents`);
+    console.log(
+      ` › ready to ingest ${documents.length} documents from ${pkgName}`
+    );
+    const chunks = chunk(documents, 50);
+    const inserts = await batchPromises(
+      chunks,
+      (docs) =>
+        pRetry(() => insertDocuments(docs), {
+          onFailedAttempt: (error) => {
+            console.error(
+              `insert failed ${error.attemptNumber}/${
+                error.retriesLeft + error.attemptNumber
+              }`,
+              error.name,
+              error.message
+            );
+          },
+          retries: 5,
+        }),
+      15
+    );
+    ids = ids.concat(inserts.flat());
+    await updateVersion(pkgName, version);
   }
   return ids;
 }
