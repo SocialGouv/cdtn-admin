@@ -36,8 +36,6 @@ spec:
                 - secretRef:
                     name: cdtn-admin-secrets
               volumeMounts:
-                - name: data
-                  mountPath: "/app/data"
                 - name: tz-paris
                   mountPath: "/etc/localtime"
 
