@@ -1,8 +1,10 @@
+// Imports order are important and can't be in alphabetical order.
+/* eslint-disable simple-import-sort/imports */
+import PropTypes from "prop-types";
+
+import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-github";
-
-import PropTypes from "prop-types";
-import AceEditor from "react-ace";
 
 export default function CodeEditor({ onChange, value }) {
   return (

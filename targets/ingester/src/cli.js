@@ -232,7 +232,12 @@ async function main() {
       await download(pkgName, pkgInfo.url);
     }
     const ingestedVersion = await getLastIngestedVersion(pkgName);
+    // Need to update the package:
+    // if the version is lower than the version from database (ingestedVersion)
+    // or the package is not present in the database (ingestedVersion is null).
     if (ingestedVersion && semver.gt(pkgInfo.version, ingestedVersion)) {
+      packagesToUpdate.set(pkgName, { getDocuments, version: pkgInfo.version });
+    } else if (!ingestedVersion) {
       packagesToUpdate.set(pkgName, { getDocuments, version: pkgInfo.version });
     }
   }
