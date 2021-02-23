@@ -155,6 +155,15 @@ select audit.audit_table('documents',
 
 Pour voir la [configuration du trigger](targets/hasura/migrations/1613474820206_audit_trigger/up.sql)
 
+## Suppression des données anciennes
+
+Les données de certaines tables sont nettoyées automatiquement.
+
+Pour l'instant seulement 2 triggers sont en place:
+
+- nettoyage de la table `alerts` (alertes traitées conservés pour 3mois)
+- nettoyage de la table `audit.logged_action` (actions conservées pour 3mois)
+
 ## How to ?
 
 ### How to retrieve CDTN data from production ?
