@@ -6,7 +6,7 @@ END;
 $body$
 LANGUAGE 'plpgsql';
 
-COMMENT ON FUNCTION delete_old_alerts(duration) IS $body$
+COMMENT ON FUNCTION delete_old_alerts() IS $body$
 Remove alerts that are older that a given duration
 
 Arguments:

@@ -12,6 +12,8 @@ DROP TRIGGER IF EXISTS audit_trigger_row on alerts;
 DROP TRIGGER IF EXISTS audit_trigger_stm on alerts;
 DROP TRIGGER IF EXISTS audit_trigger_row on document_relations;
 DROP TRIGGER IF EXISTS audit_trigger_stm on document_relations;
+DROP TRIGGER IF EXISTS audit_trigger_row on documents;
+DROP TRIGGER IF EXISTS audit_trigger_stm on documents;
 DROP TRIGGER IF EXISTS audit_trigger_row on glossary;
 DROP TRIGGER IF EXISTS audit_trigger_stm on glossary;
 DROP TRIGGER IF EXISTS audit_trigger_row on kali_blocks;
@@ -23,7 +25,4 @@ DROP TRIGGER IF EXISTS audit_trigger_stm on roles;
 DROP TRIGGER IF EXISTS audit_trigger_row on sources;
 DROP TRIGGER IF EXISTS audit_trigger_stm on sources;
 
-DROP TRIGGER IF EXISTS documents_audit_update_selective on documents;
-DROP TRIGGER IF EXISTS documents_audit_insert_delete on documents;
-
-
+DROP TRIGGER IF EXISTS logged_actions_delete on audit.logged_actions;
