@@ -14,7 +14,6 @@ COPY yarn.lock /app/
 RUN yarn add nodegit --frozen-lockfile --pure-lockfile
 RUN mkdir data
 
-COPY targets/alert-cli/scripts/ /app/scripts
 COPY targets/alert-cli/package.json /app/
 COPY targets/alert-cli/dist/ /app/dist
 
