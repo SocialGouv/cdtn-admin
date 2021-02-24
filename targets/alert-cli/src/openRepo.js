@@ -13,13 +13,8 @@ const exec = promisify(childProcess.exec);
 export async function openRepo({ repository, tag }) {
   const [org, repositoryName] = repository.split("/");
   const localPath = path.join(__dirname, "..", "data", repositoryName);
-  let repo;
+
   try {
-    repo = await nodegit.Repository.open(localPath);
-  } catch (error) {
-    console.error(
-      `[error] openRepo: unable to open repository ${repository}, trying to clone it`
-    );
     console.time(repository);
     // we use child_process since libgit2.clone is way too slow (x4 slower)
     // we normally shold use the code below
@@ -52,10 +47,14 @@ export async function openRepo({ repository, tag }) {
     const deepenCommand = `cd ${localPath} && git fetch --deepen 1`;
     console.log(deepenCommand);
     await exec(deepenCommand);
-    repo = await nodegit.Repository.open(localPath);
     console.timeEnd(repository);
+  } catch (error) {
+    const commandClone = `git clone --depth 1 --bare https://github.com/${org}/${repositoryName} ${localPath}`;
+    await exec(commandClone);
+    console.log(`[openRepo] no new version, fallback to`);
+    console.log(` ${commandClone}`);
   }
-
+  const repo = await nodegit.Repository.open(localPath);
   const remote = await nodegit.Remote.lookup(repo, "origin");
   await remote.fetch(
     ["+refs/heads/master:refs/remotes/origin/master"],

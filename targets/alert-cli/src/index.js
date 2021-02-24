@@ -285,8 +285,10 @@ async function main() {
       }
       previousTag = tag;
     }
-    const update = await updateSource(source.repository, lastTag.ref);
-    console.log(`update source ${update.repository} to ${update.tag}`);
+    if (newTags.length > 0) {
+      const update = await updateSource(source.repository, lastTag.ref);
+      console.log(`update source ${update.repository} to ${update.tag}`);
+    }
   }
 }
 

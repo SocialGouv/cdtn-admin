@@ -42,7 +42,6 @@
   "private": true,
   "scripts": {
     "build": "ncc build ./src/index.js -o ./dist -e nodegit -s",
-    "poststart": "sh scripts/clean.sh",
     "start": "node --enable-source-maps --unhandled-rejections=strict ./dist/index.js",
     "start:dev": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node -r esm src/index.js",
     "lint": "eslint src/**/*.js",
