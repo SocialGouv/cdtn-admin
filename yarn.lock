@@ -3129,6 +3129,11 @@
   dependencies:
     "@types/unist" "*"
 
+"@types/memoizee@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@types/memoizee/-/memoizee-0.4.5.tgz#cb4e7031decf698c52c4f57c348180b0385aa7da"
+  integrity sha512-+ZzZZ3+0a7/ajBPeAAD4+LxrBsCat0EFZQtO3o0rwpIeLmDmSaM8KF/oYPuFxeUFAMiHIHFcGucFnY/8S4Hszg==
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
