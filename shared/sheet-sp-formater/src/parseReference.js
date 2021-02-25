@@ -2,8 +2,6 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import queryString from "query-string";
 
-import { fixArticleNum } from "../../lib/referenceResolver";
-
 /**
  * check if qs params come from a ccn url
  * @param {{[key:string]:string}} qs
@@ -48,8 +46,13 @@ function isPreviousLegifranceUrl(url) {
  * @param {import("@socialgouv/legi-data-types").CodeArticle} article
  */
 function cdtArticleReference(article) {
+  const num = article.data.num;
   return {
-    slug: slugify(fixArticleNum(article.data.id, article.data.num)),
+    slug: slugify(
+      num.match(/^annexe\s/i) && !num.includes("article")
+        ? `${num} ${article.data.id}`
+        : num
+    ),
     title: article.data.num,
     type: SOURCES.CDT,
   };
@@ -81,12 +84,12 @@ function externalReference(url, label) {
 
 /**
  * @param {import("@socialgouv/fiches-vdd-types").RawJson[]} references
- * @param {ingester.referenceResolver} resolveCdtReference
+ * @param {references.referenceResolver} resolveCdtReference
  * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
- * @returns { ingester.ReferencedTexts[] }
+ * @returns { references.ReferencedTexts[] }
  */
 export function parseReferences(references, resolveCdtReference, agreements) {
-  /** @type {ingester.ReferencedTexts[][]} */
+  /** @type {references.ReferencedTexts[][]} */
   const referencedTexts = [];
 
   for (const reference of references) {
@@ -104,9 +107,9 @@ export function parseReferences(references, resolveCdtReference, agreements) {
 /**
  * @param {string} url
  * @param {string} label
- * @param {ingester.referenceResolver} resolveCdtReference
+ * @param {references.referenceResolver} resolveCdtReference
  * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
- * @returns {ingester.ReferencedTexts[]}
+ * @returns {references.ReferencedTexts[]}
  */
 export function extractOldReference(
   url,
@@ -197,9 +200,9 @@ export function extractOldReference(
 /**
  * @param {string} url
  * @param {string} label
- * @param {ingester.referenceResolver} resolveCdtReference
+ * @param {references.referenceResolver} resolveCdtReference
  * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
- * @returns {ingester.ReferencedTexts[]}
+ * @returns {references.ReferencedTexts[]}
  */
 export function extractNewReference(
   url,

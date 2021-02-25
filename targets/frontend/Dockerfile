@@ -7,6 +7,8 @@ COPY shared/graphql-client/src /app/shared/graphql-client/src
 COPY shared/graphql-client/package.json /app/shared/graphql-client/
 COPY shared/id-generator/src /app/shared/id-generator/src
 COPY shared/id-generator/package.json /app/shared/id-generator/
+COPY shared/sheet-sp-formater/src /app/shared/sheet-sp-formater/src
+COPY shared/sheet-sp-formater/package.json /app/shared/sheet-sp-formater/
 COPY targets/frontend/package.json /app/targets/frontend/
 
 RUN  npx @socialgouv/yarn-workspace-focus-install --cwd targets/frontend --production -- --cache-folder /dev/shm/yarn

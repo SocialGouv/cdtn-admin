@@ -1,16 +1,19 @@
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { IoMdTrash } from "react-icons/io";
 import { Button } from "src/components/button";
+import { Dialog } from "src/components/dialog";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
-import { Card, Message, NavLink } from "theme-ui";
+import { Card, Flex, Message, NavLink } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const CodeWithCodemirror = dynamic(import("src/components/editor/CodeEditor"), {
@@ -20,7 +23,7 @@ const CodeWithCodemirror = dynamic(import("src/components/editor/CodeEditor"), {
 const getDocumentQuery = `
 query getDocumentById($id: String!) {
   document: documents_by_pk(cdtn_id: $id){
-    cdtn_id,
+    cdtnId: cdtn_id,
     document
     initial_id
     is_published
@@ -53,6 +56,14 @@ mutation updateDocument($cdtnId: String!, $metaDescription: String!, $title: Str
   }
 }`;
 
+const deleteContentMutation = `
+mutation DeleteContent($cdtnId: String!) {
+  content: delete_documents_by_pk(cdtn_id: $cdtnId) {
+    cdtnId: cdtn_id
+  }
+}
+`;
+
 export function DocumentPage() {
   const router = useRouter();
 
@@ -66,8 +77,12 @@ export function DocumentPage() {
 
   const [hasChanged, setHasChanged] = useState(false);
   const [submitIdle, setSubmitIdle] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [, executeUpdate] = useMutation(updateDocumentMutation);
   const [, previewContent] = useMutation(previewContentAction);
+  const [{ fetching: deleting }, deleteContent] = useMutation(
+    deleteContentMutation
+  );
   const { handleSubmit } = useForm();
 
   const jsonDoc = useRef(null);
@@ -78,7 +93,7 @@ export function DocumentPage() {
   function onEditSubmit() {
     setSubmitIdle(true);
     return executeUpdate({
-      cdtnId: data.document.cdtn_id,
+      cdtnId: data.document.cdtnId,
       document: jsonDoc.current.document,
       isAvailable: data.document.is_available,
       metaDescription: jsonDoc.current.meta_description,
@@ -115,6 +130,14 @@ export function DocumentPage() {
     });
   }
 
+  function onDelete() {
+    deleteContent({ cdtnId: data.document.cdtnId }).then((result) => {
+      if (!result.error) {
+        router.back();
+      }
+    });
+  }
+
   function handleEditorChange(stringifyCode) {
     try {
       const newJson = JSON.parse(stringifyCode);
@@ -141,8 +164,50 @@ export function DocumentPage() {
   }
   return (
     <Layout title={data.document.title}>
+      <Dialog
+        isOpen={showDeleteConfirmation}
+        onDismiss={() => setShowDeleteConfirmation(false)}
+        aria-label="Supprimer"
+      >
+        <>
+          <span>Êtes-vous sûr de vouloir supprimer ce contenu ?</span>
+          <Inline>
+            <Button onClick={onDelete}>Confirmer</Button>
+            <Button
+              variant="link"
+              onClick={() => setShowDeleteConfirmation(false)}
+            >
+              Annuler
+            </Button>
+          </Inline>
+        </>
+      </Dialog>
       <form onSubmit={handleSubmit(onEditSubmit)}>
         <Stack>
+          {data.document.source === SOURCES.SHEET_SP && (
+            <Flex
+              sx={{
+                justifyContent: "flex-end",
+              }}
+              mb="small"
+            >
+              <Button
+                type="button"
+                onClick={() => {
+                  setShowDeleteConfirmation(true);
+                }}
+              >
+                <IoMdTrash
+                  sx={{
+                    height: "iconSmall",
+                    mr: "xsmall",
+                    width: "iconSmall",
+                  }}
+                />
+                Supprimer le contenu
+              </Button>
+            </Flex>
+          )}
           <Card>
             <CodeWithCodemirror
               value={JSON.stringify(jsonDoc.current, 0, 2)}
@@ -150,7 +215,9 @@ export function DocumentPage() {
             />
           </Card>
           <Inline>
-            <Button disabled={submitIdle || !hasChanged}>Enregistrer</Button>
+            <Button disabled={submitIdle || deleting || !hasChanged}>
+              Enregistrer
+            </Button>
             <Link href="/contenus" passHref>
               <NavLink
                 onClick={(e) => {

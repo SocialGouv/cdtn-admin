@@ -1,9 +1,9 @@
-import slugify from "@socialgouv/cdtn-slugify";
+import { format } from "@shared/sheet-sp-formater";
 
 import { getJson } from "../../lib/getJson.js";
 import { referenceResolver } from "../../lib/referenceResolver";
 import { filter } from "./filter.js";
-import { format } from "./format.js";
+
 // Extract external content url from Content tag markdown
 /**
  *
@@ -38,7 +38,7 @@ export default async function getFichesServicePublic(pkgName) {
 
   const resolveCdtReference = referenceResolver(cdt);
 
-  const listFicheVdd = filter(ficheVddIndex);
+  const listFicheVdd = await filter(ficheVddIndex);
 
   const fichesIdFromContrib = contributions.flatMap(({ answers }) => {
     const url = extractMdxContentUrl(answers.generic.markdown);
@@ -63,7 +63,6 @@ export default async function getFichesServicePublic(pkgName) {
     fiches.push({
       ...ficheSp,
       is_searchable: !fichesIdFromContrib.includes(ficheSp.id),
-      slug: slugify(ficheSp.title),
     });
   }
 

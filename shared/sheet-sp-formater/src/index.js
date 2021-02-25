@@ -1,4 +1,5 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import slugify from "@socialgouv/cdtn-slugify";
 
 import { parseReferences } from "./parseReference.js";
 
@@ -31,9 +32,9 @@ function getText(element) {
 /**
  *
  * @param {import("@socialgouv/fiches-vdd-types").RawJson} fiche
- * @param {ingester.referenceResolver} resolveCdtReference
+ * @param {references.referenceResolver} resolveCdtReference
  * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
- * @returns {Pick<ingester.FicheServicePublic, Exclude<keyof ingester.FicheServicePublic, keyof {slug, is_searchable: Boolean}>> }
+ * @returns {Pick<references.FicheServicePublic, Exclude<keyof references.FicheServicePublic, keyof {is_searchable: Boolean}>> }
  */
 export function format(fiche, resolveCdtReference, agreements) {
   const publication = fiche.children[0];
@@ -79,6 +80,7 @@ export function format(fiche, resolveCdtReference, agreements) {
     source: SOURCES.SHEET_SP,
     text,
     title,
+    slug: slugify(title),
     url,
   };
 }

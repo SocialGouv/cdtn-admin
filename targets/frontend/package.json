@@ -17,6 +17,7 @@
     "@sentry/node": "^6.2.1",
     "@shared/graphql-client": "^1.0.0-alpha.1",
     "@shared/id-generator": "^1.0.0-alpha.1",
+    "@shared/sheet-sp-formater": "^1.0.0-alpha.1",
     "@socialgouv/cdtn-slugify": "^4.44.0",
     "@socialgouv/cdtn-sources": "^4.44.0",
     "@socialgouv/matomo-next": "^1.2.1",

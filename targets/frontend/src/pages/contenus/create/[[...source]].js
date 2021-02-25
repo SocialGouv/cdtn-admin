@@ -7,6 +7,7 @@ import { HighlightsForm } from "src/components/highlights/Form";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { PrequalifiedForm } from "src/components/prequalified/Form";
+import { SheetSPForm } from "src/components/sheetSP/Form";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
@@ -18,6 +19,7 @@ const CREATABLE_SOURCES = [
   SOURCES.THEMATIC_FILES,
   SOURCES.HIGHLIGHTS,
   SOURCES.PREQUALIFIED,
+  SOURCES.SHEET_SP,
 ];
 
 const createContentMutation = `
@@ -103,17 +105,20 @@ export function CreateDocumentPage() {
     case SOURCES.PREQUALIFIED:
       ContentForm = PrequalifiedForm;
       break;
+    case SOURCES.SHEET_SP:
+      ContentForm = SheetSPForm;
+      break;
     default:
       //eslint-disable-next-line react/display-name
       ContentForm = () => <span>Soon...</span>;
   }
 
   return (
-    <Layout title="Créer un contenu">
+    <Layout title="Ajouter un contenu">
       <Stack>
         <form>
           <Label htmlFor="source">
-            Quel type de document souhaitez vous créer&nbsp;?
+            Quel type de document souhaitez vous ajouter&nbsp;?
           </Label>
           <Select
             name="source"

@@ -1,0 +1,9 @@
+{
+  "name": "@shared/sheet-sp-formater",
+  "version": "1.0.0-alpha.1",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "types": "src/index.d.ts",
+  "private": true,
+  "scripts": {}
+}
