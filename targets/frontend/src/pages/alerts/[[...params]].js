@@ -4,6 +4,7 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 import { AlertTabs } from "src/components/alerts/AlertTabs";
 import { AlertTitle } from "src/components/alerts/AlertTitle";
 import { DiffChange } from "src/components/changes";
@@ -94,13 +95,27 @@ export function AlertPage() {
 
   function getTitle(alert) {
     if (alert.info.num) {
-      return `IDCC ${alert.info.num} - ${new Date(
-        alert.created_at
-      ).toLocaleDateString()} (${alert.ref})`;
+      return (
+        <span title={alert.info.title}>
+          IDCC {alert.info.num}
+          <IoIosInformationCircleOutline
+            style={{ verticalAlign: "super" }}
+            sx={{
+              height: "iconsXSmall",
+              mx: "0.1rem",
+              width: "iconsXSmall",
+            }}
+          />
+          - {new Date(alert.created_at).toLocaleDateString()} ({alert.ref})
+        </span>
+      );
     } else {
-      return `${alert.info.title} - ${new Date(
-        alert.created_at
-      ).toLocaleDateString()} (${alert.ref})`;
+      return (
+        <>
+          {alert.info.title} - {new Date(alert.created_at).toLocaleDateString()}{" "}
+          ({alert.ref})
+        </>
+      );
     }
   }
 
@@ -228,6 +243,7 @@ export function AlertPage() {
     </Layout>
   );
 }
+
 /**
  * This getInitialProps ensure useState to reset while page url change
  * @see https://github.com/vercel/next.js/issues/9992
