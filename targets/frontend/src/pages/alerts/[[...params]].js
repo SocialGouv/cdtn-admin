@@ -1,3 +1,4 @@
+/** @jsxImportSource theme-ui */
 import { Accordion } from "@reach/accordion";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
@@ -12,7 +13,7 @@ import { Stack } from "src/components/layout/Stack";
 import { Pagination } from "src/components/pagination";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Card, Container, Divider, Message } from "theme-ui";
+import { Box, Card, Container, Divider, Message, NavLink } from "theme-ui";
 import { useQuery } from "urql";
 
 const getAlertQuery = `
@@ -107,80 +108,117 @@ export function AlertPage() {
     <Layout title="Gestion des alertes">
       <Stack>
         <AlertTabs repository={repository} activeStatus={activeStatus} />
-        {alerts.map((alert) => (
-          <Container sx={{ paddingTop: "large" }} key={`${alert.id}`}>
-            <Card>
-              <Stack>
-                <AlertTitle alertId={alert.id} info={alert.info}>
-                  {getTitle(alert)}
-                </AlertTitle>
-                <Accordion collapsible multiple>
-                  {alert.changes.added.length > 0 && (
+        {alerts.map((alert) => {
+          const openIndices = [];
+          // Pre-open documents panel If there are documents targeted by the alert
+          if (alert.changes.documents && alert.changes.documents.length > 0) {
+            openIndices.push(0);
+          }
+          return (
+            <Container sx={{ paddingTop: "large" }} key={`${alert.id}`}>
+              <Card>
+                <Stack>
+                  <AlertTitle alertId={alert.id} info={alert.info}>
+                    {getTitle(alert)}
+                  </AlertTitle>
+                  <Accordion collapsible multiple defaultIndex={openIndices}>
                     <ChangesGroup
-                      changes={alert.changes.added}
-                      label="Éléments ajoutés"
+                      changes={alert.changes.documents}
+                      label="Contenus liés"
+                      renderChange={(item) => {
+                        const [title, anchor] = item.document.title.split("#");
+
+                        return (
+                          <li
+                            sx={{ lineHeight: 1.4, paddingBottom: "xxsmall" }}
+                            key={`${alert.id}-documents-${item.document.id}`}
+                          >
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`https://code.travail.gouv.fr/${getRouteBySource(
+                                item.document.source
+                              )}/${slugify(title)}${
+                                anchor ? `#${anchor}` : ``
+                              }`}
+                            >
+                              {title}
+                            </a>
+                            <Box>
+                              {jsxJoin(
+                                item.references.map((node) => (
+                                  <NavLink
+                                    sx={{
+                                      color: "muted",
+                                      fontSize: "xsmall",
+                                      lineHeight: 1,
+                                    }}
+                                    href={node.url}
+                                    key={`${alert.id}-${item.document.id}-${node.dila_id}-${node.title}`}
+                                  >
+                                    {node.title}
+                                  </NavLink>
+                                )),
+                                ", "
+                              )}
+                            </Box>
+                          </li>
+                        );
+                      }}
+                    />
+
+                    {alert.changes.documents?.length > 0 &&
+                      alert.changes.added.length > 0 && <Divider />}
+
+                    {alert.changes.added.length > 0 && (
+                      <ChangesGroup
+                        changes={alert.changes.added}
+                        label="Éléments ajoutés"
+                        renderChange={(changes, i) =>
+                          renderChange(
+                            changes,
+                            `${alert.id}-added-${i}`,
+                            alert.info.type
+                          )
+                        }
+                      />
+                    )}
+
+                    {alert.changes.added.length > 0 &&
+                      alert.changes.modified.length > 0 && <Divider />}
+
+                    <ChangesGroup
+                      changes={alert.changes.modified}
+                      label="Éléments modifiés"
                       renderChange={(changes, i) =>
                         renderChange(
                           changes,
-                          `${alert.id}-added-${i}`,
+                          `${alert.id}-modified-${i}`,
                           alert.info.type
                         )
                       }
                     />
-                  )}
-                  {alert.changes.added.length > 0 &&
-                    alert.changes.modified.length > 0 && <Divider />}
-                  <ChangesGroup
-                    changes={alert.changes.modified}
-                    label="Éléments modifiés"
-                    renderChange={(changes, i) =>
-                      renderChange(
-                        changes,
-                        `${alert.id}-modified-${i}`,
-                        alert.info.type
-                      )
-                    }
-                  />
-                  {alert.changes.removed.length > 0 && <Divider />}
-                  <ChangesGroup
-                    changes={alert.changes.removed}
-                    label="Éléments supprimés"
-                    renderChange={(changes, i) =>
-                      renderChange(
-                        changes,
-                        `${alert.id}-removed-${i}`,
-                        alert.info.type
-                      )
-                    }
-                  />
-                  {alert.changes.documents?.length > 0 && <Divider />}
-                  <ChangesGroup
-                    changes={alert.changes.documents}
-                    label="Contenus liés"
-                    renderChange={(item, i) => {
-                      const [title, anchor] = item.document.title.split("#");
 
-                      return (
-                        <li key={`${alert.id}-documents-${i}`}>
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            key={item.document.id}
-                            href={`https://code.travail.gouv.fr/${getRouteBySource(
-                              item.document.source
-                            )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
-                          >
-                            {title}
-                          </a>
-                        </li>
-                      );
-                    }}
-                  />
-                </Accordion>
-              </Stack>
-            </Card>
-          </Container>
-        ))}
+                    {alert.changes.modified.length > 0 &&
+                      alert.changes.removed.length > 0 && <Divider />}
+
+                    <ChangesGroup
+                      changes={alert.changes.removed}
+                      label="Éléments supprimés"
+                      renderChange={(changes, i) =>
+                        renderChange(
+                          changes,
+                          `${alert.id}-removed-${i}`,
+                          alert.info.type
+                        )
+                      }
+                    />
+                  </Accordion>
+                </Stack>
+              </Card>
+            </Container>
+          );
+        })}
         <Pagination
           count={alerts_aggregate.aggregate.count}
           currentPage={currentPage}
@@ -202,3 +240,15 @@ export function AlertPage() {
 // };
 
 export default withCustomUrqlClient(withUserProvider(AlertPage));
+
+function jsxJoin(array, str) {
+  return array.length > 0
+    ? array.reduce((result, item) => (
+        <>
+          {result}
+          {str}
+          {item}
+        </>
+      ))
+    : null;
+}
