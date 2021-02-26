@@ -31,39 +31,43 @@ import { useMutation, useQuery } from "urql";
 
 const searchDocumentQuery = `
 query documents($source: String, $search: String!, $published: [Boolean!]!, $offset: Int = 0, $limit: Int = 50) {
-  documents(
-    where: {
-      _and: {
-        source: {_eq: $source}
-        title: {_ilike: $search }
-        is_published: {_in: $published}
-      }
+  documents(where: {
+    _not: {
+      document: {_has_key: "split"}
     }
-    offset: $offset,
-    limit: $limit,
-    order_by:[{source: asc}, {slug: asc}]
-  )
-  {
-    id:initial_id
-    cdtnId:cdtn_id
+    _and: {
+      source: {_eq: $source, _neq: "code_du_travail"}
+      title: {_ilike: $search}
+      is_published: {_in: $published}
+    }
+  },
+  offset: $offset, limit: $limit, order_by: [{source: asc}, {slug: asc}]) {
+    id: initial_id
+    cdtnId: cdtn_id
     title
     source
     isPublished: is_published
   }
 
-	documents_aggregate(
-    where: {
-      _and: {
-        source: {_eq: $source},
-        title: {_ilike: $search}
-        is_published: {_in: $published}
-      }
+  documents_aggregate(where: {
+    _not: {
+      document: {_has_key: "split"}
     }
-  )
-  {
-    aggregate { count }
+    _and: {
+      source: {_eq: $source, _neq: "code_du_travail"}
+      title: {_ilike: $search},
+      is_published: {_in: $published}
+
+    }
+  }) {
+    aggregate {
+      count
+    }
   }
-  sources: documents_aggregate(distinct_on: source) {
+
+  sources: documents_aggregate(
+    distinct_on: source
+    where: {source: {_neq: "code_du_travail"}}) {
     nodes {
       source
     }
@@ -84,7 +88,8 @@ mutation publication($cdtnId:String!, $isPublished:Boolean!) {
 
 const documentSources = [
   [SOURCES.CCN, getLabelBySource(SOURCES.CCN)],
-  [SOURCES.CDT, getLabelBySource(SOURCES.CDT)],
+  // there is too many cdt documents which pollute the output
+  // [SOURCES.CDT, getLabelBySource(SOURCES.CDT)],
   [SOURCES.CONTRIBUTIONS, getLabelBySource(SOURCES.CONTRIBUTIONS)],
   [SOURCES.SHEET_MT_PAGE, getLabelBySource(SOURCES.SHEET_MT)],
   [SOURCES.SHEET_SP, getLabelBySource(SOURCES.SHEET_SP)],
