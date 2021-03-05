@@ -8,29 +8,6 @@ import { useSelectionContext } from "src/pages/contenus";
 import { theme } from "src/theme";
 import { Box, NavLink } from "theme-ui";
 
-/**
- * documents is a list of document to display
- *
- * onSearchUpdate is a callback to inform parent component that
- * search criteria have changed
- *
- * onUpdatePublication is a callback that receive the entries
- * to update
- *
- * updatePublishDoc is a map that will hold modified
- * documents publication status and thier cdtnId, persisting
- * through pagination navigation to allow the user to select
- * items through multiple pages.
- *
- * In order to do this we use react-hook-form (RHF) register
- * and register / set default value by hand, each time the component render
- * We also add / register previous changed item so our form is "dirty"
- * to control the button disable props.
- *
- * The updatePublishDoc is cleared, by the upper component (DocumentList)
- * when navigation change or when update is done.
- *
- */
 export function DocumentList({ documents }) {
   return (
     <table>
