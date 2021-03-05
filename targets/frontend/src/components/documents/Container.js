@@ -31,7 +31,6 @@ export function DocumentListContainer({ initialFilterValues }) {
 
   const updateUrl = useCallback(
     (filterValues) => {
-      console.log("updateUrl search");
       // we reset changed published value if search critera change
       setSelectedItems({});
       const query = { ...filterValues, page: 0 };

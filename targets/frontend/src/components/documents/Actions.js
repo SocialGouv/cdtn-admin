@@ -77,7 +77,7 @@ function Recap({ publications }) {
   );
   return (
     <Box>
-      <Text sx={{ fontWeight: 600 }}>Détails</Text>
+      <Text sx={{ fontWeight: "heading" }}>Détails</Text>
       <ul>
         {items.published > 0 && (
           <li>

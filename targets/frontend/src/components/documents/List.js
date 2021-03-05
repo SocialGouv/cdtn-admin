@@ -41,12 +41,10 @@ const DocumentRow = function DocumentRow({
   document: { cdtnId, source, title, isPublished },
 }) {
   const [selectedItems, setSelectedItems] = useSelectionContext();
-  const updatePublishedRef = (event) => {
-    console.log("updatePublishedRef", cdtnId, event.target.checked);
+  const updatePublishedRef = () => {
     // eslint-disable-next-line no-prototype-builtins
     if (selectedItems.hasOwnProperty(cdtnId)) {
       delete selectedItems[cdtnId];
-      console.log("delete", { ...selectedItems });
       setSelectedItems({ ...selectedItems });
     } else {
       setSelectedItems({ ...selectedItems, [cdtnId]: !isPublished });
