@@ -7,7 +7,7 @@
     "@socialgouv/cdtn-slugify": "^4.41.0",
     "@socialgouv/cdtn-sources": "^4.43.0",
     "get-uri": "^3.0.2",
-    "got": "^11.8.1",
+    "got": "^11.8.2",
     "gunzip-maybe": "^1.4.2",
     "p-retry": "^4.3.0",
     "query-string": "^6.13.8",
