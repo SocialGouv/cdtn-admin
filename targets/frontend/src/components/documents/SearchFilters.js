@@ -61,7 +61,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
   }
 
   return (
-    <>
+    <form>
       <Inline>
         <Input
           sx={{ flex: 1 }}
@@ -144,7 +144,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           />
         </Label>
       </Inline>
-    </>
+    </form>
   );
 }
 
