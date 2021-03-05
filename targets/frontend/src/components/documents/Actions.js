@@ -30,7 +30,7 @@ export function DocumentsListActions({ onUpdatePublication }) {
         <Stack>
           <Stack>
             <Text>
-              Etes vous sûr de vouloir modifier la publication des
+              Êtes vous sûr de vouloir modifier la publication des
               contenus&nbsp;?
             </Text>
             <Recap publications={selectedItems} />
