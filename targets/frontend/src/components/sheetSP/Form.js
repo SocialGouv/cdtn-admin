@@ -11,6 +11,8 @@ import { Button, IconButton } from "src/components/button";
 import { Box, Field, Flex, Label, NavLink } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
+import { getContent } from "./getContent";
+
 // order is important, the higher priority comes first
 const sheetTypes = ["particuliers", "professionnels", "associations"];
 
@@ -108,45 +110,21 @@ const SheetSPForm = () => {
       // et de se debrouiller avec un state pour enregistrer les resultats
       // sur un usecallback
       for (const id of providedIds) {
-        // we could also check on jsdelivr CDN
-        const responses = await Promise.all(
-          sheetTypes.map((type) =>
-            fetch(
-              `https://unpkg.com/@socialgouv/fiches-vdd/data/${type}/${id}.json`
-            )
-          )
-        );
-        if (responses.every(({ status }) => status === 404)) {
+        try {
+          const content = await getContent(id);
+          const formatedSheet = format(content, () => [], []);
+          sheetsToInsert.push(formatedSheet);
           dispatch({
-            payload: { id, status: "Fiche introuvable" },
+            payload: { id, status: "En attente d’enregistrement" },
             type: "setStatus",
           });
-        } else if (
-          responses.some(({ status }) => status !== 404 && status >= 400)
-        ) {
+        } catch (error) {
           dispatch({
             payload: {
               id,
               status:
                 "Une erreur est survenue pendant le chargement de la fiche.",
             },
-            type: "setStatus",
-          });
-        } else {
-          let response;
-          // that’s why order is important
-          for (const res of responses) {
-            if (res.status !== 404) {
-              response = res;
-              break;
-            }
-          }
-          const rawSheet = await response.json();
-          console.log(rawSheet);
-          const formatedSheet = format(rawSheet, () => [], []);
-          sheetsToInsert.push(formatedSheet);
-          dispatch({
-            payload: { id, status: "En attente d’enregistrement" },
             type: "setStatus",
           });
         }
