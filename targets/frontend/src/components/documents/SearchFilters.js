@@ -1,5 +1,6 @@
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import PropTypes from "prop-types";
+import { useForm } from "react-hook-form";
 import { IoMdSearch } from "react-icons/io";
 import { Box, Input, Label, Radio, Select } from "theme-ui";
 import { useQuery } from "urql";
@@ -26,11 +27,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
     [SOURCES.PREQUALIFIED, getLabelBySource(SOURCES.PREQUALIFIED)],
   ];
 
-  function onSearchKeyPress(event) {
-    if (event.charCode === 13 /* Enter */) {
-      triggerUpdateUrl(event);
-    }
-  }
+  const { handleSubmit, register } = useForm();
   const [result] = useQuery({
     query: sourceQuery,
     variables: {
@@ -60,21 +57,26 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
     });
   }
 
+  function onSubmit(data) {
+    onSearchUpdate(data);
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Inline>
         <Input
           sx={{ flex: 1 }}
           name="q"
+          ref={register}
           type="search"
           placeholder="titre..."
           defaultValue={initialValues.q}
-          onKeyPress={onSearchKeyPress}
           onBlur={triggerUpdateUrl}
         />
         <Select
           name="source"
           onChange={triggerUpdateUrl}
+          ref={register}
           defaultValue={initialValues.source || ""}
         >
           <option value="">toutes les sources</option>
@@ -101,6 +103,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           >
             <Select
               sx={{ width: "4rem" }}
+              ref={register}
               name="itemsPerPage"
               id="itemsPerPage"
               defaultValue={initialValues.itemsPerPage}
@@ -121,6 +124,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           <Radio
             name="published"
             value="all"
+            ref={register}
             defaultChecked={initialValues.published === "all"}
             onChange={triggerUpdateUrl}
           />
@@ -130,6 +134,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           <Radio
             name="published"
             value="yes"
+            ref={register}
             defaultChecked={initialValues.published === "yes"}
             onChange={triggerUpdateUrl}
           />
@@ -139,6 +144,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           <Radio
             name="published"
             value="no"
+            ref={register}
             defaultChecked={initialValues.published === "no"}
             onChange={triggerUpdateUrl}
           />

@@ -55,8 +55,6 @@ export function DocumentsListActions({ onUpdatePublication }) {
       >
         Modifier
       </Button>
-
-      <pre>{JSON.stringify(selectedItems, 0, 2)}</pre>
     </Box>
   );
 }
