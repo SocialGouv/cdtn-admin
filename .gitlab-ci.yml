@@ -140,6 +140,7 @@ Restore data:
     name: prod2
   needs:
     - job: Create Azure DB (dev)
+    - job: K8S Test
   dependencies: null
   variables:
     # storage copy
