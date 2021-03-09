@@ -22,6 +22,16 @@ workflow:
 variables:
   ENABLE_AZURE_POSTGRES: 1
 
+K8S Test:
+  needs: []
+  rules:
+    -  if: "$PRODUCTION || $RELEASE"
+      when: never
+    - exists:
+        - .k8s/package.json
+  extends:
+    - .base_kosko_k8s_test
+
 Create namespace:
   extends:
     - .autodevops_create_namespace
