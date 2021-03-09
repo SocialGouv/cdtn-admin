@@ -22,6 +22,16 @@ workflow:
 variables:
   ENABLE_AZURE_POSTGRES: 1
 
+K8S Test:
+  needs: []
+  rules:
+    - if: "$PRODUCTION || $RELEASE"
+      when: never
+    - exists:
+        - .k8s/package.json
+  extends:
+    - .base_kosko_k8s_test
+
 Create namespace:
   extends:
     - .autodevops_create_namespace
@@ -106,11 +116,11 @@ Deploy app (prod):
 
 Release:
   variables:
-    SEMANTIC_RELEASE_PLUGINS: "
+    SEMANTIC_RELEASE_PLUGINS: |-
       @semantic-release/changelog
       @semantic-release/exec
       @semantic-release/git
-    "
+
   before_script:
     - yarn global add lerna
 
@@ -130,6 +140,7 @@ Restore data:
     name: prod2
   needs:
     - job: Create Azure DB (dev)
+    - job: K8S Test
   dependencies: null
   variables:
     # storage copy

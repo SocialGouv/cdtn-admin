@@ -154,7 +154,7 @@ metadata:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-db-8843083e
+  name: restore-db-424242
   namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
@@ -247,7 +247,7 @@ spec:
             - name: PGDATABASE
               value: some-database
             - name: PGPASSWORD
-              value: password_8843083e
+              value: pass_8843083e
             - name: PGUSER
               value: user_8843083e@cdtnadmindevserver.postgres.database.azure.com
             - name: PGSSLMODE
