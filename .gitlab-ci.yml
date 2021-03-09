@@ -25,10 +25,10 @@ variables:
 K8S Test:
   needs: []
   rules:
-    -  if: "$PRODUCTION || $RELEASE"
+    - if: '$PRODUCTION || $RELEASE'
       when: never
     - exists:
-        - .k8s/package.json
+      - .k8s/package.json
   extends:
     - .base_kosko_k8s_test
 
@@ -116,11 +116,11 @@ Deploy app (prod):
 
 Release:
   variables:
-    SEMANTIC_RELEASE_PLUGINS: "
+    SEMANTIC_RELEASE_PLUGINS: |-
       @semantic-release/changelog
       @semantic-release/exec
       @semantic-release/git
-    "
+
   before_script:
     - yarn global add lerna
 
