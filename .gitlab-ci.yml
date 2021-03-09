@@ -25,10 +25,10 @@ variables:
 K8S Test:
   needs: []
   rules:
-    - if: '$PRODUCTION || $RELEASE'
+    - if: "$PRODUCTION || $RELEASE"
       when: never
     - exists:
-      - .k8s/package.json
+        - .k8s/package.json
   extends:
     - .base_kosko_k8s_test
 
