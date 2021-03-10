@@ -33,6 +33,12 @@ export async function auth(ctx) {
           Cookie: ctx.req.headers.cookie,
         }
       : {};
+  if (ctx && ctx.req && !cookieHeader.Cookie) {
+    console.log("[ auth ] no cookie found -> redirect to login");
+    ctx.res.writeHead(302, { Location: "/login" });
+    ctx.res.end();
+    return;
+  }
   try {
     const tokenData = await request(
       ctx && ctx.req
