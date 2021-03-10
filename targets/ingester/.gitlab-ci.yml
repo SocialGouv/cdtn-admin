@@ -1,6 +1,6 @@
 Install ingester:
   extends: .autodevops_install
-  image: node:14.7.0-alpine3.11
+  image: node:14.16.0-alpine3.11
   cache:
     key:
       files:
@@ -48,7 +48,7 @@ Lint ingester:
 
 Build ingester:
   extends: .base_yarn_script
-  image: node:14.7.0-alpine3.11
+  image: node:14.16.0-alpine3.11
   needs:
     - job: Install ingester
       artifacts: true
