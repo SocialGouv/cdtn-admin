@@ -127,33 +127,33 @@ Release:
 #
 
 # todo: restrict to branches ?
-Restore data:
-  stage: Deploy
-  only:
-    - branches
-  except:
-    - master
-    - tags
-  extends:
-    - .base_deploy_kosko_stage
-  environment:
-    name: prod2
-  needs:
-    - job: Create Azure DB (dev)
-    - job: K8S Test
-  dependencies: null
-  variables:
-    # storage copy
-    SOURCE_CONTAINER: "cdtn"
-    SOURCE_SERVER: "dev"
-    DESTINATION_CONTAINER: "cdtn-dev"
-    DESTINATION_SERVER: "dev"
-    # db restore
-    BACKUP_DB_NAME: "db_${CI_COMMIT_SHORT_SHA}"
-    BACKUP_DB_OWNER: "user_${CI_COMMIT_SHORT_SHA}"
-    BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
-    # kosko options
-    KOSKO_GENERATE_ARGS: --env prod jobs/restore
+# Restore data:
+#   stage: Deploy
+#   only:
+#     - branches
+#   except:
+#     - master
+#     - tags
+#   extends:
+#     - .base_deploy_kosko_stage
+#   environment:
+#     name: prod2
+#   needs:
+#     - job: Create Azure DB (dev)
+#     - job: K8S Test
+#   dependencies: null
+#   variables:
+#     # storage copy
+#     SOURCE_CONTAINER: "cdtn"
+#     SOURCE_SERVER: "dev"
+#     DESTINATION_CONTAINER: "cdtn-dev"
+#     DESTINATION_SERVER: "dev"
+#     # db restore
+#     BACKUP_DB_NAME: "db_${CI_COMMIT_SHORT_SHA}"
+#     BACKUP_DB_OWNER: "user_${CI_COMMIT_SHORT_SHA}"
+#     BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
+#     # kosko options
+#     KOSKO_GENERATE_ARGS: --env prod jobs/restore
 
 Generate sitemap (prod):
   stage: Install
