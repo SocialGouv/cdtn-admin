@@ -20,7 +20,7 @@ export function isTokenExpired() {
 }
 
 export async function auth(ctx) {
-  console.log("[ auth ] ", { ctxToken: ctx?.token }, inMemoryToken);
+  console.log("auth ctx ?", ctx ? true : false);
   if (ctx?.token) {
     return ctx.token;
   }
@@ -34,7 +34,14 @@ export async function auth(ctx) {
           Cookie: ctx.req.headers.cookie,
         }
       : {};
+  if (ctx && ctx.req && !cookieHeader.Cookie) {
+    console.log("[ auth ] no cookie found -> redirect to login");
+    ctx.res.writeHead(302, { Location: "/login" });
+    ctx.res.end();
+    return null;
+  }
   try {
+    console.log("[auth] refresh token");
     const tokenData = await request(
       ctx && ctx.req
         ? `${process.env.FRONTEND_URL}/api/refresh_token`
@@ -56,11 +63,9 @@ export async function auth(ctx) {
       // we also store token in context (this is probably a bad idea b)
       // to reuse it and avoid refresh token twice
       ctx.token = tokenData;
-      return tokenData;
-    } else {
-      // if on client, we store token in memory
-      inMemoryToken = { ...tokenData };
     }
+    inMemoryToken = { ...tokenData };
+    console.log("[auth] token", inMemoryToken ? "true" : "false");
     return inMemoryToken;
   } catch (error) {
     console.error("[ auth ] refreshToken error ", { error });

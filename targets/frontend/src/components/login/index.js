@@ -1,35 +1,29 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Box, Card, Field, Heading, Text } from "theme-ui";
 
 import { Button } from "../button";
 import { Stack } from "../layout/Stack";
 
 const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
-  const [status, setStatus] = useState("idle");
-  const [error, setError] = useState("");
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const submit = async (event) => {
-    if (event) {
-      event.preventDefault();
-    }
-    setError(null);
-    setStatus("loading");
+  const {
+    errors,
+    handleSubmit,
+    register,
+    setError,
+    formState: { isSubmitting },
+  } = useForm();
+  const submit = async ({ email, password }) => {
     try {
       const result = await authenticate({ email, password });
       onSuccess(result);
     } catch (err) {
-      setError("Impossible de vous authentifier");
-      setStatus("error");
+      setError("password", {
+        message: "Utilisateur ou mot passe incorrect",
+        type: "manual",
+      });
     }
   };
-
-  const isValidEmail = email && email.indexOf("@") > -1;
-  const isValid = status !== "loading" && isValidEmail && Boolean(password);
-
   return (
     <Box
       sx={{
@@ -40,7 +34,7 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
         variant="compact"
         sx={{ px: ["xsmall", "medium"], py: ["small", "large"] }}
       >
-        <form onSubmit={submit}>
+        <form onSubmit={handleSubmit(submit)}>
           <Stack>
             <Heading as="h1">Authentification</Heading>
             <Field
@@ -48,19 +42,39 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
               label="Adresse email"
               placeholder="ex: lionel@travail.gouv.fr"
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              aria-invalid={errors.email ? "true" : "false"}
+              ref={register({
+                required: {
+                  message: "ce champ est requis",
+                  value: true,
+                },
+              })}
             />
+            {errors.email && (
+              <Text role="alert" color="critical">
+                {errors?.email?.message}
+              </Text>
+            )}
             <Field
               sx={{ fontWeight: "body" }}
               label="Mot de passe"
               name="password"
               type="password"
-              defaultValue={password}
-              onChange={(e) => setPassword(e.target.value)}
+              aria-invalid={errors.password ? "true" : "false"}
+              ref={register({
+                required: {
+                  message: "ce champ est requis",
+                  value: true,
+                },
+              })}
             />
-            {error && <Text color="critical">{error}</Text>}
-            <Button type="submit" onClick={submit} disabled={!isValid}>
+            {errors.password && (
+              <Text role="alert" color="critical">
+                {errors?.password?.message}
+              </Text>
+            )}
+            <Button type="submit" disabled={isSubmitting}>
               Se connecter
             </Button>
             <Button

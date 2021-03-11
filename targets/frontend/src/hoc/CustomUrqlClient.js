@@ -6,29 +6,32 @@ import {
 import { cacheExchange, dedupExchange, fetchExchange } from "urql";
 
 export const withCustomUrqlClient = (Component) =>
-  withUrqlClient((ssrExchange, ctx) => {
-    const url = ctx?.req
-      ? `${process.env.FRONTEND_URL}/api/graphql`
-      : `/api/graphql`;
-    console.log(
-      "[ withUrqlClient ]",
-      ctx?.pathname,
-      ctx?.req ? "server" : "client",
-      url
-    );
-    return {
-      exchanges: [
-        process.env.NODE_ENV !== "production"
-          ? require("@urql/devtools").devtoolsExchange
-          : null,
-        dedupExchange,
-        cacheExchange,
-        ssrExchange,
-        customErrorExchange(),
-        customAuthExchange(ctx),
-        fetchExchange,
-      ].filter(Boolean),
-      requestPolicy: "cache-first",
-      url,
-    };
-  })(Component);
+  withUrqlClient(
+    (ssrExchange, ctx) => {
+      const url = ctx?.req
+        ? `${process.env.FRONTEND_URL}/api/graphql`
+        : `/api/graphql`;
+      console.log(
+        "[ withUrqlClient ]",
+        ctx?.pathname,
+        ctx?.req ? "server" : "client",
+        url
+      );
+      return {
+        exchanges: [
+          process.env.NODE_ENV !== "production"
+            ? require("@urql/devtools").devtoolsExchange
+            : null,
+          dedupExchange,
+          cacheExchange,
+          ssrExchange,
+          customErrorExchange(),
+          customAuthExchange(ctx),
+          fetchExchange,
+        ].filter(Boolean),
+        requestPolicy: "cache-first",
+        url,
+      };
+    },
+    { ssr: true }
+  )(Component);

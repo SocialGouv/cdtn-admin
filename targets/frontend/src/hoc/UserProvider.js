@@ -19,7 +19,11 @@ export function withUserProvider(WrappedComponent) {
 
     static async getInitialProps(ctx) {
       const token = await auth(ctx);
-
+      console.log("[withUserProvider] ctx", ctx ? true : false);
+      console.log(
+        WrappedComponent,
+        WrappedComponent.getInitialProps ? "gip true" : "gip:false"
+      );
       const componentProps =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx));
