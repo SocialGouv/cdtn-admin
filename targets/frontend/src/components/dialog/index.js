@@ -35,7 +35,7 @@ export function Dialog({
 
 const styles = {
   closeBt: css({
-    position: "fixed",
+    position: "absolute",
     right: "xxsmall",
     top: "xxsmall",
   }),
