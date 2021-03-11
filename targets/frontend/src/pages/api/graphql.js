@@ -23,12 +23,6 @@ const proxy = createProxyMiddleware({
   target: process.env.HASURA_GRAPHQL_ENDPOINT,
   ws: true,
   xfwd: true, // proxy websockets
-  onProxyReq: function (proxyReq, req) {
-    console.log("on proxy req", req.body);
-  },
-  onProxyRes: function (proxyRes, req) {
-    console.log("onproxy res", req.body);
-  },
 });
 
 export default proxy;
