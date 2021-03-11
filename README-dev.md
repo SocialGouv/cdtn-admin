@@ -173,6 +173,14 @@ All CDTN data (written by the CDTN team) are not populated in the database.
 An [issue](https://github.com/SocialGouv/cdtn-admin/issues/320) has been opened to find the better way to import data from the production into a dev environment.
 
 Once you have a backup, you can restore from a previous backup using 
-```
-docker-compose exec -T postgres pg_restore --dbname postgres --clean --if-exists --user postgres --no-owner --no-acl --verbose  < ~/Downloads/hasura_prod_db.psql
+```sh
+docker-compose exec -T postgres pg_restore \
+  --dbname postgres --clean --if-exists --user postgres \
+  --no-owner --no-acl --verbose  < ~/Downloads/hasura_prod_db.psql
 ``` 
+et pour remettre les utilisateurs par défaut
+```sh
+docker-compose exec -T postgres psql \
+  --dbname postgres --user postgres \
+  < .k8s/components/jobs/restore/post-restore.sql
+```
