@@ -37,7 +37,6 @@ export default async function refreshToken(req, res) {
   if (error) {
     return apiError(Boom.badRequest(error.details[0].message));
   }
-
   let result = await client
     .query(getRefreshTokenQuery, {
       current_timestampz: new Date(),
