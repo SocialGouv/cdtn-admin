@@ -13,6 +13,7 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
     setError,
     formState: { isSubmitting },
   } = useForm();
+
   const submit = async ({ email, password }) => {
     try {
       const result = await authenticate({ email, password });

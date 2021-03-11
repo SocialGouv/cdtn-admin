@@ -28,11 +28,8 @@ export async function auth(ctx) {
     return inMemoryToken;
   }
 
-  const cookieHeader = ctx?.req
-    ? {
-        Cookie: ctx.req.headers.cookie,
-      }
-    : {};
+  const cookieHeader = ctx?.req ? { Cookie: ctx.req.headers.cookie } : {};
+
   if (ctx?.req && !cookieHeader.Cookie) {
     console.log("[ auth ] no cookie found -> redirect to login");
     ctx.res.writeHead(302, { Location: "/login" });
