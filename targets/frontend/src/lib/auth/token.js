@@ -20,6 +20,7 @@ export function isTokenExpired() {
 }
 
 export async function auth(ctx) {
+  console.log("[ auth ] ctx ?", ctx ? true : false);
   if (ctx?.token) {
     return ctx.token;
   }
@@ -27,15 +28,18 @@ export async function auth(ctx) {
     return inMemoryToken;
   }
 
-  const cookieHeader =
-    ctx && ctx.req
-      ? {
-          Cookie: ctx.req.headers.cookie,
-        }
-      : {};
+  const cookieHeader = ctx?.req ? { Cookie: ctx.req.headers.cookie } : {};
+
+  if (ctx?.req && !cookieHeader.Cookie) {
+    console.log("[ auth ] no cookie found -> redirect to login");
+    ctx.res.writeHead(302, { Location: "/login" });
+    ctx.res.end();
+    return null;
+  }
   try {
+    console.log("[auth] refresh token");
     const tokenData = await request(
-      ctx && ctx.req
+      ctx?.req
         ? `${process.env.FRONTEND_URL}/api/refresh_token`
         : "/api/refresh_token",
       {
@@ -50,22 +54,20 @@ export async function auth(ctx) {
     );
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
-    if (ctx && ctx.res) {
+    if (ctx?.res) {
       setRefreshTokenCookie(ctx.res, tokenData.refresh_token);
       // we also store token in context (this is probably a bad idea b)
       // to reuse it and avoid refresh token twice
       ctx.token = tokenData;
-      return tokenData;
-    } else {
-      // if on client, we store token in memory
-      inMemoryToken = { ...tokenData };
     }
+    inMemoryToken = { ...tokenData };
+    console.log("[auth] token", inMemoryToken ? "true" : "false");
     return inMemoryToken;
   } catch (error) {
     console.error("[ auth ] refreshToken error ", { error });
 
     // we are on server side and its response is not ended yet
-    if (ctx && ctx.res && !ctx.res.writableEnded) {
+    if (ctx?.res && !ctx.res.writableEnded) {
       ctx.res.writeHead(302, { Location: "/login" });
       ctx.res.end();
     } else if (ctx && !ctx.req) {
