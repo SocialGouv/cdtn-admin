@@ -13,8 +13,8 @@ export const withCustomUrqlClient = (Component) =>
         : `/api/graphql`;
       console.log(
         "[ withUrqlClient ]",
+        ctx ? (ctx?.req ? "server" : "client") : "no ctx",
         ctx?.pathname,
-        ctx?.req ? "server" : "client",
         url
       );
       return {
