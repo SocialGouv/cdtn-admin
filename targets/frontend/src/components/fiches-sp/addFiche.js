@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Box, Button } from "theme-ui";
+import { Box } from "theme-ui";
 import { useMutation } from "urql";
 
+import { Button } from "../button";
 import { Dialog } from "../dialog";
 import { AddFicheSpForm } from "./addFicheForm";
 
