@@ -54,7 +54,7 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
             />
             {errors.email && (
               <Text role="alert" color="critical">
-                {errors?.email?.message}
+                {errors.email?.message}
               </Text>
             )}
             <Field
@@ -72,7 +72,7 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
             />
             {errors.password && (
               <Text role="alert" color="critical">
-                {errors?.password?.message}
+                {errors.password?.message}
               </Text>
             )}
             <Button type="submit" disabled={isSubmitting}>
