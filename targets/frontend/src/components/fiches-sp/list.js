@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
 import { Label } from "theme-ui";
+
 import { Li, List } from "../list";
 
 export function ServicPublicList({ items }) {
