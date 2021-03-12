@@ -136,6 +136,11 @@ export function Nav() {
               Contenus sans thème
             </ActiveLink>
           </Li>
+          <Li>
+            <ActiveLink href="/contenus/fiches-sp" passHref>
+              fiches service-public
+            </ActiveLink>
+          </Li>
         </List>
       </Box>
     </Box>

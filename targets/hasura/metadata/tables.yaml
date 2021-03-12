@@ -482,6 +482,9 @@
       filter: {}
 - table:
     schema: public
+    name: service_public_contents
+- table:
+    schema: public
     name: sources
   array_relationships:
   - name: alerts

@@ -1,3 +1,4 @@
+import { client } from "@shared/graphql-client";
 import slugify from "@socialgouv/cdtn-slugify";
 
 import { getJson } from "../../lib/getJson.js";
@@ -20,6 +21,23 @@ function extractMdxContentUrl(markdown) {
   return matchUrl ? matchUrl[0] : null;
 }
 
+const getFicheIdsQuery = `
+query {
+  ficheIds: service_public_contents(order_by: [{id: asc}]) {
+    id
+  }
+}`;
+
+const updateStatusMutation = `
+mutation updateStatus($ids: [String!],$status: String) {
+  update_service_public_contents(_set:{status: $status} where: {
+    id: {_in: $ids}
+  }) {
+    affected_rows
+  }
+}
+`;
+
 /**
  *
  * @param {string} pkgName
@@ -38,7 +56,31 @@ export default async function getFichesServicePublic(pkgName) {
 
   const resolveCdtReference = referenceResolver(cdt);
 
-  const listFicheVdd = filter(ficheVddIndex);
+  /** @type {import("@shared/graphql-client").OperationResult<{ficheIds: {id: string}[]}>} */
+  const results = await client.query(getFicheIdsQuery).toPromise();
+
+  if (results.error) {
+    console.error(results.error);
+    throw new Error(`error while retrieving ingester packages version`);
+  }
+
+  const includeFicheId = results.data?.ficheIds.map(({ id }) => id) || [];
+
+  const listFicheVdd = filter(includeFicheId, ficheVddIndex);
+
+  const unknonwFiches = includeFicheId.filter((id) =>
+    listFicheVdd.every((fiche) => fiche.id !== id)
+  );
+  await client
+    .mutation(updateStatusMutation, { ids: unknonwFiches, status: "unknown" })
+    .toPromise();
+
+  const knonwFiches = includeFicheId.filter((id) =>
+    listFicheVdd.some((fiche) => fiche.id === id)
+  );
+  await client
+    .mutation(updateStatusMutation, { ids: knonwFiches, status: "done" })
+    .toPromise();
 
   const fichesIdFromContrib = contributions.flatMap(({ answers }) => {
     const url = extractMdxContentUrl(answers.generic.markdown);

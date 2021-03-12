@@ -109,11 +109,11 @@ export function CreateDocumentPage() {
   }
 
   return (
-    <Layout title="Créer un contenu">
+    <Layout title="Ajouter un contenu">
       <Stack>
         <form>
           <Label htmlFor="source">
-            Quel type de document souhaitez vous créer&nbsp;?
+            Quel type de document souhaitez vous ajouter&nbsp;?
           </Label>
           <Select
             name="source"
