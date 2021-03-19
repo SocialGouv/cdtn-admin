@@ -2,19 +2,20 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import remark from "remark";
 import html from "remark-html";
-import find from "unist-util-find";
-import parents from "unist-util-parents";
 
-import { formatIdcc } from "../lib/formatIdcc.js";
-import { getJson } from "../lib/getJson.js";
+import { formatIdcc } from "../../lib/formatIdcc.js";
+import { getJson } from "../../lib/getJson.js";
+import { getAllKaliBlocks } from "./getKaliBlock.js";
+import { getKaliArticlesByTheme } from "./kaliArticleBytheme.js";
 
 const compiler = remark().use(html, { sanitize: true });
+
 /**
  * @template A
  * @param {(a:A) => number} fn
  * @returns {(a:A, b:A) => number}
  */
-const createSorter = (fn) => (a, b) => fn(a) - fn(b);
+export const createSorter = (fn) => (a, b) => fn(a) - fn(b);
 
 /**
  *
@@ -30,10 +31,7 @@ export default async function getAgreementDocuments(pkgName) {
     `@socialgouv/contributions-data/data/contributions.json`
   );
 
-  /** @type {import("@socialgouv/datafiller-data-types").AgreementsItem[]} */
-  const agreementsBlocks = await getJson(
-    "@socialgouv/datafiller-data/data/agreements.json"
-  );
+  const allKaliBlocks = await getAllKaliBlocks();
 
   const contributionsWithSlug = contributions.map((contrib) => {
     const slug = slugify(contrib.title);
@@ -49,17 +47,10 @@ export default async function getAgreementDocuments(pkgName) {
     const agreementTree = await getJson(
       `@socialgouv/kali-data/data/${agreement.id}.json`
     );
-    const blocksData = agreementsBlocks.find(
-      // cid = container-id not chronical-id
-      (data) => data.cid === agreement.id
-    );
     agreementPages.push({
       ...getCCNInfo(agreement),
       answers: getContributionAnswers(contributionsWithSlug, agreement.num),
-      articlesByTheme:
-        blocksData && blocksData.groups
-          ? getArticleByBlock(blocksData.groups, agreementTree)
-          : [],
+      articlesByTheme: getKaliArticlesByTheme(allKaliBlocks, agreementTree),
       description: `Idcc ${formatIdcc(agreement.num)} : ${
         agreement.shortTitle
       }`,
@@ -127,41 +118,4 @@ function getContributionAnswers(contributionsWithSlug, agreementNum) {
       return [];
     })
     .sort(createSorter((a) => a.index));
-}
-
-/**
- * @param {{id:string, selection:string[]}[]} groups
- * @param {import("@socialgouv/kali-data-types").Agreement} agreementTree
- * @returns {ingester.AgreementArticleByBlock[]}
- */
-function getArticleByBlock(groups, agreementTree) {
-  const treeWithParents = parents(agreementTree);
-  return groups
-    .filter(({ selection }) => selection.length > 0)
-    .sort(createSorter((a) => parseInt(a.id, 10)))
-    .map(({ id, selection }) => ({
-      articles: selection.flatMap((articleId) => {
-        const node = find(
-          treeWithParents,
-          (node) => node.data.id === articleId
-        );
-        // if (!node) {
-        //   console.debug(
-        //     `${articleId} not found in idcc ${agreementTree.data.num}`
-        //   );
-        // }
-        return node
-          ? [
-              {
-                cid: node.data.cid,
-                id: node.data.id,
-                section: node.parent.data.title,
-                title: node.data.num || "non numéroté",
-              },
-            ]
-          : [];
-      }),
-      bloc: id,
-    }))
-    .filter(({ articles }) => articles.length > 0);
 }

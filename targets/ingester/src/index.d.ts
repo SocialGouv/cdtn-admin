@@ -130,6 +130,13 @@ type referenceResolver = (
   | import("@socialgouv/kali-data").AgreementArticle
 )[];
 
+type KaliArticleHDN = {
+  idcc: number;
+  title: string;
+  id: string;
+  blocks: { [key: string]: string[] };
+};
+
 // type EditorialDocument = Document & {
 //   date: string
 //   contents: EditorialContent[]
