@@ -11,7 +11,7 @@ import tar from "tar-fs";
 import yargs from "yargs";
 
 import { batchPromises, chunk } from "./lib/batchPromises";
-import getAgreementDocuments from "./transform/agreements.js";
+import getAgreementDocuments from "./transform/agreements/index.js";
 import getCdtDocuments from "./transform/code-du-travail.js";
 import getContributionsDocuments from "./transform/contributions.js";
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi.js";
