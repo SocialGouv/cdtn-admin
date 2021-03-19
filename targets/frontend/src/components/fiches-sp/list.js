@@ -2,10 +2,7 @@
 
 import PropTypes from "prop-types";
 import { useContext } from "react";
-import {
-  IoMdCheckmarkCircleOutline,
-  IoMdInformationCircleOutline,
-} from "react-icons/io";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
 import { css, Label, Text } from "theme-ui";
 
@@ -62,25 +59,9 @@ function getStatus({ status, cdtn_id, is_available, is_published }) {
   }
   if (cdtn_id === null) {
     if (status === "unknown") {
-      return (
-        <Text sx={{ color: "critical" }}>
-          fiche non trouvée{" "}
-          <IoMdInformationCircleOutline
-            title="La fiche n'existe pas"
-            aria-label="La fiche n'existe pas"
-          />
-        </Text>
-      );
+      return <Text sx={{ color: "critical" }}>la fiche n’existe pas</Text>;
     }
-    return (
-      <Text sx={{ color: "muted" }}>
-        bientôt disponible{" "}
-        <IoMdInformationCircleOutline
-          title="La fiche n'a pas encore été importée"
-          aria-label="La fiche n'a pas encore été importée"
-        />
-      </Text>
-    );
+    return <Text sx={{ color: "muted" }}>En attente de traitement</Text>;
   }
   if (is_available) {
     if (is_published) {
@@ -95,15 +76,7 @@ function getStatus({ status, cdtn_id, is_available, is_published }) {
     }
     return <Text sx={{ color: "muted" }}>dépubliée</Text>;
   }
-  return (
-    <Text sx={{ color: "critical" }}>
-      supprimée{" "}
-      <IoMdInformationCircleOutline
-        title="La fiche n'existe plus."
-        aria-label="La fiche n'existe plus"
-      />
-    </Text>
-  );
+  return <Text sx={{ color: "critical" }}>supprimée </Text>;
 }
 
 const Table = (props) => <table css={styles.table} {...props} />;
