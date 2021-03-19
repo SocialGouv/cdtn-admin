@@ -20,5 +20,5 @@ export async function getAllKaliBlocks() {
   if (result.data) {
     return result.data.kaliBlocks;
   }
-  return [];
+  throw new Error(`error fetching kali blocks - no data`);
 }
