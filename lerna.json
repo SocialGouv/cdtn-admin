@@ -1,7 +1,5 @@
 {
-  "packages": [
-    "shared/*",
-    "targets/*"
-  ],
+  "npmClient": "yarn",
+  "useWorkspaces": true,
   "version": "1.0.0-alpha.1"
 }
