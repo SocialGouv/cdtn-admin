@@ -64,8 +64,8 @@ export default async function getFichesServicePublic(pkgName) {
     throw new Error(`error while retrieving ingester packages version`);
   }
 
-  const includeFicheId = results.data?.ficheIds.map(({ id }) => id) || [];
-
+  const includeFicheId =
+    (results.data || { ficheIds: [] }).ficheIds.map(({ id }) => id) || [];
   const listFicheVdd = filter(includeFicheId, ficheVddIndex);
 
   const unknonwFiches = includeFicheId.filter((id) =>
@@ -73,13 +73,6 @@ export default async function getFichesServicePublic(pkgName) {
   );
   await client
     .mutation(updateStatusMutation, { ids: unknonwFiches, status: "unknown" })
-    .toPromise();
-
-  const knonwFiches = includeFicheId.filter((id) =>
-    listFicheVdd.some((fiche) => fiche.id === id)
-  );
-  await client
-    .mutation(updateStatusMutation, { ids: knonwFiches, status: "done" })
     .toPromise();
 
   const fichesIdFromContrib = contributions.flatMap(({ answers }) => {

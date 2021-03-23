@@ -90,6 +90,7 @@ export function AddFicheSpForm({ onAdd }) {
                 <Button
                   size="small"
                   variant="secondary"
+                  outline
                   type="button"
                   sx={{ flex: "0 0 auto", ml: "xxlarge" }}
                   onClick={() => append({ id: "" })}
@@ -108,7 +109,7 @@ export function AddFicheSpForm({ onAdd }) {
       })}
       <Box>
         <Button
-          variant="secondary"
+          variant="primary"
           disabled={Object.keys(errors).length > 0 || !isDirty}
         >
           {isDirty && Object.keys(errors).length === 0 && (

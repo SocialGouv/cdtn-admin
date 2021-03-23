@@ -516,6 +516,9 @@
       check: {}
 - table:
     schema: v1
+    name: fiches_sp
+- table:
+    schema: v1
     name: fiches_travail_data_alerts
 - table:
     schema: v1
