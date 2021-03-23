@@ -71,9 +71,11 @@ export default async function getFichesServicePublic(pkgName) {
   const unknonwFiches = includeFicheId.filter((id) =>
     listFicheVdd.every((fiche) => fiche.id !== id)
   );
+  console.time("service-public updateStatus");
   await client
     .mutation(updateStatusMutation, { ids: unknonwFiches, status: "unknown" })
     .toPromise();
+  console.timeEnd("service-public updateStatus");
 
   const knonwFiches = includeFicheId.filter((id) =>
     listFicheVdd.some((fiche) => fiche.id === id)
