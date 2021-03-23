@@ -51,6 +51,7 @@ Build logger:
 
 Lint logger:
   extends: .autodevops_lint
+  dependencies: null
   image: node:14.16-alpine3.13
   needs:
     - job: Install logger
@@ -66,6 +67,7 @@ Lint logger:
 
 Test logger:
   extends: .autodevops_test
+  dependencies: null
   image: node:14.16-alpine3.13
   needs:
     - job: Install logger
