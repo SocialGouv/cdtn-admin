@@ -1,5 +1,6 @@
 Install ingester:
   extends: .autodevops_install
+  interruptible: true
   image: node:14.16.0-alpine3.11
   cache:
     key:
@@ -23,6 +24,7 @@ Install ingester:
 
 Test ingester:
   extends: .autodevops_test
+  interruptible: true
   dependencies: null
   needs:
     - job: Install ingester
@@ -32,6 +34,7 @@ Test ingester:
 
 Lint ingester:
   extends: .autodevops_lint
+  interruptible: true
   dependencies: null
   needs:
     - job: Install ingester
@@ -48,6 +51,7 @@ Lint ingester:
 
 Build ingester:
   extends: .base_yarn_script
+  interruptible: true
   image: node:14.16.0-alpine3.11
   needs:
     - job: Install ingester
@@ -67,6 +71,7 @@ Build ingester:
 
 Register ingester:
   extends: .autodevops_register_image
+  interruptible: true
   dependencies: null
   needs:
     - job: Build ingester

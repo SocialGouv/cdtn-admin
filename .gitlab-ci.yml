@@ -11,6 +11,13 @@ include:
   - /targets/hasura/.gitlab-ci.yml
   - /targets/frontend/.gitlab-ci.yml
 
+# Interruptible jobs
+# - Install
+# - Test
+# - Lint
+# - Build
+# - Register
+
 workflow:
   rules:
     # Skip GitHub pull requests pipelines
@@ -24,6 +31,7 @@ variables:
 
 K8S Test:
   needs: []
+  interruptible: true
   rules:
     - if: "$PRODUCTION || $RELEASE"
       when: never
