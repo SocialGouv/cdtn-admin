@@ -196,7 +196,7 @@ async function insertDocuments(docs) {
  * @param {string} source
  */
 async function initDocAvailabity(source) {
-  console.time(`initDocAvailabity ${source}`);
+  console.time(` initDocAvailabity ${source}`);
   const result = await client
     .mutation(updateDocumentAvailability, { source })
     .toPromise();
@@ -204,8 +204,10 @@ async function initDocAvailabity(source) {
     console.error(result.error);
     throw new Error(`error initializing documents availability`);
   }
-  console.timeEnd(`initDocAvailabity ${source}`);
-  return result.data.documents.affected_rows;
+  console.timeEnd(` initDocAvailabity ${source}`);
+  const nbDocs = result.data.documents.affected_rows;
+  console.log(` > updated availability of ${nbDocs} documents`);
+  return nbDocs;
 }
 /**
  *
@@ -251,16 +253,14 @@ async function main() {
   console.log(`packages to ingest: ${[...packagesToUpdate.keys()]}`);
   for (const [pkgName, { version, getDocuments }] of packagesToUpdate) {
     console.time(`update ${pkgName}`);
-    console.log(` ingest ${pkgName} documents`);
     console.time(` getDocuments ${pkgName}`);
     const documents = await getDocuments(pkgName);
     console.timeEnd(` getDocuments ${pkgName}`);
-    console.log(`${pkgName}: ${documents.length} documents`);
+    console.log(` ${pkgName}: ${documents.length} documents`);
     if (!args.dryRun && documents.length > 0) {
-      const nbDocs = await initDocAvailabity(documents[0].source);
-      console.log(` update availability of ${nbDocs} documents`);
+      await initDocAvailabity(documents[0].source);
       console.log(
-        ` › ready to ingest ${documents.length} documents from ${pkgName}`
+        ` ready to ingest ${documents.length} documents from ${pkgName}`
       );
       const chunks = chunk(documents, 50);
       const inserts = await batchPromises(
@@ -282,7 +282,7 @@ async function main() {
       );
       ids = ids.concat(inserts.flat());
       console.timeEnd(`update ${pkgName}`);
-      // await updateVersion(pkgName, version);
+      await updateVersion(pkgName, version);
     }
   }
   return ids;
