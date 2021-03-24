@@ -117,6 +117,9 @@ Deploy app (prod):
     - never
 
 Release:
+  needs:
+    - job: Build logger
+      artifacts: true
   variables:
     SEMANTIC_RELEASE_PLUGINS: |-
       @semantic-release/changelog
