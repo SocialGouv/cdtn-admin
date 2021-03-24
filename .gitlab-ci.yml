@@ -196,3 +196,15 @@ Generate sitemap (dev):
     DESTINATION_NAME: sitemap.xml
     SECRET_NAME: azure-cdtnadmindev-volume
     KOSKO_GENERATE_ARGS: --env dev jobs/sitemap-uploader
+
+Cleanup db cronjob (prod):
+  stage: Deploy
+  extends:
+    - .base_deploy_kosko_stage
+  only:
+    - master
+  needs: []
+  environment:
+    name: prod2
+  variables:
+    KOSKO_GENERATE_ARGS: --env prod jobs/cleanup-db
