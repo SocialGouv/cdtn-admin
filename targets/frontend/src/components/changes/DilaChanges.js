@@ -23,7 +23,7 @@ function getBadgeColor(etat) {
 function DilaLink({ info, children }) {
   const { context, data, type } = info;
   let url = "";
-  const baseUrl = "https://beta.legifrance.gouv.fr";
+  const baseUrl = "https://legifrance.gouv.fr";
   if (context.containerId.startsWith("LEGI")) {
     if (type === "article") {
       // article d'un code
