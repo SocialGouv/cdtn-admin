@@ -36,7 +36,6 @@
   },
   "license": "Apache-2.0",
   "main": "lib/index.js",
-  "private": "true",
   "repository": {
     "directory": "infra/logger",
     "type": "git",
