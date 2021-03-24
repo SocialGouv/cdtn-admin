@@ -1,6 +1,7 @@
 Install ingester:
   extends: .autodevops_install
   image: node:14.16.0-alpine3.11
+  needs: []
   cache:
     key:
       files:

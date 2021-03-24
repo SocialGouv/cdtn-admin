@@ -2,11 +2,12 @@
 #
 #
 
-Build logger:
+Build module/ingester:
   extends: .autodevops_install
-  stage: .pre
-  needs: []
   image: node:14.16.0-alpine3.11
+  needs:
+    - job: Build logger
+      artifacts: true
   cache:
     key:
       files:
@@ -19,14 +20,14 @@ Build logger:
     - yarn global add @socialgouv/yarn-workspace-focus-install
     - yarn exec yarn-workspace-focus-install
       --
-      --cwd infra/logger
+      --cwd modules/ingester
       --
       --frozen-lockfile --prefer-offline
     #
     # NOTE(douglasduteil): group a pipeline in one job
     # To avoid a lenghy pipeline we do all the tasks here...
     #
-    - cd infra/logger
+    - cd modules/ingester
     #
     #
     #
@@ -36,4 +37,4 @@ Build logger:
   artifacts:
     expire_in: 1 week
     paths:
-      - infra/logger/lib
+      - modules/logger/lib
