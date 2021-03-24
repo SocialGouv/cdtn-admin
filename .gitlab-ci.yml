@@ -24,6 +24,7 @@ variables:
 
 K8S Test:
   needs: []
+  interruptible: true
   rules:
     - if: "$PRODUCTION || $RELEASE"
       when: never

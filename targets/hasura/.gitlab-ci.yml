@@ -1,5 +1,6 @@
 Register Hasura:
   extends: .autodevops_register_image
+  interruptible: true
   dependencies: []
   needs: null
   variables:
