@@ -71,10 +71,10 @@ export function FichesServicePublicContainer() {
 
 const getFicheServicePublicId = `
 query getServicePublicId($offset: Int = 0, $limit: Int = 50) {
-  ficheIds: service_public_contents( offset: $offset, limit: $limit, order_by: [{status: desc, id: asc}]) {
-   id, status
+  ficheIds: v1_fiches_sp( offset: $offset, limit: $limit) {
+   id, cdtn_id, status, is_available, is_published
   }
-  aggs:service_public_contents_aggregate {
+  aggs:v1_fiches_sp_aggregate {
     aggregate{
       count
     }

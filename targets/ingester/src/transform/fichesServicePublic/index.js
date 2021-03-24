@@ -81,13 +81,6 @@ export default async function getFichesServicePublic(pkgName) {
     .toPromise();
   console.timeEnd("service-public updateStatus");
 
-  const knonwFiches = includeFicheId.filter((id) =>
-    listFicheVdd.some((fiche) => fiche.id === id)
-  );
-  await client
-    .mutation(updateStatusMutation, { ids: knonwFiches, status: "done" })
-    .toPromise();
-
   const fichesIdFromContrib = contributions.flatMap(({ answers }) => {
     const url = extractMdxContentUrl(answers.generic.markdown);
     if (url) {
