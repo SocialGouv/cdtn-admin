@@ -10,12 +10,14 @@ plugins:
         lerna publish from-git --yes
   - - "@semantic-release/git"
     - assets:
-      - CHANGELOG.md
-      - lerna.json
-      - package.json
-      - shared/*/CHANGELOG.md
-      - shared/*/package.json
-      - targets/*/CHANGELOG.md
-      - targets/*/package.json
+        - CHANGELOG.md
+        - lerna.json
+        - package.json
+        - infra/*/CHANGELOG.md
+        - infra/*/package.json
+        - shared/*/CHANGELOG.md
+        - shared/*/package.json
+        - targets/*/CHANGELOG.md
+        - targets/*/package.json
       message: "chore(release): version ${nextRelease.version}\n\n${nextRelease.notes}"
   - "@semantic-release/github"
