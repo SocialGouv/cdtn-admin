@@ -20,7 +20,7 @@ export function AlertTitle({ alertId, info, ...props }) {
           sx={{ px: "xsmall" }}
           target="_blank"
           rel="noopener noreferrer"
-          href={`https://beta.legifrance.gouv.fr/conv_coll/id/${info.id}`}
+          href={`https://legifrance.gouv.fr/conv_coll/id/${info.id}`}
         >
           <IconButton variant="secondary">
             <IoIosLink
