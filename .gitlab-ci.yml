@@ -11,6 +11,8 @@ include:
   - /targets/hasura/.gitlab-ci.yml
   - /targets/frontend/.gitlab-ci.yml
 
+# Interruptible jobs
+
 workflow:
   rules:
     # Skip GitHub pull requests pipelines
