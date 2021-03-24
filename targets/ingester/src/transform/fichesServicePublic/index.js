@@ -63,8 +63,12 @@ export default async function getFichesServicePublic(pkgName) {
     console.error(results.error);
     throw new Error(`error while retrieving ingester packages version`);
   }
+  /** @type {string[]} */
+  let includeFicheId = [];
 
-  const includeFicheId = results.data?.ficheIds.map(({ id }) => id) || [];
+  if (results.data) {
+    includeFicheId = results.data.ficheIds.map(({ id }) => id);
+  }
 
   const listFicheVdd = filter(includeFicheId, ficheVddIndex);
 

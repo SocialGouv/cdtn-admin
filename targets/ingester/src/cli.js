@@ -234,7 +234,6 @@ async function main() {
       await download(pkgName, pkgInfo.url);
     }
     const ingestedVersion = await getLastIngestedVersion(pkgName);
-    console.log(`fetch last ingested version ${pkgName}: ${ingestedVersion}`);
     // Need to update the package:
     // if the version is lower than the version from database (ingestedVersion)
     // or the package is not present in the database (ingestedVersion is null).
@@ -251,15 +250,15 @@ async function main() {
   let ids = [];
   console.log(`packages to ingest: ${[...packagesToUpdate.keys()]}`);
   for (const [pkgName, { version, getDocuments }] of packagesToUpdate) {
-    console.time(`update${pkgName}`);
-    console.log(`ingest ${pkgName} documents`);
-    console.time(`getDocuments ${pkgName}`);
+    console.time(`update ${pkgName}`);
+    console.log(` ingest ${pkgName} documents`);
+    console.time(` getDocuments ${pkgName}`);
     const documents = await getDocuments(pkgName);
-    console.timeEnd(`getDocuments ${pkgName}`);
-    console.log(`loaded ${documents.length} documents`);
+    console.timeEnd(` getDocuments ${pkgName}`);
+    console.log(`${pkgName}: ${documents.length} documents`);
     if (!args.dryRun && documents.length > 0) {
       const nbDocs = await initDocAvailabity(documents[0].source);
-      console.log(`update availability of ${nbDocs} documents`);
+      console.log(` update availability of ${nbDocs} documents`);
       console.log(
         ` › ready to ingest ${documents.length} documents from ${pkgName}`
       );
@@ -282,7 +281,7 @@ async function main() {
         10
       );
       ids = ids.concat(inserts.flat());
-      console.timeEnd(`update${pkgName}`);
+      console.timeEnd(`update ${pkgName}`);
       // await updateVersion(pkgName, version);
     }
   }

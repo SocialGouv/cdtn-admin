@@ -140,9 +140,9 @@ export function extractOldReference(
           qs.idArticle
         ));
         if (!article) {
-          console.error(
-            `extractOldReferences: unkown article id ${qs.idArticle}, maybe reference is obsolete`
-          );
+          // console.error(
+          //   `extractOldReferences: unkown article id ${qs.idArticle}, maybe reference is obsolete`
+          // );
           return [externalReference(url, label)];
         }
         return [cdtArticleReference(article)];
@@ -154,9 +154,9 @@ export function extractOldReference(
           qs.idSectionTA
         ));
         if (!section) {
-          console.error(
-            `extractOldReferences: unkown section id ${qs.idSectionTA}, maybe reference is obsolete`
-          );
+          // console.error(
+          //   `extractOldReferences: unkown section id ${qs.idSectionTA}, maybe reference is obsolete`
+          // );
           return [externalReference(url, label)];
         }
         if (section.children.every((child) => child.type !== "article")) {
@@ -169,9 +169,9 @@ export function extractOldReference(
           return [cdtArticleReference(child)];
         });
       }
-      console.error(
-        `extractOldReferences: cannot extract article reference from url ${url}`
-      );
+      // console.error(
+      //   `extractOldReferences: cannot extract article reference from url ${url}`
+      // );
       return [externalReference(url, label)];
     }
 
@@ -180,9 +180,9 @@ export function extractOldReference(
         (convention) => convention.id === qs.idConvention
       );
       if (!convention) {
-        console.error(
-          `extractOldReferences: unkown convention id ${qs.idConvention}`
-        );
+        // console.error(
+        //   `extractOldReferences: unkown convention id ${qs.idConvention}`
+        // );
         return [externalReference(url, label)];
       }
       return [agreementReference(convention)];
@@ -267,9 +267,9 @@ export function extractNewReference(
       (convention) => convention.id === kalicontainerId
     );
     if (!convention) {
-      console.error(
-        `extractOldReferences: unkown convention id ${kalicontainerId}`
-      );
+      // console.error(
+      //   `extractOldReferences: unkown convention id ${kalicontainerId}`
+      // );
       return [externalReference(url, label)];
     }
     return [agreementReference(convention)];
