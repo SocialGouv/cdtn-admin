@@ -1,6 +1,6 @@
 {
   "name": "@shared/types",
-  "version": "1.0.0-alpha.5",
+  "version": "1.0.0-alpha.6",
   "types": "src/index.d.ts",
   "private": true,
   "scripts": {},
