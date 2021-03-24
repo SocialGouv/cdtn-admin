@@ -120,6 +120,7 @@ Release:
   needs:
     - job: Build logger
       artifacts: true
+  dependencies: null
   variables:
     SEMANTIC_RELEASE_PLUGINS: |-
       @semantic-release/changelog
