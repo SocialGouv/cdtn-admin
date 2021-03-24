@@ -122,8 +122,12 @@ Release:
       @semantic-release/changelog
       @semantic-release/exec
       @semantic-release/git
-
   before_script:
+    - npm config set access public
+    - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+
+    - git remote set-url origin https://${GITHUB_TOKEN}@github.com/${CI_PROJECT_PATH}.git
+
     - yarn global add lerna
 
 #
