@@ -1,36 +1,36 @@
 actions:
-- name: email_account_activation
-  definition:
-    kind: asynchronous
-    handler: '{{API_URL}}/actions/email_account_activation'
-    forward_client_headers: true
-    headers:
-    - name: actions-secret
-      value_from_env: ACTIONS_SECRET
-- name: email_password_request
-  definition:
-    kind: asynchronous
-    handler: '{{API_URL}}/actions/email_password_request'
-    forward_client_headers: true
-    headers:
-    - name: actions-secret
-      value_from_env: ACTIONS_SECRET
-  permissions:
-  - role: public
-- name: preview_document
-  definition:
-    kind: synchronous
-    handler: '{{API_URL}}/actions/preview'
-    headers:
-    - name: preview-secret
-      value_from_env: PUBLICATION_SECRET
-  permissions:
-  - role: user
+  - name: email_account_activation
+    definition:
+      kind: asynchronous
+      handler: "{{API_URL}}/actions/email_account_activation"
+      forward_client_headers: true
+      headers:
+        - name: actions-secret
+          value_from_env: ACTIONS_SECRET
+  - name: email_password_request
+    definition:
+      kind: asynchronous
+      handler: "{{API_URL}}/actions/email_password_request"
+      forward_client_headers: true
+      headers:
+        - name: actions-secret
+          value_from_env: ACTIONS_SECRET
+    permissions:
+      - role: public
+  - name: preview_document
+    definition:
+      kind: synchronous
+      handler: "{{API_URL}}/actions/preview"
+      headers:
+        - name: preview-secret
+          value_from_env: PUBLICATION_SECRET
+    permissions:
+      - role: user
 custom_types:
   enums: []
   input_objects:
-  - name: PreviewDocument
-  - name: EmailInput
+    - name: PreviewDocument
+    - name: EmailInput
   objects:
-  - name: Status
+    - name: Status
   scalars: []
