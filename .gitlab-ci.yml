@@ -12,6 +12,10 @@ include:
   - /targets/frontend/.gitlab-ci.yml
 
 # Interruptible jobs
+# - Install
+# - Test
+# - Lint
+# - Register
 
 workflow:
   rules:
