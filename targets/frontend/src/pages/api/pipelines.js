@@ -14,7 +14,7 @@ export default async function pipelines(req, res) {
     return apiError(Boom.badRequest("wrong token"));
   }
 
-  const pipelines = await getPipelines({ ref: "master" });
+  const pipelines = await getPipelines();
 
   const activePipelines = pipelines.filter(
     ({ status }) => status === "pending" || status === "running"
@@ -26,8 +26,7 @@ export default async function pipelines(req, res) {
   const runningDeployementPipeline = pipelinesDetails.reduce(
     (state, variables) => {
       const varsObj = variables.reduce(
-        state,
-        ({ key, value }) => ({ ...state, [key]: value }),
+        (obj, { key, value }) => ({ ...obj, [key]: value }),
         {}
       );
       if (

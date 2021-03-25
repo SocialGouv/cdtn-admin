@@ -13,7 +13,7 @@ export function IndexPage() {
       <Stack>
         <Inline>
           <GitlabButton env="prod">Mettre à jour la prod</GitlabButton>
-          <GitlabButton env="dev">Mettre à jour la preprod</GitlabButton>
+          <GitlabButton env="preprod">Mettre à jour la preprod</GitlabButton>
         </Inline>
         <Heading as="h2" sx={{ fontSize: "large" }}>
           Tableau de bord
