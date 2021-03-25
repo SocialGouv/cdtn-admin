@@ -30,6 +30,7 @@
   },
   "workspaces": [
     "infra/*",
+    "modules/*",
     "shared/*",
     "targets/*"
   ],

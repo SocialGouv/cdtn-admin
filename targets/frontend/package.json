@@ -73,8 +73,8 @@
     "wonka": "^4.0.15"
   },
   "devDependencies": {
-    "@socialgouv/eslint-config-react": "^1.55.0",
-    "@socialgouv/eslint-config-recommended": "^1.55.0",
+    "@socialgouv/eslint-config-react": "^1.57.0",
+    "@socialgouv/eslint-config-recommended": "^1.57.0",
     "@urql/devtools": "^2.0.3",
     "eslint": "^7.21.0",
     "eslint-plugin-import": "^2.22.1",

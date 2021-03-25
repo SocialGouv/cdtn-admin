@@ -5,6 +5,7 @@
 Install www:
   extends: .autodevops_install
   image: node:12.21.0-alpine3.11
+  needs: []
   cache:
     key:
       files:

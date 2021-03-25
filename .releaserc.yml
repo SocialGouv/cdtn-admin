@@ -13,8 +13,6 @@ plugins:
         - CHANGELOG.md
         - lerna.json
         - package.json
-        - infra/*/CHANGELOG.md
-        - infra/*/package.json
         - shared/*/CHANGELOG.md
         - shared/*/package.json
         - targets/*/CHANGELOG.md
