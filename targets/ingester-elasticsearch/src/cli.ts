@@ -1,5 +1,3 @@
-//
-
 import { injest } from "@shared/elasticsearch-document-adapter";
 
 void (async function main() {

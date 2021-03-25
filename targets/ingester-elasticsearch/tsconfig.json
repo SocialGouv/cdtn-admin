@@ -6,5 +6,5 @@
     "module": "esnext",
     "moduleResolution": "Node"
   },
-  "files": ["src/cli.ts"]
+  "files": ["src/cli.ts", "src/slug-checker.ts"]
 }

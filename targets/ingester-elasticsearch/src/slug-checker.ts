@@ -4,19 +4,21 @@ import {
 } from "@shared/elasticsearch-document-adapter";
 
 class DuplicateSlugError extends Error {
-  constructor(message) {
+  duplicateSlugs: Record<string, number>;
+
+  constructor(message: string) {
     super(message);
     this.name = this.constructor.name;
+    this.duplicateSlugs = {};
   }
-  duplicateSlugs: { [key: string]: number };
 }
 
 void (async function main() {
   try {
     const documents = await cdtnDocumentsGen();
-    const duplicateSlugs = getDuplicateSlugs(documents);
+    const duplicateSlugs = await getDuplicateSlugs(documents);
 
-    if (duplicateSlugs.length > 0) {
+    if (Object.keys(duplicateSlugs).length > 0) {
       const error = new DuplicateSlugError("duplicate slugs found");
       error.duplicateSlugs = duplicateSlugs;
       throw error;
@@ -27,9 +29,9 @@ void (async function main() {
       console.error("Document with same slugs detected !");
       console.error("slug | count");
       console.error("-----|----");
-      Object.entries(error.duplicateSlugs).forEach(([slug, count]) =>
-        console.error(`${slug} | ${count}`)
-      );
+      Object.entries(error.duplicateSlugs).forEach(([slug, count]) => {
+        console.error(`${slug} | ${count}`);
+      });
     } else {
       console.error(error);
     }
