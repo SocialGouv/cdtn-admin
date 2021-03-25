@@ -1,7 +1,8 @@
-import { buildGetBreadcrumbs } from "@cdtn/ingester";
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
+
+import { buildGetBreadcrumbs } from "./breadcrumbs";
 
 const LIMIT = 300;
 const CDTN_ADMIN_ENDPOINT =
