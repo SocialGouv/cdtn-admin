@@ -15,7 +15,7 @@
     "access": "public"
   },
   "repository": {
-    "directory": "infra/elasticsearch",
+    "directory": "shared/elasticsearch",
     "type": "git",
     "url": "https://github.com/SocialGouv/cdtn-admin.git"
   },

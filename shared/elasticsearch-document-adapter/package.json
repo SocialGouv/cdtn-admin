@@ -42,7 +42,7 @@
   "main": "lib/index.js",
   "private": "true",
   "repository": {
-    "directory": "modules/ingester",
+    "directory": "shared/elasticsearch-document-adapter",
     "type": "git",
     "url": "https://github.com/SocialGouv/cdtn-admin.git"
   },
