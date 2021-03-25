@@ -4,11 +4,11 @@ import { getEnvManifests } from "@socialgouv/kosko-charts/testing";
 import { project } from "@socialgouv/kosko-charts/testing/fake/gitlab-ci.env";
 
 jest.setTimeout(1000 * 60);
-test("kosko generate --prod", async () => {
+test("kosko generate ingester-elasticsearch --dev", async () => {
   expect(
-    await getEnvManifests("prod", "", {
-      ...project("cdtn-admin").prod,
-      IP_ALLOWLIST: "123.456.456.789,42.0.0.0/8",
+    await getEnvManifests("dev", "jobs/ingester-elasticsearch", {
+      ...project("cdtn-admin").dev,
+      RANCHER_PROJECT_ID: "c-bar:p-foo",
     })
   ).toMatchSnapshot();
 });

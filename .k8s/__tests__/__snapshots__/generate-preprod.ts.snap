@@ -1,6 +1,506 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`kosko generate --preprod 1`] = `
-"42
+"---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    field.cattle.io/creatorId: gitlab
+    field.cattle.io/projectId: c-bar:p-foo
+    git/branch: v1.2.3
+    git/remote: >-
+      https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/cdtn-admin.git
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    azure-pg-admin-user: cdtn-admin
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: cdtn-admin-85-preprod-dev2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    app: hasura
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: hasura
+  namespace: cdtn-admin-85-preprod-dev2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hasura
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
+      labels:
+        app: hasura
+        application: v1-2-3-cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        cert: wildcard
+    spec:
+      containers:
+        - image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/hasura:1.2.3
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: hasura
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1.5Gi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+          envFrom:
+            - secretRef:
+                name: azure-pg-user
+            - secretRef:
+                name: hasura
+            - configMapRef:
+                name: hasura
+      initContainers:
+        - env:
+            - name: WAIT_FOR_RETRIES
+              value: '24'
+          envFrom:
+            - secretRef:
+                name: azure-pg-user
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:5.0.1
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  name: hasura
+  namespace: cdtn-admin-85-preprod-dev2
+  labels:
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+spec:
+  encryptedData:
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgAKp4zSpUSFywYwYSnvCKajNrFOaSwOAI5nNM2Aunm6smFCzPvSaCrI9GIdZek/pYq/ZaSjhDKPU8VMqnKAZVQaLK2PQMYsyVRYHb7YAyfBq9IoLC9YZaX4V+OP5lxHx9LDF49sESsqhegtqghkMg9Q14ceRxWsUicIlrbB6treZb+nTiGIYBeogKtvTaLwakjqqDb2EWpeR4Lp1zDCLNaP5G1QxSlU1NP9rEAX5RLmDeyDF6kiuMvXC1Ympg56Xmdpqi+h1Q7A4WmWutmpJ7B1YvPyySjzO/x8qtbaztXrYMhyQVk+W3cC83uIo0xvwsd43/6pxAc/+qtzemd2VhjBoLLgnKWoJpVaPe1UhJWAuR2SxTzTgiipeEei7Iqy697+l6mCOdgOVNgLKAjaTTi4X04pnu6mrbYG11tEULSCO1+S0+LjMcyKAJiuTXu3n8AWrCsakojdY8VCJjSz+gUGimWE48uBDdn9jxFBPqjkbis65JL1YtfSlUe1VvpaueONEU2I7tW6WwjbkGylVL6wEx1MZtI65bcWS1JOQYUVY8d9HgeYF0EDCd5edOnlvybgqEIkngNB2o3bUOgveGQA9hoS868QgSyexfxDwjikybe4EE5o5xLR3Q5LG/4b4LSaJhTBl4+nb0SbHBXUROvtD42jZH6b0c/rS+MMK1G/utWc626OaIl3tAwb3ejdEbb5sIh0o1rh3EWELKP7
+    HASURA_GRAPHQL_JWT_SECRET: >-
+      AgCDQdZtP6J0S52BLR8aWrRhO6+w2iG8WZDgfvXYgV65Dr0mz8Nw8zfAd0YdaVYFk8QRP1A6AxBCE7ISyBWsimP0Kfd/rOOuMaM0n/KxoBvA8SnGIKGRQ2tASSubzc6qYRqlflEj1Ii4YKP7vamV5S49EsYfa2MG6OsfEpFr1Ys7DM8G7r+FYfOn+3BVt6r7tjHkxavBEeqYTe62ywBWQOWv1A/q6uKjsgxJVIphhvhu5hP0hd6izHVEpUa6QI0YCw0ZZeoeUXUkXrOtzLPaAchhhjEQQXk7XqHPLNb8Ax7no3uzV/NZS3yyI6DvJ8NTGqhXpFNCKdSD0oFo2eJFkBaF12Gn36gGvnY8fsJa4+bleFPOnfh/bA2D6UIPjeAWp8GX8IoqJ0oiIkPHBg9DYJlPJq2jdr+0QKuKmLc3vhI92QrPjqaf94t4J41UeZ2QdTqE1t4vJkmA7m4KBnoGZx1CbpfyTgvsKPxJ+Auod++pcHv21AEo9+2HZbZO1Q3jOUQtIzehKedxRiV2URQ8Axs0GyaZX26KWlHuaQpNHZ+v+T/udnztmEtN5VJYdpnVbMVbsixjXmPXGA35Ba6c7S3daansQXBiub1s2aNzVdtG9W6Wo/LoQc3kW6PR6Pa+QJnow2d/yZNCPZO3y1rSPan8TCni05u6Ho+xcId80cYQRqS48ijmQceymUaLzVjD1Kxbj0M6SBXKTur7hcEWZP3ySzmgbRUilfd+WoJVKTD/FNypHcqXjX8RqmLLEOHQBYf8T0b+RD3PQbJWz8MLLbcwHv6EDRvdUnhFvVRI6nKTr85VvtaN9KYbyIgkVJZiw4oRR9N8McM9jvzPuoM5Q3nlvsQ84A==
+    PUBLICATION_SECRET: >-
+      AgBxF8EvqjZReSLj9gOGV6CGqoXTS44QdspFnqMcv4H0Jvr6rNavESmPTkIHJWsTAy/aACbs5kjxqzxQCrBi8PEUqUK/nXUuo1CxsTcubvIVXgc0OKT8YQXnWXvCNCgPqpcvkAY2IcuycP0IE6IUztMPUTVmV4r6NEjFpfsXjHA9/QypTKDGEDypsq6dcIM1RTkltqo50Ztsq7px5NbGE4jSbe33YZaUu2D7mTEIaQmLq/e1tOnc5ZjGi2UL5U37aA6+n2GqDgNRoVh0FeEmn5Df/y+nd4zKy9y/dzMsB9V9/XA4WbNyvk9LiqUxFcFb2BnX3Sfg/P45Ay7QPnMXz+Lj/v77075yFTGGaa2CWhJV6zj2dR5gLektq0qCLVVv3xR0dXs6YFK33IB34UvCThr8PzBbvL6wzLDiW8cYEawqQUvVoypIdpX3LpYBF/xHmZ0HU5ziLojp7lMsy8gLbO2suG5+r/2jHu71GDRcov2a6MjKV8pXGX5CwtkcR4dtGmXu+cobckqd1h3WIspaUoBRjbzbV/O4TifUkIdO7H2KUhAnyeNvysSVvmk3oaqXY2nJXx4yB5LmvxFNLyS7yFi46euzaS6JMbLurldGfcCCap1KYZtBox0G4Y0+jXU5NfRoRjtu7KvcYl2jKH8lEf9wOBh519Mw1fQZa/XLstXtHNIXwOGgTnNMDhUivTHGKKG8mfa3qmcv1rD7GD3qL7/MVRKVF8yKL6vIlrlGh87f8KhG5j+bbDQY9wFWy4vuy3Wo94k07BqwJAxI5g4/Kw2V8z2p+RRbXIRRUVDkHZ7rptOG3jnDDpi3
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
+      name: www
+      labels:
+        application: v1-2-3-cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        cert: wildcard
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hasura
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  namespace: cdtn-admin-85-preprod-dev2
+data:
+  ACCOUNT_EMAIL_WEBHOOK_URL: http://www/api/webhooks/account
+  API_URL: http://www/api
+  HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
+  HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+  HASURA_GRAPHQL_NO_OF_RETRIES: '5'
+  HASURA_GRAPHQL_SERVER_PORT: '80'
+  HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
+  PUBLICATION_WEBHOOK_URL: http://www/api/webhooks/publication
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hasura
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: hasura
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev2
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: hasura
+  type: ClusterIP
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  name: azure-pg-user
+  labels:
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  namespace: cdtn-admin-85-preprod-dev2
+spec:
+  encryptedData:
+    DATABASE_URL: >-
+      AgDZVreC5lcUnyJiuKhpAZvS6IPGcZBvWEe/Ui5f6iz4jYQ/ky6JuyQdJHXGfV4e936Jq90Mu8GUiNtC5yLFjrEEimOd416+z87d1TXH6Qk4ptyjdYetbB4rubLHCvRdJE1jttE/tyLuSj3wcz2cVuUX22JFb4IanIerKZr6ncMWXG3nzdRIgIGh7bcEGyf1X12LFh/sq3Ng6/6j+YF9POS9BG8mT0xoiSjkuVxvFYVAGbe9QXxE0lb1ydeH0y4VckchoCq5Gc2pRX6LwCzxfkr2itRFpAGcoC+VIn+L4F10c8JCNl6AMe11DcH1+NKMKIJKcYIRv/IeNxt4m85BqvxsMV0raVVJJWU7T0TbiXhG0P77RJBHBAdxdqA06B1z6TAWlydSPBqVrJxmAhmBf35EiFr+T/wl0IreTJo7bTCYL2yZXptuFpck0gVURN3sCbzH+yweF1PaXl3fZv/FjMLWQVS74gSoxsFx4y1hYN7IO3tXpNkxdAEa1sL5BUGvHY8mh8MAOfv9dsp6xDfu7nhWpJ3uZNWdh+O6Vmit27SKzTJDkMF/pdPQ/1iMMIaRNvJntXBpa7RBu//+mYLgstri0/mvmhRKwtfTiMvV6IqgdkS58szSUsclpi/7ZsXwp+eq9fqu/xM9cBpxCL24+k73p4kAFMZDBlDmcKyoycODyGilb1o+m1F/lPdpBvwgrlvLJNpUhtjCn1HH1K6FH0kOetfcCxzeLGd1T7DrpPLbILeKNnzqnKW8iU+SqucKR/ORiM8iVzDm234npQFv7EVR6Wwb0YJblyx36bLAkEcv8Qu0x/SJs+YBQhzaqX1xY4MTLcwly7Q6kdZKrMDKDX3N6K0hf0SZp1tVVwR68be5RxPQJ2AZGItkf2elIgXc0aXZdn/nzuwPsiH4sIgdJN2xl9o56lrme3hm6CZpbwVH2oUEFJtE
+    DB_URI: >-
+      AgBj6NcnR81Zf++SMum3Uigh6mlYIzvGmkdwUhAyQvht0bmu2/cVY20ntsSo0iAb2tnNeSkA1xHw7bRKFwy87lLtsM1GcJnZlxuaT4tVjWlmjcuBJGKF0jhCQ0VrBahBskIh4gnmFYqKN2tGQ7uHhFq+bmDK/9zkD4otMIX0/744WYRXqeArXaGn5Vyo2Ydcvgo5hGamSp1+7yEsGqRprOW+wnexLIxqOFMubpUP29g0x8NDbU91zXLIwHOu4+NOH6aZAr1vD/xfDSDnrcGFC/571McypPwLnyaHbg+59ULzH78xlxCJ/htfIpp3RZ8pyvYO5p3lyRPW0n0WFPHXLLXHC0USJh4zWxX/9NN7GMrV4ImfwKHVRJeYG8IkZx/4w0uuthL1kEK1v+vyBWn0iExcPuSLfd2QHL/hR+jTpngYd6i7i/YCFCrKdqEidLIX9zsHmN5zmsFXnzRQsN/IMHAyIYzS3MP/CPyp4O74LQd+rSdwnkJ1hHXGV8OeQp/qI3FJQnyhT5OeB2fQAxfR+dBuaW3KY0Nm/nVPs8tW+JNn4jAvR+Eg2Mmmeo76hZ4v9lMbW+xY3EwSJ6Eh5FQE5jJI4oJkQYEk+ZzpuiaigXmsWrxdkzwgTtILQ1aWkSGPkBNny/gaYFJgS2APoxWZLA9IJhkWYpbjjoFn9a6RTZXAiB+IkYZM3nyw68p1FfyDP0DcunBKgrnJTj97yEndC8GNxxYKw2z+EgRX9r8YmIVDWVH4d8mvWpAfrY3oXB5l1eqcPA2v+6jsG3q+lYZpGUVy6kWrRbs9Rl0XEIfxZ/sYaq89GN4jkz8V2AvGnytN6a2NGQLGWpIs1kM7s/eDGF/nxdqz0oH0/ZqxmTAB6NrySdAqAve3npxZSTBk2p6nlfuwHipNCapjeYk8BjdM4ZiFtSWd4ikA4lqlVMlRdeiwnd35KkZx
+    HASURA_GRAPHQL_DATABASE_URL: >-
+      AgAdZxCiJVhv6pLkWld6gZKISQJiSULczhKc6bbLNpqLYzeLMZsSwKxut6UzdBlXagmwt7EZ9XrswKlLQykSSFbkAvRsUzvmTrtIxanSEA6OBho7lpfCZygx+tqedtR359PUMF3P2tXoJCK45Dnx7Nfd0f27EEvhvBWuIB8pkd75WFOmkM81LPn6Sz5CBfgK89FE5ogk5Qnt5y8AqPm3PwMoOs6Y4Sg7+4/Cth31tyQKnAytxeHh0cI1Cp+t2SFkmgfpLZ7GweL5hJ6CPe7uCiRktGAqcmVmbG4iWlTqO6QvbfVWAosYgFcfovjyPkAF8m4UWiM0iKj5qrxJDkcLCOCG+GvG2Sevf3htMP6FxPWYSHkP1mA3D3Q29XLeaufpNeyrjPs3hrKP09HYSaIZCNR19yxzy1+OloKyZLIhqbz2oizoPLTxbBwSjc1yHH9ZNz/nvKC6lkiAvkfsn3w2VNRz5Vnwr/RzP6mk2n6yOmybsgBj1wGdb6ssTIEmFx9KMwxfFeQZTrsjTxihRvB63yejFQoe7OSwiZLKaLNuH4Lcjn4GYjRCM4d1Bblygiu6HyglMj8Q2H5EYQPrsh/PDXXAG0ZeW9gEX/SPvfKUMazXftKRun9r5sLCtxq3EusN5KZp2FM9ggnDbV2k4xPazyNv828nrvvLl3u+VWG51g+S5fh9fUWShTEJQqTCD6/Qo8pt7UZErDQMY7tmxBOkVQ+BN6R2X9A3b+yV3qESGQffos4VXih1Xq19AX9E8dqWiDqDPRyR+7kPcqrcygD2fSxyTqATXHpHQ5tXGHiMQ1eP8OmFYFzu3CrsmLo8ggLE25lBZT1Q85ozGR1GEfy3k+q432sKLpyG573Yt6fnQm+Nj0ryXuHnbSVFLTqKMFMDxVTHLDU1kF2nK5tGTFgeS7eAXeop2s/ktvMY6dSa6/NCS+NmetOz
+    PGDATABASE: >-
+      AgAWg7QXFNIofmQJSqAFmXsz2AsAJw2PopqUHk5KJqMGfJ1U3b0RpOVkbe1T3FbIrQf3+3R4m1rR0aQBjDdygZsfosH0ilSxp4HzWvEoc634QpIRMH7cey+NXW915zXpIUBjUfX1fnzTvAkV5b/2vje5qr6CjE3antLXf5ZELtINyEWFwMMDflWjIAP+2v7jCT0B0aAujBgbVKjc+2G8XMXuLyMz2cbaMDZdlv0qVllpqtPdb8XsrK8bRMruB3tePfIvKlXf5n/zK6Hgp8ge5LvB7bfkZ3P98HnPSCTS1v2DgutUyXLAV19v2tFaJTZgn09/GJtOk+IsE2e7t3crrVwOftiy2ZvdjOt9mmxrB9LnFssXsRD5ZD5ouy8r0LE9JAZ9lEYGf7j6R9JP5ZVKpCeSQRixAGg2kZxpj2xozazySs2YKSix9HmcugxlKlqIuSeYAUXtNGTKcHIEHEtsraxowLltrfaYGZE5EPY/2EkqryLzcdQOMKzxgN4PvEf8H6MrcqxjQvkHO9Z80xpKthTDPJYg5XqfNbDzvwuyrjIISf34l534iJwUor+mC2LT3gS9pnhRBrgb9QGE2wheAhehtPO59FiM5J1UaSAsSOxr5dv1wiI/hwofgFOtEli71AjZ4VKSC2mMQWFSR/ugSQfyNBJuHtCWqaAxoegLKm2hBTocO8uMsSZY1U63KT/CnjDCH99+4mvx
+    PGHOST: >-
+      AgBfG8BZe3aALVUARzEEsGAiE2uu2kdJiCMI16KkTIw6hu42+NzUAXwWFv4w8E8fQobV7ek+5qa+Oe7/ZeVxZ8j9J0ynW/Ztwr3dRo0DQaMgZGgcASYatipz+btr/eDkfX8QpTUIJekj63nL4CaoUEJ8jdzfwbNLE683RH8RNafNuCD3cRnJX5NduYZMrz18xFk8dLM2gtSZ+83xZZv3x5vvI72ep2xim9BQz8YAkVrXmx/rs9L62mfRUygtegZ9kvqCvvd5wrwnunEO4379TW9csFCtsCLYkJ0W225XhQnwOepwUK7cOnjC7ZUpcsKT6LfOgSzTqdLFxR+c0KBbtiXib+9HiEqNNSHLZ7MBQxM3eCNqY6vL0qGgPWxISlDoV5tjdKn927rzfPIz/n1iiVviQKztlBOr8+QqsvSMLaeQTsM/3xwgnn87iaWqEO2kCLJljq3NlbB17NDiuMOzXj2Rxl16NlgGpl0lGd/UoXBaoGANL/sZuHvSCDvfhKGBvika4/622akmfaZ6zQAwd+fD5PanJ7Dm+FhFs0XsTew7b+7hmmMj2Vw4L1Fm0ZhuWmmmhECo+UcLOuVoEBSj+u266HdeTfNxOEb3PwlHksTs/krBiok8Yi39PizDk1Z0RzY91+eIdiHRws9JXqUzZXrEy8ho8g4Lu63/afaklWQiMNoa76XkblJdsSYek8IxUp0WjXn8xY6Y7DwJ011NjGC3jRosmSsil4LcCO85rz1ZoTYxCJ0VIjsLa815UVAE
+    PGPASSWORD: >-
+      AgCttwjKucLewSyRYy0YPUfOMDt/tDx1/53DxBQEDFEQapqIZsx051fwuXE4QXkFB2rHdReqia9jNt4q2TW/9fgiGyKr0WIHSjSCv4uyfwzQRG5O51WtTVUmjNGhnvvrIC3+AyXBRoxjtUwqhxsSjOCh13UdzTYaOSuoJ137KBszLjveAsdKKMJgA8fp8x7e8PB8vZ+XKRlfH0lHISg/ykX7fsr2euq03v5dgUcrRxhvcYRR1fOGyiRq88y2P23ljWF4JT8fd+eR65ElDcGEPBqeHiL9GFjvRXZ28MzDsuCJZg0Y2RmrsnsBR+RWG28iMzkak5Bvtrx5qiPGfwLG65VigizKoy5tlaVwO7SltgX030CUMEIMXlzCZSD9ydPDKsijn0VITJftMUNPllKRbCZnMlhXVmxL+vuCABOKjIZGMKZ7GhCHLaVk6X5hnsObpYeXfD/C9SOiPZVLOlgF5wxqFR6a/S14QR01lhq/zSDv9UfQ4AwZYIsMemE5PWd3ApbX85+QIXCL+I8xzUt5eLCP4JeQjkjkGeGG4rp7LBrRjm7FY7nKvhhwPkSl7gn/7O/gjwigpJJoReKJKdZ3Jp9N8FURJmHz4epEkV0l3mtxqRPomIpn6sOspaCUDmN43udNtBXTlg5X6UA52+dRHv6juQ042eduf9ABfPsYo41S8Dk8/jZVuKznxq0lc2nDQu3hq5w4Q4w17blQeK4o7apJbzrnb7Ye7hVvvgTLsZV0BUrjwabi3ooN
+    PGRST_DB_URI: >-
+      AgCyYbn0txC3DwlztJJTEVVvLlXZGQbZhvZgexXR9S55PGQN9wKAFKKQSOmTR9T08p79z72hbpZvT4PuZhuIpWlqI2Oc/VRTm0Wn9PDEVe0YC0g9aRc33rkufgb8jp0MFguDVeBHmyJg1ngNgq6rN3l9D1/lIhZP/QcRqs3z7jmKqesc/igoVLaDWpkwxdEhEhKVfF8f6s5TEHSDhSdNvqxSs8LcKl5dOmKX8r3Fy1Tr4mzutRJfxjFUZy0PNJ1qtOWsY1FjClUbYVBPl2VBLUvj/bpHinOhYwUBQGNaEBa1HsDml5Uc3xgpGdkUSBiHWg2XaJpX1HOZtDLWzo5Hk7IvCuK9iCYTZaeEDGRkjjfJFxEd23iPyy22977PO/MJ8oHOyYfqI4fMiyI6IYh+uaXZdRzdCyO1bEbyecYmhA2RI9agTVCsswr0EjG1rY6ORW/lzQMsUl3xAkpIltqz5BjhxrMxecjnumlEdqTs2Jr3NixBzbaQs/EcIZ+BJT+k5jkB3VmbL7fas2BCHBEFz6hPHrX/IDlfhIJmJIhAJYBG6Ki/InkCQp30cCZ8mjyCzRAW3+qIYsrsj47DMQWpg3yAVSC6oCH27mpsq3K7kCslBLmeGtC+h9Ymf8WNhslR9z1FTPlNgsSe2t0Q1kACBABjTN7/ees1ZEhkTkFsYe1YCwnW3B9dWAcv65fDiKqe/MpwJGURrwsJNQYYHCrBWNkRv4NfqM7J78l6nUBq6al/QwJ4INMF2HCUmvstbcufzB8Hf1k1XQA453Tcj6KGaxTopvhbIlZmt88DKH+OJLMcNNSiJEEqTBOp0sRBrsVChY1Yyqj+fIB7582jpgUca+vXVuMUpFvzeP18FOFj0wBHdMQQkbbYDkqPowh5bbNkKbtOVv8KnzZNA772cfY515VPddyRBeMfDsA1qUHyc9sRM6UsJly8
+    PGSSLMODE: >-
+      AgCg0kngT1NYF8NWUoU+kbWie6lpohPKWoZ2X+6cRb5EYoagGJWdVH9gOAAAcwsErz+QFqJC3XiKXN3GzatucEp/YjGInBb/vYLCYMQ8u3eogRcYi3+ILB5WBQC1pEljSKKwM1gO27Mnwbyp+tjhDjfawrgMxwIkYIAfPtUZ4OFL22wR5rQkxTGSmF8QHhkhA0JSKG5sOYnwAvG1Eqk593Ydvjtd6/A8iu1NiXusSZ0F051k6MebVM7Ob8prd4V8UUPKdSq0pfRR+m4Mya48N5S0jAgEBfuEB59bmwEkbbCaGqrfg0y1Rde2XtjPtiJYlhPPsQJ+pjdvulltXdbz0URU9RSL7JNnX8hMmJ/DHnF7obPS2Qf+YJ7lGVIA/53Ru9ZJfXD4WhRSOINikqxBBIXqJsoVEmIgiSIHUGgmcayqv9B9zS8mKynfkJPhsXmR4N4fpKg2O9g/gBHbKjK9JAVdt71XL2ix80bixp6Qla1va3ElvQUOEXhFK1A8bntfszXW5koqrA875A9T7eKwZlzQFBeOJ7DXLJ9lawAkplLAI+eeEZZY1jbHfUSW5zXGcVBXC06pRpNUhQnBgnCtTcwAs6LzvnToq3qeWSiyy6Xiz4i3V8ZEsNF/DEoGwqfusxAw/fSmchHFAayuMPu8gGf6rXyhOjhsl88j5tm6DaRIeeds4hA4kBx1RSvKrQ+/KsoAIQknaw2p
+    PGUSER: >-
+      AgAuMQbKAVv+6GPY8aHJRh6muAOTsCVi/WEqKtMiPtJEhHCcOUGpiAjHIlphjnQwksu2B/MNAB8rNsNOIy8hZV/h4IJRMiX3RdhIK5qLiZJSQw2l0jfPTAtTv0EhCOP5e/vNlIZ/r5ANJ3OEul357sILX8SeH/QwoFF4X0uOw01Zgvdpl7duevqUFuqReYe39YYrkWjkNqnJ0JJqIpPWtq1waNHFUgwN6QptnSW8KopBR6yhaVFCa3T7q62KLnlJMt9WFynj+elY/uwWHiP5qt/BI2k4/D5eIRXXmjtd07I64VOl2QPRL6cMg3M7r4A6yKco7zblOCxo5W9X0rdzUi41xR0XYCdhZ2o+x3ZEq1ybhX/m06qQwO6VMurd2+FgNPL7TkIWA66/5S2RDAc7oZAM5uXPtiOADW8h7TtjkXHu5wmwJ/bvca5toG0K0OAPTZGzQtwXyLC6N5kB58YeKbmzGT4Vxi9s2BGFgv8sNOhoKUIkESTC83sLTVe75MxdXpyW9myCNxT8AJLSZoaJkz3IO0kg57pavOeaVghM1lLget9znC5IVibKH2tnqSHWJnxLgk464yAQZWEmJ3rpSDEfKFtt+VE0zGIklrHzm9KiBGFPjJjopuBXUikHRSi7CF6WE/ZNUZWyYYSeGkx8UKlpmYGNmpsGOgCZbyEbPgePbOJwNcci6TMWpYdnAsIim9sw816vYAv1FBHrDP1PPv1ZI65Io4if28G3USvSgJxAexmR+tSQ/YeV5NEZVcce4nMjGDpTP+Q=
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
+      name: azure-pg-user
+      labels:
+        application: v1-2-3-cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        cert: wildcard
+    type: Opaque
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    app: www
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: www
+  namespace: cdtn-admin-85-preprod-dev2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: www
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
+      labels:
+        app: www
+        application: v1-2-3-cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        cert: wildcard
+    spec:
+      containers:
+        - image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/www:1.2.3
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: www
+          ports:
+            - containerPort: 3000
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 560Mi
+            requests:
+              cpu: 5m
+              memory: 560Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+          env:
+            - name: COMMIT
+              value: 0123456789abcdefghijklmnopqrstuvwxyz0123
+            - name: FRONTEND_HOST
+              value: https://preprod-cdtn-admin.dev2.fabrique.social.gouv.fr
+            - name: VERSION
+              value: v1.2.3
+          envFrom:
+            - secretRef:
+                name: www
+            - configMapRef:
+                name: www-env
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  name: www
+  namespace: cdtn-admin-85-preprod-dev2
+  labels:
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+spec:
+  encryptedData:
+    AZURE_STORAGE_ACCOUNT_KEY: >-
+      AgDQCgdeUi0yKlErFvxzFh0gxaoi3pX6EVHnUAIYikjD0krf7YrtUNo2RrdneBVrvbeR4F1xFiQLN+Km80NsNzyCNIgPjsV0EALr0hx7TEg42XUpyvC2aH0QpbF7Zj+Xo4y9vQI/DdJIBDQ/Oo9btABzjPa6anOu0LCP2PIz5B2ndUGnlWSaV1JtArK7jOEA5tUeaSXGXdfjOj4JnVkJKgFCdihWmt8lQMI5VAqqKB3pbAL0c/45jI3UVxqmiL4pa0iJwh3fPa1SBZCeu7IWSRYzC46d3hvmBD6IcEFejS5uU+if6JizzSH4sVQQ0A2lTiIj67wLwmJ2LgB2vnm/bCeDMtzmOUI8PfsOUPj94L62r7kZbaHAZz3uzeUn/K6HlMnD7cDI75nrtSB2o330cK2wTc9yrPU8Td5k5niZObHvbyCYy/nQPDRHdwxUsH0YOkGHyGNyRBggh7/y1Hzp+NKqV/eCq+RKhS+g7NOdDBaGjEXRZ7FGmpyacyGZLbFORtgX1Xn0f1HC/I7nVYys1RoV2RJiWo0K3LwuNA/RW5RpA8rjfXx2/HPcTXMqrXD/QxX9pl75sAB5mOsjBFye5MGw18W73gZ2uazEp8RoxuLn/6iImtW7ah9XoYeP8iSlFDN+RY2hMv8X1SdIov6lqCUsBrwP7oUo6cKG9V77VQ/1IFUxXM+HgPQSFtJxNGPitp8x4+cLsjPfFdgnJ1NInx8WUhPwJQrwvmfpMGZO+OK9c5mVGjdro6JN/6e3lzAEKrO8nOeVPy6hBn+KEmxBV+m4oA9DU3RgsoapIySnnGmihG+UBEWYWVk6
+    AZURE_STORAGE_ACCOUNT_NAME: >-
+      AgCtRuQPvQKRuXlApVMqRhNZTsT7Vh/pNdJkEcG0Ox24Fll4RfeKFJPaazspdTq6gM3f6MqEZqoTgvsOg/Jez3rLDaSPcgwetH7bC7Ut3gEzBeJQpO+phCxByxQU2XQfxYQwxGtMrsCfN6h9MalETyg8AnCJoLP4kyKDuyLjo0Hvgwr3XokmV38CfPRDwWYvvBCED4EwsuCO1LvIOcC7XnlGEnrA9p+6T8jEl1z86bd14+AbXAC4xuVOluvrPpgMEjrpI4jqkNuJDTt80W48hWH0ZayzAKQ69uSTKUe5011i8ui1/frD0CDNPpFoI/CQqgNB9wZYT6I2rMVl9sXWtMexq+y96/YuiaQyJKAGB9Foxq6JV2viVEpNHqf2egw7RhWnJSPe0XJqFFyHkUz4FA+dDhL5AcIFdknwlvjzM9VkSj6todKucml6hUdorQ0GZYFy5+QkA5OqUxn45bcW2AVLYYSTlWMRTmjl0HTPTnILDsfv6nml0cG+rHmVu4rWjTT8rPoQRCAIeNKg4CxCzBPojhdq49jTvmy8lG8lSV1qdL8ZDipCja3+LIiQztS4qu0pZXIKp3smfhCWI5ENXVQ8UIZCthTac+Yg2vsl0jaOKaGP4SdXCxPZTdgqclGjm8BUSP3ZdDLbgl8Z6wqxsXN8RKsI/kCaURu4Ner1YqJnFmX4qiHZsnVit3GNpo6Qiv3Ogqr2zpEbInWyML0=
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
+      name: www
+      labels:
+        application: v1-2-3-cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        cert: wildcard
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: www-env
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  namespace: cdtn-admin-85-preprod-dev2
+data:
+  ACCOUNT_MAIL_SENDER: contact@fabrique.social.gouv.fr
+  GITLAB_PROJECT_ID: '136'
+  GITLAB_URL: https://gitlab.factory.social.gouv.fr/api/v4
+  HASURA_GRAPHQL_ENDPOINT: http://hasura/v1/graphql
+  JWT_TOKEN_EXPIRES: '15'
+  NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES: '10080'
+  NEXT_PUBLIC_REFRESH_TOKEN_EXPIRES: '43200'
+  NODE_ENV: production
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: www
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: www
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev2
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+  selector:
+    app: www
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    app: www
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: www
+  namespace: cdtn-admin-85-preprod-dev2
+spec:
+  rules:
+    - host: preprod-cdtn-admin.dev2.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              serviceName: www
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - preprod-cdtn-admin.dev2.fabrique.social.gouv.fr
+      secretName: wildcard-crt
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: www
+  namespace: cdtn-admin-85-preprod-dev2
+spec:
+  maxReplicas: 10
+  metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 100
+          type: Utilization
+      type: Resource
+    - resource:
+        name: memory
+        target:
+          averageUtilization: 100
+          type: Utilization
+      type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: www
 "
 `;

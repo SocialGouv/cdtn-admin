@@ -5,7 +5,7 @@ exports[`kosko generate --prod jobs/restore 1`] = `
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-8843083e
+  name: restore-container-0123456
   namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
@@ -148,7 +148,7 @@ data:
 
     ALTER TABLE auth.users ENABLE TRIGGER USER;
 metadata:
-  name: post-restore-script-configmap-8843083e
+  name: post-restore-script-configmap-0123456
   namespace: cdtn-admin-secret
 ---
 apiVersion: batch/v1
@@ -238,7 +238,7 @@ spec:
             shareName: cdtn-admin-backup-restore
           name: backups
         - configMap:
-            name: post-restore-script-configmap-8843083e
+            name: post-restore-script-configmap-0123456
           name: scripts
       initContainers:
         - env:
@@ -247,14 +247,14 @@ spec:
             - name: PGDATABASE
               value: some-database
             - name: PGPASSWORD
-              value: pass_8843083e
+              value: pass_0123456
             - name: PGUSER
-              value: user_8843083e@cdtnadmindevserver.postgres.database.azure.com
+              value: user_0123456@cdtnadmindevserver.postgres.database.azure.com
             - name: PGSSLMODE
               value: require
           envFrom: []
           image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:4.3.1
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:5.0.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:

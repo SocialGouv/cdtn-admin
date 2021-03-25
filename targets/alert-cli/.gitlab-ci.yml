@@ -8,7 +8,7 @@ Install alert:
         - yarn.lock
       prefix: ${CI_JOB_NAME}
     paths:
-      - yarn
+      - .cache
   script:
     - yarn config set cache-folder $CI_PROJECT_DIR/yarn
     - npx @socialgouv/yarn-workspace-focus-install --cwd targets/alert-cli
@@ -75,68 +75,66 @@ Register alert:
       --shm-size 512M
       -f ./targets/alert-cli/Dockerfile
     IMAGE_NAME: $CI_REGISTRY_IMAGE/alert
-
 #
 #
 #
 
-.deploy_alert_stage:
-  script:
-    - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
-    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
-    - envsubst < targets/alert-cli/.k8s/alert.cronjob.yaml | kubectl apply -f -
+# .deploy_alert_stage:
+#   script:
+#     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
+#     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
+#     - envsubst < targets/alert-cli/.k8s/alert.cronjob.yaml | kubectl apply -f -
 
-Deploy alert (dev):
-  extends:
-    - .autodevops_deploy_app_dev
-    - .deploy_alert_stage
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
+# Deploy alert (dev):
+#   extends:
+#     - .autodevops_deploy_app_dev
+#     - .deploy_alert_stage
+#   environment:
+#     name: ${CI_COMMIT_REF_SLUG}-dev2
 
-Deploy alert (prod):
-  extends:
-    - .autodevops_deploy_app_prod
-    - .deploy_alert_stage
-  environment:
-    name: prod2
-  variables:
-    PRODUCTION: "true"
-
+# Deploy alert (prod):
+#   extends:
+#     - .autodevops_deploy_app_prod
+#     - .deploy_alert_stage
+#   environment:
+#     name: prod2
+#   variables:
+#     PRODUCTION: "true"
 #
 #
 #
 
-.trigger_alert_cron:
-  when: manual
-  script:
-    - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
-    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
-    - JOB_NAME="triggered-from-job-${CI_JOB_ID}-${RANDOM}"
-    - kubectl create job --from=cronjob/alert "${JOB_NAME}"
+# .trigger_alert_cron:
+#   when: manual
+#   script:
+#     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
+#     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
+#     - JOB_NAME="triggered-from-job-${CI_JOB_ID}-${RANDOM}"
+#     - kubectl create job --from=cronjob/alert "${JOB_NAME}"
 
-    - timeout 15m
-      bash -c "
-      until
-      kubectl get pod -l job-name=${JOB_NAME}
-      -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
-      grep True
-      ; do sleep 1; done"
+#     - timeout 15m
+#       bash -c "
+#       until
+#       kubectl get pod -l job-name=${JOB_NAME}
+#       -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
+#       grep True
+#       ; do sleep 1; done"
 
-    - kubectl logs -f job/${JOB_NAME}
+#     - kubectl logs -f job/${JOB_NAME}
 
-    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
-    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
+#     - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
+#     - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
 
-Trigger alert (dev):
-  extends:
-    - .autodevops_deploy_app_dev
-    - .trigger_alert_cron
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
+# Trigger alert (dev):
+#   extends:
+#     - .autodevops_deploy_app_dev
+#     - .trigger_alert_cron
+#   environment:
+#     name: ${CI_COMMIT_REF_SLUG}-dev2
 
-Trigger alert (prod):
-  extends:
-    - .autodevops_deploy_app_prod
-    - .trigger_alert_cron
-  environment:
-    name: prod2
+# Trigger alert (prod):
+#   extends:
+#     - .autodevops_deploy_app_prod
+#     - .trigger_alert_cron
+#   environment:
+#     name: prod2

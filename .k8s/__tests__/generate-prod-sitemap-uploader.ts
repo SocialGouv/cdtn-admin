@@ -8,6 +8,7 @@ test("kosko generate --prod jobs/sitemap-uploader", async () => {
   expect(
     await getEnvManifests("prod", "jobs/sitemap-uploader", {
       ...project("cdtn-admin").prod,
+      CI_JOB_ID: "424242",
       SITEMAP_ENDPOINT: "https://path/to/sitemap",
       DESTINATION_CONTAINER: "destination-container",
       DESTINATION_NAME: "sitemap.xml",

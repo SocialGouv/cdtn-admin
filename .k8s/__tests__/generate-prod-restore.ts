@@ -8,6 +8,7 @@ test("kosko generate --prod jobs/restore", async () => {
   expect(
     await getEnvManifests("prod", "jobs/restore", {
       ...project("cdtn-admin").prod,
+      CI_JOB_ID: "424242",
       SOURCE_CONTAINER: "source-container",
       SOURCE_SERVER: "prod",
       DESTINATION_CONTAINER: "destination-container",

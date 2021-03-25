@@ -8,19 +8,18 @@ metadata:
   annotations:
     field.cattle.io/creatorId: gitlab
     field.cattle.io/projectId: c-bar:p-foo
-    git/branch: master
+    git/branch: jean-mich/Jeune-homme-à-la-roses-1.2.3
     git/remote: >-
       https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/cdtn-admin.git
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
   labels:
     azure-pg-admin-user: cdtn-admin
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
-  name: cdtn-admin-85-master-dev2
+  name: cdtn-admin-85-jean-mich-jeune-123456
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -29,16 +28,15 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
   labels:
     app: hasura
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
   name: hasura
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-jean-mich-jeune-123456
 spec:
   replicas: 1
   selector:
@@ -50,14 +48,13 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: jean-mich-jeune-123456
+        app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
       labels:
         app: hasura
-        application: master-dev2-cdtn-admin
+        application: jean-mich-jeune-123456-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
-        cert: wildcard
     spec:
       containers:
         - image: >-
@@ -98,7 +95,7 @@ spec:
             periodSeconds: 5
           envFrom:
             - secretRef:
-                name: azure-pg-user-masterdev2
+                name: azure-pg-user-jeanmichjeune123456
             - secretRef:
                 name: hasura
             - configMapRef:
@@ -109,7 +106,7 @@ spec:
               value: '24'
           envFrom:
             - secretRef:
-                name: azure-pg-user-masterdev2
+                name: azure-pg-user-jeanmichjeune123456
           image: >-
             registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:5.0.1
           imagePullPolicy: Always
@@ -130,15 +127,14 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
   name: hasura
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-jean-mich-jeune-123456
   labels:
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
 spec:
   encryptedData:
     HASURA_GRAPHQL_ADMIN_SECRET: >-
@@ -154,14 +150,13 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: jean-mich-jeune-123456
+        app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
       name: www
       labels:
-        application: master-dev2-cdtn-admin
+        application: jean-mich-jeune-123456-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
-        cert: wildcard
     type: Opaque
 ---
 apiVersion: v1
@@ -172,14 +167,13 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
   labels:
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-jean-mich-jeune-123456
 data:
   ACCOUNT_EMAIL_WEBHOOK_URL: http://www/api/webhooks/account
   API_URL: http://www/api
@@ -195,18 +189,17 @@ kind: Service
 metadata:
   labels:
     app: hasura
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
   name: hasura
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
-  namespace: cdtn-admin-85-master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+  namespace: cdtn-admin-85-jean-mich-jeune-123456
 spec:
   ports:
     - name: http
@@ -227,11 +220,11 @@ spec:
             - create-db-user
           env:
             - name: NEW_DB_NAME
-              value: autodevops_masterdev2
+              value: autodevops_jeanmichjeune123456
             - name: NEW_USER
-              value: user_masterdev2
+              value: user_jeanmichjeune123456
             - name: NEW_PASSWORD
-              value: password_masterdev2
+              value: password_jeanmichjeune123456
             - name: NEW_DB_EXTENSIONS
               value: hstore pgcrypto citext uuid-ossp
           envFrom:
@@ -252,55 +245,52 @@ spec:
     metadata:
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: jean-mich-jeune-123456
+        app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
       labels:
-        application: master-dev2-cdtn-admin
+        application: jean-mich-jeune-123456-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
-        cert: wildcard
   ttlSecondsAfterFinished: 86400
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
   labels:
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
-  name: create-db-job-masterdev2
-  namespace: cdtn-admin-85-master-dev2
+  name: create-db-job-jeanmichjeune123456
+  namespace: cdtn-admin-85-jean-mich-jeune-123456
 ---
 apiVersion: v1
 kind: Secret
 stringData:
   DATABASE_URL: >-
-    postgresql://user_masterdev2%40cdtnadmindevserver.postgres.database.azure.com:password_masterdev2@cdtnadmindevserver.postgres.database.azure.com/autodevops_masterdev2?sslmode=require
+    postgresql://user_jeanmichjeune123456%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune123456@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune123456?sslmode=require
   DB_URI: >-
-    postgresql://user_masterdev2%40cdtnadmindevserver.postgres.database.azure.com:password_masterdev2@cdtnadmindevserver.postgres.database.azure.com/autodevops_masterdev2?sslmode=require
+    postgresql://user_jeanmichjeune123456%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune123456@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune123456?sslmode=require
   HASURA_GRAPHQL_DATABASE_URL: >-
-    postgresql://user_masterdev2%40cdtnadmindevserver.postgres.database.azure.com:password_masterdev2@cdtnadmindevserver.postgres.database.azure.com/autodevops_masterdev2?sslmode=require
-  PGDATABASE: autodevops_masterdev2
+    postgresql://user_jeanmichjeune123456%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune123456@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune123456?sslmode=require
+  PGDATABASE: autodevops_jeanmichjeune123456
   PGHOST: cdtnadmindevserver.postgres.database.azure.com
-  PGPASSWORD: password_masterdev2
+  PGPASSWORD: password_jeanmichjeune123456
   PGRST_DB_URI: >-
-    postgresql://user_masterdev2%40cdtnadmindevserver.postgres.database.azure.com:password_masterdev2@cdtnadmindevserver.postgres.database.azure.com/autodevops_masterdev2?sslmode=require
+    postgresql://user_jeanmichjeune123456%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune123456@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune123456?sslmode=require
   PGSSLMODE: require
-  PGUSER: user_masterdev2@cdtnadmindevserver.postgres.database.azure.com
+  PGUSER: user_jeanmichjeune123456@cdtnadmindevserver.postgres.database.azure.com
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
   labels:
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
-  name: azure-pg-user-masterdev2
-  namespace: cdtn-admin-85-master-dev2
+  name: azure-pg-user-jeanmichjeune123456
+  namespace: cdtn-admin-85-jean-mich-jeune-123456
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -309,16 +299,15 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
   labels:
     app: www
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
   name: www
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-jean-mich-jeune-123456
 spec:
   replicas: 1
   selector:
@@ -330,14 +319,13 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: jean-mich-jeune-123456
+        app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
       labels:
         app: www
-        application: master-dev2-cdtn-admin
+        application: jean-mich-jeune-123456-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
-        cert: wildcard
     spec:
       containers:
         - image: >-
@@ -380,9 +368,10 @@ spec:
             - name: COMMIT
               value: 0123456789abcdefghijklmnopqrstuvwxyz0123
             - name: FRONTEND_HOST
-              value: https://master-dev2-cdtn-admin.dev2.fabrique.social.gouv.fr
+              value: >-
+                https://jean-mich-jeune-123456-cdtn-admin.dev2.fabrique.social.gouv.fr
             - name: VERSION
-              value: master
+              value: jean-mich/Jeune-homme-à-la-roses-1.2.3
           envFrom:
             - secretRef:
                 name: www
@@ -397,15 +386,14 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
   name: www
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-jean-mich-jeune-123456
   labels:
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
 spec:
   encryptedData:
     AZURE_STORAGE_ACCOUNT_KEY: >-
@@ -421,14 +409,13 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: jean-mich-jeune-123456
+        app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
       name: www
       labels:
-        application: master-dev2-cdtn-admin
+        application: jean-mich-jeune-123456-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
-        cert: wildcard
     type: Opaque
 ---
 apiVersion: v1
@@ -439,14 +426,13 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
   labels:
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-jean-mich-jeune-123456
 data:
   ACCOUNT_MAIL_SENDER: contact@fabrique.social.gouv.fr
   GITLAB_PROJECT_ID: '136'
@@ -462,18 +448,17 @@ kind: Service
 metadata:
   labels:
     app: www
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
   name: www
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
-  namespace: cdtn-admin-85-master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+  namespace: cdtn-admin-85-jean-mich-jeune-123456
 spec:
   ports:
     - name: http
@@ -491,19 +476,18 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
   labels:
     app: www
-    application: master-dev2-cdtn-admin
+    application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    cert: wildcard
   name: www
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-jean-mich-jeune-123456
 spec:
   rules:
-    - host: master-dev2-cdtn-admin.dev2.fabrique.social.gouv.fr
+    - host: jean-mich-jeune-123456-cdtn-admin.dev2.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -512,7 +496,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - master-dev2-cdtn-admin.dev2.fabrique.social.gouv.fr
+        - jean-mich-jeune-123456-cdtn-admin.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
 "
 `;
