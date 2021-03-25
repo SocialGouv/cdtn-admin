@@ -38,7 +38,8 @@ export function triggerDeploy(env) {
       ref: "master",
       token,
       variables: {
-        UPDATE_ES_INDEX: env.toUpperCase(),
+        ACTION: `ingest_documents_${env === "prod" ? "prod" : "dev"}`,
+        ES_INDEX_PREFIX: env === "prod" ? "cdtn-prod" : "cdtn-preprod",
       },
     },
   });

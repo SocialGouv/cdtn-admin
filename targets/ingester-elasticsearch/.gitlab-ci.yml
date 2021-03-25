@@ -91,6 +91,8 @@ ingester-elasticsearch (dev):
     - .base_deploy_kosko_stage
   stage: Deploy
   rules:
+    - if: '($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "web") && $ACTION == "ingest_documents_dev"'
+      when: always
     - if: "$PRODUCTION || $RELEASE || $CI_COMMIT_TAG"
       when: never
     # - when: on_success

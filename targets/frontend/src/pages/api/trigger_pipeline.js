@@ -30,9 +30,6 @@ export default async function (req, res) {
     console.error(error);
     return apiError(Boom.badRequest(error.details[0].message));
   }
-  if (["PROD", "PREPROD"].includes(value.env)) {
-    return apiError(Boom.badRequest(`unknow env ${value.env}`));
-  }
 
   await triggerDeploy(value.env);
   res.status(200).json({ message: "ok" });

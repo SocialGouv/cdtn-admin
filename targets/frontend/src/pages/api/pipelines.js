@@ -23,10 +23,21 @@ export default async function pipelines(req, res) {
   const pipelinesDetails = await Promise.all(
     activePipelines.map(({ id }) => getPipelineVariables(id))
   );
-  const runningDeployementPipeline = pipelinesDetails.flat().reduce(
-    (state, { key, value }) => {
-      if (key === "UPDATE_ES_INDEX") {
-        state[value.toLowerCase()] = true;
+  const runningDeployementPipeline = pipelinesDetails.reduce(
+    (state, variables) => {
+      const varsObj = variables.reduce(
+        state,
+        ({ key, value }) => ({ ...state, [key]: value }),
+        {}
+      );
+      if (
+        varsObj.ACTION === "ingest_documents_dev" &&
+        varsObj.ES_INDEX_PREFIX === "cdtn-preprod"
+      ) {
+        state.preprod = true;
+      }
+      if (varsObj.ACTION === "ingest_documents_prod") {
+        state.prod = true;
       }
       return state;
     },
