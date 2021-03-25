@@ -37,4 +37,4 @@ Build module/ingester:
   artifacts:
     expire_in: 1 week
     paths:
-      - modules/logger/lib
+      - shared/elasticsearch-document-adapter/lib
