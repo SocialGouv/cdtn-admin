@@ -53,6 +53,8 @@ Build ingester-elasticsearch:
   needs:
     - job: Install ingester-elasticsearch
       artifacts: true
+    - job: Build module/ingester
+      artifacts: true
   before_script:
     - cd targets/ingester-elasticsearch
   script:
