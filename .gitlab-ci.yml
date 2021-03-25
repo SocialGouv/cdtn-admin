@@ -6,8 +6,8 @@ include:
     file: /base_deploy_kosko_stage.yml
     ref: v20.6.1
   #
-  - /infra/logger/.gitlab-ci.yml
-  - /modules/ingester/.gitlab-ci.yml
+  - /shared/logger/.gitlab-ci.yml
+  - /shared/elasticsearch-document-adapter/.gitlab-ci.yml
   #
   - /targets/alert-cli/.gitlab-ci.yml
   - /targets/ingester/.gitlab-ci.yml
