@@ -1,6 +1,6 @@
 //
 
-import { injest } from "@cdtn/ingester";
+import { injest } from "@shared/elasticsearch-documents-adapter";
 
 void (async function main() {
   try {
