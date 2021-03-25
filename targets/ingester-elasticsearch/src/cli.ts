@@ -1,6 +1,6 @@
 //
 
-import { injest } from "@shared/elasticsearch-documents-adapter";
+import { injest } from "@shared/elasticsearch-document-adapter";
 
 void (async function main() {
   try {

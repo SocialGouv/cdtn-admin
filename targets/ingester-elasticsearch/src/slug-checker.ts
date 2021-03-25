@@ -1,8 +1,7 @@
 import {
   cdtnDocumentsGen,
   getDuplicateSlugs,
-} from "@shared/elasticsearch-documents-adapter";
-import { logger } from "@socialgouv/cdtn-logger";
+} from "@shared/elasticsearch-document-adapter";
 
 class DuplicateSlugError extends Error {
   constructor(message) {

@@ -20,14 +20,14 @@ Build module/ingester:
     - yarn global add @socialgouv/yarn-workspace-focus-install
     - yarn exec yarn-workspace-focus-install
       --
-      --cwd modules/ingester
+      --cwd shared/elasticsearch-document-adapter
       --
       --frozen-lockfile --prefer-offline
     #
     # NOTE(douglasduteil): group a pipeline in one job
     # To avoid a lenghy pipeline we do all the tasks here...
     #
-    - cd modules/ingester
+    - cd shared/elasticsearch-document-adapter
     #
     #
     #

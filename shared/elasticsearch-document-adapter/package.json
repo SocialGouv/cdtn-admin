@@ -1,5 +1,5 @@
 {
-  "name": "@shared/elasticsearch-documents-adapter",
+  "name": "@shared/elasticsearch-document-adapter",
   "description": "SocialGouv - Code du travail numerique - Modules - ingester",
   "version": "1.0.0-alpha.10",
   "babel": {
