@@ -11,24 +11,23 @@ export function getPipelines({ ref = "master", since }) {
   if (!since) {
     since = subHours(new Date(), 2);
   }
-
   return request(
     `${url}/projects/${projectId}/pipelines?updated_after=${since.toISOString()}&ref=${ref}&order_by=updated_at`,
     {
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: { Authorization: `Bearer ${accessToken.trim()}` },
     }
   );
 }
 
 export function getPipelineInfos(id) {
   return request(`${url}/projects/${projectId}/pipelines/${id}`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${accessToken.trim()}` },
   });
 }
 
 export function getPipelineVariables(id) {
   return request(`${url}/projects/${projectId}/pipelines/${id}/variables`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${accessToken.trim()}` },
   });
 }
 
@@ -38,7 +37,8 @@ export function triggerDeploy(env) {
       ref: "master",
       token,
       variables: {
-        UPDATE_ES_INDEX: env.toUpperCase(),
+        ACTION: `ingest_documents_${env === "prod" ? "prod" : "dev"}`,
+        ES_INDEX_PREFIX: env === "prod" ? "cdtn-prod" : "cdtn-preprod",
       },
     },
   });
