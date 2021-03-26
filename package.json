@@ -29,8 +29,6 @@
     "k8s": "yarn --silent --cwd .k8s"
   },
   "workspaces": [
-    "infra/*",
-    "modules/*",
     "shared/*",
     "targets/*"
   ],
