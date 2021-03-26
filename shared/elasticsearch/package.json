@@ -2,6 +2,11 @@
   "name": "@socialgouv/cdtn-elasticsearch",
   "description": "SocialGouv - Code du travail numerique - Infrastructure - Elasticsearch",
   "version": "1.0.0-alpha.10",
+  "babel": {
+    "plugins": [
+      "@babel/plugin-transform-modules-commonjs"
+    ]
+  },
   "dependencies": {
     "@socialgouv/cdtn-logger": "^1.0.0-alpha.10",
     "node-fetch": "^2.6.1"
@@ -20,6 +25,8 @@
     "url": "https://github.com/SocialGouv/cdtn-admin.git"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.17",
+    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
     "@socialgouv/eslint-config-recommended": "^1.57.0",
     "eslint": "^7.21.0",
     "jest": "^26.6.3",
