@@ -1,1 +1,1 @@
-exports.stopwords = require("./stop_words.json")
+exports.stopwords = require("./stop_words.json");

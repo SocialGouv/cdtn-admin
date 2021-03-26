@@ -4,7 +4,7 @@ const thesaurus = require("./TESS.json");
 const thesaurusSynonyms = thesaurus
   .filter(
     ({ term, equivalent }) =>
-      term && equivalent && !Number.isInteger(parseInt(equivalent, 10)),
+      term && equivalent && !Number.isInteger(parseInt(equivalent, 10))
   )
   .map(({ term, equivalent }) => `${term}, ${equivalent}`);
 
@@ -15,13 +15,13 @@ function format(str) {
   const [abbrev, ...tokens] = str
     .split(",")
     .sort((a, b) => a.length > b.length)
-    .map(t => t.trim());
+    .map((t) => t.trim());
   return `${[...tokens, abbrev].join(", ")} => ${abbrev}`;
 }
 
 exports.synonyms = [...cdtn_synonyms, ...thesaurusSynonyms]
-  .map(str => format(str).toLowerCase())
+  .map((str) => format(str).toLowerCase())
   .sort();
 
-exports.cdtnSynonyms = cdtn_synonyms
-exports.thesaurus = thesaurus
+exports.cdtnSynonyms = cdtn_synonyms;
+exports.thesaurus = thesaurus;
