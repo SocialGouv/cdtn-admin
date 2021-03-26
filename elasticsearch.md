@@ -8,7 +8,7 @@ Chaque token correspond à un ensemble de roles ainsi qu'une liste d'index sur l
 [voir la documentation sur les roles](https://www.elastic.co/guide/en/elasticsearch/reference/master/security-api-put-role.html)
 Nous avons besoin de 2 tokens :
 
--   un token pour l'api
+-   un token pour l'api (lecture)
 -   un token pour manipuler les index et les remplir
 
 ## token API dev
