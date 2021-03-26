@@ -13,7 +13,7 @@ Nous avons besoin de 2 tokens :
 
 ## token API dev
 
-Le token utiliser par l'api nécessite les besoin des 
+Le token utilisé par l'api nécessite les droits de lecture :
 
 ```json
 POST /_security/api_key
