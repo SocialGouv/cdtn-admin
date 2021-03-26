@@ -2,7 +2,7 @@
 
 Afin d'accéder au serveur elasticsearch, nous utilisons une authentification à base de token.
 [voir la documention de l'api api-key](https://www.elastic.co/guide/en/elasticsearch/reference/master/security-api-create-api-key.html)
-Ces token sont généré via l'api depuis la console kibana.
+Ces `tokens` sont générés via l'api depuis la console kibana.
 
 Chaque token correspond à un ensemble de roles ainsi qu'une liste d'index sur lequel le token sera actif.
 [voir la documentation sur les roles](https://www.elastic.co/guide/en/elasticsearch/reference/master/security-api-put-role.html)
