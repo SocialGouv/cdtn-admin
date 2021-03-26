@@ -2,8 +2,8 @@
 . "$(dirname $0)/_/husky.sh"
 
 yarn lerna run \
-  --exclude-dependents \
-  --parallel prepush\
+  --include-dependencies \
+  --parallel prepush \
   --since master \
   --stream \
   ;
