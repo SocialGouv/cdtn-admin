@@ -75,7 +75,7 @@ POST /_security/api_key
 
 à noter que pour le cluster de prod, nous utilisons le pattern d'index suivant `["cdtn-prod*"]`
 
-L'api retourne une paire id/ai_key clé qu'il faut ensuite transformer  avant d'être dans le code js 
+L'api retourne une paire id/api_key clé qu'il faut ensuite transformer avant de pouvoir l'utiliser 
 
 ```json
 {
