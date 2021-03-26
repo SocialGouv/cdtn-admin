@@ -6,7 +6,7 @@ Ces `tokens` sont générés via l'api depuis la console kibana.
 
 Chaque token correspond à un ensemble de roles ainsi qu'une liste d'index sur lequel le token sera actif.
 [voir la documentation sur les roles](https://www.elastic.co/guide/en/elasticsearch/reference/master/security-api-put-role.html)
-Nous avons besoin de 2 tokens
+Nous avons besoin de 2 tokens :
 
 -   un token pour l'api
 -   un token pour manipuler les index et les remplir
