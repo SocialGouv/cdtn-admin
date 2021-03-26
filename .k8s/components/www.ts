@@ -1,23 +1,11 @@
+import env from "@kosko/env";
 import { create } from "@socialgouv/kosko-charts/components/app";
 import { createAutoscale } from "@socialgouv/kosko-charts/components/autoscale";
-import env from "@kosko/env";
 import { getDeployment } from "@socialgouv/kosko-charts/utils/getDeployment";
 
 const manifests = create("www", {
-  env,
   config: {
-    containerPort: 3000,
     container: {
-      resources: {
-        requests: {
-          cpu: "5m",
-          memory: "560Mi",
-        },
-        limits: {
-          cpu: "1000m",
-          memory: "560Mi",
-        },
-      },
       env: [
         {
           name: "COMMIT",
@@ -32,8 +20,20 @@ const manifests = create("www", {
           value: process.env.CI_COMMIT_REF_NAME,
         },
       ],
+      resources: {
+        limits: {
+          cpu: "1000m",
+          memory: "560Mi",
+        },
+        requests: {
+          cpu: "5m",
+          memory: "560Mi",
+        },
+      },
     },
+    containerPort: 3000,
   },
+  env,
 });
 
 const deployment = getDeployment(manifests);

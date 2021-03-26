@@ -1,8 +1,7 @@
 import env from "@kosko/env";
-import { ok } from "assert";
-
-import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { restoreContainerJob } from "@socialgouv/kosko-charts/components/azure-storage/restore-container.job";
+import { ok } from "assert";
+import { EnvVar } from "kubernetes-models/v1/EnvVar";
 
 ok(process.env.SOURCE_CONTAINER);
 ok(process.env.DESTINATION_CONTAINER);
@@ -23,8 +22,8 @@ const manifests = restoreContainerJob({
       value: process.env.DESTINATION_CONTAINER,
     }),
   ],
-  project: "cdtn-admin",
   from: process.env.SOURCE_SERVER,
+  project: "cdtn-admin",
   to: process.env.DESTINATION_SERVER,
 });
 

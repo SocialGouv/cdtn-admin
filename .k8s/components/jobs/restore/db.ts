@@ -1,17 +1,15 @@
-import fs from "fs";
-import path from "path";
 import env from "@kosko/env";
-import { ok } from "assert";
-
-import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { restoreDbJob } from "@socialgouv/kosko-charts/components/azure-pg/restore-db.job";
+import { ok } from "assert";
+import fs from "fs";
+import { EnvVar } from "kubernetes-models/v1/EnvVar";
+import path from "path";
 
 ok(process.env.BACKUP_DB_NAME);
 ok(process.env.BACKUP_DB_OWNER);
 ok(process.env.BACKUP_DB_FILE);
 
 const manifests = restoreDbJob({
-  project: "cdtn-admin",
   env: [
     new EnvVar({
       name: "PGDATABASE",
@@ -29,6 +27,7 @@ const manifests = restoreDbJob({
   postRestoreScript: fs
     .readFileSync(path.join(__dirname, "./post-restore.sql"))
     .toString(),
+  project: "cdtn-admin",
 });
 
 // override initContainer PGDATABASE/PGPASSWORD because this project pipeline use the legacy `db_SHA` convention instead of `autodevops_SHA`

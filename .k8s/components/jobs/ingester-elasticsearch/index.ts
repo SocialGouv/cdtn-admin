@@ -1,11 +1,11 @@
-import { ok } from "assert";
 import env from "@kosko/env";
 import type { SealedSecret } from "@kubernetes-models/sealed-secrets/bitnami.com/v1alpha1/SealedSecret";
-import { Job } from "kubernetes-models/batch/v1/Job";
 import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
-import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
-import { ConfigMap } from "kubernetes-models/_definitions/IoK8sApiCoreV1ConfigMap";
+import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
+import { ok } from "assert";
+import type { ConfigMap } from "kubernetes-models/_definitions/IoK8sApiCoreV1ConfigMap";
+import { Job } from "kubernetes-models/batch/v1/Job";
 
 import { ES_INDEX_PREFIX } from "../../../utils/ES_INDEX_PREFIX";
 

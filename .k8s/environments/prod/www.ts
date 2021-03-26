@@ -1,5 +1,5 @@
-import { ok } from "assert";
 import type { AppConfig } from "@socialgouv/kosko-charts/components/app";
+import { ok } from "assert";
 
 ok(process.env.IP_ALLOWLIST, "Missing process.env.IP_ALLOWLIST");
 
