@@ -2,6 +2,7 @@ import env from "@kosko/env";
 import { create } from "@socialgouv/kosko-charts/components/hasura";
 import { getDeployment } from "@socialgouv/kosko-charts/utils/getDeployment";
 import { ok } from "assert";
+import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../utils/GITLAB_LIKE_ENVIRONMENT_SLUG";
 
 const manifests = create({
   config: {
@@ -20,9 +21,7 @@ const manifests = create({
 if (env.env === "dev") {
   // HACK(douglasduteil): provide one db per env
   // The CI_ENVIRONMENT_SLUG is the most useful for this
-  ok(process.env.CI_ENVIRONMENT_SLUG, "Missing CI_ENVIRONMENT_SLUG");
-
-  const pgSecretRefName = `azure-pg-user-${process.env.CI_ENVIRONMENT_SLUG.replace(
+  const pgSecretRefName = `azure-pg-user-${GITLAB_LIKE_ENVIRONMENT_SLUG.replace(
     /-/g,
     ""
   )}`;

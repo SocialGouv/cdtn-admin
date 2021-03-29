@@ -3,14 +3,13 @@
 import { restoreDbJob } from "@socialgouv/kosko-charts/components/azure-pg/restore-db.job";
 import { ok } from "assert";
 import fs from "fs";
-import env from "@kosko/env";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { Job } from "kubernetes-models/batch/v1/Job";
 import path from "path";
+import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../../../utils/GITLAB_LIKE_ENVIRONMENT_SLUG";
+import { PG_ENVIRONMENT_SLUG } from "../../../utils/PG_ENVIRONMENT_SLUG";
 
-ok(process.env.CI_ENVIRONMENT_SLUG);
-
-const suffix = process.env.CI_ENVIRONMENT_SLUG.replace(/-/g, "");
+const suffix = PG_ENVIRONMENT_SLUG;
 
 const manifests = restoreDbJob({
   env: [
@@ -35,8 +34,10 @@ const manifests = restoreDbJob({
 
 // override initContainer PGDATABASE/PGPASSWORD because this project pipeline use the legacy `db_SHA` convention instead of `autodevops_SHA`
 const job = manifests.find<Job>((m): m is Job => m.kind === "Job");
+ok(job?.metadata, "Missing job metadata");
+job.metadata.name = `restore-db-${GITLAB_LIKE_ENVIRONMENT_SLUG}`;
 ok(
-  job?.spec?.template.spec?.initContainers![0].env,
+  job.spec?.template.spec?.initContainers![0].env,
   "Missing initContainer definition"
 );
 
@@ -52,4 +53,4 @@ const pgPasswordEnvVar = initContainer.env?.find(
 ok(pgPasswordEnvVar, "Missing PGPASSWORD variable");
 pgPasswordEnvVar.value = `pass_${suffix}`;
 
-export default env.env === "prod" ? manifests : [];
+export default manifests;

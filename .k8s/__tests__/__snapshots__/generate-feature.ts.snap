@@ -8,12 +8,12 @@ metadata:
   annotations:
     field.cattle.io/creatorId: gitlab
     field.cattle.io/projectId: c-bar:p-foo
-    git/branch: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    git/branch: jean-mich/Jeune-homme-à--la-roses-1.2.3
     git/remote: >-
       https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/cdtn-admin.git
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   labels:
     azure-pg-admin-user: cdtn-admin
     application: jean-mich-jeune-123456-cdtn-admin
@@ -27,7 +27,7 @@ metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   labels:
     app: alert
     application: jean-mich-jeune-123456-cdtn-admin
@@ -87,7 +87,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   labels:
     app: hasura
     application: jean-mich-jeune-123456-cdtn-admin
@@ -107,7 +107,7 @@ spec:
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
         app.gitlab.com/env: jean-mich-jeune-123456
-        app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+        app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
       labels:
         app: hasura
         application: jean-mich-jeune-123456-cdtn-admin
@@ -153,7 +153,7 @@ spec:
             periodSeconds: 5
           envFrom:
             - secretRef:
-                name: azure-pg-user-jeanmichjeune123456
+                name: azure-pg-user-jeanmichjeune3vbidy
             - secretRef:
                 name: hasura
             - configMapRef:
@@ -164,7 +164,7 @@ spec:
               value: '24'
           envFrom:
             - secretRef:
-                name: azure-pg-user-jeanmichjeune123456
+                name: azure-pg-user-jeanmichjeune3vbidy
           image: >-
             registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:5.0.1
           imagePullPolicy: Always
@@ -186,7 +186,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   name: hasura
   namespace: cdtn-admin-85-jean-mich-jeune-123456
   labels:
@@ -209,7 +209,7 @@ spec:
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
         app.gitlab.com/env: jean-mich-jeune-123456
-        app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+        app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
       name: www
       labels:
         application: jean-mich-jeune-123456-cdtn-admin
@@ -226,7 +226,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   labels:
     application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
@@ -256,7 +256,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   namespace: cdtn-admin-85-jean-mich-jeune-123456
 spec:
   ports:
@@ -273,7 +273,7 @@ metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   labels:
     app: ingester
     application: jean-mich-jeune-123456-cdtn-admin
@@ -350,11 +350,11 @@ spec:
             - create-db-user
           env:
             - name: NEW_DB_NAME
-              value: autodevops_jeanmichjeune123456
+              value: autodevops_jeanmichjeune3vbidy
             - name: NEW_USER
-              value: user_jeanmichjeune123456
+              value: user_jeanmichjeune3vbidy
             - name: NEW_PASSWORD
-              value: password_jeanmichjeune123456
+              value: password_jeanmichjeune3vbidy
             - name: NEW_DB_EXTENSIONS
               value: hstore pgcrypto citext uuid-ossp
           envFrom:
@@ -376,7 +376,7 @@ spec:
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
         app.gitlab.com/env: jean-mich-jeune-123456
-        app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+        app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
       labels:
         application: jean-mich-jeune-123456-cdtn-admin
         owner: cdtn-admin
@@ -386,40 +386,40 @@ metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   labels:
     application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-  name: create-db-job-jeanmichjeune123456
+  name: create-db-job-jeanmichjeune3vbidy
   namespace: cdtn-admin-85-jean-mich-jeune-123456
 ---
 apiVersion: v1
 kind: Secret
 stringData:
   DATABASE_URL: >-
-    postgresql://user_jeanmichjeune123456%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune123456@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune123456?sslmode=require
+    postgresql://user_jeanmichjeune3vbidy%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune3vbidy@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune3vbidy?sslmode=require
   DB_URI: >-
-    postgresql://user_jeanmichjeune123456%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune123456@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune123456?sslmode=require
+    postgresql://user_jeanmichjeune3vbidy%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune3vbidy@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune3vbidy?sslmode=require
   HASURA_GRAPHQL_DATABASE_URL: >-
-    postgresql://user_jeanmichjeune123456%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune123456@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune123456?sslmode=require
-  PGDATABASE: autodevops_jeanmichjeune123456
+    postgresql://user_jeanmichjeune3vbidy%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune3vbidy@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune3vbidy?sslmode=require
+  PGDATABASE: autodevops_jeanmichjeune3vbidy
   PGHOST: cdtnadmindevserver.postgres.database.azure.com
-  PGPASSWORD: password_jeanmichjeune123456
+  PGPASSWORD: password_jeanmichjeune3vbidy
   PGRST_DB_URI: >-
-    postgresql://user_jeanmichjeune123456%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune123456@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune123456?sslmode=require
+    postgresql://user_jeanmichjeune3vbidy%40cdtnadmindevserver.postgres.database.azure.com:password_jeanmichjeune3vbidy@cdtnadmindevserver.postgres.database.azure.com/autodevops_jeanmichjeune3vbidy?sslmode=require
   PGSSLMODE: require
-  PGUSER: user_jeanmichjeune123456@cdtnadmindevserver.postgres.database.azure.com
+  PGUSER: user_jeanmichjeune3vbidy@cdtnadmindevserver.postgres.database.azure.com
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   labels:
     application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-  name: azure-pg-user-jeanmichjeune123456
+  name: azure-pg-user-jeanmichjeune3vbidy
   namespace: cdtn-admin-85-jean-mich-jeune-123456
 ---
 apiVersion: apps/v1
@@ -430,7 +430,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   labels:
     app: www
     application: jean-mich-jeune-123456-cdtn-admin
@@ -450,7 +450,7 @@ spec:
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
         app.gitlab.com/env: jean-mich-jeune-123456
-        app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+        app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
       labels:
         app: www
         application: jean-mich-jeune-123456-cdtn-admin
@@ -501,7 +501,7 @@ spec:
               value: >-
                 https://jean-mich-jeune-123456-cdtn-admin.dev2.fabrique.social.gouv.fr
             - name: VERSION
-              value: jean-mich/Jeune-homme-à-la-roses-1.2.3
+              value: jean-mich/Jeune-homme-à--la-roses-1.2.3
           envFrom:
             - secretRef:
                 name: www
@@ -517,7 +517,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   name: www
   namespace: cdtn-admin-85-jean-mich-jeune-123456
   labels:
@@ -540,7 +540,7 @@ spec:
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
         app.gitlab.com/env: jean-mich-jeune-123456
-        app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+        app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
       name: www
       labels:
         application: jean-mich-jeune-123456-cdtn-admin
@@ -557,7 +557,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   labels:
     application: jean-mich-jeune-123456-cdtn-admin
     owner: cdtn-admin
@@ -587,7 +587,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   namespace: cdtn-admin-85-jean-mich-jeune-123456
 spec:
   ports:
@@ -607,7 +607,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
-    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
   labels:
     app: www
     application: jean-mich-jeune-123456-cdtn-admin

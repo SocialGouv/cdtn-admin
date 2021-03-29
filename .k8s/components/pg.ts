@@ -4,17 +4,12 @@ import { create } from "@socialgouv/kosko-charts/components/azure-pg";
 import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
-import { ok } from "assert";
+import { PG_ENVIRONMENT_SLUG } from "../utils/PG_ENVIRONMENT_SLUG";
 
 export default (): { kind: string }[] => {
   // HACK(douglasduteil): provide one db per env
   // The CI_ENVIRONMENT_SLUG is the most useful for this
-  ok(process.env.CI_ENVIRONMENT_SLUG, "Missing CI_ENVIRONMENT_SLUG");
-
-  process.env.CI_COMMIT_SHORT_SHA = process.env.CI_ENVIRONMENT_SLUG.replace(
-    /-/g,
-    ""
-  );
+  process.env.CI_COMMIT_SHORT_SHA = PG_ENVIRONMENT_SLUG;
   //
 
   if (env.env === "dev") {

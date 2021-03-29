@@ -21,11 +21,6 @@
   needs:
     - job: 🛂 k8s test
   variables:
-    # db restore
-    BACKUP_DB_NAME: "db_${CI_COMMIT_SHORT_SHA}"
-    BACKUP_DB_OWNER: "user_${CI_COMMIT_SHORT_SHA}"
-    BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
-    # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/restore
 
 #

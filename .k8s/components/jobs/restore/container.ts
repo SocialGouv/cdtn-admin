@@ -1,4 +1,3 @@
-import env from "@kosko/env";
 import { restoreContainerJob } from "@socialgouv/kosko-charts/components/azure-storage/restore-container.job";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 
@@ -18,4 +17,4 @@ const manifests = restoreContainerJob({
   to: "dev",
 });
 
-export default env.env === "prod" ? manifests : [];
+export default manifests;
