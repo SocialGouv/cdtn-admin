@@ -94,7 +94,7 @@
     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
     - JOB_NAME="triggered-from-job-${CI_JOB_ID}-${RANDOM}"
-    - kubectl create job --from=cronjob/ingester "${JOB_NAME}"
+    - kubectl create job --from=cronjob.batch/ingester "${JOB_NAME}"
 
     - timeout 15m
       bash -c "
