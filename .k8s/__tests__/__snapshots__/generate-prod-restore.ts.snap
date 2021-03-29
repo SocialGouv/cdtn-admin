@@ -5,7 +5,7 @@ exports[`kosko generate --prod jobs/restore 1`] = `
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-v1-2-3
+  name: restore-container-master
   namespace: cdtn-admin-secret
   annotations:
     kapp.k14s.io/update-strategy: always-replace
@@ -158,7 +158,7 @@ metadata:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-db-v1-2-3
+  name: restore-db-master
   namespace: cdtn-admin-secret
   annotations:
     kapp.k14s.io/update-strategy: always-replace
@@ -214,9 +214,9 @@ spec:
               -a < /mnt/scripts/post-restore.sql
           env:
             - name: PGDATABASE
-              value: db_preprod
+              value: autodevops_master
             - name: OWNER
-              value: user_preprod
+              value: user_master
             - name: FILE
               value: hasura_prod_db.psql.gz
           envFrom:
@@ -253,11 +253,11 @@ spec:
             - name: PGHOST
               value: cdtnadmindevserver.postgres.database.azure.com
             - name: PGDATABASE
-              value: db_preprod
+              value: autodevops_master
             - name: PGPASSWORD
-              value: pass_preprod
+              value: password_master
             - name: PGUSER
-              value: user_0123456@cdtnadmindevserver.postgres.database.azure.com
+              value: user_master@cdtnadmindevserver.postgres.database.azure.com
             - name: PGSSLMODE
               value: require
           envFrom: []

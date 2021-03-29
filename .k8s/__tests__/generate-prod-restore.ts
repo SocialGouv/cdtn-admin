@@ -7,7 +7,7 @@ jest.setTimeout(1000 * 60);
 test("kosko generate --prod jobs/restore", async () => {
   expect(
     await getEnvManifests("prod", "jobs/restore", {
-      ...project("cdtn-admin").prod,
+      ...project("cdtn-admin").dev,
     })
   ).toMatchSnapshot();
 });

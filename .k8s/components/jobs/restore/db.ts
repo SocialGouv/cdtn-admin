@@ -8,18 +8,21 @@ import { Job } from "kubernetes-models/batch/v1/Job";
 import path from "path";
 import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../../../utils/GITLAB_LIKE_ENVIRONMENT_SLUG";
 import { PG_ENVIRONMENT_SLUG } from "../../../utils/PG_ENVIRONMENT_SLUG";
+import { getDevDatabaseParameters } from "@socialgouv/kosko-charts/components/azure-pg/params";
+import { getDefaultPgParams } from "@socialgouv/kosko-charts/components/azure-pg";
 
 const suffix = PG_ENVIRONMENT_SLUG;
+const pgParams = getDevDatabaseParameters({ suffix });
 
 const manifests = restoreDbJob({
   env: [
     new EnvVar({
       name: "PGDATABASE",
-      value: `db_${suffix}`,
+      value: pgParams.database,
     }),
     new EnvVar({
       name: "OWNER",
-      value: `user_${suffix}`,
+      value: pgParams.user,
     }),
     new EnvVar({
       name: "FILE",
@@ -47,15 +50,22 @@ ok(
 );
 
 const initContainer = job.spec.template.spec.initContainers[0];
+
 const pgDatabaseEnvVar = initContainer.env?.find(
   (e) => e.name === "PGDATABASE"
 );
 ok(pgDatabaseEnvVar, "Missing PGDATABASE variable");
-pgDatabaseEnvVar.value = `db_${suffix}`;
+pgDatabaseEnvVar.value = pgParams.database;
+
+const pgUserEnvVar = initContainer.env?.find((e) => e.name === "PGUSER");
+const { host } = getDefaultPgParams();
+ok(pgUserEnvVar, "Missing PGUSER variable");
+pgUserEnvVar.value = `${pgParams.user}@${host}`;
+
 const pgPasswordEnvVar = initContainer.env?.find(
   (e) => e.name === "PGPASSWORD"
 );
 ok(pgPasswordEnvVar, "Missing PGPASSWORD variable");
-pgPasswordEnvVar.value = `pass_${suffix}`;
+pgPasswordEnvVar.value = pgParams.password;
 
 export default manifests;

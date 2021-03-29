@@ -21,7 +21,7 @@
   needs:
     - job: 🛂 k8s test
   variables:
-    KOSKO_GENERATE_ARGS: --env prod jobs/restore
+    KOSKO_GENERATE_ARGS: --env dev jobs/restore
 
 #
 #
