@@ -61,10 +61,14 @@ const cronJob = new CronJob({
                 },
                 workingDir: "/app",
                 env: [
-                  {
-                    name: "PRODUCTION",
-                    value: process.env.PRODUCTION,
-                  },
+                  ...(process.env.PRODUCTION
+                    ? [
+                        {
+                          name: "PRODUCTION",
+                          value: process.env.PRODUCTION,
+                        },
+                      ]
+                    : []),
                   {
                     name: "HASURA_GRAPHQL_ENDPOINT",
                     value: "http://hasura/v1/graphql",

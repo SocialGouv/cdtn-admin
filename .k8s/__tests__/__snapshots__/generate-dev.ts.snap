@@ -312,8 +312,6 @@ spec:
                   memory: 3Gi
               workingDir: /app
               env:
-                - name: PRODUCTION
-                  value: ''
                 - name: HASURA_GRAPHQL_ENDPOINT
                   value: http://hasura/v1/graphql
               envFrom:
