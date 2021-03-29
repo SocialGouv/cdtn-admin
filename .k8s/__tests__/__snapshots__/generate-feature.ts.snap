@@ -21,6 +21,64 @@ metadata:
     team: cdtn-admin
   name: cdtn-admin-85-jean-mich-jeune-123456
 ---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: jean-mich-jeune-123456
+    app.gitlab.com/env.name: jean-mich/Jeune-homme-à-la-roses-1.2.3
+  labels:
+    app: alert
+    application: jean-mich-jeune-123456-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+  name: alert
+spec:
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  schedule: 0 1 * * *
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: update-alert
+              image: >-
+                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/alert:0123456789abcdefghijklmnopqrstuvwxyz0123
+              resources:
+                requests:
+                  cpu: 1500m
+                  memory: 2.5Gi
+                limits:
+                  cpu: 2000m
+                  memory: 3Gi
+              workingDir: /app
+              env:
+                - name: PRODUCTION
+                  value: ''
+                - name: HASURA_GRAPHQL_ENDPOINT
+                  value: http://hasura/v1/graphql
+              envFrom:
+                - secretRef:
+                    name: cdtn-admin-secrets
+              volumeMounts:
+                - name: tz-paris
+                  mountPath: /etc/localtime
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            fsGroup: 1000
+            supplementalGroups:
+              - 1000
+          volumes:
+            - name: tz-paris
+              hostPath:
+                path: /usr/share/zoneinfo/Europe/Paris
+          restartPolicy: Never
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

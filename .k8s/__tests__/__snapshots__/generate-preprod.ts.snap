@@ -22,6 +22,65 @@ metadata:
     cert: wildcard
   name: cdtn-admin-85-preprod-dev2
 ---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    app: alert
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: alert
+spec:
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  schedule: 0 1 * * *
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: update-alert
+              image: >-
+                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/alert:1.2.3
+              resources:
+                requests:
+                  cpu: 1500m
+                  memory: 2.5Gi
+                limits:
+                  cpu: 2000m
+                  memory: 3Gi
+              workingDir: /app
+              env:
+                - name: PRODUCTION
+                  value: ''
+                - name: HASURA_GRAPHQL_ENDPOINT
+                  value: http://hasura/v1/graphql
+              envFrom:
+                - secretRef:
+                    name: cdtn-admin-secrets
+              volumeMounts:
+                - name: tz-paris
+                  mountPath: /etc/localtime
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            fsGroup: 1000
+            supplementalGroups:
+              - 1000
+          volumes:
+            - name: tz-paris
+              hostPath:
+                path: /usr/share/zoneinfo/Europe/Paris
+          restartPolicy: Never
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

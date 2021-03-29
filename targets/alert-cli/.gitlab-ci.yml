@@ -84,31 +84,6 @@ Register alert:
 #
 #
 
-# .deploy_alert_stage:
-#   script:
-#     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
-#     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
-#     - envsubst < targets/alert-cli/.k8s/alert.cronjob.yaml | kubectl apply -f -
-
-# Deploy alert (dev):
-#   extends:
-#     - .autodevops_deploy_app_dev
-#     - .deploy_alert_stage
-#   environment:
-#     name: ${CI_COMMIT_REF_SLUG}-dev2
-
-# Deploy alert (prod):
-#   extends:
-#     - .autodevops_deploy_app_prod
-#     - .deploy_alert_stage
-#   environment:
-#     name: prod2
-#   variables:
-#     PRODUCTION: "true"
-#
-#
-#
-
 # .trigger_alert_cron:
 #   when: manual
 #   script:
