@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`kosko generate --prod jobs/restore 1`] = `
+exports[`kosko generate --dev jobs/restore 1`] = `
 "---
 apiVersion: batch/v1
 kind: Job
