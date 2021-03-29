@@ -1,6 +1,0 @@
-deployment:
-  envFrom:
-    - secretRef:
-        name: cdtn-admin-secrets
-ingress:
-  enabled: false

@@ -19,6 +19,7 @@ include:
 .cdtn_base_rules:
   interruptible: true
   needs: []
+  interruptible: true
   rules:
     - if: $PRODUCTION || $RELEASE
       when: never

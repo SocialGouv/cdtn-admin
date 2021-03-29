@@ -42,7 +42,7 @@
   },
   "lint-staged": {
     "*": [
-      "prettier --write"
+      "prettier -u --write"
     ]
   }
 }

@@ -115,9 +115,9 @@ async function download(pkgName, url) {
   });
 }
 
-/** @type {[string, (pkgName:string)=>Promise<import("./index.js").CdtnDocument[]>|void][]} */
+/** @type {[string, (pkgName:string)=>Promise<import("./index.js").CdtnDocument[]>][]} */
 const dataPackages = [
-  ["@socialgouv/datafiller-data", () => {}],
+  ["@socialgouv/datafiller-data", () => Promise.resolve([])],
   ["@socialgouv/contributions-data", getContributionsDocuments],
   ["@socialgouv/kali-data", getAgreementDocuments],
   ["@socialgouv/legi-data", getCdtDocuments],
@@ -196,6 +196,7 @@ async function insertDocuments(docs) {
  * @param {string} source
  */
 async function initDocAvailabity(source) {
+  console.time(` initDocAvailabity ${source}`);
   const result = await client
     .mutation(updateDocumentAvailability, { source })
     .toPromise();
@@ -203,7 +204,10 @@ async function initDocAvailabity(source) {
     console.error(result.error);
     throw new Error(`error initializing documents availability`);
   }
-  return result.data.documents.affected_rows;
+  console.timeEnd(` initDocAvailabity ${source}`);
+  const nbDocs = result.data.documents.affected_rows;
+  console.log(` > updated availability of ${nbDocs} documents`);
+  return nbDocs;
 }
 /**
  *
@@ -241,43 +245,45 @@ async function main() {
       packagesToUpdate.set(pkgName, { getDocuments, version: pkgInfo.version });
     }
   }
-
   if (args.dryRun) {
     console.log("dry-run mode");
   }
   /** @type {{cdtn_id:string}[]}} */
   let ids = [];
+  console.log(`packages to ingest: ${[...packagesToUpdate.keys()]}`);
   for (const [pkgName, { version, getDocuments }] of packagesToUpdate) {
-    console.log(`ingest ${pkgName} documents`);
+    console.time(`update ${pkgName}`);
+    console.time(` getDocuments ${pkgName}`);
     const documents = await getDocuments(pkgName);
-    if (args.dryRun || !documents || !documents.length) {
-      continue;
+    console.timeEnd(` getDocuments ${pkgName}`);
+    console.log(` ${pkgName}: ${documents.length} documents`);
+    if (!args.dryRun && documents.length > 0) {
+      await initDocAvailabity(documents[0].source);
+      console.log(
+        ` ready to ingest ${documents.length} documents from ${pkgName}`
+      );
+      const chunks = chunk(documents, 50);
+      const inserts = await batchPromises(
+        chunks,
+        (docs) =>
+          pRetry(() => insertDocuments(docs), {
+            onFailedAttempt: (error) => {
+              console.error(
+                `insert failed ${error.attemptNumber}/${
+                  error.retriesLeft + error.attemptNumber
+                }`,
+                error.name,
+                error.message
+              );
+            },
+            retries: 5,
+          }),
+        10
+      );
+      ids = ids.concat(inserts.flat());
+      console.timeEnd(`update ${pkgName}`);
+      await updateVersion(pkgName, version);
     }
-    const nbDocs = await initDocAvailabity(documents[0].source);
-    console.log(`update availability of ${nbDocs} documents`);
-    console.log(
-      ` › ready to ingest ${documents.length} documents from ${pkgName}`
-    );
-    const chunks = chunk(documents, 50);
-    const inserts = await batchPromises(
-      chunks,
-      (docs) =>
-        pRetry(() => insertDocuments(docs), {
-          onFailedAttempt: (error) => {
-            console.error(
-              `insert failed ${error.attemptNumber}/${
-                error.retriesLeft + error.attemptNumber
-              }`,
-              error.name,
-              error.message
-            );
-          },
-          retries: 5,
-        }),
-      15
-    );
-    ids = ids.concat(inserts.flat());
-    await updateVersion(pkgName, version);
   }
   return ids;
 }
