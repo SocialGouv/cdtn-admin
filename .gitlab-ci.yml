@@ -98,32 +98,6 @@ Release:
 
     - yarn global add lerna
 
-#
-#
-#
-
-# todo: restrict to branches ?
-⏪ Restore data:
-  extends:
-    - .base_deploy_kosko_stage
-    - .cdtn_base_rules
-  stage: Deploy
-  environment:
-    name: prod2
-  needs:
-    - job: 🛂 k8s test
-  variables:
-    # storage copy
-    SOURCE_CONTAINER: "cdtn"
-    SOURCE_SERVER: "dev"
-    DESTINATION_CONTAINER: "cdtn-dev"
-    DESTINATION_SERVER: "dev"
-    # db restore
-    BACKUP_DB_NAME: "db_${CI_COMMIT_SHORT_SHA}"
-    BACKUP_DB_OWNER: "user_${CI_COMMIT_SHORT_SHA}"
-    BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
-    # kosko options
-    KOSKO_GENERATE_ARGS: --env prod jobs/restore
 
 #
 #
