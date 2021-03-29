@@ -39,7 +39,7 @@
   before_script:
     - cd targets/alert-cli
 
-🧻 www:
+🧻 alert:
   extends:
     - .autodevops_lint
     - .cdtn_base_rules
