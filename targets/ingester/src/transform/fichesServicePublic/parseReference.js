@@ -268,7 +268,7 @@ export function extractNewReference(
     );
     if (!convention) {
       console.error(
-        `extractOldReferences: unkown convention id ${kalicontainerId}`
+        `extractNewReferences: unkown convention id ${kalicontainerId}`
       );
       return [externalReference(url, label)];
     }

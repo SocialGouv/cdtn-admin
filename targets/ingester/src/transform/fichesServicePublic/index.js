@@ -63,17 +63,23 @@ export default async function getFichesServicePublic(pkgName) {
     console.error(results.error);
     throw new Error(`error while retrieving ingester packages version`);
   }
+  /** @type {string[]} */
+  let includeFicheId = [];
 
-  const includeFicheId =
-    (results.data || { ficheIds: [] }).ficheIds.map(({ id }) => id) || [];
+  if (results.data) {
+    includeFicheId = results.data.ficheIds.map(({ id }) => id);
+  }
+
   const listFicheVdd = filter(includeFicheId, ficheVddIndex);
 
   const unknonwFiches = includeFicheId.filter((id) =>
     listFicheVdd.every((fiche) => fiche.id !== id)
   );
+  console.time("service-public updateStatus");
   await client
     .mutation(updateStatusMutation, { ids: unknonwFiches, status: "unknown" })
     .toPromise();
+  console.timeEnd("service-public updateStatus");
 
   const fichesIdFromContrib = contributions.flatMap(({ answers }) => {
     const url = extractMdxContentUrl(answers.generic.markdown);

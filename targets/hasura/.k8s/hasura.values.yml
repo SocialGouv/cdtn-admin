@@ -29,8 +29,12 @@ deployment:
       value: "80"
     - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
       value: "startup, http-log, webhook-log, websocket-log, query-log"
+    - name: HASURA_GRAPHQL_MIGRATIONS_SERVER_TIMEOUT
+      value: "30"
     - name: HASURA_GRAPHQL_NO_OF_RETRIES
       value: "5"
+    - name: HASURA_GRAPHQL_ENABLE_TELEMETRY
+      value: "false"
     - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
       value: "public"
     - name: ACCOUNT_EMAIL_WEBHOOK_URL

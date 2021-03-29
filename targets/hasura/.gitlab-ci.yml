@@ -1,5 +1,6 @@
 Register Hasura:
   extends: .autodevops_register_image
+  interruptible: true
   dependencies: []
   needs: null
   variables:
@@ -25,8 +26,8 @@ Deploy Hasura (dev):
   variables:
     PG_HOST: cdtnadmindevserver.postgres.database.azure.com
     HELM_RENDER_ARGS: >-
-      --set deployment.env[9].name=HASURA_GRAPHQL_DATABASE_URL
-      --set deployment.env[9].value=postgresql://user_${CI_COMMIT_SHORT_SHA}%40${PG_HOST}:pass_${CI_COMMIT_SHORT_SHA}@${PG_HOST}:5432/db_${CI_COMMIT_SHORT_SHA}?sslmode=require
+      --set deployment.env[11].name=HASURA_GRAPHQL_DATABASE_URL
+      --set deployment.env[11].value=postgresql://user_${CI_COMMIT_SHORT_SHA}%40${PG_HOST}:pass_${CI_COMMIT_SHORT_SHA}@${PG_HOST}:5432/db_${CI_COMMIT_SHORT_SHA}?sslmode=require
 
 Deploy Hasura (prod):
   extends:
