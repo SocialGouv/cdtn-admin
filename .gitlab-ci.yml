@@ -12,6 +12,14 @@ include:
   - /targets/frontend/.gitlab-ci.yml
   - /targets/ingester-elasticsearch/.gitlab-ci.yml
 
+
+#
+#
+#
+
+variables:
+  AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
+
 #
 #
 #
