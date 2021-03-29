@@ -2,9 +2,20 @@ import { CronJob } from "kubernetes-models/batch/v1beta1/CronJob";
 import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { PersistentVolumeClaim } from "kubernetes-models/v1/PersistentVolumeClaim";
+import { ok } from "assert";
+import env from "@kosko/env";
 
 const gitlabEnv = gitlab(process.env);
 const name = "ingester";
+
+// HACK(douglasduteil): provide one db per env
+// The CI_ENVIRONMENT_SLUG is the most useful for this
+ok(process.env.CI_ENVIRONMENT_SLUG, "Missing CI_ENVIRONMENT_SLUG");
+
+const pgSecretRefName =
+  env.env === "dev"
+    ? `azure-pg-user-${process.env.CI_ENVIRONMENT_SLUG.replace(/-/g, "")}`
+    : "azure-pg-user";
 
 const tag = process.env.CI_COMMIT_TAG
   ? process.env.CI_COMMIT_TAG.slice(1)
@@ -77,7 +88,7 @@ const cronJob = new CronJob({
                 envFrom: [
                   {
                     secretRef: {
-                      name: "cdtn-admin-secrets",
+                      name: pgSecretRefName,
                     },
                   },
                 ],

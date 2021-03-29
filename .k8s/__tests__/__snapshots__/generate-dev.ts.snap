@@ -316,7 +316,7 @@ spec:
                   value: http://hasura/v1/graphql
               envFrom:
                 - secretRef:
-                    name: cdtn-admin-secrets
+                    name: azure-pg-user-masterdev2
               volumeMounts:
                 - name: data
                   mountPath: /app/data
