@@ -1,7 +1,13 @@
 import jwt, { verify } from "jsonwebtoken";
 
 const { HASURA_GRAPHQL_JWT_SECRET, JWT_TOKEN_EXPIRES } = process.env;
-const jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
+
+let jwtSecret;
+try {
+  jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
+} catch (error) {
+  console.error("[JWT], HASURA_GRAPHQL_JWT_SECRET is not a valid json");
+}
 
 export function generateJwtToken(user) {
   const user_roles = user.roles.map((role) => {
