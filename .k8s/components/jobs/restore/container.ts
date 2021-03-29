@@ -18,5 +18,10 @@ const job = restoreContainerJob({
   to: "dev",
 });
 job.metadata!.name = `restore-container-${GITLAB_LIKE_ENVIRONMENT_SLUG}`;
-
+job.metadata!.annotations = {
+  "kapp.k14s.io/update-strategy": "always-replace",
+};
+job.spec!.template!.metadata!.annotations = {
+  "kapp.k14s.io/deploy-logs": "for-new-or-existing",
+};
 export default job;

@@ -35,6 +35,12 @@ const manifests = restoreDbJob({
 const job = manifests.find<Job>((m): m is Job => m.kind === "Job");
 ok(job?.metadata, "Missing job metadata");
 job.metadata.name = `restore-db-${GITLAB_LIKE_ENVIRONMENT_SLUG}`;
+job.metadata!.annotations = {
+  "kapp.k14s.io/update-strategy": "always-replace",
+};
+job.spec!.template!.metadata!.annotations = {
+  "kapp.k14s.io/deploy-logs": "for-new-or-existing",
+};
 ok(
   job.spec?.template.spec?.initContainers![0].env,
   "Missing initContainer definition"

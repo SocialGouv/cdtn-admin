@@ -7,10 +7,14 @@ kind: Job
 metadata:
   name: restore-container-v1-2-3
   namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: always-replace
 spec:
   backoffLimit: 0
   template:
-    metadata: {}
+    metadata:
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
     spec:
       containers:
         - command:
@@ -156,10 +160,14 @@ kind: Job
 metadata:
   name: restore-db-v1-2-3
   namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: always-replace
 spec:
   backoffLimit: 0
   template:
-    metadata: {}
+    metadata:
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
     spec:
       containers:
         - command:
