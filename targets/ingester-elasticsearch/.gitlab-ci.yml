@@ -96,7 +96,7 @@
 #
 #
 
-🚀 ingester-elasticsearch (dev):
+🚀 ingester-elasticsearch (review):
   extends:
     - .base_deploy_kosko_stage
   stage: Deploy

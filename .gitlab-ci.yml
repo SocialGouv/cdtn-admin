@@ -7,7 +7,7 @@ include:
   - /shared/elasticsearch-document-adapter/.gitlab-ci.yml
   #   #
   #   - /targets/alert-cli/.gitlab-ci.yml
-  #   - /targets/ingester/.gitlab-ci.yml
+  - /targets/ingester/.gitlab-ci.yml
   - /targets/hasura/.gitlab-ci.yml
   - /targets/frontend/.gitlab-ci.yml
   - /targets/ingester-elasticsearch/.gitlab-ci.yml
@@ -48,7 +48,7 @@ Stop review:
     key:
       files:
         - .k8s/yarn.lock
-      prefix: ${CI_JOB_NAME}
+      prefix: k8s
     paths:
       - .cache
       - .k8s/node_modules
@@ -95,7 +95,7 @@ Release:
 #
 
 # todo: restrict to branches ?
-Restore data:
+⏪ Restore data:
   extends:
     - .base_deploy_kosko_stage
     - .cdtn_base_rules
@@ -129,7 +129,7 @@ Restore data:
   environment:
     name: prod2
 
-Generate sitemap (dev):
+🚩 Generate sitemap (review):
   extends:
     - .generate_sitemap
   rules:
@@ -146,13 +146,13 @@ Generate sitemap (dev):
     SECRET_NAME: azure-cdtnadmindev-volume
     KOSKO_GENERATE_ARGS: --env dev jobs/sitemap-uploader
 
-Generate sitemap (prod):
+🚩 Generate sitemap (prod):
   extends:
     - .generate_sitemap
   rules:
     - if: '($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "web") && $ACTION == "SITEMAP"'
       when: always
-    - if: '($CI_COMMIT_TAG || $CI_COMMIT_REF_SLUG == "master")'
+    - if: '$CI_COMMIT_TAG && $PRODUCTION'
       when: manual
       allow_failure: true
     - when: never
