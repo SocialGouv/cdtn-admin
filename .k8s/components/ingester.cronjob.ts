@@ -1,18 +1,18 @@
-import env from "@kosko/env";
-import { ok } from "assert";
 import { CronJob } from "kubernetes-models/batch/v1beta1/CronJob";
 import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { PersistentVolumeClaim } from "kubernetes-models/v1/PersistentVolumeClaim";
 
 const gitlabEnv = gitlab(process.env);
-const HOST = process.env.CI_ENVIRONMENT_URL;
-ok(HOST);
 const name = "ingester";
+
+const tag = process.env.CI_COMMIT_TAG
+  ? process.env.CI_COMMIT_TAG.slice(1)
+  : process.env.CI_COMMIT_SHA;
 
 const persistentVolumeClaim = new PersistentVolumeClaim({
   metadata: {
-    name: "ingester-data",
+    name,
   },
   spec: {
     accessModes: ["ReadWriteOnce"],
@@ -23,6 +23,7 @@ const persistentVolumeClaim = new PersistentVolumeClaim({
     },
   },
 });
+
 const cronJob = new CronJob({
   metadata: {
     annotations: gitlabEnv.annotations,
@@ -47,7 +48,7 @@ const cronJob = new CronJob({
             containers: [
               {
                 name: "update-ingester",
-                image: "${CI_REGISTRY_IMAGE}/ingester:${IMAGE_TAG}",
+                image: `${process.env.CI_REGISTRY_IMAGE}/${name}:${tag}`,
                 resources: {
                   requests: {
                     cpu: "1500m",
@@ -62,7 +63,7 @@ const cronJob = new CronJob({
                 env: [
                   {
                     name: "PRODUCTION",
-                    value: "${PRODUCTION}",
+                    value: process.env.PRODUCTION,
                   },
                   {
                     name: "HASURA_GRAPHQL_ENDPOINT",
@@ -98,7 +99,7 @@ const cronJob = new CronJob({
               {
                 name: "data",
                 persistentVolumeClaim: {
-                  claimName: "ingester-data",
+                  claimName: name,
                 },
               },
               {
@@ -115,4 +116,5 @@ const cronJob = new CronJob({
     },
   },
 });
-export default [cronJob];
+
+export default [cronJob, persistentVolumeClaim];
