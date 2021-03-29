@@ -9,7 +9,7 @@ Chaque token correspond à un ensemble de roles ainsi qu'une liste d'index sur l
 Nous avons besoin de 2 tokens :
 
 -   un token pour l'api (lecture)
--   un token pour manipuler les index et les remplir
+-   un token pour manipuler les index et les remplir (lecture/écriture)
 
 ## token API dev
 
