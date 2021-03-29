@@ -1,10 +1,14 @@
 {
   "babel": {
-    "plugins": [
-      [
-        "@babel/plugin-transform-modules-commonjs"
-      ]
-    ]
+    "env": {
+      "test": {
+        "plugins": [
+          [
+            "@babel/plugin-transform-modules-commonjs"
+          ]
+        ]
+      }
+    }
   },
   "dependencies": {
     "@kosko/env": "^1.0.3",
@@ -18,6 +22,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
+    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
     "@socialgouv/eslint-config-typescript": "^1.57.0",
     "@types/jest": "^26.0.20",
     "dotenv": "^8.2.0",
