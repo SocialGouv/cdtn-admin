@@ -31,7 +31,6 @@ const manifests = restoreDbJob({
     .toString(),
   project: "cdtn-admin",
 });
-
 // override initContainer PGDATABASE/PGPASSWORD because this project pipeline use the legacy `db_SHA` convention instead of `autodevops_SHA`
 const job = manifests.find<Job>((m): m is Job => m.kind === "Job");
 ok(job?.metadata, "Missing job metadata");

@@ -47,6 +47,10 @@ variables:
     - .cdtn_base_rules
   stage: .pre
 
+#
+#
+#
+
 # Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L326-L347
 Stop review:
   extends:

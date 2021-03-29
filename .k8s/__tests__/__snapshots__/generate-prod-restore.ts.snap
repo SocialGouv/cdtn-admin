@@ -5,7 +5,7 @@ exports[`kosko generate --prod jobs/restore 1`] = `
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-0123456
+  name: restore-container-v1-2-3
   namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
