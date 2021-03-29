@@ -111,8 +111,8 @@
   environment:
     name: ${CI_COMMIT_REF_SLUG}-dev2
   needs:
-    - job: K8S Test
-    - job: Register ingester-elasticsearch
+    - job: 🛂 k8s test
+    - job: 🗃 ingester-elasticsearch
   dependencies: null
   before_script:
     - kubectl config set-context --current --namespace=${KUBE_NAMESPACE}
