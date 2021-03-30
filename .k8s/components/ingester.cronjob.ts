@@ -6,17 +6,9 @@ import { PersistentVolumeClaim } from "kubernetes-models/v1/PersistentVolumeClai
 import { ok } from "assert";
 import env from "@kosko/env";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
-import { PG_ENVIRONMENT_SLUG } from "../utils/PG_ENVIRONMENT_SLUG";
 
 const gitlabEnv = gitlab(process.env);
 const name = "ingester";
-
-// HACK(douglasduteil): provide one db per env
-// The CI_ENVIRONMENT_SLUG is the most useful for this
-ok(process.env.CI_ENVIRONMENT_SLUG, "Missing CI_ENVIRONMENT_SLUG");
-
-const pgSecretRefName =
-  env.env === "dev" ? `azure-pg-user-${PG_ENVIRONMENT_SLUG}` : "azure-pg-user";
 
 const tag = process.env.CI_COMMIT_TAG
   ? process.env.CI_COMMIT_TAG.slice(1)
@@ -24,6 +16,8 @@ const tag = process.env.CI_COMMIT_TAG
 
 const configMap = loadYaml<ConfigMap>(env, `ingester.configmap.yaml`);
 ok(configMap, "Missing ingester.configmap.yaml");
+const secret = loadYaml<ConfigMap>(env, `ingester.sealed-secret.yaml`);
+ok(configMap, "Missing ingester.sealed-secret.yaml");
 
 const persistentVolumeClaim = new PersistentVolumeClaim({
   metadata: {
@@ -102,7 +96,7 @@ const cronJob = new CronJob({
                   },
                   {
                     secretRef: {
-                      name: pgSecretRefName,
+                      name: secret?.metadata?.name,
                     },
                   },
                 ],

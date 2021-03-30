@@ -357,8 +357,7 @@ spec:
               envFrom:
                 - configMapRef:
                     name: ingester
-                - secretRef:
-                    name: azure-pg-user
+                - secretRef: {}
               volumeMounts:
                 - name: data
                   mountPath: /app/data

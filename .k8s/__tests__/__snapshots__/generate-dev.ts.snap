@@ -358,7 +358,7 @@ spec:
                 - configMapRef:
                     name: ingester
                 - secretRef:
-                    name: azure-pg-user-master
+                    name: ingester
               volumeMounts:
                 - name: data
                   mountPath: /app/data
