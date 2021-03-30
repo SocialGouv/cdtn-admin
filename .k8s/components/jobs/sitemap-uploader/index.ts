@@ -36,7 +36,6 @@ const createSitemapJob = () => {
         "kapp.k14s.io/update-strategy": "fallback-on-replace",
       }),
       name: `sitemap-uploader`,
-      namespace: "cdtn-admin-secret",
     },
 
     spec: {
