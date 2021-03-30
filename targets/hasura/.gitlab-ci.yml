@@ -23,9 +23,8 @@
   variables:
     KOSKO_GENERATE_ARGS: --env dev jobs/restore
   before_script:
-    - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
-    - "[[ -n $FORCE ]] && kubectl delete namespaces ${K8S_NAMESPACE} || true"
-    - kubectl get job.batch/restore-db-alpha || exit 0
+    - "[[ -n $FORCE ]] && kubectl -n cdtn-admin-secret delete job -l component=${CI_COMMIT_REF_SLUG} || true"
+    - kubectl -n cdtn-admin-secret get job -l component=${CI_COMMIT_REF_SLUG} || exit 0
 
 #
 #
