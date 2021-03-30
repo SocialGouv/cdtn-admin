@@ -286,7 +286,8 @@ spec:
               envFrom:
                 - configMapRef:
                     name: ingester
-                - secretRef: {}
+                - secretRef:
+                    name: ingester
               volumeMounts:
                 - name: data
                   mountPath: /app/data
