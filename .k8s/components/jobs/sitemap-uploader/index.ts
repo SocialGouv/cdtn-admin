@@ -1,4 +1,4 @@
-import { ok } from "assert";
+import koskoEnv from "@kosko/env";
 import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { Job } from "kubernetes-models/batch/v1/Job";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
@@ -24,12 +24,8 @@ fi
 
 `;
 
-ok(process.env.SITEMAP_ENDPOINT); // https://url/sitemap
-ok(process.env.DESTINATION_CONTAINER); // sitemap
-ok(process.env.DESTINATION_NAME); // sitemap.xml
-ok(process.env.SECRET_NAME); // azure-cdtnadmindev-volume | azure-cdtnadminprod-volume
-
 const gitlabEnv = gitlab(process.env);
+const env = koskoEnv.component("sitemap-uploader");
 
 const createSitemapJob = () => {
   const job = new Job({
@@ -63,25 +59,20 @@ const createSitemapJob = () => {
               args: ["-c", uploadSitemapScript],
               env: [
                 {
-                  name: "CI_JOB_ID",
-                  value: process.env.CI_JOB_ID,
+                  name: "BASE_URL",
+                  value: process.env.BASE_URL || env.BASE_URL,
                 },
                 {
                   name: "DESTINATION_CONTAINER",
-                  value: process.env.DESTINATION_CONTAINER,
+                  value: "sitemap",
                 },
                 {
                   name: "DESTINATION_NAME",
-                  value: process.env.DESTINATION_NAME,
+                  value: process.env.DESTINATION_NAME || env.DESTINATION_NAME,
                 },
                 {
                   name: "SITEMAP_ENDPOINT",
-                  value: process.env.SITEMAP_ENDPOINT,
-                },
-                {
-                  // should not contain ending slash
-                  name: "BASE_URL",
-                  value: process.env.BASE_URL,
+                  value: `${process.env.CI_ENVIRONMENT_URL}/api/sitemap`,
                 },
                 {
                   name: "AZ_ACCOUNT_NAME",
@@ -95,7 +86,7 @@ const createSitemapJob = () => {
               envFrom: [
                 {
                   secretRef: {
-                    name: process.env.SECRET_NAME,
+                    name: process.env.SECRET_NAME || env.SECRET_NAME,
                   },
                 },
               ],

@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`kosko generate --prod jobs/sitemap-uploader 1`] = `
+exports[`kosko generate --preprod jobs/sitemap-uploader 1`] = `
 "apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     kapp.k14s.io/update-strategy: always-replace
@@ -49,19 +49,20 @@ spec:
 
           env:
             - name: BASE_URL
-              value: https://code.travail.gouv.fr
+              value: https://cdtn-preprod-code-travail.dev2.fabrique.social.gouv.fr
             - name: DESTINATION_CONTAINER
               value: sitemap
             - name: DESTINATION_NAME
-              value: sitemap.xml
+              value: sitemap-preprod.xml
             - name: SITEMAP_ENDPOINT
-              value: https://cdtn-admin.fabrique.social.gouv.fr/api/sitemap
+              value: >-
+                https://preprod-cdtn-admin.dev2.fabrique.social.gouv.fr/api/sitemap
             - name: AZ_ACCOUNT_NAME
               value: $(azurestorageaccountname)
             - name: AZ_ACCOUNT_KEY
               value: $(azurestorageaccountkey)
           envFrom:
             - secretRef:
-                name: azure-cdtnadminprod-volume
+                name: azure-cdtnadmindev-volume
 "
 `;

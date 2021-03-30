@@ -17,7 +17,7 @@
     - .cdtn_base_rules
   stage: Deploy
   environment:
-    name: prod2
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   needs:
     - job: 🛂 k8s test
   variables:
@@ -35,6 +35,6 @@
     - if: "$PRODUCTION && $CI_COMMIT_TAG"
       when: always
   environment:
-    name: prod2
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
     KOSKO_GENERATE_ARGS: --env prod jobs/cleanup-db

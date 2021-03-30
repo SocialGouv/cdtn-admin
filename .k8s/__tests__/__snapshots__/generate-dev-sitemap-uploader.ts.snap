@@ -48,22 +48,21 @@ spec:
               fi
 
           env:
-            - name: CI_JOB_ID
-              value: '424242'
+            - name: BASE_URL
+              value: https://12345689-code-travail.dev2.fabrique.social.gouv.fr/
             - name: DESTINATION_CONTAINER
-              value: destination-container
+              value: sitemap
             - name: DESTINATION_NAME
               value: sitemap.xml
             - name: SITEMAP_ENDPOINT
-              value: https://path/to/sitemap
-            - name: BASE_URL
-              value: https://host.tmp
+              value: >-
+                https://master-dev2-cdtn-admin.dev2.fabrique.social.gouv.fr/api/sitemap
             - name: AZ_ACCOUNT_NAME
               value: $(azurestorageaccountname)
             - name: AZ_ACCOUNT_KEY
               value: $(azurestorageaccountkey)
           envFrom:
             - secretRef:
-                name: azure-volume-dev-secret
+                name: azure-cdtnadmindev-volume
 "
 `;
