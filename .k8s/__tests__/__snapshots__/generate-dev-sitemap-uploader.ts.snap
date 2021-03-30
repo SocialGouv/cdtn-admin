@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`kosko generate --dev jobs/sitemap-uploader 1`] = `
+"apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/update-strategy: always-replace
+  name: sitemap-uploader
+  namespace: cdtn-admin-secret
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      name: sitemap-uploader
+      namespace: cdtn-admin-secret
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: az-sitemap-uploader
+          image: mcr.microsoft.com/azure-cli:2.9.1
+          command:
+            - bash
+          args:
+            - '-c'
+            - |+
+
+              echo \\"Fetch sitemap from $SITEMAP_ENDPOINT\\"
+
+              curl --fail -L $SITEMAP_ENDPOINT -o sitemap.xml
+
+              if [[ -f sitemap.xml ]]; then
+                # replace the default urls hostname if $BASE_URL is given
+                [[ -n $BASE_URL ]] && sed -i -E 's#<loc>https?://[^/]*/#<loc>'$BASE_URL'/#' sitemap.xml
+                # upload
+                echo \\"Upload sitemap to azure/$DESTINATION_CONTAINER/$DESTINATION_NAME\\"
+                az storage blob upload --account-name $AZ_ACCOUNT_NAME --account-key $AZ_ACCOUNT_KEY --container-name $DESTINATION_CONTAINER --file sitemap.xml --name $DESTINATION_NAME
+              else
+                echo \\"Cannot fetch sitemap.xml, abort\\"
+                exit 1
+              fi
+
+          env:
+            - name: CI_JOB_ID
+              value: '424242'
+            - name: DESTINATION_CONTAINER
+              value: destination-container
+            - name: DESTINATION_NAME
+              value: sitemap.xml
+            - name: SITEMAP_ENDPOINT
+              value: https://path/to/sitemap
+            - name: BASE_URL
+              value: https://host.tmp
+            - name: AZ_ACCOUNT_NAME
+              value: $(azurestorageaccountname)
+            - name: AZ_ACCOUNT_KEY
+              value: $(azurestorageaccountkey)
+          envFrom:
+            - secretRef:
+                name: azure-volume-dev-secret
+"
+`;

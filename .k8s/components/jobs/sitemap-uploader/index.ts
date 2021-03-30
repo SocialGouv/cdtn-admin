@@ -1,5 +1,7 @@
 import { ok } from "assert";
+import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { Job } from "kubernetes-models/batch/v1/Job";
+import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 
 // renovate: datasource=docker depName=mcr.microsoft.com/azure-cli versioning=2.9.1
 const AZ_DOCKER_TAG = "2.9.1";
@@ -27,10 +29,17 @@ ok(process.env.DESTINATION_CONTAINER); // sitemap
 ok(process.env.DESTINATION_NAME); // sitemap.xml
 ok(process.env.SECRET_NAME); // azure-cdtnadmindev-volume | azure-cdtnadminprod-volume
 
+const gitlabEnv = gitlab(process.env);
+
 const createSitemapJob = () => {
   const job = new Job({
     metadata: {
-      name: `sitemap-uploader-${process.env.CI_JOB_ID}`,
+      annotations: merge(gitlabEnv.annotations || {}, {
+        "kapp.k14s.io/disable-default-ownership-label-rules": "",
+        "kapp.k14s.io/disable-default-label-scoping-rules": "",
+        "kapp.k14s.io/update-strategy": "always-replace",
+      }),
+      name: `sitemap-uploader`,
       namespace: "cdtn-admin-secret",
     },
 
@@ -38,8 +47,11 @@ const createSitemapJob = () => {
       backoffLimit: 3,
       template: {
         metadata: {
-          name: `sitemap-uploader-${process.env.CI_JOB_ID}`,
+          name: `sitemap-uploader`,
           namespace: "cdtn-admin-secret",
+          annotations: {
+            "kapp.k14s.io/deploy-logs": "for-new-or-existing",
+          },
         },
         spec: {
           restartPolicy: "OnFailure",
@@ -50,6 +62,10 @@ const createSitemapJob = () => {
               command: ["bash"],
               args: ["-c", uploadSitemapScript],
               env: [
+                {
+                  name: "CI_JOB_ID",
+                  value: process.env.CI_JOB_ID,
+                },
                 {
                   name: "DESTINATION_CONTAINER",
                   value: process.env.DESTINATION_CONTAINER,
