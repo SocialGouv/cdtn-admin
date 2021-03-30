@@ -22,6 +22,9 @@
     - job: 🛂 k8s test
   variables:
     KOSKO_GENERATE_ARGS: --env dev jobs/restore
+  before_script:
+    - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
+    - kubectl get job.batch/restore-db-alpha || exit 0
 
 #
 #
