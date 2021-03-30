@@ -20,6 +20,7 @@
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   needs:
     - job: 🛂 k8s test
+  allow_failure: true
   variables:
     KOSKO_GENERATE_ARGS: --env dev jobs/restore
   before_script:
