@@ -383,17 +383,13 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ingester
-  annotations:
-    volume.beta.kubernetes.io/storage-class: ''
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  selector:
-    matchLabels:
-      usage: ingester
+  volumeMode: Filesystem
 ---
 apiVersion: batch/v1
 kind: Job
