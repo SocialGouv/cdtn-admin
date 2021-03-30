@@ -23,8 +23,8 @@
   variables:
     KOSKO_GENERATE_ARGS: --env dev jobs/restore
   before_script:
-    - "[[ -n $FORCE ]] && kubectl -n cdtn-admin-secret delete job -l component=${CI_COMMIT_REF_SLUG} || true"
-    - kubectl -n cdtn-admin-secret get job -l component=${CI_COMMIT_REF_SLUG} && echo "Do not recreate jobs" && exit 0
+    - "[[ -n $FORCE ]] && kubectl -n cdtn-admin-secret delete all -l component=${CI_COMMIT_REF_SLUG} || true"
+    - kubectl -n cdtn-admin-secret get all -l component=${CI_COMMIT_REF_SLUG} && echo "Do not recreate jobs" && exit 0
 
 #
 #
