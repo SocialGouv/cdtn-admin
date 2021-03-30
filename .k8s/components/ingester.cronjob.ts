@@ -17,7 +17,7 @@ const tag = process.env.CI_COMMIT_TAG
 const configMap = loadYaml<ConfigMap>(env, `ingester.configmap.yaml`);
 ok(configMap, "Missing ingester.configmap.yaml");
 const secret = loadYaml<ConfigMap>(env, `ingester.sealed-secret.yaml`);
-ok(configMap, "Missing ingester.sealed-secret.yaml");
+ok(secret, "Missing ingester.sealed-secret.yaml");
 
 const persistentVolumeClaim = new PersistentVolumeClaim({
   metadata: {
