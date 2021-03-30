@@ -10,15 +10,13 @@ metadata:
     app.gitlab.com/env.name: preprod-dev2
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
-    kapp.k14s.io/update-strategy: always-replace
+    kapp.k14s.io/update-strategy: fallback-on-replace
   name: sitemap-uploader
-  namespace: cdtn-admin-secret
 spec:
   backoffLimit: 3
   template:
     metadata:
       name: sitemap-uploader
-      namespace: cdtn-admin-secret
       annotations:
         kapp.k14s.io/deploy-logs: for-new-or-existing
     spec:
