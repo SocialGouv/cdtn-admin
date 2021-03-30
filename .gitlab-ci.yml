@@ -126,7 +126,7 @@ Release:
   variables:
     KOSKO_GENERATE_ARGS: --env dev jobs/sitemap-uploader
     BASE_URL:
-      value: ""
+      value: "https://"
       description: "sitemap base url"
 
 
