@@ -5,12 +5,15 @@ import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { ok } from "assert";
 import env from "@kosko/env";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
+import type { SealedSecret } from "@kubernetes-models/sealed-secrets/bitnami.com/v1alpha1/SealedSecret";
 
 const gitlabEnv = gitlab(process.env);
 const name = "alert";
 
 const configMap = loadYaml<ConfigMap>(env, `alert.configmap.yaml`);
 ok(configMap, "Missing alert.configmap.yaml");
+const secret = loadYaml<SealedSecret>(env, "alert.sealed-secret.yaml");
+ok(secret, "Missing alert.sealed-secret.yaml");
 
 const tag = process.env.CI_COMMIT_TAG
   ? process.env.CI_COMMIT_TAG.slice(1)
@@ -68,6 +71,11 @@ const cronJob = new CronJob({
                       name: configMap.metadata?.name,
                     },
                   },
+                  {
+                    secretRef: {
+                      name: secret.metadata?.name,
+                    },
+                  },
                 ],
                 volumeMounts: [
                   {
@@ -99,4 +107,4 @@ const cronJob = new CronJob({
   },
 });
 
-export default [cronJob];
+export default [configMap, secret, cronJob];
