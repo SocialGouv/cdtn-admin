@@ -428,7 +428,7 @@ spec:
               memory: 560Mi
             requests:
               cpu: 5m
-              memory: 560Mi
+              memory: 256Mi
           startupProbe:
             failureThreshold: 12
             httpGet:

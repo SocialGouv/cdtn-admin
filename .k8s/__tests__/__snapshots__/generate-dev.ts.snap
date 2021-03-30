@@ -358,7 +358,7 @@ spec:
                 - configMapRef:
                     name: ingester
                 - secretRef:
-                    name: azure-pg-user-masterdev2
+                    name: azure-pg-user-master
               volumeMounts:
                 - name: data
                   mountPath: /app/data
@@ -543,7 +543,7 @@ spec:
               memory: 560Mi
             requests:
               cpu: 5m
-              memory: 560Mi
+              memory: 256Mi
           startupProbe:
             failureThreshold: 12
             httpGet:

@@ -6,6 +6,7 @@ import { PersistentVolumeClaim } from "kubernetes-models/v1/PersistentVolumeClai
 import { ok } from "assert";
 import env from "@kosko/env";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
+import { PG_ENVIRONMENT_SLUG } from "../utils/PG_ENVIRONMENT_SLUG";
 
 const gitlabEnv = gitlab(process.env);
 const name = "ingester";
@@ -15,9 +16,7 @@ const name = "ingester";
 ok(process.env.CI_ENVIRONMENT_SLUG, "Missing CI_ENVIRONMENT_SLUG");
 
 const pgSecretRefName =
-  env.env === "dev"
-    ? `azure-pg-user-${process.env.CI_ENVIRONMENT_SLUG.replace(/-/g, "")}`
-    : "azure-pg-user";
+  env.env === "dev" ? `azure-pg-user-${PG_ENVIRONMENT_SLUG}` : "azure-pg-user";
 
 const tag = process.env.CI_COMMIT_TAG
   ? process.env.CI_COMMIT_TAG.slice(1)
