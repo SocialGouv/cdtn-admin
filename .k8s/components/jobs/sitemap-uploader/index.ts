@@ -33,7 +33,7 @@ const createSitemapJob = () => {
       annotations: merge(gitlabEnv.annotations || {}, {
         "kapp.k14s.io/disable-default-ownership-label-rules": "",
         "kapp.k14s.io/disable-default-label-scoping-rules": "",
-        "kapp.k14s.io/update-strategy": "always-replace",
+        "kapp.k14s.io/update-strategy": "fallback-on-replace",
       }),
       name: `sitemap-uploader`,
       namespace: "cdtn-admin-secret",
