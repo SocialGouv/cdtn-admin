@@ -74,7 +74,6 @@ Stop review:
     - yarn --silent --cwd .k8s dropdb > ${CI_PROJECT_DIR}/manifest.yaml
     - kapp -y deploy -a ${CI_PROJECT_NAME} --namespace ${KUBE_NAMESPACE} -f ${CI_PROJECT_DIR}/manifest.yaml
     - kapp -y delete -a ${CI_PROJECT_NAME} --namespace ${KUBE_NAMESPACE}
-    - kubectl delete namespace "${KUBE_NAMESPACE}" || true
   artifacts:
     expire_in: 1 week
     paths:
