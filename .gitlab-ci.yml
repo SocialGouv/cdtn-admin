@@ -87,6 +87,13 @@ Stop review:
 #
 #
 
+Trigger Release:
+  trigger:
+    project: ${CI_PROJECT_ID}
+    strategy: depend
+  variables:
+    RELEASE: 🛤️
+
 Release:
   extends:
     - .autodevops_release
