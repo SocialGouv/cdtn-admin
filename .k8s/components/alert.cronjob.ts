@@ -21,7 +21,10 @@ const tag = process.env.CI_COMMIT_TAG
 
 const cronJob = new CronJob({
   metadata: {
-    annotations: gitlabEnv.annotations,
+    annotations: merge(gitlabEnv.annotations || {}, {
+      "kapp.k14s.io/disable-default-ownership-label-rules": "",
+      "kapp.k14s.io/disable-default-label-scoping-rules": "",
+    }),
     labels: merge(
       {
         app: name,
@@ -39,6 +42,11 @@ const cronJob = new CronJob({
       spec: {
         backoffLimit: 0,
         template: {
+          metadata: {
+            annotations: {
+              "kapp.k14s.io/deploy-logs": "for-new-or-existing",
+            },
+          },
           spec: {
             containers: [
               {

@@ -54,6 +54,8 @@ metadata:
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
     app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     app: alert
     application: jean-mich-jeune-123456-cdtn-admin
@@ -69,6 +71,9 @@ spec:
     spec:
       backoffLimit: 0
       template:
+        metadata:
+          annotations:
+            kapp.k14s.io/deploy-logs: for-new-or-existing
         spec:
           containers:
             - name: update-alert
@@ -306,6 +311,8 @@ metadata:
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: jean-mich-jeune-123456
     app.gitlab.com/env.name: jean-mich/Jeune-homme-a-la-roses-1.2.3
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     app: ingester
     application: jean-mich-jeune-123456-cdtn-admin
@@ -321,6 +328,9 @@ spec:
     spec:
       backoffLimit: 0
       template:
+        metadata:
+          annotations:
+            kapp.k14s.io/deploy-logs: for-new-or-existing
         spec:
           containers:
             - name: update-ingester

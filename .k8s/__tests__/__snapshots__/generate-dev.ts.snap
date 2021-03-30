@@ -55,6 +55,8 @@ metadata:
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: master-dev2
     app.gitlab.com/env.name: master-dev2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     app: alert
     application: master-dev2-cdtn-admin
@@ -71,6 +73,9 @@ spec:
     spec:
       backoffLimit: 0
       template:
+        metadata:
+          annotations:
+            kapp.k14s.io/deploy-logs: for-new-or-existing
         spec:
           containers:
             - name: update-alert
@@ -314,6 +319,8 @@ metadata:
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: master-dev2
     app.gitlab.com/env.name: master-dev2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     app: ingester
     application: master-dev2-cdtn-admin
@@ -330,6 +337,9 @@ spec:
     spec:
       backoffLimit: 0
       template:
+        metadata:
+          annotations:
+            kapp.k14s.io/deploy-logs: for-new-or-existing
         spec:
           containers:
             - name: update-ingester
