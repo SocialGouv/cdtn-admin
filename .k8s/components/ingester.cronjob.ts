@@ -1,9 +1,11 @@
 import { CronJob } from "kubernetes-models/batch/v1beta1/CronJob";
+import { ConfigMap } from "kubernetes-models/v1/ConfigMap";
 import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { PersistentVolumeClaim } from "kubernetes-models/v1/PersistentVolumeClaim";
 import { ok } from "assert";
 import env from "@kosko/env";
+import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 
 const gitlabEnv = gitlab(process.env);
 const name = "ingester";
@@ -20,6 +22,9 @@ const pgSecretRefName =
 const tag = process.env.CI_COMMIT_TAG
   ? process.env.CI_COMMIT_TAG.slice(1)
   : process.env.CI_COMMIT_SHA;
+
+const configMap = loadYaml<ConfigMap>(env, `ingester.configmap.yaml`);
+ok(configMap, "Missing ingester.configmap.yaml");
 
 const persistentVolumeClaim = new PersistentVolumeClaim({
   metadata: {
@@ -80,12 +85,13 @@ const cronJob = new CronJob({
                         },
                       ]
                     : []),
-                  {
-                    name: "HASURA_GRAPHQL_ENDPOINT",
-                    value: "http://hasura/v1/graphql",
-                  },
                 ],
                 envFrom: [
+                  {
+                    configMapRef: {
+                      name: configMap.metadata?.name,
+                    },
+                  },
                   {
                     secretRef: {
                       name: pgSecretRefName,
@@ -132,4 +138,4 @@ const cronJob = new CronJob({
   },
 });
 
-export default [cronJob, persistentVolumeClaim];
+export default [configMap, cronJob, persistentVolumeClaim];
