@@ -28,12 +28,23 @@ ok(configMap, "Missing ingester.configmap.yaml");
 const persistentVolumeClaim = new PersistentVolumeClaim({
   metadata: {
     name,
+    //  Set this annotation to NOT let Kubernetes automatically create
+    //  a persistent volume for this volume claim.
+    annotations: {
+      "volume.beta.kubernetes.io/storage-class": "",
+    },
   },
   spec: {
     accessModes: ["ReadWriteOnce"],
     resources: {
       requests: {
         storage: "2Gi",
+      },
+    },
+    selector: {
+      // To make sure we match the claim with the exact volume, match the label
+      matchLabels: {
+        usage: name,
       },
     },
   },
