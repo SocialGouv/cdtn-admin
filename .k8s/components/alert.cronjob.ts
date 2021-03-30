@@ -1,10 +1,16 @@
 import { CronJob } from "kubernetes-models/batch/v1beta1/CronJob";
+import { ConfigMap } from "kubernetes-models/v1/ConfigMap";
 import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
-import { PersistentVolumeClaim } from "kubernetes-models/v1/PersistentVolumeClaim";
+import { ok } from "assert";
+import env from "@kosko/env";
+import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 
 const gitlabEnv = gitlab(process.env);
 const name = "alert";
+
+const configMap = loadYaml<ConfigMap>(env, `alert.configmap.yaml`);
+ok(configMap, "Missing alert.configmap.yaml");
 
 const tag = process.env.CI_COMMIT_TAG
   ? process.env.CI_COMMIT_TAG.slice(1)
@@ -47,19 +53,19 @@ const cronJob = new CronJob({
                 },
                 workingDir: "/app",
                 env: [
-                  {
-                    name: "PRODUCTION",
-                    value: process.env.PRODUCTION,
-                  },
-                  {
-                    name: "HASURA_GRAPHQL_ENDPOINT",
-                    value: "http://hasura/v1/graphql",
-                  },
+                  ...(process.env.PRODUCTION
+                    ? [
+                        {
+                          name: "PRODUCTION",
+                          value: process.env.PRODUCTION,
+                        },
+                      ]
+                    : []),
                 ],
                 envFrom: [
                   {
-                    secretRef: {
-                      name: "cdtn-admin-secrets",
+                    configMapRef: {
+                      name: configMap.metadata?.name,
                     },
                   },
                 ],

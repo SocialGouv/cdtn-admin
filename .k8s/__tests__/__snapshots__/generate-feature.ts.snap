@@ -56,14 +56,10 @@ spec:
                   cpu: 2000m
                   memory: 3Gi
               workingDir: /app
-              env:
-                - name: PRODUCTION
-                  value: ''
-                - name: HASURA_GRAPHQL_ENDPOINT
-                  value: http://hasura/v1/graphql
+              env: []
               envFrom:
-                - secretRef:
-                    name: cdtn-admin-secrets
+                - configMapRef:
+                    name: alert
               volumeMounts:
                 - name: tz-paris
                   mountPath: /etc/localtime
