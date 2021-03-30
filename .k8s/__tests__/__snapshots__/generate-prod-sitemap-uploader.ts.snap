@@ -4,14 +4,21 @@ exports[`kosko generate --prod jobs/sitemap-uploader 1`] = `
 "apiVersion: batch/v1
 kind: Job
 metadata:
-  name: sitemap-uploader-424242
-  namespace: cdtn-admin-secret
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/update-strategy: fallback-on-replace
+  name: sitemap-uploader
 spec:
   backoffLimit: 3
   template:
     metadata:
-      name: sitemap-uploader-424242
-      namespace: cdtn-admin-secret
+      name: sitemap-uploader
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
     spec:
       restartPolicy: OnFailure
       containers:
@@ -39,20 +46,20 @@ spec:
               fi
 
           env:
+            - name: BASE_URL
+              value: https://code.travail.gouv.fr
             - name: DESTINATION_CONTAINER
-              value: destination-container
+              value: sitemap
             - name: DESTINATION_NAME
               value: sitemap.xml
             - name: SITEMAP_ENDPOINT
-              value: https://path/to/sitemap
-            - name: BASE_URL
-              value: https://host.tmp
+              value: https://cdtn-admin.fabrique.social.gouv.fr/api/sitemap
             - name: AZ_ACCOUNT_NAME
               value: $(azurestorageaccountname)
             - name: AZ_ACCOUNT_KEY
               value: $(azurestorageaccountkey)
           envFrom:
             - secretRef:
-                name: azure-volume-dev-secret
+                name: azure-cdtnadminprod-volume
 "
 `;

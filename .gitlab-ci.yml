@@ -1,10 +1,7 @@
 include:
   - project: SocialGouv/gitlab-ci-yml
-    file: /autodevops_simple_app.yml
-    ref: v16.2.0
-  - project: SocialGouv/gitlab-ci-yml
-    file: /base_deploy_kosko_stage.yml
-    ref: v20.6.1
+    file: /base_autodevops.yml
+    ref: v20.7.14
   #
   - /shared/logger/.gitlab-ci.yml
   - /shared/elasticsearch-document-adapter/.gitlab-ci.yml
@@ -15,122 +12,81 @@ include:
   - /targets/frontend/.gitlab-ci.yml
   - /targets/ingester-elasticsearch/.gitlab-ci.yml
 
-# Interruptible jobs
-# - Install
-# - Test
-# - Lint
-# - Build
-# - Register
 
-workflow:
-  rules:
-    # Skip GitHub pull requests pipelines
-    - if: $CI_PIPELINE_SOURCE == 'external_pull_request_event'
-      when: never
-    # Otherwise include the job and set to run normally
-    - when: always
+#
+#
+#
 
 variables:
-  ENABLE_AZURE_POSTGRES: 1
+  AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
 
-K8S Test:
+#
+#
+#
+
+.cdtn_base_rules:
+  interruptible: true
   needs: []
   interruptible: true
   rules:
-    - if: "$PRODUCTION || $RELEASE"
+    - if: $PRODUCTION || $RELEASE
       when: never
-    - exists:
-        - .k8s/package.json
+    - if: $UPDATE_ES_INDEX
+      when: never
+    - if: $CI_COMMIT_MESSAGE =~ /^chore(release):*/
+      when: never
+    - when: on_success
+
+#
+#
+#
+
+🛂 k8s test:
   extends:
     - .base_kosko_k8s_test
+    - .cdtn_base_rules
+  stage: .pre
 
-Create namespace:
-  extends:
-    - .autodevops_create_namespace
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
-  after_script:
-    # Copy namespace default creds
-    - kubectl get secret cdtn-admin-secrets --namespace=cdtn-admin-secret --export -o yaml |
-      kubectl apply --namespace=${K8S_NAMESPACE} -f -
-    - kubectl get secret azure-cdtnadmindev-volume --namespace=cdtn-admin-secret --export -o yaml |
-      kubectl apply --namespace=${K8S_NAMESPACE} -f -
-
-Create Azure DB (dev):
-  extends: .autodevops_create_azure_db_dev
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
-  variables:
-    NEW_DB_EXTENSIONS: "pgcrypto hstore citext"
-
-Drop Azure DB (dev):
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
+#
+#
 #
 
+# Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L326-L347
 Stop review:
-  extends: .autodevops_stop_review
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
-
-Notify Success (prod):
-  extends: .autodevops_notify_success_prod
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-prod2
-
-Notify Fail (prod):
-  extends: .autodevops_notify_fail_prod
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-prod2
-
-Notify Success (review):
-  extends: .autodevops_notify_success_review
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
-
-Notify Fail (review):
-  extends: .autodevops_notify_fail_review
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
+  extends:
+    - .autodevops_stop_review
+  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/no-k8s:5.0.1
+  cache:
+    key:
+      files:
+        - .k8s/yarn.lock
+      prefix: k8s
+    paths:
+      - .cache
+      - .k8s/node_modules
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - yarn config set cache-folder ${CI_PROJECT_DIR}/.cache/yarn
+    - yarn global add degit
+    - yarn exec degit "SocialGouv/kosko-charts/templates/autodevops#v5.2.0-alpha.5" .k8s
+    - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
+    - yarn --silent --cwd .k8s dropdb > ${CI_PROJECT_DIR}/manifest.yaml
+    - kapp -y deploy -a ${CI_PROJECT_NAME} --namespace ${KUBE_NAMESPACE} -f ${CI_PROJECT_DIR}/manifest.yaml
+    - kapp -y delete -a ${CI_PROJECT_NAME} --namespace ${KUBE_NAMESPACE}
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - manifest.yaml
+    when: always
 
 #
-
-Install:
-  only:
-    - never
-
-Build:
-  needs: []
-  only:
-    - never
-Test:
-  needs: []
-  only:
-    - never
-Lint:
-  needs: []
-  only:
-    - never
-
-Register image:
-  only:
-    - never
-
-Deploy app (dev):
-  only:
-    - never
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
-
-Deploy app (prod):
-  only:
-    - never
+#
+#
 
 Release:
-  needs:
-    - job: Build logger
-      artifacts: true
-  dependencies: null
+  extends:
+    - .autodevops_release
   variables:
     SEMANTIC_RELEASE_PLUGINS: |-
       @semantic-release/changelog
@@ -139,92 +95,60 @@ Release:
   before_script:
     - npm config set access public
     - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-
+    # Use github as origin
+    # see https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_semantic_release_stage.yml#L20-L22
     - git remote set-url origin https://${GITHUB_TOKEN}@github.com/${CI_PROJECT_PATH}.git
 
     - yarn global add lerna
 
+
+#
+#
 #
 
-# todo: restrict to branches ?
-Restore data:
+.generate_sitemap:
+  extends:
+    - .base_deploy_kosko_stage
+    - .cdtn_base_rules
   stage: Deploy
-  only:
-    - branches
-  except:
-    - master
-    - tags
-  extends:
-    - .base_deploy_kosko_stage
-  environment:
-    name: prod2
-  needs:
-    - job: Create Azure DB (dev)
-    - job: K8S Test
-  dependencies: null
-  variables:
-    # storage copy
-    SOURCE_CONTAINER: "cdtn"
-    SOURCE_SERVER: "dev"
-    DESTINATION_CONTAINER: "cdtn-dev"
-    DESTINATION_SERVER: "dev"
-    # db restore
-    BACKUP_DB_NAME: "db_${CI_COMMIT_SHORT_SHA}"
-    BACKUP_DB_OWNER: "user_${CI_COMMIT_SHORT_SHA}"
-    BACKUP_DB_FILE: "hasura_prod_db.psql.gz"
-    # kosko options
-    KOSKO_GENERATE_ARGS: --env prod jobs/restore
+  allow_failure: true
 
-Generate sitemap (prod):
-  stage: Install
-  needs: []
+🚩 Generate sitemap (review):
   extends:
-    - .base_deploy_kosko_stage
+    - .generate_sitemap
   rules:
-    - if: '($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "web") && $ACTION == "SITEMAP"'
-      when: always
-    - if: '($CI_COMMIT_TAG || $CI_COMMIT_REF_SLUG == "master")'
-      when: manual
-      allow_failure: true
-    - when: never
+    - if: "$PRODUCTION || $RELEASE || $CI_COMMIT_TAG"
+      when: never
+    - when: manual
   environment:
-    name: prod2
+    name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
+    url: https://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
   variables:
-    SITEMAP_ENDPOINT: "https://cdtn-admin.fabrique.social.gouv.fr/api/sitemap"
-    DESTINATION_CONTAINER: sitemap
-    DESTINATION_NAME: sitemap.xml
-    SECRET_NAME: azure-cdtnadminprod-volume
-    KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
-
-Generate sitemap (dev):
-  stage: Install
-  needs: []
-  extends:
-    - .base_deploy_kosko_stage
-  rules:
-    - if: '($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "web") && $ACTION == "SITEMAP"'
-      when: always
-    - if: '($CI_COMMIT_TAG == "" || $CI_COMMIT_REF_SLUG != "master")'
-      when: manual
-      allow_failure: true
-    - when: never
-  environment:
-    name: prod2
-  variables:
-    SITEMAP_ENDPOINT: "https://cdtn-admin.fabrique.social.gouv.fr/api/sitemap"
-    DESTINATION_CONTAINER: sitemap
-    DESTINATION_NAME: sitemap.xml
-    SECRET_NAME: azure-cdtnadmindev-volume
     KOSKO_GENERATE_ARGS: --env dev jobs/sitemap-uploader
 
-Cleanup db cronjob (prod):
-  stage: Deploy
+🚩 Generate sitemap (preprod):
   extends:
-    - .base_deploy_kosko_stage
-  only:
-    - master
-  needs: []
+    - .generate_sitemap
+  rules:
+    - if: "$PRODUCTION || $RELEASE"
+      when: never
+    - if: "$CI_COMMIT_TAG"
+      when: manual
   environment:
-    name: prod2
+    name: preprod${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
+    url: https://preprod-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
   variables:
-    KOSKO_GENERATE_ARGS: --env prod jobs/cleanup-db
+    KOSKO_GENERATE_ARGS: --env preprod jobs/sitemap-uploader
+
+🚩 Generate sitemap (prod):
+  extends:
+    - .generate_sitemap
+  rules:
+    - if: '$CI_COMMIT_TAG && $PRODUCTION'
+      when: manual
+    - when: never
+  environment:
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
+    url: https://${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
+  variables:
+    KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader

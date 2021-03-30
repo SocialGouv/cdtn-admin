@@ -1,18 +1,24 @@
-Install alert:
-  extends: .autodevops_install
-  interruptible: true
+⚓ alert:
+  extends:
+    - .autodevops_install
+    - .cdtn_base_rules
   image: node:14.16.0-alpine3.11
-  needs: []
   cache:
-    key:
-      files:
-        - yarn.lock
-      prefix: ${CI_JOB_NAME}
+    key: ${CI_JOB_NAME}-${CI_COMMIT_REF_SLUG}
     paths:
-      - yarn
+      - .cache
+  variables:
+    CACHE_COMPRESSION_LEVEL: fastest
+    CACHE_FALLBACK_KEY: ${CI_JOB_NAME}-${CI_DEFAULT_BRANCH}
+    FF_USE_FASTZIP: "true"
   script:
-    - yarn config set cache-folder $CI_PROJECT_DIR/yarn
-    - npx @socialgouv/yarn-workspace-focus-install --cwd targets/alert-cli
+    - yarn config set cache-folder ${CI_PROJECT_DIR}/.cache/yarn
+    - yarn global add @socialgouv/yarn-workspace-focus-install
+    - yarn exec yarn-workspace-focus-install
+      --
+      --cwd targets/alert-cli
+      --
+      --frozen-lockfile --prefer-offline
   artifacts:
     expire_in: 1 week
     paths:
@@ -23,22 +29,22 @@ Install alert:
 #
 #
 
-Test alert:
-  extends: .autodevops_test
-  interruptible: true
-  dependencies: null
+🧪 alert:
+  extends:
+    - .autodevops_test
+    - .cdtn_base_rules
   needs:
-    - job: Install alert
+    - job: ⚓ alert
       artifacts: true
   before_script:
     - cd targets/alert-cli
 
-Lint www:
-  extends: .autodevops_lint
-  interruptible: true
-  dependencies: null
+🧻 alert:
+  extends:
+    - .autodevops_lint
+    - .cdtn_base_rules
   needs:
-    - job: Install alert
+    - job: ⚓ alert
       artifacts: true
   before_script:
     - cd targets/alert-cli
@@ -47,12 +53,12 @@ Lint www:
 #
 #
 
-Build alert:
+🎯 alert:
   extends: .base_yarn_script
   interruptible: true
   image: node:14.16.0-alpine3.11
   needs:
-    - job: Install alert
+    - job: ⚓ alert
       artifacts: true
   before_script:
     - cd targets/alert-cli
@@ -67,12 +73,12 @@ Build alert:
 #
 #
 
-Register alert:
+🗃 alert:
   extends: .autodevops_register_image
   interruptible: true
   dependencies: null
   needs:
-    - job: Build alert
+    - job: 🎯 alert
       artifacts: true
   variables:
     CONTEXT: .
@@ -80,44 +86,16 @@ Register alert:
       --shm-size 512M
       -f ./targets/alert-cli/Dockerfile
     IMAGE_NAME: $CI_REGISTRY_IMAGE/alert
-
-#
-#
-#
-
-.deploy_alert_stage:
-  script:
-    - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
-    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
-    - envsubst < targets/alert-cli/.k8s/alert.cronjob.yaml | kubectl apply -f -
-
-Deploy alert (dev):
-  extends:
-    - .autodevops_deploy_app_dev
-    - .deploy_alert_stage
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
-
-Deploy alert (prod):
-  extends:
-    - .autodevops_deploy_app_prod
-    - .deploy_alert_stage
-  environment:
-    name: prod2
-  variables:
-    PRODUCTION: "true"
-
 #
 #
 #
 
 .trigger_alert_cron:
-  when: manual
   script:
     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
     - JOB_NAME="triggered-from-job-${CI_JOB_ID}-${RANDOM}"
-    - kubectl create job --from=cronjob/alert "${JOB_NAME}"
+    - kubectl create job --from=cronjob.batch/alert "${JOB_NAME}"
 
     - timeout 15m
       bash -c "
@@ -132,16 +110,35 @@ Deploy alert (prod):
     - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
     - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
 
-Trigger alert (dev):
+🚩 Trigger alert (review):
   extends:
-    - .autodevops_deploy_app_dev
+    - .autodevops_review
     - .trigger_alert_cron
+  rules:
+    - if: "$PRODUCTION || $RELEASE || $CI_COMMIT_TAG"
+      when: never
+    - when: manual
   environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
+    name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
 
-Trigger alert (prod):
+🚩 Trigger alert (preprod):
   extends:
-    - .autodevops_deploy_app_prod
+    - .autodevops_preprod
     - .trigger_alert_cron
+  rules:
+    - if: "$PRODUCTION || $RELEASE"
+      when: never
+    - if: "$CI_COMMIT_TAG"
+      when: manual
   environment:
-    name: prod2
+    name: preprod${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
+
+🚩 Trigger alert (prod):
+  extends:
+    - .autodevops_production
+    - .trigger_alert_cron
+  rules:
+    - if: "$PRODUCTION && $CI_COMMIT_TAG"
+      when: manual
+  environment:
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}

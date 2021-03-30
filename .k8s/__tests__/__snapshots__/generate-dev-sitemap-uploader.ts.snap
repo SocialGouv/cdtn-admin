@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`kosko generate --dev jobs/sitemap-uploader 1`] = `
+"apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/update-strategy: fallback-on-replace
+  name: sitemap-uploader
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      name: sitemap-uploader
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: az-sitemap-uploader
+          image: mcr.microsoft.com/azure-cli:2.9.1
+          command:
+            - bash
+          args:
+            - '-c'
+            - |+
+
+              echo \\"Fetch sitemap from $SITEMAP_ENDPOINT\\"
+
+              curl --fail -L $SITEMAP_ENDPOINT -o sitemap.xml
+
+              if [[ -f sitemap.xml ]]; then
+                # replace the default urls hostname if $BASE_URL is given
+                [[ -n $BASE_URL ]] && sed -i -E 's#<loc>https?://[^/]*/#<loc>'$BASE_URL'/#' sitemap.xml
+                # upload
+                echo \\"Upload sitemap to azure/$DESTINATION_CONTAINER/$DESTINATION_NAME\\"
+                az storage blob upload --account-name $AZ_ACCOUNT_NAME --account-key $AZ_ACCOUNT_KEY --container-name $DESTINATION_CONTAINER --file sitemap.xml --name $DESTINATION_NAME
+              else
+                echo \\"Cannot fetch sitemap.xml, abort\\"
+                exit 1
+              fi
+
+          env:
+            - name: BASE_URL
+              value: https://12345689-code-travail.dev2.fabrique.social.gouv.fr/
+            - name: DESTINATION_CONTAINER
+              value: sitemap
+            - name: DESTINATION_NAME
+              value: sitemap.xml
+            - name: SITEMAP_ENDPOINT
+              value: >-
+                https://master-dev2-cdtn-admin.dev2.fabrique.social.gouv.fr/api/sitemap
+            - name: AZ_ACCOUNT_NAME
+              value: $(azurestorageaccountname)
+            - name: AZ_ACCOUNT_KEY
+              value: $(azurestorageaccountkey)
+          envFrom:
+            - secretRef:
+                name: azure-cdtnadmindev-volume
+"
+`;

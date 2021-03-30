@@ -1,7 +1,7 @@
 import sendmail from "./sendmail";
 
 const BASE_URL =
-  process.env.CI_ENVIRONMENT_URL || `http://localhost:${process.env.PORT}`;
+  process.env.FRONTEND_HOST || `http://localhost:${process.env.PORT}`;
 
 export function sendLostPasswordEmail(email, secret_token) {
   const activateUrl = `${BASE_URL}/change_password?token=${secret_token}`; // todo: dynamic hostname

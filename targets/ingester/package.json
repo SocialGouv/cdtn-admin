@@ -51,12 +51,12 @@
   "private": true,
   "scripts": {
     "build": "ncc build ./src/cli.js -o ./dist -s",
-    "cli": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
     "cli:dev": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node -r esm src/cli.js",
-    "cli:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node --enable-source-maps --unhandled-rejections=strict dist/index.js",
+    "cli:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 yarn start",
     "lint": "eslint src/**/*.js",
-    "types": "tsc",
-    "test": "jest --passWithNoTests"
+    "start": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
+    "test": "jest --passWithNoTests",
+    "types": "tsc"
   },
   "jest": {
     "clearMocks": true,
