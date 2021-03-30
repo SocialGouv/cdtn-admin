@@ -41,12 +41,6 @@ const persistentVolumeClaim = new PersistentVolumeClaim({
         storage: "2Gi",
       },
     },
-    selector: {
-      // To make sure we match the claim with the exact volume, match the label
-      matchLabels: {
-        usage: name,
-      },
-    },
   },
 });
 
