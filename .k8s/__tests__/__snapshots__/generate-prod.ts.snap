@@ -199,7 +199,6 @@ metadata:
     team: cdtn-admin
   namespace: cdtn-admin
 data:
-  ACCOUNT_EMAIL_WEBHOOK_URL: http://www/api/webhooks/account
   API_URL: http://www/api
   HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
   HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
@@ -468,8 +467,9 @@ data:
   GITLAB_URL: https://gitlab.factory.social.gouv.fr/api/v4
   HASURA_GRAPHQL_ENDPOINT: http://hasura/v1/graphql
   JWT_TOKEN_EXPIRES: '15'
+  REFRESH_TOKEN_EXPIRES: '43200'
   NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES: '10080'
-  NEXT_PUBLIC_REFRESH_TOKEN_EXPIRES: '43200'
+  NEXT_PUBLIC_CONTAINER_NAME: cdtn-dev
   NODE_ENV: production
 ---
 apiVersion: v1

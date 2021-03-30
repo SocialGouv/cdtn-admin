@@ -3,11 +3,10 @@ apiVersion: v1
 metadata:
   name: hasura
 data:
-  ACCOUNT_EMAIL_WEBHOOK_URL: "http://www/api/webhooks/account"
   API_URL: "http://www/api"
+  PUBLICATION_WEBHOOK_URL: "http://www/api/webhooks/publication"
   HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
   HASURA_GRAPHQL_ENABLED_LOG_TYPES: "startup, http-log, webhook-log, websocket-log, query-log"
   HASURA_GRAPHQL_NO_OF_RETRIES: "5"
   HASURA_GRAPHQL_SERVER_PORT: "80"
   HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "public"
-  PUBLICATION_WEBHOOK_URL: "http://www/api/webhooks/publication"

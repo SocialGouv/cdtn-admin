@@ -7,7 +7,7 @@ const projectId = process.env.GITLAB_PROJECT_ID;
 const accessToken = process.env.GITLAB_ACCESS_TOKEN;
 const token = process.env.GITLAB_TRIGGER_TOKEN;
 
-export function getPipelines({ ref = "master", since }) {
+export function getPipelines(ref = "master", since) {
   if (!since) {
     since = subHours(new Date(), 2);
   }
