@@ -125,6 +125,10 @@ Release:
     url: https://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
   variables:
     KOSKO_GENERATE_ARGS: --env dev jobs/sitemap-uploader
+    BASE_URL:
+      value: ""
+      description: "sitemap base url"
+
 
 🚩 Generate sitemap (preprod):
   extends:
