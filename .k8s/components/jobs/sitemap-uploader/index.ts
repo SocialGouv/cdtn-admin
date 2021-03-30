@@ -44,7 +44,6 @@ const createSitemapJob = () => {
       template: {
         metadata: {
           name: `sitemap-uploader`,
-          namespace: "cdtn-admin-secret",
           annotations: {
             "kapp.k14s.io/deploy-logs": "for-new-or-existing",
           },
