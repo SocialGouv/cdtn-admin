@@ -22,9 +22,8 @@ query getPipelines {
 
 const pipelineMutation = `
 mutation trigger_pipeline($env:String!) {
-  pipelines(env: $env) {
+  trigger_pipeline(env: $env) {
     message
-    status
   }
 }
 `;
@@ -32,24 +31,27 @@ mutation trigger_pipeline($env:String!) {
 export function GitlabButton({ env, children }) {
   const [status, setStatus] = useState("disabled");
   const client = useClient();
-  const { error, data, mutate } = useSWR(pipelineQuery, (query) =>
-    client
-      .query(query, {
-        requestPolicy: "cache-and-network",
-      })
+  const { error, data, mutate } = useSWR(pipelineQuery, (query) => {
+    return client
+      .query(query)
       .toPromise()
       .then((result) => {
-        if (result.error) return Promise.reject(error);
-        return result.data;
-      })
-  );
+        if (error) {
+          throw error;
+        }
+        return result.data.pipelines;
+      });
+  });
 
   function clickHandler() {
     if (isDisabled) {
       return;
     }
     setStatus("pending");
-    client.mutation(pipelineMutation, { env }).subscribe((result) => {
+    client.mutation(pipelineMutation, { env }).toPromise((result) => {
+      if (result.error) {
+        setStatus("error");
+      }
       if (result.data) {
         mutate(pipelineQuery);
       }
@@ -57,18 +59,17 @@ export function GitlabButton({ env, children }) {
   }
 
   useEffect(() => {
-    if (!error && data) {
-      if (data[env] === false) {
-        setStatus("ready");
-      }
-      if (data[env] === true) {
-        setStatus("pending");
-      }
+    if (data?.[env] === false) {
+      setStatus("ready");
+    }
+    if (data?.[env] === true) {
+      setStatus("pending");
     }
   }, [env, data, error]);
 
   const isDisabled =
     status === "disabled" || status === "pending" || status === "error";
+
   return (
     <ConfirmButton disabled={isDisabled} onClick={clickHandler}>
       {status === "pending" && <MdTimelapse />}

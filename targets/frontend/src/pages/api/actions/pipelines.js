@@ -1,4 +1,4 @@
-import Boom from "@hapi/boom";
+import Boom, { boomify } from "@hapi/boom";
 import { apiError } from "src/lib/apiError";
 import { getPipelines, getPipelineVariables } from "src/lib/gitlab.api";
 
@@ -47,6 +47,8 @@ export default async function ActivateAccount(req, res) {
     res.json(runningDeployementPipeline);
   } catch (error) {
     console.error(`[actions] get pipelines failed`, error);
-    apiError(res, Boom.serverUnavailable(`[actions] can't retrieve pipelines`));
+    res
+      .status(error.status)
+      .json({ code: error.status, message: "[actions]: can't get pipelines" });
   }
 }
