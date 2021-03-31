@@ -208,20 +208,20 @@ Release:
     - apk add --update --no-cache git
     - git fetch -q -p
     - yarn changed list
-      --git-range "alpha"
+      --git-range "origin/alpha"
       --include "${PACKAGE}"
       --json | grep -v "${PACKAGE}"
 
     - test -d node_modules &&
       (
       yarn changed list
-      --git-range "alpha"
+      --git-range "origin/alpha"
       --include "${PACKAGE}"
       --json |
       grep -vq "${PACKAGE}"
       )  &&
       echo "Unchanged. Skip !" && exit 0
-    # - yarn changed list --git-range "${CI_DEFAULT_BRANCH}" --include ${PACKAGE} --json | grep "${PACKAGE}" || echo "Unchanged. Skip !" && exit 0
+    # - yarn changed list --git-range "origin/${CI_DEFAULT_BRANCH}" --include ${PACKAGE} --json | grep "${PACKAGE}" || echo "Unchanged. Skip !" && exit 0
     - yarn workspaces focus ${PACKAGE}
   artifacts:
     expire_in: 1 week

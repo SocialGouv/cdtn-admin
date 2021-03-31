@@ -18,22 +18,23 @@
       - .yarn
       - shared/logger/lib
   script:
+    - apk add --update --no-cache git
     - git fetch -q -p
-    - yarn changed list --git-range "alpha" --include "@socialgouv/cdtn-logger" --json
-    - yarn changed list --git-range "alpha" --include "@socialgouv/cdtn-logger" --json
-    - yarn changed list --git-range "alpha" --include "@socialgouv/cdtn-logger" --json | grep -vq "@socialgouv/cdtn-logger"
+    - yarn changed list --git-range "origin/alpha" --include "@socialgouv/cdtn-logger" --json
+    - yarn changed list --git-range "origin/alpha" --include "@socialgouv/cdtn-logger" --json
+    - yarn changed list --git-range "origin/alpha" --include "@socialgouv/cdtn-logger" --json | grep -vq "@socialgouv/cdtn-logger"
 
     - test -d shared/logger/lib &&
       (
       yarn changed list
-      --git-range "alpha"
+      --git-range "origin/alpha"
       --include "@socialgouv/cdtn-logger"
       --json |
       grep -vq "@socialgouv/cdtn-logger"
       ) &&
       echo "Unchanged. Skip !" && exit 0
 
-    # - yarn changed list --git-range "${CI_DEFAULT_BRANCH}" --include @socialgouv/cdtn-logger --json | grep "@socialgouv/cdtn-logger" || echo "Unchanged. Skip !" && exit 0
+    # - yarn changed list --git-range "origin/${CI_DEFAULT_BRANCH}" --include @socialgouv/cdtn-logger --json | grep "@socialgouv/cdtn-logger" || echo "Unchanged. Skip !" && exit 0
     - yarn workspaces focus @socialgouv/cdtn-logger
     #
     # NOTE(douglasduteil): group a pipeline in one job
