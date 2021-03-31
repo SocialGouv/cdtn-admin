@@ -18,7 +18,8 @@
       - .yarn
       - shared/logger/lib
   script:
-    - yarn changed list
+    - test -d shared/logger/lib &&
+      yarn changed list
       --git-range "alpha"
       --include @socialgouv/cdtn-logger
       --json | grep "@socialgouv/cdtn-logger" ||
