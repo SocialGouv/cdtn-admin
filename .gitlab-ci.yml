@@ -60,7 +60,7 @@ variables:
       - .yarn
   stage: .pre
   script:
-    - git fetch -p
+    - git fetch -q -p
     - git diff origin/alpha --name-only |
       grep -q ".k8s" ||
       echo "Unchanged. Skip !" && exit 0
