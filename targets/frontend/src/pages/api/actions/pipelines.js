@@ -1,4 +1,4 @@
-import Boom, { boomify } from "@hapi/boom";
+import Boom from "@hapi/boom";
 import { apiError } from "src/lib/apiError";
 import { getPipelines, getPipelineVariables } from "src/lib/gitlab.api";
 
