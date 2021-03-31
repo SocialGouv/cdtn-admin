@@ -194,7 +194,7 @@ Release:
   extends:
     - .autodevops_install
     - .cdtn_base_rules
-  image: node:14.16.0-alpine3.11
+  image: node:14.16.0
   cache:
     key:
       files:
