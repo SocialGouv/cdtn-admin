@@ -60,6 +60,10 @@ variables:
       - .yarn
   stage: .pre
   script:
+    - git diff origin/alpha --name-only |
+      grep --quiet ".k8s" ||
+      echo "Unchanged. Skip !" && exit 0
+    # - git diff "${CI_DEFAULT_BRANCH}" --name-only | grep --quiet ".k8s" || echo "Unchanged. Skip !" && exit 0
     - cd ${K8S_FOLDER}
     - yarn
     - yarn test

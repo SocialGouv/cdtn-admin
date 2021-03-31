@@ -18,7 +18,11 @@
       - .yarn
       - shared/logger/lib
   script:
-    - yarn changed list --git-range "alpha" --include @socialgouv/cdtn-logger --json | grep "@socialgouv/cdtn-logger" || echo "Unchanged. Skip !" && exit 0
+    - yarn changed list
+      --git-range "alpha"
+      --include @socialgouv/cdtn-logger
+      --json | grep "@socialgouv/cdtn-logger" ||
+      echo "Unchanged. Skip !" && exit 0
     # - yarn changed list --git-range "${CI_DEFAULT_BRANCH}" --include @socialgouv/cdtn-logger --json | grep "@socialgouv/cdtn-logger" || echo "Unchanged. Skip !" && exit 0
     - yarn workspaces focus @socialgouv/cdtn-logger
     #
