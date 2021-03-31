@@ -22,6 +22,7 @@ spec:
   template:
     metadata:
       name: alert
+      namespace: cdtn-admin
     type: Opaque
 ---
 apiVersion: batch/v1beta1
@@ -311,17 +312,14 @@ spec:
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
-  annotations:
-    sealedsecrets.bitnami.com/cluster-wide: 'true'
   name: ingester
-  namespace: null
+  namespace: cdtn-admin
 spec:
   encryptedData: {}
   template:
     metadata:
-      annotations:
-        sealedsecrets.bitnami.com/cluster-wide: 'true'
       name: ingester
+      namespace: cdtn-admin
     type: Opaque
 ---
 apiVersion: v1
