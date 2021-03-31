@@ -205,6 +205,12 @@ Release:
       - targets/${PACKAGE}/node_modules
       - node_modules
   script:
+    - yarn changed list
+      --git-range "alpha"
+      --include ${PACKAGE}
+      --json |
+      grep -vq "${PACKAGE}"
+
     - test -d node_modules &&
       (
       yarn changed list
