@@ -194,7 +194,7 @@ Release:
   extends:
     - .autodevops_install
     - .cdtn_base_rules
-  image: node:14.16.0
+  image: node:14.16.0-alpine3.11
   cache:
     key:
       files:
@@ -205,6 +205,7 @@ Release:
       - targets/${PACKAGE}/node_modules
       - node_modules
   script:
+    - git fetch -q -p
     - yarn changed list
       --git-range "alpha"
       --include "${PACKAGE}"
