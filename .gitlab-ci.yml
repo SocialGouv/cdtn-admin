@@ -253,6 +253,10 @@ Release:
       --git-range "origin/${CI_DEFAULT_BRANCH}"
       --include "${PACKAGE}"
 
+    - yarn changed list
+      --git-range "origin/${CI_DEFAULT_BRANCH}"
+      --include "${PACKAGE}" | grep -vq "${PACKAGE}"
+
     - test -d node_modules &&
       yarn changed list
       --git-range "origin/${CI_DEFAULT_BRANCH}"
