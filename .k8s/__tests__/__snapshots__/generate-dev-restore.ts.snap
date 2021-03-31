@@ -7,6 +7,12 @@ kind: Job
 metadata:
   name: restore-container-master
   namespace: cdtn-admin-secret
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+    component: restore-master
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
@@ -154,12 +160,24 @@ data:
 metadata:
   name: post-restore-script-configmap-0123456
   namespace: cdtn-admin-secret
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+    component: restore-master
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: restore-db-master
   namespace: cdtn-admin-secret
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+    component: restore-master
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:

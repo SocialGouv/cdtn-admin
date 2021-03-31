@@ -12,13 +12,15 @@ include:
   - /targets/frontend/.gitlab-ci.yml
   - /targets/ingester-elasticsearch/.gitlab-ci.yml
 
-
 #
 #
 #
 
 variables:
 #   AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
+  CDTN_FORCE_RESTORE_DB: 
+    value: "true" 
+    description: "Will force restore the database !"
   ARTIFACT_COMPRESSION_LEVEL: "fastest"
   CACHE_COMPRESSION_LEVEL: "fastest"
   FF_USE_FASTZIP: "true"
