@@ -210,8 +210,8 @@ Release:
       yarn changed list
       --git-range "alpha"
       --include ${PACKAGE}
-      --json | grep -q "${PACKAGE}"
-      ) ||
+      --json | grep -vq "${PACKAGE}"
+      ) &&
       echo "Unchanged. Skip !" && exit 0
     # - yarn changed list --git-range "${CI_DEFAULT_BRANCH}" --include ${PACKAGE} --json | grep "${PACKAGE}" || echo "Unchanged. Skip !" && exit 0
     - yarn workspaces focus ${PACKAGE}

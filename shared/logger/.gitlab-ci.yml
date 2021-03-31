@@ -23,7 +23,7 @@
       yarn changed list
       --git-range "alpha"
       --include @socialgouv/cdtn-logger
-      --json | grep "@socialgouv/cdtn-logger"
+      --json | grep -vq "@socialgouv/cdtn-logger"
       ) ||
       echo "Unchanged. Skip !" && exit 0
 
