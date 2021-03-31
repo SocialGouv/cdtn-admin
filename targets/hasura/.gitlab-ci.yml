@@ -24,7 +24,8 @@
     KOSKO_GENERATE_ARGS: --env dev jobs/restore
   before_script:
     - "[[ -n $CDTN_FORCE_RESTORE_DB ]] && kubectl -n cdtn-admin-secret delete all -l component=restore-${CI_COMMIT_REF_SLUG} || true"
-    - kubectl -n cdtn-admin-secret get all -l component=${CI_COMMIT_REF_SLUG} && echo "Skip restore db" && exit 0
+    # make the job fail if the component still exist
+    - kubectl -n cdtn-admin-secret get all -l component=restore-${CI_COMMIT_REF_SLUG} && echo "Skip restore db" && exit 0
 
 #
 #
