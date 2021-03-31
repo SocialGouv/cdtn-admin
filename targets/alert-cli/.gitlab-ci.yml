@@ -18,6 +18,9 @@
       - node_modules
   script:
     - ls
+    - test -d node_modules
+    - test -d node_modules && echo "0"
+    - test -d node_modules || echo "1"
     - test -d node_modules &&
       yarn changed list
       --git-range "alpha"
