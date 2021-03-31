@@ -61,7 +61,7 @@ variables:
   stage: .pre
   script:
     - git diff alpha --name-only |
-      grep --quiet ".k8s" ||
+      grep -q ".k8s" ||
       echo "Unchanged. Skip !" && exit 0
     # - git diff "${CI_DEFAULT_BRANCH}" --name-only | grep --quiet ".k8s" || echo "Unchanged. Skip !" && exit 0
     - cd ${K8S_FOLDER}
