@@ -16,6 +16,7 @@
     - .base_deploy_kosko_stage
     - .cdtn_base_rules
   stage: .post
+  needs: null
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   needs:
