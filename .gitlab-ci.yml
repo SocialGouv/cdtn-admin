@@ -206,11 +206,13 @@ Release:
       - node_modules
   script:
     - test -d node_modules &&
+      (
       yarn changed list
       --git-range "alpha"
       --include ${PACKAGE}
       --json |
-      grep -vq "${PACKAGE}"  &&
+      grep -vq "${PACKAGE}"
+      )  &&
       echo "Unchanged. Skip !" && exit 0
     # - yarn changed list --git-range "${CI_DEFAULT_BRANCH}" --include ${PACKAGE} --json | grep "${PACKAGE}" || echo "Unchanged. Skip !" && exit 0
     - yarn workspaces focus ${PACKAGE}
