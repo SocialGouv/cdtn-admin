@@ -25,8 +25,6 @@ variables:
   CACHE_COMPRESSION_LEVEL: "fastest"
   FF_USE_FASTZIP: "true"
   TRANSFER_METER_FREQUENCY: "1s"
-  YARN_CACHE_FOLDER: "$CI_PROJECT_DIR/.cache/yarn"
-
 
 #
 #

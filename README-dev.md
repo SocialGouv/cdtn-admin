@@ -10,6 +10,22 @@
 
 This git repository is a monorepo composed of 4 projects.
 
+### Yarn
+
+We use [yarnpkg/berry](https://github.com/yarnpkg/berry/tree/%40yarnpkg/cli%2F2.4.1) to install our dependencies
+
+```sh
+$ yarn set version berry
+$ yarn set version latest
+
+# Note: we use the node_modules installation verions see `.yarnrc.yml` file
+
+# https://yarnpkg.com/cli/workspace
+$ yarn plugin import workspace-tools
+# https://github.com/Dcard/yarn-plugins/tree/master/packages/changed
+$ yarn plugin import https://github.com/Dcard/yarn-plugins/releases/latest/download/plugin-changed.js
+```
+
 ### Hasura
 
 Used to expose data through a GraphQL API.
@@ -172,13 +188,16 @@ At this moment, the database is populated only by external documents (contributi
 All CDTN data (written by the CDTN team) are not populated in the database.
 An [issue](https://github.com/SocialGouv/cdtn-admin/issues/320) has been opened to find the better way to import data from the production into a dev environment.
 
-Once you have a backup, you can restore from a previous backup using 
+Once you have a backup, you can restore from a previous backup using
+
 ```sh
 docker-compose exec -T postgres pg_restore \
   --dbname postgres --clean --if-exists --user postgres \
   --no-owner --no-acl --verbose  < ~/Downloads/hasura_prod_db.psql
-``` 
+```
+
 et pour remettre les utilisateurs par défaut
+
 ```sh
 docker-compose exec -T postgres psql \
   --dbname postgres --user postgres \
