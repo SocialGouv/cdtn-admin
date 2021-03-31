@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "1.0.0-alpha.14",
+  "version": "1.0.0-alpha.15",
   "dependencies": {
     "@azure/abort-controller": "^1.0.4",
     "@azure/storage-blob": "^12.5.0",
@@ -15,8 +15,8 @@
     "@sentry/browser": "^6.2.1",
     "@sentry/integrations": "^6.2.1",
     "@sentry/node": "^6.2.1",
-    "@shared/graphql-client": "^1.0.0-alpha.14",
-    "@shared/id-generator": "^1.0.0-alpha.14",
+    "@shared/graphql-client": "^1.0.0-alpha.15",
+    "@shared/id-generator": "^1.0.0-alpha.15",
     "@socialgouv/cdtn-slugify": "^4.44.0",
     "@socialgouv/cdtn-sources": "^4.44.0",
     "@socialgouv/matomo-next": "^1.2.1",
