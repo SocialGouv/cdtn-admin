@@ -89,7 +89,7 @@ Review:
     - .autodevops_review
     - .cdtn_base_k8s_cache
   script:
-    - yarn --cwd .k8s --production
+    - yarn workspaces focus --production
     - yarn --silent "${KOSKO_GENERATE_ARGS}" > ${CI_PROJECT_DIR}/manifest.yaml
     - kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
 
@@ -98,7 +98,7 @@ Preprod:
     - .autodevops_preprod
     - .cdtn_base_k8s_cache
   script:
-    - yarn --cwd .k8s --production
+    - yarn workspaces focus --production
     - yarn --silent "${KOSKO_GENERATE_ARGS}" > ${CI_PROJECT_DIR}/manifest.yaml
     - kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
 
@@ -107,7 +107,7 @@ Production:
     - .autodevops_production
     - .cdtn_base_k8s_cache
   script:
-    - yarn --cwd .k8s --production
+    - yarn workspaces focus --production
     - yarn --silent "${KOSKO_GENERATE_ARGS}" > ${CI_PROJECT_DIR}/manifest.yaml
     - kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
 
