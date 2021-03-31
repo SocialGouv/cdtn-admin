@@ -25,7 +25,7 @@ variables:
   CACHE_COMPRESSION_LEVEL: "fastest"
   FF_USE_FASTZIP: "true"
   TRANSFER_METER_FREQUENCY: "1s"
-  CI_DEFAULT_BRANCH: "alpha"
+  CI_DEFAULT_BRANCH: "douglasduteil/ci-gitlab-test-has-change"
 
 #
 #
