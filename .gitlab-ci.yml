@@ -258,7 +258,7 @@ Release:
     # @returns 0 if present => if the package has changed
     - yarn changed list
       --git-range "origin/${CI_DEFAULT_BRANCH}"
-      --include "${PACKAGE}" | grep -q "${PACKAGE}" &&
+      --include "${PACKAGE}" | grep "${PACKAGE}" &&
       touch GIT_CHANGE_DETECTED
 
     # Do we have node_modules from the cache and no change
