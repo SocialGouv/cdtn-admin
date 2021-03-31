@@ -13,14 +13,14 @@ ok(process.env.CI_REGISTRY_IMAGE, "Missing CI_REGISTRY_IMAGE");
 
 const configMap = loadYaml<ConfigMap>(
   env,
-  `ingester-elasticsearch.configmap.yaml`
+  `ingester-elasticsearch/configmap.yaml`
 );
-ok(configMap, "Missing ingester-elasticsearch.configmap.yaml");
+ok(configMap, "Missing ingester-elasticsearch/configmap.yaml");
 const secret = loadYaml<SealedSecret>(
   env,
-  "ingester-elasticsearch.sealed-secret.yaml"
+  "ingester-elasticsearch/sealed-secret.yaml"
 );
-ok(secret, "Missing ingester-elasticsearch.sealed-secret.yaml");
+ok(secret, "Missing ingester-elasticsearch/sealed-secret.yaml");
 
 const ingester = () => {
   const envParams = merge(gitlab(process.env), {});

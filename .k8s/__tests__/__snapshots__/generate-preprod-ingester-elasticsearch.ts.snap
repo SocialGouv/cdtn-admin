@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`kosko generate --env dev jobs/ingester-elasticsearch 1`] = `
+exports[`kosko generate --env preprod jobs/ingester-elasticsearch 1`] = `
 "---
 apiVersion: v1
 kind: ConfigMap

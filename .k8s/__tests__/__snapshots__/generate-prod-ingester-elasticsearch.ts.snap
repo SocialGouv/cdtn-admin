@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`kosko generate --env prod jobs/ingester-elasticsearch 1`] = `
+"---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingester-elasticsearch
+data:
+  CDTN_ADMIN_ENDPOINT: http://hasura/v1/graphql
+  NLP_URL: https://serving-ml.fabrique.social.gouv.fr
+  NODE_ENV: production
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: ingester-elasticsearch
+  namespace: cdtn-admin
+spec:
+  encryptedData:
+    ELASTICSEARCH_TOKEN_INGEST: >-
+      AgAHjJV9u12HmfLx6SZsShRVQs1FhhRk/qZwR/7gsKyRRSIslcjDV2fWaEHClD775aDHOJxGPxq2eZNw2Bpy8gD/VZtWaMtM0QVCVw2kloMraXGYXB9wwKnoLXT27RfT3JQReEhSq1mYgmw4wqkt9llqiPp5LcmrrTQ4nEqGIbEyFnCgdwgmbxHR7tGGVrJBVDPmS5bgtQZNoSZgyasepvvlI5LjqWdXZjEPABO99FI6MyOtvTylPfaKmv6EqcyDGrZo6CTw0d7ihpCcxO9EvvfdQtjT1D2Qz7kIHRTyVbUCfVADZo1m+tdDGAXhlV6b77Byoueeo5+PBZL092nwngmj9ZUaY/zoAuNNCkYIbySA8fhN37xRX6gUkMfOsgF4y9v5DKTqvhrw+Ndt3LMzs2KqQJ9AS20VM9hw5x4TxDpqxaNZzVvxfRfr9NpRfC28k5chMgJml4tZfBNAe1tlxdSTEGJYWMzeYQZzqTD7hHulJx9QOrkocY5j9lxLifCRn1/xzCjAb2lqFEqye9op1UaYJxQ26GLZb1dwSz3OC8/czDNYb03k2KeX3fHvVq5vdkZSz+fT/yyIxr0Nrb0WCXz5ABiDCZehMx39fWi77Go3MfA0MOaVy6LGXj0tbOLbSMFKbDne7ulwt68t7IPfSX0OmUi3IUzSHyCFHIl1vTeg+/GRCOa0baepSzJn6TifsoE7YJLB8qUn1D/2SzLZaG3+7fuDxde7MfRGUUZT6tGqvUciWJkbxrHE+7Ll8zV56Xx/rDGFKgevEH/n6YtCvD1t
+    ELASTICSEARCH_URL: >-
+      AgAqyxNAVOnk5bgL84Kf2x4kS9aRSUOh7VMieKFQCzbLvBW7yWLCQ/uILPCvsG8M3VlviROKNEpAIAfH8G2HbXq/4SuGfoKL/DXEVyFu1sFxOeP2I9p6yYr4sObE7vy3E/aQoGerxAjFUSMAtNhuuUnozbD+wAnVJfsA8LUkdd1YhMpxQf/5Yp48iVGm2cGCFdm3WJLwmsYVHe+U7kNwbzoiq3OwCK/4d80ezkj18lcyS1kp5C3HaOisV6gRkc65Qt0TQck3CAfegiuLmYfSNdfL69WLx9/+UvF+Mo5pPe7qYjXNp6LLVPURLmgT/CaBarrSfQNVlG4aXckBuFgV52+Rdb63YPz8Bk5nmhnURxoJcHaS+ixuLeGgsJ53uK2ivN6a42QOhrW3WGufCNVjBqzfyBmZqYIIVu61BToHo9RyZ9wtFeCgAlwrFLF5LEJob/N8lewEJ8f3Y3+hvxdV8RONCeodmkRW3ScnevjC95X0jA0NHEueE+pYuf6SGsL8+0gzodtL9kKE4/lhRh1vILGrrc399Qqg+3t4+GPHYnPQ/ZPk77xyaIYZvNsbtPmMVznR3/W1ieX/lR0uzeD73gYqJCoZsiN5Bmb7zjuc6VKhfp5FDpteeKRv1X1Q9v/6hI3p+MzDI82389PDIDpPve2cq5vS83E1s2/FkfdHQj3ApKlUZAYWZo/zst1UQZ0VFIw113XwVwt7mp41rY8FatzB11Ppe5+QGRfwdrEMq/ve3vX+UzxxqZRwDNPcZ1hw+jF/s5u0Hdm4WlzVManKY/V1dDZ0otGGF5mTCOr3nn5jP5oqZw==
+    ES_LOGS_TOKEN: >-
+      AgAimAHXcsCtDaTkq8aeVk6EoOd9vU2Lp/HQsgmmPCHBcrFT9zk9EpTGj5iFqOTxqXtG0jP0yggF2pHRJ4Oh/coayFfMW5X96KIw+rkQ2XtK7xr7g+emH6A4fohEFGFY6Kq0uu8ITYYDhndB99zoAKi4i2czbN4OqRXQnI/phSx2clom9wM5mjITxRtYz53l3Cych9vf+/kaMbxeEDY/PKZGJV3kUctaWCZhYPqAhKgOkYyYPLQhRPbPqgmFpqkad0LoPjqrNTM9lwyALcZVfLde23VO709TSa7o9BCeYJf6Pz0xxh6oypIPOoCv06Bh/De8jXBIhPuZPh6Dqosy/uw397G+FPULFa8C+S59teDU5BUnEvDSXipTNjx8tIL/hhijAxNLdoB/ZZtupLDYO/dUnNQ4wuszpdK/9YteRWfXNEbqSxq9H7Iv/f4v5XEgPm0ezYIIEFGg2JWuPJPyKaP4KLRFl59bigh+E7I+RaGWddWnXLtvMjwUtwiPGII8eO4opdpJ18bGJ/BfxSnLyFNtD5Lvwo2czHM5ol2StR5ApDuws03T2VYm7Bi1eda2rfVNe1mOG1r6/VxakRJ16Ou/q/lhZFmhvLnGAdXuGyAcumk25MRRZueFUvBUx72ZnbMefU30d42t8t2CFq2yTaYvSj/D/mOHnFpaOjwpMIh/uBfCJUyQu9Lt4Rx39IQZsAfwcqnsm6OHoy4WHtmpKHfz45jOk/BualuDrGFnycjg4axJtQhfYtPvfemVepKJmG00VzQp/e0PSbM7
+    ES_LOGS: >-
+      AgAIl9cv/PhAlZssp9Q04G1Add4KHpt7tB2iMp9E38R8Gen4rvavtBsqZrG/Fhwp89+Mctoa0VbLakf1v3w+kWZwBMUjoTjutpRax3VZwBrq8kNWnT1uCrB2GxQB8AyHzyqQHhNJBM3YQzgyGRxNtSMeVrvGjj3MBR/E1DU48gPtHtkdiFd/lu1rAjxbLHWE10mK6kil/7vMZtEu2wQxRhnVkX68oeVdHXAkgvnU1nOvmhqMQK4+7Q3Ddt4Z81BzQy186TeXjxmMyLteef6qY77NyY382DPcnloyN1d/wB01PtxE6Gxd8dNL3+XLzDBYTW44ukugTTGPKViSe+xtnMqR/xJB7BAmu9cMlgQp42AkakpEgpfyMbzez1iJgiA7DC9aCP6vxp7S8uSdXCLmBPd4sX8LY5sFzm9nLSWy8nnL64G0GxvM/7LIAbzGDQucBbhVHIVEobUGDCRKKzz8j2PSnwmGx27XVJJf/X9aJfF7KBlFR2phMpPe/G1X7Os2yiKwUFT5wNSdwoijHGa9F19jTr0yGxJjT1Wo1CZxEfG140JT0H9P4CjsbpKdWmqY0ecrZHmQnqYMedtJK2eSG4RREI1a2N5sy/Sjb0P2jI2lAFY6yh+vaN09sMfD3f/IhnDZz0E5ecIGHpv9yCxgWX8Wn2Rygz2ksXCmCeZ6cBaMzVkGZy4vkMCX2vTOi1jLKTb5SdJINOtXT7HhGnIADNs2PxKBC7QMe6sSDZflzRsgspM+BY2hIlg9cQ55QSRkTMrYJ5Vb0XtVBo1tNNQnKiT5chSllN/nYwyLuv03eDUFQg==
+  template:
+    metadata:
+      name: ingester-elasticsearch
+      namespace: cdtn-admin
+    type: Opaque
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ingester-elasticsearch
+  namespace: cdtn-admin-85-master-dev2
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - name: ingester-elasticsearch
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester-elasticsearch:0123456789abcdefghijklmnopqrstuvwxyz0123
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: '2'
+              memory: 1Gi
+            requests:
+              cpu: '1'
+              memory: 512Mi
+          envFrom:
+            - configMapRef:
+                name: ingester-elasticsearch
+            - secretRef:
+                name: ingester-elasticsearch
+          env:
+            - name: ES_INDEX_PREFIX
+              value: cdtn-master
+      restartPolicy: Never
+  ttlSecondsAfterFinished: 86400
+"
+`;

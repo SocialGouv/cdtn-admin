@@ -98,17 +98,10 @@
 #
 #
 
-🚀 ingester-elasticsearch (review):
+.trigger_ingester_elasticsearch_job:
   extends:
     - .base_deploy_kosko_stage
   stage: Deploy
-  rules:
-    - if: '($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "web") && $ACTION == "ingest_documents_dev"'
-      when: always
-    - if: "$PRODUCTION || $RELEASE || $CI_COMMIT_TAG"
-      when: never
-    - when: manual
-      allow_failure: true
   cache:
     key:
       files:
@@ -117,15 +110,75 @@
     paths:
       - .cache
       - .k8s/node_modules
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
+  script:
+    - kubectl config set-context --current --namespace=${KUBE_NAMESPACE}
+    - kubectl delete job ingester-elasticsearch || true
+    - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
+    - echo "kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml"
+    - yarn --silent --cwd .k8s kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml
+    - kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
+    #
+    - timeout 15m
+      bash -c "
+      until
+      kubectl get pod -l job-name=ingester-elasticsearch
+      -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
+      grep True
+      ; do sleep 1; done"
+    #
+    - kubectl logs -f job/ingester-elasticsearch
+    #
+    - kubectl get jobs ingester-elasticsearch -o jsonpath='{.status.conditions}'
+    - kubectl get jobs ingester-elasticsearch -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
+
+🚩 ingester-elasticsearch (review):
+  extends:
+    - .autodevops_review
+    - .trigger_ingester_elasticsearch_job
   needs:
     - job: 🛂 k8s test
     - job: 🗃 ingester-elasticsearch
-  dependencies: null
-  before_script:
-    - kubectl config set-context --current --namespace=${KUBE_NAMESPACE}
-    - kubectl delete job ingester-elasticsearch || true
+  rules:
+    - if: "$PRODUCTION || $RELEASE || $CI_COMMIT_TAG"
+      when: never
+    - when: manual
+      allow_failure: true
+  environment:
+    name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
   variables:
     # kosko options
     KOSKO_GENERATE_ARGS: --env dev jobs/ingester-elasticsearch
+
+🚩 ingester-elasticsearch (preprod):
+  extends:
+    - .autodevops_preprod
+    - .trigger_ingester_elasticsearch_job
+  needs:
+    - job: 🛂 k8s test
+    - job: 🗃 ingester-elasticsearch
+  rules:
+    - if: "$PRODUCTION || $RELEASE"
+      when: never
+    - if: "$CI_COMMIT_TAG"
+      when: manual
+      allow_failure: true
+  environment:
+    name: preprod${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
+  variables:
+    # kosko options
+    KOSKO_GENERATE_ARGS: --env preprod jobs/ingester-elasticsearch
+
+🚩 ingester-elasticsearch (preprod):
+  extends:
+    - .autodevops_production
+    - .trigger_ingester_elasticsearch_job
+  needs: []
+  rules:
+    - if: "$PRODUCTION && $CI_COMMIT_TAG"
+      when: manual
+      allow_failure: true
+  environment:
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
+  variables:
+    # kosko options
+    KOSKO_GENERATE_ARGS: --env prod jobs/ingester-elasticsearch
