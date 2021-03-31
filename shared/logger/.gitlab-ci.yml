@@ -17,27 +17,48 @@
     paths:
       - .yarn
       - shared/logger/lib
+  variables:
+    PACKAGE: "@socialgouv/cdtn-logger"
   script:
+    # Fetch the default branch
     - apk add --update --no-cache git
     - git fetch origin "${CI_DEFAULT_BRANCH}"
 
-    - test -d shared/logger/lib &&
-      yarn changed list
+    # List changed packages from this package
+    - yarn changed list
       --git-range "origin/${CI_DEFAULT_BRANCH}"
-      --include "@socialgouv/cdtn-logger"
-      --json |
-      grep -vq "@socialgouv/cdtn-logger" &&
+      --include "${PACKAGE}"
+
+    # Is this package in the list ?
+    # @returns 0 if present => if the package has changed
+    - yarn changed list
+      --git-range "origin/${CI_DEFAULT_BRANCH}"
+      --include "${PACKAGE}" | grep "${PACKAGE}" &&
+      touch GIT_CHANGE_DETECTED
+
+    # Do we have node_modules from the cache and no change
+    # @returns 0 if yes => the cache is present
+    - test -d node_modules &&
+      test ! -f GIT_CHANGE_DETECTED &&
       echo "Unchanged. Skip !" && exit 0
 
+<<<<<<< Updated upstream
     # - yarn changed list --git-range "origin/${CI_DEFAULT_BRANCH}" --include @socialgouv/cdtn-logger --json | grep "@socialgouv/cdtn-logger" || echo "Unchanged. Skip !" && exit 0
     - yarn workspaces focus @socialgouv/cdtn-logger
+=======
+    #
+    # This package has change !
+    # Go on :)
+    - yarn workspaces focus "${PACKAGE}"
+
+>>>>>>> Stashed changes
     #
     # NOTE(douglasduteil): group a pipeline in one job
     # To avoid a lenghy pipeline we do all the tasks here...
     #
-    - yarn workspace @socialgouv/cdtn-logger run lint
-    - yarn workspace @socialgouv/cdtn-logger run test
-    - yarn workspace @socialgouv/cdtn-logger run build
+    - yarn workspace "${PACKAGE}" run lint
+    - yarn workspace "${PACKAGE}" run test
+    - yarn workspace "${PACKAGE}" run build
   artifacts:
     expire_in: 1 week
     paths:

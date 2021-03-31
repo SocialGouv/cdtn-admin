@@ -246,6 +246,7 @@ Release:
       - targets/${PACKAGE}/node_modules
       - node_modules
   script:
+    # Fetch the default branch
     - apk add --update --no-cache git
     - git fetch origin "${CI_DEFAULT_BRANCH}"
 
@@ -267,6 +268,9 @@ Release:
       test ! -f GIT_CHANGE_DETECTED &&
       echo "Unchanged. Skip !" && exit 0
 
+    #
+    # This package has change !
+    # Go on :)
     - yarn workspaces focus ${PACKAGE}
   artifacts:
     expire_in: 1 week

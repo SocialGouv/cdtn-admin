@@ -18,26 +18,43 @@
     paths:
       - .yarn
       - shared/elasticsearch-document-adapter/lib
+  variables:
+    PACKAGE: "@shared/elasticsearch-document-adapter"
   script:
+    # Fetch the default branch
     - apk add --update --no-cache git
     - git fetch origin "${CI_DEFAULT_BRANCH}"
 
-    - test -d shared/elasticsearch-document-adapter/lib &&
-      yarn changed list
+    # List changed packages from this package
+    - yarn changed list
       --git-range "origin/${CI_DEFAULT_BRANCH}"
-      --include "@shared/elasticsearch-document-adapter"
-      --json |
-      grep -vq "@shared/elasticsearch-document-adapter" &&
+      --include "${PACKAGE}"
+
+    # Is this package in the list ?
+    # @returns 0 if present => if the package has changed
+    - yarn changed list
+      --git-range "origin/${CI_DEFAULT_BRANCH}"
+      --include "${PACKAGE}" | grep "${PACKAGE}" &&
+      touch GIT_CHANGE_DETECTED
+
+    # Do we have node_modules from the cache and no change
+    # @returns 0 if yes => the cache is present
+    - test -d node_modules &&
+      test ! -f GIT_CHANGE_DETECTED &&
       echo "Unchanged. Skip !" && exit 0
 
-    - yarn workspaces focus @shared/elasticsearch-document-adapter
+    #
+    # This package has change !
+    # Go on :)
+    - yarn workspaces focus "${PACKAGE}"
+
     #
     # NOTE(douglasduteil): group a pipeline in one job
     # To avoid a lenghy pipeline we do all the tasks here...
     #
-    - yarn workspace @shared/elasticsearch-document-adapter run lint
-    - yarn workspace @shared/elasticsearch-document-adapter run test
-    - yarn workspace @shared/elasticsearch-document-adapter run build
+    - yarn workspace "${PACKAGE}" run lint
+    - yarn workspace "${PACKAGE}" run test
+    - yarn workspace "${PACKAGE}" run build
   artifacts:
     expire_in: 1 week
     paths:
