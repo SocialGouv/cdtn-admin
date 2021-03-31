@@ -93,6 +93,8 @@
 #
 
 .trigger_alert_cron:
+  needs:
+    - job: 🛂 k8s test
   script:
     - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
@@ -141,6 +143,7 @@
   extends:
     - .autodevops_production
     - .trigger_alert_cron
+  needs: []
   rules:
     - if: "$PRODUCTION && $CI_COMMIT_TAG"
       when: manual

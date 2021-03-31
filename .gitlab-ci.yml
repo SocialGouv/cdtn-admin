@@ -116,6 +116,8 @@ Release:
     - .cdtn_base_rules
   stage: Deploy
   allow_failure: true
+  needs:
+    - job: 🛂 k8s test
 
 🚩 Generate sitemap (review):
   extends:
