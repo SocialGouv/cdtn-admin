@@ -42,16 +42,11 @@
       test ! -f GIT_CHANGE_DETECTED &&
       echo "Unchanged. Skip !" && exit 0
 
-<<<<<<< Updated upstream
-    # - yarn changed list --git-range "origin/${CI_DEFAULT_BRANCH}" --include @socialgouv/cdtn-logger --json | grep "@socialgouv/cdtn-logger" || echo "Unchanged. Skip !" && exit 0
-    - yarn workspaces focus @socialgouv/cdtn-logger
-=======
     #
     # This package has change !
     # Go on :)
     - yarn workspaces focus "${PACKAGE}"
 
->>>>>>> Stashed changes
     #
     # NOTE(douglasduteil): group a pipeline in one job
     # To avoid a lenghy pipeline we do all the tasks here...
