@@ -17,16 +17,16 @@
       - targets/alert-cli/node_modules
       - node_modules
   script:
-    - ls
-    - test -d node_modules
-    - test -d node_modules && echo "0"
-    - test -d node_modules || echo "1"
     - test -d node_modules &&
+      (
       yarn changed list
       --git-range "alpha"
       --include alert-cli
       --json | grep "alert-cli" ||
-      echo "Unchanged. Skip !" && exit 0
+      echo "Unchanged. Skip !" &&
+      exit 0
+      )
+
     # - yarn changed list --git-range "${CI_DEFAULT_BRANCH}" --include alert-cli --json | grep "alert-cli" || echo "Unchanged. Skip !" && exit 0
     - yarn workspaces focus alert-cli
   artifacts:
