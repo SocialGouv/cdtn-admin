@@ -41,7 +41,7 @@
     - |
       if [[ "${CDTN_FORCE_RESTORE_DB}" == "true" ]]; then
         echo "Force restore database"
-        kubectl -n cdtn-admin-secret delete all -l component=${COMPONENT} || true"
+        kubectl -n cdtn-admin-secret delete all -l component=${COMPONENT} || true
       fi
     # make the job fail if the component still exist
     - kubectl -n cdtn-admin-secret get all -l component=${COMPONENT} | grep -v 'No resources found.' && echo "Skip restore db" && exit 0
