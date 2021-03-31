@@ -57,8 +57,7 @@ variables:
         - .k8s/yarn.lock
       prefix: k8s
     paths:
-      - .cache
-      - .k8s/node_modules
+      - .yarn
   stage: .pre
 
 #
