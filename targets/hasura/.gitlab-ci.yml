@@ -43,6 +43,9 @@
   extends:
     - .base_deploy_kosko_stage
     - .cdtn_base_rules
+  rules:
+    - if: "$PRODUCTION && $CI_COMMIT_TAG"
+      when: always
   cache:
     key:
       files:
@@ -51,9 +54,6 @@
     paths:
       - .cache
       - .k8s/node_modules
-  rules:
-    - if: "$PRODUCTION && $CI_COMMIT_TAG"
-      when: always
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
