@@ -249,6 +249,10 @@ Release:
     - apk add --update --no-cache git
     - git fetch origin "${CI_DEFAULT_BRANCH}"
 
+    - yarn changed list
+      --git-range "origin/${CI_DEFAULT_BRANCH}"
+      --include "${PACKAGE}"
+
     - test -d node_modules &&
       yarn changed list
       --git-range "origin/${CI_DEFAULT_BRANCH}"
