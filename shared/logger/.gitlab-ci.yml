@@ -19,15 +19,12 @@
       - shared/logger/lib
   script:
     - apk add --update --no-cache git
-    - git fetch origin alpha
-    - yarn changed list --git-range "origin/alpha" --include "@socialgouv/cdtn-logger" --json
-    - yarn changed list --git-range "alpha" --include "@socialgouv/cdtn-logger" --json
-    - yarn changed list --git-range "origin/alpha" --include "@socialgouv/cdtn-logger" --json | grep -vq "@socialgouv/cdtn-logger"
+    - git fetch origin "${CI_DEFAULT_BRANCH}"
 
     - test -d shared/logger/lib &&
       (
       yarn changed list
-      --git-range "origin/alpha"
+      --git-range "origin/${CI_DEFAULT_BRANCH}"
       --include "@socialgouv/cdtn-logger"
       --json |
       grep -vq "@socialgouv/cdtn-logger"

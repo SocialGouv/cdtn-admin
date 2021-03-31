@@ -25,6 +25,7 @@ variables:
   CACHE_COMPRESSION_LEVEL: "fastest"
   FF_USE_FASTZIP: "true"
   TRANSFER_METER_FREQUENCY: "1s"
+  CI_DEFAULT_BRANCH: "alpha"
 
 #
 #
@@ -206,9 +207,9 @@ Release:
       - node_modules
   script:
     - apk add --update --no-cache git
-    - git fetch origin alpha
+    - git fetch origin ${CI_DEFAULT_BRANCH}
     - yarn changed list
-      --git-range "origin/alpha"
+      --git-range "origin/${CI_DEFAULT_BRANCH}"
       --include "${PACKAGE}"
       --json | grep -v "${PACKAGE}"
 
