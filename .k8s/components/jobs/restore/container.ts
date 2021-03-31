@@ -22,7 +22,8 @@ const job = restoreContainerJob({
 });
 job.metadata!.name = `restore-container-${GITLAB_LIKE_ENVIRONMENT_SLUG}`;
 job.metadata!.labels = gitlabEnv.labels || {};
-job.metadata!.labels.component = `restore-${process.env.CI_COMMIT_REF_SLUG}`;
+job.metadata!.labels.component =
+  process.env.COMPONENT || `restore-${process.env.CI_COMMIT_REF_SLUG}`;
 job.metadata!.annotations = {
   "kapp.k14s.io/update-strategy": "always-replace",
 };
