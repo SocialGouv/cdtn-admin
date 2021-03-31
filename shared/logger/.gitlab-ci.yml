@@ -18,12 +18,15 @@
       - .yarn
       - shared/logger/lib
   script:
-    - test -d shared/logger/lib &&
+    - (
+      test -d shared/logger/lib
+      echo "No shared/logger/lib found"
+      ) &&
       (
       yarn changed list
       --git-range "alpha"
       --include @socialgouv/cdtn-logger
-      --json | grep "@socialgouv/cdtn-logger" ||
+      --json | grep -q "@socialgouv/cdtn-logger" ||
       echo "Unchanged. Skip !" &&
       exit 0
       )
