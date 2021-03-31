@@ -6,44 +6,59 @@ import {
   MdSyncProblem,
   MdTimelapse,
 } from "react-icons/md";
-import { getToken } from "src/lib/auth/token";
-import { request } from "src/lib/request";
 import useSWR from "swr";
+import { useClient } from "urql";
 
 import { ConfirmButton } from "../confirmButton";
 
-function fetchPipelines(url) {
-  const { jwt_token } = getToken();
-  return request(url, { headers: { token: jwt_token } });
+const pipelineQuery = `
+query getPipelines {
+  pipelines {
+    preprod
+    prod
+  }
 }
+`;
+
+const pipelineMutation = `
+mutation trigger_pipeline($env:String!) {
+  pipelines(env: $env) {
+    message
+    status
+  }
+}
+`;
 
 export function GitlabButton({ env, children }) {
   const [status, setStatus] = useState("disabled");
-  const token = getToken();
-  const { error, data, mutate } = useSWR(`/api/pipelines`, fetchPipelines);
+  const client = useClient();
+  const { error, data, mutate } = useSWR(pipelineQuery, (query) =>
+    client
+      .query(query, {
+        requestPolicy: "cache-and-network",
+      })
+      .toPromise()
+      .then((result) => {
+        if (result.error) return Promise.reject(error);
+        return result.data;
+      })
+  );
 
-  async function clickHandler() {
+  function clickHandler() {
     if (isDisabled) {
       return;
     }
     setStatus("pending");
-    await request("/api/trigger_pipeline", {
-      body: {
-        env,
-      },
-      headers: {
-        token: token?.jwt_token,
-      },
-    }).catch(() => {
-      setStatus("disabled");
+    client.mutation(pipelineMutation, { env }).subscribe((result) => {
+      if (result.data) {
+        mutate(pipelineQuery);
+      }
     });
-    mutate();
   }
 
   useEffect(() => {
     if (!error && data) {
       if (data[env] === false) {
-        console.log(env, "ready to update", data);
         setStatus("ready");
       }
       if (data[env] === true) {

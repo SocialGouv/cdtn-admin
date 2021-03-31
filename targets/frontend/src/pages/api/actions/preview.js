@@ -1,7 +1,9 @@
 import { Client } from "@elastic/elasticsearch";
+import { Boom } from "@hapi/boom";
 import { client as gqlClient } from "@shared/graphql-client";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import memoizee from "memoizee";
+import { apiError } from "src/lib/apiError";
 import { markdownTransform } from "src/lib/preview/markdown";
 
 const getGlossary = `
@@ -31,7 +33,12 @@ const fetchGlossary = memoizee(_fetchGlossary, {
   promise: true,
 });
 
-export default async function (req, res) {
+export default async function updateDocument(req, res) {
+  if (req.method === "GET") {
+    res.setHeader("Allow", ["POST"]);
+    return apiError(Boom.methodNotAllowed("GET method not allowed"));
+  }
+
   const { cdtnId, document, source } = req.body.input;
 
   if (

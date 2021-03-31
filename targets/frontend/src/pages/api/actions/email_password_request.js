@@ -3,6 +3,11 @@ import { apiError } from "src/lib/apiError";
 import { sendLostPasswordEmail } from "src/lib/emails/lostPassword";
 
 export default async function AskNewPassword(req, res) {
+  if (req.method === "GET") {
+    res.setHeader("Allow", ["POST"]);
+    return apiError(Boom.methodNotAllowed("GET method not allowed"));
+  }
+
   if (
     !req.headers["actions-secret"] ||
     req.headers["actions-secret"] !== process.env.ACTIONS_SECRET
