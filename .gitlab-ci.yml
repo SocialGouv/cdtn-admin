@@ -18,7 +18,7 @@ include:
 
 # variables:
 #   AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
-#   FORCE: "🌪️" # Will force restore the database !
+#   CDTN_FORCE_RESTORE_DB: "🌪️" # Will force restore the database !
 
 #
 #
