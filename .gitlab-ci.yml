@@ -207,15 +207,14 @@ Release:
   script:
     - yarn changed list
       --git-range "alpha"
-      --include ${PACKAGE}
-      --json |
-      grep -vq "${PACKAGE}"
+      --include "${PACKAGE}"
+      --json | grep -v "${PACKAGE}"
 
     - test -d node_modules &&
       (
       yarn changed list
       --git-range "alpha"
-      --include ${PACKAGE}
+      --include "${PACKAGE}"
       --json |
       grep -vq "${PACKAGE}"
       )  &&

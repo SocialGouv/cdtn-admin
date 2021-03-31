@@ -20,7 +20,7 @@
   script:
     - yarn changed list
       --git-range "alpha"
-      --include @socialgouv/cdtn-logger
+      --include "@socialgouv/cdtn-logger"
       --json |
       grep -vq "@socialgouv/cdtn-logger"
 
@@ -28,7 +28,7 @@
       (
       yarn changed list
       --git-range "alpha"
-      --include @socialgouv/cdtn-logger
+      --include "@socialgouv/cdtn-logger"
       --json |
       grep -vq "@socialgouv/cdtn-logger"
       ) &&
