@@ -249,20 +249,22 @@ Release:
     - apk add --update --no-cache git
     - git fetch origin "${CI_DEFAULT_BRANCH}"
 
+    # List changed packages from this package
     - yarn changed list
       --git-range "origin/${CI_DEFAULT_BRANCH}"
       --include "${PACKAGE}"
 
+    # Is this package in the list ?
+    # @returns 0 if present => if the package has changed
     - yarn changed list
       --git-range "origin/${CI_DEFAULT_BRANCH}"
-      --include "${PACKAGE}" | grep -vq "${PACKAGE}"
+      --include "${PACKAGE}" | grep -q "${PACKAGE}" &&
+      touch GIT_CHANGE_DETECTED
 
+    # Do we have node_modules from the cache and no change
+    # @returns 0 if yes => the cache is present
     - test -d node_modules &&
-      yarn changed list
-      --git-range "origin/${CI_DEFAULT_BRANCH}"
-      --include "${PACKAGE}"
-      --json |
-      grep -vq "${PACKAGE}" &&
+      test ! -f GIT_CHANGE_DETECTED &&
       echo "Unchanged. Skip !" && exit 0
 
     - yarn workspaces focus ${PACKAGE}
