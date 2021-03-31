@@ -1,5 +1,6 @@
 import { CronJob } from "kubernetes-models/batch/v1beta1/CronJob";
 import { ConfigMap } from "kubernetes-models/v1/ConfigMap";
+import { Secret } from "kubernetes-models/v1/Secret";
 import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { PersistentVolumeClaim } from "kubernetes-models/v1/PersistentVolumeClaim";
@@ -16,7 +17,7 @@ const tag = process.env.CI_COMMIT_TAG
 
 const configMap = loadYaml<ConfigMap>(env, `ingester.configmap.yaml`);
 ok(configMap, "Missing ingester.configmap.yaml");
-const secret = loadYaml<ConfigMap>(env, `ingester.sealed-secret.yaml`);
+const secret = loadYaml<Secret>(env, `ingester.sealed-secret.yaml`);
 ok(secret, "Missing ingester.sealed-secret.yaml");
 
 const persistentVolumeClaim = new PersistentVolumeClaim({
@@ -140,4 +141,4 @@ const cronJob = new CronJob({
   },
 });
 
-export default [configMap, cronJob, persistentVolumeClaim];
+export default [configMap, cronJob, secret, persistentVolumeClaim];

@@ -308,6 +308,22 @@ spec:
                 path: /usr/share/zoneinfo/Europe/Paris
           restartPolicy: Never
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+  name: ingester
+  namespace: null
+spec:
+  encryptedData: {}
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+      name: ingester
+    type: Opaque
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
