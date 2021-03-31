@@ -7,11 +7,11 @@ if (process.env.CI_COMMIT_REF_SLUG === "master") {
 }
 
 if (process.env.CI_COMMIT_TAG) {
-  ES_INDEX_PREFIX = "cdtn-preprod";
+  ES_INDEX_PREFIX = `cdtn-preprod-${process.env.CI_COMMIT_TAG}`;
 }
 
 if (process.env.PRODUCTION) {
-  ES_INDEX_PREFIX = "cdtn-prod";
+  ES_INDEX_PREFIX = `cdtn-prod-${process.env.CI_COMMIT_TAG}`;
 }
 
 export { ES_INDEX_PREFIX };
