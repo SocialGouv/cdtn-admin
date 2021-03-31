@@ -206,7 +206,7 @@ Release:
       - node_modules
   script:
     - apk add --update --no-cache git
-    - git fetch -q -p
+    - git fetch origin alpha
     - yarn changed list
       --git-range "origin/alpha"
       --include "${PACKAGE}"

@@ -19,9 +19,9 @@
       - shared/logger/lib
   script:
     - apk add --update --no-cache git
-    - git fetch -q -p
+    - git fetch origin alpha
     - yarn changed list --git-range "origin/alpha" --include "@socialgouv/cdtn-logger" --json
-    - yarn changed list --git-range "origin/alpha" --include "@socialgouv/cdtn-logger" --json
+    - yarn changed list --git-range "alpha" --include "@socialgouv/cdtn-logger" --json
     - yarn changed list --git-range "origin/alpha" --include "@socialgouv/cdtn-logger" --json | grep -vq "@socialgouv/cdtn-logger"
 
     - test -d shared/logger/lib &&
