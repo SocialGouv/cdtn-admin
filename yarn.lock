@@ -10810,9 +10810,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ingester-es@workspace:targets/ingester-elasticsearch":
+"ingester-elasticsearch@workspace:targets/ingester-elasticsearch":
   version: 0.0.0-use.local
-  resolution: "ingester-es@workspace:targets/ingester-elasticsearch"
+  resolution: "ingester-elasticsearch@workspace:targets/ingester-elasticsearch"
   dependencies:
     "@shared/elasticsearch-document-adapter": ^1.0.0-alpha.14
     "@socialgouv/eslint-config-typescript": ^1.57.0
