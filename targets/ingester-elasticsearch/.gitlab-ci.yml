@@ -129,8 +129,8 @@
   script:
     - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
     - echo "kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml"
-    - yarn --cwd .k8s kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml
-    - yarn --cwd .k8s kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
+    - yarn --silent --cwd .k8s kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml
+    - kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
     #
     - timeout 15m
       bash -c "
