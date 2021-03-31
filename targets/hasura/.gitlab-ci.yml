@@ -36,7 +36,8 @@
   variables:
     KOSKO_GENERATE_ARGS: --env dev jobs/restore
   before_script:
-    - COMPONENT=$(cat <(echo "restore-${CI_COMMIT_REF_SLUG}" | cut -c1-24) <(echo "$CI_COMMIT_REF_SLUG" | sha1sum | cut -c1-6) | tr -d '\n')
+    - export COMPONENT=$(cat <(echo "restore-${CI_COMMIT_REF_SLUG}" | cut -c1-24) <(echo "$CI_COMMIT_REF_SLUG" | sha1sum | cut -c1-6) | tr -d '\n')
+    - echo "Use ${COMPONENT} as component label"
     - "[[ -n $CDTN_FORCE_RESTORE_DB ]] && kubectl -n cdtn-admin-secret delete all -l component=${COMPONENT} || true"
     # make the job fail if the component still exist
     - kubectl -n cdtn-admin-secret get all -l component=${COMPONENT} && echo "Skip restore db" && exit 0
