@@ -17,6 +17,9 @@
     paths:
       - .yarn
   script:
+    - yarn changed list --git-range "alpha" --include @socialgouv/cdtn-logger --json | grep "@socialgouv/cdtn-logger" || echo "Unchanged. Skip !" && exit 0
+    # - yarn changed list --git-range "${CI_DEFAULT_BRANCH}"
+    - yarn changed list --git-range "douglasduteil/ci-gitlab-ues-berry-aka-yarn-v2"
     - yarn workspaces focus @socialgouv/cdtn-logger
     #
     # NOTE(douglasduteil): group a pipeline in one job
