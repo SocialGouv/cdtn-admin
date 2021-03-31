@@ -126,6 +126,24 @@
   before_script:
     - kubectl config set-context --current --namespace=${KUBE_NAMESPACE}
     - kubectl delete job ingester-elasticsearch || true
+  script:
+    - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
+    - echo "kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml"
+    - yarn --cwd .k8s kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml
+    - yarn --cwd .k8s kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
+    #
+    - timeout 15m
+      bash -c "
+      until
+      kubectl get pod -l job-name=ingester-elasticsearch
+      -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
+      grep True
+      ; do sleep 1; done"
+    #
+    - kubectl logs -f job/ingester-elasticsearch
+    #
+    - kubectl get jobs ingester-elasticsearch -o jsonpath='{.status.conditions}'
+    - kubectl get jobs ingester-elasticsearch -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
   variables:
     # kosko options
     KOSKO_GENERATE_ARGS: --env dev jobs/ingester-elasticsearch
