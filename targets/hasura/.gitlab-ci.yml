@@ -1,3 +1,7 @@
+#
+#
+#
+
 🗃 hasura:
   extends:
     - .autodevops_register_image

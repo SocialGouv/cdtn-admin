@@ -7,8 +7,6 @@
     - .autodevops_install
     - .cdtn_base_rules
   image: node:14.16.0-alpine3.11
-  needs: []
-  interruptible: true
   cache:
     key:
       files:
@@ -26,7 +24,6 @@
   artifacts:
     expire_in: 1 week
     paths:
-      - "shared/*/node_modules"
       - targets/frontend/node_modules
       - node_modules
 
