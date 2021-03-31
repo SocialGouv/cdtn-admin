@@ -16,6 +16,14 @@
     - .base_deploy_kosko_stage
     - .cdtn_base_rules
   stage: .post
+  cache:
+    key:
+      files:
+        - .k8s/yarn.lock
+      prefix: k8s
+    paths:
+      - .cache
+      - .k8s/node_modules
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   needs:
@@ -35,6 +43,14 @@
   extends:
     - .base_deploy_kosko_stage
     - .cdtn_base_rules
+  cache:
+    key:
+      files:
+        - .k8s/yarn.lock
+      prefix: k8s
+    paths:
+      - .cache
+      - .k8s/node_modules
   rules:
     - if: "$PRODUCTION && $CI_COMMIT_TAG"
       when: always

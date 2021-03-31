@@ -11,16 +11,13 @@
     - job: 📦 logger
       artifacts: true
   cache:
-    key: ${CI_JOB_NAME}-${CI_COMMIT_REF_SLUG}
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
     paths:
       - .cache
-  variables:
-    CACHE_COMPRESSION_LEVEL: fastest
-    # CACHE_FALLBACK_KEY: ${CI_JOB_NAME}-${CI_DEFAULT_BRANCH}
-    CACHE_FALLBACK_KEY: ${CI_JOB_NAME}-alpha
-    FF_USE_FASTZIP: "true"
   script:
-    - yarn config set cache-folder ${CI_PROJECT_DIR}/.cache/yarn
     - yarn global add @socialgouv/yarn-workspace-focus-install
     - yarn exec yarn-workspace-focus-install
       --

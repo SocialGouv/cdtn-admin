@@ -17,8 +17,14 @@ include:
 #
 #
 
-# variables:
+variables:
 #   AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
+  ARTIFACT_COMPRESSION_LEVEL: "fastest"
+  CACHE_COMPRESSION_LEVEL: "fastest"
+  FF_USE_FASTZIP: "true"
+  TRANSFER_METER_FREQUENCY: "1s"
+  YARN_CACHE_FOLDER: "$CI_PROJECT_DIR/.cache/yarn"
+
 
 #
 #
@@ -45,6 +51,14 @@ include:
   extends:
     - .base_kosko_k8s_test
     - .cdtn_base_rules
+  cache:
+    key:
+      files:
+        - .k8s/yarn.lock
+      prefix: k8s
+    paths:
+      - .cache
+      - .k8s/node_modules
   stage: .pre
 
 #
@@ -70,7 +84,6 @@ Stop review:
   variables:
     GIT_STRATEGY: none
   script:
-    - yarn config set cache-folder ${CI_PROJECT_DIR}/.cache/yarn
     - yarn global add degit
     - yarn exec degit "SocialGouv/kosko-charts/templates/autodevops#v5.2.0-alpha.5" .k8s
     - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
