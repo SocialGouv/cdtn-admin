@@ -40,7 +40,8 @@ const manifests = restoreDbJob({
 manifests.forEach((m) => {
   m.metadata = m.metadata || {};
   m.metadata.labels = gitlabEnv.labels || {};
-  m.metadata.labels.component = `restore-${process.env.CI_COMMIT_REF_SLUG}`;
+  m.metadata.labels.component =
+    process.env.COMPONENT || `restore-${process.env.CI_COMMIT_REF_SLUG}`;
 });
 
 // override initContainer PGDATABASE/PGPASSWORD because this project pipeline use the legacy `db_SHA` convention instead of `autodevops_SHA`
