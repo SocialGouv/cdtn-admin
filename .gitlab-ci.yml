@@ -16,9 +16,15 @@ include:
 #
 #
 
-# variables:
+variables:
 #   AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
 #   CDTN_FORCE_RESTORE_DB: "🌪️" # Will force restore the database !
+  ARTIFACT_COMPRESSION_LEVEL: "fastest"
+  CACHE_COMPRESSION_LEVEL: "fastest"
+  FF_USE_FASTZIP: "true"
+  TRANSFER_METER_FREQUENCY: "1s"
+  YARN_CACHE_FOLDER: "$CI_PROJECT_DIR/.cache/yarn"
+
 
 #
 #
@@ -45,6 +51,14 @@ include:
   extends:
     - .base_kosko_k8s_test
     - .cdtn_base_rules
+  cache:
+    key:
+      files:
+        - .k8s/yarn.lock
+      prefix: k8s
+    paths:
+      - .cache
+      - .k8s/node_modules
   stage: .pre
 
 #
@@ -70,7 +84,6 @@ Stop review:
   variables:
     GIT_STRATEGY: none
   script:
-    - yarn config set cache-folder ${CI_PROJECT_DIR}/.cache/yarn
     - yarn global add degit
     - yarn exec degit "SocialGouv/kosko-charts/templates/autodevops#v5.2.0-alpha.5" .k8s
     - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
@@ -90,6 +103,7 @@ Stop review:
 Release:
   extends:
     - .autodevops_release
+  allow_failure: true
   variables:
     SEMANTIC_RELEASE_PLUGINS: |-
       @semantic-release/changelog
@@ -115,6 +129,8 @@ Release:
     - .cdtn_base_rules
   stage: Deploy
   allow_failure: true
+  needs:
+    - job: 🛂 k8s test
 
 🚩 Generate sitemap (review):
   extends:
@@ -123,6 +139,8 @@ Release:
     - if: "$PRODUCTION || $RELEASE || $CI_COMMIT_TAG"
       when: never
     - when: manual
+      allow_failure: true
+
   environment:
     name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
     url: https://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
@@ -137,6 +155,8 @@ Release:
       when: never
     - if: "$CI_COMMIT_TAG"
       when: manual
+      allow_failure: true
+
   environment:
     name: preprod${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
     url: https://preprod-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
@@ -149,6 +169,8 @@ Release:
   rules:
     - if: '$CI_COMMIT_TAG && $PRODUCTION'
       when: manual
+      allow_failure: true
+
     - when: never
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}

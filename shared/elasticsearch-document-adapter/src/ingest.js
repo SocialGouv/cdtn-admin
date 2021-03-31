@@ -29,7 +29,7 @@ const ELASTICSEARCH_URL =
 const NLP_URL = process.env.NLP_URL;
 
 const esClientConfig = {
-  auth: { apiKey: process.env.ELASTICSEARCH_DATA_TOKEN },
+  auth: { apiKey: process.env.ELASTICSEARCH_TOKEN_INGEST },
   node: `${ELASTICSEARCH_URL}`,
 };
 

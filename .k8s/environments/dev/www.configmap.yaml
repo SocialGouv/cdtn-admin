@@ -8,6 +8,11 @@ data:
   GITLAB_URL: https://gitlab.factory.social.gouv.fr/api/v4
   HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
   JWT_TOKEN_EXPIRES: "15" # 15 min
+  REFRESH_TOKEN_EXPIRES: "43200"
+  MATOMO_SITE_ID: "27"
+  MATOMO_URL: "https://matomo.fabrique.social.gouv.fr/"
+  SENTRY_DSN: "https://a5e2451c6b5840c0afa28d5e94060427@sentry.fabrique.social.gouv.fr/42"
+  SMTP_URL: "smtp.tipimail.com"
   NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES: "10080"
-  NEXT_PUBLIC_REFRESH_TOKEN_EXPIRES: "43200"
+  NEXT_PUBLIC_CONTAINER_NAME: "cdtn-dev"
   NODE_ENV: "production"

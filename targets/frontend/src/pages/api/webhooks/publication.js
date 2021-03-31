@@ -11,8 +11,8 @@ export default async function (req, res) {
   }
 
   if (
-    !process.env.ELASTICSEARCH_APIKEY_PUBLISH_PROD ||
-    !process.env.ELASTICSEARCH_URL_PROD
+    !process.env.ELASTICSEARCH_TOKEN_UPDATE ||
+    !process.env.ELASTICSEARCH_URL
   ) {
     res.status(304).json({ message: "not modified" });
   }
@@ -49,9 +49,9 @@ export default async function (req, res) {
 
   const client = new Client({
     auth: {
-      apiKey: process.env.ELASTICSEARCH_APIKEY_PUBLISH_PROD,
+      apiKey: process.env.ELASTICSEARCH_TOKEN_UPDATE,
     },
-    node: `${process.env.ELASTICSEARCH_URL_PROD}`,
+    node: `${process.env.ELASTICSEARCH_URL}`,
   });
 
   try {

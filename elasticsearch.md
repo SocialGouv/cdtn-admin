@@ -38,7 +38,7 @@ POST /_security/api_key
 ```json
 POST /_security/api_key
 {
-  "name": "cdtn_ingest",
+  "name": "cdtn_updatet",
   "role_descriptors": {
     "role-update": {
       "cluster": ["all"],
@@ -65,7 +65,7 @@ POST /_security/api_key
       "index": [
         {
           "names": ["cdtn-*"],
-          "privileges": ["create_doc", "create_index", "delete_index", "manage"]
+          "privileges": ["create", "create_index", "delete_index", "manage"]
         }
       ]
     }
