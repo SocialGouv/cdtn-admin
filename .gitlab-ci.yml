@@ -205,13 +205,12 @@ Release:
       - targets/${PACKAGE}/node_modules
       - node_modules
   script:
-    - (
-      test -d node_modules &&
+    - test -d node_modules &&
       yarn changed list
       --git-range "alpha"
       --include ${PACKAGE}
-      --json | grep -vq "${PACKAGE}"
-      ) &&
+      --json |
+      grep -vq "${PACKAGE}"  &&
       echo "Unchanged. Skip !" && exit 0
     # - yarn changed list --git-range "${CI_DEFAULT_BRANCH}" --include ${PACKAGE} --json | grep "${PACKAGE}" || echo "Unchanged. Skip !" && exit 0
     - yarn workspaces focus ${PACKAGE}
