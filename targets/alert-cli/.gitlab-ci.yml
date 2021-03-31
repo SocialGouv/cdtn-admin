@@ -13,14 +13,17 @@
         - yarn.lock
       prefix: ${CI_JOB_NAME}
     paths:
-      - .cache
+      - .yarn
+      - targets/alert-cli/node_modules
+      - node_modules
   script:
-    - yarn global add @socialgouv/yarn-workspace-focus-install
-    - yarn exec yarn-workspace-focus-install
-      --
-      --cwd targets/alert-cli
-      --
-      --frozen-lockfile --prefer-offline
+    - yarn changed list
+      --git-range "alpha"
+      --include alert-cli
+      --json | grep "alert-cli" ||
+      echo "Unchanged. Skip !" && exit 0
+    # - yarn changed list --git-range "${CI_DEFAULT_BRANCH}" --include alert-cli --json | grep "alert-cli" || echo "Unchanged. Skip !" && exit 0
+    - yarn workspaces focus alert-cli
   artifacts:
     expire_in: 1 week
     paths:
