@@ -1,6 +1,9 @@
 import { restoreContainerJob } from "@socialgouv/kosko-charts/components/azure-storage/restore-container.job";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
+import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../../../utils/GITLAB_LIKE_ENVIRONMENT_SLUG";
+
+const gitlabEnv = gitlab(process.env);
 
 const job = restoreContainerJob({
   env: [
@@ -18,6 +21,8 @@ const job = restoreContainerJob({
   to: "dev",
 });
 job.metadata!.name = `restore-container-${GITLAB_LIKE_ENVIRONMENT_SLUG}`;
+job.metadata!.labels = gitlabEnv.labels || {};
+job.metadata!.labels.component = `restore-${process.env.CI_COMMIT_REF_SLUG}`;
 job.metadata!.annotations = {
   "kapp.k14s.io/update-strategy": "always-replace",
 };

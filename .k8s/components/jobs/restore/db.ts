@@ -10,9 +10,11 @@ import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../../../utils/GITLAB_LIKE_ENVIRON
 import { PG_ENVIRONMENT_SLUG } from "../../../utils/PG_ENVIRONMENT_SLUG";
 import { getDevDatabaseParameters } from "@socialgouv/kosko-charts/components/azure-pg/params";
 import { getDefaultPgParams } from "@socialgouv/kosko-charts/components/azure-pg";
+import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 
 const suffix = PG_ENVIRONMENT_SLUG;
 const pgParams = getDevDatabaseParameters({ suffix });
+const gitlabEnv = gitlab(process.env);
 
 const manifests = restoreDbJob({
   env: [
@@ -34,6 +36,13 @@ const manifests = restoreDbJob({
     .toString(),
   project: "cdtn-admin",
 });
+
+manifests.forEach((m) => {
+  m.metadata = m.metadata || {};
+  m.metadata.labels = gitlabEnv.labels || {};
+  m.metadata.labels.component = `restore-${process.env.CI_COMMIT_REF_SLUG}`;
+});
+
 // override initContainer PGDATABASE/PGPASSWORD because this project pipeline use the legacy `db_SHA` convention instead of `autodevops_SHA`
 const job = manifests.find<Job>((m): m is Job => m.kind === "Job");
 ok(job?.metadata, "Missing job metadata");
