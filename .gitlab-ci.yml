@@ -60,7 +60,7 @@ variables:
       - .yarn
   stage: .pre
   script:
-    - git diff origin/alpha --name-only |
+    - git diff alpha --name-only |
       grep --quiet ".k8s" ||
       echo "Unchanged. Skip !" && exit 0
     # - git diff "${CI_DEFAULT_BRANCH}" --name-only | grep --quiet ".k8s" || echo "Unchanged. Skip !" && exit 0
