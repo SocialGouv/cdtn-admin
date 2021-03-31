@@ -118,7 +118,7 @@
       - .cache
       - .k8s/node_modules
   environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
+    name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
   needs:
     - job: 🛂 k8s test
     - job: 🗃 ingester-elasticsearch
