@@ -131,18 +131,17 @@ Release:
     - .cdtn_base_rules
   stage: Deploy
   allow_failure: true
-  needs:
-    - job: 🛂 k8s test
 
 🚩 Generate sitemap (review):
   extends:
     - .generate_sitemap
+  needs:
+    - job: 🛂 k8s test
   rules:
     - if: "$PRODUCTION || $RELEASE || $CI_COMMIT_TAG"
       when: never
     - when: manual
       allow_failure: true
-
   environment:
     name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
     url: https://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
@@ -152,13 +151,14 @@ Release:
 🚩 Generate sitemap (preprod):
   extends:
     - .generate_sitemap
+  needs:
+    - job: 🛂 k8s test
   rules:
     - if: "$PRODUCTION || $RELEASE"
       when: never
     - if: "$CI_COMMIT_TAG"
       when: manual
       allow_failure: true
-
   environment:
     name: preprod${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
     url: https://preprod-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
@@ -168,11 +168,11 @@ Release:
 🚩 Generate sitemap (prod):
   extends:
     - .generate_sitemap
+  needs: []
   rules:
     - if: '$CI_COMMIT_TAG && $PRODUCTION'
       when: manual
       allow_failure: true
-
     - when: never
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
