@@ -22,13 +22,11 @@
     - git fetch origin "${CI_DEFAULT_BRANCH}"
 
     - test -d shared/logger/lib &&
-      (
       yarn changed list
       --git-range "origin/${CI_DEFAULT_BRANCH}"
       --include "@socialgouv/cdtn-logger"
       --json |
-      grep -vq "@socialgouv/cdtn-logger"
-      ) &&
+      grep -vq "@socialgouv/cdtn-logger" &&
       echo "Unchanged. Skip !" && exit 0
 
     # - yarn changed list --git-range "origin/${CI_DEFAULT_BRANCH}" --include @socialgouv/cdtn-logger --json | grep "@socialgouv/cdtn-logger" || echo "Unchanged. Skip !" && exit 0
