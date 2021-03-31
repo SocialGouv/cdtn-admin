@@ -1,5 +1,5 @@
 {
-  "name": "ingester-es",
+  "name": "ingester-elasticsearch",
   "description": "SocialGouv - Code du travail numerique - Target - Ingester Elasticsearch",
   "version": "1.0.0-alpha.14",
   "dependencies": {
