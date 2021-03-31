@@ -6,54 +6,70 @@ import {
   MdSyncProblem,
   MdTimelapse,
 } from "react-icons/md";
-import { getToken } from "src/lib/auth/token";
-import { request } from "src/lib/request";
 import useSWR from "swr";
+import { useClient } from "urql";
 
 import { ConfirmButton } from "../confirmButton";
 
-function fetchPipelines(url) {
-  const { jwt_token } = getToken();
-  return request(url, { headers: { token: jwt_token } });
+const pipelineQuery = `
+query getPipelines {
+  pipelines {
+    preprod
+    prod
+  }
 }
+`;
+
+const pipelineMutation = `
+mutation trigger_pipeline($env:String!) {
+  trigger_pipeline(env: $env) {
+    message
+  }
+}
+`;
 
 export function GitlabButton({ env, children }) {
   const [status, setStatus] = useState("disabled");
-  const token = getToken();
-  const { error, data, mutate } = useSWR(`/api/pipelines`, fetchPipelines);
+  const client = useClient();
+  const { error, data, mutate } = useSWR(pipelineQuery, (query) => {
+    return client
+      .query(query)
+      .toPromise()
+      .then((result) => {
+        if (error) {
+          throw error;
+        }
+        return result.data.pipelines;
+      });
+  });
 
-  async function clickHandler() {
+  function clickHandler() {
     if (isDisabled) {
       return;
     }
     setStatus("pending");
-    await request("/api/trigger_pipeline", {
-      body: {
-        env,
-      },
-      headers: {
-        token: token?.jwt_token,
-      },
-    }).catch(() => {
-      setStatus("disabled");
+    client.mutation(pipelineMutation, { env }).toPromise((result) => {
+      if (result.error) {
+        setStatus("error");
+      }
+      if (result.data) {
+        mutate(pipelineQuery);
+      }
     });
-    mutate();
   }
 
   useEffect(() => {
-    if (!error && data) {
-      if (data[env] === false) {
-        console.log(env, "ready to update", data);
-        setStatus("ready");
-      }
-      if (data[env] === true) {
-        setStatus("pending");
-      }
+    if (data?.[env] === false) {
+      setStatus("ready");
+    }
+    if (data?.[env] === true) {
+      setStatus("pending");
     }
   }, [env, data, error]);
 
   const isDisabled =
     status === "disabled" || status === "pending" || status === "error";
+
   return (
     <ConfirmButton disabled={isDisabled} onClick={clickHandler}>
       {status === "pending" && <MdTimelapse />}
