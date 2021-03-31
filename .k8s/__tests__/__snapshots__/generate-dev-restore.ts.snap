@@ -12,7 +12,7 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: master
+    component: restore-master
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
@@ -165,7 +165,7 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: master
+    component: restore-master
 ---
 apiVersion: batch/v1
 kind: Job
@@ -177,7 +177,7 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: master
+    component: restore-master
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
