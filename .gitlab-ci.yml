@@ -59,6 +59,10 @@ variables:
     paths:
       - .yarn
   stage: .pre
+  script:
+    - cd ${K8S_FOLDER}
+    - yarn
+    - yarn test
 
 #
 #
