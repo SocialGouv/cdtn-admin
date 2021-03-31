@@ -44,6 +44,17 @@ variables:
       when: never
     - when: on_success
 
+.cdtn_base_k8s_cache:
+  cache:
+    key:
+      files:
+        - .k8s/yarn.lock
+      prefix: k8s
+    paths:
+      - .yarn
+      - .k8s/.yarn
+    policy: pull
+
 #
 #
 #
@@ -59,16 +70,46 @@ variables:
       prefix: k8s
     paths:
       - .yarn
+      - .k8s/.yarn
   stage: .pre
   script:
     - git fetch -q -p
-    - git diff origin/alpha --name-only |
-      grep -q ".k8s" ||
+    - git diff "origin/${CI_DEFAULT_BRANCH}" --name-only | grep -q ".k8s" ||
       echo "Unchanged. Skip !" && exit 0
-    # - git diff "${CI_DEFAULT_BRANCH}" --name-only | grep --quiet ".k8s" || echo "Unchanged. Skip !" && exit 0
     - cd ${K8S_FOLDER}
     - yarn
     - yarn test
+
+#
+#
+#
+
+Review:
+  extends:
+    - .autodevops_review
+    - .cdtn_base_k8s_cache
+  script:
+    - yarn --cwd .k8s --production
+    - yarn --silent "${KOSKO_GENERATE_ARGS}" > ${CI_PROJECT_DIR}/manifest.yaml
+    - kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
+
+Preprod:
+  extends:
+    - .autodevops_preprod
+    - .cdtn_base_k8s_cache
+  script:
+    - yarn --cwd .k8s --production
+    - yarn --silent "${KOSKO_GENERATE_ARGS}" > ${CI_PROJECT_DIR}/manifest.yaml
+    - kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
+
+Production:
+  extends:
+    - .autodevops_production
+    - .cdtn_base_k8s_cache
+  script:
+    - yarn --cwd .k8s --production
+    - yarn --silent "${KOSKO_GENERATE_ARGS}" > ${CI_PROJECT_DIR}/manifest.yaml
+    - kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
 
 #
 #
@@ -126,7 +167,6 @@ Release:
     - git remote set-url origin https://${GITHUB_TOKEN}@github.com/${CI_PROJECT_PATH}.git
 
     - yarn global add lerna
-
 
 #
 #
