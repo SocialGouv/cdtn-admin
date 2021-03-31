@@ -17,7 +17,8 @@
       - targets/alert-cli/node_modules
       - node_modules
   script:
-    - test -d node_modules ||
+    - ls
+    - test -d node_modules &&
       yarn changed list
       --git-range "alpha"
       --include alert-cli

@@ -18,7 +18,7 @@
       - .yarn
       - shared/logger/lib
   script:
-    - test -d shared/logger/lib ||
+    - test -d shared/logger/lib &&
       yarn changed list
       --git-range "alpha"
       --include @socialgouv/cdtn-logger
