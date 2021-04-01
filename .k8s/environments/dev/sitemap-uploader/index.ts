@@ -19,5 +19,4 @@ BASE_URL = https://xxx-code-travail.dev2.fabrique.social.gouv.fr/
 );
 export default {
   DESTINATION_NAME: `sitemap.xml`,
-  SECRET_NAME: "azure-cdtnadmindev-volume",
 };
