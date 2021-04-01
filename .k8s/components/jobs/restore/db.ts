@@ -46,7 +46,8 @@ const manifests = restoreDbJob({
   ],
   postRestoreScript: fs
     .readFileSync(path.join(__dirname, "./post-restore.sql"))
-    .toString(),
+    .toString()
+    .replace("${PGDATABASE}", pgParams.database),
   project: "cdtn-admin",
 });
 
