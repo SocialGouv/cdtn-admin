@@ -155,7 +155,7 @@
 
 🛎️ ingester-elasticsearch (prod => es preprod):
   extends:
-    - .autodevops_preprod
+    - .autodevops_production
     - .trigger_ingester_elasticsearch_job
   needs: []
   rules:
