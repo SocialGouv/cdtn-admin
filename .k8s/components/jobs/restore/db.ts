@@ -94,7 +94,12 @@ pgPasswordEnvVar.value = pgParams.password;
 
 if (PG_ENVIRONMENT_SLUG === PREPROD_PG_ENVIRONMENT) {
   // prerpod configuration !
-  initContainer.env = [];
+  initContainer.env = [
+    {
+      name: "PGDATABASE",
+      value: pgParams.database,
+    },
+  ];
   initContainer.envFrom = [
     {
       secretRef: {

@@ -278,7 +278,9 @@ spec:
             name: post-restore-script-configmap-0123456
           name: scripts
       initContainers:
-        - env: []
+        - env:
+            - name: PGDATABASE
+              value: preprod
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user-dev
