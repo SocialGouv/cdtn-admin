@@ -1,7 +1,8 @@
 include:
   - project: SocialGouv/gitlab-ci-yml
     file: /base_autodevops.yml
-    ref: v20.7.14
+    ref: v21.0.0
+
   #
   - /shared/logger/.gitlab-ci.yml
   - /shared/elasticsearch-document-adapter/.gitlab-ci.yml
@@ -17,7 +18,7 @@ include:
 #
 
 variables:
-#   AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
+  #   AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
   CDTN_FORCE_RESTORE_DB:
     value: "false"
     description: "Will force restore the database !"
@@ -27,19 +28,15 @@ variables:
   TRANSFER_METER_FREQUENCY: "1s"
   YARN_CACHE_FOLDER: "$CI_PROJECT_DIR/.cache/yarn"
 
-
 #
 #
 #
 
 .cdtn_base_rules:
-  interruptible: true
   needs: []
   interruptible: true
   rules:
-    - if: $PRODUCTION || $RELEASE
-      when: never
-    - if: $UPDATE_ES_INDEX
+    - if: $PRODUCTION || $TRIGGER
       when: never
     - if: $CI_COMMIT_MESSAGE =~ /^chore(release):*/
       when: never
@@ -119,7 +116,6 @@ Release:
 
     - yarn global add lerna
 
-
 #
 #
 #
@@ -137,7 +133,7 @@ Release:
   needs:
     - job: 🛂 k8s test
   rules:
-    - if: "$PRODUCTION || $RELEASE || $CI_COMMIT_TAG"
+    - if: "$PRODUCTION || $TRIGGER || $CI_COMMIT_TAG"
       when: never
     - when: manual
       allow_failure: true
@@ -150,17 +146,11 @@ Release:
 🛎️ Generate sitemap (preprod):
   extends:
     - .generate_sitemap
-  needs:
-    - job: 🛂 k8s test
+  needs: []
   rules:
-    - if: "$PRODUCTION || $RELEASE"
-      when: never
-    - if: "$CI_COMMIT_TAG"
-      when: manual
-      allow_failure: true
+    - if: $TRIGGER == "UPDATE_PREPROD"
   environment:
     name: preprod${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
-    url: https://preprod-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
   variables:
     KOSKO_GENERATE_ARGS: --env preprod jobs/sitemap-uploader
 
@@ -169,12 +159,27 @@ Release:
     - .generate_sitemap
   needs: []
   rules:
-    - if: '$CI_COMMIT_TAG && $PRODUCTION'
-      when: manual
-      allow_failure: true
-    - when: never
+    - if: $TRIGGER == "UPDATE_PROD"
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
-    url: https://${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
   variables:
     KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
+
+Export storage to prod:
+  stage: .post
+  extends:
+    - .base_deploy_kosko_stage
+  environment:
+    name: prod2
+  dependencies: []
+  allow_failure: true
+  rules:
+    - if: $TRIGGER == "UPDATE_PROD"
+  variables:
+    # storage copy
+    SOURCE_CONTAINER: "cdtn"
+    SOURCE_SERVER: "dev"
+    DESTINATION_CONTAINER: "cdtn"
+    DESTINATION_SERVER: "prod"
+    # kosko options
+    KOSKO_GENERATE_ARGS: --env prod restore/containers

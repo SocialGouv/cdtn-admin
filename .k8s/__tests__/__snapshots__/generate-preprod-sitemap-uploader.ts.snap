@@ -54,8 +54,7 @@ spec:
             - name: DESTINATION_NAME
               value: sitemap-preprod.xml
             - name: SITEMAP_ENDPOINT
-              value: >-
-                https://preprod-cdtn-admin.dev2.fabrique.social.gouv.fr/api/sitemap
+              value: https://cdtn-admin.fabrique.social.gouv.fr/api/sitemap
           envFrom:
             - secretRef:
                 name: sitemap-uploader

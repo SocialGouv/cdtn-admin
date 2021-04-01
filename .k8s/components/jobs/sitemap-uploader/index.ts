@@ -55,6 +55,7 @@ const job = new Job({
           "kapp.k14s.io/deploy-logs": "for-new-or-existing",
         },
       },
+
       spec: {
         restartPolicy: "OnFailure",
         containers: [
@@ -78,7 +79,9 @@ const job = new Job({
               },
               {
                 name: "SITEMAP_ENDPOINT",
-                value: `${process.env.CI_ENVIRONMENT_URL}/api/sitemap`,
+                value: `${
+                  process.env.SITEMAP_ENDPOINT || env.SITEMAP_ENDPOINT
+                }/api/sitemap`,
               },
             ],
             envFrom: [
