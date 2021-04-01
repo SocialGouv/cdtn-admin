@@ -163,6 +163,8 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
+            - secretRef:
+                name: hasura
             - configMapRef:
                 name: hasura
       initContainers:
@@ -183,6 +185,36 @@ spec:
             requests:
               cpu: 5m
               memory: 16Mi
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: hasura
+  namespace: cdtn-admin
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+spec:
+  encryptedData:
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgAI5tfIU/mtLMG5nNxrizpigh79u5jtg4zYcu8P1I2xSSL1Rm5ErjpIWL7yiS6l0LTUwZb/a8e3Y4ioouUmw8U5JLm4ZTiz499Q/1OtlFI9i2BGKo/apygl3GsAS94OEUwzsU27sh179Jxrs9m2ymstcYsjiLH5DcZm9U160EfHHqeRIDT/XYY6S4niJiKznZWQqjsJ8u+ozMgOLnWJtZavtvdcjQz2RcnYgEG8BSc/3bTRrh9CqX1KB7amvJuwOlkFf8waddbud5ZbC7oi1SskUGV05RGNSbTdG+PSQmxnJD3xlvhkEojvynbkwUOR+BwiWtVHzjXx8oUIQbk0+U8JkRA6iIgnYGeyv//6MsZsZTeh3JqbCnzBBxB7NIk8dwQ3gP2TuqmEmNz9mV02ky7uGCY3OH/bwAH/iRD5MMoWgvya26jpxp2R0RJf15Ybo15rCC6jf7OIcXDFJnqclrn02WSdQ28wws0GCJ7BSWp1a6qy40h2PfgjavolgMJl9A6YN8O6nevPW6/WVNesXAbWYTtNDz8oPnHIzHuRLdra799pW5jiJXJMsQ5c7UW4A/+Bc00AjjrZsK7jJqLzVrud943T2eONGb7K7/bb6ggncwMc7PRoPxPVIgjfkzrR711STmzSZTkucY7A5M+8bMNyF40xuKezq6G6RFr4RombOw7Mdnxvemhw7JnJETWk4mZBUmk5fMjNZcx6wmPxjmQ42RAn2Q==
+    HASURA_GRAPHQL_JWT_SECRET: >-
+      AgCi62u+1eUHZOq1eeTuXpEgmwb1NjkkhS+pcQKkuTYqFQstxTL+720qNwlewt41oZ6aRFc31jYDxKAotEack77hz58BTAfE1/MQR2ST6kbfezcF6Kn4aufBsH9t8zv7qeJ9Wonqnw/XpfuDoRglzJ8AzInpF16kM8aClbi2Mdh9WlBPoNyAEdIHan4zL2jQuY8KuTZxgzGvEHQn7GFRNJ5y0AMpkwDmIRwzrBHii+L0h4qMe8zrk09SGr6aVN23fTGi4A+a9lJWP3hBX2/ZZXT3N/YdP5V9LO1mF8yAzco241dFyvGl0seSSdJe7h7TCIoqxjSjsNNVtmW6guY4PdqnImoKkRKhhmVqtFkVezjpYdyUzXOwPYRL6FA8VfIsGbwwtkK7Y0O8c513ZJQMRevibapQVad/hKLVVrT1XrXUvmgfDV5q+zy8ll98IpSFvWe8IpI2cRonOvaRxg/8Zi2zNgWfIQ9rABvef0/UhqZgkXqyD9x1iiXARSjbKHClFRuxbucFyB5sOlLahnSEMXp+MJHUN/dCMZ61p+jBGth4qw3Qjp2rAuHEret1N9YcwuG5xuze2MF+5jrmD/JM0jsXoeSy9J7zDRwxdishwmtfeFu9inpYM2mcLzn4fJvDGdOHNIZ6138284qZkQqN4DE0ytw0mWQ2XRf9oSlPHRYm4qdBkCX6gzaubE/SDUKLbsUISBhINDBoamAozOes51Z3P2n8YNAd2Bi41Vllk1hnWLXbQ+SWmL+8M0D+9s0XIsM2Q/c2BkDdf00kaZgHVUMSrM+4oUQyoWNSjqrq3KIGkQ0w88PiLMyntTcccz91f/7uWO/L7A8mt2o2R9ljKLQpVStoAu8z
+    PUBLICATION_SECRET: >-
+      AgBcsYTPFZtlCxaB6GhB+y2Bv2D+amWD188Hk5HgYVTz18yWpLlqQiylERizCGmqrH1lQM7UeVyhH45e90BVcZ2M2B33S1HKCtElIIf8ZpTI3XM2HhlZo0z9ij+lKi3te4e7ccjvgjni8FuxUv/C0LW9rXFJ93PsxdSQA8b0VyFohEKGmzFJIv+vuNopyFxpew2EtgSES/n3Km8sySdqFGiwwmPx2L/fUDfdvsW1pACsitvAZe3sDfi/Bq+d6psLQ45copWDhJDhP8GuPgVeogw9mHbTTeNnqHffEvBGQyQMmuf21CpFd4OCjuw6W7kyNxqno5eGs0pvQut7Bx+al7AHGKc4fNF3Paz9z+YZU2qCffdtUGtQ7ZpUvK07o03FCgb1KMBABrLBVxRurde+4AutBYhgSgRQhY2d3O9fwIUqB6oFF4YhBXo4YZUa0BdxZ0v0gz9VyaTj3/jjg2aC/VHi3hnI+zyO6cSWDzSiG7eh3XZfUo8gHwMY4hqqsNKJA++9GjMufsRRReHB+7GbDxiWidpiHD0eMUfR4AXj/4fUPk8mIR2HMHES3XlBvdOjHwvzXpjIyI0WJNMisv1K4IzOPLQ7MLmsVwa+LJntUYZxS7p74tn/DXDZ5bQ5pVERMKN8KcSqigAoLssYkUsUGMvnBRIhn8d8BwZhJvz5PXHuneyiNrQY85v/rp6j0Ls1/pCBQF6LifHFlmd3uVArVUskqvkxcfa17X84u6oIqL9hWFLdJyPnifsO+SUvyEF386V+npsXpbsuHPf3UjzzXAUQfiXMQrjQH+VjfjilQnTLUB1h1/iX146w
+    ACTIONS_SECRET: >-
+      AgCkkuGEYepd3F5aYpHWr1UKcFYkA2a0xzr4CFYZgQ2JAA0bW3iPuNEWEZUNQvH8fiwQXn1rv6tP47s8uxeefJzEyMmjxF6Zia9nmdrfwzEZ9/4rjSKT0yXqqsnpq/PaJhQKcMZV8MXTA//dheFGKZzWgoEUJM1VsoVDsoL5xwA+qq3Y72CtPsFOMoVtPBmUauvIySYVf2Nsn23s+nkP0crdwigpQ5030QQ+gyJEm8UPD68ibNkcGR5/NhFsNu29EFwbWLq0aXG0q7q3bS31Yo/7ZebRNBb7vcDqOcwu7xQBbg0OOweNbTp4xBaHZCEhme2WEc+FZIwFEWNyv7cpwLSjpJYtKZBbFEFzEEKINFlIKrLFEEWodS0/kKrlLRD1oFWilfa8xhk2ZegKA1G5wIrJ0BEgoIA9JnjPMEAny8/wEGSVJAUvsbKMp7NManU7kCRalD6GmSZ+Oy5ZEi8rCorNT1rAQSEERBpCMsglnW5XGewf4TlLrIM4ynki4DUlu8CdG3zJyqjMdYHAcL/2JI5pMjg4aM00aAS7ZlmYOTuREbp19NXXJf2ScCpXHjWSHHjxzAZpa4pxHZfnmkYWgo9g/eAq/W7WK9oBVO4Cla3p+cuH/sHsSIY/2dga/slAyhHzhzJ/xZeQT77a5FxMGNHrk5nv/XvzLWZO12Tnq2GINQsxJr0Xs08Xiqzpp9oypCgJkFKyAQlxlSgcqpo/cFgb2m+5M1YOX6agvZiXnC2izT7PmCvtUiRrCv9Fby0DYY3WayF5kI6lpoLcl1oIeY9jyzlRC760X7A20xk3+g70vWdBGwPV7xFx
+template:
+  metadata:
+    name: hasura
+  type: Opaque
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -315,12 +347,13 @@ metadata:
   name: ingester
   namespace: cdtn-admin
 spec:
-  encryptedData: {}
-  template:
-    metadata:
-      name: ingester
-      namespace: cdtn-admin
-    type: Opaque
+  encryptedData:
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgAeU8hGYy7PAuMCLGVEIrt58hEho0yzO7XGa3jKOZDRv3dSJD8ryPzjbqsxhUfJDR5OEqj/PwBgBL8Nl/H/a/fPwIrsv3NqcVJJSq0HfiBe5sqJFYwWmA+Bf4y1XNibXygNnDfua3EOdgdSSoLAoksNH8YqHAKcg9iJFXCxDcwIJaL8XGZA6RNfR/SSn8ee05Nit3L5UbMMRYiSRjvw4Svi7svXgJwhSgUUAEnMO57yjcycmPXc3z+KqnmdNwUT22uvrSERqhFSWCK6A4LChm6r8IrIIfH5H09K0Aa8XWfKIoaKtsPgCjo3n3GW+X49IRxG7RGe8PgSzdMmsUj0iv4XaY9okzfQ5PRB9Dme/EDNuC1Nm5pmOtNPAfZwpiqqYg/CYAaikha2rwdmlVouged4czngFiAuOjfQA637apnGlVducE9EFOsOOoHbfl6AS7zjUgG11Zo8c/b/PHBwcpND/dOfQG6HyhvCUSv6+9CwiEyZf4Fxe7lMn4xnC4Ax+2fXP4YcwngofasekyHSsoaJeAKa3qrzzCxiLRQimsNA5TnM/9hWCZMDtkTFk4j417FTsupAtg+P5uCbSHtvS1DvdQmjq3ZhD4wcA2PiLLdIULRV1wNF1nXCIqmp5Iq3+T4K3zbBgQYtYCUJ0Uej3kM2s8djXV/QsOtBUuw3Ptk5/ymVMGizufzlOW3QHvgLnThM+SRVOxC6taUSJriJhNrpgbEn6w==
+template:
+  metadata:
+    name: ingester
+  type: Opaque
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -457,8 +490,70 @@ spec:
             - name: VERSION
               value: v1.2.3
           envFrom:
+            - secretRef:
+                name: www
             - configMapRef:
                 name: www-env
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: www
+  namespace: cdtn-admin
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+spec:
+  encryptedData:
+    AZURE_STORAGE_ACCOUNT_KEY: >-
+      AgA8MK7S2ryqvI9wdYBUDpZAHN5D3YBAQAfbGkbL7qFjW7NhsVa21SuQFXahcWE2pl3bG+hOR77DxWidZvl03HxitmZrCVbs5NhuMXaxCmYn63cfeDdyCl5SsZUOlkT77SG0aLy8A71D0CGBxwPtem2wbMdWbN26IRoZ1y7BCTAA+vFyeC/T65/Eo/MCG3vb/C/usTT093rx9pym/1uuY1TQ+As+X1/Ng6FNDHUqBg4jr/a/qZtRVJKDY/xCbgj3AZ43VLSpN2X/N1/n9BdX1Q4HPHuEP8Vlwkt4fjoBlY9iyWUHAd296IfnVbz2leNxySAEMYBdsuE9kRwwY+RJsO3oJ+E7BqnTxPLx145WCqDXGUIdCojXzeAb+yzh4w6ZXFZD86KoDkDigCPswCqydIA0fovS/xJ056dijRMtzzNDVTI6760jUv6N2W/zpiKvz7h92wkqiAbPS6NW8mYwpe6p4PNrPzGxJiZUbYIMFB83KNE3zcj+rDuD9ewIBKHvPLJDpvntQ8QN3AYnw9daqbG9W25Nq1oNEnxS9mYylWeI1JIlMJTELKmT/p9eikIx7VsO6tLjYsAhkKafw99pfLL82mqttzuNYCxauDqXEmYMw28RAwqbkK/8iBqUXv2jvcnqlg8r5PGvDLJnZ0bNdGZsw+tZ+F7dHSbB8GcZ16Dckg7hWjS4iPAZiba+LsB5PRtyxt+y9yLQHQij1sQH8ACTbnLp/SzzRSwvRQb5gYNpQ9274bU7kXms2gtsbBhhP62yn2kbZYEzFuYpPHYRa2lRWdLoYJb7RQomeBCsnIgHT/TidYzRySqT
+    AZURE_STORAGE_ACCOUNT_NAME: >-
+      AgBduAkD+Xo6ug2BtKgiiC3hR8oiWXtAh9bEJHVODF1a3IpS+apmqfN/EVDtRmTuEpPUqE5kPSusDIDiDXCfBP/wYVDZapDeuP4KLcK9zBSxYXXXEu55ydqI58F9/TvfLsUJThWeaTe+yVUoOZhiZKx19T1Yj8QilunV7AtktV7VnpYa0TXYOHFes3RcXQMGtKN1Uejm7AIxL/4ib98qgziWWTVj6lVBdU4Ay9fP8t/bouOHOkEFZhsAEUYTj8Q93Zv4IVWb9UERP8Rccqa03kz4iThG9Miy6TRNRhaKquTQG2OJ2N6DPgIWqjuzKAKdacgH5j85LpTaYdZMpgNmiv9VHR8sKuk7tSC4MuSeFu+BC1j45CiBfS+qHWM8cmO0nJQObRnxndf7oITzPxgVn5FPmwoqY2AUBGQdGy0fKEvbwI+ogx2QtLRj7Y2rJwCkuAZWqlh3FOICxoR6dHb0nSsmKUf/zi/s6MPugL7XWpnKvvTAttDsLqoGx24QpPe0L+cdukvC5CMMpLP6hhTKg+WGcVIfC2B3hMdx85ia24mg9lvjk3kCOEqS8XkUgKI9R2soEXErOmKk8iMrlPX1huXrMiNnaWkc7uFQWoZxvm0ufeDQ0KoAXnwk+xkuNT8KT+Hy05vqUrWD+GQJFgTbFGLKBXSF8yeFu/tgv8nJXn+p6fjPcyt+31xHfHw9ilIvX3aHNo3Wejer7Y10JLI=
+    ELASTICSEARCH_URL: >-
+      AgCHaMkqXDXw5e9xDz61s22/ZMAu2I388nWuQqSNI1Yme25sQWxr+BMOfoNZbxNlvMrKeoP8WWYXn0G9OkIExvE+pAOpqtU7wHGdfsAy7bXKgITg4AEHElbL5rpSm7quKv5cOYtZRCASXhWu5jQVf0e00vpsrHd7gIA9B0D61zqvKwhK+ptMDKmxO0hscw+kWey7UsyNVeZ8Tdhb+BksHtJZPApS8zKQi+Y5LNQtd4nBa7ImzrpeNdJylIyzipZ/JlyfyQWOq6m1izbQfwpumTLxfFm1ms1ahU25JkQct0OkSjNV8NKvheZa1I+elfMPXPLbseagtNRn7sPnRIbLTHg8217dWl423t0Q66bQmb4+s9JFjUF5zOZ3hIBsEyf0+RvBhm/dVyS2orkejpNO3kXutTFpSFq3OdUy1JBKH7tP9+elUCSbJ40qAY3uAYDC25HPkwMhJAUppKx1hBJ2y/1LLO42f8d5O+xg0Gb75hInO4vs2NkJYrcONSzUou+wtuSvFQS+77ihBg/42dio6U2cZcPQTs3lnOmB4a5BPqBu/zT02BGtKyF9obhnlyc+r92tO0t8xMZkL8zV/5rEdL9ICgn+1nF+7v2tuR1xOGsgj8yllhXTGhx07FroOzfuf2+j6Sv4V78OdpDBC8Hv64OuUW8sxDQFSDInaWk6hnaSlAf0P/MoXU9xfwpt7uz3e8UI2GJZUe9UTa/z8T56ElPD0ofQ6XvFeUGexIk9UuqhdqkIIkThnqI7NLSj56FaTyp/E6XZ0Ao2iwc5J4BZ9kwOE5KNxvO57szJ3S3DlPJjsA==
+    ELASTICSEARCH_TOKEN_UPDATE: >-
+      AgAoIXTpuzrrz7/fD7UQ0ef4hvCcshLceprdW2gUVNbKOui4ElZT6QWKk6YXSzyTbATZFoN5QeVD5s57DPR4+gZO65tElY+YhP1DIL3zRbHWizKB58ncHwMAkXC//LeB4XKXDXhvo8ztTgbqTFuDKmV/bRnIauhJXW0qo+M7ZSEid4VHFrI5WUalUdbN/aBAo7p/XhWyfGqtj+CpTTS8+s2uy/lfBe/E8QrHuhj/5o+4mhejUgw90rdlMJ+lLgmwnmzPsYV1kHZfceVbZlRWzV8sXEIz804VNNMCUtkiR3ewmd/UQqxuWPv8wq2w1gs+sr42DQD5UHQl+i3hhXInbMO39AyLNDDFIN0IbZUgPe6PzTWwtLU7WuKy35THNp7PgEgmuhygzZx295ReFdA1ZdDwDQnwNnQD4OPhTxuwjWgEVbhk/BQqOebWag9RSLZveg8tiHDpDl8gvNecbd8NkekcJTNcvXdVuDcQRJK9T4waFJpjhsKqnV1oZm8XfXKfO2jYRBNn90bV5ZKHgC3z1R8ix/WrA1A+NXcpZyeM4TM0inPtHHqq7ebwYg4DJXIJH5uWETwcmt/wp7aKr7Qibn/fRzmt2Gpssl2NcC2FhpGk7MNFDco0Ezn56PqZYEK265vU/Gl5Ln8Pd+tWXFWyxbW1mLxVBZXO7Ty1aBYK6cpxC8W1gD3sFxO4Icwz+oIhctTap9E861sYSxfbnyn4/s99AsnoHp5fiKLQIh4HOpakm85EHMpz7J0HVbjro7PxrzNN3BxVrLfhiYCvEJQ=
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgCIUDinIepasKq+R/3zZp9I/C28/KGM9vP52OQ2HauTeIdyRbItRKOqJJFbhPaT5Ujfy0QglhnJiRKxSfluPKJ020Sm4Tg4ftjtW4YDCdCW7+zbrL03aBh4Z91EUuBHi1BnyqWSmUvEOwFgxauYqRQ7jEjEyZfUrYyyegNGcDeWGlJQtp+k5lXNL4cwC3OUipN2fcVxSDRevmXRnABV55FuokkDOtNlLhYf98GhyYAUGrcxrapCB+zrgrbLM3le92F32S12iS/Hdbl4FA4GMXNKEkkeiZ85E5IIOQYJiXOyaawR/2QmbPIK7kbdfs4nI/UUChJzJOGDS64mQHQy5JLmSUqLnHrLeyqN+7Ods5LMaSpGBlKrp4f2xHhtPAVsqZGjY4CdoMAk80FoRfo+aVMCOicHgX2tOgLjLegcMxwTC/vRe9l4TW+IAjAGW6wS7GTwsypXUV+/haVS5FYAkOK1wYitgOSk7cA+cxWp+3p+m2afbSplt98yxsUWp1Dn+vbNFzUc7UuGhglO4GF7xFih942NLJ479NRXrAprLPt9XtkALyoYSKL/izWBYufJo/ZOTUIg5nLI3fsbsc+0IWmMIsxsZAArOLOG4QxZ1/WN4oprp+H3XVSHZhhxutpKsKpotbP7pczN7y+avBW4G4nBa9ud1FN1dZBkJ0UvIZ0WRaGb5/CMTKFTWPQUBZ0YRFLa4e5p/ZiFPEcrVHMwg9RdaRpTIQ==
+    HASURA_GRAPHQL_JWT_SECRET: >-
+      AgBo5Gk2/11Hfyc0Vl/smZRIPw3Yd1MdCSZHTxpSIwZffIkJvpirQaYDGftEjLRVlFgIpwW+RxdGVHyJS4TD+9nV0NUGTGGHreuiRYn/VoXGWadIaKMOJcm8sK9ZILAqVT/pgsC8G96r20RlmaJ6nCOBrAvFaG+CamliEqR5eQSnepFpzOEqOO2HY6jSNFI6lAvmh4udXUowtNHexHo0CJVFWylqSNb31wZ7bdsVnrUS77ExxMOxejCizyYiY4QnGJ6ivPiYkvYBU6zWfT1O16c0id+an/dHwz7vDzQLrPONgH9rTBc6LfwUtpPzcHghn0LxjnFTxS1Rn3cbOLuTt4Om2tO8EQJlEe7jjRJgx7zwRtwp/Dd1AtgA8nIsvp0+U8EAAwc1lwDgPSPYv/K3SN0NiqzPTAsTIVquNYl+KBdun+LsvPTj2b3BCs2UucM/Dhk2poNi2NHhbSh/PmlY2a2CXISoM9Eq08BwwQT9TC7ZhXHOHBpo8imKoUJW4qqVTJfr7g/pHk3bquoxDWWjJBKpMsSA3Fm8ex+QP00JZ4PfB+34ISL5kVC5Rr6ahIhW5nzUUkpFX9LtI4CjQy9L1f67LQ4TNrlJovksEsqEpmB3fqb/D/ftPJMa/y6cv9neAPoLKl1s9bOvrPxha7gcNgS0kTuEU4ScUwWbsTr1wrhd1fITPFOFz2u1glCNLcLyIH7W/MYGQscZ7dp14VzPMfitWEaJ7clBRKdLsk72a5avj4rFlzi+rb6+bqyg1K8QYu/yxQg7scp0k7WHtnEBdYW6ww1e731A8W4yjvB/qKF7qT20ajDO1TfAA18RuJ9DKGhLWiRjqMSRx8f3ELulnpX5M/R2xgcm
+    PUBLICATION_SECRET: >-
+      AgCZSlUcE0RgvnfmsjEjCK4HLSzhVzK3kZU5xUnH/SWkktJnz11Rdp1jFLgVf75+51e/Sxv1viDP6ut2Y7vBoFuAK/oEO3i6NVpVl2xZX/hMUjKtiIZklGKlGO/UmyhmfiFQK7ik+nctSy7rb4IwPMC54zh+BILe+aPOyXycI7JyuAyVVmEqv/IAL8rAneTPBgy0XC1jWl0TnfuTCzV670LjXP66acsw4tpNnAfKpbePyEJLQXkgp7pJr/vT5Mhb/aY1npnZoSUzc8eCAxM9aWn91J64N9+TAi/CQfFvva7apNjpmHQs5fyVvY5seDPS5fu83SUn0yFyHirlpvfnh/rSzSXsxYFRxu9fWzM7+0QH2sQSf2Hs1tIOt63X3qpXDgMc6tnRUikcoMzrG0GbH4t4uBB7TR6xankD0XqP0fcrjuWHpcY+D3uEs3mKFuF//7jMGlUttj1O/DQRfdAgpc4ilUZDCUoO2Sm67AlFBQ71rExqB6Oo6CAolNVyAk1bc/Xu/AqZG1ccEvVJiTkBLpJ53Yi6hWWlfoAH+ECUJ+axsBNYzAsXil0yyYLsmSVfyw1H6TW1GtH7FW+fV/sEl7ebPj/gMQTNLq3HZ3/DkbrJEvr8BZvmbx0bF4qdJtX6pNZJe4GZo5xjehGcAMxvWDonfL4PUTJmpT2OTfuCKm/ELYy4UVIJjguEYiH8bX87K+vFEF/qcHljhFJLyoEkNFV/FBHqYffPXx0BhCYOAuok2Ag6ZdyRmostH4Bll910L1XluTt1W/AKCqJYRAnV0xP0ob8aJN36WFpJDFxTeEUcZ1/h6v9ouxAE
+    ACTIONS_SECRET: >-
+      AgCWU6Pn0IIMGcekJimMYAxSQkb9aeuEJ9iSfw79f6LaXeODP1u/K2epb6oqvMaAtoz3uTYM2r8sInJbv1xe0YULFLlo8qzFNaubCcQHg6pSjBTNe/snhgz10rv1VvvYDstMKvelsq++uLc0D4jTU77g5pVYhXbRvx6WaBDV4BD5pld+9z9fj3xSoO673KZduWGL++WeKK+YYDoGxeGq6/3AZ7ZiqXuKACVpOwmhjado9RGZ5LlZnl6mjzlqw9SpY409+EtODRTVtCUT6ZfzaQhyoc8rSB1nhOIu1Tyq9sRx/oIPBNOprs7jTreTu/W7oSXt1nDv8JjeIDG8YDoAYcX6kELvo5SAdo1BhAz83jRfEvvnWFRITA30esF5DHGLaWO+IzolItJYV/eB6YV5jGSazfPNSVxkKj/L5TCRrP0fsQX8DUdJdA4FfVxEjudm1Y8R7MACSOl838syUiBQfJ1mH5vBQvrMvo8gM2O19nppcqv/KekMQebisKa//kGuVzlMCgLQ4fBb91S5HDWcdFjomc17Oeh1u0lF/LHsuW/2Y6I7BqgCVUSCDa7rygLs/0l26EJRrJPc2C8jsWzE+nWKICnASnlWQCgJR6InhUK01cnFazrU78es9skz7ddna8gPtfZ4VCwEozkLYoDL+AgEm8yPZGji1HG0SiouOfbMT/V8hXE7yMoybxSjllYNvEY8mpErzdr79wqs15jYCS26SBvVCxwyGNwi703gvMSVOf7l07C0ycGzDDxbMB97CQghuBWQ+Qi5VlS5XrpkpeQ17d3Xse4ybFLln1c8bLxDTjLvQl9IqlpY
+    GITLAB_ACCESS_TOKEN: >-
+      AgBpEHtlInExR0Jt9rTl7DF1l9aYrTfOHr6fvb+uVRhW+V2cVcjv2jpN6s+nkCllEYUdgBZR1jbKg7VJJIE2LnwrRSne0qQ7TCtkqJf29lTuvU+Lt6kT296hDR772cK07C0RLSX64OUviCh6h+1xQILvs7z4CLc+dXydDo/FZWV3VipRKCEX4DMl2rypssqinstehM3nXhNdYdTlddERzq5tgwEKdA+aI7SLKDrrHg2kkY/ePbwro6n0Vt/+Utqq6IZjxAgXTKnVdfRu/IBWIW19RL0qpd1/Ar9tOMm50beSIeDiQ0n4jbMrViOf+/+/uuPQm/TbL3AnXn4bZnP79VWU2uT8XywZFpg1az4JFTjKbzNNu3B3t1UHljwJQ9fhTdOXkOUWIxPatHPhP0ff+CEMS3VJhC36/tpEp7/gvtuZ4HU2iNSdUMSaHVaOqh+4Dnr4kLIxHupzhUoSg38CedSQxRZscQFbC9/02kxGfZbbmuQWAiKaf6Y/oxh6PzDIoxvlCp3p1vakyEfUc+mrj3SzcoG8eiJUWozyxZg5UDaqqndLHlFlHNumMeEo1hIGot7IGYtYkwoE8JZvMyanmXxopENaSZWpqfrbUuvx1bFmMqkTg5P4oivcrQviqqmkS0SnGRPWRtrD8zRkGbcUknr+olypvmo5Nf27NvJN/4/NDJPFJnzMaJKkqLQCmZffvYHZdiKTptSSwwowd+IyyBqFCtXgOA==
+    GITLAB_TRIGGER_TOKEN: >-
+      AgCErjAbhlq3EKjTrPR9+I+oNDORllTAQBK3x+YqikFR2wSbj0oFfH6Nb/NF2U4plGmTjSsSh03etjR3ihmLA1NkccFv0iunlJOM9lX9QwFvSbQLsZUrGHFQsc8TFkesQPtzDJGBRJNM7J52BHb2Ht2nT0Xyw2XLE4xGtkGZkiB+alEWHcbixhc13QqIK7bT0Km+1UOxl8gsmkEuh5Ly8cLhcNkJKGAlxHbAeZM/D3d1215CnqcX0JLKrUbVH8FyLre2WDLt5EkzDpsvttQ6Xytapxqny51guwhZlu/wFXISgv1leHmY5UMXsUi2MHycCagnDJeN3vdkBilpKJqS6xn4Pwnd2Yf2KI1sNjr62dger0DITRHFi0V9HyoEhyp7z4ML92/8/SQGevhDaDgI4JLqMBOSjW+uFbxorL+3zglvHFpK+T+zKA0GiFksAKNbC0HBQ0swcH8Z+nOxc2lixuRYerklKmJDGnSvYGYMyY3qSce5l38T5f6ySdlpd58HVNGiFgkba6KzvLfF0KjcjLuamLZPASL+48WXw3gtVWq53X5QSWt1HEIpzO9mBV4vRQGvIypeQDfJRHxQIoABKtiU+ajSwHydX9VVA2zpNmFMaDFvmA1acHUvrbfIjprB7rber1mhKa1gHQGgvYXGlS2ZHdw9aKNTmFBKz4NcFAV/PyS++r/zZhQpAGk/8vS9GH9GfGRlL6WDYmHimhnR99eEfGlFbjh2UIrA9HcKs+U=
+    SMTP_URL: >-
+      AgCqFuKEjVA6tgdsxGgY8keFMW2TvUP7uT6g3dNp8rJ39vv4mMd1tq8ovhcStAdaDLYN6ABg2mZbiVziHLc69RSasMXZttq0CnEvJZJm0cT2FTVNPjIKl8/ztTkfVqmdyR+mnZ/SUmpIN0RqmYoPP24MDVV5DdYiyJ1Wvhn1JSFRrnSbQWGUkz1WDbMbIoQFv0R0R4H0wWNUXgnTDcgU0icdYfM5aS0iiZA/4KUNwtMwvchM1D+knIxVx5LqhdUSYA4IZm7jZVEIWLwBuoqQp4FvnTJCBq401JAUaJUvEU5PXH/4jehsrOKAJxeUEpcwi99JQqolztaiwayazUfwZupQzMmwZQnSEDrhu0vv45SVpr340QLiKCFSEOiQQKBVnhJl++NNJWZurue+JXKkweF2NGokfzAU3cGQAyeidp9oyU++D0OoXoro3ebsHGl0rS7VoJKr5DUVv1P159pFa7rf1eeli8Av3FfV89qxCGO8u4WfqD7vR8v1AznhVRJ06i9DVgU3t7w4rTfpz+TecaqE9dDadpvYWBYyQuc/c71ITjBrxxxCLU+pXtHugzgxknPq/QMFSNORM5+DqWj8oXpCrJ4OdvKr2w7hKhnEHfS6W6XrHp2wvy/jgcJDWItU1HGTSKC6L5s9tkOL5RJNvY9MtN+RtF0wrZap3+1jMt+UnR+zfH1+wpXM3m1MNnwpsB4lyuDeeSGiBgozx/ps0n/KRg==
+    SMTP_EMAIL_USER: >-
+      AgCAbWUriV9eddBicYAGAbh4gUL7UUS8TO82d+d1aakTh4smOeXPxzspjAgW4jx87NPfkxQTM3Bn7UiyBDnzvX5pkBfgoLk2Okw6lDoo1rr4cG/joNa6YgrLkG0GxM4U6jalrt17czWTZU4aG65d2hzzau37n1ND7rZcG9z5ghJvBwsl/Mw8QBAMzjHP4Hrx+ko/wMFprQ7TXcRb0Bwun3LYLk/dsKQPhlvGEwypCcz0R+i9zMTOGDaHpH8ckOPgCkq1YQZaSP+YMoSRf+uPcgQaFQzjJijW5c/G7WYLV231dI0N8iHQ9D/nYX3pLNbgeFx4Xv5u149z5B/lDFAhuLoEQCAgb6f3vZK9SCy5MVcs69a61qmt4l4g+k0OQa2KQGusUhjYQgpP15PcS0vAiUqIuWfDVeN2XjDY4ndOOdGvZI3Ha4WkF/KXGmzga2H/B8pJv7vJU0ZLOalStfvbisRyrAXIfuP9xWK38ueM+EMecwpkjsSo7tVYBTq4a9/Ex7KGmO709rCFD7X1MNCeIKhE1GYfVuvD/NZd7PQuTPlPPDHNqioE/LFNP+LTbOQyZz/qPVaWf73bROaR549Ly2J8VdxhL+vVMX1DYwX5neP10+c1kQyyeJ7WDEhPvAZjxoAMqRQqZnqKmcXrk3yp9gZjN5rrryvMXxpHLaXtwPd2BmvIVX/1TBMoFDzWJkA2YbYS6f2C7d5DEy5kfUsVo3mecdNzLoa5BI+r1lcvWXG3cw==
+    SMTP_EMAIL_PASSWORD: >-
+      AgATIjhVjzNxsNBAGLcaR0wb+5NO6Q+lZsNf/DF6ZBSfjDyWOigApRZuE9nThbOj47h1UuUwbO6n9JWM2QPBFIfTFQVc2es0xr82kRW/VQ3sFooalunKeGvyDwlSjoDnrYfkqo/e/GcZDTjUHJXWJwzazPPwNCeFrrY6SLkF4rdT142CBzRb7Fduut/PT0q0Gh7TWIvaZJL/3YKxXBcms4DhJkuWt0jHLkaP7g7h+2XDQU0OIkyOS77V1Idz3xeSWa/xVCtgqcO8KLNihPHYj1rSixucwAsa7sDB1UvcnfMFHZode+nMIffmgqm3j8nflu1TQFsIjarRkSSFF4+j7aYSTMhwsO2req50ynOe9KdvWZI3kmt8+NBdw+OT5Y5jVZAFhN++UL1DguHF0xgt/T06nCP1gBREsONBR316FYSezhQFtGgqN3iEnZIyvyAFmhTbYxFCLu6/fbxYWk+S51juhsG/DQdRv/ooc1MPXiAdZBiC6qd2fEjXqosZTtsWoVKF/jmD777NEwnia9fmmNu+tkPn/5Vn7BBCpkKdFV2TGnYMUkqevTWOABXTAQ+ZDXROjjW6MbUTuP8n0ouyNTdyi/+zpzFutcx5s/CCkj4EFk7s+jIyBWFDDlP4tBAWvlUNSDunU6YachfMSXNKu9LOoAsNuiXYgOkkDhN0dO043LT3umSFo7w8pipjVBZDnRlNMqsCxYkSDwaNAu17ef8oDjyvG14NKm6QnqWfBiof8g==
+  template:
+    metadata:
+      name: www
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+        nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
+      labels:
+        application: cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+    type: Opaque
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -484,7 +579,7 @@ data:
   JWT_TOKEN_EXPIRES: '15'
   REFRESH_TOKEN_EXPIRES: '43200'
   NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES: '10080'
-  NEXT_PUBLIC_CONTAINER_NAME: cdtn-dev
+  NEXT_PUBLIC_CONTAINER_NAME: cdtn
   NODE_ENV: production
 ---
 apiVersion: v1
