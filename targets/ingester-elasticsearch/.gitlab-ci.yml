@@ -152,7 +152,7 @@
     # kosko options
     KOSKO_GENERATE_ARGS: --env dev jobs/ingester-elasticsearch
 
-🛎️ ingester-elasticsearch (preprod):
+🛎️ ingester-elasticsearch (es preprod):
   extends:
     - .autodevops_preprod
     - .trigger_ingester_elasticsearch_job
@@ -160,13 +160,13 @@
   rules:
     - if: $TRIGGER == "UPDATE_PREPROD"
   environment:
-    name: preprod${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
     # kosko options
-    CDTN_ADMIN_ENDPOINT: https://cdtn-admin.fabrique.social.gouv.fr
+    ES_INDEX_PREFIX: cdtn-preprod-test
     KOSKO_GENERATE_ARGS: --env preprod jobs/ingester-elasticsearch
 
-🎉 ingester-elasticsearch (prod):
+🎉 ingester-elasticsearch (es prod):
   extends:
     - .autodevops_production
     - .trigger_ingester_elasticsearch_job
@@ -177,5 +177,5 @@
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
     # kosko options
-    CDTN_ADMIN_ENDPOINT: https://cdtn-admin.fabrique.social.gouv.fr
+    ES_INDEX_PREFIX: cdtn-prod-test
     KOSKO_GENERATE_ARGS: --env prod jobs/ingester-elasticsearch
