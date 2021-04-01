@@ -2,7 +2,7 @@
 #
 #
 
-⚓ ingester:
+🧶 install ingester:
   extends:
     - .autodevops_install
     - .cdtn_base_rules
@@ -31,22 +31,22 @@
 #
 #
 
-🧪 ingester:
+🃏 test ingester:
   extends:
     - .autodevops_test
     - .cdtn_base_rules
   needs:
-    - job: ⚓ ingester
+    - job: 🧶 install ingester
       artifacts: true
   before_script:
     - cd targets/ingester
 
-🧻 ingester:
+🔬 lint ingester:
   extends:
     - .autodevops_lint
     - .cdtn_base_rules
   needs:
-    - job: ⚓ ingester
+    - job: 🧶 install ingester
       artifacts: true
   before_script:
     - cd targets/ingester
@@ -58,13 +58,13 @@
 #
 #
 
-🎯 ingester:
+📦 build ingester:
   extends:
     - .base_yarn_script
     - .cdtn_base_rules
   image: node:14.16.0-alpine3.11
   needs:
-    - job: ⚓ ingester
+    - job: 🧶 install ingester
       artifacts: true
   before_script:
     - cd targets/ingester
@@ -79,12 +79,12 @@
 #
 #
 
-🗃 ingester:
+🐳 register ingester:
   extends:
     - .autodevops_register_image
     - .cdtn_base_rules
   needs:
-    - job: 🎯 ingester
+    - job: 📦 build ingester
       artifacts: true
   variables:
     CONTEXT: .
@@ -119,7 +119,7 @@
     - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
     - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
 
-🚩 Trigger Ingester (review):
+🛎️ Trigger Ingester (review):
   extends:
     - .autodevops_review
     - .trigger_ingester_cron
@@ -131,7 +131,7 @@
   environment:
     name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
 
-🚩 Trigger Ingester (preprod):
+🛎️ Trigger Ingester (preprod):
   extends:
     - .autodevops_preprod
     - .trigger_ingester_cron
@@ -144,7 +144,7 @@
   environment:
     name: preprod${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
 
-🚩 Trigger Ingester (prod):
+🎉 Trigger Ingester (prod):
   extends:
     - .autodevops_production
     - .trigger_ingester_cron

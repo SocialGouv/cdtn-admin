@@ -2,7 +2,7 @@
 #
 #
 
-⚓ www:
+🧶 install www:
   extends:
     - .autodevops_install
     - .cdtn_base_rules
@@ -31,22 +31,22 @@
 #
 #
 
-🧪 www:
+🃏 test www:
   extends:
     - .autodevops_test
     - .cdtn_base_rules
   needs:
-    - job: ⚓ www
+    - job: 🧶 install www
       artifacts: true
   before_script:
     - cd targets/frontend
 
-🧻 www:
+🔬 lint www:
   extends:
     - .autodevops_lint
     - .cdtn_base_rules
   needs:
-    - job: ⚓ www
+    - job: 🧶 install www
       artifacts: true
   before_script:
     - cd targets/frontend
@@ -55,14 +55,14 @@
 #
 #
 
-🎯 www:
+📦 build www:
   extends:
     - .base_yarn_build_next
     - .cdtn_base_rules
   before_script:
     - cd targets/frontend
   needs:
-    - job: ⚓ www
+    - job: 🧶 install www
       artifacts: true
   artifacts:
     expire_in: 1 week
@@ -73,12 +73,12 @@
 #
 #
 
-🗃 www:
+🐳 register www:
   extends:
     - .autodevops_register_image
     - .cdtn_base_rules
   needs:
-    - job: 🎯 www
+    - job: 📦 build www
       artifacts: true
   variables:
     CONTEXT: .

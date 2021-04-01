@@ -2,7 +2,7 @@
 #
 #
 
-🗃 hasura:
+🐳 register hasura:
   extends:
     - .autodevops_register_image
     - .cdtn_base_rules

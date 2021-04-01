@@ -2,7 +2,7 @@
 #
 #
 
-⚓ alert:
+🧶 install alert:
   extends:
     - .autodevops_install
     - .cdtn_base_rules
@@ -31,22 +31,22 @@
 #
 #
 
-🧪 alert:
+🃏 test alert:
   extends:
     - .autodevops_test
     - .cdtn_base_rules
   needs:
-    - job: ⚓ alert
+    - job: 🧶 install alert
       artifacts: true
   before_script:
     - cd targets/alert-cli
 
-🧻 alert:
+🔬 lint alert:
   extends:
     - .autodevops_lint
     - .cdtn_base_rules
   needs:
-    - job: ⚓ alert
+    - job: 🧶 install alert
       artifacts: true
   before_script:
     - cd targets/alert-cli
@@ -55,13 +55,13 @@
 #
 #
 
-🎯 alert:
+📦 build alert:
   extends:
     - .base_yarn_script
     - .cdtn_base_rules
   image: node:14.16.0-alpine3.11
   needs:
-    - job: ⚓ alert
+    - job: 🧶 install alert
       artifacts: true
   before_script:
     - cd targets/alert-cli
@@ -76,12 +76,12 @@
 #
 #
 
-🗃 alert:
+🐳 register alert:
   extends:
     - .autodevops_register_image
     - .cdtn_base_rules
   needs:
-    - job: 🎯 alert
+    - job: 📦 build alert
       artifacts: true
   variables:
     CONTEXT: .
@@ -115,7 +115,7 @@
     - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
     - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
 
-🚩 Trigger alert (review):
+🛎️ Trigger alert (review):
   extends:
     - .autodevops_review
     - .trigger_alert_cron
@@ -127,7 +127,7 @@
   environment:
     name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
 
-🚩 Trigger alert (preprod):
+🛎️ Trigger alert (preprod):
   extends:
     - .autodevops_preprod
     - .trigger_alert_cron
@@ -140,7 +140,7 @@
   environment:
     name: preprod${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
 
-🚩 Trigger alert (prod):
+🎉 Trigger alert (prod):
   extends:
     - .autodevops_production
     - .trigger_alert_cron

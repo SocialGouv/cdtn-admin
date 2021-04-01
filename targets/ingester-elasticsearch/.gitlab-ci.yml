@@ -2,7 +2,7 @@
 #
 #
 
-⚓ ingester-elasticsearch:
+🧶 install ingester-elasticsearch:
   extends:
     - .autodevops_install
     - .cdtn_base_rules
@@ -31,22 +31,22 @@
 #
 #
 
-🧪 ingester-elasticsearch:
+🃏 test ingester-elasticsearch:
   extends:
     - .autodevops_test
     - .cdtn_base_rules
   needs:
-    - job: ⚓ ingester-elasticsearch
+    - job: 🧶 install ingester-elasticsearch
       artifacts: true
   before_script:
     - cd targets/ingester-elasticsearch
 
-🧻 ingester-elasticsearch:
+🔬 lint ingester-elasticsearch:
   extends:
     - .autodevops_lint
     - .cdtn_base_rules
   needs:
-    - job: ⚓ ingester-elasticsearch
+    - job: 🧶 install ingester-elasticsearch
       artifacts: true
   before_script:
     - cd targets/ingester-elasticsearch
@@ -58,13 +58,13 @@
 #
 #
 
-🎯 ingester-elasticsearch:
+📦 build ingester-elasticsearch:
   extends:
     - .base_yarn_script
     - .cdtn_base_rules
   image: node:14.16.0-alpine3.11
   needs:
-    - job: ⚓ ingester-elasticsearch
+    - job: 🧶 install ingester-elasticsearch
       artifacts: true
     - job: 📦 elasticsearch-document-adapter
       artifacts: true
@@ -83,12 +83,12 @@
 #
 #
 
-🗃 ingester-elasticsearch:
+🐳 register ingester-elasticsearch:
   extends:
     - .autodevops_register_image
     - .cdtn_base_rules
   needs:
-    - job: 🎯 ingester-elasticsearch
+    - job: 📦 build ingester-elasticsearch
       artifacts: true
   variables:
     CONTEXT: targets/ingester-elasticsearch
@@ -131,7 +131,7 @@
     - kubectl get jobs ingester-elasticsearch -o jsonpath='{.status.conditions}'
     - kubectl get jobs ingester-elasticsearch -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
 
-🚩 ingester-elasticsearch (review):
+🛎️ ingester-elasticsearch (review):
   extends:
     - .autodevops_review
     - .trigger_ingester_elasticsearch_job
@@ -149,7 +149,7 @@
     # kosko options
     KOSKO_GENERATE_ARGS: --env dev jobs/ingester-elasticsearch
 
-🚩 ingester-elasticsearch (preprod):
+🛎️ ingester-elasticsearch (preprod):
   extends:
     - .autodevops_preprod
     - .trigger_ingester_elasticsearch_job
@@ -168,7 +168,7 @@
     # kosko options
     KOSKO_GENERATE_ARGS: --env preprod jobs/ingester-elasticsearch
 
-🚩 ingester-elasticsearch (preprod):
+🎉 ingester-elasticsearch (prod):
   extends:
     - .autodevops_production
     - .trigger_ingester_elasticsearch_job

@@ -132,7 +132,7 @@ Release:
   stage: Deploy
   allow_failure: true
 
-🚩 Generate sitemap (review):
+🛎️ Generate sitemap (review):
   extends:
     - .generate_sitemap
   needs:
@@ -148,7 +148,7 @@ Release:
   variables:
     KOSKO_GENERATE_ARGS: --env dev jobs/sitemap-uploader
 
-🚩 Generate sitemap (preprod):
+🛎️ Generate sitemap (preprod):
   extends:
     - .generate_sitemap
   needs:
@@ -165,7 +165,7 @@ Release:
   variables:
     KOSKO_GENERATE_ARGS: --env preprod jobs/sitemap-uploader
 
-🚩 Generate sitemap (prod):
+🎉 Generate sitemap (prod):
   extends:
     - .generate_sitemap
   needs: []
