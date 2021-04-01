@@ -66,7 +66,6 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
   name: sitemap-uploader
-  namespace: null
 spec:
   encryptedData:
     AZ_ACCOUNT_KEY: >-
