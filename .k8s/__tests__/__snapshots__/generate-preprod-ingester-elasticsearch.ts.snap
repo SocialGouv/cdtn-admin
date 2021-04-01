@@ -39,7 +39,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: ingester-elasticsearch
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-preprod-dev2
 spec:
   backoffLimit: 0
   template:
@@ -63,7 +63,7 @@ spec:
                 name: ingester-elasticsearch
           env:
             - name: ES_INDEX_PREFIX
-              value: cdtn-master
+              value: cdtn-preprod-v1.2.3
       restartPolicy: Never
   ttlSecondsAfterFinished: 86400
 "

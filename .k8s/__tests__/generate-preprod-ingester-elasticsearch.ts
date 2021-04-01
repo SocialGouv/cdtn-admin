@@ -7,7 +7,7 @@ jest.setTimeout(1000 * 60);
 test("kosko generate --env preprod jobs/ingester-elasticsearch", async () => {
   expect(
     await getEnvManifests("preprod", "jobs/ingester-elasticsearch", {
-      ...project("cdtn-admin").dev,
+      ...project("cdtn-admin").preprod,
       RANCHER_PROJECT_ID: "c-bar:p-foo",
     })
   ).toMatchSnapshot();
