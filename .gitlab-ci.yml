@@ -82,7 +82,6 @@ Stop review:
       prefix: k8s
     paths:
       - .cache
-      - .k8s/node_modules
   variables:
     GIT_STRATEGY: none
   script:
@@ -90,8 +89,8 @@ Stop review:
     - yarn exec degit "SocialGouv/kosko-charts/templates/autodevops#v5.2.0-alpha.5" .k8s
     - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
     - yarn --silent --cwd .k8s dropdb > ${CI_PROJECT_DIR}/manifest.yaml
-    - kapp -y deploy -a ${CI_PROJECT_NAME} --namespace ${KUBE_NAMESPACE} -f ${CI_PROJECT_DIR}/manifest.yaml
-    - kapp -y delete -a ${CI_PROJECT_NAME} --namespace ${KUBE_NAMESPACE}
+    - kapp -y deploy -a ${CI_PROJECT_NAME} --namespace ${KUBE_NAMESPACE} -f ${CI_PROJECT_DIR}/manifest.yaml || true
+    - kapp -y delete -a ${CI_PROJECT_NAME} --namespace ${KUBE_NAMESPACE} || true
   artifacts:
     expire_in: 1 week
     paths:
