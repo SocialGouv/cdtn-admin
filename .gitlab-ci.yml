@@ -79,7 +79,7 @@ Stop review:
     key:
       files:
         - .k8s/yarn.lock
-      prefix: k8s
+      prefix: ${CI_JOB_NAME}
     paths:
       - .cache
   variables:
