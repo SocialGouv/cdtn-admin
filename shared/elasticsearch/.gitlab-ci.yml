@@ -2,7 +2,7 @@
 #
 #
 
-📦 elasticsearch-document-adapter:
+🧶 elasticsearch-document-adapter:
   extends:
     - .autodevops_install
     - .cdtn_base_rules
