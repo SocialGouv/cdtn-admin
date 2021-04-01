@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`kosko generate --env dev jobs/ingester-elasticsearch 1`] = `
+exports[`INGESTER_ELASTICSEARCH_TARGET=dev kosko generate --env dev jobs/ingester-elasticsearch 1`] = `
 "---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ingester-elasticsearch
+  name: ingester-elasticsearch-to-dev
 data:
   CDTN_ADMIN_ENDPOINT: http://hasura/v1/graphql
   NLP_URL: https://preprod-serving-ml.dev2.fabrique.social.gouv.fr
@@ -16,7 +16,7 @@ kind: SealedSecret
 metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
-  name: ingester-elasticsearch
+  name: ingester-elasticsearch-to-dev
   namespace: null
 spec:
   encryptedData:
@@ -32,20 +32,20 @@ spec:
     metadata:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
-      name: ingester-elasticsearch
+      name: ingester-elasticsearch-to-dev
     type: Opaque
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ingester-elasticsearch
+  name: ingester-elasticsearch-target-dev
   namespace: cdtn-admin-85-master-dev2
 spec:
   backoffLimit: 0
   template:
     spec:
       containers:
-        - name: ingester-elasticsearch
+        - name: ingester-elasticsearch-target-dev
           image: >-
             registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester-elasticsearch:0123456789abcdefghijklmnopqrstuvwxyz0123
           imagePullPolicy: IfNotPresent
@@ -58,9 +58,9 @@ spec:
               memory: 512Mi
           envFrom:
             - configMapRef:
-                name: ingester-elasticsearch
+                name: ingester-elasticsearch-to-dev
             - secretRef:
-                name: ingester-elasticsearch
+                name: ingester-elasticsearch-to-dev
           env:
             - name: ES_INDEX_PREFIX
               value: cdtn-master

@@ -33,13 +33,13 @@ export function getPipelineVariables(id) {
   });
 }
 
-export function triggerDeploy(env) {
+export function triggerDeploy(triggerName) {
   return request(`${url}/projects/${projectId}/trigger/pipeline`, {
     body: {
       ref: version,
       token,
       variables: {
-        UPDATE_DATA: env,
+        TRIGGER: triggerName,
       },
     },
   });

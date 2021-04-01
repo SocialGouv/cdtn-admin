@@ -9,73 +9,77 @@ import { Job } from "kubernetes-models/batch/v1/Job";
 
 import { ES_INDEX_PREFIX } from "../../../utils/ES_INDEX_PREFIX";
 
+const target = process.env.INGESTER_ELASTICSEARCH_TARGET;
+ok(target, "Missing INGESTER_ELASTICSEARCH_TARGET");
+
 ok(process.env.CI_REGISTRY_IMAGE, "Missing CI_REGISTRY_IMAGE");
 
 const configMap = loadYaml<ConfigMap>(
   env,
-  `ingester-elasticsearch/configmap.yaml`
+  `ingester-elasticsearch/${target}-configmap.yaml`
 );
-ok(configMap, "Missing ingester-elasticsearch/configmap.yaml");
+ok(configMap, `Missing ingester-elasticsearch/${target}-configmap.yaml`);
 const secret = loadYaml<SealedSecret>(
   env,
-  "ingester-elasticsearch/sealed-secret.yaml"
+  `ingester-elasticsearch/${target}-sealed-secret.yaml`
 );
-ok(secret, "Missing ingester-elasticsearch/sealed-secret.yaml");
+ok(secret, `Missing ingester-elasticsearch/${target}-sealed-secret.yaml`);
 
-const ingester = () => {
-  const envParams = merge(gitlab(process.env), {});
+const envParams = merge(gitlab(process.env), {});
 
-  const job = new Job({
-    metadata: {
-      name: "ingester-elasticsearch",
-      namespace: envParams.namespace.name,
-    },
-    spec: {
-      backoffLimit: 0,
-      template: {
-        spec: {
-          containers: [
-            {
-              name: "ingester-elasticsearch",
-              image: `${process.env.CI_REGISTRY_IMAGE}/ingester-elasticsearch:${process.env.CI_COMMIT_SHA}`,
-              imagePullPolicy: "IfNotPresent",
-              resources: {
-                limits: {
-                  cpu: "2",
-                  memory: "1Gi",
-                },
-                requests: {
-                  cpu: "1",
-                  memory: "512Mi",
+const tag = process.env.CI_COMMIT_TAG
+  ? process.env.CI_COMMIT_TAG.slice(1)
+  : process.env.CI_COMMIT_SHA;
+
+const job = new Job({
+  metadata: {
+    name: `ingester-elasticsearch-target-${target}`,
+    namespace: envParams.namespace.name,
+  },
+  spec: {
+    backoffLimit: 0,
+    template: {
+      spec: {
+        containers: [
+          {
+            name: `ingester-elasticsearch-target-${target}`,
+            image: `${process.env.CI_REGISTRY_IMAGE}/ingester-elasticsearch:${tag}`,
+            imagePullPolicy: "IfNotPresent",
+            resources: {
+              limits: {
+                cpu: "2",
+                memory: "1Gi",
+              },
+              requests: {
+                cpu: "1",
+                memory: "512Mi",
+              },
+            },
+            envFrom: [
+              {
+                configMapRef: {
+                  name: configMap?.metadata?.name,
                 },
               },
-              envFrom: [
-                {
-                  configMapRef: {
-                    name: configMap?.metadata?.name,
-                  },
+              {
+                secretRef: {
+                  name: secret?.metadata?.name,
                 },
-                {
-                  secretRef: {
-                    name: secret?.metadata?.name,
-                  },
-                },
-              ],
-              env: [
-                {
-                  name: "ES_INDEX_PREFIX",
-                  value: ES_INDEX_PREFIX,
-                },
-              ],
-            },
-          ],
-          restartPolicy: "Never",
-        },
+              },
+            ],
+            env: [
+              {
+                name: "ES_INDEX_PREFIX",
+                value: ES_INDEX_PREFIX,
+              },
+            ],
+          },
+        ],
+        restartPolicy: "Never",
       },
-      ttlSecondsAfterFinished: 86400,
     },
-  });
-  return job;
-};
+    ttlSecondsAfterFinished: 86400,
+  },
+});
 
-export default [configMap, secret, ingester()];
+export default [configMap, secret, job];

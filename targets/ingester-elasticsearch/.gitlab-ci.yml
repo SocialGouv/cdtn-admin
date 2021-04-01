@@ -149,10 +149,11 @@
   environment:
     name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
   variables:
+    INGESTER_ELASTICSEARCH_TARGET: dev
     # kosko options
     KOSKO_GENERATE_ARGS: --env dev jobs/ingester-elasticsearch
 
-🛎️ ingester-elasticsearch (es preprod):
+🛎️ ingester-elasticsearch (prod => es preprod):
   extends:
     - .autodevops_preprod
     - .trigger_ingester_elasticsearch_job
@@ -162,11 +163,11 @@
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
+    INGESTER_ELASTICSEARCH_TARGET: preprod
     # kosko options
-    ES_INDEX_PREFIX: cdtn-preprod-test
     KOSKO_GENERATE_ARGS: --env preprod jobs/ingester-elasticsearch
 
-🎉 ingester-elasticsearch (es prod):
+🎉 ingester-elasticsearch (prod => es prod):
   extends:
     - .autodevops_production
     - .trigger_ingester_elasticsearch_job
@@ -176,6 +177,6 @@
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
+    INGESTER_ELASTICSEARCH_TARGET: prod
     # kosko options
-    ES_INDEX_PREFIX: cdtn-prod-test
     KOSKO_GENERATE_ARGS: --env prod jobs/ingester-elasticsearch
