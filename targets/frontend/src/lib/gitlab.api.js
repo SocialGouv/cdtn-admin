@@ -7,7 +7,9 @@ const projectId = process.env.GITLAB_PROJECT_ID;
 const accessToken = process.env.GITLAB_ACCESS_TOKEN;
 const token = process.env.GITLAB_TRIGGER_TOKEN;
 
-export function getPipelines(ref = "master", since) {
+const version = process.env.VERSION;
+
+export function getPipelines(ref = version, since) {
   if (!since) {
     since = subHours(new Date(), 2);
   }
@@ -31,14 +33,13 @@ export function getPipelineVariables(id) {
   });
 }
 
-export function triggerDeploy(env) {
+export function triggerDeploy(triggerName) {
   return request(`${url}/projects/${projectId}/trigger/pipeline`, {
     body: {
-      ref: "master",
+      ref: version,
       token,
       variables: {
-        ACTION: `ingest_documents_${env === "prod" ? "prod" : "dev"}`,
-        ES_INDEX_PREFIX: env === "prod" ? "cdtn-prod" : "cdtn-preprod",
+        TRIGGER: triggerName,
       },
     },
   });

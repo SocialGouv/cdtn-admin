@@ -6,11 +6,11 @@ if (process.env.CI_COMMIT_REF_SLUG === "master") {
   ES_INDEX_PREFIX = "cdtn-master";
 }
 
-if (process.env.CI_COMMIT_TAG) {
-  ES_INDEX_PREFIX = `cdtn-preprod-${process.env.CI_COMMIT_TAG}`;
-}
+const target = process.env.INGESTER_ELASTICSEARCH_TARGET;
 
-if (process.env.PRODUCTION) {
+if (target === "preprod") {
+  ES_INDEX_PREFIX = `cdtn-preprod-${process.env.CI_COMMIT_TAG}`;
+} else if (target === "prod") {
   ES_INDEX_PREFIX = `cdtn-prod-${process.env.CI_COMMIT_TAG}`;
 }
 

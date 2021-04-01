@@ -486,6 +486,7 @@ data:
   NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES: '10080'
   NEXT_PUBLIC_CONTAINER_NAME: cdtn-dev
   NODE_ENV: production
+  PRODUCTION: 'true'
 ---
 apiVersion: v1
 kind: Service

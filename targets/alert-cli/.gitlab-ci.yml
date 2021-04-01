@@ -120,7 +120,9 @@
     - .autodevops_review
     - .trigger_alert_cron
   rules:
-    - if: "$PRODUCTION || $RELEASE || $CI_COMMIT_TAG"
+    - if: $UPDATE_DATA
+      when: never
+    - if: "$PRODUCTION || $TRIGGER || $CI_COMMIT_TAG"
       when: never
     - when: manual
       allow_failure: true
@@ -132,7 +134,9 @@
     - .autodevops_preprod
     - .trigger_alert_cron
   rules:
-    - if: "$PRODUCTION || $RELEASE"
+    - if: $UPDATE_DATA
+      when: never
+    - if: "$PRODUCTION || $TRIGGER"
       when: never
     - if: "$CI_COMMIT_TAG"
       when: manual
@@ -146,6 +150,8 @@
     - .trigger_alert_cron
   needs: []
   rules:
+    - if: $UPDATE_DATA
+      when: never
     - if: "$PRODUCTION && $CI_COMMIT_TAG"
       when: manual
       allow_failure: true

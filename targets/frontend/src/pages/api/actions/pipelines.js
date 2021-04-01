@@ -31,14 +31,8 @@ export default async function ActivateAccount(req, res) {
           (obj, { key, value }) => ({ ...obj, [key]: value }),
           {}
         );
-        if (
-          varsObj.ACTION === "ingest_documents_dev" &&
-          varsObj.ES_INDEX_PREFIX === "cdtn-preprod"
-        ) {
-          state.preprod = true;
-        }
-        if (varsObj.ACTION === "ingest_documents_prod") {
-          state.prod = true;
+        if (varsObj.UPDATE_DATA) {
+          return { ...state, [varsObj.UPDATE_DATA]: true };
         }
         return state;
       },
