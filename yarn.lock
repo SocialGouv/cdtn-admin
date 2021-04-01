@@ -9871,10 +9871,10 @@ next-transpile-modules@^6.3.0:
     enhanced-resolve "^5.7.0"
     escalade "^3.1.1"
 
-next-urql@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/next-urql/-/next-urql-2.2.0.tgz#6b042c692f067a982805de7c25db32c32b34912d"
-  integrity sha512-HT5Ac14s7X2ihylfn6pXFGTlUSqqZUjeZVj1l8XL8S0c5H5ksWYUDfZhUUkuN5SHJ7tZjoi0KlTmLLDrAQhWKQ==
+next-urql@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/next-urql/-/next-urql-3.0.1.tgz#552f8e317abe13f70251db77c0005c8e0f969854"
+  integrity sha512-Owu+Y+svp17vYmAR+qJlLITQswSF00kdmys125syKG5uH4R0l3rD1wThEX64gWdUpSj4+P8jhP1wZQrrRJa8KA==
   dependencies:
     react-ssr-prepass "^1.2.1"
 
