@@ -6,4 +6,3 @@ data:
   CDTN_ADMIN_ENDPOINT: "http://hasura/v1/graphql"
   NLP_URL: "https://serving-ml.fabrique.social.gouv.fr"
   NODE_ENV: "production"
-  ES_INDEX_PREFIX: "cdtn-preprod-test"
