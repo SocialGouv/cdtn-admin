@@ -67,7 +67,6 @@ function FilesPage() {
   const { data, error, isValidating } = useSWR("files", listFiles, {
     initialData: undefined,
   });
-  console.log("FilesPage", data?.length);
   const [search, setSearch, setDebouncedSearch] = useDebouncedState("", 400);
   const searchInputEl = useRef(null);
   const [isSearching, setSearching] = useState(false);
