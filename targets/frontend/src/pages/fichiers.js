@@ -1,6 +1,5 @@
 /** @jsxImportSource theme-ui */
 
-import { useRouter } from "next/router";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -32,27 +31,29 @@ import {
   Text,
 } from "theme-ui";
 
-const listFiles = (container) => () =>
-  request(`/api/storage/${container}`, {
+const listFiles = () =>
+  request(`${process.env.FRONTEND_URL || ""}/api/storage`, {
     headers: { token: getToken()?.jwt_token || "" },
   });
-const uploadFiles = (container, formData) =>
-  request(`/api/storage/${container}`, {
+
+const uploadFiles = (formData) =>
+  request(`/api/storage`, {
     body: formData,
     headers: { token: getToken()?.jwt_token || "" },
   });
-const deleteFile = (container, path) =>
-  request(`/api/storage/${container}/${path}`, {
+
+const deleteFile = (path) =>
+  request(`/api/storage/${path}`, {
     headers: { token: getToken()?.jwt_token || "" },
     method: "DELETE",
   });
 
-const onDeleteClick = function (container, file) {
+const onDeleteClick = function (file) {
   const confirmed = confirm(
     `Êtes-vous sûr(e) de vouloir définitivement supprimer ${file.name} ?`
   );
   if (confirmed) {
-    deleteFile(container, file.name)
+    deleteFile(file.name)
       .then(() => {
         mutate("files");
       })
@@ -63,39 +64,17 @@ const onDeleteClick = function (container, file) {
 };
 
 function FilesPage() {
-  const router = useRouter();
-  const container = router.query.container;
-  const { data, error, isValidating } = useSWR("files", listFiles(container), {
-    initialData: [],
+  const { data, error, isValidating } = useSWR("files", listFiles, {
+    initialData: undefined,
   });
+  console.log("FilesPage", data?.length);
   const [search, setSearch, setDebouncedSearch] = useDebouncedState("", 400);
   const searchInputEl = useRef(null);
   const [isSearching, setSearching] = useState(false);
   const [filter, setFilter] = useState("");
   const [sort, setSort] = useState("mostRecent");
-  const [displayedFiles, setDisplayedFiles] = useState([], 400);
   const [uploading, setUploading] = useState(false);
   const [currentClip, setCurrentClip] = useState("");
-
-  // trigger refetch of files at first paint
-  useEffect(() => {
-    mutate("files");
-  }, []);
-
-  // Maybe we should limit displayed files to a number. Like 50 ?
-  useEffect(() => {
-    setDisplayedFiles(
-      data
-        .filter(
-          (file) =>
-            filterCallback(filter, file) &&
-            (search
-              ? file.name.toLowerCase().includes(search.toLowerCase().trim())
-              : true)
-        )
-        .sort(getSortCallback(sort))
-    );
-  }, [data, sort, filter, search, setDisplayedFiles]);
 
   useEffect(() => {
     setSearching(false);
@@ -110,25 +89,25 @@ function FilesPage() {
   }
 
   return (
-    <Layout title={`Fichiers ${container} (${displayedFiles.length})`}>
+    <Layout title={`Fichiers  (${data?.length})`}>
       <DropZone
         customStyles={{ my: "medium" }}
         uploading={uploading}
         onDrop={(files) => {
           setUploading(true);
-          uploadFiles(container, files).finally(() => {
+          uploadFiles(files).finally(() => {
             mutate("files");
             setUploading(false);
           });
         }}
       />
       <Flex as="form" my="medium">
-        <Flex sx={{ alignItems: "flex-end" }}>
+        <Flex sx={{ alignItems: "flex-end", position: "relative" }}>
           <Field
             id="search"
             name="search"
             label="Rechercher un fichier"
-            sx={{ maxWidth: "200px" }}
+            sx={{ maxWidth: "250px", paddingRight: "large" }}
             ref={searchInputEl}
             onChange={(e) => {
               setDebouncedSearch(e.target.value);
@@ -138,7 +117,12 @@ function FilesPage() {
           {search.length > 0 && (
             <IconButton
               type="button"
-              sx={{ color: "text", mb: "0.6rem" }}
+              sx={{
+                color: "text",
+                mb: "0.6rem",
+                position: "absolute",
+                right: "xxsmall",
+              }}
               onClick={() => {
                 searchInputEl.current.value = "";
                 setSearch("");
@@ -181,75 +165,86 @@ function FilesPage() {
           </Select>
         </Flex>
       </Flex>
-      {isSearching || isValidating ? (
+      {isSearching || (isValidating && !data) ? (
         <Spinner />
-      ) : displayedFiles.length > 0 ? (
+      ) : data?.length > 0 ? (
         <>
           <List sx={{ listStyleType: "none", m: 0, p: 0 }}>
-            {displayedFiles.map((file) => {
-              return (
-                <Li key={file.name}>
-                  <Card
-                    as="a"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={file.url}
-                    key={file.name}
-                    title={file.name}
-                    sx={{
-                      alignItems: "center",
-                      color: "text",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      mt: "small",
-                      textDecoration: "none",
-                    }}
-                  >
-                    <IoMdDownload
-                      sx={{ flex: "0 0 auto", mr: "small", ...iconSx }}
-                    />
-                    <Box sx={{ flex: "1 1 auto", minWidth: 0 }}>
-                      <Box
-                        sx={{
-                          fontSize: "1.1rem",
-                          fontWeight: "bold",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {file.name}
-                      </Box>
-                      <Box sx={{ fontSize: "small" }}>
-                        <Text sx={{ fontWeight: "bold" }}>Poids&nbsp;:</Text>{" "}
-                        {prettyBytes(file.contentLength)} | Mise en ligne il y a{" "}
-                        {timeSince(file.lastModified)}
-                      </Box>
-                    </Box>
-                    <CopyButton
-                      {...buttonProps}
-                      variant="secondary"
-                      text={file.name}
-                      copied={currentClip === file.name}
-                      onClip={(text) => {
-                        setCurrentClip(text);
-                      }}
-                    />
-                    <Button
-                      {...buttonProps}
-                      variant="primary"
-                      onClick={(evt) => {
-                        evt.preventDefault();
-                        onDeleteClick(container, file);
+            {data
+              .filter(
+                (file) =>
+                  filterCallback(filter, file) &&
+                  (search
+                    ? file.name
+                        .toLowerCase()
+                        .includes(search.toLowerCase().trim())
+                    : true)
+              )
+              .sort(getSortCallback(sort))
+              .map((file) => {
+                return (
+                  <Li key={file.name}>
+                    <Card
+                      as="a"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={file.url}
+                      key={file.name}
+                      title={file.name}
+                      sx={{
+                        alignItems: "center",
+                        color: "text",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        mt: "small",
+                        textDecoration: "none",
                       }}
                     >
-                      <IoIosTrash sx={iconSx} />
-                      Supprimer
-                    </Button>
-                  </Card>
-                </Li>
-              );
-            })}
+                      <IoMdDownload
+                        sx={{ flex: "0 0 auto", mr: "small", ...iconSx }}
+                      />
+                      <Box sx={{ flex: "1 1 auto", minWidth: 0 }}>
+                        <Box
+                          sx={{
+                            fontSize: "1.1rem",
+                            fontWeight: "bold",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {file.name}
+                        </Box>
+                        <Box sx={{ fontSize: "small" }}>
+                          <Text sx={{ fontWeight: "bold" }}>Poids&nbsp;:</Text>{" "}
+                          {prettyBytes(file.contentLength)} | Mise en ligne il y
+                          a {timeSince(file.lastModified)}
+                        </Box>
+                      </Box>
+                      <CopyButton
+                        {...buttonProps}
+                        variant="secondary"
+                        text={file.name}
+                        copied={currentClip === file.name}
+                        onClip={(text) => {
+                          setCurrentClip(text);
+                        }}
+                      />
+                      <Button
+                        {...buttonProps}
+                        variant="primary"
+                        onClick={(evt) => {
+                          evt.preventDefault();
+                          onDeleteClick(file);
+                        }}
+                      >
+                        <IoIosTrash sx={iconSx} />
+                        Supprimer
+                      </Button>
+                    </Card>
+                  </Li>
+                );
+              })}
           </List>
         </>
       ) : (
