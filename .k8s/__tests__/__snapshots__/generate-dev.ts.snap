@@ -36,7 +36,6 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
   name: alert
-  namespace: null
 spec:
   encryptedData:
     HASURA_GRAPHQL_ADMIN_SECRET: >-
