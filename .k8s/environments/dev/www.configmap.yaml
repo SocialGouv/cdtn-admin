@@ -8,6 +8,7 @@ data:
   GITLAB_URL: https://gitlab.factory.social.gouv.fr/api/v4
   HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
   JWT_TOKEN_EXPIRES: "15" # 15 min
+  MATOMO_URL: "https://matomo.fabrique.social.gouv.fr/"
   NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES: "10080"
   NODE_ENV: "production"
   REFRESH_TOKEN_EXPIRES: "43200"
