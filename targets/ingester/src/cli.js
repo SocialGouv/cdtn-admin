@@ -117,7 +117,6 @@ async function download(pkgName, url) {
 
 /** @type {[string, (pkgName:string)=>Promise<import("./index.js").CdtnDocument[]>][]} */
 const dataPackages = [
-  ["@socialgouv/datafiller-data", () => Promise.resolve([])],
   ["@socialgouv/contributions-data", getContributionsDocuments],
   ["@socialgouv/kali-data", getAgreementDocuments],
   ["@socialgouv/legi-data", getCdtDocuments],
