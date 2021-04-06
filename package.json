@@ -8,7 +8,6 @@
     "@commitlint/cli": "^12.0.1",
     "@commitlint/config-conventional": "^12.0.1",
     "husky": "^6.0.0",
-    "is-ci": "^3.0.0",
     "lerna": "^4.0.0",
     "nps": "^5.10.0",
     "nps-utils": "^1.7.0"
@@ -28,7 +27,7 @@
     "start": "nps",
     "test": "nps test",
     "k8s": "yarn --silent --cwd .k8s",
-    "prepare": "is-ci || husky install"
+    "prepare": "husky install"
   },
   "workspaces": [
     "shared/*",
