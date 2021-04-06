@@ -1,15 +1,21 @@
 /* eslint-disable */
 import fetch from "node-fetch";
 
-import {
-  contribApiUrl,
-  exportContributionAlerts,
-} from "../exportContributionAlerts";
+import { exportContributionAlerts } from "../exportContributionAlerts";
 
 jest.mock("node-fetch");
 
+afterEach(() => {
+  delete process.env.CONTRIBUTIONS_ENDPOINT;
+});
+
 describe("exportContributionAlerts", () => {
+  it("should skip exportContributionAlerts", async () => {
+    await exportContributionAlerts("repositoryTest", "v0.0.0", {});
+    expect(fetch).not.toHaveBeenCalled();
+  });
   it("should export changes to contributions API", async () => {
+    process.env.CONTRIBUTIONS_ENDPOINT = "contributions.url";
     const changes = /** @type {alerts.AlertChanges[]}*/ ([
       {
         added: [
@@ -105,7 +111,7 @@ describe("exportContributionAlerts", () => {
     });
     await exportContributionAlerts("repositoryTest", "v0.0.0", changes);
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(contribApiUrl, {
+    expect(fetch).toHaveBeenCalledWith("contributions.url/alerts", {
       body: JSON.stringify([
         {
           answer_id: "cdtnId-contrib-1",

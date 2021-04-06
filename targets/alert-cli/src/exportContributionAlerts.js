@@ -1,8 +1,5 @@
 import fetch from "node-fetch";
 
-export const contribApiUrl =
-  "https://contributions-api.codedutravail.fabrique.social.gouv.fr/alerts";
-
 /**
  * @param {string} repository
  * @param {alerts.GitTagData} lastTag
@@ -13,6 +10,12 @@ export async function exportContributionAlerts(
   lastTag,
   alertChanges
 ) {
+  if (!process.env.CONTRIBUTIONS_ENDPOINT) {
+    console.info(
+      "[exportContributionAlerts] skip sending alert to conributions endpoint"
+    );
+    return;
+  }
   const dilaAlertChanges = /** @type {alerts.DilaAlertChanges[]} */ (alertChanges.filter(
     (change) => change.type === "dila"
   ));
@@ -51,6 +54,8 @@ export async function exportContributionAlerts(
     return;
   }
 
+  const contribApiUrl = `${process.env.CONTRIBUTIONS_ENDPOINT}/alerts`;
+
   fetch(contribApiUrl, {
     body: JSON.stringify(contributions),
     headers: {
@@ -69,6 +74,7 @@ export async function exportContributionAlerts(
       console.info(
         `Sending ${contributions.length} alert(s) from ${repository} to ${contribApiUrl}`
       );
+      console.debug(JSON.stringify(contributions));
     })
     .catch((err) => {
       console.error(

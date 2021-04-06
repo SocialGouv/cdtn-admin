@@ -9,6 +9,7 @@ metadata:
 data:
   NODE_ENV: production
   HASURA_GRAPHQL_ENDPOINT: http://hasura/v1/graphql
+  CONTRIBUTIONS_ENPOINT: https://contributions-api.codedutravail.fabrique.social.gouv.fr
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
