@@ -1,9 +1,9 @@
 {
   "name": "ingester",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.20",
   "dependencies": {
-    "@shared/graphql-client": "^1.0.0-alpha.1",
-    "@shared/id-generator": "^1.0.0-alpha.1",
+    "@shared/graphql-client": "^1.0.0-alpha.20",
+    "@shared/id-generator": "^1.0.0-alpha.20",
     "@socialgouv/cdtn-slugify": "^4.44.0",
     "@socialgouv/cdtn-sources": "^4.44.0",
     "get-uri": "^3.0.2",
@@ -26,7 +26,7 @@
     "@babel/preset-env": "^7.13.10",
     "@socialgouv/contributions-data-types": "^3.12.0",
     "@socialgouv/datafiller-data-types": "^2.17.0",
-    "@socialgouv/eslint-config-recommended": "^1.55.0",
+    "@socialgouv/eslint-config-recommended": "^1.57.0",
     "@socialgouv/fiches-travail-data-types": "^4.92.0",
     "@socialgouv/fiches-vdd-types": "^2.84.0",
     "@socialgouv/kali-data-types": "^2.55.0",
@@ -51,12 +51,12 @@
   "private": true,
   "scripts": {
     "build": "ncc build ./src/cli.js -o ./dist -s",
-    "cli": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
     "cli:dev": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node -r esm src/cli.js",
-    "cli:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node --enable-source-maps --unhandled-rejections=strict dist/index.js",
+    "cli:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 yarn start",
     "lint": "eslint src/**/*.js",
-    "types": "tsc",
-    "test": "jest --passWithNoTests"
+    "start": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
+    "test": "jest --passWithNoTests",
+    "types": "tsc"
   },
   "jest": {
     "clearMocks": true,

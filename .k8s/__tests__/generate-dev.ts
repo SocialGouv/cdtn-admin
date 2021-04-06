@@ -8,7 +8,6 @@ test("kosko generate --dev", async () => {
   expect(
     await getEnvManifests("dev", "", {
       ...project("cdtn-admin").dev,
-      KUBE_NAMESPACE: "foo-XYZ-master-dev2",
       RANCHER_PROJECT_ID: "c-bar:p-foo",
     })
   ).toMatchSnapshot();

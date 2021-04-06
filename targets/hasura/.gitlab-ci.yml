@@ -1,8 +1,11 @@
-Register Hasura:
-  extends: .autodevops_register_image
-  interruptible: true
-  dependencies: []
-  needs: null
+#
+#
+#
+
+🐳 register hasura:
+  extends:
+    - .autodevops_register_image
+    - .cdtn_base_rules
   variables:
     CONTEXT: ./targets/hasura
     IMAGE_NAME: $CI_REGISTRY_IMAGE/hasura
@@ -11,29 +14,58 @@ Register Hasura:
 #
 #
 
-.deploy_hasura:
-  variables:
-    PORT: 80
-    CONTEXT: hasura
-    VALUES_FILE: ./targets/hasura/.k8s/hasura.values.yml
-
-Deploy Hasura (dev):
+# todo: restrict to branches ?
+⏪ Restore data:
   extends:
-    - .autodevops_deploy_app_dev
-    - .deploy_hasura
+    - .base_deploy_kosko_stage
+    - .cdtn_base_rules
+  stage: .post
+  cache:
+    key:
+      files:
+        - .k8s/yarn.lock
+      prefix: k8s
+    paths:
+      - .cache
+      - .k8s/node_modules
   environment:
-    name: ${CI_COMMIT_REF_SLUG}-dev2
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
+  needs:
+    - job: Notify Starting Deployment
+  allow_failure: true
   variables:
-    PG_HOST: cdtnadmindevserver.postgres.database.azure.com
-    HELM_RENDER_ARGS: >-
-      --set deployment.env[11].name=HASURA_GRAPHQL_DATABASE_URL
-      --set deployment.env[11].value=postgresql://user_${CI_COMMIT_SHORT_SHA}%40${PG_HOST}:pass_${CI_COMMIT_SHORT_SHA}@${PG_HOST}:5432/db_${CI_COMMIT_SHORT_SHA}?sslmode=require
+    KOSKO_GENERATE_ARGS: --env dev jobs/restore
+  before_script:
+    - export COMPONENT=$(cat <(echo "restore-${CI_COMMIT_REF_SLUG}" | cut -c1-24) <(echo "$CI_COMMIT_REF_SLUG" | sha1sum | cut -c1-6) | tr -d '\n')
+    - echo "Use ${COMPONENT} as component label"
+    - |
+      if [[ "${CDTN_FORCE_RESTORE_DB}" == "true" ]]; then
+        echo "Force restore database"
+        kubectl -n cdtn-admin-secret delete all -l component=${COMPONENT} || true
+      fi
+    # make the job fail if the component still exist
+    - kubectl -n cdtn-admin-secret get all -l component=${COMPONENT} | grep -v 'No resources found.' && echo "Skip restore db" && exit 0
 
-Deploy Hasura (prod):
+#
+#
+#
+
+🚧 Cleanup db cronjob (prod):
   extends:
-    - .autodevops_deploy_app_prod
-    - .deploy_hasura
+    - .base_deploy_kosko_stage
+    - .cdtn_base_rules
+  rules:
+    - if: "$PRODUCTION && $CI_COMMIT_TAG"
+      when: always
+  cache:
+    key:
+      files:
+        - .k8s/yarn.lock
+      prefix: k8s
+    paths:
+      - .cache
+      - .k8s/node_modules
   environment:
-    name: prod2
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
-    PRODUCTION: "true"
+    KOSKO_GENERATE_ARGS: --env prod jobs/cleanup-db
