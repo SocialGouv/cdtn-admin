@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`INGESTER_ELASTICSEARCH_TARGET=preprod kosko generate --env prod jobs/ingester-elasticsearch 1`] = `
+"---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingester-elasticsearch-to-preprod
+data:
+  CDTN_ADMIN_ENDPOINT: http://hasura/v1/graphql
+  NLP_URL: https://preprod-serving-ml.dev2.fabrique.social.gouv.fr
+  NODE_ENV: production
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+  name: ingester-elasticsearch-to-preprod
+  namespace: null
+spec:
+  encryptedData:
+    ELASTICSEARCH_TOKEN_INGEST: >-
+      AgCzhkszOnWp0NfnzY6omTamjoY4XjSDUJ7QX7+FCUkY5TTLZAieWCfQWfJX5dlH40bN5hS/l3gh26XkvNRiufw2mtvH6En02PTZ5VidEjXCy93YD4k/kyi2X3Zr6IJoj52OrOn7ogVisGad28AVgTSj86+ALIQP9XRqtM1h9yEVDWZoD2cR3EiiddhUAri/7g+2pDxuaj7BT2h/VVcAzNzqwDS0Op1aNEf6wjVTCh96sRoWna2vBEw2gNM58cjqSgwjwSWlx48CA4P1LNOqIXdmoBH8sWWYKoA2ZmtKGw8DMxmH3ggLHTTR9x+k+d4XfmEdIpd+ufAhbqkYphIN3/oogkDbevLX0ia+kS/2RuTgE7jQs984Rel6w9NCR9LCFg7jct0DAqWQ3IP5d8IdinyW/HYZ3r1AR3Z+UzVyCKD0Am5Zg6shWdboNyQPwjEiaL0te8ioXWl3nZpbUZ+Up6CYuVExKtM57ezHP4bbHzyL3nK1OitpDU/ITIQdh5oiBysB7hkxzldIGaPQlIY45g2Y5SFP3VFS1Do/g51G7g2jnNO4rxG6egbRXYDFcbS3KbzUpR+6bV37+x3SnXHw3HF/RvHWGTNQ46/HXXXdpTRG55wN8j12iCJTJ1zWkDueUU4b1pUoNV7raKy2JdGMpP2YZZBpw71AhxUaQzIbwuRb1xasyOY5RttLvywR+Xnm7eiICvgoc4nD9iPps9Q3ATM10WC445BGLUQkAr3MPAa+BNduS8JGDWRDvzQ8qy1RFcT8Igz0AQNf01PH4ag=
+    ELASTICSEARCH_URL: >-
+      AgCWMieI3Ubi2+JgyexzEueJcWFMP4G4BglFey+Men/FgH1GZAoOjMK7AEO5Ebj95nqnAdGomVmAbH5vWEg+2MxwbYAvmP3nyTNouYECWndDQnfDTrjpLvwBb5EvCPwKJD9h1GeXCCCH6K9tzME+GtWgrzAEUFIo27ciPNZtRTZEJCEfMnSrlkIq3ZeyRQwAV7FHTV4EhG+EMXR0J8OatBdnS4cM0/UUvEs01u8M5BDFZXkr1QhPNOPRl46B4zUndaiF18UcocvMnuhMu8WpR/qwFuaTdWeC4oXF3O3p9aL/fzHCV2aHunbqLke/kZ51OivGxERKeSbg5DZhl0PM5lumVeBb0RYrIMNYqtwFyXCuJiUxwcf48CIeVEcaosoz6hJVHWNQUU2TShclUjfNq854jS75hl5//3n1IJqTJeb/EFByc4Da3E/6WePyt8T693VCf/6wcJ7Zvp9oanhwabmowtN2JFrrR2uISv5mB8RhJQvXM213Uf+5VEYnvoLcv/aK8qxcoS1qx7Wd1iiJLE0NPdQvmvIqGYwbQMKerj/WSFTKPr4C0x7MfRY2hNmFme0tiGcDkEMj1XagdhLZFQEPnwxF4KkfcgQyJMtCe6NM4MkrK9WbRZYIMvZxcwb1XJdPz0LV7ecqdVpUV+E06sBsNG1WACJZ4spdz3mu7b4eQlHG6KyzdJ/J2lt+43sxVOpVEtUPYzFSq0MIr5bh0VCczx9vgb9Q9jYiouYL3JdaLRB6guQBBHv5C6+c+oKFQJ4WmMD1BWOMCQUtNcYdpnbJ/shokXMlymRwAISllIUJEg==
+    ES_LOGS_TOKEN: >-
+      AgBj8pxWOPcNk+YKpeA2AtXr3w6rTqTPitFabvozteaN/5KxqHa3rn/K6CjCDQY8rUfMMkMPYExGStJ4DGj3sxD6xgLuTDZAxHhRgl53Mwi6og7Wi+jjGkTnpxrTrHaixokUnRWgwF4TAdQ8lVTho+4zYPDcwaFiGPKd1p15UOL+/KtuwntjfXbrGLFskUiF2plPGguPAoJOtzjf25dxLrbddXCFuLDyDA8TgG+M1CIjC2p4pjXX4ZLCMHISZYXH/bNNM/Ml+Dtp3YFqpU5LgxptVJ5/Hsukstm/ZgSjOocvzBd26X/d7c2T70CkGf1wSGRp+HF3iGPaVX9NIXO7ExsLoQlUISyqq+4yUcnChw9yvyTikFjYmyuqaaTGoWY0P7WRDnSchnWp9JasLgXr1w9RRRfuQb0UwpPhOdRonWn8FthPGzwdjMO177AIx+tPXt3TE1DnVN2Gfvs+RzDGJl/IZCZzIRu+F8M4fl7xTaq2dUUVQP9DXVJO4lcoea1CkHSnBt/w5dde5q7cFTu5b0kJbDfYd7xA3mN9/UhbknbNIPqLSSEcJBGZBtcaM1N6e/64dQoekPtTTFqvPhuhAi42urHmox+FbVCJ0FK7SSOkTmbqwNafhnlfK+kHbyEcSkjbXnwP6Hznfc5lCE/gYj12YElu/rJlzlBHMFcEWGJYpTPoX+lcbvPxMH+338eEK4B09QgPb8FxgAoFqvQBW++v0ojOPw/HGJolVY0Ihyd/sKoAa557G0ILfFzR8HpFKdLveBbAY29syrqxpW0=
+    ES_LOGS: >-
+      AgBD3wk6fbrITj/WJCv7+xUIbWBN86GcGMjDG5xRyXOwCAbmlOlk7dWmo9pR9iJjAiTZDynZrfKzl9hlJcVqHHV5AEpiZx7YYcJrMpLxY3Fig2N1nFhic+C2ig+FVGh2B4vmzQB4RrsYTNU5YUSH5kaEuRrZFn+HsEs+dj4OfRFBYdWst2Ej38R9LsncvRuYy6RZI/jKwhWT5MdVY6DpDr7Tzg71BpIuvWt7gvGXcHPegPmPiSAWdOMxix6eMx5CksrUjPlUOOZlIgfQqI4xDfMPHG2xrMARVs2zkpb2LVkyDjtMDvILbgevbuNS9d8Fqpj9goBJgXWDPAGg1bUzv440VhYjT1hbt+3tiuJ4W3UunVQS3mGpFkeX1ns2HLY8IEmrwWy6xGJQCOFuD1E0mcoul/Cab8U/U1k/3oEIIrQGBHtjgaIoLVtU8nq08Q5f2RpBRGD2PzP+V6Bmdi18jXhfV+CU6mzLfskpF91vid6KuYzlquIAiVa9HbQWmlGFuzp8n8EcdKeHkVjSV3MgVZZi/34aUSuNTT9saxmfQF5IXkVyGlkOsyyTP4esjQ/J6lwkjNNSJFv1D0BG4rP1+K61Bg+nvv3aq2ZYhJbV9ui+OapDYvFYBF7Wc5G5/db26d+6eAbiwqtiDFQIaCRub2UJXSENa1lJW7owEx5Uvd/DoR5Tiv0mDXecXBJeRWM0RZYizraMKmD7sQsISHAFV7GtxadtP2C1e7sMKhiPR5e5V9btxWahrFGNmKZ7t9Os0RtttwIdFj/wLJ88gyPJDOeJSt/6UQLbOnvB4zTtEoKHBg==
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+      name: ingester-elasticsearch-to-preprod
+    type: Opaque
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ingester-elasticsearch-target-preprod
+  namespace: cdtn-admin
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - name: ingester-elasticsearch-target-preprod
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester-elasticsearch:1.2.3
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: '2'
+              memory: 1Gi
+            requests:
+              cpu: '1'
+              memory: 512Mi
+          envFrom:
+            - configMapRef:
+                name: ingester-elasticsearch-to-preprod
+            - secretRef:
+                name: ingester-elasticsearch-to-preprod
+          env:
+            - name: ES_INDEX_PREFIX
+              value: cdtn-preprod-v1.2.3
+      restartPolicy: Never
+  ttlSecondsAfterFinished: 86400
+"
+`;
+
+exports[`INGESTER_ELASTICSEARCH_TARGET=prod kosko generate --env prod jobs/ingester-elasticsearch 1`] = `
+"---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingester-elasticsearch-to-prod
+data:
+  CDTN_ADMIN_ENDPOINT: http://hasura/v1/graphql
+  NLP_URL: https://serving-ml.fabrique.social.gouv.fr
+  NODE_ENV: production
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: ingester-elasticsearch-to-prod
+  namespace: cdtn-admin
+spec:
+  encryptedData:
+    ELASTICSEARCH_TOKEN_INGEST: >-
+      AgCpmXQVcC/QD3wcsaOBqgEkzU+aaE19cDBgMQhfY0pnAEyABi5uVoAwMA8P+owG6RZzHgRNWLoZUdSht2ydyCkp+l1BBKRUbxEo01nBtxPlnjfwpxlUJYwDcxsPcixC8bcgbCYMG1pL1fPFDrLPs+q/fYBiEpZDlBnYxSD+qyrQyp3fjAp2/zi0OrQGEFxZl5+b3VMm03lHa7EMSsDsc3pbsAjJHVybn6JgMVK5wUE8nLWPmGU5alYS7zcGfI+xo9YCFTD57WVeIt9Bfih86HI2+Z03bN018MfqDeYWkA5yneiOgF6XkHdTFOwezh4+Ob43VKSkwR+fGLw8SrGiPER+DbEy/bnTOKmj4x1cJ8wY3Rq69tU/xM789clJkl0cWI5gT91Xsot1CHxsMcEf0isu8kaRxLV+DwQmhURvjjC38yfsl9R5bT0dIp/eKAYtfIqFlGmh2kjVvAWCO9ZeSZ6mdi+tYl9wqBwu45ahA7fCtoA1t3e96JcKUN+OAY7f+L9tKEfOkuV9wPSKr16bD7SzoRJ/rMNlMGq0OuBWX3sJmtal5MPgXXlSES9bp7vzYZhLsP5apVpgkLgMwGHFEWIrQww92o1TJS5W46qJKmTul+SieF1lc+iI/mhNC59h7Nix/RdE19Exu1maUJNEKhRj/Mu2gbi+nIkZTSgfIwNpfOqGbdSztooVyAVoZvqWcX2on+leYNXGT36k5xxsRUxUgBmotoq8up1nZjbX4cRlMRHVpkLWWLHSla8e0ZHZJ79zFKN1K2HEoQ6exeo=
+    ELASTICSEARCH_URL: >-
+      AgBOrOg0OEw+xiXql2B00+KrHk8y0IWSnkRJnK7c/lDvyxL99i3JI7TRIXOVnhvqvyTM+XAFVxSIb0xOeJDaqX+T/bbetub+iTB6+slcPpIIedbLxQ3+wzVCT0fWwynjuZO4Xlh3OShWjl8xqcSCtbdSEqwscy7GIxgFHO95US6oQfry8tneDPW12trZD52ijHi0g0dNrM0WjpfGpYtY6cXIdr6ENYS8pPOUAjZAh2CqvzEEw0g6+ukHyFm52By2V9a39obeKcARp/ySshgMxoDR/TSQPIpcs7FCglqsv/nwT0hNJFvU2gKm7lJc9tpBGcowktxA8Nfk9Zxxp8XlC/n/gY9tbeI+kihXAszPsGr/v79XKCes1cmb6lAGiEiwK65F0gE+A//PlWUBxVwm3xaIbQ70tO6XWDMNVYef9VqiPzcRkOUCmJ4v7/fgjbS/PEl+YpZBqdVBtQKRPj0YhmBGx2kPEXRbjiQYuQ+58MwpXVNY11akFkn5Br08C7HpVCaStZK08ykuAgINdJW8JBKj7MbAdIehZiSZVmrJHGnXWD8Gk6UkZBADzDzRoMsNX4bKNP8DpVdl3Fb7yexd+s0X5S33BpViIcBXu/2E7c7xn8HI72m5gNEQl+pok10gnFeQC/slqqFpuGFewhZGMfEB+KF7UJZ4rtd0p+TIAfwdj2vPZ6jbHtucPj5twIeUCq6z9hU4IoAoGBPz9ICzWzivQMLz0EVLYwMix/Rlk+XRIbkHsQi5j/+U0UYp3md/BFARvb9z8zJkJ/+L/t+toYqR/q7+ISgE4+ePGTrd6mjsD92puQ==
+    ES_LOGS_TOKEN: >-
+      AgCRGpTBEiRnsXj/prFRxRmqU0OAPzEnl9IYCnHNd+c5NJFIre+7ppmP0rLvikDcVWdpVP5heHTnqqMw5laV0/30q2gVdyHrwVwTtjHzc0Y4u/yOWewA1b7Q+QYqLLDhRb3U0ZZtrWFj7bqCIE3/QZjGdR6cPodcNzeeTpt8HIjTAUKfyRRqYXAncMJ1qLO8H+dSDNn0G9HGK2aB4od4plg2Fehwv3Ho71Ih0CZku1YVCXEK22QXgYIKOcI//wJxtDGM+B7rGoUrkBrzwYhkZz+qgk1+QrbCEFXhhbpjaIKTkcc04Vm3ewWbNNqIdLsuudm43FBkPJGDG4X5K9Kg5+Z1VfJLTmGQiMM5pGgDTw9wi/0lB77CZmB0G15oRqxmirhdW+Z0lD+KLOYqXv50lQf3tSjyfinZgW8h07oqBdS+jcXZpVaYzYBk8C/RwSSJSd4fsEtA9z25JZ2rNbAbbUoTKJOWVPTD7aQNVeU9zEcgU1RpfRrs8zxs6h0H1EZyMmA7z78O3iaw8nV58bb/paFy2oxNmxZ4VTm6B4cwvOIlsOKzRjAFor/jVD+QqWmTGxLUj0vOmtCylWAersUNL8ojjHjZi4PGVtn+q3RXZw4Hv5/fOF/FUfds1vYKi9BiON7TakHh8OhVSBlKvJwBzwVAfLfJz47Efl4dQaeRnzgqX9hx5DhjJsmVGJlb9eYWnKAIwdA9cOMjS4dGR1djtg+rmRkPoB81qvr+QK/Oq4uD2cQDokGejuYkF0V7iU9Fj4lcppnBdOuhsS/HITg=
+    ES_LOGS: >-
+      AgBncQdXnCNXr8n4SydL7VctMeytKfwWsVBmC9EicjhlWazfThNslkS3hAnj8/m9lwC9Z7uOOZtYS1zNv70E1t8uzYMoFpf1UeT3JfmBuVBtCkoTlU6RWXUbi/NOE3qF2rwx3bNUMP7xQLqBrC4wqDGX7nr1rOT7TtpuCjch2mpJWG8YqQoO99iYM8PT/X12k7TD5JQsm8XiIJ7kNSyru9UBLf5s408e6nA1Zrz1vHrkGnpOLzMqyTBVu3Rf+yoWUjK2D/mjuwlw1lG2hBLC3A9TWQ2KDPZcCv+SZ0N+OBmllbBtkvnOGfQOTzNClRQuJb7SL4dxAKpJxHjK4YtPtTnkq0NXHXk/4hvXqBf42RZu+0uoeYxOtvWdH2XSxxS+TGoemtgOkPVmliLTB/Ss9IEzCbQJj8ufNrhwYZ3jK4jNDPlyC5MNdxjxNaFyRxUFiv92B/UbhP5TQN6YgbufZvNrwHDDBn8MvtJHPEwrMLEzo8JmDXMoNVRHVT1Ap7Ltwxz4QcygHqn8WNLxlfgUnJC9IQwvhxbUD1cgX7yxulDCrqZCM8gjhWnsMzeXCzQoYlLt5F9Xl9dxuzsZ7MhBjdX9I9AwZd3HKyIivVtv7sBq+zTOUKEvUbVXoYXCPLardwsW6kYEN+OPc6JSWlh/lTi9U/2uNFiON8Voy/uFHVEXf+K2g3wkLMod9ii7f/nfg307XG7eUu1XruxOlG2CXRYxzwH7ypI1NxzxqZNJrGFUhXjYJC4efAzv6kOd/38HK96x9IagEBprVedawJ8EUasBJG1Q0b0T6ERsCIECravPPQ==
+  template:
+    metadata:
+      name: ingester-elasticsearch-to-prod
+      namespace: cdtn-admin
+    type: Opaque
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ingester-elasticsearch-target-prod
+  namespace: cdtn-admin
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - name: ingester-elasticsearch-target-prod
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester-elasticsearch:1.2.3
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: '2'
+              memory: 1Gi
+            requests:
+              cpu: '1'
+              memory: 512Mi
+          envFrom:
+            - configMapRef:
+                name: ingester-elasticsearch-to-prod
+            - secretRef:
+                name: ingester-elasticsearch-to-prod
+          env:
+            - name: ES_INDEX_PREFIX
+              value: cdtn-prod-v1.2.3
+      restartPolicy: Never
+  ttlSecondsAfterFinished: 86400
+"
+`;

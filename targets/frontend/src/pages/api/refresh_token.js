@@ -67,7 +67,7 @@ export default async function refreshToken(req, res) {
     .query(deletePreviousRefreshTokenMutation, {
       new_refresh_token_data: {
         expires_at: getExpiryDate(
-          parseInt(process.env.NEXT_PUBLIC_REFRESH_TOKEN_EXPIRES, 10)
+          parseInt(process.env.REFRESH_TOKEN_EXPIRES, 10)
         ),
         refresh_token: new_refresh_token,
         user_id: user.id,

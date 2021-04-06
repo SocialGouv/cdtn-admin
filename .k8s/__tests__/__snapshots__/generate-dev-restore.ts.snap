@@ -1,0 +1,306 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`kosko generate --dev jobs/restore 1`] = `
+"---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: restore-container-master
+  namespace: cdtn-admin-secret
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+    component: restore-master
+  annotations:
+    kapp.k14s.io/update-strategy: always-replace
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
+    spec:
+      containers:
+        - command:
+            - sh
+            - '-c'
+            - >+
+
+
+              [ ! -z $SOURCE_CONTAINER ] || (echo \\"No SOURCE_CONTAINER\\"; exit 1)
+
+              [ ! -z $SOURCE_ACCOUNT_NAME ] || (echo \\"No SOURCE_ACCOUNT_NAME\\";
+              exit 1)
+
+              [ ! -z $SOURCE_ACCOUNT_KEY ] || (echo \\"No SOURCE_ACCOUNT_KEY\\";
+              exit 1)
+
+              [ ! -z $DESTINATION_CONTAINER ] || (echo \\"No
+              DESTINATION_CONTAINER\\"; exit 1)
+
+              [ ! -z $DESTINATION_ACCOUNT_NAME ] || (echo \\"No
+              DESTINATION_ACCOUNT_NAME\\"; exit 1)
+
+              [ ! -z $DESTINATION_ACCOUNT_KEY ] || (echo \\"No
+              DESTINATION_ACCOUNT_KEY\\"; exit 1)
+
+
+
+              echo \\"starting restore container $SOURCE_CONTAINER into
+              $DESTINATION_CONTAINER\\"
+
+
+              # copy container
+
+              az storage copy -r   --source-account-name
+              \\"$SOURCE_ACCOUNT_NAME\\"   --source-account-key
+              \\"$SOURCE_ACCOUNT_KEY\\"   --source-container \\"$SOURCE_CONTAINER\\"  
+              --account-name \\"$DESTINATION_ACCOUNT_NAME\\"   --account-key
+              \\"$DESTINATION_ACCOUNT_KEY\\"   --destination-container
+              \\"$DESTINATION_CONTAINER\\"
+
+
+              # get original permission
+
+              PUBLIC_ACCESS=\`az storage container show-permission  
+              --account-name \\"$SOURCE_ACCOUNT_NAME\\"   --account-key
+              \\"$SOURCE_ACCOUNT_KEY\\"   --name $SOURCE_CONTAINER | jq -r
+              \\".publicAccess\\"\`
+
+
+              # set original permission
+
+              az storage container set-permission   --name
+              $DESTINATION_CONTAINER   --account-name
+              \\"$DESTINATION_ACCOUNT_NAME\\"   --account-key
+              \\"$DESTINATION_ACCOUNT_KEY\\"   --public-access $PUBLIC_ACCESS
+
+          env:
+            - name: SOURCE_ACCOUNT_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountname
+                  name: azure-cdtnadmindev-volume
+            - name: SOURCE_ACCOUNT_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountkey
+                  name: azure-cdtnadmindev-volume
+            - name: DESTINATION_ACCOUNT_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountname
+                  name: azure-cdtnadmindev-volume
+            - name: DESTINATION_ACCOUNT_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountkey
+                  name: azure-cdtnadmindev-volume
+            - name: SOURCE_CONTAINER
+              value: cdtn
+            - name: DESTINATION_CONTAINER
+              value: cdtn-dev
+          envFrom: []
+          image: mcr.microsoft.com/azure-cli:2.15.1
+          imagePullPolicy: IfNotPresent
+          name: restore-db
+          resources:
+            limits:
+              cpu: 300m
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+      restartPolicy: Never
+  ttlSecondsAfterFinished: 86400
+---
+apiVersion: v1
+kind: ConfigMap
+data:
+  post-restore.sql: |
+    TRUNCATE TABLE \\"auth\\".\\"users\\" CASCADE;
+
+    --
+    -- DISABLE TRIGGERS
+    --
+
+    ALTER TABLE auth.users DISABLE TRIGGER USER;
+
+    WITH admin_row AS (
+    INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
+        VALUES ('codedutravailnumerique@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8', 'Administrateur', 'admin', TRUE)
+      RETURNING
+        id, default_role)
+      INSERT INTO auth.user_roles (ROLE, user_id)
+      SELECT
+        default_role,
+        id
+      FROM
+        admin_row;
+
+    WITH admin_row AS (
+    INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
+        VALUES ('utilisateur@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$PqKPf9cxunVLLtEcINHhWQ$CwHKhk71fc8LGp6BWbcFPzQ2ftOiHa7vUkp1eAqVHSM', 'Utilisateur', 'user', TRUE)
+      RETURNING
+        id, default_role)
+      INSERT INTO auth.user_roles (ROLE, user_id)
+      SELECT
+        default_role,
+        id
+      FROM
+        admin_row;
+
+    --
+    -- ENABLE TRIGGERS
+    --
+
+    ALTER TABLE auth.users ENABLE TRIGGER USER;
+
+    --
+    -- Kill all connections !
+    -- Make all connected services restart !
+    -- Hasura migration will be re-applyed.
+    --
+
+    SELECT pg_terminate_backend(pid)
+    FROM pg_stat_activity
+    WHERE pid <> pg_backend_pid()
+    AND datname = 'autodevops_master';
+metadata:
+  name: post-restore-script-configmap-0123456
+  namespace: cdtn-admin-secret
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+    component: restore-master
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: restore-db-master
+  namespace: cdtn-admin-secret
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+    component: restore-master
+  annotations:
+    kapp.k14s.io/update-strategy: always-replace
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
+    spec:
+      containers:
+        - command:
+            - sh
+            - '-c'
+            - >
+
+
+              echo \\"starting restore into $PGHOST/$PGDATABASE\\"
+
+
+              [ ! -z $PGDATABASE ] || (echo \\"No PGDATABASE\\"; exit 1)
+
+              [ ! -z $PGHOST ] || (echo \\"No PGHOST\\"; exit 1)
+
+              [ ! -z $PGUSER ] || (echo \\"No PGUSER\\"; exit 1)
+
+              [ ! -z $PGPASSWORD ] || (echo \\"No PGPASSWORD\\"; exit 1)
+
+              [ ! -z $OWNER ] || (echo \\"No OWNER\\"; exit 1)
+
+
+              # get latest backup folder
+
+              LATEST=$(ls -1Fr /mnt/data | head -n 1);
+
+              DUMP=\\"/mnt/data/\${LATEST}\${FILE}\\"
+
+              echo \\"Restore \${DUMP} into \${PGDATABASE}\\";
+
+
+              pg_isready;
+
+
+              pg_restore   --dbname \${PGDATABASE}   --clean --if-exists  
+              --no-owner   --role \${OWNER}   --no-acl   --verbose   \${DUMP};
+
+
+              psql -v ON_ERROR_STOP=1 \${PGDATABASE} -c \\"ALTER SCHEMA public
+              owner to \${OWNER};\\"
+
+
+              [ -f \\"/mnt/scripts/post-restore.sql\\" ] && psql -v ON_ERROR_STOP=1
+              -a < /mnt/scripts/post-restore.sql
+          env:
+            - name: PGDATABASE
+              value: autodevops_master
+            - name: OWNER
+              value: user_master
+            - name: FILE
+              value: hasura_prod_db.psql.gz
+          envFrom:
+            - secretRef:
+                name: azure-pg-admin-user-dev
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/azure-db:2.6.1
+          imagePullPolicy: IfNotPresent
+          name: restore-db
+          resources:
+            limits:
+              cpu: 300m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: /mnt/data
+              name: backups
+            - mountPath: /mnt/scripts
+              name: scripts
+      restartPolicy: OnFailure
+      volumes:
+        - azureFile:
+            readOnly: true
+            secretName: azure-cdtnadminprod-volume
+            shareName: cdtn-admin-backup-restore
+          name: backups
+        - configMap:
+            name: post-restore-script-configmap-0123456
+          name: scripts
+      initContainers:
+        - env:
+            - name: PGHOST
+              value: cdtnadmindevserver.postgres.database.azure.com
+            - name: PGDATABASE
+              value: autodevops_master
+            - name: PGPASSWORD
+              value: password_master
+            - name: PGUSER
+              value: user_master@cdtnadmindevserver.postgres.database.azure.com
+            - name: PGSSLMODE
+              value: require
+          envFrom: []
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:5.0.1
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+  ttlSecondsAfterFinished: 86400
+"
+`;

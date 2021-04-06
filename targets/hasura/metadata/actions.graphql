@@ -6,8 +6,16 @@ type Mutation {
   email_password_request(email: citext!, secret_token: uuid!): Status
 }
 
+type Query {
+  pipelines: RunningPipelines
+}
+
 type Mutation {
   preview_document(cdtnId: String!, document: jsonb!, source: String!): Status
+}
+
+type Mutation {
+  trigger_pipeline(env: String!): Status
 }
 
 input PreviewDocument {
@@ -24,4 +32,9 @@ input EmailInput {
 type Status {
   message: String!
   statusCode: Int!
+}
+
+type RunningPipelines {
+  preprod: Boolean!
+  prod: Boolean!
 }

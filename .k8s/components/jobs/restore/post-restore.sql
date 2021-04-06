@@ -35,3 +35,14 @@ INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
 --
 
 ALTER TABLE auth.users ENABLE TRIGGER USER;
+
+--
+-- Kill all connections !
+-- Make all connected services restart !
+-- Hasura migration will be re-applyed.
+--
+
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE pid <> pg_backend_pid()
+AND datname = '${PGDATABASE}';

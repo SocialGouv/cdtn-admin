@@ -21,7 +21,11 @@ export function request(endpoint, { body, ...customConfig } = {}) {
     if (response.ok) {
       return data;
     } else {
-      return Promise.reject(data);
+      return Promise.reject({
+        data,
+        status: response.status,
+        statusText: response.statusText,
+      });
     }
   });
 }

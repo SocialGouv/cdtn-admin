@@ -17,13 +17,34 @@ actions:
           value_from_env: ACTIONS_SECRET
     permissions:
       - role: public
+  - name: pipelines
+    definition:
+      kind: ""
+      handler: "{{API_URL}}/actions/pipelines"
+      forward_client_headers: true
+      headers:
+        - name: actions-secret
+          value_from_env: ACTIONS_SECRET
+    permissions:
+      - role: user
   - name: preview_document
     definition:
       kind: synchronous
       handler: "{{API_URL}}/actions/preview"
+      forward_client_headers: true
       headers:
-        - name: preview-secret
-          value_from_env: PUBLICATION_SECRET
+        - name: actions-secret
+          value_from_env: ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: trigger_pipeline
+    definition:
+      kind: synchronous
+      handler: "{{API_URL}}/actions/trigger_pipeline"
+      forward_client_headers: true
+      headers:
+        - name: actions-secret
+          value_from_env: ACTIONS_SECRET
     permissions:
       - role: user
 custom_types:
@@ -33,4 +54,5 @@ custom_types:
     - name: EmailInput
   objects:
     - name: Status
+    - name: RunningPipelines
   scalars: []

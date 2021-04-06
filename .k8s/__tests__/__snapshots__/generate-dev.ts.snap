@@ -1,6 +1,729 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`kosko generate --dev 1`] = `
-"42
+"---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    field.cattle.io/creatorId: gitlab
+    field.cattle.io/projectId: c-bar:p-foo
+    git/branch: master
+    git/remote: >-
+      https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/cdtn-admin.git
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  labels:
+    azure-pg-admin-user: cdtn-admin
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: cdtn-admin-85-master-dev2
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alert
+data:
+  NODE_ENV: production
+  HASURA_GRAPHQL_ENDPOINT: http://hasura/v1/graphql
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+  name: alert
+spec:
+  encryptedData:
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgCDbpjKjQMq/294VjVxUwVk2OytCAXcaX8PhppBTPozstmZvvhKvszeKF/Ki0qyM1u0k29nBZ86iKJ63VV5wCEKs1l4Kyv3YKNdUpyb4L8zKktfR9sY6UlPypBRfTs/aZXO4FCnTJ4Jsxyaiyynumxuw0oTvLGQoio8IKTg2d7eGu4IRiOLpaLD8GXTmYBuCSTs5cT1y4pBXVu+iJXsLDL4OApYeJUG4xTLtZiBRXDtU316NKpEkvmLTZRkDSoqTBVlOlYLwamYDwyoOuoRPuziqIhjYH7uWSB6QbkF3+AknckfoCCrTaeLitemmXLgvzK6Yxbzr1OOb0DaE3lmpRMOPHpANy5BFYCC+j8Iu02y/A6p1Is793OujN+0m2+Np5eXKsOmKHMbSIQjvtRHh+eQIT5cEqXsZoIsrAVOE+fZn6PDsSZJkFtm+yb4+7dspMdm1VsyKl7VIUS2+U4aex/IsPzvzthbRpK6iK3k5fIiCvSZ65yhG0sxV9T6kxg6+lM5tV3Y3cE5NeKPiFjhhASBfDpkKpYyGI7DuAiLFXzHNm/DE4rarJ1Kkh5tKriSyqMAsyhbR0b8KESNwUjoLRUY8ThS3P6xhkobx0CEdxqKgzZV3dTeboxo34TfSij0eCGnTCInd9vj8X6y7qmRiqMWGZ1uQTPqRzWkj+cC3Op+UhVpnyqr+GpFI4J7Ru2g/Z8my1vbV5fXYcs=
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+      name: alert
+    type: Opaque
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+  labels:
+    app: alert
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: alert
+spec:
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  schedule: 0 1 * * *
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          annotations:
+            kapp.k14s.io/deploy-logs: for-new-or-existing
+        spec:
+          containers:
+            - name: update-alert
+              image: >-
+                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/alert:0123456789abcdefghijklmnopqrstuvwxyz0123
+              resources:
+                requests:
+                  cpu: 1500m
+                  memory: 2.5Gi
+                limits:
+                  cpu: 2000m
+                  memory: 3Gi
+              workingDir: /app
+              env: []
+              envFrom:
+                - configMapRef:
+                    name: alert
+                - secretRef:
+                    name: alert
+              volumeMounts:
+                - name: tz-paris
+                  mountPath: /etc/localtime
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            fsGroup: 1000
+            supplementalGroups:
+              - 1000
+          volumes:
+            - name: tz-paris
+              hostPath:
+                path: /usr/share/zoneinfo/Europe/Paris
+          restartPolicy: Never
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  labels:
+    app: hasura
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: hasura
+  namespace: cdtn-admin-85-master-dev2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hasura
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: master-dev2
+        app.gitlab.com/env.name: master-dev2
+      labels:
+        app: hasura
+        application: master-dev2-cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        cert: wildcard
+    spec:
+      containers:
+        - image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/hasura:0123456789abcdefghijklmnopqrstuvwxyz0123
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: hasura
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1.5Gi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+          envFrom:
+            - secretRef:
+                name: azure-pg-user-master
+            - secretRef:
+                name: hasura
+            - configMapRef:
+                name: hasura
+      initContainers:
+        - env:
+            - name: WAIT_FOR_RETRIES
+              value: '24'
+          envFrom:
+            - secretRef:
+                name: azure-pg-user-master
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:5.0.1
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  name: hasura
+  namespace: cdtn-admin-85-master-dev2
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+spec:
+  encryptedData:
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgCDbpjKjQMq/294VjVxUwVk2OytCAXcaX8PhppBTPozstmZvvhKvszeKF/Ki0qyM1u0k29nBZ86iKJ63VV5wCEKs1l4Kyv3YKNdUpyb4L8zKktfR9sY6UlPypBRfTs/aZXO4FCnTJ4Jsxyaiyynumxuw0oTvLGQoio8IKTg2d7eGu4IRiOLpaLD8GXTmYBuCSTs5cT1y4pBXVu+iJXsLDL4OApYeJUG4xTLtZiBRXDtU316NKpEkvmLTZRkDSoqTBVlOlYLwamYDwyoOuoRPuziqIhjYH7uWSB6QbkF3+AknckfoCCrTaeLitemmXLgvzK6Yxbzr1OOb0DaE3lmpRMOPHpANy5BFYCC+j8Iu02y/A6p1Is793OujN+0m2+Np5eXKsOmKHMbSIQjvtRHh+eQIT5cEqXsZoIsrAVOE+fZn6PDsSZJkFtm+yb4+7dspMdm1VsyKl7VIUS2+U4aex/IsPzvzthbRpK6iK3k5fIiCvSZ65yhG0sxV9T6kxg6+lM5tV3Y3cE5NeKPiFjhhASBfDpkKpYyGI7DuAiLFXzHNm/DE4rarJ1Kkh5tKriSyqMAsyhbR0b8KESNwUjoLRUY8ThS3P6xhkobx0CEdxqKgzZV3dTeboxo34TfSij0eCGnTCInd9vj8X6y7qmRiqMWGZ1uQTPqRzWkj+cC3Op+UhVpnyqr+GpFI4J7Ru2g/Z8my1vbV5fXYcs=
+    HASURA_GRAPHQL_JWT_SECRET: >-
+      AgDSW4ceV9HFoxBNqg/hGa6uunl76cjtKBRSYf5LEPKzNHtXixd73LoFGa2y6/cQ/yGevNU6k7w62pkbWnz5rNAznsBE8QtBt1eRKQqjyJJ21m4sWI/MK6UI3gUS/Ad+LeCMxSoKG3XEzFSAwSndSXsgmwAP4KPpBF83DvdpVVpZtAjvPbNYNE6Ocjhtmt/TLqWjsV4Z+hkS8CKGk+PsYDEuR74Mj5TJys0MALJA9TB2dTIqMHOVZofD8T9hKH42yJWCDruH+gNNPKcleG/R0Pt7LJSamZtsqtXdxeE02tB+I9/VaEMrBL2WCJKhGHTjlDxexl4V/fswFYgXc/T4+hmPVB76xWVi6yFfggD/tLcAvgw3Ivdmbk/1c4CayKjU0+B+57EVrRqCGbJieBfbv6L3EWjU0uQj/uJEaZxIF4st3/r+iSGnrtPveBqnUgkJeqOmhf4sWJwE3xsPJM2kNYDPelWpYdxpoPaq3PNcLs7WpxMtRvwvvz2LMsWhEuUyHpe5yLOvi5swhcGqX1ALxGxfxzV+O229WfuTmV/kGUmcHhdf/VXdJRa+PYS83YK39wC1ZsoXJvPjAvEMgoTaRE8NHPWVD2ookNwdiRQIoLrSrGMP6F+Team2KtCic9ONYnM2wwUj2JCQRkFX2LZXwm9g9uR/Leuyd/IL5+tczwfF+PHfs6TQv+uKVz2qoZQZk4myQ/0JwHluOSXHTwEWkvuwGYO8QMTDOTTdp4Dor3kN7hQZyvWf41V/EHmOoLeFsdpQkWexo1FWHRZYtgG7ZVrgs07bY65gY6c1tZOKFaWhacTuneiLosz79vxn5omsFpjOOiWdSQOPZU8GkGxqJVq16H3VJg==
+    PUBLICATION_SECRET: >-
+      AgAtDPOTr9khd47wV5WPXJaLSj+6Kmh5N/Wt9SJUTmRgn9jp8trclhS5DvZxmfVv/rYRRiDTuPATDR4yMbfvtrO9ABAhmRZFvmU5VbxdtCDrc9qtv5ZJ4dsYIVxyXIad7+CumHkunXYSwgmCqr2bvv5oeWRmTx2x4uwaNzhEKQ4hUzYCyWp9laJHt5mYT/c/IWZu0PaDXJQVWQuep3fJvjtxQw9EZVy+ehGAqyClL7bkqT1KVrVBDfvpPeO97O2e2de49RcdZSCtBTmGDHKg7fwUziBJSSI8ObtUMzWm56223XZXKqrxdChAlWJE05tHsvowa18NadFDjJwVt3RtPp+HguVj+I7PiTJMTjyZpsmHlr767teLYrXAoAVc9MRrGeznvYw4i0DhNFZXfyYghSKnKPW4yfYzNKwX50huCyQethn1TqU6MAYGrWiyx9XsaHy3bNgAO4ru9o8WV7bfyeRRsABMoiubyq9RCxfOXRU3cbWYaiS8aiPxALZRKjhSeQhJ5ufdL700rJWV2nuoxXG8jjR3yw3bpCL6imIrLRIAP1+Wki5I8Qo98dfBBF/nahEWeXdCqCjpImfSLUioKMes2IrH8ragfja+85x06S8717b67qyBqtGeGAfX2JYLDWILoA0k9RdzyIwuakAZkChGoWTUy8aRjC7GJIKCQ5IKZ5FQr0IuVVjj1xoGBh6O/sFsOLF7/sA3hRcvirzcCFvCIwsmHs/q4K1iU7nDR0WE1AUV/uccbP3yzAzv6gqElztn1f/LOpA01b2Wn9YAzi6S65wUXUWx7UAx6YaiiofmnySnseSNfE+8
+    ACTIONS_SECRET: >-
+      AgCr1h9TDslB9A7XBvZ7V+n5AAP4WMirKasKXqLOCkS+BPvWU+wdRBA1VfsMuI5PTXYVmhcGDSGuo1ZL84FLZvgo8vZqAj3hD403HG7qiahJ4FFdgbXNv7exBKQ45bky//lMedEZ7O4eBlZRnM1m9XIvaC5AKLtGXTgkemHz6wRo5binDe8CG32kq5KqYJRhsW5/5QjrK9h5f22DGywVQGFGHeG6nHvq8/twgqG8yPESJUbvG7r9Jpj3SxPRBlDfDCFsjtDKxwmsDvwE3pgeSV3Sog72cyC5MIFrB08rAaIpPprR3BsIRSODSNzx4Q3yHkuC6bPBOoWU1u1fznUbxp+YWlYiAdywZXA7vb0yk1+JNyo6rDpHeAIclbnMvZUD9bbhiRY53wUMereEOzLGhREmP/DVm7AdGS+/Wi7wO04bXWDGA7QWMC9VyhNPnLMlCA9p3rHCIM/7adEiVt4RCloOm8ZZ5NyvXqw9ij/+SkbethAYphay0s0qB4TqqYYxbd2Xal+2gLgKuvBfPTMehatibxTwoz5I4bUp2gPNUO+CaeOQWsI4Qw+PcUjIPQ3Xcpqv7rpIVSdRxEzgV/JHI/hBPUfRO1Us/jJSIoUJaT/LiT79RVdp3xcnz2BjiAHmjfIjmRlH1qaJd3g1wlHMxkoxSUArhRunGHPdFXtJNv5qnmyve/r1RNDr27vcjplclKI8jDQmytC64dX4fUyHBm5uee8EPIdUBqoFWcOaiwNNDFvigVjtqOrkGnrXebNDnfrfsenV6u+Q9n/UKWpxaIgw7z3IOvFH8WE4T4kNuqtRzvBA7j6Ag0pGKg==
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: master-dev2
+        app.gitlab.com/env.name: master-dev2
+      name: www
+      labels:
+        application: master-dev2-cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        cert: wildcard
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hasura
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  namespace: cdtn-admin-85-master-dev2
+data:
+  API_URL: http://www/api
+  PUBLICATION_WEBHOOK_URL: http://www/api/webhooks/publication
+  HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
+  HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+  HASURA_GRAPHQL_NO_OF_RETRIES: '5'
+  HASURA_GRAPHQL_SERVER_PORT: '80'
+  HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hasura
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: hasura
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  namespace: cdtn-admin-85-master-dev2
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: hasura
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingester
+data:
+  NODE_ENV: production
+  HASURA_GRAPHQL_ENDPOINT: http://hasura/v1/graphql
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+  labels:
+    app: ingester
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: ingester
+spec:
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  schedule: 30 0 * * *
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          annotations:
+            kapp.k14s.io/deploy-logs: for-new-or-existing
+        spec:
+          containers:
+            - name: update-ingester
+              image: >-
+                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester:0123456789abcdefghijklmnopqrstuvwxyz0123
+              resources:
+                requests:
+                  cpu: 1500m
+                  memory: 2.5Gi
+                limits:
+                  cpu: 2000m
+                  memory: 3Gi
+              workingDir: /app
+              env: []
+              envFrom:
+                - configMapRef:
+                    name: ingester
+                - secretRef:
+                    name: ingester
+              volumeMounts:
+                - name: data
+                  mountPath: /app/data
+                - name: tz-paris
+                  mountPath: /etc/localtime
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            fsGroup: 1000
+            supplementalGroups:
+              - 1000
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: ingester
+            - name: tz-paris
+              hostPath:
+                path: /usr/share/zoneinfo/Europe/Paris
+          restartPolicy: Never
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+  name: ingester
+  namespace: null
+spec:
+  encryptedData:
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgCDbpjKjQMq/294VjVxUwVk2OytCAXcaX8PhppBTPozstmZvvhKvszeKF/Ki0qyM1u0k29nBZ86iKJ63VV5wCEKs1l4Kyv3YKNdUpyb4L8zKktfR9sY6UlPypBRfTs/aZXO4FCnTJ4Jsxyaiyynumxuw0oTvLGQoio8IKTg2d7eGu4IRiOLpaLD8GXTmYBuCSTs5cT1y4pBXVu+iJXsLDL4OApYeJUG4xTLtZiBRXDtU316NKpEkvmLTZRkDSoqTBVlOlYLwamYDwyoOuoRPuziqIhjYH7uWSB6QbkF3+AknckfoCCrTaeLitemmXLgvzK6Yxbzr1OOb0DaE3lmpRMOPHpANy5BFYCC+j8Iu02y/A6p1Is793OujN+0m2+Np5eXKsOmKHMbSIQjvtRHh+eQIT5cEqXsZoIsrAVOE+fZn6PDsSZJkFtm+yb4+7dspMdm1VsyKl7VIUS2+U4aex/IsPzvzthbRpK6iK3k5fIiCvSZ65yhG0sxV9T6kxg6+lM5tV3Y3cE5NeKPiFjhhASBfDpkKpYyGI7DuAiLFXzHNm/DE4rarJ1Kkh5tKriSyqMAsyhbR0b8KESNwUjoLRUY8ThS3P6xhkobx0CEdxqKgzZV3dTeboxo34TfSij0eCGnTCInd9vj8X6y7qmRiqMWGZ1uQTPqRzWkj+cC3Op+UhVpnyqr+GpFI4J7Ru2g/Z8my1vbV5fXYcs=
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+      name: ingester
+    type: Opaque
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ingester
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  volumeMode: Filesystem
+---
+apiVersion: batch/v1
+kind: Job
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - command:
+            - create-db-user
+          env:
+            - name: NEW_DB_NAME
+              value: autodevops_master
+            - name: NEW_USER
+              value: user_master
+            - name: NEW_PASSWORD
+              value: password_master
+            - name: NEW_DB_EXTENSIONS
+              value: hstore pgcrypto citext uuid-ossp
+          envFrom:
+            - secretRef:
+                name: azure-pg-admin-user
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/azure-db:2.6.1
+          imagePullPolicy: IfNotPresent
+          name: create-db-user
+          resources:
+            limits:
+              cpu: 300m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+      restartPolicy: Never
+    metadata:
+      annotations:
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: master-dev2
+        app.gitlab.com/env.name: master-dev2
+      labels:
+        application: master-dev2-cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        cert: wildcard
+  ttlSecondsAfterFinished: 86400
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: create-db-job-master
+  namespace: cdtn-admin-85-master-dev2
+---
+apiVersion: v1
+kind: Secret
+stringData:
+  DATABASE_URL: >-
+    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
+  DB_URI: >-
+    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
+  HASURA_GRAPHQL_DATABASE_URL: >-
+    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
+  PGDATABASE: autodevops_master
+  PGHOST: cdtnadmindevserver.postgres.database.azure.com
+  PGPASSWORD: password_master
+  PGRST_DB_URI: >-
+    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
+  PGSSLMODE: require
+  PGUSER: user_master@cdtnadmindevserver.postgres.database.azure.com
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: azure-pg-user-master
+  namespace: cdtn-admin-85-master-dev2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  labels:
+    app: www
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: www
+  namespace: cdtn-admin-85-master-dev2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: www
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: master-dev2
+        app.gitlab.com/env.name: master-dev2
+      labels:
+        app: www
+        application: master-dev2-cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        cert: wildcard
+    spec:
+      containers:
+        - image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/www:0123456789abcdefghijklmnopqrstuvwxyz0123
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: www
+          ports:
+            - containerPort: 3000
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 560Mi
+            requests:
+              cpu: 5m
+              memory: 256Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+          env:
+            - name: COMMIT
+              value: 0123456789abcdefghijklmnopqrstuvwxyz0123
+            - name: FRONTEND_HOST
+              value: https://master-dev2-cdtn-admin.dev2.fabrique.social.gouv.fr
+            - name: VERSION
+              value: master
+          envFrom:
+            - secretRef:
+                name: www
+            - configMapRef:
+                name: www
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  name: www
+  namespace: cdtn-admin-85-master-dev2
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+spec:
+  encryptedData:
+    AZURE_STORAGE_ACCOUNT_KEY: >-
+      AgDQCgdeUi0yKlErFvxzFh0gxaoi3pX6EVHnUAIYikjD0krf7YrtUNo2RrdneBVrvbeR4F1xFiQLN+Km80NsNzyCNIgPjsV0EALr0hx7TEg42XUpyvC2aH0QpbF7Zj+Xo4y9vQI/DdJIBDQ/Oo9btABzjPa6anOu0LCP2PIz5B2ndUGnlWSaV1JtArK7jOEA5tUeaSXGXdfjOj4JnVkJKgFCdihWmt8lQMI5VAqqKB3pbAL0c/45jI3UVxqmiL4pa0iJwh3fPa1SBZCeu7IWSRYzC46d3hvmBD6IcEFejS5uU+if6JizzSH4sVQQ0A2lTiIj67wLwmJ2LgB2vnm/bCeDMtzmOUI8PfsOUPj94L62r7kZbaHAZz3uzeUn/K6HlMnD7cDI75nrtSB2o330cK2wTc9yrPU8Td5k5niZObHvbyCYy/nQPDRHdwxUsH0YOkGHyGNyRBggh7/y1Hzp+NKqV/eCq+RKhS+g7NOdDBaGjEXRZ7FGmpyacyGZLbFORtgX1Xn0f1HC/I7nVYys1RoV2RJiWo0K3LwuNA/RW5RpA8rjfXx2/HPcTXMqrXD/QxX9pl75sAB5mOsjBFye5MGw18W73gZ2uazEp8RoxuLn/6iImtW7ah9XoYeP8iSlFDN+RY2hMv8X1SdIov6lqCUsBrwP7oUo6cKG9V77VQ/1IFUxXM+HgPQSFtJxNGPitp8x4+cLsjPfFdgnJ1NInx8WUhPwJQrwvmfpMGZO+OK9c5mVGjdro6JN/6e3lzAEKrO8nOeVPy6hBn+KEmxBV+m4oA9DU3RgsoapIySnnGmihG+UBEWYWVk6
+    AZURE_STORAGE_ACCOUNT_NAME: >-
+      AgCtRuQPvQKRuXlApVMqRhNZTsT7Vh/pNdJkEcG0Ox24Fll4RfeKFJPaazspdTq6gM3f6MqEZqoTgvsOg/Jez3rLDaSPcgwetH7bC7Ut3gEzBeJQpO+phCxByxQU2XQfxYQwxGtMrsCfN6h9MalETyg8AnCJoLP4kyKDuyLjo0Hvgwr3XokmV38CfPRDwWYvvBCED4EwsuCO1LvIOcC7XnlGEnrA9p+6T8jEl1z86bd14+AbXAC4xuVOluvrPpgMEjrpI4jqkNuJDTt80W48hWH0ZayzAKQ69uSTKUe5011i8ui1/frD0CDNPpFoI/CQqgNB9wZYT6I2rMVl9sXWtMexq+y96/YuiaQyJKAGB9Foxq6JV2viVEpNHqf2egw7RhWnJSPe0XJqFFyHkUz4FA+dDhL5AcIFdknwlvjzM9VkSj6todKucml6hUdorQ0GZYFy5+QkA5OqUxn45bcW2AVLYYSTlWMRTmjl0HTPTnILDsfv6nml0cG+rHmVu4rWjTT8rPoQRCAIeNKg4CxCzBPojhdq49jTvmy8lG8lSV1qdL8ZDipCja3+LIiQztS4qu0pZXIKp3smfhCWI5ENXVQ8UIZCthTac+Yg2vsl0jaOKaGP4SdXCxPZTdgqclGjm8BUSP3ZdDLbgl8Z6wqxsXN8RKsI/kCaURu4Ner1YqJnFmX4qiHZsnVit3GNpo6Qiv3Ogqr2zpEbInWyML0=
+    ELASTICSEARCH_URL: >-
+      AgADJghagvDC9rlLM9lyNNTsrIS3rGhLICLR0Po/NbW3ILiDnhFsOJ79siLoQQOxO/s4/eLKS153go4SjGQUXBRd1S/vjlQ57t1LfAWIfS1+7RVYaGpXLQEdxbWhpiv2KtpzGXifLyK9wB9QLNkinh1VnRYFuisISWEbPdwhif2rnvcv6bFkRuC8jiZYMVVESBQuGoUkc1IHjSbvoPc7OFtgjT6FwZqqF9IjXu479zescxSFWryF/M8tZWFivPyYc5lNW2HdvPihqL1F9oosEvBJdhBfCr6PXYuG1rdZGbFZslXgOhLr/O08mE1R2v+r15Y5ChATUCQxBWzKY2wMA5MRpSNyxF5x6IVnXvN/eotUdZBX4dMox0XUq0uFBNwFJy422NzdOKJM1k0akvT12ICiJ8jbx6P1zchoy8b2z40d4NkVGSkNbjcFq4ZZtAWpHhAypzMDMrFwqNl17UfbZYPFbG+SFKywU4SwuLUJrXxnYo3DmOvqaJ9HqaxCum6TSRAZpYDXJZ1k0ehJ8Q5eS3ItC/AukLemJkmezMk0LEMGkElIWXFIEhqRlGSu7cpvfJCINaHmIJhtBnO7pZ6TxnNEAZNigg6Z+QZc/9FTflnF2J5iQNDkI6sE8wY69/inIuFYQOEDIubU9NKrgZgccD3DHneF/QkUhCQuKc4bKyONYNN8RJNZa7trAQzPuVNsYhj23sK6fXjTvERdyfXP5L/4FMc9JjoEWCyBjQbGEeNuPiYCI1yysGguihWs7FfOZc+TpqH68l2/LTYtL1I3DtPEm2XupP9UxyLERgGw8EMD3Q==
+    ELASTICSEARCH_TOKEN_UPDATE: >-
+      AgApwHxFZkYn34UMtL8jwOf9MaFzLJa9C+SQzDi6OZPLNPHxqBY2JXn8laPHOCCkwOZSqDOsLSUdLrHg0MPUqwJ/wgNdMWV/zXudrEzWBW6bkCBxRdqi5Wiwc373c1hTUAauldgBoC+c8C1JmKYVnEL+nLoYqXAqP8sF0Po2spiLV/xrROmbnznCRQXTdcfj0+FXrGuHD2ej5xWQB6gCqr0uPJf996aF1+/X/jawHBNsqC7/9tSSv9JAFCz7sWJIjPIa/9qF+CHCD4ZNQiUq7XzQrDIjPGgrPWSDSNC0+AUWpLR+4NuZ2EwiprhxcAEU5mZuxX0GA4d58ZfpIeYYJlgLF+iDPbR/2DJXPHf6uUyGBhaZ5dWz5JJ2x6kHKffV5NVq67EBmVa7Yu0t7bKU5iWHrJHbIfkncotP4neJN9pMU8Cv0VmG8eg5r0eULefV3Viwlv3veLsgUWbhnOxsBXOnmYO3ntqaWndqyMicAD8prJ+DsRXhlcYzd0uVlTXPTAdRg/4Yv01wobdrc8c6yyOgEtejQAprmpxwnv7q0ct7NB8TH2Y+HFeI+Cwdkc2uGdcUvPE5Pm52p0EfG1m7FwDJnfcPM/J+SM8Te9MbMD8+JmzkyXvrk5cPUxHXnbrXKkDXE1pqlQw4Fm7Jxq7wE4eht811xWZs+RG/S1QsGMg2kpoK5vAUv/aQm1nH0s68ZPZNgKrOp5dwyZWLyqt31XB5M77DR6cWdaS9nrr9CI6wm70h8BFSO3UfwFI1Zon7t9uM0hTO8+TPT+XO+1k=
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgCDbpjKjQMq/294VjVxUwVk2OytCAXcaX8PhppBTPozstmZvvhKvszeKF/Ki0qyM1u0k29nBZ86iKJ63VV5wCEKs1l4Kyv3YKNdUpyb4L8zKktfR9sY6UlPypBRfTs/aZXO4FCnTJ4Jsxyaiyynumxuw0oTvLGQoio8IKTg2d7eGu4IRiOLpaLD8GXTmYBuCSTs5cT1y4pBXVu+iJXsLDL4OApYeJUG4xTLtZiBRXDtU316NKpEkvmLTZRkDSoqTBVlOlYLwamYDwyoOuoRPuziqIhjYH7uWSB6QbkF3+AknckfoCCrTaeLitemmXLgvzK6Yxbzr1OOb0DaE3lmpRMOPHpANy5BFYCC+j8Iu02y/A6p1Is793OujN+0m2+Np5eXKsOmKHMbSIQjvtRHh+eQIT5cEqXsZoIsrAVOE+fZn6PDsSZJkFtm+yb4+7dspMdm1VsyKl7VIUS2+U4aex/IsPzvzthbRpK6iK3k5fIiCvSZ65yhG0sxV9T6kxg6+lM5tV3Y3cE5NeKPiFjhhASBfDpkKpYyGI7DuAiLFXzHNm/DE4rarJ1Kkh5tKriSyqMAsyhbR0b8KESNwUjoLRUY8ThS3P6xhkobx0CEdxqKgzZV3dTeboxo34TfSij0eCGnTCInd9vj8X6y7qmRiqMWGZ1uQTPqRzWkj+cC3Op+UhVpnyqr+GpFI4J7Ru2g/Z8my1vbV5fXYcs=
+    HASURA_GRAPHQL_JWT_SECRET: >-
+      AgDSW4ceV9HFoxBNqg/hGa6uunl76cjtKBRSYf5LEPKzNHtXixd73LoFGa2y6/cQ/yGevNU6k7w62pkbWnz5rNAznsBE8QtBt1eRKQqjyJJ21m4sWI/MK6UI3gUS/Ad+LeCMxSoKG3XEzFSAwSndSXsgmwAP4KPpBF83DvdpVVpZtAjvPbNYNE6Ocjhtmt/TLqWjsV4Z+hkS8CKGk+PsYDEuR74Mj5TJys0MALJA9TB2dTIqMHOVZofD8T9hKH42yJWCDruH+gNNPKcleG/R0Pt7LJSamZtsqtXdxeE02tB+I9/VaEMrBL2WCJKhGHTjlDxexl4V/fswFYgXc/T4+hmPVB76xWVi6yFfggD/tLcAvgw3Ivdmbk/1c4CayKjU0+B+57EVrRqCGbJieBfbv6L3EWjU0uQj/uJEaZxIF4st3/r+iSGnrtPveBqnUgkJeqOmhf4sWJwE3xsPJM2kNYDPelWpYdxpoPaq3PNcLs7WpxMtRvwvvz2LMsWhEuUyHpe5yLOvi5swhcGqX1ALxGxfxzV+O229WfuTmV/kGUmcHhdf/VXdJRa+PYS83YK39wC1ZsoXJvPjAvEMgoTaRE8NHPWVD2ookNwdiRQIoLrSrGMP6F+Team2KtCic9ONYnM2wwUj2JCQRkFX2LZXwm9g9uR/Leuyd/IL5+tczwfF+PHfs6TQv+uKVz2qoZQZk4myQ/0JwHluOSXHTwEWkvuwGYO8QMTDOTTdp4Dor3kN7hQZyvWf41V/EHmOoLeFsdpQkWexo1FWHRZYtgG7ZVrgs07bY65gY6c1tZOKFaWhacTuneiLosz79vxn5omsFpjOOiWdSQOPZU8GkGxqJVq16H3VJg==
+    PUBLICATION_SECRET: >-
+      AgAtDPOTr9khd47wV5WPXJaLSj+6Kmh5N/Wt9SJUTmRgn9jp8trclhS5DvZxmfVv/rYRRiDTuPATDR4yMbfvtrO9ABAhmRZFvmU5VbxdtCDrc9qtv5ZJ4dsYIVxyXIad7+CumHkunXYSwgmCqr2bvv5oeWRmTx2x4uwaNzhEKQ4hUzYCyWp9laJHt5mYT/c/IWZu0PaDXJQVWQuep3fJvjtxQw9EZVy+ehGAqyClL7bkqT1KVrVBDfvpPeO97O2e2de49RcdZSCtBTmGDHKg7fwUziBJSSI8ObtUMzWm56223XZXKqrxdChAlWJE05tHsvowa18NadFDjJwVt3RtPp+HguVj+I7PiTJMTjyZpsmHlr767teLYrXAoAVc9MRrGeznvYw4i0DhNFZXfyYghSKnKPW4yfYzNKwX50huCyQethn1TqU6MAYGrWiyx9XsaHy3bNgAO4ru9o8WV7bfyeRRsABMoiubyq9RCxfOXRU3cbWYaiS8aiPxALZRKjhSeQhJ5ufdL700rJWV2nuoxXG8jjR3yw3bpCL6imIrLRIAP1+Wki5I8Qo98dfBBF/nahEWeXdCqCjpImfSLUioKMes2IrH8ragfja+85x06S8717b67qyBqtGeGAfX2JYLDWILoA0k9RdzyIwuakAZkChGoWTUy8aRjC7GJIKCQ5IKZ5FQr0IuVVjj1xoGBh6O/sFsOLF7/sA3hRcvirzcCFvCIwsmHs/q4K1iU7nDR0WE1AUV/uccbP3yzAzv6gqElztn1f/LOpA01b2Wn9YAzi6S65wUXUWx7UAx6YaiiofmnySnseSNfE+8
+    ACTIONS_SECRET: >-
+      AgCr1h9TDslB9A7XBvZ7V+n5AAP4WMirKasKXqLOCkS+BPvWU+wdRBA1VfsMuI5PTXYVmhcGDSGuo1ZL84FLZvgo8vZqAj3hD403HG7qiahJ4FFdgbXNv7exBKQ45bky//lMedEZ7O4eBlZRnM1m9XIvaC5AKLtGXTgkemHz6wRo5binDe8CG32kq5KqYJRhsW5/5QjrK9h5f22DGywVQGFGHeG6nHvq8/twgqG8yPESJUbvG7r9Jpj3SxPRBlDfDCFsjtDKxwmsDvwE3pgeSV3Sog72cyC5MIFrB08rAaIpPprR3BsIRSODSNzx4Q3yHkuC6bPBOoWU1u1fznUbxp+YWlYiAdywZXA7vb0yk1+JNyo6rDpHeAIclbnMvZUD9bbhiRY53wUMereEOzLGhREmP/DVm7AdGS+/Wi7wO04bXWDGA7QWMC9VyhNPnLMlCA9p3rHCIM/7adEiVt4RCloOm8ZZ5NyvXqw9ij/+SkbethAYphay0s0qB4TqqYYxbd2Xal+2gLgKuvBfPTMehatibxTwoz5I4bUp2gPNUO+CaeOQWsI4Qw+PcUjIPQ3Xcpqv7rpIVSdRxEzgV/JHI/hBPUfRO1Us/jJSIoUJaT/LiT79RVdp3xcnz2BjiAHmjfIjmRlH1qaJd3g1wlHMxkoxSUArhRunGHPdFXtJNv5qnmyve/r1RNDr27vcjplclKI8jDQmytC64dX4fUyHBm5uee8EPIdUBqoFWcOaiwNNDFvigVjtqOrkGnrXebNDnfrfsenV6u+Q9n/UKWpxaIgw7z3IOvFH8WE4T4kNuqtRzvBA7j6Ag0pGKg==
+    SMTP_EMAIL_USER: >-
+      AgA3OzfISPZpiKp5P3PhpgzY5avfiU54p9oMn60Jn0ebNnj4+GSrXQ52v9OTIrL/WthPZhD9HdjjconiWsWnxXeaHTRkXup3XxLy3yV3L9HLnVbG0vMTsVvfPo2GezqACHu9JLWoq+noa3uzQc/d/lM1s8oxbNtVqWCD4sFPTdJxgPkY1TukvdmjfwA5J8S5iELdfGKT01z/4JyhU2R4zFPSR8w5PSl0Eelob+wP2FxMH+/TLwpbiNfVEY04jAMG3W4dOD7FZC6RCH9LfKSOvjce/E0aGqx5dTycjpKmwtwg5YYhWeA3k5Chwk5EfYE/y0KTEZm+cKo2NdyHFUemepTKVcj+Cvz2gE1KQfOiuvxQ8WyPCmeMiwQ5+ehVeEQeXaqtLQyJt4bOGCmatnXdtbIFfAWEEExMilWcvobIwZt2hQjp+IRKfK5zfo/vTSSdazNApSiEPKgwwfyS/kNE9KVqam/2KaG3pexRn74V9b4CqDByeU84QWdF3RdVP9Itkn8GjXlhOV7Y7mTFNAUJjuHmgUjvOYBk/yg4ZDc7B3ky3hiYAPQuvh5+7+EiOcn4S4/2Ro3oJzy7TSmvgG/iGyakKF1HbpAbMeqlmaqTZ3x0lglZ7gbHLMP5MLdwetJq//vSueI4YaXLfC4ewbvCbUE8z7lxbhu8tnprodL5+aXHzBiInmAc+VizrLltyYAkb7qmaQxNNqBJEx9WgmTJGUipfo5OtQ7ByUiHzPI8/wBuUg==
+    SMTP_EMAIL_PASSWORD: >-
+      AgCtNDmA/H1w1O9yj8J9ykjNe8ap6iO5Rd+zjbzWF/IXkqFrK3TUcTaLD9IXltnA3Oeru0rSVTJcPfQwzV9brriIjmrSHjuJK2c5vzQ113x8w9DTpiBk0S5wRHOigwexGxouj1G1MbDrgcB4a6cNMDMJAMxP98uJyzncX2uigDzTTWLh0xVGO1ipNYmgOF9MyNYpkJLYEpSeIQEtNjfUUEcSIrBkrAVLCC6fJUu8trbKXNPGShobw15pmY9rbv25lzz3o3js/biGLgmb5QG3oRcWc5OySN/z59rlD8yrw35ZIdEIDU946XONjtUSoLx4sH3T0fZxNUr3UOm25n6j5ltq4tO+xKx+K3/K91svOpRwv6nM094rQNFghjLajwiWF2VSInWmh1PsNZxIs3S8mFQmiC9x1fcmqG0EsAQoWzwuDDUInCM/S7vIAg8eLUBts+Rkg5/QM7Tjk8qmT+3581+hiP+PJSF+jWHDUfxt+/xisRmMjIM8HN/iTAfLy0XLi39kmOiXPROtd5yvTKmLU7hIDSMu25i9yQEJNV1tMiJIIBpqqGVcFVNk0qMN/Gh7i1tKhJjGS9k/YlUa0jAi1pe1MCW9o6wXyur9PAv75+7qvpzl9rqICDQtGFEbkdZAX6YcXV4JpGoitmmPHm7xsrG66yvsRXRyqX51IN67g9ZFWrelER0jmYYf/SpahpbJ5kMuQ1rd0Wk90JnmXiCNyBxbGE7PjHQUmwu9i0GS5ksgAw==
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: master-dev2
+        app.gitlab.com/env.name: master-dev2
+      name: www
+      labels:
+        application: master-dev2-cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        cert: wildcard
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: www
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  labels:
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  namespace: cdtn-admin-85-master-dev2
+data:
+  ACCOUNT_MAIL_SENDER: contact@fabrique.social.gouv.fr
+  GITLAB_PROJECT_ID: '136'
+  GITLAB_URL: https://gitlab.factory.social.gouv.fr/api/v4
+  HASURA_GRAPHQL_ENDPOINT: http://hasura/v1/graphql
+  JWT_TOKEN_EXPIRES: '15'
+  MATOMO_URL: https://matomo.fabrique.social.gouv.fr/
+  NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES: '10080'
+  NODE_ENV: production
+  REFRESH_TOKEN_EXPIRES: '43200'
+  SENTRY_DSN: https://a5e2451c6b5840c0afa28d5e94060427@sentry.fabrique.social.gouv.fr/42
+  SMTP_URL: smtp.tipimail.com
+  STORAGE_CONTAINER: cdtn-dev
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: www
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: www
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  namespace: cdtn-admin-85-master-dev2
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+  selector:
+    app: www
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  labels:
+    app: www
+    application: master-dev2-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: www
+  namespace: cdtn-admin-85-master-dev2
+spec:
+  rules:
+    - host: master-dev2-cdtn-admin.dev2.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              serviceName: www
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - master-dev2-cdtn-admin.dev2.fabrique.social.gouv.fr
+      secretName: wildcard-crt
 "
 `;
