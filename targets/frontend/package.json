@@ -40,7 +40,7 @@
     "micromark": "^2.11.4",
     "next": "^10.0.7",
     "next-transpile-modules": "^6.3.0",
-    "next-urql": "^2.2.0",
+    "next-urql": "^3.0.1",
     "nodemailer": "^6.5.0",
     "p-limit": "^3.1.0",
     "polished": "^4.1.1",
