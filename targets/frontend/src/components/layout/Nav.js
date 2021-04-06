@@ -10,8 +10,6 @@ import { useQuery } from "urql";
 
 import { Li, List } from "../list";
 
-const CONTAINER_NAME = process.env.NEXT_PUBLIC_CONTAINER_NAME;
-
 const getSourcesQuery = `
 query getAlerts{
   sources(order_by:{label:asc}) {
@@ -127,7 +125,7 @@ export function Nav() {
             </ActiveLink>
           </Li>
           <Li>
-            <ActiveLink href={`/storage/${CONTAINER_NAME}`} passHref>
+            <ActiveLink href={`/fichiers`} passHref>
               Fichiers
             </ActiveLink>
           </Li>
