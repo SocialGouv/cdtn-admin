@@ -1185,7 +1185,18 @@
   resolved "https://registry.yarnpkg.com/@data-forge/serialization/-/serialization-1.0.1.tgz#2a963ea78154688f738e3465558b1c0a2d5963e2"
   integrity sha512-EP7IWimh5JcDOISVoXvNIjUAqcPN1FkNWvuvjY3uzcswErxB8j93ldlUBvgvGEszqFRwMM3fpMF0HrISg5iBSQ==
 
-"@elastic/elasticsearch@^7.11.0", "@elastic/elasticsearch@^7.9.0":
+"@elastic/elasticsearch@^7.11.0":
+  version "7.11.0"
+  resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-7.11.0.tgz#e196243d0ed026742fc160d72cc5b4b5b6c7807d"
+  integrity sha512-AFVVuANIdbV1qYjuOi4hnsX/DehWYG+bbhQO4amq9K4/NnzU7mpGWOPgVlRQTiX+vBfBkx7SL6h4QEjIlM3ztA==
+  dependencies:
+    debug "^4.1.1"
+    hpagent "^0.1.1"
+    ms "^2.1.1"
+    pump "^3.0.0"
+    secure-json-parse "^2.1.0"
+
+"@elastic/elasticsearch@^7.9.0":
   version "7.12.0"
   resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-7.12.0.tgz#dbb51a2841f644b670a56d8c15899e860928856f"
   integrity sha512-GquUEytCijFRPEk3DKkkDdyhspB3qbucVQOwih9uNyz3iz804I+nGBUsFo2LwVvLQmQfEM0IY2+yoYfEz5wMug==
@@ -2837,14 +2848,26 @@
     esm "^3.2.25"
     winston "^3.3.3"
 
-"@socialgouv/cdtn-slugify@^4.44.0", "@socialgouv/cdtn-slugify@^4.45.0":
+"@socialgouv/cdtn-slugify@^4.44.0":
+  version "4.44.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-slugify/-/cdtn-slugify-4.44.0.tgz#b2b2f5c887420edfa814d3c89907f2fee38d51ad"
+  integrity sha512-GIMGD/R7h1S8mQCydmZizygHyihMXd6TU16Q/YHw+8FjfKjfOl0xcKCaCJ5AiI4i0ny5E5vTmHbjNvpvaqtS2Q==
+  dependencies:
+    "@types/jest" "^26.0.20"
+
+"@socialgouv/cdtn-slugify@^4.45.0":
   version "4.45.0"
   resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-slugify/-/cdtn-slugify-4.45.0.tgz#314c9e4cb27fc2befafe6e6e6e0e08a477e9b0f1"
   integrity sha512-/OlmvtJHR7mvIFk38o0lGuE/nvGF1IQOGFTXnsAG1mCL8cwQj58OTXj1HtJniIWnqiSxLUMwh52Uwy3gLBWKtg==
   dependencies:
     "@types/jest" "^26.0.20"
 
-"@socialgouv/cdtn-sources@^4.44.0", "@socialgouv/cdtn-sources@^4.45.0":
+"@socialgouv/cdtn-sources@^4.44.0":
+  version "4.44.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.44.0.tgz#2993710f69f5f9d7b054d56a8f2abb29991c953f"
+  integrity sha512-bR/7fYgsCG9UDPZiVNj+LMrdOYT5LWScRSshjnmbKUaEAPlAXQJGvDDOF83UdpYo+DZz/4tdUr66Lvi1/KPMFQ==
+
+"@socialgouv/cdtn-sources@^4.45.0":
   version "4.45.0"
   resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.45.0.tgz#d05ca34ab2a12f814b5af9dd64344ab442c9ae13"
   integrity sha512-UKaXfCzUi1RRvtPzjugPZkfgykMDIEF+45v+P3zAzK+ctzd+VHLw+OoVQ9bs9yyMhvRx+33rxUEqAqnZ6Hk/Kw==
@@ -3410,7 +3433,7 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
-"@typescript-eslint/experimental-utils@4.19.0", "@typescript-eslint/experimental-utils@^4.0.1":
+"@typescript-eslint/experimental-utils@4.19.0":
   version "4.19.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-4.19.0.tgz#9ca379919906dc72cb0fcd817d6cb5aa2d2054c6"
   integrity sha512-9/23F1nnyzbHKuoTqFN1iXwN3bvOm/PRIXSBR3qFAYotK/0LveEOHr5JT1WZSzcD6BESl8kPOG3OoDRKO84bHA==
@@ -3419,6 +3442,18 @@
     "@typescript-eslint/scope-manager" "4.19.0"
     "@typescript-eslint/types" "4.19.0"
     "@typescript-eslint/typescript-estree" "4.19.0"
+    eslint-scope "^5.0.0"
+    eslint-utils "^2.0.0"
+
+"@typescript-eslint/experimental-utils@^4.0.1":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-4.4.0.tgz#62a05d3f543b8fc5dec4982830618ea4d030e1a9"
+  integrity sha512-01+OtK/oWeSJTjQcyzDztfLF1YjvKpLFo+JZmurK/qjSRcyObpIecJ4rckDoRCSh5Etw+jKfdSzVEHevh9gJ1w==
+  dependencies:
+    "@types/json-schema" "^7.0.3"
+    "@typescript-eslint/scope-manager" "4.4.0"
+    "@typescript-eslint/types" "4.4.0"
+    "@typescript-eslint/typescript-estree" "4.4.0"
     eslint-scope "^5.0.0"
     eslint-utils "^2.0.0"
 
@@ -9414,10 +9449,15 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.11.1, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.4, lodash@^4.2.1, lodash@^4.5.1:
+lodash@^4.11.1:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
+lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.4, lodash@^4.2.1, lodash@^4.5.1:
+  version "4.17.20"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
+  integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
 
 log-symbols@^4.0.0:
   version "4.0.0"
