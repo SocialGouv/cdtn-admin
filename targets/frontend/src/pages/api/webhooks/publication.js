@@ -6,13 +6,13 @@ import { createErrorFor } from "src/lib/apiError";
 export default async function (req, res) {
   const apiError = createErrorFor(res);
 
-  if (req.headers["publication-secret"] !== process.env.PUBLICATION_SECRET) {
+  if (req.headers["actions-secret"] !== process.env.ACTIONS_SECRET) {
     return apiError(Boom.unauthorized("Invalid secret token"));
   }
 
   if (
-    !process.env.ELASTICSEARCH_APIKEY_PUBLISH_PROD ||
-    !process.env.ELASTICSEARCH_URL_PROD
+    !process.env.ELASTICSEARCH_TOKEN_UPDATE ||
+    !process.env.ELASTICSEARCH_URL
   ) {
     res.status(304).json({ message: "not modified" });
   }
@@ -49,9 +49,9 @@ export default async function (req, res) {
 
   const client = new Client({
     auth: {
-      apiKey: process.env.ELASTICSEARCH_APIKEY_PUBLISH_PROD,
+      apiKey: process.env.ELASTICSEARCH_TOKEN_UPDATE,
     },
-    node: `${process.env.ELASTICSEARCH_URL_PROD}`,
+    node: `${process.env.ELASTICSEARCH_URL}`,
   });
 
   try {

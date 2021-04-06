@@ -12,4 +12,4 @@ USER node
 
 ENV NODE_ENV=production
 
-CMD ["yarn", "cli"]
+CMD ["yarn", "start"]

@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`INGESTER_ELASTICSEARCH_TARGET=dev kosko generate --env dev jobs/ingester-elasticsearch 1`] = `
+"---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingester-elasticsearch-to-dev
+data:
+  CDTN_ADMIN_ENDPOINT: http://hasura/v1/graphql
+  NLP_URL: https://preprod-serving-ml.dev2.fabrique.social.gouv.fr
+  NODE_ENV: production
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+  name: ingester-elasticsearch-to-dev
+  namespace: null
+spec:
+  encryptedData:
+    ELASTICSEARCH_TOKEN_INGEST: >-
+      AgCDOrI1r1KC7ZbRkxev62k40SdnoDmE4zUgwobRIuB2gswKppSZVAiRcqe92EBb0DgHdaZYEMlcNgAy85aJC8U9iFIKBQf92vs9+Qg+iYnWOEpJ/yyTkx3WcCqxNP42HH4yNEk9e27sNYAPwFUDZtJyeaaw1E108g5X8RnJPx55niQMOL302tkMq7eRTInkeM2OTz9mI4ZpCXhVtL4nGu57eVNsrMr2SIW4gFXvYrB0baZ7IomH/qfsCbcGuJGhJSBLr31eVOWHwFG/ZjX7M58ygWXW0PJZiJGTAdcB/QeYd1NzBHpTWVgJsvZU6xaY/dT13Ts9vuqHmp3QJMp6T7/fxs5aRsSWzHMTR2gdPLbvJLddFzC24A8IbUGD8sSXfVpj3IdyQh1wouGqxeqHzQhhXl5F/CHfA4h/wNuuNxSgf00eaBtzCOu7Kp/cMlXfb8ZK0B2OZvUP72puadfUfXO4/7OsCqxKhG58GOqis+MWF1y87jHK/hFJznN+gzJ5oBmdhUy77kMeIGuAV7YwNv1zJZ69ffWVolaJw8eve5IJ+UdfQMM/Z9Z9MfJT+C8BtD7MR88qI2lIHIAivyMedmgeSerRHd1kA3NPQGM6YHKv2AxPXVjVwQHkYELnOS6yE6P4YeJSa4yctRjH+/JjDNXVxPhj0W/OTNYzx+U4Irv/JfBKvUF6tdVENG7JP0C3mGCwP6Q5iCCAtG6oE2tIBaW7QwNfvmG9TLY5nRCm7EBTD/0GZdcL/VqlOoe4TGnHqqrbcc9th5k80a1m0XM=
+    ELASTICSEARCH_URL: >-
+      AgBxkNsQpkk6V5GIA8WuYBXE1iTLglrzRoR5HQ9QtBzsjDb9siCHQc+U9UFI72hDKi3yNO2g1lk+Nh7ooKHpqzzV0PSB0gyUJwo4MmqfxUDw3ef2BHezK7DK0z1YB/ZU8BLK5LenLchoKsKejv1YC1OQmG6EUHPW/3hm2qiS56anl6AIyUqXsokx+5QScjmHE3KybThaBkva/7PEQn/vks9wbY2mePvBPanSnVSLuSUY0yn0UXrmJnyW87oXVaJSQU/+5oDPdnb4pN8wivmjQEBLyVvjL2xSFz2druu4wjDpArup981GA7jCTarCzxjomGKnfxu7U98YKho1OUbuGevL1TXZaOkXaSIpls5mViZjUB2WaUVqQhHr9K1f6Hmhidh6S7v8NX4NbPKgKA7PTJ1dzi7EeKUCiIJPXiSI76H/rNlEx55TlroXQxEPjmQ91yEcCtRNa6MS2X6Flu539+t2m0+nm+Wqx7SmbGROjvCbSaYMShdsYQgnRj3VMgzoToLcnRPO0MdIop2L6GN5ocyFPk/QRUry+A/TH5eYkuMGu/FhctdrNEMo2kcYgIiTfqQ9tuQQqD3UCJ74DkUOod8OJoTu2EQ6RVBXqVCb9cM0AmoYgUDx1JW0l1124UYzpqIPhaRdPe6M8JH9zXuQAI93R7Paezn8GEMaXfiBRc/fVRUdTbAdbGvdmEZVeiczEK+JsKcdvMuqud15UmcFF0N7rfuia1u6TjCvaF/gvFIlLnMccFYmKACJnf1SJ/5Cx6L0SajjyBhxNP8DMVHhmMpbIqfQBPJho0nVQk7ZoU5Heg==
+    ES_LOGS: >-
+      AgC67OuxqDwAazDgGDacZTYoeGWfQqgn8l8c5/HYXVCav7RBfUCyg4uhePMNkvJKGinhDmm+Nm1CVUQVY4c2cLyMFSVBs4W+i5a78hB3Y3J0TvIK7E+laB8NZX+6h48TYXgW2DUItuUjMesuRqMvnn4T+VzCr5s9I4Qum3mKebYLWjK/p6etxMgO4KunTk18uDuq9J0tDowEoy4SiPwlkbwfD765Q9vF53qsIre0hxH/V/fPRGiewjXNVnhbzGn56uHE0g+OfrS/CEjnvogW0HgIV1eyEhSo822/nEbizJ2CcUZLeFS5zUu9Cjl5sv9mneUrAIDXJJzPwACW4qVnuxgxPbtcGDwVn8yfZnJLxHfmTbZRyPRDIOBhutHTz0LhnBWhU156zSe9MnYKjBDAhExcvbshnJ9Qu1Tfx3AAXCHWXtLaz2dc3rqieI3PxNB8LRGaPNr5//QusRpR+3nrCIE+/mposS95isU2r4bKwmzSXuRL8LZYHeiLsZsct/L/uQ624kiHJ5IG/vzag9M9ZygWVroukMgkZ2RrbwAL/ouNyJf3mdQtFvTtpdIRRx/MBNSCuxm+cxFJIFwQESuD5txb1/fW/VH3vuw/KmEOidydkc1PFqXRnbelf/Cqrrx5sbdjMDRlcym6HbOs4YiBsy0C4TOSjl5ivnuPjHxY+eD80+0EltatTRpdBjNUdQhWkFt0yn82dGwgw9mMrNiMdnYJWgRNQNVN7mDbBJA9DvONdWFKoW17PmoqWU6glGqFqHnNAhS0fl1djsuq4Db/bunP4UFvzpXrSrjTv0eh11Wd6A==
+    ES_LOGS_TOKEN: >-
+      AgDQ1U0RWt1xKpDFV3hmP/DfyMSLeWo2q6jpzAQ5tiKpETF4vJZohPwplK0i3UPJCt6lGJxw1S0z1obmn8LOTafFSaWzEfEl/zDZ4ft1hKAjx43gBEy6zebD2k+vFuUEz+/Df/P8ahnXwLXwo8agl1rwJRiES5MTr1bTiYAoUkm4JXPheLCowlrUzJba4FXkjYpKCtNSnyUgdIS1AoUw8DsgPKVFjq6KJhgcWY53KyJUKuF/2yIlrSNOh9LLkTUCNRMdwTemqHDv0ClIZFkA+JmU0Jj3ZTzmSK822OiRk5nk4x1UR+TVG2pb97pzCm9CadNQBMEzSLD3U+IM7mD/N4klsaoFLEXBxGpF7N6zQe9Ur8OxBhv/3JQ8lQ1F+CAtW8kBJSkOCygkTDH3HUfhLDZf6FPsMQp2jZXqdns6MSf2HUvwg7CV0f2/LFdNjl+KE8ICfGsxr3h4BhIfP1OokHJgABA2UrUHI38rZ6JTAIlqRHcS8V/FeGqL0biMvUf3+oKJQjlSIjwR6U6KJv1DOk9588F4oQfiim2++htg+88/iE4rRyVrDDJPh76pTDeo1+szFC+cIrfHveSUz6aPq9lFm1ENGczzp1DVc7lPxiH3NmMovxjFaEWaRaTJTBra93v9eDsqC4Xh3qKAN9MuTHSr/MkCToadfsOxDnFE8Rm9gQFehY5tmss3Vu6eD1Hf7vS43691MXWRUpbpc0Z2rJG32ycC7BnZ/PZML63K31Pw7Ahi6AVLiSqdyt3gQvja0Zy3da2YW+500yftY+Q=
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+      name: ingester-elasticsearch-to-dev
+    type: Opaque
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ingester-elasticsearch-target-dev
+  namespace: cdtn-admin-85-master-dev2
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - name: ingester-elasticsearch-target-dev
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester-elasticsearch:0123456789abcdefghijklmnopqrstuvwxyz0123
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: '2'
+              memory: 1Gi
+            requests:
+              cpu: '1'
+              memory: 512Mi
+          envFrom:
+            - configMapRef:
+                name: ingester-elasticsearch-to-dev
+            - secretRef:
+                name: ingester-elasticsearch-to-dev
+          env:
+            - name: ES_INDEX_PREFIX
+              value: cdtn-master
+      restartPolicy: Never
+  ttlSecondsAfterFinished: 86400
+"
+`;

@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`kosko generate --prod jobs/cleanup-db 1`] = `
+"apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cleanup-db
+  namespace: cdtn-admin
+spec:
+  schedule: 0 4 * * 6
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: db-cleaner
+              image: postgres:10
+              command:
+                - psql
+                - '-c'
+                - >
+                  -- Delete logged_action older than 3 monthes
+
+                  DELETE FROM audit.logged_actions WHERE action_tstamp_tx <
+                  NOW() - INTERVAL '3 month';
+
+
+                  -- Delete alerts older than 3 monthes
+
+                  DELETE FROM alerts WHERE created_at < NOW() - '3 month' AND
+                  status IN ('done', 'rejected');
+              envFrom:
+                - secretRef:
+                    name: azure-pg-user
+          restartPolicy: Never
+"
+`;

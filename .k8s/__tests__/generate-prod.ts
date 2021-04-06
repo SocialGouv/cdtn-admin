@@ -8,6 +8,7 @@ test("kosko generate --prod", async () => {
   expect(
     await getEnvManifests("prod", "", {
       ...project("cdtn-admin").prod,
+      IP_ALLOWLIST: "123.456.456.789,42.0.0.0/8",
     })
   ).toMatchSnapshot();
 });

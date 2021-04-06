@@ -1,17 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`kosko generate --prod jobs/sitemap-uploader 1`] = `
-"apiVersion: batch/v1
+"---
+apiVersion: batch/v1
 kind: Job
 metadata:
-  name: sitemap-uploader-424242
-  namespace: cdtn-admin-secret
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/update-strategy: fallback-on-replace
+  name: sitemap-uploader
 spec:
   backoffLimit: 3
   template:
     metadata:
-      name: sitemap-uploader-424242
-      namespace: cdtn-admin-secret
+      name: sitemap-uploader
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
     spec:
       restartPolicy: OnFailure
       containers:
@@ -39,20 +47,33 @@ spec:
               fi
 
           env:
+            - name: BASE_URL
+              value: https://code.travail.gouv.fr
             - name: DESTINATION_CONTAINER
-              value: destination-container
+              value: sitemap
             - name: DESTINATION_NAME
               value: sitemap.xml
             - name: SITEMAP_ENDPOINT
-              value: https://path/to/sitemap
-            - name: BASE_URL
-              value: https://host.tmp
-            - name: AZ_ACCOUNT_NAME
-              value: $(azurestorageaccountname)
-            - name: AZ_ACCOUNT_KEY
-              value: $(azurestorageaccountkey)
+              value: https://cdtn-admin.fabrique.social.gouv.fr/api/sitemap
           envFrom:
             - secretRef:
-                name: azure-volume-dev-secret
+                name: sitemap-uploader
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: sitemap-uploader
+  namespace: cdtn-admin
+spec:
+  encryptedData:
+    AZ_ACCOUNT_KEY: >-
+      AgBof6Kx+vWJfeHOaHefThh4kPq240dpRdyQucVbi8o/Y/8YDsX5EOo2Q2bUzio+S6zRFb2mlYHZmSXqxCjA/QENrVWruyMd7yWO9k/2UK91sL0Zlgpb5PVzn2IaHOnACf15ibK/4girfpi7BmQxaWUCHylNQrkuyFHlYFpGfwYpTaZ+sLkP+dJyQeK7kAAGCVnNM/bjhlj9J0QwYoxtY514XbI5eXlAFSFEImHZPf/xysuUufAT9J4x1wKv3T1di48Iu2KDL5H6pyeUIH+XFxI9akD7LT410j+VDcR1mjGDCaaNrz8563g5szN8qtRr7N7t7SlQFEZCkj86u6yGxoqG1TgzWjsXF+WmRgCd1iCEwdv5p7PLOdc/5szeoj4QZ2+zeRDct8pb1FlcnQw3zq5/xFfbc4iov5MXe67gB8OpQL+igYXwwKfXEJ7SitT1ZlHcOeSrkfRm3wtzcaVALhk7xQw/1jEFcyaVuOcCkT+XTaRUqGDNnXP60CstbXC+ww7yXp8qnz41N7cOLB+Oq+V9yNFuq7OX0s3h7kIdifwqaXJCdyIpS+g5fSmm1KLddGsurKlQCxn5bLkINw41+mnu/eLngmnNhEcPDaOl+0ahh5Ha8f56RR9Udqnewz/aPn3E3bA5ZrCObe1TI1ZqbMjhy0CnmzQDlDxhSCXfBbmmqiCKOnD1h0V7vae96NFoXxQnva9aBTxtF3vrOdr42GOTRFF+PLhLu1VirSMQEHqkRXjNX/d5fGQ9GFl2cQR+jvtmNYKjmNt8/XQsqiJjKiPmt1Urfh1Oqo4+4L0aQtHOdJguldzVfVNO
+    AZ_ACCOUNT_NAME: >-
+      AgB6ii9w7ckTI6MFjdQ8XoI0zIhFqj8nMeU5qFoiGfRS3ft2/yfGo1skyB268eb444jDiGETVb5jQ0vRwxZJsXSY02IGfAPpFBULS+n7j+P8/mTvWk73qJZNmJw4MBP6xM54PjCIPtGIhcNk+SHtrqJVR6To5XsEFk6W9U/lJAy7L2UQkxGH46LPuUJJVFe2a+kzOOXlnLr1dna0uoSF88nEDkh+ExBc31ReiwxU7vD98DV+ZKRaF2hBYPjcCGCwoKa1Y+6SVVAXH/sJjmQld/XuuZvh5qLKKw34LeyRXgmdB5MsKOhFA9vvAaXIeZTk3IeSUnnZ5jFa1g8ZyfyOeI3l1r8TOGurLbZkHfLw8pNs1C4d88LJNp3DVYWGuRWCHaUMFoJQvuQbULPSP0kqUFeIRMzS88zbTwEb4XMAgUovQCMlL4luz+WiA4SCWsdk44ebMoXPNJN6taSvA3HlPV6JCYKYVt803KlJNkBR9lKfwaHZxOUrUJ9rZz2jKD/JEmYOWFJqtieVViwClpPAkElk0ZshGbL9Ymv8hZu2MuhCqqtlQ0u3cPqrJXqGyj0BlNTYGhwKMXgzaCnvbCgvbw4BCqW5rgo5bYLKijWurdoPA1DmcQASl0s/NpZ2zH35QsqiLJUan7r53AnL6cnZpRzDhEhoMufzY6KWFMNUA4ImNyDDNaiVgFTNBt+fy/kvNNZJh54kuj5ElFCtOJIW
+  template:
+    metadata:
+      name: sitemap-uploader
+      namespace: cdtn-admin
+    type: Opaque
 "
 `;

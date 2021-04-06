@@ -1,31 +1,33 @@
-import env from "@kosko/env";
-import { ok } from "assert";
-
-import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { restoreContainerJob } from "@socialgouv/kosko-charts/components/azure-storage/restore-container.job";
+import { EnvVar } from "kubernetes-models/v1/EnvVar";
+import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
+import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../../../utils/GITLAB_LIKE_ENVIRONMENT_SLUG";
 
-ok(process.env.SOURCE_CONTAINER);
-ok(process.env.DESTINATION_CONTAINER);
-ok(process.env.SOURCE_SERVER === "prod" || process.env.SOURCE_SERVER === "dev");
-ok(
-  process.env.DESTINATION_SERVER === "prod" ||
-    process.env.DESTINATION_SERVER === "dev"
-);
+const gitlabEnv = gitlab(process.env);
 
-const manifests = restoreContainerJob({
+const job = restoreContainerJob({
   env: [
     new EnvVar({
       name: "SOURCE_CONTAINER",
-      value: process.env.SOURCE_CONTAINER,
+      value: "cdtn",
     }),
     new EnvVar({
       name: "DESTINATION_CONTAINER",
-      value: process.env.DESTINATION_CONTAINER,
+      value: "cdtn-dev",
     }),
   ],
+  from: "dev",
   project: "cdtn-admin",
-  from: process.env.SOURCE_SERVER,
-  to: process.env.DESTINATION_SERVER,
+  to: "dev",
 });
-
-export default manifests;
+job.metadata!.name = `restore-container-${GITLAB_LIKE_ENVIRONMENT_SLUG}`;
+job.metadata!.labels = gitlabEnv.labels || {};
+job.metadata!.labels.component =
+  process.env.COMPONENT || `restore-${process.env.CI_COMMIT_REF_SLUG}`;
+job.metadata!.annotations = {
+  "kapp.k14s.io/update-strategy": "always-replace",
+};
+job.spec!.template!.metadata!.annotations = {
+  "kapp.k14s.io/deploy-logs": "for-new-or-existing",
+};
+export default job;
