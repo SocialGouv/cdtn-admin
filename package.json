@@ -7,7 +7,7 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
-    "husky": "^5.2.0",
+    "husky": "^6.0.0",
     "lerna": "^4.0.0",
     "nps": "^5.10.0",
     "nps-utils": "^1.7.0"
@@ -26,7 +26,8 @@
     "lint": "nps lint",
     "start": "nps",
     "test": "nps test",
-    "k8s": "yarn --silent --cwd .k8s"
+    "k8s": "yarn --silent --cwd .k8s",
+    "prepare": "test -n \"$CI\" || husky install"
   },
   "workspaces": [
     "shared/*",

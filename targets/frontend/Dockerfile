@@ -11,6 +11,8 @@ COPY shared/id-generator/package.json /app/shared/id-generator/
 
 COPY targets/frontend/package.json /app/targets/frontend/
 
+# NOTE(douglasduteil): disable most post install script by faking a CI
+ENV CI=true
 RUN  npx @socialgouv/yarn-workspace-focus-install \
   --cwd targets/frontend \
   --production \
