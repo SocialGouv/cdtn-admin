@@ -11452,10 +11452,10 @@ react-focus-lock@^2.2.1, react-focus-lock@^2.5.0:
     use-callback-ref "^1.2.1"
     use-sidecar "^1.0.1"
 
-react-hook-form@^6.15.5:
-  version "6.15.5"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.15.5.tgz#c2578f9ce6a6df7b33015587d40cd880dc13e2db"
-  integrity sha512-so2jEPYKdVk1olMo+HQ9D9n1hVzaPPFO4wsjgSeZ964R7q7CHsYRbVF0PGBi83FcycA5482WHflasdwLIUVENg==
+react-hook-form@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.0.3.tgz#b26ddbcafcd7973e25ebdf26beaa34df57776025"
+  integrity sha512-NTxs6i4mvvd0MBuAX7rWfyM+DteDwvVGWjhbZk00gfoINHip0SZrLDrnOxT0inFXQZAWbL7veIxGEE46Fps4zg==
 
 react-icons@^4.2.0:
   version "4.2.0"
@@ -11496,10 +11496,10 @@ react-remove-scroll@^2.2.0, react-remove-scroll@^2.4.1:
     use-callback-ref "^1.2.3"
     use-sidecar "^1.0.1"
 
-react-sortable-hoc@^1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-1.11.0.tgz#fe4022362bbafc4b836f5104b9676608a40a278f"
-  integrity sha512-v1CDCvdfoR3zLGNp6qsBa4J1BWMEVH25+UKxF/RvQRh+mrB+emqtVHMgZ+WreUiKJoEaiwYoScaueIKhMVBHUg==
+react-sortable-hoc@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-2.0.0.tgz#f6780d8aa4b922a21f3e754af542f032677078b7"
+  integrity sha512-JZUw7hBsAHXK7PTyErJyI7SopSBFRcFHDjWW5SWjcugY0i6iH7f+eJkY8cJmGMlZ1C9xz1J3Vjz0plFpavVeRg==
   dependencies:
     "@babel/runtime" "^7.2.0"
     invariant "^2.2.4"
