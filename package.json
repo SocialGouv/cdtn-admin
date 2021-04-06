@@ -27,7 +27,7 @@
     "start": "nps",
     "test": "nps test",
     "k8s": "yarn --silent --cwd .k8s",
-    "prepare": "husky install"
+    "prepare": "test -n \"$CI\" || husky install"
   },
   "workspaces": [
     "shared/*",
