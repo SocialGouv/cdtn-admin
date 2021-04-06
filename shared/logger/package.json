@@ -24,7 +24,7 @@
     "@babel/preset-typescript": "^7.13.0",
     "@socialgouv/eslint-config-typescript": "^1.64.0",
     "@tsconfig/node14": "^1.0.0",
-    "@types/jest": "^26.0.20",
+    "@types/jest": "^26.0.22",
     "@types/std-mocks": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "eslint": "^7.23.0",
