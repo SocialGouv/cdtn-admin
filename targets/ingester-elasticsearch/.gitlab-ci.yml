@@ -162,7 +162,7 @@
   variables:
     INGESTER_ELASTICSEARCH_TARGET: preprod
     # kosko options
-    KOSKO_GENERATE_ARGS: --env preprod jobs/ingester-elasticsearch
+    KOSKO_GENERATE_ARGS: --env prod jobs/ingester-elasticsearch
 
 🎉 ingester-elasticsearch (prod => es prod):
   extends:
