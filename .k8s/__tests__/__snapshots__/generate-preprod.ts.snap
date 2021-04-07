@@ -324,12 +324,13 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
-    app: ingester
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
+    app: ingester
   name: ingester
+  namespace: cdtn-admin-85-preprod-dev2
 spec:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
