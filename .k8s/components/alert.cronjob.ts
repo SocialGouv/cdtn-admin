@@ -5,15 +5,32 @@ import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { ok } from "assert";
 import env from "@kosko/env";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
+import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
 import type { SealedSecret } from "@kubernetes-models/sealed-secrets/bitnami.com/v1alpha1/SealedSecret";
 
 const gitlabEnv = gitlab(process.env);
 const name = "alert";
-
+const annotations = merge(gitlabEnv.annotations || {}, {
+  "kapp.k14s.io/disable-default-ownership-label-rules": "",
+  "kapp.k14s.io/disable-default-label-scoping-rules": "",
+});
+const labels = merge(gitlabEnv.labels || {}, {
+  app: name,
+});
 const configMap = loadYaml<ConfigMap>(env, `alert.configmap.yaml`);
 ok(configMap, "Missing alert.configmap.yaml");
+updateMetadata(configMap, {
+  namespace: gitlabEnv.namespace,
+  annotations,
+  labels,
+});
 const secret = loadYaml<SealedSecret>(env, "alert.sealed-secret.yaml");
 ok(secret, "Missing alert.sealed-secret.yaml");
+updateMetadata(secret, {
+  namespace: gitlabEnv.namespace,
+  annotations,
+  labels,
+});
 
 const tag = process.env.CI_COMMIT_TAG
   ? process.env.CI_COMMIT_TAG.slice(1)
@@ -21,15 +38,10 @@ const tag = process.env.CI_COMMIT_TAG
 
 const cronJob = new CronJob({
   metadata: {
-    annotations: merge(gitlabEnv.annotations || {}, {
-      "kapp.k14s.io/disable-default-ownership-label-rules": "",
-      "kapp.k14s.io/disable-default-label-scoping-rules": "",
-    }),
-    labels: merge(gitlabEnv.labels ?? {}, {
-      app: name,
-    }),
-    namespace: gitlabEnv.namespace.name,
+    annotations,
+    labels,
     name,
+    namespace: gitlabEnv.namespace.name,
   },
   spec: {
     concurrencyPolicy: "Forbid",
@@ -41,9 +53,10 @@ const cronJob = new CronJob({
         backoffLimit: 0,
         template: {
           metadata: {
-            annotations: {
+            annotations: merge(annotations, {
               "kapp.k14s.io/deploy-logs": "for-new-or-existing",
-            },
+            }),
+            labels,
           },
           spec: {
             containers: [

@@ -6,10 +6,18 @@ import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { PersistentVolumeClaim } from "kubernetes-models/v1/PersistentVolumeClaim";
 import { ok } from "assert";
 import env from "@kosko/env";
+import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 
 const gitlabEnv = gitlab(process.env);
 const name = "ingester";
+const annotations = merge(gitlabEnv.annotations || {}, {
+  "kapp.k14s.io/disable-default-ownership-label-rules": "",
+  "kapp.k14s.io/disable-default-label-scoping-rules": "",
+});
+const labels = merge(gitlabEnv.labels || {}, {
+  app: name,
+});
 
 const tag = process.env.CI_COMMIT_TAG
   ? process.env.CI_COMMIT_TAG.slice(1)
@@ -17,18 +25,23 @@ const tag = process.env.CI_COMMIT_TAG
 
 const configMap = loadYaml<ConfigMap>(env, `ingester.configmap.yaml`);
 ok(configMap, "Missing ingester.configmap.yaml");
+updateMetadata(configMap, {
+  namespace: gitlabEnv.namespace,
+  annotations,
+  labels,
+});
 const secret = loadYaml<Secret>(env, `ingester.sealed-secret.yaml`);
 ok(secret, "Missing ingester.sealed-secret.yaml");
+updateMetadata(secret, {
+  namespace: gitlabEnv.namespace,
+  annotations,
+  labels,
+});
 
 const persistentVolumeClaim = new PersistentVolumeClaim({
   metadata: {
-    annotations: merge(gitlabEnv.annotations || {}, {
-      "kapp.k14s.io/disable-default-ownership-label-rules": "",
-      "kapp.k14s.io/disable-default-label-scoping-rules": "",
-    }),
-    labels: merge(gitlabEnv.labels ?? {}, {
-      app: name,
-    }),
+    annotations,
+    labels,
     name,
     namespace: gitlabEnv.namespace.name,
   },
@@ -45,13 +58,8 @@ const persistentVolumeClaim = new PersistentVolumeClaim({
 
 const cronJob = new CronJob({
   metadata: {
-    annotations: merge(gitlabEnv.annotations || {}, {
-      "kapp.k14s.io/disable-default-ownership-label-rules": "",
-      "kapp.k14s.io/disable-default-label-scoping-rules": "",
-    }),
-    labels: merge(gitlabEnv.labels ?? {}, {
-      app: name,
-    }),
+    annotations,
+    labels,
     name,
     namespace: gitlabEnv.namespace.name,
   },
@@ -65,9 +73,10 @@ const cronJob = new CronJob({
         backoffLimit: 0,
         template: {
           metadata: {
-            annotations: {
+            annotations: merge(annotations, {
               "kapp.k14s.io/deploy-logs": "for-new-or-existing",
-            },
+            }),
+            labels,
           },
           spec: {
             containers: [
