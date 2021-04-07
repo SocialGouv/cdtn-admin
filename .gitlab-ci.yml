@@ -160,20 +160,24 @@ Release:
     name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
     url: https://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
   variables:
+    SITEMAP_UPLOADER_TARGET: dev
+    # kosko options
     KOSKO_GENERATE_ARGS: --env dev jobs/sitemap-uploader
 
-🛎️ Generate sitemap (preprod):
+🛎️ Generate sitemap (prod => preprod):
   extends:
     - .generate_sitemap
   needs: []
   rules:
     - if: $TRIGGER == "UPDATE_PREPROD"
   environment:
-    name: preprod${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
-    KOSKO_GENERATE_ARGS: --env preprod jobs/sitemap-uploader
+    SITEMAP_UPLOADER_TARGET: preprod
+    # kosko options
+    KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
 
-🎉 Generate sitemap (prod):
+🎉 Generate sitemap (prod => prod):
   extends:
     - .generate_sitemap
   needs: []
@@ -182,6 +186,8 @@ Release:
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
+    SITEMAP_UPLOADER_TARGET: prod
+    # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
 
 Export storage to prod:

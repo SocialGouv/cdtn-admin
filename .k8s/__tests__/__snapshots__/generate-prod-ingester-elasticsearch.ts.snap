@@ -6,6 +6,18 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ingester-elasticsearch-to-preprod
+  namespace: cdtn-admin
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: ingester-elasticsearch-preprod
 data:
   CDTN_ADMIN_ENDPOINT: http://hasura/v1/graphql
   NLP_URL: https://preprod-serving-ml.dev2.fabrique.social.gouv.fr
@@ -16,8 +28,18 @@ kind: SealedSecret
 metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
   name: ingester-elasticsearch-to-preprod
-  namespace: null
+  namespace: cdtn-admin
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: ingester-elasticsearch-preprod
 spec:
   encryptedData:
     ELASTICSEARCH_TOKEN_INGEST: >-
@@ -32,17 +54,53 @@ spec:
     metadata:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
       name: ingester-elasticsearch-to-preprod
+      labels:
+        application: cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        app: ingester-elasticsearch-preprod
     type: Opaque
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ingester-elasticsearch-target-preprod
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/update-strategy: fallback-on-replace
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: ingester-elasticsearch-preprod
+  name: ingester-elasticsearch-preprod
   namespace: cdtn-admin
 spec:
   backoffLimit: 0
   template:
+    metadata:
+      name: ingester-elasticsearch-preprod
+      annotations:
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/deploy-logs: for-new-or-existing
+      labels:
+        application: cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        app: ingester-elasticsearch-preprod
     spec:
       containers:
         - name: ingester-elasticsearch-target-preprod
@@ -75,6 +133,18 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ingester-elasticsearch-to-prod
+  namespace: cdtn-admin
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: ingester-elasticsearch-prod
 data:
   CDTN_ADMIN_ENDPOINT: http://hasura/v1/graphql
   NLP_URL: https://serving-ml.fabrique.social.gouv.fr
@@ -85,6 +155,17 @@ kind: SealedSecret
 metadata:
   name: ingester-elasticsearch-to-prod
   namespace: cdtn-admin
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: ingester-elasticsearch-prod
 spec:
   encryptedData:
     ELASTICSEARCH_TOKEN_INGEST: >-
@@ -99,16 +180,53 @@ spec:
     metadata:
       name: ingester-elasticsearch-to-prod
       namespace: cdtn-admin
+      annotations:
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+      labels:
+        application: cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        app: ingester-elasticsearch-prod
     type: Opaque
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ingester-elasticsearch-target-prod
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/update-strategy: fallback-on-replace
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: ingester-elasticsearch-prod
+  name: ingester-elasticsearch-prod
   namespace: cdtn-admin
 spec:
   backoffLimit: 0
   template:
+    metadata:
+      name: ingester-elasticsearch-prod
+      annotations:
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/deploy-logs: for-new-or-existing
+      labels:
+        application: cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        app: ingester-elasticsearch-prod
     spec:
       containers:
         - name: ingester-elasticsearch-target-prod

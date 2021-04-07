@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`kosko generate --prod jobs/sitemap-uploader 1`] = `
+exports[`SITEMAP_UPLOADER_TARGET=preprod kosko generate --prod jobs/sitemap-uploader 1`] = `
 "---
 apiVersion: batch/v1
 kind: Job
@@ -12,14 +12,30 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     kapp.k14s.io/update-strategy: fallback-on-replace
-  name: sitemap-uploader
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: sitemap-uploader-preprod
+  name: sitemap-uploader-preprod
+  namespace: cdtn-admin
 spec:
   backoffLimit: 3
   template:
     metadata:
-      name: sitemap-uploader
+      name: sitemap-uploader-preprod
       annotations:
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
         kapp.k14s.io/deploy-logs: for-new-or-existing
+      labels:
+        application: cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        app: sitemap-uploader-preprod
     spec:
       restartPolicy: OnFailure
       containers:
@@ -48,32 +64,160 @@ spec:
 
           env:
             - name: BASE_URL
-              value: https://code.travail.gouv.fr
-            - name: DESTINATION_CONTAINER
-              value: sitemap
-            - name: DESTINATION_NAME
-              value: sitemap.xml
-            - name: SITEMAP_ENDPOINT
-              value: https://cdtn-admin.fabrique.social.gouv.fr/api/sitemap
           envFrom:
+            - configMapRef:
+                name: sitemap-uploader-preprod
             - secretRef:
-                name: sitemap-uploader
+                name: sitemap-uploader-preprod
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
-  name: sitemap-uploader
+  name: sitemap-uploader-preprod
   namespace: cdtn-admin
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: sitemap-uploader-preprod
 spec:
   encryptedData:
     AZ_ACCOUNT_KEY: >-
-      AgBof6Kx+vWJfeHOaHefThh4kPq240dpRdyQucVbi8o/Y/8YDsX5EOo2Q2bUzio+S6zRFb2mlYHZmSXqxCjA/QENrVWruyMd7yWO9k/2UK91sL0Zlgpb5PVzn2IaHOnACf15ibK/4girfpi7BmQxaWUCHylNQrkuyFHlYFpGfwYpTaZ+sLkP+dJyQeK7kAAGCVnNM/bjhlj9J0QwYoxtY514XbI5eXlAFSFEImHZPf/xysuUufAT9J4x1wKv3T1di48Iu2KDL5H6pyeUIH+XFxI9akD7LT410j+VDcR1mjGDCaaNrz8563g5szN8qtRr7N7t7SlQFEZCkj86u6yGxoqG1TgzWjsXF+WmRgCd1iCEwdv5p7PLOdc/5szeoj4QZ2+zeRDct8pb1FlcnQw3zq5/xFfbc4iov5MXe67gB8OpQL+igYXwwKfXEJ7SitT1ZlHcOeSrkfRm3wtzcaVALhk7xQw/1jEFcyaVuOcCkT+XTaRUqGDNnXP60CstbXC+ww7yXp8qnz41N7cOLB+Oq+V9yNFuq7OX0s3h7kIdifwqaXJCdyIpS+g5fSmm1KLddGsurKlQCxn5bLkINw41+mnu/eLngmnNhEcPDaOl+0ahh5Ha8f56RR9Udqnewz/aPn3E3bA5ZrCObe1TI1ZqbMjhy0CnmzQDlDxhSCXfBbmmqiCKOnD1h0V7vae96NFoXxQnva9aBTxtF3vrOdr42GOTRFF+PLhLu1VirSMQEHqkRXjNX/d5fGQ9GFl2cQR+jvtmNYKjmNt8/XQsqiJjKiPmt1Urfh1Oqo4+4L0aQtHOdJguldzVfVNO
+      AgB/TpWzy2+oD9iPbAFYK6PviFWcTSovWi8qr5Meds0+I7WzkmiTQvLnYRRREAOSSgzjcBWJ8ZrSpkQZqJh7mR0TB8uViZAUsb0PeOtwi3mFU4MFrP/jV9zDl7CPWmK1xam7+ONW3J1Wp5hjcXicbmn0P/OiGl/WrpcnG5OANeVKJxVls/YHrMqlxQgNi57qnAbEw/unbURq3C1WNXXJ2Z71DNLcLf4taTw8mfbA5g7wsGhSWKgRR8PdxPaUUcPUrNaBDtz9etbWMfN50oFqEkOSnyh/2V84ChyErrshpZqozK8vfRrgvFd80kQnnaWdp5wv2ug1f0UUz+7arnxgcjNViknk9pS+QQZzg70BD6qKyG8XYdNDsDF5M3FWPI0k4QG1ZJ2JKCKAqTjoYCB8koIHWrTgsEuNCDj+O+WM2k/3JQkAJFSsrSk61Y1w+ghcGJaEMKnNL9RpQnAOmw1TCDiOkfTXIB88frSfpVdSZXt/7nVLBVRZ6Ca3hO2xnDY5sW6vgyCelrnPZ8otn9zlI1Zqb4OwfEJ8PJgUoR1+wion+TvhxWPAMIgmGm00XOtWv6YuK/n/TMCZZqV92IwVDhBxKCTJ9r6eu6t/Wo+vxzv4yfBCwzrUnTiG29y0KPdBGxyNH8cD84+kE9sGtSqcOG6VgyCS4xZxGPnGo2l1NPCA7YKXUXMKCm08hwoZNrGfTBn92UYseHiP3OOGdsPlZkNCe5a7xkfr8JwoB7I2QYb0EyTdFvlR0r9dj66kbavx4yiiD6iPJEF6QjMCsXPi9QSU7kOWNvO5jYEmBFFbuMnF0bbg/VPnbIzf
     AZ_ACCOUNT_NAME: >-
-      AgB6ii9w7ckTI6MFjdQ8XoI0zIhFqj8nMeU5qFoiGfRS3ft2/yfGo1skyB268eb444jDiGETVb5jQ0vRwxZJsXSY02IGfAPpFBULS+n7j+P8/mTvWk73qJZNmJw4MBP6xM54PjCIPtGIhcNk+SHtrqJVR6To5XsEFk6W9U/lJAy7L2UQkxGH46LPuUJJVFe2a+kzOOXlnLr1dna0uoSF88nEDkh+ExBc31ReiwxU7vD98DV+ZKRaF2hBYPjcCGCwoKa1Y+6SVVAXH/sJjmQld/XuuZvh5qLKKw34LeyRXgmdB5MsKOhFA9vvAaXIeZTk3IeSUnnZ5jFa1g8ZyfyOeI3l1r8TOGurLbZkHfLw8pNs1C4d88LJNp3DVYWGuRWCHaUMFoJQvuQbULPSP0kqUFeIRMzS88zbTwEb4XMAgUovQCMlL4luz+WiA4SCWsdk44ebMoXPNJN6taSvA3HlPV6JCYKYVt803KlJNkBR9lKfwaHZxOUrUJ9rZz2jKD/JEmYOWFJqtieVViwClpPAkElk0ZshGbL9Ymv8hZu2MuhCqqtlQ0u3cPqrJXqGyj0BlNTYGhwKMXgzaCnvbCgvbw4BCqW5rgo5bYLKijWurdoPA1DmcQASl0s/NpZ2zH35QsqiLJUan7r53AnL6cnZpRzDhEhoMufzY6KWFMNUA4ImNyDDNaiVgFTNBt+fy/kvNNZJh54kuj5ElFCtOJIW
+      AgASzAFvvfnGSl1HV5PG1Tb9f+fKgWygHF3t8Ts4d96RcF4iOYDk27be85Ym9ACwaMvRHq/NUK0epo/o25/rbWGzpI/6lOUmlCQaDcRCidCCICrQfCfZdMXZWi1aE7EtnM4c0WO7CpFtPy9fquSug9y7EJkVUlvobvwsIhaAPwrxQo6YS4eNpIn2lfUurFaH9hhCJv+jKxAleNk9A/Ox8H2Vvth2Oo+uXr9YehWA5K0jiH59xhmYiq95nNMDPMA1yXMjfk0TX3ygLhIOAQ1h34ICC4ruCkp9LXI46HSoXhCq0EqnVczzDShIIXGg5jRtre6VxU2NJNPLh022Thz90v1iAyluHHjkdsircz6woU+papO2PeOrHbEjHqQ+CzS6EKKmrjAu9ZOvdsV/4ZSdoj3iZpCCpR3T7sU9R8EXoW2ABMg9+tPmqETtVr4wUSN9j9WSJZ9B1xrcTrve8tNPDW6SAPzlCd8tuUXduKV+Ian4Bn3zW12kEXj+xVbt0A77syumlPnIFi6qK9MerQeKIC70dvTf2sYzFHN6pIX5yts1ctcCVd4NaQAWg3qksrfshHT+S0bdV1OG6GhtnfEiY6Z7gOU4I7zLN4mDw/p9Jkg6l24/SbhXpSnFdbF1sNZyrY2X6OzeOcr+U2/z4PT9LJ1UNYbiROTrFE0r09vtpIY5XVDB9/W6jdFXcDFxwe4jUVuagKQBdnwO7juf61Y=
   template:
     metadata:
-      name: sitemap-uploader
+      name: sitemap-uploader-preprod
       namespace: cdtn-admin
+      annotations:
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+      labels:
+        application: cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        app: sitemap-uploader-preprod
+    type: Opaque
+"
+`;
+
+exports[`SITEMAP_UPLOADER_TARGET=prod kosko generate --prod jobs/sitemap-uploader 1`] = `
+"---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/update-strategy: fallback-on-replace
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: sitemap-uploader-prod
+  name: sitemap-uploader-prod
+  namespace: cdtn-admin
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      name: sitemap-uploader-prod
+      annotations:
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/deploy-logs: for-new-or-existing
+      labels:
+        application: cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        app: sitemap-uploader-prod
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: az-sitemap-uploader
+          image: mcr.microsoft.com/azure-cli:2.9.1
+          command:
+            - bash
+          args:
+            - '-c'
+            - |+
+
+              echo \\"Fetch sitemap from $SITEMAP_ENDPOINT\\"
+
+              curl --fail -L $SITEMAP_ENDPOINT -o sitemap.xml
+
+              if [[ -f sitemap.xml ]]; then
+                # replace the default urls hostname if $BASE_URL is given
+                [[ -n $BASE_URL ]] && sed -i -E 's#<loc>https?://[^/]*/#<loc>'$BASE_URL'/#' sitemap.xml
+                # upload
+                echo \\"Upload sitemap to azure/$DESTINATION_CONTAINER/$DESTINATION_NAME\\"
+                az storage blob upload --account-name $AZ_ACCOUNT_NAME --account-key $AZ_ACCOUNT_KEY --container-name $DESTINATION_CONTAINER --file sitemap.xml --name $DESTINATION_NAME
+              else
+                echo \\"Cannot fetch sitemap.xml, abort\\"
+                exit 1
+              fi
+
+          env:
+            - name: BASE_URL
+          envFrom:
+            - configMapRef:
+                name: sitemap-uploader-prod
+            - secretRef:
+                name: sitemap-uploader-prod
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: sitemap-uploader-prod
+  namespace: cdtn-admin
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: sitemap-uploader-prod
+spec:
+  encryptedData:
+    AZ_ACCOUNT_KEY: >-
+      AgAywZ1uryjSCfAcwhbVllW311wJpBkh6tKecqJu1F204kFR8baPTVRoUh3PsaR5hVvuu/EUExeMXTJFey+WxAq3lPXIQ7K6aa+T8+jUkXU1Sj2EvHitHFWuGSOyFphhhGlAAoykaZcvOAqYrW8CDe2Yh84bxWP1GraJpySwOpaBj4Fkjz3Xe4MOQtD7KmXqdoMHCQBI6PFhHIiTt1/6Mgk+G99BarA/vMNelCZm5Gb8g5dzaSodYeZw4Bo0tK6B+cyEtflHh8z4oGV96sK+CFm6RPkAeysLz8eNgNCvMjRC0Dp4q9k3WJSZLPav/DX/Xaf8mzdavrA3v8YLL52ypovoZYF/VSloi0cnHN61IPhHIRkiCcPKUqqqsGYsVRNLJyfGBS/LhAJ+prHeP6IGTZ9V7R1x1Z5WsmTpSts4jQf91TjI2+m3O50l7KDHSmfPozcm/A9VDVAajuVtq4tgoDsbJQ0+Ay2aydUGw03Qr11HVV9Ao6Qap0JL3Fn+lNCFZgvgLXocBuqfpq2zrm7HPq+fQbtYgr+dwNyHe7AVXSyBD7/TJkw5UDcK3L501UiLChd3oiy3x/efUA6CPIKlx4GbEt+n2Ga3zHTx+BWQnss0LX1CuYCyow8X68p70O4m4XZpL30HCYL43hHlNls0p5Dr4lI/jHbjqEv5KtGNvwZiZpfJdeMTWlQ9X9+Ojlj57FL4oQmbQw5mJCu5AwlE7jZyajhHnME/NSp8NYQUp4Yg+1WoyA0kmDAF/eiKEcGiogdygC2tgEP2EEdcTyw7g+0PDtlRUxXb39CrBY3Bo+p+UNBoHLtzSMTQ
+    AZ_ACCOUNT_NAME: >-
+      AgBI8F/PBFJqcSRe9Ley7zWRHIsNX8oh8lHUgotVclONIIj5kadK4lIJMjh1LjPM5VMsrv/3AviY9+Tnv7078/IVyZO9kRzgQ0hIuw6LptkhS0KuiFQYAmZxlJ/shjgL1awbJmyF5g6gzmSbTQQ4CYqPK5TPCMuNH9EwTipHTQkSdZTi+9KSfpmPhfozgAapfwb07L+/gEVL8UQApao7MnyW7LLOEnVSUM6tr/hRXvFJomZCOcU98+F6FE1C4eNLEmF0XVdCY8HVkkPAesq8XjABoHon2PraglrJnngXen243KR8XnNKwS1QQcnAOvzd8hQFhsTTU0GUSblJYkvuHsa2WbAAD2plDEDCt5jt+nJW3ii7fbxoNlxJYoaLzqiH9sciXFAl73Ky/A75+ZGZL8Nw18H2cz39pbMw5LGPMuLX1R5EfW8SugrWdeWa55tuV+UfNpih6PWXAyNvv+JpSzWBARrsrrLCZSglHwkZXU6ZuoKe6X1xriHmU0EvIQXMBBSHwOet6RoAllL+O7gLrlJFH5/fA0G4fcRr1XgONHsNLQ69AKHFv+hzzYyV1plU/wMZ9QCNcUswC+DDOh2+1T0yASB8Z/17SwBjE2KdJEO8qRplNDRnuREmsQRJsqiaWIsMPwdOntp8dC5UCkYj9dtz+QGHFmdxAg3MLUB46jN4bTn3P0UiuQXw03SRlYKnKSC6/NfAkZfJjWfrlguC
+  template:
+    metadata:
+      name: sitemap-uploader-prod
+      namespace: cdtn-admin
+      annotations:
+        app.gitlab.com/app: socialgouv-cdtn-admin
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+      labels:
+        application: cdtn-admin
+        owner: cdtn-admin
+        team: cdtn-admin
+        app: sitemap-uploader-prod
     type: Opaque
 "
 `;

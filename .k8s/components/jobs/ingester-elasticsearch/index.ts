@@ -5,6 +5,7 @@ import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 import { ok } from "assert";
 import type { ConfigMap } from "kubernetes-models/_definitions/IoK8sApiCoreV1ConfigMap";
+import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
 import { Job } from "kubernetes-models/batch/v1/Job";
 
 import { ES_INDEX_PREFIX } from "../../../utils/ES_INDEX_PREFIX";
@@ -14,18 +15,38 @@ ok(target, "Missing INGESTER_ELASTICSEARCH_TARGET");
 
 ok(process.env.CI_REGISTRY_IMAGE, "Missing CI_REGISTRY_IMAGE");
 
+const gitlabEnv = gitlab(process.env);
+const name = `ingester-elasticsearch-${target}`;
+const annotations = merge(gitlabEnv.annotations || {}, {
+  "kapp.k14s.io/disable-default-ownership-label-rules": "",
+  "kapp.k14s.io/disable-default-label-scoping-rules": "",
+});
+const labels = merge(gitlabEnv.labels || {}, {
+  app: name,
+});
+
 const configMap = loadYaml<ConfigMap>(
   env,
-  `ingester-elasticsearch/${target}-configmap.yaml`
+  `ingester-elasticsearch/${target}.configmap.yaml`
 );
-ok(configMap, `Missing ingester-elasticsearch/${target}-configmap.yaml`);
+ok(configMap, `Missing ingester-elasticsearch/${target}.configmap.yaml`);
 const secret = loadYaml<SealedSecret>(
   env,
-  `ingester-elasticsearch/${target}-sealed-secret.yaml`
+  `ingester-elasticsearch/${target}.sealed-secret.yaml`
 );
-ok(secret, `Missing ingester-elasticsearch/${target}-sealed-secret.yaml`);
+updateMetadata(configMap, {
+  namespace: gitlabEnv.namespace,
+  annotations,
+  labels,
+});
+ok(secret, `Missing ingester-elasticsearch/${target}.sealed-secret.yaml`);
+updateMetadata(secret, {
+  namespace: gitlabEnv.namespace,
+  annotations,
+  labels,
+});
 
-const envParams = merge(gitlab(process.env), {});
+//
 
 const tag = process.env.CI_COMMIT_TAG
   ? process.env.CI_COMMIT_TAG.slice(1)
@@ -33,12 +54,23 @@ const tag = process.env.CI_COMMIT_TAG
 
 const job = new Job({
   metadata: {
-    name: `ingester-elasticsearch-target-${target}`,
-    namespace: envParams.namespace.name,
+    annotations: merge(annotations, {
+      "kapp.k14s.io/update-strategy": "fallback-on-replace",
+    }),
+    labels,
+    name,
+    namespace: gitlabEnv.namespace.name,
   },
   spec: {
     backoffLimit: 0,
     template: {
+      metadata: {
+        name,
+        annotations: merge(annotations, {
+          "kapp.k14s.io/deploy-logs": "for-new-or-existing",
+        }),
+        labels,
+      },
       spec: {
         containers: [
           {
