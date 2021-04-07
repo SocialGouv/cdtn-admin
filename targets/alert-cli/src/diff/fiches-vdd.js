@@ -6,7 +6,7 @@ import { createToJson } from "../node-git.helpers";
  *
  * @param {string} repositoryId
  * @param {alerts.GitTagData} tag
- * @param {string[]} files
+ * @param {nodegit.ConvenientPatch[]} patches
  * @param {nodegit.Tree} prevTree
  * @param {nodegit.Tree} currTree
  * @returns {Promise<alerts.VddAlertChanges[]>}
@@ -14,7 +14,7 @@ import { createToJson } from "../node-git.helpers";
 export async function processVddDiff(
   repositoryId,
   tag,
-  files,
+  patches,
   prevTree,
   currTree
 ) {
@@ -25,26 +25,59 @@ export async function processVddDiff(
     removed: [],
   };
 
-  const toJson = createToJson("data/index.json");
-
-  const [
-    currList,
-    prevList,
-  ] = /** @type {alerts.FicheVddIndex[][]} */ (await Promise.all(
-    [currTree, prevTree].map(toJson)
-  ));
-
-  changes.removed = prevList.filter(
-    ({ id, type }) =>
-      !currList.some((item) => item.id === id && item.type === type)
+  changes.removed = patches.flatMap((patch) =>
+    patch.isDeleted() ? [toSimpleVddChange(patch)] : []
   );
-  changes.added = currList.filter(
-    ({ id, type }) =>
-      !prevList.some((item) => item.id === id && item.type === type)
+
+  changes.added = patches.flatMap((patch) =>
+    patch.isAdded() ? [toSimpleVddChange(patch)] : []
   );
+
+  changes.modified = patches.flatMap((patch) =>
+    patch.isModified() ? [toSimpleVddChange(patch)] : []
+  );
+
+  const modified = patches.flatMap((patch) =>
+    patch.isModified() ? [patch.newFile().path()] : []
+  );
+
+  const particuliers = modified.filter((path) => /particuliers/.test(path));
+
+  const professionnels = modified
+    .filter((path) => /professionnels/.test(path))
+    .filter((path) => {
+      const id = path.match(/\w+.json$/);
+      if (!id) {
+        return false;
+      }
+      return particuliers.every((file) => !new RegExp(`${id[0]}$`).test(file));
+    });
+
+  const associations = modified
+    .filter((path) => /associations/.test(path))
+    .filter((path) => {
+      const id = path.match(/\w+.json$/);
+      if (!id) {
+        return false;
+      }
+      return particuliers.every((file) => !new RegExp(`${id[0]}$`).test(file));
+    })
+    .filter((path) => {
+      const id = path.match(/\w+.json$/);
+      if (!id) {
+        return false;
+      }
+      return professionnels.every(
+        (file) => !new RegExp(`${id[0]}$`).test(file)
+      );
+    });
+
+  const filterFiles = particuliers.concat(professionnels, associations);
+
+  changes.modified = [];
 
   changes.modified = await Promise.all(
-    files.map(async (fichePath) => {
+    filterFiles.map(async (fichePath) => {
       if (/index\.json/.test(fichePath)) return;
       if (
         changes.removed
@@ -157,4 +190,20 @@ function getText(element) {
     return element.children.map((child) => getText(child)).join(" ");
   }
   return "";
+}
+
+/**
+ *
+ * @param {nodegit.ConvenientPatch} patch
+ */
+function toSimpleVddChange(patch) {
+  const filepath = patch.newFile().path();
+  const match = filepath.match(/(\w+)\/(\w+)\.json$/);
+  if (!match) {
+    throw new Error(`[toSimpleVddChange] Can't parse ${filepath}`);
+  }
+  return {
+    id: match[2],
+    type: match[1],
+  };
 }

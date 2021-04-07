@@ -68,9 +68,10 @@ async function getFileFilter(repository) {
       // only a ccn matching our list
       return (path) => ccns.some((ccn) => new RegExp(ccn.id).test(path));
     case "socialgouv/fiches-vdd": {
+      /** @type {string[]} */
       const ficheVddIDs = await getFicheServicePublicIds();
       return (path) => {
-        const matched = ["index.json", ...ficheVddIDs].some((id) =>
+        const matched = ficheVddIDs.some((id) =>
           new RegExp(`${id}.json$`).test(path)
         );
         return matched;
@@ -222,9 +223,16 @@ async function getAlertChangesFromTags(repository, currentTag, previousTag) {
   const diff = await currTree.diff(prevTree);
   const patches = await diff.patches();
 
-  const files = patches.map(getFilename).filter(fileFilter);
-
-  return diffProcessor(repository, currentTag, files, prevTree, currTree);
+  const filterPatches = patches.filter((patch) =>
+    fileFilter(patch.newFile().path())
+  );
+  return diffProcessor(
+    repository,
+    currentTag,
+    filterPatches,
+    prevTree,
+    currTree
+  );
 }
 
 /**
