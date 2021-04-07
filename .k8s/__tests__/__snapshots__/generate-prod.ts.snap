@@ -198,8 +198,8 @@ spec:
               cpu: 1000m
               memory: 1.5Gi
             requests:
-              cpu: 100m
-              memory: 64Mi
+              cpu: 10m
+              memory: 256Mi
           startupProbe:
             failureThreshold: 12
             httpGet:
