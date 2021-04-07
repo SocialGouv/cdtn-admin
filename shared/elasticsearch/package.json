@@ -1,14 +1,14 @@
 {
   "name": "@socialgouv/cdtn-elasticsearch",
   "description": "SocialGouv - Code du travail numerique - Infrastructure - Elasticsearch",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "babel": {
     "plugins": [
       "@babel/plugin-transform-modules-commonjs"
     ]
   },
   "dependencies": {
-    "@socialgouv/cdtn-logger": "^1.0.10",
+    "@socialgouv/cdtn-logger": "^1.0.11",
     "node-fetch": "^2.6.1"
   },
   "license": "Apache-2.0",
