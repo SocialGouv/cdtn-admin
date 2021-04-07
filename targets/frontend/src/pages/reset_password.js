@@ -61,8 +61,7 @@ export default function ResetPasswordPage() {
           </Text>
           <Field
             label="adresse email"
-            name="email"
-            ref={register({
+            {...register("email", {
               pattern: {
                 message: "L'email est invalide",
                 value: /^\S+@\S+$/i,

@@ -42,15 +42,14 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
               sx={{ fontWeight: "body" }}
               label="Adresse email"
               placeholder="ex: lionel@travail.gouv.fr"
-              name="email"
-              type="email"
-              aria-invalid={errors.email ? "true" : "false"}
-              ref={register({
+              {...register("email", {
                 required: {
                   message: "ce champ est requis",
                   value: true,
                 },
               })}
+              type="email"
+              aria-invalid={errors.email ? "true" : "false"}
             />
             {errors.email && (
               <Text role="alert" color="critical">
@@ -60,15 +59,14 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
             <Field
               sx={{ fontWeight: "body" }}
               label="Mot de passe"
-              name="password"
-              type="password"
-              aria-invalid={errors.password ? "true" : "false"}
-              ref={register({
+              {...register("password", {
                 required: {
                   message: "ce champ est requis",
                   value: true,
                 },
               })}
+              type="password"
+              aria-invalid={errors.password ? "true" : "false"}
             />
             {errors.password && (
               <Text role="alert" color="critical">

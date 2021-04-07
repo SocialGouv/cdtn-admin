@@ -48,11 +48,10 @@ export function PasswordForm({
           <div>
             <Field
               type="password"
-              name="oldPassword"
-              label="Ancien mot de passe"
-              ref={register({
+              {...register("oldPassword", {
                 required: { message: "Ce champ est requis", value: true },
               })}
+              label="Ancien mot de passe"
             />
             <FormErrorMessage errors={errors} fieldName="oldPassword" />
           </div>
@@ -62,8 +61,7 @@ export function PasswordForm({
           <Field
             label="Nouveau mot de passe"
             type="password"
-            name="password"
-            ref={register(passwordFieldRegistration)}
+            {...register("password", passwordFieldRegistration)}
           />
           <FormErrorMessage errors={errors} fieldName="password" />
         </div>
@@ -72,8 +70,7 @@ export function PasswordForm({
           <Field
             label="Confirmation du nouveau mot de passe"
             type="password"
-            name="confirmNewPassword"
-            ref={register({
+            {...register("confirmNewPassword", {
               ...passwordFieldRegistration,
               validate: (value) =>
                 value === watch("password") ||
@@ -89,7 +86,7 @@ export function PasswordForm({
           </Link>
         </Inline>
       </Stack>
-      <input type="hidden" name="id" value={user?.id} ref={register} />
+      <input type="hidden" {...register("id")} value={user?.id} />
     </form>
   );
 }

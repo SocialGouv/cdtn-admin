@@ -73,13 +73,12 @@ export const TermForm = ({ term = {} }) => {
         <Box mb="small">
           <Field
             type="text"
-            name="term"
+            {...register("term", {
+              required: { message: "Ce champ est requis", value: true },
+            })}
             label="Terme"
             onChange={() => setDuplicateTermError(false)}
             defaultValue={term.term}
-            ref={register({
-              required: { message: "Ce champ est requis", value: true },
-            })}
           />
           <FormErrorMessage errors={errors} fieldName="term" />
           {duplicateTermError && (
@@ -93,13 +92,12 @@ export const TermForm = ({ term = {} }) => {
             <MarkdownLink />
           </Label>
           <Textarea
-            name="definition"
+            {...register("definition", {
+              required: { message: "Ce champ est requis", value: true },
+            })}
             id="definition"
             rows={5}
             defaultValue={term.definition}
-            ref={register({
-              required: { message: "Ce champ est requis", value: true },
-            })}
           />
         </Box>
 

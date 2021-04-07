@@ -41,12 +41,11 @@ const PrequalifiedForm = ({
         <div sx={{ mb: "small" }}>
           <Field
             type="text"
-            name="title"
-            label="Requete"
-            defaultValue={content.title}
-            ref={register({
+            {...register("title", {
               required: { message: "La requete est requise", value: true },
             })}
+            label="Requete"
+            defaultValue={content.title}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
         </div>

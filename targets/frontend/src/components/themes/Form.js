@@ -24,12 +24,11 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
         <Box mb="small">
           <Field
             type="text"
-            name="title"
-            label="Titre"
-            defaultValue={theme.title}
-            ref={register({
+            {...register("title", {
               required: { message: "Ce champ est requis", value: true },
             })}
+            label="Titre"
+            defaultValue={theme.title}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
         </Box>
@@ -37,31 +36,28 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
         <Box mb="small">
           <Field
             type="text"
-            name="shortTitle"
+            {...register("shortTitle")}
             label="Titre court"
             defaultValue={theme.document?.shortTitle}
-            ref={register}
           />
         </Box>
 
         <Box mb="small">
           <Field
             type="text"
-            name="metaDescription"
+            {...register("metaDescription")}
             label="Meta description (référencement)"
             defaultValue={theme.metaDescription}
-            ref={register}
           />
         </Box>
 
         <Box mb="small">
           <Label htmlFor={"description"}>Description</Label>
           <Textarea
-            name="description"
+            {...register("description")}
             id="description"
             rows={5}
             defaultValue={theme.document?.description}
-            ref={register}
           />
         </Box>
 

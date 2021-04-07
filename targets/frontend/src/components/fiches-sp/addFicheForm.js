@@ -58,10 +58,9 @@ export function AddFicheSpForm({ onAdd }) {
             <Flex sx={{ alignItems: "center" }}>
               <Field
                 sx={{ width: "10rem" }}
-                name={`items[${index}].id`}
                 defaultValue=""
                 onKeyDown={handleKeyDown}
-                ref={register({
+                {...register(`items[${index}]id`, {
                   pattern: {
                     message: `Seuls les identifiants de fiche sont acceptés (ils commencent
               par un F, suivi de chiffres exclusivement).`,
