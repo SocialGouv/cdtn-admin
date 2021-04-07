@@ -7,11 +7,11 @@ import { Stack } from "../layout/Stack";
 
 const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
   const {
-    errors,
     handleSubmit,
     register,
     setError,
-    formState: { isSubmitting },
+
+    formState: { isSubmitting, errors },
   } = useForm();
 
   const submit = async ({ email, password }) => {

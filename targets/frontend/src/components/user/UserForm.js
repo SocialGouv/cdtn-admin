@@ -19,7 +19,12 @@ export function UserForm({
 }) {
   const [results] = useQuery({ query: getRoleQuery });
   const { data, fetching, error } = results;
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm();
   const hasError = Object.keys(errors).length > 0;
   let buttonLabel = "Créer le compte";
   if (user) {

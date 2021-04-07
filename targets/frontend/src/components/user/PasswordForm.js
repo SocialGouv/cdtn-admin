@@ -17,7 +17,14 @@ export function PasswordForm({
 }) {
   let loading;
   const { user } = useUser();
-  const { register, handleSubmit, errors, setError, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    watch,
+
+    formState: { errors },
+  } = useForm();
   const hasError = Object.keys(errors).length > 0;
   const buttonLabel = changeOldPassword ? "Changer le mot de passe" : "Activer";
   const passwordFieldRegistration = {

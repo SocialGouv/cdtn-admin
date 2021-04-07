@@ -48,8 +48,8 @@ const EditorialContentForm = ({
     control,
     register,
     handleSubmit,
-    errors,
-    formState: { isDirty },
+
+    formState: { isDirty, errors },
   } = useForm({
     defaultValues: content,
   });

@@ -8,7 +8,13 @@ import { IconPicker } from "src/components/forms/IconPicker";
 import { Box, Field, Flex, Label, NavLink, Textarea } from "theme-ui";
 
 const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
-  const { control, register, handleSubmit, errors } = useForm();
+  const {
+    control,
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm();
   const hasError = Object.keys(errors).length > 0;
   let buttonLabel = "Créer";
   let backLink = `/themes`;

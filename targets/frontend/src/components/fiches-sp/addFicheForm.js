@@ -20,8 +20,8 @@ export function AddFicheSpForm({ onAdd }) {
     control,
     register,
     handleSubmit,
-    errors,
-    formState: { isDirty },
+
+    formState: { isDirty, errors },
   } = useForm({
     defaultValues: {
       items: [{ id: "" }],

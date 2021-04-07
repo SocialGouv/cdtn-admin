@@ -10,7 +10,13 @@ import { Field, NavLink, Text } from "theme-ui";
 
 export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);
-  const { register, handleSubmit, errors, setError } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+
+    formState: { errors },
+  } = useForm();
   const hasError = Object.keys(errors).length > 0;
   let loading = false;
 

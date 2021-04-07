@@ -38,7 +38,13 @@ mutation EditTerm(
 
 export const TermForm = ({ term = {} }) => {
   const router = useRouter();
-  const { control, register, handleSubmit, errors } = useForm();
+  const {
+    control,
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm();
   const [editResult, editTerm] = useMutation(editTermMutation);
   const [duplicateTermError, setDuplicateTermError] = useState(false);
 

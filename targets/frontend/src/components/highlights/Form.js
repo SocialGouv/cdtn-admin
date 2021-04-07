@@ -18,9 +18,10 @@ const HighlightsForm = ({
   const router = useRouter();
   const {
     control,
-    errors,
     handleSubmit,
-    formState: { isDirty },
+
+    formState: { isDirty, errors },
+
     register,
   } = useForm();
   return (
