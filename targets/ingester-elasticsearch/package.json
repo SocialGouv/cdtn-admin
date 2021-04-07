@@ -1,9 +1,9 @@
 {
   "name": "ingester-es",
   "description": "SocialGouv - Code du travail numerique - Target - Ingester Elasticsearch",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "dependencies": {
-    "@shared/elasticsearch-document-adapter": "^1.0.7"
+    "@shared/elasticsearch-document-adapter": "^1.0.8"
   },
   "devDependencies": {
     "@socialgouv/eslint-config-typescript": "^1.64.0",
