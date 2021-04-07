@@ -32,7 +32,7 @@ function getFileComparator(repository) {
  *
  * @param {string} repositoryId
  * @param {alerts.GitTagData} tag
- * @param {string[]} files
+ * @param {nodegit.ConvenientPatch[]} patches
  * @param {nodegit.Tree} prevTree
  * @param {nodegit.Tree} currTree
  * @returns {Promise<alerts.DilaAlertChanges[]>}
@@ -40,13 +40,14 @@ function getFileComparator(repository) {
 export async function processDilaDiff(
   repositoryId,
   tag,
-  files,
+  patches,
   prevTree,
   currTree
 ) {
   const compareFn = getFileComparator(repositoryId);
   const fileChanges = await Promise.all(
-    files.map(async (file) => {
+    patches.map(async (patch) => {
+      const file = patch.newFile().path();
       const toAst = createToJson(file);
 
       const [
