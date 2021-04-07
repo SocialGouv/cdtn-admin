@@ -17,9 +17,9 @@ const SortableSectionList = SortableContainer(
           numberOfBlocks={blocks.length}
           key={block.key}
           block={block}
-          errors={lowGet(errors, `${name}[${index}]`)}
+          errors={lowGet(errors, `${name}.${index}`)}
           index={index}
-          name={`${name}[${index}]`}
+          name={`${name}.${index}`}
           // index is not provided to children due to a bug
           blockIndex={index}
         />

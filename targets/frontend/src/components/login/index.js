@@ -19,10 +19,14 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
       const result = await authenticate({ email, password });
       onSuccess(result);
     } catch (err) {
-      setError("password", {
-        message: "Utilisateur ou mot passe incorrect",
-        type: "manual",
-      });
+      setError(
+        "password",
+        {
+          message: "Utilisateur ou mot passe incorrect",
+          type: "manual",
+        },
+        { shouldFocus: true }
+      );
     }
   };
   return (

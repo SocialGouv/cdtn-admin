@@ -62,7 +62,7 @@ export function ReferenceBlocks({ control, name, register, errors }) {
                     {JURIDIQUES_LABEL}
                     <Radio
                       sx={{ ml: "xxsmall" }}
-                      name={`${name}[${index}].label`}
+                      name={`${name}.${index}.label`}
                       value={JURIDIQUES_LABEL}
                       ref={register({
                         required: {
@@ -85,7 +85,7 @@ export function ReferenceBlocks({ control, name, register, errors }) {
                     {USEFUL_LINKS_LABEL}
                     <Radio
                       sx={{ ml: "xxsmall" }}
-                      name={`${name}[${index}].label`}
+                      name={`${name}?${index}.label`}
                       value={USEFUL_LINKS_LABEL}
                       ref={register({
                         required: {
@@ -99,11 +99,11 @@ export function ReferenceBlocks({ control, name, register, errors }) {
                 </Flex>
                 <FormErrorMessage
                   errors={errors}
-                  fieldName={`${name}[${index}].label`}
+                  fieldName={`${name}.${index}.label`}
                 />
               </div>
               <References
-                nestName={`${name}[${index}].links`}
+                nestName={`${name}.${index}.links`}
                 control={control}
                 register={register}
                 errors={errors}

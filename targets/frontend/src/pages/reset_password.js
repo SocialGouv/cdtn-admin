@@ -28,10 +28,14 @@ export default function ResetPasswordPage() {
       setSuccess(true);
     } catch (error) {
       console.error(error);
-      setError("email", {
-        message: "désolé, une erreur est survenue :(",
-        type: "validate",
-      });
+      setError(
+        "email",
+        {
+          message: "désolé, une erreur est survenue :(",
+          type: "validate",
+        },
+        { shouldFocus: true }
+      );
     }
     loading = false;
   }

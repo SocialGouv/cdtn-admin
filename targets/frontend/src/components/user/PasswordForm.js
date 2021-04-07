@@ -25,6 +25,7 @@ export function PasswordForm({
 
     formState: { errors },
   } = useForm();
+  const watchedPassword = watch("password", "");
   const hasError = Object.keys(errors).length > 0;
   const buttonLabel = changeOldPassword ? "Changer le mot de passe" : "Activer";
   const passwordFieldRegistration = {
@@ -40,10 +41,14 @@ export function PasswordForm({
       await onSubmit(data);
     } catch (err) {
       console.error("[ PasswordForm ]", err);
-      setError("oldPassword", {
-        message: "L'ancien mot de passe ne correspond pas.",
-        type: "validate",
-      });
+      setError(
+        "oldPassword",
+        {
+          message: "L'ancien mot de passe ne correspond pas.",
+          type: "validate",
+        },
+        { shouldFocus: true }
+      );
     }
     loading = false;
   }
@@ -58,6 +63,7 @@ export function PasswordForm({
               {...register("oldPassword", {
                 required: { message: "Ce champ est requis", value: true },
               })}
+              defaultValue=""
               label="Ancien mot de passe"
             />
             <FormErrorMessage errors={errors} fieldName="oldPassword" />
@@ -80,7 +86,7 @@ export function PasswordForm({
             {...register("confirmNewPassword", {
               ...passwordFieldRegistration,
               validate: (value) =>
-                value === watch("password") ||
+                value === watchedPassword ||
                 "Les mots de passe ne correspondent pas.",
             })}
           />
