@@ -22,7 +22,15 @@ ok(secret, "Missing ingester.sealed-secret.yaml");
 
 const persistentVolumeClaim = new PersistentVolumeClaim({
   metadata: {
+    annotations: merge(gitlabEnv.annotations || {}, {
+      "kapp.k14s.io/disable-default-ownership-label-rules": "",
+      "kapp.k14s.io/disable-default-label-scoping-rules": "",
+    }),
+    labels: merge(gitlabEnv.labels ?? {}, {
+      app: name,
+    }),
     name,
+    namespace: gitlabEnv.namespace.name,
   },
   spec: {
     accessModes: ["ReadWriteOnce"],

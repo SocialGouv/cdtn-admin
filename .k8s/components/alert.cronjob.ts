@@ -25,12 +25,10 @@ const cronJob = new CronJob({
       "kapp.k14s.io/disable-default-ownership-label-rules": "",
       "kapp.k14s.io/disable-default-label-scoping-rules": "",
     }),
-    labels: merge(
-      {
-        app: name,
-      },
-      gitlabEnv.labels ?? {}
-    ),
+    labels: merge(gitlabEnv.labels ?? {}, {
+      app: name,
+    }),
+    namespace: gitlabEnv.namespace.name,
     name,
   },
   spec: {
