@@ -146,7 +146,37 @@ Release:
     - .base_deploy_kosko_stage
     - .cdtn_base_rules
   stage: Deploy
+  cache:
+    key:
+      files:
+        - .k8s/yarn.lock
+      prefix: k8s
+    paths:
+      - .cache
+      - .k8s/node_modules
   allow_failure: true
+  before_script:
+    - echo "kubectl config set-context --current --namespace=${KUBE_NAMESPACE}"
+    - kubectl config set-context --current --namespace=${KUBE_NAMESPACE}
+  script:
+    - kubectl delete job sitemap-uploader-${SITEMAP_UPLOADER_TARGET} || true
+    - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
+    - echo "kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml"
+    - yarn --silent --cwd .k8s kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml
+    - kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
+    #
+    - timeout 15m
+      bash -c "
+      until
+      kubectl get pod -l job-name=sitemap-uploader-${SITEMAP_UPLOADER_TARGET}
+      -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
+      grep True
+      ; do sleep 1; done"
+    #
+    - kubectl logs -f job/sitemap-uploader-${SITEMAP_UPLOADER_TARGET}
+    #
+    - kubectl get jobs sitemap-uploader-${SITEMAP_UPLOADER_TARGET} -o jsonpath='{.status.conditions}'
+    - kubectl get jobs sitemap-uploader-${SITEMAP_UPLOADER_TARGET} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
 
 🛎️ Generate sitemap (review):
   extends:
@@ -175,6 +205,9 @@ Release:
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
+    # Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L313
+    KUBE_NAMESPACE: ${CI_PROJECT_NAME}
+    # kosko component options
     SITEMAP_UPLOADER_TARGET: preprod
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
@@ -188,6 +221,9 @@ Release:
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
+    # Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L313
+    KUBE_NAMESPACE: ${CI_PROJECT_NAME}
+    # kosko component options
     SITEMAP_UPLOADER_TARGET: prod
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
