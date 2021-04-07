@@ -101,8 +101,8 @@
   needs:
     - job: 🛂 k8s test
   before_script:
-    - echo "kubectl config set-context --current --namespace=${K8S_NAMESPACE}"
-    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
+    - echo "kubectl config set-context --current --namespace=${KUBE_NAMESPACE}"
+    - kubectl config set-context --current --namespace=${KUBE_NAMESPACE}
   script:
     - JOB_NAME="triggered-from-job-${CI_JOB_ID}-${RANDOM}"
     - kubectl create job --from=cronjob.batch/ingester "${JOB_NAME}"
