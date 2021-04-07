@@ -59,6 +59,14 @@ variables:
       - .cache
       - .k8s/node_modules
   stage: .pre
+#
+#
+#
+
+# Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L314-L315
+Production:
+  variables:
+    KOSKO_GENERATE_ARGS: --env prod
 
 #
 #
