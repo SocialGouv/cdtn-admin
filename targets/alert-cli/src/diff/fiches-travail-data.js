@@ -6,7 +6,7 @@ import { createToJson } from "../node-git.helpers";
  *
  * @param {string} repositoryId
  * @param {alerts.GitTagData} tag
- * @param {string[]} files
+ * @param {nodegit.ConvenientPatch[]} patches
  * @param {nodegit.Tree} prevTree
  * @param {nodegit.Tree} currTree
  * @returns {Promise<alerts.TravailDataAlertChanges[]>}
@@ -15,13 +15,14 @@ import { createToJson } from "../node-git.helpers";
 export async function processTravailDataDiff(
   repositoryId,
   tag,
-  files,
+  patches,
   prevTree,
   currTree
 ) {
   const fileChanges = await Promise.all(
-    files.map(async (file) => {
-      const toAst = createToJson(file);
+    patches.map(async (patch) => {
+      const filename = patch.newFile().path();
+      const toAst = createToJson(filename);
 
       const [
         currAst,

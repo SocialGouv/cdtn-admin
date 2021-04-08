@@ -110,9 +110,11 @@
     paths:
       - .cache
       - .k8s/node_modules
-  script:
+  before_script:
+    - echo "kubectl config set-context --current --namespace=${KUBE_NAMESPACE}"
     - kubectl config set-context --current --namespace=${KUBE_NAMESPACE}
-    - kubectl delete job ingester-elasticsearch || true
+  script:
+    - kubectl delete job ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET} || true
     - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
     - echo "kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml"
     - yarn --silent --cwd .k8s kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml
@@ -121,15 +123,15 @@
     - timeout 15m
       bash -c "
       until
-      kubectl get pod -l job-name=ingester-elasticsearch
+      kubectl get pod -l job-name=ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET}
       -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
       grep True
       ; do sleep 1; done"
     #
-    - kubectl logs -f job/ingester-elasticsearch
+    - kubectl logs -f job/ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET}
     #
-    - kubectl get jobs ingester-elasticsearch -o jsonpath='{.status.conditions}'
-    - kubectl get jobs ingester-elasticsearch -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
+    - kubectl get jobs ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET} -o jsonpath='{.status.conditions}'
+    - kubectl get jobs ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
 
 🛎️ ingester-elasticsearch (review):
   extends:
@@ -162,7 +164,7 @@
   variables:
     INGESTER_ELASTICSEARCH_TARGET: preprod
     # kosko options
-    KOSKO_GENERATE_ARGS: --env preprod jobs/ingester-elasticsearch
+    KOSKO_GENERATE_ARGS: --env prod jobs/ingester-elasticsearch
 
 🎉 ingester-elasticsearch (prod => es prod):
   extends:

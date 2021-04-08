@@ -27,7 +27,7 @@ const manifests = create("www", {
         },
         requests: {
           cpu: "5m",
-          memory: "256Mi",
+          memory: "128Mi",
         },
       },
     },

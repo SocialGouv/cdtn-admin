@@ -3,8 +3,17 @@ import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { Job } from "kubernetes-models/batch/v1/Job";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import type { SealedSecret } from "@kubernetes-models/sealed-secrets/bitnami.com/v1alpha1/SealedSecret";
+import type { ConfigMap } from "kubernetes-models/_definitions/IoK8sApiCoreV1ConfigMap";
+import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
 import { ok } from "assert";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
+
+//
+
+const target = process.env.SITEMAP_UPLOADER_TARGET;
+ok(target, "Missing SITEMAP_UPLOADER_TARGET");
+
+//
 
 // renovate: datasource=docker depName=mcr.microsoft.com/azure-cli versioning=2.9.1
 const AZ_DOCKER_TAG = "2.9.1";
@@ -28,32 +37,59 @@ fi
 `;
 
 const gitlabEnv = gitlab(process.env);
+const name = `sitemap-uploader-${target}`;
+const annotations = merge(gitlabEnv.annotations || {}, {
+  "kapp.k14s.io/disable-default-ownership-label-rules": "",
+  "kapp.k14s.io/disable-default-label-scoping-rules": "",
+});
+const labels = merge(gitlabEnv.labels || {}, {
+  app: name,
+});
 const env = koskoEnv.component("sitemap-uploader");
+
+//
 
 const secret = loadYaml<SealedSecret>(
   koskoEnv,
-  "sitemap-uploader/sealed-secret.yaml"
+  `sitemap-uploader/${target}.sealed-secret.yaml`
 );
-ok(secret, "Missing sitemap-uploader/sealed-secret.yaml");
+ok(secret, `Missing sitemap-uploader/${target}.sealed-secret.yaml`);
+updateMetadata(secret, {
+  namespace: gitlabEnv.namespace,
+  annotations,
+  labels,
+});
+
+const configMap = loadYaml<ConfigMap>(
+  koskoEnv,
+  `sitemap-uploader/${target}.configmap.yaml`
+);
+ok(configMap, `Missing sitemap-uploader/${target}.configmap.yaml`);
+updateMetadata(configMap, {
+  namespace: gitlabEnv.namespace,
+  annotations,
+  labels,
+});
 
 const job = new Job({
   metadata: {
-    annotations: merge(gitlabEnv.annotations || {}, {
-      "kapp.k14s.io/disable-default-ownership-label-rules": "",
-      "kapp.k14s.io/disable-default-label-scoping-rules": "",
+    annotations: merge(annotations, {
       "kapp.k14s.io/update-strategy": "fallback-on-replace",
     }),
-    name: `sitemap-uploader`,
+    labels,
+    name,
+    namespace: gitlabEnv.namespace.name,
   },
 
   spec: {
     backoffLimit: 3,
     template: {
       metadata: {
-        name: `sitemap-uploader`,
-        annotations: {
+        name,
+        annotations: merge(annotations, {
           "kapp.k14s.io/deploy-logs": "for-new-or-existing",
-        },
+        }),
+        labels,
       },
 
       spec: {
@@ -69,22 +105,13 @@ const job = new Job({
                 name: "BASE_URL",
                 value: process.env.BASE_URL || env.BASE_URL,
               },
-              {
-                name: "DESTINATION_CONTAINER",
-                value: "sitemap",
-              },
-              {
-                name: "DESTINATION_NAME",
-                value: process.env.DESTINATION_NAME || env.DESTINATION_NAME,
-              },
-              {
-                name: "SITEMAP_ENDPOINT",
-                value: `${
-                  process.env.SITEMAP_ENDPOINT || env.SITEMAP_ENDPOINT
-                }/api/sitemap`,
-              },
             ],
             envFrom: [
+              {
+                configMapRef: {
+                  name: configMap?.metadata?.name,
+                },
+              },
               {
                 secretRef: {
                   name: secret.metadata?.name,
@@ -98,4 +125,4 @@ const job = new Job({
   },
 });
 
-export default [job, secret];
+export default [job, secret, configMap];

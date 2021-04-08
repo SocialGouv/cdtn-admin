@@ -12,6 +12,10 @@ const manifests = create({
           cpu: "1000m",
           memory: "1.5Gi",
         },
+        requests: {
+          cpu: "10m",
+          memory: "256Mi",
+        },
       },
     },
   },
