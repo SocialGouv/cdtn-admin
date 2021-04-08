@@ -20,8 +20,8 @@ export function AddFicheSpForm({ onAdd }) {
     control,
     register,
     handleSubmit,
-    errors,
-    formState: { isDirty },
+
+    formState: { isDirty, errors },
   } = useForm({
     defaultValues: {
       items: [{ id: "" }],
@@ -58,10 +58,9 @@ export function AddFicheSpForm({ onAdd }) {
             <Flex sx={{ alignItems: "center" }}>
               <Field
                 sx={{ width: "10rem" }}
-                name={`items[${index}].id`}
                 defaultValue=""
                 onKeyDown={handleKeyDown}
-                ref={register({
+                {...register(`items.${index}.id`, {
                   pattern: {
                     message: `Seuls les identifiants de fiche sont acceptés (ils commencent
               par un F, suivi de chiffres exclusivement).`,
@@ -101,7 +100,7 @@ export function AddFicheSpForm({ onAdd }) {
             </Flex>
             <ErrorMessage
               errors={errors}
-              name={`items[${index}].id`}
+              name={`items.${index}.id`}
               render={({ message }) => <Box color="critical">{message}</Box>}
             />
           </Box>

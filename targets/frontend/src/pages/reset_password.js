@@ -10,7 +10,13 @@ import { Field, NavLink, Text } from "theme-ui";
 
 export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);
-  const { register, handleSubmit, errors, setError } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+
+    formState: { errors },
+  } = useForm();
   const hasError = Object.keys(errors).length > 0;
   let loading = false;
 
@@ -22,10 +28,14 @@ export default function ResetPasswordPage() {
       setSuccess(true);
     } catch (error) {
       console.error(error);
-      setError("email", {
-        message: "désolé, une erreur est survenue :(",
-        type: "validate",
-      });
+      setError(
+        "email",
+        {
+          message: "désolé, une erreur est survenue :(",
+          type: "validate",
+        },
+        { shouldFocus: true }
+      );
     }
     loading = false;
   }
@@ -61,8 +71,7 @@ export default function ResetPasswordPage() {
           </Text>
           <Field
             label="adresse email"
-            name="email"
-            ref={register({
+            {...register("email", {
               pattern: {
                 message: "L'email est invalide",
                 value: /^\S+@\S+$/i,

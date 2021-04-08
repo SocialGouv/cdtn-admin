@@ -48,8 +48,8 @@ const EditorialContentForm = ({
     control,
     register,
     handleSubmit,
-    errors,
-    formState: { isDirty },
+
+    formState: { isDirty, errors },
   } = useForm({
     defaultValues: content,
   });
@@ -65,15 +65,14 @@ const EditorialContentForm = ({
         <Box mb="small">
           <Field
             sx={{ width: "10rem" }}
-            name="document.date"
-            label="Date"
-            defaultValue={content.document?.date}
-            ref={register({
+            {...register("document.date", {
               validate: (value) => {
                 const trimmed = value.trim();
                 return /^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(trimmed);
               },
             })}
+            label="Date"
+            defaultValue={content.document?.date}
           />
           <ErrorMessage
             errors={errors}
@@ -90,12 +89,11 @@ const EditorialContentForm = ({
         <Box mb="small">
           <Field
             type="text"
-            name="title"
-            label="Titre"
-            defaultValue={content.title}
-            ref={register({
+            {...register("title", {
               required: { message: "Le titre est requis", value: true },
             })}
+            label="Titre"
+            defaultValue={content.title}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
         </Box>
@@ -103,23 +101,21 @@ const EditorialContentForm = ({
         <Box mb="small">
           <Field
             type="text"
-            name="metaDescription"
+            {...register("metaDescription")}
             label="Meta description (référencement)"
             defaultValue={content.metaDescription}
-            ref={register}
           />
         </Box>
 
         <Box mb="small">
           <Label htmlFor={"description"}>Description</Label>
           <Textarea
-            name="document.description"
+            {...register("document.description", {
+              required: { message: "La description est requise", value: true },
+            })}
             id="description"
             rows={3}
             defaultValue={content.document?.description}
-            ref={register({
-              required: { message: "La description est requise", value: true },
-            })}
           />
           <FormErrorMessage errors={errors} fieldName="document.description" />
         </Box>
@@ -129,11 +125,10 @@ const EditorialContentForm = ({
             <MarkdownLink />
           </Label>
           <Textarea
-            name="document.intro"
+            {...register("document.intro")}
             id="intro"
             rows={3}
             defaultValue={content.document?.intro}
-            ref={register}
           />
         </Box>
         <ContentSections

@@ -66,17 +66,15 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
       <Inline>
         <Input
           sx={{ flex: 1 }}
-          name="q"
-          ref={register}
+          {...register("q")}
           type="search"
           placeholder="titre..."
           defaultValue={initialValues.q}
           onBlur={triggerUpdateUrl}
         />
         <Select
-          name="source"
+          {...register("source")}
           onChange={triggerUpdateUrl}
-          ref={register}
           defaultValue={initialValues.source || ""}
         >
           <option value="">toutes les sources</option>
@@ -103,8 +101,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           >
             <Select
               sx={{ width: "4rem" }}
-              ref={register}
-              name="itemsPerPage"
+              {...register("itemsPerPage")}
               id="itemsPerPage"
               defaultValue={initialValues.itemsPerPage}
               onChange={triggerUpdateUrl}
@@ -122,9 +119,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
         <Label sx={{ alignItems: "center" }}>
           Tous{" "}
           <Radio
-            name="published"
+            {...register("published")}
             value="all"
-            ref={register}
             defaultChecked={initialValues.published === "all"}
             onChange={triggerUpdateUrl}
           />
@@ -132,9 +128,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
         <Label sx={{ alignItems: "center" }}>
           Publié{" "}
           <Radio
-            name="published"
+            {...register("published")}
             value="yes"
-            ref={register}
             defaultChecked={initialValues.published === "yes"}
             onChange={triggerUpdateUrl}
           />
@@ -142,9 +137,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
         <Label sx={{ alignItems: "center" }}>
           Non-publié{" "}
           <Radio
-            name="published"
+            {...register("published")}
             value="no"
-            ref={register}
             defaultChecked={initialValues.published === "no"}
             onChange={triggerUpdateUrl}
           />

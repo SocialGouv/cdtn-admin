@@ -31,7 +31,7 @@ export const References = ({ control, nestName, register, errors }) => {
             <Field
               type="text"
               label="Label"
-              name={`${nestName}[${index}].title`}
+              name={`${nestName}.${index}.title`}
               defaultValue={reference.title}
               ref={register({
                 required: {
@@ -42,14 +42,14 @@ export const References = ({ control, nestName, register, errors }) => {
             />
             <FormErrorMessage
               errors={errors}
-              fieldName={`${nestName}[${index}].title`}
+              fieldName={`${nestName}.${index}.title`}
             />
           </Box>
           <Box mr="small" sx={{ flex: "1 0 auto" }}>
             <Field
               type="text"
               label="URL"
-              name={`${nestName}[${index}].url`}
+              name={`${nestName}.${index}.url`}
               defaultValue={reference.url}
               ref={register({
                 required: {
@@ -60,7 +60,7 @@ export const References = ({ control, nestName, register, errors }) => {
             />
             <FormErrorMessage
               errors={errors}
-              fieldName={`${nestName}[${index}].url`}
+              fieldName={`${nestName}.${index}.url`}
             />
           </Box>
           {references.length > 1 && (

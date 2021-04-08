@@ -17,7 +17,15 @@ export function PasswordForm({
 }) {
   let loading;
   const { user } = useUser();
-  const { register, handleSubmit, errors, setError, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    watch,
+
+    formState: { errors },
+  } = useForm();
+  const watchedPassword = watch("password", "");
   const hasError = Object.keys(errors).length > 0;
   const buttonLabel = changeOldPassword ? "Changer le mot de passe" : "Activer";
   const passwordFieldRegistration = {
@@ -33,10 +41,14 @@ export function PasswordForm({
       await onSubmit(data);
     } catch (err) {
       console.error("[ PasswordForm ]", err);
-      setError("oldPassword", {
-        message: "L'ancien mot de passe ne correspond pas.",
-        type: "validate",
-      });
+      setError(
+        "oldPassword",
+        {
+          message: "L'ancien mot de passe ne correspond pas.",
+          type: "validate",
+        },
+        { shouldFocus: true }
+      );
     }
     loading = false;
   }
@@ -48,11 +60,11 @@ export function PasswordForm({
           <div>
             <Field
               type="password"
-              name="oldPassword"
-              label="Ancien mot de passe"
-              ref={register({
+              {...register("oldPassword", {
                 required: { message: "Ce champ est requis", value: true },
               })}
+              defaultValue=""
+              label="Ancien mot de passe"
             />
             <FormErrorMessage errors={errors} fieldName="oldPassword" />
           </div>
@@ -62,8 +74,7 @@ export function PasswordForm({
           <Field
             label="Nouveau mot de passe"
             type="password"
-            name="password"
-            ref={register(passwordFieldRegistration)}
+            {...register("password", passwordFieldRegistration)}
           />
           <FormErrorMessage errors={errors} fieldName="password" />
         </div>
@@ -72,11 +83,10 @@ export function PasswordForm({
           <Field
             label="Confirmation du nouveau mot de passe"
             type="password"
-            name="confirmNewPassword"
-            ref={register({
+            {...register("confirmNewPassword", {
               ...passwordFieldRegistration,
               validate: (value) =>
-                value === watch("password") ||
+                value === watchedPassword ||
                 "Les mots de passe ne correspondent pas.",
             })}
           />
@@ -89,7 +99,7 @@ export function PasswordForm({
           </Link>
         </Inline>
       </Stack>
-      <input type="hidden" name="id" value={user?.id} ref={register} />
+      <input type="hidden" {...register("id")} value={user?.id} />
     </form>
   );
 }

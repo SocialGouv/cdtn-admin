@@ -7,11 +7,11 @@ import { Stack } from "../layout/Stack";
 
 const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
   const {
-    errors,
     handleSubmit,
     register,
     setError,
-    formState: { isSubmitting },
+
+    formState: { isSubmitting, errors },
   } = useForm();
 
   const submit = async ({ email, password }) => {
@@ -19,10 +19,14 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
       const result = await authenticate({ email, password });
       onSuccess(result);
     } catch (err) {
-      setError("password", {
-        message: "Utilisateur ou mot passe incorrect",
-        type: "manual",
-      });
+      setError(
+        "password",
+        {
+          message: "Utilisateur ou mot passe incorrect",
+          type: "manual",
+        },
+        { shouldFocus: true }
+      );
     }
   };
   return (
@@ -42,15 +46,14 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
               sx={{ fontWeight: "body" }}
               label="Adresse email"
               placeholder="ex: lionel@travail.gouv.fr"
-              name="email"
-              type="email"
-              aria-invalid={errors.email ? "true" : "false"}
-              ref={register({
+              {...register("email", {
                 required: {
                   message: "ce champ est requis",
                   value: true,
                 },
               })}
+              type="email"
+              aria-invalid={errors.email ? "true" : "false"}
             />
             {errors.email && (
               <Text role="alert" color="critical">
@@ -60,15 +63,14 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
             <Field
               sx={{ fontWeight: "body" }}
               label="Mot de passe"
-              name="password"
-              type="password"
-              aria-invalid={errors.password ? "true" : "false"}
-              ref={register({
+              {...register("password", {
                 required: {
                   message: "ce champ est requis",
                   value: true,
                 },
               })}
+              type="password"
+              aria-invalid={errors.password ? "true" : "false"}
             />
             {errors.password && (
               <Text role="alert" color="critical">

@@ -19,7 +19,12 @@ export function UserForm({
 }) {
   const [results] = useQuery({ query: getRoleQuery });
   const { data, fetching, error } = results;
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm();
   const hasError = Object.keys(errors).length > 0;
   let buttonLabel = "Créer le compte";
   if (user) {
@@ -32,12 +37,11 @@ export function UserForm({
           <Field
             type="text"
             placeholder="Lionel Bé"
-            name="name"
-            label="Nom d’utilisateur"
-            defaultValue={user?.name}
-            ref={register({
+            {...register("name", {
               required: { message: "Ce champ est requis", value: true },
             })}
+            label="Nom d’utilisateur"
+            defaultValue={user?.name}
           />
           <FormErrorMessage errors={errors} fieldName="name" />
         </div>
@@ -46,12 +50,11 @@ export function UserForm({
             type="text"
             label="Email"
             placeholder="lionel.be@beta.gouv.fr"
-            name="email"
-            defaultValue={user?.email}
-            ref={register({
+            {...register("email", {
               pattern: { message: "L'email est invalide", value: /^\S+@\S+$/i },
               required: { message: "Ce champ est requis", value: true },
             })}
+            defaultValue={user?.email}
           />
           <FormErrorMessage errors={errors} fieldName="email" />
         </div>
@@ -59,9 +62,8 @@ export function UserForm({
           <div>
             <Label>Role</Label>
             <Select
-              name="default_role"
+              {...register("default_role")}
               defaultValue={user?.roles[0].role}
-              ref={register()}
             >
               {!fetching &&
                 !error &&

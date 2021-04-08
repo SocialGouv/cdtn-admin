@@ -38,7 +38,13 @@ mutation EditTerm(
 
 export const TermForm = ({ term = {} }) => {
   const router = useRouter();
-  const { control, register, handleSubmit, errors } = useForm();
+  const {
+    control,
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm();
   const [editResult, editTerm] = useMutation(editTermMutation);
   const [duplicateTermError, setDuplicateTermError] = useState(false);
 
@@ -73,13 +79,12 @@ export const TermForm = ({ term = {} }) => {
         <Box mb="small">
           <Field
             type="text"
-            name="term"
+            {...register("term", {
+              required: { message: "Ce champ est requis", value: true },
+            })}
             label="Terme"
             onChange={() => setDuplicateTermError(false)}
             defaultValue={term.term}
-            ref={register({
-              required: { message: "Ce champ est requis", value: true },
-            })}
           />
           <FormErrorMessage errors={errors} fieldName="term" />
           {duplicateTermError && (
@@ -93,13 +98,12 @@ export const TermForm = ({ term = {} }) => {
             <MarkdownLink />
           </Label>
           <Textarea
-            name="definition"
+            {...register("definition", {
+              required: { message: "Ce champ est requis", value: true },
+            })}
             id="definition"
             rows={5}
             defaultValue={term.definition}
-            ref={register({
-              required: { message: "Ce champ est requis", value: true },
-            })}
           />
         </Box>
 

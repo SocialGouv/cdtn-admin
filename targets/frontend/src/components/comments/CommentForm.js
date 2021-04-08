@@ -31,9 +31,8 @@ export function CommentForm({ onSubmit }) {
           }}
           autoComplete="off"
           type="text"
-          name="comment"
+          {...register("comment", { required: true })}
           placeholder="laisser un commentaire..."
-          ref={register({ required: true })}
         />
         <VisuallyHidden>
           <Button type="submit">Envoyer le commentaire</Button>

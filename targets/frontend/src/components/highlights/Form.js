@@ -18,9 +18,10 @@ const HighlightsForm = ({
   const router = useRouter();
   const {
     control,
-    errors,
     handleSubmit,
-    formState: { isDirty },
+
+    formState: { isDirty, errors },
+
     register,
   } = useForm();
   return (
@@ -33,24 +34,22 @@ const HighlightsForm = ({
         <Box mb="small">
           <Field
             type="text"
-            name="title"
-            label="Nom"
-            defaultValue={content.title}
-            ref={register({
+            {...register("title", {
               required: { message: "Le nom est requis", value: true },
             })}
+            label="Nom"
+            defaultValue={content.title}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
         </Box>
         <Box mb="small">
           <Field
             type="text"
-            name="slug"
-            label="Indentifiant (modifiez le uniquement si vous savez très précisément ce que vous faites)"
-            defaultValue={content.slug}
-            ref={register({
+            {...register("slug", {
               required: { message: "L’identifiant est requis", value: true },
             })}
+            label="Indentifiant (modifiez le uniquement si vous savez très précisément ce que vous faites)"
+            defaultValue={content.slug}
           />
           <FormErrorMessage errors={errors} fieldName="slug" />
         </Box>
