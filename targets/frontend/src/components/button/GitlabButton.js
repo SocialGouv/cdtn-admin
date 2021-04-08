@@ -33,7 +33,7 @@ export function GitlabButton({ env, children }) {
   const client = useClient();
   const { error, data, mutate } = useSWR(pipelineQuery, (query) => {
     return client
-      .query(query, {}, { requestPolicy: "cache-and-network" })
+      .query(query, {}, { requestPolicy: "network-only" })
       .toPromise()
       .then((result) => {
         if (result.error) {
