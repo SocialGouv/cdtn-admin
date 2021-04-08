@@ -1,7 +1,12 @@
 // vectorizer is imported by code-du-travail-api which is using CommonJS, and throwing an exception
 // when requiring code-du-travail-data ES module, thus we keep using CommonJS import here
+const { logger: cdtnLogger } = require("@socialgouv/cdtn-logger");
 const fetch = require("node-fetch");
 const { stopwords: semantic_stopwords } = require("../dataset/stop_words");
+
+const logger = cdtnLogger.createLogger({
+  package: "@socialgouv/cdtn-elasticsearch",
+});
 
 // URL of the TF serve deployment
 const NLP_URL =
@@ -30,7 +35,10 @@ function preprocess(text) {
 }
 
 async function callTFServe(body) {
+  logger.profile("nlp fetch");
+  logger.http({ body, method: "POST" });
   const response = await fetch(tfServeURL, { body, method: "POST" });
+  logger.profile("nlp fetch");
   if (response.ok) {
     const json = await response.json();
     return json["outputs"];

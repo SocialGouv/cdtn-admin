@@ -1,5 +1,4 @@
 const { logger } = require("@socialgouv/cdtn-logger");
-
 const { analyzer, char_filter, filter, tokenizer } = require("./analysis");
 
 async function createIndex({ client, indexName, mappings }) {
