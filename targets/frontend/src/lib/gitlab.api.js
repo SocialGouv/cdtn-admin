@@ -7,7 +7,8 @@ const projectId = process.env.GITLAB_PROJECT_ID;
 const accessToken = process.env.GITLAB_ACCESS_TOKEN;
 const token = process.env.GITLAB_TRIGGER_TOKEN;
 
-const version = process.env.VERSION;
+const version =
+  process.env.VERSION || `v${require("../../package.json").version}`;
 
 export function getPipelines(ref = version, since) {
   if (!since) {
