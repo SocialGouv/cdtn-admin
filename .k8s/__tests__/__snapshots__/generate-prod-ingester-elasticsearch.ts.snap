@@ -119,7 +119,7 @@ spec:
                 name: ingester-elasticsearch-to-preprod
           env:
             - name: ES_INDEX_PREFIX
-              value: cdtn-preprod-v1.2.3
+              value: cdtn-preprod-v1
       restartPolicy: Never
   ttlSecondsAfterFinished: 86400
 "
@@ -245,7 +245,7 @@ spec:
                 name: ingester-elasticsearch-to-prod
           env:
             - name: ES_INDEX_PREFIX
-              value: cdtn-prod-v1.2.3
+              value: cdtn-prod-v1
       restartPolicy: Never
   ttlSecondsAfterFinished: 86400
 "

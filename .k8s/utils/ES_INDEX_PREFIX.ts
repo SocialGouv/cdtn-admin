@@ -7,11 +7,16 @@ if (process.env.CI_COMMIT_REF_SLUG === "master") {
 }
 
 const target = process.env.INGESTER_ELASTICSEARCH_TARGET;
-
-if (target === "preprod") {
-  ES_INDEX_PREFIX = `cdtn-preprod-${process.env.CI_COMMIT_TAG}`;
-} else if (target === "prod") {
-  ES_INDEX_PREFIX = `cdtn-prod-${process.env.CI_COMMIT_TAG}`;
+if (process.env.CI_COMMIT_TAG) {
+  const matchVersion = process.env.CI_COMMIT_TAG.match(/^(v\d)+\.(\d+)\.(\d+)/);
+  if (matchVersion) {
+    const [, major] = matchVersion;
+    if (target === "preprod") {
+      ES_INDEX_PREFIX = `cdtn-preprod-${major}`;
+    } else if (target === "prod") {
+      ES_INDEX_PREFIX = `cdtn-prod-${major}`;
+    }
+  }
 }
 
 export { ES_INDEX_PREFIX };
