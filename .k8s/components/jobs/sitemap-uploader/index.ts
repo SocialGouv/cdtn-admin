@@ -19,13 +19,11 @@ ok(target, "Missing SITEMAP_UPLOADER_TARGET");
 const AZ_DOCKER_TAG = "2.9.1";
 
 const uploadSitemapScript = `
-echo "Fetch sitemap from $SITEMAP_ENDPOINT"
+echo "Fetch sitemap from $SITEMAP_ENDPOINT?baseurl=$BASE_URL"
 
-curl --fail -L $SITEMAP_ENDPOINT -o sitemap.xml
+curl --fail -L $SITEMAP_ENDPOINT?baseurl=$BASE_URL -o sitemap.xml
 
 if [[ -f sitemap.xml ]]; then
-  # replace the default urls hostname if $BASE_URL is given
-  [[ -n $BASE_URL ]] && sed -i -E 's#<loc>https?://[^/]*/#<loc>'$BASE_URL'/#' sitemap.xml
   # upload
   echo "Upload sitemap to azure/$DESTINATION_CONTAINER/$DESTINATION_NAME"
   az storage blob upload --account-name $AZ_ACCOUNT_NAME --account-key $AZ_ACCOUNT_KEY --container-name $DESTINATION_CONTAINER --file sitemap.xml --name $DESTINATION_NAME
