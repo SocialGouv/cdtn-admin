@@ -11,6 +11,9 @@ const basePath = "";
 module.exports = withTM(
   withSourceMaps({
     basePath,
+    future: {
+      webpack5: true,
+    },
     serverRuntimeConfig: {
       rootDir: __dirname,
     },
