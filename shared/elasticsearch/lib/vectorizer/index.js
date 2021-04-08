@@ -4,7 +4,7 @@ const { logger: cdtnLogger } = require("@socialgouv/cdtn-logger");
 const fetch = require("node-fetch");
 const { stopwords: semantic_stopwords } = require("../dataset/stop_words");
 
-const logger = cdtnLogger.createLogger({
+const logger = cdtnLogger.child({
   package: "@socialgouv/cdtn-elasticsearch",
 });
 
