@@ -129,7 +129,7 @@ data:
   BASE_URL: https://cdtn-preprod-code-travail.dev2.fabrique.social.gouv.fr
   DESTINATION_CONTAINER: sitemap
   DESTINATION_NAME: sitemap-preprod.xml
-  SITEMAP_ENDPOINT: https://cdtn-admin.fabrique.social.gouv.fr
+  SITEMAP_ENDPOINT: http://www/api/sitemap
 "
 `;
 
@@ -262,6 +262,6 @@ data:
   BASE_URL: https://code.travail.gouv.fr
   DESTINATION_CONTAINER: sitemap
   DESTINATION_NAME: sitemap.xml
-  SITEMAP_ENDPOINT: https://cdtn-admin.fabrique.social.gouv.fr
+  SITEMAP_ENDPOINT: http://www/api/sitemap
 "
 `;
