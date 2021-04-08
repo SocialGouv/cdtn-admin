@@ -80,11 +80,11 @@ const job = new Job({
             resources: {
               limits: {
                 cpu: "2",
-                memory: "1Gi",
+                memory: "2Gi",
               },
               requests: {
                 cpu: "1",
-                memory: "512Mi",
+                memory: "1Gi",
               },
             },
             envFrom: [
