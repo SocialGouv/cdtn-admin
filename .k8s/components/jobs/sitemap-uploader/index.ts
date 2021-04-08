@@ -99,10 +99,14 @@ const job = new Job({
             command: ["bash"],
             args: ["-c", uploadSitemapScript],
             env: [
-              {
-                name: "BASE_URL",
-                value: env.BASE_URL || process.env.BASE_URL,
-              },
+              ...(env.BASE_URL
+                ? [
+                    {
+                      name: "BASE_URL",
+                      value: env.BASE_URL,
+                    },
+                  ]
+                : []),
             ],
             envFrom: [
               {
