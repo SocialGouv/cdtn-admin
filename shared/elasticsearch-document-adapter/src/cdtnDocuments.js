@@ -1,4 +1,4 @@
-import { logger } from "@socialgouv/cdtn-logger";
+import { logger as cdtnLogger } from "@socialgouv/cdtn-logger";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
 
@@ -13,6 +13,10 @@ import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
 import { markdownTransform } from "./markdown";
 import { getVersions } from "./versions";
+
+const logger = cdtnLogger.child({
+  package: "@shared/elasticsearch-document-adapter",
+});
 
 const CDTN_ADMIN_ENDPOINT =
   process.env.CDTN_ADMIN_ENDPOINT || "http://localhost:8080/v1/graphql";
@@ -83,6 +87,7 @@ export async function* cdtnDocumentsGen() {
   const glossaryTerms = await getGlossary();
   const addGlossary = createGlossaryTransform(glossaryTerms);
 
+  logger.profile("=== Editorial contents ===");
   logger.info("=== Editorial contents ===");
   const documents = await getDocumentBySource(
     SOURCES.EDITORIAL_CONTENT,
@@ -92,25 +97,33 @@ export async function* cdtnDocumentsGen() {
     documents: markdownTransform(addGlossary, documents),
     source: SOURCES.EDITORIAL_CONTENT,
   };
+  logger.profile("=== Editorial contents ===");
 
+  logger.profile("=== Courriers ===");
   logger.info("=== Courriers ===");
   yield {
     documents: await getDocumentBySource(SOURCES.LETTERS, getBreadcrumbs),
     source: SOURCES.LETTERS,
   };
+  logger.profile("=== Courriers ===");
 
+  logger.profile("=== Outils ===");
   logger.info("=== Outils ===");
   yield {
     documents: await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs),
     source: SOURCES.TOOLS,
   };
+  logger.profile("=== Outils ===");
 
+  logger.profile("=== Outils externes ===");
   logger.info("=== Outils externes ===");
   yield {
     documents: await getDocumentBySource(SOURCES.EXTERNALS, getBreadcrumbs),
     source: SOURCES.EXTERNALS,
   };
+  logger.profile("=== Outils externes ===");
 
+  logger.profile("=== Dossiers ===");
   logger.info("=== Dossiers ===");
   yield {
     documents: await getDocumentBySource(
@@ -119,13 +132,17 @@ export async function* cdtnDocumentsGen() {
     ),
     source: SOURCES.THEMATIC_FILES,
   };
+  logger.profile("=== Dossiers ===");
 
+  logger.profile("=== Code du travail ===");
   logger.info("=== Code du travail ===");
   yield {
     documents: await getDocumentBySource(SOURCES.CDT),
     source: SOURCES.CDT,
   };
+  logger.profile("=== Code du travail ===");
 
+  logger.profile("=== Contributions ===");
   logger.info("=== Contributions ===");
   const contributions = await getDocumentBySource(
     SOURCES.CONTRIBUTIONS,
@@ -170,7 +187,9 @@ export async function* cdtnDocumentsGen() {
     ),
     source: SOURCES.CONTRIBUTIONS,
   };
+  logger.profile("=== Contributions ===");
 
+  logger.profile("=== Conventions Collectives ===");
   logger.info("=== Conventions Collectives ===");
   const ccnQR =
     "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";
@@ -204,13 +223,17 @@ export async function* cdtnDocumentsGen() {
     }),
     source: SOURCES.CCN,
   };
+  logger.profile("=== Conventions Collectives ===");
 
+  logger.profile("=== Fiches SP ===");
   logger.info("=== Fiches SP ===");
   yield {
     documents: await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs),
     source: SOURCES.SHEET_SP,
   };
+  logger.profile("=== Fiches SP ===");
 
+  logger.profile("=== page fiches travail ===");
   logger.info("=== page fiches travail ===");
   const fichesMT = await getDocumentBySource(
     SOURCES.SHEET_MT_PAGE,
@@ -230,7 +253,9 @@ export async function* cdtnDocumentsGen() {
     })),
     source: SOURCES.SHEET_MT_PAGE,
   };
+  logger.profile("=== page fiches travail ===");
 
+  logger.profile("=== Fiche MT(split) ===");
   logger.info("=== Fiche MT(split) ===");
   const splittedFiches = fichesMT.flatMap(splitArticle);
   yield {
@@ -248,13 +273,17 @@ export async function* cdtnDocumentsGen() {
     }),
     source: SOURCES.SHEET_MT,
   };
+  logger.profile("=== Fiche MT(split) ===");
 
+  logger.profile("=== Themes ===");
   logger.info("=== Themes ===");
   yield {
     documents: buildThemes(themes, getBreadcrumbs),
     source: SOURCES.THEMES,
   };
+  logger.profile("=== Themes ===");
 
+  logger.profile("=== Highlights ===");
   logger.info("=== Highlights ===");
   yield {
     documents: await getDocumentBySourceWithRelation(
@@ -263,7 +292,9 @@ export async function* cdtnDocumentsGen() {
     ),
     source: SOURCES.HIGHLIGHTS,
   };
+  logger.profile("=== Highlights ===");
 
+  logger.profile("=== PreQualified Request ===");
   logger.info("=== PreQualified Request ===");
   yield {
     documents: await getDocumentBySourceWithRelation(
@@ -272,7 +303,9 @@ export async function* cdtnDocumentsGen() {
     ),
     source: SOURCES.PREQUALIFIED,
   };
+  logger.profile("=== PreQualified Request ===");
 
+  logger.profile("=== glossary ===");
   logger.info("=== glossary ===");
   yield {
     documents: [
@@ -283,7 +316,9 @@ export async function* cdtnDocumentsGen() {
     ],
     source: SOURCES.GLOSSARY,
   };
+  logger.profile("=== glossary ===");
 
+  logger.profile("=== data version ===");
   logger.info("=== data version ===");
   yield {
     documents: [
@@ -294,4 +329,5 @@ export async function* cdtnDocumentsGen() {
     ],
     source: SOURCES.VERSIONS,
   };
+  logger.profile("=== data version ===");
 }
