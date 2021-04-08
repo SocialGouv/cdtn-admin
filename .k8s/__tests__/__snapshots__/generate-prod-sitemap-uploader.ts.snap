@@ -108,6 +108,28 @@ spec:
         team: cdtn-admin
         app: sitemap-uploader-preprod
     type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sitemap-uploader-preprod
+  namespace: cdtn-admin
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: sitemap-uploader-preprod
+data:
+  BASE_URL: https://cdtn-preprod-code-travail.dev2.fabrique.social.gouv.fr
+  DESTINATION_CONTAINER: sitemap
+  DESTINATION_NAME: sitemap-preprod.xml
+  SITEMAP_ENDPOINT: https://cdtn-admin.fabrique.social.gouv.fr
 "
 `;
 
@@ -219,5 +241,27 @@ spec:
         team: cdtn-admin
         app: sitemap-uploader-prod
     type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sitemap-uploader-prod
+  namespace: cdtn-admin
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+  labels:
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    app: sitemap-uploader-prod
+data:
+  BASE_URL: https://code.travail.gouv.fr
+  DESTINATION_CONTAINER: sitemap
+  DESTINATION_NAME: sitemap.xml
+  SITEMAP_ENDPOINT: https://cdtn-admin.fabrique.social.gouv.fr
 "
 `;

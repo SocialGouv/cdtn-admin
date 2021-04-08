@@ -125,4 +125,4 @@ const job = new Job({
   },
 });
 
-export default [job, secret];
+export default [job, secret, configMap];
