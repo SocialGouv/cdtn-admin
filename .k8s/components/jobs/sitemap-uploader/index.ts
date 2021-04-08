@@ -101,7 +101,7 @@ const job = new Job({
             env: [
               {
                 name: "BASE_URL",
-                value: process.env.BASE_URL || env.BASE_URL,
+                value: env.BASE_URL || process.env.BASE_URL,
               },
             ],
             envFrom: [
