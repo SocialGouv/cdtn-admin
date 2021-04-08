@@ -60,8 +60,7 @@ spec:
                 exit 1
               fi
 
-          env:
-            - name: BASE_URL
+          env: []
           envFrom:
             - configMapRef:
                 name: sitemap-uploader-preprod
@@ -191,8 +190,7 @@ spec:
                 exit 1
               fi
 
-          env:
-            - name: BASE_URL
+          env: []
           envFrom:
             - configMapRef:
                 name: sitemap-uploader-prod

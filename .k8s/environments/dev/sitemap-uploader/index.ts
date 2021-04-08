@@ -17,4 +17,6 @@ BASE_URL = https://xxx-code-travail.dev2.fabrique.social.gouv.fr/
 
 `
 );
-export default {};
+export default {
+  BASE_URL: process.env.BASE_URL,
+};
