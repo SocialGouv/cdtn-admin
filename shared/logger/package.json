@@ -36,6 +36,9 @@
   },
   "license": "Apache-2.0",
   "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
   "repository": {
     "directory": "shared/logger",
     "type": "git",
