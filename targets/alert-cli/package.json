@@ -1,8 +1,8 @@
 {
   "name": "alert-cli",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "dependencies": {
-    "@shared/graphql-client": "^1.1.0",
+    "@shared/graphql-client": "^1.1.1",
     "@socialgouv/cdtn-slugify": "^4.45.0",
     "@socialgouv/cdtn-sources": "^4.45.0",
     "memoizee": "^0.4.15",
@@ -15,7 +15,7 @@
   "devDependencies": {
     "@babel/core": "^7.13.14",
     "@babel/preset-env": "^7.13.12",
-    "@shared/types": "^1.1.0",
+    "@shared/types": "^1.1.1",
     "@socialgouv/contributions-data-types": "^3.20.0",
     "@socialgouv/eslint-config-recommended": "^1.64.0",
     "@socialgouv/fiches-travail-data-types": "^4.111.0",
