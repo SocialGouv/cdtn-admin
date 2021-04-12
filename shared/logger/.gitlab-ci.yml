@@ -6,6 +6,12 @@
   extends:
     - .autodevops_install
     - .cdtn_base_rules
+  rules:
+    - if: $PRODUCTION
+      when: never
+    - if: $TRIGGER && $TRIGGER != "RELEASE"
+      when: never
+    - when: on_success
   stage: .pre
   needs: []
   image: node:14.16.0-alpine3.11
