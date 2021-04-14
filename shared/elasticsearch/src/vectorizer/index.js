@@ -1,6 +1,6 @@
 // vectorizer is imported by code-du-travail-api which is using CommonJS, and throwing an exception
 // when requiring code-du-travail-data ES module, thus we keep using CommonJS import here
-const fetch = require("node-fetch");
+const got = require("got");
 const { stopwords: semantic_stopwords } = require("../dataset/stop_words");
 
 // URL of the TF serve deployment
@@ -16,6 +16,8 @@ function stripAccents(text) {
 
 const stopWords = new Set(semantic_stopwords.map(stripAccents));
 
+const cache = new Map();
+
 function preprocess(text) {
   const stripped = stripAccents(text);
 
@@ -29,14 +31,14 @@ function preprocess(text) {
   return noStopWords.join(" ");
 }
 
-async function callTFServe(body) {
-  const response = await fetch(tfServeURL, { body, method: "POST" });
-  if (response.ok) {
-    const json = await response.json();
-    return json["outputs"];
-  } else {
-    throw new Error(response.statusText);
-  }
+async function callTFServe(json) {
+  const { body } = await got(tfServeURL, {
+    cache,
+    json,
+    responseType: "json",
+    retry: 5,
+  });
+  return body["outputs"];
 }
 
 async function vectorizeDocument(title, content) {
@@ -47,10 +49,10 @@ async function vectorizeDocument(title, content) {
   const input = [preprocess(title)];
   const context = content ? [preprocess(content)] : "";
 
-  const body = JSON.stringify({
+  const body = {
     inputs: { context, input },
     signature_name: "response_encoder",
-  });
+  };
   const vectors = await callTFServe(body);
   return vectors[0];
 }
@@ -61,10 +63,10 @@ async function vectorizeQuery(query) {
   }
 
   const inputs = [preprocess(query)];
-  const body = JSON.stringify({
+  const body = {
     inputs,
     signature_name: "question_encoder",
-  });
+  };
   const vectors = await callTFServe(body);
   return vectors[0];
 }

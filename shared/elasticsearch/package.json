@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@socialgouv/cdtn-logger": "^1.1.2",
-    "node-fetch": "^2.6.1"
+    "got": "^11.8.2"
   },
   "license": "Apache-2.0",
   "main": "src/index.js",
