@@ -120,12 +120,6 @@ export async function* cdtnDocumentsGen() {
     source: SOURCES.THEMATIC_FILES,
   };
 
-  logger.info("=== Code du travail ===");
-  yield {
-    documents: await getDocumentBySource(SOURCES.CDT),
-    source: SOURCES.CDT,
-  };
-
   logger.info("=== Contributions ===");
   const contributions = await getDocumentBySource(
     SOURCES.CONTRIBUTIONS,
@@ -282,6 +276,12 @@ export async function* cdtnDocumentsGen() {
       },
     ],
     source: SOURCES.GLOSSARY,
+  };
+
+  logger.info("=== Code du travail ===");
+  yield {
+    documents: await getDocumentBySource(SOURCES.CDT),
+    source: SOURCES.CDT,
   };
 
   logger.info("=== data version ===");

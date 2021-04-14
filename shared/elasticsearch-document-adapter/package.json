@@ -18,7 +18,6 @@
     "memoizee": "^0.4.15",
     "node-fetch": "^2.6.1",
     "p-queue": "^6.6.2",
-    "p-retry": "^4.5.0",
     "rehype-raw": "^5.1.0",
     "rehype-stringify": "^8.0.0",
     "remark-parse": "^9.0.0",

@@ -24,6 +24,7 @@
     "prepush": "yarn build",
     "precommit": "lint-staged",
     "start": "node --enable-source-maps --unhandled-rejections=strict bin/index.js",
+    "start:dev": "ncc run ./src/cli.ts",
     "test": "yarn types",
     "types": "tsc"
   },
