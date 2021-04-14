@@ -32,11 +32,11 @@ function preprocess(text) {
 }
 
 async function callTFServe(json) {
-  const { body } = await got(tfServeURL, {
+  const { body } = await got.post(tfServeURL, {
     cache,
     json,
     responseType: "json",
-    retry: 5,
+    retry: 15,
   });
   return body["outputs"];
 }

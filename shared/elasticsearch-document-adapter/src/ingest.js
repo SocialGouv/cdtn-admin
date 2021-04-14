@@ -12,7 +12,6 @@ import {
 import { logger } from "@socialgouv/cdtn-logger";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import PQueue from "p-queue";
-import retry from "p-retry";
 
 import { cdtnDocumentsGen } from "./cdtnDocuments";
 import { fetchCovisits } from "./monolog";
@@ -44,12 +43,12 @@ async function addVector(data) {
     await vectorizeDocument(title, data.text)
       .then((title_vector) => {
         if (title_vector.message) {
-          throw new Error(`error fetching ${data.title}`);
+          throw new Error(`error fetching message ${data.title}`);
         }
         data.title_vector = title_vector;
       })
       .catch((err) => {
-        logger.error(`error fetching ${data.title}`, err.message);
+        logger.error(`${data.title} (${err.retryCount} times)`, err);
       });
   }
 
@@ -102,7 +101,7 @@ export async function injest() {
     // add NLP vectors
     if (!excludeSources.includes(source)) {
       const pDocs = covisitDocuments.map((doc) =>
-        nlpQueue.add(() => retry(() => addVector(doc), { retries: 3 }))
+        nlpQueue.add(() => addVector(doc))
       );
       covisitDocuments = await Promise.all(pDocs);
       await nlpQueue.onIdle();
