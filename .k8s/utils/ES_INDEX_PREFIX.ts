@@ -1,4 +1,4 @@
-const packageVersion = require("../../shared/elasticsearch/package.json")
+const packageVersion = require("../../package.json")
   .version;
 const [, major] = packageVersion.match(/^(?:\^|~)?(\d+)/);
 
