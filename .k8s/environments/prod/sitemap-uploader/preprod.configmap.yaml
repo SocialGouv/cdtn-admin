@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: sitemap-uploader-preprod
 data:
-  BASE_URL: "https://cdtn-preprod-code-travail.dev2.fabrique.social.gouv.fr"
+  BASE_URL: "https://preprod-code-travail.dev2.fabrique.social.gouv.fr"
   DESTINATION_CONTAINER: "sitemap"
   DESTINATION_NAME: "sitemap-preprod.xml"
   SITEMAP_ENDPOINT: "http://www/api/sitemap"
