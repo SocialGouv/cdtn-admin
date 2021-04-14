@@ -29,7 +29,11 @@ export async function auth(ctx) {
   }
 
   const cookieHeader = ctx?.req ? { Cookie: ctx.req.headers.cookie } : {};
-  if (ctx?.req && !/refresh_token/.test(cookieHeader.Cookie)) {
+  if (
+    ctx?.res &&
+    !ctx.res.writableEnded &&
+    !/refresh_token/.test(cookieHeader.Cookie)
+  ) {
     console.log("[ auth ] no cookie found -> redirect to login");
     ctx.res.writeHead(302, { Location: "/login" });
     ctx.res.end();
