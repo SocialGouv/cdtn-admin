@@ -126,7 +126,7 @@ spec:
                 name: ingester-elasticsearch-to-dev
           env:
             - name: ES_INDEX_PREFIX
-              value: cdtn-master
+              value: cdtn-master-v1
       restartPolicy: Never
   ttlSecondsAfterFinished: 86400
 "

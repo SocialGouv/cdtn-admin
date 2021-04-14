@@ -1,9 +1,15 @@
-let ES_INDEX_PREFIX =
-  process.env.ES_INDEX_PREFIX ??
-  `cdtn-feature-${process.env.CI_ENVIRONMENT_SLUG}`;
+const packageVersion = require("../../shared/elasticsearch/package.json")
+  .version;
+const [, major] = packageVersion.match(/^(?:\^|~)?(\d+)/);
+
+let ES_INDEX_PREFIX = `cdtn-feature-v${major}-${process.env.CI_ENVIRONMENT_SLUG}`;
 
 if (process.env.CI_COMMIT_REF_SLUG === "master") {
-  ES_INDEX_PREFIX = "cdtn-master";
+  ES_INDEX_PREFIX = `cdtn-master-v${major}`;
+}
+
+if (process.env.ES_INDEX_PREFIX) {
+  ES_INDEX_PREFIX = process.env.ES_INDEX_PREFIX;
 }
 
 const target = process.env.INGESTER_ELASTICSEARCH_TARGET;
