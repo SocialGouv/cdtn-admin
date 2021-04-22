@@ -1,7 +1,7 @@
 include:
   - project: SocialGouv/gitlab-ci-yml
     file: /base_autodevops.yml
-    ref: v21.0.1
+    ref: v21.0.2
 
   #
   - /shared/logger/.gitlab-ci.yml
