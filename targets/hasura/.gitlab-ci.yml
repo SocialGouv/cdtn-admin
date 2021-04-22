@@ -20,6 +20,7 @@
     - .base_deploy_kosko_stage
     - .cdtn_base_rules
   stage: .post
+  when: manual
   cache:
     key:
       files:
