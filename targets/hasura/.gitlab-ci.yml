@@ -20,6 +20,12 @@
     - .base_deploy_kosko_stage
     - .cdtn_base_rules
   stage: .post
+  rules:
+    - if: $PRODUCTION || $TRIGGER
+      when: never
+    - if: $CI_COMMIT_MESSAGE =~ /^chore(release):*/
+      when: never
+    - when: manual
   cache:
     key:
       files:
