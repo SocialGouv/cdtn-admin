@@ -44,11 +44,6 @@ export default async function updateDocument(req, res) {
   }
 
   const { cdtnId, document, source } = req.body.input;
-  console.log({
-    ACTIONS_SECRET: process.env.ACTIONS_SECRET,
-    ELASTICSEARCH_TOKEN_UPDATE: process.env.ELASTICSEARCH_TOKEN_UPDATE,
-    ELASTICSEARCH_URL: process.env.ELASTICSEARCH_URL,
-  });
   if (
     req.headers["actions-secret"] !== process.env.ACTIONS_SECRET ||
     !process.env.ELASTICSEARCH_TOKEN_UPDATE ||
