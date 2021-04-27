@@ -50,11 +50,7 @@ export default async function updateDocument(req, res) {
     !process.env.ELASTICSEARCH_TOKEN_UPDATE ||
     !process.env.ELASTICSEARCH_URL
   ) {
-    if (req.headers["actions-secret"] !== process.env.ACTIONS_SECRET)
-      console.error("actions-secret not match");
-    if (!process.env.ELASTICSEARCH_TOKEN_UPDATE)
-      console.error("no ELASTICSEARCH_TOKEN_UPDATE");
-    if (!process.env.ELASTICSEARCH_URL) console.error("no ELASTICSEARCH_URL");
+    console.error("Missng secret or env");
     return res.status(403).json({
       error: "Forbidden",
       message: "Missing secret or env",
