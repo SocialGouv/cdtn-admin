@@ -10,7 +10,6 @@ import { getExpiryDate } from "src/lib/duration";
 import { loginQuery, refreshTokenMutation } from "./login.gql";
 
 export default async function login(req, res) {
-  console.log({ REFRESH_TOKEN_EXPIRES: process.env.REFRESH_TOKEN_EXPIRES });
   const apiError = createErrorFor(res);
 
   if (req.method === "GET") {

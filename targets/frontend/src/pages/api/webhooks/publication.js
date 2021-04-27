@@ -3,6 +3,8 @@ import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
 import { createErrorFor } from "src/lib/apiError";
 
+import { majorIndexVersion } from "../actions/preview";
+
 export default async function (req, res) {
   const apiError = createErrorFor(res);
 
@@ -60,7 +62,7 @@ export default async function (req, res) {
         doc: { isPublished: is_published },
       },
       id: cdtn_id,
-      index: `cdtn-preprod_documents`,
+      index: `cdtn-preprod-v${majorIndexVersion}_documents`,
     });
     res.json({ message: "doc updated!" });
   } catch (response) {
