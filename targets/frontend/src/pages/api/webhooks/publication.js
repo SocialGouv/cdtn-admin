@@ -6,7 +6,7 @@ import { createErrorFor } from "src/lib/apiError";
 export default async function (req, res) {
   const apiError = createErrorFor(res);
 
-  if (req.headers["actions-secret"] !== process.env.ACTIONS_SECRET) {
+  if (req.headers["publication-secret"] !== process.env.PUBLICATION_SECRET) {
     return apiError(Boom.unauthorized("Invalid secret token"));
   }
 
