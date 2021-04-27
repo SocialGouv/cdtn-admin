@@ -5,10 +5,11 @@ import { createErrorFor } from "src/lib/apiError";
 
 import { majorIndexVersion } from "../actions/preview";
 
-export default async function (req, res) {
+export default async function publishDocument(req, res) {
   const apiError = createErrorFor(res);
 
   if (req.headers["publication-secret"] !== process.env.PUBLICATION_SECRET) {
+    console.error("[publishDocument] Invalid secret token");
     return apiError(Boom.unauthorized("Invalid secret token"));
   }
 
@@ -16,6 +17,7 @@ export default async function (req, res) {
     !process.env.ELASTICSEARCH_TOKEN_UPDATE ||
     !process.env.ELASTICSEARCH_URL
   ) {
+    console.error("[publishDocument] Missing env");
     res.status(304).json({ message: "not modified" });
   }
 
@@ -44,6 +46,7 @@ export default async function (req, res) {
   const { error, value } = schema.validate(req.body);
 
   if (error) {
+    console.error(`[publishDocument] ${error.details[0].message}`);
     return apiError(Boom.badRequest(error.details[0].message));
   }
   const { data } = value.event;
@@ -64,13 +67,22 @@ export default async function (req, res) {
       id: cdtn_id,
       index: `cdtn-preprod-v${majorIndexVersion}_documents`,
     });
-    res.json({ message: "doc updated!" });
+    console.log(
+      `[publishDocument] ${
+        is_published ? "published" : "unpublish"
+      } document ${cdtn_id}`
+    );
+    res.json({
+      message: `${
+        is_published ? "published" : "unpublish"
+      } document ${cdtn_id}`,
+    });
   } catch (response) {
     if (response.body) {
-      console.error(response.body.error);
+      console.error("[webhook] update publication status", response.body.error);
     } else {
-      console.error(response);
+      console.error("[webhook] update publication status", response);
     }
-    res.status(response.statusCode).json({ message: response.body.error });
+    apiError(Boom.badGateway(`[webhook] can't update publication status`));
   }
 }

@@ -38,25 +38,26 @@ export const [
 ] = require("../../../../package.json").version.split(".");
 
 export default async function updateDocument(req, res) {
-  console.log("update document", req.body.input.cdtnId);
   if (req.method === "GET") {
+    console.error("[updateDocument] GET method not allowed");
     res.setHeader("Allow", ["POST"]);
     return apiError(Boom.methodNotAllowed("GET method not allowed"));
   }
 
-  const { cdtnId, document, source } = req.body.input;
+  if (req.headers["actions-secret"] !== process.env.ACTIONS_SECRET) {
+    console.error("[updateDocument] Invalid secret token");
+    return apiError(Boom.unauthorized("Invalid secret token"));
+  }
+
   if (
-    req.headers["actions-secret"] !== process.env.ACTIONS_SECRET ||
     !process.env.ELASTICSEARCH_TOKEN_UPDATE ||
     !process.env.ELASTICSEARCH_URL
   ) {
-    console.error("Missng secret or env");
-    return res.status(403).json({
-      error: "Forbidden",
-      message: "Missing secret or env",
-      statusCode: "403",
-    });
+    console.error("[updateDocument] Missing env");
+    return apiError(Boom.forbidden("Missing env"));
   }
+
+  const { cdtnId, document, source } = req.body.input;
 
   const glossary = await fetchGlossary();
 
@@ -76,18 +77,24 @@ export default async function updateDocument(req, res) {
       index: `cdtn-preprod-v${majorIndexVersion}_documents`,
     });
     console.log(
-      `update document in index cdtn-preprod-v${majorIndexVersion}_documents`
+      `[actions] update document ${cdtnId} in index cdtn-preprod-v${majorIndexVersion}_documents`
     );
     res.json({ message: "doc updated!", statusCode: 200 });
   } catch (response) {
     if (response.body) {
-      console.error(response.body.error);
+      console.error(
+        `[actions] update document ${cdtnId} for preview failed`,
+        response.body.error
+      );
     } else {
-      console.error(response);
+      console.error(
+        `[actions] update ${cdtnId} document for preview failed`,
+        response
+      );
     }
-    res
-      .status(response.statusCode)
-      .json({ message: response.body.error, statusCode: response.statusCode });
+    apiError(
+      Boom.badGateway(`[actions] update document ${cdtnId} for preview failed`)
+    );
   }
 }
 
