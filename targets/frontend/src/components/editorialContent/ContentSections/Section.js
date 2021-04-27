@@ -83,10 +83,9 @@ const RootSection = ({
             {numberOfBlocks > 1 && <DragHandle />}
             <Box mx="small" my="0" sx={{ flex: "1 0 auto" }}>
               <Field
-                name={`${name}.title`}
                 label="Titre de la section"
                 defaultValue={block.title}
-                ref={register({
+                {...register(`${name}.title`, {
                   required: {
                     message: "Le titre de la section est requis",
                     value: true,
@@ -131,10 +130,9 @@ const RootSection = ({
                     Mardown{" "}
                     <Radio
                       sx={{ ml: "xxsmall" }}
-                      name={`${name}.type`}
                       value={TYPES.MARKDOWN}
                       defaultChecked={block.type === TYPES.MARKDOWN}
-                      ref={register({
+                      {...register(`${name}.type`, {
                         required: {
                           message: "Il faut choisir le type de section",
                           value: true,
@@ -154,10 +152,9 @@ const RootSection = ({
                     Graphique{" "}
                     <Radio
                       ml="xxsmall"
-                      name={`${name}.type`}
                       value={TYPES.GRAPHIC}
                       defaultChecked={block.type === TYPES.GRAPHIC}
-                      ref={register({
+                      {...register(`${name}.type`, {
                         required: {
                           message: "Il faut choisir le type de section",
                           value: true,
@@ -190,10 +187,9 @@ const RootSection = ({
                 <>
                   <div>
                     <Field
-                      name={`${name}.imgUrl`}
                       label="Lien de l’image"
                       defaultValue={block.imgUrl}
-                      ref={register({
+                      {...register(`${name}.imgUrl`, {
                         required: {
                           message: "L’url de l’image est requise",
                           value: true,
@@ -204,10 +200,9 @@ const RootSection = ({
                   </div>
                   <div>
                     <Field
-                      name={`${name}.altText`}
                       label="Brève description de l’image"
                       defaultValue={block.altText}
-                      ref={register({
+                      {...register(`${name}.altText`, {
                         required: {
                           message:
                             "La brève description de l’image est requise",
@@ -219,10 +214,9 @@ const RootSection = ({
                   </div>
                   <div>
                     <Field
-                      name={`${name}.fileUrl`}
                       label="Lien du pdf"
                       defaultValue={block.fileUrl}
-                      ref={register({
+                      {...register(`${name}.fileUrl`, {
                         required: {
                           message: "L’url du pdf est requise",
                           value: true,
@@ -233,10 +227,9 @@ const RootSection = ({
                   </div>
                   <div>
                     <Field
-                      name={`${name}.size`}
                       label="Taille du pdf"
                       defaultValue={block.size}
-                      ref={register({
+                      {...register(`${name}.size`, {
                         required: {
                           message: "La taille du pdf est requise",
                           value: true,
@@ -253,11 +246,10 @@ const RootSection = ({
                   <MarkdownLink />
                 </Label>
                 <Textarea
-                  name={`${name}.markdown`}
                   id={`${name}.markdown`}
                   rows={10}
                   defaultValue={block.markdown}
-                  ref={register({
+                  {...register(`${name}.markdown`, {
                     required: {
                       message: "Ce champ est requis",
                       value: true,

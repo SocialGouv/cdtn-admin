@@ -10,8 +10,8 @@ function ThemePicker({ ...props }) {
     <Controller
       {...props}
       // eslint-disable-next-line no-unused-vars
-      render={({ ref, ...renderProps }) => {
-        if (renderProps.value) {
+      render={({ field }) => {
+        if (field.value) {
           return (
             <Alert
               variant="highlight"
@@ -30,18 +30,18 @@ function ThemePicker({ ...props }) {
                   whiteSpace: "nowrap",
                 }}
               >
-                {renderProps.value.title}
+                {field.value.title}
               </Text>
               <Close
                 sx={{ position: "absolute", right: 0 }}
                 onClick={() => {
-                  renderProps.onChange("");
+                  field.onChange("");
                 }}
               />
             </Alert>
           );
         }
-        return <ThemeSearch {...renderProps} />;
+        return <ThemeSearch {...field} />;
       }}
     />
   );

@@ -24,6 +24,7 @@ const HighlightsForm = ({
 
     register,
   } = useForm();
+  console.log(content.contentRelations);
   return (
     <form
       onSubmit={handleSubmit((values) =>
