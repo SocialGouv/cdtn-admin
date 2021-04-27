@@ -38,6 +38,7 @@ export const [
 ] = require("../../../../package.json").version.split(".");
 
 export default async function updateDocument(req, res) {
+  console.log("update document", req.body.input.cdtnId);
   if (req.method === "GET") {
     res.setHeader("Allow", ["POST"]);
     return apiError(Boom.methodNotAllowed("GET method not allowed"));
@@ -49,6 +50,11 @@ export default async function updateDocument(req, res) {
     !process.env.ELASTICSEARCH_TOKEN_UPDATE ||
     !process.env.ELASTICSEARCH_URL
   ) {
+    if (req.headers["actions-secret"] !== process.env.ACTIONS_SECRET)
+      console.error("actions-secret not match");
+    if (!process.env.ELASTICSEARCH_TOKEN_UPDATE)
+      console.error("no ELASTICSEARCH_TOKEN_UPDATE");
+    if (!process.env.ELASTICSEARCH_URL) console.error("no ELASTICSEARCH_URL");
     return res.status(403).json({
       error: "Forbidden",
       message: "Missing secret or env",
@@ -73,6 +79,9 @@ export default async function updateDocument(req, res) {
       id: cdtnId,
       index: `cdtn-preprod-v${majorIndexVersion}_documents`,
     });
+    console.log(
+      `update document in index cdtn-preprod-v${majorIndexVersion}_documents`
+    );
     res.json({ message: "doc updated!", statusCode: 200 });
   } catch (response) {
     if (response.body) {
