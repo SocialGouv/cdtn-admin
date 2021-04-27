@@ -42,9 +42,9 @@ export default async function updateDocument(req, res) {
   const { cdtnId, document, source } = req.body.input;
 
   if (
-    req.headers["preview-secret"] !== process.env.PUBLICATION_SECRET ||
-    !process.env.ELASTICSEARCH_APIKEY_DEV ||
-    !process.env.ELASTICSEARCH_URL_DEV
+    req.headers["actions-secret"] !== process.env.ACTIONS_SECRET ||
+    !process.env.ELASTICSEARCH_TOKEN_UPDATE ||
+    !process.env.ELASTICSEARCH_URL
   ) {
     return res.status(403).json({
       error: "Forbidden",
@@ -57,9 +57,9 @@ export default async function updateDocument(req, res) {
 
   const client = new Client({
     auth: {
-      apiKey: process.env.ELASTICSEARCH_APIKEY_DEV,
+      apiKey: process.env.ELASTICSEARCH_TOKEN_UPDATE,
     },
-    node: `${process.env.ELASTICSEARCH_URL_DEV}`,
+    node: `${process.env.ELASTICSEARCH_URL}`,
   });
 
   try {
