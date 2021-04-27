@@ -14,7 +14,7 @@ const IconPicker = ({ defaultValue = null, disabled, ...props }) => {
     <Controller
       {...props}
       defaultValue={defaultValue}
-      render={(props) => <RootIconPicker disabled={disabled} {...props} />}
+      render={({ field }) => <RootIconPicker disabled={disabled} {...field} />}
     />
   );
 };

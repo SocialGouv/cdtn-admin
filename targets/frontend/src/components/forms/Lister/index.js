@@ -14,9 +14,7 @@ const Lister = ({ defaultValue = [], disabled, ...props }) => {
       {...props}
       defaultValue={defaultValue}
       // eslint-disable-next-line no-unused-vars
-      render={({ ref, ...props }) => (
-        <RootLister disabled={disabled} {...props} />
-      )}
+      render={({ field }) => <RootLister disabled={disabled} {...field} />}
     />
   );
 };
