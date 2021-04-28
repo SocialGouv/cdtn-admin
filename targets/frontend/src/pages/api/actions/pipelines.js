@@ -4,6 +4,7 @@ import { getPipelines, getPipelineVariables } from "src/lib/gitlab.api";
 
 export default async function pipelines(req, res) {
   if (req.method === "GET") {
+    console.error("[pipelines] GET method not allowed");
     res.setHeader("Allow", ["POST"]);
     return apiError(res, Boom.methodNotAllowed("GET method not allowed"));
   }
@@ -12,6 +13,7 @@ export default async function pipelines(req, res) {
     !req.headers["actions-secret"] ||
     req.headers["actions-secret"] !== process.env.ACTIONS_SECRET
   ) {
+    console.error("[pipelines] Invalid secret token");
     return apiError(res, Boom.unauthorized("Missing secret or env"));
   }
 
@@ -42,8 +44,6 @@ export default async function pipelines(req, res) {
     res.json(runningDeployementPipeline);
   } catch (error) {
     console.error(`[actions] get pipelines failed`, error);
-    res
-      .status(error.status)
-      .json({ code: error.status, message: "[actions]: can't get pipelines" });
+    apiError(res, Boom.badGateway(`[actions] get pipelines failed`));
   }
 }

@@ -33,33 +33,39 @@ const fetchGlossary = memoizee(_fetchGlossary, {
   promise: true,
 });
 
+export const [
+  majorIndexVersion,
+] = require("../../../../package.json").version.split(".");
+
 export default async function updateDocument(req, res) {
   if (req.method === "GET") {
+    console.error("[updateDocument] GET method not allowed");
     res.setHeader("Allow", ["POST"]);
     return apiError(Boom.methodNotAllowed("GET method not allowed"));
   }
 
-  const { cdtnId, document, source } = req.body.input;
+  if (req.headers["actions-secret"] !== process.env.ACTIONS_SECRET) {
+    console.error("[updateDocument] Invalid secret token");
+    return apiError(Boom.unauthorized("Invalid secret token"));
+  }
 
   if (
-    req.headers["preview-secret"] !== process.env.PUBLICATION_SECRET ||
-    !process.env.ELASTICSEARCH_APIKEY_DEV ||
-    !process.env.ELASTICSEARCH_URL_DEV
+    !process.env.ELASTICSEARCH_TOKEN_UPDATE ||
+    !process.env.ELASTICSEARCH_URL
   ) {
-    return res.status(403).json({
-      error: "Forbidden",
-      message: "Missing secret or env",
-      statusCode: "403",
-    });
+    console.error("[updateDocument] Missing env");
+    return apiError(Boom.forbidden("Missing env"));
   }
+
+  const { cdtnId, document, source } = req.body.input;
 
   const glossary = await fetchGlossary();
 
   const client = new Client({
     auth: {
-      apiKey: process.env.ELASTICSEARCH_APIKEY_DEV,
+      apiKey: process.env.ELASTICSEARCH_TOKEN_UPDATE,
     },
-    node: `${process.env.ELASTICSEARCH_URL_DEV}`,
+    node: `${process.env.ELASTICSEARCH_URL}`,
   });
 
   try {
@@ -68,18 +74,27 @@ export default async function updateDocument(req, res) {
         doc: await transform(source, document, glossary),
       },
       id: cdtnId,
-      index: `cdtn-preprod_documents`,
+      index: `cdtn-preprod-v${majorIndexVersion}_documents`,
     });
+    console.log(
+      `[actions] update document ${cdtnId} in index cdtn-preprod-v${majorIndexVersion}_documents`
+    );
     res.json({ message: "doc updated!", statusCode: 200 });
   } catch (response) {
     if (response.body) {
-      console.error(response.body.error);
+      console.error(
+        `[actions] update document ${cdtnId} for preview failed`,
+        response.body.error
+      );
     } else {
-      console.error(response);
+      console.error(
+        `[actions] update ${cdtnId} document for preview failed`,
+        response
+      );
     }
-    res
-      .status(response.statusCode)
-      .json({ message: response.body.error, statusCode: response.statusCode });
+    apiError(
+      Boom.badGateway(`[actions] update document ${cdtnId} for preview failed`)
+    );
   }
 }
 
