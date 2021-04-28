@@ -3,7 +3,7 @@ import { Boom } from "@hapi/boom";
 import { client as gqlClient } from "@shared/graphql-client";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import memoizee from "memoizee";
-import { apiError } from "src/lib/apiError";
+import { createErrorFor } from "src/lib/apiError";
 import { markdownTransform } from "src/lib/preview/markdown";
 
 const getGlossary = `
@@ -38,6 +38,7 @@ export const [
 ] = require("../../../../package.json").version.split(".");
 
 export default async function updateDocument(req, res) {
+  const apiError = createErrorFor(res);
   if (req.method === "GET") {
     console.error("[updateDocument] GET method not allowed");
     res.setHeader("Allow", ["POST"]);
@@ -92,9 +93,7 @@ export default async function updateDocument(req, res) {
         response
       );
     }
-    apiError(
-      Boom.badGateway(`[actions] update document ${cdtnId} for preview failed`)
-    );
+    apiError(Boom.badGateway(`[actions] update document for preview failed`));
   }
 }
 
