@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 
-import { icons } from "@socialgouv/react-ui";
+import { icons } from "@socialgouv/cdtn-ui";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
