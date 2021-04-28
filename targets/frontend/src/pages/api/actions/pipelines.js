@@ -1,12 +1,14 @@
 import Boom from "@hapi/boom";
-import { apiError } from "src/lib/apiError";
+import { createErrorFor } from "src/lib/apiError";
 import { getPipelines, getPipelineVariables } from "src/lib/gitlab.api";
 
 export default async function pipelines(req, res) {
+  const apiError = createErrorFor(res);
+
   if (req.method === "GET") {
     console.error("[pipelines] GET method not allowed");
     res.setHeader("Allow", ["POST"]);
-    return apiError(res, Boom.methodNotAllowed("GET method not allowed"));
+    return apiError(Boom.methodNotAllowed("GET method not allowed"));
   }
 
   if (
@@ -14,7 +16,7 @@ export default async function pipelines(req, res) {
     req.headers["actions-secret"] !== process.env.ACTIONS_SECRET
   ) {
     console.error("[pipelines] Invalid secret token");
-    return apiError(res, Boom.unauthorized("Missing secret or env"));
+    return apiError(Boom.unauthorized("Missing secret or env"));
   }
 
   try {
@@ -44,6 +46,6 @@ export default async function pipelines(req, res) {
     res.json(runningDeployementPipeline);
   } catch (error) {
     console.error(`[actions] get pipelines failed`, error);
-    apiError(res, Boom.badGateway(`[actions] get pipelines failed`));
+    apiError(Boom.badGateway(`[actions] get pipelines failed`));
   }
 }

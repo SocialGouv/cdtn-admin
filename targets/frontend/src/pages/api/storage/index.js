@@ -22,7 +22,7 @@ async function endPoint(req, res) {
       return getFiles(req, res);
     default: {
       res.setHeader("Allow", "GET, POST");
-      apiError(res, Boom.methodNotAllowed(`${req.method} not allowed`));
+      apiError(Boom.methodNotAllowed(`${req.method} not allowed`));
     }
   }
 }

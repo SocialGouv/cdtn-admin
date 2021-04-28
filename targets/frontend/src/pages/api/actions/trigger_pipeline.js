@@ -29,6 +29,6 @@ export default async function triggerPipeline(req, res) {
     res.status(200).json({ message: "ok" });
   } catch (error) {
     console.error(`[actions] trigger deploy pipeline ${env}`, error);
-    apiError(res, Boom.badGateway(`[actions] can't trigger pipeline ${env}`));
+    apiError(Boom.badGateway(`[actions] can't trigger pipeline ${env}`));
   }
 }

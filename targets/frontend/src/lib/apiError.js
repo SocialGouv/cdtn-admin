@@ -4,6 +4,6 @@ export function createErrorFor(res) {
   };
 }
 
-export function apiError(res, { output: { statusCode, payload } }) {
+export function serverError(res, { output: { statusCode, payload } }) {
   return res.status(statusCode).json(payload);
 }
