@@ -2835,10 +2835,10 @@
   resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.45.0.tgz#d05ca34ab2a12f814b5af9dd64344ab442c9ae13"
   integrity sha512-UKaXfCzUi1RRvtPzjugPZkfgykMDIEF+45v+P3zAzK+ctzd+VHLw+OoVQ9bs9yyMhvRx+33rxUEqAqnZ6Hk/Kw==
 
-"@socialgouv/cdtn-ui@^4.48.0":
-  version "4.48.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-ui/-/cdtn-ui-4.48.0.tgz#fa0d9d296d51f5931be5c074e9d1151d65782909"
-  integrity sha512-Il3t5qvx8IL2BfX7UG9nA82g8RhC6Cohe3hdN7NicGXGHN9zifaK96y7RxuABzBkf4RcLnz6mmEnvd6+ZZiDzQ==
+"@socialgouv/cdtn-ui@^4.48.1":
+  version "4.48.1"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-ui/-/cdtn-ui-4.48.1.tgz#e83ac00dff62687c4be61b7d60dc6b597d94f9e9"
+  integrity sha512-MB5qVN6RAPdnV7M4SByFgg1tdWFv7iwSE5+EwjAi5Bt6fGndGzhn5tNHFXEaykMaTIZ0sr8jNqaynS/EaN9tdQ==
   dependencies:
     "@reach/dialog" "0.13.2"
     polished "^4.1.1"
