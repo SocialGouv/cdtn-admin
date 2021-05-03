@@ -84,4 +84,4 @@
     CONTEXT: .
     DOCKER_BUILD_ARGS: >-
       --dockerfile targets/frontend/Dockerfile
-    IMAGE_NAME: cdtn-admin-www
+    IMAGE_NAME: cdtn-admin-frontend
