@@ -2,9 +2,11 @@ import env from "@kosko/env";
 import { create } from "@socialgouv/kosko-charts/components/app";
 import { createAutoscale } from "@socialgouv/kosko-charts/components/autoscale";
 import { getDeployment } from "@socialgouv/kosko-charts/utils/getDeployment";
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 
 const manifests = create("www", {
   config: {
+    image: getHarborImagePath({ name: "cdtn-admin-frontend" }),
     container: {
       env: [
         {

@@ -1,11 +1,14 @@
 import env from "@kosko/env";
 import { create } from "@socialgouv/kosko-charts/components/hasura";
 import { getDeployment } from "@socialgouv/kosko-charts/utils/getDeployment";
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
+
 import { ok } from "assert";
 import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../utils/GITLAB_LIKE_ENVIRONMENT_SLUG";
 
 const manifests = create({
   config: {
+    image: getHarborImagePath({name:'cdtn-admin-hasura'}),
     container: {
       resources: {
         limits: {

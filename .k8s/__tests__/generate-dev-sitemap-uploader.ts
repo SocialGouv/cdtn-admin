@@ -5,6 +5,7 @@ import { project } from "@socialgouv/kosko-charts/testing/fake/gitlab-ci.env";
 
 jest.setTimeout(1000 * 60);
 test("SITEMAP_UPLOADER_TARGET=dev kosko generate --dev jobs/sitemap-uploader", async () => {
+  process.env.HARBOR_PROJECT = "cdtn";
   expect(
     await getEnvManifests("dev", "jobs/sitemap-uploader", {
       ...project("cdtn-admin").dev,
