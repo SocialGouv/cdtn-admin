@@ -81,17 +81,16 @@
 
 🐳 register ingester:
   extends:
-    - .autodevops_register_image
+    - .base_register_kaniko_stage
     - .cdtn_base_rules
   needs:
     - job: 📦 build ingester
       artifacts: true
   variables:
-    CONTEXT: .
+    CONTEXT: ./targets/ingester
     DOCKER_BUILD_ARGS: >-
-      --shm-size 512M
-      -f ./targets/ingester/Dockerfile
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/ingester
+      --dockerfile ./targets/ingester/Dockerfile
+    IMAGE_NAME: cdtn-admin-ingester
 
 #
 #

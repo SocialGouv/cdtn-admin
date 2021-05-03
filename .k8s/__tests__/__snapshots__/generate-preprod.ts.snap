@@ -126,8 +126,7 @@ spec:
         spec:
           containers:
             - name: update-alert
-              image: >-
-                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/alert:1.2.3
+              image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-alert-cli:1.2.3
               resources:
                 requests:
                   cpu: 1500m
@@ -195,8 +194,7 @@ spec:
         cert: wildcard
     spec:
       containers:
-        - image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/hasura:1.2.3
+        - image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-hasura:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -416,8 +414,7 @@ spec:
         spec:
           containers:
             - name: update-ingester
-              image: >-
-                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester:1.2.3
+              image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester:1.2.3
               resources:
                 requests:
                   cpu: 1500m
@@ -605,8 +602,7 @@ spec:
         cert: wildcard
     spec:
       containers:
-        - image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/www:1.2.3
+        - image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-frontend:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:

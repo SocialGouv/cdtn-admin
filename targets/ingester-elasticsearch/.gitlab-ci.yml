@@ -85,14 +85,16 @@
 
 🐳 register ingester-elasticsearch:
   extends:
-    - .autodevops_register_image
+    - .base_register_kaniko_stage
     - .cdtn_base_rules
   needs:
     - job: 📦 build ingester-elasticsearch
       artifacts: true
   variables:
-    CONTEXT: targets/ingester-elasticsearch
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/ingester-elasticsearch
+    CONTEXT: ./targets/ingester-elasticsearch
+    DOCKER_BUILD_ARGS: >-
+      --dockerfile ./targets/ingester-elasticsearch/Dockerfile
+    IMAGE_NAME: cdtn-admin-ingester-elasticsearch
 
 #
 #

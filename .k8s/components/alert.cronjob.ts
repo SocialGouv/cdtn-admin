@@ -6,6 +6,7 @@ import { ok } from "assert";
 import env from "@kosko/env";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 import type { SealedSecret } from "@kubernetes-models/sealed-secrets/bitnami.com/v1alpha1/SealedSecret";
 
 const gitlabEnv = gitlab(process.env);
@@ -62,7 +63,7 @@ const cronJob = new CronJob({
             containers: [
               {
                 name: "update-alert",
-                image: `${process.env.CI_REGISTRY_IMAGE}/${name}:${tag}`,
+                image: getHarborImagePath({ name: "cdtn-admin-alert-cli" }),
                 resources: {
                   requests: {
                     cpu: "1500m",

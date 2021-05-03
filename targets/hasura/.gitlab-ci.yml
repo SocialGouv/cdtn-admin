@@ -4,11 +4,13 @@
 
 🐳 register hasura:
   extends:
-    - .autodevops_register_image
+    - .base_register_kaniko_stage
     - .cdtn_base_rules
   variables:
     CONTEXT: ./targets/hasura
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/hasura
+    DOCKER_BUILD_ARGS: >-
+      --dockerfile ./targets/hasura/Dockerfile
+    IMAGE_NAME: cdtn-admin-hasura
 
 #
 #
