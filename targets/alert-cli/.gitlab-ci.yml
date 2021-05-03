@@ -84,7 +84,7 @@
     - job: 📦 build alert
       artifacts: true
   variables:
-    CONTEXT: targets/alert-cli
+    CONTEXT: .
     DOCKER_BUILD_ARGS: >-
       --dockerfile ./targets/alert-cli/Dockerfile
     IMAGE_NAME: cdtn-admin-alert-cli

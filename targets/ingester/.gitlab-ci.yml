@@ -87,7 +87,7 @@
     - job: 📦 build ingester
       artifacts: true
   variables:
-    CONTEXT: ./targets/ingester
+    CONTEXT: .
     DOCKER_BUILD_ARGS: >-
       --dockerfile ./targets/ingester/Dockerfile
     IMAGE_NAME: cdtn-admin-ingester

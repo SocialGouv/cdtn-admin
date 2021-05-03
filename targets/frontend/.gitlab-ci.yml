@@ -81,7 +81,7 @@
     - job: 📦 build www
       artifacts: true
   variables:
-    CONTEXT: targets/frontend
+    CONTEXT: .
     DOCKER_BUILD_ARGS: >-
       --dockerfile targets/frontend/Dockerfile
     IMAGE_NAME: cdtn-admin-www
