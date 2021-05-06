@@ -249,6 +249,7 @@ Export storage to prod:
 
 Restore preprod data:
   needs: []
+  stage: .post
   extends:
     - .base_deploy_kosko_stage
   cache:
