@@ -17,7 +17,6 @@ RUN  npx @socialgouv/yarn-workspace-focus-install \
   --cwd targets/frontend \
   --production \
   -- \
-  --cache-folder /dev/shm/yarn \
   --frozen-lockfile \
   --prefer-offline
 

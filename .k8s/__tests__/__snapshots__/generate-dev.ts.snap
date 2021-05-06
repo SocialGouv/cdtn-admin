@@ -127,7 +127,7 @@ spec:
           containers:
             - name: update-alert
               image: >-
-                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/alert:0123456789abcdefghijklmnopqrstuvwxyz0123
+                harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-alert-cli:0123456789abcdefghijklmnopqrstuvwxyz0123
               resources:
                 requests:
                   cpu: 1500m
@@ -196,7 +196,7 @@ spec:
     spec:
       containers:
         - image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/hasura:0123456789abcdefghijklmnopqrstuvwxyz0123
+            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-hasura:0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -417,7 +417,7 @@ spec:
           containers:
             - name: update-ingester
               image: >-
-                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester:0123456789abcdefghijklmnopqrstuvwxyz0123
+                harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester:0123456789abcdefghijklmnopqrstuvwxyz0123
               resources:
                 requests:
                   cpu: 1500m
@@ -642,7 +642,7 @@ spec:
     spec:
       containers:
         - image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/www:0123456789abcdefghijklmnopqrstuvwxyz0123
+            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-frontend:0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:

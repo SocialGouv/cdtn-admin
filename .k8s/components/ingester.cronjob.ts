@@ -3,6 +3,7 @@ import { ConfigMap } from "kubernetes-models/v1/ConfigMap";
 import { Secret } from "kubernetes-models/v1/Secret";
 import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 import { PersistentVolumeClaim } from "kubernetes-models/v1/PersistentVolumeClaim";
 import { ok } from "assert";
 import env from "@kosko/env";
@@ -82,7 +83,7 @@ const cronJob = new CronJob({
             containers: [
               {
                 name: "update-ingester",
-                image: `${process.env.CI_REGISTRY_IMAGE}/${name}:${tag}`,
+                image: getHarborImagePath({ name: "cdtn-admin-ingester" }),
                 resources: {
                   requests: {
                     cpu: "1500m",
