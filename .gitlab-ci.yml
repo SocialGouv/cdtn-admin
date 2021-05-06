@@ -272,4 +272,4 @@ Restore preprod data:
     # Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L313
     KUBE_NAMESPACE: ${CI_PROJECT_NAME}
     # kosko options
-    KOSKO_GENERATE_ARGS: --env prod jobs/resore
+    KOSKO_GENERATE_ARGS: --env prod jobs/restore
