@@ -54,9 +54,6 @@ function ServicePublicItemRow({ item }) {
 }
 
 function getStatus({ status, cdtn_id, is_available, is_published }) {
-  if (status === "unknow") {
-    return <Text sx={{ color: "danger" }}>fiche inconnue</Text>;
-  }
   if (cdtn_id === null) {
     if (status === "unknown") {
       return <Text sx={{ color: "critical" }}>la fiche n’existe pas</Text>;

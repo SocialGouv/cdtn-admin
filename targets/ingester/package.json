@@ -50,7 +50,7 @@
   "private": true,
   "scripts": {
     "build": "ncc build ./src/cli.js -o ./dist -s",
-    "cli:dev": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node -r esm src/cli.js",
+    "cli:dev": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=26nBjHSqZdqCBfzZJxk6 node -r esm src/cli.js",
     "cli:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 yarn start",
     "lint": "eslint src/**/*.js",
     "start": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",

@@ -250,3 +250,30 @@ Export storage to prod:
     DESTINATION_SERVER: "prod"
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod restore/containers
+
+Restore preprod data:
+  needs: []
+  stage: .post
+  extends:
+    - .base_deploy_kosko_stage
+  cache:
+    key:
+      files:
+        - .k8s/yarn.lock
+      prefix: k8s
+    paths:
+      - .cache
+      - .k8s/node_modules
+  environment:
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
+  rules:
+    - if: "$PRODUCTION || $TRIGGER"
+      when: never
+    - if: "$CI_COMMIT_TAG"
+      when: manual
+      allow_failure: true
+  variables:
+    # Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L313
+    KUBE_NAMESPACE: ${CI_PROJECT_NAME}
+    # kosko options
+    KOSKO_GENERATE_ARGS: --env prod jobs/restore
