@@ -8,7 +8,7 @@ import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../utils/GITLAB_LIKE_ENVIRONMENT_S
 
 const manifests = create({
   config: {
-    image: getHarborImagePath({name:'cdtn-admin-hasura'}),
+    image: getHarborImagePath({ name: "cdtn-admin-hasura" }),
     container: {
       resources: {
         limits: {

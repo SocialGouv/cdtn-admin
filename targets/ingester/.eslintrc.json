@@ -1,8 +1,17 @@
 {
-  "extends": ["@socialgouv/eslint-config-recommended"],
+  "extends": [
+    "@socialgouv/eslint-config-recommended",
+    "plugin:import/typescript"
+  ],
   "settings": {
     "jest": {
       "version": 26
     }
-  }
+  },
+  "overrides": [
+    {"files": ["**/*.ts", "**/*.tsx"], "extends":"plugin:@typescript-eslint/recommended","rules": {
+      "no-undef": "off",
+      "@typescript-eslint/ban-ts-comment": "warn"
+    }}
+  ]
 }

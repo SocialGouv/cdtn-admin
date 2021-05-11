@@ -1,10 +1,10 @@
 import { describe, expect, test } from "@jest/globals";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import { IndexedAgreement } from "@socialgouv/kali-data-types";
 
 import { extractNewReference, extractOldReference } from "../parseReference";
 
-/** @type{import("@socialgouv/kali-data-types").IndexedAgreement[]} */
-const agreements = [
+const agreements: IndexedAgreement[] = [
   {
     active: true,
     date_publi: "2019-02-15T00:00:00.000Z",

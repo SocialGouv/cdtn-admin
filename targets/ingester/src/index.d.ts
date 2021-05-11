@@ -4,6 +4,7 @@ import type {
   Question,
   DilaRef,
   GenericAnswer,
+  BaseRef,
 } from "@socialgouv/contributions-data-types";
 
 export as namespace ingester;
@@ -42,7 +43,7 @@ type LegiArticle = ExternalDocument & {
 type FicheServicePublic = ExternalDocument & {
   date: string; //"O1/01/2021"
   raw: string;
-  referencedTexts: ReferencedTexts[];
+  referencedTexts: ServicePublicReferences[];
 };
 
 type FicheTravailEmploi = ExternalDocument & {
@@ -57,14 +58,14 @@ type TravailEmploiSection = {
   html: string;
   text: string;
   description: string;
-  references: LegalReference[];
+  references: FicheTravailEmploiReference[];
 };
 
 type AgreementPage = Document & {
-  num: Number;
+  num: number;
   date_publi?: string;
-  effectif?: Number;
-  mtime?: Number;
+  effectif?: number;
+  mtime?: number;
   shortTitle: string;
   answers: AgreementAnswer[];
   url?: string;
@@ -73,8 +74,8 @@ type AgreementPage = Document & {
 };
 
 type AgreementAnswer = {
-  index: Number;
-  references: DilaRef[];
+  index: number;
+  references: (DilaRef | BaseRef)[];
   slug: string;
   question: string;
   answer: string;
@@ -90,19 +91,7 @@ type AgreementArticleByBlock = {
   }[];
 };
 
-type InternalReference = {
-  title: string;
-  slug: string;
-  type: Exclude<cdtnSources.SourceRoute, "external">;
-};
-
-type ExternalReference = {
-  title: string;
-  url: string;
-  type: "external";
-};
-
-type LegalReference = {
+type FicheTravailEmploiReference = {
   id: string;
   cid: string;
   title: string;
@@ -120,22 +109,6 @@ type CdtnDocument =
   | AgreementPage
   | FicheServicePublic
   | FicheTravailEmploi;
-
-type referenceResolver = (
-  id: string
-) => (
-  | import("@socialgouv/legi-data-types").CodeSection
-  | import("@socialgouv/legi-data-types").CodeArticle
-  | import("@socialgouv/kali-data").AgreementSection
-  | import("@socialgouv/kali-data").AgreementArticle
-)[];
-
-type KaliArticleHDN = {
-  idcc: number;
-  title: string;
-  id: string;
-  blocks: { [key: string]: string[] };
-};
 
 // type EditorialDocument = Document & {
 //   date: string

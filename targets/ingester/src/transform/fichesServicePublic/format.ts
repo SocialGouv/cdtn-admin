@@ -1,22 +1,18 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import { RawJson } from "@socialgouv/fiches-vdd-types";
+import { IndexedAgreement } from "@socialgouv/kali-data-types";
 
 import { parseReferences } from "./parseReference.js";
+import { ReferenceResolver } from "../../lib/referenceResolver";
 
-/**
- *
- * @param {import("@socialgouv/fiches-vdd-types").RawJson} element
- * @param {string} name
- */
-function getChild(element, name) {
+function getChild(element: RawJson, name: string) {
   return element.children.find((el) => el.name === name);
 }
 
 /**
  * Beware, this one is recursive
- * @param {import("@socialgouv/fiches-vdd-types").RawJson | undefined} element
- * @returns {string}
  */
-function getText(element) {
+function getText(element?: RawJson): string {
   if (!element) {
     return "";
   }
@@ -28,14 +24,12 @@ function getText(element) {
   }
   return "";
 }
-/**
- *
- * @param {import("@socialgouv/fiches-vdd-types").RawJson} fiche
- * @param {ingester.referenceResolver} resolveCdtReference
- * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
- * @returns {Pick<ingester.FicheServicePublic, Exclude<keyof ingester.FicheServicePublic, keyof {slug, is_searchable: Boolean}>> }
- */
-export function format(fiche, resolveCdtReference, agreements) {
+
+export function format(
+  fiche: RawJson,
+  resolveCdtReference: ReferenceResolver,
+  agreements: IndexedAgreement[]
+) {
   const publication = fiche.children[0];
   const { ID: id } = publication.attributes;
 

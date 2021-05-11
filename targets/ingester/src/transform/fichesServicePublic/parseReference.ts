@@ -1,31 +1,24 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import queryString from "query-string";
+import { RawJson } from "@socialgouv/fiches-vdd-types";
+import { IndexedAgreement } from "@socialgouv/kali-data-types";
+import { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
+import queryString, { ParsedQuery } from "query-string";
 
-import { fixArticleNum } from "../../lib/referenceResolver";
+import { fixArticleNum, ReferenceResolver } from "../../lib/referenceResolver";
 
-/**
- * check if qs params come from a ccn url
- * @param {{[key:string]:string}} qs
- */
-function isConventionCollective(qs) {
+function isConventionCollective(qs: ParsedQuery) {
   return qs.idConvention;
 }
 
-/**
- * check if qs params come from a cdt url
- * @param {{[key:string]:string}} qs
- */
-function isCodeDuTravail(qs) {
+function isCodeDuTravail(qs: ParsedQuery) {
   return qs.cidTexte === "LEGITEXT000006072050";
 }
 
 /**
  * determine url type based on qs params
- * @param {{[key:string]:string}} qs
- * @returns {"code-du-travail" | "convention-collective" | "journal-officiel" | null}
  */
-const getTextType = (qs) => {
+const getTextType = (qs: ParsedQuery) => {
   if (isCodeDuTravail(qs)) {
     return "code-du-travail";
   }
@@ -35,43 +28,28 @@ const getTextType = (qs) => {
   return null;
 };
 
-/**
- *
- * @param {string} url
- */
-function isPreviousLegifranceUrl(url) {
+function isPreviousLegifranceUrl(url: string) {
   return /affich.+\.do/.test(url);
 }
 
-/**
- *
- * @param {import("@socialgouv/legi-data-types").CodeArticle} article
- */
-function cdtArticleReference(article) {
+function cdtArticleReference(article: CodeArticle) {
   return {
     slug: slugify(fixArticleNum(article.data.id, article.data.num)),
     title: article.data.num,
     type: SOURCES.CDT,
   };
 }
-/**
- *
- * @param {import("@socialgouv/kali-data-types").IndexedAgreement} convention
- */
-function agreementReference(convention) {
-  const { num, shortTitle } = convention;
+
+function agreementReference(agreement: IndexedAgreement) {
+  const { num, shortTitle } = agreement;
   return {
     slug: slugify(`${num}-${shortTitle}`.substring(0, 80)),
     title: shortTitle,
     type: SOURCES.CCN,
   };
 }
-/**
- *
- * @param {string} url
- * @param {string} label
- */
-function externalReference(url, label) {
+
+function externalReference(url: string, label: string) {
   return {
     title: label,
     type: SOURCES.EXTERNALS,
@@ -79,13 +57,11 @@ function externalReference(url, label) {
   };
 }
 
-/**
- * @param {import("@socialgouv/fiches-vdd-types").RawJson[]} references
- * @param {ingester.referenceResolver} resolveCdtReference
- * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
- * @returns { ingester.ReferencedTexts[] }
- */
-export function parseReferences(references, resolveCdtReference, agreements) {
+export function parseReferences(
+  references: RawJson[],
+  resolveCdtReference: ReferenceResolver,
+  agreements: IndexedAgreement[]
+) {
   /** @type {ingester.ReferencedTexts[][]} */
   const referencedTexts = [];
 
@@ -102,17 +78,13 @@ export function parseReferences(references, resolveCdtReference, agreements) {
   return referencedTexts.flat();
 }
 /**
- * @param {string} url
- * @param {string} label
- * @param {ingester.referenceResolver} resolveCdtReference
- * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
  * @returns {ingester.ReferencedTexts[]}
  */
 export function extractOldReference(
-  url,
-  label,
-  resolveCdtReference,
-  agreements
+  url: string,
+  label: string,
+  resolveCdtReference: ReferenceResolver,
+  agreements: IndexedAgreement[]
 ) {
   /**
    * Typologie des anciens liens legifrance
@@ -126,19 +98,18 @@ export function extractOldReference(
    * /affichTexteArticle.do?cidTexte=JORFTEXT000029953502&idArticle=JORFARTI000029953537
    *
    */
-  const qs = /** @type {{[key:string]: string}} */ (queryString.parse(
-    url.split("?")[1]
-  ));
+  const qs = queryString.parse(url.split("?")[1]);
 
+  const unwrapQuerystringParam = (param: string | string[]) => {
+    return Array.isArray(param) ? param[0] : param;
+  };
   const type = getTextType(qs);
   switch (type) {
     case "code-du-travail": {
       if (qs.idArticle) {
-        const [
-          article,
-        ] = /** @type {import("@socialgouv/legi-data-types").CodeArticle[]} */ (resolveCdtReference(
-          qs.idArticle
-        ));
+        const [article] = resolveCdtReference(
+          unwrapQuerystringParam(qs.idArticle)
+        ) as CodeArticle[];
         if (!article) {
           console.error(
             `extractOldReferences: unkown article id ${qs.idArticle}, maybe reference is obsolete`
@@ -148,11 +119,9 @@ export function extractOldReference(
         return [cdtArticleReference(article)];
       }
       if (qs.idSectionTA) {
-        const [
-          section,
-        ] = /** @type {import("@socialgouv/legi-data-types").CodeSection[]} */ (resolveCdtReference(
-          qs.idSectionTA
-        ));
+        const [section] = resolveCdtReference(
+          unwrapQuerystringParam(qs.idSectionTA)
+        ) as CodeSection[];
         if (!section) {
           console.error(
             `extractOldReferences: unkown section id ${qs.idSectionTA}, maybe reference is obsolete`
@@ -195,17 +164,13 @@ export function extractOldReference(
 }
 
 /**
- * @param {string} url
- * @param {string} label
- * @param {ingester.referenceResolver} resolveCdtReference
- * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
  * @returns {ingester.ReferencedTexts[]}
  */
 export function extractNewReference(
-  url,
-  label,
-  resolveCdtReference,
-  agreements
+  url: string,
+  label: string,
+  resolveCdtReference: ReferenceResolver,
+  agreements: IndexedAgreement[]
 ) {
   /**
    * typologie des nouveaux liens legifrance que l'on trouve dans les fiches service-public.fr
@@ -231,21 +196,13 @@ export function extractNewReference(
   if (/\/codes\//.test(url)) {
     if (/LEGIARTI/.test(url)) {
       const [, articleId] = url.match(/(LEGIARTI\w+)(\W|$)/) || [];
-      const [
-        article,
-      ] = /** @type {import("@socialgouv/legi-data-types").CodeArticle[]} */ (resolveCdtReference(
-        articleId
-      ));
+      const [article] = resolveCdtReference(articleId) as CodeArticle[];
       if (article) {
         return [cdtArticleReference(article)];
       }
     } else if (/LEGISCTA/.test(url)) {
       const [, sectionId] = url.match(/(LEGISCTA\w+)(\W|$)/) || [];
-      const [
-        section,
-      ] = /** @type {import("@socialgouv/legi-data-types").CodeSection[]} */ (resolveCdtReference(
-        sectionId
-      ));
+      const [section] = resolveCdtReference(sectionId) as CodeSection[];
 
       if (section) {
         if (section.children.every((child) => child.type !== "article")) {

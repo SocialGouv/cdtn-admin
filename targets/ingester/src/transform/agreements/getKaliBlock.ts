@@ -1,17 +1,19 @@
 import { client } from "@shared/graphql-client";
-
+import { KaliArticleHDN } from "@shared/types";
 const kaliblockQuery = `
 query KaliBlocks {
   kaliBlocks: kali_blocks {id, blocks}
 }
 `;
-/**
- *
- * @returns {Promise<ingester.KaliArticleHDN[]>}
- */
+
+type KaliblockResult = {
+  kaliBlocks: KaliArticleHDN[];
+};
+
 export async function getAllKaliBlocks() {
-  /** @type {import("@shared/graphql-client").OperationResult<{kaliBlocks: ingester.KaliArticleHDN[]}>} */
-  const result = await client.query(kaliblockQuery).toPromise();
+  const result = await client
+    .query<KaliblockResult>(kaliblockQuery)
+    .toPromise();
 
   if (result.error) {
     console.error(result.error.name, result.error.message);

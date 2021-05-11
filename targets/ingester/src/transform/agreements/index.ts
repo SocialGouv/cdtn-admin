@@ -1,7 +1,10 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import { Question } from "@socialgouv/contributions-data-types";
+import { Agreement, IndexedAgreement } from "@socialgouv/kali-data-types";
 import remark from "remark";
 import html from "remark-html";
+import { AgreementPage } from "../../index.js";
 
 import { formatIdcc } from "../../lib/formatIdcc.js";
 import { getJson } from "../../lib/getJson.js";
@@ -10,24 +13,17 @@ import { getKaliArticlesByTheme } from "./kaliArticleBytheme.js";
 
 const compiler = remark().use(html, { sanitize: true });
 
-/**
- * @template A
- * @param {(a:A) => number} fn
- * @returns {(a:A, b:A) => number}
- */
-export const createSorter = (fn) => (a, b) => fn(a) - fn(b);
+type QuestionWithSlug = Question & { slug: string };
 
-/**
- *
- * @param {string} pkgName
- * @returns {Promise<ingester.AgreementPage[]>}
- */
-export default async function getAgreementDocuments(pkgName) {
-  /** @type {import("@socialgouv/kali-data-types").IndexedAgreement[]} */
-  const agreements = await getJson(`${pkgName}/data/index.json`);
+export const createSorter = <A>(fn: (data: A) => number) => (a: A, b: A) =>
+  fn(a) - fn(b);
 
-  /** @type {import("@socialgouv/contributions-data-types").Question[]} */
-  const contributions = await getJson(
+export default async function getAgreementDocuments(pkgName: string) {
+  const agreements = await getJson<IndexedAgreement[]>(
+    `${pkgName}/data/index.json`
+  );
+
+  const contributions = await getJson<Question[]>(
     `@socialgouv/contributions-data/data/contributions.json`
   );
 
@@ -41,10 +37,10 @@ export default async function getAgreementDocuments(pkgName) {
     };
   });
 
-  const agreementPages = [];
+  const agreementPages: AgreementPage[] = [];
 
   for (const agreement of agreements) {
-    const agreementTree = await getJson(
+    const agreementTree = await getJson<Agreement>(
       `@socialgouv/kali-data/data/${agreement.id}.json`
     );
     agreementPages.push({
@@ -59,13 +55,12 @@ export default async function getAgreementDocuments(pkgName) {
       synonymes: agreement.synonymes,
     });
   }
-  const sorter = createSorter(({ num }) => num);
+  const sorter = createSorter(({ num }: AgreementPage) => num);
   return agreementPages.sort(sorter);
 }
 
 /**
  * Get CCN general information
- * @param {import("@socialgouv/kali-data-types").IndexedAgreement} agreement
  */
 function getCCNInfo({
   id,
@@ -76,7 +71,7 @@ function getCCNInfo({
   title,
   shortTitle,
   url,
-}) {
+}: IndexedAgreement) {
   return {
     date_publi,
     effectif,
@@ -93,12 +88,11 @@ function getCCNInfo({
 
 /**
  * Return contribution answer for a given idcc
- *
- * @param {(import("@socialgouv/contributions-data-types").Question & {slug: string})[]} contributionsWithSlug
- * @param {Number} agreementNum
- * @returns {ingester.AgreementAnswer[]}
  */
-function getContributionAnswers(contributionsWithSlug, agreementNum) {
+function getContributionAnswers(
+  contributionsWithSlug: QuestionWithSlug[],
+  agreementNum: number
+) {
   return contributionsWithSlug
     .flatMap(({ title, slug, index, answers }) => {
       const [answer] = answers.conventions.filter(
@@ -111,7 +105,7 @@ function getContributionAnswers(contributionsWithSlug, agreementNum) {
             answer: compiler.processSync(answer.markdown).contents.toString(),
             index,
             question: title.trim(),
-            references: /** @type {import("@socialgouv/contributions-data-types").DilaRef[]} */ (answer.references),
+            references: answer.references,
             slug,
           },
         ];

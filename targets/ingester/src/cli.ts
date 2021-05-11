@@ -2,7 +2,7 @@ import { client } from "@shared/graphql-client";
 import { generateCdtnId } from "@shared/id-generator";
 import { access, readFile } from "fs/promises";
 import getUri from "get-uri";
-import got from "got";
+import got, { HandlerFunction } from "got";
 import gunzip from "gunzip-maybe";
 import pRetry from "p-retry";
 import path from "path";
@@ -11,11 +11,13 @@ import tar from "tar-fs";
 import yargs from "yargs";
 
 import { batchPromises, chunk } from "./lib/batchPromises";
-import getAgreementDocuments from "./transform/agreements/index.js";
-import getCdtDocuments from "./transform/code-du-travail.js";
-import getContributionsDocuments from "./transform/contributions.js";
-import getFicheTravailEmploi from "./transform/fiche-travail-emploi.js";
-import getFichesServicePublic from "./transform/fichesServicePublic/index.js";
+import getAgreementDocuments from "./transform/agreements/index";
+import getCdtDocuments from "./transform/code-du-travail";
+import getContributionsDocuments from "./transform/contributions";
+import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
+import getFichesServicePublic from "./transform/fichesServicePublic/index";
+
+import { CdtnDocument } from ".";
 
 const args = yargs(process.argv)
   .command("ingest", "ingest document into database")
@@ -51,6 +53,10 @@ mutation insert_documents($documents: [documents_insert_input!]!) {
 }
 `;
 
+type InsertdocumentResult = {
+  documents: { returning: { cdtn_id: string }[] };
+};
+
 const insertPackageVersionMutation = `
 mutation insert_package_version($object:package_version_insert_input!) {
   version: insert_package_version_one(object: $object,  on_conflict: {
@@ -62,20 +68,11 @@ mutation insert_package_version($object:package_version_insert_input!) {
 }
 `;
 
-/**
- *
- * @param {string} pkgName
- */
-function getPkgPath(pkgName) {
+function getPkgPath(pkgName: string) {
   return path.join(process.cwd(), "data", pkgName);
 }
 
-/**
- *
- * @param {string} pkgName
- * @param {string} latest
- */
-async function isPkgOutdated(pkgName, latest) {
+async function isPkgOutdated(pkgName: string, latest: string) {
   const pkgInfoPath = path.join(getPkgPath(pkgName), "package.json");
   try {
     await access(pkgInfoPath);
@@ -87,12 +84,8 @@ async function isPkgOutdated(pkgName, latest) {
     return true;
   }
 }
-/**
- *
- * @param {string} pkgName
- * @param {string} url
- */
-async function download(pkgName, url) {
+
+async function download(pkgName: string, url: string) {
   return new Promise((resolve, reject) => {
     getUri(url, function (err, rs) {
       // !rs is only here so typescript won't complain
@@ -115,36 +108,38 @@ async function download(pkgName, url) {
   });
 }
 
-/** @type {[string, (pkgName:string)=>Promise<import("./index.js").CdtnDocument[]>][]} */
 const dataPackages = [
-  ["@socialgouv/contributions-data", getContributionsDocuments],
-  ["@socialgouv/kali-data", getAgreementDocuments],
-  ["@socialgouv/legi-data", getCdtDocuments],
-  ["@socialgouv/fiches-vdd", getFichesServicePublic],
-  ["@socialgouv/fiches-travail-data", getFicheTravailEmploi],
+  {
+    pkgName: "@socialgouv/contributions-data",
+    getDocuments: getContributionsDocuments,
+  },
+  { pkgName: "@socialgouv/kali-data", getDocuments: getAgreementDocuments },
+  { pkgName: "@socialgouv/legi-data", getDocuments: getCdtDocuments },
+  { pkgName: "@socialgouv/fiches-vdd", getDocuments: getFichesServicePublic },
+  {
+    pkgName: "@socialgouv/fiches-travail-data",
+    getDocuments: getFicheTravailEmploi,
+  },
 ];
 
-/**
- *
- * @param {string} pkgName
- * @returns {Promise<{url: string, version: string}>}
- */
-async function getPackageInfo(pkgName) {
-  const pkgInfo = await got(
+type PackageInfo = {
+  dist: {
+    tarball: string;
+  };
+  version: string;
+};
+
+async function getPackageInfo(pkgName: string) {
+  const pkgInfo = (await got(
     `http://registry.npmjs.org/${pkgName}/latest`
-  ).json();
+  ).json()) as PackageInfo;
   return {
     url: pkgInfo.dist.tarball,
     version: pkgInfo.version,
   };
 }
 
-/**
- *
- * @param {string} pkgName
- * @returns {Promise<string|undefined>}
- */
-async function getLastIngestedVersion(pkgName) {
+async function getLastIngestedVersion(pkgName: string) {
   const result = await client
     .query(getPackageVersionQuery, { repository: pkgName })
     .toPromise();
@@ -159,14 +154,9 @@ async function getLastIngestedVersion(pkgName) {
   }
 }
 
-/**
- *
- * @param {ingester.CdtnDocument[]} docs
- * @returns {Promise<{cdtn_id:string}[]>}
- */
-async function insertDocuments(docs) {
+async function insertDocuments(docs: ingester.CdtnDocument[]) {
   const result = await client
-    .mutation(insertDocumentsMutation, {
+    .mutation<InsertdocumentResult>(insertDocumentsMutation, {
       documents: docs.map(
         ({ id, text, title, slug, is_searchable, source, ...document }) => ({
           cdtn_id: generateCdtnId(`${source}${id}`),
@@ -188,13 +178,13 @@ async function insertDocuments(docs) {
     console.error(result.error.graphQLErrors[0]);
     throw new Error(`error inserting documents`);
   }
-  return result.data.documents.returning;
+  if (result.data) {
+    return result.data.documents.returning;
+  }
+  return [];
 }
-/**
- *
- * @param {string} source
- */
-async function initDocAvailabity(source) {
+
+async function initDocAvailabity(source: string) {
   console.time(` initDocAvailabity ${source}`);
   const result = await client
     .mutation(updateDocumentAvailability, { source })
@@ -208,12 +198,8 @@ async function initDocAvailabity(source) {
   console.log(` > updated availability of ${nbDocs} documents`);
   return nbDocs;
 }
-/**
- *
- * @param {string} repository
- * @param {string} version
- */
-async function updateVersion(repository, version) {
+
+async function updateVersion(repository: string, version: string) {
   const result = await client
     .mutation(insertPackageVersionMutation, {
       object: { repository, version },
@@ -227,8 +213,14 @@ async function updateVersion(repository, version) {
 }
 
 async function main() {
-  const packagesToUpdate = new Map();
-  for (const [pkgName, getDocuments] of dataPackages) {
+  const packagesToUpdate = new Map<
+    string,
+    {
+      getDocuments: (pkgName: string) => Promise<CdtnDocument[]>;
+      version: string;
+    }
+  >();
+  for (const { pkgName, getDocuments } of dataPackages) {
     const pkgInfo = await getPackageInfo(pkgName);
     if (await isPkgOutdated(pkgName, pkgInfo.version)) {
       console.debug(`download package ${pkgName}@${pkgInfo.version}`);
@@ -247,8 +239,7 @@ async function main() {
   if (args.dryRun) {
     console.log("dry-run mode");
   }
-  /** @type {{cdtn_id:string}[]}} */
-  let ids = [];
+  let ids: { cdtn_id: string }[] = [];
   console.log(`packages to ingest: ${[...packagesToUpdate.keys()]}`);
   for (const [pkgName, { version, getDocuments }] of packagesToUpdate) {
     console.time(`update ${pkgName}`);

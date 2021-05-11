@@ -2,23 +2,17 @@ import slugify from "@socialgouv/cdtn-slugify";
 import cdtnSources from "@socialgouv/cdtn-sources";
 import unistUtilSelect from "unist-util-select";
 
-import { getJson } from "../lib/getJson.js";
+import { getJson } from "../lib/getJson";
 
 const { SOURCES } = cdtnSources;
 const { selectAll } = unistUtilSelect;
 
-/**
- *
- * @param {string} pkgName
- * @returns {Promise<ingester.LegiArticle[]>}
- */
-export default async function getCdtDocuments(pkgName) {
-  /** @type {import("@socialgouv/legi-data-types").Code} */
-  const cdt = await getJson(`${pkgName}/data/LEGITEXT000006072050.json`);
-
-  const articles = /** @type {import("@socialgouv/legi-data-types").CodeArticle[]} */ (
-    /** @type {any[]} */ (selectAll("article", cdt))
+export default async function getCdtDocuments(pkgName: string) {
+  const cdt = await getJson<LegiData.Code>(
+    `${pkgName}/data/LEGITEXT000006072050.json`
   );
+
+  const articles = selectAll("article", cdt) as LegiData.CodeArticle[];
 
   return articles.map(
     ({
@@ -38,11 +32,8 @@ export default async function getCdtDocuments(pkgName) {
     })
   );
 }
-/**
- *
- * @param {string} id
- */
-function getArticleUrl(id) {
+
+function getArticleUrl(id: string) {
   return `https://www.legifrance.gouv.fr/affichCodeArticle.do;?idArticle=${id}&cidTexte=LEGITEXT000006072050`;
 }
 
@@ -50,10 +41,8 @@ function getArticleUrl(id) {
  * Some articles have a num wich is annexe
  * Since we use num as a slug to identify article,
  * we need to create a slug version
- * @param {string} id
- * @param {string} num
  */
-function fixArticleNum(id, num) {
+function fixArticleNum(id: string, num: string) {
   if (num.match(/^annexe\s/i) && !num.includes("article")) {
     return `${num} ${id}`;
   }

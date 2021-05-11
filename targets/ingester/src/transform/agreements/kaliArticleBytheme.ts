@@ -1,18 +1,30 @@
+import { KaliArticleHDN } from "@shared/types";
+import {
+  Agreement,
+  AgreementArticle,
+  AgreementArticleData,
+  AgreementArticleWithParentSections,
+  AgreementSection,
+} from "@socialgouv/kali-data-types";
 import find from "unist-util-find";
-import parents from "unist-util-parents";
+import parents, {
+  NodeWithParent,
+  NodeWithParentChild,
+} from "unist-util-parents";
 
 import { createSorter } from ".";
 
 /**
- * @param {ingester.KaliArticleHDN[]} allBlocks
- * @param {import("@socialgouv/kali-data-types").Agreement} agreementTree
  * @returns {ingester.AgreementArticleByBlock[]}
  */
-export function getKaliArticlesByTheme(allBlocks, agreementTree) {
+export function getKaliArticlesByTheme(
+  allBlocks: KaliArticleHDN[],
+  agreementTree: Agreement
+) {
   const conventionBlocks = allBlocks.find(
     (blocks) => blocks.id === agreementTree.data.id
   );
-  const treeWithParents = parents(agreementTree);
+  const treeWithParents = parents(agreementTree.children);
   if (!conventionBlocks) {
     return [];
   }
@@ -28,7 +40,9 @@ export function getKaliArticlesByTheme(allBlocks, agreementTree) {
             blocks[key].flatMap((articleId) => {
               const node = find(
                 treeWithParents,
-                (node) => node.data.id === articleId
+                (
+                  node: NodeWithParentChild<AgreementSection, AgreementArticle>
+                ) => node.data.id === articleId
               );
               if (!node) {
                 console.error(

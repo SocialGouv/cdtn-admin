@@ -1,17 +1,20 @@
 import { client } from "@shared/graphql-client";
 import slugify from "@socialgouv/cdtn-slugify";
+import { Question } from "@socialgouv/contributions-data-types";
+import { FicheIndex, RawJson } from "@socialgouv/fiches-vdd-types";
+import { IndexedAgreement } from "@socialgouv/kali-data-types";
+import { Code } from "@socialgouv/legi-data-types";
+import { FicheServicePublic } from "../../index.js";
 
 import { getJson } from "../../lib/getJson.js";
-import { referenceResolver } from "../../lib/referenceResolver";
+import { createReferenceResolver } from "../../lib/referenceResolver";
 import { filter } from "./filter.js";
 import { format } from "./format.js";
-// Extract external content url from Content tag markdown
+
 /**
- *
- * @param {string} markdown
- * @returns { string | null}
+ * Extract external content url from Content tag markdown
  */
-function extractMdxContentUrl(markdown) {
+function extractMdxContentUrl(markdown: string) {
   if (!markdown) return null;
   // Check Content tag exist on markdown
   const [, href = ""] = markdown.match(/<Content.*?href="([^"]+)".*?>/) || [];
@@ -28,6 +31,10 @@ query {
   }
 }`;
 
+type FicheIdResult = {
+  ficheIds: { id: string }[];
+};
+
 const updateStatusMutation = `
 mutation updateStatus($ids: [String!],$status: String) {
   update_service_public_contents(_set:{status: $status} where: {
@@ -38,33 +45,27 @@ mutation updateStatus($ids: [String!],$status: String) {
 }
 `;
 
-/**
- *
- * @param {string} pkgName
- */
-export default async function getFichesServicePublic(pkgName) {
+export default async function getFichesServicePublic(pkgName: string) {
   const [contributions, ficheVddIndex, agreements, cdt] = await Promise.all([
-    /** @type {Promise<import("@socialgouv/contributions-data-types").Question[]>} */
-    (getJson("@socialgouv/contributions-data/data/contributions.json")),
-    /** @type {Promise<import("@socialgouv/fiches-vdd-types").FicheIndex[]>} */
-    (getJson("@socialgouv/fiches-vdd/data/index.json")),
-    /** @type {Promise<import("@socialgouv/kali-data-types").IndexedAgreement[]>} */
-    (getJson("@socialgouv/kali-data/data/index.json")),
-    /** @type {Promise<import("@socialgouv/legi-data-types").Code>} */
-    getJson(`@socialgouv/legi-data/data/LEGITEXT000006072050.json`),
+    getJson<Question[]>(
+      "@socialgouv/contributions-data/data/contributions.json"
+    ),
+    getJson<FicheIndex[]>("@socialgouv/fiches-vdd/data/index.json"),
+    getJson<IndexedAgreement[]>("@socialgouv/kali-data/data/index.json"),
+    getJson<Code>(`@socialgouv/legi-data/data/LEGITEXT000006072050.json`),
   ]);
 
-  const resolveCdtReference = referenceResolver(cdt);
+  const resolveCdtReference = createReferenceResolver(cdt);
 
-  /** @type {import("@shared/graphql-client").OperationResult<{ficheIds: {id: string}[]}>} */
-  const results = await client.query(getFicheIdsQuery).toPromise();
+  const results = await client
+    .query<FicheIdResult>(getFicheIdsQuery)
+    .toPromise();
 
   if (results.error) {
     console.error(results.error);
     throw new Error(`error while retrieving ingester packages version`);
   }
-  /** @type {string[]} */
-  let includeFicheId = [];
+  let includeFicheId: string[] = [];
 
   if (results.data) {
     includeFicheId = results.data.ficheIds.map(({ id }) => id);
@@ -82,20 +83,20 @@ export default async function getFichesServicePublic(pkgName) {
   console.timeEnd("service-public updateStatus");
 
   const fichesIdFromContrib = contributions.flatMap(({ answers }) => {
-    const url = extractMdxContentUrl(answers.generic.markdown);
-    if (url) {
-      const [, id] = /** @type {RegExpMatchArray} */ (url.match(/\/(\w+)$/));
+    const url = extractMdxContentUrl(answers.generic.markdown) || "";
+
+    const [, id] = url.match(/\/(\w+)$/) || [];
+    if (id) {
       return id;
     }
     return [];
   });
 
-  /** @type {ingester.FicheServicePublic[]} */
-  const fiches = [];
+  const fiches: FicheServicePublic[] = [];
   for (const { id: idFiche, type } of listFicheVdd) {
     let fiche;
     try {
-      fiche = await getJson(`${pkgName}/data/${type}/${idFiche}.json`);
+      fiche = await getJson<RawJson>(`${pkgName}/data/${type}/${idFiche}.json`);
     } catch (err) {
       console.error(">", `${pkgName}/data/${type}/${idFiche}.json`);
       continue;

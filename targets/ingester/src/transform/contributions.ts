@@ -1,21 +1,19 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import cdtnSources from "@socialgouv/cdtn-sources";
+import { IndexedAgreement } from "@socialgouv/kali-data-types";
 
-import { getJson } from "../lib/getJson.js";
+import { getJson } from "../lib/getJson";
 
 const { SOURCES } = cdtnSources;
 
-/**
- *
- * @param {string} pkgName
- * @returns {Promise<ingester.Contribution[]>}
- */
-export default async function getContributionsDocuments(pkgName) {
-  /** @type {import("@socialgouv/contributions-data-types").Question[]} */
-  const data = await getJson(`${pkgName}/data/contributions.json`);
+export default async function getContributionsDocuments(pkgName: string) {
+  const data = await getJson<ContributionsData.Question[]>(
+    `${pkgName}/data/contributions.json`
+  );
 
-  /** @type {import("@socialgouv/kali-data-types").IndexedAgreement[]} */
-  const agreements = await getJson(`@socialgouv/kali-data/data/index.json`);
+  const agreements = await getJson<IndexedAgreement[]>(
+    `@socialgouv/kali-data/data/index.json`
+  );
 
   return data.flatMap(({ title, answers, id, index }) => {
     const allAnswers = {
