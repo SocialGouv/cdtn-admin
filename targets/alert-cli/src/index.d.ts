@@ -6,8 +6,6 @@ import { ParseDilaReference } from "@shared/types";
 
 export function fileFilterFn(path: string): Boolean;
 
-export function nodeComparatorFn(node1: DilaNode, node2: DilaNode): Boolean;
-
 export function compareTreeFn<T>(tree: T, tree2: T): Changes;
 
 export function insertAlert(
@@ -157,4 +155,18 @@ export type FicheTravailEmploiInfo = {
   pubId: string;
   title: string;
   url: string;
+};
+
+type DilaNode =
+  | LegiData.CodeArticle
+  | LegiData.CodeSection
+  | KaliData.AgreementSection
+  | KaliData.AgreementArticle;
+
+type DilaArticle = LegiData.CodeArticle | KaliData.AgreementArticle;
+type DilaSection = LegiData.CodeSection | KaliData.AgreementSection;
+
+// Temporarry fix before KaliData type will be updated
+type Agreement = Omit<KaliData.Agreement, "type"> & {
+  type: "convention collective";
 };

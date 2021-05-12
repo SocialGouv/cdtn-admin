@@ -19,6 +19,8 @@
     "@socialgouv/contributions-data-types": "^3.20.0",
     "@socialgouv/eslint-config-recommended": "^1.64.0",
     "@socialgouv/fiches-travail-data-types": "^4.111.0",
+    "@socialgouv/kali-data-types": "^2.58.0",
+    "@socialgouv/legi-data-types": "^2.40.0",
     "@types/jest": "^26.0.22",
     "@types/memoizee": "^0.4.5",
     "@types/node": "^14.14.37",

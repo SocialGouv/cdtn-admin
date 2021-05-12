@@ -19,7 +19,5 @@ declare module "unist-util-parents" {
     children: NodeWithParent<T>[];
   };
 
-  export default function parent<T>(node: T): RootNodeWithParent<T>;
-
   export default function parent<R, C>(node: R): RootNodeWithParentChild<R, C>;
 }

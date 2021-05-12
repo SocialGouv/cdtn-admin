@@ -1,47 +1,29 @@
-import parents from "unist-util-parents";
+import parents, { NodeWithParent, Root } from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
-/**
- * Transform a Kali or Legi id into a number
- * @param {string} id
- */
-function numify(id) {
-  return parseInt(id.replace(/(LEGIARTI|KALIARTI)/, ""), 10) || 0;
-}
-/**
- * filter DilaTree with uniq / latest article since there is a bug
- * in legi-data wich don't correctly filter article
- * this function could be removed once the last alert from legi will be 1.24
- *
- * @param {alerts.DilaNode} node
- * @param {*} _
- * @param {alerts.DilaNode[]} nodes
- */
-export function uniq(node, _, nodes) {
-  const ids = nodes
-    .filter((item) => item.data.cid === node.data.cid)
-    .map((item) => numify(item.data.id));
-  const max = Math.max(0, ...ids);
-  return numify(node.data.id) === max;
-}
+import { AgreementArticleData } from "@socialgouv/kali-data-types";
+import { DilaArticle, DilaNode, DilaSection } from "src";
+import { Agreement } from "@shared/types";
 
-/**
- * @param {alerts.DilaNode | null} node
- */
-const getParents = (node) => {
+const getParents = (
+  node: NodeWithParent<DilaSection, DilaArticle | DilaSection>
+) => {
   var chain = [];
   while (node) {
-    node.data.title && chain.unshift(node.data.title);
+    if (node.type === "section") {
+      chain.unshift(node.data.title);
+    }
     node = node.parent;
   }
   return chain;
 };
 
-// find the first parent text id to make legifrance links later
 /**
- * @param {alerts.DilaNode} node
+ *find the first parent text id to make legifrance links later
  */
-const getParentTextId = (node) => {
+const getParentTextId = (
+  node: NodeWithParent<DilaSection, DilaArticle | DilaSection>
+) => {
   let id;
   let tempNode = node.parent;
   while (tempNode) {
@@ -58,11 +40,12 @@ const getParentTextId = (node) => {
   return id || null;
 };
 
-// find the root text id to make legifrance links later
 /**
- * @param {alerts.DilaNode | null} node
+ * find the root text id to make legifrance links later
  */
-const getRootId = (node) => {
+const getRootId = (
+  node?: NodeWithParent<DilaSection, DilaArticle | DilaSection>
+) => {
   let id;
   while (node) {
     id = node.data.id;
@@ -75,7 +58,9 @@ const getRootId = (node) => {
  * @param {alerts.DilaNode} node
  * @returns {alerts.DilaNodeWithContext} node
  */
-const addContext = (node) => ({
+const addContext = (
+  node: NodeWithParent<DilaSection, DilaArticle | DilaSection>
+) => ({
   ...node,
   context: {
     containerId: getRootId(node),
@@ -85,35 +70,42 @@ const addContext = (node) => ({
 });
 
 // dont include children in final results
-/**
- * @param {import("unist").Node} node
- */
-// eslint-disable-next-line no-unused-vars
-const stripChildren = ({ children, ...props }) => props;
+const stripChildren = (node: DilaArticle | DilaSection) => {
+  if (node.type === "section") {
+    const { children, ...props } = node;
+    return props;
+  }
+  return node;
+};
+
+type nodeComparatorFn = <A>(node1: A, node2: A) => Boolean;
 
 /**
- *
- * @param {alerts.DilaNode} tree1
- * @param {alerts.DilaNode} tree2
- * @param {alerts.nodeComparatorFn<alerts.DilaNode>} comparator
  * @returns {alerts.AstChanges} diffed articles nodes
  */
-export const compareArticles = (tree1, tree2, comparator) => {
-  const parentsTree1 = parents(tree1);
-  const parentsTree2 = parents(tree2);
+
+export const compareArticles = <A extends alerts.Agreement | LegiData.Code>(
+  tree1: A,
+  tree2: A,
+  comparator: nodeComparatorFn
+) => {
+  const parentsTree1 = parents<A>(tree1);
+  const parentsTree2 = parents<A>(tree2);
 
   // all articles from tree1
-  const articles1 = selectAll("article", parentsTree1)
-    .filter(uniq)
-    .map(addContext);
+  const articles1 = selectAll<A, NodeWithParent<DilaSection, DilaArticle>>(
+    "article",
+    parentsTree1
+  ).map(addContext);
   const articles1cids = articles1
     .map((a) => a && a.data && a.data.cid)
     .filter(Boolean);
 
   // all articles from tree2
-  const articles2 = selectAll("article", parentsTree2)
-    .filter(uniq)
-    .map(addContext);
+  const articles2 = selectAll<A, NodeWithParent<DilaSection, DilaArticle>>(
+    "article",
+    parentsTree2
+  ).map(addContext);
   const articles2cids = articles2
     .map((a) => a && a.data && a.data.cid)
     .filter(Boolean);
@@ -147,12 +139,18 @@ export const compareArticles = (tree1, tree2, comparator) => {
   );
 
   // all sections from tree1
-  const sections1 = selectAll("section", parentsTree1).map(addContext);
+  const sections1 = selectAll<A, NodeWithParent<DilaSection, DilaSection>>(
+    "section",
+    parentsTree1
+  ).map(addContext);
 
   const sections1cids = sections1.map((a) => a.data.cid);
 
   // all sections from tree2
-  const sections2 = selectAll("section", parentsTree2).map(addContext);
+  const sections2 = selectAll<A, NodeWithParent<DilaSection, DilaSection>>(
+    "section",
+    parentsTree2
+  ).map(addContext);
   const sections2cids = sections2.map((a) => a.data.cid);
 
   // new : sections in tree2 not in tree1

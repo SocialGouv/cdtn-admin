@@ -1,1 +1,1 @@
-export function selectAll<T>(selector: string, tree: T): T[]
+export function selectAll<T, C>(selector: string, tree: T): C[];
