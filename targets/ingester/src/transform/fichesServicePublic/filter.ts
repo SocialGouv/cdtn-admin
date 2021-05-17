@@ -1,4 +1,4 @@
-import { FicheIndex } from "@socialgouv/fiches-vdd-types";
+import type { FicheIndex } from "@socialgouv/fiches-vdd-types";
 
 /**
  * Return a filtered set of FicheIndex

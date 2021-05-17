@@ -4,8 +4,8 @@ import type { Question } from "@socialgouv/contributions-data-types";
 import type { Agreement, IndexedAgreement } from "@socialgouv/kali-data-types";
 import remark from "remark";
 import html from "remark-html";
-import { AgreementPage } from "../../index.js";
 
+import type { AgreementPage } from "../../index.js";
 import { formatIdcc } from "../../lib/formatIdcc.js";
 import { getJson } from "../../lib/getJson.js";
 import { getAllKaliBlocks } from "./getKaliBlock.js";
@@ -95,22 +95,26 @@ function getContributionAnswers(
 ) {
   return contributionsWithSlug
     .flatMap(({ title, slug, index, answers }) => {
-      const [answer] = answers.conventions.filter(
+      const maybeAnswer = answers.conventions.filter(
         ({ idcc }) => parseInt(idcc, 10) === agreementNum
       );
-      const unhandledRegexp = /La convention collective ne prévoit rien sur ce point/i;
-      if (answer && !unhandledRegexp.test(answer.markdown)) {
-        return [
-          {
-            answer: compiler.processSync(answer.markdown).contents.toString(),
-            index,
-            question: title.trim(),
-            references: answer.references,
-            slug,
-          },
-        ];
+      if (maybeAnswer.length === 0) {
+        return [];
       }
-      return [];
+      const [answer] = maybeAnswer;
+      const unhandledRegexp = /La convention collective ne prévoit rien sur ce point/i;
+      if (unhandledRegexp.test(answer.markdown)) {
+        return [];
+      }
+      return [
+        {
+          answer: compiler.processSync(answer.markdown).contents.toString(),
+          index,
+          question: title.trim(),
+          references: answer.references,
+          slug,
+        },
+      ];
     })
     .sort(createSorter((a) => a.index));
 }

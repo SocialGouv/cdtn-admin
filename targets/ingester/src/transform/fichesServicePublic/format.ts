@@ -1,12 +1,15 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import { RawJson } from "@socialgouv/fiches-vdd-types";
-import { IndexedAgreement } from "@socialgouv/kali-data-types";
+import type { RawJson } from "@socialgouv/fiches-vdd-types";
+import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 
-import { parseReferences } from "./parseReference.js";
-import { ReferenceResolver } from "../../lib/referenceResolver";
+import type { ReferenceResolver } from "../../lib/referenceResolver";
+import { parseReferences } from "./parseReference";
 
 function getChild(element: RawJson, name: string) {
-  return element.children.find((el) => el.name === name);
+  if (element.children !== undefined) {
+    return element.children.find((el) => el.name === name);
+  }
+  return undefined;
 }
 
 /**
@@ -30,11 +33,14 @@ export function format(
   resolveCdtReference: ReferenceResolver,
   agreements: IndexedAgreement[]
 ) {
+  if (!fiche.children) {
+    throw new Error(`Parsing error on Fiche ${fiche.attributes.ID}`);
+  }
   const publication = fiche.children[0];
   const { ID: id } = publication.attributes;
 
   // We filter out the elements we will never use nor display
-  publication.children = publication.children.filter(
+  publication.children = publication.children?.filter(
     (child) => child.name !== "OuSAdresser" && child.name !== "ServiceEnLigne"
   );
 
@@ -54,9 +60,8 @@ export function format(
   const listeSituations = getText(getChild(publication, "ListeSituations"));
   const text = intro + " " + texte + " " + listeSituations;
 
-  const references = publication.children.filter(
-    (el) => el.name === "Reference"
-  );
+  const references =
+    publication.children?.filter((el) => el.name === "Reference") ?? [];
 
   const referencedTexts = parseReferences(
     references,

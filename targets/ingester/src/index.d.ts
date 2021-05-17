@@ -1,10 +1,11 @@
+import type { TravailEmploiReference } from "@shared/types";
 import type { SourceValues } from "@socialgouv/cdtn-sources";
 import type {
   Answer,
-  Question,
+  BaseRef,
   DilaRef,
   GenericAnswer,
-  BaseRef,
+  Question,
 } from "@socialgouv/contributions-data-types";
 
 export as namespace ingester;
@@ -16,7 +17,7 @@ type Document = {
   source: SourceValues;
   text: string;
   slug: string;
-  is_searchable: Boolean;
+  is_searchable: boolean;
 };
 
 type ExternalDocument = Document & {
@@ -58,12 +59,12 @@ type TravailEmploiSection = {
   html: string;
   text: string;
   description: string;
-  references: FicheTravailEmploiReference[];
+  references: TravailEmploiReference[];
 };
 
 type AgreementPage = Document & {
   num: number;
-  date_publi?: string;
+  publishDate?: string;
   effectif?: number;
   mtime?: number;
   shortTitle: string;
@@ -75,7 +76,7 @@ type AgreementPage = Document & {
 
 type AgreementAnswer = {
   index: number;
-  references: (DilaRef | BaseRef)[];
+  references: (BaseRef | DilaRef)[];
   slug: string;
   question: string;
   answer: string;
@@ -91,24 +92,13 @@ type AgreementArticleByBlock = {
   }[];
 };
 
-type FicheTravailEmploiReference = {
-  id: string;
-  cid: string;
-  title: string;
-  type: "conventions_collectives" | "code_du_travail";
-  url: string;
-  slug: string;
-};
-
-type ReferencedTexts = ExternalReference | InternalReference;
-
 /** Document type */
 type CdtnDocument =
-  | Contribution
-  | LegiArticle
   | AgreementPage
+  | Contribution
   | FicheServicePublic
-  | FicheTravailEmploi;
+  | FicheTravailEmploi
+  | LegiArticle;
 
 // type EditorialDocument = Document & {
 //   date: string

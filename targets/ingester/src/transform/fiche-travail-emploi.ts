@@ -1,6 +1,6 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
+import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
 
 import { getJson } from "../lib/getJson";
 import {
@@ -29,11 +29,13 @@ export default async function getFicheTravailEmploi(pkgName: string) {
           }
           const { articles } = references[key];
           return articles.flatMap(({ id }) => {
-            const [article] = resolveCdtReference(id) as LegiData.CodeArticle[];
-            if (!article) {
+            const maybeArticle = resolveCdtReference(
+              id
+            ) as LegiData.CodeArticle[];
+            if (maybeArticle.length !== 1) {
               return [];
             }
-            return articleToReference(article);
+            return articleToReference(maybeArticle[0]);
           });
         }),
       })),

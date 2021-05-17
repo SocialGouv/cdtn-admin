@@ -1,22 +1,10 @@
 {
+  "extends": "../../tsconfig.build.json",
   "compilerOptions": {
-    "target": "ES5",
-    "outDir": "./lib",
-    "declaration": true,
-    "checkJs": true,
-    "downlevelIteration": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "lib": ["es2020"],
-    "module": "commonjs",
-    "moduleResolution": "Node",
-    "resolveJsonModule": true
+    "target": "es2015",
+    "moduleResolution": "node",
+    "esModuleInterop": true
   },
   "include": ["src", "@types"],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["__tests__"]
 }

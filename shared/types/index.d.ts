@@ -1,9 +1,13 @@
-import { CodeArticle } from "@socialgouv/legi-data-types";
+import { CodeArticle, CodeArticleData } from "@socialgouv/legi-data-types";
 import {
   Answer,
+  GenericAnswer,
   IndexedAgreement,
   Reference as ContributionReference,
 } from "@socialgouv/contributions-data-types";
+
+import "@socialgouv/cdtn-sources";
+
 export as namespace admin;
 
 type HasuraDocuments = {
@@ -74,17 +78,24 @@ interface Section {
 type TravailEmploiReference = {
   id: string;
   cid: string;
+  slug: string;
   title: string;
   type: "conventions_collectives" | "code_du_travail";
   url: string;
-  slug: string;
 };
 
 type ContributionCompleteDoc = {
   index;
   split;
   description;
-  answers: CCSingleAnswer | CCMultipleAnswers;
+  answers: CCMultipleAnswers;
+};
+
+type ContributionFilteredDoc = {
+  index;
+  split;
+  description;
+  answers: CCSingleAnswer;
 };
 
 type CCMultipleAnswers = {
@@ -97,10 +108,10 @@ type CCSingleAnswer = {
   conventionAnswer: Answer;
 };
 
-type LaborCodeDoc = Pick<
-  CodeArticleData,
-  "description" | "html" | "dateDebut" | "url"
-> & {
+type LaborCodeDoc = Pick<CodeArticleData, "dateDebut" | "id" | "cid"> & {
+  description: string;
+  html;
+  url: string;
   notaHtml?: string;
 };
 
@@ -109,13 +120,17 @@ type FicheServicePublicDoc = {
   url: string;
   date: string;
   description: string;
-  referencedTexts: (ExternalReference | InternalReference)[];
+  referencedTexts: ServicePublicReference[];
 };
+
+type ServicePublicReference =
+  | ServicePublicExternalReference
+  | ServicePublicInternalReference;
 
 type ServicePublicInternalReference = {
   title: string;
   slug: string;
-  type: Exclude<cdtnSources.SourceRoute, "external">;
+  type: "code_du_travail" | "conventions_collectives";
 };
 
 type ServicePublicExternalReference = {
@@ -157,3 +172,25 @@ type KaliArticleHDN = {
   id: string;
   blocks: { [key: string]: string[] };
 };
+
+export interface KaliBlock {
+  id: string;
+  idcc: number;
+  title: string;
+  blocks: Blocks;
+}
+
+export interface Blocks {
+  "1"?: string[];
+  "2"?: string[];
+  "4"?: string[];
+  "6": string[];
+  "7"?: string[];
+  "9"?: string[];
+  "10"?: string[];
+  "15"?: string[];
+  "16"?: string[];
+  "3"?: string[];
+  "5"?: string[];
+  "11"?: string[];
+}

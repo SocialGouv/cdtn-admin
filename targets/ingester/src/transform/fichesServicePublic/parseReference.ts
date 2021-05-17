@@ -1,11 +1,18 @@
+import type {
+  ServicePublicExternalReference,
+  ServicePublicInternalReference,
+  ServicePublicReference,
+} from "@shared/types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import { RawJson } from "@socialgouv/fiches-vdd-types";
-import { IndexedAgreement } from "@socialgouv/kali-data-types";
-import { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
-import queryString, { ParsedQuery } from "query-string";
+import type { RawJson } from "@socialgouv/fiches-vdd-types";
+import type { IndexedAgreement } from "@socialgouv/kali-data-types";
+import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
+import type { ParsedQuery } from "query-string";
+import * as queryString from "query-string";
 
-import { fixArticleNum, ReferenceResolver } from "../../lib/referenceResolver";
+import type { ReferenceResolver } from "../../lib/referenceResolver";
+import { fixArticleNum } from "../../lib/referenceResolver";
 
 function isConventionCollective(qs: ParsedQuery) {
   return qs.idConvention;
@@ -32,7 +39,9 @@ function isPreviousLegifranceUrl(url: string) {
   return /affich.+\.do/.test(url);
 }
 
-function cdtArticleReference(article: CodeArticle) {
+function cdtArticleReference(
+  article: CodeArticle
+): ServicePublicInternalReference {
   return {
     slug: slugify(fixArticleNum(article.data.id, article.data.num)),
     title: article.data.num,
@@ -40,7 +49,9 @@ function cdtArticleReference(article: CodeArticle) {
   };
 }
 
-function agreementReference(agreement: IndexedAgreement) {
+function agreementReference(
+  agreement: IndexedAgreement
+): ServicePublicInternalReference {
   const { num, shortTitle } = agreement;
   return {
     slug: slugify(`${num}-${shortTitle}`.substring(0, 80)),
@@ -49,7 +60,10 @@ function agreementReference(agreement: IndexedAgreement) {
   };
 }
 
-function externalReference(url: string, label: string) {
+function externalReference(
+  url: string,
+  label: string
+): ServicePublicExternalReference {
   return {
     title: label,
     type: SOURCES.EXTERNALS,
@@ -61,18 +75,17 @@ export function parseReferences(
   references: RawJson[],
   resolveCdtReference: ReferenceResolver,
   agreements: IndexedAgreement[]
-) {
-  /** @type {ingester.ReferencedTexts[][]} */
+): ServicePublicReference[] {
   const referencedTexts = [];
 
   for (const reference of references) {
     const { URL: url } = reference.attributes;
-    const label = reference.children[0].children[0].text;
+    const label = reference.children?.[0]?.children?.[0]?.name;
     const refExtractor = isPreviousLegifranceUrl(url)
       ? extractOldReference
       : extractNewReference;
 
-    const refs = refExtractor(url, label, resolveCdtReference, agreements);
+    const refs = refExtractor(resolveCdtReference, agreements, url, label);
     referencedTexts.push(refs);
   }
   return referencedTexts.flat();
@@ -81,11 +94,11 @@ export function parseReferences(
  * @returns {ingester.ReferencedTexts[]}
  */
 export function extractOldReference(
-  url: string,
-  label: string,
   resolveCdtReference: ReferenceResolver,
-  agreements: IndexedAgreement[]
-) {
+  agreements: IndexedAgreement[],
+  url: string,
+  label = ""
+): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
   /**
    * Typologie des anciens liens legifrance
    *
@@ -100,14 +113,16 @@ export function extractOldReference(
    */
   const qs = queryString.parse(url.split("?")[1]);
 
-  const unwrapQuerystringParam = (param: string | string[]) => {
+  const unwrapQuerystringParam = (param: string[] | string) => {
     return Array.isArray(param) ? param[0] : param;
   };
+
   const type = getTextType(qs);
+
   switch (type) {
     case "code-du-travail": {
       if (qs.idArticle) {
-        const [article] = resolveCdtReference(
+        const [article = undefined] = resolveCdtReference(
           unwrapQuerystringParam(qs.idArticle)
         ) as CodeArticle[];
         if (!article) {
@@ -119,7 +134,7 @@ export function extractOldReference(
         return [cdtArticleReference(article)];
       }
       if (qs.idSectionTA) {
-        const [section] = resolveCdtReference(
+        const [section = undefined] = resolveCdtReference(
           unwrapQuerystringParam(qs.idSectionTA)
         ) as CodeSection[];
         if (!section) {
@@ -145,9 +160,7 @@ export function extractOldReference(
     }
 
     case "convention-collective": {
-      const convention = agreements.find(
-        (convention) => convention.id === qs.idConvention
-      );
+      const convention = agreements.find((ccn) => ccn.id === qs.idConvention);
       if (!convention) {
         console.error(
           `extractOldReferences: unkown convention id ${qs.idConvention}`
@@ -167,11 +180,11 @@ export function extractOldReference(
  * @returns {ingester.ReferencedTexts[]}
  */
 export function extractNewReference(
-  url: string,
-  label: string,
   resolveCdtReference: ReferenceResolver,
-  agreements: IndexedAgreement[]
-) {
+  agreements: IndexedAgreement[],
+  url: string,
+  label = ""
+): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
   /**
    * typologie des nouveaux liens legifrance que l'on trouve dans les fiches service-public.fr
    *
@@ -193,36 +206,40 @@ export function extractNewReference(
    *
    */
 
-  if (/\/codes\//.test(url)) {
-    if (/LEGIARTI/.test(url)) {
-      const [, articleId] = url.match(/(LEGIARTI\w+)(\W|$)/) || [];
-      const [article] = resolveCdtReference(articleId) as CodeArticle[];
-      if (article) {
-        return [cdtArticleReference(article)];
+  if (url.includes("/codes/")) {
+    if (url.includes("LEGIARTI")) {
+      const [, articleId] = /(LEGIARTI\w+)(\W|$)/.exec(url) ?? [];
+      const [article = undefined] = resolveCdtReference(
+        articleId
+      ) as CodeArticle[];
+      if (!article) {
+        return [];
       }
-    } else if (/LEGISCTA/.test(url)) {
-      const [, sectionId] = url.match(/(LEGISCTA\w+)(\W|$)/) || [];
-      const [section] = resolveCdtReference(sectionId) as CodeSection[];
+      return [cdtArticleReference(article)];
+    } else if (url.includes("LEGISCTA")) {
+      const [, sectionId] = /(LEGISCTA\w+)(\W|$)/.exec(url) ?? [];
+      const [section = undefined] = resolveCdtReference(
+        sectionId
+      ) as CodeSection[];
 
-      if (section) {
-        if (section.children.every((child) => child.type !== "article")) {
-          return [externalReference(url, label)];
-        }
-        return section.children.flatMap((child) => {
-          if (child.type !== "article") {
-            return [];
-          }
-          return [cdtArticleReference(child)];
-        });
+      if (!section) {
+        return [];
       }
+      if (section.children.every((child) => child.type !== "article")) {
+        return [externalReference(url, label)];
+      }
+      return section.children.flatMap((child) => {
+        if (child.type !== "article") {
+          return [];
+        }
+        return [cdtArticleReference(child)];
+      });
     }
   }
 
-  if (/\/conv_coll\//.test(url)) {
-    const [, kalicontainerId] = url.match(/(KALICONT\w+)(\W|$)/) || [];
-    const convention = agreements.find(
-      (convention) => convention.id === kalicontainerId
-    );
+  if (url.includes("/conv_coll/")) {
+    const [, kalicontainerId] = /(KALICONT\w+)(\W|$)/.exec(url) ?? [];
+    const convention = agreements.find((ccn) => ccn.id === kalicontainerId);
     if (!convention) {
       console.error(
         `extractNewReferences: unkown convention id ${kalicontainerId}`

@@ -1,11 +1,8 @@
 import slugify from "@socialgouv/cdtn-slugify";
-import cdtnSources from "@socialgouv/cdtn-sources";
-import unistUtilSelect from "unist-util-select";
+import { SOURCES } from "@socialgouv/cdtn-sources";
+import { selectAll } from "unist-util-select";
 
 import { getJson } from "../lib/getJson";
-
-const { SOURCES } = cdtnSources;
-const { selectAll } = unistUtilSelect;
 
 export default async function getCdtDocuments(pkgName: string) {
   const cdt = await getJson<LegiData.Code>(
@@ -43,7 +40,7 @@ function getArticleUrl(id: string) {
  * we need to create a slug version
  */
 function fixArticleNum(id: string, num: string) {
-  if (num.match(/^annexe\s/i) && !num.includes("article")) {
+  if (/^annexe\s/i.exec(num) && !num.includes("article")) {
     return `${num} ${id}`;
   }
   return num;
