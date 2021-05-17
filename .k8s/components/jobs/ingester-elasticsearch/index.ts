@@ -7,7 +7,7 @@ import { ok } from "assert";
 import type { ConfigMap } from "kubernetes-models/_definitions/IoK8sApiCoreV1ConfigMap";
 import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
 import { Job } from "kubernetes-models/batch/v1/Job";
-
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils";
 import { ES_INDEX_PREFIX } from "../../../utils/ES_INDEX_PREFIX";
 
 const target = process.env.INGESTER_ELASTICSEARCH_TARGET;
@@ -75,7 +75,9 @@ const job = new Job({
         containers: [
           {
             name: `ingester-elasticsearch-target-${target}`,
-            image: `${process.env.CI_REGISTRY_IMAGE}/ingester-elasticsearch:${tag}`,
+            image: getHarborImagePath({
+              name: "cdtn-admin-ingester-elasticsearch",
+            }),
             imagePullPolicy: "IfNotPresent",
             resources: {
               limits: {
