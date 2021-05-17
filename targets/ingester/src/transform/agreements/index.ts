@@ -1,7 +1,7 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import { Question } from "@socialgouv/contributions-data-types";
-import { Agreement, IndexedAgreement } from "@socialgouv/kali-data-types";
+import type { Question } from "@socialgouv/contributions-data-types";
+import type { Agreement, IndexedAgreement } from "@socialgouv/kali-data-types";
 import remark from "remark";
 import html from "remark-html";
 import { AgreementPage } from "../../index.js";
