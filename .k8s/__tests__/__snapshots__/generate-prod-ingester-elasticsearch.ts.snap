@@ -103,7 +103,7 @@ spec:
       containers:
         - name: ingester-elasticsearch-target-preprod
           image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester-elasticsearch:1.2.3
+            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester-elasticsearch:1.2.3
           imagePullPolicy: IfNotPresent
           resources:
             limits:
@@ -229,7 +229,7 @@ spec:
       containers:
         - name: ingester-elasticsearch-target-prod
           image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester-elasticsearch:1.2.3
+            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester-elasticsearch:1.2.3
           imagePullPolicy: IfNotPresent
           resources:
             limits:
