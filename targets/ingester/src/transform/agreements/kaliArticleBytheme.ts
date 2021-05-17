@@ -1,5 +1,5 @@
 import { KaliArticleHDN } from "@shared/types";
-import {
+import type {
   Agreement,
   AgreementArticle,
   AgreementArticleData,
