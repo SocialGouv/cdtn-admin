@@ -14,7 +14,6 @@ const target = process.env.INGESTER_ELASTICSEARCH_TARGET;
 ok(target, "Missing INGESTER_ELASTICSEARCH_TARGET");
 
 ok(process.env.CI_REGISTRY_IMAGE, "Missing CI_REGISTRY_IMAGE");
-  
 const gitlabEnv = gitlab(process.env);
 const name = `ingester-elasticsearch-${target}`;
 const annotations = merge(gitlabEnv.annotations || {}, {
