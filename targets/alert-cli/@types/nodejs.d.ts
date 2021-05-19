@@ -1,0 +1,8 @@
+/**
+ * overrive process.env to expose project env
+ */
+// declare namespace NodeJS {
+//   export interface ProcessEnv {
+//     CONTRIBUTIONS_ENDPOINT?: string;
+//   }
+// }

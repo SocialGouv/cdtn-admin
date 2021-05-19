@@ -1,3 +1,5 @@
+import type { HasuraDocument } from "@shared/types";
+
 export const getAllDocumentsBySourceQuery = `
 query getAllDocumentsBySource($source: String!, $limit:Int=10,$offset:Int=0 ) {
   documents(
@@ -13,6 +15,17 @@ query getAllDocumentsBySource($source: String!, $limit:Int=10,$offset:Int=0 ) {
   }
 }
 `;
+export type HasuraDocumentForAlert = Pick<
+  HasuraDocument,
+  "document" | "source" | "title"
+> & {
+  id: string;
+  cdtnId: string;
+};
+
+export type AllDocumentsBySourceResult = {
+  documents: HasuraDocumentForAlert;
+};
 
 export const countDocumentsBySourceQuery = `
 query coundDocumentsBySource($source:String!){
@@ -22,3 +35,11 @@ query coundDocumentsBySource($source:String!){
     }
   }
 }`;
+
+export type CountDocumentsBySourceResult = {
+  documents_aggregate: {
+    aggregate: {
+      count: number;
+    };
+  };
+};

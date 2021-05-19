@@ -1,8 +1,12 @@
 {
-  "extends": ["@socialgouv/eslint-config-recommended"],
+  "extends": ["@socialgouv/eslint-config-typescript"],
   "settings": {
     "jest": {
       "version": 26
     }
+  },
+  "rules": {
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/naming-convention": "off"
   }
 }

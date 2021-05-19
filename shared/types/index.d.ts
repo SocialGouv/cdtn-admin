@@ -10,7 +10,7 @@ import "@socialgouv/cdtn-sources";
 
 export as namespace admin;
 
-type HasuraDocuments = {
+type BaseHasuraDocument = {
   cdtn_id: string;
   initial_id: string;
   is_available: Boolean;
@@ -18,43 +18,49 @@ type HasuraDocuments = {
   is_published: Boolean;
   meta_description: string;
   slug: string;
-  source: cdtnSources.SourceRoute;
   title: string;
   text: string;
   created_at: Date;
   updated_at: Date;
 };
 
-type FicheTravailEmploi = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "fiches_travail_emploi">;
+type FicheTravailEmploi = BaseHasuraDocument & {
+  source: "fiches_ministere_travail";
   document: FicheTravailEmploiDoc;
 };
 
-type ContributionComplete = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "contributions">;
+type ContributionComplete = BaseHasuraDocument & {
+  source: "contributions";
   document: ContributionCompleteDoc;
 };
 
-type ContributionFiltered = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "contributions">;
+type ContributionFiltered = BaseHasuraDocument & {
+  source: "contributions";
   document: ContributionFilteredDoc;
 };
 
-type LaborCodeArticle = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "code_du_travail">;
+type LaborCodeArticle = BaseHasuraDocument & {
+  source: "code_du_travail";
   document: LaborCodeDoc;
 };
 
-type FicheServicePublic = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "fiches_service_public">;
+type FicheServicePublic = BaseHasuraDocument & {
+  source: "fiches_service_public";
   document: FicheServicePublicDoc;
 };
 
-type Agreement = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "conventions_collectives">;
+type Agreement = BaseHasuraDocument & {
+  source: "conventions_collectives";
   document: AgreementDoc;
 };
 
+type HasuraDocument =
+  | Agreement
+  | ContributionComplete
+  | ContributionFiltered
+  | FicheServicePublic
+  | FicheTravailEmploi
+  | LaborCodeArticle;
 /**
  * Document Table's document type
  */
@@ -80,21 +86,21 @@ type TravailEmploiReference = {
   cid: string;
   slug: string;
   title: string;
-  type: "conventions_collectives" | "code_du_travail";
+  type: "code_du_travail" | "conventions_collectives";
   url: string;
 };
 
 type ContributionCompleteDoc = {
-  index;
-  split;
-  description;
+  index: number;
+  split: false;
+  description: string;
   answers: CCMultipleAnswers;
 };
 
 type ContributionFilteredDoc = {
-  index;
-  split;
-  description;
+  index: number;
+  split: true;
+  description: string;
   answers: CCSingleAnswer;
 };
 
@@ -110,7 +116,7 @@ type CCSingleAnswer = {
 
 type LaborCodeDoc = Pick<CodeArticleData, "dateDebut" | "id" | "cid"> & {
   description: string;
-  html;
+  html: string;
   url: string;
   notaHtml?: string;
 };
@@ -194,3 +200,12 @@ export interface Blocks {
   "5"?: string[];
   "11"?: string[];
 }
+
+export type ParseDilaReference = {
+  url: string;
+  category: string;
+  title: string;
+  dila_id: string;
+  dila_cid: string;
+  dila_container_id: string;
+};

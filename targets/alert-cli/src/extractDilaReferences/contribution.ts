@@ -2,15 +2,16 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
 
-/** @type {alerts.DocumentReferences[]} */
-let references;
+let references: alerts.DocumentReferences[];
 
 /**
  * @param {import("@shared/types").ContributionDocument[]} questions
  */
-export function extractContributionsRef(questions) {
-  /** @type {alerts.DocumentReferences[]} */
-  const references = [];
+export function extractContributionsRef(
+  questions: import("@shared/types").ContributionComplete
+) {
+  /** @type {} */
+  const references: alerts.DocumentReferences[] = [];
 
   for (const question of questions) {
     references.push({

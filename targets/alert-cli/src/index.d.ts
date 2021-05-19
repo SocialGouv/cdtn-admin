@@ -1,10 +1,10 @@
-import { Node } from "unist";
 import { Commit } from "nodegit";
 import { NodeWithParent } from "unist-util-parents";
-import { SOURCES } from "@socialgouv/cdtn-sources";
-import { ParseDilaReference } from "@shared/types";
+import { HasuraDocument } from "@shared/types";
+import { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
+import "@socialgouv/kali-data-types";
 
-export function fileFilterFn(path: string): Boolean;
+export function fileFilterFn(path: string): boolean;
 
 export function compareTreeFn<T>(tree: T, tree2: T): Changes;
 
@@ -26,38 +26,41 @@ type Source = {
 };
 
 type AstChanges = {
-  modified: NodeWithParent[];
-  removed: NodeWithParent[];
-  added: NodeWithParent[];
+  modified: NodeWithParent<DilaSection, DilaNode>[];
+  removed: NodeWithParent<DilaSection, DilaNode>[];
+  added: NodeWithParent<DilaSection, DilaNode>[];
 };
 
 type Changes = AstChanges & {
-  documents: { document: DocumentInfo; references: ParseDilaReference[] }[];
+  documents: {
+    document: DocumentInfo;
+    references: ContributionsData.Reference[];
+  }[];
 };
 
-type DilaAlertChanges = {
+type DilaAlertChanges = Changes & {
   type: "dila";
   ref: string;
   file: string;
   id: string;
-  num: Number;
+  num: number;
   title: string;
   date: Date;
-} & Changes;
+};
 
-type VddAlertChanges = {
+type VddAlertChanges = AstChanges & {
   type: "vdd";
   title: string;
   ref: string;
   date: Date;
-} & AstChanges;
+};
 
-type TravailDataAlertChanges = {
+type TravailDataAlertChanges = TravailDataChanges & {
   type: "travail-data";
   title: string;
   ref: string;
   date: Date;
-} & TravailDataChanges;
+};
 
 type TravailDataChanges = {
   added: FicheTravailEmploiInfo[];
@@ -67,11 +70,11 @@ type TravailDataChanges = {
 
 type AlertChanges =
   | DilaAlertChanges
-  | VddAlertChanges
-  | TravailDataAlertChanges;
+  | TravailDataAlertChanges
+  | VddAlertChanges;
 
 type AlertInfo = {
-  num: Number;
+  num: number;
   title: string;
   id: string; // Kalicont
   file: string; //
@@ -96,26 +99,14 @@ type GitTagData = {
   ref: string;
   commit: Commit;
 };
-type DocumentInfo = Pick<HasuraDocument, "id" | "title" | "source">;
-type DocumentReferences = {
-  document: DocumentInfo;
-  references: ParseDilaReference[];
+
+type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
+  id: string;
 };
 
-type DilaNode = {
-  type: "article" | "section" | "code" | "convention collective";
-  parent: DilaNode | null;
-  data: {
-    id: string;
-    cid: string;
-    title: string;
-    etat: string;
-    num: title;
-    content?: string;
-    nota?: string;
-    texte?: string;
-  };
-  children?: DilaNode[];
+type DocumentReferences = {
+  document: DocumentInfo;
+  references: ContributionsData.Reference[];
 };
 
 type DilaNodeWithContext = DilaNode & {
@@ -158,13 +149,13 @@ export type FicheTravailEmploiInfo = {
 };
 
 type DilaNode =
-  | LegiData.CodeArticle
-  | LegiData.CodeSection
+  | KaliData.AgreementArticle
   | KaliData.AgreementSection
-  | KaliData.AgreementArticle;
+  | LegiData.CodeArticle
+  | LegiData.CodeSection;
 
-type DilaArticle = LegiData.CodeArticle | KaliData.AgreementArticle;
-type DilaSection = LegiData.CodeSection | KaliData.AgreementSection;
+type DilaArticle = KaliData.AgreementArticle | LegiData.CodeArticle;
+type DilaSection = KaliData.AgreementSection | LegiData.CodeSection;
 
 // Temporarry fix before KaliData type will be updated
 type Agreement = Omit<KaliData.Agreement, "type"> & {

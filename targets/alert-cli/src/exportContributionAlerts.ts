@@ -1,15 +1,11 @@
 import fetch from "node-fetch";
 
-/**
- * @param {string} repository
- * @param {alerts.GitTagData} lastTag
- * @param {alerts.AlertChanges[]} alertChanges
- */
-export async function exportContributionAlerts(
-  repository,
-  lastTag,
-  alertChanges
-) {
+export function exportContributionAlerts(
+  repository: string,
+  lastTag: alerts.GitTagData,
+  alertChanges: alerts.AlertChanges[]
+); void {
+  
   if (!process.env.CONTRIBUTIONS_ENDPOINT) {
     console.info(
       "[exportContributionAlerts] skip sending alert to conributions endpoint"
@@ -67,7 +63,7 @@ export async function exportContributionAlerts(
     .then((response) => {
       if (!response.ok) {
         const err = new Error(response.statusText);
-        // @ts-ignore
+        // @ts-expect-error
         err.status = response.status;
         return Promise.reject(err);
       }

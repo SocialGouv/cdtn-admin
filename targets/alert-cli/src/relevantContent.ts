@@ -1,15 +1,15 @@
 import getContribReferences from "./extractDilaReferences/contribution";
 import getTravailEmploiReferences from "./extractDilaReferences/ficheTravailEmploi";
 
-/**
- * @param {alerts.AstChanges} changes
- */
-export async function getRelevantDocuments({ modified, removed }) {
+export async function getRelevantDocuments({
+  modified,
+  removed,
+}: alerts.AstChanges): Promise<alerts.DocumentReferences[]> {
   const contribReferences = await getContribReferences();
   const travailEmploiReferences = await getTravailEmploiReferences();
 
-  const references = contribReferences.concat(travailEmploiReferences);
-  const documents = references.flatMap((item) => {
+  const docsReferences = contribReferences.concat(travailEmploiReferences);
+  const documents = docsReferences.flatMap((item) => {
     const references = item.references.filter(
       (ref) =>
         modified.find(
