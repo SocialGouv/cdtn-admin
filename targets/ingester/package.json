@@ -59,7 +59,7 @@
     "start": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
     "test": "jest --passWithNoTests",
     "types": "tsc",
-    "pre-commit": "eslint src/**/*.ts",
+    "precommit": "lint-staged",
     "pre-push": "jest --passWithNoTests"
   },
   "jest": {

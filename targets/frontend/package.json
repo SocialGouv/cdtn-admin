@@ -90,7 +90,7 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint src/*",
-    "pre-commit": "lint-staged",
+    "precommit": "lint-staged",
     "start": "next start",
     "test": "jest"
   },
