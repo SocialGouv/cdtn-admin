@@ -41,7 +41,7 @@
   },
   "lint-staged": {
     "lib/**": [
-      "yarn lint --fix"
+      "yarn lint --cache --fix"
     ]
   },
   "sideEffects": false,

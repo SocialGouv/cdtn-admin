@@ -87,7 +87,7 @@
   },
   "lint-staged": {
     "*.{j,t}s": [
-      "eslint --fix",
+      "eslint --cache --fix",
       "jest --bail --findRelatedTests"
     ]
   }
