@@ -1,23 +1,9 @@
 {
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "devDependencies": {
-    "@commitlint/cli": "^12.1.1",
-    "@commitlint/config-conventional": "^12.1.1",
     "husky": "^6.0.0",
     "lerna": "^4.0.0",
     "nps": "^5.10.0",
     "nps-utils": "^1.7.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "nps pre-commit",
-      "pre-push": " nps pre-push",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "private": true,
   "scripts": {
