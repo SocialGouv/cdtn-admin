@@ -1,25 +1,21 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
 
-import { getJson } from "../lib/getJson.js";
+import { getJson } from "../lib/getJson";
 import {
   articleToReference,
-  referenceResolver,
+  createReferenceResolver,
 } from "../lib/referenceResolver";
 
-/**
- *
- * @param {string} pkgName
- * @returns {Promise<ingester.FicheTravailEmploi[]>}
- */
-export default async function getFicheTravailEmploi(pkgName) {
+export default async function getFicheTravailEmploi(pkgName: string) {
   const [fichesMT, cdt] = await Promise.all([
-    /** @type {Promise<import("@socialgouv/fiches-travail-data-types").FicheTravailEmploi[]>} */
-    (getJson(`${pkgName}/data/fiches-travail.json`)),
-    /** @type {Promise<import("@socialgouv/legi-data-types").Code>} */
-    (getJson(`@socialgouv/legi-data/data/LEGITEXT000006072050.json`)),
+    getJson<FicheTravailEmploi[]>(`${pkgName}/data/fiches-travail.json`),
+    getJson<LegiData.Code>(
+      `@socialgouv/legi-data/data/LEGITEXT000006072050.json`
+    ),
   ]);
-  const resolveCdtReference = referenceResolver(cdt);
+  const resolveCdtReference = createReferenceResolver(cdt);
   return fichesMT.map(({ pubId, sections, ...content }) => {
     return {
       id: pubId,
@@ -33,15 +29,13 @@ export default async function getFicheTravailEmploi(pkgName) {
           }
           const { articles } = references[key];
           return articles.flatMap(({ id }) => {
-            const [
-              article,
-            ] = /**@type {import("@socialgouv/legi-data-types").CodeArticle[]}*/ (resolveCdtReference(
+            const maybeArticle = resolveCdtReference(
               id
-            ));
-            if (!article) {
+            ) as LegiData.CodeArticle[];
+            if (maybeArticle.length !== 1) {
               return [];
             }
-            return articleToReference(article);
+            return articleToReference(maybeArticle[0]);
           });
         }),
       })),

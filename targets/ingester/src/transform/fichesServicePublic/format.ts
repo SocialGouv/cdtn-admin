@@ -1,22 +1,21 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import type { RawJson } from "@socialgouv/fiches-vdd-types";
+import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 
-import { parseReferences } from "./parseReference.js";
+import type { ReferenceResolver } from "../../lib/referenceResolver";
+import { parseReferences } from "./parseReference";
 
-/**
- *
- * @param {import("@socialgouv/fiches-vdd-types").RawJson} element
- * @param {string} name
- */
-function getChild(element, name) {
-  return element.children.find((el) => el.name === name);
+function getChild(element: RawJson, name: string) {
+  if (element.children !== undefined) {
+    return element.children.find((el) => el.name === name);
+  }
+  return undefined;
 }
 
 /**
  * Beware, this one is recursive
- * @param {import("@socialgouv/fiches-vdd-types").RawJson | undefined} element
- * @returns {string}
  */
-function getText(element) {
+function getText(element?: RawJson): string {
   if (!element) {
     return "";
   }
@@ -28,19 +27,20 @@ function getText(element) {
   }
   return "";
 }
-/**
- *
- * @param {import("@socialgouv/fiches-vdd-types").RawJson} fiche
- * @param {ingester.referenceResolver} resolveCdtReference
- * @param {import("@socialgouv/kali-data-types").IndexedAgreement[]} agreements
- * @returns {Pick<ingester.FicheServicePublic, Exclude<keyof ingester.FicheServicePublic, keyof {slug, is_searchable: Boolean}>> }
- */
-export function format(fiche, resolveCdtReference, agreements) {
+
+export function format(
+  fiche: RawJson,
+  resolveCdtReference: ReferenceResolver,
+  agreements: IndexedAgreement[]
+) {
+  if (!fiche.children) {
+    throw new Error(`Parsing error on Fiche ${fiche.attributes.ID}`);
+  }
   const publication = fiche.children[0];
   const { ID: id } = publication.attributes;
 
   // We filter out the elements we will never use nor display
-  publication.children = publication.children.filter(
+  publication.children = publication.children?.filter(
     (child) => child.name !== "OuSAdresser" && child.name !== "ServiceEnLigne"
   );
 
@@ -60,9 +60,8 @@ export function format(fiche, resolveCdtReference, agreements) {
   const listeSituations = getText(getChild(publication, "ListeSituations"));
   const text = intro + " " + texte + " " + listeSituations;
 
-  const references = publication.children.filter(
-    (el) => el.name === "Reference"
-  );
+  const references =
+    publication.children?.filter((el) => el.name === "Reference") ?? [];
 
   const referencedTexts = parseReferences(
     references,

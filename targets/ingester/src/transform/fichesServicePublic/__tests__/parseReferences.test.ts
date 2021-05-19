@@ -1,10 +1,10 @@
 import { describe, expect, test } from "@jest/globals";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 
 import { extractNewReference, extractOldReference } from "../parseReference";
 
-/** @type{import("@socialgouv/kali-data-types").IndexedAgreement[]} */
-const agreements = [
+const agreements: IndexedAgreement[] = [
   {
     active: true,
     date_publi: "2019-02-15T00:00:00.000Z",
@@ -96,11 +96,14 @@ describe("extractNewReference", () => {
     ["https://legi.url/codes/id/LEGIARTI42/", "L42-1", [article42]],
     ["https://legi.url/conv_coll/id/KALICONT123", "convention 123", [kali]],
     ["https://legi.url/circulaire/id/39848", "external", [external2]],
-  ])(`it should extract new reference from %p`, (url, label, reference) => {
-    expect(
-      extractNewReference(url, label, referenceResolver, agreements)
-    ).toEqual(reference);
-  });
+  ])(
+    `it should extract new reference from %p`,
+    (url: string, label: string, reference) => {
+      expect(
+        extractNewReference(referenceResolver, agreements, url, label)
+      ).toEqual(reference);
+    }
+  );
 });
 
 describe("extractOldReference", () => {
@@ -131,9 +134,12 @@ describe("extractOldReference", () => {
       "external",
       [external],
     ],
-  ])(`it should extract old reference for %s %s`, (url, label, reference) => {
-    expect(
-      extractOldReference(url, label, referenceResolver, agreements)
-    ).toEqual(reference);
-  });
+  ])(
+    `it should extract old reference for %s %s`,
+    (url: string, label: string, reference) => {
+      expect(
+        extractOldReference(referenceResolver, agreements, url, label)
+      ).toEqual(reference);
+    }
+  );
 });

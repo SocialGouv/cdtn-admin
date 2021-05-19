@@ -1,6 +1,6 @@
-import { Client } from '@urql/core';
+import { Client } from "@urql/core";
 
-declare module '@shared/graphql-client' {
-  export const client: Client
-  export * from "@urql/core"
+declare module "@shared/graphql-client" {
+  export const client: Client;
+  export * from "@urql/core";
 }

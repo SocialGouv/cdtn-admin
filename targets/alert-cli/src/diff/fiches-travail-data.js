@@ -27,7 +27,7 @@ export async function processTravailDataDiff(
       const [
         currAst,
         prevAst,
-      ] = /** @type {import("@socialgouv/fiches-travail-data").FicheTravailEmploi[][]} */ (await Promise.all(
+      ] = /** @type {import("@shared/types").FicheTravailEmploi[][]} */ (await Promise.all(
         [currTree, prevTree].map(toAst)
       ));
       return getChanges(prevAst, currAst);
@@ -51,12 +51,12 @@ export async function processTravailDataDiff(
 
 /**
  *
- * @param {import("@socialgouv/fiches-travail-data").FicheTravailEmploi[]} previousJson
- * @param {import("@socialgouv/fiches-travail-data").FicheTravailEmploi[]} currentJson
+ * @param {import("@shared/types").FicheTravailEmploi[]} previousJson
+ * @param {import("@shared/types").FicheTravailEmploi[]} currentJson
  * @return {alerts.TravailDataChanges}
  */
 function getChanges(previousJson, currentJson) {
-  /** @type {(item: import("@socialgouv/fiches-travail-data").FicheTravailEmploi) => string } */
+  /** @type {(item: import("@shared/types").FicheTravailEmploi) => string } */
   const toId = ({ pubId }) => pubId;
   const previousIds = previousJson.map(toId);
   const currentIds = currentJson.map(toId);
@@ -133,8 +133,8 @@ function getChanges(previousJson, currentJson) {
 
 /**
  *
- * @param {import("@socialgouv/fiches-travail-data").FicheTravailEmploi} previousDocument
- * @param {import("@socialgouv/fiches-travail-data").FicheTravailEmploi} document
+ * @param {import("@shared/types").FicheTravailEmploi} previousDocument
+ * @param {import("@shared/types").FicheTravailEmploi} document
  */
 function hasDocumentChanged(previousDocument, document) {
   return (

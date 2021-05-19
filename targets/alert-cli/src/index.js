@@ -10,7 +10,6 @@ import { processTravailDataDiff } from "./diff/fiches-travail-data";
 import { processVddDiff } from "./diff/fiches-vdd";
 import { exportContributionAlerts } from "./exportContributionAlerts";
 import { getFicheServicePublicIds as _getFicheServicePublicIds } from "./getFicheServicePublicIds";
-import { getFilename } from "./node-git.helpers";
 import { openRepo } from "./openRepo";
 
 const sourcesQuery = `

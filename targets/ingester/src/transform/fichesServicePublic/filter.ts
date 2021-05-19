@@ -1,9 +1,9 @@
+import type { FicheIndex } from "@socialgouv/fiches-vdd-types";
+
 /**
  * Return a filtered set of FicheIndex
- * @param {string[]} includeFicheId
- * @param {import("@socialgouv/fiches-vdd-types").FicheIndex[]} fiches
  */
-export function filter(includeFicheId, fiches) {
+export function filter(includeFicheId: string[], fiches: FicheIndex[]) {
   const filteredFiches = fiches.filter((fiche) => {
     const arianeIds = fiche.breadcrumbs.map((item) => item.id);
     if (!fiche.id.startsWith("F")) {
@@ -11,7 +11,7 @@ export function filter(includeFicheId, fiches) {
     }
 
     /**  @param {string} id */
-    const matchFilDAriane = (id) => arianeIds.includes(id);
+    const matchFilDAriane = (id: string) => arianeIds.includes(id);
 
     return includeFicheId.some(matchFilDAriane);
   });
