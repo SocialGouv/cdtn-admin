@@ -27,9 +27,9 @@ export async function processTravailDataDiff(
       const [
         currAst,
         prevAst,
-      ] = /** @type {import("@shared/types").FicheTravailEmploi[][]} */ (await Promise.all(
+      ] = /** @type {import("@shared/types").FicheTravailEmploi[][]} */ await Promise.all(
         [currTree, prevTree].map(toAst)
-      ));
+      );
       return getChanges(prevAst, currAst);
     })
   );

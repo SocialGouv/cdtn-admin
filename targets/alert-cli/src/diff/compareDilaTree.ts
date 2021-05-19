@@ -1,14 +1,15 @@
-import parents, { NodeWithParent, Root } from "unist-util-parents";
-import { selectAll } from "unist-util-select";
-
-import { AgreementArticleData } from "@socialgouv/kali-data-types";
-import { DilaArticle, DilaNode, DilaSection } from "src";
 import { Agreement } from "@shared/types";
+import { AgreementArticleData } from "@socialgouv/kali-data-types";
+import type { DilaArticle, DilaSection } from "src";
+import { DilaNode } from "src";
+import type { NodeWithParent } from "unist-util-parents";
+import parents, { Root } from "unist-util-parents";
+import { selectAll } from "unist-util-select";
 
 const getParents = (
   node: NodeWithParent<DilaSection, DilaArticle | DilaSection>
 ) => {
-  var chain = [];
+  const chain = [];
   while (node) {
     if (node.type === "section") {
       chain.unshift(node.data.title);
@@ -78,7 +79,7 @@ const stripChildren = (node: DilaArticle | DilaSection) => {
   return node;
 };
 
-type nodeComparatorFn = <A>(node1: A, node2: A) => Boolean;
+type nodeComparatorFn = <A>(node1: A, node2: A) => boolean;
 
 /**
  * @returns {alerts.AstChanges} diffed articles nodes

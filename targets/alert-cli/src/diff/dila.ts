@@ -1,5 +1,6 @@
 import { Agreement } from "@shared/types";
-import { ConvenientPatch, Tree } from "nodegit";
+import type { ConvenientPatch, Tree } from "nodegit";
+
 import { createToJson } from "../node-git.helpers";
 import { getRelevantDocuments } from "../relevantContent";
 import { compareArticles } from "./compareDilaTree";

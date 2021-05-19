@@ -1,4 +1,4 @@
-const ccns = [
+export const ccns = [
   { id: "KALICONT000005635624", num: 16 },
   { id: "KALICONT000005635234", num: 29 },
   { id: "KALICONT000005635613", num: 44 },
@@ -51,5 +51,3 @@ const ccns = [
   { id: "KALICONT000027172335", num: 3043 },
   { id: "KALICONT000027084096", num: 3127 },
 ];
-
-module.exports = { ccns };

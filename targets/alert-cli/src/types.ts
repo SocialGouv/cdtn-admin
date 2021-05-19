@@ -1,44 +1,44 @@
-import { Commit } from "nodegit";
-import { NodeWithParent } from "unist-util-parents";
-import { HasuraDocument } from "@shared/types";
-import { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
-import "@socialgouv/kali-data-types";
+import type { HasuraDocument } from "@shared/types";
+import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
+import type {
+  Agreement as KaliDataAgreement,
+  AgreementArticle,
+  AgreementSection,
+} from "@socialgouv/kali-data-types";
+import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
+import type { Commit } from "nodegit";
+import type { NodeWithParent } from "unist-util-parents";
 
-export function fileFilterFn(path: string): boolean;
+export type fileFilterFn = (path: string) => boolean;
 
-export function compareTreeFn<T>(tree: T, tree2: T): Changes;
+export type compareTreeFn<T> = (tree: T, tree2: T) => Changes;
 
-export function insertAlert(
+export type insertAlert = (
   repository: string,
   changes: AlertChanges
-): Promise<alerts.Alert>;
+) => Promise<Alert>;
 
-export function updateSource(
-  repository: string,
-  tag: string
-): Promise<alerts.Source>;
+export type updateSource = (repository: string, tag: string) => Promise<Source>;
 
-export as namespace alerts;
-
-type Source = {
+export type Source = {
   repository: string;
   tag: string;
 };
 
-type AstChanges = {
+export type AstChanges = {
   modified: NodeWithParent<DilaSection, DilaNode>[];
   removed: NodeWithParent<DilaSection, DilaNode>[];
   added: NodeWithParent<DilaSection, DilaNode>[];
 };
 
-type Changes = AstChanges & {
+export type Changes = AstChanges & {
   documents: {
     document: DocumentInfo;
     references: ContributionsData.Reference[];
   }[];
 };
 
-type DilaAlertChanges = Changes & {
+export type DilaAlertChanges = Changes & {
   type: "dila";
   ref: string;
   file: string;
@@ -48,39 +48,39 @@ type DilaAlertChanges = Changes & {
   date: Date;
 };
 
-type VddAlertChanges = AstChanges & {
+export type VddAlertChanges = AstChanges & {
   type: "vdd";
   title: string;
   ref: string;
   date: Date;
 };
 
-type TravailDataAlertChanges = TravailDataChanges & {
+export type TravailDataAlertChanges = TravailDataChanges & {
   type: "travail-data";
   title: string;
   ref: string;
   date: Date;
 };
 
-type TravailDataChanges = {
+export type TravailDataChanges = {
   added: FicheTravailEmploiInfo[];
   removed: FicheTravailEmploiInfo[];
   modified: FicheTravailEmploi[];
 };
 
-type AlertChanges =
+export type AlertChanges =
   | DilaAlertChanges
   | TravailDataAlertChanges
   | VddAlertChanges;
 
-type AlertInfo = {
+export type AlertInfo = {
   num: number;
   title: string;
   id: string; // Kalicont
   file: string; //
 };
 
-type Alert = {
+export type Alert = {
   info: AlertInfo;
   changes: Changes;
   repository: string;
@@ -89,27 +89,27 @@ type Alert = {
   ref: string;
 };
 
-type RepoAlert = {
+export type RepoAlert = {
   repository: string;
   newRef: string;
   changes: AlertChanges[];
 };
 
-type GitTagData = {
+export type GitTagData = {
   ref: string;
   commit: Commit;
 };
 
-type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
+export type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
   id: string;
 };
 
-type DocumentReferences = {
+export type DocumentReferences = {
   document: DocumentInfo;
   references: ContributionsData.Reference[];
 };
 
-type DilaNodeWithContext = DilaNode & {
+export type DilaNodeWithContext = DilaNode & {
   context: {
     parents: string[];
     textId: string | null;
@@ -117,11 +117,11 @@ type DilaNodeWithContext = DilaNode & {
   };
 };
 
-type DilaNodeForDiff = DilaNodeWithContext & {
+export type DilaNodeForDiff = DilaNodeWithContext & {
   previous: DilaNodeWithContext;
 };
 
-type FicheVddIndex = {
+export type FicheVddIndex = {
   id: string;
   date: string;
   subject: string;
@@ -130,12 +130,12 @@ type FicheVddIndex = {
   type: string;
 };
 
-type FicheVdd = {
+export type FicheVdd = {
   id: string;
   children: FicheVddNode[];
 };
 
-type FicheVddNode = {
+export type FicheVddNode = {
   type: string;
   name: string;
   children?: FicheVddNode[];
@@ -148,16 +148,16 @@ export type FicheTravailEmploiInfo = {
   url: string;
 };
 
-type DilaNode =
-  | KaliData.AgreementArticle
-  | KaliData.AgreementSection
-  | LegiData.CodeArticle
-  | LegiData.CodeSection;
+export type DilaNode =
+  | AgreementArticle
+  | AgreementSection
+  | CodeArticle
+  | CodeSection;
 
-type DilaArticle = KaliData.AgreementArticle | LegiData.CodeArticle;
-type DilaSection = KaliData.AgreementSection | LegiData.CodeSection;
+export type DilaArticle = AgreementArticle | CodeArticle;
+export type DilaSection = AgreementSection | CodeSection;
 
 // Temporarry fix before KaliData type will be updated
-type Agreement = Omit<KaliData.Agreement, "type"> & {
+export type Agreement = Omit<KaliDataAgreement, "type"> & {
   type: "convention collective";
 };

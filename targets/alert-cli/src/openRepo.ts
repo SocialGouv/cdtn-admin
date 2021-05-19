@@ -3,12 +3,14 @@ import { Remote, Repository } from "nodegit";
 import path from "path";
 import { promisify } from "util";
 
+import type { Source } from "./types";
+
 const exec = promisify(childProcess.exec);
 
 export async function openRepo({
   repository,
   tag,
-}: alerts.Source): Promise<Repository> {
+}: Source): Promise<Repository> {
   const [org, repositoryName] = repository.split("/");
   const localPath = path.join(__dirname, "..", "data", repositoryName);
 

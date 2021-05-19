@@ -1,10 +1,11 @@
 import getContribReferences from "./extractDilaReferences/contribution";
 import getTravailEmploiReferences from "./extractDilaReferences/ficheTravailEmploi";
+import type { AstChanges, DocumentReferences } from "./types";
 
 export async function getRelevantDocuments({
   modified,
   removed,
-}: alerts.AstChanges): Promise<alerts.DocumentReferences[]> {
+}: AstChanges): Promise<DocumentReferences[]> {
   const contribReferences = await getContribReferences();
   const travailEmploiReferences = await getTravailEmploiReferences();
 

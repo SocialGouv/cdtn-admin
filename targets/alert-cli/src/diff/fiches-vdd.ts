@@ -91,9 +91,9 @@ export async function processVddDiff(
       const [
         previousJSON,
         currentJSON,
-      ] = /** @type {alerts.FicheVdd[]}*/ (await Promise.all(
+      ] = /** @type {alerts.FicheVdd[]}*/ await Promise.all(
         [prevTree, currTree].map(toJson)
-      ));
+      );
       const previousText = getTextFromRawFiche(previousJSON);
       const currentText = getTextFromRawFiche(currentJSON);
       if (previousText !== currentText) {

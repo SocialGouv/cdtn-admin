@@ -4,7 +4,7 @@ import nodegit from "nodegit";
 import semver from "semver";
 
 import { batchPromises } from "./batchPromises";
-import { ccns } from "./ccn-list.js";
+import { ccns } from "./ccn-list";
 import { processDilaDiff } from "./diff/dila";
 import { processTravailDataDiff } from "./diff/fiches-travail-data";
 import { processVddDiff } from "./diff/fiches-vdd";
@@ -62,7 +62,7 @@ async function getFileFilter(repository) {
   switch (repository) {
     case "socialgouv/legi-data":
       // only code-du-travail
-      return (path) => /LEGITEXT000006072050\.json$/.test(path);
+      return (path) => path.endsWith("LEGITEXT000006072050.json");
     case "socialgouv/kali-data":
       // only a ccn matching our list
       return (path) => ccns.some((ccn) => new RegExp(ccn.id).test(path));
@@ -77,7 +77,7 @@ async function getFileFilter(repository) {
       };
     }
     case "socialgouv/fiches-travail-data":
-      return (path) => /fiches-travail\.json$/.test(path);
+      return (path) => path.endsWith("fiches-travail.json");
     default:
       return () => false;
   }
@@ -96,7 +96,7 @@ function getDiffProcessor(repository) {
     case "socialgouv/fiches-travail-data":
       return processTravailDataDiff;
     default:
-      return () => Promise.resolve([]);
+      return async () => Promise.resolve([]);
   }
 }
 
@@ -178,7 +178,7 @@ export async function updateSource(repository, tag) {
 async function getNewerTagsFromRepo(repository, lastTag) {
   /** @type {string[]} */
   const tags = await nodegit.Tag.list(repository);
-  return await Promise.all(
+  return Promise.all(
     tags
       .flatMap((t) => {
         if (!semver.valid(t)) {
@@ -242,12 +242,12 @@ async function getAlertChangesFromTags(repository, currentTag, previousTag) {
 async function saveAlertChanges(repository, alertChanges) {
   const inserts = await batchPromises(
     alertChanges,
-    (diff) => insertAlert(repository, diff),
+    async (diff) => insertAlert(repository, diff),
     5
   );
-  const fullfilledInserts = /**@type {{status:"fulfilled", value:alerts.Alert}[]} */ (inserts.filter(
+  const fullfilledInserts = /**@type {{status:"fulfilled", value:alerts.Alert}[]} */ inserts.filter(
     ({ status }) => status === "fulfilled"
-  ));
+  );
   const rejectedInsert = inserts.filter(({ status }) => status === "rejected");
   fullfilledInserts.forEach((insert) => {
     const { ref, repository, info } = insert.value;
