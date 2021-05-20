@@ -49,7 +49,7 @@
     "build": "babel src --out-dir lib --ignore \"src/**/*.test.js\"",
     "lint": "eslint src",
     "precommit": "lint-staged",
-    "prepush": "yarn test --bail --changedSince=master",
+    "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "test": "jest"
   },
   "lint-staged": {

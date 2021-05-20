@@ -92,6 +92,7 @@
     "lint": "eslint src/*",
     "precommit": "lint-staged",
     "start": "next start",
+    "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "test": "jest"
   },
   "eslintConfig": {

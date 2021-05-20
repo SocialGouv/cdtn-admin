@@ -42,7 +42,7 @@
     "gitlab:prod": "yarn --silent gitlab --env prod",
     "lint": "prettier --check .",
     "precommit": "lint-staged",
-    "prepush": "yarn lint && yarn test",
+    "prepush": "yarn test --bail --changedSince=master",
     "test": "jest"
   },
   "lint-staged": {
