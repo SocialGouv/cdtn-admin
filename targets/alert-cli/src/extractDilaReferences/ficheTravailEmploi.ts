@@ -1,36 +1,49 @@
+import type { FicheTravailEmploi } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
+import type { DocumentReferences } from "../types";
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
 
-/** @type {alerts.DocumentReferences[]} */
-let references;
-/**
- *
- * @param {import("@shared/types").FicheTravailEmploiDocument[]}  fiches
- */
-export function extractFicheTravailEmploiRef(fiches) {
-  /** @type {alerts.DocumentReferences[]} */
-  const references = [];
+let references: DocumentReferences[] = [];
+
+export type FicheTravail = Pick<
+  FicheTravailEmploi,
+  "document" | "source" | "title"
+> & {
+  id: string;
+  cdtnId: string;
+};
+
+export function extractFicheTravailEmploiRef(fiches: FicheTravail[]) {
+  const refs: DocumentReferences[] = [];
 
   for (const fiche of fiches) {
     fiche.document.sections.forEach((section) => {
-      references.push({
+      refs.push({
         document: {
           id: fiche.id,
           source: SOURCES.SHEET_MT,
           title: `${fiche.title}#${section.anchor}`,
         },
-        references: section.references,
+        references: section.references.map(
+          ({ cid: dila_cid, title, url, id: dila_id }) => ({
+            dila_cid,
+            dila_id,
+            title,
+            url,
+          })
+        ),
       });
     });
   }
-  return references;
+  return refs;
 }
 
-export default async function main() {
-  if (!references) {
-    /** @type {import("@shared/types").FicheTravailEmploiDocument[]} */
-    const fiches = await getAllDocumentsBySource(SOURCES.SHEET_MT_PAGE);
+export default async function main(): Promise<DocumentReferences[]> {
+  if (references.length === 0) {
+    const fiches = (await getAllDocumentsBySource(
+      SOURCES.SHEET_MT_PAGE
+    )) as FicheTravail[];
     references = extractFicheTravailEmploiRef(fiches);
   }
   return references;

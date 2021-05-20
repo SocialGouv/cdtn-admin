@@ -1,20 +1,30 @@
 import fetch from "node-fetch";
 
+import type {
+  AlertChanges,
+  DilaArticle,
+  DilaNodeForDiff,
+  GitTagData,
+} from "./types";
+
 export function exportContributionAlerts(
   repository: string,
-  lastTag: alerts.GitTagData,
-  alertChanges: alerts.AlertChanges[]
-); void {
-  
+  lastTag: GitTagData,
+  alertChanges: AlertChanges[]
+): void {
   if (!process.env.CONTRIBUTIONS_ENDPOINT) {
     console.info(
       "[exportContributionAlerts] skip sending alert to conributions endpoint"
     );
     return;
   }
-  const dilaAlertChanges = /** @type {alerts.DilaAlertChanges[]} */ (alertChanges.filter(
-    (change) => change.type === "dila"
-  ));
+
+  const dilaAlertChanges = alertChanges.flatMap((change) => {
+    if (change.type === "dila") {
+      return [change];
+    }
+    return [];
+  });
   const contributions = dilaAlertChanges.flatMap((changes) => {
     console.log(
       `searching for contributions impacted by alert ${changes.ref} from ${repository}`
@@ -27,18 +37,24 @@ export function exportContributionAlerts(
     }
     return targetedContribs.flatMap(({ references, document: contrib }) => {
       return references.flatMap((reference) => {
+        if (reference.category === null) {
+          return [];
+        }
+
         const modifiedNode = changes.modified.find(
           ({ data: { cid } }) => reference.dila_cid === cid
-        );
+        ) as DilaNodeForDiff<DilaArticle> | undefined;
+
         if (!modifiedNode) {
           return [];
         }
+
         return {
           answer_id: contrib.id,
           dila_cid: reference.dila_cid,
           dila_container_id: reference.dila_container_id,
           dila_id: reference.dila_id,
-          value: computeDiff(reference, modifiedNode),
+          value: computeDiff(modifiedNode),
           version: changes.ref,
         };
       });
@@ -62,10 +78,8 @@ export function exportContributionAlerts(
   })
     .then((response) => {
       if (!response.ok) {
-        const err = new Error(response.statusText);
-        // @ts-expect-error
-        err.status = response.status;
-        return Promise.reject(err);
+        console.error(response.status, response.statusText);
+        return Promise.reject(new Error(response.statusText));
       }
       console.info(
         `Sending ${contributions.length} alert(s) from ${repository} to ${contribApiUrl}`
@@ -80,34 +94,29 @@ export function exportContributionAlerts(
     });
 }
 
-/**
- *
- * @param {import("@shared/types").ParseDilaReference} reference
- * @param {alerts.DilaNodeForDiff} modifiedNode
- */
-function computeDiff(reference, modifiedNode) {
-  const textFieldname = /^KALITEXT\d+$/.test(
-    modifiedNode.context.containerId || ""
-  )
-    ? "content"
-    : "texte";
-  const content = modifiedNode.data[textFieldname] || "";
+function computeDiff(modifiedNode: DilaNodeForDiff<DilaArticle>) {
+  const content: string =
+    "content" in modifiedNode.data
+      ? modifiedNode.data.content
+      : modifiedNode.data.texte;
 
   const previousContent =
-    (modifiedNode.previous && modifiedNode.previous.data[textFieldname]) || "";
-  const showDiff = content !== previousContent;
-  const showNotaDiff =
-    modifiedNode.previous.data.nota !== modifiedNode.data.nota;
+    "content" in modifiedNode.previous.data
+      ? modifiedNode.previous.data.content
+      : modifiedNode.previous.data.texte;
+
   const texts = [];
-  if (showDiff) {
+  if (content !== previousContent) {
     texts.push({ current: content, previous: previousContent });
   }
 
-  if (showNotaDiff) {
-    texts.push({
-      current: modifiedNode.data.nota,
-      previous: modifiedNode.previous.data.nota,
-    });
+  if ("nota" in modifiedNode.data && "nota" in modifiedNode.previous.data) {
+    if (modifiedNode.data.nota !== modifiedNode.previous.data.nota) {
+      texts.push({
+        current: modifiedNode.data.nota,
+        previous: modifiedNode.previous.data.nota,
+      });
+    }
   }
 
   return {

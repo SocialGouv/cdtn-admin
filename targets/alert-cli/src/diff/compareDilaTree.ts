@@ -1,14 +1,18 @@
-import { Agreement } from "@shared/types";
-import { AgreementArticleData } from "@socialgouv/kali-data-types";
-import type { DilaArticle, DilaSection } from "src";
-import { DilaNode } from "src";
+import type { AgreementSection } from "@socialgouv/kali-data-types";
+import type { Code, CodeSection } from "@socialgouv/legi-data-types";
 import type { NodeWithParent } from "unist-util-parents";
-import parents, { Root } from "unist-util-parents";
+import parents from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
-const getParents = (
-  node: NodeWithParent<DilaSection, DilaArticle | DilaSection>
-) => {
+import type {
+  AgreementFixed,
+  DilaArticle,
+  DilaNode,
+  DilaNodeForDiff,
+  DilaSection,
+} from "../types";
+
+const getParents = (node: NodeWithParent<DilaSection, DilaNode> | null) => {
   const chain = [];
   while (node) {
     if (node.type === "section") {
@@ -22,37 +26,29 @@ const getParents = (
 /**
  *find the first parent text id to make legifrance links later
  */
-const getParentTextId = (
-  node: NodeWithParent<DilaSection, DilaArticle | DilaSection>
-) => {
-  let id;
+const getParentTextId = (node: NodeWithParent<DilaSection, DilaNode>) => {
+  let id = null;
   let tempNode = node.parent;
   while (tempNode) {
-    if (
-      tempNode.data &&
-      tempNode.data.id &&
-      tempNode.data.id.match(/^(KALI|LEGI)TEXT\d+$/)
-    ) {
+    if (/^(KALI|LEGI)TEXT\d+$/.exec(tempNode.data.id)) {
       id = tempNode.data.id;
       break;
     }
     tempNode = tempNode.parent;
   }
-  return id || null;
+  return id;
 };
 
 /**
  * find the root text id to make legifrance links later
  */
-const getRootId = (
-  node?: NodeWithParent<DilaSection, DilaArticle | DilaSection>
-) => {
-  let id;
+const getRootId = (node?: NodeWithParent<DilaSection, DilaNode> | null) => {
+  let id = null;
   while (node) {
     id = node.data.id;
     node = node.parent;
   }
-  return id || null;
+  return id;
 };
 
 /**
@@ -71,25 +67,39 @@ const addContext = (
 });
 
 // dont include children in final results
-const stripChildren = (node: DilaArticle | DilaSection) => {
+const stripChildren = <A extends { type: string; children?: unknown }>(
+  node: A
+): Omit<A, "children"> => {
   if (node.type === "section") {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { children, ...props } = node;
     return props;
   }
   return node;
 };
 
-type nodeComparatorFn = <A>(node1: A, node2: A) => boolean;
+// export function compareAgreementArticle(
+//   tree1: AgreementFixed,
+//   tree2: AgreementFixed,
+//   comparator: (art1: AgreementArticle, art2: AgreementArticle) => boolean
+// ) {
+//   return compareArticles(tree1, tree2, comparator);
+// }
 
-/**
- * @returns {alerts.AstChanges} diffed articles nodes
- */
+// export function compareCodeArticle(
+//   tree1: Code,
+//   tree2: Code,
+//   comparator: (art1: CodeArticle, art2: CodeArticle) => boolean
+// ) {
+//   return compareArticles(tree1, tree2, comparator);
+// }
 
-export const compareArticles = <A extends alerts.Agreement | LegiData.Code>(
+export function compareArticles<A extends AgreementFixed | Code>(
   tree1: A,
   tree2: A,
-  comparator: nodeComparatorFn
-) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  comparator: any
+) {
   const parentsTree1 = parents<A>(tree1);
   const parentsTree2 = parents<A>(tree2);
 
@@ -97,45 +107,37 @@ export const compareArticles = <A extends alerts.Agreement | LegiData.Code>(
   const articles1 = selectAll<A, NodeWithParent<DilaSection, DilaArticle>>(
     "article",
     parentsTree1
-  ).map(addContext);
-  const articles1cids = articles1
-    .map((a) => a && a.data && a.data.cid)
-    .filter(Boolean);
+  );
+
+  const articles1cids = articles1.map((a) => a.data.cid);
 
   // all articles from tree2
   const articles2 = selectAll<A, NodeWithParent<DilaSection, DilaArticle>>(
     "article",
     parentsTree2
-  ).map(addContext);
-  const articles2cids = articles2
-    .map((a) => a && a.data && a.data.cid)
-    .filter(Boolean);
+  );
+
+  const articles2cids = articles2.map((a) => a.data.cid);
 
   // new : articles in tree2 not in tree1
   const newArticles = articles2.filter(
-    (art) => art && art.data && !articles1cids.includes(art.data.cid)
+    (art) => !articles1cids.includes(art.data.cid)
   );
   const newArticlesCids = newArticles.map((a) => a.data.cid);
 
   // supressed: articles in tree1 not in tree2
   const missingArticles = articles1.filter(
-    (art) => art && art.data && !articles2cids.includes(art.data.cid)
+    (art) => !articles2cids.includes(art.data.cid)
   );
 
   // modified : articles with modified texte
   const modifiedArticles = articles2.filter(
     (art) =>
-      art &&
-      art.data &&
       // exclude new articles
       !newArticlesCids.includes(art.data.cid) &&
       articles1.find(
         // same article, different texte
-        (art2) =>
-          art2 &&
-          art2.data &&
-          art2.data.cid === art.data.cid &&
-          comparator(art, art2)
+        (art2) => art2.data.cid === art.data.cid && comparator(art, art2)
       )
   );
 
@@ -143,15 +145,15 @@ export const compareArticles = <A extends alerts.Agreement | LegiData.Code>(
   const sections1 = selectAll<A, NodeWithParent<DilaSection, DilaSection>>(
     "section",
     parentsTree1
-  ).map(addContext);
+  );
 
   const sections1cids = sections1.map((a) => a.data.cid);
 
   // all sections from tree2
-  const sections2 = selectAll<A, NodeWithParent<DilaSection, DilaSection>>(
+  const sections2 = selectAll<A, NodeWithParent<DilaSection, DilaArticle>>(
     "section",
     parentsTree2
-  ).map(addContext);
+  );
   const sections2cids = sections2.map((a) => a.data.cid);
 
   // new : sections in tree2 not in tree1
@@ -178,22 +180,30 @@ export const compareArticles = <A extends alerts.Agreement | LegiData.Code>(
       )
   );
 
+  const sectionsWithPrevious: DilaNodeForDiff<
+    AgreementSection | CodeSection
+  >[] = modifiedSections
+    .map((modif) => ({
+      ...modif,
+      // add the previous version in the result so we can diff later
+      previous: sections1.find((a) => a.data.cid === modif.data.cid),
+    }))
+    .map(addContext);
+
   const changes = {
-    added: [...newSections, ...newArticles].map(stripChildren),
+    added: [...newSections, ...newArticles].map(addContext).map(stripChildren),
     modified: [
-      ...modifiedSections.map((modif) => ({
-        ...modif,
-        // add the previous version in the result so we can diff later
-        previous: sections1.find((a) => a.data.cid === modif.data.cid),
-      })),
+      ...sectionsWithPrevious,
       ...modifiedArticles.map((modif) => ({
         ...modif,
         // add the previous version in the result so we can diff later
         previous: articles1.find((a) => a.data.cid === modif.data.cid),
       })),
-    ].map(stripChildren),
-    removed: [...missingSections, ...missingArticles].map(stripChildren),
+    ],
+    removed: [...missingSections, ...missingArticles]
+      .map(addContext)
+      .map(stripChildren),
   };
 
   return changes;
-};
+}

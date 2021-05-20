@@ -1,14 +1,12 @@
-/**
- * @template A
- * @template B
- * @param {A[]} items
- * @param {(a:A) => Promise<B>} handler
- * @param {number} batchSize
- */
-export async function batchPromises(items, handler, batchSize) {
+export async function batchPromises<A, Result>(
+  items: A[],
+  handler: (a: A) => Promise<Result>,
+  batchSize: number
+): Promise<PromiseSettledResult<Result>[]> {
   const array = items.slice();
-  /** @type {PromiseSettledResult<B>[]} */
-  let results = [];
+
+  let results: PromiseSettledResult<Result>[] = [];
+
   while (array.length) {
     const res = await Promise.allSettled(
       array.splice(0, batchSize).map(handler)

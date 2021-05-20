@@ -1,25 +1,22 @@
 /* eslint-disable-next-line*/
-import nodegit from "nodegit";
+import nodegit, { ConvenientPatch, Tree } from "nodegit";
 import { createToJson } from "../node-git.helpers";
+import type {
+  FicheVdd,
+  FicheVddNode,
+  GitTagData,
+  VddAlertChanges,
+  VddChanges,
+} from "../types";
 
-/**
- *
- * @param {string} repositoryId
- * @param {alerts.GitTagData} tag
- * @param {nodegit.ConvenientPatch[]} patches
- * @param {nodegit.Tree} prevTree
- * @param {nodegit.Tree} currTree
- * @returns {Promise<alerts.VddAlertChanges[]>}
- */
 export async function processVddDiff(
-  repositoryId,
-  tag,
-  patches,
-  prevTree,
-  currTree
-) {
-  /** @type {alerts.AstChanges} */
-  const changes = {
+  repositoryId: string,
+  tag: GitTagData,
+  patches: ConvenientPatch[],
+  prevTree: Tree,
+  currTree: Tree
+): Promise<VddAlertChanges[]> {
+  const changes: VddChanges = {
     added: [],
     modified: [],
     removed: [],
@@ -33,20 +30,16 @@ export async function processVddDiff(
     patch.isAdded() ? [toSimpleVddChange(patch)] : []
   );
 
-  changes.modified = patches.flatMap((patch) =>
-    patch.isModified() ? [toSimpleVddChange(patch)] : []
-  );
-
   const modified = patches.flatMap((patch) =>
     patch.isModified() ? [patch.newFile().path()] : []
   );
 
-  const particuliers = modified.filter((path) => /particuliers/.test(path));
+  const particuliers = modified.filter((path) => path.includes("particuliers"));
 
   const professionnels = modified
-    .filter((path) => /professionnels/.test(path))
+    .filter((path) => path.includes("professionnels"))
     .filter((path) => {
-      const id = path.match(/\w+.json$/);
+      const id = /\w+.json$/.exec(path);
       if (!id) {
         return false;
       }
@@ -54,16 +47,16 @@ export async function processVddDiff(
     });
 
   const associations = modified
-    .filter((path) => /associations/.test(path))
+    .filter((path) => path.includes("associations"))
     .filter((path) => {
-      const id = path.match(/\w+.json$/);
+      const id = /\w+.json$/.exec(path);
       if (!id) {
         return false;
       }
       return particuliers.every((file) => !new RegExp(`${id[0]}$`).test(file));
     })
     .filter((path) => {
-      const id = path.match(/\w+.json$/);
+      const id = /\w+.json$/.exec(path);
       if (!id) {
         return false;
       }
@@ -74,11 +67,9 @@ export async function processVddDiff(
 
   const filterFiles = particuliers.concat(professionnels, associations);
 
-  changes.modified = [];
-
-  changes.modified = await Promise.all(
+  const modifiedFiles = await Promise.all(
     filterFiles.map(async (fichePath) => {
-      if (/index\.json/.test(fichePath)) return;
+      if (fichePath.includes("index.json")) return;
       if (
         changes.removed
           .concat(changes.added)
@@ -87,11 +78,8 @@ export async function processVddDiff(
         return;
       }
 
-      const toJson = createToJson(fichePath);
-      const [
-        previousJSON,
-        currentJSON,
-      ] = /** @type {alerts.FicheVdd[]}*/ await Promise.all(
+      const toJson = createToJson<FicheVdd>(fichePath);
+      const [previousJSON, currentJSON] = await Promise.all(
         [prevTree, currTree].map(toJson)
       );
       const previousText = getTextFromRawFiche(previousJSON);
@@ -108,7 +96,9 @@ export async function processVddDiff(
     })
   );
   // cannot flat map because of async;
-  changes.modified = changes.modified.filter(Boolean);
+  changes.modified = modifiedFiles.flatMap((item) =>
+    item === undefined ? [] : [item]
+  );
 
   if (
     changes.added.length === 0 &&
@@ -128,23 +118,13 @@ export async function processVddDiff(
   ];
 }
 
-/**
- *
- * @param {alerts.FicheVdd} fiche
- * @returns {string}
- */
-const getTitleFromRawFiche = (fiche) => {
+const getTitleFromRawFiche = (fiche: FicheVdd): string => {
   const publication = fiche.children[0];
 
   return getText(getChild(publication, "dc:title"));
 };
 
-/**
- *
- * @param {alerts.FicheVdd} fiche
- * @returns {string}
- */
-const getTextFromRawFiche = (fiche) => {
+const getTextFromRawFiche = (fiche: FicheVdd): string => {
   const publication = fiche.children[0];
 
   // We filter out the elements we will never use nor display
@@ -162,24 +142,16 @@ const getTextFromRawFiche = (fiche) => {
   return text;
 };
 
-/**
- *
- * @param {alerts.FicheVddNode} element
- * @param {string} name
- * @returns {alerts.FicheVddNode | undefined}
- */
-function getChild(element, name) {
+function getChild(
+  element: FicheVddNode,
+  name: string
+): FicheVddNode | undefined {
   if (element.children) {
     return element.children.find((el) => el.name === name);
   }
 }
 
-/**
- * Beware, this one is recursive
- * @param {alerts.FicheVddNode | undefined} element
- * @returns {string}
- */
-function getText(element) {
+function getText(element?: FicheVddNode): string {
   if (!element) {
     return "";
   }
@@ -192,13 +164,9 @@ function getText(element) {
   return "";
 }
 
-/**
- *
- * @param {nodegit.ConvenientPatch} patch
- */
-function toSimpleVddChange(patch) {
+function toSimpleVddChange(patch: ConvenientPatch) {
   const filepath = patch.newFile().path();
-  const match = filepath.match(/(\w+)\/(\w+)\.json$/);
+  const match = /(\w+)\/(\w+)\.json$/.exec(filepath);
   if (!match) {
     throw new Error(`[toSimpleVddChange] Can't parse ${filepath}`);
   }

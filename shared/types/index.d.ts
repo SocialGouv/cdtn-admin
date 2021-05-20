@@ -1,28 +1,26 @@
-import { CodeArticle, CodeArticleData } from "@socialgouv/legi-data-types";
-import {
+import type {
   Answer,
   GenericAnswer,
   IndexedAgreement,
   Reference as ContributionReference,
 } from "@socialgouv/contributions-data-types";
-
-import "@socialgouv/cdtn-sources";
+import type { CodeArticleData } from "@socialgouv/legi-data-types";
 
 export as namespace admin;
 
-type BaseHasuraDocument = {
+interface BaseHasuraDocument {
   cdtn_id: string;
   initial_id: string;
-  is_available: Boolean;
-  is_searchable: Boolean;
-  is_published: Boolean;
+  is_available: boolean;
+  is_searchable: boolean;
+  is_published: boolean;
   meta_description: string;
   slug: string;
   title: string;
   text: string;
   created_at: Date;
   updated_at: Date;
-};
+}
 
 type FicheTravailEmploi = BaseHasuraDocument & {
   source: "fiches_ministere_travail";
@@ -65,13 +63,13 @@ type HasuraDocument =
  * Document Table's document type
  */
 
-type FicheTravailEmploiDoc = {
+interface FicheTravailEmploiDoc {
   date: string;
   description: string;
   intro: string;
   url: string;
   sections: Section[];
-};
+}
 interface Section {
   anchor: string;
   html: string;
@@ -81,88 +79,88 @@ interface Section {
   references: TravailEmploiReference[];
 }
 
-type TravailEmploiReference = {
+interface TravailEmploiReference {
   id: string;
   cid: string;
   slug: string;
   title: string;
   type: "code_du_travail" | "conventions_collectives";
   url: string;
-};
+}
 
-type ContributionCompleteDoc = {
+interface ContributionCompleteDoc {
   index: number;
   split: false;
   description: string;
   answers: CCMultipleAnswers;
-};
+}
 
-type ContributionFilteredDoc = {
+interface ContributionFilteredDoc {
   index: number;
   split: true;
   description: string;
   answers: CCSingleAnswer;
-};
+}
 
-type CCMultipleAnswers = {
+interface CCMultipleAnswers {
   generic: GenericAnswer;
   conventions: Answer[];
-};
+}
 
-type CCSingleAnswer = {
+interface CCSingleAnswer {
   generic: GenericAnswer;
   conventionAnswer: Answer;
-};
+}
 
-type LaborCodeDoc = Pick<CodeArticleData, "dateDebut" | "id" | "cid"> & {
+type LaborCodeDoc = Pick<CodeArticleData, "cid" | "dateDebut" | "id"> & {
   description: string;
   html: string;
   url: string;
   notaHtml?: string;
 };
 
-type FicheServicePublicDoc = {
+interface FicheServicePublicDoc {
   raw: string;
   url: string;
   date: string;
   description: string;
   referencedTexts: ServicePublicReference[];
-};
+}
 
 type ServicePublicReference =
   | ServicePublicExternalReference
   | ServicePublicInternalReference;
 
-type ServicePublicInternalReference = {
+interface ServicePublicInternalReference {
   title: string;
   slug: string;
   type: "code_du_travail" | "conventions_collectives";
-};
+}
 
-type ServicePublicExternalReference = {
+interface ServicePublicExternalReference {
   title: string;
   url: string;
   type: "external";
-};
+}
 
 type AgreementDoc = Pick<
   IndexedAgreement,
-  "num" | "url" | "mtime" | "effectif" | "date_publi" | "shortTitle"
+  "date_publi" | "effectif" | "mtime" | "num" | "shortTitle" | "url"
 > & {
   description: string;
   answers: AgreementContribAnswer[];
   articleByTheme: ArticleTheme[];
 };
 
-type AgreementContribAnswer = {
+interface AgreementContribAnswer {
   slug: string;
   index: string;
   answer: string;
   question: string;
   references: ContributionReference[];
-};
+}
 
-type ArticleTheme = {
+interface ArticleTheme {
   bloc: "string";
   articles: {
     id: string;
@@ -170,14 +168,14 @@ type ArticleTheme = {
     title: string;
     section: string;
   };
-};
+}
 
-type KaliArticleHDN = {
+interface KaliArticleHDN {
   idcc: number;
   title: string;
   id: string;
-  blocks: { [key: string]: string[] };
-};
+  blocks: Record<string, string[]>;
+}
 
 export interface KaliBlock {
   id: string;
@@ -201,11 +199,11 @@ export interface Blocks {
   "11"?: string[];
 }
 
-export type ParseDilaReference = {
+export interface ParseDilaReference {
   url: string;
   category: string;
   title: string;
   dila_id: string;
   dila_cid: string;
   dila_container_id: string;
-};
+}

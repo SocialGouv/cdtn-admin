@@ -27,9 +27,11 @@ export async function getAllDocumentsBySource(
     console.error(countResult.error && "no data received");
     throw new Error("getSources");
   }
+
   const { count } = countResult.data.documents_aggregate.aggregate;
 
   const pages = Array.from({ length: Math.ceil(count / LIMIT) }, (_, i) => i);
+
   const documentResults = await batchPromises(
     pages,
     async (page) =>
@@ -42,8 +44,12 @@ export async function getAllDocumentsBySource(
         .toPromise(),
     10
   );
-  const documents = documentResults.flatMap((result) =>
-    result.status === "fulfilled" ? result.value.data?.documents ?? [] : []
-  );
+
+  const documents = documentResults.flatMap((result) => {
+    if (result.status === "fulfilled" && result.value.data) {
+      return result.value.data.documents;
+    }
+    return [];
+  });
   return documents;
 }

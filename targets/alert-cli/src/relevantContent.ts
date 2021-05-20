@@ -16,7 +16,7 @@ export async function getRelevantDocuments({
         modified.find(
           (node) =>
             node.data.id === ref.dila_id || node.data.cid === ref.dila_cid
-        ) ||
+        ) ??
         removed.find(
           (node) =>
             node.data.id === ref.dila_id || node.data.cid === ref.dila_cid

@@ -1,33 +1,26 @@
 /* eslint-disable-next-line*/
-import nodegit from "nodegit";
+import { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
+import type { ConvenientPatch, Tree } from "nodegit";
 import { createToJson } from "../node-git.helpers";
-
-/**
- *
- * @param {string} repositoryId
- * @param {alerts.GitTagData} tag
- * @param {nodegit.ConvenientPatch[]} patches
- * @param {nodegit.Tree} prevTree
- * @param {nodegit.Tree} currTree
- * @returns {Promise<alerts.TravailDataAlertChanges[]>}
- */
+import type {
+  GitTagData,
+  TravailDataAlertChanges,
+  TravailDataChanges,
+} from "../types";
 
 export async function processTravailDataDiff(
-  repositoryId,
-  tag,
-  patches,
-  prevTree,
-  currTree
-) {
+  repositoryId: string,
+  tag: GitTagData,
+  patches: ConvenientPatch[],
+  prevTree: Tree,
+  currTree: Tree
+): Promise<TravailDataAlertChanges[]> {
   const fileChanges = await Promise.all(
     patches.map(async (patch) => {
       const filename = patch.newFile().path();
-      const toAst = createToJson(filename);
+      const toAst = createToJson<FicheTravailEmploi[]>(filename);
 
-      const [
-        currAst,
-        prevAst,
-      ] = /** @type {import("@shared/types").FicheTravailEmploi[][]} */ await Promise.all(
+      const [currAst, prevAst] = await Promise.all(
         [currTree, prevTree].map(toAst)
       );
       return getChanges(prevAst, currAst);
@@ -49,15 +42,11 @@ export async function processTravailDataDiff(
     }));
 }
 
-/**
- *
- * @param {import("@shared/types").FicheTravailEmploi[]} previousJson
- * @param {import("@shared/types").FicheTravailEmploi[]} currentJson
- * @return {alerts.TravailDataChanges}
- */
-function getChanges(previousJson, currentJson) {
-  /** @type {(item: import("@shared/types").FicheTravailEmploi) => string } */
-  const toId = ({ pubId }) => pubId;
+function getChanges(
+  previousJson: FicheTravailEmploi[],
+  currentJson: FicheTravailEmploi[]
+): TravailDataChanges {
+  const toId = ({ pubId }: FicheTravailEmploi) => pubId;
   const previousIds = previousJson.map(toId);
   const currentIds = currentJson.map(toId);
 
@@ -70,15 +59,13 @@ function getChanges(previousJson, currentJson) {
   );
   const modified = currentJson.flatMap((doc) => {
     const previousDoc = previousJson.find(
-      (previousDoc) => Boolean(doc.pubId) && doc.pubId === previousDoc.pubId
-      // Boolean(doc.pubId) ensure that we have a valid pubId since there was pubId===null
+      (fiches) => doc.pubId === fiches.pubId
     );
     if (
       !addedIds.includes(doc.pubId) &&
       previousDoc &&
       hasDocumentChanged(previousDoc, doc)
     ) {
-      previousDoc.sections[0];
       const removedSections = previousDoc.sections.filter(
         ({ title: prevTitle }) =>
           doc.sections.find(({ title }) => title === prevTitle) === undefined
@@ -131,12 +118,10 @@ function getChanges(previousJson, currentJson) {
   };
 }
 
-/**
- *
- * @param {import("@shared/types").FicheTravailEmploi} previousDocument
- * @param {import("@shared/types").FicheTravailEmploi} document
- */
-function hasDocumentChanged(previousDocument, document) {
+function hasDocumentChanged(
+  previousDocument: FicheTravailEmploi,
+  document: FicheTravailEmploi
+) {
   return (
     document.intro !== previousDocument.intro ||
     previousDocument.sections.length !== document.sections.length ||

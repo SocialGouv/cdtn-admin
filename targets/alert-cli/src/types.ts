@@ -1,4 +1,5 @@
 import type { HasuraDocument } from "@shared/types";
+import type { DilaRef as ContribDilaReference } from "@socialgouv/contributions-data-types";
 import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
 import type {
   Agreement as KaliDataAgreement,
@@ -7,7 +8,6 @@ import type {
 } from "@socialgouv/kali-data-types";
 import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
 import type { Commit } from "nodegit";
-import type { NodeWithParent } from "unist-util-parents";
 
 export type fileFilterFn = (path: string) => boolean;
 
@@ -25,10 +25,37 @@ export type Source = {
   tag: string;
 };
 
-export type AstChanges = {
-  modified: NodeWithParent<DilaSection, DilaNode>[];
-  removed: NodeWithParent<DilaSection, DilaNode>[];
-  added: NodeWithParent<DilaSection, DilaNode>[];
+export type AstChanges = AstAgreementChanges | AstCodeChanges;
+
+export type AstCodeChanges = {
+  modified: DilaNodeForDiff<CodeArticle | CodeSection>[];
+  removed: DilaNodeWithContext[];
+  added: DilaNodeWithContext[];
+};
+
+export type AstAgreementChanges = {
+  modified: DilaNodeForDiff<AgreementArticle | AgreementSection>[];
+  removed: DilaNodeWithContext[];
+  added: DilaNodeWithContext[];
+};
+
+export type VddChanges = {
+  modified: VddChangeWithDiff[];
+  removed: VddChange[];
+  added: VddChange[];
+};
+
+export type VddChange = {
+  id: string;
+  type: string;
+};
+
+export type VddChangeWithDiff = VddChange & {
+  currentText: string;
+  id: string;
+  previousText: string;
+  title: string;
+  type: string;
 };
 
 export type Changes = AstChanges & {
@@ -48,7 +75,7 @@ export type DilaAlertChanges = Changes & {
   date: Date;
 };
 
-export type VddAlertChanges = AstChanges & {
+export type VddAlertChanges = VddChanges & {
   type: "vdd";
   title: string;
   ref: string;
@@ -73,9 +100,16 @@ export type AlertChanges =
   | TravailDataAlertChanges
   | VddAlertChanges;
 
-export type AlertInfo = {
-  num: number;
+export type AlertInfo = AlertInfoDila | AlertInfoFiche;
+
+export type AlertInfoFiche = {
+  type: "travail-data" | "vdd";
   title: string;
+};
+export type AlertInfoDila = {
+  type: "dila";
+  title: string;
+  num: number;
   id: string; // Kalicont
   file: string; //
 };
@@ -106,10 +140,16 @@ export type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
 
 export type DocumentReferences = {
   document: DocumentInfo;
-  references: ContributionsData.Reference[];
+  references: DocumentReference[];
 };
+export type DocumentReference = Pick<
+  ContribDilaReference,
+  "dila_cid" | "dila_id" | "title" | "url"
+>;
 
-export type DilaNodeWithContext = DilaNode & {
+export type DilaNodeWithContext = DilaContext & DilaNode;
+
+export type DilaContext = {
   context: {
     parents: string[];
     textId: string | null;
@@ -117,9 +157,12 @@ export type DilaNodeWithContext = DilaNode & {
   };
 };
 
-export type DilaNodeForDiff = DilaNodeWithContext & {
-  previous: DilaNodeWithContext;
-};
+export type DilaNodeForDiff<
+  A extends AgreementArticle | AgreementSection | CodeArticle | CodeSection
+> = A &
+  DilaContext & {
+    previous: A;
+  };
 
 export type FicheVddIndex = {
   id: string;
@@ -158,6 +201,6 @@ export type DilaArticle = AgreementArticle | CodeArticle;
 export type DilaSection = AgreementSection | CodeSection;
 
 // Temporarry fix before KaliData type will be updated
-export type Agreement = Omit<KaliDataAgreement, "type"> & {
+export type AgreementFixed = Omit<KaliDataAgreement, "type"> & {
   type: "convention collective";
 };

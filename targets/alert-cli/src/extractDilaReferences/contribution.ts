@@ -1,17 +1,21 @@
+import type { ContributionComplete, ContributionFiltered } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
+import type { DocumentReferences } from "../types";
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
 
-let references: alerts.DocumentReferences[];
+let references: DocumentReferences[] = [];
 
-/**
- * @param {import("@shared/types").ContributionDocument[]} questions
- */
-export function extractContributionsRef(
-  questions: import("@shared/types").ContributionComplete
-) {
-  /** @type {} */
-  const references: alerts.DocumentReferences[] = [];
+export type Contrib = Pick<
+  ContributionComplete | ContributionFiltered,
+  "document" | "source" | "title"
+> & {
+  id: string;
+  cdtnId: string;
+};
+
+export function extractContributionsRef(questions: Contrib[]) {
+  const refs: DocumentReferences[] = [];
 
   for (const question of questions) {
     references.push({
@@ -20,7 +24,21 @@ export function extractContributionsRef(
         source: SOURCES.CONTRIBUTIONS,
         title: question.title,
       },
-      references: question.document.answers.generic.references,
+      references: question.document.answers.generic.references.flatMap(
+        (ref) => {
+          if (ref.category === null) {
+            return [];
+          }
+          return [
+            {
+              dila_cid: ref.dila_cid,
+              dila_id: ref.dila_id,
+              title: ref.title,
+              url: ref.url,
+            },
+          ];
+        }
+      ),
     });
     if (
       !Object.prototype.hasOwnProperty.call(
@@ -30,36 +48,31 @@ export function extractContributionsRef(
     ) {
       continue;
     }
-    if (!isMultiConventionAnswer(question.document)) {
+    if (question.document.split) {
       continue;
     }
     question.document.answers.conventions.forEach((answer) =>
-      references.push({
+      refs.push({
         document: {
           id: answer.id,
           source: SOURCES.CONTRIBUTIONS,
           title: question.title,
         },
-        references: answer.references,
+        references: answer.references.flatMap((ref) => {
+          if (ref.category === null) return [];
+          return [ref];
+        }),
       })
     );
   }
-  return references;
+  return refs;
 }
 
-/**
- *  This is only to fool TS compiler
- * @param {import("@shared/types").CCMultipleAnswers | import("@shared/types").CCSingleAnswer} a
- * @returns {a is import("@shared/types").CCMultipleAnswers}
- */
-function isMultiConventionAnswer(a) {
-  return "conventions" in a.answers;
-}
-
-export default async function main() {
-  if (!references) {
-    /** @type {import("@shared/types").ContributionDocument[]} */
-    const contributions = await getAllDocumentsBySource(SOURCES.CONTRIBUTIONS);
+export default async function main(): Promise<DocumentReferences[]> {
+  if (references.length === 0) {
+    const contributions = (await getAllDocumentsBySource(
+      SOURCES.CONTRIBUTIONS
+    )) as Contrib[];
     references = extractContributionsRef(contributions);
   }
   return references;

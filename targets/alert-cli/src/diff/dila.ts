@@ -1,24 +1,23 @@
-import { Agreement } from "@shared/types";
+import type { AgreementArticle } from "@socialgouv/kali-data-types";
+import type { Code, CodeArticle } from "@socialgouv/legi-data-types";
 import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../node-git.helpers";
 import { getRelevantDocuments } from "../relevantContent";
+import type { AgreementFixed, GitTagData } from "../types";
 import { compareArticles } from "./compareDilaTree";
 
 function getFileComparator(repository: string) {
   switch (repository) {
     case "socialgouv/legi-data":
       // only code-du-travail
-      return (art1: LegiData.CodeArticle, art2: LegiData.CodeArticle) =>
+      return (art1: CodeArticle, art2: CodeArticle) =>
         art1.data.texte !== art2.data.texte ||
         art1.data.etat !== art2.data.etat ||
         art1.data.nota !== art2.data.nota;
     case "socialgouv/kali-data":
       // only a ccn matching our list
-      return (
-        art1: KaliData.AgreementArticle,
-        art2: KaliData.AgreementArticle
-      ) =>
+      return (art1: AgreementArticle, art2: AgreementArticle) =>
         art1.data.content !== art2.data.content ||
         art1.data.etat !== art2.data.etat;
     default:
@@ -26,22 +25,19 @@ function getFileComparator(repository: string) {
   }
 }
 
-/**
- *
- * @returns {Promise<alerts.DilaAlertChanges[]>}
- */
 export async function processDilaDiff(
   repositoryId: string,
-  tag: alerts.GitTagData,
+  tag: GitTagData,
   patches: ConvenientPatch[],
   prevTree: Tree,
   currTree: Tree
 ) {
   const compareFn = getFileComparator(repositoryId);
+
   const fileChanges = await Promise.all(
     patches.map(async (patch) => {
       const file = patch.newFile().path();
-      const toAst = createToJson<alerts.Agreement | LegiData.Code>(file);
+      const toAst = createToJson<AgreementFixed | Code>(file);
 
       const [currAst, prevAst] = await Promise.all(
         [currTree, prevTree].map(toAst)
