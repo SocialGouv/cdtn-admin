@@ -8,7 +8,7 @@ yarn lerna run \
   --stream \
   ;
 
-if git diff origin/alpha --name-only | grep --quiet ".k8s"
+if git diff origin/master --name-only | grep --quiet ".k8s"
 then
   yarn k8s
   yarn k8s prepush
