@@ -1,5 +1,6 @@
+.env.production
+.eslintcache
 .next
 *.DS_Store
-node_modules
-.env.production
 data/*
+node_modules
