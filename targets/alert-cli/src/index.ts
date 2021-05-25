@@ -6,18 +6,17 @@ import * as semver from "semver";
 
 import { batchPromises } from "./batchPromises";
 import { ccns } from "./ccn-list";
-import { processDilaDiff } from "./diff/dila";
+import { processDilaDataDiff } from "./diff/dila-data";
 import { processTravailDataDiff } from "./diff/fiches-travail-data";
 import { processVddDiff } from "./diff/fiches-vdd";
 import { exportContributionAlerts } from "./exportContributionAlerts";
 import { getFicheServicePublicIds as _getFicheServicePublicIds } from "./getFicheServicePublicIds";
 import { openRepo } from "./openRepo";
 import type {
-  Alert,
   AlertChanges,
   AlertInfo,
-  fileFilterFn,
   GitTagData,
+  HasuraAlert,
   Source,
 } from "./types";
 
@@ -83,7 +82,9 @@ const getFicheServicePublicIds = memoizee(_getFicheServicePublicIds, {
   promise: true,
 });
 
-async function getFileFilter(repository: string): Promise<fileFilterFn> {
+async function getFileFilter(
+  repository: string
+): Promise<(path: string) => boolean> {
   switch (repository) {
     case "socialgouv/legi-data":
       // only code-du-travail
@@ -113,7 +114,7 @@ function getDiffProcessor(repository: string) {
   switch (repository) {
     case "socialgouv/legi-data":
     case "socialgouv/kali-data":
-      return processDilaDiff;
+      return processDilaDataDiff;
     case "socialgouv/fiches-vdd":
       return processVddDiff;
     case "socialgouv/fiches-travail-data":
@@ -135,7 +136,7 @@ async function getSources(): Promise<Source[]> {
 export async function insertAlert(
   repository: string,
   changes: AlertChanges
-): Promise<Pick<Alert, "info" | "ref" | "repository">> {
+): Promise<Pick<HasuraAlert, "info" | "ref" | "repository">> {
   const alert = {
     changes: {
       added: changes.added,

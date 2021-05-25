@@ -1,5 +1,6 @@
 import { expect, test } from "@jest/globals";
 
+import type { Contrib } from "../contribution";
 import main, { extractContributionsRef } from "../contribution";
 
 jest.mock("../getAllDocumentsBySource", () => {
@@ -9,8 +10,9 @@ jest.mock("../getAllDocumentsBySource", () => {
 });
 
 //using name starting with mock allow jest to hoist variable and then mock
-const mockContributions = [
+const mockContributions: Contrib[] = [
   {
+    cdtnId: "contrib-1",
     document: {
       answers: {
         conventions: [
@@ -71,18 +73,12 @@ const mockContributions = [
           text: "text",
         },
       },
-      id: "answer1",
+      description: "description contrib",
       index: 1,
+      split: false,
     },
-    id: "answer1",
-    initial_id: "contrib-1",
-    is_available: false,
-    is_published: false,
-    is_searchable: false,
-    meta_description: "desc",
-    slug: "contrib-slug",
+    initialId: "answer1",
     source: "contributions",
-    text: "text",
     title: "question1",
   },
 ];
@@ -96,7 +92,6 @@ const expected = [
     },
     references: [
       {
-        category: "agreement",
         dila_cid: "c1",
         dila_container_id: "kalicont123",
         dila_id: "1",
@@ -104,7 +99,6 @@ const expected = [
         url: "legifrance.url/kalicont123",
       },
       {
-        category: "agreement",
         dila_cid: "3",
         dila_container_id: "kalicont42",
         dila_id: "3",
@@ -121,7 +115,6 @@ const expected = [
     },
     references: [
       {
-        category: "agreement",
         dila_cid: "c123",
         dila_container_id: "kalicont123",
         dila_id: "125",
@@ -129,7 +122,6 @@ const expected = [
         url: "url/c123",
       },
       {
-        category: "agreement",
         dila_cid: "ext",
         dila_container_id: "kalicont123",
         dila_id: "ext125",
@@ -137,7 +129,6 @@ const expected = [
         url: "url/c125",
       },
       {
-        category: "agreement",
         dila_cid: "4",
         dila_container_id: "kalicont42",
         dila_id: "4",
@@ -149,11 +140,7 @@ const expected = [
 ];
 
 test("extractContributionRef should return an array of references", () => {
-  expect(
-    extractContributionsRef(
-      /** @type {import("@shared/types").ContributionDocument[]} */ (mockContributions)
-    )
-  ).toEqual(expected);
+  expect(extractContributionsRef(mockContributions)).toEqual(expected);
 });
 
 test("default export should return an array of references", async () => {

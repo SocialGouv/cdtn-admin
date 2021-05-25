@@ -1,13 +1,31 @@
 /* eslint-disable-next-line*/
 import nodegit, { ConvenientPatch, Tree } from "nodegit";
 import { createToJson } from "../node-git.helpers";
-import type {
-  FicheVdd,
-  FicheVddNode,
-  GitTagData,
-  VddAlertChanges,
-  VddChanges,
-} from "../types";
+import type { FicheVdd, FicheVddNode, GitTagData } from "../types";
+
+export type VddAlertChanges = VddChanges & {
+  type: "vdd";
+  title: string;
+  ref: string;
+  date: Date;
+};
+
+export type VddChanges = {
+  modified: FicheVddInfoWithDiff[];
+  removed: FicheVddInfo[];
+  added: FicheVddInfo[];
+};
+
+export type FicheVddInfo = {
+  id: string;
+  type: string;
+  title: string;
+};
+
+export type FicheVddInfoWithDiff = FicheVddInfo & {
+  currentText: string;
+  previousText: string;
+};
 
 export async function processVddDiff(
   repositoryId: string,
@@ -22,12 +40,16 @@ export async function processVddDiff(
     removed: [],
   };
 
-  changes.removed = patches.flatMap((patch) =>
-    patch.isDeleted() ? [toSimpleVddChange(patch)] : []
+  changes.removed = await Promise.all(
+    patches
+      .filter((patch) => patch.isDeleted())
+      .map(async (patch) => toSimpleVddChange(patch, prevTree))
   );
 
-  changes.added = patches.flatMap((patch) =>
-    patch.isAdded() ? [toSimpleVddChange(patch)] : []
+  changes.added = await Promise.all(
+    patches
+      .filter((patch) => patch.isAdded())
+      .map(async (patch) => toSimpleVddChange(patch, currTree))
   );
 
   const modified = patches.flatMap((patch) =>
@@ -164,14 +186,17 @@ function getText(element?: FicheVddNode): string {
   return "";
 }
 
-function toSimpleVddChange(patch: ConvenientPatch) {
+async function toSimpleVddChange(patch: ConvenientPatch, tree: Tree) {
   const filepath = patch.newFile().path();
   const match = /(\w+)\/(\w+)\.json$/.exec(filepath);
   if (!match) {
     throw new Error(`[toSimpleVddChange] Can't parse ${filepath}`);
   }
+  const toJson = createToJson<FicheVdd>(patch.newFile().path());
+  const fiche = await toJson(tree);
   return {
     id: match[2],
+    title: getTitleFromRawFiche(fiche),
     type: match[1],
   };
 }

@@ -1,8 +1,8 @@
 import type { ContributionComplete, ContributionFiltered } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
-import type { DocumentReferences } from "../types";
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
+import type { DocumentReferences } from "./types";
 
 let references: DocumentReferences[] = [];
 
@@ -10,17 +10,19 @@ export type Contrib = Pick<
   ContributionComplete | ContributionFiltered,
   "document" | "source" | "title"
 > & {
-  id: string;
+  initialId: string;
   cdtnId: string;
 };
 
-export function extractContributionsRef(questions: Contrib[]) {
+export function extractContributionsRef(
+  questions: Contrib[]
+): DocumentReferences[] {
   const refs: DocumentReferences[] = [];
 
   for (const question of questions) {
-    references.push({
+    refs.push({
       document: {
-        id: question.id,
+        id: question.initialId,
         source: SOURCES.CONTRIBUTIONS,
         title: question.title,
       },
@@ -32,6 +34,7 @@ export function extractContributionsRef(questions: Contrib[]) {
           return [
             {
               dila_cid: ref.dila_cid,
+              dila_container_id: ref.dila_container_id,
               dila_id: ref.dila_id,
               title: ref.title,
               url: ref.url,
@@ -40,12 +43,7 @@ export function extractContributionsRef(questions: Contrib[]) {
         }
       ),
     });
-    if (
-      !Object.prototype.hasOwnProperty.call(
-        question.document.answers,
-        "conventions"
-      )
-    ) {
+    if ("conventionAnswer" in question.document.answers) {
       continue;
     }
     if (question.document.split) {
@@ -60,7 +58,15 @@ export function extractContributionsRef(questions: Contrib[]) {
         },
         references: answer.references.flatMap((ref) => {
           if (ref.category === null) return [];
-          return [ref];
+          return [
+            {
+              dila_cid: ref.dila_cid,
+              dila_container_id: ref.dila_container_id,
+              dila_id: ref.dila_id,
+              title: ref.title,
+              url: ref.url,
+            },
+          ];
         }),
       })
     );

@@ -1,15 +1,11 @@
 import fetch from "node-fetch";
 
-import type {
-  AlertChanges,
-  DilaArticle,
-  DilaNodeForDiff,
-  GitTagData,
-} from "./types";
+import type { DilaModifiedNode } from "./diff/dila-data";
+import type { AlertChanges, GitTagData } from "./types";
 
 export function exportContributionAlerts(
   repository: string,
-  lastTag: GitTagData,
+  lastTag: Pick<GitTagData, "ref">,
   alertChanges: AlertChanges[]
 ): void {
   if (!process.env.CONTRIBUTIONS_ENDPOINT) {
@@ -37,13 +33,9 @@ export function exportContributionAlerts(
     }
     return targetedContribs.flatMap(({ references, document: contrib }) => {
       return references.flatMap((reference) => {
-        if (reference.category === null) {
-          return [];
-        }
-
         const modifiedNode = changes.modified.find(
-          ({ data: { cid } }) => reference.dila_cid === cid
-        ) as DilaNodeForDiff<DilaArticle> | undefined;
+          ({ cid }) => reference.dila_cid === cid
+        );
 
         if (!modifiedNode) {
           return [];
@@ -94,35 +86,23 @@ export function exportContributionAlerts(
     });
 }
 
-function computeDiff(modifiedNode: DilaNodeForDiff<DilaArticle>) {
-  const content: string =
-    "content" in modifiedNode.data
-      ? modifiedNode.data.content
-      : modifiedNode.data.texte;
-
-  const previousContent =
-    "content" in modifiedNode.previous.data
-      ? modifiedNode.previous.data.content
-      : modifiedNode.previous.data.texte;
-
-  const texts = [];
-  if (content !== previousContent) {
-    texts.push({ current: content, previous: previousContent });
-  }
-
-  if ("nota" in modifiedNode.data && "nota" in modifiedNode.previous.data) {
-    if (modifiedNode.data.nota !== modifiedNode.previous.data.nota) {
-      texts.push({
-        current: modifiedNode.data.nota,
-        previous: modifiedNode.previous.data.nota,
-      });
+function computeDiff(modifiedNode: DilaModifiedNode) {
+  const etatUpdate = modifiedNode.diffs.find(({ type }) => type === "etat");
+  const texts = modifiedNode.diffs.flatMap(
+    ({ type, previousText: previous, currentText: current }) => {
+      if (type === "etat") {
+        return [];
+      }
+      return {
+        current,
+        previous,
+      };
     }
-  }
-
+  );
   return {
     etat: {
-      current: modifiedNode.data.etat,
-      previous: modifiedNode.previous.data.etat,
+      current: etatUpdate ? etatUpdate.currentText : modifiedNode.etat,
+      previous: etatUpdate ? etatUpdate.previousText : modifiedNode.etat,
     },
     texts,
   };

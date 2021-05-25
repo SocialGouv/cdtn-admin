@@ -1,8 +1,8 @@
 import type { FicheTravailEmploi } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
-import type { DocumentReferences } from "../types";
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
+import type { DocumentReferences } from "./types";
 
 let references: DocumentReferences[] = [];
 
@@ -10,24 +10,27 @@ export type FicheTravail = Pick<
   FicheTravailEmploi,
   "document" | "source" | "title"
 > & {
-  id: string;
+  initialId: string;
   cdtnId: string;
 };
 
-export function extractFicheTravailEmploiRef(fiches: FicheTravail[]) {
+export function extractFicheTravailEmploiRef(
+  fiches: FicheTravail[]
+): DocumentReferences[] {
   const refs: DocumentReferences[] = [];
 
   for (const fiche of fiches) {
     fiche.document.sections.forEach((section) => {
       refs.push({
         document: {
-          id: fiche.id,
+          id: fiche.initialId,
           source: SOURCES.SHEET_MT,
           title: `${fiche.title}#${section.anchor}`,
         },
         references: section.references.map(
           ({ cid: dila_cid, title, url, id: dila_id }) => ({
             dila_cid,
+            dila_container_id: "LEGITEXT000006072050",
             dila_id,
             title,
             url,

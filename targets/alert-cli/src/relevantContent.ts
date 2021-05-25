@@ -1,11 +1,12 @@
+import type { DilaChanges } from "./diff/dila-data";
 import getContribReferences from "./extractDilaReferences/contribution";
 import getTravailEmploiReferences from "./extractDilaReferences/ficheTravailEmploi";
-import type { AstChanges, DocumentReferences } from "./types";
+import type { DocumentReferences } from "./extractDilaReferences/types";
 
 export async function getRelevantDocuments({
   modified,
   removed,
-}: AstChanges): Promise<DocumentReferences[]> {
+}: Pick<DilaChanges, "modified" | "removed">): Promise<DocumentReferences[]> {
   const contribReferences = await getContribReferences();
   const travailEmploiReferences = await getTravailEmploiReferences();
 
@@ -14,12 +15,10 @@ export async function getRelevantDocuments({
     const references = item.references.filter(
       (ref) =>
         modified.find(
-          (node) =>
-            node.data.id === ref.dila_id || node.data.cid === ref.dila_cid
+          (node) => node.id === ref.dila_id || node.cid === ref.dila_cid
         ) ??
         removed.find(
-          (node) =>
-            node.data.id === ref.dila_id || node.data.cid === ref.dila_cid
+          (node) => node.id === ref.dila_id || node.cid === ref.dila_cid
         )
     );
 
