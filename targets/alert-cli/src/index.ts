@@ -22,7 +22,7 @@ import type {
 
 const sourcesQuery = `
 query getSources {
-  sources {
+  sources(order_by: {label: asc}) {
     repository
     tag
   }
@@ -258,8 +258,7 @@ async function saveAlertChanges(
     if (insert.status === "fulfilled") {
       const { ref, repository: repo, info } = insert.value;
       console.log(
-        `insert alert for ${ref} on ${repo} ${
-          info.type === "dila" ? `(${info.file})` : ""
+        `insert alert for ${ref} on ${repo} ${info.type === "dila" ? `(${info.file})` : ""
         })`
       );
     }

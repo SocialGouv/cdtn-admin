@@ -30,11 +30,11 @@ type FileChange<A extends Agreement | Code> = {
 
 type WithParent<
   A extends (AgreementArticle | AgreementSection) | (CodeArticle | CodeSection)
-> = A & {
-  parent: WithParent<
-    A extends CodeArticle | CodeSection ? CodeSection : AgreementSection
-  > | null;
-};
+  > = A & {
+    parent: WithParent<
+      A extends CodeArticle | CodeSection ? CodeSection : AgreementSection
+    > | null;
+  };
 
 export type DilaAlertChanges = DilaChanges & {
   type: "dila";
@@ -101,8 +101,7 @@ export async function processDilaDataDiff(
   const fileChanges = await Promise.all(
     patches.map(async (patch) => {
       const file = patch.newFile().path();
-
-      if (repositoryId === "@socialgouv/legi-data") {
+      if (repositoryId === "socialgouv/legi-data") {
         const toAst = createToJson<Code>(file);
         const [current, previous] = await Promise.all(
           [currTree, prevTree].map(toAst)
@@ -136,7 +135,7 @@ export async function processDilaDataDiff(
         const documents = await getRelevantDocuments(changes);
         if (documents.length > 0) {
           console.log(
-            `[info] found ${documents.length} documents impacted by release v${tag.ref} on ${repositoryId}`,
+            `[info] found ${documents.length} documents impacted by release ${tag.ref} on ${repositoryId}`,
             { file: fileChange.file }
           );
         }
@@ -152,7 +151,7 @@ export async function processDilaDataDiff(
         const documents = await getRelevantDocuments(changes);
         if (documents.length > 0) {
           console.log(
-            `[info] found ${documents.length} documents impacted by release v${tag.ref} on ${repositoryId}, (idcc: ${fileChange.current.data.num})`,
+            `[info] found ${documents.length} documents impacted by release ${tag.ref} on ${repositoryId}, (idcc: ${fileChange.current.data.num})`,
             { file: fileChange.file }
           );
         }
@@ -261,7 +260,10 @@ function compareTree<A extends Agreement | Code>(fileChange: FileChange<A>) {
           section2.data.etat !== section.data.etat
       )
   );
-  const modifiedNodeAdapter = createModifiedAdapter(articles1);
+  const modifiedNodeAdapter = createModifiedAdapter([
+    ...articles1,
+    ...sections1,
+  ]);
 
   return {
     added: newArticles
