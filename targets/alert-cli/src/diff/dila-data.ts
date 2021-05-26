@@ -30,11 +30,11 @@ type FileChange<A extends Agreement | Code> = {
 
 type WithParent<
   A extends (AgreementArticle | AgreementSection) | (CodeArticle | CodeSection)
-  > = A & {
-    parent: WithParent<
-      A extends CodeArticle | CodeSection ? CodeSection : AgreementSection
-    > | null;
-  };
+> = A & {
+  parent: WithParent<
+    A extends CodeArticle | CodeSection ? CodeSection : AgreementSection
+  > | null;
+};
 
 export type DilaAlertChanges = DilaChanges & {
   type: "dila";
