@@ -1,16 +1,16 @@
 import childProcess from "child_process";
-import nodegit from "nodegit";
+import { Remote, Repository } from "nodegit";
 import path from "path";
 import { promisify } from "util";
 
+import type { Source } from "./types";
+
 const exec = promisify(childProcess.exec);
 
-/**
- * Open a nodegit Repository
- * @param {alerts.Source} source
- * @returns {Promise<nodegit.Repository>}
- */
-export async function openRepo({ repository, tag }) {
+export async function openRepo({
+  repository,
+  tag,
+}: Source): Promise<Repository> {
   const [org, repositoryName] = repository.split("/");
   const localPath = path.join(__dirname, "..", "data", repositoryName);
 
@@ -48,14 +48,14 @@ export async function openRepo({ repository, tag }) {
     console.log(deepenCommand);
     await exec(deepenCommand);
     console.timeEnd(repository);
-  } catch (error) {
+  } catch {
     const commandClone = `git clone --depth 1 --bare https://github.com/${org}/${repositoryName} ${localPath}`;
     await exec(commandClone);
     console.log(`[openRepo] no new version, fallback to`);
     console.log(` ${commandClone}`);
   }
-  const repo = await nodegit.Repository.open(localPath);
-  const remote = await nodegit.Remote.lookup(repo, "origin");
+  const repo = await Repository.open(localPath);
+  const remote = await Remote.lookup(repo, "origin");
   await remote.fetch(
     ["+refs/heads/master:refs/remotes/origin/master"],
     {

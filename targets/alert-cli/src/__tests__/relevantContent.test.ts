@@ -1,5 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 
+import type { DilaChanges } from "../diff/dila-data";
 import { getRelevantDocuments } from "../relevantContent";
 
 jest.mock("../extractDilaReferences/ficheTravailEmploi", () => () => []);
@@ -66,9 +67,25 @@ jest.mock("../extractDilaReferences/contribution", () => () => [
 
 describe("getRelevantContent", () => {
   it("should return an array of document that match modified changes", async () => {
-    const changes = {
+    const changes: DilaChanges = {
       added: [],
-      modified: [{ data: { cid: "c123", id: "123" }, type: "article" }],
+      documents: [],
+      modified: [
+        {
+          cid: "c123",
+          diffs: [
+            {
+              currentText: "VIGUEUR",
+              previousText: "VIGUEUR ETENDUE",
+              type: "etat",
+            },
+          ],
+          etat: "VIGUEYR",
+          id: "123",
+          parents: ["parents section"],
+          title: "yolo",
+        },
+      ],
       removed: [],
     };
     const expected = [
@@ -96,7 +113,9 @@ describe("getRelevantContent", () => {
     const changes = {
       added: [],
       modified: [],
-      removed: [{ data: { cid: "3", id: "3" }, type: "article" }],
+      removed: [
+        { cid: "3", id: "3", parents: ["section parent"], title: "test" },
+      ],
     };
     const expected = [
       {

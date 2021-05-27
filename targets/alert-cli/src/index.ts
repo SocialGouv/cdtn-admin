@@ -1,25 +1,39 @@
 import { client } from "@shared/graphql-client";
 import memoizee from "memoizee";
-import nodegit from "nodegit";
-import semver from "semver";
+import type { Repository } from "nodegit";
+import { Object, Tag } from "nodegit";
+import * as semver from "semver";
 
 import { batchPromises } from "./batchPromises";
-import { ccns } from "./ccn-list.js";
-import { processDilaDiff } from "./diff/dila";
+import { ccns } from "./ccn-list";
+import { processDilaDataDiff } from "./diff/dila-data";
 import { processTravailDataDiff } from "./diff/fiches-travail-data";
 import { processVddDiff } from "./diff/fiches-vdd";
 import { exportContributionAlerts } from "./exportContributionAlerts";
 import { getFicheServicePublicIds as _getFicheServicePublicIds } from "./getFicheServicePublicIds";
 import { openRepo } from "./openRepo";
+import type {
+  AlertChanges,
+  AlertInfo,
+  GitTagData,
+  HasuraAlert,
+  Source,
+} from "./types";
 
 const sourcesQuery = `
 query getSources {
-  sources {
+  sources(order_by: {label: asc}) {
     repository
     tag
   }
 }
 `;
+type SourceResult = {
+  sources: {
+    repository: string;
+    tag: string;
+  }[];
+};
 
 const insertAlertsMutation = `
 mutation insert_alert($alert: alerts_insert_input!) {
@@ -33,6 +47,14 @@ mutation insert_alert($alert: alerts_insert_input!) {
   }
 }
 `;
+
+type InsertAlertData = {
+  alert: {
+    repository: string;
+    ref: string;
+    info: AlertInfo;
+  };
+};
 
 const updateSourceMutation = `
 mutation updateSource($repository: String!, $tag: String!){
@@ -49,27 +71,32 @@ mutation updateSource($repository: String!, $tag: String!){
 }
 `;
 
+type UpdateSourceResult = {
+  source: {
+    repository: string;
+    tag: string;
+  };
+};
+
 const getFicheServicePublicIds = memoizee(_getFicheServicePublicIds, {
   promise: true,
 });
 
-/**
- *
- * @param { string } repository
- * @returns { Promise<alerts.fileFilterFn> }
- */
-async function getFileFilter(repository) {
+async function getFileFilter(
+  repository: string
+): Promise<(path: string) => boolean> {
   switch (repository) {
     case "socialgouv/legi-data":
       // only code-du-travail
-      return (path) => /LEGITEXT000006072050\.json$/.test(path);
+      return (path: string) => path.endsWith("LEGITEXT000006072050.json");
     case "socialgouv/kali-data":
       // only a ccn matching our list
-      return (path) => ccns.some((ccn) => new RegExp(ccn.id).test(path));
+      return (path: string) =>
+        ccns.some((ccn) => new RegExp(ccn.id).test(path));
     case "socialgouv/fiches-vdd": {
       /** @type {string[]} */
       const ficheVddIDs = await getFicheServicePublicIds();
-      return (path) => {
+      return (path: string) => {
         const matched = ficheVddIDs.some((id) =>
           new RegExp(`${id}.json$`).test(path)
         );
@@ -77,47 +104,39 @@ async function getFileFilter(repository) {
       };
     }
     case "socialgouv/fiches-travail-data":
-      return (path) => /fiches-travail\.json$/.test(path);
+      return (path) => path.endsWith("fiches-travail.json");
     default:
       return () => false;
   }
 }
-/**
- *
- * @param { string } repository
- */
-function getDiffProcessor(repository) {
+
+function getDiffProcessor(repository: string) {
   switch (repository) {
     case "socialgouv/legi-data":
     case "socialgouv/kali-data":
-      return processDilaDiff;
+      return processDilaDataDiff;
     case "socialgouv/fiches-vdd":
       return processVddDiff;
     case "socialgouv/fiches-travail-data":
       return processTravailDataDiff;
     default:
-      return () => Promise.resolve([]);
+      return async () => Promise.resolve([]);
   }
 }
 
-/**
- * @returns { Promise<alerts.Source[]> }
- */
-async function getSources() {
-  const result = await client.query(sourcesQuery).toPromise();
-  if (result.error) {
+async function getSources(): Promise<Source[]> {
+  const result = await client.query<SourceResult>(sourcesQuery).toPromise();
+  if (result.error || !result.data) {
     console.error(result.error);
     throw new Error("getSources");
   }
   return result.data.sources;
 }
 
-/**
- * @param { string } repository
- * @param { alerts.AlertChanges } changes
- * @returns { Promise<alerts.Alert> }
- */
-export async function insertAlert(repository, changes) {
+export async function insertAlert(
+  repository: string,
+  changes: AlertChanges
+): Promise<Pick<HasuraAlert, "info" | "ref" | "repository">> {
   const alert = {
     changes: {
       added: changes.added,
@@ -140,45 +159,39 @@ export async function insertAlert(repository, changes) {
   };
 
   const result = await client
-    .mutation(insertAlertsMutation, { alert })
+    .mutation<InsertAlertData>(insertAlertsMutation, { alert })
     .toPromise();
-  if (result.error) {
+  if (result.error || !result.data) {
     console.error(result.error);
     throw new Error("insertAlert");
   }
   return result.data.alert;
 }
-/**
- *
- * @param { string } repository
- * @param { string } tag
- * @returns {Promise<alerts.Source>}
- */
-export async function updateSource(repository, tag) {
+
+export async function updateSource(
+  repository: string,
+  tag: string
+): Promise<Source> {
   const result = await client
-    .mutation(updateSourceMutation, {
+    .mutation<UpdateSourceResult>(updateSourceMutation, {
       repository,
       tag,
     })
     .toPromise();
 
-  if (result.error) {
+  if (result.error || !result.data) {
     console.error(result.error);
     throw new Error("updateSource");
   }
   return result.data.source;
 }
 
-/**
- *
- * @param {nodegit.Repository} repository
- * @param {string} lastTag
- * @returns {Promise<alerts.GitTagData[]>}
- */
-async function getNewerTagsFromRepo(repository, lastTag) {
-  /** @type {string[]} */
-  const tags = await nodegit.Tag.list(repository);
-  return await Promise.all(
+async function getNewerTagsFromRepo(
+  repository: Repository,
+  lastTag: string
+): Promise<GitTagData[]> {
+  const tags: string[] = await Tag.list(repository);
+  return Promise.all(
     tags
       .flatMap((t) => {
         if (!semver.valid(t)) {
@@ -192,7 +205,7 @@ async function getNewerTagsFromRepo(repository, lastTag) {
       .sort((a, b) => (semver.lt(a, b) ? -1 : 1))
       .map(async (tag) => {
         const reference = await repository.getReference(tag);
-        const targetRef = await reference.peel(nodegit.Object.TYPE.COMMIT);
+        const targetRef = await reference.peel(Object.TYPE.COMMIT);
         const commit = await repository.getCommit(targetRef.id());
         return {
           commit,
@@ -202,14 +215,11 @@ async function getNewerTagsFromRepo(repository, lastTag) {
   );
 }
 
-/**
- *
- * @param {string} repository
- * @param {alerts.GitTagData} currentTag first tag to compute diff (most recent)
- * @param {alerts.GitTagData} previousTag second tag to compute diff (least recent)
- * @returns {Promise<alerts.AlertChanges[]>}
- */
-async function getAlertChangesFromTags(repository, currentTag, previousTag) {
+async function getAlertChangesFromTags(
+  repository: string,
+  currentTag: GitTagData,
+  previousTag: GitTagData
+): Promise<AlertChanges[]> {
   const fileFilter = await getFileFilter(repository);
   const diffProcessor = getDiffProcessor(repository);
 
@@ -225,6 +235,7 @@ async function getAlertChangesFromTags(repository, currentTag, previousTag) {
   const filterPatches = patches.filter((patch) =>
     fileFilter(patch.newFile().path())
   );
+
   return diffProcessor(
     repository,
     currentTag,
@@ -234,25 +245,27 @@ async function getAlertChangesFromTags(repository, currentTag, previousTag) {
   );
 }
 
-/**
- *
- * @param {string} repository
- * @param {alerts.AlertChanges[]} alertChanges
- */
-async function saveAlertChanges(repository, alertChanges) {
+async function saveAlertChanges(
+  repository: string,
+  alertChanges: AlertChanges[]
+) {
   const inserts = await batchPromises(
     alertChanges,
-    (diff) => insertAlert(repository, diff),
+    async (diff) => insertAlert(repository, diff),
     5
   );
-  const fullfilledInserts = /**@type {{status:"fulfilled", value:alerts.Alert}[]} */ (inserts.filter(
-    ({ status }) => status === "fulfilled"
-  ));
-  const rejectedInsert = inserts.filter(({ status }) => status === "rejected");
-  fullfilledInserts.forEach((insert) => {
-    const { ref, repository, info } = insert.value;
-    console.log(`insert alert for ${ref} on ${repository} (${info.file})`);
+  inserts.forEach((insert) => {
+    if (insert.status === "fulfilled") {
+      const { ref, repository: repo, info } = insert.value;
+      console.log(
+        `insert alert for ${ref} on ${repo} ${
+          info.type === "dila" ? `(${info.file})` : ""
+        })`
+      );
+    }
   });
+
+  const rejectedInsert = inserts.filter(({ status }) => status === "rejected");
 
   if (rejectedInsert.length) {
     console.error(
@@ -268,7 +281,7 @@ async function main() {
     const repo = await openRepo(source);
     const tags = await getNewerTagsFromRepo(repo, source.tag);
 
-    const [lastTag] = tags.slice(-1);
+    const [lastTag = ""] = tags.slice(-1);
     if (!lastTag) {
       throw new Error(`Error: last tag not found for ${source.repository}`);
     }

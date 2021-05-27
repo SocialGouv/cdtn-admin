@@ -1,0 +1,6 @@
+@types
+*.d.ts
+babel.config.js
+data
+dist
+node_modules

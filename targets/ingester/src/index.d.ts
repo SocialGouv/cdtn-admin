@@ -1,4 +1,3 @@
-import type { TravailEmploiReference } from "@shared/types";
 import type { SourceValues } from "@socialgouv/cdtn-sources";
 import type {
   Answer,

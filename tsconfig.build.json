@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
     "outDir": "./lib",
-    "declaration": true,
-    "checkJs": true,
-    "downlevelIteration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -13,5 +10,5 @@
     "module": "commonjs",
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "dist", ".next"]
+  "exclude": ["node_modules", "dist", "lib", ]
 }

@@ -1,24 +1,26 @@
 import fetch from "node-fetch";
 
-/**
- * @param {string} repository
- * @param {alerts.GitTagData} lastTag
- * @param {alerts.AlertChanges[]} alertChanges
- */
-export async function exportContributionAlerts(
-  repository,
-  lastTag,
-  alertChanges
-) {
+import type { DilaModifiedNode } from "./diff/dila-data";
+import type { AlertChanges, GitTagData } from "./types";
+
+export function exportContributionAlerts(
+  repository: string,
+  lastTag: Pick<GitTagData, "ref">,
+  alertChanges: AlertChanges[]
+): void {
   if (!process.env.CONTRIBUTIONS_ENDPOINT) {
     console.info(
       "[exportContributionAlerts] skip sending alert to conributions endpoint"
     );
     return;
   }
-  const dilaAlertChanges = /** @type {alerts.DilaAlertChanges[]} */ (alertChanges.filter(
-    (change) => change.type === "dila"
-  ));
+
+  const dilaAlertChanges = alertChanges.flatMap((change) => {
+    if (change.type === "dila") {
+      return [change];
+    }
+    return [];
+  });
   const contributions = dilaAlertChanges.flatMap((changes) => {
     console.log(
       `searching for contributions impacted by alert ${changes.ref} from ${repository}`
@@ -32,17 +34,19 @@ export async function exportContributionAlerts(
     return targetedContribs.flatMap(({ references, document: contrib }) => {
       return references.flatMap((reference) => {
         const modifiedNode = changes.modified.find(
-          ({ data: { cid } }) => reference.dila_cid === cid
+          ({ cid }) => reference.dila_cid === cid
         );
+
         if (!modifiedNode) {
           return [];
         }
+
         return {
           answer_id: contrib.id,
           dila_cid: reference.dila_cid,
           dila_container_id: reference.dila_container_id,
           dila_id: reference.dila_id,
-          value: computeDiff(reference, modifiedNode),
+          value: computeDiff(modifiedNode),
           version: changes.ref,
         };
       });
@@ -66,10 +70,8 @@ export async function exportContributionAlerts(
   })
     .then((response) => {
       if (!response.ok) {
-        const err = new Error(response.statusText);
-        // @ts-ignore
-        err.status = response.status;
-        return Promise.reject(err);
+        console.error(response.status, response.statusText);
+        return Promise.reject(new Error(response.statusText));
       }
       console.info(
         `Sending ${contributions.length} alert(s) from ${repository} to ${contribApiUrl}`
@@ -84,40 +86,23 @@ export async function exportContributionAlerts(
     });
 }
 
-/**
- *
- * @param {import("@shared/types").ParseDilaReference} reference
- * @param {alerts.DilaNodeForDiff} modifiedNode
- */
-function computeDiff(reference, modifiedNode) {
-  const textFieldname = /^KALITEXT\d+$/.test(
-    modifiedNode.context.containerId || ""
-  )
-    ? "content"
-    : "texte";
-  const content = modifiedNode.data[textFieldname] || "";
-
-  const previousContent =
-    (modifiedNode.previous && modifiedNode.previous.data[textFieldname]) || "";
-  const showDiff = content !== previousContent;
-  const showNotaDiff =
-    modifiedNode.previous.data.nota !== modifiedNode.data.nota;
-  const texts = [];
-  if (showDiff) {
-    texts.push({ current: content, previous: previousContent });
-  }
-
-  if (showNotaDiff) {
-    texts.push({
-      current: modifiedNode.data.nota,
-      previous: modifiedNode.previous.data.nota,
-    });
-  }
-
+function computeDiff(modifiedNode: DilaModifiedNode) {
+  const etatUpdate = modifiedNode.diffs.find(({ type }) => type === "etat");
+  const texts = modifiedNode.diffs.flatMap(
+    ({ type, previousText: previous, currentText: current }) => {
+      if (type === "etat") {
+        return [];
+      }
+      return {
+        current,
+        previous,
+      };
+    }
+  );
   return {
     etat: {
-      current: modifiedNode.data.etat,
-      previous: modifiedNode.previous.data.etat,
+      current: etatUpdate ? etatUpdate.currentText : modifiedNode.etat,
+      previous: etatUpdate ? etatUpdate.previousText : modifiedNode.etat,
     },
     texts,
   };

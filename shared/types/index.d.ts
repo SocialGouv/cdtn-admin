@@ -1,71 +1,75 @@
-import { CodeArticle, CodeArticleData } from "@socialgouv/legi-data-types";
-import {
+import type {
   Answer,
   GenericAnswer,
   IndexedAgreement,
   Reference as ContributionReference,
 } from "@socialgouv/contributions-data-types";
-
-import "@socialgouv/cdtn-sources";
+import type { CodeArticleData } from "@socialgouv/legi-data-types";
 
 export as namespace admin;
 
-type HasuraDocuments = {
+interface BaseHasuraDocument {
   cdtn_id: string;
   initial_id: string;
-  is_available: Boolean;
-  is_searchable: Boolean;
-  is_published: Boolean;
+  is_available: boolean;
+  is_searchable: boolean;
+  is_published: boolean;
   meta_description: string;
   slug: string;
-  source: cdtnSources.SourceRoute;
   title: string;
   text: string;
   created_at: Date;
   updated_at: Date;
-};
+}
 
-type FicheTravailEmploi = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "fiches_travail_emploi">;
+type FicheTravailEmploi = BaseHasuraDocument & {
+  source: "fiches_ministere_travail";
   document: FicheTravailEmploiDoc;
 };
 
-type ContributionComplete = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "contributions">;
+type ContributionComplete = BaseHasuraDocument & {
+  source: "contributions";
   document: ContributionCompleteDoc;
 };
 
-type ContributionFiltered = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "contributions">;
+type ContributionFiltered = BaseHasuraDocument & {
+  source: "contributions";
   document: ContributionFilteredDoc;
 };
 
-type LaborCodeArticle = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "code_du_travail">;
+type LaborCodeArticle = BaseHasuraDocument & {
+  source: "code_du_travail";
   document: LaborCodeDoc;
 };
 
-type FicheServicePublic = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "fiches_service_public">;
+type FicheServicePublic = BaseHasuraDocument & {
+  source: "fiches_service_public";
   document: FicheServicePublicDoc;
 };
 
-type Agreement = HasuraDocuments & {
-  source: Pick<cdtnSources.SourceValues, "conventions_collectives">;
+type Agreement = BaseHasuraDocument & {
+  source: "conventions_collectives";
   document: AgreementDoc;
 };
 
+type HasuraDocument =
+  | Agreement
+  | ContributionComplete
+  | ContributionFiltered
+  | FicheServicePublic
+  | FicheTravailEmploi
+  | LaborCodeArticle;
 /**
  * Document Table's document type
  */
 
-type FicheTravailEmploiDoc = {
+interface FicheTravailEmploiDoc {
   date: string;
   description: string;
   intro: string;
   url: string;
   sections: Section[];
-};
+}
 interface Section {
   anchor: string;
   html: string;
@@ -75,88 +79,88 @@ interface Section {
   references: TravailEmploiReference[];
 }
 
-type TravailEmploiReference = {
+interface TravailEmploiReference {
   id: string;
   cid: string;
   slug: string;
   title: string;
-  type: "conventions_collectives" | "code_du_travail";
+  type: "code_du_travail" | "conventions_collectives";
   url: string;
-};
+}
 
-type ContributionCompleteDoc = {
-  index;
-  split;
-  description;
+interface ContributionCompleteDoc {
+  index: number;
+  split: false;
+  description: string;
   answers: CCMultipleAnswers;
-};
+}
 
-type ContributionFilteredDoc = {
-  index;
-  split;
-  description;
+interface ContributionFilteredDoc {
+  index: number;
+  split: true;
+  description: string;
   answers: CCSingleAnswer;
-};
+}
 
-type CCMultipleAnswers = {
+interface CCMultipleAnswers {
   generic: GenericAnswer;
   conventions: Answer[];
-};
+}
 
-type CCSingleAnswer = {
+interface CCSingleAnswer {
   generic: GenericAnswer;
   conventionAnswer: Answer;
-};
+}
 
-type LaborCodeDoc = Pick<CodeArticleData, "dateDebut" | "id" | "cid"> & {
+type LaborCodeDoc = Pick<CodeArticleData, "cid" | "dateDebut" | "id"> & {
   description: string;
-  html;
+  html: string;
   url: string;
   notaHtml?: string;
 };
 
-type FicheServicePublicDoc = {
+interface FicheServicePublicDoc {
   raw: string;
   url: string;
   date: string;
   description: string;
   referencedTexts: ServicePublicReference[];
-};
+}
 
 type ServicePublicReference =
   | ServicePublicExternalReference
   | ServicePublicInternalReference;
 
-type ServicePublicInternalReference = {
+interface ServicePublicInternalReference {
   title: string;
   slug: string;
   type: "code_du_travail" | "conventions_collectives";
-};
+}
 
-type ServicePublicExternalReference = {
+interface ServicePublicExternalReference {
   title: string;
   url: string;
   type: "external";
-};
+}
 
 type AgreementDoc = Pick<
   IndexedAgreement,
-  "num" | "url" | "mtime" | "effectif" | "date_publi" | "shortTitle"
+  "date_publi" | "effectif" | "mtime" | "num" | "shortTitle" | "url"
 > & {
   description: string;
   answers: AgreementContribAnswer[];
   articleByTheme: ArticleTheme[];
 };
 
-type AgreementContribAnswer = {
+interface AgreementContribAnswer {
   slug: string;
   index: string;
   answer: string;
   question: string;
   references: ContributionReference[];
-};
+}
 
-type ArticleTheme = {
+interface ArticleTheme {
   bloc: "string";
   articles: {
     id: string;
@@ -164,14 +168,14 @@ type ArticleTheme = {
     title: string;
     section: string;
   };
-};
+}
 
-type KaliArticleHDN = {
+interface KaliArticleHDN {
   idcc: number;
   title: string;
   id: string;
-  blocks: { [key: string]: string[] };
-};
+  blocks: Record<string, string[]>;
+}
 
 export interface KaliBlock {
   id: string;
@@ -193,4 +197,13 @@ export interface Blocks {
   "3"?: string[];
   "5"?: string[];
   "11"?: string[];
+}
+
+export interface ParseDilaReference {
+  url: string;
+  category: string;
+  title: string;
+  dila_id: string;
+  dila_cid: string;
+  dila_container_id: string;
 }
