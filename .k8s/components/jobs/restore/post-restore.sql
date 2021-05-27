@@ -34,7 +34,7 @@ INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
 -- create empty audit logs table
 --
 
-CREATE TABLE audit.logged_actions (
+CREATE TABLE IF NOT EXISTS audit.logged_actions (
     event_id bigserial primary key,
 
     schema_name text not null,
