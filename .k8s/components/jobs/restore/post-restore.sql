@@ -31,6 +31,36 @@ INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
     admin_row;
 
 --
+-- create empty audit logs table
+--
+
+CREATE TABLE IF NOT EXISTS audit.logged_actions (
+    event_id bigserial primary key,
+
+    schema_name text not null,
+    table_name text not null,
+    relid oid not null,
+
+    session_user_name text,
+    hasura_user jsonb,
+
+    action_tstamp_tx TIMESTAMP WITH TIME ZONE NOT NULL,
+    action_tstamp_stm TIMESTAMP WITH TIME ZONE NOT NULL,
+    action_tstamp_clock TIMESTAMP WITH TIME ZONE NOT NULL,
+    transaction_id bigint,
+
+    application_name text,
+    client_addr inet,
+    client_port integer,
+
+    client_query text,
+    action TEXT NOT NULL CHECK (action IN ('I','D','U', 'T')),
+    row_data jsonb,
+    changed_fields jsonb,
+    statement_only boolean not null
+);
+
+--
 -- ENABLE TRIGGERS
 --
 
@@ -46,3 +76,5 @@ SELECT pg_terminate_backend(pid)
 FROM pg_stat_activity
 WHERE pid <> pg_backend_pid()
 AND datname = '${PGDATABASE}';
+
+
