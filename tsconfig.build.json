@@ -10,5 +10,5 @@
     "module": "commonjs",
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "dist", ".next"]
+  "exclude": ["node_modules", "dist", "lib", ]
 }

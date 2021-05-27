@@ -1,7 +1,6 @@
-/* eslint-disable-next-line*/
-import { FicheTravailEmploiDoc } from "@shared/types";
 import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
 import type { ConvenientPatch, Tree } from "nodegit";
+
 import { createToJson } from "../node-git.helpers";
 import type { GitTagData } from "../types";
 

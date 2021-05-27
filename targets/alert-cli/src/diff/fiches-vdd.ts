@@ -1,5 +1,5 @@
-/* eslint-disable-next-line*/
-import nodegit, { ConvenientPatch, Tree } from "nodegit";
+import type { ConvenientPatch, Tree } from "nodegit";
+
 import { createToJson } from "../node-git.helpers";
 import type { FicheVdd, FicheVddNode, GitTagData } from "../types";
 
