@@ -8,33 +8,22 @@ import {
   Menu,
   MenuButton as ReachMenuButton,
   MenuItem as ReachMenuItem,
-  MenuItemProps,
   MenuList,
 } from "@reach/menu-button";
 import PropTypes from "prop-types";
 import React from "react";
 import { IoIosArrowDown, IoIosArrowForward, IoMdMore } from "react-icons/io";
-import type { Theme, ThemeUIStyleObject } from "theme-ui";
 import {
   Box,
   Button as BaseButton,
-  get,
   IconButton as BaseIconButton,
   NavLink,
 } from "theme-ui";
 
-type ButtonPropTypes = {
-  children: React.ReactNode;
-  size?: "small" | "normal";
-  variant?: "accent" | "secondary" | "primary" | "link";
-  onClick?: (e: unknown) => void;
+const buttonPropTypes = {
+  size: PropTypes.oneOf(["small", "normal"]),
+  variant: PropTypes.oneOf(["accent", "secondary", "primary", "link"]),
 };
-
-declare module "react" {
-  interface Attributes {
-    sx?: ThemeUIStyleObject;
-  }
-}
 
 const defaultButtonStyles = {
   alignItems: "center",
@@ -52,7 +41,7 @@ const defaultButtonStyles = {
   minWidth: 0,
   textAlign: "center",
   textDecoration: "none",
-} as const;
+};
 const normalSize = {
   px: "xsmall",
   py: "xsmall",
@@ -61,118 +50,95 @@ const smallSize = {
   px: "xxsmall",
   py: "xxsmall",
 };
+// function _Button({ outline = false, ...props }) {}
 
-type ButtonPropTypesWithRef = ButtonPropTypes & {
-  ref: React.Ref<HTMLButtonElement>;
-};
-
-const SolidButton: React.FC<ButtonPropTypesWithRef> = React.forwardRef<
-  HTMLButtonElement,
-  ButtonPropTypes
->(function _SolidButton(
-  { variant = "primary", size = "normal", ...props },
+export const Button = React.forwardRef(function _Button(
+  { outline, ...props },
   ref
 ) {
-  return (
-    <BaseButton
-      {...props}
-      ref={ref}
-      sx={{
-        ...defaultButtonStyles,
-        ...(size === "small" ? smallSize : normalSize),
-        // @ts-ignore
-        "& :hover :not([disabled])": {
-          bg: (theme: Theme) => get(theme, `buttons[${variant}].bgHover`),
-          borderColor: (theme: Theme) =>
-            get(theme, `buttons[${variant}].bgHover`),
-        },
-        "&[disabled]": {
-          bg: "muted",
-          borderColor: "muted",
-          cursor: "default",
-        },
-        // @ts-ignore
-        bg: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
-        borderColor: (theme) => get(theme, `buttons[${variant}].bg`),
-        borderRadius: "small",
-        // @ts-ignore
-        color: (theme: Theme) => get(theme, `buttons[${variant}].color`),
-      }}
-    />
-  );
-});
-
-const OutlineButton: React.FC<ButtonPropTypesWithRef> = React.forwardRef<
-  HTMLButtonElement,
-  ButtonPropTypes
->(function _OutlineButton(
-  { variant = "primary", size = "normal", ...props },
-  ref
-) {
-  return (
-    <BaseButton
-      {...props}
-      ref={ref}
-      sx={{
-        ...defaultButtonStyles,
-        ...(size === "small" ? smallSize : normalSize),
-        // @ts-ignore
-        "&:hover:not([disabled])": {
-          borderColor: (theme: Theme) =>
-            get(theme, `buttons[${variant}].bgHover`),
-          color: (theme: Theme) => get(theme, `buttons[${variant}].bgHover`),
-        },
-        "&[disabled]": {
-          borderColor: "muted",
-          color: "muted",
-        },
-        // @ts-ignore
-        bg: (theme: Theme) => get(theme, `buttons[${variant}].color`),
-        // @ts-ignore
-        borderColor: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
-        // @ts-ignore
-        color: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
-      }}
-    />
-  );
-});
-
-type OutlineOrSolidButtonProps = ButtonPropTypes & { outline?: boolean };
-
-export const Button: React.FC<OutlineOrSolidButtonProps> = React.forwardRef<
-  HTMLButtonElement,
-  OutlineOrSolidButtonProps
->(function _Button({ outline = false, ...props }, ref) {
   return outline ? (
     <OutlineButton ref={ref} {...props} />
   ) : (
     <SolidButton ref={ref} {...props} />
   );
 });
-
-type ButtonPropTypesWithSx = ButtonPropTypes & {
-  size?: "small" | "large" | "normal";
-  sx?: ThemeUIStyleObject;
-  variant?: "primary" | "secondary";
+Button.propTypes = {
+  outline: PropTypes.bool,
+  ...buttonPropTypes,
 };
 
-export const IconButton: React.FC<ButtonPropTypesWithSx> = React.forwardRef<
-  HTMLButtonElement,
-  ButtonPropTypesWithSx
->(function _IconButton(
-  { variant = "primary", sx = {}, size = "large", ...props },
+const SolidButton = React.forwardRef(function _SolidButton(
+  { variant = "primary", size = "normal", ...props },
   ref
 ) {
   return (
-    <BaseIconButton
+    <BaseButton
       {...props}
       ref={ref}
       sx={{
         ...defaultButtonStyles,
-        // @ts-ignore
+        ...(size === "small" ? smallSize : normalSize),
         "&:hover:not([disabled])": {
-          bg: (theme: Theme) => get(theme, "buttons.icon.bgHover"),
-          color: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
+          bg: (theme) => theme.buttons[variant].bgHover,
+          borderColor: (theme) => theme.buttons[variant].bgHover,
+        },
+        "&[disabled]": {
+          bg: "muted",
+          borderColor: "muted",
+          cursor: "default",
+        },
+        bg: (theme) => theme.buttons[variant].bg,
+        borderColor: (theme) => theme.buttons[variant].bg,
+        borderRadius: "small",
+        color: (theme) => theme.buttons[variant].color,
+      }}
+    />
+  );
+});
+SolidButton.propTypes = buttonPropTypes;
+
+const OutlineButton = React.forwardRef(function _OutlineButton(
+  { variant = "primary", size = "normal", ...props },
+  ref
+) {
+  return (
+    <BaseButton
+      {...props}
+      ref={ref}
+      sx={{
+        ...defaultButtonStyles,
+        ...(size === "small" ? smallSize : normalSize),
+        "&:hover:not([disabled])": {
+          borderColor: (theme) => theme.buttons[variant].bgHover,
+          color: (theme) => theme.buttons[variant].bgHover,
+        },
+        "&[disabled]": {
+          borderColor: "muted",
+          color: "muted",
+        },
+        bg: (theme) => theme.buttons[variant].color,
+        borderColor: (theme) => theme.buttons[variant].bg,
+        color: (theme) => theme.buttons[variant].bg,
+      }}
+    />
+  );
+});
+OutlineButton.propTypes = buttonPropTypes;
+
+export const IconButton = function _IconButton({
+  variant = "primary",
+  size = "large",
+  sx,
+  ...props
+}) {
+  return (
+    <BaseIconButton
+      {...props}
+      sx={{
+        ...defaultButtonStyles,
+        "&:hover:not([disabled])": {
+          bg: (theme) => theme.buttons.icon.bgHover,
+          color: (theme) => theme.buttons[variant].bg,
         },
         "&[disabled]": {
           bg: "neutral",
@@ -180,7 +146,7 @@ export const IconButton: React.FC<ButtonPropTypesWithSx> = React.forwardRef<
         },
         border: "none",
         borderRadius: 32,
-        color: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
+        color: (theme) => theme.buttons[variant].bg,
         fontSize: size,
         lineHeight: 1,
         overflow: "hidden",
@@ -188,21 +154,18 @@ export const IconButton: React.FC<ButtonPropTypesWithSx> = React.forwardRef<
       }}
     />
   );
-});
+};
+IconButton.propTypes = buttonPropTypes;
 
-export const MenuButton: React.FC<ButtonPropTypes> = ({
-  variant = "primary",
-  size = "large",
-  children,
-}) => {
+export function MenuButton({ variant = "primary", size = "large", children }) {
   return (
     <Menu sx={{ position: "relative" }}>
       <ReachMenuButton
         sx={{
           ...defaultButtonStyles,
           "&:hover:not([disabled])": {
-            bg: (theme: Theme) => get(theme, "buttons.icon.bgHover"),
-            color: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
+            bg: (theme) => theme.buttons.icon.bgHover,
+            color: (theme) => theme.buttons[variant].bg,
           },
           "&[disabled]": {
             bg: "neutral",
@@ -211,7 +174,7 @@ export const MenuButton: React.FC<ButtonPropTypes> = ({
           bg: "transparent",
           border: "none",
           borderRadius: 32,
-          color: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
+          color: (theme) => theme.buttons[variant].bg,
           fontSize: size,
           height: 32,
           justifyContent: "center",
@@ -230,14 +193,13 @@ export const MenuButton: React.FC<ButtonPropTypes> = ({
       </MenuList>
     </Menu>
   );
+}
+
+MenuButton.propTypes = {
+  ...buttonPropTypes,
 };
 
-export function MenuItem(
-  props: Pick<
-    MenuItemProps,
-    "children" | "onSelect" | "disabled" | "index" | "valueText"
-  >
-) {
+export function MenuItem(props) {
   return (
     <ReachMenuItem
       {...props}
@@ -251,10 +213,7 @@ export function MenuItem(
   );
 }
 
-export function AccordionButton({
-  children,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export function AccordionButton({ children, ...props }) {
   return (
     <ReachAccordionButton
       {...props}
@@ -284,10 +243,10 @@ export function ExpandedIcon() {
   return isExpanded ? <IoIosArrowDown /> : <IoIosArrowForward />;
 }
 
-export const NavButton: React.FC<ButtonPropTypes> = React.forwardRef<
-  HTMLAnchorElement,
-  ButtonPropTypes
->(function _SolidButton({ variant = "primary", ...props }, ref) {
+export const NavButton = React.forwardRef(function _SolidButton(
+  { variant = "primary", ...props },
+  ref
+) {
   return (
     <NavLink
       ref={ref}
@@ -299,19 +258,18 @@ export const NavButton: React.FC<ButtonPropTypes> = React.forwardRef<
         "&:active": { color: "white" },
         "&:focus": { color: "link" },
         "&:hover:not([disabled])": {
-          bg: (theme: Theme) => get(theme, `buttons[${variant}].bgHover`),
-          borderColor: (theme: Theme) =>
-            get(theme, `buttons[${variant}].bgHover`),
-          color: (theme: Theme) => get(theme, `buttons[${variant}].color`),
+          bg: (theme) => theme.buttons[variant].bgHover,
+          borderColor: (theme) => theme.buttons[variant].bgHover,
+          color: (theme) => theme.buttons[variant].color,
         },
         "&[disabled]": {
           bg: "muted",
           borderColor: "muted",
         },
-        bg: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
-        borderColor: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
+        bg: (theme) => theme.buttons[variant].bg,
+        borderColor: (theme) => theme.buttons[variant].bg,
         borderRadius: "small",
-        color: (theme: Theme) => get(theme, `buttons[${variant}].color`),
+        color: (theme) => theme.buttons[variant].color,
         display: "inline-flex",
         fontWeight: "bold",
       }}
@@ -319,3 +277,4 @@ export const NavButton: React.FC<ButtonPropTypes> = React.forwardRef<
     />
   );
 });
+NavButton.propTypes = buttonPropTypes;

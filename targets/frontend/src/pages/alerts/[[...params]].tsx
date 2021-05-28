@@ -63,7 +63,9 @@ type AlertsResultWithCount = {
 
 export function AlertPage(): JSX.Element {
   const router = useRouter();
-  const currentPage = parseInt(router.query.page ?? "0", 10) ?? 0;
+  const currentPage = Array.isArray(router.query.page)
+    ? 0
+    : parseInt(router.query.page ?? "0", 10) ?? 0;
   const pageSize = 10;
   const [repo = "", activeStatus = "todo"] = Array.isArray(router.query.params)
     ? router.query.params

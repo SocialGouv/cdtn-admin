@@ -242,4 +242,4 @@ export const theme = makeTheme({
   },
 });
 
-export type Theme = typeof theme;
+export type ExactTheme = typeof theme;

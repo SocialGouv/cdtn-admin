@@ -44,7 +44,7 @@ export function AlertRelatedDocuments({
 }: AlertRelatedDocumentsProps): JSX.Element {
   return (
     <>
-      {changes.documents.map((item) => {
+      {changes.documents.map((item, i) => {
         const [title, anchor] = item.document.title.split("#");
         return (
           <li
@@ -52,7 +52,7 @@ export function AlertRelatedDocuments({
               lineHeight: 1.4,
               paddingBottom: "xxsmall",
             }}
-            key={`${changes.ref}-documents-${item.document.id}`}
+            key={`${changes.ref}-documents-${item.document.id})-${i}`}
           >
             <a
               target="_blank"
@@ -61,11 +61,11 @@ export function AlertRelatedDocuments({
                 item.document.source
               )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
             >
-              {title}
+              {title} {anchor}
             </a>
             <Box>
               {jsxJoin(
-                item.references.map((node) => (
+                item.references.map((node, i) => (
                   <NavLink
                     sx={{
                       color: "muted",
@@ -73,7 +73,7 @@ export function AlertRelatedDocuments({
                       lineHeight: 1,
                     }}
                     href={node.url}
-                    key={`${changes.ref}-${item.document.id}-${node.dila_id}-${node.title}`}
+                    key={`${changes.ref}-${item.document.id}-${node.dila_id}-${node.title})-${i}`}
                   >
                     {node.title}
                   </NavLink>
@@ -391,7 +391,6 @@ export const ModificationViewer: React.FC<ModificationViewerProps> = ({
   const id = `collapsible-component-${COLLAPSIBLE_ID++}`;
   return (
     <>
-      {/* @ts-ignore */}
       <Button
         aria-controls={id}
         aria-expanded={isVisible}
