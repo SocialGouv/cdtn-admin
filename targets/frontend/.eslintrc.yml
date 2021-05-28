@@ -7,12 +7,12 @@ rules:
   jsx-a11y/label-has-for: off
   react/react-in-jsx-scope: off
   react/prop-types: off
-  import/no-unresolved: off
   no-console: ["warn", allow: ["warn", "error"]]
 
 settings:
   import/resolver:
     node: { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    typescript: {}
 
 overrides:
   - files: ["**/*.ts", "**/*.tsx"]
