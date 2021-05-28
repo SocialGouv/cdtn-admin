@@ -135,22 +135,33 @@ async function getSources(): Promise<Source[]> {
   return result.data.sources;
 }
 
+function getAlertInfo(change: AlertChanges): AlertInfo {
+  if (change.type === "dila") {
+    return {
+      file: change.file,
+      id: change.id,
+      num: change.num,
+      title: change.title,
+      type: change.type,
+    };
+  }
+  return {
+    title: change.title,
+    type: change.type,
+  };
+}
+
 export async function insertAlert(
   repository: string,
   changes: AlertChanges
 ): Promise<Pick<HasuraAlert, "info" | "ref" | "repository">> {
-  const alert = {
+  const alert: Pick<
+    HasuraAlert,
+    "changes" | "created_at" | "info" | "ref" | "repository"
+  > = {
     changes,
     created_at: changes.date,
-    info: {
-      title: changes.title,
-      type: changes.type,
-      ...(changes.type === "dila" && {
-        file: changes.file,
-        id: changes.id,
-        num: changes.num,
-      }),
-    },
+    info: getAlertInfo(changes),
     ref: changes.ref,
     repository,
   };

@@ -47,10 +47,10 @@ export type AlertInfoFiche = {
   title: string;
 };
 export type AlertInfoDila = {
-  id: string; // Kalicont
-  file: string; //
   type: "dila";
   title: string;
+  id: string; // Kalicont
+  file: string; //
   num?: number;
 };
 
