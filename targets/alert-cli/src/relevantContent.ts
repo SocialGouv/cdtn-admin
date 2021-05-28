@@ -22,8 +22,8 @@ export async function getRelevantDocuments({
         )
     );
 
-    if (references.length) {
-      return { document: item.document, references };
+    if (references.length > 0) {
+      return [{ document: item.document, references }];
     }
     return [];
   });

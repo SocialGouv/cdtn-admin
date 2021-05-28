@@ -14,7 +14,7 @@ const fnMap = {
   words: jsdiff.diffWords,
 };
 
-export const ViewDiff = ({ sx, type, inputA, inputB }) => {
+export const ViewDiff = ({ sx = {}, type, inputA, inputB }) => {
   const isSentencesForced = !inputA || !inputB;
   const [mode, setMode] = useState(isSentencesForced ? "sentences" : type);
   const diff = fnMap[mode](inputA, inputB);

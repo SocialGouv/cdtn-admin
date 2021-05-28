@@ -9,12 +9,31 @@ import type { DilaAlertChanges } from "./diff/dila-data";
 import type { TravailDataAlertChanges } from "./diff/fiches-travail-data";
 import type { VddAlertChanges } from "./diff/fiches-vdd";
 
-export type updateSource = (repository: string, tag: string) => Promise<Source>;
-
 export type Source = {
   repository: string;
   tag: string;
 };
+
+export type {
+  DilaAddedNode,
+  DilaAlertChanges,
+  DilaChanges,
+  DilaModifiedNode,
+  DilaRemovedNode,
+} from "./diff/dila-data";
+export type {
+  FicheTravailEmploiInfo,
+  FicheTravailEmploiInfoWithDiff,
+  TravailDataAlertChanges,
+  TravailDataChanges,
+} from "./diff/fiches-travail-data";
+export type {
+  FicheVddInfo,
+  FicheVddInfoWithDiff,
+  VddAlertChanges,
+  VddChanges,
+} from "./diff/fiches-vdd";
+export * from "./extractDilaReferences/types";
 
 export type AlertChanges =
   | DilaAlertChanges

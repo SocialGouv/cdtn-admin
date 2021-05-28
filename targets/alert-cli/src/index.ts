@@ -20,6 +20,8 @@ import type {
   Source,
 } from "./types";
 
+export * from "./types";
+
 const sourcesQuery = `
 query getSources {
   sources(order_by: {label: asc}) {
@@ -138,12 +140,7 @@ export async function insertAlert(
   changes: AlertChanges
 ): Promise<Pick<HasuraAlert, "info" | "ref" | "repository">> {
   const alert = {
-    changes: {
-      added: changes.added,
-      modified: changes.modified,
-      removed: changes.removed,
-      ...(changes.type === "dila" && { documents: changes.documents }),
-    },
+    changes,
     created_at: changes.date,
     info: {
       title: changes.title,
