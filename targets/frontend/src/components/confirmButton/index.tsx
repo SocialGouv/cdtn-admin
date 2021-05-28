@@ -1,14 +1,9 @@
-import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
-import { Button as BaseButton } from "theme-ui";
+import type { Theme } from "src/theme";
+import { Button as BaseButton, ThemeUICSSObject } from "theme-ui";
 
-const buttonPropTypes = {
-  size: PropTypes.oneOf(["small", "normal"]),
-  variant: PropTypes.oneOf(["accent", "secondary", "primary", "link"]),
-};
-
-const defaultButtonStyles = {
+const defaultButtonStyles: ThemeUICSSObject = {
   alignItems: "center",
   appearance: "none",
   borderRadius: "small",
@@ -32,9 +27,22 @@ const smallSize = {
   px: "xxsmall",
   py: "xxsmall",
 };
-
-export const ConfirmButton = React.forwardRef(function _ConfirmButton(
-  { variant = "primary", size = "normal", children, onClick, ...props },
+export interface ConfirmButtonProps
+  extends React.ComponentPropsWithRef<"button"> {
+  size?: "small" | "normal";
+  variant?: "accent" | "secondary" | "primary" | "link";
+}
+export const ConfirmButton = React.forwardRef<
+  HTMLButtonElement,
+  ConfirmButtonProps
+>(function _ConfirmButton(
+  {
+    variant = "primary",
+    size = "normal",
+    children,
+    onClick,
+    ...props
+  }: ConfirmButtonProps,
   ref
 ) {
   const [needConfirm, setNeedConfirm] = useState(false);
@@ -59,17 +67,17 @@ export const ConfirmButton = React.forwardRef(function _ConfirmButton(
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
         "&:hover:not([disabled])": {
-          bg: (theme) => theme.buttons[variant].bgHover,
-          borderColor: (theme) => theme.buttons[variant].bgHover,
+          bg: (theme: Theme) => theme.buttons[variant].bgHover,
+          borderColor: (theme: Theme) => theme.buttons[variant].bgHover,
         },
         "&[disabled]": {
           bg: "muted",
           borderColor: "muted",
         },
-        bg: (theme) => theme.buttons[variant].bg,
-        borderColor: (theme) => theme.buttons[variant].bg,
+        bg: (theme: Theme) => theme.buttons[variant].bg,
+        borderColor: (theme: Theme) => theme.buttons[variant].bg,
         borderRadius: "small",
-        color: (theme) => theme.buttons[variant].color,
+        color: (theme: Theme) => theme.buttons[variant].color,
       }}
       onClick={onClickCustom}
     >
@@ -83,6 +91,3 @@ export const ConfirmButton = React.forwardRef(function _ConfirmButton(
     </BaseButton>
   );
 });
-ConfirmButton.propTypes = {
-  ...buttonPropTypes,
-};
