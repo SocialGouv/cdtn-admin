@@ -84,7 +84,8 @@
     "jest-cli": "^26.6.3",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "typescript": "^4.3.2"
   },
   "license": "MIT",
   "main": "index.js",
