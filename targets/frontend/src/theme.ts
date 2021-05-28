@@ -1,9 +1,8 @@
-import type { Theme as ThemeUi } from "@theme-ui/css";
 import { darken, rgba, transparentize } from "polished";
 
 /* eslint-disable sort-keys-fix/sort-keys-fix */
-const makeTheme = <T extends ThemeUi>(t: T) => t;
-export const theme = makeTheme({
+
+export const theme = {
   alerts: {
     primary: {
       color: "white",
@@ -240,6 +239,4 @@ export const theme = makeTheme({
       py: "small",
     },
   },
-});
-
-export type ExactTheme = typeof theme;
+};

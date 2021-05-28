@@ -80,23 +80,20 @@ const SolidButton: React.FC<ButtonPropTypesWithRef> = React.forwardRef<
       sx={{
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
-        // @ts-ignore
         "& :hover :not([disabled])": {
-          bg: (theme: Theme) => get(theme, `buttons[${variant}].bgHover`),
+          bg: (theme: Theme) => get(theme, `buttons.${variant}.bgHover`),
           borderColor: (theme: Theme) =>
-            get(theme, `buttons[${variant}].bgHover`),
+            get(theme, `buttons.${variant}.bgHover`),
         },
         "&[disabled]": {
           bg: "muted",
           borderColor: "muted",
           cursor: "default",
         },
-        // @ts-ignore
-        bg: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
-        borderColor: (theme) => get(theme, `buttons[${variant}].bg`),
+        bg: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
+        borderColor: (theme) => get(theme, `buttons.${variant}.bg`),
         borderRadius: "small",
-        // @ts-ignore
-        color: (theme: Theme) => get(theme, `buttons[${variant}].color`),
+        color: (theme: Theme) => get(theme, `buttons.${variant}.color`),
       }}
     />
   );
@@ -116,22 +113,18 @@ const OutlineButton: React.FC<ButtonPropTypesWithRef> = React.forwardRef<
       sx={{
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
-        // @ts-ignore
         "&:hover:not([disabled])": {
           borderColor: (theme: Theme) =>
-            get(theme, `buttons[${variant}].bgHover`),
-          color: (theme: Theme) => get(theme, `buttons[${variant}].bgHover`),
+            get(theme, `buttons.${variant}.bgHover`),
+          color: (theme: Theme) => get(theme, `buttons.${variant}.bgHover`),
         },
         "&[disabled]": {
           borderColor: "muted",
           color: "muted",
         },
-        // @ts-ignore
-        bg: (theme: Theme) => get(theme, `buttons[${variant}].color`),
-        // @ts-ignore
-        borderColor: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
-        // @ts-ignore
-        color: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
+        bg: (theme: Theme) => get(theme, `buttons.${variant}.color`),
+        borderColor: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
+        color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
       }}
     />
   );
@@ -165,14 +158,14 @@ export const IconButton: React.FC<ButtonPropTypesWithSx> = React.forwardRef<
 ) {
   return (
     <BaseIconButton
+      data-debug={variant}
       {...props}
       ref={ref}
       sx={{
         ...defaultButtonStyles,
-        // @ts-ignore
         "&:hover:not([disabled])": {
           bg: (theme: Theme) => get(theme, "buttons.icon.bgHover"),
-          color: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
+          color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
         },
         "&[disabled]": {
           bg: "neutral",
@@ -180,7 +173,7 @@ export const IconButton: React.FC<ButtonPropTypesWithSx> = React.forwardRef<
         },
         border: "none",
         borderRadius: 32,
-        color: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
+        color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
         fontSize: size,
         lineHeight: 1,
         overflow: "hidden",
@@ -202,7 +195,7 @@ export const MenuButton: React.FC<ButtonPropTypes> = ({
           ...defaultButtonStyles,
           "&:hover:not([disabled])": {
             bg: (theme: Theme) => get(theme, "buttons.icon.bgHover"),
-            color: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
+            color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
           },
           "&[disabled]": {
             bg: "neutral",
@@ -211,7 +204,7 @@ export const MenuButton: React.FC<ButtonPropTypes> = ({
           bg: "transparent",
           border: "none",
           borderRadius: 32,
-          color: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
+          color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
           fontSize: size,
           height: 32,
           justifyContent: "center",
@@ -237,7 +230,7 @@ export function MenuItem(
     MenuItemProps,
     "children" | "onSelect" | "disabled" | "index" | "valueText"
   >
-) {
+): JSX.Element {
   return (
     <ReachMenuItem
       {...props}
@@ -254,7 +247,7 @@ export function MenuItem(
 export function AccordionButton({
   children,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
   return (
     <ReachAccordionButton
       {...props}
@@ -279,7 +272,7 @@ AccordionButton.propTypes = {
   children: PropTypes.node,
 };
 
-export function ExpandedIcon() {
+export function ExpandedIcon(): JSX.Element {
   const { isExpanded } = useAccordionItemContext();
   return isExpanded ? <IoIosArrowDown /> : <IoIosArrowForward />;
 }
@@ -299,19 +292,19 @@ export const NavButton: React.FC<ButtonPropTypes> = React.forwardRef<
         "&:active": { color: "white" },
         "&:focus": { color: "link" },
         "&:hover:not([disabled])": {
-          bg: (theme: Theme) => get(theme, `buttons[${variant}].bgHover`),
+          bg: (theme: Theme) => get(theme, `buttons.${variant}.bgHover`),
           borderColor: (theme: Theme) =>
-            get(theme, `buttons[${variant}].bgHover`),
-          color: (theme: Theme) => get(theme, `buttons[${variant}].color`),
+            get(theme, `buttons.${variant}.bgHover`),
+          color: (theme: Theme) => get(theme, `buttons.${variant}.color`),
         },
         "&[disabled]": {
           bg: "muted",
           borderColor: "muted",
         },
-        bg: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
-        borderColor: (theme: Theme) => get(theme, `buttons[${variant}].bg`),
+        bg: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
+        borderColor: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
         borderRadius: "small",
-        color: (theme: Theme) => get(theme, `buttons[${variant}].color`),
+        color: (theme: Theme) => get(theme, `buttons.${variant}.color`),
         display: "inline-flex",
         fontWeight: "bold",
       }}
