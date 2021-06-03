@@ -1,4 +1,5 @@
 import { client } from "@shared/graphql-client";
+import type { AlertChanges, AlertInfo, HasuraAlert } from "@shared/types";
 import memoizee from "memoizee";
 import type { Repository } from "nodegit";
 import { Object, Tag } from "nodegit";
@@ -12,13 +13,7 @@ import { processVddDiff } from "./diff/fiches-vdd";
 import { exportContributionAlerts } from "./exportContributionAlerts";
 import { getFicheServicePublicIds as _getFicheServicePublicIds } from "./getFicheServicePublicIds";
 import { openRepo } from "./openRepo";
-import type {
-  AlertChanges,
-  AlertInfo,
-  GitTagData,
-  HasuraAlert,
-  Source,
-} from "./types";
+import type { GitTagData, Source } from "./types";
 
 export * from "./types";
 

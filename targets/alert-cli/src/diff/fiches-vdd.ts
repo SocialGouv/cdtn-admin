@@ -1,31 +1,8 @@
+import type { FicheVddInfo, VddAlertChanges, VddChanges } from "@shared/types";
 import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../node-git.helpers";
 import type { FicheVdd, FicheVddNode, GitTagData } from "../types";
-
-export type VddAlertChanges = VddChanges & {
-  type: "vdd";
-  title: string;
-  ref: string;
-  date: Date;
-};
-
-export type VddChanges = {
-  modified: FicheVddInfoWithDiff[];
-  removed: FicheVddInfo[];
-  added: FicheVddInfo[];
-};
-
-export type FicheVddInfo = {
-  id: string;
-  type: string;
-  title: string;
-};
-
-export type FicheVddInfoWithDiff = FicheVddInfo & {
-  currentText: string;
-  previousText: string;
-};
 
 export async function processVddDiff(
   repositoryId: string,
@@ -186,7 +163,10 @@ function getText(element?: FicheVddNode): string {
   return "";
 }
 
-async function toSimpleVddChange(patch: ConvenientPatch, tree: Tree) {
+async function toSimpleVddChange(
+  patch: ConvenientPatch,
+  tree: Tree
+): Promise<FicheVddInfo> {
   const filepath = patch.newFile().path();
   const match = /(\w+)\/(\w+)\.json$/.exec(filepath);
   if (!match) {

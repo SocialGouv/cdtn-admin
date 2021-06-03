@@ -1,4 +1,12 @@
 import type {
+  DilaAddedNode,
+  DilaAlertChanges,
+  DilaModifiedNode,
+  DilaNode,
+  DilaRemovedNode,
+  DilaSection,
+} from "@shared/types";
+import type {
   Agreement,
   AgreementArticle,
   AgreementSection,
@@ -12,10 +20,9 @@ import type { ConvenientPatch, Tree } from "nodegit";
 import parents from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
-import type { DocumentReferences } from "../extractDilaReferences/types";
 import { createToJson } from "../node-git.helpers";
 import { getRelevantDocuments } from "../relevantContent";
-import type { DilaNode, DilaSection, GitTagData } from "../types";
+import type { GitTagData } from "../types";
 
 type FileChange<A extends Agreement | Code> = {
   type: A extends Code ? "legi" : "kali";
@@ -34,53 +41,6 @@ type WithParent<
   parent: WithParent<
     A extends CodeArticle | CodeSection ? CodeSection : AgreementSection
   > | null;
-};
-
-export type DilaAlertChanges = DilaChanges & {
-  type: "dila";
-  ref: string;
-  title: string;
-  date: Date;
-  id: string;
-  file: string;
-  num?: number;
-};
-
-export type DilaChanges = {
-  modified: DilaModifiedNode[];
-  added: DilaAddedNode[];
-  removed: DilaRemovedNode[];
-  documents: DocumentReferences[];
-};
-
-export type DilaAddedNode = {
-  etat: string;
-  parents: string[];
-  title: string;
-  id: string;
-  cid: string;
-};
-
-export type DilaRemovedNode = {
-  parents: string[];
-  title: string;
-  id: string;
-  cid: string;
-};
-
-export type DilaModifiedNode = {
-  parents: string[];
-  title: string;
-  id: string;
-  cid: string;
-  etat: string;
-  diffs: DiffInfo[];
-};
-
-type DiffInfo = {
-  type: "etat" | "nota" | "texte";
-  currentText: string;
-  previousText: string;
 };
 
 const legiArticleDiff = (art1: CodeArticle, art2: CodeArticle) =>
