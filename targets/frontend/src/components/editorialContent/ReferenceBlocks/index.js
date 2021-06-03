@@ -85,7 +85,7 @@ export function ReferenceBlocks({ control, name, register, errors }) {
                     <Radio
                       sx={{ ml: "xxsmall" }}
                       value={USEFUL_LINKS_LABEL}
-                      {...register(`${name}?${index}.label`, {
+                      {...register(`${name}.${index}.label`, {
                         required: {
                           message: "Il faut choisir un type de références",
                           value: true,
