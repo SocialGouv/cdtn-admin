@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 
-import type { AlertChanges } from "alert-cli";
+import { AlertChanges } from "@shared/types";
 import React, { useState } from "react";
 import { IoIosLink, IoMdChatbubbles } from "react-icons/io";
 import { Box, Flex } from "theme-ui";

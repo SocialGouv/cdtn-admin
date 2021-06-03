@@ -1,9 +1,6 @@
 /** @jsxImportSource theme-ui */
 
 import { AccordionItem, AccordionPanel } from "@reach/accordion";
-import slugify from "@socialgouv/cdtn-slugify";
-import { getRouteBySource } from "@socialgouv/cdtn-sources";
-import { Badge, Box, Card, Divider, NavLink } from "@theme-ui/components";
 import type {
   AlertChanges,
   DilaAddedNode,
@@ -12,7 +9,10 @@ import type {
   DilaRemovedNode,
   FicheTravailEmploiInfo,
   FicheVddInfo,
-} from "alert-cli";
+} from "@shared/types";
+import slugify from "@socialgouv/cdtn-slugify";
+import { getRouteBySource } from "@socialgouv/cdtn-sources";
+import { Badge, Box, Card, Divider, NavLink } from "@theme-ui/components";
 import React, { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { AccordionButton, Button } from "src/components/button";

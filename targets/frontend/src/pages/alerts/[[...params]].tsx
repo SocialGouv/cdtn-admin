@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 
 import { Accordion } from "@reach/accordion";
-import type { HasuraAlert } from "alert-cli";
+import { HasuraAlert } from "@shared/types";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
