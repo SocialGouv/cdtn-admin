@@ -1,8 +1,7 @@
-import type { FicheTravailEmploi } from "@shared/types";
+import type { DocumentReferences, FicheTravailEmploi } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
-import type { DocumentReferences } from "./types";
 
 let references: DocumentReferences[] = [];
 

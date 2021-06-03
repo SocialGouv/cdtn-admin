@@ -8,22 +8,33 @@ import {
   Menu,
   MenuButton as ReachMenuButton,
   MenuItem as ReachMenuItem,
+  MenuItemProps,
   MenuList,
 } from "@reach/menu-button";
 import PropTypes from "prop-types";
 import React from "react";
 import { IoIosArrowDown, IoIosArrowForward, IoMdMore } from "react-icons/io";
+import type { Theme, ThemeUIStyleObject } from "theme-ui";
 import {
   Box,
   Button as BaseButton,
+  get,
   IconButton as BaseIconButton,
   NavLink,
 } from "theme-ui";
 
-const buttonPropTypes = {
-  size: PropTypes.oneOf(["small", "normal"]),
-  variant: PropTypes.oneOf(["accent", "secondary", "primary", "link"]),
+type ButtonPropTypes = {
+  children: React.ReactNode;
+  size?: "small" | "normal";
+  variant?: "accent" | "secondary" | "primary" | "link";
+  onClick?: (e: unknown) => void;
 };
+
+declare module "react" {
+  interface Attributes {
+    sx?: ThemeUIStyleObject;
+  }
+}
 
 const defaultButtonStyles = {
   alignItems: "center",
@@ -41,7 +52,7 @@ const defaultButtonStyles = {
   minWidth: 0,
   textAlign: "center",
   textDecoration: "none",
-};
+} as const;
 const normalSize = {
   px: "xsmall",
   py: "xsmall",
@@ -50,24 +61,15 @@ const smallSize = {
   px: "xxsmall",
   py: "xxsmall",
 };
-// function _Button({ outline = false, ...props }) {}
 
-export const Button = React.forwardRef(function _Button(
-  { outline, ...props },
-  ref
-) {
-  return outline ? (
-    <OutlineButton ref={ref} {...props} />
-  ) : (
-    <SolidButton ref={ref} {...props} />
-  );
-});
-Button.propTypes = {
-  outline: PropTypes.bool,
-  ...buttonPropTypes,
+type ButtonPropTypesWithRef = ButtonPropTypes & {
+  ref: React.Ref<HTMLButtonElement>;
 };
 
-const SolidButton = React.forwardRef(function _SolidButton(
+const SolidButton: React.FC<ButtonPropTypesWithRef> = React.forwardRef<
+  HTMLButtonElement,
+  ButtonPropTypes
+>(function _SolidButton(
   { variant = "primary", size = "normal", ...props },
   ref
 ) {
@@ -78,26 +80,29 @@ const SolidButton = React.forwardRef(function _SolidButton(
       sx={{
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
-        "&:hover:not([disabled])": {
-          bg: (theme) => theme.buttons[variant].bgHover,
-          borderColor: (theme) => theme.buttons[variant].bgHover,
+        "& :hover :not([disabled])": {
+          bg: (theme: Theme) => get(theme, `buttons.${variant}.bgHover`),
+          borderColor: (theme: Theme) =>
+            get(theme, `buttons.${variant}.bgHover`),
         },
         "&[disabled]": {
           bg: "muted",
           borderColor: "muted",
           cursor: "default",
         },
-        bg: (theme) => theme.buttons[variant].bg,
-        borderColor: (theme) => theme.buttons[variant].bg,
+        bg: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
+        borderColor: (theme) => get(theme, `buttons.${variant}.bg`),
         borderRadius: "small",
-        color: (theme) => theme.buttons[variant].color,
+        color: (theme: Theme) => get(theme, `buttons.${variant}.color`),
       }}
     />
   );
 });
-SolidButton.propTypes = buttonPropTypes;
 
-const OutlineButton = React.forwardRef(function _OutlineButton(
+const OutlineButton: React.FC<ButtonPropTypesWithRef> = React.forwardRef<
+  HTMLButtonElement,
+  ButtonPropTypes
+>(function _OutlineButton(
   { variant = "primary", size = "normal", ...props },
   ref
 ) {
@@ -109,35 +114,58 @@ const OutlineButton = React.forwardRef(function _OutlineButton(
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
         "&:hover:not([disabled])": {
-          borderColor: (theme) => theme.buttons[variant].bgHover,
-          color: (theme) => theme.buttons[variant].bgHover,
+          borderColor: (theme: Theme) =>
+            get(theme, `buttons.${variant}.bgHover`),
+          color: (theme: Theme) => get(theme, `buttons.${variant}.bgHover`),
         },
         "&[disabled]": {
           borderColor: "muted",
           color: "muted",
         },
-        bg: (theme) => theme.buttons[variant].color,
-        borderColor: (theme) => theme.buttons[variant].bg,
-        color: (theme) => theme.buttons[variant].bg,
+        bg: (theme: Theme) => get(theme, `buttons.${variant}.color`),
+        borderColor: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
+        color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
       }}
     />
   );
 });
-OutlineButton.propTypes = buttonPropTypes;
 
-export const IconButton = React.forwardRef(function _IconButton(
-  { variant = "primary", size = "large", sx, ...props },
+type OutlineOrSolidButtonProps = ButtonPropTypes & { outline?: boolean };
+
+export const Button: React.FC<OutlineOrSolidButtonProps> = React.forwardRef<
+  HTMLButtonElement,
+  OutlineOrSolidButtonProps
+>(function _Button({ outline = false, ...props }, ref) {
+  return outline ? (
+    <OutlineButton ref={ref} {...props} />
+  ) : (
+    <SolidButton ref={ref} {...props} />
+  );
+});
+
+type ButtonPropTypesWithSx = ButtonPropTypes & {
+  size?: "small" | "large" | "normal";
+  sx?: ThemeUIStyleObject;
+  variant?: "primary" | "secondary";
+};
+
+export const IconButton: React.FC<ButtonPropTypesWithSx> = React.forwardRef<
+  HTMLButtonElement,
+  ButtonPropTypesWithSx
+>(function _IconButton(
+  { variant = "primary", sx = {}, size = "large", ...props },
   ref
 ) {
   return (
     <BaseIconButton
+      data-debug={variant}
       {...props}
       ref={ref}
       sx={{
         ...defaultButtonStyles,
         "&:hover:not([disabled])": {
-          bg: (theme) => theme.buttons.icon.bgHover,
-          color: (theme) => theme.buttons[variant].bg,
+          bg: (theme: Theme) => get(theme, "buttons.icon.bgHover"),
+          color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
         },
         "&[disabled]": {
           bg: "neutral",
@@ -145,7 +173,7 @@ export const IconButton = React.forwardRef(function _IconButton(
         },
         border: "none",
         borderRadius: 32,
-        color: (theme) => theme.buttons[variant].bg,
+        color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
         fontSize: size,
         lineHeight: 1,
         overflow: "hidden",
@@ -154,17 +182,20 @@ export const IconButton = React.forwardRef(function _IconButton(
     />
   );
 });
-IconButton.propTypes = buttonPropTypes;
 
-export function MenuButton({ variant = "primary", size = "large", children }) {
+export const MenuButton: React.FC<ButtonPropTypes> = ({
+  variant = "primary",
+  size = "large",
+  children,
+}) => {
   return (
     <Menu sx={{ position: "relative" }}>
       <ReachMenuButton
         sx={{
           ...defaultButtonStyles,
           "&:hover:not([disabled])": {
-            bg: (theme) => theme.buttons.icon.bgHover,
-            color: (theme) => theme.buttons[variant].bg,
+            bg: (theme: Theme) => get(theme, "buttons.icon.bgHover"),
+            color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
           },
           "&[disabled]": {
             bg: "neutral",
@@ -173,7 +204,7 @@ export function MenuButton({ variant = "primary", size = "large", children }) {
           bg: "transparent",
           border: "none",
           borderRadius: 32,
-          color: (theme) => theme.buttons[variant].bg,
+          color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
           fontSize: size,
           height: 32,
           justifyContent: "center",
@@ -192,13 +223,14 @@ export function MenuButton({ variant = "primary", size = "large", children }) {
       </MenuList>
     </Menu>
   );
-}
-
-MenuButton.propTypes = {
-  ...buttonPropTypes,
 };
 
-export function MenuItem(props) {
+export function MenuItem(
+  props: Pick<
+    MenuItemProps,
+    "children" | "onSelect" | "disabled" | "index" | "valueText"
+  >
+): JSX.Element {
   return (
     <ReachMenuItem
       {...props}
@@ -212,7 +244,10 @@ export function MenuItem(props) {
   );
 }
 
-export function AccordionButton({ children, ...props }) {
+export function AccordionButton({
+  children,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
   return (
     <ReachAccordionButton
       {...props}
@@ -237,15 +272,15 @@ AccordionButton.propTypes = {
   children: PropTypes.node,
 };
 
-export function ExpandedIcon() {
+export function ExpandedIcon(): JSX.Element {
   const { isExpanded } = useAccordionItemContext();
   return isExpanded ? <IoIosArrowDown /> : <IoIosArrowForward />;
 }
 
-export const NavButton = React.forwardRef(function _SolidButton(
-  { variant = "primary", ...props },
-  ref
-) {
+export const NavButton: React.FC<ButtonPropTypes> = React.forwardRef<
+  HTMLAnchorElement,
+  ButtonPropTypes
+>(function _SolidButton({ variant = "primary", ...props }, ref) {
   return (
     <NavLink
       ref={ref}
@@ -257,18 +292,19 @@ export const NavButton = React.forwardRef(function _SolidButton(
         "&:active": { color: "white" },
         "&:focus": { color: "link" },
         "&:hover:not([disabled])": {
-          bg: (theme) => theme.buttons[variant].bgHover,
-          borderColor: (theme) => theme.buttons[variant].bgHover,
-          color: (theme) => theme.buttons[variant].color,
+          bg: (theme: Theme) => get(theme, `buttons.${variant}.bgHover`),
+          borderColor: (theme: Theme) =>
+            get(theme, `buttons.${variant}.bgHover`),
+          color: (theme: Theme) => get(theme, `buttons.${variant}.color`),
         },
         "&[disabled]": {
           bg: "muted",
           borderColor: "muted",
         },
-        bg: (theme) => theme.buttons[variant].bg,
-        borderColor: (theme) => theme.buttons[variant].bg,
+        bg: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
+        borderColor: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
         borderRadius: "small",
-        color: (theme) => theme.buttons[variant].color,
+        color: (theme: Theme) => get(theme, `buttons.${variant}.color`),
         display: "inline-flex",
         fontWeight: "bold",
       }}
@@ -276,4 +312,3 @@ export const NavButton = React.forwardRef(function _SolidButton(
     />
   );
 });
-NavButton.propTypes = buttonPropTypes;

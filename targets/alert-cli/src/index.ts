@@ -1,4 +1,5 @@
 import { client } from "@shared/graphql-client";
+import type { AlertChanges, AlertInfo, HasuraAlert } from "@shared/types";
 import memoizee from "memoizee";
 import type { Repository } from "nodegit";
 import { Object, Tag } from "nodegit";
@@ -12,13 +13,9 @@ import { processVddDiff } from "./diff/fiches-vdd";
 import { exportContributionAlerts } from "./exportContributionAlerts";
 import { getFicheServicePublicIds as _getFicheServicePublicIds } from "./getFicheServicePublicIds";
 import { openRepo } from "./openRepo";
-import type {
-  AlertChanges,
-  AlertInfo,
-  GitTagData,
-  HasuraAlert,
-  Source,
-} from "./types";
+import type { GitTagData, Source } from "./types";
+
+export * from "./types";
 
 const sourcesQuery = `
 query getSources {
@@ -133,27 +130,33 @@ async function getSources(): Promise<Source[]> {
   return result.data.sources;
 }
 
+function getAlertInfo(change: AlertChanges): AlertInfo {
+  if (change.type === "dila") {
+    return {
+      file: change.file,
+      id: change.id,
+      num: change.num,
+      title: change.title,
+      type: change.type,
+    };
+  }
+  return {
+    title: change.title,
+    type: change.type,
+  };
+}
+
 export async function insertAlert(
   repository: string,
   changes: AlertChanges
 ): Promise<Pick<HasuraAlert, "info" | "ref" | "repository">> {
-  const alert = {
-    changes: {
-      added: changes.added,
-      modified: changes.modified,
-      removed: changes.removed,
-      ...(changes.type === "dila" && { documents: changes.documents }),
-    },
+  const alert: Pick<
+    HasuraAlert,
+    "changes" | "created_at" | "info" | "ref" | "repository"
+  > = {
+    changes,
     created_at: changes.date,
-    info: {
-      title: changes.title,
-      type: changes.type,
-      ...(changes.type === "dila" && {
-        file: changes.file,
-        id: changes.id,
-        num: changes.num,
-      }),
-    },
+    info: getAlertInfo(changes),
     ref: changes.ref,
     repository,
   };

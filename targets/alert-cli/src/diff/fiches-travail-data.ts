@@ -1,39 +1,13 @@
+import type {
+  FicheTravailEmploiInfoWithDiff,
+  TravailDataAlertChanges,
+  TravailDataChanges,
+} from "@shared/types";
 import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
 import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../node-git.helpers";
 import type { GitTagData } from "../types";
-
-export type TravailDataAlertChanges = TravailDataChanges & {
-  type: "travail-data";
-  title: string;
-  ref: string;
-  date: Date;
-};
-
-export type TravailDataChanges = {
-  added: FicheTravailEmploiInfo[];
-  removed: FicheTravailEmploiInfo[];
-  modified: FicheTravailEmploiInfoWithDiff[];
-};
-
-export type FicheTravailEmploiInfo = {
-  pubId: string;
-  title: string;
-  url: string;
-};
-
-export type FicheTravailEmploiInfoWithDiff = FicheTravailEmploiInfo & {
-  removedSections: SectionTextChange[];
-  addedSections: SectionTextChange[];
-  modifiedSections: SectionTextChange[];
-};
-
-type SectionTextChange = {
-  title: string;
-  currentText: string;
-  previousText: string;
-};
 
 export async function processTravailDataDiff(
   repositoryId: string,

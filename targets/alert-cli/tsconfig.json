@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
     "target": "es2015",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "declaration": true
   },
   "include": ["src", "@types"],
   "exclude": ["__tests__"]

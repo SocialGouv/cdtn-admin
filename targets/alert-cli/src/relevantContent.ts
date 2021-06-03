@@ -1,7 +1,7 @@
-import type { DilaChanges } from "./diff/dila-data";
+import type { DilaChanges, DocumentReferences } from "@shared/types";
+
 import getContribReferences from "./extractDilaReferences/contribution";
 import getTravailEmploiReferences from "./extractDilaReferences/ficheTravailEmploi";
-import type { DocumentReferences } from "./extractDilaReferences/types";
 
 export async function getRelevantDocuments({
   modified,
@@ -22,8 +22,8 @@ export async function getRelevantDocuments({
         )
     );
 
-    if (references.length) {
-      return { document: item.document, references };
+    if (references.length > 0) {
+      return [{ document: item.document, references }];
     }
     return [];
   });

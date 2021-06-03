@@ -1,7 +1,7 @@
+import type { AlertChanges, DilaModifiedNode } from "@shared/types";
 import fetch from "node-fetch";
 
-import type { DilaModifiedNode } from "./diff/dila-data";
-import type { AlertChanges, GitTagData } from "./types";
+import type { GitTagData } from "./types";
 
 export function exportContributionAlerts(
   repository: string,

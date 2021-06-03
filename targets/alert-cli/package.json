@@ -40,6 +40,7 @@
   },
   "license": "MIT",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
     "build": "ncc build ./src/index.ts -o ./dist -e nodegit -s",

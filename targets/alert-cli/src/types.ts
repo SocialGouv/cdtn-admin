@@ -1,49 +1,9 @@
-import type {
-  AgreementArticle,
-  AgreementSection,
-} from "@socialgouv/kali-data-types";
-import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
+import type { AlertChanges } from "@shared/types";
 import type { Commit } from "nodegit";
-
-import type { DilaAlertChanges } from "./diff/dila-data";
-import type { TravailDataAlertChanges } from "./diff/fiches-travail-data";
-import type { VddAlertChanges } from "./diff/fiches-vdd";
-
-export type updateSource = (repository: string, tag: string) => Promise<Source>;
 
 export type Source = {
   repository: string;
   tag: string;
-};
-
-export type AlertChanges =
-  | DilaAlertChanges
-  | TravailDataAlertChanges
-  | VddAlertChanges;
-
-export type AlertInfo = AlertInfoDila | AlertInfoFiche;
-
-export type AlertInfoFiche = {
-  type: "travail-data" | "vdd";
-  title: string;
-};
-export type AlertInfoDila = {
-  id: string; // Kalicont
-  file: string; //
-  type: "dila";
-  title: string;
-  num?: number;
-};
-
-export type HasuraAlert = {
-  id: string;
-  info: AlertInfo;
-  status: string;
-  repository: string;
-  ref: string;
-  changes: AlertChanges;
-  created_at: Date;
-  updated_at: Date;
 };
 
 export type RepoAlert = {
@@ -77,12 +37,3 @@ export type FicheVddNode = {
   children?: FicheVddNode[];
   text?: string;
 };
-
-export type DilaNode =
-  | AgreementArticle
-  | AgreementSection
-  | CodeArticle
-  | CodeSection;
-
-export type DilaArticle = AgreementArticle | CodeArticle;
-export type DilaSection = AgreementSection | CodeSection;

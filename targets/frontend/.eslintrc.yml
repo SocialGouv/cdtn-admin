@@ -1,0 +1,27 @@
+extends:
+  - "@socialgouv/eslint-config-react"
+  - "plugin:import/typescript"
+
+rules:
+  jsx-a11y/anchor-is-valid: off
+  jsx-a11y/label-has-for: off
+  react/react-in-jsx-scope: off
+  react/prop-types: off
+  no-console: ["warn", allow: ["warn", "error"]]
+
+settings:
+  import/resolver:
+    node: { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    typescript: {}
+
+overrides:
+  - files: ["**/*.ts", "**/*.tsx"]
+    extends:
+      - "plugin:@typescript-eslint/recommended"
+    parserOptions:
+      project: "./tsconfig.json"
+      tsconfigRootDir: "./"
+
+    rules:
+      no-undef: "off"
+      "@typescript-eslint/ban-ts-comment": "warn"

@@ -1,8 +1,8 @@
+import type { AlertChanges } from "@shared/types";
 import fetch, { Response } from "node-fetch";
 import { mocked } from "ts-jest/utils";
 
 import { exportContributionAlerts } from "../exportContributionAlerts";
-import type { AlertChanges } from "../types";
 
 jest.mock("node-fetch");
 

@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 
-import PropTypes from "prop-types";
-import { useState } from "react";
+import { AlertChanges } from "@shared/types";
+import React, { useState } from "react";
 import { IoIosLink, IoMdChatbubbles } from "react-icons/io";
 import { Box, Flex } from "theme-ui";
 
@@ -9,13 +9,17 @@ import { IconButton } from "../button";
 import { Comments } from "../comments";
 import { AlertStatus } from "./Status";
 
-export function AlertTitle({ alertId, info, ...props }) {
+type Props = {
+  alertId: string;
+  info: AlertChanges;
+};
+export const AlertTitle: React.FC<Props> = ({ alertId, info, ...props }) => {
   const [showComment, setShowComment] = useState(false);
   return (
     <Flex sx={{ alignItems: "center", justifyContent: "stretch" }}>
       <AlertStatus alertId={alertId} />
       <Box as="h2" sx={{ paddingLeft: "xsmall" }} {...props} />
-      {info.num && (
+      {info.type === "dila" && info.num && (
         <a
           sx={{ px: "xsmall" }}
           target="_blank"
@@ -44,12 +48,4 @@ export function AlertTitle({ alertId, info, ...props }) {
       {showComment && <Comments alertId={alertId} />}
     </Flex>
   );
-}
-
-AlertTitle.propTypes = {
-  alertId: PropTypes.string.isRequired,
-  info: PropTypes.shape({
-    id: PropTypes.string,
-    num: PropTypes.number,
-  }),
 };
