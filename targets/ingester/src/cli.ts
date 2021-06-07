@@ -46,8 +46,8 @@ type PackageVersionResult = {
 };
 
 const updateDocumentAvailability = `
-mutation update_documents($source:String!) {
-	documents: update_documents(_set: {is_available: false}, where: {source: {_eq: $source}}) {
+mutation update_documents($source: String!) {
+  documents: update_documents(_set: {is_available: false}, where: {source: {_eq: $source}, is_available: {_eq: true}}) {
     affected_rows
   }
 }
