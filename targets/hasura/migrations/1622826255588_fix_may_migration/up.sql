@@ -9,6 +9,8 @@ and status = 'todo'
 and updated_at > created_at
 and updated_at::date = '2021-06-04';
 
+DELETE FROM alerts
+where repository = 'socialgouv/kali-data' AND ref = 'v2.84.0';
 
 -- Update alert info format 
 update alerts 
@@ -24,7 +26,6 @@ where  info->>'type' = 'dila';
 -- Migrate data 
 --
 UPDATE "public"."sources" SET tag = 'v2.33.0' WHERE repository = 'socialgouv/legi-data';
-UPDATE "public"."sources" SET tag = 'v2.56.0' WHERE repository = 'socialgouv/kali-data';
+UPDATE "public"."sources" SET tag = 'v2.55.0' WHERE repository = 'socialgouv/kali-data';
 UPDATE "public"."sources" SET tag = 'v2.84.0' WHERE repository = 'socialgouv/fiches-vdd';
-UPDATE "public"."sources" SET tag = 'v4.87.0' WHERE repository = 'socialgouv/fiches-travail-data';
- 
+UPDATE "public"."sources" SET tag = 'v4.84.0' WHERE repository = 'socialgouv/fiches-travail-data';

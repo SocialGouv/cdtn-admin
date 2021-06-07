@@ -139,7 +139,6 @@ export async function processDilaDataDiff(
           date: tag.commit.date(),
           ref: tag.ref,
           type: "dila",
-          ...change.documents,
           ...change,
         },
       ];
