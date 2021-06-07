@@ -232,19 +232,7 @@ export type HasuraAlert = {
   updated_at: Date;
 };
 
-export type AlertInfo = AlertInfoDila | AlertInfoFiche;
-
-export type AlertInfoFiche = {
-  type: "travail-data" | "vdd";
-  title: string;
-};
-export type AlertInfoDila = {
-  type: "dila";
-  title: string;
-  id: string; // Kalicont
-  file: string; //
-  num?: number;
-};
+export type AlertInfo = { id: string };
 
 export type AlertChanges =
   | DilaAlertChanges

@@ -130,22 +130,6 @@ async function getSources(): Promise<Source[]> {
   return result.data.sources;
 }
 
-function getAlertInfo(change: AlertChanges): AlertInfo {
-  if (change.type === "dila") {
-    return {
-      file: change.file,
-      id: change.id,
-      num: change.num,
-      title: change.title,
-      type: change.type,
-    };
-  }
-  return {
-    title: change.title,
-    type: change.type,
-  };
-}
-
 export async function insertAlert(
   repository: string,
   changes: AlertChanges
@@ -156,7 +140,7 @@ export async function insertAlert(
   > = {
     changes,
     created_at: changes.date,
-    info: getAlertInfo(changes),
+    info: { id: changes.type === "dila" ? changes.id : changes.title },
     ref: changes.ref,
     repository,
   };
@@ -260,11 +244,7 @@ async function saveAlertChanges(
   inserts.forEach((insert) => {
     if (insert.status === "fulfilled") {
       const { ref, repository: repo, info } = insert.value;
-      console.log(
-        `insert alert for ${ref} on ${repo} ${
-          info.type === "dila" ? `(${info.file})` : ""
-        })`
-      );
+      console.log(`insert alert for ${ref} on ${repo} (${info.id})`);
     }
   });
 
