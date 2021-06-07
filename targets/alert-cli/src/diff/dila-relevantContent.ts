@@ -1,7 +1,7 @@
 import type { DilaChanges, DocumentReferences } from "@shared/types";
 
-import getContribReferences from "./extractDilaReferences/contribution";
-import getTravailEmploiReferences from "./extractDilaReferences/ficheTravailEmploi";
+import getContribReferences from "../extractDilaReferences/contribution";
+import getTravailEmploiReferences from "../extractDilaReferences/ficheTravailEmploi";
 
 export async function getRelevantDocuments({
   modified,

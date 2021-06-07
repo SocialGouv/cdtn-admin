@@ -4,10 +4,9 @@ import type {
   DocumentReferences,
 } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import memoizee from "memoizee";
 
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
-
-let references: DocumentReferences[] = [];
 
 export type Contrib = Pick<
   ContributionComplete | ContributionFiltered,
@@ -77,12 +76,11 @@ export function extractContributionsRef(
   return refs;
 }
 
-export default async function main(): Promise<DocumentReferences[]> {
-  if (references.length === 0) {
-    const contributions = (await getAllDocumentsBySource(
-      SOURCES.CONTRIBUTIONS
-    )) as Contrib[];
-    references = extractContributionsRef(contributions);
-  }
-  return references;
+async function getContributionReferences() {
+  const contributions = (await getAllDocumentsBySource(
+    SOURCES.CONTRIBUTIONS
+  )) as Contrib[];
+  return extractContributionsRef(contributions);
 }
+
+export default memoizee(getContributionReferences, { promise: true });

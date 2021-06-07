@@ -21,8 +21,8 @@ import parents from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
 import { createToJson } from "../node-git.helpers";
-import { getRelevantDocuments } from "../relevantContent";
 import type { GitTagData } from "../types";
+import { getRelevantDocuments } from "./dila-relevantContent";
 
 type FileChange<A extends Agreement | Code> = {
   type: A extends Code ? "legi" : "kali";

@@ -4,15 +4,17 @@ import { AccordionItem, AccordionPanel } from "@reach/accordion";
 import type {
   AlertChanges,
   DilaAddedNode,
-  DilaAlertChanges,
   DilaModifiedNode,
   DilaRemovedNode,
+  DocumentInfo,
+  DocumentReferences,
   FicheTravailEmploiInfo,
   FicheVddInfo,
 } from "@shared/types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import { Badge, Box, Card, Divider, NavLink } from "@theme-ui/components";
+import Link from "next/link";
 import React, { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { AccordionButton, Button } from "src/components/button";
@@ -24,6 +26,7 @@ import { ViewDiff } from "./ViewDiff";
 type Props = {
   label: string;
 };
+
 export const ChangesGroup: React.FC<Props> = ({ label, children }) => {
   return (
     <AccordionItem>
@@ -35,62 +38,101 @@ export const ChangesGroup: React.FC<Props> = ({ label, children }) => {
   );
 };
 
-type AlertRelatedDocumentsProps = {
-  changes: DilaAlertChanges;
+type ChangesProps = {
+  changes: AlertChanges;
 };
 
-export function AlertRelatedDocuments({
-  changes,
-}: AlertRelatedDocumentsProps): JSX.Element {
+export function AlertRelatedDocuments({ changes }: ChangesProps): JSX.Element {
+  switch (changes.type) {
+    case "dila": {
+      return (
+        <>
+          {changes.documents.map((change, i) => (
+            <li key={`${changes.ref}-${change.document.id}-documents-${i}`}>
+              <DilaRelatedDocuments docReferences={change} />
+            </li>
+          ))}
+        </>
+      );
+    }
+    case "travail-data": {
+      return (
+        <>
+          {changes.documents.map((change) => (
+            <li key={`${changes.ref}-${change.id}-documents`}>
+              <FicheRelatedDocuments doc={change} />
+            </li>
+          ))}
+        </>
+      );
+    }
+    case "vdd": {
+      return (
+        <>
+          {changes.documents.map((change) => (
+            <li key={`${changes.ref}-${change.id}-documents`}>
+              <FicheRelatedDocuments doc={change} />
+            </li>
+          ))}
+        </>
+      );
+    }
+  }
+}
+
+type DilaRelatedDocumentsProps = {
+  docReferences: DocumentReferences;
+};
+
+export function DilaRelatedDocuments({
+  docReferences,
+}: DilaRelatedDocumentsProps): JSX.Element {
+  const [title, anchor] = docReferences.document.title.split("#");
   return (
     <>
-      {changes.documents.map((item, i) => {
-        const [title, anchor] = item.document.title.split("#");
-        return (
-          <li
-            sx={{
-              lineHeight: 1.4,
-              paddingBottom: "xxsmall",
-            }}
-            key={`${changes.ref}-documents-${item.document.id})-${i}`}
-          >
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href={`https://code.travail.gouv.fr/${getRouteBySource(
-                item.document.source
-              )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href={`https://code.travail.gouv.fr/${getRouteBySource(
+          docReferences.document.source
+        )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
+      >
+        {title} {anchor}
+      </a>
+      <Box>
+        {jsxJoin(
+          docReferences.references.map((node, i) => (
+            <NavLink
+              sx={{
+                color: "muted",
+                fontSize: "xsmall",
+                lineHeight: 1,
+              }}
+              href={node.url}
+              key={`${docReferences.document.id}-${node.dila_id}-${node.title})-${i}`}
             >
-              {title} {anchor}
-            </a>
-            <Box>
-              {jsxJoin(
-                item.references.map((node, i) => (
-                  <NavLink
-                    sx={{
-                      color: "muted",
-                      fontSize: "xsmall",
-                      lineHeight: 1,
-                    }}
-                    href={node.url}
-                    key={`${changes.ref}-${item.document.id}-${node.dila_id}-${node.title})-${i}`}
-                  >
-                    {node.title}
-                  </NavLink>
-                )),
-                ", "
-              )}
-            </Box>
-          </li>
-        );
-      })}
+              {node.title}
+            </NavLink>
+          )),
+          ", "
+        )}
+      </Box>
     </>
   );
 }
 
-type ChangesProps = {
-  changes: AlertChanges;
+type FicheRelatedDocumentsProps = {
+  doc: DocumentInfo;
 };
+export function FicheRelatedDocuments({
+  doc,
+}: FicheRelatedDocumentsProps): JSX.Element {
+  return (
+    <Link href={`/contenus/${doc.id}`} passHref>
+      <NavLink> {doc.title} </NavLink>
+    </Link>
+  );
+}
 
 export function AddedChanges({ changes }: ChangesProps): JSX.Element {
   switch (changes.type) {
