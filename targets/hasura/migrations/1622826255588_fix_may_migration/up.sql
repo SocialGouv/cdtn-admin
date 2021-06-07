@@ -1,5 +1,15 @@
+--
 -- Fix previous alerts migration
- 
+--
+
+-- Remove duplicate alerts
+DELETE FROM alerts 
+where repository = 'socialgouv/kali-data'
+and status = 'todo'
+and updated_at > created_at
+and updated_at::date = '2021-06-04';
+
+
 -- Update alert info format 
 update alerts 
 set info =   info - 'title' - 'type' || jsonb_build_object('id', info -> 'title') 
@@ -8,13 +18,6 @@ where  info->>'type' = 'vdd' OR info ->>'type' = 'travail-data';
 update alerts 
 set info =   info - 'title' - 'type' - 'num' - 'file'
 where  info->>'type' = 'dila';
-
--- Remove duplicate alerts
-DELETE FROM alerts 
-where repository = 'socialgouv/kali-data'
-and status = 'todo'
-and updated_at > created_at
-and updated_at::date = '2021-06-04';
 
 
 --
