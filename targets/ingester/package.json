@@ -50,6 +50,7 @@
   "private": true,
   "scripts": {
     "build": "ncc build ./src/cli.ts -o ./dist -s",
+    "clean": "rm -rf data/*",
     "cli:dev": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 ncc run -s src/cli.ts",
     "cli:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 yarn start",
     "lint": "eslint src/**/*.ts",
