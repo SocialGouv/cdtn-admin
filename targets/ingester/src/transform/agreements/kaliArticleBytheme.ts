@@ -22,7 +22,7 @@ export function getKaliArticlesByTheme(
   }
   const { blocks } = conventionBlocks;
 
-  const treeWithParents = parents(agreementTree.children);
+  const treeWithParents = parents(agreementTree);
 
   return Object.keys(blocks)
     .sort(createSorter((a) => parseInt(a, 10)))
@@ -30,8 +30,9 @@ export function getKaliArticlesByTheme(
       articles: blocks[key].flatMap((articleId) => {
         const article = find(
           treeWithParents,
-          (node: NodeWithParentChild<AgreementSection, AgreementArticle>) =>
-            node.data.id === articleId
+          (node: NodeWithParentChild<AgreementSection, AgreementArticle>) => {
+            return node.data.id === articleId;
+          }
         );
         if (article === undefined) {
           console.error(
