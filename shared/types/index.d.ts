@@ -335,7 +335,7 @@ export type TravailDataChanges = {
   added: FicheTravailEmploiInfo[];
   removed: FicheTravailEmploiInfo[];
   modified: FicheTravailEmploiInfoWithDiff[];
-  documents: DocumentInfoWithRef[];
+  documents: DocumentInfoWithCdtnRef[];
 };
 
 export type FicheTravailEmploiInfo = {
@@ -368,7 +368,7 @@ export type VddChanges = {
   modified: FicheVddInfoWithDiff[];
   removed: FicheVddInfo[];
   added: FicheVddInfo[];
-  documents: DocumentInfoWithRef[];
+  documents: DocumentInfoWithCdtnRef[];
 };
 
 export type FicheVddInfo = {

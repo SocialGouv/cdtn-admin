@@ -149,7 +149,10 @@ export function AlertPage(): JSX.Element {
           }
 
           const accordionItems = [];
-          if (alert.changes.documents.length > 0) {
+          if (
+            alert.changes.documents.length > 0 &&
+            alert.changes.type === "dila"
+          ) {
             accordionItems.push(
               <ChangesGroup label="Contenus liés">
                 <AlertRelatedDocuments changes={alert.changes} />

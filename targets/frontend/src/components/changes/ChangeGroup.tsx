@@ -4,6 +4,7 @@ import { AccordionItem, AccordionPanel } from "@reach/accordion";
 import type {
   AlertChanges,
   DilaAddedNode,
+  DilaAlertChanges,
   DilaModifiedNode,
   DilaRemovedNode,
   DocumentInfoWithCdtnRef,
@@ -41,43 +42,21 @@ export const ChangesGroup: React.FC<Props> = ({ label, children }) => {
 type ChangesProps = {
   changes: AlertChanges;
 };
-
-export function AlertRelatedDocuments({ changes }: ChangesProps): JSX.Element {
-  switch (changes.type) {
-    case "dila": {
-      return (
-        <>
-          {changes?.documents.map((change, i) => (
-            <li key={`${changes.ref}-${change.document.id}-documents-${i}`}>
-              <DilaRelatedDocuments docReferences={change} />
-            </li>
-          ))}
-        </>
-      );
-    }
-    case "travail-data": {
-      return (
-        <>
-          {changes.documents.map((change) => (
-            <li key={`${changes.ref}-${change.id}-documents`}>
-              <FicheRelatedDocuments doc={change} />
-            </li>
-          ))}
-        </>
-      );
-    }
-    case "vdd": {
-      return (
-        <>
-          {changes.documents.map((change) => (
-            <li key={`${changes.ref}-${change.id}-documents`}>
-              <FicheRelatedDocuments doc={change} />
-            </li>
-          ))}
-        </>
-      );
-    }
-  }
+type DilaChangesProps = {
+  changes: DilaAlertChanges;
+};
+export function AlertRelatedDocuments({
+  changes,
+}: DilaChangesProps): JSX.Element {
+  return (
+    <>
+      {changes?.documents.map((change, i) => (
+        <li key={`${changes.ref}-${change.document.id}-documents-${i}`}>
+          <DilaRelatedDocuments docReferences={change} />
+        </li>
+      ))}
+    </>
+  );
 }
 
 type DilaRelatedDocumentsProps = {
