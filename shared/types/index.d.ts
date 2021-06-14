@@ -319,6 +319,9 @@ export type DocumentReference = Pick<
 export type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
   id: string;
 };
+export type DocumentInfoWithCdtnRef = DocumentInfo & {
+  ref: Pick<DocumentInfo, "id" | "title">;
+};
 
 /** Fiche travail alert changes */
 export type TravailDataAlertChanges = TravailDataChanges & {
@@ -332,7 +335,7 @@ export type TravailDataChanges = {
   added: FicheTravailEmploiInfo[];
   removed: FicheTravailEmploiInfo[];
   modified: FicheTravailEmploiInfoWithDiff[];
-  documents: DocumentInfo[];
+  documents: DocumentInfoWithRef[];
 };
 
 export type FicheTravailEmploiInfo = {
@@ -365,7 +368,7 @@ export type VddChanges = {
   modified: FicheVddInfoWithDiff[];
   removed: FicheVddInfo[];
   added: FicheVddInfo[];
-  documents: DocumentInfo[];
+  documents: DocumentInfoWithRef[];
 };
 
 export type FicheVddInfo = {

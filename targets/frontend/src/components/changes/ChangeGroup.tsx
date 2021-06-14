@@ -6,7 +6,7 @@ import type {
   DilaAddedNode,
   DilaModifiedNode,
   DilaRemovedNode,
-  DocumentInfo,
+  DocumentInfoWithCdtnRef,
   DocumentReferences,
   FicheTravailEmploiInfo,
   FicheVddInfo,
@@ -47,7 +47,7 @@ export function AlertRelatedDocuments({ changes }: ChangesProps): JSX.Element {
     case "dila": {
       return (
         <>
-          {changes.documents.map((change, i) => (
+          {changes?.documents.map((change, i) => (
             <li key={`${changes.ref}-${change.document.id}-documents-${i}`}>
               <DilaRelatedDocuments docReferences={change} />
             </li>
@@ -122,15 +122,27 @@ export function DilaRelatedDocuments({
 }
 
 type FicheRelatedDocumentsProps = {
-  doc: DocumentInfo;
+  doc: DocumentInfoWithCdtnRef;
 };
 export function FicheRelatedDocuments({
   doc,
 }: FicheRelatedDocumentsProps): JSX.Element {
   return (
-    <Link href={`/contenus/${doc.id}`} passHref>
-      <NavLink> {doc.title} </NavLink>
-    </Link>
+    <>
+      <Link href={`/contenus/${doc.id}`} passHref>
+        <a>{doc.title}</a>
+      </Link>{" "}
+      <br />
+      <span
+        sx={{
+          color: "muted",
+          fontSize: "xsmall",
+          lineHeight: 1,
+        }}
+      >
+        {doc.ref.title}
+      </span>
+    </>
   );
 }
 
@@ -193,7 +205,7 @@ export function RemovedChanges({ changes }: ChangesProps): JSX.Element {
         <>
           {changes.removed.map((change) => (
             <li key={`${changes.ref}-${change.pubId}-removed`}>
-              <FicheLink change={change} />
+              <FicheLink change={change} documents={changes.documents} />
             </li>
           ))}
         </>
@@ -204,7 +216,7 @@ export function RemovedChanges({ changes }: ChangesProps): JSX.Element {
         <>
           {changes.removed.map((change) => (
             <li key={`${changes.ref}-${change.id}-removed`}>
-              <FicheLink change={change} />
+              <FicheLink change={change} documents={changes.documents} />
             </li>
           ))}
         </>
@@ -276,7 +288,7 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
         <>
           {changes.modified.map((change) => (
             <li key={`${changes.ref}-${change.pubId}-modified`}>
-              <FicheLink change={change} />
+              <FicheLink change={change} documents={changes.documents} />
               <ModificationViewer>
                 {jsxJoin(
                   change.addedSections
@@ -306,7 +318,7 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
         <>
           {changes.modified.map((change) => (
             <li key={`${changes.ref}-${change.id}-modified`}>
-              <FicheLink change={change} />
+              <FicheLink change={change} documents={changes.documents} />
               <ModificationViewer>
                 <strong>{change.title}</strong>
                 <ViewDiff
@@ -394,31 +406,71 @@ const DilaLink: React.FC<DilaLinkProps> = ({ info, children }) => {
 
 type FicheLinkProps = {
   change: FicheTravailEmploiInfo | FicheVddInfo;
+  documents?: DocumentInfoWithCdtnRef[];
 };
 
-function FicheLink({ change }: FicheLinkProps) {
+function FicheLink({ change, documents = [] }: FicheLinkProps) {
+  const docId = "url" in change ? change.pubId : change.id;
+
+  const linkedDocuments = documents.flatMap((doc) => {
+    if (doc.ref.id === docId) {
+      return (
+        <Link href={`/contenus/edit/${doc.id}`} passHref>
+          <NavLink>{doc.title}</NavLink>
+        </Link>
+      );
+    }
+    return [];
+  });
   if ("url" in change) {
     return (
-      <a
-        target="_blank"
-        aria-label={`${change.title} (nouvelle fenêtre)`}
-        rel="noreferrer noopener"
-        href={change.url}
-      >
-        {change.title}
-      </a>
+      <>
+        <a
+          target="_blank"
+          aria-label={`${change.title} (nouvelle fenêtre)`}
+          rel="noreferrer noopener"
+          href={change.url}
+        >
+          {change.title}
+        </a>
+
+        {linkedDocuments.length > 0 && (
+          <Box
+            sx={{
+              color: "muted",
+              fontSize: "xsmall",
+              lineHeight: 1,
+            }}
+          >
+            Contenus liés : {jsxJoin(linkedDocuments, ", ")}
+          </Box>
+        )}
+      </>
     );
   }
   const url = `https://www.service-public.fr/${change.type}/vosdroits/${change.id}`;
   return (
-    <a
-      target="_blank"
-      aria-label={`${change.title} (nouvelle fenêtre)`}
-      rel="noreferrer noopener"
-      href={url}
-    >
-      {change.title}
-    </a>
+    <>
+      <a
+        target="_blank"
+        aria-label={`${change.title} (nouvelle fenêtre)`}
+        rel="noreferrer noopener"
+        href={url}
+      >
+        {change.title}
+      </a>
+      {linkedDocuments.length > 0 && (
+        <Box
+          sx={{
+            color: "muted",
+            fontSize: "xsmall",
+            lineHeight: 1,
+          }}
+        >
+          Contenus liés : {jsxJoin(linkedDocuments, ", ")}
+        </Box>
+      )}
+    </>
   );
 }
 

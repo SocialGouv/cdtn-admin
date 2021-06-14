@@ -29,6 +29,8 @@ export async function processTravailDataDiff(
       changes.documents = await ficheTravailPrequalifiedRelevantDocuments(
         changes
       );
+      console.log(`${tag.ref} ${changes.documents.length} prequalified found`);
+
       return changes;
     })
   );

@@ -1,5 +1,6 @@
 import type {
   DocumentInfo,
+  DocumentInfoWithCdtnRef,
   TravailDataChanges,
   VddChanges,
 } from "@shared/types";
@@ -43,18 +44,34 @@ const getPrequalifiedDocuments = memoizee(_getPrequalifiedDocuments, {
 export async function vddPrequalifiedRelevantDocuments({
   modified,
   removed,
-}: Pick<VddChanges, "modified" | "removed">): Promise<DocumentInfo[]> {
+}: Pick<VddChanges, "modified" | "removed">): Promise<
+  DocumentInfoWithCdtnRef[]
+> {
   const prequalifiedRequests = await getPrequalifiedDocuments();
   return modified
     .flatMap((doc) => {
       const prequalifieds = prequalifiedRequests.get(doc.id);
-      if (prequalifieds) return prequalifieds;
+      if (prequalifieds) {
+        return prequalifieds.map((requestInfo) => {
+          return {
+            ...requestInfo,
+            ref: { id: doc.id, title: doc.title },
+          };
+        });
+      }
       return [];
     })
     .concat(
       removed.flatMap((doc) => {
-        const prequalifieds = prequalifiedRequests.get(doc.id) && [];
-        if (prequalifieds) return prequalifieds;
+        const prequalifieds = prequalifiedRequests.get(doc.id);
+        if (prequalifieds) {
+          return prequalifieds.map((requestInfo) => {
+            return {
+              ...requestInfo,
+              ref: { id: doc.id, title: doc.title },
+            };
+          });
+        }
         return [];
       })
     );
@@ -63,18 +80,34 @@ export async function vddPrequalifiedRelevantDocuments({
 export async function ficheTravailPrequalifiedRelevantDocuments({
   modified,
   removed,
-}: Pick<TravailDataChanges, "modified" | "removed">): Promise<DocumentInfo[]> {
+}: Pick<TravailDataChanges, "modified" | "removed">): Promise<
+  DocumentInfoWithCdtnRef[]
+> {
   const prequalifiedRequests = await getPrequalifiedDocuments();
   return modified
     .flatMap((doc) => {
       const prequalifieds = prequalifiedRequests.get(doc.pubId);
-      if (prequalifieds) return prequalifieds;
+      if (prequalifieds) {
+        return prequalifieds.map((requestInfo) => {
+          return {
+            ...requestInfo,
+            ref: { id: doc.pubId, title: doc.title },
+          };
+        });
+      }
       return [];
     })
     .concat(
       removed.flatMap((doc) => {
-        const prequalifieds = prequalifiedRequests.get(doc.pubId) && [];
-        if (prequalifieds) return prequalifieds;
+        const prequalifieds = prequalifiedRequests.get(doc.pubId);
+        if (prequalifieds) {
+          return prequalifieds.map((requestInfo) => {
+            return {
+              ...requestInfo,
+              ref: { id: doc.pubId, title: doc.title },
+            };
+          });
+        }
         return [];
       })
     );

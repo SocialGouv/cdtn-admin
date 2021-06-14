@@ -109,6 +109,7 @@ export async function processVddDiff(
     return [];
   }
   const documents = await vddPrequalifiedRelevantDocuments(changes);
+  console.log(`${tag.ref} ${documents.length} prequalified found`);
   return [
     {
       date: tag.commit.date(),
