@@ -141,10 +141,7 @@ export function AlertPage(): JSX.Element {
         {alerts.map((alert) => {
           const openIndices = [];
           // Pre-open documents panel If there are documents targeted by the alert
-          if (
-            alert.changes.type === "dila" &&
-            alert.changes.documents.length > 0
-          ) {
+          if (alert.changes.documents.length > 0) {
             openIndices.push(0);
           }
 
