@@ -65,13 +65,14 @@ async function bulkIndexDocuments({ client, indexName, documents }) {
     });
     if (resp.body.errors) {
       const errorDocs = resp.body.items.filter(
-        (item) => item.index.status != 201
+        (item) => item.index.status !== 201
       );
-      logger.error(`Errors during indexation : ${JSON.stringify(errorDocs)}`);
+      throw new Error(`Error during indexing ${JSON.stringify(errorDocs)}`);
     }
     logger.info(`Index ${documents.length} documents.`);
   } catch (error) {
-    logger.error("index documents", error);
+    logger.error(`Failed to index documents (${error})`);
+    throw error;
   }
 }
 
@@ -79,7 +80,7 @@ async function indexDocumentsBatched({
   client,
   indexName,
   documents,
-  size = 1000,
+  size = 500,
 }) {
   logger.info(`Loaded ${documents.length} documents`);
   for (const chunk of chunks(documents, size)) {
