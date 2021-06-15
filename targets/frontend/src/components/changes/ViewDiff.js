@@ -6,14 +6,14 @@ import PropTypes from "prop-types";
 export const ViewDiff = ({ sx = {}, inputA, inputB }) => {
   const tokens = fastDiff(inputA, inputB);
 
-  let result = "";
+  const result = [];
   for (const [operation, token] of tokens) {
     if (operation === 1) {
-      result += <ins sx={{ bg: "positive" }}>{token}</ins>;
+      result.push(<ins sx={{ bg: "positive" }}>{token}</ins>);
     } else if (operation === -1) {
-      result += <del sx={{ bg: "critical" }}>{token}</del>;
+      result.push(<del sx={{ bg: "critical" }}>{token}</del>);
     } else {
-      result += token;
+      result.push(<>{token}</>);
     }
   }
 
