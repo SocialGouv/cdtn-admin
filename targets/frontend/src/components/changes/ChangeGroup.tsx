@@ -246,7 +246,6 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                               <ViewDiff
                                 inputA={diff.previousText}
                                 inputB={diff.currentText}
-                                type={"words"}
                               />
                             </>
                           );
@@ -279,7 +278,6 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                           <ViewDiff
                             inputA={diff.previousText}
                             inputB={diff.currentText}
-                            type={"words"}
                           />
                         </>
                       );
@@ -303,7 +301,6 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                 <ViewDiff
                   inputA={change.previousText}
                   inputB={change.currentText}
-                  type={"words"}
                 />
               </ModificationViewer>
             </li>
