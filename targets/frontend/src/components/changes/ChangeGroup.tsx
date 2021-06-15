@@ -244,8 +244,8 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                             <>
                               <strong>Modification du {diff.type}</strong>
                               <ViewDiff
-                                inputA={diff.previousText}
-                                inputB={diff.currentText}
+                                previous={diff.previousText}
+                                current={diff.currentText}
                               />
                             </>
                           );
@@ -276,8 +276,8 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                         <>
                           <strong>{diff.title}</strong>
                           <ViewDiff
-                            inputA={diff.previousText}
-                            inputB={diff.currentText}
+                            previous={diff.previousText}
+                            current={diff.currentText}
                           />
                         </>
                       );
@@ -299,8 +299,8 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
               <ModificationViewer>
                 <strong>{change.title}</strong>
                 <ViewDiff
-                  inputA={change.previousText}
-                  inputB={change.currentText}
+                  previous={change.previousText}
+                  current={change.currentText}
                 />
               </ModificationViewer>
             </li>

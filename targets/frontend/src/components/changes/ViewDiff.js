@@ -1,32 +1,43 @@
 /** @jsxImportSource theme-ui */
 
-import fastDiff from "fast-diff";
+import { Spinner } from "@theme-ui/components";
 import PropTypes from "prop-types";
+import { useEffect, useRef, useState } from "react";
 
-export const ViewDiff = ({ sx = {}, inputA, inputB }) => {
-  const tokens = fastDiff(inputA, inputB);
+export const ViewDiff = ({ sx = {}, previous, current }) => {
+  const workerRef = useRef();
+  const [htmlDiff, setHtmlDiff] = useState(null);
+  useEffect(() => {
+    workerRef.current = new Worker(new URL("./diffWorker.js", import.meta.url));
+    workerRef.current.postMessage({ current, previous });
+    workerRef.current.onmessage = (evt) => setHtmlDiff(evt.data);
+    return () => {
+      workerRef.current.terminate();
+    };
+  }, [current, previous]);
 
-  const result = [];
-  for (const [operation, token] of tokens) {
-    if (operation === 1) {
-      result.push(<ins sx={{ bg: "positive" }}>{token}</ins>);
-    } else if (operation === -1) {
-      result.push(<del sx={{ bg: "critical" }}>{token}</del>);
-    } else {
-      result.push(<>{token}</>);
-    }
-  }
-
-  return <div sx={{ mb: "large", ...sx }}>{result}</div>;
+  return htmlDiff ? (
+    <div
+      sx={{
+        del: { bg: "critical" },
+        ins: { bg: "positive" },
+        mb: "large",
+        ...sx,
+      }}
+      dangerouslySetInnerHTML={{ __html: htmlDiff }}
+    />
+  ) : (
+    <Spinner size="16" />
+  );
 };
 
 ViewDiff.defaultProps = {
-  inputA: "",
-  inputB: "",
+  current: "",
+  previous: "",
 };
 
 ViewDiff.propTypes = {
-  inputA: PropTypes.string,
-  inputB: PropTypes.string,
+  current: PropTypes.string,
+  previous: PropTypes.string,
   sx: PropTypes.object,
 };
