@@ -141,17 +141,14 @@ export function AlertPage(): JSX.Element {
         {alerts.map((alert) => {
           const openIndices = [];
           // Pre-open documents panel If there are documents targeted by the alert
-          if (
-            alert.changes.type === "dila" &&
-            alert.changes.documents.length > 0
-          ) {
+          if (alert.changes.documents.length > 0) {
             openIndices.push(0);
           }
 
           const accordionItems = [];
           if (
-            alert.changes.type === "dila" &&
-            alert.changes.documents.length > 0
+            alert.changes.documents.length > 0 &&
+            alert.changes.type === "dila"
           ) {
             accordionItems.push(
               <ChangesGroup label="Contenus liés">

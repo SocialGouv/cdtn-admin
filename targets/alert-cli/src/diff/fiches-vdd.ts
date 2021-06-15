@@ -3,6 +3,7 @@ import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../node-git.helpers";
 import type { FicheVdd, FicheVddNode, GitTagData } from "../types";
+import { vddPrequalifiedRelevantDocuments } from "./preQualified-relevantContent";
 
 export async function processVddDiff(
   repositoryId: string,
@@ -13,6 +14,7 @@ export async function processVddDiff(
 ): Promise<VddAlertChanges[]> {
   const changes: VddChanges = {
     added: [],
+    documents: [],
     modified: [],
     removed: [],
   };
@@ -106,6 +108,8 @@ export async function processVddDiff(
   ) {
     return [];
   }
+  const documents = await vddPrequalifiedRelevantDocuments(changes);
+  console.log(`${tag.ref} ${documents.length} prequalified found`);
   return [
     {
       date: tag.commit.date(),
@@ -113,6 +117,7 @@ export async function processVddDiff(
       title: "fiche service-public",
       type: "vdd",
       ...changes,
+      documents,
     },
   ];
 }

@@ -8,6 +8,7 @@ import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../node-git.helpers";
 import type { GitTagData } from "../types";
+import { ficheTravailPrequalifiedRelevantDocuments } from "./preQualified-relevantContent";
 
 export async function processTravailDataDiff(
   repositoryId: string,
@@ -24,9 +25,16 @@ export async function processTravailDataDiff(
       const [currAst, prevAst] = await Promise.all(
         [currTree, prevTree].map(toAst)
       );
-      return getChanges(prevAst, currAst);
+      const changes = getChanges(prevAst, currAst);
+      changes.documents = await ficheTravailPrequalifiedRelevantDocuments(
+        changes
+      );
+      console.log(`${tag.ref} ${changes.documents.length} prequalified found`);
+
+      return changes;
     })
   );
+
   return fileChanges
     .filter(
       (file) =>
@@ -116,6 +124,7 @@ function getChanges(
 
   return {
     added: added.map(({ pubId, title, url }) => ({ pubId, title, url })),
+    documents: [],
     modified,
     removed: removed.map(({ pubId, title, url }) => ({ pubId, title, url })),
   };

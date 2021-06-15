@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import type { DilaChanges } from "@shared/types";
 
-import { getRelevantDocuments } from "../relevantContent";
+import { getRelevantDocuments } from "../diff/dila-relevantContent";
 
 jest.mock("../extractDilaReferences/ficheTravailEmploi", () => () => []);
 jest.mock("../extractDilaReferences/contribution", () => () => [

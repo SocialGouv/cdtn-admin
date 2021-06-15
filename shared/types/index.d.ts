@@ -61,13 +61,19 @@ type Agreement = BaseHasuraDocument & {
   document: AgreementDoc;
 };
 
+type Prequalified = BaseHasuraDocument & {
+  source: "prequalified";
+  document: PrequalifiedDoc;
+};
+
 type HasuraDocument =
   | Agreement
   | ContributionComplete
   | ContributionFiltered
   | FicheServicePublic
   | FicheTravailEmploi
-  | LaborCodeArticle;
+  | LaborCodeArticle
+  | Prequalified;
 /**
  * Document Table's document type
  */
@@ -217,6 +223,10 @@ export interface ParseDilaReference {
   dila_container_id: string;
 }
 
+type PrequalifiedDoc = {
+  variants: string[];
+};
+
 /**
  * Alerts
  */
@@ -309,6 +319,9 @@ export type DocumentReference = Pick<
 export type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
   id: string;
 };
+export type DocumentInfoWithCdtnRef = DocumentInfo & {
+  ref: Pick<DocumentInfo, "id" | "title">;
+};
 
 /** Fiche travail alert changes */
 export type TravailDataAlertChanges = TravailDataChanges & {
@@ -322,6 +335,7 @@ export type TravailDataChanges = {
   added: FicheTravailEmploiInfo[];
   removed: FicheTravailEmploiInfo[];
   modified: FicheTravailEmploiInfoWithDiff[];
+  documents: DocumentInfoWithCdtnRef[];
 };
 
 export type FicheTravailEmploiInfo = {
@@ -354,6 +368,7 @@ export type VddChanges = {
   modified: FicheVddInfoWithDiff[];
   removed: FicheVddInfo[];
   added: FicheVddInfo[];
+  documents: DocumentInfoWithCdtnRef[];
 };
 
 export type FicheVddInfo = {

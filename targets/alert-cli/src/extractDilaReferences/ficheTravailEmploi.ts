@@ -1,5 +1,6 @@
 import type { DocumentReferences, FicheTravailEmploi } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import memoizee from "memoizee";
 
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
 
@@ -41,12 +42,14 @@ export function extractFicheTravailEmploiRef(
   return refs;
 }
 
-export default async function main(): Promise<DocumentReferences[]> {
-  if (references.length === 0) {
-    const fiches = (await getAllDocumentsBySource(
-      SOURCES.SHEET_MT_PAGE
-    )) as FicheTravail[];
-    references = extractFicheTravailEmploiRef(fiches);
-  }
+async function getFicheTravailEmploiReferences(): Promise<
+  DocumentReferences[]
+> {
+  const fiches = (await getAllDocumentsBySource(
+    SOURCES.SHEET_MT_PAGE
+  )) as FicheTravail[];
+  references = extractFicheTravailEmploiRef(fiches);
   return references;
 }
+
+export default memoizee(getFicheTravailEmploiReferences, { promise: true });

@@ -7,12 +7,15 @@ import type {
   DilaAlertChanges,
   DilaModifiedNode,
   DilaRemovedNode,
+  DocumentInfoWithCdtnRef,
+  DocumentReferences,
   FicheTravailEmploiInfo,
   FicheVddInfo,
 } from "@shared/types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import { Badge, Box, Card, Divider, NavLink } from "@theme-ui/components";
+import Link from "next/link";
 import React, { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { AccordionButton, Button } from "src/components/button";
@@ -24,6 +27,7 @@ import { ViewDiff } from "./ViewDiff";
 type Props = {
   label: string;
 };
+
 export const ChangesGroup: React.FC<Props> = ({ label, children }) => {
   return (
     <AccordionItem>
@@ -35,62 +39,91 @@ export const ChangesGroup: React.FC<Props> = ({ label, children }) => {
   );
 };
 
-type AlertRelatedDocumentsProps = {
+type ChangesProps = {
+  changes: AlertChanges;
+};
+type DilaChangesProps = {
   changes: DilaAlertChanges;
 };
-
 export function AlertRelatedDocuments({
   changes,
-}: AlertRelatedDocumentsProps): JSX.Element {
+}: DilaChangesProps): JSX.Element {
   return (
     <>
-      {changes.documents.map((item, i) => {
-        const [title, anchor] = item.document.title.split("#");
-        return (
-          <li
-            sx={{
-              lineHeight: 1.4,
-              paddingBottom: "xxsmall",
-            }}
-            key={`${changes.ref}-documents-${item.document.id})-${i}`}
-          >
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href={`https://code.travail.gouv.fr/${getRouteBySource(
-                item.document.source
-              )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
-            >
-              {title} {anchor}
-            </a>
-            <Box>
-              {jsxJoin(
-                item.references.map((node, i) => (
-                  <NavLink
-                    sx={{
-                      color: "muted",
-                      fontSize: "xsmall",
-                      lineHeight: 1,
-                    }}
-                    href={node.url}
-                    key={`${changes.ref}-${item.document.id}-${node.dila_id}-${node.title})-${i}`}
-                  >
-                    {node.title}
-                  </NavLink>
-                )),
-                ", "
-              )}
-            </Box>
-          </li>
-        );
-      })}
+      {changes?.documents.map((change, i) => (
+        <li key={`${changes.ref}-${change.document.id}-documents-${i}`}>
+          <DilaRelatedDocuments docReferences={change} />
+        </li>
+      ))}
     </>
   );
 }
 
-type ChangesProps = {
-  changes: AlertChanges;
+type DilaRelatedDocumentsProps = {
+  docReferences: DocumentReferences;
 };
+
+export function DilaRelatedDocuments({
+  docReferences,
+}: DilaRelatedDocumentsProps): JSX.Element {
+  const [title, anchor] = docReferences.document.title.split("#");
+  return (
+    <>
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href={`https://code.travail.gouv.fr/${getRouteBySource(
+          docReferences.document.source
+        )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
+      >
+        {title} {anchor}
+      </a>
+      <Box>
+        {jsxJoin(
+          docReferences.references.map((node, i) => (
+            <NavLink
+              sx={{
+                color: "muted",
+                fontSize: "xsmall",
+                lineHeight: 1,
+              }}
+              href={node.url}
+              key={`${docReferences.document.id}-${node.dila_id}-${node.title})-${i}`}
+            >
+              {node.title}
+            </NavLink>
+          )),
+          ", "
+        )}
+      </Box>
+    </>
+  );
+}
+
+type FicheRelatedDocumentsProps = {
+  doc: DocumentInfoWithCdtnRef;
+};
+export function FicheRelatedDocuments({
+  doc,
+}: FicheRelatedDocumentsProps): JSX.Element {
+  return (
+    <>
+      <Link href={`/contenus/${doc.id}`} passHref>
+        <a>{doc.title}</a>
+      </Link>{" "}
+      <br />
+      <span
+        sx={{
+          color: "muted",
+          fontSize: "xsmall",
+          lineHeight: 1,
+        }}
+      >
+        {doc.ref.title}
+      </span>
+    </>
+  );
+}
 
 export function AddedChanges({ changes }: ChangesProps): JSX.Element {
   switch (changes.type) {
@@ -151,7 +184,7 @@ export function RemovedChanges({ changes }: ChangesProps): JSX.Element {
         <>
           {changes.removed.map((change) => (
             <li key={`${changes.ref}-${change.pubId}-removed`}>
-              <FicheLink change={change} />
+              <FicheLink change={change} documents={changes.documents} />
             </li>
           ))}
         </>
@@ -162,7 +195,7 @@ export function RemovedChanges({ changes }: ChangesProps): JSX.Element {
         <>
           {changes.removed.map((change) => (
             <li key={`${changes.ref}-${change.id}-removed`}>
-              <FicheLink change={change} />
+              <FicheLink change={change} documents={changes.documents} />
             </li>
           ))}
         </>
@@ -234,7 +267,7 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
         <>
           {changes.modified.map((change) => (
             <li key={`${changes.ref}-${change.pubId}-modified`}>
-              <FicheLink change={change} />
+              <FicheLink change={change} documents={changes.documents} />
               <ModificationViewer>
                 {jsxJoin(
                   change.addedSections
@@ -264,7 +297,7 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
         <>
           {changes.modified.map((change) => (
             <li key={`${changes.ref}-${change.id}-modified`}>
-              <FicheLink change={change} />
+              <FicheLink change={change} documents={changes.documents} />
               <ModificationViewer>
                 <strong>{change.title}</strong>
                 <ViewDiff
@@ -352,31 +385,71 @@ const DilaLink: React.FC<DilaLinkProps> = ({ info, children }) => {
 
 type FicheLinkProps = {
   change: FicheTravailEmploiInfo | FicheVddInfo;
+  documents?: DocumentInfoWithCdtnRef[];
 };
 
-function FicheLink({ change }: FicheLinkProps) {
+function FicheLink({ change, documents = [] }: FicheLinkProps) {
+  const docId = "url" in change ? change.pubId : change.id;
+
+  const linkedDocuments = documents.flatMap((doc) => {
+    if (doc.ref.id === docId) {
+      return (
+        <Link href={`/contenus/edit/${doc.id}`} passHref>
+          <NavLink>{doc.title}</NavLink>
+        </Link>
+      );
+    }
+    return [];
+  });
   if ("url" in change) {
     return (
-      <a
-        target="_blank"
-        aria-label={`${change.title} (nouvelle fenêtre)`}
-        rel="noreferrer noopener"
-        href={change.url}
-      >
-        {change.title}
-      </a>
+      <>
+        <a
+          target="_blank"
+          aria-label={`${change.title} (nouvelle fenêtre)`}
+          rel="noreferrer noopener"
+          href={change.url}
+        >
+          {change.title}
+        </a>
+
+        {linkedDocuments.length > 0 && (
+          <Box
+            sx={{
+              color: "muted",
+              fontSize: "xsmall",
+              lineHeight: 1,
+            }}
+          >
+            Contenus liés : {jsxJoin(linkedDocuments, ", ")}
+          </Box>
+        )}
+      </>
     );
   }
   const url = `https://www.service-public.fr/${change.type}/vosdroits/${change.id}`;
   return (
-    <a
-      target="_blank"
-      aria-label={`${change.title} (nouvelle fenêtre)`}
-      rel="noreferrer noopener"
-      href={url}
-    >
-      {change.title}
-    </a>
+    <>
+      <a
+        target="_blank"
+        aria-label={`${change.title} (nouvelle fenêtre)`}
+        rel="noreferrer noopener"
+        href={url}
+      >
+        {change.title}
+      </a>
+      {linkedDocuments.length > 0 && (
+        <Box
+          sx={{
+            color: "muted",
+            fontSize: "xsmall",
+            lineHeight: 1,
+          }}
+        >
+          Contenus liés : {jsxJoin(linkedDocuments, ", ")}
+        </Box>
+      )}
+    </>
   );
 }
 
