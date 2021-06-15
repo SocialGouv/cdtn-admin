@@ -1,9 +1,9 @@
 {
   "name": "ingester",
-  "version": "1.3.7",
+  "version": "1.4.0",
   "dependencies": {
-    "@shared/graphql-client": "^1.3.7",
-    "@shared/id-generator": "^1.3.7",
+    "@shared/graphql-client": "^1.4.0",
+    "@shared/id-generator": "^1.4.0",
     "@socialgouv/cdtn-slugify": "^4.45.0",
     "@socialgouv/cdtn-sources": "^4.45.0",
     "get-uri": "^3.0.2",
