@@ -13,12 +13,12 @@ const job = restoreContainerJob({
     }),
     new EnvVar({
       name: "DESTINATION_CONTAINER",
-      value: "cdtn-dev",
+      value: "cdtn",
     }),
   ],
   from: "dev",
   project: "cdtn-admin",
-  to: "dev",
+  to: "prod",
 });
 job.metadata!.name = `restore-container-${GITLAB_LIKE_ENVIRONMENT_SLUG}`;
 job.metadata!.labels = gitlabEnv.labels || {};
