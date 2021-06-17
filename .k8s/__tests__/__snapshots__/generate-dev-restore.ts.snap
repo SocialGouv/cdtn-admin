@@ -8,7 +8,7 @@ metadata:
   name: restore-container-master
   namespace: cdtn-admin-secret
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -204,7 +204,7 @@ metadata:
   name: post-restore-script-configmap-0123456
   namespace: cdtn-admin-secret
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -216,7 +216,7 @@ metadata:
   name: restore-db-master
   namespace: cdtn-admin-secret
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
