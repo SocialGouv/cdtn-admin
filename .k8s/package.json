@@ -23,7 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/plugin-transform-modules-commonjs": "^7.14.5",
-    "@socialgouv/eslint-config-typescript": "^1.70.0",
+    "@socialgouv/eslint-config-typescript": "^1.75.0",
     "@types/jest": "^26.0.23",
     "dotenv": "^10.0.0",
     "jest": "^27.0.4",

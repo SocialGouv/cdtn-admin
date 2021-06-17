@@ -19,12 +19,12 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.15",
+    "@babel/core": "^7.13.16",
     "@babel/plugin-transform-modules-commonjs": "^7.13.8",
     "@babel/preset-typescript": "^7.13.0",
     "@socialgouv/eslint-config-typescript": "^1.70.0",
-    "@tsconfig/node14": "^1.0.0",
-    "@types/jest": "^26.0.22",
+    "@tsconfig/node14": "^1.0.1",
+    "@types/jest": "^26.0.23",
     "@types/std-mocks": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "eslint": "^7.23.0",

@@ -27,8 +27,8 @@
     "unified": "^9.2.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.13.14",
-    "@babel/core": "^7.13.15",
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.13.16",
     "@babel/plugin-transform-modules-commonjs": "^7.13.8",
     "@socialgouv/eslint-config-recommended": "^1.70.0",
     "@socialgouv/kali-data-types": "^2.58.0",
