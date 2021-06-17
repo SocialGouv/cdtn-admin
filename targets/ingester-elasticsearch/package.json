@@ -1,12 +1,12 @@
 {
   "name": "ingester-es",
   "description": "SocialGouv - Code du travail numerique - Target - Ingester Elasticsearch",
-  "version": "1.1.4",
+  "version": "1.4.0",
   "dependencies": {
-    "@shared/elasticsearch-document-adapter": "^1.1.4"
+    "@shared/elasticsearch-document-adapter": "^1.4.0"
   },
   "devDependencies": {
-    "@socialgouv/eslint-config-typescript": "^1.64.0",
+    "@socialgouv/eslint-config-typescript": "^1.70.0",
     "@tsconfig/node14": "^1.0.0",
     "@types/node": "^14.14.37",
     "@vercel/ncc": "^0.28.3",
@@ -21,7 +21,7 @@
     "build": "ncc build ./src/cli.ts -o ./bin -s",
     "slugchecker-cli": "ncc run ./src/slug-checker.ts",
     "lint": "eslint src",
-    "prepush": "yarn build",
+    "prepush": "yarn build && yarn lint && yarn test",
     "precommit": "lint-staged",
     "start": "node --enable-source-maps --unhandled-rejections=strict bin/index.js",
     "start:dev": "ncc run ./src/cli.ts",
@@ -30,7 +30,7 @@
   },
   "lint-staged": {
     "src/**": [
-      "yarn lint --fix"
+      "yarn lint --cache --fix"
     ]
   }
 }

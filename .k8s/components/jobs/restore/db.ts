@@ -1,19 +1,19 @@
 //
 
+import { getDefaultPgParams } from "@socialgouv/kosko-charts/components/azure-pg";
+import { getDevDatabaseParameters } from "@socialgouv/kosko-charts/components/azure-pg/params";
 import { restoreDbJob } from "@socialgouv/kosko-charts/components/azure-pg/restore-db.job";
+import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 import { ok } from "assert";
 import fs from "fs";
-import { EnvVar } from "kubernetes-models/v1/EnvVar";
-import { Job } from "kubernetes-models/batch/v1/Job";
+import { Job } from "kubernetes-models/batch/v1";
+import { EnvVar } from "kubernetes-models/v1";
 import path from "path";
 import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../../../utils/GITLAB_LIKE_ENVIRONMENT_SLUG";
 import {
   PG_ENVIRONMENT_SLUG,
   PREPROD_PG_ENVIRONMENT,
 } from "../../../utils/PG_ENVIRONMENT_SLUG";
-import { getDevDatabaseParameters } from "@socialgouv/kosko-charts/components/azure-pg/params";
-import { getDefaultPgParams } from "@socialgouv/kosko-charts/components/azure-pg";
-import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 
 const suffix = PG_ENVIRONMENT_SLUG;
 const pgParams =

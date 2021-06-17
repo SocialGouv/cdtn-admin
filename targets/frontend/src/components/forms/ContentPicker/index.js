@@ -5,13 +5,14 @@ import { ContentSearch } from "./ContentSearch";
 import { SortableList } from "./SortableList";
 
 const ContentPicker = ({ defaultValue, disabled, ...props }) => {
+  console.log({ defaultValue });
   return (
     <Controller
       {...props}
       defaultValue={defaultValue}
       // eslint-disable-next-line no-unused-vars
-      render={({ ref, ...props }) => (
-        <RootContentPicker disabled={disabled} {...props} />
+      render={({ field }) => (
+        <RootContentPicker disabled={disabled} {...field} />
       )}
     />
   );

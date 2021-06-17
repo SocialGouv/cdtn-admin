@@ -9,8 +9,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -30,8 +30,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -54,8 +54,8 @@ spec:
       name: ingester-elasticsearch-to-preprod
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       labels:
@@ -70,8 +70,8 @@ kind: Job
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     kapp.k14s.io/update-strategy: fallback-on-replace
@@ -89,8 +89,8 @@ spec:
       name: ingester-elasticsearch-preprod
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         kapp.k14s.io/deploy-logs: for-new-or-existing
@@ -103,7 +103,7 @@ spec:
       containers:
         - name: ingester-elasticsearch-target-preprod
           image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester-elasticsearch:1.2.3
+            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester-elasticsearch:1.2.3
           imagePullPolicy: IfNotPresent
           resources:
             limits:
@@ -134,8 +134,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -155,8 +155,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -180,8 +180,8 @@ spec:
       namespace: cdtn-admin
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       labels:
@@ -196,8 +196,8 @@ kind: Job
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     kapp.k14s.io/update-strategy: fallback-on-replace
@@ -215,8 +215,8 @@ spec:
       name: ingester-elasticsearch-prod
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         kapp.k14s.io/deploy-logs: for-new-or-existing
@@ -229,7 +229,7 @@ spec:
       containers:
         - name: ingester-elasticsearch-target-prod
           image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester-elasticsearch:1.2.3
+            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester-elasticsearch:1.2.3
           imagePullPolicy: IfNotPresent
           resources:
             limits:

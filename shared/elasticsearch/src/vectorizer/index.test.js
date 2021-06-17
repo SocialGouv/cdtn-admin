@@ -30,8 +30,8 @@ test(
 test(
   "Should fail when no content passed",
   async () => {
-    await vectorizeQuery().catch((e) =>
-      expect(e).toEqual(new Error("Cannot vectorize empty query."))
+    await expect(vectorizeQuery()).rejects.toThrow(
+      new Error("Cannot vectorize empty query.")
     );
   },
   timeout

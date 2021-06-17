@@ -62,9 +62,8 @@ export function ReferenceBlocks({ control, name, register, errors }) {
                     {JURIDIQUES_LABEL}
                     <Radio
                       sx={{ ml: "xxsmall" }}
-                      name={`${name}.${index}.label`}
                       value={JURIDIQUES_LABEL}
-                      ref={register({
+                      {...register(`${name}.${index}.label`, {
                         required: {
                           message: "Il faut choisir un type de références",
                           value: true,
@@ -85,9 +84,8 @@ export function ReferenceBlocks({ control, name, register, errors }) {
                     {USEFUL_LINKS_LABEL}
                     <Radio
                       sx={{ ml: "xxsmall" }}
-                      name={`${name}?${index}.label`}
                       value={USEFUL_LINKS_LABEL}
-                      ref={register({
+                      {...register(`${name}.${index}.label`, {
                         required: {
                           message: "Il faut choisir un type de références",
                           value: true,

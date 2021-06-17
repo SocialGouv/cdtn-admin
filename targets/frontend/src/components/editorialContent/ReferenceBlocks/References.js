@@ -31,9 +31,8 @@ export const References = ({ control, nestName, register, errors }) => {
             <Field
               type="text"
               label="Label"
-              name={`${nestName}.${index}.title`}
               defaultValue={reference.title}
-              ref={register({
+              {...register(`${nestName}.${index}.title`, {
                 required: {
                   message: "La référence doit avoir un label",
                   value: true,
@@ -49,9 +48,8 @@ export const References = ({ control, nestName, register, errors }) => {
             <Field
               type="text"
               label="URL"
-              name={`${nestName}.${index}.url`}
               defaultValue={reference.url}
-              ref={register({
+              {...register(`${nestName}.${index}.url`, {
                 required: {
                   message: "La référence doit avoir une url",
                   value: true,

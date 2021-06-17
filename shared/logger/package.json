@@ -1,7 +1,7 @@
 {
   "name": "@socialgouv/cdtn-logger",
   "description": "SocialGouv - Code du travail numerique - Infrastructure - Logger",
-  "version": "1.1.4",
+  "version": "1.4.0",
   "babel": {
     "env": {
       "test": {
@@ -22,7 +22,7 @@
     "@babel/core": "^7.13.15",
     "@babel/plugin-transform-modules-commonjs": "^7.13.8",
     "@babel/preset-typescript": "^7.13.0",
-    "@socialgouv/eslint-config-typescript": "^1.64.0",
+    "@socialgouv/eslint-config-typescript": "^1.70.0",
     "@tsconfig/node14": "^1.0.0",
     "@types/jest": "^26.0.22",
     "@types/std-mocks": "^1.0.0",
@@ -48,14 +48,14 @@
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint src",
     "lint:fix": "yarn lint --fix",
-    "prepush": "yarn build && yarn lint && yarn test",
+    "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "precommit": "lint-staged",
     "test": "jest",
     "watch": "yarn build --watch --preserveWatchOutput"
   },
   "lint-staged": {
     "src/**": [
-      "yarn lint --fix",
+      "yarn lint --cache --fix",
       "yarn test --bail --findRelatedTests"
     ]
   },

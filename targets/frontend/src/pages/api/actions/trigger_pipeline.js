@@ -7,10 +7,11 @@ const gitlabTriggerNames = {
   prod: "UPDATE_PROD",
 };
 
-export default async function (req, res) {
+export default async function triggerPipeline(req, res) {
   const apiError = createErrorFor(res);
 
   if (req.method === "GET") {
+    console.error("[triggerPipeline] GET method not allowed");
     res.setHeader("Allow", ["POST"]);
     return apiError(Boom.methodNotAllowed("GET method not allowed"));
   }
@@ -18,15 +19,16 @@ export default async function (req, res) {
   const gitlabTriggerName = gitlabTriggerNames[env];
 
   if (!gitlabTriggerName) {
-    res.setHeader("Allow", ["POST"]);
+    console.error("[triggerPipeline] Invalid secret token");
     return apiError(Boom.badRequest("env not allowed"));
   }
 
   try {
     await triggerDeploy(gitlabTriggerName);
+    console.log(`[actions] trigger deploy pipeline ${env}`);
     res.status(200).json({ message: "ok" });
   } catch (error) {
-    console.error(`[actions] trigger pipeline failed, error`, error);
-    apiError(res, Boom.serverUnavailable(`[actions] can't trigger pipeline`));
+    console.error(`[actions] trigger deploy pipeline ${env}`, error);
+    apiError(Boom.badGateway(`[actions] can't trigger pipeline ${env}`));
   }
 }

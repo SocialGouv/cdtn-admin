@@ -12,29 +12,29 @@ metadata:
     git/remote: >-
       https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/cdtn-admin.git
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
     azure-pg-admin-user: cdtn-admin
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-  name: cdtn-admin-85-master-dev2
+  name: cdtn-admin-85-master-dev42
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: alert
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -49,14 +49,14 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   name: alert
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -70,13 +70,13 @@ spec:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       name: alert
       labels:
-        application: master-dev2-cdtn-admin
+        application: master-dev42-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -88,18 +88,18 @@ kind: CronJob
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
     app: alert
   name: alert
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
 spec:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
@@ -112,13 +112,13 @@ spec:
         metadata:
           annotations:
             app.gitlab.com/app: socialgouv-cdtn-admin
-            app.gitlab.com/env: master-dev2
-            app.gitlab.com/env.name: master-dev2
+            app.gitlab.com/env: master-dev42
+            app.gitlab.com/env.name: master-dev42
             kapp.k14s.io/disable-default-ownership-label-rules: ''
             kapp.k14s.io/disable-default-label-scoping-rules: ''
             kapp.k14s.io/deploy-logs: for-new-or-existing
           labels:
-            application: master-dev2-cdtn-admin
+            application: master-dev42-cdtn-admin
             owner: cdtn-admin
             team: cdtn-admin
             cert: wildcard
@@ -127,7 +127,7 @@ spec:
           containers:
             - name: update-alert
               image: >-
-                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/alert:0123456789abcdefghijklmnopqrstuvwxyz0123
+                harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-alert-cli:0123456789abcdefghijklmnopqrstuvwxyz0123
               resources:
                 requests:
                   cpu: 1500m
@@ -164,16 +164,16 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
     app: hasura
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
   name: hasura
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
 spec:
   replicas: 1
   selector:
@@ -185,18 +185,18 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
       labels:
         app: hasura
-        application: master-dev2-cdtn-admin
+        application: master-dev42-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
     spec:
       containers:
         - image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/hasura:0123456789abcdefghijklmnopqrstuvwxyz0123
+            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-hasura:0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -245,8 +245,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user-master
-          image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:5.0.1
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.0.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -265,12 +264,12 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   name: hasura
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -283,7 +282,7 @@ spec:
     PUBLICATION_SECRET: >-
       AgAtDPOTr9khd47wV5WPXJaLSj+6Kmh5N/Wt9SJUTmRgn9jp8trclhS5DvZxmfVv/rYRRiDTuPATDR4yMbfvtrO9ABAhmRZFvmU5VbxdtCDrc9qtv5ZJ4dsYIVxyXIad7+CumHkunXYSwgmCqr2bvv5oeWRmTx2x4uwaNzhEKQ4hUzYCyWp9laJHt5mYT/c/IWZu0PaDXJQVWQuep3fJvjtxQw9EZVy+ehGAqyClL7bkqT1KVrVBDfvpPeO97O2e2de49RcdZSCtBTmGDHKg7fwUziBJSSI8ObtUMzWm56223XZXKqrxdChAlWJE05tHsvowa18NadFDjJwVt3RtPp+HguVj+I7PiTJMTjyZpsmHlr767teLYrXAoAVc9MRrGeznvYw4i0DhNFZXfyYghSKnKPW4yfYzNKwX50huCyQethn1TqU6MAYGrWiyx9XsaHy3bNgAO4ru9o8WV7bfyeRRsABMoiubyq9RCxfOXRU3cbWYaiS8aiPxALZRKjhSeQhJ5ufdL700rJWV2nuoxXG8jjR3yw3bpCL6imIrLRIAP1+Wki5I8Qo98dfBBF/nahEWeXdCqCjpImfSLUioKMes2IrH8ragfja+85x06S8717b67qyBqtGeGAfX2JYLDWILoA0k9RdzyIwuakAZkChGoWTUy8aRjC7GJIKCQ5IKZ5FQr0IuVVjj1xoGBh6O/sFsOLF7/sA3hRcvirzcCFvCIwsmHs/q4K1iU7nDR0WE1AUV/uccbP3yzAzv6gqElztn1f/LOpA01b2Wn9YAzi6S65wUXUWx7UAx6YaiiofmnySnseSNfE+8
     ACTIONS_SECRET: >-
-      AgCr1h9TDslB9A7XBvZ7V+n5AAP4WMirKasKXqLOCkS+BPvWU+wdRBA1VfsMuI5PTXYVmhcGDSGuo1ZL84FLZvgo8vZqAj3hD403HG7qiahJ4FFdgbXNv7exBKQ45bky//lMedEZ7O4eBlZRnM1m9XIvaC5AKLtGXTgkemHz6wRo5binDe8CG32kq5KqYJRhsW5/5QjrK9h5f22DGywVQGFGHeG6nHvq8/twgqG8yPESJUbvG7r9Jpj3SxPRBlDfDCFsjtDKxwmsDvwE3pgeSV3Sog72cyC5MIFrB08rAaIpPprR3BsIRSODSNzx4Q3yHkuC6bPBOoWU1u1fznUbxp+YWlYiAdywZXA7vb0yk1+JNyo6rDpHeAIclbnMvZUD9bbhiRY53wUMereEOzLGhREmP/DVm7AdGS+/Wi7wO04bXWDGA7QWMC9VyhNPnLMlCA9p3rHCIM/7adEiVt4RCloOm8ZZ5NyvXqw9ij/+SkbethAYphay0s0qB4TqqYYxbd2Xal+2gLgKuvBfPTMehatibxTwoz5I4bUp2gPNUO+CaeOQWsI4Qw+PcUjIPQ3Xcpqv7rpIVSdRxEzgV/JHI/hBPUfRO1Us/jJSIoUJaT/LiT79RVdp3xcnz2BjiAHmjfIjmRlH1qaJd3g1wlHMxkoxSUArhRunGHPdFXtJNv5qnmyve/r1RNDr27vcjplclKI8jDQmytC64dX4fUyHBm5uee8EPIdUBqoFWcOaiwNNDFvigVjtqOrkGnrXebNDnfrfsenV6u+Q9n/UKWpxaIgw7z3IOvFH8WE4T4kNuqtRzvBA7j6Ag0pGKg==
+      AgCrnvsRqo0y0d2B5jJOSfdsu7zPJ+DmjbS7GVXRYEHOMIi2tLwuuNvZdRk7iBc/DtbCrIA4Wg55gKTUD1XYtzIYcdysovYTDEBl1IcR1/9mSzbYB7XXWrBfsyP36UbNIEah/caigryy0THA4Rulde6yZ71lSIX3nmpXObEdoO3AHfGQtQE948CCwQdA/9SI90bvvCp9aYJ+oGbB4xqipguchUQIFH8UpRxsWywFQo7I6ao/lB6KfxIxdLxfEFOwisFEHWdranEE/ai2QJrzE0Eeo5y0jcp8FMJ2WvWmIVNrg+4mfDK4dzmSozbP06X03FDWLtRmkU3F5M42/aqBRSCw1kU2yuTNjP3DzyIdwOEYRIShzU5A2RaGWzLclkeqjQQFXSXs0Ju3mcaD6C8WWde+A7tFm9pSrx8yp8PkG+7E5DfNsC8jMQnIFDLIqgcFMPF6vnOyb6HS1fW/Aa0O7xD2Oq6Gpx6wyw0GzZ6ZB8IkUp1PMc+bNNR0bY6Rh0PjdjPXuyPFVuZ1zHc9Kpd9pYhNr06ldiOe6ZrtI/GEAUJe2DEtkZYDjVu6A5IdEFIn1mTW/+H5EduxQv6NuVzYudNg2n6/wC2S8637EkyPrgklHS+lCxMr7N9uHPRHJm+tAB5bwds/jZjivHrePv52rVtZxSaPc1AchoORsGqbJks2L3u0Bu7o2sdDtNAj2vyxp39FHpgeMqNbBF21nyohjhXvR7gPWvzBGl1+0au6CJfqEkOzgovbI4hPmUWzXbf0jW6pMcAERiQ04h07ZjqyHYRAXw4J9Gm1GDooxNDdVi7yOu1dI4iKoLwD
   template:
     metadata:
       annotations:
@@ -291,11 +290,11 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
       name: www
       labels:
-        application: master-dev2-cdtn-admin
+        application: master-dev42-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -309,14 +308,14 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
 data:
   API_URL: http://www/api
   PUBLICATION_WEBHOOK_URL: http://www/api/webhooks/publication
@@ -331,7 +330,7 @@ kind: Service
 metadata:
   labels:
     app: hasura
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -340,9 +339,9 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
-  namespace: cdtn-admin-85-master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
+  namespace: cdtn-admin-85-master-dev42
 spec:
   ports:
     - name: http
@@ -356,15 +355,15 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ingester
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -378,18 +377,18 @@ kind: CronJob
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
     app: ingester
   name: ingester
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
 spec:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
@@ -402,13 +401,13 @@ spec:
         metadata:
           annotations:
             app.gitlab.com/app: socialgouv-cdtn-admin
-            app.gitlab.com/env: master-dev2
-            app.gitlab.com/env.name: master-dev2
+            app.gitlab.com/env: master-dev42
+            app.gitlab.com/env.name: master-dev42
             kapp.k14s.io/disable-default-ownership-label-rules: ''
             kapp.k14s.io/disable-default-label-scoping-rules: ''
             kapp.k14s.io/deploy-logs: for-new-or-existing
           labels:
-            application: master-dev2-cdtn-admin
+            application: master-dev42-cdtn-admin
             owner: cdtn-admin
             team: cdtn-admin
             cert: wildcard
@@ -417,7 +416,7 @@ spec:
           containers:
             - name: update-ingester
               image: >-
-                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester:0123456789abcdefghijklmnopqrstuvwxyz0123
+                harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester:0123456789abcdefghijklmnopqrstuvwxyz0123
               resources:
                 requests:
                   cpu: 1500m
@@ -458,14 +457,14 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   name: ingester
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -479,13 +478,13 @@ spec:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       name: ingester
       labels:
-        application: master-dev2-cdtn-admin
+        application: master-dev42-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -497,18 +496,18 @@ kind: PersistentVolumeClaim
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
     app: ingester
   name: ingester
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
 spec:
   accessModes:
     - ReadWriteOnce
@@ -520,7 +519,7 @@ spec:
 apiVersion: batch/v1
 kind: Job
 spec:
-  backoffLimit: 0
+  backoffLimit: 5
   template:
     spec:
       containers:
@@ -538,8 +537,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user
-          image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/azure-db:2.6.1
+          image: ghcr.io/socialgouv/docker/azure-db:6.0.1
           imagePullPolicy: IfNotPresent
           name: create-db-user
           resources:
@@ -553,10 +551,10 @@ spec:
     metadata:
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
       labels:
-        application: master-dev2-cdtn-admin
+        application: master-dev42-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -564,15 +562,15 @@ spec:
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
   name: create-db-job-master
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
 ---
 apiVersion: v1
 kind: Secret
@@ -593,15 +591,15 @@ stringData:
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
   name: azure-pg-user-master
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -610,16 +608,16 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
     app: www
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
   name: www
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
 spec:
   replicas: 1
   selector:
@@ -631,18 +629,18 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
       labels:
         app: www
-        application: master-dev2-cdtn-admin
+        application: master-dev42-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
     spec:
       containers:
         - image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/www:0123456789abcdefghijklmnopqrstuvwxyz0123
+            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-frontend:0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -681,7 +679,7 @@ spec:
             - name: COMMIT
               value: 0123456789abcdefghijklmnopqrstuvwxyz0123
             - name: FRONTEND_HOST
-              value: https://master-dev2-cdtn-admin.dev2.fabrique.social.gouv.fr
+              value: https://master-dev42-cdtn-admin.dev42.fabrique.social.gouv.fr
             - name: VERSION
               value: master
           envFrom:
@@ -698,12 +696,12 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   name: www
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -724,7 +722,7 @@ spec:
     PUBLICATION_SECRET: >-
       AgAtDPOTr9khd47wV5WPXJaLSj+6Kmh5N/Wt9SJUTmRgn9jp8trclhS5DvZxmfVv/rYRRiDTuPATDR4yMbfvtrO9ABAhmRZFvmU5VbxdtCDrc9qtv5ZJ4dsYIVxyXIad7+CumHkunXYSwgmCqr2bvv5oeWRmTx2x4uwaNzhEKQ4hUzYCyWp9laJHt5mYT/c/IWZu0PaDXJQVWQuep3fJvjtxQw9EZVy+ehGAqyClL7bkqT1KVrVBDfvpPeO97O2e2de49RcdZSCtBTmGDHKg7fwUziBJSSI8ObtUMzWm56223XZXKqrxdChAlWJE05tHsvowa18NadFDjJwVt3RtPp+HguVj+I7PiTJMTjyZpsmHlr767teLYrXAoAVc9MRrGeznvYw4i0DhNFZXfyYghSKnKPW4yfYzNKwX50huCyQethn1TqU6MAYGrWiyx9XsaHy3bNgAO4ru9o8WV7bfyeRRsABMoiubyq9RCxfOXRU3cbWYaiS8aiPxALZRKjhSeQhJ5ufdL700rJWV2nuoxXG8jjR3yw3bpCL6imIrLRIAP1+Wki5I8Qo98dfBBF/nahEWeXdCqCjpImfSLUioKMes2IrH8ragfja+85x06S8717b67qyBqtGeGAfX2JYLDWILoA0k9RdzyIwuakAZkChGoWTUy8aRjC7GJIKCQ5IKZ5FQr0IuVVjj1xoGBh6O/sFsOLF7/sA3hRcvirzcCFvCIwsmHs/q4K1iU7nDR0WE1AUV/uccbP3yzAzv6gqElztn1f/LOpA01b2Wn9YAzi6S65wUXUWx7UAx6YaiiofmnySnseSNfE+8
     ACTIONS_SECRET: >-
-      AgCr1h9TDslB9A7XBvZ7V+n5AAP4WMirKasKXqLOCkS+BPvWU+wdRBA1VfsMuI5PTXYVmhcGDSGuo1ZL84FLZvgo8vZqAj3hD403HG7qiahJ4FFdgbXNv7exBKQ45bky//lMedEZ7O4eBlZRnM1m9XIvaC5AKLtGXTgkemHz6wRo5binDe8CG32kq5KqYJRhsW5/5QjrK9h5f22DGywVQGFGHeG6nHvq8/twgqG8yPESJUbvG7r9Jpj3SxPRBlDfDCFsjtDKxwmsDvwE3pgeSV3Sog72cyC5MIFrB08rAaIpPprR3BsIRSODSNzx4Q3yHkuC6bPBOoWU1u1fznUbxp+YWlYiAdywZXA7vb0yk1+JNyo6rDpHeAIclbnMvZUD9bbhiRY53wUMereEOzLGhREmP/DVm7AdGS+/Wi7wO04bXWDGA7QWMC9VyhNPnLMlCA9p3rHCIM/7adEiVt4RCloOm8ZZ5NyvXqw9ij/+SkbethAYphay0s0qB4TqqYYxbd2Xal+2gLgKuvBfPTMehatibxTwoz5I4bUp2gPNUO+CaeOQWsI4Qw+PcUjIPQ3Xcpqv7rpIVSdRxEzgV/JHI/hBPUfRO1Us/jJSIoUJaT/LiT79RVdp3xcnz2BjiAHmjfIjmRlH1qaJd3g1wlHMxkoxSUArhRunGHPdFXtJNv5qnmyve/r1RNDr27vcjplclKI8jDQmytC64dX4fUyHBm5uee8EPIdUBqoFWcOaiwNNDFvigVjtqOrkGnrXebNDnfrfsenV6u+Q9n/UKWpxaIgw7z3IOvFH8WE4T4kNuqtRzvBA7j6Ag0pGKg==
+      AgCrnvsRqo0y0d2B5jJOSfdsu7zPJ+DmjbS7GVXRYEHOMIi2tLwuuNvZdRk7iBc/DtbCrIA4Wg55gKTUD1XYtzIYcdysovYTDEBl1IcR1/9mSzbYB7XXWrBfsyP36UbNIEah/caigryy0THA4Rulde6yZ71lSIX3nmpXObEdoO3AHfGQtQE948CCwQdA/9SI90bvvCp9aYJ+oGbB4xqipguchUQIFH8UpRxsWywFQo7I6ao/lB6KfxIxdLxfEFOwisFEHWdranEE/ai2QJrzE0Eeo5y0jcp8FMJ2WvWmIVNrg+4mfDK4dzmSozbP06X03FDWLtRmkU3F5M42/aqBRSCw1kU2yuTNjP3DzyIdwOEYRIShzU5A2RaGWzLclkeqjQQFXSXs0Ju3mcaD6C8WWde+A7tFm9pSrx8yp8PkG+7E5DfNsC8jMQnIFDLIqgcFMPF6vnOyb6HS1fW/Aa0O7xD2Oq6Gpx6wyw0GzZ6ZB8IkUp1PMc+bNNR0bY6Rh0PjdjPXuyPFVuZ1zHc9Kpd9pYhNr06ldiOe6ZrtI/GEAUJe2DEtkZYDjVu6A5IdEFIn1mTW/+H5EduxQv6NuVzYudNg2n6/wC2S8637EkyPrgklHS+lCxMr7N9uHPRHJm+tAB5bwds/jZjivHrePv52rVtZxSaPc1AchoORsGqbJks2L3u0Bu7o2sdDtNAj2vyxp39FHpgeMqNbBF21nyohjhXvR7gPWvzBGl1+0au6CJfqEkOzgovbI4hPmUWzXbf0jW6pMcAERiQ04h07ZjqyHYRAXw4J9Gm1GDooxNDdVi7yOu1dI4iKoLwD
     SMTP_EMAIL_USER: >-
       AgA3OzfISPZpiKp5P3PhpgzY5avfiU54p9oMn60Jn0ebNnj4+GSrXQ52v9OTIrL/WthPZhD9HdjjconiWsWnxXeaHTRkXup3XxLy3yV3L9HLnVbG0vMTsVvfPo2GezqACHu9JLWoq+noa3uzQc/d/lM1s8oxbNtVqWCD4sFPTdJxgPkY1TukvdmjfwA5J8S5iELdfGKT01z/4JyhU2R4zFPSR8w5PSl0Eelob+wP2FxMH+/TLwpbiNfVEY04jAMG3W4dOD7FZC6RCH9LfKSOvjce/E0aGqx5dTycjpKmwtwg5YYhWeA3k5Chwk5EfYE/y0KTEZm+cKo2NdyHFUemepTKVcj+Cvz2gE1KQfOiuvxQ8WyPCmeMiwQ5+ehVeEQeXaqtLQyJt4bOGCmatnXdtbIFfAWEEExMilWcvobIwZt2hQjp+IRKfK5zfo/vTSSdazNApSiEPKgwwfyS/kNE9KVqam/2KaG3pexRn74V9b4CqDByeU84QWdF3RdVP9Itkn8GjXlhOV7Y7mTFNAUJjuHmgUjvOYBk/yg4ZDc7B3ky3hiYAPQuvh5+7+EiOcn4S4/2Ro3oJzy7TSmvgG/iGyakKF1HbpAbMeqlmaqTZ3x0lglZ7gbHLMP5MLdwetJq//vSueI4YaXLfC4ewbvCbUE8z7lxbhu8tnprodL5+aXHzBiInmAc+VizrLltyYAkb7qmaQxNNqBJEx9WgmTJGUipfo5OtQ7ByUiHzPI8/wBuUg==
     SMTP_EMAIL_PASSWORD: >-
@@ -736,11 +734,11 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
       name: www
       labels:
-        application: master-dev2-cdtn-admin
+        application: master-dev42-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -754,14 +752,14 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
 data:
   ACCOUNT_MAIL_SENDER: contact@fabrique.social.gouv.fr
   GITLAB_PROJECT_ID: '136'
@@ -781,7 +779,7 @@ kind: Service
 metadata:
   labels:
     app: www
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -790,9 +788,9 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
-  namespace: cdtn-admin-85-master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
+  namespace: cdtn-admin-85-master-dev42
 spec:
   ports:
     - name: http
@@ -810,19 +808,19 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
     app: www
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
   name: www
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
 spec:
   rules:
-    - host: master-dev2-cdtn-admin.dev2.fabrique.social.gouv.fr
+    - host: master-dev42-cdtn-admin.dev42.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -831,7 +829,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - master-dev2-cdtn-admin.dev2.fabrique.social.gouv.fr
+        - master-dev42-cdtn-admin.dev42.fabrique.social.gouv.fr
       secretName: wildcard-crt
 "
 `;

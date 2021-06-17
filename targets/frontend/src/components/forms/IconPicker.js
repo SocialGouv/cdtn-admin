@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 
-import { icons } from "@socialgouv/react-ui";
+import { icons } from "@socialgouv/cdtn-ui";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
@@ -14,7 +14,7 @@ const IconPicker = ({ defaultValue = null, disabled, ...props }) => {
     <Controller
       {...props}
       defaultValue={defaultValue}
-      render={(props) => <RootIconPicker disabled={disabled} {...props} />}
+      render={({ field }) => <RootIconPicker disabled={disabled} {...field} />}
     />
   );
 };

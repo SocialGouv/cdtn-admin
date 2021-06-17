@@ -75,7 +75,7 @@
 
 🐳 register www:
   extends:
-    - .autodevops_register_image
+    - .base_register_kaniko_stage
     - .cdtn_base_rules
   needs:
     - job: 📦 build www
@@ -83,6 +83,5 @@
   variables:
     CONTEXT: .
     DOCKER_BUILD_ARGS: >-
-      --shm-size 512M
-      -f targets/frontend/Dockerfile
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/www
+      --dockerfile targets/frontend/Dockerfile
+    IMAGE_NAME: cdtn-admin-frontend

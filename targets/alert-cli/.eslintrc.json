@@ -1,8 +1,0 @@
-{
-  "extends": ["@socialgouv/eslint-config-recommended"],
-  "settings": {
-    "jest": {
-      "version": 26
-    }
-  }
-}

@@ -9,8 +9,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -21,7 +21,7 @@ metadata:
 data:
   NODE_ENV: production
   HASURA_GRAPHQL_ENDPOINT: http://hasura/v1/graphql
-  CONTRIBUTIONS_ENPOINT: https://contributions-api.codedutravail.fabrique.social.gouv.fr
+  CONTRIBUTIONS_ENDPOINT: https://contributions-api.codedutravail.fabrique.social.gouv.fr
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -30,8 +30,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -42,15 +42,15 @@ metadata:
 spec:
   encryptedData:
     HASURA_GRAPHQL_ADMIN_SECRET: >-
-      AgCPdglRKmR8DwgPEi8QpwxuT08iIdXKwBv6rc7Yea7bkAIh9j/E0+5mE8Nujsj30AQzKjanXNkK3YZHuyAAY5bhdFV1RJo75jcFFK9pcjzpBuzDazsnfZTsUI4Par8LQ+3A4U/hOj6JRKSPMbYRnIwkZHzaTUeFNZVOuSD1NUDCr7jHx2gHJBP1AjtiTTHMUKMfImZqHB4WkBQZPj4gQzsZfY6jXclttt3Gdgh1dFsx1EljpoBFvJ4Npogm9uTHWMycOCB/OUNUwHyTsfJoykec+07kSvigdClspyYjDWn6LCnaMXVpsagYaMI0hwQFud+LFdWw0g0QCvyqFScV7HzWCL9YP1j2/Aj7sA1vIpYZQwAPQFIQ6+LcVr6vnG2Sqp+3OgijphmmYUT4iQDNSjmv9Y63dM9p8uq4lTR6LW8rH7IobROstxU3S6F2jVY42XHK1w7yRes3dUab9If5E5k1HkWKOBt99LcDtRfz7f9V42FiAJEQ7DSoVF1tBzRTMFfTRIV65SFl1dVPOtW7l3In4945umVWk2T0cMlsYp/dCIGlTWs2rja4JXhO2CQfAA5URfH03ZlsQw2voNiy8XhmBHmlnPDTJpDGD7dbFi2VTRbaxMQfE8NO4LPmN3ndY8pG5iOmNJ1VdxW905qAWAtWUJWDrb0uhInv3+LgSN/1mwA/zDmI0KO5OYgptoVjYtYAmPnZjr/vTQ2UW3TeK47tWd6KoQ==
+      AgBGrbjFq73mrMjc9iUQdH0LMuUl0SqBHOsDn/UcMDj7e8Gmu/SzPAwEjrPMj9KWp7O+FlH/54bSj/lBqcubdYfAhTTDmcU9fgtaVQ5ZmJwFr8ZYkDjnwBWLFOFd/0nLBXiMVIh7ykOUTHMDC0K+SxhmkgpPxS6nZI89iVMnIzkxkq6nok/iA2W9FUTer1vKbwEJKb3gxiO/ot90LLqhhSpurELbq1CQbHvh4Z25u4Nw0cmYr10tXjguLV0KM3VJWGP7I8wQUeaiWonqxqt1+qKEBcGQ+wh1Zel2Dmne8qBJv/YJhv4GNLz/rqfzwVVz7/eL22u0VMk02fzb6Ep87+n9+qcMluOLUQ5QCq2PY40b6V3yIVmRfcfzqBAMlKbRlhQ+OSV7zA2jsRVEpiTCwmpsSMz7Txm5pGy5NnwyqsAwOSDBc8bK53IU1dxgA7Jdm+Fp18q5BAsmrPSr1rWQre0QYJGgJlFK01joDTLXSwAyFm4noyO+y8yioe0O6UhFtUmx/On2/uZF2bYRMZ+xIOpRfEouhyMHlzJpNDFmYM0E6I2rea+BVa7Amjyz3N5u8zFlhr01lb5WV+jfE5xcdGOJP5FBYnAgK/CKCSFYyZNFsPp0xxzOBdY1O1wOp5x5Mo8dgu+GrM1fB0vOPAox0NtrpN4zGbcqCu/H0azmElq6ApHwYb/LbILobZpNT89XVv6ziM5nB2H2TNt7nBiZL30pCEdeVSD6PpkyMwXCp+vPIA==
   template:
     metadata:
       name: alert
       namespace: cdtn-admin
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       labels:
@@ -65,8 +65,8 @@ kind: CronJob
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -88,8 +88,8 @@ spec:
         metadata:
           annotations:
             app.gitlab.com/app: socialgouv-cdtn-admin
-            app.gitlab.com/env: prod2
-            app.gitlab.com/env.name: prod2
+            app.gitlab.com/env: prod
+            app.gitlab.com/env.name: prod
             kapp.k14s.io/disable-default-ownership-label-rules: ''
             kapp.k14s.io/disable-default-label-scoping-rules: ''
             kapp.k14s.io/deploy-logs: for-new-or-existing
@@ -101,8 +101,7 @@ spec:
         spec:
           containers:
             - name: update-alert
-              image: >-
-                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/alert:1.2.3
+              image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-alert-cli:1.2.3
               resources:
                 requests:
                   cpu: 1500m
@@ -141,8 +140,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   labels:
     app: hasura
     application: cdtn-admin
@@ -161,8 +160,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
       labels:
         app: hasura
         application: cdtn-admin
@@ -170,8 +169,7 @@ spec:
         team: cdtn-admin
     spec:
       containers:
-        - image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/hasura:1.2.3
+        - image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-hasura:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -220,8 +218,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:5.0.1
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.0.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -241,8 +238,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   labels:
     application: cdtn-admin
     owner: cdtn-admin
@@ -250,7 +247,7 @@ metadata:
 spec:
   encryptedData:
     HASURA_GRAPHQL_ADMIN_SECRET: >-
-      AgAI5tfIU/mtLMG5nNxrizpigh79u5jtg4zYcu8P1I2xSSL1Rm5ErjpIWL7yiS6l0LTUwZb/a8e3Y4ioouUmw8U5JLm4ZTiz499Q/1OtlFI9i2BGKo/apygl3GsAS94OEUwzsU27sh179Jxrs9m2ymstcYsjiLH5DcZm9U160EfHHqeRIDT/XYY6S4niJiKznZWQqjsJ8u+ozMgOLnWJtZavtvdcjQz2RcnYgEG8BSc/3bTRrh9CqX1KB7amvJuwOlkFf8waddbud5ZbC7oi1SskUGV05RGNSbTdG+PSQmxnJD3xlvhkEojvynbkwUOR+BwiWtVHzjXx8oUIQbk0+U8JkRA6iIgnYGeyv//6MsZsZTeh3JqbCnzBBxB7NIk8dwQ3gP2TuqmEmNz9mV02ky7uGCY3OH/bwAH/iRD5MMoWgvya26jpxp2R0RJf15Ybo15rCC6jf7OIcXDFJnqclrn02WSdQ28wws0GCJ7BSWp1a6qy40h2PfgjavolgMJl9A6YN8O6nevPW6/WVNesXAbWYTtNDz8oPnHIzHuRLdra799pW5jiJXJMsQ5c7UW4A/+Bc00AjjrZsK7jJqLzVrud943T2eONGb7K7/bb6ggncwMc7PRoPxPVIgjfkzrR711STmzSZTkucY7A5M+8bMNyF40xuKezq6G6RFr4RombOw7Mdnxvemhw7JnJETWk4mZBUmk5fMjNZcx6wmPxjmQ42RAn2Q==
+      AgCBwYHiCiPMR+dUTXw91g9in4wbRwKd4hdfKGEvciO2g7632jlh4G7q9p9Uv4oFqhbVmONSPgKfO6Pl75tOfq+qBRwXniWNQ3mFMGICAt1W0QNYYSBvBSq8PpQ/UpN57zA6LsXiAKo2cBPLvFmyHrrIl2dhhwxCNz0pfrQJeB5mZojIjD9qWBkkdInkIp9Ic9o6kuC8V7XuiiRDwqrRShvhZcc6/pPqxI5PN7Qv06G2q6mcHWelFJJc9PzLqR9CnSfMVM5DWzVZYk192KSATkV3jKNLY1F9ZqM/izGC6IwJq5WQmS5KbEw1Xvmnf+oeldk7TV2G42vUc7INTwRwHq/1V6obllUOMD9RRKYjBm2c64//EWS4hbKLf/kF28qjBkZQTYr7ToYfcH4etBdGHUP5hZ6+nxHV3S9qsfq/QXMTaOua1dKtDOBYNA2CG8aTdlpPT8ZKyH9K+Sf/J5i8/lwFl8ExBN4sdxElUKcl8qLwQmDp5DU5StU07swqsmc0MDLog6xrbhy4Hw4DCEp98i1e+PxCvn3pBkWsYC4d9lS5ZNx2m8d6BLo3jcDDJC8gE0mGhbYauqXy8BVEfjlxja4V8k6va4VKFBLePR6h3zldqNmI/EDc8NOOL8ApK7q5QpB3e/tasKc3ZnJn4o+RYq1kg+AgbwUKDR6JdwetnAY9VrFS5bOoFRo1VXAZIZ6zuIV6+NP0Vc9TuNX7gPgzm9EG5AbFF4d02wrhEOESuWnwlQ==
     HASURA_GRAPHQL_JWT_SECRET: >-
       AgBsyXBoL2VRo5DZ3mwg7XtRm+HvPMVs8xxcL8OHaHsiAeTkIbLnBShtgOIwOYTWmoGjLQTBnPdrbKOzqzZNZVdZojPqZeFuxo/Y0E72rnEQQWTFCmQ7wwJxtWnMaBBukqQqMjhqBD1octAR+B5693dLRRd4bgjVSOY57CwNh15S2bXLNNqXPbmQMhlM/8xWEPFTAWs/9CT7ARnUgOEPThQ3RrFKXyJvCByVVz75Ly1EEeVHucfN5PngsN13Y5P3qDSOSBhbfn6+zZqSrvfboMVF4lACwKYoTulUkQFTboxuHv1dsepqA0y7fntcOAnoVDwe8CryMUX4+vJb/ikKfFhkl1h+NyTRPzjbsghxEWvz5jsnaLeJGZl9yvkZoVpIpxfQFIE1ATORgfWiB4qs31bbl24EH8m3sTMsBzC4Ssjy8/5zd7hDP+mmT8IUIaoCNf8CCGONPpw9RzgbX2xdEhEKyR8DMjFEPH05F8lamHcj4u8z1w7pjRL1hzfu4IZSnawwJ7AYqClLH4Gfcvw9WdPTUazB4/A6/xAM0gKMCuueNYfegHmWReD/Xs2pMly14x7tzfT/h/b9N0+7diJ6KkieO6VFxc7kDhTUZZWZtcsmfigO4wFDXINZNJX/dSKGj8YO2pp8HvsMcTEL+EVE74ZRLCH2bq7GwATTxInRJpkAUBTYmeI8XtbHF6cEg+bignl90CFfmwdSrD+adSD1v7nHpWvysOkfFDu7rotthvlE8HpFKReaomoyiAybPUPABC2ftMOzLpD/iSgmVA4YrU9VJKxkOrMrjF8VnvG+bkTEBrqnRg1T8fL4zvzj1XB1g5ZVVry8UGeA+s9uJTze/iF6BmccHw==
     PUBLICATION_SECRET: >-
@@ -271,8 +268,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   labels:
     application: cdtn-admin
     owner: cdtn-admin
@@ -300,8 +297,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   namespace: cdtn-admin
 spec:
   ports:
@@ -319,8 +316,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -337,8 +334,8 @@ kind: CronJob
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -360,8 +357,8 @@ spec:
         metadata:
           annotations:
             app.gitlab.com/app: socialgouv-cdtn-admin
-            app.gitlab.com/env: prod2
-            app.gitlab.com/env.name: prod2
+            app.gitlab.com/env: prod
+            app.gitlab.com/env.name: prod
             kapp.k14s.io/disable-default-ownership-label-rules: ''
             kapp.k14s.io/disable-default-label-scoping-rules: ''
             kapp.k14s.io/deploy-logs: for-new-or-existing
@@ -373,8 +370,7 @@ spec:
         spec:
           containers:
             - name: update-ingester
-              image: >-
-                registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester:1.2.3
+              image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester:1.2.3
               resources:
                 requests:
                   cpu: 1500m
@@ -418,8 +414,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -430,7 +426,7 @@ metadata:
 spec:
   encryptedData:
     HASURA_GRAPHQL_ADMIN_SECRET: >-
-      AgAeU8hGYy7PAuMCLGVEIrt58hEho0yzO7XGa3jKOZDRv3dSJD8ryPzjbqsxhUfJDR5OEqj/PwBgBL8Nl/H/a/fPwIrsv3NqcVJJSq0HfiBe5sqJFYwWmA+Bf4y1XNibXygNnDfua3EOdgdSSoLAoksNH8YqHAKcg9iJFXCxDcwIJaL8XGZA6RNfR/SSn8ee05Nit3L5UbMMRYiSRjvw4Svi7svXgJwhSgUUAEnMO57yjcycmPXc3z+KqnmdNwUT22uvrSERqhFSWCK6A4LChm6r8IrIIfH5H09K0Aa8XWfKIoaKtsPgCjo3n3GW+X49IRxG7RGe8PgSzdMmsUj0iv4XaY9okzfQ5PRB9Dme/EDNuC1Nm5pmOtNPAfZwpiqqYg/CYAaikha2rwdmlVouged4czngFiAuOjfQA637apnGlVducE9EFOsOOoHbfl6AS7zjUgG11Zo8c/b/PHBwcpND/dOfQG6HyhvCUSv6+9CwiEyZf4Fxe7lMn4xnC4Ax+2fXP4YcwngofasekyHSsoaJeAKa3qrzzCxiLRQimsNA5TnM/9hWCZMDtkTFk4j417FTsupAtg+P5uCbSHtvS1DvdQmjq3ZhD4wcA2PiLLdIULRV1wNF1nXCIqmp5Iq3+T4K3zbBgQYtYCUJ0Uej3kM2s8djXV/QsOtBUuw3Ptk5/ymVMGizufzlOW3QHvgLnThM+SRVOxC6taUSJriJhNrpgbEn6w==
+      AgAXpaEn7VvA74TYdnWAv4GgA2nuqDdF4cBDWrd543XFk+cm4xE5jBeMWywrOW7BrEYwFx+GHFerk2pvUIqaZit19NbxiABj0CUq7gBBK8l6INI5a/AcVuB0BU7DrUAz/NwV1RY/c7vcHODSk9XDw8sTz8cqaxlN9KVnZBQsjXJKn27QKRzScs4tSVTSn6/QVJ66/rhGdIpwdzEHbFo1qCV50/0qzjpYk6JTrozPOqFXOeEkGEHUQwnDP7D9+FttmzPN1Crbb+NsA9nwNO+viRJ+WwT3dIAD84LbI9cAWpSse4+dIcq7I9OQ/fFnrDaDO1tZhs3KVsFlfANfyJCb2YGwBBjFGDe+zxNRIb/w5fPGqpgRNoHhTzWHhdQZDFojjK50gDkbY2ze3fiz87s749GdBA5uWHfOsL2m0l2h+XMAmz5lCYMU0y3AcWAIRiVlMsvEoYKVaxRVENYYHfJP3IkScLpkijZTjMlPhyvPHyxfeuo3lEq1HPuvSXQ0NgyJCjulpDYC36oQvCZ4yYXsbXoNaFhO1viEZWCVLc62gdWC4mMqLvRbke/XchOVq4ccnA9N14BBwvxIg5idO6z6XGVrFCRk59899AnM4myBDBxPA9ch8ahRC5gdqNGwuLDnJ2dquLfCqS+bA9oi7WS7Qa4FFdLRfCfxDp8txoyXl2L1MbttSr4F0RG63PM0NJcx3cofiuUsQX4Vn5jOOWH0AImMyn/u39bfOZK80Z5sRKZsVA==
 template:
   metadata:
     name: ingester
@@ -442,8 +438,8 @@ kind: PersistentVolumeClaim
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -468,8 +464,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   labels:
     application: cdtn-admin
     owner: cdtn-admin
@@ -494,8 +490,8 @@ spec:
       namespace: cdtn-admin
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
       labels:
         application: cdtn-admin
         owner: cdtn-admin
@@ -509,8 +505,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   labels:
     app: www
@@ -530,8 +526,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
         nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
       labels:
         app: www
@@ -540,8 +536,7 @@ spec:
         team: cdtn-admin
     spec:
       containers:
-        - image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/www:1.2.3
+        - image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-frontend:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -598,8 +593,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   labels:
     application: cdtn-admin
@@ -614,9 +609,9 @@ spec:
     ELASTICSEARCH_URL: >-
       AgCHaMkqXDXw5e9xDz61s22/ZMAu2I388nWuQqSNI1Yme25sQWxr+BMOfoNZbxNlvMrKeoP8WWYXn0G9OkIExvE+pAOpqtU7wHGdfsAy7bXKgITg4AEHElbL5rpSm7quKv5cOYtZRCASXhWu5jQVf0e00vpsrHd7gIA9B0D61zqvKwhK+ptMDKmxO0hscw+kWey7UsyNVeZ8Tdhb+BksHtJZPApS8zKQi+Y5LNQtd4nBa7ImzrpeNdJylIyzipZ/JlyfyQWOq6m1izbQfwpumTLxfFm1ms1ahU25JkQct0OkSjNV8NKvheZa1I+elfMPXPLbseagtNRn7sPnRIbLTHg8217dWl423t0Q66bQmb4+s9JFjUF5zOZ3hIBsEyf0+RvBhm/dVyS2orkejpNO3kXutTFpSFq3OdUy1JBKH7tP9+elUCSbJ40qAY3uAYDC25HPkwMhJAUppKx1hBJ2y/1LLO42f8d5O+xg0Gb75hInO4vs2NkJYrcONSzUou+wtuSvFQS+77ihBg/42dio6U2cZcPQTs3lnOmB4a5BPqBu/zT02BGtKyF9obhnlyc+r92tO0t8xMZkL8zV/5rEdL9ICgn+1nF+7v2tuR1xOGsgj8yllhXTGhx07FroOzfuf2+j6Sv4V78OdpDBC8Hv64OuUW8sxDQFSDInaWk6hnaSlAf0P/MoXU9xfwpt7uz3e8UI2GJZUe9UTa/z8T56ElPD0ofQ6XvFeUGexIk9UuqhdqkIIkThnqI7NLSj56FaTyp/E6XZ0Ao2iwc5J4BZ9kwOE5KNxvO57szJ3S3DlPJjsA==
     ELASTICSEARCH_TOKEN_UPDATE: >-
-      AgAoIXTpuzrrz7/fD7UQ0ef4hvCcshLceprdW2gUVNbKOui4ElZT6QWKk6YXSzyTbATZFoN5QeVD5s57DPR4+gZO65tElY+YhP1DIL3zRbHWizKB58ncHwMAkXC//LeB4XKXDXhvo8ztTgbqTFuDKmV/bRnIauhJXW0qo+M7ZSEid4VHFrI5WUalUdbN/aBAo7p/XhWyfGqtj+CpTTS8+s2uy/lfBe/E8QrHuhj/5o+4mhejUgw90rdlMJ+lLgmwnmzPsYV1kHZfceVbZlRWzV8sXEIz804VNNMCUtkiR3ewmd/UQqxuWPv8wq2w1gs+sr42DQD5UHQl+i3hhXInbMO39AyLNDDFIN0IbZUgPe6PzTWwtLU7WuKy35THNp7PgEgmuhygzZx295ReFdA1ZdDwDQnwNnQD4OPhTxuwjWgEVbhk/BQqOebWag9RSLZveg8tiHDpDl8gvNecbd8NkekcJTNcvXdVuDcQRJK9T4waFJpjhsKqnV1oZm8XfXKfO2jYRBNn90bV5ZKHgC3z1R8ix/WrA1A+NXcpZyeM4TM0inPtHHqq7ebwYg4DJXIJH5uWETwcmt/wp7aKr7Qibn/fRzmt2Gpssl2NcC2FhpGk7MNFDco0Ezn56PqZYEK265vU/Gl5Ln8Pd+tWXFWyxbW1mLxVBZXO7Ty1aBYK6cpxC8W1gD3sFxO4Icwz+oIhctTap9E861sYSxfbnyn4/s99AsnoHp5fiKLQIh4HOpakm85EHMpz7J0HVbjro7PxrzNN3BxVrLfhiYCvEJQ=
+      AgBZkhSFk9CmmXITjKwrPpcyukCpBZPHiAnZiy7GKHyTGbT7pBjiKP9ZZvItA0yK4fdt8nJYM3yNSmkRCYcuS2MpKsYFyUHV0jtd/GkxLFwe9kjk0yHC/q3MJ0Ug9ySgtoIGam2G9IstvMDyuL2WqHry9sPPWuhgjAT5X7GUCMf0eR5QgxPqp0mZYrczwpzV9/EHfsUyTAbaE9oS07CVTtCSb7r7WJt8M6z8Tx/l8Vp1Tp5B98kGQIY7twiilD9hArZrauCBgbbWefBxdWgjDcKQ1Jr/0Ob1EWQOjpsI+8FzvHjSN45b1pCXLZyCEBK3BcdkUzPCiLyAOM4WbDRKvKEmA0+nQ936RyOi9e0Of2c6I2ilvVxlOWw/G+T4KJ8eD4FDlhAVKEIX6nnUEeARdcqdZL7oBcxhVwKwyZuhr384dfSRRjHvhK5CiamAkw6NO9kNUyDvBmA4x09ZA74XcN2nEiTmQLpxFiQ8rusCsc6UKIIpebc5LrRLMoyh+u4vgwhD5LBl5OXoLfjfDSEF1xLlFzPJIX8yDsmZZKvnPtYJabkbstWF6vJ2pAxvihN/eAojX40zY514lsi8n8QjnMeyvwcAajIqYsH4KdwQ4oqpAwPPspH3RKyIJEIeNvgvh11tKKmxYo5UXqf5ifRwkupct/wn0E+a1Sp185VWwr93nctY1rq3aFXIMpttFN4HfzHktzflQJ2iE/Md2JS0InrSKsFzevoNvz9VbrWgNMfJE5hgvm59qoGPuydtmr18tTZjtV+tNBUEftLz
     HASURA_GRAPHQL_ADMIN_SECRET: >-
-      AgCIUDinIepasKq+R/3zZp9I/C28/KGM9vP52OQ2HauTeIdyRbItRKOqJJFbhPaT5Ujfy0QglhnJiRKxSfluPKJ020Sm4Tg4ftjtW4YDCdCW7+zbrL03aBh4Z91EUuBHi1BnyqWSmUvEOwFgxauYqRQ7jEjEyZfUrYyyegNGcDeWGlJQtp+k5lXNL4cwC3OUipN2fcVxSDRevmXRnABV55FuokkDOtNlLhYf98GhyYAUGrcxrapCB+zrgrbLM3le92F32S12iS/Hdbl4FA4GMXNKEkkeiZ85E5IIOQYJiXOyaawR/2QmbPIK7kbdfs4nI/UUChJzJOGDS64mQHQy5JLmSUqLnHrLeyqN+7Ods5LMaSpGBlKrp4f2xHhtPAVsqZGjY4CdoMAk80FoRfo+aVMCOicHgX2tOgLjLegcMxwTC/vRe9l4TW+IAjAGW6wS7GTwsypXUV+/haVS5FYAkOK1wYitgOSk7cA+cxWp+3p+m2afbSplt98yxsUWp1Dn+vbNFzUc7UuGhglO4GF7xFih942NLJ479NRXrAprLPt9XtkALyoYSKL/izWBYufJo/ZOTUIg5nLI3fsbsc+0IWmMIsxsZAArOLOG4QxZ1/WN4oprp+H3XVSHZhhxutpKsKpotbP7pczN7y+avBW4G4nBa9ud1FN1dZBkJ0UvIZ0WRaGb5/CMTKFTWPQUBZ0YRFLa4e5p/ZiFPEcrVHMwg9RdaRpTIQ==
+      AgCKIL6+JW9CZTmc9525MKy4uU8E+MB7/fsmrL5tpRSb+teAaiUuTL3qgnoQUhf8dz9T9iBxdAJmSEpoy/yLDEgCZtNYynTJ889GbwoMkPQXXn3WpVVoLXHlpVTCnLKfsaeO8rMeOyDP6ICZMiLfLv6vNcSVqw9vkg15iKTf1mNog4dCVpS1cNcOKQgre+5Qs6RsqURggKAQHlg4mmF5UpcB1pZ9qHr9seM1QedDhOnnFyaVJ6aTjeVAdVs72kn8YkS5oIS2l1CotPyWaaXnq6VM0keb2EhCL7oUI/S1k0rTbFrkibIZUUvs6kuGjTGB4bYCgH39/dEekmgnprimgVlBkVm09yV7FZpA4Nq2aiOs28uKboR4C7Z8Q9RU5BixSc6x6FLj3lasxcxziGgRqKA5gRUW42sKjoU/h/zrw35Bai/Ll4S7uMffXTchcoqzu+SsNlef/A6v28TC6gcMWZCeGp6aEK2YLzt5bz6Cr5X6/G6fGuc48OQXPlSJDzBi8ZUdtFQiXVhEDoFJOBsCI4oZ3uPMJ/2fP9rLWcfvpw/gy1DgvytvQT7Qexy0nO2faz/Gna/ozNql39dNhcIiTHl3pXTrmsI52PxH2RH5iVSZWa/jYb8z+wovUKPs64jfmGbr7RYZhuADgyhKnAvqI4agoNvJHXsdq9/KoK3oujPhlkzWWP1cCGWURFErakZSgUGekSVHFoIrvD29QgLgtQb8tcWoSHYl0+RyIUYJEdIpJQ==
     HASURA_GRAPHQL_JWT_SECRET: >-
       AgALXYpLDIWsqwaUfR9uCG7zflX6ywo6iei24wkFkCYFOGqG1HnGO0+fRMbxxu3Cgp+H+IBuut2wCt5Lo6Cvt3MhKofjYWytvg7vw28RZVb+D7gZTLqmkagZzsdqlp4vlDYMJwceT17xxnntC0uKLA3N2v2cR2BRqREe4ABdnqaBxmnhRb/1Wtv+lotCMV+uLm5XghDWpURAt8BVhAZIorLeHJDr0PWO4mtNRMRs2qNuJT7Hj1WF80AU975MWFhKa27j9G77TonETFYlctukOa1GRzmFafrLbdgukoA6m3/5tdps48xmhbZhos6tsGO3xi6TeHRDHiYZcg2Fq6zg0yVHHvPM8HVNxAfdL/Gf4+/Ilyb4kxwGlxfp+OBauzs9ZMNJ5XfoqH8G3lMoqHB3aPL+6RoGq5/RDLrxkvvXqxC5EG/gKpeNIjN0SSVEMyBiMR3xCCy6VBJai4HEsULxKN94MLE48UMyuvCeWdrG7s1zKHHvWix/vKxwEBxUoD1emzSc0sE2JYMh8omibZQClP1fEWeQkjaDq+fGKzN9VFlci9KLDjQ90Pms2WQNQGQHlGgK3gFhcX9hioVT5Y5JYV6qANbBqzmrsh3IXCuISJhJ/BJm0F93nGt/PiuiyEWoUpNqrSvhSqByU2YQ99zKVwF5a593fgyrsWGaA/IDE0R9kKpb/QbxWZB/5xIUf5g3JebBHK6F/tI2Y5F1rf7k0aH40lXc/tsETYKMZWkqPGUNTBh0g1RHxo6oDZtxKknxTmusuSznflLL3qDZDFbeKgqmcwDVDhpUwURYHPTuaTcvGo8tiRJ0yJVUfw+SUK/85RIiTgBLfVO8I/Ie1HCv2eT32Mwa7A==
     PUBLICATION_SECRET: >-
@@ -641,8 +636,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
         nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
       labels:
         application: cdtn-admin
@@ -658,8 +653,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   labels:
     application: cdtn-admin
@@ -695,8 +690,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   namespace: cdtn-admin
 spec:
@@ -718,8 +713,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   labels:
     app: www

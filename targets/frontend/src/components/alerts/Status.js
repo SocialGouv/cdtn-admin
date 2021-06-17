@@ -22,7 +22,6 @@ mutation updateAlertStatus($id:uuid!, $status:String!) {
 export function AlertStatus({ alertId }) {
   const [, executeUpdate] = useMutation(alertMutation);
   function updateStatus(status) {
-    console.log("update status", alertId, status);
     executeUpdate({ id: alertId, status });
   }
   return (

@@ -1,7 +1,10 @@
 include:
   - project: SocialGouv/gitlab-ci-yml
-    file: /base_autodevops.yml
-    ref: v22.0.0
+    file: /base_autodevops.yml 
+    ref: v23.0.1
+  - project: SocialGouv/gitlab-ci-yml
+    file: /base_register_kaniko_stage.yml
+    ref: v23.0.1 
 
   #
   - /shared/logger/.gitlab-ci.yml
@@ -245,4 +248,4 @@ Export storage to prod:
     DESTINATION_CONTAINER: "cdtn"
     DESTINATION_SERVER: "prod"
     # kosko options
-    KOSKO_GENERATE_ARGS: --env prod restore/containers
+    KOSKO_GENERATE_ARGS: --env prod jobs/restore/container

@@ -6,15 +6,15 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ingester-elasticsearch-to-dev
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -30,14 +30,14 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   name: ingester-elasticsearch-to-dev
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -57,13 +57,13 @@ spec:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       name: ingester-elasticsearch-to-dev
       labels:
-        application: master-dev2-cdtn-admin
+        application: master-dev42-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -75,19 +75,19 @@ kind: Job
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     kapp.k14s.io/update-strategy: fallback-on-replace
   labels:
-    application: master-dev2-cdtn-admin
+    application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
     app: ingester-elasticsearch-dev
   name: ingester-elasticsearch-dev
-  namespace: cdtn-admin-85-master-dev2
+  namespace: cdtn-admin-85-master-dev42
 spec:
   backoffLimit: 0
   template:
@@ -95,13 +95,13 @@ spec:
       name: ingester-elasticsearch-dev
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         kapp.k14s.io/deploy-logs: for-new-or-existing
       labels:
-        application: master-dev2-cdtn-admin
+        application: master-dev42-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -110,7 +110,7 @@ spec:
       containers:
         - name: ingester-elasticsearch-target-dev
           image: >-
-            registry.gitlab.factory.social.gouv.fr/socialgouv/cdtn-admin/ingester-elasticsearch:0123456789abcdefghijklmnopqrstuvwxyz0123
+            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester-elasticsearch:0123456789abcdefghijklmnopqrstuvwxyz0123
           imagePullPolicy: IfNotPresent
           resources:
             limits:

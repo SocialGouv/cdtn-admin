@@ -1,9 +1,10 @@
 import type { SourceValues } from "@socialgouv/cdtn-sources";
 import type {
   Answer,
-  Question,
+  BaseRef,
   DilaRef,
   GenericAnswer,
+  Question,
 } from "@socialgouv/contributions-data-types";
 
 export as namespace ingester;
@@ -15,7 +16,7 @@ type Document = {
   source: SourceValues;
   text: string;
   slug: string;
-  is_searchable: Boolean;
+  is_searchable: boolean;
 };
 
 type ExternalDocument = Document & {
@@ -42,7 +43,7 @@ type LegiArticle = ExternalDocument & {
 type FicheServicePublic = ExternalDocument & {
   date: string; //"O1/01/2021"
   raw: string;
-  referencedTexts: ReferencedTexts[];
+  referencedTexts: ServicePublicReferences[];
 };
 
 type FicheTravailEmploi = ExternalDocument & {
@@ -57,14 +58,14 @@ type TravailEmploiSection = {
   html: string;
   text: string;
   description: string;
-  references: LegalReference[];
+  references: TravailEmploiReference[];
 };
 
 type AgreementPage = Document & {
-  num: Number;
-  date_publi?: string;
-  effectif?: Number;
-  mtime?: Number;
+  num: number;
+  publishDate?: string;
+  effectif?: number;
+  mtime?: number;
   shortTitle: string;
   answers: AgreementAnswer[];
   url?: string;
@@ -73,8 +74,8 @@ type AgreementPage = Document & {
 };
 
 type AgreementAnswer = {
-  index: Number;
-  references: DilaRef[];
+  index: number;
+  references: (BaseRef | DilaRef)[];
   slug: string;
   question: string;
   answer: string;
@@ -90,52 +91,13 @@ type AgreementArticleByBlock = {
   }[];
 };
 
-type InternalReference = {
-  title: string;
-  slug: string;
-  type: Exclude<cdtnSources.SourceRoute, "external">;
-};
-
-type ExternalReference = {
-  title: string;
-  url: string;
-  type: "external";
-};
-
-type LegalReference = {
-  id: string;
-  cid: string;
-  title: string;
-  type: "conventions_collectives" | "code_du_travail";
-  url: string;
-  slug: string;
-};
-
-type ReferencedTexts = ExternalReference | InternalReference;
-
 /** Document type */
 type CdtnDocument =
-  | Contribution
-  | LegiArticle
   | AgreementPage
+  | Contribution
   | FicheServicePublic
-  | FicheTravailEmploi;
-
-type referenceResolver = (
-  id: string
-) => (
-  | import("@socialgouv/legi-data-types").CodeSection
-  | import("@socialgouv/legi-data-types").CodeArticle
-  | import("@socialgouv/kali-data").AgreementSection
-  | import("@socialgouv/kali-data").AgreementArticle
-)[];
-
-type KaliArticleHDN = {
-  idcc: number;
-  title: string;
-  id: string;
-  blocks: { [key: string]: string[] };
-};
+  | FicheTravailEmploi
+  | LegiArticle;
 
 // type EditorialDocument = Document & {
 //   date: string
