@@ -12,25 +12,25 @@ metadata:
     git/remote: >-
       https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/cdtn-admin.git
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   labels:
     azure-pg-admin-user: cdtn-admin
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-  name: cdtn-admin-85-preprod-dev2
+  name: cdtn-admin-85-preprod-dev42
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: alert
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -49,12 +49,12 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   name: alert
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
@@ -70,8 +70,8 @@ spec:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: preprod-dev2
-        app.gitlab.com/env.name: preprod-dev2
+        app.gitlab.com/env: preprod-dev42
+        app.gitlab.com/env.name: preprod-dev42
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       name: alert
@@ -88,8 +88,8 @@ kind: CronJob
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -99,7 +99,7 @@ metadata:
     cert: wildcard
     app: alert
   name: alert
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
 spec:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
@@ -112,8 +112,8 @@ spec:
         metadata:
           annotations:
             app.gitlab.com/app: socialgouv-cdtn-admin
-            app.gitlab.com/env: preprod-dev2
-            app.gitlab.com/env.name: preprod-dev2
+            app.gitlab.com/env: preprod-dev42
+            app.gitlab.com/env.name: preprod-dev42
             kapp.k14s.io/disable-default-ownership-label-rules: ''
             kapp.k14s.io/disable-default-label-scoping-rules: ''
             kapp.k14s.io/deploy-logs: for-new-or-existing
@@ -163,8 +163,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   labels:
     app: hasura
     application: v1-2-3-cdtn-admin
@@ -172,7 +172,7 @@ metadata:
     team: cdtn-admin
     cert: wildcard
   name: hasura
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
 spec:
   replicas: 1
   selector:
@@ -184,8 +184,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: preprod-dev2
-        app.gitlab.com/env.name: preprod-dev2
+        app.gitlab.com/env: preprod-dev42
+        app.gitlab.com/env.name: preprod-dev42
       labels:
         app: hasura
         application: v1-2-3-cdtn-admin
@@ -262,10 +262,10 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   name: hasura
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
@@ -288,8 +288,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: preprod-dev2
-        app.gitlab.com/env.name: preprod-dev2
+        app.gitlab.com/env: preprod-dev42
+        app.gitlab.com/env.name: preprod-dev42
       name: www
       labels:
         application: v1-2-3-cdtn-admin
@@ -306,14 +306,14 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
 data:
   API_URL: http://www/api
   PUBLICATION_WEBHOOK_URL: http://www/api/webhooks/publication
@@ -337,9 +337,9 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
-  namespace: cdtn-admin-85-preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
+  namespace: cdtn-admin-85-preprod-dev42
 spec:
   ports:
     - name: http
@@ -353,11 +353,11 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ingester
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -375,8 +375,8 @@ kind: CronJob
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -386,7 +386,7 @@ metadata:
     cert: wildcard
     app: ingester
   name: ingester
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
 spec:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
@@ -399,8 +399,8 @@ spec:
         metadata:
           annotations:
             app.gitlab.com/app: socialgouv-cdtn-admin
-            app.gitlab.com/env: preprod-dev2
-            app.gitlab.com/env.name: preprod-dev2
+            app.gitlab.com/env: preprod-dev42
+            app.gitlab.com/env.name: preprod-dev42
             kapp.k14s.io/disable-default-ownership-label-rules: ''
             kapp.k14s.io/disable-default-label-scoping-rules: ''
             kapp.k14s.io/deploy-logs: for-new-or-existing
@@ -454,12 +454,12 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   name: ingester
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
@@ -475,8 +475,8 @@ spec:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: preprod-dev2
-        app.gitlab.com/env.name: preprod-dev2
+        app.gitlab.com/env: preprod-dev42
+        app.gitlab.com/env.name: preprod-dev42
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       name: ingester
@@ -493,8 +493,8 @@ kind: PersistentVolumeClaim
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -504,7 +504,7 @@ metadata:
     cert: wildcard
     app: ingester
   name: ingester
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
 spec:
   accessModes:
     - ReadWriteOnce
@@ -519,15 +519,15 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   name: azure-pg-user
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
 spec:
   encryptedData:
     DATABASE_URL: >-
@@ -553,8 +553,8 @@ spec:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: preprod-dev2
-        app.gitlab.com/env.name: preprod-dev2
+        app.gitlab.com/env: preprod-dev42
+        app.gitlab.com/env.name: preprod-dev42
       name: azure-pg-user
       labels:
         application: v1-2-3-cdtn-admin
@@ -570,8 +570,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   labels:
     app: www
     application: v1-2-3-cdtn-admin
@@ -579,7 +579,7 @@ metadata:
     team: cdtn-admin
     cert: wildcard
   name: www
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
 spec:
   replicas: 1
   selector:
@@ -591,8 +591,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: preprod-dev2
-        app.gitlab.com/env.name: preprod-dev2
+        app.gitlab.com/env: preprod-dev42
+        app.gitlab.com/env.name: preprod-dev42
       labels:
         app: www
         application: v1-2-3-cdtn-admin
@@ -640,7 +640,7 @@ spec:
             - name: COMMIT
               value: 0123456789abcdefghijklmnopqrstuvwxyz0123
             - name: FRONTEND_HOST
-              value: https://preprod-cdtn-admin.dev2.fabrique.social.gouv.fr
+              value: https://preprod-cdtn-admin.dev42.fabrique.social.gouv.fr
             - name: VERSION
               value: v1.2.3
           envFrom:
@@ -657,10 +657,10 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   name: www
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
@@ -695,8 +695,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: preprod-dev2
-        app.gitlab.com/env.name: preprod-dev2
+        app.gitlab.com/env: preprod-dev42
+        app.gitlab.com/env.name: preprod-dev42
       name: www
       labels:
         application: v1-2-3-cdtn-admin
@@ -713,14 +713,14 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
 data:
   ACCOUNT_MAIL_SENDER: contact@fabrique.social.gouv.fr
   GITLAB_PROJECT_ID: '136'
@@ -749,9 +749,9 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
-  namespace: cdtn-admin-85-preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
+  namespace: cdtn-admin-85-preprod-dev42
 spec:
   ports:
     - name: http
@@ -769,8 +769,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   labels:
     app: www
     application: v1-2-3-cdtn-admin
@@ -778,10 +778,10 @@ metadata:
     team: cdtn-admin
     cert: wildcard
   name: www
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
 spec:
   rules:
-    - host: preprod-cdtn-admin.dev2.fabrique.social.gouv.fr
+    - host: preprod-cdtn-admin.dev42.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -790,14 +790,14 @@ spec:
             path: /
   tls:
     - hosts:
-        - preprod-cdtn-admin.dev2.fabrique.social.gouv.fr
+        - preprod-cdtn-admin.dev42.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: www
-  namespace: cdtn-admin-85-preprod-dev2
+  namespace: cdtn-admin-85-preprod-dev42
 spec:
   maxReplicas: 10
   metrics:

@@ -1,6 +1,6 @@
 import { restoreContainerJob } from "@socialgouv/kosko-charts/components/azure-storage/restore-container.job";
-import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
+import { EnvVar } from "kubernetes-models/v1";
 import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../../../utils/GITLAB_LIKE_ENVIRONMENT_SLUG";
 
 const gitlabEnv = gitlab(process.env);

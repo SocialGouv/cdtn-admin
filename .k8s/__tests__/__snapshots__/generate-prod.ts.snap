@@ -9,8 +9,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -30,8 +30,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -49,8 +49,8 @@ spec:
       namespace: cdtn-admin
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       labels:
@@ -65,8 +65,8 @@ kind: CronJob
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -88,8 +88,8 @@ spec:
         metadata:
           annotations:
             app.gitlab.com/app: socialgouv-cdtn-admin
-            app.gitlab.com/env: prod2
-            app.gitlab.com/env.name: prod2
+            app.gitlab.com/env: prod
+            app.gitlab.com/env.name: prod
             kapp.k14s.io/disable-default-ownership-label-rules: ''
             kapp.k14s.io/disable-default-label-scoping-rules: ''
             kapp.k14s.io/deploy-logs: for-new-or-existing
@@ -140,8 +140,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   labels:
     app: hasura
     application: cdtn-admin
@@ -160,8 +160,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
       labels:
         app: hasura
         application: cdtn-admin
@@ -238,8 +238,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   labels:
     application: cdtn-admin
     owner: cdtn-admin
@@ -268,8 +268,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   labels:
     application: cdtn-admin
     owner: cdtn-admin
@@ -297,8 +297,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   namespace: cdtn-admin
 spec:
   ports:
@@ -316,8 +316,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -334,8 +334,8 @@ kind: CronJob
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -357,8 +357,8 @@ spec:
         metadata:
           annotations:
             app.gitlab.com/app: socialgouv-cdtn-admin
-            app.gitlab.com/env: prod2
-            app.gitlab.com/env.name: prod2
+            app.gitlab.com/env: prod
+            app.gitlab.com/env.name: prod
             kapp.k14s.io/disable-default-ownership-label-rules: ''
             kapp.k14s.io/disable-default-label-scoping-rules: ''
             kapp.k14s.io/deploy-logs: for-new-or-existing
@@ -414,8 +414,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -438,8 +438,8 @@ kind: PersistentVolumeClaim
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -464,8 +464,8 @@ metadata:
   namespace: cdtn-admin
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   labels:
     application: cdtn-admin
     owner: cdtn-admin
@@ -490,8 +490,8 @@ spec:
       namespace: cdtn-admin
       annotations:
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
       labels:
         application: cdtn-admin
         owner: cdtn-admin
@@ -505,8 +505,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   labels:
     app: www
@@ -526,8 +526,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
         nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
       labels:
         app: www
@@ -593,8 +593,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   labels:
     application: cdtn-admin
@@ -636,8 +636,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-cdtn-admin
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
         nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
       labels:
         application: cdtn-admin
@@ -653,8 +653,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   labels:
     application: cdtn-admin
@@ -690,8 +690,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   namespace: cdtn-admin
 spec:
@@ -713,8 +713,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   labels:
     app: www
