@@ -688,10 +688,10 @@
     eslint-import-resolver-typescript "~2.4.0"
     eslint-plugin-import "~2.23.3"
 
-"@socialgouv/kosko-charts@^6.1.7":
-  version "6.1.7"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-6.1.7.tgz#544efdd9c24ff13ce4693548cde6a65bb6c1d18c"
-  integrity sha512-U/40E48YofSM3rzor4mkIp4dGZ+o6vcGDVeTtXL9SEIEPG+IdQkSan7YJFNsptCK6wtul84pAN4zhgYkeaKziw==
+"@socialgouv/kosko-charts@^6.1.8":
+  version "6.1.8"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-6.1.8.tgz#204d7b255d12df9f453a91f9f9926d0f7e4ef010"
+  integrity sha512-Jjs5T1lJzf4n6MBRqJX5oRW8yLyRhrHAZZ9tTnQExP37D50yoGykKB7EtZGk3pw1WgeiWUMswtHyOVGjsu/wzQ==
   dependencies:
     "@sindresorhus/is" "^4.0.1"
     fs-extra "^10.0.0"
@@ -3836,10 +3836,10 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^4.3.3:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.3.tgz#5401db69bd3203daf1851a1a74d199cb3112c11a"
-  integrity sha512-rUvLW0WtF7PF2b9yenwWUi9Da9euvDRhmH7BLyBG4DCFfOJ850LGNknmRpp8Z8kXNUPObdZQEfKOiHtXuQHHKA==
+typescript@^4.3.4:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.4.tgz#3f85b986945bcf31071decdd96cf8bfa65f9dcbc"
+  integrity sha512-uauPG7XZn9F/mo+7MrsRjyvbxFpzemRjKEZXS4AK83oP2KKOJPvb+9cO/gmnv8arWZvhnjVOXz7B49m1l0e9Ew==
 
 unbox-primitive@^1.0.0:
   version "1.0.1"
