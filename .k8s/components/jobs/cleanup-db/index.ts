@@ -1,8 +1,8 @@
 import env from "@kosko/env";
 import { ok } from "assert";
 import { readFileSync } from "fs";
+import { CronJob } from "kubernetes-models/batch/v1beta1";
 import { join } from "path";
-import { CronJob } from "kubernetes-models/batch/v1beta1/CronJob";
 
 const manifests = [];
 const sql_cleanup = readFileSync(join(__dirname, "cleanup.sql")).toString();

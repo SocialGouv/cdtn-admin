@@ -4,7 +4,7 @@ import { createAutoscale } from "@socialgouv/kosko-charts/components/autoscale";
 import { getDeployment } from "@socialgouv/kosko-charts/utils/getDeployment";
 import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 
-const manifests = create("www", {
+const asyncManifests = create("www", {
   config: {
     image: getHarborImagePath({ name: "cdtn-admin-frontend" }),
     container: {
@@ -38,16 +38,17 @@ const manifests = create("www", {
   env,
 });
 
-const deployment = getDeployment(manifests);
+export default async () => {
+  const manifests = await asyncManifests;
 
-//
+  //
 
-//
+  if (process.env.CI_COMMIT_TAG) {
+    const deployment = getDeployment(manifests);
+    manifests.push(createAutoscale(deployment));
+  }
 
-if (process.env.CI_COMMIT_TAG) {
-  manifests.push(createAutoscale(deployment));
-}
+  //
 
-//
-
-export default [...manifests];
+  return [...manifests];
+};

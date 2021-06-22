@@ -6,7 +6,7 @@ import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent
 import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
 import { PG_ENVIRONMENT_SLUG } from "../utils/PG_ENVIRONMENT_SLUG";
 
-export default (): { kind: string }[] => {
+export default async () => {
   // HACK(douglasduteil): provide one db per env
   // The CI_ENVIRONMENT_SLUG is the most useful for this
   process.env.CI_COMMIT_SHORT_SHA = PG_ENVIRONMENT_SLUG;
@@ -19,7 +19,10 @@ export default (): { kind: string }[] => {
   }
 
   // in prod/preprod, we try to add a fixed sealed-secret
-  const secret = loadYaml<SealedSecret>(env, `pg-user.sealed-secret.yaml`);
+  const secret = await loadYaml<SealedSecret>(
+    env,
+    `pg-user.sealed-secret.yaml`
+  );
   if (!secret) {
     return [];
   }

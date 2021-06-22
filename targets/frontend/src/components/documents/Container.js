@@ -45,6 +45,12 @@ export function DocumentListContainer({ initialFilterValues }) {
     context,
     query: searchDocumentQuery,
     variables: {
+      available:
+        initialFilterValues.available === "yes"
+          ? [true]
+          : initialFilterValues.available === "no"
+          ? [false]
+          : [true, false],
       limit: initialFilterValues.itemsPerPage,
       offset: initialFilterValues.page * initialFilterValues.itemsPerPage,
       published:
@@ -106,6 +112,7 @@ export function DocumentListContainer({ initialFilterValues }) {
 
 DocumentListContainer.propTypes = {
   initialFilterValues: PropTypes.shape({
+    available: PropTypes.oneOf(["all", "yes", "no"]),
     itemsPerPage: PropTypes.number,
     page: PropTypes.number,
     published: PropTypes.oneOf(["all", "yes", "no"]),
@@ -115,7 +122,7 @@ DocumentListContainer.propTypes = {
 };
 
 const searchDocumentQuery = `
-query documents($source: String, $search: String!, $published: [Boolean!]!, $offset: Int = 0, $limit: Int = 50) {
+query documents($source: String, $search: String!, $published: [Boolean!]!, $available: [Boolean!]!, $offset: Int = 0, $limit: Int = 50) {
   documents(where: {
     _not: {
       document: {_has_key: "split"}
@@ -124,6 +131,7 @@ query documents($source: String, $search: String!, $published: [Boolean!]!, $off
       source: {_eq: $source, _neq: "code_du_travail"}
       title: {_ilike: $search}
       is_published: {_in: $published}
+      is_available: {_in: $available}
     }
   },
   offset: $offset, limit: $limit, order_by: [{source: asc}, {slug: asc}]) {
@@ -132,6 +140,7 @@ query documents($source: String, $search: String!, $published: [Boolean!]!, $off
     title
     source
     isPublished: is_published
+    isAvailable: is_available
   }
 
   documents_aggregate(where: {
@@ -142,7 +151,7 @@ query documents($source: String, $search: String!, $published: [Boolean!]!, $off
       source: {_eq: $source, _neq: "code_du_travail"}
       title: {_ilike: $search},
       is_published: {_in: $published}
-
+      is_available: {_in: $available}
     }
   }) {
     aggregate {
