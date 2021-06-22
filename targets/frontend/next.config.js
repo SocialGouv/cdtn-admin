@@ -17,7 +17,11 @@ module.exports = withTM(
     serverRuntimeConfig: {
       rootDir: __dirname,
     },
-    webpack: (config, options) => {
+    webpack: (config, { isServer, dev }) => {
+      config.output.chunkFilename = isServer
+        ? `${dev ? "[name]" : "[name].[fullhash]"}.js`
+        : `static/chunks/${dev ? "[name]" : "[name].[fullhash]"}.js`;
+
       // In `pages/_app.js`, Sentry is imported from @sentry/node. While
       // @sentry/browser will run in a Node.js environment, @sentry/node will use
       // Node.js-only APIs to catch even more unhandled exceptions.
@@ -32,7 +36,7 @@ module.exports = withTM(
       //
       // So ask Webpack to replace @sentry/node imports with @sentry/browser when
       // building the browser's bundle
-      if (!options.isServer) {
+      if (!isServer) {
         config.resolve.alias["@sentry/node"] = "@sentry/browser";
       }
       return config;
