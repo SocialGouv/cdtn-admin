@@ -31,10 +31,16 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
   const [result] = useQuery({
     query: sourceQuery,
     variables: {
-      published:
-        initialValues.published === "yes"
+      available:
+        initialValues.available === "yes"
           ? [true]
-          : initialValues.published === "no"
+          : initialValues.available === "no"
+          ? [false]
+          : [true, false],
+      deleted:
+        initialValues.deleted === "yes"
+          ? [true]
+          : initialValues.deleted === "no"
           ? [false]
           : [true, false],
       search: `%${initialValues.q}%`,
@@ -51,6 +57,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
   }
 
   function triggerUpdateUrl(event) {
+    console.log("update filters");
     onSearchUpdate({
       ...initialValues,
       [event.target.name]: event.target.value,
@@ -116,32 +123,63 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
         </Box>
       </Inline>
       <Inline paddingTop="xsmall">
-        <Label sx={{ alignItems: "center" }}>
-          Tous{" "}
+        <Inline sx="margin-right: 1rem">
+          Publication :
+          <Label sx={{ cursor: "pointer" }}>
+            <Radio
+              {...register("published")}
+              value="all"
+              defaultChecked={initialValues.published === "all"}
+              onChange={triggerUpdateUrl}
+            />
+            Tous{" "}
+          </Label>
+          <Label sx={{ cursor: "pointer" }}>
+            <Radio
+              {...register("published")}
+              value="yes"
+              defaultChecked={initialValues.published === "yes"}
+              onChange={triggerUpdateUrl}
+            />
+            Publié{" "}
+          </Label>
+          <Label sx={{ cursor: "pointer" }}>
+            <Radio
+              {...register("published")}
+              value="no"
+              defaultChecked={initialValues.published === "no"}
+              onChange={triggerUpdateUrl}
+            />
+            Non-publié{" "}
+          </Label>
+        </Inline>
+        Status :
+        <Label sx={{ cursor: "pointer" }}>
           <Radio
-            {...register("published")}
+            {...register("available")}
             value="all"
-            defaultChecked={initialValues.published === "all"}
+            defaultChecked={initialValues.available === "all"}
             onChange={triggerUpdateUrl}
           />
+          Tous{" "}
         </Label>
-        <Label sx={{ alignItems: "center" }}>
-          Publié{" "}
+        <Label sx={{ cursor: "pointer" }}>
           <Radio
-            {...register("published")}
+            {...register("available")}
             value="yes"
-            defaultChecked={initialValues.published === "yes"}
+            defaultChecked={initialValues.available === "yes"}
             onChange={triggerUpdateUrl}
           />
+          Disponible{" "}
         </Label>
-        <Label sx={{ alignItems: "center" }}>
-          Non-publié{" "}
+        <Label sx={{ cursor: "pointer" }}>
           <Radio
-            {...register("published")}
+            {...register("available")}
             value="no"
-            defaultChecked={initialValues.published === "no"}
+            defaultChecked={initialValues.available === "no"}
             onChange={triggerUpdateUrl}
           />
+          Supprimé{" "}
         </Label>
       </Inline>
     </form>
@@ -150,6 +188,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
 
 SearchFilters.propTypes = {
   initialValues: PropTypes.shape({
+    avai: PropTypes.oneOf(["all", "yes", "no"]),
     itemsPerPage: PropTypes.number,
     published: PropTypes.oneOf(["all", "yes", "no"]),
     q: PropTypes.string,

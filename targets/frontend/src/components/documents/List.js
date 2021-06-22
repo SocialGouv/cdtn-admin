@@ -16,6 +16,7 @@ export function DocumentList({ documents }) {
           <th />
           <th sx={{ textAlign: "left" }}>Document</th>
           <th sx={{ textAlign: "left" }}>Publié</th>
+          <th sx={{ textAlign: "left" }}>Supprimé</th>
         </tr>
       </thead>
       <tbody>
@@ -30,6 +31,7 @@ DocumentList.propTypes = {
   documents: PropTypes.arrayOf(
     PropTypes.shape({
       cdtnId: PropTypes.string.isRequired,
+      isAvailable: PropTypes.bool.isRequired,
       isPublished: PropTypes.bool.isRequired,
       source: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
@@ -38,7 +40,7 @@ DocumentList.propTypes = {
 };
 
 const DocumentRow = function DocumentRow({
-  document: { cdtnId, source, title, isPublished },
+  document: { cdtnId, source, title, isPublished, isAvailable },
 }) {
   const [selectedItems, setSelectedItems] = useSelectionContext();
   const updatePublishedRef = () => {
@@ -71,6 +73,7 @@ const DocumentRow = function DocumentRow({
             <span
               sx={{
                 color: isPublished ? theme.colors.link : theme.colors.muted,
+                textDecoration: isAvailable ? "none" : " line-through",
               }}
             >
               {source} › {title}
@@ -89,6 +92,17 @@ const DocumentRow = function DocumentRow({
           </Box>
         )}
       </td>
+      <td sx={{ textAlign: "center" }}>
+        {isAvailable ? (
+          <Box sx={{ color: "muted" }}>
+            <IoIosCheckmark />
+          </Box>
+        ) : (
+          <Box sx={{ color: "critical" }}>
+            <IoIosClose />
+          </Box>
+        )}
+      </td>
     </tr>
   );
 };
@@ -96,6 +110,7 @@ const DocumentRow = function DocumentRow({
 DocumentRow.propTypes = {
   document: PropTypes.shape({
     cdtnId: PropTypes.string.isRequired,
+    isAvailable: PropTypes.bool.isRequired,
     isPublished: PropTypes.bool.isRequired,
     source: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
