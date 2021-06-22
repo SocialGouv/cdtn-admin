@@ -10,6 +10,7 @@ import { withUserProvider } from "src/hoc/UserProvider";
 
 export function getInitialFilterValues(query) {
   return {
+    available: query.available || "yes",
     itemsPerPage: parseInt(query.itemsPerPage, 10) || DEFAULT_ITEMS_PER_PAGE,
     page: parseInt(query.page, 10) || 0,
     published: query.published || "all",

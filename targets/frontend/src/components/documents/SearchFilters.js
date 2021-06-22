@@ -31,10 +31,16 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
   const [result] = useQuery({
     query: sourceQuery,
     variables: {
-      published:
-        initialValues.published === "yes"
+      available:
+        initialValues.available === "yes"
           ? [true]
-          : initialValues.published === "no"
+          : initialValues.available === "no"
+          ? [false]
+          : [true, false],
+      deleted:
+        initialValues.deleted === "yes"
+          ? [true]
+          : initialValues.deleted === "no"
           ? [false]
           : [true, false],
       search: `%${initialValues.q}%`,
@@ -117,31 +123,62 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
       </Inline>
       <Inline paddingTop="xsmall">
         <Label sx={{ alignItems: "center" }}>
-          Tous{" "}
+          Publication :
           <Radio
             {...register("published")}
             value="all"
             defaultChecked={initialValues.published === "all"}
             onChange={triggerUpdateUrl}
           />
+          Tous{" "}
         </Label>
         <Label sx={{ alignItems: "center" }}>
-          Publié{" "}
           <Radio
             {...register("published")}
             value="yes"
             defaultChecked={initialValues.published === "yes"}
             onChange={triggerUpdateUrl}
           />
+          Publié{" "}
         </Label>
         <Label sx={{ alignItems: "center" }}>
-          Non-publié{" "}
           <Radio
             {...register("published")}
             value="no"
             defaultChecked={initialValues.published === "no"}
             onChange={triggerUpdateUrl}
           />
+          Non-publié{" "}
+        </Label>
+      </Inline>{" "}
+      <Inline paddingTop="xsmall">
+        <Label sx={{ alignItems: "center" }}>
+          Status :
+          <Radio
+            {...register("available")}
+            value="all"
+            defaultChecked={initialValues.available === "all"}
+            onChange={triggerUpdateUrl}
+          />
+          Tous{" "}
+        </Label>
+        <Label sx={{ alignItems: "center" }}>
+          <Radio
+            {...register("available")}
+            value="yes"
+            defaultChecked={initialValues.available === "yes"}
+            onChange={triggerUpdateUrl}
+          />
+          Disponible{" "}
+        </Label>
+        <Label sx={{ alignItems: "center" }}>
+          <Radio
+            {...register("available")}
+            value="no"
+            defaultChecked={initialValues.available === "no"}
+            onChange={triggerUpdateUrl}
+          />
+          Supprimé{" "}
         </Label>
       </Inline>
     </form>
