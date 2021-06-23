@@ -18,7 +18,7 @@ import { Box, Field, Flex, Label, NavLink, Textarea } from "theme-ui";
 import { TYPES as SECTION_TYPES } from "./ContentSections/Section";
 
 const addComputedFields = (onSubmit) => (data) => {
-  data.references?.forEach((block) => {
+  data.document?.references?.forEach((block) => {
     block.links.forEach((reference) => {
       reference.id = slugify(reference.title);
       reference.type = SOURCES.EXTERNALS;
