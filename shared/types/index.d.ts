@@ -66,6 +66,11 @@ type Prequalified = BaseHasuraDocument & {
   document: PrequalifiedDoc;
 };
 
+type Theme = BaseHasuraDocument & {
+  source: "themes";
+  document: ThemeDoc;
+};
+
 type HasuraDocument =
   | Agreement
   | ContributionComplete
@@ -73,10 +78,17 @@ type HasuraDocument =
   | FicheServicePublic
   | FicheTravailEmploi
   | LaborCodeArticle
-  | Prequalified;
+  | Prequalified
+  | Theme;
+
 /**
  * Document Table's document type
  */
+type ThemeDoc = {
+  icon?: string;
+  shortTitle?: string;
+  description?: string;
+};
 
 interface FicheTravailEmploiDoc {
   date: string;

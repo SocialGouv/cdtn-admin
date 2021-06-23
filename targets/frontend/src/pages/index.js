@@ -1,4 +1,5 @@
 import { GitlabButton } from "src/components/button/GitlabButton";
+import { DuplicateContent } from "src/components/home/DuplicateItems";
 import { UnThemedContent } from "src/components/home/UnThemedContent";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
@@ -20,6 +21,7 @@ export function IndexPage() {
         </Heading>
         <Inline>
           <UnThemedContent />
+          <DuplicateContent />
         </Inline>
       </Stack>
     </Layout>

@@ -139,6 +139,11 @@ export function Nav() {
               fiches service-public
             </ActiveLink>
           </Li>
+          <Li>
+            <ActiveLink href="/duplicates" passHref>
+              Elements en Doublons
+            </ActiveLink>
+          </Li>
         </List>
       </Box>
     </Box>
