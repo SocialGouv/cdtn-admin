@@ -80,7 +80,7 @@ export function parseReferences(
 
   for (const reference of references) {
     const { URL: url } = reference.attributes;
-    const label = reference.children?.[0]?.children?.[0]?.name;
+    const label = reference.children[0]?.children?.[0]?.text;
     const refExtractor = isPreviousLegifranceUrl(url)
       ? extractOldReference
       : extractNewReference;
