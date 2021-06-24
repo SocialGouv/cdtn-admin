@@ -792,31 +792,5 @@ spec:
     - hosts:
         - preprod-cdtn-admin.dev42.fabrique.social.gouv.fr
       secretName: wildcard-crt
----
-apiVersion: autoscaling/v2beta2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: www
-  namespace: cdtn-admin-85-preprod-dev42
-spec:
-  maxReplicas: 10
-  metrics:
-    - resource:
-        name: cpu
-        target:
-          averageUtilization: 100
-          type: Utilization
-      type: Resource
-    - resource:
-        name: memory
-        target:
-          averageUtilization: 100
-          type: Utilization
-      type: Resource
-  minReplicas: 1
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: www
 "
 `;
