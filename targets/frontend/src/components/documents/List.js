@@ -16,7 +16,7 @@ export function DocumentList({ documents }) {
           <th />
           <th sx={{ textAlign: "left" }}>Document</th>
           <th sx={{ textAlign: "left" }}>Publié</th>
-          <th sx={{ textAlign: "left" }}>Supprimé</th>
+          <th sx={{ textAlign: "left" }}>Disponible</th>
         </tr>
       </thead>
       <tbody>
