@@ -82,7 +82,7 @@ Production:
 Stop review:
   extends:
     - .autodevops_stop_review
-  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/no-k8s:5.0.1
+  image: ghcr.io/socialgouv/docker/no-k8s:6.26.2
   allow_failure: true
   needs:
     - job: Review
@@ -97,6 +97,7 @@ Stop review:
     GIT_STRATEGY: none
   script:
     - yarn global add degit
+    - rm -rf .k8s
     - yarn exec degit "SocialGouv/kosko-charts/templates/autodevops#v5.2.0-alpha.5" .k8s
     - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
     - yarn --silent --cwd .k8s dropdb > ${CI_PROJECT_DIR}/manifest.yaml

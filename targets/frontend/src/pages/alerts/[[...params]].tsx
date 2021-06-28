@@ -20,7 +20,9 @@ import { Pagination } from "src/components/pagination";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { jsxJoin } from "src/lib/jsx";
-import { Card, Container, Divider, Message } from "theme-ui";
+import type { AlertStatusType } from "src/models";
+import { alertStatusWordings } from "src/models";
+import { Card, Container, Divider, Message, Text } from "theme-ui";
 import { useQuery } from "urql";
 
 const getAlertQuery = `
@@ -137,7 +139,16 @@ export function AlertPage(): JSX.Element {
   return (
     <Layout title="Gestion des alertes">
       <Stack>
+        <p sx={{ fontSize: "small" }}>
+          Les modifications des textes officiels (code du travail, conventions
+          collective) sont analysé afin de produire des alertes afin de
+          faciliter le travail de veille. Ces alertes sont à classer en fonction
+          de leur impact sur nos contenus.
+        </p>
         <AlertTabs repository={repository} activeStatus={activeStatus} />
+        <Text sx={{ fontSize: "small" }}>
+          {alertStatusWordings[activeStatus as AlertStatusType]}
+        </Text>
         {alerts.map((alert) => {
           const openIndices = [];
           // Pre-open documents panel If there are documents targeted by the alert
