@@ -97,7 +97,7 @@ Stop review:
     GIT_STRATEGY: none
   script:
     - yarn global add degit
-    - yarn exec degit "SocialGouv/kosko-charts/templates/autodevops#v5.2.0-alpha.5" .k8s
+    - yarn exec degit "SocialGouv/kosko-charts/templates/autodevops#v5.2.0-alpha.5" .k8s --force
     - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
     - yarn --silent --cwd .k8s dropdb > ${CI_PROJECT_DIR}/manifest.yaml
     - kubectl --namespace ${KUBE_NAMESPACE} apply -f ${CI_PROJECT_DIR}/manifest.yaml || true
