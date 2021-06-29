@@ -28,7 +28,7 @@ const themesQuery = JSON.stringify({
     source
     title
     document
-    contentRelations: relation_a(where: {type: {_eq: "theme-content"}}, order_by: {}) {
+    contentRelations: relation_a(where: {type: {_eq: "theme-content"}, b: {is_published: {_eq: true}, is_available: {_eq: true}}}, order_by: {}) {
       content: b {
         cdtnId: cdtn_id
         slug
