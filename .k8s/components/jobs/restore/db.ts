@@ -8,6 +8,8 @@ import { ok } from "assert";
 import fs from "fs";
 import { Job } from "kubernetes-models/batch/v1";
 import { EnvVar } from "kubernetes-models/v1";
+import { ObjectMeta } from "kubernetes-models/apimachinery/pkg/apis/meta/v1";
+
 import path from "path";
 import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../../../utils/GITLAB_LIKE_ENVIRONMENT_SLUG";
 import {
@@ -51,9 +53,9 @@ const manifests = restoreDbJob({
   project: "cdtn-admin",
 });
 
-manifests.forEach((m) => {
-  m.metadata = m.metadata || {};
-  m.metadata.labels = gitlabEnv.labels || {};
+(manifests as any as { metadata: ObjectMeta }[]).forEach((m) => {
+  m.metadata = m.metadata || new ObjectMeta({});
+  m.metadata.labels = m.metadata.labels || gitlabEnv.labels || {};
   m.metadata.labels.component =
     process.env.COMPONENT || `restore-${process.env.CI_COMMIT_REF_SLUG}`;
 });
