@@ -303,7 +303,7 @@ spec:
       volumes:
         - name: backups
           persistentVolumeClaim:
-            claimName: restore-db-123456789-backup-restore
+            claimName: cdtn-admin-backup-restore
             readOnly: true
         - configMap:
             name: post-restore-script-configmap-0123456
@@ -336,7 +336,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: restore-db-123456789-backup-restore
+  name: cdtn-admin-backup-restore
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: master-dev42
