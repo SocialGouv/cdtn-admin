@@ -301,11 +301,10 @@ spec:
               name: scripts
       restartPolicy: OnFailure
       volumes:
-        - azureFile:
+        - name: backups
+          persistentVolumeClaim:
+            claimName: restore-db-123456789-backup-restore
             readOnly: true
-            secretName: azure-cdtnadminprod-volume
-            shareName: cdtn-admin-backup-restore
-          name: backups
         - configMap:
             name: post-restore-script-configmap-0123456
           name: scripts
@@ -322,7 +321,7 @@ spec:
             - name: PGSSLMODE
               value: require
           envFrom: []
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.1
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -333,5 +332,59 @@ spec:
               cpu: 5m
               memory: 16Mi
   ttlSecondsAfterFinished: 86400
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: restore-db-123456789-backup-restore
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
+  labels:
+    application: master-dev42-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+    component: restore-master
+  namespace: cdtn-admin-secret
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 128Gi
+  selector:
+    matchLabels:
+      usage: master-dev42-cdtn-admin-backup-restore
+  storageClassName: ''
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    usage: master-dev42-cdtn-admin-backup-restore
+    application: master-dev42-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+    component: restore-master
+  name: master-dev42-cdtn-admin-backup-restore
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
+  namespace: cdtn-admin-secret
+spec:
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: azure-cdtnadminprod-volume
+    secretNamespace: cdtn-admin-secret
+    shareName: cdtn-admin-backup-restore
+  capacity:
+    storage: 128Gi
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: ''
 "
 `;
