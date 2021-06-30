@@ -2,7 +2,7 @@ import { client } from "@shared/graphql-client";
 
 const query = `
 query vdd {
-  documents(where: {is_available: {_eq: true}, source: {_eq: "fiches_service_public"}}) {
+  documents(where: { source: {_eq: "fiches_service_public"}}) {
     id: initial_id
   }
 }`;

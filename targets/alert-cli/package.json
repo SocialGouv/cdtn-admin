@@ -45,7 +45,7 @@
   "scripts": {
     "build": "ncc build ./src/index.ts -o ./dist -e nodegit -s",
     "start": "node --enable-source-maps --unhandled-rejections=strict ./dist/index.js",
-    "start:dev": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 ncc run ./src/index.ts",
+    "start:debug": "rm -rf data/* && ncc build ./src/index.ts -o ./dist -e nodegit -s && HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node --enable-source-maps --unhandled-rejections=strict ./dist/index.js",
     "lint": "eslint src",
     "clean": "rm -rf data/*",
     "types": "tsc",
