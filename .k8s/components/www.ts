@@ -46,7 +46,7 @@ export default async () => {
       kind: string;
     }[]
   );
-  if (deployment && deployment.spec) {
+  if (env.env === "prod" && deployment && deployment.spec) {
     deployment.spec.replicas = 3;
   }
 
