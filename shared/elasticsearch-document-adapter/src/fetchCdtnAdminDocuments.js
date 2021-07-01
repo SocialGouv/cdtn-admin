@@ -32,34 +32,29 @@ const gqlRequestBySource = (source, offset = 0, limit = null) =>
 const gqlRequestBySourceWithRelations = (source, offset = 0, limit = null) =>
   JSON.stringify({
     query: `{
-  documents(
-    order_by: {cdtn_id: asc}
-    limit: ${limit}
-    offset: ${offset}
-    where: {source: {_eq: "${source}"},  is_available: {_eq: true} }
-  ) {
-    id:initial_id
-    cdtnId:cdtn_id
-    title
-    slug
-    source
-    text
-    isPublished: is_published
-    isSearchable: is_searchable
-    metaDescription:meta_description
-    document
-    contentRelations: relation_a(where: {type: {_eq: "document-content"}}) {
-      position: data(path: "position")
-      content: b {
-        cdtnId: cdtn_id
-        slug
-        source
-        title
-        document
-      }
-    }
-  }
-}`,
+        documents(order_by: {cdtn_id: asc}, limit: ${limit}, offset: ${offset}, where: {source: {_eq: "${source}"}, is_available: {_eq: true}}) {
+          id: initial_id
+          cdtnId: cdtn_id
+          title
+          slug
+          source
+          text
+          isPublished: is_published
+          isSearchable: is_searchable
+          metaDescription: meta_description
+          document
+          contentRelations: relation_a(where: {type: {_eq: "document-content"}, b: {is_published: {_eq: true}, is_available: {_eq: true}}}) {
+            position: data(path: "position")
+            content: b {
+              cdtnId: cdtn_id
+              slug
+              source
+              title
+              document
+            }
+          }
+        }
+      }`,
   });
 
 const gqlAgreggateDocumentBySource = (source) =>
