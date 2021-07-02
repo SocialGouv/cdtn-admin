@@ -207,10 +207,12 @@ async function toSimpleVddChange(
 const createCdtnMatcherFile = (fileIndex: FicheVddIndex[]) => {
   const idsMap = new Map<string, string[]>();
   for (const item of fileIndex) {
-    idsMap.set(
-      item.id,
-      item.breadcrumbs.map(({ id }) => id)
-    );
+    if (item.id.startsWith("F")) {
+      idsMap.set(
+        item.id,
+        item.breadcrumbs.slice(1).map(({ id }) => id)
+      );
+    }
   }
 
   const followedThemeIds = [
@@ -231,11 +233,15 @@ const createCdtnMatcherFile = (fileIndex: FicheVddIndex[]) => {
     "N22150",
   ];
   return (filepath: string) => {
-    const id = /\w+.json$/.exec(filepath);
+    const id = /(\w+)\.json$/.exec(filepath);
+
     if (!id) {
       return false;
     }
-    const breadcrumb = idsMap.get(id[0]) ?? [];
+    if (!id[1].startsWith("F")) {
+      return false;
+    }
+    const breadcrumb = idsMap.get(id[1]) ?? [];
     return breadcrumb.some((themeId) => followedThemeIds.includes(themeId));
   };
 };
