@@ -14,11 +14,15 @@ export async function processTravailDataDiff(
   repositoryId: string,
   tag: GitTagData,
   patches: ConvenientPatch[],
+  fileFilter: (path: string) => boolean,
   prevTree: Tree,
   currTree: Tree
 ): Promise<TravailDataAlertChanges[]> {
+  const filteredPatches = patches.filter((patch) =>
+    fileFilter(patch.newFile().path())
+  );
   const fileChanges = await Promise.all(
-    patches.map(async (patch) => {
+    filteredPatches.map(async (patch) => {
       const filename = patch.newFile().path();
       const toAst = createToJson<FicheTravailEmploi[]>(filename);
 

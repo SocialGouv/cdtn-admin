@@ -24,6 +24,12 @@ export type FicheVddIndex = {
   theme: string;
   title: string;
   type: string;
+  breadcrumbs: Theme[];
+};
+
+type Theme = {
+  id: string;
+  text: string;
 };
 
 export type FicheVdd = {

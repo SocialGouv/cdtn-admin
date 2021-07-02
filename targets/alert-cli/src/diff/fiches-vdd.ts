@@ -2,13 +2,19 @@ import type { FicheVddInfo, VddAlertChanges, VddChanges } from "@shared/types";
 import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../node-git.helpers";
-import type { FicheVdd, FicheVddNode, GitTagData } from "../types";
+import type {
+  FicheVdd,
+  FicheVddIndex,
+  FicheVddNode,
+  GitTagData,
+} from "../types";
 import { vddPrequalifiedRelevantDocuments } from "./preQualified-relevantContent";
 
 export async function processVddDiff(
   repositoryId: string,
   tag: GitTagData,
   patches: ConvenientPatch[],
+  fileFilter: (path: string) => boolean,
   prevTree: Tree,
   currTree: Tree
 ): Promise<VddAlertChanges[]> {
@@ -19,19 +25,31 @@ export async function processVddDiff(
     removed: [],
   };
 
+  const filteredPatches = patches.filter((patch) =>
+    fileFilter(patch.newFile().path())
+  );
+
   changes.removed = await Promise.all(
-    patches
+    filteredPatches
       .filter((patch) => patch.isDeleted())
       .map(async (patch) => toSimpleVddChange(patch, prevTree))
   );
 
+  // handle added patch smarter
+  const index = await createToJson<FicheVddIndex[]>("data/index.json")(
+    currTree
+  );
+  const mayInterestCdtn = createCdtnMatcherFile(index);
   changes.added = await Promise.all(
-    patches
-      .filter((patch) => patch.isAdded())
-      .map(async (patch) => toSimpleVddChange(patch, currTree))
+    patches.flatMap((patch) => {
+      if (patch.isAdded() && mayInterestCdtn(patch.newFile().path())) {
+        return toSimpleVddChange(patch, currTree);
+      }
+      return [];
+    })
   );
 
-  const modified = patches.flatMap((patch) =>
+  const modified = filteredPatches.flatMap((patch) =>
     patch.isModified() ? [patch.newFile().path()] : []
   );
 
@@ -185,3 +203,39 @@ async function toSimpleVddChange(
     type: match[1],
   };
 }
+
+const createCdtnMatcherFile = (fileIndex: FicheVddIndex[]) => {
+  const idsMap = new Map<string, string[]>();
+  for (const item of fileIndex) {
+    idsMap.set(
+      item.id,
+      item.breadcrumbs.map(({ id }) => id)
+    );
+  }
+
+  const followedThemeIds = [
+    "N19806",
+    "N107",
+    "N31477",
+    "N20286",
+    "N31002",
+    "N31132",
+    "N31146",
+    "N261",
+    "N277",
+    "N559",
+    "N16178",
+    "N16594",
+    "N24267",
+    "N24266",
+    "N22150",
+  ];
+  return (filepath: string) => {
+    const id = /\w+.json$/.exec(filepath);
+    if (!id) {
+      return false;
+    }
+    const breadcrumb = idsMap.get(id[0]) ?? [];
+    return breadcrumb.some((themeId) => followedThemeIds.includes(themeId));
+  };
+};
