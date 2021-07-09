@@ -237,7 +237,7 @@ Export storage to prod:
   extends:
     - .base_deploy_kosko_stage
   environment:
-    name: prod2
+    name: prod
   dependencies: []
   allow_failure: true
   rules:
