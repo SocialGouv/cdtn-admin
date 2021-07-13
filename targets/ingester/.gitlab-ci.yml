@@ -117,7 +117,8 @@
     - kubectl logs -f job/${JOB_NAME}
 
     - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
-    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
+    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}' |
+      grep True
 
 🛎️ Trigger Ingester (review):
   extends:
