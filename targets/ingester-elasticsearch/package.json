@@ -2,6 +2,8 @@
   "name": "ingester-es",
   "description": "SocialGouv - Code du travail numerique - Target - Ingester Elasticsearch",
   "version": "1.6.2",
+  "exports": "./cli.ts",
+  "type": "module",
   "dependencies": {
     "@shared/elasticsearch-document-adapter": "^1.6.2"
   },
