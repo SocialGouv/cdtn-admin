@@ -55,11 +55,16 @@ export async function processDilaDataDiff(
   repositoryId: string,
   tag: GitTagData,
   patches: ConvenientPatch[],
+  fileFilter: (path: string) => boolean,
   prevTree: Tree,
   currTree: Tree
 ): Promise<DilaAlertChanges[]> {
+  const filteredPatches = patches.filter((patch) =>
+    fileFilter(patch.newFile().path())
+  );
+
   const fileChanges = await Promise.all(
-    patches.map(async (patch) => {
+    filteredPatches.map(async (patch) => {
       const file = patch.newFile().path();
       if (repositoryId === "socialgouv/legi-data") {
         const toAst = createToJson<Code>(file);
