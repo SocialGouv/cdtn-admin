@@ -2678,10 +2678,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/cdtn-monolog@1.5.2-alpha.1":
-  version "1.5.2-alpha.1"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-monolog/-/cdtn-monolog-1.5.2-alpha.1.tgz#94a6690d87654d2a17a27e85dcbd6042c593c100"
-  integrity sha512-304hG5TzT8jTmMbgTOtQlrg9W0L3xqLWwfPhTE8STIX+wDCuIsm8x/r3iAH5aiQUgeZNaLDHZKkOJRAypShO8w==
+"@socialgouv/cdtn-monolog@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-monolog/-/cdtn-monolog-1.5.2.tgz#7ee435916d757aa207afbac604a051ab1070b95d"
+  integrity sha512-dUxcVk0qLsYT85FiuordMkzrEYx7AKQP7y8uZn9hzMGvpSmOQI+X0F3+ZxcHU/wYxBce55JcCerHuMnPfs5UEQ==
   dependencies:
     "@elastic/elasticsearch" "^7.12.0"
     "@socialgouv/cdtn-sources" "^4.45.0"

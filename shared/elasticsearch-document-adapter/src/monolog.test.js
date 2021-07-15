@@ -1,6 +1,6 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
-import { fetchCovisits } from "./monolog";
+import { fetchCovisits } from "./monolog.js";
 
 const testDoc = {
   slug: "activite-partielle-chomage-partiel",
@@ -8,7 +8,7 @@ const testDoc = {
 };
 
 jest.mock("@socialgouv/cdtn-monolog", () => ({
-  Queries: () => ({
+  LogQueries: () => ({
     getCovisitLinks: (path) => {
       if (
         path == "fiche-ministere-travail/activite-partielle-chomage-partiel"
