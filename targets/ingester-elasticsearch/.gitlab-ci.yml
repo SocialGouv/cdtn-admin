@@ -133,7 +133,8 @@
     - kubectl logs -f job/ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET}
     #
     - kubectl get jobs ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET} -o jsonpath='{.status.conditions}'
-    - kubectl get jobs ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}'
+    - kubectl get jobs ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}' |
+      grep True
 
 🛎️ ingester-elasticsearch (review):
   extends:
