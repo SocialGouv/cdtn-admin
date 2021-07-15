@@ -48,7 +48,7 @@ async function addVector(data) {
         data.title_vector = title_vector;
       })
       .catch((err) => {
-        logger.error(err);
+        logger.error("Vectorization failed", err);
         throw new Error(
           `Vectorization failed: ${data.title} (${err.retryCount} times)`
         );
