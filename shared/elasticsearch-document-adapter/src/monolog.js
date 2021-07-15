@@ -47,7 +47,9 @@ export const fetchCovisits = async (doc) => {
       // console.error(err);
       return undefined;
     });
-
+  if (links?.length > 0) {
+    console.log(path, links);
+  }
   doc.covisits = links;
 
   return doc;
