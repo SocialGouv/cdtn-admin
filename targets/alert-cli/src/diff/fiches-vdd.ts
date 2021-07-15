@@ -231,6 +231,8 @@ const createCdtnMatcherFile = (fileIndex: FicheVddIndex[]) => {
     "N24267",
     "N24266",
     "N22150",
+    "N10481",
+    "N31133",
   ];
   return (filepath: string) => {
     const id = /(\w+)\.json$/.exec(filepath);
