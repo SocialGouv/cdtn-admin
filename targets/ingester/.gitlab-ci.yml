@@ -6,7 +6,7 @@
   extends:
     - .autodevops_install
     - .cdtn_base_rules
-  image: node:14.16.1-alpine3.11
+  image: node:14.17.3-alpine3.11
   cache:
     key:
       files:
@@ -62,7 +62,7 @@
   extends:
     - .base_yarn_script
     - .cdtn_base_rules
-  image: node:14.16.1-alpine3.11
+  image: node:14.17.3-alpine3.11
   needs:
     - job: 🧶 install ingester
       artifacts: true

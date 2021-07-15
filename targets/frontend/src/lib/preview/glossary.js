@@ -64,18 +64,24 @@ export function addGlossary(entries, htmlContent) {
 
   glossary.forEach(({ definition, pattern, term }, index) => {
     // while we loop, we replace the matches with an id to prevent nested matches
-    idHtmlContent = idHtmlContent.replace(pattern, function (
-      match // contains the matching term with the word boundaries
-    ) {
-      const id = "__tt__" + index;
-      const webComponent = definition
-        ? `<webcomponent-tooltip content="${encodeURIComponent(
-            definition.replace(/'/g, "’").replace("<p>", "").replace("</p>", "")
-          )}">${term}</webcomponent-tooltip>`
-        : `<webcomponent-tooltip-cc>${term}</webcomponent-tooltip-cc>`;
-      idToWebComponent.set(id, webComponent);
-      return match.replace(new RegExp(term), id);
-    });
+    idHtmlContent = idHtmlContent.replace(
+      pattern,
+      function (
+        match // contains the matching term with the word boundaries
+      ) {
+        const id = "__tt__" + index;
+        const webComponent = definition
+          ? `<webcomponent-tooltip content="${encodeURIComponent(
+              definition
+                .replace(/'/g, "’")
+                .replace("<p>", "")
+                .replace("</p>", "")
+            )}">${term}</webcomponent-tooltip>`
+          : `<webcomponent-tooltip-cc>${term}</webcomponent-tooltip-cc>`;
+        idToWebComponent.set(id, webComponent);
+        return match.replace(new RegExp(term), id);
+      }
+    );
   });
 
   // In the end, we replace the id with its related component

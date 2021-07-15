@@ -33,9 +33,8 @@ const fetchGlossary = memoizee(_fetchGlossary, {
   promise: true,
 });
 
-export const [
-  majorIndexVersion,
-] = require("../../../../package.json").version.split(".");
+export const [majorIndexVersion] =
+  require("../../../../package.json").version.split(".");
 
 export default async function updateDocument(req, res) {
   const apiError = createErrorFor(res);

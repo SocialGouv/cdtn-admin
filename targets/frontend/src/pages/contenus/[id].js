@@ -85,14 +85,8 @@ export function DocumentPage() {
       text: jsonDoc.current.text,
       title: jsonDoc.current.title,
     }).then(({ data, error }) => {
-      const {
-        cdtnId,
-        source,
-        document,
-        metaDescription,
-        text,
-        title,
-      } = data.document;
+      const { cdtnId, source, document, metaDescription, text, title } =
+        data.document;
       if (error) {
         console.error("update impossible", error.message);
       }

@@ -14,7 +14,11 @@ const JURIDIQUES_LABEL = "Références juridiques";
 const USEFUL_LINKS_LABEL = "Liens utiles";
 
 export function ReferenceBlocks({ control, name, register, errors }) {
-  const { fields: blocks, append, remove } = useFieldArray({
+  const {
+    fields: blocks,
+    append,
+    remove,
+  } = useFieldArray({
     control,
     keyName: "key",
     name,
