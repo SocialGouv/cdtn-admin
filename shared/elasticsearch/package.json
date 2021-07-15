@@ -26,12 +26,12 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
-    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
+    "@babel/plugin-transform-modules-commonjs": "^7.14.5",
     "@socialgouv/eslint-config-recommended": "^1.75.0",
-    "eslint": "^7.23.0",
+    "eslint": "^7.30.0",
     "jest": "^27.0.6",
     "lint-staged": "^11.0.1",
-    "prettier": "^2.2.1"
+    "prettier": "^2.3.2"
   },
   "scripts": {
     "lint": "eslint .",
