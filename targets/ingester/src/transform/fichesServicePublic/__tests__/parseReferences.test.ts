@@ -16,8 +16,7 @@ const agreements: IndexedAgreement[] = [
     shortTitle: "convention 123",
     texte_de_base: "KALITEXT123",
     title: "Convention collective nationale des 123",
-    url:
-      "https://www.legifrance.gouv.fr/affichIDCC.do?idConvention=KALICONT123",
+    url: "https://www.legifrance.gouv.fr/affichIDCC.do?idConvention=KALICONT123",
   },
 ];
 const referenceResolver = jest.fn().mockImplementation((id) => {

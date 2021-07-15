@@ -15,8 +15,10 @@ const compiler = remark().use(html, { sanitize: true });
 
 type QuestionWithSlug = Question & { slug: string };
 
-export const createSorter = <A>(fn: (data: A) => number) => (a: A, b: A) =>
-  fn(a) - fn(b);
+export const createSorter =
+  <A>(fn: (data: A) => number) =>
+  (a: A, b: A) =>
+    fn(a) - fn(b);
 
 export default async function getAgreementDocuments(pkgName: string) {
   const agreements = await getJson<IndexedAgreement[]>(
@@ -102,7 +104,8 @@ function getContributionAnswers(
         return [];
       }
       const [answer] = maybeAnswer;
-      const unhandledRegexp = /La convention collective ne prévoit rien sur ce point/i;
+      const unhandledRegexp =
+        /La convention collective ne prévoit rien sur ce point/i;
       if (unhandledRegexp.test(answer.markdown)) {
         return [];
       }

@@ -1088,7 +1088,7 @@
   resolved "https://registry.yarnpkg.com/@data-forge/serialization/-/serialization-1.0.1.tgz#2a963ea78154688f738e3465558b1c0a2d5963e2"
   integrity sha512-EP7IWimh5JcDOISVoXvNIjUAqcPN1FkNWvuvjY3uzcswErxB8j93ldlUBvgvGEszqFRwMM3fpMF0HrISg5iBSQ==
 
-"@elastic/elasticsearch@^7.12.0", "@elastic/elasticsearch@^7.13.0":
+"@elastic/elasticsearch@^7.13.0", "@elastic/elasticsearch@^7.9.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-7.13.0.tgz#6dcf511dfa91187e22c81e54f41f4bd0fd96b4d6"
   integrity sha512-WgwLWo2p9P2tdqzBGX9fHeG8p5IOTXprXNTECQG2mJ7z9n93N5AFBJpEw4d35tWWeCWi9jI13A2wzQZH7XZ/xw==
@@ -2745,23 +2745,16 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/cdtn-monolog@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-monolog/-/cdtn-monolog-1.5.0.tgz#131152fb5d27b0541482135acad60c00570bef1c"
-  integrity sha512-REEUQbK3b6yiIwf6p0DDhu4Y5xOba7iMSLbKG1bcJU7gG4lc5C3uBNdFwLEVotci/67SO+ISTQjMq3UtMrIQqw==
+"@socialgouv/cdtn-monolog@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-monolog/-/cdtn-monolog-1.1.2.tgz#8e871d53b9437eb902be0208985e9e6835a8cff7"
+  integrity sha512-0G2dJexYac1Ts6TzvHw/XSOuJQ578kTQCQ0UskwQCNo9s5I/KaEBHHAam2fKDsSI6TWHNYlTX9mLHPsNqYbyWA==
   dependencies:
-    "@elastic/elasticsearch" "^7.12.0"
-    "@socialgouv/cdtn-sources" "^4.45.0"
-    data-forge "^1.8.17"
-    data-forge-fs "^0.0.9"
-    date-fns "^2.21.1"
+    "@elastic/elasticsearch" "^7.9.0"
+    data-forge "^1.8.10"
+    data-forge-fs "^0.0.8"
     esm "^3.2.25"
-    fp-ts "^2.10.2"
-    murmurhash-js "^1.0.0"
-    node-fetch "^2.6.1"
-    p-queue "^6.6.2"
     winston "^3.3.3"
-    yargs "^16.2.0"
 
 "@socialgouv/cdtn-slugify@^4.45.0":
   version "4.45.0"
@@ -5544,14 +5537,14 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-data-forge-fs@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/data-forge-fs/-/data-forge-fs-0.0.9.tgz#8f2f607a56a9a5fd2ea20c4f32054fa82fc8abea"
-  integrity sha512-7VzK9DbvYqJk/AlQckIh4OMX0iNcvY4Za8vWXh6LT+TGekAs791XUjB2OsEDlRcmRr3DdQ7aecVBRZ+wevjhnA==
+data-forge-fs@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/data-forge-fs/-/data-forge-fs-0.0.8.tgz#e487aa2ec71bada7d421e00872d7c07b99ab35bc"
+  integrity sha512-QmxcnkqtthsFMnQb1qFva2eXpMrPEmxWR3X05ghunFXnTRvZs2aJd+jsxwWZBl2MRE5l+ZT3fIP2IkAE7r3asA==
   dependencies:
     chai "^4.1.2"
 
-data-forge@^1.8.17:
+data-forge@^1.8.10:
   version "1.8.17"
   resolved "https://registry.yarnpkg.com/data-forge/-/data-forge-1.8.17.tgz#d26669771472d91837e08f4c6dd2a939c8ff44f1"
   integrity sha512-VWLoMyceLJL3a7jGPhxNFMwpW1tC3D6enJEoskBxGAJ3cTG3tT7YzVaAmQdDsU20+sPMsG/tRC2Vb3/knVTLzA==
@@ -5583,7 +5576,7 @@ date-fns@^1.23.0:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
 
-date-fns@^2.21.1, date-fns@^2.22.1:
+date-fns@^2.22.1:
   version "2.22.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.22.1.tgz#1e5af959831ebb1d82992bf67b765052d8f0efc4"
   integrity sha512-yUFPQjrxEmIsMqlHhAhmxkuH769baF21Kk+nZwZGyrMoyLA+LugaQtC0+Tqf9CBUUULWwUJt6Q5ySI3LJDDCGg==
@@ -6845,11 +6838,6 @@ forwarded@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
   integrity sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ=
-
-fp-ts@^2.10.2:
-  version "2.10.5"
-  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.10.5.tgz#7c77868fe8bd9b229743303c1bec505b959f631b"
-  integrity sha512-X2KfTIV0cxIk3d7/2Pvp/pxL/xr2MV1WooyEzKtTWYSc1+52VF4YzjBTXqeOlSiZsPCxIBpDGfT9Dyo7WEY0DQ==
 
 fragment-cache@^0.2.1:
   version "0.2.1"
@@ -9800,11 +9788,6 @@ multimatch@^5.0.0:
     array-union "^2.1.0"
     arrify "^2.0.1"
     minimatch "^3.0.4"
-
-murmurhash-js@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/murmurhash-js/-/murmurhash-js-1.0.0.tgz#b06278e21fc6c37fa5313732b0412bcb6ae15f51"
-  integrity sha1-sGJ44h/Gw3+lMTcysEEry2rhX1E=
 
 mute-stream@0.0.8, mute-stream@~0.0.4:
   version "0.0.8"

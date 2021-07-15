@@ -106,9 +106,8 @@ export function EditInformationPage() {
     variables: { cdtnId: router.query.id },
   });
 
-  const [{ fetching: updating }, editContent] = useMutation(
-    editContentMutation
-  );
+  const [{ fetching: updating }, editContent] =
+    useMutation(editContentMutation);
   const [{ fetching: deleting }, deleteContent] = useMutation(
     deleteContentMutation
   );
@@ -140,10 +139,8 @@ export function EditInformationPage() {
         },
         context
       );
-      const {
-        slug: computedSlug,
-        metaDescription: computedMetaDescription,
-      } = result.data.content;
+      const { slug: computedSlug, metaDescription: computedMetaDescription } =
+        result.data.content;
       if (!result.error) {
         previewContent({
           cdtnId: content.cdtnId,
