@@ -1,6 +1,6 @@
 import { Client } from "@elastic/elasticsearch";
 import { logger } from "@socialgouv/cdtn-logger";
-import { Queries } from "@socialgouv/cdtn-monolog";
+import { LogQueries } from "@socialgouv/cdtn-monolog";
 import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
 
 const ES_LOGS = process.env.ES_LOGS;
@@ -28,7 +28,7 @@ const esClientConfig = {
 const client =
   ES_LOGS && ES_LOGS_TOKEN ? new Client(esClientConfig) : undefined;
 
-const queries = Queries(client, "log_reports");
+const queries = LogQueries(client, "log_reports");
 
 export const fetchCovisits = async (doc) => {
   let sourceRoute = getRouteBySource(doc.source);
