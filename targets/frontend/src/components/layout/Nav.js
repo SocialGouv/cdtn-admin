@@ -163,7 +163,8 @@ function ActiveLink({ children, href }) {
   let isCurrentRoute = router.pathname === pathname;
   if (isCurrentRoute) {
     if (query) {
-      isCurrentRoute = query.includes(router.query?.source);
+      isCurrentRoute =
+        query.includes(router.query?.source) && router.query?.source;
     } else {
       /** when href is "/contenus" and current url is
        * "/contenus?source=editorial_content" we don't want to highlight
