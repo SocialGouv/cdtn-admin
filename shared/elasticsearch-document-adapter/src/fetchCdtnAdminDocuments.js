@@ -120,46 +120,45 @@ export async function getDocumentBySourceWithRelation(source, getBreadcrumbs) {
   return documents;
 }
 
-const createDocumentsFetcher = (gqlRequest = gqlRequestBySource) => async (
-  source,
-  { pageSize = PAGE_SIZE, concurrency = JOB_CONCURRENCY }
-) => {
-  const nbDocResult = await fetch(CDTN_ADMIN_ENDPOINT, {
-    body: gqlAgreggateDocumentBySource(source),
-    method: "POST",
-  }).then((r) => r.json());
-  if (nbDocResult.errors && nbDocResult.errors.length) {
-    return [];
-  }
-  const nbDoc = nbDocResult.data.documents_aggregate.aggregate.count;
-  const queue = new PQueue({ concurrency });
-
-  return Array.from({ length: Math.ceil(nbDoc / pageSize) }, (_, i) => i).map(
-    (index) => {
-      return queue.add(() => {
-        return fetch(CDTN_ADMIN_ENDPOINT, {
-          body: gqlRequest(source, index * pageSize, pageSize),
-          method: "POST",
-        })
-          .then((res) => {
-            if (res.ok) {
-              return res.json();
-            }
-            const error = new Error(res.statusText);
-            error.status = res.status;
-            throw error;
-          })
-          .then((result) => {
-            if (result.errors) {
-              console.error(result.errors);
-              throw result.errors[0];
-            }
-            return result.data.documents;
-          });
-      });
+const createDocumentsFetcher =
+  (gqlRequest = gqlRequestBySource) =>
+  async (source, { pageSize = PAGE_SIZE, concurrency = JOB_CONCURRENCY }) => {
+    const nbDocResult = await fetch(CDTN_ADMIN_ENDPOINT, {
+      body: gqlAgreggateDocumentBySource(source),
+      method: "POST",
+    }).then((r) => r.json());
+    if (nbDocResult.errors && nbDocResult.errors.length) {
+      return [];
     }
-  );
-};
+    const nbDoc = nbDocResult.data.documents_aggregate.aggregate.count;
+    const queue = new PQueue({ concurrency });
+
+    return Array.from({ length: Math.ceil(nbDoc / pageSize) }, (_, i) => i).map(
+      (index) => {
+        return queue.add(() => {
+          return fetch(CDTN_ADMIN_ENDPOINT, {
+            body: gqlRequest(source, index * pageSize, pageSize),
+            method: "POST",
+          })
+            .then((res) => {
+              if (res.ok) {
+                return res.json();
+              }
+              const error = new Error(res.statusText);
+              error.status = res.status;
+              throw error;
+            })
+            .then((result) => {
+              if (result.errors) {
+                console.error(result.errors);
+                throw result.errors[0];
+              }
+              return result.data.documents;
+            });
+        });
+      }
+    );
+  };
 
 function toElastic(
   {

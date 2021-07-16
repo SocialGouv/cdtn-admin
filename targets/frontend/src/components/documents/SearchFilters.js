@@ -37,10 +37,10 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           : initialValues.available === "no"
           ? [false]
           : [true, false],
-      deleted:
-        initialValues.deleted === "yes"
+      published:
+        initialValues.published === "yes"
           ? [true]
-          : initialValues.deleted === "no"
+          : initialValues.published === "no"
           ? [false]
           : [true, false],
       search: `%${initialValues.q}%`,
@@ -49,7 +49,6 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
   });
 
   const { data } = result;
-
   function isSourceDisabled(source) {
     return (
       data?.sources.nodes.find((node) => node.source === source) === undefined
@@ -198,7 +197,7 @@ SearchFilters.propTypes = {
 };
 
 const sourceQuery = `
-query documents($source: String, $search: String!, $published: [Boolean!]!) {
+query documents($source: String, $search: String!, $published: [Boolean!]!,  $available: [Boolean!]!) {
   sources:   documents_aggregate(where: {
     _not: {
       document: {_has_key: "split"}
@@ -207,6 +206,7 @@ query documents($source: String, $search: String!, $published: [Boolean!]!) {
       source: {_eq: $source, _neq: "code_du_travail"}
       title: {_ilike: $search},
       is_published: {_in: $published}
+      is_available: {_in: $available}  
     }
   }) {
     nodes {

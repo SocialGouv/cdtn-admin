@@ -55,11 +55,16 @@ export async function processDilaDataDiff(
   repositoryId: string,
   tag: GitTagData,
   patches: ConvenientPatch[],
+  fileFilter: (path: string) => boolean,
   prevTree: Tree,
   currTree: Tree
 ): Promise<DilaAlertChanges[]> {
+  const filteredPatches = patches.filter((patch) =>
+    fileFilter(patch.newFile().path())
+  );
+
   const fileChanges = await Promise.all(
-    patches.map(async (patch) => {
+    filteredPatches.map(async (patch) => {
       const file = patch.newFile().path();
       if (repositoryId === "socialgouv/legi-data") {
         const toAst = createToJson<Code>(file);
@@ -273,56 +278,56 @@ function removedNodeAdapter(node: WithParent<DilaNode>): DilaRemovedNode {
       node.type === "article" ? node.data.num ?? "Article" : node.data.title,
   };
 }
-const createModifiedAdapter = (modified: WithParent<DilaNode>[]) => (
-  node: WithParent<DilaNode>
-): DilaModifiedNode => {
-  const diffs = [];
-  const previousNode = modified.find((a) => node.data.cid === a.data.cid);
-  if (!previousNode) {
-    throw new Error("previous node not found");
-  }
-  if ("texte" in node.data && "texte" in previousNode.data) {
-    if (node.data.texte !== previousNode.data.texte) {
+const createModifiedAdapter =
+  (modified: WithParent<DilaNode>[]) =>
+  (node: WithParent<DilaNode>): DilaModifiedNode => {
+    const diffs = [];
+    const previousNode = modified.find((a) => node.data.cid === a.data.cid);
+    if (!previousNode) {
+      throw new Error("previous node not found");
+    }
+    if ("texte" in node.data && "texte" in previousNode.data) {
+      if (node.data.texte !== previousNode.data.texte) {
+        diffs.push({
+          currentText: node.data.texte,
+          previousText: previousNode.data.texte,
+          type: "texte" as const,
+        });
+      }
+    }
+    if ("nota" in node.data && "nota" in previousNode.data) {
+      if (node.data.nota !== previousNode.data.nota) {
+        diffs.push({
+          currentText: node.data.nota,
+          previousText: previousNode.data.nota,
+          type: "nota" as const,
+        });
+      }
+    }
+    if ("content" in node.data && "content" in previousNode.data) {
+      if (node.data.content !== previousNode.data.content) {
+        diffs.push({
+          currentText: node.data.content,
+          previousText: previousNode.data.content,
+          type: "texte" as const,
+        });
+      }
+    }
+    if (node.data.etat !== previousNode.data.etat) {
       diffs.push({
-        currentText: node.data.texte,
-        previousText: previousNode.data.texte,
-        type: "texte" as const,
+        currentText: node.data.etat,
+        previousText: previousNode.data.etat,
+        type: "etat" as const,
       });
     }
-  }
-  if ("nota" in node.data && "nota" in previousNode.data) {
-    if (node.data.nota !== previousNode.data.nota) {
-      diffs.push({
-        currentText: node.data.nota,
-        previousText: previousNode.data.nota,
-        type: "nota" as const,
-      });
-    }
-  }
-  if ("content" in node.data && "content" in previousNode.data) {
-    if (node.data.content !== previousNode.data.content) {
-      diffs.push({
-        currentText: node.data.content,
-        previousText: previousNode.data.content,
-        type: "texte" as const,
-      });
-    }
-  }
-  if (node.data.etat !== previousNode.data.etat) {
-    diffs.push({
-      currentText: node.data.etat,
-      previousText: previousNode.data.etat,
-      type: "etat" as const,
-    });
-  }
 
-  return {
-    cid: node.data.cid,
-    diffs,
-    etat: node.data.etat,
-    id: node.data.id,
-    parents: getParents(node),
-    title:
-      node.type === "article" ? node.data.num ?? "Article" : node.data.title,
+    return {
+      cid: node.data.cid,
+      diffs,
+      etat: node.data.etat,
+      id: node.data.id,
+      parents: getParents(node),
+      title:
+        node.type === "article" ? node.data.num ?? "Article" : node.data.title,
+    };
   };
-};

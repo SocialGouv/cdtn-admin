@@ -40,11 +40,8 @@ function getTermsByLetter(glossary = []) {
 
 export function GlossaryPage() {
   const [search, setSearch] = useState("");
-  const [
-    displayedTerms,
-    setDisplayedTerms,
-    setDebouncedDisplayedTerms,
-  ] = useDebouncedState(undefined, 200);
+  const [displayedTerms, setDisplayedTerms, setDebouncedDisplayedTerms] =
+    useDebouncedState(undefined, 200);
   const [isSearching, setSearching] = useState(false);
   const [{ fetching: isFetching, data: { glossary = [] } = {} }] = useQuery({
     context,
@@ -67,9 +64,10 @@ export function GlossaryPage() {
     setSearching(false);
   }, [displayedTerms]);
 
-  const termsByLetters = useMemo(() => getTermsByLetter(displayedTerms), [
-    displayedTerms,
-  ]);
+  const termsByLetters = useMemo(
+    () => getTermsByLetter(displayedTerms),
+    [displayedTerms]
+  );
 
   return (
     <Layout title={`Glossaire`}>

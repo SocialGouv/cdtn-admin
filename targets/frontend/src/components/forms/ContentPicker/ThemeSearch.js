@@ -146,9 +146,10 @@ function renderSuggestionsContainer({ containerProps, children }) {
           },
           bg: "white",
           li: {
-            ":nth-of-type(2n + 1):not(.react-autosuggest__suggestion--highlighted)": {
-              bg: "highlight",
-            },
+            ":nth-of-type(2n + 1):not(.react-autosuggest__suggestion--highlighted)":
+              {
+                bg: "highlight",
+              },
             cursor: "pointer",
             m: "0",
             p: "xxsmall",

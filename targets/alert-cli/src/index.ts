@@ -219,14 +219,11 @@ async function getAlertChangesFromTags(
   const diff = await currTree.diff(prevTree);
   const patches = await diff.patches();
 
-  const filterPatches = patches.filter((patch) =>
-    fileFilter(patch.newFile().path())
-  );
-
   return diffProcessor(
     repository,
     currentTag,
-    filterPatches,
+    patches,
+    fileFilter,
     prevTree,
     currTree
   );

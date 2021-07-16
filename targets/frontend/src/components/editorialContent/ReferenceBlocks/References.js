@@ -9,7 +9,11 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Box, Field, Flex } from "theme-ui";
 
 export const References = ({ control, nestName, register, errors }) => {
-  const { fields: references, append, remove } = useFieldArray({
+  const {
+    fields: references,
+    append,
+    remove,
+  } = useFieldArray({
     control,
     keyName: "key",
     name: nestName,

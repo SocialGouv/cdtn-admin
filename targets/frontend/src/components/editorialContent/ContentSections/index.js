@@ -29,7 +29,12 @@ const SortableSectionList = SortableContainer(
 );
 
 export function ContentSections({ control, name, register, errors }) {
-  const { fields: blocks, append, move, remove } = useFieldArray({
+  const {
+    fields: blocks,
+    append,
+    move,
+    remove,
+  } = useFieldArray({
     control,
     keyName: "key",
     name,

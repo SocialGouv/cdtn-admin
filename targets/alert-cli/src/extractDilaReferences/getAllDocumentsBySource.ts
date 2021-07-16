@@ -20,44 +20,48 @@ import {
 const PAGE_SIZE = 100;
 const JOB_CONCURENCY = 3;
 
-const createDocumentsFetcher = <
-  T extends AllDocumentsBySourceResult | AllDocumentsWithRelationBySourceResult
->(
-  gqlRequest = getAllDocumentsBySourceQuery
-) => async (
-  source: SourceValues
-): Promise<PromiseSettledResult<OperationResult<T>>[]> => {
-  const countResult = await client
-    .query<CountDocumentsBySourceResult>(countDocumentsBySourceQuery, {
-      source,
-    })
-    .toPromise();
+const createDocumentsFetcher =
+  <
+    T extends
+      | AllDocumentsBySourceResult
+      | AllDocumentsWithRelationBySourceResult
+  >(
+    gqlRequest = getAllDocumentsBySourceQuery
+  ) =>
+  async (
+    source: SourceValues
+  ): Promise<PromiseSettledResult<OperationResult<T>>[]> => {
+    const countResult = await client
+      .query<CountDocumentsBySourceResult>(countDocumentsBySourceQuery, {
+        source,
+      })
+      .toPromise();
 
-  if (countResult.error || !countResult.data) {
-    console.error(countResult.error && "no data received");
-    throw new Error("getSources");
-  }
+    if (countResult.error || !countResult.data) {
+      console.error(countResult.error && "no data received");
+      throw new Error("getSources");
+    }
 
-  const { count } = countResult.data.documents_aggregate.aggregate;
+    const { count } = countResult.data.documents_aggregate.aggregate;
 
-  const pages = Array.from(
-    { length: Math.ceil(count / PAGE_SIZE) },
-    (_, i) => i
-  );
-  const documentResults = await batchPromises(
-    pages,
-    async (page) =>
-      client
-        .query<T>(gqlRequest, {
-          limit: PAGE_SIZE,
-          offset: page * PAGE_SIZE,
-          source,
-        })
-        .toPromise(),
-    JOB_CONCURENCY
-  );
-  return documentResults;
-};
+    const pages = Array.from(
+      { length: Math.ceil(count / PAGE_SIZE) },
+      (_, i) => i
+    );
+    const documentResults = await batchPromises(
+      pages,
+      async (page) =>
+        client
+          .query<T>(gqlRequest, {
+            limit: PAGE_SIZE,
+            offset: page * PAGE_SIZE,
+            source,
+          })
+          .toPromise(),
+      JOB_CONCURENCY
+    );
+    return documentResults;
+  };
 
 export async function _getDocumentsBySource(
   source: SourceValues
@@ -81,9 +85,10 @@ export const getAllDocumentsBySource = memoizee(_getDocumentsBySource);
 export async function _getDocumentsWithRelationsBySource(
   source: SourceValues
 ): Promise<HasuraDocumentWithRelations[]> {
-  const fetchDocuments = createDocumentsFetcher<AllDocumentsWithRelationBySourceResult>(
-    getAllDocumentsWithRelationsBySourceQuery
-  );
+  const fetchDocuments =
+    createDocumentsFetcher<AllDocumentsWithRelationBySourceResult>(
+      getAllDocumentsWithRelationsBySourceQuery
+    );
   const documentResults = await fetchDocuments(source);
   const documents = documentResults.flatMap((result) => {
     if (result.status === "fulfilled" && result.value.data) {
