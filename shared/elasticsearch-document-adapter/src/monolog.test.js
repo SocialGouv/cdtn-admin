@@ -8,7 +8,7 @@ const testDoc = {
 };
 
 jest.mock("@socialgouv/cdtn-monolog", () => ({
-  Queries: () => ({
+  LogQueries: () => ({
     getCovisitLinks: (path) => {
       if (
         path == "fiche-ministere-travail/activite-partielle-chomage-partiel"
