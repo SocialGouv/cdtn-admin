@@ -1062,6 +1062,16 @@
     pump "^3.0.0"
     secure-json-parse "^2.3.1"
 
+"@elastic/elasticsearch@^7.13.0":
+  version "7.13.0"
+  resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-7.13.0.tgz#6dcf511dfa91187e22c81e54f41f4bd0fd96b4d6"
+  integrity sha512-WgwLWo2p9P2tdqzBGX9fHeG8p5IOTXprXNTECQG2mJ7z9n93N5AFBJpEw4d35tWWeCWi9jI13A2wzQZH7XZ/xw==
+  dependencies:
+    debug "^4.3.1"
+    hpagent "^0.1.1"
+    ms "^2.1.3"
+    secure-json-parse "^2.4.0"
+
 "@emotion/babel-plugin@^11.0.0":
   version "11.1.2"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.1.2.tgz#68fe1aa3130099161036858c64ee92056c6730b7"
@@ -2678,12 +2688,12 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/cdtn-monolog@^1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-monolog/-/cdtn-monolog-1.5.2.tgz#7ee435916d757aa207afbac604a051ab1070b95d"
-  integrity sha512-dUxcVk0qLsYT85FiuordMkzrEYx7AKQP7y8uZn9hzMGvpSmOQI+X0F3+ZxcHU/wYxBce55JcCerHuMnPfs5UEQ==
+"@socialgouv/cdtn-monolog@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-monolog/-/cdtn-monolog-1.5.4.tgz#3203a77380c5e152edbee97d0ac3cb11d220487e"
+  integrity sha512-btCA+hAA0ygosj91HrXX1F5erHG4pMBGK8DNTKtF6BAVRoWM2pgrBMl7rnqSGG8KqHPCg59xIOT04a6hidCs6w==
   dependencies:
-    "@elastic/elasticsearch" "^7.12.0"
+    "@elastic/elasticsearch" "^7.13.0"
     "@socialgouv/cdtn-sources" "^4.45.0"
     data-forge "^1.8.17"
     data-forge-fs "^0.0.9"
@@ -12044,6 +12054,11 @@ secure-json-parse@^2.3.1:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/secure-json-parse/-/secure-json-parse-2.3.2.tgz#0284c9525c6f24d38774f13727addff80634c2e9"
   integrity sha512-4oUSFU0w2d8/XQb7NO9dbMYyp/hxIwZPcZcGAlAAEziMRHs+NbUcx2Z5dda/z8o+avyQ8gpuYnTMlGh8SVwg9g==
+
+secure-json-parse@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/secure-json-parse/-/secure-json-parse-2.4.0.tgz#5aaeaaef85c7a417f76271a4f5b0cc3315ddca85"
+  integrity sha512-Q5Z/97nbON5t/L/sH6mY2EacfjVGwrCcSi5D3btRO2GZ8pf1K1UN7Z9H5J57hjVU2Qzxr1xO+FmBhOvEkzCMmg==
 
 semver-compare@^1.0.0:
   version "1.0.0"

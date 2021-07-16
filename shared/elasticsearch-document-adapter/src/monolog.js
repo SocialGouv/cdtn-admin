@@ -42,14 +42,15 @@ export const fetchCovisits = async (doc) => {
   const links = await queries
     .getCovisitLinks(path)
     .then((covisits) => covisits.links)
-    .catch(() => {
+    .catch((err) => {
+      // handle Elasticloud error
+      if (err.body && err.body.status) {
+        throw err;
+      }
       // TODO avoid silent and deal with failure properly
-      // console.error(err);
       return undefined;
     });
-  if (links?.length > 0) {
-    console.log(path, links);
-  }
+
   doc.covisits = links;
 
   return doc;
