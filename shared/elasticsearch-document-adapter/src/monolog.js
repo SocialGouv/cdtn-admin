@@ -44,7 +44,7 @@ export const fetchCovisits = async (doc) => {
     .then((covisits) => covisits.links)
     .catch((err) => {
       // handle Elasticloud error
-      if (err.body && err.body.status) {
+      if (err?.body?.status) {
         throw err;
       }
       // TODO avoid silent and deal with failure properly
