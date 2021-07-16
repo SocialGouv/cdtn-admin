@@ -22,6 +22,7 @@ data:
   CDTN_ADMIN_ENDPOINT: http://hasura/v1/graphql
   NLP_URL: https://preprod-serving-ml.dev2.fabrique.social.gouv.fr
   NODE_ENV: production
+  LOG_LEVEL: info
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -147,6 +148,7 @@ data:
   CDTN_ADMIN_ENDPOINT: http://hasura/v1/graphql
   NLP_URL: https://serving-ml.fabrique.social.gouv.fr
   NODE_ENV: production
+  LOG_LEVEL: info
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
