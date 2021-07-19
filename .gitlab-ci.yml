@@ -82,7 +82,7 @@ Production:
 Stop review:
   extends:
     - .autodevops_stop_review
-  image: ghcr.io/socialgouv/docker/no-k8s:6.26.5
+  image: ghcr.io/socialgouv/docker/no-k8s:6.26.6
   allow_failure: true
   needs:
     - job: Review
