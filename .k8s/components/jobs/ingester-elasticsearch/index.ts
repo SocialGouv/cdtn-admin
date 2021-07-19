@@ -1,6 +1,6 @@
 import env from "@kosko/env";
 import type { SealedSecret } from "@kubernetes-models/sealed-secrets/bitnami.com/v1alpha1/SealedSecret";
-import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
+import environments from "@socialgouv/kosko-charts/environments";
 import { getHarborImagePath } from "@socialgouv/kosko-charts/utils";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
@@ -14,13 +14,13 @@ const target = process.env.INGESTER_ELASTICSEARCH_TARGET;
 ok(target, "Missing INGESTER_ELASTICSEARCH_TARGET");
 
 ok(process.env.CI_REGISTRY_IMAGE, "Missing CI_REGISTRY_IMAGE");
-const gitlabEnv = gitlab(process.env);
+const envParams = environments(process.env);
 const name = `ingester-elasticsearch-${target}`;
-const annotations = merge(gitlabEnv.annotations || {}, {
+const annotations = merge(envParams.metadata.annotations || {}, {
   "kapp.k14s.io/disable-default-ownership-label-rules": "",
   "kapp.k14s.io/disable-default-label-scoping-rules": "",
 });
-const labels = merge(gitlabEnv.labels || {}, {
+const labels = merge(envParams.metadata.labels || {}, {
   app: name,
 });
 
@@ -39,13 +39,13 @@ export default async () => {
     `ingester-elasticsearch/${target}.sealed-secret.yaml`
   );
   updateMetadata(configMap, {
-    namespace: gitlabEnv.namespace,
+    namespace: envParams.metadata.namespace,
     annotations,
     labels,
   });
   ok(secret, `Missing ingester-elasticsearch/${target}.sealed-secret.yaml`);
   updateMetadata(secret, {
-    namespace: gitlabEnv.namespace,
+    namespace: envParams.metadata.namespace,
     annotations,
     labels,
   });
@@ -59,7 +59,7 @@ export default async () => {
       }),
       labels,
       name,
-      namespace: gitlabEnv.namespace.name,
+      namespace: envParams.metadata.namespace.name,
     },
     spec: {
       backoffLimit: 0,

@@ -3,7 +3,7 @@
 import { getDefaultPgParams } from "@socialgouv/kosko-charts/components/azure-pg";
 import { getDevDatabaseParameters } from "@socialgouv/kosko-charts/components/azure-pg/params";
 import { restoreDbJob } from "@socialgouv/kosko-charts/components/azure-pg/restore-db.job";
-import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
+import environments from "@socialgouv/kosko-charts/environments";
 import { ok } from "assert";
 import fs from "fs";
 import { Job } from "kubernetes-models/batch/v1";
@@ -29,7 +29,7 @@ const pgParams =
       }
     : getDevDatabaseParameters({ suffix });
 
-const gitlabEnv = gitlab(process.env);
+const envParams = environments(process.env);
 
 const manifests = restoreDbJob({
   env: [
@@ -55,7 +55,7 @@ const manifests = restoreDbJob({
 
 (manifests as any as { metadata: ObjectMeta }[]).forEach((m) => {
   m.metadata = m.metadata || new ObjectMeta({});
-  m.metadata.labels = m.metadata.labels || gitlabEnv.labels || {};
+  m.metadata.labels = m.metadata.labels || envParams.metadata.labels || {};
   m.metadata.labels.component =
     process.env.COMPONENT || `restore-${process.env.CI_COMMIT_REF_SLUG}`;
 });

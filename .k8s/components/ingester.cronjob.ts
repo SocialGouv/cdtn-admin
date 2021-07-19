@@ -1,5 +1,5 @@
 import env from "@kosko/env";
-import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
+import environments from "@socialgouv/kosko-charts/environments";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
@@ -8,13 +8,13 @@ import { ok } from "assert";
 import { CronJob } from "kubernetes-models/batch/v1beta1";
 import { ConfigMap, PersistentVolumeClaim, Secret } from "kubernetes-models/v1";
 
-const gitlabEnv = gitlab(process.env);
+const envParams = environments(process.env);
 const name = "ingester";
-const annotations = merge(gitlabEnv.annotations || {}, {
+const annotations = merge(envParams.metadata.annotations || {}, {
   "kapp.k14s.io/disable-default-ownership-label-rules": "",
   "kapp.k14s.io/disable-default-label-scoping-rules": "",
 });
-const labels = merge(gitlabEnv.labels || {}, {
+const labels = merge(envParams.metadata.labels || {}, {
   app: name,
 });
 
@@ -27,7 +27,7 @@ const persistentVolumeClaim = new PersistentVolumeClaim({
     annotations,
     labels,
     name,
-    namespace: gitlabEnv.namespace.name,
+    namespace: envParams.metadata.namespace.name,
   },
   spec: {
     accessModes: ["ReadWriteOnce"],
@@ -44,14 +44,14 @@ export default async () => {
   const configMap = await loadYaml<ConfigMap>(env, `ingester.configmap.yaml`);
   ok(configMap, "Missing ingester.configmap.yaml");
   updateMetadata(configMap, {
-    namespace: gitlabEnv.namespace,
+    namespace: envParams.metadata.namespace,
     annotations,
     labels,
   });
   const secret = await loadYaml<Secret>(env, `ingester.sealed-secret.yaml`);
   ok(secret, "Missing ingester.sealed-secret.yaml");
   updateMetadata(secret, {
-    namespace: gitlabEnv.namespace,
+    namespace: envParams.metadata.namespace,
     annotations,
     labels,
   });
@@ -61,7 +61,7 @@ export default async () => {
       annotations,
       labels,
       name,
-      namespace: gitlabEnv.namespace.name,
+      namespace: envParams.metadata.namespace.name,
     },
     spec: {
       concurrencyPolicy: "Forbid",
