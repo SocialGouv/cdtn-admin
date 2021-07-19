@@ -11,7 +11,7 @@ Nous avons besoin de 3 tokens :
 
 - `cdtn_api`: token pour l'api (lecture)
 - `cdtn_ingest`: un token pour manipuler les index et les remplir (lecture/écriture)
-- `cdtn_update`:  un token pour mettre à jour un index (preview)
+- `cdtn_update`:  un token pour mettre à jour un index (preview / publication)
 
 L'api retourne une paire id/api_key clé qu'il faut ensuite transformer avant de pouvoir l'utiliser 
 
