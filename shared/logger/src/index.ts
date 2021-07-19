@@ -1,5 +1,3 @@
-//
-
 import { createLogger, format, transports } from "winston";
 
 const { Console } = transports;
