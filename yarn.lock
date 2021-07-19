@@ -2733,12 +2733,13 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/cdtn-monolog@^1.5.4":
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-monolog/-/cdtn-monolog-1.5.4.tgz#3203a77380c5e152edbee97d0ac3cb11d220487e"
-  integrity sha512-btCA+hAA0ygosj91HrXX1F5erHG4pMBGK8DNTKtF6BAVRoWM2pgrBMl7rnqSGG8KqHPCg59xIOT04a6hidCs6w==
+"@socialgouv/cdtn-monolog@^1.5.5":
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-monolog/-/cdtn-monolog-1.5.5.tgz#30c39b97c37d8c421482ab045e49461c467ffd49"
+  integrity sha512-bOXpdHyFUM3ORnlqHizmweFFaWev7i5zXQRP3wGhU9FtQAJIbioOW7qeAcO0LVK4Ehut61mD8SB9ET1NDS2RiA==
   dependencies:
     "@elastic/elasticsearch" "^7.13.0"
+    "@socialgouv/cdtn-logger" "^1.7.4"
     "@socialgouv/cdtn-sources" "^4.45.0"
     data-forge "^1.8.17"
     data-forge-fs "^0.0.9"
