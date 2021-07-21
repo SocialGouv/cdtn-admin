@@ -48,6 +48,7 @@ export type DataUpdateResult = {
 function isActivePipeline(status: string) {
   return ["created", "pending", "running"].includes(status);
 }
+
 export function EvironementPage(): JSX.Element {
   // use context to update table after trigger pipeline button
   const context = useMemo(
@@ -125,7 +126,7 @@ export function EvironementPage(): JSX.Element {
               <Th align="left">Environement</Th>
               <Th align="left">Utilisateur</Th>
               <Th align="left">Date</Th>
-              <Th align="left">Status</Th>
+              <Th align="left">Statut</Th>
               <Th />
             </Tr>
           </thead>
