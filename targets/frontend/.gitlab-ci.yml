@@ -46,6 +46,8 @@
     - .autodevops_lint
     - .cdtn_base_rules
   needs:
+    - job: 📦 logger
+      artifacts: true
     - job: 🧶 install www
       artifacts: true
   before_script:
@@ -62,6 +64,8 @@
   before_script:
     - cd targets/frontend
   needs:
+    - job: 📦 logger
+      artifacts: true
     - job: 🧶 install www
       artifacts: true
   artifacts:
