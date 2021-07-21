@@ -145,8 +145,8 @@ export function Nav() {
             </ActiveLink>
           </Li>
           <Li>
-            <ActiveLink href="/mise-a-jour" passHref>
-              Mise à jour
+            <ActiveLink href="/mises-a-jour" passHref>
+              Mises à jour
             </ActiveLink>
           </Li>
         </List>

@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { MdOpenInBrowser, MdOpenInNew, MdPageview } from "react-icons/md";
 import { GitlabButton } from "src/components/button/GitlabButton";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
@@ -11,7 +12,7 @@ import {
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Badge, Message, Spinner } from "theme-ui";
+import { Badge, Message, NavLink, Spinner } from "theme-ui";
 import { useQuery } from "urql";
 
 export const getDataUpdateQuery = `
@@ -64,7 +65,7 @@ export function EvironementPage(): JSX.Element {
 
   if (error) {
     return (
-      <Layout title="Contenus dupliqués">
+      <Layout title="Mises à jour des environnements">
         <Stack>
           <Message>
             <pre>{JSON.stringify(error, null, 2)}</pre>
@@ -85,7 +86,7 @@ export function EvironementPage(): JSX.Element {
     ) ?? false;
 
   return (
-    <Layout title="Mises à jour des environnements ">
+    <Layout title="Mises à jour des environnements">
       <Stack>
         <p>
           Cette page permet de mettre à jour les données des environements de{" "}
@@ -125,12 +126,13 @@ export function EvironementPage(): JSX.Element {
               <Th align="left">Utilisateur</Th>
               <Th align="left">Date</Th>
               <Th align="left">Status</Th>
+              <Th />
             </Tr>
           </thead>
           {!data && fetching && (
             <tbody>
               <tr>
-                <td colSpan={4}>
+                <td colSpan={5}>
                   <Spinner />
                 </td>
               </tr>
@@ -163,6 +165,19 @@ export function EvironementPage(): JSX.Element {
                       ) : (
                         getPipelineStatusLabel(status)
                       )}
+                    </Td>
+                    <Td>
+                      <NavLink
+                        title={`Voir le détail pipeline ${pipelineId}`}
+                        sx={{ fontSize: "xsmall", fontWeight: 300 }}
+                        href={`https://gitlab.factory.social.gouv.fr/SocialGouv/cdtn-admin/-/pipelines/${pipelineId}`}
+                      >
+                        <MdOpenInNew
+                          sx={{ mb: "-.2rem" }}
+                          size="16"
+                          aria-label="voir le pipeline"
+                        />
+                      </NavLink>
                     </Td>
                   </Tr>
                 );
