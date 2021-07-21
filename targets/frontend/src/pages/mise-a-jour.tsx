@@ -15,7 +15,7 @@ import { useQuery } from "urql";
 
 export const getDataUpdateQuery = `
 query getPipelines {
-  pipelines(order_by: {created_at: desc}) {
+  pipelines(order_by: {created_at: desc}, limit: 50) {
     id
     pipelineId: pipeline_id 
     createdAt: created_at
@@ -84,10 +84,10 @@ export function EvironementPage(): JSX.Element {
     ) ?? false;
 
   return (
-    <Layout title="Suivi des mises à jour des environnement">
+    <Layout title="Mises à jour des environnements ">
       <Stack>
         <p>
-          Cette page permet de mettre à jour les environment{" "}
+          Cette page permet de mettre à jour les données des environements de{" "}
           <Badge as="span" variant="accent">
             prod
           </Badge>{" "}
