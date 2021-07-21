@@ -1,5 +1,9 @@
+/** @jsxImportSource theme-ui */
+
 import { memo, useEffect } from "react";
+import { MdTimelapse } from "react-icons/md";
 import useSWR from "swr";
+import { Box, Flex, Text } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 export const getPipelineStatusQuery = `
@@ -48,11 +52,51 @@ function StatusComponent({
     }
   }, [data, initialStatus, updateStatus, pipelineId]);
 
-  if (error || !data) {
-    return <span>{"en cours"}</span>;
+  if (error) {
+    return <span>Erreur</span>;
   }
 
-  return <span>{data?.pipelineStatus.status}</span>;
+  return getPipelineStatusLabel(data?.pipelineStatus.status);
 }
-
 export const Status = memo(StatusComponent);
+
+export function getPipelineStatusLabel(status: string): JSX.Element {
+  if (!status) {
+    return (
+      <Flex sx={{ alignItems: "center" }}>
+        <span>En cours</span> <MdTimelapse sx={{ mb: "-.3rem", ml: ".4rem" }} />
+      </Flex>
+    );
+  }
+  switch (status) {
+    case "passed":
+      return (
+        <Box as="span" color="positive">
+          Succés
+        </Box>
+      );
+    case "canceled":
+      return (
+        <Box as="span" color="muted">
+          Annulé
+        </Box>
+      );
+    case "created":
+    case "pending":
+    case "running":
+      return (
+        <Flex sx={{ alignItems: "center" }}>
+          <span>En cours</span>{" "}
+          <MdTimelapse sx={{ mb: "-.2rem", ml: ".3rem" }} />
+        </Flex>
+      );
+    case "failed":
+      return (
+        <Box as="span" color="critical">
+          Erreur
+        </Box>
+      );
+    default:
+      return <Box as="span">{status}</Box>;
+  }
+}

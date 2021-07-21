@@ -6,7 +6,10 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
 import { EnvironementBadge } from "src/components/pipelines/EnvironmentBadge";
-import { Status } from "src/components/pipelines/Status";
+import {
+  getPipelineStatusLabel,
+  Status,
+} from "src/components/pipelines/Status";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
@@ -160,7 +163,7 @@ export function EvironementPage(): JSX.Element {
                           pipelineId={pipelineId}
                         />
                       ) : (
-                        <span> {status} </span>
+                        getPipelineStatusLabel(status)
                       )}
                     </Td>
                   </Tr>

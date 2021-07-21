@@ -66,7 +66,10 @@ export const ConfirmButton = React.forwardRef(function _ConfirmButton(
           bg: "muted",
           borderColor: "muted",
         },
-        bg: (theme) => theme.buttons[variant].bg,
+        bg: (theme) => {
+          console.log({ theme });
+          return theme.buttons[variant].bg;
+        },
         borderColor: (theme) => theme.buttons[variant].bg,
         borderRadius: "small",
         color: (theme) => theme.buttons[variant].color,
