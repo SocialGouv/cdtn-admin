@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { useMemo } from "react";
 import { GitlabButton } from "src/components/button/GitlabButton";
 import { Layout } from "src/components/layout/auth.layout";

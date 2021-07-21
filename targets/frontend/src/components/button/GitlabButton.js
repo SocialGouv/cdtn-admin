@@ -1,6 +1,9 @@
+/** @jsxImportSource theme-ui */
+
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { MdLoop, MdSyncProblem, MdTimelapse } from "react-icons/md";
+import { Badge } from "theme-ui";
 import { useClient } from "urql";
 
 import { ConfirmButton } from "../confirmButton";
@@ -25,11 +28,14 @@ function GitlabBtn({ environment, variant, children, pending = false }) {
       return;
     }
     setStatus("pending");
-    client.mutation(pipelineMutation, { environment }).toPromise((result) => {
-      if (result.error) {
-        setStatus("error");
-      }
-    });
+    client
+      .mutation(pipelineMutation, { environment })
+      .toPromise()
+      .then((result) => {
+        if (result.error) {
+          setStatus("error");
+        }
+      });
   }
 
   const isDisabled = status === "pending" || status === "error";
@@ -39,10 +45,15 @@ function GitlabBtn({ environment, variant, children, pending = false }) {
       onClick={clickHandler}
       variant={variant}
     >
-      {status === "pending" && <MdTimelapse />}
-      {status === "ready" && <MdLoop />}
-      {status === "error" && <MdSyncProblem />}
+      {status === "pending" && <MdTimelapse sx={{ mr: ".2rem" }} />}
+      {status === "ready" && <MdLoop sx={{ mr: ".2rem" }} />}
+      {status === "error" && <MdSyncProblem sx={{ mr: ".2rem" }} />}
       {children}
+      {status === "error" && (
+        <Badge bg="critical" sx={{ ml: "-3rem", mt: "-3rem" }}>
+          Erreur
+        </Badge>
+      )}
     </ConfirmButton>
   );
 }
