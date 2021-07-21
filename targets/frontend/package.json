@@ -17,6 +17,7 @@
     "@sentry/node": "^6.9.0",
     "@shared/graphql-client": "^1.7.7",
     "@shared/id-generator": "^1.7.7",
+    "@socialgouv/cdtn-logger": "^1.7.7",
     "@socialgouv/cdtn-slugify": "^4.45.0",
     "@socialgouv/cdtn-sources": "^4.45.0",
     "@socialgouv/cdtn-ui": "^4.52.0",

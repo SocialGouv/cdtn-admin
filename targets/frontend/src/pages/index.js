@@ -1,4 +1,3 @@
-import { GitlabButton } from "src/components/button/GitlabButton";
 import { DuplicateContent } from "src/components/home/DuplicateItems";
 import { UnThemedContent } from "src/components/home/UnThemedContent";
 import { Layout } from "src/components/layout/auth.layout";
@@ -12,10 +11,6 @@ export function IndexPage() {
   return (
     <Layout title="Administration des contenus et gestion des alertes">
       <Stack>
-        <Inline>
-          <GitlabButton env="prod">Mettre à jour la prod</GitlabButton>
-          <GitlabButton env="preprod">Mettre à jour la preprod</GitlabButton>
-        </Inline>
         <Heading as="h2" sx={{ fontSize: "large" }}>
           Tableau de bord
         </Heading>

@@ -8,8 +8,9 @@ import { init } from "@socialgouv/matomo-next";
 import getConfig from "next/config";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import { theme } from "src/theme";
 import { ThemeProvider } from "theme-ui";
+
+import { theme } from "../theme";
 
 if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   const config = getConfig();

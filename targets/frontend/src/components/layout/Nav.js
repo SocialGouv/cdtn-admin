@@ -144,6 +144,11 @@ export function Nav() {
               Elements en Doublons
             </ActiveLink>
           </Li>
+          <Li>
+            <ActiveLink href="/mises-a-jour" passHref>
+              Mises à jour
+            </ActiveLink>
+          </Li>
         </List>
       </Box>
     </Box>
@@ -187,6 +192,7 @@ function ActiveLink({ children, href }) {
         sx={{
           color: isCurrentRoute ? "primary" : "text",
         }}
+        {...(isCurrentRoute && { "aria-current": "page" })}
       >
         {children}
       </NavLink>
