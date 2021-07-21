@@ -2,7 +2,7 @@
 
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
-import { ComponentPropsWithoutRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   DuplicateContentResult,
   DuplicateDocument,
@@ -11,13 +11,12 @@ import type {
 import { getDuplicateQuery } from "src/components/home/DuplicateItems";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
+import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { css, Message, NavLink, Spinner, SxProp } from "theme-ui";
+import { Message, NavLink, Spinner } from "theme-ui";
 import { useQuery } from "urql";
-
-import Source from "./contenus/create/[[...source]]";
 
 export function DuplicateContentPage(): JSX.Element {
   const [duplicates, setDuplicates] = useState<Relation[]>([]);
@@ -113,56 +112,3 @@ export function DuplicateContentPage(): JSX.Element {
 }
 
 export default withCustomUrqlClient(withUserProvider(DuplicateContentPage));
-
-const Table = (props: ComponentPropsWithoutRef<"table">) => (
-  <table
-    sx={{
-      borderCollapse: "collapse",
-      borderRadius: "small",
-      overflow: "hidden",
-      width: "100%",
-    }}
-    {...props}
-  />
-);
-
-const Tr = (props: ComponentPropsWithoutRef<"tr">) => <tr sx={{}} {...props} />;
-
-type CellAlign = {
-  align?: "left" | "right" | "center";
-};
-
-const Th = ({
-  align = "left",
-  ...props
-}: ComponentPropsWithoutRef<"th"> & CellAlign) => (
-  <th
-    sx={{
-      borderBottom: "1px solid",
-      fontSize: "medium",
-      fontWeight: "semibold",
-      px: "xsmall",
-      py: "xsmall",
-      textAlign: align,
-    }}
-    {...props}
-  />
-);
-
-const Td = ({
-  align = "left",
-  ...props
-}: ComponentPropsWithoutRef<"td"> & CellAlign) => (
-  <td
-    sx={{
-      fontWeight: 300,
-      px: "xsmall",
-      py: "xxsmall",
-      textAlign: align,
-      "tr:nth-of-type(even) &": {
-        bg: "highlight",
-      },
-    }}
-    {...props}
-  />
-);

@@ -29,6 +29,21 @@ export function getPipelineInfos(id) {
 }
 
 export function getPipelineVariables(id) {
+  /** 
+   * exemple payload
+   [
+    {
+      variable_type: 'env_var',
+      key: 'TRIGGER',
+      value: 'UPDATE_PREPROD'
+    },
+    {
+      variable_type: 'file',
+      key: 'TRIGGER_PAYLOAD',
+      value: '{"ref":"v1.7.6","variables":{"TRIGGER":"UPDATE_PREPROD"},"id":"136"}'
+    }
+  ]
+   */
   return request(`${url}/projects/${projectId}/pipelines/${id}/variables`, {
     headers: { Authorization: `Bearer ${accessToken.trim()}` },
   });

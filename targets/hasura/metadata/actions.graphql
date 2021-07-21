@@ -1,40 +1,86 @@
 type Mutation {
-  email_account_activation(email: citext!, secret_token: uuid!): Status
+  email_account_activation (
+    email: citext!
+    secret_token: uuid!
+  ): Status
 }
 
+
 type Mutation {
-  email_password_request(email: citext!, secret_token: uuid!): Status
+  email_password_request (
+    email: citext!
+    secret_token: uuid!
+  ): Status
 }
+
 
 type Query {
-  pipelines: RunningPipelines
+  pipeline_status (
+    pipelineId: String!
+  ): PipelineStatus
 }
 
-type Mutation {
-  preview_document(cdtnId: String!, document: jsonb!, source: String!): Status
-}
 
 type Mutation {
-  trigger_pipeline(env: String!): Status
+  preview_document (
+    cdtnId: String!
+    document: jsonb!
+    source: String!
+  ): Status
 }
+
+
+type Mutation {
+  updatePipeline (
+    environment: String!
+  ): UpdatePipelineOutput
+}
+
+
+
 
 input PreviewDocument {
-  cdtn_id: String
-  document: jsonb
-  source: String
+  cdtn_id : String
+  document : jsonb
+  source : String
 }
 
 input EmailInput {
-  email: String!
-  secret_token: uuid!
+  email : String!
+  secret_token : uuid!
 }
 
 type Status {
-  message: String!
-  statusCode: Int!
+  message : String!
+  statusCode : Int!
 }
 
 type RunningPipelines {
-  preprod: Boolean!
-  prod: Boolean!
+  id : String!
+  status : String!
+  environment : String!
 }
+
+type UpdateDataSourceOutput {
+  created_at : timestamptz!
+  environment : String!
+  id : uuid!
+  pipeline_id : String!
+  status : String!
+  user_id : uuid!
+}
+
+type PipelineStatus {
+  id : String!
+  status : String!
+}
+
+type UpdatePipelineOutput {
+  created_at : timestamptz!
+  environment : String!
+  id : uuid!
+  pipeline_id : String!
+  status : String!
+  user_id : uuid!
+}
+
