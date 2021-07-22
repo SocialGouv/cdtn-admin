@@ -36,7 +36,10 @@ async function callTFServe(json) {
     cache,
     json,
     responseType: "json",
-    retry: 15,
+    retry: {
+      limit: 15,
+      methods: ["POST"],
+    },
   });
   return body["outputs"];
 }
