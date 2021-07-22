@@ -203,7 +203,8 @@ Release:
 🛎️ Generate sitemap (prod => preprod):
   extends:
     - .generate_sitemap
-  needs: []
+  needs: 
+    - job: 🛎️ ingester-elasticsearch (prod => es preprod)
   rules:
     - if: $TRIGGER == "UPDATE_PREPROD"
   environment:
@@ -219,7 +220,8 @@ Release:
 🎉 Generate sitemap (prod => prod):
   extends:
     - .generate_sitemap
-  needs: []
+  needs: 
+    - job: 🎉 ingester-elasticsearch (prod => es prod)
   rules:
     - if: $TRIGGER == "UPDATE_PROD"
   environment:
@@ -231,6 +233,23 @@ Release:
     SITEMAP_UPLOADER_TARGET: prod
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
+
+🛎️ Export storage (preprod):
+  stage: .post
+  extends:
+    - .base_deploy_kosko_stage
+  environment:
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
+  dependencies: []
+  allow_failure: true
+  rules:
+    - if: $TRIGGER == "UPDATE_PREPROD"
+  environment:
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
+  variables:
+    # kosko options
+    KOSKO_GENERATE_ARGS: --env prod jobs/restore/container
+
 
 🎉 Export storage (prod):
   stage: .post
