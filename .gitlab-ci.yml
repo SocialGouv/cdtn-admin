@@ -232,48 +232,6 @@ Release:
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
 
-🛎️ Export storage (review):
-  stage: .post
-  extends:
-    - .base_deploy_kosko_stage
-  environment:
-    name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
-    url: https://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
-  dependencies: []
-  allow_failure: true
-  rules:
-    - if: "$PRODUCTION || $TRIGGER || $CI_COMMIT_TAG"
-      when: never
-    - when: manual
-      allow_failure: true
-  variables:
-    # storage copy
-    SOURCE_CONTAINER: "cdtn"
-    SOURCE_SERVER: "dev"
-    DESTINATION_CONTAINER: "cdtn-dev"
-    DESTINATION_SERVER: "dev"
-    # kosko options
-    KOSKO_GENERATE_ARGS: --env dev jobs/restore/container
-
-🛎️ Export storage (preprod):
-  stage: .post
-  extends:
-    - .base_deploy_kosko_stage
-  environment:
-    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
-  dependencies: []
-  allow_failure: true
-  rules:
-    - if: $TRIGGER == "UPDATE_PREPROD"
-  variables:
-    # storage copy
-    SOURCE_CONTAINER: "cdtn"
-    SOURCE_SERVER: "dev"
-    DESTINATION_CONTAINER: "cdtn-preprod"
-    DESTINATION_SERVER: "dev"
-    # kosko options
-    KOSKO_GENERATE_ARGS: --env dev jobs/restore/container
-
 🎉 Export storage (prod):
   stage: .post
   extends:
