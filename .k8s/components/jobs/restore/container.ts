@@ -6,7 +6,7 @@ import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../../../utils/GITLAB_LIKE_ENVIRON
 const envParams = environments(process.env);
 
 let destContainer = "cdtn-dev";
-if (envParams.isPreProduction) {
+if (envParams.tag?.startsWith("v") && envParams.isProduction === false) {
   destContainer = "cdtn-preprod";
 } else if (envParams.isProduction) {
   destContainer = "cdtn";
