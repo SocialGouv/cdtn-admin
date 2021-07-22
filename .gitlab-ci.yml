@@ -149,7 +149,7 @@ Release:
   extends:
     - .base_deploy_kosko_stage
     - .cdtn_base_rules
-  stage: Deploy
+  stage: .post
   cache:
     key:
       files:
@@ -232,21 +232,16 @@ Release:
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
 
-Export storage to prod:
+🎉 Export storage (prod):
   stage: .post
   extends:
     - .base_deploy_kosko_stage
   environment:
-    name: prod
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   dependencies: []
   allow_failure: true
   rules:
     - if: $TRIGGER == "UPDATE_PROD"
   variables:
-    # storage copy
-    SOURCE_CONTAINER: "cdtn"
-    SOURCE_SERVER: "dev"
-    DESTINATION_CONTAINER: "cdtn"
-    DESTINATION_SERVER: "prod"
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/restore/container
