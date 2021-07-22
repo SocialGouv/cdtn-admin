@@ -5,6 +5,13 @@ import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../../../utils/GITLAB_LIKE_ENVIRON
 
 const envParams = environments(process.env);
 
+let destContainer = "cdtn-dev";
+if (envParams.isPreProduction) {
+  destContainer = "cdtn-preprod";
+} else if (envParams.isProduction) {
+  destContainer = "cdtn";
+}
+
 const job = restoreContainerJob({
   env: [
     new EnvVar({
@@ -13,12 +20,12 @@ const job = restoreContainerJob({
     }),
     new EnvVar({
       name: "DESTINATION_CONTAINER",
-      value: "cdtn",
+      value: destContainer,
     }),
   ],
   from: "dev",
   project: "cdtn-admin",
-  to: "prod",
+  to: envParams.isProduction ? "prod" : "dev",
 });
 job.metadata!.name = `restore-container-${GITLAB_LIKE_ENVIRONMENT_SLUG}`;
 job.metadata!.labels = envParams.metadata.labels || {};

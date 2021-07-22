@@ -243,10 +243,5 @@ Release:
   rules:
     - if: $TRIGGER == "UPDATE_PROD"
   variables:
-    # storage copy
-    SOURCE_CONTAINER: "cdtn"
-    SOURCE_SERVER: "dev"
-    DESTINATION_CONTAINER: "cdtn"
-    DESTINATION_SERVER: "prod"
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/restore/container
