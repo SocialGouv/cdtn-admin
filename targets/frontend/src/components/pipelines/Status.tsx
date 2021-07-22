@@ -69,6 +69,7 @@ export function getPipelineStatusLabel(status: string): JSX.Element {
     );
   }
   switch (status) {
+    case "success":
     case "passed":
       return (
         <Box as="span" color="positive">
