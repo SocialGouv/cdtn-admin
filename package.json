@@ -19,5 +19,8 @@
     "shared/*",
     "targets/*"
   ],
-  "name": "cdtn-admin"
+  "name": "cdtn-admin",
+  "volta": {
+    "node": "14.17.3"
+  }
 }
