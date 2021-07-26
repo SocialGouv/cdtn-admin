@@ -13,8 +13,8 @@
     "unist-util-select": "^3.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/preset-env": "^7.14.7",
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
     "@shared/types": "^1.8.3",
     "@socialgouv/contributions-data-types": "^3.27.0",
     "@socialgouv/eslint-config-typescript": "^1.75.0",
@@ -23,10 +23,10 @@
     "@socialgouv/legi-data-types": "^2.62.0",
     "@types/jest": "^26.0.24",
     "@types/memoizee": "^0.4.6",
-    "@types/node": "^14.17.5",
-    "@types/node-fetch": "^2.5.11",
+    "@types/node": "^14.17.6",
+    "@types/node-fetch": "^2.5.12",
     "@types/nodegit": "^0.27.3",
-    "@types/semver": "^7.3.7",
+    "@types/semver": "^7.3.8",
     "@types/unist": "^2.0.6",
     "@vercel/ncc": "0.28.6",
     "babel-jest": "^27.0.6",
@@ -35,7 +35,7 @@
     "jest": "^27.0.6",
     "lint-staged": "^11.0.1",
     "prettier": "^2.3.2",
-    "ts-jest": "^27.0.3",
+    "ts-jest": "^27.0.4",
     "typescript": "^4.3.5"
   },
   "license": "MIT",
