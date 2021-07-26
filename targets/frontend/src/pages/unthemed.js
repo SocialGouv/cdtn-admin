@@ -93,7 +93,7 @@ export function UnthemedPage() {
                           title={title}
                         >
                           <NavLink
-                            href={`https://cdtn-preprod-code-travail.dev2.fabrique.social.gouv.fr/${getRouteBySource(
+                            href={`https://preprod-code-du-travail-numerique.dev.fabrique.social.gouv.fr//${getRouteBySource(
                               source
                             )}/${slug}`}
                             target="_blank"
