@@ -100,19 +100,21 @@ export async function injest() {
       monologQueue.add(() => fetchCovisits(doc))
     );
     let covisitDocuments = await Promise.all(pDocs);
-    await monologQueue.onIdle();
+    console.log(`monologQueue size ${monologQueue.size}`);
     // add NLP vectors
     if (!excludeSources.includes(source)) {
       const pDocs = covisitDocuments.map((doc) =>
         nlpQueue.add(() => addVector(doc))
       );
       covisitDocuments = await Promise.all(pDocs);
-      await nlpQueue.onIdle();
+      console.log(`nlpQueue size ${nlpQueue.size}`);
+      logger.info(`finished vectorize ${source} documents`);
     }
     await indexDocumentsBatched({
       client,
       documents: covisitDocuments,
       indexName: `${DOCUMENT_INDEX_NAME}-${ts}`,
+      size: 1000,
     });
   }
 
