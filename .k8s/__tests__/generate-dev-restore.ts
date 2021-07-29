@@ -13,3 +13,13 @@ test("kosko generate --dev jobs/restore", async () => {
     })
   ).toMatchSnapshot();
 });
+
+test("kosko generate --dev jobs/restore/container", async () => {
+  process.env.HARBOR_PROJECT = "cdtn";
+  process.env.CI_JOB_ID = "123456789";
+  expect(
+    await getEnvManifests("dev", "jobs/restore/container", {
+      ...project("cdtn-admin").dev,
+    })
+  ).toMatchSnapshot();
+});

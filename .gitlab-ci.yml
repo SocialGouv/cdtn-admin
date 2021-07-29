@@ -246,8 +246,8 @@ Release:
     - if: $TRIGGER == "UPDATE_PREPROD"
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
-  variables:
-    # kosko options
+  variables: 
+    # kosko options 
     KOSKO_GENERATE_ARGS: --env prod jobs/restore/container
 
 
@@ -261,6 +261,6 @@ Release:
   allow_failure: true
   rules:
     - if: $TRIGGER == "UPDATE_PROD"
-  variables:
+  variables: 
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/restore/container
