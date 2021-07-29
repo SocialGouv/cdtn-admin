@@ -113,6 +113,7 @@ export async function injest() {
       client,
       documents: covisitDocuments,
       indexName: `${DOCUMENT_INDEX_NAME}-${ts}`,
+      size: 1000,
     });
   }
 
