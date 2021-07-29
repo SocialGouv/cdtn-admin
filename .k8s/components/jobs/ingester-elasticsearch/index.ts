@@ -85,7 +85,7 @@ export default async () => {
                   memory: "2Gi",
                 },
                 requests: {
-                  cpu: "1",
+                  cpu: "2",
                   memory: "1Gi",
                 },
               },
