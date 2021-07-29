@@ -26,6 +26,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS "set_public_pipelines_updated_at" on "public"."pipelines";
 CREATE TRIGGER "set_public_pipelines_updated_at"
 BEFORE UPDATE ON "public"."pipelines"
 FOR EACH ROW
