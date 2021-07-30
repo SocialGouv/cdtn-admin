@@ -32,6 +32,7 @@ variables:
   FF_USE_FASTZIP: "true"
   TRANSFER_METER_FREQUENCY: "1s"
   YARN_CACHE_FOLDER: "$CI_PROJECT_DIR/.cache/yarn"
+  PROJECT_PATH: socialgouv/cdtn-admin
 
 #
 #
@@ -137,7 +138,7 @@ Release:
     - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
     # Use github as origin
     # see https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_semantic_release_stage.yml#L20-L22
-    - git remote set-url origin https://${GITHUB_TOKEN}@github.com/socialgouv/cdtn-admin.git
+    - git remote set-url origin https://${GITHUB_TOKEN}@github.com/${PROJECT_PATH}.git
 
     - yarn global add lerna
 
