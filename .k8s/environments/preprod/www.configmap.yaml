@@ -4,7 +4,7 @@ metadata:
   name: www
 data:
   ACCOUNT_MAIL_SENDER: "contact@fabrique.social.gouv.fr"
-  GITLAB_PROJECT_ID: "136"
+  GITLAB_PROJECT_ID: "270"
   GITLAB_URL: https://gitlab.factory.social.gouv.fr/api/v4
   HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
   JWT_TOKEN_EXPIRES: "15" # 15 min
