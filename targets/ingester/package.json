@@ -17,7 +17,7 @@
     "tar-fs": "^2.1.1",
     "unist-util-find": "^1.0.2",
     "unist-util-parents": "^1.0.3",
-    "unist-util-select": "^3.0.4",
+    "unist-util-select": "^4.0.0",
     "winston": "^3.3.3",
     "yargs": "^15.4.1"
   },
