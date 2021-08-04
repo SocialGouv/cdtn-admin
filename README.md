@@ -5,4 +5,3 @@
 ## Développement
 
 Retrouvez toutes les infos techniques pour démarrer le projet sur [README-dev](./README-dev.md).
-
