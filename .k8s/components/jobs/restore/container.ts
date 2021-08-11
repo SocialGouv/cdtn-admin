@@ -23,7 +23,7 @@ const job = restoreContainerJob({
   project: "cdtn-admin",
   to: params.server,
 });
-job.metadata!.name = `restore-container-${GITLAB_LIKE_ENVIRONMENT_SLUG}`;
+job.metadata!.name = `restore-container-${GITLAB_LIKE_ENVIRONMENT_SLUG}-${process.env.CI_COMMIT_SHORT_SHA}`;
 job.metadata!.labels = envParams.metadata.labels || {};
 job.metadata!.labels.component =
   process.env.COMPONENT || `restore-${process.env.CI_COMMIT_REF_SLUG}`;

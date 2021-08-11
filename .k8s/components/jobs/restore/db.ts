@@ -63,7 +63,7 @@ const manifests = restoreDbJob({
 // override initContainer PGDATABASE/PGPASSWORD because this project pipeline use the legacy `db_SHA` convention instead of `autodevops_SHA`
 const job = manifests.find<Job>((m): m is Job => m.kind === "Job");
 ok(job?.metadata, "Missing job metadata");
-job.metadata.name = `restore-db-${GITLAB_LIKE_ENVIRONMENT_SLUG}`;
+job.metadata.name = `restore-db-${GITLAB_LIKE_ENVIRONMENT_SLUG}-${process.env.CI_COMMIT_SHORT_SHA}`;
 job.metadata!.annotations = {
   "kapp.k14s.io/update-strategy": "always-replace",
 };
