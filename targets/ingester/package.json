@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
-    "@babel/preset-env": "^7.14.8",
+    "@babel/preset-env": "^7.14.9",
     "@socialgouv/contributions-data-types": "^3.27.0",
     "@socialgouv/eslint-config-typescript": "^1.75.0",
     "@socialgouv/fiches-travail-data-types": "^4.162.0",
@@ -32,7 +32,7 @@
     "@socialgouv/legi-data-types": "^2.62.0",
     "@types/gunzip-maybe": "^1.4.0",
     "@types/jest": "^26.0.24",
-    "@types/node": "^14.17.6",
+    "@types/node": "^14.17.9",
     "@types/semver": "^7.3.8",
     "@types/tar-fs": "^2.0.1",
     "@types/unist": "^2.0.6",
