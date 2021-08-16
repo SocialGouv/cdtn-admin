@@ -1,10 +1,10 @@
 include:
   - project: SocialGouv/gitlab-ci-yml
     file: /base_autodevops.yml
-    ref: v23.2.0
+    ref: v23.2.1
   - project: SocialGouv/gitlab-ci-yml
     file: /base_register_kaniko_stage.yml
-    ref: v23.2.0
+    ref: v23.2.1
 
   #
   - /shared/logger/.gitlab-ci.yml

@@ -11,7 +11,7 @@
     "@elastic/elasticsearch": "^7.13.0",
     "@socialgouv/cdtn-elasticsearch": "^1.8.9",
     "@socialgouv/cdtn-logger": "^1.8.9",
-    "@socialgouv/cdtn-monolog": "^1.5.5",
+    "@socialgouv/cdtn-monolog": "^1.5.10",
     "@socialgouv/cdtn-slugify": "^4.45.0",
     "@socialgouv/cdtn-sources": "^4.45.0",
     "@socialgouv/contributions-data-types": "^3.27.0",
