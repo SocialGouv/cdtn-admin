@@ -70,7 +70,7 @@
     "theme-ui": "^0.10.0",
     "unified": "^9.2.2",
     "unist-util-parents": "^1.0.3",
-    "unist-util-select": "^3.0.4",
+    "unist-util-select": "^4.0.0",
     "urql": "^2.0.4",
     "uuid": "^8.3.2",
     "wonka": "^4.0.15"
