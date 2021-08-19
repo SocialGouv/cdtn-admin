@@ -7,8 +7,8 @@
   "devDependencies": {
     "@socialgouv/cdtn-sources": "^4.45.0",
     "@socialgouv/contributions-data-types": "^3.27.0",
-    "@socialgouv/fiches-travail-data-types": "^4.162.0",
-    "@socialgouv/kali-data-types": "^2.107.0",
-    "@socialgouv/legi-data-types": "^2.62.0"
+    "@socialgouv/fiches-travail-data-types": "^4.184.0",
+    "@socialgouv/kali-data-types": "^2.124.0",
+    "@socialgouv/legi-data-types": "^2.68.0"
   }
 }
