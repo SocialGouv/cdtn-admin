@@ -1,4 +1,4 @@
-# Code du travail numérique - Administration
+# Code du travail numérique - Administration \o/
 
 > Administrating [code.travail.gouv.fr](https://code.travail.gouv.fr) content.
 
