@@ -1,10 +1,10 @@
 include:
   - project: SocialGouv/gitlab-ci-yml
     file: /base_autodevops.yml
-    ref: v23.2.1
+    ref: v23.3.0
   - project: SocialGouv/gitlab-ci-yml
     file: /base_register_kaniko_stage.yml
-    ref: v23.2.1
+    ref: v23.3.0
 
   #
   - /shared/logger/.gitlab-ci.yml
@@ -83,7 +83,7 @@ Production:
 Stop review:
   extends:
     - .autodevops_stop_review
-  image: ghcr.io/socialgouv/docker/no-k8s:6.26.6
+  image: ghcr.io/socialgouv/docker/no-k8s:6.43.0
   allow_failure: true
   needs:
     - job: Review

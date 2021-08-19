@@ -8,11 +8,11 @@
     ]
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^7.13.0",
+    "@elastic/elasticsearch": "^7.14.0",
     "@socialgouv/cdtn-elasticsearch": "^1.8.9",
     "@socialgouv/cdtn-logger": "^1.8.9",
     "@socialgouv/cdtn-monolog": "^1.5.10",
-    "@socialgouv/cdtn-slugify": "^4.45.0",
+    "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.45.0",
     "@socialgouv/contributions-data-types": "^3.27.0",
     "memoizee": "^0.4.15",
@@ -23,18 +23,18 @@
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.1.0",
     "remark-stringify": "^9.0.1",
-    "strip-markdown": "^4.0.0",
+    "strip-markdown": "^4.2.0",
     "unified": "^9.2.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.8",
-    "@babel/core": "^7.14.8",
+    "@babel/core": "^7.15.0",
     "@babel/plugin-transform-modules-commonjs": "^7.14.5",
-    "@socialgouv/eslint-config-recommended": "^1.75.0",
-    "@socialgouv/kali-data-types": "^2.107.0",
-    "eslint": "^7.30.0",
+    "@socialgouv/eslint-config-recommended": "^1.84.2",
+    "@socialgouv/kali-data-types": "^2.124.0",
+    "eslint": "^7.32.0",
     "jest": "^27.0.6",
-    "lint-staged": "^11.0.1",
+    "lint-staged": "^11.1.2",
     "prettier": "^2.3.2"
   },
   "license": "Apache-2.0",
