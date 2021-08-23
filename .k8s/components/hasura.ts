@@ -3,8 +3,9 @@ import { create } from "@socialgouv/kosko-charts/components/hasura";
 import { getDeployment } from "@socialgouv/kosko-charts/utils/getDeployment";
 import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 import { ok } from "assert";
-import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../utils/GITLAB_LIKE_ENVIRONMENT_SLUG";
+import environments from "@socialgouv/kosko-charts/environments";
 
+const envParams = environments(process.env);
 const asyncManifests = create("hasura", {
   config: {
     image: getHarborImagePath({ name: "cdtn-admin-hasura" }),
@@ -30,10 +31,7 @@ export default async () => {
   if (env.env === "dev") {
     // HACK(douglasduteil): provide one db per env
     // The CI_ENVIRONMENT_SLUG is the most useful for this
-    const pgSecretRefName = `azure-pg-user-${GITLAB_LIKE_ENVIRONMENT_SLUG.replace(
-      /-/g,
-      ""
-    )}`;
+    const pgSecretRefName = `azure-pg-user-${envParams.environment}`;
 
     //
 

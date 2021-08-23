@@ -5,14 +5,14 @@ exports[`kosko generate --preprod jobs/restore 1`] = `
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-v1-2-3-0123456
+  name: restore-container-preprod-dev42-0123456
   namespace: cdtn-admin-secret
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-v1-2-3
+    component: restore-preprod-dev42
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
@@ -197,7 +197,7 @@ data:
     SELECT pg_terminate_backend(pid)
     FROM pg_stat_activity
     WHERE pid <> pg_backend_pid()
-    AND datname = 'preprod';
+    AND datname = 'autodevops_preprod';
 
 
 metadata:
@@ -208,19 +208,19 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-v1-2-3
+    component: restore-preprod-dev42
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-db-v1-2-3-0123456
+  name: restore-db-preprod-dev42-0123456
   namespace: cdtn-admin-secret
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-v1-2-3
+    component: restore-preprod-dev42
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
@@ -276,15 +276,15 @@ spec:
               -a < /mnt/scripts/post-restore.sql
           env:
             - name: PGDATABASE
-              value: preprod
+              value: autodevops_preprod
             - name: OWNER
-              value: preprod
+              value: user_preprod
             - name: FILE
               value: hasura_prod_db.psql.gz
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user-dev
-          image: ghcr.io/socialgouv/docker/azure-db:6.32.2
+          image: ghcr.io/socialgouv/docker/azure-db:6.43.1
           imagePullPolicy: IfNotPresent
           name: restore-db
           resources:
@@ -310,12 +310,18 @@ spec:
           name: scripts
       initContainers:
         - env:
+            - name: PGHOST
+              value: cdtnadmindevserver.postgres.database.azure.com
             - name: PGDATABASE
-              value: preprod
-          envFrom:
-            - secretRef:
-                name: azure-pg-admin-user-dev
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
+              value: autodevops_preprod
+            - name: PGPASSWORD
+              value: password_preprod
+            - name: PGUSER
+              value: user_preprod@cdtnadmindevserver.postgres.database.azure.com
+            - name: PGSSLMODE
+              value: require
+          envFrom: []
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.43.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -340,7 +346,7 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-v1-2-3
+    component: restore-preprod-dev42
   namespace: cdtn-admin-secret
 spec:
   accessModes:
@@ -362,7 +368,7 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-v1-2-3
+    component: restore-preprod-dev42
   name: preprod-dev42-cdtn-admin-backup-restore
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin

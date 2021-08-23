@@ -2,8 +2,8 @@ import { restoreContainerJob } from "@socialgouv/kosko-charts/components/azure-s
 import environments from "@socialgouv/kosko-charts/environments";
 import { ok } from "assert";
 import { EnvVar } from "kubernetes-models/v1";
-import { GITLAB_LIKE_ENVIRONMENT_SLUG } from "../../../utils/GITLAB_LIKE_ENVIRONMENT_SLUG";
 import env from "@kosko/env";
+
 const envParams = environments(process.env);
 
 const params = env.component("container");
@@ -23,14 +23,17 @@ const job = restoreContainerJob({
   project: "cdtn-admin",
   to: params.server,
 });
-job.metadata!.name = `restore-container-${GITLAB_LIKE_ENVIRONMENT_SLUG}-${process.env.CI_COMMIT_SHORT_SHA}`;
-job.metadata!.labels = envParams.metadata.labels || {};
-job.metadata!.labels.component =
-  process.env.COMPONENT || `restore-${process.env.CI_COMMIT_REF_SLUG}`;
-job.metadata!.annotations = {
+ok(job.metadata, "Missing job metadata");
+job.metadata.name = `restore-container-${envParams.environment}-${envParams.shortSha}`;
+job.metadata.labels = envParams.metadata.labels || {};
+job.metadata.labels.component =
+  process.env.COMPONENT || `restore-${envParams.environment}`;
+job.metadata.annotations = {
   "kapp.k14s.io/update-strategy": "always-replace",
 };
-job.spec!.template!.metadata!.annotations = {
+ok(job.spec, "Missing job spec");
+ok(job.spec.template!.metadata, "Missing job spec template metadata");
+job.spec.template.metadata.annotations = {
   "kapp.k14s.io/deploy-logs": "for-new-or-existing",
 };
 export default job;
