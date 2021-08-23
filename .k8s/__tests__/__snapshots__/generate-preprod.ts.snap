@@ -6,6 +6,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
+    socialgouv/creator: autodevops
     field.cattle.io/creatorId: gitlab
     field.cattle.io/projectId: c-bar:p-foo
     git/branch: v1.2.3
@@ -243,7 +244,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.43.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:

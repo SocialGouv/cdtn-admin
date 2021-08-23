@@ -6,6 +6,8 @@ apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
+    socialgouv/creator: autodevops
+    janitor/ttl: 15d
     field.cattle.io/creatorId: gitlab
     field.cattle.io/projectId: c-bar:p-foo
     git/branch: master
@@ -233,7 +235,7 @@ spec:
             periodSeconds: 5
           envFrom:
             - secretRef:
-                name: azure-pg-user-master
+                name: azure-pg-user-master-dev42
             - secretRef:
                 name: hasura
             - configMapRef:
@@ -244,8 +246,8 @@ spec:
               value: '24'
           envFrom:
             - secretRef:
-                name: azure-pg-user-master
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
+                name: azure-pg-user-master-dev42
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.43.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -527,17 +529,17 @@ spec:
             - create-db-user
           env:
             - name: NEW_DB_NAME
-              value: autodevops_master
+              value: autodevops_master-dev42
             - name: NEW_USER
-              value: user_master
+              value: user_master-dev42
             - name: NEW_PASSWORD
-              value: password_master
+              value: password_master-dev42
             - name: NEW_DB_EXTENSIONS
               value: hstore pgcrypto citext uuid-ossp
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user
-          image: ghcr.io/socialgouv/docker/azure-db:6.32.2
+          image: ghcr.io/socialgouv/docker/azure-db:6.43.1
           imagePullPolicy: IfNotPresent
           name: create-db-user
           resources:
@@ -569,25 +571,25 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-  name: create-db-job-master
+  name: create-db-job-0123456
   namespace: cdtn-admin-85-master-dev42
 ---
 apiVersion: v1
 kind: Secret
 stringData:
   DATABASE_URL: >-
-    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
+    postgresql://user_master-dev42%40cdtnadmindevserver.postgres.database.azure.com:password_master-dev42@cdtnadmindevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
   DB_URI: >-
-    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
+    postgresql://user_master-dev42%40cdtnadmindevserver.postgres.database.azure.com:password_master-dev42@cdtnadmindevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
   HASURA_GRAPHQL_DATABASE_URL: >-
-    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
-  PGDATABASE: autodevops_master
+    postgresql://user_master-dev42%40cdtnadmindevserver.postgres.database.azure.com:password_master-dev42@cdtnadmindevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
+  PGDATABASE: autodevops_master-dev42
   PGHOST: cdtnadmindevserver.postgres.database.azure.com
-  PGPASSWORD: password_master
+  PGPASSWORD: password_master-dev42
   PGRST_DB_URI: >-
-    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
+    postgresql://user_master-dev42%40cdtnadmindevserver.postgres.database.azure.com:password_master-dev42@cdtnadmindevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
   PGSSLMODE: require
-  PGUSER: user_master@cdtnadmindevserver.postgres.database.azure.com
+  PGUSER: user_master-dev42@cdtnadmindevserver.postgres.database.azure.com
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
@@ -598,7 +600,7 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-  name: azure-pg-user-master
+  name: azure-pg-user-master-dev42
   namespace: cdtn-admin-85-master-dev42
 ---
 apiVersion: apps/v1
