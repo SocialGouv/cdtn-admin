@@ -25,7 +25,7 @@
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.14.9",
     "@socialgouv/contributions-data-types": "^3.27.0",
-    "@socialgouv/eslint-config-typescript": "^1.84.2",
+    "@socialgouv/eslint-config-typescript": "^1.85.2",
     "@socialgouv/fiches-travail-data-types": "^4.184.0",
     "@socialgouv/fiches-vdd-types": "^2.197.0",
     "@socialgouv/kali-data-types": "^2.124.0",
