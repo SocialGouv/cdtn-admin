@@ -19,7 +19,7 @@
     "unist-util-parents": "^1.0.3",
     "unist-util-select": "^4.0.0",
     "winston": "^3.3.3",
-    "yargs": "^15.4.1"
+    "yargs": "^17.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
