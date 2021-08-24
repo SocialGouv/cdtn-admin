@@ -11,7 +11,7 @@ Stop review:
   variables:
     GIT_STRATEGY: none
   environment:
-    name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
+    name: douglasduteil/ci-github-test-dropdb-9.3.0-dev
   script:
     - yarn global add degit
     - rm -rf .k8s
