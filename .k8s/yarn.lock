@@ -678,7 +678,7 @@
     eslint-plugin-simple-import-sort "~7.0.0"
     eslint-plugin-sort-keys-fix "~1.1.2"
 
-"@socialgouv/eslint-config-typescript@^1.84.2":
+"@socialgouv/eslint-config-typescript@^1.84.3":
   version "1.85.2"
   resolved "https://registry.yarnpkg.com/@socialgouv/eslint-config-typescript/-/eslint-config-typescript-1.85.2.tgz#016a5c1a70f1b6c01d6be8a4ccde599549fa85d1"
   integrity sha512-RcoUdeoztnIPevOozuflak9aL/Lq6GLmAuJpRtdhjf3FAvlis1ONhtWeygjFrdGJjEmo6G1AwbKfgTwQj57Y3g==
@@ -689,7 +689,7 @@
     eslint-import-resolver-typescript "~2.4.0"
     eslint-plugin-import "~2.24.1"
 
-"@socialgouv/kosko-charts@^9.2.6":
+"@socialgouv/kosko-charts@^9.2.7":
   version "9.2.7"
   resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-9.2.7.tgz#cdac9fcc4d5e0760f104b0d318d437ed3153e5ab"
   integrity sha512-1TyW9bhtrEZfTcrtEbKRs6NqMyBTdSX27100KUZHhJkRmNZWZ9/Vny3ej51SIdm6b9OJowqyHdw/2wuewyWDbg==
