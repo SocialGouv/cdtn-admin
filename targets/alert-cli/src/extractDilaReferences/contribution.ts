@@ -77,9 +77,9 @@ export function extractContributionsRef(
 }
 
 async function getContributionReferences() {
-  const contributions = (await getAllDocumentsBySource(
-    SOURCES.CONTRIBUTIONS
-  )) as Contrib[];
+  const contributions = (await getAllDocumentsBySource([
+    SOURCES.CONTRIBUTIONS,
+  ])) as Contrib[];
   return extractContributionsRef(contributions);
 }
 

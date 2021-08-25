@@ -1,12 +1,12 @@
 import type { HasuraDocument } from "@shared/types";
 
 export const getAllDocumentsBySourceQuery = `
-query getAllDocumentsBySource($source: String!, $limit:Int=10,$offset:Int=0 ) {
+query getAllDocumentsBySource($source: [String!], $limit:Int=10,$offset:Int=0 ) {
   documents(
     order_by: {cdtn_id: asc},
     limit: $limit
     offset: $offset
-    where: {is_available: {_eq: true}, source: {_eq: $source}}) {
+    where: {is_available: {_eq: true}, source: {_in: $source}}) {
     initialId: initial_id 
     cdtnId: cdtn_id
     title 
@@ -29,8 +29,8 @@ export type AllDocumentsBySourceResult = {
 };
 
 export const countDocumentsBySourceQuery = `
-query coundDocumentsBySource($source:String!){
-  documents_aggregate(where: {is_available: {_eq: true}, source: {_eq: $source}}){
+query coundDocumentsBySource($source:[String!]){
+  documents_aggregate(where: {is_available: {_eq: true}, source: {_in: $source}}){
     aggregate {
       count
     }
@@ -46,16 +46,17 @@ export type CountDocumentsBySourceResult = {
 };
 
 export const getAllDocumentsWithRelationsBySourceQuery = `
-query($source: String!, $limit:Int=10,$offset:Int=0 ) {
+query($source: [String!], $limit:Int=10,$offset:Int=0 ) {
 
   documents(
     order_by: {cdtn_id: asc}
     limit: $limit
     offset: $offset
-    where: {source: {_eq: $source},  is_available: {_eq: true} }
+    where: {source: {_in: $source},  is_available: {_eq: true} }
   ) { 
     cdtnId:cdtn_id
     title 
+    source
     isPublished: is_published 
     contentRelations: relation_a(where: {type: {_eq: "document-content"}}) {
       position: data(path: "position")
@@ -69,8 +70,12 @@ query($source: String!, $limit:Int=10,$offset:Int=0 ) {
   }
 }
 `;
-export type HasuraDocumentWithRelations = Pick<HasuraDocument, "title"> & {
+export type HasuraDocumentWithRelations = Pick<
+  HasuraDocument,
+  "source" | "title"
+> & {
   cdtnId: string;
+  isPublished: boolean;
   contentRelations: {
     position: number;
     document: Pick<HasuraDocument, "slug" | "source" | "title"> & {
