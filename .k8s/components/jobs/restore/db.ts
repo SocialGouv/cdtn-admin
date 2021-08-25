@@ -1,9 +1,11 @@
 //
 
-import { getDevDatabaseParameters } from "@socialgouv/kosko-charts/components/azure-pg/params";
+import {
+  getDefaultPgParams,
+  PREPROD_PG_ENVIRONMENT,
+} from "@socialgouv/kosko-charts/components/azure-pg";
 import { restoreDbJob } from "@socialgouv/kosko-charts/components/azure-pg/restore-db.job";
 import environments from "@socialgouv/kosko-charts/environments";
-import { generate } from "@socialgouv/kosko-charts/utils/environmentSlug";
 import { ok } from "assert";
 import fs from "fs";
 import { Job } from "kubernetes-models/batch/v1";
@@ -12,11 +14,9 @@ import { ObjectMeta } from "kubernetes-models/apimachinery/pkg/apis/meta/v1";
 
 import path from "path";
 
+const pgParams = getDefaultPgParams();
+
 const envParams = environments(process.env);
-const name = generate(`restore-db-${envParams.branch}`);
-const pgParams = getDevDatabaseParameters({
-  suffix: generate(envParams.branch),
-});
 
 const manifests = restoreDbJob({
   env: [
@@ -43,13 +43,14 @@ const manifests = restoreDbJob({
 (manifests as any as { metadata: ObjectMeta }[]).forEach((m) => {
   m.metadata = m.metadata || new ObjectMeta({});
   m.metadata.labels = m.metadata.labels || envParams.metadata.labels || {};
-  m.metadata.labels.component = process.env.COMPONENT || name;
+  m.metadata.labels.component =
+    process.env.COMPONENT || `restore-${envParams.environment}`;
 });
 
 // override initContainer PGDATABASE/PGPASSWORD because this project pipeline use the legacy `db_SHA` convention instead of `autodevops_SHA`
 const job = manifests.find<Job>((m): m is Job => m.kind === "Job");
 ok(job?.metadata, "Missing job metadata");
-job.metadata.name = name;
+job.metadata.name = `restore-db-${envParams.environment}-${envParams.shortSha}`;
 job.metadata!.annotations = {
   "kapp.k14s.io/update-strategy": "always-replace",
 };

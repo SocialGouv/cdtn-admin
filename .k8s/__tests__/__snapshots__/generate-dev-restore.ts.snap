@@ -5,14 +5,14 @@ exports[`kosko generate --dev jobs/restore 1`] = `
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-master
+  name: restore-container-master-dev42-0123456
   namespace: cdtn-admin-secret
   labels:
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-container-master
+    component: restore-master-dev42
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
@@ -197,7 +197,7 @@ data:
     SELECT pg_terminate_backend(pid)
     FROM pg_stat_activity
     WHERE pid <> pg_backend_pid()
-    AND datname = 'autodevops_master';
+    AND datname = 'autodevops_master-dev42';
 
 
 metadata:
@@ -208,19 +208,19 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-db-master
+    component: restore-master-dev42
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-db-master
+  name: restore-db-master-dev42-0123456
   namespace: cdtn-admin-secret
   labels:
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-db-master
+    component: restore-master-dev42
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
@@ -276,9 +276,9 @@ spec:
               -a < /mnt/scripts/post-restore.sql
           env:
             - name: PGDATABASE
-              value: autodevops_master
+              value: autodevops_master-dev42
             - name: OWNER
-              value: user_master
+              value: user_master-dev42
             - name: FILE
               value: hasura_prod_db.psql.gz
           envFrom:
@@ -346,7 +346,7 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-db-master
+    component: restore-master-dev42
   namespace: cdtn-admin-secret
 spec:
   accessModes:
@@ -368,7 +368,7 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-db-master
+    component: restore-master-dev42
   name: master-dev42-cdtn-admin-backup-restore
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
@@ -393,14 +393,14 @@ exports[`kosko generate --dev jobs/restore/container 1`] = `
 "apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-master
+  name: restore-container-master-dev42-0123456
   namespace: cdtn-admin-secret
   labels:
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-container-master
+    component: restore-master-dev42
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
