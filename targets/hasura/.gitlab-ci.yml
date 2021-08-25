@@ -36,6 +36,7 @@
     - job: Notify Starting Deployment
   allow_failure: true
   variables:
+    AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
     KOSKO_GENERATE_ARGS: --env dev jobs/restore
   before_script:
     - export COMPONENT=$(cat <(echo "restore-${CI_COMMIT_REF_SLUG}" | cut -c1-24) <(echo "$CI_COMMIT_REF_SLUG" | sha1sum | cut -c1-6) | tr -d '\n')
