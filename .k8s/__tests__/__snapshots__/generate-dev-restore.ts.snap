@@ -5,16 +5,16 @@ exports[`kosko generate --dev jobs/restore 1`] = `
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-master
-  namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: always-replace
   labels:
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master
-  annotations:
-    kapp.k14s.io/update-strategy: always-replace
+    component: restore-container-master
+  name: restore-container-master
+  namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
   template:
@@ -201,28 +201,22 @@ data:
 
 
 metadata:
-  name: post-restore-script-configmap-0123456
+  name: post-restore-script-configmap-master
   namespace: cdtn-admin-secret
-  labels:
-    application: master-dev42-cdtn-admin
-    owner: cdtn-admin
-    team: cdtn-admin
-    cert: wildcard
-    component: restore-master-dev42
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-db-master-dev42-0123456
-  namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: always-replace
   labels:
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master-dev42
-  annotations:
-    kapp.k14s.io/update-strategy: always-replace
+    component: restore-db-master
+  name: restore-db-master
+  namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
   template:
@@ -306,7 +300,7 @@ spec:
             claimName: cdtn-admin-backup-restore
             readOnly: true
         - configMap:
-            name: post-restore-script-configmap-0123456
+            name: post-restore-script-configmap-master
           name: scripts
       initContainers:
         - env:
@@ -346,7 +340,6 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master-dev42
   namespace: cdtn-admin-secret
 spec:
   accessModes:
@@ -368,7 +361,6 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master-dev42
   name: master-dev42-cdtn-admin-backup-restore
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
@@ -393,16 +385,16 @@ exports[`kosko generate --dev jobs/restore/container 1`] = `
 "apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-master
-  namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: always-replace
   labels:
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master
-  annotations:
-    kapp.k14s.io/update-strategy: always-replace
+    component: restore-container-master
+  name: restore-container-master
+  namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
   template:
