@@ -24,10 +24,10 @@ const job = restoreContainerJob({
   to: params.server,
 });
 ok(job.metadata, "Missing job metadata");
-job.metadata.name = `restore-container-${envParams.environment}-${envParams.shortSha}`;
+job.metadata.name = `restore-container-${envParams.branchSlug}`;
 job.metadata.labels = envParams.metadata.labels || {};
 job.metadata.labels.component =
-  process.env.COMPONENT || `restore-${envParams.environment}`;
+  process.env.COMPONENT || `restore-${envParams.branchSlug}`;
 job.metadata.annotations = {
   "kapp.k14s.io/update-strategy": "always-replace",
 };

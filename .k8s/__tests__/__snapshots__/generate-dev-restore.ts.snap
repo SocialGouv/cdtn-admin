@@ -5,14 +5,14 @@ exports[`kosko generate --dev jobs/restore 1`] = `
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-master-dev42-0123456
+  name: restore-container-master
   namespace: cdtn-admin-secret
   labels:
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master-dev42
+    component: restore-master
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
@@ -393,14 +393,14 @@ exports[`kosko generate --dev jobs/restore/container 1`] = `
 "apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-master-dev42-0123456
+  name: restore-container-master
   namespace: cdtn-admin-secret
   labels:
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master-dev42
+    component: restore-master
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:

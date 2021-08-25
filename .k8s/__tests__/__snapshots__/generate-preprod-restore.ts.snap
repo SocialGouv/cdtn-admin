@@ -5,14 +5,14 @@ exports[`kosko generate --preprod jobs/restore 1`] = `
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-preprod-dev42-0123456
+  name: restore-container-v1-2-3-5oe0cj
   namespace: cdtn-admin-secret
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-preprod-dev42
+    component: restore-v1-2-3-5oe0cj
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
