@@ -197,7 +197,7 @@ data:
     SELECT pg_terminate_backend(pid)
     FROM pg_stat_activity
     WHERE pid <> pg_backend_pid()
-    AND datname = 'autodevops_master-dev42';
+    AND datname = 'autodevops_master';
 
 
 metadata:
@@ -276,9 +276,9 @@ spec:
               -a < /mnt/scripts/post-restore.sql
           env:
             - name: PGDATABASE
-              value: autodevops_master-dev42
+              value: autodevops_master
             - name: OWNER
-              value: user_master-dev42
+              value: user_master
             - name: FILE
               value: hasura_prod_db.psql.gz
           envFrom:
@@ -313,11 +313,11 @@ spec:
             - name: PGHOST
               value: cdtnadmindevserver.postgres.database.azure.com
             - name: PGDATABASE
-              value: autodevops_master-dev42
+              value: autodevops_master
             - name: PGPASSWORD
-              value: password_master-dev42
+              value: password_master
             - name: PGUSER
-              value: user_master-dev42@cdtnadmindevserver.postgres.database.azure.com
+              value: user_master@cdtnadmindevserver.postgres.database.azure.com
             - name: PGSSLMODE
               value: require
           envFrom: []
