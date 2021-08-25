@@ -1,11 +1,12 @@
 import { restoreContainerJob } from "@socialgouv/kosko-charts/components/azure-storage/restore-container.job";
 import environments from "@socialgouv/kosko-charts/environments";
+import { generate } from "@socialgouv/kosko-charts/utils/environmentSlug";
 import { ok } from "assert";
 import { EnvVar } from "kubernetes-models/v1";
 import env from "@kosko/env";
 
 const envParams = environments(process.env);
-
+const name = generate(`restore-container-${envParams.branch}`);
 const params = env.component("container");
 
 const job = restoreContainerJob({
@@ -24,10 +25,9 @@ const job = restoreContainerJob({
   to: params.server,
 });
 ok(job.metadata, "Missing job metadata");
-job.metadata.name = `restore-container-${envParams.environment}-${envParams.shortSha}`;
+job.metadata.name = name;
 job.metadata.labels = envParams.metadata.labels || {};
-job.metadata.labels.component =
-  process.env.COMPONENT || `restore-${envParams.environment}`;
+job.metadata.labels.component = process.env.COMPONENT || name;
 job.metadata.annotations = {
   "kapp.k14s.io/update-strategy": "always-replace",
 };

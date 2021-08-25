@@ -578,18 +578,18 @@ apiVersion: v1
 kind: Secret
 stringData:
   DATABASE_URL: >-
-    postgresql://user_master-dev42%40cdtnadmindevserver.postgres.database.azure.com:password_master-dev42@cdtnadmindevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
+    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
   DB_URI: >-
-    postgresql://user_master-dev42%40cdtnadmindevserver.postgres.database.azure.com:password_master-dev42@cdtnadmindevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
+    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
   HASURA_GRAPHQL_DATABASE_URL: >-
-    postgresql://user_master-dev42%40cdtnadmindevserver.postgres.database.azure.com:password_master-dev42@cdtnadmindevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
-  PGDATABASE: autodevops_master-dev42
+    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
+  PGDATABASE: autodevops_master
   PGHOST: cdtnadmindevserver.postgres.database.azure.com
-  PGPASSWORD: password_master-dev42
+  PGPASSWORD: password_master
   PGRST_DB_URI: >-
-    postgresql://user_master-dev42%40cdtnadmindevserver.postgres.database.azure.com:password_master-dev42@cdtnadmindevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
+    postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
   PGSSLMODE: require
-  PGUSER: user_master-dev42@cdtnadmindevserver.postgres.database.azure.com
+  PGUSER: user_master@cdtnadmindevserver.postgres.database.azure.com
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin

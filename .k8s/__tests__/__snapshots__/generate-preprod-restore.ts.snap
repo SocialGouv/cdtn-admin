@@ -5,14 +5,14 @@ exports[`kosko generate --preprod jobs/restore 1`] = `
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-preprod-dev42-0123456
+  name: restore-containe-x39y81
   namespace: cdtn-admin-secret
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-preprod-dev42
+    component: restore-containe-x39y81
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
@@ -197,7 +197,7 @@ data:
     SELECT pg_terminate_backend(pid)
     FROM pg_stat_activity
     WHERE pid <> pg_backend_pid()
-    AND datname = 'autodevops_preprod';
+    AND datname = 'autodevops_v1-2-3-5oe0cj';
 
 
 metadata:
@@ -208,19 +208,19 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-preprod-dev42
+    component: restore-db-v1-2-59gm0p
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-db-preprod-dev42-0123456
+  name: restore-db-v1-2-59gm0p
   namespace: cdtn-admin-secret
   labels:
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-preprod-dev42
+    component: restore-db-v1-2-59gm0p
   annotations:
     kapp.k14s.io/update-strategy: always-replace
 spec:
@@ -276,9 +276,9 @@ spec:
               -a < /mnt/scripts/post-restore.sql
           env:
             - name: PGDATABASE
-              value: autodevops_preprod
+              value: autodevops_v1-2-3-5oe0cj
             - name: OWNER
-              value: user_preprod
+              value: user_v1-2-3-5oe0cj
             - name: FILE
               value: hasura_prod_db.psql.gz
           envFrom:
@@ -346,7 +346,7 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-preprod-dev42
+    component: restore-db-v1-2-59gm0p
   namespace: cdtn-admin-secret
 spec:
   accessModes:
@@ -368,7 +368,7 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-preprod-dev42
+    component: restore-db-v1-2-59gm0p
   name: preprod-dev42-cdtn-admin-backup-restore
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
