@@ -6,13 +6,13 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
-    kapp.k14s.io/update-strategy: always-replace
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: v1-2-3-cdtn-admin
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-container-v1-2-3-x39y81
   name: restore-container-v1-2-3-x39y81
   namespace: cdtn-admin-secret
 spec:
@@ -208,13 +208,13 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
-    kapp.k14s.io/update-strategy: always-replace
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: v1-2-3-cdtn-admin
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-db-v1-2-3-59gm0p
   name: restore-db-v1-2-3-59gm0p
   namespace: cdtn-admin-secret
 spec:
@@ -337,6 +337,7 @@ metadata:
     app.gitlab.com/env.name: preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -358,6 +359,7 @@ metadata:
   labels:
     usage: preprod-dev42-cdtn-admin-backup-restore
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard

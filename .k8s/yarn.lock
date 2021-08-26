@@ -689,10 +689,10 @@
     eslint-import-resolver-typescript "~2.4.0"
     eslint-plugin-import "~2.24.1"
 
-"@socialgouv/kosko-charts@^9.3.5":
-  version "9.3.5"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-9.3.5.tgz#e69b09843db2f328b00332a85f3c443c020a79bf"
-  integrity sha512-/x41vrEBoDOvfQ38808AqKgaVwWvCLkom0cSgyLHIq5Hk9E10u6YoiqVhjWzmf8smqFfsjx12GZqMo2JrdpSng==
+"@socialgouv/kosko-charts@^9.4.0":
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-9.4.0.tgz#53ee680b33a460c16d779cb95f3121e3dbe26966"
+  integrity sha512-Y/JVwXT8kcMHX2qj1Ri1TAObFp403FRmCPsLkbux6xAWiprRin5ZtlfqT/c3CzgTtNhkmRRInBUwWuytqh1iGg==
   dependencies:
     "@kubernetes-models/sealed-secrets" "^2.0.2"
     "@sindresorhus/is" "^4.0.1"

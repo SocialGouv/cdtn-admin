@@ -6,13 +6,13 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
-    kapp.k14s.io/update-strategy: always-replace
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: master-dev42-cdtn-admin
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-container-master
   name: restore-container-master
   namespace: cdtn-admin-secret
 spec:
@@ -208,13 +208,13 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
-    kapp.k14s.io/update-strategy: always-replace
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: master-dev42-cdtn-admin
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-db-master
   name: restore-db-master
   namespace: cdtn-admin-secret
 spec:
@@ -337,6 +337,7 @@ metadata:
     app.gitlab.com/env.name: master-dev42
   labels:
     application: master-dev42-cdtn-admin
+    component: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -358,6 +359,7 @@ metadata:
   labels:
     usage: master-dev42-cdtn-admin-backup-restore
     application: master-dev42-cdtn-admin
+    component: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -386,13 +388,13 @@ exports[`kosko generate --dev jobs/restore/container 1`] = `
 kind: Job
 metadata:
   annotations:
-    kapp.k14s.io/update-strategy: always-replace
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: master-dev42-cdtn-admin
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-container-master
   name: restore-container-master
   namespace: cdtn-admin-secret
 spec:

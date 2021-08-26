@@ -15,6 +15,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: master-dev42-cdtn-admin
+    component: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -39,6 +40,7 @@ metadata:
   namespace: cdtn-admin-85-master-dev42
   labels:
     application: master-dev42-cdtn-admin
+    component: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -65,6 +67,7 @@ spec:
       name: ingester-elasticsearch-to-dev
       labels:
         application: master-dev42-cdtn-admin
+        component: master-dev42-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -83,6 +86,7 @@ metadata:
     kapp.k14s.io/update-strategy: fallback-on-replace
   labels:
     application: master-dev42-cdtn-admin
+    component: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -103,6 +107,7 @@ spec:
         kapp.k14s.io/deploy-logs: for-new-or-existing
       labels:
         application: master-dev42-cdtn-admin
+        component: master-dev42-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard

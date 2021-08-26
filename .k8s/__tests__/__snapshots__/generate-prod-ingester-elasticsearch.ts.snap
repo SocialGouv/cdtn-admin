@@ -15,6 +15,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: ingester-elasticsearch-preprod
@@ -37,6 +38,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: ingester-elasticsearch-preprod
@@ -61,6 +63,7 @@ spec:
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       labels:
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         app: ingester-elasticsearch-preprod
@@ -78,6 +81,7 @@ metadata:
     kapp.k14s.io/update-strategy: fallback-on-replace
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: ingester-elasticsearch-preprod
@@ -97,6 +101,7 @@ spec:
         kapp.k14s.io/deploy-logs: for-new-or-existing
       labels:
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         app: ingester-elasticsearch-preprod
@@ -141,6 +146,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: ingester-elasticsearch-prod
@@ -163,6 +169,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: ingester-elasticsearch-prod
@@ -188,6 +195,7 @@ spec:
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       labels:
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         app: ingester-elasticsearch-prod
@@ -205,6 +213,7 @@ metadata:
     kapp.k14s.io/update-strategy: fallback-on-replace
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: ingester-elasticsearch-prod
@@ -224,6 +233,7 @@ spec:
         kapp.k14s.io/deploy-logs: for-new-or-existing
       labels:
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         app: ingester-elasticsearch-prod
