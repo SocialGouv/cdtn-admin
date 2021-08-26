@@ -689,10 +689,10 @@
     eslint-import-resolver-typescript "~2.4.0"
     eslint-plugin-import "~2.24.1"
 
-"@socialgouv/kosko-charts@^9.3.3":
-  version "9.3.3"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-9.3.3.tgz#82baaa175c7b88663cc4dae89bfa7543f263e700"
-  integrity sha512-7uSkVMdDDoNlu4m0SvGGI7ZthICX7WJCevnJLX1rMhJqaAqLSkfOY0Dp6XS2pjQG9Kr4oU0k+HQnVIsJZAW/SA==
+"@socialgouv/kosko-charts@^9.3.5":
+  version "9.3.5"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-9.3.5.tgz#e69b09843db2f328b00332a85f3c443c020a79bf"
+  integrity sha512-/x41vrEBoDOvfQ38808AqKgaVwWvCLkom0cSgyLHIq5Hk9E10u6YoiqVhjWzmf8smqFfsjx12GZqMo2JrdpSng==
   dependencies:
     "@kubernetes-models/sealed-secrets" "^2.0.2"
     "@sindresorhus/is" "^4.0.1"
@@ -797,10 +797,15 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.9.tgz#97edc9037ea0c38585320b28964dde3b39e4660d"
   integrity sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==
 
-"@types/node@*", "@types/node@^16.7.1":
+"@types/node@*":
   version "16.7.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.7.1.tgz#c6b9198178da504dfca1fd0be9b2e1002f1586f0"
   integrity sha512-ncRdc45SoYJ2H4eWU9ReDfp3vtFqDYhjOsKlFFUDEn8V1Bgr2RjYal8YT5byfadWIRluhPFU6JiDOl0H6Sl87A==
+
+"@types/node@^16.7.2":
+  version "16.7.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.7.2.tgz#0465a39b5456b61a04d98bd5545f8b34be340cb7"
+  integrity sha512-TbG4TOx9hng8FKxaVrCisdaxKxqEwJ3zwHoCWXZ0Jw6mnvTInpaB99/2Cy4+XxpXtjNv9/TgfGSvZFyfV/t8Fw==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"

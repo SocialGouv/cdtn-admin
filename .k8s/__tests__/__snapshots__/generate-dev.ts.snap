@@ -235,7 +235,7 @@ spec:
             periodSeconds: 5
           envFrom:
             - secretRef:
-                name: azure-pg-user-master-dev42
+                name: azure-pg-user-master
             - secretRef:
                 name: hasura
             - configMapRef:
@@ -246,7 +246,7 @@ spec:
               value: '24'
           envFrom:
             - secretRef:
-                name: azure-pg-user-master-dev42
+                name: azure-pg-user-master
           image: ghcr.io/socialgouv/docker/wait-for-postgres:6.43.1
           imagePullPolicy: Always
           name: wait-for-postgres
