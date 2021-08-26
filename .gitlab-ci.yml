@@ -15,7 +15,7 @@ Stop review:
   script:
     - yarn global add degit
     - rm -rf .k8s
-    - yarn exec degit "SocialGouv/kosko-charts/templates/autodevops#v9.3.0" .k8s
+    - yarn exec degit "SocialGouv/kosko-charts/templates/autodevops#v9.4.0" .k8s
     - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
     - yarn --silent --cwd .k8s kosko generate --env dev jobs/drop-db > ${CI_PROJECT_DIR}/manifest.yaml
     - kubectl --namespace ${KUBE_NAMESPACE} apply -f ${CI_PROJECT_DIR}/manifest.yaml || true
