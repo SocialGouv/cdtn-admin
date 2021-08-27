@@ -83,6 +83,9 @@ exports.documentMapping = {
 
     folder: { type: "text" },
 
+    // html view for all documents
+    html: { type: "text" },
+
     // available for themes
     icon: { type: "keyword" },
 
@@ -130,6 +133,9 @@ exports.documentMapping = {
     position: { type: "keyword" },
 
     publishedAt: { type: "date" },
+
+    // XML in JSON (available for fiche SP)
+    raw: { type: "text" },
 
     // available for themes and highlights
     refs: {
