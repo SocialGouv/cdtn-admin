@@ -375,7 +375,7 @@ spec:
   azureFile:
     secretName: azure-cdtnadminprod-volume
     secretNamespace: cdtn-admin-secret
-    shareName: cdtn-admin-backup-restore
+    shareName: cdtnadminprodserver-backup-restore
   capacity:
     storage: 128Gi
   persistentVolumeReclaimPolicy: Delete
