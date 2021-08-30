@@ -1,22 +1,14 @@
 //
 
-import {
-  getDefaultPgParams,
-  PREPROD_PG_ENVIRONMENT,
-} from "@socialgouv/kosko-charts/components/azure-pg";
+import { getDefaultPgParams } from "@socialgouv/kosko-charts/components/azure-pg";
 import { restoreDbJob } from "@socialgouv/kosko-charts/components/azure-pg/restore-db.job";
-import environments from "@socialgouv/kosko-charts/environments";
-import { ok } from "assert";
 import fs from "fs";
-import { Job } from "kubernetes-models/batch/v1";
-import { EnvVar } from "kubernetes-models/v1";
-import { ObjectMeta } from "kubernetes-models/apimachinery/pkg/apis/meta/v1";
+import { ok } from "assert";
+import { EnvVar, PersistentVolume } from "kubernetes-models/v1";
 
 import path from "path";
 
 const pgParams = getDefaultPgParams();
-
-const envParams = environments(process.env);
 
 const manifests = restoreDbJob({
   env: [
@@ -40,22 +32,16 @@ const manifests = restoreDbJob({
   project: "cdtn-admin",
 });
 
-(manifests as any as { metadata: ObjectMeta }[]).forEach((m) => {
-  m.metadata = m.metadata || new ObjectMeta({});
-  m.metadata.labels = m.metadata.labels || envParams.metadata.labels || {};
-  m.metadata.labels.component =
-    process.env.COMPONENT || `restore-${envParams.environment}`;
-});
-
-// override initContainer PGDATABASE/PGPASSWORD because this project pipeline use the legacy `db_SHA` convention instead of `autodevops_SHA`
-const job = manifests.find<Job>((m): m is Job => m.kind === "Job");
-ok(job?.metadata, "Missing job metadata");
-job.metadata.name = `restore-db-${envParams.environment}-${envParams.shortSha}`;
-job.metadata!.annotations = {
-  "kapp.k14s.io/update-strategy": "always-replace",
-};
-job.spec!.template!.metadata!.annotations = {
-  "kapp.k14s.io/deploy-logs": "for-new-or-existing",
-};
+//
+// HACK(douglasduteil): manully rename the shareName inside the pv
+// Since July 2021, the shareName and the storage account have change
+// This is a temporal hack to ensure that the restore db is pointing to the right backup folder...
+//
+const pv = manifests.find(
+  (manifest) => manifest.kind === "PersistentVolume"
+) as PersistentVolume;
+ok(pv.spec, "Missing spec on pv");
+ok(pv.spec.azureFile, "Missing spec on pv");
+pv.spec.azureFile.shareName = "cdtnadminprodserver-backup-restore";
 
 export default manifests;

@@ -14,6 +14,7 @@ metadata:
     kapp.k14s.io/update-strategy: fallback-on-replace
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: sitemap-uploader-preprod
@@ -33,6 +34,7 @@ spec:
         kapp.k14s.io/deploy-logs: for-new-or-existing
       labels:
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         app: sitemap-uploader-preprod
@@ -80,6 +82,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: sitemap-uploader-preprod
@@ -101,6 +104,7 @@ spec:
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       labels:
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         app: sitemap-uploader-preprod
@@ -119,6 +123,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: sitemap-uploader-preprod
@@ -144,6 +149,7 @@ metadata:
     kapp.k14s.io/update-strategy: fallback-on-replace
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: sitemap-uploader-prod
@@ -163,6 +169,7 @@ spec:
         kapp.k14s.io/deploy-logs: for-new-or-existing
       labels:
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         app: sitemap-uploader-prod
@@ -210,6 +217,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: sitemap-uploader-prod
@@ -231,6 +239,7 @@ spec:
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       labels:
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         app: sitemap-uploader-prod
@@ -249,6 +258,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: sitemap-uploader-prod

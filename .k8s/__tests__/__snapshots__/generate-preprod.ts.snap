@@ -18,6 +18,7 @@ metadata:
   labels:
     azure-pg-admin-user: cdtn-admin
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -36,6 +37,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -58,6 +60,7 @@ metadata:
   namespace: cdtn-admin-85-preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -78,6 +81,7 @@ spec:
       name: alert
       labels:
         application: v1-2-3-cdtn-admin
+        component: v1-2-3-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -95,6 +99,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -120,6 +125,7 @@ spec:
             kapp.k14s.io/deploy-logs: for-new-or-existing
           labels:
             application: v1-2-3-cdtn-admin
+            component: v1-2-3-cdtn-admin
             owner: cdtn-admin
             team: cdtn-admin
             cert: wildcard
@@ -169,6 +175,7 @@ metadata:
   labels:
     app: hasura
     application: v1-2-3-cdtn-admin
+    component: hasura
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -190,6 +197,7 @@ spec:
       labels:
         app: hasura
         application: v1-2-3-cdtn-admin
+        component: hasura
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -269,6 +277,7 @@ metadata:
   namespace: cdtn-admin-85-preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
+    component: hasura
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -294,6 +303,7 @@ spec:
       name: www
       labels:
         application: v1-2-3-cdtn-admin
+        component: hasura
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -311,6 +321,7 @@ metadata:
     app.gitlab.com/env.name: preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
+    component: hasura
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -330,6 +341,7 @@ metadata:
   labels:
     app: hasura
     application: v1-2-3-cdtn-admin
+    component: hasura
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -363,6 +375,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -382,6 +395,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -407,6 +421,7 @@ spec:
             kapp.k14s.io/deploy-logs: for-new-or-existing
           labels:
             application: v1-2-3-cdtn-admin
+            component: v1-2-3-cdtn-admin
             owner: cdtn-admin
             team: cdtn-admin
             cert: wildcard
@@ -463,6 +478,7 @@ metadata:
   namespace: cdtn-admin-85-preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -483,6 +499,7 @@ spec:
       name: ingester
       labels:
         application: v1-2-3-cdtn-admin
+        component: v1-2-3-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -500,6 +517,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -525,6 +543,7 @@ metadata:
   name: azure-pg-user
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -559,6 +578,7 @@ spec:
       name: azure-pg-user
       labels:
         application: v1-2-3-cdtn-admin
+        component: v1-2-3-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -576,6 +596,7 @@ metadata:
   labels:
     app: www
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -597,6 +618,7 @@ spec:
       labels:
         app: www
         application: v1-2-3-cdtn-admin
+        component: v1-2-3-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -664,6 +686,7 @@ metadata:
   namespace: cdtn-admin-85-preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -701,6 +724,7 @@ spec:
       name: www
       labels:
         application: v1-2-3-cdtn-admin
+        component: v1-2-3-cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         cert: wildcard
@@ -718,6 +742,7 @@ metadata:
     app.gitlab.com/env.name: preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -742,6 +767,7 @@ metadata:
   labels:
     app: www
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
@@ -775,6 +801,7 @@ metadata:
   labels:
     app: www
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard

@@ -4,15 +4,15 @@ exports[`kosko generate --prod jobs/restore/container when TRIGGER is set to PRE
 "apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-prod-0123456
-  namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: cdtn-admin
     application: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    component: restore-prod
-  annotations:
-    kapp.k14s.io/update-strategy: always-replace
+  name: restore-container-v1-2-3-x39y81
+  namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
   template:
@@ -120,15 +120,15 @@ exports[`kosko generate --prod jobs/restore/container when TRIGGER is set to PRO
 "apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-prod-0123456
-  namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: cdtn-admin
     application: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-    component: restore-prod
-  annotations:
-    kapp.k14s.io/update-strategy: always-replace
+  name: restore-container-v1-2-3-x39y81
+  namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
   template:

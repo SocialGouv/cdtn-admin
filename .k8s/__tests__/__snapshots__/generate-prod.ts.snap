@@ -15,6 +15,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: alert
@@ -36,6 +37,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: alert
@@ -55,6 +57,7 @@ spec:
         kapp.k14s.io/disable-default-label-scoping-rules: ''
       labels:
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
         app: alert
@@ -71,6 +74,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: alert
@@ -95,6 +99,7 @@ spec:
             kapp.k14s.io/deploy-logs: for-new-or-existing
           labels:
             application: cdtn-admin
+            component: cdtn-admin
             owner: cdtn-admin
             team: cdtn-admin
             app: alert
@@ -145,6 +150,7 @@ metadata:
   labels:
     app: hasura
     application: cdtn-admin
+    component: hasura
     owner: cdtn-admin
     team: cdtn-admin
   name: hasura
@@ -165,6 +171,7 @@ spec:
       labels:
         app: hasura
         application: cdtn-admin
+        component: hasura
         owner: cdtn-admin
         team: cdtn-admin
     spec:
@@ -242,6 +249,7 @@ metadata:
     app.gitlab.com/env.name: prod
   labels:
     application: cdtn-admin
+    component: hasura
     owner: cdtn-admin
     team: cdtn-admin
 spec:
@@ -272,6 +280,7 @@ metadata:
     app.gitlab.com/env.name: prod
   labels:
     application: cdtn-admin
+    component: hasura
     owner: cdtn-admin
     team: cdtn-admin
   namespace: cdtn-admin
@@ -290,6 +299,7 @@ metadata:
   labels:
     app: hasura
     application: cdtn-admin
+    component: hasura
     owner: cdtn-admin
     team: cdtn-admin
   name: hasura
@@ -322,6 +332,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: ingester
@@ -340,6 +351,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: ingester
@@ -364,6 +376,7 @@ spec:
             kapp.k14s.io/deploy-logs: for-new-or-existing
           labels:
             application: cdtn-admin
+            component: cdtn-admin
             owner: cdtn-admin
             team: cdtn-admin
             app: ingester
@@ -420,6 +433,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: ingester
@@ -444,6 +458,7 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     app: ingester
@@ -468,6 +483,7 @@ metadata:
     app.gitlab.com/env.name: prod
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
 spec:
@@ -494,6 +510,7 @@ spec:
         app.gitlab.com/env.name: prod
       labels:
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
     type: Opaque
@@ -511,6 +528,7 @@ metadata:
   labels:
     app: www
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
   name: www
@@ -532,6 +550,7 @@ spec:
       labels:
         app: www
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
     spec:
@@ -598,6 +617,7 @@ metadata:
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
 spec:
@@ -641,6 +661,7 @@ spec:
         nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
       labels:
         application: cdtn-admin
+        component: cdtn-admin
         owner: cdtn-admin
         team: cdtn-admin
     type: Opaque
@@ -658,6 +679,7 @@ metadata:
     nginx.ingress.kubernetes.io/whitelist-source-range: 123.456.456.789,42.0.0.0/8
   labels:
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
   namespace: cdtn-admin
@@ -683,6 +705,7 @@ metadata:
   labels:
     app: www
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
   name: www
@@ -719,6 +742,7 @@ metadata:
   labels:
     app: www
     application: cdtn-admin
+    component: cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
   name: www

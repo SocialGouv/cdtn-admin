@@ -5,16 +5,16 @@ exports[`kosko generate --dev jobs/restore 1`] = `
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-master-dev42-0123456
-  namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: master-dev42-cdtn-admin
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master-dev42
-  annotations:
-    kapp.k14s.io/update-strategy: always-replace
+  name: restore-container-master
+  namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
   template:
@@ -197,32 +197,26 @@ data:
     SELECT pg_terminate_backend(pid)
     FROM pg_stat_activity
     WHERE pid <> pg_backend_pid()
-    AND datname = 'autodevops_master-dev42';
+    AND datname = 'autodevops_master';
 
 
 metadata:
-  name: post-restore-script-configmap-0123456
+  name: post-restore-script-configmap-master
   namespace: cdtn-admin-secret
-  labels:
-    application: master-dev42-cdtn-admin
-    owner: cdtn-admin
-    team: cdtn-admin
-    cert: wildcard
-    component: restore-master-dev42
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-db-master-dev42-0123456
-  namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: master-dev42-cdtn-admin
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master-dev42
-  annotations:
-    kapp.k14s.io/update-strategy: always-replace
+  name: restore-db-master
+  namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
   template:
@@ -276,9 +270,9 @@ spec:
               -a < /mnt/scripts/post-restore.sql
           env:
             - name: PGDATABASE
-              value: autodevops_master-dev42
+              value: autodevops_master
             - name: OWNER
-              value: user_master-dev42
+              value: user_master
             - name: FILE
               value: hasura_prod_db.psql.gz
           envFrom:
@@ -306,18 +300,18 @@ spec:
             claimName: cdtn-admin-backup-restore
             readOnly: true
         - configMap:
-            name: post-restore-script-configmap-0123456
+            name: post-restore-script-configmap-master
           name: scripts
       initContainers:
         - env:
             - name: PGHOST
               value: cdtnadmindevserver.postgres.database.azure.com
             - name: PGDATABASE
-              value: autodevops_master-dev42
+              value: autodevops_master
             - name: PGPASSWORD
-              value: password_master-dev42
+              value: password_master
             - name: PGUSER
-              value: user_master-dev42@cdtnadmindevserver.postgres.database.azure.com
+              value: user_master@cdtnadmindevserver.postgres.database.azure.com
             - name: PGSSLMODE
               value: require
           envFrom: []
@@ -343,10 +337,10 @@ metadata:
     app.gitlab.com/env.name: master-dev42
   labels:
     application: master-dev42-cdtn-admin
+    component: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master-dev42
   namespace: cdtn-admin-secret
 spec:
   accessModes:
@@ -365,10 +359,10 @@ metadata:
   labels:
     usage: master-dev42-cdtn-admin-backup-restore
     application: master-dev42-cdtn-admin
+    component: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master-dev42
   name: master-dev42-cdtn-admin-backup-restore
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
@@ -381,7 +375,7 @@ spec:
   azureFile:
     secretName: azure-cdtnadminprod-volume
     secretNamespace: cdtn-admin-secret
-    shareName: cdtn-admin-backup-restore
+    shareName: cdtnadminprodserver-backup-restore
   capacity:
     storage: 128Gi
   persistentVolumeReclaimPolicy: Delete
@@ -393,16 +387,16 @@ exports[`kosko generate --dev jobs/restore/container 1`] = `
 "apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-master-dev42-0123456
-  namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: master-dev42-cdtn-admin
     application: master-dev42-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-master-dev42
-  annotations:
-    kapp.k14s.io/update-strategy: always-replace
+  name: restore-container-master
+  namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
   template:

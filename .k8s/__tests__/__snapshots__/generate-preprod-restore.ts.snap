@@ -5,16 +5,16 @@ exports[`kosko generate --preprod jobs/restore 1`] = `
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-container-preprod-dev42-0123456
-  namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: v1-2-3-cdtn-admin
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-preprod-dev42
-  annotations:
-    kapp.k14s.io/update-strategy: always-replace
+  name: restore-container-v1-2-3-x39y81
+  namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
   template:
@@ -201,28 +201,22 @@ data:
 
 
 metadata:
-  name: post-restore-script-configmap-0123456
+  name: post-restore-script-configmap-v1-2-3-tpilfp
   namespace: cdtn-admin-secret
-  labels:
-    application: v1-2-3-cdtn-admin
-    owner: cdtn-admin
-    team: cdtn-admin
-    cert: wildcard
-    component: restore-preprod-dev42
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-db-preprod-dev42-0123456
-  namespace: cdtn-admin-secret
+  annotations:
+    kapp.k14s.io/update-strategy: skip
   labels:
+    component: v1-2-3-cdtn-admin
     application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-preprod-dev42
-  annotations:
-    kapp.k14s.io/update-strategy: always-replace
+  name: restore-db-v1-2-3-59gm0p
+  namespace: cdtn-admin-secret
 spec:
   backoffLimit: 0
   template:
@@ -306,7 +300,7 @@ spec:
             claimName: cdtn-admin-backup-restore
             readOnly: true
         - configMap:
-            name: post-restore-script-configmap-0123456
+            name: post-restore-script-configmap-v1-2-3-tpilfp
           name: scripts
       initContainers:
         - env:
@@ -343,10 +337,10 @@ metadata:
     app.gitlab.com/env.name: preprod-dev42
   labels:
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-preprod-dev42
   namespace: cdtn-admin-secret
 spec:
   accessModes:
@@ -365,10 +359,10 @@ metadata:
   labels:
     usage: preprod-dev42-cdtn-admin-backup-restore
     application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-    component: restore-preprod-dev42
   name: preprod-dev42-cdtn-admin-backup-restore
   annotations:
     app.gitlab.com/app: socialgouv-cdtn-admin
@@ -381,7 +375,7 @@ spec:
   azureFile:
     secretName: azure-cdtnadminprod-volume
     secretNamespace: cdtn-admin-secret
-    shareName: cdtn-admin-backup-restore
+    shareName: cdtnadminprodserver-backup-restore
   capacity:
     storage: 128Gi
   persistentVolumeReclaimPolicy: Delete
