@@ -31,6 +31,8 @@ export default async () => {
     `restore/pg-backup.sealed-secret.yaml`
   );
   ok(secret, "Missing restore/pg-backup.sealed-secret.yaml");
+  ok(secret.metadata, "Missing secret.metadata");
+  ok(secret.metadata.name, "Missing secret.metadata.name");
 
   const pgParams = getDefaultPgParams();
 
@@ -71,6 +73,7 @@ export default async () => {
 
   ok(pv.spec, "Missing spec on pv");
   ok(pv.spec.azureFile, "Missing spec on pv");
+  pv.spec.azureFile.secretName = secret.metadata.name;
   pv.spec.azureFile.secretNamespace = ciEnv.metadata.namespace.name;
   pv.spec.azureFile.shareName = "cdtnadminprodserver-backup-restore";
 

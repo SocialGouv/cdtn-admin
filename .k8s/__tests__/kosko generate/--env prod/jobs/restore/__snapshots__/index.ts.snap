@@ -405,7 +405,7 @@ spec:
   accessModes:
     - ReadWriteMany
   azureFile:
-    secretName: azure-cdtnadminprod-volume
+    secretName: cdtnadminprodserver-backup-credentials
     secretNamespace: cdtn-admin
     shareName: cdtnadminprodserver-backup-restore
   capacity:
@@ -839,7 +839,7 @@ spec:
   accessModes:
     - ReadWriteMany
   azureFile:
-    secretName: azure-cdtnadminprod-volume
+    secretName: cdtnadminprodserver-backup-credentials
     secretNamespace: cdtn-admin
     shareName: cdtnadminprodserver-backup-restore
   capacity:
