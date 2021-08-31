@@ -99,5 +99,5 @@ export default async () => {
   ok(job.metadata, "Missing metadata on job");
   job.metadata.namespace = ciEnv.metadata.namespace.name;
 
-  return manifests;
+  return manifests.concat([secret]);
 };
