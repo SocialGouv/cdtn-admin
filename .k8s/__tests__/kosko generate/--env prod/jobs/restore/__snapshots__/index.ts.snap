@@ -1,18 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`kosko generate --prod jobs/restore/container when TRIGGER is set to PREPROD 1`] = `
-"apiVersion: batch/v1
+exports[`should generate dev restore for prod cluster 1`] = `
+"---
+apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
     kapp.k14s.io/update-strategy: skip
   labels:
-    component: cdtn-admin
-    application: cdtn-admin
+    component: prod-cdtn-admin
+    application: prod-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
-  name: restore-container-v1-2-3-x39y81
-  namespace: cdtn-admin-secret
+  name: restore-container-master
+  namespace: cdtn-admin
 spec:
   backoffLimit: 0
   template:
@@ -99,7 +100,6 @@ spec:
             - name: SOURCE_CONTAINER
               value: cdtn
             - name: DESTINATION_CONTAINER
-              value: cdtn-preprod
           envFrom: []
           image: mcr.microsoft.com/azure-cli:2.15.1
           imagePullPolicy: IfNotPresent
@@ -113,22 +113,24 @@ spec:
               memory: 64Mi
       restartPolicy: Never
   ttlSecondsAfterFinished: 86400
+---
 "
 `;
 
-exports[`kosko generate --prod jobs/restore/container when TRIGGER is set to PROD 1`] = `
-"apiVersion: batch/v1
+exports[`should generate preprod restore for prod cluster 1`] = `
+"---
+apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
     kapp.k14s.io/update-strategy: skip
   labels:
-    component: cdtn-admin
-    application: cdtn-admin
+    component: v1-2-3-cdtn-admin
+    application: v1-2-3-cdtn-admin
     owner: cdtn-admin
     team: cdtn-admin
   name: restore-container-v1-2-3-x39y81
-  namespace: cdtn-admin-secret
+  namespace: cdtn-admin
 spec:
   backoffLimit: 0
   template:
@@ -206,16 +208,15 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: azurestorageaccountname
-                  name: azure-cdtnadminprod-volume
+                  name: azure-cdtnadmindev-volume
             - name: DESTINATION_ACCOUNT_KEY
               valueFrom:
                 secretKeyRef:
                   key: azurestorageaccountkey
-                  name: azure-cdtnadminprod-volume
+                  name: azure-cdtnadmindev-volume
             - name: SOURCE_CONTAINER
               value: cdtn
             - name: DESTINATION_CONTAINER
-              value: cdtn
           envFrom: []
           image: mcr.microsoft.com/azure-cli:2.15.1
           imagePullPolicy: IfNotPresent
@@ -229,5 +230,6 @@ spec:
               memory: 64Mi
       restartPolicy: Never
   ttlSecondsAfterFinished: 86400
+---
 "
 `;
