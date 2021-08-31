@@ -1,0 +1,271 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should restore from dev to preprod 1`] = `
+"---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kapp.k14s.io/update-strategy: skip
+  labels:
+    component: cdtn-admin
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+  name: restore-container-v1-2-3-x39y81
+  namespace: cdtn-admin
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
+    spec:
+      containers:
+        - command:
+            - sh
+            - '-c'
+            - >+
+
+
+              [ ! -z $SOURCE_CONTAINER ] || (echo \\"No SOURCE_CONTAINER\\"; exit 1)
+
+              [ ! -z $SOURCE_ACCOUNT_NAME ] || (echo \\"No SOURCE_ACCOUNT_NAME\\";
+              exit 1)
+
+              [ ! -z $SOURCE_ACCOUNT_KEY ] || (echo \\"No SOURCE_ACCOUNT_KEY\\";
+              exit 1)
+
+              [ ! -z $DESTINATION_CONTAINER ] || (echo \\"No
+              DESTINATION_CONTAINER\\"; exit 1)
+
+              [ ! -z $DESTINATION_ACCOUNT_NAME ] || (echo \\"No
+              DESTINATION_ACCOUNT_NAME\\"; exit 1)
+
+              [ ! -z $DESTINATION_ACCOUNT_KEY ] || (echo \\"No
+              DESTINATION_ACCOUNT_KEY\\"; exit 1)
+
+
+
+              echo \\"starting restore container $SOURCE_CONTAINER into
+              $DESTINATION_CONTAINER\\"
+
+
+              # copy container
+
+              az storage copy -r   --source-account-name
+              \\"$SOURCE_ACCOUNT_NAME\\"   --source-account-key
+              \\"$SOURCE_ACCOUNT_KEY\\"   --source-container \\"$SOURCE_CONTAINER\\"  
+              --account-name \\"$DESTINATION_ACCOUNT_NAME\\"   --account-key
+              \\"$DESTINATION_ACCOUNT_KEY\\"   --destination-container
+              \\"$DESTINATION_CONTAINER\\"
+
+
+              # get original permission
+
+              PUBLIC_ACCESS=\`az storage container show-permission  
+              --account-name \\"$SOURCE_ACCOUNT_NAME\\"   --account-key
+              \\"$SOURCE_ACCOUNT_KEY\\"   --name $SOURCE_CONTAINER | jq -r
+              \\".publicAccess\\"\`
+
+
+              # set original permission
+
+              az storage container set-permission   --name
+              $DESTINATION_CONTAINER   --account-name
+              \\"$DESTINATION_ACCOUNT_NAME\\"   --account-key
+              \\"$DESTINATION_ACCOUNT_KEY\\"   --public-access $PUBLIC_ACCESS
+
+          env:
+            - name: SOURCE_ACCOUNT_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountname
+                  name: azure-cdtnadmindev-volume
+            - name: SOURCE_ACCOUNT_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountkey
+                  name: azure-cdtnadmindev-volume
+            - name: DESTINATION_ACCOUNT_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountname
+                  name: azure-cdtnadmindev-volume
+            - name: DESTINATION_ACCOUNT_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountkey
+                  name: azure-cdtnadmindev-volume
+            - name: SOURCE_CONTAINER
+              value: cdtn
+            - name: DESTINATION_CONTAINER
+              value: cdtn-preprod
+          envFrom: []
+          image: mcr.microsoft.com/azure-cli:2.15.1
+          imagePullPolicy: IfNotPresent
+          name: restore-db
+          resources:
+            limits:
+              cpu: 300m
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+      restartPolicy: Never
+  ttlSecondsAfterFinished: 86400
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations: {}
+  name: azure-cdtnadmindev-volume
+  namespace: cdtn-admin
+spec:
+  encryptedData:
+    azurestorageaccountkey: >-
+      AgAFpMndUw7Mo4QLdKCaW+mOLMauIXGu+cHv9F4sEbsVBnGy/oXmuBVU6hNiXJ/58JHSXSVsnpp8qYu9GhAHdQmN5crWmWDqfqgXd/03iH80QFyR+0PMMQZwsAqsnbzoox8SlghhwiwazdCB2y0C0VsxCd7sSC1uD+t9BUlIX1vRRTosUrZwD3SfKQI3otEXze+/fyo6pEnxMfvTs/fPZtIn4ixt8JL3hrLEDpavjLScIf1VgPlxG7+LC2CYcAeQ+k5hmtlLIFrjYRwlOEhrRNDCbgjEtOzVPuT3cCYAfuC8rFa4QW0kSRH8SRd4azQfNKfZNsUH8/bCq91h2zDRNpVSCm/ZWSQZYFPhmgRMlvqUNEqBAURQUUE1FwkNohr02jBeISrm4PW/7cSdoIhJ5Q7kXle2PzmC+Cv1n9y67OlCtxHSqOik+rCH2ryqoY+sKgoAISVvVWyhAf5/1VWqKudQDkJpbAyV7zh9orRbgKohtjAxFRdWK/+YplEDC/xWI8FnZd26PS5Cs/hRByDf5EVmDFNir64lPJ5kHYyLnFxF50RD9UQRPJ6qGRLO3gEYKRfle6Vox00lZ9y/ck2MAJo6/ZChksclBQYMC++Ky69zlQhQu1WzQGxV5iQRTDwQSHdzcHvEF7HEM390Fq6bglib00VOVx7wYFS4TgcrEgwKYIt1bkvtea204W8/6yn5WYZN8OiLElDmVy+0xcHVUwokdPlGEkR6YepI2dircEj89WzFELN7M2J4wbaEqkVODnEe8itGl+yhXiYDpsPzVnGulRwdNhIfWbf8Hq9ILY8GbXO6LdG4dJhL
+    azurestorageaccountname: >-
+      AgBm39+zb0dIlbRiM17Cg++XLr04EzShAbwHORvltWJE1HWGvCEMIFuEFjD2NOCuScOGK6b2abqLOadoDnENC+3HKwjwNQKRADL/TCX0bW4DMCJJ4RabMXalaaq19BSa1lN2yMgW1TO+lwVibiIxIpEbbYGpbL+U07Qraf5cNi9O+2Pc6hXmVWDoTi2Op9pEa0aYhKq1wIxB4B4kowH5RjsskdlXy2Gf2pf5QL4EFVBae8MMwH2INsJc/R90tuIGSwgr+FQ13iD1E3sEGi1VBqAcIRwA99UVUbsDVQc6Li/ENbJuS5JR9wPRqfvr+D5O5n+iRcYbDabo7R+bLIm0IdgAmIvREGmAHmq81Z6txWiJeUIsRZ3BldN9JGnU1fUpmA78TVhfpq42zy6q2EDvjIc91CL0jIJNI2mGljha2T1/gy2vqnIbTDj0zHBVajPEO+26vlUSd9zmDETf4Km3V2tYblUIiDuZwqH2hiiQz4lf1UYqF2sS5XlxcXBBP98YaLHNt0S5N/k1avH/XuaJbPyMyU9ZKE1IXWYTLnoMVnPM+/lD0J9xfeZJ3gLeLtjilARlk6FdzDx5W7IH4u9sdFEktnKq8NXRhkeYXb3CHtSjxYy1PfF6tSOCP9DIaZMcK2Z9Vqivis3+ZbFqxe9vWU92xzRg5ZsPr+AkXHnPOLKvt/SCnjRLT5taJVCBfvOSEXkg3tDKk2DWFczzpHA=
+  template:
+    metadata:
+      annotations: {}
+      name: azure-cdtnadmindev-volume
+    type: Opaque
+"
+`;
+
+exports[`should restore from dev to prod 1`] = `
+"---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kapp.k14s.io/update-strategy: skip
+  labels:
+    component: cdtn-admin
+    application: cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+  name: restore-container-v1-2-3-x39y81
+  namespace: cdtn-admin
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
+    spec:
+      containers:
+        - command:
+            - sh
+            - '-c'
+            - >+
+
+
+              [ ! -z $SOURCE_CONTAINER ] || (echo \\"No SOURCE_CONTAINER\\"; exit 1)
+
+              [ ! -z $SOURCE_ACCOUNT_NAME ] || (echo \\"No SOURCE_ACCOUNT_NAME\\";
+              exit 1)
+
+              [ ! -z $SOURCE_ACCOUNT_KEY ] || (echo \\"No SOURCE_ACCOUNT_KEY\\";
+              exit 1)
+
+              [ ! -z $DESTINATION_CONTAINER ] || (echo \\"No
+              DESTINATION_CONTAINER\\"; exit 1)
+
+              [ ! -z $DESTINATION_ACCOUNT_NAME ] || (echo \\"No
+              DESTINATION_ACCOUNT_NAME\\"; exit 1)
+
+              [ ! -z $DESTINATION_ACCOUNT_KEY ] || (echo \\"No
+              DESTINATION_ACCOUNT_KEY\\"; exit 1)
+
+
+
+              echo \\"starting restore container $SOURCE_CONTAINER into
+              $DESTINATION_CONTAINER\\"
+
+
+              # copy container
+
+              az storage copy -r   --source-account-name
+              \\"$SOURCE_ACCOUNT_NAME\\"   --source-account-key
+              \\"$SOURCE_ACCOUNT_KEY\\"   --source-container \\"$SOURCE_CONTAINER\\"  
+              --account-name \\"$DESTINATION_ACCOUNT_NAME\\"   --account-key
+              \\"$DESTINATION_ACCOUNT_KEY\\"   --destination-container
+              \\"$DESTINATION_CONTAINER\\"
+
+
+              # get original permission
+
+              PUBLIC_ACCESS=\`az storage container show-permission  
+              --account-name \\"$SOURCE_ACCOUNT_NAME\\"   --account-key
+              \\"$SOURCE_ACCOUNT_KEY\\"   --name $SOURCE_CONTAINER | jq -r
+              \\".publicAccess\\"\`
+
+
+              # set original permission
+
+              az storage container set-permission   --name
+              $DESTINATION_CONTAINER   --account-name
+              \\"$DESTINATION_ACCOUNT_NAME\\"   --account-key
+              \\"$DESTINATION_ACCOUNT_KEY\\"   --public-access $PUBLIC_ACCESS
+
+          env:
+            - name: SOURCE_ACCOUNT_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountname
+                  name: azure-cdtnadmindev-volume
+            - name: SOURCE_ACCOUNT_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountkey
+                  name: azure-cdtnadmindev-volume
+            - name: DESTINATION_ACCOUNT_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountname
+                  name: azure-cdtnadminprod-volume
+            - name: DESTINATION_ACCOUNT_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: azurestorageaccountkey
+                  name: azure-cdtnadminprod-volume
+            - name: SOURCE_CONTAINER
+              value: cdtn
+            - name: DESTINATION_CONTAINER
+              value: cdtn
+          envFrom: []
+          image: mcr.microsoft.com/azure-cli:2.15.1
+          imagePullPolicy: IfNotPresent
+          name: restore-db
+          resources:
+            limits:
+              cpu: 300m
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+      restartPolicy: Never
+  ttlSecondsAfterFinished: 86400
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations: {}
+  name: azure-cdtnadmindev-volume
+  namespace: cdtn-admin
+spec:
+  encryptedData:
+    azurestorageaccountkey: >-
+      AgAFpMndUw7Mo4QLdKCaW+mOLMauIXGu+cHv9F4sEbsVBnGy/oXmuBVU6hNiXJ/58JHSXSVsnpp8qYu9GhAHdQmN5crWmWDqfqgXd/03iH80QFyR+0PMMQZwsAqsnbzoox8SlghhwiwazdCB2y0C0VsxCd7sSC1uD+t9BUlIX1vRRTosUrZwD3SfKQI3otEXze+/fyo6pEnxMfvTs/fPZtIn4ixt8JL3hrLEDpavjLScIf1VgPlxG7+LC2CYcAeQ+k5hmtlLIFrjYRwlOEhrRNDCbgjEtOzVPuT3cCYAfuC8rFa4QW0kSRH8SRd4azQfNKfZNsUH8/bCq91h2zDRNpVSCm/ZWSQZYFPhmgRMlvqUNEqBAURQUUE1FwkNohr02jBeISrm4PW/7cSdoIhJ5Q7kXle2PzmC+Cv1n9y67OlCtxHSqOik+rCH2ryqoY+sKgoAISVvVWyhAf5/1VWqKudQDkJpbAyV7zh9orRbgKohtjAxFRdWK/+YplEDC/xWI8FnZd26PS5Cs/hRByDf5EVmDFNir64lPJ5kHYyLnFxF50RD9UQRPJ6qGRLO3gEYKRfle6Vox00lZ9y/ck2MAJo6/ZChksclBQYMC++Ky69zlQhQu1WzQGxV5iQRTDwQSHdzcHvEF7HEM390Fq6bglib00VOVx7wYFS4TgcrEgwKYIt1bkvtea204W8/6yn5WYZN8OiLElDmVy+0xcHVUwokdPlGEkR6YepI2dircEj89WzFELN7M2J4wbaEqkVODnEe8itGl+yhXiYDpsPzVnGulRwdNhIfWbf8Hq9ILY8GbXO6LdG4dJhL
+    azurestorageaccountname: >-
+      AgBm39+zb0dIlbRiM17Cg++XLr04EzShAbwHORvltWJE1HWGvCEMIFuEFjD2NOCuScOGK6b2abqLOadoDnENC+3HKwjwNQKRADL/TCX0bW4DMCJJ4RabMXalaaq19BSa1lN2yMgW1TO+lwVibiIxIpEbbYGpbL+U07Qraf5cNi9O+2Pc6hXmVWDoTi2Op9pEa0aYhKq1wIxB4B4kowH5RjsskdlXy2Gf2pf5QL4EFVBae8MMwH2INsJc/R90tuIGSwgr+FQ13iD1E3sEGi1VBqAcIRwA99UVUbsDVQc6Li/ENbJuS5JR9wPRqfvr+D5O5n+iRcYbDabo7R+bLIm0IdgAmIvREGmAHmq81Z6txWiJeUIsRZ3BldN9JGnU1fUpmA78TVhfpq42zy6q2EDvjIc91CL0jIJNI2mGljha2T1/gy2vqnIbTDj0zHBVajPEO+26vlUSd9zmDETf4Km3V2tYblUIiDuZwqH2hiiQz4lf1UYqF2sS5XlxcXBBP98YaLHNt0S5N/k1avH/XuaJbPyMyU9ZKE1IXWYTLnoMVnPM+/lD0J9xfeZJ3gLeLtjilARlk6FdzDx5W7IH4u9sdFEktnKq8NXRhkeYXb3CHtSjxYy1PfF6tSOCP9DIaZMcK2Z9Vqivis3+ZbFqxe9vWU92xzRg5ZsPr+AkXHnPOLKvt/SCnjRLT5taJVCBfvOSEXkg3tDKk2DWFczzpHA=
+  template:
+    metadata:
+      annotations: {}
+      name: azure-cdtnadmindev-volume
+    type: Opaque
+"
+`;
