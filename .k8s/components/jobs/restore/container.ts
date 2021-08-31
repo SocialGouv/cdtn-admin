@@ -3,15 +3,14 @@ import { EnvVar, ISecret } from "kubernetes-models/v1";
 import { ok } from "assert";
 import env from "@kosko/env";
 import environments from "@socialgouv/kosko-charts/environments";
-import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
+import { loadFile } from "@kosko/yaml";
 
 export default async () => {
   const params = env.component("restore/container");
   const ciEnv = environments(process.env);
 
-  const secret = await loadYaml<ISecret>(
-    env,
-    `restore/azure-volumes.sealed-secret.yaml`
+  const secret = await loadFile(
+    `environments/${env.env}/restore/azure-volumes.sealed-secret.yaml`
   );
   ok(secret, "Missing restore/azure-volumes.sealed-secret.yaml");
 

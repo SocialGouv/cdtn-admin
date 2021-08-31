@@ -132,6 +132,24 @@ spec:
       annotations: {}
       name: azure-cdtnadmindev-volume
     type: Opaque
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations: {}
+  name: azure-cdtnadminprod-volume
+  namespace: cdtn-admin
+spec:
+  encryptedData:
+    azurestorageaccountkey: >-
+      AgArMu861qm2F7g/QpkOUqz4BAM+AIwuAXsE2PpJMNKKmZz/Pbyg3oIMfdcqg8e3rss7PpddLbZv+TYFCC8HuVIrQ9u5gA1t2HN0qjDGBsDyWr7cF2I+eB71JN287MoOeG90hF+TfkHh3bONZTDEwOT+sYs6XSDm4EsXEE7kkUk0yJjUA0s5uXZYI33dteRWPYMp7KaG73RWl6CW0/woKwnX5ml4d69g8cmAkf345Xe5knqGTh8wt2idJjEnjgF8j3WqCdbD1AUkqnovQ5igr36E/j8+B6GyNZtQVEqSyNZT16o973IpkoOs3ZUk5kAi9TlAxHIdLIUDqmnKr29apu/UGTdOGr0zqUbnJyawh+aCUSzLP3D/CKQFtcGNvs+FqUciOlRt1FoU25GuDMEH7ol3ic5+45jOMeJJNPwhOHxynJvAMQCnJAqGYMQefj4o5LnfRBYpS4CumMGhzuBvfHkVnrYj69d+gJ3YEpJ5aKBu9tCAAgyl9g8KzRTfLPCiSqxKfV7uQoNHilluWdHW8TQssHSzi1+K3WVXhRVTTV0NjQoEt9ZkPb7/iOns8IW5SucSJUABDf7U8C3aG+t0zymjMhpkpsnq/JPK2K4pkO8Qa0R6GSO6YJKVT9sKCYTfD3Mrr3FnROaThouPmQmCFfzVXErgdnAaBJUrG7F5vppguDA+obT9GH13zrurn+bEnvZfgi2oIutV/CMHijYS3tTA0OIEdHZRUb1DHU+efX4YuJc4qF2W117ZgUjv9luxAIFcPRXpkDKeUv1gGYAuKIMatkmLJ6END8iakKgb2NpfsNna8a1MSjAe
+    azurestorageaccountname: >-
+      AgAfpzqFtomji8nwYM6g5mbXXDAA8REQtfJakS059Vy2KkUbZ1okjVQ5mFN61ODTcBknR/dbncVRsl9n/JoEqLfN1wSp58QOBTFLFXiMNeLACEEIYg/Ko6hZVsUB6xs6x0Ma75ngDr+BcAtUCX9g7qqd4Lpw+7lWNdDrO4yT7BLdbV1WvoHA8YQkSyqZ/w9/lugYwc63mmf5PsUz3JVhHMwN+esOvTOcDqxFwpSR2v3z/o7wgmm3CLSg06LGSK5rAppetk/ojfeWZqWk9nA6It/BQ2x1nlku/2wU4HjO7H1+syPsvftElu4Bw4vcX8SFY5+2oGplwekThIkH/V+YQvsq1mI0y45ZOh8QfwfNJoPNjvEFGXpZX8eKriUAeesMC0y7CRMeSBVXdrmQFe9yjViFsh1gX5G5Jl7bFKMhZORZ/DAvVUfXt4zC/V+y3uo6QrFEp8Ywm/uYO5KwhiGU2B/8gYu3oQUuhjl8M+s+y8jkF+WeCTPe0lsxCYlxQ/BB9e1x86j+ulPtUEvlA4Bp/AMlKUomdLDuX8Mddtp2T85QB+3KuTtBQlWLRqjywhEZjKmourH99JOF2Buh9OX/tGg7S5ZfuUdwHqQh5/dX1S2/VFAJFdFOpt0HEzuiuxTw2l1rw5SYqmZuHRrbVIHgTyxRpUcJXQ+dep6MAuklR42sxynraa620atGW1MdHALd6U90DG8H482QS97v9lH3
+  template:
+    metadata:
+      annotations: {}
+      name: azure-cdtnadminprod-volume
+    type: Opaque
 "
 `;
 
@@ -266,6 +284,24 @@ spec:
     metadata:
       annotations: {}
       name: azure-cdtnadmindev-volume
+    type: Opaque
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations: {}
+  name: azure-cdtnadminprod-volume
+  namespace: cdtn-admin
+spec:
+  encryptedData:
+    azurestorageaccountkey: >-
+      AgArMu861qm2F7g/QpkOUqz4BAM+AIwuAXsE2PpJMNKKmZz/Pbyg3oIMfdcqg8e3rss7PpddLbZv+TYFCC8HuVIrQ9u5gA1t2HN0qjDGBsDyWr7cF2I+eB71JN287MoOeG90hF+TfkHh3bONZTDEwOT+sYs6XSDm4EsXEE7kkUk0yJjUA0s5uXZYI33dteRWPYMp7KaG73RWl6CW0/woKwnX5ml4d69g8cmAkf345Xe5knqGTh8wt2idJjEnjgF8j3WqCdbD1AUkqnovQ5igr36E/j8+B6GyNZtQVEqSyNZT16o973IpkoOs3ZUk5kAi9TlAxHIdLIUDqmnKr29apu/UGTdOGr0zqUbnJyawh+aCUSzLP3D/CKQFtcGNvs+FqUciOlRt1FoU25GuDMEH7ol3ic5+45jOMeJJNPwhOHxynJvAMQCnJAqGYMQefj4o5LnfRBYpS4CumMGhzuBvfHkVnrYj69d+gJ3YEpJ5aKBu9tCAAgyl9g8KzRTfLPCiSqxKfV7uQoNHilluWdHW8TQssHSzi1+K3WVXhRVTTV0NjQoEt9ZkPb7/iOns8IW5SucSJUABDf7U8C3aG+t0zymjMhpkpsnq/JPK2K4pkO8Qa0R6GSO6YJKVT9sKCYTfD3Mrr3FnROaThouPmQmCFfzVXErgdnAaBJUrG7F5vppguDA+obT9GH13zrurn+bEnvZfgi2oIutV/CMHijYS3tTA0OIEdHZRUb1DHU+efX4YuJc4qF2W117ZgUjv9luxAIFcPRXpkDKeUv1gGYAuKIMatkmLJ6END8iakKgb2NpfsNna8a1MSjAe
+    azurestorageaccountname: >-
+      AgAfpzqFtomji8nwYM6g5mbXXDAA8REQtfJakS059Vy2KkUbZ1okjVQ5mFN61ODTcBknR/dbncVRsl9n/JoEqLfN1wSp58QOBTFLFXiMNeLACEEIYg/Ko6hZVsUB6xs6x0Ma75ngDr+BcAtUCX9g7qqd4Lpw+7lWNdDrO4yT7BLdbV1WvoHA8YQkSyqZ/w9/lugYwc63mmf5PsUz3JVhHMwN+esOvTOcDqxFwpSR2v3z/o7wgmm3CLSg06LGSK5rAppetk/ojfeWZqWk9nA6It/BQ2x1nlku/2wU4HjO7H1+syPsvftElu4Bw4vcX8SFY5+2oGplwekThIkH/V+YQvsq1mI0y45ZOh8QfwfNJoPNjvEFGXpZX8eKriUAeesMC0y7CRMeSBVXdrmQFe9yjViFsh1gX5G5Jl7bFKMhZORZ/DAvVUfXt4zC/V+y3uo6QrFEp8Ywm/uYO5KwhiGU2B/8gYu3oQUuhjl8M+s+y8jkF+WeCTPe0lsxCYlxQ/BB9e1x86j+ulPtUEvlA4Bp/AMlKUomdLDuX8Mddtp2T85QB+3KuTtBQlWLRqjywhEZjKmourH99JOF2Buh9OX/tGg7S5ZfuUdwHqQh5/dX1S2/VFAJFdFOpt0HEzuiuxTw2l1rw5SYqmZuHRrbVIHgTyxRpUcJXQ+dep6MAuklR42sxynraa620atGW1MdHALd6U90DG8H482QS97v9lH3
+  template:
+    metadata:
+      annotations: {}
+      name: azure-cdtnadminprod-volume
     type: Opaque
 "
 `;
