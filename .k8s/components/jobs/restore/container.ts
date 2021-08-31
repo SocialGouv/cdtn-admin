@@ -1,12 +1,19 @@
 import { restoreContainerJob } from "@socialgouv/kosko-charts/components/azure-storage/restore-container.job";
-import { EnvVar } from "kubernetes-models/v1";
+import { EnvVar, ISecret } from "kubernetes-models/v1";
 import { ok } from "assert";
 import env from "@kosko/env";
 import environments from "@socialgouv/kosko-charts/environments";
+import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 
-export default () => {
+export default async () => {
   const params = env.component("restore/container");
   const ciEnv = environments(process.env);
+
+  const secret = await loadYaml<ISecret>(
+    env,
+    `restore/azure-volumes.sealed-secret.yaml`
+  );
+  ok(secret, "Missing restore/azure-volumes.sealed-secret.yaml");
 
   const job = restoreContainerJob({
     env: [
@@ -27,6 +34,6 @@ export default () => {
   //
   // HACK(douglasduteil): manully change the container namespace
   ok(job.metadata, "Missing spec on job");
-  job.metadata.namespace = ciEnv.metadata.namespace.name;
-  return job;
+  job.metadata.namespace = "cdtn-admin";
+  return [job, secret];
 };
