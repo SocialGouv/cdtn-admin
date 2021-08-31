@@ -3,25 +3,35 @@
 import { getDefaultPgParams } from "@socialgouv/kosko-charts/components/azure-pg";
 import { restoreDbJob } from "@socialgouv/kosko-charts/components/azure-pg/restore-db.job";
 import fs from "fs";
+import env from "@kosko/env";
 import { ok } from "assert";
 import {
   EnvVar,
   IConfigMap,
   IPersistentVolumeClaim,
+  ISecret,
   PersistentVolume,
 } from "kubernetes-models/v1";
+import { IJob } from "kubernetes-models/batch/v1";
 import environments from "@socialgouv/kosko-charts/environments";
+import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 
 import path from "path";
-import { IJob } from "kubernetes-models/_definitions/IoK8sApiBatchV1Job";
 
-export default () => {
+export default async () => {
   const ciEnv = environments(process.env);
 
-  if (!ciEnv.isProduction) {
+  if (env.env !== "prod") {
     // HACK(douglasduteil): only run on production cluster
     return;
   }
+
+  const secret = await loadYaml<ISecret>(
+    env,
+    `restore/pg-backup.sealed-secret.yaml`
+  );
+  ok(secret, "Missing restore/pg-backup.sealed-secret.yaml");
+
   const pgParams = getDefaultPgParams();
 
   const manifests = restoreDbJob({

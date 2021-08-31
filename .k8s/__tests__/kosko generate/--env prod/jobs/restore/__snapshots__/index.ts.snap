@@ -151,6 +151,267 @@ spec:
       name: azure-cdtnadminprod-volume
     type: Opaque
 ---
+apiVersion: v1
+kind: ConfigMap
+data:
+  post-restore.sql: |+
+    TRUNCATE TABLE \\"auth\\".\\"users\\" CASCADE;
+
+    --
+    -- DISABLE TRIGGERS
+    --
+
+    ALTER TABLE auth.users DISABLE TRIGGER USER;
+
+    WITH admin_row AS (
+    INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
+        VALUES ('codedutravailnumerique@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8', 'Administrateur', 'admin', TRUE)
+      RETURNING
+        id, default_role)
+      INSERT INTO auth.user_roles (ROLE, user_id)
+      SELECT
+        default_role,
+        id
+      FROM
+        admin_row;
+
+    WITH admin_row AS (
+    INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
+        VALUES ('utilisateur@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$PqKPf9cxunVLLtEcINHhWQ$CwHKhk71fc8LGp6BWbcFPzQ2ftOiHa7vUkp1eAqVHSM', 'Utilisateur', 'user', TRUE)
+      RETURNING
+        id, default_role)
+      INSERT INTO auth.user_roles (ROLE, user_id)
+      SELECT
+        default_role,
+        id
+      FROM
+        admin_row;
+
+    --
+    -- create empty audit logs table
+    --
+
+    CREATE TABLE IF NOT EXISTS audit.logged_actions (
+        event_id bigserial primary key,
+
+        schema_name text not null,
+        table_name text not null,
+        relid oid not null,
+
+        session_user_name text,
+        hasura_user jsonb,
+
+        action_tstamp_tx TIMESTAMP WITH TIME ZONE NOT NULL,
+        action_tstamp_stm TIMESTAMP WITH TIME ZONE NOT NULL,
+        action_tstamp_clock TIMESTAMP WITH TIME ZONE NOT NULL,
+        transaction_id bigint,
+
+        application_name text,
+        client_addr inet,
+        client_port integer,
+
+        client_query text,
+        action TEXT NOT NULL CHECK (action IN ('I','D','U', 'T')),
+        row_data jsonb,
+        changed_fields jsonb,
+        statement_only boolean not null
+    );
+
+    --
+    -- ENABLE TRIGGERS
+    --
+
+    ALTER TABLE auth.users ENABLE TRIGGER USER;
+
+    --
+    -- Kill all connections !
+    -- Make all connected services restart !
+    -- Hasura migration will be re-applyed.
+    --
+
+    SELECT pg_terminate_backend(pid)
+    FROM pg_stat_activity
+    WHERE pid <> pg_backend_pid()
+    AND datname = 'autodevops_master';
+
+
+metadata:
+  name: post-restore-script-configmap-master
+  namespace: cdtn-admin
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kapp.k14s.io/update-strategy: skip
+  labels:
+    component: prod-cdtn-admin
+    application: prod-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+  name: restore-db-master
+  namespace: cdtn-admin
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
+    spec:
+      containers:
+        - command:
+            - sh
+            - '-c'
+            - >
+
+
+              echo \\"starting restore into $PGHOST/$PGDATABASE\\"
+
+
+              [ ! -z $PGDATABASE ] || (echo \\"No PGDATABASE\\"; exit 1)
+
+              [ ! -z $PGHOST ] || (echo \\"No PGHOST\\"; exit 1)
+
+              [ ! -z $PGUSER ] || (echo \\"No PGUSER\\"; exit 1)
+
+              [ ! -z $PGPASSWORD ] || (echo \\"No PGPASSWORD\\"; exit 1)
+
+              [ ! -z $OWNER ] || (echo \\"No OWNER\\"; exit 1)
+
+
+              # get latest backup folder
+
+              LATEST=$(ls -1Fr /mnt/data | head -n 1);
+
+              DUMP=\\"/mnt/data/\${LATEST}\${FILE}\\"
+
+              echo \\"Restore \${DUMP} into \${PGDATABASE}\\";
+
+
+              pg_isready;
+
+
+              pg_restore   --dbname \${PGDATABASE}   --clean --if-exists  
+              --exclude-schema=audit   --no-owner   --role \${OWNER}   --no-acl  
+              --verbose   \${DUMP};
+
+
+              psql -v ON_ERROR_STOP=1 \${PGDATABASE} -c \\"ALTER SCHEMA public
+              owner to \${OWNER};\\"
+
+
+              [ -f \\"/mnt/scripts/post-restore.sql\\" ] && psql -v ON_ERROR_STOP=1
+              -a < /mnt/scripts/post-restore.sql
+          env:
+            - name: PGDATABASE
+              value: autodevops_master
+            - name: OWNER
+              value: user_master
+            - name: FILE
+              value: hasura_prod_db.psql.gz
+          envFrom:
+            - secretRef:
+                name: azure-pg-admin-user-dev
+          image: ghcr.io/socialgouv/docker/azure-db:6.45.0
+          imagePullPolicy: IfNotPresent
+          name: restore-db
+          resources:
+            limits:
+              cpu: 300m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: /mnt/data
+              name: backups
+            - mountPath: /mnt/scripts
+              name: scripts
+      restartPolicy: OnFailure
+      volumes:
+        - name: backups
+          persistentVolumeClaim:
+            claimName: cdtn-admin-backup-restore
+            readOnly: true
+        - configMap:
+            name: post-restore-script-configmap-master
+          name: scripts
+      initContainers:
+        - env:
+            - name: PGHOST
+              value: cdtnadmindevserver.postgres.database.azure.com
+            - name: PGDATABASE
+              value: autodevops_master
+            - name: PGPASSWORD
+              value: password_master
+            - name: PGUSER
+              value: user_master@cdtnadmindevserver.postgres.database.azure.com
+            - name: PGSSLMODE
+              value: require
+          envFrom: []
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+  ttlSecondsAfterFinished: 86400
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cdtn-admin-backup-restore
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
+  labels:
+    application: prod-cdtn-admin
+    component: prod-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+  namespace: cdtn-admin
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 128Gi
+  selector:
+    matchLabels:
+      usage: prod-cdtn-admin-backup-restore
+  storageClassName: ''
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    usage: prod-cdtn-admin-backup-restore
+    application: prod-cdtn-admin
+    component: prod-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+  name: prod-cdtn-admin-backup-restore
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
+  namespace: cdtn-admin
+spec:
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: azure-cdtnadminprod-volume
+    secretNamespace: cdtn-admin
+    shareName: cdtnadminprodserver-backup-restore
+  capacity:
+    storage: 128Gi
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: ''
 "
 `;
 
@@ -305,5 +566,267 @@ spec:
       name: azure-cdtnadminprod-volume
     type: Opaque
 ---
+apiVersion: v1
+kind: ConfigMap
+data:
+  post-restore.sql: |+
+    TRUNCATE TABLE \\"auth\\".\\"users\\" CASCADE;
+
+    --
+    -- DISABLE TRIGGERS
+    --
+
+    ALTER TABLE auth.users DISABLE TRIGGER USER;
+
+    WITH admin_row AS (
+    INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
+        VALUES ('codedutravailnumerique@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8', 'Administrateur', 'admin', TRUE)
+      RETURNING
+        id, default_role)
+      INSERT INTO auth.user_roles (ROLE, user_id)
+      SELECT
+        default_role,
+        id
+      FROM
+        admin_row;
+
+    WITH admin_row AS (
+    INSERT INTO auth.users (email, PASSWORD, name, default_role, active)
+        VALUES ('utilisateur@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$PqKPf9cxunVLLtEcINHhWQ$CwHKhk71fc8LGp6BWbcFPzQ2ftOiHa7vUkp1eAqVHSM', 'Utilisateur', 'user', TRUE)
+      RETURNING
+        id, default_role)
+      INSERT INTO auth.user_roles (ROLE, user_id)
+      SELECT
+        default_role,
+        id
+      FROM
+        admin_row;
+
+    --
+    -- create empty audit logs table
+    --
+
+    CREATE TABLE IF NOT EXISTS audit.logged_actions (
+        event_id bigserial primary key,
+
+        schema_name text not null,
+        table_name text not null,
+        relid oid not null,
+
+        session_user_name text,
+        hasura_user jsonb,
+
+        action_tstamp_tx TIMESTAMP WITH TIME ZONE NOT NULL,
+        action_tstamp_stm TIMESTAMP WITH TIME ZONE NOT NULL,
+        action_tstamp_clock TIMESTAMP WITH TIME ZONE NOT NULL,
+        transaction_id bigint,
+
+        application_name text,
+        client_addr inet,
+        client_port integer,
+
+        client_query text,
+        action TEXT NOT NULL CHECK (action IN ('I','D','U', 'T')),
+        row_data jsonb,
+        changed_fields jsonb,
+        statement_only boolean not null
+    );
+
+    --
+    -- ENABLE TRIGGERS
+    --
+
+    ALTER TABLE auth.users ENABLE TRIGGER USER;
+
+    --
+    -- Kill all connections !
+    -- Make all connected services restart !
+    -- Hasura migration will be re-applyed.
+    --
+
+    SELECT pg_terminate_backend(pid)
+    FROM pg_stat_activity
+    WHERE pid <> pg_backend_pid()
+    AND datname = 'autodevops_v1-2-3-5oe0cj';
+
+
+metadata:
+  name: post-restore-script-configmap-v1-2-3-tpilfp
+  namespace: cdtn-admin
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kapp.k14s.io/update-strategy: skip
+  labels:
+    component: v1-2-3-cdtn-admin
+    application: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+  name: restore-db-v1-2-3-59gm0p
+  namespace: cdtn-admin
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new-or-existing
+    spec:
+      containers:
+        - command:
+            - sh
+            - '-c'
+            - >
+
+
+              echo \\"starting restore into $PGHOST/$PGDATABASE\\"
+
+
+              [ ! -z $PGDATABASE ] || (echo \\"No PGDATABASE\\"; exit 1)
+
+              [ ! -z $PGHOST ] || (echo \\"No PGHOST\\"; exit 1)
+
+              [ ! -z $PGUSER ] || (echo \\"No PGUSER\\"; exit 1)
+
+              [ ! -z $PGPASSWORD ] || (echo \\"No PGPASSWORD\\"; exit 1)
+
+              [ ! -z $OWNER ] || (echo \\"No OWNER\\"; exit 1)
+
+
+              # get latest backup folder
+
+              LATEST=$(ls -1Fr /mnt/data | head -n 1);
+
+              DUMP=\\"/mnt/data/\${LATEST}\${FILE}\\"
+
+              echo \\"Restore \${DUMP} into \${PGDATABASE}\\";
+
+
+              pg_isready;
+
+
+              pg_restore   --dbname \${PGDATABASE}   --clean --if-exists  
+              --exclude-schema=audit   --no-owner   --role \${OWNER}   --no-acl  
+              --verbose   \${DUMP};
+
+
+              psql -v ON_ERROR_STOP=1 \${PGDATABASE} -c \\"ALTER SCHEMA public
+              owner to \${OWNER};\\"
+
+
+              [ -f \\"/mnt/scripts/post-restore.sql\\" ] && psql -v ON_ERROR_STOP=1
+              -a < /mnt/scripts/post-restore.sql
+          env:
+            - name: PGDATABASE
+              value: autodevops_v1-2-3-5oe0cj
+            - name: OWNER
+              value: user_v1-2-3-5oe0cj
+            - name: FILE
+              value: hasura_prod_db.psql.gz
+          envFrom:
+            - secretRef:
+                name: azure-pg-admin-user-dev
+          image: ghcr.io/socialgouv/docker/azure-db:6.45.0
+          imagePullPolicy: IfNotPresent
+          name: restore-db
+          resources:
+            limits:
+              cpu: 300m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: /mnt/data
+              name: backups
+            - mountPath: /mnt/scripts
+              name: scripts
+      restartPolicy: OnFailure
+      volumes:
+        - name: backups
+          persistentVolumeClaim:
+            claimName: cdtn-admin-backup-restore
+            readOnly: true
+        - configMap:
+            name: post-restore-script-configmap-v1-2-3-tpilfp
+          name: scripts
+      initContainers:
+        - env:
+            - name: PGHOST
+              value: cdtnadmindevserver.postgres.database.azure.com
+            - name: PGDATABASE
+              value: autodevops_v1-2-3-5oe0cj
+            - name: PGPASSWORD
+              value: password_v1-2-3-5oe0cj
+            - name: PGUSER
+              value: >-
+                user_v1-2-3-5oe0cj@cdtnadmindevserver.postgres.database.azure.com
+            - name: PGSSLMODE
+              value: require
+          envFrom: []
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+  ttlSecondsAfterFinished: 86400
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cdtn-admin-backup-restore
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
+  labels:
+    application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+  namespace: cdtn-admin
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 128Gi
+  selector:
+    matchLabels:
+      usage: prod-cdtn-admin-backup-restore
+  storageClassName: ''
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    usage: prod-cdtn-admin-backup-restore
+    application: v1-2-3-cdtn-admin
+    component: v1-2-3-cdtn-admin
+    owner: cdtn-admin
+    team: cdtn-admin
+  name: prod-cdtn-admin-backup-restore
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
+  namespace: cdtn-admin
+spec:
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: azure-cdtnadminprod-volume
+    secretNamespace: cdtn-admin
+    shareName: cdtnadminprodserver-backup-restore
+  capacity:
+    storage: 128Gi
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: ''
 "
 `;
