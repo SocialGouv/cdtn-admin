@@ -26,13 +26,20 @@ export default async () => {
     return;
   }
 
-  const secret = await loadYaml<ISecret>(
+  const backupFilesSecret = await loadYaml<ISecret>(
     env,
     `restore/pg-backup.sealed-secret.yaml`
   );
-  ok(secret, "Missing restore/pg-backup.sealed-secret.yaml");
-  ok(secret.metadata, "Missing secret.metadata");
-  ok(secret.metadata.name, "Missing secret.metadata.name");
+  ok(backupFilesSecret, "Missing restore/pg-backup.sealed-secret.yaml");
+  ok(backupFilesSecret.metadata, "Missing secret.metadata");
+  ok(backupFilesSecret.metadata.name, "Missing secret.metadata.name");
+  const pgAdminDevSecret = await loadYaml<ISecret>(
+    env,
+    `restore/azure-pg-admin-user-dev.yaml`
+  );
+  ok(pgAdminDevSecret, "Missing restore/azure-pg-admin-user-dev.yaml");
+  ok(pgAdminDevSecret.metadata, "Missing secret.metadata");
+  ok(pgAdminDevSecret.metadata.name, "Missing secret.metadata.name");
 
   const pgParams = getDefaultPgParams();
 
@@ -73,7 +80,7 @@ export default async () => {
 
   ok(pv.spec, "Missing spec on pv");
   ok(pv.spec.azureFile, "Missing spec on pv");
-  pv.spec.azureFile.secretName = secret.metadata.name;
+  pv.spec.azureFile.secretName = backupFilesSecret.metadata.name;
   pv.spec.azureFile.secretNamespace = ciEnv.metadata.namespace.name;
   pv.spec.azureFile.shareName = "cdtnadminprodserver-backup-restore";
 
@@ -102,5 +109,5 @@ export default async () => {
   ok(job.metadata, "Missing metadata on job");
   job.metadata.namespace = ciEnv.metadata.namespace.name;
 
-  return manifests.concat([secret]);
+  return manifests.concat([backupFilesSecret, pgAdminDevSecret]);
 };
