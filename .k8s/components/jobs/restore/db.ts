@@ -76,12 +76,12 @@ export default async () => {
   ok(pv, "Missing pv");
 
   ok(pv.metadata, "Missing metadata on pv");
-  pv.metadata.namespace = ciEnv.metadata.namespace.name;
+  pv.metadata.namespace = "cdtn-admin";
 
   ok(pv.spec, "Missing spec on pv");
   ok(pv.spec.azureFile, "Missing spec on pv");
   pv.spec.azureFile.secretName = backupFilesSecret.metadata.name;
-  pv.spec.azureFile.secretNamespace = ciEnv.metadata.namespace.name;
+  pv.spec.azureFile.secretNamespace = "cdtn-admin";
   pv.spec.azureFile.shareName = "cdtnadminprodserver-backup-restore";
 
   //
@@ -91,7 +91,7 @@ export default async () => {
   ) as IPersistentVolumeClaim;
   ok(pvc, "Missing pvc");
   ok(pvc.metadata, "Missing metadata on pvc");
-  pvc.metadata.namespace = ciEnv.metadata.namespace.name;
+  pvc.metadata.namespace = "cdtn-admin";
 
   //
   // HACK(douglasduteil): manully change the container namespace
@@ -100,14 +100,14 @@ export default async () => {
   ) as IConfigMap;
   ok(configmap, "Missing configmap");
   ok(configmap.metadata, "Missing metadata on configmap");
-  configmap.metadata.namespace = ciEnv.metadata.namespace.name;
+  configmap.metadata.namespace = "cdtn-admin";
 
   //
   // HACK(douglasduteil): manully change the container namespace
   const job = manifests.find((manifest) => manifest.kind === "Job") as IJob;
   ok(job, "Missing job");
   ok(job.metadata, "Missing metadata on job");
-  job.metadata.namespace = ciEnv.metadata.namespace.name;
+  job.metadata.namespace = "cdtn-admin";
 
   return manifests.concat([backupFilesSecret, pgAdminDevSecret]);
 };
