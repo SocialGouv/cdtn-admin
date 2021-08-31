@@ -15,7 +15,7 @@ const values: Record<TriggerType, unknown> = {
 };
 
 const params = values[process.env.TRIGGER as TriggerType] || {
-  // ??? What it the difference with TRIGGER "UPDATE_PREPROD" ?
+// the restore container job will be also run during a tag pipeline and will have the same behaviour than a TRGGER=UPDATE_PREPROD
   container: `cdtn-${ciEnv.tag ? "preprod" : "dev"}`,
   server: "dev",
 };
