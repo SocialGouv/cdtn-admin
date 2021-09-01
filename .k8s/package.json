@@ -13,20 +13,20 @@
   "dependencies": {
     "@kosko/env": "^2.0.1",
     "@kubernetes-models/sealed-secrets": "^2.0.2",
-    "@socialgouv/kosko-charts": "^9.4.0",
-    "@types/node": "^16.7.2",
+    "@socialgouv/kosko-charts": "^9.5.0",
+    "@types/node": "^16.7.8",
     "kosko": "^1.1.5",
     "kubernetes-models": "^2.0.2",
     "ts-node": "^10.2.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/plugin-transform-modules-commonjs": "^7.15.0",
-    "@socialgouv/eslint-config-typescript": "^1.84.3",
+    "@socialgouv/eslint-config-typescript": "^1.85.4",
     "@types/jest": "^27.0.1",
     "dotenv": "^10.0.0",
-    "jest": "^27.0.6",
+    "jest": "^27.1.0",
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.2"
   },

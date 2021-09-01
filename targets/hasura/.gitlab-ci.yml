@@ -37,7 +37,7 @@
   allow_failure: true
   variables:
     AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
-    KOSKO_GENERATE_ARGS: --env dev jobs/restore
+    KOSKO_GENERATE_ARGS: --env prod jobs/restore
   before_script:
     - |
       if [[ "${CDTN_FORCE_RESTORE_DB}" == "true" ]]; then

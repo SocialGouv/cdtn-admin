@@ -5,23 +5,20 @@ import { project } from "@socialgouv/kosko-charts/testing/fake/gitlab-ci.env";
 
 jest.setTimeout(1000 * 60);
 
-test("kosko generate --prod jobs/restore/container when TRIGGER is set to PREPROD", async () => {
-  process.env.HARBOR_PROJECT = "cdtn";
-  process.env.CI_JOB_ID = "123456789";
-  process.env.TRIGGER = "UPDATE_PREPROD";
+test("should restore from dev to preprod", async () => {
   expect(
     await getEnvManifests("prod", "jobs/restore/container", {
       ...project("cdtn-admin").prod,
+      TRIGGER: "UPDATE_PREPROD",
     })
   ).toMatchSnapshot();
 });
-test("kosko generate --prod jobs/restore/container when TRIGGER is set to PROD", async () => {
-  process.env.HARBOR_PROJECT = "cdtn";
-  process.env.CI_JOB_ID = "123456789";
-  process.env.TRIGGER = "UPDATE_PROD";
+
+test("should restore from dev to prod", async () => {
   expect(
     await getEnvManifests("prod", "jobs/restore/container", {
       ...project("cdtn-admin").prod,
+      TRIGGER: "UPDATE_PROD",
     })
   ).toMatchSnapshot();
 });
