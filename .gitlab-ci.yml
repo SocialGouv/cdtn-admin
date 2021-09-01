@@ -210,12 +210,12 @@ Release:
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
+    # kosko options
+    KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
     # Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L313
     KUBE_NAMESPACE: ${CI_PROJECT_NAME}
     # kosko component options
     SITEMAP_UPLOADER_TARGET: preprod
-    # kosko options
-    KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
 
 🎉 Generate sitemap (prod => prod):
   extends:
@@ -227,12 +227,12 @@ Release:
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
+    # kosko options
+    KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
     # Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L313
     KUBE_NAMESPACE: ${CI_PROJECT_NAME}
     # kosko component options
     SITEMAP_UPLOADER_TARGET: prod
-    # kosko options
-    KOSKO_GENERATE_ARGS: --env prod jobs/sitemap-uploader
 
 🛎️ Export storage (preprod):
   stage: .post
@@ -247,6 +247,8 @@ Release:
     AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/restore/container
+    # Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L313
+    KUBE_NAMESPACE: ${CI_PROJECT_NAME}
 
 🎉 Export storage (prod):
   stage: .post
@@ -261,3 +263,5 @@ Release:
     AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/restore/container
+    # Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L313
+    KUBE_NAMESPACE: ${CI_PROJECT_NAME}
