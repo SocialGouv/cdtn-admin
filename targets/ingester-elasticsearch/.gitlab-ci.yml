@@ -168,8 +168,6 @@
     INGESTER_ELASTICSEARCH_TARGET: preprod
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/ingester-elasticsearch
-  script:
-    - echo "INGEST INGEST INGEST"
 
 🎉 ingester-elasticsearch (prod => es prod):
   extends:
@@ -184,5 +182,3 @@
     INGESTER_ELASTICSEARCH_TARGET: prod
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/ingester-elasticsearch
-  script:
-    - echo "INGEST INGEST INGEST"
