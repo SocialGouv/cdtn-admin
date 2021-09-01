@@ -36,5 +36,6 @@ export default async () => {
   job.metadata.namespace = "cdtn-admin";
   ok(job.metadata.annotations, "Missing spec on job.metadata.annotations");
   job.metadata.annotations["kapp.k14s.io/update-strategy"] = "always-replace";
+  job.metadata.annotations["kapp.k14s.io/nonce"] = "";
   return [job, secret];
 };

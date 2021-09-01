@@ -7,6 +7,7 @@ kind: Job
 metadata:
   annotations:
     kapp.k14s.io/update-strategy: always-replace
+    kapp.k14s.io/nonce: ''
   labels:
     component: cdtn-admin
     application: cdtn-admin
@@ -160,6 +161,7 @@ kind: Job
 metadata:
   annotations:
     kapp.k14s.io/update-strategy: always-replace
+    kapp.k14s.io/nonce: ''
   labels:
     component: cdtn-admin
     application: cdtn-admin
