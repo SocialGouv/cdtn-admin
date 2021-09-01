@@ -6,7 +6,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
-    kapp.k14s.io/update-strategy: skip
+    kapp.k14s.io/update-strategy: always-replace
   labels:
     component: cdtn-admin
     application: cdtn-admin
@@ -159,7 +159,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
-    kapp.k14s.io/update-strategy: skip
+    kapp.k14s.io/update-strategy: always-replace
   labels:
     component: cdtn-admin
     application: cdtn-admin
