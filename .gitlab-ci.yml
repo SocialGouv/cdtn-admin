@@ -158,7 +158,7 @@ Release:
       prefix: k8s
     paths:
       - .cache
-      - .k8s/node_modules 
+      - .k8s/node_modules
   before_script:
     - echo "kubectl config set-context --current --namespace=${KUBE_NAMESPACE}"
     - kubectl config set-context --current --namespace=${KUBE_NAMESPACE}
@@ -240,12 +240,13 @@ Release:
     - .base_deploy_kosko_stage
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
-  dependencies: [] 
+  dependencies: []
   rules:
     - if: $TRIGGER == "UPDATE_PREPROD"
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
+    AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/restore/container
 
@@ -256,7 +257,7 @@ Release:
     - .base_deploy_kosko_stage
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
-  dependencies: [] 
+  dependencies: []
   rules:
     - if: $TRIGGER == "UPDATE_PROD"
   variables:
