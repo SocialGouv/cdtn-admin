@@ -37,5 +37,8 @@ export default async () => {
   ok(job.metadata.annotations, "Missing spec on job.metadata.annotations");
   job.metadata.annotations["kapp.k14s.io/update-strategy"] = "always-replace";
   job.metadata.annotations["kapp.k14s.io/nonce"] = "";
+  ok(job.spec, "Missing spec on job.spec");
+  ok(job.spec.template.spec, "Missing spec on job.spec.template.spec");
+  job.spec.template.spec.containers[0].name = "restore-container";
   return [job, secret];
 };
