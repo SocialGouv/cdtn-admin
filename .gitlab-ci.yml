@@ -236,28 +236,25 @@ Release:
 
 🛎️ Export storage (preprod):
   stage: .post
+  dependencies: []
+  environment:
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   extends:
     - .base_deploy_kosko_stage
-  environment:
-    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
-  dependencies: []
   rules:
     - if: $TRIGGER == "UPDATE_PREPROD"
-  environment:
-    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
   variables:
     AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
     # kosko options
     KOSKO_GENERATE_ARGS: --env prod jobs/restore/container
 
-
 🎉 Export storage (prod):
   stage: .post
-  extends:
-    - .base_deploy_kosko_stage
+  dependencies: []
   environment:
     name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
-  dependencies: []
+  extends:
+    - .base_deploy_kosko_stage
   rules:
     - if: $TRIGGER == "UPDATE_PROD"
   variables:
