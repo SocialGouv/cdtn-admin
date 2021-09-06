@@ -22,8 +22,8 @@
     "yargs": "^17.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
-    "@babel/preset-env": "^7.15.0",
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.4",
     "@socialgouv/contributions-data-types": "^3.27.0",
     "@socialgouv/eslint-config-typescript": "^1.88.0",
     "@socialgouv/fiches-travail-data-types": "^4.191.0",
@@ -32,7 +32,7 @@
     "@socialgouv/legi-data-types": "^2.73.1",
     "@types/gunzip-maybe": "^1.4.0",
     "@types/jest": "^27.0.1",
-    "@types/node": "^14.17.11",
+    "@types/node": "^14.17.14",
     "@types/semver": "^7.3.8",
     "@types/tar-fs": "^2.0.1",
     "@types/unist": "^2.0.6",

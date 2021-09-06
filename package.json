@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "husky": "^7.0.1",
+    "husky": "^7.0.2",
     "lerna": "^4.0.0",
     "nps": "^5.10.0",
     "nps-utils": "^1.7.0"
@@ -21,6 +21,6 @@
   ],
   "name": "cdtn-admin",
   "volta": {
-    "node": "14.17.5"
+    "node": "14.17.6"
   }
 }
