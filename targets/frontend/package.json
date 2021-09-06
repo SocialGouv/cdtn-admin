@@ -66,7 +66,7 @@
     "sentry-testkit": "^3.3.4",
     "strip-markdown": "^4.2.0",
     "styled-components": "^5.3.1",
-    "swr": "^0.5.7",
+    "swr": "^1.0.0",
     "theme-ui": "^0.11.1",
     "unified": "^9.2.2",
     "unist-util-parents": "^1.0.3",
