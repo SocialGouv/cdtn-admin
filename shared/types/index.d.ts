@@ -14,7 +14,7 @@ import type {
   AgreementSection,
 } from "@socialgouv/kali-data-types";
 import type { DilaRef } from "@socialgouv/contributions-data-types";
-
+import { SourceKeys, Sources, SourceValues } from "@socialgouv/cdtn-sources";
 export as namespace admin;
 
 interface BaseHasuraDocument {
@@ -71,6 +71,11 @@ type Theme = BaseHasuraDocument & {
   document: ThemeDoc;
 };
 
+type MailTemplate = BaseHasuraDocument & {
+  source: "modeles_de_courriers";
+  document: MailTemplateDoc;
+};
+
 type HasuraDocument =
   | Agreement
   | ContributionComplete
@@ -79,6 +84,7 @@ type HasuraDocument =
   | FicheTravailEmploi
   | LaborCodeArticle
   | Prequalified
+  | MailTemplate
   | Theme;
 
 /**
@@ -88,6 +94,17 @@ type ThemeDoc = {
   icon?: string;
   shortTitle?: string;
   description?: string;
+};
+
+type MailTemplateDoc = {
+  date: string;
+  html: string;
+  author: string;
+  fileUrl: string;
+  filename: string;
+  filesize: number;
+  description: string;
+  references?: string[];
 };
 
 interface FicheTravailEmploiDoc {
@@ -224,15 +241,6 @@ export interface Blocks {
   "3"?: string[];
   "5"?: string[];
   "11"?: string[];
-}
-
-export interface ParseDilaReference {
-  url: string;
-  category: string;
-  title: string;
-  dila_id: string;
-  dila_cid: string;
-  dila_container_id: string;
 }
 
 type PrequalifiedDoc = {

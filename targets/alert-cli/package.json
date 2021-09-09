@@ -5,6 +5,7 @@
     "@shared/graphql-client": "^1.8.12",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
+    "@socialgouv/dila-api-client": "^1.2.0",
     "memoizee": "^0.4.15",
     "node-fetch": "^2.6.2",
     "nodegit": "0.27.0",
@@ -15,6 +16,7 @@
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
+    "@shared/dila-resolver": "^1.8.11",
     "@shared/types": "^1.8.12",
     "@socialgouv/contributions-data-types": "^3.27.0",
     "@socialgouv/eslint-config-typescript": "^1.88.0",

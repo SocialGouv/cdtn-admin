@@ -1,10 +1,16 @@
 {
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "target": "es2015",
     "moduleResolution": "node",
     "declaration": true
   },
-  "include": ["src", "@types"],
-  "exclude": ["__tests__"]
+  "include": [
+    "src",
+    "@types"
+  ],
+  "exclude": [
+    "__tests__"
+  ]
 }
