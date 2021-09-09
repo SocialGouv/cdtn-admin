@@ -63,6 +63,10 @@
   needs:
     - job: 🧶 install alert
       artifacts: true
+    - job: 📦 logger
+      artifacts: true
+    - job: 📦 Dila resolver
+      artifacts: true
   before_script:
     - cd targets/alert-cli
   script:
