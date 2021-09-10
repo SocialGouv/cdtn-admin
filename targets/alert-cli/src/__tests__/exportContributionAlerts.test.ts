@@ -1,5 +1,6 @@
 import type { AlertChanges } from "@shared/types";
-import fetch, { Response } from "node-fetch";
+import type { Response } from "node-fetch";
+import fetch from "node-fetch";
 import { mocked } from "ts-jest/utils";
 
 import { exportContributionAlerts } from "../exportContributionAlerts";
@@ -109,9 +110,11 @@ describe("exportContributionAlerts", () => {
       },
     ];
 
-    mocked(fetch).mockImplementation(async () => {
-      return Promise.resolve(new Response());
-    });
+    mocked(fetch).mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: "alert received",
+    } as Response);
 
     exportContributionAlerts("repositoryTest", { ref: "v0.0.0" }, changes);
     expect(fetch).toHaveBeenCalledTimes(1);

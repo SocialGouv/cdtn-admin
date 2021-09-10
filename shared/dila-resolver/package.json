@@ -15,7 +15,7 @@
     "@socialgouv/dila-api-client": "^1.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
+    "@babel/core": "^7.15.5",
     "@babel/plugin-transform-modules-commonjs": "^7.15.0",
     "@babel/preset-typescript": "^7.15.0",
     "@shared/types": "^1.8.11",
@@ -50,8 +50,7 @@
           "@babel/preset-typescript"
         ],
         "plugins": [
-          "@babel/plugin-transform-modules-commonjs",
-          "babel-plugin-dynamic-import-node"
+          "@babel/plugin-transform-modules-commonjs"
         ]
       }
     }

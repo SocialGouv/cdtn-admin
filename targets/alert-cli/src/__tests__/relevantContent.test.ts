@@ -4,6 +4,7 @@ import type { DilaChanges } from "@shared/types";
 import { getRelevantDocuments } from "../diff/dila-relevantContent";
 
 jest.mock("../extractDilaReferences/ficheTravailEmploi", () => () => []);
+jest.mock("../extractDilaReferences/mailTemplates", () => () => []);
 jest.mock("../extractDilaReferences/contribution", () => () => [
   {
     document: {

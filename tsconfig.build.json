@@ -6,9 +6,16 @@
     "noEmit": true,
     "skipLibCheck": true,
     "strict": true,
-    "lib": ["es2020"],
+    "lib": [
+      "es2020"
+    ],
     "module": "commonjs",
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "dist", "lib", ]
+  "exclude": [
+    "__tests__",
+    "node_modules",
+    "dist",
+    "lib",
+  ]
 }
