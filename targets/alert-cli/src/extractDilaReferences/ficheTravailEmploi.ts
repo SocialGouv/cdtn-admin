@@ -45,9 +45,9 @@ export function extractFicheTravailEmploiRef(
 async function getFicheTravailEmploiReferences(): Promise<
   DocumentReferences[]
 > {
-  const fiches = (await getAllDocumentsBySource(
-    SOURCES.SHEET_MT_PAGE
-  )) as FicheTravail[];
+  const fiches = (await getAllDocumentsBySource([
+    SOURCES.SHEET_MT_PAGE,
+  ])) as FicheTravail[];
   references = extractFicheTravailEmploiRef(fiches);
   return references;
 }

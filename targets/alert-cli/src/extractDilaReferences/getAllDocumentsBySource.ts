@@ -29,7 +29,7 @@ const createDocumentsFetcher =
     gqlRequest = getAllDocumentsBySourceQuery
   ) =>
   async (
-    source: SourceValues
+    source: SourceValues[]
   ): Promise<PromiseSettledResult<OperationResult<T>>[]> => {
     const countResult = await client
       .query<CountDocumentsBySourceResult>(countDocumentsBySourceQuery, {
@@ -64,7 +64,7 @@ const createDocumentsFetcher =
   };
 
 export async function _getDocumentsBySource(
-  source: SourceValues
+  source: SourceValues[]
 ): Promise<HasuraDocumentForAlert[]> {
   const fetchDocuments = createDocumentsFetcher<AllDocumentsBySourceResult>(
     getAllDocumentsBySourceQuery
@@ -83,7 +83,7 @@ export async function _getDocumentsBySource(
 export const getAllDocumentsBySource = memoizee(_getDocumentsBySource);
 
 export async function _getDocumentsWithRelationsBySource(
-  source: SourceValues
+  source: SourceValues[]
 ): Promise<HasuraDocumentWithRelations[]> {
   const fetchDocuments =
     createDocumentsFetcher<AllDocumentsWithRelationBySourceResult>(
