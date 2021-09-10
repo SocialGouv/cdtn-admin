@@ -544,9 +544,26 @@ spec:
 ---
 apiVersion: batch/v1
 kind: Job
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-cdtn-admin
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
+    kapp.k14s.io/update-strategy: skip
+  labels:
+    application: master-dev42-cdtn-admin
+    component: create-db
+    owner: cdtn-admin
+    team: cdtn-admin
+    cert: wildcard
+  name: create-db-job-master
+  namespace: cdtn-admin-85-master-dev42
 spec:
   backoffLimit: 5
   template:
+    metadata:
+      annotations:
+        kapp.k14s.io/deploy-logs: for-new
     spec:
       containers:
         - command:
@@ -575,9 +592,11 @@ spec:
               memory: 64Mi
       restartPolicy: Never
   ttlSecondsAfterFinished: 86400
+---
+apiVersion: v1
+kind: Secret
 metadata:
   annotations:
-    kapp.k14s.io/update-strategy: skip
     app.gitlab.com/app: socialgouv-cdtn-admin
     app.gitlab.com/env: master-dev42
     app.gitlab.com/env.name: master-dev42
@@ -587,11 +606,8 @@ metadata:
     owner: cdtn-admin
     team: cdtn-admin
     cert: wildcard
-  name: create-db-job-master
+  name: azure-pg-user-master
   namespace: cdtn-admin-85-master-dev42
----
-apiVersion: v1
-kind: Secret
 stringData:
   DATABASE_URL: >-
     postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
@@ -606,20 +622,6 @@ stringData:
     postgresql://user_master%40cdtnadmindevserver.postgres.database.azure.com:password_master@cdtnadmindevserver.postgres.database.azure.com/autodevops_master?sslmode=require
   PGSSLMODE: require
   PGUSER: user_master@cdtnadmindevserver.postgres.database.azure.com
-metadata:
-  annotations:
-    kapp.k14s.io/update-strategy: skip
-    app.gitlab.com/app: socialgouv-cdtn-admin
-    app.gitlab.com/env: master-dev42
-    app.gitlab.com/env.name: master-dev42
-  labels:
-    application: master-dev42-cdtn-admin
-    component: master-dev42-cdtn-admin
-    owner: cdtn-admin
-    team: cdtn-admin
-    cert: wildcard
-  name: azure-pg-user-master
-  namespace: cdtn-admin-85-master-dev42
 ---
 apiVersion: apps/v1
 kind: Deployment

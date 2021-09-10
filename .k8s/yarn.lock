@@ -647,10 +647,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@sindresorhus/is@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.2.0.tgz#667bfc6186ae7c9e0b45a08960c551437176e1ca"
-  integrity sha512-VkE3KLBmJwcCaVARtQpfuKcKv8gcBmUubrfHGF84dXuuW6jgsRYxPtzcIhPyK9WAPpRt2/xY6zkD9MnRaJzSyw==
+"@sindresorhus/is@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.1.0.tgz#3853c0c48b47f0ebcdd3cd9a66fdd0d277173e78"
+  integrity sha512-Cgva8HxclecUCmAImsWsbZGUh6p5DSzQ8l2Uzxuj9ANiD7LVhLM1UJ2hX/R2Y+ILpvqgW9QjmTCaBkXtj8+UOg==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
@@ -689,13 +689,13 @@
     eslint-import-resolver-typescript "~2.4.0"
     eslint-plugin-import "~2.24.2"
 
-"@socialgouv/kosko-charts@^9.5.13":
-  version "9.5.13"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-9.5.13.tgz#7c59dafc898ff37fec91dd6312ca25c0069ad344"
-  integrity sha512-aaONHzj22Whgj2HTRNHOXzCCm/NGN00UZH48XRA3snDtYJk4Q+mdNgVVB9aiBLQx/Bq08uYoVj5+JAxu/md1nA==
+"@socialgouv/kosko-charts@10.0.0-alpha.7":
+  version "10.0.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-10.0.0-alpha.7.tgz#64f40fdb5164a842940bc11bb9c9f4c1cc3fae1f"
+  integrity sha512-ndDxNxCh3t4xnjshB3RE61pQJScnaHeTJXc3NJ3GNq03WDpbgydtwWUA06rTbIvHXMx0h9cjhrhTsTG/gMXjSQ==
   dependencies:
     "@kubernetes-models/sealed-secrets" "^2.0.2"
-    "@sindresorhus/is" "^4.2.0"
+    "@sindresorhus/is" "^4.1.0"
     fs-extra "^10.0.0"
     kubernetes-models "^2.0.2"
     slugify "^1.6.0"
