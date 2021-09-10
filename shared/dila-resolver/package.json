@@ -19,6 +19,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.15.0",
     "@babel/preset-typescript": "^7.15.0",
     "@shared/types": "^1.8.11",
+    "@socialgouv/eslint-config-typescript": "^1.88.0",
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^26.0.24",
     "eslint": "^7.32.0",
@@ -31,7 +32,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "dev": "ts-node src/main.ts",
-    "lint": "eslint",
+    "lint": "eslint . --cache",
     "lint:fix": "yarn lint --fix",
     "precommit": "lint-staged",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
@@ -39,7 +40,7 @@
   },
   "lint-staged": {
     "*.{j,t}s": [
-      "eslint --fix",
+      "eslint --cache --fix",
       "jest --bail --findRelatedTests"
     ]
   },

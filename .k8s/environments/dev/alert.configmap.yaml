@@ -5,3 +5,5 @@ metadata:
 data:
   NODE_ENV: "production"
   HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
+  API_HOST: https://sandbox-api.aife.economie.gouv.fr/dila/legifrance/lf-engine-app
+  TOKEN_HOST: https://sandbox-oauth.aife.economie.gouv.fr

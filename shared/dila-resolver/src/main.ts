@@ -1,5 +1,7 @@
-import { createGetArticleReference, extractArticleId } from "./index";
 import { DilaApiClient } from "@socialgouv/dila-api-client";
+
+import { createGetArticleReference, extractArticleId } from "./index";
+
 async function main() {
   const urls = [
     "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849401/?idConteneur=KALICONT000005635624",

@@ -6,8 +6,8 @@ import type { DocumentReferences, MailTemplate } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { DilaApiClient } from "@socialgouv/dila-api-client";
 import memoizee from "memoizee";
+import pMap from "p-map";
 
-import { batchPromises } from "../batchPromises";
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
 
 export type MailTemplateSubset = Pick<
@@ -26,28 +26,24 @@ export async function extractMailTemplateRef(
   const refs: DocumentReferences[] = [];
 
   for (const docData of mailTemplates) {
-    if (!docData.document.references?.length) {
-      continue;
-    }
+    const articleIds =
+      docData.document.references?.flatMap((ref) => {
+        return extractArticleId(ref.url);
+      }) ?? [];
 
-    const articleIds = docData.document.references.flatMap(extractArticleId);
-
-    const references = await batchPromises(
-      /* eslint-disable-next-line @typescript-eslint/no-unsafe-argument */
+    const references = await pMap(
       articleIds,
-      async (id) => getArticleReference(id),
-      5
+      async (id: string) => getArticleReference(id),
+      { concurrency: 5 }
     );
+
     refs.push({
       document: {
         id: docData.initialId,
         source: SOURCES.LETTERS,
         title: docData.title,
       },
-      references: references.flatMap((item) => {
-        if (item.status === "fulfilled") return item.value;
-        return [];
-      }),
+      references,
     });
   }
   return refs;
@@ -58,6 +54,7 @@ async function getMailTemplateReferences() {
     SOURCES.LETTERS
   )) as MailTemplateSubset[];
   const documentReferences = await extractMailTemplateRef(letters);
+  console.log(documentReferences);
   return documentReferences;
 }
 

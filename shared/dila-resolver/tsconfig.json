@@ -3,8 +3,9 @@
   "extends": "@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
     "declaration": true,
+    "moduleResolution": "node",
     "outDir": "lib",
-    "rootDir": "src",
-    "moduleResolution": "node"
+    "resolveJsonModule": true,
+    "rootDir": "src"
   }
 }

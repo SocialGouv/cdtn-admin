@@ -9,13 +9,16 @@
     "memoizee": "^0.4.15",
     "node-fetch": "^2.6.2",
     "nodegit": "0.27.0",
+    "p-map": "4",
     "semver": "^7.3.5",
     "unist-util-parents": "^1.0.3",
     "unist-util-select": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.15.0",
     "@babel/preset-env": "^7.15.6",
+    "@babel/preset-typescript": "^7.15.0",
     "@shared/dila-resolver": "^1.8.11",
     "@shared/types": "^1.8.12",
     "@socialgouv/contributions-data-types": "^3.27.0",

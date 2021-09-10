@@ -104,7 +104,11 @@ type MailTemplateDoc = {
   filename: string;
   filesize: number;
   description: string;
-  references?: string[];
+  references?: {
+    url: string;
+    title: string;
+    type: string;
+  }[];
 };
 
 interface FicheTravailEmploiDoc {
