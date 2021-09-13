@@ -16,7 +16,7 @@
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/contributions-data-types": "^3.27.0",
     "memoizee": "^0.4.15",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.2",
     "p-queue": "^6.6.2",
     "rehype-raw": "^5.1.0",
     "rehype-stringify": "^8.0.0",
@@ -33,7 +33,7 @@
     "@socialgouv/eslint-config-recommended": "^1.85.4",
     "@socialgouv/kali-data-types": "^2.127.0",
     "eslint": "^7.32.0",
-    "jest": "^27.1.0",
+    "jest": "^27.1.1",
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.2"
   },
