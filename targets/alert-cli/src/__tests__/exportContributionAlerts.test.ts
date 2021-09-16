@@ -1,15 +1,18 @@
 import type { AlertChanges } from "@shared/types";
-import fetch, { Response } from "node-fetch";
-import { mocked } from "ts-jest/utils";
+import type { Response } from "node-fetch";
+import fetch from "node-fetch";
 
 import { exportContributionAlerts } from "../exportContributionAlerts";
 
-jest.mock("node-fetch");
+jest.mock("simple-oauth2");
+jest.mock("node-fetch", () => ({
+  __esModule: true, // this property makes it work
+  default: jest.fn(),
+}));
 
 afterEach(() => {
   delete process.env.CONTRIBUTIONS_ENDPOINT;
 });
-
 describe("exportContributionAlerts", () => {
   it("should skip exportContributionAlerts", () => {
     exportContributionAlerts("repositoryTest", { ref: "v0.0.0" }, []);
@@ -108,10 +111,12 @@ describe("exportContributionAlerts", () => {
         type: "dila",
       },
     ];
-
-    mocked(fetch).mockImplementation(async () => {
-      return Promise.resolve(new Response());
-    });
+    const mockFetch = fetch as unknown as jest.Mock;
+    mockFetch.mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: "alert received",
+    } as Response);
 
     exportContributionAlerts("repositoryTest", { ref: "v0.0.0" }, changes);
     expect(fetch).toHaveBeenCalledTimes(1);

@@ -2,6 +2,7 @@ import type { DilaChanges, DocumentReferences } from "@shared/types";
 
 import getContribReferences from "../extractDilaReferences/contribution";
 import getTravailEmploiReferences from "../extractDilaReferences/ficheTravailEmploi";
+import getMailTemplateReferences from "../extractDilaReferences/mailTemplates";
 
 export async function getRelevantDocuments({
   modified,
@@ -9,8 +10,12 @@ export async function getRelevantDocuments({
 }: Pick<DilaChanges, "modified" | "removed">): Promise<DocumentReferences[]> {
   const contribReferences = await getContribReferences();
   const travailEmploiReferences = await getTravailEmploiReferences();
+  const mailTemplateRef = await getMailTemplateReferences();
 
-  const docsReferences = contribReferences.concat(travailEmploiReferences);
+  const docsReferences = contribReferences.concat(
+    travailEmploiReferences,
+    mailTemplateRef
+  );
   const documents = docsReferences.flatMap((item) => {
     const references = item.references.filter(
       (ref) =>

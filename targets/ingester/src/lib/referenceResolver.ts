@@ -38,7 +38,7 @@ export function articleToReference(
 }
 
 function getArticleUrl(id: string) {
-  return `https://legifrance.gouv.fr/code/id/${id}`;
+  return `https://legifrance.gouv.fr/codes/id/${id}`;
 }
 
 export function fixArticleNum(id: string, num = ""): string {

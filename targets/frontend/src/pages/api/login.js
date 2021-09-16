@@ -65,7 +65,7 @@ export default async function login(req, res) {
 
   const jwt_token = generateJwtToken(user);
   result = await client
-    .query(refreshTokenMutation, {
+    .mutation(refreshTokenMutation, {
       refresh_token_data: {
         expires_at: getExpiryDate(
           parseInt(process.env.REFRESH_TOKEN_EXPIRES, 10)

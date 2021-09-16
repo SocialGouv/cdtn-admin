@@ -5,16 +5,21 @@
     "@shared/graphql-client": "^1.8.12",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
+    "@socialgouv/dila-api-client": "^1.2.0",
     "memoizee": "^0.4.15",
     "node-fetch": "^2.6.2",
     "nodegit": "0.27.0",
+    "p-map": "4",
     "semver": "^7.3.5",
     "unist-util-parents": "^1.0.3",
     "unist-util-select": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.15.0",
     "@babel/preset-env": "^7.15.6",
+    "@babel/preset-typescript": "^7.15.0",
+    "@shared/dila-resolver": "^1.8.11",
     "@shared/types": "^1.8.12",
     "@socialgouv/contributions-data-types": "^3.27.0",
     "@socialgouv/eslint-config-typescript": "^1.88.0",
@@ -35,7 +40,6 @@
     "jest": "^27.1.1",
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
-    "ts-jest": "^27.0.5",
     "typescript": "^4.4.3"
   },
   "license": "MIT",
@@ -52,23 +56,6 @@
     "test": "jest"
   },
   "jest": {
-    "clearMocks": true,
-    "coverageDirectory": "coverage",
-    "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!**/node_modules/**"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
-    },
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "testEnvironment": "node",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/data/"
-    ],
     "testMatch": [
       "**/__tests__/**/*.+(ts|tsx|js)",
       "**/?(*.)+(spec|test).+(ts|tsx|js)"

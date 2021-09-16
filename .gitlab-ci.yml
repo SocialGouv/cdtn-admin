@@ -8,6 +8,7 @@ include:
 
   #
   - /shared/logger/.gitlab-ci.yml
+  - /shared/dila-resolver/.gitlab-ci.yml
   - /shared/elasticsearch-document-adapter/.gitlab-ci.yml
   #
   - /targets/alert-cli/.gitlab-ci.yml

@@ -6,7 +6,7 @@ process.env.NODE_ENV = "production";
 
 test("should log less than or equal to info level to stdout", async () => {
   // NOTE(douglasduteil): remove any LOG_LEVEL set in the env
-  // Ensute that the external env does not interfer with the test.
+  // Ensure that the external env does not interfer with the test.
   delete process.env.LOG_LEVEL;
 
   const { logger } = await import("./index");

@@ -30,7 +30,7 @@ export function createRequestHandler({
     }
 
     const result = await client
-      .query(mutation, {
+      .mutation(mutation, {
         now: new Date().toISOString(),
         password: await hash(value.password),
         secret_token: value.token,

@@ -1,0 +1,46 @@
+#
+#
+#
+
+📦 Dila resolver:
+  extends:
+    - .autodevops_install
+    - .cdtn_base_rules
+  rules:
+    - if: $PRODUCTION
+      when: never
+    - if: $TRIGGER && $TRIGGER != "RELEASE"
+      when: never
+    - when: on_success
+  stage: .pre
+  needs: []
+  image: node:14.17.5-alpine3.11
+  cache:
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
+    paths:
+      - .cache
+  script:
+    - yarn global add @socialgouv/yarn-workspace-focus-install
+    - yarn exec yarn-workspace-focus-install
+      --
+      --cwd shared/dila-resolver
+      --
+      --frozen-lockfile --prefer-offline
+    #
+    # NOTE(douglasduteil): group a pipeline in one job
+    # To avoid a lenghy pipeline we do all the tasks here...
+    #
+    - cd shared/dila-resolver
+    #
+    #
+    #
+    - yarn lint
+    - yarn test
+    - yarn build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - shared/dila-resolver/lib

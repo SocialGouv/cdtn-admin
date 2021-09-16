@@ -49,7 +49,7 @@ export default async function changePassword(req, res) {
   }
 
   result = await client
-    .query(changeMyPasswordMutation, {
+    .mutation(changeMyPasswordMutation, {
       id: value.id,
       password: await hash(value.password),
     })

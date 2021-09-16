@@ -38,6 +38,8 @@
   needs:
     - job: 🧶 install alert
       artifacts: true
+    - job: 📦 Dila resolver
+      artifacts: true
   before_script:
     - cd targets/alert-cli
 
@@ -47,6 +49,8 @@
     - .cdtn_base_rules
   needs:
     - job: 🧶 install alert
+      artifacts: true
+    - job: 📦 Dila resolver
       artifacts: true
   before_script:
     - cd targets/alert-cli
@@ -62,6 +66,10 @@
   image: node:14.17.6-alpine3.11
   needs:
     - job: 🧶 install alert
+      artifacts: true
+    - job: 📦 logger
+      artifacts: true
+    - job: 📦 Dila resolver
       artifacts: true
   before_script:
     - cd targets/alert-cli
