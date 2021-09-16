@@ -40,7 +40,6 @@
     "jest": "^27.1.1",
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
-    "ts-jest": "^27.0.5",
     "typescript": "^4.4.3"
   },
   "license": "MIT",
@@ -57,23 +56,6 @@
     "test": "jest"
   },
   "jest": {
-    "clearMocks": true,
-    "coverageDirectory": "coverage",
-    "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!**/node_modules/**"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
-    },
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "testEnvironment": "node",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/data/"
-    ],
     "testMatch": [
       "**/__tests__/**/*.+(ts|tsx|js)",
       "**/?(*.)+(spec|test).+(ts|tsx|js)"
