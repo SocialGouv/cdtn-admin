@@ -30,7 +30,7 @@ export default async function logout(req, res) {
   setToken(null);
   // delete refresh token passed in data
   const result = await client
-    .query(mutation, {
+    .mutation(mutation, {
       refresh_token: refresh_token,
     })
     .toPromise();

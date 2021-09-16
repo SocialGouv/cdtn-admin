@@ -26,7 +26,7 @@ export default async function reset_password(req, res) {
   const { email } = value;
   const secret_token = uuidv4();
   const result = await client
-    .query(udpateSecretTokenMutation, {
+    .mutation(udpateSecretTokenMutation, {
       email,
       expires: getExpiryDate(
         parseInt(process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES, 10)
