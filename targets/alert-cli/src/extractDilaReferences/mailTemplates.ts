@@ -54,7 +54,6 @@ async function getMailTemplateReferences() {
     SOURCES.LETTERS,
   ])) as MailTemplateSubset[];
   const documentReferences = await extractMailTemplateRef(letters);
-  console.log(documentReferences);
   return documentReferences;
 }
 
