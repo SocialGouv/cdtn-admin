@@ -76,6 +76,11 @@ type MailTemplate = BaseHasuraDocument & {
   document: MailTemplateDoc;
 };
 
+type EditorialContent = BaseHasuraDocument & {
+  source: "information";
+  document: EditorialContentDoc;
+};
+
 type HasuraDocument =
   | Agreement
   | ContributionComplete
@@ -85,7 +90,8 @@ type HasuraDocument =
   | LaborCodeArticle
   | Prequalified
   | MailTemplate
-  | Theme;
+  | Theme
+  | EditorialContent;
 
 /**
  * Document Table's document type
@@ -110,6 +116,48 @@ type MailTemplateDoc = {
     type: string;
   }[];
 };
+
+type EditorialContentDoc = {
+  date: string;
+  intro: string;
+  contents: EditorialContentPart[];
+  references?: EditoralContentReferenceBloc[];
+  description: string;
+};
+
+type EditorialContentPart = GraphicContentPart | MarkdownContentPart;
+
+interface BaseContentPart {
+  name: string;
+  title: string;
+  markdown: string;
+  references: EditoralContentReferenceBloc[];
+  type: "markdown" | "graphic";
+}
+
+export interface MarkdownContentPart extends BaseContentPart {
+  type: "markdown";
+}
+
+export interface GraphicContentPart extends BaseContentPart {
+  type: "graphic";
+  size: string;
+  imgUrl: string;
+  altText: string;
+  fileUrl: string;
+}
+
+export interface EditoralContentReferenceBloc {
+  label: string;
+  links: EditorialContentLink[];
+}
+
+export interface EditorialContentLink {
+  id: string;
+  url: string;
+  type: string;
+  title: string;
+}
 
 interface FicheTravailEmploiDoc {
   date: string;
