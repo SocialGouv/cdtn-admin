@@ -50,9 +50,9 @@ export async function extractMailTemplateRef(
 }
 
 async function getMailTemplateReferences() {
-  const letters = (await getAllDocumentsBySource(
-    SOURCES.LETTERS
-  )) as MailTemplateSubset[];
+  const letters = (await getAllDocumentsBySource([
+    SOURCES.LETTERS,
+  ])) as MailTemplateSubset[];
   const documentReferences = await extractMailTemplateRef(letters);
   console.log(documentReferences);
   return documentReferences;
