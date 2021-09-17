@@ -172,15 +172,44 @@ At this moment, the database is populated only by external documents (contributi
 All CDTN data (written by the CDTN team) are not populated in the database.
 An [issue](https://github.com/SocialGouv/cdtn-admin/issues/320) has been opened to find the better way to import data from the production into a dev environment.
 
-Once you have a backup, you can restore from a previous backup using 
+Once you have a backup, you can restore from a previous backup using
+
 ```sh
 docker-compose exec -T postgres pg_restore \
   --dbname postgres --clean --if-exists --user postgres \
   --no-owner --no-acl --verbose  < ~/Downloads/hasura_prod_db.psql
-``` 
+```
+
 et pour remettre les utilisateurs par défaut
+
 ```sh
 docker-compose exec -T postgres psql \
   --dbname postgres --user postgres \
   < .k8s/components/jobs/restore/post-restore.sql
 ```
+
+## Linked repositories
+
+- Applications
+  - https://github.com/SocialGouv/code-du-travail-numerique
+  - https://github.com/SocialGouv/cdtn-admin
+- Données
+  - https://github.com/SocialGouv/legi-data
+  - https://github.com/SocialGouv/kali-data
+  - https://github.com/SocialGouv/fiches-travail-data
+  - https://github.com/SocialGouv/fiches-vdd
+  - https://github.com/SocialGouv/contributions-data
+- Recherche
+  - https://github.com/SocialGouv/recherche-entreprises
+  - https://github.com/SocialGouv/siret2idcc
+  - https://github.com/SocialGouv/serving-ml
+  - https://github.com/SocialGouv/cdtn-monolog
+- Bibliotheques de code
+  - https://github.com/SocialGouv/cdtn-docx-to-html
+  - https://github.com/SocialGouv/dila-api-client
+  - https://github.com/SocialGouv/matomo-next
+  - https://github.com/SocialGouv/react-medixtor
+  - https://github.com/SocialGouv/jmeter-kibana
+- contribution
+  - https://github.com/SocialGouv/code-du-travail-backoffice
+  - https://github.com/SocialGouv/cdtn-api
