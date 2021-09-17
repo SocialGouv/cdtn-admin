@@ -48,7 +48,6 @@ export async function extractEditorialContentTemplateRef(
             ) as string[]
         )
       );
-    console.log({ articleIds });
     const references = await pMap(
       articleIds,
       async (id: string) => getArticleReference(id),
