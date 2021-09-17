@@ -31,21 +31,14 @@ export async function extractEditorialContentTemplateRef(
 
   for (const docData of editorialContent) {
     const articleIds: string[] = (docData.document.references ?? [])
-      .flatMap(
-        (bloc: EditoralContentReferenceBloc) =>
-          bloc.links.flatMap((link) =>
-            extractArticleId(link.url as string)
-          ) as string[]
+      .flatMap((bloc: EditoralContentReferenceBloc) =>
+        bloc.links.flatMap((link) => extractArticleId(link.url))
       )
       .concat(
-        docData.document.contents.flatMap(
-          (part) =>
-            part.references.flatMap(
-              (bloc) =>
-                bloc.links.flatMap((link) =>
-                  extractArticleId(link.url as string)
-                ) as string[]
-            ) as string[]
+        docData.document.contents.flatMap((part) =>
+          part.references.flatMap((bloc) =>
+            bloc.links.flatMap((link) => extractArticleId(link.url))
+          )
         )
       );
     const references = await pMap(
