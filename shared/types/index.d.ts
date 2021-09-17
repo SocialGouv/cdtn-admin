@@ -146,6 +146,7 @@ interface ContributionCompleteDoc {
 interface ContributionFilteredDoc {
   index: number;
   split: true;
+  canonicalUrl: string;
   description: string;
   answers: CCSingleAnswer;
 }
