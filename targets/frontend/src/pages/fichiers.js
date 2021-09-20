@@ -158,6 +158,7 @@ function FilesPage() {
           >
             <option value="">Tous</option>
             <option value="jpg">jpg</option>
+            <option value="svg">svg</option>
             <option value="png">png</option>
             <option value="pdf">pdf</option>
             <option value="word">document word</option>
@@ -277,6 +278,8 @@ const filterCallback = (filter, file) => {
       return extension === "png";
     case "pdf":
       return extension === "pdf";
+    case "svg":
+      return extension === "svg";
     case "word":
       return extension === "doc" || extension === "docx";
     default:
