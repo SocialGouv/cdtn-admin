@@ -25,7 +25,7 @@ export function DropZone({ onDrop: onDropCallback, uploading, customStyles }) {
 
   const { getRootProps, getInputProps, isDragAccept } = useDropzone({
     accept:
-      "image/jpeg, image/png, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "image/jpeg, image/svg+xml, image/png, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     onDrop,
   });
 
