@@ -20,10 +20,10 @@
     "p-queue": "^6.6.2",
     "rehype-raw": "^5.1.0",
     "rehype-stringify": "^8.0.0",
-    "remark-parse": "^9.0.0",
-    "remark-rehype": "^8.1.0",
-    "remark-stringify": "^9.0.1",
-    "strip-markdown": "^4.2.0",
+    "remark-parse": "^10.0.0",
+    "remark-rehype": "^9.1.0",
+    "remark-stringify": "^10.0.0",
+    "strip-markdown": "^5.0.0",
     "unified": "^9.2.2"
   },
   "devDependencies": {
