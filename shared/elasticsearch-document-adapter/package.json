@@ -16,7 +16,7 @@
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/contributions-data-types": "^3.27.0",
     "memoizee": "^0.4.15",
-    "node-fetch": "^2.6.2",
+    "node-fetch": "^2.6.5",
     "p-queue": "^6.6.2",
     "rehype-raw": "^5.1.0",
     "rehype-stringify": "^8.0.0",
@@ -27,7 +27,7 @@
     "unified": "^9.2.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.15.4",
+    "@babel/cli": "^7.15.7",
     "@babel/core": "^7.15.5",
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "@socialgouv/eslint-config-recommended": "^1.85.4",
