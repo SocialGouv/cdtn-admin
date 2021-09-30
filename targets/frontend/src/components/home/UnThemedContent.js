@@ -49,7 +49,7 @@ export function UnThemedContent() {
 
   const { data, fetching, error } = result;
 
-  if (fetching) {
+  if (fetching || data?.documents.length === 0) {
     return null;
   }
   if (error) {
@@ -75,7 +75,7 @@ export function UnThemedContent() {
             </Text>
           </Flex>
           <Box>
-            <Text> Contenus non thémés</Text>
+            <Text sx={{ textAlign: "right" }}>Contenus non thémés</Text>
           </Box>
         </Card>
       </NavLink>

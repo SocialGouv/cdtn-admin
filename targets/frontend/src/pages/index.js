@@ -5,7 +5,7 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Grid, Heading } from "theme-ui";
+import { Flex, Heading } from "theme-ui";
 
 export function IndexPage() {
   return (
@@ -14,11 +14,11 @@ export function IndexPage() {
         <Heading as="h2" sx={{ fontSize: "large" }}>
           Tableau de bord
         </Heading>
-        <Grid gap="1rem" columns={[3, "1fr 1fr 1fr"]}>
+        <Flex sx={{ flexWrap: "wrap", gap: "2rem" }}>
           <UnThemedContent />
           <DuplicateContent />
           <GhostLinkedDocuments />
-        </Grid>
+        </Flex>
       </Stack>
     </Layout>
   );

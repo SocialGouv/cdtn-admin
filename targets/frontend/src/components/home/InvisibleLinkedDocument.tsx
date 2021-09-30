@@ -66,7 +66,7 @@ export function GhostLinkedDocuments(): JSX.Element | null {
 
   const { fetching, error, data } = result;
 
-  if (fetching) {
+  if (fetching || data?.relations.length === 0) {
     return null;
   }
   if (error) {
@@ -92,7 +92,7 @@ export function GhostLinkedDocuments(): JSX.Element | null {
             </Text>
           </Flex>
           <Box>
-            <Text>Documents non accessibles</Text>
+            <Text sx={{ textAlign: "right" }}>Références inaccessibles</Text>
           </Box>
         </Card>
       </NavLink>

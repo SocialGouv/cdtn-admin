@@ -91,7 +91,7 @@ export function DuplicateContent(): JSX.Element | null {
 
   const { fetching, error } = result;
 
-  if (fetching) {
+  if (fetching || duplicates.length === 0) {
     return null;
   }
   if (error) {
@@ -117,7 +117,7 @@ export function DuplicateContent(): JSX.Element | null {
             </Text>
           </Flex>
           <Box>
-            <Text>documents avec des doublons</Text>
+            <Text sx={{ textAlign: "right" }}>Doublons detectés</Text>
           </Box>
         </Card>
       </NavLink>
