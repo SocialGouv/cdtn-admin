@@ -1,11 +1,11 @@
 import { DuplicateContent } from "src/components/home/DuplicateItems";
+import { GhostLinkedDocuments } from "src/components/home/InvisibleLinkedDocument";
 import { UnThemedContent } from "src/components/home/UnThemedContent";
 import { Layout } from "src/components/layout/auth.layout";
-import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Heading } from "theme-ui";
+import { Grid, Heading } from "theme-ui";
 
 export function IndexPage() {
   return (
@@ -14,10 +14,11 @@ export function IndexPage() {
         <Heading as="h2" sx={{ fontSize: "large" }}>
           Tableau de bord
         </Heading>
-        <Inline>
+        <Grid gap="1rem" columns={[3, "1fr 1fr 1fr"]}>
           <UnThemedContent />
           <DuplicateContent />
-        </Inline>
+          <GhostLinkedDocuments />
+        </Grid>
       </Stack>
     </Layout>
   );
