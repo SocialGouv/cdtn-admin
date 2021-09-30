@@ -117,8 +117,10 @@ DocumentRow.propTypes = {
   }).isRequired,
 };
 
-const sourceToRoute = ({ cdtnId, source }) => {
+export const sourceToRoute = ({ cdtnId, source }) => {
   switch (source) {
+    case SOURCES.THEMES:
+      return `/theme/edit/${cdtnId}`;
     case SOURCES.EDITORIAL_CONTENT:
     case SOURCES.HIGHLIGHTS:
     case SOURCES.PREQUALIFIED:
