@@ -117,7 +117,7 @@ export function DuplicateContent(): JSX.Element | null {
             </Text>
           </Flex>
           <Box>
-            <Text> documents avec des doublons</Text>
+            <Text>documents avec des doublons</Text>
           </Box>
         </Card>
       </NavLink>

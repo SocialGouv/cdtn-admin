@@ -38,9 +38,9 @@ export function DuplicateContentPage(): JSX.Element {
   return (
     <Layout title="Contenus dupliqués">
       <p>
-        Il peut arriver que certains contenus apparaissent PLusieurs fois dans
-        une requete préqualifiée ou un theme. Cette page permet de lister ces
-        contenus afin de les corriger.
+        Cette page iste les contenus qui référencent des documents dépubliés ou
+        supprimés. Elle facilite le travail de suivi et de maintenances pour les
+        themes, requetes pré-qualifiés ou A la une
       </p>
       <Table>
         <thead>

@@ -92,7 +92,7 @@ export function GhostLinkedDocuments(): JSX.Element | null {
             </Text>
           </Flex>
           <Box>
-            <Text> documents avec des doublons</Text>
+            <Text>Documents non accessibles</Text>
           </Box>
         </Card>
       </NavLink>
