@@ -1,6 +1,7 @@
 import type { DilaChanges, DocumentReferences } from "@shared/types";
 
 import getContribReferences from "../extractDilaReferences/contribution";
+import getEditorialContentReferences from "../extractDilaReferences/editorialContents";
 import getTravailEmploiReferences from "../extractDilaReferences/ficheTravailEmploi";
 import getMailTemplateReferences from "../extractDilaReferences/mailTemplates";
 
@@ -11,10 +12,11 @@ export async function getRelevantDocuments({
   const contribReferences = await getContribReferences();
   const travailEmploiReferences = await getTravailEmploiReferences();
   const mailTemplateRef = await getMailTemplateReferences();
-
+  const editorialContentRef = await getEditorialContentReferences();
   const docsReferences = contribReferences.concat(
     travailEmploiReferences,
-    mailTemplateRef
+    mailTemplateRef,
+    editorialContentRef
   );
   const documents = docsReferences.flatMap((item) => {
     const references = item.references.filter(
