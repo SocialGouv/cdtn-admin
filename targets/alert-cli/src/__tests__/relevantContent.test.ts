@@ -5,6 +5,7 @@ import { getRelevantDocuments } from "../diff/dila-relevantContent";
 
 jest.mock("../extractDilaReferences/ficheTravailEmploi", () => () => []);
 jest.mock("../extractDilaReferences/mailTemplates", () => () => []);
+jest.mock("../extractDilaReferences/editorialContents", () => () => []);
 jest.mock("../extractDilaReferences/contribution", () => () => [
   {
     document: {

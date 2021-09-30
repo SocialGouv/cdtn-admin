@@ -1,7 +1,7 @@
 import type { DilaChanges, DocumentReferences } from "@shared/types";
 
 import getContribReferences from "../extractDilaReferences/contribution";
-import getEditorialContentReferences from "../extractDilaReferences/editorialContent";
+import getEditorialContentReferences from "../extractDilaReferences/editorialContents";
 import getTravailEmploiReferences from "../extractDilaReferences/ficheTravailEmploi";
 import getMailTemplateReferences from "../extractDilaReferences/mailTemplates";
 

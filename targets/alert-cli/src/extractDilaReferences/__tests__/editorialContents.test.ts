@@ -1,7 +1,7 @@
 import type { DocumentReference } from "@shared/types";
 
-import type { EditorialContentSubset } from "../editorialContent";
-import { extractEditorialContentTemplateRef } from "../editorialContent";
+import type { EditorialContentSubset } from "../editorialContents";
+import { extractEditorialContentTemplateRef } from "../editorialContents";
 import payload from "./mocks/editorialContent.payload.json";
 
 jest.mock("@shared/graphql-client", () => ({
