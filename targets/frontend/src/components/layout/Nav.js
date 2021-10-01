@@ -101,7 +101,7 @@ export function Nav() {
           </Li>
           <Li>
             <ActiveLink href="/contenus?source=highlights" passHref>
-              Highlights
+              À la une
             </ActiveLink>
           </Li>
           <Li>
@@ -141,7 +141,12 @@ export function Nav() {
           </Li>
           <Li>
             <ActiveLink href="/duplicates" passHref>
-              Elements en Doublons
+              Élements en Doublons
+            </ActiveLink>
+          </Li>
+          <Li>
+            <ActiveLink href="/ghost-documents" passHref>
+              Références inaccessibles
             </ActiveLink>
           </Li>
           <Li>

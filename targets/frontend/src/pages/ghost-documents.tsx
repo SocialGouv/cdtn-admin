@@ -13,7 +13,7 @@ import { Stack } from "src/components/layout/Stack";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Box, Message, NavLink, Spinner } from "theme-ui";
+import { Badge, Box, Message, NavLink, Spinner } from "theme-ui";
 import { useQuery } from "urql";
 
 export function DuplicateContentPage(): JSX.Element {
@@ -26,7 +26,7 @@ export function DuplicateContentPage(): JSX.Element {
 
   if (error || data?.relations.length === 0) {
     return (
-      <Layout title="Contenus dupliqués">
+      <Layout title="Références inaccessibles">
         <Stack>
           <Message>
             <pre>{JSON.stringify(error, null, 2)}</pre>
@@ -36,11 +36,13 @@ export function DuplicateContentPage(): JSX.Element {
     );
   }
   return (
-    <Layout title="Contenus dupliqués">
+    <Layout title="Références inaccessibles">
       <p>
-        Cette page iste les contenus qui référencent des documents dépubliés ou
+        Cette page liste les contenus qui référencent des documents dépubliés ou
         supprimés. Elle facilite le travail de suivi et de maintenances pour les
-        themes, requetes pré-qualifiés ou A la une
+        <Badge variant="secondary">themes</Badge>,{" "}
+        <Badge variant="secondary"> requetes pré-qualifiées</Badge> ou{" "}
+        <Badge variant="secondary">A la une</Badge>
       </p>
       <Table>
         <thead>
@@ -49,7 +51,7 @@ export function DuplicateContentPage(): JSX.Element {
             <Th align="left">Parent</Th>
             <Th align="left">Fiche</Th>
             <Th align="center">Publié</Th>
-            <Th align="center">Supprimé</Th>
+            <Th align="center">Disponible</Th>
           </tr>
         </thead>
         {!data?.relations && fetching && <Spinner />}
