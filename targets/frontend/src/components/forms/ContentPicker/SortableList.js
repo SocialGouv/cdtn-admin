@@ -30,7 +30,11 @@ export const SortableList = SortableContainer(({ contents, ...props }) => {
 });
 
 const SortableRow = SortableElement(
-  ({ content: { cdtnId, source, title }, sortable, onDeleteContent }) => (
+  ({
+    content: { cdtnId, source, title, isPublished, isAvailable },
+    sortable,
+    onDeleteContent,
+  }) => (
     <li
       sx={{
         alignItems: "stretch",
@@ -48,7 +52,13 @@ const SortableRow = SortableElement(
           justifyContent: "space-between",
         }}
       >
-        <Box>{`${title} - ${getLabelBySource(source)}`}</Box>
+        <Box
+          sx={{
+            color: getColor({ isAvailable, isPublished }),
+          }}
+        >{`${title} - ${getLabelBySource(source)} ${
+          !isAvailable ? "(supprimé)" : ""
+        }${isAvailable && !isPublished ? "(Déplublié)" : ""}`}</Box>
       </Alert>
       <Flex sx={{ alignItems: "stretch", ml: "xsmall" }}>
         <Button
@@ -65,7 +75,15 @@ const SortableRow = SortableElement(
     </li>
   )
 );
-
+function getColor({ isPublished, isAvailable }) {
+  if (!isAvailable) {
+    return "critical";
+  }
+  if (!isPublished) {
+    return "muted";
+  }
+  return "text";
+}
 const SortHandle = SortableHandle(() => (
   <IconButton
     variant="secondary"

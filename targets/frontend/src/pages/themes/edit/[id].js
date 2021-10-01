@@ -38,6 +38,8 @@ query GetTheme($id: String!) {
         slug
         source
         title
+        isAvailable: is_available
+        isPublished: is_published
       }
     }
     parentRelations: relation_b {

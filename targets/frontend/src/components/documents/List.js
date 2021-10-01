@@ -120,7 +120,7 @@ DocumentRow.propTypes = {
 export const sourceToRoute = ({ cdtnId, source }) => {
   switch (source) {
     case SOURCES.THEMES:
-      return `/theme/edit/${cdtnId}`;
+      return `/themes/edit/${cdtnId}`;
     case SOURCES.EDITORIAL_CONTENT:
     case SOURCES.HIGHLIGHTS:
     case SOURCES.PREQUALIFIED:

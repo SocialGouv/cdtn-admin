@@ -5,7 +5,6 @@ import { ContentSearch } from "./ContentSearch";
 import { SortableList } from "./SortableList";
 
 const ContentPicker = ({ defaultValue, disabled, ...props }) => {
-  console.log({ defaultValue });
   return (
     <Controller
       {...props}
