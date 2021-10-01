@@ -1,2 +1,5 @@
 node_modules
 .env.production
+docker-compose.override.yml
+.vscode
+targets/hasura-m1

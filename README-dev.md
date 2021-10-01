@@ -92,6 +92,8 @@ A webpage is opened in your browser. The password is `admin1` as set in the `.en
 > docker-compose up hasura
 > ```
 
+> On Mac M1, you should use `fedormelexin/graphql-engine-arm64:v1.3.3.cli-migrations-v2`as docker image.
+
 ### Inject documents
 
 A part of the content is based on documents retrieved from another services (code du travail, contributions, fiche travail/emploi...).
