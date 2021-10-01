@@ -14,7 +14,7 @@
     - when: on_success
   stage: .pre
   needs: []
-  image: node:14.17.6-alpine3.11
+  image: node:14.18.0-alpine3.11
   cache:
     key:
       files:
