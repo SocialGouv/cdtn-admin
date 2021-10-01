@@ -92,7 +92,37 @@ A webpage is opened in your browser. The password is `admin1` as set in the `.en
 > docker-compose up hasura
 > ```
 
-> On Mac M1, you should use `fedormelexin/graphql-engine-arm64:v1.3.3.cli-migrations-v2`as docker image.
+#### ARM64 architecture
+
+Firstly, you have to create a docker-compose.override.yml file. with the following content:
+
+```yaml
+version: "3.8"
+services:
+  hasura:
+    build:
+      context: targets/hasura
+    restart: always
+    extra_hosts:
+      host.docker.internal: host-gateway
+    volumes:
+      - ./targets/hasura-m1/migrations:/hasura-migrations
+      - ./targets/hasura-m1/metadata:/hasura-metadata
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
+```
+
+Secondly, you have to cp `targets/hasura` to `target/hasura-m1` and change the Dockerfile by replacing the first line by the following line:
+
+```yaml
+FROM fedormelexin/graphql-engine-arm64:v1.3.3.cli-migrations-v2
+```
 
 ### Inject documents
 
