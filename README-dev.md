@@ -213,3 +213,19 @@ docker-compose exec -T postgres psql \
 - contribution
   - https://github.com/SocialGouv/code-du-travail-backoffice
   - https://github.com/SocialGouv/cdtn-api
+
+## Troubleshooting
+
+### Désynchronisation des PRs et des pipelines Gitlab
+
+**Symptômes:** 
+
+À chaque PR Github, le check `ci/gitlab/gitlab.factory.social.gouv.fr` reste bloqué sur `Expected — Waiting for status to be reported`. Sur Gitlab, la branche est bien présente et la pipeline associée fonctionne.  
+
+**Résolution:** 
+
+Il faut mettre à jour le token Github. Commencez par créer un [nouveau token Github](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token), sélectionnez le scope `repo` sans expiration.
+
+Puis dans Gitlab, `cdtn-admin > Settings > Integrations > Github`, copiez le token Github, cliquez sur `Test settings` et si OK, cliquez sur `Save changes`. 
+
+Pour relancer les checks sur les PRs, vous pouvez supprimer la branche dans gitlab et relancer le check 🇫🇷 sur Github.
