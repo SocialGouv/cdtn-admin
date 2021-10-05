@@ -94,14 +94,14 @@ A webpage is opened in your browser. The password is `admin1` as set in the `.en
 
 #### ARM64 architecture
 
-Firstly, you have to create a docker-compose.override.yml file. with the following content:
+Firstly, you have to create a docker-compose.override.yml file with the following content:
 
 ```yaml
 version: "3.8"
 services:
   hasura:
     build:
-      context: targets/hasura
+      context: targets/hasura-m1
     restart: always
     extra_hosts:
       host.docker.internal: host-gateway
@@ -118,7 +118,7 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
 ```
 
-Secondly, you have to cp `targets/hasura` to `target/hasura-m1` and change the Dockerfile by replacing the first line by the following line:
+Secondly, you have to run a `cp targets/hasura target/hasura-m1` and change the `Dockerfile` by replacing the first line by the following line:
 
 ```yaml
 FROM fedormelexin/graphql-engine-arm64:v1.3.3.cli-migrations-v2
