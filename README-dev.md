@@ -118,10 +118,16 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
 ```
 
-Secondly, you have to run a `cp targets/hasura target/hasura-m1` and change the `Dockerfile` by replacing the first line by the following line:
+Secondly, you have to run a `cp targets/hasura targets/hasura-m1` and change the `Dockerfile` by replacing the first line by the following line:
 
 ```yaml
 FROM fedormelexin/graphql-engine-arm64:v1.3.3.cli-migrations-v2
+```
+
+For the console, you have to run this command :
+
+```sh
+hasura console --envfile ../../.env --project targets/hasura-m1
 ```
 
 ### Inject documents
