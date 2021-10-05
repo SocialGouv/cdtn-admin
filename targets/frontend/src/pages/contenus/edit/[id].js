@@ -37,6 +37,8 @@ query getContent($cdtnId: String!) {
         slug
         source
         title
+        isAvailable: is_available
+        isPublished: is_published
       }
     }
   }
