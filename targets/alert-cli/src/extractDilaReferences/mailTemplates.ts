@@ -43,7 +43,7 @@ export async function extractMailTemplateRef(
         source: SOURCES.LETTERS,
         title: docData.title,
       },
-      references,
+      references: references.flatMap((item) => (item !== null) ? [item] : []),
     });
   }
   return refs;
