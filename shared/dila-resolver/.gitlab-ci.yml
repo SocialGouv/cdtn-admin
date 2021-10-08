@@ -13,7 +13,9 @@
       when: never
     - when: on_success
   stage: .pre
-  needs: []
+  needs:
+    - job: 📦 logger
+      artifacts: true
   image: node:14.18.0-alpine3.11
   cache:
     key:
