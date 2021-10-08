@@ -53,7 +53,7 @@ export async function extractEditorialContentTemplateRef(
         source: SOURCES.EDITORIAL_CONTENT,
         title: docData.title,
       },
-      references: references.flatMap((item) => (item !== null) ? [item] : []),
+      references: references.flatMap((item) => (item !== null ? [item] : [])),
     });
   }
   return refs;
