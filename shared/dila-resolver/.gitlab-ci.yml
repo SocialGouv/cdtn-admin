@@ -12,7 +12,7 @@
     - if: $TRIGGER && $TRIGGER != "RELEASE"
       when: never
     - when: on_success
-  stage: .pre
+  stage: Install
   needs:
     - job: 📦 logger
       artifacts: true
