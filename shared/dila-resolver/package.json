@@ -12,7 +12,6 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@socialgouv/cdtn-logger": "^1.10.1",
     "@socialgouv/dila-api-client": "^1.2.1"
   },
   "devDependencies": {

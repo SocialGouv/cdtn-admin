@@ -12,10 +12,7 @@
     - if: $TRIGGER && $TRIGGER != "RELEASE"
       when: never
     - when: on_success
-  stage: Install
-  needs:
-    - job: 📦 logger
-      artifacts: true
+  stage: pre
   image: node:14.18.0-alpine3.11
   cache:
     key:

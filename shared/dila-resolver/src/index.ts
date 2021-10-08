@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { DocumentReference } from "@shared/types";
-import { logger } from "@socialgouv/cdtn-logger";
 import type DilaApiClient from "@socialgouv/dila-api-client";
 
 import type { ArticlePayload, ArticleVersion } from "./types";
@@ -31,7 +30,7 @@ function createGetArticleReference(client: DilaApiClient) {
         url: "",
       };
     } catch (e: unknown) {
-      logger.log(`Error retrieving info avout article id ${id}`, e);
+      console.error(`Error retrieving info about article id ${id}`, e);
       return null;
     }
   };
