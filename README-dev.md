@@ -102,7 +102,7 @@ services:
   hasura:
     build:
       context: targets/hasura
-      target: arm
+      dockerfile: Dockerfile.arm
 ```
 
 ### Inject documents
