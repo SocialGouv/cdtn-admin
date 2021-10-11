@@ -126,6 +126,7 @@ Stop review:
 #
 
 Release:
+  image: node:16.10.0-stretch
   extends:
     - .autodevops_release
   allow_failure: true
