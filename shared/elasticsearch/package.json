@@ -25,12 +25,12 @@
     "url": "https://github.com/SocialGouv/cdtn-admin.git"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
+    "@babel/core": "^7.15.8",
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "@socialgouv/eslint-config-recommended": "^1.88.0",
     "eslint": "^7.32.0",
     "jest": "^27.1.1",
-    "lint-staged": "^11.1.2",
+    "lint-staged": "^11.1.4",
     "prettier": "^2.3.2"
   },
   "scripts": {
