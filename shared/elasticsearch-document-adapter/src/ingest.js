@@ -11,7 +11,7 @@ import {
 } from "@socialgouv/cdtn-elasticsearch";
 import { logger } from "@socialgouv/cdtn-logger";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import PQueue from "p-queue";
+import pMap from "p-map";
 
 import { cdtnDocumentsGen } from "./cdtnDocuments";
 import { fetchCovisits } from "./monolog";
@@ -70,10 +70,6 @@ const excludeSources = [
 
 export async function injest() {
   const ts = Date.now();
-  const nlpQueue = new PQueue({ concurrency: 5 });
-
-  const monologQueue = new PQueue({ concurrency: 20 });
-
   logger.info(`using cdtn elasticsearch ${process.env.ELASTICSEARCH_URL}`);
 
   if (NLP_URL) {
@@ -96,18 +92,18 @@ export async function injest() {
     logger.info(`› ${source}... ${documents.length} items`);
 
     // add covisits using pQueue (there is a plan to change this : see #2915)
-    const pDocs = documents.map((doc) =>
-      monologQueue.add(() => fetchCovisits(doc))
-    );
-    let covisitDocuments = await Promise.all(pDocs);
-    console.log(`monologQueue size ${monologQueue.size}`);
+    console.time("fetchCovisits");
+    let covisitDocuments = await pMap(documents, fetchCovisits, {
+      concurrency: 20,
+    });
+    console.timeEnd("fetchCovisits");
     // add NLP vectors
     if (!excludeSources.includes(source)) {
-      const pDocs = covisitDocuments.map((doc) =>
-        nlpQueue.add(() => addVector(doc))
-      );
-      covisitDocuments = await Promise.all(pDocs);
-      console.log(`nlpQueue size ${nlpQueue.size}`);
+      console.time("addVector");
+      covisitDocuments = await pMap(covisitDocuments, addVector, {
+        concurrency: 5,
+      });
+      console.timeEnd("addVector");
       logger.info(`finished vectorize ${source} documents`);
     }
     await indexDocumentsBatched({
