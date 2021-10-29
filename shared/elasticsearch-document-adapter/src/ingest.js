@@ -101,7 +101,7 @@ export async function injest() {
     if (!excludeSources.includes(source)) {
       console.time("addVector");
       covisitDocuments = await pMap(covisitDocuments, addVector, {
-        concurrency: 5,
+        concurrency: 3,
       });
       console.timeEnd("addVector");
       logger.info(`finished vectorize ${source} documents`);
