@@ -44,7 +44,7 @@ async function callTFServe(json) {
     },
   });
   console.timeEnd("callTfServer");
-  console.log(JSON.stringify(body));
+  console.log(body.toString());
   return body.body["outputs"];
 }
 
