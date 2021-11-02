@@ -32,7 +32,9 @@ function preprocess(text) {
 }
 
 async function callTFServe(json) {
-  const { body } = await got.post(tfServeURL, {
+  console.log("CALL TF SERVER");
+  console.time("callTfServer");
+  const body = await got.post(tfServeURL, {
     cache,
     json,
     responseType: "json",
@@ -41,10 +43,13 @@ async function callTFServe(json) {
       methods: ["POST"],
     },
   });
-  return body["outputs"];
+  console.timeEnd("callTfServer");
+  console.log(JSON.stringify(body));
+  return body.body["outputs"];
 }
 
 async function vectorizeDocument(title, content) {
+  console.log(`---- VECTORIZE DOCUMENT ----`);
   if (title == undefined || title == "") {
     throw new Error("Cannot vectorize document with empty title.");
   }
@@ -56,6 +61,10 @@ async function vectorizeDocument(title, content) {
     inputs: { context, input },
     signature_name: "response_encoder",
   };
+  console.log("Info to send");
+  console.log(input);
+  console.log(context);
+  console.log(body);
   const vectors = await callTFServe(body);
   return vectors[0];
 }
