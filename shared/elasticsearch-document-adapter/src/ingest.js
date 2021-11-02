@@ -9,7 +9,6 @@ import {
   vectorizeDocument,
   version,
 } from "@socialgouv/cdtn-elasticsearch";
-import { logger } from "@socialgouv/cdtn-logger";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import pMap from "p-map";
 
@@ -35,9 +34,10 @@ const esClientConfig = {
 const client = new Client(esClientConfig);
 
 async function addVector(data) {
+  console.log(`---- ADD VECTOR ${NLP_URL} ----`);
   if (NLP_URL) {
     if (!data.title) {
-      logger.error(`No title for document ${data.source} / ${data.slug}`);
+      console.error(`No title for document ${data.source} / ${data.slug}`);
     }
     const title = data.title || "sans titre";
     await vectorizeDocument(title, data.text)
@@ -48,7 +48,10 @@ async function addVector(data) {
         data.title_vector = title_vector;
       })
       .catch((err) => {
-        logger.error("Vectorization failed", err);
+        console.error("Vectorization failed", err);
+        console.error(
+          `Vectorization failed: ${data.title} (${err.retryCount} times)`
+        );
         throw new Error(
           `Vectorization failed: ${data.title} (${err.retryCount} times)`
         );
@@ -70,12 +73,12 @@ const excludeSources = [
 
 export async function injest() {
   const ts = Date.now();
-  logger.info(`using cdtn elasticsearch ${process.env.ELASTICSEARCH_URL}`);
+  console.log(`using cdtn elasticsearch ${process.env.ELASTICSEARCH_URL}`);
 
   if (NLP_URL) {
-    logger.info(`Using NLP service to retrieve tf vectors on ${NLP_URL}`);
+    console.log(`Using NLP service to retrieve tf vectors on ${NLP_URL}`);
   } else {
-    logger.info(`NLP_URL not defined, semantic search will be disabled.`);
+    console.log(`NLP_URL not defined, semantic search will be disabled.`);
   }
 
   await version({ client });
@@ -89,7 +92,7 @@ export async function injest() {
 
   const t0 = Date.now();
   for await (const { source, documents } of cdtnDocumentsGen()) {
-    logger.info(`› ${source}... ${documents.length} items`);
+    console.log(`› ${source}... ${documents.length} items`);
 
     // add covisits using pQueue (there is a plan to change this : see #2915)
     console.time("fetchCovisits");
@@ -104,7 +107,7 @@ export async function injest() {
         concurrency: 3,
       });
       console.timeEnd("addVector");
-      logger.info(`finished vectorize ${source} documents`);
+      console.log(`finished vectorize ${source} documents`);
     }
     await indexDocumentsBatched({
       client,
@@ -114,7 +117,7 @@ export async function injest() {
     });
   }
 
-  logger.info(`done in ${(Date.now() - t0) / 1000} s`);
+  console.log(`done in ${(Date.now() - t0) / 1000} s`);
 
   // Indexing Suggestions
   await populateSuggestions(client, `${SUGGEST_INDEX_NAME}-${ts}`);
