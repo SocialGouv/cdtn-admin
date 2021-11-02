@@ -66,6 +66,7 @@ async function vectorizeDocument(title, content) {
   console.log(context);
   console.log(body);
   const vectors = await callTFServe(body);
+  console.log(vectors);
   return vectors[0];
 }
 
@@ -80,6 +81,7 @@ async function vectorizeQuery(query) {
     signature_name: "question_encoder",
   };
   const vectors = await callTFServe(body);
+  console.log(vectors);
   return vectors[0];
 }
 
