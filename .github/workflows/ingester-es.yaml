@@ -1,0 +1,126 @@
+name: Ingester elasticsearch
+
+#on: workflow_dispatch
+
+on: push
+
+jobs:
+  ingester-elastic:
+    name: Ingester elasticsearch
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Register docker image for ingester-elasticsearch
+      uses: SocialGouv/actions/autodevops-build-register@v1
+      with:
+        project: "cdtn-admin"
+        imageName: cdtn-admin/ingester-elasticsearch
+        token: ${{ secrets.GITHUB_TOKEN }}
+        dockerfile: "./IngesterElasticsearch.dockerfile"
+        dockercontext: "./"
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v2
+      with:
+        directory: .k8s
+    - name: Install kosko-charts dependencies
+      shell: bash
+      run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
+    - name: Generate k8s manifests
+      shell: bash
+      run: yarn --cwd .k8s --silent generate --env prod jobs/ingester-elasticsearch > manifests-preprod.yaml
+      env:
+        RANCHER_PROJECT_ID: ${{ secrets.RANCHER_PROJECT_ID }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+        SOCIALGOUV_PRODUCTION: ${{ '' }}
+        SOCIALGOUV_PREPRODUCTION: ${{ '' }}
+        INGESTER_ELASTICSEARCH_TARGET: preprod
+        ES_INDEX_PREFIX: cdtn-master
+    - name: Archive k8s manifests
+      uses: actions/upload-artifact@v2
+      with:
+       name: manifests-preprod.yaml
+       path: manifests-preprod.yaml
+    - name: Create kubernetes config
+      shell: bash
+      run: |
+        mkdir ~/.kube
+        touch ~/.kube/config
+        echo ${{ secrets.KUBECONFIG }} | base64 -d > ~/.kube/config
+    - name: Delete older job
+      run: kubectl delete job ingester-elasticsearch-preprod || true
+    - name: Apply the manifest
+      shell: bash
+      run: kubectl apply -f manifests-preprod.yaml
+    - name: Waiting for the job is ready
+      shell: bash
+      run: |
+        timeout 15m
+        bash -c "
+        until
+        kubectl get pod -l job-name=ingester-elasticsearch-preprod
+        -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
+        grep True
+        ; do sleep 1; done"
+    - name: Show logs from the job
+      shell: bash
+      run: kubectl logs -f job/ingester-elasticsearch-preprod
+    - name: Show logs from the job
+      shell: bash
+      run: kubectl logs -f job/ingester-elasticsearch-preprod
+    - name: Get the job status
+      shell: bash
+      run: |
+        kubectl get jobs ingester-elasticsearch-preprod -o jsonpath='{.status.conditions}'
+        kubectl get jobs ingester-elasticsearch-preprod -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}' |
+        grep True
+
+#    - name: Create k8s namespace
+#      shell: bash
+#      run: |
+#        if [ $ENVIRONMENT != "prod" ]; then
+#          kubectl create -f namespace-${ENVIRONMENT}.yml || true
+#        fi
+#      env:
+#        ENVIRONMENT: ${{ inputs.environment }}
+#
+#    - name: Yarn cache setup
+#        uses: c-hive/gha-yarn-cache@v2
+#        with:
+#          directory: .k8s
+#
+#    - name: Install kosko-charts dependencies
+#      shell: bash
+#      run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
+#
+#    - name: Generate k8s manifests
+#      shell: bash
+#      run: yarn --cwd .k8s --silent generate --env ${{ inputs.environment }} > manifests-${{ inputs.environment }}.yml
+#      env:
+#        RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
+#        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
+#        SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
+#        SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
+#        SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
+#
+#    - name: Generate k8s namespace
+#      shell: bash
+#      run: yarn --cwd .k8s --silent generate --env ${{ inputs.environment }} _namespace > namespace-${{ inputs.environment }}.yml
+#      env:
+#        RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
+#        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
+#        SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
+#        SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
+#        SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
+#
+#    - name: Archive k8s manifests
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: manifests-${{ inputs.environment }}.yml
+#        path: manifests-${{ inputs.environment }}.yml
+#
+#    - name: Archive k8s namespace
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: namespace-${{ inputs.environment }}.yml
+#        path: namespace-${{ inputs.environment }}.yml

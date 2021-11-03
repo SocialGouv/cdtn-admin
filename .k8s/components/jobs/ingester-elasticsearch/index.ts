@@ -9,11 +9,12 @@ import { ok } from "assert";
 import { Job } from "kubernetes-models/batch/v1";
 import type { ConfigMap } from "kubernetes-models/v1";
 import { ES_INDEX_PREFIX } from "../../../utils/ES_INDEX_PREFIX";
+import { getGithubRegistryImagePath } from "@socialgouv/kosko-charts/utils/getGithubRegistryImagePath";
 
 const target = process.env.INGESTER_ELASTICSEARCH_TARGET;
 ok(target, "Missing INGESTER_ELASTICSEARCH_TARGET");
 
-ok(process.env.CI_REGISTRY_IMAGE, "Missing CI_REGISTRY_IMAGE");
+// ok(process.env.CI_REGISTRY_IMAGE, "Missing CI_REGISTRY_IMAGE");
 const envParams = environments(process.env);
 const name = `ingester-elasticsearch-${target}`;
 const annotations = merge(envParams.metadata.annotations || {}, {
@@ -75,8 +76,9 @@ export default async () => {
           containers: [
             {
               name: `ingester-elasticsearch-target-${target}`,
-              image: getHarborImagePath({
-                name: "cdtn-admin-ingester-elasticsearch",
+              image: getGithubRegistryImagePath({
+                name: "ingester-elasticsearch",
+                project: "cdtn-admin",
               }),
               imagePullPolicy: "IfNotPresent",
               resources: {
