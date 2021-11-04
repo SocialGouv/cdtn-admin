@@ -72,7 +72,6 @@ async function vectorizeDocument(title, content) {
   };
   console.log("Info to send");
   console.log("input", input);
-  console.log("context", context);
   const vectors = await callTFServe(body);
   console.log("vectors lenght", vectors.length);
   return vectors[0];
