@@ -58,7 +58,6 @@ async function callTFServe(json) {
 }
 
 async function vectorizeDocument(title, content) {
-  console.log(`---- VECTORIZE DOCUMENT ----`);
   if (title == undefined || title == "") {
     throw new Error("Cannot vectorize document with empty title.");
   }
