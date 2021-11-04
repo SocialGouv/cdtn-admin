@@ -31,9 +31,11 @@ function preprocess(text) {
   return noStopWords.join(" ");
 }
 
+let count = 0;
 async function callTFServe(json) {
-  console.log("CALL TF SERVER start");
-  console.time("CALL TF SERVER");
+  count++;
+  console.log("CALL TF SERVER start", count);
+  console.time(`CALL TF SERVER ${count}`);
   const response = await got.post(tfServeURL, {
     cache,
     json,
@@ -43,7 +45,7 @@ async function callTFServe(json) {
       methods: ["POST"],
     },
   });
-  console.timeEnd("CALL TF SERVER");
+  console.timeEnd(`CALL TF SERVER ${count}`);
   if (!response) {
     console.log("Response is null", response);
   }
@@ -72,7 +74,7 @@ async function vectorizeDocument(title, content) {
   console.log("input", input);
   console.log("context", context);
   const vectors = await callTFServe(body);
-  console.log(vectors);
+  console.log("vectors lenght", vectors.length);
   return vectors[0];
 }
 
