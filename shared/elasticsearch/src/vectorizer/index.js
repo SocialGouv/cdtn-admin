@@ -34,7 +34,7 @@ function preprocess(text) {
 async function callTFServe(json) {
   console.log("CALL TF SERVER start");
   console.time("CALL TF SERVER");
-  const body = await got.post(tfServeURL, {
+  const response = await got.post(tfServeURL, {
     cache,
     json,
     responseType: "json",
@@ -44,12 +44,15 @@ async function callTFServe(json) {
     },
   });
   console.timeEnd("CALL TF SERVER");
-  if (body && body.body) {
-    console.log(JSON.stringify(body.body));
-  } else {
-    console.log("Body response is null", body);
+  if (!response) {
+    console.log("Response is null", response);
   }
-  return body.body["outputs"];
+  if (!response.body) {
+    console.log("Response body is null", response);
+  }
+
+  console.log("Response status code", response.statusCode);
+  return response.body["outputs"];
 }
 
 async function vectorizeDocument(title, content) {
@@ -84,7 +87,7 @@ async function vectorizeQuery(query) {
     signature_name: "question_encoder",
   };
   const vectors = await callTFServe(body);
-  console.log(vectors);
+  console.log("vectors lenght", vectors.length);
   return vectors[0];
 }
 
