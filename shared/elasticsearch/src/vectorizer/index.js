@@ -31,8 +31,12 @@ function preprocess(text) {
   return noStopWords.join(" ");
 }
 
+let count = 0;
 async function callTFServe(json) {
-  const { body } = await got.post(tfServeURL, {
+  count++;
+  console.log("CALL TF SERVER start", count);
+  console.time(`CALL TF SERVER ${count}`);
+  const response = await got.post(tfServeURL, {
     cache,
     json,
     responseType: "json",
@@ -41,10 +45,20 @@ async function callTFServe(json) {
       methods: ["POST"],
     },
   });
-  return body["outputs"];
+  console.timeEnd(`CALL TF SERVER ${count}`);
+  if (!response) {
+    console.log("Response is null", response);
+  }
+  if (!response.body) {
+    console.log("Response body is null", response);
+  }
+
+  console.log("Response status code", response.statusCode);
+  return response.body["outputs"];
 }
 
 async function vectorizeDocument(title, content) {
+  console.log(`---- VECTORIZE DOCUMENT ----`);
   if (title == undefined || title == "") {
     throw new Error("Cannot vectorize document with empty title.");
   }
@@ -56,7 +70,10 @@ async function vectorizeDocument(title, content) {
     inputs: { context, input },
     signature_name: "response_encoder",
   };
+  console.log("Info to send");
+  console.log("input", input);
   const vectors = await callTFServe(body);
+  console.log("vectors lenght", vectors.length);
   return vectors[0];
 }
 
@@ -71,6 +88,7 @@ async function vectorizeQuery(query) {
     signature_name: "question_encoder",
   };
   const vectors = await callTFServe(body);
+  console.log("vectors lenght", vectors.length);
   return vectors[0];
 }
 
