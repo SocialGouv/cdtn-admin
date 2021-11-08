@@ -5,12 +5,12 @@ const timeout = 10000;
 test(
   "Should vectorize document",
   async () => {
-    const vector1 = await vectorizeDocument("id", "titre", "contenu");
+    const vector1 = await vectorizeDocument("titre", "contenu");
     expect(vector1).toBeDefined();
     expect(vector1).toMatchSnapshot();
 
     // preprocessing should make those embeddings equal
-    const vector2 = await vectorizeDocument("id", "le titre", "et le contènu");
+    const vector2 = await vectorizeDocument("le titre", "et le contènu");
     expect(vector2).toEqual(vector1);
   },
   timeout
