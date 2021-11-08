@@ -23,7 +23,7 @@
     "lint": "eslint src",
     "prepush": "yarn build && yarn lint && yarn test",
     "precommit": "lint-staged",
-    "start": "node --trace-warnings --enable-source-maps --unhandled-rejections=strict bin/index.js",
+    "start": "node --enable-source-maps --unhandled-rejections=strict bin/index.js",
     "start:dev": "ncc run ./src/cli.ts",
     "test": "yarn types",
     "types": "tsc"

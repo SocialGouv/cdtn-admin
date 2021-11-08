@@ -36,13 +36,15 @@ async function callTFServe(json) {
     cache,
     json,
     responseType: "json",
-    retries: 0,
-    timeout: 600000,
+    retry: {
+      limit: 15,
+      methods: ["POST"],
+    },
   });
   return response.body["outputs"];
 }
 
-async function vectorizeDocument(id, title, content) {
+async function vectorizeDocument(title, content) {
   if (title == undefined || title == "") {
     throw new Error("Cannot vectorize document with empty title.");
   }
@@ -54,9 +56,7 @@ async function vectorizeDocument(id, title, content) {
     inputs: { context, input },
     signature_name: "response_encoder",
   };
-  console.time(`CALL TF SERVER ${id}`);
   const vectors = await callTFServe(body);
-  console.timeEnd(`CALL TF SERVER ${id}`);
 
   return vectors[0];
 }

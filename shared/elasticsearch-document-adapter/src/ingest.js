@@ -9,6 +9,7 @@ import {
   vectorizeDocument,
   version,
 } from "@socialgouv/cdtn-elasticsearch";
+import { logger } from "@socialgouv/cdtn-logger";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import pMap from "p-map";
 
@@ -34,13 +35,12 @@ const esClientConfig = {
 const client = new Client(esClientConfig);
 
 async function addVector(data) {
-  console.log(`Fetch vector for ${data.id} (${data.cdtnId})`);
   if (NLP_URL) {
     if (!data.title) {
-      console.error(`No title for document ${data.source} / ${data.slug}`);
+      logger.error(`No title for document ${data.source} / ${data.slug}`);
     }
     const title = data.title || "sans titre";
-    await vectorizeDocument(data.id, title, data.text)
+    await vectorizeDocument(title, data.text)
       .then((title_vector) => {
         if (title_vector.message) {
           throw new Error(`error fetching message ${data.title}`);
@@ -48,15 +48,9 @@ async function addVector(data) {
         data.title_vector = title_vector;
       })
       .catch((err) => {
-        if (err.name === "TimeoutError") {
-          console.error(`Vectorization failed timeout: ${data.id}`);
-        }
-        console.error(`Vectorization failed: ${data.id}`, err);
-        /*
         throw new Error(
-          `Vectorization failed: ${data.title} (${err.retryCount} times)`
+          `Vectorization failed: ${data.id} (${data.title} - ${err.retryCount} retries)`
         );
-         */
       });
   }
 
@@ -75,12 +69,12 @@ const excludeSources = [
 
 export async function injest() {
   const ts = Date.now();
-  console.log(`using cdtn elasticsearch ${process.env.ELASTICSEARCH_URL}`);
+  logger.info(`using cdtn elasticsearch ${process.env.ELASTICSEARCH_URL}`);
 
   if (NLP_URL) {
-    console.log(`Using NLP service to retrieve tf vectors on ${NLP_URL}`);
+    logger.info(`Using NLP service to retrieve tf vectors on ${NLP_URL}`);
   } else {
-    console.log(`NLP_URL not defined, semantic search will be disabled.`);
+    logger.info(`NLP_URL not defined, semantic search will be disabled.`);
   }
 
   await version({ client });
@@ -94,7 +88,7 @@ export async function injest() {
 
   const t0 = Date.now();
   for await (const { source, documents } of cdtnDocumentsGen()) {
-    console.log(`› ${source}... ${documents.length} items`);
+    logger.info(`› ${source}... ${documents.length} items`);
 
     // add covisits using pQueue (there is a plan to change this : see #2915)
     let covisitDocuments = await pMap(documents, fetchCovisits, {
@@ -103,7 +97,7 @@ export async function injest() {
     // add NLP vectors
     if (!excludeSources.includes(source)) {
       covisitDocuments = await pMap(covisitDocuments, addVector, {
-        concurrency: 3,
+        concurrency: 5,
       });
     }
     await indexDocumentsBatched({
@@ -114,7 +108,7 @@ export async function injest() {
     });
   }
 
-  console.log(`done in ${(Date.now() - t0) / 1000} s`);
+  logger.log(`done in ${(Date.now() - t0) / 1000} s`);
 
   // Indexing Suggestions
   await populateSuggestions(client, `${SUGGEST_INDEX_NAME}-${ts}`);
