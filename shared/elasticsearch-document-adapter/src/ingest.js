@@ -108,7 +108,7 @@ export async function injest() {
     });
   }
 
-  logger.log(`done in ${(Date.now() - t0) / 1000} s`);
+  logger.info(`done in ${(Date.now() - t0) / 1000} s`);
 
   // Indexing Suggestions
   await populateSuggestions(client, `${SUGGEST_INDEX_NAME}-${ts}`);
