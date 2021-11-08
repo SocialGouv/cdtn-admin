@@ -11,6 +11,7 @@
     "url": "https://github.com/SocialGouv/cdtn-admin.git"
   },
   "license": "Apache-2.0",
+  "private": "true",
   "dependencies": {
     "@socialgouv/dila-api-client": "^1.2.1"
   },
