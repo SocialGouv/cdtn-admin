@@ -34,13 +34,13 @@ const esClientConfig = {
 const client = new Client(esClientConfig);
 
 async function addVector(data) {
-  console.log(`---- ADD VECTOR ${NLP_URL} ----`);
+  console.log(`Fetch vector for ${data.id} (${data.cdtnId})`);
   if (NLP_URL) {
     if (!data.title) {
       console.error(`No title for document ${data.source} / ${data.slug}`);
     }
     const title = data.title || "sans titre";
-    await vectorizeDocument(title, data.text)
+    await vectorizeDocument(data.id, title, data.text)
       .then((title_vector) => {
         if (title_vector.message) {
           throw new Error(`error fetching message ${data.title}`);
@@ -48,13 +48,15 @@ async function addVector(data) {
         data.title_vector = title_vector;
       })
       .catch((err) => {
-        console.error("Vectorization failed", err);
-        console.error(
-          `Vectorization failed: ${data.title} (${err.retryCount} times)`
-        );
+        if (err.name === "TimeoutError") {
+          console.error(`Vectorization failed timeout: ${data.id}`);
+        }
+        console.error(`Vectorization failed: ${data.id}`, err);
+        /*
         throw new Error(
           `Vectorization failed: ${data.title} (${err.retryCount} times)`
         );
+         */
       });
   }
 
@@ -95,19 +97,14 @@ export async function injest() {
     console.log(`› ${source}... ${documents.length} items`);
 
     // add covisits using pQueue (there is a plan to change this : see #2915)
-    console.time("fetchCovisits");
     let covisitDocuments = await pMap(documents, fetchCovisits, {
       concurrency: 20,
     });
-    console.timeEnd("fetchCovisits");
     // add NLP vectors
     if (!excludeSources.includes(source)) {
-      console.time("addVector");
       covisitDocuments = await pMap(covisitDocuments, addVector, {
         concurrency: 3,
       });
-      console.timeEnd("addVector");
-      console.log(`finished vectorize ${source} documents`);
     }
     await indexDocumentsBatched({
       client,

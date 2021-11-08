@@ -31,33 +31,18 @@ function preprocess(text) {
   return noStopWords.join(" ");
 }
 
-let count = 0;
 async function callTFServe(json) {
-  count++;
-  console.log("CALL TF SERVER start", count);
-  console.time(`CALL TF SERVER ${count}`);
   const response = await got.post(tfServeURL, {
     cache,
     json,
     responseType: "json",
-    retry: {
-      limit: 15,
-      methods: ["POST"],
-    },
+    retries: 0,
+    timeout: 600000,
   });
-  console.timeEnd(`CALL TF SERVER ${count}`);
-  if (!response) {
-    console.log("Response is null", response);
-  }
-  if (!response.body) {
-    console.log("Response body is null", response);
-  }
-
-  console.log("Response status code", response.statusCode);
   return response.body["outputs"];
 }
 
-async function vectorizeDocument(title, content) {
+async function vectorizeDocument(id, title, content) {
   if (title == undefined || title == "") {
     throw new Error("Cannot vectorize document with empty title.");
   }
@@ -69,10 +54,10 @@ async function vectorizeDocument(title, content) {
     inputs: { context, input },
     signature_name: "response_encoder",
   };
-  console.log("Info to send");
-  console.log("input", input);
+  console.time(`CALL TF SERVER ${id}`);
   const vectors = await callTFServe(body);
-  console.log("vectors lenght", vectors.length);
+  console.timeEnd(`CALL TF SERVER ${id}`);
+
   return vectors[0];
 }
 
