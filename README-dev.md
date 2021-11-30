@@ -2,29 +2,28 @@
 
 ## URLs
 
-| Environnement                                      | URL                                           |
-| -------------------------------------------------- | --------------------------------------------- |
-| Production (access granted only for authorized IP) | <https://cdtn-admin.fabrique.social.gouv.fr/> |
+| Environnement                                      | URL                                                       |
+| -------------------------------------------------- | --------------------------------------------------------- |
+| Production (access granted only for authorized IP) | <https://cdtn-admin.fabrique.social.gouv.fr/>             |
+| Preproduction                                      | <https://preprod-cdtn-admin.dev.fabrique.social.gouv.fr/> |
 
 ## Overview
 
-This git repository is a monorepo composed of 4 projects.
+This git repository is a monorepo composed of 5 projects.
 
 ### Hasura
 
-Used to expose data through a GraphQL API.
-It contains the metadata and migrations for Hasura.
+Used to expose data through a GraphQL API. It contains the metadata and migrations for Hasura.
 
-See the [Hasura documentation](https://hasura.io/docs/1.0/graphql/core/index.html) for more information.
-We recommend to [install the hasura console](https://hasura.io/docs/1.0/graphql/core/hasura-cli/install-hasura-cli.html) which provides a graphql sandbox and an administration UI for hasura.
-
-` ``
+See the [Hasura documentation](https://hasura.io/docs/1.0/graphql/core/index.html) for more information. We recommend
+to [install the hasura console](https://hasura.io/docs/1.0/graphql/core/hasura-cli/install-hasura-cli.html) which
+provides a graphql sandbox and an administration UI for hasura.
 
 ### Ingester
 
 Used to populate the database with documents provided by external sources.
 
-There is, at this moment (February 2021), 4 sources:
+There is, at this moment (February 2021), 5 sources:
 
 - [@SocialGouv/contributions-data](https://github.com/SocialGouv/contributions-data)
 - [@SocialGouv/fiches-travail-data](https://github.com/SocialGouv/fiches-travail-data)
@@ -32,19 +31,19 @@ There is, at this moment (February 2021), 4 sources:
 - [@SocialGouv/kali-data](https://github.com/SocialGouv/kali-data)
 - [@SocialGouv/legi-data](https://github.com/SocialGouv/legi-data)
 
-Each GitHub repo uses releases to track changes. Each release exposes content as JSON.
-Ingester retrieves the last version and inject data into Hasura.
+Each GitHub repo uses releases to track changes. Each release exposes content as JSON. Ingester retrieves the last
+version and inject data into Hasura.
 
 ### alert-cli
 
-Used to detect changes between external source packages.
-For each new release of an external packages, this script compares the content and insert diff in the database.
+Used to detect changes between external source packages. For each new release of an external packages, this script
+compares the content and insert diff in the database.
 
 See [documentation](targets/alert-cli/README.md) for more detail.
 
 ## Setup
 
-Make sure you're using NodeJS 12+.
+Make sure you're using the last NodeJS.
 
 ```sh
 # Install all the packages
@@ -72,11 +71,11 @@ A postgreSQL database is used to store the data exposed through a Hasura instanc
 
 ### Configure a Hasura instance
 
-A Hasura instance is used to expose the data stored in postgreSQL through a GraphQL API.
-See the [Hasura documentation](https://hasura.io/docs/1.0/graphql/core/index.html) for more information.
+A Hasura instance is used to expose the data stored in postgreSQL through a GraphQL API. See
+the [Hasura documentation](https://hasura.io/docs/1.0/graphql/core/index.html) for more information.
 
-This step creates a new Hasura instance with the schema,
-and some data (see [metadata](targets/hasura/metadata) and [migrations](targets/hasura/migrations) files of hasura target).
+This step creates a new Hasura instance with the schema, and some data (see [metadata](targets/hasura/metadata)
+and [migrations](targets/hasura/migrations) files of hasura target).
 
 To access to the Hasura console, run this command:
 
@@ -84,7 +83,8 @@ To access to the Hasura console, run this command:
 hasura console --envfile ../../.env --project targets/hasura
 ```
 
-A webpage is opened in your browser. The password is `admin1` as set in the `.env` file (`HASURA_GRAPHQL_ADMIN_SECRET` key).
+A webpage is opened in your browser. The password is `admin1` as set in the `.env` file (`HASURA_GRAPHQL_ADMIN_SECRET`
+key).
 
 > Start only the Hasura instance (it starts the postgreSQL as dependency):
 >
@@ -107,11 +107,10 @@ services:
 
 ### Inject documents
 
-A part of the content is based on documents retrieved from another services (code du travail, contributions, fiche travail/emploi...).
+A part of the content is based on documents retrieved from another services (code du travail, contributions, fiche
+travail/emploi...).
 
 This step runs the Ingester script and populate the documentation.
-
-This step doesn't work correctly at this moment, an (issue)[https://github.com/SocialGouv/cdtn-admin/issues/319] has been opened to fix it.
 
 > Run the Ingester (it starts Hasura as dependency):
 >
@@ -123,12 +122,12 @@ This step doesn't work correctly at this moment, an (issue)[https://github.com/S
 
 An administration website is available to configure and inject custom data.
 
-This step starts the frontend project (based on `next.js`).
-User and admin accounts are automatically created by the Hasura step.
+This step starts the frontend project (based on `next.js`). User and admin accounts are automatically created by the
+Hasura step.
 
 | Type  | Username                               | Password |
 | ----- | -------------------------------------- | -------- |
-| Admin | codedutravailnumerique@travail.gouv.fr | admin1   |
+| Admin | codedutravailnumerique@travail.gouv.fr | admin    |
 | User  | utilisateur@travail.gouv.fr            | user     |
 
 Frontend is reachable at the address <http://localhost:3000>
@@ -159,11 +158,11 @@ select audit.audit_table('documents');
 -- Le trigger peut être configuré pour
 select audit.audit_table('documents',
 -- se declencher au niveau ROW ou STATEMENT
-'false',
+                         'false',
 -- enregistrer le text de la requête
-'false',
+                         'false',
 -- ignorer d'enregistrer certains champs
-'{text}');
+                         '{text}');
 ```
 
 Pour voir la [configuration du trigger](targets/hasura/migrations/1613474820206_audit_trigger/up.sql)
@@ -179,13 +178,15 @@ Pour l'instant seulement 2 triggers sont en place:
 
 ## How to ?
 
-### How to retrieve CDTN data from production ?
+### Injecter les données depuis la production
 
-At this moment, the database is populated only by external documents (contributions, code du travail...).
-All CDTN data (written by the CDTN team) are not populated in the database.
-An [issue](https://github.com/SocialGouv/cdtn-admin/issues/320) has been opened to find the better way to import data from the production into a dev environment.
+Actuellement, l'ingester permet d'alimenter la base de données avec les documents externes (contributions, code du
+travail...). Toutes les données écrites par l'équipe (thèmes, dossiers, modèles...) doivent, par contre, être récupéré
+depuis la base de données en production.
 
-Once you have a backup, you can restore from a previous backup using
+Une [issue](https://github.com/SocialGouv/cdtn-admin/issues/320) a été ouverte pour trouver la meilleure façon de
+récupérer les données de production dans un environnement de dev. Actuellement, la meilleure solution est de demander un
+backup de la base de données à l'équipe SRE et d'exécuter les commandes suivantes :
 
 ```sh
 docker-compose exec -T postgres pg_restore \
@@ -200,6 +201,44 @@ docker-compose exec -T postgres psql \
   --dbname postgres --user postgres \
   < .k8s/components/jobs/restore/post-restore.sql
 ```
+
+### Alimenter l'elasticsearch en local (pour le CDTN frontend)
+
+Dans un premier temps, il faut lancer un elasticsearch. La documentation est disponible dans le
+projet [readme dev](https://github.com/SocialGouv/code-du-travail-numerique/blob/master/README-dev.md) du
+projet [code-du-travail-numerique](https://github.com/SocialGouv/code-du-travail-numerique).
+
+Il faut ensuite lancer l'`ingester-elasticsearch` pour alimenter l'elasticsearch. Ce dernier récupérant les données
+depuis hasura, il est préférable de récupérer les données de prod (
+cf : [Injecter les données depuis la production](https://github.com/SocialGouv/cdtn-admin/blob/master/README-dev.md#injecter-les-donnees-depuis-la-production))
+
+Pour lancer l'`ingester-elasticsearch`, il suffit de lancer la commande suivante :
+
+```sh
+ES_INDEX_PREFIX=cdtn-v1 yarn workspace ingester-es start:dev
+```
+
+**Note :** La durée d'exécution prend du temps (environ 15 minutes)
+
+Par défaut, la commande va alimenter l'elasticsearch en local sur le port 9200 qui est le port utilisé par
+l'elasticsearch du projet [code-du-travail-numerique](https://github.com/SocialGouv/code-du-travail-numerique).
+
+Ce script utilise les variables suivantes :
+
+| Variable  | Description | Par défaut |
+| --------- |  ---------  | ---------  |
+| CDTN_ADMIN_ENDPOINT | URL vers l'endpoint de l'admin (ou d'hasura) | http://localhost:8080/v1/graphql |  
+| HASURA_GRAPHQL_ENDPOINT | URL vers l'endpoint GraphQL d'Hasura | http://localhost:8082/v1/graphql |
+| HASURA_GRAPHQL_ADMIN_SECRET | L'admin secret pour se connected à Hasura | admin1 |
+| HASURA_GRAPHQL_JWT_SECRET | Le JWT secret pour se connected à Hasura | `{"type": "HS256", "key": "a_pretty_long_secret_key_that_should_be_at_least_32_char"}` |
+| NLP_URL | URL vers le [serving-ml](https://github.com/SocialGouv/serving-ml) permettant de vectoriser les documents | vide |
+| ES_LOGS | URL ver le [monolog](https://github.com/SocialGouv/cdtn-monolog) permettant de récupérer les covisites sur les pages | vide | 
+| ES_LOGS_TOKEN | Token pour se connecter au monolog | vide |
+
+Certaines variables permettent d'activer une fonctionnalité :
+
+ * `NLP_URL` permet d'activer la vectorisation des documents pour la recherche. Pour l'activer, vous pouvez utiliser l'URL <https://preprod-serving-ml.dev.fabrique.social.gouv.fr>.
+ * `ES_LOGS` et `ES_LOGS_TOKEN` permettent d'activer les `Articles liés`. Pour l'activer, vous pouvez récupérer ces informations depuis Rancher. 
 
 ## Linked repositories
 
@@ -231,14 +270,19 @@ docker-compose exec -T postgres psql \
 
 ### Désynchronisation des PRs et des pipelines Gitlab
 
-**Symptômes:** 
+**Symptômes:**
 
-À chaque PR Github, le check `ci/gitlab/gitlab.factory.social.gouv.fr` reste bloqué sur `Expected — Waiting for status to be reported`. Sur Gitlab, la branche est bien présente et la pipeline associée fonctionne.  
+À chaque PR Github, le check `ci/gitlab/gitlab.factory.social.gouv.fr` reste bloqué
+sur `Expected — Waiting for status to be reported`. Sur Gitlab, la branche est bien présente et la pipeline associée
+fonctionne.
 
-**Résolution:** 
+**Résolution:**
 
-Il faut mettre à jour le token Github. Commencez par créer un [nouveau token Github](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token), sélectionnez le scope `repo` sans expiration.
+Il faut mettre à jour le token Github. Commencez par créer
+un [nouveau token Github](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+, sélectionnez le scope `repo` sans expiration.
 
-Puis dans Gitlab, `cdtn-admin > Settings > Integrations > Github`, copiez le token Github, cliquez sur `Test settings` et si OK, cliquez sur `Save changes`. 
+Puis dans Gitlab, `cdtn-admin > Settings > Integrations > Github`, copiez le token Github, cliquez sur `Test settings`
+et si OK, cliquez sur `Save changes`.
 
 Pour relancer les checks sur les PRs, vous pouvez supprimer la branche dans gitlab et relancer le check 🇫🇷 sur Github.
