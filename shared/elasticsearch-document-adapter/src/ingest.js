@@ -91,15 +91,18 @@ export async function injest() {
     logger.info(`› ${source}... ${documents.length} items`);
 
     // add covisits using pQueue (there is a plan to change this : see #2915)
+    logger.info(`› Fetch covisits`);
     let covisitDocuments = await pMap(documents, fetchCovisits, {
       concurrency: 20,
     });
     // add NLP vectors
+    logger.info(`› Fetch NLP vectors`);
     if (!excludeSources.includes(source)) {
       covisitDocuments = await pMap(covisitDocuments, addVector, {
         concurrency: 5,
       });
     }
+    logger.info(`› Save documents`);
     await indexDocumentsBatched({
       client,
       documents: covisitDocuments,
