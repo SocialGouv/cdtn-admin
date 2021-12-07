@@ -313,7 +313,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user-dev
-          image: ghcr.io/socialgouv/docker/azure-db:6.45.0
+          image: ghcr.io/socialgouv/docker/azure-db:6.56.1
           imagePullPolicy: IfNotPresent
           name: restore-db
           resources:
@@ -350,7 +350,7 @@ spec:
             - name: PGSSLMODE
               value: require
           envFrom: []
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.56.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -771,7 +771,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user-dev
-          image: ghcr.io/socialgouv/docker/azure-db:6.45.0
+          image: ghcr.io/socialgouv/docker/azure-db:6.56.1
           imagePullPolicy: IfNotPresent
           name: restore-db
           resources:
@@ -809,7 +809,7 @@ spec:
             - name: PGSSLMODE
               value: require
           envFrom: []
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.56.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
