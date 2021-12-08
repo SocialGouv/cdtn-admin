@@ -9,5 +9,9 @@ export function createToJson<T>(file: string) {
     tree
       .getEntry(file)
       .then(async (entry) => entry.getBlob())
-      .then((blob) => JSON.parse(blob.toString()) as T);
+      .then((blob) => JSON.parse(blob.toString()) as T)
+      .catch((e) => {
+        if (!e.message?.match(/does not exist in the given tree/)) throw e;
+        return {} as T;
+      });
 }
