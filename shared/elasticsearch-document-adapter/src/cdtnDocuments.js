@@ -126,6 +126,18 @@ export async function* cdtnDocumentsGen() {
     getBreadcrumbs
   );
 
+  const ccnData = await getDocumentBySource(SOURCES.CCN);
+  const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
+    return ccn.highlight;
+  });
+  const ccnListWithHighlight = ccnListWithHighlightFiltered.reduce(
+    (acc, curr) => {
+      acc[curr.num] = curr.highlight;
+      return acc;
+    },
+    {}
+  );
+
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
     (state, contribution) => {
       if (contribution.breadcrumbs.length > 0) {
@@ -147,20 +159,32 @@ export async function* cdtnDocumentsGen() {
 
   yield {
     documents: contributions.map(
-      ({ answers, breadcrumbs, ...contribution }) => ({
-        ...contribution,
-        answers: {
-          ...answers,
-          generic: {
-            ...answers.generic,
-            markdown: addGlossary(answers.generic.markdown),
+      ({ answers, breadcrumbs, ...contribution }) => {
+        const newAnswer = answers;
+        if (newAnswer.conventions) {
+          newAnswer.conventions = answers.conventions.map((answer) => {
+            const highlight = ccnListWithHighlight[answer.idcc];
+            return {
+              ...answer,
+              ...(highlight ? { highlight } : {}),
+            };
+          });
+        }
+        return {
+          ...contribution,
+          answers: {
+            ...newAnswer,
+            generic: {
+              ...answers.generic,
+              markdown: addGlossary(answers.generic.markdown),
+            },
           },
-        },
-        breadcrumbs:
-          breadcrumbs.length > 0
-            ? breadcrumbs
-            : breadcrumbsOfRootContributionsPerIndex[contribution.index],
-      })
+          breadcrumbs:
+            breadcrumbs.length > 0
+              ? breadcrumbs
+              : breadcrumbsOfRootContributionsPerIndex[contribution.index],
+        };
+      }
     ),
     source: SOURCES.CONTRIBUTIONS,
   };
@@ -168,7 +192,7 @@ export async function* cdtnDocumentsGen() {
   logger.info("=== Conventions Collectives ===");
   const ccnQR =
     "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";
-  const ccnData = await getDocumentBySource(SOURCES.CCN);
+
   yield {
     documents: ccnData.map(({ title, shortTitle, ...content }) => {
       // we use our custom description
