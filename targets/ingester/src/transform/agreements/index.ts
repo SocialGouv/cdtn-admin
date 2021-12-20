@@ -8,6 +8,7 @@ import html from "remark-html";
 import type { AgreementPage } from "../../index.js";
 import { formatIdcc } from "../../lib/formatIdcc.js";
 import { getJson } from "../../lib/getJson.js";
+import getAgreementsWithHighlight from "./agreementsWithHighlight";
 import { getAllKaliBlocks } from "./getKaliBlock.js";
 import { getKaliArticlesByTheme } from "./kaliArticleBytheme.js";
 
@@ -39,12 +40,17 @@ export default async function getAgreementDocuments(pkgName: string) {
     };
   });
 
+  const agreementsWithHighlight = await getAgreementsWithHighlight();
+
   const agreementPages: AgreementPage[] = [];
 
   for (const agreement of agreements) {
     const agreementTree = await getJson<Agreement>(
       `@socialgouv/kali-data/data/${agreement.id}.json`
     );
+
+    const highlight = agreementsWithHighlight[agreement.num];
+
     agreementPages.push({
       ...getCCNInfo(agreement),
       answers: getContributionAnswers(contributionsWithSlug, agreement.num),
@@ -55,6 +61,7 @@ export default async function getAgreementDocuments(pkgName: string) {
       is_searchable: true,
       source: SOURCES.CCN,
       synonymes: agreement.synonymes,
+      ...(highlight ? { highlight } : {}),
     });
   }
   const sorter = createSorter(({ num }: AgreementPage) => num);
