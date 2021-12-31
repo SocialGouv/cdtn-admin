@@ -72,7 +72,6 @@ async function vectorizeQuery(query) {
     signature_name: "question_encoder",
   };
   const vectors = await callTFServe(body);
-  console.log("vectors lenght", vectors.length);
   return vectors[0];
 }
 
