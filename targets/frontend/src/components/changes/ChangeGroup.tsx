@@ -45,6 +45,7 @@ type ChangesProps = {
 type DilaChangesProps = {
   changes: DilaAlertChanges;
 };
+
 export function AlertRelatedDocuments({
   changes,
 }: DilaChangesProps): JSX.Element {
@@ -103,6 +104,7 @@ export function DilaRelatedDocuments({
 type FicheRelatedDocumentsProps = {
   doc: DocumentInfoWithCdtnRef;
 };
+
 export function FicheRelatedDocuments({
   doc,
 }: FicheRelatedDocumentsProps): JSX.Element {
@@ -341,6 +343,10 @@ const DilaLink: React.FC<DilaLinkProps> = ({ info, children }) => {
   const { parents, id, title } = info;
   let url = "";
   const baseUrl = "https://legifrance.gouv.fr";
+  // Sometimes, there is no id on the diff. So we can't create an URL.
+  if (!id) {
+    return <>{children && title}</>;
+  }
   if (id.startsWith("LEGI")) {
     if (/ARTI/.test(id)) {
       // article d'un code

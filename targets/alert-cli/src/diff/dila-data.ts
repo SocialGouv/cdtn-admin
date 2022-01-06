@@ -105,12 +105,16 @@ export async function processDilaDataDiff(
             { file: fileChange.file }
           );
         }
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        const data = fileChange.current.data
+          ? fileChange.current.data
+          : fileChange.previous.data;
         return {
           ...changes,
           documents,
           file: fileChange.file,
-          id: fileChange.current.data.id,
-          title: fileChange.current.data.title,
+          id: data.id,
+          title: data.title,
         };
       } else {
         const changes = compareTree<Agreement>(fileChange);
@@ -121,13 +125,17 @@ export async function processDilaDataDiff(
             { file: fileChange.file }
           );
         }
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        const data = fileChange.current.data
+          ? fileChange.current.data
+          : fileChange.previous.data;
         return {
           ...changes,
           documents,
           file: fileChange.file,
-          id: fileChange.current.data.id,
-          num: fileChange.current.data.num,
-          title: fileChange.current.data.shortTitle,
+          id: data.id,
+          num: data.num,
+          title: data.shortTitle,
         };
       }
     })
@@ -278,6 +286,7 @@ function removedNodeAdapter(node: WithParent<DilaNode>): DilaRemovedNode {
       node.type === "article" ? node.data.num ?? "Article" : node.data.title,
   };
 }
+
 const createModifiedAdapter =
   (modified: WithParent<DilaNode>[]) =>
   (node: WithParent<DilaNode>): DilaModifiedNode => {
