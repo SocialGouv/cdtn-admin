@@ -1,14 +1,18 @@
 import type { DilaChanges, DocumentReferences } from "@shared/types";
 
-import getContribReferences from "../extractDilaReferences/contribution";
-import getEditorialContentReferences from "../extractDilaReferences/editorialContents";
-import getTravailEmploiReferences from "../extractDilaReferences/ficheTravailEmploi";
-import getMailTemplateReferences from "../extractDilaReferences/mailTemplates";
+import getContribReferences from "../../extractDilaReferences/contribution";
+import getEditorialContentReferences from "../../extractDilaReferences/editorialContents";
+import getTravailEmploiReferences from "../../extractDilaReferences/ficheTravailEmploi";
+import getMailTemplateReferences from "../../extractDilaReferences/mailTemplates";
 
-export async function getRelevantDocuments({
+export type RelevantDocumentsFunction = (
+  data: Pick<DilaChanges, "modified" | "removed">
+) => Promise<DocumentReferences[]>;
+
+export const getRelevantDocuments: RelevantDocumentsFunction = async ({
   modified,
   removed,
-}: Pick<DilaChanges, "modified" | "removed">): Promise<DocumentReferences[]> {
+}) => {
   const contribReferences = await getContribReferences();
   const travailEmploiReferences = await getTravailEmploiReferences();
   const mailTemplateRef = await getMailTemplateReferences();
@@ -35,4 +39,4 @@ export async function getRelevantDocuments({
     return [];
   });
   return documents;
-}
+};

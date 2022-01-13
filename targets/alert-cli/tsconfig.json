@@ -1,10 +1,11 @@
 {
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "target": "es2015",
+    "module": "es2015",
     "moduleResolution": "node",
-    "declaration": false
+    "allowJs": true,
+
   },
   "include": [
     "src",
