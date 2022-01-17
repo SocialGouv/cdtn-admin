@@ -43,6 +43,15 @@ export function DuplicateContentPage(): JSX.Element {
         <Badge variant="secondary">themes</Badge>,{" "}
         <Badge variant="secondary"> requetes pré-qualifiées</Badge> ou{" "}
         <Badge variant="secondary">A la une</Badge>
+        Les contenus listés ici n&apos;apparaissent déjà plus en prod, cette
+        rubrique a pour but d&apos;identifier les contenus à retirer des thèmes
+        et des requêtes dans l&apos;admin (pour que les contenus que l&apos;on
+        trouve dans les thèmes/requêtes de l&apos;admin soient la copie conforme
+        des contenus présents dans les thèmes/requêtes en prod). Si un contenu
+        qui apparaît ici est disponible mais simplement dépublié (ex : le temps
+        de la mise à jour de la fiche), il ne faut pas supprimer cette fiche du
+        thème parent (pour qu&apos;elle apparaisse dans le thème au moment de la
+        republication de la fiche sans action supplémentaire).
       </p>
       <Table>
         <thead>
@@ -59,17 +68,7 @@ export function DuplicateContentPage(): JSX.Element {
           return (
             <Tr key={`${id}`}>
               <Td>{getLabelBySource(parent.source)}</Td>
-              <Td>
-                <Link
-                  href={sourceToRoute({
-                    cdtnId: parent.cdtn_id,
-                    source: parent.source,
-                  })}
-                  passHref
-                >
-                  <NavLink>{parent.title}</NavLink>
-                </Link>
-              </Td>
+              <Td>{parent.title}</Td>
               <Td>
                 <Link
                   href={`/${
