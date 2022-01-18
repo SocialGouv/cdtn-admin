@@ -1,13 +1,8 @@
-import type { DilaChanges, DocumentReferences } from "@shared/types";
-
 import getContribReferences from "../../extractDilaReferences/contribution";
 import getEditorialContentReferences from "../../extractDilaReferences/editorialContents";
 import getTravailEmploiReferences from "../../extractDilaReferences/ficheTravailEmploi";
 import getMailTemplateReferences from "../../extractDilaReferences/mailTemplates";
-
-export type RelevantDocumentsFunction = (
-  data: Pick<DilaChanges, "modified" | "removed">
-) => Promise<DocumentReferences[]>;
+import type { RelevantDocumentsFunction } from "./types";
 
 export const getRelevantDocuments: RelevantDocumentsFunction = async ({
   modified,
@@ -22,7 +17,7 @@ export const getRelevantDocuments: RelevantDocumentsFunction = async ({
     mailTemplateRef,
     editorialContentRef
   );
-  const documents = docsReferences.flatMap((item) => {
+  return docsReferences.flatMap((item) => {
     const references = item.references.filter(
       (ref) =>
         modified.find(
@@ -38,5 +33,4 @@ export const getRelevantDocuments: RelevantDocumentsFunction = async ({
     }
     return [];
   });
-  return documents;
 };

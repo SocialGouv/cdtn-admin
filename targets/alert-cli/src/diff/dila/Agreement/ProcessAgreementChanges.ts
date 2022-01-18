@@ -1,8 +1,7 @@
 import type { GitTagData } from "../../../types";
-import type { RelevantDocumentsFunction } from "../ReleventDocuments";
-import type { DilaChanges } from "../type";
+import type { DilaChanges, RelevantDocumentsFunction } from "../types";
 import { compareAgreementTree } from "./CompareAgreementTree";
-import type { AgreementFileChange } from "./ProcessAgreementFileChanges";
+import type { AgreementFileChange } from "./types";
 
 const processAgreementChanges = async (
   tag: GitTagData,
@@ -19,13 +18,19 @@ const processAgreementChanges = async (
           { file: fileChange.file }
         );
       }
+
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      const data = fileChange.current.data
+        ? fileChange.current.data
+        : fileChange.previous.data;
+
       return {
         ...changes,
         documents,
         file: fileChange.file,
-        id: fileChange.current.data.id,
-        num: fileChange.current.data.num,
-        title: fileChange.current.data.shortTitle,
+        id: data.id,
+        num: data.num,
+        title: data.shortTitle,
       };
     })
   );

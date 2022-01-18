@@ -2,13 +2,7 @@ import type { Agreement } from "@socialgouv/kali-data-types";
 import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../../../node-git.helpers";
-
-export type AgreementFileChange = {
-  type: "kali";
-  current: Agreement;
-  previous: Agreement;
-  file: string;
-};
+import type { AgreementFileChange } from "./types";
 
 const agreementFileChanges = async (
   file: string,

@@ -7,10 +7,7 @@ import * as semver from "semver";
 
 import { batchPromises } from "./batchPromises";
 import { ccns } from "./ccn-list";
-import {
-  processAgreementDataDiff,
-  processCodeDataDiff,
-} from "./diff/dila/ProcessDilaDataDiff";
+import { processAgreementDataDiff, processCodeDataDiff } from "./diff/dila";
 import { processTravailDataDiff } from "./diff/fiches-travail-data";
 import { processVddDiff } from "./diff/fiches-vdd";
 import type { DataDiffFunction } from "./diff/type";

@@ -9,8 +9,8 @@ import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
 import parents from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
-import type { Diff, WithParent } from "../type";
-import type { CodeFileChange } from "./ProcessCodeFileChanges";
+import type { Diff, WithParent } from "../types";
+import type { CodeFileChange } from "./types";
 
 const legiArticleDiff = (art1: CodeArticle, art2: CodeArticle) =>
   art1.data.texte !== art2.data.texte ||

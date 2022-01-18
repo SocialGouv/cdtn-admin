@@ -12,8 +12,8 @@ import type {
 import parents from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
-import type { Diff, WithParent } from "../type";
-import type { AgreementFileChange } from "./ProcessAgreementFileChanges";
+import type { Diff, WithParent } from "../types";
+import type { AgreementFileChange } from "./types";
 
 const kaliArticleDiff = (art1: AgreementArticle, art2: AgreementArticle) =>
   art1.data.content !== art2.data.content || art1.data.etat !== art2.data.etat;

@@ -1,3 +1,3 @@
 import processAgreementDataDiff from "./ProcessAgreementDataDiff";
 
-export default processAgreementDataDiff;
+export { processAgreementDataDiff };

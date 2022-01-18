@@ -1,7 +1,2 @@
-import processAgreementDataDiff from "./Agreement";
-import processCodeDataDiff from "./Code";
-
-export default {
-  processAgreementDataDiff,
-  processCodeDataDiff,
-};
+export * from "./Agreement";
+export * from "./Code";

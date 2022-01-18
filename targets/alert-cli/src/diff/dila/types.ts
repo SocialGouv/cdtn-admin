@@ -3,6 +3,7 @@ import type {
   DilaChanges as CommonDilaChanges,
   DilaModifiedNode,
   DilaRemovedNode,
+  DocumentReferences,
 } from "@shared/types";
 import type {
   AgreementArticle,
@@ -30,3 +31,7 @@ export type Diff = {
   added: DilaAddedNode[];
   removed: DilaRemovedNode[];
 };
+
+export type RelevantDocumentsFunction = (
+  data: Pick<DilaChanges, "modified" | "removed">
+) => Promise<DocumentReferences[]>;

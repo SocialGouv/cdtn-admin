@@ -4,7 +4,6 @@ import type {
   DocumentReferences,
 } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import type { DilaRef } from "@socialgouv/contributions-data-types";
 import memoizee from "memoizee";
 
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";

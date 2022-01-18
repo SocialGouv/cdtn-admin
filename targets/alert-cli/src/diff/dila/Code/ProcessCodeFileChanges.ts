@@ -2,13 +2,7 @@ import type { Code } from "@socialgouv/legi-data-types";
 import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../../../node-git.helpers";
-
-export type CodeFileChange = {
-  type: "legi";
-  current: Code;
-  previous: Code;
-  file: string;
-};
+import type { CodeFileChange } from "./types";
 
 const codeFileChanges = async (
   file: string,

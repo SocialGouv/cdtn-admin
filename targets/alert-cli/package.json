@@ -54,8 +54,7 @@
     "lint": "eslint src",
     "clean": "rm -rf data/*",
     "types": "tsc",
-    "test": "jest",
-    "build-ts": "tsc"
+    "test": "jest"
   },
   "lint-staged": {
     "*.{j,t}s": [

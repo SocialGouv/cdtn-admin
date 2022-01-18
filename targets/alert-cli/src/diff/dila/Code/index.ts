@@ -1,3 +1,3 @@
 import processCodeDataDiff from "./ProcessCodeDataDiff";
 
-export default processCodeDataDiff;
+export { processCodeDataDiff };
