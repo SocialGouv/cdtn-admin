@@ -5,7 +5,9 @@
     "module": "es2015",
     "moduleResolution": "node",
     "allowJs": true,
-
+    "plugins": [
+      { "transform": "typescript-is/lib/transform-inline/transformer" }
+    ]
   },
   "include": [
     "src",

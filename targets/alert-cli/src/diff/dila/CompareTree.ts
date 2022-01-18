@@ -3,32 +3,79 @@ import type {
   DilaModifiedNode,
   DilaNode,
   DilaRemovedNode,
-  DilaSection,
 } from "@shared/types";
+import type {
+  AgreementArticle,
+  AgreementArticleData,
+  AgreementSection,
+  AgreementSectionData,
+} from "@socialgouv/kali-data-types";
 import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
+import { is } from "typescript-is";
 import parents from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
-import type { Diff, WithParent } from "../types";
-import type { CodeFileChange } from "./types";
+import type { AgreementFileChange } from "./Agreement/types";
+import type { CodeFileChange } from "./Code/types";
+import type { Diff } from "./types";
 
-const legiArticleDiff = (art1: CodeArticle, art2: CodeArticle) =>
-  art1.data.texte !== art2.data.texte ||
-  art1.data.etat !== art2.data.etat ||
-  art1.data.nota !== art2.data.nota;
+type Article<T> = T extends { data: AgreementArticleData }
+  ? AgreementArticle
+  : CodeArticle;
 
-export function compareCodeTree(fileChange: CodeFileChange): Diff {
+type Section<T> = T extends { data: AgreementSectionData }
+  ? AgreementSection
+  : CodeSection;
+
+type FileChange<T> = T extends { type: "kali" }
+  ? AgreementFileChange
+  : CodeFileChange;
+
+type Parent<T> = T extends CodeArticle | CodeSection
+  ? CodeSection
+  : AgreementSection;
+
+type WithParent<T> =
+  | (Article<T> & {
+      parent: WithParent<Parent<T>> | null;
+    })
+  | (Section<T> & {
+      parent: WithParent<Parent<T>> | null;
+    });
+
+const articleDiff = <T>(
+  art1: WithParent<Article<T>>,
+  art2: WithParent<Article<T>>
+): boolean => {
+  if (is<CodeArticle>(art1) && is<CodeArticle>(art2)) {
+    return (
+      art1.data.texte !== art2.data.texte ||
+      art1.data.etat !== art2.data.etat ||
+      art1.data.nota !== art2.data.nota
+    );
+  } else if (is<AgreementArticle>(art1) && is<AgreementArticle>(art2)) {
+    return (
+      art1.data.content !== art2.data.content ||
+      art1.data.etat !== art2.data.etat
+    );
+  }
+  return false;
+};
+
+export function compareTree<T extends AgreementFileChange | CodeFileChange>(
+  fileChange: FileChange<T>
+): Diff {
   const previousText = parents(fileChange.previous);
   const currentText = parents(fileChange.current);
 
   // all articles from tree1
-  const articlesPrevious = selectAll<WithParent<CodeArticle>>(
+  const articlesPrevious = selectAll<WithParent<Article<T>>>(
     "article",
     previousText
   );
   const articlesPreviousCids = articlesPrevious.map((a) => a.data.cid);
   // all articles from tree2
-  const articlesCurrent = selectAll<WithParent<CodeArticle>>(
+  const articlesCurrent = selectAll<WithParent<Article<T>>>(
     "article",
     currentText
   );
@@ -52,19 +99,19 @@ export function compareCodeTree(fileChange: CodeFileChange): Diff {
       !newArticlesCids.includes(art.data.cid) &&
       articlesPrevious.find(
         // same article, different texte
-        (art2) => art2.data.cid === art.data.cid && legiArticleDiff(art, art2)
+        (art2) => art2.data.cid === art.data.cid && articleDiff<T>(art, art2)
       )
   );
 
   // all sections from tree1
-  const sectionsPrevious = selectAll<WithParent<CodeSection>>(
+  const sectionsPrevious = selectAll<WithParent<Section<T>>>(
     "section",
     previousText
   );
   const sectionsPreviousCids = sectionsPrevious.map((a) => a.data.cid);
 
   // all sections from tree2
-  const sectionsCurrent = selectAll<WithParent<CodeSection>>(
+  const sectionsCurrent = selectAll<WithParent<Section<T>>>(
     "section",
     currentText
   );
@@ -188,14 +235,16 @@ const createModifiedAdapter =
 
 const getParents = (node: WithParent<DilaNode>) => {
   const chain = [];
-  let tempNode: WithParent<DilaSection> | null = null;
+  let tempNode: WithParent<DilaNode> | null = null;
   if (node.type === "article") {
     tempNode = node.parent;
   } else {
     tempNode = node;
   }
   while (tempNode) {
-    chain.unshift(tempNode.data.title);
+    if (is<AgreementSectionData>(tempNode.data)) {
+      chain.unshift(tempNode.data.title);
+    }
     tempNode = tempNode.parent;
   }
   return chain;
