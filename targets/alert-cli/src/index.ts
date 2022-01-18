@@ -7,9 +7,10 @@ import * as semver from "semver";
 
 import { batchPromises } from "./batchPromises";
 import { ccns } from "./ccn-list";
-import { processDilaDataDiff } from "./diff/dila-data";
+import { processAgreementDataDiff, processCodeDataDiff } from "./diff/dila";
 import { processTravailDataDiff } from "./diff/fiches-travail-data";
 import { processVddDiff } from "./diff/fiches-vdd";
+import type { DataDiffFunction } from "./diff/type";
 import { exportContributionAlerts } from "./exportContributionAlerts";
 import { getFicheServicePublicIds as _getFicheServicePublicIds } from "./getFicheServicePublicIds";
 import { openRepo } from "./openRepo";
@@ -107,11 +108,12 @@ async function getFileFilter(
   }
 }
 
-function getDiffProcessor(repository: string) {
+function getDiffProcessor(repository: string): DataDiffFunction {
   switch (repository) {
     case "socialgouv/legi-data":
+      return processCodeDataDiff;
     case "socialgouv/kali-data":
-      return processDilaDataDiff;
+      return processAgreementDataDiff;
     case "socialgouv/fiches-vdd":
       return processVddDiff;
     case "socialgouv/fiches-travail-data":
@@ -219,14 +221,14 @@ async function getAlertChangesFromTags(
   const diff = await currTree.diff(prevTree);
   const patches = await diff.patches();
 
-  return diffProcessor(
-    repository,
-    currentTag,
-    patches,
-    fileFilter,
-    prevTree,
-    currTree
-  );
+  return diffProcessor({
+    currTree: currTree,
+    fileFilter: fileFilter,
+    patches: patches,
+    prevTree: prevTree,
+    repositoryId: repository,
+    tag: currentTag,
+  });
 }
 
 async function saveAlertChanges(

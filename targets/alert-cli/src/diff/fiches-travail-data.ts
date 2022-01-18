@@ -1,23 +1,20 @@
 import type {
   FicheTravailEmploiInfoWithDiff,
-  TravailDataAlertChanges,
   TravailDataChanges,
 } from "@shared/types";
 import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
-import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../node-git.helpers";
-import type { GitTagData } from "../types";
 import { ficheTravailPrequalifiedRelevantDocuments } from "./preQualified-relevantContent";
+import type { DataDiffFunction } from "./type";
 
-export async function processTravailDataDiff(
-  repositoryId: string,
-  tag: GitTagData,
-  patches: ConvenientPatch[],
-  fileFilter: (path: string) => boolean,
-  prevTree: Tree,
-  currTree: Tree
-): Promise<TravailDataAlertChanges[]> {
+export const processTravailDataDiff: DataDiffFunction = async ({
+  tag,
+  patches,
+  fileFilter,
+  prevTree,
+  currTree,
+}) => {
   const filteredPatches = patches.filter((patch) =>
     fileFilter(patch.newFile().path())
   );
@@ -53,7 +50,7 @@ export async function processTravailDataDiff(
       type: "travail-data",
       ...change,
     }));
-}
+};
 
 function getChanges(
   previousJson: FicheTravailEmploi[],

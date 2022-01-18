@@ -1,7 +1,7 @@
 declare module "unist-util-parents" {
   export type Root<Node> = Node & {
     parent: null;
-    children: NodeWithParent<Root, Node>[];
+    children: NodeWithParent<Root<Node>, Node>[];
   };
 
   export type NodeWithParent<Parent, Node> = Node & {

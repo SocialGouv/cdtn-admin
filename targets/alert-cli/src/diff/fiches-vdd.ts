@@ -1,23 +1,18 @@
-import type { FicheVddInfo, VddAlertChanges, VddChanges } from "@shared/types";
+import type { FicheVddInfo, VddChanges } from "@shared/types";
 import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../node-git.helpers";
-import type {
-  FicheVdd,
-  FicheVddIndex,
-  FicheVddNode,
-  GitTagData,
-} from "../types";
+import type { FicheVdd, FicheVddIndex, FicheVddNode } from "../types";
 import { vddPrequalifiedRelevantDocuments } from "./preQualified-relevantContent";
+import type { DataDiffFunction } from "./type";
 
-export async function processVddDiff(
-  repositoryId: string,
-  tag: GitTagData,
-  patches: ConvenientPatch[],
-  fileFilter: (path: string) => boolean,
-  prevTree: Tree,
-  currTree: Tree
-): Promise<VddAlertChanges[]> {
+export const processVddDiff: DataDiffFunction = async ({
+  tag,
+  patches,
+  fileFilter,
+  prevTree,
+  currTree,
+}) => {
   const changes: VddChanges = {
     added: [],
     documents: [],
@@ -138,7 +133,7 @@ export async function processVddDiff(
       documents,
     },
   ];
-}
+};
 
 const getTitleFromRawFiche = (fiche: FicheVdd): string => {
   const publication = fiche.children[0];
