@@ -14,8 +14,6 @@
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/dila-api-client": "^1.2.1",
-    "fp-ts": "^2.11.8",
-    "io-ts": "^2.2.16",
     "memoizee": "^0.4.15",
     "node-fetch": "^2.6.5",
     "nodegit": "0.27.0",
