@@ -6,62 +6,36 @@ import type {
 } from "@shared/types";
 import type {
   AgreementArticle,
-  AgreementArticleData,
-  AgreementSection,
   AgreementSectionData,
 } from "@socialgouv/kali-data-types";
-import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
+import type { CodeArticle } from "@socialgouv/legi-data-types";
 import { is } from "typescript-is";
 import parents from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
 import type { AgreementFileChange } from "./Agreement/types";
 import type { CodeFileChange } from "./Code/types";
-import type { Diff } from "./types";
+import type { Article, Diff, FileChange, Section, WithParent } from "./types";
 
-type Article<T> = T extends { data: AgreementArticleData }
-  ? AgreementArticle
-  : CodeArticle;
+const isCodeArticle = (
+  object: AgreementArticle | CodeArticle
+): object is CodeArticle => "texte" in object.data;
 
-type Section<T> = T extends { data: AgreementSectionData }
-  ? AgreementSection
-  : CodeSection;
-
-type FileChange<T> = T extends { type: "kali" }
-  ? AgreementFileChange
-  : CodeFileChange;
-
-type Parent<T> = T extends CodeArticle | CodeSection
-  ? CodeSection
-  : AgreementSection;
-
-type ArticleWithParent<T> = Article<T> & {
-  parent: WithParent<Parent<T>> | null;
-};
-
-type SectionWithParent<T> = Article<T> & {
-  parent: WithParent<Parent<T>> | null;
-};
-
-type WithParent<T> = ArticleWithParent<T> | SectionWithParent<T>;
+const isAgreementArticle = (
+  object: AgreementArticle | CodeArticle
+): object is AgreementArticle => "content" in object.data;
 
 const articleDiff = <T>(
   art1: WithParent<Article<T>>,
   art2: WithParent<Article<T>>
 ): boolean => {
-  if (
-    is<WithParent<Article<CodeArticle>>>(art1) &&
-    is<WithParent<Article<CodeArticle>>>(art2)
-  ) {
+  if (isCodeArticle(art1) && isCodeArticle(art2)) {
     return (
       art1.data.texte !== art2.data.texte ||
       art1.data.etat !== art2.data.etat ||
       art1.data.nota !== art2.data.nota
     );
-  } else if (
-    is<WithParent<Article<AgreementArticle>>>(art1) &&
-    is<WithParent<Article<AgreementArticle>>>(art2)
-  ) {
+  } else if (isAgreementArticle(art1) && isAgreementArticle(art2)) {
     return (
       art1.data.content !== art2.data.content ||
       art1.data.etat !== art2.data.etat
