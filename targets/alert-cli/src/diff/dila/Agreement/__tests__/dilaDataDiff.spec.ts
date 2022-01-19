@@ -71,8 +71,7 @@ describe("Calcul des différences sur les conventions collectives (kali-data)", 
     it("doit détecter la suppression des articles liées à  la convention collective", async () => {
       const result = await processAgreementChanges(
         { commit: {} as Commit, ref: "" },
-        // eslint-disable-next-line
-        removed as any,
+        removed as unknown as AgreementFileChange[],
         async () => Promise.resolve([])
       );
       expect(result).toHaveLength(1);
@@ -85,8 +84,7 @@ describe("Calcul des différences sur les conventions collectives (kali-data)", 
     it("doit détecter l'ajout des articles liées à  la convention collective", async () => {
       const result = await processAgreementChanges(
         { commit: {} as Commit, ref: "" },
-        // eslint-disable-next-line
-        added as any,
+        added as unknown as AgreementFileChange[],
         async () => Promise.resolve([])
       );
       expect(result).toHaveLength(1);
