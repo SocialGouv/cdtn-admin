@@ -35,25 +35,33 @@ type Parent<T> = T extends CodeArticle | CodeSection
   ? CodeSection
   : AgreementSection;
 
-type WithParent<T> =
-  | (Article<T> & {
-      parent: WithParent<Parent<T>> | null;
-    })
-  | (Section<T> & {
-      parent: WithParent<Parent<T>> | null;
-    });
+type ArticleWithParent<T> = Article<T> & {
+  parent: WithParent<Parent<T>> | null;
+};
+
+type SectionWithParent<T> = Article<T> & {
+  parent: WithParent<Parent<T>> | null;
+};
+
+type WithParent<T> = ArticleWithParent<T> | SectionWithParent<T>;
 
 const articleDiff = <T>(
   art1: WithParent<Article<T>>,
   art2: WithParent<Article<T>>
 ): boolean => {
-  if (is<CodeArticle>(art1) && is<CodeArticle>(art2)) {
+  if (
+    is<WithParent<Article<CodeArticle>>>(art1) &&
+    is<WithParent<Article<CodeArticle>>>(art2)
+  ) {
     return (
       art1.data.texte !== art2.data.texte ||
       art1.data.etat !== art2.data.etat ||
       art1.data.nota !== art2.data.nota
     );
-  } else if (is<AgreementArticle>(art1) && is<AgreementArticle>(art2)) {
+  } else if (
+    is<WithParent<Article<AgreementArticle>>>(art1) &&
+    is<WithParent<Article<AgreementArticle>>>(art2)
+  ) {
     return (
       art1.data.content !== art2.data.content ||
       art1.data.etat !== art2.data.etat
@@ -164,8 +172,7 @@ function addedNodeAdapter(node: WithParent<DilaNode>): DilaAddedNode {
     etat: node.data.etat,
     id: node.data.id,
     parents: getParents(node),
-    title:
-      node.type === "article" ? node.data.num ?? "Article" : node.data.title,
+    title: node.data.num ?? "Article",
   };
 }
 
@@ -174,8 +181,7 @@ function removedNodeAdapter(node: WithParent<DilaNode>): DilaRemovedNode {
     cid: node.data.cid,
     id: node.data.id,
     parents: getParents(node),
-    title:
-      node.type === "article" ? node.data.num ?? "Article" : node.data.title,
+    title: node.data.num ?? "Article",
   };
 }
 
@@ -228,15 +234,14 @@ const createModifiedAdapter =
       etat: node.data.etat,
       id: node.data.id,
       parents: getParents(node),
-      title:
-        node.type === "article" ? node.data.num ?? "Article" : node.data.title,
+      title: node.data.num ?? "Article",
     };
   };
 
 const getParents = (node: WithParent<DilaNode>) => {
   const chain = [];
   let tempNode: WithParent<DilaNode> | null = null;
-  if (node.type === "article") {
+  if (node.parent) {
     tempNode = node.parent;
   } else {
     tempNode = node;

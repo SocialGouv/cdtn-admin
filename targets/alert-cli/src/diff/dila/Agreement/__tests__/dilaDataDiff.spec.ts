@@ -50,27 +50,20 @@ describe("Calcul des différences sur les conventions collectives (kali-data)", 
       expect(result).toHaveLength(1);
       const diff = result[0];
       expect(diff.added).toHaveLength(0);
-      //FIXME: avant c'était deux articles modifiés !!!!!
-      expect(diff.modified[0].cid).toEqual("KALIARTI000005834059");
+      expect(diff.modified).toHaveLength(2);
+      expect(diff.modified[0].cid).toEqual("KALIARTI000005834047");
       expect(diff.modified[0].diffs).toHaveLength(1);
-      expect(diff.modified[0].diffs[0].type).toEqual("texte");
-      expect(diff.modified[0].diffs[0].currentText).toContain("[CHANGE]");
-      expect(diff.modified[0].diffs[0].previousText).not.toContain("[CHANGE]");
+      expect(diff.modified[0].diffs[0]).toEqual({
+        currentText: "[CHANGE] ABROGE",
+        previousText: "VIGUEUR_ETEN",
+        type: "etat",
+      });
+      expect(diff.modified[1].cid).toEqual("KALIARTI000005834059");
+      expect(diff.modified[1].diffs).toHaveLength(1);
+      expect(diff.modified[1].diffs[0].type).toEqual("texte");
+      expect(diff.modified[1].diffs[0].currentText).toContain("[CHANGE]");
+      expect(diff.modified[1].diffs[0].previousText).not.toContain("[CHANGE]");
       expect(diff.removed).toHaveLength(0);
-      // expect(diff.modified).toHaveLength(2);
-      // expect(diff.modified[0].cid).toEqual("KALIARTI000005834047");
-      // expect(diff.modified[0].diffs).toHaveLength(1);
-      // expect(diff.modified[0].diffs[0]).toEqual({
-      //   currentText: "[CHANGE] ABROGE",
-      //   previousText: "VIGUEUR_ETEN",
-      //   type: "etat",
-      // });
-      // expect(diff.modified[1].cid).toEqual("KALIARTI000005834059");
-      // expect(diff.modified[1].diffs).toHaveLength(1);
-      // expect(diff.modified[1].diffs[0].type).toEqual("texte");
-      // expect(diff.modified[1].diffs[0].currentText).toContain("[CHANGE]");
-      // expect(diff.modified[1].diffs[0].previousText).not.toContain("[CHANGE]");
-      // expect(diff.removed).toHaveLength(0);
     });
   });
 
