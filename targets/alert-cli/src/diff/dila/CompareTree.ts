@@ -244,7 +244,7 @@ const createModifiedAdapter =
 const getParents = (node: WithParent<DilaNode>) => {
   const chain = [];
   let tempNode: WithParent<DilaNode> | null = null;
-  if (node.parent) {
+  if (node.type === "article") {
     tempNode = node.parent;
   } else {
     tempNode = node;
