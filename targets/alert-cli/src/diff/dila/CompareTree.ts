@@ -241,17 +241,19 @@ const createModifiedAdapter =
     };
   };
 
-const getParents = (node: WithParent<DilaNode>) => {
+const getParents = (node: WithParent<DilaNode> | null) => {
   const chain = [];
-  let tempNode: WithParent<DilaNode> | null = null;
-  if (node.type === "article") {
+  let tempNode = node;
+  if (node?.type === "article") {
     tempNode = node.parent;
-  } else {
-    tempNode = node;
   }
   while (tempNode) {
     if (isSectionData(tempNode.data)) {
       chain.unshift(tempNode.data.title);
+    } else {
+      throw new Error(
+        "An article cannot be a parent of an article or a section"
+      );
     }
     tempNode = tempNode.parent;
   }
