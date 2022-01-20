@@ -53,7 +53,7 @@ export type ArticleWithParent<T> = Article<T> & {
   parent: WithParent<Parent<T>> | null;
 };
 
-export type SectionWithParent<T> = Article<T> & {
+export type SectionWithParent<T> = Section<T> & {
   parent: WithParent<Parent<T>> | null;
 };
 
