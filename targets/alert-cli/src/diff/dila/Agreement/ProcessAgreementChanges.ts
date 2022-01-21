@@ -12,17 +12,17 @@ const processAgreementChanges = async (
     fileChanges.map(async (fileChange) => {
       const changes = compareTree<AgreementFileChange>(fileChange);
       const documents = await getRelevantDocuments(changes);
+
+      const data = fileChange.current
+        ? fileChange.current.data
+        : fileChange.previous?.data;
+
       if (documents.length > 0) {
         console.log(
-          `[info] found ${documents.length} documents impacted by release ${tag.ref} on kali-data, (idcc: ${fileChange.current.data.num})`,
+          `[info] found ${documents.length} documents impacted by release ${tag.ref} on kali-data, (idcc: ${data.num})`,
           { file: fileChange.file }
         );
       }
-
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const data = fileChange.current.data
-        ? fileChange.current.data
-        : fileChange.previous.data;
 
       return {
         ...changes,

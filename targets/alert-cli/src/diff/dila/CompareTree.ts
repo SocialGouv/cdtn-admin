@@ -73,20 +73,21 @@ const legiArticleDiff = (
 export function compareTree<T extends AgreementFileChange | CodeFileChange>(
   fileChange: FileChange<T>
 ): Diff {
-  const previousText = parents(fileChange.previous);
-  const currentText = parents(fileChange.current);
+  const previousText =
+    "previous" in fileChange ? parents(fileChange.previous) : "";
+  const currentText =
+    "current" in fileChange ? parents(fileChange.current) : "";
 
   // all articles from tree1
-  const articlesPrevious = selectAll<WithParent<Article<T>>>(
-    "article",
-    previousText
-  );
+  const articlesPrevious = previousText
+    ? selectAll<WithParent<Article<T>>>("article", previousText)
+    : [];
   const articlesPreviousCids = articlesPrevious.map((a) => a.data.cid);
+
   // all articles from tree2
-  const articlesCurrent = selectAll<WithParent<Article<T>>>(
-    "article",
-    currentText
-  );
+  const articlesCurrent = currentText
+    ? selectAll<WithParent<Article<T>>>("article", currentText)
+    : [];
   const articlesCurrentCids = articlesCurrent.map((a) => a.data.cid);
 
   // new : articles in current not in previous
@@ -95,7 +96,7 @@ export function compareTree<T extends AgreementFileChange | CodeFileChange>(
   );
   const newArticlesCids = newArticles.map((a) => a.data.cid);
 
-  // supressed: articles in previous not in tree2
+  // suppressed: articles in previous not in tree2
   const missingArticles = articlesPrevious.filter(
     (art) => !articlesCurrentCids.includes(art.data.cid)
   );
@@ -112,17 +113,15 @@ export function compareTree<T extends AgreementFileChange | CodeFileChange>(
   );
 
   // all sections from tree1
-  const sectionsPrevious = selectAll<WithParent<Section<T>>>(
-    "section",
-    previousText
-  );
+  const sectionsPrevious = previousText
+    ? selectAll<WithParent<Section<T>>>("section", previousText)
+    : [];
   const sectionsPreviousCids = sectionsPrevious.map((a) => a.data.cid);
 
   // all sections from tree2
-  const sectionsCurrent = selectAll<WithParent<Section<T>>>(
-    "section",
-    currentText
-  );
+  const sectionsCurrent = currentText
+    ? selectAll<WithParent<Section<T>>>("section", currentText)
+    : [];
   const sectionsCurrentCids = sectionsCurrent.map((a) => a.data.cid);
 
   // new : sections in tree2 not in tree1
@@ -131,7 +130,7 @@ export function compareTree<T extends AgreementFileChange | CodeFileChange>(
   );
   const newSectionsCids = newSections.map((a) => a.data.cid);
 
-  // supressed: sections in tree1 not in tree2
+  // suppressed: sections in tree1 not in tree2
   const missingSections = sectionsPrevious.filter(
     (section) => !sectionsCurrentCids.includes(section.data.cid)
   );

@@ -8,5 +8,5 @@ declare module "unist-util-parents" {
     parent: NodeWithParent<Parent, Parent> | null;
   };
 
-  export default function parent<Tree>(tree: Tree): Root<Tree>;
+  export default function parent<Tree>(tree: Tree | undefined): Root<Tree>;
 }
