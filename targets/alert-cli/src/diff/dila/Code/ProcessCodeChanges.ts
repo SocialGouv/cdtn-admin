@@ -1,6 +1,6 @@
 import type { GitTagData } from "../../../types";
+import { compareTree } from "../CompareTree";
 import type { DilaChanges, RelevantDocumentsFunction } from "../types";
-import { compareCodeTree } from "./CompareCodeTree";
 import type { CodeFileChange } from "./types";
 
 const processCodeChanges = async (
@@ -10,7 +10,7 @@ const processCodeChanges = async (
 ): Promise<DilaChanges[]> => {
   return Promise.all(
     fileChanges.map(async (fileChange) => {
-      const changes = compareCodeTree(fileChange);
+      const changes = compareTree<CodeFileChange>(fileChange);
 
       const documents = await getRelevantDocuments(changes);
       if (documents.length > 0) {

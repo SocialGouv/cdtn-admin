@@ -3,32 +3,87 @@ import type {
   DilaModifiedNode,
   DilaNode,
   DilaRemovedNode,
-  DilaSection,
 } from "@shared/types";
-import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
+import type {
+  AgreementArticle,
+  AgreementArticleData,
+  AgreementSectionData,
+} from "@socialgouv/kali-data-types";
+import type {
+  CodeArticle,
+  CodeArticleData,
+  CodeSectionData,
+} from "@socialgouv/legi-data-types";
 import parents from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
-import type { Diff, WithParent } from "../types";
-import type { CodeFileChange } from "./types";
+import type { AgreementFileChange } from "./Agreement/types";
+import type { CodeFileChange } from "./Code/types";
+import type {
+  Article,
+  ArticleWithParent,
+  Diff,
+  FileChange,
+  Section,
+  WithParent,
+} from "./types";
 
-const legiArticleDiff = (art1: CodeArticle, art2: CodeArticle) =>
+const isCodeArticle = (
+  object: WithParent<Article<AgreementArticle | CodeArticle>>
+): object is ArticleWithParent<CodeArticle> => "texte" in object.data;
+
+const isAgreementArticle = (
+  object: WithParent<Article<AgreementArticle | CodeArticle>>
+): object is ArticleWithParent<AgreementArticle> => "content" in object.data;
+
+const isSectionData = (
+  object:
+    | AgreementArticleData
+    | AgreementSectionData
+    | CodeArticleData
+    | CodeSectionData
+): object is AgreementSectionData | CodeSectionData => "title" in object;
+
+const articleDiff = (
+  art1: WithParent<Article<AgreementArticle | CodeArticle>>,
+  art2: WithParent<Article<AgreementArticle | CodeArticle>>
+): boolean => {
+  if (isCodeArticle(art1) && isCodeArticle(art2)) {
+    return legiArticleDiff(art1, art2);
+  } else if (isAgreementArticle(art1) && isAgreementArticle(art2)) {
+    return kaliArticleDiff(art1, art2);
+  }
+  return false;
+};
+
+const kaliArticleDiff = (
+  art1: ArticleWithParent<AgreementArticle>,
+  art2: ArticleWithParent<AgreementArticle>
+) =>
+  art1.data.content !== art2.data.content || art1.data.etat !== art2.data.etat;
+
+const legiArticleDiff = (
+  art1: ArticleWithParent<CodeArticle>,
+  art2: ArticleWithParent<CodeArticle>
+) =>
   art1.data.texte !== art2.data.texte ||
   art1.data.etat !== art2.data.etat ||
   art1.data.nota !== art2.data.nota;
 
-export function compareCodeTree(fileChange: CodeFileChange): Diff {
+export function compareTree<T extends AgreementFileChange | CodeFileChange>(
+  fileChange: FileChange<T>
+): Diff {
   const previousText = parents(fileChange.previous);
   const currentText = parents(fileChange.current);
 
   // all articles from tree1
-  const articlesPrevious = selectAll<WithParent<CodeArticle>>(
+  const articlesPrevious = selectAll<WithParent<Article<T>>>(
     "article",
     previousText
   );
   const articlesPreviousCids = articlesPrevious.map((a) => a.data.cid);
   // all articles from tree2
-  const articlesCurrent = selectAll<WithParent<CodeArticle>>(
+  const articlesCurrent = selectAll<WithParent<Article<T>>>(
     "article",
     currentText
   );
@@ -52,19 +107,19 @@ export function compareCodeTree(fileChange: CodeFileChange): Diff {
       !newArticlesCids.includes(art.data.cid) &&
       articlesPrevious.find(
         // same article, different texte
-        (art2) => art2.data.cid === art.data.cid && legiArticleDiff(art, art2)
+        (art2) => art2.data.cid === art.data.cid && articleDiff(art, art2)
       )
   );
 
   // all sections from tree1
-  const sectionsPrevious = selectAll<WithParent<CodeSection>>(
+  const sectionsPrevious = selectAll<WithParent<Section<T>>>(
     "section",
     previousText
   );
   const sectionsPreviousCids = sectionsPrevious.map((a) => a.data.cid);
 
   // all sections from tree2
-  const sectionsCurrent = selectAll<WithParent<CodeSection>>(
+  const sectionsCurrent = selectAll<WithParent<Section<T>>>(
     "section",
     currentText
   );
@@ -186,16 +241,20 @@ const createModifiedAdapter =
     };
   };
 
-const getParents = (node: WithParent<DilaNode>) => {
+const getParents = (node: WithParent<DilaNode> | null) => {
   const chain = [];
-  let tempNode: WithParent<DilaSection> | null = null;
-  if (node.type === "article") {
+  let tempNode = node;
+  if (node?.type === "article") {
     tempNode = node.parent;
-  } else {
-    tempNode = node;
   }
   while (tempNode) {
-    chain.unshift(tempNode.data.title);
+    if (isSectionData(tempNode.data)) {
+      chain.unshift(tempNode.data.title);
+    } else {
+      throw new Error(
+        "An article cannot be a parent of an article or a section"
+      );
+    }
     tempNode = tempNode.parent;
   }
   return chain;
