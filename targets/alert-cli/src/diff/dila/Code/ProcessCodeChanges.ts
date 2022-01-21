@@ -1,7 +1,21 @@
 import type { GitTagData } from "../../../types";
 import { compareTree } from "../CompareTree";
-import type { DilaChanges, RelevantDocumentsFunction } from "../types";
+import type {
+  ArticleWithParent,
+  DilaChanges,
+  RelevantDocumentsFunction,
+} from "../types";
 import type { CodeFileChange } from "./types";
+
+import type { CodeArticle } from "@socialgouv/legi-data-types";
+
+const legiArticleDiff = (
+  art1: ArticleWithParent<CodeArticle>,
+  art2: ArticleWithParent<CodeArticle>
+) =>
+  art1.data.texte !== art2.data.texte ||
+  art1.data.etat !== art2.data.etat ||
+  art1.data.nota !== art2.data.nota;
 
 const processCodeChanges = async (
   tag: GitTagData,
@@ -10,7 +24,7 @@ const processCodeChanges = async (
 ): Promise<DilaChanges[]> => {
   return Promise.all(
     fileChanges.map(async (fileChange) => {
-      const changes = compareTree<CodeFileChange>(fileChange);
+      const changes = compareTree<CodeFileChange>(fileChange, legiArticleDiff);
 
       const documents = await getRelevantDocuments(changes);
       if (documents.length > 0) {

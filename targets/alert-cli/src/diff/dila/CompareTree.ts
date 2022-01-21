@@ -19,22 +19,7 @@ import { selectAll } from "unist-util-select";
 
 import type { AgreementFileChange } from "./Agreement/types";
 import type { CodeFileChange } from "./Code/types";
-import type {
-  Article,
-  ArticleWithParent,
-  Diff,
-  FileChange,
-  Section,
-  WithParent,
-} from "./types";
-
-const isCodeArticle = (
-  object: WithParent<Article<AgreementArticle | CodeArticle>>
-): object is ArticleWithParent<CodeArticle> => "texte" in object.data;
-
-const isAgreementArticle = (
-  object: WithParent<Article<AgreementArticle | CodeArticle>>
-): object is ArticleWithParent<AgreementArticle> => "content" in object.data;
+import type { Article, Diff, FileChange, Section, WithParent } from "./types";
 
 const isSectionData = (
   object:
@@ -44,34 +29,12 @@ const isSectionData = (
     | CodeSectionData
 ): object is AgreementSectionData | CodeSectionData => "title" in object;
 
-const articleDiff = (
-  art1: WithParent<Article<AgreementArticle | CodeArticle>>,
-  art2: WithParent<Article<AgreementArticle | CodeArticle>>
-): boolean => {
-  if (isCodeArticle(art1) && isCodeArticle(art2)) {
-    return legiArticleDiff(art1, art2);
-  } else if (isAgreementArticle(art1) && isAgreementArticle(art2)) {
-    return kaliArticleDiff(art1, art2);
-  }
-  return false;
-};
-
-const kaliArticleDiff = (
-  art1: ArticleWithParent<AgreementArticle>,
-  art2: ArticleWithParent<AgreementArticle>
-) =>
-  art1.data.content !== art2.data.content || art1.data.etat !== art2.data.etat;
-
-const legiArticleDiff = (
-  art1: ArticleWithParent<CodeArticle>,
-  art2: ArticleWithParent<CodeArticle>
-) =>
-  art1.data.texte !== art2.data.texte ||
-  art1.data.etat !== art2.data.etat ||
-  art1.data.nota !== art2.data.nota;
-
 export function compareTree<T extends AgreementFileChange | CodeFileChange>(
-  fileChange: FileChange<T>
+  fileChange: FileChange<T>,
+  articleDiff: (
+    art1: WithParent<Article<AgreementArticle | CodeArticle>>,
+    art2: WithParent<Article<AgreementArticle | CodeArticle>>
+  ) => boolean
 ): Diff {
   const previousText = parents(fileChange.previous);
   const currentText = parents(fileChange.current);
