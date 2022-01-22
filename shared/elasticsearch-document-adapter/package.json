@@ -16,7 +16,7 @@
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/contributions-data-types": "^3.27.0",
     "memoizee": "^0.4.15",
-    "node-fetch": "^2.6.5",
+    "node-fetch": "^3.0.0",
     "p-map": "5.2.0",
     "p-queue": "^6.6.2",
     "rehype-raw": "^5.1.0",
