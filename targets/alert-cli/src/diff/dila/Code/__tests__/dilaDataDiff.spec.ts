@@ -38,7 +38,7 @@ describe("Calcul des différences sur les conventions collectives (kali-data)", 
     });
   });
 
-  describe("changement du contenu d'articles (KALIARTI) d'une convention collective", () => {
+  describe("changement du contenu d'articles (LEGIARTI) du code", () => {
     it("doit détecter le changement sur les articles", async () => {
       const result = await ProcessCodeChanges(
         { commit: {} as Commit, ref: "" },
