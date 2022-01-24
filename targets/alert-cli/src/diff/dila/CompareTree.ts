@@ -19,7 +19,14 @@ import { selectAll } from "unist-util-select";
 
 import type { AgreementFileChange } from "./Agreement/types";
 import type { CodeFileChange } from "./Code/types";
-import type { Article, Diff, FileChange, Section, WithParent } from "./types";
+import type {
+  Article,
+  ArticleWithParent,
+  Diff,
+  FileChange,
+  Section,
+  WithParent,
+} from "./types";
 
 const isSectionData = (
   object:
@@ -32,21 +39,21 @@ const isSectionData = (
 export function compareTree<T extends AgreementFileChange | CodeFileChange>(
   fileChange: FileChange<T>,
   articleDiff: (
-    art1: WithParent<Article<AgreementArticle | CodeArticle>>,
-    art2: WithParent<Article<AgreementArticle | CodeArticle>>
+    art1: ArticleWithParent<Article<AgreementArticle | CodeArticle>>,
+    art2: ArticleWithParent<Article<AgreementArticle | CodeArticle>>
   ) => boolean
 ): Diff {
   const previousText = parents(fileChange.previous);
   const currentText = parents(fileChange.current);
 
   // all articles from tree1
-  const articlesPrevious = selectAll<WithParent<Article<T>>>(
+  const articlesPrevious = selectAll<ArticleWithParent<Article<T>>>(
     "article",
     previousText
   );
   const articlesPreviousCids = articlesPrevious.map((a) => a.data.cid);
   // all articles from tree2
-  const articlesCurrent = selectAll<WithParent<Article<T>>>(
+  const articlesCurrent = selectAll<ArticleWithParent<Article<T>>>(
     "article",
     currentText
   );
