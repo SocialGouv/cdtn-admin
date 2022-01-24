@@ -13,6 +13,16 @@ const codeFileChanges = async (
   const [current, previous] = await Promise.all(
     [currTree, prevTree].map(toAst)
   );
+  if (!current) {
+    throw new Error(
+      "This means that a file has been deleted. In Legi Code case, it should never happens as the data files are fixed."
+    );
+  }
+  if (!previous) {
+    throw new Error(
+      "This means that a file has been added. In Legi Code case, it should never happens as the data files are fixed"
+    );
+  }
   return {
     current,
     file,

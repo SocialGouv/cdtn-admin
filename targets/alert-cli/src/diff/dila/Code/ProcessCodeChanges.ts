@@ -20,17 +20,12 @@ const processCodeChanges = async (
         );
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const data = fileChange.current.data
-        ? fileChange.current.data
-        : fileChange.previous.data;
-
       return {
         ...changes,
         documents,
         file: fileChange.file,
-        id: data.id,
-        title: data.title,
+        id: fileChange.current.data.id,
+        title: fileChange.current.data.title,
       };
     })
   );

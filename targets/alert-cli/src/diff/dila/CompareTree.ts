@@ -5,11 +5,13 @@ import type {
   DilaRemovedNode,
 } from "@shared/types";
 import type {
+  Agreement,
   AgreementArticle,
   AgreementArticleData,
   AgreementSectionData,
 } from "@socialgouv/kali-data-types";
 import type {
+  Code,
   CodeArticle,
   CodeArticleData,
   CodeSectionData,
@@ -70,77 +72,99 @@ const legiArticleDiff = (
   art1.data.etat !== art2.data.etat ||
   art1.data.nota !== art2.data.nota;
 
+function getDataForChange<T extends AgreementFileChange | CodeFileChange>(
+  node: Agreement | Code | null
+): {
+  articles: WithParent<Article<T>>[];
+  sections: WithParent<Section<T>>[];
+} {
+  const currentText = parents(node);
+
+  return {
+    articles: selectAll<WithParent<Article<T>>>("article", currentText),
+    sections: selectAll<WithParent<Section<T>>>("section", currentText),
+  };
+}
+
+export function getChangesForAdded<
+  T extends AgreementFileChange | CodeFileChange
+>(fileChange: FileChange<T>): Diff {
+  const data = getDataForChange(fileChange.current);
+
+  return {
+    added: data.sections
+      .map(addedNodeAdapter)
+      .concat(data.articles.map(addedNodeAdapter)),
+    modified: [],
+    removed: [],
+  };
+}
+
+export function getChangesForRemoved<
+  T extends AgreementFileChange | CodeFileChange
+>(fileChange: FileChange<T>): Diff {
+  const data = getDataForChange(fileChange.previous);
+
+  return {
+    added: [],
+    modified: [],
+    removed: data.sections
+      .map(removedNodeAdapter)
+      .concat(data.articles.map(removedNodeAdapter)),
+  };
+}
+
 export function compareTree<T extends AgreementFileChange | CodeFileChange>(
   fileChange: FileChange<T>
 ): Diff {
-  const previousText =
-    "previous" in fileChange ? parents(fileChange.previous) : "";
-  const currentText =
-    "current" in fileChange ? parents(fileChange.current) : "";
+  const previousData = getDataForChange(fileChange.previous);
+  const articlesPreviousCids = previousData.articles.map((a) => a.data.cid);
 
-  // all articles from tree1
-  const articlesPrevious = previousText
-    ? selectAll<WithParent<Article<T>>>("article", previousText)
-    : [];
-  const articlesPreviousCids = articlesPrevious.map((a) => a.data.cid);
-
-  // all articles from tree2
-  const articlesCurrent = currentText
-    ? selectAll<WithParent<Article<T>>>("article", currentText)
-    : [];
-  const articlesCurrentCids = articlesCurrent.map((a) => a.data.cid);
+  const currentData = getDataForChange(fileChange.current);
+  const articlesCurrentCids = currentData.articles.map((a) => a.data.cid);
 
   // new : articles in current not in previous
-  const newArticles = articlesCurrent.filter(
+  const newArticles = currentData.articles.filter(
     (art) => !articlesPreviousCids.includes(art.data.cid)
   );
   const newArticlesCids = newArticles.map((a) => a.data.cid);
 
   // suppressed: articles in previous not in tree2
-  const missingArticles = articlesPrevious.filter(
+  const missingArticles = previousData.articles.filter(
     (art) => !articlesCurrentCids.includes(art.data.cid)
   );
 
   // modified : articles with modified texte
-  const modifiedArticles = articlesCurrent.filter(
+  const modifiedArticles = currentData.articles.filter(
     (art) =>
       // exclude new articles
       !newArticlesCids.includes(art.data.cid) &&
-      articlesPrevious.find(
+      previousData.articles.find(
         // same article, different texte
         (art2) => art2.data.cid === art.data.cid && articleDiff(art, art2)
       )
   );
 
-  // all sections from tree1
-  const sectionsPrevious = previousText
-    ? selectAll<WithParent<Section<T>>>("section", previousText)
-    : [];
-  const sectionsPreviousCids = sectionsPrevious.map((a) => a.data.cid);
+  const sectionsPreviousCids = previousData.sections.map((a) => a.data.cid);
+  const sectionsCurrentCids = currentData.sections.map((a) => a.data.cid);
 
-  // all sections from tree2
-  const sectionsCurrent = currentText
-    ? selectAll<WithParent<Section<T>>>("section", currentText)
-    : [];
-  const sectionsCurrentCids = sectionsCurrent.map((a) => a.data.cid);
-
-  // new : sections in tree2 not in tree1
-  const newSections = sectionsCurrent.filter(
+  // new : sections in current not in previous
+  const newSections = currentData.sections.filter(
     (section) => !sectionsPreviousCids.includes(section.data.cid)
   );
   const newSectionsCids = newSections.map((a) => a.data.cid);
 
-  // suppressed: sections in tree1 not in tree2
-  const missingSections = sectionsPrevious.filter(
+  // suppressed: sections in previous not in current
+  const missingSections = previousData.sections.filter(
     (section) => !sectionsCurrentCids.includes(section.data.cid)
   );
 
-  // modified : sections with modified texte
-  const modifiedSections = sectionsCurrent.filter(
+  // modified : sections with modified text
+  const modifiedSections = currentData.sections.filter(
     (curSection) =>
       // exclude new sections
       !newSectionsCids.includes(curSection.data.cid) &&
-      sectionsPrevious.find(
+      previousData.sections.find(
         // same section, different etat
         (prevSection) =>
           prevSection.data.cid === curSection.data.cid &&
@@ -148,8 +172,8 @@ export function compareTree<T extends AgreementFileChange | CodeFileChange>(
       )
   );
   const modifiedNodeAdapter = createModifiedAdapter([
-    ...articlesPrevious,
-    ...sectionsPrevious,
+    ...previousData.articles,
+    ...previousData.sections,
   ]);
 
   return {
