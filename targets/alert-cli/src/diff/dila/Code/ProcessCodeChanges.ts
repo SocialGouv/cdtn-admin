@@ -1,17 +1,18 @@
+import type { CodeArticle } from "@socialgouv/legi-data-types";
+
 import type { GitTagData } from "../../../types";
 import { compareTree } from "../CompareTree";
 import type {
-  ArticleWithParent,
+  Article,
   DilaChanges,
   RelevantDocumentsFunction,
+  WithParent,
 } from "../types";
 import type { CodeFileChange } from "./types";
 
-import type { CodeArticle } from "@socialgouv/legi-data-types";
-
 const legiArticleDiff = (
-  art1: ArticleWithParent<CodeArticle>,
-  art2: ArticleWithParent<CodeArticle>
+  art1: WithParent<Article<CodeArticle>>,
+  art2: WithParent<Article<CodeArticle>>
 ) =>
   art1.data.texte !== art2.data.texte ||
   art1.data.etat !== art2.data.etat ||

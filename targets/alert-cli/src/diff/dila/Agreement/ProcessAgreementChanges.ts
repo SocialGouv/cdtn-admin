@@ -1,13 +1,18 @@
-import type { GitTagData } from "../../../types";
-import { compareTree } from "../CompareTree";
-import type { DilaChanges, RelevantDocumentsFunction } from "../types";
-import { ArticleWithParent } from "../types";
-import type { AgreementFileChange } from "./types";
 import type { AgreementArticle } from "@socialgouv/kali-data-types";
 
+import type { GitTagData } from "../../../types";
+import { compareTree } from "../CompareTree";
+import type {
+  Article,
+  DilaChanges,
+  RelevantDocumentsFunction,
+  WithParent,
+} from "../types";
+import type { AgreementFileChange } from "./types";
+
 const kaliArticleDiff = (
-  art1: ArticleWithParent<AgreementArticle>,
-  art2: ArticleWithParent<AgreementArticle>
+  art1: WithParent<Article<AgreementArticle>>,
+  art2: WithParent<Article<AgreementArticle>>
 ) =>
   art1.data.content !== art2.data.content || art1.data.etat !== art2.data.etat;
 

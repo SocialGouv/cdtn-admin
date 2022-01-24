@@ -39,8 +39,8 @@ const isSectionData = (
 export function compareTree<T extends AgreementFileChange | CodeFileChange>(
   fileChange: FileChange<T>,
   articleDiff: (
-    art1: ArticleWithParent<Article<AgreementArticle | CodeArticle>>,
-    art2: ArticleWithParent<Article<AgreementArticle | CodeArticle>>
+    art1: WithParent<Article<AgreementArticle | CodeArticle>>,
+    art2: WithParent<Article<AgreementArticle | CodeArticle>>
   ) => boolean
 ): Diff {
   const previousText = parents(fileChange.previous);
