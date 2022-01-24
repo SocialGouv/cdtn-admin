@@ -3,12 +3,12 @@ import type { Commit } from "nodegit";
 
 import ProcessCodeChanges from "../ProcessCodeChanges";
 import type { CodeFileChange } from "../types";
-import irrevelantChanges from "./dataset/filechanges_kali_code_irrevelant_changes.json";
-import noChanges from "./dataset/filechanges_kali_code_no_changes.json";
-import revelantChanges from "./dataset/filechanges_kali_code_revelant_changes.json";
+import irrevelantChanges from "./dataset/filechanges_legi_code_irrevelant_changes.json";
+import noChanges from "./dataset/filechanges_legi_code_no_changes.json";
+import revelantChanges from "./dataset/filechanges_legi_code_revelant_changes.json";
 
-describe("Calcul des différences sur les conventions collectives (kali-data)", () => {
-  describe("Aucun changement dans une convention collective", () => {
+describe("Calcul des différences sur les sur le code (legi-data)", () => {
+  describe("Aucun changement", () => {
     it("doit détecter aucun changement", async () => {
       const result = await ProcessCodeChanges(
         { commit: {} as Commit, ref: "" },
@@ -23,7 +23,7 @@ describe("Calcul des différences sur les conventions collectives (kali-data)", 
     });
   });
 
-  describe("Aucun changement significatif (content ou etat) dans une convention collective", () => {
+  describe("Aucun changement significatif (texte, nota ou etat)", () => {
     it("doit détecter aucun changement", async () => {
       const result = await ProcessCodeChanges(
         { commit: {} as Commit, ref: "" },
