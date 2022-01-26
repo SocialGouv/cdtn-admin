@@ -2,7 +2,7 @@ import type { Agreement } from "@socialgouv/kali-data-types";
 
 export type AgreementFileChange = {
   type: "kali";
-  current: Agreement | null;
-  previous: Agreement | null;
+  current?: Agreement;
+  previous?: Agreement;
   file: string;
 };
