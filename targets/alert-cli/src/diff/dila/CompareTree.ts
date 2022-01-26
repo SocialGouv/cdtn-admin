@@ -25,7 +25,6 @@ import type {
   Article,
   ArticleWithParent,
   Diff,
-  FileChange,
   Section,
   WithParent,
 } from "./types";
@@ -86,10 +85,8 @@ function getDataForChange<T extends AgreementFileChange | CodeFileChange>(
   };
 }
 
-export function getChangesForAdded<
-  T extends AgreementFileChange | CodeFileChange
->(fileChange: FileChange<T>): Diff {
-  const data = getDataForChange(fileChange.current);
+export function getChangesForAdded(change: Agreement): Diff {
+  const data = getDataForChange(change);
 
   return {
     added: data.sections
@@ -100,10 +97,8 @@ export function getChangesForAdded<
   };
 }
 
-export function getChangesForRemoved<
-  T extends AgreementFileChange | CodeFileChange
->(fileChange: FileChange<T>): Diff {
-  const data = getDataForChange(fileChange.previous);
+export function getChangesForRemoved(change: Agreement): Diff {
+  const data = getDataForChange(change);
 
   return {
     added: [],
@@ -114,13 +109,14 @@ export function getChangesForRemoved<
   };
 }
 
-export function compareTree<T extends AgreementFileChange | CodeFileChange>(
-  fileChange: FileChange<T>
+export function compareTree<T extends Agreement | Code>(
+  previous: T,
+  current: T
 ): Diff {
-  const previousData = getDataForChange(fileChange.previous);
+  const previousData = getDataForChange(previous);
   const articlesPreviousCids = previousData.articles.map((a) => a.data.cid);
 
-  const currentData = getDataForChange(fileChange.current);
+  const currentData = getDataForChange(current);
   const articlesCurrentCids = currentData.articles.map((a) => a.data.cid);
 
   // new : articles in current not in previous

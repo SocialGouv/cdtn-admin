@@ -1,3 +1,5 @@
+import type { Code } from "@socialgouv/legi-data-types";
+
 import type { GitTagData } from "../../../types";
 import { compareTree } from "../CompareTree";
 import type { DilaChanges, RelevantDocumentsFunction } from "../types";
@@ -10,7 +12,10 @@ const processCodeChanges = async (
 ): Promise<DilaChanges[]> => {
   return Promise.all(
     fileChanges.map(async (fileChange) => {
-      const changes = compareTree<CodeFileChange>(fileChange);
+      const changes = compareTree<Code>(
+        fileChange.previous,
+        fileChange.current
+      );
 
       const documents = await getRelevantDocuments(changes);
       if (documents.length > 0) {

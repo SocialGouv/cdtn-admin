@@ -1,4 +1,4 @@
-import type { AgreementData } from "@socialgouv/kali-data-types";
+import type { Agreement, AgreementData } from "@socialgouv/kali-data-types";
 
 import type { GitTagData } from "../../../types";
 import {
@@ -15,7 +15,7 @@ function extractChanges(fileChange: AgreementFileChange): {
 } {
   if (!fileChange.current && fileChange.previous) {
     return {
-      changes: getChangesForRemoved<AgreementFileChange>(fileChange),
+      changes: getChangesForRemoved(fileChange.previous),
       data: fileChange.previous.data,
     };
   }
@@ -23,8 +23,8 @@ function extractChanges(fileChange: AgreementFileChange): {
   if (fileChange.current) {
     return {
       changes: !fileChange.previous
-        ? getChangesForAdded<AgreementFileChange>(fileChange)
-        : compareTree<AgreementFileChange>(fileChange),
+        ? getChangesForAdded(fileChange.current)
+        : compareTree<Agreement>(fileChange.previous, fileChange.current),
       data: fileChange.current.data,
     };
   }
