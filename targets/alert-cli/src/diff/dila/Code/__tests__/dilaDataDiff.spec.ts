@@ -7,7 +7,7 @@ import irrevelantChanges from "./dataset/filechanges_legi_code_irrevelant_change
 import noChanges from "./dataset/filechanges_legi_code_no_changes.json";
 import revelantChanges from "./dataset/filechanges_legi_code_revelant_changes.json";
 
-describe("Calcul des différences sur les sur le code (legi-data)", () => {
+describe("Calcul des différences sur les code (legi-data)", () => {
   describe("Aucun changement", () => {
     it("doit détecter aucun changement", async () => {
       const result = await ProcessCodeChanges(
