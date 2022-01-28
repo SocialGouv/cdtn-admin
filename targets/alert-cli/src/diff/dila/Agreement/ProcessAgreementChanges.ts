@@ -2,10 +2,10 @@ import type { Agreement, AgreementData } from "@socialgouv/kali-data-types";
 
 import type { GitTagData } from "../../../types";
 import {
-  compareTree,
-  getChangesForAdded,
-  getChangesForRemoved,
-} from "../CompareTree";
+  compareDilaContent,
+  convertToDilaAdded,
+  convertToDilaRemoved,
+} from "../CompareDilaContent";
 import type { Diff, DilaChanges, RelevantDocumentsFunction } from "../types";
 import type { AgreementFileChange } from "./types";
 
@@ -15,16 +15,24 @@ function extractChanges(fileChange: AgreementFileChange): {
 } {
   if (!fileChange.current && fileChange.previous) {
     return {
-      changes: getChangesForRemoved(fileChange.previous),
+      changes: convertToDilaRemoved(fileChange.previous),
       data: fileChange.previous.data,
     };
   }
 
-  if (fileChange.current) {
+  if (fileChange.current && !fileChange.previous) {
     return {
-      changes: !fileChange.previous
-        ? getChangesForAdded(fileChange.current)
-        : compareTree<Agreement>(fileChange.previous, fileChange.current),
+      changes: convertToDilaAdded(fileChange.current),
+      data: fileChange.current.data,
+    };
+  }
+
+  if (fileChange.current && fileChange.previous) {
+    return {
+      changes: compareDilaContent<Agreement>(
+        fileChange.previous,
+        fileChange.current
+      ),
       data: fileChange.current.data,
     };
   }

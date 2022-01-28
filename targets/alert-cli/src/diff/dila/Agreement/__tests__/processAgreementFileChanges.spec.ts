@@ -4,12 +4,12 @@ import type { ConvenientPatch, Tree } from "nodegit";
 import processAgreementFileChanges from "../ProcessAgreementFileChanges";
 
 describe("Creation des AgreementFileChange à partir d'un patch", () => {
-const createPatch = (
+  const createPatch = (
     added: boolean,
     removed: boolean,
     modified: boolean
   ): ConvenientPatch => {
-    const newFile = { path: () => "my-file.json" } as DiffFile;
+    const newFile = { path: () => "my-file.json" };
     return {
       isAdded: () => added,
       isDeleted: () => removed,
@@ -17,64 +17,67 @@ const createPatch = (
       newFile: () => newFile,
     } as ConvenientPatch;
   };
-  const mockAgreement = '{"type":"legi","data":{},"children":[]}';
+  const agreementA = '{"type":"legi","data":{"etat":"VIGUEUR"},"children":[]}';
+  const agreementB =
+    '{"type":"legi","data":{"etat":"MODIFIED VIGUEUR"},"children":[]}';
 
-  const mockedTree = {
-    getEntry: async () =>
-      new Promise(function (resolve) {
-        resolve({
-          getBlob: async () =>
-            new Promise(function (r) {
-              r(mockAgreement);
-            }),
-        });
-      }),
-  } as unknown as Tree;
+  const createSubTree = (a: string): Tree => {
+    return {
+      getEntry: async () =>
+        new Promise(function (resolve) {
+          resolve({
+            getBlob: async () =>
+              new Promise(function (r) {
+                r(a);
+              }),
+          });
+        }),
+    } as unknown as Tree;
+  };
 
   it("pour un ajout", async () => {
-    const patch = createMockPatch(true, false, false);
+    const patch = createPatch(true, false, false);
     const result = await processAgreementFileChanges(
-      [patch as ConvenientPatch],
+      [patch],
       () => true,
-      mockedTree,
-      mockedTree
-      // {} as Tree
+      createSubTree(agreementA),
+      createSubTree(agreementB)
     );
     expect(result).toHaveLength(1);
     const change = result[0];
     expect(change.file).toEqual("my-file.json");
-    expect(JSON.stringify(change.current)).toEqual(mockAgreement);
     expect(change.previous).toEqual(undefined);
+    expect(JSON.stringify(change.current)).toEqual(agreementB);
   });
 
   it("pour une modification", async () => {
-    const patch = createMockPatch(false, false, true);
+    const patch = createPatch(false, false, true);
 
     const result = await processAgreementFileChanges(
-      [patch as ConvenientPatch],
+      [patch],
       () => true,
-      mockedTree,
-      mockedTree
+      createSubTree(agreementA),
+      createSubTree(agreementB)
     );
     expect(result).toHaveLength(1);
     const change = result[0];
     expect(change.file).toEqual("my-file.json");
-    expect(JSON.stringify(change.current)).toEqual(mockAgreement);
-    expect(JSON.stringify(change.previous)).toEqual(mockAgreement);
+    expect(JSON.stringify(change.previous)).toEqual(agreementA);
+    expect(JSON.stringify(change.current)).toEqual(agreementB);
   });
 
   it("pour une suppression", async () => {
-    const patch = createMockPatch(false, true, false);
+    const patch = createPatch(false, true, false);
     const result = await processAgreementFileChanges(
-      [patch as ConvenientPatch],
+      [patch],
       () => true,
-      mockedTree,
-      mockedTree
+      createSubTree(agreementA),
+      createSubTree(agreementB)
     );
     expect(result).toHaveLength(1);
     const change = result[0];
     expect(change.file).toEqual("my-file.json");
+    expect(JSON.stringify(change.previous)).toEqual(agreementA);
     expect(change.current).toEqual(undefined);
-    expect(JSON.stringify(change.previous)).toEqual(mockAgreement);
   });
 });

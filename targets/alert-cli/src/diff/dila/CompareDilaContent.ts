@@ -71,7 +71,7 @@ const legiArticleDiff = (
   art1.data.etat !== art2.data.etat ||
   art1.data.nota !== art2.data.nota;
 
-function getDataForChange<T extends AgreementFileChange | CodeFileChange>(
+function extractData<T extends AgreementFileChange | CodeFileChange>(
   node: Agreement | Code | null
 ): {
   articles: WithParent<Article<T>>[];
@@ -85,8 +85,8 @@ function getDataForChange<T extends AgreementFileChange | CodeFileChange>(
   };
 }
 
-export function getChangesForAdded(change: Agreement): Diff {
-  const data = getDataForChange(change);
+export function convertToDilaAdded(change: Agreement): Diff {
+  const data = extractData(change);
 
   return {
     added: data.sections
@@ -97,8 +97,8 @@ export function getChangesForAdded(change: Agreement): Diff {
   };
 }
 
-export function getChangesForRemoved(change: Agreement): Diff {
-  const data = getDataForChange(change);
+export function convertToDilaRemoved(change: Agreement): Diff {
+  const data = extractData(change);
 
   return {
     added: [],
@@ -109,14 +109,14 @@ export function getChangesForRemoved(change: Agreement): Diff {
   };
 }
 
-export function compareTree<T extends Agreement | Code>(
+export function compareDilaContent<T extends Agreement | Code>(
   previous: T,
   current: T
 ): Diff {
-  const previousData = getDataForChange(previous);
+  const previousData = extractData(previous);
   const articlesPreviousCids = previousData.articles.map((a) => a.data.cid);
 
-  const currentData = getDataForChange(current);
+  const currentData = extractData(current);
   const articlesCurrentCids = currentData.articles.map((a) => a.data.cid);
 
   // new : articles in current not in previous
