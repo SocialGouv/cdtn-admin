@@ -4,21 +4,18 @@ import type { ConvenientPatch, Tree } from "nodegit";
 import processAgreementFileChanges from "../ProcessAgreementFileChanges";
 
 describe("Creation des AgreementFileChange à partir d'un patch", () => {
-  const createMockPatch = (
+const createPatch = (
     added: boolean,
     removed: boolean,
     modified: boolean
-  ) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const newFile: DiffFile = { path: () => "my-file.json" };
+  ): ConvenientPatch => {
+    const newFile = { path: () => "my-file.json" } as DiffFile;
     return {
       isAdded: () => added,
       isDeleted: () => removed,
       isModified: () => modified,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       newFile: () => newFile,
-    };
+    } as ConvenientPatch;
   };
   const mockAgreement = '{"type":"legi","data":{},"children":[]}';
 
