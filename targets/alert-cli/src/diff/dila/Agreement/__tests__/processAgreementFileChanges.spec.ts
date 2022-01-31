@@ -35,7 +35,7 @@ describe("Creation des AgreementFileChange à partir d'un patch", () => {
     } as unknown as Tree;
   };
 
-  it("pour un ajout", async () => {
+  it("génère un AgreementFileChange pour un ajout", async () => {
     const patch = createPatch(true, false, false);
     const result = await processAgreementFileChanges(
       [patch],
@@ -50,7 +50,7 @@ describe("Creation des AgreementFileChange à partir d'un patch", () => {
     expect(JSON.stringify(change.current)).toEqual(agreementB);
   });
 
-  it("pour une modification", async () => {
+  it("génère un AgreementFileChange pour une modification", async () => {
     const patch = createPatch(false, false, true);
 
     const result = await processAgreementFileChanges(
@@ -66,7 +66,7 @@ describe("Creation des AgreementFileChange à partir d'un patch", () => {
     expect(JSON.stringify(change.current)).toEqual(agreementB);
   });
 
-  it("pour une suppression", async () => {
+  it("génère un AgreementFileChange pour une suppression", async () => {
     const patch = createPatch(false, true, false);
     const result = await processAgreementFileChanges(
       [patch],
