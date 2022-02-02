@@ -1,2 +1,2 @@
-export * from "./keyParser";
 export * from "./isHtml";
+export * from "./keyParser";

@@ -1,4 +1,5 @@
 import memoizee from "memoizee";
+
 import { isHTML } from "./utils";
 
 const conventionMatchers = [
