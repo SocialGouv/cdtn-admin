@@ -45,7 +45,7 @@
   },
   "scripts": {
     "build": "ncc build src -o lib",
-    "lint": "eslint src",
+    "lint": "eslint src/**/*.{js,ts}",
     "precommit": "lint-staged",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "test": "jest"

@@ -46,7 +46,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "lint": "eslint src",
+    "lint": "eslint \"./src/**/*.{js,ts}\"",
     "lint:fix": "yarn lint --fix",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "precommit": "lint-staged",

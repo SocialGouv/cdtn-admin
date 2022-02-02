@@ -96,7 +96,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "lint": "eslint src/*",
+    "lint": "eslint \"./src/**/*.{js,ts}\"",
     "precommit": "lint-staged",
     "start": "next start",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
