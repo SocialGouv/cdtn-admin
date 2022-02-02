@@ -21,5 +21,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-throw-literal": "warn",
     "@typescript-eslint/no-misused-promises": "warn",
+    "@typescript-eslint/no-throw-literal": "warn",
+    "@typescript-eslint/require-await": "warn",
   },
 };
