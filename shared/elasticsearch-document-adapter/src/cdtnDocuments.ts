@@ -75,7 +75,7 @@ export async function* cdtnDocumentsGen() {
   const themesQueryResult = await fetch(CDTN_ADMIN_ENDPOINT, {
     body: themesQuery,
     method: "POST",
-  }).then(async (r) => {
+  }).then(async (r: any) => {
     const data = await r.json();
     if (r.ok) {
       return data;
