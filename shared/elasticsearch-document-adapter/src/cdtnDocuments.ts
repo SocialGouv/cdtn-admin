@@ -171,15 +171,10 @@ export async function* cdtnDocumentsGen() {
         if (newAnswer.conventions) {
           newAnswer.conventions = answers.conventions.map((answer: any) => {
             const highlight = ccnListWithHighlight[answer.idcc];
-            const obj = keyFunctionParser(
-              "markdown",
-              {
-                ...answer,
-                ...(highlight ? { highlight } : {}),
-              },
-              addGlossary
-            );
-            return obj;
+            return {
+              ...answer,
+              ...(highlight ? { highlight } : {}),
+            };
           });
         }
         const obj = keyFunctionParser(
