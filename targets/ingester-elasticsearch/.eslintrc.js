@@ -8,4 +8,9 @@ module.exports = {
   rules: {
     "@typescript-eslint/member-ordering": "warn",
   },
+  settings: {
+    jest: {
+      version: 26,
+    },
+  },
 };
