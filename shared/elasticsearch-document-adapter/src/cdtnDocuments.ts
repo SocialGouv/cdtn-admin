@@ -89,6 +89,9 @@ export async function* cdtnDocumentsGen() {
 
   const glossaryTerms = await getGlossary();
   const addGlossary = createGlossaryTransform(glossaryTerms);
+  const addGlossaryToAllMarkdownField = (obj: Record<string, any>) => {
+    return keyFunctionParser("markdown", obj, addGlossary);
+  };
 
   logger.info("=== Editorial contents ===");
   const documents = await getDocumentBySource(
@@ -177,20 +180,17 @@ export async function* cdtnDocumentsGen() {
             };
           });
         }
-        const obj = keyFunctionParser(
-          "markdown",
-          {
-            ...contribution,
-            answers: {
-              ...newAnswer,
-            },
-            breadcrumbs:
-              breadcrumbs.length > 0
-                ? breadcrumbs
-                : breadcrumbsOfRootContributionsPerIndex[contribution.index],
+
+        const obj = addGlossaryToAllMarkdownField({
+          ...contribution,
+          answers: {
+            ...newAnswer,
           },
-          addGlossary
-        );
+          breadcrumbs:
+            breadcrumbs.length > 0
+              ? breadcrumbs
+              : breadcrumbsOfRootContributionsPerIndex[contribution.index],
+        });
         return obj;
       }
     ),
