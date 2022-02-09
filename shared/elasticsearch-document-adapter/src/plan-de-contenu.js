@@ -71,7 +71,7 @@ async function fetchDocuments(source, page) {
     body: gqlRequestBySource(source, page * LIMIT, LIMIT),
     method: "POST",
   })
-    .then((r) => r.json())
+    .then(async (r) => r.json())
     .then((result) => {
       if (result.errors) {
         console.error(result.errors);
@@ -92,7 +92,7 @@ async function fetchGlossary() {
     }),
     method: "POST",
   })
-    .then((r) => r.json())
+    .then(async (r) => r.json())
     .then((result) => {
       if (result.errors) {
         console.error(result.errors);
@@ -138,11 +138,11 @@ async function getDocuments() {
     const nbDocResult = await fetch(CDTN_ADMIN_ENDPOINT, {
       body: gqlAgreggateDocumentBySource(source),
       method: "POST",
-    }).then((r) => r.json());
+    }).then(async (r) => r.json());
 
     const nbDoc = nbDocResult.data.documents_aggregate.aggregate.count;
     const pages = Array.from({ length: Math.ceil(nbDoc / LIMIT) }, (_, i) => i);
-    const handler = (page) => fetchDocuments(source, page);
+    const handler = async (page) => fetchDocuments(source, page);
     const docs = await batchPromises(pages, handler, 15);
     sourceDocs.push(
       docs.flatMap(({ value, status }) => (status === "fulfilled" ? value : []))
@@ -178,7 +178,7 @@ async function main() {
   const themesQueryResult = await fetch(CDTN_ADMIN_ENDPOINT, {
     body: themesQuery,
     method: "POST",
-  }).then((r) => r.json());
+  }).then(async (r) => r.json());
 
   const themes = themesQueryResult.data.themes;
 
