@@ -20,7 +20,7 @@
   "scripts": {
     "build": "ncc build ./src/cli.ts -o ./bin -s",
     "slugchecker-cli": "ncc run ./src/slug-checker.ts",
-    "lint": "eslint \"./src/**/*.{js,ts}\"",
+    "lint": "eslint src",
     "prepush": "yarn build && yarn lint && yarn test",
     "precommit": "lint-staged",
     "start": "node --enable-source-maps --unhandled-rejections=strict bin/index.js",

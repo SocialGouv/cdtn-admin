@@ -1,0 +1,27 @@
+0 silly argv {
+0 silly argv   _: [ 'run' ],
+0 silly argv   concurrency: 1,
+0 silly argv   'exclude-dependents': true,
+0 silly argv   excludeDependents: true,
+0 silly argv   parallel: true,
+0 silly argv   since: 'HEAD',
+0 silly argv   stream: true,
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': '/Users/max/Documents/Pro/SocialGouv/cdtn-admin/node_modules/.bin/lerna',
+0 silly argv   script: 'precommit'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/max/Documents/Pro/SocialGouv/cdtn-admin
+3 error JSONError: Unexpected token "<" (0x3C) in JSON at position 134 while parsing near "...odules - ingester\",\n<<<<<<< HEAD\n  \"vers..." in shared/elasticsearch-document-adapter/package.json
+3 error
+3 error [0m [90m 2 |[39m   [32m"name"[39m[33m:[39m [32m"@shared/elasticsearch-document-adapter"[39m[33m,[39m[0m
+3 error [0m [90m 3 |[39m   [32m"description"[39m[33m:[39m [32m"SocialGouv - Code du travail numerique - Modules - ingester"[39m[33m,[39m[0m
+3 error [0m[31m[1m>[22m[39m[90m 4 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[0m
+3 error [0m [90m   |[39m [31m[1m^[22m[39m[0m
+3 error [0m [90m 5 |[39m   [32m"version"[39m[33m:[39m [32m"1.14.0"[39m[33m,[39m[0m
+3 error [0m [90m 6 |[39m [33m===[39m[33m===[39m[33m=[39m[0m
+3 error [0m [90m 7 |[39m   [32m"version"[39m[33m:[39m [32m"1.13.1"[39m[33m,[39m[0m
+3 error
+3 error     at module.exports (/Users/max/Documents/Pro/SocialGouv/cdtn-admin/node_modules/parse-json/index.js:29:21)
+3 error     at parse (/Users/max/Documents/Pro/SocialGouv/cdtn-admin/node_modules/load-json-file/index.js:15:9)
+3 error     at module.exports (/Users/max/Documents/Pro/SocialGouv/cdtn-admin/node_modules/load-json-file/index.js:18:47)

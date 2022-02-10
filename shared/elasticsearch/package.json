@@ -34,7 +34,7 @@
     "prettier": "^2.3.2"
   },
   "scripts": {
-    "lint": "eslint \"./src/**/*.{js,ts}\"",
+    "lint": "eslint .",
     "precommit": "lint-staged",
     "prepush": "yarn lint && yarn test --bail --changedSince=master",
     "test": "jest"

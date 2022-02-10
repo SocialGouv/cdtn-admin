@@ -9,7 +9,7 @@ const testDoc = {
 
 jest.mock("@socialgouv/cdtn-monolog", () => ({
   LogQueries: () => ({
-    getCovisitLinks: async (path) => {
+    getCovisitLinks: (path) => {
       if (
         path == "fiche-ministere-travail/activite-partielle-chomage-partiel"
       ) {
@@ -22,10 +22,10 @@ jest.mock("@socialgouv/cdtn-monolog", () => ({
 }));
 
 describe("Test covisits are added if available.", () => {
-  test("should add covisites to item", async () =>
+  test("should add covisites to item", () =>
     expect(fetchCovisits(testDoc)).resolves.toMatchSnapshot());
 
-  test("should not fail with other item", async () =>
+  test("should not fail with other item", () =>
     expect(
       fetchCovisits({ slug: "fake", source: SOURCES.SHEET_MT })
     ).resolves.toMatchSnapshot());

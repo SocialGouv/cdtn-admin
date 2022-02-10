@@ -25,18 +25,13 @@
   "devDependencies": {
     "@babel/cli": "^7.15.7",
     "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-typescript": "^7.16.7",
-    "@socialgouv/eslint-config-typescript": "^1.103.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.15.4",
+    "@socialgouv/eslint-config-recommended": "^1.85.4",
     "@socialgouv/kali-data-types": "^2.127.0",
-    "@types/memoizee": "^0.4.7",
-    "@types/node-fetch": "^2.5.12",
-    "@vercel/ncc": "^0.33.1",
     "eslint": "^7.32.0",
     "jest": "^27.1.1",
     "lint-staged": "^11.1.2",
-    "prettier": "^2.3.2",
-    "typescript": "^4.5.5"
+    "prettier": "^2.3.2"
   },
   "license": "Apache-2.0",
   "main": "lib/index.js",
@@ -47,8 +42,8 @@
     "url": "https://github.com/SocialGouv/cdtn-admin.git"
   },
   "scripts": {
-    "build": "ncc build src -o lib",
-    "lint": "eslint src/**/*.{js,ts}",
+    "build": "babel src --out-dir lib --ignore \"src/**/*.test.js\"",
+    "lint": "eslint src",
     "precommit": "lint-staged",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "test": "jest"

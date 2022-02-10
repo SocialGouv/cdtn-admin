@@ -1,7 +1,5 @@
 import memoizee from "memoizee";
 
-import { isHTML } from "./utils";
-
 const conventionMatchers = [
   "convention collective",
   "conventions collectives",
@@ -26,18 +24,19 @@ const endTag = `(?=[^<]*</)`;
  */
 const DISABLE_GLOSSARY = process.env.DISABLE_GLOSSARY || false;
 
-export const createGlossaryTransform = (glossaryTerms: any) => {
-  function addGlossary(htmlContent: string) {
+export const createGlossaryTransform = (glossaryTerms) => {
+  function addGlossary(htmlContent) {
     if (DISABLE_GLOSSARY) {
       return htmlContent;
     }
+
     if (!htmlContent) return "";
 
     let idHtmlContent = htmlContent;
 
-    let glossary: any[] = [];
+    let glossary = [];
     glossaryTerms.forEach(
-      ({ abbreviations = [], definition, term, variants = [] }: any) => {
+      ({ abbreviations = [], definition, term, variants = [] }) => {
         glossary = glossary.concat(
           [term, ...variants].map((term) => ({
             definition,
@@ -81,7 +80,7 @@ export const createGlossaryTransform = (glossaryTerms: any) => {
     glossary.forEach(({ definition, pattern, term }, index) => {
       // while we loop, we replace the matches with an id to prevent nested matches
       idHtmlContent = idHtmlContent.replace(
-        isHTML(idHtmlContent) ? pattern : term,
+        pattern,
         function (
           match // contains the matching term with the word boundaries
         ) {

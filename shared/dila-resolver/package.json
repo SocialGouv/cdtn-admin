@@ -33,7 +33,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "dev": "ts-node src/main.ts",
-    "lint": "eslint \"./src/**/*.{js,ts}\"",
+    "lint": "eslint . --cache",
     "lint:fix": "yarn lint --fix",
     "precommit": "lint-staged",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",

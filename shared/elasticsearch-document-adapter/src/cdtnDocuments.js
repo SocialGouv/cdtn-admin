@@ -12,7 +12,6 @@ import {
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
 import { markdownTransform } from "./markdown";
-import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 
 const CDTN_ADMIN_ENDPOINT =
@@ -51,31 +50,25 @@ const themesQuery = JSON.stringify({
  * Find duplicate slugs
  * @param {iterable} allDocuments is an iterable generator
  */
-export async function getDuplicateSlugs(allDocuments: any) {
-  let slugs: any = [];
+export async function getDuplicateSlugs(allDocuments) {
+  let slugs = [];
   for await (const documents of allDocuments) {
     slugs = slugs.concat(
-      documents.map(({ source, slug }: any) => `${source}/${slug}`)
+      documents.map(({ source, slug }) => `${source}/${slug}`)
     );
   }
 
   return slugs
-    .map((slug: string) => ({
-      count: slugs.filter((s: string) => slug === s).length,
-      slug,
-    }))
-    .filter(({ count }: any) => count > 1)
-    .reduce(
-      (state: any, { slug, count }: any) => ({ ...state, [slug]: count }),
-      {}
-    );
+    .map((slug) => ({ count: slugs.filter((s) => slug === s).length, slug }))
+    .filter(({ count }) => count > 1)
+    .reduce((state, { slug, count }) => ({ ...state, [slug]: count }), {});
 }
 
 export async function* cdtnDocumentsGen() {
   const themesQueryResult = await fetch(CDTN_ADMIN_ENDPOINT, {
     body: themesQuery,
     method: "POST",
-  }).then(async (r: any) => {
+  }).then(async (r) => {
     const data = await r.json();
     if (r.ok) {
       return data;
@@ -89,9 +82,6 @@ export async function* cdtnDocumentsGen() {
 
   const glossaryTerms = await getGlossary();
   const addGlossary = createGlossaryTransform(glossaryTerms);
-  const addGlossaryToAllMarkdownField = (obj: Record<string, any>) => {
-    return keyFunctionParser("markdown", obj, addGlossary);
-  };
 
   logger.info("=== Editorial contents ===");
   const documents = await getDocumentBySource(
@@ -141,7 +131,7 @@ export async function* cdtnDocumentsGen() {
     return ccn.highlight;
   });
   const ccnListWithHighlight = ccnListWithHighlightFiltered.reduce(
-    (acc: any, curr: any) => {
+    (acc, curr) => {
       acc[curr.num] = curr.highlight;
       return acc;
     },
@@ -149,7 +139,7 @@ export async function* cdtnDocumentsGen() {
   );
 
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
-    (state: any, contribution: any) => {
+    (state, contribution) => {
       if (contribution.breadcrumbs.length > 0) {
         state[contribution.index] = contribution.breadcrumbs;
       }
@@ -161,7 +151,7 @@ export async function* cdtnDocumentsGen() {
   // we keep track of the idccs used in the contributions
   // in order to flag the corresponding conventions collectives below
   const contribIDCCs = new Set();
-  contributions.forEach(({ answers }: any) => {
+  contributions.forEach(({ answers }) => {
     if (answers.conventionAnswer) {
       contribIDCCs.add(parseInt(answers.conventionAnswer.idcc));
     }
@@ -169,10 +159,10 @@ export async function* cdtnDocumentsGen() {
 
   yield {
     documents: contributions.map(
-      ({ answers, breadcrumbs, ...contribution }: any) => {
+      ({ answers, breadcrumbs, ...contribution }) => {
         const newAnswer = answers;
         if (newAnswer.conventions) {
-          newAnswer.conventions = answers.conventions.map((answer: any) => {
+          newAnswer.conventions = answers.conventions.map((answer) => {
             const highlight = ccnListWithHighlight[answer.idcc];
             return {
               ...answer,
@@ -180,18 +170,20 @@ export async function* cdtnDocumentsGen() {
             };
           });
         }
-
-        const obj = addGlossaryToAllMarkdownField({
+        return {
           ...contribution,
           answers: {
             ...newAnswer,
+            generic: {
+              ...answers.generic,
+              markdown: addGlossary(answers.generic.markdown),
+            },
           },
           breadcrumbs:
             breadcrumbs.length > 0
               ? breadcrumbs
               : breadcrumbsOfRootContributionsPerIndex[contribution.index],
-        });
-        return obj;
+        };
       }
     ),
     source: SOURCES.CONTRIBUTIONS,
@@ -211,7 +203,7 @@ export async function* cdtnDocumentsGen() {
         shortTitle,
         title: shortTitle,
         ...content,
-        answers: content.answers.map((data: any) => {
+        answers: content.answers.map((data) => {
           const contrib = contributions.find(({ slug }) => data.slug === slug);
           if (!contrib) {
             // slug de la contrib
@@ -245,7 +237,7 @@ export async function* cdtnDocumentsGen() {
   yield {
     documents: fichesMT.map(({ sections, ...infos }) => ({
       ...infos,
-      sections: sections.map(({ html, ...section }: any) => {
+      sections: sections.map(({ html, ...section }) => {
         delete section.description;
         delete section.text;
         return {
