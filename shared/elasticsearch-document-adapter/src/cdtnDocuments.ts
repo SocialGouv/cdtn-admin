@@ -12,7 +12,7 @@ import {
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
 import { markdownTransform } from "./markdown";
-import { keyFunctionParser } from "./utils";
+// import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 
 const CDTN_ADMIN_ENDPOINT =
