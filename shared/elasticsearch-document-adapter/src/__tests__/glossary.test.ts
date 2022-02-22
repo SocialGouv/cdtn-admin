@@ -51,10 +51,15 @@ describe("addGlossary", () => {
       `<p class="un accord de branche ou pas">voici une <webcomponent-tooltip-cc>convention collective</webcomponent-tooltip-cc> et un web component mais aussi <webcomponent-tooltip content="Phrase%20ou%20ensemble%20de%20phrases%20d%E2%80%99un%20accord%2C%20d%E2%80%99une%20convention%20collective%2C%20d%E2%80%99une%20loi.">dispositions</webcomponent-tooltip>, ceci est un test</p>`
     );
   });
-  test("should replace the string by adding webcomponent-tooltip", () => {
-    const htmlContent = `L'indemnité de fin de contrat n'est pas due dans les cas suivants`;
-    expect(addGlossary(htmlContent)).toEqual(
-      `L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants`
-    );
-  });
+  test.each`
+    htmlContent                                                                                        | result
+    ${`L'indemnité de fin de contrat n'est pas due dans les cas suivants`}                             | ${`L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants`}
+    ${`<HDN>L'indemnité de fin de contrat n'est pas due dans les cas suivants</HDN>`}                  | ${`<HDN>L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants</HDN>`}
+    ${`voici une convention collective et un web component mais aussi dispositions, ceci est un test`} | ${`voici une <webcomponent-tooltip-cc>convention collective</webcomponent-tooltip-cc> et un web component mais aussi <webcomponent-tooltip content="Phrase%20ou%20ensemble%20de%20phrases%20d%E2%80%99un%20accord%2C%20d%E2%80%99une%20convention%20collective%2C%20d%E2%80%99une%20loi.">dispositions</webcomponent-tooltip>, ceci est un test`}
+  `(
+    "should replace the string by adding webcomponent-tooltip",
+    ({ htmlContent, result }) => {
+      expect(addGlossary(htmlContent)).toEqual(result);
+    }
+  );
 });

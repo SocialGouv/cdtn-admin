@@ -225,20 +225,31 @@ l'elasticsearch du projet [code-du-travail-numerique](https://github.com/SocialG
 
 Ce script utilise les variables suivantes :
 
-| Variable  | Description | Par défaut |
-| --------- |  ---------  | ---------  |
-| CDTN_ADMIN_ENDPOINT | URL vers l'endpoint de l'admin (ou d'hasura) | http://localhost:8080/v1/graphql |  
-| HASURA_GRAPHQL_ENDPOINT | URL vers l'endpoint GraphQL d'Hasura | http://localhost:8082/v1/graphql |
-| HASURA_GRAPHQL_ADMIN_SECRET | L'admin secret pour se connected à Hasura | admin1 |
-| HASURA_GRAPHQL_JWT_SECRET | Le JWT secret pour se connected à Hasura | `{"type": "HS256", "key": "a_pretty_long_secret_key_that_should_be_at_least_32_char"}` |
-| NLP_URL | URL vers le [serving-ml](https://github.com/SocialGouv/serving-ml) permettant de vectoriser les documents | vide |
-| ES_LOGS | URL ver le [monolog](https://github.com/SocialGouv/cdtn-monolog) permettant de récupérer les covisites sur les pages | vide | 
-| ES_LOGS_TOKEN | Token pour se connecter au monolog | vide |
+| Variable                    | Description                                                                                                          | Par défaut                                                                             |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| CDTN_ADMIN_ENDPOINT         | URL vers l'endpoint de l'admin (ou d'hasura)                                                                         | http://localhost:8080/v1/graphql                                                       |
+| HASURA_GRAPHQL_ENDPOINT     | URL vers l'endpoint GraphQL d'Hasura                                                                                 | http://localhost:8082/v1/graphql                                                       |
+| HASURA_GRAPHQL_ADMIN_SECRET | L'admin secret pour se connected à Hasura                                                                            | admin1                                                                                 |
+| HASURA_GRAPHQL_JWT_SECRET   | Le JWT secret pour se connected à Hasura                                                                             | `{"type": "HS256", "key": "a_pretty_long_secret_key_that_should_be_at_least_32_char"}` |
+| NLP_URL                     | URL vers le [serving-ml](https://github.com/SocialGouv/serving-ml) permettant de vectoriser les documents            | vide                                                                                   |
+| ES_LOGS                     | URL ver le [monolog](https://github.com/SocialGouv/cdtn-monolog) permettant de récupérer les covisites sur les pages | vide                                                                                   |
+| ES_LOGS_TOKEN               | Token pour se connecter au monolog                                                                                   | vide                                                                                   |
 
 Certaines variables permettent d'activer une fonctionnalité :
 
- * `NLP_URL` permet d'activer la vectorisation des documents pour la recherche. Pour l'activer, vous pouvez utiliser l'URL <https://preprod-serving-ml.dev.fabrique.social.gouv.fr>.
- * `ES_LOGS` et `ES_LOGS_TOKEN` permettent d'activer les `Articles liés`. Pour l'activer, vous pouvez récupérer ces informations depuis Rancher. 
+- `NLP_URL` permet d'activer la vectorisation des documents pour la recherche. Pour l'activer, vous pouvez utiliser l'URL <https://preprod-serving-ml.dev.fabrique.social.gouv.fr>.
+- `ES_LOGS` et `ES_LOGS_TOKEN` permettent d'activer les `Articles liés`. Pour l'activer, vous pouvez récupérer ces informations depuis Rancher.
+
+#### Tester localement l'ingester ES avec le frontend
+
+```sh
+docker-compose up -d postgres
+docker-compose up -d hasura
+docker-compose up -d elastisearch # côté cdtn-frontend
+yarn build && ES_INDEX_PREFIX=cdtn-v1 yarn workspace ingester-es start:dev
+ELASTICSEARCH_URL=http://localhost:9200 yarn dev:api # côté cdtn-frontend
+API_URL=http://localhost:1337/api/v1 yarn workspace @cdt/frontend dev # côté cdtn-frontend
+```
 
 ## Linked repositories
 
