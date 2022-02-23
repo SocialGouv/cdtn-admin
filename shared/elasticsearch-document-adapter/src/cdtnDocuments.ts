@@ -90,7 +90,9 @@ export async function* cdtnDocumentsGen() {
   const glossaryTerms = await getGlossary();
   const addGlossary = createGlossaryTransform(glossaryTerms);
   const addGlossaryToAllMarkdownField = (obj: Record<string, any>) => {
-    return keyFunctionParser("markdown", obj, addGlossary);
+    return keyFunctionParser("markdown", obj, (content) =>
+      addGlossary(content, true)
+    );
   };
 
   logger.info("=== Editorial contents ===");
