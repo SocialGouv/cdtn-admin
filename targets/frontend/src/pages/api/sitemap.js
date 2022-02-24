@@ -2,12 +2,8 @@ import { client } from "@shared/graphql-client";
 import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import pLimit from "p-limit";
 
-export default async function Sitemap(req, res) {
-  const baseUrl = req.query.baseurl || "https://code.travail.gouv.fr";
-  const documents = await getDocuments();
-
+export async function toUrlEntries(documents, glossaryTerms, baseUrl) {
   let latestPost = 0;
-
   const pages = documents.flat().map((doc) => {
     const postDate = Date.parse(doc.modified);
     if (!latestPost || postDate > latestPost) {
@@ -29,12 +25,24 @@ export default async function Sitemap(req, res) {
     `/glossaire`,
   ].map((path) => toUrlEntry(`${baseUrl}${path}`));
 
-  const glossaryTerms = await getGlossary();
   const glossaryPages = glossaryTerms.map(({ slug, modified }) =>
     toUrlEntry(
       `${baseUrl}/${getRouteBySource(SOURCES.GLOSSARY)}/${slug}`,
       modified
     )
+  );
+  return { glossaryPages, latestPost, pages, staticPages };
+}
+
+export default async function Sitemap(req, res) {
+  const baseUrl = req.query.baseurl || "https://code.travail.gouv.fr";
+  const documents = await getDocuments();
+  const glossaryTerms = await getGlossary();
+
+  const { latestPost, pages, staticPages, glossaryPages } = await toUrlEntries(
+    documents,
+    glossaryTerms,
+    baseUrl
   );
 
   res.setHeader("Content-Type", "text/xml");
@@ -58,12 +66,8 @@ export default async function Sitemap(req, res) {
  * @param {number} priority
  */
 function toUrlEntry(url, date = new Date().toISOString(), priority = 0.5) {
-  return `
-  <url>
-    <loc>${url}</loc>
-    <lastmod>${date}</lastmod>
-    <priority>${priority}</priority>
-  </url>`;
+  return `<url><loc>${url}</loc><lastmod>${date}</lastmod><priority>${priority}</priority></url>
+`;
 }
 
 /**
