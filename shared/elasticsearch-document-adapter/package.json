@@ -59,7 +59,10 @@
     ]
   },
   "jest": {
-    "rootDir": "src"
+    "rootDir": "src",
+    "testMatch": [
+      "**/?(*.)+(spec|test).+(ts|tsx|js)"
+    ]
   },
   "sideEffects": false,
   "typings": "index.d.ts"
