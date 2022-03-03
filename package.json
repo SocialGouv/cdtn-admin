@@ -13,7 +13,8 @@
     "start": "nps",
     "test": "nps test",
     "k8s": "yarn --silent --cwd .k8s",
-    "prepare": "test -n \"$CI\" || husky install"
+    "prepare": "test -n \"$CI\" || husky install",
+    "clean": "lerna clean"
   },
   "workspaces": [
     "shared/*",

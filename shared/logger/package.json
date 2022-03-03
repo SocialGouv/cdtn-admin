@@ -1,7 +1,7 @@
 {
   "name": "@socialgouv/cdtn-logger",
   "description": "SocialGouv - Code du travail numerique - Infrastructure - Logger",
-  "version": "1.13.1",
+  "version": "1.14.1",
   "babel": {
     "env": {
       "test": {
@@ -46,7 +46,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "lint": "eslint src",
+    "lint": "eslint \"./src/**/*.{js,ts}\"",
     "lint:fix": "yarn lint --fix",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "precommit": "lint-staged",
