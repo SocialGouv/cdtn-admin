@@ -5,7 +5,7 @@ import type {
 import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
 
 import { createToJson } from "../node-git.helpers";
-import { ficheTravailPrequalifiedRelevantDocuments } from "./preQualified-relevantContent";
+import { ficheTravailPrequalifiedRelevantDocuments } from "./pre-qualified-relevant-content";
 import type { DataDiffFunction } from "./type";
 
 export const processTravailDataDiff: DataDiffFunction = async ({
@@ -30,7 +30,9 @@ export const processTravailDataDiff: DataDiffFunction = async ({
       changes.documents = await ficheTravailPrequalifiedRelevantDocuments(
         changes
       );
-      console.log(`${tag.ref} ${changes.documents.length} prequalified found`);
+      console.log(
+        `${tag.ref} ${changes.documents.length} prequalified/themes found`
+      );
 
       return changes;
     })

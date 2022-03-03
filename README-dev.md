@@ -245,7 +245,7 @@ Certaines variables permettent d'activer une fonctionnalité :
 ```sh
 docker-compose up -d postgres
 docker-compose up -d hasura
-docker-compose up -d elastisearch # côté cdtn-frontend
+docker-compose up -d elasticsearch # côté cdtn-frontend
 yarn build && ES_INDEX_PREFIX=cdtn-v1 yarn workspace ingester-es start:dev
 ELASTICSEARCH_URL=http://localhost:9200 yarn dev:api # côté cdtn-frontend
 API_URL=http://localhost:1337/api/v1 yarn workspace @cdt/frontend dev # côté cdtn-frontend
