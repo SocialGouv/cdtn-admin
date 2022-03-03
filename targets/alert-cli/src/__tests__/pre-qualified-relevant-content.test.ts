@@ -9,7 +9,13 @@ jest.mock("../extractDilaReferences/getAllDocumentsBySource", () => ({
         cdtnId: "1",
         title: "Handicap",
         source: "themes",
-        contentRelations: [],
+        contentRelations: [
+          {
+            document: {
+              initialId: "F2839",
+            },
+          },
+        ],
       },
       {
         cdtnId: "2",
@@ -48,6 +54,11 @@ describe("_getDocumentsWithRelations", () => {
     const result = await _getDocumentsWithRelations();
     expect(result.size).toEqual(2);
     expect(result.get("F2839")).toEqual([
+      {
+        id: "1",
+        source: "themes",
+        title: "Handicap",
+      },
       {
         id: "2",
         source: "prequalified",
