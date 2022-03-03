@@ -79,7 +79,7 @@ export async function getGlossary() {
   const result = await fetch(CDTN_ADMIN_ENDPOINT, {
     body: gqlGlossary(),
     method: "POST",
-  }).then((r) => r.json());
+  }).then(async (r) => r.json());
   if (result.errors && result.errors.length) {
     console.error(result.errors[0].message);
     throw new Error(`error fetching kali blocks`);
@@ -126,7 +126,7 @@ const createDocumentsFetcher =
     const nbDocResult = await fetch(CDTN_ADMIN_ENDPOINT, {
       body: gqlAgreggateDocumentBySource(source),
       method: "POST",
-    }).then((r) => r.json());
+    }).then(async (r) => r.json());
     if (nbDocResult.errors && nbDocResult.errors.length) {
       return [];
     }
@@ -134,13 +134,13 @@ const createDocumentsFetcher =
     const queue = new PQueue({ concurrency });
 
     return Array.from({ length: Math.ceil(nbDoc / pageSize) }, (_, i) => i).map(
-      (index) => {
-        return queue.add(() => {
+      async (index) => {
+        return queue.add(async () => {
           return fetch(CDTN_ADMIN_ENDPOINT, {
             body: gqlRequest(source, index * pageSize, pageSize),
             method: "POST",
           })
-            .then((res) => {
+            .then(async (res) => {
               if (res.ok) {
                 return res.json();
               }

@@ -1,5 +1,7 @@
+import type { Code } from "@socialgouv/legi-data-types";
+
 import type { GitTagData } from "../../../types";
-import { compareTree } from "../CompareTree";
+import { compareDilaContent } from "../CompareDilaContent";
 import type { DilaChanges, RelevantDocumentsFunction } from "../types";
 import type { CodeFileChange } from "./types";
 
@@ -10,7 +12,10 @@ const processCodeChanges = async (
 ): Promise<DilaChanges[]> => {
   return Promise.all(
     fileChanges.map(async (fileChange) => {
-      const changes = compareTree<CodeFileChange>(fileChange);
+      const changes = compareDilaContent<Code>(
+        fileChange.previous,
+        fileChange.current
+      );
 
       const documents = await getRelevantDocuments(changes);
       if (documents.length > 0) {
@@ -20,17 +25,12 @@ const processCodeChanges = async (
         );
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const data = fileChange.current.data
-        ? fileChange.current.data
-        : fileChange.previous.data;
-
       return {
         ...changes,
         documents,
         file: fileChange.file,
-        id: data.id,
-        title: data.title,
+        id: fileChange.current.data.id,
+        title: fileChange.current.data.title,
       };
     })
   );
