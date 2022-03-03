@@ -1,15 +1,15 @@
 {
   "name": "ingester",
-  "version": "1.13.1",
+  "version": "1.14.1",
   "dependencies": {
-    "@shared/graphql-client": "^1.13.1",
-    "@shared/id-generator": "^1.13.1",
+    "@shared/graphql-client": "^1.14.1",
+    "@shared/id-generator": "^1.14.1",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
     "get-uri": "^3.0.2",
     "got": "^11.8.2",
     "gunzip-maybe": "^1.4.2",
-    "p-retry": "^4.6.1",
+    "p-retry": "^5.0.0",
     "query-string": "^7.0.1",
     "remark": "^13.0.0",
     "remark-html": "^13.0.2",
@@ -40,7 +40,7 @@
     "babel-jest": "^27.1.1",
     "eslint": "^7.32.0",
     "jest": "^27.1.1",
-    "lint-staged": "^11.1.2",
+    "lint-staged": "^12.0.0",
     "prettier": "^2.3.2",
     "ts-jest": "^27.0.5",
     "typescript": "^4.4.3"
