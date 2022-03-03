@@ -34,7 +34,7 @@
     "date-fns": "^2.23.0",
     "diff": "^5.0.0",
     "eslint-config-next": "^11.1.2",
-    "formidable": "^1.2.2",
+    "formidable": "^2.0.0",
     "graphql": "^15.5.3",
     "http-proxy-middleware": "^2.0.1",
     "isomorphic-unfetch": "^3.1.0",
