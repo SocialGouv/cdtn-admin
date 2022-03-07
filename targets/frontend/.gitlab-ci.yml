@@ -31,20 +31,6 @@
 #
 #
 
-🃏 test www:
-  extends:
-    - .autodevops_test
-    - .cdtn_base_rules
-  needs:
-    - job: 🧶 install www
-      artifacts: true
-  before_script:
-    - cd targets/frontend
-
-#
-#
-#
-
 📦 build www:
   extends:
     - .base_yarn_build_next

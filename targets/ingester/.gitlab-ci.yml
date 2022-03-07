@@ -31,20 +31,6 @@
 #
 #
 
-🃏 test ingester:
-  extends:
-    - .autodevops_test
-    - .cdtn_base_rules
-  needs:
-    - job: 🧶 install ingester
-      artifacts: true
-  before_script:
-    - cd targets/ingester
-
-#
-#
-#
-
 📦 build ingester:
   extends:
     - .base_yarn_script
