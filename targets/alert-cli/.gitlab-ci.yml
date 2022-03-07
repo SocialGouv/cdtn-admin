@@ -44,19 +44,6 @@
   before_script:
     - cd targets/alert-cli
 
-🔬 lint alert:
-  extends:
-    - .autodevops_lint
-    - .cdtn_base_rules
-  image: node:14.18.0-alpine3.11
-  needs:
-    - job: 🧶 install alert
-      artifacts: true
-    - job: 📦 Dila resolver
-      artifacts: true
-  before_script:
-    - cd targets/alert-cli
-
 #
 #
 #

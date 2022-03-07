@@ -41,19 +41,6 @@
   before_script:
     - cd targets/ingester-elasticsearch
 
-🔬 lint ingester-elasticsearch:
-  extends:
-    - .autodevops_lint
-    - .cdtn_base_rules
-  needs:
-    - job: 🧶 install ingester-elasticsearch
-      artifacts: true
-  before_script:
-    - cd targets/ingester-elasticsearch
-  script:
-    - yarn types
-    - yarn lint
-
 #
 #
 #

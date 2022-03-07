@@ -65,4 +65,5 @@ jobs:
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@v1.6.0
         with:
+          failure-threshold: error
           recursive: true
