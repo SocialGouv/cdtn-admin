@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        repositories: ["frontend"]
+        repositories: ["frontend", "alert-cli", "ingester", "ingester-es", "@shared/dila-resolver", "@socialgouv/cdtn-elasticsearch", "@shared/elasticsearch-document-adapter", "@socialgouv/cdtn-logger"]
     steps:
       - uses: actions/cache@v2
         name: Restore build
