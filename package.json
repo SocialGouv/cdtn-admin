@@ -22,6 +22,9 @@
   ],
   "name": "cdtn-admin",
   "volta": {
-    "node": "14.18.0"
+    "node": "14.18.1"
+  },
+  "engines": {
+    "node": "v14.18.1"
   }
 }
