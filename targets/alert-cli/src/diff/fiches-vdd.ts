@@ -3,7 +3,7 @@ import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../node-git.helpers";
 import type { FicheVdd, FicheVddIndex, FicheVddNode } from "../types";
-import { vddPrequalifiedRelevantDocuments } from "./preQualified-relevantContent";
+import { vddPrequalifiedRelevantDocuments } from "./pre-qualified-relevant-content";
 import type { DataDiffFunction } from "./type";
 
 export const processVddDiff: DataDiffFunction = async ({
@@ -122,7 +122,7 @@ export const processVddDiff: DataDiffFunction = async ({
     return [];
   }
   const documents = await vddPrequalifiedRelevantDocuments(changes);
-  console.log(`${tag.ref} ${documents.length} prequalified found`);
+  console.log(`${tag.ref} ${documents.length} prequalified/themes found`);
   return [
     {
       date: tag.commit.date(),

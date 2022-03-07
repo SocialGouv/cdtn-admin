@@ -7,9 +7,9 @@ query getAllDocumentsBySource($source: [String!], $limit:Int=10,$offset:Int=0 ) 
     limit: $limit
     offset: $offset
     where: {is_available: {_eq: true}, source: {_in: $source}}) {
-    initialId: initial_id 
+    initialId: initial_id
     cdtnId: cdtn_id
-    title 
+    title
     source
     document
   }
@@ -53,18 +53,18 @@ query($source: [String!], $limit:Int=10,$offset:Int=0 ) {
     limit: $limit
     offset: $offset
     where: {source: {_in: $source},  is_available: {_eq: true} }
-  ) { 
+  ) {
     cdtnId:cdtn_id
-    title 
+    title
     source
-    isPublished: is_published 
-    contentRelations: relation_a(where: {type: {_eq: "document-content"}}) {
+    isPublished: is_published
+    contentRelations: relation_a(where: {type: {_in: ["document-content", "theme-content"] }}) {
       position: data(path: "position")
-      document: b { 
+      document: b {
         initialId: initial_id
         slug
         source
-        title 
+        title
       }
     }
   }

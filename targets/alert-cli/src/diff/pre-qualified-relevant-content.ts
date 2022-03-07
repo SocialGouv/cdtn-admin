@@ -9,7 +9,9 @@ import memoizee from "memoizee";
 
 import { getDocumentsWithRelationsBySource } from "../extractDilaReferences/getAllDocumentsBySource";
 
-async function _getDocumentsWithRelations() {
+export async function _getDocumentsWithRelations(): Promise<
+  Map<string, DocumentInfo[]>
+> {
   const documents = await getDocumentsWithRelationsBySource([
     SOURCES.PREQUALIFIED,
     SOURCES.THEMES,
