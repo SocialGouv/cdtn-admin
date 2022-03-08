@@ -12,15 +12,21 @@ jobs:
   register:
     name: Register images
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - images: "cdtn-admin-frontend"
+            path: "./targets/frontend"
     steps:
       - name: Register docker image for frontend
         uses: SocialGouv/actions/autodevops-build-register@local-cache-cdtn
         with:
           project: "cdtn-admin"
-          imageName: cdtn-admin/cdtn-admin-frontend
+          imageName: cdtn-admin/${{ matrix.images }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          dockerfile: "./targets/frontend/Dockerfile"
-          dockercontext: "./targets/frontend/"
+          dockerfile: "${{ matrix.path }}/Dockerfile"
+          dockercontext: "${{ matrix.path }}/"
 
   trivy:
     name: Run trivy
