@@ -7,7 +7,7 @@ WORKDIR /
 COPY . ./
 
 # Install packages
-RUN yarn --frozen-lockfile && yarn cache clean && yarn build && yarn --frozen-lockfile --prod
+RUN yarn && yarn build
 
 # app
 FROM node:$NODE_VERSION
