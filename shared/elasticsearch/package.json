@@ -37,7 +37,8 @@
     "lint": "eslint \"./src/**/*.{js,ts}\"",
     "precommit": "lint-staged",
     "prepush": "yarn lint && yarn test --bail --changedSince=master",
-    "test": "jest"
+    "test": "jest",
+    "test:update": "jest -u"
   },
   "lint-staged": {
     "lib/**": [

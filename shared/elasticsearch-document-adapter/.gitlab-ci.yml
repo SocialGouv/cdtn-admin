@@ -32,8 +32,6 @@
     #
     #
     #
-    - yarn lint
-    - yarn test
     - yarn build
   artifacts:
     expire_in: 1 week
