@@ -16,14 +16,12 @@ RUN yarn --frozen-lockfile
 
 COPY . /
 
-RUN yarn workspace frontend build && yarn --frozen-lockfile --prod
+RUN yarn workspace frontend build
 
 # app
 FROM node:$NODE_VERSION
 
 WORKDIR /app
-
-# COPY --from=dist . /app/
 
 COPY --from=dist shared/graphql-client/src /app/shared/graphql-client/src
 COPY --from=dist shared/graphql-client/package.json /app/shared/graphql-client/
