@@ -1,4 +1,4 @@
-ARG NODE_VERSION=14.18.0-alpine3.11
+ARG NODE_VERSION=14.18.0-slim
 
 # dist
 FROM node:$NODE_VERSION AS dist
@@ -6,6 +6,16 @@ FROM node:$NODE_VERSION AS dist
 WORKDIR /
 
 COPY . /
+
+# RUN set -x \
+#   && add-apt-repository ppa:ubuntu-toolchain-r/test \
+#   && apt-get update \
+#   && apt-get install libstdc++-4.9-dev
+
+RUN set -x \
+  && apt-get update \
+  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN yarn --frozen-lockfile
 
