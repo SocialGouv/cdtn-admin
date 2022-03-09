@@ -22,7 +22,7 @@
     "unist-util-select": "^4.0.1"
   },
   "devDependencies": {
-    "@shared/dila-resolver": "*",
+    "@shared/dila-resolver": "^1.14.2",
     "@shared/types": "^1.14.2",
     "@socialgouv/contributions-data-types": "^3.27.0",
     "@socialgouv/eslint-config-typescript": "^1.88.0",
