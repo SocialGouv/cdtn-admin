@@ -1,7 +1,7 @@
 import env from "@kosko/env";
 import type { SealedSecret } from "@kubernetes-models/sealed-secrets/bitnami.com/v1alpha1/SealedSecret";
 import environments from "@socialgouv/kosko-charts/environments";
-import { getGithubRegistryImagePath } from "@socialgouv/kosko-charts/utils/getGithubRegistryImagePath";
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
@@ -23,10 +23,6 @@ const annotations = merge(envParams.metadata.annotations || {}, {
 const labels = merge(envParams.metadata.labels || {}, {
   app: name,
 });
-
-const tag = process.env.CI_COMMIT_TAG
-  ? process.env.CI_COMMIT_TAG.slice(1)
-  : process.env.CI_COMMIT_SHA;
 
 export default async () => {
   const configMap = await loadYaml<ConfigMap>(
@@ -75,8 +71,7 @@ export default async () => {
           containers: [
             {
               name: `ingester-elasticsearch-target-${target}`,
-              image: getGithubRegistryImagePath({
-                project: "cdtn-admin",
+              image: getHarborImagePath({
                 name: "cdtn-admin-ingester-elasticsearch",
               }),
               imagePullPolicy: "IfNotPresent",
