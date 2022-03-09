@@ -16,9 +16,9 @@ FROM node:$NODE_VERSION
 
 WORKDIR /app
 
-COPY --from=dist targets/ingester-es/package.json /app/
-COPY --from=dist targets/ingester-es/bin/ /app/bin
-COPY --from=dist targets/ingester-es/suggestions.txt /app/dataset/
+COPY --from=dist targets/ingester-elasticsearch/package.json /app/
+COPY --from=dist targets/ingester-elasticsearch/bin /app/bin/
+COPY --from=dist targets/ingester-elasticsearch/suggestions.txt /app/dataset/
 
 USER 1000
 
