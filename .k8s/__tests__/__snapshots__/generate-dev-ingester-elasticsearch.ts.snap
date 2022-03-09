@@ -115,7 +115,8 @@ spec:
     spec:
       containers:
         - name: ingester-elasticsearch-target-dev
-          image: 'ghcr.io/socialgouv/cdtn-admin/cdtn-admin-ingester-elasticsearch:'
+          image: >-
+            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester-elasticsearch:0123456789abcdefghijklmnopqrstuvwxyz0123
           imagePullPolicy: IfNotPresent
           resources:
             limits:

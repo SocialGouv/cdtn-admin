@@ -1,13 +1,10 @@
 import env from "@kosko/env";
 import { create } from "@socialgouv/kosko-charts/components/hasura";
-import { getGithubRegistryImagePath } from "@socialgouv/kosko-charts/utils/getGithubRegistryImagePath";
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 
 export default create("hasura", {
   config: {
-    image: getGithubRegistryImagePath({
-      project: "cdtn-admin",
-      name: "cdtn-admin-hasura",
-    }),
+    image: getHarborImagePath({ name: "cdtn-admin-hasura" }),
     container: {
       resources: {
         limits: {

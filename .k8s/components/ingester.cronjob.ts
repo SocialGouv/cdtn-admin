@@ -2,7 +2,7 @@ import env from "@kosko/env";
 import environments from "@socialgouv/kosko-charts/environments";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
-import { getGithubRegistryImagePath } from "@socialgouv/kosko-charts/utils/getGithubRegistryImagePath";
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
 import { ok } from "assert";
 import { CronJob } from "kubernetes-models/batch/v1beta1";
@@ -82,10 +82,7 @@ export default async () => {
               containers: [
                 {
                   name: "update-ingester",
-                  image: getGithubRegistryImagePath({
-                    project: "cdtn-admin",
-                    name: "cdtn-admin-ingester",
-                  }),
+                  image: getHarborImagePath({ name: "cdtn-admin-ingester" }),
                   resources: {
                     requests: {
                       cpu: "1500m",

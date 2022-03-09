@@ -112,7 +112,7 @@ spec:
         spec:
           containers:
             - name: update-alert
-              image: ghcr.io/socialgouv/cdtn-admin/cdtn-admin-alert-cli:v1.2.3
+              image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-alert-cli:1.2.3
               resources:
                 requests:
                   cpu: 1500m
@@ -182,7 +182,7 @@ spec:
         team: cdtn-admin
     spec:
       containers:
-        - image: ghcr.io/socialgouv/cdtn-admin/cdtn-admin-hasura:v1.2.3
+        - image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-hasura:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -389,7 +389,7 @@ spec:
         spec:
           containers:
             - name: update-ingester
-              image: ghcr.io/socialgouv/cdtn-admin/cdtn-admin-ingester:v1.2.3
+              image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester:1.2.3
               resources:
                 requests:
                   cpu: 1500m
@@ -582,7 +582,7 @@ spec:
         team: cdtn-admin
     spec:
       containers:
-        - image: ghcr.io/socialgouv/cdtn-admin/cdtn-admin-frontend:v1.2.3
+        - image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-frontend:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:

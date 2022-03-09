@@ -2,16 +2,13 @@ import env from "@kosko/env";
 import { create } from "@socialgouv/kosko-charts/components/app";
 import { getDeployment } from "@socialgouv/kosko-charts/utils/getDeployment";
 
-import { getGithubRegistryImagePath } from "@socialgouv/kosko-charts/utils/getGithubRegistryImagePath";
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 import { Deployment } from "kubernetes-models/_definitions/IoK8sApiAppsV1Deployment";
 
 export default async () => {
   const manifests = await create("www", {
     config: {
-      image: getGithubRegistryImagePath({
-        project: "cdtn-admin",
-        name: "cdtn-admin-frontend",
-      }),
+      image: getHarborImagePath({ name: "cdtn-admin-frontend" }),
       container: {
         env: [
           {
