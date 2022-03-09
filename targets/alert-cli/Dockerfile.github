@@ -14,7 +14,7 @@ COPY . /
 
 RUN yarn --frozen-lockfile
 
-RUN npx lerna bootstrap--ignore-scripts
+RUN npx lerna bootstrap --ignore-scripts
 
 RUN yarn workspace alert-cli build
 
