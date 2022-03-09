@@ -5,26 +5,23 @@ FROM node:$NODE_VERSION AS dist
 
 WORKDIR /
 
-COPY targets/ingester/package.json /
-
-RUN yarn install
-
 COPY . /
 
-RUN yarn workspace frontend build
+RUN yarn --frozen-lockfile
+
+RUN yarn workspace ingester build
 
 # app
 FROM node:$NODE_VERSION
 
 WORKDIR /app
 
+COPY --from=dist targets/ingester/package.json /app/
 COPY --from=dist targets/ingester/dist/ /app/dist
 
 USER 1000
 
 ENV NODE_ENV=production
-
-# RUN chown -R node:node /app
 
 
 CMD ["yarn", "start"]
