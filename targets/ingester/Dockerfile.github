@@ -7,7 +7,7 @@ WORKDIR /
 
 COPY targets/ingester/package.json /
 
-RUN yarn
+RUN yarn install
 
 COPY . /
 

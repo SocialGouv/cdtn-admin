@@ -5,10 +5,10 @@ FROM node:$NODE_VERSION AS dist
 
 WORKDIR /
 
-RUN set -x \
-  && apt-get update \
-  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
-  && rm -rf /var/lib/apt/lists/*
+# RUN set -x \
+#   && apt-get update \
+#   && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
+#   && rm -rf /var/lib/apt/lists/*
 
 
 COPY yarn.lock /
