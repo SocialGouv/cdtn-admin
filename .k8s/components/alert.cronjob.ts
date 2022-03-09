@@ -3,7 +3,7 @@ import type { SealedSecret } from "@kubernetes-models/sealed-secrets/bitnami.com
 import environments from "@socialgouv/kosko-charts/environments";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
-import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
+import { getGithubRegistryImagePath } from "@socialgouv/kosko-charts/utils/getGithubRegistryImagePath";
 import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
 import { ok } from "assert";
 import { CronJob } from "kubernetes-models/batch/v1beta1";
@@ -67,7 +67,10 @@ export default async () => {
               containers: [
                 {
                   name: "update-alert",
-                  image: getHarborImagePath({ name: "cdtn-admin-alert-cli" }),
+                  image: getGithubRegistryImagePath({
+                    project: "cdtn-admin",
+                    name: "cdtn-admin-alert-cli",
+                  }),
                   resources: {
                     requests: {
                       cpu: "1500m",

@@ -139,7 +139,8 @@ spec:
         spec:
           containers:
             - name: update-alert
-              image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-alert-cli:1.2.3
+              image: >-
+                ghcr.io/socialgouv/cdtn-admin/cdtn-admin-alert-cli:preprod-0123456789abcdefghijklmnopqrstuvwxyz0123
               resources:
                 requests:
                   cpu: 1500m
@@ -209,7 +210,8 @@ spec:
         cert: wildcard
     spec:
       containers:
-        - image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-hasura:1.2.3
+        - image: >-
+            ghcr.io/socialgouv/cdtn-admin/cdtn-admin-hasura:preprod-0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -435,7 +437,8 @@ spec:
         spec:
           containers:
             - name: update-ingester
-              image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester:1.2.3
+              image: >-
+                ghcr.io/socialgouv/cdtn-admin/cdtn-admin-ingester:preprod-0123456789abcdefghijklmnopqrstuvwxyz0123
               resources:
                 requests:
                   cpu: 1500m
@@ -651,7 +654,8 @@ spec:
         cert: wildcard
     spec:
       containers:
-        - image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-frontend:1.2.3
+        - image: >-
+            ghcr.io/socialgouv/cdtn-admin/cdtn-admin-frontend:preprod-0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:

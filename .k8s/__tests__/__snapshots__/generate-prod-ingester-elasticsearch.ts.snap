@@ -109,7 +109,7 @@ spec:
       containers:
         - name: ingester-elasticsearch-target-preprod
           image: >-
-            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester-elasticsearch:1.2.3
+            ghcr.io/socialgouv/cdtn-admin/cdtn-admin-ingester-elasticsearch:v1.2.3
           imagePullPolicy: IfNotPresent
           resources:
             limits:
@@ -241,7 +241,7 @@ spec:
       containers:
         - name: ingester-elasticsearch-target-prod
           image: >-
-            harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-ingester-elasticsearch:1.2.3
+            ghcr.io/socialgouv/cdtn-admin/cdtn-admin-ingester-elasticsearch:v1.2.3
           imagePullPolicy: IfNotPresent
           resources:
             limits:
