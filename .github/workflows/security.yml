@@ -27,7 +27,7 @@ jobs:
             context: "."
           - images: "cdtn-admin-ingester-elasticsearch"
             path: "./targets/ingester-elasticsearch"
-            context: "./targets/ingester-elasticsearch"
+            context: "."
           - images: "cdtn-admin-alert-cli"
             path: "./targets/alert-cli"
             context: "."
