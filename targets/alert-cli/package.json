@@ -9,7 +9,6 @@
   "types": "dist/index.d.ts",
   "private": true,
   "dependencies": {
-    "@shared/dila-resolver": "^1.14.2",
     "@shared/graphql-client": "^1.14.2",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
