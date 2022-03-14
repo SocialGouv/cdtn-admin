@@ -18,10 +18,6 @@ const labels = merge(envParams.metadata.labels || {}, {
   app: name,
 });
 
-const tag = process.env.CI_COMMIT_TAG
-  ? process.env.CI_COMMIT_TAG.slice(1)
-  : process.env.CI_COMMIT_SHA;
-
 const persistentVolumeClaim = new PersistentVolumeClaim({
   metadata: {
     annotations,
