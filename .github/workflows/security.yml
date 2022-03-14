@@ -38,7 +38,7 @@ jobs:
           project: "cdtn-admin"
           imageName: cdtn-admin/${{ matrix.images }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          dockerfile: "${{ matrix.path }}/Dockerfile"
+          dockerfile: "${{ matrix.path }}/Dockerfile.github"
           dockercontext: "${{ matrix.context }}"
 
   trivy:
