@@ -1,17 +1,22 @@
-ARG NODE_VERSION=14.18.0-slim
+ARG NODE_VERSION=14.18.0-alpine3.11
 
 FROM node:$NODE_VERSION AS build
 
-RUN set -x \
-  && apt-get update \
-  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
-  && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /
 
-COPY . /
+COPY targets/frontend/ /targets/frontend/
+COPY shared/graphql-client/src /shared/graphql-client/src
+COPY shared/graphql-client/package.json /shared/graphql-client/
+COPY shared/id-generator/src /shared/id-generator/src
+COPY shared/id-generator/package.json /shared/id-generator/
+COPY shared/types/index.d.ts /shared/types/
+COPY shared/types/package.json /shared/types/
+COPY package.json /
+COPY yarn.lock /
 
 RUN yarn --frozen-lockfile
+
+COPY . /
 
 RUN yarn workspace frontend build
 
