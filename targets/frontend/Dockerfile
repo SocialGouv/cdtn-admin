@@ -9,7 +9,7 @@ COPY . /
 
 RUN yarn --frozen-lockfile
 
-RUN yarn build
+RUN yarn workspace frontend build
 
 # app
 FROM node:$NODE_VERSION
