@@ -19,10 +19,6 @@ const labels = merge(envParams.metadata.labels || {}, {
   app: name,
 });
 
-const tag = process.env.CI_COMMIT_TAG
-  ? process.env.CI_COMMIT_TAG.slice(1)
-  : process.env.CI_COMMIT_SHA;
-
 export default async () => {
   const configMap = await loadYaml<ConfigMap>(env, `alert.configmap.yaml`);
   ok(configMap, "Missing alert.configmap.yaml");

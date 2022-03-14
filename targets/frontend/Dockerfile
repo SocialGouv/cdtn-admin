@@ -16,8 +16,6 @@ COPY yarn.lock /
 
 RUN yarn --frozen-lockfile
 
-COPY . /
-
 RUN yarn workspace frontend build
 
 FROM node:$NODE_VERSION
