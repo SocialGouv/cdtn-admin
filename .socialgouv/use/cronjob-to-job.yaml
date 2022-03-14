@@ -1,0 +1,21 @@
+runs:
+  - name: cronjob-to-job
+    checkout: false
+    image: bitnami/kubectl:latest
+    vars:
+      JOB_NAME: "{{ $.with.jobName }}"
+      CRON_JOB: "{{ $.with.cronJob }}"
+    run: |
+      kubectl create job --from="${CRON_JOB}" "${JOB_NAME}"
+      bash -c "
+      until
+      kubectl get pod -l job-name=${JOB_NAME}
+      -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
+      grep True
+      ; do sleep 1; done"
+
+      kubectl logs -f job/${JOB_NAME}
+
+      kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
+      kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}' |
+      grep True

@@ -1,0 +1,8 @@
+jobs-trigger-ingester:
+  runs:
+    - name: Trigger a cron job for review
+      use: ./.socialgouv/use/cronjob-to-job.yaml
+      # use: SocialGouv/cdtn-admin/.socialgouv/use/cronjob-to-job.yaml@new-ci-v2
+      with:
+        cronJob: cronjob.batch/ingester
+        jobName: "ingester-${{ $.Values.global.env }}-{{ randAlphaNum 5 }}"
