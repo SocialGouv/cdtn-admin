@@ -1,7 +1,7 @@
 ARG NODE_VERSION=14.18.0-alpine3.11
 
 # dist
-FROM node:$NODE_VERSION AS dist
+FROM node:$NODE_VERSION
 
 WORKDIR /app
 
