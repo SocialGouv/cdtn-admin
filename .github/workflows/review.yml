@@ -32,7 +32,7 @@ jobs:
             path: "./targets/ingester-elasticsearch"
             context: "."
           - images: "cdtn-admin-alert-cli"
-            path: "./targets/alert-cli.github"
+            path: "./targets/alert-cli"
             context: "."
     steps:
       - name: Register docker images
