@@ -49,24 +49,6 @@ variables:
 #
 #
 
-🛂 k8s test:
-  extends:
-    - .base_kosko_k8s_test
-    - .cdtn_base_rules
-  cache:
-    key:
-      files:
-        - .k8s/yarn.lock
-      prefix: k8s
-    paths:
-      - .cache
-      - .k8s/node_modules
-  stage: .pre
-
-#
-#
-#
-
 # Extract from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.7.14/base_autodevops.yml#L314-L315
 Production:
   variables:
