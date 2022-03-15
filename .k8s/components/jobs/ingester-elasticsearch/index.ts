@@ -3,7 +3,7 @@ import type { SealedSecret } from "@kubernetes-models/sealed-secrets/bitnami.com
 import environments from "@socialgouv/kosko-charts/environments";
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
-import { getGithubRegistryImagePath } from "@socialgouv/kosko-charts/utils/getGithubRegistryImagePath";
+import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
 import { ok } from "assert";
 import { Job } from "kubernetes-models/batch/v1";
@@ -71,8 +71,7 @@ export default async () => {
           containers: [
             {
               name: `ingester-elasticsearch-target-${target}`,
-              image: getGithubRegistryImagePath({
-                project: "cdtn-admin",
+              image: getHarborImagePath({
                 name: "cdtn-admin-ingester-elasticsearch",
               }),
               imagePullPolicy: "IfNotPresent",
