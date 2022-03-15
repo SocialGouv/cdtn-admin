@@ -5,7 +5,10 @@ FROM node:$NODE_VERSION AS dist
 
 WORKDIR /
 
-COPY . /
+COPY targets/ingester-elasticsearch/ /targets/ingester-elasticsearch/
+COPY shared/elasticsearch-document-adapter/ /shared/elasticsearch-document-adapter
+COPY package.json /
+COPY yarn.lock /
 
 RUN yarn --frozen-lockfile
 
