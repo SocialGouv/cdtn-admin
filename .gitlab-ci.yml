@@ -11,10 +11,6 @@ include:
   - /shared/dila-resolver/.gitlab-ci.yml
   - /shared/elasticsearch-document-adapter/.gitlab-ci.yml
   #
-  - /targets/alert-cli/.gitlab-ci.yml
-  - /targets/ingester/.gitlab-ci.yml
-  - /targets/hasura/.gitlab-ci.yml
-  - /targets/frontend/.gitlab-ci.yml
   - /targets/ingester-elasticsearch/.gitlab-ci.yml
 
 #
