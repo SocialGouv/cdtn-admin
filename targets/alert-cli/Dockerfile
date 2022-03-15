@@ -14,6 +14,8 @@ COPY . /
 
 RUN yarn --frozen-lockfile
 
+RUN yarn workspace alert-cli add nodegit --frozen-lockfile --pure-lockfile
+
 RUN yarn workspace @shared/dila-resolver build
 
 RUN yarn workspace alert-cli build
