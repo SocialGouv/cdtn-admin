@@ -7,6 +7,8 @@ include:
     ref: v23.3.3
 
   #
+  - /shared/logger/.gitlab-ci.yml
+  - /shared/dila-resolver/.gitlab-ci.yml
   - /shared/elasticsearch-document-adapter/.gitlab-ci.yml
   #
   - /targets/ingester-elasticsearch/.gitlab-ci.yml
