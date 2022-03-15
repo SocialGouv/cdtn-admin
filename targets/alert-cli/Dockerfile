@@ -1,34 +1,21 @@
-ARG NODE_VERSION=14.18.0-slim
-
-# dist
-FROM node:$NODE_VERSION AS dist
+FROM node:14.18.0-slim
 
 RUN set -x \
   && apt-get update \
   && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
   && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /
-
-COPY . /
-
-RUN yarn --frozen-lockfile
-
-RUN yarn workspace alert-cli add nodegit --frozen-lockfile --pure-lockfile
-
-RUN yarn workspace @shared/dila-resolver build
-
-RUN yarn workspace alert-cli build
-
-# app
-FROM node:$NODE_VERSION
-
 WORKDIR /app
+RUN chown -R node:node /app
+USER node
 
-COPY --from=dist targets/alert-cli/package.json /app/
-COPY --from=dist targets/alert-cli/dist/ /app/dist
+COPY yarn.lock /app/
+# TODO: sync nodegit version with package.json
+RUN yarn add nodegit --frozen-lockfile --pure-lockfile
+RUN mkdir data
 
-USER 1000
+COPY targets/alert-cli/package.json /app/
+COPY targets/alert-cli/dist/ /app/dist
 
 ENV NODE_ENV=production
 

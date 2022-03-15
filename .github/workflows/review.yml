@@ -20,19 +20,19 @@ jobs:
       matrix:
         include:
           - images: "cdtn-admin-frontend"
-            path: "./targets/frontend/Dockerfile"
+            path: "./targets/frontend/Dockerfile.github"
             context: "."
           - images: "cdtn-admin-hasura"
             path: "./targets/hasura/Dockerfile"
             context: "./targets/hasura"
           - images: "cdtn-admin-ingester"
-            path: "./targets/ingester/Dockerfile"
+            path: "./targets/ingester/Dockerfile.github"
             context: "."
           - images: "cdtn-admin-ingester-elasticsearch"
             path: "./targets/ingester-elasticsearch/Dockerfile.github"
             context: "."
           - images: "cdtn-admin-alert-cli"
-            path: "./targets/alert-cli/Dockerfile"
+            path: "./targets/alert-cli/Dockerfile.github"
             context: "."
     steps:
       - name: Register docker images
