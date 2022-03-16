@@ -7,6 +7,7 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/member-ordering": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
   },
   settings: {
     jest: {

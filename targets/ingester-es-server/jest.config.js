@@ -10,6 +10,6 @@ module.exports = {
       },
     ],
   },
-  setupFiles: ["dotenv/config"],
+  setupFiles: ["reflect-metadata"],
   testPathIgnorePatterns: ["/node_modules/", "/build/"],
 };
