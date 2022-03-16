@@ -4,6 +4,6 @@ describe("BaseServe", () => {
   it("should return an ok status", () => {
     const service = new BaseService();
 
-    expect(service.get()).toEqual({ status: "ok" });
+    expect(service.get()).toEqual({ status: "available" });
   });
 });

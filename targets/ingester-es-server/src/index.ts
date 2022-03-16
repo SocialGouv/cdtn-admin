@@ -34,5 +34,5 @@ server.setConfig((app) => {
   app.use(bodyParser.json());
 });
 
-const app = server.build();
+export const app = server.build();
 app.listen(process.env.PORT ?? 3000);

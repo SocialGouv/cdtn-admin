@@ -6,6 +6,6 @@ import { name } from "../utils";
 @name("BaseService")
 export class BaseService {
   get(): Record<string, string> {
-    return { status: "ok" };
+    return { status: "available" };
   }
 }
