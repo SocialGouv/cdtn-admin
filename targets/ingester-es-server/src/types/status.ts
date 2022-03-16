@@ -1,3 +1,5 @@
-export interface Status {
-  id: string;
+export enum Status {
+  running = "RUNNING",
+  completed = "COMPLETED",
+  failed = "FAILED",
 }

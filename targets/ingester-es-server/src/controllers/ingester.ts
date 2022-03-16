@@ -12,8 +12,8 @@ export class IngesterController implements interfaces.Controller {
     private readonly service: IngesterService
   ) {}
 
-  @httpGet("/")
-  index(): Record<string, unknown> {
-    return this.service.get();
+  @httpGet("/run")
+  run(): Record<string, unknown> {
+    return this.service.runIngester();
   }
 }

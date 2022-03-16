@@ -24,14 +24,14 @@ for (const service of Object.keys(Services)) {
 
 // create server
 const server = new InversifyExpressServer(container);
-server.setConfig((app) => {
+server.setConfig((srv) => {
   // add body parser
-  app.use(
+  srv.use(
     bodyParser.urlencoded({
       extended: true,
     })
   );
-  app.use(bodyParser.json());
+  srv.use(bodyParser.json());
 });
 
 export const app = server.build();
