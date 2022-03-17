@@ -1,5 +1,5 @@
 {
-  "name": "ingester-es-server",
+  "name": "export-elasticsearch",
   "version": "1.14.2",
   "license": "MIT",
   "description": "",

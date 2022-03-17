@@ -1,6 +1,6 @@
 import { BaseService } from "../base";
 
-describe("BaseServe", () => {
+describe("BaseService", () => {
   it("should return an ok status", () => {
     const service = new BaseService();
 
