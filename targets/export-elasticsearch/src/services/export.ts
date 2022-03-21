@@ -8,13 +8,13 @@ import { name } from "../utils";
 @name("ExportService")
 export class ExportService {
   runExport(): { status: Status } {
-    // injest()
-    //   .then(() => {
-    //     console.log("Export elasticsearch completed successfully");
-    //   })
-    //   .catch((error: unknown) => {
-    //     console.error(error);
-    //   });
+    injest()
+      .then(() => {
+        console.log("Export elasticsearch completed successfully");
+      })
+      .catch((error: unknown) => {
+        console.error(error);
+      });
     return { status: Status.running };
   }
 }

@@ -8,7 +8,7 @@ import type { Status } from "../types";
 import { getName } from "../utils";
 
 @controller("/export")
-export class IngesterController implements interfaces.Controller {
+export class ExportController implements interfaces.Controller {
   constructor(
     @inject(getName(ExportService))
     private readonly service: ExportService
