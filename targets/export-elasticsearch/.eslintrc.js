@@ -6,12 +6,12 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   rules: {
-    "@typescript-eslint/member-ordering": "warn",
-    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/member-ordering": "off",
+    "@typescript-eslint/no-floating-promises": "off",
   },
   settings: {
     jest: {
-      version: 26,
+      version: 27,
     },
   },
 };
