@@ -55,7 +55,7 @@ export default async () => {
       schedule: "0 1 * * *",
       jobTemplate: {
         spec: {
-          backoffLimit: 0,
+          backoffLimit: 1,
           template: {
             metadata: {
               annotations: merge(annotations, {
