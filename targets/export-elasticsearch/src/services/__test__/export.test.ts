@@ -1,5 +1,5 @@
-import { Status } from "../../types";
-import { ExportService } from "../export";
+// import { Status } from "../../types";
+// import { ExportService } from "../export";
 
 jest.mock("@shared/elasticsearch-document-adapter", () => {
   return {
@@ -8,9 +8,8 @@ jest.mock("@shared/elasticsearch-document-adapter", () => {
 });
 
 describe("ExportService", () => {
-  it("should run ingester", () => {
-    const service = new ExportService();
-
-    expect(service.runExport()).toEqual({ status: Status.running });
-  });
+  // it("should run ingester", () => {
+  //   const service = new ExportService();
+  //   expect(service.runExport()).toEqual({ status: Status.running });
+  // });
 });

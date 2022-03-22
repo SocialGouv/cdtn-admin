@@ -8,6 +8,7 @@ module.exports = {
   rules: {
     "@typescript-eslint/member-ordering": "off",
     "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/naming-convention": "off",
   },
   settings: {
     jest: {
