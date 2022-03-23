@@ -71,7 +71,7 @@ export class ExportService {
     hour = 1 // job created 1 hour ago
   ): Promise<boolean> {
     if (
-      new Date(runningResult.created_at).getTime() >
+      new Date(runningResult.created_at).getTime() <
       new Date(Date.now() - 1000 * 60 * 60 * hour).getTime()
     ) {
       await this.exportRepository.updateOne(
