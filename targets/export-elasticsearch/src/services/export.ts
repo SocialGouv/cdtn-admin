@@ -19,13 +19,12 @@ export class ExportService {
     environment: Environment
   ): Promise<ExportEsStatus> {
     let isReadyToRun = false;
-    const runningResult = await this.exportRepository.getOneByStatus(
-      Status.running
-    );
-    if (runningResult) {
-      isReadyToRun = await this.cleanOldRunningJob(runningResult); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
+    const runningResult = await this.getRunningJob();
+    if (runningResult && runningResult.length > 0) {
+      isReadyToRun = await this.cleanOldRunningJob(runningResult[0]); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
     }
-    if (!runningResult || isReadyToRun) {
+    console.log(runningResult);
+    if (!runningResult || runningResult.length === 0 || isReadyToRun) {
       const id = uuidv4();
       const createdResult = await this.exportRepository.create(
         id,
@@ -51,13 +50,17 @@ export class ExportService {
         });
       return createdResult;
     }
-    return runningResult;
+    return runningResult[0];
   }
 
-  async getJobByEnvironment(
+  async getByEnvironments(
     environment: Environment
   ): Promise<ExportEsStatus[] | undefined> {
     return this.exportRepository.getByEnvironments(environment);
+  }
+
+  private async getRunningJob(): Promise<ExportEsStatus[] | undefined> {
+    return this.exportRepository.getByStatus(Status.running);
   }
 
   private async cleanOldRunningJob(

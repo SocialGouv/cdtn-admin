@@ -13,7 +13,7 @@ export class ExportEsRunMiddleware extends BaseMiddleware {
     if (parse.success) {
       next();
     } else {
-      res.status(400).json({ errors: parse.error });
+      res.status(400).json({ errors: parse.error.issues });
     }
   }
 }
