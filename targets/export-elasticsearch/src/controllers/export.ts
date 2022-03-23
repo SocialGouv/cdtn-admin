@@ -36,6 +36,7 @@ export class ExportController implements interfaces.Controller {
 
   @httpGet("/")
   async getExportsStatus(
+    @response() res: Response,
     @queryParam("environment") environment?: Environment
   ): Promise<ExportEsStatus[] | undefined> {
     return this.service.getAll(environment);

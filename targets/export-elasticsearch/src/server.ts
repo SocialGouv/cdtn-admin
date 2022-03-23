@@ -2,6 +2,7 @@ import "reflect-metadata";
 import "./controllers";
 
 import bodyParser from "body-parser";
+import type { NextFunction, Request, Response } from "express";
 import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
 
@@ -30,6 +31,12 @@ server.setConfig((srv) => {
     })
   );
   srv.use(bodyParser.json());
+});
+server.setErrorConfig((app) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+    res.status(500).json({ error: err.message });
+  });
 });
 
 const app = server.build();
