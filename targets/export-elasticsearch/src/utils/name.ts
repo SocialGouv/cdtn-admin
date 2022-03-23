@@ -8,7 +8,7 @@ export const nameKey = Symbol("name");
  * @param className
  */
 export function name(className: string): ClassDecorator {
-  return (Reflect as any).metadata(nameKey, className) as ClassDecorator;
+  return Reflect.metadata(nameKey, className) as ClassDecorator;
 }
 
 /**
@@ -17,8 +17,8 @@ export function name(className: string): ClassDecorator {
  * getName(type); // 'Customer'
  * @param type
  */
-export function getName(type: any): string {
-  return (Reflect as any).getMetadata(nameKey, type) as string;
+export function getName<T>(type: T): string {
+  return Reflect.getMetadata(nameKey, type) as string;
 }
 
 /**
@@ -28,5 +28,5 @@ export function getName(type: any): string {
  * @param instance
  */
 export function getInstanceName(instance: Record<string, unknown>): string {
-  return (Reflect as any).getMetadata(nameKey, instance.constructor) as string;
+  return Reflect.getMetadata(nameKey, instance.constructor) as string;
 }

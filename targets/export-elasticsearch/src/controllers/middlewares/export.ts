@@ -2,8 +2,8 @@ import type { NextFunction, Request, Response } from "express";
 import { injectable } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";
 
+import { name } from "../../utils";
 import { CreateExportEsStatus } from "../schemas";
-import { name } from "../utils";
 
 @injectable()
 @name("ExportEsRunMiddleware")

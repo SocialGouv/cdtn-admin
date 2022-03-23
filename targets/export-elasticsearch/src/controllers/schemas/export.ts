@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { Environment } from "../types";
+import { Environment } from "../../types";
 
 export const CreateExportEsStatus = z.object({
   environment: z.nativeEnum(Environment),

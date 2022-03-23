@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
 
-import { ExportEsRunMiddleware } from "./middlewares";
+import { ExportEsRunMiddleware } from "./controllers/middlewares";
 import { ExportRepository } from "./repositories";
 import { ExportService } from "./services";
 import { getName } from "./utils";
