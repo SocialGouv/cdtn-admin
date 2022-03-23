@@ -5,6 +5,7 @@ import type { Environment, ExportEsStatus, Status } from "../types";
 import { name } from "../utils";
 import {
   createExportEsStatus,
+  getAllExport,
   getExportEsStatusByEnvironments,
   getExportEsStatusById,
   getExportEsStatusByStatus,
@@ -101,6 +102,16 @@ export class ExportRepository {
         getExportEsStatusByEnvironments,
         { environment }
       )
+      .toPromise();
+    if (res.error) {
+      return undefined;
+    }
+    return res.data?.export_es_status;
+  }
+
+  public async getAll(): Promise<ExportEsStatus[] | undefined> {
+    const res = await client
+      .query<{ export_es_status: ExportEsStatus[] }>(getAllExport)
       .toPromise();
     if (res.error) {
       return undefined;

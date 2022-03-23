@@ -10,6 +10,18 @@ query getExportEsStatusById($id: uuid!) {
   }
 }`;
 
+export const getAllExport = `
+query getAllExport {
+  export_es_status(order_by: {updated_at: desc}) {
+    id
+    environment
+    status
+    user_id
+    created_at
+    updated_at
+  }
+}`;
+
 export const getExportEsStatusByEnvironments = `
 query getExportEsStatusByEnvironments($environment: String!) {
   export_es_status(where: {environment: {_eq: $environment}}) {

@@ -1,10 +1,11 @@
 import { injest } from "@shared/elasticsearch-document-adapter";
+import { randomUUID } from "crypto";
 import { inject, injectable } from "inversify";
 
 import { ExportRepository } from "../repositories";
 import type { Environment, ExportEsStatus } from "../types";
 import { Status } from "../types";
-import { getName, name, uuidv4 } from "../utils";
+import { getName, name } from "../utils";
 
 @injectable()
 @name("ExportService")
@@ -23,9 +24,8 @@ export class ExportService {
     if (runningResult && runningResult.length > 0) {
       isReadyToRun = await this.cleanOldRunningJob(runningResult[0]); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
     }
-    console.log(runningResult);
     if (!runningResult || runningResult.length === 0 || isReadyToRun) {
-      const id = uuidv4();
+      const id = randomUUID();
       const createdResult = await this.exportRepository.create(
         id,
         userId,
@@ -53,10 +53,13 @@ export class ExportService {
     return runningResult[0];
   }
 
-  async getByEnvironments(
-    environment: Environment
+  async getAll(
+    environment?: Environment
   ): Promise<ExportEsStatus[] | undefined> {
-    return this.exportRepository.getByEnvironments(environment);
+    if (environment) {
+      return this.exportRepository.getByEnvironments(environment);
+    }
+    return this.exportRepository.getAll();
   }
 
   private async getRunningJob(): Promise<ExportEsStatus[] | undefined> {
