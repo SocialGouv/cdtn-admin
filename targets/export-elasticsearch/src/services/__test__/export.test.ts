@@ -2,6 +2,7 @@ import timekeeper from "timekeeper";
 
 import { ExportRepository } from "../../repositories";
 import { rootContainer } from "../../server";
+import type { ExportEsStatus } from "../../types";
 import { Environment, Status } from "../../types";
 import { getName } from "../../utils";
 import { ExportService } from "../export";
@@ -10,14 +11,12 @@ import { MockExportRepository } from "./mocks/export";
 jest.mock("@shared/elasticsearch-document-adapter", () => {
   return {
     injest: async () => {
-      return new Promise<void>((resolve, _reject) => {
+      return new Promise<void>((resolve) => {
         resolve();
       });
     },
   };
 });
-
-const currentDate = new Date();
 
 describe("ExportService", () => {
   let service: ExportService;
@@ -34,15 +33,24 @@ describe("ExportService", () => {
   });
 
   describe("getAll", () => {
+    beforeAll(() => {
+      // Lock Time
+      timekeeper.freeze(new Date());
+    });
+
+    afterAll(() => {
+      // Unlock Time
+      timekeeper.reset();
+    });
     it("should return all users", async () => {
       const res = await service.getAll();
       expect(res).toEqual([
         {
-          created_at: new Date("2022-03-24T11:09:11"),
+          created_at: new Date(),
           environment: Environment.preproduction,
           id: "1",
           status: Status.completed,
-          updated_at: new Date("2022-03-24T11:09:11"),
+          updated_at: new Date(),
           user_id: "getAll-id",
         },
       ]);
@@ -53,11 +61,11 @@ describe("ExportService", () => {
       const res = await service.getAll(env);
       expect(res).toEqual([
         {
-          created_at: new Date("2022-03-24T11:09:11"),
+          created_at: new Date(),
           environment: env,
           id: "1",
           status: Status.completed,
-          updated_at: new Date("2022-03-24T11:09:11"),
+          updated_at: new Date(),
           user_id: "getByEnv-id",
         },
       ]);
@@ -65,30 +73,16 @@ describe("ExportService", () => {
   });
 
   describe("runExport", () => {
-    beforeAll(() => {
-      // Lock Time
-      timekeeper.freeze(currentDate);
-    });
-
-    afterAll(() => {
-      // Unlock Time
-      timekeeper.reset();
-    });
-    it("should return a running status", async () => {
+    it("should return a current running export es status", async () => {
+      timekeeper.freeze(new Date());
       const res = await service.runExport("ABC", Environment.preproduction);
       expect(res).toMatchObject({
-        created_at: new Date("2022-03-24T10:09:11.000Z"),
+        created_at: new Date(),
         environment: Environment.preproduction,
         status: Status.running,
-        updated_at: new Date("2022-03-24T10:09:11.000Z"),
-        user_id: "ABC",
+        updated_at: new Date(),
+        user_id: "getByStatus-id",
       });
-    });
-
-    it("should create a new status", async () => {
-      const spy = jest.spyOn(mockRepository, "create");
-      await service.runExport("ABC", Environment.preproduction);
-      expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it("should get running job", async () => {
@@ -97,34 +91,72 @@ describe("ExportService", () => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
+    it("should create a new status", async () => {
+      jest.spyOn(mockRepository, "getByStatus").mockReturnValue(
+        Promise.resolve([
+          {
+            created_at: new Date("2020-01-01"),
+            environment: Environment.preproduction,
+            id: "1",
+            status: Status.running,
+            updated_at: new Date("2020-01-01"),
+            user_id: "getByStatus-id",
+          },
+        ])
+      );
+      const spy = jest.spyOn(mockRepository, "create");
+      await service.runExport("ABC", Environment.preproduction);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
     it("should update the job at the end of ingester", async () => {
+      jest.spyOn(mockRepository, "getByStatus").mockReturnValue(
+        Promise.resolve([
+          {
+            created_at: new Date("2020-01-01"),
+            environment: Environment.preproduction,
+            id: "1",
+            status: Status.running,
+            updated_at: new Date("2020-01-01"),
+            user_id: "getByStatus-id",
+          },
+        ])
+      );
       const spy = jest.spyOn(mockRepository, "updateOne");
       await service.runExport("ABC", Environment.preproduction);
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
-    // it("should update this new status as completed", async () => {
-    //   const spy = jest.spyOn(mockRepository, "updateOne");
-    //   await service.runExport("ABC", Environment.preproduction);
-    //   expect(spy).toHaveBeenCalledWith("1", Status.completed, currentDate);
-    // });
+    it("should not clean previous job", async () => {
+      const date = new Date();
+      const spy = jest.spyOn(mockRepository, "updateOne");
+      await service.cleanOldRunningJob({
+        created_at: date,
+        environment: Environment.preproduction,
+        id: "1",
+        status: Status.running,
+        updated_at: date,
+        user_id: "userId",
+      });
+      expect(spy).toHaveBeenCalledTimes(0);
+    });
 
-    // it("should update this new status as failed", async () => {
-    //   const spy = jest.spyOn(mockRepository, "updateOne");
-    //   await service.runExport("ABC", Environment.preproduction);
-    //   expect(spy).toHaveBeenCalledWith("1", Status.failed, currentDate);
-    // });
-
-    // it("should failed because a job is running since < 1 hour", async () => {
-    //   const spy = jest.spyOn(mockRepository, "updateOne");
-    //   await service.runExport("ABC", Environment.preproduction);
-    //   expect(spy).toHaveBeenCalledWith("1", Status.failed, currentDate);
-    // });
-
-    // it("should clean job the pending job", async () => {
-    //   const spy = jest.spyOn(mockRepository, "updateOne");
-    //   await service.runExport("ABC", Environment.preproduction);
-    //   expect(spy).toHaveBeenCalledWith("1", Status.failed, currentDate);
-    // });
+    it("should clean previous job because launched > 1h", async () => {
+      const oldDate = new Date();
+      const expiryDate = new Date(
+        new Date().setHours(new Date().getHours() + 2)
+      );
+      timekeeper.travel(expiryDate);
+      const spy = jest.spyOn(mockRepository, "updateOne");
+      await service.cleanOldRunningJob({
+        created_at: oldDate,
+        environment: Environment.preproduction,
+        id: "1",
+        status: Status.running,
+        updated_at: oldDate,
+        user_id: "userId",
+      });
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
   });
 });

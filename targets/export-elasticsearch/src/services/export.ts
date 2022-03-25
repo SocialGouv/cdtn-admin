@@ -62,11 +62,11 @@ export class ExportService {
     return this.exportRepository.getAll();
   }
 
-  private async getRunningJob(): Promise<ExportEsStatus[] | undefined> {
+  async getRunningJob(): Promise<ExportEsStatus[] | undefined> {
     return this.exportRepository.getByStatus(Status.running);
   }
 
-  private async cleanOldRunningJob(
+  async cleanOldRunningJob(
     runningResult: ExportEsStatus,
     hour = 1 // job created 1 hour ago
   ): Promise<boolean> {

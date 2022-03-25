@@ -14,11 +14,11 @@ export class MockExportRepository {
   ): Promise<ExportEsStatus | undefined> {
     await wait(100);
     return {
-      created_at: new Date("2022-03-24T11:09:11"),
+      created_at: new Date(),
       environment,
       id,
       status,
-      updated_at: new Date("2022-03-24T11:09:11"),
+      updated_at: new Date(),
       user_id: userId,
     };
   }
@@ -26,15 +26,15 @@ export class MockExportRepository {
   async updateOne(
     id: string,
     status: Status,
-    _updatedAt: Date
+    updatedAt: Date
   ): Promise<ExportEsStatus | undefined> {
     await wait(100);
     return {
-      created_at: new Date("2022-03-24T11:09:11"),
+      created_at: new Date(),
       environment: Environment.preproduction,
       id,
       status,
-      updated_at: new Date("2022-03-24T11:09:11"),
+      updated_at: updatedAt,
       user_id: "updated-id",
     };
   }
@@ -47,11 +47,11 @@ export class MockExportRepository {
     await wait(100);
     return [
       {
-        created_at: new Date("2022-03-24T11:09:11"),
+        created_at: new Date(),
         environment: Environment.preproduction,
         id: "1",
         status: newStatus,
-        updated_at: new Date("2022-03-24T11:09:11"),
+        updated_at: updatedAt,
         user_id: "updatedAll-id",
       },
     ];
@@ -60,11 +60,11 @@ export class MockExportRepository {
   async getOneById(id: string): Promise<ExportEsStatus | undefined> {
     await wait(100);
     return {
-      created_at: new Date("2022-03-24T11:09:11"),
+      created_at: new Date(),
       environment: Environment.preproduction,
       id,
       status: Status.completed,
-      updated_at: new Date("2022-03-24T11:09:11"),
+      updated_at: new Date(),
       user_id: "getOne-id",
     };
   }
@@ -75,11 +75,11 @@ export class MockExportRepository {
     await wait(100);
     return [
       {
-        created_at: new Date("2022-03-24T11:09:11"),
+        created_at: new Date(),
         environment,
         id: "1",
         status: Status.completed,
-        updated_at: new Date("2022-03-24T11:09:11"),
+        updated_at: new Date(),
         user_id: "getByEnv-id",
       },
     ];
@@ -89,11 +89,11 @@ export class MockExportRepository {
     await wait(100);
     return [
       {
-        created_at: new Date("2022-03-24T11:09:11"),
+        created_at: new Date(),
         environment: Environment.preproduction,
         id: "1",
         status: Status.completed,
-        updated_at: new Date("2022-03-24T11:09:11"),
+        updated_at: new Date(),
         user_id: "getAll-id",
       },
     ];
@@ -103,12 +103,12 @@ export class MockExportRepository {
     await wait(100);
     return [
       {
-        created_at: new Date("2022-03-24T11:09:11"),
+        created_at: new Date(),
         environment: Environment.preproduction,
         id: "1",
         status,
-        updated_at: new Date("2022-03-24T11:09:11"),
-        user_id: "getAll-id",
+        updated_at: new Date(),
+        user_id: "getByStatus-id",
       },
     ];
   }
