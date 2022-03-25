@@ -14,8 +14,8 @@ import { ExportService } from "../services/export";
 import type { ExportEsStatus } from "../types";
 import { Environment } from "../types";
 import { getName } from "../utils";
+import type { CreateExportEsStatusType } from "./middlewares";
 import { ExportEsRunMiddleware } from "./middlewares";
-import type { CreateExportEsStatusType } from "./schemas";
 
 @controller("/export")
 export class ExportController implements interfaces.Controller {
@@ -36,7 +36,6 @@ export class ExportController implements interfaces.Controller {
 
   @httpGet("/")
   async getExportsStatus(
-    @response() res: Response,
     @queryParam("environment") environment?: Environment
   ): Promise<ExportEsStatus[] | undefined> {
     return this.service.getAll(environment);

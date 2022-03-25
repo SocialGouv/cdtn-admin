@@ -12,17 +12,17 @@ import { ExportService } from "./services";
 import { getName } from "./utils";
 
 // set up container
-const container = new Container();
-container.bind<ExportService>(getName(ExportService)).to(ExportService);
-container
+export const rootContainer = new Container();
+rootContainer.bind<ExportService>(getName(ExportService)).to(ExportService);
+rootContainer
   .bind<ExportRepository>(getName(ExportRepository))
   .to(ExportRepository);
-container
+rootContainer
   .bind<ExportEsRunMiddleware>(getName(ExportEsRunMiddleware))
   .to(ExportEsRunMiddleware);
 
 // create server
-const server = new InversifyExpressServer(container);
+const server = new InversifyExpressServer(rootContainer);
 server.setConfig((srv) => {
   // add body parser
   srv.use(
@@ -39,6 +39,4 @@ server.setErrorConfig((app) => {
   });
 });
 
-const app = server.build();
-
-export default app;
+export const app = server.build();

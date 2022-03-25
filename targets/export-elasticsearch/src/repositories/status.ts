@@ -64,9 +64,9 @@ export class ExportRepository {
     oldStatus: Status,
     newStatus: Status,
     updatedAt: Date
-  ): Promise<ExportEsStatus | undefined> {
+  ): Promise<ExportEsStatus[] | undefined> {
     const res = await client
-      .mutation<{ update_export_es_status_by_pk: ExportEsStatus }>(
+      .mutation<{ update_export_es_status_by_pk: ExportEsStatus[] }>(
         updateExportEsStatus,
         {
           new_status: newStatus,

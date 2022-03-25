@@ -1,9 +1,17 @@
 import type { NextFunction, Request, Response } from "express";
 import { injectable } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";
+import { z } from "zod";
 
+import { Environment } from "../../types";
 import { name } from "../../utils";
-import { CreateExportEsStatus } from "../schemas";
+
+const CreateExportEsStatus = z.object({
+  environment: z.nativeEnum(Environment),
+  userId: z.string().uuid(),
+});
+
+export type CreateExportEsStatusType = z.infer<typeof CreateExportEsStatus>;
 
 @injectable()
 @name("ExportEsRunMiddleware")

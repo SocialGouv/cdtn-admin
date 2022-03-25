@@ -50,6 +50,7 @@
     "prettier": "2.5.1",
     "rimraf": "3.0.2",
     "supertest": "^6.2.2",
+    "timekeeper": "^2.2.0",
     "typescript": "4.6.2"
   }
 }

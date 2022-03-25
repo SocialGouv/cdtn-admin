@@ -6,9 +6,11 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   rules: {
-    "@typescript-eslint/member-ordering": "off",
-    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/member-ordering": "warn",
+    "@typescript-eslint/no-floating-promises": "warn",
     "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/init-declarations": "warn",
   },
   settings: {
     jest: {
