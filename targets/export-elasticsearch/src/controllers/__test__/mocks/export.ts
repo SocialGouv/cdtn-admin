@@ -2,9 +2,10 @@ import { injectable } from "inversify";
 
 import type { ExportEsStatus } from "../../../types";
 import { Environment, Status } from "../../../types";
-import { wait } from "../../../utils";
+import { name, wait } from "../../../utils";
 
 @injectable()
+@name("ExportService")
 export class MockExportService {
   async runExport(
     userId: string,
