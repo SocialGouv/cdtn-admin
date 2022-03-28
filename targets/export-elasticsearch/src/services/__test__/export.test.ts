@@ -1,8 +1,8 @@
+import { injest } from "@shared/elasticsearch-document-adapter";
 import timekeeper from "timekeeper";
 
 import { ExportRepository } from "../../repositories";
 import { rootContainer } from "../../server";
-import type { ExportEsStatus } from "../../types";
 import { Environment, Status } from "../../types";
 import { getName } from "../../utils";
 import { ExportService } from "../export";
@@ -10,11 +10,11 @@ import { MockExportRepository } from "./mocks/export";
 
 jest.mock("@shared/elasticsearch-document-adapter", () => {
   return {
-    injest: async () => {
+    injest: jest.fn(async () => {
       return new Promise<void>((resolve) => {
         resolve();
       });
-    },
+    }),
   };
 });
 
@@ -30,6 +30,7 @@ describe("ExportService", () => {
       .inSingletonScope();
     service = container.get<ExportService>(getName(ExportService));
     mockRepository = container.get<ExportRepository>(getName(ExportRepository));
+    jest.clearAllMocks();
   });
 
   describe("getAll", () => {
@@ -83,12 +84,14 @@ describe("ExportService", () => {
         updated_at: new Date(),
         user_id: "getByStatus-id",
       });
+      expect(injest).toHaveBeenCalledTimes(0);
     });
 
     it("should get running job", async () => {
       const spy = jest.spyOn(mockRepository, "getByStatus");
       await service.runExport("ABC", Environment.preproduction);
       expect(spy).toHaveBeenCalledTimes(1);
+      expect(injest).toHaveBeenCalledTimes(0);
     });
 
     it("should create a new status", async () => {
@@ -107,6 +110,7 @@ describe("ExportService", () => {
       const spy = jest.spyOn(mockRepository, "create");
       await service.runExport("ABC", Environment.preproduction);
       expect(spy).toHaveBeenCalledTimes(1);
+      expect(injest).toHaveBeenCalledTimes(1);
     });
 
     it("should update the job at the end of ingester", async () => {
@@ -125,6 +129,7 @@ describe("ExportService", () => {
       const spy = jest.spyOn(mockRepository, "updateOne");
       await service.runExport("ABC", Environment.preproduction);
       expect(spy).toHaveBeenCalledTimes(1);
+      expect(injest).toHaveBeenCalledTimes(1);
     });
 
     it("should not clean previous job", async () => {
