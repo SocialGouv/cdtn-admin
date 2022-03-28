@@ -20,7 +20,6 @@ RUN yarn workspace @shared/graphql-client build
 
 RUN yarn workspace frontend build
 
-
 # app
 FROM node:$NODE_VERSION
 
