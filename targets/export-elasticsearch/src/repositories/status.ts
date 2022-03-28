@@ -21,7 +21,7 @@ export class ExportRepository {
     userId: string,
     environment: Environment,
     status: Status
-  ): Promise<ExportEsStatus | undefined> {
+  ): Promise<ExportEsStatus> {
     const res = await client
       .mutation<{ insert_export_es_status_one: ExportEsStatus }>(
         createExportEsStatus,
@@ -34,16 +34,19 @@ export class ExportRepository {
       )
       .toPromise();
     if (res.error) {
-      return undefined;
+      throw res.error;
     }
-    return res.data?.insert_export_es_status_one;
+    if (!res.data?.insert_export_es_status_one) {
+      throw new Error("Failed to create export, undefined object");
+    }
+    return res.data.insert_export_es_status_one;
   }
 
   public async updateOne(
     id: string,
     status: Status,
     updatedAt: Date
-  ): Promise<ExportEsStatus | undefined> {
+  ): Promise<ExportEsStatus> {
     const res = await client
       .mutation<{ update_export_es_status_by_pk: ExportEsStatus }>(
         updateOneExportEsStatus,
@@ -55,16 +58,19 @@ export class ExportRepository {
       )
       .toPromise();
     if (res.error) {
-      return undefined;
+      throw res.error;
     }
-    return res.data?.update_export_es_status_by_pk;
+    if (!res.data?.update_export_es_status_by_pk) {
+      throw new Error("Failed to update, undefined object");
+    }
+    return res.data.update_export_es_status_by_pk;
   }
 
   public async updateAll(
     oldStatus: Status,
     newStatus: Status,
     updatedAt: Date
-  ): Promise<ExportEsStatus[] | undefined> {
+  ): Promise<ExportEsStatus[]> {
     const res = await client
       .mutation<{ update_export_es_status_by_pk: ExportEsStatus[] }>(
         updateExportEsStatus,
@@ -76,12 +82,15 @@ export class ExportRepository {
       )
       .toPromise();
     if (res.error) {
-      return undefined;
+      throw res.error;
     }
-    return res.data?.update_export_es_status_by_pk;
+    if (!res.data?.update_export_es_status_by_pk) {
+      throw new Error("Failed to update, undefined object");
+    }
+    return res.data.update_export_es_status_by_pk;
   }
 
-  public async getOneById(id: string): Promise<ExportEsStatus | undefined> {
+  public async getOneById(id: string): Promise<ExportEsStatus> {
     const res = await client
       .query<{ export_es_status_by_pk: ExportEsStatus }>(
         getExportEsStatusById,
@@ -89,14 +98,17 @@ export class ExportRepository {
       )
       .toPromise();
     if (res.error) {
-      return undefined;
+      throw res.error;
     }
-    return res.data?.export_es_status_by_pk;
+    if (!res.data?.export_es_status_by_pk) {
+      throw new Error("Failed to get, undefined object");
+    }
+    return res.data.export_es_status_by_pk;
   }
 
   public async getByEnvironments(
     environment: Environment
-  ): Promise<ExportEsStatus[] | undefined> {
+  ): Promise<ExportEsStatus[]> {
     const res = await client
       .query<{ export_es_status: ExportEsStatus[] }>(
         getExportEsStatusByEnvironments,
@@ -104,24 +116,28 @@ export class ExportRepository {
       )
       .toPromise();
     if (res.error) {
-      return undefined;
+      throw res.error;
     }
-    return res.data?.export_es_status;
+    if (!res.data?.export_es_status) {
+      throw new Error("Failed to get, undefined object");
+    }
+    return res.data.export_es_status;
   }
 
-  public async getAll(): Promise<ExportEsStatus[] | undefined> {
+  public async getAll(): Promise<ExportEsStatus[]> {
     const res = await client
       .query<{ export_es_status: ExportEsStatus[] }>(getAllExport)
       .toPromise();
     if (res.error) {
-      return undefined;
+      throw res.error;
     }
-    return res.data?.export_es_status;
+    if (!res.data?.export_es_status) {
+      throw new Error("Failed to get, undefined object");
+    }
+    return res.data.export_es_status;
   }
 
-  public async getByStatus(
-    status: Status
-  ): Promise<ExportEsStatus[] | undefined> {
+  public async getByStatus(status: Status): Promise<ExportEsStatus[]> {
     const res = await client
       .query<{ export_es_status: ExportEsStatus[] }>(
         getExportEsStatusByStatus,
@@ -129,8 +145,11 @@ export class ExportRepository {
       )
       .toPromise();
     if (res.error) {
-      return undefined;
+      throw res.error;
     }
-    return res.data?.export_es_status;
+    if (!res.data?.export_es_status) {
+      throw new Error("Failed to get, undefined object");
+    }
+    return res.data.export_es_status;
   }
 }

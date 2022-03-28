@@ -6,10 +6,11 @@ import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
 import request from "supertest";
 
+import { ExportService } from "../../services";
 import { Environment, Status } from "../../types";
 import { getName } from "../../utils";
 import { ExportEsRunMiddleware } from "../middlewares";
-import { MockExportService } from "./mocks/export";
+import { FakeExportService } from "./fake/export";
 
 describe("ExportController /export", () => {
   let server: InversifyExpressServer;
@@ -17,8 +18,8 @@ describe("ExportController /export", () => {
   beforeEach(() => {
     const container = new Container();
     container
-      .bind<MockExportService>(getName(MockExportService))
-      .to(MockExportService)
+      .bind<FakeExportService>(getName(ExportService))
+      .to(FakeExportService)
       .inSingletonScope();
     container
       .bind<ExportEsRunMiddleware>(getName(ExportEsRunMiddleware))

@@ -21,10 +21,10 @@ export class ExportService {
   ): Promise<ExportEsStatus> {
     let isReadyToRun = false;
     const runningResult = await this.getRunningJob();
-    if (runningResult && runningResult.length > 0) {
+    if (runningResult.length > 0) {
       isReadyToRun = await this.cleanOldRunningJob(runningResult[0]); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
     }
-    if (!runningResult || runningResult.length === 0 || isReadyToRun) {
+    if (runningResult.length === 0 || isReadyToRun) {
       const id = randomUUID();
       const createdResult = await this.exportRepository.create(
         id,
@@ -32,9 +32,6 @@ export class ExportService {
         environment,
         Status.running
       );
-      if (!createdResult) {
-        throw new Error("Error while creating status");
-      }
       injest()
         .then(async () => {
           console.log("Export elasticsearch completed successfully");
@@ -53,20 +50,18 @@ export class ExportService {
     return runningResult[0];
   }
 
-  async getAll(
-    environment?: Environment
-  ): Promise<ExportEsStatus[] | undefined> {
+  async getAll(environment?: Environment): Promise<ExportEsStatus[]> {
     if (environment) {
       return this.exportRepository.getByEnvironments(environment);
     }
     return this.exportRepository.getAll();
   }
 
-  async getRunningJob(): Promise<ExportEsStatus[] | undefined> {
+  private async getRunningJob(): Promise<ExportEsStatus[]> {
     return this.exportRepository.getByStatus(Status.running);
   }
 
-  async cleanOldRunningJob(
+  private async cleanOldRunningJob(
     runningResult: ExportEsStatus,
     hour = 1 // job created 1 hour ago
   ): Promise<boolean> {
@@ -76,7 +71,7 @@ export class ExportService {
     ) {
       await this.exportRepository.updateOne(
         runningResult.id,
-        Status.failed,
+        Status.timeout,
         new Date()
       );
       return true;

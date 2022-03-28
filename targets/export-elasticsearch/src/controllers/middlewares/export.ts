@@ -6,18 +6,20 @@ import { z } from "zod";
 import { Environment } from "../../types";
 import { name } from "../../utils";
 
-const CreateExportEsStatus = z.object({
+const ValidatorCreateExportEsStatus = z.object({
   environment: z.nativeEnum(Environment),
   userId: z.string().uuid(),
 });
 
-export type CreateExportEsStatusType = z.infer<typeof CreateExportEsStatus>;
+export type ValidatorCreateExportEsStatusType = z.infer<
+  typeof ValidatorCreateExportEsStatus
+>;
 
 @injectable()
 @name("ExportEsRunMiddleware")
 export class ExportEsRunMiddleware extends BaseMiddleware {
   public handler(req: Request, res: Response, next: NextFunction): void {
-    const parse = CreateExportEsStatus.safeParse(req.body);
+    const parse = ValidatorCreateExportEsStatus.safeParse(req.body);
     if (parse.success) {
       next();
     } else {

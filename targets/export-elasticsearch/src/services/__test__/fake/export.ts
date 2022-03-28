@@ -5,13 +5,14 @@ import { Environment, Status } from "../../../types";
 import { wait } from "../../../utils";
 
 @injectable()
-export class MockExportRepository {
+export class FakeExportRepository {
+  // Rename stub
   async create(
     id: string,
     userId: string,
     environment: Environment,
     status: Status
-  ): Promise<ExportEsStatus | undefined> {
+  ): Promise<ExportEsStatus> {
     await wait(100);
     return {
       created_at: new Date(),
@@ -27,7 +28,7 @@ export class MockExportRepository {
     id: string,
     status: Status,
     updatedAt: Date
-  ): Promise<ExportEsStatus | undefined> {
+  ): Promise<ExportEsStatus> {
     await wait(100);
     return {
       created_at: new Date(),
@@ -43,7 +44,7 @@ export class MockExportRepository {
     oldStatus: Status,
     newStatus: Status,
     updatedAt: Date
-  ): Promise<ExportEsStatus[] | undefined> {
+  ): Promise<ExportEsStatus[]> {
     await wait(100);
     return [
       {
@@ -57,7 +58,7 @@ export class MockExportRepository {
     ];
   }
 
-  async getOneById(id: string): Promise<ExportEsStatus | undefined> {
+  async getOneById(id: string): Promise<ExportEsStatus> {
     await wait(100);
     return {
       created_at: new Date(),
@@ -69,9 +70,7 @@ export class MockExportRepository {
     };
   }
 
-  async getByEnvironments(
-    environment: Environment
-  ): Promise<ExportEsStatus[] | undefined> {
+  async getByEnvironments(environment: Environment): Promise<ExportEsStatus[]> {
     await wait(100);
     return [
       {
@@ -85,7 +84,7 @@ export class MockExportRepository {
     ];
   }
 
-  async getAll(): Promise<ExportEsStatus[] | undefined> {
+  async getAll(): Promise<ExportEsStatus[]> {
     await wait(100);
     return [
       {
@@ -99,7 +98,7 @@ export class MockExportRepository {
     ];
   }
 
-  async getByStatus(status: Status): Promise<ExportEsStatus[] | undefined> {
+  async getByStatus(status: Status): Promise<ExportEsStatus[]> {
     await wait(100);
     return [
       {
