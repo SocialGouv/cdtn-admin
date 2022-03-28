@@ -40,9 +40,9 @@
   needs:
     - job: 📦 logger
       artifacts: true
-    - job: 🧶 install www
-      artifacts: true
     - job: 🧶 install graphql-client
+      artifacts: true
+    - job: 🧶 install www
       artifacts: true
   artifacts:
     expire_in: 1 week
