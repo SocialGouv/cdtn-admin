@@ -18,12 +18,14 @@ COPY . /
 
 RUN yarn workspace frontend build
 
+RUN yarn workspace @shared/graphql-client build
+
 # app
 FROM node:$NODE_VERSION
 
 WORKDIR /app
 
-COPY --from=dist shared/graphql-client/src /app/shared/graphql-client/src
+COPY --from=dist shared/graphql-client/build /app/shared/graphql-client/build
 COPY --from=dist shared/graphql-client/package.json /app/shared/graphql-client/
 COPY --from=dist shared/id-generator/src /app/shared/id-generator/src
 COPY --from=dist shared/id-generator/package.json /app/shared/id-generator/
