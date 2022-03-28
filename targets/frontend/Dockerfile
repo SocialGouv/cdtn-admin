@@ -4,8 +4,7 @@ WORKDIR /app
 
 COPY package.json yarn.lock /app/
 
-COPY shared/graphql-client/build /app/shared/graphql-client/build
-COPY shared/graphql-client/package.json /app/shared/graphql-client/
+COPY shared/graphql-client /app/shared/graphql-client
 COPY shared/id-generator/src /app/shared/id-generator/src
 COPY shared/id-generator/package.json /app/shared/id-generator/
 COPY shared/types/index.d.ts /app/shared/types/
