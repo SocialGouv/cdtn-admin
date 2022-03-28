@@ -2,7 +2,7 @@
 #
 #
 
-📦 GraphQL client:
+🧶 install graphql-client:
   extends:
     - .autodevops_install
     - .cdtn_base_rules
