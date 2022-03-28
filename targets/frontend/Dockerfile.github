@@ -16,9 +16,10 @@ RUN yarn --frozen-lockfile
 
 COPY . /
 
+RUN yarn workspace @shared/graphql-client build
+
 RUN yarn workspace frontend build
 
-RUN yarn workspace @shared/graphql-client build
 
 # app
 FROM node:$NODE_VERSION
