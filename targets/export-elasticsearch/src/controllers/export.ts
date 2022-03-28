@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { inject } from "inversify";
 import type { interfaces } from "inversify-express-utils";
 import {
@@ -11,8 +11,7 @@ import {
 } from "inversify-express-utils";
 
 import { ExportService } from "../services/export";
-import type { ExportEsStatus } from "../types";
-import { Environment } from "../types";
+import type { Environment, ExportEsStatus } from "../types";
 import { getName } from "../utils";
 import type { CreateExportEsStatusType } from "./middlewares";
 import { ExportEsRunMiddleware } from "./middlewares";
