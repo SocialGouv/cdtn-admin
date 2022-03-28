@@ -36,4 +36,4 @@
   artifacts:
     expire_in: 1 week
     paths:
-      - shared/graphql-client
+      - shared/graphql-client/build
