@@ -6,14 +6,10 @@
   extends:
     - .autodevops_install
     - .cdtn_base_rules
-  rules:
-    - if: $PRODUCTION
-      when: never
-    - if: $TRIGGER && $TRIGGER != "RELEASE"
-      when: never
-    - when: on_success
-  stage: .pre
   image: node:14.18.0-alpine3.11
+  needs:
+    - job: 📦 logger
+      artifacts: true
   cache:
     key:
       files:
@@ -40,4 +36,4 @@
   artifacts:
     expire_in: 1 week
     paths:
-      - shared/graphql-client
+      - shared/graphql-client/build
