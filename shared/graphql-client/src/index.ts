@@ -17,3 +17,5 @@ export const client = createClient({
   requestPolicy: "network-only",
   url: HASURA_GRAPHQL_ENDPOINT,
 });
+
+export * from "@urql/core";
