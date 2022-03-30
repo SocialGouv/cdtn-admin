@@ -9361,11 +9361,6 @@ jest-snapshot@^27.5.1:
     pretty-format "^27.5.1"
     semver "^7.3.2"
 
-jest-time-helpers@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/jest-time-helpers/-/jest-time-helpers-0.1.0.tgz#0d28164b4109035ce5010bfc5375b78700bfe793"
-  integrity sha512-rj3g5CPey4t1n/6HCEWL5epe7b33bPKurGOFmdDG7A6PoO6jtPfaCWNtRangFUCX7Z9aPr7D6nQfga635j1Fuw==
-
 jest-util@^27.0.0, jest-util@^27.5.1:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-27.5.1.tgz#3ba9771e8e31a0b85da48fe0b0891fb86c01c2f9"
