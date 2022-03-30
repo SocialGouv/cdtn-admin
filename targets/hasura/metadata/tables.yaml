@@ -330,6 +330,9 @@
       value_from_env: PUBLICATION_SECRET
 - table:
     schema: public
+    name: export_es_status
+- table:
+    schema: public
     name: glossary
   insert_permissions:
   - role: user

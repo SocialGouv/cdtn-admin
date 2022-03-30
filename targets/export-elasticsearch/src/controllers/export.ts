@@ -1,11 +1,20 @@
-import { Response } from "express";
+import type { Request, Response } from "express";
 import { inject } from "inversify";
 import type { interfaces } from "inversify-express-utils";
-import { controller, httpPost, response } from "inversify-express-utils";
+import {
+  controller,
+  httpGet,
+  httpPost,
+  queryParam,
+  request,
+  response,
+} from "inversify-express-utils";
 
 import { ExportService } from "../services/export";
-import type { Status } from "../types";
+import type { Environment, ExportEsStatus } from "../types";
 import { getName } from "../utils";
+import type { ValidatorCreateExportEsStatusType } from "./middlewares";
+import { ExportEsRunMiddleware } from "./middlewares";
 
 @controller("/export")
 export class ExportController implements interfaces.Controller {
@@ -14,9 +23,20 @@ export class ExportController implements interfaces.Controller {
     private readonly service: ExportService
   ) {}
 
-  @httpPost("/run")
-  run(@response() res: Response): { status: Status } {
+  @httpPost("/", getName(ExportEsRunMiddleware))
+  async run(
+    @request() req: Request,
+    @response() res: Response
+  ): Promise<ExportEsStatus> {
+    const body: ValidatorCreateExportEsStatusType = req.body;
     res.status(202);
-    return this.service.runExport();
+    return this.service.runExport(body.userId, body.environment);
+  }
+
+  @httpGet("/")
+  async getExportsStatus(
+    @queryParam("environment") environment?: Environment
+  ): Promise<ExportEsStatus[] | undefined> {
+    return this.service.getAll(environment);
   }
 }

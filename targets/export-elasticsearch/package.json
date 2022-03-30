@@ -28,7 +28,8 @@
     "express": "^4.17.3",
     "inversify": "^6.0.1",
     "inversify-express-utils": "^6.4.3",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "zod": "^3.14.2"
   },
   "devDependencies": {
     "@swc-node/register": "1.4.2",
@@ -49,6 +50,7 @@
     "prettier": "2.5.1",
     "rimraf": "3.0.2",
     "supertest": "^6.2.2",
+    "timekeeper": "^2.2.0",
     "typescript": "4.6.2"
   }
 }
