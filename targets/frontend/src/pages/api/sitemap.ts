@@ -1,16 +1,35 @@
 import { client } from "@shared/graphql-client";
-import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
+import {
+  getRouteBySource,
+  SourceRoute,
+  SOURCES,
+} from "@socialgouv/cdtn-sources";
+import { NextApiRequest, NextApiResponse } from "next";
 import pLimit from "p-limit";
 
-export async function toUrlEntries(documents, glossaryTerms, baseUrl) {
+type Document = {
+  __typename: string;
+  modified: string;
+  slug: string;
+  source: SourceRoute;
+};
+
+export async function toUrlEntries(
+  documents: Document[],
+  glossaryTerms: Document[],
+  baseUrl: string
+  // @ts-ignore
+): any {
   let latestPost = 0;
   const pages = documents.flat().map((doc) => {
     const postDate = Date.parse(doc.modified);
     if (!latestPost || postDate > latestPost) {
       latestPost = postDate;
     }
-    const projectURL = `${baseUrl}/${getRouteBySource(doc.source)}/${doc.slug}`;
-    return toUrlEntry(projectURL, doc.modified);
+    const source = getRouteBySource(doc.source);
+    const priority = source === SOURCES.EDITORIAL_CONTENT ? 0.7 : 0.5;
+    const projectURL = `${baseUrl}/${source}/${doc.slug}`;
+    return toUrlEntry(projectURL, doc.modified, priority);
   });
 
   /** static pages list come from cdtn project */
@@ -34,8 +53,12 @@ export async function toUrlEntries(documents, glossaryTerms, baseUrl) {
   return { glossaryPages, latestPost, pages, staticPages };
 }
 
-export default async function Sitemap(req, res) {
-  const baseUrl = req.query.baseurl || "https://code.travail.gouv.fr";
+export default async function Sitemap(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const baseUrl =
+    (req.query.baseurl as string) || "https://code.travail.gouv.fr";
   const documents = await getDocuments();
   const glossaryTerms = await getGlossary();
 
@@ -65,7 +88,11 @@ export default async function Sitemap(req, res) {
  * @param {Date} date
  * @param {number} priority
  */
-function toUrlEntry(url, date = new Date().toISOString(), priority = 0.5) {
+function toUrlEntry(
+  url: string,
+  date = new Date().toISOString(),
+  priority = 0.5
+) {
   return `<url><loc>${url}</loc><lastmod>${date}</lastmod><priority>${priority}</priority></url>
 `;
 }
@@ -74,7 +101,7 @@ function toUrlEntry(url, date = new Date().toISOString(), priority = 0.5) {
  * count all the available and published documents
  * @param {*} sources
  */
-async function getNbtotalDocuments(sources) {
+async function getNbTotalDocuments(sources: string[]) {
   const gqlCountDocument = `
 query countDocuments($sources: [String!]!) {
   documents_aggregate(where: {is_available:{_eq: true}, is_published: {_eq: true}, source: {_in: $sources }}){
@@ -127,7 +154,7 @@ async function getDocuments() {
   ];
   const PAGE_SIZE = 300;
   const limit = pLimit(5);
-  const nbDoc = await getNbtotalDocuments(sources);
+  const nbDoc = await getNbTotalDocuments(sources);
   const pages = Array.from(
     { length: Math.ceil(nbDoc / PAGE_SIZE) },
     (_, i) => i
