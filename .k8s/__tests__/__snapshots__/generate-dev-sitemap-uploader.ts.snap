@@ -138,6 +138,6 @@ metadata:
 data:
   DESTINATION_CONTAINER: sitemap
   DESTINATION_NAME: sitemap.xml
-  SITEMAP_ENDPOINT: http://www/api/sitemap
+  SITEMAP_ENDPOINT: http://www/sitemap.xml
 "
 `;
