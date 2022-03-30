@@ -2,6 +2,7 @@ export enum Status {
   running = "running",
   completed = "completed",
   failed = "failed",
+  timeout = "timeout",
 }
 
 export enum Environment {
