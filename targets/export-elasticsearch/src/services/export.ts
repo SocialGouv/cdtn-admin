@@ -1,4 +1,3 @@
-import { injest } from "@shared/elasticsearch-document-adapter";
 import { randomUUID } from "crypto";
 import { inject, injectable } from "inversify";
 
@@ -6,6 +5,7 @@ import { ExportRepository } from "../repositories";
 import type { Environment, ExportEsStatus } from "../types";
 import { Status } from "../types";
 import { getName, name } from "../utils";
+import { runWorkerIngester } from "../workers";
 
 @injectable()
 @name("ExportService")
@@ -32,16 +32,16 @@ export class ExportService {
         environment,
         Status.running
       );
-      injest()
-        .then(async () => {
-          console.log("Export elasticsearch completed successfully");
+      runWorkerIngester()
+        .then(async (res: string) => {
+          console.log(res);
           await this.exportRepository.updateOne(
             id,
             Status.completed,
             new Date()
           );
         })
-        .catch(async (error: unknown) => {
+        .catch(async (error: string) => {
           console.error(error);
           await this.exportRepository.updateOne(id, Status.failed, new Date());
         });
