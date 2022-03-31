@@ -4,6 +4,12 @@ import { MdClose } from "react-icons/md";
 import { Button as BaseButton } from "theme-ui";
 
 const buttonPropTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
   size: PropTypes.oneOf(["small", "normal"]),
   variant: PropTypes.oneOf(["accent", "secondary", "primary", "link"]),
 };
@@ -34,12 +40,12 @@ const smallSize = {
 };
 
 export const ConfirmButton = React.forwardRef(function _ConfirmButton(
-  { variant = "primary", size = "normal", children, onClick, ...props },
+  { variant = "primary", size = "normal", children, onClick, ...props }: any,
   ref
 ) {
   const [needConfirm, setNeedConfirm] = useState(false);
 
-  const onClickCustom = (event) => {
+  const onClickCustom = (event: any) => {
     if (!needConfirm) {
       setNeedConfirm(true);
     } else {
@@ -47,7 +53,7 @@ export const ConfirmButton = React.forwardRef(function _ConfirmButton(
       onClick(event);
     }
   };
-  const cancel = (event) => {
+  const cancel = (event: any) => {
     event.stopPropagation();
     setNeedConfirm(false);
   };
@@ -59,17 +65,17 @@ export const ConfirmButton = React.forwardRef(function _ConfirmButton(
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
         "&:hover:not([disabled])": {
-          bg: (theme) => theme.buttons[variant].bgHover,
-          borderColor: (theme) => theme.buttons[variant].bgHover,
+          bg: (theme: any) => theme.buttons[variant].bgHover,
+          borderColor: (theme: any) => theme.buttons[variant].bgHover,
         },
         "&[disabled]": {
           bg: "muted",
           borderColor: "muted",
         },
-        bg: (theme) => theme.buttons[variant].bg,
-        borderColor: (theme) => theme.buttons[variant].bg,
+        bg: (theme: any) => theme.buttons[variant].bg,
+        borderColor: (theme: any) => theme.buttons[variant].bg,
         borderRadius: "small",
-        color: (theme) => theme.buttons[variant].color,
+        color: (theme: any) => theme.buttons[variant].color,
       }}
       onClick={onClickCustom}
     >

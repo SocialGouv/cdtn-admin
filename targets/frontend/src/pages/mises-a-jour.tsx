@@ -1,69 +1,29 @@
-import { useMemo } from "react";
-import { MdOpenInBrowser, MdOpenInNew, MdPageview } from "react-icons/md";
-import { GitlabButton } from "src/components/button/GitlabButton";
+import { MdOpenInNew } from "react-icons/md";
+import {
+  EnvironmentBadge,
+  Status,
+  TriggerButton,
+} from "src/components/export-es";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
-import { EnvironementBadge } from "src/components/pipelines/EnvironmentBadge";
-import {
-  getPipelineStatusLabel,
-  Status,
-} from "src/components/pipelines/Status";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { Badge, Message, NavLink, Spinner } from "theme-ui";
-import { useQuery } from "urql";
 
-export const getDataUpdateQuery = `
-query getPipelines {
-  pipelines(order_by: {created_at: desc}, limit: 50) {
-    id
-    pipelineId: pipeline_id 
-    createdAt: created_at
-    environment
-    status
-    user {
-      name
-    }
-  }
-}
-`;
+type EnvironmentPageProps = {
+  error: any;
+  data: any;
+  result: any;
+};
 
-type Pipelines = {
-  id: string;
-  user: {
-    name: string;
+export function UpdatePage(props: EnvironmentPageProps): JSX.Element {
+  const onTrigger = (env: string) => {
+    console.log("triggered");
   };
-  environment: string;
-  status: string;
-  pipelineId: string;
-  createdAt: Date;
-};
 
-export type DataUpdateResult = {
-  pipelines: Pipelines[];
-};
-
-function isActivePipeline(status: string) {
-  return ["created", "pending", "running"].includes(status);
-}
-
-export function EvironementPage(): JSX.Element {
-  // use context to update table after trigger pipeline button
-  const context = useMemo(
-    () => ({ additionalTypenames: ["pipelines", "UpdatePipelineOutput"] }),
-    []
-  );
-
-  const [result] = useQuery<DataUpdateResult>({
-    context,
-    query: getDataUpdateQuery,
-    requestPolicy: "cache-and-network",
-  });
-
-  const { data, fetching, error } = result;
-
+  const { error, data, result } = props;
   if (error) {
     return (
       <Layout title="Mises à jour des environnements">
@@ -75,16 +35,6 @@ export function EvironementPage(): JSX.Element {
       </Layout>
     );
   }
-
-  const isPreprodPending =
-    data?.pipelines.some(
-      (event) =>
-        isActivePipeline(event.status) && event.environment === "preprod"
-    ) ?? false;
-  const isProdPending =
-    data?.pipelines.some(
-      (event) => isActivePipeline(event.status) && event.environment === "prod"
-    ) ?? false;
 
   return (
     <Layout title="Mises à jour des environnements">
@@ -103,21 +53,25 @@ export function EvironementPage(): JSX.Element {
       </Stack>
       <Stack>
         <Inline>
-          <GitlabButton
+          <TriggerButton
             environment="prod"
             variant="accent"
-            pending={isProdPending}
+            isDisabled={true} //to replace
+            status="pending"
+            onClick={() => onTrigger("preprod")}
           >
             Mettre à jour la prod
-          </GitlabButton>
+          </TriggerButton>
 
-          <GitlabButton
+          <TriggerButton
             environment="preprod"
             variant="secondary"
-            pending={isPreprodPending}
+            isDisabled={true} // to replace
+            status="pending"
+            onClick={() => onTrigger("preprod")}
           >
             Mettre à jour la preprod
-          </GitlabButton>
+          </TriggerButton>
         </Inline>
 
         <Table>
@@ -130,7 +84,7 @@ export function EvironementPage(): JSX.Element {
               <Th />
             </Tr>
           </thead>
-          {!data && fetching && (
+          {!data && (
             <tbody>
               <tr>
                 <td colSpan={5}>
@@ -141,11 +95,18 @@ export function EvironementPage(): JSX.Element {
           )}
           <tbody>
             {result?.data?.pipelines.map(
-              ({ id, pipelineId, environment, user, createdAt, status }) => {
+              ({
+                id,
+                pipelineId,
+                environment,
+                user,
+                createdAt,
+                status,
+              }: any) => {
                 return (
                   <Tr key={`${id}`}>
                     <Td>
-                      <EnvironementBadge environment={environment} />
+                      <EnvironmentBadge environment={environment} />
                     </Td>
                     <Td>{user.name}</Td>
                     <Td>
@@ -156,16 +117,7 @@ export function EvironementPage(): JSX.Element {
                       })}
                     </Td>
                     <Td>
-                      {status === "created" ||
-                      status === "pending" ||
-                      status === "running" ? (
-                        <Status
-                          initialStatus={status}
-                          pipelineId={pipelineId}
-                        />
-                      ) : (
-                        getPipelineStatusLabel(status)
-                      )}
+                      <Status status={status} />
                     </Td>
                     <Td>
                       <NavLink
@@ -191,4 +143,4 @@ export function EvironementPage(): JSX.Element {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(EvironementPage));
+export default withCustomUrqlClient(withUserProvider(UpdatePage));

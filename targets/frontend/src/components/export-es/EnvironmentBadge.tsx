@@ -1,12 +1,12 @@
 import { Badge } from "theme-ui";
 
-type EnvironementTagProps = {
+type EnvironmentTagProps = {
   environment: string;
 };
 
-export function EnvironementBadge({
+export function EnvironmentBadge({
   environment,
-}: EnvironementTagProps): JSX.Element {
+}: EnvironmentTagProps): JSX.Element {
   if (environment === "prod")
     return <Badge variant="accent">{environment}</Badge>;
   return <Badge variant="secondary">{environment}</Badge>;
