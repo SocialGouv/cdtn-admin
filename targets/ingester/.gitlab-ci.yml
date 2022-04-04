@@ -39,6 +39,8 @@
   needs:
     - job: 🧶 install ingester
       artifacts: true
+    - job: 🧶 install graphql-client
+      artifacts: true
   before_script:
     - cd targets/ingester
   script:

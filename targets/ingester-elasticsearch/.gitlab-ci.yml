@@ -41,6 +41,8 @@
       artifacts: true
     - job: 🧶 install elasticsearch-document-adapter
       artifacts: true
+    - job: 🧶 install graphql-client
+      artifacts: true
     - job: 📦 logger
       artifacts: true
   before_script:

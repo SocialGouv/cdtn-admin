@@ -43,6 +43,8 @@
       artifacts: true
     - job: 📦 Dila resolver
       artifacts: true
+    - job: 🧶 install graphql-client
+      artifacts: true
   before_script:
     - cd targets/alert-cli
   script:
