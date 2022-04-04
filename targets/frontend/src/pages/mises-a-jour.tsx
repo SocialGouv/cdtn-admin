@@ -1,4 +1,4 @@
-import { MdOpenInNew } from "react-icons/md";
+import { useEffect } from "react";
 import {
   EnvironmentBadge,
   Status,
@@ -10,43 +10,45 @@ import { Stack } from "src/components/layout/Stack";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Badge, Message, NavLink, Spinner } from "theme-ui";
+import { useUser } from "src/hooks/useUser";
+import { Environment, useExportEsStore } from "src/store/export-es";
+import { Badge, Message, Spinner } from "theme-ui";
 
-type EnvironmentPageProps = {
-  error: any;
-  data: any;
-  result: any;
-};
+export function UpdatePage(): JSX.Element {
+  const exportStore = useExportEsStore((state) => ({
+    ...state,
+  }));
 
-export function UpdatePage(props: EnvironmentPageProps): JSX.Element {
-  const onTrigger = (env: string) => {
-    console.log("triggered");
-  };
+  const { getExportEs } = useExportEsStore((state) => ({
+    getExportEs: state.getExportEs,
+  }));
 
-  const { error, data, result } = props;
-  if (error) {
-    return (
-      <Layout title="Mises à jour des environnements">
-        <Stack>
-          <Message>
-            <pre>{JSON.stringify(error, null, 2)}</pre>
-          </Message>
-        </Stack>
-      </Layout>
-    );
-  }
+  const { user } = useUser();
+
+  const onTrigger = (env: Environment) => exportStore.runExportEs(env, user.id);
+
+  useEffect(() => {
+    getExportEs();
+  }, [getExportEs]);
 
   return (
     <Layout title="Mises à jour des environnements">
       <Stack>
+        {exportStore.error && (
+          <Stack>
+            <Message>
+              <pre>{JSON.stringify(exportStore.error, null, 2)}</pre>
+            </Message>
+          </Stack>
+        )}
         <p>
-          Cette page permet de mettre à jour les données des environements de{" "}
+          Cette page permet de mettre à jour les données des environnements de{" "}
           <Badge as="span" variant="accent">
-            prod
+            production
           </Badge>{" "}
           et{" "}
           <Badge as="span" variant="secondary">
-            preprod
+            pre-production
           </Badge>{" "}
           et de suivre l’état de ces mises à jour.
         </p>
@@ -54,23 +56,20 @@ export function UpdatePage(props: EnvironmentPageProps): JSX.Element {
       <Stack>
         <Inline>
           <TriggerButton
-            environment="prod"
             variant="accent"
-            isDisabled={true} //to replace
-            status="pending"
-            onClick={() => onTrigger("preprod")}
+            isDisabled={exportStore.isRunning}
+            status={exportStore.lastStatusPreproduction}
+            onClick={() => onTrigger(Environment.preproduction)}
           >
-            Mettre à jour la prod
+            Mettre à jour la production
           </TriggerButton>
-
           <TriggerButton
-            environment="preprod"
             variant="secondary"
-            isDisabled={true} // to replace
-            status="pending"
-            onClick={() => onTrigger("preprod")}
+            isDisabled={exportStore.isRunning}
+            status={exportStore.lastStatusProduction}
+            onClick={() => onTrigger(Environment.production)}
           >
-            Mettre à jour la preprod
+            Mettre à jour la pre-production
           </TriggerButton>
         </Inline>
 
@@ -79,12 +78,12 @@ export function UpdatePage(props: EnvironmentPageProps): JSX.Element {
             <Tr>
               <Th align="left">Environement</Th>
               <Th align="left">Utilisateur</Th>
-              <Th align="left">Date</Th>
+              <Th align="left">Crée le</Th>
+              <Th align="left">Complété le</Th>
               <Th align="left">Statut</Th>
-              <Th />
             </Tr>
           </thead>
-          {!data && (
+          {exportStore.isGetExportLoading && (
             <tbody>
               <tr>
                 <td colSpan={5}>
@@ -94,13 +93,13 @@ export function UpdatePage(props: EnvironmentPageProps): JSX.Element {
             </tbody>
           )}
           <tbody>
-            {result?.data?.pipelines.map(
+            {exportStore.exportData.map(
               ({
                 id,
-                pipelineId,
                 environment,
-                user,
-                createdAt,
+                created_at,
+                updated_at,
+                user_id,
                 status,
               }: any) => {
                 return (
@@ -108,29 +107,23 @@ export function UpdatePage(props: EnvironmentPageProps): JSX.Element {
                     <Td>
                       <EnvironmentBadge environment={environment} />
                     </Td>
-                    <Td>{user.name}</Td>
+                    <Td>{user_id}</Td>
                     <Td>
-                      {new Date(createdAt).toLocaleDateString("fr-FR")} à{" "}
-                      {new Date(createdAt).toLocaleTimeString("fr-FR", {
+                      {new Date(created_at).toLocaleDateString("fr-FR")} à{" "}
+                      {new Date(created_at).toLocaleTimeString("fr-FR", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Td>
+                    <Td>
+                      {new Date(updated_at).toLocaleDateString("fr-FR")} à{" "}
+                      {new Date(updated_at).toLocaleTimeString("fr-FR", {
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
                     </Td>
                     <Td>
                       <Status status={status} />
-                    </Td>
-                    <Td>
-                      <NavLink
-                        title={`Voir le détail pipeline ${pipelineId}`}
-                        sx={{ fontSize: "xsmall", fontWeight: 300 }}
-                        href={`https://gitlab.factory.social.gouv.fr/SocialGouv/cdtn-admin/-/pipelines/${pipelineId}`}
-                      >
-                        <MdOpenInNew
-                          sx={{ mb: "-.2rem" }}
-                          size="16"
-                          aria-label="voir le pipeline"
-                        />
-                      </NavLink>
                     </Td>
                   </Tr>
                 );

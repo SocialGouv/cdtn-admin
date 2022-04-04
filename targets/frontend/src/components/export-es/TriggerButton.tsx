@@ -1,16 +1,16 @@
 import React, { ReactNode } from "react";
-import { MdLoop, MdSyncProblem, MdTimelapse } from "react-icons/md";
+import { MdSyncProblem, MdTimelapse, MdTimerOff } from "react-icons/md";
+import { Status } from "src/store/export-es";
 import { Badge } from "theme-ui";
 
 import { ConfirmButton } from "../confirmButton";
 
-type GitlabBButtonProps = {
-  environment: "preprod" | "prod";
+type TriggerButtonProps = {
   variant: "accent" | "secondary" | "primary" | "link";
   onClick: () => void;
   children: ReactNode | ReactNode[];
   isDisabled?: boolean;
-  status: "pending" | "ready" | "error";
+  status?: Status;
 };
 
 function Index({
@@ -19,14 +19,15 @@ function Index({
   children,
   isDisabled = false,
   status,
-}: GitlabBButtonProps) {
+}: TriggerButtonProps) {
+  console.log(status);
   return (
     <ConfirmButton disabled={isDisabled} onClick={onClick} variant={variant}>
-      {status === "pending" && <MdTimelapse sx={{ mr: ".2rem" }} />}
-      {status === "ready" && <MdLoop sx={{ mr: ".2rem" }} />}
-      {status === "error" && <MdSyncProblem sx={{ mr: ".2rem" }} />}
+      {status === "running" && <MdTimelapse sx={{ mr: ".2rem" }} />}
+      {status === "failed" && <MdSyncProblem sx={{ mr: ".2rem" }} />}
+      {status === "timeout" && <MdTimerOff sx={{ mr: ".2rem" }} />}
       {children}
-      {status === "error" && (
+      {status === "failed" && (
         <Badge bg="critical" sx={{ ml: "-3rem", mt: "-3rem" }}>
           Erreur
         </Badge>

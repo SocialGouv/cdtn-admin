@@ -2,6 +2,7 @@ import "reflect-metadata";
 import "./controllers";
 
 import bodyParser from "body-parser";
+import cors from "cors";
 import type { NextFunction, Request, Response } from "express";
 import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
@@ -31,9 +32,14 @@ server.setConfig((srv) => {
     })
   );
   srv.use(bodyParser.json());
+  srv.use(
+    cors({
+      origin: ["*.fabrique.social.gouv.fr", "http://localhost:3000"],
+    })
+  );
 });
-server.setErrorConfig((app) => {
-  app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+server.setErrorConfig((srv) => {
+  srv.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
     res.status(500).json({ error: err });
   });
 });

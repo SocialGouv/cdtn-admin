@@ -1,10 +1,11 @@
 /** @jsxImportSource theme-ui */
 
 import { MdTimelapse } from "react-icons/md";
+import { Status as StatusType } from "src/store/export-es";
 import { Box, Flex } from "theme-ui";
 
 type StatusProps = {
-  status?: "success" | "pending" | "failed" | "timeout";
+  status?: StatusType;
 };
 
 export function Status({ status }: StatusProps): JSX.Element {
@@ -16,26 +17,26 @@ export function Status({ status }: StatusProps): JSX.Element {
     );
   }
   switch (status) {
-    case "success":
+    case StatusType.completed:
       return (
         <Box as="span" color="positive">
           Succès
         </Box>
       );
-    case "timeout":
+    case StatusType.timeout:
       return (
         <Box as="span" color="muted">
           Timeout
         </Box>
       );
-    case "pending":
+    case StatusType.running:
       return (
         <Flex sx={{ alignItems: "center" }}>
           <span>En cours</span>{" "}
           <MdTimelapse sx={{ mb: "-.2rem", ml: ".3rem" }} />
         </Flex>
       );
-    case "failed":
+    case StatusType.failed:
       return (
         <Box as="span" color="critical">
           Erreur
