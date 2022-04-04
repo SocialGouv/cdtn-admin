@@ -10,6 +10,13 @@ export enum Environment {
   preproduction = "preproduction",
 }
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  created_at: Date;
+}
+
 export interface ExportEsStatus {
   id: string;
   environment: Environment;
@@ -17,4 +24,5 @@ export interface ExportEsStatus {
   user_id: string;
   created_at: Date;
   updated_at: Date;
+  user?: User;
 }

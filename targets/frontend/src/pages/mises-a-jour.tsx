@@ -23,7 +23,7 @@ export function UpdatePage(): JSX.Element {
     getExportEs: state.getExportEs,
   }));
 
-  const { user } = useUser();
+  const { user }: any = useUser();
 
   const onTrigger = (env: Environment) => exportStore.runExportEs(env, user.id);
 
@@ -76,7 +76,7 @@ export function UpdatePage(): JSX.Element {
         <Table>
           <thead>
             <Tr>
-              <Th align="left">Environement</Th>
+              <Th align="left">Environnement</Th>
               <Th align="left">Utilisateur</Th>
               <Th align="left">Crée le</Th>
               <Th align="left">Complété le</Th>
@@ -99,7 +99,7 @@ export function UpdatePage(): JSX.Element {
                 environment,
                 created_at,
                 updated_at,
-                user_id,
+                user,
                 status,
               }: any) => {
                 return (
@@ -107,7 +107,7 @@ export function UpdatePage(): JSX.Element {
                     <Td>
                       <EnvironmentBadge environment={environment} />
                     </Td>
-                    <Td>{user_id}</Td>
+                    <Td>{user.name}</Td>
                     <Td>
                       {new Date(created_at).toLocaleDateString("fr-FR")} à{" "}
                       {new Date(created_at).toLocaleTimeString("fr-FR", {

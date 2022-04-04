@@ -41,7 +41,7 @@ export class FakeExportRepository {
   }
 
   async updateAll(
-    oldStatus: Status,
+    _oldStatus: Status,
     newStatus: Status,
     updatedAt: Date
   ): Promise<ExportEsStatus[]> {
