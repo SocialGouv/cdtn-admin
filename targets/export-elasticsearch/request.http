@@ -1,0 +1,20 @@
+## Requests available:
+
+###
+GET http://localhost:3000/export?environment=production
+
+###
+GET http://localhost:3000/export?environment=preproduction
+
+###
+GET http://localhost:3000/export
+
+###
+POST http://localhost:3000/export
+content-type: application/json
+
+{
+  "environment": "production",
+  "userId": "148a6a2b-c565-4ce2-a093-ad1e74a1c722"
+}
+

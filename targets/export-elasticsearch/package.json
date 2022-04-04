@@ -11,7 +11,7 @@
   "scripts": {
     "start": "node build/index.js",
     "dev": "nodemon",
-    "develop": "node -r @swc-node/register ./src/index.ts",
+    "develop": "swc ./src -d build && node build/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "clean": "rimraf build",
@@ -32,7 +32,6 @@
     "zod": "^3.14.2"
   },
   "devDependencies": {
-    "@swc-node/register": "1.4.2",
     "@swc/cli": "0.1.55",
     "@swc/core": "1.2.150",
     "@swc/jest": "0.2.20",
