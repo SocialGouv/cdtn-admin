@@ -14,7 +14,6 @@ import type {
   AgreementSection,
 } from "@socialgouv/kali-data-types";
 import type { DilaRef } from "@socialgouv/contributions-data-types";
-export as namespace admin;
 
 interface BaseHasuraDocument {
   cdtn_id: string;

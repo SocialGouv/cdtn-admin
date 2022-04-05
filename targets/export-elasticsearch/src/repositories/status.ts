@@ -9,6 +9,7 @@ import {
   getExportEsStatusByEnvironments,
   getExportEsStatusById,
   getExportEsStatusByStatus,
+  getLatestExportEsStatus,
   updateExportEsStatus,
   updateOneExportEsStatus,
 } from "./graphql";
@@ -104,6 +105,19 @@ export class ExportRepository {
       throw new Error("Failed to get, undefined object");
     }
     return res.data.export_es_status_by_pk;
+  }
+
+  public async getLatest(): Promise<ExportEsStatus> {
+    const res = await client
+      .query<{ export_es_status: ExportEsStatus[] }>(getLatestExportEsStatus)
+      .toPromise();
+    if (res.error) {
+      throw res.error;
+    }
+    if (!res.data?.export_es_status) {
+      throw new Error("Failed to get, undefined object");
+    }
+    return res.data.export_es_status[0];
   }
 
   public async getByEnvironments(

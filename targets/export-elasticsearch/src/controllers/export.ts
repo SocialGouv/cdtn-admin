@@ -1,6 +1,5 @@
-import type { ExportEsStatus } from "@shared/types";
-import { Environment } from "@shared/types";
-import { Request, Response } from "express";
+import type { Environment, ExportEsStatus } from "@shared/types";
+import type { Request, Response } from "express";
 import { inject } from "inversify";
 import type { interfaces } from "inversify-express-utils";
 import {
@@ -37,7 +36,12 @@ export class ExportController implements interfaces.Controller {
   @httpGet("/")
   async getExportsStatus(
     @queryParam("environment") environment?: Environment
-  ): Promise<ExportEsStatus[] | undefined> {
+  ): Promise<ExportEsStatus[]> {
     return this.service.getAll(environment);
+  }
+
+  @httpGet("/latest")
+  async getLatestExportEs(): Promise<ExportEsStatus> {
+    return this.service.getLatest();
   }
 }

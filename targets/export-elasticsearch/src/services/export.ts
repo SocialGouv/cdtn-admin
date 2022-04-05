@@ -57,6 +57,10 @@ export class ExportService {
     return this.exportRepository.getAll();
   }
 
+  async getLatest(): Promise<ExportEsStatus> {
+    return this.exportRepository.getLatest();
+  }
+
   private async getRunningJob(): Promise<ExportEsStatus[]> {
     return this.exportRepository.getByStatus(Status.running);
   }

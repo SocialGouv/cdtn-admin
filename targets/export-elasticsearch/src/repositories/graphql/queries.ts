@@ -49,6 +49,23 @@ query getExportEsStatusByEnvironments($environment: String!) {
   }
 }`;
 
+export const getLatestExportEsStatus = `
+query getExportEsStatusByEnvironments($environment: String!) {
+  export_es_status(where: {environment: {_eq: $environment}}) {
+    id
+    environment
+    status
+    user_id
+    user {
+      name
+      email
+      created_at
+    }
+    created_at
+    updated_at
+  }
+}`;
+
 export const getExportEsStatusByStatus = `
 query getExportEsStatusByStatus($status: String!) {
   export_es_status(where: {status: {_eq: $status}}) {
