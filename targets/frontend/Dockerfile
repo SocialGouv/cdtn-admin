@@ -7,8 +7,8 @@ COPY package.json yarn.lock /app/
 COPY shared/graphql-client /app/shared/graphql-client
 COPY shared/id-generator/src /app/shared/id-generator/src
 COPY shared/id-generator/package.json /app/shared/id-generator/
-COPY shared/types/index.d.ts /app/shared/types/
-COPY shared/types/package.json /app/shared/types/
+COPY shared/types/build /app/shared/graphql-client/build
+COPY shared/types/package.json /app/shared/graphql-client/
 
 COPY targets/frontend/package.json /app/targets/frontend/
 
