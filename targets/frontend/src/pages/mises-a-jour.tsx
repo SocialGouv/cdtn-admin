@@ -52,17 +52,23 @@ export function UpdatePage(): JSX.Element {
         <Inline>
           <TriggerButton
             variant="accent"
-            isDisabled={exportEsState.isRunning}
-            status={exportEsState.lastStatusPreproduction}
-            onClick={() => onTrigger(Environment.preproduction)}
+            isDisabled={
+              exportEsState.latestExportPreproduction?.status === "running" ||
+              exportEsState.latestExportProduction?.status === "running"
+            }
+            status={exportEsState.latestExportProduction?.status}
+            onClick={() => onTrigger(Environment.production)}
           >
             Mettre à jour la production
           </TriggerButton>
           <TriggerButton
             variant="secondary"
-            isDisabled={exportEsState.isRunning}
-            status={exportEsState.lastStatusProduction}
-            onClick={() => onTrigger(Environment.production)}
+            isDisabled={
+              exportEsState.latestExportPreproduction?.status === "running" ||
+              exportEsState.latestExportProduction?.status === "running"
+            }
+            status={exportEsState.latestExportPreproduction?.status}
+            onClick={() => onTrigger(Environment.preproduction)}
           >
             Mettre à jour la pre-production
           </TriggerButton>

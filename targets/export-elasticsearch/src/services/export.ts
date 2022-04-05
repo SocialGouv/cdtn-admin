@@ -1,5 +1,5 @@
-import type { Environment, ExportEsStatus } from "@shared/types";
-import { Status } from "@shared/types";
+import type { ExportEsStatus } from "@shared/types";
+import { Environment, Status } from "@shared/types";
 import { randomUUID } from "crypto";
 import { inject, injectable } from "inversify";
 
@@ -57,8 +57,20 @@ export class ExportService {
     return this.exportRepository.getAll();
   }
 
-  async getLatest(): Promise<ExportEsStatus> {
-    return this.exportRepository.getLatest();
+  async getLatest(): Promise<{
+    preproduction: ExportEsStatus;
+    production: ExportEsStatus;
+  }> {
+    const latestPreprod = await this.exportRepository.getLatestByEnv(
+      Environment.preproduction
+    );
+    const latestProd = await this.exportRepository.getLatestByEnv(
+      Environment.production
+    );
+    return {
+      preproduction: latestPreprod,
+      production: latestProd,
+    };
   }
 
   private async getRunningJob(): Promise<ExportEsStatus[]> {

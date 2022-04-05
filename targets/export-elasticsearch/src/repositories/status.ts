@@ -107,9 +107,14 @@ export class ExportRepository {
     return res.data.export_es_status_by_pk;
   }
 
-  public async getLatest(): Promise<ExportEsStatus> {
+  public async getLatestByEnv(
+    environment: Environment
+  ): Promise<ExportEsStatus> {
     const res = await client
-      .query<{ export_es_status: ExportEsStatus[] }>(getLatestExportEsStatus)
+      .query<{ export_es_status: ExportEsStatus[] }>(
+        getExportEsStatusByEnvironments,
+        { environment }
+      )
       .toPromise();
     if (res.error) {
       throw res.error;

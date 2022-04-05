@@ -1,4 +1,4 @@
-import { Environment, ExportEsStatus, Status } from "@shared/types";
+import { Environment, ExportEsStatus } from "@shared/types";
 import { useState } from "react";
 import { serializeError } from "serialize-error";
 
@@ -13,9 +13,8 @@ type ExportEsState = {
   exportData: ExportEsStatus[];
   hasGetExportError: boolean;
   isGetExportLoading: boolean;
-  isRunning: boolean;
-  lastStatusPreproduction: Status;
-  lastStatusProduction: Status;
+  latestExportProduction: ExportEsStatus | null;
+  latestExportPreproduction: ExportEsStatus | null;
 };
 
 export function useExportEs(): [
@@ -28,9 +27,8 @@ export function useExportEs(): [
     exportData: [],
     hasGetExportError: false,
     isGetExportLoading: false,
-    isRunning: false,
-    lastStatusPreproduction: Status.completed,
-    lastStatusProduction: Status.completed,
+    latestExportPreproduction: null,
+    latestExportProduction: null,
   });
 
   const getExportEs = () => {
@@ -40,13 +38,19 @@ export function useExportEs(): [
       hasGetExportError: false,
       isGetExportLoading: true,
     }));
-    fetch(URL_EXPORT_ES_PRODUCTION + "/export")
-      .then((response) => response.json())
+    const promises = [
+      fetch(URL_EXPORT_ES_PRODUCTION + "/export"),
+      fetch(URL_EXPORT_ES_PRODUCTION + "/export/latest"),
+    ];
+    Promise.all(promises)
+      .then((response) => Promise.all(response.map((rep) => rep.json())))
       .then((data) => {
         setState((state) => ({
           ...state,
-          exportData: data,
+          exportData: data[0],
           isGetExportLoading: false,
+          latestExportPreproduction: data[1].preproduction,
+          latestExportProduction: data[1].production,
         }));
       })
       .catch((error) => {
@@ -78,16 +82,18 @@ export function useExportEs(): [
       .then((data) => {
         setState((state) => ({
           ...state,
-          exportData: data,
-          isGetExportLoading: false,
+          ...Object.assign(
+            {},
+            environment === Environment.preproduction
+              ? { latestExportPreproduction: data }
+              : { latestExportProduction: data }
+          ),
         }));
       })
       .catch((error) => {
         setState((state) => ({
           ...state,
           error: serializeError(error),
-          hasGetExportError: true,
-          isGetExportLoading: false,
         }));
       });
   };

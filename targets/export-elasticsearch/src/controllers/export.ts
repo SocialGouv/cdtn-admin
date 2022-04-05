@@ -41,7 +41,10 @@ export class ExportController implements interfaces.Controller {
   }
 
   @httpGet("/latest")
-  async getLatestExportEs(): Promise<ExportEsStatus> {
+  async getLatestExportEs(): Promise<{
+    preproduction: ExportEsStatus;
+    production: ExportEsStatus;
+  }> {
     return this.service.getLatest();
   }
 }

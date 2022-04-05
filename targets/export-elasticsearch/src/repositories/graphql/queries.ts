@@ -50,8 +50,8 @@ query getExportEsStatusByEnvironments($environment: String!) {
 }`;
 
 export const getLatestExportEsStatus = `
-query getExportEsStatusByEnvironments($environment: String!) {
-  export_es_status(where: {environment: {_eq: $environment}}) {
+query getLatestExportEsStatus {
+  export_es_status(where: {environment: {_eq: $environment}}, order_by: {created_at: desc}) {
     id
     environment
     status

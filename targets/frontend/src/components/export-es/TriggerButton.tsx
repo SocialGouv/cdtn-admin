@@ -31,6 +31,14 @@ function Index({
           Erreur
         </Badge>
       )}
+      {status === "running" && (
+        <Badge sx={{ ml: "-3rem", mt: "-3rem" }}>En cours</Badge>
+      )}
+      {status === "timeout" && (
+        <Badge bg="critical" sx={{ ml: "-3rem", mt: "-3rem" }}>
+          Timeout
+        </Badge>
+      )}
     </ConfirmButton>
   );
 }
