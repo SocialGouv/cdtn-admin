@@ -16,6 +16,8 @@ RUN yarn --frozen-lockfile
 
 COPY . /
 
+RUN yarn workspace @shared/types build
+
 RUN yarn workspace @shared/graphql-client build
 
 RUN yarn workspace frontend build

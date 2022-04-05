@@ -3,6 +3,7 @@ import type {
   GenericAnswer,
   IndexedAgreement,
   Reference as ContributionReference,
+  DilaRef,
 } from "@socialgouv/contributions-data-types";
 import type {
   CodeArticle,
@@ -13,7 +14,6 @@ import type {
   AgreementArticle,
   AgreementSection,
 } from "@socialgouv/kali-data-types";
-import type { DilaRef } from "@socialgouv/contributions-data-types";
 
 export type BaseHasuraDocument = {
   cdtn_id: string;
