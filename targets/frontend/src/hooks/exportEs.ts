@@ -45,7 +45,7 @@ export function useExportEs(): [
     Promise.all(promises)
       .then((response) => Promise.all(response.map((rep) => rep.json())))
       .then((data) => {
-        data.map((dt) => {
+        data.forEach((dt) => {
           if (dt.errors) {
             throw new Error(dt.errors);
           }
