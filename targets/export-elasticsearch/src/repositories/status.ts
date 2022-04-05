@@ -1,7 +1,7 @@
 import { client } from "@shared/graphql-client";
+import type { Environment, ExportEsStatus, Status } from "@shared/types";
 import { injectable } from "inversify";
 
-import type { Environment, ExportEsStatus, Status } from "../types";
 import { name } from "../utils";
 import {
   createExportEsStatus,

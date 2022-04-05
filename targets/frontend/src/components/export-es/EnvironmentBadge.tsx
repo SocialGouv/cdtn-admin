@@ -1,4 +1,4 @@
-import { Environment } from "src/store/export-es";
+import { Environment } from "@shared/types";
 import { Badge } from "theme-ui";
 
 type EnvironmentTagProps = {

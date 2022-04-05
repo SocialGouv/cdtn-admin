@@ -1,3 +1,4 @@
+import { Environment } from "@shared/types";
 import { useEffect } from "react";
 import {
   EnvironmentBadge,
@@ -10,26 +11,20 @@ import { Stack } from "src/components/layout/Stack";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
+import { useExportEs } from "src/hooks/exportEs";
 import { useUser } from "src/hooks/useUser";
-import { Environment, useExportEsStore } from "src/store/export-es";
 import { Badge, Message, Spinner } from "theme-ui";
 
 export function UpdatePage(): JSX.Element {
-  const exportStore = useExportEsStore((state) => ({
-    ...state,
-  }));
-
-  const { getExportEs } = useExportEsStore((state) => ({
-    getExportEs: state.getExportEs,
-  }));
+  const [exportStore, getExportEs, runExportEs] = useExportEs();
 
   const { user }: any = useUser();
 
-  const onTrigger = (env: Environment) => exportStore.runExportEs(env, user.id);
+  const onTrigger = (env: Environment) => runExportEs(env, user.id);
 
   useEffect(() => {
     getExportEs();
-  }, [getExportEs]);
+  }, []);
 
   return (
     <Layout title="Mises à jour des environnements">

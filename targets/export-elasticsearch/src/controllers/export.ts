@@ -1,3 +1,5 @@
+import type { ExportEsStatus } from "@shared/types";
+import { Environment } from "@shared/types";
 import { Request, Response } from "express";
 import { inject } from "inversify";
 import type { interfaces } from "inversify-express-utils";
@@ -11,8 +13,6 @@ import {
 } from "inversify-express-utils";
 
 import { ExportService } from "../services/export";
-import type { ExportEsStatus } from "../types";
-import { Environment } from "../types";
 import { getName } from "../utils";
 import type { ValidatorCreateExportEsStatusType } from "./middlewares";
 import { ExportEsRunMiddleware } from "./middlewares";

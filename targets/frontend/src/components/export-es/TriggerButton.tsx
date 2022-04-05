@@ -1,6 +1,6 @@
+import { Status } from "@shared/types";
 import React, { ReactNode } from "react";
 import { MdSyncProblem, MdTimelapse, MdTimerOff } from "react-icons/md";
-import { Status } from "src/store/export-es";
 import { Badge } from "theme-ui";
 
 import { ConfirmButton } from "../confirmButton";
@@ -20,7 +20,6 @@ function Index({
   isDisabled = false,
   status,
 }: TriggerButtonProps) {
-  console.log(status);
   return (
     <ConfirmButton disabled={isDisabled} onClick={onClick} variant={variant}>
       {status === "running" && <MdTimelapse sx={{ mr: ".2rem" }} />}

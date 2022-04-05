@@ -1,9 +1,9 @@
 import { injest } from "@shared/elasticsearch-document-adapter";
+import { Environment, Status } from "@shared/types";
 import timekeeper from "timekeeper";
 
 import { ExportRepository } from "../../repositories";
 import { rootContainer } from "../../server";
-import { Environment, Status } from "../../types";
 import { getName } from "../../utils";
 import { ExportService } from "../export";
 import { FakeExportRepository } from "./fake/export";

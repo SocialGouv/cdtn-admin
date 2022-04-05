@@ -6,7 +6,6 @@ query getExportEsStatusById($id: uuid!) {
     status
     user_id
     user {
-      id
       name
       email
       created_at
@@ -24,7 +23,6 @@ query getAllExport {
     status
     user_id
     user {
-      id
       name
       email
       created_at
@@ -42,7 +40,6 @@ query getExportEsStatusByEnvironments($environment: String!) {
     status
     user_id
     user {
-      id
       name
       email
       created_at
@@ -60,7 +57,6 @@ query getExportEsStatusByStatus($status: String!) {
     status
     user_id
     user {
-      id
       name
       email
       created_at

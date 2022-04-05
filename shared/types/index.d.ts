@@ -14,7 +14,6 @@ import type {
   AgreementSection,
 } from "@socialgouv/kali-data-types";
 import type { DilaRef } from "@socialgouv/contributions-data-types";
-import { SourceKeys, Sources, SourceValues } from "@socialgouv/cdtn-sources";
 export as namespace admin;
 
 interface BaseHasuraDocument {
@@ -453,3 +452,32 @@ export type FicheVddInfoWithDiff = FicheVddInfo & {
   currentText: string;
   previousText: string;
 };
+
+export enum Status {
+  running = "running",
+  completed = "completed",
+  failed = "failed",
+  timeout = "timeout",
+}
+
+export enum Environment {
+  production = "production",
+  preproduction = "preproduction",
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  created_at: Date;
+}
+
+export interface ExportEsStatus {
+  id: string;
+  environment: Environment;
+  status: Status;
+  user_id: string;
+  created_at: Date;
+  updated_at: Date;
+  user?: User;
+}

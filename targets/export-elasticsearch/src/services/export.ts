@@ -1,9 +1,9 @@
+import type { Environment, ExportEsStatus } from "@shared/types";
+import { Status } from "@shared/types";
 import { randomUUID } from "crypto";
 import { inject, injectable } from "inversify";
 
 import { ExportRepository } from "../repositories";
-import type { Environment, ExportEsStatus } from "../types";
-import { Status } from "../types";
 import { getName, name } from "../utils";
 import { runWorkerIngester } from "../workers";
 
