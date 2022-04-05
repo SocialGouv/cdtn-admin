@@ -15,7 +15,7 @@ import type {
 } from "@socialgouv/kali-data-types";
 import type { DilaRef } from "@socialgouv/contributions-data-types";
 
-interface BaseHasuraDocument {
+export type BaseHasuraDocument = {
   cdtn_id: string;
   initial_id: string;
   is_available: boolean;
@@ -27,59 +27,59 @@ interface BaseHasuraDocument {
   text: string;
   created_at: Date;
   updated_at: Date;
-}
+};
 
-type FicheTravailEmploi = BaseHasuraDocument & {
+export type FicheTravailEmploi = BaseHasuraDocument & {
   source: "fiches_ministere_travail";
   document: FicheTravailEmploiDoc;
 };
 
-type ContributionComplete = BaseHasuraDocument & {
+export type ContributionComplete = BaseHasuraDocument & {
   source: "contributions";
   document: ContributionCompleteDoc;
 };
 
-type ContributionFiltered = BaseHasuraDocument & {
+export type ContributionFiltered = BaseHasuraDocument & {
   source: "contributions";
   document: ContributionFilteredDoc;
 };
 
-type LaborCodeArticle = BaseHasuraDocument & {
+export type LaborCodeArticle = BaseHasuraDocument & {
   source: "code_du_travail";
   document: LaborCodeDoc;
 };
 
-type FicheServicePublic = BaseHasuraDocument & {
+export type FicheServicePublic = BaseHasuraDocument & {
   source: "fiches_service_public";
   document: FicheServicePublicDoc;
 };
 
-type Agreement = BaseHasuraDocument & {
+export type Agreement = BaseHasuraDocument & {
   source: "conventions_collectives";
   document: AgreementDoc;
 };
 
-type Prequalified = BaseHasuraDocument & {
+export type Prequalified = BaseHasuraDocument & {
   source: "prequalified";
   document: PrequalifiedDoc;
 };
 
-type Theme = BaseHasuraDocument & {
+export type Theme = BaseHasuraDocument & {
   source: "themes";
   document: ThemeDoc;
 };
 
-type MailTemplate = BaseHasuraDocument & {
+export type MailTemplate = BaseHasuraDocument & {
   source: "modeles_de_courriers";
   document: MailTemplateDoc;
 };
 
-type EditorialContent = BaseHasuraDocument & {
+export type EditorialContent = BaseHasuraDocument & {
   source: "information";
   document: EditorialContentDoc;
 };
 
-type HasuraDocument =
+export type HasuraDocument =
   | Agreement
   | ContributionComplete
   | ContributionFiltered
@@ -94,13 +94,13 @@ type HasuraDocument =
 /**
  * Document Table's document type
  */
-type ThemeDoc = {
+export type ThemeDoc = {
   icon?: string;
   shortTitle?: string;
   description?: string;
 };
 
-type MailTemplateDoc = {
+export type MailTemplateDoc = {
   date: string;
   html: string;
   author: string;
@@ -115,7 +115,7 @@ type MailTemplateDoc = {
   }[];
 };
 
-type EditorialContentDoc = {
+export type EditorialContentDoc = {
   date: string;
   intro: string;
   contents: EditorialContentPart[];
@@ -123,9 +123,9 @@ type EditorialContentDoc = {
   description: string;
 };
 
-type EditorialContentPart = GraphicContentPart | MarkdownContentPart;
+export type EditorialContentPart = GraphicContentPart | MarkdownContentPart;
 
-interface BaseContentPart {
+export interface BaseContentPart {
   name: string;
   title: string;
   markdown: string;
@@ -157,14 +157,14 @@ export interface EditorialContentLink {
   title: string;
 }
 
-interface FicheTravailEmploiDoc {
+export interface FicheTravailEmploiDoc {
   date: string;
   description: string;
   intro: string;
   url: string;
   sections: Section[];
 }
-interface Section {
+export interface Section {
   anchor: string;
   html: string;
   text: string;
@@ -173,7 +173,7 @@ interface Section {
   references: TravailEmploiReference[];
 }
 
-interface TravailEmploiReference {
+export interface TravailEmploiReference {
   id: string;
   cid: string;
   slug: string;
@@ -182,38 +182,38 @@ interface TravailEmploiReference {
   url: string;
 }
 
-interface ContributionCompleteDoc {
+export interface ContributionCompleteDoc {
   index: number;
   split: false;
   description: string;
   answers: CCMultipleAnswers;
 }
 
-interface ContributionFilteredDoc {
+export interface ContributionFilteredDoc {
   index: number;
   split: true;
   description: string;
   answers: CCSingleAnswer;
 }
 
-interface CCMultipleAnswers {
+export interface CCMultipleAnswers {
   generic: GenericAnswer;
   conventions: Answer[];
 }
 
-interface CCSingleAnswer {
+export interface CCSingleAnswer {
   generic: GenericAnswer;
   conventionAnswer: Answer;
 }
 
-type LaborCodeDoc = Pick<CodeArticleData, "cid" | "dateDebut" | "id"> & {
+export type LaborCodeDoc = Pick<CodeArticleData, "cid" | "dateDebut" | "id"> & {
   description: string;
   html: string;
   url: string;
   notaHtml?: string;
 };
 
-interface FicheServicePublicDoc {
+export interface FicheServicePublicDoc {
   raw: string;
   url: string;
   date: string;
@@ -221,17 +221,17 @@ interface FicheServicePublicDoc {
   referencedTexts: ServicePublicReference[];
 }
 
-type ServicePublicReference =
+export type ServicePublicReference =
   | ServicePublicExternalReference
   | ServicePublicInternalReference;
 
-interface ServicePublicInternalReference {
+export interface ServicePublicInternalReference {
   title: string;
   slug: string;
   type: "code_du_travail" | "conventions_collectives";
 }
 
-interface ServicePublicExternalReference {
+export interface ServicePublicExternalReference {
   title: string;
   url: string;
   type: "external";
@@ -246,7 +246,7 @@ type AgreementDoc = Pick<
   articleByTheme: ArticleTheme[];
 };
 
-interface AgreementContribAnswer {
+export interface AgreementContribAnswer {
   slug: string;
   index: string;
   answer: string;
@@ -254,7 +254,7 @@ interface AgreementContribAnswer {
   references: ContributionReference[];
 }
 
-interface ArticleTheme {
+export interface ArticleTheme {
   bloc: "string";
   articles: {
     id: string;
@@ -264,7 +264,7 @@ interface ArticleTheme {
   };
 }
 
-interface KaliArticleHDN {
+export interface KaliArticleHDN {
   idcc: number;
   title: string;
   id: string;

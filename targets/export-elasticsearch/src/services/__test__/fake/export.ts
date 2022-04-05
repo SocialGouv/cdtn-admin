@@ -84,6 +84,20 @@ export class FakeExportRepository {
     ];
   }
 
+  public async getLatestByEnv(
+    environment: Environment
+  ): Promise<ExportEsStatus> {
+    await wait(100);
+    return {
+      created_at: new Date(),
+      environment,
+      id: "1",
+      status: Status.completed,
+      updated_at: new Date(),
+      user_id: "getLatestByEnv-id",
+    };
+  }
+
   async getAll(): Promise<ExportEsStatus[]> {
     await wait(100);
     return [

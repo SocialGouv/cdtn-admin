@@ -46,8 +46,9 @@ export class ExportService {
           await this.exportRepository.updateOne(id, Status.failed, new Date());
         });
       return createdResult;
+    } else {
+      throw new Error("There is already a running job");
     }
-    return runningResult[0];
   }
 
   async getAll(environment?: Environment): Promise<ExportEsStatus[]> {

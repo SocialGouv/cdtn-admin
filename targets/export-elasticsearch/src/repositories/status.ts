@@ -111,10 +111,9 @@ export class ExportRepository {
     environment: Environment
   ): Promise<ExportEsStatus> {
     const res = await client
-      .query<{ export_es_status: ExportEsStatus[] }>(
-        getExportEsStatusByEnvironments,
-        { environment }
-      )
+      .query<{ export_es_status: ExportEsStatus[] }>(getLatestExportEsStatus, {
+        environment,
+      })
       .toPromise();
     if (res.error) {
       throw res.error;

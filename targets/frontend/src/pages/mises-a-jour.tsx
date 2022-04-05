@@ -52,10 +52,7 @@ export function UpdatePage(): JSX.Element {
         <Inline>
           <TriggerButton
             variant="accent"
-            isDisabled={
-              exportEsState.latestExportPreproduction?.status === "running" ||
-              exportEsState.latestExportProduction?.status === "running"
-            }
+            isDisabled={false}
             status={exportEsState.latestExportProduction?.status}
             onClick={() => onTrigger(Environment.production)}
           >
@@ -63,10 +60,7 @@ export function UpdatePage(): JSX.Element {
           </TriggerButton>
           <TriggerButton
             variant="secondary"
-            isDisabled={
-              exportEsState.latestExportPreproduction?.status === "running" ||
-              exportEsState.latestExportProduction?.status === "running"
-            }
+            isDisabled={false}
             status={exportEsState.latestExportPreproduction?.status}
             onClick={() => onTrigger(Environment.preproduction)}
           >

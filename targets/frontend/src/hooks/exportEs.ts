@@ -45,6 +45,11 @@ export function useExportEs(): [
     Promise.all(promises)
       .then((response) => Promise.all(response.map((rep) => rep.json())))
       .then((data) => {
+        data.map((dt) => {
+          if (dt.errors) {
+            throw new Error(dt.errors);
+          }
+        });
         setState((state) => ({
           ...state,
           exportData: data[0],
@@ -80,6 +85,9 @@ export function useExportEs(): [
     })
       .then((response) => response.json())
       .then((data) => {
+        if (data.errors) {
+          throw new Error(data.errors);
+        }
         setState((state) => ({
           ...state,
           ...Object.assign(
@@ -88,6 +96,7 @@ export function useExportEs(): [
               ? { latestExportPreproduction: data }
               : { latestExportProduction: data }
           ),
+          exportData: [...state.exportData, data],
         }));
       })
       .catch((error) => {

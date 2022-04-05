@@ -39,7 +39,7 @@ describe("ExportController /export", () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       app.use(
         (err: Error, _req: Request, res: Response, _next: NextFunction) => {
-          res.status(500).json({ error: err.message });
+          res.status(500).json({ errors: err.message });
         }
       );
     });

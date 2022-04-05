@@ -39,9 +39,16 @@ server.setConfig((srv) => {
   );
 });
 server.setErrorConfig((srv) => {
-  srv.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
-    res.status(500).json({ error: err });
-  });
+  srv.use(
+    (
+      err: Record<string, string>,
+      _req: Request,
+      res: Response,
+      _next: NextFunction
+    ) => {
+      res.status(500).json({ errors: err.message || err });
+    }
+  );
 });
 
 export const app = server.build();
