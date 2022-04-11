@@ -1,0 +1,30 @@
+name: Run Ingester
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment"
+        required: true
+        default: "warning"
+
+concurrency:
+  cancel-in-progress: true
+  group: ingester-${{ github.ref }}
+
+jobs:
+  release:
+    name: Run Ingester
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Run kube-workflow
+        uses: SocialGouv/kube-workflow@master
+        with:
+          environment: dev #todo
+          rancherProjectId: ${{ secrets.RANCHER_PROJECT_ID }}
+          rancherProjectName: ${{ secrets.RANCHER_PROJECT_NAME }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          charts: job-ingester

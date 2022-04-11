@@ -8,6 +8,8 @@ const URL_EXPORT_ES_PREPRODUCTION =
 const URL_EXPORT_ES_PRODUCTION =
   process.env.NEXT_PUBLIC_EXPORT_ES_PRODUCTION ?? "http://localhost:8787";
 
+// il faudra passer par l'api
+
 type ExportEsState = {
   error: Error | null;
   exportData: ExportEsStatus[];

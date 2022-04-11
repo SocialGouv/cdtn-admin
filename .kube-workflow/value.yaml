@@ -1,0 +1,45 @@
+app-www:
+  envFrom:
+    - configMapRef:
+        name: www
+    - secretRef:
+        name: www
+  env:
+    - name: "FRONTEND_HOST"
+      value: "{{.Values.global.host}}"
+  resources:
+    - limits:
+        cpu: "1000m"
+        memory: "560Mi"
+    - requests:
+        cpu: "5m"
+        memory: "128Mi"
+  imagePackage: cdtn-admin-frontend
+  ingress:
+    annotations:
+      "nginx.ingress.kubernetes.io/whitelist-source-range": "123.456.456.789,42.0.0.0/8"
+
+app-export:
+  ingress:
+    enabled: false
+  imagePackage: "cdtn-admin-export-elasticsearch"
+  envFrom:
+    - configMapRef:
+        name: "export-elasticsearch"
+    - secretRef:
+        name: "export-elasticsearch"
+
+hasura:
+  imagePackage: cdtn-admin-hasura
+  envFrom:
+    - configMapRef:
+        name: hasura
+    - secretRef:
+        name: hasura
+
+jobs:
+  seed-db:
+    needs: [hasura]
+    use: SocialGouv/kube-workflow/jobs/seed-db
+    with:
+      seedPath: "/workspace/sql/post-restore.sql"
