@@ -1,98 +1,55 @@
-import type { ExportEsStatus } from "@shared/types";
-import { Environment, Status } from "@shared/types";
-import { randomUUID } from "crypto";
-import { inject, injectable } from "inversify";
+import {
+  BlobServiceClient,
+  StorageSharedKeyCredential,
+} from "@azure/storage-blob";
+import axios from "axios";
+import { injectable } from "inversify";
 
-import { ExportRepository } from "../repositories";
-import { getName, name } from "../utils";
-import { runWorkerIngester } from "../workers";
+import { name, streamToBuffer } from "../utils";
 
 @injectable()
-@name("ExportService")
-export class ExportService {
+@name("SitemapService")
+export class SitemapService {
+  private readonly blobServiceClient: BlobServiceClient;
+
   constructor(
-    @inject(getName(ExportRepository))
-    private readonly exportRepository: ExportRepository
-  ) {}
-
-  async runExport(
-    userId: string,
-    environment: Environment
-  ): Promise<ExportEsStatus> {
-    let isReadyToRun = false;
-    const runningResult = await this.getRunningJob();
-    if (runningResult.length > 0) {
-      isReadyToRun = await this.cleanOldRunningJob(runningResult[0]); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
-    }
-    if (runningResult.length === 0 || isReadyToRun) {
-      const id = randomUUID();
-      const createdResult = await this.exportRepository.create(
-        id,
-        userId,
-        environment,
-        Status.running
-      );
-      runWorkerIngester()
-        .then(async (res: string) => {
-          console.log(res);
-          await this.exportRepository.updateOne(
-            id,
-            Status.completed,
-            new Date()
-          );
-        })
-        .catch(async (error: string) => {
-          console.error(error);
-          await this.exportRepository.updateOne(id, Status.failed, new Date());
-        });
-      return createdResult;
-    } else {
-      throw new Error("There is already a running job");
-    }
-  }
-
-  async getAll(environment?: Environment): Promise<ExportEsStatus[]> {
-    if (environment) {
-      return this.exportRepository.getByEnvironments(environment);
-    }
-    return this.exportRepository.getAll();
-  }
-
-  async getLatest(): Promise<{
-    preproduction: ExportEsStatus;
-    production: ExportEsStatus;
-  }> {
-    const latestPreprod = await this.exportRepository.getLatestByEnv(
-      Environment.preproduction
+    accountName = process.env.AZ_ACCOUNT_NAME ?? "",
+    accountKey = process.env.AZ_ACCOUNT_KEY ?? ""
+  ) {
+    const sharedKeyCredential = new StorageSharedKeyCredential(
+      accountName,
+      accountKey
     );
-    const latestProd = await this.exportRepository.getLatestByEnv(
-      Environment.production
+    this.blobServiceClient = new BlobServiceClient(
+      `https://${accountName}.blob.core.windows.net`,
+      sharedKeyCredential
     );
-    return {
-      preproduction: latestPreprod,
-      production: latestProd,
-    };
   }
 
-  private async getRunningJob(): Promise<ExportEsStatus[]> {
-    return this.exportRepository.getByStatus(Status.running);
+  async getSitemap(
+    destinationName: string,
+    destinationContainer: string
+  ): Promise<string> {
+    const containerClient =
+      this.blobServiceClient.getContainerClient(destinationContainer);
+    const blobClient = containerClient.getBlobClient(destinationName);
+    const downloadBlockBlobResponse = await blobClient.download();
+    const downloaded = (
+      await streamToBuffer(downloadBlockBlobResponse.readableStreamBody)
+    ).toString();
+    return downloaded;
   }
 
-  private async cleanOldRunningJob(
-    runningResult: ExportEsStatus,
-    hour = 1 // job created 1 hour ago
-  ): Promise<boolean> {
-    if (
-      new Date(runningResult.created_at).getTime() <
-      new Date(Date.now() - 1000 * 60 * 60 * hour).getTime()
-    ) {
-      await this.exportRepository.updateOne(
-        runningResult.id,
-        Status.timeout,
-        new Date()
-      );
-      return true;
-    }
-    return false;
+  async uploadSitemap(
+    sitemapEndpoint: string,
+    destinationContainer: string,
+    destinationName: string
+  ): Promise<void> {
+    const containerClient =
+      this.blobServiceClient.getContainerClient(destinationContainer);
+    const response = await axios.get(sitemapEndpoint);
+    const content: string = response.data;
+    const blockBlobClient = containerClient.getBlockBlobClient(destinationName);
+    await blockBlobClient.upload(content, content.length);
   }
 }

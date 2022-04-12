@@ -9,12 +9,13 @@ import { InversifyExpressServer } from "inversify-express-utils";
 
 import { ExportEsRunMiddleware } from "./controllers/middlewares";
 import { ExportRepository } from "./repositories";
-import { ExportService } from "./services";
+import { ExportService, SitemapService } from "./services";
 import { getName } from "./utils";
 
 // set up container
 export const rootContainer = new Container();
 rootContainer.bind<ExportService>(getName(ExportService)).to(ExportService);
+rootContainer.bind<SitemapService>(getName(SitemapService)).to(SitemapService);
 rootContainer
   .bind<ExportRepository>(getName(ExportRepository))
   .to(ExportRepository);
