@@ -18,14 +18,28 @@ export class SitemapController implements interfaces.Controller {
     private readonly service: SitemapService
   ) {}
 
-  @httpPost("/")
-  async upload(@response() res: Response): Promise<void> {
-    await this.service.uploadSitemap("", "", "");
-    res.status(200).send();
+  @httpGet("/")
+  async get(@response() res: Response): Promise<void> {
+    let result = "";
+    try {
+      result = await this.service.getSitemap();
+    } catch (e: unknown) {
+      res.status(500).send({
+        error: e instanceof Error ? e.message : "Erreur non déterminée",
+      });
+    }
+    res.status(200).set("content-type", "text/xml").send(result);
   }
 
-  @httpGet("/")
-  async get(): Promise<string> {
-    return this.service.getSitemap("", "");
+  @httpPost("/")
+  async upload(@response() res: Response): Promise<void> {
+    try {
+      await this.service.uploadSitemap();
+    } catch (e: unknown) {
+      res.status(500).send({
+        error: e instanceof Error ? e.message : "Erreur non déterminée",
+      });
+    }
+    res.status(200).send({ isSuccess: true });
   }
 }

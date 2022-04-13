@@ -1,20 +1,26 @@
 ## Requests available:
 
 ###
-GET http://localhost:3000/export?environment=production
+GET http://localhost:8787/export?environment=production
 
 ###
-GET http://localhost:3000/export?environment=preproduction
+GET http://localhost:8787/export?environment=preproduction
 
 ###
-GET http://localhost:3000/export
+GET http://localhost:8787/export
 
 ###
-POST http://localhost:3000/export
+POST http://localhost:8787/export
 content-type: application/json
 
 {
   "environment": "production",
   "userId": "148a6a2b-c565-4ce2-a093-ad1e74a1c722"
 }
+
+###
+GET http://localhost:8787/sitemap
+
+###
+POST http://localhost:8787/sitemap
 

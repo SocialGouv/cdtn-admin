@@ -4,6 +4,7 @@ import {
 } from "@azure/storage-blob";
 import axios from "axios";
 import { injectable } from "inversify";
+import { Readable } from "stream";
 
 import { name, streamToBuffer } from "../utils";
 
@@ -14,21 +15,22 @@ export class SitemapService {
 
   constructor(
     accountName = process.env.AZ_ACCOUNT_NAME ?? "",
-    accountKey = process.env.AZ_ACCOUNT_KEY ?? ""
+    accountKey = process.env.AZ_ACCOUNT_KEY ?? "",
+    bucketUrl = `https://${accountName}.blob.core.windows.net`
   ) {
     const sharedKeyCredential = new StorageSharedKeyCredential(
       accountName,
       accountKey
     );
     this.blobServiceClient = new BlobServiceClient(
-      `https://${accountName}.blob.core.windows.net`,
+      bucketUrl,
       sharedKeyCredential
     );
   }
 
   async getSitemap(
-    destinationName: string,
-    destinationContainer: string
+    destinationContainer = process.env.DESTINATION_CONTAINER ?? "sitemap",
+    destinationName = process.env.DESTINATION_NAME ?? "sitemap-xml"
   ): Promise<string> {
     const containerClient =
       this.blobServiceClient.getContainerClient(destinationContainer);
@@ -41,15 +43,22 @@ export class SitemapService {
   }
 
   async uploadSitemap(
-    sitemapEndpoint: string,
-    destinationContainer: string,
-    destinationName: string
+    sitemapEndpoint = process.env.SITEMAP_ENDPOINT ?? "http://www/sitemap.xml",
+    destinationContainer = process.env.DESTINATION_CONTAINER ?? "sitemap",
+    destinationName = process.env.DESTINATION_NAME ?? "sitemap-xml"
   ): Promise<void> {
     const containerClient =
       this.blobServiceClient.getContainerClient(destinationContainer);
+    try {
+      await containerClient.create();
+    } catch {
+      // do nothing
+    }
     const response = await axios.get(sitemapEndpoint);
-    const content: string = response.data;
+    const data: string = response.data;
+    const buffer = Buffer.from(data, "utf8");
+    const content = Readable.from(buffer);
     const blockBlobClient = containerClient.getBlockBlobClient(destinationName);
-    await blockBlobClient.upload(content, content.length);
+    await blockBlobClient.uploadStream(content);
   }
 }
