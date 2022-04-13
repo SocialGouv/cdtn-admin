@@ -2,14 +2,6 @@ import { Environment, ExportEsStatus } from "@shared/types";
 import { useState } from "react";
 import { serializeError } from "serialize-error";
 
-const URL_EXPORT_ES_PREPRODUCTION =
-  process.env.NEXT_PUBLIC_EXPORT_ES_PREPRODUCTION ?? "http://localhost:8787";
-
-const URL_EXPORT_ES_PRODUCTION =
-  process.env.NEXT_PUBLIC_EXPORT_ES_PRODUCTION ?? "http://localhost:8787";
-
-// il faudra passer par l'api
-
 type ExportEsState = {
   error: Error | null;
   exportData: ExportEsStatus[];
@@ -40,18 +32,13 @@ export function useExportEs(): [
       hasGetExportError: false,
       isGetExportLoading: true,
     }));
-    const promises = [
-      fetch(URL_EXPORT_ES_PRODUCTION + "/export"),
-      fetch(URL_EXPORT_ES_PRODUCTION + "/export/latest"),
-    ];
-    Promise.all(promises)
-      .then((response) => Promise.all(response.map((rep) => rep.json())))
+    fetch("/api/export")
+      .then(async (response) => {
+        return response.status === 500
+          ? Promise.reject(await response.json())
+          : response.json();
+      })
       .then((data) => {
-        data.forEach((dt) => {
-          if (dt.errors) {
-            throw new Error(dt.errors);
-          }
-        });
         setState((state) => ({
           ...state,
           exportData: data[0],
@@ -71,11 +58,7 @@ export function useExportEs(): [
   };
 
   const runExportEs = (environment: Environment, userId: string) => {
-    const url =
-      environment === Environment.preproduction
-        ? URL_EXPORT_ES_PREPRODUCTION
-        : URL_EXPORT_ES_PRODUCTION;
-    fetch(url + "/export", {
+    fetch("api/export", {
       body: JSON.stringify({
         environment,
         userId,
@@ -85,11 +68,12 @@ export function useExportEs(): [
       },
       method: "POST",
     })
-      .then((response) => response.json())
+      .then(async (response) => {
+        return response.status === 500
+          ? Promise.reject(await response.json())
+          : response.json();
+      })
       .then((data) => {
-        if (data.errors) {
-          throw new Error(data.errors);
-        }
         setState((state) => ({
           ...state,
           ...Object.assign(
