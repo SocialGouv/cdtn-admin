@@ -8,17 +8,30 @@ import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
 
 import { ExportEsRunMiddleware } from "./controllers/middlewares";
-import { ExportRepository } from "./repositories";
-import { ExportService, SitemapService } from "./services";
+import { AzureRepository, ExportRepository } from "./repositories";
+import {
+  CopyContainerService,
+  ExportService,
+  SitemapService,
+} from "./services";
 import { getName } from "./utils";
 
 // set up container
 export const rootContainer = new Container();
+/* SERVICES */
 rootContainer.bind<ExportService>(getName(ExportService)).to(ExportService);
 rootContainer.bind<SitemapService>(getName(SitemapService)).to(SitemapService);
 rootContainer
+  .bind<CopyContainerService>(getName(CopyContainerService))
+  .to(CopyContainerService);
+/* REPOSITORIES */
+rootContainer
+  .bind<AzureRepository>(getName(AzureRepository))
+  .to(AzureRepository);
+rootContainer
   .bind<ExportRepository>(getName(ExportRepository))
   .to(ExportRepository);
+/* MIDDLEWARE */
 rootContainer
   .bind<ExportEsRunMiddleware>(getName(ExportEsRunMiddleware))
   .to(ExportEsRunMiddleware);

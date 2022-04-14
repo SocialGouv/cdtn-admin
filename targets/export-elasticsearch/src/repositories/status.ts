@@ -15,7 +15,7 @@ import {
 } from "./graphql";
 
 @injectable()
-@name("ExportRepository")
+@name(ExportRepository.name)
 export class ExportRepository {
   public async create(
     id: string,
