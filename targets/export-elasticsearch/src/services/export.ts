@@ -8,7 +8,7 @@ import { getName, name } from "../utils";
 import { runWorkerIngester } from "../workers";
 
 @injectable()
-@name(ExportService.name)
+@name("ExportService")
 export class ExportService {
   constructor(
     @inject(getName(ExportRepository))

@@ -21,7 +21,7 @@ export type ValidatorCreateExportEsStatusType = z.infer<
 >;
 
 @injectable()
-@name(ExportEsRunMiddleware.name)
+@name("ExportEsRunMiddleware")
 export class ExportEsRunMiddleware extends BaseMiddleware {
   public handler(req: Request, res: Response, next: NextFunction): void {
     const parse = ValidatorCreateExportEsStatus.safeParse(req.body);

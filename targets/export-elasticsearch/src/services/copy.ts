@@ -4,19 +4,12 @@ import { AzureRepository } from "../repositories";
 import { getName, name } from "../utils";
 
 @injectable()
-@name(CopyContainerService.name)
+@name("CopyContainerService")
 export class CopyContainerService {
   constructor(
     @inject(getName(AzureRepository))
     private readonly repo: AzureRepository
-  ) {
-    this.repo = new AzureRepository(
-      process.env.AZ_ACCOUNT_NAME ?? "",
-      process.env.AZ_ACCOUNT_KEY ?? "",
-      process.env.AZ_URL ??
-        `https://${process.env.AZ_ACCOUNT_NAME}.blob.core.windows.net`
-    );
-  }
+  ) {}
 
   async runCopy(
     sourceContainerName = process.env.SOURCE_CONTAINER_COPY ?? "",

@@ -3,17 +3,26 @@ import {
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 import axios from "axios";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { Readable } from "stream";
 
 import { name, streamToBuffer } from "../utils";
 
+export const AzureParameters = {
+  ACCOUNT_KEY: Symbol("ACCOUNT_KEY"),
+  ACCOUNT_NAME: Symbol("ACCOUNT_NAME"),
+  BUCKET_URL: Symbol("BUCKET_URL"),
+};
 @injectable()
-@name(AzureRepository.name)
+@name("AzureRepository")
 export class AzureRepository {
   private readonly blobServiceClient: BlobServiceClient;
 
-  constructor(accountName: string, accountKey: string, bucketUrl: string) {
+  constructor(
+    @inject(AzureParameters.ACCOUNT_NAME) accountName: string,
+    @inject(AzureParameters.ACCOUNT_KEY) accountKey: string,
+    @inject(AzureParameters.BUCKET_URL) bucketUrl: string
+  ) {
     const sharedKeyCredential = new StorageSharedKeyCredential(
       accountName,
       accountKey
