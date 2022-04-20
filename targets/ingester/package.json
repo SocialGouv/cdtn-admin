@@ -36,7 +36,7 @@
     "@types/semver": "^7.3.8",
     "@types/tar-fs": "^2.0.1",
     "@types/unist": "^2.0.6",
-    "@vercel/ncc": "0.33.3",
+    "@vercel/ncc": "0.33.4",
     "babel-jest": "^27.1.1",
     "eslint": "^7.32.0",
     "jest": "^27.1.1",
