@@ -6,4 +6,4 @@ data:
   BASE_URL: "https://preprod-code-du-travail-numerique.dev.fabrique.social.gouv.fr"
   DESTINATION_CONTAINER: "sitemap"
   DESTINATION_NAME: "sitemap-preprod.xml"
-  SITEMAP_ENDPOINT: "http://www/sitemap.xml"
+  SITEMAP_ENDPOINT: "http://www/api/sitemap"
