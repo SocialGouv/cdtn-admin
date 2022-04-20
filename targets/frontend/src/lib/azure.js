@@ -51,7 +51,7 @@ export const uploadBlob = async (containerName, stream) => {
   const concurrency = 20;
   const options = {
     abortSignal: AbortController.timeout(timeout),
-    blobHTTPHeaders: { blobContentType: stream.mime },
+    blobHTTPHeaders: { blobContentType: stream.mimetype },
   };
   try {
     return client.uploadStream(stream, blockSize, concurrency, options);
