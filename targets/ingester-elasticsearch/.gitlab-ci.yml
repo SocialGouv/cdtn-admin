@@ -6,7 +6,7 @@
   extends:
     - .autodevops_install
     - .cdtn_base_rules
-  image: node:14.18.0-alpine3.11
+  image: node:14.18.1-alpine3.11
   cache:
     key:
       files:
@@ -35,7 +35,7 @@
   extends:
     - .base_yarn_script
     - .cdtn_base_rules
-  image: node:14.18.0-alpine3.11
+  image: node:14.18.1-alpine3.11
   needs:
     - job: 🧶 install ingester-elasticsearch
       artifacts: true
