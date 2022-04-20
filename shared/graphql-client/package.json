@@ -1,6 +1,6 @@
 {
   "name": "@shared/graphql-client",
-  "version": "1.14.2",
+  "version": "1.15.0",
   "dependencies": {
     "@urql/core": "^2.3.3",
     "graphql": "^16.0.0",
