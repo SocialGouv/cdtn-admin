@@ -237,7 +237,7 @@ Ce script utilise les variables suivantes :
 
 Certaines variables permettent d'activer une fonctionnalité :
 
-- `NLP_URL` permet d'activer la vectorisation des documents pour la recherche. Pour l'activer, vous pouvez utiliser l'URL <https://preprod-serving-ml.dev.fabrique.social.gouv.fr>.
+- `NLP_URL` permet d'activer la vectorisation des documents pour la recherche. Pour l'activer, vous pouvez utiliser l'URL <https://serving-ml-preprod.dev.fabrique.social.gouv.fr>.
 - `ES_LOGS` et `ES_LOGS_TOKEN` permettent d'activer les `Articles liés`. Pour l'activer, vous pouvez récupérer ces informations depuis Rancher.
 
 #### Tester localement l'ingester ES avec le frontend

@@ -1,0 +1,131 @@
+#
+#
+#
+
+🧶 install ingester:
+  extends:
+    - .autodevops_install
+    - .cdtn_base_rules
+  image: node:14.18.1-alpine3.11
+  cache:
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
+    paths:
+      - .cache
+  script:
+    - yarn global add @socialgouv/yarn-workspace-focus-install
+    - yarn exec yarn-workspace-focus-install
+      --
+      --cwd targets/ingester
+      --
+      --frozen-lockfile --prefer-offline
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - targets/ingester/node_modules
+      - node_modules
+
+#
+#
+#
+
+📦 build ingester:
+  extends:
+    - .base_yarn_script
+    - .cdtn_base_rules
+  image: node:14.18.1-alpine3.11
+  needs:
+    - job: 🧶 install ingester
+      artifacts: true
+  before_script:
+    - cd targets/ingester
+  script:
+    - yarn build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - targets/ingester/dist
+
+#
+#
+#
+
+🐳 register ingester:
+  extends:
+    - .base_register_kaniko_stage
+    - .cdtn_base_rules
+  needs:
+    - job: 📦 build ingester
+      artifacts: true
+  variables:
+    CONTEXT: .
+    DOCKER_BUILD_ARGS: >-
+      --dockerfile ./targets/ingester/Dockerfile
+    IMAGE_NAME: cdtn-admin-ingester
+
+#
+#
+#
+
+.trigger_ingester_cron:
+  needs:
+    - job: 🛂 k8s test
+  before_script:
+    - echo "kubectl config set-context --current --namespace=${KUBE_NAMESPACE}"
+    - kubectl config set-context --current --namespace=${KUBE_NAMESPACE}
+  script:
+    - JOB_NAME="triggered-from-job-${CI_JOB_ID}-${RANDOM}"
+    - kubectl create job --from=cronjob.batch/ingester "${JOB_NAME}"
+
+    - timeout 15m
+      bash -c "
+      until
+      kubectl get pod -l job-name=${JOB_NAME}
+      -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
+      grep True
+      ; do sleep 1; done"
+
+    - kubectl logs -f job/${JOB_NAME}
+
+    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions}'
+    - kubectl get jobs ${JOB_NAME} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}' |
+      grep True
+
+🛎️ Trigger Ingester (review):
+  extends:
+    - .autodevops_review
+    - .trigger_ingester_cron
+  rules:
+    - if: "$PRODUCTION || $TRIGGER || $CI_COMMIT_TAG"
+      when: never
+    - when: manual
+      allow_failure: true
+  environment:
+    name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
+
+🛎️ Trigger Ingester (preprod):
+  extends:
+    - .autodevops_preprod
+    - .trigger_ingester_cron
+  rules:
+    - if: "$PRODUCTION || $TRIGGER"
+      when: never
+    - if: "$CI_COMMIT_TAG"
+      when: manual
+      allow_failure: true
+  environment:
+    name: preprod${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
+
+🎉 Trigger Ingester (prod):
+  extends:
+    - .autodevops_production
+    - .trigger_ingester_cron
+  needs: []
+  rules:
+    - if: "$PRODUCTION && $CI_COMMIT_TAG"
+      when: manual
+      allow_failure: true
+  environment:
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}

@@ -1,0 +1,157 @@
+#
+#
+#
+
+🧶 install ingester-elasticsearch:
+  extends:
+    - .autodevops_install
+    - .cdtn_base_rules
+  image: node:14.18.1-alpine3.11
+  cache:
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
+    paths:
+      - .cache
+  script:
+    - yarn global add @socialgouv/yarn-workspace-focus-install
+    - yarn exec yarn-workspace-focus-install
+      --
+      --cwd targets/ingester-elasticsearch
+      --
+      --frozen-lockfile --prefer-offline
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - targets/ingester-elasticsearch/node_modules
+      - node_modules
+
+#
+#
+#
+
+📦 build ingester-elasticsearch:
+  extends:
+    - .base_yarn_script
+    - .cdtn_base_rules
+  image: node:14.18.1-alpine3.11
+  needs:
+    - job: 🧶 install ingester-elasticsearch
+      artifacts: true
+    - job: 🧶 install elasticsearch-document-adapter
+      artifacts: true
+    - job: 📦 logger
+      artifacts: true
+  before_script:
+    - cd targets/ingester-elasticsearch
+  script:
+    - yarn build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - targets/ingester-elasticsearch/bin
+
+#
+#
+#
+
+🐳 register ingester-elasticsearch:
+  extends:
+    - .base_register_kaniko_stage
+    - .cdtn_base_rules
+  needs:
+    - job: 📦 build ingester-elasticsearch
+      artifacts: true
+  variables:
+    CONTEXT: ./targets/ingester-elasticsearch
+    DOCKER_BUILD_ARGS: >-
+      --dockerfile ./targets/ingester-elasticsearch/Dockerfile
+    IMAGE_NAME: cdtn-admin-ingester-elasticsearch
+
+#
+#
+#
+
+.trigger_ingester_elasticsearch_job:
+  extends:
+    - .base_deploy_kosko_stage
+  stage: Deploy
+  cache:
+    key:
+      files:
+        - .k8s/yarn.lock
+      prefix: k8s
+    paths:
+      - .cache
+      - .k8s/node_modules
+  before_script:
+    - echo "kubectl config set-context --current --namespace=${KUBE_NAMESPACE}"
+    - kubectl config set-context --current --namespace=${KUBE_NAMESPACE}
+  script:
+    - kubectl delete job ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET} || true
+    - yarn --cwd .k8s --production --frozen-lockfile --prefer-offline --link-duplicates
+    - echo "kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml"
+    - yarn --silent --cwd .k8s kosko generate ${KOSKO_GENERATE_ARGS} > ${CI_PROJECT_DIR}/manifest.yaml
+    - kubectl apply -f ${CI_PROJECT_DIR}/manifest.yaml
+    #
+    - timeout 15m
+      bash -c "
+      until
+      kubectl get pod -l job-name=ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET}
+      -o jsonpath='{.items[0].status.conditions[?(@.type==\"ContainersReady\")].status}' |
+      grep True
+      ; do sleep 1; done"
+    #
+    - kubectl logs -f job/ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET}
+    #
+    - kubectl get jobs ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET} -o jsonpath='{.status.conditions}'
+    - kubectl get jobs ingester-elasticsearch-${INGESTER_ELASTICSEARCH_TARGET} -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}' |
+      grep True
+
+🛎️ ingester-elasticsearch (review):
+  extends:
+    - .autodevops_review
+    - .trigger_ingester_elasticsearch_job
+  needs:
+    - job: 🛂 k8s test
+    - job: 🐳 register ingester-elasticsearch
+  rules:
+    - if: "$PRODUCTION || $TRIGGER"
+      when: never
+    - when: manual
+      allow_failure: true
+  environment:
+    name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_DEV_ENVIRONMENT_NAME}
+  variables:
+    INGESTER_ELASTICSEARCH_TARGET: dev
+    # kosko options
+    KOSKO_GENERATE_ARGS: --env dev jobs/ingester-elasticsearch
+
+🛎️ ingester-elasticsearch (prod => es preprod):
+  extends:
+    - .autodevops_production
+    - .trigger_ingester_elasticsearch_job
+  needs: []
+  rules:
+    - if: $TRIGGER == "UPDATE_PREPROD"
+  environment:
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
+  variables:
+    INGESTER_ELASTICSEARCH_TARGET: preprod
+    # kosko options
+    KOSKO_GENERATE_ARGS: --env prod jobs/ingester-elasticsearch
+
+🎉 ingester-elasticsearch (prod => es prod):
+  extends:
+    - .autodevops_production
+    - .trigger_ingester_elasticsearch_job
+  needs: []
+  rules:
+    - if: $TRIGGER == "UPDATE_PROD"
+  environment:
+    name: ${AUTO_DEVOPS_PROD_ENVIRONMENT_NAME}
+  variables:
+    INGESTER_ELASTICSEARCH_TARGET: prod
+    # kosko options
+    KOSKO_GENERATE_ARGS: --env prod jobs/ingester-elasticsearch
