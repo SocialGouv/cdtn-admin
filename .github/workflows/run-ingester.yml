@@ -1,0 +1,22 @@
+name: Run ingester review
+
+on: workflow_dispatch
+
+concurrency:
+  cancel-in-progress: true
+  group: ingester-review-${{ github.ref }}
+
+jobs:
+  run-ingester-review:
+    name: Run ingester review
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use autodevops deployment
+        uses: SocialGouv/actions/autodevops-helm-deploy@v1
+        with:
+          environment: "dev"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+          components: jobs-trigger-ingester
