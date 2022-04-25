@@ -1,7 +1,7 @@
+import type { ExportEsStatus } from "@shared/types";
+import { Environment, Status } from "@shared/types";
 import { injectable } from "inversify";
 
-import type { ExportEsStatus } from "../../../types";
-import { Environment, Status } from "../../../types";
 import { wait } from "../../../utils";
 
 @injectable()
@@ -41,7 +41,7 @@ export class FakeExportRepository {
   }
 
   async updateAll(
-    oldStatus: Status,
+    _oldStatus: Status,
     newStatus: Status,
     updatedAt: Date
   ): Promise<ExportEsStatus[]> {
@@ -82,6 +82,20 @@ export class FakeExportRepository {
         user_id: "getByEnv-id",
       },
     ];
+  }
+
+  public async getLatestByEnv(
+    environment: Environment
+  ): Promise<ExportEsStatus> {
+    await wait(100);
+    return {
+      created_at: new Date(),
+      environment,
+      id: "1",
+      status: Status.completed,
+      updated_at: new Date(),
+      user_id: "getLatestByEnv-id",
+    };
   }
 
   async getAll(): Promise<ExportEsStatus[]> {

@@ -1,5 +1,6 @@
 import "../export";
 
+import { Environment, Status } from "@shared/types";
 import bodyParser from "body-parser";
 import type { NextFunction, Request, Response } from "express";
 import { Container } from "inversify";
@@ -7,7 +8,6 @@ import { InversifyExpressServer } from "inversify-express-utils";
 import request from "supertest";
 
 import { ExportService } from "../../services";
-import { Environment, Status } from "../../types";
 import { getName } from "../../utils";
 import { ExportEsRunMiddleware } from "../middlewares";
 import { FakeExportService } from "./fake/export";
@@ -39,7 +39,7 @@ describe("ExportController /export", () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       app.use(
         (err: Error, _req: Request, res: Response, _next: NextFunction) => {
-          res.status(500).json({ error: err.message });
+          res.status(500).json({ errors: err.message });
         }
       );
     });

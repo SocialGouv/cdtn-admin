@@ -1,7 +1,7 @@
 import { client } from "@shared/graphql-client";
+import type { Environment, ExportEsStatus, Status } from "@shared/types";
 import { injectable } from "inversify";
 
-import type { Environment, ExportEsStatus, Status } from "../types";
 import { name } from "../utils";
 import {
   createExportEsStatus,
@@ -9,6 +9,7 @@ import {
   getExportEsStatusByEnvironments,
   getExportEsStatusById,
   getExportEsStatusByStatus,
+  getLatestExportEsStatus,
   updateExportEsStatus,
   updateOneExportEsStatus,
 } from "./graphql";
@@ -104,6 +105,23 @@ export class ExportRepository {
       throw new Error("Failed to get, undefined object");
     }
     return res.data.export_es_status_by_pk;
+  }
+
+  public async getLatestByEnv(
+    environment: Environment
+  ): Promise<ExportEsStatus> {
+    const res = await client
+      .query<{ export_es_status: ExportEsStatus[] }>(getLatestExportEsStatus, {
+        environment,
+      })
+      .toPromise();
+    if (res.error) {
+      throw res.error;
+    }
+    if (!res.data?.export_es_status) {
+      throw new Error("Failed to get, undefined object");
+    }
+    return res.data.export_es_status[0];
   }
 
   public async getByEnvironments(

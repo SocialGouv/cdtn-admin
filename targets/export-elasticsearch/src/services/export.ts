@@ -1,9 +1,9 @@
+import type { ExportEsStatus } from "@shared/types";
+import { Environment, Status } from "@shared/types";
 import { randomUUID } from "crypto";
 import { inject, injectable } from "inversify";
 
 import { ExportRepository } from "../repositories";
-import type { Environment, ExportEsStatus } from "../types";
-import { Status } from "../types";
 import { getName, name } from "../utils";
 import { runWorkerIngester } from "../workers";
 
@@ -46,8 +46,9 @@ export class ExportService {
           await this.exportRepository.updateOne(id, Status.failed, new Date());
         });
       return createdResult;
+    } else {
+      throw new Error("There is already a running job");
     }
-    return runningResult[0];
   }
 
   async getAll(environment?: Environment): Promise<ExportEsStatus[]> {
@@ -55,6 +56,22 @@ export class ExportService {
       return this.exportRepository.getByEnvironments(environment);
     }
     return this.exportRepository.getAll();
+  }
+
+  async getLatest(): Promise<{
+    preproduction: ExportEsStatus;
+    production: ExportEsStatus;
+  }> {
+    const latestPreprod = await this.exportRepository.getLatestByEnv(
+      Environment.preproduction
+    );
+    const latestProd = await this.exportRepository.getLatestByEnv(
+      Environment.production
+    );
+    return {
+      preproduction: latestPreprod,
+      production: latestProd,
+    };
   }
 
   private async getRunningJob(): Promise<ExportEsStatus[]> {

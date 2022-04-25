@@ -5,6 +5,11 @@ mutation createExportEsStatus($id: uuid!, $user_id: uuid!, $environment: String!
     environment
     status
     user_id
+    user {
+      name
+      email
+      created_at
+    }
     created_at
     updated_at
   }
@@ -17,6 +22,11 @@ mutation updateOneExportEsStatus($id: uuid!, $status: String!, $updated_at: time
     environment
     status
     user_id
+    user {
+      name
+      email
+      created_at
+    }
     created_at
     updated_at
   }
@@ -32,6 +42,11 @@ mutation updateExportEsStatus($old_status: String!, $new_status: String!, $updat
       environment
       status
       user_id
+      user {
+        name
+        email
+        created_at
+      }
       created_at
       updated_at
     }

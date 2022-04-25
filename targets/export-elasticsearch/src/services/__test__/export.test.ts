@@ -1,9 +1,9 @@
 import { injest } from "@shared/elasticsearch-document-adapter";
+import { Environment, Status } from "@shared/types";
 import timekeeper from "timekeeper";
 
 import { ExportRepository } from "../../repositories";
 import { rootContainer } from "../../server";
-import { Environment, Status } from "../../types";
 import { getName } from "../../utils";
 import { ExportService } from "../export";
 import { FakeExportRepository } from "./fake/export";
@@ -110,25 +110,6 @@ describe("ExportService", () => {
     });
 
     describe("Outdated job has run", () => {
-      it("should create a new status", async () => {
-        jest.spyOn(mockRepository, "getByStatus").mockReturnValue(
-          Promise.resolve([
-            {
-              created_at: new Date("2020-01-01"),
-              environment: Environment.preproduction,
-              id: "1",
-              status: Status.running,
-              updated_at: new Date("2020-01-01"),
-              user_id: "getByStatus-id",
-            },
-          ])
-        );
-        const spy = jest.spyOn(mockRepository, "create");
-        await service.runExport("ABC", Environment.preproduction);
-        expect(spy).toHaveBeenCalledTimes(1);
-        expect(injest).toHaveBeenCalledTimes(1);
-      });
-
       it("should update the job at the end of the job", async () => {
         jest.spyOn(mockRepository, "getByStatus").mockReturnValue(
           Promise.resolve([

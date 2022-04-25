@@ -5,6 +5,11 @@ query getExportEsStatusById($id: uuid!) {
     environment
     status
     user_id
+    user {
+      name
+      email
+      created_at
+    }
     created_at
     updated_at
   }
@@ -17,6 +22,11 @@ query getAllExport {
     environment
     status
     user_id
+    user {
+      name
+      email
+      created_at
+    }
     created_at
     updated_at
   }
@@ -29,10 +39,33 @@ query getExportEsStatusByEnvironments($environment: String!) {
     environment
     status
     user_id
+    user {
+      name
+      email
+      created_at
+    }
     created_at
     updated_at
   }
 }`;
+
+export const getLatestExportEsStatus = `
+query getLatestExportEsStatus($environment: String!) {
+  export_es_status(where: {environment: {_eq: $environment}}, order_by: {created_at: desc}) {
+    id
+    environment
+    status
+    user_id
+    user {
+      name
+      email
+      created_at
+    }
+    created_at
+    updated_at
+  }
+}
+`;
 
 export const getExportEsStatusByStatus = `
 query getExportEsStatusByStatus($status: String!) {
@@ -41,6 +74,11 @@ query getExportEsStatusByStatus($status: String!) {
     environment
     status
     user_id
+    user {
+      name
+      email
+      created_at
+    }
     created_at
     updated_at
   }

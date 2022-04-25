@@ -331,6 +331,15 @@
 - table:
     schema: public
     name: export_es_status
+  object_relationships:
+  - name: user
+    using:
+      manual_configuration:
+        remote_table:
+          schema: auth
+          name: users
+        column_mapping:
+          user_id: id
 - table:
     schema: public
     name: glossary

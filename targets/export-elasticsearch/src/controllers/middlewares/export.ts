@@ -1,10 +1,15 @@
+import { Environment } from "@shared/types";
 import type { NextFunction, Request, Response } from "express";
 import { injectable } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";
 import { z } from "zod";
 
-import { Environment } from "../../types";
 import { name } from "../../utils";
+
+const ENVIRONMENT =
+  process.env.NODE_ENV === "production"
+    ? process.env.ENVIRONMENT
+    : "preproduction";
 
 const ValidatorCreateExportEsStatus = z.object({
   environment: z.nativeEnum(Environment),
@@ -20,7 +25,12 @@ export type ValidatorCreateExportEsStatusType = z.infer<
 export class ExportEsRunMiddleware extends BaseMiddleware {
   public handler(req: Request, res: Response, next: NextFunction): void {
     const parse = ValidatorCreateExportEsStatus.safeParse(req.body);
-    if (parse.success) {
+    if (req.body.environment !== ENVIRONMENT) {
+      res.status(400).json({
+        errors:
+          "L'environnement est différent de celui gérer par le process.env",
+      });
+    } else if (parse.success) {
       next();
     } else {
       res.status(400).json({ errors: parse.error.issues });

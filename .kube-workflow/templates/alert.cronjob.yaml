@@ -1,0 +1,11 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cron-alert
+spec:
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  schedule: 0 1 * * *
+  jobTemplate: |
+    {{- include "job.alert" | toYaml | nindent 4 }}
