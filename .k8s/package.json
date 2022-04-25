@@ -11,12 +11,12 @@
     }
   },
   "dependencies": {
-    "@kosko/env": "^2.0.1",
-    "@kubernetes-models/sealed-secrets": "^2.0.2",
+    "@kosko/env": "^3.0.0",
+    "@kubernetes-models/sealed-secrets": "^3.0.0",
     "@socialgouv/kosko-charts": "^9.8.11",
     "@types/node": "^16.7.8",
-    "kosko": "^1.1.5",
-    "kubernetes-models": "^2.0.2",
+    "kosko": "^2.0.0",
+    "kubernetes-models": "^3.0.0",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
   },
@@ -25,9 +25,9 @@
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "@socialgouv/eslint-config-typescript": "^1.88.0",
     "@types/jest": "^27.0.2",
-    "dotenv": "^10.0.0",
-    "jest": "^27.1.1",
-    "lint-staged": "^11.1.2",
+    "dotenv": "^16.0.0",
+    "jest": "^28.0.0",
+    "lint-staged": "^12.0.0",
     "prettier": "^2.3.2"
   },
   "license": "Apache-2.0",
