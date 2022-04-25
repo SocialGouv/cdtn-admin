@@ -8,20 +8,50 @@ import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
 
 import { ExportEsRunMiddleware } from "./controllers/middlewares";
-import { ExportRepository } from "./repositories";
-import { ExportService, SitemapService } from "./services";
+import {
+  AzureParameters,
+  AzureRepository,
+  ExportRepository,
+} from "./repositories";
+import {
+  CopyContainerService,
+  ExportService,
+  SitemapService,
+} from "./services";
 import { getName } from "./utils";
 
 // set up container
 export const rootContainer = new Container();
-rootContainer.bind<ExportService>(getName(ExportService)).to(ExportService);
-rootContainer.bind<SitemapService>(getName(SitemapService)).to(SitemapService);
+/* REPOSITORIES */
+rootContainer
+  .bind<AzureRepository>(getName(AzureRepository))
+  .to(AzureRepository);
+/* PARAMETERS OF CONTAINER */
+rootContainer
+  .bind<string>(AzureParameters.ACCOUNT_KEY)
+  .toConstantValue(process.env.AZ_ACCOUNT_KEY ?? "");
+rootContainer
+  .bind<string>(AzureParameters.ACCOUNT_NAME)
+  .toConstantValue(process.env.AZ_ACCOUNT_NAME ?? "");
+rootContainer
+  .bind<string>(AzureParameters.BUCKET_URL)
+  .toConstantValue(
+    process.env.AZ_URL ??
+      `https://${process.env.AZ_ACCOUNT_NAME}.blob.core.windows.net`
+  );
 rootContainer
   .bind<ExportRepository>(getName(ExportRepository))
   .to(ExportRepository);
+/* MIDDLEWARE */
 rootContainer
   .bind<ExportEsRunMiddleware>(getName(ExportEsRunMiddleware))
   .to(ExportEsRunMiddleware);
+/* SERVICES */
+rootContainer.bind<ExportService>(getName(ExportService)).to(ExportService);
+rootContainer.bind<SitemapService>(getName(SitemapService)).to(SitemapService);
+rootContainer
+  .bind<CopyContainerService>(getName(CopyContainerService))
+  .to(CopyContainerService);
 
 // create server
 const server = new InversifyExpressServer(rootContainer);
