@@ -14,6 +14,7 @@ module.exports = {
     "no-async-promise-executor": "warn",
     "no-async-promise-executor": "warn",
     "@typescript-eslint/no-misused-promises": "warn",
+    "@typescript-eslint/member-ordering": "off",
   },
   settings: {
     jest: {
