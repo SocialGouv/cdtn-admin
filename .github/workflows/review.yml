@@ -1,9 +1,9 @@
 name: Review
 
 on:
-  pull_request:
-    branches:
-      - "**"
+  push:
+    branches-ignore:
+      - master
     tags-ignore:
       - v*
 
