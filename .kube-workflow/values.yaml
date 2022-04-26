@@ -1,4 +1,5 @@
 app-www:
+  imagePackage: cdtn-admin-frontend
   envFrom:
     - configMapRef:
         name: www
@@ -7,17 +8,16 @@ app-www:
   env:
     - name: "FRONTEND_HOST"
       value: "{{.Values.global.host}}"
-  resources:
-    - limits:
-        cpu: "1000m"
-        memory: "560Mi"
-    - requests:
-        cpu: "5m"
-        memory: "128Mi"
-  imagePackage: cdtn-admin-frontend
   ingress:
     annotations:
       "nginx.ingress.kubernetes.io/whitelist-source-range": "123.456.456.789,42.0.0.0/8"
+  resources:
+    limits:
+      cpu: "1000m"
+      memory: "560Mi"
+    requests:
+      cpu: "5m"
+      memory: "128Mi"
 
 # app-export:
 #   ingress:
