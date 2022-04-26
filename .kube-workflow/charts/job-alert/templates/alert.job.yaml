@@ -2,4 +2,4 @@ kind: Job
 metadata:
   name: job-alert
 spec: |
-  {{- include "job.alert" | toYaml | nindent 2 }}
+  {{- include "job.alert" . | toYaml | nindent 2 }}

@@ -2,4 +2,4 @@ kind: Job
 metadata:
   name: job-ingester
 spec: |
-  {{- include "job.ingester" | toYaml | nindent 2 }}
+  {{- include "job.ingester" . | toYaml | nindent 2 }}
