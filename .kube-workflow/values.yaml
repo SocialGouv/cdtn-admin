@@ -31,6 +31,7 @@ app-www:
 
 hasura:
   imagePackage: cdtn-admin-hasura
+  needs: [create-db]
   envFrom:
     - configMapRef:
         name: hasura
@@ -38,6 +39,10 @@ hasura:
         name: hasura
 
 jobs:
+  create-db:
+    use: SocialGouv/kube-workflow/jobs/create-db
+    with:
+      pgAdminSecretRefName: azure-pg-admin-user
   seed-db:
     needs: [hasura]
     use: SocialGouv/kube-workflow/jobs/seed-db
