@@ -1,5 +1,5 @@
 kind: Job
 metadata:
   name: job-alert
-spec: |
+spec:
   {{- include "job.alert" . | toYaml | nindent 2 }}

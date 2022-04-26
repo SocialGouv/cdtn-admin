@@ -7,5 +7,5 @@ spec:
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   schedule: 0 1 * * *
-  jobTemplate: |
+  jobTemplate:
     {{- include "job.alert" . | toYaml | nindent 4 }}
