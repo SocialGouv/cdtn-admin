@@ -6,13 +6,19 @@ import { inject, injectable } from "inversify";
 import { ExportRepository } from "../repositories";
 import { getName, name } from "../utils";
 import { runWorkerIngester } from "../workers";
+import { CopyContainerService } from "./copy";
+import { SitemapService } from "./sitemap";
 
 @injectable()
 @name("ExportService")
 export class ExportService {
   constructor(
     @inject(getName(ExportRepository))
-    private readonly exportRepository: ExportRepository
+    private readonly exportRepository: ExportRepository,
+    @inject(getName(SitemapService))
+    private readonly sitemapService: SitemapService,
+    @inject(getName(CopyContainerService))
+    private readonly copyContainerService: CopyContainerService
   ) {}
 
   async runExport(
@@ -33,14 +39,11 @@ export class ExportService {
         Status.running
       );
       runWorkerIngester()
-        .then(async (res: string) => {
-          console.log(res);
-          await this.exportRepository.updateOne(
-            id,
-            Status.completed,
-            new Date()
-          );
-        })
+        .then(async () => this.copyContainerService.runCopy())
+        .then(async () => this.sitemapService.uploadSitemap())
+        .then(async () =>
+          this.exportRepository.updateOne(id, Status.completed, new Date())
+        )
         .catch(async (error: string) => {
           console.error(error);
           await this.exportRepository.updateOne(id, Status.failed, new Date());

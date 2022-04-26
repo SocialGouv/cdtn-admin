@@ -28,16 +28,28 @@ rootContainer
   .to(AzureRepository);
 /* PARAMETERS OF CONTAINER */
 rootContainer
-  .bind<string>(AzureParameters.ACCOUNT_KEY)
-  .toConstantValue(process.env.AZ_ACCOUNT_KEY ?? "");
+  .bind<string>(AzureParameters.ACCOUNT_KEY_FROM)
+  .toConstantValue(process.env.AZ_ACCOUNT_KEY_FROM ?? "");
 rootContainer
-  .bind<string>(AzureParameters.ACCOUNT_NAME)
-  .toConstantValue(process.env.AZ_ACCOUNT_NAME ?? "");
+  .bind<string>(AzureParameters.ACCOUNT_NAME_FROM)
+  .toConstantValue(process.env.AZ_ACCOUNT_NAME_FROM ?? "");
 rootContainer
-  .bind<string>(AzureParameters.BUCKET_URL)
+  .bind<string>(AzureParameters.BUCKET_URL_FROM)
   .toConstantValue(
-    process.env.AZ_URL ??
-      `https://${process.env.AZ_ACCOUNT_NAME}.blob.core.windows.net`
+    process.env.AZ_URL_FROM ??
+      `https://${process.env.AZ_ACCOUNT_NAME_FROM}.blob.core.windows.net`
+  );
+rootContainer
+  .bind<string>(AzureParameters.ACCOUNT_KEY_TO)
+  .toConstantValue(process.env.AZ_ACCOUNT_KEY_TO ?? "");
+rootContainer
+  .bind<string>(AzureParameters.ACCOUNT_NAME_TO)
+  .toConstantValue(process.env.AZ_ACCOUNT_NAME_TO ?? "");
+rootContainer
+  .bind<string>(AzureParameters.BUCKET_URL_TO)
+  .toConstantValue(
+    process.env.AZ_URL_TO ??
+      `https://${process.env.AZ_ACCOUNT_NAME_TO}.blob.core.windows.net`
   );
 rootContainer
   .bind<ExportRepository>(getName(ExportRepository))

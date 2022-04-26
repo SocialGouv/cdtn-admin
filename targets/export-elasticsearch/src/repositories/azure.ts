@@ -9,27 +9,44 @@ import { Readable } from "stream";
 import { name, streamToBuffer } from "../utils";
 
 export const AzureParameters = {
-  ACCOUNT_KEY: Symbol("ACCOUNT_KEY"),
-  ACCOUNT_NAME: Symbol("ACCOUNT_NAME"),
-  BUCKET_URL: Symbol("BUCKET_URL"),
+  ACCOUNT_KEY_FROM: Symbol("ACCOUNT_KEY_FROM"),
+  ACCOUNT_KEY_TO: Symbol("ACCOUNT_KEY_TO"),
+  ACCOUNT_NAME_FROM: Symbol("ACCOUNT_NAME_FROM"),
+  ACCOUNT_NAME_TO: Symbol("ACCOUNT_NAME_TO"),
+  BUCKET_URL_FROM: Symbol("BUCKET_URL_FROM"),
+  BUCKET_URL_TO: Symbol("BUCKET_URL_TO"),
 };
+
 @injectable()
 @name("AzureRepository")
 export class AzureRepository {
-  private readonly blobServiceClient: BlobServiceClient;
+  private readonly blobServiceClientFrom: BlobServiceClient;
+
+  private readonly blobServiceClientTo: BlobServiceClient;
 
   constructor(
-    @inject(AzureParameters.ACCOUNT_NAME) accountName: string,
-    @inject(AzureParameters.ACCOUNT_KEY) accountKey: string,
-    @inject(AzureParameters.BUCKET_URL) bucketUrl: string
+    @inject(AzureParameters.ACCOUNT_NAME_FROM) accountNameFrom: string,
+    @inject(AzureParameters.ACCOUNT_KEY_FROM) accountKeyFrom: string,
+    @inject(AzureParameters.BUCKET_URL_FROM) bucketUrlFrom: string,
+    @inject(AzureParameters.ACCOUNT_NAME_TO) accountNameTo: string,
+    @inject(AzureParameters.ACCOUNT_KEY_TO) accountKeyTo: string,
+    @inject(AzureParameters.BUCKET_URL_TO) bucketUrlTo: string
   ) {
-    const sharedKeyCredential = new StorageSharedKeyCredential(
-      accountName,
-      accountKey
+    const sharedKeyCredentialFrom = new StorageSharedKeyCredential(
+      accountNameFrom,
+      accountKeyFrom
     );
-    this.blobServiceClient = new BlobServiceClient(
-      bucketUrl,
-      sharedKeyCredential
+    this.blobServiceClientFrom = new BlobServiceClient(
+      bucketUrlFrom,
+      sharedKeyCredentialFrom
+    );
+    const sharedKeyCredentialTo = new StorageSharedKeyCredential(
+      accountNameTo,
+      accountKeyTo
+    );
+    this.blobServiceClientTo = new BlobServiceClient(
+      bucketUrlTo,
+      sharedKeyCredentialTo
     );
   }
 
@@ -38,7 +55,7 @@ export class AzureRepository {
     destinationName: string
   ): Promise<string> {
     const containerClient =
-      this.blobServiceClient.getContainerClient(destinationContainer);
+      this.blobServiceClientFrom.getContainerClient(destinationContainer);
     const blobClient = containerClient.getBlobClient(destinationName);
     const downloadBlockBlobResponse = await blobClient.download();
     const downloaded = (
@@ -53,7 +70,7 @@ export class AzureRepository {
     destinationName: string
   ): Promise<void> {
     const containerClient =
-      this.blobServiceClient.getContainerClient(destinationContainer);
+      this.blobServiceClientFrom.getContainerClient(destinationContainer);
     await containerClient.createIfNotExists();
     const response = await axios.get(sitemapEndpoint);
     const data: string = response.data;
@@ -68,8 +85,8 @@ export class AzureRepository {
     destinationContainerName: string
   ): Promise<void> {
     const sourceContainer =
-      this.blobServiceClient.getContainerClient(sourceContainerName);
-    const destinationContainer = this.blobServiceClient.getContainerClient(
+      this.blobServiceClientFrom.getContainerClient(sourceContainerName);
+    const destinationContainer = this.blobServiceClientTo.getContainerClient(
       destinationContainerName
     );
     await destinationContainer.createIfNotExists();
@@ -88,8 +105,8 @@ export class AzureRepository {
     destinationContainerName: string
   ): Promise<void> {
     const sourceContainer =
-      this.blobServiceClient.getContainerClient(sourceContainerName);
-    const destinationContainer = this.blobServiceClient.getContainerClient(
+      this.blobServiceClientFrom.getContainerClient(sourceContainerName);
+    const destinationContainer = this.blobServiceClientTo.getContainerClient(
       destinationContainerName
     );
     const policy = await sourceContainer.getAccessPolicy();

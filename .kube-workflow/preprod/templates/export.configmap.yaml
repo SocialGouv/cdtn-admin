@@ -9,7 +9,7 @@ data:
   LOG_LEVEL: "info"
   ENVIRONMENT: "preproduction"
   SOURCE_CONTAINER_COPY: "cdtn"
-  DESTINATION_CONTAINER_COPY: "cdtn-preprod"
+  DESTINATION_CONTAINER_COPY: "cdtn"
   SITEMAP_DESTINATION_CONTAINER: "sitemap"
   SITEMAP_DESTINATION_NAME: "sitemap-preprod.xml"
   SITEMAP_ENDPOINT: "http://www/api/sitemap"
