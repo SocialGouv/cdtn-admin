@@ -51,11 +51,11 @@ describe("ExportController /export", () => {
       expect(res.statusCode).toEqual(200);
       expect(res.body).toEqual([
         {
-          created_at: "2022-03-24T10:09:11.000Z",
+          created_at: "2022-03-24T10:09:10.000Z",
           environment: Environment.preproduction,
           id: "1",
           status: Status.running,
-          updated_at: "2022-03-24T10:09:11.000Z",
+          updated_at: "2022-03-24T10:09:10.000Z",
           user_id: "userId-all",
         },
       ]);
@@ -68,11 +68,11 @@ describe("ExportController /export", () => {
       expect(res.statusCode).toEqual(200);
       expect(res.body).toEqual([
         {
-          created_at: "2022-03-24T10:09:11.000Z",
+          created_at: "2022-03-24T10:09:10.000Z",
           environment: Environment.production,
           id: "1",
           status: Status.running,
-          updated_at: "2022-03-24T10:09:11.000Z",
+          updated_at: "2022-03-24T10:09:10.000Z",
           user_id: "userId-env",
         },
       ]);
@@ -87,11 +87,11 @@ describe("ExportController /export", () => {
       });
       expect(res.statusCode).toEqual(202);
       expect(res.body).toEqual({
-        created_at: "2022-03-24T10:09:11.000Z",
+        created_at: "2022-03-24T10:09:10.000Z",
         environment: Environment.preproduction,
         id: "1",
         status: Status.running,
-        updated_at: "2022-03-24T10:09:11.000Z",
+        updated_at: "2022-03-24T10:09:10.000Z",
         user_id: "890ca91b-f150-4957-9bb2-8500940815f0",
       });
     });

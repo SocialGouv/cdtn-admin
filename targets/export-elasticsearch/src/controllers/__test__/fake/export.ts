@@ -12,11 +12,11 @@ export class FakeExportService {
   ): Promise<ExportEsStatus> {
     await wait(100);
     return {
-      created_at: new Date("2022-03-24T11:09:11"),
+      created_at: new Date("2022-03-24T10:09:10Z"),
       environment,
       id: "1",
       status: Status.running,
-      updated_at: new Date("2022-03-24T11:09:11"),
+      updated_at: new Date("2022-03-24T10:09:10Z"),
       user_id: userId,
     };
   }
@@ -28,22 +28,22 @@ export class FakeExportService {
     if (environment) {
       return [
         {
-          created_at: new Date("2022-03-24T11:09:11"),
+          created_at: new Date("2022-03-24T10:09:10Z"),
           environment,
           id: "1",
           status: Status.running,
-          updated_at: new Date("2022-03-24T11:09:11"),
+          updated_at: new Date("2022-03-24T10:09:10Z"),
           user_id: "userId-env",
         },
       ];
     }
     return [
       {
-        created_at: new Date("2022-03-24T11:09:11"),
+        created_at: new Date("2022-03-24T10:09:10Z"),
         environment: Environment.preproduction,
         id: "1",
         status: Status.running,
-        updated_at: new Date("2022-03-24T11:09:11"),
+        updated_at: new Date("2022-03-24T10:09:10Z"),
         user_id: "userId-all",
       },
     ];
