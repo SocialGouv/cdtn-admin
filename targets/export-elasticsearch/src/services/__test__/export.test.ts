@@ -1,16 +1,20 @@
-import { injest } from "@shared/elasticsearch-document-adapter";
 import { Environment, Status } from "@shared/types";
 import timekeeper from "timekeeper";
 
 import { ExportRepository } from "../../repositories";
 import { rootContainer } from "../../server";
 import { getName } from "../../utils";
+import { runWorkerIngester } from "../../workers";
+import { CopyContainerService } from "../copy";
 import { ExportService } from "../export";
+import { SitemapService } from "../sitemap";
+import { FakeCopyService } from "./fake/copy";
 import { FakeExportRepository } from "./fake/export";
+import { FakeSitemapService } from "./fake/sitemap";
 
-jest.mock("@shared/elasticsearch-document-adapter", () => {
+jest.mock("../../workers", () => {
   return {
-    injest: jest.fn(async () => {
+    runWorkerIngester: jest.fn(async () => {
       return new Promise<void>((resolve) => {
         resolve();
       });
@@ -25,8 +29,16 @@ describe("ExportService", () => {
   beforeEach(() => {
     const container = rootContainer.createChild();
     container
-      .bind<ExportRepository>(getName(ExportRepository))
+      .bind<FakeExportRepository>(getName(ExportRepository))
       .to(FakeExportRepository)
+      .inSingletonScope();
+    container
+      .bind<FakeCopyService>(getName(CopyContainerService))
+      .to(FakeCopyService)
+      .inSingletonScope();
+    container
+      .bind<FakeSitemapService>(getName(SitemapService))
+      .to(FakeSitemapService)
       .inSingletonScope();
     service = container.get<ExportService>(getName(ExportService));
     mockRepository = container.get<ExportRepository>(getName(ExportRepository));
@@ -76,20 +88,12 @@ describe("ExportService", () => {
   describe("runExport", () => {
     describe("Job is already running", () => {
       it("should not call ingester", async () => {
-        await service.runExport("ABC", Environment.preproduction);
-        expect(injest).toHaveBeenCalledTimes(0);
-      });
-
-      it("should get the current running job", async () => {
-        timekeeper.freeze(new Date());
-        const res = await service.runExport("ABC", Environment.preproduction);
-        expect(res).toMatchObject({
-          created_at: new Date(),
-          environment: Environment.preproduction,
-          status: Status.running,
-          updated_at: new Date(),
-          user_id: "getByStatus-id",
-        });
+        await service
+          .runExport("ABC", Environment.preproduction)
+          .catch((e: Error) => {
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(e.message).toBe("There is already a running job");
+          });
       });
 
       it("should not clean previous job", async () => {
@@ -126,7 +130,7 @@ describe("ExportService", () => {
         const spy = jest.spyOn(mockRepository, "updateOne");
         await service.runExport("ABC", Environment.preproduction);
         expect(spy).toHaveBeenCalledTimes(1);
-        expect(injest).toHaveBeenCalledTimes(1);
+        expect(runWorkerIngester).toHaveBeenCalledTimes(1);
       });
 
       it("should clean previous job because launched > 1h", async () => {

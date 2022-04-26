@@ -82,13 +82,13 @@ describe("ExportController /export", () => {
   describe("POST /", () => {
     it("should send the status running when then server is running", async () => {
       const res = await request(server.build()).post("/export").send({
-        environment: Environment.production,
+        environment: Environment.preproduction,
         userId: "890ca91b-f150-4957-9bb2-8500940815f0",
       });
       expect(res.statusCode).toEqual(202);
       expect(res.body).toEqual({
         created_at: "2022-03-24T10:09:11.000Z",
-        environment: Environment.production,
+        environment: Environment.preproduction,
         id: "1",
         status: Status.running,
         updated_at: "2022-03-24T10:09:11.000Z",
@@ -103,15 +103,8 @@ describe("ExportController /export", () => {
       expect(res.statusCode).toEqual(400);
       expect(res.body).toEqual(
         expect.objectContaining({
-          errors: [
-            {
-              code: "invalid_enum_value",
-              message:
-                "Invalid enum value. Expected 'production' | 'preproduction'",
-              options: ["production", "preproduction"],
-              path: ["environment"],
-            },
-          ],
+          errors:
+            "L'environnement est différent de celui géré par le process.env",
         })
       );
     });
@@ -144,15 +137,8 @@ describe("ExportController /export", () => {
       expect(res.statusCode).toEqual(400);
       expect(res.body).toEqual(
         expect.objectContaining({
-          errors: [
-            {
-              code: "invalid_enum_value",
-              message:
-                "Invalid enum value. Expected 'production' | 'preproduction'",
-              options: ["production", "preproduction"],
-              path: ["environment"],
-            },
-          ],
+          errors:
+            "L'environnement est différent de celui géré par le process.env",
         })
       );
     });
