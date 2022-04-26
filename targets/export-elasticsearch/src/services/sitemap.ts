@@ -12,18 +12,16 @@ export class SitemapService {
   ) {}
 
   async getSitemap(
-    destinationContainer = process.env.SITEMAP_DESTINATION_CONTAINER ??
-      "sitemap",
-    destinationName = process.env.SITEMAP_DESTINATION_NAME ?? "sitemap-xml"
+    destinationContainer = process.env.SITEMAP_DESTINATION_CONTAINER ?? "",
+    destinationName = process.env.SITEMAP_DESTINATION_NAME ?? ""
   ): Promise<string> {
     return this.repo.getFile(destinationContainer, destinationName);
   }
 
   async uploadSitemap(
-    sitemapEndpoint = process.env.SITEMAP_ENDPOINT ?? "http://www/sitemap.xml",
-    destinationContainer = process.env.SITEMAP_DESTINATION_CONTAINER ??
-      "sitemap",
-    destinationName = process.env.SITEMAP_DESTINATION_NAME ?? "sitemap-xml"
+    sitemapEndpoint = process.env.SITEMAP_ENDPOINT ?? "",
+    destinationContainer = process.env.SITEMAP_DESTINATION_CONTAINER ?? "",
+    destinationName = process.env.SITEMAP_DESTINATION_NAME ?? ""
   ): Promise<void> {
     return this.repo.uploadFile(
       sitemapEndpoint,
