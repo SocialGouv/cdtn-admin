@@ -19,15 +19,15 @@ app-www:
     annotations:
       "nginx.ingress.kubernetes.io/whitelist-source-range": "123.456.456.789,42.0.0.0/8"
 
-app-export:
-  ingress:
-    enabled: false
-  imagePackage: "cdtn-admin-export-elasticsearch"
-  envFrom:
-    - configMapRef:
-        name: "export-elasticsearch"
-    - secretRef:
-        name: "export-elasticsearch"
+# app-export:
+#   ingress:
+#     enabled: false
+#   imagePackage: "cdtn-admin-export-elasticsearch"
+#   envFrom:
+#     - configMapRef:
+#         name: "export-elasticsearch"
+#     - secretRef:
+#         name: "export-elasticsearch"
 
 hasura:
   imagePackage: cdtn-admin-hasura

@@ -28,7 +28,7 @@ export class ExportEsRunMiddleware extends BaseMiddleware {
     if (req.body.environment !== ENVIRONMENT) {
       res.status(400).json({
         errors:
-          "L'environnement est différent de celui gérer par le process.env",
+          "L'environnement est différent de celui géré par le process.env",
       });
     } else if (parse.success) {
       next();
