@@ -33,6 +33,8 @@ hasura:
   imagePackage: cdtn-admin-hasura
   needs: [create-db]
   envFrom:
+    - secretRef:
+        name: pg-user-{{ .Values.global.branchSlug }}
     - configMapRef:
         name: hasura
     - secretRef:
