@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ARG NODE_VERSION=14.18.0-alpine3.11
 
 # dist
@@ -16,9 +15,6 @@ RUN yarn workspace ingester build
 
 # app
 FROM node:$NODE_VERSION
-=======
-FROM node:14.18.1-alpine3.11
->>>>>>> master
 
 WORKDIR /app
 

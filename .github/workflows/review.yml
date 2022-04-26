@@ -38,7 +38,6 @@ jobs:
       - name: Register docker images
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          project: "cdtn-admin"
           imagePackage: ${{ matrix.images }}
           token: ${{ secrets.GITHUB_TOKEN }}
           dockerfile: "${{ matrix.path }}/Dockerfile"
