@@ -1,0 +1,22 @@
+hasura:
+  imagePackage: cdtn-admin-hasura
+  needs: [create-db]
+  envFrom:
+    - secretRef:
+        name: pg-user-{{ .Values.global.branchSlug }}
+    - configMapRef:
+        name: hasura
+    - secretRef:
+        name: hasura
+
+jobs:
+  runs:
+    create-db:
+      use: SocialGouv/kube-workflow/jobs/create-db
+      with:
+        pgAdminSecretRefName: azure-pg-admin-user
+    seed-db:
+      needs: [hasura]
+      use: SocialGouv/kube-workflow/jobs/seed-db
+      with:
+        seedPath: "/workspace/sql/post-restore.sql"
