@@ -8,4 +8,4 @@ spec:
   failedJobsHistoryLimit: 3
   schedule: 0 1 * * *
   jobTemplate:
-    {{- include "job.ingester" . | toYaml | nindent 4 }}
+    {{- include "job.ingester" . | nindent 4 }}

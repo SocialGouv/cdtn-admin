@@ -1,4 +1,4 @@
-{{define "job.alert"}}
+{{ define "job.alert" }}
 spec:
   backoffLimit: 1
   template:
