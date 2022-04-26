@@ -39,12 +39,13 @@ hasura:
         name: hasura
 
 jobs:
-  create-db:
-    use: SocialGouv/kube-workflow/jobs/create-db
-    with:
-      pgAdminSecretRefName: azure-pg-admin-user
-  seed-db:
-    needs: [hasura]
-    use: SocialGouv/kube-workflow/jobs/seed-db
-    with:
-      seedPath: "/workspace/sql/post-restore.sql"
+  runs:
+    create-db:
+      use: SocialGouv/kube-workflow/jobs/create-db
+      with:
+        pgAdminSecretRefName: azure-pg-admin-user
+    seed-db:
+      needs: [hasura]
+      use: SocialGouv/kube-workflow/jobs/seed-db
+      with:
+        seedPath: "/workspace/sql/post-restore.sql"
