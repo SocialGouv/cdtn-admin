@@ -1,5 +1,5 @@
 import { createGlossaryTransform } from "../";
-import { glossaryData } from "./data/glossaryData";
+import { glossaryData } from "./glossaryData";
 
 describe("addGlossary", () => {
   const addGlossary = createGlossaryTransform(glossaryData);
