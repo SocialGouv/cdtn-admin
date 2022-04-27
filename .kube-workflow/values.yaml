@@ -37,3 +37,18 @@ hasura:
         name: hasura
     - secretRef:
         name: hasura
+
+jobs:
+  runs:
+    restore:
+      use: SocialGouv/kube-workflow/jobs/restore-db
+      with:
+       restorePath: /hasura_prod_db.psql.gz
+      volumeMounts:
+        - name: restore
+          mountPath: /mnt/restore
+          readOnly: true
+      volumes:
+        - name: restore
+          persistantVolumeClaim:
+            claimName: cdtn-admin-backup-restore
