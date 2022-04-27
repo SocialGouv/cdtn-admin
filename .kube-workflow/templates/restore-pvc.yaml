@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: cdtn-admin-backup-restore
+  name: cdtn-admin-backup-restore-{{.Values.shortSha}}
 spec:
   accessModes:
     - ReadWriteMany
@@ -10,13 +10,13 @@ spec:
       storage: 128Gi
   selector:
     matchLabels:
-      usage: prod-cdtn-admin-backup-restore
+      usage: prod-cdtn-admin-backup-restore-{{.Values.shortSha}}
   storageClassName: ''
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: prod-cdtn-admin-backup-restore
+  name: prod-cdtn-admin-backup-restore-{{.Values.shortSha}}
 spec:
   accessModes:
     - ReadWriteMany

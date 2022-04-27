@@ -44,7 +44,7 @@ jobs:
     restore:
       use: SocialGouv/kube-workflow/jobs/restore-db
       with:
-       restorePath: /mnt/restore/hasura_prod_db.psql.gz
+       restorePath: /mnt/restore/${LATEST}/hasura_prod_db.psql.gz
       volumeMounts:
         - name: restore
           mountPath: /mnt/restore
@@ -52,7 +52,7 @@ jobs:
       volumes:
         - name: restore
           persistentVolumeClaim:
-            claimName: cdtn-admin-backup-restore
+            claimName: cdtn-admin-backup-restore-{{.Values.shortSha}}
     seed:
       needs: [restore]
       use: SocialGouv/kube-workflow/jobs/seed-db
