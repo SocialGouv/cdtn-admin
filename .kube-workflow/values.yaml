@@ -1,5 +1,5 @@
 app-www:
-  probesPath: /health
+  probesPath: /healthz
   imagePackage: cdtn-admin-frontend
   envFrom:
     - configMapRef:
