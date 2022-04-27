@@ -31,6 +31,7 @@ app-export:
         name: "export-elasticsearch"
 
 hasura:
+  needs: [seed]
   imagePackage: cdtn-admin-hasura
   envFrom:
     - configMapRef:
@@ -52,3 +53,8 @@ jobs:
         - name: restore
           persistantVolumeClaim:
             claimName: cdtn-admin-backup-restore
+    seed:
+      needs: [restore]
+      use: SocialGouv/kube-workflow/jobs/seed-db
+      with:
+        seedPath: /workspace/.kube-workflow/sql/post-restore.sql
