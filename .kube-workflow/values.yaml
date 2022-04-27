@@ -52,7 +52,7 @@ jobs:
       volumes:
         - name: restore
           persistentVolumeClaim:
-            claimName: cdtn-admin-backup-restore-{{.Values.shortSha}}
+            claimName: cdtn-admin-backup-restore-{{ .Values.global.shortSha }}
     seed:
       needs: [restore]
       use: SocialGouv/kube-workflow/jobs/seed-db
