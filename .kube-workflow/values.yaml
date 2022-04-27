@@ -51,7 +51,7 @@ jobs:
           readOnly: true
       volumes:
         - name: restore
-          persistantVolumeClaim:
+          persistentVolumeClaim:
             claimName: cdtn-admin-backup-restore
     seed:
       needs: [restore]
