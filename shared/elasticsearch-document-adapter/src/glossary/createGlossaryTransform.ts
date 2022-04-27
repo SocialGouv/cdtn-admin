@@ -1,5 +1,3 @@
-import memoizee from "memoizee";
-
 import type { Glossary } from "../types";
 import { explodeGlossaryTerms } from "./explodeGlossaryTerms";
 import { insertWebComponentGlossary } from "./insertWebComponentGlossary";
@@ -22,5 +20,5 @@ export const createGlossaryTransform = (glossary: Glossary): ReturnFn => {
     return insertWebComponentGlossary(content, glossaryTerms);
   }
 
-  return memoizee(addGlossary);
+  return addGlossary;
 };

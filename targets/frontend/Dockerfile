@@ -5,12 +5,12 @@ FROM node:$NODE_VERSION AS dist
 
 WORKDIR /
 
-COPY shared/graphql-client/package.json /shared/graphql-client/
-COPY shared/id-generator/package.json /shared/id-generator/
-COPY shared/types/package.json /shared/types/
-COPY targets/frontend/package.json /targets/frontend/
-COPY package.json /
-COPY yarn.lock /
+COPY shared/graphql-client/package.json /shared/graphql-client/package.json
+COPY shared/id-generator/package.json /shared/id-generator/package.json
+COPY shared/types/package.json /shared/types/package.json
+COPY targets/frontend/package.json /targets/frontend/package.json
+COPY package.json /package.json
+COPY yarn.lock /yarn.lock
 
 RUN yarn --frozen-lockfile
 
