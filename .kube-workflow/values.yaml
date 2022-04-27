@@ -43,7 +43,7 @@ jobs:
     restore:
       use: SocialGouv/kube-workflow/jobs/restore-db
       with:
-       restorePath: /hasura_prod_db.psql.gz
+       restorePath: /mnt/restore/hasura_prod_db.psql.gz
       volumeMounts:
         - name: restore
           mountPath: /mnt/restore
