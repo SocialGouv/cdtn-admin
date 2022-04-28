@@ -39,22 +39,3 @@ hasura:
     - secretRef:
         name: hasura
 
-jobs:
-  runs:
-    restore:
-      use: SocialGouv/kube-workflow/jobs/restore-db
-      with:
-       restorePath: /mnt/restore/${LATEST}/hasura_prod_db.psql.gz
-      volumeMounts:
-        - name: restore
-          mountPath: /mnt/restore
-          readOnly: true
-      volumes:
-        - name: restore
-          persistentVolumeClaim:
-            claimName: cdtn-admin-backup-restore-{{ .Values.global.shortSha }}
-    seed:
-      needs: [restore]
-      use: SocialGouv/kube-workflow/jobs/seed-db
-      with:
-        seedPath: /workspace/.kube-workflow/sql/post-restore.sql

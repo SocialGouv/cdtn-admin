@@ -1,6 +1,6 @@
 hasura:
   imagePackage: cdtn-admin-hasura
-  needs: [create-db]
+  needs: [seed]
   envFrom:
     - secretRef:
         name: pg-user-{{ .Values.global.branchSlug }}
@@ -15,8 +15,21 @@ jobs:
       use: SocialGouv/kube-workflow/jobs/create-db
       with:
         pgAdminSecretRefName: azure-pg-admin-user
-    seed-db:
-      needs: [hasura]
+    restore:
+      needs: [create-db]
+      use: SocialGouv/kube-workflow/jobs/restore-db
+      with:
+       restorePath: /mnt/restore/${LATEST}/hasura_prod_db.psql.gz
+      volumeMounts:
+        - name: restore
+          mountPath: /mnt/restore
+          readOnly: true
+      volumes:
+        - name: restore
+          persistentVolumeClaim:
+            claimName: cdtn-admin-backup-restore-{{ .Values.global.shortSha }}
+    seed:
+      needs: [restore]
       use: SocialGouv/kube-workflow/jobs/seed-db
       with:
-        seedPath: "/workspace/sql/post-restore.sql"
+        seedPath: /workspace/.kube-workflow/sql/post-restore.sql
