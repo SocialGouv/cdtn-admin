@@ -11,7 +11,7 @@ const ingester = async (): Promise<string> => {
         process.env.ELASTICSEARCH_URL_PROD,
         process.env.ELASTICSEARCH_TOKEN_INGEST_PROD,
         undefined,
-        process.env.NLP_URL_PROD,
+        process.env.NLP_URL,
         undefined,
         undefined,
         undefined,

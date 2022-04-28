@@ -6,10 +6,7 @@ import { z } from "zod";
 
 import { name } from "../../utils";
 
-const ENVIRONMENT =
-  process.env.NODE_ENV === "production"
-    ? process.env.ENVIRONMENT
-    : "preproduction";
+const ENVIRONMENT = process.env.ENVIRONMENT ?? "dev";
 
 const ValidatorCreateExportEsStatus = z.object({
   environment: z.nativeEnum(Environment),
@@ -25,7 +22,7 @@ export type ValidatorCreateExportEsStatusType = z.infer<
 export class ExportEsRunMiddleware extends BaseMiddleware {
   public handler(req: Request, res: Response, next: NextFunction): void {
     const parse = ValidatorCreateExportEsStatus.safeParse(req.body);
-    if (req.body.environment !== ENVIRONMENT) {
+    if (ENVIRONMENT !== "production") {
       res.status(400).json({
         errors:
           "L'environnement est différent de celui géré par le process.env",
