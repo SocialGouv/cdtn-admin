@@ -25,6 +25,7 @@ app-export:
   ingress:
     enabled: false
   imagePackage: "cdtn-admin-export-elasticsearch"
+  containerPort: 8787
   envFrom:
     - configMapRef:
         name: "export-elasticsearch"
