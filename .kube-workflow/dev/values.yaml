@@ -34,4 +34,4 @@ jobs:
       needs: [restore]
       use: SocialGouv/kube-workflow/jobs/seed-db
       with:
-        seedPath: /workspace/.kube-workflow/sql/post-restore.sql
+        seedPath: .kube-workflow/sql/post-restore.sql
