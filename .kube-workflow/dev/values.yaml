@@ -18,11 +18,9 @@ jobs:
     restore:
       needs: [create-db]
       use: SocialGouv/kube-workflow/jobs/restore-db
-      with:
-       restorePath: /mnt/restore/${LATEST}/hasura_prod_db.psql.gz
       volumeMounts:
         - name: restore
-          mountPath: /mnt/restore
+          mountPath: /mnt/data
           readOnly: true
       volumes:
         - name: restore
