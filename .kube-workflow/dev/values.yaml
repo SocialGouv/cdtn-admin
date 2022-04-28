@@ -12,7 +12,7 @@ hasura:
 jobs:
   runs:
     drop-db: # temp
-      use: SocialGouv/kube-workflow/jobs/create-db
+      use: SocialGouv/kube-workflow/jobs/drop-db
       with:
         pgAdminSecretRefName: azure-pg-admin-user
     create-db:
