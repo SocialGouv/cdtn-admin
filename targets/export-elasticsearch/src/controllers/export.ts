@@ -1,6 +1,5 @@
-import type { ExportEsStatus } from "@shared/types";
-import { Environment } from "@shared/types";
-import { Request, Response } from "express";
+import type { Environment, ExportEsStatus } from "@shared/types";
+import type { Request, Response } from "express";
 import { inject } from "inversify";
 import type { interfaces } from "inversify-express-utils";
 import {

@@ -21,6 +21,7 @@ app-www:
       memory: "128Mi"
 
 app-export:
+  probesPath: /healthz
   ingress:
     enabled: false
   imagePackage: "cdtn-admin-export-elasticsearch"
