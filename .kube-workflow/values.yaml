@@ -31,7 +31,6 @@ app-export:
         name: "export-elasticsearch"
 
 hasura:
-  needs: [seed]
   imagePackage: cdtn-admin-hasura
   envFrom:
     - configMapRef:
