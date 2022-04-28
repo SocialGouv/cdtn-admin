@@ -9,9 +9,6 @@ app-www:
   env:
     - name: "FRONTEND_HOST"
       value: "{{.Values.global.host}}"
-  ingress:
-    annotations:
-      "nginx.ingress.kubernetes.io/whitelist-source-range": "123.456.456.789,42.0.0.0/8"
   resources:
     limits:
       cpu: "1000m"
