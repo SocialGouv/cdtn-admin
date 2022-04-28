@@ -2,15 +2,18 @@ import {
   createIndex,
   indexDocumentsBatched,
   suggestionMapping,
+  //@ts-expect-error
 } from "@socialgouv/cdtn-elasticsearch";
 import fs from "fs";
 import { join } from "path";
 import readline from "readline";
 
-async function pushSuggestions({ client, indexName, data }) {
-  const BUFFER_SIZE = process.env.BUFFER_SIZE || 20000;
+import { context } from "./context";
 
-  const mappedSuggestions = data.map((entity) => {
+async function pushSuggestions({ client, indexName, data }: any) {
+  const BUFFER_SIZE = context.get("bufferSize") || 20000;
+
+  const mappedSuggestions = data.map((entity: any) => {
     return { ranking: entity.value, title: entity.entity };
   });
 
@@ -22,10 +25,14 @@ async function pushSuggestions({ client, indexName, data }) {
   });
 }
 
-export async function populateSuggestions(client, indexName) {
-  const SUGGEST_FILE = process.env.SUGGEST_FILE || "./dataset/suggestions.txt";
-  const BUFFER_SIZE = process.env.BUFFER_SIZE || 20000;
-
+export async function populateSuggestions(
+  client: any,
+  indexName: any,
+  suggestFile = "./dataset/suggestions.txt",
+  bufferSize = 20000
+) {
+  const SUGGEST_FILE = context.get("suggestFile") || suggestFile;
+  const BUFFER_SIZE = context.get("bufferSize") || bufferSize;
   await createIndex({
     client,
     indexName,
@@ -34,11 +41,10 @@ export async function populateSuggestions(client, indexName) {
 
   const promiseStream = new Promise((resolve) => {
     const stream = readline.createInterface({
-      console: false,
       input: fs.createReadStream(join(process.cwd(), SUGGEST_FILE)),
     });
 
-    let suggestionsBuffer = [];
+    let suggestionsBuffer: any = [];
     stream.on("line", async function (line) {
       // parse JSON representing a suggestion entity {entity: suggestion, value: weight}
       const entity = JSON.parse(line);
@@ -54,7 +60,7 @@ export async function populateSuggestions(client, indexName) {
     stream.on("close", async function () {
       if (suggestionsBuffer.length > 0) {
         await pushSuggestions({ client, data: suggestionsBuffer, indexName });
-        resolve();
+        resolve("");
       }
     });
   });

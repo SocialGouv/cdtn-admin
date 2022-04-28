@@ -5,7 +5,10 @@ import { inject, injectable } from "inversify";
 
 import { ExportRepository } from "../repositories";
 import { getName, name } from "../utils";
-import { runWorkerIngester } from "../workers";
+import {
+  runWorkerIngesterPreproduction,
+  runWorkerIngesterProduction,
+} from "../workers";
 import { CopyContainerService } from "./copy";
 import { SitemapService } from "./sitemap";
 
@@ -38,16 +41,19 @@ export class ExportService {
         environment,
         Status.running
       );
-      runWorkerIngester()
-        .then(async () => this.copyContainerService.runCopy())
-        .then(async () => this.sitemapService.uploadSitemap())
-        .then(async () =>
-          this.exportRepository.updateOne(id, Status.completed, new Date())
-        )
-        .catch(async (error: string) => {
-          console.error(error);
-          await this.exportRepository.updateOne(id, Status.failed, new Date());
-        });
+      try {
+        if (environment === Environment.preproduction) {
+          await runWorkerIngesterPreproduction();
+        } else {
+          await runWorkerIngesterProduction();
+        }
+        await this.copyContainerService.runCopy();
+        await this.sitemapService.uploadSitemap();
+        await this.exportRepository.updateOne(id, Status.completed, new Date());
+      } catch (e) {
+        console.error(e);
+        await this.exportRepository.updateOne(id, Status.failed, new Date());
+      }
       return createdResult;
     } else {
       throw new Error("There is already a running job");
