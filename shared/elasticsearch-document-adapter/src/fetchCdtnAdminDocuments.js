@@ -1,10 +1,10 @@
 import fetch from "node-fetch";
 import PQueue from "p-queue";
 
+import { context } from "./context";
+
 const PAGE_SIZE = 200;
 const JOB_CONCURRENCY = 5;
-const CDTN_ADMIN_ENDPOINT =
-  process.env.CDTN_ADMIN_ENDPOINT || "http://localhost:8080/v1/graphql";
 
 const gqlRequestBySource = (source, offset = 0, limit = null) =>
   JSON.stringify({
@@ -76,6 +76,8 @@ const gqlGlossary = () =>
   });
 
 export async function getGlossary() {
+  const CDTN_ADMIN_ENDPOINT =
+    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const result = await fetch(CDTN_ADMIN_ENDPOINT, {
     body: gqlGlossary(),
     method: "POST",
@@ -123,6 +125,8 @@ export async function getDocumentBySourceWithRelation(source, getBreadcrumbs) {
 const createDocumentsFetcher =
   (gqlRequest = gqlRequestBySource) =>
   async (source, { pageSize = PAGE_SIZE, concurrency = JOB_CONCURRENCY }) => {
+    const CDTN_ADMIN_ENDPOINT =
+      context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
     const nbDocResult = await fetch(CDTN_ADMIN_ENDPOINT, {
       body: gqlAgreggateDocumentBySource(source),
       method: "POST",

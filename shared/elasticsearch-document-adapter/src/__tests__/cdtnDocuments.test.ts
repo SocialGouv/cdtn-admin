@@ -1,9 +1,11 @@
 import { getDuplicateSlugs } from "../cdtnDocuments";
+import { context } from "../context";
 
 jest.mock("@socialgouv/cdtn-logger");
 
 describe("getDuplicateSlug", () => {
   test("should return an empty array if there is no duplicate slug", async () => {
+    context.provide();
     const documents = [
       [
         { slug: "slug-1", source: "cdt" },
@@ -19,6 +21,7 @@ describe("getDuplicateSlug", () => {
   });
 
   test("should return an array of duplicated slug", async () => {
+    context.provide();
     const documents = [
       [
         { slug: "slug-1", source: "cdt" },

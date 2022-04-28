@@ -1,14 +1,16 @@
 import {
   createIndex,
   indexDocumentsBatched,
+  //@ts-expect-error
 } from "@socialgouv/cdtn-elasticsearch";
 
+import { context } from "./context";
 import { populateSuggestions } from "./suggestion";
 
 jest.mock("@socialgouv/cdtn-elasticsearch");
 
-process.env.SUGGEST_FILE = "./__fixtures__/suggestion_data_test.txt";
-process.env.BUFFER_SIZE = "10";
+const suggestFile = "./__fixtures__/suggestion_data_test.txt";
+const bufferSize = 10;
 
 const testCasesCount = 25;
 
@@ -17,20 +19,22 @@ afterEach(() => {
 });
 
 test("should create suggestionIndex", async () => {
-  await populateSuggestions("client", process.env.SUGGEST_FILE);
+  context.provide();
+  await populateSuggestions("client", suggestFile, suggestFile, bufferSize);
   expect(createIndex).toHaveBeenCalledTimes(1);
 
   expect(createIndex.mock.calls[0][0].client).toBe("client");
-  expect(createIndex.mock.calls[0][0].indexName).toBe(process.env.SUGGEST_FILE);
+  expect(createIndex.mock.calls[0][0].indexName).toBe(suggestFile);
 });
 
 test("should pushSuggestion", async () => {
-  await populateSuggestions("client", process.env.SUGGEST_FILE);
+  context.provide();
+  await populateSuggestions("client", suggestFile, suggestFile, bufferSize);
   expect(indexDocumentsBatched).toHaveBeenCalledTimes(
-    Math.ceil(testCasesCount / process.env.BUFFER_SIZE)
+    Math.ceil(testCasesCount / bufferSize)
   );
   expect(indexDocumentsBatched.mock.calls[0][0].client).toBe("client");
-  expect(createIndex.mock.calls[0][0].indexName).toBe(process.env.SUGGEST_FILE);
+  expect(createIndex.mock.calls[0][0].indexName).toBe(suggestFile);
   expect(indexDocumentsBatched.mock.calls[0][0].documents)
     .toMatchInlineSnapshot(`
       Array [

@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";
 import { buildThemes } from "./buildThemes";
+import { context } from "./context";
 import {
   getDocumentBySource,
   getDocumentBySourceWithRelation,
@@ -14,11 +15,6 @@ import { createGlossaryTransform } from "./glossary";
 import { markdownTransform } from "./markdown";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
-
-const CDTN_ADMIN_ENDPOINT =
-  process.env.CDTN_ADMIN_ENDPOINT || "http://localhost:8080/v1/graphql";
-
-console.error(`Accessing cdtn admin on ${CDTN_ADMIN_ENDPOINT}`);
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -72,6 +68,10 @@ export async function getDuplicateSlugs(allDocuments: any) {
 }
 
 export async function* cdtnDocumentsGen() {
+  const CDTN_ADMIN_ENDPOINT =
+    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
+
+  console.error(`Accessing cdtn admin on ${CDTN_ADMIN_ENDPOINT}`);
   const themesQueryResult = await fetch(CDTN_ADMIN_ENDPOINT, {
     body: themesQuery,
     method: "POST",

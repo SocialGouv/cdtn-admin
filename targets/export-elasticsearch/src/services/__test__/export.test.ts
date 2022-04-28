@@ -4,7 +4,7 @@ import timekeeper from "timekeeper";
 import { ExportRepository } from "../../repositories";
 import { rootContainer } from "../../server";
 import { getName } from "../../utils";
-import { runWorkerIngester } from "../../workers";
+import { runWorkerIngesterPreproduction } from "../../workers";
 import { CopyContainerService } from "../copy";
 import { ExportService } from "../export";
 import { SitemapService } from "../sitemap";
@@ -14,7 +14,7 @@ import { FakeSitemapService } from "./fake/sitemap";
 
 jest.mock("../../workers", () => {
   return {
-    runWorkerIngester: jest.fn(async () => {
+    runWorkerIngesterPreproduction: jest.fn(async () => {
       return new Promise<void>((resolve) => {
         resolve();
       });
@@ -130,7 +130,7 @@ describe("ExportService", () => {
         const spy = jest.spyOn(mockRepository, "updateOne");
         await service.runExport("ABC", Environment.preproduction);
         expect(spy).toHaveBeenCalledTimes(1);
-        expect(runWorkerIngester).toHaveBeenCalledTimes(1);
+        expect(runWorkerIngesterPreproduction).toHaveBeenCalledTimes(1);
       });
 
       it("should clean previous job because launched > 1h", async () => {
