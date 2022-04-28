@@ -19,8 +19,9 @@ jobs:
       needs: [create-db]
       use: SocialGouv/kube-workflow/jobs/restore-db
       with:
-       mountPath: /mnt/restore
-       restorePath: "${LATEST}/hasura_prod_db.psql.gz"
+        mountPath: /mnt/restore
+        restorePath: "${LATEST}/hasura_prod_db.psql.gz"
+        pgAdminSecretRefName: azure-pg-admin-user
       volumeMounts:
         - name: restore
           mountPath: /mnt/restore
