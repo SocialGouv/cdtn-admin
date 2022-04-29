@@ -101,10 +101,10 @@ describe("ExportController /export", () => {
         userId: "890ca91b-f150-4957-9bb2-8500940815f0",
       });
       expect(res.statusCode).toEqual(400);
-      expect(res.body).toEqual(
+      expect(res.body.errors[0]).toEqual(
         expect.objectContaining({
-          errors:
-            "L'environnement est différent de celui géré par le process.env",
+          message:
+            "Invalid enum value. Expected 'production' | 'preproduction'",
         })
       );
     });
@@ -135,10 +135,10 @@ describe("ExportController /export", () => {
         userId: "890ca91b-f150-4957-9bb2-8500940815f0",
       });
       expect(res.statusCode).toEqual(400);
-      expect(res.body).toEqual(
+      expect(res.body.errors[0]).toEqual(
         expect.objectContaining({
-          errors:
-            "L'environnement est différent de celui géré par le process.env",
+          message:
+            "Invalid enum value. Expected 'production' | 'preproduction'",
         })
       );
     });

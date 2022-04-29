@@ -6,7 +6,10 @@ import { z } from "zod";
 
 import { name } from "../../utils";
 
-const ENVIRONMENT = process.env.ENVIRONMENT ?? "dev";
+const ENVIRONMENT =
+  process.env.NODE_ENV === "production"
+    ? process.env.ENVIRONMENT ?? "dev"
+    : "production";
 
 const ValidatorCreateExportEsStatus = z.object({
   environment: z.nativeEnum(Environment),
