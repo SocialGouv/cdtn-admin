@@ -1,4 +1,4 @@
-import { Environment, ExportEsStatus } from "@shared/types";
+import { Environment, ExportEsStatus, Status, User } from "@shared/types";
 import { useState } from "react";
 import { serializeError } from "serialize-error";
 
@@ -14,7 +14,7 @@ type ExportEsState = {
 export function useExportEs(): [
   ExportEsState,
   () => void,
-  (environment: Environment, userId: string) => void
+  (environment: Environment, user: User) => void
 ] {
   const [state, setState] = useState<ExportEsState>({
     error: null,
@@ -57,11 +57,30 @@ export function useExportEs(): [
       });
   };
 
-  const runExportEs = (environment: Environment, userId: string) => {
+  const runExportEs = (environment: Environment, user: User) => {
+    const newExportEs: ExportEsStatus = {
+      created_at: new Date(),
+      environment,
+      id: "0",
+      status: Status.running,
+      updated_at: new Date(),
+      user,
+      user_id: user.id,
+    };
+    setState((state) => ({
+      ...state,
+      exportData: [newExportEs, ...state.exportData],
+      ...Object.assign(
+        environment === Environment.preproduction
+          ? { latestExportPreproduction: newExportEs }
+          : { latestExportProduction: newExportEs },
+        {}
+      ),
+    }));
     fetch("api/export", {
       body: JSON.stringify({
         environment,
-        userId,
+        userId: user.id,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -82,13 +101,32 @@ export function useExportEs(): [
               ? { latestExportPreproduction: data }
               : { latestExportProduction: data }
           ),
-          exportData: [...state.exportData, data],
+          exportData: [data, ...state.exportData].filter((x) => x.id !== "0"),
         }));
       })
       .catch((error) => {
         setState((state) => ({
           ...state,
           error: serializeError(error),
+          ...Object.assign(
+            {},
+            environment === Environment.preproduction
+              ? {
+                  latestExportPreproduction: {
+                    ...newExportEs,
+                    status: Status.failed,
+                  },
+                }
+              : {
+                  latestExportProduction: {
+                    ...newExportEs,
+                    status: Status.failed,
+                  },
+                }
+          ),
+          exportData: state.exportData.map((x) =>
+            x.id === "0" ? { ...x, status: Status.failed } : x
+          ),
         }));
       });
   };

@@ -20,7 +20,7 @@ export function UpdatePage(): JSX.Element {
 
   const { user }: any = useUser();
 
-  const onTrigger = (env: Environment) => runExportEs(env, user.id);
+  const onTrigger = (env: Environment) => runExportEs(env, user);
 
   useEffect(() => {
     getExportEs();

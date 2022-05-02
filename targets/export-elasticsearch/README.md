@@ -84,6 +84,19 @@ hasura console --envfile ../../.env --project targets/hasura
 
 ### 6. Run the export elasticsearch
 
+#### With cURL
+
 ```sh
 curl -X POST -H "Content-Type: application/json" -d '{"environment": "preproduction", "userId": "6ea2dd9f-8017-4375-bcfe-dbce35c600b3"}' http://localhost:8787/export # thanks to id of the user found
 ```
+
+#### With frontend ui
+
+```sh
+yarn workspace frontend dev
+```
+
+1. Go to `http://localhost:3000/`
+2. Connect to the frontend ui with `codedutravailnumerique@travail.gouv.fr` and `admin` as password.
+3. Navigate to `Mise à jour`
+4. Click on `Mettre à jour la pre-production` or `Mettre à jour la production`
