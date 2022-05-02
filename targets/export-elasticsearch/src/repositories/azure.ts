@@ -90,8 +90,7 @@ export class AzureRepository {
       destinationContainerName
     );
     await destinationContainer.createIfNotExists();
-    const listBlobsResponse = sourceContainer.listBlobsFlat();
-    for await (const blob of listBlobsResponse) {
+    for await (const blob of sourceContainer.listBlobsFlat()) {
       const sourceBlob = sourceContainer.getBlobClient(blob.name);
       const destinationBlob = destinationContainer.getBlobClient(
         sourceBlob.name

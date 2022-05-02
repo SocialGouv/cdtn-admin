@@ -35,7 +35,7 @@ export class ExportService {
     }
     if (runningResult.length === 0 || isReadyToRun) {
       const id = randomUUID();
-      const createdResult = await this.exportRepository.create(
+      await this.exportRepository.create(
         id,
         userId,
         environment,
@@ -47,14 +47,21 @@ export class ExportService {
         } else {
           await runWorkerIngesterProduction();
         }
-        await this.copyContainerService.runCopy();
         await this.sitemapService.uploadSitemap();
-        await this.exportRepository.updateOne(id, Status.completed, new Date());
+        await this.copyContainerService.runCopy();
+        return await this.exportRepository.updateOne(
+          id,
+          Status.completed,
+          new Date()
+        );
       } catch (e) {
         console.error(e);
-        await this.exportRepository.updateOne(id, Status.failed, new Date());
+        return await this.exportRepository.updateOne(
+          id,
+          Status.failed,
+          new Date()
+        );
       }
-      return createdResult;
     } else {
       throw new Error("There is already a running job");
     }

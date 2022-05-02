@@ -5,7 +5,7 @@ const ingester = async (): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     try {
       await ingest(
-        process.env.CDTN_ADMIN_ENDPOINT_PROD,
+        process.env.CDTN_ADMIN_ENDPOINT,
         process.env.ES_LOGS_PROD,
         process.env.ES_LOGS_TOKEN_PROD,
         process.env.ELASTICSEARCH_URL_PROD,
