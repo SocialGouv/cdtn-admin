@@ -237,7 +237,7 @@ Ce script utilise les variables suivantes :
 
 Certaines variables permettent d'activer une fonctionnalité :
 
-- `NLP_URL` permet d'activer la vectorisation des documents pour la recherche. Pour l'activer, vous pouvez utiliser l'URL <https://serving-ml-preprod.dev.fabrique.social.gouv.fr>.
+- `NLP_URL` permet d'activer la vectorisation des documents pour la recherche. Pour l'activer, vous pouvez utiliser l'URL <https://serving-ml.fabrique.social.gouv.fr>.
 - `ES_LOGS` et `ES_LOGS_TOKEN` permettent d'activer les `Articles liés`. Pour l'activer, vous pouvez récupérer ces informations depuis Rancher.
 
 #### Tester localement l'ingester ES avec le frontend
@@ -247,7 +247,7 @@ docker-compose up -d postgres
 docker-compose up -d hasura
 docker-compose up -d elasticsearch # côté cdtn-frontend
 yarn build && ES_INDEX_PREFIX=cdtn-v1 yarn workspace ingester-es start:dev
-ELASTICSEARCH_URL=http://localhost:9200 yarn dev:api # côté cdtn-frontend
+NLP_URL=https://serving-ml.fabrique.social.gouv.fr yarn dev:api # côté cdtn-frontend
 API_URL=http://localhost:1337/api/v1 yarn workspace @cdt/frontend dev # côté cdtn-frontend
 ```
 
