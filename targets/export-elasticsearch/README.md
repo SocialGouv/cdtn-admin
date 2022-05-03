@@ -71,6 +71,8 @@ To get latest shared package version:
 yarn build
 ```
 
+> :warning: You have to run `yarn build` before running the ingester if you change a file in the shared package.
+
 ### 5. Run ingester in development mode
 
 ```sh
