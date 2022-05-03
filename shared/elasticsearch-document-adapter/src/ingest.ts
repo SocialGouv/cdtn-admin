@@ -67,6 +67,7 @@ export async function ingest(
   disableGlossary: boolean | undefined
 ) {
   context.provide();
+  process.env.NLP_URL = nlpUrl; //pour setter la variable d'environment du package elasticsearch...
   await runIngester(
     cdtnAdminEndpoint,
     esLogs,
