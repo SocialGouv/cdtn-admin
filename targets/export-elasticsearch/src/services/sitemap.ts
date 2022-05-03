@@ -15,7 +15,8 @@ export class SitemapService {
     destinationContainer = process.env.SITEMAP_DESTINATION_CONTAINER ?? "",
     destinationName = process.env.SITEMAP_DESTINATION_NAME ?? ""
   ): Promise<string> {
-    return this.repo.getFile(destinationContainer, destinationName);
+    const data = await this.repo.getFile(destinationContainer, destinationName);
+    return data;
   }
 
   async uploadSitemap(
@@ -23,7 +24,7 @@ export class SitemapService {
     destinationContainer = process.env.SITEMAP_DESTINATION_CONTAINER ?? "",
     destinationName = process.env.SITEMAP_DESTINATION_NAME ?? ""
   ): Promise<void> {
-    return this.repo.uploadFile(
+    await this.repo.uploadFile(
       sitemapEndpoint,
       destinationContainer,
       destinationName

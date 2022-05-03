@@ -5,8 +5,7 @@ const { stopwords: semantic_stopwords } = require("../dataset/stop_words");
 
 // URL of the TF serve deployment
 const NLP_URL =
-  process.env.NLP_URL ||
-  "https://serving-ml.fabrique.social.gouv.fr";
+  process.env.NLP_URL || "https://serving-ml.fabrique.social.gouv.fr";
 const tfServeURL = NLP_URL + "/v1/models/sentqam:predict";
 
 function stripAccents(text) {
