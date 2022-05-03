@@ -10,7 +10,7 @@ const ingester = async (): Promise<string> => {
         process.env.ES_LOGS_TOKEN_PROD,
         process.env.ELASTICSEARCH_URL_PROD,
         process.env.ELASTICSEARCH_TOKEN_INGEST_PROD,
-        undefined,
+        process.env.ELASTICSEARCH_INDEX_PROD,
         process.env.NLP_URL,
         undefined,
         undefined,
