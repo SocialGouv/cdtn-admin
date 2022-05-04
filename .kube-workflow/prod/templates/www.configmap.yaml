@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: www-env
+  name: www
 data:
   ACCOUNT_MAIL_SENDER: "contact@fabrique.social.gouv.fr"
   GITLAB_PROJECT_ID: "270"
