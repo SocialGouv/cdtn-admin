@@ -64,7 +64,7 @@ export class AzureRepository {
     return downloaded;
   }
 
-  async uploadFile(
+  async uploadSitemap(
     sitemapEndpoint: string,
     destinationContainer: string,
     destinationName: string
@@ -75,9 +75,12 @@ export class AzureRepository {
     const response = await axios.get(sitemapEndpoint);
     const data: string = response.data;
     const buffer = Buffer.from(data, "utf8");
-    const content = Readable.from(buffer);
     const blockBlobClient = containerClient.getBlockBlobClient(destinationName);
-    await blockBlobClient.uploadStream(content);
+    await blockBlobClient.uploadData(buffer, {
+      blobHTTPHeaders: {
+        blobContentType: "text/xml",
+      },
+    });
   }
 
   async copyBucket(

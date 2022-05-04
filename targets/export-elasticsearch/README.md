@@ -46,7 +46,7 @@ docker-compose up -d elasticsearch
 
 ```sh
 npm install -g azurite # to install azurite
-azurite --loose # to run azurite
+azurite # to run azurite
 ```
 
 ### 3. Restore the database
@@ -68,10 +68,11 @@ docker-compose exec -T postgres psql \
 To get latest shared package version:
 
 ```sh
-yarn build
+yarn build # For building the code with typechecking
+yarn # To link dependencies
 ```
 
-> :warning: You have to run `yarn build` before running the ingester if you change a file in the shared package.
+> :warning: You have to run this command before running the ingester if you change a file in the shared package.
 
 ### 5. Run ingester in development mode
 

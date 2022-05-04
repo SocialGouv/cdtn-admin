@@ -24,7 +24,7 @@ export class SitemapService {
     destinationContainer = process.env.SITEMAP_DESTINATION_CONTAINER ?? "",
     destinationName = process.env.SITEMAP_DESTINATION_NAME ?? ""
   ): Promise<void> {
-    await this.repo.uploadFile(
+    await this.repo.uploadSitemap(
       sitemapEndpoint,
       destinationContainer,
       destinationName
