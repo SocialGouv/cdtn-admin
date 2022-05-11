@@ -47,6 +47,8 @@ docker-compose up -d elasticsearch
 ```sh
 npm install -g azurite # to install azurite
 azurite # to run azurite
+# or
+docker-compose up -d azurite # to run azurite with docker-compose
 ```
 
 ### 3. Restore the database

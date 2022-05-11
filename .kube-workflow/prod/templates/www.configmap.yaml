@@ -17,4 +17,4 @@ data:
   SENTRY_DSN: "https://a5e2451c6b5840c0afa28d5e94060427@sentry.fabrique.social.gouv.fr/42"
   SMTP_URL: "smtp.tipimail.com"
   STORAGE_CONTAINER: "cdtn"
-  URL_EXPORT: "http://app-export/"
+  URL_EXPORT: "http://app-export"
