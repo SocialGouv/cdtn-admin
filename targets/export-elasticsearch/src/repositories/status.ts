@@ -36,7 +36,6 @@ export class ExportRepository {
           }
         )
         .toPromise();
-      logger.info(res);
       if (res.error) {
         throw res.error;
       }
@@ -154,7 +153,6 @@ export class ExportRepository {
       const res = await client
         .query<{ export_es_status: ExportEsStatus[] }>(getAllExport)
         .toPromise();
-      logger.info(res);
       if (res.error) {
         throw res.error;
       }
