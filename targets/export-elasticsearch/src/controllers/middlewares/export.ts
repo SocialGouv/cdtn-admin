@@ -25,7 +25,10 @@ export type ValidatorCreateExportEsStatusType = z.infer<
 export class ExportEsRunMiddleware extends BaseMiddleware {
   public handler(req: Request, res: Response, next: NextFunction): void {
     const parse = ValidatorCreateExportEsStatus.safeParse(req.body);
-    if (ENVIRONMENT !== "production") {
+    if (
+      ENVIRONMENT !== "production" &&
+      req.body.environment === Environment.production
+    ) {
       res.status(400).json({
         errors:
           "L'environnement est différent de celui géré par le process.env",
