@@ -19,8 +19,6 @@ export const fetchCovisits = async (doc) => {
         }, Covisites won't be available in related items.`
       );
     }
-  } else {
-    logger.info(`Accessing Monolog Elastic Search logs on ${ES_LOGS}`);
   }
 
   const esClientConfig = {

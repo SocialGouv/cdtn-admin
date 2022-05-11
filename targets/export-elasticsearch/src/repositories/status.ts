@@ -1,5 +1,6 @@
 import { client } from "@shared/graphql-client";
 import type { Environment, ExportEsStatus, Status } from "@shared/types";
+import { logger } from "@socialgouv/cdtn-logger";
 import { injectable } from "inversify";
 
 import { name } from "../utils";
@@ -23,24 +24,30 @@ export class ExportRepository {
     environment: Environment,
     status: Status
   ): Promise<ExportEsStatus> {
-    const res = await client
-      .mutation<{ insert_export_es_status_one: ExportEsStatus }>(
-        createExportEsStatus,
-        {
-          environment,
-          id,
-          status,
-          user_id: userId,
-        }
-      )
-      .toPromise();
-    if (res.error) {
-      throw res.error;
+    try {
+      const res = await client
+        .mutation<{ insert_export_es_status_one: ExportEsStatus }>(
+          createExportEsStatus,
+          {
+            environment,
+            id,
+            status,
+            user_id: userId,
+          }
+        )
+        .toPromise();
+      logger.info(res);
+      if (res.error) {
+        throw res.error;
+      }
+      if (!res.data?.insert_export_es_status_one) {
+        throw new Error("Failed to create export, undefined object");
+      }
+      return res.data.insert_export_es_status_one;
+    } catch (e) {
+      logger.error(e);
+      throw e;
     }
-    if (!res.data?.insert_export_es_status_one) {
-      throw new Error("Failed to create export, undefined object");
-    }
-    return res.data.insert_export_es_status_one;
   }
 
   public async updateOne(
@@ -143,16 +150,22 @@ export class ExportRepository {
   }
 
   public async getAll(): Promise<ExportEsStatus[]> {
-    const res = await client
-      .query<{ export_es_status: ExportEsStatus[] }>(getAllExport)
-      .toPromise();
-    if (res.error) {
-      throw res.error;
+    try {
+      const res = await client
+        .query<{ export_es_status: ExportEsStatus[] }>(getAllExport)
+        .toPromise();
+      logger.info(res);
+      if (res.error) {
+        throw res.error;
+      }
+      if (!res.data?.export_es_status) {
+        throw new Error("Failed to get, undefined object");
+      }
+      return res.data.export_es_status;
+    } catch (e) {
+      logger.error(e);
+      throw e;
     }
-    if (!res.data?.export_es_status) {
-      throw new Error("Failed to get, undefined object");
-    }
-    return res.data.export_es_status;
   }
 
   public async getByStatus(status: Status): Promise<ExportEsStatus[]> {

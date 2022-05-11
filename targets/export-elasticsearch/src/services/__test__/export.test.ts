@@ -101,7 +101,7 @@ describe("ExportService", () => {
         const spy = jest.spyOn(mockRepository, "updateOne");
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        await service.cleanOldRunningJob({
+        await service.cleanPreviousExport({
           created_at: date,
           environment: Environment.preproduction,
           id: "1",
@@ -142,7 +142,7 @@ describe("ExportService", () => {
         const spy = jest.spyOn(mockRepository, "updateOne");
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        await service.cleanOldRunningJob({
+        await service.cleanPreviousExport({
           created_at: oldDate,
           environment: Environment.preproduction,
           id: "1",

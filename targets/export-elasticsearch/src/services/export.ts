@@ -1,5 +1,6 @@
 import type { ExportEsStatus } from "@shared/types";
 import { Environment, Status } from "@shared/types";
+import { logger } from "@socialgouv/cdtn-logger";
 import { randomUUID } from "crypto";
 import { inject, injectable } from "inversify";
 
@@ -28,10 +29,11 @@ export class ExportService {
     userId: string,
     environment: Environment
   ): Promise<ExportEsStatus> {
+    logger.info(`[${userId}] run export for ${environment}`);
     let isReadyToRun = false;
-    const runningResult = await this.getRunningJob();
+    const runningResult = await this.getRunningExport();
     if (runningResult.length > 0) {
-      isReadyToRun = await this.cleanOldRunningJob(runningResult[0]); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
+      isReadyToRun = await this.cleanPreviousExport(runningResult[0]); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
     }
     if (runningResult.length === 0 || isReadyToRun) {
       const id = randomUUID();
@@ -90,11 +92,11 @@ export class ExportService {
     };
   }
 
-  private async getRunningJob(): Promise<ExportEsStatus[]> {
+  private async getRunningExport(): Promise<ExportEsStatus[]> {
     return this.exportRepository.getByStatus(Status.running);
   }
 
-  private async cleanOldRunningJob(
+  private async cleanPreviousExport(
     runningResult: ExportEsStatus,
     hour = 1 // job created 1 hour ago
   ): Promise<boolean> {
