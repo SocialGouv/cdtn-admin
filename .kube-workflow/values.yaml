@@ -40,8 +40,9 @@ hasura:
   imagePackage: cdtn-admin-hasura
   containerPort: 80 # TODO migrate hasura to v2 and make it rootless to be PSP compliant, then remove this line
   envFrom:
+    - secretRef:
+        name: pg-user-{{ .Values.global.branchSlug }}
     - configMapRef:
         name: hasura
     - secretRef:
         name: hasura
-
