@@ -50,7 +50,7 @@ jobs:
     needs: [register]
     environment:
       name: preproduction
-      url: https://cdtn-admin-preprod.dev.fabrique.social.gouv.fr/
+      url: https://preprod-cdtn-admin.dev.fabrique.social.gouv.fr/
     steps:
       - uses: SocialGouv/kube-workflow@master
         with:
