@@ -47,20 +47,28 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        images:
-          [
-            "cdtn-admin-frontend",
-            "cdtn-admin-hasura",
-            "cdtn-admin-ingester",
-            "cdtn-admin-export-elasticsearch",
-            "cdtn-admin-alert-cli",
-          ]
+        include:
+          - images: "cdtn-admin-frontend"
+            path: "./targets/frontend"
+            context: "."
+          - images: "cdtn-admin-hasura"
+            path: "./targets/hasura"
+            context: "./targets/hasura"
+          - images: "cdtn-admin-ingester"
+            path: "./targets/ingester"
+            context: "."
+          - images: "cdtn-admin-alert-cli"
+            path: "./targets/alert-cli"
+            context: "."
+          - images: "cdtn-admin-export-elasticsearch"
+            path: "./targets/export-elasticsearch"
+            context: "."
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Build ${{ matrix.images }} from Dockerfile
         run: |
-          docker build -t ghcr.io/socialgouv/cdtn-admin/${{ matrix.images }}:sha-${{ github.sha }} .
+          docker build -t ghcr.io/socialgouv/cdtn-admin/${{ matrix.images }}:sha-${{ github.sha }} -f ${{ matrix.path }}/Dockerfile ${{ matrix.context }}
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
