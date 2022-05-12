@@ -64,11 +64,6 @@ jobs:
             path: "./targets/export-elasticsearch"
             context: "."
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Build ${{ matrix.images }} from Dockerfile
-        run: |
-          docker build -t ghcr.io/socialgouv/cdtn-admin/${{ matrix.images }}:sha-${{ github.sha }} -f ${{ matrix.path }}/Dockerfile ${{ matrix.context }}
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
