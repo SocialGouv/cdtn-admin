@@ -40,6 +40,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           dockerfile: "${{ matrix.path }}/Dockerfile"
           dockercontext: "${{ matrix.context }}"
+          environment: prod
 
   deploy:
     name: Deploy
