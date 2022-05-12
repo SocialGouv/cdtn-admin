@@ -1,4 +1,3 @@
-import type { OperationResult } from "@shared/graphql-client";
 import { client } from "@shared/graphql-client";
 import type { SourceValues } from "@socialgouv/cdtn-sources";
 import memoizee from "memoizee";
@@ -28,9 +27,7 @@ const createDocumentsFetcher =
   >(
     gqlRequest = getAllDocumentsBySourceQuery
   ) =>
-  async (
-    source: SourceValues[]
-  ): Promise<PromiseSettledResult<OperationResult<T>>[]> => {
+  async (source: SourceValues[]) => {
     const countResult = await client
       .query<CountDocumentsBySourceResult>(countDocumentsBySourceQuery, {
         source,

@@ -3,10 +3,9 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";
+import { context } from "./context";
 
 const LIMIT = 300;
-const CDTN_ADMIN_ENDPOINT =
-  process.env.CDTN_ADMIN_ENDPOINT || "http://localhost:8080/v1/graphql";
 
 const gqlAgreggateDocumentBySource = (source) =>
   JSON.stringify({
@@ -67,6 +66,8 @@ const themesQuery = JSON.stringify({
 });
 
 async function fetchDocuments(source, page) {
+  const CDTN_ADMIN_ENDPOINT =
+    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   return fetch(CDTN_ADMIN_ENDPOINT, {
     body: gqlRequestBySource(source, page * LIMIT, LIMIT),
     method: "POST",
@@ -82,6 +83,8 @@ async function fetchDocuments(source, page) {
 }
 
 async function fetchGlossary() {
+  const CDTN_ADMIN_ENDPOINT =
+    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   return fetch(CDTN_ADMIN_ENDPOINT, {
     body: JSON.stringify({
       query: `{
@@ -115,6 +118,8 @@ async function batchPromises(items, handler, batchSize) {
 }
 
 async function getDocuments() {
+  const CDTN_ADMIN_ENDPOINT =
+    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const glossary = await fetchGlossary();
   const glossaryTerms = glossary.map(({ term }) => ({
     modified: new Date(),
@@ -175,6 +180,8 @@ function escapeText(text = "") {
 }
 
 async function main() {
+  const CDTN_ADMIN_ENDPOINT =
+    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const themesQueryResult = await fetch(CDTN_ADMIN_ENDPOINT, {
     body: themesQuery,
     method: "POST",

@@ -1,0 +1,62 @@
+{
+  "private": true,
+  "name": "export-elasticsearch",
+  "version": "1.15.1",
+  "license": "MIT",
+  "description": "",
+  "main": "./build/index.js",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "start": "node build/index.js",
+    "dev": "nodemon",
+    "develop": "swc ./src -d build && node build/index.js",
+    "dev:env": "NLP_URL=https://serving-ml-preprod.dev.fabrique.social.gouv.fr ELASTICSEARCH_URL_PREPROD='http://localhost:9200' ELASTICSEARCH_URL_PROD='http://localhost:9200' AZ_ACCOUNT_KEY_FROM='Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==' AZ_ACCOUNT_NAME_FROM='devstoreaccount1' AZ_URL_FROM='http://localhost:10000/devstoreaccount1' AZ_ACCOUNT_KEY_TO='Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==' AZ_ACCOUNT_NAME_TO='devstoreaccount1' AZ_URL_TO='http://localhost:10000/devstoreaccount1' SITEMAP_DESTINATION_CONTAINER='sitemap' SITEMAP_DESTINATION_NAME='sitemap.xml' SITEMAP_ENDPOINT='https://code.travail.gouv.fr/sitemap.xml' CDTN_ADMIN_ENDPOINT='http://localhost:8080/v1/graphql' SOURCE_CONTAINER_COPY='sitemap' DESTINATION_CONTAINER_COPY='testcopy' ELASTICSEARCH_INDEX_PREPROD='cdtn-v1' ELASTICSEARCH_INDEX_PROD='cdtn-v1' yarn dev",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "clean": "rimraf build",
+    "build": "tsc -p tsconfig.json",
+    "build:watch": "tsc -w -p tsconfig.json",
+    "build:swc": "swc ./src -d build",
+    "build:swc:watch": "swc ./src -d build -w",
+    "lint": "eslint ./src --ext .ts"
+  },
+  "dependencies": {
+    "@azure/storage-blob": "^12.9.0",
+    "@shared/elasticsearch-document-adapter": "^1.15.1",
+    "@shared/graphql-client": "^1.15.1",
+    "@socialgouv/cdtn-logger": "^1.15.1",
+    "axios": "^0.26.1",
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "inversify": "^6.0.1",
+    "inversify-express-utils": "^6.4.3",
+    "reflect-metadata": "^0.1.13",
+    "zod": "^3.14.2"
+  },
+  "devDependencies": {
+    "@shared/types": "^1.15.1",
+    "@swc/cli": "0.1.55",
+    "@swc/core": "1.2.150",
+    "@swc/jest": "0.2.20",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.21",
+    "@types/supertest": "^2.0.11",
+    "@typescript-eslint/eslint-plugin": "5.13.0",
+    "@typescript-eslint/parser": "5.13.0",
+    "eslint": "8.10.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-jest": "26.1.1",
+    "jest": "27.5.1",
+    "nodemon": "2.0.15",
+    "prettier": "2.5.1",
+    "rimraf": "3.0.2",
+    "supertest": "^6.2.2",
+    "timekeeper": "^2.2.0",
+    "typescript": "4.6.2"
+  }
+}

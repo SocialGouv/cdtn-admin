@@ -1,9 +1,13 @@
 {
   "name": "@shared/types",
   "version": "1.15.1",
-  "types": "src/index.d.ts",
   "private": true,
-  "scripts": {},
+  "main": "build/index.js",
+  "module": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
   "devDependencies": {
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/contributions-data-types": "^3.27.0",

@@ -1,9 +1,0 @@
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: ingester-elasticsearch-to-dev
-data:
-  CDTN_ADMIN_ENDPOINT: "http://hasura/v1/graphql"
-  NLP_URL: "https://serving-ml-preprod.dev.fabrique.social.gouv.fr"
-  NODE_ENV: "production"
-  LOG_LEVEL: "info"

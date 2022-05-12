@@ -1,0 +1,4 @@
+app-www:
+  ingress:
+    annotations:
+      "nginx.ingress.kubernetes.io/whitelist-source-range": "123.456.456.789,42.0.0.0/8"

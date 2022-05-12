@@ -25,20 +25,19 @@ jobs:
           - images: "cdtn-admin-ingester"
             path: "./targets/ingester"
             context: "."
-          - images: "cdtn-admin-ingester-elasticsearch"
-            path: "./targets/ingester-elasticsearch"
-            context: "."
           - images: "cdtn-admin-alert-cli"
             path: "./targets/alert-cli"
             context: "."
+          - images: "cdtn-admin-export-elasticsearch"
+            path: "./targets/export-elasticsearch"
+            context: "."
     steps:
       - name: Register docker images
-        uses: SocialGouv/actions/autodevops-build-register@local-cache-cdtn
+        uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          project: "cdtn-admin"
-          imageName: cdtn-admin/${{ matrix.images }}
+          imagePackage: ${{ matrix.images }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          dockerfile: "${{ matrix.path }}/Dockerfile.github"
+          dockerfile: "${{ matrix.path }}/Dockerfile"
           dockercontext: "${{ matrix.context }}"
 
   trivy:
@@ -53,7 +52,7 @@ jobs:
             "cdtn-admin-frontend",
             "cdtn-admin-hasura",
             "cdtn-admin-ingester",
-            "cdtn-admin-ingester-elasticsearch",
+            "cdtn-admin-export-elasticsearch",
             "cdtn-admin-alert-cli",
           ]
     steps:

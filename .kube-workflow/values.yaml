@@ -1,0 +1,47 @@
+app-www:
+  probesPath: /healthz
+  imagePackage: cdtn-admin-frontend
+  envFrom:
+    - configMapRef:
+        name: www
+    - secretRef:
+        name: www
+  env:
+    - name: "FRONTEND_HOST"
+      value: "{{.Values.global.host}}"
+  resources:
+    limits:
+      cpu: "1000m"
+      memory: "560Mi"
+    requests:
+      cpu: "5m"
+      memory: "128Mi"
+
+app-export:
+  probesPath: /healthz
+  ingress:
+    enabled: false
+  imagePackage: "cdtn-admin-export-elasticsearch"
+  containerPort: 8787
+  envFrom:
+    - configMapRef:
+        name: "export-elasticsearch"
+    - secretRef:
+        name: "export-elasticsearch"
+  resources:
+    limits:
+      cpu: '2'
+      memory: 2Gi
+    requests:
+      cpu: '2'
+      memory: 1Gi
+
+hasura:
+  imagePackage: cdtn-admin-hasura
+  containerPort: 80 # TODO migrate hasura to v2 and make it rootless to be PSP compliant, then remove this line
+  envFrom:
+    - configMapRef:
+        name: hasura
+    - secretRef:
+        name: hasura
+

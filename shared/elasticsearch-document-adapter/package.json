@@ -10,7 +10,7 @@
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/contributions-data-types": "^3.27.0",
-    "memoizee": "^0.4.15",
+    "nctx": "^1.2.0",
     "node-fetch": "^2.6.5",
     "p-map": "5.2.0",
     "p-queue": "^6.6.2",
@@ -29,7 +29,6 @@
     "@babel/preset-typescript": "^7.16.7",
     "@socialgouv/eslint-config-typescript": "^1.103.0",
     "@socialgouv/kali-data-types": "^2.127.0",
-    "@types/memoizee": "^0.4.7",
     "@types/node-fetch": "^2.5.12",
     "@vercel/ncc": "^0.33.1",
     "eslint": "^7.32.0",
@@ -47,7 +46,7 @@
     "url": "https://github.com/SocialGouv/cdtn-admin.git"
   },
   "scripts": {
-    "build": "ncc build src -o lib",
+    "build": "ncc build src/index.ts -o lib",
     "lint": "eslint src/**/*.{js,ts}",
     "precommit": "lint-staged",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
@@ -65,5 +64,5 @@
     ]
   },
   "sideEffects": false,
-  "typings": "index.d.ts"
+  "typings": "lib/index.d.ts"
 }

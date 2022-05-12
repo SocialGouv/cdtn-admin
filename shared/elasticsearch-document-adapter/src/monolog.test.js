@@ -1,5 +1,6 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
+import { context } from "./context";
 import { fetchCovisits } from "./monolog";
 
 const testDoc = {
@@ -22,11 +23,15 @@ jest.mock("@socialgouv/cdtn-monolog", () => ({
 }));
 
 describe("Test covisits are added if available.", () => {
-  test("should add covisites to item", async () =>
-    expect(fetchCovisits(testDoc)).resolves.toMatchSnapshot());
+  test("should add covisites to item", async () => {
+    context.provide();
+    const res = await fetchCovisits(testDoc);
+    expect(res).toMatchSnapshot();
+  });
 
-  test("should not fail with other item", async () =>
-    expect(
-      fetchCovisits({ slug: "fake", source: SOURCES.SHEET_MT })
-    ).resolves.toMatchSnapshot());
+  test("should not fail with other item", async () => {
+    context.provide();
+    const res = await fetchCovisits({ slug: "fake", source: SOURCES.SHEET_MT });
+    expect(res).toMatchSnapshot();
+  });
 });

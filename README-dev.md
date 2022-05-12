@@ -212,11 +212,7 @@ Il faut ensuite lancer l'`ingester-elasticsearch` pour alimenter l'elasticsearch
 depuis hasura, il est préférable de récupérer les données de prod (
 cf : [Injecter les données depuis la production](https://github.com/SocialGouv/cdtn-admin/blob/master/README-dev.md#injecter-les-donnees-depuis-la-production))
 
-Pour lancer l'`ingester-elasticsearch`, il suffit de lancer la commande suivante :
-
-```sh
-ES_INDEX_PREFIX=cdtn-v1 yarn workspace ingester-es start:dev
-```
+Pour lancer l'`ingester-elasticsearch`, reporter vous à la documentation `export-elasticsearch`
 
 **Note :** La durée d'exécution prend du temps (environ 15 minutes)
 
@@ -243,11 +239,15 @@ Certaines variables permettent d'activer une fonctionnalité :
 #### Tester localement l'ingester ES avec le frontend
 
 ```sh
-docker-compose up -d postgres
-docker-compose up -d hasura
-docker-compose up -d elasticsearch # côté cdtn-frontend
-yarn build && ES_INDEX_PREFIX=cdtn-v1 yarn workspace ingester-es start:dev
-ELASTICSEARCH_URL=http://localhost:9200 yarn dev:api # côté cdtn-frontend
+yarn build # build code
+```
+
+Then, follow instruction in the README.md of `export-elasticsearch`.
+
+On the client, you need to run this command :
+
+```sh
+NLP_URL=https://serving-ml-preprod.dev.fabrique.social.gouv.fr yarn dev:api # côté cdtn-frontend
 API_URL=http://localhost:1337/api/v1 yarn workspace @cdt/frontend dev # côté cdtn-frontend
 ```
 

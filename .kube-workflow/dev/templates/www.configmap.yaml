@@ -1,0 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: www
+data:
+  ACCOUNT_MAIL_SENDER: "contact@fabrique.social.gouv.fr"
+  GITLAB_PROJECT_ID: "270"
+  GITLAB_URL: https://gitlab.factory.social.gouv.fr/api/v4
+  HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
+  JWT_TOKEN_EXPIRES: "15" # 15 min
+  MATOMO_URL: "https://matomo.fabrique.social.gouv.fr/"
+  NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES: "10080"
+  NODE_ENV: "production"
+  REFRESH_TOKEN_EXPIRES: "43200"
+  SENTRY_DSN: "https://a5e2451c6b5840c0afa28d5e94060427@sentry.fabrique.social.gouv.fr/42"
+  SMTP_URL: "smtp.tipimail.com"
+  STORAGE_CONTAINER: "cdtn-dev"
+  URL_EXPORT: "http://app-export"

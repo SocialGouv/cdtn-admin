@@ -14,7 +14,6 @@ services:
   hasura:
     build:
       context: targets/hasura
-    restart: always
     extra_hosts:
       host.docker.internal: host-gateway
     volumes:
@@ -52,6 +51,15 @@ services:
       - .env
     environment:
       HASURA_GRAPHQL_ENDPOINT: "http://hasura:8080/v1/graphql"
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    hostname: azurite
+    command: "azurite"
+    ports:
+      - "11000:10000"
+      - "11001:10001"
+      - "11002:10002"
 
 volumes:
   db_data:

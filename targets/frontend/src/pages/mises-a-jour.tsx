@@ -1,136 +1,84 @@
-import { useMemo } from "react";
-import { MdOpenInBrowser, MdOpenInNew, MdPageview } from "react-icons/md";
-import { GitlabButton } from "src/components/button/GitlabButton";
+import { Environment } from "@shared/types";
+import { useEffect } from "react";
+import {
+  EnvironmentBadge,
+  Status,
+  TriggerButton,
+} from "src/components/export-es";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
-import { EnvironementBadge } from "src/components/pipelines/EnvironmentBadge";
-import {
-  getPipelineStatusLabel,
-  Status,
-} from "src/components/pipelines/Status";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Badge, Message, NavLink, Spinner } from "theme-ui";
-import { useQuery } from "urql";
+import { useExportEs } from "src/hooks/exportEs";
+import { useUser } from "src/hooks/useUser";
+import { Badge, Message, Spinner } from "theme-ui";
 
-export const getDataUpdateQuery = `
-query getPipelines {
-  pipelines(order_by: {created_at: desc}, limit: 50) {
-    id
-    pipelineId: pipeline_id 
-    createdAt: created_at
-    environment
-    status
-    user {
-      name
-    }
-  }
-}
-`;
+export function UpdatePage(): JSX.Element {
+  const [exportEsState, getExportEs, runExportEs] = useExportEs();
 
-type Pipelines = {
-  id: string;
-  user: {
-    name: string;
-  };
-  environment: string;
-  status: string;
-  pipelineId: string;
-  createdAt: Date;
-};
+  const { user }: any = useUser();
 
-export type DataUpdateResult = {
-  pipelines: Pipelines[];
-};
+  const onTrigger = (env: Environment) => runExportEs(env, user);
 
-function isActivePipeline(status: string) {
-  return ["created", "pending", "running"].includes(status);
-}
-
-export function EvironementPage(): JSX.Element {
-  // use context to update table after trigger pipeline button
-  const context = useMemo(
-    () => ({ additionalTypenames: ["pipelines", "UpdatePipelineOutput"] }),
-    []
-  );
-
-  const [result] = useQuery<DataUpdateResult>({
-    context,
-    query: getDataUpdateQuery,
-    requestPolicy: "cache-and-network",
-  });
-
-  const { data, fetching, error } = result;
-
-  if (error) {
-    return (
-      <Layout title="Mises à jour des environnements">
-        <Stack>
-          <Message>
-            <pre>{JSON.stringify(error, null, 2)}</pre>
-          </Message>
-        </Stack>
-      </Layout>
-    );
-  }
-
-  const isPreprodPending =
-    data?.pipelines.some(
-      (event) =>
-        isActivePipeline(event.status) && event.environment === "preprod"
-    ) ?? false;
-  const isProdPending =
-    data?.pipelines.some(
-      (event) => isActivePipeline(event.status) && event.environment === "prod"
-    ) ?? false;
+  useEffect(() => {
+    getExportEs();
+  }, []);
 
   return (
     <Layout title="Mises à jour des environnements">
       <Stack>
+        {exportEsState.error && (
+          <Stack>
+            <Message>
+              <pre>{JSON.stringify(exportEsState.error, null, 2)}</pre>
+            </Message>
+          </Stack>
+        )}
         <p>
-          Cette page permet de mettre à jour les données des environements de{" "}
+          Cette page permet de mettre à jour les données des environnements de{" "}
           <Badge as="span" variant="accent">
-            prod
+            production
           </Badge>{" "}
           et{" "}
           <Badge as="span" variant="secondary">
-            preprod
+            pre-production
           </Badge>{" "}
           et de suivre l’état de ces mises à jour.
         </p>
       </Stack>
       <Stack>
         <Inline>
-          <GitlabButton
-            environment="prod"
+          <TriggerButton
             variant="accent"
-            pending={isProdPending}
+            isDisabled={false}
+            status={exportEsState.latestExportProduction?.status}
+            onClick={() => onTrigger(Environment.production)}
           >
-            Mettre à jour la prod
-          </GitlabButton>
-
-          <GitlabButton
-            environment="preprod"
+            Mettre à jour la production
+          </TriggerButton>
+          <TriggerButton
             variant="secondary"
-            pending={isPreprodPending}
+            isDisabled={false}
+            status={exportEsState.latestExportPreproduction?.status}
+            onClick={() => onTrigger(Environment.preproduction)}
           >
-            Mettre à jour la preprod
-          </GitlabButton>
+            Mettre à jour la pre-production
+          </TriggerButton>
         </Inline>
 
         <Table>
           <thead>
             <Tr>
-              <Th align="left">Environement</Th>
+              <Th align="left">Environnement</Th>
               <Th align="left">Utilisateur</Th>
-              <Th align="left">Date</Th>
+              <Th align="left">Crée le</Th>
+              <Th align="left">Complété le</Th>
               <Th align="left">Statut</Th>
-              <Th />
             </Tr>
           </thead>
-          {!data && fetching && (
+          {exportEsState.isGetExportLoading && (
             <tbody>
               <tr>
                 <td colSpan={5}>
@@ -140,45 +88,37 @@ export function EvironementPage(): JSX.Element {
             </tbody>
           )}
           <tbody>
-            {result?.data?.pipelines.map(
-              ({ id, pipelineId, environment, user, createdAt, status }) => {
+            {exportEsState.exportData.map(
+              ({
+                id,
+                environment,
+                created_at,
+                updated_at,
+                user,
+                status,
+              }: any) => {
                 return (
                   <Tr key={`${id}`}>
                     <Td>
-                      <EnvironementBadge environment={environment} />
+                      <EnvironmentBadge environment={environment} />
                     </Td>
                     <Td>{user.name}</Td>
                     <Td>
-                      {new Date(createdAt).toLocaleDateString("fr-FR")} à{" "}
-                      {new Date(createdAt).toLocaleTimeString("fr-FR", {
+                      {new Date(created_at).toLocaleDateString("fr-FR")} à{" "}
+                      {new Date(created_at).toLocaleTimeString("fr-FR", {
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
                     </Td>
                     <Td>
-                      {status === "created" ||
-                      status === "pending" ||
-                      status === "running" ? (
-                        <Status
-                          initialStatus={status}
-                          pipelineId={pipelineId}
-                        />
-                      ) : (
-                        getPipelineStatusLabel(status)
-                      )}
+                      {new Date(updated_at).toLocaleDateString("fr-FR")} à{" "}
+                      {new Date(updated_at).toLocaleTimeString("fr-FR", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </Td>
                     <Td>
-                      <NavLink
-                        title={`Voir le détail pipeline ${pipelineId}`}
-                        sx={{ fontSize: "xsmall", fontWeight: 300 }}
-                        href={`https://gitlab.factory.social.gouv.fr/SocialGouv/cdtn-admin/-/pipelines/${pipelineId}`}
-                      >
-                        <MdOpenInNew
-                          sx={{ mb: "-.2rem" }}
-                          size="16"
-                          aria-label="voir le pipeline"
-                        />
-                      </NavLink>
+                      <Status status={status} />
                     </Td>
                   </Tr>
                 );
@@ -191,4 +131,4 @@ export function EvironementPage(): JSX.Element {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(EvironementPage));
+export default withCustomUrqlClient(withUserProvider(UpdatePage));

@@ -1,7 +1,9 @@
+import { context } from "../../context";
 import { createGlossaryTransform } from "../";
-import { glossaryData } from "./data/glossaryData";
+import { glossaryData } from "./glossaryData";
 
 describe("addGlossary", () => {
+  context.provide();
   const addGlossary = createGlossaryTransform(glossaryData);
   test("should return a formatted html with web components tooltip", () => {
     const htmlContent =
