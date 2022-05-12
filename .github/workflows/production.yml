@@ -1,12 +1,13 @@
-name: Security vulnerability scanner
+name: Production
 
 on:
   push:
-    branches: ["master"]
+    tags:
+      - v*
 
 concurrency:
+  group: production
   cancel-in-progress: true
-  group: security-${{ github.ref }}
 
 jobs:
   register:
@@ -40,32 +41,18 @@ jobs:
           dockerfile: "${{ matrix.path }}/Dockerfile"
           dockercontext: "${{ matrix.context }}"
 
-  trivy:
-    name: Run trivy
-    runs-on: ubuntu-18.04
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
     needs: [register]
-    strategy:
-      fail-fast: false
-      matrix:
-        images:
-          [
-            "cdtn-admin-frontend",
-            "cdtn-admin-hasura",
-            "cdtn-admin-ingester",
-            "cdtn-admin-export-elasticsearch",
-            "cdtn-admin-alert-cli",
-          ]
+    environment:
+      name: production
+      url: https://cdtn-admin.fabrique.social.gouv.fr
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Build ${{ matrix.images }} from Dockerfile
-        run: |
-          docker build -t ghcr.io/socialgouv/cdtn-admin/${{ matrix.images }}:sha-${{ github.sha }} .
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+      - uses: SocialGouv/kube-workflow@master
         with:
-          image-ref: "ghcr.io/socialgouv/cdtn-admin/${{ matrix.images }}:sha-${{ github.sha }}"
-          format: "table"
-          ignore-unfixed: true
-          vuln-type: "os,library"
-          severity: "CRITICAL,HIGH"
+          environment: prod
+          token: ${{ secrets.GITHUB_TOKEN }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          rancherProjectId: ${{ secrets.RANCHER_PROJECT_ID }}
+          rancherProjectName: ${{ secrets.RANCHER_PROJECT_NAME }}
