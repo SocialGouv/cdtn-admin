@@ -5,7 +5,7 @@ on:
 
 concurrency:
   cancel-in-progress: true
-  group: run-ingester-prod-${{ github.ref }}
+  group: run-ingester-${{ github.ref }}
 
 jobs:
   release:
