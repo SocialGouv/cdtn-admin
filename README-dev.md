@@ -251,32 +251,6 @@ NLP_URL=https://serving-ml-preprod.dev.fabrique.social.gouv.fr yarn dev:api # c�
 API_URL=http://localhost:1337/api/v1 yarn workspace @cdt/frontend dev # côté cdtn-frontend
 ```
 
-## Linked repositories
-
-- Applications
-  - https://github.com/SocialGouv/code-du-travail-numerique
-  - https://github.com/SocialGouv/cdtn-admin
-- Données
-  - https://github.com/SocialGouv/legi-data
-  - https://github.com/SocialGouv/kali-data
-  - https://github.com/SocialGouv/fiches-travail-data
-  - https://github.com/SocialGouv/fiches-vdd
-  - https://github.com/SocialGouv/contributions-data
-- Recherche
-  - https://github.com/SocialGouv/recherche-entreprises
-  - https://github.com/SocialGouv/siret2idcc
-  - https://github.com/SocialGouv/serving-ml
-  - https://github.com/SocialGouv/cdtn-monolog
-- Bibliotheques de code
-  - https://github.com/SocialGouv/cdtn-docx-to-html
-  - https://github.com/SocialGouv/dila-api-client
-  - https://github.com/SocialGouv/matomo-next
-  - https://github.com/SocialGouv/react-medixtor
-  - https://github.com/SocialGouv/jmeter-kibana
-- contribution
-  - https://github.com/SocialGouv/code-du-travail-backoffice
-  - https://github.com/SocialGouv/cdtn-api
-
 ## Troubleshooting
 
 ### Désynchronisation des PRs et des pipelines Gitlab
