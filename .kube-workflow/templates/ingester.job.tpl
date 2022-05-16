@@ -29,8 +29,7 @@ spec:
               mountPath: /etc/localtime
       volumes:
         - name: data
-          persistentVolumeClaim:
-            claimName: ingester
+          emptyDir: {}
         - name: tz-paris
           hostPath:
             path: /usr/share/zoneinfo/Europe/Paris

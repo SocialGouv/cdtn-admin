@@ -3,3 +3,4 @@ node_modules
 docker-compose.override.yml
 .vscode
 *-error.log
+.swc
