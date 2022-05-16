@@ -4,7 +4,7 @@ spec:
     spec:
       containers:
         - name: db-cleaner
-          image: ghcr.io/socialgouv/docker/psql:6.70.0
+          image: ghcr.io/socialgouv/docker/psql:7.0.0
           command:
             - psql
             - '-c'
@@ -21,6 +21,6 @@ spec:
               month' AND status IN ('done', 'rejected');
           envFrom:
             - secretRef:
-                name: pg-user
+                name: azure-pg-user
       restartPolicy: Never
 {{end}}
