@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: cleanup-db
+  name: cron-cleanup-db
 spec:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3

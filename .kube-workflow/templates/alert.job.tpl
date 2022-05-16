@@ -5,7 +5,7 @@ spec:
     spec:
       containers:
         - name: update-alert
-          image: harbor.fabrique.social.gouv.fr/cdtn/cdtn-admin-alert-cli:1.2.3
+          image: "{{ or .Values.registry .Values.global.registry }}/cdtn-admin/cdtn-admin-alert-cli:{{ .Values.global.imageTag }}"
           resources:
             requests:
               cpu: 1500m
