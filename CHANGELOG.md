@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.2](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.1...v1.16.2) (2022-05-16)
+
+
+### Bug Fixes
+
+* cred ([31b7dd3](https://github.com/SocialGouv/cdtn-admin/commit/31b7dd3541a8f5b76d3197db262739849eb3a2c6))
+* cred ([0ea2054](https://github.com/SocialGouv/cdtn-admin/commit/0ea20540f8d4aea71abd7c4da039d9612008fdd6))
+* credentials ([dfc8280](https://github.com/SocialGouv/cdtn-admin/commit/dfc828031566eeb773eb85bfca94d05ff66eb42b))
+* emptydir ([95ca9cb](https://github.com/SocialGouv/cdtn-admin/commit/95ca9cb36a4e64f17db3444b2fae062a73bba7e1))
+* port ([0a3443f](https://github.com/SocialGouv/cdtn-admin/commit/0a3443fe13bef3bb2527dfb8a3e1e6a508e003a7))
+* preprod ([f9da4b3](https://github.com/SocialGouv/cdtn-admin/commit/f9da4b346c76a24ef84fc563d767df3eba7200b8))
+
+
+
+
+
 ## [1.16.1](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.0...v1.16.1) (2022-05-16)
 
 
