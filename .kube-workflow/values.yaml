@@ -38,7 +38,8 @@ app-export:
 
 hasura:
   imagePackage: cdtn-admin-hasura
-  containerPort: 80 # TODO migrate hasura to v2 and make it rootless to be PSP compliant, then remove this line
+  ingress:
+    enabled: false
   envFrom:
     - secretRef:
         name: azure-pg-user

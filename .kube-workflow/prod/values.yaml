@@ -1,4 +1,8 @@
 app-www:
+  host: cdtn-admin.fabrique.social.gouv.fr
   ingress:
     annotations:
       "nginx.ingress.kubernetes.io/whitelist-source-range": "123.456.456.789,42.0.0.0/8"
+  env:
+    - name: "FRONTEND_HOST"
+      value: https://cdtn-admin.fabrique.social.gouv.fr
