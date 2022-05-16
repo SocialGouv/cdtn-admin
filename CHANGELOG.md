@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.1](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.0...v1.16.1) (2022-05-16)
+
+
+### Bug Fixes
+
+* job ([5892735](https://github.com/SocialGouv/cdtn-admin/commit/58927353cad0eb1d0f9c2173dbe3a6d957a377e6))
+* job ingester ([76e2ce2](https://github.com/SocialGouv/cdtn-admin/commit/76e2ce2ae3a11de2c29cdb24a6456fb9d5038f88))
+* remove unused document ([413d2f9](https://github.com/SocialGouv/cdtn-admin/commit/413d2f9128cb6636131cfea311a2ece30ea8ed92))
+
+
+
+
+
 # [1.16.0](https://github.com/SocialGouv/cdtn-admin/compare/v1.15.1...v1.16.0) (2022-05-12)
 
 
