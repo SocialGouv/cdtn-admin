@@ -41,7 +41,7 @@ hasura:
   containerPort: 80 # TODO migrate hasura to v2 and make it rootless to be PSP compliant, then remove this line
   envFrom:
     - secretRef:
-        name: pg-user
+        name: azure-pg-user
     - configMapRef:
         name: hasura
     - secretRef:
