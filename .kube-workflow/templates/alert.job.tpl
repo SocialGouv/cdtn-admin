@@ -3,6 +3,7 @@ spec:
   backoffLimit: 1
   template:
     spec:
+      restartPolicy: Never
       containers:
         - name: update-alert
           image: "{{ or .Values.registry .Values.global.registry }}/cdtn-admin/cdtn-admin-alert-cli:{{ .Values.global.imageTag }}"
@@ -29,5 +30,4 @@ spec:
         - name: tz-paris
           hostPath:
             path: /usr/share/zoneinfo/Europe/Paris
-      restartPolicy: Never
 {{end}}

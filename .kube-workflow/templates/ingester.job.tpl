@@ -3,6 +3,7 @@ spec:
   backoffLimit: 1
   template:
     spec:
+      restartPolicy: Never
       containers:
         - name: update-ingester
           image: "{{ or .Values.registry .Values.global.registry }}/cdtn-admin/cdtn-admin-ingester:{{ .Values.global.imageTag }}"
@@ -33,5 +34,4 @@ spec:
         - name: tz-paris
           hostPath:
             path: /usr/share/zoneinfo/Europe/Paris
-      restartPolicy: Never
 {{end}}
