@@ -8,13 +8,14 @@ RUN set -x \
   && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
   && rm -rf /var/lib/apt/lists/*
 
+RUN set -x \
+  && add-apt-repository ppa:ubuntu-toolchain-r/test \
+  && apt-get update \
+  && apt-get install libstdc++-4.9-dev
+
 WORKDIR /
 
 COPY . /
-
-RUN yarn add nodegit --frozen-lockfile --pure-lockfile
-
-RUN mkdir data
 
 RUN yarn --frozen-lockfile
 
@@ -31,6 +32,7 @@ WORKDIR /app
 
 COPY --from=dist targets/alert-cli/package.json /app/
 COPY --from=dist targets/alert-cli/dist/ /app/dist
+COPY --from=dist targets/alert-cli/data/ /app/data
 
 USER 1000
 
