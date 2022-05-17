@@ -24,6 +24,8 @@ COPY --from=dist targets/ingester/node_modules/ /app/ingester/node_modules/
 COPY --from=dist package.json /app/package.json
 COPY --from=dist node_modules /app/node_modules
 
+RUN mkdir -p /app/ingester/data
+
 USER 1000
 
 ENV NODE_ENV=production
