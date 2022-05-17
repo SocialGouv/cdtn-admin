@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.6](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.5...v1.16.6) (2022-05-17)
+
+
+### Bug Fixes
+
+* iso alert preprod / prod ([2798a24](https://github.com/SocialGouv/cdtn-admin/commit/2798a246958fc35ae4424ccb7fd0a1389ebfd08e))
+
+
+### Features
+
+* remove releaserc ([39a7907](https://github.com/SocialGouv/cdtn-admin/commit/39a7907a183703a4b85015451b3d3bb294830dbb))
+
+
+
+
+
 ## [1.16.5](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.4...v1.16.5) (2022-05-17)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@shared/types",
-  "version": "1.16.5",
+  "version": "1.16.6",
   "private": true,
   "main": "build/index.js",
   "module": "build/index.js",
