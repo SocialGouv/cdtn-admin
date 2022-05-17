@@ -38,7 +38,7 @@ COPY --from=dist node_modules /app/node_modules
 
 USER 1000
 
-RUN chown -R 1000  /app/alert-cli/data
+RUN chown -R 1000 /app/alert-cli/data
 
 ENV NODE_ENV=production
 
