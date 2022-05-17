@@ -3,11 +3,6 @@ ARG NODE_VERSION=14.18.0-slim
 # dist
 FROM node:$NODE_VERSION AS dist
 
-RUN set -x \
-  && apt-get update \
-  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
-  && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /
 
 COPY . /
@@ -24,6 +19,11 @@ RUN yarn workspace alert-cli build
 FROM node:$NODE_VERSION
 
 WORKDIR /app
+
+RUN set -x \
+  && apt-get update \
+  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN npm i -g degit
 
