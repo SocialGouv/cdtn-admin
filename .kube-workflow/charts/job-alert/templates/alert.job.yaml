@@ -2,5 +2,4 @@ kind: Job
 apiVersion: batch/v1
 metadata:
   name: job-alert
-spec:
-  {{- include "job.alert" . | nindent 2 }}
+{{- include "job.alert" . }}
