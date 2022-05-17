@@ -11,6 +11,9 @@ jobs:
   job:
     name: Run alert prod
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://cdtn-admin.fabrique.social.gouv.fr
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
