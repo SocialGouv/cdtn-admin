@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.4](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.3...v1.16.4) (2022-05-17)
+
+
+### Bug Fixes
+
+* remove whitelist ([1ee2409](https://github.com/SocialGouv/cdtn-admin/commit/1ee24095b7b43371eaaeef2e97a08aaf5f093ff7))
+
+
+
+
+
 ## [1.16.3](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.2...v1.16.3) (2022-05-16)
 
 **Note:** Version bump only for package cdtn-admin
