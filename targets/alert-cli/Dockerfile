@@ -27,7 +27,7 @@ RUN set -x \
 
 RUN npm i -g degit
 
-RUN mkdir data
+RUN mkdir /app/alert-cli/data
 
 COPY --from=dist targets/alert-cli/package.json /app/alert-cli/package.json
 COPY --from=dist targets/alert-cli/dist/ /app/alert-cli/dist/
@@ -37,6 +37,8 @@ COPY --from=dist package.json /app/package.json
 COPY --from=dist node_modules /app/node_modules
 
 USER 1000
+
+RUN chown -R 1000  /app/alert-cli/data
 
 ENV NODE_ENV=production
 
