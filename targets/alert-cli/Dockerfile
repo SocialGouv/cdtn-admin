@@ -12,6 +12,10 @@ WORKDIR /
 
 COPY . /
 
+RUN yarn add nodegit --frozen-lockfile --pure-lockfile
+
+RUN mkdir data
+
 RUN yarn --frozen-lockfile
 
 RUN yarn workspace @shared/graphql-client build

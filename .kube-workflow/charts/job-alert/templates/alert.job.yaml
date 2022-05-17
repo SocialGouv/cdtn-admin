@@ -1,0 +1,5 @@
+kind: Job
+metadata:
+  name: job-alert
+spec:
+  {{- include "job.alert" . | nindent 2 }}
