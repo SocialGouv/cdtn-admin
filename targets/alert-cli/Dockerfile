@@ -27,6 +27,8 @@ RUN set -x \
 
 RUN npm i -g degit
 
+RUN mkdir data
+
 COPY --from=dist targets/alert-cli/package.json /app/alert-cli/package.json
 COPY --from=dist targets/alert-cli/dist/ /app/alert-cli/dist/
 COPY --from=dist targets/alert-cli/data/ /app/alert-cli/data
