@@ -8,7 +8,7 @@ concurrency:
   group: run-ingester-${{ github.ref }}
 
 jobs:
-  release:
+  job:
     name: Run ingester prod
     runs-on: ubuntu-latest
     steps:
