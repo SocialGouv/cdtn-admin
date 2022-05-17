@@ -27,11 +27,11 @@ RUN set -x \
 
 RUN npm i -g degit
 
-RUN chown -R node:node /app
+RUN mkdir -p /app/alert-cli/data/
+
+RUN chown node /app/alert-cli/data/
 
 USER node
-
-RUN mkdir data
 
 COPY --from=dist targets/alert-cli/package.json /app/alert-cli/package.json
 COPY --from=dist targets/alert-cli/dist/ /app/alert-cli/dist/
