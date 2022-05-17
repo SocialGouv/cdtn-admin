@@ -38,4 +38,4 @@ USER 1000
 
 ENV NODE_ENV=production
 
-CMD ["yarn", "start"]
+CMD ["yarn", "--cwd", "alert-cli", "start"]
