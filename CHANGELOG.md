@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.7](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.6...v1.16.7) (2022-05-17)
+
+
+### Bug Fixes
+
+* env prod ([2376e99](https://github.com/SocialGouv/cdtn-admin/commit/2376e998b25801d53ba0a8dedf9ddf117eb952c0))
+
+
+
+
+
 ## [1.16.6](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.5...v1.16.6) (2022-05-17)
 
 
