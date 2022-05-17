@@ -27,9 +27,12 @@ WORKDIR /app
 
 RUN npm i -g degit
 
-COPY --from=dist targets/alert-cli/package.json /app/
-COPY --from=dist targets/alert-cli/dist/ /app/dist
-COPY --from=dist targets/alert-cli/data/ /app/data
+COPY --from=dist targets/alert-cli/package.json /app/alert-cli/package.json
+COPY --from=dist targets/alert-cli/dist/ /app/alert-cli/dist/
+COPY --from=dist targets/alert-cli/data/ /app/alert-cli/data
+COPY --from=dist targets/alert-cli/node_modules/ /app/alert-cli/node_modules/
+COPY --from=dist package.json /app/package.json
+COPY --from=dist node_modules /app/node_modules
 
 USER 1000
 
