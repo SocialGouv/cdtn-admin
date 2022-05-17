@@ -8,11 +8,6 @@ RUN set -x \
   && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
   && rm -rf /var/lib/apt/lists/*
 
-RUN set -x \
-  && add-apt-repository ppa:ubuntu-toolchain-r/test \
-  && apt-get update \
-  && apt-get install libstdc++-4.9-dev
-
 WORKDIR /
 
 COPY . /
@@ -29,6 +24,8 @@ RUN yarn workspace alert-cli build
 FROM node:$NODE_VERSION
 
 WORKDIR /app
+
+RUN npm i -g degit
 
 COPY --from=dist targets/alert-cli/package.json /app/
 COPY --from=dist targets/alert-cli/dist/ /app/dist
