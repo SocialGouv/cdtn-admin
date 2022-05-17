@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.5](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.4...v1.16.5) (2022-05-17)
+
+
+### Bug Fixes
+
+* alert ([8802a50](https://github.com/SocialGouv/cdtn-admin/commit/8802a507f516c9d7462ca8b3095e6c146034983e))
+* alerting ([1530a8f](https://github.com/SocialGouv/cdtn-admin/commit/1530a8fff8372eeea2133d06dbf3cf061d6f4bea))
+* dep ([a1552f4](https://github.com/SocialGouv/cdtn-admin/commit/a1552f4a57d31a81f3d3e2bfbd07bbbc482dd413))
+* docker ([d9917bf](https://github.com/SocialGouv/cdtn-admin/commit/d9917bf659824a94dca1644c960799441755db14))
+* docker ([4541d19](https://github.com/SocialGouv/cdtn-admin/commit/4541d19abd25798ec084d550ee6733dcc14e4787))
+* droit ([81bce34](https://github.com/SocialGouv/cdtn-admin/commit/81bce343fd424f180d0dbcb6fb26a8074bb283e7))
+* droit ([0613a94](https://github.com/SocialGouv/cdtn-admin/commit/0613a9448ea1e04142740d668a64ba175b8b3859))
+* droit ([995ef7c](https://github.com/SocialGouv/cdtn-admin/commit/995ef7ccd55aac5521d683e7996c22161e748d48))
+* droit ([0e80318](https://github.com/SocialGouv/cdtn-admin/commit/0e803185f8ad7e29bd9babe593e7030c4109405b))
+* droittttt ([cd324ad](https://github.com/SocialGouv/cdtn-admin/commit/cd324ad7ad04fc88f8d8b423d6d76e3f5a9ee47c))
+* folder ([b6ca292](https://github.com/SocialGouv/cdtn-admin/commit/b6ca292e64dd9297fd7ad34e4e9cf7ffcb4112c2))
+* image ([37c3741](https://github.com/SocialGouv/cdtn-admin/commit/37c3741109c5cc44c8c7cf4863580a4a1d0554a2))
+* image ([97ab7f9](https://github.com/SocialGouv/cdtn-admin/commit/97ab7f99deb7599b8bb266d4ff9735bde5fb493d))
+* ingester ([4fbdc3b](https://github.com/SocialGouv/cdtn-admin/commit/4fbdc3be4e11c0fcbc14fa5afa269153c072ac2e))
+* ingester encore ([1710697](https://github.com/SocialGouv/cdtn-admin/commit/1710697946f10d1f3a52afcfbdd74eb9c97fbb6d))
+* ip whitelist ([30799b4](https://github.com/SocialGouv/cdtn-admin/commit/30799b4dc9c982461b6ae89b2702db660108c6c3))
+* job ([a0ee0be](https://github.com/SocialGouv/cdtn-admin/commit/a0ee0be53088da3f084513daebc3231d32f7a0b2))
+* job ([6c2a6d4](https://github.com/SocialGouv/cdtn-admin/commit/6c2a6d41d95a43bf8feeae9a34afe7f687577909))
+* policy ([c6ec6d4](https://github.com/SocialGouv/cdtn-admin/commit/c6ec6d4a371a1bcf16ddbeb34d052e3674c7a020))
+
+
+
+
+
 ## [1.16.4](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.3...v1.16.4) (2022-05-17)
 
 

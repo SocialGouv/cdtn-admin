@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.5](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.4...v1.16.5) (2022-05-17)
+
+
+### Bug Fixes
+
+* dep ([a1552f4](https://github.com/SocialGouv/cdtn-admin/commit/a1552f4a57d31a81f3d3e2bfbd07bbbc482dd413))
+* docker ([d9917bf](https://github.com/SocialGouv/cdtn-admin/commit/d9917bf659824a94dca1644c960799441755db14))
+* ingester ([4fbdc3b](https://github.com/SocialGouv/cdtn-admin/commit/4fbdc3be4e11c0fcbc14fa5afa269153c072ac2e))
+* ingester encore ([1710697](https://github.com/SocialGouv/cdtn-admin/commit/1710697946f10d1f3a52afcfbdd74eb9c97fbb6d))
+
+
+
+
+
 ## [1.16.4](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.3...v1.16.4) (2022-05-17)
 
 **Note:** Version bump only for package ingester
