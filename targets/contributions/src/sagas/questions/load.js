@@ -1,0 +1,49 @@
+import React from "react";
+import { put } from "redux-saga/effects";
+
+import { questions } from "../../actions";
+import customPostgrester from "../../libs/customPostgrester";
+import toast from "../../libs/toast";
+
+export default function* load({ meta: { pageIndex, query } }) {
+  try {
+    const request = customPostgrester();
+
+    if (pageIndex !== -1) {
+      request.page(pageIndex);
+    }
+
+    if (query.length > 0) {
+      request.ilike("value", query);
+    }
+
+    request.orderBy("index");
+
+    const { data: list, pagesLength } = yield request.get("/questions", true);
+
+    yield put(
+      questions.loadSuccess({
+        list,
+        pageIndex,
+        pagesLength,
+      }),
+    );
+  } catch (err) /* istanbul ignore next */ {
+    if (err.response !== undefined && err.response.status === 416) {
+      const pageIndex = Math.floor(Number(err.response.headers["content-range"].substr(2)) / 10);
+
+      toast.error(
+        <span>
+          {`Cette page est hors de portée.`}
+          <br />
+          {`Redirection vers la page n° ${pageIndex + 1}…`}
+        </span>,
+      );
+
+      return yield load({ meta: { pageIndex, query } });
+    }
+
+    toast.error(err.message);
+    yield put(questions.loadFailure({ message: null }));
+  }
+}

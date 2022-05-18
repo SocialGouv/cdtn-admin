@@ -82,6 +82,122 @@
           _eq: X-Hasura-User-Id
       check: null
 - table:
+    schema: contrib
+    name: agreements
+  object_relationships:
+  - name: agreement
+    using:
+      foreign_key_constraint_on: parent_id
+  array_relationships:
+  - name: agreements
+    using:
+      foreign_key_constraint_on:
+        column: parent_id
+        table:
+          schema: contrib
+          name: agreements
+  - name: answers
+    using:
+      foreign_key_constraint_on:
+        column: agreement_id
+        table:
+          schema: contrib
+          name: answers
+  - name: locations_agreements
+    using:
+      foreign_key_constraint_on:
+        column: agreement_id
+        table:
+          schema: contrib
+          name: locations_agreements
+- table:
+    schema: contrib
+    name: answers
+  object_relationships:
+  - name: agreement
+    using:
+      foreign_key_constraint_on: agreement_id
+  - name: answer
+    using:
+      foreign_key_constraint_on: parent_id
+  - name: question
+    using:
+      foreign_key_constraint_on: question_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  array_relationships:
+  - name: answers
+    using:
+      foreign_key_constraint_on:
+        column: parent_id
+        table:
+          schema: contrib
+          name: answers
+  - name: answers_comments
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          schema: contrib
+          name: answers_comments
+  - name: answers_references
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          schema: contrib
+          name: answers_references
+- table:
+    schema: contrib
+    name: answers_comments
+  object_relationships:
+  - name: answer
+    using:
+      foreign_key_constraint_on: answer_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+- table:
+    schema: contrib
+    name: answers_references
+  object_relationships:
+  - name: answer
+    using:
+      foreign_key_constraint_on: answer_id
+- table:
+    schema: contrib
+    name: locations
+  array_relationships:
+  - name: locations_agreements
+    using:
+      foreign_key_constraint_on:
+        column: location_id
+        table:
+          schema: contrib
+          name: locations_agreements
+- table:
+    schema: contrib
+    name: locations_agreements
+  object_relationships:
+  - name: agreement
+    using:
+      foreign_key_constraint_on: agreement_id
+  - name: location
+    using:
+      foreign_key_constraint_on: location_id
+- table:
+    schema: contrib
+    name: questions
+  array_relationships:
+  - name: answers
+    using:
+      foreign_key_constraint_on:
+        column: question_id
+        table:
+          schema: contrib
+          name: answers
+- table:
     schema: public
     name: alert_notes
   object_relationships:
