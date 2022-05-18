@@ -1,6 +1,6 @@
 {
   "name": "@shared/graphql-client",
-  "version": "1.16.7",
+  "version": "1.16.8",
   "main": "build/index.js",
   "module": "build/index.js",
   "types": "build/index.d.ts",
