@@ -6,8 +6,10 @@ const ingester = async (): Promise<string> => {
     try {
       await ingest(
         process.env.HASURA_GRAPHQL_ENDPOINT,
-        process.env.ES_LOGS_PREPROD,
-        process.env.ES_LOGS_TOKEN_PREPROD,
+        // process.env.ES_LOGS_PREPROD,
+        // process.env.ES_LOGS_TOKEN_PREPROD,
+        undefined,
+        undefined,
         process.env.ELASTICSEARCH_URL_PREPROD,
         process.env.ELASTICSEARCH_TOKEN_INGEST_PREPROD,
         process.env.ELASTICSEARCH_INDEX_PREPROD,
