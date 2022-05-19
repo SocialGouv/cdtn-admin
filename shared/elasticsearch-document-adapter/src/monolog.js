@@ -38,6 +38,7 @@ export const fetchCovisits = async (doc) => {
   }
 
   const path = `${sourceRoute}/${doc.slug}`;
+  console.time(`getCovisitLinks-${path}`);
   const links = await queries
     .getCovisitLinks(path)
     .then((covisits) => covisits.links)
@@ -49,7 +50,10 @@ export const fetchCovisits = async (doc) => {
       // TODO avoid silent and deal with failure properly
       return undefined;
     });
-
+  if (links) {
+    console.log(path, " - ", links);
+  }
+  console.timeEnd(`getCovisitLinks-${path}`);
   doc.covisits = links;
 
   return doc;
