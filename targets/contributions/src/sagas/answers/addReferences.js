@@ -1,14 +1,15 @@
 import { put } from "redux-saga/effects";
 
 import { answers } from "../../actions";
-import customPostgrester from "../../libs/customPostgrester";
 import toast from "../../libs/toast";
-
-const API_PATH = "/answers_references";
+import { GraphQLApi } from "../../libs/GraphQLApi";
+import { createAnswerReferences } from "../../libs/graphql";
 
 export default function* addReferences({ meta: { data }, next }) {
   try {
-    yield customPostgrester().post(API_PATH, data);
+    const api = new GraphQLApi();
+    console.log("Create ref XYZ : ", data);
+    yield api.create(createAnswerReferences, { data });
 
     next();
   } catch (err) /* istanbul ignore next */ {

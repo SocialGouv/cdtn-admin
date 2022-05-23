@@ -1,16 +1,14 @@
 import { put } from "redux-saga/effects";
 
 import { answers } from "../../actions";
-import customPostgrester from "../../libs/customPostgrester";
 import toast from "../../libs/toast";
-
-const API_PATH = "/answers_references";
+import { GraphQLApi } from "../../libs/GraphQLApi";
+import { deleteAnswerReference } from "../../libs/graphql";
 
 export default function* removeReferences({ meta: { ids }, next }) {
   try {
-    const request = customPostgrester().in("id", ids);
-
-    yield request.delete(API_PATH);
+    const api = new GraphQLApi();
+    yield api.delete(deleteAnswerReference, { ids });
 
     next();
   } catch (err) /* istanbul ignore next */ {

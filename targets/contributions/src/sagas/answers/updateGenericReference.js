@@ -2,9 +2,10 @@ import { put } from "redux-saga/effects";
 
 import { answers } from "../../actions";
 import { ANSWER_STATE, USER_ROLE } from "../../constants";
-import customPostgrester from "../../libs/customPostgrester";
 import getCurrentUser from "../../libs/getCurrentUser";
 import toast from "../../libs/toast";
+import { GraphQLApi } from "../../libs/GraphQLApi";
+import { updateAnswersStates } from "../../libs/graphql";
 
 /**
  * Update answers to make them generic or not.
@@ -13,7 +14,9 @@ import toast from "../../libs/toast";
  * A generic answer can fallback to either Labor Code or its parent national
  * agreement text.
  */
-export default function* updateGenericReference({ meta: { genericReference, ids, next } }) {
+export default function* updateGenericReference({
+  meta: { genericReference, ids, next },
+}) {
   try {
     const { id: userId, role: userRole } = getCurrentUser();
 
@@ -29,12 +32,13 @@ export default function* updateGenericReference({ meta: { genericReference, ids,
             user_id: userId,
           };
 
-    yield customPostgrester().in("id", ids, true).patch("/answers", data);
+    const api = new GraphQLApi();
+    yield api.update(updateAnswersStates, { data, ids });
 
     toast.success(
       ids.length === 1
         ? `La réponse ${ids[0]} a été renvoyée.`
-        : `Les réponses ${ids.join(", ")} ont été renvoyées.`,
+        : `Les réponses ${ids.join(", ")} ont été renvoyées.`
     );
 
     next();

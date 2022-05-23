@@ -15,7 +15,7 @@ const FIELDS = [
 ];
 
 const componentDidMount = async (api, id) => {
-  const { data: questions } = await api.eq("id", id).get("/questions");
+  const questions = await api.fetchAll("/questions", { id });
 
   return {
     defaultData: questions[0],

@@ -11,7 +11,8 @@ import Title from "../../src/elements/Title";
 import shortenAgreementName from "../../src/helpers/shortenAgreementName";
 import AdminMainLayout from "../../src/layouts/AdminMain";
 import numeral from "../../src/libs/customNumeral";
-import customPostgrester from "../../src/libs/customPostgrester";
+import { GraphQLApi } from "../../src/libs/GraphQLApi";
+import { getAnswerStats, getLocationStats } from "../../src/libs/graphql";
 
 // TODO Clean these columns.
 /* eslint-disable react/display-name */
@@ -137,7 +138,7 @@ export default class AdminIndexPage extends React.Component {
 
   async componentDidMount() {
     this.isUmounted = false;
-    this.postgrest = customPostgrester();
+    this.api = new GraphQLApi();
 
     await this.initializeStats();
     await this.updateStats();
@@ -154,27 +155,24 @@ export default class AdminIndexPage extends React.Component {
   }
 
   async fetchLocations() {
-    const { data: locations } = await this.postgrest
-      .select("*")
-      .select("agreements(id,idcc,name,parent_id)")
-      .get("/locations");
-
-    return locations;
+    const data = await this.api.fetch(getLocationStats);
+    return data.map((item) => ({
+      ...item,
+      agreements: item.agreements.map((element) => ({ ...element.agreement })),
+    }));
   }
 
   async fetchAnswersForAgreement(agreementId) {
-    const { data: answers } = await this.postgrest
-      .select("*")
-      .select("agreement(*)")
-      .eq("agreement_id", agreementId)
-      .get("/answers");
-
+    const answers = await this.api.fetch(getAnswerStats, {
+      agreement_id: agreementId,
+    });
     return answers;
   }
 
   async initializeStats() {
     const locations = await this.fetchLocations();
 
+    console.log("Locations: ", locations);
     const agreementsStats = locations
       .reduce((prev, { agreements }) => [...prev, ...agreements], [])
       .map(({ id, idcc, name, parent_id }) => ({
@@ -234,7 +232,7 @@ export default class AdminIndexPage extends React.Component {
 
           return totals;
         },
-        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0]
       );
 
       nextAgreementsStats.push({
@@ -253,7 +251,7 @@ export default class AdminIndexPage extends React.Component {
         globalTotals[5] + totals[5],
         globalTotals[6] + totals[6],
       ],
-      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
     );
 
     if (this.isUmounted) {
@@ -299,14 +297,18 @@ export default class AdminIndexPage extends React.Component {
     const { globalStats, isCalculating, isPercentage } = this.state;
     const data = [this.generateDataRow("Total", globalStats, isCalculating)];
 
-    return <StatsTable data={data} isPercentage={isPercentage} sortable={false} />;
+    return (
+      <StatsTable data={data} isPercentage={isPercentage} sortable={false} />
+    );
   }
 
   renderAgreementsStats(isNational = false) {
     const { agreementsStats, isCalculating, isPercentage } = this.state;
     const data = agreementsStats
-      .filter(agreement => agreement.isNational === isNational)
-      .map(({ name, totals }) => this.generateDataRow(name, totals, isCalculating));
+      .filter((agreement) => agreement.isNational === isNational)
+      .map(({ name, totals }) =>
+        this.generateDataRow(name, totals, isCalculating)
+      );
 
     return (
       <StatsTable
@@ -325,8 +327,12 @@ export default class AdminIndexPage extends React.Component {
         <Container flexDirection="column">
           <Flex alignItems="center" justifyContent="space-between">
             <Title>Tableau de bord</Title>
-            <Button onClick={() => this.setState({ isPercentage: !isPercentage })}>
-              {isPercentage ? "Voir les nombres bruts" : "Voir les pourcentages"}
+            <Button
+              onClick={() => this.setState({ isPercentage: !isPercentage })}
+            >
+              {isPercentage
+                ? "Voir les nombres bruts"
+                : "Voir les pourcentages"}
             </Button>
           </Flex>
 
@@ -335,7 +341,11 @@ export default class AdminIndexPage extends React.Component {
 
           <Subtitle>Par convention collective</Subtitle>
           <ContentTitle isFirst>Conventions nationales</ContentTitle>
-          {isLoading ? <p>Calcul en cours…</p> : this.renderAgreementsStats(true)}
+          {isLoading ? (
+            <p>Calcul en cours…</p>
+          ) : (
+            this.renderAgreementsStats(true)
+          )}
           <ContentTitle>Conventions locales</ContentTitle>
           {isLoading ? <p>Calcul en cours…</p> : this.renderAgreementsStats()}
         </Container>

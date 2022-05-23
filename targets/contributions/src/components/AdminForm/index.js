@@ -13,16 +13,16 @@ import Textarea from "../../elements/Textarea";
 import Title from "../../elements/Title";
 import AdminMainLayout from "../../layouts/AdminMain";
 import api from "../../libs/api";
-import customPostgrester from "../../libs/customPostgrester";
 import T from "../../texts";
 import { Error, Form, Head, HelpText, LabelContainer } from "./styles";
+import {GraphQLApi} from "../../libs/GraphQLApi";
 
 class AdminForm extends React.Component {
   constructor(props) {
     super(props);
     const { fields } = props;
 
-    this.api = customPostgrester();
+    this.api = new GraphQLApi();
     this.defaultData = this.initDefaultData();
 
     this.state = {
@@ -156,8 +156,10 @@ class AdminForm extends React.Component {
     try {
       if (this.props.id !== undefined && !isApiFunction) {
         // PostgREST exposed api table updates are done via PATCH requests:
-        const uri = `${this.props.apiPath}?id=eq.${this.props.id}`;
-        await api.patch(uri, data);
+        await this.api.updateWithKey(this.props.apiPath, {
+          ...data,
+          id: this.props.id,
+        })
 
         if (fieldsWithCustomApiPath.length > 0) {
           const itemIdName = `${this.props.name.replace(/s$/, "")}_id`;

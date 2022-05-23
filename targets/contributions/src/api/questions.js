@@ -1,16 +1,16 @@
-import { apiFetch, getHeaderId } from "../utils";
+import { GraphQLApi } from "../libs/GraphQLApi";
+import { createAnswer, createQuestion } from "../libs/graphql";
 
 export const addQuestion = async (index, value) => {
-  const { headers } = await apiFetch("POST", "/questions", { index, value });
+  const api = new GraphQLApi();
+  const { id: questionId } = await api.create(createQuestion, { index, value });
 
-  const questionId = getHeaderId(headers.location);
-
-  const { data: agreements } = await apiFetch("GET", "/agreements");
+  const agreements = await api.fetchAll("/agreements");
 
   return Promise.all(
     agreements
-      .map(agreement =>
-        apiFetch("POST", "/answers", {
+      .map((agreement) =>
+        api.create(createAnswer, {
           agreement_id: agreement.id,
           generic_reference: null,
           parent_id: null,
@@ -19,10 +19,10 @@ export const addQuestion = async (index, value) => {
           state: "draft",
           user_id: null,
           value: "",
-        }),
+        })
       )
       .concat(
-        apiFetch("POST", "/answers", {
+        api.create(createAnswer, {
           generic_reference: null,
           parent_id: null,
           prevalue: "",
@@ -30,7 +30,7 @@ export const addQuestion = async (index, value) => {
           state: "draft",
           user_id: null,
           value: "",
-        }),
-      ),
+        })
+      )
   );
 };

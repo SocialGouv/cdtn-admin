@@ -1,9 +1,10 @@
-import { put } from "redux-saga/effects";
+import {put} from "redux-saga/effects";
 
-import { answers } from "../../actions";
-import { ANSWER_STATE } from "../../constants";
-import customPostgrester from "../../libs/customPostgrester";
+import {answers} from "../../actions";
+import {ANSWER_STATE} from "../../constants";
 import toast from "../../libs/toast";
+import {GraphQLApi} from "../../libs/GraphQLApi";
+import {deleteAnswersReferences, updateAnswersStates,} from "../../libs/graphql";
 
 /**
  * Cancel an answer draft by resettinng all its related data.
@@ -12,6 +13,7 @@ import toast from "../../libs/toast";
  */
 export default function* cancel({ meta: { ids, next } }) {
   try {
+    const api = new GraphQLApi();
     const data = {
       generic_reference: null,
       prevalue: "",
@@ -19,15 +21,14 @@ export default function* cancel({ meta: { ids, next } }) {
       user_id: null,
       value: "",
     };
+    yield api.delete(deleteAnswersReferences, { ids });
 
-    yield customPostgrester().in("answer_id", ids, true).delete("/answers_references");
-
-    yield customPostgrester().in("id", ids, true).patch("/answers", data);
+    yield api.update(updateAnswersStates, { data, ids });
 
     toast.success(
       ids.length === 1
         ? `La réponse ${ids[0]} a été annulée.`
-        : `Les réponses ${ids.join(", ")} ont été annulées.`,
+        : `Les réponses ${ids.join(", ")} ont été annulées.`
     );
 
     next();

@@ -27,20 +27,22 @@ export default class LoginBlockForm extends React.PureComponent {
   }
 
   async check() {
-    const data = await api.post(
-      "/rpc/login",
+    const token = await api.post(
+      "/api/login",
       {
-        email: this.$email.value,
+        username: this.$email.value,
         password: this.$password.value,
       },
       {
+        "Cache-Control": "no-cache",
         Authorization: undefined,
-      },
+      }
     );
-    const token = data[0].token;
+
+    console.log("LOGIN Token: ", token);
 
     // Store JSON Web Token in a cookie:
-    jsCookie.set("jwt", token, { expires: 30 });
+    jsCookie.set("jwt", token.jwt_token, { expires: 30 });
   }
 
   async submit(event) {
@@ -95,7 +97,7 @@ export default class LoginBlockForm extends React.PureComponent {
             hasError={emailError.length !== 0}
             name="email"
             placeholder="E-mail"
-            ref={node => (this.$email = node)}
+            ref={(node) => (this.$email = node)}
             type="email"
           />
         </Field>
@@ -105,7 +107,7 @@ export default class LoginBlockForm extends React.PureComponent {
             hasError={passwordError.length !== 0}
             name="password"
             placeholder="Mot de passe"
-            ref={node => (this.$password = node)}
+            ref={(node) => (this.$password = node)}
             type="password"
           />
         </Field>

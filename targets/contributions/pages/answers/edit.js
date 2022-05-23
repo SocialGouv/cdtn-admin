@@ -13,9 +13,14 @@ import AnswerEditionReferencesBlock from "../../src/blocks/AnswerEditionReferenc
 import { ANSWER_STATE } from "../../src/constants";
 import SavingSpinner from "../../src/elements/SavingSpinner";
 import Main from "../../src/layouts/Main";
-import api from "../../src/libs/api";
+import { api } from "../../src/libs/GraphQLApi";
 import getCurrentUser from "../../src/libs/getCurrentUser";
 import makeApiFilter from "../../src/libs/makeApiFilter";
+import {
+  getAnswerReferences,
+  updateAnswerReference,
+  updateAnswersStates,
+} from "../../src/libs/graphql";
 
 const Container = styled(Main)`
   overflow-x: hidden;
@@ -62,7 +67,9 @@ class AnswersEditPage extends React.Component {
     this.load();
 
     try {
-      const references = await api.get(`/answers_references?answer_id=eq.${id}`);
+      const references = await api.fetch(getAnswerReferences, {
+        answer_id: id,
+      });
 
       this.setState({
         isLoading: false,
@@ -96,8 +103,11 @@ class AnswersEditPage extends React.Component {
     this.props.dispatch(
       actions.modal.open(
         `Êtes-vous sûr d'annuler cette réponse (son contenu sera supprimé) ?`,
-        () => actions.answers.cancel([this.props.id], () => Router.push("/answers/draft/1")),
-      ),
+        () =>
+          actions.answers.cancel([this.props.id], () =>
+            Router.push("/answers/draft/1")
+          )
+      )
     );
   }
 
@@ -105,11 +115,15 @@ class AnswersEditPage extends React.Component {
     if (this.state.isSaving) return;
 
     this.props.dispatch(
-      actions.modal.open(`Êtes-vous sûr d'envoyer cette réponse en validation ?`, () =>
-        actions.answers.updateState([this.props.id], ANSWER_STATE.PENDING_REVIEW, () =>
-          Router.push("/answers/draft/1"),
-        ),
-      ),
+      actions.modal.open(
+        `Êtes-vous sûr d'envoyer cette réponse en validation ?`,
+        () =>
+          actions.answers.updateState(
+            [this.props.id],
+            ANSWER_STATE.PENDING_REVIEW,
+            () => Router.push("/answers/draft/1")
+          )
+      )
     );
   }
 
@@ -118,14 +132,13 @@ class AnswersEditPage extends React.Component {
     this.showSavingSpinner();
 
     try {
-      const uri = `/answers?id=eq.${this.props.id}`;
       const data = {
         prevalue: value,
         state: "draft",
         user_id: this.state.me.id,
       };
 
-      await api.patch(uri, data);
+      await api.update(updateAnswersStates, { data, ids: [this.props.id] });
       this.newPrevalue = value;
     } catch (err) {
       console.warn(err);
@@ -138,19 +151,22 @@ class AnswersEditPage extends React.Component {
     this.setState({ isSaving: true });
 
     try {
-      const answersUri = `/answers?id=eq.${this.props.id}`;
       const answersData = {
         state: "draft",
         user_id: this.state.me.id,
       };
-      const answersReferencesUri = `/answers_references`;
       const answersReferencesData = {
         answer_id: this.props.id,
         ...reference,
       };
 
-      await api.patch(answersUri, answersData);
-      await api.post(answersReferencesUri, answersReferencesData);
+      await api.update(updateAnswersStates, {
+        data: answersData,
+        ids: [this.props.id],
+      });
+
+      const { id, ...data } = answersReferencesData;
+      await api.update(updateAnswerReference, { id, data });
     } catch (err) {
       console.warn(err);
     }
@@ -170,6 +186,7 @@ class AnswersEditPage extends React.Component {
         value: _value,
       });
 
+      // TODO await api.delete(deleteAnswerReference, {})
       await api.delete(uri);
     } catch (err) {
       console.warn(err);
@@ -194,7 +211,7 @@ class AnswersEditPage extends React.Component {
             hasSavingSpinner: false,
             savingSpinnerTimeout: 0,
           }),
-        2000,
+        2000
       ),
     });
   }
@@ -225,7 +242,12 @@ class AnswersEditPage extends React.Component {
 
       case TABS.EDITOR:
       default:
-        return <AnswerEditionContentBlock defaultValue={prevalue} onChange={this.updatePrevalue} />;
+        return (
+          <AnswerEditionContentBlock
+            defaultValue={prevalue}
+            onChange={this.updatePrevalue}
+          />
+        );
     }
   }
 

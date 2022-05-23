@@ -4,8 +4,8 @@ import React from "react";
 import { addAgreement } from "../../../src/api";
 import AdminForm from "../../../src/components/AdminForm";
 import AdminMain from "../../../src/layouts/AdminMain";
-import customPostgrester from "../../../src/libs/customPostgrester";
 import toast from "../../../src/libs/toast";
+import { GraphQLApi } from "../../../src/libs/GraphQLApi";
 
 export default function AdminNew() {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -14,7 +14,8 @@ export default function AdminNew() {
 
   React.useEffect(() => {
     async function init() {
-      const { data: agreements } = await customPostgrester().get("/agreements");
+      const api = new GraphQLApi();
+      const agreements = await api.fetchAll("/agreements");
       const fields = [
         {
           label: "Nom",
@@ -39,10 +40,11 @@ export default function AdminNew() {
       setFields(fields);
       setIsLoading(false);
     }
+
     init();
   }, []);
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     try {
       await addAgreement(data.name, data.idcc, data.parent_id);
       back();

@@ -39,8 +39,6 @@ export class Api {
     const apiUri =
       this.customApiUri !== null
         ? this.customApiUri
-        : isNode() && process.env.NODE_ENV === "production"
-        ? process.env.API_URI_DOCKER
         : process.env.API_URI;
     const maybeJwt = jsCookie.get("jwt");
 

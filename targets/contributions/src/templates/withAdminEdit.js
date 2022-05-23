@@ -3,14 +3,14 @@ import React from "react";
 
 import AdminForm from "../components/AdminForm";
 import AdminMainLayout from "../layouts/AdminMain";
-import customPostgrester from "../libs/customPostgrester";
+import {GraphQLApi} from "../libs/GraphQLApi";
 
 export default function withAdminEdit(adminFormProps, componentDidMount) {
   class AdminEdit extends React.Component {
     constructor(props) {
       super(props);
 
-      this.api = customPostgrester();
+      this.api = new GraphQLApi();
 
       this.state = {
         data: {},

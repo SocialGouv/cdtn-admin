@@ -12,7 +12,8 @@ import Idcc from "../../src/elements/Idcc";
 import Subtitle from "../../src/elements/Subtitle";
 import Title from "../../src/elements/Title";
 import Main from "../../src/layouts/Main";
-import api from "../../src/libs/api";
+import { api } from "../../src/libs/GraphQLApi";
+import { getAnswerReferences } from "../../src/libs/graphql";
 
 const Container = styled(Main)`
   overflow-y: auto;
@@ -53,7 +54,8 @@ const AnswerEditor = styled(Medixtor)`
         width: 15px;
         height: 15px;
         margin-left: 5px;
-        background: url("/static/assets/icons/external-link.svg") 100% 50% / 15px no-repeat;
+        background: url("/static/assets/icons/external-link.svg") 100% 50% /
+          15px no-repeat;
       }
 
       :hover {
@@ -113,7 +115,7 @@ const AnswerEditor = styled(Medixtor)`
 
 const Strong = styled.p`
   font-weight: 600;
-  margin: ${props => (props.isFirst ? "0 0 0.5rem" : "1rem 0 0.5rem")};
+  margin: ${(props) => (props.isFirst ? "0 0 0.5rem" : "1rem 0 0.5rem")};
 `;
 
 class AnswersViewPage extends React.Component {
@@ -139,10 +141,9 @@ class AnswersViewPage extends React.Component {
 
   async loadReferences() {
     try {
-      const referencesSelect = `select=*`;
-      const referencesWhere = `answer_id=eq.${this.props.id}`;
-      const referencesUri = `/answers_references?${referencesSelect}&${referencesWhere}`;
-      const references = await api.get(referencesUri);
+      const references = await api.fetch(getAnswerReferences, {
+        answer_id: this.props.id,
+      });
 
       this.setState({
         isLoading: false,
@@ -155,10 +156,12 @@ class AnswersViewPage extends React.Component {
 
   renderReferences(category = null) {
     const references = this.state.references.filter(
-      ({ category: _category }) => _category === category,
+      ({ category: _category }) => _category === category
     );
 
-    return <LegalReferences category={category} isReadOnly references={references} />;
+    return (
+      <LegalReferences category={category} isReadOnly references={references} />
+    );
   }
 
   render() {
@@ -169,21 +172,38 @@ class AnswersViewPage extends React.Component {
       return <Main isLoading />;
     }
 
-    const { agreement, generic_reference, prevalue, question, state, value } = answers.data;
+    const {
+      agreement,
+      generic_reference,
+      prevalue,
+      question,
+      state,
+      value,
+    } = answers.data;
 
     const finalValue = state === ANSWER_STATE.VALIDATED ? value : prevalue;
-    const valueTitle = state === ANSWER_STATE.VALIDATED ? "Réponse validée" : "Réponse proposée";
+    const valueTitle =
+      state === ANSWER_STATE.VALIDATED ? "Réponse validée" : "Réponse proposée";
 
     return (
       <Container style={{ padding: "1rem" }}>
         <Flex alignItems="baseline">
-          {this.isGeneric ? <Idcc /> : <Idcc code={agreement.idcc} name={agreement.name} />}
+          {this.isGeneric ? (
+            <Idcc />
+          ) : (
+            <Idcc code={agreement.idcc} name={agreement.name} />
+          )}
           <Title isFirst>{`${question.index}) ${question.value}`}</Title>
         </Flex>
         <Hr />
 
         <Subtitle isFirst>{valueTitle}</Subtitle>
-        <AnswerEditor defaultValue={finalValue} disabled headersOffset={2} isSingleView />
+        <AnswerEditor
+          defaultValue={finalValue}
+          disabled
+          headersOffset={2}
+          isSingleView
+        />
 
         <Subtitle>Références juridiques</Subtitle>
         <Strong>Convention collective</Strong>

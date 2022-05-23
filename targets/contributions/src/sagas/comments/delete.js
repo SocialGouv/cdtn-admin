@@ -1,16 +1,14 @@
 import { put } from "redux-saga/effects";
 
 import { comments } from "../../actions";
-import customPostgrester from "../../libs/customPostgrester";
 import toast from "../../libs/toast";
-
-const API_PATH = "/answers_comments";
+import { GraphQLApi } from "../../libs/GraphQLApi";
+import { deleteAnswerComments } from "../../libs/graphql";
 
 export default function* _delete({ meta: { answerId, ids } }) {
   try {
-    const request = customPostgrester().in("id", ids);
-
-    yield request.delete(API_PATH);
+    const api = new GraphQLApi();
+    yield api.delete(deleteAnswerComments, { ids });
     yield put(comments.load(answerId));
   } catch (err) /* istanbul ignore next */ {
     toast.error(err.message);

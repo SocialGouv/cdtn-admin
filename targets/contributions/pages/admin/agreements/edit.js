@@ -1,8 +1,8 @@
 import withAdminEdit from "../../../src/templates/withAdminEdit";
 
 const componentDidMount = async (api, id) => {
-  const { data: agreements } = await api.eq("id", id).get("/agreements");
-  const { data: allAgreements } = await api.get("/agreements");
+  const agreements = await api.fetchAll("/agreements", { id });
+  const allAgreements = await api.fetchAll("/agreements");
 
   const fields = [
     {
@@ -39,7 +39,7 @@ const AdminAgreementsEditPage = withAdminEdit(
     i18nSubject: "convention",
     indexPath: "/agreements",
   },
-  componentDidMount,
+  componentDidMount
 );
 
 export default AdminAgreementsEditPage;

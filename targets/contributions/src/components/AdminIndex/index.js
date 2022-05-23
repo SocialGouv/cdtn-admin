@@ -12,6 +12,7 @@ import customPostgrester from "../../libs/customPostgrester";
 import stringFrIncludes from "../../libs/stringFrIncludes";
 import T from "../../texts";
 import { Confirmation, Container, Head } from "./styles";
+import {GraphQLApi} from "../../libs/graphQLApi";
 
 const PAGE_SIZE = 10;
 
@@ -94,15 +95,10 @@ class AdminIndex extends React.Component {
 
   async fetchData() {
     this.setState({ isFetching: true });
-    const { apiPath, apiSelectors } = this.props;
+    const { apiPath } = this.props;
 
-    const request = customPostgrester().select("*");
-    if (apiSelectors !== undefined) {
-      this.apiSelectors.forEach(selector => request.select(selector));
-    }
-    if (!this.props.noTimestamps) request.orderBy("updated_at", true);
-
-    const { data } = await request.get(apiPath);
+    const api = new GraphQLApi();
+    const data = await api.fetchAll(apiPath);
 
     this.setState({
       data,
@@ -232,7 +228,6 @@ class AdminIndex extends React.Component {
 
 AdminIndex.propTypes = {
   apiPath: PropTypes.string.isRequired,
-  apiSelectors: PropTypes.arrayOf(PropTypes.string),
   columns: PropTypes.array.isRequired,
   i18nIsFeminine: PropTypes.bool,
   i18nSubject: PropTypes.string.isRequired,
