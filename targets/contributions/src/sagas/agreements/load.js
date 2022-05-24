@@ -16,7 +16,7 @@ export default function* load({ meta: { pageIndex, query } }) {
         name: query,
       };
     }
-    const data = yield api.query(getAgreements, request);
+    const data = yield api.fetch(getAgreements, request);
 
     const list = data.map(({ name, ...props }) => ({
       name: shortenAgreementName(name),

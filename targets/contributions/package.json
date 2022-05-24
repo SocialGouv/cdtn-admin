@@ -21,6 +21,7 @@
     "@fortawesome/react-fontawesome": "0.1.14",
     "@koa/router": "10.0.0",
     "@urql/core": "^2.4.4",
+    "@shared/graphql-client": "^1.16.4",
     "axios": "^0.24.0",
     "colors": "1.4.0",
     "diff": "5.0.0",

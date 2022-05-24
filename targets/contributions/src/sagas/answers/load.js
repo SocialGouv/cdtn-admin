@@ -74,7 +74,7 @@ export default function* load({ meta: { pagesIndex } }) {
       data: answers,
       pagesLength,
       totalLength,
-    } = yield api.queryPagination(getAnswersWithFilters, variables);
+    } = yield api.fetchWithPagination(getAnswersWithFilters, variables);
 
     /** @type {FullAnswer.WithReferences[]} */
     const answersWithReferences = answers.map((item) => ({

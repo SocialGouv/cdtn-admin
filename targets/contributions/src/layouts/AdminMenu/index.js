@@ -77,7 +77,7 @@ export class AdminMenu extends React.PureComponent {
           "admin-generic-answers"
         )}
         {this.renderLink("/locations", "Unités", "admin-locations")}
-        {this.renderLink("/users", "Utilisateurs", "admin-users")}
+        {/*this.renderLink("/users", "Utilisateurs", "admin-users")*/}
 
         {/*
         <Subtitle>Maintenance</Subtitle>

@@ -1,7 +1,7 @@
 export const createAgreement = {
   query: `
-mutation CreateAgreement($idcc: bpchar!, $name: String!, $parentId: uuid) {
-  insert_contrib_agreements_one(object: {idcc: $idcc, name: $name, parent_id: $parentId}) {
+mutation CreateAgreement($idcc: bpchar!, $name: String!, $parent_id: uuid) {
+  insert_contrib_agreements_one(object: {idcc: $idcc, name: $name, parent_id: $parent_id}) {
     id
   }
 }
