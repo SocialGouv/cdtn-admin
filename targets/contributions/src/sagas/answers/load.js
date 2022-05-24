@@ -9,7 +9,7 @@ import shortenAgreementName from "../../helpers/shortenAgreementName";
 import getCurrentUser from "../../libs/getCurrentUser";
 import toast from "../../libs/toast";
 import { getAnswersFilters } from "../../selectors";
-import { GraphQLApi } from "../../libs/graphQLApi";
+import { GraphQLApi } from "../../libs/GraphQLApi";
 import { getAnswersWithFilters } from "../../libs/graphql";
 
 export default function* load({ meta: { pagesIndex } }) {

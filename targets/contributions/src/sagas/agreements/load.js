@@ -4,7 +4,7 @@ import { put } from "redux-saga/effects";
 import { agreements } from "../../actions";
 import shortenAgreementName from "../../helpers/shortenAgreementName";
 import toast from "../../libs/toast";
-import { GraphQLApi } from "../../libs/graphQLApi";
+import { GraphQLApi } from "../../libs/GraphQLApi";
 import { getAgreements } from "../../libs/graphql";
 
 export default function* load({ meta: { pageIndex, query } }) {

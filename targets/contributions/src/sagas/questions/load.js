@@ -3,7 +3,7 @@ import { put } from "redux-saga/effects";
 
 import { questions } from "../../actions";
 import toast from "../../libs/toast";
-import { GraphQLApi } from "../../libs/graphQLApi";
+import { GraphQLApi } from "../../libs/GraphQLApi";
 
 export default function* load({ meta: { pageIndex, query } }) {
   try {

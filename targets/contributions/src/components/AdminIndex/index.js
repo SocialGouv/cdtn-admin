@@ -12,7 +12,7 @@ import customPostgrester from "../../libs/customPostgrester";
 import stringFrIncludes from "../../libs/stringFrIncludes";
 import T from "../../texts";
 import { Confirmation, Container, Head } from "./styles";
-import {GraphQLApi} from "../../libs/graphQLApi";
+import { GraphQLApi } from "../../libs/GraphQLApi";
 
 const PAGE_SIZE = 10;
 
@@ -33,7 +33,8 @@ class AdminIndex extends React.Component {
     if (!noTimestamps) {
       this.columns.push({
         Header: "Modifié le",
-        accessor: data => moment(data.updated_at).tz("Europe/Paris").format("YYYY-MM-DD HH:mm"),
+        accessor: (data) =>
+          moment(data.updated_at).tz("Europe/Paris").format("YYYY-MM-DD HH:mm"),
         filterable: false,
         id: "updatedAt",
         style: { textAlign: "center" },
@@ -49,7 +50,10 @@ class AdminIndex extends React.Component {
             isSmall
             isTransparent
             onClick={() => this.edit(value)}
-            title={T.ADMIN_COMMON_BUTTON_EDIT_TITLE(i18nSubject, i18nIsFeminine)}
+            title={T.ADMIN_COMMON_BUTTON_EDIT_TITLE(
+              i18nSubject,
+              i18nIsFeminine
+            )}
           />
         ),
         accessor: "id",
@@ -69,7 +73,10 @@ class AdminIndex extends React.Component {
             isSmall
             isTransparent
             onClick={() => this.confirmDeletion(value)}
-            title={T.ADMIN_COMMON_BUTTON_DELETE_TITLE(i18nSubject, i18nIsFeminine)}
+            title={T.ADMIN_COMMON_BUTTON_DELETE_TITLE(
+              i18nSubject,
+              i18nIsFeminine
+            )}
           />
         ),
         accessor: "id",
@@ -117,7 +124,7 @@ class AdminIndex extends React.Component {
         pathname: `${window.location.pathname}/edit`,
         query: { id },
       },
-      `${window.location.pathname}/${id}`,
+      `${window.location.pathname}/${id}`
     );
   }
 
@@ -167,7 +174,10 @@ class AdminIndex extends React.Component {
   }
 
   render() {
-    const { i18nIsFeminine = false, i18nSubject = "MISSING_SUBJECT" } = this.props;
+    const {
+      i18nIsFeminine = false,
+      i18nSubject = "MISSING_SUBJECT",
+    } = this.props;
     const { confirmDeletion, data, isLoading, selectedId } = this.state;
 
     if (isLoading) return <AdminMainLayout isLoading />;
@@ -180,7 +190,10 @@ class AdminIndex extends React.Component {
             {!this.props.noCreate && (
               <Button
                 onClick={this.new}
-                title={T.ADMIN_COMMON_BUTTON_NEW_TITLE(i18nSubject, i18nIsFeminine)}
+                title={T.ADMIN_COMMON_BUTTON_NEW_TITLE(
+                  i18nSubject,
+                  i18nIsFeminine
+                )}
               >
                 {T.ADMIN_COMMON_BUTTON_NEW_LABEL(i18nSubject, i18nIsFeminine)}
               </Button>
@@ -193,7 +206,10 @@ class AdminIndex extends React.Component {
                 <Button
                   color="danger"
                   onClick={() => this.delete()}
-                  title={T.ADMIN_COMMON_BUTTON_CONFIRM_DELETION_TITLE(i18nSubject, i18nIsFeminine)}
+                  title={T.ADMIN_COMMON_BUTTON_CONFIRM_DELETION_TITLE(
+                    i18nSubject,
+                    i18nIsFeminine
+                  )}
                   withMarginRight
                 >
                   Supprimer
@@ -201,7 +217,10 @@ class AdminIndex extends React.Component {
                 <Button
                   color="secondary"
                   onClick={() => this.cancelDeletion()}
-                  title={T.ADMIN_COMMON_BUTTON_CANCEL_DELETION_TITLE(i18nSubject, i18nIsFeminine)}
+                  title={T.ADMIN_COMMON_BUTTON_CANCEL_DELETION_TITLE(
+                    i18nSubject,
+                    i18nIsFeminine
+                  )}
                 >
                   Annuler
                 </Button>
