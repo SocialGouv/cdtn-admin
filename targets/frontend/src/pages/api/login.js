@@ -2,28 +2,14 @@ import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
 import { client } from "@shared/graphql-client";
 import { verify } from "argon2";
-import Cors from "cors";
 import { createErrorFor } from "src/lib/apiError";
 import { generateJwtToken } from "src/lib/auth/jwt";
 import { setRefreshTokenCookie } from "src/lib/auth/setRefreshTokenCookie";
 import { getExpiryDate } from "src/lib/duration";
 
-import initMiddleware from "../../lib/api/init-middleware";
 import { loginQuery, refreshTokenMutation } from "./login.gql";
 
-// Initialize the cors middleware
-const cors = initMiddleware(
-  // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
-  Cors({
-    // Only allow requests with GET, POST and OPTIONS
-    methods: ["GET", "POST", "OPTIONS"],
-  })
-);
-
 export default async function login(req, res) {
-  // Run cors
-  await cors(req, res);
-
   const apiError = createErrorFor(res);
 
   if (req.method === "GET") {

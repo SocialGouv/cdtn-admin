@@ -2,25 +2,10 @@ import Boom from "@hapi/boom";
 import Joi from "@hapi/joi";
 import { client } from "@shared/graphql-client";
 import cookie from "cookie";
-import Cors from "cors";
 import { createErrorFor } from "src/lib/apiError";
 import { setToken } from "src/lib/auth/token";
 
-import initMiddleware from "../../lib/api/init-middleware";
-
-// Initialize the cors middleware
-const cors = initMiddleware(
-  // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
-  Cors({
-    // Only allow requests with GET, POST and OPTIONS
-    methods: ["GET", "POST", "OPTIONS"],
-  })
-);
-
 export default async function logout(req, res) {
-  // Run cors
-  await cors(req, res);
-
   const apiError = createErrorFor(res);
 
   const schema = Joi.object({
