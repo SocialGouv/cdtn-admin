@@ -50,9 +50,6 @@ export const fetchCovisits = async (doc) => {
       // TODO avoid silent and deal with failure properly
       return undefined;
     });
-  if (links) {
-    console.log(path, " - ", links);
-  }
   console.timeEnd(`getCovisitLinks-${path}`);
   doc.covisits = links;
 
