@@ -13,7 +13,6 @@ import {
 import { logger } from "@socialgouv/cdtn-logger";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import pMap from "p-map";
-import PQueue from "p-queue";
 
 import { cdtnDocumentsGen } from "./cdtnDocuments";
 import { context } from "./context";
@@ -138,21 +137,13 @@ async function runIngester(
   });
 
   const t0 = Date.now();
-
-  const monologQueue = new PQueue({ concurrency: 20 });
-
   for await (const { source, documents } of cdtnDocumentsGen()) {
     logger.info(`› ${source}... ${documents.length} items`);
 
     // add covisits using pQueue (there is a plan to change this : see #2915)
-    // let covisitDocuments = await pMap(documents, fetchCovisits, {
-    //   concurrency: 20,
-    // });
-    const pDocs = documents.map(async (doc: any) =>
-      monologQueue.add(async () => fetchCovisits(doc))
-    );
-    let covisitDocuments = await Promise.all(pDocs);
-
+    let covisitDocuments = await pMap(documents, fetchCovisits, {
+      concurrency: 20,
+    });
     // add NLP vectors
     if (!excludeSources.includes(source as unknown as any)) {
       covisitDocuments = await pMap(covisitDocuments, addVector, {
