@@ -1,6 +1,7 @@
 /* eslint-disable require-atomic-updates */
 
 const Router = require("@koa/router");
+const login = require("./api/login");
 
 const router = new Router();
 
@@ -19,8 +20,7 @@ function withErrorAndAuth(nextApp, route, callback) {
     } else {
       const { me } = ctx;
 
-      // HACK Authentication if (me.isAuthenticated) {
-      if (true) {
+      if (me.isAuthenticated) {
         switch (true) {
           case ctx.path === "/":
             ctx.redirect(me.isAdmin ? "/admin" : "/answers/todo/1");
@@ -56,6 +56,8 @@ function withErrorAndAuth(nextApp, route, callback) {
 
 module.exports = function (nextApp, requestHandler) {
   router.redirect("/login", "/");
+
+  router.post("/api/login", login);
 
   withErrorAndAuth(nextApp, "/answers/edit/:id", async (ctx) => {
     await nextApp.render(ctx.req, ctx.res, "/answers/edit", { ...ctx.params });

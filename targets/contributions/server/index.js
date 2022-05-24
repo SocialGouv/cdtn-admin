@@ -1,5 +1,6 @@
 const Koa = require("koa");
 const next = require("next");
+const koaBody = require('koa-body');
 
 const isInternetExplorer = require("./middlewares/isInternetExplorer");
 const withAuthentication = require("./middlewares/withAuthentication");
@@ -15,6 +16,10 @@ async function start() {
 
   const koaApp = new Koa();
   const requestHandler = nextApp.getRequestHandler();
+
+  koaApp.use(koaBody({
+    jsonLimit: '1kb'
+  }));
 
   // Show a page advising the user to use Chrome if the current browser is IE:
   koaApp.use(isInternetExplorer);

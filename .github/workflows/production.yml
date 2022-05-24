@@ -32,6 +32,9 @@ jobs:
           - images: "cdtn-admin-export-elasticsearch"
             path: "./targets/export-elasticsearch"
             context: "."
+          - images: "cdtn-admin-contributions"
+            path: "./targets/contributions"
+            context: "./targets/contributions"
     steps:
       - name: Register docker images
         uses: SocialGouv/actions/autodevops-build-register@v1

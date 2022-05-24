@@ -4,7 +4,7 @@ import React from "react";
 import Button from "../../elements/Button";
 import Field from "../../elements/Field";
 import Input from "../../elements/Input";
-import api from "../../libs/api";
+import { Api } from "../../libs/api";
 
 export default class LoginBlockForm extends React.PureComponent {
   constructor(props) {
@@ -27,6 +27,7 @@ export default class LoginBlockForm extends React.PureComponent {
   }
 
   async check() {
+    const api = new Api("");
     const token = await api.post(
       "/api/login",
       {
@@ -38,8 +39,6 @@ export default class LoginBlockForm extends React.PureComponent {
         Authorization: undefined,
       }
     );
-
-    console.log("LOGIN Token: ", token);
 
     // Store JSON Web Token in a cookie:
     jsCookie.set("jwt", token.jwt_token, { expires: 30 });
