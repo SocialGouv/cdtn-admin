@@ -1132,6 +1132,16 @@
     ms "^2.1.3"
     secure-json-parse "^2.4.0"
 
+"@elastic/elasticsearch@^7.15.0":
+  version "7.17.0"
+  resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-7.17.0.tgz#589fb219234cf1b0da23744e82b1d25e2fe9a797"
+  integrity sha512-5QLPCjd0uLmLj1lSuKSThjNpq39f6NmlTy9ROLFwG5gjyTgpwSqufDeYG/Fm43Xs05uF7WcscoO7eguI3HuuYA==
+  dependencies:
+    debug "^4.3.1"
+    hpagent "^0.1.1"
+    ms "^2.1.3"
+    secure-json-parse "^2.4.0"
+
 "@emotion/babel-plugin@^11.0.0":
   version "11.1.2"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.1.2.tgz#68fe1aa3130099161036858c64ee92056c6730b7"
@@ -2866,24 +2876,24 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/cdtn-monolog@^1.5.11":
-  version "1.5.11"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-monolog/-/cdtn-monolog-1.5.11.tgz#de6fbd2becdf41c3983f4cf26d947d87a9ebb46a"
-  integrity sha512-63o0vpC7FHDy2YxVa2fJ/6eorHMNeqyfObKRwhfAGGcM9aWBmKQhch/yQveTDwH6pjL7RI+jMVTDtuJStna2tQ==
+"@socialgouv/cdtn-monolog@^1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-monolog/-/cdtn-monolog-1.11.0.tgz#6dee9a73e640fa6ecbed131aa777d0aa3d6d1f05"
+  integrity sha512-Fw6a9m3AklefmGK7wJ5gSk/etuq5JOOad2HQdxfIa2EG/SBX8W4QPK7vSPI4WJYiMVpoCapdXhryyGTiM4Hd5g==
   dependencies:
-    "@elastic/elasticsearch" "^7.14.1"
-    "@socialgouv/cdtn-logger" "^1.8.9"
-    "@socialgouv/cdtn-sources" "^4.52.1"
-    data-forge "^1.8.17"
+    "@elastic/elasticsearch" "^7.15.0"
+    "@socialgouv/cdtn-logger" "^1.10.4"
+    "@socialgouv/cdtn-sources" "^4.55.1"
+    data-forge "^1.8.26"
     data-forge-fs "^0.0.9"
-    date-fns "^2.23.0"
+    date-fns "^2.25.0"
     esm "^3.2.25"
-    fp-ts "^2.11.1"
+    fp-ts "^2.11.5"
     murmurhash-js "^1.0.0"
-    node-fetch "^2.6.1"
+    node-fetch "^2.6.6"
     p-queue "^6.6.2"
     winston "^3.3.3"
-    yargs "^17.1.1"
+    yargs "^17.2.1"
 
 "@socialgouv/cdtn-slugify@^4.52.1":
   version "4.52.1"
@@ -2896,6 +2906,11 @@
   version "4.52.1"
   resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.52.1.tgz#f812e54aa5ab69a14d3563a54a735cbebb69d239"
   integrity sha512-RvggTh+ND4FY09tjzmCWwmpQgIVKPZk3VM0Gxcy1cyj55GHwpaKA5ckOPTp3SbUXPx3cLF6tp2NESMh4ysE//w==
+
+"@socialgouv/cdtn-sources@^4.55.1":
+  version "4.77.1"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.77.1.tgz#f556c482d33109c19b27900ba5ac197ee64fb1e2"
+  integrity sha512-VnGK/tCMMK3zTYBbVBD8QpnkIOhis3c9XszvyUozYuwGS0VJw42PONtmSyTUkt/XYXtWkKMBJNo9dNDpMqNY5w==
 
 "@socialgouv/cdtn-ui@^4.52.2":
   version "4.52.2"
@@ -6094,10 +6109,10 @@ data-forge-fs@^0.0.9:
   dependencies:
     chai "^4.1.2"
 
-data-forge@^1.8.17:
-  version "1.8.17"
-  resolved "https://registry.yarnpkg.com/data-forge/-/data-forge-1.8.17.tgz#d26669771472d91837e08f4c6dd2a939c8ff44f1"
-  integrity sha512-VWLoMyceLJL3a7jGPhxNFMwpW1tC3D6enJEoskBxGAJ3cTG3tT7YzVaAmQdDsU20+sPMsG/tRC2Vb3/knVTLzA==
+data-forge@^1.8.26:
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/data-forge/-/data-forge-1.9.5.tgz#728a089e3387661737cdd1a636a2cec822e9a150"
+  integrity sha512-lzR8/P0/RP1vOouUasmyd/t7+g44o7UYUmGJXHHjclMJYts4KhCcoDSvfMb1FBeZZ0VE5YH6b9suase+SVkSAg==
   dependencies:
     "@data-forge/serialization" "^1.0.0"
     dayjs "^1.8.12"
@@ -6130,6 +6145,11 @@ date-fns@^2.23.0:
   version "2.23.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.23.0.tgz#4e886c941659af0cf7b30fafdd1eaa37e88788a9"
   integrity sha512-5ycpauovVyAk0kXNZz6ZoB9AYMZB4DObse7P3BPWmyEjXNORTI8EJ6X0uaSAq4sCHzM1uajzrkr6HnsLQpxGXA==
+
+date-fns@^2.25.0:
+  version "2.28.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
+  integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
 
 dateformat@^3.0.0:
   version "3.0.3"
@@ -7488,10 +7508,10 @@ forwarded@~0.1.2:
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
   integrity sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ=
 
-fp-ts@^2.11.1:
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.11.1.tgz#b1eeb2540728b6328542664888442f8f805d2443"
-  integrity sha512-CJOfs+Heq/erkE5mqH2mhpsxCKABGmcLyeEwPxtbTlkLkItGUs6bmk2WqjB2SgoVwNwzTE5iKjPQJiq06CPs5g==
+fp-ts@^2.11.5:
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.12.1.tgz#e389488bfd1507af06bd5965e97367edcd4fabad"
+  integrity sha512-oxvgqUYR6O9VkKXrxkJ0NOyU0FrE705MeqgBUMEPWyTu6Pwn768cJbHChw2XOBlgFLKfIHxjr2OOBFpv2mUGZw==
 
 fresh@0.5.2:
   version "0.5.2"
@@ -10639,7 +10659,7 @@ node-fetch@2.6.1:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
-node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.2, node-fetch@^2.6.5:
+node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.2, node-fetch@^2.6.5, node-fetch@^2.6.6:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
@@ -11301,7 +11321,7 @@ p-pipe@^3.1.0:
   resolved "https://registry.yarnpkg.com/p-pipe/-/p-pipe-3.1.0.tgz#48b57c922aa2e1af6a6404cb7c6bf0eb9cc8e60e"
   integrity sha512-08pj8ATpzMR0Y80x50yJHn37NF6vjrqHutASaX5LiH5npS9XPvrUmscd9MF5R4fuYRHOxQR1FfMIlF7AzwoPqw==
 
-p-queue@^6.6.2:
+p-queue@6.6.2, p-queue@^6.6.2:
   version "6.6.2"
   resolved "https://registry.yarnpkg.com/p-queue/-/p-queue-6.6.2.tgz#2068a9dcf8e67dd0ec3e7a2bcb76810faa85e426"
   integrity sha512-RwFpb72c/BhQLEXIZ5K2e+AhgNVmIejGlTgiB9MzZ0e93GRvqZ7uSi0dvRF7/XIXDeNkra2fNHBxTyPDGySpjQ==
@@ -13359,7 +13379,7 @@ string-width@^3.0.0, string-width@^3.1.0:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^5.1.0"
 
-string-width@^4.0.0, string-width@^4.2.2:
+string-width@^4.0.0, string-width@^4.2.2, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -15053,6 +15073,11 @@ yargs-parser@^15.0.0:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
+yargs-parser@^21.0.0:
+  version "21.0.1"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.0.1.tgz#0267f286c877a4f0f728fceb6f8a3e4cb95c6e35"
+  integrity sha512-9BK1jFpLzJROCI5TzwZL/TU4gqjK5xiHV/RfWLOahrjAko/e4DJkRDZQXfvqAsiZzzYhgAzbgz6lg48jcm4GLg==
+
 yargs@14.2.0:
   version "14.2.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-14.2.0.tgz#f116a9242c4ed8668790b40759b4906c276e76c3"
@@ -15095,6 +15120,19 @@ yargs@^17.1.1:
     string-width "^4.2.0"
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
+
+yargs@^17.2.1:
+  version "17.5.1"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.5.1.tgz#e109900cab6fcb7fd44b1d8249166feb0b36e58e"
+  integrity sha512-t6YAJcxDkNX7NFYiVtKvWUz8l+PaKTLiL63mJYWR2GnHq2gjEWISzsLp9wg3aY36dY1j+gfIEL3pIF+XlJJfbA==
+  dependencies:
+    cliui "^7.0.2"
+    escalade "^3.1.1"
+    get-caller-file "^2.0.5"
+    require-directory "^2.1.1"
+    string-width "^4.2.3"
+    y18n "^5.0.5"
+    yargs-parser "^21.0.0"
 
 yn@3.1.1:
   version "3.1.1"
