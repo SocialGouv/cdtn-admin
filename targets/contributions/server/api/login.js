@@ -11,7 +11,7 @@ module.exports = async (ctx) => {
 
   try {
     const response = await isomorphicUnfetch(
-      `http://localhost:3000/api/login`,
+      `${process.env.API_URI}/api/login`,
       options
     );
 
