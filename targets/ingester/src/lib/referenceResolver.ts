@@ -9,12 +9,12 @@ type DilaNode =
   | LegiData.CodeArticle
   | LegiData.CodeSection;
 
-export type ReferenceResolver = (id: string) => DilaNode[];
+export type ReferenceResolver = (id: string | null) => DilaNode[];
 
 export function createReferenceResolver(
   tree: KaliData.Agreement | LegiData.Code
 ): ReferenceResolver {
-  return function resolveReference(id: string) {
+  return function resolveReference(id: string | null) {
     const article = find(tree, (node: DilaNode) => node.data.id === id);
     if (article === undefined) {
       return [];

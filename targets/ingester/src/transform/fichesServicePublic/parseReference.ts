@@ -90,6 +90,7 @@ export function parseReferences(
   }
   return referencedTexts.flat();
 }
+
 /**
  * @returns {ingester.ReferencedTexts[]}
  */
@@ -113,7 +114,7 @@ export function extractOldReference(
    */
   const qs = queryString.parse(url.split("?")[1]);
 
-  const unwrapQuerystringParam = (param: string[] | string) => {
+  const unwrapQuerystringParam = (param: (string | null)[] | string) => {
     return Array.isArray(param) ? param[0] : param;
   };
 
