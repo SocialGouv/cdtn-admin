@@ -1,6 +1,5 @@
 import { Client } from "@elastic/elasticsearch";
 import { logger } from "@socialgouv/cdtn-logger";
-import { LogQueries } from "@socialgouv/cdtn-monolog";
 import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
 
 import { context } from "./context";
@@ -29,7 +28,6 @@ export const fetchCovisits = async (doc) => {
   const client =
     ES_LOGS && ES_LOGS_TOKEN ? new Client(esClientConfig) : undefined;
 
-  const queries = LogQueries(client, "log_reports");
   let sourceRoute = getRouteBySource(doc.source);
 
   // special case for fiches MT
@@ -38,20 +36,42 @@ export const fetchCovisits = async (doc) => {
   }
 
   const path = `${sourceRoute}/${doc.slug}`;
-  console.time(`getCovisitLinks-${path}`);
-  const links = await queries
-    .getCovisitLinks(path)
-    .then((covisits) => covisits.links)
-    .catch((err) => {
-      // handle Elasticloud error
-      if (err?.body?.status) {
-        throw err;
-      }
-      // TODO avoid silent and deal with failure properly
-      return undefined;
-    });
-  console.timeEnd(`getCovisitLinks-${path}`);
-  doc.covisits = links;
 
+  if (client) {
+    const query = {
+      bool: {
+        must: [
+          {
+            term: {
+              reportType: "covisit",
+            },
+          },
+          {
+            term: {
+              content: path,
+            },
+          },
+        ],
+      },
+    };
+
+    console.time(`getCovisitLinks-${path}`);
+    const result = await client
+      .search({ body: { query }, index: "log_reports", size: 30 })
+      .catch((err) => {
+        // handle Elasticloud error
+        if (err?.body?.status) {
+          throw err;
+        }
+        // TODO avoid silent and deal with failure properly
+        return undefined;
+      });
+    const links =
+      result && result.body && result.body.hits && result.body.hits.hits
+        ? result.body.hits.hits
+        : undefined;
+    console.timeEnd(`getCovisitLinks-${path}`);
+    doc.covisits = links;
+  }
   return doc;
 };

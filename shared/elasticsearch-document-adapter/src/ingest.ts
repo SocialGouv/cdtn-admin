@@ -12,6 +12,7 @@ import {
 } from "@socialgouv/cdtn-elasticsearch";
 import { logger } from "@socialgouv/cdtn-logger";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import pAll from "p-all";
 import pMap from "p-map";
 
 import { cdtnDocumentsGen } from "./cdtnDocuments";
@@ -137,13 +138,23 @@ async function runIngester(
   });
 
   const t0 = Date.now();
+
   for await (const { source, documents } of cdtnDocumentsGen()) {
     logger.info(`› ${source}... ${documents.length} items`);
 
     // add covisits using pQueue (there is a plan to change this : see #2915)
-    let covisitDocuments = await pMap(documents, fetchCovisits, {
+    // let covisitDocuments = await pMap(documents, fetchCovisits, {
+    //   concurrency: 20,
+    // });
+
+    const promisesDocs = documents.map(
+      (doc: any) => async () => fetchCovisits(doc)
+    );
+
+    let covisitDocuments: any[] = await pAll(promisesDocs, {
       concurrency: 20,
     });
+
     // add NLP vectors
     if (!excludeSources.includes(source as unknown as any)) {
       covisitDocuments = await pMap(covisitDocuments, addVector, {

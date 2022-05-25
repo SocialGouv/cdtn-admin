@@ -12,6 +12,7 @@
     "@socialgouv/contributions-data-types": "^3.27.0",
     "nctx": "^1.2.0",
     "node-fetch": "^2.6.5",
+    "p-all": "3.0.0",
     "p-map": "5.2.0",
     "p-queue": "6.6.2",
     "rehype-raw": "^5.1.0",
