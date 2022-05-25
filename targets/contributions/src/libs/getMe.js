@@ -11,18 +11,14 @@ const ANOMNYMOUS_RESPONSE = {
 };
 
 export default async function getMe(ctx) {
-  console.log("Get Me");
   const { jwt } = ctx === undefined ? jsCookie.get() : nextCookies(ctx);
 
   if (typeof jwt !== "string") return ANOMNYMOUS_RESPONSE;
 
   try {
-    console.log("Get Me JWT: ", jwt);
     const token = decode(jwt);
-    console.log("Get Me token: ", token);
     if (token) {
       const claims = token["https://hasura.io/jwt/claims"];
-      console.log("Get Me Claims: ", claims);
       if (claims) {
         return {
           data: {
@@ -34,7 +30,7 @@ export default async function getMe(ctx) {
           isAdmin: [
             USER_ROLE.ADMINISTRATOR,
             USER_ROLE.REGIONAL_ADMINISTRATOR,
-          ].includes(claims["x-hasura-allowed-roles"]),
+          ].includes(claims["x-hasura-default-role"]),
           isAuthenticated: true,
           token: token,
         };
@@ -42,8 +38,6 @@ export default async function getMe(ctx) {
     }
     return ANOMNYMOUS_RESPONSE;
   } catch (err) {
-    console.error(`[libs/getMe()] Error: ${err.message}`);
-
     return { ...ANOMNYMOUS_RESPONSE, err };
   }
 }

@@ -8,8 +8,6 @@ export const addAgreement = async (name, idcc, parent_id) => {
     parent_id ? { idcc, name, parent_id } : { idcc, name }
   );
 
-  console.log("Insert result ", result);
-
   const questions = await api.fetchAll("/questions");
 
   return Promise.all(

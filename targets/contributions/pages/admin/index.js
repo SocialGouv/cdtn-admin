@@ -172,7 +172,6 @@ export default class AdminIndexPage extends React.Component {
   async initializeStats() {
     const locations = await this.fetchLocations();
 
-    console.log("Locations: ", locations);
     const agreementsStats = locations
       .reduce((prev, { agreements }) => [...prev, ...agreements], [])
       .map(({ id, idcc, name, parent_id }) => ({
