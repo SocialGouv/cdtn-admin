@@ -30,10 +30,10 @@ async function start() {
   // Attach routes:
   koaApp.use(router(nextApp, requestHandler));
 
-  koaApp.listen(3201, err => {
+  koaApp.listen(3200, err => {
     if (err) throw err;
 
-    console.info(`> Website ready on port 3201 (${NODE_ENV}).`);
+    console.info(`> Website ready on port 3200 (${NODE_ENV}).`);
   });
 }
 

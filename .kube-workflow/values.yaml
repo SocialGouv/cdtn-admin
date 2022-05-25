@@ -20,6 +20,7 @@ app-www:
 app-contributions:
   probesPath: /
   imagePackage: cdtn-admin-contributions
+  containerPort: 3200
   envFrom:
     - configMapRef:
         name: contributions
