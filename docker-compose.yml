@@ -40,6 +40,19 @@ services:
     env_file:
       - .env
 
+  contributions:
+    build:
+      context: .
+      dockerfile: targets/contributions/Dockerfile
+      shm_size: 512m
+    depends_on:
+      - hasura
+      - www
+    ports:
+      - "3201:3201"
+    env_file:
+      - .env
+
   ingester:
     build:
       context: .
