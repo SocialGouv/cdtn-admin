@@ -34,7 +34,7 @@ jobs:
             context: "."
           - images: "cdtn-admin-contributions"
             path: "./targets/contributions"
-            context: "./targets/contributions"
+            context: "."
     steps:
       - name: Register docker images
         uses: SocialGouv/actions/autodevops-build-register@v1
