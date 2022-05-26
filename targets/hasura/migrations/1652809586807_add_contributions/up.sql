@@ -9,16 +9,11 @@ CREATE TABLE IF NOT EXISTS contrib.agreements (
   created_at timestamp with time zone DEFAULT now() NOT NULL,
   updated_at timestamp with time zone DEFAULT now() NOT NULL,
   parent_id uuid,
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  CONSTRAINT agreements_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES contrib.agreements (id) ON DELETE SET NULL
   );
 
-ALTER TABLE IF EXISTS contrib.agreements
-  ADD CONSTRAINT agreements_parent_id_fkey
-  FOREIGN KEY (parent_id)
-  REFERENCES contrib.agreements (id)
-  ON DELETE SET NULL;
-
-CREATE FUNCTION IF NOT EXISTS set_updated_at()
+CREATE OR REPLACE FUNCTION set_updated_at()
   RETURNS TRIGGER AS $$
 BEGIN
     NEW.updated_at = NOW();
@@ -27,7 +22,9 @@ RETURN NEW;
 END
   $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER IF NOT EXISTS update_updated_at
+DROP TRIGGER IF EXISTS update_updated_at ON contrib.agreements;
+
+CREATE TRIGGER update_updated_at
   BEFORE UPDATE ON contrib.agreements
   FOR EACH ROW
   EXECUTE PROCEDURE set_updated_at();
@@ -52,20 +49,10 @@ CREATE TABLE IF NOT EXISTS contrib.locations_agreements (
   id integer DEFAULT nextval('contrib.locations_agreements_id_seq'::regclass) NOT NULL,
   location_id uuid NOT NULL,
   agreement_id uuid NOT NULL,
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  CONSTRAINT locations_agreements_agreement_id_fkey FOREIGN KEY (agreement_id) REFERENCES contrib.agreements (id) ON DELETE CASCADE,
+  CONSTRAINT locations_agreements_location_id_fkey FOREIGN KEY (location_id) REFERENCES contrib.locations (id) ON DELETE CASCADE
   );
-
-ALTER TABLE IF EXISTS contrib.locations_agreements
-  ADD CONSTRAINT locations_agreements_agreement_id_fkey
-  FOREIGN KEY (agreement_id)
-  REFERENCES contrib.agreements (id)
-  ON DELETE CASCADE;
-
-ALTER TABLE IF EXISTS contrib.locations_agreements
-  ADD CONSTRAINT locations_agreements_location_id_fkey
-  FOREIGN KEY (location_id)
-  REFERENCES contrib.locations (id)
-  ON DELETE CASCADE;
 
 CREATE SEQUENCE IF NOT EXISTS contrib.questions_index_seq
   AS integer
@@ -96,32 +83,12 @@ CREATE TABLE IF NOT EXISTS contrib.answers (
   generic_reference text,
   state text DEFAULT 'todo',
   prevalue text DEFAULT ''::text NOT NULL,
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  CONSTRAINT answers_agreement_id_fkey FOREIGN KEY (agreement_id) REFERENCES contrib.agreements (id) ON DELETE CASCADE,
+  CONSTRAINT answers_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES contrib.answers (id) ON DELETE CASCADE,
+  CONSTRAINT answers_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users (id) ON DELETE SET NULL,
+  CONSTRAINT answers_question_id_fkey FOREIGN KEY (question_id) REFERENCES contrib.questions (id) ON DELETE CASCADE
   );
-
-ALTER TABLE IF EXISTS contrib.answers
-  ADD CONSTRAINT answers_agreement_id_fkey
-  FOREIGN KEY (agreement_id)
-  REFERENCES contrib.agreements (id)
-  ON DELETE CASCADE;
-
-ALTER TABLE IF EXISTS contrib.answers
-  ADD CONSTRAINT answers_parent_id_fkey
-  FOREIGN KEY (parent_id)
-  REFERENCES contrib.answers (id)
-  ON DELETE CASCADE;
-
-ALTER TABLE IF EXISTS contrib.answers
-  ADD CONSTRAINT answers_user_id_fkey
-  FOREIGN KEY (user_id)
-  REFERENCES auth.users (id)
-  ON DELETE SET NULL;
-
-ALTER TABLE IF EXISTS contrib.answers
-  ADD CONSTRAINT answers_question_id_fkey
-  FOREIGN KEY (question_id)
-  REFERENCES contrib.questions (id)
-  ON DELETE CASCADE;
 
 CREATE SEQUENCE IF NOT EXISTS contrib.answers_comments_id_seq
   AS integer
@@ -139,18 +106,10 @@ CREATE TABLE IF NOT EXISTS contrib.answers_comments (
   answer_id uuid NOT NULL,
   user_id uuid NOT NULL,
   is_private boolean DEFAULT false NOT NULL,
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  CONSTRAINT answers_comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users (id),
+  CONSTRAINT answers_comments_answer_id_fkey FOREIGN KEY (answer_id) REFERENCES contrib.answers (id)
   );
-
-ALTER TABLE IF EXISTS contrib.answers_comments
-  ADD CONSTRAINT answers_comments_user_id_fkey
-  FOREIGN KEY (user_id)
-  REFERENCES auth.users (id);
-
-ALTER TABLE IF EXISTS contrib.answers_comments
-  ADD CONSTRAINT answers_comments_answer_id_fkey
-  FOREIGN KEY (answer_id)
-  REFERENCES contrib.answers (id);
 
 CREATE TABLE IF NOT EXISTS contrib.answers_references (
   id uuid DEFAULT uuid_generate_v4() NOT NULL,
@@ -163,10 +122,6 @@ CREATE TABLE IF NOT EXISTS contrib.answers_references (
   dila_id text,
   dila_cid text,
   dila_container_id text,
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  CONSTRAINT answers_references_answer_id_fkey FOREIGN KEY (answer_id) REFERENCES contrib.answers (id)
   );
-
-ALTER TABLE IF EXISTS contrib.answers_references
-  ADD CONSTRAINT answers_references_answer_id_fkey
-  FOREIGN KEY (answer_id)
-  REFERENCES contrib.answers (id);

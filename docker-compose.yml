@@ -49,7 +49,9 @@ services:
       - hasura
       - www
     ports:
-      - "3201:3201"
+      - "3200:3200"
+    environment:
+      API_URI: http://www
     env_file:
       - .env
 

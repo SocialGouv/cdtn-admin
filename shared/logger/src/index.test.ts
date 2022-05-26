@@ -27,11 +27,11 @@ test("should log less than or equal to info level to stdout", async () => {
   expect(output.stderr).toMatchInlineSnapshot(`Array []`);
   expect(output.stdout).toMatchInlineSnapshot(`
     Array [
-      "{\\"message\\":\\"an error\\",\\"level\\":\\"error\\"}
+      "{\\"level\\":\\"error\\",\\"message\\":\\"an error\\"}
     ",
-      "{\\"message\\":\\"an warn\\",\\"level\\":\\"warn\\"}
+      "{\\"level\\":\\"warn\\",\\"message\\":\\"an warn\\"}
     ",
-      "{\\"message\\":\\"an info\\",\\"level\\":\\"info\\"}
+      "{\\"level\\":\\"info\\",\\"message\\":\\"an info\\"}
     ",
     ]
   `);
@@ -59,19 +59,19 @@ test("should log all levels to stdout", async () => {
   expect(output.stderr).toMatchInlineSnapshot(`Array []`);
   expect(output.stdout).toMatchInlineSnapshot(`
     Array [
-      "{\\"message\\":\\"an error\\",\\"level\\":\\"error\\"}
+      "{\\"level\\":\\"error\\",\\"message\\":\\"an error\\"}
     ",
-      "{\\"message\\":\\"an warn\\",\\"level\\":\\"warn\\"}
+      "{\\"level\\":\\"warn\\",\\"message\\":\\"an warn\\"}
     ",
-      "{\\"message\\":\\"an info\\",\\"level\\":\\"info\\"}
+      "{\\"level\\":\\"info\\",\\"message\\":\\"an info\\"}
     ",
-      "{\\"message\\":\\"an http\\",\\"level\\":\\"http\\"}
+      "{\\"level\\":\\"http\\",\\"message\\":\\"an http\\"}
     ",
-      "{\\"message\\":\\"an verbose\\",\\"level\\":\\"verbose\\"}
+      "{\\"level\\":\\"verbose\\",\\"message\\":\\"an verbose\\"}
     ",
-      "{\\"message\\":\\"an debug\\",\\"level\\":\\"debug\\"}
+      "{\\"level\\":\\"debug\\",\\"message\\":\\"an debug\\"}
     ",
-      "{\\"message\\":\\"an debug\\",\\"level\\":\\"silly\\"}
+      "{\\"level\\":\\"silly\\",\\"message\\":\\"an debug\\"}
     ",
     ]
   `);
