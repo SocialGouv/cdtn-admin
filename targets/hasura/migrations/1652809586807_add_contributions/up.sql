@@ -1,4 +1,4 @@
-CREATE SCHEMA contrib;
+CREATE SCHEMA IF NOT EXISTS contrib;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -18,7 +18,7 @@ ALTER TABLE IF EXISTS contrib.agreements
   REFERENCES contrib.agreements (id)
   ON DELETE SET NULL;
 
-CREATE FUNCTION set_updated_at()
+CREATE FUNCTION IF NOT EXISTS set_updated_at()
   RETURNS TRIGGER AS $$
 BEGIN
     NEW.updated_at = NOW();
@@ -27,7 +27,7 @@ RETURN NEW;
 END
   $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_updated_at
+CREATE TRIGGER IF NOT EXISTS update_updated_at
   BEFORE UPDATE ON contrib.agreements
   FOR EACH ROW
   EXECUTE PROCEDURE set_updated_at();
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS contrib.locations (
   PRIMARY KEY(id)
   );
 
-CREATE SEQUENCE contrib.locations_agreements_id_seq
+CREATE SEQUENCE IF NOT EXISTS contrib.locations_agreements_id_seq
   AS integer
   START WITH 1
   INCREMENT BY 1
@@ -67,7 +67,7 @@ ALTER TABLE IF EXISTS contrib.locations_agreements
   REFERENCES contrib.locations (id)
   ON DELETE CASCADE;
 
-CREATE SEQUENCE contrib.questions_index_seq
+CREATE SEQUENCE IF NOT EXISTS contrib.questions_index_seq
   AS integer
   START WITH 1
   INCREMENT BY 1
@@ -123,7 +123,7 @@ ALTER TABLE IF EXISTS contrib.answers
   REFERENCES contrib.questions (id)
   ON DELETE CASCADE;
 
-CREATE SEQUENCE contrib.answers_comments_id_seq
+CREATE SEQUENCE IF NOT EXISTS contrib.answers_comments_id_seq
   AS integer
   START WITH 1
   INCREMENT BY 1
