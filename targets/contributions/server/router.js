@@ -1,6 +1,6 @@
 /* eslint-disable require-atomic-updates */
 const Router = require("@koa/router");
-const { refreshToken } = require("./libs/refreshToken");
+const refreshToken = require("./libs/refreshToken");
 
 const router = new Router();
 

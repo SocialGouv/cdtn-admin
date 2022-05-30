@@ -1,4 +1,4 @@
-module.exports = async function refreshToken(ctx) {
+module.exports = async (ctx) => {
   const { me } = ctx;
   if (me.isAuthenticated) {
     const refresh_token = ctx.cookies.get("refresh_token");
