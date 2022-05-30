@@ -1,4 +1,3 @@
-import jsCookie from "js-cookie";
 import Router from "next/router";
 import React from "react";
 
@@ -13,6 +12,8 @@ import {
   DropdownMenu,
   DropdownText,
 } from "./styles";
+import { Api } from "../../libs/api";
+import jsCookie from "js-cookie";
 
 export default class Menu extends React.PureComponent {
   goToAnswers(state) {
@@ -27,9 +28,10 @@ export default class Menu extends React.PureComponent {
     window.open(`https://jean-rene-duscher.gitbook.io${path}`, "_blank");
   }
 
-  logOut() {
+  async logOut() {
+    const api = new Api("");
+    await api.post("/api/logout");
     jsCookie.remove("jwt");
-    jsCookie.remove("jwt_refresh_token");
 
     window.location.href = "/";
   }

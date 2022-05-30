@@ -51,6 +51,22 @@ async function start() {
   );
 
   koaApp.use(
+    proxy("/api/login", {
+      target: process.env.API_URI,
+      changeOrigin: true,
+      logs: true,
+    })
+  );
+
+  koaApp.use(
+    proxy("/api/logout", {
+      target: process.env.API_URI,
+      changeOrigin: true,
+      logs: true,
+    })
+  );
+
+  koaApp.use(
     koaBody({
       jsonLimit: "1kb",
     })

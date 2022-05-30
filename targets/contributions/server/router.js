@@ -1,7 +1,6 @@
 /* eslint-disable require-atomic-updates */
-
 const Router = require("@koa/router");
-const login = require("./api/login");
+const { refreshToken } = require("./libs/refreshToken");
 
 const router = new Router();
 
@@ -20,71 +19,7 @@ function withErrorAndAuth(nextApp, route, callback) {
     } else {
       const { me } = ctx;
       if (me.isAuthenticated) {
-        const jwt_refresh_token = ctx.cookies.get("jwt_refresh_token");
-        // Otherwise, we check if the token is expired
-        const expirationTimeInSeconds = me.token.exp * 1000;
-        const now = new Date();
-        const delay = expirationTimeInSeconds - now.getTime();
-        console.log(
-          "MMA - Expiration : ",
-          expirationTimeInSeconds <= now.getTime(),
-          " in ",
-          delay,
-          " token: ",
-          jwt_refresh_token
-        );
-        // if (true) {
-
-        if (delay <= 850000) {
-          // Call refresh token API ADMIN
-          console.log(
-            "MMA - Call refresh token API ADMIN with ",
-            jwt_refresh_token
-          );
-          const options = {
-            headers: {
-              "content-type": "application/json",
-              // Cookie: `refresh_token=${jwt_refresh_token}`,
-            },
-            method: "POST",
-            body: JSON.stringify({
-              refresh_token: jwt_refresh_token,
-            }),
-          };
-
-          try {
-            const response = await fetch(
-              `${process.env.API_URI}/api/refresh_token`,
-              options
-            );
-
-            if (!response.ok) {
-              console.log(
-                "MMA - Call refresh token API RESPONSE FAILED",
-                response
-              );
-              ctx.redirect("/");
-              // return { isAuthenticated: false };
-            } else {
-              const data = await response.json();
-              console.log(
-                "MMA - Call refresh token API RESPONSE SUCCEED",
-                data
-              );
-              // Update cookie
-              ctx.cookies.set("jwt", data.jwt);
-              ctx.cookies.set("jwt_refresh_token", data.refresh_token);
-            }
-          } catch (e) {
-            console.log(
-              "MMA - Call refresh token API RESPONSE FAILED (error)",
-              e
-            );
-            ctx.redirect("/");
-            return { isAuthenticated: false };
-          }
-        }
-
+        await refreshToken(ctx);
         switch (true) {
           case ctx.path === "/":
             ctx.redirect(me.isAdmin ? "/admin" : "/answers/todo/1");
@@ -118,36 +53,8 @@ function withErrorAndAuth(nextApp, route, callback) {
   });
 }
 
-function withErrorAndAuthPost(nextApp, route, callback) {
-  router.post(route, async (ctx) => {
-    if (ctx.status >= 500) {
-      await nextApp.renderError(ctx.error, ctx.req, ctx.res, route);
-    } else {
-      const { me } = ctx;
-
-      if (me.isAuthenticated) {
-        ctx.status = 200;
-        await callback(ctx);
-        ctx.respond = false;
-      } else {
-        if (ctx.path !== "/") {
-          ctx.redirect("/");
-
-          return;
-        }
-
-        ctx.status = 200;
-        await callback(ctx);
-        ctx.respond = false;
-      }
-    }
-  });
-}
-
 module.exports = function (nextApp, requestHandler) {
   router.redirect("/login", "/");
-
-  router.post("/api/login", login);
 
   withErrorAndAuth(nextApp, "/answers/edit/:id", async (ctx) => {
     await nextApp.render(ctx.req, ctx.res, "/answers/edit", { ...ctx.params });
