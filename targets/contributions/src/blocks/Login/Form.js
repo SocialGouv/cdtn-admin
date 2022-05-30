@@ -42,6 +42,7 @@ export default class LoginBlockForm extends React.PureComponent {
 
     // Store JSON Web Token in a cookie:
     jsCookie.set("jwt", token.jwt_token, { expires: 30 });
+    jsCookie.set("jwt_refresh_token", token.refresh_token, { expires: 30 });
   }
 
   async submit(event) {

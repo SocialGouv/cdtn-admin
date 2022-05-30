@@ -6,7 +6,13 @@ import cache from "../../cache";
 import { ANSWER_STATE } from "../../constants";
 import Icon from "../../elements/Icon";
 import T from "../../texts";
-import { Container, Dropdown, DropdownLink, DropdownMenu, DropdownText } from "./styles";
+import {
+  Container,
+  Dropdown,
+  DropdownLink,
+  DropdownMenu,
+  DropdownText,
+} from "./styles";
 
 export default class Menu extends React.PureComponent {
   goToAnswers(state) {
@@ -23,6 +29,7 @@ export default class Menu extends React.PureComponent {
 
   logOut() {
     jsCookie.remove("jwt");
+    jsCookie.remove("jwt_refresh_token");
 
     window.location.href = "/";
   }
@@ -124,10 +131,14 @@ export default class Menu extends React.PureComponent {
             <DropdownLink
               data-testid="contrib-proposal"
               onClick={() =>
-                this.openDoc("Proposition-de-reponse-types-CC-metallurgie-locales.docx")
+                this.openDoc(
+                  "Proposition-de-reponse-types-CC-metallurgie-locales.docx"
+                )
               }
               onKeyPress={() =>
-                this.openDoc("Proposition-de-reponse-types-CC-metallurgie-locales.docx")
+                this.openDoc(
+                  "Proposition-de-reponse-types-CC-metallurgie-locales.docx"
+                )
               }
               role="link"
               tabIndex="0"
@@ -138,8 +149,12 @@ export default class Menu extends React.PureComponent {
 
             <DropdownLink
               data-testid="contrib-reformulation"
-              onClick={() => this.openDoc("Reformulation-des-intitules-de-question.xlsx")}
-              onKeyPress={() => this.openDoc("Reformulation-des-intitules-de-question.xlsx")}
+              onClick={() =>
+                this.openDoc("Reformulation-des-intitules-de-question.xlsx")
+              }
+              onKeyPress={() =>
+                this.openDoc("Reformulation-des-intitules-de-question.xlsx")
+              }
               role="link"
               tabIndex="0"
             >
@@ -150,10 +165,14 @@ export default class Menu extends React.PureComponent {
             <DropdownLink
               data-testid="contrib-feedback"
               onClick={() =>
-                this.openDoc("Premiers-retours-sur-la-validation-des-contributions.docx")
+                this.openDoc(
+                  "Premiers-retours-sur-la-validation-des-contributions.docx"
+                )
               }
               onKeyPress={() =>
-                this.openDoc("Premiers-retours-sur-la-validation-des-contributions.docx")
+                this.openDoc(
+                  "Premiers-retours-sur-la-validation-des-contributions.docx"
+                )
               }
               role="link"
               tabIndex="0"

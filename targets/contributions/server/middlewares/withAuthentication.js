@@ -16,6 +16,8 @@ async function getMe(ctx) {
   const claims = token["https://hasura.io/jwt/claims"];
   if (claims) {
     return {
+      jwt,
+      token,
       isAdmin: [
         USER_ROLE.ADMINISTRATOR,
         USER_ROLE.REGIONAL_ADMINISTRATOR,

@@ -8,7 +8,6 @@ import { createAnswerReferences } from "../../libs/graphql";
 export default function* addReferences({ meta: { data }, next }) {
   try {
     const api = new GraphQLApi();
-    console.log("Create ref XYZ : ", data);
     yield api.create(createAnswerReferences, { data });
 
     next();

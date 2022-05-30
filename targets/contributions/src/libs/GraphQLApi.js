@@ -1,4 +1,3 @@
-import { client } from "@shared/graphql-client";
 import {
   getAgreements,
   getAnswers,
@@ -7,10 +6,21 @@ import {
   updateAgreement,
   updateQuestion,
 } from "./graphql";
+import { createClient } from "@urql/core";
+import fetch from "isomorphic-unfetch";
 
 export class GraphQLApi {
   constructor() {
-    this.client = client;
+    this.client = createClient({
+      fetch,
+      fetchOptions: {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+      requestPolicy: "network-only",
+      url: "/api/graphql",
+    });
   }
 
   async fetchWithPagination(data, variables = undefined) {

@@ -1,3 +1,8 @@
+import getConfig from "next/config";
 import { Api } from "./api";
 
-export default new Api(process.env.CDTN_API_URL);
+const {
+  publicRuntimeConfig: { CDTN_API_URL },
+} = getConfig();
+
+export default new Api(CDTN_API_URL);
