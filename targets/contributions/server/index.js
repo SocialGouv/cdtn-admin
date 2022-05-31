@@ -45,8 +45,21 @@ async function start() {
     proxy("/api/graphql", {
       target: process.env.HASURA_GRAPHQL_ENDPOINT,
       changeOrigin: true,
+      followRedirects: true,
       rewrite: (path) => path.replace(/^\/api\/graphql/, "/v1/graphql"),
-      logs: false,
+      logs: (ctx, target) => {
+        console.log(
+          "%s - %s %s proxy to -> %s (headers: %s)",
+          new Date().toISOString(),
+          ctx.req.method,
+          ctx.req.oldPath,
+          new URL(ctx.req.url, target),
+          JSON.stringify(ctx.headers)
+        );
+      },
+      prependPath: false,
+      ws: true,
+      xfwd: true, // proxy websockets
     })
   );
 
