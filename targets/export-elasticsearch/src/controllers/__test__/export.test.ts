@@ -103,8 +103,9 @@ describe("ExportController /export", () => {
       expect(res.statusCode).toEqual(400);
       expect(res.body.errors[0]).toEqual(
         expect.objectContaining({
-          message:
-            "Invalid enum value. Expected 'production' | 'preproduction'",
+          code: "invalid_type",
+          expected: "'production' | 'preproduction'",
+          message: "Required",
         })
       );
     });
@@ -138,7 +139,7 @@ describe("ExportController /export", () => {
       expect(res.body.errors[0]).toEqual(
         expect.objectContaining({
           message:
-            "Invalid enum value. Expected 'production' | 'preproduction'",
+            "Invalid enum value. Expected 'production' | 'preproduction', received 'pproductionnn'",
         })
       );
     });

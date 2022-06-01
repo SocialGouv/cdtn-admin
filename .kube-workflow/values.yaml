@@ -17,6 +17,23 @@ app-www:
       cpu: "5m"
       memory: "128Mi"
 
+app-contributions:
+  probesPath: /
+  imagePackage: cdtn-admin-contributions
+  containerPort: 3200
+  envFrom:
+    - configMapRef:
+        name: contributions
+    - secretRef:
+        name: contributions
+  resources:
+    limits:
+      cpu: "1000m"
+      memory: "560Mi"
+    requests:
+      cpu: "5m"
+      memory: "128Mi"
+
 app-export:
   probesPath: /healthz
   ingress:
