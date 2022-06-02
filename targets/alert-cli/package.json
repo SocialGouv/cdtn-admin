@@ -16,7 +16,7 @@
     "memoizee": "0.4.15",
     "node-fetch": "2.6.5",
     "nodegit": "0.27.0",
-    "p-map": "4",
+    "p-map": "5",
     "semver": "7.3.5",
     "unist-util-parents": "1.0.3",
     "unist-util-select": "4.0.1"
