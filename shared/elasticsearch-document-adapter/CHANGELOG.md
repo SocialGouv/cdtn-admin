@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.1](https://github.com/SocialGouv/cdtn-admin/compare/v1.17.0...v1.17.1) (2022-06-02)
+
+
+### Bug Fixes
+
+* **alert:** correction suite aux problèmes sur les jobs ([#769](https://github.com/SocialGouv/cdtn-admin/issues/769)) ([d89be61](https://github.com/SocialGouv/cdtn-admin/commit/d89be6101fa3a78affc0543e600887e491690cd2))
+
+
+
+
+
 # [1.17.0](https://github.com/SocialGouv/cdtn-admin/compare/v1.16.8...v1.17.0) (2022-06-01)
 
 **Note:** Version bump only for package @shared/elasticsearch-document-adapter
