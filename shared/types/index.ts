@@ -1,11 +1,4 @@
 import type {
-  Answer,
-  GenericAnswer,
-  IndexedAgreement,
-  Reference as ContributionReference,
-  DilaRef,
-} from "@socialgouv/contributions-data-types";
-import type {
   CodeArticle,
   CodeArticleData,
   CodeSection,
@@ -164,6 +157,7 @@ export interface FicheTravailEmploiDoc {
   url: string;
   sections: Section[];
 }
+
 export interface Section {
   anchor: string;
   html: string;
@@ -480,3 +474,74 @@ export interface ExportEsStatus {
   updated_at: Date;
   user?: User;
 }
+
+export type Question = {
+  id: string;
+  index: number;
+  title: string;
+  answers: {
+    generic: GenericAnswer;
+    conventions: Answer[];
+  };
+};
+
+export type Answer = {
+  id: string;
+  idcc: string;
+  markdown: string;
+  references: ContributionReference[];
+};
+
+export type GenericAnswer = {
+  id: string;
+  markdown: string;
+  description: string;
+  text: string;
+  references: ContributionReference[];
+};
+
+export type ContributionReference = BaseRef | DilaRef;
+
+export type DilaRef = {
+  category: "agreement" | "labor_code";
+  url: string;
+  title: string;
+  dila_id: string;
+  dila_cid: string;
+  dila_container_id: string;
+};
+
+export type BaseRef = {
+  category: null;
+  title: string;
+  url: string | null;
+};
+
+// from https://github.com/SocialGouv/kali-data/blob/master/src/index.d.ts
+export type IndexedAgreement = {
+  active?: boolean;
+  /** Publication ISO date */
+  date_publi?: string;
+  effectif?: number;
+  etat?: State;
+  /** Agreement ID */
+  id: string;
+  mtime?: number;
+  nature: "IDCC";
+  /** Agreement IDCC */
+  num: number;
+  shortTitle: string;
+  texte_de_base?: string;
+  title: string;
+  url?: string;
+};
+
+export type State =
+  | "ABROGE"
+  | "DENONCE"
+  | "MODIFIE"
+  | "PERIME"
+  | "REMPLACE"
+  | "VIGUEUR"
+  | "VIGUEUR_ETEN"
+  | "VIGUEUR_NON_ETEN";
