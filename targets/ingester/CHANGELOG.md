@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.2](https://github.com/SocialGouv/cdtn-admin/compare/v1.17.1...v1.17.2) (2022-06-06)
+
+
+### Bug Fixes
+
+* **ingester:** parents is not default exported anymore ([#771](https://github.com/SocialGouv/cdtn-admin/issues/771)) ([2a7f1a0](https://github.com/SocialGouv/cdtn-admin/commit/2a7f1a006c770d7b4190d137b538ca052fd94c16))
+
+
+
+
+
 ## [1.17.1](https://github.com/SocialGouv/cdtn-admin/compare/v1.17.0...v1.17.1) (2022-06-02)
 
 
