@@ -8,6 +8,9 @@ import remark from "remark";
 import strip from "strip-markdown";
 
 import type { AgreementAnswerRaw, AnswerRaw } from "./types";
+// Unified works only with require
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+import unified = require("unified");
 
 export class AnswerExtractor {
   constructor(agreements: IndexedAgreement[]) {
@@ -20,7 +23,7 @@ export class AnswerExtractor {
     if (!genericAnswer) {
       return null;
     }
-    const genericTextAnswer: string = this.genericTextAnswer(genericAnswer);
+    const genericTextAnswer = this.genericTextAnswer(genericAnswer);
     return {
       description:
         genericTextAnswer.slice(0, genericTextAnswer.indexOf(" ", 150)) + "…",
@@ -63,8 +66,7 @@ export class AnswerExtractor {
     idcc: string
   ): (ref: ContributionReference) => ContributionReference {
     const agreement = this.agreements.find(
-      (agreement) =>
-        this.comparableIdcc(agreement.num) === this.comparableIdcc(idcc)
+      (item) => this.comparableIdcc(item.num) === this.comparableIdcc(idcc)
     );
     if (!agreement) {
       throw new Error(`agreement ${idcc} not found `);
@@ -88,6 +90,7 @@ export class AnswerExtractor {
           }
           return reference;
         }
+        case null: /* Nothing to do */
       }
 
       return reference;
@@ -98,7 +101,7 @@ export class AnswerExtractor {
     try {
       return this.mdStriper
         .processSync(genericAnswer.markdown)
-        .value.toString()
+        .toString()
         .replace(/(\s)\s+/, "$1")
         .trim() as unknown as string;
     } catch (e) {
@@ -116,7 +119,7 @@ export class AnswerExtractor {
     (a: T, b: T): number =>
       `${a[key]}`.localeCompare(`${b[key]}`);
 
-  mdStriper: any;
+  mdStriper: unified.Processor<remark.RemarkOptions>;
 
   agreements: IndexedAgreement[];
 }

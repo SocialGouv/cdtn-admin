@@ -3,7 +3,7 @@ query GetQuestionsWithAnswers {
   questions: contrib_questions(order_by: {index: asc}) {
     id
     index
-    value
+    title: value
     answers {
       id
       markdown: value

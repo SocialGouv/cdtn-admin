@@ -2,12 +2,14 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 
+import type { CdtnDocument } from "../index";
+import fetchContributions from "../lib/fetchContributions";
 import { getJson } from "../lib/getJson";
 
-export default async function getContributionsDocuments(pkgName: string) {
-  const data = await getJson<ContributionsData.Question[]>(
-    `${pkgName}/data/contributions.json`
-  );
+export default async function getContributionsDocuments(): Promise<
+  CdtnDocument[]
+> {
+  const data = await fetchContributions();
 
   const agreements = await getJson<IndexedAgreement[]>(
     `@socialgouv/kali-data/data/index.json`

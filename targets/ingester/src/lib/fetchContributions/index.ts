@@ -20,7 +20,7 @@ async function fetchContributions(): Promise<Question[]> {
   ]);
   const answerExtractor = new AnswerExtractor(agreements);
 
-  return questions.flatMap(({ id, index, value: title, answers }) => {
+  return questions.flatMap(({ id, index, title, answers }) => {
     const genericAnswer = answerExtractor.extractGenericAnswer(answers);
     if (!genericAnswer) return [];
     return {

@@ -19,6 +19,6 @@ export type AgreementAnswerRaw = AnswerRaw & {
 export type QuestionRaw = {
   id: string;
   index: number;
-  value: string;
+  title: string;
   answers: AnswerRaw[];
 };
