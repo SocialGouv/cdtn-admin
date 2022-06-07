@@ -133,7 +133,6 @@ async function download(pkgName: string, url: string) {
 }
 
 const dataPackages = [
-  { getDocuments: getAgreementDocuments, pkgName: "@socialgouv/kali-data" },
   { getDocuments: getCdtDocuments, pkgName: "@socialgouv/legi-data" },
   { getDocuments: getFichesServicePublic, pkgName: "@socialgouv/fiches-vdd" },
   {
@@ -263,6 +262,10 @@ async function main() {
   }
   packagesToUpdate.set("@socialgouv/contributions-data", {
     getDocuments: getContributionsDocuments,
+    version: "1.0.0",
+  });
+  packagesToUpdate.set("@socialgouv/kali-data", {
+    getDocuments: getAgreementDocuments,
     version: "1.0.0",
   });
   if (args.dryRun) {
