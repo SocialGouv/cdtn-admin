@@ -22,5 +22,5 @@ export class ContributionRepository {
     return res.data.questions;
   }
 
-  client: Client;
+  private readonly client: Client;
 }

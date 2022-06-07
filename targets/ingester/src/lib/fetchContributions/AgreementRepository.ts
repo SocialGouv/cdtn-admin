@@ -14,5 +14,5 @@ export class AgreementRepository {
     return agreements;
   }
 
-  pkgName: string;
+  private readonly pkgName: string;
 }

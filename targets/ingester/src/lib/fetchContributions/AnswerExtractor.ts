@@ -119,7 +119,7 @@ export class AnswerExtractor {
     (a: T, b: T): number =>
       `${a[key]}`.localeCompare(`${b[key]}`);
 
-  mdStriper: unified.Processor<remark.RemarkOptions>;
+  private readonly mdStriper: unified.Processor<remark.RemarkOptions>;
 
-  agreements: IndexedAgreement[];
+  private readonly agreements: IndexedAgreement[];
 }
