@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://github.com/SocialGouv/cdtn-admin/compare/v1.17.2...v1.18.0) (2022-06-07)
+
+
+### Features
+
+* **ingester:** use the new contribution data ([#772](https://github.com/SocialGouv/cdtn-admin/issues/772)) ([a4b4815](https://github.com/SocialGouv/cdtn-admin/commit/a4b4815d8fb2ecdf3face53e18a78baad83e2c84))
+
+
+
+
+
 ## [1.17.2](https://github.com/SocialGouv/cdtn-admin/compare/v1.17.1...v1.17.2) (2022-06-06)
 
 
