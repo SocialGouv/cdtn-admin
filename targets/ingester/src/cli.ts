@@ -264,6 +264,9 @@ async function main() {
     getDocuments: getContributionsDocuments,
     version: "1.0.0",
   });
+  console.debug(`download package "@socialgouv/kali-data"`);
+  const pkgInfo = await getPackageInfo("@socialgouv/kali-data");
+  await download("@socialgouv/kali-data", pkgInfo.url);
   packagesToUpdate.set("@socialgouv/kali-data", {
     getDocuments: getAgreementDocuments,
     version: "1.0.0",

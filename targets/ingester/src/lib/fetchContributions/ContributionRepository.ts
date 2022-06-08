@@ -4,7 +4,11 @@ import type { Client } from "@urql/core/dist/types/client";
 import { fetchAllContributions } from "./query";
 import type { QuestionRaw } from "./types";
 
-export class ContributionRepository {
+export interface ContributionRepository {
+  fetchAll: () => Promise<QuestionRaw[]>;
+}
+
+export class ContributionDatabase implements ContributionRepository {
   constructor() {
     this.client = client;
   }
