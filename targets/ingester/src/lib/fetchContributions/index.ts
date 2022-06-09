@@ -1,8 +1,10 @@
 import type { Question } from "@shared/types";
 
-import { AgreementRepository } from "./AgreementRepository";
+import type { AgreementRepository } from "./AgreementRepository";
+import { AgreementFile } from "./AgreementRepository";
 import { AnswerExtractor } from "./AnswerExtractor";
-import { ContributionRepository } from "./ContributionRepository";
+import type { ContributionRepository } from "./ContributionRepository";
+import { ContributionDatabase } from "./ContributionRepository";
 
 /**
  *
@@ -11,9 +13,10 @@ import { ContributionRepository } from "./ContributionRepository";
  * resolve CCN references by IDCC from @socialgouv/kali-data
  *
  */
-async function fetchContributions(): Promise<Question[]> {
-  const contributionRepository = new ContributionRepository();
-  const agreementRepository = new AgreementRepository();
+async function fetchContributions(
+  contributionRepository: ContributionRepository = new ContributionDatabase(),
+  agreementRepository: AgreementRepository = new AgreementFile()
+): Promise<Question[]> {
   const [questions, agreements] = await Promise.all([
     contributionRepository.fetchAll(),
     agreementRepository.fetchAll(),

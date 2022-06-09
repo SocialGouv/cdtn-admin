@@ -4,7 +4,7 @@ query GetQuestionsWithAnswers {
     id
     index
     title: value
-    answers {
+    answers(where: {state: {_eq: "published"}}) {
       id
       markdown: value
       references: answers_references {
