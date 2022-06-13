@@ -23,6 +23,7 @@ export const addQuestion = async (index, value) => {
       )
       .concat(
         api.create(createAnswer, {
+          agreement_id: null,
           generic_reference: null,
           parent_id: null,
           prevalue: "",
