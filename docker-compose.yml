@@ -39,6 +39,8 @@ services:
       - "3000:3000"
     env_file:
       - .env
+    environment:
+      HASURA_GRAPHQL_ENDPOINT: http://hasura:8080/v1/graphql
 
   contributions:
     build:
