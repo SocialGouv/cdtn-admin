@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "1.18.1",
+  "version": "1.18.2",
   "dependencies": {
     "@azure/abort-controller": "^1.0.4",
     "@azure/storage-blob": "^12.7.0",
@@ -15,9 +15,9 @@
     "@sentry/browser": "^6.12.0",
     "@sentry/integrations": "^6.12.0",
     "@sentry/node": "^6.12.0",
-    "@shared/graphql-client": "^1.18.1",
-    "@shared/id-generator": "^1.18.1",
-    "@socialgouv/cdtn-logger": "^1.18.1",
+    "@shared/graphql-client": "^1.18.2",
+    "@shared/id-generator": "^1.18.2",
+    "@socialgouv/cdtn-logger": "^1.18.2",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/cdtn-ui": "^4.52.2",
@@ -78,7 +78,7 @@
     "wonka": "^4.0.15"
   },
   "devDependencies": {
-    "@shared/types": "^1.18.1",
+    "@shared/types": "^1.18.2",
     "@socialgouv/eslint-config-react": "^1.88.0",
     "@socialgouv/eslint-config-recommended": "^1.88.0",
     "@socialgouv/eslint-config-typescript": "^1.88.0",
