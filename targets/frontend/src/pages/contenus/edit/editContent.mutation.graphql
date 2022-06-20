@@ -1,0 +1,38 @@
+mutation editContent(
+  $cdtnId: String!
+  $document: jsonb!
+  $title: String!
+  $metaDescription: String!
+  $slug: String!
+  $relations: [document_relations_insert_input!]!
+  $relationIds: [uuid!]!
+) {
+  content: update_documents_by_pk(
+    pk_columns: { cdtn_id: $cdtnId }
+    _set: {
+      document: $document
+      title: $title
+      meta_description: $metaDescription
+      slug: $slug
+      text: $title
+    }
+  ) {
+    slug
+    metaDescription: meta_description
+  }
+  delete_document_relations(
+    where: {
+      id: { _nin: $relationIds }
+      document_a: { _eq: $cdtnId }
+      type: { _eq: "document-content" }
+    }
+  ) {
+    affected_rows
+  }
+  insert_document_relations(
+    objects: $relations
+    on_conflict: { constraint: document_relations_pkey, update_columns: data }
+  ) {
+    affected_rows
+  }
+}

@@ -10,48 +10,16 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
+import { ContentUpdateMutation } from "src/types";
 import { Card, Message, NavLink } from "theme-ui";
 import { useMutation, useQuery } from "urql";
+
+import getDocumentQuery from "./getDocument.query.graphql";
+import updateDocumentMutation from "./updateDocument.mutation.graphql";
 
 const CodeWithCodemirror = dynamic(import("src/components/editor/CodeEditor"), {
   ssr: false,
 });
-
-const getDocumentQuery = `
-query getDocumentById($id: String!) {
-  document: documents_by_pk(cdtn_id: $id){
-    cdtn_id,
-    document
-    initial_id
-    is_published
-    is_searchable
-    is_available
-    meta_description
-    slug
-    source
-    text
-    title
-  }
-}
-`;
-
-const updateDocumentMutation = `
-mutation updateDocument($cdtnId: String!, $metaDescription: String!, $title: String!, $isAvailable: Boolean!, $document: jsonb!, $text: String!){
-  document: update_documents_by_pk(
-    _set:{
-      document: $document
-      meta_description: $metaDescription
-      title: $title
-      is_available: $isAvailable
-      text: $text
-    },
-    pk_columns: {
-      cdtn_id: $cdtnId
-    }
-  ){
-    cdtnId:cdtn_id, title, source, metaDescription: meta_description, document, text
-  }
-}`;
 
 export function DocumentPage() {
   const router = useRouter();
@@ -75,18 +43,24 @@ export function DocumentPage() {
     jsonDoc.current = data.document;
   }
 
+  const current = jsonDoc.current as ContentUpdateMutation | null;
+
   function onEditSubmit() {
     setSubmitIdle(true);
     return executeUpdate({
       cdtnId: data.document.cdtn_id,
-      document: jsonDoc.current.document,
+      document: current?.document,
       isAvailable: data.document.is_available,
-      metaDescription: jsonDoc.current.meta_description,
-      text: jsonDoc.current.text,
-      title: jsonDoc.current.title,
+      metaDescription: current?.meta_description,
+      text: current?.text,
+      title: current?.title,
     }).then(({ data, error }) => {
+      if (!data) {
+        console.error("update impossible");
+        return;
+      }
       const { cdtnId, source, document, metaDescription, text, title } =
-        data.document;
+        data?.document;
       if (error) {
         console.error("update impossible", error.message);
       }
@@ -109,15 +83,18 @@ export function DocumentPage() {
     });
   }
 
-  function handleEditorChange(stringifyCode) {
+  function handleEditorChange(stringifyCode: string) {
     try {
       const newJson = JSON.parse(stringifyCode);
       if (
-        JSON.stringify(newJson, 0, 2) !== JSON.stringify(data.document, 0, 2)
+        JSON.stringify(newJson, undefined, 2) !==
+        JSON.stringify(data.document, undefined, 2)
       ) {
         jsonDoc.current = newJson;
         setHasChanged(true);
-      } else if (stringifyCode === JSON.stringify(data.document, 0, 2)) {
+      } else if (
+        stringifyCode === JSON.stringify(data.document, undefined, 2)
+      ) {
         jsonDoc.current = data.document;
         setHasChanged(false);
       }
@@ -138,12 +115,16 @@ export function DocumentPage() {
       <form onSubmit={handleSubmit(onEditSubmit)}>
         <Stack>
           <Card>
+            {/*
+              // @ts-ignore */}
             <CodeWithCodemirror
-              value={JSON.stringify(jsonDoc.current, 0, 2)}
+              value={JSON.stringify(jsonDoc.current, undefined, 2)}
               onChange={handleEditorChange}
             />
           </Card>
           <Inline>
+            {/*
+              // @ts-ignore */}
             <Button disabled={submitIdle || !hasChanged}>Enregistrer</Button>
             <Link href="/contenus" passHref>
               <NavLink

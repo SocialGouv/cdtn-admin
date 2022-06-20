@@ -1,0 +1,24 @@
+query getContent($cdtnId: String!) {
+  content: documents_by_pk(cdtn_id: $cdtnId) {
+    cdtnId: cdtn_id
+    title
+    slug
+    source
+    document
+    metaDescription: meta_description
+    contentRelations: relation_a(
+      where: { type: { _eq: "${RELATIONS.DOCUMENT_CONTENT}" } }
+    ) {
+      relationId: id
+      position: data(path: "position")
+      content: b {
+        cdtnId: cdtn_id
+        slug
+        source
+        title
+        isAvailable: is_available
+        isPublished: is_published
+      }
+    }
+  }
+}

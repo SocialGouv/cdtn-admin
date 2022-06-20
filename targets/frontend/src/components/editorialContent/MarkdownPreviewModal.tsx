@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import micromark from "micromark";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -8,14 +6,13 @@ import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { Flex } from "theme-ui";
 
-export const MarkdownPreviewModal = ({ markdown }) => {
+export const MarkdownPreviewModal = ({ markdown }: any) => {
   const [showMarkdownPreview, setShowMarkdownPreview] = useState(false);
   return (
     <>
       <Flex sx={{ justifyContent: "flex-end", mt: "xsmall" }}>
         <Button
           variant="secondary"
-          type="button"
           size="small"
           onClick={() => setShowMarkdownPreview(true)}
         >
@@ -28,7 +25,7 @@ export const MarkdownPreviewModal = ({ markdown }) => {
       <Dialog
         isOpen={showMarkdownPreview}
         onDismiss={() => setShowMarkdownPreview(false)}
-        aria-label="Prévisualiser le rendu"
+        ariaLabel="Prévisualiser le rendu"
         sx={{
           left: "50%",
           margin: 0,

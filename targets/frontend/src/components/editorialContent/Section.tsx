@@ -9,6 +9,7 @@ import {
   IoIosReorder,
   IoMdTrash,
 } from "react-icons/io";
+// @ts-ignore
 import { SortableElement, sortableHandle } from "react-sortable-hoc";
 import { Button, IconButton } from "src/components/button";
 import { ReferenceBlocks } from "src/components/editorialContent/ReferenceBlocks";
@@ -16,21 +17,13 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Stack } from "src/components/layout/Stack";
 import { Li } from "src/components/list";
 import { MarkdownLink } from "src/components/MarkdownLink";
+import { SECTION_TYPES } from "src/types";
 import { Box, Container, Field, Flex, Label, Radio, Textarea } from "theme-ui";
 
 import { MarkdownPreviewModal } from "./MarkdownPreviewModal";
 
-export const TYPES = {
-  GRAPHIC: "graphic",
-  MARKDOWN: "markdown",
-};
-
 const DragHandle = sortableHandle(() => (
-  <IconButton
-    type="button"
-    variant="secondary"
-    sx={{ cursor: "grab", mt: "large" }}
-  >
+  <IconButton variant="secondary" sx={{ cursor: "grab", mt: "large" }}>
     <IoIosReorder
       aria-label="Réordonner les sections"
       style={{ height: "3rem", width: "3rem" }}
@@ -47,7 +40,7 @@ const RootSection = ({
   numberOfBlocks,
   register,
   remove,
-}) => {
+}: any) => {
   const [isOpen, setOpen] = useState(!block.title || numberOfBlocks === 1);
   const type = useWatch({
     control,
@@ -96,7 +89,6 @@ const RootSection = ({
             </Box>
             <Box mt="medium">
               <Button
-                type="button"
                 variant="secondary"
                 size="small"
                 onClick={() => setOpen(!isOpen)}
@@ -130,8 +122,8 @@ const RootSection = ({
                     Mardown{" "}
                     <Radio
                       sx={{ ml: "xxsmall" }}
-                      value={TYPES.MARKDOWN}
-                      defaultChecked={block.type === TYPES.MARKDOWN}
+                      value={SECTION_TYPES.MARKDOWN}
+                      defaultChecked={block.type === SECTION_TYPES.MARKDOWN}
                       {...register(`${name}.type`, {
                         required: {
                           message: "Il faut choisir le type de section",
@@ -152,8 +144,8 @@ const RootSection = ({
                     Graphique{" "}
                     <Radio
                       ml="xxsmall"
-                      value={TYPES.GRAPHIC}
-                      defaultChecked={block.type === TYPES.GRAPHIC}
+                      value={SECTION_TYPES.GRAPHIC}
+                      defaultChecked={block.type === SECTION_TYPES.GRAPHIC}
                       {...register(`${name}.type`, {
                         required: {
                           message: "Il faut choisir le type de section",
@@ -164,11 +156,7 @@ const RootSection = ({
                   </Label>
                   {numberOfBlocks > 1 && (
                     <Flex sx={{ flex: "1 0 auto", justifyContent: "flex-end" }}>
-                      <Button
-                        type="button"
-                        size="small"
-                        onClick={() => remove(index)}
-                      >
+                      <Button size="small" onClick={() => remove(index)}>
                         <IoMdTrash
                           sx={{
                             height: "iconSmall",
@@ -183,7 +171,7 @@ const RootSection = ({
                 </Flex>
                 <FormErrorMessage errors={errors} fieldName="type" />
               </div>
-              {type === TYPES.GRAPHIC && (
+              {type === SECTION_TYPES.GRAPHIC && (
                 <>
                   <div>
                     <Field

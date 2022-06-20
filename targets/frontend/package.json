@@ -1,10 +1,15 @@
 {
   "name": "frontend",
-  "version": "1.18.2",
+  "version": "1.18.1",
   "dependencies": {
     "@azure/abort-controller": "^1.0.4",
     "@azure/storage-blob": "^12.7.0",
     "@elastic/elasticsearch": "^7.14.1",
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typed-document-node": "^2.2.13",
+    "@graphql-codegen/typescript": "^2.5.1",
+    "@graphql-codegen/typescript-operations": "^2.4.2",
+    "@graphql-codegen/typescript-react-query": "^3.5.14",
     "@hapi/boom": "^9.1.4",
     "@hapi/joi": "^17.1.1",
     "@hookform/error-message": "^2.0.0",
@@ -15,14 +20,16 @@
     "@sentry/browser": "^6.12.0",
     "@sentry/integrations": "^6.12.0",
     "@sentry/node": "^6.12.0",
-    "@shared/graphql-client": "^1.18.2",
-    "@shared/id-generator": "^1.18.2",
-    "@socialgouv/cdtn-logger": "^1.18.2",
+    "@shared/graphql-client": "^1.18.1",
+    "@shared/id-generator": "^1.18.1",
+    "@socialgouv/cdtn-logger": "^1.18.1",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/cdtn-ui": "^4.52.2",
     "@socialgouv/matomo-next": "^1.2.2",
+    "@testing-library/react": "^13.3.0",
     "@types/jest": "^27.4.0",
+    "@types/lodash.get": "^4.4.7",
     "@types/react": "^17.0.24",
     "@urql/exchange-auth": "^0.1.6",
     "@zeit/next-source-maps": "0.0.4-canary.1",
@@ -35,7 +42,7 @@
     "diff": "^5.0.0",
     "eslint-config-next": "^11.1.2",
     "formidable": "^2.0.0",
-    "graphql": "^16.0.0",
+    "graphql": "^16.5.0",
     "http-proxy-middleware": "^2.0.1",
     "isomorphic-unfetch": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
@@ -74,19 +81,25 @@
     "unist-util-parents": "^1.0.3",
     "unist-util-select": "^4.0.1",
     "urql": "^2.0.5",
+    "utility-types": "^3.10.0",
     "uuid": "^8.3.2",
     "wonka": "^4.0.15"
   },
   "devDependencies": {
-    "@shared/types": "^1.18.2",
+    "@shared/types": "^1.18.1",
     "@socialgouv/eslint-config-react": "^1.88.0",
     "@socialgouv/eslint-config-recommended": "^1.88.0",
     "@socialgouv/eslint-config-typescript": "^1.88.0",
     "@types/jest": "^27.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
     "@urql/devtools": "^2.0.3",
     "eslint": "^7.32.0",
     "eslint-import-resolver-typescript": "^2.4.0",
     "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^27.4.0",
     "lint-staged": "^12.0.0",
     "prettier": "^2.3.2",
@@ -113,8 +126,7 @@
   },
   "lint-staged": {
     "*.{j,t}s": [
-      "eslint --cache --fix",
-      "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql jest --bail --findRelatedTests"
+      "eslint --cache --fix"
     ]
   }
 }

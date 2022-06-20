@@ -7,7 +7,7 @@ import { useCallback, useState } from "react";
 import { IoMdTrash } from "react-icons/io";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
-import { EditorialContentForm } from "src/components/editorialContent/Form";
+import { EditorialContentForm } from "src/components/editorialContent";
 import { HighlightsForm } from "src/components/highlights/Form";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
@@ -17,96 +17,28 @@ import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
 import { RELATIONS } from "src/lib/relations";
+import { Content, ContentQuery, ContentRelation } from "src/types";
 import { Flex, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
-const getContentQuery = `
-query getContent($cdtnId: String!) {
-  content: documents_by_pk(cdtn_id: $cdtnId) {
-    cdtnId: cdtn_id
-    title
-    slug
-    source
-    document
-    metaDescription: meta_description
-    contentRelations: relation_a(where: {type: {_eq: "${RELATIONS.DOCUMENT_CONTENT}"}}) {
-      relationId: id
-      position: data(path: "position")
-      content: b {
-        cdtnId: cdtn_id
-        slug
-        source
-        title
-        isAvailable: is_available
-        isPublished: is_published
-      }
-    }
-  }
-}
-`;
-
-const editContentMutation = `
-mutation editContent(
-  $cdtnId: String!,
-  $document: jsonb!,
-  $title: String!,
-  $metaDescription: String!,
-  $slug: String!
-  $relations: [document_relations_insert_input!]!,
-  $relationIds: [uuid!]!,
-) {
-  content: update_documents_by_pk(
-    pk_columns: {cdtn_id: $cdtnId},
-    _set: {
-      document: $document,
-      title: $title,
-      meta_description: $metaDescription,
-      slug: $slug,
-      text: $title
-    }) {
-    slug
-    metaDescription: meta_description
-  }
-  delete_document_relations(
-    where: {
-      id: {_nin: $relationIds},
-      document_a: {_eq: $cdtnId},
-      type: {_eq: "${RELATIONS.DOCUMENT_CONTENT}"}
-    }
-    ) {
-    affected_rows
-  }
-  insert_document_relations(
-    objects: $relations,
-    on_conflict: {
-      constraint: document_relations_pkey,
-      update_columns: data
-    }
-    ) {
-    affected_rows
-  }
-}
-`;
-
-const deleteContentMutation = `
-mutation DeleteContent($cdtnId: String!) {
-  content: delete_documents_by_pk(cdtn_id: $cdtnId) {
-    cdtnId: cdtn_id
-  }
-}
-`;
+import deleteContentMutation from "./deleteContent.mutation.graphql";
+import editContentMutation from "./editContent.mutation.graphql";
+import getContentQuery from "./getContent.query.graphql";
 
 const context = { additionalTypenames: ["documents", "document_relations"] };
 
 export function EditInformationPage() {
   const router = useRouter();
+  const cdtnId = router.query.id;
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
-  const [{ fetching, data: { content = {} } = {} }] = useQuery({
+  const [{ fetching, data }] = useQuery<ContentQuery>({
     context,
     query: getContentQuery,
-    variables: { cdtnId: router.query.id },
+    variables: { cdtnId },
   });
+
+  const content: Content | any = data?.content ?? {};
 
   const [{ fetching: updating }, editContent] =
     useMutation(editContentMutation);
@@ -116,43 +48,46 @@ export function EditInformationPage() {
   const [, previewContent] = useMutation(previewContentAction);
 
   const onSubmit = useCallback(
-    async ({ title, slug, metaDescription, document = {}, contents = [] }) => {
+    async (contentItem: Content) => {
       const result = await editContent(
         {
-          cdtnId: content.cdtnId,
-          document,
+          cdtnId: content?.cdtnId,
+          document: contentItem.document,
           metaDescription:
-            metaDescription ||
-            document.description ||
-            title ||
-            content.metaDescription,
-          relationIds: contents
-            .map(({ relationId }) => relationId)
+            contentItem.metaDescription ||
+            contentItem.document?.description ||
+            contentItem.title ||
+            content?.metaDescription,
+          relationIds: contentItem.contentRelations
+            ?.map((relation: ContentRelation) => relation?.relationId)
             .filter(Boolean),
-          relations: contents.map(({ relationId, cdtnId }, index) => ({
-            data: { position: index },
-            document_a: router.query.id,
-            document_b: cdtnId,
-            id: relationId,
-            type: RELATIONS.DOCUMENT_CONTENT,
-          })),
-          slug: slug || slugify(title),
-          title,
+          relations: contentItem.contentRelations?.map(
+            (relation, index: number) => ({
+              data: { position: index },
+              document_a: router.query.id,
+              document_b: relation?.content?.cdtnId,
+              id: relation?.relationId,
+              type: RELATIONS.DOCUMENT_CONTENT,
+            })
+          ),
+          slug: contentItem?.slug || slugify(contentItem?.title as string),
+          title: contentItem?.title,
         },
         context
       );
+      if (!result) return;
       const { slug: computedSlug, metaDescription: computedMetaDescription } =
         result.data.content;
       if (!result.error) {
         previewContent({
-          cdtnId: content.cdtnId,
+          cdtnId: content?.cdtnId,
           document: {
             ...document,
             metaDescription: computedMetaDescription,
             slug: computedSlug,
-            title,
+            title: content?.title,
           },
-          source: content.source,
+          source: content?.source,
         }).then((response) => {
           if (response.error) {
             console.error("preview impossible", response.error.message);
@@ -167,7 +102,7 @@ export function EditInformationPage() {
   );
 
   function onDelete() {
-    deleteContent({ cdtnId: content.cdtnId }).then((result) => {
+    deleteContent({ cdtnId: content?.cdtnId }).then((result) => {
       if (!result.error) {
         router.back();
       }
@@ -175,7 +110,7 @@ export function EditInformationPage() {
   }
 
   let ContentForm;
-  switch (content.source) {
+  switch (content?.source) {
     case SOURCES.HIGHLIGHTS:
       ContentForm = HighlightsForm;
       break;
@@ -193,7 +128,9 @@ export function EditInformationPage() {
   return (
     <Layout
       title={`Éditer ${
-        content.cdtnId ? `"${content.title}" (${content.source})` : "le contenu"
+        content?.cdtnId
+          ? `"${content.title}" (${content.source})`
+          : "le contenu"
       }`}
     >
       <Stack>
@@ -204,7 +141,7 @@ export function EditInformationPage() {
             <Dialog
               isOpen={showDeleteConfirmation}
               onDismiss={() => setShowDeleteConfirmation(false)}
-              aria-label="Supprimer"
+              ariaLabel="Supprimer"
             >
               <>
                 <span>Êtes-vous sûr de vouloir supprimer ce contenu ?</span>
@@ -219,7 +156,7 @@ export function EditInformationPage() {
                 </Inline>
               </>
             </Dialog>
-            {content.cdtnId && (
+            {content?.cdtnId && (
               <>
                 <Flex
                   sx={{
@@ -228,7 +165,6 @@ export function EditInformationPage() {
                   mb="small"
                 >
                   <Button
-                    type="button"
                     onClick={() => {
                       setShowDeleteConfirmation(true);
                     }}
