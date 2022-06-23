@@ -1,12 +1,12 @@
 import lowGet from "lodash.get";
 import PropTypes from "prop-types";
+import React from "react";
 import { useFieldArray } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
 import { SortableContainer } from "react-sortable-hoc";
-import { Button } from "src/components/button";
-import { List } from "src/components/list";
-import { SECTION_TYPES } from "src/types";
 
+import { Button } from "../button";
+import { List } from "../list";
 import { SortableSection } from "./Section";
 
 const SortableSectionList = SortableContainer(
@@ -71,7 +71,7 @@ export function ContentSections({ control, name, register, errors }: any) {
       <Button
         size="small"
         variant="secondary"
-        onClick={() => append({ type: SECTION_TYPES.MARKDOWN })}
+        onClick={() => append({ type: "markdown" })}
       >
         {/* todo refactor to a ButtonWithicon since sx props not working */}
         <IoMdAdd

@@ -11,12 +11,17 @@ import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
+import { ContentRelation, PrequalifiedContent } from "src/types";
 import { Field, Flex, NavLink } from "theme-ui";
 
 const PrequalifiedForm = ({
   content = { contentRelations: [] },
   onSubmit,
-  loading,
+  loading = false,
+}: {
+  content?: Partial<PrequalifiedContent>;
+  onSubmit: any;
+  loading: boolean;
 }) => {
   const router = useRouter();
   const {
@@ -56,18 +61,20 @@ const PrequalifiedForm = ({
             control={control}
             name="document.variants"
             id="variants"
-            defaultValue={content.document?.variants}
+            disabled={false}
+            defaultValue={content?.document?.variants}
           />
         </Fieldset>
 
         <Fieldset title="Contenus">
           <ContentPicker
             control={control}
+            disabled={false}
             name="contents"
             id="contents"
-            defaultValue={content.contentRelations
-              .sort(({ position: a }, { position: b }) => a - b)
-              .map(({ relationId, content }) => ({
+            defaultValue={content?.contentRelations
+              ?.sort(({ position: a = 0 }, { position: b = 0 }) => a - b)
+              .map(({ relationId, content }: ContentRelation) => ({
                 relationId,
                 ...content,
               }))}
@@ -75,6 +82,7 @@ const PrequalifiedForm = ({
         </Fieldset>
 
         <Flex sx={{ alignItems: "center", mt: "medium" }}>
+          {/* @ts-ignore */}
           <Button variant="secondary" disabled={loading || !isDirty}>
             {isDirty && (
               <IoMdCheckmark

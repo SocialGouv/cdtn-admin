@@ -3,27 +3,27 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { IoMdCheckmark } from "react-icons/io";
-import { Button } from "src/components/button";
-import { FormErrorMessage } from "src/components/forms/ErrorMessage";
-import { MarkdownLink } from "src/components/MarkdownLink";
-import { Content, SECTION_TYPES } from "src/types";
-import { Box, Field, Flex, Label, NavLink, Switch, Textarea } from "theme-ui";
+import { Box, Field, Flex, Label, NavLink, Radio, Textarea } from "theme-ui";
 
+import { Content, ContentSection } from "../../types";
+import { Button } from "../button";
+import { FormErrorMessage } from "../forms/ErrorMessage";
+import { MarkdownLink } from "../MarkdownLink";
 import { ContentSections } from "./ContentSections";
 import { ReferenceBlocks } from "./ReferenceBlocks";
 
 const addComputedFields =
-  (onSubmit: (content: Content) => any) => (data: Content) => {
+  (onSubmit: (content: Partial<Content>) => void) =>
+  (data: Partial<Content>) => {
     data.document?.references?.forEach((block) => {
       block.links.forEach((link) => {
         link.id = slugify(link.title);
         link.type = SOURCES.EXTERNALS;
       });
     });
-    data.document?.contents?.forEach((content) => {
+    data.document?.contents?.forEach((content: ContentSection) => {
       content.name = slugify(content.title as string);
       content.references?.forEach((block) => {
         block.links.forEach((reference) => {
@@ -38,13 +38,11 @@ const addComputedFields =
 const EditorialContentForm = ({
   onSubmit,
   loading = false,
-  content = {
-    document: { contents: [{ type: SECTION_TYPES.MARKDOWN }] },
-  },
+  content,
 }: {
   onSubmit: any;
   loading: boolean;
-  content?: Content;
+  content?: Partial<Content>;
 }) => {
   const router = useRouter();
   const {
@@ -57,7 +55,12 @@ const EditorialContentForm = ({
   });
   const hasError = Object.keys(errors).length > 0;
   let buttonLabel = "Créer le contenu";
-  if (content.cdtnId) {
+  if (!content) {
+    content = {
+      document: { contents: [{ type: "markdown" }] },
+    };
+  }
+  if (content?.cdtnId) {
     buttonLabel = "Enregistrer les changements";
   }
   return (
@@ -75,7 +78,7 @@ const EditorialContentForm = ({
             name="document.date"
             sx={{ width: "10rem" }}
             label="Date"
-            defaultValue={content.document?.date as string}
+            defaultValue={content?.document?.date as string}
           />
           <ErrorMessage
             name="document.date"
@@ -105,7 +108,7 @@ const EditorialContentForm = ({
             {...register("metaDescription")}
             type="text"
             label="Meta description (référencement)"
-            defaultValue={content.document?.metaDescription}
+            defaultValue={content?.document?.metaDescription}
           />
         </Box>
 
@@ -117,7 +120,7 @@ const EditorialContentForm = ({
             })}
             id="description"
             rows={3}
-            defaultValue={content.document?.description}
+            defaultValue={content?.document?.description}
           />
           <FormErrorMessage errors={errors} fieldName="document.description" />
         </Box>
@@ -130,11 +133,28 @@ const EditorialContentForm = ({
             {...register("document.intro")}
             id="intro"
             rows={3}
-            defaultValue={content.document?.intro}
+            defaultValue={content?.document?.intro}
           />
         </Box>
         <Box mb="small">
-          <Switch {...register("document.isTab")} label="Affichage en onglet" />
+          <Label htmlFor={"intro"}>Affichage des sections&nbsp;</Label>
+          <Label>
+            <Radio
+              {...register("document.sectionDisplayMode")}
+              name="document.sectionDisplayMode"
+              value="accordion"
+              defaultChecked={!content?.document?.sectionDisplayMode}
+            />
+            Accordéon
+          </Label>
+          <Label>
+            <Radio
+              {...register("document.sectionDisplayMode")}
+              name="document.sectionDisplayMode"
+              value="tab"
+            />
+            Onglet
+          </Label>
         </Box>
         <ContentSections
           control={control}

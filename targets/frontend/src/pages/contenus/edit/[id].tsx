@@ -8,16 +8,22 @@ import { IoMdTrash } from "react-icons/io";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { EditorialContentForm } from "src/components/editorialContent";
-import { HighlightsForm } from "src/components/highlights/Form";
+import { HighlightsForm } from "src/components/highlights";
 import { Layout } from "src/components/layout/auth.layout";
 import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
-import { PrequalifiedForm } from "src/components/prequalified/Form";
+import { PrequalifiedForm } from "src/components/prequalified";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
 import { RELATIONS } from "src/lib/relations";
-import { Content, ContentQuery, ContentRelation } from "src/types";
+import {
+  Content,
+  ContentQuery,
+  ContentRelation,
+  HighLightContent,
+  PrequalifiedContent,
+} from "src/types";
 import { Flex, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
@@ -38,8 +44,6 @@ export function EditInformationPage() {
     variables: { cdtnId },
   });
 
-  const content: Content | any = data?.content ?? {};
-
   const [{ fetching: updating }, editContent] =
     useMutation(editContentMutation);
   const [{ fetching: deleting }, deleteContent] = useMutation(
@@ -47,22 +51,21 @@ export function EditInformationPage() {
   );
   const [, previewContent] = useMutation(previewContentAction);
 
-  const onSubmit = useCallback(
+  const onSubmitContent = useCallback(
     async (contentItem: Content) => {
       const result = await editContent(
         {
-          cdtnId: content?.cdtnId,
+          cdtnId: data?.content?.cdtnId,
           document: contentItem.document,
           metaDescription:
             contentItem.metaDescription ||
             contentItem.document?.description ||
-            contentItem.title ||
-            content?.metaDescription,
+            contentItem.title,
           relationIds: contentItem.contentRelations
             ?.map((relation: ContentRelation) => relation?.relationId)
             .filter(Boolean),
           relations: contentItem.contentRelations?.map(
-            (relation, index: number) => ({
+            (relation: ContentRelation, index: number) => ({
               data: { position: index },
               document_a: router.query.id,
               document_b: relation?.content?.cdtnId,
@@ -98,8 +101,113 @@ export function EditInformationPage() {
         console.error("edition impossible", result.error.message);
       }
     },
-    [router, content, editContent, previewContent]
+    [router, data?.content, editContent, previewContent]
   );
+
+  const onSubmitHighlight = useCallback(
+    async (contentItem: HighLightContent) => {
+      const result = await editContent(
+        {
+          cdtnId: data?.content?.cdtnId,
+          metaDescription: contentItem.metaDescription || contentItem.title,
+          relationIds: contentItem.contentRelations
+            ?.map((relation: ContentRelation) => relation?.relationId)
+            .filter(Boolean),
+          relations: contentItem.contentRelations?.map(
+            (relation: ContentRelation, index: number) => ({
+              data: { position: index },
+              document_a: router.query.id,
+              document_b: relation?.content?.cdtnId,
+              id: relation?.relationId,
+              type: RELATIONS.DOCUMENT_CONTENT,
+            })
+          ),
+          slug: contentItem?.slug || slugify(contentItem?.title as string),
+          title: contentItem?.title,
+        },
+        context
+      );
+      if (!result) return;
+      const { slug: computedSlug, metaDescription: computedMetaDescription } =
+        result.data.content;
+      if (!result.error) {
+        previewContent({
+          cdtnId: content?.cdtnId,
+          document: {
+            ...document,
+            metaDescription: computedMetaDescription,
+            slug: computedSlug,
+            title: content?.title,
+          },
+          source: content?.source,
+        }).then((response) => {
+          if (response.error) {
+            console.error("preview impossible", response.error.message);
+          }
+        });
+        router.back();
+      } else {
+        console.error("edition impossible", result.error.message);
+      }
+    },
+    [router, data?.content, editContent, previewContent]
+  );
+
+  const onSubmitPrequalified = useCallback(
+    async (contentItem: PrequalifiedContent) => {
+      const result = await editContent(
+        {
+          cdtnId: data?.content?.cdtnId,
+          metaDescription: contentItem.title,
+          relationIds: contentItem.contentRelations
+            ?.map((relation: ContentRelation) => relation?.relationId)
+            .filter(Boolean),
+          relations: contentItem.contentRelations?.map(
+            (relation: ContentRelation, index: number) => ({
+              data: { position: index },
+              document_a: router.query.id,
+              document_b: relation?.content?.cdtnId,
+              id: relation?.relationId,
+              type: RELATIONS.DOCUMENT_CONTENT,
+            })
+          ),
+          slug: contentItem?.slug || slugify(contentItem?.title as string),
+          title: contentItem?.title,
+        },
+        context
+      );
+      if (!result) return;
+      const { slug: computedSlug, metaDescription: computedMetaDescription } =
+        result.data.content;
+      if (!result.error) {
+        previewContent({
+          cdtnId: data?.content?.cdtnId,
+          document: {
+            ...document,
+            metaDescription: computedMetaDescription,
+            slug: computedSlug,
+            title: data?.content?.title,
+          },
+          source: data?.content?.source,
+        }).then((response) => {
+          if (response.error) {
+            console.error("preview impossible", response.error.message);
+          }
+        });
+        router.back();
+      } else {
+        console.error("edition impossible", result.error.message);
+      }
+    },
+    [router, data?.content, editContent, previewContent]
+  );
+
+  if (!data?.content) {
+    return <span>Chargement...</span>;
+  }
+
+  const content: Partial<Content | PrequalifiedContent | HighLightContent> =
+    data.content;
 
   function onDelete() {
     deleteContent({ cdtnId: content?.cdtnId }).then((result) => {
@@ -109,20 +217,37 @@ export function EditInformationPage() {
     });
   }
 
-  let ContentForm;
-  switch (content?.source) {
-    case SOURCES.HIGHLIGHTS:
-      ContentForm = HighlightsForm;
-      break;
-    case SOURCES.EDITORIAL_CONTENT:
-      ContentForm = EditorialContentForm;
-      break;
-    case SOURCES.PREQUALIFIED:
-      ContentForm = PrequalifiedForm;
-      break;
-    default:
-      //eslint-disable-next-line react/display-name
-      ContentForm = () => <span>Soon...</span>;
+  function renderForm() {
+    if (!content?.source) return <span>Soon...</span>;
+    switch (content?.source as string) {
+      case SOURCES.EDITORIAL_CONTENT:
+        return (
+          <EditorialContentForm
+            content={content as Partial<Content>}
+            loading={updating || deleting}
+            onSubmit={onSubmitContent}
+          />
+        );
+      case SOURCES.HIGHLIGHTS:
+        return (
+          <HighlightsForm
+            content={content as Partial<HighLightContent>}
+            loading={updating || deleting}
+            onSubmit={onSubmitHighlight}
+          />
+        );
+      case SOURCES.PREQUALIFIED:
+        return (
+          <PrequalifiedForm
+            content={content as Partial<PrequalifiedContent>}
+            loading={updating || deleting}
+            onSubmit={onSubmitPrequalified}
+          />
+        );
+      default:
+        //eslint-disable-next-line react/display-name
+        return <span>Chargement...</span>;
+    }
   }
 
   return (
@@ -179,11 +304,7 @@ export function EditInformationPage() {
                     Supprimer le contenu
                   </Button>
                 </Flex>
-                <ContentForm
-                  content={content}
-                  loading={updating || deleting}
-                  onSubmit={onSubmit}
-                />
+                {renderForm()}
               </>
             )}
           </>

@@ -1,71 +1,49 @@
-export type ContentLink = {
-  id: string;
-  key: string;
-  title: string;
-  type: string;
-  url: string;
+import {
+  EditoralContentReferenceBloc,
+  EditorialContent,
+  EditorialContentDoc,
+  EditorialContentLink,
+  EditorialContentPart,
+  Highlight,
+  KeysToCamelCase,
+  Prequalified,
+} from "@shared/types";
+
+export type PrequalifiedContent = Prequalified & {
+  contentRelations: ContentRelation[];
+  cdtnId?: number;
+};
+export type HighLightContent = KeysToCamelCase<Highlight> & {
+  contentRelations: ContentRelation[];
+  cdtnId?: number;
 };
 
-export type ContentSectionReference = {
-  key: string;
-  label: string;
-  links: ContentLink[];
-};
-
-export enum SECTION_TYPES {
-  GRAPHIC = "graphic",
-  MARKDOWN = "markdown",
-}
-
-export type ContentSection = {
-  key?: string;
-  markdown?: string;
-  name?: string;
-  title?: string;
-  type: SECTION_TYPES;
-  references?: ContentSectionReference[];
-};
-
-export type ContentDocumentReference = {
-  title: string;
-  url: string;
-  key: string;
-  links: ContentLink[];
-};
-
-export type ContentDocument = {
-  contents?: ContentSection[];
+export type ContentSection = EditorialContentPart;
+export type ContentDocument = KeysToCamelCase<EditorialContentDoc> & {
   metaDescription?: string;
-  date?: string;
-  description?: string;
-  intro?: string;
-  isTab?: boolean;
-  key?: string;
-  references?: ContentDocumentReference[];
+  contents: any;
 };
-
+export type ContentSectionReference =
+  KeysToCamelCase<EditoralContentReferenceBloc> & { key?: string };
+export type ContentLink = KeysToCamelCase<EditorialContentLink> & {
+  key?: string;
+};
 export type ContentRelation = {
   relationId: string;
   cdtnId?: string;
+  position?: number;
+  content: {
+    cdtnId?: string;
+  };
 };
-
-export type Content = {
-  cdtnId?: string;
-  contentRelations?: any[];
-  document?: ContentDocument;
-  metaDescription?: string;
-  slug?: string;
-  source?: string;
-  title?: string;
-  text?: string;
-  isPublished?: boolean;
-  isSearchable?: boolean;
-  isAvailable?: boolean;
-  contents?: ContentRelation[];
+export type Content = KeysToCamelCase<Omit<EditorialContent, "document">> & {
+  contents: ContentRelation[];
+  document: Partial<ContentDocument>;
+  contentRelations: ContentRelation[];
 };
 
 export type ContentQuery = {
-  content: Content;
+  content: Content | PrequalifiedContent | HighLightContent;
 };
 
 export type ContentUpdateMutation = {

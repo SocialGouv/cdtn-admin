@@ -2,16 +2,15 @@ import { generateIds } from "@shared/id-generator";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
 import { EditorialContentForm } from "src/components/editorialContent";
-import { HighlightsForm } from "src/components/highlights/Form";
+import { HighlightsForm } from "src/components/highlights";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
-import { PrequalifiedForm } from "src/components/prequalified/Form";
+import { PrequalifiedForm } from "src/components/prequalified";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Content } from "src/types";
+import { Content, ContentRelation } from "src/types";
 import { Label, Select } from "theme-ui";
 import { useMutation } from "urql";
 
@@ -45,7 +44,7 @@ export function CreateDocumentPage() {
       isPublished: typeof isPublished !== "undefined" ? isPublished : true,
       isSearchable: typeof isSearchable !== "undefined" ? isSearchable : true,
       metaDescription: metaDescription || document.description || title,
-      relations: contents.map(({ cdtnId }: Content, index) => ({
+      relations: contents.map(({ cdtnId }: ContentRelation, index: number) => ({
         data: { position: index },
         document_a: newIds.cdtn_id,
         document_b: cdtnId,

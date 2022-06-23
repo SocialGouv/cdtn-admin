@@ -11,15 +11,14 @@ import {
 } from "react-icons/io";
 // @ts-ignore
 import { SortableElement, sortableHandle } from "react-sortable-hoc";
-import { Button, IconButton } from "src/components/button";
-import { ReferenceBlocks } from "src/components/editorialContent/ReferenceBlocks";
-import { FormErrorMessage } from "src/components/forms/ErrorMessage";
-import { Stack } from "src/components/layout/Stack";
-import { Li } from "src/components/list";
-import { MarkdownLink } from "src/components/MarkdownLink";
-import { SECTION_TYPES } from "src/types";
 import { Box, Container, Field, Flex, Label, Radio, Textarea } from "theme-ui";
 
+import { Button, IconButton } from "../button";
+import { ReferenceBlocks } from "../editorialContent/ReferenceBlocks";
+import { FormErrorMessage } from "../forms/ErrorMessage";
+import { Stack } from "../layout/Stack";
+import { Li } from "../list";
+import { MarkdownLink } from "../MarkdownLink";
 import { MarkdownPreviewModal } from "./MarkdownPreviewModal";
 
 const DragHandle = sortableHandle(() => (
@@ -122,8 +121,8 @@ const RootSection = ({
                     Mardown{" "}
                     <Radio
                       sx={{ ml: "xxsmall" }}
-                      value={SECTION_TYPES.MARKDOWN}
-                      defaultChecked={block.type === SECTION_TYPES.MARKDOWN}
+                      value={"markdown"}
+                      defaultChecked={block.type === "markdown"}
                       {...register(`${name}.type`, {
                         required: {
                           message: "Il faut choisir le type de section",
@@ -144,8 +143,8 @@ const RootSection = ({
                     Graphique{" "}
                     <Radio
                       ml="xxsmall"
-                      value={SECTION_TYPES.GRAPHIC}
-                      defaultChecked={block.type === SECTION_TYPES.GRAPHIC}
+                      value={"graphic"}
+                      defaultChecked={block.type === "graphic"}
                       {...register(`${name}.type`, {
                         required: {
                           message: "Il faut choisir le type de section",
@@ -171,7 +170,7 @@ const RootSection = ({
                 </Flex>
                 <FormErrorMessage errors={errors} fieldName="type" />
               </div>
-              {type === SECTION_TYPES.GRAPHIC && (
+              {type === "graphic" && (
                 <>
                   <div>
                     <Field

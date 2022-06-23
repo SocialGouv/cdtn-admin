@@ -8,12 +8,17 @@ import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
+import { HighLightContent } from "src/types";
 import { Box, Field, Flex, NavLink } from "theme-ui";
 
 const HighlightsForm = ({
   content = { contentRelations: [] },
   onSubmit,
   loading = false,
+}: {
+  content?: Partial<HighLightContent>;
+  onSubmit: any;
+  loading: boolean;
 }) => {
   const router = useRouter();
   const {
@@ -59,8 +64,9 @@ const HighlightsForm = ({
             control={control}
             name="contents"
             id="contents"
-            defaultValue={content.contentRelations
-              .sort(({ position: a }, { position: b }) => a - b)
+            disabled={false}
+            defaultValue={content?.contentRelations
+              ?.sort(({ position: a = 0 }, { position: b = 0 }) => a - b)
               .map(({ relationId, content }) => ({
                 relationId,
                 ...content,
@@ -69,6 +75,7 @@ const HighlightsForm = ({
         </Fieldset>
 
         <Flex sx={{ alignItems: "center", mt: "medium" }}>
+          {/* @ts-ignore */}
           <Button variant="secondary" disabled={loading || !isDirty}>
             {isDirty && (
               <IoMdCheckmark

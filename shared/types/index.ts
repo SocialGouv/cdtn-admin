@@ -8,6 +8,8 @@ import type {
   AgreementSection,
 } from "@socialgouv/kali-data-types";
 
+import { EditorialContent, Prequalified } from "./EditorialContent";
+
 export type BaseHasuraDocument = {
   cdtn_id: string;
   initial_id: string;
@@ -52,11 +54,6 @@ export type Agreement = BaseHasuraDocument & {
   document: AgreementDoc;
 };
 
-export type Prequalified = BaseHasuraDocument & {
-  source: "prequalified";
-  document: PrequalifiedDoc;
-};
-
 export type Theme = BaseHasuraDocument & {
   source: "themes";
   document: ThemeDoc;
@@ -65,11 +62,6 @@ export type Theme = BaseHasuraDocument & {
 export type MailTemplate = BaseHasuraDocument & {
   source: "modeles_de_courriers";
   document: MailTemplateDoc;
-};
-
-export type EditorialContent = BaseHasuraDocument & {
-  source: "information";
-  document: EditorialContentDoc;
 };
 
 export type HasuraDocument =
@@ -107,48 +99,6 @@ export type MailTemplateDoc = {
     type: string;
   }[];
 };
-
-export type EditorialContentDoc = {
-  date: string;
-  intro: string;
-  contents: EditorialContentPart[];
-  references?: EditoralContentReferenceBloc[];
-  description: string;
-};
-
-export type EditorialContentPart = GraphicContentPart | MarkdownContentPart;
-
-export interface BaseContentPart {
-  name: string;
-  title: string;
-  markdown: string;
-  references: EditoralContentReferenceBloc[];
-  type: "markdown" | "graphic";
-}
-
-export interface MarkdownContentPart extends BaseContentPart {
-  type: "markdown";
-}
-
-export interface GraphicContentPart extends BaseContentPart {
-  type: "graphic";
-  size: string;
-  imgUrl: string;
-  altText: string;
-  fileUrl: string;
-}
-
-export interface EditoralContentReferenceBloc {
-  label: string;
-  links: EditorialContentLink[];
-}
-
-export interface EditorialContentLink {
-  id: string;
-  url: string;
-  type: string;
-  title: string;
-}
 
 export interface FicheTravailEmploiDoc {
   date: string;
@@ -286,10 +236,6 @@ export interface Blocks {
   "5"?: string[];
   "11"?: string[];
 }
-
-type PrequalifiedDoc = {
-  variants: string[];
-};
 
 /**
  * Alerts
@@ -545,3 +491,6 @@ export type State =
   | "VIGUEUR"
   | "VIGUEUR_ETEN"
   | "VIGUEUR_NON_ETEN";
+
+export * from "./EditorialContent";
+export * from "./utils";

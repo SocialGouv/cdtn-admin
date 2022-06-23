@@ -2,11 +2,16 @@ import micromark from "micromark";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosEye } from "react-icons/io";
-import { Button } from "src/components/button";
-import { Dialog } from "src/components/dialog";
 import { Flex } from "theme-ui";
 
-export const MarkdownPreviewModal = ({ markdown }: any) => {
+import { Button } from "../button";
+import { Dialog } from "../dialog";
+
+export type MarkdownPreviewModalProps = { markdown: string };
+
+export const MarkdownPreviewModal = ({
+  markdown,
+}: MarkdownPreviewModalProps) => {
   const [showMarkdownPreview, setShowMarkdownPreview] = useState(false);
   return (
     <>
