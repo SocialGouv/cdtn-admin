@@ -45,7 +45,7 @@ function mapContentRelations(
   content: Content | PrequalifiedContent | HighLightContent,
   queryId: string
 ) {
-  return content.contentRelations?.map(
+  return content.contentRelations.map(
     (relation: ContentRelation, index: number) => ({
       data: { position: index },
       document_a: queryId,

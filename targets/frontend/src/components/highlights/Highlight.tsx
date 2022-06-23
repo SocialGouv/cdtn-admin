@@ -1,15 +1,14 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { IoMdCheckmark } from "react-icons/io";
-import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { HighLightContent } from "src/types";
-import { Box, Field, Flex, NavLink } from "theme-ui";
+import { Box, Field } from "theme-ui";
+
+import { ValidationBar } from "../prequalified";
 
 const HighlightsForm = ({
   content = { contentRelations: [] },
@@ -74,32 +73,7 @@ const HighlightsForm = ({
           />
         </Fieldset>
 
-        <Flex sx={{ alignItems: "center", mt: "medium" }}>
-          {/* @ts-ignore */}
-          <Button variant="secondary" disabled={loading || !isDirty}>
-            {isDirty && (
-              <IoMdCheckmark
-                sx={{
-                  height: "iconSmall",
-                  mr: "xsmall",
-                  width: "iconSmall",
-                }}
-              />
-            )}
-            Enregistrer
-          </Button>
-          <Link href={"/contenus"} passHref>
-            <NavLink
-              onClick={(e) => {
-                e.preventDefault();
-                router.back();
-              }}
-              sx={{ ml: "medium" }}
-            >
-              Annuler
-            </NavLink>
-          </Link>
-        </Flex>
+        <ValidationBar isDirty={isDirty} loading={loading} router={router} />
       </>
     </form>
   );
