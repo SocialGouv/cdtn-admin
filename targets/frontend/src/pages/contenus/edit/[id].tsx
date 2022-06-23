@@ -2,7 +2,7 @@
 
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { IoMdTrash } from "react-icons/io";
 import { Button } from "src/components/button";
@@ -33,6 +33,29 @@ import getContentQuery from "./getContent.query.graphql";
 
 const context = { additionalTypenames: ["documents", "document_relations"] };
 
+function getContentRelationIds(
+  content: Content | PrequalifiedContent | HighLightContent
+) {
+  return content.contentRelations
+    ?.map((relation: ContentRelation) => relation?.relationId)
+    .filter(Boolean);
+}
+
+function mapContentRelations(
+  content: Content | PrequalifiedContent | HighLightContent,
+  queryId: string
+) {
+  return content.contentRelations?.map(
+    (relation: ContentRelation, index: number) => ({
+      data: { position: index },
+      document_a: queryId,
+      document_b: relation?.content?.cdtnId,
+      id: relation?.relationId,
+      type: RELATIONS.DOCUMENT_CONTENT,
+    })
+  );
+}
+
 export function EditInformationPage() {
   const router = useRouter();
   const cdtnId = router.query.id;
@@ -53,6 +76,11 @@ export function EditInformationPage() {
 
   const onSubmitContent = useCallback(
     async (contentItem: Content) => {
+      const relationIds = getContentRelationIds(contentItem);
+      const relations = mapContentRelations(
+        contentItem,
+        router.query.id as string
+      );
       const result = await editContent(
         {
           cdtnId: data?.content?.cdtnId,
@@ -61,18 +89,8 @@ export function EditInformationPage() {
             contentItem.metaDescription ||
             contentItem.document?.description ||
             contentItem.title,
-          relationIds: contentItem.contentRelations
-            ?.map((relation: ContentRelation) => relation?.relationId)
-            .filter(Boolean),
-          relations: contentItem.contentRelations?.map(
-            (relation: ContentRelation, index: number) => ({
-              data: { position: index },
-              document_a: router.query.id,
-              document_b: relation?.content?.cdtnId,
-              id: relation?.relationId,
-              type: RELATIONS.DOCUMENT_CONTENT,
-            })
-          ),
+          relationIds,
+          relations,
           slug: contentItem?.slug || slugify(contentItem?.title as string),
           title: contentItem?.title,
         },
@@ -106,22 +124,17 @@ export function EditInformationPage() {
 
   const onSubmitHighlight = useCallback(
     async (contentItem: HighLightContent) => {
+      const relationIds = getContentRelationIds(contentItem);
+      const relations = mapContentRelations(
+        contentItem,
+        router.query.id as string
+      );
       const result = await editContent(
         {
           cdtnId: data?.content?.cdtnId,
           metaDescription: contentItem.metaDescription || contentItem.title,
-          relationIds: contentItem.contentRelations
-            ?.map((relation: ContentRelation) => relation?.relationId)
-            .filter(Boolean),
-          relations: contentItem.contentRelations?.map(
-            (relation: ContentRelation, index: number) => ({
-              data: { position: index },
-              document_a: router.query.id,
-              document_b: relation?.content?.cdtnId,
-              id: relation?.relationId,
-              type: RELATIONS.DOCUMENT_CONTENT,
-            })
-          ),
+          relationIds,
+          relations,
           slug: contentItem?.slug || slugify(contentItem?.title as string),
           title: contentItem?.title,
         },
@@ -155,22 +168,17 @@ export function EditInformationPage() {
 
   const onSubmitPrequalified = useCallback(
     async (contentItem: PrequalifiedContent) => {
+      const relationIds = getContentRelationIds(contentItem);
+      const relations = mapContentRelations(
+        contentItem,
+        router.query.id as string
+      );
       const result = await editContent(
         {
           cdtnId: data?.content?.cdtnId,
           metaDescription: contentItem.title,
-          relationIds: contentItem.contentRelations
-            ?.map((relation: ContentRelation) => relation?.relationId)
-            .filter(Boolean),
-          relations: contentItem.contentRelations?.map(
-            (relation: ContentRelation, index: number) => ({
-              data: { position: index },
-              document_a: router.query.id,
-              document_b: relation?.content?.cdtnId,
-              id: relation?.relationId,
-              type: RELATIONS.DOCUMENT_CONTENT,
-            })
-          ),
+          relationIds,
+          relations,
           slug: contentItem?.slug || slugify(contentItem?.title as string),
           title: contentItem?.title,
         },
