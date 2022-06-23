@@ -74,28 +74,10 @@ export function EditInformationPage() {
   );
   const [, previewContent] = useMutation(previewContentAction);
 
-  const onSubmitContent = useCallback(
-    async (contentItem: Content) => {
-      const relationIds = getContentRelationIds(contentItem);
-      const relations = mapContentRelations(
-        contentItem,
-        router.query.id as string
-      );
-      const result = await editContent(
-        {
-          cdtnId: data?.content?.cdtnId,
-          document: contentItem.document,
-          metaDescription:
-            contentItem.metaDescription ||
-            contentItem.document?.description ||
-            contentItem.title,
-          relationIds,
-          relations,
-          slug: contentItem?.slug || slugify(contentItem?.title as string),
-          title: contentItem?.title,
-        },
-        context
-      );
+  const onSubmit =
+    <T,>(mapper: (content: T) => object) =>
+    async (contentItem: T): Promise<void> => {
+      const result = await editContent(mapper(contentItem), context);
       if (!result) return;
       const { slug: computedSlug, metaDescription: computedMetaDescription } =
         result.data.content;
@@ -118,97 +100,84 @@ export function EditInformationPage() {
       } else {
         console.error("edition impossible", result.error.message);
       }
-    },
-    [router, data?.content, editContent, previewContent]
-  );
+    };
 
-  const onSubmitHighlight = useCallback(
-    async (contentItem: HighLightContent) => {
+  const onSubmitContent = onSubmit<Content>((contentItem: Content) => {
+    const relationIds = getContentRelationIds(contentItem);
+    const relations = mapContentRelations(
+      contentItem,
+      router.query.id as string
+    );
+    return {
+      cdtnId: contentItem.cdtnId,
+      document: contentItem.document,
+      metaDescription:
+        contentItem.metaDescription ||
+        contentItem.document?.description ||
+        contentItem.title,
+      relationIds,
+      relations,
+      slug: contentItem?.slug || slugify(contentItem?.title as string),
+      title: contentItem?.title,
+    };
+  });
+
+  const onSubmitContentMemo = useCallback(onSubmitContent, [
+    router,
+    data?.content,
+    editContent,
+    previewContent,
+  ]);
+
+  const onSubmitHightlight = onSubmit<HighLightContent>(
+    (contentItem: HighLightContent) => {
       const relationIds = getContentRelationIds(contentItem);
       const relations = mapContentRelations(
         contentItem,
         router.query.id as string
       );
-      const result = await editContent(
-        {
-          cdtnId: data?.content?.cdtnId,
-          metaDescription: contentItem.metaDescription || contentItem.title,
-          relationIds,
-          relations,
-          slug: contentItem?.slug || slugify(contentItem?.title as string),
-          title: contentItem?.title,
-        },
-        context
-      );
-      if (!result) return;
-      const { slug: computedSlug, metaDescription: computedMetaDescription } =
-        result.data.content;
-      if (!result.error) {
-        previewContent({
-          cdtnId: content?.cdtnId,
-          document: {
-            ...document,
-            metaDescription: computedMetaDescription,
-            slug: computedSlug,
-            title: content?.title,
-          },
-          source: content?.source,
-        }).then((response) => {
-          if (response.error) {
-            console.error("preview impossible", response.error.message);
-          }
-        });
-        router.back();
-      } else {
-        console.error("edition impossible", result.error.message);
-      }
-    },
-    [router, data?.content, editContent, previewContent]
+      return {
+        cdtnId: data?.content?.cdtnId,
+        metaDescription: contentItem.metaDescription || contentItem.title,
+        relationIds,
+        relations,
+        slug: contentItem?.slug || slugify(contentItem?.title as string),
+        title: contentItem?.title,
+      };
+    }
   );
 
-  const onSubmitPrequalified = useCallback(
-    async (contentItem: PrequalifiedContent) => {
+  const onSubmitHighlightMemo = useCallback(onSubmitHightlight, [
+    router,
+    data?.content,
+    editContent,
+    previewContent,
+  ]);
+
+  const onSubmitPrequalified = onSubmit<PrequalifiedContent>(
+    (contentItem: PrequalifiedContent) => {
       const relationIds = getContentRelationIds(contentItem);
       const relations = mapContentRelations(
         contentItem,
         router.query.id as string
       );
-      const result = await editContent(
-        {
-          cdtnId: data?.content?.cdtnId,
-          metaDescription: contentItem.title,
-          relationIds,
-          relations,
-          slug: contentItem?.slug || slugify(contentItem?.title as string),
-          title: contentItem?.title,
-        },
-        context
-      );
-      if (!result) return;
-      const { slug: computedSlug, metaDescription: computedMetaDescription } =
-        result.data.content;
-      if (!result.error) {
-        previewContent({
-          cdtnId: data?.content?.cdtnId,
-          document: {
-            ...document,
-            metaDescription: computedMetaDescription,
-            slug: computedSlug,
-            title: data?.content?.title,
-          },
-          source: data?.content?.source,
-        }).then((response) => {
-          if (response.error) {
-            console.error("preview impossible", response.error.message);
-          }
-        });
-        router.back();
-      } else {
-        console.error("edition impossible", result.error.message);
-      }
-    },
-    [router, data?.content, editContent, previewContent]
+      return {
+        cdtnId: data?.content?.cdtnId,
+        metaDescription: contentItem.title,
+        relationIds,
+        relations,
+        slug: contentItem?.slug || slugify(contentItem?.title as string),
+        title: contentItem?.title,
+      };
+    }
   );
+
+  const onSubmitPrequalifiedMemo = useCallback(onSubmitPrequalified, [
+    router,
+    data?.content,
+    editContent,
+    previewContent,
+  ]);
 
   if (!data?.content) {
     return <span>Chargement...</span>;
@@ -233,7 +202,7 @@ export function EditInformationPage() {
           <EditorialContentForm
             content={content as Partial<Content>}
             loading={updating || deleting}
-            onSubmit={onSubmitContent}
+            onSubmit={onSubmitContentMemo}
           />
         );
       case SOURCES.HIGHLIGHTS:
@@ -241,7 +210,7 @@ export function EditInformationPage() {
           <HighlightsForm
             content={content as Partial<HighLightContent>}
             loading={updating || deleting}
-            onSubmit={onSubmitHighlight}
+            onSubmit={onSubmitHighlightMemo}
           />
         );
       case SOURCES.PREQUALIFIED:
@@ -249,7 +218,7 @@ export function EditInformationPage() {
           <PrequalifiedForm
             content={content as Partial<PrequalifiedContent>}
             loading={updating || deleting}
-            onSubmit={onSubmitPrequalified}
+            onSubmit={onSubmitPrequalifiedMemo}
           />
         );
       default:
