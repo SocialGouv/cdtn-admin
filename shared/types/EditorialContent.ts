@@ -37,7 +37,7 @@ export interface GraphicContentPart extends BaseContentPart {
 export type EditorialContentDoc = {
   date: string;
   intro: string;
-  section_display_mode: string;
+  section_display_mode?: string;
   contents: EditorialContentPart[];
   references?: EditoralContentReferenceBloc[];
   description: string;
