@@ -1,4 +1,3 @@
-import jsCookie from "js-cookie";
 import React from "react";
 
 import Button from "../../elements/Button";
@@ -28,7 +27,7 @@ export default class LoginBlockForm extends React.PureComponent {
 
   async check() {
     const api = new Api("");
-    const token = await api.post(
+    await api.post(
       "/api/login",
       {
         username: this.$email.value,
@@ -39,10 +38,6 @@ export default class LoginBlockForm extends React.PureComponent {
         Authorization: undefined,
       }
     );
-
-    // Store JSON Web Token in a cookie:
-    jsCookie.set("jwt", token.jwt_token, { expires: 30 });
-    // jsCookie.set("jwt_refresh_token", token.refresh_token, { expires: 30 });
   }
 
   async submit(event) {

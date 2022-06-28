@@ -1,7 +1,7 @@
 import Router from "next/router";
 
 import { request } from "../request";
-import { setRefreshTokenCookie } from "./setRefreshTokenCookie";
+import { setJwtCookie } from "./setJwtCookie";
 
 let inMemoryToken;
 
@@ -58,7 +58,7 @@ export async function auth(ctx) {
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
     if (ctx?.res) {
-      setRefreshTokenCookie(ctx.res, tokenData.refresh_token);
+      setJwtCookie(ctx.res, tokenData.refresh_token);
       // we also store token in context (this is probably a bad idea b)
       // to reuse it and avoid refresh token twice
       ctx.token = tokenData;

@@ -3,7 +3,7 @@ import Joi from "@hapi/joi";
 import { client } from "@shared/graphql-client";
 import { createErrorFor } from "src/lib/apiError";
 import { generateJwtToken } from "src/lib/auth/jwt";
-import { setRefreshTokenCookie } from "src/lib/auth/setRefreshTokenCookie";
+import { setJwtCookie } from "src/lib/auth/setJwtCookie";
 import { getExpiryDate } from "src/lib/duration";
 import { v4 as uuidv4 } from "uuid";
 
@@ -83,7 +83,7 @@ export default async function refreshToken(req, res) {
 
   const jwt_token = generateJwtToken(user);
 
-  setRefreshTokenCookie(res, new_refresh_token);
+  setJwtCookie(res, new_refresh_token, jwt_token);
 
   res.json({
     jwt_token,
