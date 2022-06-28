@@ -52,29 +52,16 @@ type PrequalifiedDoc = {
   variants: string[];
 };
 
-export enum DOCUMENT_SOURCE {
-  fiches_ministere_travail = "fiches_ministere_travail",
-  contributions = "contributions",
-  code_du_travail = "code_du_travail",
-  fiches_service_public = "fiches_service_public",
-  conventions_collectives = "conventions_collectives",
-  prequalified = "prequalified",
-  themes = "themes",
-  modeles_de_courriers = "modeles_de_courriers",
-  information = "information",
-  highlight = "highlight",
-}
-
 export type Prequalified = BaseHasuraDocument & {
-  source: DOCUMENT_SOURCE.prequalified;
+  source: "prequalified";
   document: PrequalifiedDoc;
 };
 
 export type Highlight = BaseHasuraDocument & {
-  source: DOCUMENT_SOURCE.highlight;
+  source: "highlight";
 };
 
 export type EditorialContent = BaseHasuraDocument & {
-  source: DOCUMENT_SOURCE.information;
+  source: "information";
   document: EditorialContentDoc;
 };

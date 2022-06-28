@@ -2,11 +2,12 @@ import {
   createGetArticleReference,
   extractArticleId,
 } from "@shared/dila-resolver";
+import type { DocumentReferences } from "@shared/types";
+import { DOCUMENT_SOURCE } from "@shared/types";
 import type {
-  DocumentReferences,
   EditoralContentReferenceBloc,
   EditorialContent,
-} from "@shared/types";
+} from "@shared/types-frontend";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { DilaApiClient } from "@socialgouv/dila-api-client";
 import memoizee from "memoizee";
@@ -50,7 +51,7 @@ export async function extractEditorialContentTemplateRef(
     refs.push({
       document: {
         id: docData.initialId,
-        source: SOURCES.EDITORIAL_CONTENT,
+        source: DOCUMENT_SOURCE.information,
         title: docData.title,
       },
       references: references.flatMap((item) => (item !== null ? [item] : [])),
