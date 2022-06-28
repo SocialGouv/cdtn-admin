@@ -18,7 +18,7 @@ query getAllDocumentsBySource($source: [String!], $limit:Int=10,$offset:Int=0 ) 
 
 export type HasuraDocumentForAlert = Pick<
   HasuraDocument,
-  "document" | "source" | "title"
+  "source" | "title"
 > & {
   initialId: string;
   cdtnId: string;

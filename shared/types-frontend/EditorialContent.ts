@@ -48,7 +48,7 @@ export type EditorialContentDoc = {
   description: string;
 };
 
-type PrequalifiedDoc = {
+export type PrequalifiedDoc = {
   variants: string[];
 };
 
@@ -58,7 +58,7 @@ export type Prequalified = BaseHasuraDocument & {
 };
 
 export type Highlight = BaseHasuraDocument & {
-  source: "highlight";
+  source: "highlights";
 };
 
 export type EditorialContent = BaseHasuraDocument & {
