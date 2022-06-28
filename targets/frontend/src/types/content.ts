@@ -7,7 +7,9 @@ import {
   Highlight,
   KeysToCamelCase,
   Prequalified,
-} from "@shared/types";
+} from "@shared/types-frontend";
+
+export * from "@shared/types-frontend";
 
 export type PrequalifiedContent = Prequalified & {
   contentRelations: ContentRelation[];
@@ -19,6 +21,7 @@ export type HighLightContent = KeysToCamelCase<Highlight> & {
 };
 
 export type ContentSection = EditorialContentPart;
+
 export type ContentDocument = KeysToCamelCase<EditorialContentDoc> & {
   metaDescription?: string;
   contents: any;
