@@ -8,6 +8,7 @@ WORKDIR /
 COPY shared/graphql-client/package.json /shared/graphql-client/package.json
 COPY shared/id-generator/package.json /shared/id-generator/package.json
 COPY shared/types/package.json /shared/types/package.json
+COPY shared/types-frontend/package.json /shared/types-frontend/package.json
 COPY targets/frontend/package.json /targets/frontend/package.json
 COPY package.json /package.json
 COPY yarn.lock /yarn.lock
@@ -17,6 +18,8 @@ RUN yarn --frozen-lockfile
 COPY . /
 
 RUN yarn workspace @shared/types build
+
+RUN yarn workspace @shared/types-frontend build
 
 RUN yarn workspace @shared/graphql-client build
 
@@ -33,6 +36,8 @@ COPY --from=dist shared/id-generator/src /app/shared/id-generator/src
 COPY --from=dist shared/id-generator/package.json /app/shared/id-generator/package.json
 COPY --from=dist shared/types/build /app/shared/types/build
 COPY --from=dist shared/types/package.json /app/shared/types/package.json
+COPY --from=dist shared/types-frontend/build /app/shared/types-frontend/build
+COPY --from=dist shared/types-frontend/package.json /app/shared/types-frontend/package.json
 COPY --from=dist targets/frontend/package.json /app/targets/frontend/package.json
 COPY --from=dist targets/frontend/next.config.js  /app/targets/frontend/next.config.js
 COPY --from=dist targets/frontend/.env  /app/targets/frontend/.env
