@@ -8,11 +8,13 @@ import type {
   AgreementSection,
 } from "@socialgouv/kali-data-types";
 import type {
-  BaseHasuraDocument,
   Prequalified,
   Highlight,
   EditorialContent,
-} from "@shared/types-frontend";
+} from "./EditorialContent";
+export * from "./EditorialContent";
+export * from "./utils";
+import type { BaseHasuraDocument } from "./Base";
 
 export enum DOCUMENT_SOURCE {
   fiches_ministere_travail = "fiches_ministere_travail",

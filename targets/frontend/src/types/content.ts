@@ -7,9 +7,9 @@ import {
   Highlight,
   KeysToCamelCase,
   Prequalified,
-} from "@shared/types-frontend";
+} from "@shared/types";
 
-export * from "@shared/types-frontend";
+export * from "@shared/types";
 
 export type PrequalifiedContent = Prequalified & {
   contentRelations: ContentRelation[];
