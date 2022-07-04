@@ -39,10 +39,15 @@ export interface GraphicContentPart extends BaseContentPart {
   fileUrl: string;
 }
 
+export enum SectionDisplayMode {
+  accordion = "accordion",
+  tab = "tab",
+}
+
 export type EditorialContentDoc = {
   date: string;
   intro: string;
-  section_display_mode?: string;
+  section_display_mode?: SectionDisplayMode;
   contents: EditorialContentPart[];
   references?: EditoralContentReferenceBloc[];
   description: string;

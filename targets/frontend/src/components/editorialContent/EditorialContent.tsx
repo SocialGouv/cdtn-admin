@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { IoMdCheckmark } from "react-icons/io";
 import { Box, Field, Flex, Label, NavLink, Radio, Textarea } from "theme-ui";
 
-import { Content, ContentSection } from "../../types";
+import { Content, ContentSection, SectionDisplayMode } from "../../types";
 import { Button } from "../button";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { MarkdownLink } from "../MarkdownLink";
@@ -142,7 +142,7 @@ const EditorialContentForm = ({
             <Radio
               {...register("document.sectionDisplayMode")}
               name="document.sectionDisplayMode"
-              value="accordion"
+              value={SectionDisplayMode.accordion}
               defaultChecked={!content?.document?.sectionDisplayMode}
             />
             Accordéon
@@ -151,7 +151,7 @@ const EditorialContentForm = ({
             <Radio
               {...register("document.sectionDisplayMode")}
               name="document.sectionDisplayMode"
-              value="tab"
+              value={SectionDisplayMode.tab}
             />
             Onglet
           </Label>
