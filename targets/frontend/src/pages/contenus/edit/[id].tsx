@@ -96,7 +96,7 @@ export function EditInformationPage() {
             console.error("preview impossible", response.error.message);
           }
         });
-        router.back();
+        // router.back();
       } else {
         console.error("edition impossible", result.error.message);
       }
