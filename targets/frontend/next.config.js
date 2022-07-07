@@ -18,7 +18,11 @@ module.exports = withTM(
       config.output.chunkFilename = isServer
         ? `${dev ? "[name]" : "[name].[fullhash]"}.js`
         : `static/chunks/${dev ? "[name]" : "[name].[fullhash]"}.js`;
-
+      config.module.rules.push({
+        exclude: /node_modules/,
+        loader: "graphql-tag/loader",
+        test: /\.(graphql|gql)$/,
+      });
       // In `pages/_app.js`, Sentry is imported from @sentry/node. While
       // @sentry/browser will run in a Node.js environment, @sentry/node will use
       // Node.js-only APIs to catch even more unhandled exceptions.

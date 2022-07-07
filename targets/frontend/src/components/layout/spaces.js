@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-import { theme } from "src/theme";
 import { get } from "theme-ui";
+
+import { theme } from "../../theme";
 
 const spaces = Object.keys(theme.space);
 

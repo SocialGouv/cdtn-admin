@@ -3,26 +3,25 @@
 import PropTypes from "prop-types";
 import { useFieldArray } from "react-hook-form";
 import { IoMdAdd, IoMdTrash } from "react-icons/io";
-import { Button } from "src/components/button";
-import { FormErrorMessage } from "src/components/forms/ErrorMessage";
-import { Stack } from "src/components/layout/Stack";
 import { Container, Flex, Label, Radio } from "theme-ui";
 
+import { ContentSectionReference } from "../../types";
+import { Button } from "../button";
+import { FormErrorMessage } from "../forms/ErrorMessage";
+import { Stack } from "../layout/Stack";
 import { References } from "./References";
 
 const JURIDIQUES_LABEL = "Références juridiques";
 const USEFUL_LINKS_LABEL = "Liens utiles";
 
-export function ReferenceBlocks({ control, name, register, errors }) {
-  const {
-    fields: blocks,
-    append,
-    remove,
-  } = useFieldArray({
+export function ReferenceBlocks({ control, name, register, errors }: any) {
+  const { fields, append, remove } = useFieldArray({
     control,
     keyName: "key",
     name,
   });
+
+  const blocks = fields as ContentSectionReference[];
 
   return (
     <>
@@ -35,12 +34,7 @@ export function ReferenceBlocks({ control, name, register, errors }) {
           >
             <Stack>
               <Flex sx={{ justifyContent: "flex-end" }}>
-                <Button
-                  type="button"
-                  size="small"
-                  outline
-                  onClick={() => remove(index)}
-                >
+                <Button size="small" outline onClick={() => remove(index)}>
                   <IoMdTrash
                     sx={{
                       height: "iconSmall",
@@ -115,7 +109,6 @@ export function ReferenceBlocks({ control, name, register, errors }) {
         ))
       ) : (
         <Button
-          type="button"
           size="small"
           variant="secondary"
           outline
@@ -126,6 +119,7 @@ export function ReferenceBlocks({ control, name, register, errors }) {
           <IoMdAdd
             sx={{
               height: "iconSmall",
+
               mr: "xsmall",
               width: "iconSmall",
             }}

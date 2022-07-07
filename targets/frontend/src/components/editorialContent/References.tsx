@@ -4,20 +4,20 @@ import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useFieldArray } from "react-hook-form";
 import { IoMdClose } from "react-icons/io";
-import { Button } from "src/components/button";
-import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Box, Field, Flex } from "theme-ui";
 
-export const References = ({ control, nestName, register, errors }) => {
-  const {
-    fields: references,
-    append,
-    remove,
-  } = useFieldArray({
+import { ContentLink } from "../../types";
+import { Button } from "../button";
+import { FormErrorMessage } from "../forms/ErrorMessage";
+
+export const References = ({ control, nestName, register, errors }: any) => {
+  const { fields, append, remove } = useFieldArray({
     control,
     keyName: "key",
     name: nestName,
   });
+
+  const references = fields as ContentLink[];
 
   useEffect(() => {
     if (references.length === 0) {
@@ -67,7 +67,6 @@ export const References = ({ control, nestName, register, errors }) => {
           </Box>
           {references.length > 1 && (
             <Button
-              type="button"
               variant="primary"
               outline
               onClick={() => remove(index)}
@@ -84,7 +83,6 @@ export const References = ({ control, nestName, register, errors }) => {
           onClick={() => append({})}
           variant="secondary"
           outline
-          type="button"
         >
           Ajouter une référence au bloc
         </Button>

@@ -1,17 +1,19 @@
 import lowGet from "lodash.get";
 import PropTypes from "prop-types";
+import React from "react";
 import { useFieldArray } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
 import { SortableContainer } from "react-sortable-hoc";
-import { Button } from "src/components/button";
-import { List } from "src/components/list";
 
-import { SortableSection, TYPES } from "./Section";
+import { Button } from "../button";
+import { List } from "../list";
+import { SortableSection } from "./Section";
 
 const SortableSectionList = SortableContainer(
-  ({ blocks, errors, name, ...props }) => (
+  ({ blocks, errors, name, ...props }: any) => (
     <List>
-      {blocks.map((block, index) => (
+      {blocks.map((block: any, index: number) => (
+        // @ts-ignore
         <SortableSection
           {...props}
           numberOfBlocks={blocks.length}
@@ -28,7 +30,7 @@ const SortableSectionList = SortableContainer(
   )
 );
 
-export function ContentSections({ control, name, register, errors }) {
+export function ContentSections({ control, name, register, errors }: any) {
   const {
     fields: blocks,
     append,
@@ -42,6 +44,8 @@ export function ContentSections({ control, name, register, errors }) {
 
   return (
     <div>
+      {/*
+      // @ts-ignore */}
       <SortableSectionList
         blocks={blocks}
         control={control}
@@ -51,7 +55,13 @@ export function ContentSections({ control, name, register, errors }) {
         register={register}
         remove={remove}
         useDragHandle
-        onSortEnd={({ oldIndex, newIndex }) => {
+        onSortEnd={({
+          oldIndex,
+          newIndex,
+        }: {
+          oldIndex: number;
+          newIndex: number;
+        }) => {
           if (oldIndex === newIndex) {
             return;
           }
@@ -59,11 +69,9 @@ export function ContentSections({ control, name, register, errors }) {
         }}
       />
       <Button
-        mb="medium"
-        type="button"
         size="small"
         variant="secondary"
-        onClick={() => append({ type: TYPES.MARKDOWN })}
+        onClick={() => append({ type: "markdown" })}
       >
         {/* todo refactor to a ButtonWithicon since sx props not working */}
         <IoMdAdd

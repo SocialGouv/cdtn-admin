@@ -7,20 +7,27 @@ import type {
   AgreementArticle,
   AgreementSection,
 } from "@socialgouv/kali-data-types";
+import type {
+  Prequalified,
+  Highlight,
+  EditorialContent,
+} from "./EditorialContent";
+export * from "./EditorialContent";
+export * from "./utils";
+import type { BaseHasuraDocument } from "./Base";
 
-export type BaseHasuraDocument = {
-  cdtn_id: string;
-  initial_id: string;
-  is_available: boolean;
-  is_searchable: boolean;
-  is_published: boolean;
-  meta_description: string;
-  slug: string;
-  title: string;
-  text: string;
-  created_at: Date;
-  updated_at: Date;
-};
+export enum DOCUMENT_SOURCE {
+  fiches_ministere_travail = "fiches_ministere_travail",
+  contributions = "contributions",
+  code_du_travail = "code_du_travail",
+  fiches_service_public = "fiches_service_public",
+  conventions_collectives = "conventions_collectives",
+  prequalified = "prequalified",
+  themes = "themes",
+  modeles_de_courriers = "modeles_de_courriers",
+  information = "information",
+  highlights = "highlights",
+}
 
 export type FicheTravailEmploi = BaseHasuraDocument & {
   source: "fiches_ministere_travail";
@@ -52,11 +59,6 @@ export type Agreement = BaseHasuraDocument & {
   document: AgreementDoc;
 };
 
-export type Prequalified = BaseHasuraDocument & {
-  source: "prequalified";
-  document: PrequalifiedDoc;
-};
-
 export type Theme = BaseHasuraDocument & {
   source: "themes";
   document: ThemeDoc;
@@ -67,11 +69,6 @@ export type MailTemplate = BaseHasuraDocument & {
   document: MailTemplateDoc;
 };
 
-export type EditorialContent = BaseHasuraDocument & {
-  source: "information";
-  document: EditorialContentDoc;
-};
-
 export type HasuraDocument =
   | Agreement
   | ContributionComplete
@@ -79,9 +76,10 @@ export type HasuraDocument =
   | FicheServicePublic
   | FicheTravailEmploi
   | LaborCodeArticle
-  | Prequalified
   | MailTemplate
   | Theme
+  | Prequalified
+  | Highlight
   | EditorialContent;
 
 /**
@@ -107,48 +105,6 @@ export type MailTemplateDoc = {
     type: string;
   }[];
 };
-
-export type EditorialContentDoc = {
-  date: string;
-  intro: string;
-  contents: EditorialContentPart[];
-  references?: EditoralContentReferenceBloc[];
-  description: string;
-};
-
-export type EditorialContentPart = GraphicContentPart | MarkdownContentPart;
-
-export interface BaseContentPart {
-  name: string;
-  title: string;
-  markdown: string;
-  references: EditoralContentReferenceBloc[];
-  type: "markdown" | "graphic";
-}
-
-export interface MarkdownContentPart extends BaseContentPart {
-  type: "markdown";
-}
-
-export interface GraphicContentPart extends BaseContentPart {
-  type: "graphic";
-  size: string;
-  imgUrl: string;
-  altText: string;
-  fileUrl: string;
-}
-
-export interface EditoralContentReferenceBloc {
-  label: string;
-  links: EditorialContentLink[];
-}
-
-export interface EditorialContentLink {
-  id: string;
-  url: string;
-  type: string;
-  title: string;
-}
 
 export interface FicheTravailEmploiDoc {
   date: string;
@@ -286,10 +242,6 @@ export interface Blocks {
   "5"?: string[];
   "11"?: string[];
 }
-
-type PrequalifiedDoc = {
-  variants: string[];
-};
 
 /**
  * Alerts

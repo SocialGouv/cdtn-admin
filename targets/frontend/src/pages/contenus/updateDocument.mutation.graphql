@@ -1,0 +1,26 @@
+mutation updateDocument(
+  $cdtnId: String!
+  $metaDescription: String!
+  $title: String!
+  $isAvailable: Boolean!
+  $document: jsonb!
+  $text: String!
+) {
+  document: update_documents_by_pk(
+    _set: {
+      document: $document
+      meta_description: $metaDescription
+      title: $title
+      is_available: $isAvailable
+      text: $text
+    }
+    pk_columns: { cdtn_id: $cdtnId }
+  ) {
+    cdtnId: cdtn_id
+    title
+    source
+    metaDescription: meta_description
+    document
+    text
+  }
+}

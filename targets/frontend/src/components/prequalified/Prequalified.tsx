@@ -1,22 +1,26 @@
 /** @jsxImportSource theme-ui */
 
-import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { IoMdCheckmark } from "react-icons/io";
-import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
-import { Field, Flex, NavLink } from "theme-ui";
+import { PrequalifiedContent } from "src/types";
+import { Field } from "theme-ui";
+
+import { ValidationBar } from "./ValidationBar";
 
 const PrequalifiedForm = ({
   content = { contentRelations: [] },
   onSubmit,
-  loading,
+  loading = false,
+}: {
+  content?: Partial<PrequalifiedContent>;
+  onSubmit: any;
+  loading: boolean;
 }) => {
   const router = useRouter();
   const {
@@ -56,17 +60,19 @@ const PrequalifiedForm = ({
             control={control}
             name="document.variants"
             id="variants"
-            defaultValue={content.document?.variants}
+            disabled={false}
+            defaultValue={content?.document?.variants}
           />
         </Fieldset>
 
         <Fieldset title="Contenus">
           <ContentPicker
             control={control}
+            disabled={false}
             name="contents"
             id="contents"
-            defaultValue={content.contentRelations
-              .sort(({ position: a }, { position: b }) => a - b)
+            defaultValue={content?.contentRelations
+              ?.sort(({ position: a = 0 }, { position: b = 0 }) => a - b)
               .map(({ relationId, content }) => ({
                 relationId,
                 ...content,
@@ -74,31 +80,7 @@ const PrequalifiedForm = ({
           />
         </Fieldset>
 
-        <Flex sx={{ alignItems: "center", mt: "medium" }}>
-          <Button variant="secondary" disabled={loading || !isDirty}>
-            {isDirty && (
-              <IoMdCheckmark
-                sx={{
-                  height: "iconSmall",
-                  mr: "xsmall",
-                  width: "iconSmall",
-                }}
-              />
-            )}
-            Enregistrer
-          </Button>
-          <Link href={"/contenus"} passHref>
-            <NavLink
-              onClick={(e) => {
-                e.preventDefault();
-                router.back();
-              }}
-              sx={{ ml: "medium" }}
-            >
-              Annuler
-            </NavLink>
-          </Link>
-        </Flex>
+        <ValidationBar isDirty={isDirty} loading={loading} router={router} />
       </>
     </form>
   );

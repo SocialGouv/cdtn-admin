@@ -1,0 +1,15 @@
+query getDocumentById($id: String!) {
+  document: documents_by_pk(cdtn_id: $id) {
+    cdtn_id
+    document
+    initial_id
+    is_published
+    is_searchable
+    is_available
+    meta_description
+    slug
+    source
+    text
+    title
+  }
+}
