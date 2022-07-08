@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/SocialGouv/cdtn-admin/compare/v1.18.2...v1.19.0) (2022-07-08)
+
+
+### Bug Fixes
+
+* **contribution:** correction sur les échecs d'authentification ([#782](https://github.com/SocialGouv/cdtn-admin/issues/782)) ([6e714ae](https://github.com/SocialGouv/cdtn-admin/commit/6e714aed9db6ad633edbf8b862c302ca093d9740))
+
+
+
+
+
 ## [1.18.2](https://github.com/SocialGouv/cdtn-admin/compare/v1.18.1...v1.18.2) (2022-06-16)
 
 **Note:** Version bump only for package @socialgouv/contibutions
