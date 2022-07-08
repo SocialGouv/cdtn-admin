@@ -72,6 +72,14 @@ async function start() {
   );
 
   koaApp.use(
+    proxy("/api/refresh_token", {
+      target: process.env.API_URI,
+      changeOrigin: true,
+      logs: true,
+    })
+  );
+
+  koaApp.use(
     proxy("/api/logout", {
       target: process.env.API_URI,
       changeOrigin: true,
