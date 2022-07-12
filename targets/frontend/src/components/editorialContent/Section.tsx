@@ -2,7 +2,6 @@
 
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { useWatch } from "react-hook-form";
 import {
   IoIosArrowDropdown,
   IoIosArrowDropup,
@@ -11,15 +10,15 @@ import {
 } from "react-icons/io";
 // @ts-ignore
 import { SortableElement, sortableHandle } from "react-sortable-hoc";
-import { Box, Container, Field, Flex, Label, Radio, Textarea } from "theme-ui";
+import { Box, Container, Field, Flex } from "theme-ui";
 
+import { ContentSection } from "../../types";
 import { Button, IconButton } from "../button";
 import { ReferenceBlocks } from "../editorialContent/ReferenceBlocks";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Stack } from "../layout/Stack";
 import { Li } from "../list";
-import { MarkdownLink } from "../MarkdownLink";
-import { MarkdownPreviewModal } from "./MarkdownPreviewModal";
+import { SectionBlocks } from "./SectionBlocks";
 
 const DragHandle = sortableHandle(() => (
   <IconButton variant="secondary" sx={{ cursor: "grab", mt: "large" }}>
@@ -30,6 +29,17 @@ const DragHandle = sortableHandle(() => (
   </IconButton>
 ));
 
+type SectionProps = {
+  block: ContentSection;
+  control: any;
+  errors: any[];
+  blockIndex: number;
+  name: string;
+  numberOfBlocks: number;
+  register: any;
+  remove: any;
+};
+
 const RootSection = ({
   block,
   control,
@@ -39,18 +49,8 @@ const RootSection = ({
   numberOfBlocks,
   register,
   remove,
-}: any) => {
+}: SectionProps) => {
   const [isOpen, setOpen] = useState(!block.title || numberOfBlocks === 1);
-  const type = useWatch({
-    control,
-    defaultValue: block.type,
-    name: `${name}.type`,
-  });
-  const markdown = useWatch({
-    control,
-    defaultValue: "",
-    name: `${name}.markdown`,
-  });
 
   useEffect(() => {
     if (errors) {
@@ -107,54 +107,21 @@ const RootSection = ({
           <Box sx={{ display: isOpen ? "block" : "none" }}>
             <Stack>
               <div>
-                <Flex sx={{ justifyContent: "flex-start" }}>
-                  <Label
-                    sx={{
-                      alignItems: "center",
-                      cursor: "pointer",
-                      flex: "0 1 auto",
-                      justifyContent: "flex-start",
-                      mr: "large",
-                      width: "auto",
-                    }}
-                  >
-                    Mardown{" "}
-                    <Radio
-                      sx={{ ml: "xxsmall" }}
-                      value={"markdown"}
-                      defaultChecked={block.type === "markdown"}
-                      {...register(`${name}.type`, {
-                        required: {
-                          message: "Il faut choisir le type de section",
-                          value: true,
-                        },
-                      })}
-                    />
-                  </Label>
-                  <Label
-                    sx={{
-                      alignItems: "center",
-                      cursor: "pointer",
-                      flex: "0 1 auto",
-                      justifyContent: "flex-center",
-                      width: "auto",
-                    }}
-                  >
-                    Graphique{" "}
-                    <Radio
-                      ml="xxsmall"
-                      value={"graphic"}
-                      defaultChecked={block.type === "graphic"}
-                      {...register(`${name}.type`, {
-                        required: {
-                          message: "Il faut choisir le type de section",
-                          value: true,
-                        },
-                      })}
-                    />
-                  </Label>
+                <Flex
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    margin: "0 3px",
+                  }}
+                >
                   {numberOfBlocks > 1 && (
-                    <Flex sx={{ flex: "1 0 auto", justifyContent: "flex-end" }}>
+                    <Flex
+                      sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        margin: "0 3px",
+                      }}
+                    >
                       <Button size="small" onClick={() => remove(index)}>
                         <IoMdTrash
                           sx={{
@@ -168,84 +135,14 @@ const RootSection = ({
                     </Flex>
                   )}
                 </Flex>
-                <FormErrorMessage errors={errors} fieldName="type" />
               </div>
-              {type === "graphic" && (
-                <>
-                  <div>
-                    <Field
-                      label="Lien de l’image"
-                      defaultValue={block.imgUrl}
-                      {...register(`${name}.imgUrl`, {
-                        required: {
-                          message: "L’url de l’image est requise",
-                          value: true,
-                        },
-                      })}
-                    />
-                    <FormErrorMessage errors={errors} fieldName="imgUrl" />
-                  </div>
-                  <div>
-                    <Field
-                      label="Brève description de l’image"
-                      defaultValue={block.altText}
-                      {...register(`${name}.altText`, {
-                        required: {
-                          message:
-                            "La brève description de l’image est requise",
-                          value: true,
-                        },
-                      })}
-                    />
-                    <FormErrorMessage errors={errors} fieldName="altText" />
-                  </div>
-                  <div>
-                    <Field
-                      label="Lien du pdf"
-                      defaultValue={block.fileUrl}
-                      {...register(`${name}.fileUrl`, {
-                        required: {
-                          message: "L’url du pdf est requise",
-                          value: true,
-                        },
-                      })}
-                    />
-                    <FormErrorMessage errors={errors} fieldName="fileUrl" />
-                  </div>
-                  <div>
-                    <Field
-                      label="Taille du pdf"
-                      defaultValue={block.size}
-                      {...register(`${name}.size`, {
-                        required: {
-                          message: "La taille du pdf est requise",
-                          value: true,
-                        },
-                      })}
-                    />
-                    <FormErrorMessage errors={errors} fieldName="size" />
-                  </div>
-                </>
-              )}
-              <div>
-                <Label htmlFor={"markdown"}>
-                  Texte&nbsp;
-                  <MarkdownLink />
-                </Label>
-                <Textarea
-                  id={`${name}.markdown`}
-                  rows={10}
-                  defaultValue={block.markdown}
-                  {...register(`${name}.markdown`, {
-                    required: {
-                      message: "Ce champ est requis",
-                      value: true,
-                    },
-                  })}
-                />
-                <FormErrorMessage errors={errors} fieldName="markdown" />
-                {markdown && <MarkdownPreviewModal markdown={markdown} />}
-              </div>
+              <SectionBlocks
+                key={index}
+                errors={errors}
+                register={register}
+                name={`${name}.blocks`}
+                control={control}
+              />
               <div>
                 <ReferenceBlocks
                   control={control}

@@ -78,7 +78,6 @@ const EditorialContentForm = ({
             name="document.date"
             sx={{ width: "10rem" }}
             label="Date"
-            defaultValue={content?.document?.date as string}
           />
           <ErrorMessage
             name="document.date"
@@ -98,7 +97,6 @@ const EditorialContentForm = ({
             })}
             type="text"
             label="Titre"
-            defaultValue={content?.title}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
         </Box>
@@ -108,7 +106,6 @@ const EditorialContentForm = ({
             {...register("metaDescription")}
             type="text"
             label="Meta description (référencement)"
-            defaultValue={content?.document?.metaDescription}
           />
         </Box>
 
@@ -120,7 +117,6 @@ const EditorialContentForm = ({
             })}
             id="description"
             rows={3}
-            defaultValue={content?.document?.description}
           />
           <FormErrorMessage errors={errors} fieldName="document.description" />
         </Box>
@@ -129,12 +125,7 @@ const EditorialContentForm = ({
             Introduction&nbsp;
             <MarkdownLink />
           </Label>
-          <Textarea
-            {...register("document.intro")}
-            id="intro"
-            rows={3}
-            defaultValue={content?.document?.intro}
-          />
+          <Textarea {...register("document.intro")} id="intro" rows={3} />
         </Box>
         <Box mb="small">
           <Label htmlFor={"intro"}>Affichage des sections&nbsp;</Label>
@@ -143,7 +134,7 @@ const EditorialContentForm = ({
               {...register("document.sectionDisplayMode")}
               name="document.sectionDisplayMode"
               value={SectionDisplayMode.accordion}
-              defaultChecked={!content?.document?.sectionDisplayMode}
+              defaultChecked={true}
             />
             Accordéon
           </Label>

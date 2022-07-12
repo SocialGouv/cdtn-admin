@@ -5,39 +5,41 @@ export enum CONTENT_TYPE {
   graphic = "graphic",
 }
 
-export interface BaseContentPart {
+export type BaseContentPart = {
   name: string;
   title: string;
-  markdown: string;
   references: EditoralContentReferenceBloc[];
   type: CONTENT_TYPE;
-}
+  blocks: EditorialContentPart[];
+};
 
-export interface MarkdownContentPart extends BaseContentPart {
+export type MarkdownContentPart = {
   type: CONTENT_TYPE.markdown;
-}
+  markdown: string;
+};
 
 export type EditorialContentPart = GraphicContentPart | MarkdownContentPart;
 
-export interface EditorialContentLink {
+export type EditorialContentLink = {
   id: string;
   url: string;
   type: string;
   title: string;
-}
+};
 
-export interface EditoralContentReferenceBloc {
+export type EditoralContentReferenceBloc = {
   label: string;
   links: EditorialContentLink[];
-}
+};
 
-export interface GraphicContentPart extends BaseContentPart {
+export type GraphicContentPart = {
   type: CONTENT_TYPE.graphic;
   size: string;
   imgUrl: string;
   altText: string;
   fileUrl: string;
-}
+  markdown: string;
+};
 
 export enum SectionDisplayMode {
   accordion = "accordion",
