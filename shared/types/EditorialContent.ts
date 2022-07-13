@@ -9,7 +9,6 @@ export type BaseContentPart = {
   name: string;
   title: string;
   references: EditoralContentReferenceBloc[];
-  type: CONTENT_TYPE;
   blocks: EditorialContentPart[];
 };
 
@@ -50,7 +49,7 @@ export type EditorialContentDoc = {
   date: string;
   intro: string;
   section_display_mode?: SectionDisplayMode;
-  contents: EditorialContentPart[];
+  contents: BaseContentPart[];
   references?: EditoralContentReferenceBloc[];
   description: string;
 };

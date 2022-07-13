@@ -1,9 +1,9 @@
 import React from "react";
 import { useWatch } from "react-hook-form";
 import { IoMdTrash } from "react-icons/io";
+// @ts-ignore
 import { Container, Flex, Label, Radio } from "theme-ui";
 
-import { EditorialContentPart } from "../../types";
 import { Button } from "../button";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { SectionImage } from "./SectionImage";
@@ -15,7 +15,7 @@ export type SectionBlockProps = {
   name: string;
   control: any;
   remove: any;
-  displayRemove: boolean;
+  onlyBlock: boolean;
 };
 
 export const SectionBlock = ({
@@ -24,7 +24,7 @@ export const SectionBlock = ({
   name,
   control,
   remove,
-  displayRemove,
+  onlyBlock,
 }: SectionBlockProps) => {
   let block;
   const type = useWatch({
@@ -110,7 +110,7 @@ export const SectionBlock = ({
               />
             </Label>
           </Flex>
-          {displayRemove && (
+          {!onlyBlock && (
             <Flex
               sx={{
                 display: "flex",

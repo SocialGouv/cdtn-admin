@@ -39,7 +39,7 @@ export const SectionBlocks = ({
             name={`${name}.${index}`}
             control={control}
             remove={() => remove(index)}
-            displayRemove={blocks.length > 1}
+            onlyBlock={blocks.length === 1}
           />
         </>
       ))}
@@ -61,7 +61,7 @@ export const SectionBlocks = ({
               width: "iconSmall",
             }}
           />
-          Ajouter un bloc d'affichage
+          Ajouter un bloc d&apos;affichage
         </Button>
       </div>
     </>
