@@ -34,7 +34,7 @@ export async function extractEditorialContentTemplateRef(
       docData.document.contents.flatMap<string>((part): string[] => {
         return part.references.flatMap<string>(({ links }): string[] => {
           return links.flatMap(({ url }): string[] => {
-            return extractArticleId(url as string);
+            return extractArticleId(url);
           });
         });
       });

@@ -7,8 +7,6 @@ jest.mock("../extractDilaReferences/getAllDocumentsBySource", () => ({
     Promise.resolve([
       {
         cdtnId: "1",
-        title: "Handicap",
-        source: "themes",
         contentRelations: [
           {
             document: {
@@ -16,11 +14,11 @@ jest.mock("../extractDilaReferences/getAllDocumentsBySource", () => ({
             },
           },
         ],
+        source: "themes",
+        title: "Handicap",
       },
       {
         cdtnId: "2",
-        title: "procédure licenciement pour inaptitude",
-        source: "prequalified",
         contentRelations: [
           {
             document: {
@@ -33,11 +31,11 @@ jest.mock("../extractDilaReferences/getAllDocumentsBySource", () => ({
             },
           },
         ],
+        source: "prequalified",
+        title: "procédure licenciement pour inaptitude",
       },
       {
         cdtnId: "3",
-        title: "complement-salaire pole emploi",
-        source: "prequalified",
         contentRelations: [
           {
             document: {
@@ -45,6 +43,8 @@ jest.mock("../extractDilaReferences/getAllDocumentsBySource", () => ({
             },
           },
         ],
+        source: "prequalified",
+        title: "complement-salaire pole emploi",
       },
     ]),
 }));
