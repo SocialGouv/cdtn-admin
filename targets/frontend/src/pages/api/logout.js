@@ -50,6 +50,16 @@ export default async function logout(req, res) {
       secure: process.env.NODE_ENV === "production",
     })
   );
+  res.setHeader(
+    "Set-Cookie",
+    cookie.serialize("jwt", "deleted", {
+      httpOnly: true,
+      maxAge: 0,
+      path: "/",
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    })
+  );
 
   console.log("[logout]", refresh_token);
   res.json({ message: "user logout !" });

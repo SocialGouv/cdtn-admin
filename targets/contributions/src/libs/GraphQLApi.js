@@ -8,6 +8,7 @@ import {
 } from "./graphql";
 import { createClient } from "@urql/core";
 import fetch from "isomorphic-unfetch";
+import { RefreshToken } from "./RefreshToken";
 
 export class GraphQLApi {
   constructor() {
@@ -21,12 +22,29 @@ export class GraphQLApi {
       requestPolicy: "network-only",
       url: "/api/graphql",
     });
+    this.refreshToken = new RefreshToken();
+  }
+
+  async queryWithToken(query, variables) {
+    const res = await this.client.query(query, variables).toPromise();
+
+    if (
+      res.error &&
+      res.error.message === "[GraphQL] Could not verify JWT: JWTExpired"
+    ) {
+      if (await this.refreshToken.refresh()) {
+        return await this.client.query(query, variables).toPromise();
+      }
+    }
+
+    return res;
   }
 
   async fetchWithPagination(data, variables = undefined) {
-    const res = await this.client
-      .query(data.query, variables ? variables : {})
-      .toPromise();
+    const res = await this.queryWithToken(
+      data.query,
+      variables ? variables : {}
+    );
 
     if (res.error) {
       throw res.error;
@@ -46,15 +64,15 @@ export class GraphQLApi {
     };
   }
 
-  async fetch(graphQL, variables = undefined) {
-    const res = await this.client.query(graphQL.query, variables).toPromise();
+  async fetch(data, variables = undefined) {
+    const res = await this.queryWithToken(data.query, variables);
     if (res.error) {
       throw res.error;
     }
-    if (!res.data[graphQL.key]) {
+    if (!res.data[data.key]) {
       throw new Error("Failed to get, undefined object");
     }
-    return res.data[graphQL.key];
+    return res.data[data.key];
   }
 
   async fetchAll(key, variables = {}) {
@@ -78,8 +96,23 @@ export class GraphQLApi {
     return this.fetch(graphQL, variables);
   }
 
+  async mutationWithToken(query, variables) {
+    const res = await this.client.mutation(query, variables).toPromise();
+
+    if (
+      res.error &&
+      res.error.message === "[GraphQL] Could not verify JWT: JWTExpired"
+    ) {
+      if (await this.refreshToken.refresh()) {
+        return await this.client.mutation(query, variables).toPromise();
+      }
+    }
+
+    return res;
+  }
+
   async create(graphQL, data) {
-    const res = await this.client.mutation(graphQL.query, data).toPromise();
+    const res = await this.mutationWithToken(graphQL.query, data);
 
     if (res.error) {
       throw res.error;
@@ -107,7 +140,7 @@ export class GraphQLApi {
   }
 
   async update(graphQL, data) {
-    const res = await this.client.mutation(graphQL.query, data).toPromise();
+    const res = await this.mutationWithToken(graphQL.query, data);
 
     if (res.error) {
       throw res.error;
@@ -125,7 +158,7 @@ export class GraphQLApi {
   }
 
   async delete(graphQL, data) {
-    const res = await this.client.mutation(graphQL.query, data).toPromise();
+    const res = await this.mutationWithToken(graphQL.query, data).toPromise();
 
     if (res.error) {
       throw res.error;
