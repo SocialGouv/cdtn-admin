@@ -134,26 +134,6 @@ const EditorialContentForm = ({
               {...register("document.sectionDisplayMode")}
               name="document.sectionDisplayMode"
               value={SectionDisplayMode.accordion}
-              defaultChecked={true}
-            />
-            Accordéon
-          </Label>
-          <Label>
-            <Radio
-              {...register("document.sectionDisplayMode")}
-              name="document.sectionDisplayMode"
-              value={SectionDisplayMode.tab}
-            />
-            Onglet
-          </Label>
-        </Box>
-        <Box mb="small">
-          <Label htmlFor={"intro"}>Affichage des sections&nbsp;</Label>
-          <Label>
-            <Radio
-              {...register("document.sectionDisplayMode")}
-              name="document.sectionDisplayMode"
-              value={SectionDisplayMode.accordion}
               defaultChecked={!content?.document?.sectionDisplayMode}
             />
             Accordéon
