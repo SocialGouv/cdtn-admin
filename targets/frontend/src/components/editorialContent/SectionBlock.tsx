@@ -104,6 +104,7 @@ export const SectionBlock = ({
                 cursor: "pointer",
                 flex: "0 1 auto",
                 justifyContent: "flex-center",
+                mr: "large",
                 width: "auto",
               }}
             >
@@ -126,6 +127,7 @@ export const SectionBlock = ({
                 cursor: "pointer",
                 flex: "0 1 auto",
                 justifyContent: "flex-center",
+                mr: "large",
                 width: "auto",
               }}
             >

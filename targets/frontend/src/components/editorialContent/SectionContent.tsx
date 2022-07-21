@@ -1,3 +1,5 @@
+import { Flex } from "theme-ui";
+
 import { ContentPicker } from "../forms/ContentPicker";
 
 export type SectionContentProps = {
@@ -15,7 +17,12 @@ export const SectionContent = ({
 }: SectionContentProps) => {
   return (
     <>
-      <div>
+      <Flex
+        sx={{
+          flexDirection: "column",
+          mt: "small",
+        }}
+      >
         <ContentPicker
           defaultValue={[]}
           disabled={false}
@@ -26,7 +33,7 @@ export const SectionContent = ({
           id="contents"
           full={true}
         />
-      </div>
+      </Flex>
     </>
   );
 };
