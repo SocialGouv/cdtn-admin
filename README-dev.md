@@ -282,14 +282,24 @@ query GetAllDocuments($sources: [String!]) {
 }
 ```
 
+With published documents:
+
+```gql
+query GetAllDocumentsPublished($sources: [String!]) {
+  documents(where: {is_published: {_eq: true}, source: {_in: $sources}}) {
+    cdtn_id
+  }
+}
+```
+
 Avec comme paramètres :
 
 ```json
-{"sources": ["page_fiche_ministere_travail", "information", "fiches_service_public", "modeles_de_courriers", "contributions"]}
+{"sources": ["page_fiche_ministere_travail", "information", "fiches_service_public", "modeles_de_courriers", "contributions", "conventions_collectives"]}
 ```
 
 Pour la partie sql, il faut utiliser la requête suivante :
 
 ```sql
-SELECT COUNT(*) FROM documents WHERE source IN ('page_fiche_ministere_travail', 'information', 'fiches_service_public', 'modeles_de_courriers', 'contributions');
+SELECT COUNT(*) FROM documents WHERE source IN ('page_fiche_ministere_travail', 'information', 'fiches_service_public', 'modeles_de_courriers', 'contributions', 'conventions_collectives') AND is_published = TRUE;
 ```
