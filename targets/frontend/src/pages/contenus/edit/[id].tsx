@@ -49,7 +49,7 @@ function mapContentRelations(
     (relation: ContentRelation, index: number) => ({
       data: { position: index },
       document_a: queryId,
-      document_b: relation?.content?.cdtnId,
+      document_b: relation?.cdtnId,
       id: relation?.relationId,
       type: RELATIONS.DOCUMENT_CONTENT,
     })
@@ -77,7 +77,8 @@ export function EditInformationPage() {
   const onSubmit =
     <T,>(mapper: (content: T) => object) =>
     async (contentItem: T): Promise<void> => {
-      const result = await editContent(mapper(contentItem), context);
+      const variables = mapper(contentItem);
+      const result = await editContent(variables, context);
       if (!result) return;
       const { slug: computedSlug, metaDescription: computedMetaDescription } =
         result.data.content;
@@ -162,6 +163,7 @@ export function EditInformationPage() {
       );
       return {
         cdtnId: data?.content?.cdtnId,
+        document: contentItem.document,
         metaDescription: contentItem.title,
         relationIds,
         relations,

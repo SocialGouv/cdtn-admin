@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { IoMdCheckmark } from "react-icons/io";
 import { Box, Field, Flex, Label, NavLink, Radio, Textarea } from "theme-ui";
 
-import { Content, ContentSection, SectionDisplayMode } from "../../types";
+import { BaseContentPart, Content, SectionDisplayMode } from "../../types";
 import { Button } from "../button";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { MarkdownLink } from "../MarkdownLink";
@@ -23,7 +23,7 @@ const addComputedFields =
         link.type = SOURCES.EXTERNALS;
       });
     });
-    data.document?.contents?.forEach((content: ContentSection) => {
+    data.document?.contents?.forEach((content: BaseContentPart) => {
       content.name = slugify(content.title as string);
       content.references?.forEach((block) => {
         block.links.forEach((reference) => {
