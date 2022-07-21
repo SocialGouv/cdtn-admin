@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.19.2](https://github.com/SocialGouv/cdtn-admin/compare/v1.19.1...v1.19.2) (2022-07-21)
+
+
+### Bug Fixes
+
+* bug page à la une ([#787](https://github.com/SocialGouv/cdtn-admin/issues/787)) ([2784b82](https://github.com/SocialGouv/cdtn-admin/commit/2784b82fcc6c47c6aad33542994afe7f6e43c4ab))
+
+
+
+
+
 ## [1.19.1](https://github.com/SocialGouv/cdtn-admin/compare/v1.19.0...v1.19.1) (2022-07-21)
 
 
