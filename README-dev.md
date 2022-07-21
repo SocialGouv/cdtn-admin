@@ -271,3 +271,25 @@ Puis dans Gitlab, `cdtn-admin > Settings > Integrations > Github`, copiez le tok
 et si OK, cliquez sur `Save changes`.
 
 Pour relancer les checks sur les PRs, vous pouvez supprimer la branche dans gitlab et relancer le check 🇫🇷 sur Github.
+
+## Compter le nomebre de documents totaux
+
+```gql
+query GetAllDocuments($sources: [String!]) {
+  documents(where: {source: {_in: $sources}}) {
+    cdtn_id
+  }
+}
+```
+
+Avec comme paramètres :
+
+```json
+{"sources": ["page_fiche_ministere_travail", "information", "fiches_service_public", "modeles_de_courriers", "contributions"]}
+```
+
+Pour la partie sql, il faut utiliser la requête suivante :
+
+```sql
+SELECT COUNT(*) FROM documents WHERE source IN ('page_fiche_ministere_travail', 'information', 'fiches_service_public', 'modeles_de_courriers', 'contributions');
+```
