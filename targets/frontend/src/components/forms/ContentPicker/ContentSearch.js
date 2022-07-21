@@ -33,14 +33,26 @@ query searchDocuments($sources: [String!]! = "", $search: String = "") {
 }
 `;
 
-export const ContentSearch = ({ contents = [], onChange }) => {
+const searchFullDocumentsQuery = `
+query searchDocuments($sources: [String!]! = "", $search: String = "") {
+  documents(where: {title: {_ilike: $search}, source: {_in: $sources}, _not: {document: {_has_key: "split"}}}, limit: ${AUTOSUGGEST_MAX_RESULTS}) {
+    source
+    title
+    cdtnId: cdtn_id
+    description: meta_description
+    slug
+  }
+}
+`;
+
+export const ContentSearch = ({ contents = [], onChange, full = false }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [inputSearchValue, setInputSearchValue] = useState("");
   const [searchValue, , setDebouncedSearchValue] = useDebouncedState("", 500);
 
   const [results] = useQuery({
     pause: searchValue.length < 3,
-    query: searchDocumentsQuery,
+    query: full ? searchFullDocumentsQuery : searchDocumentsQuery,
     variables: {
       search: `%${searchValue}%`,
       sources,
@@ -78,12 +90,12 @@ export const ContentSearch = ({ contents = [], onChange }) => {
   };
   const onSuggestionSelected = (
     event,
-    { suggestion: { cdtnId, source, title = null } }
+    { suggestion: { cdtnId, source, title = null, description, slug } }
   ) => {
     if (contents.find((content) => content.cdtnId === cdtnId)) {
       return;
     }
-    onChange(contents.concat([{ cdtnId, source, title }]));
+    onChange(contents.concat([{ cdtnId, description, slug, source, title }]));
     setInputSearchValue("");
     setSuggestions([]);
   };
@@ -124,6 +136,7 @@ export const ContentSearch = ({ contents = [], onChange }) => {
 
 ContentSearch.propTypes = {
   contents: PropTypes.array,
+  full: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
 };
 

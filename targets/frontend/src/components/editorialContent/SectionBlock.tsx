@@ -6,6 +6,7 @@ import { Container, Flex, Label, Radio } from "theme-ui";
 
 import { Button } from "../button";
 import { FormErrorMessage } from "../forms/ErrorMessage";
+import { SectionContent } from "./SectionContent";
 import { SectionImage } from "./SectionImage";
 import { SectionText } from "./SectionText";
 
@@ -40,6 +41,16 @@ export const SectionBlock = ({
           register={register}
           name={name}
           control={control}
+        />
+      );
+      break;
+    case "content":
+      block = (
+        <SectionContent
+          errors={errors}
+          register={register}
+          control={control}
+          name={name}
         />
       );
       break;
@@ -100,6 +111,28 @@ export const SectionBlock = ({
               <Radio
                 ml="xxsmall"
                 value={"graphic"}
+                name={name}
+                {...register(`${name}.type`, {
+                  required: {
+                    message: "Il faut choisir le type de section",
+                    value: true,
+                  },
+                })}
+              />
+            </Label>
+            <Label
+              sx={{
+                alignItems: "center",
+                cursor: "pointer",
+                flex: "0 1 auto",
+                justifyContent: "flex-center",
+                width: "auto",
+              }}
+            >
+              Contenus{" "}
+              <Radio
+                ml="xxsmall"
+                value={"content"}
                 name={name}
                 {...register(`${name}.type`, {
                   required: {

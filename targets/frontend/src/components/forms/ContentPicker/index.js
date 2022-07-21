@@ -4,14 +4,14 @@ import { Controller } from "react-hook-form";
 import { ContentSearch } from "./ContentSearch";
 import { SortableList } from "./SortableList";
 
-const ContentPicker = ({ defaultValue, disabled, ...props }) => {
+const ContentPicker = ({ defaultValue, disabled, full, ...props }) => {
   return (
     <Controller
       {...props}
       defaultValue={defaultValue}
       // eslint-disable-next-line no-unused-vars
       render={({ field }) => (
-        <RootContentPicker disabled={disabled} {...field} />
+        <RootContentPicker disabled={disabled} {...field} full={full} />
       )}
     />
   );
@@ -24,7 +24,12 @@ ContentPicker.propTypes = {
 
 export { ContentPicker };
 
-const RootContentPicker = ({ disabled, value: contents = [], onChange }) => {
+const RootContentPicker = ({
+  disabled,
+  value: contents = [],
+  onChange,
+  full = false,
+}) => {
   const onDeleteContent = (cdtnId) => {
     onChange(contents.filter((content) => content.cdtnId !== cdtnId));
   };
@@ -42,13 +47,16 @@ const RootContentPicker = ({ disabled, value: contents = [], onChange }) => {
         }}
         onDeleteContent={onDeleteContent}
       />
-      {!disabled && <ContentSearch onChange={onChange} contents={contents} />}
+      {!disabled && (
+        <ContentSearch onChange={onChange} contents={contents} full={full} />
+      )}
     </>
   );
 };
 
 RootContentPicker.propTypes = {
   disabled: PropTypes.bool,
+  full: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.array,
 };
