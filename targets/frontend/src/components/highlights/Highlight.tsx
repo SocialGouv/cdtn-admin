@@ -61,7 +61,7 @@ const HighlightsForm = ({
         <Fieldset title="Contenus à mettre en avant">
           <ContentPicker
             control={control}
-            name="contents"
+            name="contentRelations"
             id="contents"
             disabled={false}
             defaultValue={content?.contentRelations
