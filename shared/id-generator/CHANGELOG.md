@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.19.1](https://github.com/SocialGouv/cdtn-admin/compare/v1.19.0...v1.19.1) (2022-07-21)
+
+**Note:** Version bump only for package @shared/id-generator
+
+
+
+
+
 # [1.19.0](https://github.com/SocialGouv/cdtn-admin/compare/v1.18.2...v1.19.0) (2022-07-08)
 
 **Note:** Version bump only for package @shared/id-generator
