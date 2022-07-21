@@ -272,7 +272,7 @@ et si OK, cliquez sur `Save changes`.
 
 Pour relancer les checks sur les PRs, vous pouvez supprimer la branche dans gitlab et relancer le check 🇫🇷 sur Github.
 
-## Compter le nomebre de documents totaux
+## Compter le nombre de documents totaux
 
 ```gql
 query GetAllDocuments($sources: [String!]) {
