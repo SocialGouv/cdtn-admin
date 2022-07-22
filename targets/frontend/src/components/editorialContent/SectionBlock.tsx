@@ -1,5 +1,5 @@
-import React from "react";
-import { useWatch } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
 import { IoMdTrash } from "react-icons/io";
 // @ts-ignore
 import { Container, Flex, Label, Radio } from "theme-ui";
@@ -11,23 +11,23 @@ import { SectionImage } from "./SectionImage";
 import { SectionText } from "./SectionText";
 
 export type SectionBlockProps = {
-  errors: any;
-  register: any;
   name: string;
-  control: any;
   remove: any;
   onlyBlock: boolean;
 };
 
 export const SectionBlock = ({
-  errors,
-  register,
   name,
-  control,
   remove,
   onlyBlock,
 }: SectionBlockProps) => {
   let block;
+  const {
+    control,
+    register,
+    formState: { errors },
+    setValue,
+  } = useFormContext();
   const type = useWatch({
     control,
     defaultValue: "markdown",
@@ -35,37 +35,37 @@ export const SectionBlock = ({
   });
   switch (type) {
     case "graphic":
-      block = (
-        <SectionImage
-          errors={errors}
-          register={register}
-          name={name}
-          control={control}
-        />
-      );
+      block = <SectionImage name={name} />;
       break;
     case "content":
-      block = (
-        <SectionContent
-          errors={errors}
-          register={register}
-          control={control}
-          name={name}
-        />
-      );
+      block = <SectionContent name={name} />;
       break;
     case "markdown":
     default:
-      block = (
-        <SectionText
-          errors={errors}
-          register={register}
-          name={name}
-          control={control}
-        />
-      );
+      block = <SectionText name={name} />;
       break;
   }
+  useEffect(() => {
+    switch (type) {
+      case "content":
+        setValue(`${name}.markdown`, undefined);
+        setValue(`${name}.imgUrl`, undefined);
+        setValue(`${name}.altText`, undefined);
+        setValue(`${name}.fileUrl`, undefined);
+        setValue(`${name}.size`, undefined);
+        break;
+      case "graphic":
+        setValue(`${name}.contents`, undefined);
+        break;
+      case "markdown":
+      default:
+        setValue(`${name}.contents`, undefined);
+        setValue(`${name}.imgUrl`, undefined);
+        setValue(`${name}.altText`, undefined);
+        setValue(`${name}.fileUrl`, undefined);
+        setValue(`${name}.size`, undefined);
+    }
+  }, [type, setValue, name]);
   return (
     <>
       <Container
@@ -89,7 +89,6 @@ export const SectionBlock = ({
               <Radio
                 sx={{ ml: "xxsmall" }}
                 value={"markdown"}
-                name={name}
                 {...register(`${name}.type`, {
                   required: {
                     message: "Il faut choisir le type de section",
@@ -112,7 +111,6 @@ export const SectionBlock = ({
               <Radio
                 ml="xxsmall"
                 value={"graphic"}
-                name={name}
                 {...register(`${name}.type`, {
                   required: {
                     message: "Il faut choisir le type de section",
@@ -135,7 +133,6 @@ export const SectionBlock = ({
               <Radio
                 ml="xxsmall"
                 value={"content"}
-                name={name}
                 {...register(`${name}.type`, {
                   required: {
                     message: "Il faut choisir le type de section",

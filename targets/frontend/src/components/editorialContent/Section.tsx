@@ -2,6 +2,8 @@
 
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
+// @ts-ignore
+import { useFormContext } from "react-hook-form";
 import {
   IoIosArrowDropdown,
   IoIosArrowDropup,
@@ -31,29 +33,27 @@ const DragHandle = sortableHandle(() => (
 
 type SectionProps = {
   block: ContentSection;
-  control: any;
-  errors: any[];
   blockIndex: number;
   name: string;
   numberOfBlocks: number;
-  register: any;
   remove: any;
 };
 
 const RootSection = ({
   block,
-  control,
-  errors,
   blockIndex: index,
   name,
   numberOfBlocks,
-  register,
   remove,
 }: SectionProps) => {
-  const [isOpen, setOpen] = useState(!block.title || numberOfBlocks === 1);
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+  const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
-    if (errors) {
+    if (Object.keys(errors).length) {
       setOpen(true);
     }
   }, [errors, setOpen]);
@@ -136,20 +136,9 @@ const RootSection = ({
                   )}
                 </Flex>
               </div>
-              <SectionBlocks
-                key={index}
-                errors={errors}
-                register={register}
-                name={`${name}.blocks`}
-                control={control}
-              />
+              <SectionBlocks key={index} name={`${name}.blocks`} />
               <div>
-                <ReferenceBlocks
-                  control={control}
-                  register={register}
-                  name={`${name}.references`}
-                  errors={errors}
-                />
+                <ReferenceBlocks name={`${name}.references`} />
               </div>
             </Stack>
           </Box>
@@ -160,14 +149,3 @@ const RootSection = ({
 };
 
 export const SortableSection = SortableElement(React.memo(RootSection));
-
-RootSection.propTypes = {
-  block: PropTypes.object.isRequired,
-  blockIndex: PropTypes.number.isRequired,
-  control: PropTypes.object.isRequired,
-  errors: PropTypes.object,
-  name: PropTypes.string.isRequired,
-  numberOfBlocks: PropTypes.number.isRequired,
-  register: PropTypes.func.isRequired,
-  remove: PropTypes.func.isRequired,
-};

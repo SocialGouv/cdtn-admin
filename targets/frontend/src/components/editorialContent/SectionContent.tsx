@@ -1,20 +1,18 @@
+import { useFormContext } from "react-hook-form";
 import { Flex } from "theme-ui";
 
 import { ContentPicker } from "../forms/ContentPicker";
 
 export type SectionContentProps = {
-  control: any;
-  errors: any[];
-  register: any;
   name: string;
 };
 
-export const SectionContent = ({
-  control,
-  errors,
-  register,
-  name,
-}: SectionContentProps) => {
+export const SectionContent = ({ name }: SectionContentProps) => {
+  const {
+    control,
+    register,
+    formState: { errors },
+  } = useFormContext();
   return (
     <>
       <Flex
