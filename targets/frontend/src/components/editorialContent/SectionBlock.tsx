@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { IoMdTrash } from "react-icons/io";
-// @ts-ignore
 import { Container, Flex, Label, Radio } from "theme-ui";
 
 import { Button } from "../button";
