@@ -1,7 +1,6 @@
 import { useWatch } from "react-hook-form";
 import { Label, Textarea } from "theme-ui";
 
-import { MarkdownContentPart } from "../../types";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { MarkdownLink } from "../MarkdownLink";
 import { MarkdownPreviewModal } from "./MarkdownPreviewModal";
