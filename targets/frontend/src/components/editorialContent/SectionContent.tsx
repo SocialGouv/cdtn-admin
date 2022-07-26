@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { Flex } from "theme-ui";
+import { Box, Flex, Label, Radio } from "theme-ui";
 
 import { ContentPicker } from "../forms/ContentPicker";
 
@@ -11,10 +11,31 @@ export const SectionContent = ({ name }: SectionContentProps) => {
   const {
     control,
     register,
+    getValues,
     formState: { errors },
   } = useFormContext();
   return (
     <>
+      <Box mb="small">
+        <Label htmlFor={"intro"}>Affichage des sections&nbsp;</Label>
+        <Label>
+          <Radio
+            {...register(`${name}.blockDisplayMode`)}
+            name={`${name}.blockDisplayMode`}
+            value={"line"}
+            defaultChecked={!getValues(`${name}.blockDisplayMode`)}
+          />
+          Ligne
+        </Label>
+        <Label>
+          <Radio
+            {...register(`${name}.blockDisplayMode`)}
+            name={`${name}.blockDisplayMode`}
+            value={"square"}
+          />
+          Carré
+        </Label>
+      </Box>
       <Flex
         sx={{
           flexDirection: "column",

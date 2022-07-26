@@ -57,10 +57,6 @@ const EditorialContentForm = ({
     formState: { isDirty, errors },
   } = methods;
   const [hasError, setHasError] = useState(false);
-  const onError = (errors: any, e: any) => {
-    console.log("onError", errors);
-    setHasError(Object.keys(errors).length > 0);
-  };
   let buttonLabel = "Créer le contenu";
   if (!content) {
     content = {
@@ -78,7 +74,7 @@ const EditorialContentForm = ({
   }, [errors]);
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(addComputedFields(onSubmit), onError)}>
+      <form onSubmit={handleSubmit(addComputedFields(onSubmit))}>
         <>
           <Box mb="small">
             <Field
