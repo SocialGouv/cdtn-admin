@@ -33,7 +33,6 @@ const addComputedFields =
         });
       });
     });
-    console.log("submit");
     onSubmit(data);
   };
 

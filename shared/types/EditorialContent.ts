@@ -30,6 +30,7 @@ export type ContentItem = {
 };
 
 export type ContentContentPart = {
+  title?: string;
   type: CONTENT_TYPE.content;
   contents: ContentItem[];
   blockDisplayMode: BlockDisplayMode;

@@ -33,26 +33,14 @@ query searchDocuments($sources: [String!]! = "", $search: String = "") {
 }
 `;
 
-const searchFullDocumentsQuery = `
-query searchDocuments($sources: [String!]! = "", $search: String = "") {
-  documents(where: {title: {_ilike: $search}, source: {_in: $sources}, _not: {document: {_has_key: "split"}}}, limit: ${AUTOSUGGEST_MAX_RESULTS}) {
-    source
-    title
-    cdtnId: cdtn_id
-    description: meta_description
-    slug
-  }
-}
-`;
-
-export const ContentSearch = ({ contents = [], onChange, full = false }) => {
+export const ContentSearch = ({ contents = [], onChange }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [inputSearchValue, setInputSearchValue] = useState("");
   const [searchValue, , setDebouncedSearchValue] = useDebouncedState("", 500);
 
   const [results] = useQuery({
     pause: searchValue.length < 3,
-    query: full ? searchFullDocumentsQuery : searchDocumentsQuery,
+    query: searchDocumentsQuery,
     variables: {
       search: `%${searchValue}%`,
       sources,
@@ -136,7 +124,6 @@ export const ContentSearch = ({ contents = [], onChange, full = false }) => {
 
 ContentSearch.propTypes = {
   contents: PropTypes.array,
-  full: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
 };
 

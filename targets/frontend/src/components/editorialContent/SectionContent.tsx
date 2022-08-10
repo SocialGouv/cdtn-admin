@@ -1,7 +1,8 @@
 import { useFormContext } from "react-hook-form";
-import { Box, Flex, Label, Radio } from "theme-ui";
+import { Box, Field, Flex, Label, Radio } from "theme-ui";
 
 import { ContentPicker } from "../forms/ContentPicker";
+import { FormErrorMessage } from "../forms/ErrorMessage";
 
 export type SectionContentProps = {
   name: string;
@@ -17,7 +18,11 @@ export const SectionContent = ({ name }: SectionContentProps) => {
   return (
     <>
       <Box mb="small">
-        <Label htmlFor={"intro"}>Affichage des sections&nbsp;</Label>
+        <Field {...register(`${name}.title`)} type="text" label="Titre" />
+        <FormErrorMessage errors={errors} fieldName={`${name}.title`} />
+      </Box>
+      <Box mb="small">
+        <Label htmlFor={"intro"}>Affichage des tuiles&nbsp;</Label>
         <Label>
           <Radio
             {...register(`${name}.blockDisplayMode`)}
@@ -50,7 +55,6 @@ export const SectionContent = ({ name }: SectionContentProps) => {
           register={register}
           name={`${name}.contents`}
           id="contents"
-          full={true}
         />
       </Flex>
     </>
