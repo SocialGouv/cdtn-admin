@@ -84,7 +84,7 @@ export const SectionBlock = ({
                 width: "auto",
               }}
             >
-              Mardown{" "}
+              Markdown{" "}
               <Radio
                 sx={{ ml: "xxsmall" }}
                 value={"markdown"}
