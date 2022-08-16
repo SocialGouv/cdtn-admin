@@ -1,30 +1,33 @@
+import { useFormContext } from "react-hook-form";
 import { Field } from "theme-ui";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { SectionText } from "./SectionText";
 
 export type SectionImageProps = {
-  control: any;
-  errors: any[];
-  register: any;
   name: string;
 };
 
-export const SectionImage = ({
-  control,
-  errors,
-  register,
-  name,
-}: SectionImageProps) => {
+export const SectionImage = ({ name }: SectionImageProps) => {
+  const {
+    register,
+    getValues,
+    formState: { errors },
+  } = useFormContext();
   return (
     <>
       <div>
         <Field
           label="Lien de l’image"
           {...register(`${name}.imgUrl`, {
-            required: {
-              message: "L’url de l’image est requise",
-              value: true,
+            validate: {
+              required: (value) => {
+                const typeValue = getValues(`${name}.type`);
+                if (!value && typeValue !== "graphic") {
+                  return "L’url de l’image est requise";
+                }
+                return true;
+              },
             },
           })}
         />
@@ -34,9 +37,14 @@ export const SectionImage = ({
         <Field
           label="Brève description de l’image"
           {...register(`${name}.altText`, {
-            required: {
-              message: "La brève description de l’image est requise",
-              value: true,
+            validate: {
+              required: (value) => {
+                const typeValue = getValues(`${name}.type`);
+                if (!value && typeValue !== "graphic") {
+                  return "La brève description de l’image est requise";
+                }
+                return true;
+              },
             },
           })}
         />
@@ -46,9 +54,14 @@ export const SectionImage = ({
         <Field
           label="Lien du pdf"
           {...register(`${name}.fileUrl`, {
-            required: {
-              message: "L’url du pdf est requise",
-              value: true,
+            validate: {
+              required: (value) => {
+                const typeValue = getValues(`${name}.type`);
+                if (!value && typeValue !== "graphic") {
+                  return "L’url du pdf est requise";
+                }
+                return true;
+              },
             },
           })}
         />
@@ -58,20 +71,20 @@ export const SectionImage = ({
         <Field
           label="Taille du pdf"
           {...register(`${name}.size`, {
-            required: {
-              message: "La taille du pdf est requise",
-              value: true,
+            validate: {
+              required: (value) => {
+                const typeValue = getValues(`${name}.type`);
+                if (!value && typeValue !== "graphic") {
+                  return "La taille du pdf est requise";
+                }
+                return true;
+              },
             },
           })}
         />
         <FormErrorMessage errors={errors} fieldName="size" />
       </div>
-      <SectionText
-        errors={errors}
-        register={register}
-        name={name}
-        control={control}
-      />
+      <SectionText name={name} />
     </>
   );
 };

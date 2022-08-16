@@ -78,12 +78,12 @@ export const ContentSearch = ({ contents = [], onChange }) => {
   };
   const onSuggestionSelected = (
     event,
-    { suggestion: { cdtnId, source, title = null } }
+    { suggestion: { cdtnId, source, title = null, description, slug } }
   ) => {
     if (contents.find((content) => content.cdtnId === cdtnId)) {
       return;
     }
-    onChange(contents.concat([{ cdtnId, source, title }]));
+    onChange(contents.concat([{ cdtnId, description, slug, source, title }]));
     setInputSearchValue("");
     setSuggestions([]);
   };

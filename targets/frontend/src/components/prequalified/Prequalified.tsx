@@ -69,7 +69,7 @@ const PrequalifiedForm = ({
           <ContentPicker
             control={control}
             disabled={false}
-            name="contents"
+            name="contentRelations"
             id="contents"
             defaultValue={content?.contentRelations
               ?.sort(({ position: a = 0 }, { position: b = 0 }) => a - b)

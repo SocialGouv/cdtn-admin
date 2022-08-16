@@ -3,6 +3,12 @@ import { BaseHasuraDocument } from "./Base";
 export enum CONTENT_TYPE {
   markdown = "markdown",
   graphic = "graphic",
+  content = "content",
+}
+
+export declare enum BlockDisplayMode {
+  line = "line",
+  square = "square",
 }
 
 export type BaseContentPart = {
@@ -17,7 +23,23 @@ export type MarkdownContentPart = {
   markdown: string;
 };
 
-export type EditorialContentPart = GraphicContentPart | MarkdownContentPart;
+export type ContentItem = {
+  title: string;
+  source: string;
+  cdtnId: string;
+};
+
+export type ContentContentPart = {
+  title?: string;
+  type: CONTENT_TYPE.content;
+  contents: ContentItem[];
+  blockDisplayMode: BlockDisplayMode;
+};
+
+export type EditorialContentPart =
+  | GraphicContentPart
+  | MarkdownContentPart
+  | ContentContentPart;
 
 export type EditorialContentLink = {
   id: string;

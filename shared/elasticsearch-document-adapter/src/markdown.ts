@@ -18,10 +18,12 @@ export function markdownTransform(
   return documents.map(({ contents = [], ...rest }) => ({
     ...rest,
     contents: contents.map((content) => {
-      content.blocks = content.blocks.map((block) => {
+      content.blocks = content.blocks.map((block: any) => {
         return {
           ...block,
-          html: addGlossary(htmlProcessor.processSync(block.markdown).contents),
+          html: block.markdown
+            ? addGlossary(htmlProcessor.processSync(block.markdown).contents)
+            : undefined,
         };
       });
       return content;

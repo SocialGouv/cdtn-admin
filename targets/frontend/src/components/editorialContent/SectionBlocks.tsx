@@ -1,4 +1,4 @@
-import { useFieldArray, useWatch } from "react-hook-form";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
 import { Divider } from "theme-ui";
 
@@ -6,18 +6,11 @@ import { Button } from "../button";
 import { SectionBlock } from "./SectionBlock";
 
 export type SectionBlockProps = {
-  errors: any;
-  register: any;
   name: string;
-  control: any;
 };
 
-export const SectionBlocks = ({
-  errors,
-  register,
-  name,
-  control,
-}: SectionBlockProps) => {
+export const SectionBlocks = ({ name }: SectionBlockProps) => {
+  const { control } = useFormContext();
   const blocks = useWatch({
     control,
     name,
@@ -30,18 +23,14 @@ export const SectionBlocks = ({
   return (
     <>
       {fields.map((item, index) => (
-        <>
+        <div key={`${name}.${index}`}>
           <Divider />
           <SectionBlock
-            key={index}
-            errors={errors}
-            register={register}
             name={`${name}.${index}`}
-            control={control}
             remove={() => remove(index)}
             onlyBlock={blocks.length === 1}
           />
-        </>
+        </div>
       ))}
       <Divider />
       <div>
