@@ -64,7 +64,6 @@ const HighlightsForm = ({
             name="contents"
             id="contents"
             disabled={false}
-            full={false}
             defaultValue={content?.contentRelations
               ?.sort(({ position: a = 0 }, { position: b = 0 }) => a - b)
               .map(({ relationId, content }) => ({
