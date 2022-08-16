@@ -6,6 +6,11 @@ export enum CONTENT_TYPE {
   content = "content",
 }
 
+export declare enum BlockDisplayMode {
+  line = "line",
+  square = "square",
+}
+
 export type BaseContentPart = {
   name: string;
   title: string;
@@ -25,8 +30,10 @@ export type ContentItem = {
 };
 
 export type ContentContentPart = {
+  title?: string;
   type: CONTENT_TYPE.content;
   contents: ContentItem[];
+  blockDisplayMode: BlockDisplayMode;
 };
 
 export type EditorialContentPart =

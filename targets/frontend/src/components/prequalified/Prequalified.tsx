@@ -69,7 +69,6 @@ const PrequalifiedForm = ({
           <ContentPicker
             control={control}
             disabled={false}
-            full={false}
             name="contentRelations"
             id="contents"
             defaultValue={content?.contentRelations
