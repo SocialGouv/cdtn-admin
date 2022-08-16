@@ -137,6 +137,7 @@ export function EditInformationPage() {
       );
       return {
         cdtnId: data?.content?.cdtnId,
+        document: {},
         metaDescription: contentItem.metaDescription || contentItem.title,
         relationIds,
         relations,
