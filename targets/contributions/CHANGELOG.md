@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/SocialGouv/cdtn-admin/compare/v1.20.0...v2.0.0) (2022-08-17)
+
+
+* feat(contribution)!: the generic answer has a null agreement id (#778) ([9776b8c](https://github.com/SocialGouv/cdtn-admin/commit/9776b8ca541d3a79ef0b714d598e2cb32414490e)), closes [#778](https://github.com/SocialGouv/cdtn-admin/issues/778)
+
+
+### BREAKING CHANGES
+
+* database schema
+
+
+
+
+
 # [1.20.0](https://github.com/SocialGouv/cdtn-admin/compare/v1.19.2...v1.20.0) (2022-08-17)
 
 **Note:** Version bump only for package @socialgouv/contibutions
