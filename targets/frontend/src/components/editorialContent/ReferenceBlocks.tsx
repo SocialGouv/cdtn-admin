@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 
 import PropTypes from "prop-types";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { IoMdAdd, IoMdTrash } from "react-icons/io";
 import { Container, Flex, Label, Radio } from "theme-ui";
 
@@ -14,7 +14,12 @@ import { References } from "./References";
 const JURIDIQUES_LABEL = "Références juridiques";
 const USEFUL_LINKS_LABEL = "Liens utiles";
 
-export function ReferenceBlocks({ control, name, register, errors }: any) {
+export function ReferenceBlocks({ name }: any) {
+  const {
+    control,
+    register,
+    formState: { errors },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     keyName: "key",
@@ -130,10 +135,3 @@ export function ReferenceBlocks({ control, name, register, errors }: any) {
     </>
   );
 }
-
-ReferenceBlocks.propTypes = {
-  control: PropTypes.object.isRequired,
-  errors: PropTypes.object,
-  name: PropTypes.string.isRequired,
-  register: PropTypes.func.isRequired,
-};

@@ -1,11 +1,13 @@
 import {
+  BaseContentPart,
   EditoralContentReferenceBloc,
   EditorialContent,
   EditorialContentDoc,
   EditorialContentLink,
-  EditorialContentPart,
+  GraphicContentPart,
   Highlight,
   KeysToCamelCase,
+  MarkdownContentPart,
   Prequalified,
 } from "@shared/types";
 
@@ -20,7 +22,19 @@ export type HighLightContent = KeysToCamelCase<Highlight> & {
   cdtnId?: number;
 };
 
-export type ContentSection = EditorialContentPart;
+export type ImageSectionContent = GraphicContentPart & {
+  key: string;
+};
+
+export type TextSectionContent = MarkdownContentPart & {
+  key: string;
+};
+
+export type BlockSectionContent = ImageSectionContent | TextSectionContent;
+
+export type ContentSection = BaseContentPart & {
+  key: string;
+};
 
 export type ContentDocument = KeysToCamelCase<EditorialContentDoc> & {
   metaDescription?: string;
