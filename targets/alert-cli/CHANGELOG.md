@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.20.0](https://github.com/SocialGouv/cdtn-admin/compare/v1.19.2...v1.20.0) (2022-08-17)
+
+
+### Features
+
+* ajout de blocs multiple dans les sections admin page info ([#785](https://github.com/SocialGouv/cdtn-admin/issues/785)) ([a2e7894](https://github.com/SocialGouv/cdtn-admin/commit/a2e7894d306fa7d378bd7268d4da514befd4f30b)), closes [#789](https://github.com/SocialGouv/cdtn-admin/issues/789) [#786](https://github.com/SocialGouv/cdtn-admin/issues/786) [#795](https://github.com/SocialGouv/cdtn-admin/issues/795)
+
+
+
+
+
 ## [1.19.2](https://github.com/SocialGouv/cdtn-admin/compare/v1.19.1...v1.19.2) (2022-07-21)
 
 **Note:** Version bump only for package alert-cli
