@@ -58,15 +58,17 @@ function uploadFiles(req, res) {
   // stream the data to azure
   let uploadingFilesNumber = 0;
   form.onPart = async function (part) {
-    if (!isAllowedFile(part)) {
-      --uploadingFilesNumber;
-      console.error(`Skip upload of ${part.name}: forbidden type`);
-      return;
-    }
     console.log(`uploading to ${container}`, part);
     try {
       uploadingFilesNumber++;
-      await uploadBlob(container, part);
+      if (isAllowedFile(part)) {
+        await uploadBlob(container, part);
+      } else {
+        console.error(
+          "[storage]",
+          `Skip upload of ${part.name}: forbidden type`
+        );
+      }
       --uploadingFilesNumber;
       if (uploadingFilesNumber === 0) {
         done(res);
