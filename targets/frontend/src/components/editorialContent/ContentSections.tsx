@@ -1,7 +1,6 @@
 import lowGet from "lodash.get";
-import PropTypes from "prop-types";
 import React from "react";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
 import { SortableContainer } from "react-sortable-hoc";
 
@@ -10,7 +9,7 @@ import { List } from "../list";
 import { SortableSection } from "./Section";
 
 const SortableSectionList = SortableContainer(
-  ({ blocks, errors, name, ...props }: any) => (
+  ({ blocks, name, ...props }: any) => (
     <List>
       {blocks.map((block: any, index: number) => (
         // @ts-ignore
@@ -19,7 +18,6 @@ const SortableSectionList = SortableContainer(
           numberOfBlocks={blocks.length}
           key={block.key}
           block={block}
-          errors={lowGet(errors, `${name}.${index}`)}
           index={index}
           name={`${name}.${index}`}
           // index is not provided to children due to a bug
@@ -30,13 +28,13 @@ const SortableSectionList = SortableContainer(
   )
 );
 
-export function ContentSections({ control, name, register, errors }: any) {
+export function ContentSections({ name }: any) {
   const {
-    fields: blocks,
-    append,
-    move,
-    remove,
-  } = useFieldArray({
+    control,
+    register,
+    formState: { errors },
+  } = useFormContext();
+  const { fields, append, move, remove } = useFieldArray({
     control,
     keyName: "key",
     name,
@@ -47,21 +45,18 @@ export function ContentSections({ control, name, register, errors }: any) {
       {/*
       // @ts-ignore */}
       <SortableSectionList
-        blocks={blocks}
-        control={control}
-        errors={errors}
+        blocks={fields}
         lockAxis="y"
         name={name}
-        register={register}
         remove={remove}
         useDragHandle
-        onSortEnd={({
+        onSortEnd={function ({
           oldIndex,
           newIndex,
         }: {
           oldIndex: number;
           newIndex: number;
-        }) => {
+        }) {
           if (oldIndex === newIndex) {
             return;
           }
@@ -86,10 +81,3 @@ export function ContentSections({ control, name, register, errors }: any) {
     </div>
   );
 }
-
-ContentSections.propTypes = {
-  control: PropTypes.object.isRequired,
-  errors: PropTypes.object,
-  name: PropTypes.string.isRequired,
-  register: PropTypes.func.isRequired,
-};

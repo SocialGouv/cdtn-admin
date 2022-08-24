@@ -3,7 +3,8 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { IoMdCheckmark } from "react-icons/io";
 import { Box, Field, Flex, Label, NavLink, Radio, Textarea } from "theme-ui";
 
@@ -45,163 +46,166 @@ const EditorialContentForm = ({
   content?: Partial<Content>;
 }) => {
   const router = useRouter();
+  const methods = useForm<Content>({
+    defaultValues: content,
+  });
   const {
     control,
     register,
     handleSubmit,
     formState: { isDirty, errors },
-  } = useForm<Content>({
-    defaultValues: content,
-  });
-  const hasError = Object.keys(errors).length > 0;
+  } = methods;
+  const [hasError, setHasError] = useState(false);
   let buttonLabel = "Créer le contenu";
   if (!content) {
     content = {
-      document: { contents: [{ type: "markdown" }] },
+      document: {
+        contents: [{ blocks: [{ markdown: "", type: "markdown" }] }],
+      },
     };
   }
   if (content?.cdtnId) {
     buttonLabel = "Enregistrer les changements";
   }
+  useEffect(() => {
+    console.log("errors", errors);
+    setHasError(Object.keys(errors).length > 0);
+  }, [errors]);
   return (
-    <form onSubmit={handleSubmit(addComputedFields(onSubmit))}>
-      <>
-        <Box mb="small">
-          <Field
-            {...register("document.date", {
-              validate: (value?: string) => {
-                if (!value) return false;
-                const trimmed = value.trim();
-                return /^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(trimmed);
-              },
-            })}
-            name="document.date"
-            sx={{ width: "10rem" }}
-            label="Date"
-            defaultValue={content?.document?.date as string}
-          />
-          <ErrorMessage
-            name="document.date"
-            errors={errors}
-            render={() => (
-              <Box color="critical">
-                La date n’est pas formatée correctement. Le format attendu est
-                &quot;jour/mois/année&quot;
-              </Box>
-            )}
-          />
-        </Box>
-        <Box mb="small">
-          <Field
-            {...register("title", {
-              required: { message: "Le titre est requis", value: true },
-            })}
-            type="text"
-            label="Titre"
-            defaultValue={content?.title}
-          />
-          <FormErrorMessage errors={errors} fieldName="title" />
-        </Box>
-
-        <Box mb="small">
-          <Field
-            {...register("metaDescription")}
-            type="text"
-            label="Meta description (référencement)"
-            defaultValue={content?.document?.metaDescription}
-          />
-        </Box>
-
-        <Box mb="small">
-          <Label htmlFor={"description"}>Description</Label>
-          <Textarea
-            {...register("document.description", {
-              required: { message: "La description est requise", value: true },
-            })}
-            id="description"
-            rows={3}
-            defaultValue={content?.document?.description}
-          />
-          <FormErrorMessage errors={errors} fieldName="document.description" />
-        </Box>
-        <Box mb="small">
-          <Label htmlFor={"intro"}>
-            Introduction&nbsp;
-            <MarkdownLink />
-          </Label>
-          <Textarea
-            {...register("document.intro")}
-            id="intro"
-            rows={3}
-            defaultValue={content?.document?.intro}
-          />
-        </Box>
-        <Box mb="small">
-          <Label htmlFor={"intro"}>Affichage des sections&nbsp;</Label>
-          <Label>
-            <Radio
-              {...register("document.sectionDisplayMode")}
-              name="document.sectionDisplayMode"
-              value={SectionDisplayMode.accordion}
-              defaultChecked={!content?.document?.sectionDisplayMode}
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(addComputedFields(onSubmit))}>
+        <>
+          <Box mb="small">
+            <Field
+              {...register("document.date", {
+                validate: (value?: string) => {
+                  if (!value) return false;
+                  const trimmed = value.trim();
+                  return /^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(trimmed);
+                },
+              })}
+              name="document.date"
+              sx={{ width: "10rem" }}
+              label="Date"
             />
-            Accordéon
-          </Label>
-          <Label>
-            <Radio
-              {...register("document.sectionDisplayMode")}
-              name="document.sectionDisplayMode"
-              value={SectionDisplayMode.tab}
+            <ErrorMessage
+              name="document.date"
+              errors={errors}
+              render={() => (
+                <Box color="critical">
+                  La date n’est pas formatée correctement. Le format attendu est
+                  &quot;jour/mois/année&quot;
+                </Box>
+              )}
             />
-            Onglet
-          </Label>
-        </Box>
-        <ContentSections
-          control={control}
-          register={register}
-          name="document.contents"
-          errors={errors}
-        />
-        <Flex sx={{ justifyContent: "flex-end", width: "100%" }}>
-          <ReferenceBlocks
+          </Box>
+          <Box mb="small">
+            <Field
+              {...register("title", {
+                required: { message: "Le titre est requis", value: true },
+              })}
+              type="text"
+              label="Titre"
+            />
+            <FormErrorMessage errors={errors} fieldName="title" />
+          </Box>
+          <Box mb="small">
+            <Field
+              {...register("metaDescription")}
+              type="text"
+              label="Meta description (référencement)"
+            />
+          </Box>
+          <Box mb="small">
+            <Label htmlFor={"description"}>Description</Label>
+            <Textarea
+              {...register("document.description", {
+                required: {
+                  message: "La description est requise",
+                  value: true,
+                },
+              })}
+              id="description"
+              rows={3}
+            />
+            <FormErrorMessage
+              errors={errors}
+              fieldName="document.description"
+            />
+          </Box>
+          <Box mb="small">
+            <Label htmlFor={"intro"}>
+              Introduction&nbsp;
+              <MarkdownLink />
+            </Label>
+            <Textarea {...register("document.intro")} id="intro" rows={3} />
+          </Box>
+          <Box mb="small">
+            <Label htmlFor={"intro"}>Affichage des sections&nbsp;</Label>
+            <Label>
+              <Radio
+                {...register("document.sectionDisplayMode")}
+                name="document.sectionDisplayMode"
+                value={SectionDisplayMode.accordion}
+                defaultChecked={!content?.document?.sectionDisplayMode}
+              />
+              Accordéon
+            </Label>
+            <Label>
+              <Radio
+                {...register("document.sectionDisplayMode")}
+                name="document.sectionDisplayMode"
+                value={SectionDisplayMode.tab}
+              />
+              Onglet
+            </Label>
+          </Box>
+          <ContentSections
             control={control}
             register={register}
-            name="document.references"
+            name="document.contents"
             errors={errors}
           />
-        </Flex>
-
-        <Flex mt="medium" sx={{ alignItems: "center" }}>
-          <Button
-            variant="secondary"
-            //@ts-ignore
-            disabled={hasError || loading || !isDirty}
-          >
-            {isDirty && (
-              <IoMdCheckmark
-                sx={{
-                  height: "iconSmall",
-                  mr: "xsmall",
-                  width: "iconSmall",
-                }}
-              />
-            )}
-            {buttonLabel}
-          </Button>
-          <Link href={"/contenus"} passHref>
-            <NavLink
-              onClick={(e) => {
-                e.preventDefault();
-                router.back();
-              }}
-              ml="medium"
+          <Flex sx={{ justifyContent: "flex-end", width: "100%" }}>
+            <ReferenceBlocks
+              control={control}
+              register={register}
+              name="document.references"
+              errors={errors}
+            />
+          </Flex>
+          <Flex mt="medium" sx={{ alignItems: "center" }}>
+            <Button
+              variant="secondary"
+              //@ts-ignore
+              disabled={hasError || loading || !isDirty}
             >
-              Annuler
-            </NavLink>
-          </Link>
-        </Flex>
-      </>
-    </form>
+              {isDirty && (
+                <IoMdCheckmark
+                  sx={{
+                    height: "iconSmall",
+                    mr: "xsmall",
+                    width: "iconSmall",
+                  }}
+                />
+              )}
+              {buttonLabel}
+            </Button>
+            <Link href={"/contenus"} passHref>
+              <NavLink
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.back();
+                }}
+                ml="medium"
+              >
+                Annuler
+              </NavLink>
+            </Link>
+          </Flex>
+        </>
+      </form>
+    </FormProvider>
   );
 };
 

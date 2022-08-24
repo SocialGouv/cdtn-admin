@@ -7,9 +7,13 @@
       "contents": [
         {
           "name": "report-du-versement-des-sommes",
-          "type": "markdown",
           "title": "Report du versement des sommes",
-          "markdown": "[L’ordonnance du 25 mars 2020](https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000041755930) ouvre la possibilité aux entreprises de reporter jusqu’au 31 décembre 2020 le versement des sommes dues aux salariés au titre des dispositifs d’intéressement et de participation qui devait intervenir au cours du 1er semestre (notamment ceux qui devaient intervenir avant le 1er juin, pour les entreprises dont l’exercice est calé sur l’année civile).\n\nEn conséquence&nbsp;:\n\n1. **Les versements** (sur le compte bancaire du\nbénéficiaire ou sur son compte individuel au sein d’un plan)\nauront lieu, au plus tard, le 31 décembre 2020.\n2. **Les intérêts de retard pour versement tardif** ne\nse déclencheront que si les sommes attribuées au titre de\nl’intéressement et de la participation sont versées au-delà du 31\ndécembre 2020.\n\n**Important&nbsp;:** selon la [loi du 11 mai 2020](https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000041865244), pour le calcul des primes d’intéressement et de participation, les périodes correspondant à des périodes de mise en quarantaine sont assimilées à des périodes de présence. L’employeur ne peut pas considérer que ces périodes sont des absences du salarié.\n",
+          "blocks": [
+            {
+              "type": "markdown",
+              "markdown": "[L’ordonnance du 25 mars 2020](https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000041755930) ouvre la possibilité aux entreprises de reporter jusqu’au 31 décembre 2020 le versement des sommes dues aux salariés au titre des dispositifs d’intéressement et de participation qui devait intervenir au cours du 1er semestre (notamment ceux qui devaient intervenir avant le 1er juin, pour les entreprises dont l’exercice est calé sur l’année civile).\n\nEn conséquence&nbsp;:\n\n1. **Les versements** (sur le compte bancaire du\nbénéficiaire ou sur son compte individuel au sein d’un plan)\nauront lieu, au plus tard, le 31 décembre 2020.\n2. **Les intérêts de retard pour versement tardif** ne\nse déclencheront que si les sommes attribuées au titre de\nl’intéressement et de la participation sont versées au-delà du 31\ndécembre 2020.\n\n**Important&nbsp;:** selon la [loi du 11 mai 2020](https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000041865244), pour le calcul des primes d’intéressement et de participation, les périodes correspondant à des périodes de mise en quarantaine sont assimilées à des périodes de présence. L’employeur ne peut pas considérer que ces périodes sont des absences du salarié.\n"
+            }
+          ],
           "references": [
             {
               "label": "Références juridiques",
@@ -56,9 +60,13 @@
         },
         {
           "name": "deblocage-anticipe-pour-les-victimes-de-violences-conjugales",
-          "type": "markdown",
           "title": "Déblocage anticipé pour les victimes de violences conjugales",
-          "markdown": "Les salariés ou anciens salariés bénéficient d’un nouveau cas de déblocage anticipé de leur plan épargne entreprise : violences commises contre l'intéressé par son conjoint, son concubin ou son partenaire lié par un pacte civil de solidarité (PACS), ou son ancien conjoint, concubin ou partenaire lorsque :\n\n- Le juge aux affaires familiales a délivré une ordonnance de protection au profit de l'intéressé.\n- Les faits donnent lieu à une alternative aux poursuites, à une composition pénale, à l'ouverture d'une information par le procureur de la République, à la saisine du tribunal correctionnel par le procureur de la République ou le juge d'instruction, à une mise en examen ou à une condamnation pénale, même non définitive.\n\nCe nouveau cas de déblocage peut être invoqué pour les demandes présentées à partir du 7 juin 2020. (Cette mesure est applicable sans limite dans le temps.)\n",
+          "blocks": [
+            {
+              "type": "markdown",
+              "markdown": "Les salariés ou anciens salariés bénéficient d’un nouveau cas de déblocage anticipé de leur plan épargne entreprise : violences commises contre l'intéressé par son conjoint, son concubin ou son partenaire lié par un pacte civil de solidarité (PACS), ou son ancien conjoint, concubin ou partenaire lorsque :\n\n- Le juge aux affaires familiales a délivré une ordonnance de protection au profit de l'intéressé.\n- Les faits donnent lieu à une alternative aux poursuites, à une composition pénale, à l'ouverture d'une information par le procureur de la République, à la saisine du tribunal correctionnel par le procureur de la République ou le juge d'instruction, à une mise en examen ou à une condamnation pénale, même non définitive.\n\nCe nouveau cas de déblocage peut être invoqué pour les demandes présentées à partir du 7 juin 2020. (Cette mesure est applicable sans limite dans le temps.)\n"
+            }
+          ],
           "references": [
             {
               "label": "Références juridiques",
@@ -81,9 +89,13 @@
         },
         {
           "name": "mise-en-place-de-linteressement-dans-lentreprise-de-moins-de-11-salaries",
-          "type": "markdown",
           "title": "Mise en place de l’intéressement dans l’entreprise de moins de 11 salariés",
-          "markdown": "Pour l’entreprise de moins de 11 salariés, sans délégué syndical ou sans comité social et économique (CSE), la loi crée une modalité supplémentaire de mise en place de l’intéressement à partir du 19 juin 2020. Ainsi, l’employeur peut mettre en place un régime d’intéressement par décision unilatérale de l’employeur&nbsp;:\n\n- À la condition qu’aucun accord d’intéressement ne soit applicable et qu’aucun accord d’intéressement n’ait été conclu dans l’entreprise depuis au moins 5 ans avant la date d’effet de sa décision.\n- Pour une durée comprise entre 1 et 3 ans.\n- En en informant les salariés par tous moyens (affichage, mail, etc.).\n\nCe régime d’intéressement mis en place unilatéralement vaut accord d’intéressement, notamment pour le régime fiscal et social.\n\nÀ la fin de la période de validité de l’intéressement mis en place unilatéralement par l’employeur, l’entreprise qui souhaite renouveler le régime d’intéressement devra le faire selon les autres méthodes :\n\n- Une convention ou un accord collectif.\n- Un accord entre l’employeur et les représentants d’organisations syndicales représentatives dans l’entreprise.\n- Un accord conclu au sein du CSE.\n- Une ratification des 2/3 des salariés dans le cadre d’un référendum.\n",
+          "blocks": [
+            {
+              "type": "markdown",
+              "markdown": "Pour l’entreprise de moins de 11 salariés, sans délégué syndical ou sans comité social et économique (CSE), la loi crée une modalité supplémentaire de mise en place de l’intéressement à partir du 19 juin 2020. Ainsi, l’employeur peut mettre en place un régime d’intéressement par décision unilatérale de l’employeur&nbsp;:\n\n- À la condition qu’aucun accord d’intéressement ne soit applicable et qu’aucun accord d’intéressement n’ait été conclu dans l’entreprise depuis au moins 5 ans avant la date d’effet de sa décision.\n- Pour une durée comprise entre 1 et 3 ans.\n- En en informant les salariés par tous moyens (affichage, mail, etc.).\n\nCe régime d’intéressement mis en place unilatéralement vaut accord d’intéressement, notamment pour le régime fiscal et social.\n\nÀ la fin de la période de validité de l’intéressement mis en place unilatéralement par l’employeur, l’entreprise qui souhaite renouveler le régime d’intéressement devra le faire selon les autres méthodes :\n\n- Une convention ou un accord collectif.\n- Un accord entre l’employeur et les représentants d’organisations syndicales représentatives dans l’entreprise.\n- Un accord conclu au sein du CSE.\n- Une ratification des 2/3 des salariés dans le cadre d’un référendum.\n"
+            }
+          ],
           "references": [
             {
               "label": "Références juridiques",

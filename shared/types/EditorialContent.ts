@@ -3,41 +3,64 @@ import { BaseHasuraDocument } from "./Base";
 export enum CONTENT_TYPE {
   markdown = "markdown",
   graphic = "graphic",
+  content = "content",
 }
 
-export interface BaseContentPart {
+export declare enum BlockDisplayMode {
+  line = "line",
+  square = "square",
+}
+
+export type BaseContentPart = {
   name: string;
   title: string;
-  markdown: string;
   references: EditoralContentReferenceBloc[];
-  type: CONTENT_TYPE;
-}
+  blocks: EditorialContentPart[];
+};
 
-export interface MarkdownContentPart extends BaseContentPart {
+export type MarkdownContentPart = {
   type: CONTENT_TYPE.markdown;
-}
+  markdown: string;
+};
 
-export type EditorialContentPart = GraphicContentPart | MarkdownContentPart;
+export type ContentItem = {
+  title: string;
+  source: string;
+  cdtnId: string;
+};
 
-export interface EditorialContentLink {
+export type ContentContentPart = {
+  title?: string;
+  type: CONTENT_TYPE.content;
+  contents: ContentItem[];
+  blockDisplayMode: BlockDisplayMode;
+};
+
+export type EditorialContentPart =
+  | GraphicContentPart
+  | MarkdownContentPart
+  | ContentContentPart;
+
+export type EditorialContentLink = {
   id: string;
   url: string;
   type: string;
   title: string;
-}
+};
 
-export interface EditoralContentReferenceBloc {
+export type EditoralContentReferenceBloc = {
   label: string;
   links: EditorialContentLink[];
-}
+};
 
-export interface GraphicContentPart extends BaseContentPart {
+export type GraphicContentPart = {
   type: CONTENT_TYPE.graphic;
   size: string;
   imgUrl: string;
   altText: string;
   fileUrl: string;
-}
+  markdown: string;
+};
 
 export enum SectionDisplayMode {
   accordion = "accordion",
@@ -48,7 +71,7 @@ export type EditorialContentDoc = {
   date: string;
   intro: string;
   section_display_mode?: SectionDisplayMode;
-  contents: EditorialContentPart[];
+  contents: BaseContentPart[];
   references?: EditoralContentReferenceBloc[];
   description: string;
 };

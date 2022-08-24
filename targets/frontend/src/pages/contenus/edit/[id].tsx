@@ -2,7 +2,7 @@
 
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import { NextRouter, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { IoMdTrash } from "react-icons/io";
 import { Button } from "src/components/button";
@@ -86,7 +86,6 @@ export function EditInformationPage() {
         previewContent({
           cdtnId: content?.cdtnId,
           document: {
-            ...document,
             metaDescription: computedMetaDescription,
             slug: computedSlug,
             title: content?.title,

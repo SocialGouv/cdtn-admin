@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { IoMdClose } from "react-icons/io";
 import { Box, Field, Flex } from "theme-ui";
 
@@ -10,7 +10,12 @@ import { ContentLink } from "../../types";
 import { Button } from "../button";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 
-export const References = ({ control, nestName, register, errors }: any) => {
+export const References = ({ nestName }: { nestName: string }) => {
+  const {
+    control,
+    register,
+    formState: { errors },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     keyName: "key",

@@ -1,15 +1,9 @@
+import type { EditorialContentDoc } from "@shared/types";
 import htmlAstToAnotherHtmlAst from "rehype-raw";
 import htmlAstStringify from "rehype-stringify";
 import markdownToMardownAst from "remark-parse";
 import markdownAstToHtmlAst from "remark-rehype";
-import markdownAstStringify from "remark-stringify";
-import markdownAstStrip from "strip-markdown";
 import unified from "unified";
-
-const textProcessor = unified()
-  .use(markdownToMardownAst)
-  .use(markdownAstStrip)
-  .use(markdownAstStringify);
 
 const htmlProcessor = unified()
   .use(markdownToMardownAst)
@@ -17,23 +11,23 @@ const htmlProcessor = unified()
   .use(htmlAstToAnotherHtmlAst)
   .use(htmlAstStringify);
 
-export function markdownTransform(addGlossary, documents) {
+export function markdownTransform(
+  addGlossary: any,
+  documents: EditorialContentDoc[]
+) {
   return documents.map(({ contents = [], ...rest }) => ({
     ...rest,
     contents: contents.map((content) => {
-      content.html = addGlossary(
-        htmlProcessor.processSync(content.markdown).contents
-      );
-      delete content.markdown;
+      content.blocks = content.blocks.map((block: any) => {
+        return {
+          ...block,
+          html: block.markdown
+            ? addGlossary(htmlProcessor.processSync(block.markdown).contents)
+            : undefined,
+        };
+      });
       return content;
     }),
     intro: addGlossary(htmlProcessor.processSync(rest.intro).contents),
-    text:
-      textProcessor.processSync(rest.intro) +
-      contents
-        .map(({ markdown }) =>
-          textProcessor.processSync(markdown).contents.replace(/\s\s+/g, " ")
-        )
-        .join(""),
   }));
 }

@@ -38,7 +38,7 @@ export function CreateDocumentPage() {
     title,
   }: Content) {
     const newIds = generateIds(source);
-    const result = await createContent({
+    await createContent({
       ...newIds,
       document,
       isPublished: typeof isPublished !== "undefined" ? isPublished : true,
@@ -54,9 +54,6 @@ export function CreateDocumentPage() {
       source,
       title,
     });
-    if (result && !result.error) {
-      router.back();
-    }
   }
 
   let ContentForm;
