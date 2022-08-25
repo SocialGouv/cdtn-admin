@@ -5,6 +5,7 @@ import { hash, verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 
 import { changeMyPasswordMutation, getOldPassword } from "./password.gql";
+import { passwordValidation } from "./regex";
 
 export default async function changePassword(req, res) {
   const apiError = createErrorFor(res);
@@ -17,7 +18,7 @@ export default async function changePassword(req, res) {
   const schema = Joi.object({
     id: Joi.string().guid({ version: "uuidv4" }).required(),
     oldPassword: Joi.string().required(),
-    password: Joi.string().required(),
+    password: Joi.string().min(12).regex(passwordValidation).required(),
   });
 
   const { error, value } = schema.validate(req.body);

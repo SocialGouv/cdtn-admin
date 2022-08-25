@@ -30,8 +30,13 @@ export function PasswordForm({
   const buttonLabel = changeOldPassword ? "Changer le mot de passe" : "Activer";
   const passwordFieldRegistration = {
     minLength: {
-      message: "Le mot de passe doit faire au moins 8 caractères",
-      value: 8,
+      message: "Le mot de passe doit faire au moins 12 caractères",
+      value: 12,
+    },
+    pattern: {
+      message:
+        "Le mot de passe doit être composer d'au moins 1 minuscule, 1 majuscule, 1 nombre et 1 charactère spécial",
+      value: /(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[$@$!#.])[A-Za-zd$@$!%*?&.]/i,
     },
     required: { message: "Ce champ est requis", value: true },
   };
