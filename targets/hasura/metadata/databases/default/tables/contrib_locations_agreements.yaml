@@ -1,0 +1,10 @@
+table:
+  name: locations_agreements
+  schema: contrib
+object_relationships:
+  - name: agreement
+    using:
+      foreign_key_constraint_on: agreement_id
+  - name: location
+    using:
+      foreign_key_constraint_on: location_id

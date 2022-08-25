@@ -1,0 +1,7 @@
+table:
+  name: answers_references
+  schema: contrib
+object_relationships:
+  - name: answer
+    using:
+      foreign_key_constraint_on: answer_id

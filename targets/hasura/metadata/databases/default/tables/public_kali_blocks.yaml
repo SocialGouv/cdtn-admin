@@ -1,0 +1,44 @@
+table:
+  name: kali_blocks
+  schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - id
+        - title
+        - idcc
+        - blocks
+select_permissions:
+  - role: public
+    permission:
+      columns:
+        - id
+        - title
+        - idcc
+        - blocks
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - idcc
+        - blocks
+        - id
+        - title
+      filter: {}
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - idcc
+        - blocks
+        - id
+        - title
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: user
+    permission:
+      backend_only: false
+      filter: {}

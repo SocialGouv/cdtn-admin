@@ -1,0 +1,28 @@
+table:
+  name: user_roles
+  schema: auth
+object_relationships:
+  - name: roleByRole
+    using:
+      foreign_key_constraint_on: role
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - role
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - role
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
