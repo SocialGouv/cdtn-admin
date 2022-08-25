@@ -24,7 +24,11 @@ export function createRequestHandler({
     }
 
     const schema = Joi.object({
-      password: Joi.string().regex(passwordValidation).required(),
+      password: Joi.string()
+        .min(12)
+        .max(32)
+        .regex(passwordValidation)
+        .required(),
       token: Joi.string().guid({ version: "uuidv4" }).required(),
     });
 

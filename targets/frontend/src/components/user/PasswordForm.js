@@ -29,6 +29,10 @@ export function PasswordForm({
   const hasError = Object.keys(errors).length > 0;
   const buttonLabel = changeOldPassword ? "Changer le mot de passe" : "Activer";
   const passwordFieldRegistration = {
+    maxLength: {
+      message: "Le mot de passe ne doit pas faire plus de 32 caractères",
+      value: 32,
+    },
     minLength: {
       message: "Le mot de passe doit faire au moins 12 caractères",
       value: 12,
