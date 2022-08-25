@@ -34,6 +34,24 @@ const errored = (res, err) => {
 
 const done = (res) => res.status(200).json({ success: true });
 
+const ALLOWED_EXTENSIONS = [
+  "pdf",
+  "doc",
+  "docx",
+  "gif",
+  "png",
+  "jpg",
+  "jpeg",
+  "svg",
+  "xls",
+  "xlsx",
+  "ods",
+  "odt",
+];
+
+const isAllowedFile = (part) =>
+  ALLOWED_EXTENSIONS.includes(part.name.toLowerCase().split(".").reverse()[0]);
+
 function uploadFiles(req, res) {
   const form = new IncomingForm({ multiples: true });
   // we need to override the onPart method to directly
@@ -43,7 +61,14 @@ function uploadFiles(req, res) {
     console.log(`uploading to ${container}`, part);
     try {
       uploadingFilesNumber++;
-      await uploadBlob(container, part);
+      if (isAllowedFile(part)) {
+        await uploadBlob(container, part);
+      } else {
+        console.error(
+          "[storage]",
+          `Skip upload of ${part.name}: forbidden type`
+        );
+      }
       --uploadingFilesNumber;
       if (uploadingFilesNumber === 0) {
         done(res);
