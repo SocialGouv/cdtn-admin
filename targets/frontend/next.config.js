@@ -8,9 +8,27 @@ const withTM = require("next-transpile-modules")([
 
 const basePath = "";
 
+const securityHeaders = [
+  {
+    key: "X-Frame-Options",
+    value: "deny",
+  },
+  { key: "X-XSS-Protection", value: "1; mode=block" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+];
+
 module.exports = withTM(
   withSourceMaps({
     basePath,
+    async headers() {
+      return [
+        {
+          headers: securityHeaders,
+          // Apply these headers to all routes in your application.
+          source: "/:path*",
+        },
+      ];
+    },
     serverRuntimeConfig: {
       rootDir: __dirname,
     },
