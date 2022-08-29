@@ -39,7 +39,12 @@ export function ReferenceBlocks({ name }: any) {
           >
             <Stack>
               <Flex sx={{ justifyContent: "flex-end" }}>
-                <Button size="small" outline onClick={() => remove(index)}>
+                <Button
+                  type="button"
+                  size="small"
+                  outline
+                  onClick={() => remove(index)}
+                >
                   <IoMdTrash
                     sx={{
                       height: "iconSmall",
@@ -114,6 +119,7 @@ export function ReferenceBlocks({ name }: any) {
         ))
       ) : (
         <Button
+          type="button"
           size="small"
           variant="secondary"
           outline

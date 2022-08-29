@@ -72,6 +72,7 @@ export const References = ({ nestName }: { nestName: string }) => {
           </Box>
           {references.length > 1 && (
             <Button
+              type="button"
               variant="primary"
               outline
               onClick={() => remove(index)}
@@ -84,6 +85,7 @@ export const References = ({ nestName }: { nestName: string }) => {
       ))}
       <Flex sx={{ justifyContent: "left" }}>
         <Button
+          type="button"
           size="small"
           onClick={() => append({})}
           variant="secondary"

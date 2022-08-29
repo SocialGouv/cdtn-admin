@@ -35,6 +35,7 @@ export const SectionBlocks = ({ name }: SectionBlockProps) => {
       <Divider />
       <div>
         <Button
+          type="button"
           size="small"
           variant="secondary"
           outline

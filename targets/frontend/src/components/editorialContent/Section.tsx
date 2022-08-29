@@ -88,6 +88,7 @@ const RootSection = ({
             </Box>
             <Box mt="medium">
               <Button
+                type="button"
                 variant="secondary"
                 size="small"
                 onClick={() => setOpen(!isOpen)}
@@ -122,7 +123,11 @@ const RootSection = ({
                         margin: "0 3px",
                       }}
                     >
-                      <Button size="small" onClick={() => remove(index)}>
+                      <Button
+                        type="button"
+                        size="small"
+                        onClick={() => remove(index)}
+                      >
                         <IoMdTrash
                           sx={{
                             height: "iconSmall",
