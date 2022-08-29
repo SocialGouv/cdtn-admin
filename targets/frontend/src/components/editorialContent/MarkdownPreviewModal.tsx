@@ -17,6 +17,7 @@ export const MarkdownPreviewModal = ({
     <>
       <Flex sx={{ justifyContent: "flex-end", mt: "xsmall" }}>
         <Button
+          type="button"
           variant="secondary"
           size="small"
           onClick={() => setShowMarkdownPreview(true)}

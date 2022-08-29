@@ -63,6 +63,7 @@ export function ContentSections({ name }: any) {
         }}
       />
       <Button
+        type="button"
         size="small"
         variant="secondary"
         onClick={() => append({ type: "markdown" })}

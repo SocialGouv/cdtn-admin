@@ -150,7 +150,7 @@ export const SectionBlock = ({
                 margin: "0 3px",
               }}
             >
-              <Button size="small" onClick={remove}>
+              <Button type="button" size="small" onClick={remove}>
                 <IoMdTrash
                   sx={{
                     height: "1.5rem",

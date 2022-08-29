@@ -72,14 +72,13 @@ const SolidButton: React.FC<ButtonPropTypesWithRef> = React.forwardRef<
   HTMLButtonElement,
   ButtonPropTypes
 >(function _SolidButton(
-  { variant = "primary", size = "normal", type = "button", ...props },
+  { variant = "primary", size = "normal", ...props },
   ref
 ) {
   return (
     <BaseButton
       {...props}
       ref={ref}
-      type={type}
       sx={{
         ...defaultButtonStyles,
         ...(size === "small" ? smallSize : normalSize),
@@ -106,13 +105,12 @@ const OutlineButton: React.FC<ButtonPropTypesWithRef> = React.forwardRef<
   HTMLButtonElement,
   ButtonPropTypes
 >(function _OutlineButton(
-  { variant = "primary", size = "normal", type = "button", ...props },
+  { variant = "primary", size = "normal", ...props },
   ref
 ) {
   return (
     <BaseButton
       {...props}
-      type={type}
       ref={ref}
       sx={{
         ...defaultButtonStyles,
