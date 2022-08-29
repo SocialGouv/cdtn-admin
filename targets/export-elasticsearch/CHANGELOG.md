@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.0.0...v2.0.1) (2022-08-29)
+
+
+### Bug Fixes
+
+* **sitemaps:** Upload sitemap to the wrong azure container ([#799](https://github.com/SocialGouv/cdtn-admin/issues/799)) ([0d9e7d4](https://github.com/SocialGouv/cdtn-admin/commit/0d9e7d429cbc15a2b79580cc57e7e4659908a4e0))
+
+
+
+
+
 # [2.0.0](https://github.com/SocialGouv/cdtn-admin/compare/v1.20.0...v2.0.0) (2022-08-17)
 
 **Note:** Version bump only for package export-elasticsearch
