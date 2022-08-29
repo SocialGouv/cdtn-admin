@@ -4,7 +4,6 @@ import {
 } from "@azure/storage-blob";
 import axios from "axios";
 import { inject, injectable } from "inversify";
-import { Readable } from "stream";
 
 import { name, streamToBuffer } from "../utils";
 
@@ -70,7 +69,7 @@ export class AzureRepository {
     destinationName: string
   ): Promise<void> {
     const containerClient =
-      this.blobServiceClientFrom.getContainerClient(destinationContainer);
+      this.blobServiceClientTo.getContainerClient(destinationContainer);
     await containerClient.createIfNotExists();
     const response = await axios.get(sitemapEndpoint);
     const data: string = response.data;
