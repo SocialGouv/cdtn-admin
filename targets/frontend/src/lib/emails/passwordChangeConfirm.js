@@ -3,7 +3,7 @@ import sendmail from "./sendmail";
 export function sendPasswordChangeConfirmEmail(email) {
   const subject = "Modification du mot de passe de votre compte";
   const text = `Bonjour,
-  Votre mot de passe a bien été modifier pour votre compte.
+  Votre mot de passe a bien été modifié pour votre compte.
 
   L'equipe veille CDTN
   `;

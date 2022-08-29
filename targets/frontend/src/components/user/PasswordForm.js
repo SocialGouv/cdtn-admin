@@ -22,7 +22,6 @@ export function PasswordForm({
     handleSubmit,
     setError,
     watch,
-
     formState: { errors },
   } = useForm();
   const watchedPassword = watch("password", "");
@@ -39,7 +38,7 @@ export function PasswordForm({
     },
     pattern: {
       message:
-        "Le mot de passe doit être composer d'au moins 1 minuscule, 1 majuscule, 1 nombre et 1 charactère spécial",
+        "Le mot de passe doit être composer d'au moins 1 minuscule, 1 majuscule, 1 nombre et 1 caractère spécial",
       value: /(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[$@$!#.])[A-Za-zd$@$!%*?&.]/i,
     },
     required: { message: "Ce champ est requis", value: true },
