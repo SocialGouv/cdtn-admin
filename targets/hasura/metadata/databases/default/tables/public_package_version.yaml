@@ -1,0 +1,20 @@
+table:
+  schema: public
+  name: package_version
+select_permissions:
+  - role: public
+    permission:
+      columns:
+        - repository
+        - version
+        - created_at
+        - updated_at
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - repository
+        - version
+        - created_at
+        - updated_at
+      filter: {}

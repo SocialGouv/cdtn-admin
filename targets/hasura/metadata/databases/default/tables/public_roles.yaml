@@ -1,0 +1,24 @@
+table:
+  schema: public
+  name: roles
+array_relationships:
+  - name: user_roles
+    using:
+      foreign_key_constraint_on:
+        column: role
+        table:
+          schema: auth
+          name: user_roles
+  - name: users
+    using:
+      foreign_key_constraint_on:
+        column: default_role
+        table:
+          schema: auth
+          name: users
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - role
+      filter: {}
