@@ -5,14 +5,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { IoMdCheckmark } from "react-icons/io";
 import { Box, Field, Flex, Label, NavLink, Radio, Textarea } from "theme-ui";
 
 import { BaseContentPart, Content, SectionDisplayMode } from "../../types";
+import { Button } from "../button";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { MarkdownLink } from "../MarkdownLink";
 import { ContentSections } from "./ContentSections";
 import { ReferenceBlocks } from "./ReferenceBlocks";
-import { SectionButton } from "./SectionButton";
 
 const addComputedFields =
   (onSubmit: (content: Partial<Content>) => void) =>
@@ -174,11 +175,22 @@ const EditorialContentForm = ({
             />
           </Flex>
           <Flex mt="medium" sx={{ alignItems: "center" }}>
-            <SectionButton
-              isDirty={isDirty}
+            <Button
+              variant="secondary"
+              //@ts-ignore
               disabled={hasError || loading || !isDirty}
-              label={buttonLabel}
-            />
+            >
+              {isDirty && (
+                <IoMdCheckmark
+                  sx={{
+                    height: "iconSmall",
+                    mr: "xsmall",
+                    width: "iconSmall",
+                  }}
+                />
+              )}
+              {buttonLabel}
+            </Button>
             <Link href={"/contenus"} passHref>
               <NavLink
                 onClick={(e) => {
