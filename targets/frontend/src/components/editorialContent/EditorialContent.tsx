@@ -176,8 +176,8 @@ const EditorialContentForm = ({
           </Flex>
           <Flex mt="medium" sx={{ alignItems: "center" }}>
             <Button
+              type="submit"
               variant="secondary"
-              //@ts-ignore
               disabled={hasError || loading || !isDirty}
             >
               {isDirty && (
