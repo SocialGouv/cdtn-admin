@@ -57,6 +57,7 @@ export type Content = KeysToCamelCase<Omit<EditorialContent, "document">> & {
   contents: ContentRelation[];
   document: Partial<ContentDocument>;
   contentRelations: ContentRelation[];
+  questionnaire?: string;
 };
 
 export type ContentQuery = {
@@ -68,6 +69,7 @@ export type ContentUpdateMutation = {
   content_relations?: any[];
   document?: ContentDocument;
   meta_description?: string;
+  questionnaire?: string;
   slug?: string;
   source?: string;
   title?: string;

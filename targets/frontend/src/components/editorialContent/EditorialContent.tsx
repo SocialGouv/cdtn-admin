@@ -160,6 +160,13 @@ const EditorialContentForm = ({
               Onglet
             </Label>
           </Box>
+          <Box mb="small">
+            <Field
+              {...register("questionnaire")}
+              type="text"
+              label="Questionnaire"
+            />
+          </Box>
           <ContentSections
             control={control}
             register={register}
