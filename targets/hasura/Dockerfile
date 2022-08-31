@@ -10,5 +10,6 @@ ENV HASURA_GRAPHQL_MIGRATIONS_SERVER_TIMEOUT=360
 
 COPY ./migrations /hasura-migrations
 COPY ./metadata /hasura-metadata
+COPY ./config.yaml /config.yaml
 
 USER 1001
