@@ -71,6 +71,7 @@ export type EditorialContentDoc = {
   date: string;
   intro: string;
   section_display_mode?: SectionDisplayMode;
+  questionnaire?: string;
   contents: BaseContentPart[];
   references?: EditoralContentReferenceBloc[];
   description: string;

@@ -162,7 +162,7 @@ const EditorialContentForm = ({
           </Box>
           <Box mb="small">
             <Field
-              {...register("questionnaire")}
+              {...register("document.questionnaire")}
               type="text"
               label="Questionnaire"
             />
