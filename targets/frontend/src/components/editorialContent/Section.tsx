@@ -37,6 +37,7 @@ type SectionProps = {
   name: string;
   numberOfBlocks: number;
   remove: any;
+  open: boolean;
 };
 
 const RootSection = ({
@@ -45,12 +46,13 @@ const RootSection = ({
   name,
   numberOfBlocks,
   remove,
+  open = true,
 }: SectionProps) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState(open);
 
   useEffect(() => {
     if (Object.keys(errors).length) {
