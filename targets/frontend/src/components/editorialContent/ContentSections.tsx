@@ -66,7 +66,7 @@ export function ContentSections({ name }: any) {
         type="button"
         size="small"
         variant="secondary"
-        onClick={() => append({ type: "markdown" })}
+        onClick={() => append({ blocks: [{ markdown: "", type: "markdown" }] })}
       >
         {/* todo refactor to a ButtonWithicon since sx props not working */}
         <IoMdAdd
