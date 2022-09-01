@@ -63,6 +63,11 @@ export function PasswordForm({
 
   return (
     <form onSubmit={handleSubmit(localSubmit)} action={action}>
+      <div>
+        Le mot de passe doit faire au moins 12 caractères et doit être composer
+        d&apos;au moins 1 minuscule, 1 majuscule, 1 nombre et 1 caractère
+        spécial
+      </div>
       <Stack gap={["small", "large"]}>
         {changeOldPassword && (
           <div>
