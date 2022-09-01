@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.0.0...v2.0.1) (2022-08-29)
+
+
+### Bug Fixes
+
+* **api:** limit uploadable extensions ([#794](https://github.com/SocialGouv/cdtn-admin/issues/794)) ([6f28030](https://github.com/SocialGouv/cdtn-admin/commit/6f280303ecd3611df9d694438942cc1a56202fab))
+* **sitemaps:** Upload sitemap to the wrong azure container ([#799](https://github.com/SocialGouv/cdtn-admin/issues/799)) ([0d9e7d4](https://github.com/SocialGouv/cdtn-admin/commit/0d9e7d429cbc15a2b79580cc57e7e4659908a4e0))
+
+
+
+
+
 # [2.0.0](https://github.com/SocialGouv/cdtn-admin/compare/v1.20.0...v2.0.0) (2022-08-17)
 
 

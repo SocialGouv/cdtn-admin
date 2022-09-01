@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.0.0...v2.0.1) (2022-08-29)
+
+
+### Bug Fixes
+
+* **api:** limit uploadable extensions ([#794](https://github.com/SocialGouv/cdtn-admin/issues/794)) ([6f28030](https://github.com/SocialGouv/cdtn-admin/commit/6f280303ecd3611df9d694438942cc1a56202fab))
+
+
+
+
+
 # [2.0.0](https://github.com/SocialGouv/cdtn-admin/compare/v1.20.0...v2.0.0) (2022-08-17)
 
 **Note:** Version bump only for package frontend
