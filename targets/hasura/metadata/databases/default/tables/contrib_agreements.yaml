@@ -1,0 +1,29 @@
+table:
+  schema: contrib
+  name: agreements
+object_relationships:
+  - name: agreement
+    using:
+      foreign_key_constraint_on: parent_id
+array_relationships:
+  - name: agreements
+    using:
+      foreign_key_constraint_on:
+        column: parent_id
+        table:
+          schema: contrib
+          name: agreements
+  - name: answers
+    using:
+      foreign_key_constraint_on:
+        column: agreement_id
+        table:
+          schema: contrib
+          name: answers
+  - name: locations_agreements
+    using:
+      foreign_key_constraint_on:
+        column: agreement_id
+        table:
+          schema: contrib
+          name: locations_agreements

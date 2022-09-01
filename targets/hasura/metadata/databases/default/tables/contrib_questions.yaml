@@ -1,0 +1,11 @@
+table:
+  schema: contrib
+  name: questions
+array_relationships:
+  - name: answers
+    using:
+      foreign_key_constraint_on:
+        column: question_id
+        table:
+          schema: contrib
+          name: answers

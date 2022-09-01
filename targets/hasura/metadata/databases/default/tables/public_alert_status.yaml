@@ -1,0 +1,25 @@
+table:
+  schema: public
+  name: alert_status
+array_relationships:
+  - name: alerts
+    using:
+      foreign_key_constraint_on:
+        column: status
+        table:
+          schema: public
+          name: alerts
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - name
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - name
+      filter: {}
+      check: {}

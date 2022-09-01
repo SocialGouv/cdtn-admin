@@ -92,19 +92,6 @@ key).
 > docker-compose up hasura
 > ```
 
-#### ARM64 architecture
-
-You have to create a docker-compose.override.yml file with the following content:
-
-```yaml
-version: "3.8"
-services:
-  hasura:
-    build:
-      context: targets/hasura
-      dockerfile: Dockerfile.arm
-```
-
 ### Inject documents
 
 A part of the content is based on documents retrieved from another services (code du travail, contributions, fiche
