@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v2.0.0-alpha.4
+FROM hasura/graphql-engine:v2.10.1.cli-migrations-v3
 
 # Used for the migration from v1 (https://hasura.io/docs/latest/guides/upgrade-hasura-v2/#hasura-v2-behaviour-changes)
 # Need a full test of the admin before removed
