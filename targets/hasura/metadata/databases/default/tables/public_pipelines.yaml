@@ -1,6 +1,6 @@
 table:
-  name: pipelines
   schema: public
+  name: pipelines
 object_relationships:
   - name: user
     using:

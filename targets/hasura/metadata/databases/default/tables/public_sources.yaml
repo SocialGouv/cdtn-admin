@@ -1,14 +1,14 @@
 table:
-  name: sources
   schema: public
+  name: sources
 array_relationships:
   - name: alerts
     using:
       foreign_key_constraint_on:
         column: repository
         table:
-          name: alerts
           schema: public
+          name: alerts
 select_permissions:
   - role: user
     permission:

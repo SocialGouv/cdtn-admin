@@ -1,21 +1,21 @@
 table:
-  name: documents
   schema: public
+  name: documents
 array_relationships:
   - name: relation_a
     using:
       foreign_key_constraint_on:
         column: document_a
         table:
-          name: document_relations
           schema: public
+          name: document_relations
   - name: relation_b
     using:
       foreign_key_constraint_on:
         column: document_b
         table:
-          name: document_relations
           schema: public
+          name: document_relations
 insert_permissions:
   - role: user
     permission:
@@ -34,6 +34,7 @@ insert_permissions:
         - text
         - title
         - updated_at
+      backend_only: false
 select_permissions:
   - role: public
     permission:
@@ -93,7 +94,6 @@ update_permissions:
 delete_permissions:
   - role: user
     permission:
-      backend_only: false
       filter: {}
 event_triggers:
   - name: publication
@@ -103,8 +103,8 @@ event_triggers:
         columns:
           - is_published
     retry_conf:
-      interval_sec: 10
       num_retries: 2
+      interval_sec: 10
       timeout_sec: 60
     webhook_from_env: PUBLICATION_WEBHOOK_URL
     headers:

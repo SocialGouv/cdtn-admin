@@ -1,6 +1,6 @@
 table:
-  name: package_version
   schema: public
+  name: package_version
 select_permissions:
   - role: public
     permission:

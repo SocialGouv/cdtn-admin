@@ -1,14 +1,14 @@
 table:
-  name: alert_status
   schema: public
+  name: alert_status
 array_relationships:
   - name: alerts
     using:
       foreign_key_constraint_on:
         column: status
         table:
-          name: alerts
           schema: public
+          name: alerts
 select_permissions:
   - role: user
     permission:

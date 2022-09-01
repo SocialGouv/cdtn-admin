@@ -1,6 +1,6 @@
 table:
-  name: alert_notes
   schema: public
+  name: alert_notes
 object_relationships:
   - name: user
     using:

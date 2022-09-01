@@ -1,6 +1,6 @@
 table:
-  name: kali_blocks
   schema: public
+  name: kali_blocks
 insert_permissions:
   - role: user
     permission:
@@ -10,6 +10,7 @@ insert_permissions:
         - title
         - idcc
         - blocks
+      backend_only: false
 select_permissions:
   - role: public
     permission:
@@ -40,5 +41,4 @@ update_permissions:
 delete_permissions:
   - role: user
     permission:
-      backend_only: false
       filter: {}

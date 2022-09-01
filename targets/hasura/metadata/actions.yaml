@@ -56,23 +56,23 @@ custom_types:
     - name: RunningPipelines
     - name: UpdateDataSourceOutput
       relationships:
-        - field_mapping:
-            user_id: id
-          name: user
-          remote_table:
-            name: users
+        - remote_table:
             schema: auth
+            name: users
+          name: user
           source: default
           type: object
+          field_mapping:
+            user_id: id
     - name: PipelineStatus
     - name: UpdatePipelineOutput
       relationships:
-        - field_mapping:
-            user_id: id
-          name: user
-          remote_table:
-            name: users
+        - remote_table:
             schema: auth
+            name: users
+          name: user
           source: default
           type: object
+          field_mapping:
+            user_id: id
   scalars: []

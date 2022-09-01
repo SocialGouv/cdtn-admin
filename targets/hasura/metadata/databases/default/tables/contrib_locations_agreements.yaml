@@ -1,6 +1,6 @@
 table:
-  name: locations_agreements
   schema: contrib
+  name: locations_agreements
 object_relationships:
   - name: agreement
     using:

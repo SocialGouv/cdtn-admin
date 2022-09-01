@@ -1,6 +1,6 @@
 table:
-  name: user_roles
   schema: auth
+  name: user_roles
 object_relationships:
   - name: roleByRole
     using:

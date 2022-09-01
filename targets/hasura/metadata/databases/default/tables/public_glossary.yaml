@@ -1,6 +1,6 @@
 table:
-  name: glossary
   schema: public
+  name: glossary
 insert_permissions:
   - role: user
     permission:
@@ -15,6 +15,7 @@ insert_permissions:
         - created_at
         - updated_at
         - id
+      backend_only: false
 select_permissions:
   - role: public
     permission:
@@ -60,5 +61,4 @@ update_permissions:
 delete_permissions:
   - role: user
     permission:
-      backend_only: false
       filter: {}

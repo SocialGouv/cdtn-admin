@@ -1,6 +1,6 @@
 table:
-  name: answers
   schema: contrib
+  name: answers
 object_relationships:
   - name: agreement
     using:
@@ -20,19 +20,19 @@ array_relationships:
       foreign_key_constraint_on:
         column: parent_id
         table:
-          name: answers
           schema: contrib
+          name: answers
   - name: answers_comments
     using:
       foreign_key_constraint_on:
         column: answer_id
         table:
-          name: answers_comments
           schema: contrib
+          name: answers_comments
   - name: answers_references
     using:
       foreign_key_constraint_on:
         column: answer_id
         table:
-          name: answers_references
           schema: contrib
+          name: answers_references

@@ -1,21 +1,21 @@
 table:
-  name: roles
   schema: public
+  name: roles
 array_relationships:
   - name: user_roles
     using:
       foreign_key_constraint_on:
         column: role
         table:
-          name: user_roles
           schema: auth
+          name: user_roles
   - name: users
     using:
       foreign_key_constraint_on:
         column: default_role
         table:
-          name: users
           schema: auth
+          name: users
 select_permissions:
   - role: user
     permission:

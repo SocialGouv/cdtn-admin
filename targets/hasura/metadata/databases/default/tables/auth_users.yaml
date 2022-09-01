@@ -1,6 +1,6 @@
 table:
-  name: users
   schema: auth
+  name: users
 object_relationships:
   - name: role
     using:
@@ -11,15 +11,15 @@ array_relationships:
       foreign_key_constraint_on:
         column: user_id
         table:
-          name: refresh_tokens
           schema: auth
+          name: refresh_tokens
   - name: user_roles
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
-          name: user_roles
           schema: auth
+          name: user_roles
 select_permissions:
   - role: user
     permission:

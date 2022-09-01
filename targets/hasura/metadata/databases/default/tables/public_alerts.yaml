@@ -1,6 +1,6 @@
 table:
-  name: alerts
   schema: public
+  name: alerts
 object_relationships:
   - name: alert_status
     using:
@@ -14,8 +14,8 @@ array_relationships:
       foreign_key_constraint_on:
         column: alert_id
         table:
-          name: alert_notes
           schema: public
+          name: alert_notes
 select_permissions:
   - role: user
     permission:
