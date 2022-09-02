@@ -4,12 +4,16 @@ import { client } from "@shared/graphql-client";
 import { hash } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 
+import { sendPasswordChangeConfirmEmail } from "../../lib/emails/passwordChangeConfirm";
+import { getUserEmailQuery } from "./get_user_email.gql";
 import { activateUserMutation } from "./password.gql";
+import { passwordSchema } from "./validation";
 
 export function createRequestHandler({
   mutation,
   error_message = "error",
   success_message = "success",
+  sendConfirmation = false,
 }) {
   return async function (req, res) {
     const apiError = createErrorFor(res);
@@ -20,7 +24,7 @@ export function createRequestHandler({
     }
 
     const schema = Joi.object({
-      password: Joi.string().required(),
+      password: passwordSchema,
       token: Joi.string().guid({ version: "uuidv4" }).required(),
     });
 
@@ -29,13 +33,20 @@ export function createRequestHandler({
       return apiError(Boom.badRequest(error.details[0].message));
     }
 
-    const result = await client
-      .mutation(mutation, {
-        now: new Date().toISOString(),
-        password: await hash(value.password),
-        secret_token: value.token,
-      })
-      .toPromise();
+    const [queryResult, result] = await Promise.all([
+      await client
+        .query(getUserEmailQuery, {
+          secret_token: value.token,
+        })
+        .toPromise(),
+      await client
+        .mutation(mutation, {
+          now: new Date().toISOString(),
+          password: await hash(value.password),
+          secret_token: value.token,
+        })
+        .toPromise(),
+    ]);
 
     if (result.error) {
       console.error(result.error);
@@ -47,6 +58,24 @@ export function createRequestHandler({
     }
 
     console.log("[set password]", value.token);
+    if (sendConfirmation) {
+      const [{ email }] = queryResult.data.users;
+      try {
+        await sendPasswordChangeConfirmEmail(email);
+        console.log("[actions] send password change confirmation email");
+        res.json({ message: "email sent!", statusCode: 200 });
+      } catch (error) {
+        console.log(error);
+        console.error(
+          `[actions] send lost password change confirmation to ${email} failed`
+        );
+        apiError(
+          Boom.badGateway(
+            `[actions] send change confirmation email to ${email} failed`
+          )
+        );
+      }
+    }
 
     res.json({ message: success_message });
   };

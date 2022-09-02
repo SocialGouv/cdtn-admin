@@ -5,6 +5,7 @@ import { Button } from "src/components/button";
 import { useUser } from "src/hooks/useUser";
 import { Field, NavLink } from "theme-ui";
 
+import { passwordValidation } from "../../lib/regex";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Inline } from "../layout/Inline";
 import { Stack } from "../layout/Stack";
@@ -22,16 +23,24 @@ export function PasswordForm({
     handleSubmit,
     setError,
     watch,
-
     formState: { errors },
   } = useForm();
   const watchedPassword = watch("password", "");
   const hasError = Object.keys(errors).length > 0;
   const buttonLabel = changeOldPassword ? "Changer le mot de passe" : "Activer";
   const passwordFieldRegistration = {
+    maxLength: {
+      message: "Le mot de passe ne doit pas faire plus de 32 caractères",
+      value: 32,
+    },
     minLength: {
-      message: "Le mot de passe doit faire au moins 8 caractères",
-      value: 8,
+      message: "Le mot de passe doit faire au moins 12 caractères",
+      value: 12,
+    },
+    pattern: {
+      message:
+        "Le mot de passe doit être composer d'au moins 1 minuscule, 1 majuscule, 1 nombre et 1 caractère spécial",
+      value: passwordValidation,
     },
     required: { message: "Ce champ est requis", value: true },
   };
@@ -55,6 +64,11 @@ export function PasswordForm({
 
   return (
     <form onSubmit={handleSubmit(localSubmit)} action={action}>
+      <div>
+        Le mot de passe doit faire au moins 12 caractères et doit être composer
+        d&apos;au moins 1 minuscule, 1 majuscule, 1 nombre et 1 caractère
+        spécial
+      </div>
       <Stack gap={["small", "large"]}>
         {changeOldPassword && (
           <div>
