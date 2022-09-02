@@ -25,6 +25,8 @@ import {
 
 type ButtonPropTypes = {
   children: React.ReactNode;
+  type?: "button" | "reset" | "submit";
+  disabled?: boolean;
   size?: "small" | "normal";
   variant?: "accent" | "secondary" | "primary" | "link";
   onClick?: (e: unknown) => void;

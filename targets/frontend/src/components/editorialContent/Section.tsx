@@ -37,6 +37,7 @@ type SectionProps = {
   name: string;
   numberOfBlocks: number;
   remove: any;
+  open: boolean;
 };
 
 const RootSection = ({
@@ -45,12 +46,13 @@ const RootSection = ({
   name,
   numberOfBlocks,
   remove,
+  open = true,
 }: SectionProps) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState(open);
 
   useEffect(() => {
     if (Object.keys(errors).length) {
@@ -88,6 +90,7 @@ const RootSection = ({
             </Box>
             <Box mt="medium">
               <Button
+                type="button"
                 variant="secondary"
                 size="small"
                 onClick={() => setOpen(!isOpen)}
@@ -122,7 +125,11 @@ const RootSection = ({
                         margin: "0 3px",
                       }}
                     >
-                      <Button size="small" onClick={() => remove(index)}>
+                      <Button
+                        type="button"
+                        size="small"
+                        onClick={() => remove(index)}
+                      >
                         <IoMdTrash
                           sx={{
                             height: "iconSmall",

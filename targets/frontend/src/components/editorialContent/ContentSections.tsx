@@ -1,4 +1,3 @@
-import lowGet from "lodash.get";
 import React from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
@@ -64,9 +63,10 @@ export function ContentSections({ name }: any) {
         }}
       />
       <Button
+        type="button"
         size="small"
         variant="secondary"
-        onClick={() => append({ type: "markdown" })}
+        onClick={() => append({ blocks: [{ markdown: "", type: "markdown" }] })}
       >
         {/* todo refactor to a ButtonWithicon since sx props not working */}
         <IoMdAdd
