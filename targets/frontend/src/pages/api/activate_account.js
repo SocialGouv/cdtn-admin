@@ -5,9 +5,9 @@ import { hash } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 
 import { sendPasswordChangeConfirmEmail } from "../../lib/emails/passwordChangeConfirm";
-import { passwordValidation } from "../../lib/regex";
 import { getUserEmailQuery } from "./get_user_email.gql";
 import { activateUserMutation } from "./password.gql";
+import { passwordSchema } from "./validation";
 
 export function createRequestHandler({
   mutation,
@@ -24,11 +24,7 @@ export function createRequestHandler({
     }
 
     const schema = Joi.object({
-      password: Joi.string()
-        .min(12)
-        .max(32)
-        .regex(passwordValidation)
-        .required(),
+      password: passwordSchema,
       token: Joi.string().guid({ version: "uuidv4" }).required(),
     });
 

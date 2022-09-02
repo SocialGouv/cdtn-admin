@@ -5,8 +5,8 @@ import { hash, verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 
 import { sendPasswordChangeConfirmEmail } from "../../lib/emails/passwordChangeConfirm";
-import { passwordValidation } from "../../lib/regex";
 import { changeMyPasswordMutation, getOldPassword } from "./password.gql";
+import { passwordSchema } from "./validation";
 
 export default async function changePassword(req, res) {
   const apiError = createErrorFor(res);
@@ -19,7 +19,7 @@ export default async function changePassword(req, res) {
   const schema = Joi.object({
     id: Joi.string().guid({ version: "uuidv4" }).required(),
     oldPassword: Joi.string().required(),
-    password: Joi.string().min(12).max(32).regex(passwordValidation).required(),
+    password: passwordSchema,
   });
 
   const { error, value } = schema.validate(req.body);
