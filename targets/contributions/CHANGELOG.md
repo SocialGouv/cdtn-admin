@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.0.1...v2.1.0) (2022-09-02)
+
+
+### Features
+
+* **headers:** add security headers to frontend and contributions ([#802](https://github.com/SocialGouv/cdtn-admin/issues/802)) ([11381f2](https://github.com/SocialGouv/cdtn-admin/commit/11381f23b30f341b3c665ad6be68c2edf5c45cb1))
+
+
+
+
+
 ## [2.0.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.0.0...v2.0.1) (2022-08-29)
 
 **Note:** Version bump only for package @socialgouv/contibutions
