@@ -69,6 +69,7 @@ export default async function changePassword(req, res) {
     console.log("[actions] send password change confirmation email");
     res.json({ message: "email sent!", statusCode: 200 });
   } catch (error) {
+    console.error(error);
     console.error(
       `[actions] send lost password change confirmation to ${email} failed`
     );

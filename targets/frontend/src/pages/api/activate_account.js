@@ -69,6 +69,7 @@ export function createRequestHandler({
         console.log("[actions] send password change confirmation email");
         res.json({ message: "email sent!", statusCode: 200 });
       } catch (error) {
+        console.log(error);
         console.error(
           `[actions] send lost password change confirmation to ${email} failed`
         );

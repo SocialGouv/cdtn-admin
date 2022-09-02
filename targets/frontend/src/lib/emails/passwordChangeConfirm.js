@@ -8,7 +8,7 @@ export function sendPasswordChangeConfirmEmail(email) {
   L'equipe veille CDTN
   `;
 
-  var mailOptions = {
+  const mailOptions = {
     from: process.env.ACCOUNT_MAIL_SENDER,
     subject,
     text,
