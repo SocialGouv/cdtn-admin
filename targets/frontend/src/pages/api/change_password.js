@@ -5,8 +5,8 @@ import { hash, verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 
 import { sendPasswordChangeConfirmEmail } from "../../lib/emails/passwordChangeConfirm";
+import { passwordValidation } from "../../lib/regex";
 import { changeMyPasswordMutation, getOldPassword } from "./password.gql";
-import { passwordValidation } from "./regex";
 
 export default async function changePassword(req, res) {
   const apiError = createErrorFor(res);

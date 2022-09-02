@@ -5,6 +5,7 @@ import { Button } from "src/components/button";
 import { useUser } from "src/hooks/useUser";
 import { Field, NavLink } from "theme-ui";
 
+import { passwordValidation } from "../../lib/regex";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Inline } from "../layout/Inline";
 import { Stack } from "../layout/Stack";
@@ -39,7 +40,7 @@ export function PasswordForm({
     pattern: {
       message:
         "Le mot de passe doit être composer d'au moins 1 minuscule, 1 majuscule, 1 nombre et 1 caractère spécial",
-      value: /(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[$@$!#.])[A-Za-zd$@$!%*?&.]/i,
+      value: passwordValidation,
     },
     required: { message: "Ce champ est requis", value: true },
   };

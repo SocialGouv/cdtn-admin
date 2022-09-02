@@ -5,9 +5,9 @@ import { hash } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 
 import { sendPasswordChangeConfirmEmail } from "../../lib/emails/passwordChangeConfirm";
+import { passwordValidation } from "../../lib/regex";
 import { getUserEmailQuery } from "./get_user_email.gql";
 import { activateUserMutation } from "./password.gql";
-import { passwordValidation } from "./regex";
 
 export function createRequestHandler({
   mutation,
