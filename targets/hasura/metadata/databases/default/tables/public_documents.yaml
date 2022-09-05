@@ -1,0 +1,112 @@
+table:
+  schema: public
+  name: documents
+array_relationships:
+  - name: relation_a
+    using:
+      foreign_key_constraint_on:
+        column: document_a
+        table:
+          schema: public
+          name: document_relations
+  - name: relation_b
+    using:
+      foreign_key_constraint_on:
+        column: document_b
+        table:
+          schema: public
+          name: document_relations
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - cdtn_id
+        - created_at
+        - document
+        - initial_id
+        - is_available
+        - is_published
+        - is_searchable
+        - meta_description
+        - slug
+        - source
+        - text
+        - title
+        - updated_at
+      backend_only: false
+select_permissions:
+  - role: public
+    permission:
+      columns:
+        - cdtn_id
+        - initial_id
+        - title
+        - meta_description
+        - source
+        - slug
+        - text
+        - document
+        - is_published
+        - is_searchable
+        - created_at
+        - updated_at
+        - is_available
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+        - cdtn_id
+        - created_at
+        - document
+        - initial_id
+        - is_available
+        - is_published
+        - is_searchable
+        - meta_description
+        - slug
+        - source
+        - text
+        - title
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - cdtn_id
+        - created_at
+        - document
+        - initial_id
+        - is_available
+        - is_published
+        - is_searchable
+        - meta_description
+        - slug
+        - source
+        - text
+        - title
+        - updated_at
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+event_triggers:
+  - name: publication
+    definition:
+      enable_manual: false
+      update:
+        columns:
+          - is_published
+    retry_conf:
+      num_retries: 2
+      interval_sec: 10
+      timeout_sec: 60
+    webhook_from_env: PUBLICATION_WEBHOOK_URL
+    headers:
+      - name: publication-secret
+        value_from_env: PUBLICATION_SECRET

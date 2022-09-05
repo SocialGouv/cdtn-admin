@@ -17,8 +17,9 @@ services:
     extra_hosts:
       host.docker.internal: host-gateway
     volumes:
-      - ./targets/hasura/migrations:/hasura-migrations
-      - ./targets/hasura/metadata:/hasura-metadata
+      - ./targets/hasura/migrations:/migrations
+      - ./targets/hasura/metadata:/metadata
+      - ./targets/hasura/config.yaml:/config.yaml
     ports:
       - "8080:8080"
     depends_on:

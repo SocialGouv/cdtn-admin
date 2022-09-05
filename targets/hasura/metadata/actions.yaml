@@ -60,6 +60,7 @@ custom_types:
             schema: auth
             name: users
           name: user
+          source: default
           type: object
           field_mapping:
             user_id: id
@@ -70,6 +71,7 @@ custom_types:
             schema: auth
             name: users
           name: user
+          source: default
           type: object
           field_mapping:
             user_id: id

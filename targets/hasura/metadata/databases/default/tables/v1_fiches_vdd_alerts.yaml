@@ -1,0 +1,3 @@
+table:
+  schema: v1
+  name: fiches_vdd_alerts
