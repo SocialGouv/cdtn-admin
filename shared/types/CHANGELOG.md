@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.1.0...v2.2.0) (2022-09-05)
+
+
+### Features
+
+* add questionnaire field ([#807](https://github.com/SocialGouv/cdtn-admin/issues/807)) ([81a600b](https://github.com/SocialGouv/cdtn-admin/commit/81a600b2ac0587928c54d4fe97a589e529ae9b8f))
+
+
+
+
+
 # [2.1.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.0.1...v2.1.0) (2022-09-02)
 
 **Note:** Version bump only for package @shared/types

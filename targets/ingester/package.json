@@ -1,9 +1,9 @@
 {
   "name": "ingester",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "dependencies": {
-    "@shared/graphql-client": "^2.1.0",
-    "@shared/id-generator": "^2.1.0",
+    "@shared/graphql-client": "^2.2.0",
+    "@shared/id-generator": "^2.2.0",
     "@socialgouv/cdtn-slugify": "4.52.1",
     "@socialgouv/cdtn-sources": "4.52.1",
     "get-uri": "3.0.2",
@@ -24,7 +24,7 @@
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
-    "@shared/types": "^2.1.0",
+    "@shared/types": "^2.2.0",
     "@socialgouv/eslint-config-typescript": "^1.112.0",
     "@socialgouv/fiches-travail-data-types": "^4.191.0",
     "@socialgouv/fiches-vdd-types": "^2.197.0",

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.1.0...v2.2.0) (2022-09-05)
+
+
+### Bug Fixes
+
+* password update email not throwing ([#811](https://github.com/SocialGouv/cdtn-admin/issues/811)) ([6e835eb](https://github.com/SocialGouv/cdtn-admin/commit/6e835eb300f5682e2e0b7722a812d8a8275adcee))
+
+
+### Features
+
+* add questionnaire field ([#807](https://github.com/SocialGouv/cdtn-admin/issues/807)) ([81a600b](https://github.com/SocialGouv/cdtn-admin/commit/81a600b2ac0587928c54d4fe97a589e529ae9b8f))
+* add validation to password change ([#798](https://github.com/SocialGouv/cdtn-admin/issues/798)) ([0fd5d32](https://github.com/SocialGouv/cdtn-admin/commit/0fd5d329badcf5b9831b82a1bf894a7d00f1d7a1))
+
+
+
+
+
 # [2.1.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.0.1...v2.1.0) (2022-09-02)
 
 
