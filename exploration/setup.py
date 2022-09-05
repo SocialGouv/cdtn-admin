@@ -1,0 +1,36 @@
+from setuptools import setup, find_packages
+
+setup(
+    name='explorations-cdtn',
+    version='0.1.1',
+    packages=find_packages(),
+    url='',
+    license='',
+    author='Fabien Roussel',
+    author_email='',
+    description='',
+    install_requires=['elasticsearch==8.4.0',
+                      #'elasticsearch==7.17.4',
+                      'eland==8.3.0',
+            				  'ipykernel==6.15.1',
+            				  'notebook==6.4.12',
+                      'pandas==1.4.3',
+                      'plotly-express==0.4.1',
+                      'psycopg2-binary==2.9.3',
+                      'python-dateutil==2.8.2',
+                      'python-dotenv==0.20',
+                      'requests==2.28.1',
+                      'sentence-transformers==2.2.2',
+                      'sqlalchemy==1.4.40',
+                      'torch==1.12.1',
+                      'transformers==4.21.1',
+                      'tqdm==4.64.0',
+                      'unidecode==1.3.4'],
+
+    extras_require={'dev': ['flake8==4.0.1',
+                            'flake8-quotes==3.3.1',
+                            'freezegun==1.1.0',
+                            'pytest==6.2.5'
+                            ]},
+    python_requires='>=3.9',
+)
