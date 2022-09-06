@@ -16,12 +16,6 @@ array_relationships:
         table:
           name: users
           schema: auth
-insert_permissions:
-  - role: super
-    permission:
-      check: {}
-      columns:
-        - role
 select_permissions:
   - role: super
     permission:
@@ -33,16 +27,4 @@ select_permissions:
     permission:
       columns:
         - role
-      filter: {}
-update_permissions:
-  - role: super
-    permission:
-      columns:
-        - role
-      filter: {}
-      check: {}
-delete_permissions:
-  - role: super
-    permission:
-      backend_only: false
       filter: {}

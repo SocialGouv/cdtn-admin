@@ -8,7 +8,9 @@ object_relationships:
 insert_permissions:
   - role: super
     permission:
-      check: {}
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
       columns:
         - created_at
         - expires_at
@@ -35,7 +37,9 @@ select_permissions:
         - updated_at
         - refresh_token
         - user_id
-      filter: {}
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
       allow_aggregations: true
   - role: user
     permission:
@@ -52,7 +56,9 @@ delete_permissions:
   - role: super
     permission:
       backend_only: false
-      filter: {}
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
   - role: user
     permission:
       backend_only: false

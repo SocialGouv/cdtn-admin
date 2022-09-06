@@ -1,15 +1,6 @@
 table:
   name: package_version
   schema: public
-insert_permissions:
-  - role: super
-    permission:
-      check: {}
-      columns:
-        - repository
-        - version
-        - created_at
-        - updated_at
 select_permissions:
   - role: public
     permission:
@@ -35,19 +26,4 @@ select_permissions:
         - version
         - created_at
         - updated_at
-      filter: {}
-update_permissions:
-  - role: super
-    permission:
-      columns:
-        - repository
-        - version
-        - created_at
-        - updated_at
-      filter: {}
-      check: {}
-delete_permissions:
-  - role: super
-    permission:
-      backend_only: false
       filter: {}
