@@ -1,6 +1,6 @@
 table:
-  schema: contrib
   name: answers_references
+  schema: contrib
 object_relationships:
   - name: answer
     using:

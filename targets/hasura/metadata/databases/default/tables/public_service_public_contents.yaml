@@ -1,3 +1,37 @@
 table:
-  schema: public
   name: service_public_contents
+  schema: public
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - id
+        - status
+        - created_at
+        - updated_at
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - id
+        - status
+        - created_at
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - id
+        - status
+        - created_at
+        - updated_at
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      backend_only: false
+      filter: {}

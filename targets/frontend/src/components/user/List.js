@@ -105,7 +105,7 @@ export function UserList() {
             }) => (
               <Tr key={id}>
                 <Td align="center">
-                  <Badge variant={role === "admin" ? "primary" : "secondary"}>
+                  <Badge variant={role === "super" ? "primary" : "secondary"}>
                     {role}
                   </Badge>
                 </Td>

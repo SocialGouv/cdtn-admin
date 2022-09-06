@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: alerts
+  schema: public
 object_relationships:
   - name: alert_status
     using:
@@ -14,9 +14,35 @@ array_relationships:
       foreign_key_constraint_on:
         column: alert_id
         table:
-          schema: public
           name: alert_notes
+          schema: public
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - changes
+        - info
+        - ref
+        - repository
+        - status
+        - created_at
+        - updated_at
+        - id
 select_permissions:
+  - role: super
+    permission:
+      columns:
+        - changes
+        - info
+        - ref
+        - repository
+        - status
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -31,6 +57,19 @@ select_permissions:
       filter: {}
       allow_aggregations: true
 update_permissions:
+  - role: super
+    permission:
+      columns:
+        - changes
+        - info
+        - ref
+        - repository
+        - status
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      check: {}
   - role: user
     permission:
       columns:
@@ -44,3 +83,8 @@ update_permissions:
         - updated_at
       filter: {}
       check: {}
+delete_permissions:
+  - role: super
+    permission:
+      backend_only: false
+      filter: {}

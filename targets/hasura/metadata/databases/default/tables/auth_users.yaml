@@ -1,6 +1,6 @@
 table:
-  schema: auth
   name: users
+  schema: auth
 object_relationships:
   - name: role
     using:
@@ -11,16 +11,45 @@ array_relationships:
       foreign_key_constraint_on:
         column: user_id
         table:
-          schema: auth
           name: refresh_tokens
+          schema: auth
   - name: user_roles
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
-          schema: auth
           name: user_roles
+          schema: auth
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - active
+        - created_at
+        - default_role
+        - email
+        - id
+        - name
+        - secret_token
+        - secret_token_expires_at
+        - updated_at
 select_permissions:
+  - role: super
+    permission:
+      columns:
+        - active
+        - created_at
+        - default_role
+        - email
+        - id
+        - name
+        - password
+        - secret_token
+        - secret_token_expires_at
+        - updated_at
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -37,6 +66,21 @@ select_permissions:
         id:
           _eq: X-Hasura-User-Id
 update_permissions:
+  - role: super
+    permission:
+      columns:
+        - active
+        - created_at
+        - default_role
+        - email
+        - id
+        - name
+        - password
+        - secret_token
+        - secret_token_expires_at
+        - updated_at
+      filter: {}
+      check: null
   - role: user
     permission:
       columns:
@@ -46,3 +90,8 @@ update_permissions:
         id:
           _eq: X-Hasura-User-Id
       check: null
+delete_permissions:
+  - role: super
+    permission:
+      backend_only: false
+      filter: {}

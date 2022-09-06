@@ -1,11 +1,11 @@
 table:
-  schema: contrib
   name: locations
+  schema: contrib
 array_relationships:
   - name: locations_agreements
     using:
       foreign_key_constraint_on:
         column: location_id
         table:
-          schema: contrib
           name: locations_agreements
+          schema: contrib

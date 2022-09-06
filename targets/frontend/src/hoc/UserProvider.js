@@ -64,7 +64,7 @@ export const ProvideUser = ({ children, tokenData }) => {
     window.location = "/login";
   }
   const isAuth = Boolean(user);
-  const isAdmin = user?.roles.includes("admin");
+  const isAdmin = user?.roles.includes("super");
 
   return (
     <UserContext.Provider value={{ isAdmin, isAuth, logout, user }}>

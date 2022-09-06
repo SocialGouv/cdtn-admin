@@ -7,6 +7,9 @@ actions:
       headers:
         - name: actions-secret
           value_from_env: ACTIONS_SECRET
+    permissions:
+      - role: user
+      - role: super
   - name: email_password_request
     definition:
       kind: asynchronous
@@ -16,6 +19,7 @@ actions:
         - name: actions-secret
           value_from_env: ACTIONS_SECRET
     permissions:
+      - role: super
       - role: public
   - name: pipeline_status
     definition:
@@ -35,6 +39,7 @@ actions:
         - name: actions-secret
           value_from_env: ACTIONS_SECRET
     permissions:
+      - role: super
       - role: user
   - name: updatePipeline
     definition:
@@ -45,6 +50,7 @@ actions:
         - name: secret
           value_from_env: ACTIONS_SECRET
     permissions:
+      - role: super
       - role: user
 custom_types:
   enums: []
@@ -56,23 +62,23 @@ custom_types:
     - name: RunningPipelines
     - name: UpdateDataSourceOutput
       relationships:
-        - remote_table:
-            schema: auth
-            name: users
+        - field_mapping:
+            user_id: id
           name: user
+          remote_table:
+            name: users
+            schema: auth
           source: default
           type: object
-          field_mapping:
-            user_id: id
     - name: PipelineStatus
     - name: UpdatePipelineOutput
       relationships:
-        - remote_table:
-            schema: auth
-            name: users
+        - field_mapping:
+            user_id: id
           name: user
+          remote_table:
+            name: users
+            schema: auth
           source: default
           type: object
-          field_mapping:
-            user_id: id
   scalars: []

@@ -1,6 +1,6 @@
 table:
-  schema: contrib
   name: agreements
+  schema: contrib
 object_relationships:
   - name: agreement
     using:
@@ -11,19 +11,19 @@ array_relationships:
       foreign_key_constraint_on:
         column: parent_id
         table:
-          schema: contrib
           name: agreements
+          schema: contrib
   - name: answers
     using:
       foreign_key_constraint_on:
         column: agreement_id
         table:
-          schema: contrib
           name: answers
+          schema: contrib
   - name: locations_agreements
     using:
       foreign_key_constraint_on:
         column: agreement_id
         table:
-          schema: contrib
           name: locations_agreements
+          schema: contrib
