@@ -3,6 +3,7 @@ import { IncomingForm } from "formidable";
 import { verify } from "jsonwebtoken";
 import { createErrorFor } from "src/lib/apiError";
 import { getContainerBlobs, uploadBlob } from "src/lib/azure";
+import xss from "xss";
 
 const container = process.env.STORAGE_CONTAINER;
 const jwtSecret = JSON.parse(process.env.HASURA_GRAPHQL_JWT_SECRET);
@@ -52,6 +53,26 @@ const ALLOWED_EXTENSIONS = [
 const isAllowedFile = (part) =>
   ALLOWED_EXTENSIONS.includes(part.name.toLowerCase().split(".").reverse()[0]);
 
+const sanitizeUpload = (stream) => {
+  return new Promise((resolve) => {
+    stream.on("error", (err) => {
+      console.error("[storage]", err);
+      resolve(false);
+    });
+    stream.on("data", (chunk) => {
+      const sanitized = xss(chunk.toString(), {
+        whiteList: [],
+      });
+      if (chunk.toString() !== sanitized) {
+        resolve(false);
+      }
+    });
+    stream.on("end", () => {
+      resolve(true);
+    });
+  });
+};
+
 function uploadFiles(req, res) {
   const form = new IncomingForm({ multiples: true });
   // we need to override the onPart method to directly
@@ -61,7 +82,12 @@ function uploadFiles(req, res) {
     console.log(`uploading to ${container}`, part);
     try {
       uploadingFilesNumber++;
-      if (isAllowedFile(part)) {
+      const isSafe = await sanitizeUpload(part);
+      if (!isSafe) {
+        errored(res, "Upload is malicious");
+      }
+      if (isAllowedFile(part) && isSafe) {
+        part;
         await uploadBlob(container, part);
       } else {
         console.error(
