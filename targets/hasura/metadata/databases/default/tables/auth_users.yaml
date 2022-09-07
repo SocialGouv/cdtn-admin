@@ -23,7 +23,9 @@ array_relationships:
 insert_permissions:
   - role: super
     permission:
-      check: {}
+      check:
+        default_role:
+          _neq: super
       columns:
         - active
         - created_at
@@ -44,9 +46,6 @@ select_permissions:
         - email
         - id
         - name
-        - password
-        - secret_token
-        - secret_token_expires_at
         - updated_at
       filter: {}
       allow_aggregations: true
@@ -59,8 +58,6 @@ select_permissions:
         - email
         - id
         - name
-        - secret_token
-        - secret_token_expires_at
         - updated_at
       filter:
         id:
@@ -94,4 +91,6 @@ delete_permissions:
   - role: super
     permission:
       backend_only: false
-      filter: {}
+      filter:
+        default_role:
+          _neq: super

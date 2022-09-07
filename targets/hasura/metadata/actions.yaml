@@ -19,7 +19,6 @@ actions:
         - name: actions-secret
           value_from_env: ACTIONS_SECRET
     permissions:
-      - role: super
       - role: public
   - name: pipeline_status
     definition:

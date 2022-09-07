@@ -36,3 +36,57 @@ array_relationships:
         table:
           name: answers_references
           schema: contrib
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - generic_reference
+        - prevalue
+        - state
+        - value
+        - created_at
+        - updated_at
+        - agreement_id
+        - id
+        - parent_id
+        - question_id
+        - user_id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - generic_reference
+        - prevalue
+        - state
+        - value
+        - created_at
+        - updated_at
+        - agreement_id
+        - id
+        - parent_id
+        - question_id
+        - user_id
+      filter: {}
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - generic_reference
+        - prevalue
+        - state
+        - value
+        - created_at
+        - updated_at
+        - agreement_id
+        - id
+        - parent_id
+        - question_id
+        - user_id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      backend_only: false
+      filter: {}
