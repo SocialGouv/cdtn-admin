@@ -39,6 +39,7 @@ export type ContentSection = BaseContentPart & {
 export type ContentDocument = KeysToCamelCase<EditorialContentDoc> & {
   metaDescription?: string;
   contents: any;
+  dismissalProcess?: boolean;
 };
 export type ContentSectionReference =
   KeysToCamelCase<EditoralContentReferenceBloc> & { key?: string };
@@ -57,7 +58,7 @@ export type Content = KeysToCamelCase<Omit<EditorialContent, "document">> & {
   contents: ContentRelation[];
   document: Partial<ContentDocument>;
   contentRelations: ContentRelation[];
-  questionnaire?: string;
+  dismissalProcess?: boolean;
 };
 
 export type ContentQuery = {
@@ -69,7 +70,7 @@ export type ContentUpdateMutation = {
   content_relations?: any[];
   document?: ContentDocument;
   meta_description?: string;
-  questionnaire?: string;
+  dismissalProcess?: boolean;
   slug?: string;
   source?: string;
   title?: string;
