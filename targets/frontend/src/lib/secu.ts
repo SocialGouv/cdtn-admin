@@ -7,15 +7,17 @@ export const isUploadFileSafe = (stream: formidable.Part): Promise<boolean> => {
       console.error("[storage]", err);
       resolve(false);
     });
-    let isSafe = true;
+
+    let allChunks = "";
     stream.on("data", (chunk) => {
-      const svgText = chunk.toString();
-      if (!svgText || svgText.includes("</script>")) {
-        isSafe = false;
-      }
+      allChunks += chunk.toString();
     });
     stream.on("end", () => {
-      resolve(isSafe);
+      if (allChunks === "" || allChunks.includes("</script>")) {
+        resolve(false);
+      } else {
+        resolve(true);
+      }
     });
   });
 };
