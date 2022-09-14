@@ -8,16 +8,17 @@ export const isUploadFileSafe = (stream: formidable.Part): Promise<boolean> => {
       resolve(false);
     });
 
-    let allChunks = "";
+    let previousChunk = "";
+    let isSafe = true;
     stream.on("data", (chunk) => {
-      allChunks += chunk.toString();
+      previousChunk = chunk.toString();
+      const currentChunk = previousChunk + chunk.toString();
+      if (currentChunk.includes("</script>")) {
+        isSafe = false;
+      }
     });
     stream.on("end", () => {
-      if (allChunks === "" || allChunks.includes("</script>")) {
-        resolve(false);
-      } else {
-        resolve(true);
-      }
+      resolve(isSafe);
     });
   });
 };
