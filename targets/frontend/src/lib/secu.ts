@@ -11,8 +11,8 @@ export const isUploadFileSafe = (stream: formidable.Part): Promise<boolean> => {
     let previousChunk = "";
     let isSafe = true;
     stream.on("data", (chunk) => {
-      previousChunk = chunk.toString();
       const currentChunk = previousChunk + chunk.toString();
+      previousChunk = chunk.toString();
       if (currentChunk.includes("</script>")) {
         isSafe = false;
       }
