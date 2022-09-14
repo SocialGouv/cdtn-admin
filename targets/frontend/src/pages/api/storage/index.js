@@ -3,6 +3,7 @@ import { IncomingForm } from "formidable";
 import { verify } from "jsonwebtoken";
 import { createErrorFor } from "src/lib/apiError";
 import { getContainerBlobs, uploadBlob } from "src/lib/azure";
+import { isUploadFileSafe } from "src/lib/secu";
 
 const container = process.env.STORAGE_CONTAINER;
 const jwtSecret = JSON.parse(process.env.HASURA_GRAPHQL_JWT_SECRET);
@@ -58,10 +59,13 @@ function uploadFiles(req, res) {
   // stream the data to azure
   let uploadingFilesNumber = 0;
   form.onPart = async function (part) {
-    console.log(`uploading to ${container}`, part);
     try {
       uploadingFilesNumber++;
-      if (isAllowedFile(part)) {
+      const isSafe = await isUploadFileSafe(part);
+      if (!isSafe) {
+        errored(res, "A malicious code was find in the upload");
+      }
+      if (isAllowedFile(part) && isSafe) {
         await uploadBlob(container, part);
       } else {
         console.error(

@@ -3136,6 +3136,13 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@socialgouv/cdtn-logger@^1.10.4":
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-logger/-/cdtn-logger-1.20.0.tgz#c6ced42089748db5be48ec90258f815fc6baaaa8"
+  integrity sha512-LSwDNA8JHGBIO8qCej8BPbzijuZQElswT4gZyXXgkLFHpM/5dbhsPs37/29x1b7zPYl2zdW0soy3aeqNyD5X1Q==
+  dependencies:
+    winston "^3.3.3"
+
 "@socialgouv/cdtn-monolog@^1.5.11":
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-monolog/-/cdtn-monolog-1.13.0.tgz#dcf0771b4851f0d22ed57ad4fbf985ec9a2668d8"
@@ -3779,7 +3786,7 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
-"@types/formidable@^2.0.4":
+"@types/formidable@^2.0.4", "@types/formidable@^2.0.5":
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@types/formidable/-/formidable-2.0.5.tgz#e54e31d242ef750ac2d05aa163fa0274c8e6ef9c"
   integrity sha512-uvMcdn/KK3maPOaVUAc3HEYbCEhjaGFwww4EsX6IJfWIJ1tzHtDHczuImH3GKdusPnAAmzB07St90uabZeCKPA==
