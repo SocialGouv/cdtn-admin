@@ -41,7 +41,7 @@ export function DocumentPage() {
 
   async function onEditSubmit() {
     const current = JSON.parse(jsonData);
-    const { data, error }: any = await executeUpdate({
+    const { data, error: errorUpdate }: any = await executeUpdate({
       cdtnId: router.query.id,
       document: current.document,
       isAvailable: current.is_available,
@@ -56,8 +56,8 @@ export function DocumentPage() {
     }
     const { cdtnId, source, document, metaDescription, text, title } =
       data?.document;
-    if (error) {
-      console.error("update impossible", error.message);
+    if (errorUpdate) {
+      console.error("update impossible", errorUpdate.message);
     }
     const response: any = previewContent({
       cdtnId,
