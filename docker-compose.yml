@@ -74,10 +74,6 @@ services:
     image: mcr.microsoft.com/azure-storage/azurite
     hostname: azurite
     command: "azurite"
-    ports:
-      - "11000:10000"
-      - "11001:10001"
-      - "11002:10002"
 
 volumes:
   db_data:
