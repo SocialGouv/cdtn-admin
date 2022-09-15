@@ -27,7 +27,16 @@ yarn test:watch # For watching unit test
 
 ## Testing in real
 
-### 1. Run the container
+### 1. Install and build dependencies
+
+At the root of the project
+
+```sh
+yarn # to install dep
+yarn build # to build project
+```
+
+### 2. Run the basis container
 
 At the root of the project, please run this command:
 
@@ -36,45 +45,44 @@ docker-compose up -d postgres
 docker-compose up -d hasura
 ```
 
-In `code-du-travail-numerique` folder, run this command:
+Then, we can run `azurite` container:
+
+```sh
+docker-compose up -d azurite # to run azurite with docker-compose
+```
+
+To finish, in `code-du-travail-numerique` folder, run this command:
 
 ```sh
 docker-compose up -d elasticsearch
 ```
 
-### 2. Run fake storage service
+### 3. Load data from production to local
+
+#### 1. Restore data
 
 ```sh
-npm install -g azurite # to install azurite
-azurite # to run azurite
-# or
-docker-compose up -d azurite # to run azurite with docker-compose
-```
-
-### 3. Restore the database
-
-```sh
-# restore from dump
 docker-compose exec -T postgres pg_restore \
   --dbname postgres --clean --if-exists --user postgres \
-  --no-owner --no-acl --verbose  < ../hasura_prod_db_27022022.psql.gz # path of dump
+  --no-owner --no-acl --verbose  < ~/MY_PATH/hasura_prod_db.psql
+```
 
-# restore user
+#### 2. Restore roles
+
+```sh
 docker-compose exec -T postgres psql \
   --dbname postgres --user postgres \
   < .kube-workflow/sql/post-restore.sql
 ```
 
-### 4. Build code
-
-To get latest shared package version:
+### 4. Stop and restart Hasura container
 
 ```sh
-yarn build # For building the code with typechecking
-yarn # To link dependencies
+docker-compose stop hasura
+docker-compose up -d hasura
 ```
 
-> :warning: You have to run this command before running the ingester if you change a file in the shared package.
+**Note**: This step has been added because hasura need to reload to make link between each tables.
 
 ### 5. Run ingester in development mode
 
@@ -99,13 +107,14 @@ hasura console --envfile ../../.env --project targets/hasura
 2. Select `auth` schema
 3. Click on `users`
 4. Get the id of the user
+5. **Not necessary** You can verify if the column `role`, `refresh_tokens` and `user_roles`
 
 ### 7. Run the export elasticsearch
 
 #### With cURL
 
 ```sh
-curl -X POST -H "Content-Type: application/json" -d '{"environment": "preproduction", "userId": "6ea2dd9f-8017-4375-bcfe-dbce35c600b3"}' http://localhost:8787/export # thanks to id of the user found
+curl -X POST -H "Content-Type: application/json" -d '{"environment": "preproduction", "userId": "XXXXXXX-XXXX-XXX-XXX-XXXXXXXXXX"}' http://localhost:8787/export # thanks to id of the user found
 ```
 
 #### With frontend ui
