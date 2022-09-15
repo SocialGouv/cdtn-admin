@@ -59,7 +59,7 @@ export function DocumentPage() {
     if (error) {
       console.error("update impossible", error.message);
     }
-    previewContent({
+    const response: any = previewContent({
       cdtnId,
       document: {
         ...document,
@@ -68,11 +68,10 @@ export function DocumentPage() {
         title,
       },
       source,
-    }).then((response) => {
-      if (response.error) {
-        console.error("preview impossible", response.error.message);
-      }
     });
+    if (response.error) {
+      console.error("preview impossible", response.error.message);
+    }
   }
 
   function handleEditorChange(stringifyCode: string) {
