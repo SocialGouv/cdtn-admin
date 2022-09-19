@@ -1,15 +1,33 @@
 table:
-  schema: public
   name: sources
+  schema: public
 array_relationships:
   - name: alerts
     using:
       foreign_key_constraint_on:
         column: repository
         table:
-          schema: public
           name: alerts
+          schema: public
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - label
+        - repository
+        - tag
+        - created_at
 select_permissions:
+  - role: super
+    permission:
+      columns:
+        - label
+        - repository
+        - tag
+        - created_at
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -20,6 +38,15 @@ select_permissions:
       filter: {}
       allow_aggregations: true
 update_permissions:
+  - role: super
+    permission:
+      columns:
+        - label
+        - repository
+        - tag
+        - created_at
+      filter: {}
+      check: {}
   - role: user
     permission:
       columns:
@@ -29,3 +56,8 @@ update_permissions:
         - created_at
       filter: {}
       check: {}
+delete_permissions:
+  - role: super
+    permission:
+      backend_only: false
+      filter: {}

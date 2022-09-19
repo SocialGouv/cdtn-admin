@@ -7,6 +7,7 @@ import { IoIosCheckmark, IoMdCloseCircle } from "react-icons/io";
 import { Badge, css, Message, Text } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
+import { Role } from "../../lib/auth/auth.const";
 import { Button, MenuButton, MenuItem } from "../button";
 import { Dialog } from "../dialog";
 import { Inline } from "../layout/Inline";
@@ -105,7 +106,9 @@ export function UserList() {
             }) => (
               <Tr key={id}>
                 <Td align="center">
-                  <Badge variant={role === "admin" ? "primary" : "secondary"}>
+                  <Badge
+                    variant={role === Role.SUPER ? "primary" : "secondary"}
+                  >
                     {role}
                   </Badge>
                 </Td>

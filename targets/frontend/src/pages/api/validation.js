@@ -1,6 +1,6 @@
 import Joi from "@hapi/joi";
 
-import { passwordValidation } from "../../lib/regex";
+import { passwordValidation } from "../../lib/auth/auth.const";
 
 export const passwordSchema = Joi.string()
   .min(12)

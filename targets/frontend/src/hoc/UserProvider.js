@@ -2,6 +2,7 @@ import { decode } from "jsonwebtoken";
 import PropTypes from "prop-types";
 import React, { createContext } from "react";
 import { getDisplayName } from "src/hoc/getDisplayName";
+import { Role } from "src/lib/auth/auth.const";
 import { auth } from "src/lib/auth/token";
 import { request } from "src/lib/request";
 
@@ -64,7 +65,7 @@ export const ProvideUser = ({ children, tokenData }) => {
     window.location = "/login";
   }
   const isAuth = Boolean(user);
-  const isAdmin = user?.roles.includes("admin");
+  const isAdmin = user?.roles.includes(Role.SUPER);
 
   return (
     <UserContext.Provider value={{ isAdmin, isAuth, logout, user }}>

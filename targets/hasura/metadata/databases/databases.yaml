@@ -4,8 +4,11 @@
     connection_info:
       database_url:
         from_env: HASURA_GRAPHQL_DATABASE_URL
+      isolation_level: read-committed
       pool_settings:
-        retries: 5
+        connection_lifetime: 600
         idle_timeout: 180
         max_connections: 50
+        retries: 5
+      use_prepared_statements: false
   tables: "!include default/tables/tables.yaml"

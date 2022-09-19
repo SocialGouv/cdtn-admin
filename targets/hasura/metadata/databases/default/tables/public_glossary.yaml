@@ -1,7 +1,20 @@
 table:
-  schema: public
   name: glossary
+  schema: public
 insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - abbreviations
+        - references
+        - variants
+        - definition
+        - slug
+        - term
+        - created_at
+        - updated_at
+        - id
   - role: user
     permission:
       check: {}
@@ -15,7 +28,6 @@ insert_permissions:
         - created_at
         - updated_at
         - id
-      backend_only: false
 select_permissions:
   - role: public
     permission:
@@ -30,6 +42,20 @@ select_permissions:
         - updated_at
         - id
       filter: {}
+  - role: super
+    permission:
+      columns:
+        - abbreviations
+        - references
+        - variants
+        - definition
+        - slug
+        - term
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -44,6 +70,20 @@ select_permissions:
         - id
       filter: {}
 update_permissions:
+  - role: super
+    permission:
+      columns:
+        - abbreviations
+        - references
+        - variants
+        - definition
+        - slug
+        - term
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      check: {}
   - role: user
     permission:
       columns:
@@ -59,6 +99,11 @@ update_permissions:
       filter: {}
       check: null
 delete_permissions:
+  - role: super
+    permission:
+      backend_only: false
+      filter: {}
   - role: user
     permission:
+      backend_only: false
       filter: {}

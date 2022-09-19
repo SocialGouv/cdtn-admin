@@ -5,7 +5,7 @@ import { Button } from "src/components/button";
 import { useUser } from "src/hooks/useUser";
 import { Field, NavLink } from "theme-ui";
 
-import { passwordValidation } from "../../lib/regex";
+import { passwordValidation } from "../../lib/auth/auth.const";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Inline } from "../layout/Inline";
 import { Stack } from "../layout/Stack";
