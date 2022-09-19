@@ -24,6 +24,7 @@ select_permissions:
         - agreement_id
         - location_id
       filter: {}
+      allow_aggregations: true
 update_permissions:
   - role: super
     permission:
