@@ -6,6 +6,7 @@ import { auth } from "src/lib/auth/token";
 import { request } from "src/lib/request";
 
 export const UserContext = createContext({});
+const superRole = "super";
 
 export function withUserProvider(WrappedComponent) {
   return class extends React.Component {
@@ -64,7 +65,7 @@ export const ProvideUser = ({ children, tokenData }) => {
     window.location = "/login";
   }
   const isAuth = Boolean(user);
-  const isAdmin = user?.roles.includes("super");
+  const isAdmin = user?.roles.includes(superRole);
 
   return (
     <UserContext.Provider value={{ isAdmin, isAuth, logout, user }}>
