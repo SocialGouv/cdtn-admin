@@ -158,7 +158,7 @@ export class GraphQLApi {
   }
 
   async delete(graphQL, data) {
-    const res = await this.mutationWithToken(graphQL.query, data).toPromise();
+    const res = await this.mutationWithToken(graphQL.query, data);
 
     if (res.error) {
       throw res.error;
