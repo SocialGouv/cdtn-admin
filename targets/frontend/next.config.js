@@ -29,6 +29,7 @@ module.exports = withTM(
         },
       ];
     },
+    poweredByHeader: false,
     serverRuntimeConfig: {
       rootDir: __dirname,
     },
