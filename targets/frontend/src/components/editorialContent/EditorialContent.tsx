@@ -6,7 +6,16 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { IoMdCheckmark } from "react-icons/io";
-import { Box, Field, Flex, Label, NavLink, Radio, Textarea } from "theme-ui";
+import {
+  Box,
+  Checkbox,
+  Field,
+  Flex,
+  Label,
+  NavLink,
+  Radio,
+  Textarea,
+} from "theme-ui";
 
 import { BaseContentPart, Content, SectionDisplayMode } from "../../types";
 import { Button } from "../button";
@@ -161,11 +170,10 @@ const EditorialContentForm = ({
             </Label>
           </Box>
           <Box mb="small">
-            <Field
-              {...register("document.questionnaire")}
-              type="text"
-              label="Questionnaire"
-            />
+            <Label>
+              <Checkbox {...register("document.dismissalProcess")} />
+              Dossier licenciement
+            </Label>
           </Box>
           <ContentSections
             control={control}

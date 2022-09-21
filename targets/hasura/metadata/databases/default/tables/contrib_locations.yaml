@@ -1,11 +1,44 @@
 table:
-  schema: contrib
   name: locations
+  schema: contrib
 array_relationships:
   - name: locations_agreements
     using:
       foreign_key_constraint_on:
         column: location_id
         table:
-          schema: contrib
           name: locations_agreements
+          schema: contrib
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - name
+        - created_at
+        - updated_at
+        - id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - name
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - name
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      backend_only: false
+      filter: {}

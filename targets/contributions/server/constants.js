@@ -1,5 +1,5 @@
 const USER_ROLE = {
-  ADMINISTRATOR: "admin",
+  ADMINISTRATOR: "super",
   CONTRIBUTOR: "contributor",
   REGIONAL_ADMINISTRATOR: "regional_administrator",
 };

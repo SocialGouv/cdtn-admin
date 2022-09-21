@@ -1,7 +1,15 @@
 table:
-  schema: public
   name: kali_blocks
+  schema: public
 insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - idcc
+        - blocks
+        - id
+        - title
   - role: user
     permission:
       check: {}
@@ -10,7 +18,6 @@ insert_permissions:
         - title
         - idcc
         - blocks
-      backend_only: false
 select_permissions:
   - role: public
     permission:
@@ -20,6 +27,15 @@ select_permissions:
         - idcc
         - blocks
       filter: {}
+  - role: super
+    permission:
+      columns:
+        - idcc
+        - blocks
+        - id
+        - title
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -29,6 +45,15 @@ select_permissions:
         - title
       filter: {}
 update_permissions:
+  - role: super
+    permission:
+      columns:
+        - idcc
+        - blocks
+        - id
+        - title
+      filter: {}
+      check: {}
   - role: user
     permission:
       columns:
@@ -39,6 +64,11 @@ update_permissions:
       filter: {}
       check: {}
 delete_permissions:
+  - role: super
+    permission:
+      backend_only: false
+      filter: {}
   - role: user
     permission:
+      backend_only: false
       filter: {}
