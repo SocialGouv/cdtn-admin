@@ -41,17 +41,10 @@ yarn build # to build project
 At the root of the project, please run this command:
 
 ```sh
-docker-compose up -d postgres
-docker-compose up -d hasura
+docker-compose up -d postgres hasura azurite
 ```
 
-Then, we can run `azurite` container:
-
-```sh
-docker-compose up -d azurite # to run azurite with docker-compose
-```
-
-To finish, in `code-du-travail-numerique` folder, run this command:
+Then , in `code-du-travail-numerique` folder, run this command:
 
 ```sh
 docker-compose up -d elasticsearch
@@ -78,11 +71,10 @@ docker-compose exec -T postgres psql \
 ### 4. Stop and restart Hasura container
 
 ```sh
-docker-compose stop hasura
-docker-compose up -d hasura
+docker-compose restart hasura
 ```
 
-**Note**: This step has been added because hasura need to reload to make link between each tables.
+**Note**: This step has been added because Hasura need to reload to make link between each tables.
 
 ### 5. Run ingester in development mode
 
