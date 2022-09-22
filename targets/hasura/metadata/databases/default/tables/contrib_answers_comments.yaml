@@ -32,6 +32,7 @@ select_permissions:
         - answer_id
         - user_id
       filter: {}
+      allow_aggregations: true
 update_permissions:
   - role: super
     permission:
