@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.2.0...v2.3.0) (2022-10-06)
+
+
+### Features
+
+* use super user instead of hasura admin role ([#812](https://github.com/SocialGouv/cdtn-admin/issues/812)) ([5c9ba5b](https://github.com/SocialGouv/cdtn-admin/commit/5c9ba5bbff245d832a6e3bffbd3afce6278d82d0))
+
+
+
+
+
 # [2.2.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.1.0...v2.2.0) (2022-09-05)
 
 

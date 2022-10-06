@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.2.0...v2.3.0) (2022-10-06)
+
+
+### Bug Fixes
+
+* **covisits:** update ES logs reading mechanism  ([#823](https://github.com/SocialGouv/cdtn-admin/issues/823)) ([ff9e50b](https://github.com/SocialGouv/cdtn-admin/commit/ff9e50b1687130fce0b65da4cc5e29d4899b51fb))
+* **ingester:** ajout de feature qui permet de désactiver certaines parties du processus d'export ([#824](https://github.com/SocialGouv/cdtn-admin/issues/824)) ([4e22dbd](https://github.com/SocialGouv/cdtn-admin/commit/4e22dbd6c4a7efc8bc96239bfa7a8d0deabcd982))
+
+
+
+
+
 # [2.2.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.1.0...v2.2.0) (2022-09-05)
 
 

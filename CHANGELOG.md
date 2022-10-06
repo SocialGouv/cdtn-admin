@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.2.0...v2.3.0) (2022-10-06)
+
+
+### Bug Fixes
+
+* contrib edition ([#816](https://github.com/SocialGouv/cdtn-admin/issues/816)) ([b4bb2b3](https://github.com/SocialGouv/cdtn-admin/commit/b4bb2b3025b94174b9e55a647137fea370d2a680))
+* **contrib:** bug sur l'ajout d'un commentaire et suppression d'une réf ([#818](https://github.com/SocialGouv/cdtn-admin/issues/818)) ([971cf8f](https://github.com/SocialGouv/cdtn-admin/commit/971cf8f9244f8d30977a2f49bf6e5c6847ad5332))
+* **covisits:** update ES logs reading mechanism  ([#823](https://github.com/SocialGouv/cdtn-admin/issues/823)) ([ff9e50b](https://github.com/SocialGouv/cdtn-admin/commit/ff9e50b1687130fce0b65da4cc5e29d4899b51fb))
+* **ingester:** ajout de feature qui permet de désactiver certaines parties du processus d'export ([#824](https://github.com/SocialGouv/cdtn-admin/issues/824)) ([4e22dbd](https://github.com/SocialGouv/cdtn-admin/commit/4e22dbd6c4a7efc8bc96239bfa7a8d0deabcd982))
+* **ingress:** add new VPN IPs ([#822](https://github.com/SocialGouv/cdtn-admin/issues/822)) ([619a5cd](https://github.com/SocialGouv/cdtn-admin/commit/619a5cd543c728408e104ba032410c6649cfb5b9))
+* remove powered by header ([#819](https://github.com/SocialGouv/cdtn-admin/issues/819)) ([fe57b40](https://github.com/SocialGouv/cdtn-admin/commit/fe57b40a2e826f0e9064677492394d3fdafa93ff))
+* **secu:** sanitize upload to avoid xss attack ([#813](https://github.com/SocialGouv/cdtn-admin/issues/813)) ([d571729](https://github.com/SocialGouv/cdtn-admin/commit/d571729b1199f2acf49dd7ba6eb0737c7fdafbf2))
+
+
+### Features
+
+* use super user instead of hasura admin role ([#812](https://github.com/SocialGouv/cdtn-admin/issues/812)) ([5c9ba5b](https://github.com/SocialGouv/cdtn-admin/commit/5c9ba5bbff245d832a6e3bffbd3afce6278d82d0))
+
+
+
+
+
 # [2.2.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.1.0...v2.2.0) (2022-09-05)
 
 
