@@ -17,7 +17,7 @@ export function name(className: string): ClassDecorator {
  * getName(type); // 'Customer'
  * @param type
  */
-export function getName<T>(type: T): string {
+export function getName<T extends object>(type: T): string {
   return Reflect.getMetadata(nameKey, type) as string;
 }
 
