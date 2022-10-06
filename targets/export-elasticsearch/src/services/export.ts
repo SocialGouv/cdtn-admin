@@ -33,7 +33,10 @@ export class ExportService {
     let isReadyToRun = false;
     const runningResult = await this.getRunningExport();
     if (runningResult.length > 0) {
-      isReadyToRun = await this.cleanPreviousExport(runningResult[0]); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
+      isReadyToRun = await this.cleanPreviousExport(
+        runningResult[0],
+        process.env.DISABLE_LIMIT_EXPORT ? 0 : 1
+      ); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
     }
     if (runningResult.length === 0 || isReadyToRun) {
       const id = randomUUID();
@@ -44,13 +47,19 @@ export class ExportService {
         Status.running
       );
       try {
-        if (environment === Environment.preproduction) {
-          await runWorkerIngesterPreproduction();
-        } else {
-          await runWorkerIngesterProduction();
+        if (!process.env.DISABLE_INGESTER) {
+          if (environment === Environment.preproduction) {
+            await runWorkerIngesterPreproduction();
+          } else {
+            await runWorkerIngesterProduction();
+          }
         }
-        await this.sitemapService.uploadSitemap();
-        await this.copyContainerService.runCopy();
+        if (!process.env.DISABLE_SITEMAP) {
+          await this.sitemapService.uploadSitemap();
+        }
+        if (!process.env.DISABLE_COPY) {
+          await this.copyContainerService.runCopy();
+        }
         return await this.exportRepository.updateOne(
           id,
           Status.completed,

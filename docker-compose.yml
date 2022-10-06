@@ -72,12 +72,21 @@ services:
 
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
-    hostname: azurite
-    command: "azurite"
     ports:
       - "10000:10000"
       - "10001:10001"
-      - "10002:10002"
 
+  elasticsearch:
+    build:
+      context: ./docker/elasticsearch
+    ports:
+      - 9200:9200
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.4.2
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
 volumes:
   db_data:
