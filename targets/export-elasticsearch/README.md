@@ -94,7 +94,7 @@ You can also use `environment variable` as `DISABLE_SITEMAP=true` to disable cop
 #### With cli
 
 ```sh
-yarn workspace export-elasticsearch run:ingester:preprod
+yarn workspace export-elasticsearch run:ingester
 ```
 
 #### With cURL
