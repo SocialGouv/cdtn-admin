@@ -8,6 +8,13 @@ const reportType = "covisit";
 
 const covisitsMap = new Map();
 
+/**
+ * Read covisits from Elastic logs reports and build
+ * a map in-memory in order to access them efficiently during ingestion
+ * @param esLogs
+ * @param esLogsToken
+ * @return {Promise<void>}
+ */
 export const buildCovisitMap = async (esLogs, esLogsToken) => {
   const esClientConfig = {
     auth: { apiKey: esLogsToken },
@@ -25,6 +32,7 @@ export const buildCovisitMap = async (esLogs, esLogsToken) => {
     })
   ).body.count;
 
+  // split calls into batches
   for (let b = 0; b <= Math.floor(count / COVISIT_BATCH_SIZE); b++) {
     const results = await client.search({
       body: { query },
@@ -41,6 +49,11 @@ export const buildCovisitMap = async (esLogs, esLogsToken) => {
   logger.info(`${covisitsMap.size} covisits found`);
 };
 
+/**
+ * Look for covisits for a given doc and add them
+ * if available
+ * @param doc
+ */
 export const addCovisits = (doc) => {
   let sourceRoute = getRouteBySource(doc.source);
 
