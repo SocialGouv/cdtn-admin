@@ -1,35 +1,47 @@
 import { Client } from "@elastic/elasticsearch";
 import { logger } from "@socialgouv/cdtn-logger";
-import { LogQueries } from "@socialgouv/cdtn-monolog";
 import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
 
-import { context } from "./context";
+const COVISIT_BATCH_SIZE = 500;
 
-export const fetchCovisits = async (doc) => {
-  const ES_LOGS = context.get("esLogs");
-  const ES_LOGS_TOKEN = context.get("esLogsToken");
+const reportType = "covisit";
 
-  if (!ES_LOGS || !ES_LOGS_TOKEN) {
-    if (process.env.NODE_ENV != "test") {
-      logger.warn(
-        `Missing env variable for accessing Monolog Elastic Search logs : ${
-          ES_LOGS ? "" : "ES_LOGS"
-        } ${
-          ES_LOGS_TOKEN ? "" : "ES_LOGS_TOKEN"
-        }, Covisites won't be available in related items.`
-      );
-    }
-  }
+const covisitsMap = new Map();
 
+export const buildCovisitMap = async (esLogs, esLogsToken) => {
   const esClientConfig = {
-    auth: { apiKey: ES_LOGS_TOKEN },
-    node: ES_LOGS,
+    auth: { apiKey: esLogsToken },
+    node: esLogs,
   };
 
-  const client =
-    ES_LOGS && ES_LOGS_TOKEN ? new Client(esClientConfig) : undefined;
+  const client = new Client(esClientConfig);
 
-  const queries = LogQueries(client, "log_reports");
+  const query = { term: { reportType } };
+
+  const count = (
+    await client.count({
+      body: { query },
+      index: "log_reports",
+    })
+  ).body.count;
+
+  for (let b = 0; b <= Math.floor(count / COVISIT_BATCH_SIZE); b++) {
+    const results = await client.search({
+      body: { query },
+      from: b * COVISIT_BATCH_SIZE,
+      index: "log_reports",
+      size: COVISIT_BATCH_SIZE,
+    });
+    const hits = results.body.hits?.hits;
+    hits.forEach(({ _source: { content, links } }) => {
+      covisitsMap.set(content, links);
+    });
+  }
+
+  logger.info(`${covisitsMap.size} covisits found`);
+};
+
+export const addCovisits = (doc) => {
   let sourceRoute = getRouteBySource(doc.source);
 
   // special case for fiches MT
@@ -38,19 +50,6 @@ export const fetchCovisits = async (doc) => {
   }
 
   const path = `${sourceRoute}/${doc.slug}`;
-  const links = await queries
-    .getCovisitLinks(path)
-    .then((covisits) => covisits.links)
-    .catch((err) => {
-      // handle Elasticloud error
-      if (err?.body?.status) {
-        throw err;
-      }
-      // TODO avoid silent and deal with failure properly
-      return undefined;
-    });
 
-  doc.covisits = links;
-
-  return doc;
+  doc.covisits = covisitsMap.get(path);
 };

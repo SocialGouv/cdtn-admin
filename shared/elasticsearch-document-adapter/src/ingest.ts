@@ -16,7 +16,7 @@ import pMap from "p-map";
 
 import { cdtnDocumentsGen } from "./cdtnDocuments";
 import { context } from "./context";
-import { fetchCovisits } from "./monolog";
+import { addCovisits, buildCovisitMap } from "./monolog";
 import { populateSuggestions } from "./suggestion";
 
 async function addVector(data: any) {
@@ -119,12 +119,17 @@ async function runIngester(
   context.set("disableGlossary", disableGlossary);
   context.set("nlpUrl", nlpUrl);
   const ts = Date.now();
-  logger.info(`using cdtn elasticsearch ${ELASTICSEARCH_URL}`);
+  logger.info(`Using cdtn elasticsearch ${ELASTICSEARCH_URL}`);
 
   if (nlpUrl) {
     logger.info(`Using NLP service to retrieve tf vectors on ${nlpUrl}`);
   } else {
     logger.info(`NLP_URL not defined, semantic search will be disabled.`);
+  }
+
+  if (esLogs && esLogsToken) {
+    logger.info(`Reading Covisits from Elastic ${esLogs}`);
+    await buildCovisitMap(esLogs, esLogsToken);
   }
 
   await version({ client });
@@ -140,19 +145,21 @@ async function runIngester(
   for await (const { source, documents } of cdtnDocumentsGen()) {
     logger.info(`› ${source}... ${documents.length} items`);
 
-    // add covisits using pQueue (there is a plan to change this : see #2915)
-    let covisitDocuments = await pMap(documents, fetchCovisits, {
-      concurrency: 20,
+    let docs = documents;
+
+    docs.forEach((doc: any) => {
+      addCovisits(doc);
     });
+
     // add NLP vectors
     if (!excludeSources.includes(source as unknown as any)) {
-      covisitDocuments = await pMap(covisitDocuments, addVector, {
+      docs = await pMap(documents, addVector, {
         concurrency: 5,
       });
     }
     await indexDocumentsBatched({
       client,
-      documents: covisitDocuments,
+      documents: docs,
       indexName: `${DOCUMENT_INDEX_NAME}-${ts}`,
       size: 1000,
     });

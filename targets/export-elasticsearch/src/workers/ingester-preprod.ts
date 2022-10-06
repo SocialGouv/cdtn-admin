@@ -1,15 +1,14 @@
-import { ingest } from "@shared/elasticsearch-document-adapter";
-import { parentPort } from "worker_threads";
+import {ingest} from "@shared/elasticsearch-document-adapter";
+import {parentPort} from "worker_threads";
 
 const ingester = async (): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     try {
+      console.log({"url": process.env.ES_LOGS_PREPROD, "token": process.env.ES_LOGS_TOKEN_PREPROD});
       await ingest(
         process.env.HASURA_GRAPHQL_ENDPOINT,
-        // process.env.ES_LOGS_PREPROD,
-        // process.env.ES_LOGS_TOKEN_PREPROD,
-        undefined,
-        undefined,
+        process.env.ES_LOGS_PREPROD,
+        process.env.ES_LOGS_TOKEN_PREPROD,
         process.env.ELASTICSEARCH_URL_PREPROD,
         process.env.ELASTICSEARCH_TOKEN_INGEST_PREPROD,
         process.env.ELASTICSEARCH_INDEX_PREPROD,
