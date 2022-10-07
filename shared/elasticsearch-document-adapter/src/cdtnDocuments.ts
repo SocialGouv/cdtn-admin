@@ -139,13 +139,6 @@ export async function* cdtnDocumentsGen() {
   );
 
   const ccnData = await getDocumentBySource(SOURCES.CCN);
-  console.log(ccnData[0]);
-  // set default effectif
-  ccnData.forEach((cc) => {
-    if (!cc.effectif) {
-      cc.effectif = 1;
-    }
-  });
 
   const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
     return ccn.highlight;
