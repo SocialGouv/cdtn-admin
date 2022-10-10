@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.0...v2.3.1) (2022-10-10)
+
+
+### Bug Fixes
+
+* add a new ip to whitelist ([#829](https://github.com/SocialGouv/cdtn-admin/issues/829)) ([f0eaf38](https://github.com/SocialGouv/cdtn-admin/commit/f0eaf38a312f9a0e2d5bcb2ec84a6444aa28991f))
+* **ccn:** add default effectif / update ccn stopword and synos ([#827](https://github.com/SocialGouv/cdtn-admin/issues/827)) ([352d66d](https://github.com/SocialGouv/cdtn-admin/commit/352d66d13deca01296b9d789ea2dcaf0eaed079e)), closes [#4440](https://github.com/SocialGouv/cdtn-admin/issues/4440)
+
+
+
+
+
 # [2.3.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.2.0...v2.3.0) (2022-10-06)
 
 
