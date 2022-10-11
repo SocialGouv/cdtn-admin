@@ -4,6 +4,7 @@ import { verify } from "jsonwebtoken";
 import { createErrorFor } from "src/lib/apiError";
 import { getContainerBlobs, uploadBlob } from "src/lib/azure";
 import { isUploadFileSafe } from "src/lib/secu";
+import * as stream from "stream";
 
 const container = process.env.STORAGE_CONTAINER;
 const jwtSecret = JSON.parse(process.env.HASURA_GRAPHQL_JWT_SECRET);
@@ -61,12 +62,17 @@ function uploadFiles(req, res) {
   form.onPart = async function (part) {
     try {
       uploadingFilesNumber++;
-      const isSafe = await isUploadFileSafe(part);
+      const streamCheckup = part.pipe(new stream.PassThrough());
+      const streamUpload = part.pipe(new stream.PassThrough());
+      streamUpload.name = part.name;
+      streamUpload.mimetype = part.mimetype;
+
+      const isSafe = await isUploadFileSafe(streamCheckup);
       if (!isSafe) {
         errored(res, "A malicious code was find in the upload");
       }
       if (isAllowedFile(part) && isSafe) {
-        await uploadBlob(container, part);
+        await uploadBlob(container, streamUpload);
       } else {
         console.error(
           "[storage]",
