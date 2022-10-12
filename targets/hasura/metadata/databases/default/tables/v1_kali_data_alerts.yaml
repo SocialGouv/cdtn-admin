@@ -1,3 +1,16 @@
 table:
   name: kali_data_alerts
   schema: v1
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - info
+        - ref
+        - repository
+        - status
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      allow_aggregations: true
