@@ -50,8 +50,8 @@ app-export:
       cpu: '2000m'
       memory: 2Gi
     requests:
-      cpu: '2000m'
-      memory: 1Gi
+      cpu: '5m'
+      memory: 128Mi
 
 hasura:
   imagePackage: cdtn-admin-hasura
