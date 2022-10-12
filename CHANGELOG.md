@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.1...v2.3.2) (2022-10-12)
+
+
+### Bug Fixes
+
+* **permissions:** ajout des permissions sur les tables dans le schéma v1 ([#830](https://github.com/SocialGouv/cdtn-admin/issues/830)) ([110f989](https://github.com/SocialGouv/cdtn-admin/commit/110f989095ffcc8f063794b27883e39cc37a3606))
+* update MCAS proxy adresses ([18aafca](https://github.com/SocialGouv/cdtn-admin/commit/18aafca34d21e3acd9ab286f9fc52ad48f49d286))
+
+
+
+
+
 ## [2.3.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.0...v2.3.1) (2022-10-10)
 
 
