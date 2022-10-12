@@ -1,3 +1,15 @@
 table:
   name: fiches_sp
   schema: v1
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - is_available
+        - is_published
+        - online_status
+        - cdtn_id
+        - id
+        - status
+      filter: {}
+      allow_aggregations: true
