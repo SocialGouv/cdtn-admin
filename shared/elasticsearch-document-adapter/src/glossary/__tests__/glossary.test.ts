@@ -24,6 +24,7 @@ describe("addGlossary", () => {
 </Tab>`
     );
   });
+
   test("should not replace html property for cc word", () => {
     const htmlContent =
       '<p class="un accord de branche ou pas">voici une convention collective et un web component mais aussi dispositions, ceci est un test</p>';
@@ -32,6 +33,18 @@ describe("addGlossary", () => {
     );
   });
 
+  test("should not replace html property for glossary word in markdown", () => {
+    const htmlContent = `<Tab title="test">test</Tab>
+<Tab title="Cas où le salarié ne perçoit pas l'indemnité">
+  L'indemnité de fin de contrat n'est pas due dans les cas suivants
+</Tab>`;
+    expect(addGlossary(htmlContent, true)).toEqual(
+      `<Tab title="test">test</Tab>
+<Tab title="Cas où le salarié ne perçoit pas l'indemnité">
+  L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants
+</Tab>`
+    );
+  });
   type InputTest = { markdownContent: string; result: string };
 
   test.each`
