@@ -14,7 +14,7 @@ app-www:
       cpu: "1000m"
       memory: "560Mi"
     requests:
-      cpu: "5m"
+      cpu: "500m"
       memory: "128Mi"
 
 app-contributions:
@@ -31,7 +31,7 @@ app-contributions:
       cpu: "1000m"
       memory: "560Mi"
     requests:
-      cpu: "5m"
+      cpu: "500m"
       memory: "128Mi"
 
 app-export:
@@ -50,8 +50,8 @@ app-export:
       cpu: '2000m'
       memory: 2Gi
     requests:
-      cpu: '2000m'
-      memory: 1Gi
+      cpu: '500m'
+      memory: 128Mi
 
 hasura:
   imagePackage: cdtn-admin-hasura
