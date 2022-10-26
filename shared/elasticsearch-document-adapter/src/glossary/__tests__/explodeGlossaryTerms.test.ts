@@ -11,10 +11,7 @@ const glossaryWithVariantsAndAbbreviations = [
 
 describe("Explode glossary terms", () => {
   describe("Explode glossary terms for HTML content with HTML pattern", () => {
-    const glossary = explodeGlossaryTerms(
-      glossaryWithVariantsAndAbbreviations,
-      false
-    );
+    const glossary = explodeGlossaryTerms(glossaryWithVariantsAndAbbreviations);
 
     it("should contains agreements first with HTML pattern", () => {
       expect(glossary[0]).toEqual({
@@ -65,10 +62,7 @@ describe("Explode glossary terms", () => {
   });
 
   describe("Explode glossary terms for Markdown content", () => {
-    const glossary = explodeGlossaryTerms(
-      glossaryWithVariantsAndAbbreviations,
-      true
-    );
+    const glossary = explodeGlossaryTerms(glossaryWithVariantsAndAbbreviations);
 
     it("should contains agreements first with markdown pattern", () => {
       expect(glossary[0]).toEqual({

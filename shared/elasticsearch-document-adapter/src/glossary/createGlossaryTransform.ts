@@ -12,13 +12,13 @@ type ReturnFn = (content: string, isMarkdown?: boolean) => string;
 export const createGlossaryTransform = (glossary: Glossary): ReturnFn => {
   const DISABLE_GLOSSARY = context.get("disableGlossary") ?? false;
 
-  function addGlossary(content: string, isMarkdown?: boolean): string {
+  function addGlossary(content: string): string {
     if (DISABLE_GLOSSARY) {
       return content;
     }
     if (!content) return "";
 
-    const glossaryTerms = explodeGlossaryTerms(glossary, isMarkdown ?? false);
+    const glossaryTerms = explodeGlossaryTerms(glossary);
     return insertWebComponentGlossary(content, glossaryTerms);
   }
 
