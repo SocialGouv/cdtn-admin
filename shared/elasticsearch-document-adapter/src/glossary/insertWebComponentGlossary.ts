@@ -1,3 +1,4 @@
+// import { cleanTagHtmlProperty } from "./tag";
 import type { GlossaryTerms } from "./types";
 
 export const insertWebComponentGlossary = (
@@ -20,6 +21,8 @@ export const insertWebComponentGlossary = (
   idToWebComponent.forEach((webComponent, id) => {
     // make sure we don't match larger numbers
     finalContent = finalContent.replace(new RegExp(id, "g"), `${webComponent}`);
+    // console.log(finalContent);
+    // finalContent = cleanTagHtmlProperty(finalContent);
   });
 
   return finalContent;
