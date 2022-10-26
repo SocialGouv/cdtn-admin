@@ -33,23 +33,12 @@ describe("addGlossary", () => {
     );
   });
 
-  test("should not replace html property for glossary word in markdown", () => {
-    const htmlContent = `<Tab title="test">test</Tab>
-<Tab title="Cas où le salarié ne perçoit pas l'indemnité">
-  L'indemnité de fin de contrat n'est pas due dans les cas suivants
-</Tab>`;
-    expect(addGlossary(htmlContent, true)).toEqual(
-      `<Tab title="test">test</Tab>
-<Tab title="Cas où le salarié ne perçoit pas l'indemnité">
-  L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants
-</Tab>`
-    );
-  });
   type InputTest = { markdownContent: string; result: string };
 
   test.each`
     markdownContent                                                                                                                                                                                                                                                                    | result
     ${`L'indemnité de fin de contrat n'est pas due dans les cas suivants`}                                                                                                                                                                                                             | ${`L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants`}
+    ${`<Tab title="test">test</Tab><Tab title="Cas où le salarié ne perçoit pas l'indemnité">\\nL'indemnité de fin de contrat n'est pas due dans les cas suivants\\n</Tab>`}                                                                                                           | ${`<Tab title="test">test</Tab><Tab title="Cas où le salarié ne perçoit pas l'indemnité">\\nL'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants\\n</Tab>`}
     ${`L'indemnité de fin de contrat n'est pas due dans les cas suivants. Avec une deuxième indemnité pour tester le replace all`}                                                                                                                                                     | ${`L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants. Avec une deuxième <webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> pour tester le replace all`}
     ${`<HDN>L'indemnité de fin de contrat n'est pas due dans les cas suivants</HDN>`}                                                                                                                                                                                                  | ${`<HDN>L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants</HDN>`}
     ${`voici une convention collective et un web component mais aussi dispositions, ceci est un test`}                                                                                                                                                                                 | ${`voici une <webcomponent-tooltip-cc>convention collective</webcomponent-tooltip-cc> et un web component mais aussi <webcomponent-tooltip content="Phrase%20ou%20ensemble%20de%20phrases%20d%E2%80%99un%20accord%2C%20d%E2%80%99une%20convention%20collective%2C%20d%E2%80%99une%20loi.">dispositions</webcomponent-tooltip>, ceci est un test`}

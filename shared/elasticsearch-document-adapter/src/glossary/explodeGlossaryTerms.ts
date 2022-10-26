@@ -59,7 +59,7 @@ const explodeVariants = (
 const variantPattern = (term: string, isMarkdown: boolean) =>
   new RegExp(
     isMarkdown
-      ? term
+      ? `(${term})` // wordBoundaryStart ?
       : `${startTag}${wordBoundaryStart}(${term})${wordBoundaryEnd}${endTag}`,
     "gi"
   );

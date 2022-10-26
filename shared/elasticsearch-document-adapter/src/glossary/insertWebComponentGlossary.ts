@@ -6,7 +6,7 @@ export const insertWebComponentGlossary = (
 ): string => {
   // Replace all matching terms with an id and store associated web component
   const idToWebComponent = new Map<string, string>();
-  const contentWithId = glossary.reduce((previous, current, index) => {
+  let finalContent = glossary.reduce((previous, current, index) => {
     const id = `__tt__${index}__`;
     const { content, hasMatched } = replaceById(previous, current, id);
     if (hasMatched) {
@@ -16,7 +16,6 @@ export const insertWebComponentGlossary = (
   }, initialContent);
 
   // In the end, we replace the id with its related component
-  let finalContent = contentWithId;
   idToWebComponent.forEach((webComponent, id) => {
     // make sure we don't match larger numbers
     finalContent = finalContent.replace(new RegExp(id, "g"), `${webComponent}`);
