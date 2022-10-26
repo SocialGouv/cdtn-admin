@@ -1,5 +1,7 @@
 import { toUrlEntries } from "../pages/api/sitemap";
 
+jest.mock("p-limit", () => () => ({}));
+
 describe("Sitemap", () => {
   const documents = [
     {
