@@ -73,19 +73,19 @@ describe("cleanTagHtmlProperty", () => {
     expect(tag).toEqual("<div>test</div>");
   });
 
-  // it("should return tag with clean property", () => {
-  //   const tag = cleanTagHtmlProperty(
-  //     "<div property='<div>yo</div>'>test</div>"
-  //   );
-  //   expect(tag).toEqual("<div property='yo'>test</div>");
-  // });
+  it("should return tag with clean property", () => {
+    const tag = cleanTagHtmlProperty(
+      "<div property='<div>yo</div>'>test</div>"
+    );
+    expect(tag).toEqual("<div property='yo'>test</div>");
+  });
 
-  // it("should return tag with clean property (more complexe example)", () => {
-  //   const tag = cleanTagHtmlProperty(
-  //     `<Tab title="test">test</Tab><Tab title="Cas où le salarié ne perçoit pas l'indemnité">\\nL'indemnité de fin de contrat n'est pas due dans les cas suivants\\n</Tab>`
-  //   );
-  //   expect(tag).toEqual(
-  //     `<Tab title="test">test</Tab><Tab title="Cas où le salarié ne perçoit pas l'indemnité">\\nL'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants\\n</Tab>`
-  //   );
-  // });
+  it("should return tag with clean property with content", () => {
+    const tag = cleanTagHtmlProperty(
+      '<Tab title="Cas où le salarié ne perçoit pas <webcomponent-tooltip>indemnité</webcomponent-tooltip>">Yo <webcomponent-tooltip>indemnité</webcomponent-tooltip>blabla</Tab>'
+    );
+    expect(tag).toEqual(
+      '<Tab title="Cas où le salarié ne perçoit pas indemnité">Yo <webcomponent-tooltip>indemnité</webcomponent-tooltip>blabla</Tab>'
+    );
+  });
 });

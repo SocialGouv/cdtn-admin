@@ -15,11 +15,11 @@ export const removeTags = (content: string): string => {
  */
 export const getAllTagsProperties = (tag: string): string[] => {
   if (!tag) return [];
-  const regex = /(\w+)=['"]([^'"]+)['"]/g;
+  const regex = /(\w+)=['"]([^'"]*)['"]/g;
   const properties = [];
   let match = null;
-  while ((match = regex.exec(tag))) {
-    properties.push(match[0].replace(/"/g, "'"));
+  while ((match = regex.exec(tag)) !== null) {
+    properties.push(match[0]);
   }
   return properties;
 };
@@ -58,17 +58,8 @@ export const cleanTagHtmlProperty = (tag: string): string => {
   for (const property of properties) {
     const key = getKeyFromProperty(property);
     const value = getValueFromProperty(property);
-    if (isHtml(value)) {
-      return cleanTagHtmlProperty(value);
-    }
-    console.log(value);
     const cleanValue = removeTags(value);
     tag = tag.replace(property, `${key}='${cleanValue}'`);
   }
   return tag;
-};
-
-const isHtml = (content: string): boolean => {
-  const regex = /<[^>]*>/g;
-  return regex.test(content);
 };
