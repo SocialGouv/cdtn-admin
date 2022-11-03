@@ -83,3 +83,22 @@ query getExportEsStatusByStatus($status: String!) {
     updated_at
   }
 }`;
+
+export const getDocumentsUpdatedGte = `
+query GetDocumentsUpdatedGte($date: timestamptz!) {
+  documents(where: {updated_at: {_gte: $date}}) {
+    title
+    updated_at
+    text
+    slug
+    source
+    cdtn_id
+    created_at
+    initial_id
+    is_available
+    is_searchable
+    meta_description
+    is_published
+  }
+}
+`;

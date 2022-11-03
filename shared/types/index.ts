@@ -497,3 +497,18 @@ export type State =
   | "VIGUEUR"
   | "VIGUEUR_ETEN"
   | "VIGUEUR_NON_ETEN";
+
+export interface Documents {
+  title: string;
+  updated_at: Date;
+  text: string;
+  slug: string;
+  source: DOCUMENT_SOURCE;
+  cdtn_id: string;
+  created_at: Date;
+  initial_id: string;
+  is_available: boolean;
+  is_searchable: boolean;
+  meta_description: string;
+  is_published: boolean;
+}

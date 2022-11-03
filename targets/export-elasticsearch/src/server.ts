@@ -11,10 +11,12 @@ import { ExportEsRunMiddleware } from "./controllers/middlewares";
 import {
   AzureParameters,
   AzureRepository,
+  DocumentsRepository,
   ExportRepository,
 } from "./repositories";
 import {
   CopyContainerService,
+  DocumentsService,
   ExportService,
   SitemapService,
 } from "./services";
@@ -54,6 +56,9 @@ rootContainer
 rootContainer
   .bind<ExportRepository>(getName(ExportRepository))
   .to(ExportRepository);
+rootContainer
+  .bind<DocumentsRepository>(getName(DocumentsRepository))
+  .to(DocumentsRepository);
 /* MIDDLEWARE */
 rootContainer
   .bind<ExportEsRunMiddleware>(getName(ExportEsRunMiddleware))
@@ -64,6 +69,9 @@ rootContainer.bind<SitemapService>(getName(SitemapService)).to(SitemapService);
 rootContainer
   .bind<CopyContainerService>(getName(CopyContainerService))
   .to(CopyContainerService);
+rootContainer
+  .bind<DocumentsService>(getName(DocumentsService))
+  .to(DocumentsService);
 
 // create server
 const server = new InversifyExpressServer(rootContainer);
