@@ -19,21 +19,21 @@ set document = document || '{"order":5}'::jsonb
 where source = 'outils' and slug = 'indemnite-precarite';
 
 update documents
-set document = document || '{"order":5}'::jsonb
+set document = document || '{"order":6}'::jsonb
 where source = 'outils' and slug = 'preavis-licenciement';
 
 update documents
-set document = document || '{"order":6}'::jsonb
+set document = document || '{"order":7}'::jsonb
 where source = 'outils' and slug = 'heures-recherche-emploi';
 
 update documents
-set document = document || '{"order":7, "icon":"SearchCC"}'::jsonb
+set document = document || '{"order":8, "icon":"SearchCC"}'::jsonb
 where source = 'outils' and slug = 'convention-collective';
 
 update documents
-set document = document || '{"order":8}'::jsonb
+set document = document || '{"order":9}'::jsonb
 where source = 'outils' and slug = 'preavis-retraite';
 
 update documents
-set document = document || '{"order":9}'::jsonb
+set document = document || '{"order":10}'::jsonb
 where source = 'outils' and slug = 'procedure-licenciement';
