@@ -85,8 +85,8 @@ query getExportEsStatusByStatus($status: String!) {
 }`;
 
 export const getDocumentsUpdatedGte = `
-query GetDocumentsUpdatedGte($date: timestamptz!) {
-  documents(where: {updated_at: {_gte: $date}}) {
+query GetDocumentsUpdatedGte($date: timestamptz!, $source: [String!]!) {
+  documents(where: {updated_at: {_gte: $date}, source: {_in: $source}}) {
     title
     updated_at
     text

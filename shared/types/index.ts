@@ -27,6 +27,7 @@ export enum DOCUMENT_SOURCE {
   modeles_de_courriers = "modeles_de_courriers",
   information = "information",
   highlights = "highlights",
+  dossiers = "dossiers"
 }
 
 export type FicheTravailEmploi = BaseHasuraDocument & {
