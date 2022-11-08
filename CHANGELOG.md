@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.4...v2.3.5) (2022-11-08)
+
+
+### Bug Fixes
+
+* **ci:** deprecated `set-output` fixed ([#834](https://github.com/SocialGouv/cdtn-admin/issues/834)) ([9786aa2](https://github.com/SocialGouv/cdtn-admin/commit/9786aa2cf19d73f4faaaf235e5fee9e2723262f8))
+
+
+### Features
+
+* ajout de la fonctionnalité d'ordonancement pour outils ([#843](https://github.com/SocialGouv/cdtn-admin/issues/843)) ([874243d](https://github.com/SocialGouv/cdtn-admin/commit/874243d511d14ab1cc078fe20c662fb6a48d9112))
+
+
+
+
+
 ## [2.3.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.3...v2.3.4) (2022-10-13)
 
 
