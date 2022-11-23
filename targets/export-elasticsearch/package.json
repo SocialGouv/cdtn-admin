@@ -19,7 +19,7 @@
     "build:watch": "tsc -w -p tsconfig.json",
     "build:swc": "swc ./src -d build",
     "build:swc:watch": "swc ./src -d build -w",
-    "run:ingester": "curl -X POST -H \"Content-Type: application/json\" -d '{\"environment\": \"preproduction\", \"userId\": \"d8b11bd2-dd16-4632-b5de-0e7021faadeb\"}' http://localhost:8787/export",
+    "run:ingester": "curl -X POST -H \"Content-Type: application/json\" -d '{\"environment\": \"preproduction\", \"userId\": \"3d6dddc4-e117-4772-9288-cd8a608693e4\"}' http://localhost:8787/export",
     "lint": "eslint ./src --ext .ts"
   },
   "dependencies": {

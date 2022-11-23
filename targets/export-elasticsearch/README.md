@@ -97,12 +97,6 @@ You can also use `environment variable` as `DISABLE_SITEMAP=true` to disable cop
 yarn workspace export-elasticsearch run:ingester
 ```
 
-#### With cURL
-
-```sh
-curl -X POST -H "Content-Type: application/json" -d '{"environment": "preproduction", "userId": "d8b11bd2-dd16-4632-b5de-0e7021faadeb"}' http://localhost:8787/export # thanks to id of the user found
-```
-
 #### With frontend ui
 
 ```sh
