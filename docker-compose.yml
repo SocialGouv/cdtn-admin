@@ -75,6 +75,8 @@ services:
     ports:
       - "10000:10000"
       - "10001:10001"
+    volumes:
+      - azurite_data:/data
 
   elasticsearch:
     build:
@@ -90,3 +92,4 @@ services:
       - elasticsearch
 volumes:
   db_data:
+  azurite_data:
