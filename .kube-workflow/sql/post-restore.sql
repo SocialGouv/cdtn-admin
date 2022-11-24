@@ -8,6 +8,18 @@ ALTER TABLE auth.users DISABLE TRIGGER USER;
 
 WITH admin_row AS (
 INSERT INTO auth.users (email, PASSWORD, name, default_role, active, id)
+    VALUES ('codedutravailnumerique@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8', 'Administrateur', 'super', TRUE, 'd8b11bd2-dd16-4632-b5de-0e7021faadeb')
+  RETURNING
+    id, default_role)
+  INSERT INTO auth.user_roles (ROLE, user_id)
+  SELECT
+    default_role,
+    id
+  FROM
+    admin_row;
+
+WITH admin_row AS (
+INSERT INTO auth.users (email, PASSWORD, name, default_role, active, id)
     VALUES ('utilisateur@travail.gouv.fr', '$argon2i$v=19$m=4096,t=3,p=1$PqKPf9cxunVLLtEcINHhWQ$CwHKhk71fc8LGp6BWbcFPzQ2ftOiHa7vUkp1eAqVHSM', 'Utilisateur', 'user', TRUE, '3d6dddc4-e117-4772-9288-cd8a608693e4')
   RETURNING
     id, default_role)
