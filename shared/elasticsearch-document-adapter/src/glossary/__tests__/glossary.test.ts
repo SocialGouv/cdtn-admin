@@ -35,16 +35,257 @@ describe("addGlossary", () => {
   type InputTest = { markdownContent: string; result: string };
 
   test.each`
-    markdownContent                                                                                                                                                                                                                                                                    | result
-    ${`L'indemnité de fin de contrat n'est pas due dans les cas suivants`}                                                                                                                                                                                                             | ${`L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants`}
-    ${`L'indemnité de fin de contrat n'est pas due dans les cas suivants. Avec une deuxième indemnité pour tester le replace all`}                                                                                                                                                     | ${`L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants. Avec une deuxième <webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> pour tester le replace all`}
-    ${`<HDN>L'indemnité de fin de contrat n'est pas due dans les cas suivants</HDN>`}                                                                                                                                                                                                  | ${`<HDN>L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants</HDN>`}
-    ${`voici une convention collective et un web component mais aussi dispositions, ceci est un test`}                                                                                                                                                                                 | ${`voici une <webcomponent-tooltip-cc>convention collective</webcomponent-tooltip-cc> et un web component mais aussi <webcomponent-tooltip content="Phrase%20ou%20ensemble%20de%20phrases%20d%E2%80%99un%20accord%2C%20d%E2%80%99une%20convention%20collective%2C%20d%E2%80%99une%20loi.">dispositions</webcomponent-tooltip>, ceci est un test`}
-    ${`En cas de démission, la durée du préavis est égale à :\\n\\n- Pour les salariés non logés : \\n  - Coefficient hiérarchique inférieur ou égal à 602 : 8 jours ;\\n  - Coefficient hiérarchique supérieur à 602 :  1 mois ;\\n\\n- Pour les salariés logés : 1 mois.\\n\\n<br>`} | ${`En cas de démission, la durée du préavis est égale à :\\n\\n- Pour les salariés non logés : \\n  - <webcomponent-tooltip content="Souvent%20pr%C3%A9sent%20sur%20le%20bulletin%20de%20paie%20du%20salari%C3%A9%2C%20le%20coefficient%20repr%C3%A9sente%20la%20position%20du%20salari%C3%A9%20dans%20la%20classification%20hi%C3%A9rarchique%20%C3%A9tablie%20par%20la%20convention%20collective%20applicable%20au%20salari%C3%A9.%20Il%20est%20d%C3%A9termin%C3%A9%20en%20fonction%20de%20divers%20crit%C3%A8res%20comme%20l%E2%80%99emploi%2C%20les%20t%C3%A2ches%20exerc%C3%A9es%2C%20l%E2%80%99autonomie%20du%20salari%C3%A9%2C%20etc...%20Il%20permet%20notamment%20de%20calculer%20le%20salaire%20minimum%20que%20le%20salari%C3%A9%20%C3%A0%20un%20tel%20coefficient%20doit%20percevoir.">Coefficient hiérarchique</webcomponent-tooltip> inférieur ou égal à 602 : 8 jours ;\\n  - <webcomponent-tooltip content="Souvent%20pr%C3%A9sent%20sur%20le%20bulletin%20de%20paie%20du%20salari%C3%A9%2C%20le%20coefficient%20repr%C3%A9sente%20la%20position%20du%20salari%C3%A9%20dans%20la%20classification%20hi%C3%A9rarchique%20%C3%A9tablie%20par%20la%20convention%20collective%20applicable%20au%20salari%C3%A9.%20Il%20est%20d%C3%A9termin%C3%A9%20en%20fonction%20de%20divers%20crit%C3%A8res%20comme%20l%E2%80%99emploi%2C%20les%20t%C3%A2ches%20exerc%C3%A9es%2C%20l%E2%80%99autonomie%20du%20salari%C3%A9%2C%20etc...%20Il%20permet%20notamment%20de%20calculer%20le%20salaire%20minimum%20que%20le%20salari%C3%A9%20%C3%A0%20un%20tel%20coefficient%20doit%20percevoir.">Coefficient hiérarchique</webcomponent-tooltip> supérieur à 602 :  1 mois ;\\n\\n- Pour les salariés logés : 1 mois.\\n\\n<br>`}
+    markdownContent                                                                                                                | result
+    ${`L'indemnité de fin de contrat n'est pas due dans les cas suivants`}                                                         | ${`L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants`}
+    ${`L'indemnité de fin de contrat n'est pas due dans les cas suivants. Avec une deuxième indemnité pour tester le replace all`} | ${`L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants. Avec une deuxième <webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> pour tester le replace all`}
+    ${`<HDN>L'indemnité de fin de contrat n'est pas due dans les cas suivants</HDN>`}                                              | ${`<HDN>L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> de fin de contrat n'est pas due dans les cas suivants</HDN>`}
+    ${`voici une convention collective et un web component mais aussi dispositions, ceci est un test`}                             | ${`voici une <webcomponent-tooltip-cc>convention collective</webcomponent-tooltip-cc> et un web component mais aussi <webcomponent-tooltip content="Phrase%20ou%20ensemble%20de%20phrases%20d%E2%80%99un%20accord%2C%20d%E2%80%99une%20convention%20collective%2C%20d%E2%80%99une%20loi.">dispositions</webcomponent-tooltip>, ceci est un test`}
   `(
     "should replace the string by adding webcomponent-tooltip in $markdownContent",
     ({ markdownContent, result }: InputTest) => {
-      expect(addGlossary(markdownContent, true)).toEqual(result);
+      expect(addGlossary(markdownContent)).toEqual(result);
     }
   );
+});
+
+describe("test glossary replacements", () => {
+  describe("test replace terms", () => {
+    test("should work on text without tags", () => {
+      const htmlContent = `word1`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word1",
+            term: "word1",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<webcomponent-tooltip content="word1">word1</webcomponent-tooltip>`
+      );
+    });
+    test("should work on text before tags", () => {
+      const htmlContent = `word1<Tag></Tags>`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word1",
+            term: "word1",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<webcomponent-tooltip content="word1">word1</webcomponent-tooltip><Tag></Tags>`
+      );
+    });
+
+    test("should work on text after tags", () => {
+      const htmlContent = `<Tags></Tags>word1`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word1",
+            term: "word1",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<Tags></Tags><webcomponent-tooltip content="word1">word1</webcomponent-tooltip>`
+      );
+    });
+
+    test("should work between tags", () => {
+      const htmlContent = `<Tags>word1</Tags>`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word1",
+            term: "word1",
+            variants: [],
+          },
+          {
+            abbreviations: [],
+            definition: "word3",
+            term: "word3",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<Tags><webcomponent-tooltip content="word1">word1</webcomponent-tooltip></Tags>`
+      );
+    });
+
+    test("should work between multiple tags", () => {
+      const htmlContent = `<Tags><Tags2>word1</Tags2></Tags>`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word1",
+            term: "word1",
+            variants: [],
+          },
+          {
+            abbreviations: [],
+            definition: "word3",
+            term: "word3",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<Tags><Tags2><webcomponent-tooltip content="word1">word1</webcomponent-tooltip></Tags2></Tags>`
+      );
+    });
+
+    test("should not work in tag's parameter", () => {
+      const htmlContent = `<Tags content="word1"></Tags>`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word1",
+            term: "word1",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(`<Tags content="word1"></Tags>`);
+    });
+
+    test("should not work inside another webcomponent", () => {
+      const htmlContent = `<Tags>word1</Tags>`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word1",
+            term: "word1",
+            variants: [],
+          },
+          {
+            abbreviations: [],
+            definition: "word",
+            term: "word",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<Tags><webcomponent-tooltip content="word1">word1</webcomponent-tooltip></Tags>`
+      );
+    });
+
+    test("should work on plural", () => {
+      const htmlContent = `<Tags>words</Tags>`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word",
+            term: "word",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<Tags><webcomponent-tooltip content="word">words</webcomponent-tooltip></Tags>`
+      );
+    });
+
+    test("should work on mulitple plurals", () => {
+      const htmlContent = `<Tags>words wards</Tags>`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word",
+            term: "word wards",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<Tags><webcomponent-tooltip content="word">words wards</webcomponent-tooltip></Tags>`
+      );
+    });
+
+    test("should not work on words containing piece of the term", () => {
+      const htmlContent = `wordpress`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word",
+            term: "word",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(`wordpress`);
+    });
+  });
+
+  describe("test replace abbreviations", () => {
+    test("should match uppercase with abbreviations", () => {
+      const htmlContent = `<Tags>WW</Tags>`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: ["WW"],
+            definition: "word",
+            term: "word",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<Tags><webcomponent-tooltip content="word">WW</webcomponent-tooltip></Tags>`
+      );
+    });
+
+    test("should not match lowercase with abbreviations", () => {
+      const htmlContent = `<Tags>ww</Tags>`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: ["WW"],
+            definition: "word",
+            term: "word",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(`<Tags>ww</Tags>`);
+    });
+  });
+
+  describe("test replace variants", () => {
+    test("should match a variant", () => {
+      const htmlContent = `ward`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word",
+            term: "word",
+            variants: ["ward"],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<webcomponent-tooltip content="word">ward</webcomponent-tooltip>`
+      );
+    });
+    test("should match a variant with plural", () => {
+      const htmlContent = `wards`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word",
+            term: "word",
+            variants: ["ward"],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<webcomponent-tooltip content="word">wards</webcomponent-tooltip>`
+      );
+    });
+  });
 });

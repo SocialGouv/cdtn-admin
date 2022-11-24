@@ -91,7 +91,7 @@ export async function* cdtnDocumentsGen() {
   const addGlossary = createGlossaryTransform(glossaryTerms);
   const addGlossaryToAllMarkdownField = (obj: Record<string, any>) => {
     return keyFunctionParser("markdown", obj, (content) =>
-      addGlossary(content, true)
+      addGlossary(content)
     );
   };
 

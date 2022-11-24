@@ -7,19 +7,21 @@ import { insertWebComponentGlossary } from "./insertWebComponentGlossary";
  * addGlossary is a heavy operation that is only neede while dumping for ES
  */
 
-type ReturnFn = (content: string, isMarkdown?: boolean) => string;
+type ReturnFn = (content: string) => string;
 
 export const createGlossaryTransform = (glossary: Glossary): ReturnFn => {
   const DISABLE_GLOSSARY = context.get("disableGlossary") ?? false;
 
-  function addGlossary(content: string, isMarkdown?: boolean): string {
+  function addGlossary(content: string): string {
     if (DISABLE_GLOSSARY) {
       return content;
     }
     if (!content) return "";
 
-    const glossaryTerms = explodeGlossaryTerms(glossary, isMarkdown ?? false);
-    return insertWebComponentGlossary(content, glossaryTerms);
+    const glossaryTerms = explodeGlossaryTerms(glossary);
+    const result = insertWebComponentGlossary(content, glossaryTerms);
+
+    return result;
   }
 
   return addGlossary;
