@@ -161,7 +161,7 @@ describe("test glossary replacements", () => {
         createGlossaryTransform([
           {
             abbreviations: [],
-            definition: "word1",
+            definition: "word",
             term: "word1",
             variants: [],
           },
@@ -173,7 +173,7 @@ describe("test glossary replacements", () => {
           },
         ])(htmlContent)
       ).toEqual(
-        `<Tags><webcomponent-tooltip content="word1">word1</webcomponent-tooltip></Tags>`
+        `<Tags><webcomponent-tooltip content="word">word1</webcomponent-tooltip></Tags>`
       );
     });
 
@@ -221,6 +221,46 @@ describe("test glossary replacements", () => {
           },
         ])(htmlContent)
       ).toEqual(`wordpress`);
+    });
+    test("should work on accentuated words", () => {
+      const htmlContent = `wörd`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word",
+            term: "wörd",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<webcomponent-tooltip content="word">wörd</webcomponent-tooltip>`
+      );
+    });
+
+    test("should keep initial term", () => {
+      const htmlContent = `WoRd`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word",
+            term: "word",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<webcomponent-tooltip content="word">WoRd</webcomponent-tooltip>`
+      );
+    });
+  });
+
+  describe("test on agreements", () => {
+    test("should work as tooltip-cc with specific agreement terms", () => {
+      const htmlContent = `Convention collective`;
+      expect(createGlossaryTransform([])(htmlContent)).toEqual(
+        `<webcomponent-tooltip-cc>Convention collective</webcomponent-tooltip-cc>`
+      );
     });
   });
 

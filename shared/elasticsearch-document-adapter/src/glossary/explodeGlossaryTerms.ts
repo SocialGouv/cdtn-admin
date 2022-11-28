@@ -10,18 +10,15 @@ const conventionMatchers = [
   "dispositions conventionnelles",
 ];
 
-// we cannot use \b word boundary since \w does not match diacritics
-// So we do a kind of \b equivalent.
-// the main différence is that matched pattern can include a whitespace as first char
 const startWordBreaks = `(?<=^| |\\.|,|'|>)`;
 const endWordBreaks = `(?= |\\.|,|'|$|<)`;
 
 const startWebComponentOmit = `(?<!<webcomponent-tooltip(-cc)?>)`;
 const endWebComponentOmit = `(?![^<]*</webcomponent-tooltip(-cc)?>)`;
 
-const tagParameterOmit = `(?<=(^|>)[^><]*)`;
+const tagAttributeOmit = `(?<=(^|>)[^><]*)`;
 
-const startTag = `${startWebComponentOmit}${tagParameterOmit}${startWordBreaks}`;
+const startTag = `${startWebComponentOmit}${tagAttributeOmit}${startWordBreaks}`;
 const endTag = `${endWordBreaks}${endWebComponentOmit}`;
 
 export const explodeGlossaryTerms = (glossary: Glossary): GlossaryTerms[] => {
@@ -81,8 +78,5 @@ const explodeAgreements = (): GlossaryTerms[] =>
   }));
 
 const agreementPattern = (matcher: string) => {
-  return new RegExp(
-    `${startTag}(${matcher.split(" ").join("s? ")}s?)${endTag}`,
-    "gi"
-  );
+  return new RegExp(`${startTag}(${matcher})${endTag}`, "gi");
 };
