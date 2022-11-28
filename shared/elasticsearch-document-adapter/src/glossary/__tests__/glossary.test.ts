@@ -156,24 +156,24 @@ describe("test glossary replacements", () => {
     });
 
     test("should not work inside another webcomponent", () => {
-      const htmlContent = `<Tags>word1</Tags>`;
+      const htmlContent = `<Tags>word1 word2</Tags>`;
       expect(
         createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word",
+            term: "word1 word2",
+            variants: [],
+          },
           {
             abbreviations: [],
             definition: "word",
             term: "word1",
             variants: [],
           },
-          {
-            abbreviations: [],
-            definition: "word",
-            term: "word",
-            variants: [],
-          },
         ])(htmlContent)
       ).toEqual(
-        `<Tags><webcomponent-tooltip content="word">word1</webcomponent-tooltip></Tags>`
+        `<Tags><webcomponent-tooltip content="word">word1 word2</webcomponent-tooltip></Tags>`
       );
     });
 
