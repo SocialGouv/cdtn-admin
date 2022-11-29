@@ -171,24 +171,19 @@ async function getLastIngestedVersion(pkgName: string) {
 async function insertDocuments(docs: ingester.CdtnDocument[]) {
   const result = await client
     .mutation<InsertdocumentResult>(insertDocumentsMutation, {
-      documents: docs.flatMap(
-        ({ id, text, title, slug, is_searchable, source, ...document }) =>
-          text.trim()
-            ? [
-                {
-                  cdtn_id: generateCdtnId(`${source}${id}`),
-                  document,
-                  initial_id: id,
-                  is_available: true,
-                  is_searchable,
-                  meta_description: document.description || "",
-                  slug,
-                  source,
-                  text,
-                  title,
-                },
-              ]
-            : []
+      documents: docs.map(
+        ({ id, text, title, slug, is_searchable, source, ...document }) => ({
+          cdtn_id: generateCdtnId(`${source}${id}`),
+          document,
+          initial_id: id,
+          is_available: true,
+          is_searchable,
+          meta_description: document.description || "",
+          slug,
+          source,
+          text,
+          title,
+        })
       ),
     })
     .toPromise();
