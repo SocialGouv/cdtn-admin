@@ -253,19 +253,46 @@ describe("test glossary replacements", () => {
         `<webcomponent-tooltip content="word">WoRd</webcomponent-tooltip>`
       );
     });
+    test("should not replace agreement if it is in definition", () => {
+      const htmlContent = `word`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "convention collective",
+            term: "word",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<webcomponent-tooltip content="convention%20collective">word</webcomponent-tooltip>`
+      );
+    });
   });
 
   describe("test on agreements", () => {
     test("should work as tooltip-cc with specific agreement terms", () => {
-      const htmlContent = `Convention collective`;
+      const htmlContent = `convention collective`;
       expect(createGlossaryTransform([])(htmlContent)).toEqual(
-        `<webcomponent-tooltip-cc>Convention collective</webcomponent-tooltip-cc>`
+        `<webcomponent-tooltip-cc>convention collective</webcomponent-tooltip-cc>`
       );
     });
     test("should work as tooltip-cc with specific agreement terms in plurial", () => {
-      const htmlContent = `Conventions collectives`;
+      const htmlContent = `conventions collectives`;
       expect(createGlossaryTransform([])(htmlContent)).toEqual(
         `<webcomponent-tooltip-cc>Conventions collectives</webcomponent-tooltip-cc>`
+      );
+    });
+    test("should work as tooltip-cc with uppercase agreement terms", () => {
+      const htmlContent = `Convention collective`;
+      expect(createGlossaryTransform([])(htmlContent)).toEqual(
+        `<webcomponent-tooltip-cc>Conventions collectives</webcomponent-tooltip-cc>`
+      );
+    });
+    test("should match multiple terms as tooltip-cc", () => {
+      const htmlContent = `Conventions collectives blabla accord de branche`;
+      expect(createGlossaryTransform([])(htmlContent)).toEqual(
+        `<webcomponent-tooltip-cc>Conventions collectives</webcomponent-tooltip-cc> blabla <webcomponent-tooltip-cc>accord de branche</webcomponent-tooltip-cc>`
       );
     });
   });

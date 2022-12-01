@@ -1,14 +1,8 @@
 import type { Glossary, Term } from "../types";
 import type { GlossaryTerms } from "./types";
 
-const conventionMatchers = [
-  "convention collective",
-  "conventions collectives",
-  "accords de branches",
-  "accord de branche",
-  "disposition conventionnelle",
-  "dispositions conventionnelles",
-];
+const conventionMatchers =
+  "[C|c]onventions? [C|c]ollectives?|[A|a]ccords? de [B|b]ranches?|[D|d]ispositions? [C|c]onventionnelles?";
 
 const startWordBreaks = `(?<=^| |\\.|,|'|>)`;
 const endWordBreaks = `(?= |\\.|,|'|$|<)`;
@@ -22,17 +16,15 @@ const startTag = `${startWebComponentOmit}${tagAttributeOmit}${startWordBreaks}`
 const endTag = `${endWordBreaks}${endWebComponentOmit}`;
 
 export const explodeGlossaryTerms = (glossary: Glossary): GlossaryTerms[] => {
-  const glossaryTerms = glossary.flatMap((term) => explodeTerm(term));
-
   // we make sure that bigger terms are replaced first
-  glossaryTerms.sort((previous, next) => {
+  glossary.sort((previous, next) => {
     return next.term.length - previous.term.length;
   });
 
+  const glossaryTerms = glossary.flatMap((term) => explodeTerm(term));
+
   // we also sure that cc matchers are replaced first
-  explodeAgreements().forEach((item) => {
-    glossaryTerms.unshift(item);
-  });
+  glossaryTerms.unshift(explodeAgreements());
 
   return glossaryTerms;
 };
@@ -50,7 +42,6 @@ const explodeVariants = ({
   [term, ...variants].map((termToReplace) => ({
     definition,
     pattern: variantPattern(termToReplace),
-    term: termToReplace,
   }));
 
 const variantPattern = (term: string) =>
@@ -63,19 +54,14 @@ const explodeAbbreviations = ({
   abbreviations.map((abbreviation: string) => ({
     definition,
     pattern: abbreviationPattern(abbreviation),
-    term: abbreviation,
   }));
 
 const abbreviationPattern = (abbreviation: string) =>
   new RegExp(`${startTag}\\b(${abbreviation})\\b${endTag}`, "g");
 
-const explodeAgreements = (): GlossaryTerms[] =>
-  conventionMatchers.map((matcher) => ({
+const explodeAgreements = (): GlossaryTerms => {
+  return {
     definition: null,
-    pattern: agreementPattern(matcher),
-    term: matcher,
-  }));
-
-const agreementPattern = (matcher: string) => {
-  return new RegExp(`${startTag}(${matcher})${endTag}`, "gi");
+    pattern: new RegExp(`${startTag}(${conventionMatchers})${endTag}`, "g"),
+  };
 };

@@ -6,7 +6,7 @@ export const insertWebComponentGlossary = (
 ): string => {
   const result = glossary.reduce((previous, current) => {
     const replacedContent = previous.replace(current.pattern, (term) => {
-      return createWebComponent({ ...current, term });
+      return createWebComponent(current.definition, term);
     });
     return replacedContent;
   }, initialContent);
@@ -14,7 +14,7 @@ export const insertWebComponentGlossary = (
   return result;
 };
 
-const createWebComponent = ({ definition, term }: GlossaryTerms) => {
+const createWebComponent = (definition: string | null, term: string) => {
   return definition
     ? `<webcomponent-tooltip content="${encodeURIComponent(
         definition.replace(/'/g, "’").replace("<p>", "").replace("</p>", "")
