@@ -327,6 +327,22 @@ describe("test glossary replacements", () => {
         ])(htmlContent)
       ).toEqual(`<Tags>ww</Tags>`);
     });
+
+    test("should match abbreviations between parenthesis", () => {
+      const htmlContent = `<Tags>World web (WW) world</Tags>`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: ["WW"],
+            definition: "word",
+            term: "word",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<Tags>World web <webcomponent-tooltip content="word">(WW)</webcomponent-tooltip> world</Tags>`
+      );
+    });
   });
 
   describe("test replace variants", () => {
@@ -358,6 +374,38 @@ describe("test glossary replacements", () => {
         ])(htmlContent)
       ).toEqual(
         `<webcomponent-tooltip content="word">wards</webcomponent-tooltip>`
+      );
+    });
+
+    test("should match with a special character", () => {
+      const htmlContent = `entreprise lock-out suite à dépôt de bilan`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "Fermeture",
+            term: "Lock-out",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `entreprise <webcomponent-tooltip content="Fermeture">lock-out</webcomponent-tooltip> suite à dépôt de bilan`
+      );
+    });
+
+    test("should match a term with an abbreviation in the same sentence", () => {
+      const htmlContent = `si le protocole d’accord préélectoral (PAP) en stipule autrement.`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: ["PAP"],
+            definition: "protocole",
+            term: "Protocole d’accord préélectoral (PAP)",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `si le <webcomponent-tooltip content="protocole">protocole d’accord préélectoral (PAP)</webcomponent-tooltip> en stipule autrement.`
       );
     });
   });
