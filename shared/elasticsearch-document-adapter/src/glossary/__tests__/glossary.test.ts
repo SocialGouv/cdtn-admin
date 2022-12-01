@@ -239,7 +239,7 @@ describe("test glossary replacements", () => {
     });
 
     test("should keep initial term", () => {
-      const htmlContent = `WoRd`;
+      const htmlContent = `Word`;
       expect(
         createGlossaryTransform([
           {
@@ -250,7 +250,7 @@ describe("test glossary replacements", () => {
           },
         ])(htmlContent)
       ).toEqual(
-        `<webcomponent-tooltip content="word">WoRd</webcomponent-tooltip>`
+        `<webcomponent-tooltip content="word">Word</webcomponent-tooltip>`
       );
     });
     test("should not replace agreement if it is in definition", () => {
@@ -280,13 +280,13 @@ describe("test glossary replacements", () => {
     test("should work as tooltip-cc with specific agreement terms in plurial", () => {
       const htmlContent = `conventions collectives`;
       expect(createGlossaryTransform([])(htmlContent)).toEqual(
-        `<webcomponent-tooltip-cc>Conventions collectives</webcomponent-tooltip-cc>`
+        `<webcomponent-tooltip-cc>conventions collectives</webcomponent-tooltip-cc>`
       );
     });
     test("should work as tooltip-cc with uppercase agreement terms", () => {
       const htmlContent = `Convention collective`;
       expect(createGlossaryTransform([])(htmlContent)).toEqual(
-        `<webcomponent-tooltip-cc>Conventions collectives</webcomponent-tooltip-cc>`
+        `<webcomponent-tooltip-cc>Convention collective</webcomponent-tooltip-cc>`
       );
     });
     test("should match multiple terms as tooltip-cc", () => {

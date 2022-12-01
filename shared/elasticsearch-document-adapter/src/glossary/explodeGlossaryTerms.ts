@@ -69,8 +69,18 @@ const explodeVariants = ({
     pattern: variantPattern(termToReplace),
   }));
 
-const variantPattern = (term: string) =>
-  new RegExp(`${startTag}(${term.split(" ").join("s? ")}s?)${endTag}`, "gi");
+const regexPlural = (term: string) => `${term.split(" ").join("s? ")}s?`;
+const regexCapital = (term: string) => {
+  const firstChar = term.slice(0, 1);
+  const firstCharRegex = `[${firstChar.toLowerCase()}|${firstChar.toUpperCase()}]`;
+  return `${firstCharRegex}${term.slice(1)}`;
+};
+
+const variantPattern = (term: string) => {
+  term = regexPlural(term);
+  term = regexCapital(term);
+  return new RegExp(`${startTag}(${term})${endTag}`, "g");
+};
 
 const explodeAbbreviations = ({
   abbreviations,
