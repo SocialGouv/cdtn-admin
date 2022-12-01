@@ -340,7 +340,7 @@ describe("test glossary replacements", () => {
           },
         ])(htmlContent)
       ).toEqual(
-        `<Tags>World web <webcomponent-tooltip content="word">(WW)</webcomponent-tooltip> world</Tags>`
+        `<Tags>World web (<webcomponent-tooltip content="word">WW</webcomponent-tooltip>) world</Tags>`
       );
     });
   });

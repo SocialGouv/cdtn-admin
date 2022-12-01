@@ -4,11 +4,11 @@ import type { GlossaryTerms } from "./types";
 const conventionMatchers =
   "[C|c]onventions? [C|c]ollectives?|[A|a]ccords? de [B|b]ranches?|[D|d]ispositions? [C|c]onventionnelles?";
 
-const startWordBreaks = `(?<=^| |\\.|,|'|>)`;
-const endWordBreaks = `(?= |\\.|,|'|$|<)`;
+const startWordBreaks = `(?<=^| |\\.|,|'|>|\\()`;
+const endWordBreaks = `(?= |\\.|,|'|$|<|\\))`;
 
-const startWebComponentOmit = `(?<!<webcomponent-tooltip(-cc)?>)`;
-const endWebComponentOmit = `(?![^<]*</webcomponent-tooltip(-cc)?>)`;
+const startWebComponentOmit = `(?<!<(webcomponent-tooltip(-cc)?|a)>)`;
+const endWebComponentOmit = `(?![^<]*</(webcomponent-tooltip(-cc)?|a)>)`;
 
 const tagAttributeOmit = `(?<=(^|>)[^><]*)`;
 
@@ -29,7 +29,32 @@ export const explodeGlossaryTerms = (glossary: Glossary): GlossaryTerms[] => {
   return glossaryTerms;
 };
 
+const escapeRegexSpecialChars = (term: string) => {
+  const regexSpecialChars = [
+    ".",
+    "+",
+    "*",
+    "?",
+    "^",
+    "$",
+    "(",
+    ")",
+    "[",
+    "]",
+    "{",
+    "}",
+    "|",
+  ];
+  return regexSpecialChars.reduce((term: string, specialChar: string) => {
+    return term.replace(new RegExp(`\\${specialChar}`), `\\${specialChar}`);
+  }, term);
+};
+
 const explodeTerm = (term: Term): GlossaryTerms[] => {
+  term = {
+    ...term,
+    term: escapeRegexSpecialChars(term.term),
+  };
   const variants = explodeVariants(term);
   return variants.concat(explodeAbbreviations(term));
 };
