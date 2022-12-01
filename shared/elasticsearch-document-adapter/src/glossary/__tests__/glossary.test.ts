@@ -408,5 +408,21 @@ describe("test glossary replacements", () => {
         `si le <webcomponent-tooltip content="protocole">protocole d’accord préélectoral (PAP)</webcomponent-tooltip> en stipule autrement.`
       );
     });
+
+    test("should not match a term from a link", () => {
+      const htmlContent = `Une <a href="https://link" class="spip_out" rel="external">notice explicative</a> précise les modalités de remplissage des procès-verbaux.`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "notice",
+            term: "Notice",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `Une <a href="https://link" class="spip_out" rel="external">notice explicative</a> précise les modalités de remplissage des procès-verbaux.`
+      );
+    });
   });
 });
