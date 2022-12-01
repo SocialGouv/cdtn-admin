@@ -71,9 +71,18 @@ const explodeVariants = ({
 
 const regexPlural = (term: string) => `${term.split(" ").join("s? ")}s?`;
 const regexCapital = (term: string) => {
-  const firstChar = term.slice(0, 1);
-  const firstCharRegex = `[${firstChar.toLowerCase()}|${firstChar.toUpperCase()}]`;
-  return `${firstCharRegex}${term.slice(1)}`;
+  return term.split(" ").reduce((regexString, word) => {
+    const firstChar = word.slice(0, 1);
+    const firstCharLow = firstChar.toLowerCase();
+    const firstCharUp = firstChar.toUpperCase();
+    const firstCharRegex =
+      firstCharLow !== firstCharUp
+        ? `[${firstCharLow}|${firstCharUp}]`
+        : firstCharLow;
+    return `${
+      regexString ? `${regexString} ` : ""
+    }${firstCharRegex}${word.slice(1)}`;
+  }, "");
 };
 
 const variantPattern = (term: string) => {

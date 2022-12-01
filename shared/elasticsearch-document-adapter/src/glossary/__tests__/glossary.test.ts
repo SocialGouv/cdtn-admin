@@ -253,6 +253,23 @@ describe("test glossary replacements", () => {
         `<webcomponent-tooltip content="word">Word</webcomponent-tooltip>`
       );
     });
+
+    test("should match capitals at start of word", () => {
+      const htmlContent = `Word Ward`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "word",
+            term: "word ward",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<webcomponent-tooltip content="word">Word Ward</webcomponent-tooltip>`
+      );
+    });
+
     test("should not replace agreement if it is in definition", () => {
       const htmlContent = `word`;
       expect(
