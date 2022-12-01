@@ -39,8 +39,7 @@ export const explodeGlossaryTerms = (glossary: Glossary): GlossaryTerms[] => {
 
 const explodeTerm = (term: Term): GlossaryTerms[] => {
   const variants = explodeVariants(term);
-  const result = variants.concat(explodeAbbreviations(term));
-  return result;
+  return variants.concat(explodeAbbreviations(term));
 };
 
 const explodeVariants = ({

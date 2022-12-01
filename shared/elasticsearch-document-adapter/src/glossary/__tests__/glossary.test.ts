@@ -262,6 +262,12 @@ describe("test glossary replacements", () => {
         `<webcomponent-tooltip-cc>Convention collective</webcomponent-tooltip-cc>`
       );
     });
+    test("should work as tooltip-cc with specific agreement terms in plurial", () => {
+      const htmlContent = `Conventions collectives`;
+      expect(createGlossaryTransform([])(htmlContent)).toEqual(
+        `<webcomponent-tooltip-cc>Conventions collectives</webcomponent-tooltip-cc>`
+      );
+    });
   });
 
   describe("test replace abbreviations", () => {

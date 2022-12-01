@@ -19,9 +19,7 @@ export const createGlossaryTransform = (glossary: Glossary): ReturnFn => {
     if (!content) return "";
 
     const glossaryTerms = explodeGlossaryTerms(glossary);
-    const result = insertWebComponentGlossary(content, glossaryTerms);
-
-    return result;
+    return insertWebComponentGlossary(content, glossaryTerms);
   }
 
   return addGlossary;
