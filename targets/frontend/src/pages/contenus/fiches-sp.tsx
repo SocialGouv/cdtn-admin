@@ -6,19 +6,27 @@ import { Layout } from "src/components/layout/auth.layout";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 
-export const SelectionContext = createContext([
-  [],
-  () => {
+export type SelectionContextInterface = {
+  selectedItems: string[];
+  setSelectedItems: (selected: string[]) => void;
+};
+
+export const SelectionContext = createContext<SelectionContextInterface>({
+  selectedItems: [],
+  setSelectedItems: () => {
     return;
   },
-]);
+});
 
 function FichesServicePublicPage() {
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   return (
     <SelectionContext.Provider
-      value={[selectedItems, (...args) => setSelectedItems(args)]}
+      value={{
+        selectedItems,
+        setSelectedItems,
+      }}
     >
       <Layout title="Fiches service-public.fr">
         <FichesServicePublicContainer />

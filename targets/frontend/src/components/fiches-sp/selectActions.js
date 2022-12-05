@@ -8,7 +8,7 @@ import { Inline } from "../layout/Inline";
 import { Stack } from "../layout/Stack";
 
 export function Actions({ onDelete }) {
-  const [selectedItems] = useContext(SelectionContext);
+  const { selectedItems } = useContext(SelectionContext);
   const [showDeleteDialog, setDeleteDialogVisible] = useState(false);
   const openDeleteDialog = () => setDeleteDialogVisible(true);
   const closeDeleteDialog = () => setDeleteDialogVisible(false);
