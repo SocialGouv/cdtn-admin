@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.6...v2.3.7) (2022-12-06)
+
+
+### Bug Fixes
+
+* **npm:** token has been set ([a7085dc](https://github.com/SocialGouv/cdtn-admin/commit/a7085dc2f082ca2fe38a5dc4576b1f287f1583ba))
+
+
+
+
+
 ## [2.3.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.5...v2.3.6) (2022-12-06)
 
 
