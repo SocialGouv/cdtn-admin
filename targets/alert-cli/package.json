@@ -1,6 +1,6 @@
 {
   "name": "alert-cli",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
@@ -9,7 +9,7 @@
   "types": "dist/index.d.ts",
   "private": true,
   "dependencies": {
-    "@shared/graphql-client": "^2.3.5",
+    "@shared/graphql-client": "^2.3.6",
     "@socialgouv/cdtn-slugify": "4.52.1",
     "@socialgouv/cdtn-sources": "4.52.1",
     "@socialgouv/dila-api-client": "1.2.1",
@@ -22,8 +22,8 @@
     "unist-util-select": "4.0.1"
   },
   "devDependencies": {
-    "@shared/dila-resolver": "^2.3.5",
-    "@shared/types": "^2.3.5",
+    "@shared/dila-resolver": "^2.3.6",
+    "@shared/types": "^2.3.6",
     "@socialgouv/contributions-data-types": "3.27.0",
     "@socialgouv/eslint-config-typescript": "1.88.0",
     "@socialgouv/fiches-travail-data-types": "4.191.0",

@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.5...v2.3.6) (2022-12-06)
+
+
+### Bug Fixes
+
+* **ingester:** sql script + documentation ([#847](https://github.com/SocialGouv/cdtn-admin/issues/847)) ([a806afe](https://github.com/SocialGouv/cdtn-admin/commit/a806afe72f8e5d548b92e2d6194746e3e111085d))
+* node engines ([69f344b](https://github.com/SocialGouv/cdtn-admin/commit/69f344b82807f4d66593f69b7c1b580a8d413527))
+* node version ([ffcf69e](https://github.com/SocialGouv/cdtn-admin/commit/ffcf69e806db30447b9442e0bdb2b05fe7dbb993))
+* **roles:** ajout du role admin pour dev ([#848](https://github.com/SocialGouv/cdtn-admin/issues/848)) ([0301d4b](https://github.com/SocialGouv/cdtn-admin/commit/0301d4bfb195e1599dc88419ac639c42726fa186))
+* **security:** change token npm ([#846](https://github.com/SocialGouv/cdtn-admin/issues/846)) ([9d667c2](https://github.com/SocialGouv/cdtn-admin/commit/9d667c2cdea23e7ef192cfee27d17e0ead02f644))
+
+
+
+
+
 ## [2.3.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.4...v2.3.5) (2022-11-08)
 
 
