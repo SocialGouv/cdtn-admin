@@ -21,8 +21,7 @@ const proxy = createProxyMiddleware({
   pathRewrite: { "^/api/graphql": "/v1/graphql" },
   prependPath: false,
   target: process.env.HASURA_GRAPHQL_ENDPOINT,
-  ws: true,
-  xfwd: true, // proxy websockets
+  ws: true
 });
 
 export default proxy;

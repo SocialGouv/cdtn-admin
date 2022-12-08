@@ -59,7 +59,6 @@ async function start() {
       },
       prependPath: false,
       ws: true,
-      xfwd: true, // proxy websockets
     })
   );
 
