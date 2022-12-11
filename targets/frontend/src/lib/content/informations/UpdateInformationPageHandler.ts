@@ -1,5 +1,6 @@
 import { CommandHandler, Event } from "../../cqrs";
 import { UpdateInformationPage } from "./commands";
+import { InformationPageUpdated } from "./events";
 
 export class UpdateInformationPageHandler
   implements CommandHandler<UpdateInformationPage>
@@ -9,6 +10,6 @@ export class UpdateInformationPageHandler
   }
 
   execute(command: UpdateInformationPage): Event[] {
-    return [];
+    return [new InformationPageUpdated(command.content)];
   }
 }

@@ -1,2 +1,2 @@
 export * from "./commands";
-export * from "./UpdateInformationPage";
+export * from "./UpdateInformationPageHandler";
