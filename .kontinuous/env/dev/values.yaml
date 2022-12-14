@@ -1,6 +1,9 @@
 hasura:
   imagePackage: hasura
   ~needs: [post-restore, build-hasura]
+  ~preDeploy.cleaner:
+    match:
+      kind: Deployment
   envFrom:
     - secretRef:
         name: pg-user-{{ .Values.global.branchSlug }}
