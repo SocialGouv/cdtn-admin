@@ -33,7 +33,6 @@ jobs:
       use: build
       with:
         imagePackage: hasura
-        dockerfile: targets/hasura/Dockerfile
         context: targets/hasura
 
 www:
