@@ -1,4 +1,4 @@
-app-www:
+www:
   host: cdtn-admin-preprod.dev.fabrique.social.gouv.fr
   env:
     - name: "FRONTEND_HOST"

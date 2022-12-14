@@ -1,5 +1,0 @@
-kind: Job
-apiVersion: batch/v1
-metadata:
-  name: job-alert
-{{- include "job.alert" . }}

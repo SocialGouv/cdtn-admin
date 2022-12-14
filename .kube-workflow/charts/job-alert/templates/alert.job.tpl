@@ -1,1 +1,0 @@
-../../../templates/alert.job.tpl
