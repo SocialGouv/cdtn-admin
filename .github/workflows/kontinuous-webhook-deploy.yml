@@ -1,0 +1,16 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - "**"
+      
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.ref }}
+
+jobs:
+  deploy:
+    uses: socialgouv/kontinuous/.github/workflows/workflow-webhook.yaml@v1
+    secrets: inherit
+    with:
+      triggerWebhook: true # comment this line when enabling webhook on repository

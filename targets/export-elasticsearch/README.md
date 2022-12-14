@@ -68,7 +68,7 @@ docker-compose exec -T postgres pg_restore \
 ```sh
 docker-compose exec -T postgres psql \
   --dbname postgres --user postgres \
-  < .kube-workflow/sql/post-restore.sql
+  < .kontinuous/sql/post-restore.sql
 ```
 
 ### 4. Restart Hasura container

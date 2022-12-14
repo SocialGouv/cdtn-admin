@@ -186,7 +186,7 @@ et pour remettre les utilisateurs par défaut
 ```sh
 docker-compose exec -T postgres psql \
   --dbname postgres --user postgres \
-  < .kube-workflow/sql/post-restore.sql
+  < .kontinuous/sql/post-restore.sql
 ```
 
 ### Alimenter l'elasticsearch en local (pour le CDTN frontend)

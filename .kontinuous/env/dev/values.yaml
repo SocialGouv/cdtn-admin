@@ -1,6 +1,9 @@
 hasura:
-  imagePackage: cdtn-admin-hasura
-  needs: [post-restore]
+  imagePackage: hasura
+  ~needs: [post-restore, build-hasura]
+  ~preDeploy.cleaner:
+    match:
+      kind: Deployment
   envFrom:
     - secretRef:
         name: pg-user-{{ .Values.global.branchSlug }}
@@ -12,17 +15,17 @@ hasura:
 jobs:
   runs:
     drop-db: # temp
-      use: SocialGouv/kube-workflow/jobs/drop-db
+      use: drop-db
       with:
-        pgSecretRefName: azure-pg-admin-user
+        pgAdminSecretRefName: azure-pg-admin-user
     create-db:
-      needs: [drop-db] # temp
-      use: SocialGouv/kube-workflow/jobs/create-db
+      ~needs: [drop-db] # temp
+      use: create-db
       with:
         pgAdminSecretRefName: azure-pg-admin-user
     restore:
-      needs: [create-db]
-      use: SocialGouv/kube-workflow/jobs/pg-restore
+      ~needs: [create-db]
+      use: pg-restore
       checkout: false
       with:
         mountPath: /mnt/restore
@@ -37,8 +40,8 @@ jobs:
           persistentVolumeClaim:
             claimName: cdtn-admin-backup-restore
     post-restore:
-      needs: [restore]
-      use: SocialGouv/kube-workflow/jobs/psql
+      ~needs: [restore]
+      use: psql
       with:
         pgSecretName: azure-pg-admin-user
-        sqlFile: .kube-workflow/sql/post-restore.sql
+        sqlFile: .kontinuous/sql/post-restore.sql
