@@ -1,5 +1,0 @@
-kind: Job
-apiVersion: batch/v1
-metadata:
-  name: job-ingester
-{{- include "job.ingester" . }}

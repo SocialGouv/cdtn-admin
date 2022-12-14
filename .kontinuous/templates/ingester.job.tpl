@@ -6,7 +6,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: update-ingester
-          image: "{{ or .Values.registry .Values.global.registry }}/cdtn-admin/cdtn-admin-ingester:{{ .Values.global.imageTag }}"
+          image: "{{ or .Values.registry .Values.global.registry }}/cdtn-admin/ingester:{{ .Values.global.imageTag }}"
           resources:
             requests:
               cpu: 1500m

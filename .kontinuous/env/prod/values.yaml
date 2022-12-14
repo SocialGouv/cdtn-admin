@@ -1,4 +1,4 @@
-app-www:
+www:
   host: cdtn-admin.fabrique.social.gouv.fr
   ingress:
     annotations:
@@ -7,7 +7,7 @@ app-www:
     - name: "FRONTEND_HOST"
       value: https://cdtn-admin.fabrique.social.gouv.fr
 
-app-contributions:
+contributions:
   host: cdtn-contributions.fabrique.social.gouv.fr
   ingress:
     annotations:

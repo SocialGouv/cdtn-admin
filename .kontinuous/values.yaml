@@ -1,0 +1,112 @@
+jobs:
+  ~chart: jobs
+  runs:
+    build-frontend:
+      use: build
+      with:
+        imagePackage: frontend
+        dockerfile: targets/frontend/Dockerfile
+    build-ingester:
+      use: build
+      with:
+        imagePackage: ingester
+        dockerfile: targets/ingester/Dockerfile
+    build-alert:
+      use: build
+      with:
+        imagePackage: alert
+        dockerfile: targets/alert-cli/Dockerfile
+    build-export:
+      use: build
+      with:
+        imagePackage: export
+        dockerfile: targets/export-elasticsearch/Dockerfile
+    build-contributions:
+      use: build
+      with:
+        imagePackage: contributions
+        dockerfile: targets/contributions/Dockerfile
+        buildArgs:
+          NODE_ENV: production
+          CDTN_API_URL: https://cdtn-api.fabrique.social.gouv.fr
+    build-hasura:
+      use: build
+      with:
+        imagePackage: hasura
+        dockerfile: targets/hasura/Dockerfile
+        context: targets/hasura
+
+www:
+  ~chart: app
+  ~needs: [build-frontend]
+  probesPath: /healthz
+  imagePackage: frontend
+  envFrom:
+    - configMapRef:
+        name: www
+    - secretRef:
+        name: www
+  env:
+    - name: "FRONTEND_HOST"
+      value: "{{.Values.global.host}}"
+  resources:
+    limits:
+      cpu: "1000m"
+      memory: "560Mi"
+    requests:
+      cpu: "500m"
+      memory: "128Mi"
+
+contributions:
+  ~chart: app
+  ~needs: [build-contributions]
+  probesPath: /
+  imagePackage: contributions
+  containerPort: 3200
+  envFrom:
+    - configMapRef:
+        name: contributions
+    - secretRef:
+        name: contributions
+  resources:
+    limits:
+      cpu: "1000m"
+      memory: "560Mi"
+    requests:
+      cpu: "500m"
+      memory: "128Mi"
+
+export:
+  ~chart: app
+  ~needs: [build-export]
+  probesPath: /healthz
+  ingress:
+    enabled: false
+  imagePackage: export
+  containerPort: 8787
+  envFrom:
+    - configMapRef:
+        name: "export-elasticsearch"
+    - secretRef:
+        name: "export-elasticsearch"
+  resources:
+    limits:
+      cpu: '2000m'
+      memory: 2Gi
+    requests:
+      cpu: '500m'
+      memory: 128Mi
+
+hasura:
+  ~chart: hasura
+  ~needs: [build-hasura]
+  imagePackage: hasura
+  ingress:
+    enabled: false
+  envFrom:
+    - secretRef:
+        name: azure-pg-user
+    - configMapRef:
+        name: hasura
+    - secretRef:
+        name: hasura

@@ -1,1 +1,0 @@
-../../../templates/ingester.job.tpl

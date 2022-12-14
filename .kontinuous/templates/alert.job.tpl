@@ -6,7 +6,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: update-alert
-          image: "{{ or .Values.registry .Values.global.registry }}/cdtn-admin/cdtn-admin-alert-cli:{{ .Values.global.imageTag }}"
+          image: "{{ or .Values.registry .Values.global.registry }}/cdtn-admin/alert:{{ .Values.global.imageTag }}"
           resources:
             requests:
               cpu: 1500m
