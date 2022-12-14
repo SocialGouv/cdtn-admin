@@ -50,10 +50,10 @@ www:
       value: "{{.Values.global.host}}"
   resources:
     limits:
-      cpu: "1000m"
-      memory: "560Mi"
+      cpu: "100m"
+      memory: "256Mi"
     requests:
-      cpu: "500m"
+      cpu: "50m"
       memory: "128Mi"
 
 contributions:
@@ -69,10 +69,10 @@ contributions:
         name: contributions
   resources:
     limits:
-      cpu: "1000m"
-      memory: "560Mi"
+      cpu: "100m"
+      memory: "256Mi"
     requests:
-      cpu: "500m"
+      cpu: "50m"
       memory: "128Mi"
 
 export:
@@ -90,10 +90,10 @@ export:
         name: "export-elasticsearch"
   resources:
     limits:
-      cpu: '2000m'
-      memory: 2Gi
+      cpu: '100m'
+      memory: 256Mi
     requests:
-      cpu: '500m'
+      cpu: '50m'
       memory: 128Mi
 
 hasura:
