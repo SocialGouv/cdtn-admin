@@ -4,6 +4,6 @@ metadata:
   name: contributions
 data:
   CDTN_API_URL: "https://cdtn-api.fabrique.social.gouv.fr"
-  API_URI: "http://app-www"
+  API_URI: "http://www"
   HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
   NODE_ENV: "production"
