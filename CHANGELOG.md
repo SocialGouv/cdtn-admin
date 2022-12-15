@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.0...v2.4.1) (2022-12-15)
+
+### Bug Fixes
+
+- ci prod workflow ([3a647e8](https://github.com/SocialGouv/cdtn-admin/commit/3a647e8e10b6fcb0cb3a2f6fb5f4cddda681f0df))
+
 # [2.4.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.8...v2.4.0) (2022-12-15)
 
 ### Bug Fixes
