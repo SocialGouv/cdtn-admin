@@ -1,96 +1,111 @@
 import type { Glossary, Term } from "../types";
 import type { GlossaryTerms } from "./types";
 
-const conventionMatchers = [
-  "convention collective",
-  "conventions collectives",
-  "accords de branches",
-  "accord de branche",
-  "disposition conventionnelle",
-  "dispositions conventionnelles",
-];
+const conventionMatchers =
+  "[C|c]onventions? [C|c]ollectives?|[A|a]ccords? de [B|b]ranches?|[D|d]ispositions? [C|c]onventionnelles?";
 
-// we cannot use \b word boundary since \w does not match diacritics
-// So we do a kind of \b equivalent.
-// the main différence is that matched pattern can include a whitespace as first char
-const frDiacritics = "àâäçéèêëïîôöùûüÿœæÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸŒÆ";
-const wordBoundaryStart = `(?:^|[^_/\\w${frDiacritics}-])`;
-const wordBoundaryEnd = `(?![\\w${frDiacritics}])`;
+const startWordBreaks = `(?<=^| |\\.|,|'|>|\\()`;
+const endWordBreaks = `(?= |\\.|,|'|$|<|\\))`;
 
-const startTag = `(?<=>[^><]*)`;
-const endTag = `(?=[^<]*</)`;
+const startWebComponentOmit = `(?<!<(webcomponent-tooltip(-cc)?|a)>)`;
+const endWebComponentOmit = `(?![^<]*</(webcomponent-tooltip(-cc)?|a)>)`;
 
-export const explodeGlossaryTerms = (
-  glossary: Glossary,
-  isMarkdown: boolean
-): GlossaryTerms[] => {
-  const glossaryTerms = glossary.flatMap((term) =>
-    explodeTerm(term, isMarkdown)
-  );
+const tagAttributeOmit = `(?<=(^|>)[^><]*)`;
 
+const startTag = `${startWebComponentOmit}${tagAttributeOmit}${startWordBreaks}`;
+const endTag = `${endWordBreaks}${endWebComponentOmit}`;
+
+export const explodeGlossaryTerms = (glossary: Glossary): GlossaryTerms[] => {
   // we make sure that bigger terms are replaced first
-  glossaryTerms.sort((previous, next) => {
+  glossary.sort((previous, next) => {
     return next.term.length - previous.term.length;
   });
 
+  const glossaryTerms = glossary.flatMap((term) => explodeTerm(term));
+
   // we also sure that cc matchers are replaced first
-  explodeAgreements(isMarkdown).forEach((item) => {
-    glossaryTerms.unshift(item);
-  });
+  glossaryTerms.unshift(explodeAgreements());
 
   return glossaryTerms;
 };
 
-const explodeTerm = (term: Term, isMarkdown: boolean): GlossaryTerms[] =>
-  explodeVariants(term, isMarkdown).concat(
-    explodeAbbreviations(term, isMarkdown)
-  );
+const escapeRegexSpecialChars = (term: string) => {
+  const regexSpecialChars = [
+    ".",
+    "+",
+    "*",
+    "?",
+    "^",
+    "$",
+    "(",
+    ")",
+    "[",
+    "]",
+    "{",
+    "}",
+    "|",
+  ];
+  return regexSpecialChars.reduce((term: string, specialChar: string) => {
+    return term.replace(new RegExp(`\\${specialChar}`), `\\${specialChar}`);
+  }, term);
+};
 
-const explodeVariants = (
-  { definition, term, variants = [] }: Term,
-  isMarkdown: boolean
-): GlossaryTerms[] =>
+const explodeTerm = (term: Term): GlossaryTerms[] => {
+  term = {
+    ...term,
+    term: escapeRegexSpecialChars(term.term),
+  };
+  const variants = explodeVariants(term);
+  return variants.concat(explodeAbbreviations(term));
+};
+
+const explodeVariants = ({
+  definition,
+  term,
+  variants = [],
+}: Term): GlossaryTerms[] =>
   [term, ...variants].map((termToReplace) => ({
     definition,
-    pattern: variantPattern(termToReplace, isMarkdown),
-    term: termToReplace,
+    pattern: variantPattern(termToReplace),
   }));
 
-const variantPattern = (term: string, isMarkdown: boolean) =>
-  new RegExp(
-    isMarkdown
-      ? term
-      : `${startTag}${wordBoundaryStart}(${term})${wordBoundaryEnd}${endTag}`,
-    "gi"
-  );
+const regexPlural = (term: string) => `${term.split(" ").join("s? ")}s?`;
+const regexCapital = (term: string) => {
+  return term.split(" ").reduce((regexString, word) => {
+    const firstChar = word.slice(0, 1);
+    const firstCharLow = firstChar.toLowerCase();
+    const firstCharUp = firstChar.toUpperCase();
+    const firstCharRegex =
+      firstCharLow !== firstCharUp
+        ? `[${firstCharLow}|${firstCharUp}]`
+        : firstCharLow;
+    return `${
+      regexString ? `${regexString} ` : ""
+    }${firstCharRegex}${word.slice(1)}`;
+  }, "");
+};
 
-const explodeAbbreviations = (
-  { abbreviations, definition }: Term,
-  isMarkdown: boolean
-): GlossaryTerms[] =>
+const variantPattern = (term: string) => {
+  term = regexPlural(term);
+  term = regexCapital(term);
+  return new RegExp(`${startTag}(${term})${endTag}`, "g");
+};
+
+const explodeAbbreviations = ({
+  abbreviations,
+  definition,
+}: Term): GlossaryTerms[] =>
   abbreviations.map((abbreviation: string) => ({
     definition,
-    pattern: abbreviationPattern(abbreviation, isMarkdown),
-    term: abbreviation,
+    pattern: abbreviationPattern(abbreviation),
   }));
 
-const abbreviationPattern = (abbreviation: string, isMarkdown: boolean) =>
-  new RegExp(
-    isMarkdown
-      ? `\\b(${abbreviation})\\b`
-      : `${startTag}\\b(${abbreviation})\\b${endTag}`,
-    "gi"
-  );
+const abbreviationPattern = (abbreviation: string) =>
+  new RegExp(`${startTag}\\b(${abbreviation})\\b${endTag}`, "g");
 
-const explodeAgreements = (isMarkdown: boolean): GlossaryTerms[] =>
-  conventionMatchers.map((matcher) => ({
+const explodeAgreements = (): GlossaryTerms => {
+  return {
     definition: null,
-    pattern: agreementPattern(matcher, isMarkdown),
-    term: matcher,
-  }));
-
-const agreementPattern = (matcher: string, isMarkdown: boolean) =>
-  new RegExp(
-    isMarkdown ? `(${matcher})` : `${startTag}(${matcher})${endTag}`,
-    "gi"
-  );
+    pattern: new RegExp(`${startTag}(${conventionMatchers})${endTag}`, "g"),
+  };
+};
