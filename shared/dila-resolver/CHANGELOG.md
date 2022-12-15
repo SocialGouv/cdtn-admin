@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.8...v2.4.0) (2022-12-15)
+
+**Note:** Version bump only for package @shared/dila-resolver
+
 ## [2.3.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.7...v2.3.8) (2022-12-07)
 
 **Note:** Version bump only for package @shared/dila-resolver

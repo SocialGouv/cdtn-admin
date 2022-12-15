@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.8...v2.4.0) (2022-12-15)
+
+### Bug Fixes
+
+- **fiches-sp:** bug dans la suppression des fiches SP ([#852](https://github.com/SocialGouv/cdtn-admin/issues/852)) ([30d4571](https://github.com/SocialGouv/cdtn-admin/commit/30d457193a7fa75693bb2e2bb63f51860337ca37))
+
 ## [2.3.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.7...v2.3.8) (2022-12-07)
 
 **Note:** Version bump only for package frontend

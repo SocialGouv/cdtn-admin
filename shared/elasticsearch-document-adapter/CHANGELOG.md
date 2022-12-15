@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.8...v2.4.0) (2022-12-15)
+
+### Bug Fixes
+
+- Balise & glossaire ([#849](https://github.com/SocialGouv/cdtn-admin/issues/849)) ([d14595f](https://github.com/SocialGouv/cdtn-admin/commit/d14595f2b284367cf734962a49c65610b64f1e27))
+
 ## [2.3.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.7...v2.3.8) (2022-12-07)
 
 **Note:** Version bump only for package @shared/elasticsearch-document-adapter

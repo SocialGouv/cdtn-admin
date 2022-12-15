@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.8...v2.4.0) (2022-12-15)
+
+### Features
+
+- replace `kube-workflow` by `kontinuous` ([#859](https://github.com/SocialGouv/cdtn-admin/issues/859)) ([24057cc](https://github.com/SocialGouv/cdtn-admin/commit/24057cc8ee5592548e3d13b2c22aba9c39f386b2))
+
 ## [2.3.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.3.7...v2.3.8) (2022-12-07)
 
 **Note:** Version bump only for package export-elasticsearch
