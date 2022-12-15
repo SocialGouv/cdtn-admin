@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.1...v2.4.2) (2022-12-15)
+
+### Bug Fixes
+
+- **ci:** environment variable ([#860](https://github.com/SocialGouv/cdtn-admin/issues/860)) ([8aad1e3](https://github.com/SocialGouv/cdtn-admin/commit/8aad1e38ca554f891a81cd8a338f81ec08401fc6))
+
 ## [2.4.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.0...v2.4.1) (2022-12-15)
 
 ### Bug Fixes
