@@ -24,7 +24,7 @@ export function ServicPublicList({ items }) {
 }
 
 function ServicePublicItemRow({ item }) {
-  const [selectedItems, setSelectedItems] = useContext(SelectionContext);
+  const { selectedItems, setSelectedItems } = useContext(SelectionContext);
 
   function updateSelection(event) {
     if (event.target.checked) {
