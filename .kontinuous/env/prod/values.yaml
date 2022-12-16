@@ -44,4 +44,4 @@ hasura:
       memory: '4Gi'
     requests:
       cpu: '1000m'
-      memory: '512Mi'
+      memory: '1Gi'
