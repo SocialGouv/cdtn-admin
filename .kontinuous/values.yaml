@@ -55,6 +55,7 @@ www:
     requests:
       cpu: "50m"
       memory: "128Mi"
+  replicas: 1
 
 contributions:
   ~chart: app
@@ -74,6 +75,7 @@ contributions:
     requests:
       cpu: "50m"
       memory: "128Mi"
+  replicas: 1
 
 export:
   ~chart: app
@@ -95,6 +97,7 @@ export:
     requests:
       cpu: '50m'
       memory: 128Mi
+  replicas: 1
 
 hasura:
   ~chart: hasura
