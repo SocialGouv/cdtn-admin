@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.2...v2.4.3) (2022-12-16)
+
+### Bug Fixes
+
+- cronjobs images targets ([#861](https://github.com/SocialGouv/cdtn-admin/issues/861)) ([0e371c2](https://github.com/SocialGouv/cdtn-admin/commit/0e371c2943575ba1f9630034cecd65b469634268))
+- perf ([429fef1](https://github.com/SocialGouv/cdtn-admin/commit/429fef1e36864966e29b819b7f28778c9128502b))
+
 ## [2.4.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.1...v2.4.2) (2022-12-15)
 
 ### Bug Fixes
