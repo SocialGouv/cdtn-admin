@@ -112,3 +112,4 @@ hasura:
         name: hasura
     - secretRef:
         name: hasura
+  replicas: 2

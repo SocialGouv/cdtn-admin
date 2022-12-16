@@ -1,4 +1,5 @@
 www:
+  replicas: 2
   host: cdtn-admin.fabrique.social.gouv.fr
   ingress:
     annotations:
@@ -15,6 +16,7 @@ www:
       memory: "512Mi"
 
 contributions:
+  replicas: 2
   host: cdtn-contributions.fabrique.social.gouv.fr
   ingress:
     annotations:
@@ -28,6 +30,7 @@ contributions:
       memory: "512Mi"
 
 export:
+  replicas: 2
   resources:
     limits:
       cpu: '4000m'
