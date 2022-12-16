@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.3...v2.4.4) (2022-12-16)
+
+### Bug Fixes
+
+- **ci:** ajout de replicas ([abafa2e](https://github.com/SocialGouv/cdtn-admin/commit/abafa2e59bb2f108cafaa473f6b381ce77913419))
+- memory hasura ([9a809b7](https://github.com/SocialGouv/cdtn-admin/commit/9a809b7155743fef8649a0659091a99f1fa7e836))
+- performance ([9a3c957](https://github.com/SocialGouv/cdtn-admin/commit/9a3c957b1ae0527d3452371e015b202cb2002490))
+
 ## [2.4.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.2...v2.4.3) (2022-12-16)
 
 ### Bug Fixes
