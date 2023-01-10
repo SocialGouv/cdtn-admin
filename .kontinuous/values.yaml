@@ -113,3 +113,11 @@ hasura:
     - secretRef:
         name: hasura
   replicas: 2
+
+deactivate:
+  jobs-deactivate:
+    runs:
+      deactivate:
+        with:
+          db: true
+          pgAdminSecretRefName: azure-pg-admin-user
