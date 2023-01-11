@@ -4,6 +4,7 @@ hasura:
   ~preDeploy.cleaner:
     match:
       kind: Deployment
+    value: true
   envFrom:
     - secretRef:
         name: pg-user-{{ .Values.global.branchSlug }}
