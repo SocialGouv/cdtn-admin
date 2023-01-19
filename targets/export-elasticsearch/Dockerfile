@@ -3,6 +3,8 @@ ARG NODE_VERSION=14.18.2-alpine
 # dist
 FROM node:$NODE_VERSION AS dist
 
+RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
+
 WORKDIR /
 
 COPY shared/graphql-client/package.json /shared/graphql-client/package.json
