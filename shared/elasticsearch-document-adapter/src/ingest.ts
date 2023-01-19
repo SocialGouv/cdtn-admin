@@ -142,6 +142,9 @@ async function runIngester(
   });
 
   const t0 = Date.now();
+
+  await cdtnDocumentsGen();
+  /*
   for await (const { source, documents } of cdtnDocumentsGen()) {
     logger.info(`› ${source}... ${documents.length} items`);
 
@@ -164,7 +167,7 @@ async function runIngester(
       size: 1000,
     });
   }
-
+  */
   logger.info(`done in ${(Date.now() - t0) / 1000} s`);
 
   // Indexing Suggestions

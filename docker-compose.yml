@@ -93,6 +93,23 @@ services:
     depends_on:
       - elasticsearch
 
+  export:
+    build:
+      context: .
+      dockerfile: targets/export-elasticsearch/Dockerfile
+      shm_size: 512m
+    ports:
+      - 8787:8787
+    environment:
+      HASURA_GRAPHQL_ENDPOINT: "http://hasura:8080/v1/graphql"
+      DISABLE_COPY: true
+      DISABLE_SITEMAP: true
+      NLP_URL: "https://serving-ml-preprod.dev.fabrique.social.gouv.fr"
+      ELASTICSEARCH_INDEX_PREPROD: "cdtn-preprod-v1"
+      ELASTICSEARCH_INDEX_PROD: "cdtn-v1"
+      ELASTICSEARCH_URL_PREPROD: "http://elasticsearch:9200"
+      ELASTICSEARCH_URL_PROD: "http://elasticsearch:9200"
+
 volumes:
   db_data:
   azurite_data:

@@ -187,10 +187,11 @@ export interface ServicePublicExternalReference {
   type: "external";
 }
 
-type AgreementDoc = Pick<
+export type AgreementDoc = Pick<
   IndexedAgreement,
   "date_publi" | "effectif" | "mtime" | "num" | "shortTitle" | "url"
 > & {
+  highlight: unknown;
   description: string;
   answers: AgreementContribAnswer[];
   articleByTheme: ArticleTheme[];
