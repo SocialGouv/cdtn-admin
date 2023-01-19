@@ -108,7 +108,7 @@ async function runIngester(
     node: `${ELASTICSEARCH_URL}`,
   };
 
-  const client = new Client(esClientConfig as unknown as any);
+  // const client = new Client(esClientConfig as unknown as any);
   context.set("cdtnAdminEndpoint", cdtnAdminEndpoint);
   context.set("esLogs", esLogs);
   context.set("esLogsToken", esLogsToken);
@@ -132,6 +132,7 @@ async function runIngester(
     await buildCovisitMap(esLogs, esLogsToken);
   }
 
+  /*
   await version({ client });
 
   // Indexing documents/search data
@@ -140,7 +141,7 @@ async function runIngester(
     indexName: `${DOCUMENT_INDEX_NAME}-${ts}`,
     mappings: documentMapping,
   });
-
+  */
   const t0 = Date.now();
 
   await cdtnDocumentsGen();
@@ -171,9 +172,10 @@ async function runIngester(
   logger.info(`done in ${(Date.now() - t0) / 1000} s`);
 
   // Indexing Suggestions
-  await populateSuggestions(client, `${SUGGEST_INDEX_NAME}-${ts}`);
+  // await populateSuggestions(client, `${SUGGEST_INDEX_NAME}-${ts}`);
 
   // Creating aliases
+  /*
   await client.indices.updateAliases({
     body: {
       actions: [
@@ -209,4 +211,5 @@ async function runIngester(
   const patterns = [DOCUMENT_INDEX_NAME, SUGGEST_INDEX_NAME];
 
   await deleteOldIndex({ client, patterns, timestamp: ts });
+  */
 }
