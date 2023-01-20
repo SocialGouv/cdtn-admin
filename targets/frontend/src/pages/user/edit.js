@@ -44,7 +44,6 @@ export function EditUserPage() {
   const [roleResult, saveRole] = useMutation(saveRoleMutation);
   function handleSubmit(data) {
     const { name, email, role } = data;
-    console.log(user, name, email, role);
     let rolePromise = Promise.resolve();
     if (user.roles.every((item) => item.role !== role)) {
       rolePromise = saveRole({ id: user.id, role });

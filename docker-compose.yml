@@ -90,6 +90,7 @@ services:
       - 5601:5601
     depends_on:
       - elasticsearch
+
 volumes:
   db_data:
   azurite_data:
