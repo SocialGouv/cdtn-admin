@@ -13,7 +13,6 @@ mutation registerUser($user: auth_users_insert_input! ) {
   user: insert_auth_users_one( object: $user ) {
     id
     email
-    secret_token
     __typename
   }
 }

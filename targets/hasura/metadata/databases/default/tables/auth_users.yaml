@@ -43,6 +43,7 @@ select_permissions:
         - active
         - created_at
         - default_role
+        - deleted
         - email
         - id
         - name
@@ -69,6 +70,7 @@ update_permissions:
         - active
         - created_at
         - default_role
+        - deleted
         - email
         - id
         - name
@@ -87,10 +89,3 @@ update_permissions:
         id:
           _eq: X-Hasura-User-Id
       check: null
-delete_permissions:
-  - role: super
-    permission:
-      backend_only: false
-      filter:
-        default_role:
-          _neq: super

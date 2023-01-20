@@ -46,5 +46,4 @@ update_permissions:
 delete_permissions:
   - role: super
     permission:
-      backend_only: false
       filter: {}
