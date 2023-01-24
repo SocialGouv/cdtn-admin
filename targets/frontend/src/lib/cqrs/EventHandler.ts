@@ -9,7 +9,7 @@ export interface IEventHandler<PEvent extends Event = Event> {
 export abstract class EventHandler<PEvent extends Event = Event>
   implements IEventHandler<PEvent>
 {
-  abstract on(event: PEvent): void;
+  abstract on(event: PEvent): Promise<void>;
 
   type(): PEvent["type"] {
     return PEvent["type"];

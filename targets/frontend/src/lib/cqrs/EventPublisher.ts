@@ -5,7 +5,7 @@ import { EventHandler } from "./EventHandler";
 export class EventPublisher {
   constructor(private handlers: EventHandler[]) {}
 
-  execute(event: Event): void {
+  async execute(event: Event): Promise<void> {
     const eventType = event.type;
     const destHandlers: EventHandler[] = this.handlers.filter(
       (handler) => handler.type() === eventType
@@ -13,8 +13,8 @@ export class EventPublisher {
     if (destHandlers.length === 0) {
       throw new EventHandlerNotFoundException(eventType);
     }
-    destHandlers.forEach((handler) => {
-      handler.on(event);
-    });
+    for (const handler of destHandlers) {
+      await handler.on(event);
+    }
   }
 }

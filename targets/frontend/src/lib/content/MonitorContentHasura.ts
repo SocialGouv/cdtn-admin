@@ -8,8 +8,7 @@ export class StoreContentHasura
     return "information-page-updated";
   }
 
-  on(event: InformationPageUpdated): void {
-    const content = event.content;
+  async on(event: InformationPageUpdated): Promise<void> {
     // TODO Save in new content database
   }
 }

@@ -1,3 +1,5 @@
+import { EditorialContentDoc } from "@shared/types";
+
 import { Command } from "../../cqrs";
 
 export class UpdateInformationPage
@@ -5,5 +7,12 @@ export class UpdateInformationPage
 {
   readonly type = "update-information-page";
 
-  constructor(readonly content: string) {}
+  constructor(
+    readonly userToken: string | undefined,
+    readonly cdtnId: string,
+    readonly metaDescription: string,
+    readonly slug: string,
+    readonly title: string,
+    readonly document: EditorialContentDoc
+  ) {}
 }

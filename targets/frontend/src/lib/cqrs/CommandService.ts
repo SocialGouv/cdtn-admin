@@ -8,10 +8,10 @@ export class CommandService {
     private eventPublisher: EventPublisher
   ) {}
 
-  execute(command: Command<string>): void {
+  async execute(command: Command<string>): Promise<void> {
     const events = this.commandBus.execute(command);
-    events.forEach((event) => {
-      this.eventPublisher.execute(event);
-    });
+    for (const event of events) {
+      await this.eventPublisher.execute(event);
+    }
   }
 }
