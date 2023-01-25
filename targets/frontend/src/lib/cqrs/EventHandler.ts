@@ -11,7 +11,5 @@ export abstract class EventHandler<PEvent extends Event = Event>
 {
   abstract on(event: PEvent): Promise<void>;
 
-  type(): PEvent["type"] {
-    return PEvent["type"];
-  }
+  abstract type(): PEvent["type"];
 }

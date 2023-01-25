@@ -2,34 +2,40 @@ import { CommandHandler, Event } from "../../cqrs";
 import { AuthenticationError } from "../../cqrs/Errors";
 import { UpdateInformationPage } from "./commands";
 import { InformationPageUpdated } from "./events";
+import { EditorialContentRepository } from "./repository";
 
 export class UpdateInformationPageHandler
   implements CommandHandler<UpdateInformationPage>
 {
+  constructor(private repository: EditorialContentRepository) {}
+
   type(): "update-information-page" {
     return "update-information-page";
   }
 
-  execute({
+  async execute({
     userToken,
     cdtnId,
     slug,
     title,
     metaDescription,
     document,
-  }: UpdateInformationPage): Event[] {
+  }: UpdateInformationPage): Promise<Event[]> {
     if (!userToken) {
       throw new AuthenticationError();
     }
-    return [
-      new InformationPageUpdated(
-        userToken,
-        cdtnId,
-        metaDescription,
-        slug,
-        title,
-        document
-      ),
-    ];
+
+    const aggregate = await this.repository.load(userToken, cdtnId);
+
+    const newAggregate = await this.repository.save(
+      userToken,
+      cdtnId,
+      metaDescription,
+      slug,
+      title,
+      document
+    );
+
+    return [new InformationPageUpdated(userToken, aggregate, newAggregate)];
   }
 }

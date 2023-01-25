@@ -5,7 +5,7 @@ export interface CommandHandler<
   PCommand extends Command<string>,
   REvent extends Event = Event
 > {
-  execute(command: PCommand): REvent[];
+  execute(command: PCommand): Promise<REvent[]>;
 
   type(): PCommand["type"];
 }

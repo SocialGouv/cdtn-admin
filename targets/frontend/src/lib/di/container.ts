@@ -1,6 +1,10 @@
 import { createClient } from "urql";
 
-import { StoreContentHasura, UpdateInformationPageHandler } from "../content";
+import {
+  EditorialContentRepository,
+  MonitorContentHasura,
+  UpdateInformationPageHandler,
+} from "../content";
 import { CommandBus, CommandService } from "../cqrs";
 import { EventPublisher } from "../cqrs/EventPublisher";
 
@@ -16,8 +20,10 @@ const gqlClient = createClient({
   requestPolicy: "network-only",
   url: HASURA_GRAPHQL_ENDPOINT,
 });
-const commandBus = new CommandBus([new UpdateInformationPageHandler()]);
-const eventPublisher = new EventPublisher([new StoreContentHasura(gqlClient)]);
+const commandBus = new CommandBus([
+  new UpdateInformationPageHandler(new EditorialContentRepository(gqlClient)),
+]);
+const eventPublisher = new EventPublisher([new MonitorContentHasura()]);
 const commandService = new CommandService(commandBus, eventPublisher);
 
 export { commandService, gqlClient };

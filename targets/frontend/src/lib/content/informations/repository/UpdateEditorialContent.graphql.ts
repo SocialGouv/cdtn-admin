@@ -1,6 +1,6 @@
-import { EditorialContentDoc } from "@shared/types";
+import { EditorialContent, EditorialContentDoc } from "@shared/types";
 
-export type EditorialContentRequest = {
+export type UpdateEditorialContentRequest = {
   cdtnId: string;
   document: EditorialContentDoc;
   title: string;
@@ -8,14 +8,8 @@ export type EditorialContentRequest = {
   slug: string;
 };
 
-export type EditorialContentResponse = {
-  content: Content;
-};
-
-export type Content = {
-  slug: string;
-  metaDescription: string;
-  __typename: string;
+export type UpdateEditorialContentResponse = {
+  content: EditorialContent;
 };
 
 export const updateEditorialContentGraphql = `
@@ -36,9 +30,17 @@ mutation editContent(
       text: $title
     }
   ) {
+    cdtn_id
+    document
+    initial_id
+    is_published
+    is_searchable
+    is_available
+    meta_description
     slug
-    metaDescription: meta_description
-    __typename
+    source
+    text
+    title
   }
 }
 `;

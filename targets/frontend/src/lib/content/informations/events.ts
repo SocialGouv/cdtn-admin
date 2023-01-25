@@ -1,4 +1,4 @@
-import { EditorialContentDoc } from "@shared/types";
+import { EditorialContent } from "@shared/types";
 import { Event } from "src/lib";
 
 export class InformationPageUpdated implements Event {
@@ -6,10 +6,7 @@ export class InformationPageUpdated implements Event {
 
   constructor(
     readonly userToken: string,
-    readonly cdtnId: string,
-    readonly metaDescription: string,
-    readonly slug: string,
-    readonly title: string,
-    readonly document: EditorialContentDoc
+    readonly oldData: EditorialContent | null,
+    readonly newData: EditorialContent
   ) {}
 }
