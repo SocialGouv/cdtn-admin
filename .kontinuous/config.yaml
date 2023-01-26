@@ -1,4 +1,13 @@
+projectName: cdtn
 dependencies:
   fabrique:
     import: socialgouv/kontinuous/plugins/fabrique
-projectName: cdtn
+    dependencies:
+      contrib:
+        preDeploy:
+          importSecrets:
+            options:
+              secrets:
+                cdtnadminprodserver-backup-credentials:
+                  env: dev
+                  required: true
