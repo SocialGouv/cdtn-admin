@@ -87,7 +87,6 @@ export default async function login(req, res) {
     );
   }
 
-  console.log("[login]", user.id);
   const { refresh_token } = refreshTokenResult.data.insert_data.returning[0];
 
   setJwtCookie(res, refresh_token, jwt_token);

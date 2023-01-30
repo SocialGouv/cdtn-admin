@@ -72,7 +72,7 @@ export function UserList() {
       return;
     }
     executeDelete({
-      email: `${selectedUser.id}@deleted.com`,
+      email: `${selectedUser.id}@gouv.fr`,
       id: selectedUser.id,
       name: selectedUser.id,
     });

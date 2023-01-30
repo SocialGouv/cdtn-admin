@@ -14,7 +14,6 @@ export default function LoginPage() {
   };
 
   const goAdmin = () => {
-    console.log("[goAdmin]");
     router.push("/");
   };
 

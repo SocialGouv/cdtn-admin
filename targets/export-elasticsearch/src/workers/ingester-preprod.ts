@@ -4,11 +4,6 @@ import { parentPort } from "worker_threads";
 const ingester = async (): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(
-        "INGEST",
-        process.env.ES_LOGS_PREPROD,
-        process.env.ES_LOGS_TOKEN_PREPROD
-      );
       await ingest(
         process.env.HASURA_GRAPHQL_ENDPOINT,
         process.env.ES_LOGS_PREPROD,
