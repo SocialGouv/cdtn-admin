@@ -1,4 +1,4 @@
-import type { EditorialContentDoc } from "@shared/types";
+import type { EditorialContentDoc, EditorialContentPart } from "@shared/types";
 import { logger } from "@socialgouv/cdtn-logger";
 import htmlAstToAnotherHtmlAst from "rehype-raw";
 import htmlAstStringify from "rehype-stringify";
@@ -14,6 +14,27 @@ const htmlProcessor = unified()
   .use(htmlAstToAnotherHtmlAst)
   .use(htmlAstStringify);
 
+function mapBlocks(
+  blocks: EditorialContentPart[],
+  times: number[],
+  addGlossary: AddGlossaryReturnFn
+): EditorialContentPart[] {
+  const computedBlocks = blocks.map((block: any) => {
+    const contentStart = process.hrtime();
+    const contents = htmlProcessor.processSync(block.markdown)
+      .contents as string;
+    const contentEnd = process.hrtime(contentStart);
+    times.push(Math.round(contentEnd[0] * 1000 + contentEnd[1] / 1000000));
+    const html = block.markdown ? addGlossary(contents) : undefined;
+    times.push(html?.duration ?? 0);
+    return {
+      ...block,
+      html: html?.result,
+    };
+  });
+  return computedBlocks;
+}
+
 export function markdownTransform(
   addGlossary: AddGlossaryReturnFn,
   documents: EditorialContentDoc[]
@@ -23,23 +44,13 @@ export function markdownTransform(
     const intro = addGlossary(
       htmlProcessor.processSync(rest.intro).contents as string
     );
+    times.push(intro.duration ?? 0);
     return {
       ...rest,
-      contents: contents.map((content) => {
-        content.blocks = content.blocks.map((block: any) => {
-          const html = block.markdown
-            ? addGlossary(
-                htmlProcessor.processSync(block.markdown).contents as string
-              )
-            : undefined;
-          times.push(html?.duration ?? 0);
-          return {
-            ...block,
-            html: html?.result,
-          };
-        });
-        return content;
-      }),
+      contents: contents.map((content) => ({
+        ...content,
+        blocks: mapBlocks(content.blocks, times, addGlossary),
+      })),
       intro: intro.result,
     };
   });
@@ -48,5 +59,9 @@ export function markdownTransform(
       times.reduce((total, current) => total + current, 0) / times.length
     } ms`
   );
+  logger.info(
+    `Total glossary: ${times.reduce((total, current) => total + current, 0)} ms`
+  );
+
   return docs;
 }

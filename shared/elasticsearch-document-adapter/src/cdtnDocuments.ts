@@ -6,7 +6,6 @@ import type {
 } from "@shared/types";
 import { logger } from "@socialgouv/cdtn-logger";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import fs from "fs";
 import fetch from "node-fetch";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";
@@ -20,6 +19,7 @@ import {
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
 import { markdownTransform } from "./markdown";
+import { getTimeInMs } from "./time-utils";
 import type { ThemeQueryResult } from "./types/themes";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
@@ -75,7 +75,7 @@ export async function getDuplicateSlugs(allDocuments: any) {
     );
 }
 
-export async function cdtnDocumentsGen() {
+export async function* cdtnDocumentsGen() {
   const CDTN_ADMIN_ENDPOINT =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
 
@@ -103,52 +103,52 @@ export async function cdtnDocumentsGen() {
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
 
   const glossaryTerms = await getGlossary();
+  logger.info("Glossary termes: ", glossaryTerms.length);
   const addGlossary = createGlossaryTransform(glossaryTerms);
   const durations: number[] = [];
   const addGlossaryToAllMarkdownField = (obj: Record<string, any>) => {
     return keyFunctionParser("markdown", obj, (content) => {
       const data = addGlossary(content);
       durations.push(data.duration);
-      logger.info(
-        `keyFunctionParser in ${data.duration} ms (size content: ${content.length})`
-      );
       return data.result;
     });
   };
 
   logger.info("=== Editorial contents ===");
-  const start = process.hrtime();
+  const startEditorial = process.hrtime();
   const documents = await getDocumentBySource<EditorialContentDoc>(
     SOURCES.EDITORIAL_CONTENT,
     getBreadcrumbs
   );
-  const data = {
+  const endEditorial = process.hrtime(startEditorial);
+  logger.info(
+    `=== Load Editorial contents in ${getTimeInMs(endEditorial)}ms ===`
+  );
+  yield {
     documents: markdownTransform(addGlossary, documents),
     source: SOURCES.EDITORIAL_CONTENT,
   };
-  const end = process.hrtime(start);
-  logger.info(`=== Editorial contents in ${end[1] / 1000000}ms ===`);
 
   logger.info("=== Courriers ===");
-  const data2 = {
+  yield {
     documents: await getDocumentBySource(SOURCES.LETTERS, getBreadcrumbs),
     source: SOURCES.LETTERS,
   };
 
   logger.info("=== Outils ===");
-  const data3 = {
+  yield {
     documents: await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs),
     source: SOURCES.TOOLS,
   };
 
   logger.info("=== Outils externes ===");
-  const data4 = {
+  yield {
     documents: await getDocumentBySource(SOURCES.EXTERNALS, getBreadcrumbs),
     source: SOURCES.EXTERNALS,
   };
 
   logger.info("=== Dossiers ===");
-  const data5 = {
+  yield {
     documents: await getDocumentBySource(
       SOURCES.THEMATIC_FILES,
       getBreadcrumbs
@@ -157,22 +157,22 @@ export async function cdtnDocumentsGen() {
   };
 
   logger.info("=== Contributions ===");
-  const startC = process.hrtime();
+  const startLoadContributions = process.hrtime();
   const contributions = await getDocumentBySource<ContributionCompleteDoc>(
     SOURCES.CONTRIBUTIONS,
     getBreadcrumbs
   );
-  const endC = process.hrtime(startC);
-  logger.info(`Fetch ContributionCompleteDoc in ${endC[1] / 1000000}ms`);
+  const endLoadContribution = process.hrtime(startLoadContributions);
+  logger.info(
+    `Fetch ContributionCompleteDoc in ${getTimeInMs(endLoadContribution)}ms`
+  );
 
-  const startCcn = process.hrtime();
-  logger.info(`START FETCH CCN`);
+  const startLoadAgreements = process.hrtime();
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
-  const endCcn = process.hrtime(startCcn);
-  logger.info(`Fetch CCN in ${endCcn[1] / 1000000}ms`);
+  const endLoadAgreements = process.hrtime(startLoadAgreements);
+  logger.info(`Fetch agreements in ${getTimeInMs(endLoadAgreements)}ms`);
 
   const startHighlights = process.hrtime();
-  logger.info(`START FILTER HIGHTLIGHTS`);
   const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
     return ccn.highlight;
   });
@@ -184,10 +184,9 @@ export async function cdtnDocumentsGen() {
     {}
   );
   const endHighlights = process.hrtime(startHighlights);
-  logger.info(`Filter Highlights in ${endHighlights[1] / 1000000}ms`);
+  logger.info(`Compute Highlights in ${getTimeInMs(endHighlights)}ms`);
 
   const startContrib = process.hrtime();
-  logger.info(`START FILTER CONTRIB BREADCRUMBS`);
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
     (state: any, contribution: any) => {
       if (contribution.breadcrumbs.length > 0) {
@@ -198,7 +197,7 @@ export async function cdtnDocumentsGen() {
     {}
   );
   const endContrib = process.hrtime(startContrib);
-  logger.info(`ContribBreadcrumbs CCN in ${endContrib[1] / 1000000}ms`);
+  logger.info(`Build breadcrumbs per index in ${getTimeInMs(endContrib)}ms`);
 
   // we keep track of the idccs used in the contributions
   // in order to flag the corresponding conventions collectives below
@@ -209,8 +208,7 @@ export async function cdtnDocumentsGen() {
     }
   });
   const startContribMap = process.hrtime();
-  logger.info(`START MAP CONTRIBUTIONS`);
-  const data01 = {
+  yield {
     documents: contributions.map(
       ({ answers, breadcrumbs, ...contribution }: any) => {
         const newAnswer = answers;
@@ -240,7 +238,7 @@ export async function cdtnDocumentsGen() {
     source: SOURCES.CONTRIBUTIONS,
   };
   const endContribMap = process.hrtime(startContribMap);
-  logger.info(`ContribMap CCN in ${endContribMap[1] / 1000000}ms`);
+  logger.info(`Map contribution CCN in ${getTimeInMs(endContribMap)}ms`);
   logger.info(
     `Glossarified ${durations.length} -> average ${durations.reduce(
       (total, curr) => total + curr,
@@ -261,7 +259,7 @@ export async function cdtnDocumentsGen() {
   const ccnQR =
     "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";
 
-  const data10 = {
+  yield {
     documents: ccnData.map(({ title, shortTitle, ...content }) => {
       return {
         // default effectif as some CCN doesn't have it defined
@@ -292,7 +290,7 @@ export async function cdtnDocumentsGen() {
   };
 
   logger.info("=== Fiches SP ===");
-  const data11 = {
+  yield {
     documents: await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs),
     source: SOURCES.SHEET_SP,
   };
@@ -302,7 +300,7 @@ export async function cdtnDocumentsGen() {
     SOURCES.SHEET_MT_PAGE,
     getBreadcrumbs
   );
-  const data22 = {
+  yield {
     documents: fichesMT.map(({ sections, ...infos }) => ({
       ...infos,
       sections: sections.map(({ html, ...section }: any) => {
@@ -319,7 +317,7 @@ export async function cdtnDocumentsGen() {
 
   logger.info("=== Fiche MT(split) ===");
   const splittedFiches = fichesMT.flatMap(splitArticle);
-  const data66 = {
+  yield {
     documents: splittedFiches.map((fiche) => {
       // we don't want splitted fiches to have the same cdtnId than full pages
       // it causes bugs, tons of weird bugs, but we need the id for the
@@ -336,13 +334,13 @@ export async function cdtnDocumentsGen() {
   };
 
   logger.info("=== Themes ===");
-  const data67 = {
+  yield {
     documents: buildThemes(themes, getBreadcrumbs),
     source: SOURCES.THEMES,
   };
 
   logger.info("=== Highlights ===");
-  const data68 = {
+  yield {
     documents: await getDocumentBySourceWithRelation(
       SOURCES.HIGHLIGHTS,
       getBreadcrumbs
@@ -351,7 +349,7 @@ export async function cdtnDocumentsGen() {
   };
 
   logger.info("=== PreQualified Request ===");
-  const data69 = {
+  yield {
     documents: await getDocumentBySourceWithRelation(
       SOURCES.PREQUALIFIED,
       getBreadcrumbs
@@ -360,7 +358,7 @@ export async function cdtnDocumentsGen() {
   };
 
   logger.info("=== glossary ===");
-  const data70 = {
+  yield {
     documents: [
       {
         data: glossaryTerms,
@@ -371,13 +369,13 @@ export async function cdtnDocumentsGen() {
   };
 
   logger.info("=== Code du travail ===");
-  const data71 = {
+  yield {
     documents: await getDocumentBySource(SOURCES.CDT),
     source: SOURCES.CDT,
   };
 
   logger.info("=== data version ===");
-  const data72 = {
+  yield {
     documents: [
       {
         data: getVersions(),

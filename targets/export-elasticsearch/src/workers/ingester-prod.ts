@@ -15,7 +15,7 @@ const ingester = async (): Promise<string> => {
         undefined,
         undefined,
         undefined,
-        true
+        false
       );
       resolve("Export elasticsearch completed successfully");
     } catch (error: unknown) {

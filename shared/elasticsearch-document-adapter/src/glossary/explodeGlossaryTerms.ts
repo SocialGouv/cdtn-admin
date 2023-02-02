@@ -17,10 +17,6 @@ const endTag = `${endWordBreaks}${endWebComponentOmit}`;
 
 export const explodeGlossaryTerms = (glossary: Glossary): GlossaryTerms[] => {
   // we make sure that bigger terms are replaced first
-  glossary.sort((previous, next) => {
-    return next.term.length - previous.term.length;
-  });
-
   const glossaryTerms = glossary.flatMap((term) => explodeTerm(term));
 
   // we also sure that cc matchers are replaced first
