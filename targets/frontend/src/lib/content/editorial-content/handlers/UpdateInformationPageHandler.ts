@@ -1,8 +1,7 @@
-import { CommandHandler, Event } from "../../cqrs";
-import { AuthenticationError } from "../../cqrs/Errors";
-import { UpdateInformationPage } from "./commands";
-import { InformationPageUpdated } from "./events";
-import { EditorialContentRepository } from "./repository";
+import { AuthenticationException, CommandHandler, Event } from "../../../cqrs";
+import { UpdateInformationPage } from "../commands";
+import { InformationPageUpdated } from "../events";
+import { EditorialContentRepository } from "../repository";
 
 export class UpdateInformationPageHandler
   implements CommandHandler<UpdateInformationPage>
@@ -22,7 +21,7 @@ export class UpdateInformationPageHandler
     document,
   }: UpdateInformationPage): Promise<Event[]> {
     if (!userToken) {
-      throw new AuthenticationError();
+      throw new AuthenticationException();
     }
 
     const aggregate = await this.repository.load(userToken, cdtnId);

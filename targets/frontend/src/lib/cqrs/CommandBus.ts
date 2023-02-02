@@ -18,12 +18,13 @@ export class CommandBus {
     });
   }
 
-  execute(command: Command<string>): Event[] {
+  async execute(command: Command<string>): Promise<Event[]> {
     const commandId = command.type;
     const handler = this._handlers.get(commandId);
     if (!handler) {
       throw new CommandHandlerNotFoundException(commandId);
     }
-    return handler.execute(command);
+    const events = await handler.execute(command);
+    return events;
   }
 }

@@ -27,3 +27,9 @@ export class AggregatePersistException extends Error {
     );
   }
 }
+
+export class AuthenticationException extends Error {
+  constructor() {
+    super();
+  }
+}

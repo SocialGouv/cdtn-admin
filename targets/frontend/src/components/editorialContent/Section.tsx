@@ -1,8 +1,6 @@
 /** @jsxImportSource theme-ui */
 
-import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-// @ts-ignore
 import { useFormContext } from "react-hook-form";
 import {
   IoIosArrowDropdown,
@@ -16,10 +14,10 @@ import { Box, Container, Field, Flex } from "theme-ui";
 
 import { ContentSection } from "../../types";
 import { Button, IconButton } from "../button";
-import { ReferenceBlocks } from "../editorialContent/ReferenceBlocks";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Stack } from "../layout/Stack";
 import { Li } from "../list";
+import { ReferenceBlocks } from "./ReferenceBlocks";
 import { SectionBlocks } from "./SectionBlocks";
 
 const DragHandle = sortableHandle(() => (
@@ -36,7 +34,7 @@ type SectionProps = {
   blockIndex: number;
   name: string;
   numberOfBlocks: number;
-  remove: any;
+  remove: (index: number) => void;
   open: boolean;
 };
 

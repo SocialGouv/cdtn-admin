@@ -4,7 +4,7 @@ import { Client } from "urql";
 import {
   AggregateNotFoundException,
   AggregatePersistException,
-} from "../../../cqrs/CommandErrors";
+} from "../../../cqrs";
 import {
   selectEditorialContentGraphql,
   SelectEditorialContentRequest,
@@ -24,7 +24,7 @@ export default class EditorialContentRepository {
     cdtnId: string
   ): Promise<EditorialContent | null> {
     const result = await this.gqlClient
-      .mutation<SelectEditorialContentResponse, SelectEditorialContentRequest>(
+      .query<SelectEditorialContentResponse, SelectEditorialContentRequest>(
         selectEditorialContentGraphql,
         {
           id: cdtnId,

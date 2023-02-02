@@ -8,13 +8,14 @@ import type {
   AgreementSection,
 } from "@socialgouv/kali-data-types";
 import type {
-  Prequalified,
-  Highlight,
   EditorialContent,
-} from "./EditorialContent";
-export * from "./EditorialContent";
-export * from "./utils";
+  Highlight,
+  Prequalified,
+} from "./EditorialContentTypes";
 import type { BaseHasuraDocument } from "./Base";
+
+export * from "./EditorialContentTypes";
+export * from "./utils";
 
 export enum DOCUMENT_SOURCE {
   fiches_ministere_travail = "fiches_ministere_travail",
@@ -497,3 +498,6 @@ export type State =
   | "VIGUEUR"
   | "VIGUEUR_ETEN"
   | "VIGUEUR_NON_ETEN";
+
+export * from "./EditorialContentTypes";
+export * from "./EditorialContentSchema";

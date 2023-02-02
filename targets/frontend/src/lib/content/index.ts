@@ -1,1 +1,1 @@
-export * from "./informations";
+export * from "./editorial-content";

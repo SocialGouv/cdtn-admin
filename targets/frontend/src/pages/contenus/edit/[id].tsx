@@ -27,6 +27,11 @@ import {
 import { Flex, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
+import { useUser } from "../../../hooks/useUser";
+import {
+  callApiUpdateEditorialContent,
+  UpdateEditorialContentInput,
+} from "../../../lib";
 import deleteContentMutation from "./deleteContent.mutation.graphql";
 import editContentMutation from "./editContent.mutation.graphql";
 import getContentQuery from "./getContent.query.graphql";
@@ -34,7 +39,7 @@ import getContentQuery from "./getContent.query.graphql";
 const context = { additionalTypenames: ["documents", "document_relations"] };
 
 function getContentRelationIds(
-  content: Content | PrequalifiedContent | HighLightContent
+  content: PrequalifiedContent | HighLightContent
 ) {
   return content.contentRelations
     ?.map((relation: ContentRelation) => relation?.relationId)
@@ -42,7 +47,7 @@ function getContentRelationIds(
 }
 
 function mapContentRelations(
-  content: Content | PrequalifiedContent | HighLightContent,
+  content: PrequalifiedContent | HighLightContent,
   queryId: string
 ) {
   return content.contentRelations.map(
@@ -101,25 +106,39 @@ export function EditInformationPage() {
       }
     };
 
-  const onSubmitContent = onSubmit<Content>((contentItem: Content) => {
-    const relationIds = getContentRelationIds(contentItem);
-    const relations = mapContentRelations(
-      contentItem,
-      router.query.id as string
-    );
-    return {
+  const user = useUser();
+
+  const onSubmitContent = async (contentItem: UpdateEditorialContentInput) => {
+    const data = {
       cdtnId: contentItem.cdtnId,
       document: contentItem.document,
       metaDescription:
         contentItem.metaDescription ||
         contentItem.document?.description ||
         contentItem.title,
-      relationIds,
-      relations,
       slug: contentItem?.slug || slugify(contentItem?.title as string),
       title: contentItem?.title,
     };
-  });
+
+    try {
+      const result = await callApiUpdateEditorialContent(user.tokenJwt, data);
+      previewContent({
+        cdtnId: result.cdtn_id,
+        document: {
+          metaDescription: result.meta_description,
+          slug: result.slug,
+          title: result.title,
+        },
+        source: result.source,
+      }).then((response) => {
+        if (response.error) {
+          console.error("preview impossible", response.error.message);
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const onSubmitContentMemo = useCallback(onSubmitContent, [
     router,

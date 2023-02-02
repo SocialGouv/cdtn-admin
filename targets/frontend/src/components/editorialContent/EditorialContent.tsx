@@ -17,12 +17,20 @@ import {
   Textarea,
 } from "theme-ui";
 
-import { BaseContentPart, Content, SectionDisplayMode } from "../../types";
+import { UpdateEditorialContentInput } from "../../lib";
+import {
+  BaseContentPart,
+  Content,
+  CONTENT_TYPE,
+  SectionDisplayMode,
+} from "../../types";
 import { Button } from "../button";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { MarkdownLink } from "../MarkdownLink";
 import { ContentSections } from "./ContentSections";
 import { ReferenceBlocks } from "./ReferenceBlocks";
+
+export type FormContent = UpdateEditorialContentInput;
 
 const addComputedFields =
   (onSubmit: (content: Partial<Content>) => void) =>
@@ -50,12 +58,12 @@ const EditorialContentForm = ({
   loading = false,
   content,
 }: {
-  onSubmit: any;
+  onSubmit: (value: FormContent) => void;
   loading: boolean;
-  content?: Partial<Content>;
+  content?: Partial<FormContent>;
 }) => {
   const router = useRouter();
-  const methods = useForm<Content>({
+  const methods = useForm<FormContent>({
     defaultValues: content,
   });
   const {
@@ -69,7 +77,7 @@ const EditorialContentForm = ({
   if (!content) {
     content = {
       document: {
-        contents: [{ blocks: [{ markdown: "", type: "markdown" }] }],
+        contents: [{ blocks: [{ markdown: "", type: CONTENT_TYPE.markdown }] }],
       },
     };
   }
@@ -77,7 +85,6 @@ const EditorialContentForm = ({
     buttonLabel = "Enregistrer les changements";
   }
   useEffect(() => {
-    console.log("errors", errors);
     setHasError(Object.keys(errors).length > 0);
   }, [errors]);
   return (
