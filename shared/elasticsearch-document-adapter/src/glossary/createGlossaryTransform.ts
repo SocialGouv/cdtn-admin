@@ -1,5 +1,4 @@
 import { context } from "../context";
-import { getTimeInMs } from "../time-utils";
 import type { Glossary } from "../types";
 import { explodeGlossaryTerms } from "./explodeGlossaryTerms";
 import { insertWebComponentGlossary } from "./insertWebComponentGlossary";
@@ -8,10 +7,7 @@ import { insertWebComponentGlossary } from "./insertWebComponentGlossary";
  * addGlossary is a heavy operation that is only neede while dumping for ES
  */
 
-export type AddGlossaryReturnFn = (content: string) => {
-  result: string;
-  duration: number;
-};
+export type AddGlossaryReturnFn = (content: string) => string;
 
 export const createGlossaryTransform = (
   glossary: Glossary
@@ -36,19 +32,14 @@ export const createGlossaryTransform = (
     };
   });
 
-  function addGlossary(content: string): { result: string; duration: number } {
-    const start = process.hrtime();
+  function addGlossary(content: string): string {
     if (DISABLE_GLOSSARY) {
-      return { duration: 0, result: content };
+      return content;
     }
-    if (!content) return { duration: 0, result: "" };
+    if (!content) return "";
 
     const result = insertWebComponentGlossary(content, glossaryTerms);
-    const total = process.hrtime(start);
-    return {
-      duration: getTimeInMs(total),
-      result,
-    };
+    return result;
   }
 
   return addGlossary;

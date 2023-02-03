@@ -19,7 +19,6 @@ import {
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
 import { markdownTransform } from "./markdown";
-import { getTimeInMs } from "./time-utils";
 import type { ThemeQueryResult } from "./types/themes";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
@@ -103,26 +102,17 @@ export async function* cdtnDocumentsGen() {
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
 
   const glossaryTerms = await getGlossary();
-  logger.info("Glossary termes: ", glossaryTerms.length);
   const addGlossary = createGlossaryTransform(glossaryTerms);
-  const durations: number[] = [];
   const addGlossaryToAllMarkdownField = (obj: Record<string, any>) => {
-    return keyFunctionParser("markdown", obj, (content) => {
-      const data = addGlossary(content);
-      durations.push(data.duration);
-      return data.result;
-    });
+    return keyFunctionParser("markdown", obj, (content) =>
+      addGlossary(content)
+    );
   };
 
   logger.info("=== Editorial contents ===");
-  const startEditorial = process.hrtime();
   const documents = await getDocumentBySource<EditorialContentDoc>(
     SOURCES.EDITORIAL_CONTENT,
     getBreadcrumbs
-  );
-  const endEditorial = process.hrtime(startEditorial);
-  logger.info(
-    `=== Load Editorial contents in ${getTimeInMs(endEditorial)}ms ===`
   );
   yield {
     documents: markdownTransform(addGlossary, documents),
@@ -157,22 +147,13 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== Contributions ===");
-  const startLoadContributions = process.hrtime();
   const contributions = await getDocumentBySource<ContributionCompleteDoc>(
     SOURCES.CONTRIBUTIONS,
     getBreadcrumbs
   );
-  const endLoadContribution = process.hrtime(startLoadContributions);
-  logger.info(
-    `Fetch ContributionCompleteDoc in ${getTimeInMs(endLoadContribution)}ms`
-  );
 
-  const startLoadAgreements = process.hrtime();
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
-  const endLoadAgreements = process.hrtime(startLoadAgreements);
-  logger.info(`Fetch agreements in ${getTimeInMs(endLoadAgreements)}ms`);
 
-  const startHighlights = process.hrtime();
   const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
     return ccn.highlight;
   });
@@ -183,10 +164,7 @@ export async function* cdtnDocumentsGen() {
     },
     {}
   );
-  const endHighlights = process.hrtime(startHighlights);
-  logger.info(`Compute Highlights in ${getTimeInMs(endHighlights)}ms`);
 
-  const startContrib = process.hrtime();
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
     (state: any, contribution: any) => {
       if (contribution.breadcrumbs.length > 0) {
@@ -196,8 +174,6 @@ export async function* cdtnDocumentsGen() {
     },
     {}
   );
-  const endContrib = process.hrtime(startContrib);
-  logger.info(`Build breadcrumbs per index in ${getTimeInMs(endContrib)}ms`);
 
   // we keep track of the idccs used in the contributions
   // in order to flag the corresponding conventions collectives below
@@ -207,7 +183,7 @@ export async function* cdtnDocumentsGen() {
       contribIDCCs.add(parseInt(answers.conventionAnswer.idcc));
     }
   });
-  const startContribMap = process.hrtime();
+
   yield {
     documents: contributions.map(
       ({ answers, breadcrumbs, ...contribution }: any) => {
@@ -237,23 +213,6 @@ export async function* cdtnDocumentsGen() {
     ),
     source: SOURCES.CONTRIBUTIONS,
   };
-  const endContribMap = process.hrtime(startContribMap);
-  logger.info(`Map contribution CCN in ${getTimeInMs(endContribMap)}ms`);
-  logger.info(
-    `Glossarified ${durations.length} -> average ${durations.reduce(
-      (total, curr) => total + curr,
-      0
-    )}ms`
-  );
-  logger.info(
-    `Glossarified max : ${durations.reduce(
-      (max, curr) => (curr > max ? curr : max),
-      0
-    )}ms & min ${durations.reduce(
-      (min, curr) => (curr < min ? curr : min),
-      0
-    )}ms`
-  );
 
   logger.info("=== Conventions Collectives ===");
   const ccnQR =
