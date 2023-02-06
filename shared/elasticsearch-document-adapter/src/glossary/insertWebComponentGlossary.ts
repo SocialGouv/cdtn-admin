@@ -9,8 +9,8 @@ export const insertWebComponentGlossary = (
   const result = glossary.reduce((previous, current) => {
     return previous.replace(current.pattern, (term) => {
       const value = createWebComponent(current.definition, term);
-      components.push({ index, value });
       index++;
+      components.push({ index, value });
       return `__${index}__`;
     });
   }, initialContent);
