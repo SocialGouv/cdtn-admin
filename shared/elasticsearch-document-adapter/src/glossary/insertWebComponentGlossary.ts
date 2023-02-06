@@ -4,27 +4,24 @@ export const insertWebComponentGlossary = (
   initialContent: string,
   glossary: GlossaryTerms[]
 ): string => {
-  const index = 0;
+  let index = 0;
   const components: { index: number; value: string }[] = [];
   const result = glossary.reduce((previous, current) => {
-    const replacedContent = previous.replace(current.pattern, (term) => {
+    return previous.replace(current.pattern, (term) => {
       const value = createWebComponent(current.definition, term);
       components.push({ index, value });
+      index++;
       return `__${index}__`;
     });
-    return replacedContent;
   }, initialContent);
 
-  const final = components.reduce((previous, current) => {
+  return components.reduce((previous, current) => {
     return previous.replace(`__${current.index}__`, current.value);
   }, result);
-
-  return final;
 };
 
 const createWebComponent = (definition: string | null, term: string) => {
-  const data = definition
+  return definition
     ? `<webcomponent-tooltip content="${definition}">${term}</webcomponent-tooltip>`
     : `<webcomponent-tooltip-cc>${term}</webcomponent-tooltip-cc>`;
-  return data;
 };
