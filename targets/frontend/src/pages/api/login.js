@@ -57,7 +57,7 @@ export default async function login(req, res) {
   }
 
   if (user.deleted) {
-    return apiError(Boom.unauthorized("User deleted."));
+    return apiError(Boom.unauthorized("Invalid 'username' or 'password'"));
   }
 
   // see if password hashes matches
