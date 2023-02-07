@@ -8,6 +8,7 @@ import type { Glossary } from "./types";
 import type {
   AggregateDocumentBySource,
   Document,
+  DocumentElastic,
   DocumentElasticWithSource,
   DocumentRef,
   DocumentWithRelation,
@@ -97,13 +98,13 @@ const gqlGlossary = (): string =>
   });
 
 export async function getGlossary(): Promise<Glossary> {
-  const CDTN_ADMIN_ENDPOINT =
+  const CDTN_ADMIN_ENDPOINT: string =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const result = await fetch(CDTN_ADMIN_ENDPOINT, {
     body: gqlGlossary(),
     method: "POST",
-  }).then(async (r) => r.json() as GetGlossaryResponse);
-  if (result.errors && result.errors.length) {
+  }).then(async (r) => (await r.json()) as GetGlossaryResponse);
+  if (result.errors?.length) {
     console.error(result.errors[0].message);
     throw new Error(`error fetching kali blocks`);
   }
@@ -119,17 +120,16 @@ export async function getDocumentBySource<T>(
     concurrency: 10,
     pageSize: 300,
   });
-  const docs = await Promise.all(pDocuments);
-  const documents = docs.flatMap((docs) =>
+  const documents = await Promise.all(pDocuments);
+  return documents.flatMap((docs) =>
     docs.map((doc) => toElastic<T>(doc, [], getBreadcrumbs))
   );
-  return documents;
 }
 
 export async function getDocumentBySourceWithRelation(
   source: SourceValues,
   getBreadcrumbs: GetBreadcrumbsFn
-) {
+): Promise<DocumentElastic[]> {
   const fetchDocuments = createDocumentsFetcher(
     gqlRequestBySourceWithRelations
   );
@@ -137,8 +137,8 @@ export async function getDocumentBySourceWithRelation(
     concurrency: 3,
     pageSize: 100,
   });
-  const docs = await Promise.all(pDocuments);
-  const documents = docs.flatMap((docs) =>
+  const documents = await Promise.all(pDocuments);
+  return documents.flatMap((docs) =>
     docs.map((doc) =>
       toElastic(
         {
@@ -148,7 +148,6 @@ export async function getDocumentBySourceWithRelation(
       )
     )
   );
-  return documents;
 }
 
 const createDocumentsFetcher =
@@ -157,7 +156,7 @@ const createDocumentsFetcher =
     source: SourceValues,
     { pageSize = PAGE_SIZE, concurrency = JOB_CONCURRENCY }
   ): Promise<Promise<DocumentWithRelation[]>[]> => {
-    const CDTN_ADMIN_ENDPOINT =
+    const CDTN_ADMIN_ENDPOINT: string =
       context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
     const nbDocResult = await fetch(CDTN_ADMIN_ENDPOINT, {
       body: gqlAgreggateDocumentBySource(source),
@@ -182,14 +181,16 @@ const createDocumentsFetcher =
               if (res.ok) {
                 return (await res.json()) as Promise<RequestBySourceWithRelationsResponse>;
               }
-              const error = new Error(res.statusText);
-              // TODO error.status = res.status;
+              const error = new Error(res.statusText) as Error & {
+                status: number;
+              };
+              error.status = res.status;
               throw error;
             })
             .then((result) => {
               if (result.errors) {
                 console.error(result.errors);
-                throw result.errors[0];
+                throw new Error(JSON.stringify(result.errors[0]));
               }
               return result.data?.documents ?? [];
             });
