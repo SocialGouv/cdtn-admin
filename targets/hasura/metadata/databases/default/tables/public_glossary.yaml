@@ -101,9 +101,7 @@ update_permissions:
 delete_permissions:
   - role: super
     permission:
-      backend_only: false
       filter: {}
   - role: user
     permission:
-      backend_only: false
       filter: {}

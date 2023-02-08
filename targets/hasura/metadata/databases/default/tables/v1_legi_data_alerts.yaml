@@ -5,12 +5,12 @@ select_permissions:
   - role: super
     permission:
       columns:
+        - id
         - info
-        - ref
-        - repository
         - status
+        - repository
+        - ref
         - created_at
         - updated_at
-        - id
       filter: {}
       allow_aggregations: true
