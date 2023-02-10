@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.0...v2.5.1) (2023-02-10)
+
+### Bug Fixes
+
+- **hasura:** set migration and metadata folder in dockerfile ([#879](https://github.com/SocialGouv/cdtn-admin/issues/879)) ([24eae67](https://github.com/SocialGouv/cdtn-admin/commit/24eae674456516478a28755e9317f5c26eaf4924))
+
 # [2.5.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.5...v2.5.0) (2023-02-10)
 
 ### Bug Fixes
