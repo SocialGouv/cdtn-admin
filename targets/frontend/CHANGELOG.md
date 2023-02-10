@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.5...v2.5.0) (2023-02-10)
+
+### Features
+
+- implémentation de la désactivation de compte utilisateur ([#870](https://github.com/SocialGouv/cdtn-admin/issues/870)) ([a336477](https://github.com/SocialGouv/cdtn-admin/commit/a33647702d52fbb1e0ba668ded522a733fa669b7))
+
 ## [2.4.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.4...v2.4.5) (2022-12-28)
 
 **Note:** Version bump only for package frontend

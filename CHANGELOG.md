@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.5...v2.5.0) (2023-02-10)
+
+### Bug Fixes
+
+- ci deactivate concurrency ([57c70e5](https://github.com/SocialGouv/cdtn-admin/commit/57c70e53f8e8c31002f8c5c497f95a102335a622))
+- deactivate ([#866](https://github.com/SocialGouv/cdtn-admin/issues/866)) ([d46ee2e](https://github.com/SocialGouv/cdtn-admin/commit/d46ee2eeec71dc2b78f64eb8de065b5ae6a6ba34))
+- deactivate drop-db ([bd82f7c](https://github.com/SocialGouv/cdtn-admin/commit/bd82f7cc2d6a04cdde668ea81e70ef208a6e6310))
+- pre-deploy cleaner ([5304887](https://github.com/SocialGouv/cdtn-admin/commit/5304887931f4b970d073745789c54f7b5ffe0af0))
+- up .dockerignore ([451b57c](https://github.com/SocialGouv/cdtn-admin/commit/451b57c5de9de0e8b0d85746897e77b5b87dd706))
+- up kontinuous ([2e9a308](https://github.com/SocialGouv/cdtn-admin/commit/2e9a308adc5b4e35a19791b8d0542c9b993f9c1a))
+- up kontinuous share volumes ([445ff0e](https://github.com/SocialGouv/cdtn-admin/commit/445ff0e49c74c6e69309a9df678a8818744fb234))
+- upgrade kontinuous workflows ([#865](https://github.com/SocialGouv/cdtn-admin/issues/865)) ([98c921c](https://github.com/SocialGouv/cdtn-admin/commit/98c921caddcf47df0210a6f35344aa885a926981))
+
+### Features
+
+- implémentation de la désactivation de compte utilisateur ([#870](https://github.com/SocialGouv/cdtn-admin/issues/870)) ([a336477](https://github.com/SocialGouv/cdtn-admin/commit/a33647702d52fbb1e0ba668ded522a733fa669b7))
+
 ## [2.4.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.4.4...v2.4.5) (2022-12-28)
 
 ### Bug Fixes
