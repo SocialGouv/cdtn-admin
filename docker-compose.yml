@@ -83,6 +83,8 @@ services:
       context: ./docker/elasticsearch
     ports:
       - 9200:9200
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.4.2
@@ -94,3 +96,4 @@ services:
 volumes:
   db_data:
   azurite_data:
+  elastic_data:
