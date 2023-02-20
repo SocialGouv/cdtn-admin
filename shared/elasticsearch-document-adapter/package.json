@@ -3,7 +3,7 @@
   "description": "SocialGouv - Code du travail numerique - Modules - ingester",
   "version": "2.5.1",
   "dependencies": {
-    "@elastic/elasticsearch": "^7.14.1",
+    "@elastic/elasticsearch": "^8.6.0",
     "@socialgouv/cdtn-elasticsearch": "^2.5.1",
     "@socialgouv/cdtn-logger": "^2.5.1",
     "@socialgouv/cdtn-monolog": "^1.5.11",

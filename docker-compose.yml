@@ -78,22 +78,24 @@ services:
     volumes:
       - azurite_data:/data
 
-  elasticsearch:
+  elasticsearch-new:
     build:
       context: ./docker/elasticsearch
+    container_name: elasticsearch-new
     ports:
       - 9200:9200
     volumes:
-      - elastic_data:/usr/share/elasticsearch/data
+      - elastic_data_new:/usr/share/elasticsearch/data
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.4.2
+  kibana-new:
+    image: docker.elastic.co/kibana/kibana:8.6.2
+    container_name: kibana-new
     ports:
       - 5601:5601
     depends_on:
-      - elasticsearch
+      - elasticsearch-new
 
 volumes:
   db_data:
   azurite_data:
-  elastic_data:
+  elastic_data_new:

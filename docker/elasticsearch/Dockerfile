@@ -1,4 +1,4 @@
-FROM elasticsearch:7.13.4
+FROM docker.elastic.co/elasticsearch/elasticsearch:8.6.2
 
 WORKDIR /usr/share/elasticsearch
 

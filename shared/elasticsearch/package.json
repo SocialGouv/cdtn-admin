@@ -14,7 +14,7 @@
   "license": "Apache-2.0",
   "main": "src/index.js",
   "peerDependencies": {
-    "@elastic/elasticsearch": "7.x"
+    "@elastic/elasticsearch": "8.x"
   },
   "publishConfig": {
     "access": "public"
