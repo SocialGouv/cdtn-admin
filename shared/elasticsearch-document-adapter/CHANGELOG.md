@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.1...v2.5.2) (2023-02-23)
+
+### Bug Fixes
+
+- amélioration des performances dans la génération des tooltips ([#869](https://github.com/SocialGouv/cdtn-admin/issues/869)) ([3dd4450](https://github.com/SocialGouv/cdtn-admin/commit/3dd4450d0e1aabb27f84b069bc95971c50e9de25))
+
 ## [2.5.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.0...v2.5.1) (2023-02-10)
 
 **Note:** Version bump only for package @shared/elasticsearch-document-adapter
