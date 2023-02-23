@@ -7,13 +7,13 @@ const conventionMatchers =
 const startWordBreaks = `(?<=^| |\\.|,|'|>|\\()`;
 const endWordBreaks = `(?= |\\.|,|'|$|<|\\))`;
 
-const startWebComponentOmit = `(?<!<(webcomponent-tooltip(-cc)?|a)>)`;
-const endWebComponentOmit = `(?![^<]*</(webcomponent-tooltip(-cc)?|a)>)`;
+const startAnchorOmit = `(?<!<a>)`;
+const endAnchorOmit = `(?![^<]*</a>)`;
 
 const tagAttributeOmit = `(?<=(^|>)[^><]*)`;
 
-const startTag = `${startWebComponentOmit}${tagAttributeOmit}${startWordBreaks}`;
-const endTag = `${endWordBreaks}${endWebComponentOmit}`;
+const startTag = `${startAnchorOmit}${tagAttributeOmit}${startWordBreaks}`;
+const endTag = `${endWordBreaks}${endAnchorOmit}`;
 
 export const explodeGlossaryTerms = (glossary: Glossary): GlossaryTerms[] => {
   // we make sure that bigger terms are replaced first
