@@ -222,6 +222,7 @@ describe("test glossary replacements", () => {
         ])(htmlContent)
       ).toEqual(`wordpress`);
     });
+
     test("should work on accentuated words", () => {
       const htmlContent = `wörd`;
       expect(
@@ -283,6 +284,28 @@ describe("test glossary replacements", () => {
         ])(htmlContent)
       ).toEqual(
         `<webcomponent-tooltip content="convention%20collective">word</webcomponent-tooltip>`
+      );
+    });
+
+    test("should replace all terms", () => {
+      const htmlContent = `<Tags>word1 et word2 et Word1</Tags>`;
+      expect(
+        createGlossaryTransform([
+          {
+            abbreviations: [],
+            definition: "définition de word1",
+            term: "word1",
+            variants: [],
+          },
+          {
+            abbreviations: [],
+            definition: "définition de word2",
+            term: "word2",
+            variants: [],
+          },
+        ])(htmlContent)
+      ).toEqual(
+        `<Tags><webcomponent-tooltip content="d%C3%A9finition%20de%20word1">word1</webcomponent-tooltip> et <webcomponent-tooltip content="d%C3%A9finition%20de%20word2">word2</webcomponent-tooltip> et <webcomponent-tooltip content="d%C3%A9finition%20de%20word1">Word1</webcomponent-tooltip></Tags>`
       );
     });
   });

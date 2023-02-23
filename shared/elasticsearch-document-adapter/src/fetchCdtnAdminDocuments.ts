@@ -1,12 +1,30 @@
+import type { SourceValues } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
 import PQueue from "p-queue";
 
+import type { Breadcrumbs, GetBreadcrumbsFn } from "./breadcrumbs";
 import { context } from "./context";
+import type { Glossary } from "./types";
+import type {
+  AggregateDocumentBySource,
+  Document,
+  DocumentElastic,
+  DocumentElasticWithSource,
+  DocumentRef,
+  DocumentWithRelation,
+  GetGlossaryResponse,
+  Relation,
+  RequestBySourceWithRelationsResponse,
+} from "./types/Glossary";
 
 const PAGE_SIZE = 200;
 const JOB_CONCURRENCY = 5;
 
-const gqlRequestBySource = (source, offset = 0, limit = null) =>
+const gqlRequestBySource = (
+  source: SourceValues,
+  offset = 0,
+  limit: number | null = null
+): string =>
   JSON.stringify({
     query: `{
   documents(
@@ -29,7 +47,11 @@ const gqlRequestBySource = (source, offset = 0, limit = null) =>
 }`,
   });
 
-const gqlRequestBySourceWithRelations = (source, offset = 0, limit = null) =>
+const gqlRequestBySourceWithRelations = (
+  source: SourceValues,
+  offset = 0,
+  limit: number | null = null
+): string =>
   JSON.stringify({
     query: `{
         documents(order_by: {cdtn_id: asc}, limit: ${limit}, offset: ${offset}, where: {source: {_eq: "${source}"}, is_available: {_eq: true}}) {
@@ -57,7 +79,7 @@ const gqlRequestBySourceWithRelations = (source, offset = 0, limit = null) =>
       }`,
   });
 
-const gqlAgreggateDocumentBySource = (source) =>
+const gqlAgreggateDocumentBySource = (source: SourceValues): string =>
   JSON.stringify({
     query: `{
   documents_aggregate(where: {is_available:{_eq: true}, source: {_eq: "${source}"}}){
@@ -68,41 +90,46 @@ const gqlAgreggateDocumentBySource = (source) =>
 }`,
   });
 
-const gqlGlossary = () =>
+const gqlGlossary = (): string =>
   JSON.stringify({
     query: `query Glossary {
       glossary {term, abbreviations, definition, variants, references, slug}
  }`,
   });
 
-export async function getGlossary() {
-  const CDTN_ADMIN_ENDPOINT =
+export async function getGlossary(): Promise<Glossary> {
+  const CDTN_ADMIN_ENDPOINT: string =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const result = await fetch(CDTN_ADMIN_ENDPOINT, {
     body: gqlGlossary(),
     method: "POST",
-  }).then(async (r) => r.json());
-  if (result.errors && result.errors.length) {
+  }).then(async (r) => (await r.json()) as GetGlossaryResponse);
+  if (result.errors?.length) {
     console.error(result.errors[0].message);
     throw new Error(`error fetching kali blocks`);
   }
-  return result.data.glossary;
+  return result.data?.glossary ?? [];
 }
 
-export async function getDocumentBySource(source, getBreadcrumbs) {
+export async function getDocumentBySource<T>(
+  source: SourceValues,
+  getBreadcrumbs: GetBreadcrumbsFn | undefined = undefined
+): Promise<DocumentElasticWithSource<T>[]> {
   const fetchDocuments = createDocumentsFetcher(gqlRequestBySource);
   const pDocuments = await fetchDocuments(source, {
     concurrency: 10,
     pageSize: 300,
   });
-  const docs = await Promise.all(pDocuments);
-  const documents = docs.flatMap((docs) =>
-    docs.map((doc) => toElastic(doc, getBreadcrumbs))
+  const documents = await Promise.all(pDocuments);
+  return documents.flatMap((docs) =>
+    docs.map((doc) => toElastic<T>(doc, [], getBreadcrumbs))
   );
-  return documents;
 }
 
-export async function getDocumentBySourceWithRelation(source, getBreadcrumbs) {
+export async function getDocumentBySourceWithRelation(
+  source: SourceValues,
+  getBreadcrumbs: GetBreadcrumbsFn
+): Promise<DocumentElastic[]> {
   const fetchDocuments = createDocumentsFetcher(
     gqlRequestBySourceWithRelations
   );
@@ -110,35 +137,41 @@ export async function getDocumentBySourceWithRelation(source, getBreadcrumbs) {
     concurrency: 3,
     pageSize: 100,
   });
-  const docs = await Promise.all(pDocuments);
-  const documents = docs.flatMap((docs) =>
+  const documents = await Promise.all(pDocuments);
+  return documents.flatMap((docs) =>
     docs.map((doc) =>
-      toElastic({
-        ...doc,
-        refs: toRefs(doc.contentRelations, getBreadcrumbs),
-      })
+      toElastic(
+        {
+          ...doc,
+        },
+        toRefs(doc.contentRelations, getBreadcrumbs)
+      )
     )
   );
-  return documents;
 }
 
 const createDocumentsFetcher =
   (gqlRequest = gqlRequestBySource) =>
-  async (source, { pageSize = PAGE_SIZE, concurrency = JOB_CONCURRENCY }) => {
-    const CDTN_ADMIN_ENDPOINT =
+  async (
+    source: SourceValues,
+    { pageSize = PAGE_SIZE, concurrency = JOB_CONCURRENCY }
+  ): Promise<Promise<DocumentWithRelation[]>[]> => {
+    const CDTN_ADMIN_ENDPOINT: string =
       context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
     const nbDocResult = await fetch(CDTN_ADMIN_ENDPOINT, {
       body: gqlAgreggateDocumentBySource(source),
       method: "POST",
-    }).then(async (r) => r.json());
-    if (nbDocResult.errors && nbDocResult.errors.length) {
+    }).then(
+      async (r) => (await r.json()) as Promise<AggregateDocumentBySource>
+    );
+    if (!nbDocResult.data) {
       return [];
     }
     const nbDoc = nbDocResult.data.documents_aggregate.aggregate.count;
     const queue = new PQueue({ concurrency });
 
     return Array.from({ length: Math.ceil(nbDoc / pageSize) }, (_, i) => i).map(
-      async (index) => {
+      async (index): Promise<DocumentWithRelation[]> => {
         return queue.add(async () => {
           return fetch(CDTN_ADMIN_ENDPOINT, {
             body: gqlRequest(source, index * pageSize, pageSize),
@@ -146,25 +179,27 @@ const createDocumentsFetcher =
           })
             .then(async (res) => {
               if (res.ok) {
-                return res.json();
+                return (await res.json()) as Promise<RequestBySourceWithRelationsResponse>;
               }
-              const error = new Error(res.statusText);
+              const error = new Error(res.statusText) as Error & {
+                status: number;
+              };
               error.status = res.status;
               throw error;
             })
             .then((result) => {
               if (result.errors) {
                 console.error(result.errors);
-                throw result.errors[0];
+                throw new Error(JSON.stringify(result.errors[0]));
               }
-              return result.data.documents;
+              return result.data?.documents ?? [];
             });
         });
       }
     );
   };
 
-function toElastic(
+function toElastic<T>(
   {
     id,
     cdtnId,
@@ -176,16 +211,16 @@ function toElastic(
     isPublished,
     metaDescription,
     document,
-    refs,
-  },
-  getBreadcrumbs
-) {
-  let breadcrumbs = [];
+  }: Document,
+  refs: DocumentRef[],
+  getBreadcrumbs: GetBreadcrumbsFn | undefined = undefined
+): DocumentElasticWithSource<T> {
+  let breadcrumbs: Breadcrumbs[] = [];
   if (getBreadcrumbs) {
     breadcrumbs = getBreadcrumbs(cdtnId);
   }
   return {
-    ...document,
+    ...(document as T),
     breadcrumbs,
     cdtnId,
     excludeFromSearch: !isSearchable,
@@ -200,7 +235,10 @@ function toElastic(
   };
 }
 
-function toRefs(contentRelations, getBreadcrumbs) {
+function toRefs(
+  contentRelations: Relation[],
+  getBreadcrumbs: GetBreadcrumbsFn
+): DocumentRef[] {
   return contentRelations
     .sort(
       ({ position: positionA }, { position: positionB }) =>
@@ -209,10 +247,10 @@ function toRefs(contentRelations, getBreadcrumbs) {
     .map(({ content: { cdtnId, document, slug, source, title } }) => ({
       breadcrumbs: getBreadcrumbs(cdtnId),
       cdtnId,
-      description: document.description,
+      description: (document as { description: string }).description,
       slug,
       source,
       title,
-      url: document.url,
+      url: (document as { url?: string }).url,
     }));
 }
