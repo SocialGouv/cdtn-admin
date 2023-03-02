@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.2...v2.5.3) (2023-03-02)
+
+### Features
+
+- update ips ([#883](https://github.com/SocialGouv/cdtn-admin/issues/883)) ([c048d7a](https://github.com/SocialGouv/cdtn-admin/commit/c048d7a3a44f414d44987f47ae763fe9e991d70e))
+
 ## [2.5.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.1...v2.5.2) (2023-02-23)
 
 ### Bug Fixes
