@@ -20,7 +20,7 @@
     "@socialgouv/cdtn-logger": "^2.5.3",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
-    "@socialgouv/cdtn-ui": "^4.52.2",
+    "@socialgouv/cdtn-ui": "^4.92.0",
     "@socialgouv/matomo-next": "^1.2.2",
     "@urql/exchange-auth": "^0.1.6",
     "@zeit/next-source-maps": "0.0.4-canary.1",

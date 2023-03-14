@@ -2764,11 +2764,6 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@maxgfr/react-accessible-accordion@4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@maxgfr/react-accessible-accordion/-/react-accessible-accordion-4.0.1.tgz#a8ea3727bfbd404456e135435b6818b5b637167c"
-  integrity sha512-GxarHhmQp/qeA4BWhlz+LI+ERn+5wfEAmF1BqeASSA4taaIPJnmysiKCDk0PNvtK5eK9ohFAZjbylhPU3BIWKg==
-
 "@mdx-js/react@^1.6.22":
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-1.6.22.tgz#ae09b4744fddc74714ee9f9d6f17a66e77c43573"
@@ -3600,14 +3595,14 @@
   resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-sources/-/cdtn-sources-4.77.1.tgz#f556c482d33109c19b27900ba5ac197ee64fb1e2"
   integrity sha512-VnGK/tCMMK3zTYBbVBD8QpnkIOhis3c9XszvyUozYuwGS0VJw42PONtmSyTUkt/XYXtWkKMBJNo9dNDpMqNY5w==
 
-"@socialgouv/cdtn-ui@^4.52.2":
-  version "4.77.1"
-  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-ui/-/cdtn-ui-4.77.1.tgz#e60d5e38d25f14149fc03cd23590b16268108908"
-  integrity sha512-uhlbz2hotVnCVDF76hAMnY0R3LOsuz7cTgVHJH4Sb6TMLJ3GvUW3vtRtEAaOaZlCvTNZHW9+vDBFfGOZfJeIzg==
+"@socialgouv/cdtn-ui@^4.92.0":
+  version "4.92.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-ui/-/cdtn-ui-4.92.0.tgz#0afabcf5b5f94d1a59bf0e031ad286d7a328e542"
+  integrity sha512-cZMpCsBdjymJXu9uZkq5odV4PqTs5k4urS2ulCViObX1NpNRKkGdanHpmcyLhIMu0+jqEtlrOZfyU7ehRKGvhA==
   dependencies:
-    "@maxgfr/react-accessible-accordion" "4.0.1"
     "@reach/dialog" "0.15.3"
-    polished "^4.1.3"
+    "@socialgouv/react-accessible-accordion" "4.1.1"
+    polished "^4.2.2"
     react-feather "^2.0.9"
     react-tabs "^3.2.2"
     use-onclickoutside "^0.4.0"
@@ -3733,6 +3728,11 @@
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@socialgouv/matomo-next/-/matomo-next-1.3.0.tgz#6f55b51c75582d9504f3e008339437deb1dd0d26"
   integrity sha512-1EWGFre4CudvcJPIaLYyAwHsGk8mMK5/IKztEIaU14uUifv117dlIJmcpJIVEow70AMY1VqRHh1x5z7Dx+H7dQ==
+
+"@socialgouv/react-accessible-accordion@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@socialgouv/react-accessible-accordion/-/react-accessible-accordion-4.1.1.tgz#8626ba9b11b17f69a707bde9fa6cedcb157963db"
+  integrity sha512-Fv9pjgKYmWhcpCNUIo1GfBBAGufM50jV6YQsf31WfO0xKF619aZV4A4myjBq+Rl57fXT4iYe/t4POK3ccjRAfQ==
 
 "@styled-system/background@^5.1.2":
   version "5.1.2"
@@ -14007,7 +14007,7 @@ pnp-webpack-plugin@1.6.4:
   dependencies:
     ts-pnp "^1.1.6"
 
-polished@^4.1.3:
+polished@^4.1.3, polished@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/polished/-/polished-4.2.2.tgz#2529bb7c3198945373c52e34618c8fe7b1aa84d1"
   integrity sha512-Sz2Lkdxz6F2Pgnpi9U5Ng/WdWAUZxmHrNPoVlm3aAemxoy2Qy7LGjQg4uf8qKelDAUW94F4np3iH2YPf2qefcQ==
