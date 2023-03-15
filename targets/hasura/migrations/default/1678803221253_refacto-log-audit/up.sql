@@ -1,4 +1,4 @@
-select audit.audit_table('documents'::regclass, true, true, '{updated_at}');
+select audit.audit_table('documents'::regclass, true, true, '{updated_at,created_at}');
 
 CREATE OR REPLACE FUNCTION jsonb_diff_val(val1 JSONB, val2 JSONB, excluded_cols text[])
 RETURNS JSONB AS $$
