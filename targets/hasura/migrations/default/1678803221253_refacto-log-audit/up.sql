@@ -19,8 +19,15 @@ BEGIN
 	 			'old', jsonb_extract_path(result, 'old') - v.key,
 	 			'new', jsonb_extract_path(result, 'new') - v.key
 	 		);
+	 	else
+	 		result = jsonb_build_object(
+	 			'old',
+	 			jsonb_build_object(v.key, jsonb_extract_path(jsonVal, 'old')),
+	 			'new',
+	 			jsonb_build_object(v.key, jsonb_extract_path(jsonVal, 'new'))
+	 		);
 		end if;
-     ELSIF jsonb_extract_path(result, 'old') @> jsonb_build_object(v.key, v.value)
+     ELSIF jsonb_extract_path(result, 'old', v.key) = v.value
      then
      	result = jsonb_build_object(
      		'old', jsonb_extract_path(result, 'old') - v.key,
