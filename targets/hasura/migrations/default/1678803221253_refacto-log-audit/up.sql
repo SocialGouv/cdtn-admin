@@ -1,6 +1,6 @@
-select audit.audit_table('documents'::regclass, true, true, '{updated_at,created_at}');
+select audit.audit_table('documents'::regclass, true, true, '{updated_at,created_at,is_available}');
 
-CREATE OR REPLACE FUNCTION jsonb_diff_val(val1 JSONB, val2 JSONB, excluded_cols text[])
+CREATE OR REPLACE FUNCTION jsonb_diff_val(val1 JSONB, val2 JSONB)
 RETURNS JSONB AS $$
 DECLARE
   result JSONB;
@@ -8,8 +8,8 @@ DECLARE
   v RECORD;
  
 BEGIN
-   result = jsonb_build_object('old', val1 - excluded_cols, 'new', val2 - excluded_cols);
-   FOR v IN SELECT * FROM jsonb_each(val2 - excluded_cols) loop
+   result = jsonb_build_object('old', val1, 'new', val2);
+   FOR v IN SELECT * FROM jsonb_each(val2) loop
 	 IF jsonb_typeof(v.value) = 'object' then
 	 	jsonVal = jsonb_diff_val(val1->v.key, v.value);
 	 	if jsonb_extract_path(jsonVal, 'new') = jsonb_build_object()
@@ -86,7 +86,7 @@ BEGIN
     IF (TG_OP = 'UPDATE' AND TG_LEVEL = 'ROW') THEN
         old_r = to_jsonb(OLD);
         new_r = to_jsonb(NEW);
-       	audit_row.changed_fields = jsonb_diff_val(old_r, new_r, excluded_cols);
+       	audit_row.changed_fields = jsonb_diff_val(old_r - excluded_cols, new_r - excluded_cols);
        audit_row.row_data = to_jsonb(OLD) - non_primary_cols;
     ELSIF (TG_OP = 'DELETE' AND TG_LEVEL = 'ROW') THEN
         audit_row.changed_fields = jsonb_build_object('old', to_jsonb(OLD) - excluded_cols);
