@@ -1,4 +1,4 @@
-select audit.audit_table('documents'::regclass, true, true, '{updated_at,created_at,is_available}');
+select audit.audit_table('documents'::regclass, true, true, '{is_available}');
 
 CREATE OR REPLACE FUNCTION jsonb_diff_val(val1 JSONB, val2 JSONB)
 RETURNS JSONB AS $$
@@ -80,7 +80,7 @@ BEGIN
     END IF;
 
     IF TG_ARGV[1] IS NOT NULL THEN
-        excluded_cols = TG_ARGV[1]::text[];
+        excluded_cols = TG_ARGV[1]::text[] || '{updated_at,created_at}'::text[];
     END IF;
 
     IF (TG_OP = 'UPDATE' AND TG_LEVEL = 'ROW') THEN
