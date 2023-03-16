@@ -100,7 +100,8 @@ BEGIN
         RAISE EXCEPTION '[audit.if_modified_func] - Trigger func added as trigger for unhandled case: %, %',TG_OP, TG_LEVEL;
         RETURN NULL;
     END IF;
-   	if (jsonb_extract_path(audit_row.changed_fields, 'new') <> jsonb_build_object()
+   	if (TG_LEVEL = 'STATEMENT'
+        or jsonb_extract_path(audit_row.changed_fields, 'new') <> jsonb_build_object()
 	 	or jsonb_extract_path(audit_row.changed_fields, 'old') <> jsonb_build_object())
 	then
     	INSERT INTO audit.logged_actions VALUES (audit_row.*);
