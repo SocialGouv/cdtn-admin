@@ -1,3 +1,9 @@
+import type {
+  AgreementDoc,
+  ContributionCompleteDoc,
+  EditorialContentDoc,
+  FicheTravailEmploiDoc,
+} from "@shared/types";
 import { logger } from "@socialgouv/cdtn-logger";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
@@ -13,6 +19,7 @@ import {
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
 import { markdownTransform } from "./markdown";
+import type { ThemeQueryResult } from "./types/themes";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 
@@ -78,11 +85,18 @@ export async function* cdtnDocumentsGen() {
   }).then(async (r: any) => {
     const data = await r.json();
     if (r.ok) {
-      return data;
+      return data as ThemeQueryResult;
     }
     return Promise.reject(data);
   });
 
+  if (!themesQueryResult.data) {
+    throw new Error(
+      `Requête pour récupérer les thèmes a échoué ${JSON.stringify(
+        themesQueryResult.errors
+      )}`
+    );
+  }
   const themes = themesQueryResult.data.themes;
 
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
@@ -96,7 +110,7 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== Editorial contents ===");
-  const documents = await getDocumentBySource(
+  const documents = await getDocumentBySource<EditorialContentDoc>(
     SOURCES.EDITORIAL_CONTENT,
     getBreadcrumbs
   );
@@ -133,12 +147,12 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== Contributions ===");
-  const contributions = await getDocumentBySource(
+  const contributions = await getDocumentBySource<ContributionCompleteDoc>(
     SOURCES.CONTRIBUTIONS,
     getBreadcrumbs
   );
 
-  const ccnData = await getDocumentBySource(SOURCES.CCN);
+  const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
 
   const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
     return ccn.highlight;
@@ -206,10 +220,7 @@ export async function* cdtnDocumentsGen() {
 
   yield {
     documents: ccnData.map(({ title, shortTitle, ...content }) => {
-      // we use our custom description
-      delete content.description;
       return {
-        description: ccnQR,
         // default effectif as some CCN doesn't have it defined
         effectif: 1,
         longTitle: title,
@@ -230,6 +241,7 @@ export async function* cdtnDocumentsGen() {
           };
         }),
         contributions: contribIDCCs.has(content.num),
+        description: ccnQR,
         source: SOURCES.CCN,
       };
     }),
@@ -243,7 +255,7 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== page fiches travail ===");
-  const fichesMT = await getDocumentBySource(
+  const fichesMT = await getDocumentBySource<FicheTravailEmploiDoc>(
     SOURCES.SHEET_MT_PAGE,
     getBreadcrumbs
   );
