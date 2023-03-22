@@ -4,6 +4,7 @@ const withSourceMaps = require("@zeit/next-source-maps")();
 const withTM = require("next-transpile-modules")([
   "@shared/graphql-client",
   "@shared/id-generator",
+  "@socialgouv/cdtn-ui",
 ]);
 
 const basePath = "";
