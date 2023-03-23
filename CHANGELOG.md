@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.3...v2.5.4) (2023-03-23)
+
+### Bug Fixes
+
+- build error for frontend ([#889](https://github.com/SocialGouv/cdtn-admin/issues/889)) ([620ffbb](https://github.com/SocialGouv/cdtn-admin/commit/620ffbbb98146c210b6b56ba7f5718aa5ab5b419))
+- **glossaire:** remove check for webcomponent tags as we insert them all together in one time ([#882](https://github.com/SocialGouv/cdtn-admin/issues/882)) ([02b20b7](https://github.com/SocialGouv/cdtn-admin/commit/02b20b73d476895e1be6d5b2a04cb1fc62d0a2e9))
+- **hasura:** add config yaml for cli ([#884](https://github.com/SocialGouv/cdtn-admin/issues/884)) ([2c28b8a](https://github.com/SocialGouv/cdtn-admin/commit/2c28b8aeb28b264b0329f53a4e64b0cc86a442f6))
+- reduction des logs audits ([#888](https://github.com/SocialGouv/cdtn-admin/issues/888)) ([6f9ec89](https://github.com/SocialGouv/cdtn-admin/commit/6f9ec890016e1ce230607d3e7ddeb80d5edece18))
+
 ## [2.5.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.2...v2.5.3) (2023-03-02)
 
 ### Features

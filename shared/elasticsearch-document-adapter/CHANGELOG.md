@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.3...v2.5.4) (2023-03-23)
+
+### Bug Fixes
+
+- **glossaire:** remove check for webcomponent tags as we insert them all together in one time ([#882](https://github.com/SocialGouv/cdtn-admin/issues/882)) ([02b20b7](https://github.com/SocialGouv/cdtn-admin/commit/02b20b73d476895e1be6d5b2a04cb1fc62d0a2e9))
+
 ## [2.5.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.2...v2.5.3) (2023-03-02)
 
 **Note:** Version bump only for package @shared/elasticsearch-document-adapter
