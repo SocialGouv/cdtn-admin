@@ -4,6 +4,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.4",
     "@azure/storage-blob": "^12.7.0",
+    "@codegouvfr/react-dsfr": "^0.46.1",
     "@elastic/elasticsearch": "^7.14.1",
     "@hapi/boom": "^9.1.4",
     "@hapi/joi": "^17.1.1",
@@ -115,7 +116,9 @@
     "precommit": "lint-staged",
     "start": "next start",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
-    "test": "jest"
+    "test": "jest",
+    "predev": "yarn only-include-used-icons",
+    "prebuild": "yarn only-include-used-icons"
   },
   "eslintConfig": {
     "extends": [

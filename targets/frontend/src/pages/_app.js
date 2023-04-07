@@ -1,11 +1,14 @@
 import "@reach/menu-button/styles.css";
 import "@reach/dialog/styles.css";
 import "@reach/accordion/styles.css";
+import "@codegouvfr/react-dsfr/dsfr/dsfr.css";
 
+import { createNextDsfrIntegrationApi } from "@codegouvfr/react-dsfr/next-pagesdir";
 import { RewriteFrames } from "@sentry/integrations";
 import * as Sentry from "@sentry/node";
 import { init } from "@socialgouv/matomo-next";
 import getConfig from "next/config";
+import Link from "next/link";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { ThemeProvider } from "theme-ui";
@@ -36,7 +39,14 @@ if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   });
 }
 
-export default function App({ Component, pageProps, err }) {
+const { withDsfr, dsfrDocumentApi } = createNextDsfrIntegrationApi({
+  Link,
+  defaultColorScheme: "system",
+});
+
+export { dsfrDocumentApi };
+
+function App({ Component, pageProps, err }) {
   useEffect(() => {
     init({
       siteId: process.env.NEXT_PUBLIC_MATOMO_SITE_ID,
@@ -50,6 +60,8 @@ export default function App({ Component, pageProps, err }) {
     </ThemeProvider>
   );
 }
+
+export default withDsfr(App);
 
 App.propTypes = {
   Component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),

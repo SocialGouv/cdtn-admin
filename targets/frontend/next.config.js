@@ -5,6 +5,7 @@ const withTM = require("next-transpile-modules")([
   "@shared/graphql-client",
   "@shared/id-generator",
   "@socialgouv/cdtn-ui",
+  "@codegouvfr/react-dsfr",
 ]);
 
 const basePath = "";
@@ -31,9 +32,11 @@ module.exports = withTM(
       ];
     },
     poweredByHeader: false,
+    reactStrictMode: true,
     serverRuntimeConfig: {
       rootDir: __dirname,
     },
+    transpilePackages: ["@codegouvfr/react-dsfr"],
     webpack: (config, { isServer, dev }) => {
       config.output.chunkFilename = isServer
         ? `${dev ? "[name]" : "[name].[fullhash]"}.js`
@@ -42,6 +45,10 @@ module.exports = withTM(
         exclude: /node_modules/,
         loader: "graphql-tag/loader",
         test: /\.(graphql|gql)$/,
+      });
+      config.module.rules.push({
+        test: /\.woff2$/,
+        type: "asset/resource",
       });
       // In `pages/_app.js`, Sentry is imported from @sentry/node. While
       // @sentry/browser will run in a Node.js environment, @sentry/node will use
