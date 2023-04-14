@@ -6,12 +6,12 @@ import { useState } from "react";
 
 export const Pagination = ({
   page = 0,
-  interval = 2,
+  interval,
   totalPage,
   onPageChange,
 }: {
   page?: number;
-  interval?: number;
+  interval: number;
   totalPage: number;
   onPageChange: (currentPage: number) => void;
 }) => {
@@ -19,12 +19,16 @@ export const Pagination = ({
   const lastPage = Math.floor(totalPage / interval);
   return (
     <Box sx={{ flexShrink: 0, float: "right", ml: 2.5 }}>
+      <span>
+        Page {currentPage + 1} / {lastPage + 1}
+      </span>
       <IconButton
         aria-label="previous page"
         disabled={currentPage === 0}
         onClick={() => {
-          setCurrentPage(currentPage - 1);
-          onPageChange(currentPage);
+          const prevPage = currentPage - 1;
+          setCurrentPage(prevPage);
+          onPageChange(prevPage);
         }}
       >
         <KeyboardArrowLeftIcon />
@@ -33,8 +37,9 @@ export const Pagination = ({
         aria-label="next page"
         disabled={currentPage === lastPage}
         onClick={() => {
-          setCurrentPage(currentPage + 1);
-          onPageChange(currentPage);
+          const nextPage = currentPage + 1;
+          setCurrentPage(nextPage);
+          onPageChange(nextPage);
         }}
       >
         <KeyboardArrowRightIcon />

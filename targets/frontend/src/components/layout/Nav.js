@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useUser } from "src/hooks/useUser";
 import { slugifyRepository } from "src/models";
-import { Badge, Box, NavLink, Text } from "theme-ui";
+import { Badge, Box, Text } from "theme-ui";
 import { useQuery } from "urql";
 
 import { Li, List } from "../list";
@@ -185,15 +185,17 @@ function ActiveLink({ children, href }) {
   }
 
   return (
-    <Link shallow href={href} passHref>
-      <NavLink
-        sx={{
-          color: isCurrentRoute ? "primary" : "text",
-        }}
-        {...(isCurrentRoute && { "aria-current": "page" })}
-      >
-        {children}
-      </NavLink>
+    <Link
+      shallow
+      href={href}
+      passHref
+      style={{
+        color: isCurrentRoute ? "red" : "inherit",
+        textDecoration: "none",
+      }}
+      {...(isCurrentRoute && { "aria-current": "page" })}
+    >
+      {children}
     </Link>
   );
 }

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { IoMdContact } from "react-icons/io";
 import { MenuButton, MenuItem } from "src/components/button";
-import { Box, Flex, Image, NavLink, Text } from "theme-ui";
+import { Box, Flex, Image, Text } from "theme-ui";
 
 import { useUser } from "../../hooks/useUser";
 
@@ -26,37 +26,34 @@ export function Header() {
       px={["small", "large"]}
       py="xxsmall"
     >
-      <Link href="/">
-        <NavLink
+      <Link
+        href="/"
+        sx={{
+          "&:hover": {
+            color: "secondary",
+          },
+          alignItems: "center",
+          color: "text",
+          display: "inline-flex",
+          textDecoration: "none",
+          transition: "color .15s ease",
+        }}
+      >
+        <Image
+          src="/img/logo.png"
+          alt="Ministère du travail"
           sx={{
-            "&:hover": {
-              color: "secondary",
-            },
-            alignItems: "center",
-            color: "text",
-            display: "inline-flex",
-            textDecoration: "none",
-            transition: "color .15s ease",
+            width: "77px",
           }}
-          href="/"
-          title="Retour à l'accueil"
-        >
-          <Image
-            src="/img/logo.png"
-            alt="Ministère du travail"
-            sx={{
-              width: "77px",
-            }}
-          />
-          <Box paddingLeft="small">
-            <Box sx={{ fontSize: "large", lineHeight: "heading" }}>
-              veille & administration
-            </Box>
-            <Box sx={{ fontSize: "small", fontWeight: 300 }}>
-              Code du travail numérique
-            </Box>
+        />
+        <Box paddingLeft="small">
+          <Box sx={{ fontSize: "large", lineHeight: "heading" }}>
+            veille & administration
           </Box>
-        </NavLink>
+          <Box sx={{ fontSize: "small", fontWeight: 300 }}>
+            Code du travail numérique
+          </Box>
+        </Box>
       </Link>
       {user && (
         <Flex sx={{ alignItems: "center", flexDirection: "row" }}>
