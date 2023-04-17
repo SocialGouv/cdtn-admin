@@ -17,7 +17,11 @@ export type ContributionQuestions = {
 };
 
 const query = `query questions_answers($search: String, $idcc: bpchar, $offset: Int, $limit: Int) {
-  contribution_questions_aggregate {
+  contribution_questions_aggregate(
+    where: {
+      content: { _ilike: $search }
+    }
+  ) {
     aggregate {
       count
     }
@@ -39,6 +43,7 @@ const query = `query questions_answers($search: String, $idcc: bpchar, $offset: 
     ) {
       display_mode,
       content,
+      status,
       agreements {
         id,
         name

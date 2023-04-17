@@ -13,6 +13,7 @@ select_permissions:
         - display_mode
         - id_cc
         - id_question
+        - status
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -20,5 +21,7 @@ update_permissions:
     permission:
       columns:
         - content
+        - display_mode
+        - status
       filter: {}
       check: null

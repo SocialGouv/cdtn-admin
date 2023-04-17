@@ -7,6 +7,7 @@ export type Answer = {
   display_mode: string;
   content: string;
   agreements: Agreement;
+  status: string;
 };
 export type Question = {
   id: string;

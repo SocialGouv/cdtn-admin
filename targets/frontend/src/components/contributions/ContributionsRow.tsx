@@ -46,7 +46,7 @@ export const ContributionsRow = (props: {
             }}
           >
             <Box sx={{ marginTop: "2px" }}>
-              <b>{row.answers.filter(({ content }) => !content).length}</b>
+              <b>{row.answers.filter(({ status }) => !status).length}</b>
             </Box>
             <ClearIcon />
           </div>
@@ -61,7 +61,7 @@ export const ContributionsRow = (props: {
             }}
           >
             <Box sx={{ marginTop: "2px" }}>
-              <b>{row.answers.filter(({ content }) => content).length}</b>
+              <b>{row.answers.filter(({ status }) => status).length}</b>
             </Box>
             <CheckIcon />
           </div>
@@ -105,7 +105,7 @@ export const ContributionsRow = (props: {
                           style={{ width: "180px" }}
                           align="center"
                         >
-                          {answer.content ? (
+                          {answer.status ? (
                             <div
                               style={{
                                 color: "green",
