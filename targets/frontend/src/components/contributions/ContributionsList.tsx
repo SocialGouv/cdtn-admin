@@ -87,6 +87,7 @@ export const ContributionsList = (): JSX.Element => {
             onChange={(event) => {
               const value = event.target.value;
               setSearch(value ? `%${value}%` : undefined);
+              setPage(0);
             }}
             style={{ marginRight: 12 }}
           />
@@ -124,6 +125,7 @@ export const ContributionsList = (): JSX.Element => {
         </TableContainer>
         <Box sx={{ flexShrink: 0, float: "right", ml: 2.5 }}>
           <Pagination
+            page={page}
             totalPage={total}
             interval={pageInterval}
             onPageChange={(page) => {

@@ -2,7 +2,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Pagination = ({
   page = 0,
@@ -16,7 +16,13 @@ export const Pagination = ({
   onPageChange: (currentPage: number) => void;
 }) => {
   const [currentPage, setCurrentPage] = useState(page);
-  const lastPage = Math.floor(totalPage / interval);
+  const [lastPage, setlastPage] = useState(0);
+  useEffect(() => {
+    setCurrentPage(page);
+  }, [page]);
+  useEffect(() => {
+    setlastPage(Math.floor(totalPage / interval));
+  }, [totalPage]);
   return (
     <Box sx={{ flexShrink: 0, float: "right", ml: 2.5 }}>
       <span>
