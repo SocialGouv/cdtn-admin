@@ -10,7 +10,7 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useDebouncedState } from "src/hooks/";
-import { Flex, Input, Label, NavLink, Spinner, Text } from "theme-ui";
+import { Flex, Input, Label, Spinner, Text } from "theme-ui";
 import { useQuery } from "urql";
 
 const getGlossaryQuery = `
@@ -93,7 +93,7 @@ export function GlossaryPage() {
               {termsByLetters.map(({ letter, terms }) => (
                 <li key={`letter-${letter}`}>
                   {terms.length > 0 ? (
-                    <NavLink
+                    <Link
                       href={`#ancre-${letter}`}
                       sx={{
                         fontSize: "large",
@@ -103,7 +103,7 @@ export function GlossaryPage() {
                       }}
                     >
                       {letter}
-                    </NavLink>
+                    </Link>
                   ) : (
                     <Text
                       sx={{

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { IoIosCheckmark, IoIosClose } from "react-icons/io";
 import { useSelectionContext } from "src/pages/contenus";
 import { theme } from "src/theme";
-import { Box, NavLink } from "theme-ui";
+import { Box } from "theme-ui";
 
 export function DocumentList({ documents }) {
   return (
@@ -68,17 +68,20 @@ const DocumentRow = function DocumentRow({
         />
       </td>
       <td>
-        <Link href={sourceToRoute({ cdtnId, source })} passHref shallow>
-          <NavLink>
-            <span
-              sx={{
-                color: isPublished ? theme.colors.link : theme.colors.muted,
-                textDecoration: isAvailable ? "none" : " line-through",
-              }}
-            >
-              {source} › {title}
-            </span>
-          </NavLink>
+        <Link
+          href={sourceToRoute({ cdtnId, source })}
+          passHref
+          shallow
+          style={{ textDecoration: "none" }}
+        >
+          <span
+            sx={{
+              color: isPublished ? theme.colors.link : theme.colors.muted,
+              textDecoration: isAvailable ? "none" : " line-through",
+            }}
+          >
+            {source} › {title}
+          </span>
         </Link>
       </td>
       <td sx={{ textAlign: "center" }}>

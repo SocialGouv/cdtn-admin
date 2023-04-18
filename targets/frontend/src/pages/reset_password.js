@@ -6,7 +6,7 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { PasswordLayout } from "src/components/layout/password.layout";
 import { Stack } from "src/components/layout/Stack";
 import { request } from "src/lib/request";
-import { Field, NavLink, Text } from "theme-ui";
+import { Field, Text } from "theme-ui";
 
 export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);
@@ -49,8 +49,8 @@ export default function ResetPasswordPage() {
           instructions pour définir un nouveau mot de passe.
           <br />
         </Text>
-        <Link href="/login" passHref>
-          <NavLink>Se connecter</NavLink>
+        <Link href="/login" passHref style={{ textDecoration: "none" }}>
+          Se connecter
         </Link>
       </PasswordLayout>
     );

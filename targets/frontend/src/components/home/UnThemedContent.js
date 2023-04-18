@@ -1,7 +1,7 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Card, Flex, Message, NavLink, Text } from "theme-ui";
+import { Box, Card, Flex, Message, Text } from "theme-ui";
 import { useQuery } from "urql";
 
 export const getUnthemedContentQuery = `
@@ -60,25 +60,23 @@ export function UnThemedContent() {
     );
   }
   return (
-    <Link href="/unthemed" passHref>
-      <NavLink>
-        <Card>
-          <Flex sx={{ justifyContent: "flex-end" }}>
-            <Text
-              color="secondary"
-              sx={{
-                fontSize: "xxlarge",
-                fontWeight: "600",
-              }}
-            >
-              {data.documents.length}
-            </Text>
-          </Flex>
-          <Box>
-            <Text sx={{ textAlign: "right" }}>Contenus non thémés</Text>
-          </Box>
-        </Card>
-      </NavLink>
+    <Link href="/unthemed" passHref style={{ textDecoration: "none" }}>
+      <Card>
+        <Flex sx={{ justifyContent: "flex-end" }}>
+          <Text
+            color="secondary"
+            sx={{
+              fontSize: "xxlarge",
+              fontWeight: "600",
+            }}
+          >
+            {data.documents.length}
+          </Text>
+        </Flex>
+        <Box>
+          <Text sx={{ textAlign: "right" }}>Contenus non thémés</Text>
+        </Box>
+      </Card>
     </Link>
   );
 }

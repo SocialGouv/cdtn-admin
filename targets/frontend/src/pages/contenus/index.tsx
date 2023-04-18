@@ -49,7 +49,7 @@ export function DocumentsPage() {
   return (
     <SelectionContext.Provider value={[selectedItems, setSelectedItems]}>
       <Layout title="Contenus">
-        <DocumentListContainer initialFilterValues={initialFilterValues} />
+        {/* <DocumentListContainer initialFilterValues={initialFilterValues} /> */}
       </Layout>
     </SelectionContext.Provider>
   );

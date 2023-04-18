@@ -1,3 +1,4 @@
+import { createTheme, ThemeProvider } from "@mui/material";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -75,59 +76,62 @@ export const ContributionsList = (): JSX.Element => {
       result?.data?.contribution_questions_aggregate.aggregate.count ?? 0
     );
   }, [result]);
+  const theme = createTheme({});
   return (
     <>
-      <Box sx={{ paddingBottom: 1 }}>
-        <TextField
-          label="Recherche"
-          variant="outlined"
-          onChange={(event) => {
-            const value = event.target.value;
-            setSearch(value ? `%${value}%` : undefined);
-          }}
-          style={{ marginRight: 12 }}
-        />
-        <TextField
-          label="Idcc"
-          variant="outlined"
-          onChange={(event) => {
-            if (!event.target.value) {
-              setIdcc(undefined);
-              return;
-            }
-            if (event.target.value.toUpperCase() === "CDT") {
-              setIdcc("0000");
-              return;
-            }
-            const s = "000" + event.target.value;
-            const value = s.substring(s.length - 4);
-            setIdcc(value);
-          }}
-        />
-      </Box>
+      <ThemeProvider theme={theme}>
+        <Box sx={{ boxShadow: 0 }}>
+          <TextField
+            label="Recherche"
+            variant="outlined"
+            onChange={(event) => {
+              const value = event.target.value;
+              setSearch(value ? `%${value}%` : undefined);
+            }}
+            style={{ marginRight: 12 }}
+          />
+          <TextField
+            label="Idcc"
+            variant="outlined"
+            onChange={(event) => {
+              if (!event.target.value) {
+                setIdcc(undefined);
+                return;
+              }
+              if (event.target.value.toUpperCase() === "CDT") {
+                setIdcc("0000");
+                return;
+              }
+              const s = "000" + event.target.value;
+              const value = s.substring(s.length - 4);
+              setIdcc(value);
+            }}
+          />
+        </Box>
 
-      <TableContainer component={Paper} style={{ height: "65vh" }}>
-        <Table aria-label="collapsible table" size="small">
-          <TableBody>
-            {rows.map((row) => (
-              <ContributionsRow
-                key={row.content}
-                row={row}
-                preOpen={row.answers.length === 1}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Box sx={{ flexShrink: 0, float: "right", ml: 2.5 }}>
-        <Pagination
-          totalPage={total}
-          interval={pageInterval}
-          onPageChange={(page) => {
-            setPage(page);
-          }}
-        />
-      </Box>
+        <TableContainer component={Paper} style={{ height: "65vh" }}>
+          <Table aria-label="collapsible table" size="small">
+            <TableBody>
+              {rows.map((row) => (
+                <ContributionsRow
+                  key={row.content}
+                  row={row}
+                  preOpen={row.answers.length === 1}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Box sx={{ flexShrink: 0, float: "right", ml: 2.5 }}>
+          <Pagination
+            totalPage={total}
+            interval={pageInterval}
+            onPageChange={(page) => {
+              setPage(page);
+            }}
+          />
+        </Box>
+      </ThemeProvider>
     </>
   );
 };
