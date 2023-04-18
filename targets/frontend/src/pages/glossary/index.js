@@ -180,8 +180,8 @@ export function GlossaryPage() {
 export default withCustomUrqlClient(withUserProvider(GlossaryPage));
 
 const AddATermButton = () => (
-  <Link href="/glossary/edit" passHref>
-    <Button as="a" size="small">
+  <Link href="/glossary/edit" passHref style={{ textDecoration: "none" }}>
+    <Button size="small">
       <IoMdAdd sx={{ height: "2rem", mr: "xxsmall", width: "2rem" }} />
       Ajouter un terme
     </Button>

@@ -184,7 +184,6 @@ function FilesPage() {
                 return (
                   <Li key={file.name}>
                     <Card
-                      as="a"
                       target="_blank"
                       rel="noopener noreferrer"
                       href={file.url}

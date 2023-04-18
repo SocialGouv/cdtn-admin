@@ -72,8 +72,12 @@ export function DocumentListContainer({ initialFilterValues }) {
   return (
     <Stack>
       <Flex sx={{ justifyContent: "flex-end" }}>
-        <Link href="/contenus/create/" passHref>
-          <Button as="a" size="small" outline variant="secondary">
+        <Link
+          href="/contenus/create/"
+          passHref
+          style={{ textDecoration: "none" }}
+        >
+          <Button size="small" outline variant="secondary">
             <IoMdAdd
               sx={{
                 height: "iconSmall",
