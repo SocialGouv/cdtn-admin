@@ -13,7 +13,7 @@ import { Stack } from "src/components/layout/Stack";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Badge, Box, Message, NavLink, Spinner } from "theme-ui";
+import { Badge, Box, Message, Spinner } from "theme-ui";
 import { useQuery } from "urql";
 
 export function DuplicateContentPage(): JSX.Element {
@@ -75,8 +75,9 @@ export function DuplicateContentPage(): JSX.Element {
                     source: parent.source,
                   })}
                   passHref
+                  style={{ textDecoration: "none" }}
                 >
-                  <NavLink>{parent.title}</NavLink>
+                  {parent.title}
                 </Link>
               </Td>
               <Td>{document.title}</Td>

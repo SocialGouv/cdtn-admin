@@ -2,7 +2,7 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { Field, Label, NavLink, Select } from "theme-ui";
+import { Field, Label, Select } from "theme-ui";
 import { useQuery } from "urql";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";
@@ -77,8 +77,8 @@ export function UserForm({
         )}
         <Inline>
           <Button disabled={hasError || loading}>{buttonLabel}</Button>
-          <Link href={backHref} passHref>
-            <NavLink>Annuler</NavLink>
+          <Link href={backHref} passHref style={{ textDecoration: "none" }}>
+            Annuler
           </Link>
         </Inline>
       </Stack>

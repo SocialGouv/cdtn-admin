@@ -1,0 +1,37 @@
+table:
+  name: questions
+  schema: contribution
+array_relationships:
+  - name: answers
+    using:
+      foreign_key_constraint_on:
+        column: id_question
+        table:
+          name: answers
+          schema: contribution
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - content
+        - id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - id
+        - content
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - content
+      filter: {}
+      check: null
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

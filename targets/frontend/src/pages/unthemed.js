@@ -1,4 +1,5 @@
 import { getLabelBySource, getRouteBySource } from "@socialgouv/cdtn-sources";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { ThemePicker } from "src/components/forms/ContentPicker/ThemePicker";
@@ -12,7 +13,7 @@ import { Li, List } from "src/components/list";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Flex, Heading, Message, NavLink, Spinner } from "theme-ui";
+import { Box, Flex, Heading, Message, Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 const insertRelationMutation = `
@@ -92,7 +93,7 @@ export function UnthemedPage() {
                           sx={{ flex: 1, marginRight: "small", minWidth: 0 }}
                           title={title}
                         >
-                          <NavLink
+                          <Link
                             href={`https://preprod-code-du-travail-numerique.dev.fabrique.social.gouv.fr//${getRouteBySource(
                               source
                             )}/${slug}`}
@@ -108,7 +109,7 @@ export function UnthemedPage() {
                             }}
                           >
                             {title}
-                          </NavLink>
+                          </Link>
                         </Box>
                         <Box sx={{ flex: 1 }}>
                           <ThemePicker

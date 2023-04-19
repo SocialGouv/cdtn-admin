@@ -11,7 +11,7 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
 import { MarkdownLink } from "src/components/MarkdownLink";
-import { Box, Field, Flex, Label, NavLink, Text, Textarea } from "theme-ui";
+import { Box, Field, Flex, Label, Text, Textarea } from "theme-ui";
 import { useMutation } from "urql";
 
 const editTermMutation = `
@@ -145,7 +145,7 @@ export const TermForm = ({ term = {} }) => {
         <Flex sx={{ alignItems: "center", mt: "medium" }}>
           <Button disabled={hasError || loading}>{buttonLabel}</Button>
           <Link href="/glossary" passHref>
-            <NavLink sx={{ ml: "medium" }}>Annuler</NavLink>
+            Annuler
           </Link>
         </Flex>
       </>

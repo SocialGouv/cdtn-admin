@@ -5,7 +5,7 @@ import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { IconPicker } from "src/components/forms/IconPicker";
-import { Box, Field, Flex, Label, NavLink, Textarea } from "theme-ui";
+import { Box, Field, Flex, Label, Textarea } from "theme-ui";
 
 const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
   const {
@@ -100,8 +100,8 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
           <Button variant="secondary" disabled={hasError || loading}>
             {buttonLabel}
           </Button>
-          <Link href={backLink} passHref>
-            <NavLink sx={{ ml: "medium" }}>Annuler</NavLink>
+          <Link href={backLink} passHref style={{ textDecoration: "none" }}>
+            Annuler
           </Link>
         </Flex>
       </>

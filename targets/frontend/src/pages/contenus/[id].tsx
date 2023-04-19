@@ -10,7 +10,7 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
-import { Card, Message, NavLink } from "theme-ui";
+import { Card, Message } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 import getDocumentQuery from "./getDocument.query.graphql";
@@ -102,15 +102,16 @@ export function DocumentPage() {
             {/*
               // @ts-ignore */}
             <Button disabled={!hasChanged}>Enregistrer</Button>
-            <Link href="/contenus" passHref>
-              <NavLink
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.back();
-                }}
-              >
-                Retour
-              </NavLink>
+            <Link
+              href="/contenus"
+              passHref
+              onClick={(e) => {
+                e.preventDefault();
+                router.back();
+              }}
+              style={{ textDecoration: "none" }}
+            >
+              Retour
             </Link>
           </Inline>
         </Stack>

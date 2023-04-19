@@ -1,0 +1,27 @@
+table:
+  name: answers
+  schema: contribution
+object_relationships:
+  - name: agreements
+    using:
+      foreign_key_constraint_on: id_cc
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - content
+        - display_mode
+        - id_cc
+        - id_question
+        - status
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - content
+        - display_mode
+        - status
+      filter: {}
+      check: null
