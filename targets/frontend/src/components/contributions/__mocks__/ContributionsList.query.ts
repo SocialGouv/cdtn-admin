@@ -50,7 +50,7 @@ export const mock = {
       id: "questionId2",
     },
   ],
-  total: 1,
+  total: 2,
 };
 
 export const useContributionListQuery = (
