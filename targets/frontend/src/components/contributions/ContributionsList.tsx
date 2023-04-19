@@ -5,30 +5,22 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
-import { useQuery } from "urql";
 
 import { Pagination } from "../utils";
+import { useContributionListQuery } from "./ContributionsList.query";
 import { ContributionsRow } from "./ContributionsRow";
-import { contributionListQuery, ContributionListResult } from "./query";
 
 export const ContributionsList = (): JSX.Element => {
   const pageInterval = 12;
   const [page, setPage] = useState<number>(0);
   const [search, setSearch] = useState<string | undefined>();
   const [idcc, setIdcc] = useState<string | undefined>();
-  const [result] = useQuery<ContributionListResult>({
-    query: contributionListQuery,
-    requestPolicy: "cache-and-network",
-    variables: {
-      idcc,
-      limit: pageInterval,
-      offset: page * pageInterval,
-      search,
-    },
+  const { rows, total } = useContributionListQuery({
+    idcc,
+    page,
+    pageInterval,
+    search,
   });
-  const rows = result?.data?.contribution_questions ?? [];
-  const total =
-    result?.data?.contribution_questions_aggregate.aggregate.count ?? 0;
   return (
     <>
       <Box sx={{ boxShadow: 0 }}>
@@ -41,6 +33,7 @@ export const ContributionsList = (): JSX.Element => {
             setPage(0);
           }}
           style={{ marginRight: 12 }}
+          data-testid="contributions-list-search"
         />
         <TextField
           label="Idcc"
@@ -54,6 +47,7 @@ export const ContributionsList = (): JSX.Element => {
             const value = s.substring(s.length - 4);
             setIdcc(value);
           }}
+          data-testid="contributions-list-idcc"
         />
       </Box>
 
@@ -65,6 +59,7 @@ export const ContributionsList = (): JSX.Element => {
                 key={row.content}
                 row={row}
                 preOpen={row.answers.length === 1}
+                data-testid="contributions-list-row"
               />
             ))}
           </TableBody>

@@ -27,7 +27,11 @@ export const ContributionsRow = (props: {
 
   return (
     <>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }} key={row.id}>
+      <TableRow
+        sx={{ "& > *": { borderBottom: "unset" } }}
+        key={row.id}
+        data-testid={`row-${row.id}`}
+      >
         <TableCell>
           <IconButton aria-label="expand row" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -103,7 +107,7 @@ export const ContributionsRow = (props: {
                           style={{ width: "180px" }}
                           align="center"
                         >
-                          {answer.status ? (
+                          {answer.status === "DONE" ? (
                             <div
                               style={{
                                 color: "green",
@@ -111,6 +115,7 @@ export const ContributionsRow = (props: {
                                 justifyContent: "end",
                                 textAlign: "center",
                               }}
+                              data-testid={`${row.id}-${answer.agreements.id}-done`}
                             >
                               <Box sx={{ marginTop: "2px" }}>TRAITÉ</Box>
                               <ClearIcon />
@@ -123,6 +128,7 @@ export const ContributionsRow = (props: {
                                 justifyContent: "end",
                                 textAlign: "center",
                               }}
+                              data-testid={`${row.id}-${answer.agreements.id}-todo`}
                             >
                               <Box sx={{ marginTop: "2px" }}>NON TRAITÉ</Box>
                               <ClearIcon />

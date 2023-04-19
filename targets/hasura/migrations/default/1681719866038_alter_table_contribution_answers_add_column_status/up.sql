@@ -1,2 +1,2 @@
 alter table "contribution"."answers" add column "status" text
- null;
+not null default 'TODO';

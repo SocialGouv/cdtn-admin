@@ -5,7 +5,6 @@ export type Agreement = {
 
 export type Answer = {
   display_mode: string;
-  content: string;
   agreements: Agreement;
   status: string;
 };
