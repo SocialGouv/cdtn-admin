@@ -86,9 +86,7 @@ export const ContributionsRow = (props: {
                     {row.answers?.map((answer) => (
                       <TableRow key={answer.agreements.id}>
                         <TableCell scope="row" style={{ width: "80px" }}>
-                          {answer.agreements.id === "0000"
-                            ? "CDT"
-                            : answer.agreements.id}
+                          {answer.agreements.id}
                         </TableCell>
                         <TableCell scope="row">
                           {answer.agreements.name}
