@@ -11,15 +11,17 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { useRouter } from "next/router";
 import * as React from "react";
 
 import { Question } from "./type";
 
 export const ContributionsRow = (props: {
-  row: Question;
+  row: Partial<Question>;
   preOpen?: boolean;
 }) => {
   const { row, preOpen = false } = props;
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   React.useEffect(() => {
     setOpen(preOpen);
@@ -50,7 +52,9 @@ export const ContributionsRow = (props: {
             }}
           >
             <Box sx={{ marginTop: "2px" }}>
-              <b>{row.answers.filter(({ status }) => !status).length}</b>
+              <b>
+                {row?.answers?.filter(({ status }) => status === "TODO").length}
+              </b>
             </Box>
             <ClearIcon />
           </div>
@@ -65,7 +69,9 @@ export const ContributionsRow = (props: {
             }}
           >
             <Box sx={{ marginTop: "2px" }}>
-              <b>{row.answers.filter(({ status }) => status).length}</b>
+              <b>
+                {row?.answers?.filter(({ status }) => status === "DONE").length}
+              </b>
             </Box>
             <CheckIcon />
           </div>
@@ -81,26 +87,18 @@ export const ContributionsRow = (props: {
                     <TableRow>
                       <TableCell>Idcc</TableCell>
                       <TableCell>Convention collective</TableCell>
-                      <TableCell align="center">Affichage</TableCell>
                       <TableCell align="center">Statut</TableCell>
                       <TableCell />
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {row.answers?.map((answer) => (
-                      <TableRow key={answer.agreements.id}>
+                      <TableRow key={answer.agreement.id}>
                         <TableCell scope="row" style={{ width: "80px" }}>
-                          {answer.agreements.id}
+                          {answer.agreement.id}
                         </TableCell>
                         <TableCell scope="row">
-                          {answer.agreements.name}
-                        </TableCell>
-                        <TableCell
-                          scope="row"
-                          style={{ width: "120px" }}
-                          align="center"
-                        >
-                          {answer.display_mode}
+                          {answer.agreement.name}
                         </TableCell>
                         <TableCell
                           scope="row"
@@ -115,10 +113,10 @@ export const ContributionsRow = (props: {
                                 justifyContent: "end",
                                 textAlign: "center",
                               }}
-                              data-testid={`${row.id}-${answer.agreements.id}-done`}
+                              data-testid={`${row.id}-${answer.agreement.id}-done`}
                             >
                               <Box sx={{ marginTop: "2px" }}>TRAITÉ</Box>
-                              <ClearIcon />
+                              <CheckIcon />
                             </div>
                           ) : (
                             <div
@@ -128,7 +126,7 @@ export const ContributionsRow = (props: {
                                 justifyContent: "end",
                                 textAlign: "center",
                               }}
-                              data-testid={`${row.id}-${answer.agreements.id}-todo`}
+                              data-testid={`${row.id}-${answer.agreement.id}-todo`}
                             >
                               <Box sx={{ marginTop: "2px" }}>NON TRAITÉ</Box>
                               <ClearIcon />
@@ -136,7 +134,15 @@ export const ContributionsRow = (props: {
                           )}
                         </TableCell>
                         <TableCell scope="row" style={{ width: "50px" }}>
-                          <IconButton aria-label="modifier" size="small">
+                          <IconButton
+                            aria-label="modifier"
+                            size="small"
+                            onClick={() => {
+                              router.push(
+                                `/contributions/${row.id}/${answer.agreement.id}`
+                              );
+                            }}
+                          >
                             <ModeEditIcon />
                           </IconButton>
                         </TableCell>

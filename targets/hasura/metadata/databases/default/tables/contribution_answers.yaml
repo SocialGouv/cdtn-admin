@@ -2,15 +2,18 @@ table:
   name: answers
   schema: contribution
 object_relationships:
-  - name: agreements
+  - name: agreement
     using:
       foreign_key_constraint_on: id_cc
+  - name: question
+    using:
+      foreign_key_constraint_on: id_question
 select_permissions:
   - role: super
     permission:
       columns:
         - content
-        - display_mode
+        - other_answer
         - id_cc
         - id_question
         - status
@@ -21,7 +24,7 @@ update_permissions:
     permission:
       columns:
         - content
-        - display_mode
+        - other_answer
         - status
       filter: {}
       check: null

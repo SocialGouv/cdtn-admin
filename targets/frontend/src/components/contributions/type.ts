@@ -4,9 +4,13 @@ export type Agreement = {
 };
 
 export type Answer = {
-  display_mode: string;
-  agreements: Agreement;
+  idCc: string;
+  idQuestion: string;
+  otherAnswer?: string;
+  agreement: Agreement;
   status: string;
+  content?: string;
+  question: Omit<Question, "answers">;
 };
 export type Question = {
   id: string;

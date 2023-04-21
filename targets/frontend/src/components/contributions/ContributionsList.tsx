@@ -58,7 +58,7 @@ export const ContributionsList = (): JSX.Element => {
               <ContributionsRow
                 key={row.content}
                 row={row}
-                preOpen={row.answers.length === 1}
+                preOpen={row?.answers?.length === 1}
                 data-testid="contributions-list-row"
               />
             ))}

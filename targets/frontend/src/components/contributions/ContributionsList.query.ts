@@ -27,10 +27,10 @@ export const contributionListQuery = `query questions_answers($search: String, $
       },
       order_by: {id_cc: asc}
     ) {
-      display_mode,
+      other_answer,
       status,
-      agreements {
-        id,
+      agreement {
+        id
         name
       }
     }
@@ -50,7 +50,7 @@ export type ContributionListQueryProps = {
 };
 
 export type ContributionListQueryResult = {
-  rows: Question[];
+  rows: Partial<Question>[];
   total: number;
 };
 
