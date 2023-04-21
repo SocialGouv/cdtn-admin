@@ -1,1 +1,1 @@
-drop schema if exists contribution;
+create schema if not exists contribution;
