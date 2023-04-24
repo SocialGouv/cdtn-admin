@@ -13,6 +13,7 @@ import getAgreementsWithHighlight from "./agreementsWithHighlight";
 import { getAllKaliBlocks } from "./getKaliBlock.js";
 import { getKaliArticlesByTheme } from "./kaliArticleBytheme.js";
 
+// @ts-expect-error TODO typage remark
 const compiler = remark().use(html, { sanitize: true });
 
 type QuestionWithSlug = Question & { slug: string };

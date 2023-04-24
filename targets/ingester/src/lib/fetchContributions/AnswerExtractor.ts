@@ -14,7 +14,7 @@ import unified = require("unified");
 
 export class AnswerExtractor {
   constructor(agreements: IndexedAgreement[]) {
-    // @ts-expect-error cannot find the right type
+    // @ts-expect-error TODO typage remark
     this.mdStriper = remark().use(strip);
     this.agreements = agreements;
   }
@@ -120,7 +120,7 @@ export class AnswerExtractor {
     (a: T, b: T): number =>
       `${a[key]}`.localeCompare(`${b[key]}`);
 
-  // @ts-expect-error cannot find the right type
+  // @ts-expect-error TODO typage remark
   private readonly mdStriper: unified.Processor<remark.RemarkOptions>;
 
   private readonly agreements: IndexedAgreement[];
