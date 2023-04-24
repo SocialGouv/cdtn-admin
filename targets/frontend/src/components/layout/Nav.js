@@ -88,11 +88,6 @@ export function Nav() {
             </ActiveLink>
           </Li>
           <Li>
-            <ActiveLink href="/contributions" passHref>
-              Contributions
-            </ActiveLink>
-          </Li>
-          <Li>
             <ActiveLink href="/contenus?source=highlights" passHref>
               À la une
             </ActiveLink>
@@ -145,6 +140,16 @@ export function Nav() {
           <Li>
             <ActiveLink href="/mises-a-jour" passHref>
               Mises à jour
+            </ActiveLink>
+          </Li>
+        </List>
+      </Box>
+      <Box sx={{ paddingTop: "medium" }}>
+        <Text sx={TitleStyles}>Contributions</Text>
+        <List>
+          <Li>
+            <ActiveLink href="/contributions" passHref>
+              Questions
             </ActiveLink>
           </Li>
         </List>
