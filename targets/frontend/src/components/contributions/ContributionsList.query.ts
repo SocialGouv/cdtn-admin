@@ -1,6 +1,6 @@
 import { useQuery } from "urql";
 
-import { Question } from "./type";
+import { Answer, Question } from "./type";
 
 export const contributionListQuery = `query questions_answers($search: String, $idcc: bpchar, $offset: Int, $limit: Int) {
   contribution_questions_aggregate(
@@ -37,8 +37,12 @@ export const contributionListQuery = `query questions_answers($search: String, $
   }
 }`;
 
+type QueryQuestion = Omit<Question, "answers"> & {
+  answers: Omit<Answer, "idCc" | "idQuestion" | "question">[];
+};
+
 type QueryResult = {
-  contribution_questions: Question[];
+  contribution_questions: QueryQuestion[];
   contribution_questions_aggregate: { aggregate: { count: number } };
 };
 
@@ -50,7 +54,7 @@ export type ContributionListQueryProps = {
 };
 
 export type ContributionListQueryResult = {
-  rows: Partial<Question>[];
+  rows: Partial<QueryQuestion>[];
   total: number;
 };
 

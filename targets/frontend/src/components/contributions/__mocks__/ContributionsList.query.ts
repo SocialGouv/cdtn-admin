@@ -3,24 +3,24 @@ import {
   ContributionListQueryResult,
 } from "../ContributionsList.query";
 
-export const mock = {
+export const mock: ContributionListQueryResult = {
   rows: [
     {
       answers: [
         {
-          agreements: {
+          agreement: {
             id: "0001",
             name: "CC 0001",
           },
-          other_answer: "",
+          otherAnswer: "",
           status: "TODO",
         },
         {
-          agreements: {
+          agreement: {
             id: "0002",
             name: "CC 0002",
           },
-          other_answer: "",
+          otherAnswer: "",
           status: "DONE",
         },
       ],
@@ -30,19 +30,19 @@ export const mock = {
     {
       answers: [
         {
-          agreements: {
+          agreement: {
             id: "0002",
             name: "CC 0002",
           },
-          other_answer: "",
+          otherAnswer: "",
           status: "TODO",
         },
         {
-          agreements: {
+          agreement: {
             id: "0002",
             name: "CC 0002",
           },
-          other_answer: "",
+          otherAnswer: "",
           status: "TODO",
         },
       ],
@@ -53,8 +53,6 @@ export const mock = {
   total: 2,
 };
 
-export const useContributionListQuery = (
-  props: ContributionListQueryProps
-): ContributionListQueryResult => {
+export const useContributionListQuery = (props: ContributionListQueryProps) => {
   return mock;
 };

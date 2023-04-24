@@ -5,6 +5,12 @@ import { ContributionsList } from "../ContributionsList";
 
 jest.mock("../ContributionsList.query");
 
+jest.mock("next/router", () => ({
+  useRouter: () => {
+    return { push: jest.fn() };
+  },
+}));
+
 describe("ContributionsList", () => {
   beforeEach(() => {
     render(<ContributionsList />);
