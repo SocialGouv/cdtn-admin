@@ -2,7 +2,6 @@ import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
-import { FormLabel } from "@mui/material";
 import {
   BubbleMenu,
   EditorContent,
@@ -11,7 +10,7 @@ import {
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { TitleBox } from "./TitleBox";
 
@@ -45,7 +44,7 @@ export const MarkdownEditor = ({
     <>
       {isClient && (
         <TitleBox title="Réponse" focus={focus}>
-          {editor && (
+          {editor ? (
             <StyledBubbleMenu
               className="bubble-menu"
               tippyOptions={{ duration: 100 }}
@@ -88,9 +87,11 @@ export const MarkdownEditor = ({
                 <FormatItalicIcon />
               </button>
             </StyledBubbleMenu>
+          ) : (
+            <></>
           )}
 
-          {editor && (
+          {editor ? (
             <StyledFloatingMenu
               className="floating-menu"
               tippyOptions={{ duration: 100 }}
@@ -111,6 +112,8 @@ export const MarkdownEditor = ({
                 <FormatListNumberedIcon />
               </button>
             </StyledFloatingMenu>
+          ) : (
+            <></>
           )}
 
           <StyledEditorContent

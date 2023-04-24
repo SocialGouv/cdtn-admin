@@ -8,7 +8,7 @@ export const TitleBox = ({
 }: {
   title: string;
   focus?: boolean;
-  children: JSX.Element;
+  children?: JSX.Element | JSX.Element[] | null;
 }): JSX.Element => {
   return (
     <>
