@@ -14,10 +14,10 @@ import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
 import * as React from "react";
 
-import { Question } from "./type";
+import { QueryQuestion } from "./ContributionsList.query";
 
 export const ContributionsRow = (props: {
-  row: Partial<Question>;
+  row: Partial<QueryQuestion>;
   preOpen?: boolean;
 }) => {
   const { row, preOpen = false } = props;

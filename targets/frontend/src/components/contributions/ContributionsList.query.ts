@@ -37,11 +37,11 @@ export const contributionListQuery = `query questions_answers($search: String, $
   }
 }`;
 
-type QueryQuestion = Omit<Question, "answers"> & {
+export type QueryQuestion = Omit<Question, "answers"> & {
   answers: Omit<Answer, "idCc" | "idQuestion" | "question">[];
 };
 
-type QueryResult = {
+export type QueryResult = {
   contribution_questions: QueryQuestion[];
   contribution_questions_aggregate: { aggregate: { count: number } };
 };
