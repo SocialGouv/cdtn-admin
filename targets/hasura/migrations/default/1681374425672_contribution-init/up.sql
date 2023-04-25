@@ -15,7 +15,7 @@ with inserted_questions as (
 	from contrib.questions q
 	returning id, content
 )
-insert into contribution.answers (id_question, id_cc)
+insert into contribution.answers (question_id, agreement_id)
 select iq.id, a.id
 from inserted_questions iq
 cross join public.agreements a;

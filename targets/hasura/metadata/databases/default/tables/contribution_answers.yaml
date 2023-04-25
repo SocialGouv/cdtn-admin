@@ -4,18 +4,18 @@ table:
 object_relationships:
   - name: agreement
     using:
-      foreign_key_constraint_on: id_cc
+      foreign_key_constraint_on: agreement_id
   - name: question
     using:
-      foreign_key_constraint_on: id_question
+      foreign_key_constraint_on: question_id
 select_permissions:
   - role: super
     permission:
       columns:
         - content
         - other_answer
-        - id_cc
-        - id_question
+        - agreement_id
+        - question_id
         - status
       filter: {}
       allow_aggregations: true

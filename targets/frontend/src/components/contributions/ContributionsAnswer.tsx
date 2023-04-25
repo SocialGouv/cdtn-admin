@@ -19,15 +19,15 @@ import { useContributionAnswerUpdateMutation } from "./ContributionsAnswer.mutat
 import { useContributionAnswerQuery } from "./ContributionsAnswer.query";
 
 export type ContributionsAnswerProps = {
-  idQuestion: string;
-  idCc: string;
+  questionId: string;
+  agreementId: string;
 };
 
 export const ContributionsAnswer = ({
-  idQuestion,
-  idCc,
+  questionId,
+  agreementId,
 }: ContributionsAnswerProps): JSX.Element => {
-  const answer = useContributionAnswerQuery({ idCc, idQuestion });
+  const answer = useContributionAnswerQuery({ agreementId, questionId });
   const [data, setData] = useState(answer);
   const updateAnswer = useContributionAnswerUpdateMutation();
   const [snack, setSnack] = useState<{ open: boolean; severity?: AlertColor }>({
@@ -36,14 +36,14 @@ export const ContributionsAnswer = ({
   useEffect(() => {
     setData(answer);
   }, [answer]);
-  if (!data || !data.idQuestion || !data.idCc) {
+  if (!data || !data.questionId || !data.agreementId) {
     return <></>;
   }
   return (
     <>
       <Breadcrumbs aria-label="breadcrumb">
         <Link href={"/contributions"}>Contributions</Link>
-        <Link href={`/contributions/${idQuestion}`}>
+        <Link href={`/contributions/${questionId}`}>
           {answer?.question?.content}
         </Link>
         <div>{answer?.agreement?.id}</div>
@@ -55,8 +55,8 @@ export const ContributionsAnswer = ({
           try {
             await updateAnswer({
               content: data.content,
-              idCc: data.idCc,
-              idQuestion: data.idQuestion,
+              agreementId: data.agreementId,
+              questionId: data.questionId,
               otherAnswer: data.otherAnswer,
               status: "DONE",
             });

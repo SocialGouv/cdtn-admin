@@ -2,15 +2,15 @@ import { useQuery } from "urql";
 
 import { Answer } from "./type";
 
-export const contributionAnswerQuery = `query contribution_answer($idQuestion: uuid, $idCc: bpchar) {
+export const contributionAnswerQuery = `query contribution_answer($questionId: uuid, $agreementId: bpchar) {
     contribution_answers(where: {
       _and: {
-        id_question: {_eq: $idQuestion},
-        id_cc: {_eq: $idCc}
+        question_id: {_eq: $questionId},
+        agreement_id: {_eq: $agreementId}
       }
     }) {
-      idQuestion: id_question
-      idCc: id_cc
+      questionId: question_id
+      agreementId: agreement_id
       content
       otherAnswer: other_answer
       status
@@ -27,8 +27,8 @@ export const contributionAnswerQuery = `query contribution_answer($idQuestion: u
   `;
 
 type QueryProps = {
-  idQuestion: string;
-  idCc: string;
+  questionId: string;
+  agreementId: string;
 };
 
 type QueryResult = {
@@ -36,15 +36,15 @@ type QueryResult = {
 };
 
 export const useContributionAnswerQuery = ({
-  idCc,
-  idQuestion,
+  agreementId,
+  questionId,
 }: QueryProps): Answer | undefined => {
   const [result] = useQuery<QueryResult>({
     query: contributionAnswerQuery,
     requestPolicy: "cache-and-network",
     variables: {
-      idCc,
-      idQuestion,
+      agreementId,
+      questionId,
     },
   });
   if (

@@ -2,7 +2,7 @@ import { useQuery } from "urql";
 
 import { Answer, Question } from "./type";
 
-export const contributionListQuery = `query questions_answers($search: String, $idcc: bpchar, $offset: Int, $limit: Int) {
+export const contributionListQuery = `query questions_answers($search: String, $agreementId: bpchar, $offset: Int, $limit: Int) {
   contribution_questions_aggregate(
     where: {
       content: { _ilike: $search }
@@ -23,9 +23,9 @@ export const contributionListQuery = `query questions_answers($search: String, $
     content,
     answers(
       where: {
-        id_cc: {_eq: $idcc}
+        agreement_id: {_eq: $agreementId}
       },
-      order_by: {id_cc: asc}
+      order_by: {agreement_id: asc}
     ) {
       other_answer,
       status,
@@ -38,7 +38,7 @@ export const contributionListQuery = `query questions_answers($search: String, $
 }`;
 
 export type QueryQuestion = Omit<Question, "answers"> & {
-  answers: Omit<Answer, "idCc" | "idQuestion" | "question">[];
+  answers: Omit<Answer, "agreementId" | "questionId" | "question">[];
 };
 
 export type QueryResult = {

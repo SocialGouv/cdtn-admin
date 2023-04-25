@@ -4,8 +4,8 @@ export type Agreement = {
 };
 
 export type Answer = {
-  idCc: string;
-  idQuestion: string;
+  agreementId: string;
+  questionId: string;
   otherAnswer?: string;
   agreement: Agreement;
   status: string;
