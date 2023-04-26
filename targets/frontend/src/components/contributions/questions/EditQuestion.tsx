@@ -13,7 +13,7 @@ export type EditQuestionProps = {
 export const EditQuestion = ({
   questionId,
 }: EditQuestionProps): JSX.Element => {
-  const question = useQuestionQuery({ questionId });
+  const data = useQuestionQuery({ questionId });
 
   const Header = () => (
     <>
@@ -24,7 +24,7 @@ export const EditQuestion = ({
     </>
   );
 
-  if (question === undefined) {
+  if (data === undefined) {
     return (
       <>
         <Header />
@@ -33,7 +33,7 @@ export const EditQuestion = ({
     );
   }
 
-  if (question === "not_found") {
+  if (data === "not_found") {
     return (
       <>
         <Header />
@@ -51,10 +51,28 @@ export const EditQuestion = ({
     );
   }
 
+  if (data === "error") {
+    return (
+      <>
+        <Header />
+
+        <Stack alignItems="center" spacing={2}>
+          <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
+          <Typography variant="h5" component="h3" color="error">
+            Une erreur est survenue
+          </Typography>
+          <Link href={"/contributions"}>
+            Retour à la liste des contributions
+          </Link>
+        </Stack>
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
-      <EditQuestionForm question={question} />
+      <EditQuestionForm question={data.question} messages={data.messages} />
     </>
   );
 };

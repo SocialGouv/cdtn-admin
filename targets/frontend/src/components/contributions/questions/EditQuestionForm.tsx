@@ -1,24 +1,44 @@
-import { Alert, AlertColor, Button, Snackbar, TextField } from "@mui/material";
+import {
+  Alert,
+  AlertColor,
+  Button,
+  Paper,
+  Snackbar,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import React, { PropsWithChildren, useState } from "react";
-import { Control, Controller, FieldPathValue, useForm } from "react-hook-form";
-import { FieldPath, UseFormReturn } from "react-hook-form/dist/types";
-import { FieldValues } from "react-hook-form/dist/types/fields";
-import { RegisterOptions } from "react-hook-form/dist/types/validator";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { FormSelect, FormTextField } from "src/components/forms";
 
 import { useQuestionUpdateMutation } from "./Question.mutation";
-import { Question } from "./type";
+import { Message, Question } from "./type";
 
-export type EditQuestionProps = {
+type EditQuestionProps = {
   question: Question;
+  messages: Message[];
+};
+
+type FormData = Omit<Question, "message"> & {
+  message_id: string;
 };
 
 export const EditQuestionForm = ({
   question,
+  messages,
 }: EditQuestionProps): JSX.Element => {
-  const form = useForm<Question>({
-    defaultValues: question,
+  const router = useRouter();
+  const { control, watch, handleSubmit } = useForm<FormData>({
+    defaultValues: {
+      content: question.content,
+      id: question.id,
+      message_id: question.message?.id ?? "",
+    },
   });
+  const [message, setMessage] = useState<Message | undefined>(undefined);
+  const watchMessageId = watch("message_id", question.message?.id);
   const updateQuestion = useQuestionUpdateMutation();
 
   const [snack, setSnack] = useState<{
@@ -29,7 +49,16 @@ export const EditQuestionForm = ({
     open: false,
   });
 
-  const onSubmit = async (data: Question) => {
+  useEffect(() => {
+    if (watchMessageId) {
+      const message = messages.find((message) => message.id === watchMessageId);
+      setMessage(message);
+    } else {
+      setMessage(undefined);
+    }
+  }, [watchMessageId, messages]);
+
+  const onSubmit = async (data: FormData) => {
     try {
       const result = await updateQuestion(data);
       if (result.error) {
@@ -48,23 +77,64 @@ export const EditQuestionForm = ({
 
   return (
     <>
-      <Form form={form} onDataSubmit={onSubmit}>
-        <Grid container spacing={2} columns={1} direction="column">
+      <form onSubmit={handleSubmit(onSubmit)} style={{ marginTop: 32 }}>
+        <Grid container spacing={4} columns={1} direction="column">
           <Grid>
             <FormTextField
               name="content"
-              control={form.control}
+              control={control}
               label="Nom de la question"
               rules={{ required: true }}
+              multiline
+              fullWidth
             />
           </Grid>
+          <Grid>
+            <FormSelect
+              options={messages.map((item) => ({
+                label: item.label,
+                value: item.id,
+              }))}
+              name="message_id"
+              control={control}
+              rules={{ required: true }}
+              label="Message associé à la question"
+              fullWidth
+            />
+            {message && (
+              <Paper
+                elevation={3}
+                style={{
+                  background: "#f2f6fa",
+                  marginLeft: 16,
+                  marginRight: 16,
+                  marginTop: 8,
+                  padding: 16,
+                }}
+                variant={"outlined"}
+              >
+                <Typography variant="subtitle1">Texte applicable</Typography>
+                <Typography variant="body2">{message.content}</Typography>
+              </Paper>
+            )}
+          </Grid>
           <Grid display="flex" justifyContent="end">
-            <Button variant="contained" type="submit">
-              Sauvegarder
-            </Button>
+            <Stack direction="row" spacing={2}>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  router.back();
+                }}
+              >
+                Annuler
+              </Button>
+              <Button variant="contained" type="submit">
+                Sauvegarder
+              </Button>
+            </Stack>
           </Grid>
         </Grid>
-      </Form>
+      </form>
       <Snackbar
         open={snack.open}
         autoHideDuration={6000}
@@ -81,80 +151,5 @@ export const EditQuestionForm = ({
         </Alert>
       </Snackbar>
     </>
-  );
-};
-
-type FormProps<
-  TFieldValues extends FieldValues = FieldValues,
-  TContext = any
-> = PropsWithChildren<{
-  form: UseFormReturn<TFieldValues, TContext>;
-  onDataSubmit: (values: TFieldValues) => void;
-}> &
-  React.DetailedHTMLProps<
-    React.FormHTMLAttributes<HTMLFormElement>,
-    HTMLFormElement
-  >;
-
-const Form = <TFieldValues extends FieldValues = FieldValues, TContext = any>({
-  form,
-  onDataSubmit,
-  children,
-  ...rest
-}: FormProps<TFieldValues, TContext>): JSX.Element => {
-  const { handleSubmit } = form;
-  const onSubmit = async (data: TFieldValues) => {
-    onDataSubmit(data);
-  };
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} {...rest}>
-      {children}
-    </form>
-  );
-};
-
-type FormTextFieldProps<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
-> = {
-  name: TName;
-  label: string;
-  rules?: Omit<
-    RegisterOptions<TFieldValues, TName>,
-    "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
-  >;
-  shouldUnregister?: boolean;
-  defaultValue?: FieldPathValue<TFieldValues, TName>;
-  control?: Control<any, any>;
-};
-
-export const FormTextField = ({
-  name,
-  control,
-  label,
-  rules,
-}: FormTextFieldProps) => {
-  return (
-    <Controller
-      name={name}
-      control={control}
-      rules={rules}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <TextField
-          helperText={
-            error && error.type === "required" ? "Ce champ est requis" : null
-          }
-          size="small"
-          error={!!error}
-          onChange={onChange}
-          value={value}
-          fullWidth
-          label={label}
-          variant="outlined"
-          multiline
-        />
-      )}
-    />
   );
 };

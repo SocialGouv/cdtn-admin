@@ -1,0 +1,11 @@
+table:
+  name: question_messages
+  schema: contribution
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - content
+        - label
+        - id
+      filter: {}

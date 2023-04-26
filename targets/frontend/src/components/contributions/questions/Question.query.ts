@@ -1,12 +1,22 @@
 import { useQuery } from "urql";
 
-import { Question, QuestionEntity } from "./type";
+import { MessageEntity, QuestionEntity, QuestionWithMessages } from "./type";
 
-export const contributionAnswerQuery = `
+export const contributionQuestionQuery = `
 query SelectQuestion($questionId: uuid) {
   contribution_questions(where: {id: {_eq: $questionId}}) {
     content
     id
+    message {
+      id
+      label
+      content
+    }
+  }
+  contribution_question_messages {
+    content
+    id
+    label
   }
 }
 `;
@@ -17,18 +27,22 @@ type QueryProps = {
 
 type QueryResult = {
   contribution_questions: QuestionEntity[];
+  contribution_question_messages: MessageEntity[];
 };
 
 export const useQuestionQuery = ({
   questionId,
-}: QueryProps): Question | undefined | "not_found" => {
+}: QueryProps): QuestionWithMessages | undefined | "not_found" | "error" => {
   const [result] = useQuery<QueryResult>({
-    query: contributionAnswerQuery,
+    query: contributionQuestionQuery,
     requestPolicy: "cache-and-network",
     variables: {
       questionId,
     },
   });
+  if (result?.error) {
+    return "error";
+  }
   if (!result?.data) {
     return;
   }
@@ -40,7 +54,15 @@ export const useQuestionQuery = ({
   }
   const data = result.data.contribution_questions[0];
   return {
-    content: data.content,
-    id: data.id,
+    messages: result.data.contribution_question_messages.map((message) => ({
+      content: message.content,
+      id: message.id,
+      label: message.label,
+    })),
+    question: {
+      content: data.content,
+      id: data.id,
+      message: data.message,
+    },
   };
 };
