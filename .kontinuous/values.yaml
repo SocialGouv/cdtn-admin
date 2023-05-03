@@ -113,6 +113,13 @@ hasura:
     - secretRef:
         name: hasura
   replicas: 2
+  resources:
+    limits:
+      cpu: '2000m'
+      memory: '4Gi'
+    requests:
+      cpu: '50m'
+      memory: 650Mi
 
 deactivate:
   jobs-deactivate:
