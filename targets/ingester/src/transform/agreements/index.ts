@@ -1,17 +1,17 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { Question } from "@socialgouv/contributions-data-types";
-import type { Agreement, IndexedAgreement } from "@socialgouv/kali-data-types";
+import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 import remark from "remark";
 import html from "remark-html";
 
-import type { AgreementPage } from "../../index.js";
+import type { AgreementPage } from "../../index";
 import fetchContributions from "../../lib/fetchContributions";
-import { formatIdcc } from "../../lib/formatIdcc.js";
-import { getJson } from "../../lib/getJson.js";
+import { formatIdcc } from "../../lib/formatIdcc";
+import { loadAgreement, loadAgreements } from "./agreements-loaders";
 import getAgreementsWithHighlight from "./agreementsWithHighlight";
-import { getAllKaliBlocks } from "./getKaliBlock.js";
-import { getKaliArticlesByTheme } from "./kaliArticleBytheme.js";
+import { getAllKaliBlocks } from "./getKaliBlock";
+import { getKaliArticlesByTheme } from "./kaliArticleBytheme";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const compiler = remark().use(html as any, { sanitize: true });
@@ -23,10 +23,8 @@ export const createSorter =
   (a: A, b: A) =>
     fn(a) - fn(b);
 
-export default async function getAgreementDocuments(pkgName: string) {
-  const agreements = await getJson<IndexedAgreement[]>(
-    `${pkgName}/data/index.json`
-  );
+export default async function getAgreementDocuments() {
+  const agreements = await loadAgreements();
 
   const contributions = await fetchContributions();
 
@@ -45,9 +43,7 @@ export default async function getAgreementDocuments(pkgName: string) {
   const agreementPages: AgreementPage[] = [];
 
   for (const agreement of agreements) {
-    const agreementTree = await getJson<Agreement>(
-      `@socialgouv/kali-data/data/${agreement.id}.json`
-    );
+    const agreementTree = await loadAgreement(agreement.id);
 
     const highlight = agreementsWithHighlight[agreement.num];
 
