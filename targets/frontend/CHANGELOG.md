@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.4...v2.6.0) (2023-05-04)
+
+### Features
+
+- add logs on sitemap endpoint ([#908](https://github.com/SocialGouv/cdtn-admin/issues/908)) ([3c48450](https://github.com/SocialGouv/cdtn-admin/commit/3c48450028296e1e1dbbabf4e4075b4a11e60fce))
+
 ## [2.5.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.3...v2.5.4) (2023-03-23)
 
 ### Bug Fixes
