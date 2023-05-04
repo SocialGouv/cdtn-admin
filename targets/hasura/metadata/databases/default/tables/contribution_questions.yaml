@@ -1,6 +1,10 @@
 table:
   name: questions
   schema: contribution
+object_relationships:
+  - name: message
+    using:
+      foreign_key_constraint_on: message_id
 array_relationships:
   - name: answers
     using:
@@ -16,12 +20,14 @@ insert_permissions:
       columns:
         - content
         - id
+        - message_id
 select_permissions:
   - role: super
     permission:
       columns:
-        - id
         - content
+        - id
+        - message_id
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -29,6 +35,7 @@ update_permissions:
     permission:
       columns:
         - content
+        - message_id
       filter: {}
       check: null
 delete_permissions:

@@ -76,6 +76,17 @@ export const ContributionsRow = (props: {
             <CheckIcon />
           </div>
         </TableCell>
+        <TableCell>
+          <IconButton
+            aria-label="modifier"
+            size="small"
+            onClick={() => {
+              router.push(`/contributions/questions/${row.id}`);
+            }}
+          >
+            <ModeEditIcon />
+          </IconButton>
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
