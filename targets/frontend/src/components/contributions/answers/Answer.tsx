@@ -38,17 +38,10 @@ export const ContributionsAnswer = ({
       otherAnswer: "ANSWER",
     },
   });
-  // const [data, setData] = useState(answer);
   const updateAnswer = useContributionAnswerUpdateMutation();
   const [snack, setSnack] = useState<{ open: boolean; severity?: AlertColor }>({
     open: false,
   });
-  // useEffect(() => {
-  //   setData(answer);
-  // }, [answer]);
-  // if (!data || !data.questionId || !data.agreementId) {
-  //   return <></>;
-  // }
   const onSubmit = async (data: MutationProps) => {
     try {
       await updateAnswer({
