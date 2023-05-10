@@ -8,8 +8,8 @@ import html from "remark-html";
 import type { AgreementPage } from "../../index";
 import fetchContributions from "../../lib/fetchContributions";
 import { formatIdcc } from "../../lib/formatIdcc";
-import { loadAgreement, loadAgreements } from "./agreements-loaders";
 import getAgreementsWithHighlight from "./agreementsWithHighlight";
+import { loadAgreement, loadAgreements } from "./data-loaders";
 import { getAllKaliBlocks } from "./getKaliBlock";
 import { getKaliArticlesByTheme } from "./kaliArticleBytheme";
 

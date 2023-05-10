@@ -1,5 +1,5 @@
+import { loadArticles } from "../../agreements/data-loaders";
 import getIndexedArticle from "../getIndexedArticle";
-import { loadArticles } from "../index";
 
 describe(`libs/getIndexedArticle()`, () => {
   describe(`should match properties`, () => {
