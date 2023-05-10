@@ -1,6 +1,6 @@
 import { useQuery } from "urql";
 
-import { Answer, Question } from "./type";
+import { Answer, Question } from "../type";
 
 export const contributionListQuery = `query questions_answers($search: String, $agreementId: bpchar, $offset: Int, $limit: Int) {
   contribution_questions_aggregate(
@@ -47,7 +47,7 @@ export type QueryResult = {
 };
 
 export type ContributionListQueryProps = {
-  idcc?: string;
+  agreementId?: string;
   search?: string;
   pageInterval: number;
   page: number;
@@ -59,7 +59,7 @@ export type ContributionListQueryResult = {
 };
 
 export const useContributionListQuery = ({
-  idcc,
+  agreementId,
   search,
   pageInterval,
   page,
@@ -68,7 +68,7 @@ export const useContributionListQuery = ({
     query: contributionListQuery,
     requestPolicy: "cache-and-network",
     variables: {
-      idcc,
+      agreementId,
       limit: pageInterval,
       offset: page * pageInterval,
       search,

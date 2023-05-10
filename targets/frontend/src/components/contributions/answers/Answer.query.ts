@@ -1,6 +1,6 @@
 import { useQuery } from "urql";
 
-import { Answer } from "./type";
+import { Answer } from "../type";
 
 export const contributionAnswerQuery = `query contribution_answer($questionId: uuid, $agreementId: bpchar) {
     contribution_answers(where: {

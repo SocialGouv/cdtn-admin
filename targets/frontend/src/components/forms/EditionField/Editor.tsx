@@ -10,17 +10,18 @@ import {
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import React, { useEffect, useState } from "react";
+import { FieldErrors } from "react-hook-form";
 import styled from "styled-components";
 
-import { TitleBox } from "./TitleBox";
+import { TitleBox } from "../TitleBox";
 
-export const MarkdownEditor = ({
-  content,
-  onUpdate,
-}: {
+export type EditorProps = {
   content?: string | null;
   onUpdate: (content: string) => void;
-}) => {
+  error?: FieldErrors;
+};
+
+export const Editor = ({ content, onUpdate, error }: EditorProps) => {
   const [focus, setFocus] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const editor = useEditor({

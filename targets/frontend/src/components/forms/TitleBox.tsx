@@ -5,14 +5,16 @@ export const TitleBox = ({
   title,
   focus = false,
   children,
+  className,
 }: {
   title: string;
   focus?: boolean;
   children?: JSX.Element | JSX.Element[] | null;
+  className?: string;
 }): JSX.Element => {
   return (
     <>
-      <StyledBox focus={focus}>
+      <StyledBox focus={focus} className={className}>
         <StyledFormLabel focus={focus}>{title}</StyledFormLabel>
         {children}
       </StyledBox>

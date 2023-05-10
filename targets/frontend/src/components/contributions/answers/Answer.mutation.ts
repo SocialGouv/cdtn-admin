@@ -1,6 +1,6 @@
 import { OperationResult, useMutation } from "urql";
 
-import { Answer } from "./type";
+import { Answer } from "../type";
 
 export const contributionAnswerUpdateMutation = `
 mutation contributionAnswerUpdate($questionId: uuid!, $agreementId: bpchar!, $content:String, $otherAnswer: String, $status:String!) {
@@ -20,7 +20,7 @@ mutation contributionAnswerUpdate($questionId: uuid!, $agreementId: bpchar!, $co
   }
 `;
 
-type MutationProps = Omit<Answer, "question" | "agreement">;
+export type MutationProps = Omit<Answer, "question" | "agreement">;
 
 type MutationResult = (props: MutationProps) => Promise<OperationResult>;
 

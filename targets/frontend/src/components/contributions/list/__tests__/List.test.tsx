@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 
-import { ContributionsList } from "../ContributionsList";
+import { ContributionsList } from "..";
 
-jest.mock("../ContributionsList.query");
+jest.mock("../List.query");
 
 jest.mock("next/router", () => ({
   useRouter: () => {

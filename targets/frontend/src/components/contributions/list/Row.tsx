@@ -14,7 +14,7 @@ import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
 import * as React from "react";
 
-import { QueryQuestion } from "./ContributionsList.query";
+import { QueryQuestion } from "./List.query";
 
 export const ContributionsRow = (props: {
   row: Partial<QueryQuestion>;

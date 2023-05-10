@@ -1,7 +1,4 @@
-import {
-  ContributionListQueryProps,
-  ContributionListQueryResult,
-} from "../ContributionsList.query";
+import { ContributionListQueryProps, ContributionListQueryResult } from "..";
 
 export const mock: ContributionListQueryResult = {
   rows: [

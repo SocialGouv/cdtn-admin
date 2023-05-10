@@ -1,29 +1,29 @@
-import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 
-import { Pagination } from "../utils";
-import { useContributionListQuery } from "./ContributionsList.query";
-import { ContributionsRow } from "./ContributionsRow";
+import { Pagination } from "../../utils";
+import { useContributionListQuery } from "./List.query";
+import { ContributionsRow } from "./Row";
 
 export const ContributionsList = (): JSX.Element => {
   const pageInterval = 12;
   const [page, setPage] = useState<number>(0);
   const [search, setSearch] = useState<string | undefined>();
-  const [idcc, setIdcc] = useState<string | undefined>();
+  const [agreementId, setAgreementId] = useState<string | undefined>();
   const { rows, total } = useContributionListQuery({
-    idcc,
+    agreementId,
     page,
     pageInterval,
     search,
   });
   return (
     <>
-      <Box sx={{ boxShadow: 0 }}>
+      <Stack direction="row" alignItems="start">
         <TextField
           label="Recherche"
           variant="outlined"
@@ -40,18 +40,18 @@ export const ContributionsList = (): JSX.Element => {
           variant="outlined"
           onChange={(event) => {
             if (!event.target.value) {
-              setIdcc(undefined);
+              setAgreementId(undefined);
               return;
             }
             const s = "000" + event.target.value;
             const value = s.substring(s.length - 4);
-            setIdcc(value);
+            setAgreementId(value);
           }}
           data-testid="contributions-list-idcc"
         />
-      </Box>
+      </Stack>
 
-      <TableContainer component={Paper} style={{ height: "65vh" }}>
+      <TableContainer component={Paper} style={{ height: "66vh" }}>
         <Table aria-label="collapsible table" size="small">
           <TableBody>
             {rows.map((row) => (
@@ -65,7 +65,7 @@ export const ContributionsList = (): JSX.Element => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Box sx={{ flexShrink: 0, float: "right", ml: 2.5 }}>
+      <Stack alignItems="end">
         <Pagination
           page={page}
           totalPage={total}
@@ -74,7 +74,7 @@ export const ContributionsList = (): JSX.Element => {
             setPage(page);
           }}
         />
-      </Box>
+      </Stack>
     </>
   );
 };
