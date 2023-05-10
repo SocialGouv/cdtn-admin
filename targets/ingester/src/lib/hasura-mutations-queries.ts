@@ -1,7 +1,7 @@
+import type { Article } from "@shared/dila-resolver/lib/types";
 import { client } from "@shared/graphql-client";
-import { generateCdtnId } from "@shared/id-generator";
-import { Agreement } from "@socialgouv/kali-data";
-import { Article } from "@shared/dila-resolver/lib/types";
+// import { generateCdtnId } from "@shared/id-generator";
+import type { Agreement } from "@socialgouv/kali-data";
 
 type Versionnable = {
   version: string;
@@ -54,7 +54,7 @@ mutation insert_references($documents: [documents_insert_input!]!) {
 `;
 
 type InsertRefrencesResult = {
-  documents: { returning: {}[] };
+  documents: { returning: Record<string, unknown>[] };
 };
 
 const insertPackageVersionMutation = `
@@ -92,33 +92,33 @@ export async function getLastIngestedVersion(pkgName: string) {
 }
 
 export async function insertDocuments(docs: ingester.CdtnDocument[]) {
-  const result = await client
-    .mutation<InsertdocumentResult>(insertDocumentsMutation, {
-      documents: docs.map(
-        ({ id, text, title, slug, is_searchable, source, ...document }) => ({
-          cdtn_id: generateCdtnId(`${source}${id}`),
-          document,
-          initial_id: id,
-          is_available: true,
-          is_searchable,
-          meta_description: document.description || "",
-          slug,
-          source,
-          text,
-          title,
-        })
-      ),
-    })
-    .toPromise();
-
-  if (result.error) {
-    console.error(result.error.graphQLErrors[0]);
-    throw new Error(`error inserting documents`);
-  }
-  if (result.data) {
-    return result.data.documents.returning;
-  }
-  return [];
+  // const result = await client
+  //   .mutation<InsertdocumentResult>(insertDocumentsMutation, {
+  //     documents: docs.map(
+  //       ({ id, text, title, slug, is_searchable, source, ...document }) => ({
+  //         cdtn_id: generateCdtnId(`${source}${id}`),
+  //         document,
+  //         initial_id: id,
+  //         is_available: true,
+  //         is_searchable,
+  //         meta_description: document.description || "",
+  //         slug,
+  //         source,
+  //         text,
+  //         title,
+  //       })
+  //     ),
+  //   })
+  //   .toPromise();
+  //
+  // if (result.error) {
+  //   console.error(result.error.graphQLErrors[0]);
+  //   throw new Error(`error inserting documents`);
+  // }
+  // if (result.data) {
+  //   return result.data.documents.returning;
+  // }
+  // return [];
 }
 
 export async function initDocAvailabity(source: string) {
@@ -159,7 +159,7 @@ export async function updateVersion(repository: string, version: string) {
   return result.data.version;
 }
 
-export async function insertReferences(key: string, refs: Article | Agreement) {
+export async function insertReferences(key: string, refs: Agreement | Article) {
   const result = await client
     .mutation<InsertRefrencesResult>(insertRefrencesMutation, {
       documents: refs,

@@ -1,3 +1,5 @@
+import pMap from "p-map";
+
 import { loadAgreements } from "../transform/agreements/data-loaders";
 import updateAgreementsArticles from "./agreements-articles";
 
@@ -9,13 +11,26 @@ export const updateKaliData = async (): Promise<void> => {
     isAgreementId(id)
   );
 
-  agreements.map(async ({ id }, index) => {
-    console.log(
-      `updateKaliData ${index} Updating agreement cache for ID=${id}…`
-    );
-    await updateAgreementsArticles(id);
-    console.log(
-      `updateKaliData ${index} Agreement cache updated for ID=${id}.`
-    );
-  });
+  // TODO @max
+  await Promise.all(
+    await pMap(
+      agreements.map(({ id }) => id),
+      async (id: string) => updateAgreementsArticles(id),
+      {
+        concurrency: 10,
+      }
+    )
+  );
+
+  // await Promise.all(
+  //   agreements.map(async ({ id }, index) => {
+  //     console.log(
+  //       `updateKaliData ${index} Updating agreement cache for ID=${id}…`
+  //     );
+  //     await updateAgreementsArticles(id);
+  //     console.log(
+  //       `updateKaliData ${index} Agreement cache updated for ID=${id}.`
+  //     );
+  //   })
+  // );
 };

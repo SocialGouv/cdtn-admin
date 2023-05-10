@@ -1,9 +1,14 @@
+import { insertReferences } from "../../lib/hasura-mutations-queries";
 import { updateKaliData } from "../update-kali-data";
 
-describe("helpers/convertHtmlToPlainText()", () => {
-  it(`should return the expected result`, async () => {
-    const result = await updateKaliData();
+jest.mock("../../lib/hasura-mutations-queries");
+jest.setTimeout(10000);
 
-    expect(result).toStrictEqual("expected");
+// TODO  run test @max
+describe("update-kali-data", () => {
+  it(`should store references in hasura`, async () => {
+    await updateKaliData();
+
+    expect(insertReferences).toHaveBeenCalledTimes(3);
   });
 });

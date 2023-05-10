@@ -4,7 +4,8 @@ const config = {
   preset: "ts-jest/presets/js-with-ts-esm",
   collectCoverageFrom: ["src/**/*.ts", "!**/node_modules/**"],
   transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest",
+    // "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.(t|j)sx?$": ["@swc/jest"],
   },
   roots: ["<rootDir>/src"],
   testEnvironment: "node",
