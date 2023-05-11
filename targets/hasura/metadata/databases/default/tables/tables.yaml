@@ -22,6 +22,8 @@
 - "!include public_export_es_status.yaml"
 - "!include public_glossary.yaml"
 - "!include public_kali_blocks.yaml"
+- "!include public_kali_references.yaml"
+- "!include public_legi_references.yaml"
 - "!include public_package_version.yaml"
 - "!include public_pipelines.yaml"
 - "!include public_roles.yaml"
