@@ -8,6 +8,7 @@ import {
   CODE_DU_TRAVAIL_ID,
   loadCodeDuTravail,
 } from "../transform/legi-data/data-loaders";
+import {Node} from "unist-util-select";
 
 function convertCodeArticleToArticle(codeId: string, codeArticle: CodeArticle) {
   const {

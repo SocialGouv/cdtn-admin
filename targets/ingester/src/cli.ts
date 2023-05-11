@@ -15,13 +15,13 @@ import {
   insertDocuments,
   updateVersion,
 } from "./lib/hasura-mutations-queries";
+import { updateKaliData } from "./references/update-kali-data";
+import updateLegiData from "./references/update-legi-data";
 import getAgreementDocuments from "./transform/agreements";
-import getCdtDocuments from "./transform/legi-data/code-du-travail";
 import getContributionsDocuments from "./transform/contributions";
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
 import getFichesServicePublic from "./transform/fichesServicePublic/index";
-import updateLegiData from "./references/update-legi-data";
-import { updateKaliData } from "./references/update-kali-data";
+import getCdtDocuments from "./transform/legi-data/index";
 
 type Args = {
   dryRun: unknown;
@@ -121,6 +121,7 @@ async function main() {
     }
   }
 
+  // @ts-expect-error type généré
   if (args.dryRun) {
     console.log("dry-run mode");
   }
