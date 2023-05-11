@@ -14,8 +14,8 @@ import unified = require("unified");
 
 export class AnswerExtractor {
   constructor(agreements: IndexedAgreement[]) {
-    // @ts-expect-error TODO typage remark
-    this.mdStriper = remark().use(strip);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.mdStriper = remark().use(strip as any) as any;
     this.agreements = agreements;
   }
 
