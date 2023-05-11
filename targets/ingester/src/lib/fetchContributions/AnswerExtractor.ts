@@ -120,8 +120,8 @@ export class AnswerExtractor {
     (a: T, b: T): number =>
       `${a[key]}`.localeCompare(`${b[key]}`);
 
-  // @ts-expect-error TODO typage remark
-  private readonly mdStriper: unified.Processor<remark.RemarkOptions>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private readonly mdStriper: unified.Processor<any>;
 
   private readonly agreements: IndexedAgreement[];
 }
