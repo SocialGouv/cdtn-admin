@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { useUser } from "src/hooks/useUser";
-import { Field, NavLink } from "theme-ui";
+import { Field } from "theme-ui";
 
 import { passwordValidation } from "../../lib/auth/auth.const";
 import { FormErrorMessage } from "../forms/ErrorMessage";
@@ -108,8 +108,8 @@ export function PasswordForm({
         </div>
         <Inline>
           <Button disabled={hasError || loading}>{buttonLabel}</Button>
-          <Link href={backHref} passHref>
-            <NavLink>Annuler</NavLink>
+          <Link href={backHref} passHref style={{ textDecoration: "none" }}>
+            Annuler
           </Link>
         </Inline>
       </Stack>

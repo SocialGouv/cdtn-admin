@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 
+import { Button, IconButton } from "@mui/material";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -7,7 +8,6 @@ import {
   IoMdCloseCircleOutline,
   IoMdDownload,
 } from "react-icons/io";
-import { Button, IconButton } from "src/components/button";
 import { CopyButton } from "src/components/button/CopyButton";
 import { Layout } from "src/components/layout/auth.layout";
 import { Li, List } from "src/components/list";
@@ -115,7 +115,6 @@ function FilesPage() {
           />
           {search.length > 0 && (
             <IconButton
-              type="button"
               sx={{
                 color: "text",
                 mb: "0.6rem",
@@ -185,7 +184,6 @@ function FilesPage() {
                 return (
                   <Li key={file.name}>
                     <Card
-                      as="a"
                       target="_blank"
                       rel="noopener noreferrer"
                       href={file.url}
@@ -232,7 +230,7 @@ function FilesPage() {
                       />
                       <Button
                         {...buttonProps}
-                        variant="primary"
+                        variant="outlined"
                         onClick={(evt) => {
                           evt.preventDefault();
                           onDeleteClick(file);

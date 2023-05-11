@@ -14,7 +14,8 @@ import unified = require("unified");
 
 export class AnswerExtractor {
   constructor(agreements: IndexedAgreement[]) {
-    this.mdStriper = remark().use(strip);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.mdStriper = remark().use(strip as any) as any;
     this.agreements = agreements;
   }
 
@@ -119,7 +120,8 @@ export class AnswerExtractor {
     (a: T, b: T): number =>
       `${a[key]}`.localeCompare(`${b[key]}`);
 
-  private readonly mdStriper: unified.Processor<remark.RemarkOptions>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private readonly mdStriper: unified.Processor<any>;
 
   private readonly agreements: IndexedAgreement[];
 }

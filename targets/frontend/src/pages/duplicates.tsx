@@ -15,7 +15,7 @@ import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Message, NavLink, Spinner } from "theme-ui";
+import { Message, Spinner } from "theme-ui";
 import { useQuery } from "urql";
 
 export function DuplicateContentPage(): JSX.Element {
@@ -98,8 +98,9 @@ export function DuplicateContentPage(): JSX.Element {
                       parent.source === SOURCES.THEMES ? "themes" : "contenus"
                     }/edit/${parent.cdtn_id}`}
                     passHref
+                    style={{ textDecoration: "none" }}
                   >
-                    <NavLink>{parent.title}</NavLink>
+                    {parent.title}
                   </Link>
                 </Td>
                 <Td>{document.title}</Td>

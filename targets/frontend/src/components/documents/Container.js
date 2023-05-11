@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -7,7 +8,6 @@ import { useSelectionContext } from "src/pages/contenus";
 import { Card, Flex, Message } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
-import { Button } from "../button";
 import { Stack } from "../layout/Stack";
 import { Pagination } from "../pagination";
 import { DocumentsListActions } from "./Actions";
@@ -72,8 +72,12 @@ export function DocumentListContainer({ initialFilterValues }) {
   return (
     <Stack>
       <Flex sx={{ justifyContent: "flex-end" }}>
-        <Link href="/contenus/create/" passHref>
-          <Button as="a" size="small" outline variant="secondary">
+        <Link
+          href="/contenus/create/"
+          passHref
+          style={{ textDecoration: "none" }}
+        >
+          <Button size="small" outline variant="secondary">
             <IoMdAdd
               sx={{
                 height: "iconSmall",

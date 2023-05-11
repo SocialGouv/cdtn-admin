@@ -4,7 +4,7 @@ import { useState } from "react";
 import { PasswordLayout } from "src/components/layout/password.layout";
 import { PasswordForm } from "src/components/user/PasswordForm";
 import { request } from "src/lib/request";
-import { NavLink, Text } from "theme-ui";
+import { Text } from "theme-ui";
 
 export default function ChangePasswordPage() {
   const router = useRouter();
@@ -43,8 +43,8 @@ export default function ChangePasswordPage() {
             vous connecter.
           </Text>
         )}
-        <Link href="/login" passHref>
-          <NavLink>Se connecter</NavLink>
+        <Link href="/login" passHref style={{ textDecoration: "none" }}>
+          Se connecter
         </Link>
       </PasswordLayout>
     );

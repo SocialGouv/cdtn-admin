@@ -3,7 +3,7 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Card, Flex, Message, NavLink, Text } from "theme-ui";
+import { Box, Card, Flex, Message, Text } from "theme-ui";
 import { useQuery } from "urql";
 
 export const getDuplicateQuery = `query duplicate($sources: [String!], $relationTypes: [String!]) {
@@ -102,25 +102,23 @@ export function DuplicateContent(): JSX.Element | null {
     );
   }
   return (
-    <Link href="/duplicates" passHref>
-      <NavLink>
-        <Card>
-          <Flex sx={{ justifyContent: "flex-end" }}>
-            <Text
-              color="secondary"
-              sx={{
-                fontSize: "xxlarge",
-                fontWeight: "600",
-              }}
-            >
-              {duplicates.length}
-            </Text>
-          </Flex>
-          <Box>
-            <Text sx={{ textAlign: "right" }}>Doublons detectés</Text>
-          </Box>
-        </Card>
-      </NavLink>
+    <Link href="/duplicates" passHref style={{ textDecoration: "none" }}>
+      <Card>
+        <Flex sx={{ justifyContent: "flex-end" }}>
+          <Text
+            color="secondary"
+            sx={{
+              fontSize: "xxlarge",
+              fontWeight: "600",
+            }}
+          >
+            {duplicates.length}
+          </Text>
+        </Flex>
+        <Box>
+          <Text sx={{ textAlign: "right" }}>Doublons detectés</Text>
+        </Box>
+      </Card>
     </Link>
   );
 }

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { memo } from "react";
 import { Flex } from "theme-ui";
 
-import { NavButton } from "../button";
 import { Inline } from "../layout/Inline";
 import { Li, List } from "../list";
 
@@ -97,14 +96,12 @@ PaginationList.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-function PageButton({ currentPage, pageIndex }) {
+function PageButton({ pageIndex }) {
   const router = useRouter();
 
   return (
     <Link href={addPaginationParam(router.asPath, pageIndex)} passHref shallow>
-      <NavButton variant={pageIndex === currentPage ? "accent" : "secondary"}>
-        {pageIndex + 1}
-      </NavButton>
+      {pageIndex + 1}
     </Link>
   );
 }

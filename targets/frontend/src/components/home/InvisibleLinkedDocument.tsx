@@ -1,7 +1,7 @@
 import { HasuraDocument } from "@shared/types";
 import { gql } from "@urql/core";
 import Link from "next/link";
-import { Box, Card, Flex, Message, NavLink, Text } from "theme-ui";
+import { Box, Card, Flex, Message, Text } from "theme-ui";
 import { useQuery } from "urql";
 
 export const getGhostDocumentQuery = gql`
@@ -77,25 +77,23 @@ export function GhostLinkedDocuments(): JSX.Element | null {
     );
   }
   return (
-    <Link href="/ghost-documents" passHref>
-      <NavLink>
-        <Card>
-          <Flex sx={{ justifyContent: "flex-end" }}>
-            <Text
-              color="secondary"
-              sx={{
-                fontSize: "xxlarge",
-                fontWeight: "600",
-              }}
-            >
-              {data?.relations.length}
-            </Text>
-          </Flex>
-          <Box>
-            <Text sx={{ textAlign: "right" }}>Références inaccessibles</Text>
-          </Box>
-        </Card>
-      </NavLink>
+    <Link href="/ghost-documents" passHref style={{ textDecoration: "none" }}>
+      <Card>
+        <Flex sx={{ justifyContent: "flex-end" }}>
+          <Text
+            color="secondary"
+            sx={{
+              fontSize: "xxlarge",
+              fontWeight: "600",
+            }}
+          >
+            {data?.relations.length}
+          </Text>
+        </Flex>
+        <Box>
+          <Text sx={{ textAlign: "right" }}>Références inaccessibles</Text>
+        </Box>
+      </Card>
     </Link>
   );
 }

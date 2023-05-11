@@ -14,7 +14,7 @@ import type {
 } from "@shared/types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
-import { Badge, Box, Card, Divider, NavLink } from "@theme-ui/components";
+import { Badge, Box, Card, Divider } from "@theme-ui/components";
 import Link from "next/link";
 import React, { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
@@ -82,7 +82,7 @@ export function DilaRelatedDocuments({
       <Box>
         {jsxJoin(
           docReferences.references.map((node, i) => (
-            <NavLink
+            <a
               sx={{
                 color: "muted",
                 fontSize: "xsmall",
@@ -92,7 +92,7 @@ export function DilaRelatedDocuments({
               key={`${docReferences.document.id}-${node.dila_id}-${node.title})-${i}`}
             >
               {node.title}
-            </NavLink>
+            </a>
           )),
           ", "
         )}
@@ -397,8 +397,12 @@ function FicheLink({ change, documents = [] }: FicheLinkProps) {
   const linkedDocuments = documents.flatMap((doc) => {
     if (doc.ref.id === docId) {
       return (
-        <Link href={`/contenus/edit/${doc.id}`} passHref>
-          <NavLink>{doc.title}</NavLink>
+        <Link
+          href={`/contenus/edit/${doc.id}`}
+          passHref
+          style={{ textDecoration: "none" }}
+        >
+          {doc.title}
         </Link>
       );
     }

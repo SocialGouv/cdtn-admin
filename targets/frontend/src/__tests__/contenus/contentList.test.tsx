@@ -18,7 +18,7 @@ describe("Given parameters", () => {
       });
     });
     it("doit afficher le titre", () => {
-      expect(rendering.queryByText("Contenus")).toBeInTheDocument();
+      expect(rendering.queryAllByText("Contenus")[0]).toBeInTheDocument();
     });
   });
 });
