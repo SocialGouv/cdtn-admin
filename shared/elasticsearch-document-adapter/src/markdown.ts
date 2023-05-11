@@ -8,13 +8,13 @@ import unified from "unified";
 import type { AddGlossaryReturnFn } from "./glossary";
 
 const htmlProcessor = unified()
-  // @ts-expect-error
+  // @ts-expect-error ignore
   .use(markdownToMardownAst)
-  // @ts-expect-error
+  // @ts-expect-error ignore
   .use(markdownAstToHtmlAst, { allowDangerousHtml: true })
-  // @ts-expect-error
+  // @ts-expect-error ignore
   .use(htmlAstToAnotherHtmlAst)
-  // @ts-expect-error
+  // @ts-expect-error ignore
   .use(htmlAstStringify);
 
 export function markdownTransform(
