@@ -16,10 +16,12 @@ import {
   updateVersion,
 } from "./lib/hasura-mutations-queries";
 import getAgreementDocuments from "./transform/agreements";
-import getCdtDocuments from "./transform/code-du-travail";
+import getCdtDocuments from "./transform/legi-data/code-du-travail";
 import getContributionsDocuments from "./transform/contributions";
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
 import getFichesServicePublic from "./transform/fichesServicePublic/index";
+import updateLegiData from "./references/update-legi-data";
+import { updateKaliData } from "./references/update-kali-data";
 
 type Args = {
   dryRun: unknown;
@@ -158,6 +160,9 @@ async function main() {
       await updateVersion(pkgName, version);
     }
   }
+
+  await updateLegiData();
+  await updateKaliData();
   return ids;
 }
 

@@ -34,7 +34,7 @@ type UpdateDocumentAvailabilityResult = {
 
 const insertDocumentsMutation = `
 mutation insert_documents($documents: [documents_insert_input!]!) {
-  documents: insert_documents(objects: $documents,  on_conflict: {
+  documents: insert_documents(objects: $documents, on_conflict: {
     constraint: documents_pkey,
     update_columns: [title, source, slug, text, document, is_available, is_searchable]
   }) {
@@ -47,19 +47,9 @@ type InsertdocumentResult = {
   documents: { returning: { cdtn_id: string }[] };
 };
 
-const insertRefrencesMutation = `
-mutation insert_references($documents: [documents_insert_input!]!) {
-
-}
-`;
-
-type InsertRefrencesResult = {
-  documents: { returning: Record<string, unknown>[] };
-};
-
 const insertPackageVersionMutation = `
 mutation insert_package_version($object:package_version_insert_input!) {
-  version: insert_package_version_one(object: $object,  on_conflict: {
+  version: insert_package_version_one(object: $object, on_conflict: {
     constraint: package_version_pkey,
     update_columns: version
   }) {
@@ -159,19 +149,85 @@ export async function updateVersion(repository: string, version: string) {
   return result.data.version;
 }
 
-export async function insertReferences(key: string, refs: Agreement | Article) {
-  const result = await client
-    .mutation<InsertRefrencesResult>(insertRefrencesMutation, {
-      documents: refs,
-    })
-    .toPromise();
+const insertLegiReferenceMutation = `
+mutation insert_legi_reference($legi_reference: legi_references_insert_input!) {
+  legi_reference: insert_legi_references_one(object: $legi_reference, on_conflict: {
+    constraint: legi_references_pkey,
+    update_columns: [document]
+  }) {
+   id
+  }
+}
+`;
+const insertKaliReferenceMutation = `
+mutation insert_kali_reference($kali_reference: kali_references_insert_input!) {
+  kali_reference: insert_kali_references_one(object: $kali_reference, on_conflict: {
+    constraint: kali_references_pkey,
+    update_columns: [document]
+  }) {
+   id
+  }
+}
+`;
+
+type InsertKaliRefrenceResult = {
+  kali_reference: { id: string };
+};
+
+type InsertLegiRefrenceResult = {
+  legi_reference: { id: string };
+};
+
+async function insertReference<T>(
+  ref: {
+    kali_reference?: {
+      id: string;
+      document: Agreement | Article;
+    };
+    legi_reference?: {
+      id: string;
+      document: Agreement | Article | unknown;
+    };
+  },
+  mutation: string
+): Promise<T | undefined> {
+  const result = await client.mutation<T>(mutation, ref).toPromise();
 
   if (result.error) {
     console.error(result.error.graphQLErrors[0]);
-    throw new Error(`error inserting references`);
+    throw new Error(`error inserting references ${result.error}`);
   }
-  if (result.data) {
-    return result.data.documents.returning;
-  }
-  return [];
+  return result.data;
+}
+
+export async function insertKaliReference(
+  id: string,
+  ref: Agreement | Article
+): Promise<string | undefined> {
+  const result = await insertReference<InsertKaliRefrenceResult>(
+    {
+      kali_reference: {
+        document: ref,
+        id,
+      },
+    },
+    insertKaliReferenceMutation
+  );
+  return result?.kali_reference.id;
+}
+
+export async function insertLegiReference(
+  id: string,
+  ref: Agreement | Article | unknown
+): Promise<string | undefined> {
+  const result = await insertReference<InsertLegiRefrenceResult>(
+    {
+      legi_reference: {
+        document: ref,
+        id,
+      },
+    },
+    insertLegiReferenceMutation
+  );
+  return result?.legi_reference.id;
 }

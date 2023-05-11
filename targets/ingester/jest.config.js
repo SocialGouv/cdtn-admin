@@ -3,13 +3,12 @@ const config = {
   coverageDirectory: "coverage",
   preset: "ts-jest/presets/js-with-ts-esm",
   collectCoverageFrom: ["src/**/*.ts", "!**/node_modules/**"],
-  transform: {
-    // "^.+\\.(ts|tsx)$": "ts-jest",
-    "^.+\\.(t|j)sx?$": ["@swc/jest"],
+  "transform": {
+    "^.+\\.(ts|tsx)$": "ts-jest"
   },
   roots: ["<rootDir>/src"],
   testEnvironment: "node",
-  testPathIgnorePatterns: ["/node_modules/", "/data/"],
+  testPathIgnorePatterns: ["/data/"],
   testMatch: [
     "**/__tests__/**/*.+(ts|tsx|js)",
     "**/?(*.)+(spec|test).+(ts|tsx|js)",

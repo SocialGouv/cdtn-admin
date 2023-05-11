@@ -2,12 +2,10 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { selectAll } from "unist-util-select";
 
-import { getJson } from "../lib/getJson";
+import { loadCodeDuTravail } from "./data-loaders";
 
-export default async function getCdtDocuments(pkgName: string) {
-  const cdt = await getJson<LegiData.Code>(
-    `${pkgName}/data/LEGITEXT000006072050.json`
-  );
+export default async function getCdtDocuments() {
+  const cdt = await loadCodeDuTravail();
 
   const articles = selectAll("article", cdt) as LegiData.CodeArticle[];
 
@@ -35,7 +33,7 @@ function getArticleUrl(id: string) {
 }
 
 /**
- * Some articles have a num wich is annexe
+ * Some articles have a num which is annexe
  * Since we use num as a slug to identify article,
  * we need to create a slug version
  */

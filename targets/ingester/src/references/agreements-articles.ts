@@ -1,14 +1,11 @@
 import type { AgreementArticleWithPath } from "@socialgouv/kali-data";
 import parents from "unist-util-parents";
 
+import { insertKaliReference } from "../lib/hasura-mutations-queries";
 import { loadAgreement } from "../transform/agreements/data-loaders";
 import getAgreementArticlesWithPath from "../transform/agreements/getAgreementArticlesWithPath";
 import convertHtmlToPlainText from "./convertHtmlToPlainText";
-import { insertReferences } from "../lib/hasura-mutations-queries";
 
-/**
- * @returns {Api.Article}
- */
 function normalizeArticle(
   agreementId: string,
   agreementArticleWithPath: AgreementArticleWithPath
@@ -42,8 +39,7 @@ export default async function updateAgreementsArticles(
   const agreementCacheKey = `AGREEMENT:${id}`;
   const agreement = await getAgreement(id);
 
-  console.log("Saving", agreementCacheKey, agreement);
-  await insertReferences(agreementCacheKey, agreement);
+  await insertKaliReference(agreementCacheKey, agreement);
 
   const agreementId = agreement.data.id;
   const articlesCacheKey = `AGREEMENT:${agreementId}:ARTICLES`;
@@ -52,6 +48,5 @@ export default async function updateAgreementsArticles(
   const articles = articlesWithPath.map((articleWithParentSections: any) =>
     normalizeArticle(agreementId, articleWithParentSections)
   );
-  console.log("Saving", articlesCacheKey, articles);
-  await insertReferences(articlesCacheKey, articles);
+  await insertKaliReference(articlesCacheKey, articles);
 }
