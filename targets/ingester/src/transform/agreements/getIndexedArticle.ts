@@ -1,4 +1,4 @@
-import type { IndexedArticle } from "../../../data/@socialgouv/kali-data";
+import type { IndexedArticle } from "@socialgouv/kali-data";
 
 const withArticleIdOrCid =
   (articleIdOrCid: string) =>
