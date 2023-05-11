@@ -8,7 +8,6 @@ import {
   CODE_DU_TRAVAIL_ID,
   loadCodeDuTravail,
 } from "../transform/legi-data/data-loaders";
-import {Node} from "unist-util-select";
 
 function convertCodeArticleToArticle(codeId: string, codeArticle: CodeArticle) {
   const {
@@ -48,6 +47,7 @@ export default async function updateLegiData(): Promise<Article[]> {
   const articles = codeArticles.children.map((codeArticle: CodeArticle) =>
     convertCodeArticleToArticle(CODE_DU_TRAVAIL_ID, codeArticle)
   );
+  console.log(`updateLegiData: Updating code for ID=${CODE_DU_TRAVAIL_ID}`);
   await insertLegiReference(articlesCacheKey, articles);
 
   return articles;

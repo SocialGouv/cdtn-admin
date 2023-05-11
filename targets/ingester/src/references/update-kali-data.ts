@@ -10,10 +10,17 @@ export const updateKaliData = async (): Promise<void> => {
   const agreements = (await loadAgreements()).filter(({ id }) =>
     isAgreementId(id)
   );
+
+  let i = 0;
   await Promise.all(
     await pMap(
       agreements.map(({ id }) => id),
       async (id: string) => {
+        console.log(
+          `updateKaliData: ${i++}/${
+            agreements.length
+          } Updating agreement for ID=${id}`
+        );
         return updateAgreementsArticles(id);
       },
       {
