@@ -1,5 +1,3 @@
-// import { describe, expect, it } from "@jest/globals";
-
 import getAgreementArticlesWithPath from "../getAgreementArticlesWithPath";
 
 describe(`libs/getAgreementArticlesWithPath()`, () => {
