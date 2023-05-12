@@ -53,7 +53,10 @@ export const ContributionsRow = (props: {
           >
             <Box sx={{ marginTop: "2px" }}>
               <b>
-                {row?.answers?.filter(({ status }) => status === "TODO").length}
+                {
+                  row?.answers?.filter(({ statuses }) => !statuses.length)
+                    .length
+                }
               </b>
             </Box>
             <ClearIcon />
@@ -70,7 +73,7 @@ export const ContributionsRow = (props: {
           >
             <Box sx={{ marginTop: "2px" }}>
               <b>
-                {row?.answers?.filter(({ status }) => status === "DONE").length}
+                {row?.answers?.filter(({ statuses }) => statuses.length).length}
               </b>
             </Box>
             <CheckIcon />
@@ -116,7 +119,7 @@ export const ContributionsRow = (props: {
                           style={{ width: "180px" }}
                           align="center"
                         >
-                          {answer.status === "DONE" ? (
+                          {answer.statuses.length ? (
                             <div
                               style={{
                                 color: "green",
@@ -150,7 +153,7 @@ export const ContributionsRow = (props: {
                             size="small"
                             onClick={() => {
                               router.push(
-                                `/contributions/${row.id}/${answer.agreement.id}`
+                                `/contributions/answers/${answer.id}`
                               );
                             }}
                           >

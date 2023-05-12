@@ -3,16 +3,14 @@ import { OperationResult, useMutation } from "urql";
 import { Answer } from "../type";
 
 export const contributionAnswerUpdateMutation = `
-mutation contributionAnswerUpdate($questionId: uuid!, $agreementId: bpchar!, $content:String, $otherAnswer: String, $status:String!) {
+mutation contributionAnswerUpdate($id: uuid!, $content:String, $otherAnswer: String) {
     update_contribution_answers_by_pk(
       pk_columns: {
-        question_id: $questionId
-        agreement_id: $agreementId
+        id: $id
       }
       _set: {
         content: $content
         other_answer: $otherAnswer
-        status: $status
       }
     ) {
         __typename
@@ -20,7 +18,10 @@ mutation contributionAnswerUpdate($questionId: uuid!, $agreementId: bpchar!, $co
   }
 `;
 
-export type MutationProps = Omit<Answer, "question" | "agreement">;
+export type MutationProps = Omit<
+  Answer,
+  "question" | "agreement" | "questionId" | "agreementId" | "statuses"
+>;
 
 type MutationResult = (props: MutationProps) => Promise<OperationResult>;
 

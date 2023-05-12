@@ -4,16 +4,12 @@ import {
   Breadcrumbs,
   Button,
   FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
   Snackbar,
   Stack,
 } from "@mui/material";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
 
 import { FormEditionField, FormRadioGroup } from "../../forms";
 import {
@@ -23,15 +19,13 @@ import {
 import { useContributionAnswerQuery } from "./Answer.query";
 
 export type ContributionsAnswerProps = {
-  questionId: string;
-  agreementId: string;
+  id: string;
 };
 
 export const ContributionsAnswer = ({
-  questionId,
-  agreementId,
+  id,
 }: ContributionsAnswerProps): JSX.Element => {
-  const answer = useContributionAnswerQuery({ agreementId, questionId });
+  const answer = useContributionAnswerQuery({ id });
   const { control, handleSubmit } = useForm<MutationProps>({
     defaultValues: {
       content: answer?.content ?? "",
@@ -45,11 +39,9 @@ export const ContributionsAnswer = ({
   const onSubmit = async (data: MutationProps) => {
     try {
       await updateAnswer({
-        agreementId: data.agreementId,
         content: data.content,
+        id: data.id,
         otherAnswer: data.otherAnswer,
-        questionId: data.questionId,
-        status: "DONE",
       });
       setSnack({ open: true, severity: "success" });
     } catch (e) {
@@ -60,7 +52,7 @@ export const ContributionsAnswer = ({
     <>
       <Breadcrumbs aria-label="breadcrumb">
         <Link href={"/contributions"}>Contributions</Link>
-        <Link href={`/contributions/${questionId}`}>
+        <Link href={`/contributions/questions/${answer?.question.id}`}>
           {answer?.question?.content}
         </Link>
         <div>{answer?.agreement?.id}</div>

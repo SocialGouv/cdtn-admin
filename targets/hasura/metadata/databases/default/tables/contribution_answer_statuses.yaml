@@ -1,0 +1,22 @@
+table:
+  name: answer_statuses
+  schema: contribution
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - answer_id
+        - status
+        - user_id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - answer_id
+        - created_at
+        - id
+        - status
+        - user_id
+      filter: {}
+      allow_aggregations: true
