@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.6.0...v2.6.1) (2023-05-04)
+
+### Bug Fixes
+
+- update docker version ([#909](https://github.com/SocialGouv/cdtn-admin/issues/909)) ([1b23aab](https://github.com/SocialGouv/cdtn-admin/commit/1b23aab0b5ee1c2edff307579f85a6758862858a))
+
+# [2.6.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.4...v2.6.0) (2023-05-04)
+
+**Note:** Version bump only for package alert-cli
+
 ## [2.5.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.5.3...v2.5.4) (2023-03-23)
 
 **Note:** Version bump only for package alert-cli

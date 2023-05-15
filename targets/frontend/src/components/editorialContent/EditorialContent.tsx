@@ -6,16 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { IoMdCheckmark } from "react-icons/io";
-import {
-  Box,
-  Checkbox,
-  Field,
-  Flex,
-  Label,
-  NavLink,
-  Radio,
-  Textarea,
-} from "theme-ui";
+import { Box, Checkbox, Field, Flex, Label, Radio, Textarea } from "theme-ui";
 
 import { BaseContentPart, Content, SectionDisplayMode } from "../../types";
 import { Button } from "../button";
@@ -206,16 +197,16 @@ const EditorialContentForm = ({
               )}
               {buttonLabel}
             </Button>
-            <Link href={"/contenus"} passHref>
-              <NavLink
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.back();
-                }}
-                ml="medium"
-              >
-                Annuler
-              </NavLink>
+            <Link
+              href={"/contenus"}
+              passHref
+              style={{ textDecoration: "none" }}
+              onClick={(e) => {
+                e.preventDefault();
+                router.back();
+              }}
+            >
+              Annuler
             </Link>
           </Flex>
         </>

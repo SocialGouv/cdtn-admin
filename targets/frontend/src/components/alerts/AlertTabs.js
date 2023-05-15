@@ -1,7 +1,7 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { getStatusLabel, slugifyRepository } from "src/models";
-import { Message, NavLink, Spinner } from "theme-ui";
+import { Message, Spinner } from "theme-ui";
 import { useQuery } from "urql";
 
 import { TabItem, Tabs } from "../tabs";
@@ -48,15 +48,11 @@ export function AlertTabs({ repository, activeStatus }) {
           key={status.name}
           href={`/alerts/${slugifyRepository(repository)}/${status.name}`}
           passHref
+          style={{ textDecoration: "none" }}
         >
-          <NavLink>
-            <TabItem
-              controls="statustab"
-              selected={status.name === activeStatus}
-            >
-              {getStatusLabel(status.name)} ({status.alerts.aggregate.count})
-            </TabItem>
-          </NavLink>
+          <TabItem controls="statustab" selected={status.name === activeStatus}>
+            {getStatusLabel(status.name)} ({status.alerts.aggregate.count})
+          </TabItem>
         </Link>
       ))}
     </Tabs>

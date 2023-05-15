@@ -1,4 +1,4 @@
-ARG NODE_VERSION=14.18.2-slim
+ARG NODE_VERSION=14.21.3-slim
 
 # dist
 FROM node:$NODE_VERSION AS dist

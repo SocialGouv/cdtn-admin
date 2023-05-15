@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { NextRouter } from "next/router";
 import { IoMdCheckmark } from "react-icons/io";
-import { Flex, NavLink } from "theme-ui";
+import { Flex } from "theme-ui";
 
 import { Button } from "../button";
 
@@ -29,16 +29,16 @@ const ValidationBar = ({
         )}
         Enregistrer
       </Button>
-      <Link href={"/contenus"} passHref>
-        <NavLink
-          onClick={(e) => {
-            e.preventDefault();
-            router.back();
-          }}
-          sx={{ ml: "medium" }}
-        >
-          Annuler
-        </NavLink>
+      <Link
+        href={"/contenus"}
+        passHref
+        onClick={(e) => {
+          e.preventDefault();
+          router.back();
+        }}
+        style={{ textDecoration: "none" }}
+      >
+        Annuler
       </Link>
     </Flex>
   );

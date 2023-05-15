@@ -1,12 +1,17 @@
+import { Breadcrumbs, Link } from "@mui/material";
 import Head from "next/head";
-import PropTypes from "prop-types";
 import { IconContext } from "react-icons";
 import { Box, Flex, Heading } from "theme-ui";
 
 import { Header } from "./header";
 import { Nav } from "./Nav";
 
-export function Layout({ children, title }) {
+export type LayoutProps = {
+  children: any;
+  title?: string;
+};
+
+export function Layout({ children, title }: LayoutProps) {
   return (
     <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
       <Head>
@@ -27,8 +32,3 @@ export function Layout({ children, title }) {
     </IconContext.Provider>
   );
 }
-Layout.propTypes = {
-  children: PropTypes.node,
-  noStack: PropTypes.bool,
-  title: PropTypes.string.isRequired,
-};

@@ -128,7 +128,7 @@ function CcnBlocks({ id, blocks, onChange }) {
   };
   return (
     <div>
-      <Button as="a" disabled={!dirty} onClick={onSaveClick}>
+      <Button disabled={!dirty} onClick={onSaveClick}>
         <>
           <IoMdSave
             sx={{

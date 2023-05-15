@@ -28,13 +28,17 @@ export function UserPage() {
             <Text>{user.roles[0].role}</Text>
           </div>
           <Inline>
-            <Link href="/user/edit" passHref>
-              <Button as="a" size="small" variant="primary">
+            <Link href="/user/edit" passHref style={{ textDecoration: "none" }}>
+              <Button size="small" variant="primary">
                 Modifier mes informations
               </Button>
             </Link>
-            <Link href="/user/password" passHref>
-              <Button as="a" size="small" variant="secondary" outline>
+            <Link
+              href="/user/password"
+              passHref
+              style={{ textDecoration: "none" }}
+            >
+              <Button size="small" variant="secondary" outline>
                 Modifier mon mot de passe
               </Button>
             </Link>

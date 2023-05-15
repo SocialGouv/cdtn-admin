@@ -254,6 +254,7 @@ async function main() {
     }
   }
 
+  // @ts-expect-error type généré
   if (args.dryRun) {
     console.log("dry-run mode");
   }
@@ -265,6 +266,7 @@ async function main() {
     const documents = await getDocuments(pkgName);
     console.timeEnd(` getDocuments ${pkgName}`);
     console.log(` ${pkgName}: ${documents.length} documents`);
+    // @ts-expect-error type généré
     if (!args.dryRun && documents.length > 0) {
       await initDocAvailabity(documents[0].source);
       console.log(

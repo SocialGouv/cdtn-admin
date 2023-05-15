@@ -98,9 +98,12 @@ const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
     }}
   >
     {isAdmin && sortable && <SortHandle />}
-    <Link href={`/themes/${theme.cdtnId}`} passHref>
+    <Link
+      href={`/themes/${theme.cdtnId}`}
+      passHref
+      style={{ textDecoration: "none" }}
+    >
       <Card
-        as="a"
         sx={{
           ":hover": { boxShadow: "cardHover" },
           ":link, :visited": { color: "text" },

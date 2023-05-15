@@ -1,0 +1,11 @@
+table:
+  name: agreements
+  schema: public
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - id
+        - name
+      filter: {}
+      allow_aggregations: true

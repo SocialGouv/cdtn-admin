@@ -2,7 +2,7 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import React from "react";
 import { Li, List } from "src/components/list";
-import { Box, Flex, NavLink, Text } from "theme-ui";
+import { Box, Flex, Text } from "theme-ui";
 
 const TermList = ({ termsByLetters = [] }) => {
   return (
@@ -27,16 +27,7 @@ const TermList = ({ termsByLetters = [] }) => {
                 {terms.map(({ term, id }) => (
                   <Li key={id}>
                     <Link href={`/glossary/edit/${id}`} passHref>
-                      {/* eslint-disable-next-line */}
-                      <NavLink
-                        sx={{
-                          display: "inline-block",
-                          p: "0.2rem 0",
-                          ...linkStyles,
-                        }}
-                      >
-                        {term}
-                      </NavLink>
+                      {term}
                     </Link>
                   </Li>
                 ))}
@@ -55,13 +46,3 @@ TermList.PropTypes = {
 const MemoisedTermList = React.memo(TermList);
 
 export { MemoisedTermList as TermList };
-
-const linkStyles = {
-  ":hover": {
-    color: "primary",
-  },
-  ":visited": {
-    color: "text",
-  },
-  color: "text",
-};
