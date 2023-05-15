@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 
-import { loadArticles } from "../../agreements/data-loaders";
+import { loadArticles } from "../data-loaders";
 import getIndexedArticle from "../getIndexedArticle";
 
 describe(`libs/getIndexedArticle()`, () => {
