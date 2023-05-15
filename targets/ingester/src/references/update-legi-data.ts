@@ -40,7 +40,7 @@ export default async function updateLegiData(): Promise<Article[]> {
 
   const articlesCacheKey = `CODE:${CODE_DU_TRAVAIL_ID}:ARTICLES`;
 
-  const codeArticles = unistUtilFlatFilter(code, {
+  const codeArticles = unistUtilFlatFilter(code as any, {
     type: "article",
   });
 

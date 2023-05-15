@@ -1,7 +1,5 @@
-import type { Article } from "@shared/dila-resolver/lib/types";
 import { client } from "@shared/graphql-client";
 import { generateCdtnId } from "@shared/id-generator";
-import type { Agreement } from "@socialgouv/kali-data";
 
 type Versionnable = {
   version: string;
@@ -182,11 +180,11 @@ async function insertReference<T>(
   ref: {
     kali_reference?: {
       id: string;
-      document: Agreement | Article;
+      document: unknown;
     };
     legi_reference?: {
       id: string;
-      document: Agreement | Article | unknown;
+      document: unknown;
     };
   },
   mutation: string
@@ -202,7 +200,7 @@ async function insertReference<T>(
 
 export async function insertKaliReference(
   id: string,
-  ref: Agreement | Article
+  ref: unknown
 ): Promise<string | undefined> {
   const result = await insertReference<InsertKaliRefrenceResult>(
     {
@@ -218,7 +216,7 @@ export async function insertKaliReference(
 
 export async function insertLegiReference(
   id: string,
-  ref: Agreement | Article | unknown
+  ref: unknown
 ): Promise<string | undefined> {
   const result = await insertReference<InsertLegiRefrenceResult>(
     {

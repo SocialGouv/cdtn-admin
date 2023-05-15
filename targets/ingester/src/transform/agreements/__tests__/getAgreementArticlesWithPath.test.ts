@@ -5,7 +5,7 @@ describe(`libs/getAgreementArticlesWithPath()`, () => {
     const received = await getAgreementArticlesWithPath("KALICONT000005635221");
 
     expect(received.length).toBeGreaterThan(3000);
-    expect(received[0].path).toEqual([
+    expect(received[0]?.path).toEqual([
       "Texte de base",
       "Titre Ier : Structures de la convention collective nationale",
       "Champ d'application",

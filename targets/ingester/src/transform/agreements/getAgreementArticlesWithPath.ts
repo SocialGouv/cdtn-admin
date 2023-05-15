@@ -1,8 +1,11 @@
+import type {
+  AgreementArticle,
+  AgreementArticleWithPath,
+} from "@socialgouv/kali-data";
 import flatFilter from "unist-util-flat-filter";
 
 import { loadAgreement, loadArticles } from "./data-loaders";
 import getIndexedArticle from "./getIndexedArticle";
-import type { AgreementArticleWithPath } from "@socialgouv/kali-data";
 
 /**
  * Get a flat unist array of all the articles an agreement contains.
@@ -11,17 +14,17 @@ import type { AgreementArticleWithPath } from "@socialgouv/kali-data";
  */
 export default async function getAgreementArticlesWithPath(
   agreementIdOrIdcc: string
-): Promise<AgreementArticleWithPath[]> {
+): Promise<AgreementArticleWithPath[] | undefined[]> {
   const agreement = await loadAgreement(agreementIdOrIdcc);
 
-  const rootedArticles = flatFilter(agreement, { type: "article" });
+  const rootedArticles = flatFilter(agreement as any, { type: "article" });
 
   if (!rootedArticles) {
     return [];
   }
   const articles = await loadArticles();
 
-  return rootedArticles.children.map((article) => {
+  return rootedArticles.children.map((article: AgreementArticle) => {
     const a = getIndexedArticle(articles, article.data.cid);
     if (!a) return;
     return {
