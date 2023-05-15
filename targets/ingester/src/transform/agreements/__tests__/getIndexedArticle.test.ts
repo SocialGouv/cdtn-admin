@@ -1,11 +1,15 @@
+import { readFileSync } from "fs";
+
 import { loadArticles } from "../../agreements/data-loaders";
 import getIndexedArticle from "../getIndexedArticle";
 
 describe(`libs/getIndexedArticle()`, () => {
   describe(`should match properties`, () => {
-    it(`with an existing article ID`, async () => {
-      const articles = await loadArticles();
-
+    const data = readFileSync(
+      "node_modules/@socialgouv/kali-data/data/articles/index.json"
+    ).toString();
+    const articles = JSON.parse(data);
+    it(`with an existing article ID`, () => {
       expect(getIndexedArticle(articles, "KALIARTI000023306963")).toMatchObject(
         {
           agreementId: "KALICONT000005635085",
@@ -15,9 +19,7 @@ describe(`libs/getIndexedArticle()`, () => {
       );
     });
 
-    it(`with an existing article CID`, async () => {
-      const articles = await loadArticles();
-
+    it(`with an existing article CID`, () => {
       expect(getIndexedArticle(articles, "KALIARTI000005768420")).toMatchObject(
         {
           agreementId: "KALICONT000005635085",
