@@ -11,7 +11,6 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { FormTextField } from "src/components/forms";
 import { useUser } from "src/hooks/useUser";
-import { timeSince } from "src/lib/duration";
 
 import { Comments as AnswerComments } from "../type";
 import { MutationProps, useCommentsInsert } from "./Comments.mutation";
@@ -23,6 +22,13 @@ type Props = {
 
 export const Comments = (props: Props) => {
   const { user }: any = useUser();
+  const [localComments, setLocalComments] = React.useState<AnswerComments[]>(
+    props.comments ?? []
+  );
+
+  React.useEffect(() => {
+    setLocalComments(props.comments);
+  }, [props.comments]);
 
   const listRef = React.useRef<HTMLDivElement>(null);
 
@@ -45,7 +51,7 @@ export const Comments = (props: Props) => {
     if (listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
-  }, [props.comments]);
+  }, [localComments]);
 
   const onSubmit = async (data: MutationProps) => {
     try {
@@ -54,6 +60,18 @@ export const Comments = (props: Props) => {
         content: data.content,
         userId: user.id,
       });
+      if (localComments.length === 0) {
+        setLocalComments([
+          {
+            answerId: props.answerId,
+            content: data.content,
+            createdAt: new Date().toISOString(),
+            id: "new",
+            user,
+            userId: user.id,
+          } as any,
+        ]);
+      }
       setSnack({ open: true, severity: "success" });
       resetField("content");
     } catch (e) {
@@ -80,7 +98,7 @@ export const Comments = (props: Props) => {
               overflow: "auto",
             }}
           >
-            {props.comments.map((comment) => (
+            {localComments.map((comment) => (
               <Box
                 key={comment.id}
                 sx={{
@@ -96,10 +114,12 @@ export const Comments = (props: Props) => {
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                   <Box sx={{ fontWeight: "bold" }}>{comment.user.name}</Box>
                   <Box sx={{ color: "#6e6d6d", fontSize: "small" }}>
-                    {timeSince(comment.createdAt ?? "")}
+                    {new Date(comment.createdAt).toLocaleString("fr-FR")}
                   </Box>
                 </Box>
-                <Box sx={{ marginTop: 1 }}>{comment.content}</Box>
+                <Box sx={{ marginTop: 1, whiteSpace: "pre-line" }}>
+                  {comment.content}
+                </Box>
               </Box>
             ))}
           </Box>
