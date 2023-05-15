@@ -4,7 +4,9 @@ import { client } from "@shared/graphql-client";
 import { hash, verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 
+import { sendPasswordChangeConfirmEmail } from "../../lib/emails/passwordChangeConfirm";
 import { changeMyPasswordMutation, getOldPassword } from "./password.gql";
+import { passwordSchema } from "./validation";
 
 export default async function changePassword(req, res) {
   const apiError = createErrorFor(res);
@@ -17,7 +19,7 @@ export default async function changePassword(req, res) {
   const schema = Joi.object({
     id: Joi.string().guid({ version: "uuidv4" }).required(),
     oldPassword: Joi.string().required(),
-    password: Joi.string().required(),
+    password: passwordSchema,
   });
 
   const { error, value } = schema.validate(req.body);
@@ -61,6 +63,22 @@ export default async function changePassword(req, res) {
   }
 
   console.log("[change password]", value.id);
+  const { email } = user;
+  try {
+    await sendPasswordChangeConfirmEmail(email);
+    console.log("[actions] send password change confirmation email");
+    res.json({ message: "email sent!", statusCode: 200 });
+  } catch (error) {
+    console.error(error);
+    console.error(
+      `[actions] send lost password change confirmation to ${email} failed`
+    );
+    apiError(
+      Boom.badGateway(
+        `[actions] send change confirmation email to ${email} failed`
+      )
+    );
+  }
 
   res.json({ message: "password updated" });
 }

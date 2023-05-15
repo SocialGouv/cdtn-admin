@@ -1,7 +1,3 @@
-version: 2
-endpoint: http://localhost:8080
-enable_telemetry: false
+version: 3
 metadata_directory: metadata
-actions:
-  kind: synchronous
-  handler_webhook_baseurl: http://localhost:3000
+migrations_directory: migrations

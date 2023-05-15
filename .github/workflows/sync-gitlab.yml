@@ -9,7 +9,7 @@ jobs:
     name: 🪞 Gitlab
     runs-on: ubuntu-latest
     steps:
-      - uses: SocialGouv/actions/mirror-gitlab@master
+      - uses: SocialGouv/actions/mirror-gitlab@v1
         with:
-          project: SocialGouv/cdtn/cdtn-admin
+          project: SocialGouv/cdtn-admin
           token: ${{ secrets.SOCIALGROOVYBOT_GITLAB_TOKEN }}

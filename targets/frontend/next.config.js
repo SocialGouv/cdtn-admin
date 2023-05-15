@@ -4,13 +4,33 @@ const withSourceMaps = require("@zeit/next-source-maps")();
 const withTM = require("next-transpile-modules")([
   "@shared/graphql-client",
   "@shared/id-generator",
+  "@socialgouv/cdtn-ui",
 ]);
 
 const basePath = "";
 
+const securityHeaders = [
+  {
+    key: "X-Frame-Options",
+    value: "deny",
+  },
+  { key: "X-XSS-Protection", value: "1; mode=block" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+];
+
 module.exports = withTM(
   withSourceMaps({
     basePath,
+    async headers() {
+      return [
+        {
+          headers: securityHeaders,
+          // Apply these headers to all routes in your application.
+          source: "/:path*",
+        },
+      ];
+    },
+    poweredByHeader: false,
     serverRuntimeConfig: {
       rootDir: __dirname,
     },
@@ -18,7 +38,11 @@ module.exports = withTM(
       config.output.chunkFilename = isServer
         ? `${dev ? "[name]" : "[name].[fullhash]"}.js`
         : `static/chunks/${dev ? "[name]" : "[name].[fullhash]"}.js`;
-
+      config.module.rules.push({
+        exclude: /node_modules/,
+        loader: "graphql-tag/loader",
+        test: /\.(graphql|gql)$/,
+      });
       // In `pages/_app.js`, Sentry is imported from @sentry/node. While
       // @sentry/browser will run in a Node.js environment, @sentry/node will use
       // Node.js-only APIs to catch even more unhandled exceptions.

@@ -10,6 +10,8 @@ query get_refresh_token(
       }, {
         user: { active: { _eq: true }}
       }, {
+        user: { deleted: { _eq: false }}
+      }, {
         expires_at: { _gte: $current_timestampz }
       }]
     }

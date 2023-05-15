@@ -1,0 +1,47 @@
+table:
+  name: questions
+  schema: contrib
+array_relationships:
+  - name: answers
+    using:
+      foreign_key_constraint_on:
+        column: question_id
+        table:
+          name: answers
+          schema: contrib
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - index
+        - value
+        - created_at
+        - updated_at
+        - id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - index
+        - value
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - index
+        - value
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

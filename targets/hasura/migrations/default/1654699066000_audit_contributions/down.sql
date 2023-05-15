@@ -1,0 +1,14 @@
+DROP TRIGGER IF EXISTS audit_trigger_row on contrib.agreements;
+DROP TRIGGER IF EXISTS audit_trigger_stm on contrib.agreements;
+DROP TRIGGER IF EXISTS audit_trigger_row on contrib.answers;
+DROP TRIGGER IF EXISTS audit_trigger_stm on contrib.answers;
+DROP TRIGGER IF EXISTS audit_trigger_row on contrib.answers_comments;
+DROP TRIGGER IF EXISTS audit_trigger_stm on contrib.answers_comments;
+DROP TRIGGER IF EXISTS audit_trigger_row on contrib.answers_references;
+DROP TRIGGER IF EXISTS audit_trigger_stm on contrib.answers_references;
+DROP TRIGGER IF EXISTS audit_trigger_row on contrib.locations;
+DROP TRIGGER IF EXISTS audit_trigger_stm on contrib.locations;
+DROP TRIGGER IF EXISTS audit_trigger_row on contrib.locations_agreements;
+DROP TRIGGER IF EXISTS audit_trigger_stm on contrib.locations_agreements;
+DROP TRIGGER IF EXISTS audit_trigger_row on contrib.questions;
+DROP TRIGGER IF EXISTS audit_trigger_stm on contrib.questions;

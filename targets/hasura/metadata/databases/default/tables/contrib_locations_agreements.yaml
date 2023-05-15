@@ -1,0 +1,40 @@
+table:
+  name: locations_agreements
+  schema: contrib
+object_relationships:
+  - name: agreement
+    using:
+      foreign_key_constraint_on: agreement_id
+  - name: location
+    using:
+      foreign_key_constraint_on: location_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - id
+        - agreement_id
+        - location_id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - id
+        - agreement_id
+        - location_id
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - id
+        - agreement_id
+        - location_id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

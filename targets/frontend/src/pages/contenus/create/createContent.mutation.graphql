@@ -1,0 +1,33 @@
+mutation CreateContent(
+  $cdtn_id: String!
+  $document: jsonb!
+  $initial_id: String!
+  $isSearchable: Boolean!
+  $isPublished: Boolean!
+  $metaDescription: String!
+  $relations: [document_relations_insert_input!]!
+  $slug: String!
+  $source: String!
+  $title: String!
+) {
+  insert_documents_one(
+    object: {
+      cdtn_id: $cdtn_id
+      initial_id: $initial_id
+      title: $title
+      slug: $slug
+      meta_description: $metaDescription
+      document: $document
+      source: $source
+      text: ""
+      is_available: true
+      is_searchable: $isSearchable
+      is_published: $isPublished
+    }
+  ) {
+    cdtn_id
+  }
+  insert_document_relations(objects: $relations) {
+    affected_rows
+  }
+}

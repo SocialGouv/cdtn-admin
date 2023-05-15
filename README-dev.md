@@ -92,19 +92,6 @@ key).
 > docker-compose up hasura
 > ```
 
-#### ARM64 architecture
-
-You have to create a docker-compose.override.yml file with the following content:
-
-```yaml
-version: "3.8"
-services:
-  hasura:
-    build:
-      context: targets/hasura
-      dockerfile: Dockerfile.arm
-```
-
 ### Inject documents
 
 A part of the content is based on documents retrieved from another services (code du travail, contributions, fiche
@@ -199,7 +186,7 @@ et pour remettre les utilisateurs par défaut
 ```sh
 docker-compose exec -T postgres psql \
   --dbname postgres --user postgres \
-  < .k8s/components/jobs/restore/post-restore.sql
+  < .kontinuous/sql/post-restore.sql
 ```
 
 ### Alimenter l'elasticsearch en local (pour le CDTN frontend)
@@ -212,11 +199,7 @@ Il faut ensuite lancer l'`ingester-elasticsearch` pour alimenter l'elasticsearch
 depuis hasura, il est préférable de récupérer les données de prod (
 cf : [Injecter les données depuis la production](https://github.com/SocialGouv/cdtn-admin/blob/master/README-dev.md#injecter-les-donnees-depuis-la-production))
 
-Pour lancer l'`ingester-elasticsearch`, il suffit de lancer la commande suivante :
-
-```sh
-ES_INDEX_PREFIX=cdtn-v1 yarn workspace ingester-es start:dev
-```
+Pour lancer l'`ingester-elasticsearch`, reporter vous à la documentation `export-elasticsearch`
 
 **Note :** La durée d'exécution prend du temps (environ 15 minutes)
 
@@ -237,45 +220,23 @@ Ce script utilise les variables suivantes :
 
 Certaines variables permettent d'activer une fonctionnalité :
 
-- `NLP_URL` permet d'activer la vectorisation des documents pour la recherche. Pour l'activer, vous pouvez utiliser l'URL <https://preprod-serving-ml.dev.fabrique.social.gouv.fr>.
+- `NLP_URL` permet d'activer la vectorisation des documents pour la recherche. Pour l'activer, vous pouvez utiliser l'URL <https://serving-ml-preprod.dev.fabrique.social.gouv.fr>.
 - `ES_LOGS` et `ES_LOGS_TOKEN` permettent d'activer les `Articles liés`. Pour l'activer, vous pouvez récupérer ces informations depuis Rancher.
 
 #### Tester localement l'ingester ES avec le frontend
 
 ```sh
-docker-compose up -d postgres
-docker-compose up -d hasura
-docker-compose up -d elasticsearch # côté cdtn-frontend
-yarn build && ES_INDEX_PREFIX=cdtn-v1 yarn workspace ingester-es start:dev
-ELASTICSEARCH_URL=http://localhost:9200 yarn dev:api # côté cdtn-frontend
-API_URL=http://localhost:1337/api/v1 yarn workspace @cdt/frontend dev # côté cdtn-frontend
+yarn build # build code
 ```
 
-## Linked repositories
+Then, follow instruction in the README.md of `export-elasticsearch`.
 
-- Applications
-  - https://github.com/SocialGouv/code-du-travail-numerique
-  - https://github.com/SocialGouv/cdtn-admin
-- Données
-  - https://github.com/SocialGouv/legi-data
-  - https://github.com/SocialGouv/kali-data
-  - https://github.com/SocialGouv/fiches-travail-data
-  - https://github.com/SocialGouv/fiches-vdd
-  - https://github.com/SocialGouv/contributions-data
-- Recherche
-  - https://github.com/SocialGouv/recherche-entreprises
-  - https://github.com/SocialGouv/siret2idcc
-  - https://github.com/SocialGouv/serving-ml
-  - https://github.com/SocialGouv/cdtn-monolog
-- Bibliotheques de code
-  - https://github.com/SocialGouv/cdtn-docx-to-html
-  - https://github.com/SocialGouv/dila-api-client
-  - https://github.com/SocialGouv/matomo-next
-  - https://github.com/SocialGouv/react-medixtor
-  - https://github.com/SocialGouv/jmeter-kibana
-- contribution
-  - https://github.com/SocialGouv/code-du-travail-backoffice
-  - https://github.com/SocialGouv/cdtn-api
+On the client, you need to run this command :
+
+```sh
+NLP_URL=https://serving-ml-preprod.dev.fabrique.social.gouv.fr yarn dev:api # côté cdtn-frontend
+API_URL=http://localhost:1337/api/v1 yarn workspace @cdt/frontend dev # côté cdtn-frontend
+```
 
 ## Troubleshooting
 
@@ -297,3 +258,35 @@ Puis dans Gitlab, `cdtn-admin > Settings > Integrations > Github`, copiez le tok
 et si OK, cliquez sur `Save changes`.
 
 Pour relancer les checks sur les PRs, vous pouvez supprimer la branche dans gitlab et relancer le check 🇫🇷 sur Github.
+
+## Compter le nombre de documents totaux
+
+```gql
+query GetAllDocuments($sources: [String!]) {
+  documents(where: {source: {_in: $sources}}) {
+    cdtn_id
+  }
+}
+```
+
+With published documents:
+
+```gql
+query GetAllDocumentsPublished($sources: [String!]) {
+  documents(where: {is_published: {_eq: true}, source: {_in: $sources}}) {
+    cdtn_id
+  }
+}
+```
+
+Avec comme paramètres :
+
+```json
+{"sources": ["page_fiche_ministere_travail", "information", "fiches_service_public", "modeles_de_courriers", "contributions", "conventions_collectives"]}
+```
+
+Pour la partie sql, il faut utiliser la requête suivante :
+
+```sql
+SELECT COUNT(*) FROM documents WHERE source IN ('page_fiche_ministere_travail', 'information', 'fiches_service_public', 'modeles_de_courriers', 'contributions', 'conventions_collectives') AND is_published = TRUE;
+```

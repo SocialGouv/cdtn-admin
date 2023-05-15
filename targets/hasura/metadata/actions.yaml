@@ -1,76 +1,83 @@
 actions:
-- name: email_account_activation
-  definition:
-    kind: asynchronous
-    handler: '{{API_URL}}/actions/email_account_activation'
-    forward_client_headers: true
-    headers:
-    - name: actions-secret
-      value_from_env: ACTIONS_SECRET
-- name: email_password_request
-  definition:
-    kind: asynchronous
-    handler: '{{API_URL}}/actions/email_password_request'
-    forward_client_headers: true
-    headers:
-    - name: actions-secret
-      value_from_env: ACTIONS_SECRET
-  permissions:
-  - role: public
-- name: pipeline_status
-  definition:
-    kind: ""
-    handler: '{{API_URL}}/actions/pipeline_status'
-    headers:
-    - name: actions-secret
-      value_from_env: ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: preview_document
-  definition:
-    kind: synchronous
-    handler: '{{API_URL}}/actions/preview'
-    forward_client_headers: true
-    headers:
-    - name: actions-secret
-      value_from_env: ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: updatePipeline
-  definition:
-    kind: synchronous
-    handler: '{{API_URL}}/actions/trigger_pipeline'
-    forward_client_headers: true
-    headers:
-    - name: secret
-      value_from_env: ACTIONS_SECRET
-  permissions:
-  - role: user
+  - name: email_account_activation
+    definition:
+      kind: asynchronous
+      handler: '{{API_URL}}/actions/email_account_activation'
+      forward_client_headers: true
+      headers:
+        - name: actions-secret
+          value_from_env: ACTIONS_SECRET
+    permissions:
+      - role: user
+      - role: super
+  - name: email_password_request
+    definition:
+      kind: asynchronous
+      handler: '{{API_URL}}/actions/email_password_request'
+      forward_client_headers: true
+      headers:
+        - name: actions-secret
+          value_from_env: ACTIONS_SECRET
+    permissions:
+      - role: public
+  - name: pipeline_status
+    definition:
+      kind: ""
+      handler: '{{API_URL}}/actions/pipeline_status'
+      headers:
+        - name: actions-secret
+          value_from_env: ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: preview_document
+    definition:
+      kind: synchronous
+      handler: '{{API_URL}}/actions/preview'
+      forward_client_headers: true
+      headers:
+        - name: actions-secret
+          value_from_env: ACTIONS_SECRET
+    permissions:
+      - role: super
+      - role: user
+  - name: updatePipeline
+    definition:
+      kind: synchronous
+      handler: '{{API_URL}}/actions/trigger_pipeline'
+      forward_client_headers: true
+      headers:
+        - name: secret
+          value_from_env: ACTIONS_SECRET
+    permissions:
+      - role: super
+      - role: user
 custom_types:
   enums: []
   input_objects:
-  - name: PreviewDocument
-  - name: EmailInput
+    - name: PreviewDocument
+    - name: EmailInput
   objects:
-  - name: Status
-  - name: RunningPipelines
-  - name: UpdateDataSourceOutput
-    relationships:
-    - remote_table:
-        schema: auth
-        name: users
-      name: user
-      type: object
-      field_mapping:
-        user_id: id
-  - name: PipelineStatus
-  - name: UpdatePipelineOutput
-    relationships:
-    - remote_table:
-        schema: auth
-        name: users
-      name: user
-      type: object
-      field_mapping:
-        user_id: id
+    - name: Status
+    - name: RunningPipelines
+    - name: UpdateDataSourceOutput
+      relationships:
+        - field_mapping:
+            user_id: id
+          name: user
+          remote_table:
+            name: users
+            schema: auth
+          source: default
+          type: object
+    - name: PipelineStatus
+    - name: UpdatePipelineOutput
+      relationships:
+        - field_mapping:
+            user_id: id
+          name: user
+          remote_table:
+            name: users
+            schema: auth
+          source: default
+          type: object
   scalars: []

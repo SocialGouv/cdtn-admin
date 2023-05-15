@@ -6,7 +6,7 @@ import type {
 } from "@socialgouv/kali-data-types";
 import find from "unist-util-find";
 import type { NodeWithParentChild } from "unist-util-parents";
-import parents from "unist-util-parents";
+import { parents } from "unist-util-parents";
 
 import { createSorter } from ".";
 

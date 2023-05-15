@@ -1,0 +1,44 @@
+table:
+  name: questions
+  schema: contribution
+object_relationships:
+  - name: message
+    using:
+      foreign_key_constraint_on: message_id
+array_relationships:
+  - name: answers
+    using:
+      foreign_key_constraint_on:
+        column: question_id
+        table:
+          name: answers
+          schema: contribution
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - content
+        - id
+        - message_id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - content
+        - id
+        - message_id
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - content
+        - message_id
+      filter: {}
+      check: null
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

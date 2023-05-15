@@ -36,7 +36,7 @@ mutation updatePassword($secret_token: uuid!, $now: timestamptz!, $password: Str
 }`;
 export const getOldPassword = `
 query getPassword($id: uuid!) {
-	user: auth_users_by_pk(id: $id) { password }
+	user: auth_users_by_pk(id: $id) { password, email }
 }
 `;
 

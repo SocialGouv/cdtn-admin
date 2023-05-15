@@ -17,7 +17,7 @@ export function FichesServicePublicContainer() {
     []
   );
 
-  const [, setSelectedItems] = useContext(SelectionContext);
+  const { setSelectedItems } = useContext(SelectionContext);
 
   const itemsPerPage = 25;
 

@@ -1,0 +1,92 @@
+table:
+  name: answers
+  schema: contrib
+object_relationships:
+  - name: agreement
+    using:
+      foreign_key_constraint_on: agreement_id
+  - name: answer
+    using:
+      foreign_key_constraint_on: parent_id
+  - name: question
+    using:
+      foreign_key_constraint_on: question_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+array_relationships:
+  - name: answers
+    using:
+      foreign_key_constraint_on:
+        column: parent_id
+        table:
+          name: answers
+          schema: contrib
+  - name: answers_comments
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          name: answers_comments
+          schema: contrib
+  - name: answers_references
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          name: answers_references
+          schema: contrib
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - generic_reference
+        - prevalue
+        - state
+        - value
+        - created_at
+        - updated_at
+        - agreement_id
+        - id
+        - parent_id
+        - question_id
+        - user_id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - generic_reference
+        - prevalue
+        - state
+        - value
+        - created_at
+        - updated_at
+        - agreement_id
+        - id
+        - parent_id
+        - question_id
+        - user_id
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - generic_reference
+        - prevalue
+        - state
+        - value
+        - created_at
+        - updated_at
+        - agreement_id
+        - id
+        - parent_id
+        - question_id
+        - user_id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

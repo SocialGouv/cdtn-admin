@@ -1,16 +1,16 @@
 {
   "name": "@shared/elasticsearch-document-adapter",
   "description": "SocialGouv - Code du travail numerique - Modules - ingester",
-  "version": "1.14.2",
+  "version": "2.6.1",
   "dependencies": {
     "@elastic/elasticsearch": "^7.14.1",
-    "@socialgouv/cdtn-elasticsearch": "^1.14.2",
-    "@socialgouv/cdtn-logger": "^1.14.2",
+    "@socialgouv/cdtn-elasticsearch": "^2.6.1",
+    "@socialgouv/cdtn-logger": "^2.6.1",
     "@socialgouv/cdtn-monolog": "^1.5.11",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/contributions-data-types": "^3.27.0",
-    "memoizee": "^0.4.15",
+    "nctx": "^1.2.0",
     "node-fetch": "^2.6.5",
     "p-map": "5.2.0",
     "p-queue": "^6.6.2",
@@ -29,13 +29,14 @@
     "@babel/preset-typescript": "^7.16.7",
     "@socialgouv/eslint-config-typescript": "^1.103.0",
     "@socialgouv/kali-data-types": "^2.127.0",
-    "@types/memoizee": "^0.4.7",
+    "@types/jest": "^29.2.3",
     "@types/node-fetch": "^2.5.12",
-    "@vercel/ncc": "^0.33.1",
+    "@vercel/ncc": "0.34.0",
     "eslint": "^7.32.0",
     "jest": "^27.1.1",
     "lint-staged": "^12.0.0",
     "prettier": "^2.3.2",
+    "ts-jest": "^29.0.3",
     "typescript": "^4.5.5"
   },
   "license": "Apache-2.0",
@@ -47,7 +48,7 @@
     "url": "https://github.com/SocialGouv/cdtn-admin.git"
   },
   "scripts": {
-    "build": "ncc build src -o lib",
+    "build": "ncc build src/index.ts -o lib",
     "lint": "eslint src/**/*.{js,ts}",
     "precommit": "lint-staged",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
@@ -58,12 +59,6 @@
       "yarn lint --cache --fix"
     ]
   },
-  "jest": {
-    "rootDir": "src",
-    "testMatch": [
-      "**/?(*.)+(spec|test).+(ts|tsx|js)"
-    ]
-  },
   "sideEffects": false,
-  "typings": "index.d.ts"
+  "typings": "lib/index.d.ts"
 }

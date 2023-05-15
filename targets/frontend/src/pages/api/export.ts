@@ -1,0 +1,60 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
+const URL_EXPORT = process.env.URL_EXPORT ?? "http://localhost:8787";
+
+export default (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === "GET") {
+    const promises = [
+      fetch(URL_EXPORT + "/export"),
+      fetch(URL_EXPORT + "/export/latest"),
+    ];
+    Promise.all(promises)
+      .then((response) => Promise.all(response.map((rep) => rep.json())))
+      .then((data) => {
+        data.forEach((dt) => {
+          if (dt.errors) {
+            res.status(500).json({
+              error: dt.errors,
+            });
+          }
+        });
+        res.status(200).json({
+          ...data,
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
+  }
+  if (req.method === "POST") {
+    const { environment, userId } = req.body;
+    fetch(URL_EXPORT + "/export", {
+      body: JSON.stringify({
+        environment,
+        userId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.errors) {
+          res.status(500).json({
+            error: data.error,
+          });
+        }
+        res.status(200).json({
+          ...data,
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
+  }
+};

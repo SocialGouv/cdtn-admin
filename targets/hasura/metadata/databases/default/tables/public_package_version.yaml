@@ -1,0 +1,29 @@
+table:
+  name: package_version
+  schema: public
+select_permissions:
+  - role: public
+    permission:
+      columns:
+        - repository
+        - version
+        - created_at
+        - updated_at
+      filter: {}
+  - role: super
+    permission:
+      columns:
+        - repository
+        - version
+        - created_at
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+        - repository
+        - version
+        - created_at
+        - updated_at
+      filter: {}

@@ -4,10 +4,12 @@ import { client } from "@shared/graphql-client";
 import { verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 import { generateJwtToken } from "src/lib/auth/jwt";
-import { setRefreshTokenCookie } from "src/lib/auth/setRefreshTokenCookie";
+import { setJwtCookie } from "src/lib/auth/setJwtCookie";
 import { getExpiryDate } from "src/lib/duration";
 
 import { loginQuery, refreshTokenMutation } from "./login.gql";
+
+const { REFRESH_TOKEN_EXPIRES = "", JWT_TOKEN_EXPIRES = "" } = process.env;
 
 export default async function login(req, res) {
   const apiError = createErrorFor(res);
@@ -31,28 +33,31 @@ export default async function login(req, res) {
 
   const { username, password } = value;
 
-  let result = await client
+  const loginResult = await client
     .query(loginQuery, {
       username,
     })
     .toPromise();
 
-  if (result.error) {
-    console.error(result.error);
+  if (loginResult.error) {
+    console.error(loginResult.error);
     return apiError(Boom.serverUnavailable("login error"));
   }
 
-  if (result.data.users?.length === 0) {
+  if (loginResult.data.users?.length === 0) {
     console.error("No user with 'username'", username);
     return apiError(Boom.unauthorized("Invalid 'username' or 'password'"));
   }
 
   // check if we got any user back
-  const user = result.data[`users`][0];
+  const user = loginResult.data[`users`][0];
 
   if (!user.active) {
-    // console.error('User not activated');
     return apiError(Boom.unauthorized("User not activated."));
+  }
+
+  if (user.deleted) {
+    return apiError(Boom.unauthorized("Invalid 'username' or 'password'"));
   }
 
   // see if password hashes matches
@@ -64,19 +69,16 @@ export default async function login(req, res) {
   }
 
   const jwt_token = generateJwtToken(user);
-  result = await client
+  const refreshTokenResult = await client
     .mutation(refreshTokenMutation, {
       refresh_token_data: {
-        expires_at: getExpiryDate(
-          parseInt(process.env.REFRESH_TOKEN_EXPIRES, 10)
-        ),
+        expires_at: getExpiryDate(parseInt(REFRESH_TOKEN_EXPIRES, 10)),
         user_id: user.id,
       },
     })
     .toPromise();
 
-  if (result.error) {
-    console.error(result.error);
+  if (refreshTokenResult.error) {
     return apiError(
       Boom.badImplementation(
         "Could not update 'refresh token' for user",
@@ -85,16 +87,13 @@ export default async function login(req, res) {
     );
   }
 
-  console.log("[login]", user.id);
-  const { refresh_token } = result.data.insert_data.returning[0];
+  const { refresh_token } = refreshTokenResult.data.insert_data.returning[0];
 
-  setRefreshTokenCookie(res, refresh_token);
+  setJwtCookie(res, refresh_token, jwt_token);
 
   res.json({
     jwt_token,
-    jwt_token_expiry: getExpiryDate(
-      parseInt(process.env.JWT_TOKEN_EXPIRES, 10) || 15
-    ),
+    jwt_token_expiry: getExpiryDate(parseInt(JWT_TOKEN_EXPIRES, 10) || 15),
     refresh_token,
   });
 }

@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS "public"."export_es_status"("id" uuid NOT NULL, "status" text NOT NULL, "user_id" uuid NOT NULL, "created_at" timestamptz NOT NULL DEFAULT now(), "updated_at" timestamptz NOT NULL DEFAULT now(), "environment" text NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON UPDATE restrict ON DELETE cascade, UNIQUE ("id"));

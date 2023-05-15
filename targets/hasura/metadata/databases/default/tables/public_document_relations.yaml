@@ -1,0 +1,88 @@
+table:
+  name: document_relations
+  schema: public
+object_relationships:
+  - name: a
+    using:
+      foreign_key_constraint_on: document_a
+  - name: b
+    using:
+      foreign_key_constraint_on: document_b
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - data
+        - document_a
+        - document_b
+        - type
+        - id
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - id
+        - document_a
+        - document_b
+        - type
+        - data
+select_permissions:
+  - role: public
+    permission:
+      columns:
+        - id
+        - document_a
+        - document_b
+        - type
+        - data
+      filter: {}
+      allow_aggregations: true
+  - role: super
+    permission:
+      columns:
+        - data
+        - document_a
+        - document_b
+        - type
+        - id
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+        - id
+        - document_a
+        - document_b
+        - type
+        - data
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - data
+        - document_a
+        - document_b
+        - type
+        - id
+      filter: {}
+      check: {}
+  - role: user
+    permission:
+      columns:
+        - data
+        - document_a
+        - document_b
+        - type
+        - id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+  - role: user
+    permission:
+      filter: {}

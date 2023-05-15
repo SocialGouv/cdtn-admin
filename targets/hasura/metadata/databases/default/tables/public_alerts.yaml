@@ -1,0 +1,89 @@
+table:
+  name: alerts
+  schema: public
+object_relationships:
+  - name: alert_status
+    using:
+      foreign_key_constraint_on: status
+  - name: source
+    using:
+      foreign_key_constraint_on: repository
+array_relationships:
+  - name: alert_notes
+    using:
+      foreign_key_constraint_on:
+        column: alert_id
+        table:
+          name: alert_notes
+          schema: public
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - changes
+        - info
+        - ref
+        - repository
+        - status
+        - created_at
+        - updated_at
+        - id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - changes
+        - info
+        - ref
+        - repository
+        - status
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+        - id
+        - info
+        - status
+        - repository
+        - ref
+        - changes
+        - created_at
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - changes
+        - info
+        - ref
+        - repository
+        - status
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      check: {}
+  - role: user
+    permission:
+      columns:
+        - id
+        - info
+        - status
+        - repository
+        - ref
+        - changes
+        - created_at
+        - updated_at
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

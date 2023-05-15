@@ -2,10 +2,9 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import { useMemo } from "react";
 import { useUser } from "src/hooks/useUser";
 import { slugifyRepository } from "src/models";
-import { Badge, Box, Message, NavLink, Text } from "theme-ui";
+import { Badge, Box, Text } from "theme-ui";
 import { useQuery } from "urql";
 
 import { Li, List } from "../list";
@@ -27,19 +26,8 @@ query getAlerts{
 export function Nav() {
   const { isAdmin } = useUser();
   // https://formidable.com/open-source/urql/docs/basics/document-caching/#adding-typenames
-  const context = useMemo(
-    () => ({ additionalTypenames: ["alerts", "sources"] }),
-    []
-  );
-  const [result] = useQuery({ context, query: getSourcesQuery });
-  const { fetching, data, error } = result;
-  if (error) {
-    return (
-      <Message>
-        <pre>{JSON.stringify(error, 0, null)}</pre>
-      </Message>
-    );
-  }
+  const [result] = useQuery({ query: getSourcesQuery });
+  const { fetching, data } = result;
 
   return (
     <Box
@@ -65,7 +53,7 @@ export function Nav() {
         <Text sx={TitleStyles}>Alertes</Text>
         {!fetching && (
           <List>
-            {data.sources.map((source) => {
+            {data?.sources?.map((source) => {
               return (
                 <Li key={source.repository}>
                   <ActiveLink
@@ -156,6 +144,16 @@ export function Nav() {
           </Li>
         </List>
       </Box>
+      <Box sx={{ paddingTop: "medium" }}>
+        <Text sx={TitleStyles}>Contributions</Text>
+        <List>
+          <Li>
+            <ActiveLink href="/contributions" passHref>
+              Questions
+            </ActiveLink>
+          </Li>
+        </List>
+      </Box>
     </Box>
   );
 }
@@ -192,15 +190,17 @@ function ActiveLink({ children, href }) {
   }
 
   return (
-    <Link shallow href={href} passHref>
-      <NavLink
-        sx={{
-          color: isCurrentRoute ? "primary" : "text",
-        }}
-        {...(isCurrentRoute && { "aria-current": "page" })}
-      >
-        {children}
-      </NavLink>
+    <Link
+      shallow
+      href={href}
+      passHref
+      style={{
+        color: isCurrentRoute ? "red" : "inherit",
+        textDecoration: "none",
+      }}
+      {...(isCurrentRoute && { "aria-current": "page" })}
+    >
+      {children}
     </Link>
   );
 }

@@ -1,14 +1,14 @@
 import { Client } from "@elastic/elasticsearch";
 import { deleteOldIndex } from "@socialgouv/cdtn-elasticsearch";
 
+import { context } from "./context";
 import { populateSuggestions } from "./suggestion";
-
-const ELASTICSEARCH_URL =
-  process.env.ELASTICSEARCH_URL || "http://localhost:9200";
-const SUGGEST_INDEX_NAME = process.env.SUGGEST_INDEX_NAME || "cdtn_suggestions";
 
 // utility function top reset suggestions in dev mode
 async function resetSuggestions() {
+  const ELASTICSEARCH_URL = context.get("esUrl") || "http://localhost:9200";
+  const SUGGEST_INDEX_NAME =
+    context.get("suggestIndexName") || "cdtn_suggestions";
   const client = new Client({
     node: `${ELASTICSEARCH_URL}`,
   });

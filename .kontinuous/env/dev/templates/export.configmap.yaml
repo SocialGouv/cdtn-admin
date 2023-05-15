@@ -1,0 +1,17 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: export-elasticsearch
+data:
+  HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
+  NLP_URL: "https://serving-ml-preprod.dev.fabrique.social.gouv.fr"
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
+  ENVIRONMENT: "dev"
+  SOURCE_CONTAINER_COPY: "cdtn"
+  DESTINATION_CONTAINER_COPY: "cdtn-dev"
+  SITEMAP_DESTINATION_CONTAINER: "sitemap"
+  SITEMAP_DESTINATION_NAME: "sitemap.xml"
+  SITEMAP_ENDPOINT: "http://www/api/sitemap"
+  ELASTICSEARCH_INDEX_PREPROD: "cdtn-v1"
+  ELASTICSEARCH_INDEX_PROD: "cdtn-v1"

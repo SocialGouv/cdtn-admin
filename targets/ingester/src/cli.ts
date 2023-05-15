@@ -133,11 +133,6 @@ async function download(pkgName: string, url: string) {
 }
 
 const dataPackages = [
-  {
-    getDocuments: getContributionsDocuments,
-    pkgName: "@socialgouv/contributions-data",
-  },
-  { getDocuments: getAgreementDocuments, pkgName: "@socialgouv/kali-data" },
   { getDocuments: getCdtDocuments, pkgName: "@socialgouv/legi-data" },
   { getDocuments: getFichesServicePublic, pkgName: "@socialgouv/fiches-vdd" },
   {
@@ -265,6 +260,18 @@ async function main() {
       packagesToUpdate.set(pkgName, { getDocuments, version: pkgInfo.version });
     }
   }
+  packagesToUpdate.set("@socialgouv/contributions-data", {
+    getDocuments: getContributionsDocuments,
+    version: "1.0.0",
+  });
+  console.debug(`download package "@socialgouv/kali-data"`);
+  const pkgInfo = await getPackageInfo("@socialgouv/kali-data");
+  await download("@socialgouv/kali-data", pkgInfo.url);
+  packagesToUpdate.set("@socialgouv/kali-data", {
+    getDocuments: getAgreementDocuments,
+    version: "1.0.0",
+  });
+  // @ts-expect-error type généré
   if (args.dryRun) {
     console.log("dry-run mode");
   }
@@ -276,6 +283,7 @@ async function main() {
     const documents = await getDocuments(pkgName);
     console.timeEnd(` getDocuments ${pkgName}`);
     console.log(` ${pkgName}: ${documents.length} documents`);
+    // @ts-expect-error type généré
     if (!args.dryRun && documents.length > 0) {
       await initDocAvailabity(documents[0].source);
       console.log(

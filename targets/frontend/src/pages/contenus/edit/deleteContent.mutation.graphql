@@ -1,0 +1,5 @@
+mutation DeleteContent($cdtnId: String!) {
+  content: delete_documents_by_pk(cdtn_id: $cdtnId) {
+    cdtnId: cdtn_id
+  }
+}

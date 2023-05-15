@@ -1,0 +1,12 @@
+DROP TRIGGER IF EXISTS update_updated_at ON contrib.agreements;
+CREATE TRIGGER update_updated_at BEFORE UPDATE ON contrib.agreements FOR EACH ROW EXECUTE PROCEDURE set_updated_at();
+DROP TRIGGER IF EXISTS update_updated_at ON contrib.answers;
+CREATE TRIGGER update_updated_at BEFORE UPDATE ON contrib.answers FOR EACH ROW EXECUTE PROCEDURE set_updated_at();
+DROP TRIGGER IF EXISTS update_updated_at ON contrib.answers_comments;
+CREATE TRIGGER update_updated_at BEFORE UPDATE ON contrib.answers_comments FOR EACH ROW EXECUTE PROCEDURE set_updated_at();
+DROP TRIGGER IF EXISTS update_updated_at ON contrib.answers_references;
+CREATE TRIGGER update_updated_at BEFORE UPDATE ON contrib.answers_references FOR EACH ROW EXECUTE PROCEDURE set_updated_at();
+DROP TRIGGER IF EXISTS update_updated_at ON contrib.locations;
+CREATE TRIGGER update_updated_at BEFORE UPDATE ON contrib.locations FOR EACH ROW EXECUTE PROCEDURE set_updated_at();
+DROP TRIGGER IF EXISTS update_updated_at ON contrib.questions;
+CREATE TRIGGER update_updated_at BEFORE UPDATE ON contrib.questions FOR EACH ROW EXECUTE PROCEDURE set_updated_at();

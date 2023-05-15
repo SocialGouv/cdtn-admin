@@ -7,18 +7,20 @@ import { IoIosCheckmark, IoMdCloseCircle } from "react-icons/io";
 import { Badge, css, Message, Text } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
+import { Role } from "../../lib/auth/auth.const";
 import { Button, MenuButton, MenuItem } from "../button";
 import { Dialog } from "../dialog";
 import { Inline } from "../layout/Inline";
 
 const query = `
 query getUsers {
-  users: auth_users {
+  users: auth_users(where: {deleted: {_eq: false}}) {
     __typename
     id
     email
     name
     active
+    deleted
     created_at
     default_role
     roles: user_roles {
@@ -29,9 +31,20 @@ query getUsers {
 `;
 
 const deleteUserMutation = `
-mutation deleteUser($id: uuid!) {
-  delete_auth_users_by_pk(id: $id) {
- 		__typename
+mutation deleteUser($id: uuid!, $name:String!, $email: citext!) {
+  update_auth_users(_set: {
+    name: $name,
+    email: $email,
+    password: "mot de passe",
+    deleted: true
+    },
+    where: {
+    id: {_eq: $id}
+    }
+  ){
+    returning {
+      __typename
+    }
   }
 }
 `;
@@ -55,7 +68,14 @@ export function UserList() {
   }
 
   function onDeleteUser() {
-    executeDelete({ id: selectedUser.id });
+    if (!selectedUser?.id) {
+      return;
+    }
+    executeDelete({
+      email: `${selectedUser.id}@gouv.fr`,
+      id: selectedUser.id,
+      name: selectedUser.id,
+    });
     close();
   }
 
@@ -105,7 +125,9 @@ export function UserList() {
             }) => (
               <Tr key={id}>
                 <Td align="center">
-                  <Badge variant={role === "admin" ? "primary" : "secondary"}>
+                  <Badge
+                    variant={role === Role.SUPER ? "primary" : "secondary"}
+                  >
                     {role}
                   </Badge>
                 </Td>

@@ -6,13 +6,15 @@ import remark from "remark";
 import html from "remark-html";
 
 import type { AgreementPage } from "../../index.js";
+import fetchContributions from "../../lib/fetchContributions";
 import { formatIdcc } from "../../lib/formatIdcc.js";
 import { getJson } from "../../lib/getJson.js";
 import getAgreementsWithHighlight from "./agreementsWithHighlight";
 import { getAllKaliBlocks } from "./getKaliBlock.js";
 import { getKaliArticlesByTheme } from "./kaliArticleBytheme.js";
 
-const compiler = remark().use(html, { sanitize: true });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const compiler = remark().use(html as any, { sanitize: true });
 
 type QuestionWithSlug = Question & { slug: string };
 
@@ -26,9 +28,7 @@ export default async function getAgreementDocuments(pkgName: string) {
     `${pkgName}/data/index.json`
   );
 
-  const contributions = await getJson<Question[]>(
-    `@socialgouv/contributions-data/data/contributions.json`
-  );
+  const contributions = await fetchContributions();
 
   const allKaliBlocks = await getAllKaliBlocks();
 

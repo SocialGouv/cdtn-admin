@@ -1,0 +1,58 @@
+table:
+  name: answers_references
+  schema: contrib
+object_relationships:
+  - name: answer
+    using:
+      foreign_key_constraint_on: answer_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - category
+        - dila_cid
+        - dila_container_id
+        - dila_id
+        - url
+        - value
+        - created_at
+        - updated_at
+        - answer_id
+        - id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - category
+        - dila_cid
+        - dila_container_id
+        - dila_id
+        - url
+        - value
+        - created_at
+        - updated_at
+        - answer_id
+        - id
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - category
+        - dila_cid
+        - dila_container_id
+        - dila_id
+        - url
+        - value
+        - created_at
+        - updated_at
+        - answer_id
+        - id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

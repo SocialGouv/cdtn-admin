@@ -1,0 +1,47 @@
+table:
+  name: alert_status
+  schema: public
+array_relationships:
+  - name: alerts
+    using:
+      foreign_key_constraint_on:
+        column: status
+        table:
+          name: alerts
+          schema: public
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - name
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - name
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+        - name
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - name
+      filter: {}
+      check: {}
+  - role: user
+    permission:
+      columns:
+        - name
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

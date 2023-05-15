@@ -25,20 +25,19 @@ jobs:
           - images: "cdtn-admin-ingester"
             path: "./targets/ingester"
             context: "."
-          - images: "cdtn-admin-ingester-elasticsearch"
-            path: "./targets/ingester-elasticsearch"
-            context: "."
           - images: "cdtn-admin-alert-cli"
             path: "./targets/alert-cli"
             context: "."
+          - images: "cdtn-admin-export-elasticsearch"
+            path: "./targets/export-elasticsearch"
+            context: "."
     steps:
       - name: Register docker images
-        uses: SocialGouv/actions/autodevops-build-register@local-cache-cdtn
+        uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          project: "cdtn-admin"
-          imageName: cdtn-admin/${{ matrix.images }}
+          imagePackage: ${{ matrix.images }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          dockerfile: "${{ matrix.path }}/Dockerfile.github"
+          dockerfile: "${{ matrix.path }}/Dockerfile"
           dockercontext: "${{ matrix.context }}"
 
   trivy:
@@ -48,20 +47,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        images:
-          [
-            "cdtn-admin-frontend",
-            "cdtn-admin-hasura",
-            "cdtn-admin-ingester",
-            "cdtn-admin-ingester-elasticsearch",
-            "cdtn-admin-alert-cli",
-          ]
+        include:
+          - images: "cdtn-admin-frontend"
+            path: "./targets/frontend"
+            context: "."
+          - images: "cdtn-admin-hasura"
+            path: "./targets/hasura"
+            context: "./targets/hasura"
+          - images: "cdtn-admin-ingester"
+            path: "./targets/ingester"
+            context: "."
+          - images: "cdtn-admin-alert-cli"
+            path: "./targets/alert-cli"
+            context: "."
+          - images: "cdtn-admin-export-elasticsearch"
+            path: "./targets/export-elasticsearch"
+            context: "."
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Build ${{ matrix.images }} from Dockerfile
-        run: |
-          docker build -t ghcr.io/socialgouv/cdtn-admin/${{ matrix.images }}:sha-${{ github.sha }} .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:

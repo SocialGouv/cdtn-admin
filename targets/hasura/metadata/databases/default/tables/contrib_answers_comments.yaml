@@ -1,0 +1,52 @@
+table:
+  name: answers_comments
+  schema: contrib
+object_relationships:
+  - name: answer
+    using:
+      foreign_key_constraint_on: answer_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - is_private
+        - id
+        - value
+        - created_at
+        - updated_at
+        - answer_id
+        - user_id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - is_private
+        - id
+        - value
+        - created_at
+        - updated_at
+        - answer_id
+        - user_id
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - is_private
+        - id
+        - value
+        - created_at
+        - updated_at
+        - answer_id
+        - user_id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
