@@ -1,6 +1,5 @@
 import { client } from "@shared/graphql-client";
 import { generateCdtnId } from "@shared/id-generator";
-import { access, readFile } from "fs/promises";
 import getUri from "get-uri";
 import got from "got";
 import gunzip from "gunzip-maybe";
@@ -96,19 +95,6 @@ function getPkgPath(pkgName: string) {
   return path.join(process.cwd(), "data", pkgName);
 }
 
-async function isPkgOutdated(pkgName: string, latest: string) {
-  const pkgInfoPath = path.join(getPkgPath(pkgName), "package.json");
-  try {
-    await access(pkgInfoPath);
-    const pkgData = (await readFile(pkgInfoPath)).toString();
-    const pkgInfo = JSON.parse(pkgData) as Versionnable;
-    return semver.lt(pkgInfo.version, latest);
-  } catch {
-    console.error(`[isPkgOutdated] ${pkgName} not found, download a fresh one`);
-    return true;
-  }
-}
-
 async function download(pkgName: string, url: string) {
   return new Promise((resolve, reject) => {
     getUri(url, function (err, rs) {
@@ -138,6 +124,16 @@ const dataPackages = [
   {
     getDocuments: getFicheTravailEmploi,
     pkgName: "@socialgouv/fiches-travail-data",
+  },
+  {
+    forceUpdate: true,
+    getDocuments: getContributionsDocuments,
+    pkgName: "@socialgouv/contributions-data",
+  },
+  {
+    forceUpdate: true,
+    getDocuments: getAgreementDocuments,
+    pkgName: "@socialgouv/kali-data",
   },
 ];
 
@@ -244,33 +240,20 @@ async function main() {
       version: string;
     }
   >();
-  for (const { pkgName, getDocuments } of dataPackages) {
+  for (const { pkgName, forceUpdate, getDocuments } of dataPackages) {
     const pkgInfo = await getPackageInfo(pkgName);
-    if (await isPkgOutdated(pkgName, pkgInfo.version)) {
-      console.debug(`download package ${pkgName}@${pkgInfo.version}`);
-      await download(pkgName, pkgInfo.url);
-    }
+    await download(pkgName, pkgInfo.url);
+
     const ingestedVersion = await getLastIngestedVersion(pkgName);
-    // Need to update the package:
-    // if the version is lower than the version from database (ingestedVersion)
-    // or the package is not present in the database (ingestedVersion is null).
-    if (ingestedVersion && semver.gt(pkgInfo.version, ingestedVersion)) {
-      packagesToUpdate.set(pkgName, { getDocuments, version: pkgInfo.version });
-    } else if (!ingestedVersion) {
+    if (
+      forceUpdate ||
+      (ingestedVersion && semver.gt(pkgInfo.version, ingestedVersion)) ||
+      !ingestedVersion
+    ) {
       packagesToUpdate.set(pkgName, { getDocuments, version: pkgInfo.version });
     }
   }
-  packagesToUpdate.set("@socialgouv/contributions-data", {
-    getDocuments: getContributionsDocuments,
-    version: "1.0.0",
-  });
-  console.debug(`download package "@socialgouv/kali-data"`);
-  const pkgInfo = await getPackageInfo("@socialgouv/kali-data");
-  await download("@socialgouv/kali-data", pkgInfo.url);
-  packagesToUpdate.set("@socialgouv/kali-data", {
-    getDocuments: getAgreementDocuments,
-    version: "1.0.0",
-  });
+
   // @ts-expect-error type généré
   if (args.dryRun) {
     console.log("dry-run mode");
