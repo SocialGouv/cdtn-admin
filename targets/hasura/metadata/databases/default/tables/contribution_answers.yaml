@@ -8,13 +8,22 @@ object_relationships:
   - name: question
     using:
       foreign_key_constraint_on: question_id
+array_relationships:
+  - name: answer_comments
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          name: answer_comments
+          schema: contribution
 select_permissions:
   - role: super
     permission:
       columns:
-        - content
-        - other_answer
         - agreement_id
+        - content
+        - id
+        - other_answer
         - question_id
         - status
       filter: {}

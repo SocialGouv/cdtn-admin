@@ -20,7 +20,10 @@ mutation contributionAnswerUpdate($questionId: uuid!, $agreementId: bpchar!, $co
   }
 `;
 
-export type MutationProps = Omit<Answer, "question" | "agreement">;
+export type MutationProps = Omit<
+  Answer,
+  "question" | "agreement" | "answer_comments" | "id"
+>;
 
 type MutationResult = (props: MutationProps) => Promise<OperationResult>;
 

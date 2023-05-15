@@ -9,6 +9,7 @@ export const contributionAnswerQuery = `query contribution_answer($questionId: u
         agreement_id: {_eq: $agreementId}
       }
     }) {
+      id
       questionId: question_id
       agreementId: agreement_id
       content
@@ -21,6 +22,14 @@ export const contributionAnswerQuery = `query contribution_answer($questionId: u
       agreement {
         id
         name
+      }
+      answer_comments {
+        id
+        content
+        createdAt: created_at
+        user {
+          name
+        }
       }
     }
   }
@@ -41,7 +50,6 @@ export const useContributionAnswerQuery = ({
 }: QueryProps): Answer | undefined => {
   const [result] = useQuery<QueryResult>({
     query: contributionAnswerQuery,
-    requestPolicy: "cache-and-network",
     variables: {
       agreementId,
       questionId,
