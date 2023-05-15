@@ -13,6 +13,7 @@ import { FormTextField } from "src/components/forms";
 import { useUser } from "src/hooks/useUser";
 
 import { Comments as AnswerComments } from "../type";
+import { Comment } from "./Comment";
 import { MutationProps, useCommentsInsert } from "./Comments.mutation";
 
 type Props = {
@@ -99,28 +100,7 @@ export const Comments = (props: Props) => {
             }}
           >
             {localComments.map((comment) => (
-              <Box
-                key={comment.id}
-                sx={{
-                  border: "1px solid",
-                  borderColor: "grey.300",
-                  borderRadius: "4px",
-                  display: "flex",
-                  flexDirection: "column",
-                  marginBottom: 2,
-                  padding: 2,
-                }}
-              >
-                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                  <Box sx={{ fontWeight: "bold" }}>{comment.user.name}</Box>
-                  <Box sx={{ color: "#6e6d6d", fontSize: "small" }}>
-                    {new Date(comment.createdAt).toLocaleString("fr-FR")}
-                  </Box>
-                </Box>
-                <Box sx={{ marginTop: 1, whiteSpace: "pre-line" }}>
-                  {comment.content}
-                </Box>
-              </Box>
+              <Comment key={comment.id} comment={comment} />
             ))}
           </Box>
           <FormControl>
