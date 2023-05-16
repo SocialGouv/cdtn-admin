@@ -1,3 +1,29 @@
 table:
   name: answer_comments
   schema: contribution
+object_relationships:
+  - name: answer
+    using:
+      foreign_key_constraint_on: answer_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - answer_id
+        - content
+        - user_id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - answer_id
+        - content
+        - created_at
+        - id
+        - user_id
+      filter: {}
+      allow_aggregations: true
