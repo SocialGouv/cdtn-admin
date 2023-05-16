@@ -1,3 +1,4 @@
+import { Status } from "../../type";
 import { ContributionListQueryProps, ContributionListQueryResult } from "..";
 
 export const mock: ContributionListQueryResult = {
@@ -9,16 +10,28 @@ export const mock: ContributionListQueryResult = {
             id: "0001",
             name: "CC 0001",
           },
+          id: "answer1",
           otherAnswer: "",
-          status: "TODO",
+          statuses: [],
         },
         {
           agreement: {
             id: "0002",
             name: "CC 0002",
           },
+          id: "answer2",
           otherAnswer: "",
-          status: "DONE",
+          statuses: [
+            {
+              createdAt: "01/01/2023",
+              id: "id",
+              status: "REDACTING",
+              user: {
+                name: "toto",
+              },
+              userId: "toto",
+            },
+          ],
         },
       ],
       content: "question1",
@@ -31,16 +44,18 @@ export const mock: ContributionListQueryResult = {
             id: "0002",
             name: "CC 0002",
           },
+          id: "answer3",
           otherAnswer: "",
-          status: "TODO",
+          statuses: [],
         },
         {
           agreement: {
             id: "0002",
             name: "CC 0002",
           },
+          id: "answer4",
           otherAnswer: "",
-          status: "TODO",
+          statuses: [],
         },
       ],
       content: "question2",

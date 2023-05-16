@@ -5,14 +5,19 @@ import {
   Breadcrumbs,
   Button,
   FormControl,
+  Grid,
   Snackbar,
   Stack,
 } from "@mui/material";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useUser } from "src/hooks/useUser";
 
 import { FormEditionField, FormRadioGroup } from "../../forms";
+import { StatusContainer } from "../status";
+import { statusesMapping } from "../status/data";
+import { Status } from "../type";
 import {
   MutationProps,
   useContributionAnswerUpdateMutation,
@@ -21,48 +26,71 @@ import { useContributionAnswerQuery } from "./Answer.query";
 import { Comments } from "./Comments";
 
 export type ContributionsAnswerProps = {
-  questionId: string;
-  agreementId: string;
+  id: string;
 };
 
 export const ContributionsAnswer = ({
-  questionId,
-  agreementId,
+  id,
 }: ContributionsAnswerProps): JSX.Element => {
-  const answer = useContributionAnswerQuery({ agreementId, questionId });
-  const { control, handleSubmit } = useForm<MutationProps>({
+  const answer = useContributionAnswerQuery({ id });
+  const { user } = useUser() as any;
+  const [status, setStatus] = useState<Status>("REDACTING");
+  useEffect(() => {
+    if (answer?.statuses?.[0]?.status) {
+      setStatus(answer?.statuses[0].status);
+    }
+  }, [answer]);
+  const { control, handleSubmit, watch } = useForm<MutationProps>({
     defaultValues: {
       content: answer?.content ?? "",
       otherAnswer: "ANSWER",
     },
   });
+  const otherAnswer = watch("otherAnswer", answer?.otherAnswer);
   const updateAnswer = useContributionAnswerUpdateMutation();
-  const [snack, setSnack] = useState<{ open: boolean; severity?: AlertColor }>({
+  const [snack, setSnack] = useState<{
+    open: boolean;
+    severity?: AlertColor;
+    text?: string;
+  }>({
     open: false,
   });
   const onSubmit = async (data: MutationProps) => {
     try {
+      if (!answer?.id) {
+        throw new Error("Id non définit");
+      }
       await updateAnswer({
-        agreementId: data.agreementId,
         content: data.content,
+        id: answer.id,
         otherAnswer: data.otherAnswer,
-        questionId: data.questionId,
-        status: "DONE",
+        status,
+        userId: user?.id,
       });
-      setSnack({ open: true, severity: "success" });
-    } catch (e) {
-      setSnack({ open: true, severity: "error" });
+      setSnack({ open: true, severity: "success", text: "success" });
+    } catch (e: any) {
+      setSnack({ open: true, severity: "error", text: e.message });
     }
   };
   return (
     <>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link href={"/contributions"}>Contributions</Link>
-        <Link href={`/contributions/${questionId}`}>
-          {answer?.question?.content}
-        </Link>
-        <div>{answer?.agreement?.id}</div>
-      </Breadcrumbs>
+      <Grid container>
+        <Grid xs={10}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link href={"/contributions"}>Contributions</Link>
+            <Link href={`/contributions/questions/${answer?.question.id}`}>
+              {answer?.question?.content}
+            </Link>
+            <div>{answer?.agreement?.id}</div>
+          </Breadcrumbs>
+        </Grid>
+        <Grid xs={2} style={{ color: statusesMapping[status].color }}>
+          <StatusContainer
+            status={status}
+            user={answer?.statuses?.[0]?.user?.name}
+          />
+        </Grid>
+      </Grid>
       <h2>{answer?.agreement?.name}</h2>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         <Box sx={{ width: "70%" }}>
@@ -72,7 +100,9 @@ export const ContributionsAnswer = ({
                 <FormEditionField
                   label="Réponse"
                   name="content"
+                  disabled={status !== "REDACTING"}
                   control={control}
+                  rules={{ required: otherAnswer === "ANSWER" }}
                 />
               </FormControl>
               <FormControl>
@@ -80,6 +110,7 @@ export const ContributionsAnswer = ({
                   label="Type de réponse"
                   name="otherAnswer"
                   control={control}
+                  disabled={status !== "REDACTING"}
                   options={[
                     {
                       label: "Afficher la réponse",
@@ -96,9 +127,52 @@ export const ContributionsAnswer = ({
                   ]}
                 />
               </FormControl>
-              <Stack alignItems="end" padding={2}>
-                <Button variant="contained" type="submit">
-                  Sauvegarder
+              <Stack
+                direction="row"
+                alignItems="end"
+                justifyContent="end"
+                spacing={2}
+                padding={2}
+              >
+                <Button
+                  variant="contained"
+                  type="submit"
+                  onClick={() => setStatus("REDACTING")}
+                >
+                  {status === "REDACTING" && "Sauvegarder"}
+                  {status === "REDACTED" && "Modifier"}
+                  {status === "VALIDATING" && "Refuser"}
+                  {status === "VALIDATED" && "Modifier"}
+                  {status === "PUBLISHED" && "Modifier"}
+                </Button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  type="submit"
+                  style={{
+                    display: status === "PUBLISHED" ? "none" : "inherit",
+                  }}
+                  onClick={() => {
+                    switch (status) {
+                      case "REDACTING":
+                        setStatus("REDACTED");
+                        break;
+                      case "REDACTED":
+                        setStatus("VALIDATING");
+                        break;
+                      case "VALIDATING":
+                        setStatus("VALIDATED");
+                        break;
+                      case "VALIDATED":
+                        setStatus("PUBLISHED");
+                        break;
+                    }
+                  }}
+                >
+                  {status === "REDACTING" && "Soumettre"}
+                  {status === "REDACTED" && "Commencer Validation"}
+                  {status === "VALIDATING" && "Valider"}
+                  {status === "VALIDATED" && "Publier"}
                 </Button>
               </Stack>
             </Stack>
@@ -112,9 +186,8 @@ export const ContributionsAnswer = ({
               <Alert
                 onClose={() => setSnack({ open: false })}
                 severity={snack.severity}
-                sx={{ width: "100%" }}
               >
-                {snack?.severity}
+                {snack?.text}
               </Alert>
             </Snackbar>
           </form>

@@ -9,6 +9,7 @@
 - "!include contrib_locations_agreements.yaml"
 - "!include contrib_questions.yaml"
 - "!include contribution_answer_comments.yaml"
+- "!include contribution_answer_statuses.yaml"
 - "!include contribution_answers.yaml"
 - "!include contribution_question_messages.yaml"
 - "!include contribution_questions.yaml"

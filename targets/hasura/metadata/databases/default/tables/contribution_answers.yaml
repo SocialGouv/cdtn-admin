@@ -16,6 +16,15 @@ array_relationships:
         table:
           name: answer_comments
           schema: contribution
+  - name: statuses
+    using:
+      manual_configuration:
+        column_mapping:
+          id: answer_id
+        insertion_order: null
+        remote_table:
+          name: answer_statuses
+          schema: contribution
 select_permissions:
   - role: super
     permission:
@@ -25,7 +34,6 @@ select_permissions:
         - id
         - other_answer
         - question_id
-        - status
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -34,6 +42,5 @@ update_permissions:
       columns:
         - content
         - other_answer
-        - status
       filter: {}
       check: null

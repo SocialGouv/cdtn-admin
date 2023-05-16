@@ -5,13 +5,28 @@ export type Agreement = {
   name: string;
 };
 
+export type Status =
+  | "TODO"
+  | "REDACTING"
+  | "REDACTED"
+  | "VALIDATING"
+  | "VALIDATED"
+  | "PUBLISHED";
+
+export type AnswerStatus = {
+  id: string;
+  createdAt: string;
+  status: Status;
+  userId: string;
+  user: User;
+};
 export type Answer = {
   id: string;
   agreementId: string;
   questionId: string;
   otherAnswer?: string;
   agreement: Agreement;
-  status: string;
+  statuses: AnswerStatus[];
   content?: string;
   question: Omit<Question, "answers">;
   answer_comments: Comments[];

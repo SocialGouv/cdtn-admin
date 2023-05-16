@@ -27,11 +27,17 @@ export const contributionListQuery = `query questions_answers($search: String, $
       },
       order_by: {agreement_id: asc}
     ) {
+      id,
       other_answer,
-      status,
       agreement {
         id
         name
+      }
+      statuses(order_by: {created_at: desc}, limit: 1) {
+        status
+        user {
+          name
+        }
       }
     }
   }

@@ -29,6 +29,7 @@ export const FormRadioGroup = ({
   control,
   fullWidth,
   options,
+  disabled,
 }: RadioGroupProps) => {
   return (
     <Controller
@@ -51,6 +52,7 @@ export const FormRadioGroup = ({
                   value={value}
                   control={<Radio />}
                   label={label}
+                  disabled={disabled}
                 />
               ))}
             </StyledRadioGroup>

@@ -14,8 +14,14 @@ export const FormEditionField = (props: FormEditionProps) => {
       rules={props.rules}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <>
-          <Editor onUpdate={onChange} content={value} />
-          {error && <span style={{ color: "red" }}>{error?.message}</span>}
+          <Editor
+            onUpdate={onChange}
+            content={value}
+            disabled={props.disabled}
+          />
+          {error && error.type === "required" && (
+            <span style={{ color: "red" }}>Ce champ est requis</span>
+          )}
         </>
       )}
     />

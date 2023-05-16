@@ -8,12 +8,11 @@ import { withUserProvider } from "src/hoc/UserProvider";
 
 export function EditInformationPage() {
   const router = useRouter();
-  const questionId = router?.query?.questionId as string;
-  const agreementId = router?.query?.ccId as string;
+  const answerId = router?.query?.answerId as string;
 
   return (
     <Layout>
-      <ContributionsAnswer questionId={questionId} agreementId={agreementId} />
+      <ContributionsAnswer id={answerId} />
     </Layout>
   );
 }

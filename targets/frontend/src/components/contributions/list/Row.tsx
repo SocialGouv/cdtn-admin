@@ -14,6 +14,8 @@ import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
 import * as React from "react";
 
+import { StatusContainer } from "../status";
+import { StatusRecap } from "../status/StatusRecap";
 import { QueryQuestion } from "./List.query";
 
 export const ContributionsRow = (props: {
@@ -43,38 +45,37 @@ export const ContributionsRow = (props: {
           {row.content}
         </TableCell>
         <TableCell component="th" scope="row">
-          <div
-            style={{
-              color: "orange",
-              display: "flex",
-              justifyContent: "center",
-              textAlign: "center",
-            }}
-          >
-            <Box sx={{ marginTop: "2px" }}>
-              <b>
-                {row?.answers?.filter(({ status }) => status === "TODO").length}
-              </b>
-            </Box>
-            <ClearIcon />
-          </div>
-        </TableCell>
-        <TableCell component="th" scope="row">
-          <div
-            style={{
-              color: "green",
-              display: "flex",
-              justifyContent: "center",
-              textAlign: "center",
-            }}
-          >
-            <Box sx={{ marginTop: "2px" }}>
-              <b>
-                {row?.answers?.filter(({ status }) => status === "DONE").length}
-              </b>
-            </Box>
-            <CheckIcon />
-          </div>
+          <StatusRecap
+            todo={
+              row?.answers?.filter(({ statuses }) => !statuses.length).length ??
+              0
+            }
+            redacting={
+              row?.answers?.filter(
+                ({ statuses }) => statuses?.[0]?.status === "REDACTING"
+              ).length ?? 0
+            }
+            redacted={
+              row?.answers?.filter(
+                ({ statuses }) => statuses?.[0]?.status === "REDACTED"
+              ).length ?? 0
+            }
+            validating={
+              row?.answers?.filter(
+                ({ statuses }) => statuses?.[0]?.status === "VALIDATING"
+              ).length ?? 0
+            }
+            validated={
+              row?.answers?.filter(
+                ({ statuses }) => statuses?.[0]?.status === "VALIDATED"
+              ).length ?? 0
+            }
+            published={
+              row?.answers?.filter(
+                ({ statuses }) => statuses?.[0]?.status === "PUBLISHED"
+              ).length ?? 0
+            }
+          />
         </TableCell>
         <TableCell>
           <IconButton
@@ -103,62 +104,39 @@ export const ContributionsRow = (props: {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.answers?.map((answer) => (
-                      <TableRow key={answer.agreement.id}>
-                        <TableCell scope="row" style={{ width: "80px" }}>
-                          {answer.agreement.id}
-                        </TableCell>
-                        <TableCell scope="row">
-                          {answer.agreement.name}
-                        </TableCell>
-                        <TableCell
-                          scope="row"
-                          style={{ width: "180px" }}
-                          align="center"
-                        >
-                          {answer.status === "DONE" ? (
-                            <div
-                              style={{
-                                color: "green",
-                                display: "flex",
-                                justifyContent: "end",
-                                textAlign: "center",
+                    {row.answers?.map((answer) => {
+                      const status = answer?.statuses?.[0]?.status ?? "TODO";
+                      return (
+                        <TableRow key={answer.agreement.id}>
+                          <TableCell scope="row">
+                            {answer.agreement.id}
+                          </TableCell>
+                          <TableCell scope="row">
+                            {answer.agreement.name}
+                          </TableCell>
+                          <TableCell scope="row" align="center">
+                            <StatusContainer
+                              status={status}
+                              user={answer?.statuses?.[0]?.user?.name}
+                              dataTestid={`${row.id}-${answer.agreement.id}-${status}`}
+                            />
+                          </TableCell>
+                          <TableCell scope="row">
+                            <IconButton
+                              aria-label="modifier"
+                              size="small"
+                              onClick={() => {
+                                router.push(
+                                  `/contributions/answers/${answer.id}`
+                                );
                               }}
-                              data-testid={`${row.id}-${answer.agreement.id}-done`}
                             >
-                              <Box sx={{ marginTop: "2px" }}>TRAITÉ</Box>
-                              <CheckIcon />
-                            </div>
-                          ) : (
-                            <div
-                              style={{
-                                color: "orange",
-                                display: "flex",
-                                justifyContent: "end",
-                                textAlign: "center",
-                              }}
-                              data-testid={`${row.id}-${answer.agreement.id}-todo`}
-                            >
-                              <Box sx={{ marginTop: "2px" }}>NON TRAITÉ</Box>
-                              <ClearIcon />
-                            </div>
-                          )}
-                        </TableCell>
-                        <TableCell scope="row" style={{ width: "50px" }}>
-                          <IconButton
-                            aria-label="modifier"
-                            size="small"
-                            onClick={() => {
-                              router.push(
-                                `/contributions/${row.id}/${answer.agreement.id}`
-                              );
-                            }}
-                          >
-                            <ModeEditIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                              <ModeEditIcon />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </Box>

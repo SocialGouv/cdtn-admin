@@ -2,19 +2,15 @@ import { useQuery } from "urql";
 
 import { Answer } from "../type";
 
-export const contributionAnswerQuery = `query contribution_answer($questionId: uuid, $agreementId: bpchar) {
+export const contributionAnswerQuery = `query contribution_answer($id: uuid) {
     contribution_answers(where: {
-      _and: {
-        question_id: {_eq: $questionId},
-        agreement_id: {_eq: $agreementId}
-      }
+        id: {_eq: $id},
     }) {
       id
       questionId: question_id
       agreementId: agreement_id
       content
       otherAnswer: other_answer
-      status
       question {
         id
         content
@@ -27,6 +23,10 @@ export const contributionAnswerQuery = `query contribution_answer($questionId: u
         id
         content
         createdAt: created_at
+      }
+      statuses(order_by: {created_at: desc}, limit: 1) {
+        createdAt: created_at
+        status
         user {
           name
         }
@@ -36,8 +36,7 @@ export const contributionAnswerQuery = `query contribution_answer($questionId: u
   `;
 
 type QueryProps = {
-  questionId: string;
-  agreementId: string;
+  id: string;
 };
 
 type QueryResult = {
@@ -45,14 +44,12 @@ type QueryResult = {
 };
 
 export const useContributionAnswerQuery = ({
-  agreementId,
-  questionId,
+  id,
 }: QueryProps): Answer | undefined => {
   const [result] = useQuery<QueryResult>({
     query: contributionAnswerQuery,
     variables: {
-      agreementId,
-      questionId,
+      id,
     },
   });
   if (
