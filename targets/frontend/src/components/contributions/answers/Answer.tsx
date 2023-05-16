@@ -36,8 +36,8 @@ export const ContributionsAnswer = ({
   const { user } = useUser() as any;
   const [status, setStatus] = useState<Status>("REDACTING");
   useEffect(() => {
-    if (answer?.statuses?.[0]?.status) {
-      setStatus(answer?.statuses[0].status);
+    if (answer?.status) {
+      setStatus(answer.status);
     }
   }, [answer]);
   const { control, handleSubmit, watch } = useForm<MutationProps>({
@@ -86,7 +86,7 @@ export const ContributionsAnswer = ({
         </Grid>
         <Grid xs={2} style={{ color: statusesMapping[status].color }}>
           <StatusContainer
-            status={status}
+            status={answer?.status}
             user={answer?.statuses?.[0]?.user?.name}
           />
         </Grid>
@@ -100,7 +100,9 @@ export const ContributionsAnswer = ({
                 <FormEditionField
                   label="Réponse"
                   name="content"
-                  disabled={status !== "REDACTING"}
+                  disabled={
+                    answer?.status !== "REDACTING" && answer?.status !== "TODO"
+                  }
                   control={control}
                   rules={{ required: otherAnswer === "ANSWER" }}
                 />
@@ -110,7 +112,9 @@ export const ContributionsAnswer = ({
                   label="Type de réponse"
                   name="otherAnswer"
                   control={control}
-                  disabled={status !== "REDACTING"}
+                  disabled={
+                    answer?.status !== "REDACTING" && answer?.status !== "TODO"
+                  }
                   options={[
                     {
                       label: "Afficher la réponse",
@@ -139,21 +143,24 @@ export const ContributionsAnswer = ({
                   type="submit"
                   onClick={() => setStatus("REDACTING")}
                 >
-                  {status === "REDACTING" && "Sauvegarder"}
-                  {status === "REDACTED" && "Modifier"}
-                  {status === "VALIDATING" && "Refuser"}
-                  {status === "VALIDATED" && "Modifier"}
-                  {status === "PUBLISHED" && "Modifier"}
+                  {answer?.status === "TODO" && "Sauvegarder"}
+                  {answer?.status === "REDACTING" && "Sauvegarder"}
+                  {answer?.status === "REDACTED" && "Modifier"}
+                  {answer?.status === "VALIDATING" && "Refuser"}
+                  {answer?.status === "VALIDATED" && "Modifier"}
+                  {answer?.status === "PUBLISHED" && "Modifier"}
                 </Button>
                 <Button
                   variant="contained"
                   color="success"
                   type="submit"
                   style={{
-                    display: status === "PUBLISHED" ? "none" : "inherit",
+                    display:
+                      answer?.status === "PUBLISHED" ? "none" : "inherit",
                   }}
                   onClick={() => {
-                    switch (status) {
+                    switch (answer?.status) {
+                      case "TODO":
                       case "REDACTING":
                         setStatus("REDACTED");
                         break;
@@ -169,10 +176,11 @@ export const ContributionsAnswer = ({
                     }
                   }}
                 >
-                  {status === "REDACTING" && "Soumettre"}
-                  {status === "REDACTED" && "Commencer Validation"}
-                  {status === "VALIDATING" && "Valider"}
-                  {status === "VALIDATED" && "Publier"}
+                  {answer?.status === "TODO" && "Soumettre"}
+                  {answer?.status === "REDACTING" && "Soumettre"}
+                  {answer?.status === "REDACTED" && "Commencer Validation"}
+                  {answer?.status === "VALIDATING" && "Valider"}
+                  {answer?.status === "VALIDATED" && "Publier"}
                 </Button>
               </Stack>
             </Stack>

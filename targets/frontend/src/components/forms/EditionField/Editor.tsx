@@ -27,7 +27,7 @@ export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
   const [isClient, setIsClient] = useState(false);
   const editor = useEditor({
     content,
-    editable: true,
+    editable: !disabled,
     extensions: [StarterKit],
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();

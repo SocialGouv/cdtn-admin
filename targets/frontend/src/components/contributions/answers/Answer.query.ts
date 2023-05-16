@@ -1,6 +1,6 @@
 import { useQuery } from "urql";
 
-import { Answer } from "../type";
+import { Answer, Status } from "../type";
 
 export const contributionAnswerQuery = `query contribution_answer($id: uuid) {
     contribution_answers(where: {
@@ -42,13 +42,15 @@ type QueryProps = {
   id: string;
 };
 
+type AnswerWithStatus = Answer & { status: Status };
+
 type QueryResult = {
-  contribution_answers: Answer[];
+  contribution_answers: AnswerWithStatus[];
 };
 
 export const useContributionAnswerQuery = ({
   id,
-}: QueryProps): Answer | undefined => {
+}: QueryProps): AnswerWithStatus | undefined => {
   const [result] = useQuery<QueryResult>({
     query: contributionAnswerQuery,
     variables: {
@@ -61,5 +63,12 @@ export const useContributionAnswerQuery = ({
   ) {
     return;
   }
-  return result.data?.contribution_answers[0];
+  const answer = result.data?.contribution_answers[0];
+  if (!answer) {
+    return answer;
+  }
+  return {
+    ...answer,
+    status: answer.statuses?.[0]?.status ?? "TODO",
+  };
 };
