@@ -101,9 +101,7 @@ function PageButton({ pageIndex }) {
 
   return (
     <Link href={addPaginationParam(router.asPath, pageIndex)} passHref shallow>
-      {/* <NavButton variant={pageIndex === currentPage ? "accent" : "secondary"}> */}
       {pageIndex + 1}
-      {/* </NavButton> */}
     </Link>
   );
 }

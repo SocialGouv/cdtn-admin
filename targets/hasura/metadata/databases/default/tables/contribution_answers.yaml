@@ -2,18 +2,38 @@ table:
   name: answers
   schema: contribution
 object_relationships:
-  - name: agreements
+  - name: agreement
     using:
-      foreign_key_constraint_on: id_cc
+      foreign_key_constraint_on: agreement_id
+  - name: question
+    using:
+      foreign_key_constraint_on: question_id
+array_relationships:
+  - name: answer_comments
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          name: answer_comments
+          schema: contribution
+  - name: statuses
+    using:
+      manual_configuration:
+        column_mapping:
+          id: answer_id
+        insertion_order: null
+        remote_table:
+          name: answer_statuses
+          schema: contribution
 select_permissions:
   - role: super
     permission:
       columns:
+        - agreement_id
         - content
-        - display_mode
-        - id_cc
-        - id_question
-        - status
+        - id
+        - other_answer
+        - question_id
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -21,7 +41,6 @@ update_permissions:
     permission:
       columns:
         - content
-        - display_mode
-        - status
+        - other_answer
       filter: {}
       check: null

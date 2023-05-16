@@ -1,9 +1,15 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 
-import { ContributionsList } from "../ContributionsList";
+import { ContributionsList } from "..";
 
-jest.mock("../ContributionsList.query");
+jest.mock("../List.query");
+
+jest.mock("next/router", () => ({
+  useRouter: () => {
+    return { push: jest.fn() };
+  },
+}));
 
 describe("ContributionsList", () => {
   beforeEach(() => {
@@ -29,15 +35,17 @@ describe("ContributionsList", () => {
     });
     test("Verify status display", () => {
       expect(screen.queryByText("0001")).toBeInTheDocument();
-      expect(screen.queryByTestId("questionId1-0001-todo")).toBeInTheDocument();
+      expect(screen.queryByTestId("questionId1-0001-TODO")).toBeInTheDocument();
       expect(
-        screen.queryByTestId("questionId1-0001-done")
+        screen.queryByTestId("questionId1-0001-REDACTING")
       ).not.toBeInTheDocument();
       expect(screen.queryByText("0002")).toBeInTheDocument();
       expect(
-        screen.queryByTestId("questionId1-0002-todo")
+        screen.queryByTestId("questionId1-0002-TODO")
       ).not.toBeInTheDocument();
-      expect(screen.queryByTestId("questionId1-0002-done")).toBeInTheDocument();
+      expect(
+        screen.queryByTestId("questionId1-0002-REDACTING")
+      ).toBeInTheDocument();
     });
   });
 });

@@ -1,8 +1,8 @@
 import { useQuery } from "urql";
 
-import { Question } from "./type";
+import { Answer, Question } from "../type";
 
-export const contributionListQuery = `query questions_answers($search: String, $idcc: bpchar, $offset: Int, $limit: Int) {
+export const contributionListQuery = `query questions_answers($search: String, $agreementId: bpchar, $offset: Int, $limit: Int) {
   contribution_questions_aggregate(
     where: {
       content: { _ilike: $search }
@@ -23,39 +23,49 @@ export const contributionListQuery = `query questions_answers($search: String, $
     content,
     answers(
       where: {
-        id_cc: {_eq: $idcc}
+        agreement_id: {_eq: $agreementId}
       },
-      order_by: {id_cc: asc}
+      order_by: {agreement_id: asc}
     ) {
-      display_mode,
-      status,
-      agreements {
-        id,
+      id,
+      other_answer,
+      agreement {
+        id
         name
+      }
+      statuses(order_by: {created_at: desc}, limit: 1) {
+        status
+        user {
+          name
+        }
       }
     }
   }
 }`;
 
-type QueryResult = {
-  contribution_questions: Question[];
+export type QueryQuestion = Omit<Question, "answers"> & {
+  answers: Omit<Answer, "agreementId" | "questionId" | "question">[];
+};
+
+export type QueryResult = {
+  contribution_questions: QueryQuestion[];
   contribution_questions_aggregate: { aggregate: { count: number } };
 };
 
 export type ContributionListQueryProps = {
-  idcc?: string;
+  agreementId?: string;
   search?: string;
   pageInterval: number;
   page: number;
 };
 
 export type ContributionListQueryResult = {
-  rows: Question[];
+  rows: Partial<QueryQuestion>[];
   total: number;
 };
 
 export const useContributionListQuery = ({
-  idcc,
+  agreementId,
   search,
   pageInterval,
   page,
@@ -64,7 +74,7 @@ export const useContributionListQuery = ({
     query: contributionListQuery,
     requestPolicy: "cache-and-network",
     variables: {
-      idcc,
+      agreementId,
       limit: pageInterval,
       offset: page * pageInterval,
       search,
