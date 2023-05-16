@@ -50,7 +50,7 @@ export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
   return (
     <>
       {isClient && (
-        <TitleBox title="Réponse" focus={focus}>
+        <TitleBox title="Réponse" focus={focus} disabled={disabled}>
           {editor ? (
             <StyledBubbleMenu
               className="bubble-menu"
