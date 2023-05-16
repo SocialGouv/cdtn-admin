@@ -23,7 +23,12 @@ mutation contributionAnswerUpdate($id: uuid!, $content:String, $otherAnswer: Str
 
 export type MutationProps = Omit<
   Answer,
-  "question" | "agreement" | "questionId" | "agreementId" | "statuses"
+  | "question"
+  | "agreement"
+  | "answer_comments"
+  | "questionId"
+  | "agreementId"
+  | "statuses"
 > & {
   status: string;
   userId: string;

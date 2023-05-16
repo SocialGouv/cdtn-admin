@@ -19,6 +19,11 @@ export const contributionAnswerQuery = `query contribution_answer($id: uuid) {
         id
         name
       }
+      answer_comments {
+        id
+        content
+        createdAt: created_at
+      }
       statuses(order_by: {created_at: desc}, limit: 1) {
         createdAt: created_at
         status
@@ -43,7 +48,6 @@ export const useContributionAnswerQuery = ({
 }: QueryProps): Answer | undefined => {
   const [result] = useQuery<QueryResult>({
     query: contributionAnswerQuery,
-    requestPolicy: "cache-and-network",
     variables: {
       id,
     },

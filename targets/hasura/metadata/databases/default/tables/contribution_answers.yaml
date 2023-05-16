@@ -9,6 +9,13 @@ object_relationships:
     using:
       foreign_key_constraint_on: question_id
 array_relationships:
+  - name: answer_comments
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          name: answer_comments
+          schema: contribution
   - name: statuses
     using:
       manual_configuration:

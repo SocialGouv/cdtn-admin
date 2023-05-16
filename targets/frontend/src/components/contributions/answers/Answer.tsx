@@ -1,6 +1,7 @@
 import {
   Alert,
   AlertColor,
+  Box,
   Breadcrumbs,
   Button,
   FormControl,
@@ -22,6 +23,7 @@ import {
   useContributionAnswerUpdateMutation,
 } from "./Answer.mutation";
 import { useContributionAnswerQuery } from "./Answer.query";
+import { Comments } from "./Comments";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -90,101 +92,115 @@ export const ContributionsAnswer = ({
         </Grid>
       </Grid>
       <h2>{answer?.agreement?.name}</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack>
-          <FormControl>
-            <FormEditionField
-              label="Réponse"
-              name="content"
-              disabled={status !== "REDACTING"}
-              control={control}
-              rules={{ required: otherAnswer === "ANSWER" }}
-            />
-          </FormControl>
-          <FormControl>
-            <FormRadioGroup
-              label="Type de réponse"
-              name="otherAnswer"
-              control={control}
-              disabled={status !== "REDACTING"}
-              options={[
-                {
-                  label: "Afficher la réponse",
-                  value: "ANSWER",
-                },
-                {
-                  label: "La convention collective ne prévoit rien",
-                  value: "NOTHING",
-                },
-                {
-                  label: "Nous n'avons pas la réponse",
-                  value: "UNKNOWN",
-                },
-              ]}
-            />
-          </FormControl>
-          <Stack
-            direction="row"
-            alignItems="end"
-            justifyContent="end"
-            spacing={2}
-            padding={2}
-          >
-            <Button
-              variant="contained"
-              type="submit"
-              onClick={() => setStatus("REDACTING")}
-            >
-              {status === "REDACTING" && "Sauvegarder"}
-              {status === "REDACTED" && "Modifier"}
-              {status === "VALIDATING" && "Refuser"}
-              {status === "VALIDATED" && "Modifier"}
-              {status === "PUBLISHED" && "Modifier"}
-            </Button>
-            <Button
-              variant="contained"
-              color="success"
-              type="submit"
-              style={{ display: status === "PUBLISHED" ? "none" : "inherit" }}
-              onClick={() => {
-                switch (status) {
-                  case "REDACTING":
-                    setStatus("REDACTED");
-                    break;
-                  case "REDACTED":
-                    setStatus("VALIDATING");
-                    break;
-                  case "VALIDATING":
-                    setStatus("VALIDATED");
-                    break;
-                  case "VALIDATED":
-                    setStatus("PUBLISHED");
-                    break;
-                }
-              }}
-            >
-              {status === "REDACTING" && "Soumettre"}
-              {status === "REDACTED" && "Commencer Validation"}
-              {status === "VALIDATING" && "Valider"}
-              {status === "VALIDATED" && "Publier"}
-            </Button>
-          </Stack>
-        </Stack>
+      <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <Box sx={{ width: "70%" }}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack>
+              <FormControl>
+                <FormEditionField
+                  label="Réponse"
+                  name="content"
+                  disabled={status !== "REDACTING"}
+                  control={control}
+                  rules={{ required: otherAnswer === "ANSWER" }}
+                />
+              </FormControl>
+              <FormControl>
+                <FormRadioGroup
+                  label="Type de réponse"
+                  name="otherAnswer"
+                  control={control}
+                  disabled={status !== "REDACTING"}
+                  options={[
+                    {
+                      label: "Afficher la réponse",
+                      value: "ANSWER",
+                    },
+                    {
+                      label: "La convention collective ne prévoit rien",
+                      value: "NOTHING",
+                    },
+                    {
+                      label: "Nous n'avons pas la réponse",
+                      value: "UNKNOWN",
+                    },
+                  ]}
+                />
+              </FormControl>
+              <Stack
+                direction="row"
+                alignItems="end"
+                justifyContent="end"
+                spacing={2}
+                padding={2}
+              >
+                <Button
+                  variant="contained"
+                  type="submit"
+                  onClick={() => setStatus("REDACTING")}
+                >
+                  {status === "REDACTING" && "Sauvegarder"}
+                  {status === "REDACTED" && "Modifier"}
+                  {status === "VALIDATING" && "Refuser"}
+                  {status === "VALIDATED" && "Modifier"}
+                  {status === "PUBLISHED" && "Modifier"}
+                </Button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  type="submit"
+                  style={{
+                    display: status === "PUBLISHED" ? "none" : "inherit",
+                  }}
+                  onClick={() => {
+                    switch (status) {
+                      case "REDACTING":
+                        setStatus("REDACTED");
+                        break;
+                      case "REDACTED":
+                        setStatus("VALIDATING");
+                        break;
+                      case "VALIDATING":
+                        setStatus("VALIDATED");
+                        break;
+                      case "VALIDATED":
+                        setStatus("PUBLISHED");
+                        break;
+                    }
+                  }}
+                >
+                  {status === "REDACTING" && "Soumettre"}
+                  {status === "REDACTED" && "Commencer Validation"}
+                  {status === "VALIDATING" && "Valider"}
+                  {status === "VALIDATED" && "Publier"}
+                </Button>
+              </Stack>
+            </Stack>
 
-        <Snackbar
-          open={snack.open}
-          autoHideDuration={6000}
-          onClose={() => setSnack({ open: false })}
-          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-        >
-          <Alert
-            onClose={() => setSnack({ open: false })}
-            severity={snack.severity}
-          >
-            {snack?.text}
-          </Alert>
-        </Snackbar>
-      </form>
+            <Snackbar
+              open={snack.open}
+              autoHideDuration={6000}
+              onClose={() => setSnack({ open: false })}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
+              <Alert
+                onClose={() => setSnack({ open: false })}
+                severity={snack.severity}
+              >
+                {snack?.text}
+              </Alert>
+            </Snackbar>
+          </form>
+        </Box>
+        <Box sx={{ width: "30%" }}>
+          {answer && (
+            <Comments
+              answerId={answer.id}
+              comments={answer.answer_comments ?? []}
+            />
+          )}
+        </Box>
+      </Box>
     </>
   );
 };
