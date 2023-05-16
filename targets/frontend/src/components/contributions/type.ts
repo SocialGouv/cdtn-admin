@@ -13,9 +13,6 @@ export type Status =
   | "VALIDATED"
   | "PUBLISHED";
 
-export type User = {
-  name: string;
-};
 export type AnswerStatus = {
   id: string;
   createdAt: string;
