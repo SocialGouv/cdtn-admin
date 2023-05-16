@@ -16,4 +16,5 @@ export type CommonFormProps<
   shouldUnregister?: boolean;
   defaultValue?: FieldPathValue<TFieldValues, TName>;
   control?: Control<any, any>;
+  disabled?: boolean;
 };

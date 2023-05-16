@@ -33,8 +33,11 @@ export const contributionListQuery = `query questions_answers($search: String, $
         id
         name
       }
-      statuses {
+      statuses(order_by: {created_at: desc}, limit: 1) {
         status
+        user {
+          name
+        }
       }
     }
   }

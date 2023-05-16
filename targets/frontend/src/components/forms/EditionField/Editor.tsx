@@ -19,16 +19,19 @@ export type EditorProps = {
   content?: string | null;
   onUpdate: (content: string) => void;
   error?: FieldErrors;
+  disabled?: boolean;
 };
 
-export const Editor = ({ content, onUpdate, error }: EditorProps) => {
+export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
   const [focus, setFocus] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const editor = useEditor({
     content,
+    editable: true,
     extensions: [StarterKit],
     onUpdate: ({ editor }) => {
-      onUpdate(editor.getHTML());
+      const html = editor.getHTML();
+      onUpdate(html !== "<p></p>" ? html : "");
     },
   });
   useEffect(() => {
@@ -40,6 +43,9 @@ export const Editor = ({ content, onUpdate, error }: EditorProps) => {
       editor.commands.clearContent();
     }
   }, [editor, content]);
+  useEffect(() => {
+    editor?.setOptions({ editable: !disabled });
+  }, [disabled]);
 
   return (
     <>
@@ -121,6 +127,7 @@ export const Editor = ({ content, onUpdate, error }: EditorProps) => {
             editor={editor}
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}
+            disabled={disabled}
           />
         </TitleBox>
       )}

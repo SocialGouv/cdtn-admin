@@ -1,3 +1,4 @@
+import { Status } from "../../type";
 import { ContributionListQueryProps, ContributionListQueryResult } from "..";
 
 export const mock: ContributionListQueryResult = {
@@ -25,6 +26,9 @@ export const mock: ContributionListQueryResult = {
               createdAt: "01/01/2023",
               id: "id",
               status: "REDACTING",
+              user: {
+                name: "toto",
+              },
               userId: "toto",
             },
           ],

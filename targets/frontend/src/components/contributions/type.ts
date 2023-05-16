@@ -3,11 +3,23 @@ export type Agreement = {
   name: string;
 };
 
+export type Status =
+  | "TODO"
+  | "REDACTING"
+  | "REDACTED"
+  | "VALIDATING"
+  | "VALIDATED"
+  | "PUBLISHED";
+
+export type User = {
+  name: string;
+};
 export type AnswerStatus = {
   id: string;
   createdAt: string;
-  status: string;
+  status: Status;
   userId: string;
+  user: User;
 };
 export type Answer = {
   id: string;
