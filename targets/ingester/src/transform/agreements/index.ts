@@ -13,8 +13,8 @@ import getAgreementsWithHighlight from "./agreementsWithHighlight";
 import { getAllKaliBlocks } from "./getKaliBlock.js";
 import { getKaliArticlesByTheme } from "./kaliArticleBytheme.js";
 
-// @ts-expect-error TODO typage remark
-const compiler = remark().use(html, { sanitize: true });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const compiler = remark().use(html as any, { sanitize: true });
 
 type QuestionWithSlug = Question & { slug: string };
 

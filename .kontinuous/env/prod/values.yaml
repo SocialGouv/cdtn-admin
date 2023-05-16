@@ -1,8 +1,4 @@
 www:
-  autoscale:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 3
   host: cdtn-admin.fabrique.social.gouv.fr
   ingress:
     annotations:
@@ -12,8 +8,8 @@ www:
       value: https://cdtn-admin.fabrique.social.gouv.fr
   resources:
     limits:
-      cpu: "100m"
-      memory: "256Mi"
+      cpu: "200m"
+      memory: "512Mi"
     requests:
       cpu: "100m"
       memory: "256Mi"

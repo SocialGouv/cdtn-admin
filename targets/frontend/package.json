@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "2.5.4",
+  "version": "2.6.1",
   "dependencies": {
     "@azure/abort-controller": "^1.0.4",
     "@azure/storage-blob": "^12.7.0",
@@ -10,13 +10,6 @@
     "@hapi/boom": "^9.1.4",
     "@hapi/joi": "^17.1.1",
     "@hookform/error-message": "^2.0.0",
-    "@milkdown/core": "^7.2.0",
-    "@milkdown/ctx": "^7.2.0",
-    "@milkdown/preset-commonmark": "^7.2.0",
-    "@milkdown/prose": "^7.2.0",
-    "@milkdown/react": "^7.2.0",
-    "@milkdown/theme-nord": "^7.2.0",
-    "@milkdown/transformer": "^7.2.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.0",
     "@reach/accordion": "^0.16.1",
@@ -26,9 +19,9 @@
     "@sentry/browser": "^6.12.0",
     "@sentry/integrations": "^6.12.0",
     "@sentry/node": "^6.12.0",
-    "@shared/graphql-client": "^2.5.4",
-    "@shared/id-generator": "^2.5.4",
-    "@socialgouv/cdtn-logger": "^2.5.4",
+    "@shared/graphql-client": "^2.6.1",
+    "@shared/id-generator": "^2.6.1",
+    "@socialgouv/cdtn-logger": "^2.6.1",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/cdtn-ui": "^4.92.0",
@@ -91,7 +84,7 @@
     "wonka": "^4.0.15"
   },
   "devDependencies": {
-    "@shared/types": "^2.5.4",
+    "@shared/types": "^2.6.1",
     "@socialgouv/eslint-config-react": "^1.88.0",
     "@socialgouv/eslint-config-recommended": "^1.88.0",
     "@socialgouv/eslint-config-typescript": "^1.88.0",

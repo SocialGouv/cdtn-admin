@@ -8,14 +8,10 @@ import unified from "unified";
 import type { AddGlossaryReturnFn } from "./glossary";
 
 const htmlProcessor = unified()
-  // @ts-expect-error
-  .use(markdownToMardownAst)
-  // @ts-expect-error
-  .use(markdownAstToHtmlAst, { allowDangerousHtml: true })
-  // @ts-expect-error
-  .use(htmlAstToAnotherHtmlAst)
-  // @ts-expect-error
-  .use(htmlAstStringify);
+  .use(markdownToMardownAst as any)
+  .use(markdownAstToHtmlAst as any, { allowDangerousHtml: true })
+  .use(htmlAstToAnotherHtmlAst as any)
+  .use(htmlAstStringify as any);
 
 export function markdownTransform(
   addGlossary: AddGlossaryReturnFn,
