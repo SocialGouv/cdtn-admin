@@ -23,6 +23,9 @@ export const contributionAnswerQuery = `query contribution_answer($id: uuid) {
         id
         content
         createdAt: created_at
+        user {
+          name
+        }
       }
       statuses(order_by: {created_at: desc}, limit: 1) {
         createdAt: created_at
