@@ -24,7 +24,7 @@ describe(`libs/getIndexedArticle() should match properties`, () => {
 
 describe(`should return undefined`, () => {
   it(`with a nonexistent article ID or CID`, async () => {
-    const articles = await loadArticles();
+    const articles = Articles;
 
     expect(indexedArticle(articles, "KALIARTI123456789012")).toBeUndefined();
   });
