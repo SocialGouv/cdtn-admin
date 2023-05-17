@@ -8,6 +8,7 @@ import * as tar from "tar-fs";
 import yargs from "yargs";
 
 import type { CdtnDocument } from ".";
+import { updateKaliArticles, updateLegiArticles } from "./articles";
 import { batchPromises, chunk } from "./lib/batchPromises";
 import {
   getLastIngestedVersion,
@@ -15,7 +16,6 @@ import {
   insertDocuments,
   updateVersion,
 } from "./lib/hasura-mutations-queries";
-import { updateKaliArticles, updateLegiArticles } from "./references";
 import getAgreementDocuments from "./transform/agreements";
 import getContributionsDocuments from "./transform/contributions";
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
