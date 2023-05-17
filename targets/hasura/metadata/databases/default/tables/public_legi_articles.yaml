@@ -1,0 +1,12 @@
+table:
+  name: legi_articles
+  schema: public
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - id
+        - cid
+        - index
+      filter: {}
+      allow_aggregations: true

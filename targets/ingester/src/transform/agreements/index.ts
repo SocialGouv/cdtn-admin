@@ -6,10 +6,10 @@ import remark from "remark";
 import html from "remark-html";
 
 import type { AgreementPage } from "../../index";
+import { loadAgreement, loadAgreements } from "../../lib/data-loaders";
 import fetchContributions from "../../lib/fetchContributions";
 import { formatIdcc } from "../../lib/formatIdcc";
 import getAgreementsWithHighlight from "./agreementsWithHighlight";
-import { loadAgreement, loadAgreements } from "./data-loaders";
 import { getAllKaliBlocks } from "./getKaliBlock";
 import { getKaliArticlesByTheme } from "./kaliArticleBytheme";
 

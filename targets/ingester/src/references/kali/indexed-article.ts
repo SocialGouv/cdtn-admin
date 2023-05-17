@@ -2,11 +2,11 @@ import type { IndexedArticle } from "@socialgouv/kali-data";
 
 const withArticleIdOrCid =
   (articleIdOrCid: string) =>
-  (indexedArticle: IndexedArticle): boolean =>
-    indexedArticle.articleId === articleIdOrCid ||
-    indexedArticle.articleCid === articleIdOrCid;
+  (article: IndexedArticle): boolean =>
+    article.articleId === articleIdOrCid ||
+    article.articleCid === articleIdOrCid;
 
-export default function getIndexedArticle(
+export function indexedArticle(
   articles: IndexedArticle[],
   articleIdOrCid: string
 ): IndexedArticle | undefined {

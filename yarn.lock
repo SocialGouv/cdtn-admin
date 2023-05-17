@@ -4331,15 +4331,6 @@
     unist-util-flat-filter "1.0.0"
     unist-util-parents "1.0.3"
 
-"@socialgouv/kali-data@^2.542.0":
-  version "2.545.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kali-data/-/kali-data-2.545.0.tgz#cb1360ecbcaec9bb07e2857358758e032a341e37"
-  integrity sha512-gzIq7qa72uYrauA9v3kYahUKnKKizWXt1WhOPqsW070pYQMOkhLEcj/kPWwv0cKvyytaU+oxEkWQ+pIzksQfCQ==
-  dependencies:
-    unist-util-find "1.0.2"
-    unist-util-flat-filter "1.0.0"
-    unist-util-parents "1.0.3"
-
 "@socialgouv/legi-data-types@2.73.1":
   version "2.73.1"
   resolved "https://registry.yarnpkg.com/@socialgouv/legi-data-types/-/legi-data-types-2.73.1.tgz#b8e47ed6694ec68d146d77e2fc7e4e4d11a9c1b0"

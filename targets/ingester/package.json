@@ -6,7 +6,6 @@
     "@shared/id-generator": "^2.6.1",
     "@socialgouv/cdtn-slugify": "4.52.1",
     "@socialgouv/cdtn-sources": "4.52.1",
-    "@socialgouv/kali-data": "^2.542.0",
     "get-uri": "3.0.2",
     "got": "11.8.5",
     "gunzip-maybe": "1.4.2",

@@ -1,7 +1,7 @@
 import type { IndexedArticle } from "@socialgouv/kali-data";
 import type { Agreement, IndexedAgreement } from "@socialgouv/kali-data-types";
 
-import { getJson } from "../../lib/getJson";
+import { getJson } from "./getJson";
 
 export const loadAgreement = async (
   agreementId: string

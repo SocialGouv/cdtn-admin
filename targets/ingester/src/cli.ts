@@ -15,8 +15,7 @@ import {
   insertDocuments,
   updateVersion,
 } from "./lib/hasura-mutations-queries";
-import { updateKaliData } from "./references/update-kali-data";
-import updateLegiData from "./references/update-legi-data";
+import { updateKaliArticles, updateLegiArticles } from "./references";
 import getAgreementDocuments from "./transform/agreements";
 import getContributionsDocuments from "./transform/contributions";
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
@@ -162,8 +161,8 @@ async function main() {
     }
   }
 
-  await updateLegiData();
-  await updateKaliData();
+  await updateLegiArticles();
+  await updateKaliArticles();
   return ids;
 }
 
