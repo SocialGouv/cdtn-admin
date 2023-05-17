@@ -40,7 +40,6 @@ export const FormRadioGroup = ({
         <FormControl fullWidth={fullWidth} error={!!error}>
           <TitleBox title={label}>
             <StyledRadioGroup
-              aria-labelledby="other-answers"
               value={value}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 onChange(event.target.value)

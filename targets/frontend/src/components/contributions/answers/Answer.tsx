@@ -34,7 +34,7 @@ export const ContributionsAnswer = ({
 }: ContributionsAnswerProps): JSX.Element => {
   const answer = useContributionAnswerQuery({ id });
   const { user } = useUser() as any;
-  const [status, setStatus] = useState<Status>("REDACTING");
+  const [status, setStatus] = useState<Status>("TODO");
   useEffect(() => {
     if (answer?.status) {
       setStatus(answer.status);
@@ -67,7 +67,11 @@ export const ContributionsAnswer = ({
         status,
         userId: user?.id,
       });
-      setSnack({ open: true, severity: "success", text: "success" });
+      setSnack({
+        open: true,
+        severity: "success",
+        text: "La réponse a été modifiée",
+      });
     } catch (e: any) {
       setSnack({ open: true, severity: "error", text: e.message });
     }
