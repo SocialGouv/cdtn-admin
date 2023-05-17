@@ -161,8 +161,12 @@ async function main() {
     }
   }
 
-  await updateLegiArticles();
-  await updateKaliArticles();
+  if (!packagesToUpdate.get("@socialgouv/legi-data")) {
+    await updateLegiArticles();
+  }
+  if (!packagesToUpdate.get("@socialgouv/kali-data")) {
+    await updateKaliArticles();
+  }
   return ids;
 }
 

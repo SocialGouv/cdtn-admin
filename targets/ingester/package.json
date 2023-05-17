@@ -9,7 +9,6 @@
     "get-uri": "3.0.2",
     "got": "11.8.5",
     "gunzip-maybe": "1.4.2",
-    "html-to-text": "^9.0.5",
     "p-retry": "5.1.1",
     "query-string": "7.0.1",
     "remark": "13.0.0",
