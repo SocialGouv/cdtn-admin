@@ -1,7 +1,5 @@
 import { darken, rgba, transparentize } from "polished";
 
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-
 export const theme = {
   alerts: {
     primary: {
