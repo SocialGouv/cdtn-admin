@@ -53,8 +53,7 @@ module.exports = {
         "@typescript-eslint/no-throw-literal": "warn",
         "@typescript-eslint/no-misused-promises": "warn",
         "@typescript-eslint/require-await": "warn",
-        "@typescript-eslint/ban-ts-comment": "warn",
-        "@typescript-eslint/no-misused-promises": "warn"
+        "@typescript-eslint/ban-ts-comment": "warn"
       }
     }
   ]
