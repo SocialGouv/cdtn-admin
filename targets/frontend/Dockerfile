@@ -5,6 +5,7 @@ FROM node:$NODE_VERSION AS dist
 
 WORKDIR /
 
+COPY shared/eslint-config/package.json /shared/eslint-config/package.json
 COPY shared/graphql-client/package.json /shared/graphql-client/package.json
 COPY shared/id-generator/package.json /shared/id-generator/package.json
 COPY shared/types/package.json /shared/types/package.json
