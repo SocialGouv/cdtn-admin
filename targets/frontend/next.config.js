@@ -14,12 +14,11 @@ const securityHeaders = [
     key: "X-Frame-Options",
     value: "deny",
   },
-  { key: "X-XSS-Protection", value: "1; mode=block" },
-  { key: "X-Content-Type-Options", value: "nosniff" },
+  {key: "X-XSS-Protection", value: "1; mode=block"},
+  {key: "X-Content-Type-Options", value: "nosniff"},
 ];
-const removeImports = require("next-remove-imports")();
 
-module.exports = removeImports(
+module.exports =
   withTM(
     withSourceMaps({
       basePath,
@@ -36,7 +35,7 @@ module.exports = removeImports(
       serverRuntimeConfig: {
         rootDir: __dirname,
       },
-      webpack: (config, { isServer, dev }) => {
+      webpack: (config, {isServer, dev}) => {
         config.output.chunkFilename = isServer
           ? `${dev ? "[name]" : "[name].[fullhash]"}.js`
           : `static/chunks/${dev ? "[name]" : "[name].[fullhash]"}.js`;
@@ -65,5 +64,4 @@ module.exports = removeImports(
         return config;
       },
     })
-  )
-);
+  );
