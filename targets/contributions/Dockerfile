@@ -1,4 +1,4 @@
-ARG NODE_VERSION=14.18.2
+ARG NODE_VERSION=14.21.3
 
 FROM node:$NODE_VERSION AS dist
 
@@ -13,7 +13,9 @@ COPY targets/contributions/package.json /targets/contributions/package.json
 COPY package.json /package.json
 COPY yarn.lock /yarn.lock
 
-COPY . /
+COPY shared/eslint-config /shared/eslint-config
+COPY shared/graphql-client /shared/graphql-client
+COPY targets/contributions /targets/contributions
 
 RUN yarn --frozen-lockfile
 
