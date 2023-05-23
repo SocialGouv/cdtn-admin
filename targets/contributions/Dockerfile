@@ -7,6 +7,7 @@ WORKDIR /app
 ARG CDTN_API_URL
 ENV CDTN_API_URL=$CDTN_API_URL
 
+COPY shared/eslint-config/package.json /shared/eslint-config/package.json
 COPY shared/graphql-client/package.json /shared/graphql-client/package.json
 COPY targets/contributions/package.json /targets/contributions/package.json
 COPY package.json /package.json
