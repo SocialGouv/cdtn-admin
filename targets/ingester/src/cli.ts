@@ -119,8 +119,6 @@ async function main() {
       packagesToUpdate.set(pkgName, { getDocuments, version: pkgInfo.version });
     }
   }
-
-  // @ts-expect-error type généré
   if (args.dryRun) {
     console.log("dry-run mode");
   }
