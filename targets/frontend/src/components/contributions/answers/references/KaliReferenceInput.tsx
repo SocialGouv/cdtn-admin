@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { Control } from "react-hook-form";
 import { KaliReference } from "../../type";
-import { useSearchKaliReferenceQuery } from "./KaliReferencesSearch.query";
+import { useContributionSearchKaliReferenceQuery } from "./KaliReferencesSearch.query";
 import { ReferenceInput } from "./ReferenceInput";
 
 type Props = {
@@ -21,7 +21,7 @@ export const KaliReferenceInput = ({
       color="secondary"
       name={name}
       control={control}
-      fetcher={useSearchKaliReferenceQuery(idcc)}
+      fetcher={useContributionSearchKaliReferenceQuery(idcc)}
       isEqual={(option, value) => value.id === option.id}
       getLabel={(item) => item.path}
       onClick={(item) => {
