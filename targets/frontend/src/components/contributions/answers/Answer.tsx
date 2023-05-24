@@ -17,7 +17,13 @@ import { useUser } from "src/hooks/useUser";
 import { FormEditionField, FormRadioGroup } from "../../forms";
 import { StatusContainer } from "../status";
 import { statusesMapping } from "../status/data";
-import { CdtnDocument, KaliReference, LegiReference, Status } from "../type";
+import {
+  CdtnDocument,
+  KaliReference,
+  LegiReference,
+  OtherReference,
+  Status,
+} from "../type";
 import { useContributionAnswerUpdateMutation } from "./Answer.mutation";
 import { useContributionAnswerQuery } from "./Answer.query";
 import { Comments } from "./Comments";
@@ -25,6 +31,7 @@ import {
   CdtnDocumentInput,
   KaliReferenceInput,
   LegiReferenceInput,
+  OtherReferenceInput,
 } from "./references";
 
 export type ContributionsAnswerProps = {
@@ -36,6 +43,7 @@ type AnswerForm = {
   content?: string;
   kaliReferences?: KaliReference[];
   legiReferences?: LegiReference[];
+  otherReferences?: OtherReference[];
   cdtnDocuments?: CdtnDocument[];
 };
 
@@ -59,6 +67,7 @@ export const ContributionsAnswer = ({
       legiReferences:
         answer?.legi_references?.map((item) => item.legi_article) ?? [],
       cdtnDocuments: answer?.cdtn_documents?.map((item) => item.document) ?? [],
+      otherReferences: answer?.other_references ?? [],
     },
   });
   const otherAnswer = watch("otherAnswer", answer?.otherAnswer);
@@ -97,6 +106,12 @@ export const ContributionsAnswer = ({
           data.cdtnDocuments?.map((ref) => ({
             answer_id: answer.id,
             cdtn_id: ref.cdtn_id,
+          })) ?? [],
+        other_references:
+          data.otherReferences?.map((ref) => ({
+            answer_id: answer.id,
+            label: ref.label,
+            url: ref.url,
           })) ?? [],
       });
       setSnack({
@@ -175,6 +190,7 @@ export const ContributionsAnswer = ({
                 />
               )}
               <LegiReferenceInput name="legiReferences" control={control} />
+              <OtherReferenceInput name="otherReferences" control={control} />
               <CdtnDocumentInput name="cdtnDocuments" control={control} />
               <Stack
                 direction="row"

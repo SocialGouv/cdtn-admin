@@ -37,6 +37,13 @@ array_relationships:
         table:
           name: answer_legi_references
           schema: contribution
+  - name: other_references
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          name: answer_other_references
+          schema: contribution
   - name: statuses
     using:
       manual_configuration:

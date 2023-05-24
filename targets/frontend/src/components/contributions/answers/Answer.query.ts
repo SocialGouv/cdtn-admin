@@ -48,6 +48,10 @@ query contribution_answer($id: uuid) {
         cid
       }
     }
+    other_references {
+      label
+      url
+    }
     cdtn_documents {
       document {
         cdtn_id

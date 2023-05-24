@@ -32,6 +32,7 @@ export type Answer = {
   answer_comments: Comments[];
   kali_references: { kali_article: KaliReference }[];
   legi_references: { legi_article: LegiReference }[];
+  other_references: OtherReference[];
   cdtn_documents: { document: CdtnDocument }[];
 };
 
@@ -62,6 +63,11 @@ export type LegiReference = {
   cid: string;
   id: string;
   index: string;
+};
+
+export type OtherReference = {
+  label: string;
+  url: string;
 };
 
 export type CdtnDocument = {

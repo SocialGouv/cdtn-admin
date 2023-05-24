@@ -12,6 +12,7 @@
 - "!include contribution_answer_comments.yaml"
 - "!include contribution_answer_kali_references.yaml"
 - "!include contribution_answer_legi_references.yaml"
+- "!include contribution_answer_other_references.yaml"
 - "!include contribution_answer_statuses.yaml"
 - "!include contribution_answers.yaml"
 - "!include contribution_question_messages.yaml"
