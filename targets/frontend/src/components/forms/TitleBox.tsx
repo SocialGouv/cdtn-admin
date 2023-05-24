@@ -27,7 +27,6 @@ export const TitleBox = ({
 };
 
 const StyledBox = styled(Box)`
-  margin-top: 24px;
   border: 1px solid #9e9e9e;
   border-radius: 6px;
   padding: 12px;

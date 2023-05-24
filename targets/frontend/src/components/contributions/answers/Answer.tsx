@@ -17,16 +17,27 @@ import { useUser } from "src/hooks/useUser";
 import { FormEditionField, FormRadioGroup } from "../../forms";
 import { StatusContainer } from "../status";
 import { statusesMapping } from "../status/data";
-import { Status } from "../type";
+import { Agreement, Answer, AnswerStatus, Question, Status } from "../type";
 import {
   MutationProps,
   useContributionAnswerUpdateMutation,
 } from "./Answer.mutation";
 import { useContributionAnswerQuery } from "./Answer.query";
 import { Comments } from "./Comments";
+import { KaliReferenceInput } from "./references";
+import { CdtnDocumentInput } from "./references/CdtnDocumentInput";
+import { LegiReferenceInput } from "./references/LegiReferenceInput";
 
 export type ContributionsAnswerProps = {
   id: string;
+};
+
+type AnswerForm = {
+  otherAnswer?: string;
+  content?: string;
+  cdtnDocuments?: string[];
+  kaliReferences?: string[];
+  legiReferences?: string[];
 };
 
 export const ContributionsAnswer = ({
@@ -55,11 +66,12 @@ export const ContributionsAnswer = ({
   }>({
     open: false,
   });
-  const onSubmit = async (data: MutationProps) => {
+  const onSubmit = async (data: AnswerForm) => {
     try {
       if (!answer?.id) {
         throw new Error("Id non définit");
       }
+      const references = data.legiReferences?.map((item) => )
       await updateAnswer({
         content: data.content,
         id: answer.id,
@@ -99,7 +111,7 @@ export const ContributionsAnswer = ({
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         <Box sx={{ width: "70%" }}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack>
+            <Stack spacing={5}>
               <FormControl>
                 <FormEditionField
                   label="Réponse"
@@ -135,6 +147,15 @@ export const ContributionsAnswer = ({
                   ]}
                 />
               </FormControl>
+              {answer?.agreement.id && (
+                <KaliReferenceInput
+                  name="kaliReferences"
+                  idcc={answer?.agreement.id}
+                  control={control}
+                />
+              )}
+              <LegiReferenceInput name="legiReferences" control={control} />
+              <CdtnDocumentInput name="cdtnDocuments" control={control} />
               <Stack
                 direction="row"
                 alignItems="end"

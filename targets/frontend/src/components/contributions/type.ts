@@ -47,3 +47,22 @@ export type Comments = {
   user: User;
   createdAt: string;
 };
+
+export type KaliReference = {
+  cid: string;
+  id: string;
+  path: string;
+  agreement_id: string;
+};
+
+export type LegiReference = {
+  cid: string;
+  id: string;
+  index: string;
+};
+
+export type CdtnDocument = {
+  title: string;
+  cdtn_id: string;
+  source: string;
+};
