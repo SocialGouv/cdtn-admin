@@ -7,6 +7,7 @@ RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 WORKDIR /
 
+COPY shared/eslint-config/package.json /shared/eslint-config/package.json
 COPY shared/graphql-client/package.json /shared/graphql-client/package.json
 COPY shared/types/package.json /shared/types/package.json
 COPY shared/elasticsearch-document-adapter/package.json /shared/elasticsearch-document-adapter/package.json

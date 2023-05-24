@@ -6,7 +6,6 @@ const customJestConfig = {
   collectCoverageFrom: ["!src/**/*mock.js", "src/**/*.js"],
   modulePathIgnorePatterns: ["<rootDir>/.swc/"],
   modulePaths: ["<rootDir>"],
-  preset: "ts-jest/presets/js-with-babel",
   setupFilesAfterEnv: ["<rootDir>/test/jest.setup.js"],
   testEnvironment: "jest-environment-jsdom",
   testMatch: ["**/__tests__/**/*?(*.)+(test|spec).[jt]s?(x)"],

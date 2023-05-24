@@ -11,18 +11,21 @@ import yargs from "yargs";
 
 import type { CdtnDocument } from ".";
 import { batchPromises, chunk } from "./lib/batchPromises";
-import getAgreementDocuments from "./transform/agreements/index";
+import getAgreementDocuments from "./transform/agreements";
 import getCdtDocuments from "./transform/code-du-travail";
 import getContributionsDocuments from "./transform/contributions";
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
 import getFichesServicePublic from "./transform/fichesServicePublic/index";
 
-const args = yargs(process.argv)
+type Args = {
+  dryRun: unknown;
+};
+const args: Args = yargs(process.argv)
   .command("ingest", "ingest document into database")
   .example("$0 ingest --dry-run", "count the lines in the given file")
   .alias("d", "dry-run")
   .describe("d", "dry run mode")
-  .help().argv;
+  .help().argv as unknown as Args;
 
 type Versionnable = {
   version: string;
@@ -253,8 +256,6 @@ async function main() {
       packagesToUpdate.set(pkgName, { getDocuments, version: pkgInfo.version });
     }
   }
-
-  // @ts-expect-error type généré
   if (args.dryRun) {
     console.log("dry-run mode");
   }
@@ -266,7 +267,6 @@ async function main() {
     const documents = await getDocuments(pkgName);
     console.timeEnd(` getDocuments ${pkgName}`);
     console.log(` ${pkgName}: ${documents.length} documents`);
-    // @ts-expect-error type généré
     if (!args.dryRun && documents.length > 0) {
       await initDocAvailabity(documents[0].source);
       console.log(

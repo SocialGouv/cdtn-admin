@@ -1,4 +1,4 @@
-ARG NODE_VERSION=14.18.2
+ARG NODE_VERSION=14.21.3
 
 FROM node:$NODE_VERSION AS dist
 
@@ -7,12 +7,15 @@ WORKDIR /app
 ARG CDTN_API_URL
 ENV CDTN_API_URL=$CDTN_API_URL
 
+COPY shared/eslint-config/package.json /shared/eslint-config/package.json
 COPY shared/graphql-client/package.json /shared/graphql-client/package.json
 COPY targets/contributions/package.json /targets/contributions/package.json
 COPY package.json /package.json
 COPY yarn.lock /yarn.lock
 
-COPY . /
+COPY shared/eslint-config /shared/eslint-config
+COPY shared/graphql-client /shared/graphql-client
+COPY targets/contributions /targets/contributions
 
 RUN yarn --frozen-lockfile
 

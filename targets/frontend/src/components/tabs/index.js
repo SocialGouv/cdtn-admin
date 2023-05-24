@@ -27,7 +27,6 @@ export function TabItem({ selected, controls, ...props }) {
       sx={{
         border: "1px solid",
         borderColor: "neutral",
-        // eslint-disable-next-line sort-keys-fix/sort-keys-fix
         borderBottomColor: selected ? "white" : "transparent",
         borderTopLeftRadius: "small",
         borderTopRightRadius: "small",
