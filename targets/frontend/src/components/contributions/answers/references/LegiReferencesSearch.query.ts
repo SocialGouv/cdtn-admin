@@ -1,6 +1,7 @@
-import { CombinedError, useQuery } from "urql";
+import { useQuery } from "urql";
 
 import { LegiReference } from "../../type";
+import { Result } from "./ReferenceInput";
 
 export const contributionSearchLegiReferencesSearch = `
 query SearchLegiReferences($query: String) {
@@ -12,23 +13,13 @@ query SearchLegiReferences($query: String) {
 }
 `;
 
-type QueryProps = {
-  query: string | undefined;
-};
-
 type QueryResult = {
   legi_articles: LegiReference[];
 };
 
-export type Result = {
-  data: LegiReference[];
-  fetching: boolean;
-  error: CombinedError | undefined;
-};
-
-export const useContributionSearchLegiReferenceQuery = ({
-  query,
-}: QueryProps): Result => {
+export const useContributionSearchLegiReferenceQuery = (
+  query: string | undefined
+): Result<LegiReference> => {
   const [{ data, fetching, error }] = useQuery<QueryResult>({
     query: contributionSearchLegiReferencesSearch,
     variables: {

@@ -1,6 +1,7 @@
 import { CombinedError, useQuery } from "urql";
 
 import { KaliReference } from "../../type";
+import { Result } from "./ReferenceInput";
 
 export const contributionSearchKaliReferencesSearch = `
 query SearchKaliReferences($idcc: bpchar, $query: String) {
@@ -22,16 +23,17 @@ type QueryResult = {
   kali_articles: KaliReference[];
 };
 
-export type Result = {
-  data: KaliReference[];
-  fetching: boolean;
-  error: CombinedError | undefined;
-};
+export const useSearchKaliReferenceQuery =
+  (idcc: string) => (query: string | undefined) =>
+    useContributionSearchKaliReferenceQuery({
+      query,
+      idcc,
+    });
 
-export const useContributionSearchKaliReferenceQuery = ({
+const useContributionSearchKaliReferenceQuery = ({
   query,
   idcc,
-}: QueryProps): Result => {
+}: QueryProps): Result<KaliReference> => {
   const [{ data, fetching, error }] = useQuery<QueryResult>({
     query: contributionSearchKaliReferencesSearch,
     variables: {

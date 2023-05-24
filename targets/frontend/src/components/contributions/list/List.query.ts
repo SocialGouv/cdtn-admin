@@ -42,9 +42,8 @@ export const contributionListQuery = `query questions_answers($search: String, $
     }
   }
 }`;
-
-export type QueryQuestion = Omit<Question, "answers"> & {
-  answers: Omit<Answer, "agreementId" | "questionId" | "question">[];
+export type QueryQuestion = Pick<Question, "id" | "content"> & {
+  answers: Pick<Answer, "id" | "otherAnswer" | "agreement" | "statuses">[];
 };
 
 export type QueryResult = {

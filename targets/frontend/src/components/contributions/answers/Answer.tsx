@@ -17,16 +17,15 @@ import { useUser } from "src/hooks/useUser";
 import { FormEditionField, FormRadioGroup } from "../../forms";
 import { StatusContainer } from "../status";
 import { statusesMapping } from "../status/data";
-import { Agreement, Answer, AnswerStatus, Question, Status } from "../type";
-import {
-  MutationProps,
-  useContributionAnswerUpdateMutation,
-} from "./Answer.mutation";
+import { CdtnDocument, KaliReference, LegiReference, Status } from "../type";
+import { useContributionAnswerUpdateMutation } from "./Answer.mutation";
 import { useContributionAnswerQuery } from "./Answer.query";
 import { Comments } from "./Comments";
-import { KaliReferenceInput } from "./references";
-import { CdtnDocumentInput } from "./references/CdtnDocumentInput";
-import { LegiReferenceInput } from "./references/LegiReferenceInput";
+import {
+  CdtnDocumentInput,
+  KaliReferenceInput,
+  LegiReferenceInput,
+} from "./references";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -35,9 +34,9 @@ export type ContributionsAnswerProps = {
 type AnswerForm = {
   otherAnswer?: string;
   content?: string;
-  cdtnDocuments?: string[];
-  kaliReferences?: string[];
-  legiReferences?: string[];
+  kaliReferences?: KaliReference[];
+  legiReferences?: LegiReference[];
+  cdtnDocuments?: CdtnDocument[];
 };
 
 export const ContributionsAnswer = ({
@@ -51,10 +50,15 @@ export const ContributionsAnswer = ({
       setStatus(answer.status);
     }
   }, [answer]);
-  const { control, handleSubmit, watch } = useForm<MutationProps>({
+  const { control, handleSubmit, watch } = useForm<AnswerForm>({
     defaultValues: {
       content: answer?.content ?? "",
-      otherAnswer: "ANSWER",
+      otherAnswer: answer?.otherAnswer ?? "ANSWER",
+      kaliReferences:
+        answer?.kali_references?.map((item) => item.kali_article) ?? [],
+      legiReferences:
+        answer?.legi_references?.map((item) => item.legi_article) ?? [],
+      cdtnDocuments: answer?.cdtn_documents?.map((item) => item.document) ?? [],
     },
   });
   const otherAnswer = watch("otherAnswer", answer?.otherAnswer);
@@ -67,17 +71,33 @@ export const ContributionsAnswer = ({
     open: false,
   });
   const onSubmit = async (data: AnswerForm) => {
+    console.log("On submit : ", data);
     try {
       if (!answer?.id) {
         throw new Error("Id non définit");
       }
-      const references = data.legiReferences?.map((item) => )
+
       await updateAnswer({
         content: data.content,
         id: answer.id,
         otherAnswer: data.otherAnswer,
         status,
         userId: user?.id,
+        kali_references:
+          data.kaliReferences?.map((ref) => ({
+            answer_id: answer.id,
+            article_id: ref.id,
+          })) ?? [],
+        legi_references:
+          data.legiReferences?.map((ref) => ({
+            answer_id: answer.id,
+            article_id: ref.id,
+          })) ?? [],
+        cdtn_documents:
+          data.cdtnDocuments?.map((ref) => ({
+            answer_id: answer.id,
+            cdtn_id: ref.cdtn_id,
+          })) ?? [],
       });
       setSnack({
         open: true,

@@ -30,6 +30,9 @@ export type Answer = {
   content?: string;
   question: Omit<Question, "answers">;
   answer_comments: Comments[];
+  kali_references: { kali_article: KaliReference }[];
+  legi_references: { legi_article: LegiReference }[];
+  cdtn_documents: { document: CdtnDocument }[];
 };
 
 export type Question = {
@@ -65,4 +68,5 @@ export type CdtnDocument = {
   title: string;
   cdtn_id: string;
   source: string;
+  slug: string;
 };

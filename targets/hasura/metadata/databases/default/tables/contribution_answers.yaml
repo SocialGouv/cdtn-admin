@@ -16,6 +16,27 @@ array_relationships:
         table:
           name: answer_comments
           schema: contribution
+  - name: cdtn_documents
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          name: answer_cdtn_documents
+          schema: contribution
+  - name: kali_references
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          name: answer_kali_references
+          schema: contribution
+  - name: legi_references
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          name: answer_legi_references
+          schema: contribution
   - name: statuses
     using:
       manual_configuration:

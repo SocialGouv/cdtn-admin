@@ -19,7 +19,6 @@ import { CommonFormProps } from "../type";
 type AutocompleteFormProps<T> = PropsWithChildren<
   CommonFormProps & {
     getOptionLabel: (option: T) => string;
-    getOptionValue: (option: T) => string;
     options: ReadonlyArray<T>;
     onInputChange?: (
       event: React.SyntheticEvent,
@@ -35,17 +34,16 @@ type AutocompleteFormProps<T> = PropsWithChildren<
     isOptionEqualToValue?: (option: T, value: T) => boolean;
     loading?: boolean;
     fullWidth?: boolean;
-    multiple?: boolean;
-    disableClearable?: boolean;
     renderTags?: (
       value: T[],
       getTagProps: AutocompleteRenderGetTagProps
     ) => React.ReactNode;
     filterOptions: (options: T[], state: FilterOptionsState<T>) => T[];
+    noOptionsText?: React.ReactNode;
   }
 >;
 
-export const FormAutocomplete = <T,>({
+export const FormAutocompleteMultiple = <T,>({
   name,
   rules,
   label,
@@ -56,46 +54,42 @@ export const FormAutocomplete = <T,>({
   onClose,
   isOptionEqualToValue,
   getOptionLabel,
-  getOptionValue,
   fullWidth,
   loading,
   onInputChange,
-  multiple,
   renderTags,
   filterOptions,
-  disableClearable,
+  noOptionsText,
 }: AutocompleteFormProps<T>) => {
   return (
     <Controller
       name={name}
       control={control}
       rules={rules}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
+      render={({
+        field: { onChange, value },
+        fieldState: { error },
+        formState,
+      }) => (
         <FormControl fullWidth={fullWidth} error={!!error}>
-          <Autocomplete
+          <Autocomplete<T, true, true, false>
+            forcePopupIcon={false}
+            disableClearable
+            multiple
             id={`id-${label}`}
             value={value}
-            onChange={(event, value) => {
-              onChange(
-                Array.isArray(value)
-                  ? value.map((i) => getOptionValue(i))
-                  : value
-                  ? getOptionValue(value)
-                  : null
-              );
-            }}
+            onChange={(event, value) => onChange(value)}
             open={open}
             onOpen={onOpen}
             onClose={onClose}
             isOptionEqualToValue={isOptionEqualToValue}
             getOptionLabel={getOptionLabel}
             filterOptions={filterOptions}
-            disableClearable={disableClearable}
             options={options}
             loading={loading}
-            multiple={multiple}
             onInputChange={onInputChange}
             renderTags={renderTags}
+            noOptionsText={noOptionsText}
             renderInput={(params) => (
               <TextField
                 {...params}
