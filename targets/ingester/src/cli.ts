@@ -119,6 +119,7 @@ async function main() {
       packagesToUpdate.set(pkgName, { getDocuments, version: pkgInfo.version });
     }
   }
+
   if (args.dryRun) {
     console.log("dry-run mode");
   }

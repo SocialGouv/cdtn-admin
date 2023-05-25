@@ -2,41 +2,67 @@ import { useQuery } from "urql";
 
 import { Answer, Status } from "../type";
 
-export const contributionAnswerQuery = `query contribution_answer($id: uuid) {
-    contribution_answers(where: {
-        id: {_eq: $id},
-    }) {
+export const contributionAnswerQuery = `
+query contribution_answer($id: uuid) {
+  contribution_answers(where: {id: {_eq: $id}}) {
+    id
+    questionId: question_id
+    agreementId: agreement_id
+    content
+    otherAnswer: other_answer
+    question {
       id
-      questionId: question_id
-      agreementId: agreement_id
       content
-      otherAnswer: other_answer
-      question {
-        id
-        content
-      }
-      agreement {
-        id
+    }
+    agreement {
+      id
+      name
+    }
+    answer_comments {
+      id
+      content
+      createdAt: created_at
+      user {
         name
       }
-      answer_comments {
-        id
-        content
-        createdAt: created_at
-        user {
-          name
-        }
+    }
+    statuses(order_by: {created_at: desc}, limit: 1) {
+      createdAt: created_at
+      status
+      user {
+        name
       }
-      statuses(order_by: {created_at: desc}, limit: 1) {
-        createdAt: created_at
-        status
-        user {
-          name
-        }
+    }
+    kali_references {
+      kali_article {
+        id
+        path
+        cid
+        agreement_id
+      }
+    }
+    legi_references {
+      legi_article {
+        id
+        index
+        cid
+      }
+    }
+    other_references {
+      label
+      url
+    }
+    cdtn_references {
+      document {
+        cdtn_id
+        title
+        source
+        slug
       }
     }
   }
-  `;
+}
+`;
 
 type QueryProps = {
   id: string;
