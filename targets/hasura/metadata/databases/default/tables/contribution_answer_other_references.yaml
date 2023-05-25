@@ -1,0 +1,39 @@
+table:
+  name: answer_other_references
+  schema: contribution
+object_relationships:
+  - name: answer
+    using:
+      foreign_key_constraint_on: answer_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - answer_id
+        - id
+        - label
+        - url
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - label
+        - url
+        - answer_id
+        - id
+      filter: {}
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - label
+        - url
+        - answer_id
+        - id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

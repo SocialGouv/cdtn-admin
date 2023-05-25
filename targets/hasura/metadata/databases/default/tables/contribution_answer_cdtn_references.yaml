@@ -1,0 +1,28 @@
+table:
+  name: answer_cdtn_references
+  schema: contribution
+object_relationships:
+  - name: answer
+    using:
+      foreign_key_constraint_on: answer_id
+  - name: document
+    using:
+      foreign_key_constraint_on: cdtn_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - answer_id
+        - cdtn_id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - cdtn_id
+        - answer_id
+      filter: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

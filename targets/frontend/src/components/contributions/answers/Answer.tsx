@@ -17,16 +17,34 @@ import { useUser } from "src/hooks/useUser";
 import { FormEditionField, FormRadioGroup } from "../../forms";
 import { StatusContainer } from "../status";
 import { statusesMapping } from "../status/data";
-import { Status } from "../type";
 import {
-  MutationProps,
-  useContributionAnswerUpdateMutation,
-} from "./Answer.mutation";
+  CdtnReference,
+  KaliReference,
+  LegiReference,
+  OtherReference,
+  Status,
+} from "../type";
+import { useContributionAnswerUpdateMutation } from "./Answer.mutation";
 import { useContributionAnswerQuery } from "./Answer.query";
 import { Comments } from "./Comments";
+import {
+  CdtnReferenceInput,
+  KaliReferenceInput,
+  LegiReferenceInput,
+  OtherReferenceInput,
+} from "./references";
 
 export type ContributionsAnswerProps = {
   id: string;
+};
+
+type AnswerForm = {
+  otherAnswer?: string;
+  content?: string;
+  kaliReferences?: KaliReference[];
+  legiReferences?: LegiReference[];
+  otherReferences?: OtherReference[];
+  cdtnReferences?: CdtnReference[];
 };
 
 export const ContributionsAnswer = ({
@@ -40,10 +58,17 @@ export const ContributionsAnswer = ({
       setStatus(answer.status);
     }
   }, [answer]);
-  const { control, handleSubmit, watch } = useForm<MutationProps>({
+  const { control, handleSubmit, watch } = useForm<AnswerForm>({
     defaultValues: {
       content: answer?.content ?? "",
-      otherAnswer: "ANSWER",
+      otherAnswer: answer?.otherAnswer ?? "ANSWER",
+      kaliReferences:
+        answer?.kali_references?.map((item) => item.kali_article) ?? [],
+      legiReferences:
+        answer?.legi_references?.map((item) => item.legi_article) ?? [],
+      cdtnReferences:
+        answer?.cdtn_references?.map((item) => item.document) ?? [],
+      otherReferences: answer?.other_references ?? [],
     },
   });
   const otherAnswer = watch("otherAnswer", answer?.otherAnswer);
@@ -55,17 +80,39 @@ export const ContributionsAnswer = ({
   }>({
     open: false,
   });
-  const onSubmit = async (data: MutationProps) => {
+  const onSubmit = async (data: AnswerForm) => {
     try {
       if (!answer?.id) {
         throw new Error("Id non définit");
       }
+
       await updateAnswer({
         content: data.content,
         id: answer.id,
         otherAnswer: data.otherAnswer,
         status,
         userId: user?.id,
+        kali_references:
+          data.kaliReferences?.map((ref) => ({
+            answer_id: answer.id,
+            article_id: ref.id,
+          })) ?? [],
+        legi_references:
+          data.legiReferences?.map((ref) => ({
+            answer_id: answer.id,
+            article_id: ref.id,
+          })) ?? [],
+        cdtn_references:
+          data.cdtnReferences?.map((ref) => ({
+            answer_id: answer.id,
+            cdtn_id: ref.cdtn_id,
+          })) ?? [],
+        other_references:
+          data.otherReferences?.map((ref) => ({
+            answer_id: answer.id,
+            label: ref.label,
+            url: ref.url,
+          })) ?? [],
       });
       setSnack({
         open: true,
@@ -99,7 +146,7 @@ export const ContributionsAnswer = ({
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         <Box sx={{ width: "70%" }}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack>
+            <Stack spacing={5}>
               <FormControl>
                 <FormEditionField
                   label="Réponse"
@@ -135,6 +182,37 @@ export const ContributionsAnswer = ({
                   ]}
                 />
               </FormControl>
+              {answer?.agreement.id && (
+                <KaliReferenceInput
+                  name="kaliReferences"
+                  idcc={answer?.agreement.id}
+                  control={control}
+                  disabled={
+                    answer?.status !== "REDACTING" && answer?.status !== "TODO"
+                  }
+                />
+              )}
+              <LegiReferenceInput
+                name="legiReferences"
+                control={control}
+                disabled={
+                  answer?.status !== "REDACTING" && answer?.status !== "TODO"
+                }
+              />
+              <OtherReferenceInput
+                name="otherReferences"
+                control={control}
+                disabled={
+                  answer?.status !== "REDACTING" && answer?.status !== "TODO"
+                }
+              />
+              <CdtnReferenceInput
+                name="cdtnReferences"
+                control={control}
+                disabled={
+                  answer?.status !== "REDACTING" && answer?.status !== "TODO"
+                }
+              />
               <Stack
                 direction="row"
                 alignItems="end"

@@ -1,0 +1,86 @@
+{
+  "type": "convention collective",
+  "data": {
+    "num": 2075,
+    "title": "Convention collective nationale des centres immatriculés de conditionnement, de commercialisation et de transformation des œufs et des industries en produits d'œufs du 10 mai 1999. Etendue par arrêté du 2 août 1999 JORF 10 août 1999",
+    "id": "KALICONT000005635097",
+    "shortTitle": "Œufs et industries en produits d’œufs (centres de conditionnement, de commercialisation et de transformation)",
+    "categorisation": [
+      "Œufs et industries en produits d’œufs (centres de conditionnement, de commercialisation et de transformation)"
+    ]
+  },
+  "children": [
+    {
+      "type": "section",
+      "data": {
+        "cid": "KALITEXT000005681224",
+        "intOrdre": 0,
+        "title": "Texte de base : Convention collective nationale des centres immatriculés de conditionnement, de commercialisation et de transformation des œufs et des industries en produits d'œufs du 10 mai 1999. Etendue par arrêté du 2 août 1999 JORF 10 août 1999",
+        "id": "KALITEXT000005681224",
+        "etat": "VIGUEUR_ETEN"
+      },
+      "children": [
+        {
+          "type": "section",
+          "data": {
+            "cid": "KALISCTA000005725506",
+            "intOrdre": 42949,
+            "title": "Titre Ier : Dispositions générales",
+            "id": "KALISCTA000005725506",
+            "etat": "VIGUEUR_ETEN"
+          },
+          "children": [
+            {
+              "type": "section",
+              "data": {
+                "cid": "KALISCTA000005753054",
+                "intOrdre": 42949,
+                "title": "Article 1.1",
+                "id": "KALISCTA000005753054",
+                "etat": "VIGUEUR_ETEN"
+              },
+              "children": [
+                {
+                  "type": "section",
+                  "data": {
+                    "cid": "KALISCTA000005762163",
+                    "intOrdre": 42949,
+                    "title": "Champ d'application  ",
+                    "id": "KALISCTA000005762163",
+                    "etat": "VIGUEUR_ETEN"
+                  },
+                  "children": [
+                    {
+                      "type": "article",
+                      "data": {
+                        "cid": "KALIARTI000005854517",
+                        "intOrdre": 42949,
+                        "id": "KALIARTI000005854517",
+                        "content": "<p>La présente convention règle, sur l'ensemble du territoire national (départements d'outre-mer compris), les rapports entre les employeurs et les salariés des entreprises dont l'activité exclusive ou principale, qui relève des classes 158 V et 513 G de la nomenclature d'activité et de produit, porte sur un ou plusieurs des domaines suivants :<br/>\n– emballage d'oeufs ;<br/>\n– transformation d'oeufs.</p>",
+                        "etat": "VIGUEUR_ETEN",
+                        "lstLienModification": [
+                          {
+                            "textCid": "",
+                            "textTitle": "Convention collective nationale 1999-05-10 étendue par arrêté du 2 août 1999 JORF 10 août 1999",
+                            "linkType": "CREATION",
+                            "linkOrientation": "source",
+                            "articleNum": "",
+                            "articleId": "",
+                            "natureText": "",
+                            "datePubliTexte": null,
+                            "dateSignaTexte": null,
+                            "dateDebutCible": null
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

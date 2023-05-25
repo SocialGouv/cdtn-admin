@@ -1,0 +1,13 @@
+table:
+  name: kali_articles
+  schema: public
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - id
+        - cid
+        - agreement_id
+        - path
+      filter: {}
+      allow_aggregations: true

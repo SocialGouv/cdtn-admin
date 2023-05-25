@@ -23,6 +23,7 @@ export const FormTextField = ({
   size,
   fullWidth,
   multiline,
+  disabled,
 }: FormTextFieldProps) => {
   return (
     <Controller
@@ -42,6 +43,7 @@ export const FormTextField = ({
           label={label}
           variant="outlined"
           multiline={multiline}
+          disabled={disabled}
         />
       )}
     />
