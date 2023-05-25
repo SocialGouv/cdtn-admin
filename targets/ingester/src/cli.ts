@@ -22,9 +22,9 @@ import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
 import getFichesServicePublic from "./transform/fichesServicePublic/index";
 import getCdtDocuments from "./transform/legi-data/index";
 
-type Args = {
+interface Args {
   dryRun: unknown;
-};
+}
 const args: Args = yargs(process.argv)
   .command("ingest", "ingest document into database")
   .example("$0 ingest --dry-run", "count the lines in the given file")
@@ -32,9 +32,9 @@ const args: Args = yargs(process.argv)
   .describe("d", "dry run mode")
   .help().argv as unknown as Args;
 
-type Versionnable = {
+interface Versionnable {
   version: string;
-};
+}
 type PackageInfo = Versionnable & {
   dist: {
     tarball: string;
@@ -160,10 +160,10 @@ async function main() {
     }
   }
 
-  if (!packagesToUpdate.get("@socialgouv/legi-data")) {
+  if (packagesToUpdate.get("@socialgouv/legi-data")) {
     await updateLegiArticles();
   }
-  if (!packagesToUpdate.get("@socialgouv/kali-data")) {
+  if (packagesToUpdate.get("@socialgouv/kali-data")) {
     await updateKaliArticles();
   }
   return ids;
