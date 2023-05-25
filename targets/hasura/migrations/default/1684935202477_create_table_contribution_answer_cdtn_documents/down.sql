@@ -1,1 +1,1 @@
-DROP TABLE "contribution"."answer_cdtn_documents";
+DROP TABLE "contribution"."answer_cdtn_references";

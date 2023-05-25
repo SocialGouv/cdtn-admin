@@ -16,12 +16,12 @@ array_relationships:
         table:
           name: answer_comments
           schema: contribution
-  - name: cdtn_documents
+  - name: cdtn_references
     using:
       foreign_key_constraint_on:
         column: answer_id
         table:
-          name: answer_cdtn_documents
+          name: answer_cdtn_references
           schema: contribution
   - name: kali_references
     using:

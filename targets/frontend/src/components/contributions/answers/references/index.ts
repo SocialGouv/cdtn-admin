@@ -1,4 +1,4 @@
 export * from "./KaliReferenceInput";
 export * from "./LegiReferenceInput";
-export * from "./CdtnDocumentInput";
+export * from "./CdtnReferenceInput";
 export * from "./OtherReferenceInput";

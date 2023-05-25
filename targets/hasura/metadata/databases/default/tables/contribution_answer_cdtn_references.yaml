@@ -1,5 +1,5 @@
 table:
-  name: answer_cdtn_documents
+  name: answer_cdtn_references
   schema: contribution
 object_relationships:
   - name: answer

@@ -33,7 +33,7 @@ export type Answer = {
   kali_references: { kali_article: KaliReference }[];
   legi_references: { legi_article: LegiReference }[];
   other_references: OtherReference[];
-  cdtn_documents: { document: CdtnDocument }[];
+  cdtn_references: { document: CdtnReference }[];
 };
 
 export type Question = {
@@ -70,7 +70,7 @@ export type OtherReference = {
   url: string;
 };
 
-export type CdtnDocument = {
+export type CdtnReference = {
   title: string;
   cdtn_id: string;
   source: string;

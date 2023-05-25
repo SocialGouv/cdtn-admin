@@ -18,7 +18,7 @@ import { FormEditionField, FormRadioGroup } from "../../forms";
 import { StatusContainer } from "../status";
 import { statusesMapping } from "../status/data";
 import {
-  CdtnDocument,
+  CdtnReference,
   KaliReference,
   LegiReference,
   OtherReference,
@@ -28,7 +28,7 @@ import { useContributionAnswerUpdateMutation } from "./Answer.mutation";
 import { useContributionAnswerQuery } from "./Answer.query";
 import { Comments } from "./Comments";
 import {
-  CdtnDocumentInput,
+  CdtnReferenceInput,
   KaliReferenceInput,
   LegiReferenceInput,
   OtherReferenceInput,
@@ -44,7 +44,7 @@ type AnswerForm = {
   kaliReferences?: KaliReference[];
   legiReferences?: LegiReference[];
   otherReferences?: OtherReference[];
-  cdtnDocuments?: CdtnDocument[];
+  cdtnReferences?: CdtnReference[];
 };
 
 export const ContributionsAnswer = ({
@@ -66,7 +66,8 @@ export const ContributionsAnswer = ({
         answer?.kali_references?.map((item) => item.kali_article) ?? [],
       legiReferences:
         answer?.legi_references?.map((item) => item.legi_article) ?? [],
-      cdtnDocuments: answer?.cdtn_documents?.map((item) => item.document) ?? [],
+      cdtnReferences:
+        answer?.cdtn_references?.map((item) => item.document) ?? [],
       otherReferences: answer?.other_references ?? [],
     },
   });
@@ -101,8 +102,8 @@ export const ContributionsAnswer = ({
             answer_id: answer.id,
             article_id: ref.id,
           })) ?? [],
-        cdtn_documents:
-          data.cdtnDocuments?.map((ref) => ({
+        cdtn_references:
+          data.cdtnReferences?.map((ref) => ({
             answer_id: answer.id,
             cdtn_id: ref.cdtn_id,
           })) ?? [],
@@ -205,8 +206,8 @@ export const ContributionsAnswer = ({
                   answer?.status !== "REDACTING" && answer?.status !== "TODO"
                 }
               />
-              <CdtnDocumentInput
-                name="cdtnDocuments"
+              <CdtnReferenceInput
+                name="cdtnReferences"
                 control={control}
                 disabled={
                   answer?.status !== "REDACTING" && answer?.status !== "TODO"

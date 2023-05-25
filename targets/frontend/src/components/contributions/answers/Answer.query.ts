@@ -52,7 +52,7 @@ query contribution_answer($id: uuid) {
       label
       url
     }
-    cdtn_documents {
+    cdtn_references {
       document {
         cdtn_id
         title

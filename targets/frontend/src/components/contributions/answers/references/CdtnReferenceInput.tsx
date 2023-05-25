@@ -1,5 +1,5 @@
 import { Control } from "react-hook-form";
-import { CdtnDocument } from "../../type";
+import { CdtnReference } from "../../type";
 import { useContributionSearchCdtnDocumentQuery } from "./CdtnDocumentsSearch.query";
 import { ReferenceInput } from "./ReferenceInput";
 
@@ -9,12 +9,12 @@ type Props = {
   disabled?: boolean;
 };
 
-export const CdtnDocumentInput = ({
+export const CdtnReferenceInput = ({
   name,
   control,
   disabled = false,
 }: Props): React.ReactElement => (
-  <ReferenceInput<CdtnDocument>
+  <ReferenceInput<CdtnReference>
     label={`Contenus liés`}
     color="info"
     name={name}
