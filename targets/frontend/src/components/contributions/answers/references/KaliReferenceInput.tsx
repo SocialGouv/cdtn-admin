@@ -8,18 +8,21 @@ type Props = {
   name: string;
   idcc: string;
   control: Control<any>;
+  disabled?: boolean;
 };
 
 export const KaliReferenceInput = ({
   name,
   idcc,
   control,
+  disabled = false,
 }: Props): ReactElement | null => {
   return (
     <ReferenceInput<KaliReference>
       label={`Références liées à la convention collective ${idcc}`}
       color="secondary"
       name={name}
+      disabled={disabled}
       control={control}
       fetcher={useContributionSearchKaliReferenceQuery(idcc)}
       isEqual={(option, value) => value.id === option.id}

@@ -27,6 +27,7 @@ type Props<Type> = {
     | "info"
     | "success"
     | "warning";
+  disabled: boolean;
 };
 
 export const ReferenceInput = <Type,>({
@@ -38,6 +39,7 @@ export const ReferenceInput = <Type,>({
   getLabel,
   onClick,
   color,
+  disabled,
 }: Props<Type>): ReactElement | null => {
   const [query, setQuery] = useState<string | undefined>();
   const { data, fetching, error } = fetcher(query);
@@ -61,6 +63,7 @@ export const ReferenceInput = <Type,>({
       control={control}
       getOptionLabel={getLabel}
       name={name}
+      disabled={disabled}
       label={label}
       options={options}
       filterOptions={(options) => options}

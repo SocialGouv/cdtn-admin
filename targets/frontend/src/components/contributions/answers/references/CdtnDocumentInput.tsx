@@ -6,16 +6,19 @@ import { ReferenceInput } from "./ReferenceInput";
 type Props = {
   name: string;
   control: Control<any>;
+  disabled?: boolean;
 };
 
 export const CdtnDocumentInput = ({
   name,
   control,
+  disabled = false,
 }: Props): React.ReactElement => (
   <ReferenceInput<CdtnDocument>
     label={`Contenus liés`}
     color="info"
     name={name}
+    disabled={disabled}
     control={control}
     fetcher={useContributionSearchCdtnDocumentQuery}
     isEqual={(option, value) => value.cdtn_id === option.cdtn_id}

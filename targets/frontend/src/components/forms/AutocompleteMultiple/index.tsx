@@ -60,6 +60,7 @@ export const FormAutocompleteMultiple = <T,>({
   renderTags,
   filterOptions,
   noOptionsText,
+  disabled,
 }: AutocompleteFormProps<T>) => {
   return (
     <Controller
@@ -74,6 +75,7 @@ export const FormAutocompleteMultiple = <T,>({
         <FormControl fullWidth={fullWidth} error={!!error}>
           <Autocomplete<T, true, true, false>
             forcePopupIcon={false}
+            disabled={disabled}
             disableClearable
             multiple
             id={`id-${label}`}

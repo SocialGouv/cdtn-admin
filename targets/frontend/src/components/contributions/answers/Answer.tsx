@@ -80,7 +80,6 @@ export const ContributionsAnswer = ({
     open: false,
   });
   const onSubmit = async (data: AnswerForm) => {
-    console.log("On submit : ", data);
     try {
       if (!answer?.id) {
         throw new Error("Id non définit");
@@ -187,11 +186,32 @@ export const ContributionsAnswer = ({
                   name="kaliReferences"
                   idcc={answer?.agreement.id}
                   control={control}
+                  disabled={
+                    answer?.status !== "REDACTING" && answer?.status !== "TODO"
+                  }
                 />
               )}
-              <LegiReferenceInput name="legiReferences" control={control} />
-              <OtherReferenceInput name="otherReferences" control={control} />
-              <CdtnDocumentInput name="cdtnDocuments" control={control} />
+              <LegiReferenceInput
+                name="legiReferences"
+                control={control}
+                disabled={
+                  answer?.status !== "REDACTING" && answer?.status !== "TODO"
+                }
+              />
+              <OtherReferenceInput
+                name="otherReferences"
+                control={control}
+                disabled={
+                  answer?.status !== "REDACTING" && answer?.status !== "TODO"
+                }
+              />
+              <CdtnDocumentInput
+                name="cdtnDocuments"
+                control={control}
+                disabled={
+                  answer?.status !== "REDACTING" && answer?.status !== "TODO"
+                }
+              />
               <Stack
                 direction="row"
                 alignItems="end"

@@ -12,6 +12,7 @@ type OtherProps = {
   name: string;
   control: Control<any>;
   onDelete: () => void;
+  disabled: boolean;
 };
 
 const OtherReferenceLine = ({
@@ -19,6 +20,7 @@ const OtherReferenceLine = ({
   name,
   control,
   onDelete,
+  disabled,
 }: OtherProps): React.ReactElement => {
   return (
     <Stack direction="row" spacing={2}>
@@ -28,6 +30,7 @@ const OtherReferenceLine = ({
         control={control}
         rules={{ required: true }}
         size="small"
+        disabled={disabled}
       />
       <FormTextField
         name={`${name}.${index}.url`}
@@ -35,10 +38,13 @@ const OtherReferenceLine = ({
         control={control}
         size="small"
         fullWidth
+        disabled={disabled}
       />
-      <IconButton aria-label="delete" onClick={onDelete}>
-        <DeleteIcon />
-      </IconButton>
+      {!disabled && (
+        <IconButton aria-label="delete" onClick={onDelete}>
+          <DeleteIcon />
+        </IconButton>
+      )}
     </Stack>
   );
 };
@@ -46,11 +52,13 @@ const OtherReferenceLine = ({
 type Props = {
   name: string;
   control: Control<any>;
+  disabled?: boolean;
 };
 
 export const OtherReferenceInput = ({
   name,
   control,
+  disabled = false,
 }: Props): React.ReactElement => {
   const { fields, append, remove } = useFieldArray({
     control,
@@ -65,7 +73,7 @@ export const OtherReferenceInput = ({
   };
 
   return (
-    <TitleBox title="Autres références">
+    <TitleBox title="Autres références" disabled={disabled}>
       <StyledStack spacing={2}>
         {fields.map((field, index) => {
           return (
@@ -75,12 +83,15 @@ export const OtherReferenceInput = ({
               control={control}
               index={index}
               onDelete={() => remove(index)}
+              disabled={disabled}
             />
           );
         })}
-        <Button startIcon={<AddIcon />} size="small" onClick={onAdd}>
-          Ajouter une référence
-        </Button>
+        {!disabled && (
+          <Button startIcon={<AddIcon />} size="small" onClick={onAdd}>
+            Ajouter une référence
+          </Button>
+        )}
       </StyledStack>
     </TitleBox>
   );

@@ -5,17 +5,20 @@ import { ReferenceInput } from "./ReferenceInput";
 
 type Props = {
   name: string;
-  control: Control<any, any>;
+  control: Control<any>;
+  disabled?: boolean;
 };
 
 export const LegiReferenceInput = ({
   name,
   control,
+  disabled = false,
 }: Props): React.ReactElement => (
   <ReferenceInput<LegiReference>
     label={`Références liées au code du travail`}
     color="success"
     name={name}
+    disabled={disabled}
     control={control}
     fetcher={useContributionSearchLegiReferenceQuery}
     isEqual={(option, value) => value.id === option.id}
