@@ -1,6 +1,6 @@
 import { Control } from "react-hook-form";
 import { CdtnReference } from "../../type";
-import { useContributionSearchCdtnDocumentQuery } from "./CdtnDocumentsSearch.query";
+import { useContributionSearchCdtnReferencesQuery } from "./CdtnReferencesSearch.query";
 import { ReferenceInput } from "./ReferenceInput";
 
 type Props = {
@@ -20,7 +20,7 @@ export const CdtnReferenceInput = ({
     name={name}
     disabled={disabled}
     control={control}
-    fetcher={useContributionSearchCdtnDocumentQuery}
+    fetcher={useContributionSearchCdtnReferencesQuery}
     isEqual={(option, value) => value.cdtn_id === option.cdtn_id}
     getLabel={(item) => `${item.source} > ${item.title}`}
     onClick={(item) => {
