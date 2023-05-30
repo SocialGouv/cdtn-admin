@@ -45,12 +45,12 @@ yarn # to install dep
 yarn build # to build project
 ```
 
-### 2. Run the basis container
+### 2. Run the postgres to add data
 
 At the root of the project, please run this command:
 
 ```sh
-docker-compose up -d postgres hasura azurite elasticsearch
+docker-compose up -d postgres
 ```
 
 ### 3. Load data from production to local
@@ -71,12 +71,10 @@ docker-compose exec -T postgres psql \
   < .kontinuous/sql/post-restore.sql
 ```
 
-### 4. Restart Hasura container
-
-:warning: **You have to restart the hasura container to apply the relations between each tables.**
+### 4. Run the other containers
 
 ```sh
-docker-compose restart hasura
+docker-compose up -d hasura azurite elasticsearch
 ```
 
 ### 5. Run ingester in development mode
