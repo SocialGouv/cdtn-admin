@@ -12,7 +12,7 @@
     "@shared/graphql-client": "^2.7.0",
     "@socialgouv/cdtn-slugify": "4.52.1",
     "@socialgouv/cdtn-sources": "4.52.1",
-    "@socialgouv/dila-api-client": "1.2.1",
+    "@socialgouv/dila-api-client": "1.2.4",
     "memoizee": "0.4.15",
     "node-fetch": "2.6.7",
     "nodegit": "0.27.0",
