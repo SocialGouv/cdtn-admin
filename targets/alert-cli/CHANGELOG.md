@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.7.0...v2.7.1) (2023-06-01)
+
+### Bug Fixes
+
+- **dila-api-client:** upgrade to latest version ([#922](https://github.com/SocialGouv/cdtn-admin/issues/922)) ([d19fe83](https://github.com/SocialGouv/cdtn-admin/commit/d19fe830171b107c15702308fc5380334fe26810))
+
 # [2.7.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.6.1...v2.7.0) (2023-05-30)
 
 ### Bug Fixes
