@@ -65,6 +65,9 @@ const isNotEditable = (answer: Answer | undefined) =>
   answer?.status.status !== "TODO" &&
   answer?.status.status !== "VALIDATING";
 
+const isCodeDuTravail = (answer: Answer): boolean =>
+  answer.agreement.id === "0000";
+
 export const ContributionsAnswer = ({
   id,
 }: ContributionsAnswerProps): JSX.Element => {
@@ -150,32 +153,34 @@ export const ContributionsAnswer = ({
                   rules={{ required: otherAnswer === "ANSWER" }}
                 />
               </FormControl>
-              <FormControl>
-                <FormRadioGroup
-                  name="otherAnswer"
-                  label="Type de réponse"
-                  control={control}
-                  disabled={isNotEditable(answer)}
-                  options={[
-                    {
-                      label: "Afficher la réponse",
-                      value: "ANSWER",
-                    },
-                    {
-                      label: "La convention collective ne prévoit rien",
-                      value: "NOTHING",
-                    },
-                    {
-                      label: "Nous n'avons pas la réponse",
-                      value: "UNKNOWN",
-                    },
-                  ]}
-                />
-              </FormControl>
-              {answer?.agreement.id && (
+              {answer && !isCodeDuTravail(answer) && (
+                <FormControl>
+                  <FormRadioGroup
+                    name="otherAnswer"
+                    label="Type de réponse"
+                    control={control}
+                    disabled={isNotEditable(answer)}
+                    options={[
+                      {
+                        label: "Afficher la réponse",
+                        value: "ANSWER",
+                      },
+                      {
+                        label: "La convention collective ne prévoit rien",
+                        value: "NOTHING",
+                      },
+                      {
+                        label: "Nous n'avons pas la réponse",
+                        value: "UNKNOWN",
+                      },
+                    ]}
+                  />
+                </FormControl>
+              )}
+              {answer && !isCodeDuTravail(answer) && (
                 <KaliReferenceInput
                   name="kaliReferences"
-                  idcc={answer?.agreement.id}
+                  idcc={answer.agreement.id}
                   control={control}
                   disabled={isNotEditable(answer)}
                 />

@@ -1,4 +1,5 @@
 import { User } from "src/types";
+import { SourceRoute } from "@socialgouv/cdtn-sources";
 
 export type Agreement = {
   id: string;
@@ -74,6 +75,6 @@ export type OtherReference = {
 export type CdtnReference = {
   title: string;
   cdtn_id: string;
-  source: string;
+  source: SourceRoute;
   slug: string;
 };

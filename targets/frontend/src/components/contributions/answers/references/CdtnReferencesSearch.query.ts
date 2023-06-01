@@ -31,6 +31,8 @@ export const useContributionSearchCdtnReferencesQuery = (
         "page_fiche_ministere_travail",
         "information",
         "outils",
+        "modeles_de_courriers",
+        "contributions",
       ],
     },
   });

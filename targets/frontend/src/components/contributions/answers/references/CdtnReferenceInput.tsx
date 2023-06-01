@@ -1,3 +1,4 @@
+import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import { Control } from "react-hook-form";
 import { CdtnReference } from "../../type";
 import { useContributionSearchCdtnReferencesQuery } from "./CdtnReferencesSearch.query";
@@ -22,10 +23,14 @@ export const CdtnReferenceInput = ({
     control={control}
     fetcher={useContributionSearchCdtnReferencesQuery}
     isEqual={(option, value) => value.cdtn_id === option.cdtn_id}
-    getLabel={(item) => `${item.source} > ${item.title}`}
+    getLabel={(item) =>
+      `${getRouteBySource(item.source)} > ${item.title} (${item.slug})`
+    }
     onClick={(item) => {
       const newWindow = window.open(
-        `https://code.travail.gouv.fr/${item.source}/${item.slug}`,
+        `https://code.travail.gouv.fr/${getRouteBySource(item.source)}/${
+          item.slug
+        }`,
         "_blank",
         "noopener,noreferrer"
       );
