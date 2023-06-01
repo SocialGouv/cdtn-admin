@@ -38,7 +38,7 @@ export const Comments = (props: Props) => {
   const [snack, setSnack] = React.useState<{
     open: boolean;
     severity?: AlertColor;
-    text?: string;
+    message?: string;
   }>({
     open: false,
   });
@@ -77,11 +77,11 @@ export const Comments = (props: Props) => {
       setSnack({
         open: true,
         severity: "success",
-        text: "Le commentaire a été ajoutée",
+        message: "Le commentaire a été ajoutée",
       });
       resetField("content");
     } catch (e: any) {
-      setSnack({ open: true, severity: "error", text: e.message });
+      setSnack({ open: true, severity: "error", message: e.message });
     }
   };
 
@@ -139,7 +139,7 @@ export const Comments = (props: Props) => {
           severity={snack.severity}
           sx={{ width: "100%" }}
         >
-          {snack?.severity}
+          {snack?.message}
         </Alert>
       </Snackbar>
     </Box>

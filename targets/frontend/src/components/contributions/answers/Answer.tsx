@@ -16,8 +16,8 @@ import { useUser } from "src/hooks/useUser";
 
 import { FormEditionField, FormRadioGroup } from "../../forms";
 import { StatusContainer } from "../status";
-import { statusesMapping } from "../status/data";
 import {
+  Answer,
   CdtnReference,
   KaliReference,
   LegiReference,
@@ -33,19 +33,37 @@ import {
   LegiReferenceInput,
   OtherReferenceInput,
 } from "./references";
+import { statusesMapping } from "../status/data";
+import {
+  defaultReferences,
+  formatCdtnReferences,
+  formatKaliReferences,
+  formatLegiReferences,
+  formatOtherReferences,
+} from "./answerReferences";
+import {
+  getNextStatus,
+  getPrimaryButtonLabel,
+  getSecondaryButtonLabel,
+} from "../status/utils";
 
 export type ContributionsAnswerProps = {
   id: string;
 };
 
-type AnswerForm = {
+export type AnswerForm = {
   otherAnswer?: string;
   content?: string;
-  kaliReferences?: KaliReference[];
-  legiReferences?: LegiReference[];
-  otherReferences?: OtherReference[];
-  cdtnReferences?: CdtnReference[];
+  kaliReferences: KaliReference[];
+  legiReferences: LegiReference[];
+  otherReferences: OtherReference[];
+  cdtnReferences: CdtnReference[];
 };
+
+const isNotEditable = (answer: Answer | undefined) =>
+  answer?.status.status !== "REDACTING" &&
+  answer?.status.status !== "TODO" &&
+  answer?.status.status !== "VALIDATING";
 
 export const ContributionsAnswer = ({
   id,
@@ -55,20 +73,14 @@ export const ContributionsAnswer = ({
   const [status, setStatus] = useState<Status>("TODO");
   useEffect(() => {
     if (answer?.status) {
-      setStatus(answer.status);
+      setStatus(answer?.status.status);
     }
   }, [answer]);
   const { control, handleSubmit, watch } = useForm<AnswerForm>({
     defaultValues: {
       content: answer?.content ?? "",
       otherAnswer: answer?.otherAnswer ?? "ANSWER",
-      kaliReferences:
-        answer?.kali_references?.map((item) => item.kali_article) ?? [],
-      legiReferences:
-        answer?.legi_references?.map((item) => item.legi_article) ?? [],
-      cdtnReferences:
-        answer?.cdtn_references?.map((item) => item.document) ?? [],
-      otherReferences: answer?.other_references ?? [],
+      ...defaultReferences(answer),
     },
   });
   const otherAnswer = watch("otherAnswer", answer?.otherAnswer);
@@ -76,13 +88,13 @@ export const ContributionsAnswer = ({
   const [snack, setSnack] = useState<{
     open: boolean;
     severity?: AlertColor;
-    text?: string;
+    message?: string;
   }>({
     open: false,
   });
   const onSubmit = async (data: AnswerForm) => {
     try {
-      if (!answer?.id) {
+      if (!answer || !answer.id) {
         throw new Error("Id non définit");
       }
 
@@ -92,35 +104,18 @@ export const ContributionsAnswer = ({
         otherAnswer: data.otherAnswer,
         status,
         userId: user?.id,
-        kali_references:
-          data.kaliReferences?.map((ref) => ({
-            answer_id: answer.id,
-            article_id: ref.id,
-          })) ?? [],
-        legi_references:
-          data.legiReferences?.map((ref) => ({
-            answer_id: answer.id,
-            article_id: ref.id,
-          })) ?? [],
-        cdtn_references:
-          data.cdtnReferences?.map((ref) => ({
-            answer_id: answer.id,
-            cdtn_id: ref.cdtn_id,
-          })) ?? [],
-        other_references:
-          data.otherReferences?.map((ref) => ({
-            answer_id: answer.id,
-            label: ref.label,
-            url: ref.url,
-          })) ?? [],
+        kali_references: formatKaliReferences(answer, data),
+        legi_references: formatLegiReferences(answer, data),
+        cdtn_references: formatCdtnReferences(answer, data),
+        other_references: formatOtherReferences(answer, data),
       });
       setSnack({
         open: true,
         severity: "success",
-        text: "La réponse a été modifiée",
+        message: "La réponse a été modifiée",
       });
     } catch (e: any) {
-      setSnack({ open: true, severity: "error", text: e.message });
+      setSnack({ open: true, severity: "error", message: e.message });
     }
   };
   return (
@@ -135,12 +130,11 @@ export const ContributionsAnswer = ({
             <div>{answer?.agreement?.id}</div>
           </Breadcrumbs>
         </Grid>
-        <Grid xs={2} style={{ color: statusesMapping[status].color }}>
-          <StatusContainer
-            status={answer?.status}
-            user={answer?.statuses?.[0]?.user?.name}
-          />
-        </Grid>
+        {answer?.status && (
+          <Grid xs={2} style={{ color: statusesMapping[status].color }}>
+            <StatusContainer status={answer.status} />
+          </Grid>
+        )}
       </Grid>
       <h2>{answer?.agreement?.name}</h2>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -151,21 +145,17 @@ export const ContributionsAnswer = ({
                 <FormEditionField
                   label="Réponse"
                   name="content"
-                  disabled={
-                    answer?.status !== "REDACTING" && answer?.status !== "TODO"
-                  }
+                  disabled={isNotEditable(answer)}
                   control={control}
                   rules={{ required: otherAnswer === "ANSWER" }}
                 />
               </FormControl>
               <FormControl>
                 <FormRadioGroup
-                  label="Type de réponse"
                   name="otherAnswer"
+                  label="Type de réponse"
                   control={control}
-                  disabled={
-                    answer?.status !== "REDACTING" && answer?.status !== "TODO"
-                  }
+                  disabled={isNotEditable(answer)}
                   options={[
                     {
                       label: "Afficher la réponse",
@@ -187,31 +177,23 @@ export const ContributionsAnswer = ({
                   name="kaliReferences"
                   idcc={answer?.agreement.id}
                   control={control}
-                  disabled={
-                    answer?.status !== "REDACTING" && answer?.status !== "TODO"
-                  }
+                  disabled={isNotEditable(answer)}
                 />
               )}
               <LegiReferenceInput
                 name="legiReferences"
                 control={control}
-                disabled={
-                  answer?.status !== "REDACTING" && answer?.status !== "TODO"
-                }
+                disabled={isNotEditable(answer)}
               />
               <OtherReferenceInput
                 name="otherReferences"
                 control={control}
-                disabled={
-                  answer?.status !== "REDACTING" && answer?.status !== "TODO"
-                }
+                disabled={isNotEditable(answer)}
               />
               <CdtnReferenceInput
                 name="cdtnReferences"
                 control={control}
-                disabled={
-                  answer?.status !== "REDACTING" && answer?.status !== "TODO"
-                }
+                disabled={isNotEditable(answer)}
               />
               <Stack
                 direction="row"
@@ -225,45 +207,21 @@ export const ContributionsAnswer = ({
                   type="submit"
                   onClick={() => setStatus("REDACTING")}
                 >
-                  {answer?.status === "TODO" && "Sauvegarder"}
-                  {answer?.status === "REDACTING" && "Sauvegarder"}
-                  {answer?.status === "REDACTED" && "Modifier"}
-                  {answer?.status === "VALIDATING" && "Refuser"}
-                  {answer?.status === "VALIDATED" && "Modifier"}
-                  {answer?.status === "PUBLISHED" && "Modifier"}
+                  {getSecondaryButtonLabel(status)}
                 </Button>
-                <Button
-                  variant="contained"
-                  color="success"
-                  type="submit"
-                  style={{
-                    display:
-                      answer?.status === "PUBLISHED" ? "none" : "inherit",
-                  }}
-                  onClick={() => {
-                    switch (answer?.status) {
-                      case "TODO":
-                      case "REDACTING":
-                        setStatus("REDACTED");
-                        break;
-                      case "REDACTED":
-                        setStatus("VALIDATING");
-                        break;
-                      case "VALIDATING":
-                        setStatus("VALIDATED");
-                        break;
-                      case "VALIDATED":
-                        setStatus("PUBLISHED");
-                        break;
-                    }
-                  }}
-                >
-                  {answer?.status === "TODO" && "Soumettre"}
-                  {answer?.status === "REDACTING" && "Soumettre"}
-                  {answer?.status === "REDACTED" && "Commencer Validation"}
-                  {answer?.status === "VALIDATING" && "Valider"}
-                  {answer?.status === "VALIDATED" && "Publier"}
-                </Button>
+
+                {status !== "PUBLISHED" && (
+                  <Button
+                    variant="contained"
+                    color="success"
+                    type="submit"
+                    onClick={() => {
+                      setStatus(getNextStatus(status));
+                    }}
+                  >
+                    {getPrimaryButtonLabel(status)}
+                  </Button>
+                )}
               </Stack>
             </Stack>
 
@@ -277,7 +235,7 @@ export const ContributionsAnswer = ({
                 onClose={() => setSnack({ open: false })}
                 severity={snack.severity}
               >
-                {snack?.text}
+                {snack?.message}
               </Alert>
             </Snackbar>
           </form>

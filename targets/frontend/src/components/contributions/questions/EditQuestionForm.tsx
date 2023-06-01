@@ -2,7 +2,7 @@ import {
   Alert,
   AlertColor,
   Button,
-  Paper,
+  Card,
   Snackbar,
   Stack,
   Typography,
@@ -63,22 +63,26 @@ export const EditQuestionForm = ({
       const result = await updateQuestion(data);
       if (result.error) {
         setSnack({
-          message: result.error.message,
+          message: `Erreur: ${result.error.message}`,
           open: true,
           severity: "error",
         });
       } else {
-        setSnack({ open: true, severity: "success" });
+        setSnack({ open: true, severity: "success", message: "Sauvegardé" });
       }
-    } catch (e) {
-      setSnack({ open: true, severity: "error" });
+    } catch (e: any) {
+      setSnack({
+        open: true,
+        severity: "error",
+        message: `Erreur: ${e.message}`,
+      });
     }
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)} style={{ marginTop: 32 }}>
-        <Grid container spacing={4} columns={1} direction="column">
+    <Stack mt={4} spacing={2}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={4}>
           <Grid>
             <FormTextField
               name="content"
@@ -89,7 +93,7 @@ export const EditQuestionForm = ({
               fullWidth
             />
           </Grid>
-          <Grid>
+          <Stack spacing={2}>
             <FormSelect
               options={messages.map((item) => ({
                 label: item.label,
@@ -102,22 +106,18 @@ export const EditQuestionForm = ({
               fullWidth
             />
             {message && (
-              <Paper
-                elevation={3}
-                style={{
+              <Card
+                sx={{
                   background: "#f2f6fa",
-                  marginLeft: 16,
-                  marginRight: 16,
-                  marginTop: 8,
-                  padding: 16,
+                  padding: "16px",
                 }}
                 variant={"outlined"}
               >
                 <Typography variant="subtitle1">Texte applicable</Typography>
                 <Typography variant="body2">{message.content}</Typography>
-              </Paper>
+              </Card>
             )}
-          </Grid>
+          </Stack>
           <Grid display="flex" justifyContent="end">
             <Stack direction="row" spacing={2}>
               <Button
@@ -133,7 +133,7 @@ export const EditQuestionForm = ({
               </Button>
             </Stack>
           </Grid>
-        </Grid>
+        </Stack>
       </form>
       <Snackbar
         open={snack.open}
@@ -146,10 +146,9 @@ export const EditQuestionForm = ({
           severity={snack.severity}
           sx={{ width: "100%" }}
         >
-          {snack?.severity}
-          {snack?.message ? `: ${snack.message}` : ""}
+          {snack.message}
         </Alert>
       </Snackbar>
-    </>
+    </Stack>
   );
 };

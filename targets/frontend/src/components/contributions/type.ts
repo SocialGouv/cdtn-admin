@@ -27,6 +27,7 @@ export type Answer = {
   otherAnswer?: string;
   agreement: Agreement;
   statuses: AnswerStatus[];
+  status: AnswerStatus;
   content?: string;
   question: Omit<Question, "answers">;
   answer_comments: Comments[];

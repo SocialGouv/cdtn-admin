@@ -1,8 +1,9 @@
 import { useQuery } from "urql";
 
-import { Answer, Status } from "../type";
+import { Answer, AnswerStatus, Status } from "../type";
+import { initStatus } from "../status/utils";
 
-export const contributionAnswerQuery = `
+const contributionAnswerQuery = `
 query contribution_answer($id: uuid) {
   contribution_answers(where: {id: {_eq: $id}}) {
     id
@@ -68,7 +69,7 @@ type QueryProps = {
   id: string;
 };
 
-type AnswerWithStatus = Answer & { status: Status };
+type AnswerWithStatus = Answer & { status: AnswerStatus };
 
 type QueryResult = {
   contribution_answers: AnswerWithStatus[];
@@ -91,10 +92,10 @@ export const useContributionAnswerQuery = ({
   }
   const answer = result.data?.contribution_answers[0];
   if (!answer) {
-    return answer;
+    return;
   }
   return {
     ...answer,
-    status: answer.statuses?.[0]?.status ?? "TODO",
+    status: initStatus(answer),
   };
 };
