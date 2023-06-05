@@ -99,7 +99,7 @@ travail/emploi...).
 
 This step runs the Ingester script and populate the documentation.
 
-> Run the Ingester (/!\ hasura must be started as a dependency):
+> Run the Ingester (/!\ hasura must be started):
 >
 > ```sh
 > yarn workspace ingester run cli:dev
