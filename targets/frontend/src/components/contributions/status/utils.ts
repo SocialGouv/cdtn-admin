@@ -4,7 +4,7 @@ export const initStatus = (answer: any) => {
   return answer.statuses?.[0] || { status: "TODO" };
 };
 
-export const getNextStatus = (status: string): Status => {
+export const getNextStatus = (status: Status): Status => {
   switch (status) {
     case "REDACTED":
       return "VALIDATING";
@@ -19,7 +19,7 @@ export const getNextStatus = (status: string): Status => {
   }
 };
 
-export const getPrimaryButtonLabel = (status: string): string => {
+export const getPrimaryButtonLabel = (status: Status): string => {
   switch (status) {
     case "REDACTED":
       return "Commencer Validation";
@@ -27,25 +27,11 @@ export const getPrimaryButtonLabel = (status: string): string => {
       return "Valider";
     case "VALIDATED":
       return "Publier";
+    case "PUBLISHED":
+      return "Publiée";
     case "TODO":
     case "REDACTING":
     default:
       return "Soumettre";
-  }
-};
-
-export const getSecondaryButtonLabel = (status: string): string => {
-  switch (status) {
-    case "REDACTED":
-      return "Modifier";
-    case "VALIDATING":
-      return "Refuser";
-    case "VALIDATED":
-    case "PUBLISHED":
-      return "Modifier";
-    case "TODO":
-    case "REDACTING":
-    default:
-      return "Sauvegarder";
   }
 };

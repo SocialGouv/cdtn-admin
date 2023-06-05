@@ -41,11 +41,7 @@ import {
   formatLegiReferences,
   formatOtherReferences,
 } from "./answerReferences";
-import {
-  getNextStatus,
-  getPrimaryButtonLabel,
-  getSecondaryButtonLabel,
-} from "../status/utils";
+import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -76,7 +72,7 @@ export const ContributionsAnswer = ({
   const [status, setStatus] = useState<Status>("TODO");
   useEffect(() => {
     if (answer?.status) {
-      setStatus(answer?.status.status);
+      setStatus(answer.status.status);
     }
   }, [answer]);
   const { control, handleSubmit, watch } = useForm<AnswerForm>({
@@ -208,25 +204,36 @@ export const ContributionsAnswer = ({
                 padding={2}
               >
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   type="submit"
                   onClick={() => setStatus("REDACTING")}
+                  disabled={status === "TODO" || status === "REDACTING"}
                 >
-                  {getSecondaryButtonLabel(status)}
+                  Remettre en rédaction
                 </Button>
-
-                {status !== "PUBLISHED" && (
-                  <Button
-                    variant="contained"
-                    color="success"
-                    type="submit"
-                    onClick={() => {
-                      setStatus(getNextStatus(status));
-                    }}
-                  >
-                    {getPrimaryButtonLabel(status)}
-                  </Button>
-                )}
+                <Button
+                  variant="text"
+                  type="submit"
+                  disabled={isNotEditable(answer)}
+                  onClick={() => {
+                    if (status === "TODO") {
+                      setStatus("REDACTING");
+                    }
+                  }}
+                >
+                  Sauvegarder
+                </Button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  type="submit"
+                  onClick={() => {
+                    setStatus(getNextStatus(status));
+                  }}
+                  disabled={status === "PUBLISHED"}
+                >
+                  {getPrimaryButtonLabel(status)}
+                </Button>
               </Stack>
             </Stack>
 
