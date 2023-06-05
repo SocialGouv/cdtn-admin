@@ -15,12 +15,14 @@ insert_permissions:
       columns:
         - answer_id
         - article_id
+        - label
 select_permissions:
   - role: super
     permission:
       columns:
-        - article_id
         - answer_id
+        - article_id
+        - label
       filter: {}
 delete_permissions:
   - role: super
