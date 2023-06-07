@@ -19,7 +19,7 @@ const countAnswersWithStatus = (
   answers: QueryQuestionAnswer[] | undefined,
   statusToCount: string
 ) =>
-  answers?.filter(({ status }) => status.status === statusToCount).length ?? 0;
+  answers?.filter(({ status }) => status?.status === statusToCount).length ?? 0;
 
 export const ContributionsRow = (props: {
   row: Partial<QueryQuestion>;
@@ -79,7 +79,6 @@ export const ContributionsRow = (props: {
               <Table size="small" aria-label="purchases">
                 <TableBody>
                   {row.answers?.map((answer) => {
-                    const status = answer?.status;
                     return (
                       <TableRow key={answer.agreement.id}>
                         <TableCell scope="row">{answer.agreement.id}</TableCell>
@@ -87,10 +86,12 @@ export const ContributionsRow = (props: {
                           {answer.agreement.name}
                         </TableCell>
                         <TableCell scope="row" align="center">
-                          <StatusContainer
-                            status={status}
-                            dataTestid={`${row.id}-${answer.agreement.id}-${status}`}
-                          />
+                          {answer.status && (
+                            <StatusContainer
+                              status={answer.status}
+                              dataTestid={`${row.id}-${answer.agreement.id}-${answer.status}`}
+                            />
+                          )}
                         </TableCell>
                         <TableCell scope="row">
                           <IconButton
