@@ -7,7 +7,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -83,16 +82,14 @@ export const EditQuestionForm = ({
     <Stack mt={4} spacing={2}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
-          <Grid>
-            <FormTextField
-              name="content"
-              control={control}
-              label="Nom de la question"
-              rules={{ required: true }}
-              multiline
-              fullWidth
-            />
-          </Grid>
+          <FormTextField
+            name="content"
+            control={control}
+            label="Nom de la question"
+            rules={{ required: true }}
+            multiline
+            fullWidth
+          />
           <Stack spacing={2}>
             <FormSelect
               options={messages.map((item) => ({
@@ -118,21 +115,19 @@ export const EditQuestionForm = ({
               </Card>
             )}
           </Stack>
-          <Grid display="flex" justifyContent="end">
-            <Stack direction="row" spacing={2}>
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  router.back();
-                }}
-              >
-                Annuler
-              </Button>
-              <Button variant="contained" type="submit">
-                Sauvegarder
-              </Button>
-            </Stack>
-          </Grid>
+          <Stack direction="row" spacing={2} justifyContent="end">
+            <Button
+              variant="outlined"
+              onClick={() => {
+                router.back();
+              }}
+            >
+              Annuler
+            </Button>
+            <Button variant="contained" type="submit">
+              Sauvegarder
+            </Button>
+          </Stack>
         </Stack>
       </form>
       <Snackbar

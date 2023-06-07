@@ -198,7 +198,6 @@ export const ContributionsAnswer = ({
               />
               <Stack
                 direction="row"
-                alignItems="end"
                 justifyContent="end"
                 spacing={2}
                 padding={2}

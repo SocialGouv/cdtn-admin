@@ -11,11 +11,7 @@ export const StatusContainer = ({
   dataTestid?: string;
 }) => {
   return (
-    <Tooltip
-      title={
-        status.user?.name ? `Par ${status.user.name}` : "Réponse à traiter"
-      }
-    >
+    <Tooltip title={status.user?.name && `Par ${status.user.name}`}>
       <Stack
         direction="row"
         style={{

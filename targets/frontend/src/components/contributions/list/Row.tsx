@@ -12,11 +12,11 @@ import { useRouter } from "next/router";
 import * as React from "react";
 
 import { StatusContainer, StatusRecap } from "../status";
-import { QueryQuestion, ShortAnswer } from "./List.query";
+import { QueryQuestion, QueryQuestionAnswer } from "./List.query";
 import { Button } from "@mui/material";
 
 const countAnswersWithStatus = (
-  answers: ShortAnswer[] | undefined,
+  answers: QueryQuestionAnswer[] | undefined,
   statusToCount: string
 ) =>
   answers?.filter(({ status }) => status.status === statusToCount).length ?? 0;

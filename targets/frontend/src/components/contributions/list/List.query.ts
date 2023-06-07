@@ -43,12 +43,12 @@ export const contributionListQuery = `query questions_answers($search: String, $
     }
   }
 }`;
-export type ShortAnswer = Pick<
+export type QueryQuestionAnswer = Pick<
   Answer,
   "id" | "otherAnswer" | "agreement" | "status"
 >;
 export type QueryQuestion = Pick<Question, "id" | "content"> & {
-  answers: ShortAnswer[];
+  answers: QueryQuestionAnswer[];
 };
 
 export type QueryResult = {
