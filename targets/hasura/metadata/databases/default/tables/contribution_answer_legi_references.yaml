@@ -13,16 +13,14 @@ insert_permissions:
     permission:
       check: {}
       columns:
-        - answer_id
         - article_id
-        - label
+        - answer_id
 select_permissions:
   - role: super
     permission:
       columns:
         - answer_id
         - article_id
-        - label
       filter: {}
 delete_permissions:
   - role: super
