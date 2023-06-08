@@ -99,10 +99,10 @@ travail/emploi...).
 
 This step runs the Ingester script and populate the documentation.
 
-> Run the Ingester (it starts Hasura as dependency):
+> Run the Ingester (/!\ hasura must be started):
 >
 > ```sh
-> docker-compose up ingester
+> yarn workspace ingester run cli:dev
 > ```
 
 ### Frontend
