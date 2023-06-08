@@ -5,9 +5,10 @@ select_permissions:
   - role: super
     permission:
       columns:
-        - id
-        - cid
         - agreement_id
+        - cid
+        - id
+        - label
         - path
       filter: {}
       allow_aggregations: true

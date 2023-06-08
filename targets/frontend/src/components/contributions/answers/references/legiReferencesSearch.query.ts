@@ -5,10 +5,10 @@ import { Result } from "./ReferenceInput";
 
 export const contributionSearchLegiReferencesSearch = `
 query SearchLegiReferences($query: String) {
-  legi_articles(where: {index: {_ilike: $query}}) {
+  legi_articles(where: {label: {_ilike: $query}}) {
     cid
     id
-    index
+    label
   }
 }
 `;

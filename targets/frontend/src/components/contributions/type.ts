@@ -32,7 +32,7 @@ export type Answer = {
   content?: string;
   question: Omit<Question, "answers">;
   answer_comments: Comments[];
-  kali_references: { kali_article: KaliReference }[];
+  kali_references: { kali_article: KaliReference; label: string }[];
   legi_references: { legi_article: LegiReference }[];
   other_references: OtherReference[];
   cdtn_references: { document: CdtnReference }[];
@@ -58,13 +58,14 @@ export type KaliReference = {
   cid: string;
   id: string;
   path: string;
+  label: string;
   agreement_id: string;
 };
 
 export type LegiReference = {
   cid: string;
   id: string;
-  index: string;
+  label: string;
 };
 
 export type OtherReference = {

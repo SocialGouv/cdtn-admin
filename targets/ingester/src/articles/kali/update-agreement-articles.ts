@@ -2,7 +2,7 @@ import { client } from "@shared/graphql-client";
 
 const insertKaliReferenceMutation = `
 mutation insert_kali_articles($articles: [kali_articles_insert_input!]!) {
-  insert_kali_articles(objects: $articles, on_conflict: {constraint: kali_articles_pkey, update_columns: path}) {
+  insert_kali_articles(objects: $articles, on_conflict: {constraint: kali_articles_pkey, update_columns: [path, label]}) {
     affected_rows
   }
 }
@@ -17,6 +17,7 @@ type KaliArticlesInput = {
   cid: string;
   id: string;
   path: string;
+  label: string;
 };
 
 export async function updateAgreementArticles(

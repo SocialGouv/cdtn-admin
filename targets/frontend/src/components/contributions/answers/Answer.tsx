@@ -9,7 +9,6 @@ import {
   Snackbar,
   Stack,
 } from "@mui/material";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useUser } from "src/hooks/useUser";
@@ -24,8 +23,8 @@ import {
   OtherReference,
   Status,
 } from "../type";
-import { useContributionAnswerUpdateMutation } from "./Answer.mutation";
-import { useContributionAnswerQuery } from "./Answer.query";
+import { useContributionAnswerUpdateMutation } from "./answer.mutation";
+import { useContributionAnswerQuery } from "./answer.query";
 import { Comments } from "./Comments";
 import {
   CdtnReferenceInput,
@@ -42,6 +41,7 @@ import {
   formatOtherReferences,
 } from "./answerReferences";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
+import { SimpleLink } from "../../utils/SimpleLink";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -122,10 +122,12 @@ export const ContributionsAnswer = ({
       <Grid container>
         <Grid xs={10}>
           <Breadcrumbs aria-label="breadcrumb">
-            <Link href={"/contributions"}>Contributions</Link>
-            <Link href={`/contributions/questions/${answer?.question.id}`}>
+            <SimpleLink href={"/contributions"}>Contributions</SimpleLink>
+            <SimpleLink
+              href={`/contributions/questions/${answer?.question.id}`}
+            >
               {answer?.question?.content}
-            </Link>
+            </SimpleLink>
             <div>{answer?.agreement?.id}</div>
           </Breadcrumbs>
         </Grid>

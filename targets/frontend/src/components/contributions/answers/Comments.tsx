@@ -14,7 +14,7 @@ import { useUser } from "src/hooks/useUser";
 
 import { Comments as AnswerComments } from "../type";
 import { Comment } from "./Comment";
-import { MutationProps, useCommentsInsert } from "./Comments.mutation";
+import { MutationProps, useCommentsInsert } from "./comments.mutation";
 
 type Props = {
   answerId: string;

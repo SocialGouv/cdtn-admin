@@ -67,11 +67,7 @@ export const FormAutocompleteMultiple = <T,>({
       name={name}
       control={control}
       rules={rules}
-      render={({
-        field: { onChange, value },
-        fieldState: { error },
-        formState,
-      }) => (
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
         <FormControl fullWidth={fullWidth} error={!!error}>
           <Autocomplete<T, true, true, false>
             forcePopupIcon={false}

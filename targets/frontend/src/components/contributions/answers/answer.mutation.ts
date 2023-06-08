@@ -41,6 +41,7 @@ mutation contributionAnswerUpdate($id: uuid!, $content: String, $otherAnswer: St
 type LegiKaliReference = {
   answer_id: string;
   article_id: string;
+  label?: string;
 };
 
 type CdtnDocument = {

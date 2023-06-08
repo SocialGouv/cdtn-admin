@@ -8,7 +8,12 @@ export type NormalizedArticle = {
   cid: string;
   agreement_id: string;
   path: string;
+  label: string;
 };
+
+function getLastElement(path: string[]) {
+  return path.length > 0 ? path[path.length - 1] : "";
+}
 
 function normalizeArticle(
   agreement_id: string,
@@ -27,6 +32,7 @@ function normalizeArticle(
     cid,
     id,
     path,
+    label: getLastElement(agreementArticleWithPath.path),
   };
 }
 
