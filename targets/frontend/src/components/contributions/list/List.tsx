@@ -1,9 +1,14 @@
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TextField from "@mui/material/TextField";
+import {
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableHead,
+  TableContainer,
+  TextField,
+  TableRow,
+  TableCell,
+} from "@mui/material";
 import { useState } from "react";
 
 import { Pagination } from "../../utils";
@@ -52,6 +57,13 @@ export const ContributionsList = (): JSX.Element => {
 
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table" size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Question</TableCell>
+              <TableCell align="center">Statut</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
           <TableBody>
             {rows.map((row) => (
               <ContributionsRow

@@ -38,10 +38,17 @@ export type Answer = {
   cdtn_references: { document: CdtnReference }[];
 };
 
+export type Message = {
+  id: string;
+  label: string;
+  content: string;
+};
+
 export type Question = {
   id: string;
   content: string;
   answers: Answer[];
+  message?: Message;
 };
 
 export type Comments = {

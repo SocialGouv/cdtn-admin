@@ -2,6 +2,7 @@ import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDiss
 import { Breadcrumbs, Skeleton, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
+import { EditQuestionAnswerList } from "./EditQuestionAnswerList";
 
 import { EditQuestionForm } from "./EditQuestionForm";
 import { useQuestionQuery } from "./Question.query";
@@ -71,8 +72,18 @@ export const EditQuestion = ({
 
   return (
     <>
-      <Header />
-      <EditQuestionForm question={data.question} messages={data.messages} />
+      <Stack
+        alignItems="stretch"
+        direction="column"
+        justifyContent="start"
+        spacing={2}
+      >
+        <Header />
+        <EditQuestionForm question={data.question} messages={data.messages} />
+        <EditQuestionAnswerList
+          answers={data.question.answers}
+        ></EditQuestionAnswerList>
+      </Stack>
     </>
   );
 };

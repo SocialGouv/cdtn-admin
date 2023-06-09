@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { FormSelect, FormTextField } from "src/components/forms";
 
 import { useQuestionUpdateMutation } from "./Question.mutation";
-import { Message, Question } from "./type";
+import { Question, Message } from "../type";
 
 type EditQuestionProps = {
   question: Question;
@@ -116,14 +116,6 @@ export const EditQuestionForm = ({
             )}
           </Stack>
           <Stack direction="row" spacing={2} justifyContent="end">
-            <Button
-              variant="outlined"
-              onClick={() => {
-                router.back();
-              }}
-            >
-              Annuler
-            </Button>
             <Button variant="contained" type="submit">
               Sauvegarder
             </Button>
