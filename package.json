@@ -20,11 +20,5 @@
     "shared/*",
     "targets/*"
   ],
-  "name": "cdtn-admin",
-  "volta": {
-    "node": "14.21.3"
-  },
-  "engines": {
-    "node": "14"
-  }
+  "name": "cdtn-admin"
 }
