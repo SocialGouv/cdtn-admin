@@ -1,14 +1,12 @@
 import {
   FormControl,
   FormControlLabel,
+  FormLabel,
   Radio,
   RadioGroup,
 } from "@mui/material";
 import React, { PropsWithChildren } from "react";
 import { Controller } from "react-hook-form";
-import styled from "styled-components";
-
-import { TitleBox } from "../TitleBox";
 import { CommonFormProps } from "../type";
 
 type OptionProps = {
@@ -38,30 +36,26 @@ export const FormRadioGroup = ({
       rules={rules}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <FormControl fullWidth={fullWidth} error={!!error}>
-          <TitleBox title={label}>
-            <StyledRadioGroup
-              value={value}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                onChange(event.target.value)
-              }
-            >
-              {options.map(({ label, value }) => (
-                <FormControlLabel
-                  key={value}
-                  value={value}
-                  control={<Radio />}
-                  label={label}
-                  disabled={disabled}
-                />
-              ))}
-            </StyledRadioGroup>
-          </TitleBox>
+          <FormLabel>{label}</FormLabel>
+
+          <RadioGroup
+            value={value}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              onChange(event.target.value)
+            }
+          >
+            {options.map(({ label, value }) => (
+              <FormControlLabel
+                key={value}
+                value={value}
+                control={<Radio />}
+                label={label}
+                disabled={disabled}
+              />
+            ))}
+          </RadioGroup>
         </FormControl>
       )}
     />
   );
 };
-
-const StyledRadioGroup = styled(RadioGroup)`
-  width: 330px;
-`;

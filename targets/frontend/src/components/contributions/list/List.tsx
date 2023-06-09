@@ -22,8 +22,8 @@ export const ContributionsList = (): JSX.Element => {
     search,
   });
   return (
-    <>
-      <Stack direction="row" alignItems="start">
+    <Stack spacing={2}>
+      <Stack direction="row" alignItems="start" spacing={2}>
         <TextField
           label="Recherche"
           variant="outlined"
@@ -32,7 +32,6 @@ export const ContributionsList = (): JSX.Element => {
             setSearch(value ? `%${value}%` : undefined);
             setPage(0);
           }}
-          style={{ marginRight: 12 }}
           data-testid="contributions-list-search"
         />
         <TextField
@@ -51,7 +50,7 @@ export const ContributionsList = (): JSX.Element => {
         />
       </Stack>
 
-      <TableContainer component={Paper} style={{ height: "66vh" }}>
+      <TableContainer component={Paper}>
         <Table aria-label="collapsible table" size="small">
           <TableBody>
             {rows.map((row) => (
@@ -75,6 +74,6 @@ export const ContributionsList = (): JSX.Element => {
           }}
         />
       </Stack>
-    </>
+    </Stack>
   );
 };

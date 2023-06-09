@@ -2,12 +2,11 @@ import {
   Alert,
   AlertColor,
   Button,
-  Paper,
+  Card,
   Snackbar,
   Stack,
   Typography,
 } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -63,33 +62,35 @@ export const EditQuestionForm = ({
       const result = await updateQuestion(data);
       if (result.error) {
         setSnack({
-          message: result.error.message,
+          message: `Erreur: ${result.error.message}`,
           open: true,
           severity: "error",
         });
       } else {
-        setSnack({ open: true, severity: "success" });
+        setSnack({ open: true, severity: "success", message: "Sauvegardé" });
       }
-    } catch (e) {
-      setSnack({ open: true, severity: "error" });
+    } catch (e: any) {
+      setSnack({
+        open: true,
+        severity: "error",
+        message: `Erreur: ${e.message}`,
+      });
     }
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)} style={{ marginTop: 32 }}>
-        <Grid container spacing={4} columns={1} direction="column">
-          <Grid>
-            <FormTextField
-              name="content"
-              control={control}
-              label="Nom de la question"
-              rules={{ required: true }}
-              multiline
-              fullWidth
-            />
-          </Grid>
-          <Grid>
+    <Stack mt={4} spacing={2}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={4}>
+          <FormTextField
+            name="content"
+            control={control}
+            label="Nom de la question"
+            rules={{ required: true }}
+            multiline
+            fullWidth
+          />
+          <Stack spacing={2}>
             <FormSelect
               options={messages.map((item) => ({
                 label: item.label,
@@ -102,38 +103,32 @@ export const EditQuestionForm = ({
               fullWidth
             />
             {message && (
-              <Paper
-                elevation={3}
-                style={{
+              <Card
+                sx={{
                   background: "#f2f6fa",
-                  marginLeft: 16,
-                  marginRight: 16,
-                  marginTop: 8,
-                  padding: 16,
+                  padding: "16px",
                 }}
                 variant={"outlined"}
               >
                 <Typography variant="subtitle1">Texte applicable</Typography>
                 <Typography variant="body2">{message.content}</Typography>
-              </Paper>
+              </Card>
             )}
-          </Grid>
-          <Grid display="flex" justifyContent="end">
-            <Stack direction="row" spacing={2}>
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  router.back();
-                }}
-              >
-                Annuler
-              </Button>
-              <Button variant="contained" type="submit">
-                Sauvegarder
-              </Button>
-            </Stack>
-          </Grid>
-        </Grid>
+          </Stack>
+          <Stack direction="row" spacing={2} justifyContent="end">
+            <Button
+              variant="outlined"
+              onClick={() => {
+                router.back();
+              }}
+            >
+              Annuler
+            </Button>
+            <Button variant="contained" type="submit">
+              Sauvegarder
+            </Button>
+          </Stack>
+        </Stack>
       </form>
       <Snackbar
         open={snack.open}
@@ -146,10 +141,9 @@ export const EditQuestionForm = ({
           severity={snack.severity}
           sx={{ width: "100%" }}
         >
-          {snack?.severity}
-          {snack?.message ? `: ${snack.message}` : ""}
+          {snack.message}
         </Alert>
       </Snackbar>
-    </>
+    </Stack>
   );
 };

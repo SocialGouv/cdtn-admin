@@ -6,7 +6,7 @@ import { ContributionsList } from "../../components/contributions";
 
 export function ContributionsPage() {
   return (
-    <Layout title="contributions">
+    <Layout title="Contributions">
       <ContributionsList />
     </Layout>
   );

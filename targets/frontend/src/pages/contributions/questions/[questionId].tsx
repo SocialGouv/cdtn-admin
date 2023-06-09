@@ -11,7 +11,7 @@ export function EditAnswerPage() {
   const questionId = router?.query?.questionId as string;
 
   return (
-    <Layout>
+    <Layout title="Question">
       <EditQuestion questionId={questionId} />
     </Layout>
   );

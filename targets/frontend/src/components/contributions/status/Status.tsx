@@ -1,31 +1,29 @@
 import { Box, Stack, Tooltip } from "@mui/material";
 
-import { Status } from "../type";
+import { AnswerStatus } from "../type";
 import { statusesMapping } from "./data";
 
 export const StatusContainer = ({
-  status = "TODO",
-  user,
+  status,
   dataTestid,
 }: {
-  user?: string;
-  status?: Status;
+  status: AnswerStatus;
   dataTestid?: string;
 }) => {
   return (
-    <Tooltip title={`Par ${user}`}>
+    <Tooltip title={status.user?.name && `Par ${status.user.name}`}>
       <Stack
         direction="row"
         style={{
-          color: statusesMapping[status].color,
+          color: statusesMapping[status.status].color,
         }}
         alignItems="end"
         justifyContent="end"
         spacing={1}
         data-testid={dataTestid}
       >
-        <Box sx={{ marginTop: "2px" }}>{statusesMapping[status].text}</Box>
-        {statusesMapping[status].icon}
+        <Box mt={2}>{statusesMapping[status.status].text}</Box>
+        {statusesMapping[status.status].icon}
       </Stack>
     </Tooltip>
   );

@@ -1,4 +1,5 @@
 import { User } from "src/types";
+import { SourceRoute } from "@socialgouv/cdtn-sources";
 
 export type Agreement = {
   id: string;
@@ -27,6 +28,7 @@ export type Answer = {
   otherAnswer?: string;
   agreement: Agreement;
   statuses: AnswerStatus[];
+  status: AnswerStatus;
   content?: string;
   question: Omit<Question, "answers">;
   answer_comments: Comments[];
@@ -73,6 +75,6 @@ export type OtherReference = {
 export type CdtnReference = {
   title: string;
   cdtn_id: string;
-  source: string;
+  source: SourceRoute;
   slug: string;
 };

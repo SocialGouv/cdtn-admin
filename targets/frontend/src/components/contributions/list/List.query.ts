@@ -1,6 +1,7 @@
 import { useQuery } from "urql";
 
 import { Answer, Question } from "../type";
+import { initStatus } from "../status/utils";
 
 export const contributionListQuery = `query questions_answers($search: String, $agreementId: bpchar, $offset: Int, $limit: Int) {
   contribution_questions_aggregate(
@@ -42,8 +43,12 @@ export const contributionListQuery = `query questions_answers($search: String, $
     }
   }
 }`;
+export type QueryQuestionAnswer = Pick<
+  Answer,
+  "id" | "otherAnswer" | "agreement" | "status"
+>;
 export type QueryQuestion = Pick<Question, "id" | "content"> & {
-  answers: Pick<Answer, "id" | "otherAnswer" | "agreement" | "statuses">[];
+  answers: QueryQuestionAnswer[];
 };
 
 export type QueryResult = {
@@ -63,6 +68,18 @@ export type ContributionListQueryResult = {
   total: number;
 };
 
+function formatAnswers(questions: QueryQuestion[] | undefined) {
+  if (!questions) return [];
+
+  return questions.map((question) => {
+    question.answers = question.answers.map((answer) => {
+      answer.status = initStatus(answer);
+      return answer;
+    });
+    return question;
+  });
+}
+
 export const useContributionListQuery = ({
   agreementId,
   search,
@@ -80,7 +97,7 @@ export const useContributionListQuery = ({
     },
   });
   return {
-    rows: result.data?.contribution_questions ?? [],
-    total: result?.data?.contribution_questions_aggregate.aggregate.count ?? 0,
+    rows: formatAnswers(result.data?.contribution_questions),
+    total: result.data?.contribution_questions_aggregate.aggregate.count ?? 0,
   };
 };
