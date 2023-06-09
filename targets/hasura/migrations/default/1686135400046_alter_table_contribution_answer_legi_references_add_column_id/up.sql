@@ -7,4 +7,4 @@ ALTER TABLE "contribution"."answer_legi_references"
 ADD CONSTRAINT "answer_legi_references_pkey" PRIMARY KEY ("id");
 COMMIT TRANSACTION;
 alter table "contribution"."answer_legi_references"
-add constraint "answer_legi_references_answer_id_article_id_label_key" unique ("answer_id", "article_id", "label");
+add constraint "answer_legi_references_answer_id_article_id_label_key" unique ("answer_id", "article_id");
