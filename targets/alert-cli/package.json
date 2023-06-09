@@ -15,7 +15,7 @@
     "@socialgouv/dila-api-client": "1.2.4",
     "memoizee": "0.4.15",
     "node-fetch": "2.6.7",
-    "nodegit": "git+https://github.com/nodegit/nodegit",
+    "nodegit": "0.28.0-alpha.21",
     "p-map": "4",
     "semver": "7.3.5",
     "unist-util-parents": "1.0.3",
