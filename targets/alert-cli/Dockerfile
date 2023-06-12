@@ -18,11 +18,6 @@ RUN yarn workspace alert-cli build
 # app
 FROM bitmeal/nodegit:$IMAGE_VERSION
 
-RUN set -x \
-  && apt-get update \
-  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
-  && rm -rf /var/lib/apt/lists/*
-
 RUN npm i -g degit@0.28.0-alpha.21
 
 WORKDIR /app
