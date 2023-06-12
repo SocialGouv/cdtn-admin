@@ -1,5 +1,5 @@
 ARG IMAGE_VERSION=0.27-20-alpine
-
+ARG NODE_VERSION=20.2.0
 # dist
 FROM bitmeal/nodegit:$IMAGE_VERSION AS dist
 
@@ -16,9 +16,14 @@ RUN yarn workspace @shared/dila-resolver build
 RUN yarn workspace alert-cli build
 
 # app
-FROM bitmeal/nodegit:$IMAGE_VERSION
+FROM node:$NODE_VERSION
 
-RUN npm i -g degit@0.28.0-alpha.21
+RUN set -x \
+  && apt-get update \
+  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN npm i -g degit
 
 WORKDIR /app
 
