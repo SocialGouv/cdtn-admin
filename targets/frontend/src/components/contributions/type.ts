@@ -21,6 +21,7 @@ export type AnswerStatus = {
   userId: string;
   user: User;
 };
+
 export type Answer = {
   id: string;
   agreementId: string;

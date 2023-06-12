@@ -36,7 +36,7 @@ export type ContributionListQueryProps = {
 };
 
 export type ContributionListQueryResult = {
-  rows: Partial<QueryQuestion>[];
+  rows: QueryQuestion[];
 };
 
 function formatAnswers(questions: QueryQuestion[] | undefined) {
