@@ -5,8 +5,10 @@ FROM node:$NODE_VERSION AS dist
 
 RUN set -x \
   && apt-get update \
-  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
-  && rm -rf /var/lib/apt/lists/*
+  && apt-get install -y software-properties-common \
+  && add-apt-repository ppa:ubuntu-toolchain-r/test \
+  && apt-get update \
+  && apt-get install -y libstdc++-4.9-dev
 
 WORKDIR /
 
@@ -27,9 +29,11 @@ WORKDIR /app
 
 RUN set -x \
   && apt-get update \
-  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
-  && rm -rf /var/lib/apt/lists/*
-
+  && apt-get install -y software-properties-common \
+  && add-apt-repository ppa:ubuntu-toolchain-r/test \
+  && apt-get update \
+  && apt-get install -y libstdc++-4.9-dev
+  
 RUN npm i -g degit@0.28.0-alpha.21
 
 RUN mkdir -p /app/alert-cli/data/
