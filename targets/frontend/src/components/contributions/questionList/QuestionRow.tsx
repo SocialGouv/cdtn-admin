@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { StatusRecap } from "../status";
-import { QueryQuestion, QueryQuestionAnswer } from "./List.query";
+import { QueryQuestion, QueryQuestionAnswer } from "./QuestionList.query";
 
 const countAnswersWithStatus = (
   answers: QueryQuestionAnswer[] | undefined,

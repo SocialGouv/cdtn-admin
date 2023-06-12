@@ -1,3 +1,3 @@
 export * from "./QuestionList";
 export * from "./QuestionRow";
-export * from "./List.query";
+export * from "./QuestionList.query";

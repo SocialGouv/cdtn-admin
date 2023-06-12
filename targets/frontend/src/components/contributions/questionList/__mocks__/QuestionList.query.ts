@@ -1,7 +1,7 @@
 import { Status } from "../../type";
-import { ContributionListQueryProps, ContributionListQueryResult } from "..";
+import { QuestionListQueryProps } from "..";
 
-export const mock: ContributionListQueryResult = {
+export const mock: QuestionListQueryProps = {
   rows: [
     {
       answers: [
@@ -65,6 +65,6 @@ export const mock: ContributionListQueryResult = {
   total: 2,
 };
 
-export const useContributionListQuery = (props: ContributionListQueryProps) => {
+export const useQuestionListQuery = (props: QuestionListQueryProps) => {
   return mock;
 };

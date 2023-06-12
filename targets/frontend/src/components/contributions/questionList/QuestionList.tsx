@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { useQuestionListQuery } from "./List.query";
+import { useQuestionListQuery } from "./QuestionList.query";
 import { QuestionRow } from "./QuestionRow";
 
 export const QuestionList = (): JSX.Element => {

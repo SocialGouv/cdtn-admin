@@ -31,11 +31,11 @@ export type QueryResult = {
   contribution_questions_aggregate: { aggregate: { count: number } };
 };
 
-export type ContributionListQueryProps = {
+export type QuestionListQueryProps = {
   search?: string;
 };
 
-export type ContributionListQueryResult = {
+export type QuestionListQueryResult = {
   rows: QueryQuestion[];
 };
 
@@ -53,7 +53,7 @@ function formatAnswers(questions: QueryQuestion[] | undefined) {
 
 export const useQuestionListQuery = ({
   search,
-}: ContributionListQueryProps): ContributionListQueryResult => {
+}: QuestionListQueryProps): QuestionListQueryResult => {
   const [result] = useQuery<QueryResult>({
     query: questionListQuery,
     requestPolicy: "cache-and-network",

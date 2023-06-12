@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 
-import { ContributionsList } from "..";
+import { QuestionList } from "..";
 
-jest.mock("../List.query");
+jest.mock("../QuestionList.query");
 
 jest.mock("next/router", () => ({
   useRouter: () => {
@@ -11,9 +11,9 @@ jest.mock("next/router", () => ({
   },
 }));
 
-describe("ContributionsList", () => {
+describe("QuestionList", () => {
   beforeEach(() => {
-    render(<ContributionsList />);
+    render(<QuestionList />);
   });
   test("Verify inputs presence", () => {
     expect(screen.getByTestId("contributions-list-search")).toBeInTheDocument();
