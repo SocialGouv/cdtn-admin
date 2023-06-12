@@ -3,7 +3,7 @@ import { useQuery } from "urql";
 import { Answer, Question } from "../type";
 import { initStatus } from "../status/utils";
 
-export const contributionListQuery = `query questions_answers($search: String) {
+export const questionListQuery = `query questions_answers($search: String) {
   contribution_questions(
     where: {
       content: { _ilike: $search }
@@ -51,11 +51,11 @@ function formatAnswers(questions: QueryQuestion[] | undefined) {
   });
 }
 
-export const useContributionListQuery = ({
+export const useQuestionListQuery = ({
   search,
 }: ContributionListQueryProps): ContributionListQueryResult => {
   const [result] = useQuery<QueryResult>({
-    query: contributionListQuery,
+    query: questionListQuery,
     requestPolicy: "cache-and-network",
     variables: {
       search,

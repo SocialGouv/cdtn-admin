@@ -19,11 +19,16 @@ export type EditQuestionProps = {
   questionId: string;
 };
 
+enum TabValue {
+  answers = "1",
+  edition = "2",
+}
+
 export const EditQuestion = ({
   questionId,
 }: EditQuestionProps): JSX.Element => {
   const data = useQuestionQuery({ questionId });
-  const [value, setValue] = React.useState("1");
+  const [tabIndex, setTabIndex] = React.useState("1");
 
   if (data === undefined) {
     return (
@@ -74,8 +79,8 @@ export const EditQuestion = ({
     </>
   );
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+    setTabIndex(newValue);
   };
 
   return (
@@ -87,19 +92,19 @@ export const EditQuestion = ({
         spacing={2}
       >
         <Header />
-        <TabContext value={value}>
+        <TabContext value={tabIndex}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Réponses" value="1" />
-              <Tab label="Édition" value="2" />
+            <TabList onChange={handleTabChange}>
+              <Tab label="Réponses" value={TabValue.answers} />
+              <Tab label="Édition" value={TabValue.edition} />
             </TabList>
           </Box>
-          <TabPanel value="1">
+          <TabPanel value={TabValue.answers}>
             <EditQuestionAnswerList
               answers={data.question.answers}
             ></EditQuestionAnswerList>
           </TabPanel>
-          <TabPanel value="2">
+          <TabPanel value={TabValue.edition}>
             <EditQuestionForm
               question={data.question}
               messages={data.messages}

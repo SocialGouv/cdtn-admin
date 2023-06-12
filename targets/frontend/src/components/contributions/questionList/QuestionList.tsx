@@ -11,12 +11,12 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { useContributionListQuery } from "./List.query";
-import { ContributionsRow } from "./Row";
+import { useQuestionListQuery } from "./List.query";
+import { QuestionRow } from "./QuestionRow";
 
-export const ContributionsList = (): JSX.Element => {
+export const QuestionList = (): JSX.Element => {
   const [search, setSearch] = useState<string | undefined>();
-  const { rows } = useContributionListQuery({
+  const { rows } = useQuestionListQuery({
     search,
   });
   return (
@@ -43,7 +43,7 @@ export const ContributionsList = (): JSX.Element => {
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <ContributionsRow
+              <QuestionRow
                 key={row.content}
                 row={row}
                 data-testid="contributions-list-row"

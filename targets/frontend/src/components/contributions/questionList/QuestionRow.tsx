@@ -14,7 +14,7 @@ const countAnswersWithStatus = (
 ) =>
   answers?.filter(({ status }) => status?.status === statusToCount).length ?? 0;
 
-export const ContributionsRow = (props: { row: QueryQuestion }) => {
+export const QuestionRow = (props: { row: QueryQuestion }) => {
   const { row } = props;
   const router = useRouter();
 
