@@ -40,7 +40,7 @@ export const ContributionsRow = (props: { row: QueryQuestion }) => {
             validating={countAnswersWithStatus(row.answers, "VALIDATING")}
             validated={countAnswersWithStatus(row.answers, "VALIDATED")}
             published={countAnswersWithStatus(row.answers, "PUBLISHED")}
-            key={row.id}
+            key={`${row.id}-statuses`}
           />
         </TableCell>
       </TableRow>

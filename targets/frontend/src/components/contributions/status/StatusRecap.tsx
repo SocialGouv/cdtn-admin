@@ -13,14 +13,20 @@ export const StatusRecap = (props: {
   key: string;
 }) => {
   return (
-    <Stack direction="row" spacing={4} alignItems="end" justifyContent="end">
+    <Stack
+      key={props.key}
+      direction="row"
+      spacing={4}
+      alignItems="end"
+      justifyContent="end"
+    >
       {Object.entries(props).map(([status, value]) => {
         const { icon, color } = statusesMapping[status.toUpperCase() as Status];
         if (!value) return <></>;
         return (
           <Stack
+            key={`${props.key}-${status}`}
             direction="row"
-            key={`${props.key}-status`}
             style={{ color }}
             spacing={1}
           >
