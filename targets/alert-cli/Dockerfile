@@ -3,6 +3,11 @@ ARG NODE_VERSION=20.3.0
 # dist
 FROM node:$NODE_VERSION AS dist
 
+RUN set -x \
+  && apt-get update \
+  && apt-get install --no-install-recommends --yes libgssapi-krb5-2 ca-certificates git \
+  && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /
 
 COPY . /
