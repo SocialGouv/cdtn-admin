@@ -11,19 +11,12 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { Pagination } from "../../utils";
 import { useContributionListQuery } from "./List.query";
 import { ContributionsRow } from "./Row";
 
 export const ContributionsList = (): JSX.Element => {
-  const pageInterval = 12;
-  const [page, setPage] = useState<number>(0);
   const [search, setSearch] = useState<string | undefined>();
-  const [agreementId, setAgreementId] = useState<string | undefined>();
-  const { rows, total } = useContributionListQuery({
-    agreementId,
-    page,
-    pageInterval,
+  const { rows } = useContributionListQuery({
     search,
   });
   return (
@@ -35,23 +28,8 @@ export const ContributionsList = (): JSX.Element => {
           onChange={(event) => {
             const value = event.target.value;
             setSearch(value ? `%${value}%` : undefined);
-            setPage(0);
           }}
           data-testid="contributions-list-search"
-        />
-        <TextField
-          label="Idcc"
-          variant="outlined"
-          onChange={(event) => {
-            if (!event.target.value) {
-              setAgreementId(undefined);
-              return;
-            }
-            const s = "000" + event.target.value;
-            const value = s.substring(s.length - 4);
-            setAgreementId(value);
-          }}
-          data-testid="contributions-list-idcc"
         />
       </Stack>
 
@@ -61,7 +39,6 @@ export const ContributionsList = (): JSX.Element => {
             <TableRow>
               <TableCell>Question</TableCell>
               <TableCell align="center">Statut</TableCell>
-              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -75,16 +52,6 @@ export const ContributionsList = (): JSX.Element => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Stack alignItems="end">
-        <Pagination
-          page={page}
-          totalPage={total}
-          interval={pageInterval}
-          onPageChange={(page) => {
-            setPage(page);
-          }}
-        />
-      </Stack>
     </Stack>
   );
 };

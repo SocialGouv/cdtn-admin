@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
-import * as React from "react";
+import { useState } from "react";
 
 import { StatusRecap } from "../status";
 import { QueryQuestion, QueryQuestionAnswer } from "./List.query";
@@ -17,10 +17,19 @@ const countAnswersWithStatus = (
 export const ContributionsRow = (props: { row: Partial<QueryQuestion> }) => {
   const { row } = props;
   const router = useRouter();
+  const [isHover, setIsHover] = useState(false);
 
   return (
     <>
-      <TableRow key={row.id} data-testid={`row-${row.id}`}>
+      <TableRow
+        key={row.id}
+        data-testid={`row-${row.id}`}
+        onClick={() => {
+          router.push(`/contributions/questions/${row.id}`);
+        }}
+        style={{ cursor: "pointer" }}
+        hover
+      >
         <TableCell component="th" scope="row">
           {row.content}
         </TableCell>
@@ -33,18 +42,6 @@ export const ContributionsRow = (props: { row: Partial<QueryQuestion> }) => {
             validated={countAnswersWithStatus(row.answers, "VALIDATED")}
             published={countAnswersWithStatus(row.answers, "PUBLISHED")}
           />
-        </TableCell>
-        <TableCell>
-          <IconButton
-            aria-label="modifier"
-            size="small"
-            color="primary"
-            onClick={() => {
-              router.push(`/contributions/questions/${row.id}`);
-            }}
-          >
-            <ModeEditIcon />
-          </IconButton>
         </TableCell>
       </TableRow>
     </>

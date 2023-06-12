@@ -77,7 +77,7 @@ export function DocumentListContainer({ initialFilterValues }) {
           passHref
           style={{ textDecoration: "none" }}
         >
-          <Button size="small" outline variant="secondary">
+          <Button size="small" variant="secondary">
             <IoMdAdd
               sx={{
                 height: "iconSmall",

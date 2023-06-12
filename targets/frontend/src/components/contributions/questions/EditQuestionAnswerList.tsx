@@ -34,31 +34,25 @@ export const EditQuestionAnswerList = ({
                   <TableCell align="center">IDCC</TableCell>
                   <TableCell>Convention Collective</TableCell>
                   <TableCell>Statut</TableCell>
-                  <TableCell align="center"></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {answers?.map((answer) => {
                   return (
-                    <TableRow key={answer.agreement.id}>
+                    <TableRow
+                      key={answer.agreement.id}
+                      style={{ cursor: "pointer" }}
+                      hover
+                      onClick={() => {
+                        router.push(`/contributions/answers/${answer.id}`);
+                      }}
+                    >
                       <TableCell scope="row">{answer.agreement.id}</TableCell>
                       <TableCell scope="row">{answer.agreement.name}</TableCell>
                       <TableCell scope="row" align="center">
                         {answer.status && (
                           <StatusContainer status={answer.status} />
                         )}
-                      </TableCell>
-                      <TableCell scope="row">
-                        <IconButton
-                          aria-label="modifier"
-                          size="small"
-                          color="primary"
-                          onClick={() => {
-                            router.push(`/contributions/answers/${answer.id}`);
-                          }}
-                        >
-                          <ModeEditIcon />
-                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );
