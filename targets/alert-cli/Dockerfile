@@ -1,14 +1,7 @@
-ARG NODE_VERSION=20.2.0
+ARG IMAGE=0.27-20-alpine
 
 # dist
-FROM node:$NODE_VERSION AS dist
-
-RUN set -x \
-  && apt-get update \
-  && apt-get install -y software-properties-common \
-  && add-apt-repository ppa:ubuntu-toolchain-r/test \
-  && apt-get update \
-  && apt-get install -y libstdc++-4.9-dev
+FROM bitmeal/nodegit:$NODE_VERSION AS dist
 
 WORKDIR /
 
@@ -23,18 +16,9 @@ RUN yarn workspace @shared/dila-resolver build
 RUN yarn workspace alert-cli build
 
 # app
-FROM node:$NODE_VERSION
+FROM bitmeal/nodegit:$NODE_VERSION
 
 WORKDIR /app
-
-RUN set -x \
-  && apt-get update \
-  && apt-get install -y software-properties-common \
-  && add-apt-repository ppa:ubuntu-toolchain-r/test \
-  && apt-get update \
-  && apt-get install -y libstdc++-4.9-dev
-  
-RUN npm i -g degit@0.28.0-alpha.21
 
 RUN mkdir -p /app/alert-cli/data/
 
