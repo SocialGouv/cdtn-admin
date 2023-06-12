@@ -1,7 +1,7 @@
-ARG IMAGE=0.27-20-alpine
+ARG IMAGE_VERSION=0.27-20-alpine
 
 # dist
-FROM bitmeal/nodegit:$NODE_VERSION AS dist
+FROM bitmeal/nodegit:$IMAGE_VERSION AS dist
 
 WORKDIR /
 
@@ -16,7 +16,7 @@ RUN yarn workspace @shared/dila-resolver build
 RUN yarn workspace alert-cli build
 
 # app
-FROM bitmeal/nodegit:$NODE_VERSION
+FROM bitmeal/nodegit:$IMAGE_VERSION
 
 WORKDIR /app
 
