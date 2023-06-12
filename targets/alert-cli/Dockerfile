@@ -3,6 +3,8 @@ ARG NODE_VERSION=20.2.0
 # dist
 FROM bitmeal/nodegit:$IMAGE_VERSION AS dist
 
+RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
+
 WORKDIR /
 
 COPY . /
@@ -17,6 +19,8 @@ RUN yarn workspace alert-cli build
 
 # app
 FROM node:$NODE_VERSION
+
+RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 RUN set -x \
   && apt-get update \
