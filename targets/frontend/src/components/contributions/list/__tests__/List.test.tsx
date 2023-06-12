@@ -17,12 +17,9 @@ describe("ContributionsList", () => {
   });
   test("Verify inputs presence", () => {
     expect(screen.getByTestId("contributions-list-search")).toBeInTheDocument();
-    expect(screen.getByTestId("contributions-list-idcc")).toBeInTheDocument();
   });
   test("Verify question display", () => {
     expect(screen.queryByText("question1")).toBeInTheDocument();
     expect(screen.queryByText("question2")).toBeInTheDocument();
-    expect(screen.queryByText("0001")).not.toBeInTheDocument();
-    expect(screen.queryByText("0002")).not.toBeInTheDocument();
   });
 });

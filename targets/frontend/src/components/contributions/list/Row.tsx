@@ -41,6 +41,7 @@ export const ContributionsRow = (props: { row: Partial<QueryQuestion> }) => {
             validating={countAnswersWithStatus(row.answers, "VALIDATING")}
             validated={countAnswersWithStatus(row.answers, "VALIDATED")}
             published={countAnswersWithStatus(row.answers, "PUBLISHED")}
+            key={row.id}
           />
         </TableCell>
       </TableRow>
