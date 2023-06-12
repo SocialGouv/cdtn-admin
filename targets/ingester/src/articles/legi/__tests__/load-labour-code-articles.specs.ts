@@ -11,7 +11,7 @@ test("Load articles of labour code", async () => {
     {
       cid: "LEGIARTI000017961623",
       id: "LEGIARTI000018764571",
-      index: "L1",
+      label: "L1",
     },
   ]);
 });

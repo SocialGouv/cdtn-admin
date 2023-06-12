@@ -1,6 +1,6 @@
 import { useQuery } from "urql";
 
-import { Answer, AnswerStatus, Status } from "../type";
+import { Answer, AnswerStatus } from "../type";
 import { initStatus } from "../status/utils";
 
 const contributionAnswerQuery = `
@@ -35,17 +35,19 @@ query contribution_answer($id: uuid) {
       }
     }
     kali_references {
+     label
       kali_article {
         id
         path
         cid
         agreement_id
+        label
       }
     }
     legi_references {
       legi_article {
         id
-        index
+        label
         cid
       }
     }

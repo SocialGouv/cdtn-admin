@@ -7,6 +7,6 @@ select_permissions:
       columns:
         - id
         - cid
-        - index
+        - label
       filter: {}
       allow_aggregations: true

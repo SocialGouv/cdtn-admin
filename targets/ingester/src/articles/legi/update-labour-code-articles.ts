@@ -2,7 +2,7 @@ import { client } from "@shared/graphql-client";
 
 const insertLegiArticlesMutation = `
 mutation insert_legi_articles($articles: [legi_articles_insert_input!]!) {
-  insert_legi_articles(objects: $articles, on_conflict: {constraint: legi_articles_pkey, update_columns: index}) {
+  insert_legi_articles(objects: $articles, on_conflict: {constraint: legi_articles_pkey, update_columns: label}) {
     affected_rows
   }
 }
@@ -15,7 +15,7 @@ type Result = {
 type LegiArticlesInput = {
   cid: string;
   id: string;
-  index: string;
+  label: string;
 };
 
 export async function updateLabourCodeArticles(

@@ -1,4 +1,3 @@
-import { loadArticles } from "../../../lib/data-loaders";
 import { indexedArticle } from "../indexed-article";
 import Articles from "./articles.json";
 

@@ -10,6 +10,7 @@ query SearchKaliReferences($idcc: bpchar, $query: String) {
     cid
     id
     path
+    label
   }
 }
 `;
