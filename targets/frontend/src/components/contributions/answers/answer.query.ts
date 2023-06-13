@@ -1,5 +1,5 @@
 import { useQuery } from "urql";
-import {useMemo} from "react";
+import { useMemo } from "react";
 
 import { Answer, AnswerStatus } from "../type";
 import { initStatus } from "../status/utils";
@@ -81,13 +81,13 @@ type QueryResult = {
 export const useContributionAnswerQuery = ({
   id,
 }: QueryProps): AnswerWithStatus | undefined => {
-  const context = useMemo(() => ({ additionalTypenames: ['AnswerComments'] }), []);
+  // const context = useMemo(() => ({ additionalTypenames: ['AnswerComments'] }), []);
   const [result] = useQuery<QueryResult>({
     query: contributionAnswerQuery,
     variables: {
       id,
     },
-    context
+    // context
   });
   if (
     !result?.data?.contribution_answers ||

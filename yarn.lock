@@ -5210,7 +5210,15 @@
     "@0no-co/graphql.web" "^1.0.1"
     wonka "^6.3.2"
 
-"@urql/core@^2.4.3", "@urql/core@^2.4.4", "@urql/core@^2.6.1":
+"@urql/core@>=4.0.0", "@urql/core@^4.0.0":
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@urql/core/-/core-4.0.10.tgz#b227f161910d6f22d27bb308098e1181b949c302"
+  integrity sha512-Vs3nOSAnYftqOCg034Ostp/uSqWlQg5ryLIzcOrm8+O43s4M+Ew4GQAuemIH7ZDB8dek6h61zzWI3ujd8FH3NA==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.1"
+    wonka "^6.3.2"
+
+"@urql/core@^2.4.3", "@urql/core@^2.4.4":
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-2.6.1.tgz#c10ee972c5e81df6d7bf1e778ef1b5d30e2906e5"
   integrity sha512-gYrEHy3tViJhwIhauK6MIf2Qp09QTsgNHZRd0n71rS+hF6gdwjspf1oKljl4m25+272cJF7fPjBUGmjaiEr7Kg==
@@ -5232,6 +5240,15 @@
   dependencies:
     "@urql/core" ">=2.3.6"
     wonka "^4.0.14"
+
+"@urql/exchange-graphcache@^6.1.3":
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/@urql/exchange-graphcache/-/exchange-graphcache-6.1.3.tgz#bc0cfd319608cc7246fc60c8c13e63621d31993e"
+  integrity sha512-vK/Q5dazbIz8ugYdsoB480r8Bh9PmltBzDP/j6QxpNUHejODqywh/IYKyr65WZWt61M3ch6/vtdv7TSZVQkxqg==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.1"
+    "@urql/core" ">=4.0.0"
+    wonka "^6.3.2"
 
 "@vercel/ncc@0.34.0":
   version "0.34.0"
@@ -9859,7 +9876,7 @@ graphql-tag@^2.12.6:
   dependencies:
     tslib "^2.1.0"
 
-graphql@^16.0.0, graphql@^16.3.0:
+graphql@^16.3.0, graphql@^16.6.0:
   version "16.6.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
   integrity sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==
@@ -13404,10 +13421,10 @@ next-transpile-modules@^10.0.0:
   dependencies:
     enhanced-resolve "^5.10.0"
 
-next-urql@^3.2.1:
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/next-urql/-/next-urql-3.3.3.tgz#3eda3e57c0a51955deba7fd4fba250fc88846874"
-  integrity sha512-mKdpbvxW7FifHjupRKNjE1YuZxhLF+GlN/y1sARcUSEdrCv10dRkFGQl03p4UpWtdggCyZ5lOVBBaQGW7UNfiQ==
+next-urql@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/next-urql/-/next-urql-5.0.2.tgz#37a895b1844f3ab7c091526e0894caddd3abcf82"
+  integrity sha512-/ntMdlDNhduT1xmnZ0ZgH9Vtbaz/Gnx5VdTyExHjRqKpKnqZU49vHiik/qctscwFnPBVTRNxQ1BjhrOtfsm8oQ==
   dependencies:
     react-ssr-prepass "^1.4.0"
 
@@ -15591,7 +15608,7 @@ react-input-autosize@^2.2.2:
   dependencies:
     prop-types "^15.5.8"
 
-react-is@17.0.2, react-is@^17.0.1, react-is@^17.0.2:
+react-is@17.0.2, react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
@@ -18514,13 +18531,13 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-urql@^2.0.5:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/urql/-/urql-2.2.3.tgz#84c6ad962d771235106f24de56b5dc6bd85a2c3a"
-  integrity sha512-XMkSYJKW9s4ZlbSuxcUz3fTBIykOn0sGileRXQeyZpaRBXJPVz5saSY05k7jdefNxShZtTI+/nr7PYUWQertfg==
+urql@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/urql/-/urql-4.0.4.tgz#a9a06eb659585c48ceab012321b0e6254b699188"
+  integrity sha512-C5P4BMnAsk+rbytCWglit5ijXbIKXsa9wofSGPbuMyJKsDdL+9GfipS362Nff/Caag+eYOK5W+sox8fwEILT6Q==
   dependencies:
-    "@urql/core" "^2.6.1"
-    wonka "^4.0.14"
+    "@urql/core" "^4.0.0"
+    wonka "^6.3.2"
 
 use-callback-ref@^1.3.0:
   version "1.3.0"

@@ -50,11 +50,14 @@ export const Comments = (props: Props) => {
 
   const onSubmit = async (data: MutationProps) => {
     try {
-      await insertComment({
-        answerId: props.answerId,
-        content: data.content,
-        userId: user.id,
-      }, { additionalTypenames: ['AnswerComments'] });
+      await insertComment(
+        {
+          answerId: props.answerId,
+          content: data.content,
+          userId: user.id,
+        }
+        // { additionalTypenames: ["AnswerComments"] }
+      );
       setSnack({
         open: true,
         severity: "success",

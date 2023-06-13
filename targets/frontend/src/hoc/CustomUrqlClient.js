@@ -3,7 +3,9 @@ import {
   customAuthExchange,
   customErrorExchange,
 } from "src/lib/auth/exchanges";
-import { cacheExchange, dedupExchange, fetchExchange } from "urql";
+import { fetchExchange } from "urql";
+import { cacheExchange } from "@urql/exchange-graphcache";
+import schema from "./schema.json";
 
 export const withCustomUrqlClient = (Component) =>
   withUrqlClient(
@@ -17,13 +19,14 @@ export const withCustomUrqlClient = (Component) =>
         ctx?.pathname,
         url
       );
+      // const cache = cacheExchange({ schema });
+
       return {
         exchanges: [
           process.env.NODE_ENV !== "production"
             ? require("@urql/devtools").devtoolsExchange
             : null,
-          dedupExchange,
-          cacheExchange,
+          cacheExchange({ schema }),
           ssrExchange,
           customErrorExchange(),
           customAuthExchange(ctx),
