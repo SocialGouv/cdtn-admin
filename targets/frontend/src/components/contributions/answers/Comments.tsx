@@ -62,18 +62,16 @@ export const Comments = (props: Props) => {
         content: data.content,
         userId: user.id,
       });
-      if (localComments.length === 0) {
-        setLocalComments([
-          {
-            answerId: props.answerId,
-            content: data.content,
-            createdAt: new Date().toISOString(),
-            id: "new",
-            user,
-            userId: user.id,
-          } as any,
-        ]);
-      }
+      const localCommentsCopy = [...localComments]
+      localCommentsCopy.push({
+        answerId: props.answerId,
+        content: data.content,
+        createdAt: new Date().toISOString(),
+        id: "new",
+        user,
+        userId: user.id,
+      } as AnswerComments)
+      setLocalComments(localCommentsCopy);
       setSnack({
         open: true,
         severity: "success",
