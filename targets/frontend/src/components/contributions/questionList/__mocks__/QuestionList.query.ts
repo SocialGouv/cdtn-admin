@@ -1,37 +1,36 @@
-import { Status } from "../../type";
-import { QuestionListQueryProps } from "..";
+import { QuestionListQueryResult, QuestionListQueryProps } from "..";
 
-export const mock: QuestionListQueryProps = {
+export const mock: QuestionListQueryResult = {
   rows: [
     {
       answers: [
         {
-          agreement: {
-            id: "0001",
-            name: "CC 0001",
+          status: {
+            id: "1",
+            createdAt: "01/01/2023",
+            userId: "1",
+            status: "TODO",
+            user: {
+              name: "user1",
+              id: "1",
+              created_at: new Date(),
+              email: "user1@user.com",
+            },
           },
-          id: "answer1",
-          otherAnswer: "",
-          statuses: [],
         },
         {
-          agreement: {
-            id: "0002",
-            name: "CC 0002",
-          },
-          id: "answer2",
-          otherAnswer: "",
-          statuses: [
-            {
-              createdAt: "01/01/2023",
-              id: "id",
-              status: "REDACTING",
-              user: {
-                name: "toto",
-              },
-              userId: "toto",
+          status: {
+            id: "1",
+            createdAt: "01/01/2023",
+            userId: "1",
+            status: "REDACTING",
+            user: {
+              name: "user1",
+              id: "1",
+              created_at: new Date(),
+              email: "user1@user.com",
             },
-          ],
+          },
         },
       ],
       content: "question1",
@@ -40,29 +39,38 @@ export const mock: QuestionListQueryProps = {
     {
       answers: [
         {
-          agreement: {
-            id: "0002",
-            name: "CC 0002",
+          status: {
+            id: "1",
+            createdAt: "01/01/2023",
+            userId: "1",
+            status: "TODO",
+            user: {
+              name: "user1",
+              id: "1",
+              created_at: new Date(),
+              email: "user1@user.com",
+            },
           },
-          id: "answer3",
-          otherAnswer: "",
-          statuses: [],
         },
         {
-          agreement: {
-            id: "0002",
-            name: "CC 0002",
+          status: {
+            id: "1",
+            createdAt: "01/01/2023",
+            userId: "1",
+            status: "TODO",
+            user: {
+              name: "user1",
+              id: "1",
+              created_at: new Date(),
+              email: "user1@user.com",
+            },
           },
-          id: "answer4",
-          otherAnswer: "",
-          statuses: [],
         },
       ],
       content: "question2",
       id: "questionId2",
     },
   ],
-  total: 2,
 };
 
 export const useQuestionListQuery = (props: QuestionListQueryProps) => {
