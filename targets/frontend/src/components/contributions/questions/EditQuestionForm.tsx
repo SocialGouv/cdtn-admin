@@ -7,7 +7,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormSelect, FormTextField } from "src/components/forms";
@@ -28,7 +27,6 @@ export const EditQuestionForm = ({
   question,
   messages,
 }: EditQuestionProps): JSX.Element => {
-  const router = useRouter();
   const { control, watch, handleSubmit } = useForm<FormData>({
     defaultValues: {
       content: question.content,

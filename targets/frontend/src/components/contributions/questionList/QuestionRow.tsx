@@ -1,9 +1,6 @@
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import IconButton from "@mui/material/IconButton";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 import { StatusRecap } from "../status";
 import { QueryQuestion, QueryQuestionAnswer } from "./QuestionList.query";
