@@ -1,35 +1,29 @@
 type Mutation {
-  email_account_activation(
-    email: citext!
-    secret_token: uuid!
-  ): Status
+  email_account_activation(email: citext!, secret_token: uuid!): Status
 }
 
 type Mutation {
-  email_password_request(
-    email: citext!
-    secret_token: uuid!
-  ): Status
+  email_password_request(email: citext!, secret_token: uuid!): Status
 }
 
 type Query {
-  pipeline_status(
-    pipelineId: String!
-  ): PipelineStatus
+  pipeline_status(pipelineId: String!): PipelineStatus
 }
 
 type Mutation {
-  preview_document(
-    cdtnId: String!
-    document: jsonb!
-    source: String!
-  ): Status
+  preview_document(cdtnId: String!, document: jsonb!, source: String!): Status
+}
+
+type Query {
+  recentKaliReference(
+    agreementId: bpchar!
+    query: String!
+    limit: Int
+  ): RecentKaliReferenceOutput
 }
 
 type Mutation {
-  updatePipeline(
-    environment: String!
-  ): UpdatePipelineOutput
+  updatePipeline(environment: String!): UpdatePipelineOutput
 }
 
 input PreviewDocument {
@@ -77,3 +71,15 @@ type UpdatePipelineOutput {
   user_id: uuid!
 }
 
+type KaliArticles {
+  path: String!
+  label: String
+  id: String!
+  cid: String!
+  agreementId: String
+  createdAt: String
+}
+
+type RecentKaliReferenceOuput {
+  refs: [KaliArticles]
+}

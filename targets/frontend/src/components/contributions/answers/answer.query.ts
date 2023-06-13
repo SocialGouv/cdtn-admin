@@ -40,7 +40,7 @@ query contribution_answer($id: uuid) {
         id
         path
         cid
-        agreement_id
+        agreementId: agreement_id
         label
       }
     }

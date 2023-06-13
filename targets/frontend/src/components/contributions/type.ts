@@ -59,7 +59,8 @@ export type KaliReference = {
   id: string;
   path: string;
   label: string;
-  agreement_id: string;
+  agreementId: string;
+  createdAt: string;
 };
 
 export type LegiReference = {
