@@ -20,7 +20,12 @@ export function isTokenExpired() {
 }
 
 export async function auth(ctx) {
-  console.log("[ auth ] ctx ?", ctx ? true : false);
+  console.log(
+    "[ auth ] ctx ?",
+    ctx ? true : false,
+    "inMemoryToken",
+    inMemoryToken
+  );
   if (ctx?.token) {
     return ctx.token;
   }

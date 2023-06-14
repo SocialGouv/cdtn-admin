@@ -3,10 +3,12 @@ import { authExchange } from "@urql/exchange-auth";
 import { auth, getToken, isTokenExpired, setToken } from "src/lib/auth/token";
 
 import { request } from "../request";
+import { NextPageContext } from "next";
+import { Operation, OperationContext } from "urql";
 
-export function customAuthExchange(ctx) {
-  return authExchange({
-    addAuthToOperation: function addAuthToOperation({ authState, operation }) {
+export function customAuthExchange(ctx: NextPageContext | undefined) {
+  return authExchange<{ token: string }>({
+    addAuthToOperation: ({ authState, operation }) => {
       if (!authState?.token) {
         return operation;
       }
@@ -15,16 +17,26 @@ export function customAuthExchange(ctx) {
           ? operation.context.fetchOptions()
           : operation.context.fetchOptions || {};
 
-      return makeOperation(operation.kind, operation, {
-        ...operation.context,
-        fetchOptions: {
-          ...fetchOptions,
-          headers: {
-            ...fetchOptions.headers,
-            Authorization: `Bearer ${authState.token}`,
-          },
+      const fetchOptionsWithBearer: RequestInit = {
+        ...fetchOptions,
+        headers: {
+          ...fetchOptions.headers,
+          Authorization: `Bearer ${authState.token}`,
         },
-      });
+      };
+
+      const { _instance, ...oldOperation } = operation.context;
+      const context: OperationContext = {
+        ...oldOperation,
+        preferGetMethod: !!operation.context.preferGetMethod,
+        fetchOptions: fetchOptionsWithBearer,
+      };
+      const newOperation: Operation<any, any> = makeOperation(
+        operation.kind,
+        operation,
+        context
+      );
+      return newOperation as any;
     },
 
     didAuthError: ({ error }) => {
@@ -65,8 +77,7 @@ export function customAuthExchange(ctx) {
 
     willAuthError: ({ authState }) => {
       // e.g. check for expiration, existence of auth etc
-      if (!authState || isTokenExpired()) return true;
-      return false;
+      return !authState || isTokenExpired();
     },
   });
 }

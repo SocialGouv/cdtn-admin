@@ -1,12 +1,17 @@
 import cookie from "cookie";
+import { NextApiResponse } from "next";
 
-export function setJwtCookie(res, refresh_token, jwt_token) {
+export function setJwtCookie(
+  res: NextApiResponse,
+  refresh_token: string,
+  jwt_token: string
+) {
   const cookies = [
     cookie.serialize("refresh_token", refresh_token, {
       httpOnly: true,
-      maxAge: parseInt(process.env.REFRESH_TOKEN_EXPIRES, 10) * 60, // maxAge in second
+      maxAge: parseInt(process.env.REFRESH_TOKEN_EXPIRES!!, 10) * 60, // maxAge in second
       path: "/",
-      sameSite: "Strict",
+      sameSite: "strict",
       secure: process.env.NODE_ENV === "production",
     }),
   ];
@@ -15,7 +20,7 @@ export function setJwtCookie(res, refresh_token, jwt_token) {
       cookie.serialize("jwt", jwt_token, {
         httpOnly: true,
         path: "/",
-        sameSite: "Strict",
+        sameSite: "strict",
         secure: process.env.NODE_ENV === "production",
       })
     );

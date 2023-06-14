@@ -1,5 +1,5 @@
 import Boom from "@hapi/boom";
-import Joi from "@hapi/joi";
+import * as z from "zod";
 import { client } from "@shared/graphql-client";
 import { verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
@@ -7,34 +7,50 @@ import { generateJwtToken } from "src/lib/auth/jwt";
 import { setJwtCookie } from "src/lib/auth/setJwtCookie";
 import { getExpiryDate } from "src/lib/duration";
 
-import { loginQuery, refreshTokenMutation } from "./login.gql";
+import {
+  loginQuery,
+  LoginQueryResponse,
+  LoginQueryVariables,
+  refreshTokenMutation,
+  RefreshTokenMutationResponse,
+  RefreshTokenMutationVariables,
+} from "./login.gql";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const { REFRESH_TOKEN_EXPIRES = "", JWT_TOKEN_EXPIRES = "" } = process.env;
 
-export default async function login(req, res) {
+export const loginInputSchema = z.object({
+  password: z.string(),
+  username: z.string(),
+});
+
+export type LoginResponse = {
+  jwt_token: string;
+  jwt_token_expiry: Date;
+  refresh_token: string;
+};
+export default async function login(
+  req: NextApiRequest,
+  res: NextApiResponse<LoginResponse>
+) {
   const apiError = createErrorFor(res);
 
   if (req.method === "GET") {
     res.setHeader("Allow", ["POST"]);
     return apiError(Boom.methodNotAllowed("GET method not allowed"));
   }
-  // validate username and password
-  const schema = Joi.object({
-    password: Joi.string().required(),
-    username: Joi.string().required(),
-  });
 
-  const { error, value } = schema.validate(req.body);
+  const query = loginInputSchema.safeParse(req.body);
 
-  if (error) {
-    console.error(error);
-    return apiError(Boom.badRequest(error.details[0].message));
+  if (!query.success) {
+    console.error(query.error.format());
+    return apiError(Boom.badRequest(query.error.message));
   }
 
-  const { username, password } = value;
+  const { username, password } = query.data;
 
   const loginResult = await client
-    .query(loginQuery, {
+    .query<LoginQueryResponse, LoginQueryVariables>(loginQuery, {
       username,
     })
     .toPromise();
@@ -44,7 +60,7 @@ export default async function login(req, res) {
     return apiError(Boom.serverUnavailable("login error"));
   }
 
-  if (loginResult.data.users?.length === 0) {
+  if (!loginResult.data || loginResult.data.users?.length === 0) {
     console.error("No user with 'username'", username);
     return apiError(Boom.unauthorized("Invalid 'username' or 'password'"));
   }
@@ -70,15 +86,21 @@ export default async function login(req, res) {
 
   const jwt_token = generateJwtToken(user);
   const refreshTokenResult = await client
-    .mutation(refreshTokenMutation, {
-      refresh_token_data: {
-        expires_at: getExpiryDate(parseInt(REFRESH_TOKEN_EXPIRES, 10)),
-        user_id: user.id,
-      },
-    })
+    .mutation<RefreshTokenMutationResponse, RefreshTokenMutationVariables>(
+      refreshTokenMutation,
+      {
+        refresh_token_data: {
+          expires_at: getExpiryDate(parseInt(REFRESH_TOKEN_EXPIRES, 10)),
+          user_id: user.id,
+        },
+      }
+    )
     .toPromise();
 
-  if (refreshTokenResult.error) {
+  const refresh_token =
+    refreshTokenResult.data?.insert_data.returning[0].refresh_token;
+
+  if (refreshTokenResult.error || !refresh_token) {
     return apiError(
       Boom.badImplementation(
         "Could not update 'refresh token' for user",
@@ -86,8 +108,6 @@ export default async function login(req, res) {
       )
     );
   }
-
-  const { refresh_token } = refreshTokenResult.data.insert_data.returning[0];
 
   setJwtCookie(res, refresh_token, jwt_token);
 

@@ -1,3 +1,21 @@
+export type LoginQueryUserResponse = {
+  id: string;
+  password: string;
+  active: boolean;
+  deleted: boolean;
+  name: string;
+  default_role: string;
+  roles: [{ role: string }];
+};
+
+export type LoginQueryResponse = {
+  users: LoginQueryUserResponse[];
+};
+
+export type LoginQueryVariables = {
+  username: string;
+};
+
 export const loginQuery = `
   query login(
     $username: citext!
@@ -19,6 +37,21 @@ export const loginQuery = `
     }
   }
   `;
+
+export type RefreshTokenMutationVariables = {
+  refresh_token_data: {
+    expires_at: Date;
+    user_id: string;
+  };
+};
+
+export type RefreshTokenMutationResponse = {
+  insert_data: {
+    returning: {
+      refresh_token: string;
+    }[];
+  };
+};
 
 export const refreshTokenMutation = `
   mutation insertRefreshToken (

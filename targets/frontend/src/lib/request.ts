@@ -1,5 +1,8 @@
-export function request(endpoint, { body, ...customConfig } = {}) {
-  const config = {
+export function request(
+  endpoint: string,
+  { body, ...customConfig }: RequestInit = {}
+) {
+  const config: RequestInit = {
     method: body ? "POST" : "GET",
     ...customConfig,
     headers: {
@@ -11,7 +14,9 @@ export function request(endpoint, { body, ...customConfig } = {}) {
     if (typeof FormData !== "undefined" && body instanceof FormData) {
       config.body = body;
       // auto set by the browser with its specific multipart/form-data boundaries
-      delete config.headers["Content-Type"];
+      if (config.headers) {
+        delete (config.headers as any)["Content-Type"];
+      }
     } else {
       config.body = JSON.stringify(body);
     }

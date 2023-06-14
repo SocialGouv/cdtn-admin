@@ -1,13 +1,14 @@
-import { withUrqlClient } from "next-urql";
+import { SSRExchange, withUrqlClient } from "next-urql";
 import {
   customAuthExchange,
   customErrorExchange,
 } from "src/lib/auth/exchanges";
 import { cacheExchange, dedupExchange, fetchExchange } from "urql";
+import { NextPageContext } from "next";
 
-export const withCustomUrqlClient = (Component) =>
+export const withCustomUrqlClient = (Component: any) =>
   withUrqlClient(
-    (ssrExchange, ctx) => {
+    (ssrExchange: SSRExchange, ctx: NextPageContext | undefined) => {
       const url = ctx?.req
         ? `${process.env.FRONTEND_URL}/api/graphql`
         : `/api/graphql`;

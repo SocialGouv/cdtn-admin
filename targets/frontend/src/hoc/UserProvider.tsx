@@ -1,26 +1,25 @@
-import { decode } from "jsonwebtoken";
-import PropTypes from "prop-types";
+import { decode, JwtPayload } from "jsonwebtoken";
 import React, { createContext } from "react";
 import { getDisplayName } from "src/hoc/getDisplayName";
 import { Role } from "src/lib/auth/auth.const";
 import { auth } from "src/lib/auth/token";
 import { request } from "src/lib/request";
+import { NextPageContext } from "next";
+import { useRouter } from "next/router";
 
 export const UserContext = createContext({});
 
-export function withUserProvider(WrappedComponent) {
-  return class extends React.Component {
+export function withUserProvider(WrappedComponent: any) {
+  return class extends React.Component<{
+    tokenData: string;
+  }> {
     static displayName = `withUserProvider(${getDisplayName(
       WrappedComponent
     )})`;
 
-    static propTypes = {
-      tokenData: PropTypes.object,
-    };
-
-    static async getInitialProps(ctx) {
+    static async getInitialProps(ctx: NextPageContext) {
       const token = await auth(ctx);
-      console.log("[ withUserProvider ] ctx", ctx ? true : false);
+      console.log("[ withUserProvider ] ctx", !!ctx);
       const componentProps =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx));
@@ -30,6 +29,7 @@ export function withUserProvider(WrappedComponent) {
         tokenData: token ? decode(token.jwt_token) : null,
       };
     }
+
     render() {
       return (
         <ProvideUser tokenData={this.props.tokenData}>
@@ -40,10 +40,17 @@ export function withUserProvider(WrappedComponent) {
   };
 }
 
-export const ProvideUser = ({ children, tokenData }) => {
+export const ProvideUser = ({
+  children,
+  tokenData,
+}: {
+  children: React.ReactElement;
+  tokenData: null | JwtPayload | string;
+}) => {
+  const router = useRouter();
   let user = null;
   if (tokenData) {
-    const claims = tokenData["https://hasura.io/jwt/claims"];
+    const claims = (tokenData as any)["https://hasura.io/jwt/claims"];
     if (claims) {
       user = {
         id: claims["x-hasura-user-id"],
@@ -62,8 +69,9 @@ export const ProvideUser = ({ children, tokenData }) => {
     } catch (error) {
       console.error("[ client logout ] failed", error);
     }
-    window.location = "/login";
+    router.push("/login");
   }
+
   const isAuth = Boolean(user);
   const isAdmin = user?.roles.includes(Role.SUPER);
 
@@ -72,9 +80,4 @@ export const ProvideUser = ({ children, tokenData }) => {
       {children}
     </UserContext.Provider>
   );
-};
-
-ProvideUser.propTypes = {
-  children: PropTypes.node.isRequired,
-  tokenData: PropTypes.object,
 };
