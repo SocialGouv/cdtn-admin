@@ -28,7 +28,7 @@ export const EditQuestion = ({
   questionId,
 }: EditQuestionProps): JSX.Element => {
   const data = useQuestionQuery({ questionId });
-  const [tabIndex, setTabIndex] = React.useState("1");
+  const [tabIndex, setTabIndex] = React.useState(TabValue.answers);
 
   if (data === undefined) {
     return (
@@ -79,7 +79,7 @@ export const EditQuestion = ({
     </>
   );
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleTabChange = (event: React.SyntheticEvent, newValue: TabValue) => {
     setTabIndex(newValue);
   };
 
