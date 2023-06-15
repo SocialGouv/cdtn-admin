@@ -1,7 +1,16 @@
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import { Breadcrumbs, Skeleton, Stack, Typography } from "@mui/material";
+import {
+  Breadcrumbs,
+  Skeleton,
+  Stack,
+  Typography,
+  Box,
+  Tab,
+} from "@mui/material";
+import { TabList, TabPanel, TabContext } from "@mui/lab";
 import Link from "next/link";
 import React from "react";
+import { EditQuestionAnswerList } from "./EditQuestionAnswerList";
 
 import { EditQuestionForm } from "./EditQuestionForm";
 import { useQuestionQuery } from "./Question.query";
@@ -10,24 +19,20 @@ export type EditQuestionProps = {
   questionId: string;
 };
 
+enum TabValue {
+  answers = "1",
+  edition = "2",
+}
+
 export const EditQuestion = ({
   questionId,
 }: EditQuestionProps): JSX.Element => {
   const data = useQuestionQuery({ questionId });
-
-  const Header = () => (
-    <>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link href={"/contributions"}>Contributions</Link>
-        <div>{"Edition d'une question"}</div>
-      </Breadcrumbs>
-    </>
-  );
+  const [tabIndex, setTabIndex] = React.useState(TabValue.answers);
 
   if (data === undefined) {
     return (
       <>
-        <Header />
         <Skeleton />
       </>
     );
@@ -36,8 +41,6 @@ export const EditQuestion = ({
   if (data === "not_found") {
     return (
       <>
-        <Header />
-
         <Stack alignItems="center" spacing={2}>
           <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
           <Typography variant="h5" component="h3" color="error">
@@ -54,8 +57,6 @@ export const EditQuestion = ({
   if (data === "error") {
     return (
       <>
-        <Header />
-
         <Stack alignItems="center" spacing={2}>
           <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
           <Typography variant="h5" component="h3" color="error">
@@ -69,10 +70,48 @@ export const EditQuestion = ({
     );
   }
 
+  const Header = () => (
+    <>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link href={"/contributions"}>Contributions</Link>
+        <div>{data?.question?.content}</div>
+      </Breadcrumbs>
+    </>
+  );
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: TabValue) => {
+    setTabIndex(newValue);
+  };
+
   return (
     <>
-      <Header />
-      <EditQuestionForm question={data.question} messages={data.messages} />
+      <Stack
+        alignItems="stretch"
+        direction="column"
+        justifyContent="start"
+        spacing={2}
+      >
+        <Header />
+        <TabContext value={tabIndex}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList onChange={handleTabChange}>
+              <Tab label="Réponses" value={TabValue.answers} />
+              <Tab label="Édition" value={TabValue.edition} />
+            </TabList>
+          </Box>
+          <TabPanel value={TabValue.answers}>
+            <EditQuestionAnswerList
+              answers={data.question.answers}
+            ></EditQuestionAnswerList>
+          </TabPanel>
+          <TabPanel value={TabValue.edition}>
+            <EditQuestionForm
+              question={data.question}
+              messages={data.messages}
+            />
+          </TabPanel>
+        </TabContext>
+      </Stack>
     </>
   );
 };
