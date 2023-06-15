@@ -2,11 +2,8 @@ name: 👀 Review
 on:
   push:
     branches:
-      - "**"
-      - "!master"
-      - "!main"
-      - "!feat/**"
-      - "!fix/**"
+      - "renovate/**"
+      - "dependabot/**"
 
 concurrency:
   cancel-in-progress: true

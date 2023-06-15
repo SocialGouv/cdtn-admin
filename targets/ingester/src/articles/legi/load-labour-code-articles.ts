@@ -5,7 +5,7 @@ import parents from "unist-util-parents";
 export type NormalizedArticle = {
   id: string;
   cid: string;
-  index: string;
+  label: string;
 };
 
 function convertCodeArticleToArticle(
@@ -14,12 +14,12 @@ function convertCodeArticleToArticle(
   const {
     data: { cid, id, num },
   } = codeArticle;
-  const index = num;
+  const label = num;
 
   return {
     cid,
     id,
-    index,
+    label,
   };
 }
 
