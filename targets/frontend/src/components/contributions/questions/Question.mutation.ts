@@ -1,6 +1,6 @@
 import { OperationResult, useMutation } from "urql";
 
-import { Question } from "./type";
+import { Question } from "../type";
 
 export const questionUpdateMutation = `
 mutation contributionQuestionUpdate($id: uuid!, $content: String, $message_id: uuid!) {
