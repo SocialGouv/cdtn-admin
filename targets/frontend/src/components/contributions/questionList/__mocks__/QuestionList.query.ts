@@ -1,36 +1,30 @@
 import { QuestionListQueryResult, QuestionListQueryProps } from "..";
+import { AnswerStatus, Status } from "../../type";
+
+const createAnswerStatus = (status: Status): AnswerStatus => {
+  return {
+    id: "1",
+    createdAt: "01/01/2023",
+    userId: "1",
+    status,
+    user: {
+      name: "user1",
+      id: "1",
+      created_at: new Date(),
+      email: "user1@user.com",
+    },
+  };
+};
 
 export const mock: QuestionListQueryResult = {
   rows: [
     {
       answers: [
         {
-          status: {
-            id: "1",
-            createdAt: "01/01/2023",
-            userId: "1",
-            status: "TODO",
-            user: {
-              name: "user1",
-              id: "1",
-              created_at: new Date(),
-              email: "user1@user.com",
-            },
-          },
+          status: createAnswerStatus("TODO"),
         },
         {
-          status: {
-            id: "1",
-            createdAt: "01/01/2023",
-            userId: "1",
-            status: "REDACTING",
-            user: {
-              name: "user1",
-              id: "1",
-              created_at: new Date(),
-              email: "user1@user.com",
-            },
-          },
+          status: createAnswerStatus("REDACTING"),
         },
       ],
       content: "question1",
@@ -39,32 +33,10 @@ export const mock: QuestionListQueryResult = {
     {
       answers: [
         {
-          status: {
-            id: "1",
-            createdAt: "01/01/2023",
-            userId: "1",
-            status: "TODO",
-            user: {
-              name: "user1",
-              id: "1",
-              created_at: new Date(),
-              email: "user1@user.com",
-            },
-          },
+          status: createAnswerStatus("TODO"),
         },
         {
-          status: {
-            id: "1",
-            createdAt: "01/01/2023",
-            userId: "1",
-            status: "TODO",
-            user: {
-              name: "user1",
-              id: "1",
-              created_at: new Date(),
-              email: "user1@user.com",
-            },
-          },
+          status: createAnswerStatus("TODO"),
         },
       ],
       content: "question2",
