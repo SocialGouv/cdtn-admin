@@ -2,6 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getIntrospectionQuery } from "graphql";
 import fetch from "node-fetch"; // or your preferred request in Node.js
 import * as fs from "fs";
+import {
+  getIntrospectedSchema,
+  minifyIntrospectionQuery,
+} from "@urql/introspection";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (req: NextApiRequest, res: NextApiResponse) => {
@@ -23,16 +27,10 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     )
       .then((result) => result.json())
       .then(({ data }) => {
-        fs.writeFile("./schema.json", JSON.stringify(data), (err) => {
-          if (err) {
-            res.status(500).json({
-              err: JSON.stringify(err),
-            });
-            return;
-          }
-          res.status(200).json({
-            result: "Schema written!",
-          });
+        const minified = minifyIntrospectionQuery(getIntrospectedSchema(data));
+        fs.writeFileSync("./schema.json", JSON.stringify(minified));
+        res.status(200).json({
+          result: "Schema written!",
         });
       });
   }

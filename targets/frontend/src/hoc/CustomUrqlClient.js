@@ -3,7 +3,7 @@ import {
   customAuthExchange,
   customErrorExchange,
 } from "src/lib/auth/exchanges";
-import { fetchExchange } from "urql";
+import { dedupExchange, fetchExchange } from "@urql/core";
 import { cacheExchange } from "@urql/exchange-graphcache";
 import schema from "./schema.json";
 
@@ -19,7 +19,6 @@ export const withCustomUrqlClient = (Component) =>
         ctx?.pathname,
         url
       );
-      // const cache = cacheExchange({ schema });
 
       return {
         exchanges: [
@@ -30,6 +29,7 @@ export const withCustomUrqlClient = (Component) =>
           ssrExchange,
           customErrorExchange(),
           customAuthExchange(ctx),
+          dedupExchange,
           fetchExchange,
         ].filter(Boolean),
         requestPolicy: "cache-first",
