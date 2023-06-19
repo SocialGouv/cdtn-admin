@@ -1,23 +1,26 @@
 import type { AlertChanges } from "@shared/types";
-import type { Commit } from "nodegit";
 
-export type Source = {
+export interface Source {
   repository: string;
   tag: string;
-};
+}
 
-export type RepoAlert = {
+export interface RepoAlert {
   repository: string;
   newRef: string;
   changes: AlertChanges[];
-};
+}
 
-export type GitTagData = {
+export interface Commit {
+  date: Date;
+}
+
+export interface GitTagData {
   ref: string;
   commit: Commit;
-};
+}
 
-export type FicheVddIndex = {
+export interface FicheVddIndex {
   id: string;
   date: string;
   subject: string;
@@ -25,21 +28,21 @@ export type FicheVddIndex = {
   title: string;
   type: string;
   breadcrumbs: Theme[];
-};
+}
 
-type Theme = {
+interface Theme {
   id: string;
   text: string;
-};
+}
 
-export type FicheVdd = {
+export interface FicheVdd {
   id: string;
   children: FicheVddNode[];
-};
+}
 
-export type FicheVddNode = {
+export interface FicheVddNode {
   type: string;
   name: string;
   children?: FicheVddNode[];
   text?: string;
-};
+}

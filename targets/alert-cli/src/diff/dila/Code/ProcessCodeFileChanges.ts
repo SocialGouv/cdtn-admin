@@ -1,38 +1,40 @@
 import type { Code } from "@socialgouv/legi-data-types";
-import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../../../node-git.helpers";
 import type { CodeFileChange } from "./types";
+import { Diff, DiffFile, LoadFileFn } from "../../type";
+import { GitTagData } from "../../../types";
 
 const codeFileChanges = async (
-  file: string,
-  prevTree: Tree,
-  currTree: Tree
+  file: DiffFile,
+  loadFile: LoadFileFn,
+  from: GitTagData,
+  to: GitTagData
 ): Promise<CodeFileChange> => {
-  const toAst = createToJson<Code>(file);
-  const [current, previous] = await Promise.all(
-    [currTree, prevTree].map(toAst)
-  );
+  const toAst = createToJson<Code>(loadFile);
+  const [current, previous] = await Promise.all([
+    toAst(file, from),
+    toAst(file, to),
+  ]);
   return {
     current,
-    file,
+    file: file.filename,
     previous,
     type: "legi" as const,
   };
 };
 
 const processCodeFileChanges = async (
-  patches: ConvenientPatch[],
+  diff: Diff,
   fileFilter: (path: string) => boolean,
-  prevTree: Tree,
-  currTree: Tree
+  loadFile: LoadFileFn
 ): Promise<CodeFileChange[]> => {
-  const filteredPatches = patches.filter((patch) =>
-    fileFilter(patch.newFile().path())
+  const filteredPatches = diff.files.filter((patch) =>
+    fileFilter(patch.filename)
   );
   return Promise.all(
     filteredPatches.map(async (patch) =>
-      codeFileChanges(patch.newFile().path(), prevTree, currTree)
+      codeFileChanges(patch, loadFile, diff.from, diff.to)
     )
   );
 };

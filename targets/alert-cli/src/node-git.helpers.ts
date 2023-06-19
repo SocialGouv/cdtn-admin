@@ -1,13 +1,11 @@
-import type { ConvenientPatch, Tree } from "nodegit";
+import { DiffFile, LoadFileFn } from "./diff/type";
+import { GitTagData } from "./types";
 
-export function getFilename(patch: ConvenientPatch): string {
-  return patch.newFile().path();
+export function getFilename(patch: DiffFile): string {
+  return patch.filename;
 }
 
-export function createToJson<T>(file: string) {
-  return async (tree: Tree): Promise<T> =>
-    tree
-      .getEntry(file)
-      .then(async (entry) => entry.getBlob())
-      .then((blob) => JSON.parse(blob.toString()) as T);
+export function createToJson<T>(loadFile: LoadFileFn) {
+  return async (fileDiff: DiffFile, tag: GitTagData): Promise<T> =>
+    loadFile(fileDiff, tag).then((blob) => JSON.parse(blob.toString()) as T);
 }

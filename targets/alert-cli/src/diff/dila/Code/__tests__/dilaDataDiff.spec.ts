@@ -1,17 +1,17 @@
 import { describe, expect } from "@jest/globals";
-import type { Commit } from "nodegit";
 
 import ProcessCodeChanges from "../ProcessCodeChanges";
 import type { CodeFileChange } from "../types";
 import irrevelantChanges from "./dataset/filechanges_legi_code_irrevelant_changes.json";
 import noChanges from "./dataset/filechanges_legi_code_no_changes.json";
 import revelantChanges from "./dataset/filechanges_legi_code_revelant_changes.json";
+import { Commit } from "../../../../types";
 
 describe("Calcul des différences sur les code (legi-data)", () => {
   describe("Aucun changement", () => {
     it("doit détecter aucun changement", async () => {
       const result = await ProcessCodeChanges(
-        { commit: {} as Commit, ref: "" },
+        { commit: { date: new Date() } as Commit, ref: "" },
         noChanges as unknown as CodeFileChange[],
         async () => Promise.resolve([])
       );

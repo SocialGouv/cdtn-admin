@@ -1,17 +1,20 @@
 import type { FicheVddInfo, VddChanges } from "@shared/types";
-import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson } from "../node-git.helpers";
-import type { FicheVdd, FicheVddIndex, FicheVddNode } from "../types";
+import type {
+  FicheVdd,
+  FicheVddIndex,
+  FicheVddNode,
+  GitTagData,
+} from "../types";
 import { vddPrequalifiedRelevantDocuments } from "./pre-qualified-relevant-content";
-import type { DataDiffFunction } from "./type";
+import type { DataDiffFunction, DiffFile, LoadFileFn } from "./type";
 
 export const processVddDiff: DataDiffFunction = async ({
   tag,
   patches,
   fileFilter,
-  prevTree,
-  currTree,
+  loadFile,
 }) => {
   const changes: VddChanges = {
     added: [],
@@ -20,32 +23,33 @@ export const processVddDiff: DataDiffFunction = async ({
     removed: [],
   };
 
-  const filteredPatches = patches.filter((patch) =>
-    fileFilter(patch.newFile().path())
+  const filteredPatches = patches.files.filter((patch) =>
+    fileFilter(patch.filename)
   );
 
   changes.removed = await Promise.all(
     filteredPatches
-      .filter((patch) => patch.isDeleted())
-      .map(async (patch) => toSimpleVddChange(patch, prevTree))
+      .filter((patch) => patch.status === "removed")
+      .map(async (patch) => toSimpleVddChange(patches.from, patch, loadFile))
   );
 
   // handle added patch smarter
-  const index = await createToJson<FicheVddIndex[]>("data/index.json")(
-    currTree
+  const index = await createToJson<FicheVddIndex[]>(loadFile)(
+    { filename: "data/index.json", status: "added" },
+    patches.to
   );
   const mayInterestCdtn = createCdtnMatcherFile(index);
   changes.added = await Promise.all(
-    patches.flatMap((patch) => {
-      if (patch.isAdded() && mayInterestCdtn(patch.newFile().path())) {
-        return toSimpleVddChange(patch, currTree);
+    patches.files.flatMap((patch) => {
+      if (patch.status === "added" && mayInterestCdtn(patch.filename)) {
+        return toSimpleVddChange(patches.to, patch, loadFile);
       }
       return [];
     })
   );
 
   const modified = filteredPatches.flatMap((patch) =>
-    patch.isModified() ? [patch.newFile().path()] : []
+    patch.status === "modified" ? [patch.filename] : []
   );
 
   const particuliers = modified.filter((path) => path.includes("particuliers"));
@@ -92,10 +96,11 @@ export const processVddDiff: DataDiffFunction = async ({
         return;
       }
 
-      const toJson = createToJson<FicheVdd>(fichePath);
-      const [previousJSON, currentJSON] = await Promise.all(
-        [prevTree, currTree].map(toJson)
-      );
+      const toJson = createToJson<FicheVdd>(loadFile);
+      const [previousJSON, currentJSON] = await Promise.all([
+        toJson({ filename: fichePath, status: "modified" }, patches.from),
+        toJson({ filename: fichePath, status: "modified" }, patches.to),
+      ]);
       const previousText = getTextFromRawFiche(previousJSON);
       const currentText = getTextFromRawFiche(currentJSON);
       if (previousText !== currentText) {
@@ -125,7 +130,7 @@ export const processVddDiff: DataDiffFunction = async ({
   console.log(`${tag.ref} ${documents.length} prequalified/themes found`);
   return [
     {
-      date: tag.commit.date(),
+      date: tag.commit.date,
       ref: tag.ref,
       title: "fiche service-public",
       type: "vdd",
@@ -182,16 +187,17 @@ function getText(element?: FicheVddNode): string {
 }
 
 async function toSimpleVddChange(
-  patch: ConvenientPatch,
-  tree: Tree
+  tag: GitTagData,
+  patch: DiffFile,
+  loadFile: LoadFileFn
 ): Promise<FicheVddInfo> {
-  const filepath = patch.newFile().path();
+  const filepath = patch.filename;
   const match = /(\w+)\/(\w+)\.json$/.exec(filepath);
   if (!match) {
     throw new Error(`[toSimpleVddChange] Can't parse ${filepath}`);
   }
-  const toJson = createToJson<FicheVdd>(patch.newFile().path());
-  const fiche = await toJson(tree);
+  const toJson = createToJson<FicheVdd>(loadFile);
+  const fiche = await toJson(patch, tag);
   return {
     id: match[2],
     title: getTitleFromRawFiche(fiche),
