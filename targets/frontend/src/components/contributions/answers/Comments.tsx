@@ -23,13 +23,6 @@ type Props = {
 
 export const Comments = (props: Props) => {
   const { user }: any = useUser();
-  const [localComments, setLocalComments] = React.useState<AnswerComments[]>(
-    props.comments ?? []
-  );
-
-  React.useEffect(() => {
-    setLocalComments(props.comments);
-  }, [props.comments]);
 
   const listRef = React.useRef<HTMLDivElement>(null);
 
@@ -53,7 +46,7 @@ export const Comments = (props: Props) => {
     if (listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
-  }, [localComments]);
+  }, [props.comments]);
 
   const onSubmit = async (data: MutationProps) => {
     try {
@@ -61,19 +54,7 @@ export const Comments = (props: Props) => {
         answerId: props.answerId,
         content: data.content,
         userId: user.id,
-      });
-      if (localComments.length === 0) {
-        setLocalComments([
-          {
-            answerId: props.answerId,
-            content: data.content,
-            createdAt: new Date().toISOString(),
-            id: "new",
-            user,
-            userId: user.id,
-          } as any,
-        ]);
-      }
+      }, { additionalTypenames: ['AnswerComments'] });
       setSnack({
         open: true,
         severity: "success",
@@ -104,7 +85,7 @@ export const Comments = (props: Props) => {
               overflow: "auto",
             }}
           >
-            {localComments.map((comment) => (
+            {props.comments.map((comment) => (
               <Comment key={comment.id} comment={comment} />
             ))}
           </Box>

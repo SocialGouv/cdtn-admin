@@ -32,7 +32,7 @@
     "@urql/exchange-auth": "^0.1.6",
     "@zeit/next-source-maps": "0.0.4-canary.1",
     "ace-builds": "^1.4.12",
-    "argon2": "^0.28.2",
+    "argon2": "^0.30.3",
     "cookie": "^0.4.1",
     "d3": "^6.7.0",
     "d3-hierarchy": "^2.0.0",
