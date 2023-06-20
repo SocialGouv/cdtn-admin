@@ -6,8 +6,8 @@ import {
   Typography,
   Box,
   Tab,
+  Tabs,
 } from "@mui/material";
-import { TabList, TabPanel, TabContext } from "@mui/lab";
 import Link from "next/link";
 import React from "react";
 import { EditQuestionAnswerList } from "./EditQuestionAnswerList";
@@ -20,15 +20,21 @@ export type EditQuestionProps = {
 };
 
 enum TabValue {
-  answers = "1",
-  edition = "2",
+  answers = 0,
+  edition = 1,
+}
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: TabValue;
+  value: TabValue;
 }
 
 export const EditQuestion = ({
   questionId,
 }: EditQuestionProps): JSX.Element => {
   const data = useQuestionQuery({ questionId });
-  const [tabIndex, setTabIndex] = React.useState(TabValue.answers);
+  const [tabIndex, setTabIndex] = React.useState<TabValue>(TabValue.answers);
 
   if (data === undefined) {
     return (
@@ -83,6 +89,33 @@ export const EditQuestion = ({
     setTabIndex(newValue);
   };
 
+  function a11yProps(index: TabValue) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+
+  function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+
   return (
     <>
       <Stack
@@ -92,25 +125,24 @@ export const EditQuestion = ({
         spacing={2}
       >
         <Header />
-        <TabContext value={tabIndex}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleTabChange}>
-              <Tab label="Réponses" value={TabValue.answers} />
-              <Tab label="Édition" value={TabValue.edition} />
-            </TabList>
-          </Box>
-          <TabPanel value={TabValue.answers}>
-            <EditQuestionAnswerList
-              answers={data.question.answers}
-            ></EditQuestionAnswerList>
-          </TabPanel>
-          <TabPanel value={TabValue.edition}>
-            <EditQuestionForm
-              question={data.question}
-              messages={data.messages}
-            />
-          </TabPanel>
-        </TabContext>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={tabIndex}
+            onChange={handleTabChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Réponses" {...a11yProps(TabValue.answers)} />
+            <Tab label="Édition" {...a11yProps(TabValue.edition)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={tabIndex} index={TabValue.answers}>
+          <EditQuestionAnswerList
+            answers={data.question.answers}
+          ></EditQuestionAnswerList>
+        </TabPanel>
+        <TabPanel value={tabIndex} index={TabValue.edition}>
+          <EditQuestionForm question={data.question} messages={data.messages} />
+        </TabPanel>
       </Stack>
     </>
   );
