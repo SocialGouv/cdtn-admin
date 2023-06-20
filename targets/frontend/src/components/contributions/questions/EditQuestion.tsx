@@ -1,7 +1,16 @@
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import { Breadcrumbs, Skeleton, Stack, Typography } from "@mui/material";
+import {
+  Breadcrumbs,
+  Skeleton,
+  Stack,
+  Typography,
+  Box,
+  Tab,
+  Tabs,
+} from "@mui/material";
 import Link from "next/link";
 import React from "react";
+import { EditQuestionAnswerList } from "./EditQuestionAnswerList";
 
 import { EditQuestionForm } from "./EditQuestionForm";
 import { useQuestionQuery } from "./Question.query";
@@ -10,24 +19,26 @@ export type EditQuestionProps = {
   questionId: string;
 };
 
+enum TabValue {
+  answers = 0,
+  edition = 1,
+}
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: TabValue;
+  value: TabValue;
+}
+
 export const EditQuestion = ({
   questionId,
 }: EditQuestionProps): JSX.Element => {
   const data = useQuestionQuery({ questionId });
-
-  const Header = () => (
-    <>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link href={"/contributions"}>Contributions</Link>
-        <div>{"Edition d'une question"}</div>
-      </Breadcrumbs>
-    </>
-  );
+  const [tabIndex, setTabIndex] = React.useState<TabValue>(TabValue.answers);
 
   if (data === undefined) {
     return (
       <>
-        <Header />
         <Skeleton />
       </>
     );
@@ -36,8 +47,6 @@ export const EditQuestion = ({
   if (data === "not_found") {
     return (
       <>
-        <Header />
-
         <Stack alignItems="center" spacing={2}>
           <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
           <Typography variant="h5" component="h3" color="error">
@@ -54,8 +63,6 @@ export const EditQuestion = ({
   if (data === "error") {
     return (
       <>
-        <Header />
-
         <Stack alignItems="center" spacing={2}>
           <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
           <Typography variant="h5" component="h3" color="error">
@@ -69,10 +76,74 @@ export const EditQuestion = ({
     );
   }
 
+  const Header = () => (
+    <>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link href={"/contributions"}>Contributions</Link>
+        <div>{data?.question?.content}</div>
+      </Breadcrumbs>
+    </>
+  );
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: TabValue) => {
+    setTabIndex(newValue);
+  };
+
+  function a11yProps(index: TabValue) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+
+  function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+
   return (
     <>
-      <Header />
-      <EditQuestionForm question={data.question} messages={data.messages} />
+      <Stack
+        alignItems="stretch"
+        direction="column"
+        justifyContent="start"
+        spacing={2}
+      >
+        <Header />
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={tabIndex}
+            onChange={handleTabChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Réponses" {...a11yProps(TabValue.answers)} />
+            <Tab label="Édition" {...a11yProps(TabValue.edition)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={tabIndex} index={TabValue.answers}>
+          <EditQuestionAnswerList
+            answers={data.question.answers}
+          ></EditQuestionAnswerList>
+        </TabPanel>
+        <TabPanel value={tabIndex} index={TabValue.edition}>
+          <EditQuestionForm question={data.question} messages={data.messages} />
+        </TabPanel>
+      </Stack>
     </>
   );
 };

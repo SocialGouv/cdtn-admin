@@ -1,5 +1,4 @@
 import { useQuery } from "urql";
-import { useMemo } from "react";
 
 import { Answer, AnswerStatus } from "../type";
 import { initStatus } from "../status/utils";
