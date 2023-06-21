@@ -13,8 +13,8 @@ const codeFileChanges = async (
 ): Promise<CodeFileChange> => {
   const toAst = createToJson<Code>(loadFile);
   const [current, previous] = await Promise.all([
-    toAst(file, from),
     toAst(file, to),
+    toAst(file, from),
   ]);
   return {
     current,

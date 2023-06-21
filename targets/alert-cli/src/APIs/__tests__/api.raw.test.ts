@@ -22,7 +22,7 @@ mockFetch.mockImplementation((url) => {
 });
 
 describe("Github API: raw file", () => {
-  const api = new GithubApi();
+  const api = new GithubApi("");
   it("should return the raw file of the selected version", async () => {
     const diff = await api.raw("socialgouv/kali-data", "path/file", {
       ref: "v1.5.0",

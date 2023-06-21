@@ -68,7 +68,7 @@ mockFetch.mockImplementation((url) => {
 });
 
 describe("Github API: list diff", () => {
-  const api = new GithubApi();
+  const api = new GithubApi("");
   it("should return file diff between two versions", async () => {
     const diff = await api.diff(
       "socialgouv/kali-data",

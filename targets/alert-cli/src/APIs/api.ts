@@ -34,8 +34,8 @@ interface CommitGithubResponse {
 export class GithubApi {
   githubToken: string;
 
-  constructor() {
-    this.githubToken = "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";
+  constructor(githubToken: string) {
+    this.githubToken = githubToken;
   }
 
   async tags(project: string, untilTag: string): Promise<Tags> {
@@ -45,10 +45,9 @@ export class GithubApi {
     do {
       tags = await this._tags(project, page);
       for (const tag of tags) {
+        allTags.push(tag);
         if (tag.ref === untilTag) {
           return allTags;
-        } else {
-          allTags.push(tag);
         }
       }
       page = page + 1;

@@ -51,12 +51,16 @@ export async function run(
 }
 
 async function main() {
-  const api = new GithubApi();
+  const githubToken = process.env.GITHUB_TOKEN;
+  if (!githubToken) {
+    throw new Error("GITHUB_TOKEN is not defined");
+  }
+  const api = new GithubApi(githubToken);
   const sourceRepository = new SourcesRepository(client);
   const alertRepository = new AlertRepository(client);
   const ficheSPRepository = new FicheSPRepository(client);
   const ficheSpIds = await ficheSPRepository.getFicheServicePublicIds();
-  const alertDetector = new AlertDetector(ficheSpIds);
+  const alertDetector = new AlertDetector(api, ficheSpIds);
   await run(api, sourceRepository, alertRepository, alertDetector);
 }
 

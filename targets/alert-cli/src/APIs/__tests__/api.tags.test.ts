@@ -102,7 +102,7 @@ mockFetch.mockImplementation((url: string) => {
   }
 });
 describe("Github API: list tags", () => {
-  const api = new GithubApi();
+  const api = new GithubApi("");
   it("should return tags until v1.5.0", async () => {
     const tags = await api.tags("socialgouv/kali-data", "v1.5.0");
     expect(tags).toStrictEqual([

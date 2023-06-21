@@ -8,9 +8,11 @@ import { AlertChanges } from "@shared/types";
 import { GithubApi } from "../APIs/api";
 
 export class AlertDetector {
+  githubApi: GithubApi;
   fichesServicePublicIds: string[] = [];
 
-  constructor(fichesServicePublicIds: string[]) {
+  constructor(githubApi: GithubApi, fichesServicePublicIds: string[]) {
+    this.githubApi = githubApi;
     this.fichesServicePublicIds = fichesServicePublicIds;
   }
 
@@ -62,11 +64,14 @@ export class AlertDetector {
     currentTag: GitTagData,
     previousTag: GitTagData
   ): Promise<AlertChanges[]> {
-    const api = new GithubApi();
     const fileFilter = await this.getFileFilter(repository);
     const diffProcessor = this.getDiffProcessor(repository);
 
-    const patches = await api.diff(repository, previousTag, currentTag);
+    const patches = await this.githubApi.diff(
+      repository,
+      previousTag,
+      currentTag
+    );
     console.log(
       `Patches ${patches.files.length} for ${repository}. (${patches.from.ref} -> ${patches.to.ref})`
     );
@@ -77,7 +82,7 @@ export class AlertDetector {
       repositoryId: repository,
       tag: currentTag,
       loadFile: async (file, tag) =>
-        await api.raw(repository, file.filename, tag),
+        await this.githubApi.raw(repository, file.filename, tag),
     });
   }
 }

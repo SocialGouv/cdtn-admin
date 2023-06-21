@@ -30,16 +30,12 @@ const processAgreementFileChanges = async (
         type: "kali" as const,
       };
       if (patch.status === "added" || patch.status === "modified") {
-        change.current = await agreementFileChange(
-          patch,
-          patches.from,
-          loadFile
-        );
+        change.current = await agreementFileChange(patch, patches.to, loadFile);
       }
       if (patch.status === "removed" || patch.status === "modified") {
         change.previous = await agreementFileChange(
           patch,
-          patches.to,
+          patches.from,
           loadFile
         );
       }
