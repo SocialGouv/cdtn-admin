@@ -1,6 +1,7 @@
 import { useQuery } from "urql";
+import { initStatus } from "../status/utils";
 
-import { MessageEntity, QuestionEntity, QuestionWithMessages } from "./type";
+import { Message, Question } from "../type";
 
 export const contributionQuestionQuery = `
 query SelectQuestion($questionId: uuid) {
@@ -11,6 +12,22 @@ query SelectQuestion($questionId: uuid) {
       id
       label
       content
+    }
+    answers(
+      order_by: {agreement_id: asc}
+    ) {
+      id
+      otherAnswer: other_answer
+      agreement {
+        id
+        name
+      }
+      statuses(order_by: {created_at: desc}, limit: 1) {
+        status
+        user {
+          name
+        }
+      }
     }
   }
   contribution_question_messages {
@@ -25,15 +42,20 @@ type QueryProps = {
   questionId: string;
 };
 
-type QueryResult = {
-  contribution_questions: QuestionEntity[];
-  contribution_question_messages: MessageEntity[];
+type QueryOuput = {
+  contribution_questions: Question[];
+  contribution_question_messages: Message[];
+};
+
+export type QueryResult = {
+  question: Question;
+  messages: Message[];
 };
 
 export const useQuestionQuery = ({
   questionId,
-}: QueryProps): QuestionWithMessages | undefined | "not_found" | "error" => {
-  const [result] = useQuery<QueryResult>({
+}: QueryProps): QueryResult | undefined | "not_found" | "error" => {
+  const [result] = useQuery<QueryOuput>({
     query: contributionQuestionQuery,
     requestPolicy: "cache-and-network",
     variables: {
@@ -52,17 +74,16 @@ export const useQuestionQuery = ({
   ) {
     return "not_found";
   }
-  const data = result.data.contribution_questions[0];
-  return {
-    messages: result.data.contribution_question_messages.map((message) => ({
-      content: message.content,
-      id: message.id,
-      label: message.label,
-    })),
-    question: {
-      content: data.content,
-      id: data.id,
-      message: data.message,
-    },
+  const answers = result.data.contribution_questions[0].answers.map(
+    (answer) => ({
+      ...answer,
+      status: initStatus(answer),
+    })
+  );
+  const question = {
+    ...result.data.contribution_questions[0],
+    answers,
   };
+  const messages = result.data.contribution_question_messages;
+  return { messages, question };
 };

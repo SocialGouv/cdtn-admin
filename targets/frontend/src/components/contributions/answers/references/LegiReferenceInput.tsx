@@ -1,6 +1,6 @@
 import { Control } from "react-hook-form";
 import { LegiReference } from "../../type";
-import { useContributionSearchLegiReferenceQuery } from "./LegiReferencesSearch.query";
+import { useContributionSearchLegiReferenceQuery } from "./legiReferencesSearch.query";
 import { ReferenceInput } from "./ReferenceInput";
 
 type Props = {
@@ -22,7 +22,7 @@ export const LegiReferenceInput = ({
     control={control}
     fetcher={useContributionSearchLegiReferenceQuery}
     isEqual={(option, value) => value.id === option.id}
-    getLabel={(item) => item.index}
+    getLabel={(item) => item.label}
     onClick={(item) => {
       const newWindow = window.open(
         `https://www.legifrance.gouv.fr/codes/article_lc/${item.id}`,

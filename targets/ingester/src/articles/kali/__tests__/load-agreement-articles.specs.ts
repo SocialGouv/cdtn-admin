@@ -26,6 +26,7 @@ test("Load articles of an agreement", async () => {
       cid: "KALIARTI000005854517",
       id: "KALIARTI000005854517",
       path: "Texte de base » Titre Ier : Dispositions générales » Article 1.1 » Champ d'application",
+      label: "Champ d'application",
     },
   ]);
 });

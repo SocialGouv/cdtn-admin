@@ -21,6 +21,7 @@ export type AnswerStatus = {
   userId: string;
   user: User;
 };
+
 export type Answer = {
   id: string;
   agreementId: string;
@@ -32,16 +33,23 @@ export type Answer = {
   content?: string;
   question: Omit<Question, "answers">;
   answer_comments: Comments[];
-  kali_references: { kali_article: KaliReference }[];
+  kali_references: { kali_article: KaliReference; label: string }[];
   legi_references: { legi_article: LegiReference }[];
   other_references: OtherReference[];
   cdtn_references: { document: CdtnReference }[];
+};
+
+export type Message = {
+  id: string;
+  label: string;
+  content: string;
 };
 
 export type Question = {
   id: string;
   content: string;
   answers: Answer[];
+  message?: Message;
 };
 
 export type Comments = {
@@ -58,13 +66,15 @@ export type KaliReference = {
   cid: string;
   id: string;
   path: string;
-  agreement_id: string;
+  label: string;
+  agreementId: string;
+  createdAt: string;
 };
 
 export type LegiReference = {
   cid: string;
   id: string;
-  index: string;
+  label: string;
 };
 
 export type OtherReference = {

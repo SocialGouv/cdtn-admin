@@ -1,7 +1,7 @@
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import { Control } from "react-hook-form";
 import { CdtnReference } from "../../type";
-import { useContributionSearchCdtnReferencesQuery } from "./CdtnReferencesSearch.query";
+import { useContributionSearchCdtnReferencesQuery } from "./cdtnReferencesSearch.query";
 import { ReferenceInput } from "./ReferenceInput";
 
 type Props = {

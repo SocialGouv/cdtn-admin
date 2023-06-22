@@ -15,9 +15,7 @@ export type MutationProps = Omit<
   "user" | "answer" | "id" | "createdAt"
 >;
 
-type MutationResult = (props: MutationProps) => Promise<OperationResult>;
-
-export const useCommentsInsert = (): MutationResult => {
+export const useCommentsInsert = () => {
   const [, executeUpdate] = useMutation<MutationProps>(insertCommentMutation);
   return executeUpdate;
 };
