@@ -47,6 +47,9 @@ actions:
     permissions:
       - role: user
       - role: super
+    headers:
+      - name: actions-secret
+        value_from_env: ACTIONS_SECRET
   - name: updatePipeline
     definition:
       kind: synchronous
