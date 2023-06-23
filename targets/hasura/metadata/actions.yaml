@@ -67,7 +67,6 @@ custom_types:
   input_objects:
     - name: PreviewDocument
     - name: EmailInput
-    - name: RecentKaliReferenceInput
   objects:
     - name: Status
     - name: RunningPipelines
