@@ -42,7 +42,8 @@ actions:
       - role: user
   - name: recentKaliReference
     definition:
-      kind: ""
+      kind: synchronous
+      forward_client_headers: true
       handler: '{{API_URL}}/actions/recent_kali_references'
     permissions:
       - role: user
