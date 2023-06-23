@@ -80,6 +80,6 @@ type KaliArticles {
   createdAt: String
 }
 
-type RecentKaliReferenceOuput {
+type RecentKaliReferenceOutput {
   refs: [KaliArticles]
 }
