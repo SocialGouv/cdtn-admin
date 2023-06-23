@@ -93,5 +93,4 @@ custom_types:
           type: object
     - name: RecentKaliReferenceOutput
     - name: KaliArticles
-    - name: RecentKaliReferenceOuput
   scalars: []
