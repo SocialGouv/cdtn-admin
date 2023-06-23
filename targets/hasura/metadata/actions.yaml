@@ -42,11 +42,15 @@ actions:
       - role: user
   - name: recentKaliReference
     definition:
-      kind: ""
+      kind: synchronous
+      forward_client_headers: true
       handler: '{{API_URL}}/actions/recent_kali_references'
     permissions:
       - role: user
       - role: super
+    headers:
+      - name: actions-secret
+        value_from_env: ACTIONS_SECRET
   - name: updatePipeline
     definition:
       kind: synchronous
@@ -63,7 +67,6 @@ custom_types:
   input_objects:
     - name: PreviewDocument
     - name: EmailInput
-    - name: RecentKaliReferenceInput
   objects:
     - name: Status
     - name: RunningPipelines
@@ -90,5 +93,4 @@ custom_types:
           type: object
     - name: RecentKaliReferenceOutput
     - name: KaliArticles
-    - name: RecentKaliReferenceOuput
   scalars: []

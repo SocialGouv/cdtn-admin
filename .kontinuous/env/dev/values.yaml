@@ -26,7 +26,7 @@ jobs:
       checkout: false
       with:
         mountPath: /mnt/restore
-        restorePath: "${LATEST}/hasura_prod_db.psql.gz"
+        restorePath: "2023_06_23_hasura_prod_db.psql.gz"
       volumeMounts:
         - name: restore
           mountPath: /mnt/restore
