@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.9.0...v2.9.1) (2023-06-26)
+
+### Bug Fixes
+
+- **auth:** delete log ([#953](https://github.com/SocialGouv/cdtn-admin/issues/953)) ([8f86d86](https://github.com/SocialGouv/cdtn-admin/commit/8f86d867626c398d8cc172f1582a088c95955a06))
+- downgrade theme-ui ([#952](https://github.com/SocialGouv/cdtn-admin/issues/952)) ([1995f55](https://github.com/SocialGouv/cdtn-admin/commit/1995f55e47736f210977ba83decbc2a8ec392c52))
+
 # [2.9.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.8.0...v2.9.0) (2023-06-26)
 
 ### Bug Fixes
