@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.7.1...v2.8.0) (2023-06-26)
+
+### Bug Fixes
+
+- **contribs page:** add slug to cc in contribs answer so we can show a link on the contrib page on the frontend ([#946](https://github.com/SocialGouv/cdtn-admin/issues/946)) ([5517722](https://github.com/SocialGouv/cdtn-admin/commit/5517722a4ff9d472c7e2a51cf3a81b42da415bcc))
+
 ## [2.7.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.7.0...v2.7.1) (2023-06-01)
 
 **Note:** Version bump only for package @shared/elasticsearch-document-adapter

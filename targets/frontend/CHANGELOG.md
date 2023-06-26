@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.7.1...v2.8.0) (2023-06-26)
+
+### Bug Fixes
+
+- **ci:** correction de la branche de review ([#949](https://github.com/SocialGouv/cdtn-admin/issues/949)) ([eedf525](https://github.com/SocialGouv/cdtn-admin/commit/eedf525fc7153c08e403a42f5e4b0e322d524e0a))
+- **code:** clean-up de parties du css and extraction de certaines logiques métiers dans des fichiers séparée ([#929](https://github.com/SocialGouv/cdtn-admin/issues/929)) ([5fb6add](https://github.com/SocialGouv/cdtn-admin/commit/5fb6add6506877ab1cb5457a8f631225e56b6f31))
+- **contributions:** bug d'affichage des commentaires ([#941](https://github.com/SocialGouv/cdtn-admin/issues/941)) ([839c784](https://github.com/SocialGouv/cdtn-admin/commit/839c784afff297af6c9e7d2d50472f8afa369647))
+- remove mui-labs ([#948](https://github.com/SocialGouv/cdtn-admin/issues/948)) ([c52cbec](https://github.com/SocialGouv/cdtn-admin/commit/c52cbec12e82aa585f205f235d8a94f9dece35d7))
+
+### Features
+
+- **contributions:** edit references labels ([#935](https://github.com/SocialGouv/cdtn-admin/issues/935)) ([ad63b82](https://github.com/SocialGouv/cdtn-admin/commit/ad63b82bd1723134744d05332ee80073fda35dc4))
+- implement filter on most recent article refs ([#942](https://github.com/SocialGouv/cdtn-admin/issues/942)) ([9d8f52a](https://github.com/SocialGouv/cdtn-admin/commit/9d8f52ab356296b775c2cccf432c4f9c4bea0957))
+
 ## [2.7.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.7.0...v2.7.1) (2023-06-01)
 
 **Note:** Version bump only for package frontend

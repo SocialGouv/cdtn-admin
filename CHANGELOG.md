@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.7.1...v2.8.0) (2023-06-26)
+
+### Bug Fixes
+
+- **ci:** correction de la branche de review ([#949](https://github.com/SocialGouv/cdtn-admin/issues/949)) ([eedf525](https://github.com/SocialGouv/cdtn-admin/commit/eedf525fc7153c08e403a42f5e4b0e322d524e0a))
+- **code:** clean-up de parties du css and extraction de certaines logiques métiers dans des fichiers séparée ([#929](https://github.com/SocialGouv/cdtn-admin/issues/929)) ([5fb6add](https://github.com/SocialGouv/cdtn-admin/commit/5fb6add6506877ab1cb5457a8f631225e56b6f31))
+- **contribs page:** add slug to cc in contribs answer so we can show a link on the contrib page on the frontend ([#946](https://github.com/SocialGouv/cdtn-admin/issues/946)) ([5517722](https://github.com/SocialGouv/cdtn-admin/commit/5517722a4ff9d472c7e2a51cf3a81b42da415bcc))
+- **contributions:** bug d'affichage des commentaires ([#941](https://github.com/SocialGouv/cdtn-admin/issues/941)) ([839c784](https://github.com/SocialGouv/cdtn-admin/commit/839c784afff297af6c9e7d2d50472f8afa369647))
+- remove mui-labs ([#948](https://github.com/SocialGouv/cdtn-admin/issues/948)) ([c52cbec](https://github.com/SocialGouv/cdtn-admin/commit/c52cbec12e82aa585f205f235d8a94f9dece35d7))
+- **workflow:** delete trivy scanner ([bd7c866](https://github.com/SocialGouv/cdtn-admin/commit/bd7c8667959eb20195aba190dad815208d77a854))
+
+### Features
+
+- ajout des migrations pour l'importation des références ([#937](https://github.com/SocialGouv/cdtn-admin/issues/937)) ([484840f](https://github.com/SocialGouv/cdtn-admin/commit/484840f29ea849743115e74b0303a44910e0fa5f))
+- **contributions:** edit references labels ([#935](https://github.com/SocialGouv/cdtn-admin/issues/935)) ([ad63b82](https://github.com/SocialGouv/cdtn-admin/commit/ad63b82bd1723134744d05332ee80073fda35dc4))
+- **contributions:** mise à jour des tables de références legi et kali pour ajouter une colonne label ([#934](https://github.com/SocialGouv/cdtn-admin/issues/934)) ([fc06279](https://github.com/SocialGouv/cdtn-admin/commit/fc06279cbc2d19bce6ca0b0b03849952cabaed98))
+- implement filter on most recent article refs ([#942](https://github.com/SocialGouv/cdtn-admin/issues/942)) ([9d8f52a](https://github.com/SocialGouv/cdtn-admin/commit/9d8f52ab356296b775c2cccf432c4f9c4bea0957))
+- **workflow:** add auto deploy on all branch except dependabot ([f83dd0f](https://github.com/SocialGouv/cdtn-admin/commit/f83dd0fb813544a8d5f09bf636f90e11fa9cdfe3))
+- **workflow:** add cache directly thanks to github action ([a57159d](https://github.com/SocialGouv/cdtn-admin/commit/a57159db863ad59bd49f774538fb7f7cd8afc943))
+
 ## [2.7.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.7.0...v2.7.1) (2023-06-01)
 
 ### Bug Fixes
