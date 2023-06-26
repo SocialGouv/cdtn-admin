@@ -185,7 +185,7 @@ export async function* cdtnDocumentsGen() {
         (ccn) => ccn.num.toString() === answers.conventionAnswer.idcc
       );
       if (ccn && ccn.slug) {
-        answers.conventionAnswer.ccSlug = ccn.slug;
+        answers.conventionAnswer.slug = ccn.slug;
       }
     }
   });
