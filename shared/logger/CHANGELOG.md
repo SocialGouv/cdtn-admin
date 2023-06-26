@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.8.0...v2.9.0) (2023-06-26)
+
+### Bug Fixes
+
+- **lerna:** modify internals dependencies ([c39b77d](https://github.com/SocialGouv/cdtn-admin/commit/c39b77d65692619463f96b3f5eb51e7b1ea976ef))
+
+### Features
+
+- **dep:** update package.json ([69c69ac](https://github.com/SocialGouv/cdtn-admin/commit/69c69ac26b7ac857d1a06c8bbb80e73811460038))
+
 # [2.8.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.7.1...v2.8.0) (2023-06-26)
 
 **Note:** Version bump only for package @socialgouv/cdtn-logger

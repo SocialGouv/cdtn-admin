@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "export-elasticsearch",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "license": "MIT",
   "description": "",
   "main": "./build/index.js",
@@ -24,9 +24,9 @@
   },
   "dependencies": {
     "@azure/storage-blob": "^12.9.0",
-    "@shared/elasticsearch-document-adapter": "^2.8.0",
-    "@shared/graphql-client": "^2.8.0",
-    "@socialgouv/cdtn-logger": "^2.8.0",
+    "@shared/elasticsearch-document-adapter": "^2.9.0",
+    "@shared/graphql-client": "^2.9.0",
+    "@socialgouv/cdtn-logger": "^2.9.0",
     "axios": "^0.26.1",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
@@ -37,8 +37,8 @@
     "zod": "^3.14.2"
   },
   "devDependencies": {
-    "@shared/eslint-config": "^2.8.0",
-    "@shared/types": "^2.8.0",
+    "@shared/eslint-config": "^2.9.0",
+    "@shared/types": "^2.9.0",
     "@swc/cli": "0.1.55",
     "@swc/core": "1.2.150",
     "@swc/jest": "0.2.20",

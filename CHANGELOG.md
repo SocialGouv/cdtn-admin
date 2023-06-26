@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.8.0...v2.9.0) (2023-06-26)
+
+### Bug Fixes
+
+- **lerna:** config is set with workspaces ([ee0e524](https://github.com/SocialGouv/cdtn-admin/commit/ee0e524b5800f17a62edc540f3a88e7438b0e150))
+- **lerna:** config is set with workspaces ([fac786f](https://github.com/SocialGouv/cdtn-admin/commit/fac786f83616d7c47bac4f0230b3279d9fee39b3))
+- **lerna:** config is updated ([35a5e98](https://github.com/SocialGouv/cdtn-admin/commit/35a5e984f7cc237f6a0617c4263ed41d74337507))
+- **lerna:** modify internals dependencies ([c39b77d](https://github.com/SocialGouv/cdtn-admin/commit/c39b77d65692619463f96b3f5eb51e7b1ea976ef))
+- trigger lerna ([5b3d45c](https://github.com/SocialGouv/cdtn-admin/commit/5b3d45c8188b313dfe3720149594a3ae048b8ccc))
+
+### Features
+
+- **dep:** update package.json ([69c69ac](https://github.com/SocialGouv/cdtn-admin/commit/69c69ac26b7ac857d1a06c8bbb80e73811460038))
+
 # [2.8.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.7.1...v2.8.0) (2023-06-26)
 
 ### Bug Fixes
