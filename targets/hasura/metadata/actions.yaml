@@ -40,6 +40,17 @@ actions:
     permissions:
       - role: super
       - role: user
+  - name: recentKaliReference
+    definition:
+      kind: synchronous
+      forward_client_headers: true
+      handler: '{{API_URL}}/actions/recent_kali_references'
+    permissions:
+      - role: user
+      - role: super
+    headers:
+      - name: actions-secret
+        value_from_env: ACTIONS_SECRET
   - name: updatePipeline
     definition:
       kind: synchronous
@@ -80,4 +91,6 @@ custom_types:
             schema: auth
           source: default
           type: object
+    - name: RecentKaliReferenceOutput
+    - name: KaliArticles
   scalars: []

@@ -4,19 +4,21 @@ import { KaliReference } from "../../type";
 import { Result } from "./ReferenceInput";
 
 export const contributionSearchKaliReferencesSearch = `
-query SearchKaliReferences($idcc: bpchar, $query: String) {
-  kali_articles(where: {agreement_id: {_eq: $idcc}, _and: {path: {_ilike: $query}}}, limit: 5) {
-    agreement_id
-    cid
-    id
-    path
-    label
+query SearchKaliReferences($idcc: bpchar!, $query: String!) {
+  recentKaliReference(agreementId: $idcc, query: $query, limit: 5) {
+    refs {
+      agreementId
+      cid
+      id
+      path
+      label
+    }
   }
 }
 `;
 
 type QueryResult = {
-  kali_articles: KaliReference[];
+  recentKaliReference: { refs: KaliReference[] };
 };
 
 export const useContributionSearchKaliReferenceQuery =
@@ -31,7 +33,7 @@ export const useContributionSearchKaliReferenceQuery =
       },
     });
     return {
-      data: data?.kali_articles ?? [],
+      data: data?.recentKaliReference.refs ?? [],
       error,
       fetching,
     };

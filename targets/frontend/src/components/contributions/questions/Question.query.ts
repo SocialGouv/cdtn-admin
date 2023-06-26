@@ -42,7 +42,7 @@ type QueryProps = {
   questionId: string;
 };
 
-type QueryOuput = {
+type QueryOutput = {
   contribution_questions: Question[];
   contribution_question_messages: Message[];
 };
@@ -55,7 +55,7 @@ export type QueryResult = {
 export const useQuestionQuery = ({
   questionId,
 }: QueryProps): QueryResult | undefined | "not_found" | "error" => {
-  const [result] = useQuery<QueryOuput>({
+  const [result] = useQuery<QueryOutput>({
     query: contributionQuestionQuery,
     requestPolicy: "cache-and-network",
     variables: {
