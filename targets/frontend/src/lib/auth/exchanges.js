@@ -36,7 +36,6 @@ export function customAuthExchange(ctx) {
 
     getAuth: async ({ authState }) => {
       // for initial launch, fetch the auth state from storage (local storage, async storage etc)
-      console.log("getAuth", { authState });
       if (!authState) {
         const token = getToken() || (await auth(ctx));
         if (token) {
