@@ -181,6 +181,12 @@ export async function* cdtnDocumentsGen() {
   contributions.forEach(({ answers }: any) => {
     if (answers.conventionAnswer) {
       contribIDCCs.add(parseInt(answers.conventionAnswer.idcc));
+      const ccn = ccnData.find(
+        (ccn) => ccn.num.toString() === answers.conventionAnswer.idcc
+      );
+      if (ccn && ccn.slug) {
+        answers.conventionAnswer.slug = ccn.slug;
+      }
     }
   });
 
