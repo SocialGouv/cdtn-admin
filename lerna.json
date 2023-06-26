@@ -1,4 +1,11 @@
 {
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "createRelease": "github",
+      "message": "chore(release): version %v"
+    }
+  },
   "npmClient": "yarn",
   "version": "2.8.0"
 }
