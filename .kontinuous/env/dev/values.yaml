@@ -26,7 +26,8 @@ jobs:
       checkout: false
       with:
         mountPath: /mnt/restore
-        restorePath: "2023_06_23_hasura_prod_db.psql.gz"
+        filterPath: "hasura_prod_db.psql.gz"
+        restorePath: "${LATEST}"
       volumeMounts:
         - name: restore
           mountPath: /mnt/restore
@@ -44,3 +45,13 @@ jobs:
       use: psql
       with:
         sqlFile: .kontinuous/sql/post-restore.sql
+    job-ingester:
+      ~needs: [hasura]
+      use: trigger-cronjob
+      with:
+        cronJobName: cron-ingester
+    job-alert:
+      ~needs: [job-ingester]
+      use: trigger-cronjob
+      with:
+        cronJobName: cron-alert
