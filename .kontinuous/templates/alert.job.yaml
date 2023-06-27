@@ -1,6 +1,0 @@
-apiVersion: batch/v1beta1
-kind: Job
-metadata:
-  name: job-alert
-spec:
-  {{- include "job.alert" . | nindent 4 }}
