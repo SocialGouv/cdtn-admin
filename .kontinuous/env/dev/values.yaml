@@ -46,7 +46,7 @@ jobs:
       with:
         sqlFile: .kontinuous/sql/post-restore.sql
     job-ingester:
-      ~needs: [post-restore]
+      ~needs: [hasura]
       use: trigger-cronjob
       with:
         cronjobName: cron-ingester
