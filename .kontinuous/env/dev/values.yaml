@@ -47,21 +47,11 @@ jobs:
         sqlFile: .kontinuous/sql/post-restore.sql
     job-ingester:
       ~needs: [post-restore]
-      image: ghcr.io/socialgouv/kontinuous:v1
-      checkout: false
-      kubernetes: true
-      user: 1001
-      run: |
-        current_date=$(date +%s)
-        kubectl create job --from=cronjob/cron-ingester ingester-manual-$current_date --namespace={{.Values.global.namespace}}
-        rollout-status -kind-filter=job -namespace={{.Values.global.namespace}} -selector=job-name=ingester-manual-$current_date
+      use: trigger-cronjob
+      with:
+        cronjobName: cron-ingester
     job-alert:
       ~needs: [job-ingester]
-      image: ghcr.io/socialgouv/kontinuous:v1
-      checkout: false
-      kubernetes: true
-      user: 1001
-      run: |
-        current_date=$(date +%s)
-        kubectl create job --from=cronjob/cron-alert alert-manual-$current_date --namespace={{.Values.global.namespace}}
-        rollout-status -kind-filter=job -namespace={{.Values.global.namespace}} -selector=job-name=alert-manual-$current_date
+      use: trigger-cronjob
+      with:
+        cronjobName: cron-alert
