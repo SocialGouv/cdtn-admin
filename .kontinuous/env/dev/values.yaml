@@ -47,15 +47,21 @@ jobs:
         sqlFile: .kontinuous/sql/post-restore.sql
     job-ingester:
       ~needs: [post-restore]
-      image: bitnami/kubectl
+      image: ghcr.io/socialgouv/kontinuous:v1
       checkout: false
       kubernetes: true
       user: 1001
-      run: kubectl create job --from=cronjob/cron-ingester ingester-manual-$(date +%s) --namespace={{.Values.global.namespace}}
+      run: |
+        current_date=$(date +%s)
+        kubectl create job --from=cronjob/cron-ingester ingester-manual-$current_date --namespace={{.Values.global.namespace}}
+        rollout-status -kind=job -namespace={{.Values.global.namespace}} ingester-manual-$current_date
     job-alert:
-      ~needs: [job-ingester]
-      image: bitnami/kubectl
+      ~needs: [post-restore]
+      image: ghcr.io/socialgouv/kontinuous:v1
       checkout: false
       kubernetes: true
       user: 1001
-      run: kubectl create job --from=cronjob/cron-alert alert-manual-$(date +%s) --namespace={{.Values.global.namespace}}
+      run: |
+        current_date=$(date +%s)
+        kubectl create job --from=cronjob/cron-alert alert-manual-$current_date --namespace={{.Values.global.namespace}}
+        rollout-status -kind=job -namespace={{.Values.global.namespace}} alert-manual-$current_date
