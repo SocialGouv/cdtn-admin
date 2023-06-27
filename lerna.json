@@ -1,5 +1,12 @@
 {
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "createRelease": "github",
+      "message": "chore(release): version %v"
+    }
+  },
   "npmClient": "yarn",
-  "useWorkspaces": true,
-  "version": "2.7.1"
+  "version": "2.9.1",
+  "useWorkspaces": true
 }

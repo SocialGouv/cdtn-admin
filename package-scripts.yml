@@ -5,10 +5,8 @@ scripts:
     targets: lerna run --stream --scope frontend --scope alert-cli build
 
   dev:
-    default: concurrently --kill-others --kill-others-on-fail
-      "lerna run --stream dev"
-      "docker-compose up --build postgres hasura"
-    frontend: yarn workspace frontend dev
+    default: yarn workspace frontend dev
+    simulate-deployment: yarn workspace frontend build && yarn workspace frontend start
 
   e2e:
     default: lerna run --stream --parallel e2e
