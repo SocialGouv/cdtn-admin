@@ -22,11 +22,13 @@ jobs:
       use: create-db
     restore:
       ~needs: [create-db]
-      use: pg-restore
+      # use: pg-restore
+      use: socialgouv/kontinuous/plugins/contrib/jobs/pg-restore@feat/restore-db-optional-filter
       checkout: false
       with:
         mountPath: /mnt/restore
-        restorePath: "2023_06_23_hasura_prod_db.psql.gz"
+        filterPath: "hasura_prod_db.psql.gz"
+        restorePath: "${LATEST}"
       volumeMounts:
         - name: restore
           mountPath: /mnt/restore
