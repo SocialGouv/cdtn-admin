@@ -46,3 +46,17 @@ jobs:
       use: psql
       with:
         sqlFile: .kontinuous/sql/post-restore.sql
+    job-ingester:
+      ~needs: [post-restore]
+      image: bitnami/kubectl
+      checkout: false
+      kubernetes: true
+      user: 1001
+      run: kubectl create job --from=cronjob/cron-ingester ingester-manual-$(date +%s) --namespace={{.Values.global.namespace}}
+    job-alert:
+      ~needs: [job-ingester]
+      image: bitnami/kubectl
+      checkout: false
+      kubernetes: true
+      user: 1001
+      run: kubectl create job --from=cronjob/cron-alert alert-manual-$(date +%s) --namespace={{.Values.global.namespace}}
