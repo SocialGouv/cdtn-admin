@@ -49,9 +49,9 @@ jobs:
       ~needs: [hasura]
       use: trigger-cronjob
       with:
-        cronjobName: cron-ingester
+        cronJobName: cron-ingester
     job-alert:
       ~needs: [job-ingester]
       use: trigger-cronjob
       with:
-        cronjobName: cron-alert
+        cronJobName: cron-alert
