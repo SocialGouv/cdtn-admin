@@ -22,8 +22,7 @@ jobs:
       use: create-db
     restore:
       ~needs: [create-db]
-      # use: pg-restore
-      use: socialgouv/kontinuous/plugins/contrib/jobs/pg-restore@feat/restore-db-optional-filter
+      use: pg-restore
       checkout: false
       with:
         mountPath: /mnt/restore
