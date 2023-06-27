@@ -75,8 +75,8 @@ describe("Github API: list diff", () => {
       { ref: "v1.4.0", commit: { date: new Date() } },
       { ref: "v1.5.0", commit: { date: new Date() } }
     );
-    expect(diff.from).toStrictEqual("v1.4.0");
-    expect(diff.to).toStrictEqual("v1.5.0");
+    expect(diff.from.ref).toStrictEqual("v1.4.0");
+    expect(diff.to.ref).toStrictEqual("v1.5.0");
     expect(diff.files).toStrictEqual([
       {
         filename: "file1.txt",
