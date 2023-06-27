@@ -56,7 +56,7 @@ jobs:
         kubectl create job --from=cronjob/cron-ingester ingester-manual-$current_date --namespace={{.Values.global.namespace}}
         rollout-status -kind-filter=job -namespace={{.Values.global.namespace}} -selector=job-name=ingester-manual-$current_date
     job-alert:
-      ~needs: [post-restore]
+      ~needs: [job-ingester]
       image: ghcr.io/socialgouv/kontinuous:v1
       checkout: false
       kubernetes: true
