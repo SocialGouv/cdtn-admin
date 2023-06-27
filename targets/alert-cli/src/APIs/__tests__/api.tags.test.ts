@@ -60,14 +60,6 @@ const apiResponsePage2 = [
   },
 ];
 
-const formatCommitResponse = (tag: string) => ({
-  commit: {
-    author: {
-      date: tag,
-    },
-  },
-});
-
 const mockFetch = fetch as unknown as jest.Mock;
 mockFetch.mockImplementation((url: string) => {
   switch (url) {
@@ -94,7 +86,7 @@ mockFetch.mockImplementation((url: string) => {
         Promise.resolve({
           commit: {
             author: {
-              date: "2023-06-15T04:35:19Z",
+              date: "2023-06-15T04:35:19.000Z",
             },
           },
         }),
@@ -117,6 +109,12 @@ describe("Github API: list tags", () => {
           date: new Date("2023-06-15T04:35:19.000Z"),
         },
         ref: "v1.6.0",
+      },
+      {
+        commit: {
+          date: new Date("2023-06-15T04:35:19.000Z"),
+        },
+        ref: "v1.5.0",
       },
     ]);
   });
@@ -159,6 +157,12 @@ describe("Github API: list tags", () => {
           date: new Date("2023-06-15T04:35:19.000Z"),
         },
         ref: "v1.2.0",
+      },
+      {
+        commit: {
+          date: new Date("2023-06-15T04:35:19.000Z"),
+        },
+        ref: "v1.1.0",
       },
     ]);
   });
