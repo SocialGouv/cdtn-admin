@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import fetch, { Response } from "node-fetch";
 import { Commit, GitTagData } from "../types";
 import { Diff } from "../diff/type";
 
@@ -57,19 +57,9 @@ export class GithubApi {
 
   private async _tags(project: string, page = 1, limit = 5): Promise<Tags> {
     const url = `https://api.github.com/repos/${project}/tags?per_page=${limit}&page=${page}`;
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${this.githubToken}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch tags for project ${project} (page: ${page} and limit: ${limit}) -> ${response.status} : ${response.statusText}`
-      );
-    }
-    const json = (await response.json()) as GithubTagsResponse;
+    const tags = await this.fetchJson<GithubTagsResponse>(url);
     const tagsWithCommit = await Promise.all(
-      json.map(async (tag) => {
+      tags.map(async (tag) => {
         const commit = await this.loadCommit(tag);
         return { ref: tag.name, commit };
       })
@@ -78,17 +68,7 @@ export class GithubApi {
   }
 
   private async loadCommit(tag: GithubTag): Promise<Commit> {
-    const response = await fetch(tag.commit.url, {
-      headers: {
-        Authorization: `Bearer ${this.githubToken}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch commit for tag ${tag.name} (commit: ${tag.commit.url}) - ${response.status} : ${response.statusText}`
-      );
-    }
-    const json = (await response.json()) as CommitGithubResponse;
+    const json = await this.fetchJson<CommitGithubResponse>(tag.commit.url);
     return { date: new Date(json.commit.author.date) };
   }
 
@@ -116,19 +96,9 @@ export class GithubApi {
     limit = 100
   ): Promise<GithubDiffFile[]> {
     const url = `https://api.github.com/repos/${project}/compare/${from}...${to}?per_page=${limit}&page=${page}`;
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${this.githubToken}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch diff for project ${project} (${url}) - ${response.status} : ${response.statusText}`
-      );
-    }
-    const json = (await response.json()) as GithubResponse;
+    const diffs = await this.fetchJson<GithubResponse>(url);
     return (
-      json.files?.map((diff) => ({
+      diffs.files?.map((diff) => ({
         filename: diff.filename,
         status: diff.status,
       })) ?? []
@@ -137,14 +107,35 @@ export class GithubApi {
 
   async raw(project: string, path: string, tag: GitTagData): Promise<string> {
     const url = `https://raw.githubusercontent.com/${project}/${tag.ref}/${path}`;
+    const data = await this.fetchText(url);
+    return data;
+  }
+
+  private async fetchGithub(url: string): Promise<Response> {
     const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${this.githubToken}`,
       },
     });
+    return response;
+  }
+
+  private async fetchJson<T>(url: string): Promise<T> {
+    const response = await this.fetchGithub(url);
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch file ${path} with version ${tag.ref} (${url}) - ${response.status} : ${response.statusText}`
+        `Failed to fetch url ${url} - ${response.status} : ${response.statusText}`
+      );
+    }
+    const data = await response.json();
+    return data as T;
+  }
+
+  private async fetchText(url: string): Promise<string> {
+    const response = await this.fetchGithub(url);
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch ${url} - ${response.status} : ${response.statusText}`
       );
     }
     return response.text();

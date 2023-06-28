@@ -1,7 +1,7 @@
-ARG IMAGE_VERSION=0.27-20-alpine
+ARG NODE_VERSION=20.3.1-alpine
 
 # dist
-FROM bitmeal/nodegit:$IMAGE_VERSION AS dist
+FROM node:$NODE_VERSION AS dist
 
 WORKDIR /
 
@@ -16,19 +16,14 @@ RUN yarn workspace @shared/dila-resolver build
 RUN yarn workspace alert-cli build
 
 # app
-FROM bitmeal/nodegit:$IMAGE_VERSION
+FROM node:$NODE_VERSION
 
 WORKDIR /app
-
-RUN mkdir -p /app/alert-cli/data/
-
-RUN chown node /app/alert-cli/data/
 
 USER node
 
 COPY --from=dist targets/alert-cli/package.json /app/alert-cli/package.json
 COPY --from=dist targets/alert-cli/dist/ /app/alert-cli/dist/
-COPY --from=dist targets/alert-cli/data/ /app/alert-cli/data
 COPY --from=dist targets/alert-cli/node_modules/ /app/alert-cli/node_modules/
 COPY --from=dist package.json /app/package.json
 COPY --from=dist node_modules /app/node_modules
