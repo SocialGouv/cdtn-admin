@@ -1,4 +1,4 @@
-ARG NODE_VERSION=14.21.3-alpine
+ARG NODE_VERSION=20.3.1-alpine
 
 # dist
 FROM node:$NODE_VERSION AS dist
@@ -6,6 +6,8 @@ FROM node:$NODE_VERSION AS dist
 WORKDIR /
 
 COPY . /
+
+RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 RUN yarn --frozen-lockfile
 

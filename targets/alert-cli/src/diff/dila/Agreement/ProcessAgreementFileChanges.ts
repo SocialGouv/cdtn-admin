@@ -1,38 +1,43 @@
 import type { Agreement } from "@socialgouv/kali-data-types";
-import type { ConvenientPatch, Tree } from "nodegit";
 
 import { createToJson, getFilename } from "../../../node-git.helpers";
 import type { AgreementFileChange } from "./types";
+import { Diff, DiffFile, LoadFileFn } from "../../type";
+import { GitTagData } from "../../../types";
 
 const agreementFileChange = async (
-  file: string,
-  tree: Tree
+  file: DiffFile,
+  version: GitTagData,
+  loadFile: LoadFileFn
 ): Promise<Agreement> => {
-  return createToJson<Agreement>(file)(tree);
+  return createToJson<Agreement>(loadFile)(file, version);
 };
 
 const processAgreementFileChanges = async (
-  patches: ConvenientPatch[],
+  patches: Diff,
   fileFilter: (path: string) => boolean,
-  prevTree: Tree,
-  currTree: Tree
+  loadFile: LoadFileFn
 ): Promise<AgreementFileChange[]> => {
-  const filteredPatches = patches.filter((patch) =>
+  const filteredPatches = patches.files.filter((patch) =>
     fileFilter(getFilename(patch))
   );
 
   return Promise.all(
     filteredPatches.map(async (patch) => {
-      const file = patch.newFile().path();
+      const file = patch.filename;
       const change: AgreementFileChange = {
         file,
         type: "kali" as const,
       };
-      if (patch.isAdded() || patch.isModified()) {
-        change.current = await agreementFileChange(file, currTree);
+      if (patch.status === "added" || patch.status === "modified") {
+        change.current = await agreementFileChange(patch, patches.to, loadFile);
       }
-      if (patch.isDeleted() || patch.isModified()) {
-        change.previous = await agreementFileChange(file, prevTree);
+      if (patch.status === "removed" || patch.status === "modified") {
+        change.previous = await agreementFileChange(
+          patch,
+          patches.from,
+          loadFile
+        );
       }
       return change;
     })

@@ -1,47 +1,35 @@
 import { describe, expect } from "@jest/globals";
-import type { ConvenientPatch, Tree } from "nodegit";
 
 import processAgreementFileChanges from "../ProcessAgreementFileChanges";
+import { DiffFile, LoadFileFn, PatchStatus } from "../../../type";
 
 describe("Creation des AgreementFileChange à partir d'un patch", () => {
-  const createPatch = (
-    added: boolean,
-    removed: boolean,
-    modified: boolean
-  ): ConvenientPatch => {
-    const newFile = { path: () => "my-file.json" };
+  const createPatch = (status: PatchStatus): DiffFile => {
     return {
-      isAdded: () => added,
-      isDeleted: () => removed,
-      isModified: () => modified,
-      newFile: () => newFile,
-    } as ConvenientPatch;
+      filename: "my-file.json",
+      status,
+    } as DiffFile;
   };
   const agreementA = '{"type":"legi","data":{"etat":"VIGUEUR"},"children":[]}';
   const agreementB =
     '{"type":"legi","data":{"etat":"MODIFIED VIGUEUR"},"children":[]}';
-
-  const createSubTree = (a: string): Tree => {
-    return {
-      getEntry: async () =>
-        new Promise(function (resolve) {
-          resolve({
-            getBlob: async () =>
-              new Promise(function (r) {
-                r(a);
-              }),
-          });
-        }),
-    } as unknown as Tree;
-  };
+  const versionA = { ref: "A", commit: { date: new Date() } };
+  const versionB = { ref: "B", commit: { date: new Date() } };
+  const loadFile: (left: string, right: string) => LoadFileFn =
+    (left, right) => (file, tag) => {
+      if (tag.ref === versionA.ref) {
+        return Promise.resolve(left);
+      } else {
+        return Promise.resolve(right);
+      }
+    };
 
   it("génère un AgreementFileChange pour un ajout", async () => {
-    const patch = createPatch(true, false, false);
+    const patch = createPatch("added");
     const result = await processAgreementFileChanges(
-      [patch],
+      { files: [patch], from: versionA, to: versionB },
       () => true,
-      createSubTree(agreementA),
-      createSubTree(agreementB)
+      loadFile(agreementA, agreementB)
     );
     expect(result).toHaveLength(1);
     const change = result[0];
@@ -51,13 +39,12 @@ describe("Creation des AgreementFileChange à partir d'un patch", () => {
   });
 
   it("génère un AgreementFileChange pour une modification", async () => {
-    const patch = createPatch(false, false, true);
+    const patch = createPatch("modified");
 
     const result = await processAgreementFileChanges(
-      [patch],
+      { files: [patch], from: versionA, to: versionB },
       () => true,
-      createSubTree(agreementA),
-      createSubTree(agreementB)
+      loadFile(agreementA, agreementB)
     );
     expect(result).toHaveLength(1);
     const change = result[0];
@@ -67,12 +54,11 @@ describe("Creation des AgreementFileChange à partir d'un patch", () => {
   });
 
   it("génère un AgreementFileChange pour une suppression", async () => {
-    const patch = createPatch(false, true, false);
+    const patch = createPatch("removed");
     const result = await processAgreementFileChanges(
-      [patch],
+      { files: [patch], from: versionA, to: versionB },
       () => true,
-      createSubTree(agreementA),
-      createSubTree(agreementB)
+      loadFile(agreementA, agreementB)
     );
     expect(result).toHaveLength(1);
     const change = result[0];
