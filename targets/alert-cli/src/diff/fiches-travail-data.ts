@@ -12,20 +12,19 @@ export const processTravailDataDiff: DataDiffFunction = async ({
   tag,
   patches,
   fileFilter,
-  prevTree,
-  currTree,
+  loadFile,
 }) => {
-  const filteredPatches = patches.filter((patch) =>
-    fileFilter(patch.newFile().path())
+  const filteredPatches = patches.files.filter((patch) =>
+    fileFilter(patch.filename)
   );
   const fileChanges = await Promise.all(
     filteredPatches.map(async (patch) => {
-      const filename = patch.newFile().path();
-      const toAst = createToJson<FicheTravailEmploi[]>(filename);
+      const toAst = createToJson<FicheTravailEmploi[]>(loadFile);
 
-      const [currAst, prevAst] = await Promise.all(
-        [currTree, prevTree].map(toAst)
-      );
+      const [currAst, prevAst] = await Promise.all([
+        toAst(patch, patches.to),
+        toAst(patch, patches.from),
+      ]);
       const changes = getChanges(prevAst, currAst);
       changes.documents = await ficheTravailPrequalifiedRelevantDocuments(
         changes
@@ -46,7 +45,7 @@ export const processTravailDataDiff: DataDiffFunction = async ({
         file.added.length > 0
     )
     .map((change) => ({
-      date: tag.commit.date(),
+      date: tag.commit.date,
       ref: tag.ref,
       title: "fiche travail-emploi",
       type: "travail-data",

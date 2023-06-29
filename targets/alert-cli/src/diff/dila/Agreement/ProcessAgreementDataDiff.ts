@@ -7,14 +7,12 @@ const processAgreementDataDiff: DataDiffFunction = async ({
   tag,
   patches,
   fileFilter,
-  prevTree,
-  currTree,
+  loadFile,
 }) => {
   const fileChanges = await processAgreementFileChanges(
     patches,
     fileFilter,
-    prevTree,
-    currTree
+    loadFile
   );
 
   const dilaChanges = await processAgreementChanges(
@@ -31,7 +29,7 @@ const processAgreementDataDiff: DataDiffFunction = async ({
     ) {
       return [
         {
-          date: tag.commit.date(),
+          date: tag.commit.date,
           ref: tag.ref,
           type: "dila",
           ...change,

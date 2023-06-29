@@ -22,6 +22,7 @@ import { markdownTransform } from "./markdown";
 import type { ThemeQueryResult } from "./types/themes";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
+import { DocumentElasticWithSource } from "./types/Glossary";
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -72,6 +73,25 @@ export async function getDuplicateSlugs(allDocuments: any) {
       (state: any, { slug, count }: any) => ({ ...state, [slug]: count }),
       {}
     );
+}
+
+export function updateContributionsAndGetIDCCs(
+  contributions: any[],
+  ccnData: DocumentElasticWithSource<AgreementDoc>[]
+) {
+  const contribIDCCs = new Set<number>();
+  contributions.forEach(({ answers }) => {
+    if (answers.conventionAnswer) {
+      const idccNum = parseInt(answers.conventionAnswer.idcc);
+      contribIDCCs.add(idccNum);
+
+      const ccn = ccnData.find((ccn) => ccn.num === idccNum);
+      if (ccn?.slug) {
+        answers.conventionAnswer.slug = ccn.slug;
+      }
+    }
+  });
+  return contribIDCCs;
 }
 
 export async function* cdtnDocumentsGen() {
@@ -177,18 +197,7 @@ export async function* cdtnDocumentsGen() {
 
   // we keep track of the idccs used in the contributions
   // in order to flag the corresponding conventions collectives below
-  const contribIDCCs = new Set();
-  contributions.forEach(({ answers }: any) => {
-    if (answers.conventionAnswer) {
-      contribIDCCs.add(parseInt(answers.conventionAnswer.idcc));
-      const ccn = ccnData.find(
-        (ccn) => ccn.num.toString() === answers.conventionAnswer.idcc
-      );
-      if (ccn && ccn.slug) {
-        answers.conventionAnswer.slug = ccn.slug;
-      }
-    }
-  });
+  const contribIDCCs = updateContributionsAndGetIDCCs(contributions, ccnData);
 
   yield {
     documents: contributions.map(

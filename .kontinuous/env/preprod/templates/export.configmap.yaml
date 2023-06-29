@@ -13,5 +13,5 @@ data:
   SITEMAP_DESTINATION_CONTAINER: "sitemap"
   SITEMAP_DESTINATION_NAME: "sitemap-preprod.xml"
   SITEMAP_ENDPOINT: "http://www/api/sitemap"
-  ELASTICSEARCH_INDEX_PREPROD: "cdtn-preprod-v2"
-  ELASTICSEARCH_INDEX_PROD: "cdtn-preprod-v2"
+  ELASTICSEARCH_INDEX_PREPROD: "cdtn-main-v2"
+  ELASTICSEARCH_INDEX_PROD: "cdtn-main-v2"

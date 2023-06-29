@@ -2800,6 +2800,7 @@
 {"entity": "stage", "value": 62.65}
 {"entity": "invalidit\u00e9", "value": 61.27}
 {"entity": "syntec", "value": 61.83}
+{"entity": "cinov", "value": 61.83}
 {"entity": "prime macron", "value": 58.76}
 {"entity": "contrat", "value": 58.76}
 {"entity": "handicap", "value": 58.76}

@@ -24,9 +24,6 @@ export async function auth(ctx) {
   if (ctx?.token) {
     return ctx.token;
   }
-  if (inMemoryToken) {
-    return inMemoryToken;
-  }
 
   const cookieHeader = ctx?.req ? { Cookie: ctx.req.headers.cookie } : {};
   if (
