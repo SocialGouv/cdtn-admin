@@ -22,6 +22,8 @@ export type EditorProps = {
   disabled?: boolean;
 };
 
+const emptyHtml = "<p></p>";
+
 export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
   const [focus, setFocus] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -31,9 +33,12 @@ export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
     extensions: [StarterKit],
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
-      onUpdate(html !== "<p></p>" ? html : "");
+      onUpdate(html !== emptyHtml ? html : "");
     },
   });
+  if (content && editor?.getHTML() === emptyHtml) {
+    editor?.commands.insertContent(content);
+  }
   useEffect(() => {
     setIsClient(true);
   });
@@ -42,7 +47,7 @@ export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
     if (!content) {
       editor.commands.clearContent();
     }
-  }, [editor, content]);
+  }, [content]);
   useEffect(() => {
     editor?.setOptions({ editable: !disabled });
   }, [disabled]);

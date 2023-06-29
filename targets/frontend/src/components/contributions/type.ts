@@ -22,23 +22,6 @@ export type AnswerStatus = {
   user: User;
 };
 
-export type Answer = {
-  id: string;
-  agreementId: string;
-  questionId: string;
-  otherAnswer?: string;
-  agreement: Agreement;
-  statuses: AnswerStatus[];
-  status: AnswerStatus;
-  content?: string;
-  question: Omit<Question, "answers">;
-  answer_comments: Comments[];
-  kali_references: { kali_article: KaliReference; label: string }[];
-  legi_references: { legi_article: LegiReference }[];
-  other_references: OtherReference[];
-  cdtn_references: { document: CdtnReference }[];
-};
-
 export type Message = {
   id: string;
   label: string;
@@ -62,7 +45,7 @@ export type Comments = {
   createdAt: string;
 };
 
-export type KaliReference = {
+export type KaliArticle = {
   cid: string;
   id: string;
   path: string;
@@ -71,10 +54,19 @@ export type KaliReference = {
   createdAt: string;
 };
 
-export type LegiReference = {
+export type LegiArticle = {
   cid: string;
   id: string;
   label: string;
+};
+
+export type KaliReference = {
+  kaliArticle: KaliArticle;
+  label?: string;
+};
+
+export type LegiReference = {
+  legiArticle: LegiArticle;
 };
 
 export type OtherReference = {
@@ -82,9 +74,32 @@ export type OtherReference = {
   url: string;
 };
 
-export type CdtnReference = {
+export type Document = {
   title: string;
-  cdtn_id: string;
+  cdtnId: string;
   source: SourceRoute;
   slug: string;
+};
+
+export type CdtnReference = {
+  document: Document;
+};
+
+export type OtherAnswer = "ANSWER" | "NOTHING" | "UNKNOWN";
+
+export type Answer = {
+  id: string;
+  agreementId: string;
+  questionId: string;
+  otherAnswer?: OtherAnswer;
+  agreement: Agreement;
+  statuses: AnswerStatus[];
+  status: AnswerStatus;
+  content?: string;
+  question: Omit<Question, "answers">;
+  answerComments: Comments[];
+  kaliReferences: KaliReference[];
+  legiReferences: LegiReference[];
+  otherReferences: OtherReference[];
+  cdtnReferences: CdtnReference[];
 };

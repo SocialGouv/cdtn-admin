@@ -1,43 +1,46 @@
-import { Answer } from "../type";
-import { AnswerForm } from "./Answer";
+import {
+  KaliReference,
+  LegiReference,
+  CdtnReference,
+  OtherReference,
+} from "../type";
 
-export const defaultReferences = (answer: Answer | undefined) => {
-  return {
-    kaliReferences:
-      answer?.kali_references?.map((item) => {
-        return Object.assign({}, item.kali_article, { label: item.label });
-      }) ?? [],
-    legiReferences:
-      answer?.legi_references?.map((item) => item.legi_article) ?? [],
-    cdtnReferences: answer?.cdtn_references?.map((item) => item.document) ?? [],
-    otherReferences: answer?.other_references ?? [],
-  };
-};
-
-export const formatKaliReferences = (answer: Answer, data: AnswerForm) => {
-  return data.kaliReferences.map((ref) => ({
-    answer_id: answer.id,
-    article_id: ref.id,
+export const formatKaliReferences = (
+  answerId: string,
+  refs: KaliReference[]
+) => {
+  return refs.map((ref) => ({
+    answer_id: answerId,
+    article_id: ref.kaliArticle.id,
     label: ref.label,
   }));
 };
-export const formatLegiReferences = (answer: Answer, data: AnswerForm) => {
-  return data.legiReferences.map((ref) => ({
-    answer_id: answer.id,
-    article_id: ref.id,
+export const formatLegiReferences = (
+  answerId: string,
+  refs: LegiReference[]
+) => {
+  return refs.map((ref) => ({
+    answer_id: answerId,
+    article_id: ref.legiArticle.id,
   }));
 };
 
-export const formatCdtnReferences = (answer: Answer, data: AnswerForm) => {
-  return data.cdtnReferences.map((ref) => ({
-    answer_id: answer.id,
-    cdtn_id: ref.cdtn_id,
+export const formatCdtnReferences = (
+  answerId: string,
+  refs: CdtnReference[]
+) => {
+  return refs.map((ref) => ({
+    answer_id: answerId,
+    cdtn_id: ref.document.cdtnId,
   }));
 };
 
-export const formatOtherReferences = (answer: Answer, data: AnswerForm) => {
-  return data.otherReferences.map((ref) => ({
-    answer_id: answer.id,
+export const formatOtherReferences = (
+  answerId: string,
+  refs: OtherReference[]
+) => {
+  return refs.map((ref) => ({
+    answer_id: answerId,
     label: ref.label,
     url: ref.url,
   }));

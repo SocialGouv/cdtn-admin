@@ -13,23 +13,27 @@ export const LegiReferenceInput = ({
   name,
   control,
   disabled = false,
-}: Props): React.ReactElement => (
-  <ReferenceInput<LegiReference>
-    label={`Références liées au code du travail`}
-    color="success"
-    name={name}
-    disabled={disabled}
-    control={control}
-    fetcher={useContributionSearchLegiReferenceQuery}
-    isEqual={(option, value) => value.id === option.id}
-    getLabel={(item) => item.label}
-    onClick={(item) => {
-      const newWindow = window.open(
-        `https://www.legifrance.gouv.fr/codes/article_lc/${item.id}`,
-        "_blank",
-        "noopener,noreferrer"
-      );
-      if (newWindow) newWindow.opener = null;
-    }}
-  />
-);
+}: Props): React.ReactElement => {
+  return (
+    <ReferenceInput<LegiReference>
+      label={`Références liées au code du travail`}
+      color="success"
+      name={name}
+      disabled={disabled}
+      control={control}
+      fetcher={useContributionSearchLegiReferenceQuery}
+      isEqual={(option, value) =>
+        value.legiArticle.id === option.legiArticle.id
+      }
+      getLabel={(item) => item.legiArticle.label}
+      onClick={(item) => {
+        const newWindow = window.open(
+          `https://www.legifrance.gouv.fr/codes/article_lc/${item.legiArticle.id}`,
+          "_blank",
+          "noopener,noreferrer"
+        );
+        if (newWindow) newWindow.opener = null;
+      }}
+    />
+  );
+};

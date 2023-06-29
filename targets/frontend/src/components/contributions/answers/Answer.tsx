@@ -33,13 +33,6 @@ import {
   OtherReferenceInput,
 } from "./references";
 import { statusesMapping } from "../status/data";
-import {
-  defaultReferences,
-  formatCdtnReferences,
-  formatKaliReferences,
-  formatLegiReferences,
-  formatOtherReferences,
-} from "./answerReferences";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { SimpleLink } from "../../utils/SimpleLink";
 
@@ -75,11 +68,18 @@ export const ContributionsAnswer = ({
       setStatus(answer.status.status);
     }
   }, [answer]);
-  const { control, handleSubmit, watch } = useForm<AnswerForm>({
+  const { control, handleSubmit, watch } = useForm<Answer>({
+    values: answer,
     defaultValues: {
-      content: answer?.content ?? "",
-      otherAnswer: answer?.otherAnswer ?? "ANSWER",
-      ...defaultReferences(answer),
+      content: "",
+      otherAnswer: "ANSWER",
+      status: {
+        status: "TODO",
+      },
+      legiReferences: [],
+      kaliReferences: [],
+      otherReferences: [],
+      cdtnReferences: [],
     },
   });
   const otherAnswer = watch("otherAnswer", answer?.otherAnswer);
@@ -91,7 +91,7 @@ export const ContributionsAnswer = ({
   }>({
     open: false,
   });
-  const onSubmit = async (data: AnswerForm) => {
+  const onSubmit = async (data: Answer) => {
     try {
       if (!answer || !answer.id) {
         throw new Error("Id non définit");
@@ -103,10 +103,10 @@ export const ContributionsAnswer = ({
         otherAnswer: data.otherAnswer,
         status,
         userId: user?.id,
-        kali_references: formatKaliReferences(answer, data),
-        legi_references: formatLegiReferences(answer, data),
-        cdtn_references: formatCdtnReferences(answer, data),
-        other_references: formatOtherReferences(answer, data),
+        kaliReferences: data.kaliReferences,
+        legiReferences: data.legiReferences,
+        cdtnReferences: data.cdtnReferences,
+        otherReferences: data.otherReferences,
       });
       setSnack({
         open: true,
@@ -257,7 +257,7 @@ export const ContributionsAnswer = ({
           {answer && (
             <Comments
               answerId={answer.id}
-              comments={answer.answer_comments ?? []}
+              comments={answer.answerComments ?? []}
             />
           )}
         </Box>
