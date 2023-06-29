@@ -1,9 +1,7 @@
-/** @jsxImportSource theme-ui */
-
 import { AlertChanges } from "@shared/types";
 import React, { useState } from "react";
 import { IoIosLink, IoMdChatbubbles } from "react-icons/io";
-import { Box, Flex } from "theme-ui";
+import { Box, Stack } from "@mui/material";
 
 import { IconButton } from "../button";
 import { Comments } from "../comments";
@@ -12,13 +10,14 @@ import { AlertStatus } from "./Status";
 type Props = {
   alertId: string;
   info: AlertChanges;
+  children: JSX.Element | string | undefined;
 };
-export const AlertTitle: React.FC<Props> = ({ alertId, info, ...props }) => {
+export const AlertTitle: React.FC<Props> = ({ alertId, info, children }) => {
   const [showComment, setShowComment] = useState(false);
   return (
-    <Flex sx={{ alignItems: "center", justifyContent: "stretch" }}>
+    <Stack direction="row" alignItems="center" justifyContent="space-between">
       <AlertStatus alertId={alertId} />
-      <Box as="h2" sx={{ paddingLeft: "xsmall" }} {...props} />
+      <h2>{children}</h2>
       {info.type === "dila" && info.num && (
         <a
           sx={{ px: "xsmall" }}
@@ -46,6 +45,6 @@ export const AlertTitle: React.FC<Props> = ({ alertId, info, ...props }) => {
         />
       </IconButton>
       {showComment && <Comments alertId={alertId} />}
-    </Flex>
+    </Stack>
   );
 };

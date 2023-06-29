@@ -1,9 +1,7 @@
-/** @jsxImportSource theme-ui */
-
 import { Accordion } from "@reach/accordion";
 import { HasuraAlert } from "@shared/types";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { AlertTabs } from "src/components/alerts/AlertTabs";
 import { AlertTitle } from "src/components/alerts/AlertTitle";
@@ -22,8 +20,9 @@ import { withUserProvider } from "src/hoc/UserProvider";
 import { jsxJoin } from "src/lib/jsx";
 import type { AlertStatusType } from "src/models";
 import { alertStatusWordings } from "src/models";
-import { Card, Container, Divider, Message, Text } from "theme-ui";
 import { useQuery } from "urql";
+import { Card, CardContent, Container, Divider } from "@mui/material";
+import { FixedSnackBar } from "../../components/utils/SnackBar";
 
 const getAlertQuery = `
 query getAlerts($status: String!, $repository: String!, $limit: Int!, $offset: Int!) {
@@ -101,9 +100,9 @@ export function AlertPage(): JSX.Element {
   if (error || !data) {
     return (
       <Layout title="Gestion des alertes">
-        <Message>
+        <FixedSnackBar>
           <pre>{JSON.stringify(error, null, 2)}</pre>
-        </Message>
+        </FixedSnackBar>
       </Layout>
     );
   }
@@ -146,9 +145,7 @@ export function AlertPage(): JSX.Element {
           de leur impact sur nos contenus.
         </p>
         <AlertTabs repository={repository} activeStatus={activeStatus} />
-        <Text sx={{ fontSize: "small" }}>
-          {alertStatusWordings[activeStatus as AlertStatusType]}
-        </Text>
+        <small>{alertStatusWordings[activeStatus as AlertStatusType]}</small>
         {alerts.map((alert) => {
           const openIndices = [];
           // Pre-open documents panel If there are documents targeted by the alert
@@ -195,14 +192,16 @@ export function AlertPage(): JSX.Element {
           return (
             <Container sx={{ paddingTop: "large" }} key={`${alert.id}`}>
               <Card>
-                <Stack>
-                  <AlertTitle alertId={alert.id} info={alert.changes}>
-                    {getTitle(alert)}
-                  </AlertTitle>
-                  <Accordion collapsible multiple defaultIndex={openIndices}>
-                    {jsxJoin(accordionItems, <Divider />)}
-                  </Accordion>
-                </Stack>
+                <CardContent>
+                  <Stack>
+                    <AlertTitle alertId={alert.id} info={alert.changes}>
+                      {getTitle(alert)}
+                    </AlertTitle>
+                    <Accordion collapsible multiple defaultIndex={openIndices}>
+                      {jsxJoin(accordionItems, <Divider />)}
+                    </Accordion>
+                  </Stack>
+                </CardContent>
               </Card>
             </Container>
           );
@@ -217,16 +216,5 @@ export function AlertPage(): JSX.Element {
     </Layout>
   );
 }
-
-/**
- * This getInitialProps ensure useState to reset while page url change
- * @see https://github.com/vercel/next.js/issues/9992
- */
-// AlertPage.getInitialProps = async function ({ query }) {
-//   const [repo, activeStatus = "todo"] = query.params;
-//   return {
-//     key: `${repo}/${activeStatus}`,
-//   };
-// };
 
 export default withCustomUrqlClient(withUserProvider(AlertPage));

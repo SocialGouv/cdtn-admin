@@ -1,6 +1,6 @@
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
-import { Divider } from "theme-ui";
+import { Divider } from "@mui/material";
 
 import { Button } from "../button";
 import { SectionBlock } from "./SectionBlock";

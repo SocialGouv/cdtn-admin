@@ -1,8 +1,10 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Card, Flex, Message, Text } from "theme-ui";
 import { useQuery } from "urql";
+import { Card, CardContent, Typography } from "@mui/material";
+import { FixedSnackBar } from "../utils/SnackBar";
+import React from "react";
 
 export const getUnthemedContentQuery = `
 query getUnthemed($themeSources: [String!]!) {
@@ -54,28 +56,31 @@ export function UnThemedContent() {
   }
   if (error) {
     return (
-      <Message>
-        <pre>{JSON.stringify(error, 2)}</pre>
-      </Message>
+      <FixedSnackBar>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </FixedSnackBar>
     );
   }
   return (
     <Link href="/unthemed" passHref style={{ textDecoration: "none" }}>
       <Card>
-        <Flex sx={{ justifyContent: "flex-end" }}>
-          <Text
+        <CardContent>
+          <Typography
+            align="right"
             color="secondary"
+            variant="h2"
             sx={{
               fontSize: "xxlarge",
               fontWeight: "600",
             }}
           >
             {data.documents.length}
-          </Text>
-        </Flex>
-        <Box>
-          <Text sx={{ textAlign: "right" }}>Contenus non thémés</Text>
-        </Box>
+          </Typography>
+
+          <Typography sx={{ textAlign: "right" }}>
+            Contenus non thémés
+          </Typography>
+        </CardContent>
       </Card>
     </Link>
   );
