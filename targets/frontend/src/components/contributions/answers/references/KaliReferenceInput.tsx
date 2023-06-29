@@ -12,7 +12,7 @@ import {
 import { FormTextField } from "../../../forms";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useContributionSearchKaliReferenceQuery } from "./kaliReferencesSearch.query";
-import { KaliReference, Answer, KaliArticle } from "../../type";
+import { Answer, KaliArticle } from "../../type";
 import { Result } from "./ReferenceInput";
 import { SimpleLink } from "../../../utils/SimpleLink";
 
