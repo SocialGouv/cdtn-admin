@@ -37,6 +37,7 @@ export function UserMenu() {
             id="long-button"
             aria-haspopup="true"
             onClick={handleClick}
+            sx={{ color: "white" }} // TODO: modify with theme
           >
             <MoreVertIcon />
           </IconButton>

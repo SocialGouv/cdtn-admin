@@ -9,7 +9,6 @@ import {
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import { NavigationItem, NavigationItemProps } from "./NavigationItem";
-import { useRouter } from "next/router";
 
 type NavigationGroupProps = {
   id: string;
@@ -25,13 +24,9 @@ export function NavigationGroup({
   label,
   expanded,
   onExpand,
-  aggregateCount,
+  aggregateCount = 0,
   items = [],
 }: NavigationGroupProps) {
-  const router = useRouter();
-  if (items.some(({ href }) => href === router.asPath)) {
-    expanded = true;
-  }
   return (
     <Accordion expanded={expanded} onChange={() => onExpand(id)} disableGutters>
       <AccordionHeader
@@ -46,11 +41,13 @@ export function NavigationGroup({
           width="100%"
         >
           <Typography>{label}</Typography>
-          <Badge
-            badgeContent={aggregateCount}
-            color="error"
-            invisible={!aggregateCount}
-          />
+          {aggregateCount > 0 && (
+            <Badge
+              badgeContent={aggregateCount}
+              color="error"
+              invisible={!aggregateCount}
+            />
+          )}
         </Stack>
       </AccordionHeader>
       <AccordionDetails>

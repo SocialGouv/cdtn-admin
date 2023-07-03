@@ -50,11 +50,9 @@ export function Layout({ children, title }: LayoutProps) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
-        color="transparent"
       >
         <Toolbar sx={{ height: headerHeight }}>
           <IconButton
-            color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
@@ -93,6 +91,7 @@ export function Layout({ children, title }: LayoutProps) {
         }}
       >
         <Toolbar sx={{ height: headerHeight }} />
+        <h1>{title}</h1>
         {children}
       </Box>
     </Box>
