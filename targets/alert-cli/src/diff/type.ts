@@ -3,18 +3,30 @@ import type {
   TravailDataAlertChanges,
   VddAlertChanges,
 } from "@shared/types";
-import type { ConvenientPatch, Tree } from "nodegit";
+import { GitTagData } from "../types";
 
-import type { GitTagData } from "../types";
+export interface Diff {
+  from: GitTagData;
+  to: GitTagData;
+  files: DiffFile[];
+}
 
-export type DataDiffParams = {
+export type PatchStatus = "added" | "modified" | "removed";
+
+export interface DiffFile {
+  filename: string;
+  status: PatchStatus;
+}
+
+export type LoadFileFn = (file: DiffFile, tag: GitTagData) => Promise<string>;
+
+export interface DataDiffParams {
   repositoryId: string;
   tag: GitTagData;
-  patches: ConvenientPatch[];
+  patches: Diff;
   fileFilter: (path: string) => boolean;
-  prevTree: Tree;
-  currTree: Tree;
-};
+  loadFile: LoadFileFn;
+}
 
 export type DataDiffFunction = (
   params: DataDiffParams

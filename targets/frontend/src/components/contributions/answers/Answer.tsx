@@ -75,7 +75,7 @@ export const ContributionsAnswer = ({
       setStatus(answer.status.status);
     }
   }, [answer]);
-  const { control, handleSubmit, watch } = useForm<AnswerForm>({
+  const { control, getValues, trigger, watch } = useForm<AnswerForm>({
     defaultValues: {
       content: answer?.content ?? "",
       otherAnswer: answer?.otherAnswer ?? "ANSWER",
@@ -91,7 +91,20 @@ export const ContributionsAnswer = ({
   }>({
     open: false,
   });
-  const onSubmit = async (data: AnswerForm) => {
+
+  const onSubmit = async (newStatus: Status) => {
+    const isValid = await trigger();
+    if (!isValid) {
+      return setSnack({
+        open: true,
+        severity: "error",
+        message: "Formulaire invalide",
+      });
+    }
+
+    setStatus(newStatus);
+    const data = getValues();
+
     try {
       if (!answer || !answer.id) {
         throw new Error("Id non définit");
@@ -101,7 +114,7 @@ export const ContributionsAnswer = ({
         content: data.content,
         id: answer.id,
         otherAnswer: data.otherAnswer,
-        status,
+        status: newStatus,
         userId: user?.id,
         kali_references: formatKaliReferences(answer, data),
         legi_references: formatLegiReferences(answer, data),
@@ -140,7 +153,7 @@ export const ContributionsAnswer = ({
       <h2>{answer?.agreement?.name}</h2>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         <Box sx={{ width: "70%" }}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Stack spacing={5}>
               <FormControl>
                 <FormEditionField
@@ -206,31 +219,25 @@ export const ContributionsAnswer = ({
               >
                 <Button
                   variant="outlined"
-                  type="submit"
-                  onClick={() => setStatus("REDACTING")}
+                  type="button"
+                  onClick={() => onSubmit("REDACTING")}
                   disabled={status === "TODO" || status === "REDACTING"}
                 >
                   Remettre en rédaction
                 </Button>
                 <Button
                   variant="text"
-                  type="submit"
+                  type="button"
                   disabled={isNotEditable(answer)}
-                  onClick={() => {
-                    if (status === "TODO") {
-                      setStatus("REDACTING");
-                    }
-                  }}
+                  onClick={() => onSubmit("REDACTING")}
                 >
                   Sauvegarder
                 </Button>
                 <Button
                   variant="contained"
+                  type="button"
                   color="success"
-                  type="submit"
-                  onClick={() => {
-                    setStatus(getNextStatus(status));
-                  }}
+                  onClick={() => onSubmit(getNextStatus(status))}
                   disabled={status === "PUBLISHED"}
                 >
                   {getPrimaryButtonLabel(status)}

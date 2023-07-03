@@ -1,5 +1,4 @@
 import { describe, expect } from "@jest/globals";
-import type { Commit } from "nodegit";
 
 import processAgreementChanges from "../ProcessAgreementChanges";
 import type { AgreementFileChange } from "../types";
@@ -8,6 +7,7 @@ import irrevelantChanges from "./dataset/filechanges_kali_agreement_irrevelant_c
 import noChanges from "./dataset/filechanges_kali_agreement_no_changes.json";
 import removed from "./dataset/filechanges_kali_agreement_removed.json";
 import revelantChanges from "./dataset/filechanges_kali_agreement_revelant_changes.json";
+import { Commit } from "../../../../types";
 
 describe("Calcul des différences sur les conventions collectives (kali-data)", () => {
   describe("Aucun changement dans une convention collective", () => {
