@@ -69,6 +69,7 @@ export const ContributionsAnswer = ({
     }
   }, [answer]);
   const { control, getValues, trigger, watch } = useForm<Answer>({
+    values: answer,
     defaultValues: {
       content: "",
       otherAnswer: "ANSWER",
