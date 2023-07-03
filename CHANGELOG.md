@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.9.1...v2.10.0) (2023-07-03)
+
+### Bug Fixes
+
+- **auth:** remove inMemoryToken from `auth` ([#958](https://github.com/SocialGouv/cdtn-admin/issues/958)) ([61a623f](https://github.com/SocialGouv/cdtn-admin/commit/61a623f71efb433daa6dd6ec9c1d9f43167b630e))
+- **contributions:** add slug for all idcc (even when starting with 0) ([#961](https://github.com/SocialGouv/cdtn-admin/issues/961)) ([1bb8628](https://github.com/SocialGouv/cdtn-admin/commit/1bb86286b3f5c76c4d1c18d5426ada4ba9331e96))
+- **contributions:** make button behavior right on answer form ([#962](https://github.com/SocialGouv/cdtn-admin/issues/962)) ([9bdf988](https://github.com/SocialGouv/cdtn-admin/commit/9bdf988dfbf4e35c40f1067346cc46a50ac75dcb))
+- modifier le post restore pour garder les users anonymisés ([#954](https://github.com/SocialGouv/cdtn-admin/issues/954)) ([7f44dc3](https://github.com/SocialGouv/cdtn-admin/commit/7f44dc3c6ffd469fadef37fc33aa5b667636d05d))
+- **upgrade:** set node version to 20 ([#939](https://github.com/SocialGouv/cdtn-admin/issues/939)) ([1b1b23e](https://github.com/SocialGouv/cdtn-admin/commit/1b1b23ef111f48ebc790fe075463a1634cd0d69b))
+- **workflow:** update backup url + add job to job review ([#957](https://github.com/SocialGouv/cdtn-admin/issues/957)) ([6c613d9](https://github.com/SocialGouv/cdtn-admin/commit/6c613d912ddfe4172b2fa7dc0ee0d80162768da1))
+
+### Features
+
+- **synonyms:** ajout d'un synonyme pour la CC 1486 ([#959](https://github.com/SocialGouv/cdtn-admin/issues/959)) ([8a85d98](https://github.com/SocialGouv/cdtn-admin/commit/8a85d988b597ed2be66615394262c73bf34976d4))
+
 ## [2.9.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.9.0...v2.9.1) (2023-06-26)
 
 ### Bug Fixes

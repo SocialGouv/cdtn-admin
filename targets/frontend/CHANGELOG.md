@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.9.1...v2.10.0) (2023-07-03)
+
+### Bug Fixes
+
+- **auth:** remove inMemoryToken from `auth` ([#958](https://github.com/SocialGouv/cdtn-admin/issues/958)) ([61a623f](https://github.com/SocialGouv/cdtn-admin/commit/61a623f71efb433daa6dd6ec9c1d9f43167b630e))
+- **contributions:** make button behavior right on answer form ([#962](https://github.com/SocialGouv/cdtn-admin/issues/962)) ([9bdf988](https://github.com/SocialGouv/cdtn-admin/commit/9bdf988dfbf4e35c40f1067346cc46a50ac75dcb))
+- **upgrade:** set node version to 20 ([#939](https://github.com/SocialGouv/cdtn-admin/issues/939)) ([1b1b23e](https://github.com/SocialGouv/cdtn-admin/commit/1b1b23ef111f48ebc790fe075463a1634cd0d69b))
+
 ## [2.9.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.9.0...v2.9.1) (2023-06-26)
 
 ### Bug Fixes

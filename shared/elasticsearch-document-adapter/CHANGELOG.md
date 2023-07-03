@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.9.1...v2.10.0) (2023-07-03)
+
+### Bug Fixes
+
+- **contributions:** add slug for all idcc (even when starting with 0) ([#961](https://github.com/SocialGouv/cdtn-admin/issues/961)) ([1bb8628](https://github.com/SocialGouv/cdtn-admin/commit/1bb86286b3f5c76c4d1c18d5426ada4ba9331e96))
+
 ## [2.9.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.9.0...v2.9.1) (2023-06-26)
 
 **Note:** Version bump only for package @shared/elasticsearch-document-adapter

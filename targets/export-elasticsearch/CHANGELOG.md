@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.9.1...v2.10.0) (2023-07-03)
+
+### Bug Fixes
+
+- **upgrade:** set node version to 20 ([#939](https://github.com/SocialGouv/cdtn-admin/issues/939)) ([1b1b23e](https://github.com/SocialGouv/cdtn-admin/commit/1b1b23ef111f48ebc790fe075463a1634cd0d69b))
+
+### Features
+
+- **synonyms:** ajout d'un synonyme pour la CC 1486 ([#959](https://github.com/SocialGouv/cdtn-admin/issues/959)) ([8a85d98](https://github.com/SocialGouv/cdtn-admin/commit/8a85d988b597ed2be66615394262c73bf34976d4))
+
 ## [2.9.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.9.0...v2.9.1) (2023-06-26)
 
 **Note:** Version bump only for package export-elasticsearch
