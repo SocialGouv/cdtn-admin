@@ -37,7 +37,7 @@ const KaliReferenceSearch = ({
 
   useEffect(() => {
     setOptions(data);
-  }, [data]);
+  }, [JSON.stringify(data)]);
 
   return (
     <Autocomplete
@@ -54,7 +54,6 @@ const KaliReferenceSearch = ({
       options={options}
       loading={fetching}
       getOptionLabel={(item: KaliArticle) => {
-        console.log(item);
         return item.path;
       }}
       renderInput={(params) => (
