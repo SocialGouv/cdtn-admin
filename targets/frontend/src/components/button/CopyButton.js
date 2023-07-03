@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { Button } from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";

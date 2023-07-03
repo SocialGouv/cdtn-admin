@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import PropTypes from "prop-types";
 import { IoIosCheckmark, IoIosClose } from "react-icons/io";
 import { useMutation } from "urql";
@@ -19,11 +17,13 @@ mutation updateAlertStatus($id:uuid!, $status:String!) {
 }
 `;
 
-export function AlertStatus({ alertId }) {
+export function AlertStatus({ alertId }: { alertId: string }) {
   const [, executeUpdate] = useMutation(alertMutation);
-  function updateStatus(status) {
+
+  function updateStatus(status: string) {
     executeUpdate({ id: alertId, status });
   }
+
   return (
     <MenuButton variant="secondary">
       <MenuItem onSelect={() => updateStatus("doing")}>
@@ -41,6 +41,7 @@ export function AlertStatus({ alertId }) {
     </MenuButton>
   );
 }
+
 AlertStatus.propTypes = {
   alertId: PropTypes.string.isRequired,
 };
