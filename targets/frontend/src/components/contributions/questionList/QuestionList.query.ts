@@ -28,7 +28,6 @@ export type QueryQuestion = Pick<Question, "id" | "content"> & {
 
 export type QueryResult = {
   contribution_questions: QueryQuestion[];
-  contribution_questions_aggregate: { aggregate: { count: number } };
 };
 
 export type QuestionListQueryProps = {
