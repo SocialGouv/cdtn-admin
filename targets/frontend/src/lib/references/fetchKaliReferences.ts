@@ -1,6 +1,6 @@
 import { client as gqlClient } from "@shared/graphql-client";
 import { fetchKaliReferencesInput } from "./recentKaliReferences";
-import { KaliReference } from "../../components/contributions";
+import { KaliArticle } from "../../components/contributions";
 
 const getKaliReferences = `
 query getKaliReferences($agreementId: bpchar!, $query: String!) {
@@ -20,7 +20,7 @@ export async function fetchKaliReferences({
   query,
 }: Omit<fetchKaliReferencesInput, "limit">) {
   const result = await gqlClient
-    .query<{ kali_articles: KaliReference[] }>(getKaliReferences, {
+    .query<{ kali_articles: KaliArticle[] }>(getKaliReferences, {
       agreementId,
       query,
     })

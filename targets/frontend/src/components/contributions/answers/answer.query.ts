@@ -1,5 +1,5 @@
 import { useQuery } from "urql";
-import {useMemo} from "react";
+import { useMemo } from "react";
 
 import { Answer, AnswerStatus } from "../type";
 import { initStatus } from "../status/utils";
@@ -20,7 +20,7 @@ query contribution_answer($id: uuid) {
       id
       name
     }
-    answer_comments {
+    answerComments: answer_comments {
       id
       content
       createdAt: created_at
@@ -35,9 +35,9 @@ query contribution_answer($id: uuid) {
         name
       }
     }
-    kali_references {
+    kaliReferences: kali_references {
      label
-      kali_article {
+      kaliArticle: kali_article {
         id
         path
         cid
@@ -45,20 +45,20 @@ query contribution_answer($id: uuid) {
         label
       }
     }
-    legi_references {
-      legi_article {
+    legiReferences: legi_references {
+      legiArticle: legi_article {
         id
         label
         cid
       }
     }
-    other_references {
+    otherReferences: other_references {
       label
       url
     }
-    cdtn_references {
+    cdtnReferences: cdtn_references {
       document {
-        cdtn_id
+        cdtnId: cdtn_id
         title
         source
         slug
@@ -81,13 +81,16 @@ type QueryResult = {
 export const useContributionAnswerQuery = ({
   id,
 }: QueryProps): AnswerWithStatus | undefined => {
-  const context = useMemo(() => ({ additionalTypenames: ['AnswerComments'] }), []);
+  const context = useMemo(
+    () => ({ additionalTypenames: ["AnswerComments"] }),
+    []
+  );
   const [result] = useQuery<QueryResult>({
     query: contributionAnswerQuery,
     variables: {
       id,
     },
-    context
+    context,
   });
   if (
     !result?.data?.contribution_answers ||

@@ -1,13 +1,13 @@
 import { useQuery } from "urql";
 
-import { CdtnReference } from "../../type";
+import { CdtnReference, Document } from "../../type";
 import { Result } from "./ReferenceInput";
 
 export const contributionSearchCdtnReferencesSearch = `
 query SearchCdtnReferences($query: String, $sources: [String!]) {
   documents(where: {title: {_ilike: $query}, is_available: {_eq: true}, is_published: {_eq: true}, source: {_in: $sources}}, limit: 10) {
     title
-    cdtn_id
+    cdtnId: cdtn_id
     source
     slug
   }
@@ -15,12 +15,12 @@ query SearchCdtnReferences($query: String, $sources: [String!]) {
 `;
 
 type QueryResult = {
-  documents: CdtnReference[];
+  documents: Document[];
 };
 
 export const useContributionSearchCdtnReferencesQuery = (
   query: string | undefined
-): Result<CdtnReference> => {
+): Result<Pick<CdtnReference, "document">> => {
   const [{ data, fetching, error }] = useQuery<QueryResult>({
     query: contributionSearchCdtnReferencesSearch,
     variables: {
@@ -37,7 +37,7 @@ export const useContributionSearchCdtnReferencesQuery = (
     },
   });
   return {
-    data: data?.documents ?? [],
+    data: data?.documents.map((document) => ({ document })) ?? [],
     error,
     fetching,
   };

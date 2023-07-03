@@ -22,15 +22,19 @@ export const CdtnReferenceInput = ({
     disabled={disabled}
     control={control}
     fetcher={useContributionSearchCdtnReferencesQuery}
-    isEqual={(option, value) => value.cdtn_id === option.cdtn_id}
+    isEqual={(option, value) =>
+      value.document.cdtnId === option.document.cdtnId
+    }
     getLabel={(item) =>
-      `${getRouteBySource(item.source)} > ${item.title} (${item.slug})`
+      `${getRouteBySource(item.document.source)} > ${item.document.title} (${
+        item.document.slug
+      })`
     }
     onClick={(item) => {
       const newWindow = window.open(
-        `https://code.travail.gouv.fr/${getRouteBySource(item.source)}/${
-          item.slug
-        }`,
+        `https://code.travail.gouv.fr/${getRouteBySource(
+          item.document.source
+        )}/${item.document.slug}`,
         "_blank",
         "noopener,noreferrer"
       );

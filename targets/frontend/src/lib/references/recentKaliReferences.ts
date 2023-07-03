@@ -1,5 +1,5 @@
 import { fetchKaliReferences } from "./fetchKaliReferences";
-import { KaliReference } from "../../components/contributions";
+import { KaliArticle } from "../../components/contributions";
 
 export type fetchKaliReferencesInput = {
   agreementId: string;
@@ -7,8 +7,8 @@ export type fetchKaliReferencesInput = {
   limit?: number;
 };
 
-function filterRecentKaliReferences(refs: KaliReference[] = []) {
-  return refs.reduce<KaliReference[]>((result, ref) => {
+function filterRecentKaliReferences(refs: KaliArticle[] = []) {
+  return refs.reduce<KaliArticle[]>((result, ref) => {
     const { cid, createdAt } = ref;
     const foundIndex: number = result.findIndex(
       ({ cid: _cid, createdAt: _createdAt }) => {
