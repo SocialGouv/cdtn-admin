@@ -82,7 +82,6 @@ export const ContributionsAnswer = ({
       cdtnReferences: [],
     },
   });
-  const otherAnswer = watch("otherAnswer", answer?.otherAnswer);
   const updateAnswer = useContributionAnswerUpdateMutation();
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -161,7 +160,9 @@ export const ContributionsAnswer = ({
                   name="content"
                   disabled={isNotEditable(answer)}
                   control={control}
-                  rules={{ required: otherAnswer === "ANSWER" }}
+                  rules={{
+                    required: answer && answer.otherAnswer === "ANSWER",
+                  }}
                 />
               </FormControl>
               {answer && !isCodeDuTravail(answer) && (

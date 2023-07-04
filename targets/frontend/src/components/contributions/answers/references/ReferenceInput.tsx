@@ -49,7 +49,7 @@ export const ReferenceInput = <Type,>({
 
   useEffect(() => {
     setOptions(data);
-  }, [data]);
+  }, [JSON.stringify(data)]);
 
   useEffect(() => {
     if (!open) {
