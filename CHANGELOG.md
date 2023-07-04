@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.1...v2.10.2) (2023-07-04)
+
+### Bug Fixes
+
+- contributions issues ([#967](https://github.com/SocialGouv/cdtn-admin/issues/967)) ([8bd3e96](https://github.com/SocialGouv/cdtn-admin/commit/8bd3e9656d15d95ed931af7c5445f88ec0ccbe9b))
+- **workflow:** change order ([ac54006](https://github.com/SocialGouv/cdtn-admin/commit/ac5400666a87c368f12e1f338d6742a76cd6290c))
+- **workflow:** modify name to isolate environment ([933c233](https://github.com/SocialGouv/cdtn-admin/commit/933c233f90462d8f8e61a554de2881575bda7fb5))
+- **workflow:** preprod key ([27206ae](https://github.com/SocialGouv/cdtn-admin/commit/27206ae7921b3bea6977502527038a778fe56513))
+
+### Features
+
+- **workflow:** add db cleaner ([12e2b91](https://github.com/SocialGouv/cdtn-admin/commit/12e2b9177d96a1f0b8d956c1b48f22273af669c8))
+
 ## [2.10.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.0...v2.10.1) (2023-07-03)
 
 ### Bug Fixes

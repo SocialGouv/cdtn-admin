@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.1...v2.10.2) (2023-07-04)
+
+### Bug Fixes
+
+- contributions issues ([#967](https://github.com/SocialGouv/cdtn-admin/issues/967)) ([8bd3e96](https://github.com/SocialGouv/cdtn-admin/commit/8bd3e9656d15d95ed931af7c5445f88ec0ccbe9b))
+
 ## [2.10.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.0...v2.10.1) (2023-07-03)
 
 **Note:** Version bump only for package frontend
