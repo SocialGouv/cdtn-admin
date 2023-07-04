@@ -5,6 +5,7 @@ import {
   IconButton,
   Drawer,
   Divider,
+  Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Head from "next/head";
@@ -29,16 +30,6 @@ export function Layout({ children, title }: LayoutProps) {
     setMobileOpen(!mobileOpen);
   };
 
-  const drawer = (
-    <div>
-      <Toolbar sx={{ height: headerHeight }}>
-        <LogoAdmin />
-      </Toolbar>
-      <Divider />
-      <Navigation />
-    </div>
-  );
-
   return (
     <Box sx={{ display: "flex" }}>
       <Head>
@@ -56,18 +47,42 @@ export function Layout({ children, title }: LayoutProps) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ mr: 2, display: { sm: "none" }, color: "white" }} // TODO change with theme
           >
             <MenuIcon />
           </IconButton>
+          <Typography variant="h6" component="h1" gutterBottom>
+            {title}
+          </Typography>
           <UserMenu />
         </Toolbar>
       </AppBar>
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
+        aria-label="Admin Menus"
       >
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+        >
+          <Toolbar sx={{ height: headerHeight }}>
+            <LogoAdmin />
+          </Toolbar>
+          <Divider />
+          <Navigation />
+        </Drawer>
         <Drawer
           variant="permanent"
           sx={{
@@ -79,7 +94,11 @@ export function Layout({ children, title }: LayoutProps) {
           }}
           open
         >
-          {drawer}
+          <Toolbar sx={{ height: headerHeight }}>
+            <LogoAdmin />
+          </Toolbar>
+          <Divider />
+          <Navigation />
         </Drawer>
       </Box>
       <Box
@@ -91,7 +110,6 @@ export function Layout({ children, title }: LayoutProps) {
         }}
       >
         <Toolbar sx={{ height: headerHeight }} />
-        <h1>{title}</h1>
         {children}
       </Box>
     </Box>

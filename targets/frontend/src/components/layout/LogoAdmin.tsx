@@ -20,14 +20,14 @@ export function LogoAdmin() {
             width: "77px",
           }}
         />
-        <Box paddingLeft="small">
+        <Stack direction="column" justifyContent="center" textAlign="center">
           <Box sx={{ fontSize: "large", lineHeight: "heading" }}>
             veille & administration
           </Box>
           <Box sx={{ fontSize: "small", fontWeight: 300 }}>
             Code du travail numérique
           </Box>
-        </Box>
+        </Stack>
       </Stack>
     </Link>
   );
