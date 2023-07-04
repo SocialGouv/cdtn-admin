@@ -3,3 +3,61 @@ www:
   env:
     - name: "FRONTEND_HOST"
       value: https://cdtn-admin-preprod.dev.fabrique.social.gouv.fr
+
+hasura:
+  imagePackage: hasura
+  ~needs: [post-restore, build-hasura]
+  ~preDeploy.cleaner:
+    match:
+      kind: Deployment
+    value: true
+  envFrom:
+    - secretRef:
+        name: pg-user
+    - configMapRef:
+        name: hasura
+    - secretRef:
+        name: hasura
+
+jobs:
+  runs:
+    drop-db: # temp
+      use: drop-db
+    create-db:
+      ~needs: [drop-db] # temp
+      use: create-db
+    restore:
+      ~needs: [create-db]
+      use: pg-restore
+      checkout: false
+      with:
+        mountPath: /mnt/restore
+        filterPath: "hasura_prod_db.psql.gz"
+        restorePath: "${LATEST}"
+      volumeMounts:
+        - name: restore
+          mountPath: /mnt/restore
+          readOnly: true
+      volumes:
+        - name: restore
+          csi:
+            driver: file.csi.azure.com
+            readOnly: true
+            volumeAttributes:
+              secretName: cdtnadminprodserver-backup-credentials
+              shareName: cdtnadminprodserver-backup-restore
+    post-restore:
+      ~needs: [restore]
+      use: psql
+      with:
+        sqlFile: .kontinuous/sql/post-restore.sql
+    job-ingester:
+      ~needs: [hasura]
+      use: trigger-cronjob
+      with:
+        cronJobName: cron-ingester
+    job-alert:
+      ~needs: [job-ingester]
+      use: trigger-cronjob
+      with:
+        cronJobName: cron-alert
