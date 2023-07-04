@@ -14,5 +14,5 @@ data:
   REFRESH_TOKEN_EXPIRES: "43200"
   SENTRY_DSN: "https://a5e2451c6b5840c0afa28d5e94060427@sentry.fabrique.social.gouv.fr/42"
   SMTP_URL: "smtp.tipimail.com"
-  STORAGE_CONTAINER: "cdtn-dev"
+  STORAGE_CONTAINER: "cdtn-dev-source"
   URL_EXPORT: "http://export"
