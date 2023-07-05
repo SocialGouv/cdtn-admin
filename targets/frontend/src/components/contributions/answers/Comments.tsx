@@ -1,12 +1,5 @@
 import SendIcon from "@mui/icons-material/Send";
-import {
-  Alert,
-  AlertColor,
-  Box,
-  Button,
-  FormControl,
-  Snackbar,
-} from "@mui/material";
+import { AlertColor, Box, Button, FormControl } from "@mui/material";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { FormTextField } from "src/components/forms";
@@ -15,6 +8,7 @@ import { useUser } from "src/hooks/useUser";
 import { Comments as AnswerComments } from "../type";
 import { Comment } from "./Comment";
 import { MutationProps, useCommentsInsert } from "./comments.mutation";
+import { SnackBar } from "../../utils/SnackBar";
 
 type Props = {
   answerId: string;
@@ -50,11 +44,14 @@ export const Comments = (props: Props) => {
 
   const onSubmit = async (data: MutationProps) => {
     try {
-      await insertComment({
-        answerId: props.answerId,
-        content: data.content,
-        userId: user.id,
-      }, { additionalTypenames: ['AnswerComments'] });
+      await insertComment(
+        {
+          answerId: props.answerId,
+          content: data.content,
+          userId: user.id,
+        },
+        { additionalTypenames: ["AnswerComments"] }
+      );
       setSnack({
         open: true,
         severity: "success",
@@ -109,20 +106,7 @@ export const Comments = (props: Props) => {
           </Button>
         </Box>
       </form>
-      <Snackbar
-        open={snack.open}
-        autoHideDuration={6000}
-        onClose={() => setSnack({ open: false })}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <Alert
-          onClose={() => setSnack({ open: false })}
-          severity={snack.severity}
-          sx={{ width: "100%" }}
-        >
-          {snack?.message}
-        </Alert>
-      </Snackbar>
+      <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
     </Box>
   );
 };

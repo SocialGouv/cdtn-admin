@@ -21,7 +21,13 @@ query getAlerts($repository: String!) {
 }
 `;
 
-export function AlertTabs({ repository, activeStatus }) {
+export function AlertTabs({
+  repository,
+  activeStatus,
+}: {
+  repository: string;
+  activeStatus: string;
+}) {
   const [result] = useQuery({
     query: countAlertByStatusQuery,
     variables: {
@@ -42,7 +48,7 @@ export function AlertTabs({ repository, activeStatus }) {
 
   return (
     <Tabs id="statustab">
-      {data.statuses.map((status) => (
+      {data.statuses.map((status: any) => (
         <Link
           shallow
           key={status.name}

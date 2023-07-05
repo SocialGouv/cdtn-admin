@@ -14,7 +14,9 @@ import type {
 } from "@shared/types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
-import { Badge, Box, Card, Divider } from "@theme-ui/components";
+import { Badge, Box, Card } from "@theme-ui/components";
+import { Divider } from "@mui/material";
+
 import Link from "next/link";
 import React, { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";

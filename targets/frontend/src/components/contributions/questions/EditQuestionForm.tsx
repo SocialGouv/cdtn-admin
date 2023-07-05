@@ -1,18 +1,11 @@
-import {
-  Alert,
-  AlertColor,
-  Button,
-  Card,
-  Snackbar,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { AlertColor, Button, Card, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormSelect, FormTextField } from "src/components/forms";
 
 import { useQuestionUpdateMutation } from "./Question.mutation";
-import { Question, Message } from "../type";
+import { Message, Question } from "../type";
+import { SnackBar } from "../../utils/SnackBar";
 
 type EditQuestionProps = {
   question: Question;
@@ -120,20 +113,7 @@ export const EditQuestionForm = ({
           </Stack>
         </Stack>
       </form>
-      <Snackbar
-        open={snack.open}
-        autoHideDuration={6000}
-        onClose={() => setSnack({ open: false })}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <Alert
-          onClose={() => setSnack({ open: false })}
-          severity={snack.severity}
-          sx={{ width: "100%" }}
-        >
-          {snack.message}
-        </Alert>
-      </Snackbar>
+      <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
     </Stack>
   );
 };

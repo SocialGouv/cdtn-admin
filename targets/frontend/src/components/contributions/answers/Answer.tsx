@@ -1,12 +1,10 @@
 import {
-  Alert,
   AlertColor,
   Box,
   Breadcrumbs,
   Button,
   FormControl,
   Grid,
-  Snackbar,
   Stack,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -35,6 +33,7 @@ import {
 import { statusesMapping } from "../status/data";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { SimpleLink } from "../../utils/SimpleLink";
+import { SnackBar } from "../../utils/SnackBar";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -246,19 +245,7 @@ export const ContributionsAnswer = ({
               </Stack>
             </Stack>
 
-            <Snackbar
-              open={snack.open}
-              autoHideDuration={6000}
-              onClose={() => setSnack({ open: false })}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-            >
-              <Alert
-                onClose={() => setSnack({ open: false })}
-                severity={snack.severity}
-              >
-                {snack?.message}
-              </Alert>
-            </Snackbar>
+            <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
           </form>
         </Box>
         <Box sx={{ width: "30%" }}>
