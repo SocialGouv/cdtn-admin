@@ -11,10 +11,12 @@ import { ExportEsRunMiddleware } from "./controllers/middlewares";
 import {
   AzureParameters,
   AzureRepository,
+  DocumentsRepository,
   ExportRepository,
 } from "./repositories";
 import {
   CopyContainerService,
+  EmbeddingService,
   ExportService,
   SitemapService,
 } from "./services";
@@ -51,9 +53,14 @@ rootContainer
     process.env.AZ_URL_TO ??
       `https://${process.env.AZ_ACCOUNT_NAME_TO}.blob.core.windows.net`
   );
+
 rootContainer
   .bind<ExportRepository>(getName(ExportRepository))
   .to(ExportRepository);
+rootContainer
+  .bind<DocumentsRepository>(getName(DocumentsRepository))
+  .to(DocumentsRepository);
+
 /* MIDDLEWARE */
 rootContainer
   .bind<ExportEsRunMiddleware>(getName(ExportEsRunMiddleware))
@@ -64,6 +71,9 @@ rootContainer.bind<SitemapService>(getName(SitemapService)).to(SitemapService);
 rootContainer
   .bind<CopyContainerService>(getName(CopyContainerService))
   .to(CopyContainerService);
+rootContainer
+  .bind<EmbeddingService>(getName(EmbeddingService))
+  .to(EmbeddingService);
 
 // create server
 const server = new InversifyExpressServer(rootContainer);

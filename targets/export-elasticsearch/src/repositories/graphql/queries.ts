@@ -83,3 +83,19 @@ query getExportEsStatusByStatus($status: String!) {
     updated_at
   }
 }`;
+
+export const getDocumentBySource = `
+query getDocumentBySource($source: String!) {
+  documents(where: {source: {_eq: $source},  is_available: {_eq: true} }) {
+    id: initial_id
+    cdtnId: cdtn_id
+    title
+    slug
+    source
+    text
+    isPublished: is_published
+    isSearchable: is_searchable
+    metaDescription: meta_description
+    document
+  }
+}`;

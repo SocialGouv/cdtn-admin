@@ -3932,6 +3932,11 @@
     styled-components "^5.3.0"
     use-onclickoutside "^0.4.0"
 
+"@socialgouv/cdtn-utils@^4.104.2":
+  version "4.104.2"
+  resolved "https://registry.yarnpkg.com/@socialgouv/cdtn-utils/-/cdtn-utils-4.104.2.tgz#2d4cf13e9545e681d36fea494dead220472c2300"
+  integrity sha512-HzwXF27odkBPFmqR6ESsNLmPl9y3mI9U+Xu2+IUs4fxQz1MUOcelpaWNpLJrhy2lDOHrRGwA+LI1l4ilqg3CJA==
+
 "@socialgouv/contributions-data-types@3.27.0":
   version "3.27.0"
   resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data-types/-/contributions-data-types-3.27.0.tgz#5b1ed3553d0b9f47c28d7204e1e85ee07cd8b359"
@@ -5823,7 +5828,7 @@ axios@^0.24.0:
   dependencies:
     follow-redirects "^1.14.4"
 
-axios@^0.26.1:
+axios@^0.26.0, axios@^0.26.1:
   version "0.26.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
   integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==
@@ -6672,6 +6677,11 @@ chownr@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-2.0.0.tgz#15bfbe53d2eab4cf70f18a8cd68ebe5b3cb1dece"
   integrity sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==
+
+chromadb@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/chromadb/-/chromadb-1.5.3.tgz#554b427b090b48b445b73ac40ee06fb84c6c0b1f"
+  integrity sha512-oQYs3cbSJJiSMYipL/5btX8U3bnW5X1CEMpJnl83XEGWR0uvRp8GtoznKPKPTcuVBMMtKkE1MdeMckWA72M4lw==
 
 ci-info@^2.0.0:
   version "2.0.0"
@@ -13982,6 +13992,14 @@ open@^9.1.0:
     define-lazy-prop "^3.0.0"
     is-inside-container "^1.0.0"
     is-wsl "^2.2.0"
+
+openai@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-3.3.0.tgz#a6408016ad0945738e1febf43f2fccca83a3f532"
+  integrity sha512-uqxI/Au+aPRnsaQRe8CojU0eCR7I0mBiKjD3sNMzY6DaC1ZVrc85u98mtJW6voDug8fgGN+DIZmTDxTthxb7dQ==
+  dependencies:
+    axios "^0.26.0"
+    form-data "^4.0.0"
 
 opn-cli@^3.1.0:
   version "3.1.0"
