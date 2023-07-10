@@ -57,13 +57,14 @@ const RootSection = ({
   }, [errors, setOpen]);
 
   return (
-    <Li
-      sx={{
-        mt: "1rem",
-        mb: "1rem",
-      }}
-    >
-      <Card key={block.key}>
+    <Li>
+      <Card
+        key={block.key}
+        sx={{
+          mt: "1rem",
+          mb: "1rem",
+        }}
+      >
         <CardContent
           sx={{
             mt: "1rem",
