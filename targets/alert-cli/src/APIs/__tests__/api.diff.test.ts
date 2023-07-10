@@ -1,10 +1,4 @@
 import { GithubApi } from "../api";
-import fetch from "node-fetch";
-
-jest.mock("node-fetch", () => ({
-  __esModule: true, // this property makes it work
-  default: jest.fn(),
-}));
 
 const apiResponse = {
   files: [
@@ -46,8 +40,7 @@ const apiResponsePage2 = {
   ],
 };
 
-const mockFetch = fetch as unknown as jest.Mock;
-mockFetch.mockImplementation((url) => {
+global.fetch = jest.fn().mockImplementation((url) => {
   switch (url) {
     case "https://api.github.com/repos/socialgouv/kali-data/compare/v1.4.0...v1.5.0?per_page=100&page=1":
       return {
