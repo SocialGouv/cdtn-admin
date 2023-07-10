@@ -30,7 +30,7 @@ export function ReferenceBlocks({ name }: any) {
     <>
       {blocks.length > 0 ? (
         blocks.map((block, index) => (
-          <Card key={block.key}>
+          <Card key={block.key} style={{ backgroundColor: "#f2f5fa" }}>
             <CardContent>
               <Box
                 sx={{
