@@ -32,7 +32,10 @@ POST http://localhost:8787/copy
 POST http://localhost:8787/embedding/service-public
 
 ###
-GET http://localhost:8787/embedding/service-public/count
+GET http://localhost:8787/embedding/service-public/infos
 
 ###
 GET http://localhost:8787/embedding/service-public?q=service
+
+###
+GET http://localhost:8787/chat?question=parle%20moi%20de%20la%20p%C3%A9riode%20dessai

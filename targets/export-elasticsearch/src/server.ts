@@ -15,6 +15,7 @@ import {
   ExportRepository,
 } from "./repositories";
 import {
+  ChatService,
   CopyContainerService,
   EmbeddingService,
   ExportService,
@@ -74,6 +75,7 @@ rootContainer
 rootContainer
   .bind<EmbeddingService>(getName(EmbeddingService))
   .to(EmbeddingService);
+rootContainer.bind<ChatService>(getName(ChatService)).to(ChatService);
 
 // create server
 const server = new InversifyExpressServer(rootContainer);

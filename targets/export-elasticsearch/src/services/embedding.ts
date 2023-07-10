@@ -66,12 +66,13 @@ export class EmbeddingService {
     return result;
   }
 
-  async countServicePublicDocuments() {
+  async countAndPeekServicePublicDocuments() {
     const collection = await this.client.getOrCreateCollection({
       name: this.SERVICE_PUBLIC_COLLECTION,
       embeddingFunction: this.embedder,
     });
-    const result = await collection.count();
-    return { numDocs: result };
+    const numDocs = await collection.count();
+    const peek = await collection.peek();
+    return { numDocs, peek };
   }
 }
