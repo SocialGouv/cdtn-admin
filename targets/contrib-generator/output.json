@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "Est-ce que vous vous mariez ou concluez un Pacs ?",
+    "responses": [{
+      "text": "Oui",
+      "question": {
+        "text": "Est-ce votre premier mariage ou remariage ?",
+        "responses": [{
+          "text": "Premier mariage",
+          "value": 4
+        }, {
+          "text": "Remariage",
+          "value": 4
+        }]
+      }
+    }, {
+      "text": "Non",
+      "question": {
+        "text": "Est-ce le mariage de votre enfant ?",
+        "responses": [{
+          "text": "Oui",
+          "value": 1
+        }, {
+          "text": "Non",
+          "question": {
+            "text": "Est-ce que vous attendez un enfant ?",
+            "responses": [{
+              "text": "Oui",
+              "value": 3
+            }, {
+              "text": "Non",
+              "question": {
+                "text": "Est-ce que vous avez perdu un enfant ?",
+                "responses": [{
+                  "text": "Oui",
+                  "question": {
+                    "text": "Quel était l'âge de l'enfant au moment du décès ?",
+                    "responses": [{
+                      "text": "Moins de 25 ans",
+                      "question": {
+                        "text": "L'enfant était-il parent ?",
+                        "responses": [{
+                          "text": "Oui",
+                          "value": 7
+                        }, {
+                          "text": "Non",
+                          "value": 5
+                        }]
+                      }
+                    }, {
+                      "text": "Plus de 25 ans",
+                      "value": 5
+                    }]
+                  }
+                }, {
+                  "text": "Non",
+                  "value": 0
+                }]
+              }
+            }]
+          }
+        }]
+      }
+    }]
+  }
+}
