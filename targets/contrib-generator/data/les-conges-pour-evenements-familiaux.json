@@ -1,0 +1,99 @@
+{
+  "question": {
+    "text": "Est-ce que vous vous mariez ou concluez un pacte civil de solidarité (Pacs) ?",
+    "responses": [
+      {
+        "text": "Oui",
+        "question": {
+          "text": "Est-ce votre premier mariage ou remariage ?",
+          "responses": [
+            {
+              "text": "Premier mariage",
+              "result": "Vous avez droit à 4 jours de congés pour événements familiaux."
+            },
+            {
+              "text": "Remariage",
+              "result": "Vous avez droit à 4 jours de congés pour événements familiaux."
+            }
+          ]
+        }
+      },
+      {
+        "text": "Non",
+        "question": {
+          "text": "Est-ce le mariage de votre enfant ?",
+          "responses": [
+            {
+              "text": "Oui",
+              "result": "Vous avez droit à 1 jour de congé pour événements familiaux."
+            },
+            {
+              "text": "Non",
+              "question": {
+                "text": "Est-ce la naissance d'un ou plusieurs enfants ?",
+                "responses": [
+                  {
+                    "text": "Oui",
+                    "result": "Vous avez droit à 3 jours de congés pour événements familiaux."
+                  },
+                  {
+                    "text": "Non",
+                    "question": {
+                      "text": "Est-ce le décès d'un enfant ?",
+                      "responses": [
+                        {
+                          "text": "Oui",
+                          "question": {
+                            "text": "Quel est l'âge de l'enfant décédé ?",
+                            "responses": [
+                              {
+                                "text": "Moins de 25 ans",
+                                "result": "Vous avez droit à 5 jours de congés pour événements familiaux."
+                              },
+                              {
+                                "text": "Plus de 25 ans",
+                                "result": "Vous avez droit à 7 jours de congés pour événements familiaux."
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "text": "Non",
+                          "question": {
+                            "text": "Est-ce le décès du conjoint, du concubin ou du partenaire lié par un pacte civil de solidarité (Pacs), du père, de la mère, du beau-père, de la belle-mère, d'un frère ou d'une sœur ?",
+                            "responses": [
+                              {
+                                "text": "Oui",
+                                "result": "Vous avez droit à 3 jours de congés pour événements familiaux."
+                              },
+                              {
+                                "text": "Non",
+                                "question": {
+                                  "text": "Est-ce l'annonce de la survenue d'un handicap chez un enfant ?",
+                                  "responses": [
+                                    {
+                                      "text": "Oui",
+                                      "result": "Vous avez droit à 2 jours de congés pour événements familiaux."
+                                    },
+                                    {
+                                      "text": "Non",
+                                      "result": "Vous n'avez pas droit à des congés pour événements familiaux."
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

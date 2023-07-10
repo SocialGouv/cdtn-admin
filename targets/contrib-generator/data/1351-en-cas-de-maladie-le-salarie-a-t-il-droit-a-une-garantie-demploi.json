@@ -1,0 +1,27 @@
+{
+  "question": {
+    "text": "En cas de maladie, le salarié a-t-il droit à une garantie d’emploi ?",
+    "responses": [
+      {
+        "text": "Oui",
+        "question": {
+          "text": "La maladie est-elle professionnelle ou due à un accident du travail ?",
+          "responses": [
+            {
+              "text": "Oui",
+              "result": "Le salarié a droit à une garantie d'emploi."
+            },
+            {
+              "text": "Non",
+              "result": "Le salarié peut être licencié dans certains cas."
+            }
+          ]
+        }
+      },
+      {
+        "text": "Non",
+        "result": "Le salarié peut être licencié dans certains cas."
+      }
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "Le décès de l’employeur a-t-il des conséquences sur le contrat de travail ?",
+    "responses": [
+      {
+        "text": "Oui",
+        "question": {
+          "text": "L'employeur est-il une entreprise individuelle ?",
+          "responses": [
+            {
+              "text": "Oui",
+              "question": {
+                "text": "Les héritiers de l'entrepreneur décident-ils de poursuivre l'activité ?",
+                "responses": [
+                  {
+                    "text": "Oui",
+                    "result": "Aucune conséquence sur les contrats de travail."
+                  },
+                  {
+                    "text": "Non",
+                    "question": {
+                      "text": "Les héritiers de l'entrepreneur décident-ils de vendre l'entreprise dans son ensemble ?",
+                      "responses": [
+                        {
+                          "text": "Oui",
+                          "result": "Les contrats de travail sont transférés automatiquement à l'acheteur."
+                        },
+                        {
+                          "text": "Non",
+                          "result": "Les salariés seront licenciés pour motif économique."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "text": "Non",
+              "result": "Non applicable"
+            }
+          ]
+        }
+      },
+      {
+        "text": "Non",
+        "question": {
+          "text": "L'employeur est-il un particulier ?",
+          "responses": [
+            {
+              "text": "Oui",
+              "result": "Le décès peut entraîner la fin du contrat de travail selon les conditions de la convention collective applicable."
+            },
+            {
+              "text": "Non",
+              "result": "Aucune conséquence sur le contrat de travail."
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

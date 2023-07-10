@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "Le préavis de licenciement doit-il être exécuté en totalité ? Y compris si le salarié a retrouvé un emploi ?",
+    "responses": [
+      {
+        "text": "Oui",
+        "question": {
+          "text": "L’employeur dispense-t-il le salarié d'exécuter le préavis ?",
+          "responses": [
+            {
+              "text": "Oui",
+              "result": "Le préavis doit être exécuté en totalité, même si le salarié a retrouvé un emploi."
+            },
+            {
+              "text": "Non",
+              "question": {
+                "text": "Le salarié prend-il des congés payés pendant le préavis, avec l’accord de l’employeur ?",
+                "responses": [
+                  {
+                    "text": "Oui",
+                    "result": "La date de fin du préavis est repoussée de la même durée que celle des congés."
+                  },
+                  {
+                    "text": "Non",
+                    "question": {
+                      "text": "La convention collective ou un accord collectif prévoit-il que le salarié peut s’absenter pour une recherche d’emploi et/ou être dispensé d'exécuter le préavis ?",
+                      "responses": [
+                        {
+                          "text": "Oui",
+                          "result": "Le préavis doit être exécuté en totalité, même si le salarié a retrouvé un emploi."
+                        },
+                        {
+                          "text": "Non",
+                          "question": {
+                            "text": "L'employeur applique-t-il les conditions prévues par la convention ou l'accord collectif ou un usage, si elles sont plus favorables que le code du travail pour le salarié ?",
+                            "responses": [
+                              {
+                                "text": "Oui",
+                                "result": "Le préavis doit être exécuté en totalité, même si le salarié a retrouvé un emploi."
+                              },
+                              {
+                                "text": "Non",
+                                "result": "Le préavis doit être exécuté en totalité, même si le salarié a retrouvé un emploi."
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Non",
+        "result": "Le préavis doit être exécuté en totalité, même si le salarié a retrouvé un emploi."
+      }
+    ]
+  }
+}

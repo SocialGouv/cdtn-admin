@@ -1,0 +1,51 @@
+{
+  "question": {
+    "text": "Est-ce que le salarié a moins de 6 mois d'ancienneté ?",
+    "responses": [
+      {
+        "text": "oui",
+        "question": {
+          "text": "Est-ce que la convention collective, un accord collectif, le contrat de travail ou un usage prévoit une durée de préavis en cas de mise à la retraite ?",
+          "responses": [
+            {
+              "text": "oui",
+              "result": "La durée de préavis en cas de mise à la retraite dépend de la convention collective, de l'accord collectif, du contrat de travail ou de l'usage."
+            },
+            {
+              "text": "non",
+              "result": "La durée de préavis en cas de mise à la retraite dépend de la durée prévue en cas de licenciement."
+            }
+          ]
+        }
+      },
+      {
+        "text": "non",
+        "question": {
+          "text": "Est-ce que le salarié a entre 6 mois et moins de 2 ans d'ancienneté ?",
+          "responses": [
+            {
+              "text": "oui",
+              "result": "La durée du préavis en cas de mise à la retraite est de 1 mois."
+            },
+            {
+              "text": "non",
+              "question": {
+                "text": "Est-ce que le salarié a 2 ans ou plus d'ancienneté ?",
+                "responses": [
+                  {
+                    "text": "oui",
+                    "result": "La durée du préavis en cas de mise à la retraite est de 2 mois."
+                  },
+                  {
+                    "text": "non",
+                    "result": "La durée de préavis en cas de mise à la retraite dépend de la durée prévue en cas de licenciement."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

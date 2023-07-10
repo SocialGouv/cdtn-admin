@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "Est-ce qu'un poste se libère ou est créé dans l'entreprise ?",
+    "responses": [
+      {
+        "text": "Oui",
+        "question": {
+          "text": "Le salarié est-il à temps partiel et souhaite occuper un emploi d'une durée au moins égale à 24 heures ou un emploi à temps plein ?",
+          "responses": [
+            {
+              "text": "Oui",
+              "result": "L'employeur doit informer le salarié des postes libres correspondants."
+            },
+            {
+              "text": "Non",
+              "question": {
+                "text": "Le salarié est-il à temps plein et souhaite occuper un emploi à temps partiel ?",
+                "responses": [
+                  {
+                    "text": "Oui",
+                    "result": "L'employeur doit informer le salarié des postes libres correspondants."
+                  },
+                  {
+                    "text": "Non",
+                    "question": {
+                      "text": "Le salarié est-il en télétravail et souhaite occuper ou reprendre un poste sans télétravail ?",
+                      "responses": [
+                        {
+                          "text": "Oui",
+                          "result": "L'employeur doit informer le salarié des postes disponibles et lui donner la priorité s'il se porte candidat."
+                        },
+                        {
+                          "text": "Non",
+                          "question": {
+                            "text": "Le salarié est-il en CDD ou en contrat de mission (intérim) ?",
+                            "responses": [
+                              {
+                                "text": "Oui",
+                                "result": "L'employeur informe les salariés en CDD ou en contrat de mission de la liste des postes à pourvoir dans l'entreprise par des CDI, si un tel dispositif d'information existe déjà pour les salariés en CDI."
+                              },
+                              {
+                                "text": "Non",
+                                "result": "L'employeur n'est pas tenu d'informer les salariés des postes créés ou qui se libèrent dans l'entreprise."
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Non",
+        "result": "L'employeur n'est pas tenu d'informer les salariés des postes créés ou qui se libèrent dans l'entreprise."
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "question": {
+    "text": "L'employeur applique-t-il les conditions prévues par la convention ou l'accord collectif ou un usage, si elles sont plus favorables que le code du travail pour le salarié ?",
+    "responses": [
+      {
+        "text": "Oui",
+        "question": {
+          "text": "Le contrat de travail prévoit-il des mesures plus favorables ?",
+          "responses": [
+            {
+              "text": "Oui",
+              "result": "Le nombre de jours de congés dépend des conditions prévues par la convention ou l'accord collectif ou un usage, ainsi que des mesures plus favorables prévues par le contrat de travail."
+            },
+            {
+              "text": "Non",
+              "result": "Le nombre de jours de congés dépend uniquement des conditions prévues par la convention ou l'accord collectif ou un usage."
+            }
+          ]
+        }
+      },
+      {
+        "text": "Non",
+        "result": "Le nombre de jours de congés dépend uniquement des conditions prévues par le code du travail."
+      }
+    ]
+  }
+}

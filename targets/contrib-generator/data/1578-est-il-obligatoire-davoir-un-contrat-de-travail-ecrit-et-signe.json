@@ -1,0 +1,47 @@
+{
+    "question": {
+        "text": "Est-il obligatoire d'avoir un contrat de travail écrit et signé ?",
+        "responses": [
+            {
+                "text": "Oui",
+                "question": {
+                    "text": "Quel type de contrat de travail avez-vous ?",
+                    "responses": [
+                        {
+                            "text": "Contrat de travail à temps partiel",
+                            "result": "Le contrat de travail du salarié à temps partiel est un contrat écrit et rédigé en français. Cette règle s’applique à tous les contrats (CDI, CDD, intérim, etc.). L’avenant au contrat doit également faire l'objet d'un écrit."
+                        },
+                        {
+                            "text": "CDD",
+                            "result": "Le CDD doit être écrit, en français, et signé dans un délai de 2 jours suivant l’embauche. En l’absence d’écrit, l’employeur peut être condamné à une amende de 3.750 € ou 7.500 € en cas de récidive. Si l’employeur transmet le CDD au salarié après le délai de 2 jours, il s'expose au paiement d'une indemnité égale à 1 mois de salaire maximum."
+                        },
+                        {
+                            "text": "Contrat de mission (intérim)",
+                            "result": "Le contrat de mission (intérim) doit être écrit, en français, et signé dans un délai de 2 jours suivant la mise à disposition du salarié auprès de l’entreprise. En l’absence d’écrit, l’employeur peut être condamné à une amende de 3.750 € ou 7.500 € en cas de récidive. Si l’employeur transmet le contrat de mission (intérim) au salarié après le délai de 2 jours, il s'expose au paiement d'une indemnité égale à 1 mois de salaire maximum."
+                        },
+                        {
+                            "text": "Contrat d'apprentissage",
+                            "result": "Le contrat d'apprentissage est un contrat écrit, en français, qui contient des clauses obligatoires. Il est signé avant le début du contrat, par l’employeur et l’apprenti. Si l'apprenti est mineur, ses parents ou son tuteur signent également le contrat. Si l’apprenti mineur est engagé par son père, sa mère ou un grand-parent, le contrat d’apprentissage peut être remplacé par une simple déclaration à faire par l’employeur. Il est conclu au moyen du formulaire cerfa n°10103*09. En l’absence d’écrit, le contrat d’apprentissage est nul. Le salarié est considéré être en CDI à temps plein. Si le contrat d’apprentissage est conclu dans le cadre d’une activité saisonnière, il peut être conclu et signé avec deux employeurs. (Il est également signé par l’apprenti et les parents ou le tuteur de l’apprenti si l’apprenti est mineur.)"
+                        },
+                        {
+                            "text": "Contrat de professionnalisation",
+                            "result": "Le contrat de professionnalisation est conclu par écrit, en français. Si le contrat de professionnalisation est un CDD, l’employeur doit le transmettre au salarié dans un délai de 2 jours (calendaires) suivant l’embauche. Si le contrat de professionnalisation est un CDI, le code du travail n’impose pas ce délai de 2 jours. Si le contrat de professionnalisation est conclu dans le cadre d’une activité saisonnière, il peut être conclu et signé avec deux employeurs. Le contrat de professionnalisation est conclu au moyen du formulaire cerfa n°12434*03. Si le contrat de professionnalisation est un CDD, en l’absence d’écrit, l’employeur peut être condamné à une amende de 3.750 €, ou 7.500 € en cas de récidive. Dans tous les cas, en l'absence de contrat de professionnalisation écrit, le salarié est considéré être en CDI de droit commun. Si l’employeur transmet le CDD au salarié après le délai de 2 jours, il s'expose au paiement d'une indemnité égale à 1 mois de salaire maximum."
+                        },
+                        {
+                            "text": "Contrat de portage salarial",
+                            "result": "Le contrat de travail est établi par écrit : Si le contrat de portage salarial est à durée déterminée, il est transmis au salarié dans les 2 jours ouvrables suivant sa conclusion ; Si le contrat de portage salarial est à durée indéterminée, le code du travail ne prévoit pas de délai. L’entreprise de portage adresse au salarié porté une copie du contrat commercial de portage salarial conclu avec l’entreprise cliente dans les 2 jours ouvrables suivant le début de la prestation. L'entreprise de portage salariale peut être condamnée à une amende de 3.750 € (la récidive est punie de 6 mois d’emprisonnement et une amende de 7.500€) si : Elle ne transmet pas aux salariés, dans les délais, une copie du contrat commercial de portage salarial ; Elle ne transmet pas au salarié en CDD, dans les délais, le contrat de travail."
+                        },
+                        {
+                            "text": "Convention collective ou accord collectif",
+                            "result": "La convention collective ou l’accord collectif peut prévoir l’obligation d’un contrat de travail écrit, pour tout type de contrat. Dans ce cas, l'employeur applique la convention ou l'accord si le code du travail n’impose rien. Si la convention ou l'accord collectif définit un délai de communication ou de signature du contrat de travail, celui-ci s'applique lorsque le code du travail ne prévoit rien."
+                        }
+                    ]
+                }
+            },
+            {
+                "text": "Non",
+                "result": "Le contrat de travail peut être verbal (donc non écrit), sauf lorsque le code du travail prévoit l’obligation d’un contrat de travail écrit et signé. Cette obligation n’existe que pour certains types de contrat de travail. Le code du travail n'impose pas la signature d'un contrat de travail, sauf exception : Pour certains types de contrats (exemple : le contrat de chantier) ; Si certaines clauses sont prévues : période d’essai, etc. En l'absence d'écrit, ces clauses ne s'appliquent pas."
+            }
+        ]
+    }
+}

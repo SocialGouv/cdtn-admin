@@ -1,0 +1,51 @@
+{
+  "question": {
+    "text": "Est-ce que le salarié a moins de 6 mois d'ancienneté ?",
+    "responses": [
+      {
+        "text": "Oui",
+        "question": {
+          "text": "Est-ce que la convention collective, un accord collectif, le contrat de travail ou un usage prévoit une durée de préavis en cas de départ à la retraite ?",
+          "responses": [
+            {
+              "text": "Oui",
+              "result": "La durée de préavis en cas de départ à la retraite est prévue par la convention collective, un accord collectif, le contrat de travail ou un usage."
+            },
+            {
+              "text": "Non",
+              "result": "La durée de préavis en cas de départ à la retraite est à déterminer."
+            }
+          ]
+        }
+      },
+      {
+        "text": "Non",
+        "question": {
+          "text": "Est-ce que le salarié a entre 6 mois et moins de 2 ans d'ancienneté ?",
+          "responses": [
+            {
+              "text": "Oui",
+              "result": "La durée du préavis en cas de départ à la retraite est de 1 mois."
+            },
+            {
+              "text": "Non",
+              "question": {
+                "text": "Est-ce que la convention collective, un accord collectif, le contrat de travail ou un usage prévoit une durée de préavis en cas de départ à la retraite ?",
+                "responses": [
+                  {
+                    "text": "Oui",
+                    "result": "La durée de préavis en cas de départ à la retraite est prévue par la convention collective, un accord collectif, le contrat de travail ou un usage."
+                  },
+                  {
+                    "text": "Non",
+                    "result": "La durée du préavis en cas de départ à la retraite est à déterminer."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

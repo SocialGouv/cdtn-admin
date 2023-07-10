@@ -1,0 +1,23 @@
+{
+  "question": {
+    "text": "Le salarié peut-il s’absenter pour rechercher un emploi pendant son préavis ?",
+    "responses": [
+      {
+        "text": "Oui",
+        "question": {
+          "text": "Dans quels départements cette exception s'applique-t-elle ?",
+          "responses": [
+            {
+              "text": "Moselle, Bas-Rhin et Haut-Rhin",
+              "result": "Le salarié a droit à un « délai raisonnable » pour rechercher un emploi."
+            }
+          ]
+        }
+      },
+      {
+        "text": "Non",
+        "result": "Le code du travail ne prévoit pas que le salarié a le droit de s’absenter pendant son préavis pour pouvoir rechercher un nouvel emploi. L'employeur applique les conditions prévues par la convention ou l'accord collectif ou un usage, si elles sont plus favorables que le code du travail pour le salarié. Le contrat de travail peut toujours prévoir des mesures plus favorables, qui s’appliqueront."
+      }
+    ]
+  }
+}

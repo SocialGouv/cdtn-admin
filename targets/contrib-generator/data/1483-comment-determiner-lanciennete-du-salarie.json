@@ -1,0 +1,27 @@
+{
+  "question": {
+    "text": "L'ancienneté du salarié est-elle mentionnée sur le bulletin de salaire ?",
+    "responses": [
+      {
+        "text": "Oui",
+        "question": {
+          "text": "La convention collective ou l’accord collectif prévoit-elle comment s’apprécie l’ancienneté du salarié ?",
+          "responses": [
+            {
+              "text": "Oui",
+              "result": "L'ancienneté du salarié est déterminée en fonction des dispositions de la convention collective ou de l'accord collectif."
+            },
+            {
+              "text": "Non",
+              "result": "L'ancienneté du salarié est déterminée en fonction de la durée totale de son emploi dans l'entreprise."
+            }
+          ]
+        }
+      },
+      {
+        "text": "Non",
+        "result": "L'ancienneté du salarié n'est pas mentionnée sur le bulletin de salaire."
+      }
+    ]
+  }
+}

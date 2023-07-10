@@ -1,0 +1,27 @@
+{
+  "question": {
+    "text": "Le décès de l’employeur a-t-il des conséquences sur le contrat de travail ?",
+    "responses": [
+      {
+        "text": "Oui",
+        "question": {
+          "text": "L'employeur est-il une entreprise individuelle ?",
+          "responses": [
+            {
+              "text": "Oui",
+              "result": "Les héritiers de l'entrepreneur peuvent décider de poursuivre l'activité, vendre l'entreprise ou la fermer. Quelle décision ont-ils prise ?"
+            },
+            {
+              "text": "Non",
+              "result": "Les conséquences du décès de l'employeur sur le contrat de travail dépendent de la convention collective applicable."
+            }
+          ]
+        }
+      },
+      {
+        "text": "Non",
+        "result": "Il n'y a aucune conséquence sur les contrats de travail."
+      }
+    ]
+  }
+}
