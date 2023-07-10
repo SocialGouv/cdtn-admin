@@ -1,4 +1,3 @@
-import fetch, { Response } from "node-fetch";
 import { Commit, GitTagData } from "../types";
 import { Diff } from "../diff/type";
 
