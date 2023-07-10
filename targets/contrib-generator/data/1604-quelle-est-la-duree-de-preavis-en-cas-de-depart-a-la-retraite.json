@@ -1,47 +1,43 @@
 {
   "question": {
-    "text": "Est-ce que le salarié a moins de 6 mois d'ancienneté ?",
+    "text": "Quelle est la durée de préavis en cas de départ à la retraite ?",
     "responses": [
       {
-        "text": "Oui",
+        "text": "Moins de 6 mois d'ancienneté",
         "question": {
-          "text": "Est-ce que la convention collective, un accord collectif, le contrat de travail ou un usage prévoit une durée de préavis en cas de départ à la retraite ?",
+          "text": "La convention collective, un accord collectif, le contrat de travail ou un usage prévoit-il une durée de préavis en cas de départ à la retraite ?",
           "responses": [
             {
               "text": "Oui",
-              "result": "La durée de préavis en cas de départ à la retraite est prévue par la convention collective, un accord collectif, le contrat de travail ou un usage."
+              "result": "La durée de préavis en cas de départ à la retraite est celle prévue par la convention collective, un accord collectif, le contrat de travail ou un usage."
             },
             {
               "text": "Non",
-              "result": "La durée de préavis en cas de départ à la retraite est à déterminer."
+              "result": "La durée de préavis en cas de départ à la retraite n'est pas prévue par le code du travail pour les salariés ayant moins de 6 mois d'ancienneté."
             }
           ]
         }
       },
       {
-        "text": "Non",
+        "text": "Entre 6 mois et moins de 2 ans d'ancienneté",
+        "result": "La durée de préavis en cas de départ à la retraite est de 1 mois."
+      },
+      {
+        "text": "2 ans ou plus d'ancienneté",
+        "result": "La durée de préavis en cas de départ à la retraite est de 2 mois."
+      },
+      {
+        "text": "Travailleur handicapé",
         "question": {
-          "text": "Est-ce que le salarié a entre 6 mois et moins de 2 ans d'ancienneté ?",
+          "text": "La convention collective, un accord collectif ou un usage prévoit-il une durée de préavis en cas de départ à la retraite plus favorable pour les travailleurs handicapés ?",
           "responses": [
             {
               "text": "Oui",
-              "result": "La durée du préavis en cas de départ à la retraite est de 1 mois."
+              "result": "La durée de préavis en cas de départ à la retraite pour un travailleur handicapé est le double de la durée fixée pour les autres salariés, jusqu'à un maximum de 3 mois."
             },
             {
               "text": "Non",
-              "question": {
-                "text": "Est-ce que la convention collective, un accord collectif, le contrat de travail ou un usage prévoit une durée de préavis en cas de départ à la retraite ?",
-                "responses": [
-                  {
-                    "text": "Oui",
-                    "result": "La durée de préavis en cas de départ à la retraite est prévue par la convention collective, un accord collectif, le contrat de travail ou un usage."
-                  },
-                  {
-                    "text": "Non",
-                    "result": "La durée du préavis en cas de départ à la retraite est à déterminer."
-                  }
-                ]
-              }
+              "result": "La durée de préavis en cas de départ à la retraite pour un travailleur handicapé est le double de la durée fixée pour les autres salariés, jusqu'à un maximum de 3 mois, sauf si la convention collective, un accord collectif ou un usage prévoit une durée égale ou supérieure à 3 mois."
             }
           ]
         }

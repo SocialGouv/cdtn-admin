@@ -1,6 +1,6 @@
 {
   "question": {
-    "text": "Avez-vous droit à une prime d'ancienneté ?",
+    "text": "Quand le salarié a-t-il droit à une prime d’ancienneté ? Quel est son montant ?",
     "responses": [
       {
         "text": "Oui",
@@ -9,18 +9,18 @@
           "responses": [
             {
               "text": "Oui",
-              "result": "Selon les dispositions de l'accord collectif de branche, de l'accord collectif d'entreprise, de l'usage, de l'engagement unilatéral de l'employeur ou du contrat de travail, vous avez droit à une prime d'ancienneté. Son montant est défini dans ces documents."
+              "result": "La prime d'ancienneté est prévue par une convention ou un accord collectif de branche, un accord collectif d'entreprise, un usage, un engagement unilatéral de l'employeur ou le contrat de travail."
             },
             {
               "text": "Non",
-              "result": "Selon le code du travail, vous n'avez pas droit à une prime d'ancienneté."
+              "result": "La prime d'ancienneté n'est pas prévue par une convention ou un accord collectif de branche, un accord collectif d'entreprise, un usage, un engagement unilatéral de l'employeur ou le contrat de travail."
             }
           ]
         }
       },
       {
         "text": "Non",
-        "result": "Selon le code du travail, vous n'avez pas droit à une prime d'ancienneté."
+        "result": "Le code du travail ne prévoit pas de prime d’ancienneté. Elle est peut être prévue par une convention ou un accord collectif de branche, un accord collectif d'entreprise, un usage, un engagement unilatéral de l'employeur ou le contrat de travail."
       }
     ]
   }

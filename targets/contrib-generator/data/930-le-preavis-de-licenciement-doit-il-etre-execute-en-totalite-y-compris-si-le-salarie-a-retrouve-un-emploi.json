@@ -9,7 +9,7 @@
           "responses": [
             {
               "text": "Oui",
-              "result": "Le préavis doit être exécuté en totalité, même si le salarié a retrouvé un emploi."
+              "result": "Le préavis de licenciement doit être exécuté en totalité, y compris si le salarié a retrouvé un emploi. Cependant, si l'employeur dispense le salarié d'exécuter le préavis, celui-ci sera rémunéré normalement avec les salaires et primes qu'il aurait reçus s'il avait travaillé."
             },
             {
               "text": "Non",
@@ -18,7 +18,7 @@
                 "responses": [
                   {
                     "text": "Oui",
-                    "result": "La date de fin du préavis est repoussée de la même durée que celle des congés."
+                    "result": "Le préavis de licenciement doit être exécuté en totalité, y compris si le salarié a retrouvé un emploi. Cependant, si le salarié prend des congés payés pendant le préavis avec l'accord de l'employeur, la date de fin du préavis sera repoussée de la même durée que celle des congés."
                   },
                   {
                     "text": "Non",
@@ -27,23 +27,11 @@
                       "responses": [
                         {
                           "text": "Oui",
-                          "result": "Le préavis doit être exécuté en totalité, même si le salarié a retrouvé un emploi."
+                          "result": "Le préavis de licenciement doit être exécuté en totalité, y compris si le salarié a retrouvé un emploi. Cependant, si la convention collective ou un accord collectif prévoit que le salarié peut s'absenter pour une recherche d'emploi et/ou être dispensé d'exécuter le préavis, ces dispositions s'appliqueront."
                         },
                         {
                           "text": "Non",
-                          "question": {
-                            "text": "L'employeur applique-t-il les conditions prévues par la convention ou l'accord collectif ou un usage, si elles sont plus favorables que le code du travail pour le salarié ?",
-                            "responses": [
-                              {
-                                "text": "Oui",
-                                "result": "Le préavis doit être exécuté en totalité, même si le salarié a retrouvé un emploi."
-                              },
-                              {
-                                "text": "Non",
-                                "result": "Le préavis doit être exécuté en totalité, même si le salarié a retrouvé un emploi."
-                              }
-                            ]
-                          }
+                          "result": "Le préavis de licenciement doit être exécuté en totalité, y compris si le salarié a retrouvé un emploi. L'employeur devra appliquer les conditions prévues par la convention ou l'accord collectif ou un usage, si elles sont plus favorables que le code du travail pour le salarié. De plus, le contrat de travail peut toujours prévoir des mesures plus favorables qui s'appliqueront."
                         }
                       ]
                     }
@@ -56,7 +44,7 @@
       },
       {
         "text": "Non",
-        "result": "Le préavis doit être exécuté en totalité, même si le salarié a retrouvé un emploi."
+        "result": "Le préavis de licenciement ne doit pas être exécuté en totalité si le salarié a retrouvé un emploi."
       }
     ]
   }

@@ -1,26 +1,26 @@
 {
   "question": {
-    "text": "L'employeur applique-t-il les conditions prévues par la convention ou l'accord collectif ou un usage, si elles sont plus favorables que le code du travail pour le salarié ?",
+    "text": "Quelle est la durée du congé de maternité ?",
     "responses": [
       {
         "text": "Oui",
         "question": {
-          "text": "Le contrat de travail prévoit-il des mesures plus favorables ?",
+          "text": "L'employeur applique-t-il les conditions prévues par la convention ou l'accord collectif ou un usage, si elles sont plus favorables que le code du travail pour le salarié ?",
           "responses": [
             {
               "text": "Oui",
-              "result": "Le nombre de jours de congés dépend des conditions prévues par la convention ou l'accord collectif ou un usage, ainsi que des mesures plus favorables prévues par le contrat de travail."
+              "result": "Le congé de maternité est de 16 semaines."
             },
             {
               "text": "Non",
-              "result": "Le nombre de jours de congés dépend uniquement des conditions prévues par la convention ou l'accord collectif ou un usage."
+              "result": "Le congé de maternité est de 14 semaines."
             }
           ]
         }
       },
       {
         "text": "Non",
-        "result": "Le nombre de jours de congés dépend uniquement des conditions prévues par le code du travail."
+        "result": "Le congé de maternité est de 14 semaines."
       }
     ]
   }

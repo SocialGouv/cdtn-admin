@@ -1,26 +1,50 @@
 {
   "question": {
-    "text": "Le décès de l’employeur a-t-il des conséquences sur le contrat de travail ?",
+    "text": "Quelles sont les conséquences du décès de l’employeur sur le contrat de travail ?",
     "responses": [
       {
-        "text": "Oui",
+        "text": "L'employeur est une entreprise individuelle ?",
         "question": {
-          "text": "L'employeur est-il une entreprise individuelle ?",
+          "text": "Les héritiers de l'entrepreneur décident-ils de poursuivre l'activité ?",
           "responses": [
             {
               "text": "Oui",
-              "result": "Les héritiers de l'entrepreneur peuvent décider de poursuivre l'activité, vendre l'entreprise ou la fermer. Quelle décision ont-ils prise ?"
+              "result": "Aucune conséquence sur les contrats de travail."
             },
             {
               "text": "Non",
-              "result": "Les conséquences du décès de l'employeur sur le contrat de travail dépendent de la convention collective applicable."
+              "question": {
+                "text": "Les héritiers décident-ils de vendre l'entreprise dans son ensemble ?",
+                "responses": [
+                  {
+                    "text": "Oui",
+                    "result": "Les contrats de travail sont transférés automatiquement à l'acheteur."
+                  },
+                  {
+                    "text": "Non",
+                    "question": {
+                      "text": "Les héritiers décident-ils de fermer l'entreprise ?",
+                      "responses": [
+                        {
+                          "text": "Oui",
+                          "result": "Les salariés seront licenciés pour motif économique."
+                        },
+                        {
+                          "text": "Non",
+                          "result": "Erreur de réponse."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
             }
           ]
         }
       },
       {
-        "text": "Non",
-        "result": "Il n'y a aucune conséquence sur les contrats de travail."
+        "text": "L'employeur est un particulier ?",
+        "result": "La fin du contrat de travail dépend des conditions définies dans la convention collective applicable."
       }
     ]
   }

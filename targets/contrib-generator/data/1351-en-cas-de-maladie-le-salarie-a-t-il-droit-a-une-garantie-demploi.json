@@ -5,22 +5,22 @@
       {
         "text": "Oui",
         "question": {
-          "text": "La maladie est-elle professionnelle ou due à un accident du travail ?",
+          "text": "Est-ce une maladie professionnelle ou un accident du travail ?",
           "responses": [
             {
               "text": "Oui",
-              "result": "Le salarié a droit à une garantie d'emploi."
+              "result": "Le salarié bénéficie d'une garantie d'emploi selon les conditions prévues par la convention collective, l'accord collectif ou un usage."
             },
             {
               "text": "Non",
-              "result": "Le salarié peut être licencié dans certains cas."
+              "result": "Le salarié bénéficie d'une protection contre le licenciement en raison de son état de santé. Tout licenciement pour cause de maladie est discriminatoire et nul."
             }
           ]
         }
       },
       {
         "text": "Non",
-        "result": "Le salarié peut être licencié dans certains cas."
+        "result": "Le salarié ne bénéficie pas d'une garantie d'emploi en cas de maladie."
       }
     ]
   }

@@ -66,7 +66,10 @@ async function main() {
   });
   const contents = result.body.hits.hits.slice(0, 10).map(({ _source }) => ({
     slug: _source.slug,
-    text: _source.answers.generic.text,
+    text: `
+      ${_source.text}
+      ${_source.answers.generic.text}
+    `,
     title: _source.title,
   }));
 
