@@ -1,6 +1,6 @@
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
-import { Divider } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 
 import { Button } from "../button";
 import { SectionBlock } from "./SectionBlock";
@@ -32,8 +32,8 @@ export const SectionBlocks = ({ name }: SectionBlockProps) => {
           />
         </div>
       ))}
-      <Divider />
-      <div>
+      <Divider sx={{ mb: "1rem" }} />
+      <Box sx={{ mb: "1rem" }}>
         <Button
           type="button"
           size="small"
@@ -53,7 +53,7 @@ export const SectionBlocks = ({ name }: SectionBlockProps) => {
           />
           Ajouter un bloc d&apos;affichage
         </Button>
-      </div>
+      </Box>
     </>
   );
 };

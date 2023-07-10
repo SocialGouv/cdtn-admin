@@ -15,8 +15,8 @@ export function PasswordForm({
   action = "/api/change_password",
   backHref = "/account",
   changeOldPassword = false,
+  loading,
 }) {
-  let loading;
   const { user } = useUser();
   const {
     register,

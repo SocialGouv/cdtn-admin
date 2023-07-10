@@ -4,7 +4,7 @@ import { useState } from "react";
 import { PasswordLayout } from "src/components/layout/password.layout";
 import { PasswordForm } from "src/components/user/PasswordForm";
 import { request } from "src/lib/request";
-import { Text } from "theme-ui";
+import { Typography } from "@mui/material";
 
 export default function ChangePasswordPage() {
   const router = useRouter();
@@ -18,7 +18,7 @@ export default function ChangePasswordPage() {
   const [success, setSuccess] = useState(false);
   let loading = false;
 
-  async function updatePassword({ password }) {
+  async function updatePassword({ password }: { password: string }) {
     loading = true;
     try {
       await request(url, { body: { password, token } });
@@ -33,15 +33,15 @@ export default function ChangePasswordPage() {
     return (
       <PasswordLayout title={title}>
         {activate ? (
-          <Text sx={{ fontWeight: 300 }}>
+          <Typography sx={{ fontWeight: 300 }}>
             Votre compte a été activé. Suivez le lien fourni pour vous
             connecter.
-          </Text>
+          </Typography>
         ) : (
-          <Text sx={{ fontWeight: 300 }}>
+          <Typography sx={{ fontWeight: 300 }}>
             Votre mot de passe a été ré-initialisé, suivez le lien fourni pour
             vous connecter.
-          </Text>
+          </Typography>
         )}
         <Link href="/login" passHref style={{ textDecoration: "none" }}>
           Se connecter

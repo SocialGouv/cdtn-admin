@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";
@@ -24,12 +22,13 @@ import {
   HighLightContent,
   PrequalifiedContent,
 } from "src/types";
-import { Flex, Spinner } from "theme-ui";
+import { Spinner } from "theme-ui";
 import { useMutation, useQuery } from "urql";
 
 import deleteContentMutation from "./deleteContent.mutation.graphql";
 import editContentMutation from "./editContent.mutation.graphql";
 import getContentQuery from "./getContent.query.graphql";
+import Box from "@mui/material/Box";
 
 const context = { additionalTypenames: ["documents", "document_relations"] };
 
@@ -261,11 +260,8 @@ export function EditInformationPage() {
             </Dialog>
             {content?.cdtnId && (
               <>
-                <Flex
-                  sx={{
-                    justifyContent: "flex-end",
-                  }}
-                  mb="small"
+                <Box
+                  sx={{ display: "inline-flex", justifyContent: "flex-end" }}
                 >
                   <Button
                     onClick={() => {
@@ -281,7 +277,7 @@ export function EditInformationPage() {
                     />
                     Supprimer le contenu
                   </Button>
-                </Flex>
+                </Box>
                 {renderForm()}
               </>
             )}

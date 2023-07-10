@@ -165,28 +165,26 @@ export const ContributionsAnswer = ({
                 />
               </FormControl>
               {answer && !isCodeDuTravail(answer) && (
-                <FormControl>
-                  <FormRadioGroup
-                    name="otherAnswer"
-                    label="Type de réponse"
-                    control={control}
-                    disabled={isNotEditable(answer)}
-                    options={[
-                      {
-                        label: "Afficher la réponse",
-                        value: "ANSWER",
-                      },
-                      {
-                        label: "La convention collective ne prévoit rien",
-                        value: "NOTHING",
-                      },
-                      {
-                        label: "Nous n'avons pas la réponse",
-                        value: "UNKNOWN",
-                      },
-                    ]}
-                  />
-                </FormControl>
+                <FormRadioGroup
+                  name="otherAnswer"
+                  label="Type de réponse"
+                  control={control}
+                  disabled={isNotEditable(answer)}
+                  options={[
+                    {
+                      label: "Afficher la réponse",
+                      value: "ANSWER",
+                    },
+                    {
+                      label: "La convention collective ne prévoit rien",
+                      value: "NOTHING",
+                    },
+                    {
+                      label: "Nous n'avons pas la réponse",
+                      value: "UNKNOWN",
+                    },
+                  ]}
+                />
               )}
               {answer && !isCodeDuTravail(answer) && (
                 <KaliReferenceInput

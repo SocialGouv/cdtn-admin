@@ -1,10 +1,12 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { getStatusLabel, slugifyRepository } from "src/models";
-import { Message, Spinner } from "theme-ui";
+import { Spinner } from "theme-ui";
 import { useQuery } from "urql";
 
 import { TabItem, Tabs } from "../tabs";
+import { FixedSnackBar } from "../utils/SnackBar";
+import React from "react";
 
 const countAlertByStatusQuery = `
 query getAlerts($repository: String!) {
@@ -42,8 +44,11 @@ export function AlertTabs({
   }
 
   if (error) {
-    console.error(error);
-    return <Message>{error}</Message>;
+    return (
+      <FixedSnackBar>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </FixedSnackBar>
+    );
   }
 
   return (

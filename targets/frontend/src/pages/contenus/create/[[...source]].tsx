@@ -11,8 +11,14 @@ import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
 import { Content, ContentRelation } from "src/types";
-import { Label, Select } from "theme-ui";
 import { useMutation } from "urql";
+import {
+  FormControl,
+  InputLabel as Label,
+  MenuItem,
+  OutlinedInput,
+  Select,
+} from "@mui/material";
 
 import createContentMutation from "./createContent.mutation.graphql";
 
@@ -76,30 +82,31 @@ export function CreateDocumentPage() {
     <Layout title="Ajouter un contenu">
       <Stack>
         <form>
-          <Label htmlFor="source">
-            Quel type de document souhaitez vous ajouter&nbsp;?
-          </Label>
-          <Select
-            name="source"
-            id="source"
-            defaultValue={source}
-            onChange={(event) => {
-              router.replace(
-                `/contenus/create/${event.target.value}`,
-                undefined,
-                { shallow: true }
-              );
-            }}
-          >
-            <option disabled value="">
-              ...
-            </option>
-            {CREATABLE_SOURCES.map((item) => (
-              <option key={item} value={item}>
-                {getLabelBySource(item)}
-              </option>
-            ))}
-          </Select>
+          <FormControl sx={{ m: 1, width: 500 }}>
+            <Label htmlFor="source">Type de document</Label>
+            <Select
+              name="source"
+              id="source"
+              value={source}
+              input={<OutlinedInput label="source" />}
+              onChange={(event) => {
+                router.replace(
+                  `/contenus/create/${event.target.value}`,
+                  undefined,
+                  { shallow: true }
+                );
+              }}
+            >
+              <MenuItem disabled value="">
+                ...
+              </MenuItem>
+              {CREATABLE_SOURCES.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {getLabelBySource(item)}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </form>
         {source && (
           <ContentForm loading={createResult.fetching} onSubmit={onSubmit} />

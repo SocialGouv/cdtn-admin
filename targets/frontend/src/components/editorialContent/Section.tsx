@@ -1,8 +1,4 @@
-/** @jsxImportSource theme-ui */
-
-import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-// @ts-ignore
 import { useFormContext } from "react-hook-form";
 import {
   IoIosArrowDropdown,
@@ -12,18 +8,18 @@ import {
 } from "react-icons/io";
 // @ts-ignore
 import { SortableElement, sortableHandle } from "react-sortable-hoc";
-import { Box, Container, Field, Flex } from "theme-ui";
 
 import { ContentSection } from "../../types";
 import { Button, IconButton } from "../button";
-import { ReferenceBlocks } from "../editorialContent/ReferenceBlocks";
-import { FormErrorMessage } from "../forms/ErrorMessage";
-import { Stack } from "../layout/Stack";
+import { ReferenceBlocks } from "./ReferenceBlocks";
 import { Li } from "../list";
 import { SectionBlocks } from "./SectionBlocks";
+import { FormTextField } from "../forms";
+import { Card, CardContent, Stack } from "@mui/material";
+import Box from "@mui/material/Box";
 
 const DragHandle = sortableHandle(() => (
-  <IconButton variant="secondary" sx={{ cursor: "grab", mt: "large" }}>
+  <IconButton variant="secondary" sx={{ cursor: "grab" }}>
     <IoIosReorder
       aria-label="Réordonner les sections"
       style={{ height: "3rem", width: "3rem" }}
@@ -49,7 +45,7 @@ const RootSection = ({
   open = true,
 }: SectionProps) => {
   const {
-    register,
+    control,
     formState: { errors },
   } = useFormContext();
   const [isOpen, setOpen] = useState(open);
@@ -61,96 +57,89 @@ const RootSection = ({
   }, [errors, setOpen]);
 
   return (
-    <Li>
-      <Container
-        key={block.key}
-        bg="highlight"
-        sx={{ flex: "1 0 auto", mb: "medium", p: "small" }}
-      >
-        <Stack>
-          <Flex
-            sx={{
-              alignItem: "flex-start",
-              justifyContent: "space-between",
-            }}
+    <Li
+      sx={{
+        mt: "1rem",
+        mb: "1rem",
+      }}
+    >
+      <Card key={block.key}>
+        <CardContent
+          sx={{
+            mt: "1rem",
+            mb: "1rem",
+          }}
+        >
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
           >
             {numberOfBlocks > 1 && <DragHandle />}
-            <Box mx="small" my="0" sx={{ flex: "1 0 auto" }}>
-              <Field
-                label="Titre de la section"
-                defaultValue={block.title}
-                {...register(`${name}.title`, {
-                  required: {
-                    message: "Le titre de la section est requis",
-                    value: true,
-                  },
-                })}
-              />
-              <FormErrorMessage errors={errors} fieldName="title" />
-            </Box>
-            <Box mt="medium">
-              <Button
-                type="button"
-                variant="secondary"
-                size="small"
-                onClick={() => setOpen(!isOpen)}
-              >
-                {isOpen ? (
-                  <IoIosArrowDropup
-                    sx={{ height: "1.8rem", m: "0.25rem", width: "1.8rem" }}
-                  />
-                ) : (
-                  <IoIosArrowDropdown
-                    sx={{ height: "1.8rem", m: "0.25rem", width: "1.8rem" }}
-                  />
-                )}
-              </Button>
-            </Box>
-          </Flex>
+
+            <FormTextField
+              name={`${name}.title`}
+              fullWidth
+              multiline
+              label="Titre de la section"
+              control={control}
+              rules={{ required: true }}
+            />
+
+            <Button
+              type="button"
+              variant="secondary"
+              size="small"
+              onClick={() => setOpen(!isOpen)}
+            >
+              {isOpen ? (
+                <IoIosArrowDropup
+                  sx={{ height: "1.8rem", m: "0.25rem", width: "1.8rem" }}
+                />
+              ) : (
+                <IoIosArrowDropdown
+                  sx={{ height: "1.8rem", m: "0.25rem", width: "1.8rem" }}
+                />
+              )}
+            </Button>
+          </Stack>
           <Box sx={{ display: isOpen ? "block" : "none" }}>
             <Stack>
-              <div>
-                <Flex
+              {numberOfBlocks > 1 && (
+                <Box
                   sx={{
                     display: "flex",
                     justifyContent: "flex-end",
-                    margin: "0 3px",
+                    mt: "1rem",
+                    mb: "1rem",
                   }}
                 >
-                  {numberOfBlocks > 1 && (
-                    <Flex
+                  <Button
+                    type="button"
+                    size="small"
+                    onClick={() => remove(index)}
+                  >
+                    <IoMdTrash
                       sx={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        margin: "0 3px",
+                        height: "iconSmall",
+                        mr: "xsmall",
+                        width: "iconSmall",
                       }}
-                    >
-                      <Button
-                        type="button"
-                        size="small"
-                        onClick={() => remove(index)}
-                      >
-                        <IoMdTrash
-                          sx={{
-                            height: "iconSmall",
-                            mr: "xsmall",
-                            width: "iconSmall",
-                          }}
-                        />
-                        Supprimer cette section
-                      </Button>
-                    </Flex>
-                  )}
-                </Flex>
-              </div>
+                    />
+                    Supprimer cette section
+                  </Button>
+                </Box>
+              )}
+
               <SectionBlocks key={index} name={`${name}.blocks`} />
               <div>
                 <ReferenceBlocks name={`${name}.references`} />
               </div>
             </Stack>
           </Box>
-        </Stack>
-      </Container>
+        </CardContent>
+      </Card>
     </Li>
   );
 };

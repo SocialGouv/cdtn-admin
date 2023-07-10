@@ -1,14 +1,13 @@
-/** @jsxImportSource theme-ui */
-
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { IoMdClose } from "react-icons/io";
-import { Box, Field, Flex } from "theme-ui";
 
 import { ContentLink } from "../../types";
 import { Button } from "../button";
-import { FormErrorMessage } from "../forms/ErrorMessage";
+import { Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import { FormTextField } from "../forms";
 
 export const References = ({ nestName }: { nestName: string }) => {
   const {
@@ -32,44 +31,28 @@ export const References = ({ nestName }: { nestName: string }) => {
   return (
     <>
       {references.map((reference, index) => (
-        <Flex
-          sx={{ alignItems: "flex-start", flexWrap: "wrap" }}
+        <Stack
+          direction="row"
+          spacing={2}
           key={reference.key}
+          sx={{ mb: "1rem", mt: "1rem" }}
         >
-          <Box mr="small" sx={{ flex: "1 0 auto" }}>
-            <Field
-              type="text"
-              label="Label"
-              defaultValue={reference.title}
-              {...register(`${nestName}.${index}.title`, {
-                required: {
-                  message: "La référence doit avoir un label",
-                  value: true,
-                },
-              })}
-            />
-            <FormErrorMessage
-              errors={errors}
-              fieldName={`${nestName}.${index}.title`}
-            />
-          </Box>
-          <Box mr="small" sx={{ flex: "1 0 auto" }}>
-            <Field
-              type="text"
-              label="URL"
-              defaultValue={reference.url}
-              {...register(`${nestName}.${index}.url`, {
-                required: {
-                  message: "La référence doit avoir une url",
-                  value: true,
-                },
-              })}
-            />
-            <FormErrorMessage
-              errors={errors}
-              fieldName={`${nestName}.${index}.url`}
-            />
-          </Box>
+          <FormTextField
+            name={`${nestName}.${index}.title`}
+            label="Label"
+            control={control}
+            rules={{ required: true }}
+            size="small"
+          />
+          <FormTextField
+            name={`${nestName}.${index}.url`}
+            label="URL"
+            control={control}
+            rules={{ required: true }}
+            size="small"
+            fullWidth
+          />
+
           {references.length > 1 && (
             <Button
               type="button"
@@ -81,9 +64,9 @@ export const References = ({ nestName }: { nestName: string }) => {
               <IoMdClose sx={{ height: "1.5rem", width: "1.5rem" }} />
             </Button>
           )}
-        </Flex>
+        </Stack>
       ))}
-      <Flex sx={{ justifyContent: "left" }}>
+      <Box sx={{ mt: "small" }}>
         <Button
           type="button"
           size="small"
@@ -93,7 +76,7 @@ export const References = ({ nestName }: { nestName: string }) => {
         >
           Ajouter une référence au bloc
         </Button>
-      </Flex>
+      </Box>
     </>
   );
 };

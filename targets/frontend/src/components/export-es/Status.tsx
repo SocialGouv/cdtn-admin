@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { Status as StatusType } from "@shared/types";
 import { MdTimelapse } from "react-icons/md";
 import { Box, Flex } from "theme-ui";

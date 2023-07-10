@@ -1,5 +1,5 @@
 import { Environment } from "@shared/types";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   EnvironmentBadge,
   Status,
@@ -13,7 +13,9 @@ import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useExportEs } from "src/hooks/exportEs";
 import { useUser } from "src/hooks/useUser";
-import { Badge, Message, Spinner } from "theme-ui";
+import { Spinner } from "theme-ui";
+import { FixedSnackBar } from "../components/utils/SnackBar";
+import { Chip } from "@mui/material";
 
 export function UpdatePage(): JSX.Element {
   const [exportEsState, getExportEs, runExportEs] = useExportEs();
@@ -30,28 +32,21 @@ export function UpdatePage(): JSX.Element {
     <Layout title="Mises à jour des environnements">
       <Stack>
         {exportEsState.error && (
-          <Stack>
-            <Message>
-              <pre>{JSON.stringify(exportEsState.error, null, 2)}</pre>
-            </Message>
-          </Stack>
+          <FixedSnackBar>
+            <pre>{JSON.stringify(exportEsState.error, null, 2)}</pre>
+          </FixedSnackBar>
         )}
         <p>
           Cette page permet de mettre à jour les données des environnements de{" "}
-          <Badge as="span" variant="accent">
-            production
-          </Badge>{" "}
-          et{" "}
-          <Badge as="span" variant="secondary">
-            pre-production
-          </Badge>{" "}
-          et de suivre l’état de ces mises à jour.
+          <Chip color="primary" label="production" /> et{" "}
+          <Chip color="secondary" label="pre-production" /> et de suivre l’état
+          de ces mises à jour.
         </p>
       </Stack>
       <Stack>
         <Inline>
           <TriggerButton
-            variant="accent"
+            variant="primary"
             isDisabled={false}
             status={exportEsState.latestExportProduction?.status}
             onClick={() => onTrigger(Environment.production)}
