@@ -7,7 +7,7 @@ hasura:
     value: true
   envFrom:
     - secretRef:
-        name: azure-pg-user
+        name: pg-user
     - configMapRef:
         name: hasura
     - secretRef:
