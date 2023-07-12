@@ -14,7 +14,9 @@ export async function getDiff(
       // remove the repo if it already exists
       fs.rmdirSync(repoPath, { recursive: true });
     }
-    await simpleGit().clone(`https://github.com/${project}`);
+    await simpleGit().clone(`https://github.com/${project}`, repoPath, {
+      "--depth": 50,
+    });
     const diffString = await simpleGit(repoPath).diff([
       `${fromTag}...${toTag}`,
     ]);
@@ -43,4 +45,12 @@ export async function getDiff(
     console.error(error);
     return [];
   }
+}
+
+export function formatFileName(filename: string): string {
+  const parts = filename.split("/");
+  if (parts.length === 1) {
+    return filename;
+  }
+  return parts.slice(1).join("/");
 }
