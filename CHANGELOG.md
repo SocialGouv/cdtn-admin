@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.2...v2.11.0) (2023-07-12)
+
+### Bug Fixes
+
+- **alert-cli:** change `diff` by replacing `github-api` by a local diff ([#972](https://github.com/SocialGouv/cdtn-admin/issues/972)) ([ab1c0cd](https://github.com/SocialGouv/cdtn-admin/commit/ab1c0cdc46e0010279f891ebe13fde3f754fbcd0))
+- **alert-cli:** change file formatting ([903b968](https://github.com/SocialGouv/cdtn-admin/commit/903b968a44fe599de3e071bb8f98ee5d045115e5))
+- **alert-cli:** improve memory limits ([fe9c685](https://github.com/SocialGouv/cdtn-admin/commit/fe9c68567d4e94996aea61fd2cf82459149f20a8))
+- **ui:** move theme-ui components to mui (Home + Alerts) ([#964](https://github.com/SocialGouv/cdtn-admin/issues/964)) ([279b011](https://github.com/SocialGouv/cdtn-admin/commit/279b01167a9f121ef52789f3a17bf558e610524e))
+- **workflow:** change credentials ([cc7ab9b](https://github.com/SocialGouv/cdtn-admin/commit/cc7ab9b45952883a552bdd51aa53fc92c980d365))
+- **workflow:** replace `azure-pg-user` to `pg-user` ([2507ea9](https://github.com/SocialGouv/cdtn-admin/commit/2507ea9930afd1815ade78f4c159d79948e168e4))
+- **workflow:** set hasura for preprod ([0d1447c](https://github.com/SocialGouv/cdtn-admin/commit/0d1447ca637cbb2b2e98d1610e9c2b769bdc17b5))
+- **workflow:** set order on job ([91a9f36](https://github.com/SocialGouv/cdtn-admin/commit/91a9f3696da0e4314498539d92078886f45c31b5))
+- **workflow:** use preprod for volume ([b236fd5](https://github.com/SocialGouv/cdtn-admin/commit/b236fd5c035dd657406fa9d3c087b3d9cbdb9470))
+
+### Features
+
+- **alert-cli:** add git to docker image ([0eb81b9](https://github.com/SocialGouv/cdtn-admin/commit/0eb81b9b0252ddfc12782d67ed1a38ce90ef5209))
+- remove node fetch ([#968](https://github.com/SocialGouv/cdtn-admin/issues/968)) ([8a903ae](https://github.com/SocialGouv/cdtn-admin/commit/8a903ae0bb8dcb62616fc2fb21f0248d585b353e))
+
 ## [2.10.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.1...v2.10.2) (2023-07-04)
 
 ### Bug Fixes

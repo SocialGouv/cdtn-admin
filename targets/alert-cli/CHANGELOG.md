@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.2...v2.11.0) (2023-07-12)
+
+### Bug Fixes
+
+- **alert-cli:** change `diff` by replacing `github-api` by a local diff ([#972](https://github.com/SocialGouv/cdtn-admin/issues/972)) ([ab1c0cd](https://github.com/SocialGouv/cdtn-admin/commit/ab1c0cdc46e0010279f891ebe13fde3f754fbcd0))
+- **alert-cli:** change file formatting ([903b968](https://github.com/SocialGouv/cdtn-admin/commit/903b968a44fe599de3e071bb8f98ee5d045115e5))
+
+### Features
+
+- **alert-cli:** add git to docker image ([0eb81b9](https://github.com/SocialGouv/cdtn-admin/commit/0eb81b9b0252ddfc12782d67ed1a38ce90ef5209))
+- remove node fetch ([#968](https://github.com/SocialGouv/cdtn-admin/issues/968)) ([8a903ae](https://github.com/SocialGouv/cdtn-admin/commit/8a903ae0bb8dcb62616fc2fb21f0248d585b353e))
+
 ## [2.10.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.1...v2.10.2) (2023-07-04)
 
 **Note:** Version bump only for package alert-cli
