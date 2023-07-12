@@ -25,17 +25,17 @@ export async function getDiff(
     diffDetail.forEach((file) => {
       if (file.newFileName && !file.oldFileName) {
         result.push({
-          filename: file.newFileName,
+          filename: formatFileName(file.newFileName),
           status: "added",
         });
       } else if (file.newFileName && file.oldFileName) {
         result.push({
-          filename: file.newFileName,
+          filename: formatFileName(file.newFileName),
           status: "modified",
         });
       } else if (!file.newFileName && file.oldFileName) {
         result.push({
-          filename: file.oldFileName,
+          filename: formatFileName(file.oldFileName),
           status: "removed",
         });
       }
