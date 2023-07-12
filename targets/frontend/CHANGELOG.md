@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.2...v2.11.0) (2023-07-12)
+
+### Bug Fixes
+
+- **ui:** move theme-ui components to mui (Home + Alerts) ([#964](https://github.com/SocialGouv/cdtn-admin/issues/964)) ([279b011](https://github.com/SocialGouv/cdtn-admin/commit/279b01167a9f121ef52789f3a17bf558e610524e))
+
 ## [2.10.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.1...v2.10.2) (2023-07-04)
 
 ### Bug Fixes

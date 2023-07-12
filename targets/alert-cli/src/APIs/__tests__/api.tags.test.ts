@@ -1,10 +1,4 @@
 import { GithubApi } from "../api";
-import fetch from "node-fetch";
-
-jest.mock("node-fetch", () => ({
-  __esModule: true, // this property makes it work
-  default: jest.fn(),
-}));
 
 const apiResponse = [
   {
@@ -60,8 +54,7 @@ const apiResponsePage2 = [
   },
 ];
 
-const mockFetch = fetch as unknown as jest.Mock;
-mockFetch.mockImplementation((url: string) => {
+global.fetch = jest.fn().mockImplementation((url) => {
   switch (url) {
     case "https://api.github.com/repos/socialgouv/kali-data/tags?per_page=5&page=1":
       return {
@@ -93,6 +86,7 @@ mockFetch.mockImplementation((url: string) => {
     };
   }
 });
+
 describe("Github API: list tags", () => {
   const api = new GithubApi("");
   it("should return tags until v1.5.0", async () => {

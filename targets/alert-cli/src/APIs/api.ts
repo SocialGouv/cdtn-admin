@@ -1,6 +1,6 @@
-import fetch, { Response } from "node-fetch";
 import { Commit, GitTagData } from "../types";
 import { Diff } from "../diff/type";
+import { getDiff } from "../diff/get-diff";
 
 export type Tags = GitTagData[];
 
@@ -16,10 +16,6 @@ interface GithubTag {
 export interface GithubDiffFile {
   filename: string;
   status: "added" | "modified" | "removed";
-}
-
-interface GithubResponse {
-  files?: GithubDiffFile[];
 }
 
 interface CommitGithubResponse {
@@ -73,36 +69,12 @@ export class GithubApi {
   }
 
   async diff(project: string, from: GitTagData, to: GitTagData): Promise<Diff> {
-    let page = 1;
-    let allDiffs: GithubDiffFile[] = [];
-    let diffs: GithubDiffFile[] = [];
-    do {
-      diffs = await this._diff(project, from.ref, to.ref, page);
-      allDiffs = allDiffs.concat(diffs);
-      page = page + 1;
-    } while (diffs.length > 0);
+    const allDiffs: GithubDiffFile[] = await getDiff(project, from.ref, to.ref);
     return {
       from,
       to,
       files: allDiffs,
     };
-  }
-
-  private async _diff(
-    project: string,
-    from: string,
-    to: string,
-    page = 1,
-    limit = 100
-  ): Promise<GithubDiffFile[]> {
-    const url = `https://api.github.com/repos/${project}/compare/${from}...${to}?per_page=${limit}&page=${page}`;
-    const diffs = await this.fetchJson<GithubResponse>(url);
-    return (
-      diffs.files?.map((diff) => ({
-        filename: diff.filename,
-        status: diff.status,
-      })) ?? []
-    );
   }
 
   async raw(project: string, path: string, tag: GitTagData): Promise<string> {

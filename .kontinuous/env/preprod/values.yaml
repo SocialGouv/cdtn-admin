@@ -1,3 +1,18 @@
+hasura:
+  imagePackage: hasura
+  ~needs: [post-restore, build-hasura]
+  ~preDeploy.cleaner:
+    match:
+      kind: Deployment
+    value: true
+  envFrom:
+    - secretRef:
+        name: pg-user
+    - configMapRef:
+        name: hasura
+    - secretRef:
+        name: hasura
+
 www:
   host: cdtn-admin-preprod.dev.fabrique.social.gouv.fr
   env:
@@ -31,7 +46,7 @@ jobs:
       with:
         sqlFile: .kontinuous/sql/post-restore.sql
     job-ingester:
-      ~needs: [post-restore]
+      ~needs: [hasura]
       use: trigger-cronjob
       with:
         cronJobName: cron-ingester

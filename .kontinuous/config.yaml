@@ -9,5 +9,5 @@ dependencies:
             options:
               secrets:
                 cdtnadminprodserver-backup-credentials:
-                  env: dev
+                  env: [dev, preprod]
                   required: true
