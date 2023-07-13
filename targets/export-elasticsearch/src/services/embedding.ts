@@ -75,4 +75,13 @@ export class EmbeddingService {
     const peek = await collection.peek();
     return { numDocs, peek };
   }
+
+  async listAllDocumentsMetadata() {
+    const collection = await this.client.getOrCreateCollection({
+      name: this.SERVICE_PUBLIC_COLLECTION,
+      embeddingFunction: this.embedder,
+    });
+    const documents = await collection.get();
+    return documents.metadatas;
+  }
 }

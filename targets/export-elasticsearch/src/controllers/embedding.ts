@@ -35,4 +35,9 @@ export class EmbeddingController implements interfaces.Controller {
   async infosServicePublic(): Promise<Record<string, any>> {
     return await this.service.countAndPeekServicePublicDocuments();
   }
+
+  @httpGet("/list")
+  async listDocuments(): Promise<Record<string, any>> {
+    return await this.service.listAllDocumentsMetadata();
+  }
 }

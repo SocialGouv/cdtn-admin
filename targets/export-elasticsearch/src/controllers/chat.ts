@@ -1,8 +1,9 @@
 import type { interfaces } from "inversify-express-utils";
-import { controller, httpGet, queryParam } from "inversify-express-utils";
+import { controller, httpPost, request } from "inversify-express-utils";
 import { getName } from "../utils";
 import { inject } from "inversify";
 import { ChatService } from "../services";
+import { ValidatorChatMiddleware, ValidatorChatType } from "./middlewares";
 
 @controller("/chat")
 export class ChatController implements interfaces.Controller {
@@ -11,13 +12,9 @@ export class ChatController implements interfaces.Controller {
     private readonly service: ChatService
   ) {}
 
-  @httpGet("/")
-  async getServicePublic(
-    @queryParam("question") question: string
-  ): Promise<Record<string, any>> {
-    if (!question) {
-      return { error: "Missing question parameter" };
-    }
-    return await this.service.ask(question, "");
+  @httpPost("/", getName(ValidatorChatMiddleware))
+  async sendMessage(@request() req: Request): Promise<Record<string, any>> {
+    const bdy: ValidatorChatType = req.body as any;
+    return await this.service.ask(bdy.question, bdy.history);
   }
 }

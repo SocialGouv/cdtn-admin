@@ -15,9 +15,15 @@ export class ChatService {
   Si vous ne connaissez pas la réponse, dites simplement que vous ne savez pas. N'essayez PAS d'inventer une réponse.
   Si la question n'est pas liée au contexte, répondez poliment que vous êtes réglé pour répondre uniquement aux questions liées au contexte.
   S'il vous manque des éléments de contexte, demandez à l'utilisateur de vous les fournir dans le cas où il y a plusieurs réponses possibles.
-  N'hésitez pas à donner des examples pour agrémenter votre réponse.
+  N'hésitez pas à donner des examples pour agrémenter votre réponse. De plus, n'hésite pas à reformuler la réponse pour la rendre plus claire.
   {context}
   Question: {question}
+  `;
+  private CONDENSE_PROMPT = `Compte tenu de la conversation suivante et d'une question de suivi, reformulez la question de suivi pour en faire une question autonome.
+  Historique du chat:
+  {chat_history}
+  Entrée de suivi: {question}
+  Question autonome:
   `;
 
   constructor() {
@@ -25,7 +31,7 @@ export class ChatService {
       openAIApiKey: process.env.OPENAI_API_KEY,
       streaming: true,
       modelName: "gpt-3.5-turbo-16k-0613",
-      temperature: 0.5,
+      temperature: 0,
     });
   }
 
@@ -43,6 +49,7 @@ export class ChatService {
       {
         returnSourceDocuments: true,
         qaTemplate: this.QA_PROMPT,
+        questionGeneratorTemplate: this.CONDENSE_PROMPT,
       }
     );
 

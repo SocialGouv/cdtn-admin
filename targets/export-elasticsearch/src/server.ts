@@ -7,7 +7,10 @@ import type { NextFunction, Request, Response } from "express";
 import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
 
-import { ExportEsRunMiddleware } from "./controllers/middlewares";
+import {
+  ExportEsRunMiddleware,
+  ValidatorChatMiddleware,
+} from "./controllers/middlewares";
 import {
   AzureParameters,
   AzureRepository,
@@ -66,6 +69,9 @@ rootContainer
 rootContainer
   .bind<ExportEsRunMiddleware>(getName(ExportEsRunMiddleware))
   .to(ExportEsRunMiddleware);
+rootContainer
+  .bind<ValidatorChatMiddleware>(getName(ValidatorChatMiddleware))
+  .to(ValidatorChatMiddleware);
 /* SERVICES */
 rootContainer.bind<ExportService>(getName(ExportService)).to(ExportService);
 rootContainer.bind<SitemapService>(getName(SitemapService)).to(SitemapService);
