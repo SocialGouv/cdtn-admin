@@ -24,6 +24,11 @@ const classes = {
     flexGrow: 1,
     marginRight: "1rem",
   },
+  refContainer: {
+    maxHeight: "20vh",
+    overflow: "auto",
+    padding: "1rem",
+  },
 } as const;
 
 type Answer = {
@@ -65,6 +70,16 @@ const ChatPage = () => {
   ]);
   const [message, setMessage] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [references, setReferences] = React.useState<Metadata[]>([]);
+
+  React.useEffect(() => {
+    const getReferences = async () => {
+      const response = await fetch("http://localhost:8787/embedding/list");
+      const data: Metadata[] = await response.json();
+      setReferences(data);
+    };
+    getReferences();
+  });
 
   const onSendMessage = async () => {
     if (isLoading || message === "") return;
@@ -101,6 +116,23 @@ const ChatPage = () => {
 
   return (
     <div style={classes.root}>
+      {references.length > 0 && (
+        <Paper style={classes.refContainer}>
+          <Typography variant="h6">Références</Typography>
+          <ul>
+            {references.map((reference, index) => {
+              return (
+                <li key={index}>
+                  <Typography variant="subtitle1">{reference.title}</Typography>
+                  <Typography variant="body2">
+                    {reference.metaDescription}
+                  </Typography>
+                </li>
+              );
+            })}
+          </ul>
+        </Paper>
+      )}
       <Paper style={classes.chatContainer}>
         <Typography variant="h6">Chat</Typography>
         {messages.map((msg, index) => {
