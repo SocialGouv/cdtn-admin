@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.0...v2.11.1) (2023-07-18)
+
+### Bug Fixes
+
+- **1740:** remove from alert-cli and migration ([f0f38a6](https://github.com/SocialGouv/cdtn-admin/commit/f0f38a61f2263bf75e7968d6adf8ab6b9275f374))
+- up k8s cronjob apiversion ([#973](https://github.com/SocialGouv/cdtn-admin/issues/973)) ([c0fc745](https://github.com/SocialGouv/cdtn-admin/commit/c0fc745a4e9677383b445e1f598bd9a2c41f0750))
+
 # [2.11.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.2...v2.11.0) (2023-07-12)
 
 ### Bug Fixes
