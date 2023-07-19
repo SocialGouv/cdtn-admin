@@ -109,7 +109,7 @@ export function Navigation() {
     if (
       !expanded &&
       links.some(({ href }) => {
-        return router.asPath.includes(href);
+        return router?.asPath?.includes(href);
       })
     ) {
       setExpanded(key);
