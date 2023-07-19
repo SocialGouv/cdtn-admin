@@ -1,6 +1,7 @@
 import React from "react";
 import { Paper, Typography, TextField } from "@mui/material";
 import { Button } from "theme-ui";
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 
 const classes = {
   root: {
@@ -59,7 +60,13 @@ type HumanResponse = {
   message: string;
 };
 
-const ChatPage = () => {
+type PageProps = {
+  references: Metadata[];
+};
+
+const ChatPage = ({
+  references,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [messages, setMessages] = React.useState<ChatMessage[]>([
     {
       type: "chatbot",
@@ -70,16 +77,6 @@ const ChatPage = () => {
   ]);
   const [message, setMessage] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [references, setReferences] = React.useState<Metadata[]>([]);
-
-  React.useEffect(() => {
-    const getReferences = async () => {
-      const response = await fetch("http://localhost:8787/embedding/list");
-      const data: Metadata[] = await response.json();
-      setReferences(data);
-    };
-    getReferences();
-  });
 
   const onSendMessage = async () => {
     if (isLoading || message === "") return;
@@ -210,6 +207,12 @@ const ChatPage = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
+  const response = await fetch("http://localhost:8787/embedding/list");
+  const data: Metadata[] = await response.json();
+  return { props: { references: data } };
 };
 
 export default ChatPage;
