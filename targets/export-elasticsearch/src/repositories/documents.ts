@@ -20,6 +20,14 @@ interface Document {
     url: string;
     date: string;
     description: string;
+    answers?: {
+      generic?: {
+        markdown: string;
+      };
+      conventionAnswer?: {
+        markdown: string;
+      };
+    };
     referencedTexts?:
       | {
           slug: string;

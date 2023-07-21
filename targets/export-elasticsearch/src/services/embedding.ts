@@ -27,29 +27,14 @@ export class EmbeddingService {
   }
 
   async ingestServicePublicDocuments() {
-    return await this.ingestDocuments(
-      SOURCES.SHEET_SP,
-      CollectionSlug.SERVICE_PUBLIC
+    const results = await this.documentsRepository.getBySource(
+      SOURCES.SHEET_SP
     );
-  }
-
-  async ingestContributionDocuments() {
-    return await this.ingestDocuments(
-      SOURCES.CONTRIBUTIONS,
-      CollectionSlug.CONTRIBUTION
-    );
-  }
-
-  private async ingestDocuments(
-    source: string,
-    collectionName: CollectionSlug
-  ) {
-    const results = await this.documentsRepository.getBySource(source);
     const collection = await this.client.getOrCreateCollection({
-      name: collectionName,
+      name: CollectionSlug.SERVICE_PUBLIC,
       embeddingFunction: this.embedder,
     });
-    const resultsSplits = chunk(results, 25);
+    const resultsSplits = chunk(results, 10);
     for (let j = 0; j < resultsSplits.length; j++) {
       const batch = resultsSplits[j];
       const ids = batch.map((r) => r.cdtnId);
@@ -65,7 +50,45 @@ export class EmbeddingService {
           documents,
         });
       } catch (e) {
-        console.error(e);
+        // console.error(e);
+      }
+    }
+
+    return { result: "Documents ingested" };
+  }
+
+  async ingestContributionDocuments() {
+    const results = await this.documentsRepository.getBySource(
+      SOURCES.CONTRIBUTIONS
+    );
+    const collection = await this.client.getOrCreateCollection({
+      name: CollectionSlug.CONTRIBUTION,
+      embeddingFunction: this.embedder,
+    });
+    const resultsSplits = chunk(results, 50);
+    for (let j = 0; j < resultsSplits.length; j++) {
+      const batch = resultsSplits[j];
+      const ids = batch.map((r) => r.cdtnId);
+      const documents = batch.map((r) => {
+        const idccNumber = r.slug.split("-")[0];
+        const answer =
+          r.document.answers?.generic?.markdown +
+          "\n\n" +
+          r.document.answers?.conventionAnswer?.markdown;
+        return "Pour l'idcc numéro " + idccNumber + "\n\n" + answer + "\n\n";
+      });
+      const metadatas = batch.map((r) => ({
+        title: r.title,
+        metaDescription: r.metaDescription,
+      }));
+      try {
+        await collection.upsert({
+          ids,
+          metadatas,
+          documents,
+        });
+      } catch (e) {
+        // console.error(e);
       }
     }
 
@@ -124,5 +147,27 @@ export class EmbeddingService {
     });
     const documents = await collection.get();
     return documents.metadatas;
+  }
+
+  async cleanServicePublicDocuments() {
+    return await this.cleanDocuments(CollectionSlug.SERVICE_PUBLIC);
+  }
+
+  async cleanContributionDocuments() {
+    return await this.cleanDocuments(CollectionSlug.CONTRIBUTION);
+  }
+
+  private async cleanDocuments(collectionName: string) {
+    const collection = await this.client.getOrCreateCollection({
+      name: collectionName,
+      embeddingFunction: this.embedder,
+    });
+    await collection.delete();
+    return { result: "Documents deleted" };
+  }
+
+  async getHasuraDocumentBySource(source: string, length = 20) {
+    const result = await this.documentsRepository.getBySource(source);
+    return result.slice(0, length) as any;
   }
 }

@@ -1,6 +1,7 @@
 import type { interfaces } from "inversify-express-utils";
 import {
   controller,
+  httpDelete,
   httpGet,
   httpPost,
   queryParam,
@@ -10,6 +11,7 @@ import { getName } from "../utils";
 import { inject } from "inversify";
 import { EmbeddingService } from "../services";
 import { CollectionSlug } from "../type";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 @controller("/embedding")
 export class EmbeddingController implements interfaces.Controller {
@@ -64,6 +66,22 @@ export class EmbeddingController implements interfaces.Controller {
     }
   }
 
+  @httpGet("/:slug/source")
+  async getHasura(
+    @requestParam("slug") slug: CollectionSlug
+  ): Promise<Record<string, any>> {
+    switch (slug) {
+      case CollectionSlug.SERVICE_PUBLIC:
+        return await this.service.getHasuraDocumentBySource(SOURCES.SHEET_SP);
+      case CollectionSlug.CONTRIBUTION:
+        return await this.service.getHasuraDocumentBySource(
+          SOURCES.CONTRIBUTIONS
+        );
+      default:
+        return { error: "Unknown slug" };
+    }
+  }
+
   @httpGet("/:slug/list")
   async list(
     @requestParam("slug") slug: CollectionSlug
@@ -73,6 +91,20 @@ export class EmbeddingController implements interfaces.Controller {
         return await this.service.listServicePublicDocumentsMetadata();
       case CollectionSlug.CONTRIBUTION:
         return await this.service.listContributionDocumentsMetadata();
+      default:
+        return { error: "Unknown slug" };
+    }
+  }
+
+  @httpDelete("/:slug/delete")
+  async delete(
+    @requestParam("slug") slug: CollectionSlug
+  ): Promise<Record<string, any>> {
+    switch (slug) {
+      case CollectionSlug.SERVICE_PUBLIC:
+        return await this.service.cleanServicePublicDocuments();
+      case CollectionSlug.CONTRIBUTION:
+        return await this.service.cleanContributionDocuments();
       default:
         return { error: "Unknown slug" };
     }

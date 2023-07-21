@@ -40,6 +40,12 @@ GET http://localhost:8787/embedding/service-public/infos
 GET http://localhost:8787/embedding/service-public/list
 
 ###
+GET http://localhost:8787/embedding/service-public/source
+
+###
+DELETE http://localhost:8787/embedding/service-public/delete
+
+###
 POST http://localhost:8787/embedding/contribution
 
 ###
@@ -50,6 +56,12 @@ GET http://localhost:8787/embedding/contribution/infos
 
 ###
 GET http://localhost:8787/embedding/contribution/list
+
+###
+GET http://localhost:8787/embedding/contribution/source
+
+###
+DELETE http://localhost:8787/embedding/contribution/delete
 
 ###
 POST http://localhost:8787/chat/service-public
