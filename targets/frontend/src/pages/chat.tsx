@@ -64,6 +64,8 @@ type PageProps = {
   references: Metadata[];
 };
 
+const baseUrl = "http://localhost:3000";
+
 const ChatPage = ({
   references,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
@@ -92,7 +94,7 @@ const ChatPage = ({
     setMessages(msg);
     const historyMessages = msg.reduce((acc, curr) => acc + curr.message, "");
 
-    const response = await fetch("http://localhost:8787/chat", {
+    const response = await fetch(`${baseUrl}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -210,7 +212,7 @@ const ChatPage = ({
 };
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
-  const response = await fetch("http://localhost:8787/embedding/list");
+  const response = await fetch(`${baseUrl}/embedding/list`);
   const data: Metadata[] = await response.json();
   return { props: { references: data } };
 };

@@ -27,7 +27,6 @@ POST http://localhost:8787/sitemap
 ###
 POST http://localhost:8787/copy
 
-
 ###
 POST http://localhost:8787/embedding/service-public
 
@@ -38,7 +37,19 @@ GET http://localhost:8787/embedding/service-public/infos
 GET http://localhost:8787/embedding/service-public?q=service
 
 ###
-GET http://localhost:8787/embedding/list
+GET http://localhost:8787/embedding/service-public/list
+
+###
+POST http://localhost:8787/embedding/contribution
+
+###
+GET http://localhost:8787/embedding/contribution/infos
+
+###
+GET http://localhost:8787/embedding/contribution?q=service
+
+###
+GET http://localhost:8787/embedding/contribution/list
 
 ###
 POST http://localhost:8787/chat

@@ -93,11 +93,13 @@ server.setConfig((srv) => {
     })
   );
   srv.use(bodyParser.json());
-  srv.use(
-    cors({
-      origin: ["*.fabrique.social.gouv.fr", "http://localhost:3000"],
-    })
-  );
+  //TODO: to remove
+  srv.use(cors());
+  // srv.use(
+  //   cors({
+  //     origin: ["*.fabrique.social.gouv.fr", "http://localhost:3000"],
+  //   })
+  // );
 });
 server.setErrorConfig((srv) => {
   srv.use(

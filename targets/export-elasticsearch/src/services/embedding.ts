@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 
-import { getName, name, wait } from "../utils";
+import { chunk, getName, name } from "../utils";
 import { DocumentsRepository } from "../repositories";
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import {
@@ -15,6 +15,7 @@ export class EmbeddingService {
   client: ChromaClient;
   embedder: IEmbeddingFunction;
   private SERVICE_PUBLIC_COLLECTION = "service-public";
+  private CONTRIBUTION_COLLECTION = "contribution";
 
   constructor(
     @inject(getName(DocumentsRepository))
@@ -26,38 +27,60 @@ export class EmbeddingService {
     });
   }
 
-  // TODO: this code is working only for the first 75 documents because there is a limit in EmbeddingFunction
   async ingestServicePublicDocuments() {
-    const BATCH_SIZE = 5;
-    const results = await this.documentsRepository.getBySource(
-      SOURCES.SHEET_SP
+    return await this.ingestDocuments(
+      SOURCES.SHEET_SP,
+      this.SERVICE_PUBLIC_COLLECTION
     );
+  }
+
+  async ingestContributionDocuments() {
+    return await this.ingestDocuments(
+      SOURCES.CONTRIBUTIONS,
+      this.CONTRIBUTION_COLLECTION
+    );
+  }
+
+  private async ingestDocuments(source: string, collectionName: string) {
+    const results = await this.documentsRepository.getBySource(source);
     const collection = await this.client.getOrCreateCollection({
-      name: this.SERVICE_PUBLIC_COLLECTION,
+      name: collectionName,
       embeddingFunction: this.embedder,
     });
-    for (let i = 0; i < results.length; i += BATCH_SIZE) {
-      const batch = results.slice(i, i + BATCH_SIZE);
+    const resultsSplits = chunk(results, 25);
+    for (let j = 0; j < resultsSplits.length; j++) {
+      const batch = resultsSplits[j];
       const ids = batch.map((r) => r.cdtnId);
       const documents = batch.map((r) => r.text);
       const metadatas = batch.map((r) => ({
         title: r.title,
         metaDescription: r.metaDescription,
       }));
-      await collection.upsert({
-        ids,
-        metadatas,
-        documents,
-      });
-      await wait(1000);
+      try {
+        await collection.upsert({
+          ids,
+          metadatas,
+          documents,
+        });
+      } catch (e) {
+        console.error(e);
+      }
     }
 
-    return { result: "Service public ingested" };
+    return { result: "Documents ingested" };
+  }
+
+  async getContributionDocuments(query: string) {
+    return await this.getDocuments(this.CONTRIBUTION_COLLECTION, query);
   }
 
   async getServicePublicDocuments(query: string) {
+    return await this.getDocuments(this.SERVICE_PUBLIC_COLLECTION, query);
+  }
+
+  async getDocuments(collectionName: string, query: string) {
     const collection = await this.client.getOrCreateCollection({
-      name: this.SERVICE_PUBLIC_COLLECTION,
+      name: collectionName,
       embeddingFunction: this.embedder,
     });
     const result = await collection.query({
@@ -66,9 +89,17 @@ export class EmbeddingService {
     return result;
   }
 
+  async countAndPeekContributionDocuments() {
+    return await this.countAndPeekDocuments(this.CONTRIBUTION_COLLECTION);
+  }
+
   async countAndPeekServicePublicDocuments() {
+    return await this.countAndPeekDocuments(this.SERVICE_PUBLIC_COLLECTION);
+  }
+
+  private async countAndPeekDocuments(collectionName: string) {
     const collection = await this.client.getOrCreateCollection({
-      name: this.SERVICE_PUBLIC_COLLECTION,
+      name: collectionName,
       embeddingFunction: this.embedder,
     });
     const numDocs = await collection.count();
@@ -76,9 +107,17 @@ export class EmbeddingService {
     return { numDocs, peek };
   }
 
-  async listAllDocumentsMetadata() {
+  async listServicePublicDocumentsMetadata() {
+    return await this.listDocumentsMetadata(this.SERVICE_PUBLIC_COLLECTION);
+  }
+
+  async listContributionDocumentsMetadata() {
+    return await this.listDocumentsMetadata(this.CONTRIBUTION_COLLECTION);
+  }
+
+  private async listDocumentsMetadata(collectionName: string) {
     const collection = await this.client.getOrCreateCollection({
-      name: this.SERVICE_PUBLIC_COLLECTION,
+      name: collectionName,
       embeddingFunction: this.embedder,
     });
     const documents = await collection.get();
