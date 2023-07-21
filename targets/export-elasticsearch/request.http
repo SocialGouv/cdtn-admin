@@ -31,10 +31,10 @@ POST http://localhost:8787/copy
 POST http://localhost:8787/embedding/service-public
 
 ###
-GET http://localhost:8787/embedding/service-public/infos
+GET http://localhost:8787/embedding/service-public?q=service
 
 ###
-GET http://localhost:8787/embedding/service-public?q=service
+GET http://localhost:8787/embedding/service-public/infos
 
 ###
 GET http://localhost:8787/embedding/service-public/list
@@ -43,19 +43,28 @@ GET http://localhost:8787/embedding/service-public/list
 POST http://localhost:8787/embedding/contribution
 
 ###
-GET http://localhost:8787/embedding/contribution/infos
+GET http://localhost:8787/embedding/contribution?q=service
 
 ###
-GET http://localhost:8787/embedding/contribution?q=service
+GET http://localhost:8787/embedding/contribution/infos
 
 ###
 GET http://localhost:8787/embedding/contribution/list
 
 ###
-POST http://localhost:8787/chat
+POST http://localhost:8787/chat/service-public
 content-type: application/json
 
 {
   "question": "Peux-tu m'aider à comprendre ce qu'est la période d'essai ?",
+  "history": ""
+}
+
+###
+POST http://localhost:8787/chat/contribution
+content-type: application/json
+
+{
+  "question": "Quelle est la durée maximale de la période d'essai, sans et avec renouvellement si ma convention collective est boulangerie-pâtisserie 843 ?",
   "history": ""
 }

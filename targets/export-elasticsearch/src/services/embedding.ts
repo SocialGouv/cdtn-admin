@@ -8,14 +8,13 @@ import {
   IEmbeddingFunction,
   OpenAIEmbeddingFunction,
 } from "chromadb";
+import { CollectionSlug } from "../type";
 
 @injectable()
 @name("EmbeddingService")
 export class EmbeddingService {
   client: ChromaClient;
   embedder: IEmbeddingFunction;
-  private SERVICE_PUBLIC_COLLECTION = "service-public";
-  private CONTRIBUTION_COLLECTION = "contribution";
 
   constructor(
     @inject(getName(DocumentsRepository))
@@ -30,18 +29,21 @@ export class EmbeddingService {
   async ingestServicePublicDocuments() {
     return await this.ingestDocuments(
       SOURCES.SHEET_SP,
-      this.SERVICE_PUBLIC_COLLECTION
+      CollectionSlug.SERVICE_PUBLIC
     );
   }
 
   async ingestContributionDocuments() {
     return await this.ingestDocuments(
       SOURCES.CONTRIBUTIONS,
-      this.CONTRIBUTION_COLLECTION
+      CollectionSlug.CONTRIBUTION
     );
   }
 
-  private async ingestDocuments(source: string, collectionName: string) {
+  private async ingestDocuments(
+    source: string,
+    collectionName: CollectionSlug
+  ) {
     const results = await this.documentsRepository.getBySource(source);
     const collection = await this.client.getOrCreateCollection({
       name: collectionName,
@@ -71,11 +73,11 @@ export class EmbeddingService {
   }
 
   async getContributionDocuments(query: string) {
-    return await this.getDocuments(this.CONTRIBUTION_COLLECTION, query);
+    return await this.getDocuments(CollectionSlug.CONTRIBUTION, query);
   }
 
   async getServicePublicDocuments(query: string) {
-    return await this.getDocuments(this.SERVICE_PUBLIC_COLLECTION, query);
+    return await this.getDocuments(CollectionSlug.SERVICE_PUBLIC, query);
   }
 
   async getDocuments(collectionName: string, query: string) {
@@ -90,11 +92,11 @@ export class EmbeddingService {
   }
 
   async countAndPeekContributionDocuments() {
-    return await this.countAndPeekDocuments(this.CONTRIBUTION_COLLECTION);
+    return await this.countAndPeekDocuments(CollectionSlug.CONTRIBUTION);
   }
 
   async countAndPeekServicePublicDocuments() {
-    return await this.countAndPeekDocuments(this.SERVICE_PUBLIC_COLLECTION);
+    return await this.countAndPeekDocuments(CollectionSlug.SERVICE_PUBLIC);
   }
 
   private async countAndPeekDocuments(collectionName: string) {
@@ -108,11 +110,11 @@ export class EmbeddingService {
   }
 
   async listServicePublicDocumentsMetadata() {
-    return await this.listDocumentsMetadata(this.SERVICE_PUBLIC_COLLECTION);
+    return await this.listDocumentsMetadata(CollectionSlug.SERVICE_PUBLIC);
   }
 
   async listContributionDocumentsMetadata() {
-    return await this.listDocumentsMetadata(this.CONTRIBUTION_COLLECTION);
+    return await this.listDocumentsMetadata(CollectionSlug.CONTRIBUTION);
   }
 
   private async listDocumentsMetadata(collectionName: string) {
