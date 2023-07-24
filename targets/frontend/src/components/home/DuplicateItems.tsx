@@ -1,10 +1,11 @@
 import { HasuraDocument } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Card, Flex, Message, Text } from "theme-ui";
+import { Card, CardContent, Typography } from "@mui/material";
 import { useQuery } from "urql";
+import { FixedSnackBar } from "../utils/SnackBar";
 
 export const getDuplicateQuery = `query duplicate($sources: [String!], $relationTypes: [String!]) {
   documents(
@@ -78,6 +79,7 @@ export function DuplicateContent(): JSX.Element | null {
       }
       return found;
     }
+
     const duplicateDocs =
       result?.data?.documents.flatMap((t) => {
         const duplicates = getDoublons(t);
@@ -96,28 +98,28 @@ export function DuplicateContent(): JSX.Element | null {
   }
   if (error) {
     return (
-      <Message>
+      <FixedSnackBar>
         <pre>{JSON.stringify(error, null, 2)}</pre>
-      </Message>
+      </FixedSnackBar>
     );
   }
   return (
     <Link href="/duplicates" passHref style={{ textDecoration: "none" }}>
       <Card>
-        <Flex sx={{ justifyContent: "flex-end" }}>
-          <Text
+        <CardContent>
+          <Typography
+            align="right"
             color="secondary"
+            variant="h2"
             sx={{
               fontSize: "xxlarge",
               fontWeight: "600",
             }}
           >
             {duplicates.length}
-          </Text>
-        </Flex>
-        <Box>
-          <Text sx={{ textAlign: "right" }}>Doublons detectés</Text>
-        </Box>
+          </Typography>
+          <Typography sx={{ textAlign: "right" }}>Doublons detectés</Typography>
+        </CardContent>
       </Card>
     </Link>
   );

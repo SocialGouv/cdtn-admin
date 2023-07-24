@@ -1,23 +1,16 @@
 import { GithubApi } from "../api";
-import fetch from "node-fetch";
-
-jest.mock("node-fetch", () => ({
-  __esModule: true, // this property makes it work
-  default: jest.fn(),
-}));
 
 const apiResponse = "raw file content";
 
-const mockFetch = fetch as unknown as jest.Mock;
-mockFetch.mockImplementation((url) => {
+global.fetch = jest.fn().mockImplementation((url) => {
   if (
     url ===
     "https://raw.githubusercontent.com/socialgouv/kali-data/v1.5.0/path/file"
   ) {
-    return {
+    return Promise.resolve({
       ok: true,
       text: async () => Promise.resolve(apiResponse),
-    };
+    });
   }
 });
 

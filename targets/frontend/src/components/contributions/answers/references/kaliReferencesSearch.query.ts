@@ -1,6 +1,6 @@
 import { useQuery } from "urql";
 
-import { KaliReference } from "../../type";
+import { KaliArticle } from "../../type";
 import { Result } from "./ReferenceInput";
 
 export const contributionSearchKaliReferencesSearch = `
@@ -18,12 +18,12 @@ query SearchKaliReferences($idcc: bpchar!, $query: String!) {
 `;
 
 type QueryResult = {
-  recentKaliReference: { refs: KaliReference[] };
+  recentKaliReference: { refs: KaliArticle[] };
 };
 
 export const useContributionSearchKaliReferenceQuery =
   (idcc: string) =>
-  (query: string | undefined): Result<KaliReference> => {
+  (query: string | undefined): Result<KaliArticle> => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [{ data, fetching, error }] = useQuery<QueryResult>({
       query: contributionSearchKaliReferencesSearch,

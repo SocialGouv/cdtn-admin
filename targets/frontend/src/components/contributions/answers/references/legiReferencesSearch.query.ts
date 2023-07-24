@@ -1,11 +1,11 @@
 import { useQuery } from "urql";
 
-import { LegiReference } from "../../type";
+import { LegiArticle, LegiReference } from "../../type";
 import { Result } from "./ReferenceInput";
 
 export const contributionSearchLegiReferencesSearch = `
 query SearchLegiReferences($query: String) {
-  legi_articles(where: {label: {_ilike: $query}}) {
+  legiArticles: legi_articles(where: {label: {_ilike: $query}}, limit: 10) {
     cid
     id
     label
@@ -14,12 +14,12 @@ query SearchLegiReferences($query: String) {
 `;
 
 type QueryResult = {
-  legi_articles: LegiReference[];
+  legiArticles: LegiArticle[];
 };
 
 export const useContributionSearchLegiReferenceQuery = (
   query: string | undefined
-): Result<LegiReference> => {
+): Result<Pick<LegiReference, "legiArticle">> => {
   const [{ data, fetching, error }] = useQuery<QueryResult>({
     query: contributionSearchLegiReferencesSearch,
     variables: {
@@ -27,7 +27,10 @@ export const useContributionSearchLegiReferenceQuery = (
     },
   });
   return {
-    data: data?.legi_articles ?? [],
+    data:
+      data?.legiArticles.map((legiArticle) => ({
+        legiArticle,
+      })) ?? [],
     error,
     fetching,
   };

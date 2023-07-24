@@ -18,6 +18,9 @@ RUN yarn workspace alert-cli build
 # app
 FROM node:$NODE_VERSION
 
+# Add git to docker image
+RUN apk add --no-cache git openssh-client
+
 WORKDIR /app
 
 USER node

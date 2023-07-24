@@ -13,7 +13,7 @@ spec:
               memory: 2.5Gi
             limits:
               cpu: 2000m
-              memory: 3Gi
+              memory: 4.5Gi
           workingDir: /app
           env:
             - name: PRODUCTION

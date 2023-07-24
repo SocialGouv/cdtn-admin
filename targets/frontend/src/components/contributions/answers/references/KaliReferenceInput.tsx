@@ -12,17 +12,15 @@ import {
 import { FormTextField } from "../../../forms";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useContributionSearchKaliReferenceQuery } from "./kaliReferencesSearch.query";
-import { KaliReference } from "../../type";
+import { Answer, KaliArticle } from "../../type";
 import { Result } from "./ReferenceInput";
 import { SimpleLink } from "../../../utils/SimpleLink";
 
 type KaliReferenceSearchProps = {
   idcc: string;
   disabled?: boolean;
-  onAdd: (item: KaliReference | null) => void;
-  fetcher: (
-    idcc: string
-  ) => (query: string | undefined) => Result<KaliReference>;
+  onAdd: (item: KaliArticle | null) => void;
+  fetcher: (idcc: string) => (query: string | undefined) => Result<KaliArticle>;
 };
 
 const KaliReferenceSearch = ({
@@ -31,20 +29,20 @@ const KaliReferenceSearch = ({
   disabled,
   onAdd,
 }: KaliReferenceSearchProps): React.ReactElement => {
-  const [value, setValue] = useState<KaliReference | null>(null);
+  const [value, setValue] = useState<KaliArticle | null>(null);
 
   const [query, setQuery] = useState<string | undefined>();
   const { data, fetching, error } = fetcher(idcc)(query);
-  const [options, setOptions] = useState<readonly KaliReference[]>([]);
+  const [options, setOptions] = useState<readonly KaliArticle[]>([]);
 
   useEffect(() => {
     setOptions(data);
-  }, [data]);
+  }, [JSON.stringify(data)]);
 
   return (
     <Autocomplete
       disabled={disabled}
-      onChange={(event: any, newValue: KaliReference | null) => {
+      onChange={(event: any, newValue: KaliArticle | null) => {
         onAdd(newValue);
         setValue(null);
         setQuery("");
@@ -55,7 +53,9 @@ const KaliReferenceSearch = ({
       }}
       options={options}
       loading={fetching}
-      getOptionLabel={(item) => item.path}
+      getOptionLabel={(item: KaliArticle) => {
+        return item.path;
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -90,9 +90,9 @@ export const KaliReferenceInput = ({
   control,
   disabled = false,
 }: Props): ReactElement | null => {
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove } = useFieldArray<Answer, "kaliReferences">({
     control,
-    name,
+    name: "kaliReferences",
   });
 
   return (
@@ -102,7 +102,8 @@ export const KaliReferenceInput = ({
     >
       <Stack spacing={2} mt={4}>
         {fields.map((field, index) => {
-          const ref = fields[index] as KaliReference;
+          const ref = fields[index];
+
           return (
             <Grid container key={field.id}>
               <Grid item xs={2} mr={2}>
@@ -119,9 +120,9 @@ export const KaliReferenceInput = ({
               <Grid item xs={7}>
                 <SimpleLink
                   target="_blank"
-                  href={`https://www.legifrance.gouv.fr/conv_coll/id/${ref.cid}/?idConteneur=KALICONT000005635550`}
+                  href={`https://www.legifrance.gouv.fr/conv_coll/id/${ref.kaliArticle.cid}/?idConteneur=KALICONT000005635550`}
                 >
-                  {ref.path}
+                  {ref.kaliArticle.path}
                 </SimpleLink>
               </Grid>
               <Grid item xs={2}>
@@ -138,7 +139,11 @@ export const KaliReferenceInput = ({
           <KaliReferenceSearch
             fetcher={useContributionSearchKaliReferenceQuery}
             idcc={idcc}
-            onAdd={append}
+            onAdd={(value) => {
+              if (value) {
+                append({ kaliArticle: value });
+              }
+            }}
           />
         )}
       </Stack>

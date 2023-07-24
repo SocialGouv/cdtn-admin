@@ -1,12 +1,10 @@
 import {
-  Alert,
   AlertColor,
   Box,
   Breadcrumbs,
   Button,
   FormControl,
   Grid,
-  Snackbar,
   Stack,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -33,15 +31,9 @@ import {
   OtherReferenceInput,
 } from "./references";
 import { statusesMapping } from "../status/data";
-import {
-  defaultReferences,
-  formatCdtnReferences,
-  formatKaliReferences,
-  formatLegiReferences,
-  formatOtherReferences,
-} from "./answerReferences";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { SimpleLink } from "../../utils/SimpleLink";
+import { SnackBar } from "../../utils/SnackBar";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -75,14 +67,20 @@ export const ContributionsAnswer = ({
       setStatus(answer.status.status);
     }
   }, [answer]);
-  const { control, getValues, trigger, watch } = useForm<AnswerForm>({
+  const { control, getValues, trigger, watch } = useForm<Answer>({
+    values: answer,
     defaultValues: {
-      content: answer?.content ?? "",
-      otherAnswer: answer?.otherAnswer ?? "ANSWER",
-      ...defaultReferences(answer),
+      content: "",
+      otherAnswer: "ANSWER",
+      status: {
+        status: "TODO",
+      },
+      legiReferences: [],
+      kaliReferences: [],
+      otherReferences: [],
+      cdtnReferences: [],
     },
   });
-  const otherAnswer = watch("otherAnswer", answer?.otherAnswer);
   const updateAnswer = useContributionAnswerUpdateMutation();
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -116,10 +114,10 @@ export const ContributionsAnswer = ({
         otherAnswer: data.otherAnswer,
         status: newStatus,
         userId: user?.id,
-        kali_references: formatKaliReferences(answer, data),
-        legi_references: formatLegiReferences(answer, data),
-        cdtn_references: formatCdtnReferences(answer, data),
-        other_references: formatOtherReferences(answer, data),
+        kaliReferences: data.kaliReferences,
+        legiReferences: data.legiReferences,
+        cdtnReferences: data.cdtnReferences,
+        otherReferences: data.otherReferences,
       });
       setSnack({
         open: true,
@@ -161,7 +159,9 @@ export const ContributionsAnswer = ({
                   name="content"
                   disabled={isNotEditable(answer)}
                   control={control}
-                  rules={{ required: otherAnswer === "ANSWER" }}
+                  rules={{
+                    required: answer && answer.otherAnswer === "ANSWER",
+                  }}
                 />
               </FormControl>
               {answer && !isCodeDuTravail(answer) && (
@@ -245,26 +245,14 @@ export const ContributionsAnswer = ({
               </Stack>
             </Stack>
 
-            <Snackbar
-              open={snack.open}
-              autoHideDuration={6000}
-              onClose={() => setSnack({ open: false })}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-            >
-              <Alert
-                onClose={() => setSnack({ open: false })}
-                severity={snack.severity}
-              >
-                {snack?.message}
-              </Alert>
-            </Snackbar>
+            <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
           </form>
         </Box>
         <Box sx={{ width: "30%" }}>
           {answer && (
             <Comments
               answerId={answer.id}
-              comments={answer.answer_comments ?? []}
+              comments={answer.answerComments ?? []}
             />
           )}
         </Box>

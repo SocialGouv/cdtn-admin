@@ -3,6 +3,66 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.0...v2.11.1) (2023-07-18)
+
+### Bug Fixes
+
+- **1740:** remove from alert-cli and migration ([f0f38a6](https://github.com/SocialGouv/cdtn-admin/commit/f0f38a61f2263bf75e7968d6adf8ab6b9275f374))
+- up k8s cronjob apiversion ([#973](https://github.com/SocialGouv/cdtn-admin/issues/973)) ([c0fc745](https://github.com/SocialGouv/cdtn-admin/commit/c0fc745a4e9677383b445e1f598bd9a2c41f0750))
+
+# [2.11.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.2...v2.11.0) (2023-07-12)
+
+### Bug Fixes
+
+- **alert-cli:** change `diff` by replacing `github-api` by a local diff ([#972](https://github.com/SocialGouv/cdtn-admin/issues/972)) ([ab1c0cd](https://github.com/SocialGouv/cdtn-admin/commit/ab1c0cdc46e0010279f891ebe13fde3f754fbcd0))
+- **alert-cli:** change file formatting ([903b968](https://github.com/SocialGouv/cdtn-admin/commit/903b968a44fe599de3e071bb8f98ee5d045115e5))
+- **alert-cli:** improve memory limits ([fe9c685](https://github.com/SocialGouv/cdtn-admin/commit/fe9c68567d4e94996aea61fd2cf82459149f20a8))
+- **ui:** move theme-ui components to mui (Home + Alerts) ([#964](https://github.com/SocialGouv/cdtn-admin/issues/964)) ([279b011](https://github.com/SocialGouv/cdtn-admin/commit/279b01167a9f121ef52789f3a17bf558e610524e))
+- **workflow:** change credentials ([cc7ab9b](https://github.com/SocialGouv/cdtn-admin/commit/cc7ab9b45952883a552bdd51aa53fc92c980d365))
+- **workflow:** replace `azure-pg-user` to `pg-user` ([2507ea9](https://github.com/SocialGouv/cdtn-admin/commit/2507ea9930afd1815ade78f4c159d79948e168e4))
+- **workflow:** set hasura for preprod ([0d1447c](https://github.com/SocialGouv/cdtn-admin/commit/0d1447ca637cbb2b2e98d1610e9c2b769bdc17b5))
+- **workflow:** set order on job ([91a9f36](https://github.com/SocialGouv/cdtn-admin/commit/91a9f3696da0e4314498539d92078886f45c31b5))
+- **workflow:** use preprod for volume ([b236fd5](https://github.com/SocialGouv/cdtn-admin/commit/b236fd5c035dd657406fa9d3c087b3d9cbdb9470))
+
+### Features
+
+- **alert-cli:** add git to docker image ([0eb81b9](https://github.com/SocialGouv/cdtn-admin/commit/0eb81b9b0252ddfc12782d67ed1a38ce90ef5209))
+- remove node fetch ([#968](https://github.com/SocialGouv/cdtn-admin/issues/968)) ([8a903ae](https://github.com/SocialGouv/cdtn-admin/commit/8a903ae0bb8dcb62616fc2fb21f0248d585b353e))
+
+## [2.10.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.1...v2.10.2) (2023-07-04)
+
+### Bug Fixes
+
+- contributions issues ([#967](https://github.com/SocialGouv/cdtn-admin/issues/967)) ([8bd3e96](https://github.com/SocialGouv/cdtn-admin/commit/8bd3e9656d15d95ed931af7c5445f88ec0ccbe9b))
+- **workflow:** change order ([ac54006](https://github.com/SocialGouv/cdtn-admin/commit/ac5400666a87c368f12e1f338d6742a76cd6290c))
+- **workflow:** modify name to isolate environment ([933c233](https://github.com/SocialGouv/cdtn-admin/commit/933c233f90462d8f8e61a554de2881575bda7fb5))
+- **workflow:** preprod key ([27206ae](https://github.com/SocialGouv/cdtn-admin/commit/27206ae7921b3bea6977502527038a778fe56513))
+
+### Features
+
+- **workflow:** add db cleaner ([12e2b91](https://github.com/SocialGouv/cdtn-admin/commit/12e2b9177d96a1f0b8d956c1b48f22273af669c8))
+
+## [2.10.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.0...v2.10.1) (2023-07-03)
+
+### Bug Fixes
+
+- alert-cli secrets ([6a3564a](https://github.com/SocialGouv/cdtn-admin/commit/6a3564a9de03e6edd6101856693c0604483ac37d))
+
+# [2.10.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.9.1...v2.10.0) (2023-07-03)
+
+### Bug Fixes
+
+- **auth:** remove inMemoryToken from `auth` ([#958](https://github.com/SocialGouv/cdtn-admin/issues/958)) ([61a623f](https://github.com/SocialGouv/cdtn-admin/commit/61a623f71efb433daa6dd6ec9c1d9f43167b630e))
+- **contributions:** add slug for all idcc (even when starting with 0) ([#961](https://github.com/SocialGouv/cdtn-admin/issues/961)) ([1bb8628](https://github.com/SocialGouv/cdtn-admin/commit/1bb86286b3f5c76c4d1c18d5426ada4ba9331e96))
+- **contributions:** make button behavior right on answer form ([#962](https://github.com/SocialGouv/cdtn-admin/issues/962)) ([9bdf988](https://github.com/SocialGouv/cdtn-admin/commit/9bdf988dfbf4e35c40f1067346cc46a50ac75dcb))
+- modifier le post restore pour garder les users anonymisés ([#954](https://github.com/SocialGouv/cdtn-admin/issues/954)) ([7f44dc3](https://github.com/SocialGouv/cdtn-admin/commit/7f44dc3c6ffd469fadef37fc33aa5b667636d05d))
+- **upgrade:** set node version to 20 ([#939](https://github.com/SocialGouv/cdtn-admin/issues/939)) ([1b1b23e](https://github.com/SocialGouv/cdtn-admin/commit/1b1b23ef111f48ebc790fe075463a1634cd0d69b))
+- **workflow:** update backup url + add job to job review ([#957](https://github.com/SocialGouv/cdtn-admin/issues/957)) ([6c613d9](https://github.com/SocialGouv/cdtn-admin/commit/6c613d912ddfe4172b2fa7dc0ee0d80162768da1))
+
+### Features
+
+- **synonyms:** ajout d'un synonyme pour la CC 1486 ([#959](https://github.com/SocialGouv/cdtn-admin/issues/959)) ([8a85d98](https://github.com/SocialGouv/cdtn-admin/commit/8a85d988b597ed2be66615394262c73bf34976d4))
+
 ## [2.9.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.9.0...v2.9.1) (2023-06-26)
 
 ### Bug Fixes

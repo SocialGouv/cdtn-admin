@@ -1,8 +1,10 @@
 import { HasuraDocument } from "@shared/types";
 import { gql } from "@urql/core";
 import Link from "next/link";
-import { Box, Card, Flex, Message, Text } from "theme-ui";
 import { useQuery } from "urql";
+import { Card, CardContent, Typography } from "@mui/material";
+import { FixedSnackBar } from "../utils/SnackBar";
+import React from "react";
 
 export const getGhostDocumentQuery = gql`
   query ghostDocuments {
@@ -71,28 +73,30 @@ export function GhostLinkedDocuments(): JSX.Element | null {
   }
   if (error) {
     return (
-      <Message>
+      <FixedSnackBar>
         <pre>{JSON.stringify(error, null, 2)}</pre>
-      </Message>
+      </FixedSnackBar>
     );
   }
   return (
     <Link href="/ghost-documents" passHref style={{ textDecoration: "none" }}>
       <Card>
-        <Flex sx={{ justifyContent: "flex-end" }}>
-          <Text
+        <CardContent>
+          <Typography
+            align="right"
             color="secondary"
+            variant="h2"
             sx={{
               fontSize: "xxlarge",
               fontWeight: "600",
             }}
           >
             {data?.relations.length}
-          </Text>
-        </Flex>
-        <Box>
-          <Text sx={{ textAlign: "right" }}>Références inaccessibles</Text>
-        </Box>
+          </Typography>
+          <Typography sx={{ textAlign: "right" }}>
+            Références inaccessibles
+          </Typography>
+        </CardContent>
       </Card>
     </Link>
   );
