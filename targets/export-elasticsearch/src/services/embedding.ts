@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 
-import { chunk, getName, name } from "../utils";
+import { chunk, chunkText, getName, name } from "../utils";
 import { DocumentsRepository } from "../repositories";
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import {
@@ -27,60 +27,68 @@ export class EmbeddingService {
   }
 
   async ingestServicePublicDocuments() {
-    const results = await this.documentsRepository.getBySource(
-      SOURCES.SHEET_SP
+    return await this.ingestDocuments(
+      SOURCES.SHEET_SP,
+      CollectionSlug.SERVICE_PUBLIC,
+      (doc) => doc.text
     );
-    const collection = await this.client.getOrCreateCollection({
-      name: CollectionSlug.SERVICE_PUBLIC,
-      embeddingFunction: this.embedder,
-    });
-    const resultsSplits = chunk(results, 10);
-    for (let j = 0; j < resultsSplits.length; j++) {
-      const batch = resultsSplits[j];
-      const ids = batch.map((r) => r.cdtnId);
-      const documents = batch.map((r) => r.text);
-      const metadatas = batch.map((r) => ({
-        title: r.title,
-        metaDescription: r.metaDescription,
-      }));
-      try {
-        await collection.upsert({
-          ids,
-          metadatas,
-          documents,
-        });
-      } catch (e) {
-        // console.error(e);
-      }
-    }
-
-    return { result: "Documents ingested" };
   }
 
   async ingestContributionDocuments() {
-    const results = await this.documentsRepository.getBySource(
-      SOURCES.CONTRIBUTIONS
-    );
-    const collection = await this.client.getOrCreateCollection({
-      name: CollectionSlug.CONTRIBUTION,
-      embeddingFunction: this.embedder,
-    });
-    const resultsSplits = chunk(results, 50);
-    for (let j = 0; j < resultsSplits.length; j++) {
-      const batch = resultsSplits[j];
-      const ids = batch.map((r) => r.cdtnId);
-      const documents = batch.map((r) => {
+    return await this.ingestDocuments(
+      SOURCES.CONTRIBUTIONS,
+      CollectionSlug.CONTRIBUTION,
+      (r) => {
         const idccNumber = r.slug.split("-")[0];
         const answer =
           r.document.answers?.generic?.markdown +
           "\n\n" +
           r.document.answers?.conventionAnswer?.markdown;
         return "Pour l'idcc numéro " + idccNumber + "\n\n" + answer + "\n\n";
-      });
-      const metadatas = batch.map((r) => ({
-        title: r.title,
-        metaDescription: r.metaDescription,
-      }));
+      }
+    );
+  }
+
+  async ingestDocuments(
+    source: string,
+    collectionName: string,
+    getText: (doc: any) => string
+  ) {
+    const results = await this.documentsRepository.getBySource(source);
+    const collection = await this.client.getOrCreateCollection({
+      name: collectionName,
+      embeddingFunction: this.embedder,
+    });
+    const resultsSplits = chunk(results, 50);
+    for (let j = 0; j < resultsSplits.length; j++) {
+      const batch = resultsSplits[j];
+      const { ids, metadatas, documents } = batch.reduce(
+        (acc, r) => {
+          const id = r.cdtnId;
+          const text = getText(r);
+          if (text.length > 5000) {
+            const textSplits = chunkText(text, 5000);
+            const idSplits = textSplits.map((_, i) => `${id}-${i}`);
+            const metadatasSplits = textSplits.map((_, i) => ({
+              title: r.title,
+              metaDescription: r.metaDescription,
+            }));
+            acc.ids.push(...idSplits);
+            acc.documents.push(...textSplits);
+            acc.metadatas.push(...metadatasSplits);
+            return acc;
+          }
+          acc.ids.push(id);
+          acc.documents.push(text);
+          acc.metadatas.push({
+            title: r.title,
+            metaDescription: r.metaDescription,
+          });
+          return acc;
+        },
+        { ids: [], metadatas: [], documents: [] } as any
+      );
+
       try {
         await collection.upsert({
           ids,
@@ -88,7 +96,7 @@ export class EmbeddingService {
           documents,
         });
       } catch (e) {
-        // console.error(e);
+        console.error(e);
       }
     }
 
