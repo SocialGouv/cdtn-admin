@@ -6,10 +6,26 @@ export function chunk<T>(array: Array<T>, chunkSize = 50): Array<Array<T>> {
   return results;
 }
 
-export function chunkText(text: string, chunkSize = 5000): Array<string> {
-  const results = [];
-  for (let i = 0; i < text.length; i += chunkSize) {
-    results.push(text.slice(i, i + chunkSize));
+export function chunkText(text: string, chunkSize = 50): string[] {
+  if (text.length === 0) {
+    return [];
   }
-  return results;
+
+  const chunks = [];
+  let currentChunk = "";
+
+  for (const word of text.split(" ")) {
+    if (currentChunk.length + word.length + 1 <= chunkSize) {
+      currentChunk += (currentChunk.length === 0 ? "" : " ") + word;
+    } else {
+      chunks.push(currentChunk);
+      currentChunk = word;
+    }
+  }
+
+  if (currentChunk.length > 0) {
+    chunks.push(currentChunk);
+  }
+
+  return chunks;
 }

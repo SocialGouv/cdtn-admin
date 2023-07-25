@@ -69,7 +69,7 @@ export class EmbeddingService {
           if (text.length > 5000) {
             const textSplits = chunkText(text, 5000);
             const idSplits = textSplits.map((_, i) => `${id}-${i}`);
-            const metadatasSplits = textSplits.map((_, i) => ({
+            const metadatasSplits = textSplits.map(() => ({
               title: r.title,
               metaDescription: r.metaDescription,
             }));
