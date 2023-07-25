@@ -5,7 +5,16 @@ import { Result } from "./ReferenceInput";
 
 export const contributionSearchCdtnReferencesSearch = `
 query SearchCdtnReferences($query: String, $sources: [String!]) {
-  documents(where: {title: {_ilike: $query}, is_available: {_eq: true}, is_published: {_eq: true}, source: {_in: $sources}}, limit: 10) {
+  documents(where: {
+    _or: [
+      {slug: {_ilike: $query}},
+      {title: {_ilike: $query}}
+    ],
+    is_available: {_eq: true},
+    is_published: {_eq: true},
+    source: {_in: $sources}},
+    limit: 10
+    ) {
     title
     cdtnId: cdtn_id
     source
@@ -21,10 +30,36 @@ type QueryResult = {
 export const useContributionSearchCdtnReferencesQuery = (
   query: string | undefined
 ): Result<Pick<CdtnReference, "document">> => {
+  const querySplit = query?.split(/[ -,]/);
+  const slugQuery = querySplit?.map(
+    (query) => `{slug: {_ilike: "%${query.normalize()}%"}}`
+  ).join(`,
+  `);
+  const titleQuery = querySplit?.map(
+    (query) => `{title: {_ilike: "%${query.normalize()}%"}}`
+  ).join(`,
+  `);
   const [{ data, fetching, error }] = useQuery<QueryResult>({
-    query: contributionSearchCdtnReferencesSearch,
+    query: `
+    query SearchCdtnReferences($sources: [String!]) {
+      documents(where: {
+        _or: [
+          {_and: [${slugQuery}]}
+          {_and: [${titleQuery}]}
+        ],
+        is_available: {_eq: true},
+        is_published: {_eq: true},
+        source: {_in: $sources}},
+        limit: 10
+        ) {
+        title
+        cdtnId: cdtn_id
+        source
+        slug
+      }
+    }
+    `,
     variables: {
-      query: `%${query}%`,
       sources: [
         "dossiers",
         "external",
