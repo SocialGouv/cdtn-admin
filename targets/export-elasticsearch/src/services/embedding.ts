@@ -8,7 +8,14 @@ import {
   IEmbeddingFunction,
   OpenAIEmbeddingFunction,
 } from "chromadb";
-import { CollectionSlug } from "../type";
+import { CollectionSlug, DocumentRepo } from "../type";
+
+interface ChromaGetResult {
+  text: string;
+  metadatas: Record<string, any>;
+}
+
+type ChromaGetResults = ChromaGetResult[];
 
 @injectable()
 @name("EmbeddingService")
@@ -27,32 +34,42 @@ export class EmbeddingService {
   }
 
   async ingestServicePublicDocuments() {
-    return await this.ingestDocuments(
+    await this.ingestDocuments(
       SOURCES.SHEET_SP,
       CollectionSlug.SERVICE_PUBLIC,
       (doc) => doc.text
     );
+    return { result: "Documents ingested" };
   }
 
   async ingestContributionDocuments() {
-    return await this.ingestDocuments(
+    await this.ingestDocuments(
       SOURCES.CONTRIBUTIONS,
-      CollectionSlug.CONTRIBUTION,
+      CollectionSlug.CONTRIBUTION + "-generic",
       (r) => {
-        const idccNumber = r.slug.split("-")[0];
-        const answer =
-          r.document.answers?.generic?.markdown +
-          "\n\n" +
-          r.document.answers?.conventionAnswer?.markdown;
-        return "Pour l'idcc numéro " + idccNumber + "\n\n" + answer + "\n\n";
+        return r.document.answers?.generic?.markdown ?? "";
       }
     );
+    await this.ingestDocuments(
+      SOURCES.CONTRIBUTIONS,
+      CollectionSlug.CONTRIBUTION + "-idcc",
+      (r) => {
+        return r.document.answers?.conventionAnswer?.markdown ?? "";
+      },
+      (r) => {
+        return {
+          idccNumber: r.slug.split("-")[0],
+        };
+      }
+    );
+    return { result: "Documents ingested" };
   }
 
   async ingestDocuments(
     source: string,
     collectionName: string,
-    getText: (doc: any) => string
+    getText: (doc: DocumentRepo) => string,
+    getMetadata?: (doc: DocumentRepo) => Record<string, any>
   ) {
     const results = await this.documentsRepository.getBySource(source);
     const collection = await this.client.getOrCreateCollection({
@@ -72,6 +89,9 @@ export class EmbeddingService {
             const metadatasSplits = textSplits.map(() => ({
               title: r.title,
               metaDescription: r.metaDescription,
+              id,
+              numChunks: idSplits.length,
+              ...getMetadata?.(r),
             }));
             acc.ids.push(...idSplits);
             acc.documents.push(...textSplits);
@@ -83,6 +103,8 @@ export class EmbeddingService {
           acc.metadatas.push({
             title: r.title,
             metaDescription: r.metaDescription,
+            id: r.cdtnId,
+            ...getMetadata?.(r),
           });
           return acc;
         },
@@ -99,27 +121,78 @@ export class EmbeddingService {
         console.error(e);
       }
     }
-
-    return { result: "Documents ingested" };
   }
 
   async getContributionDocuments(query: string) {
-    return await this.getDocuments(CollectionSlug.CONTRIBUTION, query);
-  }
-
-  async getServicePublicDocuments(query: string) {
-    return await this.getDocuments(CollectionSlug.SERVICE_PUBLIC, query);
-  }
-
-  async getDocuments(collectionName: string, query: string) {
+    // etape 1 : retrouver les 5 meilleurs elements
     const collection = await this.client.getOrCreateCollection({
-      name: collectionName,
+      name: CollectionSlug.CONTRIBUTION + "-generic",
       embeddingFunction: this.embedder,
     });
     const result = await collection.query({
       queryTexts: [query],
     });
+    // etape 2 : recuperer les parties découpées
+    // etape 3 : filer les infos liées à la cc
     return result;
+  }
+
+  async getServicePublicDocuments(query: string): Promise<ChromaGetResults> {
+    try {
+      const result: ChromaGetResults = [];
+      const collection = await this.client.getOrCreateCollection({
+        name: CollectionSlug.SERVICE_PUBLIC,
+        embeddingFunction: this.embedder,
+      });
+      const queryTextsResult = await collection.query({
+        queryTexts: [query],
+        nResults: 5,
+      });
+      const metadataList = queryTextsResult.metadatas[0]!.reduce(
+        (acc: any[], m: any) => {
+          if (!acc.find((a) => a.metaDescription === m.metaDescription)) {
+            acc.push(m);
+          }
+          return acc;
+        },
+        []
+      );
+      for (let i = 0; i < metadataList.length; i++) {
+        const metadata = metadataList[i]!;
+        const queryResult = await collection.query({
+          queryTexts: [" "],
+          where: {
+            id: {
+              $eq: metadata.id as string,
+            },
+          },
+        });
+        console.log(queryResult);
+        const ids = queryResult.ids[0]!;
+        const documents = queryResult.documents[0]!;
+        const text: string = documents
+          .map((_doc, j) => ({
+            [`${ids[j]}`]: documents[j],
+          }))
+          .sort((a, b) => {
+            const aKey = Object.keys(a)[0];
+            const bKey = Object.keys(b)[0];
+            return aKey.localeCompare(bKey);
+          })
+          .reduce((acc, curr) => {
+            const text = Object.values(curr);
+            return acc + text;
+          }, "");
+        result.push({
+          text,
+          metadatas: metadata,
+        });
+      }
+      return result;
+    } catch (e: any) {
+      console.error(e);
+      return e.message;
+    }
   }
 
   async countAndPeekContributionDocuments() {

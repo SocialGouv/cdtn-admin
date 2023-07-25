@@ -96,7 +96,7 @@ export class EmbeddingController implements interfaces.Controller {
     }
   }
 
-  @httpDelete("/:slug/delete")
+  @httpDelete("/:slug")
   async delete(
     @requestParam("slug") slug: CollectionSlug
   ): Promise<Record<string, any>> {
