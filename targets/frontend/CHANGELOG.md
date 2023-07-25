@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.1...v2.11.2) (2023-07-25)
+
+### Bug Fixes
+
+- 976 admin améliorer la recherche articles des cc + nos contenus à nous ([#978](https://github.com/SocialGouv/cdtn-admin/issues/978)) ([670f897](https://github.com/SocialGouv/cdtn-admin/commit/670f89757c38984af5f948bcc1864be7fefb8a16))
+- mettre le titre sur une seule ligne ([#982](https://github.com/SocialGouv/cdtn-admin/issues/982)) ([452f67c](https://github.com/SocialGouv/cdtn-admin/commit/452f67ce2bd8cfcd9e5f15753ce452c35a8c5da7))
+
 ## [2.11.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.0...v2.11.1) (2023-07-18)
 
 **Note:** Version bump only for package frontend
