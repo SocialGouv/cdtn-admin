@@ -47,7 +47,11 @@ export class EmbeddingService {
       SOURCES.CONTRIBUTIONS,
       CollectionSlug.CONTRIBUTION + "-generic",
       (r) => {
-        return r.document.answers?.generic?.markdown ?? "";
+        return (
+          r.document.answers?.generic?.text ??
+          r.document.answers?.generic?.markdown ??
+          ""
+        );
       }
     );
     await this.ingestDocuments(
@@ -125,23 +129,27 @@ export class EmbeddingService {
 
   async getContributionDocuments(query: string) {
     // etape 1 : retrouver les 5 meilleurs elements
-    const collection = await this.client.getOrCreateCollection({
-      name: CollectionSlug.CONTRIBUTION + "-generic",
-      embeddingFunction: this.embedder,
-    });
-    const result = await collection.query({
-      queryTexts: [query],
-    });
+    const result = await this.getDocuments(
+      CollectionSlug.CONTRIBUTION + "-generic",
+      query
+    );
     // etape 2 : recuperer les parties découpées
     // etape 3 : filer les infos liées à la cc
     return result;
   }
 
   async getServicePublicDocuments(query: string): Promise<ChromaGetResults> {
+    return await this.getDocuments(CollectionSlug.SERVICE_PUBLIC, query);
+  }
+
+  private async getDocuments(
+    collectionName: string,
+    query: string
+  ): Promise<ChromaGetResults> {
     try {
       const result: ChromaGetResults = [];
       const collection = await this.client.getOrCreateCollection({
-        name: CollectionSlug.SERVICE_PUBLIC,
+        name: collectionName,
         embeddingFunction: this.embedder,
       });
       const queryTextsResult = await collection.query({
@@ -167,7 +175,6 @@ export class EmbeddingService {
             },
           },
         });
-        console.log(queryResult);
         const ids = queryResult.ids[0]!;
         const documents = queryResult.documents[0]!;
         const text: string = documents
@@ -196,7 +203,9 @@ export class EmbeddingService {
   }
 
   async countAndPeekContributionDocuments() {
-    return await this.countAndPeekDocuments(CollectionSlug.CONTRIBUTION);
+    return await this.countAndPeekDocuments(
+      CollectionSlug.CONTRIBUTION + "-generic"
+    );
   }
 
   async countAndPeekServicePublicDocuments() {

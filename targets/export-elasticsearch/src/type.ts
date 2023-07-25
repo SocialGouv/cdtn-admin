@@ -21,6 +21,7 @@ export interface DocumentRepo {
     answers?: {
       generic?: {
         markdown: string;
+        text: string;
       };
       conventionAnswer?: {
         markdown: string;
