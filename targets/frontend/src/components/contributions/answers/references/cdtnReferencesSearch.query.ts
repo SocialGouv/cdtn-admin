@@ -32,11 +32,11 @@ export const useContributionSearchCdtnReferencesQuery = (
 ): Result<Pick<CdtnReference, "document">> => {
   const querySplit = query?.split(/[ -,]/);
   const slugQuery = querySplit?.map(
-    (query) => `{slug: {_ilike: "%${query.normalize()}%"}}`
+    (text) => `{slug: {_ilike: "%${text.normalize()}%"}}`
   ).join(`,
   `);
   const titleQuery = querySplit?.map(
-    (query) => `{title: {_ilike: "%${query.normalize()}%"}}`
+    (text) => `{title: {_ilike: "%${text.normalize()}%"}}`
   ).join(`,
   `);
   const [{ data, fetching, error }] = useQuery<QueryResult>({

@@ -42,7 +42,13 @@ export function Layout({ children, title }: LayoutProps) {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar sx={{ height: headerHeight }}>
+        <Toolbar
+          sx={{
+            height: headerHeight,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <IconButton
             aria-label="open drawer"
             edge="start"

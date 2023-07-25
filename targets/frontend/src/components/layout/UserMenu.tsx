@@ -16,7 +16,7 @@ export function UserMenu() {
     setAnchorMenu(null);
   };
   return (
-    <div style={{ flexBasis: "100%" }}>
+    <div>
       {user && (
         <Stack
           direction="row"
