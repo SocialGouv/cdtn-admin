@@ -1,5 +1,3 @@
-import { ValidatorChatType } from "./controllers/middlewares";
-
 export enum CollectionSlug {
   SERVICE_PUBLIC = "service-public",
   CONTRIBUTION_IDCC = "contribution-idcc",

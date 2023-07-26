@@ -52,6 +52,9 @@ POST http://localhost:8787/embedding/contribution-generic
 GET http://localhost:8787/embedding/contribution-generic?q=service
 
 ###
+GET http://localhost:8787/embedding/contribution-idcc?q=service
+
+###
 GET http://localhost:8787/embedding/contribution-generic/infos
 
 ###

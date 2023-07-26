@@ -15,13 +15,25 @@ import { ValidatorChatType } from "../controllers/middlewares";
 export class ChatService {
   model: BaseLanguageModel;
   openai: OpenAIApi;
-  private QA_PROMPT_SP = `Vous êtes un assistant juridique. Utilisez uniquement les éléments de "contexte" pour répondre à la question.
+  private QA_PROMPT_SP = `Vous êtes un assistant juridique. Utilisez uniquement les éléments de "CONTEXT" pour répondre à la question.
   Votre réponse doit uniquement être en français.
   Si vous ne connaissez pas la réponse, dites simplement que vous ne savez pas. N'essayez PAS d'inventer une réponse.
-  Si la question n'est pas liée au contexte, répondez poliment que vous êtes réglé pour répondre uniquement aux questions liées au savoir acquis.
-  S'il vous manque des éléments de contexte, demandez à l'utilisateur de vous les fournir dans le cas où il y a plusieurs réponses possibles.
+  Si la question n'est pas liée au CONTEXT, répondez poliment que vous êtes réglé pour répondre uniquement aux questions liées au savoir acquis.
+  S'il vous manque des éléments de CONTEXT, demandez à l'utilisateur de vous les fournir dans le cas où il y a plusieurs réponses possibles.
   N'hésitez pas à donner des examples pour agrémenter votre réponse. De plus, n'hésite pas à reformuler la réponse pour la rendre plus claire.
-  Vous reconnaîtrez le contexte car il sera sous forme de json et précédé de ce mot clé : CONTEXT.
+  Vous reconnaîtrez le CONTEXT car il sera sous forme de json et précédé de ce mot clé : CONTEXT.
+  `;
+  private QA_PROMPT_CONTRIBUTION = `Vous êtes un assistant juridique. Utilisez uniquement les éléments de "CONTEXT GENERIC" et "CONTEXT IDCC" pour répondre à la question.
+  Votre réponse doit uniquement être en français.
+  Si vous ne connaissez pas la réponse, dites simplement que vous ne savez pas. N'essayez PAS d'inventer une réponse.
+  Si la question n'est pas liée au CONTEXT GENERIC ou / et CONTEXT IDCC, répondez poliment que vous êtes réglé pour répondre uniquement aux questions liées au savoir acquis.
+  S'il vous manque des éléments de CONTEXT GENERIC ou / et CONTEXT IDCC, demandez à l'utilisateur de vous les fournir dans le cas où il y a plusieurs réponses possibles.
+  N'hésitez pas à donner des examples pour agrémenter votre réponse. De plus, n'hésite pas à reformuler la réponse pour la rendre plus claire.
+  Vous reconnaîtrez le CONTEXT GENERIC car il sera sous forme de json et précédé de ce mot clé : CONTEXT GENERIC.
+  Vous reconnaîtrez le CONTEXT IDCC car il sera sous forme de json et précédé de ce mot clé : CONTEXT IDCC.
+  De plus, indiquez à l'utilisateur de compléter le numéro de sa convention collective afin d'affiner sa réponse pour trouver l'information dans le CONTEXT IDCC.
+  Enfin, essayer de rentre la conversation interactive en posant des questions.
+  Lorsque le numéro de la convention collectif est acquis, c'est le CONTEXT IDCC qui doit être utilisé pour répondre à la question. Le CONTEXT IDCC est donc prioritaire sur le CONTEXT GENERIC.
   `;
   // private CONDENSE_PROMPT = `Compte tenu de la conversation suivante et d'une question de suivi, reformulez la question de suivi pour en faire une question autonome.
   // Historique du chat:
@@ -103,7 +115,7 @@ export class ChatService {
     const messages = [
       {
         role: "system",
-        content: this.QA_PROMPT_SP,
+        content: this.QA_PROMPT_CONTRIBUTION,
       },
       ...historyMessage,
       {
@@ -119,12 +131,20 @@ export class ChatService {
       return acc;
     }, "");
 
-    const documents = await this.embedding.getServicePublicDocuments(
+    const documentsGeneric =
+      await this.embedding.getContributionGenericDocuments(allUserMessages);
+
+    const documentsIdcc = await this.embedding.getContributionIdccDocuments(
       allUserMessages
     );
 
     messages.push({
-      content: "CONTEXT : " + JSON.stringify(documents),
+      content: "CONTEXT GENERIC: " + JSON.stringify(documentsGeneric),
+      role: "system",
+    });
+
+    messages.push({
+      content: "CONTEXT IDCC: " + JSON.stringify(documentsIdcc),
       role: "system",
     });
 
@@ -134,7 +154,10 @@ export class ChatService {
       messages,
     });
 
-    return { chatgpt: answer.data, sourceDocuments: documents } as any;
+    return {
+      chatgpt: answer.data,
+      sourceDocuments: [...documentsGeneric, ...documentsIdcc],
+    } as any;
   }
 
   // async askContribution(question: string, historyMessage: string) {
