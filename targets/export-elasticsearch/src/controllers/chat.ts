@@ -27,8 +27,9 @@ export class ChatController implements interfaces.Controller {
     switch (slug) {
       case CollectionSlug.SERVICE_PUBLIC:
         return await this.service.askServicePublic(bdy);
-      case CollectionSlug.CONTRIBUTION_GENERIC:
-        return await this.service.askServicePublic(bdy);
+      case CollectionSlug.CONTRIBUTION_GENERIC ||
+        CollectionSlug.CONTRIBUTION_IDCC:
+        return await this.service.askContribution(bdy);
       default:
         return { error: "Unknown slug" };
     }

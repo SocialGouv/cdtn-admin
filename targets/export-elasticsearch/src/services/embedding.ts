@@ -130,16 +130,20 @@ export class EmbeddingService {
     }
   }
 
-  async getContributionDocuments(query: string, nResults = 5) {
-    // etape 1 : retrouver les 5 meilleurs elements
-    const result = await this.getDocuments(
+  async getContributionGenericDocuments(query: string, nResults = 5) {
+    return await this.getDocuments(
       CollectionSlug.CONTRIBUTION_GENERIC,
       query,
       nResults
     );
-    // etape 2 : recuperer les parties découpées
-    // etape 3 : filer les infos liées à la cc
-    return result;
+  }
+
+  async getContributionIdccDocuments(query: string, nResults = 5) {
+    return await this.getDocuments(
+      CollectionSlug.CONTRIBUTION_IDCC,
+      query,
+      nResults
+    );
   }
 
   async getServicePublicDocuments(
@@ -214,17 +218,7 @@ export class EmbeddingService {
     }
   }
 
-  async countAndPeekContributionDocuments() {
-    return await this.countAndPeekDocuments(
-      CollectionSlug.CONTRIBUTION_GENERIC
-    );
-  }
-
-  async countAndPeekServicePublicDocuments() {
-    return await this.countAndPeekDocuments(CollectionSlug.SERVICE_PUBLIC);
-  }
-
-  private async countAndPeekDocuments(collectionName: string) {
+  async countAndPeekDocuments(collectionName: CollectionSlug) {
     const collection = await this.client.getOrCreateCollection({
       name: collectionName,
       embeddingFunction: this.embedder,
@@ -234,17 +228,7 @@ export class EmbeddingService {
     return { numDocs, peek };
   }
 
-  async listServicePublicDocumentsMetadata() {
-    return await this.listDocumentsMetadata(CollectionSlug.SERVICE_PUBLIC);
-  }
-
-  async listContributionDocumentsMetadata() {
-    return await this.listDocumentsMetadata(
-      CollectionSlug.CONTRIBUTION_GENERIC
-    );
-  }
-
-  private async listDocumentsMetadata(collectionName: string) {
+  async listDocumentsMetadata(collectionName: CollectionSlug) {
     const collection = await this.client.getOrCreateCollection({
       name: collectionName,
       embeddingFunction: this.embedder,
@@ -253,23 +237,13 @@ export class EmbeddingService {
     return documents.metadatas;
   }
 
-  async cleanServicePublicDocuments() {
-    await this.cleanDocuments(CollectionSlug.SERVICE_PUBLIC);
-    return { result: "Documents deleted" };
-  }
-
-  async cleanContributionDocuments() {
-    await this.cleanDocuments(CollectionSlug.CONTRIBUTION_GENERIC);
-    await this.cleanDocuments(CollectionSlug.CONTRIBUTION_IDCC);
-    return { result: "Documents deleted" };
-  }
-
-  private async cleanDocuments(collectionName: string) {
+  async cleanDocuments(collectionName: CollectionSlug) {
     const collection = await this.client.getOrCreateCollection({
       name: collectionName,
       embeddingFunction: this.embedder,
     });
     await collection.delete();
+    return { result: "Documents deleted" };
   }
 
   async getHasuraDocumentBySource(source: string, length = 20) {

@@ -27,7 +27,8 @@ export class EmbeddingController implements interfaces.Controller {
     switch (slug) {
       case CollectionSlug.SERVICE_PUBLIC:
         return await this.service.ingestServicePublicDocuments();
-      case CollectionSlug.CONTRIBUTION:
+      case CollectionSlug.CONTRIBUTION_GENERIC ||
+        CollectionSlug.CONTRIBUTION_IDCC:
         return await this.service.ingestContributionDocuments();
       default:
         return { error: "Unknown slug" };
@@ -45,8 +46,10 @@ export class EmbeddingController implements interfaces.Controller {
     switch (slug) {
       case CollectionSlug.SERVICE_PUBLIC:
         return await this.service.getServicePublicDocuments(query);
-      case CollectionSlug.CONTRIBUTION:
-        return await this.service.getContributionDocuments(query);
+      case CollectionSlug.CONTRIBUTION_GENERIC:
+        return await this.service.getContributionGenericDocuments(query);
+      case CollectionSlug.CONTRIBUTION_IDCC:
+        return await this.service.getContributionIdccDocuments(query);
       default:
         return { error: "Unknown slug" };
     }
@@ -56,14 +59,7 @@ export class EmbeddingController implements interfaces.Controller {
   async infos(
     @requestParam("slug") slug: CollectionSlug
   ): Promise<Record<string, any>> {
-    switch (slug) {
-      case CollectionSlug.SERVICE_PUBLIC:
-        return await this.service.countAndPeekServicePublicDocuments();
-      case CollectionSlug.CONTRIBUTION:
-        return await this.service.countAndPeekContributionDocuments();
-      default:
-        return { error: "Unknown slug" };
-    }
+    return await this.service.countAndPeekDocuments(slug);
   }
 
   @httpGet("/:slug/source")
@@ -73,7 +69,8 @@ export class EmbeddingController implements interfaces.Controller {
     switch (slug) {
       case CollectionSlug.SERVICE_PUBLIC:
         return await this.service.getHasuraDocumentBySource(SOURCES.SHEET_SP);
-      case CollectionSlug.CONTRIBUTION:
+      case CollectionSlug.CONTRIBUTION_GENERIC ||
+        CollectionSlug.CONTRIBUTION_IDCC:
         return await this.service.getHasuraDocumentBySource(
           SOURCES.CONTRIBUTIONS
         );
@@ -86,27 +83,13 @@ export class EmbeddingController implements interfaces.Controller {
   async list(
     @requestParam("slug") slug: CollectionSlug
   ): Promise<Record<string, any>> {
-    switch (slug) {
-      case CollectionSlug.SERVICE_PUBLIC:
-        return await this.service.listServicePublicDocumentsMetadata();
-      case CollectionSlug.CONTRIBUTION:
-        return await this.service.listContributionDocumentsMetadata();
-      default:
-        return { error: "Unknown slug" };
-    }
+    return await this.service.listDocumentsMetadata(slug);
   }
 
   @httpDelete("/:slug")
   async delete(
     @requestParam("slug") slug: CollectionSlug
   ): Promise<Record<string, any>> {
-    switch (slug) {
-      case CollectionSlug.SERVICE_PUBLIC:
-        return await this.service.cleanServicePublicDocuments();
-      case CollectionSlug.CONTRIBUTION:
-        return await this.service.cleanContributionDocuments();
-      default:
-        return { error: "Unknown slug" };
-    }
+    return await this.service.cleanDocuments(slug);
   }
 }

@@ -46,22 +46,22 @@ GET http://localhost:8787/embedding/service-public/source
 DELETE http://localhost:8787/embedding/service-public
 
 ###
-POST http://localhost:8787/embedding/contribution
+POST http://localhost:8787/embedding/contribution-generic
 
 ###
-GET http://localhost:8787/embedding/contribution?q=service
+GET http://localhost:8787/embedding/contribution-generic?q=service
 
 ###
-GET http://localhost:8787/embedding/contribution/infos
+GET http://localhost:8787/embedding/contribution-generic/infos
 
 ###
-GET http://localhost:8787/embedding/contribution/list
+GET http://localhost:8787/embedding/contribution-generic/list
 
 ###
-GET http://localhost:8787/embedding/contribution/source
+GET http://localhost:8787/embedding/contribution-generic/source
 
 ###
-DELETE http://localhost:8787/embedding/contribution
+DELETE http://localhost:8787/embedding/contribution-generic
 
 ###
 POST http://localhost:8787/chat/service-public
@@ -73,7 +73,7 @@ content-type: application/json
 }
 
 ###
-POST http://localhost:8787/chat/contribution
+POST http://localhost:8787/chat/contribution-generic
 content-type: application/json
 
 {
