@@ -27,7 +27,7 @@ export class ChatService {
   Si la question n'est pas liée au contexte, répondez poliment que vous êtes réglé pour répondre uniquement aux questions liées au savoir acquis.
   S'il vous manque des éléments de contexte, demandez à l'utilisateur de vous les fournir dans le cas où il y a plusieurs réponses possibles.
   N'hésitez pas à donner des examples pour agrémenter votre réponse. De plus, n'hésite pas à reformuler la réponse pour la rendre plus claire.
-  Vous reconnaîtrez le contexte car il sera sous forme de json et précédé de ce mot clé : {context}
+  Vous reconnaîtrez le contexte car il sera sous forme de json et précédé de ce mot clé : CONTEXT
   `;
   private QA_PROMPT_CONTRIB = `Vous êtes un assistant juridique. Utilisez uniquement les éléments de contexte pour répondre à la question.
   Votre réponse doit uniquement être en français.
@@ -89,18 +89,27 @@ export class ChatService {
           "Pour le document " +
           doc.metadatas.title +
           "le contenu est : " +
-          doc.text
+          doc.text.slice(0, 500)
       )
       .join("\n\n");
 
     messages.push({
-      content: "{context} : " + content,
+      content: "CONTEXT : " + content,
       role: "system",
     });
 
     const response = await this.openai.createChatCompletion({
-      messages,
-      model: "gpt-3.5-turbo-16k-0613",
+      messages: [
+        {
+          role: "system",
+          content: "You are a helpful assistant.",
+        },
+        {
+          role: "user",
+          content: "Hello!",
+        },
+      ],
+      model: "gpt-3.5-turbo",
       temperature: 0,
     });
 
