@@ -7,7 +7,12 @@ import { name } from "../../utils";
 
 const ValidatorChat = z.object({
   question: z.string(),
-  history: z.string(),
+  history: z.array(
+    z.object({
+      role: z.enum(["user", "system", "assistant"]),
+      content: z.string(),
+    })
+  ),
 });
 
 export type ValidatorChatType = z.infer<typeof ValidatorChat>;

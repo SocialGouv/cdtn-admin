@@ -69,7 +69,7 @@ content-type: application/json
 
 {
   "question": "Peux-tu m'aider à comprendre ce qu'est la période d'essai ?",
-  "history": ""
+  "history": []
 }
 
 ###
@@ -78,5 +78,5 @@ content-type: application/json
 
 {
   "question": "Quelle est la durée maximale de la période d'essai, sans et avec renouvellement si ma convention collective est boulangerie-pâtisserie 843 ?",
-  "history": ""
+  "history": []
 }

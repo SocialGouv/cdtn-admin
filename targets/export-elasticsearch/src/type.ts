@@ -1,6 +1,9 @@
+import { ValidatorChatType } from "./controllers/middlewares";
+
 export enum CollectionSlug {
   SERVICE_PUBLIC = "service-public",
-  CONTRIBUTION = "contribution",
+  CONTRIBUTION_IDCC = "contribution-idcc",
+  CONTRIBUTION_GENERIC = "contribution-generic",
 }
 
 export interface DocumentRepo {

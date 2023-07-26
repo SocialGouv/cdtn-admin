@@ -45,7 +45,7 @@ export class EmbeddingService {
   async ingestContributionDocuments() {
     await this.ingestDocuments(
       SOURCES.CONTRIBUTIONS,
-      CollectionSlug.CONTRIBUTION + "-generic",
+      CollectionSlug.CONTRIBUTION_GENERIC,
       (r) => {
         return (
           r.document.answers?.generic?.text ??
@@ -56,7 +56,7 @@ export class EmbeddingService {
     );
     await this.ingestDocuments(
       SOURCES.CONTRIBUTIONS,
-      CollectionSlug.CONTRIBUTION + "-idcc",
+      CollectionSlug.CONTRIBUTION_IDCC,
       (r) => {
         return r.document.answers?.conventionAnswer?.markdown ?? "";
       },
@@ -87,7 +87,10 @@ export class EmbeddingService {
         (acc, r) => {
           const id = r.cdtnId;
           const text = getText(r);
-          if (text.length > 5000) {
+          if (text.length < 300) {
+            return acc;
+          }
+          if (text.length > 10000) {
             const textSplits = chunkText(text, 5000);
             const idSplits = textSplits.map((_, i) => `${id}-${i}`);
             const metadatasSplits = textSplits.map(() => ({
@@ -127,24 +130,33 @@ export class EmbeddingService {
     }
   }
 
-  async getContributionDocuments(query: string) {
+  async getContributionDocuments(query: string, nResults = 5) {
     // etape 1 : retrouver les 5 meilleurs elements
     const result = await this.getDocuments(
-      CollectionSlug.CONTRIBUTION + "-generic",
-      query
+      CollectionSlug.CONTRIBUTION_GENERIC,
+      query,
+      nResults
     );
     // etape 2 : recuperer les parties découpées
     // etape 3 : filer les infos liées à la cc
     return result;
   }
 
-  async getServicePublicDocuments(query: string): Promise<ChromaGetResults> {
-    return await this.getDocuments(CollectionSlug.SERVICE_PUBLIC, query);
+  async getServicePublicDocuments(
+    query: string,
+    nResults = 5
+  ): Promise<ChromaGetResults> {
+    return await this.getDocuments(
+      CollectionSlug.SERVICE_PUBLIC,
+      query,
+      nResults
+    );
   }
 
   private async getDocuments(
     collectionName: string,
-    query: string
+    query: string,
+    nResults: number
   ): Promise<ChromaGetResults> {
     try {
       const result: ChromaGetResults = [];
@@ -154,7 +166,7 @@ export class EmbeddingService {
       });
       const queryTextsResult = await collection.query({
         queryTexts: [query],
-        nResults: 5,
+        nResults,
       });
       const metadataList = queryTextsResult.metadatas[0]!.reduce(
         (acc: any[], m: any) => {
@@ -204,7 +216,7 @@ export class EmbeddingService {
 
   async countAndPeekContributionDocuments() {
     return await this.countAndPeekDocuments(
-      CollectionSlug.CONTRIBUTION + "-generic"
+      CollectionSlug.CONTRIBUTION_GENERIC
     );
   }
 
@@ -227,7 +239,9 @@ export class EmbeddingService {
   }
 
   async listContributionDocumentsMetadata() {
-    return await this.listDocumentsMetadata(CollectionSlug.CONTRIBUTION);
+    return await this.listDocumentsMetadata(
+      CollectionSlug.CONTRIBUTION_GENERIC
+    );
   }
 
   private async listDocumentsMetadata(collectionName: string) {
@@ -240,11 +254,14 @@ export class EmbeddingService {
   }
 
   async cleanServicePublicDocuments() {
-    return await this.cleanDocuments(CollectionSlug.SERVICE_PUBLIC);
+    await this.cleanDocuments(CollectionSlug.SERVICE_PUBLIC);
+    return { result: "Documents deleted" };
   }
 
   async cleanContributionDocuments() {
-    return await this.cleanDocuments(CollectionSlug.CONTRIBUTION);
+    await this.cleanDocuments(CollectionSlug.CONTRIBUTION_GENERIC);
+    await this.cleanDocuments(CollectionSlug.CONTRIBUTION_IDCC);
+    return { result: "Documents deleted" };
   }
 
   private async cleanDocuments(collectionName: string) {
@@ -253,7 +270,6 @@ export class EmbeddingService {
       embeddingFunction: this.embedder,
     });
     await collection.delete();
-    return { result: "Documents deleted" };
   }
 
   async getHasuraDocumentBySource(source: string, length = 20) {

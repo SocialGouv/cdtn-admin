@@ -26,9 +26,9 @@ export class ChatController implements interfaces.Controller {
     const bdy: ValidatorChatType = req.body as any;
     switch (slug) {
       case CollectionSlug.SERVICE_PUBLIC:
-        return await this.service.askServicePublic(bdy.question, bdy.history);
-      case CollectionSlug.CONTRIBUTION:
-        return await this.service.askContribution(bdy.question, bdy.history);
+        return await this.service.askServicePublic(bdy);
+      case CollectionSlug.CONTRIBUTION_GENERIC:
+        return await this.service.askServicePublic(bdy);
       default:
         return { error: "Unknown slug" };
     }
