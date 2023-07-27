@@ -87,7 +87,7 @@ export class EmbeddingService {
         (acc, r) => {
           const id = r.cdtnId;
           const text = getText(r);
-          if (text.length < 300) {
+          if (text.length < 100) {
             return acc;
           }
           if (text.length > 10000) {
@@ -110,7 +110,7 @@ export class EmbeddingService {
           acc.metadatas.push({
             title: r.title,
             metaDescription: r.metaDescription,
-            id: r.cdtnId,
+            id,
             ...getMetadata?.(r),
           });
           return acc;
@@ -130,7 +130,7 @@ export class EmbeddingService {
     }
   }
 
-  async getContributionGenericDocuments(query: string, nResults = 5) {
+  async getContributionGenericDocuments(query: string, nResults: number) {
     return await this.getDocuments(
       CollectionSlug.CONTRIBUTION_GENERIC,
       query,
@@ -138,17 +138,28 @@ export class EmbeddingService {
     );
   }
 
-  async getContributionIdccDocuments(query: string, nResults = 5) {
+  async getContributionIdccDocuments(
+    query: string,
+    nResults: number,
+    idccNumber: string
+  ) {
     return await this.getDocuments(
       CollectionSlug.CONTRIBUTION_IDCC,
       query,
-      nResults
+      nResults,
+      {
+        where: {
+          idccNumber: {
+            $eq: idccNumber,
+          },
+        },
+      }
     );
   }
 
   async getServicePublicDocuments(
     query: string,
-    nResults = 5
+    nResults: number
   ): Promise<ChromaGetResults> {
     return await this.getDocuments(
       CollectionSlug.SERVICE_PUBLIC,
@@ -160,7 +171,8 @@ export class EmbeddingService {
   private async getDocuments(
     collectionName: string,
     query: string,
-    nResults: number
+    nResults: number,
+    optionalQueryParam?: Record<string, any>
   ): Promise<ChromaGetResults> {
     try {
       const result: ChromaGetResults = [];
@@ -171,6 +183,7 @@ export class EmbeddingService {
       const queryTextsResult = await collection.query({
         queryTexts: [query],
         nResults,
+        ...optionalQueryParam,
       });
       const metadataList = queryTextsResult.metadatas[0]!.reduce(
         (acc: any[], m: any) => {
@@ -183,37 +196,38 @@ export class EmbeddingService {
       );
       for (let i = 0; i < metadataList.length; i++) {
         const metadata = metadataList[i]!;
-        const queryResult = await collection.query({
-          queryTexts: [" "],
+        const queryResult = await collection.get({
           where: {
             id: {
               $eq: metadata.id as string,
             },
           },
         });
-        const ids = queryResult.ids[0]!;
-        const documents = queryResult.documents[0]!;
-        const text: string = documents
-          .map((_doc, j) => ({
-            [`${ids[j]}`]: documents[j],
-          }))
-          .sort((a, b) => {
-            const aKey = Object.keys(a)[0];
-            const bKey = Object.keys(b)[0];
-            return aKey.localeCompare(bKey);
-          })
-          .reduce((acc, curr) => {
-            const text = Object.values(curr);
-            return acc + text;
-          }, "");
-        result.push({
-          text,
-          metadatas: metadata,
-        });
+        if (queryResult) {
+          const ids = queryResult.ids;
+          const documents = queryResult.documents;
+          const text: string = documents
+            .map((_doc, j) => ({
+              [`${ids[j]}`]: documents[j],
+            }))
+            .sort((a, b) => {
+              const aKey = Object.keys(a)[0];
+              const bKey = Object.keys(b)[0];
+              return aKey.localeCompare(bKey);
+            })
+            .reduce((acc, curr) => {
+              const text = Object.values(curr);
+              return acc + text;
+            }, "");
+          result.push({
+            text,
+            metadatas: metadata,
+          });
+        }
       }
       return result;
     } catch (e: any) {
-      console.error(e);
+      // console.error(e);
       return [];
     }
   }

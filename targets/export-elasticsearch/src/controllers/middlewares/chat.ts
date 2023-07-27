@@ -13,6 +13,7 @@ const ValidatorChat = z.object({
       content: z.string(),
     })
   ),
+  idcc: z.string().optional(),
 });
 
 export type ValidatorChatType = z.infer<typeof ValidatorChat>;

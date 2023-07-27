@@ -52,7 +52,7 @@ POST http://localhost:8787/embedding/contribution-generic
 GET http://localhost:8787/embedding/contribution-generic?q=service
 
 ###
-GET http://localhost:8787/embedding/contribution-idcc?q=service
+GET http://localhost:8787/embedding/contribution-idcc?q=service&idcc=2003
 
 ###
 GET http://localhost:8787/embedding/contribution-generic/infos
@@ -65,6 +65,9 @@ GET http://localhost:8787/embedding/contribution-generic/source
 
 ###
 DELETE http://localhost:8787/embedding/contribution-generic
+
+###
+DELETE http://localhost:8787/embedding/contribution-idcc
 
 ###
 POST http://localhost:8787/chat/service-public
@@ -80,6 +83,7 @@ POST http://localhost:8787/chat/contribution-generic
 content-type: application/json
 
 {
-  "question": "Quelle est la durée maximale de la période d'essai, sans et avec renouvellement si ma convention collective est boulangerie-pâtisserie 843 ?",
-  "history": []
+  "question": "Quelle est la durée maximale de la période d'essai, sans et avec renouvellement avec un CDI ?",
+  "history": [],
+  "idcc": "0843"
 }

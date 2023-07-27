@@ -31,8 +31,7 @@ export class ChatService {
   N'hésitez pas à donner des examples pour agrémenter votre réponse. De plus, n'hésite pas à reformuler la réponse pour la rendre plus claire.
   Vous reconnaîtrez le CONTEXT GENERIC car il sera sous forme de json et précédé de ce mot clé : CONTEXT GENERIC.
   Vous reconnaîtrez le CONTEXT IDCC car il sera sous forme de json et précédé de ce mot clé : CONTEXT IDCC.
-  De plus, indiquez à l'utilisateur de compléter le numéro de sa convention collective afin d'affiner sa réponse pour trouver l'information dans le CONTEXT IDCC.
-  Enfin, essayer de rentre la conversation interactive en posant des questions.
+  Essayez de rendre la conversation interactive en posant des questions.
   Lorsque le numéro de la convention collectif est acquis, c'est le CONTEXT IDCC qui doit être utilisé pour répondre à la question. Le CONTEXT IDCC est donc prioritaire sur le CONTEXT GENERIC.
   `;
   // private CONDENSE_PROMPT = `Compte tenu de la conversation suivante et d'une question de suivi, reformulez la question de suivi pour en faire une question autonome.
@@ -92,7 +91,8 @@ export class ChatService {
     }, "");
 
     const documents = await this.embedding.getServicePublicDocuments(
-      allUserMessages
+      allUserMessages,
+      5
     );
 
     messages.push({
@@ -106,7 +106,10 @@ export class ChatService {
       messages,
     });
 
-    return { chatgpt: answer.data, sourceDocuments: documents } as any;
+    return {
+      text: answer.data.choices[0].message?.content ?? "",
+      sourceDocuments: documents,
+    } as any;
   }
 
   async askContribution(body: ValidatorChatType) {
@@ -132,11 +135,15 @@ export class ChatService {
     }, "");
 
     const documentsGeneric =
-      await this.embedding.getContributionGenericDocuments(allUserMessages);
+      await this.embedding.getContributionGenericDocuments(allUserMessages, 10);
 
-    const documentsIdcc = await this.embedding.getContributionIdccDocuments(
-      allUserMessages
-    );
+    const documentsIdcc = body.idcc
+      ? await this.embedding.getContributionIdccDocuments(
+          allUserMessages,
+          5,
+          body.idcc
+        )
+      : [];
 
     messages.push({
       content: "CONTEXT GENERIC: " + JSON.stringify(documentsGeneric),
@@ -155,7 +162,7 @@ export class ChatService {
     });
 
     return {
-      chatgpt: answer.data,
+      text: answer.data.choices[0].message?.content ?? "",
       sourceDocuments: [...documentsGeneric, ...documentsIdcc],
     } as any;
   }

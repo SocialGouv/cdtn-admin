@@ -38,18 +38,22 @@ export class EmbeddingController implements interfaces.Controller {
   @httpGet("/:slug")
   async getServicePublic(
     @requestParam("slug") slug: CollectionSlug,
-    @queryParam("q") query: string
+    @queryParam("q") query: string,
+    @queryParam("idcc") idcc: string
   ): Promise<Record<string, any>> {
     if (!query) {
       return { error: "Missing query parameter" };
     }
+    if (slug === CollectionSlug.CONTRIBUTION_IDCC && !idcc) {
+      return { error: "Missing idcc parameter" };
+    }
     switch (slug) {
       case CollectionSlug.SERVICE_PUBLIC:
-        return await this.service.getServicePublicDocuments(query);
+        return await this.service.getServicePublicDocuments(query, 5);
       case CollectionSlug.CONTRIBUTION_GENERIC:
-        return await this.service.getContributionGenericDocuments(query);
+        return await this.service.getContributionGenericDocuments(query, 5);
       case CollectionSlug.CONTRIBUTION_IDCC:
-        return await this.service.getContributionIdccDocuments(query);
+        return await this.service.getContributionIdccDocuments(query, 5, idcc);
       default:
         return { error: "Unknown slug" };
     }

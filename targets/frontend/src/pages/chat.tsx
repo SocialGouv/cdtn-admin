@@ -1,7 +1,6 @@
 import React from "react";
 import { Paper, Typography, TextField } from "@mui/material";
 import { Button } from "theme-ui";
-import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 
 const classes = {
   root: {
@@ -38,76 +37,95 @@ type Answer = {
 };
 
 type SourceDocument = {
-  pageContent: string;
-  metadata: Metadata;
+  text: string;
+  metadatas: Metadata;
 };
 
 type Metadata = {
   title: string;
   metaDescription: string;
+  id: string;
+  numChunks?: number;
+  idccNumber?: string;
 };
 
 type ChatMessage = ChatbotResponse | HumanResponse;
 
 type ChatbotResponse = {
-  type: "chatbot";
-  message: string;
+  role: "system" | "assistant";
+  content: string;
   sourceDocuments: SourceDocument[];
 };
 
 type HumanResponse = {
-  type: "human";
-  message: string;
+  role: "user";
+  content: string;
 };
 
-type PageProps = {
-  references: Metadata[];
-};
-
-const baseUrl = "http://localhost:3000";
-
-const ChatPage = ({
-  references,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const ChatPage = () => {
   const [messages, setMessages] = React.useState<ChatMessage[]>([
     {
-      type: "chatbot",
-      message:
+      role: "assistant",
+      content:
         "Bonjour, je suis le chatbot du CDTN. Comment puis-je vous aider ?",
       sourceDocuments: [],
     },
   ]);
+  const [history, setHistory] = React.useState<Partial<ChatMessage>[]>([]);
   const [message, setMessage] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [idccNumber, setIdccNumber] = React.useState<string | undefined>(
+    undefined
+  );
+  const [collectionName, setCollectionName] = React.useState<
+    "chat/service-public" | "chat/contribution-generic"
+  >("chat/service-public");
 
   const onSendMessage = async () => {
     if (isLoading || message === "") return;
     setIsLoading(true);
+    const messageWritten = message;
     const msg: ChatMessage[] = [
       ...messages,
       {
-        type: "human",
-        message: message,
+        role: "user",
+        content: messageWritten,
       },
     ];
     setMessage("");
     setMessages(msg);
-    const historyMessages = msg.reduce((acc, curr) => acc + curr.message, "");
 
-    const response = await fetch(`${baseUrl}/chat`, {
+    const response = await fetch(`/api/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ question: message, history: historyMessages }),
+      body: JSON.stringify({
+        question: messageWritten,
+        history: history,
+        idcc: idccNumber,
+        url: "http://localhost:8787/" + collectionName,
+      }),
     });
+
     const data: Answer = await response.json();
     setMessages([
       ...msg,
       {
-        type: "chatbot",
-        message: data.text,
+        role: "assistant",
+        content: data.text,
         sourceDocuments: data.sourceDocuments,
+      },
+    ]);
+    setHistory([
+      ...history,
+      {
+        role: "user",
+        content: messageWritten,
+      },
+      {
+        role: "assistant",
+        content: data.text,
       },
     ]);
     setIsLoading(false);
@@ -115,22 +133,40 @@ const ChatPage = ({
 
   return (
     <div style={classes.root}>
-      {references.length > 0 && (
-        <Paper style={classes.refContainer}>
-          <Typography variant="h6">Références</Typography>
-          <ul>
-            {references.map((reference, index) => {
-              return (
-                <li key={index}>
-                  <Typography variant="subtitle1">{reference.title}</Typography>
-                  <Typography variant="body2">
-                    {reference.metaDescription}
-                  </Typography>
-                </li>
-              );
-            })}
-          </ul>
-        </Paper>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => window.location.reload()}
+        style={{
+          color: "white",
+        }}
+      >
+        Relancer la conversation
+      </Button>
+      <div>
+        <label htmlFor="collectionName">Collection : </label>
+        <select
+          name="collectionName"
+          id="collectionName"
+          onChange={(e) => setCollectionName(e.target.value as any)}
+          value={collectionName}
+        >
+          <option value="chat/service-public">Service Public</option>
+          <option value="chat/contribution-generic">Contribution</option>
+        </select>
+      </div>
+      {collectionName === "chat/contribution-generic" && (
+        <div>
+          <label htmlFor="idccNumber">IDCC : </label>
+          <input
+            type="text"
+            name="idccNumber"
+            id="idccNumber"
+            onChange={(e) => setIdccNumber(e.target.value)}
+            value={idccNumber}
+            placeholder="ex: 0834, 0016, etc."
+          />
+        </div>
       )}
       <Paper style={classes.chatContainer}>
         <Typography variant="h6">Chat</Typography>
@@ -143,31 +179,34 @@ const ChatPage = ({
                   fontWeight: "bold",
                 }}
               >
-                {msg.type === "chatbot" ? "CDTN Bot" : "Moi"}
+                {msg.role === "system" || msg.role === "assistant"
+                  ? "CDTN Bot"
+                  : "Moi"}
               </Typography>
-              <Typography variant="body1">{msg.message}</Typography>
-              {msg.type === "chatbot" && msg.sourceDocuments.length > 0 && (
-                <div>
-                  <Typography variant="body1">
-                    Ci-dessous vous trouverez les infos qui m&apos;ont permis de
-                    répondre à la question :
-                  </Typography>
-                  <ul>
-                    {msg.sourceDocuments.map((sourceDocument, index) => {
-                      return (
-                        <li key={index}>
-                          <Typography variant="subtitle1">
-                            {sourceDocument.metadata.title}
-                          </Typography>
-                          <Typography variant="body2">
-                            {sourceDocument.metadata.metaDescription}
-                          </Typography>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              )}
+              <Typography variant="body1">{msg.content}</Typography>
+              {msg.role === "system" ||
+                (msg.role === "assistant" && msg.sourceDocuments.length > 0 && (
+                  <div>
+                    <Typography variant="body1">
+                      Ci-dessous vous trouverez les infos qui m&apos;ont permis
+                      de répondre à la question :
+                    </Typography>
+                    <ul>
+                      {msg.sourceDocuments.map((sourceDocument, index) => {
+                        return (
+                          <li key={index}>
+                            <Typography variant="subtitle1">
+                              {sourceDocument.metadatas.title}
+                            </Typography>
+                            <Typography variant="body2">
+                              {sourceDocument.metadatas.metaDescription}
+                            </Typography>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ))}
             </div>
           );
         })}
@@ -209,12 +248,6 @@ const ChatPage = ({
       </div>
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
-  const response = await fetch(`${baseUrl}/embedding/list`);
-  const data: Metadata[] = await response.json();
-  return { props: { references: data } };
 };
 
 export default ChatPage;
