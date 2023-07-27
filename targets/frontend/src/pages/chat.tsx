@@ -201,6 +201,11 @@ const ChatPage = () => {
                             <Typography variant="body2">
                               {sourceDocument.metadatas.metaDescription}
                             </Typography>
+                            {sourceDocument.metadatas.idccNumber && (
+                              <Typography variant="body2">
+                                IDCC : {sourceDocument.metadatas.idccNumber}
+                              </Typography>
+                            )}
                           </li>
                         );
                       })}

@@ -83,7 +83,7 @@ POST http://localhost:8787/chat/contribution-generic
 content-type: application/json
 
 {
-  "question": "Quelle est la durée maximale de la période d'essai, sans et avec renouvellement avec un CDI ?",
+  "question": "Salut, quelle est la durée maximale de la période d'essai, sans et avec renouvellement ?",
   "history": [],
   "idcc": "0843"
 }
