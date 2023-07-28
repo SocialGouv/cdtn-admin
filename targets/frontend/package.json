@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "2.11.2",
+  "version": "2.11.3",
   "dependencies": {
     "@azure/abort-controller": "^1.0.4",
     "@azure/storage-blob": "^12.7.0",
@@ -19,9 +19,9 @@
     "@sentry/browser": "^6.12.0",
     "@sentry/integrations": "^6.12.0",
     "@sentry/node": "^6.12.0",
-    "@shared/graphql-client": "^2.11.2",
-    "@shared/id-generator": "^2.11.2",
-    "@socialgouv/cdtn-logger": "^2.11.2",
+    "@shared/graphql-client": "^2.11.3",
+    "@shared/id-generator": "^2.11.3",
+    "@socialgouv/cdtn-logger": "^2.11.3",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/cdtn-ui": "^4.92.0",
@@ -83,7 +83,7 @@
     "wonka": "^4.0.15"
   },
   "devDependencies": {
-    "@shared/types": "^2.11.2",
+    "@shared/types": "^2.11.3",
     "@testing-library/dom": "^9.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
