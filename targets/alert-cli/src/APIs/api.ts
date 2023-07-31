@@ -79,7 +79,7 @@ export class GithubApi {
 
   async raw(project: string, path: string, tag: GitTagData): Promise<string> {
     const url = `https://raw.githubusercontent.com/${project}/${tag.ref}/${path}`;
-    const data = await this.fetchText(url, true);
+    const data = await this.fetchText(url);
     return data;
   }
 
@@ -103,19 +103,12 @@ export class GithubApi {
     return data as T;
   }
 
-  private async fetchText(url: string, ignoreError?: boolean): Promise<string> {
+  private async fetchText(url: string): Promise<string> {
     const response = await this.fetchGithub(url);
     if (!response.ok) {
-      if (ignoreError) {
-        console.error(
-          `Failed to fetch ${url} - ${response.status} : ${response.statusText}`
-        );
-        return "";
-      } else {
-        throw new Error(
-          `Failed to fetch ${url} - ${response.status} : ${response.statusText}`
-        );
-      }
+      throw new Error(
+        `Failed to fetch ${url} - ${response.status} : ${response.statusText}`
+      );
     }
     return response.text();
   }
