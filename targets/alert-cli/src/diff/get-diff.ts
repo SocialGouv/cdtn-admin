@@ -12,7 +12,7 @@ export async function getDiff(
   try {
     if (fs.existsSync(repoPath)) {
       // remove the repo if it already exists
-      fs.rmdirSync(repoPath, { recursive: true });
+      fs.rmSync(repoPath, { recursive: true });
     }
     await simpleGit().clone(`https://github.com/${project}`, repoPath, {
       "--depth": 50,
@@ -20,23 +20,24 @@ export async function getDiff(
     const diffString = await simpleGit(repoPath).diff([
       `${fromTag}...${toTag}`,
     ]);
+
     const diffDetail = parsePatch(diffString);
     const result: GithubDiffFile[] = [];
-    diffDetail.forEach((file) => {
-      if (file.newFileName && !file.oldFileName) {
+    diffDetail.forEach(({ oldFileName, newFileName }) => {
+      if (oldFileName === "/dev/null" && newFileName) {
         result.push({
-          filename: formatFileName(file.newFileName),
+          filename: formatFileName(newFileName),
           status: "added",
         });
-      } else if (file.newFileName && file.oldFileName) {
+      } else if (newFileName === "/dev/null" && oldFileName) {
         result.push({
-          filename: formatFileName(file.newFileName),
-          status: "modified",
-        });
-      } else if (!file.newFileName && file.oldFileName) {
-        result.push({
-          filename: formatFileName(file.oldFileName),
+          filename: formatFileName(oldFileName),
           status: "removed",
+        });
+      } else if (newFileName && oldFileName) {
+        result.push({
+          filename: formatFileName(newFileName),
+          status: "modified",
         });
       }
     });
