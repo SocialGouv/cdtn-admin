@@ -13,6 +13,10 @@ interface GithubTag {
   };
 }
 
+interface GithubResponse {
+  files?: GithubDiffFile[];
+}
+
 export interface GithubDiffFile {
   filename: string;
   status: "added" | "modified" | "removed";
@@ -69,6 +73,51 @@ export class GithubApi {
   }
 
   async diff(project: string, from: GitTagData, to: GitTagData): Promise<Diff> {
+    try {
+      let page = 1;
+      let allDiffs: GithubDiffFile[] = [];
+      let diffs: GithubDiffFile[] = [];
+      do {
+        diffs = await this._diff(project, from.ref, to.ref, page);
+        allDiffs = allDiffs.concat(diffs);
+        page = page + 1;
+      } while (diffs.length > 0);
+      return {
+        from,
+        to,
+        files: allDiffs,
+      };
+    } catch (e: unknown) {
+      console.error(
+        `Failed to fetch diff ${from.ref} > ${to.ref}, fallback to local git diff`,
+        e
+      );
+      return this.localDiff(project, from, to);
+    }
+  }
+
+  private async _diff(
+    project: string,
+    from: string,
+    to: string,
+    page = 1,
+    limit = 100
+  ): Promise<GithubDiffFile[]> {
+    const url = `https://api.github.com/repos/${project}/compare/${from}...${to}?per_page=${limit}&page=${page}`;
+    const diffs = await this.fetchJson<GithubResponse>(url);
+    return (
+      diffs.files?.map((diff) => ({
+        filename: diff.filename,
+        status: diff.status,
+      })) ?? []
+    );
+  }
+
+  private async localDiff(
+    project: string,
+    from: GitTagData,
+    to: GitTagData
+  ): Promise<Diff> {
     const allDiffs: GithubDiffFile[] = await getDiff(project, from.ref, to.ref);
     return {
       from,
