@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.4...v2.12.0) (2023-08-02)
+
+### Features
+
+- use local diff when github API call fail ([#984](https://github.com/SocialGouv/cdtn-admin/issues/984)) ([2f0e37d](https://github.com/SocialGouv/cdtn-admin/commit/2f0e37de91dc0fa59067f7267ca10f2963528066))
+
 ## [2.11.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.3...v2.11.4) (2023-07-31)
 
 ### Bug Fixes
