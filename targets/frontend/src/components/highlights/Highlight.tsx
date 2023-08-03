@@ -2,13 +2,13 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { ContentPicker } from "src/components/forms/ContentPicker/index";
+import { ContentPicker } from "../forms/ContentPicker";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { HighLightContent } from "src/types";
-import { Box, Field } from "theme-ui";
 
 import { ValidationBar } from "../prequalified";
+import { Box, TextField, Typography } from "@mui/material";
 
 const HighlightsForm = ({
   content = { contentRelations: [] },
@@ -35,8 +35,8 @@ const HighlightsForm = ({
       )}
     >
       <>
-        <Box mb="small">
-          <Field
+        <Box sx={{ mb: "1rem" }}>
+          <TextField
             type="text"
             {...register("title", {
               required: { message: "Le nom est requis", value: true },
@@ -46,15 +46,19 @@ const HighlightsForm = ({
           />
           <FormErrorMessage errors={errors} fieldName="title" />
         </Box>
-        <Box mb="small">
-          <Field
+        <Box sx={{ mb: "1rem" }}>
+          <TextField
             type="text"
             {...register("slug", {
               required: { message: "L’identifiant est requis", value: true },
             })}
-            label="Indentifiant (modifiez le uniquement si vous savez très précisément ce que vous faites)"
+            label="Indentifiant"
             defaultValue={content.slug}
           />
+          <Typography>
+            modifiez le uniquement si vous savez très précisément ce que vous
+            faites
+          </Typography>
           <FormErrorMessage errors={errors} fieldName="slug" />
         </Box>
 

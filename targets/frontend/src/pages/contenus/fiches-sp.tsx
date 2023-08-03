@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { createContext, useState } from "react";
 import { FichesServicePublicContainer } from "src/components/fiches-sp/fichesSpContainer";
 import { Layout } from "src/components/layout/auth.layout";

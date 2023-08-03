@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { useRouter } from "next/router";
 import { ContributionsAnswer } from "src/components/contributions";
 import { Layout } from "src/components/layout/auth.layout";

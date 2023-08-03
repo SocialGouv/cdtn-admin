@@ -8,6 +8,7 @@ export function List({ className, children }) {
     </Box>
   );
 }
+
 List.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
@@ -20,6 +21,7 @@ export function Li({ children }) {
     </Box>
   );
 }
+
 Li.propTypes = {
   children: PropTypes.node,
 };

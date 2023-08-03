@@ -1,15 +1,13 @@
-/** @jsxImportSource theme-ui */
-
-import PropTypes from "prop-types";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { IoMdAdd, IoMdTrash } from "react-icons/io";
-import { Container, Flex, Label, Radio } from "theme-ui";
 
 import { ContentSectionReference } from "../../types";
 import { Button } from "../button";
 import { FormErrorMessage } from "../forms/ErrorMessage";
-import { Stack } from "../layout/Stack";
 import { References } from "./References";
+import { FormRadioGroup } from "../forms";
+import React from "react";
+import { Box, Card, CardContent, Stack } from "@mui/material";
 
 const JURIDIQUES_LABEL = "Références juridiques";
 const USEFUL_LINKS_LABEL = "Liens utiles";
@@ -32,13 +30,16 @@ export function ReferenceBlocks({ name }: any) {
     <>
       {blocks.length > 0 ? (
         blocks.map((block, index) => (
-          <Container
-            key={block.key}
-            bg="nested"
-            sx={{ borderRadius: "large", flex: "1 0 auto", p: "small" }}
-          >
-            <Stack>
-              <Flex sx={{ justifyContent: "flex-end" }}>
+          <Card key={block.key} style={{ backgroundColor: "#f2f5fa" }}>
+            <CardContent>
+              <Box
+                sx={{
+                  display: "inline-flex",
+                  justifyContent: "flex-end",
+                  width: "100%",
+                  mb: "1rem",
+                }}
+              >
                 <Button
                   type="button"
                   size="small"
@@ -54,55 +55,24 @@ export function ReferenceBlocks({ name }: any) {
                   />
                   Supprimer ce bloc de références
                 </Button>
-              </Flex>
+              </Box>
               <div>
-                <Flex sx={{ justifyContent: "flex-start" }}>
-                  <Label
-                    sx={{
-                      alignItems: "center",
-                      cursor: "pointer",
-                      flex: "0 1 auto",
-                      justifyContent: "flex-start",
-                      mr: "large",
-                      width: "auto",
-                    }}
-                  >
-                    {JURIDIQUES_LABEL}
-                    <Radio
-                      sx={{ ml: "xxsmall" }}
-                      value={JURIDIQUES_LABEL}
-                      {...register(`${name}.${index}.label`, {
-                        required: {
-                          message: "Il faut choisir un type de références",
-                          value: true,
-                        },
-                      })}
-                      defaultChecked={block.label === JURIDIQUES_LABEL}
-                    />
-                  </Label>
-                  <Label
-                    sx={{
-                      alignItems: "center",
-                      cursor: "pointer",
-                      flex: "0 1 auto",
-                      justifyContent: "flex-center",
-                      width: "auto",
-                    }}
-                  >
-                    {USEFUL_LINKS_LABEL}
-                    <Radio
-                      sx={{ ml: "xxsmall" }}
-                      value={USEFUL_LINKS_LABEL}
-                      {...register(`${name}.${index}.label`, {
-                        required: {
-                          message: "Il faut choisir un type de références",
-                          value: true,
-                        },
-                      })}
-                      defaultChecked={block.label === USEFUL_LINKS_LABEL}
-                    />
-                  </Label>
-                </Flex>
+                <FormRadioGroup
+                  name={`${name}.${index}.label`}
+                  label="Références"
+                  control={control}
+                  options={[
+                    {
+                      label: JURIDIQUES_LABEL,
+                      value: JURIDIQUES_LABEL,
+                    },
+                    {
+                      label: USEFUL_LINKS_LABEL,
+                      value: USEFUL_LINKS_LABEL,
+                    },
+                  ]}
+                />
+
                 <FormErrorMessage
                   errors={errors}
                   fieldName={`${name}.${index}.label`}
@@ -114,8 +84,8 @@ export function ReferenceBlocks({ name }: any) {
                 register={register}
                 errors={errors}
               />
-            </Stack>
-          </Container>
+            </CardContent>
+          </Card>
         ))
       ) : (
         <Button
@@ -130,12 +100,11 @@ export function ReferenceBlocks({ name }: any) {
           <IoMdAdd
             sx={{
               height: "iconSmall",
-
               mr: "xsmall",
               width: "iconSmall",
             }}
           />
-          Ajouter ici un bloc de références
+          Ajouter un bloc de références
         </Button>
       )}
     </>

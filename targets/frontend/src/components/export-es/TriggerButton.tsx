@@ -1,7 +1,7 @@
 import { Status } from "@shared/types";
 import React, { ReactNode } from "react";
 import { MdSyncProblem, MdTimelapse, MdTimerOff } from "react-icons/md";
-import { Badge } from "theme-ui";
+import { Chip } from "@mui/material";
 
 import { ConfirmButton } from "../confirmButton";
 
@@ -27,17 +27,13 @@ function Index({
       {status === "timeout" && <MdTimerOff sx={{ mr: ".2rem" }} />}
       {children}
       {status === "failed" && (
-        <Badge bg="critical" sx={{ ml: "-3rem", mt: "-3rem" }}>
-          Erreur
-        </Badge>
+        <Chip color="error" sx={{ ml: "-3rem", mt: "-3rem" }} label="Erreur" />
       )}
       {status === "running" && (
-        <Badge sx={{ ml: "-3rem", mt: "-3rem" }}>En cours</Badge>
+        <Chip sx={{ ml: "-3rem", mt: "-3rem" }} label="En cours" />
       )}
       {status === "timeout" && (
-        <Badge bg="critical" sx={{ ml: "-3rem", mt: "-3rem" }}>
-          Timeout
-        </Badge>
+        <Chip color="error" sx={{ ml: "-3rem", mt: "-3rem" }} label="Timeout" />
       )}
     </ConfirmButton>
   );

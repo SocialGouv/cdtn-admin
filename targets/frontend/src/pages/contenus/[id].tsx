@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
@@ -10,11 +10,12 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
-import { Card, Message } from "theme-ui";
 import { useMutation, useQuery } from "urql";
+import { Card } from "@mui/material";
 
 import getDocumentQuery from "./getDocument.query.graphql";
 import updateDocumentMutation from "./updateDocument.mutation.graphql";
+import { FixedSnackBar } from "../../components/utils/SnackBar";
 
 const CodeWithCodemirror = dynamic(import("src/components/editor/CodeEditor"), {
   ssr: false,
@@ -84,7 +85,11 @@ export function DocumentPage() {
   }
 
   if (error) {
-    return <Message variant="primary">{error.message}</Message>;
+    return (
+      <FixedSnackBar>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </FixedSnackBar>
+    );
   }
   return (
     <Layout title={dataDocument.document.title}>

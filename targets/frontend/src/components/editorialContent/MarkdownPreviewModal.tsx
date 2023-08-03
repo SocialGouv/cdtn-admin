@@ -2,10 +2,10 @@ import micromark from "micromark";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosEye } from "react-icons/io";
-import { Flex } from "theme-ui";
 
 import { Button } from "../button";
 import { Dialog } from "../dialog";
+import Box from "@mui/material/Box";
 
 export type MarkdownPreviewModalProps = { markdown: string };
 
@@ -15,19 +15,21 @@ export const MarkdownPreviewModal = ({
   const [showMarkdownPreview, setShowMarkdownPreview] = useState(false);
   return (
     <>
-      <Flex sx={{ justifyContent: "flex-end", mt: "xsmall" }}>
-        <Button
-          type="button"
-          variant="secondary"
-          size="small"
-          onClick={() => setShowMarkdownPreview(true)}
-        >
-          <IoIosEye
-            sx={{ height: "iconSmall", mr: "xsmall", width: "iconSmall" }}
-          />
-          Prévisualiser le rendu du markdown
-        </Button>
-      </Flex>
+      <div>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: "2rem" }}>
+          <Button
+            type="button"
+            variant="secondary"
+            size="small"
+            onClick={() => setShowMarkdownPreview(true)}
+          >
+            <IoIosEye
+              sx={{ height: "iconSmall", mr: "small", width: "iconSmall" }}
+            />
+            Prévisualiser
+          </Button>
+        </Box>
+      </div>
       <Dialog
         isOpen={showMarkdownPreview}
         onDismiss={() => setShowMarkdownPreview(false)}

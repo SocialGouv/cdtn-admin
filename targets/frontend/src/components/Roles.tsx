@@ -1,5 +1,7 @@
-import { Badge, Message } from "theme-ui";
 import { useQuery } from "urql";
+import { FixedSnackBar } from "./utils/SnackBar";
+import React from "react";
+import { Chip } from "@mui/material";
 
 export const getRoleQuery = `
 query getRoles{
@@ -16,16 +18,14 @@ export function Roles() {
   if (fetching) return <p>loading</p>;
   if (error)
     return (
-      <Message>
-        <pre>{JSON.stringify(error, 0, 2)}</pre>
-      </Message>
+      <FixedSnackBar>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </FixedSnackBar>
     );
   return (
     <p>
-      {data.roles.map(({ role }) => (
-        <Badge as="span" variant="dark" key={role}>
-          {role}
-        </Badge>
+      {data.roles.map((role: string) => (
+        <Chip color="success" key={role} label={role} />
       ))}
     </p>
   );
