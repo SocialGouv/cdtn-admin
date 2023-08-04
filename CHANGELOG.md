@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.12.0...v2.12.1) (2023-08-04)
+
+### Bug Fixes
+
+- **theme-ui:** move component to mui on EditorialContent ([#970](https://github.com/SocialGouv/cdtn-admin/issues/970)) ([6d594df](https://github.com/SocialGouv/cdtn-admin/commit/6d594df92753ced786192c0fa74b25e6cff4e3f2))
+
 # [2.12.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.4...v2.12.0) (2023-08-02)
 
 ### Bug Fixes
