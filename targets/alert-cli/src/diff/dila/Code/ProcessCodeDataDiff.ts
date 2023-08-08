@@ -1,7 +1,7 @@
 import type { DataDiffFunction } from "../../type";
-import { getRelevantDocuments } from "../ReleventDocuments";
 import processCodeChanges from "./ProcessCodeChanges";
 import processCodeFileChanges from "./ProcessCodeFileChanges";
+import { RelevantDocumentsExtractorImpl } from "../ReleventDocuments";
 
 const processCodeDataDiff: DataDiffFunction = async ({
   tag,
@@ -18,7 +18,7 @@ const processCodeDataDiff: DataDiffFunction = async ({
   const dilaChanges = await processCodeChanges(
     tag,
     fileChanges,
-    getRelevantDocuments
+    new RelevantDocumentsExtractorImpl()
   );
 
   return dilaChanges.flatMap((change) => {

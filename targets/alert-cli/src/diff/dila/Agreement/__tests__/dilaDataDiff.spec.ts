@@ -8,6 +8,7 @@ import noChanges from "./dataset/filechanges_kali_agreement_no_changes.json";
 import removed from "./dataset/filechanges_kali_agreement_removed.json";
 import revelantChanges from "./dataset/filechanges_kali_agreement_revelant_changes.json";
 import { Commit } from "../../../../types";
+import { RelevantDocumentsExtractorStub } from "../../../__tests__/RelevantDocumentsExtractorStub";
 
 describe("Calcul des différences sur les conventions collectives (kali-data)", () => {
   describe("Aucun changement dans une convention collective", () => {
@@ -15,7 +16,7 @@ describe("Calcul des différences sur les conventions collectives (kali-data)", 
       const result = await processAgreementChanges(
         { commit: {} as Commit, ref: "" },
         noChanges as AgreementFileChange[],
-        async () => Promise.resolve([])
+        new RelevantDocumentsExtractorStub()
       );
       expect(result).toHaveLength(1);
       const diff = result[0];
@@ -30,7 +31,7 @@ describe("Calcul des différences sur les conventions collectives (kali-data)", 
       const result = await processAgreementChanges(
         { commit: {} as Commit, ref: "" },
         irrevelantChanges as AgreementFileChange[],
-        async () => Promise.resolve([])
+        new RelevantDocumentsExtractorStub()
       );
       expect(result).toHaveLength(1);
       const diff = result[0];
@@ -45,7 +46,7 @@ describe("Calcul des différences sur les conventions collectives (kali-data)", 
       const result = await processAgreementChanges(
         { commit: {} as Commit, ref: "" },
         revelantChanges as AgreementFileChange[],
-        async () => Promise.resolve([])
+        new RelevantDocumentsExtractorStub()
       );
       expect(result).toHaveLength(1);
       const diff = result[0];
@@ -72,7 +73,7 @@ describe("Calcul des différences sur les conventions collectives (kali-data)", 
       const result = await processAgreementChanges(
         { commit: {} as Commit, ref: "" },
         removed as AgreementFileChange[],
-        async () => Promise.resolve([])
+        new RelevantDocumentsExtractorStub()
       );
       expect(result).toHaveLength(1);
       const diff = result[0];
@@ -85,7 +86,7 @@ describe("Calcul des différences sur les conventions collectives (kali-data)", 
       const result = await processAgreementChanges(
         { commit: {} as Commit, ref: "" },
         added as AgreementFileChange[],
-        async () => Promise.resolve([])
+        new RelevantDocumentsExtractorStub()
       );
       expect(result).toHaveLength(1);
       const diff = result[0];

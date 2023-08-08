@@ -1,7 +1,7 @@
 import type { DataDiffFunction } from "../../type";
-import { getRelevantDocuments } from "../ReleventDocuments";
 import processAgreementChanges from "./ProcessAgreementChanges";
 import processAgreementFileChanges from "./ProcessAgreementFileChanges";
+import { RelevantDocumentsExtractorImpl } from "../ReleventDocuments";
 
 const processAgreementDataDiff: DataDiffFunction = async ({
   tag,
@@ -18,7 +18,7 @@ const processAgreementDataDiff: DataDiffFunction = async ({
   const dilaChanges = await processAgreementChanges(
     tag,
     fileChanges,
-    getRelevantDocuments
+    new RelevantDocumentsExtractorImpl()
   );
 
   return dilaChanges.flatMap((change) => {
