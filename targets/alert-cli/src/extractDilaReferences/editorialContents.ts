@@ -51,9 +51,11 @@ export async function extractEditorialContentTemplateRef(
       async (id: string) => {
         const result = await getArticleReference(id);
         if (result === null) {
-          await repo.saveWarning(
-            `Impossible de retrouver les infos de l'article ${id} référencé par le contenu éditorial ${docData.title}`
-          );
+          await repo.saveWarning({
+            article: id,
+            document: docData.title,
+            source: docData.source,
+          });
         }
         return result;
       },

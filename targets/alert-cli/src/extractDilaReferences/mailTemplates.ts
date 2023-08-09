@@ -39,9 +39,11 @@ export async function extractMailTemplateRef(
       async (id: string) => {
         const result = await getArticleReference(id);
         if (result === null) {
-          await repo.saveWarning(
-            `Impossible de retrouver les infos de l'article ${id} référencé par le modèles ${docData.title}`
-          );
+          await repo.saveWarning({
+            article: id,
+            document: docData.title,
+            source: docData.source,
+          });
         }
         return result;
       },

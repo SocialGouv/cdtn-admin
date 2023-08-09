@@ -1,15 +1,17 @@
 import { Client } from "@urql/core/dist/types/client";
 
 const insertAlertsMutation = `
-mutation insertAlertWarning($content: String!) {
-  insert_alert_warnings(objects: {content: $content}) {
+mutation insertAlertWarning($article: String!, $document: String!, $source: String!) {
+  insert_alert_warnings(objects: {article: $article, document: $document, source: $source}) {
     affected_rows
   }
 }
 `;
 
 interface InsertWarning {
-  content: string;
+  article: string;
+  document: string;
+  source: string;
 }
 
 export class WarningRepository {
@@ -19,9 +21,13 @@ export class WarningRepository {
     this.client = client;
   }
 
-  async saveWarning(content: string) {
+  async saveWarning({ article, document, source }: InsertWarning) {
     const result = await this.client
-      .mutation<InsertWarning>(insertAlertsMutation, { content })
+      .mutation<InsertWarning>(insertAlertsMutation, {
+        article,
+        document,
+        source,
+      })
       .toPromise();
     if (result.error || !result.data) {
       console.error(result.error);
