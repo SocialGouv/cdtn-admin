@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import type {DocumentReference} from "@shared/types";
+import type { DocumentReference } from "@shared/types";
 import type DilaApiClient from "@socialgouv/dila-api-client";
 
-import type {ArticlePayload, ArticleVersion} from "./types";
+import type { ArticlePayload, ArticleVersion } from "./types";
 
 function createGetArticleReference(client: DilaApiClient) {
   return async function getArticle(
