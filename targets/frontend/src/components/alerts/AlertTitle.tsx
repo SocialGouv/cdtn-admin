@@ -20,12 +20,12 @@ export const AlertTitle: React.FC<Props> = ({ alertId, info, children }) => {
       <h2>{children}</h2>
       {info.type === "dila" && info.num && (
         <a
-          sx={{ px: "xsmall" }}
+          style={{ paddingLeft: "0.8rem", paddingRight: "0.8rem" }}
           target="_blank"
           rel="noopener noreferrer"
           href={`https://legifrance.gouv.fr/conv_coll/id/${info.id}`}
         >
-          <IconButton variant="secondary">
+          <IconButton>
             <IoIosLink
               aria-label="Voir la convention sur legifrance"
               style={{ height: "iconXSmall", width: "iconXSmall" }}
@@ -36,7 +36,6 @@ export const AlertTitle: React.FC<Props> = ({ alertId, info, children }) => {
       <Box sx={{ flex: "1 1 0" }} />
       <IconButton
         sx={{ justifyItems: "flex-end" }}
-        variant="secondary"
         onClick={() => setShowComment(!showComment)}
       >
         <IoMdChatbubbles
