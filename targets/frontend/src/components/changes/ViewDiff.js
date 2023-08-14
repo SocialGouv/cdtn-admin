@@ -1,6 +1,4 @@
-/** @jsxImportSource theme-ui */
-
-import { Spinner } from "@theme-ui/components";
+import Spinner from "@mui/material/CircularProgress";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 

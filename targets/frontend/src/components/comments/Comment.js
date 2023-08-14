@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Box, Text } from "theme-ui";
+import { Box, Text } from "@mui/material";
 
 export function Comment({ comment }) {
   return (

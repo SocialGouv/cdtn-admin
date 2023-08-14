@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
-import { Box, Text } from "theme-ui";
+import { Box, Text } from "@mui/material";
 
 import { Button } from "../button";
 import { Dialog } from "../dialog";

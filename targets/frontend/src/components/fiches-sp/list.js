@@ -1,10 +1,8 @@
-/** @jsxImportSource theme-ui */
-
 import PropTypes from "prop-types";
 import { useContext } from "react";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
-import { css, Label, Text } from "theme-ui";
+import { InputLabel as Label, Text } from "@mui/icons-material";
 
 export function ServicPublicList({ items }) {
   return (
@@ -94,21 +92,21 @@ const Td = ({ align = "left", ...props }) => (
 Td.propTypes = cellPropTypes;
 
 const styles = {
-  table: css({
+  table: {
     borderCollapse: "collapse",
     borderRadius: "small",
     overflow: "hidden",
     width: "100%",
-  }),
-  td: css({
+  },
+  td: {
     fontWeight: 300,
     px: "xsmall",
     py: "xxsmall",
     "tr:nth-of-type(even) &": {
       bg: "highlight",
     },
-  }),
-  th: css({
+  },
+  th: {
     borderBottom: "1px solid",
     fontSize: "medium",
     // bg: "info",
@@ -118,5 +116,5 @@ const styles = {
     px: "xsmall",
 
     py: "xsmall",
-  }),
+  },
 };

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { getStatusLabel, slugifyRepository } from "src/models";
-import { Spinner } from "theme-ui";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "urql";
 
 import { TabItem, Tabs } from "../tabs";
@@ -40,7 +40,7 @@ export function AlertTabs({
   const { fetching, error, data } = result;
 
   if (fetching) {
-    return <Spinner />;
+    return <CircularProgress />;
   }
 
   if (error) {

@@ -1,6 +1,6 @@
 import { Status as StatusType } from "@shared/types";
 import { MdTimelapse } from "react-icons/md";
-import { Box, Flex } from "theme-ui";
+import { Box } from "@mui/material";
 
 type StatusProps = {
   status?: StatusType;
@@ -9,9 +9,9 @@ type StatusProps = {
 export function Status({ status }: StatusProps): JSX.Element {
   if (!status) {
     return (
-      <Flex sx={{ alignItems: "center" }}>
+      <Box sx={{ alignItems: "center", display: "flex" }}>
         <span>En cours</span> <MdTimelapse sx={{ mb: "-.3rem", ml: ".4rem" }} />
-      </Flex>
+      </Box>
     );
   }
   switch (status) {
@@ -29,10 +29,10 @@ export function Status({ status }: StatusProps): JSX.Element {
       );
     case StatusType.running:
       return (
-        <Flex sx={{ alignItems: "center" }}>
+        <Box sx={{ alignItems: "center", display: "flex" }}>
           <span>En cours</span>{" "}
           <MdTimelapse sx={{ mb: "-.2rem", ml: ".3rem" }} />
-        </Flex>
+        </Box>
       );
     case StatusType.failed:
       return (

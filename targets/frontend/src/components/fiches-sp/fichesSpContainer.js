@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo } from "react";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
-import { Message, Spinner } from "theme-ui";
+import { CircularProgress as Spinner, Alert } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 import { Stack } from "../layout/Stack";
@@ -44,7 +44,7 @@ export function FichesServicePublicContainer() {
   const { fetching, error, data } = result;
 
   if (error) {
-    return <Message variant="primary">{error.message}</Message>;
+    return <Alert severity="error">{error.message}</Alert>;
   }
   if (fetching) {
     return <Spinner />;

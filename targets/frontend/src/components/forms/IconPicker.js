@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { icons } from "@socialgouv/cdtn-ui";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -7,7 +5,7 @@ import { Controller } from "react-hook-form";
 import { IoMdCloseCircle } from "react-icons/io";
 import { IconButton } from "src/components/button";
 import { Dialog } from "src/components/dialog";
-import { Card } from "theme-ui";
+import { Card } from "@mui/material";
 
 const IconPicker = ({ defaultValue = null, disabled, ...props }) => {
   return (

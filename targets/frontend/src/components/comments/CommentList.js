@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useLayoutEffect, useRef } from "react";
-import { Box, Text } from "theme-ui";
+import { Box, Text } from "@mui/material";
 
 import { Stack } from "../layout/Stack";
 import { Comment, commentPropTypes } from "./Comment";

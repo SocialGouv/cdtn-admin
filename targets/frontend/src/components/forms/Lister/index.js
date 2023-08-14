@@ -1,10 +1,8 @@
-/** @jsxImportSource theme-ui */
-
 import PropTypes from "prop-types";
 import { useRef } from "react";
 import { Controller } from "react-hook-form";
 import { Button } from "src/components/button";
-import { Flex, Input } from "theme-ui";
+import { Input, Box } from "@mui/material";
 
 import { List } from "./List";
 
@@ -62,7 +60,7 @@ function RootLister({ disabled, value: entries, onChange, name }) {
         />
       )}
       {!disabled && (
-        <Flex>
+        <Box sx={{ display: "flex" }}>
           <Input
             p="xxsmall"
             id={name}
@@ -79,7 +77,7 @@ function RootLister({ disabled, value: entries, onChange, name }) {
           >
             Ajouter
           </Button>
-        </Flex>
+        </Box>
       )}
     </>
   );

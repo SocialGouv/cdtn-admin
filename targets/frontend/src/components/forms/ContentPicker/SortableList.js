@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { getLabelBySource } from "@socialgouv/cdtn-sources";
 import { IoIosReorder, IoMdTrash } from "react-icons/io";
 import {
@@ -9,7 +7,7 @@ import {
 } from "react-sortable-hoc";
 import { Button, IconButton } from "src/components/button";
 import { List } from "src/components/list";
-import { Alert, Box, Flex } from "theme-ui";
+import { Alert, Box } from "@mui/material";
 
 export const SortableList = SortableContainer(({ contents, ...props }) => {
   return (
@@ -45,7 +43,7 @@ const SortableRow = SortableElement(
     >
       {sortable && <SortHandle />}
       <Alert
-        variant="highlight"
+        variant="success"
         sx={{
           display: "flex",
           flex: 1,
@@ -60,7 +58,7 @@ const SortableRow = SortableElement(
           !isAvailable ? "(supprimé)" : ""
         }${isAvailable && !isPublished ? "(Déplublié)" : ""}`}</Box>
       </Alert>
-      <Flex sx={{ alignItems: "stretch", ml: "xsmall" }}>
+      <Box sx={{ display: "flex", alignItems: "stretch", ml: "xsmall" }}>
         <Button
           sx={{ padding: "small" }}
           type="button"
@@ -71,7 +69,7 @@ const SortableRow = SortableElement(
         >
           <IoMdTrash sx={{ height: "iconSmall", width: "iconSmall" }} />
         </Button>
-      </Flex>
+      </Box>
     </li>
   )
 );

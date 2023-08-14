@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
-import { Button as BaseButton } from "theme-ui";
+import { Button as BaseButton } from "@mui/material";
 
 const buttonPropTypes = {
   children: PropTypes.oneOfType([

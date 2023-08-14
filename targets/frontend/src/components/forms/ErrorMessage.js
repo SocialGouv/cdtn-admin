@@ -1,6 +1,6 @@
 import { ErrorMessage } from "@hookform/error-message";
 import PropTypes from "prop-types";
-import { Box } from "theme-ui";
+import { Box } from "@mui/material";
 
 export function FormErrorMessage({ errors = {}, fieldName }) {
   return (

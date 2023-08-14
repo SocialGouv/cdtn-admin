@@ -22,7 +22,7 @@ import {
   HighLightContent,
   PrequalifiedContent,
 } from "src/types";
-import { Spinner } from "theme-ui";
+import Spinner from "@mui/material/CircularProgress";
 import { useMutation, useQuery } from "urql";
 
 import deleteContentMutation from "./deleteContent.mutation.graphql";

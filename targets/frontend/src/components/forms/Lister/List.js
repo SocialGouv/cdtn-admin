@@ -1,9 +1,7 @@
-/** @jsxImportSource theme-ui */
-
 import PropTypes from "prop-types";
 import { IoMdClose } from "react-icons/io";
 import { IconButton } from "src/components/button";
-import { Box, Flex } from "theme-ui";
+import { Box } from "@mui/material";
 
 export const List = ({
   disabled = false,
@@ -29,9 +27,9 @@ export const List = ({
             justifyContent: "space-between",
           }}
         >
-          <Flex>
+          <Box sx={{ display: "flex" }}>
             {!disabled && (
-              <Flex mr="xxsmall">
+              <Box sx={{ display: "flex" }} mr="xxsmall">
                 <IconButton
                   sx={{ flex: "0 0 auto", padding: "small" }}
                   type="button"
@@ -44,10 +42,10 @@ export const List = ({
                     sx={{ flex: "1 0 auto", height: "1rem", width: "1rem" }}
                   />
                 </IconButton>
-              </Flex>
+              </Box>
             )}
             <Box>{`${entry}`}</Box>
-          </Flex>
+          </Box>
         </li>
       ))}
     </ul>

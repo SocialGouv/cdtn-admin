@@ -1,11 +1,9 @@
-/** @jsxImportSource theme-ui */
-
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
-import { Box, Input } from "theme-ui";
+import { Box, Input } from "@mui/material";
 import { useQuery } from "urql";
 
 const sources = [

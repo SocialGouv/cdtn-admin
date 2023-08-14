@@ -2,7 +2,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
-import { Box, Field, Flex, Heading, Text } from "theme-ui";
+import { Box, Input, Typography, Text } from "@mui/material";
 import { useQuery } from "urql";
 
 import { Button, IconButton } from "../button";
@@ -46,17 +46,17 @@ export function AddFicheSpForm({ onAdd }) {
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Heading as="h3" sx={{ fontSize: "large", fontWeight: "600" }}>
+      <Typography level="h3" sx={{ fontSize: "large", fontWeight: "600" }}>
         Ajouter des fiches
-      </Heading>
+      </Typography>
       <Text>{`Renseignez l’identifiant ${
         fields.length > 1 ? "des" : "de la"
       } fiche${fields.length > 1 ? "s" : ""} à ajouter`}</Text>
       {fields.map((field, index) => {
         return (
           <Box sx={{ my: "small" }} key={field.key}>
-            <Flex sx={{ alignItems: "center" }}>
-              <Field
+            <Box sx={{ alignItems: "center", display: "flex" }}>
+              <Input
                 sx={{ width: "10rem" }}
                 defaultValue=""
                 onKeyDown={handleKeyDown}
@@ -97,7 +97,7 @@ export function AddFicheSpForm({ onAdd }) {
                   Saisir une fiche supplémentaire
                 </Button>
               )}
-            </Flex>
+            </Box>
             <ErrorMessage
               errors={errors}
               name={`items.${index}.id`}

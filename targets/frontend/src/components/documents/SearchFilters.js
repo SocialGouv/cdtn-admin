@@ -2,7 +2,7 @@ import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { IoMdSearch } from "react-icons/io";
-import { Box, Input, Label, Radio, Select } from "theme-ui";
+import { Box, Input, InputLabel as Label, Radio, Select } from "@mui/material";
 import { useQuery } from "urql";
 
 import { Button } from "../button";

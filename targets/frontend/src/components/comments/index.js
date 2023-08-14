@@ -1,9 +1,7 @@
-/** @jsxImportSource theme-ui */
-
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 import { useUser } from "src/hooks/useUser";
-import { Card, Message } from "theme-ui";
+import { Card, Alert } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 import { Stack } from "../layout/Stack";
@@ -72,9 +70,9 @@ function Comments({ alertId }) {
   if (fetching) return <Stack>chargement...</Stack>;
   if (error) {
     return (
-      <Message>
+      <Alert severity="error">
         <pre>{JSON.stringify(error, 0, null)}</pre>
-      </Message>
+      </Alert>
     );
   }
   return (

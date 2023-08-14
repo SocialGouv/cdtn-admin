@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Box, Flex } from "theme-ui";
+import { Box } from "@mui/material";
 
 import { invertSpace, spacePropTypes } from "./spaces";
 
@@ -14,10 +14,10 @@ export function Inline({
   const isList = /^(ul|ol)$/.test(component);
   const inlineItemComponent = isList ? "li" : "div";
   return (
-    <Flex
+    <Box
       {...props}
       as={component}
-      sx={{ alignItems: "center", flexWrap: "wrap" }}
+      sx={{ alignItems: "center", flexWrap: "wrap", display: "flex" }}
       marginLeft={negativeSpace}
       marginTop={negativeSpace}
     >
@@ -31,7 +31,7 @@ export function Inline({
           {child}
         </Box>
       ))}
-    </Flex>
+    </Box>
   );
 }
 Inline.propTypes = {

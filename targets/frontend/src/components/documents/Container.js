@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useCallback, useMemo } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { useSelectionContext } from "src/pages/contenus";
-import { Card, Flex, Message } from "theme-ui";
+import { Card, Flex, Alert } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 import { Stack } from "../layout/Stack";
@@ -67,7 +67,7 @@ export function DocumentListContainer({ initialFilterValues }) {
   const { fetching, error, data } = result;
 
   if (error) {
-    return <Message variant="primary">{error.message}</Message>;
+    return <Alert severity="error">{error.message}</Alert>;
   }
   return (
     <Stack>

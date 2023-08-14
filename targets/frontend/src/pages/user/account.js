@@ -6,7 +6,7 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useUser } from "src/hooks/useUser";
-import { Label, Text } from "theme-ui";
+import { InputLabel as Label, Text } from "@mui/material";
 
 export function UserPage() {
   const { user } = useUser();

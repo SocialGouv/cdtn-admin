@@ -1,12 +1,10 @@
-/** @jsxImportSource theme-ui */
-
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { IoIosCheckmark, IoIosClose } from "react-icons/io";
 import { useSelectionContext } from "src/pages/contenus";
 import { theme } from "src/theme";
-import { Box } from "theme-ui";
+import { Box } from "@mui/material";
 
 export function DocumentList({ documents }) {
   return (

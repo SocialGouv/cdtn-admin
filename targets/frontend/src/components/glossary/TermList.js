@@ -2,11 +2,18 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import React from "react";
 import { Li, List } from "src/components/list";
-import { Box, Flex, Text } from "theme-ui";
+import { Box, Text } from "@mui/material";
 
 const TermList = ({ termsByLetters = [] }) => {
   return (
-    <Flex sx={{ flexWrap: "wrap", gap: "xsmall", justifyContent: "stretch" }}>
+    <Box
+      sx={{
+        flexWrap: "wrap",
+        gap: "xsmall",
+        justifyContent: "stretch",
+        display: "flex",
+      }}
+    >
       {termsByLetters.map(
         ({ letter, terms }) =>
           terms.length > 0 && (
@@ -35,7 +42,7 @@ const TermList = ({ termsByLetters = [] }) => {
             </Box>
           )
       )}
-    </Flex>
+    </Box>
   );
 };
 

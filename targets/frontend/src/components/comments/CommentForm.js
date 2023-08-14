@@ -1,7 +1,7 @@
 import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { Input, Label } from "theme-ui";
+import { Input, InputLabel as Label } from "@mui/material";
 
 import { Button } from "../button";
 

@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import slugify from "@socialgouv/cdtn-slugify";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -11,7 +9,13 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
 import { MarkdownLink } from "src/components/MarkdownLink";
-import { Box, Field, Flex, Label, Text, Textarea } from "theme-ui";
+import {
+  Box,
+  Input as Field,
+  InputLabel as Label,
+  Text,
+  Textarea,
+} from "@mui/material";
 import { useMutation } from "urql";
 
 const editTermMutation = `
@@ -107,13 +111,14 @@ export const TermForm = ({ term = {} }) => {
           />
         </Box>
 
-        <Flex
+        <Box
           sx={{
             alignItems: "flex-start",
             flexWrap: "wrap",
             gap: "small",
             justifyContent: "stretch",
             mb: "small",
+            display: "flex",
           }}
         >
           <Fieldset title="Variantes / Synonymes" sx={{ flex: "1 1 auto" }}>
@@ -140,14 +145,14 @@ export const TermForm = ({ term = {} }) => {
               defaultValue={term.references}
             />
           </Fieldset>
-        </Flex>
+        </Box>
 
-        <Flex sx={{ alignItems: "center", mt: "medium" }}>
+        <Box sx={{ alignItems: "center", mt: "medium", display: "flex" }}>
           <Button disabled={hasError || loading}>{buttonLabel}</Button>
           <Link href="/glossary" passHref>
             Annuler
           </Link>
-        </Flex>
+        </Box>
       </>
     </form>
   );

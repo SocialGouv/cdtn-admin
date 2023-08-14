@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useSelectionContext } from "src/pages/contenus";
-import { Box, Text } from "theme-ui";
+import { Box, Text } from "@mui/material";
 
 import { Button } from "../button";
 import { Dialog } from "../dialog";

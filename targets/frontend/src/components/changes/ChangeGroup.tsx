@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { AccordionItem, AccordionPanel } from "@reach/accordion";
 import type {
   AlertChanges,
@@ -14,7 +12,7 @@ import type {
 } from "@shared/types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
-import { Badge, Box, Card } from "@theme-ui/components";
+import { Badge, Box, Card } from "@mui/material";
 import { Divider } from "@mui/material";
 
 import Link from "next/link";
