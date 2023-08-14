@@ -1,12 +1,13 @@
 import { Box } from "@mui/material";
 
 import { spacePropTypes } from "./spaces";
+import { theme } from "src/theme";
 
-export function Stack({ gap = "medium", ...props }) {
+export function Stack({ gap = theme.space.medium, ...props }) {
   return (
     <Box
       {...props}
-      sx={{
+      style={{
         display: "grid",
         gridGap: gap,
       }}

@@ -60,7 +60,7 @@ export function UserForm({
         </div>
         {isAdmin && (
           <div>
-            <Label>Role</Label>
+            <p>Role</p>
             <Select
               {...register("default_role")}
               defaultValue={user?.roles[0].role}

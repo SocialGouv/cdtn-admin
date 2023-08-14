@@ -17,7 +17,11 @@ export function Inline({
     <Box
       {...props}
       as={component}
-      sx={{ alignItems: "center", flexWrap: "wrap", display: "flex" }}
+      sx={{
+        alignItems: "center",
+        flexWrap: "wrap",
+        display: "flex",
+      }}
       marginLeft={negativeSpace}
       marginTop={negativeSpace}
     >

@@ -31,7 +31,6 @@ export function UserMenu() {
               fontWeight: theme.fontWeights.semibold,
               paddingLeft: theme.space.xsmall,
               paddingRight: theme.space.xsmall,
-              color: theme.colors.primary,
             }}
           >
             {user?.name}
