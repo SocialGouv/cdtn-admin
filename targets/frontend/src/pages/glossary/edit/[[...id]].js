@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { IoMdTrash } from "react-icons/io";
@@ -11,7 +9,7 @@ import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Flex, Spinner } from "theme-ui";
+import { Box, CircularProgress as Spinner } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 const getTermQuery = `
@@ -85,9 +83,10 @@ export function EditTermPage() {
                     </Inline>
                   </>
                 </Dialog>
-                <Flex
+                <Box
                   sx={{
                     justifyContent: "flex-end",
+                    display: "flex",
                   }}
                   mb="small"
                 >
@@ -102,7 +101,7 @@ export function EditTermPage() {
                     />
                     Supprimer le terme
                   </Button>
-                </Flex>
+                </Box>
               </>
             )}
             <TermForm term={term} />

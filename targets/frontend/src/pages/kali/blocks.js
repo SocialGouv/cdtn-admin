@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import PropTypes from "prop-types";
 import { useEffect, useMemo, useState } from "react";
 import { IoMdSave } from "react-icons/io";
@@ -8,7 +6,7 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Card, Message, Select, Textarea } from "theme-ui";
+import { Card, Select, Textarea, Alert } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 const searchKaliDocumentQuery = `
@@ -184,7 +182,7 @@ export function KaliBlocksPage() {
   if (error) {
     return (
       <Layout title="Blocs KALI">
-        <Message variant="primary">{error.message}</Message>
+        <Alert severity="error">{error.message}</Alert>
       </Layout>
     );
   }
@@ -224,9 +222,9 @@ export function KaliBlocksPage() {
               onChange={onBlocksChange}
             />
           )) || (
-            <Message variant="primary">
+            <Alert severity="success">
               Choisissez une convention collective pour définir les blocks
-            </Message>
+            </Alert>
           )}
         </Card>
       </Stack>

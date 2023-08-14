@@ -13,7 +13,7 @@ import { Li, List } from "src/components/list";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Flex, Heading, Message, Spinner } from "theme-ui";
+import { Box, Typography, CircularProgress, Alert } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 const insertRelationMutation = `
@@ -66,9 +66,9 @@ export function UnthemedPage() {
     return (
       <Layout title="Contenus sans thèmes">
         <Stack>
-          <Message>
+          <Alert variant="error">
             <pre>{JSON.stringify(error, 2)}</pre>
-          </Message>
+          </Alert>
         </Stack>
       </Layout>
     );
@@ -76,19 +76,19 @@ export function UnthemedPage() {
 
   return (
     <Layout title="Contenus sans thème">
-      {!data && fetching && <Spinner />}
+      {!data && fetching && <CircularProgress />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
           {documentsBySource.map(([source, documents]) => {
             return (
               <Stack key={source} gap="small">
-                <Heading as="h2" p="0" sx={{ fontSize: "large" }}>
+                <Typography variant="h2" p="0" sx={{ fontSize: "large" }}>
                   {getLabelBySource(source)}
-                </Heading>
+                </Typography>
                 <List>
                   {documents.map(({ cdtnId, title, slug }) => (
                     <Li key={cdtnId}>
-                      <Flex paddingBottom="xxsmall">
+                      <Box paddingBottom="xxsmall">
                         <Box
                           sx={{ flex: 1, marginRight: "small", minWidth: 0 }}
                           title={title}
@@ -118,7 +118,7 @@ export function UnthemedPage() {
                             defaultValue=""
                           />
                         </Box>
-                      </Flex>
+                      </Box>
                     </Li>
                   ))}
                 </List>

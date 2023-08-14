@@ -6,7 +6,7 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { PasswordLayout } from "src/components/layout/password.layout";
 import { Stack } from "src/components/layout/Stack";
 import { request } from "src/lib/request";
-import { Field, Text } from "theme-ui";
+import { Input as Field, Text } from "@mui/material";
 
 export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);

@@ -1,12 +1,10 @@
-/** @jsxImportSource theme-ui */
-
 import * as d3 from "d3";
 import { hierarchy, tree } from "d3-hierarchy";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useRef } from "react";
 import { RELATIONS } from "src/lib/relations";
-import { Spinner, useThemeUI } from "theme-ui";
+import { CircularProgress } from "@mui/material";
 import { useQuery } from "urql";
 
 const getThemesQuery = `
@@ -28,7 +26,6 @@ const context = { additionalTypenames: ["documents", "document_relations"] };
 export const Map = ({ setShowThemeMap = () => {} }) => {
   const svg = useRef();
   const router = useRouter();
-  const { theme } = useThemeUI();
 
   const [{ fetching, data: { themeRelations = [] } = {} }] = useQuery({
     context,
@@ -47,7 +44,7 @@ export const Map = ({ setShowThemeMap = () => {} }) => {
     buildMap({ onClickTheme, svg: svg.current, theme, themeRelations });
   }, [themeRelations, onClickTheme, theme]);
 
-  if (fetching) return <Spinner />;
+  if (fetching) return <CircularProgress />;
 
   return (
     <svg ref={svg} overflow="visible">

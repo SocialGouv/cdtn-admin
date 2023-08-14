@@ -1,10 +1,8 @@
-/** @jsxImportSource theme-ui */
-
 import { useState } from "react";
 import { IoMdMap } from "react-icons/io";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
-import { Box, Flex } from "theme-ui";
+import { Box } from "@mui/material";
 
 import { Map } from "./Map";
 
@@ -13,14 +11,14 @@ export const MapModal = () => {
 
   return (
     <>
-      <Flex sx={{ justifyContent: "flex-end" }}>
+      <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
         <Button variant="secondary" onClick={() => setShowThemeMap(true)}>
           <IoMdMap
             sx={{ height: "iconMedium", mr: "small", width: "iconMedium" }}
           />
           Carte des thèmes
         </Button>
-      </Flex>
+      </Box>
       <Dialog
         isOpen={showThemeMap}
         onDismiss={() => setShowThemeMap(false)}

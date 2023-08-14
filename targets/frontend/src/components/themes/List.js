@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
@@ -11,7 +9,7 @@ import {
 } from "react-sortable-hoc";
 import { IconButton } from "src/components/button";
 import { useUser } from "src/hooks/useUser";
-import { Alert, Card, Flex, Text } from "theme-ui";
+import { Alert, Card, Box, Text } from "@mui/material";
 
 const formatRelationsIntoThemes = (relations = []) =>
   relations
@@ -34,7 +32,7 @@ const List = ({ relations, updateThemesPosition }) => {
   return (
     <>
       {displayedThemes.length === 0 ? (
-        <Alert variant="highlight" sx={{ mb: "small" }}>
+        <Alert severity="success" sx={{ mb: "small" }}>
           <Text sx={{ fontSize: "1.2rem", fontWeight: "bold" }}>
             Il n’y a aucun thème pour le moment !
           </Text>
@@ -115,7 +113,7 @@ const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
           textDecoration: "none",
         }}
       >
-        <Flex
+        <Box
           sx={{
             alignItems: "center",
             fontSize: "1.2rem",
@@ -123,6 +121,7 @@ const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
             overflow: "hidden",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",
+            display: "flex",
           }}
         >
           {theme.title}
@@ -134,7 +133,7 @@ const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
               width: "iconMedium",
             }}
           />
-        </Flex>
+        </Box>
       </Card>
     </Link>
   </li>

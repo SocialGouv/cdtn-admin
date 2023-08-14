@@ -13,7 +13,7 @@ import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useExportEs } from "src/hooks/exportEs";
 import { useUser } from "src/hooks/useUser";
-import { Spinner } from "theme-ui";
+import { CircularProgress as Spinner } from "@mui/material";
 import { FixedSnackBar } from "../components/utils/SnackBar";
 import { Chip } from "@mui/material";
 

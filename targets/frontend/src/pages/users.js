@@ -6,19 +6,25 @@ import { Stack } from "src/components/layout/Stack";
 import { UserList } from "src/components/user/List";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Flex } from "theme-ui";
+import { Box } from "@mui/material";
 
 export function UserPage() {
   return (
     <Layout title="Gestion des utilisateurs">
       <Stack>
-        <Flex sx={{ alignItems: "center", justifyContent: "flex-end" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
           <Link href="/user/new" passHref style={{ textDecoration: "none" }}>
             <Button variant="outlined" size="small">
               <IoIosAdd /> Ajouter un utilisateur
             </Button>
           </Link>
-        </Flex>
+        </Box>
         <UserList />
       </Stack>
     </Layout>

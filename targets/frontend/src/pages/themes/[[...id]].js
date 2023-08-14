@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -12,7 +10,7 @@ import { MapModal } from "src/components/themes/MapModal";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Card, Flex, Spinner, Text } from "theme-ui";
+import { Box, Card, CircularProgress, Text } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 const getThemeQuery = `
@@ -106,11 +104,17 @@ export function ThemePage() {
       <Stack>
         <MapModal />
         {fetching || rootFetching ? (
-          <Spinner />
+          <CircularProgress />
         ) : themeId ? (
           <Card>
             <>
-              <Flex sx={{ alignItems: "center", justifyContent: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <h2>{themeData?.title}</h2>
                 <Link
                   href={`/themes/edit/${themeId}`}
@@ -131,7 +135,7 @@ export function ThemePage() {
                     </>
                   </Button>
                 </Link>
-              </Flex>
+              </Box>
               <Text as="h3" mr="small">
                 Niveau précédent
               </Text>
@@ -209,7 +213,7 @@ const ParentLink = ({ id, ...props }) => (
       }}
       mb="small"
     >
-      <Flex sx={{ alignItems: "center" }}>
+      <Box sx={{ alignItems: "center", display: "flex" }}>
         <IoIosArrowDropleftCircle
           sx={{
             color: "secondary",
@@ -219,7 +223,7 @@ const ParentLink = ({ id, ...props }) => (
           }}
         />
         <div {...props} />
-      </Flex>
+      </Box>
     </Card>
   </Link>
 );

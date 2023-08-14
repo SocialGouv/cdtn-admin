@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Box, Input, Spinner } from "theme-ui";
+import { Box, Input, CircularProgress } from "@mui/material";
 
 const defaultStyles = {
   border: "2px dotted silver",
@@ -37,7 +37,7 @@ export function DropZone({ onDrop: onDropCallback, uploading, customStyles }) {
   return (
     <Box {...getRootProps()} sx={{ ...defaultStyles, ...customStyles }}>
       <Input {...getInputProps()} />
-      {uploading ? <Spinner /> : <p>Glissez vos fichiers ici</p>}
+      {uploading ? <CircularProgress /> : <p>Glissez vos fichiers ici</p>}
     </Box>
   );
 }

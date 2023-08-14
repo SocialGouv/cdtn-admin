@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { Button, IconButton } from "@mui/material";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
@@ -22,14 +20,13 @@ import useSWR, { mutate } from "swr";
 import {
   Box,
   Card,
-  Field,
-  Flex,
-  Label,
-  Message,
+  Input as Field,
+  InputLabel as Label,
+  Alert as Message,
   Select,
-  Spinner,
+  CircularProgress as Spinner,
   Text,
-} from "theme-ui";
+} from "@mui/material";
 
 const listFiles = () =>
   request(`${process.env.FRONTEND_URL || ""}/api/storage`, {
@@ -82,7 +79,7 @@ function FilesPage() {
   if (error) {
     return (
       <Layout title="Fichiers">
-        <Message variant="primary">erreur au chargement...</Message>
+        <Message severity="error">erreur au chargement...</Message>
       </Layout>
     );
   }
@@ -100,8 +97,10 @@ function FilesPage() {
           });
         }}
       />
-      <Flex as="form" my="medium">
-        <Flex sx={{ alignItems: "flex-end", position: "relative" }}>
+      <Box sx={{ display: "flex" }} as="form" my="medium">
+        <Box
+          sx={{ display: "flex", alignItems: "flex-end", position: "relative" }}
+        >
           <Field
             id="search"
             name="search"
@@ -129,8 +128,8 @@ function FilesPage() {
               <IoMdCloseCircleOutline />
             </IconButton>
           )}
-        </Flex>
-        <Flex sx={{ flexDirection: "column", ml: "small" }}>
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", ml: "small" }}>
           <Label htmlFor="sort">Trier</Label>
           <Select
             id="sort"
@@ -145,8 +144,8 @@ function FilesPage() {
             <option value="heaviest">Plus lourd</option>
             <option value="lightest">Plus léger</option>
           </Select>
-        </Flex>
-        <Flex sx={{ flexDirection: "column", ml: "small" }}>
+        </Box>
+        <Box sx={{ flexDirection: "column", ml: "small" }}>
           <Label htmlFor="filter">Filtrer par type</Label>
           <Select
             id="filter"
@@ -162,8 +161,8 @@ function FilesPage() {
             <option value="pdf">pdf</option>
             <option value="word">document word</option>
           </Select>
-        </Flex>
-      </Flex>
+        </Box>
+      </Box>
       {isSearching || (isValidating && !data) ? (
         <Spinner />
       ) : data?.length > 0 ? (

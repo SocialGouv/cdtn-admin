@@ -10,7 +10,7 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Spinner } from "theme-ui";
+import { CircularProgress } from "@mui/material";
 import { useQuery } from "urql";
 import { Box, Chip } from "@mui/material";
 import { FixedSnackBar } from "../components/utils/SnackBar";
@@ -61,7 +61,7 @@ export function DuplicateContentPage(): JSX.Element {
             <Th align="center">Disponible</Th>
           </tr>
         </thead>
-        {!data?.relations && fetching && <Spinner />}
+        {!data?.relations && fetching && <CircularProgress />}
         {data?.relations.map(({ id, parent, document }) => {
           return (
             <Tr key={`${id}`}>

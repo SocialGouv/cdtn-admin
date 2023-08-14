@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { Box, Card, Field, Heading, Text } from "theme-ui";
+import { Box, Card, Input as Field, Typography, Text } from "@mui/material";
 
 import { Button } from "../button";
 import { Stack } from "../layout/Stack";
@@ -41,7 +41,7 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
       >
         <form onSubmit={handleSubmit(submit)}>
           <Stack>
-            <Heading as="h1">Authentification</Heading>
+            <Typography variant="h1">Authentification</Typography>
             <Field
               sx={{ fontWeight: "body" }}
               label="Adresse email"

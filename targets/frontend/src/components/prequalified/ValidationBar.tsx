@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { NextRouter } from "next/router";
 import { IoMdCheckmark } from "react-icons/io";
-import { Flex } from "theme-ui";
+import { Box } from "@mui/material";
 
 import { Button } from "../button";
 
@@ -15,7 +15,7 @@ const ValidationBar = ({
   router: NextRouter;
 }) => {
   return (
-    <Flex sx={{ alignItems: "center", mt: "medium" }}>
+    <Box sx={{ alignItems: "center", mt: "medium", display: "flex" }}>
       {/* @ts-ignore */}
       <Button variant="secondary" disabled={loading || !isDirty}>
         {isDirty && (
@@ -40,7 +40,7 @@ const ValidationBar = ({
       >
         Annuler
       </Link>
-    </Flex>
+    </Box>
   );
 };
 

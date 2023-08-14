@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -15,7 +13,7 @@ import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Message, Spinner } from "theme-ui";
+import { Alert, CircularProgress } from "@mui/material";
 import { useQuery } from "urql";
 
 export function DuplicateContentPage(): JSX.Element {
@@ -62,9 +60,9 @@ export function DuplicateContentPage(): JSX.Element {
     return (
       <Layout title="Contenus dupliqués">
         <Stack>
-          <Message>
+          <Alert severity="error">
             <pre>{JSON.stringify(error, null, 2)}</pre>
-          </Message>
+          </Alert>
         </Stack>
       </Layout>
     );
@@ -84,7 +82,7 @@ export function DuplicateContentPage(): JSX.Element {
             <Th align="left">Fiche</Th>
           </tr>
         </thead>
-        {!data && fetching && <Spinner />}
+        {!data && fetching && <CircularProgress />}
         {duplicates &&
           duplicates.map(({ parent, document }) => {
             return (

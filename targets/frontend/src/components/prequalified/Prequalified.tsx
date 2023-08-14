@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import React from "react";
@@ -9,7 +7,7 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
 import { PrequalifiedContent } from "src/types";
-import { Field } from "theme-ui";
+import { Input as Field } from "@mui/material";
 
 import { ValidationBar } from "./ValidationBar";
 

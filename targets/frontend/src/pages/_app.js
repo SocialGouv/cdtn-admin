@@ -8,9 +8,6 @@ import { init } from "@socialgouv/matomo-next";
 import getConfig from "next/config";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import { ThemeProvider } from "theme-ui";
-
-import { theme } from "../theme";
 
 if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   const config = getConfig();
@@ -44,11 +41,7 @@ export default function App({ Component, pageProps, err }) {
     });
   }, []);
   // Workaround for https://github.com/vercel/next.js/issues/8592
-  return (
-    <ThemeProvider theme={theme}>
-      <Component {...pageProps} err={err} />
-    </ThemeProvider>
-  );
+  return <Component {...pageProps} err={err} />;
 }
 
 App.propTypes = {

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { useUser } from "src/hooks/useUser";
-import { Field } from "theme-ui";
+import { Input as Field } from "@mui/material";
 
 import { passwordValidation } from "../../lib/auth/auth.const";
 import { FormErrorMessage } from "../forms/ErrorMessage";

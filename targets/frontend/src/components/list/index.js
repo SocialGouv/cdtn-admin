@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Box } from "theme-ui";
+import { Box } from "@mui/material";
 
 export function List({ className, children }) {
   return (

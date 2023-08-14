@@ -1,10 +1,8 @@
-/** @jsxImportSource theme-ui */
-
 import { ComponentPropsWithoutRef } from "react";
 
 export const Table = (props: ComponentPropsWithoutRef<"table">) => (
   <table
-    sx={{
+    style={{
       borderCollapse: "collapse",
       borderRadius: "small",
       overflow: "hidden",
@@ -25,7 +23,7 @@ export const Th = ({
   ...props
 }: ComponentPropsWithoutRef<"th"> & CellAlign) => (
   <th
-    sx={{
+    style={{
       borderBottom: "1px solid",
       fontSize: "medium",
       fontWeight: "semibold",
@@ -42,10 +40,12 @@ export const Td = ({
   ...props
 }: ComponentPropsWithoutRef<"td"> & CellAlign) => (
   <td
-    sx={{
+    style={{
       fontWeight: 300,
-      px: "xsmall",
-      py: "xxsmall",
+      paddingLeft: "xsmall",
+      paddingRight: "xsmall",
+      paddingTop: "xxsmall",
+      paddingBottom: "xxsmall",
       textAlign: align,
       "tr:nth-of-type(even) &": {
         bg: "highlight",

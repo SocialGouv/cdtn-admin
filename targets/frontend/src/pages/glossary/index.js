@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { IoMdAdd, IoMdCloseCircleOutline } from "react-icons/io";
@@ -10,7 +8,13 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useDebouncedState } from "src/hooks/";
-import { Flex, Input, Label, Spinner, Text } from "theme-ui";
+import {
+  Box,
+  Input,
+  InputLabel as Label,
+  CircularProgress,
+  Text,
+} from "@mui/material";
 import { useQuery } from "urql";
 
 const getGlossaryQuery = `
@@ -73,13 +77,13 @@ export function GlossaryPage() {
     <Layout title={`Glossaire`}>
       <Stack>
         {isFetching ? (
-          <Spinner />
+          <CircularProgress />
         ) : (
           <>
-            <Flex sx={{ justifyContent: "flex-end" }}>
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
               <AddATermButton />
-            </Flex>
-            <Flex
+            </Box>
+            <Box
               as="ul"
               p="0"
               sx={{
@@ -88,6 +92,7 @@ export function GlossaryPage() {
                 flex: "1 1 auto",
                 flexWrap: "wrap",
                 listStyleType: "none",
+                display: "flex",
               }}
             >
               {termsByLetters.map(({ letter, terms }) => (
@@ -117,12 +122,13 @@ export function GlossaryPage() {
                   )}
                 </li>
               ))}
-            </Flex>
-            <Flex
+            </Box>
+            <Box
               as="form"
               sx={{
                 alignItems: "center",
                 justifyContent: "flex-start",
+                display: "flex",
               }}
             >
               <Label
@@ -157,9 +163,9 @@ export function GlossaryPage() {
                   <IoMdCloseCircleOutline />
                 </IconButton>
               )}
-            </Flex>
+            </Box>
             {isSearching ? (
-              <Spinner />
+              <CircularProgress />
             ) : displayedTerms?.length ? (
               <TermList termsByLetters={termsByLetters} />
             ) : (

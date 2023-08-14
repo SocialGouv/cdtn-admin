@@ -1,10 +1,8 @@
-/** @jsxImportSource theme-ui */
-
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosCheckmark, IoMdCloseCircle } from "react-icons/io";
-import { Badge, css, Message, Text } from "theme-ui";
+import { Badge, Alert, Text } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 import { Role } from "../../lib/auth/auth.const";
@@ -82,9 +80,9 @@ export function UserList() {
   if (fetching) return <p>chargement...</p>;
   if (error)
     return (
-      <Message>
+      <Alert severity="error">
         <pre>{JSON.stringify(error, 0, 2)}</pre>
-      </Message>
+      </Alert>
     );
   return (
     <>
@@ -174,21 +172,21 @@ const Td = ({ align = "left", ...props }) => (
 Td.propTypes = cellPropTypes;
 
 const styles = {
-  table: css({
+  table: {
     borderCollapse: "collapse",
     borderRadius: "small",
     overflow: "hidden",
     width: "100%",
-  }),
-  td: css({
+  },
+  td: {
     fontWeight: 300,
     px: "xsmall",
     py: "xxsmall",
     "tr:nth-of-type(even) &": {
       bg: "highlight",
     },
-  }),
-  th: css({
+  },
+  th: {
     borderBottom: "1px solid",
     fontSize: "medium",
     // bg: "info",
@@ -198,5 +196,5 @@ const styles = {
     px: "xsmall",
 
     py: "xsmall",
-  }),
+  },
 };
