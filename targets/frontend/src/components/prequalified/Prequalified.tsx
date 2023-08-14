@@ -7,9 +7,10 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
 import { PrequalifiedContent } from "src/types";
-import { Input as Field } from "@mui/material";
+import { Input as Field, InputLabel } from "@mui/material";
 
 import { ValidationBar } from "./ValidationBar";
+import { theme } from "src/theme";
 
 const PrequalifiedForm = ({
   content = { contentRelations: [] },
@@ -41,13 +42,13 @@ const PrequalifiedForm = ({
       )}
     >
       <>
-        <div sx={{ mb: "small" }}>
+        <div style={{ marginBottom: theme.space.small }}>
+          <InputLabel htmlFor="title">Requete</InputLabel>
           <Field
             type="text"
             {...register("title", {
               required: { message: "La requete est requise", value: true },
             })}
-            label="Requete"
             defaultValue={content.title}
           />
           <FormErrorMessage errors={errors} fieldName="title" />

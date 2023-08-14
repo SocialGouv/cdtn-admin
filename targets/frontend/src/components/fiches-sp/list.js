@@ -2,7 +2,8 @@ import PropTypes from "prop-types";
 import { useContext } from "react";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
-import { InputLabel as Label, Text } from "@mui/icons-material";
+import { InputLabel as Label } from "@mui/icons-material";
+import { theme } from "src/theme";
 
 export function ServicPublicList({ items }) {
   return (
@@ -53,28 +54,28 @@ function ServicePublicItemRow({ item }) {
 
 function getStatus({ status, cdtn_id, is_available, is_published }) {
   if (status === "unknow") {
-    return <Text sx={{ color: "danger" }}>fiche inconnue</Text>;
+    return <p sx={{ color: theme.colors.danger }}>fiche inconnue</p>;
   }
   if (cdtn_id === null) {
     if (status === "unknown") {
-      return <Text sx={{ color: "critical" }}>la fiche n’existe pas</Text>;
+      return <p sx={{ color: theme.colors.critical }}>la fiche n’existe pas</p>;
     }
-    return <Text sx={{ color: "muted" }}>En attente de traitement</Text>;
+    return <p sx={{ color: theme.colors.muted }}>En attente de traitement</p>;
   }
   if (is_available) {
     if (is_published) {
       return (
-        <Text sx={{ color: "positive" }}>
+        <p sx={{ color: "positive" }}>
           <IoMdCheckmarkCircleOutline
             aria-label="la fiche est disponible"
             title="La fiche est disponible"
           />
-        </Text>
+        </p>
       );
     }
-    return <Text sx={{ color: "muted" }}>dépubliée</Text>;
+    return <p sx={{ color: theme.colors.muted }}>dépubliée</p>;
   }
-  return <Text sx={{ color: "critical" }}>supprimée </Text>;
+  return <p style={{ color: theme.colors.critical }}>supprimée </p>;
 }
 
 const Table = (props) => <table css={styles.table} {...props} />;

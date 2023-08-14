@@ -10,37 +10,28 @@ export function Status({ status }: StatusProps): JSX.Element {
   if (!status) {
     return (
       <Box sx={{ alignItems: "center", display: "flex" }}>
-        <span>En cours</span> <MdTimelapse sx={{ mb: "-.3rem", ml: ".4rem" }} />
+        <span>En cours</span>{" "}
+        <MdTimelapse style={{ marginBottom: "-.3rem", marginLeft: ".4rem" }} />
       </Box>
     );
   }
   switch (status) {
     case StatusType.completed:
-      return (
-        <Box as="span" color="positive">
-          Succès
-        </Box>
-      );
+      return <span color="positive">Succès</span>;
     case StatusType.timeout:
-      return (
-        <Box as="span" color="muted">
-          Timeout
-        </Box>
-      );
+      return <span color="muted">Timeout</span>;
     case StatusType.running:
       return (
         <Box sx={{ alignItems: "center", display: "flex" }}>
           <span>En cours</span>{" "}
-          <MdTimelapse sx={{ mb: "-.2rem", ml: ".3rem" }} />
+          <MdTimelapse
+            style={{ marginBottom: "-.2rem", marginLeft: ".3rem" }}
+          />
         </Box>
       );
     case StatusType.failed:
-      return (
-        <Box as="span" color="critical">
-          Erreur
-        </Box>
-      );
+      return <span color="critical">Erreur</span>;
     default:
-      return <Box as="span">{status}</Box>;
+      return <span>{status}</span>;
   }
 }

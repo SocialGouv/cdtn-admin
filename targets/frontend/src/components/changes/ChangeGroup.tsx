@@ -33,7 +33,11 @@ export const ChangesGroup: React.FC<Props> = ({ label, children }) => {
     <AccordionItem>
       <AccordionButton>{label}</AccordionButton>
       <AccordionPanel>
-        <ul sx={{ margin: 0, px: "large" }}>{children}</ul>
+        <ul
+          style={{ margin: 0, paddingLeft: "1.4rem", paddingRight: "1.4rem" }}
+        >
+          {children}
+        </ul>
       </AccordionPanel>
     </AccordionItem>
   );
@@ -83,9 +87,9 @@ export function DilaRelatedDocuments({
         {jsxJoin(
           docReferences.references.map((node, i) => (
             <a
-              sx={{
+              style={{
                 color: "muted",
-                fontSize: "xsmall",
+                fontSize: "0.8rem",
                 lineHeight: 1,
               }}
               href={node.url}
@@ -115,9 +119,9 @@ export function FicheRelatedDocuments({
       </Link>{" "}
       <br />
       <span
-        sx={{
+        style={{
           color: "muted",
-          fontSize: "xsmall",
+          fontSize: "0.8rem",
           lineHeight: 1,
         }}
       >
@@ -135,7 +139,7 @@ export function AddedChanges({ changes }: ChangesProps): JSX.Element {
           {changes.added.map((change) => (
             <li key={`${changes.ref}-${change.id}-added`}>
               <DilaLabelItem info={change} />{" "}
-              <Badge sx={{ bg: getBadgeColor(change.etat), px: "xxsmall" }}>
+              <Badge sx={{ bg: getBadgeColor(change.etat), px: "0.7rem" }}>
                 {change.etat}
               </Badge>
             </li>
@@ -226,7 +230,7 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                     <Badge
                       sx={{
                         bg: getBadgeColor(statusUpdate.previousText),
-                        px: "xxsmall",
+                        px: "0.8rem",
                       }}
                     >
                       {statusUpdate.previousText}
@@ -234,7 +238,7 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                     {" › "}
                   </>
                 )}
-                <Badge sx={{ bg: getBadgeColor(change.etat), px: "xxsmall" }}>
+                <Badge sx={{ bg: getBadgeColor(change.etat), px: "0.7rem" }}>
                   {change.etat}
                 </Badge>
                 {textChanges.length > 0 && (
@@ -475,7 +479,6 @@ export const ModificationViewer: React.FC<ModificationViewerProps> = ({
         aria-controls={id}
         aria-expanded={isVisible}
         size="small"
-        variant="link"
         sx={{
           "&:hover": {
             color: "link",

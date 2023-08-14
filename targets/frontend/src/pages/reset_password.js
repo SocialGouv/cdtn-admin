@@ -6,7 +6,7 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { PasswordLayout } from "src/components/layout/password.layout";
 import { Stack } from "src/components/layout/Stack";
 import { request } from "src/lib/request";
-import { Input as Field, Text } from "@mui/material";
+import { Input as Field } from "@mui/material";
 
 export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);
@@ -43,12 +43,12 @@ export default function ResetPasswordPage() {
   if (success) {
     return (
       <PasswordLayout title="Nouveau mot de passe">
-        <Text sx={{ fontWeight: 300 }}>
+        <p sx={{ fontWeight: 300 }}>
           Nous venons de vous envoyer un lien pour ré-initialiser votre mot de
           passe par mail. Vous pouvez consulter votre boîte mail et suivre les
           instructions pour définir un nouveau mot de passe.
           <br />
-        </Text>
+        </p>
         <Link href="/login" passHref style={{ textDecoration: "none" }}>
           Se connecter
         </Link>
@@ -63,12 +63,12 @@ export default function ResetPasswordPage() {
         action="/api/reset_password"
       >
         <Stack>
-          <Text sx={{ fontWeight: 300 }}>
+          <p style={{ fontWeight: 300 }}>
             Vous avez perdu votre mot de passe&nbsp;?
             <br />
             Saisissez votre adresse email et validez pour recevoir par mail un
             lien pour ré-initialiser votre mot de passe.
-          </Text>
+          </p>
           <Field
             label="adresse email"
             {...register("email", {

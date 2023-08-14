@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useCallback, useMemo } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { useSelectionContext } from "src/pages/contenus";
-import { Card, Flex, Alert } from "@mui/material";
+import { Card, Alert, Box } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 import { Stack } from "../layout/Stack";
@@ -71,7 +71,7 @@ export function DocumentListContainer({ initialFilterValues }) {
   }
   return (
     <Stack>
-      <Flex sx={{ justifyContent: "flex-end" }}>
+      <Box sx={{ justifyContent: "flex-end" }}>
         <Link
           href="/contenus/create/"
           passHref
@@ -88,7 +88,7 @@ export function DocumentListContainer({ initialFilterValues }) {
             Ajouter un contenu
           </Button>
         </Link>
-      </Flex>
+      </Box>
       <Card sx={{ position: "sticky", top: 0 }} bg="white">
         <SearchFilters
           initialValues={initialFilterValues}

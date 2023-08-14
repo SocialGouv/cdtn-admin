@@ -9,7 +9,7 @@ import {
 } from "react-sortable-hoc";
 import { IconButton } from "src/components/button";
 import { useUser } from "src/hooks/useUser";
-import { Alert, Card, Box, Text } from "@mui/material";
+import { Alert, Card, Box } from "@mui/material";
 
 const formatRelationsIntoThemes = (relations = []) =>
   relations
@@ -33,9 +33,9 @@ const List = ({ relations, updateThemesPosition }) => {
     <>
       {displayedThemes.length === 0 ? (
         <Alert severity="success" sx={{ mb: "small" }}>
-          <Text sx={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+          <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
             Il n’y a aucun thème pour le moment !
-          </Text>
+          </p>
         </Alert>
       ) : (
         <ThemeList

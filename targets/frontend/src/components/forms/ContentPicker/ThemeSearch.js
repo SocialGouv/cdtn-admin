@@ -5,6 +5,7 @@ import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
 import { Box, Input, Text } from "@mui/material";
 import { useQuery } from "urql";
+import { theme } from "../../../theme";
 
 const sources = [SOURCES.THEMES];
 
@@ -109,10 +110,16 @@ function renderSuggestion(content) {
   const parentTitle = parent;
   return (
     <Box sx={{ lineHeight: 1.2 }}>
-      <Text sx={{ color: "muted", fontSize: "small", fontWeight: "300" }}>
+      <p
+        sx={{
+          color: theme.colors.muted,
+          fontSize: theme.fontSizes.small,
+          fontWeight: "300",
+        }}
+      >
         {parentTitle}
-      </Text>
-      <Text sx={{ display: "block" }}>{content.title}</Text>
+      </p>
+      <p sx={{ display: "block" }}>{content.title}</p>
     </Box>
   );
 }

@@ -23,6 +23,7 @@ import { alertStatusWordings } from "src/models";
 import { useQuery } from "urql";
 import { Card, CardContent, Container, Divider } from "@mui/material";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
+import { theme } from "src/theme";
 
 const getAlertQuery = `
 query getAlerts($status: String!, $repository: String!, $limit: Int!, $offset: Int!) {
@@ -115,11 +116,12 @@ export function AlertPage(): JSX.Element {
         <span title={alert.changes.title}>
           IDCC {alert.changes.num}
           <IoIosInformationCircleOutline
-            style={{ verticalAlign: "super" }}
-            sx={{
-              height: "iconsXSmall",
-              mx: "0.1rem",
-              width: "iconsXSmall",
+            style={{
+              height: theme.sizes.iconsXSmall,
+              marginLeft: "0.1rem",
+              marginRight: "0.1rem",
+              width: theme.sizes.iconsXSmall,
+              verticalAlign: "super",
             }}
           />
           - {new Date(alert.created_at).toLocaleDateString()} ({alert.ref})
@@ -138,7 +140,7 @@ export function AlertPage(): JSX.Element {
   return (
     <Layout title="Gestion des alertes">
       <Stack>
-        <p sx={{ fontSize: "small" }}>
+        <p style={{ fontSize: theme.fontSizes.small }}>
           Les modifications des textes officiels (code du travail, conventions
           collective) sont analysé afin de produire des alertes afin de
           faciliter le travail de veille. Ces alertes sont à classer en fonction

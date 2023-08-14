@@ -13,9 +13,9 @@ import {
   Input,
   InputLabel as Label,
   CircularProgress,
-  Text,
 } from "@mui/material";
 import { useQuery } from "urql";
+import { theme } from "../../theme";
 
 const getGlossaryQuery = `
   query getGlossary {
@@ -110,15 +110,15 @@ export function GlossaryPage() {
                       {letter}
                     </Link>
                   ) : (
-                    <Text
-                      sx={{
-                        color: "muted",
-                        fontSize: "large",
-                        padding: "xxsmall",
+                    <p
+                      style={{
+                        color: theme.colors.muted,
+                        fontSize: theme.fontSizes.large,
+                        padding: theme.space.xxsmall,
                       }}
                     >
                       {letter}
-                    </Text>
+                    </p>
                   )}
                 </li>
               ))}

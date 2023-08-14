@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosCheckmark, IoMdCloseCircle } from "react-icons/io";
-import { Badge, Alert, Text } from "@mui/material";
+import { Badge, Alert } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 import { Role } from "../../lib/auth/auth.const";
@@ -91,7 +91,7 @@ export function UserList() {
         onDismiss={close}
         ariaLabel="Supprimer l'utilisateur"
       >
-        <Text>Etes vous sur de vouloir supprimer l’utilisateur</Text>
+        <p>Etes vous sur de vouloir supprimer l’utilisateur</p>
         <strong>{selectedUser?.email}</strong>
         <Inline>
           <Button onClick={onDeleteUser}>Supprimer l’utilisateur</Button>

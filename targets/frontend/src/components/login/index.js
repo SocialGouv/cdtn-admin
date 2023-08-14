@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { Box, Card, Input as Field, Typography, Text } from "@mui/material";
+import { Box, Card, Input as Field, Typography, Alert } from "@mui/material";
 
 import { Button } from "../button";
 import { Stack } from "../layout/Stack";
@@ -56,9 +56,7 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
               aria-invalid={errors.email ? "true" : "false"}
             />
             {errors.email && (
-              <Text role="alert" color="critical">
-                {errors.email?.message}
-              </Text>
+              <Alert severity="error">{errors.email?.message}</Alert>
             )}
             <Field
               sx={{ fontWeight: "body" }}
@@ -73,9 +71,7 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
               aria-invalid={errors.password ? "true" : "false"}
             />
             {errors.password && (
-              <Text role="alert" color="critical">
-                {errors.password?.message}
-              </Text>
+              <Alert severity="error">{errors.password?.message}</Alert>
             )}
             <Button type="submit" disabled={isSubmitting}>
               Se connecter

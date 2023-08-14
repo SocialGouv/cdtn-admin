@@ -6,7 +6,7 @@ import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useUser } from "src/hooks/useUser";
-import { InputLabel as Label, Text } from "@mui/material";
+import { InputLabel as Label } from "@mui/material";
 
 export function UserPage() {
   const { user } = useUser();
@@ -17,15 +17,15 @@ export function UserPage() {
         <Stack>
           <div>
             <Label>Nom d’utilisateur</Label>
-            <Text>{user.name}</Text>
+            <p>{user.name}</p>
           </div>
           <div>
             <Label>email</Label>
-            <Text>{user.email}</Text>
+            <p>{user.email}</p>
           </div>
           <div>
             <Label>role</Label>
-            <Text>{user.roles[0].role}</Text>
+            <p>{user.roles[0].role}</p>
           </div>
           <Inline>
             <Link href="/user/edit" passHref style={{ textDecoration: "none" }}>

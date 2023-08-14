@@ -2,7 +2,8 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import React from "react";
 import { Li, List } from "src/components/list";
-import { Box, Text } from "@mui/material";
+import { Box } from "@mui/material";
+import { theme } from "../../theme";
 
 const TermList = ({ termsByLetters = [] }) => {
   return (
@@ -27,9 +28,15 @@ const TermList = ({ termsByLetters = [] }) => {
               }}
               p="xsmall"
             >
-              <Text as="h2" id={`ancre-${letter}`} fontSize="xlarge" mt="0">
+              <h2
+                id={`ancre-${letter}`}
+                style={{
+                  fontSize: theme.fontSizes.xlarge,
+                  marginTop: 0,
+                }}
+              >
                 {letter}
-              </Text>
+              </h2>
               <List>
                 {terms.map(({ term, id }) => (
                   <Li key={id}>

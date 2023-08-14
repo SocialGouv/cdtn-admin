@@ -4,6 +4,7 @@ import { IoMdCheckmark } from "react-icons/io";
 import { Box } from "@mui/material";
 
 import { Button } from "../button";
+import { theme } from "src/theme";
 
 const ValidationBar = ({
   isDirty,
@@ -15,15 +16,21 @@ const ValidationBar = ({
   router: NextRouter;
 }) => {
   return (
-    <Box sx={{ alignItems: "center", mt: "medium", display: "flex" }}>
+    <Box
+      sx={{
+        alignItems: "center",
+        marginTop: theme.space.medium,
+        display: "flex",
+      }}
+    >
       {/* @ts-ignore */}
       <Button variant="secondary" disabled={loading || !isDirty}>
         {isDirty && (
           <IoMdCheckmark
-            sx={{
-              height: "iconSmall",
-              mr: "xsmall",
-              width: "iconSmall",
+            style={{
+              height: theme.sizes.iconSmall,
+              marginRight: theme.space.xsmall,
+              width: theme.sizes.iconSmall,
             }}
           />
         )}

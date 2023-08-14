@@ -101,10 +101,9 @@ export const SectionBlock = ({
         {!onlyBlock && (
           <Button type="button" size="small" onClick={remove}>
             <IoMdTrash
-              sx={{
+              style={{
                 height: "1.5rem",
                 marginRight: "0.8rem",
-                mr: "xsmall",
                 width: "1.5rem",
               }}
             />

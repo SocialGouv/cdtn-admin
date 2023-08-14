@@ -25,7 +25,6 @@ import {
   Alert as Message,
   Select,
   CircularProgress as Spinner,
-  Text,
 } from "@mui/material";
 
 const listFiles = () =>
@@ -213,7 +212,7 @@ function FilesPage() {
                           {file.name}
                         </Box>
                         <Box sx={{ fontSize: "small" }}>
-                          <Text sx={{ fontWeight: "bold" }}>Poids&nbsp;:</Text>{" "}
+                          <p style={{ fontWeight: "bold" }}>Poids&nbsp;:</p>{" "}
                           {prettyBytes(file.contentLength)} | Mise en ligne il y
                           a {timeSince(file.lastModified)}
                         </Box>

@@ -10,8 +10,9 @@ import { MapModal } from "src/components/themes/MapModal";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Card, CircularProgress, Text } from "@mui/material";
+import { Box, Card, CircularProgress } from "@mui/material";
 import { useMutation, useQuery } from "urql";
+import { theme } from "../../theme";
 
 const getThemeQuery = `
 query getTheme($themeId: String!) {
@@ -136,9 +137,9 @@ export function ThemePage() {
                   </Button>
                 </Link>
               </Box>
-              <Text as="h3" mr="small">
+              <h3 style={{ marginRight: theme.space.small }}>
                 Niveau précédent
-              </Text>
+              </h3>
               {themeData?.parentRelations.length === 0 ? (
                 <ParentLink>Racine des thèmes</ParentLink>
               ) : (
@@ -149,9 +150,7 @@ export function ThemePage() {
                 ))
               )}
 
-              <Text as="h3" mt="medium">
-                Sous-thèmes
-              </Text>
+              <h3 style={{ marginTop: theme.space.medium }}>Sous-thèmes</h3>
             </>
             <List
               relations={

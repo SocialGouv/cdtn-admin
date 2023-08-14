@@ -56,24 +56,17 @@ export const References = ({ nestName }: { nestName: string }) => {
           {references.length > 1 && (
             <Button
               type="button"
-              variant="primary"
               outline
               onClick={() => remove(index)}
               sx={{ flex: "0 0 auto", mt: "medium" }}
             >
-              <IoMdClose sx={{ height: "1.5rem", width: "1.5rem" }} />
+              <IoMdClose style={{ height: "1.5rem", width: "1.5rem" }} />
             </Button>
           )}
         </Stack>
       ))}
       <Box sx={{ mt: "small" }}>
-        <Button
-          type="button"
-          size="small"
-          onClick={() => append({})}
-          variant="secondary"
-          outline
-        >
+        <Button type="button" size="small" onClick={() => append({})} outline>
           Ajouter une référence au bloc
         </Button>
       </Box>

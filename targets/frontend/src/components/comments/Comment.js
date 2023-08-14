@@ -1,20 +1,19 @@
 import PropTypes from "prop-types";
-import { Box, Text } from "@mui/material";
+import { Box } from "@mui/material";
+import { theme } from "src/theme";
 
 export function Comment({ comment }) {
   return (
     <Box sx={{ alignItems: "center" }}>
       <Box>
-        <Text sx={{ color: "secondary", fontWeight: "600" }}>
+        <p sx={{ color: theme.colors.secondary, fontWeight: "600" }}>
           {comment.user.name}
-        </Text>{" "}
-        <Text sx={{ color: "muted" }}>
+        </p>{" "}
+        <p style={{ color: theme.colors.muted }}>
           {new Date(comment.createdAt).toLocaleDateString()}
-        </Text>
+        </p>
       </Box>
-      <Text as="p" m="0" p="0">
-        {comment.text}
-      </Text>
+      <p style={{ margin: 0, padding: 0 }}>{comment.text}</p>
     </Box>
   );
 }

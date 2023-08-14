@@ -4,6 +4,7 @@ import { Box, Divider } from "@mui/material";
 
 import { Button } from "../button";
 import { SectionBlock } from "./SectionBlock";
+import { theme } from "src/theme";
 
 export type SectionBlockProps = {
   name: string;
@@ -37,18 +38,17 @@ export const SectionBlocks = ({ name }: SectionBlockProps) => {
         <Button
           type="button"
           size="small"
-          variant="secondary"
+          variant="outlined"
           outline
           onClick={() => {
             append({ markdown: "", type: "markdown" });
           }}
         >
           <IoMdAdd
-            sx={{
-              height: "iconSmall",
-
-              mr: "xsmall",
-              width: "iconSmall",
+            style={{
+              height: theme.sizes.iconSmall,
+              marginRight: theme.space.xsmall,
+              width: theme.sizes.iconSmall,
             }}
           />
           Ajouter un bloc d&apos;affichage

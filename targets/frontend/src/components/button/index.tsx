@@ -19,6 +19,7 @@ type ButtonPropTypes = {
   size?: "small" | "medium" | "large";
   variant?: "contained" | "outlined" | "text";
   onClick?: (e: unknown) => void;
+  sx?: Record<string, unknown>;
 };
 
 const SolidButton: React.FC<ButtonPropTypes> = ({

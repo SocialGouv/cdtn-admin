@@ -13,10 +13,10 @@ import {
   Box,
   Input as Field,
   InputLabel as Label,
-  Text,
   Textarea,
 } from "@mui/material";
 import { useMutation } from "urql";
+import { theme } from "../../theme";
 
 const editTermMutation = `
 mutation EditTerm(
@@ -92,7 +92,13 @@ export const TermForm = ({ term = {} }) => {
           />
           <FormErrorMessage errors={errors} fieldName="term" />
           {duplicateTermError && (
-            <Text color="critical">Ce terme existe déjà !</Text>
+            <p
+              style={{
+                color: theme.colors.critical,
+              }}
+            >
+              Ce terme existe déjà !
+            </p>
           )}
         </Box>
 

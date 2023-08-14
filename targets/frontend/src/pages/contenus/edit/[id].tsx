@@ -29,6 +29,7 @@ import deleteContentMutation from "./deleteContent.mutation.graphql";
 import editContentMutation from "./editContent.mutation.graphql";
 import getContentQuery from "./getContent.query.graphql";
 import Box from "@mui/material/Box";
+import { theme } from "src/theme";
 
 const context = { additionalTypenames: ["documents", "document_relations"] };
 
@@ -250,7 +251,7 @@ export function EditInformationPage() {
                 <Inline>
                   <Button onClick={onDelete}>Confirmer</Button>
                   <Button
-                    variant="link"
+                    variant="outlined"
                     onClick={() => setShowDeleteConfirmation(false)}
                   >
                     Annuler
@@ -269,10 +270,10 @@ export function EditInformationPage() {
                     }}
                   >
                     <IoMdTrash
-                      sx={{
-                        height: "iconSmall",
-                        mr: "xsmall",
-                        width: "iconSmall",
+                      style={{
+                        height: theme.sizes.iconSmall,
+                        marginRight: theme.space.xsmall,
+                        width: theme.sizes.iconSmall,
                       }}
                     />
                     Supprimer le contenu

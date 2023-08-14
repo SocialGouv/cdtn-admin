@@ -4,6 +4,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { IoMdContact } from "react-icons/io";
 import { useUser } from "../../hooks/useUser";
 import { useState } from "react";
+import { theme } from "src/theme";
 
 export function UserMenu() {
   const { user, logout } = useUser() as any;
@@ -24,11 +25,14 @@ export function UserMenu() {
           justifyContent="flex-end"
           spacing={2}
         >
-          {" "}
-          <IoMdContact sx={{ fontSize: "icons" }} />
+          <IoMdContact style={{ fontSize: theme.fontSizes.icons }} />
           <Typography
             color="heading"
-            sx={{ fontWeight: "semibold", px: "xsmall" }}
+            style={{
+              fontWeight: theme.fontWeights.semibold,
+              paddingLeft: theme.space.xsmall,
+              paddingRight: theme.space.xsmall,
+            }}
           >
             {user?.name}
           </Typography>

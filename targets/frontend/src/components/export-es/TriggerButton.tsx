@@ -22,18 +22,31 @@ function Index({
 }: TriggerButtonProps) {
   return (
     <ConfirmButton disabled={isDisabled} onClick={onClick} variant={variant}>
-      {status === "running" && <MdTimelapse sx={{ mr: ".2rem" }} />}
-      {status === "failed" && <MdSyncProblem sx={{ mr: ".2rem" }} />}
-      {status === "timeout" && <MdTimerOff sx={{ mr: ".2rem" }} />}
+      {status === "running" && <MdTimelapse style={{ marginRight: ".2rem" }} />}
+      {status === "failed" && (
+        <MdSyncProblem style={{ marginRight: ".2rem" }} />
+      )}
+      {status === "timeout" && <MdTimerOff style={{ marginRight: ".2rem" }} />}
       {children}
       {status === "failed" && (
-        <Chip color="error" sx={{ ml: "-3rem", mt: "-3rem" }} label="Erreur" />
+        <Chip
+          color="error"
+          style={{ marginLeft: "-3rem", marginTop: "-3rem" }}
+          label="Erreur"
+        />
       )}
       {status === "running" && (
-        <Chip sx={{ ml: "-3rem", mt: "-3rem" }} label="En cours" />
+        <Chip
+          style={{ marginLeft: "-3rem", marginTop: "-3rem" }}
+          label="En cours"
+        />
       )}
       {status === "timeout" && (
-        <Chip color="error" sx={{ ml: "-3rem", mt: "-3rem" }} label="Timeout" />
+        <Chip
+          color="error"
+          style={{ marginLeft: "-3rem", marginTop: "-3rem" }}
+          label="Timeout"
+        />
       )}
     </ConfirmButton>
   );

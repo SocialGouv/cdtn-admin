@@ -2,7 +2,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
-import { Box, Input, Typography, Text } from "@mui/material";
+import { Box, Input, Typography } from "@mui/material";
 import { useQuery } from "urql";
 
 import { Button, IconButton } from "../button";
@@ -49,9 +49,9 @@ export function AddFicheSpForm({ onAdd }) {
       <Typography level="h3" sx={{ fontSize: "large", fontWeight: "600" }}>
         Ajouter des fiches
       </Typography>
-      <Text>{`Renseignez l’identifiant ${
+      <p>{`Renseignez l’identifiant ${
         fields.length > 1 ? "des" : "de la"
-      } fiche${fields.length > 1 ? "s" : ""} à ajouter`}</Text>
+      } fiche${fields.length > 1 ? "s" : ""} à ajouter`}</p>
       {fields.map((field, index) => {
         return (
           <Box sx={{ my: "small" }} key={field.key}>

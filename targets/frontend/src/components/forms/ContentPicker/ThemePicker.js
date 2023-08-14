@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Controller } from "react-hook-form";
-import { Alert, Text, Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 
 import { ThemeSearch } from "./ThemeSearch";
 
@@ -22,8 +22,8 @@ function ThemePicker({ ...props }) {
                 position: "relative",
               }}
             >
-              <Text
-                sx={{
+              <p
+                style={{
                   display: "block",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -31,14 +31,14 @@ function ThemePicker({ ...props }) {
                 }}
               >
                 {field.value.title}
-              </Text>
+              </p>
               <Button
                 sx={{ position: "absolute", right: 0 }}
                 onClick={() => {
                   field.onChange("");
                 }}
               >
-                <Text sx={{ fontSize: "xsmall" }}>Supprimer</Text>
+                <p sx={{ fontSize: "0.7rem" }}>Supprimer</p>
               </Button>
             </Alert>
           );

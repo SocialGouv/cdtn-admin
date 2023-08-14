@@ -1,4 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
+import { theme } from "src/theme";
 
 export const Table = (props: ComponentPropsWithoutRef<"table">) => (
   <table
@@ -25,10 +26,9 @@ export const Th = ({
   <th
     style={{
       borderBottom: "1px solid",
-      fontSize: "medium",
-      fontWeight: "semibold",
-      px: "xsmall",
-      py: "xsmall",
+      fontSize: theme.fontSizes.medium,
+      fontWeight: theme.fontWeights.semibold,
+      padding: theme.space.xsmall,
       textAlign: align,
     }}
     {...props}
@@ -47,9 +47,6 @@ export const Td = ({
       paddingTop: "xxsmall",
       paddingBottom: "xxsmall",
       textAlign: align,
-      "tr:nth-of-type(even) &": {
-        bg: "highlight",
-      },
     }}
     {...props}
   />
