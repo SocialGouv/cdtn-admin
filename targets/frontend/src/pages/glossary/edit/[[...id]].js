@@ -75,7 +75,7 @@ export function EditTermPage() {
                     <Inline>
                       <Button onClick={onDelete}>Confirmer</Button>
                       <Button
-                        variant="link"
+                        variant="text"
                         onClick={() => setShowDeleteConfirmation(false)}
                       >
                         Annuler

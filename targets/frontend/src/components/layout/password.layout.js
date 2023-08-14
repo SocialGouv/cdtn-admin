@@ -19,8 +19,8 @@ export function PasswordLayout({ children, title }) {
           px="xxsmall"
           sx={{ flex: 1, justifyContent: "center", display: "flex" }}
         >
-          <Card sx={{ flexBasis: ["auto", "30em", "40em"] }}>
-            <Typography variant="h1">{title}</Typography>
+          <Card style={{ padding: "2rem", marginTop: "20px" }}>
+            <Typography variant="h3">{title}</Typography>
             <Stack>{children}</Stack>
           </Card>
         </Box>

@@ -5,7 +5,7 @@ import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { IconPicker } from "src/components/forms/IconPicker";
-import { Box, Input as Field, Label, Textarea } from "@mui/material";
+import { Box, TextField as Field, Label, Textarea } from "@mui/material";
 
 const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
   const {

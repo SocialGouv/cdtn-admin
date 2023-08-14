@@ -27,11 +27,11 @@ export function UserMenu() {
         >
           <IoMdContact style={{ fontSize: theme.fontSizes.icons }} />
           <Typography
-            color="heading"
             style={{
               fontWeight: theme.fontWeights.semibold,
               paddingLeft: theme.space.xsmall,
               paddingRight: theme.space.xsmall,
+              color: theme.colors.primary,
             }}
           >
             {user?.name}

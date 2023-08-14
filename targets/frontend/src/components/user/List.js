@@ -95,7 +95,7 @@ export function UserList() {
         <strong>{selectedUser?.email}</strong>
         <Inline>
           <Button onClick={onDeleteUser}>Supprimer l’utilisateur</Button>
-          <Button variant="link" onClick={close}>
+          <Button variant="text" onClick={close}>
             Annuler
           </Button>
         </Inline>

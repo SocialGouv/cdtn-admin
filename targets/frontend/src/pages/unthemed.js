@@ -82,9 +82,7 @@ export function UnthemedPage() {
           {documentsBySource.map(([source, documents]) => {
             return (
               <Stack key={source} gap="small">
-                <Typography variant="h2" p="0" sx={{ fontSize: "large" }}>
-                  {getLabelBySource(source)}
-                </Typography>
+                <Typography variant="h3">{getLabelBySource(source)}</Typography>
                 <List>
                   {documents.map(({ cdtnId, title, slug }) => (
                     <Li key={cdtnId}>

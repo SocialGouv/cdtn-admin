@@ -46,7 +46,7 @@ export function AddFicheSpForm({ onAdd }) {
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Typography level="h3" sx={{ fontSize: "large", fontWeight: "600" }}>
+      <Typography variant="h3" sx={{ fontSize: "large", fontWeight: "600" }}>
         Ajouter des fiches
       </Typography>
       <p>{`Renseignez l’identifiant ${

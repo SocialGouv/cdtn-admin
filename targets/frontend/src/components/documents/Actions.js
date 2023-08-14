@@ -39,7 +39,7 @@ export function DocumentsListActions({ onUpdatePublication }) {
             <Button onClick={updatePublication} size="small">
               Modifier la publication des contenus
             </Button>
-            <Button variant="link" onClick={closePublishDialog} size="small">
+            <Button variant="text" onClick={closePublishDialog} size="small">
               Annuler
             </Button>
           </Inline>

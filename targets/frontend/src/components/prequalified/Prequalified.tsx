@@ -7,7 +7,7 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
 import { PrequalifiedContent } from "src/types";
-import { Input as Field, InputLabel } from "@mui/material";
+import { TextField as Field, InputLabel } from "@mui/material";
 
 import { ValidationBar } from "./ValidationBar";
 import { theme } from "src/theme";

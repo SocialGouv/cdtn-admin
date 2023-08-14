@@ -35,13 +35,13 @@ export default function LoginPage() {
       </Head>
       <Header />
       <Box
-        sx={{
+        style={{
           alignItems: "center",
           display: "flex",
           minHeight: "90vh",
         }}
       >
-        <Box p="large" sx={{ flex: 1 }}>
+        <Box style={{ flex: 1, padding: "20px" }}>
           <LoginForm
             authenticate={authenticate}
             resetPassword={resetPassword}

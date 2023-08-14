@@ -35,7 +35,7 @@ export function Actions({ onDelete }) {
             <Button onClick={deleteAction} size="small">
               Supprimer les fiches
             </Button>
-            <Button variant="link" onClick={closeDeleteDialog} size="small">
+            <Button variant="text" onClick={closeDeleteDialog} size="small">
               Annuler
             </Button>
           </Inline>

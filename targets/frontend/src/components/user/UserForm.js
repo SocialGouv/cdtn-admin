@@ -2,7 +2,7 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { Input as Field, Label, Select } from "@mui/material";
+import { TextField as Field, Label, Select } from "@mui/material";
 import { useQuery } from "urql";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";

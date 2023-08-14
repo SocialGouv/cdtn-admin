@@ -6,7 +6,7 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { PasswordLayout } from "src/components/layout/password.layout";
 import { Stack } from "src/components/layout/Stack";
 import { request } from "src/lib/request";
-import { Input as Field } from "@mui/material";
+import { TextField as Field } from "@mui/material";
 
 export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);
@@ -43,7 +43,7 @@ export default function ResetPasswordPage() {
   if (success) {
     return (
       <PasswordLayout title="Nouveau mot de passe">
-        <p sx={{ fontWeight: 300 }}>
+        <p style={{ fontWeight: 300 }}>
           Nous venons de vous envoyer un lien pour ré-initialiser votre mot de
           passe par mail. Vous pouvez consulter votre boîte mail et suivre les
           instructions pour définir un nouveau mot de passe.
@@ -80,7 +80,9 @@ export default function ResetPasswordPage() {
             })}
           />
           <FormErrorMessage errors={errors} fieldName="email" />
-          <Button disabled={hasError || loading}>Valider</Button>
+          <Button disabled={hasError || loading} style={{ marginTop: "30px" }}>
+            Valider
+          </Button>
         </Stack>
       </form>
     </PasswordLayout>

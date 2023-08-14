@@ -237,4 +237,4 @@ export const theme = {
       py: "small",
     },
   },
-};
+} as const;

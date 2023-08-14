@@ -5,6 +5,7 @@ import { useQuery } from "urql";
 import { Card, CardContent, Typography } from "@mui/material";
 import { FixedSnackBar } from "../utils/SnackBar";
 import React from "react";
+import { theme } from "src/theme";
 
 export const getUnthemedContentQuery = `
 query getUnthemed($themeSources: [String!]!) {
@@ -67,17 +68,17 @@ export function UnThemedContent() {
         <CardContent>
           <Typography
             align="right"
-            color="secondary"
             variant="h2"
             sx={{
-              fontSize: "xxlarge",
+              fontSize: theme.fontSizes.xxlarge,
               fontWeight: "600",
+              color: theme.colors.secondary,
             }}
           >
             {data.documents.length}
           </Typography>
 
-          <Typography sx={{ textAlign: "right" }}>
+          <Typography style={{ textAlign: "right" }}>
             Contenus non thémés
           </Typography>
         </CardContent>

@@ -1,9 +1,16 @@
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { Box, Card, Input as Field, Typography, Alert } from "@mui/material";
+import {
+  Box,
+  Card,
+  TextField as Field,
+  Typography,
+  Alert,
+} from "@mui/material";
 
 import { Button } from "../button";
 import { Stack } from "../layout/Stack";
+import { theme } from "../../theme";
 
 const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
   const {
@@ -30,20 +37,15 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
     }
   };
   return (
-    <Box
-      sx={{
-        maxWidth: [null, "500px", "500px"],
-      }}
-    >
-      <Card
-        variant="compact"
-        sx={{ px: ["xsmall", "medium"], py: ["small", "large"] }}
-      >
+    <Box style={{ maxWidth: "500px" }}>
+      <Card variant="compact">
         <form onSubmit={handleSubmit(submit)}>
           <Stack>
-            <Typography variant="h1">Authentification</Typography>
+            <Typography variant="h3" style={{ marginBottom: "40px" }}>
+              Authentification
+            </Typography>
             <Field
-              sx={{ fontWeight: "body" }}
+              sx={{ fontWeight: theme.fontWeights.body }}
               label="Adresse email"
               placeholder="ex: lionel@travail.gouv.fr"
               {...register("email", {
@@ -59,7 +61,7 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
               <Alert severity="error">{errors.email?.message}</Alert>
             )}
             <Field
-              sx={{ fontWeight: "body" }}
+              sx={{ fontWeight: theme.fontWeights.body, marginTop: "20px" }}
               label="Mot de passe"
               {...register("password", {
                 required: {
@@ -73,11 +75,15 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
             {errors.password && (
               <Alert severity="error">{errors.password?.message}</Alert>
             )}
-            <Button type="submit" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              style={{ marginTop: "50px", marginBottom: "10px" }}
+            >
               Se connecter
             </Button>
             <Button
-              variant="link"
+              variant="text"
               size="small"
               title="Saisissez votre email pour récupérer votre mot de passe"
               onClick={resetPassword}

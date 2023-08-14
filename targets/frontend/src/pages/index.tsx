@@ -11,9 +11,7 @@ export function IndexPage() {
   return (
     <Layout title="Administration des contenus et gestion des alertes">
       <Stack>
-        <Typography variant="h2" sx={{ fontSize: "large" }}>
-          Tableau de bord
-        </Typography>
+        <Typography variant="h3">Tableau de bord</Typography>
         <Box sx={{ flexWrap: "wrap", gap: "2rem", display: "flex" }}>
           <UnThemedContent />
           <DuplicateContent />
