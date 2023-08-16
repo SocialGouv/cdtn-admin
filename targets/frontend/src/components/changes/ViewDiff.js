@@ -1,6 +1,8 @@
 import Spinner from "@mui/material/CircularProgress";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
+import { theme } from "src/theme";
+import { Box } from "@mui/material";
 
 export const ViewDiff = ({ sx = {}, previous, current }) => {
   const workerRef = useRef();
@@ -17,11 +19,10 @@ export const ViewDiff = ({ sx = {}, previous, current }) => {
   }, [current, previous]);
 
   return htmlDiff ? (
-    <div
+    <Box
       sx={{
-        del: { bg: "critical" },
-        ins: { bg: "positive" },
-        mb: "large",
+        del: { backgroundColor: theme.colors.critical },
+        ins: { backgroundColor: theme.colors.positive },
         ...sx,
       }}
       dangerouslySetInnerHTML={{ __html: htmlDiff }}

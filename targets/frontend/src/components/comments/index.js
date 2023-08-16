@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "urql";
 import { Stack } from "../layout/Stack";
 import { CommentForm } from "./CommentForm";
 import { CommentList } from "./CommentList";
+import { theme } from "src/theme";
 
 const commentMutation = `
 mutation insertNote($data: alert_notes_insert_input!) {
@@ -22,29 +23,6 @@ query getComments($alertId: uuid!) {
   }
 }
 `;
-
-function CommentsContainer({ alertId }) {
-  return (
-    <div sx={{ position: "relative" }}>
-      <Card
-        sx={{
-          background: "white",
-          boxShadow: "large",
-          flexDirection: "column",
-          minWidth: "30rem",
-          position: "absolute",
-          right: 0,
-          top: "1em",
-        }}
-      >
-        <Comments alertId={alertId} />
-      </Card>
-    </div>
-  );
-}
-CommentsContainer.propTypes = {
-  alertId: PropTypes.string.isRequired,
-};
 
 function Comments({ alertId }) {
   const [, postComment] = useMutation(commentMutation);
@@ -83,6 +61,29 @@ function Comments({ alertId }) {
   );
 }
 Comments.propTypes = {
+  alertId: PropTypes.string.isRequired,
+};
+
+function CommentsContainer({ alertId }) {
+  return (
+    <div style={{ position: "relative", zIndex: 1000 }}>
+      <Card
+        style={{
+          boxShadow: theme.space.large,
+          flexDirection: "column",
+          minWidth: "30rem",
+          position: "absolute",
+          right: "30px",
+          padding: "20px",
+          zIndex: 1000,
+        }}
+      >
+        <Comments alertId={alertId} />
+      </Card>
+    </div>
+  );
+}
+CommentsContainer.propTypes = {
   alertId: PropTypes.string.isRequired,
 };
 
