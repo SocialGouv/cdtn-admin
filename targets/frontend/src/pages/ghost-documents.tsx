@@ -10,7 +10,7 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, TableHead, TableRow } from "@mui/material";
 import { useQuery } from "urql";
 import { Box, Chip } from "@mui/material";
 import { FixedSnackBar } from "../components/utils/SnackBar";
@@ -52,15 +52,15 @@ export function DuplicateContentPage(): JSX.Element {
         republication de la fiche sans action supplémentaire).
       </p>
       <Table>
-        <thead>
-          <tr>
+        <TableHead>
+          <TableRow>
             <Th align="left">Type</Th>
             <Th align="left">Parent</Th>
             <Th align="left">Fiche</Th>
             <Th align="center">Publié</Th>
             <Th align="center">Disponible</Th>
-          </tr>
-        </thead>
+          </TableRow>
+        </TableHead>
         {!data?.relations && fetching && <CircularProgress />}
         {data?.relations.map(({ id, parent, document }) => {
           return (

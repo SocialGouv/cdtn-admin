@@ -2,7 +2,7 @@ import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { IoMdSearch } from "react-icons/io";
-import { Box, Input, InputLabel as Label, Radio, Select } from "@mui/material";
+import { Box, Input, Radio, Select } from "@mui/material";
 import { useQuery } from "urql";
 
 import { Button } from "../button";
@@ -69,7 +69,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Inline>
+      <div>
         <Input
           sx={{ flex: 1 }}
           {...register("q")}
@@ -98,7 +98,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           <IoMdSearch /> Rechercher
         </Button>
         <Box sx={{ alignSelf: "flex-end" }}>
-          <Label
+          <div
             htmlFor="itemsPerPage"
             sx={{
               alignItems: "center",
@@ -118,13 +118,13 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
                 </option>
               ))}
             </Select>
-          </Label>
+          </div>
         </Box>
-      </Inline>
-      <Inline paddingTop="xsmall">
+      </div>
+      <div paddingTop="xsmall">
         <Inline sx="margin-right: 1rem">
           Publication :
-          <Label sx={{ cursor: "pointer" }}>
+          <div sx={{ cursor: "pointer" }}>
             <Radio
               {...register("published")}
               value="all"
@@ -132,8 +132,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
               onChange={triggerUpdateUrl}
             />
             Tous{" "}
-          </Label>
-          <Label sx={{ cursor: "pointer" }}>
+          </div>
+          <div sx={{ cursor: "pointer" }}>
             <Radio
               {...register("published")}
               value="yes"
@@ -141,8 +141,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
               onChange={triggerUpdateUrl}
             />
             Publié{" "}
-          </Label>
-          <Label sx={{ cursor: "pointer" }}>
+          </div>
+          <div sx={{ cursor: "pointer" }}>
             <Radio
               {...register("published")}
               value="no"
@@ -150,10 +150,10 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
               onChange={triggerUpdateUrl}
             />
             Non-publié{" "}
-          </Label>
+          </div>
         </Inline>
         Status :
-        <Label sx={{ cursor: "pointer" }}>
+        <div sx={{ cursor: "pointer" }}>
           <Radio
             {...register("available")}
             value="all"
@@ -161,8 +161,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
             onChange={triggerUpdateUrl}
           />
           Tous{" "}
-        </Label>
-        <Label sx={{ cursor: "pointer" }}>
+        </div>
+        <div sx={{ cursor: "pointer" }}>
           <Radio
             {...register("available")}
             value="yes"
@@ -170,8 +170,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
             onChange={triggerUpdateUrl}
           />
           Disponible{" "}
-        </Label>
-        <Label sx={{ cursor: "pointer" }}>
+        </div>
+        <div sx={{ cursor: "pointer" }}>
           <Radio
             {...register("available")}
             value="no"
@@ -179,8 +179,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
             onChange={triggerUpdateUrl}
           />
           Supprimé{" "}
-        </Label>
-      </Inline>
+        </div>
+      </div>
     </form>
   );
 }

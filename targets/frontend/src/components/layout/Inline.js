@@ -21,6 +21,7 @@ export function Inline({
         alignItems: "center",
         flexWrap: "wrap",
         display: "flex",
+        gap: "8px",
       }}
       marginLeft={negativeSpace}
       marginTop={negativeSpace}

@@ -4,25 +4,32 @@ import PropTypes from "prop-types";
 import { IoIosCheckmark, IoIosClose } from "react-icons/io";
 import { useSelectionContext } from "src/pages/contenus";
 import { theme } from "src/theme";
-import { Box } from "@mui/material";
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 export function DocumentList({ documents }) {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th />
-          <th sx={{ textAlign: "left" }}>Document</th>
-          <th sx={{ textAlign: "left" }}>Publié</th>
-          <th sx={{ textAlign: "left" }}>Disponible</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell />
+          <TableCell sx={{ textAlign: "left" }}>Document</TableCell>
+          <TableCell sx={{ textAlign: "left" }}>Publié</TableCell>
+          <TableCell sx={{ textAlign: "left" }}>Disponible</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
         {documents.map((doc) => (
           <DocumentRow key={doc.cdtnId} document={doc} />
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   );
 }
 DocumentList.propTypes = {
@@ -52,8 +59,8 @@ const DocumentRow = function DocumentRow({
   };
 
   return (
-    <tr>
-      <td>
+    <TableRow>
+      <TableCell>
         <input
           name={cdtnId}
           onChange={updatePublishedRef}
@@ -64,8 +71,8 @@ const DocumentRow = function DocumentRow({
           sx={checkboxStyles}
           type="checkbox"
         />
-      </td>
-      <td>
+      </TableCell>
+      <TableCell>
         <Link
           href={sourceToRoute({ cdtnId, source })}
           passHref
@@ -81,8 +88,8 @@ const DocumentRow = function DocumentRow({
             {source} › {title}
           </span>
         </Link>
-      </td>
-      <td sx={{ textAlign: "center" }}>
+      </TableCell>
+      <TableCell sx={{ textAlign: "center" }}>
         {isPublished ? (
           <Box sx={{ color: "muted" }}>
             <IoIosCheckmark />
@@ -92,8 +99,8 @@ const DocumentRow = function DocumentRow({
             <IoIosClose />
           </Box>
         )}
-      </td>
-      <td sx={{ textAlign: "center" }}>
+      </TableCell>
+      <TableCell sx={{ textAlign: "center" }}>
         {isAvailable ? (
           <Box sx={{ color: "muted" }}>
             <IoIosCheckmark />
@@ -103,8 +110,8 @@ const DocumentRow = function DocumentRow({
             <IoIosClose />
           </Box>
         )}
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   );
 };
 

@@ -13,6 +13,7 @@ import { Pagination } from "../pagination";
 import { DocumentsListActions } from "./Actions";
 import { DocumentList } from "./List";
 import { SearchFilters } from "./SearchFilters";
+import { theme } from "src/theme";
 
 export function DocumentListContainer({ initialFilterValues }) {
   const router = useRouter();
@@ -80,16 +81,16 @@ export function DocumentListContainer({ initialFilterValues }) {
           <Button size="small" variant="secondary">
             <IoMdAdd
               sx={{
-                height: "iconSmall",
-                mr: "xxsmall",
-                width: "iconSmall",
+                height: theme.sizes.iconSmall,
+                mr: theme.space.xxsmall,
+                width: theme.sizes.iconSmall,
               }}
             />
             Ajouter un contenu
           </Button>
         </Link>
       </Box>
-      <Card sx={{ position: "sticky", top: 0 }} bg="white">
+      <Card>
         <SearchFilters
           initialValues={initialFilterValues}
           onSearchUpdate={updateUrl}
