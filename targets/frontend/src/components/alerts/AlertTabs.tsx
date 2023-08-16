@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { getStatusLabel, slugifyRepository } from "src/models";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "urql";
+import { Tabs, Tab } from "@mui/material";
 
-import { TabItem, Tabs } from "../tabs";
 import { FixedSnackBar } from "../utils/SnackBar";
 import React from "react";
+import { useRouter } from "next/router";
 
 const countAlertByStatusQuery = `
 query getAlerts($repository: String!) {
@@ -30,12 +31,29 @@ export function AlertTabs({
   repository: string;
   activeStatus: string;
 }) {
+  const router = useRouter();
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
   const [result] = useQuery({
     query: countAlertByStatusQuery,
     variables: {
       repository,
     },
   });
+
+  React.useEffect(() => {
+    const status = result.data?.statuses.find(
+      (status: any) => status.name === activeStatus
+    );
+    if (status) {
+      setValue(result.data?.statuses.indexOf(status));
+    }
+  }, [result.data, activeStatus]);
 
   const { fetching, error, data } = result;
 
@@ -52,19 +70,21 @@ export function AlertTabs({
   }
 
   return (
-    <Tabs id="statustab">
+    <Tabs value={value} onChange={handleChange}>
       {data.statuses.map((status: any) => (
-        <Link
-          shallow
+        <Tab
           key={status.name}
-          href={`/alerts/${slugifyRepository(repository)}/${status.name}`}
-          passHref
-          style={{ textDecoration: "none" }}
-        >
-          <TabItem controls="statustab" selected={status.name === activeStatus}>
-            {getStatusLabel(status.name)} ({status.alerts.aggregate.count})
-          </TabItem>
-        </Link>
+          label={`${getStatusLabel(status.name)} (${
+            status.alerts.aggregate.count
+          })`}
+          onClick={() => {
+            router.push(
+              `/alerts/${slugifyRepository(repository)}/${status.name}`,
+              undefined,
+              { shallow: true }
+            );
+          }}
+        />
       ))}
     </Tabs>
   );
