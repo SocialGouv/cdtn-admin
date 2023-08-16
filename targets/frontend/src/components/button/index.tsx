@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  ButtonProps,
   Button as MuiButton,
   IconButton as MuiIconButton,
 } from "@mui/material";
@@ -20,7 +21,7 @@ type ButtonPropTypes = {
   variant?: "contained" | "outlined" | "text";
   onClick?: (e: unknown) => void;
   sx?: Record<string, unknown>;
-};
+} & ButtonProps;
 
 const SolidButton: React.FC<ButtonPropTypes> = ({
   variant = "contained",
@@ -164,7 +165,7 @@ export function AccordionButton({
   );
 }
 
-export const MenuItem: React.FC<ButtonPropTypes> = ({ children, ...props }) => {
+export const MenuItem: React.FC<any> = ({ children, ...props }) => {
   return (
     <MenuItemButton
       {...props}

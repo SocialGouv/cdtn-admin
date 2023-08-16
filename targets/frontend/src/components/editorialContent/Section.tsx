@@ -129,6 +129,7 @@ const RootSection = ({
                     type="button"
                     size="small"
                     onClick={() => remove(index)}
+                    color="error"
                   >
                     <IoMdTrash
                       style={{

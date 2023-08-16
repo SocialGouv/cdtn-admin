@@ -99,7 +99,7 @@ export const SectionBlock = ({
           ]}
         />
         {!onlyBlock && (
-          <Button type="button" size="small" onClick={remove}>
+          <Button type="button" size="small" onClick={remove} color="error">
             <IoMdTrash
               style={{
                 height: "1.5rem",
