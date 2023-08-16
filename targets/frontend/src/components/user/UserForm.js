@@ -2,7 +2,7 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { TextField as Field, Label, Select } from "@mui/material";
+import { TextField as Field, NativeSelect } from "@mui/material";
 import { useQuery } from "urql";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";
@@ -45,7 +45,7 @@ export function UserForm({
           />
           <FormErrorMessage errors={errors} fieldName="name" />
         </div>
-        <div>
+        <div style={{ marginTop: "20px" }}>
           <Field
             type="text"
             label="Email"
@@ -61,7 +61,7 @@ export function UserForm({
         {isAdmin && (
           <div>
             <p>Role</p>
-            <Select
+            <NativeSelect
               {...register("default_role")}
               defaultValue={user?.roles[0].role}
             >
@@ -72,15 +72,21 @@ export function UserForm({
                     {item.role}
                   </option>
                 ))}
-            </Select>
+            </NativeSelect>
           </div>
         )}
-        <Inline>
-          <Button disabled={hasError || loading}>{buttonLabel}</Button>
-          <Link href={backHref} passHref style={{ textDecoration: "none" }}>
-            Annuler
-          </Link>
-        </Inline>
+        <div style={{ marginTop: "40px", marginLeft: "20px" }}>
+          <Inline>
+            <Button disabled={hasError || loading}>{buttonLabel}</Button>
+            <Link
+              href={backHref}
+              passHref
+              style={{ textDecoration: "none", marginLeft: "10px" }}
+            >
+              <Button variant="text"> Annuler</Button>
+            </Link>
+          </Inline>
+        </div>
       </Stack>
     </form>
   );

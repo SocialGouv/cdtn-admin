@@ -10,7 +10,7 @@ import {
   MoreVert as MoreVertIcon,
 } from "@mui/icons-material";
 import { Box } from "@mui/material";
-import { useAccordionItemContext } from "@reach/accordion";
+import { theme } from "src/theme";
 
 type ButtonPropTypes = {
   children: React.ReactNode;
@@ -134,22 +134,33 @@ export const MenuButton: React.FC<ButtonPropTypes> = ({ children }) => {
   );
 };
 
+type AccordionProps = {
+  items: React.ReactNode[] | React.ReactNode;
+  children: React.ReactNode;
+};
+
 export function AccordionButton({
   children,
-}: React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
+  items,
+}: AccordionProps): JSX.Element {
+  const [isExpanded, setIsExpanded] = React.useState(false);
   return (
-    <MuiButton
-      sx={{
-        borderRadius: "small",
-        fontWeight: "bold",
-        textTransform: "none",
-      }}
-    >
-      <Box sx={{ px: "xxsmall" }}>
-        <ExpandedIcon />
-      </Box>
-      {children}
-    </MuiButton>
+    <>
+      <MuiButton
+        sx={{
+          borderRadius: "small",
+          fontWeight: "bold",
+          textTransform: "none",
+        }}
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <Box sx={{ px: "xxsmall" }}>
+          {isExpanded ? <ExpandMoreIcon /> : <ChevronRightIcon />}
+        </Box>
+        {children}
+      </MuiButton>
+      {isExpanded && items}
+    </>
   );
 }
 
@@ -158,7 +169,7 @@ export const MenuItem: React.FC<ButtonPropTypes> = ({ children, ...props }) => {
     <MenuItemButton
       {...props}
       sx={{
-        borderRadius: "small",
+        borderRadius: theme.space.small,
         fontWeight: "bold",
         textTransform: "none",
       }}
@@ -167,11 +178,6 @@ export const MenuItem: React.FC<ButtonPropTypes> = ({ children, ...props }) => {
     </MenuItemButton>
   );
 };
-
-export function ExpandedIcon(): JSX.Element {
-  const { isExpanded } = useAccordionItemContext();
-  return isExpanded ? <ExpandMoreIcon /> : <ChevronRightIcon />;
-}
 
 export const NavButton: React.FC<ButtonPropTypes> = ({
   variant = "contained",
@@ -182,7 +188,7 @@ export const NavButton: React.FC<ButtonPropTypes> = ({
       {...props}
       variant={variant}
       sx={{
-        borderRadius: "small",
+        borderRadius: theme.space.small,
         fontWeight: "bold",
         textTransform: "none",
       }}

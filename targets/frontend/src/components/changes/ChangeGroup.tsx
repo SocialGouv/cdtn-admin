@@ -1,4 +1,3 @@
-import { AccordionItem, AccordionPanel } from "@reach/accordion";
 import type {
   AlertChanges,
   DilaAddedNode,
@@ -12,7 +11,7 @@ import type {
 } from "@shared/types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
-import { Badge, Box, Card } from "@mui/material";
+import { Badge, Box, Card, List, ListItem } from "@mui/material";
 import { Divider } from "@mui/material";
 
 import Link from "next/link";
@@ -30,16 +29,17 @@ type Props = {
 
 export const ChangesGroup: React.FC<Props> = ({ label, children }) => {
   return (
-    <AccordionItem>
-      <AccordionButton>{label}</AccordionButton>
-      <AccordionPanel>
-        <ul
+    <AccordionButton
+      items={
+        <List
           style={{ margin: 0, paddingLeft: "1.4rem", paddingRight: "1.4rem" }}
         >
           {children}
-        </ul>
-      </AccordionPanel>
-    </AccordionItem>
+        </List>
+      }
+    >
+      {label}
+    </AccordionButton>
   );
 };
 
@@ -56,9 +56,9 @@ export function AlertRelatedDocuments({
   return (
     <>
       {changes?.documents.map((change, i) => (
-        <li key={`${changes.ref}-${change.document.id}-documents-${i}`}>
+        <ListItem key={`${changes.ref}-${change.document.id}-documents-${i}`}>
           <DilaRelatedDocuments docReferences={change} />
-        </li>
+        </ListItem>
       ))}
     </>
   );
@@ -137,12 +137,18 @@ export function AddedChanges({ changes }: ChangesProps): JSX.Element {
       return (
         <>
           {changes.added.map((change) => (
-            <li key={`${changes.ref}-${change.id}-added`}>
+            <ListItem key={`${changes.ref}-${change.id}-added`}>
               <DilaLabelItem info={change} />{" "}
-              <Badge sx={{ bg: getBadgeColor(change.etat), px: "0.7rem" }}>
+              <Badge
+                style={{
+                  backgroundColor: getBadgeColor(change.etat),
+                  paddingLeft: "0.7rem",
+                  paddingRight: "0.7rem",
+                }}
+              >
                 {change.etat}
               </Badge>
-            </li>
+            </ListItem>
           ))}
         </>
       );
@@ -151,9 +157,9 @@ export function AddedChanges({ changes }: ChangesProps): JSX.Element {
       return (
         <>
           {changes.added.map((change) => (
-            <li key={`${changes.ref}-${change.pubId}-added`}>
+            <ListItem key={`${changes.ref}-${change.pubId}-added`}>
               <FicheLink change={change} />
-            </li>
+            </ListItem>
           ))}
         </>
       );
@@ -162,9 +168,9 @@ export function AddedChanges({ changes }: ChangesProps): JSX.Element {
       return (
         <>
           {changes.added.map((change) => (
-            <li key={`${changes.ref}-${change.id}-added`}>
+            <ListItem key={`${changes.ref}-${change.id}-added`}>
               <FicheLink change={change} />
-            </li>
+            </ListItem>
           ))}
         </>
       );
@@ -178,9 +184,9 @@ export function RemovedChanges({ changes }: ChangesProps): JSX.Element {
       return (
         <>
           {changes.removed.map((change) => (
-            <li key={`${changes.ref}-${change.id}-removed`}>
+            <ListItem key={`${changes.ref}-${change.id}-removed`}>
               <DilaLabelItem info={change} />
-            </li>
+            </ListItem>
           ))}
         </>
       );
@@ -189,9 +195,9 @@ export function RemovedChanges({ changes }: ChangesProps): JSX.Element {
       return (
         <>
           {changes.removed.map((change) => (
-            <li key={`${changes.ref}-${change.pubId}-removed`}>
+            <ListItem key={`${changes.ref}-${change.pubId}-removed`}>
               <FicheLink change={change} documents={changes.documents} />
-            </li>
+            </ListItem>
           ))}
         </>
       );
@@ -200,9 +206,9 @@ export function RemovedChanges({ changes }: ChangesProps): JSX.Element {
       return (
         <>
           {changes.removed.map((change) => (
-            <li key={`${changes.ref}-${change.id}-removed`}>
+            <ListItem key={`${changes.ref}-${change.id}-removed`}>
               <FicheLink change={change} documents={changes.documents} />
-            </li>
+            </ListItem>
           ))}
         </>
       );
@@ -223,14 +229,17 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
               ({ type }) => type !== "etat"
             );
             return (
-              <li key={`${changes.ref}-${change.id}-modified`}>
+              <ListItem key={`${changes.ref}-${change.id}-modified`}>
                 <DilaLabelItem info={change} />{" "}
                 {statusUpdate && (
                   <>
                     <Badge
-                      sx={{
-                        bg: getBadgeColor(statusUpdate.previousText),
-                        px: "0.8rem",
+                      style={{
+                        backgroundColor: getBadgeColor(
+                          statusUpdate.previousText
+                        ),
+                        paddingLeft: "0.7rem",
+                        paddingRight: "0.7rem",
                       }}
                     >
                       {statusUpdate.previousText}
@@ -238,7 +247,13 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                     {" › "}
                   </>
                 )}
-                <Badge sx={{ bg: getBadgeColor(change.etat), px: "0.7rem" }}>
+                <Badge
+                  style={{
+                    backgroundColor: getBadgeColor(change.etat),
+                    paddingLeft: "0.7rem",
+                    paddingRight: "0.7rem",
+                  }}
+                >
                   {change.etat}
                 </Badge>
                 {textChanges.length > 0 && (
@@ -261,7 +276,7 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                     </ModificationViewer>
                   </Box>
                 )}
-              </li>
+              </ListItem>
             );
           })}
         </>
@@ -271,7 +286,7 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
       return (
         <>
           {changes.modified.map((change) => (
-            <li key={`${changes.ref}-${change.pubId}-modified`}>
+            <ListItem key={`${changes.ref}-${change.pubId}-modified`}>
               <FicheLink change={change} documents={changes.documents} />
               <ModificationViewer>
                 {jsxJoin(
@@ -291,7 +306,7 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                   <Divider />
                 )}
               </ModificationViewer>
-            </li>
+            </ListItem>
           ))}
         </>
       );
@@ -300,7 +315,7 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
       return (
         <>
           {changes.modified.map((change) => (
-            <li key={`${changes.ref}-${change.id}-modified`}>
+            <ListItem key={`${changes.ref}-${change.id}-modified`}>
               <FicheLink change={change} documents={changes.documents} />
               <ModificationViewer>
                 <strong>{change.title}</strong>
@@ -309,7 +324,7 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                   current={change.currentText}
                 />
               </ModificationViewer>
-            </li>
+            </ListItem>
           ))}
         </>
       );
@@ -426,7 +441,7 @@ function FicheLink({ change, documents = [] }: FicheLinkProps) {
 
         {linkedDocuments.length > 0 && (
           <Box
-            sx={{
+            style={{
               color: "muted",
               fontSize: "xsmall",
               lineHeight: 1,
@@ -451,7 +466,7 @@ function FicheLink({ change, documents = [] }: FicheLinkProps) {
       </a>
       {linkedDocuments.length > 0 && (
         <Box
-          sx={{
+          style={{
             color: "muted",
             fontSize: "xsmall",
             lineHeight: 1,
@@ -484,7 +499,7 @@ export const ModificationViewer: React.FC<ModificationViewerProps> = ({
             color: "link",
           },
           cursor: "pointer",
-          px: 0,
+          paddingX: 0,
         }}
         onClick={() => setVisible(!isVisible)}
       >
