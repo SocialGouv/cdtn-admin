@@ -7,7 +7,6 @@ export function LogoAdmin() {
       href="/"
       style={{
         alignItems: "center",
-        color: "#3e486e",
         textDecoration: "none",
       }}
     >
@@ -21,10 +20,10 @@ export function LogoAdmin() {
           }}
         />
         <Stack direction="column" justifyContent="center" textAlign="center">
-          <Box sx={{ fontSize: "large", lineHeight: "heading" }}>
+          <Box sx={{ fontSize: "18px", lineHeight: "heading" }}>
             veille & administration
           </Box>
-          <Box sx={{ fontSize: "small", fontWeight: 300 }}>
+          <Box sx={{ fontSize: "12px", fontWeight: 300 }}>
             Code du travail numérique
           </Box>
         </Stack>

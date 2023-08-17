@@ -4,14 +4,6 @@ import { dsfrDocumentApi } from "./_app";
 const { getColorSchemeHtmlAttributes, augmentDocumentForDsfr } =
   dsfrDocumentApi;
 
-process.on("unhandledRejection", (err) => {
-  Sentry.captureException(err);
-});
-
-process.on("uncaughtException", (err) => {
-  Sentry.captureException(err);
-});
-
 export default function Document(props) {
   return (
     <Html {...getColorSchemeHtmlAttributes(props)}>

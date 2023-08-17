@@ -17,7 +17,6 @@ type ButtonPropTypes = {
   children: React.ReactNode;
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
-  size?: "small" | "medium" | "large";
   variant?: "contained" | "outlined" | "text";
   onClick?: (e: unknown) => void;
   sx?: Record<string, unknown>;
@@ -25,14 +24,12 @@ type ButtonPropTypes = {
 
 const SolidButton: React.FC<ButtonPropTypes> = ({
   variant = "contained",
-  size = "medium",
   ...props
 }) => {
   return (
     <MuiButton
       {...props}
       variant={variant}
-      size={size}
       sx={{
         borderRadius: "small",
         fontWeight: "bold",
@@ -53,7 +50,6 @@ const OutlineButton: React.FC<ButtonPropTypes> = ({
       variant={variant}
       size={size}
       sx={{
-        borderRadius: "small",
         fontWeight: "bold",
         textTransform: "none",
       }}
@@ -87,7 +83,6 @@ export const IconButton: React.FC<ButtonPropTypesWithSx> = ({
       {...props}
       sx={{
         borderRadius: 32,
-        color: "primary.main",
         fontSize: size,
         overflow: "hidden",
         ...sx,

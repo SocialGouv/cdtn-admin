@@ -57,9 +57,7 @@ export function Layout({ children, title }: LayoutProps) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="h1" gutterBottom>
-            {title}
-          </Typography>
+          <Typography>{title}</Typography>
           <UserMenu />
         </Toolbar>
       </AppBar>
