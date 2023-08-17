@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Controller } from "react-hook-form";
 import { Button } from "src/components/button";
-import { Input, Box } from "@mui/material";
+import { TextField, Box } from "@mui/material";
 
 import { List } from "./List";
+import { theme } from "src/theme";
 
 const Lister = ({ defaultValue = [], disabled, ...props }) => {
   return (
@@ -25,14 +26,13 @@ Lister.propTypes = {
 export { Lister };
 
 function RootLister({ disabled, value: entries, onChange, name }) {
-  const inputRef = useRef(null);
+  const [entry, setEntry] = useState("");
   const onAddEntry = () => {
-    const value = inputRef.current.value;
-    if (value === "") return;
-    if (!entries.includes(value)) {
-      onChange([...entries, value.trim()]);
+    if (entry === "") return;
+    if (!entries.includes(entry)) {
+      onChange([...entries, entry.trim()]);
     }
-    inputRef.current.value = "";
+    setEntry("");
   };
   const onDeleteEntry = (deletedEntry) => {
     const entriesCopy = [...entries];
@@ -61,19 +61,23 @@ function RootLister({ disabled, value: entries, onChange, name }) {
       )}
       {!disabled && (
         <Box sx={{ display: "flex" }}>
-          <Input
-            p="xxsmall"
+          <TextField
+            padding={theme.space.xxsmall}
             id={name}
             name={name}
-            ref={inputRef}
             onKeyDown={handleKeyDown}
+            sx={{
+              flex: 1,
+            }}
+            value={entry}
+            onChange={(e) => setEntry(e.target.value)}
           />
           <Button
             size="small"
             onClick={onAddEntry}
             variant="secondary"
             type="button"
-            sx={{ flex: "1 0 auto", ml: "xxsmall" }}
+            sx={{ flex: "1 0 auto", ml: theme.space.xxsmall }}
           >
             Ajouter
           </Button>

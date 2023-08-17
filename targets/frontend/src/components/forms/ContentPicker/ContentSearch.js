@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
-import { Box, Input } from "@mui/material";
+import { Box, Input, TextField } from "@mui/material";
 import { useQuery } from "urql";
 
 const sources = [
@@ -99,6 +99,9 @@ export const ContentSearch = ({ contents = [], onChange }) => {
     onChange: onSearchValueChange,
     placeholder: "Rechercher et ajouter un contenu",
     value: inputSearchValue,
+    style: {
+      width: "100%",
+    },
   };
 
   return (
@@ -126,7 +129,7 @@ ContentSearch.propTypes = {
 };
 
 const renderInputComponent = (inputProps) => (
-  <Input {...inputProps} ref={inputProps.ref} />
+  <TextField {...inputProps} ref={inputProps.ref} />
 );
 
 function shouldRenderSuggestions(value) {

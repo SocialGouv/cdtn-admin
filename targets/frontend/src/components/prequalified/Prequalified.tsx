@@ -50,6 +50,9 @@ const PrequalifiedForm = ({
               required: { message: "La requete est requise", value: true },
             })}
             defaultValue={content.title}
+            sx={{
+              width: "100%",
+            }}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
         </div>

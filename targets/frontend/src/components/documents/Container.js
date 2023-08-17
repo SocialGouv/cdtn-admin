@@ -72,7 +72,7 @@ export function DocumentListContainer({ initialFilterValues }) {
   }
   return (
     <Stack>
-      <Box sx={{ justifyContent: "flex-end" }}>
+      <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
         <Link
           href="/contenus/create/"
           passHref

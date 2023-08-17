@@ -2,15 +2,10 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Box } from "@mui/material";
 
-import { invertSpace, spacePropTypes } from "./spaces";
+import { spacePropTypes } from "./spaces";
+import { theme } from "src/theme";
 
-export function Inline({
-  space = "medium",
-  component = "div",
-  children,
-  ...props
-}) {
-  const negativeSpace = invertSpace(space);
+export function Inline({ component = "div", children, ...props }) {
   const isList = /^(ul|ol)$/.test(component);
   const inlineItemComponent = isList ? "li" : "div";
   return (
@@ -19,19 +14,17 @@ export function Inline({
       as={component}
       sx={{
         alignItems: "center",
-        flexWrap: "wrap",
         display: "flex",
         gap: "8px",
+        flexDirection: "row",
       }}
-      marginLeft={negativeSpace}
-      marginTop={negativeSpace}
     >
       {React.Children.map(children, (child) => (
         <Box
           as={inlineItemComponent}
-          minWidth={0}
-          paddingLeft={space}
-          paddingTop={space}
+          style={{
+            minWidth: 0,
+          }}
         >
           {child}
         </Box>

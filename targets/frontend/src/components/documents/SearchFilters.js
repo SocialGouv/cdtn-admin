@@ -2,7 +2,14 @@ import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { IoMdSearch } from "react-icons/io";
-import { Box, Input, Radio, Select } from "@mui/material";
+import {
+  Box,
+  Input,
+  NativeSelect,
+  Radio,
+  FormControlLabel,
+  FormLabel,
+} from "@mui/material";
 import { useQuery } from "urql";
 
 import { Button } from "../button";
@@ -69,19 +76,20 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
+      <Inline paddingTop="20px" paddingLeft="20px">
         <Input
-          sx={{ flex: 1 }}
+          sx={{ flex: 1, width: "200px", marginRight: "15px" }}
           {...register("q")}
           type="search"
-          placeholder="titre..."
+          placeholder="Titre..."
           defaultValue={initialValues.q}
           onBlur={triggerUpdateUrl}
         />
-        <Select
+        <NativeSelect
           {...register("source")}
           onChange={triggerUpdateUrl}
           defaultValue={initialValues.source || ""}
+          sx={{ marginRight: "15px" }}
         >
           <option value="">toutes les sources</option>
           {documentSources.map(([source, label]) => (
@@ -93,11 +101,11 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
               {label}
             </option>
           ))}
-        </Select>
-        <Button>
-          <IoMdSearch /> Rechercher
+        </NativeSelect>
+        <Button sx={{ marginLeft: "20px" }}>
+          <IoMdSearch style={{ marginRight: "5px" }} /> Rechercher
         </Button>
-        <Box sx={{ alignSelf: "flex-end" }}>
+        <Box sx={{ alignSelf: "flex-end", marginLeft: "20px" }}>
           <div
             htmlFor="itemsPerPage"
             sx={{
@@ -105,7 +113,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
               justifyContent: "space-between",
             }}
           >
-            <Select
+            <NativeSelect
               sx={{ width: "4rem" }}
               {...register("itemsPerPage")}
               id="itemsPerPage"
@@ -117,70 +125,94 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
                   {size}
                 </option>
               ))}
-            </Select>
+            </NativeSelect>
           </div>
         </Box>
-      </div>
-      <div paddingTop="xsmall">
-        <Inline sx="margin-right: 1rem">
-          Publication :
+      </Inline>
+      <Inline paddingTop="20px" paddingLeft="20px" paddingBottom="10px">
+        <Inline>
+          <FormLabel>Publication :</FormLabel>
           <div sx={{ cursor: "pointer" }}>
-            <Radio
-              {...register("published")}
+            <FormControlLabel
               value="all"
-              defaultChecked={initialValues.published === "all"}
-              onChange={triggerUpdateUrl}
+              control={
+                <Radio
+                  {...register("published")}
+                  checked={initialValues.published === "all"}
+                  onChange={triggerUpdateUrl}
+                />
+              }
+              label="Tous"
             />
-            Tous{" "}
           </div>
           <div sx={{ cursor: "pointer" }}>
-            <Radio
-              {...register("published")}
+            <FormControlLabel
               value="yes"
-              defaultChecked={initialValues.published === "yes"}
-              onChange={triggerUpdateUrl}
+              control={
+                <Radio
+                  {...register("published")}
+                  checked={initialValues.published === "yes"}
+                  onChange={triggerUpdateUrl}
+                />
+              }
+              label="Publié"
             />
-            Publié{" "}
           </div>
           <div sx={{ cursor: "pointer" }}>
-            <Radio
-              {...register("published")}
+            <FormControlLabel
               value="no"
-              defaultChecked={initialValues.published === "no"}
-              onChange={triggerUpdateUrl}
+              control={
+                <Radio
+                  {...register("published")}
+                  checked={initialValues.published === "no"}
+                  onChange={triggerUpdateUrl}
+                />
+              }
+              label="Non-publié"
             />
-            Non-publié{" "}
           </div>
         </Inline>
-        Status :
+        <FormLabel>Status :</FormLabel>
         <div sx={{ cursor: "pointer" }}>
-          <Radio
-            {...register("available")}
-            value="all"
-            defaultChecked={initialValues.available === "all"}
-            onChange={triggerUpdateUrl}
-          />
-          Tous{" "}
-        </div>
-        <div sx={{ cursor: "pointer" }}>
-          <Radio
-            {...register("available")}
-            value="yes"
-            defaultChecked={initialValues.available === "yes"}
-            onChange={triggerUpdateUrl}
-          />
-          Disponible{" "}
-        </div>
-        <div sx={{ cursor: "pointer" }}>
-          <Radio
-            {...register("available")}
+          <FormControlLabel
             value="no"
-            defaultChecked={initialValues.available === "no"}
-            onChange={triggerUpdateUrl}
+            control={
+              <Radio
+                {...register("available")}
+                checked={initialValues.available === "all"}
+                onChange={triggerUpdateUrl}
+              />
+            }
+            label="Tous"
           />
-          Supprimé{" "}
         </div>
-      </div>
+        <div sx={{ cursor: "pointer" }}>
+          <FormControlLabel
+            value="yes"
+            control={
+              <Radio
+                {...register("available")}
+                checked={initialValues.available === "yes"}
+                onChange={triggerUpdateUrl}
+              />
+            }
+            label="Disponible"
+          />
+        </div>
+        <div sx={{ cursor: "pointer" }}>
+          <FormControlLabel
+            value="no"
+            control={
+              <Radio
+                {...register("available")}
+                checked={initialValues.available === "no"}
+                onChange={triggerUpdateUrl}
+              />
+            }
+            label="Supprimé"
+          />
+        </div>
+      </Inline>
     </form>
   );
 }
