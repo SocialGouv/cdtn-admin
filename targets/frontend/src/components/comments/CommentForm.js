@@ -1,10 +1,9 @@
 import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { Input } from "@mui/material";
+import { TextField } from "@mui/material";
 
 import { Button } from "../button";
-import { theme } from "src/theme";
 
 export function CommentForm({ onSubmit }) {
   const { register, handleSubmit, reset } = useForm();
@@ -21,7 +20,7 @@ export function CommentForm({ onSubmit }) {
   return (
     <form onSubmit={handleSubmit(submitHandler)}>
       <div sx={{ alignItems: "center", display: "flex" }}>
-        <Input
+        <TextField
           sx={{
             width: "100%",
           }}

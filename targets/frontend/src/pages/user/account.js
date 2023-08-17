@@ -31,11 +31,14 @@ export function UserPage() {
             style={{
               marginTop: "20px",
               display: "flex",
+              flexDirection: "column",
+              width: "300px",
             }}
           >
             <Button
-              width="150px"
-              marginRight="20px"
+              style={{
+                marginBottom: "20px",
+              }}
               onClick={() => {
                 router.push("/user/edit");
               }}
@@ -44,7 +47,6 @@ export function UserPage() {
             </Button>
 
             <Button
-              width="150px"
               outline
               onClick={() => {
                 router.push("/user/password");

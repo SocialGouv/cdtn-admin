@@ -5,10 +5,11 @@ import { IoMdSearch } from "react-icons/io";
 import {
   Box,
   Input,
-  NativeSelect,
+  Select,
   Radio,
   FormControlLabel,
   FormLabel,
+  MenuItem,
 } from "@mui/material";
 import { useQuery } from "urql";
 
@@ -85,23 +86,23 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           defaultValue={initialValues.q}
           onBlur={triggerUpdateUrl}
         />
-        <NativeSelect
+        <Select
           {...register("source")}
           onChange={triggerUpdateUrl}
-          defaultValue={initialValues.source || ""}
+          value={initialValues.source || ""}
           sx={{ marginRight: "15px" }}
         >
-          <option value="">toutes les sources</option>
+          <MenuItem value="">toutes les sources</MenuItem>
           {documentSources.map(([source, label]) => (
-            <option
+            <MenuItem
               key={source}
               value={source}
               disabled={isSourceDisabled(source)}
             >
               {label}
-            </option>
+            </MenuItem>
           ))}
-        </NativeSelect>
+        </Select>
         <Button sx={{ marginLeft: "20px" }}>
           <IoMdSearch style={{ marginRight: "5px" }} /> Rechercher
         </Button>
@@ -113,7 +114,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
               justifyContent: "space-between",
             }}
           >
-            <NativeSelect
+            <Select
               sx={{ width: "4rem" }}
               {...register("itemsPerPage")}
               id="itemsPerPage"
@@ -121,11 +122,11 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
               onChange={triggerUpdateUrl}
             >
               {[10, 25, 50, 100].map((size) => (
-                <option key={`items-per-page${size}`} value={size}>
+                <MenuItem key={`items-per-page${size}`} value={size}>
                   {size}
-                </option>
+                </MenuItem>
               ))}
-            </NativeSelect>
+            </Select>
           </div>
         </Box>
       </Inline>

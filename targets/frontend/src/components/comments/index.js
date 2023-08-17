@@ -66,7 +66,7 @@ Comments.propTypes = {
 
 function CommentsContainer({ alertId }) {
   return (
-    <div style={{ position: "relative", zIndex: 1000 }}>
+    <div style={{ position: "relative", zIndex: 1000000 }}>
       <Card
         style={{
           boxShadow: theme.space.large,
@@ -75,7 +75,7 @@ function CommentsContainer({ alertId }) {
           position: "absolute",
           right: "30px",
           padding: "20px",
-          zIndex: 1000,
+          zIndex: 1000000,
         }}
       >
         <Comments alertId={alertId} />

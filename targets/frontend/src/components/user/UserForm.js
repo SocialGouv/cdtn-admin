@@ -2,7 +2,7 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { TextField as Field, NativeSelect } from "@mui/material";
+import { TextField as Field, Select, MenuItem } from "@mui/material";
 import { useQuery } from "urql";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";
@@ -33,7 +33,7 @@ export function UserForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack gap={["small", "large"]}>
-        <div>
+        <div style={{ marginBottom: "20px" }}>
           <Field
             type="text"
             placeholder="Lionel Bé"
@@ -41,11 +41,11 @@ export function UserForm({
               required: { message: "Ce champ est requis", value: true },
             })}
             label="Nom d’utilisateur"
-            defaultValue={user?.name}
+            value={user?.name}
           />
           <FormErrorMessage errors={errors} fieldName="name" />
         </div>
-        <div style={{ marginTop: "20px" }}>
+        <div style={{ marginBottom: "20px" }}>
           <Field
             type="text"
             label="Email"
@@ -54,28 +54,25 @@ export function UserForm({
               pattern: { message: "L'email est invalide", value: /^\S+@\S+$/i },
               required: { message: "Ce champ est requis", value: true },
             })}
-            defaultValue={user?.email}
+            value={user?.email}
           />
           <FormErrorMessage errors={errors} fieldName="email" />
         </div>
         {isAdmin && (
-          <div>
-            <p>Role</p>
-            <NativeSelect
-              {...register("default_role")}
-              defaultValue={user?.roles[0].role}
-            >
+          <div style={{ marginBottom: "20px" }}>
+            <p class="fr-text--heavy">Role</p>
+            <Select {...register("default_role")} value={user?.roles[0].role}>
               {!fetching &&
                 !error &&
                 data.roles.map((item) => (
-                  <option key={item.role} value={item.role}>
+                  <MenuItem key={item.role} value={item.role}>
                     {item.role}
-                  </option>
+                  </MenuItem>
                 ))}
-            </NativeSelect>
+            </Select>
           </div>
         )}
-        <div style={{ marginTop: "40px", marginLeft: "20px" }}>
+        <div style={{ marginTop: "20px", marginLeft: "20px" }}>
           <Inline>
             <Button disabled={hasError || loading}>{buttonLabel}</Button>
             <Link
@@ -83,7 +80,7 @@ export function UserForm({
               passHref
               style={{ textDecoration: "none", marginLeft: "10px" }}
             >
-              <Button variant="text"> Annuler</Button>
+              Annuler
             </Link>
           </Inline>
         </div>
