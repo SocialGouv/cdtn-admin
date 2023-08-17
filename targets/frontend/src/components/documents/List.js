@@ -61,16 +61,26 @@ const DocumentRow = function DocumentRow({
   return (
     <TableRow>
       <TableCell>
-        <input
-          name={cdtnId}
-          onChange={updatePublishedRef}
-          defaultChecked={
-            // eslint-disable-next-line no-prototype-builtins
-            selectedItems.hasOwnProperty(cdtnId) ? !isPublished : isPublished
-          }
-          sx={checkboxStyles}
-          type="checkbox"
-        />
+        <div class="fr-checkbox-group">
+          <input
+            name={cdtnId}
+            onChange={updatePublishedRef}
+            defaultChecked={
+              // eslint-disable-next-line no-prototype-builtins
+              selectedItems.hasOwnProperty(cdtnId) ? !isPublished : isPublished
+            }
+            sx={checkboxStyles}
+            type="checkbox"
+            id="checkbox"
+            aria-describedby="checkbox-messages"
+          />
+          <label class="fr-label" for="checkbox" />
+          <div
+            class="fr-messages-group"
+            id="checkbox-messages"
+            aria-live="polite"
+          ></div>
+        </div>
       </TableCell>
       <TableCell>
         <Link

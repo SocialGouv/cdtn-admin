@@ -200,7 +200,7 @@ export function AlertPage(): JSX.Element {
                       {getTitle(alert)}
                     </AlertTitle>
                     <Accordion collapsible multiple defaultIndex={openIndices}>
-                      {jsxJoin(accordionItems, <Divider />)}
+                      {accordionItems}
                     </Accordion>
                   </Stack>
                 </CardContent>

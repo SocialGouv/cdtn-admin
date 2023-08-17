@@ -6,6 +6,7 @@ import {
   Stack,
   Badge,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 export type NavigationItemProps = {
   href: string;
@@ -18,13 +19,9 @@ export function NavigationItem({
   label,
   aggregateCount,
 }: NavigationItemProps) {
+  const router = useRouter();
   return (
-    <ListItem
-      disablePadding
-      component={Link}
-      href={href}
-      style={{ textDecoration: "none" }}
-    >
+    <ListItem disablePadding onClick={() => router.push(href)}>
       <ListItemButton>
         <ListItemText
           primary={
@@ -33,7 +30,7 @@ export function NavigationItem({
               justifyContent="space-between"
               alignItems="center"
             >
-              <div style={{ color: "rgb(62, 72, 110)" }}>{label}</div>
+              <span>{label}</span>
               <Badge
                 badgeContent={aggregateCount}
                 color="error"

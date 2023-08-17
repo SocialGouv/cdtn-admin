@@ -12,7 +12,6 @@ import type {
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import { Badge, Box, Card, List, ListItem } from "@mui/material";
-import { Divider } from "@mui/material";
 
 import Link from "next/link";
 import React, { useState } from "react";
@@ -303,20 +302,17 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
                 {textChanges.length > 0 && (
                   <Box>
                     <ModificationViewer>
-                      {jsxJoin(
-                        textChanges.map((diff) => {
-                          return (
-                            <>
-                              <strong>Modification du {diff.type}</strong>
-                              <ViewDiff
-                                previous={diff.previousText}
-                                current={diff.currentText}
-                              />
-                            </>
-                          );
-                        }),
-                        <Divider />
-                      )}
+                      {textChanges.map((diff) => {
+                        return (
+                          <>
+                            <strong>Modification du {diff.type}</strong>
+                            <ViewDiff
+                              previous={diff.previousText}
+                              current={diff.currentText}
+                            />
+                          </>
+                        );
+                      })}
                     </ModificationViewer>
                   </Box>
                 )}
@@ -336,22 +332,19 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
             >
               <FicheLink change={change} documents={changes.documents} />
               <ModificationViewer>
-                {jsxJoin(
-                  change.addedSections
-                    .concat(change.removedSections, change.modifiedSections)
-                    .map((diff) => {
-                      return (
-                        <>
-                          <strong>{diff.title}</strong>
-                          <ViewDiff
-                            previous={diff.previousText}
-                            current={diff.currentText}
-                          />
-                        </>
-                      );
-                    }),
-                  <Divider />
-                )}
+                {change.addedSections
+                  .concat(change.removedSections, change.modifiedSections)
+                  .map((diff) => {
+                    return (
+                      <>
+                        <strong>{diff.title}</strong>
+                        <ViewDiff
+                          previous={diff.previousText}
+                          current={diff.currentText}
+                        />
+                      </>
+                    );
+                  })}
               </ModificationViewer>
             </ListItem>
           ))}

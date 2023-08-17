@@ -143,16 +143,12 @@ export function AccordionButton({
   return (
     <>
       <MuiButton
-        sx={{
-          borderRadius: "small",
-          fontWeight: "bold",
-          textTransform: "none",
+        style={{
+          width: "100%",
         }}
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <Box sx={{ px: "xxsmall" }}>
-          {isExpanded ? <ExpandMoreIcon /> : <ChevronRightIcon />}
-        </Box>
+        <Box>{isExpanded ? <ExpandMoreIcon /> : <ChevronRightIcon />}</Box>
         {children}
       </MuiButton>
       {isExpanded && items}

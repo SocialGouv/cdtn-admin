@@ -1,6 +1,6 @@
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
-import { Box, Divider } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { Button } from "../button";
 import { SectionBlock } from "./SectionBlock";
@@ -25,7 +25,6 @@ export const SectionBlocks = ({ name }: SectionBlockProps) => {
     <>
       {fields.map((item, index) => (
         <div key={`${name}.${index}`}>
-          <Divider />
           <SectionBlock
             name={`${name}.${index}`}
             remove={() => remove(index)}
@@ -33,7 +32,6 @@ export const SectionBlocks = ({ name }: SectionBlockProps) => {
           />
         </div>
       ))}
-      <Divider sx={{ mb: "1rem" }} />
       <Box sx={{ mb: "1rem" }}>
         <Button
           type="button"

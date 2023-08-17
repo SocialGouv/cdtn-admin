@@ -9,6 +9,7 @@ export function LogoAdmin() {
         alignItems: "center",
         textDecoration: "none",
       }}
+      className="fr-reset-link"
     >
       <Stack direction="row">
         <Box

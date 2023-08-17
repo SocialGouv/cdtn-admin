@@ -89,10 +89,10 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
         <Select
           {...register("source")}
           onChange={triggerUpdateUrl}
-          value={initialValues.source || ""}
+          value={initialValues.source || "toutes-les-sources"}
           sx={{ marginRight: "15px" }}
         >
-          <MenuItem value="">toutes les sources</MenuItem>
+          <MenuItem value="toutes-les-sources">toutes les sources</MenuItem>
           {documentSources.map(([source, label]) => (
             <MenuItem
               key={source}
@@ -115,7 +115,6 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
             }}
           >
             <Select
-              sx={{ width: "4rem" }}
               {...register("itemsPerPage")}
               id="itemsPerPage"
               defaultValue={initialValues.itemsPerPage}
@@ -176,7 +175,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
         <FormLabel>Status :</FormLabel>
         <div sx={{ cursor: "pointer" }}>
           <FormControlLabel
-            value="no"
+            value="all"
             control={
               <Radio
                 {...register("available")}
