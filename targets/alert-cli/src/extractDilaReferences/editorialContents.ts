@@ -13,6 +13,8 @@ import memoizee from "memoizee";
 import pMap from "p-map";
 
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
+import { WarningRepository } from "../repositories/WarningRepository";
+import { client } from "@shared/graphql-client";
 
 export type EditorialContentSubset = Pick<
   EditorialContent,
@@ -27,6 +29,7 @@ const getArticleReference = createGetArticleReference(new DilaApiClient());
 export async function extractEditorialContentTemplateRef(
   editorialContent: EditorialContentSubset[]
 ): Promise<DocumentReferences[]> {
+  const repo = new WarningRepository(client);
   const refs: DocumentReferences[] = [];
 
   for (const docData of editorialContent) {
@@ -45,7 +48,17 @@ export async function extractEditorialContentTemplateRef(
       .concat(extractedArticleIds);
     const references = await pMap(
       articleIds,
-      async (id: string) => getArticleReference(id),
+      async (id: string) => {
+        const result = await getArticleReference(id);
+        if (result === null) {
+          await repo.saveWarning({
+            article: id,
+            document: docData.title,
+            source: docData.source,
+          });
+        }
+        return result;
+      },
       { concurrency: 5 }
     );
 

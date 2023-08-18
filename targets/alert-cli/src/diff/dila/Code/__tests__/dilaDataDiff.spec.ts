@@ -6,6 +6,7 @@ import irrevelantChanges from "./dataset/filechanges_legi_code_irrevelant_change
 import noChanges from "./dataset/filechanges_legi_code_no_changes.json";
 import revelantChanges from "./dataset/filechanges_legi_code_revelant_changes.json";
 import { Commit } from "../../../../types";
+import { RelevantDocumentsExtractorStub } from "../../../__tests__/RelevantDocumentsExtractorStub";
 
 describe("Calcul des différences sur les code (legi-data)", () => {
   describe("Aucun changement", () => {
@@ -13,7 +14,7 @@ describe("Calcul des différences sur les code (legi-data)", () => {
       const result = await ProcessCodeChanges(
         { commit: { date: new Date() } as Commit, ref: "" },
         noChanges as unknown as CodeFileChange[],
-        async () => Promise.resolve([])
+        new RelevantDocumentsExtractorStub()
       );
       expect(result).toHaveLength(1);
       const diff = result[0];
@@ -28,7 +29,7 @@ describe("Calcul des différences sur les code (legi-data)", () => {
       const result = await ProcessCodeChanges(
         { commit: {} as Commit, ref: "" },
         irrevelantChanges as unknown as CodeFileChange[],
-        async () => Promise.resolve([])
+        new RelevantDocumentsExtractorStub()
       );
       expect(result).toHaveLength(1);
       const diff = result[0];
@@ -43,7 +44,7 @@ describe("Calcul des différences sur les code (legi-data)", () => {
       const result = await ProcessCodeChanges(
         { commit: {} as Commit, ref: "" },
         revelantChanges as unknown as CodeFileChange[],
-        async () => Promise.resolve([])
+        new RelevantDocumentsExtractorStub()
       );
       expect(result).toHaveLength(1);
       const diff = result[0];

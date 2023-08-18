@@ -2,13 +2,14 @@ import type { Code } from "@socialgouv/legi-data-types";
 
 import type { GitTagData } from "../../../types";
 import { compareDilaContent } from "../CompareDilaContent";
-import type { DilaChanges, RelevantDocumentsFunction } from "../types";
+import type { DilaChanges } from "../types";
 import type { CodeFileChange } from "./types";
+import { RelevantDocumentsExtractor } from "../ReleventDocuments";
 
 const processCodeChanges = async (
   tag: GitTagData,
   fileChanges: CodeFileChange[],
-  getRelevantDocuments: RelevantDocumentsFunction
+  extractor: RelevantDocumentsExtractor
 ): Promise<DilaChanges[]> => {
   return Promise.all(
     fileChanges.map(async (fileChange) => {
@@ -17,7 +18,7 @@ const processCodeChanges = async (
         fileChange.current
       );
 
-      const documents = await getRelevantDocuments(changes);
+      const documents = await extractor.extractReferences(changes);
       if (documents.length > 0) {
         console.log(
           `[info] found ${documents.length} documents impacted by release ${tag.ref} on legi-data`,

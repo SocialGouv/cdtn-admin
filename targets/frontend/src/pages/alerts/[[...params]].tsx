@@ -23,6 +23,7 @@ import { alertStatusWordings } from "src/models";
 import { useQuery } from "urql";
 import { Card, CardContent, Container, Divider } from "@mui/material";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
+import { AlertWarning } from "../../components/alerts/warning/AlertWarning";
 
 const getAlertQuery = `
 query getAlerts($status: String!, $repository: String!, $limit: Int!, $offset: Int!) {
@@ -144,6 +145,7 @@ export function AlertPage(): JSX.Element {
           faciliter le travail de veille. Ces alertes sont à classer en fonction
           de leur impact sur nos contenus.
         </p>
+        <AlertWarning repository={repository} />
         <AlertTabs repository={repository} activeStatus={activeStatus} />
         <small>{alertStatusWordings[activeStatus as AlertStatusType]}</small>
         {alerts.map((alert) => {
