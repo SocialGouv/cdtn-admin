@@ -1,4 +1,4 @@
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, ListItem } from "@mui/material";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -8,7 +8,6 @@ import {
 } from "react-icons/io";
 import { CopyButton } from "src/components/button/CopyButton";
 import { Layout } from "src/components/layout/auth.layout";
-import { Li, List } from "src/components/list";
 import { DropZone } from "src/components/storage/DropZone";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
@@ -17,14 +16,17 @@ import { getToken } from "src/lib/auth/token";
 import { timeSince } from "src/lib/duration";
 import { request } from "src/lib/request";
 import useSWR, { mutate } from "swr";
+import { theme } from "../theme";
 import {
   Box,
   Card,
   TextField as Field,
   InputLabel as Label,
-  Alert as Message,
+  Alert,
   Select,
   CircularProgress as Spinner,
+  MenuItem,
+  List,
 } from "@mui/material";
 
 const listFiles = () =>
@@ -78,7 +80,7 @@ function FilesPage() {
   if (error) {
     return (
       <Layout title="Fichiers">
-        <Message severity="error">erreur au chargement...</Message>
+        <Alert severity="error">erreur au chargement...</Alert>
       </Layout>
     );
   }
@@ -86,7 +88,10 @@ function FilesPage() {
   return (
     <Layout title={`Fichiers  (${data?.length})`}>
       <DropZone
-        customStyles={{ my: "medium" }}
+        customStyles={{
+          marginBottom: theme.space.medium,
+          marginTop: theme.space.medium,
+        }}
         uploading={uploading}
         onDrop={(files) => {
           setUploading(true);
@@ -104,7 +109,7 @@ function FilesPage() {
             id="search"
             name="search"
             label="Rechercher un fichier"
-            sx={{ maxWidth: "250px", paddingRight: "large" }}
+            sx={{ maxWidth: "250px", paddingRight: theme.space.large }}
             ref={searchInputEl}
             onChange={(e) => {
               setDebouncedSearch(e.target.value);
@@ -113,11 +118,11 @@ function FilesPage() {
           />
           {search.length > 0 && (
             <IconButton
-              sx={{
+              style={{
                 color: "text",
-                mb: "0.6rem",
+                marginBottom: "0.6rem",
                 position: "absolute",
-                right: "xxsmall",
+                right: "-10px",
               }}
               onClick={() => {
                 searchInputEl.current.value = "";
@@ -128,7 +133,13 @@ function FilesPage() {
             </IconButton>
           )}
         </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", ml: "small" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            ml: theme.space.medium,
+          }}
+        >
           <Label htmlFor="sort">Trier</Label>
           <Select
             id="sort"
@@ -136,29 +147,29 @@ function FilesPage() {
             value={sort}
             onChange={(e) => setSort(e.target.value)}
           >
-            <option value="mostRecent">Plus récent</option>
-            <option value="oldest">Plus vieux</option>
-            <option value="alphabetic">Alphabétique</option>
-            <option value="reverse-alphabetic">Alphabétique inversé</option>
-            <option value="heaviest">Plus lourd</option>
-            <option value="lightest">Plus léger</option>
+            <MenuItem value="mostRecent">Plus récent</MenuItem>
+            <MenuItem value="oldest">Plus vieux</MenuItem>
+            <MenuItem value="alphabetic">Alphabétique</MenuItem>
+            <MenuItem value="reverse-alphabetic">Alphabétique inversé</MenuItem>
+            <MenuItem value="heaviest">Plus lourd</MenuItem>
+            <MenuItem value="lightest">Plus léger</MenuItem>
           </Select>
         </Box>
-        <Box sx={{ flexDirection: "column", ml: "small" }}>
+        <Box sx={{ flexDirection: "column", ml: theme.space.medium }}>
           <Label htmlFor="filter">Filtrer par type</Label>
           <Select
             id="filter"
             name="filter"
             label="Filtrer par type"
-            value={filter}
+            value={filter || "tous"}
             onChange={(e) => setFilter(e.target.value)}
           >
-            <option value="">Tous</option>
-            <option value="jpg">jpg</option>
-            <option value="svg">svg</option>
-            <option value="png">png</option>
-            <option value="pdf">pdf</option>
-            <option value="word">document word</option>
+            <MenuItem value="tous">Tous</MenuItem>
+            <MenuItem value="jpg">jpg</MenuItem>
+            <MenuItem value="svg">svg</MenuItem>
+            <MenuItem value="png">png</MenuItem>
+            <MenuItem value="pdf">pdf</MenuItem>
+            <MenuItem value="word">document word</MenuItem>
           </Select>
         </Box>
       </Box>
@@ -180,7 +191,12 @@ function FilesPage() {
               .sort(getSortCallback(sort))
               .map((file) => {
                 return (
-                  <Li key={file.name}>
+                  <ListItem
+                    key={file.name}
+                    style={{
+                      width: "100%",
+                    }}
+                  >
                     <Card
                       target="_blank"
                       rel="noopener noreferrer"
@@ -189,17 +205,27 @@ function FilesPage() {
                       title={file.name}
                       sx={{
                         alignItems: "center",
-                        color: "text",
                         display: "flex",
                         justifyContent: "space-between",
-                        mt: "small",
+                        mt: theme.space.small,
                         textDecoration: "none",
+                        width: "100%",
+                        padding: "20px",
                       }}
                     >
                       <IoMdDownload
-                        sx={{ flex: "0 0 auto", mr: "small", ...iconSx }}
+                        style={{
+                          flex: "0 0 auto",
+                          ...iconSx,
+                        }}
                       />
-                      <Box sx={{ flex: "1 1 auto", minWidth: 0 }}>
+                      <Box
+                        sx={{
+                          marginLeft: theme.space.medium,
+                          flex: "1 1 auto",
+                          minWidth: 0,
+                        }}
+                      >
                         <Box
                           sx={{
                             fontSize: "1.1rem",
@@ -211,10 +237,15 @@ function FilesPage() {
                         >
                           {file.name}
                         </Box>
-                        <Box sx={{ fontSize: "small" }}>
-                          <p style={{ fontWeight: "bold" }}>Poids&nbsp;:</p>{" "}
-                          {prettyBytes(file.contentLength)} | Mise en ligne il y
-                          a {timeSince(file.lastModified)}
+                        <Box>
+                          Poids :{" "}
+                          <span style={{ fontWeight: "bold" }}>
+                            {prettyBytes(file.contentLength)}
+                          </span>{" "}
+                          | Mise en ligne il y a{" "}
+                          <span style={{ fontWeight: "bold" }}>
+                            {timeSince(file.lastModified)}
+                          </span>
                         </Box>
                       </Box>
                       <CopyButton
@@ -234,11 +265,11 @@ function FilesPage() {
                           onDeleteClick(file);
                         }}
                       >
-                        <IoIosTrash sx={iconSx} />
+                        <IoIosTrash style={iconSx} />
                         Supprimer
                       </Button>
                     </Card>
-                  </Li>
+                  </ListItem>
                 );
               })}
           </List>
@@ -255,14 +286,14 @@ export default withCustomUrqlClient(withUserProvider(FilesPage));
 const buttonProps = {
   outline: true,
   size: "small",
-  sx: { flex: "0 0 auto", mx: "xxsmall" },
+  sx: { flex: "0 0 auto", mx: theme.space.xsmall },
   type: "button",
 };
 
 const iconSx = {
-  height: "iconSmall",
-  mr: "xxsmall",
-  width: "iconSmall",
+  height: theme.sizes.iconSmall,
+  marginRight: theme.space.xxsmall,
+  width: theme.sizes.iconSmall,
 };
 
 const filterCallback = (filter, file) => {

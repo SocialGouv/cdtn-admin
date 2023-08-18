@@ -9,6 +9,10 @@ jest.mock("next/router", () => ({
   }),
 }));
 
+jest.mock("@codegouvfr/react-dsfr/useIsDark", () => ({
+  useIsDark: jest.fn().mockReturnValue(false),
+}));
+
 describe("Given parameters", () => {
   describe("When rendering the component DocumentsPage", () => {
     let rendering: RenderResult;
