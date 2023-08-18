@@ -19,9 +19,7 @@ export function AddFiches() {
   };
   return (
     <Box>
-      <Button size="small" onClick={openAddDialog}>
-        Ajouter des fiches
-      </Button>
+      <Button onClick={openAddDialog}>Ajouter des fiches</Button>
       <Dialog
         isOpen={showAddDialog}
         onDismiss={closeAddDialog}

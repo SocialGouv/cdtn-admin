@@ -6,7 +6,7 @@ import { Chip } from "@mui/material";
 import { ConfirmButton } from "../confirmButton";
 
 type TriggerButtonProps = {
-  variant: "accent" | "secondary" | "primary" | "link";
+  buttonProps?: any;
   onClick: () => void;
   children: ReactNode | ReactNode[];
   isDisabled?: boolean;
@@ -14,14 +14,14 @@ type TriggerButtonProps = {
 };
 
 function Index({
-  variant,
+  buttonProps,
   onClick,
   children,
   isDisabled = false,
   status,
 }: TriggerButtonProps) {
   return (
-    <ConfirmButton disabled={isDisabled} onClick={onClick} variant={variant}>
+    <ConfirmButton disabled={isDisabled} onClick={onClick} {...buttonProps}>
       {status === "running" && <MdTimelapse style={{ marginRight: ".2rem" }} />}
       {status === "failed" && (
         <MdSyncProblem style={{ marginRight: ".2rem" }} />

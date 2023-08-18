@@ -70,8 +70,8 @@ export function DuplicateContentPage(): JSX.Element {
   return (
     <Layout title="Contenus dupliqués">
       <p>
-        Il peut arriver que certains contenus apparaissent PLusieurs fois dans
-        une requete préqualifiée ou un theme. Cette page permet de lister ces
+        Il peut arriver que certains contenus apparaissent plusieurs fois dans
+        une requête pré-qualifiée ou un theme. Cette page permet de lister ces
         contenus afin de les corriger.
       </p>
       <Table>

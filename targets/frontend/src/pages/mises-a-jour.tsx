@@ -13,7 +13,7 @@ import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useExportEs } from "src/hooks/exportEs";
 import { useUser } from "src/hooks/useUser";
-import { CircularProgress as Spinner } from "@mui/material";
+import { CircularProgress as Spinner, Typography } from "@mui/material";
 import { FixedSnackBar } from "../components/utils/SnackBar";
 import { Chip } from "@mui/material";
 
@@ -46,7 +46,7 @@ export function UpdatePage(): JSX.Element {
       <Stack>
         <Inline>
           <TriggerButton
-            variant="primary"
+            buttonProps={{ variant: "contained" }}
             isDisabled={false}
             status={exportEsState.latestExportProduction?.status}
             onClick={() => onTrigger(Environment.production)}
@@ -54,7 +54,7 @@ export function UpdatePage(): JSX.Element {
             Mettre à jour la production
           </TriggerButton>
           <TriggerButton
-            variant="secondary"
+            buttonProps={{ variant: "secondary" }}
             isDisabled={false}
             status={exportEsState.latestExportPreproduction?.status}
             onClick={() => onTrigger(Environment.preproduction)}
@@ -97,20 +97,26 @@ export function UpdatePage(): JSX.Element {
                     <Td>
                       <EnvironmentBadge environment={environment} />
                     </Td>
-                    <Td>{user.name}</Td>
                     <Td>
-                      {new Date(created_at).toLocaleDateString("fr-FR")} à{" "}
-                      {new Date(created_at).toLocaleTimeString("fr-FR", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      <Typography>{user.name}</Typography>
                     </Td>
                     <Td>
-                      {new Date(updated_at).toLocaleDateString("fr-FR")} à{" "}
-                      {new Date(updated_at).toLocaleTimeString("fr-FR", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      <Typography>
+                        {new Date(created_at).toLocaleDateString("fr-FR")} à{" "}
+                        {new Date(created_at).toLocaleTimeString("fr-FR", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </Typography>
+                    </Td>
+                    <Td>
+                      <Typography>
+                        {new Date(updated_at).toLocaleDateString("fr-FR")} à{" "}
+                        {new Date(updated_at).toLocaleTimeString("fr-FR", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </Typography>
                     </Td>
                     <Td>
                       <Status status={status} />

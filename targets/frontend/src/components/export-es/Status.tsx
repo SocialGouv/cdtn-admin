@@ -1,6 +1,7 @@
 import { Status as StatusType } from "@shared/types";
 import { MdTimelapse } from "react-icons/md";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { theme } from "src/theme";
 
 type StatusProps = {
   status?: StatusType;
@@ -10,28 +11,28 @@ export function Status({ status }: StatusProps): JSX.Element {
   if (!status) {
     return (
       <Box sx={{ alignItems: "center", display: "flex" }}>
-        <span>En cours</span>{" "}
+        <Typography>En cours</Typography>{" "}
         <MdTimelapse style={{ marginBottom: "-.3rem", marginLeft: ".4rem" }} />
       </Box>
     );
   }
   switch (status) {
     case StatusType.completed:
-      return <span color="positive">Succès</span>;
+      return <Typography color={theme.colors.positive}>Succès</Typography>;
     case StatusType.timeout:
-      return <span color="muted">Timeout</span>;
+      return <Typography color={theme.colors.muted}>Timeout</Typography>;
     case StatusType.running:
       return (
         <Box sx={{ alignItems: "center", display: "flex" }}>
-          <span>En cours</span>{" "}
+          <Typography>En cours</Typography>{" "}
           <MdTimelapse
             style={{ marginBottom: "-.2rem", marginLeft: ".3rem" }}
           />
         </Box>
       );
     case StatusType.failed:
-      return <span color="critical">Erreur</span>;
+      return <Typography color={theme.colors.critical}>Erreur</Typography>;
     default:
-      return <span>{status}</span>;
+      return <Typography>{status}</Typography>;
   }
 }

@@ -2,10 +2,11 @@ import { ErrorMessage } from "@hookform/error-message";
 import { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
-import { Box, Input, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { useQuery } from "urql";
 
 import { Button, IconButton } from "../button";
+import { theme } from "src/theme";
 
 export function AddFicheSpForm({ onAdd }) {
   const [result] = useQuery({
@@ -54,9 +55,9 @@ export function AddFicheSpForm({ onAdd }) {
       } fiche${fields.length > 1 ? "s" : ""} à ajouter`}</p>
       {fields.map((field, index) => {
         return (
-          <Box sx={{ my: "small" }} key={field.key}>
+          <Box sx={{ my: theme.space.small }} key={field.key}>
             <Box sx={{ alignItems: "center", display: "flex" }}>
-              <Input
+              <TextField
                 sx={{ width: "10rem" }}
                 defaultValue=""
                 onKeyDown={handleKeyDown}
@@ -91,7 +92,7 @@ export function AddFicheSpForm({ onAdd }) {
                   variant="secondary"
                   outline
                   type="button"
-                  sx={{ flex: "0 0 auto", ml: "xxlarge" }}
+                  style={{ flex: "0 0 auto", marginLeft: theme.space.xxlarge }}
                   onClick={() => append({ id: "" })}
                 >
                   Saisir une fiche supplémentaire
@@ -108,15 +109,17 @@ export function AddFicheSpForm({ onAdd }) {
       })}
       <Box>
         <Button
-          variant="primary"
           disabled={Object.keys(errors).length > 0 || !isDirty}
+          style={{
+            marginTop: "20px",
+          }}
         >
           {isDirty && Object.keys(errors).length === 0 && (
             <IoMdCheckmark
-              sx={{
-                height: "iconSmall",
-                mr: "xsmall",
-                width: "iconSmall",
+              style={{
+                height: theme.sizes.iconSmall,
+                marginRight: theme.space.xsmall,
+                width: theme.sizes.iconSmall,
               }}
             />
           )}
