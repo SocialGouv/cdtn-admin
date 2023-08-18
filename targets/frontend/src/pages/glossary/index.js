@@ -10,7 +10,7 @@ import { withUserProvider } from "src/hoc/UserProvider";
 import { useDebouncedState } from "src/hooks/";
 import {
   Box,
-  Input,
+  TextField,
   InputLabel as Label,
   CircularProgress,
 } from "@mui/material";
@@ -98,27 +98,14 @@ export function GlossaryPage() {
               {termsByLetters.map(({ letter, terms }) => (
                 <li key={`letter-${letter}`}>
                   {terms.length > 0 ? (
-                    <Link
+                    <a
                       href={`#ancre-${letter}`}
-                      sx={{
-                        fontSize: "large",
-                        textDecoration: "underline",
-                        ...linkStyles,
-                        padding: "xxsmall",
-                      }}
+                      className="fr-text--bold fr-m-2v fr-text--lg"
                     >
                       {letter}
-                    </Link>
+                    </a>
                   ) : (
-                    <p
-                      style={{
-                        color: theme.colors.muted,
-                        fontSize: theme.fontSizes.large,
-                        padding: theme.space.xxsmall,
-                      }}
-                    >
-                      {letter}
-                    </p>
+                    <p className="fr-m-2v fr-text--lg">{letter}</p>
                   )}
                 </li>
               ))}
@@ -136,17 +123,17 @@ export function GlossaryPage() {
                 sx={{
                   display: "inline-block",
                   fontSize: "medium",
-                  mr: "small",
+                  mr: theme.space.small,
                   width: "auto",
                 }}
               >
                 Rechercher un terme
               </Label>
-              <Input
+              <TextField
                 id="search"
                 name="search"
                 placeholder="renseignez le terme que vous cherchez ici"
-                sx={{ maxWidth: "400px" }}
+                sx={{ width: "450px" }}
                 onChange={(e) => {
                   setSearch(e.target.value);
                 }}
@@ -170,11 +157,6 @@ export function GlossaryPage() {
               <TermList termsByLetters={termsByLetters} />
             ) : (
               <h2>Aucun terme trouvé</h2>
-            )}
-            {!search && !isSearching && (
-              <div>
-                <AddATermButton />
-              </div>
             )}
           </>
         )}

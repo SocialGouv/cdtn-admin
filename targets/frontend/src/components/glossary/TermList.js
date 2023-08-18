@@ -10,7 +10,7 @@ const TermList = ({ termsByLetters = [] }) => {
     <Box
       sx={{
         flexWrap: "wrap",
-        gap: "xsmall",
+        gap: theme.space.xsmall,
         justifyContent: "stretch",
         display: "flex",
       }}
@@ -22,11 +22,10 @@ const TermList = ({ termsByLetters = [] }) => {
               key={letter}
               sx={{
                 border: "2px solid",
-                borderColor: "neutral",
-                borderRadius: "small",
+                borderRadius: theme.space.small,
                 flex: "1 0 auto",
               }}
-              p="xsmall"
+              p={theme.space.small}
             >
               <h2
                 id={`ancre-${letter}`}

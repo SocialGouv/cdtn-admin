@@ -80,7 +80,7 @@ export const TermForm = ({ term = {} }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <>
-        <Box mb="small">
+        <Box mb={theme.space.small}>
           <Field
             type="text"
             {...register("term", {
@@ -89,6 +89,7 @@ export const TermForm = ({ term = {} }) => {
             label="Terme"
             onChange={() => setDuplicateTermError(false)}
             defaultValue={term.term}
+            width="100%"
           />
           <FormErrorMessage errors={errors} fieldName="term" />
           {duplicateTermError && (
@@ -102,12 +103,13 @@ export const TermForm = ({ term = {} }) => {
           )}
         </Box>
 
-        <Box mb="small">
+        <Box mb={theme.space.small}>
           <Label htmlFor={"definition"}>
             Définition&nbsp;
             <MarkdownLink />
           </Label>
-          <Textarea
+          <textarea
+            className="fr-input"
             {...register("definition", {
               required: { message: "Ce champ est requis", value: true },
             })}
@@ -121,13 +123,13 @@ export const TermForm = ({ term = {} }) => {
           sx={{
             alignItems: "flex-start",
             flexWrap: "wrap",
-            gap: "small",
+            gap: theme.space.small,
             justifyContent: "stretch",
-            mb: "small",
+            mb: theme.space.small,
             display: "flex",
           }}
         >
-          <Fieldset title="Variantes / Synonymes" sx={{ flex: "1 1 auto" }}>
+          <Fieldset title="Variantes / Synonymes" style={{ flex: "1" }}>
             <Lister
               control={control}
               name="variants"
@@ -135,7 +137,7 @@ export const TermForm = ({ term = {} }) => {
               defaultValue={term.variants}
             />
           </Fieldset>
-          <Fieldset title="Abréviations" sx={{ flex: "1 1 auto" }}>
+          <Fieldset title="Abréviations" style={{ flex: "1" }}>
             <Lister
               control={control}
               name="abbreviations"
@@ -143,7 +145,7 @@ export const TermForm = ({ term = {} }) => {
               defaultValue={term.abbreviations}
             />
           </Fieldset>
-          <Fieldset title="Références" sx={{ flex: "1 1 auto" }}>
+          <Fieldset title="Références" style={{ flex: "1" }}>
             <Lister
               control={control}
               name="references"
@@ -153,9 +155,11 @@ export const TermForm = ({ term = {} }) => {
           </Fieldset>
         </Box>
 
-        <Box sx={{ alignItems: "center", mt: "medium", display: "flex" }}>
+        <Box
+          sx={{ alignItems: "center", mt: theme.space.medium, display: "flex" }}
+        >
           <Button disabled={hasError || loading}>{buttonLabel}</Button>
-          <Link href="/glossary" passHref>
+          <Link href="/glossary" style={{ marginLeft: theme.space.small }}>
             Annuler
           </Link>
         </Box>
