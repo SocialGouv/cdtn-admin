@@ -6,6 +6,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { IconButton } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { Card } from "@mui/material";
+import { theme as th } from "../../theme";
 
 const IconPicker = ({ defaultValue = null, disabled, ...props }) => {
   return (
@@ -47,10 +48,10 @@ function RootIconPicker({ disabled, value, onChange }) {
                 }}
                 key={key}
                 title={key}
-                sx={generateIconCardStyles()}
+                style={generateIconCardStyles()}
               >
                 <Icon
-                  sx={{
+                  style={{
                     ...iconBaseStyle,
                   }}
                 />
@@ -59,14 +60,14 @@ function RootIconPicker({ disabled, value, onChange }) {
           })}
         </div>
       </Dialog>
-      <div sx={{ display: "inline-block", position: "relative" }}>
+      <div style={{ display: "inline-block", position: "relative" }}>
         <Card
           as="button"
           type="button"
           sx={generateIconCardStyles(disabled)}
           onClick={() => !disabled && setShowIconList(true)}
         >
-          {Icon ? <Icon sx={iconBaseStyle} /> : <NoIcon />}
+          {Icon ? <Icon style={iconBaseStyle} /> : <NoIcon />}
         </Card>
         {value && !disabled && (
           <IconButton
@@ -74,20 +75,20 @@ function RootIconPicker({ disabled, value, onChange }) {
             onClick={() => {
               onChange(null);
             }}
-            sx={{
+            style={{
               bg: "white",
-              height: "iconMedium",
-              ml: "xsmall",
+              height: th.sizes.iconMedium,
+              marginLeft: th.space.xsmall,
               position: "absolute",
               right: "-0.5rem",
               top: "-0.5rem",
-              width: "iconMedium",
+              width: th.sizes.iconMedium,
             }}
           >
             <IoMdCloseCircle
               sx={{
-                height: "iconSmall",
-                width: "iconSmall",
+                height: th.sizes.iconSmall,
+                width: th.sizes.iconSmall,
               }}
             />
           </IconButton>
@@ -111,12 +112,10 @@ const iconBaseStyle = {
 const generateIconCardStyles = (disabled = false) => ({
   background: "transparent",
   border: "none",
-  color: "text",
   display: "inline-flex",
   flexShrink: 0,
-  fontFamily: "Muli",
   fontSize: "1rem",
-  m: "xxsmall",
+  margin: th.space.xxsmall,
   padding: "1.1rem",
   position: "relative",
   ...(!disabled && {

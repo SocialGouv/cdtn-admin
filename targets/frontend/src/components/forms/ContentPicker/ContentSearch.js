@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
-import { Box, Input, TextField } from "@mui/material";
+import { Box, Card, TextField } from "@mui/material";
 import { useQuery } from "urql";
+import { theme as th } from "../../../theme";
 
 const sources = [
   SOURCES.SHEET_MT_PAGE,
@@ -137,7 +138,7 @@ function shouldRenderSuggestions(value) {
 }
 function renderSectionTitle(section) {
   return section.suggestions.length ? (
-    <Box bg="neutral" fontWeight="bold" p="xxsmall">
+    <Box bg={th.colors.neutral} fontWeight="bold" p={th.space.xxsmall}>
       {section.title}
     </Box>
   ) : null;
@@ -159,7 +160,7 @@ const renderSuggestion = (content) => (
 );
 
 const renderSuggestionsContainer = ({ containerProps, children }) => (
-  <div
+  <Box
     sx={{
       '&[class*="container--open"]': {
         border: "1px solid #ddd",
@@ -171,26 +172,26 @@ const renderSuggestionsContainer = ({ containerProps, children }) => (
       },
       li: {
         '&[role="option"]:hover': {
-          bg: "#dde",
+          backgroundColor: "#dde",
         },
         ":nth-of-type(2n + 1)": {
-          bg: "highlight",
+          backgroundColor: th.colors.highlight,
         },
-        bg: "white",
+        backgroundColor: "white",
         cursor: "pointer",
-        m: "0",
-        p: "xxsmall",
+        margin: "0",
+        padding: th.space.xxsmall,
         zIndex: 2,
       },
       ul: {
         listStyleType: "none",
-        m: "0",
-        p: "0",
+        margin: "0",
+        padding: "0",
         width: "100%",
       },
     }}
     {...containerProps}
   >
     {children}
-  </div>
+  </Box>
 );

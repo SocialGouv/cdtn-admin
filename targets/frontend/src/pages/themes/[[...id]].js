@@ -107,7 +107,11 @@ export function ThemePage() {
         {fetching || rootFetching ? (
           <CircularProgress />
         ) : themeId ? (
-          <Card>
+          <Card
+            style={{
+              padding: "20px",
+            }}
+          >
             <>
               <Box
                 sx={{
@@ -116,20 +120,21 @@ export function ThemePage() {
                   justifyContent: "center",
                 }}
               >
-                <h2>{themeData?.title}</h2>
+                <h2 style={{ marginBottom: 0 }}>{themeData?.title}</h2>
                 <Link
                   href={`/themes/edit/${themeId}`}
                   passHref
-                  style={{ textDecoration: "none" }}
+                  style={{
+                    textDecoration: "none",
+                    marginLeft: theme.space.medium,
+                  }}
                 >
-                  <Button sx={{ ml: "medium" }}>
+                  <Button>
                     <>
                       <IoMdCreate
-                        sx={{
-                          flex: "0 0 auto",
-                          height: "iconSmall",
-                          mr: "xxsmall",
-                          width: "iconSmall",
+                        style={{
+                          height: theme.sizes.iconSmall,
+                          width: theme.sizes.iconSmall,
                         }}
                       />
                       Éditer
@@ -179,15 +184,19 @@ export function ThemePage() {
 export default withCustomUrqlClient(withUserProvider(ThemePage));
 
 const AddAThemeButton = ({ themeId }) => (
-  <Box mt="medium">
+  <Box my={theme.space.medium}>
     <Link
       href={`/themes/${themeId ? `${themeId}/` : ""}create`}
       passHref
       style={{ textDecoration: "none" }}
     >
-      <Button mr="medium">
+      <Button mr={theme.space.medium}>
         <IoMdAdd
-          sx={{ height: "iconMedium", mr: "xxsmall", width: "iconMedium" }}
+          style={{
+            height: theme.sizes.iconMedium,
+            mr: theme.space.xxsmall,
+            width: theme.sizes.iconMedium,
+          }}
         />
         Ajouter un thème ici
       </Button>
@@ -209,16 +218,17 @@ const ParentLink = ({ id, ...props }) => (
         cursor: "pointer",
         display: "block",
         textDecoration: "none",
+        padding: "30px",
+        width: "fit-content",
+        marginBottom: theme.space.small,
       }}
-      mb="small"
     >
       <Box sx={{ alignItems: "center", display: "flex" }}>
         <IoIosArrowDropleftCircle
-          sx={{
-            color: "secondary",
-            height: "iconMedium",
-            mr: "small",
-            width: "iconMedium",
+          style={{
+            height: theme.sizes.iconMedium,
+            marginRight: theme.space.small,
+            width: theme.sizes.iconMedium,
           }}
         />
         <div {...props} />

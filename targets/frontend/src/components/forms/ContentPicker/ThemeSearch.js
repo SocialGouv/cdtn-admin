@@ -5,7 +5,7 @@ import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
 import { Box, Input, Text } from "@mui/material";
 import { useQuery } from "urql";
-import { theme } from "../../../theme";
+import { theme as th } from "../../../theme";
 
 const sources = [SOURCES.THEMES];
 
@@ -96,7 +96,7 @@ ThemeSearch.propTypes = {
 };
 
 const renderInputComponent = (inputProps) => (
-  <Input {...inputProps} sx={{ fontSize: "small", padding: "xxsmall" }} />
+  <Input {...inputProps} sx={{ padding: th.space.xxsmall }} />
 );
 
 function shouldRenderSuggestions(value) {
@@ -112,8 +112,8 @@ function renderSuggestion(content) {
     <Box sx={{ lineHeight: 1.2 }}>
       <p
         sx={{
-          color: theme.colors.muted,
-          fontSize: theme.fontSizes.small,
+          color: th.colors.muted,
+          fontSize: th.fontSizes.small,
           fontWeight: "300",
         }}
       >
@@ -133,15 +133,13 @@ function renderSuggestionsContainer({ containerProps, children }) {
       }}
     >
       <Box
-        sx={{
+        style={{
           ".react-autosuggest__suggestion--highlighted": {
-            bg: "info",
+            backgroundColor: th.colors.info,
           },
           '[class*="container--open"] &': {
             border: "1px solid",
-            borderColor: "neutral",
             borderRadius: "4px",
-            boxShadow: "medium",
             left: 0,
             maxHeight: "300px",
             overflow: "scroll",
@@ -149,21 +147,21 @@ function renderSuggestionsContainer({ containerProps, children }) {
             right: 0,
             top: "4px",
           },
-          bg: "white",
+          backgroundColor: th.colors.white,
           li: {
             ":nth-of-type(2n + 1):not(.react-autosuggest__suggestion--highlighted)":
               {
-                bg: "highlight",
+                backgroundColor: th.colors.highlight,
               },
             cursor: "pointer",
-            m: "0",
-            p: "xxsmall",
+            margin: "0",
+            padding: th.space.padding,
           },
 
           ul: {
             listStyleType: "none",
-            m: "0",
-            p: "0",
+            margin: "0",
+            padding: "0",
           },
           zIndex: 1,
         }}

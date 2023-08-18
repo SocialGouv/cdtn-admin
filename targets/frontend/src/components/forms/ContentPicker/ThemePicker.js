@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Controller } from "react-hook-form";
 import { Alert, Button } from "@mui/material";
+import { theme as th } from "../../../theme";
 
 import { ThemeSearch } from "./ThemeSearch";
 
@@ -17,8 +18,8 @@ function ThemePicker({ ...props }) {
               variant="success"
               sx={{
                 minWidth: 0,
-                p: "xxsmall",
-                paddingRight: "medium",
+                p: th.space.xxsmall,
+                paddingRight: th.space.medium,
                 position: "relative",
               }}
             >

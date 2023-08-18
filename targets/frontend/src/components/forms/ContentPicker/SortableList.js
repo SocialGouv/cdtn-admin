@@ -8,6 +8,7 @@ import {
 import { Button, IconButton } from "src/components/button";
 import { List } from "src/components/list";
 import { Alert, Box } from "@mui/material";
+import { theme as th } from "../../../theme";
 
 export const SortableList = SortableContainer(({ contents, ...props }) => {
   return (
@@ -34,40 +35,48 @@ const SortableRow = SortableElement(
     onDeleteContent,
   }) => (
     <li
-      sx={{
+      style={{
         alignItems: "stretch",
         display: "flex",
         justifyContent: "stretch",
-        mb: "small",
+        marginBottom: th.space.small,
       }}
     >
       {sortable && <SortHandle />}
       <Alert
         variant="success"
-        sx={{
+        style={{
           display: "flex",
           flex: 1,
           justifyContent: "space-between",
         }}
       >
         <Box
-          sx={{
+          style={{
             color: getColor({ isAvailable, isPublished }),
           }}
         >{`${title} - ${getLabelBySource(source)} ${
           !isAvailable ? "(supprimé)" : ""
         }${isAvailable && !isPublished ? "(Déplublié)" : ""}`}</Box>
       </Alert>
-      <Box sx={{ display: "flex", alignItems: "stretch", ml: "xsmall" }}>
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "stretch",
+          marginLeft: th.space.xsmall,
+        }}
+      >
         <Button
-          sx={{ padding: "small" }}
+          style={{ padding: "small" }}
           type="button"
           variant="secondary"
           onClick={() => {
             onDeleteContent(cdtnId);
           }}
         >
-          <IoMdTrash sx={{ height: "iconSmall", width: "iconSmall" }} />
+          <IoMdTrash
+            style={{ height: th.sizes.iconSmall, width: th.sizes.iconSmall }}
+          />
         </Button>
       </Box>
     </li>
@@ -75,19 +84,26 @@ const SortableRow = SortableElement(
 );
 function getColor({ isPublished, isAvailable }) {
   if (!isAvailable) {
-    return "critical";
+    return th.colors.critical;
   }
   if (!isPublished) {
-    return "muted";
+    return th.colors.muted;
   }
-  return "text";
+  return th.colors.text;
 }
 const SortHandle = SortableHandle(() => (
   <IconButton
     variant="secondary"
     type="button"
-    sx={{ cursor: "grab", flex: "0 0 auto", height: "auto", mr: "xsmall" }}
+    style={{
+      cursor: "grab",
+      flex: "0 0 auto",
+      height: "auto",
+      marginRight: th.space.xsmall,
+    }}
   >
-    <IoIosReorder sx={{ height: "iconMedium", width: "iconMedium" }} />
+    <IoIosReorder
+      style={{ height: th.sizes.iconMedium, width: th.sizes.iconMedium }}
+    />
   </IconButton>
 ));

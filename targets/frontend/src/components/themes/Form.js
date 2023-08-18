@@ -1,11 +1,11 @@
 import Link from "next/link";
-import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { ContentPicker } from "src/components/forms/ContentPicker/index";
+import { ContentPicker } from "src/components/forms/ContentPicker";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { IconPicker } from "src/components/forms/IconPicker";
-import { Box, TextField as Field, Label } from "@mui/material";
+import { Box, TextField as Field, InputLabel as Label } from "@mui/material";
+import { theme as th } from "../../theme";
 
 const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
   const {
@@ -27,7 +27,7 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <>
-        <Box mb="small">
+        <Box mb={th.space.small}>
           <Field
             type="text"
             {...register("title", {
@@ -35,29 +35,38 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
             })}
             label="Titre"
             defaultValue={theme.title}
+            style={{
+              width: "100%",
+            }}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
         </Box>
 
-        <Box mb="small">
+        <Box mb={th.space.small}>
           <Field
             type="text"
             {...register("shortTitle")}
             label="Titre court"
             defaultValue={theme.document?.shortTitle}
+            style={{
+              width: "100%",
+            }}
           />
         </Box>
 
-        <Box mb="small">
+        <Box mb={th.space.small}>
           <Field
             type="text"
             {...register("metaDescription")}
             label="Meta description (référencement)"
             defaultValue={theme.metaDescription}
+            style={{
+              width: "100%",
+            }}
           />
         </Box>
 
-        <Box mb="small">
+        <Box mb={th.space.small}>
           <Label htmlFor={"description"}>Description</Label>
           <textarea
             className="fr-input"
@@ -68,7 +77,7 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
           />
         </Box>
 
-        <Box mb="small">
+        <Box mb={th.space.small}>
           <Label htmlFor={"icon"}>Icône</Label>
           <IconPicker
             control={control}
@@ -78,7 +87,7 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
           />
         </Box>
 
-        <Box my="larger">
+        <Box my={th.space.larger}>
           <h2>Contenus du thème</h2>
           <ContentPicker
             control={control}
@@ -97,24 +106,21 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
           />
         </Box>
 
-        <Box sx={{ alignItems: "center", mt: "medium", display: "flex" }}>
-          <Button variant="secondary" disabled={hasError || loading}>
-            {buttonLabel}
-          </Button>
-          <Link href={backLink} passHref style={{ textDecoration: "none" }}>
+        <Box
+          sx={{ alignItems: "center", mt: th.space.medium, display: "flex" }}
+        >
+          <Button disabled={hasError || loading}>{buttonLabel}</Button>
+          <Link
+            href={backLink}
+            passHref
+            style={{ textDecoration: "none", marginLeft: "10px" }}
+          >
             Annuler
           </Link>
         </Box>
       </>
     </form>
   );
-};
-
-ThemeForm.propTypes = {
-  loading: PropTypes.bool,
-  onSubmit: PropTypes.func.isRequired,
-  parentId: PropTypes.string,
-  theme: PropTypes.object,
 };
 
 export { ThemeForm };
