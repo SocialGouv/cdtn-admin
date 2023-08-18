@@ -125,7 +125,7 @@ export const EditQuestion = ({
         spacing={2}
       >
         <Header />
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box sx={{ borderBottom: 1 }}>
           <Tabs
             value={tabIndex}
             onChange={handleTabChange}

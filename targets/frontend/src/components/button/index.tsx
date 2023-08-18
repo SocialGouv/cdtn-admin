@@ -144,7 +144,7 @@ export function AccordionButton({
     <>
       <MuiButton
         style={{
-          width: "100%",
+          width: "fit-content",
         }}
         onClick={() => setIsExpanded(!isExpanded)}
       >

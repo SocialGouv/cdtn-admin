@@ -21,7 +21,7 @@ import { jsxJoin } from "src/lib/jsx";
 import type { AlertStatusType } from "src/models";
 import { alertStatusWordings } from "src/models";
 import { useQuery } from "urql";
-import { Card, CardContent, Container, Divider } from "@mui/material";
+import { Card, CardContent, Container } from "@mui/material";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
 import { theme } from "src/theme";
 
@@ -199,7 +199,12 @@ export function AlertPage(): JSX.Element {
                     <AlertTitle alertId={alert.id} info={alert.changes}>
                       {getTitle(alert)}
                     </AlertTitle>
-                    <Accordion collapsible multiple defaultIndex={openIndices}>
+                    <Accordion
+                      collapsible
+                      multiple
+                      defaultIndex={openIndices}
+                      style={{ display: "flex", flexDirection: "column" }}
+                    >
                       {accordionItems}
                     </Accordion>
                   </Stack>

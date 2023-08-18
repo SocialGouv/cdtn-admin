@@ -67,7 +67,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
     console.log("update filters");
     onSearchUpdate({
       ...initialValues,
-      [event.target.name]: event.target.value,
+      [event.target.name]:
+        event.target.value === "all" ? null : event.target.value,
     });
   }
 
@@ -89,10 +90,10 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
         <Select
           {...register("source")}
           onChange={triggerUpdateUrl}
-          value={initialValues.source || "toutes-les-sources"}
+          value={initialValues.source || "all"}
           sx={{ marginRight: "15px" }}
         >
-          <MenuItem value="toutes-les-sources">toutes les sources</MenuItem>
+          <MenuItem value={"all"}>toutes les sources</MenuItem>
           {documentSources.map(([source, label]) => (
             <MenuItem
               key={source}

@@ -17,7 +17,7 @@ export const AlertTitle: React.FC<Props> = ({ alertId, info, children }) => {
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between">
       <AlertStatus alertId={alertId} />
-      <h2>{children}</h2>
+      <h2 style={{ marginBottom: "0" }}>{children}</h2>
       {info.type === "dila" && info.num && (
         <a
           style={{ paddingLeft: "0.8rem", paddingRight: "0.8rem" }}
