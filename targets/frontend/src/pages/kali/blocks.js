@@ -6,7 +6,7 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Card, Select, Textarea, Alert } from "@mui/material";
+import { Card, Select, Alert } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 const searchKaliDocumentQuery = `
@@ -144,7 +144,8 @@ function CcnBlocks({ id, blocks, onChange }) {
         return (
           <div key={i}>
             <h3>{blocksDefinition.find((b) => b.id === i + 1).label}</h3>
-            <Textarea
+            <textarea
+              className="fr-input"
               style={{ height: boxHeight }}
               value={
                 (selection && selection.join && selection.join("\n")) || ""

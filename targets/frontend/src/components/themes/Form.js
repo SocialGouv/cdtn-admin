@@ -5,7 +5,7 @@ import { Button } from "src/components/button";
 import { ContentPicker } from "src/components/forms/ContentPicker/index";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { IconPicker } from "src/components/forms/IconPicker";
-import { Box, TextField as Field, Label, Textarea } from "@mui/material";
+import { Box, TextField as Field, Label } from "@mui/material";
 
 const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
   const {
@@ -59,7 +59,8 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
 
         <Box mb="small">
           <Label htmlFor={"description"}>Description</Label>
-          <Textarea
+          <textarea
+            className="fr-input"
             {...register("description")}
             id="description"
             rows={5}

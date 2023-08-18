@@ -5,6 +5,7 @@ import { Dialog } from "src/components/dialog";
 import { Box } from "@mui/material";
 
 import { Map } from "./Map";
+import { theme } from "../../theme";
 
 export const MapModal = () => {
   const [showThemeMap, setShowThemeMap] = useState(false);
@@ -14,7 +15,11 @@ export const MapModal = () => {
       <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
         <Button variant="secondary" onClick={() => setShowThemeMap(true)}>
           <IoMdMap
-            sx={{ height: "iconMedium", mr: "small", width: "iconMedium" }}
+            sx={{
+              height: theme.sizes.iconMedium,
+              mr: theme.space.small,
+              width: theme.sizes.iconMedium,
+            }}
           />
           Carte des thèmes
         </Button>
@@ -23,14 +28,14 @@ export const MapModal = () => {
         isOpen={showThemeMap}
         onDismiss={() => setShowThemeMap(false)}
         aria-label="Carte des thèmes"
-        sx={{
-          left: "50%",
+        style={{
           margin: 0,
           maxHeight: "90vh",
           padding: 0,
-          top: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "90vw",
+          width: "75%",
+          right: "10px",
+          top: "80px",
+          position: "absolute",
         }}
       >
         <Box
