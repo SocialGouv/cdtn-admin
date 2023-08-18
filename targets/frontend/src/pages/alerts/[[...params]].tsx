@@ -17,13 +17,13 @@ import { Stack } from "src/components/layout/Stack";
 import { Pagination } from "src/components/pagination";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { jsxJoin } from "src/lib/jsx";
 import type { AlertStatusType } from "src/models";
 import { alertStatusWordings } from "src/models";
 import { useQuery } from "urql";
 import { Card, CardContent, Container } from "@mui/material";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
 import { theme } from "src/theme";
+import { AlertWarning } from "../../components/alerts/warning/AlertWarning";
 
 const getAlertQuery = `
 query getAlerts($status: String!, $repository: String!, $limit: Int!, $offset: Int!) {
@@ -146,6 +146,7 @@ export function AlertPage(): JSX.Element {
           faciliter le travail de veille. Ces alertes sont à classer en fonction
           de leur impact sur nos contenus.
         </p>
+        <AlertWarning repository={repository} />
         <AlertTabs repository={repository} activeStatus={activeStatus} />
         <small>{alertStatusWordings[activeStatus as AlertStatusType]}</small>
         {alerts.map((alert) => {

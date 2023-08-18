@@ -6,8 +6,9 @@ import {
   convertToDilaAdded,
   convertToDilaRemoved,
 } from "../CompareDilaContent";
-import type { Diff, DilaChanges, RelevantDocumentsFunction } from "../types";
+import type { Diff, DilaChanges } from "../types";
 import type { AgreementFileChange } from "./types";
+import { RelevantDocumentsExtractor } from "../ReleventDocuments";
 
 function extractChanges(fileChange: AgreementFileChange): {
   changes: Diff;
@@ -45,12 +46,12 @@ function extractChanges(fileChange: AgreementFileChange): {
 const processAgreementChanges = async (
   tag: GitTagData,
   fileChanges: AgreementFileChange[],
-  getRelevantDocuments: RelevantDocumentsFunction
+  extractor: RelevantDocumentsExtractor
 ): Promise<DilaChanges[]> => {
   return Promise.all(
     fileChanges.map(async (fileChange) => {
       const { changes, data } = extractChanges(fileChange);
-      const documents = await getRelevantDocuments(changes);
+      const documents = await extractor.extractReferences(changes);
 
       if (documents.length > 0) {
         console.log(

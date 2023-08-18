@@ -29,10 +29,6 @@ export type Diff = {
   removed: DilaRemovedNode[];
 };
 
-export type RelevantDocumentsFunction = (
-  data: Pick<DilaChanges, "modified" | "removed">
-) => Promise<DocumentReferences[]>;
-
 export type Article<T> = T extends { data: AgreementArticleData }
   ? AgreementArticle
   : CodeArticle;

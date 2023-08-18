@@ -20,6 +20,7 @@
 - "!include public_agreements.yaml"
 - "!include public_alert_notes.yaml"
 - "!include public_alert_status.yaml"
+- "!include public_alert_warnings.yaml"
 - "!include public_alerts.yaml"
 - "!include public_document_relations.yaml"
 - "!include public_documents.yaml"

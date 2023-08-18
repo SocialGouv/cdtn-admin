@@ -1,0 +1,2 @@
+CREATE TABLE "public"."alert_warnings" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "created_at" timestamptz NOT NULL DEFAULT now(), "article" text NOT NULL, "document" text NOT NULL, "seen" boolean NOT NULL DEFAULT false, PRIMARY KEY ("id") , UNIQUE ("id"));COMMENT ON TABLE "public"."alert_warnings" IS E'Table contenant les alertes sur les appels à la DILA lors du job alert-cli';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

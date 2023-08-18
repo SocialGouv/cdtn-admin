@@ -1,7 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import type { DilaChanges } from "@shared/types";
-
-import { getRelevantDocuments } from "../diff/dila/ReleventDocuments";
+import { RelevantDocumentsExtractorImpl } from "../diff/dila/ReleventDocuments";
 
 jest.mock("../extractDilaReferences/ficheTravailEmploi", () => () => []);
 jest.mock("../extractDilaReferences/mailTemplates", () => () => []);
@@ -68,6 +67,7 @@ jest.mock("../extractDilaReferences/contribution", () => () => [
 ]);
 
 describe("getRelevantContent", () => {
+  const extractor = new RelevantDocumentsExtractorImpl();
   it("should return an array of document that match modified changes", async () => {
     const changes: DilaChanges = {
       added: [],
@@ -109,7 +109,7 @@ describe("getRelevantContent", () => {
         ],
       },
     ];
-    expect(await getRelevantDocuments(changes)).toEqual(expected);
+    expect(await extractor.extractReferences(changes)).toEqual(expected);
   });
   it("should return an array of document that match deleted changes", async () => {
     const changes = {
@@ -138,6 +138,6 @@ describe("getRelevantContent", () => {
         ],
       },
     ];
-    expect(await getRelevantDocuments(changes)).toEqual(expected);
+    expect(await extractor.extractReferences(changes)).toEqual(expected);
   });
 });
