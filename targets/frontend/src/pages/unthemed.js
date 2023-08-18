@@ -9,12 +9,12 @@ import {
 } from "src/components/home/UnThemedContent";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
-import { Li, List } from "src/components/list";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Typography, CircularProgress, Alert } from "@mui/material";
+import { Box, CircularProgress, Alert, List, ListItem } from "@mui/material";
 import { useMutation, useQuery } from "urql";
+import { theme } from "../theme";
 
 const insertRelationMutation = `
 mutation insertRelation ($relations: [document_relations_insert_input!]!){
@@ -81,43 +81,53 @@ export function UnthemedPage() {
         <Stack>
           {documentsBySource.map(([source, documents]) => {
             return (
-              <Stack key={source} gap="small">
-                <Typography variant="h3">{getLabelBySource(source)}</Typography>
+              <Stack key={source} gap={theme.space.small}>
+                <h2 style={{ marginBottom: "0px" }}>
+                  {getLabelBySource(source)}
+                </h2>
                 <List>
                   {documents.map(({ cdtnId, title, slug }) => (
-                    <Li key={cdtnId}>
-                      <Box paddingBottom="xxsmall">
-                        <Box
-                          sx={{ flex: 1, marginRight: "small", minWidth: 0 }}
-                          title={title}
+                    <ListItem
+                      key={cdtnId}
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          flex: 1,
+                          marginRight: theme.space.xsmall,
+                          minWidth: 0,
+                        }}
+                        title={title}
+                      >
+                        <Link
+                          href={`https://preprod-code-du-travail-numerique.dev.fabrique.social.gouv.fr//${getRouteBySource(
+                            source
+                          )}/${slug}`}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          sx={{
+                            display: "block",
+                            fontWeight: "300",
+                            overflow: "hidden",
+                            textDecoration: "underline",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
                         >
-                          <Link
-                            href={`https://preprod-code-du-travail-numerique.dev.fabrique.social.gouv.fr//${getRouteBySource(
-                              source
-                            )}/${slug}`}
-                            target="_blank"
-                            rel="noreferrer noopener"
-                            sx={{
-                              display: "block",
-                              fontWeight: "300",
-                              overflow: "hidden",
-                              textDecoration: "underline",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            {title}
-                          </Link>
-                        </Box>
-                        <Box sx={{ flex: 1 }}>
-                          <ThemePicker
-                            name={`${cdtnId}`}
-                            control={control}
-                            defaultValue=""
-                          />
-                        </Box>
+                          {title}
+                        </Link>
                       </Box>
-                    </Li>
+                      <Box sx={{ flex: 1 }}>
+                        <ThemePicker
+                          name={`${cdtnId}`}
+                          control={control}
+                          defaultValue=""
+                        />
+                      </Box>
+                    </ListItem>
                   ))}
                 </List>
               </Stack>

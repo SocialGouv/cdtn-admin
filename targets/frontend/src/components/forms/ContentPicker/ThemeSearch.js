@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
-import { Box, Input, Text } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { useQuery } from "urql";
 import { theme as th } from "../../../theme";
 
@@ -96,7 +96,10 @@ ThemeSearch.propTypes = {
 };
 
 const renderInputComponent = (inputProps) => (
-  <Input {...inputProps} sx={{ padding: th.space.xxsmall }} />
+  <TextField
+    {...inputProps}
+    sx={{ padding: th.space.xxsmall, width: "100%" }}
+  />
 );
 
 function shouldRenderSuggestions(value) {
@@ -110,16 +113,12 @@ function renderSuggestion(content) {
   const parentTitle = parent;
   return (
     <Box sx={{ lineHeight: 1.2 }}>
-      <p
-        sx={{
-          color: th.colors.muted,
-          fontSize: th.fontSizes.small,
-          fontWeight: "300",
-        }}
-      >
+      <Typography variant="body2" color="text.secondary">
         {parentTitle}
-      </p>
-      <p sx={{ display: "block" }}>{content.title}</p>
+      </Typography>
+      <Typography variant="body1" className="fr-text--bold">
+        {content.title}
+      </Typography>
     </Box>
   );
 }
@@ -133,7 +132,7 @@ function renderSuggestionsContainer({ containerProps, children }) {
       }}
     >
       <Box
-        style={{
+        sx={{
           ".react-autosuggest__suggestion--highlighted": {
             backgroundColor: th.colors.info,
           },
