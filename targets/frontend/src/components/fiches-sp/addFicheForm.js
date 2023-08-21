@@ -2,7 +2,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useQuery } from "urql";
 
 import { Button, IconButton } from "../button";
@@ -56,7 +56,7 @@ export function AddFicheSpForm({ onAdd }) {
       {fields.map((field, index) => {
         return (
           <Box sx={{ my: theme.space.small }} key={field.key}>
-            <Box sx={{ alignItems: "center", display: "flex" }}>
+            <Stack alignItems="center">
               <TextField
                 sx={{ width: "10rem" }}
                 defaultValue=""
@@ -98,7 +98,7 @@ export function AddFicheSpForm({ onAdd }) {
                   Saisir une fiche supplémentaire
                 </Button>
               )}
-            </Box>
+            </Stack>
             <ErrorMessage
               errors={errors}
               name={`items.${index}.id`}

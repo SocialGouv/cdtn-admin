@@ -38,10 +38,7 @@ export const AlertTitle: React.FC<Props> = ({ alertId, info, children }) => {
         sx={{ justifyItems: "flex-end" }}
         onClick={() => setShowComment(!showComment)}
       >
-        <IoMdChatbubbles
-          aria-label="Voir les commentaires"
-          style={{ height: "iconXSmall", width: "iconXSmall" }}
-        />
+        <IoMdChatbubbles aria-label="Voir les commentaires" />
       </IconButton>
       {showComment && <Comments alertId={alertId} />}
     </Stack>

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { IoMdClose } from "react-icons/io";
 import { IconButton } from "src/components/button";
-import { Box, List as Ul, ListItem } from "@mui/material";
+import { Box, List as Ul, ListItem, Stack } from "@mui/material";
 import { theme } from "src/theme";
 
 export const List = ({
@@ -31,12 +31,9 @@ export const List = ({
         >
           <Box sx={{ display: "flex" }}>
             {!disabled && (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+              <Stack
+                alignItems="center"
+                justifyContent="center"
                 mr={theme.space.xxsmall}
               >
                 <IconButton
@@ -51,15 +48,11 @@ export const List = ({
                     sx={{ flex: "1 0 auto", height: "1rem", width: "1rem" }}
                   />
                 </IconButton>
-              </Box>
+              </Stack>
             )}
-            <Box
-              style={{
-                justifyContent: "center",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >{`${entry}`}</Box>
+            <Stack alignItems="center" justifyContent="center">
+              {`${entry}`}
+            </Stack>
           </Box>
         </ListItem>
       ))}
