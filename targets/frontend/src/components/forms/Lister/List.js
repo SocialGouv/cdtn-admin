@@ -31,9 +31,12 @@ export const List = ({
         >
           <Box sx={{ display: "flex" }}>
             {!disabled && (
-              <Stack
-                alignItems="center"
-                justifyContent="center"
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
                 mr={theme.space.xxsmall}
               >
                 <IconButton
@@ -48,11 +51,15 @@ export const List = ({
                     sx={{ flex: "1 0 auto", height: "1rem", width: "1rem" }}
                   />
                 </IconButton>
-              </Stack>
+              </Box>
             )}
-            <Stack alignItems="center" justifyContent="center">
-              {`${entry}`}
-            </Stack>
+            <Box
+              style={{
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >{`${entry}`}</Box>
           </Box>
         </ListItem>
       ))}

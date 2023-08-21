@@ -56,7 +56,7 @@ export function AddFicheSpForm({ onAdd }) {
       {fields.map((field, index) => {
         return (
           <Box sx={{ my: theme.space.small }} key={field.key}>
-            <Stack alignItems="center">
+            <Box sx={{ alignItems: "center", display: "flex" }}>
               <TextField
                 sx={{ width: "10rem" }}
                 defaultValue=""
@@ -98,7 +98,7 @@ export function AddFicheSpForm({ onAdd }) {
                   Saisir une fiche supplémentaire
                 </Button>
               )}
-            </Stack>
+            </Box>
             <ErrorMessage
               errors={errors}
               name={`items.${index}.id`}
