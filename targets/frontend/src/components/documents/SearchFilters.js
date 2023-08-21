@@ -68,7 +68,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
     onSearchUpdate({
       ...initialValues,
       [event.target.name]:
-        event.target.value === "all" ? null : event.target.value,
+        event.target.value === "all" ? "" : event.target.value,
     });
   }
 

@@ -20,7 +20,7 @@ import { withUserProvider } from "src/hoc/UserProvider";
 import type { AlertStatusType } from "src/models";
 import { alertStatusWordings } from "src/models";
 import { useQuery } from "urql";
-import { Card, CardContent, Container } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
 import { theme } from "src/theme";
 import { AlertWarning } from "../../components/alerts/warning/AlertWarning";
@@ -193,7 +193,7 @@ export function AlertPage(): JSX.Element {
           }
 
           return (
-            <Container sx={{ paddingTop: "large" }} key={`${alert.id}`}>
+            <div key={`${alert.id}`} style={{ width: "100%" }}>
               <Card>
                 <CardContent>
                   <Stack>
@@ -211,7 +211,7 @@ export function AlertPage(): JSX.Element {
                   </Stack>
                 </CardContent>
               </Card>
-            </Container>
+            </div>
           );
         })}
         <Pagination

@@ -37,7 +37,7 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
     }
   };
   return (
-    <Box style={{ maxWidth: "500px" }}>
+    <Card style={{ maxWidth: "500px", padding: "30px" }}>
       <form onSubmit={handleSubmit(submit)}>
         <Stack>
           <Typography variant="h3" style={{ marginBottom: "40px" }}>
@@ -83,7 +83,6 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
           </Button>
           <Button
             variant="text"
-            size="small"
             title="Saisissez votre email pour récupérer votre mot de passe"
             onClick={resetPassword}
             type="button"
@@ -92,7 +91,7 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
           </Button>
         </Stack>
       </form>
-    </Box>
+    </Card>
   );
 };
 
