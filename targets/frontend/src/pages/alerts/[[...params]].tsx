@@ -193,7 +193,10 @@ export function AlertPage(): JSX.Element {
           }
 
           return (
-            <div key={`${alert.id}`} style={{ width: "100%" }}>
+            <div
+              key={`${alert.id}`}
+              style={{ width: "100%", position: "relative" }}
+            >
               <Card>
                 <CardContent>
                   <Stack>

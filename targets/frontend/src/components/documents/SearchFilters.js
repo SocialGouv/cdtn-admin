@@ -68,7 +68,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
     onSearchUpdate({
       ...initialValues,
       [event.target.name]:
-        event.target.value === "all" ? "" : event.target.value,
+        event.target.value === "no-filter" ? "" : event.target.value,
     });
   }
 
@@ -90,10 +90,10 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
         <Select
           {...register("source")}
           onChange={triggerUpdateUrl}
-          value={initialValues.source || "all"}
+          value={initialValues.source || "no-filter"}
           sx={{ marginRight: "15px" }}
         >
-          <MenuItem value={"all"}>toutes les sources</MenuItem>
+          <MenuItem value={"no-filter"}>toutes les sources</MenuItem>
           {documentSources.map(([source, label]) => (
             <MenuItem
               key={source}

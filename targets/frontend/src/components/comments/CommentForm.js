@@ -19,7 +19,7 @@ export function CommentForm({ onSubmit }) {
 
   return (
     <form onSubmit={handleSubmit(submitHandler)}>
-      <div sx={{ alignItems: "center", display: "flex" }}>
+      <div sx={{ alignItems: "center", display: "flex", marginTop: "10px" }}>
         <TextField
           sx={{
             width: "100%",

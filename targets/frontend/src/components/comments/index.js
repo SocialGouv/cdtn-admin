@@ -66,20 +66,20 @@ Comments.propTypes = {
 
 function CommentsContainer({ alertId }) {
   return (
-    <div style={{ position: "relative"}}>
-      <Card
-        style={{
-          boxShadow: theme.space.large,
-          flexDirection: "column",
-          minWidth: "30rem",
-          position: "absolute",
-          right: "30px",
-          padding: "20px",
-        }}
-      >
-        <Comments alertId={alertId} />
-      </Card>
-    </div>
+    <Card
+      style={{
+        boxShadow: theme.space.large,
+        flexDirection: "column",
+        minWidth: "30rem",
+        position: "absolute",
+        right: "55px",
+        top: "35px",
+        padding: "20px",
+        zIndex: 100,
+      }}
+    >
+      <Comments alertId={alertId} />
+    </Card>
   );
 }
 CommentsContainer.propTypes = {
