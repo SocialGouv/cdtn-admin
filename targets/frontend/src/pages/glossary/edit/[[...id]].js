@@ -56,6 +56,10 @@ export function EditTermPage() {
 
   // const notFound = !fetching && termId && !term.id;
 
+  if (!term) {
+    return <Layout title="Terme introuvable" />;
+  }
+
   return (
     <Layout title={`${term.id ? "Modifier" : "Ajouter"}  un terme`}>
       <Stack>

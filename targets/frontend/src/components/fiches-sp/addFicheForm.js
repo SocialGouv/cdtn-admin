@@ -113,6 +113,7 @@ export function AddFicheSpForm({ onAdd }) {
           style={{
             marginTop: "20px",
           }}
+          type="submit"
         >
           {isDirty && Object.keys(errors).length === 0 && (
             <IoMdCheckmark

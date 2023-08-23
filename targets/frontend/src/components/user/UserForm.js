@@ -74,7 +74,9 @@ export function UserForm({
         )}
         <div style={{ marginTop: "20px", marginLeft: "20px" }}>
           <Inline>
-            <Button disabled={hasError || loading}>{buttonLabel}</Button>
+            <Button disabled={hasError || loading} type="submit">
+              {buttonLabel}
+            </Button>
             <Link
               href={backHref}
               passHref

@@ -150,7 +150,7 @@ function renderSuggestionsContainer({ containerProps, children }) {
           li: {
             ":nth-of-type(2n + 1):not(.react-autosuggest__suggestion--highlighted)":
               {
-                backgroundColor: th.colors.highlight,
+                backgroundColor: "#1b1b35",
               },
             cursor: "pointer",
             margin: "0",
