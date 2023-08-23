@@ -48,7 +48,7 @@ const DocumentRow = function DocumentRow({
   document: { cdtnId, source, title, isPublished, isAvailable },
 }) {
   const [selectedItems, setSelectedItems] = useSelectionContext();
-  const updatePublishedRef = (cdtnId) => {
+  const updatePublishedRef = () => {
     // eslint-disable-next-line no-prototype-builtins
     if (selectedItems.hasOwnProperty(cdtnId)) {
       delete selectedItems[cdtnId];
@@ -63,17 +63,18 @@ const DocumentRow = function DocumentRow({
       <TableCell>
         <div class="fr-checkbox-group">
           <input
-            onChange={() => updatePublishedRef(cdtnId)}
+            name={cdtnId}
+            onChange={updatePublishedRef}
             checked={
               selectedItems.hasOwnProperty(cdtnId) ? !isPublished : isPublished
             }
-            sx={checkboxStyles}
             type="checkbox"
             aria-describedby="checkbox-messages"
+            id={`row-${cdtnId}`}
           />
-          <label class="fr-label" for="checkbox" />
+          <label className="fr-label" htmlFor={`row-${cdtnId}`} />
           <div
-            class="fr-messages-group"
+            className="fr-messages-group"
             id="checkbox-messages"
             aria-live="polite"
           ></div>
@@ -143,11 +144,4 @@ export const sourceToRoute = ({ cdtnId, source }) => {
     default:
       return `/contenus/${cdtnId}`;
   }
-};
-
-const checkboxStyles = {
-  cursor: "pointer",
-  display: "block",
-  m: "0 0 0 small",
-  padding: 0,
 };
