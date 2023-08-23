@@ -153,7 +153,9 @@ export const TermForm = ({ term = {} }) => {
         <Box
           sx={{ alignItems: "center", mt: theme.space.medium, display: "flex" }}
         >
-          <Button disabled={hasError || loading}>{buttonLabel}</Button>
+          <Button disabled={hasError || loading} type="submit">
+            {buttonLabel}
+          </Button>
           <Link href="/glossary" style={{ marginLeft: theme.space.small }}>
             Annuler
           </Link>

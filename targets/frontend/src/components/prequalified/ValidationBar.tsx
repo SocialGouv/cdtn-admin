@@ -24,7 +24,7 @@ const ValidationBar = ({
       }}
     >
       {/* @ts-ignore */}
-      <Button variant="secondary" disabled={loading || !isDirty}>
+      <Button variant="secondary" disabled={loading || !isDirty} type="submit">
         {isDirty && (
           <IoMdCheckmark
             style={{

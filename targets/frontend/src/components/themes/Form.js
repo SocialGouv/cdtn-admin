@@ -109,7 +109,9 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
         <Box
           sx={{ alignItems: "center", mt: th.space.medium, display: "flex" }}
         >
-          <Button disabled={hasError || loading}>{buttonLabel}</Button>
+          <Button type="submit" disabled={hasError || loading}>
+            {buttonLabel}
+          </Button>
           <Link
             href={backLink}
             passHref

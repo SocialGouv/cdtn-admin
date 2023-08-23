@@ -131,6 +131,7 @@ function CcnBlocks({ id, blocks, onChange }) {
         disabled={!dirty}
         onClick={onSaveClick}
         style={{ margin: "20px" }}
+        type="submit"
       >
         <>
           <IoMdSave
