@@ -14,6 +14,11 @@ type Document = {
   source: SourceRoute;
 };
 
+const slugStartsWithNumber = (slug: string) => {
+  const [firstElement] = slug.split("-");
+  return !isNaN(parseInt(firstElement));
+};
+
 export async function toUrlEntries(
   documents: Document[],
   glossaryTerms: Document[],
@@ -27,7 +32,11 @@ export async function toUrlEntries(
       latestPost = postDate;
     }
     const source = getRouteBySource(doc.source);
-    const priority = source === SOURCES.EDITORIAL_CONTENT ? 0.7 : 0.5;
+    const priority =
+      source === SOURCES.EDITORIAL_CONTENT ||
+      (source === "contribution" && !slugStartsWithNumber(doc.slug))
+        ? 0.7
+        : 0.5;
     const projectURL = `${baseUrl}/${source}/${doc.slug}`;
     return toUrlEntry(projectURL, doc.modified, priority);
   });
