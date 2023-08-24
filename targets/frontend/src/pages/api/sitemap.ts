@@ -7,7 +7,7 @@ import {
 import { NextApiRequest, NextApiResponse } from "next";
 import pLimit from "p-limit";
 
-type Document = {
+export type Document = {
   __typename: string;
   modified: string;
   slug: string;
