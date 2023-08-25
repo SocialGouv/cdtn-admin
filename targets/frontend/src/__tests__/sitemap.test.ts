@@ -1,9 +1,9 @@
-import { toUrlEntries } from "../pages/api/sitemap";
+import { toUrlEntries, Document } from "../pages/api/sitemap";
 
 jest.mock("p-limit", () => () => ({}));
 
 describe("Sitemap", () => {
-  const documents = [
+  const documents: Document[] = [
     {
       __typename: "documents",
       modified: "2022-01-03T00:30:44.301258+00:00",
@@ -46,12 +46,19 @@ describe("Sitemap", () => {
       slug: "1634-quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite",
       source: "contributions",
     },
+    {
+      __typename: "documents",
+      modified: "2022-01-19T11:07:11.31437+00:00",
+      slug: "quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite",
+      source: "contributions",
+    },
   ];
-  const glossaryTerms = [
+  const glossaryTerms: Document[] = [
     {
       __typename: "glossary",
       modified: "2020-11-25T14:38:50.085775+00:00",
       slug: "abrogation",
+      source: "glossary",
     },
   ];
   it("should generate urlEntry for given documents", async () => {
@@ -66,6 +73,7 @@ describe("Sitemap", () => {
       "<url><loc>base.url/information/indemnite-inflation-infographies</loc><lastmod>2022-01-07T13:09:02.024878+00:00</lastmod><priority>0.7</priority></url>\n",
       "<url><loc>base.url/themes/greve</loc><lastmod>2020-11-16T15:46:33.470855+00:00</lastmod><priority>0.5</priority></url>\n",
       "<url><loc>base.url/contribution/1634-quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite</loc><lastmod>2022-01-19T11:07:11.31437+00:00</lastmod><priority>0.5</priority></url>\n",
+      "<url><loc>base.url/contribution/quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite</loc><lastmod>2022-01-19T11:07:11.31437+00:00</lastmod><priority>0.7</priority></url>\n",
     ]);
     expect(staticPages.length).toEqual(8);
     expect(staticPages[0]).toContain("<url><loc>base.url/a-propos</loc>");
