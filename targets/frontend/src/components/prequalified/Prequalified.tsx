@@ -32,14 +32,14 @@ const PrequalifiedForm = ({
   } = useForm();
   return (
     <form
-      onSubmit={handleSubmit((values) =>
+      onSubmit={handleSubmit((values) => {
         onSubmit({
           ...values,
           isPublished: false,
           isSearchable: false,
           text: values.title,
-        })
-      )}
+        });
+      })}
     >
       <>
         <div style={{ marginBottom: theme.space.small }}>

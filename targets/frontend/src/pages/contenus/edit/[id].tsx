@@ -14,11 +14,9 @@ import { PrequalifiedForm } from "src/components/prequalified";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
-import { RELATIONS } from "src/lib/relations";
 import {
   Content,
   ContentQuery,
-  ContentRelation,
   HighLightContent,
   PrequalifiedContent,
 } from "src/types";
@@ -30,31 +28,9 @@ import editContentMutation from "./editContent.mutation.graphql";
 import getContentQuery from "./getContent.query.graphql";
 import Box from "@mui/material/Box";
 import { theme } from "src/theme";
+import { getContentRelationIds, mapContentRelations } from "./utils";
 
 const context = { additionalTypenames: ["documents", "document_relations"] };
-
-function getContentRelationIds(
-  content: Content | PrequalifiedContent | HighLightContent
-) {
-  return content.contentRelations
-    ?.map((relation: ContentRelation) => relation?.relationId)
-    .filter(Boolean);
-}
-
-function mapContentRelations(
-  content: Content | PrequalifiedContent | HighLightContent,
-  queryId: string
-) {
-  return content.contentRelations.map(
-    (relation: ContentRelation, index: number) => ({
-      data: { position: index },
-      document_a: queryId,
-      document_b: relation?.cdtnId,
-      id: relation?.relationId,
-      type: RELATIONS.DOCUMENT_CONTENT,
-    })
-  );
-}
 
 export function EditInformationPage() {
   const router = useRouter();
@@ -102,9 +78,9 @@ export function EditInformationPage() {
     };
 
   const onSubmitContent = onSubmit<Content>((contentItem: Content) => {
-    const relationIds = getContentRelationIds(contentItem);
+    const relationIds = getContentRelationIds(contentItem.contentRelations);
     const relations = mapContentRelations(
-      contentItem,
+      contentItem.contentRelations,
       router.query.id as string
     );
     return {
@@ -130,9 +106,9 @@ export function EditInformationPage() {
 
   const onSubmitHightlight = onSubmit<HighLightContent>(
     (contentItem: HighLightContent) => {
-      const relationIds = getContentRelationIds(contentItem);
+      const relationIds = getContentRelationIds(contentItem.contentRelations);
       const relations = mapContentRelations(
-        contentItem,
+        contentItem.contentRelations,
         router.query.id as string
       );
       return {
@@ -156,9 +132,9 @@ export function EditInformationPage() {
 
   const onSubmitPrequalified = onSubmit<PrequalifiedContent>(
     (contentItem: PrequalifiedContent) => {
-      const relationIds = getContentRelationIds(contentItem);
+      const relationIds = getContentRelationIds(contentItem.contentRelations);
       const relations = mapContentRelations(
-        contentItem,
+        contentItem.contentRelations,
         router.query.id as string
       );
       return {

@@ -9,6 +9,7 @@ mutation CreateContent(
   $slug: String!
   $source: String!
   $title: String!
+  $relationIds: [uuid!]!
 ) {
   insert_documents_one(
     object: {
@@ -19,7 +20,7 @@ mutation CreateContent(
       meta_description: $metaDescription
       document: $document
       source: $source
-      text: ""
+      text: $title
       is_available: true
       is_searchable: $isSearchable
       is_published: $isPublished
@@ -27,7 +28,19 @@ mutation CreateContent(
   ) {
     cdtn_id
   }
-  insert_document_relations(objects: $relations) {
+  delete_document_relations(
+    where: {
+      id: { _nin: $relationIds }
+      document_a: { _eq: $cdtn_id }
+      type: { _eq: "document-content" }
+    }
+  ) {
+    affected_rows
+  }
+  insert_document_relations(
+    objects: $relations
+    on_conflict: { constraint: document_relations_pkey, update_columns: data }
+  ) {
     affected_rows
   }
 }

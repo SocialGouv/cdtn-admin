@@ -23,8 +23,7 @@ const ValidationBar = ({
         display: "flex",
       }}
     >
-      {/* @ts-ignore */}
-      <Button variant="secondary" disabled={loading || !isDirty} type="submit">
+      <Button variant="contained" disabled={loading || !isDirty} type="submit">
         {isDirty && (
           <IoMdCheckmark
             style={{
@@ -43,7 +42,7 @@ const ValidationBar = ({
           e.preventDefault();
           router.back();
         }}
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: "none", marginLeft: theme.space.small }}
       >
         Annuler
       </Link>
