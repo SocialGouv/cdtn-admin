@@ -21,7 +21,10 @@ import {
 } from "@mui/material";
 
 import createContentMutation from "./createContent.mutation.graphql";
-import { getContentRelationIds, mapContentRelations } from "../edit/utils";
+import {
+  getContentRelationIds,
+  mapContentRelations,
+} from "../../../lib/contenus/utils";
 
 const CREATABLE_SOURCES = [
   SOURCES.EDITORIAL_CONTENT,

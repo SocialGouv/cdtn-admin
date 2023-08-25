@@ -28,7 +28,10 @@ import editContentMutation from "./editContent.mutation.graphql";
 import getContentQuery from "./getContent.query.graphql";
 import Box from "@mui/material/Box";
 import { theme } from "src/theme";
-import { getContentRelationIds, mapContentRelations } from "./utils";
+import {
+  getContentRelationIds,
+  mapContentRelations,
+} from "../../../lib/contenus/utils";
 
 const context = { additionalTypenames: ["documents", "document_relations"] };
 
