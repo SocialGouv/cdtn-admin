@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.12.1...v2.13.0) (2023-08-25)
+
+### Features
+
+- add warnings when DILA API call failed to get references ([#987](https://github.com/SocialGouv/cdtn-admin/issues/987)) ([65b922d](https://github.com/SocialGouv/cdtn-admin/commit/65b922d9cb6450a7a0246d628b30e0f93fbbf9ff))
+
 ## [2.12.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.12.0...v2.12.1) (2023-08-04)
 
 **Note:** Version bump only for package alert-cli
