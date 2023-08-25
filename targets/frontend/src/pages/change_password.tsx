@@ -33,12 +33,12 @@ export default function ChangePasswordPage() {
     return (
       <PasswordLayout title={title}>
         {activate ? (
-          <Typography sx={{ fontWeight: 300 }}>
+          <Typography style={{ fontWeight: 300 }}>
             Votre compte a été activé. Suivez le lien fourni pour vous
             connecter.
           </Typography>
         ) : (
-          <Typography sx={{ fontWeight: 300 }}>
+          <Typography style={{ fontWeight: 300 }}>
             Votre mot de passe a été ré-initialisé, suivez le lien fourni pour
             vous connecter.
           </Typography>

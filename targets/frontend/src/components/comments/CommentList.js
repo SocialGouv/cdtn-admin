@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import { useLayoutEffect, useRef } from "react";
-import { Box, Text } from "theme-ui";
+import { Box } from "@mui/material";
 
 import { Stack } from "../layout/Stack";
 import { Comment, commentPropTypes } from "./Comment";
+import { theme } from "src/theme";
 
 export function CommentList({ comments }) {
   const scrollContainer = useRef();
@@ -23,9 +24,7 @@ export function CommentList({ comments }) {
             <Comment key={comment.id} comment={comment} />
           ))
         ) : (
-          <Text as="p" sx={{ color: "muted" }}>
-            Aucun commentaire
-          </Text>
+          <p sx={{ color: theme.colors.muted }}>Aucun commentaire</p>
         )}
       </Stack>
     </Box>

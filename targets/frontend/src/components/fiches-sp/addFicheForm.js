@@ -2,10 +2,11 @@ import { ErrorMessage } from "@hookform/error-message";
 import { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
-import { Box, Field, Flex, Heading, Text } from "theme-ui";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useQuery } from "urql";
 
 import { Button, IconButton } from "../button";
+import { theme } from "src/theme";
 
 export function AddFicheSpForm({ onAdd }) {
   const [result] = useQuery({
@@ -46,17 +47,17 @@ export function AddFicheSpForm({ onAdd }) {
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Heading as="h3" sx={{ fontSize: "large", fontWeight: "600" }}>
+      <Typography variant="h3" sx={{ fontSize: "large", fontWeight: "600" }}>
         Ajouter des fiches
-      </Heading>
-      <Text>{`Renseignez l’identifiant ${
+      </Typography>
+      <p>{`Renseignez l’identifiant ${
         fields.length > 1 ? "des" : "de la"
-      } fiche${fields.length > 1 ? "s" : ""} à ajouter`}</Text>
+      } fiche${fields.length > 1 ? "s" : ""} à ajouter`}</p>
       {fields.map((field, index) => {
         return (
-          <Box sx={{ my: "small" }} key={field.key}>
-            <Flex sx={{ alignItems: "center" }}>
-              <Field
+          <Box sx={{ my: theme.space.small }} key={field.key}>
+            <Box sx={{ alignItems: "center", display: "flex" }}>
+              <TextField
                 sx={{ width: "10rem" }}
                 defaultValue=""
                 onKeyDown={handleKeyDown}
@@ -91,13 +92,13 @@ export function AddFicheSpForm({ onAdd }) {
                   variant="secondary"
                   outline
                   type="button"
-                  sx={{ flex: "0 0 auto", ml: "xxlarge" }}
+                  style={{ flex: "0 0 auto", marginLeft: theme.space.xxlarge }}
                   onClick={() => append({ id: "" })}
                 >
                   Saisir une fiche supplémentaire
                 </Button>
               )}
-            </Flex>
+            </Box>
             <ErrorMessage
               errors={errors}
               name={`items.${index}.id`}
@@ -108,15 +109,18 @@ export function AddFicheSpForm({ onAdd }) {
       })}
       <Box>
         <Button
-          variant="primary"
           disabled={Object.keys(errors).length > 0 || !isDirty}
+          style={{
+            marginTop: "20px",
+          }}
+          type="submit"
         >
           {isDirty && Object.keys(errors).length === 0 && (
             <IoMdCheckmark
-              sx={{
-                height: "iconSmall",
-                mr: "xsmall",
-                width: "iconSmall",
+              style={{
+                height: theme.sizes.iconSmall,
+                marginRight: theme.space.xsmall,
+                width: theme.sizes.iconSmall,
               }}
             />
           )}

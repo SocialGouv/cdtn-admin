@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 
 import createContentMutation from "./createContent.mutation.graphql";
+import { getContentRelationIds, mapContentRelations } from "../edit/utils";
 
 const CREATABLE_SOURCES = [
   SOURCES.EDITORIAL_CONTENT,
@@ -35,7 +36,7 @@ export function CreateDocumentPage() {
   const [createResult, createContent] = useMutation(createContentMutation);
 
   async function onSubmit({
-    contents = [],
+    contentRelations = [],
     document = {},
     isSearchable,
     isPublished,
@@ -44,22 +45,25 @@ export function CreateDocumentPage() {
     title,
   }: Content) {
     const newIds = generateIds(source);
-    await createContent({
+    const relationIds = getContentRelationIds(contentRelations);
+    const relations = mapContentRelations(contentRelations, newIds.cdtn_id);
+    const result = await createContent({
       ...newIds,
       document,
       isPublished: typeof isPublished !== "undefined" ? isPublished : true,
       isSearchable: typeof isSearchable !== "undefined" ? isSearchable : true,
       metaDescription: metaDescription || document.description || title,
-      relations: contents.map(({ cdtnId }: ContentRelation, index: number) => ({
-        data: { position: index },
-        document_a: newIds.cdtn_id,
-        document_b: cdtnId,
-        type: RELATIONS.DOCUMENT_CONTENT,
-      })),
+      relations,
+      relationIds,
       slug: slug || slugify(title as string),
       source,
       title,
     });
+    if (!result.error) {
+      router.back();
+    } else {
+      console.error(result.error);
+    }
   }
 
   let ContentForm;

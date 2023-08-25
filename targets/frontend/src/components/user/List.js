@@ -1,10 +1,16 @@
-/** @jsxImportSource theme-ui */
-
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoIosCheckmark, IoMdCloseCircle } from "react-icons/io";
-import { Badge, css, Message, Text } from "theme-ui";
+import {
+  Badge,
+  Alert,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableHead,
+} from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 import { Role } from "../../lib/auth/auth.const";
@@ -82,9 +88,9 @@ export function UserList() {
   if (fetching) return <p>chargement...</p>;
   if (error)
     return (
-      <Message>
+      <Alert severity="error">
         <pre>{JSON.stringify(error, 0, 2)}</pre>
-      </Message>
+      </Alert>
     );
   return (
     <>
@@ -93,27 +99,27 @@ export function UserList() {
         onDismiss={close}
         ariaLabel="Supprimer l'utilisateur"
       >
-        <Text>Etes vous sur de vouloir supprimer l’utilisateur</Text>
+        <p>Etes vous sur de vouloir supprimer l’utilisateur</p>
         <strong>{selectedUser?.email}</strong>
         <Inline>
           <Button onClick={onDeleteUser}>Supprimer l’utilisateur</Button>
-          <Button variant="link" onClick={close}>
+          <Button variant="text" onClick={close}>
             Annuler
           </Button>
         </Inline>
       </Dialog>
-      <table css={styles.table}>
-        <thead>
-          <tr>
-            <Th align="center">Rôle</Th>
-            <Th>Nom d’utilisateur</Th>
-            <Th>Email</Th>
-            <Th>Date de création</Th>
-            <Th align="center">Activé</Th>
-            <Th align="center">Actions</Th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">Rôle</TableCell>
+            <TableCell>Nom d’utilisateur</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Date de création</TableCell>
+            <TableCell align="center">Activé</TableCell>
+            <TableCell align="center">Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {data.users.map(
             ({
               id,
@@ -123,80 +129,41 @@ export function UserList() {
               created_at,
               active,
             }) => (
-              <Tr key={id}>
-                <Td align="center">
+              <TableRow key={id}>
+                <TableCell align="center">
                   <Badge
                     variant={role === Role.SUPER ? "primary" : "secondary"}
                   >
                     {role}
                   </Badge>
-                </Td>
-                <Td>{name}</Td>
-                <Td>{email}</Td>
-                <Td>{new Date(created_at).toLocaleDateString("fr-FR")}</Td>
-                <Td align="center">
+                </TableCell>
+                <TableCell>{name}</TableCell>
+                <TableCell>{email}</TableCell>
+                <TableCell>
+                  {new Date(created_at).toLocaleDateString("fr-FR")}
+                </TableCell>
+                <TableCell align="center">
                   {active ? <IoIosCheckmark /> : <IoMdCloseCircle />}
-                </Td>
-                <Td align="center">
+                </TableCell>
+                <TableCell align="center">
                   <MenuButton variant="secondary">
                     <MenuItem
-                      onSelect={() =>
+                      onClick={() =>
                         router.push("/user/edit/[id]", `/user/edit/${id}`)
                       }
                     >
                       Modifier
                     </MenuItem>
-                    <MenuItem onSelect={() => confirmDeleteUser(id, email)}>
+                    <MenuItem onClick={() => confirmDeleteUser(id, email)}>
                       Supprimer
                     </MenuItem>
                   </MenuButton>
-                </Td>
-              </Tr>
+                </TableCell>
+              </TableRow>
             )
           )}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </>
   );
 }
-const Tr = (props) => <tr css={styles.tr} {...props} />;
-
-const cellPropTypes = {
-  align: PropTypes.oneOf(["left", "right", "center"]),
-};
-const Th = ({ align = "left", ...props }) => (
-  <th css={styles.th} sx={{ textAlign: align }} {...props} />
-);
-Th.propTypes = cellPropTypes;
-const Td = ({ align = "left", ...props }) => (
-  <td css={styles.td} {...props} sx={{ textAlign: align }} />
-);
-Td.propTypes = cellPropTypes;
-
-const styles = {
-  table: css({
-    borderCollapse: "collapse",
-    borderRadius: "small",
-    overflow: "hidden",
-    width: "100%",
-  }),
-  td: css({
-    fontWeight: 300,
-    px: "xsmall",
-    py: "xxsmall",
-    "tr:nth-of-type(even) &": {
-      bg: "highlight",
-    },
-  }),
-  th: css({
-    borderBottom: "1px solid",
-    fontSize: "medium",
-    // bg: "info",
-    // color: "white",
-    fontWeight: "semibold",
-
-    px: "xsmall",
-
-    py: "xsmall",
-  }),
-};

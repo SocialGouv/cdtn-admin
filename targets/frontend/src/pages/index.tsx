@@ -5,20 +5,18 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Flex, Heading } from "theme-ui";
+import { Box, Typography } from "@mui/material";
 
 export function IndexPage() {
   return (
     <Layout title="Administration des contenus et gestion des alertes">
       <Stack>
-        <Heading as="h2" sx={{ fontSize: "large" }}>
-          Tableau de bord
-        </Heading>
-        <Flex sx={{ flexWrap: "wrap", gap: "2rem" }}>
+        <Typography variant="h3">Tableau de bord</Typography>
+        <Box sx={{ flexWrap: "wrap", gap: "2rem", display: "flex" }}>
           <UnThemedContent />
           <DuplicateContent />
           <GhostLinkedDocuments />
-        </Flex>
+        </Box>
       </Stack>
     </Layout>
   );

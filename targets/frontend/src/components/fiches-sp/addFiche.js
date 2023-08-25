@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box } from "theme-ui";
+import { Box } from "@mui/material";
 import { useMutation } from "urql";
 
 import { Button } from "../button";
@@ -19,9 +19,7 @@ export function AddFiches() {
   };
   return (
     <Box>
-      <Button size="small" onClick={openAddDialog}>
-        Ajouter des fiches
-      </Button>
+      <Button onClick={openAddDialog}>Ajouter des fiches</Button>
       <Dialog
         isOpen={showAddDialog}
         onDismiss={closeAddDialog}

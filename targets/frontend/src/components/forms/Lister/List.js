@@ -1,9 +1,8 @@
-/** @jsxImportSource theme-ui */
-
 import PropTypes from "prop-types";
 import { IoMdClose } from "react-icons/io";
 import { IconButton } from "src/components/button";
-import { Box, Flex } from "theme-ui";
+import { Box, List as Ul, ListItem, Stack } from "@mui/material";
+import { theme } from "src/theme";
 
 export const List = ({
   disabled = false,
@@ -11,29 +10,37 @@ export const List = ({
   onDeleteEntry = () => {},
 }) => {
   return (
-    <ul
+    <Ul
       sx={{
-        borderRadius: "small",
+        borderRadius: theme.space.xsmall,
         listStyleType: "none",
         m: "0",
-        mb: "xxsmall",
         p: 0,
       }}
     >
       {entries.map((entry) => (
-        <li
+        <ListItem
           key={entry}
           sx={{
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
+            m: 0,
+            p: 0,
           }}
         >
-          <Flex>
+          <Box sx={{ display: "flex" }}>
             {!disabled && (
-              <Flex mr="xxsmall">
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                mr={theme.space.xxsmall}
+              >
                 <IconButton
-                  sx={{ flex: "0 0 auto", padding: "small" }}
+                  sx={{ flex: "0 0 auto", padding: theme.space.small }}
                   type="button"
                   variant="secondary"
                   onClick={() => {
@@ -44,13 +51,19 @@ export const List = ({
                     sx={{ flex: "1 0 auto", height: "1rem", width: "1rem" }}
                   />
                 </IconButton>
-              </Flex>
+              </Box>
             )}
-            <Box>{`${entry}`}</Box>
-          </Flex>
-        </li>
+            <Box
+              style={{
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >{`${entry}`}</Box>
+          </Box>
+        </ListItem>
       ))}
-    </ul>
+    </Ul>
   );
 };
 

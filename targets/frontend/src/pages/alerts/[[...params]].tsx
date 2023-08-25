@@ -17,12 +17,12 @@ import { Stack } from "src/components/layout/Stack";
 import { Pagination } from "src/components/pagination";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { jsxJoin } from "src/lib/jsx";
 import type { AlertStatusType } from "src/models";
 import { alertStatusWordings } from "src/models";
 import { useQuery } from "urql";
-import { Card, CardContent, Container, Divider } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
+import { theme } from "src/theme";
 import { AlertWarning } from "../../components/alerts/warning/AlertWarning";
 
 const getAlertQuery = `
@@ -116,11 +116,12 @@ export function AlertPage(): JSX.Element {
         <span title={alert.changes.title}>
           IDCC {alert.changes.num}
           <IoIosInformationCircleOutline
-            style={{ verticalAlign: "super" }}
-            sx={{
-              height: "iconsXSmall",
-              mx: "0.1rem",
-              width: "iconsXSmall",
+            style={{
+              height: theme.sizes.iconsXSmall,
+              marginLeft: "0.1rem",
+              marginRight: "0.1rem",
+              width: theme.sizes.iconsXSmall,
+              verticalAlign: "super",
             }}
           />
           - {new Date(alert.created_at).toLocaleDateString()} ({alert.ref})
@@ -139,7 +140,7 @@ export function AlertPage(): JSX.Element {
   return (
     <Layout title="Gestion des alertes">
       <Stack>
-        <p sx={{ fontSize: "small" }}>
+        <p style={{ fontSize: theme.fontSizes.small }}>
           Les modifications des textes officiels (code du travail, conventions
           collective) sont analysé afin de produire des alertes afin de
           faciliter le travail de veille. Ces alertes sont à classer en fonction
@@ -192,20 +193,28 @@ export function AlertPage(): JSX.Element {
           }
 
           return (
-            <Container sx={{ paddingTop: "large" }} key={`${alert.id}`}>
+            <div
+              key={`${alert.id}`}
+              style={{ width: "100%", position: "relative" }}
+            >
               <Card>
                 <CardContent>
                   <Stack>
                     <AlertTitle alertId={alert.id} info={alert.changes}>
                       {getTitle(alert)}
                     </AlertTitle>
-                    <Accordion collapsible multiple defaultIndex={openIndices}>
-                      {jsxJoin(accordionItems, <Divider />)}
+                    <Accordion
+                      collapsible
+                      multiple
+                      defaultIndex={openIndices}
+                      style={{ display: "flex", flexDirection: "column" }}
+                    >
+                      {accordionItems}
                     </Accordion>
                   </Stack>
                 </CardContent>
               </Card>
-            </Container>
+            </div>
           );
         })}
         <Pagination

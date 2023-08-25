@@ -5,6 +5,7 @@ import { useQuery } from "urql";
 import { Card, CardContent, Typography } from "@mui/material";
 import { FixedSnackBar } from "../utils/SnackBar";
 import React from "react";
+import { theme } from "src/theme";
 
 export const getGhostDocumentQuery = gql`
   query ghostDocuments {
@@ -84,11 +85,11 @@ export function GhostLinkedDocuments(): JSX.Element | null {
         <CardContent>
           <Typography
             align="right"
-            color="secondary"
             variant="h2"
             sx={{
-              fontSize: "xxlarge",
+              fontSize: theme.fontSizes.xxlarge,
               fontWeight: "600",
+              color: theme.colors.secondary,
             }}
           >
             {data?.relations.length}

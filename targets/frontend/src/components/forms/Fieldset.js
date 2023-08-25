@@ -1,15 +1,14 @@
-/** @jsxImportSource theme-ui */
-
 import PropTypes from "prop-types";
+import { theme } from "src/theme";
 
 export const Fieldset = ({ children, title, ...props }) => (
   <fieldset
     sx={{
       backgroundColor: "#fdfdfd",
-      bordeColor: "text",
+      bordeColor: theme.colors.text,
       border: "1px solid",
-      borderRadius: "small",
-      p: "xsmall",
+      borderRadius: theme.space.xsmall,
+      padding: theme.space.xsmall,
     }}
     {...props}
   >

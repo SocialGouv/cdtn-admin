@@ -1,14 +1,13 @@
-/** @jsxImportSource theme-ui */
-
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 import { useUser } from "src/hooks/useUser";
-import { Card, Message } from "theme-ui";
+import { Card, Alert } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 import { Stack } from "../layout/Stack";
 import { CommentForm } from "./CommentForm";
 import { CommentList } from "./CommentList";
+import { theme } from "src/theme";
 
 const commentMutation = `
 mutation insertNote($data: alert_notes_insert_input!) {
@@ -24,29 +23,6 @@ query getComments($alertId: uuid!) {
   }
 }
 `;
-
-function CommentsContainer({ alertId }) {
-  return (
-    <div sx={{ position: "relative" }}>
-      <Card
-        sx={{
-          background: "white",
-          boxShadow: "large",
-          flexDirection: "column",
-          minWidth: "30rem",
-          position: "absolute",
-          right: 0,
-          top: "1em",
-        }}
-      >
-        <Comments alertId={alertId} />
-      </Card>
-    </div>
-  );
-}
-CommentsContainer.propTypes = {
-  alertId: PropTypes.string.isRequired,
-};
 
 function Comments({ alertId }) {
   const [, postComment] = useMutation(commentMutation);
@@ -72,9 +48,9 @@ function Comments({ alertId }) {
   if (fetching) return <Stack>chargement...</Stack>;
   if (error) {
     return (
-      <Message>
+      <Alert severity="error">
         <pre>{JSON.stringify(error, 0, null)}</pre>
-      </Message>
+      </Alert>
     );
   }
   return (
@@ -85,6 +61,28 @@ function Comments({ alertId }) {
   );
 }
 Comments.propTypes = {
+  alertId: PropTypes.string.isRequired,
+};
+
+function CommentsContainer({ alertId }) {
+  return (
+    <Card
+      style={{
+        boxShadow: theme.space.large,
+        flexDirection: "column",
+        minWidth: "30rem",
+        position: "absolute",
+        right: "55px",
+        top: "35px",
+        padding: "20px",
+        zIndex: 100,
+      }}
+    >
+      <Comments alertId={alertId} />
+    </Card>
+  );
+}
+CommentsContainer.propTypes = {
   alertId: PropTypes.string.isRequired,
 };
 

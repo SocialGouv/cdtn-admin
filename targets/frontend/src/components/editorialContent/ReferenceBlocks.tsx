@@ -8,6 +8,7 @@ import { References } from "./References";
 import { FormRadioGroup } from "../forms";
 import React from "react";
 import { Box, Card, CardContent, Stack } from "@mui/material";
+import { theme } from "src/theme";
 
 const JURIDIQUES_LABEL = "Références juridiques";
 const USEFUL_LINKS_LABEL = "Liens utiles";
@@ -47,10 +48,10 @@ export function ReferenceBlocks({ name }: any) {
                   onClick={() => remove(index)}
                 >
                   <IoMdTrash
-                    sx={{
-                      height: "iconSmall",
-                      mr: "xsmall",
-                      width: "iconSmall",
+                    style={{
+                      height: theme.sizes.iconSmall,
+                      marginRight: theme.space.xsmall,
+                      width: theme.sizes.iconSmall,
                     }}
                   />
                   Supprimer ce bloc de références
@@ -91,17 +92,16 @@ export function ReferenceBlocks({ name }: any) {
         <Button
           type="button"
           size="small"
-          variant="secondary"
           outline
           onClick={() => {
             append({ label: JURIDIQUES_LABEL });
           }}
         >
           <IoMdAdd
-            sx={{
-              height: "iconSmall",
-              mr: "xsmall",
-              width: "iconSmall",
+            style={{
+              height: theme.sizes.iconSmall,
+              marginRight: theme.space.xsmall,
+              width: theme.sizes.iconSmall,
             }}
           />
           Ajouter un bloc de références

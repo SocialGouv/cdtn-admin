@@ -17,9 +17,10 @@ import { SectionBlocks } from "./SectionBlocks";
 import { FormTextField } from "../forms";
 import { Card, CardContent, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
+import { theme } from "src/theme";
 
 const DragHandle = sortableHandle(() => (
-  <IconButton variant="secondary" sx={{ cursor: "grab" }}>
+  <IconButton variant="outlined" sx={{ cursor: "grab" }}>
     <IoIosReorder
       aria-label="Réordonner les sections"
       style={{ height: "3rem", width: "3rem" }}
@@ -90,17 +91,25 @@ const RootSection = ({
 
             <Button
               type="button"
-              variant="secondary"
+              variant="contained"
               size="small"
               onClick={() => setOpen(!isOpen)}
             >
               {isOpen ? (
                 <IoIosArrowDropup
-                  sx={{ height: "1.8rem", m: "0.25rem", width: "1.8rem" }}
+                  style={{
+                    height: "1.8rem",
+                    margin: "0.25rem",
+                    width: "1.8rem",
+                  }}
                 />
               ) : (
                 <IoIosArrowDropdown
-                  sx={{ height: "1.8rem", m: "0.25rem", width: "1.8rem" }}
+                  style={{
+                    height: "1.8rem",
+                    margin: "0.25rem",
+                    width: "1.8rem",
+                  }}
                 />
               )}
             </Button>
@@ -120,12 +129,13 @@ const RootSection = ({
                     type="button"
                     size="small"
                     onClick={() => remove(index)}
+                    color="error"
                   >
                     <IoMdTrash
-                      sx={{
-                        height: "iconSmall",
-                        mr: "xsmall",
-                        width: "iconSmall",
+                      style={{
+                        height: theme.sizes.iconSmall,
+                        marginRight: theme.space.xsmall,
+                        width: theme.sizes.iconSmall,
                       }}
                     />
                     Supprimer cette section

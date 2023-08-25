@@ -2,7 +2,15 @@ import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { IoMdSearch } from "react-icons/io";
-import { Box, Input, Label, Radio, Select } from "theme-ui";
+import {
+  Box,
+  Input,
+  Select,
+  Radio,
+  FormControlLabel,
+  FormLabel,
+  MenuItem,
+} from "@mui/material";
 import { useQuery } from "urql";
 
 import { Button } from "../button";
@@ -59,7 +67,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
     console.log("update filters");
     onSearchUpdate({
       ...initialValues,
-      [event.target.name]: event.target.value,
+      [event.target.name]:
+        event.target.value === "no-filter" ? "" : event.target.value,
     });
   }
 
@@ -69,36 +78,37 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Inline>
+      <Inline paddingTop="20px" paddingLeft="20px">
         <Input
-          sx={{ flex: 1 }}
+          sx={{ flex: 1, width: "200px", marginRight: "15px" }}
           {...register("q")}
           type="search"
-          placeholder="titre..."
+          placeholder="Titre..."
           defaultValue={initialValues.q}
           onBlur={triggerUpdateUrl}
         />
         <Select
           {...register("source")}
           onChange={triggerUpdateUrl}
-          defaultValue={initialValues.source || ""}
+          value={initialValues.source || "no-filter"}
+          sx={{ marginRight: "15px" }}
         >
-          <option value="">toutes les sources</option>
+          <MenuItem value={"no-filter"}>toutes les sources</MenuItem>
           {documentSources.map(([source, label]) => (
-            <option
+            <MenuItem
               key={source}
               value={source}
               disabled={isSourceDisabled(source)}
             >
               {label}
-            </option>
+            </MenuItem>
           ))}
         </Select>
-        <Button>
-          <IoMdSearch /> Rechercher
+        <Button sx={{ marginLeft: "20px" }}>
+          <IoMdSearch style={{ marginRight: "5px" }} /> Rechercher
         </Button>
-        <Box sx={{ alignSelf: "flex-end" }}>
-          <Label
+        <Box sx={{ alignSelf: "flex-end", marginLeft: "20px" }}>
+          <div
             htmlFor="itemsPerPage"
             sx={{
               alignItems: "center",
@@ -106,80 +116,103 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
             }}
           >
             <Select
-              sx={{ width: "4rem" }}
               {...register("itemsPerPage")}
               id="itemsPerPage"
               defaultValue={initialValues.itemsPerPage}
               onChange={triggerUpdateUrl}
             >
               {[10, 25, 50, 100].map((size) => (
-                <option key={`items-per-page${size}`} value={size}>
+                <MenuItem key={`items-per-page${size}`} value={size}>
                   {size}
-                </option>
+                </MenuItem>
               ))}
             </Select>
-          </Label>
+          </div>
         </Box>
       </Inline>
-      <Inline paddingTop="xsmall">
-        <Inline sx="margin-right: 1rem">
-          Publication :
-          <Label sx={{ cursor: "pointer" }}>
-            <Radio
-              {...register("published")}
+      <Inline paddingTop="20px" paddingLeft="20px" paddingBottom="10px">
+        <Inline>
+          <FormLabel>Publication :</FormLabel>
+          <div sx={{ cursor: "pointer" }}>
+            <FormControlLabel
               value="all"
-              defaultChecked={initialValues.published === "all"}
-              onChange={triggerUpdateUrl}
+              control={
+                <Radio
+                  {...register("published")}
+                  checked={initialValues.published === "all"}
+                  onChange={triggerUpdateUrl}
+                />
+              }
+              label="Tous"
             />
-            Tous{" "}
-          </Label>
-          <Label sx={{ cursor: "pointer" }}>
-            <Radio
-              {...register("published")}
+          </div>
+          <div sx={{ cursor: "pointer" }}>
+            <FormControlLabel
               value="yes"
-              defaultChecked={initialValues.published === "yes"}
-              onChange={triggerUpdateUrl}
+              control={
+                <Radio
+                  {...register("published")}
+                  checked={initialValues.published === "yes"}
+                  onChange={triggerUpdateUrl}
+                />
+              }
+              label="Publié"
             />
-            Publié{" "}
-          </Label>
-          <Label sx={{ cursor: "pointer" }}>
-            <Radio
-              {...register("published")}
+          </div>
+          <div sx={{ cursor: "pointer" }}>
+            <FormControlLabel
               value="no"
-              defaultChecked={initialValues.published === "no"}
-              onChange={triggerUpdateUrl}
+              control={
+                <Radio
+                  {...register("published")}
+                  checked={initialValues.published === "no"}
+                  onChange={triggerUpdateUrl}
+                />
+              }
+              label="Non-publié"
             />
-            Non-publié{" "}
-          </Label>
+          </div>
         </Inline>
-        Status :
-        <Label sx={{ cursor: "pointer" }}>
-          <Radio
-            {...register("available")}
+        <FormLabel>Status :</FormLabel>
+        <div sx={{ cursor: "pointer" }}>
+          <FormControlLabel
             value="all"
-            defaultChecked={initialValues.available === "all"}
-            onChange={triggerUpdateUrl}
+            control={
+              <Radio
+                {...register("available")}
+                checked={initialValues.available === "all"}
+                onChange={triggerUpdateUrl}
+              />
+            }
+            label="Tous"
           />
-          Tous{" "}
-        </Label>
-        <Label sx={{ cursor: "pointer" }}>
-          <Radio
-            {...register("available")}
+        </div>
+        <div sx={{ cursor: "pointer" }}>
+          <FormControlLabel
             value="yes"
-            defaultChecked={initialValues.available === "yes"}
-            onChange={triggerUpdateUrl}
+            control={
+              <Radio
+                {...register("available")}
+                checked={initialValues.available === "yes"}
+                onChange={triggerUpdateUrl}
+              />
+            }
+            label="Disponible"
           />
-          Disponible{" "}
-        </Label>
-        <Label sx={{ cursor: "pointer" }}>
-          <Radio
-            {...register("available")}
+        </div>
+        <div sx={{ cursor: "pointer" }}>
+          <FormControlLabel
             value="no"
-            defaultChecked={initialValues.available === "no"}
-            onChange={triggerUpdateUrl}
+            control={
+              <Radio
+                {...register("available")}
+                checked={initialValues.available === "no"}
+                onChange={triggerUpdateUrl}
+              />
+            }
+            label="Supprimé"
           />
-          Supprimé{" "}
-        </Label>
+        </div>
       </Inline>
     </form>
   );

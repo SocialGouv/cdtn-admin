@@ -19,7 +19,7 @@ export function Collapsible({ label, children, id, ...props }) {
         aria-controls={id}
         aria-expanded={isVisible}
         size="small"
-        variant="link"
+        variant="text"
         onClick={() => setVisible(!isVisible)}
       >
         <Inline space="xxsmall">

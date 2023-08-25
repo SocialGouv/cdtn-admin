@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -12,8 +10,9 @@ import { MapModal } from "src/components/themes/MapModal";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Box, Card, Flex, Spinner, Text } from "theme-ui";
+import { Box, Card, CircularProgress } from "@mui/material";
 import { useMutation, useQuery } from "urql";
+import { theme } from "../../theme";
 
 const getThemeQuery = `
 query getTheme($themeId: String!) {
@@ -106,35 +105,46 @@ export function ThemePage() {
       <Stack>
         <MapModal />
         {fetching || rootFetching ? (
-          <Spinner />
+          <CircularProgress />
         ) : themeId ? (
-          <Card>
+          <Card
+            style={{
+              padding: "20px",
+            }}
+          >
             <>
-              <Flex sx={{ alignItems: "center", justifyContent: "center" }}>
-                <h2>{themeData?.title}</h2>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <h2 style={{ marginBottom: 0 }}>{themeData?.title}</h2>
                 <Link
                   href={`/themes/edit/${themeId}`}
                   passHref
-                  style={{ textDecoration: "none" }}
+                  style={{
+                    textDecoration: "none",
+                    marginLeft: theme.space.medium,
+                  }}
                 >
-                  <Button sx={{ ml: "medium" }}>
+                  <Button>
                     <>
                       <IoMdCreate
-                        sx={{
-                          flex: "0 0 auto",
-                          height: "iconSmall",
-                          mr: "xxsmall",
-                          width: "iconSmall",
+                        style={{
+                          height: theme.sizes.iconSmall,
+                          width: theme.sizes.iconSmall,
                         }}
                       />
                       Éditer
                     </>
                   </Button>
                 </Link>
-              </Flex>
-              <Text as="h3" mr="small">
+              </Box>
+              <h3 style={{ marginRight: theme.space.small }}>
                 Niveau précédent
-              </Text>
+              </h3>
               {themeData?.parentRelations.length === 0 ? (
                 <ParentLink>Racine des thèmes</ParentLink>
               ) : (
@@ -145,9 +155,7 @@ export function ThemePage() {
                 ))
               )}
 
-              <Text as="h3" mt="medium">
-                Sous-thèmes
-              </Text>
+              <h3 style={{ marginTop: theme.space.medium }}>Sous-thèmes</h3>
             </>
             <List
               relations={
@@ -176,15 +184,19 @@ export function ThemePage() {
 export default withCustomUrqlClient(withUserProvider(ThemePage));
 
 const AddAThemeButton = ({ themeId }) => (
-  <Box mt="medium">
+  <Box my={theme.space.medium}>
     <Link
       href={`/themes/${themeId ? `${themeId}/` : ""}create`}
       passHref
       style={{ textDecoration: "none" }}
     >
-      <Button mr="medium">
+      <Button mr={theme.space.medium}>
         <IoMdAdd
-          sx={{ height: "iconMedium", mr: "xxsmall", width: "iconMedium" }}
+          style={{
+            height: theme.sizes.iconMedium,
+            mr: theme.space.xxsmall,
+            width: theme.sizes.iconMedium,
+          }}
         />
         Ajouter un thème ici
       </Button>
@@ -206,20 +218,21 @@ const ParentLink = ({ id, ...props }) => (
         cursor: "pointer",
         display: "block",
         textDecoration: "none",
+        padding: "30px",
+        width: "fit-content",
+        marginBottom: theme.space.small,
       }}
-      mb="small"
     >
-      <Flex sx={{ alignItems: "center" }}>
+      <Box sx={{ alignItems: "center", display: "flex" }}>
         <IoIosArrowDropleftCircle
-          sx={{
-            color: "secondary",
-            height: "iconMedium",
-            mr: "small",
-            width: "iconMedium",
+          style={{
+            height: theme.sizes.iconMedium,
+            marginRight: theme.space.small,
+            width: theme.sizes.iconMedium,
           }}
         />
         <div {...props} />
-      </Flex>
+      </Box>
     </Card>
   </Link>
 );

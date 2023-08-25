@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { useUser } from "src/hooks/useUser";
-import { Field } from "theme-ui";
+import { TextField as Field } from "@mui/material";
 
 import { passwordValidation } from "../../lib/auth/auth.const";
 import { FormErrorMessage } from "../forms/ErrorMessage";
@@ -13,7 +13,7 @@ import { Stack } from "../layout/Stack";
 export function PasswordForm({
   onSubmit,
   action = "/api/change_password",
-  backHref = "/account",
+  backHref = "/user/account",
   changeOldPassword = false,
   loading,
 }) {
@@ -64,14 +64,14 @@ export function PasswordForm({
 
   return (
     <form onSubmit={handleSubmit(localSubmit)} action={action}>
-      <div>
+      <div style={{ marginBottom: "20px" }}>
         Le mot de passe doit faire au moins 12 caractères et doit être composer
         d&apos;au moins 1 minuscule, 1 majuscule, 1 nombre et 1 caractère
         spécial
       </div>
       <Stack gap={["small", "large"]}>
         {changeOldPassword && (
-          <div>
+          <div style={{ marginBottom: "20px" }}>
             <Field
               type="password"
               {...register("oldPassword", {
@@ -84,7 +84,7 @@ export function PasswordForm({
           </div>
         )}
 
-        <div>
+        <div style={{ marginBottom: "20px" }}>
           <Field
             label="Nouveau mot de passe"
             type="password"
@@ -93,7 +93,7 @@ export function PasswordForm({
           <FormErrorMessage errors={errors} fieldName="password" />
         </div>
 
-        <div>
+        <div style={{ marginBottom: "20px" }}>
           <Field
             label="Confirmation du nouveau mot de passe"
             type="password"

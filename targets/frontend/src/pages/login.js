@@ -4,7 +4,7 @@ import { Header } from "src/components/layout/header";
 import LoginForm from "src/components/login";
 import { setToken } from "src/lib/auth/token";
 import { request } from "src/lib/request";
-import { Box, Flex } from "theme-ui";
+import { Box } from "@mui/material";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -34,20 +34,21 @@ export default function LoginPage() {
         <title>login | Admin cdtn</title>
       </Head>
       <Header />
-      <Flex
-        sx={{
+      <Box
+        style={{
           alignItems: "center",
+          display: "flex",
           minHeight: "90vh",
         }}
       >
-        <Box p="large" sx={{ flex: 1 }}>
+        <Box style={{ flex: 1, padding: "20px" }}>
           <LoginForm
             authenticate={authenticate}
             resetPassword={resetPassword}
             onSuccess={goAdmin}
           />
         </Box>
-      </Flex>
+      </Box>
     </>
   );
 }

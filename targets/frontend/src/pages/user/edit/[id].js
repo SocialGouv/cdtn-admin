@@ -76,9 +76,6 @@ export function EditUserPage({ user }) {
     </Layout>
   );
 }
-EditUserPage.propTypes = {
-  user: PropTypes.object.isRequired,
-};
 
 EditUserPage.getInitialProps = async function ({ urqlClient, query }) {
   const { id } = query;

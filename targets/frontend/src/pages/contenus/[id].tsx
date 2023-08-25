@@ -106,7 +106,9 @@ export function DocumentPage() {
           <Inline>
             {/*
               // @ts-ignore */}
-            <Button disabled={!hasChanged}>Enregistrer</Button>
+            <Button type="submit" disabled={!hasChanged}>
+              Enregistrer
+            </Button>
             <Link
               href="/contenus"
               passHref

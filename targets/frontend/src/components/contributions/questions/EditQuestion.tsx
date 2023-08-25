@@ -1,19 +1,12 @@
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import {
-  Breadcrumbs,
-  Skeleton,
-  Stack,
-  Typography,
-  Box,
-  Tab,
-  Tabs,
-} from "@mui/material";
+import { Skeleton, Stack, Typography, Box, Tab, Tabs } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import { EditQuestionAnswerList } from "./EditQuestionAnswerList";
 
 import { EditQuestionForm } from "./EditQuestionForm";
 import { useQuestionQuery } from "./Question.query";
+import { BreadcrumbLink } from "src/components/utils";
 
 export type EditQuestionProps = {
   questionId: string;
@@ -77,12 +70,10 @@ export const EditQuestion = ({
   }
 
   const Header = () => (
-    <>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link href={"/contributions"}>Contributions</Link>
-        <div>{data?.question?.content}</div>
-      </Breadcrumbs>
-    </>
+    <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
+      <BreadcrumbLink href={"/contributions"}>Contributions</BreadcrumbLink>
+      <BreadcrumbLink>{data?.question?.content}</BreadcrumbLink>
+    </ol>
   );
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: TabValue) => {
@@ -125,7 +116,7 @@ export const EditQuestion = ({
         spacing={2}
       >
         <Header />
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box sx={{ borderBottom: 1 }}>
           <Tabs
             value={tabIndex}
             onChange={handleTabChange}

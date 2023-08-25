@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
@@ -11,7 +9,8 @@ import {
 } from "react-sortable-hoc";
 import { IconButton } from "src/components/button";
 import { useUser } from "src/hooks/useUser";
-import { Alert, Card, Flex, Text } from "theme-ui";
+import { Alert, Card, Box } from "@mui/material";
+import { theme as th } from "../../theme";
 
 const formatRelationsIntoThemes = (relations = []) =>
   relations
@@ -34,10 +33,10 @@ const List = ({ relations, updateThemesPosition }) => {
   return (
     <>
       {displayedThemes.length === 0 ? (
-        <Alert variant="highlight" sx={{ mb: "small" }}>
-          <Text sx={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+        <Alert severity="success" sx={{ mb: "small" }}>
+          <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
             Il n’y a aucun thème pour le moment !
-          </Text>
+          </p>
         </Alert>
       ) : (
         <ThemeList
@@ -75,7 +74,7 @@ List.propTypes = {
 export { List };
 
 const ThemeList = SortableContainer(({ themes, ...props }) => (
-  <ol sx={{ m: 0, p: 0 }}>
+  <ol style={{ margin: 0, padding: 0, listStyle: "none" }}>
     {themes.map((theme, index) => (
       <ThemeRow
         key={theme.cdtnId}
@@ -90,11 +89,11 @@ const ThemeList = SortableContainer(({ themes, ...props }) => (
 
 const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
   <li
-    sx={{
+    style={{
       alignItems: "stretch",
       display: "flex",
       justifyContent: "stretch",
-      mb: "small",
+      marginBottom: th.space.small,
     }}
   >
     {isAdmin && sortable && <SortHandle />}
@@ -104,7 +103,7 @@ const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
       style={{ textDecoration: "none" }}
     >
       <Card
-        sx={{
+        style={{
           ":hover": { boxShadow: "cardHover" },
           ":link, :visited": { color: "text" },
           color: "text",
@@ -113,9 +112,11 @@ const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
           flex: 1,
           justifyContent: "space-between",
           textDecoration: "none",
+          padding: "30px",
+          width: "fit-content",
         }}
       >
-        <Flex
+        <Box
           sx={{
             alignItems: "center",
             fontSize: "1.2rem",
@@ -123,18 +124,18 @@ const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
             overflow: "hidden",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",
+            display: "flex",
           }}
         >
           {theme.title}
           <IoIosArrowDroprightCircle
-            sx={{
-              color: "secondary",
-              height: "iconMedium",
-              ml: "small",
-              width: "iconMedium",
+            style={{
+              height: th.sizes.iconMedium,
+              marginLeft: th.space.small,
+              width: th.sizes.iconMedium,
             }}
           />
-        </Flex>
+        </Box>
       </Card>
     </Link>
   </li>
@@ -143,8 +144,10 @@ const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
 const SortHandle = SortableHandle(() => (
   <IconButton
     variant="secondary"
-    sx={{ cursor: "grab", height: "auto", mr: "xsmall" }}
+    style={{ cursor: "grab", height: "auto", mr: th.space.xsmall }}
   >
-    <IoIosReorder sx={{ height: "iconMedium", width: "iconMedium" }} />
+    <IoIosReorder
+      style={{ height: th.sizes.iconMedium, width: th.sizes.iconMedium }}
+    />
   </IconButton>
 ));

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useCallback, useMemo } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { useSelectionContext } from "src/pages/contenus";
-import { Card, Flex, Message } from "theme-ui";
+import { Card, Alert, Box } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 import { Stack } from "../layout/Stack";
@@ -13,6 +13,7 @@ import { Pagination } from "../pagination";
 import { DocumentsListActions } from "./Actions";
 import { DocumentList } from "./List";
 import { SearchFilters } from "./SearchFilters";
+import { theme } from "src/theme";
 
 export function DocumentListContainer({ initialFilterValues }) {
   const router = useRouter();
@@ -67,11 +68,11 @@ export function DocumentListContainer({ initialFilterValues }) {
   const { fetching, error, data } = result;
 
   if (error) {
-    return <Message variant="primary">{error.message}</Message>;
+    return <Alert severity="error">{error.message}</Alert>;
   }
   return (
     <Stack>
-      <Flex sx={{ justifyContent: "flex-end" }}>
+      <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
         <Link
           href="/contenus/create/"
           passHref
@@ -80,16 +81,16 @@ export function DocumentListContainer({ initialFilterValues }) {
           <Button size="small" variant="secondary">
             <IoMdAdd
               sx={{
-                height: "iconSmall",
-                mr: "xxsmall",
-                width: "iconSmall",
+                height: theme.sizes.iconSmall,
+                mr: theme.space.xxsmall,
+                width: theme.sizes.iconSmall,
               }}
             />
             Ajouter un contenu
           </Button>
         </Link>
-      </Flex>
-      <Card sx={{ position: "sticky", top: 0 }} bg="white">
+      </Box>
+      <Card>
         <SearchFilters
           initialValues={initialFilterValues}
           onSearchUpdate={updateUrl}

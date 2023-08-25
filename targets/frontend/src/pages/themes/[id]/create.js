@@ -11,7 +11,7 @@ import {
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
-import { Spinner } from "theme-ui";
+import { CircularProgress as Spinner } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
 const getInitialData = `

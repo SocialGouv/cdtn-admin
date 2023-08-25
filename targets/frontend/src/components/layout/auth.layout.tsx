@@ -4,7 +4,6 @@ import {
   AppBar,
   IconButton,
   Drawer,
-  Divider,
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -57,9 +56,7 @@ export function Layout({ children, title }: LayoutProps) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="h1" gutterBottom>
-            {title}
-          </Typography>
+          <Typography>{title}</Typography>
           <UserMenu />
         </Toolbar>
       </AppBar>
@@ -86,7 +83,6 @@ export function Layout({ children, title }: LayoutProps) {
           <Toolbar sx={{ height: headerHeight }}>
             <LogoAdmin />
           </Toolbar>
-          <Divider />
           <Navigation />
         </Drawer>
         <Drawer
@@ -103,7 +99,6 @@ export function Layout({ children, title }: LayoutProps) {
           <Toolbar sx={{ height: headerHeight }}>
             <LogoAdmin />
           </Toolbar>
-          <Divider />
           <Navigation />
         </Drawer>
       </Box>

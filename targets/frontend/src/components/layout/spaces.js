@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { get } from "theme-ui";
 
 import { theme } from "../../theme";
 
@@ -22,7 +21,7 @@ function invertScale(scale) {
 }
 
 function invertValue(value) {
-  const themeValue = get(theme, `space.${value}`);
+  const themeValue = theme.space[value];
   if (Object.prototype.toString.call(themeValue) === "[object String]") {
     return `calc(${themeValue} * -1)`;
   }

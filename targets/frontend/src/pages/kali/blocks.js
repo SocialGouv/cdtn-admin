@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import PropTypes from "prop-types";
 import { useEffect, useMemo, useState } from "react";
 import { IoMdSave } from "react-icons/io";
@@ -8,8 +6,9 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Card, Message, Select, Textarea } from "theme-ui";
+import { Card, Select, Alert, InputLabel, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "urql";
+import { theme as th } from "../../theme";
 
 const searchKaliDocumentQuery = `
 
@@ -128,14 +127,19 @@ function CcnBlocks({ id, blocks, onChange }) {
   };
   return (
     <div>
-      <Button disabled={!dirty} onClick={onSaveClick}>
+      <Button
+        disabled={!dirty}
+        onClick={onSaveClick}
+        style={{ margin: "20px" }}
+        type="submit"
+      >
         <>
           <IoMdSave
-            sx={{
+            style={{
               flex: "0 0 auto",
-              height: "iconSmall",
-              mr: "xxsmall",
-              width: "iconSmall",
+              height: th.sizes.iconSmall,
+              mr: th.space.xxsmall,
+              width: th.sizes.iconSmall,
             }}
           />
           Enregistrer
@@ -144,9 +148,10 @@ function CcnBlocks({ id, blocks, onChange }) {
       {selections.map((selection, i) => {
         const boxHeight = Math.max(100, 50 + selection.length * 30);
         return (
-          <div key={i}>
+          <div key={i} style={{ marginBottom: "50px" }}>
             <h3>{blocksDefinition.find((b) => b.id === i + 1).label}</h3>
-            <Textarea
+            <textarea
+              className="fr-input"
               style={{ height: boxHeight }}
               value={
                 (selection && selection.join && selection.join("\n")) || ""
@@ -184,7 +189,7 @@ export function KaliBlocksPage() {
   if (error) {
     return (
       <Layout title="Blocs KALI">
-        <Message variant="primary">{error.message}</Message>
+        <Alert severity="error">{error.message}</Alert>
       </Layout>
     );
   }
@@ -205,18 +210,32 @@ export function KaliBlocksPage() {
   return (
     <Layout title="Blocs KALI">
       <Stack>
-        <Card>
-          <Select style={{ maxWidth: 800 }} onChange={onCcnSelectChange}>
-            <option value="">---</option>
+        <Card style={{ padding: "20px" }}>
+          <InputLabel id="select-label">Convention collective</InputLabel>
+          <Select
+            labelId="select-label"
+            style={{ width: "800px", color: "black" }}
+            onChange={onCcnSelectChange}
+            label="Convention collective"
+          >
             {data.kali_blocks.map((ccn) => (
-              <option key={ccn.id} value={ccn.id}>
+              <MenuItem
+                key={ccn.id}
+                value={ccn.id}
+                style={{
+                  maxWidth: "70vw",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  whiteSpace: "normal",
+                }}
+              >
                 {ccn.idcc} - {ccn.title}
-              </option>
+              </MenuItem>
             ))}
           </Select>
         </Card>
 
-        <Card>
+        <Card style={{ padding: "20px" }}>
           {(ccn && (
             <CcnBlocks
               id={ccn.id}
@@ -224,9 +243,9 @@ export function KaliBlocksPage() {
               onChange={onBlocksChange}
             />
           )) || (
-            <Message variant="primary">
+            <Alert severity="success">
               Choisissez une convention collective pour définir les blocks
-            </Message>
+            </Alert>
           )}
         </Card>
       </Stack>

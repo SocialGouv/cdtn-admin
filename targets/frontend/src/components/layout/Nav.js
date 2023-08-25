@@ -4,10 +4,11 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useUser } from "src/hooks/useUser";
 import { slugifyRepository } from "src/models";
-import { Badge, Box, Text } from "theme-ui";
+import { Badge, Box } from "@mui/material";
 import { useQuery } from "urql";
 
 import { Li, List } from "../list";
+import { theme } from "../../theme";
 
 const getSourcesQuery = `
 query getAlerts{
@@ -40,7 +41,7 @@ export function Nav() {
       <Box sx={{ paddingTop: "medium" }}>
         {isAdmin && (
           <>
-            <Text sx={TitleStyles}>Utilisateurs</Text>
+            <p sx={TitleStyles}>Utilisateurs</p>
             <List>
               <Li>
                 <ActiveLink href="/users">Gestion des utilisateurs</ActiveLink>
@@ -50,7 +51,7 @@ export function Nav() {
         )}
       </Box>
       <Box sx={{ paddingTop: "medium" }}>
-        <Text sx={TitleStyles}>Alertes</Text>
+        <p sx={TitleStyles}>Alertes</p>
         {!fetching && (
           <List>
             {data?.sources?.map((source) => {
@@ -75,7 +76,7 @@ export function Nav() {
         )}
       </Box>
       <Box sx={{ paddingTop: "medium" }}>
-        <Text sx={TitleStyles}>Administration</Text>
+        <p sx={TitleStyles}>Administration</p>
         <List>
           <Li>
             <ActiveLink href="/contenus" passHref>
@@ -145,7 +146,7 @@ export function Nav() {
         </List>
       </Box>
       <Box sx={{ paddingTop: "medium" }}>
-        <Text sx={TitleStyles}>Contributions</Text>
+        <p sx={TitleStyles}>Contributions</p>
         <List>
           <Li>
             <ActiveLink href="/contributions" passHref>
@@ -211,6 +212,6 @@ ActiveLink.propTypes = {
 };
 
 const TitleStyles = {
-  fontWeight: "light",
+  fontWeight: theme.fontWeights.light,
   textTransform: "uppercase",
 };

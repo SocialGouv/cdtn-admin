@@ -1,10 +1,10 @@
-/** @jsxImportSource theme-ui */
-
 import { ComponentPropsWithoutRef } from "react";
+import { theme } from "src/theme";
+import { Table as Tb, TableHead, TableCell, TableRow } from "@mui/material";
 
 export const Table = (props: ComponentPropsWithoutRef<"table">) => (
-  <table
-    sx={{
+  <Tb
+    style={{
       borderCollapse: "collapse",
       borderRadius: "small",
       overflow: "hidden",
@@ -14,7 +14,9 @@ export const Table = (props: ComponentPropsWithoutRef<"table">) => (
   />
 );
 
-export const Tr = (props: ComponentPropsWithoutRef<"tr">) => <tr {...props} />;
+export const Tr = (props: ComponentPropsWithoutRef<"tr">) => (
+  <TableRow {...props} />
+);
 
 export type CellAlign = {
   align?: "left" | "right" | "center";
@@ -24,13 +26,12 @@ export const Th = ({
   align = "left",
   ...props
 }: ComponentPropsWithoutRef<"th"> & CellAlign) => (
-  <th
-    sx={{
+  <TableCell
+    style={{
       borderBottom: "1px solid",
-      fontSize: "medium",
-      fontWeight: "semibold",
-      px: "xsmall",
-      py: "xsmall",
+      fontSize: theme.fontSizes.medium,
+      fontWeight: theme.fontWeights.semibold,
+      padding: theme.space.xsmall,
       textAlign: align,
     }}
     {...props}
@@ -41,15 +42,14 @@ export const Td = ({
   align = "left",
   ...props
 }: ComponentPropsWithoutRef<"td"> & CellAlign) => (
-  <td
-    sx={{
+  <TableCell
+    style={{
       fontWeight: 300,
-      px: "xsmall",
-      py: "xxsmall",
+      paddingLeft: "xsmall",
+      paddingRight: "xsmall",
+      paddingTop: "xxsmall",
+      paddingBottom: "xxsmall",
       textAlign: align,
-      "tr:nth-of-type(even) &": {
-        bg: "highlight",
-      },
     }}
     {...props}
   />

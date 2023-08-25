@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { NextRouter } from "next/router";
 import { IoMdCheckmark } from "react-icons/io";
-import { Flex } from "theme-ui";
+import { Box } from "@mui/material";
 
 import { Button } from "../button";
+import { theme } from "src/theme";
 
 const ValidationBar = ({
   isDirty,
@@ -15,15 +16,20 @@ const ValidationBar = ({
   router: NextRouter;
 }) => {
   return (
-    <Flex sx={{ alignItems: "center", mt: "medium" }}>
-      {/* @ts-ignore */}
-      <Button variant="secondary" disabled={loading || !isDirty}>
+    <Box
+      sx={{
+        alignItems: "center",
+        marginTop: theme.space.medium,
+        display: "flex",
+      }}
+    >
+      <Button variant="contained" disabled={loading || !isDirty} type="submit">
         {isDirty && (
           <IoMdCheckmark
-            sx={{
-              height: "iconSmall",
-              mr: "xsmall",
-              width: "iconSmall",
+            style={{
+              height: theme.sizes.iconSmall,
+              marginRight: theme.space.xsmall,
+              width: theme.sizes.iconSmall,
             }}
           />
         )}
@@ -36,11 +42,11 @@ const ValidationBar = ({
           e.preventDefault();
           router.back();
         }}
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: "none", marginLeft: theme.space.small }}
       >
         Annuler
       </Link>
-    </Flex>
+    </Box>
   );
 };
 

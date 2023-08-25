@@ -25,16 +25,16 @@ export function AlertStatus({ alertId }: { alertId: string }) {
   }
 
   return (
-    <MenuButton variant="secondary">
-      <MenuItem onSelect={() => updateStatus("doing")}>
-        <span sx={{ display: "inline-block", width: "1.5em" }} />
+    <MenuButton>
+      <MenuItem onClick={() => updateStatus("doing")}>
+        <span style={{ display: "inline-block", width: "1.5em" }} />
         En cours
       </MenuItem>
-      <MenuItem onSelect={() => updateStatus("done")}>
+      <MenuItem onClick={() => updateStatus("done")}>
         <IoIosCheckmark style={{ height: "iconSmall", width: "iconSmall" }} />{" "}
         Traité
       </MenuItem>
-      <MenuItem onSelect={() => updateStatus("rejected")}>
+      <MenuItem onClick={() => updateStatus("rejected")}>
         <IoIosClose style={{ height: "iconSmall", width: "iconSmall" }} />{" "}
         Rejeté
       </MenuItem>

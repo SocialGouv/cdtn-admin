@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { AppBar, Toolbar } from "@mui/material";
 import { LogoAdmin } from "./LogoAdmin";
 

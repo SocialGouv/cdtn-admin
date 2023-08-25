@@ -6,6 +6,7 @@ import { IoIosEye } from "react-icons/io";
 import { Button } from "../button";
 import { Dialog } from "../dialog";
 import Box from "@mui/material/Box";
+import { theme } from "src/theme";
 
 export type MarkdownPreviewModalProps = { markdown: string };
 
@@ -19,12 +20,16 @@ export const MarkdownPreviewModal = ({
         <Box sx={{ display: "flex", justifyContent: "flex-end", mt: "2rem" }}>
           <Button
             type="button"
-            variant="secondary"
+            variant="outlined"
             size="small"
             onClick={() => setShowMarkdownPreview(true)}
           >
             <IoIosEye
-              sx={{ height: "iconSmall", mr: "small", width: "iconSmall" }}
+              style={{
+                height: theme.sizes.iconSmall,
+                marginRight: theme.space.small,
+                width: theme.sizes.iconSmall,
+              }}
             />
             Prévisualiser
           </Button>

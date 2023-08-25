@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { FormRadioGroup, FormTextField } from "../forms";
 import { SnackBar } from "../utils/SnackBar";
+import { theme } from "src/theme";
 
 const addComputedFields =
   (onSubmit: (content: Partial<Content>) => void) =>
@@ -225,15 +226,15 @@ const EditorialContentForm = ({
         <Stack alignItems="center" direction="row" spacing={2}>
           <Button
             type="submit"
-            variant="secondary"
+            variant="outlined"
             disabled={hasError || loading || !isDirty}
           >
             {isDirty && (
               <IoMdCheckmark
-                sx={{
-                  height: "iconSmall",
-                  mr: "xsmall",
-                  width: "iconSmall",
+                style={{
+                  height: theme.sizes.iconSmall,
+                  marginRight: theme.space.xsmall,
+                  width: theme.sizes.iconSmall,
                 }}
               />
             )}

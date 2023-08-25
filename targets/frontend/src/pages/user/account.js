@@ -1,48 +1,60 @@
-import Link from "next/link";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
-import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useUser } from "src/hooks/useUser";
-import { Label, Text } from "theme-ui";
+import { useRouter } from "next/router";
+import { Box } from "@mui/material";
 
 export function UserPage() {
   const { user } = useUser();
+  const router = useRouter();
 
   return (
     <Layout title="Mon compte">
       {user && (
         <Stack>
           <div>
-            <Label>Nom d’utilisateur</Label>
-            <Text>{user.name}</Text>
+            <p className="fr-text--heavy">Nom d’utilisateur</p>
+            <p>{user.name}</p>
           </div>
           <div>
-            <Label>email</Label>
-            <Text>{user.email}</Text>
+            <p className="fr-text--heavy">email</p>
+            <p>{user.email}</p>
           </div>
           <div>
-            <Label>role</Label>
-            <Text>{user.roles[0].role}</Text>
+            <p className="fr-text--heavy">role</p>
+            <p>{user.roles[0].role}</p>
           </div>
-          <Inline>
-            <Link href="/user/edit" passHref style={{ textDecoration: "none" }}>
-              <Button size="small" variant="primary">
-                Modifier mes informations
-              </Button>
-            </Link>
-            <Link
-              href="/user/password"
-              passHref
-              style={{ textDecoration: "none" }}
+          <Box
+            style={{
+              marginTop: "20px",
+              display: "flex",
+              flexDirection: "column",
+              width: "300px",
+            }}
+          >
+            <Button
+              style={{
+                marginBottom: "20px",
+              }}
+              onClick={() => {
+                router.push("/user/edit");
+              }}
             >
-              <Button size="small" variant="secondary" outline>
-                Modifier mon mot de passe
-              </Button>
-            </Link>
-          </Inline>
+              Modifier mes informations
+            </Button>
+
+            <Button
+              outline
+              onClick={() => {
+                router.push("/user/password");
+              }}
+            >
+              Modifier mon mot de passe
+            </Button>
+          </Box>
         </Stack>
       )}
     </Layout>
