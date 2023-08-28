@@ -2,9 +2,9 @@ import { Editor, FloatingMenu } from "@tiptap/react";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import GridOnIcon from "@mui/icons-material/GridOn";
-import styled from "styled-components";
+import { styled } from "@mui/system";
 
-export const tableHTML = `
+const tableHTML = `
   <table style="width:100%">
     <tr>
       <th>Titre 1</th>

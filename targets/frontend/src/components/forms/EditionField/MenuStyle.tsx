@@ -1,7 +1,7 @@
 import { Editor, BubbleMenu } from "@tiptap/react";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
-import styled from "styled-components";
+import { styled } from "@mui/system";
 
 export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
   return editor ? (
@@ -69,7 +69,7 @@ const StyledBubbleMenu = styled(BubbleMenu)`
   }
 `;
 
-const BubbleMenuText = styled.div`
+const BubbleMenuText = styled("div")`
   font-size: 18px;
   padding-bottom: 2px;
 `;

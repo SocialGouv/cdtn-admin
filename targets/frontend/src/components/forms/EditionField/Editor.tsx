@@ -6,7 +6,7 @@ import TableRow from "@tiptap/extension-table-row";
 import StarterKit from "@tiptap/starter-kit";
 import React, { useEffect, useState } from "react";
 import { FieldErrors } from "react-hook-form";
-import styled from "styled-components";
+import { styled } from "@mui/system";
 
 import { TitleBox } from "../TitleBox";
 import { MenuSpecial } from "./MenuSpecial";

@@ -8,7 +8,7 @@ import {
   InsertRowBottom,
   InsertRowTop,
 } from "./icons";
-import styled from "styled-components";
+import { styled } from "@mui/system";
 
 export const MenuTable = ({ editor }: { editor: Editor | null }) => {
   return editor ? (
