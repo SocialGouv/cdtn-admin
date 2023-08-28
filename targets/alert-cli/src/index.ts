@@ -4,6 +4,7 @@ import { SourcesRepository } from "./repositories/SourcesRepository";
 import { AlertRepository } from "./repositories/AlertRepository";
 import { AlertDetector } from "./diff";
 import { FicheSPRepository } from "./repositories/FicheSPRepository";
+import { runDares } from "./dares";
 
 export * from "./types";
 
@@ -51,6 +52,7 @@ export async function run(
 }
 
 async function main() {
+  await runDares();
   const githubToken = process.env.GITHUB_TOKEN;
   if (!githubToken) {
     throw new Error("GITHUB_TOKEN is not defined");
