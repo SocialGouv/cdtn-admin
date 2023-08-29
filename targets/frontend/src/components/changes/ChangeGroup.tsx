@@ -193,6 +193,22 @@ export function AddedChanges({ changes }: ChangesProps): JSX.Element {
         </>
       );
     }
+
+    case "dares": {
+      return (
+        <>
+          {changes.added.map((change) => (
+            <ListItem key={`${changes.ref}-${change.num}-added`}>
+              Convention collective
+              <b style={{ marginLeft: "4px", marginRight: "4px" }}>
+                {change.num}
+              </b>
+              présente dans le fichier de la DARES mais absente de kali-data
+            </ListItem>
+          ))}
+        </>
+      );
+    }
   }
 }
 
@@ -235,6 +251,21 @@ export function RemovedChanges({ changes }: ChangesProps): JSX.Element {
               style={styles.listItem}
             >
               <FicheLink change={change} documents={changes.documents} />
+            </ListItem>
+          ))}
+        </>
+      );
+    }
+    case "dares": {
+      return (
+        <>
+          {changes.removed.map((change) => (
+            <ListItem key={`${changes.ref}-${change.num}-removed`}>
+              Convention collective
+              <b style={{ marginLeft: "4px", marginRight: "4px" }}>
+                {change.num}
+              </b>
+              présente dans kali-data mais absente dans le fichier de la DARES
             </ListItem>
           ))}
         </>
@@ -371,6 +402,9 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
           ))}
         </>
       );
+    }
+    case "dares": {
+      return <></>;
     }
   }
 }

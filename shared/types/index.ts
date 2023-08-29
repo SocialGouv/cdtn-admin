@@ -264,7 +264,8 @@ export type AlertInfo = { id: string };
 export type AlertChanges =
   | DilaAlertChanges
   | TravailDataAlertChanges
-  | VddAlertChanges;
+  | VddAlertChanges
+  | DaresAlertChanges;
 
 /** Dila alert changes */
 export type DilaAlertChanges = DilaChanges & {
@@ -379,6 +380,34 @@ export type VddAlertChanges = VddChanges & {
   title: string;
   ref: string;
   date: Date;
+};
+
+export type DaresAlertChanges = {
+  type: "dares";
+  title: string;
+  ref: string;
+  date: Date;
+  modified: [];
+  added: {
+    name: string;
+    num: number;
+  }[];
+  removed: {
+    name: string;
+    num: number;
+  }[];
+  documents: [];
+};
+
+export type DaresAlert = {
+  id: string;
+  info: {
+    id: string | number; // idcc number
+  };
+  status: "doing" | "done" | "rejected" | "todo";
+  repository: "dares";
+  ref: string;
+  changes: DaresAlertChanges;
 };
 
 export type VddChanges = {
