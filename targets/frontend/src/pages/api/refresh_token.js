@@ -1,5 +1,5 @@
 import Boom from "@hapi/boom";
-import Joi from "@hapi/joi";
+import { z } from "zod";
 import { client } from "@shared/graphql-client";
 import { createErrorFor } from "src/lib/apiError";
 import { generateJwtToken } from "src/lib/auth/jwt";
@@ -14,22 +14,22 @@ import {
 
 export default async function refreshToken(req, res) {
   const apiError = createErrorFor(res);
-  const schema = Joi.object({
-    refresh_token: Joi.string().guid({ version: "uuidv4" }).required(),
-  }).unknown();
+  const schema = z.object({
+    refresh_token: z.string().uuid(),
+  });
 
-  let { error, value } = schema.validate(req.query);
+  let { error, data: value } = schema.safeParse(req.query);
 
   if (error) {
-    const temp = schema.validate(req.body);
+    const temp = schema.safeParse(req.body);
     error = temp.error;
-    value = temp.value;
+    value = temp.data;
   }
 
   if (error) {
-    const temp = schema.validate(req.cookies);
+    const temp = schema.safeParse(req.cookies);
     error = temp.error;
-    value = temp.value;
+    value = temp.data;
   }
 
   const { refresh_token } = value;
