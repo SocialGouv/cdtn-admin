@@ -1,5 +1,5 @@
 import Boom from "@hapi/boom";
-import Joi from "@hapi/joi";
+import { z } from "zod";
 import { client } from "@shared/graphql-client";
 import { hash, verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
@@ -16,15 +16,15 @@ export default async function changePassword(req, res) {
     return apiError(Boom.methodNotAllowed("GET method not allowed"));
   }
 
-  const schema = Joi.object({
-    id: Joi.string().guid({ version: "uuidv4" }).required(),
-    oldPassword: Joi.string().required(),
+  const schema = z.object({
+    id: z.string().uuid(),
+    oldPassword: z.string(),
     password: passwordSchema,
   });
 
-  const { error, value } = schema.validate(req.body);
+  const { error, data: value } = schema.safeParse(req.body);
   if (error) {
-    return apiError(Boom.badRequest(error.details[0].message));
+    return apiError(Boom.badRequest(error.message));
   }
 
   let result = await client

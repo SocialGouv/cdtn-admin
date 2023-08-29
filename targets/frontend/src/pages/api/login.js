@@ -1,5 +1,5 @@
 import Boom from "@hapi/boom";
-import Joi from "@hapi/joi";
+import { z } from "zod";
 import { client } from "@shared/graphql-client";
 import { verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
@@ -19,12 +19,12 @@ export default async function login(req, res) {
     return apiError(Boom.methodNotAllowed("GET method not allowed"));
   }
   // validate username and password
-  const schema = Joi.object({
-    password: Joi.string().required(),
-    username: Joi.string().required(),
+  const schema = z.object({
+    password: z.string(),
+    username: z.string(),
   });
 
-  const { error, value } = schema.validate(req.body);
+  const { error, data: value } = schema.safeParse(req.body);
 
   if (error) {
     console.error(error);

@@ -1,5 +1,5 @@
 import Boom from "@hapi/boom";
-import Joi from "@hapi/joi";
+import { z } from "zod";
 import { client } from "@shared/graphql-client";
 import { hash } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
@@ -23,14 +23,14 @@ export function createRequestHandler({
       return apiError(Boom.methodNotAllowed("GET method not allowed"));
     }
 
-    const schema = Joi.object({
+    const schema = z.object({
       password: passwordSchema,
-      token: Joi.string().guid({ version: "uuidv4" }).required(),
+      token: z.string().uuid(),
     });
 
-    const { error, value } = schema.validate(req.body);
+    const { error, data: value } = schema.safeParse(req.body);
     if (error) {
-      return apiError(Boom.badRequest(error.details[0].message));
+      return apiError(Boom.badRequest(error.message));
     }
 
     const [queryResult, result] = await Promise.all([
