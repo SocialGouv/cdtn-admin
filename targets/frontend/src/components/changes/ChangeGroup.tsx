@@ -379,7 +379,7 @@ function getBadgeColor(etat: string) {
   switch (etat) {
     case "VIGUEUR":
       return theme.colors.positive;
-    case "MOIFIE":
+    case "MODIFIE":
       return theme.colors.caution;
     case "ABROGE":
     case "ABROGE_DIFF":

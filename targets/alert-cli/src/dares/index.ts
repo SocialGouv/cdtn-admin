@@ -5,8 +5,8 @@ import { saveDiff } from "./save";
 import { extractXlsxFromUrl } from "./scrapping";
 
 export const runDares = async () => {
-  const url = await extractXlsxFromUrl(URL_SCRAPING);
-  const xlsxPath = await downloadFileInTempFolder(url, "dares.xlsx");
+  const xlsxUrl = await extractXlsxFromUrl(URL_SCRAPING);
+  const xlsxPath = await downloadFileInTempFolder(xlsxUrl, "dares.xlsx");
   const indexPath = await downloadFileInTempFolder(URL_KALI, "index.json");
   const diff = await getDifferenceBetweenIndexAndDares(xlsxPath, indexPath);
   await saveDiff(diff);

@@ -1,5 +1,5 @@
 import xlsx from "node-xlsx";
-import { Diff, ConventionCollective } from "./types";
+import { Diff, Agreement } from "./types";
 import fs from "fs";
 
 export function getDifferenceBetweenIndexAndDares(
@@ -8,7 +8,7 @@ export function getDifferenceBetweenIndexAndDares(
 ): Diff {
   const workSheetsFromFile = xlsx.parse(pathDares);
 
-  const supportedCcXlsx: ConventionCollective[] = [];
+  const supportedCcXlsx: Agreement[] = [];
 
   workSheetsFromFile[0].data.forEach((row: string[]) => {
     const ccNumber = parseInt(row[0]);
@@ -26,23 +26,21 @@ export function getDifferenceBetweenIndexAndDares(
 
   const dataJson = JSON.parse(fs.readFileSync(pathIndex, "utf8"));
 
-  const supportedCcIndexJson: ConventionCollective[] = dataJson.map(
-    (cc: any) => {
-      return {
-        name: cc.title,
-        num: cc.num,
-      };
-    }
-  );
+  const supportedCcIndexJson: Agreement[] = dataJson.map((cc: any) => {
+    return {
+      name: cc.title,
+      num: cc.num,
+    };
+  });
 
-  const ccManquante: ConventionCollective[] = supportedCcXlsx.filter(
+  const missingAgreementsFromDares: Agreement[] = supportedCcXlsx.filter(
     (ccIndex) =>
       !supportedCcIndexJson.find((ccXlsx) => ccXlsx.num === ccIndex.num)
   );
 
-  const ccEnTrop = supportedCcIndexJson.filter(
+  const exceedingAgreementsFromKali = supportedCcIndexJson.filter(
     (ccXlsx) => !supportedCcXlsx.find((ccIndex) => ccIndex.num === ccXlsx.num)
   );
 
-  return { ccManquante, ccEnTrop };
+  return { missingAgreementsFromDares, exceedingAgreementsFromKali };
 }
