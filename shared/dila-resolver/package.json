@@ -1,6 +1,6 @@
 {
   "name": "@shared/dila-resolver",
-  "version": "2.11.0",
+  "version": "2.13.0",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -19,8 +19,8 @@
     "@babel/core": "^7.15.5",
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "@babel/preset-typescript": "^7.15.0",
-    "@shared/eslint-config": "^2.11.0",
-    "@shared/types": "^2.11.0",
+    "@shared/eslint-config": "^2.13.0",
+    "@shared/types": "^2.13.0",
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^27.0.0",
     "jest": "^27.0.6",

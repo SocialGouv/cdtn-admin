@@ -1,6 +1,4 @@
-/** @jsxImportSource theme-ui */
-
-import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
+import { getLabelBySource } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { IoIosCheckmark, IoIosClose } from "react-icons/io";
 import { sourceToRoute } from "src/components/documents/List";
@@ -9,12 +7,14 @@ import {
   GhostDocumentQueryResult,
 } from "src/components/home/InvisibleLinkedDocument";
 import { Layout } from "src/components/layout/auth.layout";
-import { Stack } from "src/components/layout/Stack";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { Badge, Box, Message, Spinner } from "theme-ui";
+import { CircularProgress, TableHead, TableRow } from "@mui/material";
 import { useQuery } from "urql";
+import { Box, Chip } from "@mui/material";
+import { FixedSnackBar } from "../components/utils/SnackBar";
+import React from "react";
 
 export function DuplicateContentPage(): JSX.Element {
   const [result] = useQuery<GhostDocumentQueryResult>({
@@ -27,11 +27,9 @@ export function DuplicateContentPage(): JSX.Element {
   if (error || data?.relations.length === 0) {
     return (
       <Layout title="Références inaccessibles">
-        <Stack>
-          <Message>
-            <pre>{JSON.stringify(error, null, 2)}</pre>
-          </Message>
-        </Stack>
+        <FixedSnackBar>
+          <pre>{JSON.stringify(error, null, 2)}</pre>
+        </FixedSnackBar>
       </Layout>
     );
   }
@@ -39,10 +37,10 @@ export function DuplicateContentPage(): JSX.Element {
     <Layout title="Références inaccessibles">
       <p>
         Cette page liste les contenus qui référencent des documents dépubliés ou
-        supprimés. Elle facilite le travail de suivi et de maintenances pour les
-        <Badge variant="secondary">themes</Badge>,{" "}
-        <Badge variant="secondary"> requetes pré-qualifiées</Badge> ou{" "}
-        <Badge variant="secondary">A la une</Badge>. Les contenus listés ici
+        supprimés. Elle facilite le travail de suivi et de maintenances pour les{" "}
+        <Chip color="secondary" label="themes" />,{" "}
+        <Chip color="secondary" label="requetes pré-qualifiées" /> ou{" "}
+        <Chip color="secondary" label="A la une" />. Les contenus listés ici
         n&apos;apparaissent déjà plus en prod, cette rubrique a pour but
         d&apos;identifier les contenus à retirer des thèmes et des requêtes dans
         l&apos;admin (pour que les contenus que l&apos;on trouve dans les
@@ -54,16 +52,16 @@ export function DuplicateContentPage(): JSX.Element {
         republication de la fiche sans action supplémentaire).
       </p>
       <Table>
-        <thead>
-          <tr>
+        <TableHead>
+          <TableRow>
             <Th align="left">Type</Th>
             <Th align="left">Parent</Th>
             <Th align="left">Fiche</Th>
             <Th align="center">Publié</Th>
             <Th align="center">Disponible</Th>
-          </tr>
-        </thead>
-        {!data?.relations && fetching && <Spinner />}
+          </TableRow>
+        </TableHead>
+        {!data?.relations && fetching && <CircularProgress />}
         {data?.relations.map(({ id, parent, document }) => {
           return (
             <Tr key={`${id}`}>

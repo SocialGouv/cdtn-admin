@@ -1,9 +1,16 @@
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { Box, Card, Field, Heading, Text } from "theme-ui";
+import {
+  Box,
+  Card,
+  TextField as Field,
+  Typography,
+  Alert,
+} from "@mui/material";
 
 import { Button } from "../button";
 import { Stack } from "../layout/Stack";
+import { theme } from "../../theme";
 
 const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
   const {
@@ -30,69 +37,61 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
     }
   };
   return (
-    <Box
-      sx={{
-        maxWidth: [null, "500px", "500px"],
-      }}
-    >
-      <Card
-        variant="compact"
-        sx={{ px: ["xsmall", "medium"], py: ["small", "large"] }}
-      >
-        <form onSubmit={handleSubmit(submit)}>
-          <Stack>
-            <Heading as="h1">Authentification</Heading>
-            <Field
-              sx={{ fontWeight: "body" }}
-              label="Adresse email"
-              placeholder="ex: lionel@travail.gouv.fr"
-              {...register("email", {
-                required: {
-                  message: "ce champ est requis",
-                  value: true,
-                },
-              })}
-              type="email"
-              aria-invalid={errors.email ? "true" : "false"}
-            />
-            {errors.email && (
-              <Text role="alert" color="critical">
-                {errors.email?.message}
-              </Text>
-            )}
-            <Field
-              sx={{ fontWeight: "body" }}
-              label="Mot de passe"
-              {...register("password", {
-                required: {
-                  message: "ce champ est requis",
-                  value: true,
-                },
-              })}
-              type="password"
-              aria-invalid={errors.password ? "true" : "false"}
-            />
-            {errors.password && (
-              <Text role="alert" color="critical">
-                {errors.password?.message}
-              </Text>
-            )}
-            <Button type="submit" disabled={isSubmitting}>
-              Se connecter
-            </Button>
-            <Button
-              variant="link"
-              size="small"
-              title="Saisissez votre email pour récupérer votre mot de passe"
-              onClick={resetPassword}
-              type="button"
-            >
-              Mot de passe perdu
-            </Button>
-          </Stack>
-        </form>
-      </Card>
-    </Box>
+    <Card style={{ maxWidth: "500px", padding: "30px" }}>
+      <form onSubmit={handleSubmit(submit)}>
+        <Stack>
+          <Typography variant="h3" style={{ marginBottom: "40px" }}>
+            Authentification
+          </Typography>
+          <Field
+            sx={{ fontWeight: theme.fontWeights.body }}
+            label="Adresse email"
+            placeholder="ex: lionel@travail.gouv.fr"
+            {...register("email", {
+              required: {
+                message: "ce champ est requis",
+                value: true,
+              },
+            })}
+            type="email"
+            aria-invalid={errors.email ? "true" : "false"}
+          />
+          {errors.email && (
+            <Alert severity="error">{errors.email?.message}</Alert>
+          )}
+          <Field
+            sx={{ fontWeight: theme.fontWeights.body, marginTop: "20px" }}
+            label="Mot de passe"
+            {...register("password", {
+              required: {
+                message: "ce champ est requis",
+                value: true,
+              },
+            })}
+            type="password"
+            aria-invalid={errors.password ? "true" : "false"}
+          />
+          {errors.password && (
+            <Alert severity="error">{errors.password?.message}</Alert>
+          )}
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            style={{ marginTop: "50px", marginBottom: "10px" }}
+          >
+            Se connecter
+          </Button>
+          <Button
+            variant="text"
+            title="Saisissez votre email pour récupérer votre mot de passe"
+            onClick={resetPassword}
+            type="button"
+          >
+            Mot de passe perdu
+          </Button>
+        </Stack>
+      </form>
+    </Card>
   );
 };
 

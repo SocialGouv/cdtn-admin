@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import slugify from "@socialgouv/cdtn-slugify";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -11,8 +9,9 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
 import { MarkdownLink } from "src/components/MarkdownLink";
-import { Box, Field, Flex, Label, Text, Textarea } from "theme-ui";
+import { Box, TextField as Field, InputLabel as Label } from "@mui/material";
 import { useMutation } from "urql";
+import { theme } from "../../theme";
 
 const editTermMutation = `
 mutation EditTerm(
@@ -76,7 +75,7 @@ export const TermForm = ({ term = {} }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <>
-        <Box mb="small">
+        <Box mb={theme.space.small}>
           <Field
             type="text"
             {...register("term", {
@@ -85,19 +84,27 @@ export const TermForm = ({ term = {} }) => {
             label="Terme"
             onChange={() => setDuplicateTermError(false)}
             defaultValue={term.term}
+            width="100%"
           />
           <FormErrorMessage errors={errors} fieldName="term" />
           {duplicateTermError && (
-            <Text color="critical">Ce terme existe déjà !</Text>
+            <p
+              style={{
+                color: theme.colors.critical,
+              }}
+            >
+              Ce terme existe déjà !
+            </p>
           )}
         </Box>
 
-        <Box mb="small">
+        <Box mb={theme.space.small}>
           <Label htmlFor={"definition"}>
             Définition&nbsp;
             <MarkdownLink />
           </Label>
-          <Textarea
+          <textarea
+            className="fr-input"
             {...register("definition", {
               required: { message: "Ce champ est requis", value: true },
             })}
@@ -107,16 +114,17 @@ export const TermForm = ({ term = {} }) => {
           />
         </Box>
 
-        <Flex
+        <Box
           sx={{
             alignItems: "flex-start",
             flexWrap: "wrap",
-            gap: "small",
+            gap: theme.space.small,
             justifyContent: "stretch",
-            mb: "small",
+            mb: theme.space.small,
+            display: "flex",
           }}
         >
-          <Fieldset title="Variantes / Synonymes" sx={{ flex: "1 1 auto" }}>
+          <Fieldset title="Variantes / Synonymes" style={{ flex: "1" }}>
             <Lister
               control={control}
               name="variants"
@@ -124,7 +132,7 @@ export const TermForm = ({ term = {} }) => {
               defaultValue={term.variants}
             />
           </Fieldset>
-          <Fieldset title="Abréviations" sx={{ flex: "1 1 auto" }}>
+          <Fieldset title="Abréviations" style={{ flex: "1" }}>
             <Lister
               control={control}
               name="abbreviations"
@@ -132,7 +140,7 @@ export const TermForm = ({ term = {} }) => {
               defaultValue={term.abbreviations}
             />
           </Fieldset>
-          <Fieldset title="Références" sx={{ flex: "1 1 auto" }}>
+          <Fieldset title="Références" style={{ flex: "1" }}>
             <Lister
               control={control}
               name="references"
@@ -140,14 +148,18 @@ export const TermForm = ({ term = {} }) => {
               defaultValue={term.references}
             />
           </Fieldset>
-        </Flex>
+        </Box>
 
-        <Flex sx={{ alignItems: "center", mt: "medium" }}>
-          <Button disabled={hasError || loading}>{buttonLabel}</Button>
-          <Link href="/glossary" passHref>
+        <Box
+          sx={{ alignItems: "center", mt: theme.space.medium, display: "flex" }}
+        >
+          <Button disabled={hasError || loading} type="submit">
+            {buttonLabel}
+          </Button>
+          <Link href="/glossary" style={{ marginLeft: theme.space.small }}>
             Annuler
           </Link>
-        </Flex>
+        </Box>
       </>
     </form>
   );

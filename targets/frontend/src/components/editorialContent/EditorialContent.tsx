@@ -3,17 +3,26 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import { IoMdCheckmark } from "react-icons/io";
-import { Box, Checkbox, Field, Flex, Label, Radio, Textarea } from "theme-ui";
 
 import { BaseContentPart, Content, SectionDisplayMode } from "../../types";
 import { Button } from "../button";
-import { FormErrorMessage } from "../forms/ErrorMessage";
 import { MarkdownLink } from "../MarkdownLink";
 import { ContentSections } from "./ContentSections";
 import { ReferenceBlocks } from "./ReferenceBlocks";
+import {
+  AlertColor,
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Stack,
+  TextField as Field,
+} from "@mui/material";
+import { FormRadioGroup, FormTextField } from "../forms";
+import { SnackBar } from "../utils/SnackBar";
+import { theme } from "src/theme";
 
 const addComputedFields =
   (onSubmit: (content: Partial<Content>) => void) =>
@@ -53,9 +62,16 @@ const EditorialContentForm = ({
     control,
     register,
     handleSubmit,
-    formState: { isDirty, errors },
+    formState: { isDirty, errors, isSubmitted, isValid },
   } = methods;
   const [hasError, setHasError] = useState(false);
+  const [snack, setSnack] = useState<{
+    open: boolean;
+    severity?: AlertColor;
+    message?: string;
+  }>({
+    open: false,
+  });
   let buttonLabel = "Créer le contenu";
   if (!content) {
     content = {
@@ -68,148 +84,175 @@ const EditorialContentForm = ({
     buttonLabel = "Enregistrer les changements";
   }
   useEffect(() => {
-    console.log("errors", errors);
-    setHasError(Object.keys(errors).length > 0);
+    if (Object.keys(errors).length > 0) {
+      setHasError(true);
+      console.log(errors);
+      setSnack({
+        open: true,
+        severity: "error",
+        message: "Formulaire invalide: " + JSON.stringify(errors),
+      });
+    }
   }, [errors]);
+  useEffect(() => {
+    if (isSubmitted && isValid) {
+      setSnack({
+        open: true,
+        severity: "success",
+        message: "Le contenu a été sauvegardé",
+      });
+    }
+  }, [isSubmitted]);
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(addComputedFields(onSubmit))}>
-        <>
-          <Box mb="small">
-            <Field
-              {...register("document.date", {
-                validate: (value?: string) => {
-                  if (!value) return false;
-                  const trimmed = value.trim();
-                  return /^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(trimmed);
-                },
-              })}
-              name="document.date"
-              sx={{ width: "10rem" }}
-              label="Date"
-            />
-            <ErrorMessage
-              name="document.date"
-              errors={errors}
-              render={() => (
-                <Box color="critical">
-                  La date n’est pas formatée correctement. Le format attendu est
-                  &quot;jour/mois/année&quot;
-                </Box>
-              )}
-            />
-          </Box>
-          <Box mb="small">
-            <Field
-              {...register("title", {
-                required: { message: "Le titre est requis", value: true },
-              })}
-              type="text"
-              label="Titre"
-            />
-            <FormErrorMessage errors={errors} fieldName="title" />
-          </Box>
-          <Box mb="small">
-            <Field
-              {...register("metaDescription")}
-              type="text"
-              label="Meta description (référencement)"
-            />
-          </Box>
-          <Box mb="small">
-            <Label htmlFor={"description"}>Description</Label>
-            <Textarea
-              {...register("document.description", {
-                required: {
-                  message: "La description est requise",
-                  value: true,
-                },
-              })}
-              id="description"
-              rows={3}
-            />
-            <FormErrorMessage
-              errors={errors}
-              fieldName="document.description"
-            />
-          </Box>
-          <Box mb="small">
-            <Label htmlFor={"intro"}>
-              Introduction&nbsp;
-              <MarkdownLink />
-            </Label>
-            <Textarea {...register("document.intro")} id="intro" rows={3} />
-          </Box>
-          <Box mb="small">
-            <Label htmlFor={"intro"}>Affichage des sections&nbsp;</Label>
-            <Label>
-              <Radio
-                {...register("document.sectionDisplayMode")}
-                name="document.sectionDisplayMode"
-                value={SectionDisplayMode.accordion}
-                defaultChecked={!content?.document?.sectionDisplayMode}
+        <Box sx={{ mb: "1rem" }}>
+          <Field
+            {...register("document.date", {
+              validate: (value?: string) => {
+                if (!value) return false;
+                const trimmed = value.trim();
+                return /^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(trimmed);
+              },
+            })}
+            name="document.date"
+            sx={{ width: "10rem" }}
+            label="Date"
+          />
+          <ErrorMessage
+            name="document.date"
+            errors={errors}
+            render={() => (
+              <Box color="critical">
+                La date n’est pas formatée correctement. Le format attendu est
+                &quot;jour/mois/année&quot;
+              </Box>
+            )}
+          />
+        </Box>
+        <Box sx={{ mb: "1rem" }}>
+          <FormTextField
+            name="title"
+            label="Titre"
+            fullWidth
+            control={control}
+            rules={{ required: true }}
+          />
+        </Box>
+        <Box sx={{ mb: "1rem" }}>
+          <FormTextField
+            name="metaDescription"
+            fullWidth
+            label="Meta description (référencement)"
+            control={control}
+            rules={{ required: true }}
+          />
+        </Box>
+        <Box sx={{ mb: "1rem" }}>
+          <FormTextField
+            name="document.description"
+            fullWidth
+            multiline
+            label="Description"
+            control={control}
+            rules={{ required: true }}
+          />
+        </Box>
+        <Box sx={{ mb: "1rem" }}>
+          <FormTextField
+            name="document.intro"
+            fullWidth
+            multiline
+            label="Introduction"
+            control={control}
+          />
+          <MarkdownLink />
+        </Box>
+        <Box sx={{ mb: "1rem" }}>
+          <FormRadioGroup
+            name={"document.sectionDisplayMode"}
+            label="Affichage des sections"
+            control={control}
+            options={[
+              {
+                label: "Accordéon",
+                value: SectionDisplayMode.accordion,
+              },
+              {
+                label: "Onglet",
+                value: SectionDisplayMode.tab,
+              },
+            ]}
+          />
+        </Box>
+        <Box sx={{ mb: "1rem" }}>
+          <FormControlLabel
+            control={
+              <Controller
+                name={"document.dismissalProcess"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Checkbox
+                    checked={value}
+                    onChange={(e) => onChange(e.target.checked)}
+                  />
+                )}
               />
-              Accordéon
-            </Label>
-            <Label>
-              <Radio
-                {...register("document.sectionDisplayMode")}
-                name="document.sectionDisplayMode"
-                value={SectionDisplayMode.tab}
-              />
-              Onglet
-            </Label>
-          </Box>
-          <Box mb="small">
-            <Label>
-              <Checkbox {...register("document.dismissalProcess")} />
-              Dossier licenciement
-            </Label>
-          </Box>
-          <ContentSections
+            }
+            label="Dossier licenciement"
+          />
+        </Box>
+        <ContentSections
+          control={control}
+          register={register}
+          name="document.contents"
+          errors={errors}
+        />
+        <Box
+          sx={{
+            display: "inline-flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            mb: "1rem",
+          }}
+        >
+          <ReferenceBlocks
             control={control}
             register={register}
-            name="document.contents"
+            name="document.references"
             errors={errors}
           />
-          <Flex sx={{ justifyContent: "flex-end", width: "100%" }}>
-            <ReferenceBlocks
-              control={control}
-              register={register}
-              name="document.references"
-              errors={errors}
-            />
-          </Flex>
-          <Flex mt="medium" sx={{ alignItems: "center" }}>
-            <Button
-              type="submit"
-              variant="secondary"
-              disabled={hasError || loading || !isDirty}
-            >
-              {isDirty && (
-                <IoMdCheckmark
-                  sx={{
-                    height: "iconSmall",
-                    mr: "xsmall",
-                    width: "iconSmall",
-                  }}
-                />
-              )}
-              {buttonLabel}
-            </Button>
-            <Link
-              href={"/contenus"}
-              passHref
-              style={{ textDecoration: "none" }}
-              onClick={(e) => {
-                e.preventDefault();
-                router.back();
-              }}
-            >
-              Annuler
-            </Link>
-          </Flex>
-        </>
+        </Box>
+        <Stack alignItems="center" direction="row" spacing={2}>
+          <Button
+            type="submit"
+            variant="outlined"
+            disabled={hasError || loading || !isDirty}
+          >
+            {isDirty && (
+              <IoMdCheckmark
+                style={{
+                  height: theme.sizes.iconSmall,
+                  marginRight: theme.space.xsmall,
+                  width: theme.sizes.iconSmall,
+                }}
+              />
+            )}
+            {buttonLabel}
+          </Button>
+          <Link
+            href={"/contenus"}
+            passHref
+            style={{ textDecoration: "none" }}
+            onClick={(e) => {
+              e.preventDefault();
+              router.back();
+            }}
+          >
+            Annuler
+          </Link>
+        </Stack>
+        <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
       </form>
     </FormProvider>
   );

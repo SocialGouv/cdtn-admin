@@ -1,8 +1,9 @@
 import { useFormContext } from "react-hook-form";
-import { Box, Field, Flex, Label, Radio } from "theme-ui";
 
 import { ContentPicker } from "../forms/ContentPicker";
-import { FormErrorMessage } from "../forms/ErrorMessage";
+import { FormRadioGroup, FormTextField } from "../forms";
+import React from "react";
+import Box from "@mui/material/Box";
 
 export type SectionContentProps = {
   name: string;
@@ -12,36 +13,43 @@ export const SectionContent = ({ name }: SectionContentProps) => {
   const {
     control,
     register,
-    getValues,
     formState: { errors },
   } = useFormContext();
   return (
     <>
-      <Box mb="small">
-        <Field {...register(`${name}.title`)} type="text" label="Titre" />
-        <FormErrorMessage errors={errors} fieldName={`${name}.title`} />
+      <Box
+        sx={{
+          mb: "2rem",
+          mt: "2rem",
+        }}
+      >
+        <FormTextField
+          name={`${name}.title`}
+          fullWidth
+          multiline
+          label="Titre"
+          control={control}
+          rules={{ required: true }}
+        />
       </Box>
       <Box mb="small">
-        <Label htmlFor={"intro"}>Affichage des tuiles&nbsp;</Label>
-        <Label>
-          <Radio
-            {...register(`${name}.blockDisplayMode`)}
-            name={`${name}.blockDisplayMode`}
-            value={"line"}
-            defaultChecked={!getValues(`${name}.blockDisplayMode`)}
-          />
-          Ligne
-        </Label>
-        <Label>
-          <Radio
-            {...register(`${name}.blockDisplayMode`)}
-            name={`${name}.blockDisplayMode`}
-            value={"square"}
-          />
-          Carré
-        </Label>
+        <FormRadioGroup
+          name={`${name}.blockDisplayMode`}
+          label="Affichage des tuiles"
+          control={control}
+          options={[
+            {
+              label: "Ligne",
+              value: "line",
+            },
+            {
+              label: "Carré",
+              value: "square",
+            },
+          ]}
+        />
       </Box>
-      <Flex
+      <Box
         sx={{
           flexDirection: "column",
           mt: "small",
@@ -56,7 +64,7 @@ export const SectionContent = ({ name }: SectionContentProps) => {
           name={`${name}.contents`}
           id="contents"
         />
-      </Flex>
+      </Box>
     </>
   );
 };

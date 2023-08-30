@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { memo } from "react";
-import { Flex } from "theme-ui";
+import { Box } from "@mui/material";
 
 import { Inline } from "../layout/Inline";
 import { Li, List } from "../list";
@@ -85,11 +85,11 @@ Pagination.propTypes = {
 
 function PaginationList({ children }) {
   return (
-    <Flex sx={{ justifyContent: "center" }}>
+    <Box sx={{ justifyContent: "center", display: "flex" }}>
       <List sx={{ display: "flex", fontSize: "xxsmall" }}>
         <Inline space="xxsmall">{children}</Inline>
       </List>
-    </Flex>
+    </Box>
   );
 }
 PaginationList.propTypes = {

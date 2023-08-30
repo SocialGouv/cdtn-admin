@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { IoMdTrash } from "react-icons/io";
-import { Container, Flex, Label, Radio } from "theme-ui";
 
 import { Button } from "../button";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { SectionContent } from "./SectionContent";
 import { SectionImage } from "./SectionImage";
 import { SectionText } from "./SectionText";
+import Box from "@mui/material/Box";
+import { FormRadioGroup } from "../forms";
 
 export type SectionBlockProps = {
   name: string;
@@ -66,107 +67,52 @@ export const SectionBlock = ({
     }
   }, [type, setValue, name]);
   return (
-    <>
-      <Container
+    <Box
+      sx={{
+        padding: "12px",
+      }}
+    >
+      <Box
         sx={{
-          padding: "12px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        <Flex sx={{ display: "flex" }}>
-          <Flex sx={{ justifyContent: "flex-start" }}>
-            <Label
-              sx={{
-                alignItems: "center",
-                cursor: "pointer",
-                flex: "0 1 auto",
-                justifyContent: "flex-start",
-                mr: "large",
-                width: "auto",
+        <FormRadioGroup
+          name={`${name}.type`}
+          label="Type de réponse"
+          control={control}
+          options={[
+            {
+              label: "Markdown",
+              value: "markdown",
+            },
+            {
+              label: "Graphique",
+              value: "graphic",
+            },
+            {
+              label: "Contenus",
+              value: "content",
+            },
+          ]}
+        />
+        {!onlyBlock && (
+          <Button type="button" size="small" onClick={remove} color="error">
+            <IoMdTrash
+              style={{
+                height: "1.5rem",
+                marginRight: "0.8rem",
+                width: "1.5rem",
               }}
-            >
-              Markdown{" "}
-              <Radio
-                sx={{ ml: "xxsmall" }}
-                value={"markdown"}
-                {...register(`${name}.type`, {
-                  required: {
-                    message: "Il faut choisir le type de section",
-                    value: true,
-                  },
-                })}
-              />
-            </Label>
-            <Label
-              sx={{
-                alignItems: "center",
-                cursor: "pointer",
-                flex: "0 1 auto",
-                justifyContent: "flex-center",
-                mr: "large",
-                width: "auto",
-              }}
-            >
-              Graphique{" "}
-              <Radio
-                ml="xxsmall"
-                value={"graphic"}
-                {...register(`${name}.type`, {
-                  required: {
-                    message: "Il faut choisir le type de section",
-                    value: true,
-                  },
-                })}
-              />
-            </Label>
-            <Label
-              sx={{
-                alignItems: "center",
-                cursor: "pointer",
-                flex: "0 1 auto",
-                justifyContent: "flex-center",
-                mr: "large",
-                width: "auto",
-              }}
-            >
-              Contenus{" "}
-              <Radio
-                ml="xxsmall"
-                value={"content"}
-                {...register(`${name}.type`, {
-                  required: {
-                    message: "Il faut choisir le type de section",
-                    value: true,
-                  },
-                })}
-              />
-            </Label>
-          </Flex>
-          {!onlyBlock && (
-            <Flex
-              sx={{
-                display: "flex",
-                flex: 1,
-                justifyContent: "flex-end",
-                margin: "0 3px",
-              }}
-            >
-              <Button type="button" size="small" onClick={remove}>
-                <IoMdTrash
-                  sx={{
-                    height: "1.5rem",
-                    marginRight: "0.8rem",
-                    mr: "xsmall",
-                    width: "1.5rem",
-                  }}
-                />
-                Supprimer cet affichage
-              </Button>
-            </Flex>
-          )}
-        </Flex>
-        <FormErrorMessage errors={errors} fieldName="type" />
-        {block}
-      </Container>
-    </>
+            />
+            Supprimer cet affichage
+          </Button>
+        )}
+      </Box>
+      <FormErrorMessage errors={errors} fieldName="type" />
+      {block}
+    </Box>
   );
 };

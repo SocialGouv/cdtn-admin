@@ -1,12 +1,12 @@
 import { Status } from "@shared/types";
 import React, { ReactNode } from "react";
 import { MdSyncProblem, MdTimelapse, MdTimerOff } from "react-icons/md";
-import { Badge } from "theme-ui";
+import { Chip } from "@mui/material";
 
 import { ConfirmButton } from "../confirmButton";
 
 type TriggerButtonProps = {
-  variant: "accent" | "secondary" | "primary" | "link";
+  buttonProps?: any;
   onClick: () => void;
   children: ReactNode | ReactNode[];
   isDisabled?: boolean;
@@ -14,30 +14,39 @@ type TriggerButtonProps = {
 };
 
 function Index({
-  variant,
+  buttonProps,
   onClick,
   children,
   isDisabled = false,
   status,
 }: TriggerButtonProps) {
   return (
-    <ConfirmButton disabled={isDisabled} onClick={onClick} variant={variant}>
-      {status === "running" && <MdTimelapse sx={{ mr: ".2rem" }} />}
-      {status === "failed" && <MdSyncProblem sx={{ mr: ".2rem" }} />}
-      {status === "timeout" && <MdTimerOff sx={{ mr: ".2rem" }} />}
+    <ConfirmButton disabled={isDisabled} onClick={onClick} {...buttonProps}>
+      {status === "running" && <MdTimelapse style={{ marginRight: ".2rem" }} />}
+      {status === "failed" && (
+        <MdSyncProblem style={{ marginRight: ".2rem" }} />
+      )}
+      {status === "timeout" && <MdTimerOff style={{ marginRight: ".2rem" }} />}
       {children}
       {status === "failed" && (
-        <Badge bg="critical" sx={{ ml: "-3rem", mt: "-3rem" }}>
-          Erreur
-        </Badge>
+        <Chip
+          color="error"
+          style={{ marginLeft: "-3rem", marginTop: "-3rem" }}
+          label="Erreur"
+        />
       )}
       {status === "running" && (
-        <Badge sx={{ ml: "-3rem", mt: "-3rem" }}>En cours</Badge>
+        <Chip
+          style={{ marginLeft: "-3rem", marginTop: "-3rem" }}
+          label="En cours"
+        />
       )}
       {status === "timeout" && (
-        <Badge bg="critical" sx={{ ml: "-3rem", mt: "-3rem" }}>
-          Timeout
-        </Badge>
+        <Chip
+          color="error"
+          style={{ marginLeft: "-3rem", marginTop: "-3rem" }}
+          label="Timeout"
+        />
       )}
     </ConfirmButton>
   );

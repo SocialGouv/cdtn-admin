@@ -1,13 +1,12 @@
-/** @jsxImportSource theme-ui */
-
 import * as d3 from "d3";
 import { hierarchy, tree } from "d3-hierarchy";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useRef } from "react";
 import { RELATIONS } from "src/lib/relations";
-import { Spinner, useThemeUI } from "theme-ui";
+import { CircularProgress } from "@mui/material";
 import { useQuery } from "urql";
+import { theme as th } from "../../theme";
 
 const getThemesQuery = `
 query getThemes {
@@ -28,7 +27,6 @@ const context = { additionalTypenames: ["documents", "document_relations"] };
 export const Map = ({ setShowThemeMap = () => {} }) => {
   const svg = useRef();
   const router = useRouter();
-  const { theme } = useThemeUI();
 
   const [{ fetching, data: { themeRelations = [] } = {} }] = useQuery({
     context,
@@ -44,10 +42,10 @@ export const Map = ({ setShowThemeMap = () => {} }) => {
   );
 
   useEffect(() => {
-    buildMap({ onClickTheme, svg: svg.current, theme, themeRelations });
-  }, [themeRelations, onClickTheme, theme]);
+    buildMap({ onClickTheme, svg: svg.current, themeRelations });
+  }, [themeRelations, onClickTheme]);
 
-  if (fetching) return <Spinner />;
+  if (fetching) return <CircularProgress />;
 
   return (
     <svg ref={svg} overflow="visible">
@@ -86,7 +84,7 @@ const buildChildren = ({ parentId, relations, depth = 0 }) =>
           name: theme.document.shortTitle || theme.title,
         }));
 
-const buildMap = ({ theme, onClickTheme, themeRelations, svg }) => {
+const buildMap = ({ onClickTheme, themeRelations, svg }) => {
   const treeData = {
     children: buildChildren({
       depth: 0,
@@ -136,7 +134,7 @@ const buildMap = ({ theme, onClickTheme, themeRelations, svg }) => {
     .selectAll("path")
     .data(structuredTree.links())
     .join("path")
-    .attr("stroke", theme.colors.primary)
+    .attr("stroke", th.colors.primary)
     .attr(
       "d",
       d3
@@ -168,15 +166,15 @@ const buildMap = ({ theme, onClickTheme, themeRelations, svg }) => {
 
   node
     .append("circle")
-    .attr("stroke", theme.colors.neutral)
+    .attr("stroke", th.colors.neutral)
     .attr("stroke-width", 3)
-    .attr("fill", theme.colors.secondary)
+    .attr("fill", th.colors.secondary)
     .attr("r", "6px");
 
   node
     .append("text")
     .attr("dy", "0.3rem")
-    .attr("fill", theme.colors.text)
+    .attr("fill", th.colors.text)
     .attr("stroke-line-join", "round")
     .attr("stroke-width", 3)
     .attr("y", (d) => (d.depth % 2 === 1 ? -20 : 20))

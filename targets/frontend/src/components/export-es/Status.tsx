@@ -1,8 +1,7 @@
-/** @jsxImportSource theme-ui */
-
 import { Status as StatusType } from "@shared/types";
 import { MdTimelapse } from "react-icons/md";
-import { Box, Flex } from "theme-ui";
+import { Box, Typography } from "@mui/material";
+import { theme } from "src/theme";
 
 type StatusProps = {
   status?: StatusType;
@@ -11,38 +10,29 @@ type StatusProps = {
 export function Status({ status }: StatusProps): JSX.Element {
   if (!status) {
     return (
-      <Flex sx={{ alignItems: "center" }}>
-        <span>En cours</span> <MdTimelapse sx={{ mb: "-.3rem", ml: ".4rem" }} />
-      </Flex>
+      <Box sx={{ alignItems: "center", display: "flex" }}>
+        <Typography>En cours</Typography>{" "}
+        <MdTimelapse style={{ marginBottom: "-.3rem", marginLeft: ".4rem" }} />
+      </Box>
     );
   }
   switch (status) {
     case StatusType.completed:
-      return (
-        <Box as="span" color="positive">
-          Succès
-        </Box>
-      );
+      return <Typography color={theme.colors.positive}>Succès</Typography>;
     case StatusType.timeout:
-      return (
-        <Box as="span" color="muted">
-          Timeout
-        </Box>
-      );
+      return <Typography color={theme.colors.muted}>Timeout</Typography>;
     case StatusType.running:
       return (
-        <Flex sx={{ alignItems: "center" }}>
-          <span>En cours</span>{" "}
-          <MdTimelapse sx={{ mb: "-.2rem", ml: ".3rem" }} />
-        </Flex>
-      );
-    case StatusType.failed:
-      return (
-        <Box as="span" color="critical">
-          Erreur
+        <Box sx={{ alignItems: "center", display: "flex" }}>
+          <Typography>En cours</Typography>{" "}
+          <MdTimelapse
+            style={{ marginBottom: "-.2rem", marginLeft: ".3rem" }}
+          />
         </Box>
       );
+    case StatusType.failed:
+      return <Typography color={theme.colors.critical}>Erreur</Typography>;
     default:
-      return <Box as="span">{status}</Box>;
+      return <Typography>{status}</Typography>;
   }
 }

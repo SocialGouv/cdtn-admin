@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
-import { Box, Text } from "theme-ui";
+import { Box } from "@mui/material";
 
 import { Button } from "../button";
 import { Dialog } from "../dialog";
@@ -27,15 +27,15 @@ export function Actions({ onDelete }) {
       >
         <Stack>
           <Stack>
-            <Text>
+            <p>
               Êtes vous sûr de vouloir supprimer {selectedItems.length} fiches?
-            </Text>
+            </p>
           </Stack>
           <Inline>
             <Button onClick={deleteAction} size="small">
               Supprimer les fiches
             </Button>
-            <Button variant="link" onClick={closeDeleteDialog} size="small">
+            <Button variant="text" onClick={closeDeleteDialog} size="small">
               Annuler
             </Button>
           </Inline>

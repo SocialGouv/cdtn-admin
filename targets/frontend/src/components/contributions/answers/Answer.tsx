@@ -32,8 +32,8 @@ import {
 } from "./references";
 import { statusesMapping } from "../status/data";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
-import { SimpleLink } from "../../utils/SimpleLink";
 import { SnackBar } from "../../utils/SnackBar";
+import { BreadcrumbLink } from "src/components/utils";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -132,15 +132,17 @@ export const ContributionsAnswer = ({
     <>
       <Grid container>
         <Grid xs={10}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <SimpleLink href={"/contributions"}>Contributions</SimpleLink>
-            <SimpleLink
+          <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
+            <BreadcrumbLink href={"/contributions"}>
+              Contributions
+            </BreadcrumbLink>
+            <BreadcrumbLink
               href={`/contributions/questions/${answer?.question.id}`}
             >
               {answer?.question?.content}
-            </SimpleLink>
-            <div>{answer?.agreement?.id}</div>
-          </Breadcrumbs>
+            </BreadcrumbLink>
+            <BreadcrumbLink>{answer?.agreement?.id}</BreadcrumbLink>
+          </ol>
         </Grid>
         {answer?.status && (
           <Grid xs={2} style={{ color: statusesMapping[status].color }}>
@@ -165,28 +167,26 @@ export const ContributionsAnswer = ({
                 />
               </FormControl>
               {answer && !isCodeDuTravail(answer) && (
-                <FormControl>
-                  <FormRadioGroup
-                    name="otherAnswer"
-                    label="Type de réponse"
-                    control={control}
-                    disabled={isNotEditable(answer)}
-                    options={[
-                      {
-                        label: "Afficher la réponse",
-                        value: "ANSWER",
-                      },
-                      {
-                        label: "La convention collective ne prévoit rien",
-                        value: "NOTHING",
-                      },
-                      {
-                        label: "Nous n'avons pas la réponse",
-                        value: "UNKNOWN",
-                      },
-                    ]}
-                  />
-                </FormControl>
+                <FormRadioGroup
+                  name="otherAnswer"
+                  label="Type de réponse"
+                  control={control}
+                  disabled={isNotEditable(answer)}
+                  options={[
+                    {
+                      label: "Afficher la réponse",
+                      value: "ANSWER",
+                    },
+                    {
+                      label: "La convention collective ne prévoit rien",
+                      value: "NOTHING",
+                    },
+                    {
+                      label: "Nous n'avons pas la réponse",
+                      value: "UNKNOWN",
+                    },
+                  ]}
+                />
               )}
               {answer && !isCodeDuTravail(answer) && (
                 <KaliReferenceInput

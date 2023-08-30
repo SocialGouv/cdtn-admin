@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.12.1...v2.13.0) (2023-08-25)
+
+### Bug Fixes
+
+- **build:** set utils in lib folder ([c9d29ac](https://github.com/SocialGouv/cdtn-admin/commit/c9d29acb0cb6c38e938016e2007c22bbf06d643d))
+
+### Features
+
+- add warnings when DILA API call failed to get references ([#987](https://github.com/SocialGouv/cdtn-admin/issues/987)) ([65b922d](https://github.com/SocialGouv/cdtn-admin/commit/65b922d9cb6450a7a0246d628b30e0f93fbbf9ff))
+- ameliorer le poid sur les contributions generique ([#997](https://github.com/SocialGouv/cdtn-admin/issues/997)) ([7a4c014](https://github.com/SocialGouv/cdtn-admin/commit/7a4c01427974af044bdac73919ee8ac83c3bb904))
+- **ui:** replace `theme-ui` by `mui` + migration vers `dsfr` ([#992](https://github.com/SocialGouv/cdtn-admin/issues/992)) ([5241a6b](https://github.com/SocialGouv/cdtn-admin/commit/5241a6b7c16ea3df812fb8c39df9f4cb618391ca))
+
+## [2.12.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.12.0...v2.12.1) (2023-08-04)
+
+### Bug Fixes
+
+- **theme-ui:** move component to mui on EditorialContent ([#970](https://github.com/SocialGouv/cdtn-admin/issues/970)) ([6d594df](https://github.com/SocialGouv/cdtn-admin/commit/6d594df92753ced786192c0fa74b25e6cff4e3f2))
+
+# [2.12.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.4...v2.12.0) (2023-08-02)
+
+**Note:** Version bump only for package frontend
+
+## [2.11.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.3...v2.11.4) (2023-07-31)
+
+**Note:** Version bump only for package frontend
+
+## [2.11.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.2...v2.11.3) (2023-07-28)
+
+**Note:** Version bump only for package frontend
+
+## [2.11.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.1...v2.11.2) (2023-07-25)
+
+### Bug Fixes
+
+- 976 admin améliorer la recherche articles des cc + nos contenus à nous ([#978](https://github.com/SocialGouv/cdtn-admin/issues/978)) ([670f897](https://github.com/SocialGouv/cdtn-admin/commit/670f89757c38984af5f948bcc1864be7fefb8a16))
+- mettre le titre sur une seule ligne ([#982](https://github.com/SocialGouv/cdtn-admin/issues/982)) ([452f67c](https://github.com/SocialGouv/cdtn-admin/commit/452f67ce2bd8cfcd9e5f15753ce452c35a8c5da7))
+
+## [2.11.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.0...v2.11.1) (2023-07-18)
+
+**Note:** Version bump only for package frontend
+
 # [2.11.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.2...v2.11.0) (2023-07-12)
 
 ### Bug Fixes

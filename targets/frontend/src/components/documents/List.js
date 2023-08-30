@@ -1,30 +1,35 @@
-/** @jsxImportSource theme-ui */
-
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { IoIosCheckmark, IoIosClose } from "react-icons/io";
 import { useSelectionContext } from "src/pages/contenus";
 import { theme } from "src/theme";
-import { Box } from "theme-ui";
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 export function DocumentList({ documents }) {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th />
-          <th sx={{ textAlign: "left" }}>Document</th>
-          <th sx={{ textAlign: "left" }}>Publié</th>
-          <th sx={{ textAlign: "left" }}>Disponible</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell />
+          <TableCell sx={{ textAlign: "left" }}>Document</TableCell>
+          <TableCell sx={{ textAlign: "left" }}>Publié</TableCell>
+          <TableCell sx={{ textAlign: "left" }}>Disponible</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
         {documents.map((doc) => (
           <DocumentRow key={doc.cdtnId} document={doc} />
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   );
 }
 DocumentList.propTypes = {
@@ -54,20 +59,28 @@ const DocumentRow = function DocumentRow({
   };
 
   return (
-    <tr>
-      <td>
-        <input
-          name={cdtnId}
-          onChange={updatePublishedRef}
-          defaultChecked={
-            // eslint-disable-next-line no-prototype-builtins
-            selectedItems.hasOwnProperty(cdtnId) ? !isPublished : isPublished
-          }
-          sx={checkboxStyles}
-          type="checkbox"
-        />
-      </td>
-      <td>
+    <TableRow>
+      <TableCell>
+        <div class="fr-checkbox-group">
+          <input
+            name={cdtnId}
+            onChange={updatePublishedRef}
+            checked={
+              selectedItems.hasOwnProperty(cdtnId) ? !isPublished : isPublished
+            }
+            type="checkbox"
+            aria-describedby="checkbox-messages"
+            id={`row-${cdtnId}`}
+          />
+          <label className="fr-label" htmlFor={`row-${cdtnId}`} />
+          <div
+            className="fr-messages-group"
+            id="checkbox-messages"
+            aria-live="polite"
+          ></div>
+        </div>
+      </TableCell>
+      <TableCell>
         <Link
           href={sourceToRoute({ cdtnId, source })}
           passHref
@@ -83,8 +96,8 @@ const DocumentRow = function DocumentRow({
             {source} › {title}
           </span>
         </Link>
-      </td>
-      <td sx={{ textAlign: "center" }}>
+      </TableCell>
+      <TableCell sx={{ textAlign: "center" }}>
         {isPublished ? (
           <Box sx={{ color: "muted" }}>
             <IoIosCheckmark />
@@ -94,8 +107,8 @@ const DocumentRow = function DocumentRow({
             <IoIosClose />
           </Box>
         )}
-      </td>
-      <td sx={{ textAlign: "center" }}>
+      </TableCell>
+      <TableCell sx={{ textAlign: "center" }}>
         {isAvailable ? (
           <Box sx={{ color: "muted" }}>
             <IoIosCheckmark />
@@ -105,8 +118,8 @@ const DocumentRow = function DocumentRow({
             <IoIosClose />
           </Box>
         )}
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   );
 };
 
@@ -131,11 +144,4 @@ export const sourceToRoute = ({ cdtnId, source }) => {
     default:
       return `/contenus/${cdtnId}`;
   }
-};
-
-const checkboxStyles = {
-  cursor: "pointer",
-  display: "block",
-  m: "0 0 0 small",
-  padding: 0,
 };

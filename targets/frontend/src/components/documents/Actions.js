@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useSelectionContext } from "src/pages/contenus";
-import { Box, Text } from "theme-ui";
+import { Box } from "@mui/material";
 
 import { Button } from "../button";
 import { Dialog } from "../dialog";
@@ -29,17 +29,17 @@ export function DocumentsListActions({ onUpdatePublication }) {
       >
         <Stack>
           <Stack>
-            <Text>
+            <p>
               Êtes vous sûr de vouloir modifier la publication des
               contenus&nbsp;?
-            </Text>
+            </p>
             <Recap publications={selectedItems} />
           </Stack>
           <Inline>
             <Button onClick={updatePublication} size="small">
               Modifier la publication des contenus
             </Button>
-            <Button variant="link" onClick={closePublishDialog} size="small">
+            <Button variant="text" onClick={closePublishDialog} size="small">
               Annuler
             </Button>
           </Inline>
@@ -75,7 +75,7 @@ function Recap({ publications }) {
   );
   return (
     <Box>
-      <Text sx={{ fontWeight: "heading" }}>Détails</Text>
+      <p style={{ fontWeight: "bold" }}>Détails</p>
       <ul>
         {items.published > 0 && (
           <li>

@@ -23,9 +23,7 @@ array_relationships:
 insert_permissions:
   - role: super
     permission:
-      check:
-        default_role:
-          _neq: super
+      check: {}
       columns:
         - active
         - created_at

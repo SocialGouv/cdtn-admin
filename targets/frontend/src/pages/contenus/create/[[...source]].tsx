@@ -11,10 +11,20 @@ import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
 import { Content, ContentRelation } from "src/types";
-import { Label, Select } from "theme-ui";
 import { useMutation } from "urql";
+import {
+  FormControl,
+  InputLabel as Label,
+  MenuItem,
+  OutlinedInput,
+  Select,
+} from "@mui/material";
 
 import createContentMutation from "./createContent.mutation.graphql";
+import {
+  getContentRelationIds,
+  mapContentRelations,
+} from "../../../lib/contenus/utils";
 
 const CREATABLE_SOURCES = [
   SOURCES.EDITORIAL_CONTENT,
@@ -29,7 +39,7 @@ export function CreateDocumentPage() {
   const [createResult, createContent] = useMutation(createContentMutation);
 
   async function onSubmit({
-    contents = [],
+    contentRelations = [],
     document = {},
     isSearchable,
     isPublished,
@@ -38,22 +48,25 @@ export function CreateDocumentPage() {
     title,
   }: Content) {
     const newIds = generateIds(source);
-    await createContent({
+    const relationIds = getContentRelationIds(contentRelations);
+    const relations = mapContentRelations(contentRelations, newIds.cdtn_id);
+    const result = await createContent({
       ...newIds,
       document,
       isPublished: typeof isPublished !== "undefined" ? isPublished : true,
       isSearchable: typeof isSearchable !== "undefined" ? isSearchable : true,
       metaDescription: metaDescription || document.description || title,
-      relations: contents.map(({ cdtnId }: ContentRelation, index: number) => ({
-        data: { position: index },
-        document_a: newIds.cdtn_id,
-        document_b: cdtnId,
-        type: RELATIONS.DOCUMENT_CONTENT,
-      })),
+      relations,
+      relationIds,
       slug: slug || slugify(title as string),
       source,
       title,
     });
+    if (!result.error) {
+      router.back();
+    } else {
+      console.error(result.error);
+    }
   }
 
   let ContentForm;
@@ -76,30 +89,31 @@ export function CreateDocumentPage() {
     <Layout title="Ajouter un contenu">
       <Stack>
         <form>
-          <Label htmlFor="source">
-            Quel type de document souhaitez vous ajouter&nbsp;?
-          </Label>
-          <Select
-            name="source"
-            id="source"
-            defaultValue={source}
-            onChange={(event) => {
-              router.replace(
-                `/contenus/create/${event.target.value}`,
-                undefined,
-                { shallow: true }
-              );
-            }}
-          >
-            <option disabled value="">
-              ...
-            </option>
-            {CREATABLE_SOURCES.map((item) => (
-              <option key={item} value={item}>
-                {getLabelBySource(item)}
-              </option>
-            ))}
-          </Select>
+          <FormControl sx={{ m: 1, width: 500 }}>
+            <Label htmlFor="source">Type de document</Label>
+            <Select
+              name="source"
+              id="source"
+              value={source}
+              input={<OutlinedInput label="source" />}
+              onChange={(event) => {
+                router.replace(
+                  `/contenus/create/${event.target.value}`,
+                  undefined,
+                  { shallow: true }
+                );
+              }}
+            >
+              <MenuItem disabled value="">
+                ...
+              </MenuItem>
+              {CREATABLE_SOURCES.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {getLabelBySource(item)}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </form>
         {source && (
           <ContentForm loading={createResult.fetching} onSubmit={onSubmit} />

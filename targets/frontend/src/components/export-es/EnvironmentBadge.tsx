@@ -1,5 +1,5 @@
 import { Environment } from "@shared/types";
-import { Badge } from "theme-ui";
+import { Chip } from "@mui/material";
 
 type EnvironmentTagProps = {
   environment: Environment;
@@ -8,7 +8,10 @@ type EnvironmentTagProps = {
 export function EnvironmentBadge({
   environment,
 }: EnvironmentTagProps): JSX.Element {
-  if (environment === Environment.production)
-    return <Badge variant="accent">{environment}</Badge>;
-  return <Badge variant="secondary">{environment}</Badge>;
+  return (
+    <Chip
+      color={environment === Environment.production ? "primary" : "secondary"}
+      label={environment}
+    />
+  );
 }

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Box } from "theme-ui";
+import { Box } from "@mui/material";
 
 export function List({ className, children }) {
   return (
@@ -8,6 +8,7 @@ export function List({ className, children }) {
     </Box>
   );
 }
+
 List.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
@@ -20,6 +21,7 @@ export function Li({ children }) {
     </Box>
   );
 }
+
 Li.propTypes = {
   children: PropTypes.node,
 };

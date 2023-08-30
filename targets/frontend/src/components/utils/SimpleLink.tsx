@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import Link from "next/link";
 
 export const SimpleLink = ({
@@ -11,13 +10,15 @@ export const SimpleLink = ({
   target?: string;
 }): JSX.Element => {
   return (
-    <StyledLink target={target} href={href}>
+    <Link
+      target={target}
+      href={href}
+      style={{
+        textDecoration: "none",
+        color: "inherit",
+      }}
+    >
       {children}
-    </StyledLink>
+    </Link>
   );
 };
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-`;

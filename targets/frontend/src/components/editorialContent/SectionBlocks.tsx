@@ -1,9 +1,10 @@
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
-import { Divider } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { Button } from "../button";
 import { SectionBlock } from "./SectionBlock";
+import { theme } from "src/theme";
 
 export type SectionBlockProps = {
   name: string;
@@ -24,7 +25,6 @@ export const SectionBlocks = ({ name }: SectionBlockProps) => {
     <>
       {fields.map((item, index) => (
         <div key={`${name}.${index}`}>
-          <Divider />
           <SectionBlock
             name={`${name}.${index}`}
             remove={() => remove(index)}
@@ -32,28 +32,26 @@ export const SectionBlocks = ({ name }: SectionBlockProps) => {
           />
         </div>
       ))}
-      <Divider />
-      <div>
+      <Box sx={{ mb: "1rem" }}>
         <Button
           type="button"
           size="small"
-          variant="secondary"
+          variant="outlined"
           outline
           onClick={() => {
             append({ markdown: "", type: "markdown" });
           }}
         >
           <IoMdAdd
-            sx={{
-              height: "iconSmall",
-
-              mr: "xsmall",
-              width: "iconSmall",
+            style={{
+              height: theme.sizes.iconSmall,
+              marginRight: theme.space.xsmall,
+              width: theme.sizes.iconSmall,
             }}
           />
           Ajouter un bloc d&apos;affichage
         </Button>
-      </div>
+      </Box>
     </>
   );
 };

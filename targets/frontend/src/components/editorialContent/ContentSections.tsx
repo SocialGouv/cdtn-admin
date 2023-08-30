@@ -6,6 +6,8 @@ import { SortableContainer } from "react-sortable-hoc";
 import { Button } from "../button";
 import { List } from "../list";
 import { SortableSection } from "./Section";
+import { Box } from "@mui/material";
+import { theme } from "src/theme";
 
 const SortableSectionList = SortableContainer(
   ({ blocks, name, ...props }: any) => (
@@ -62,22 +64,26 @@ export function ContentSections({ name }: any) {
           move(oldIndex, newIndex);
         }}
       />
-      <Button
-        type="button"
-        size="small"
-        variant="secondary"
-        onClick={() => append({ blocks: [{ markdown: "", type: "markdown" }] })}
-      >
-        {/* todo refactor to a ButtonWithicon since sx props not working */}
-        <IoMdAdd
-          sx={{
-            height: "iconSmall",
-            mr: "xsmall",
-            width: "iconSmall",
-          }}
-        />
-        Ajouter une section supplémentaire
-      </Button>
+      <Box sx={{ mt: "1rem" }}>
+        <Button
+          type="button"
+          size="small"
+          variant="outlined"
+          onClick={() =>
+            append({ blocks: [{ markdown: "", type: "markdown" }] })
+          }
+        >
+          {/* todo refactor to a ButtonWithicon since sx props not working */}
+          <IoMdAdd
+            style={{
+              height: theme.sizes.iconSmall,
+              marginRight: "0.7rem",
+              width: theme.sizes.iconSmall,
+            }}
+          />
+          Ajouter une section
+        </Button>
+      </Box>
     </div>
   );
 }

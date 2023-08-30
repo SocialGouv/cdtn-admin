@@ -1,316 +1,189 @@
-/** @jsxImportSource theme-ui */
-
-import {
-  AccordionButton as ReachAccordionButton,
-  useAccordionItemContext,
-} from "@reach/accordion";
-import {
-  Menu,
-  MenuButton as ReachMenuButton,
-  MenuItem as ReachMenuItem,
-  MenuItemProps,
-  MenuList,
-} from "@reach/menu-button";
-import PropTypes from "prop-types";
 import React from "react";
-import { IoIosArrowDown, IoIosArrowForward, IoMdMore } from "react-icons/io";
-import type { Theme, ThemeUIStyleObject } from "theme-ui";
 import {
-  Box,
-  Button as BaseButton,
-  get,
-  IconButton as BaseIconButton,
-  NavLink,
-} from "theme-ui";
+  ButtonProps,
+  Button as MuiButton,
+  IconButton as MuiIconButton,
+} from "@mui/material";
+import { Menu, MenuItem as MenuItemButton } from "@mui/material";
+import {
+  ExpandMore as ExpandMoreIcon,
+  ChevronRight as ChevronRightIcon,
+  MoreVert as MoreVertIcon,
+} from "@mui/icons-material";
+import { Box } from "@mui/material";
+import { theme } from "src/theme";
 
 type ButtonPropTypes = {
   children: React.ReactNode;
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
-  size?: "small" | "normal";
-  variant?: "accent" | "secondary" | "primary" | "link";
+  variant?: "contained" | "outlined" | "text";
   onClick?: (e: unknown) => void;
-};
+  sx?: Record<string, unknown>;
+} & ButtonProps;
 
-declare module "react" {
-  interface Attributes {
-    sx?: ThemeUIStyleObject;
-  }
-}
-
-const defaultButtonStyles = {
-  alignItems: "center",
-  appearance: "none",
-  borderRadius: "small",
-  borderStyle: "solid",
-  borderWidth: 2,
-  cursor: "pointer",
-  display: "inline-flex",
-  fontFamily: "muli",
-  fontSize: "inherit",
-  fontWeight: "bold",
-  lineHeight: "inherit",
-  m: 0,
-  minWidth: 0,
-  textAlign: "center",
-  textDecoration: "none",
-} as const;
-const normalSize = {
-  px: "xsmall",
-  py: "xsmall",
-};
-const smallSize = {
-  px: "xxsmall",
-  py: "xxsmall",
-};
-
-type ButtonPropTypesWithRef = ButtonPropTypes & {
-  ref: React.Ref<HTMLButtonElement>;
-};
-
-const SolidButton: React.FC<ButtonPropTypesWithRef> = React.forwardRef<
-  HTMLButtonElement,
-  ButtonPropTypes
->(function _SolidButton(
-  { variant = "primary", size = "normal", ...props },
-  ref
-) {
+const SolidButton: React.FC<ButtonPropTypes> = ({
+  variant = "contained",
+  ...props
+}) => {
   return (
-    <BaseButton
+    <MuiButton
       {...props}
-      ref={ref}
+      variant={variant}
       sx={{
-        ...defaultButtonStyles,
-        ...(size === "small" ? smallSize : normalSize),
-        "& :hover :not([disabled])": {
-          bg: (theme: Theme) => get(theme, `buttons.${variant}.bgHover`),
-          borderColor: (theme: Theme) =>
-            get(theme, `buttons.${variant}.bgHover`),
-        },
-        "&[disabled]": {
-          bg: "muted",
-          borderColor: "muted",
-          cursor: "default",
-        },
-        bg: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
-        borderColor: (theme) => get(theme, `buttons.${variant}.bg`),
         borderRadius: "small",
-        color: (theme: Theme) => get(theme, `buttons.${variant}.color`),
+        fontWeight: "bold",
+        textTransform: "none",
       }}
     />
   );
-});
+};
 
-const OutlineButton: React.FC<ButtonPropTypesWithRef> = React.forwardRef<
-  HTMLButtonElement,
-  ButtonPropTypes
->(function _OutlineButton(
-  { variant = "primary", size = "normal", ...props },
-  ref
-) {
+const OutlineButton: React.FC<ButtonPropTypes> = ({
+  variant = "outlined",
+  size = "medium",
+  ...props
+}) => {
   return (
-    <BaseButton
+    <MuiButton
       {...props}
-      ref={ref}
+      variant={variant}
+      size={size}
       sx={{
-        ...defaultButtonStyles,
-        ...(size === "small" ? smallSize : normalSize),
-        "&:hover:not([disabled])": {
-          borderColor: (theme: Theme) =>
-            get(theme, `buttons.${variant}.bgHover`),
-          color: (theme: Theme) => get(theme, `buttons.${variant}.bgHover`),
-        },
-        "&[disabled]": {
-          borderColor: "muted",
-          color: "muted",
-        },
-        bg: (theme: Theme) => get(theme, `buttons.${variant}.color`),
-        borderColor: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
-        color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
+        fontWeight: "bold",
+        textTransform: "none",
       }}
     />
   );
-});
+};
 
 type OutlineOrSolidButtonProps = ButtonPropTypes & { outline?: boolean };
 
-export const Button: React.FC<OutlineOrSolidButtonProps> = React.forwardRef<
-  HTMLButtonElement,
-  OutlineOrSolidButtonProps
->(function _Button({ outline = false, ...props }, ref) {
-  return outline ? (
-    <OutlineButton ref={ref} {...props} />
-  ) : (
-    <SolidButton ref={ref} {...props} />
-  );
-});
-
-type ButtonPropTypesWithSx = ButtonPropTypes & {
-  size?: "small" | "large" | "normal";
-  sx?: ThemeUIStyleObject;
-  variant?: "primary" | "secondary";
+export const Button: React.FC<OutlineOrSolidButtonProps> = ({
+  outline = false,
+  ...props
+}) => {
+  return outline ? <OutlineButton {...props} /> : <SolidButton {...props} />;
 };
 
-export const IconButton: React.FC<ButtonPropTypesWithSx> = React.forwardRef<
-  HTMLButtonElement,
-  ButtonPropTypesWithSx
->(function _IconButton(
-  { variant = "primary", sx = {}, size = "large", ...props },
-  ref
-) {
+type ButtonPropTypesWithSx = ButtonPropTypes & {
+  size?: "small" | "large" | "medium";
+  sx?: React.CSSProperties;
+  variant?: "contained" | "outlined";
+};
+
+export const IconButton: React.FC<ButtonPropTypesWithSx> = ({
+  variant = "contained",
+  sx = {},
+  size = "large",
+  ...props
+}) => {
   return (
-    <BaseIconButton
-      data-debug={variant}
+    <MuiIconButton
       {...props}
-      ref={ref}
       sx={{
-        ...defaultButtonStyles,
-        "&:hover:not([disabled])": {
-          bg: (theme: Theme) => get(theme, "buttons.icon.bgHover"),
-          color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
-        },
-        "&[disabled]": {
-          bg: "neutral",
-          color: "text",
-        },
-        border: "none",
         borderRadius: 32,
-        color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
         fontSize: size,
-        lineHeight: 1,
         overflow: "hidden",
         ...sx,
       }}
     />
   );
-});
+};
 
-export const MenuButton: React.FC<ButtonPropTypes> = ({
-  variant = "primary",
-  size = "large",
-  children,
-}) => {
+export const MenuButton: React.FC<ButtonPropTypes> = ({ children }) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <Menu sx={{ position: "relative" }}>
-      <ReachMenuButton
+    <>
+      <MuiIconButton
+        aria-controls="simple-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
         sx={{
-          ...defaultButtonStyles,
-          "&:hover:not([disabled])": {
-            bg: (theme: Theme) => get(theme, "buttons.icon.bgHover"),
-            color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
-          },
-          "&[disabled]": {
-            bg: "neutral",
-            color: "text",
-          },
-          bg: "transparent",
-          border: "none",
           borderRadius: 32,
-          color: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
-          fontSize: size,
-          height: 32,
-          justifyContent: "center",
-          lineHeight: 1,
+          color: "primary.main",
+          fontSize: "large",
           overflow: "hidden",
-          padding: 0,
-          width: 32,
         }}
       >
-        <div aria-label="Actions">
-          <IoMdMore />
-        </div>
-      </ReachMenuButton>
-      <MenuList sx={{ bg: "white", boxShadow: "large", right: 0 }}>
+        <MoreVertIcon />
+      </MuiIconButton>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
         {children}
-      </MenuList>
-    </Menu>
+      </Menu>
+    </>
   );
 };
 
-export function MenuItem(
-  props: Pick<
-    MenuItemProps,
-    "children" | "onSelect" | "disabled" | "index" | "valueText"
-  >
-): JSX.Element {
-  return (
-    <ReachMenuItem
-      {...props}
-      sx={{
-        "&[data-selected]": {
-          bg: "secondary",
-          color: "white",
-        },
-      }}
-    />
-  );
-}
+type AccordionProps = {
+  items: React.ReactNode[] | React.ReactNode;
+  children: React.ReactNode;
+};
 
 export function AccordionButton({
   children,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
+  items,
+}: AccordionProps): JSX.Element {
+  const [isExpanded, setIsExpanded] = React.useState(false);
   return (
-    <ReachAccordionButton
+    <>
+      <MuiButton
+        style={{
+          width: "fit-content",
+        }}
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <Box>{isExpanded ? <ExpandMoreIcon /> : <ChevronRightIcon />}</Box>
+        {children}
+      </MuiButton>
+      {isExpanded && items}
+    </>
+  );
+}
+
+export const MenuItem: React.FC<any> = ({ children, ...props }) => {
+  return (
+    <MenuItemButton
       {...props}
       sx={{
-        ...defaultButtonStyles,
-        "&[aria-expanded=true]": {
-          color: "accent",
-        },
-        bg: "white",
-        border: "none",
-        color: "text",
+        borderRadius: theme.space.small,
+        fontWeight: "bold",
+        textTransform: "none",
       }}
     >
-      <Box sx={{ px: "xxsmall" }}>
-        <ExpandedIcon />
-      </Box>
       {children}
-    </ReachAccordionButton>
+    </MenuItemButton>
   );
-}
-AccordionButton.propTypes = {
-  children: PropTypes.node,
 };
 
-export function ExpandedIcon(): JSX.Element {
-  const { isExpanded } = useAccordionItemContext();
-  return isExpanded ? <IoIosArrowDown /> : <IoIosArrowForward />;
-}
-
-export const NavButton: React.FC<ButtonPropTypes> = React.forwardRef<
-  HTMLAnchorElement,
-  ButtonPropTypes
->(function _SolidButton({ variant = "primary", ...props }, ref) {
+export const NavButton: React.FC<ButtonPropTypes> = ({
+  variant = "contained",
+  ...props
+}) => {
   return (
-    <NavLink
-      ref={ref}
-      color="white"
-      px="xsmall"
-      py="xxsmall"
-      sx={{
-        ...defaultButtonStyles,
-        "&:active": { color: "white" },
-        "&:focus": { color: "link" },
-        "&:hover:not([disabled])": {
-          bg: (theme: Theme) => get(theme, `buttons.${variant}.bgHover`),
-          borderColor: (theme: Theme) =>
-            get(theme, `buttons.${variant}.bgHover`),
-          color: (theme: Theme) => get(theme, `buttons.${variant}.color`),
-        },
-        "&[disabled]": {
-          bg: "muted",
-          borderColor: "muted",
-        },
-        bg: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
-        borderColor: (theme: Theme) => get(theme, `buttons.${variant}.bg`),
-        borderRadius: "small",
-        color: (theme: Theme) => get(theme, `buttons.${variant}.color`),
-        display: "inline-flex",
-        fontWeight: "bold",
-      }}
+    <MuiButton
       {...props}
+      variant={variant}
+      sx={{
+        borderRadius: theme.space.small,
+        fontWeight: "bold",
+        textTransform: "none",
+      }}
     />
   );
-});
+};

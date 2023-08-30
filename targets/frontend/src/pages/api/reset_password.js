@@ -1,5 +1,5 @@
 import Boom from "@hapi/boom";
-import Joi from "@hapi/joi";
+import { z } from "zod";
 import { client } from "@shared/graphql-client";
 import { createErrorFor } from "src/lib/apiError";
 import { getExpiryDate } from "src/lib/duration";
@@ -13,11 +13,11 @@ export default async function reset_password(req, res) {
     return apiError(Boom.methodNotAllowed("GET method not allowed"));
   }
 
-  const schema = Joi.object({
-    email: Joi.string().email().required(),
+  const schema = z.object({
+    email: z.string().email(),
   });
 
-  const { error, value } = schema.validate(req.body);
+  const { error, data: value } = schema.safeParse(req.body);
 
   if (error) {
     return apiError(Boom.badRequest(error.details[0].message));

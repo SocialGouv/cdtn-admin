@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
-import { Button as BaseButton } from "theme-ui";
+import { Button as BaseButton } from "@mui/material";
 
 const buttonPropTypes = {
   children: PropTypes.oneOfType([
@@ -11,36 +11,11 @@ const buttonPropTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   size: PropTypes.oneOf(["small", "normal"]),
-  variant: PropTypes.oneOf(["accent", "secondary", "primary", "link"]),
-};
-
-const defaultButtonStyles = {
-  alignItems: "center",
-  appearance: "none",
-  borderRadius: "small",
-  borderStyle: "solid",
-  borderWidth: 2,
-  cursor: "pointer",
-  display: "inline-flex",
-  fontSize: "inherit",
-  fontWeight: "bold",
-  lineHeight: "inherit",
-  m: 0,
-  minWidth: 0,
-  textAlign: "center",
-  textDecoration: "none",
-};
-const normalSize = {
-  px: "xsmall",
-  py: "xsmall",
-};
-const smallSize = {
-  px: "xxsmall",
-  py: "xxsmall",
+  variant: PropTypes.oneOf(["contained", "outlined", "text"]),
 };
 
 export const ConfirmButton = React.forwardRef(function _ConfirmButton(
-  { variant = "primary", size = "normal", children, onClick, ...props }: any,
+  { size = "normal", children, onClick, ...props }: any,
   ref
 ) {
   const [needConfirm, setNeedConfirm] = useState(false);
@@ -58,27 +33,7 @@ export const ConfirmButton = React.forwardRef(function _ConfirmButton(
     setNeedConfirm(false);
   };
   return (
-    <BaseButton
-      {...props}
-      ref={ref}
-      sx={{
-        ...defaultButtonStyles,
-        ...(size === "small" ? smallSize : normalSize),
-        "&:hover:not([disabled])": {
-          bg: (theme: any) => theme.buttons[variant].bgHover,
-          borderColor: (theme: any) => theme.buttons[variant].bgHover,
-        },
-        "&[disabled]": {
-          bg: "muted",
-          borderColor: "muted",
-        },
-        bg: (theme: any) => theme.buttons[variant].bg,
-        borderColor: (theme: any) => theme.buttons[variant].bg,
-        borderRadius: "small",
-        color: (theme: any) => theme.buttons[variant].color,
-      }}
-      onClick={onClickCustom}
-    >
+    <BaseButton {...props} ref={ref} onClick={onClickCustom}>
       {needConfirm ? (
         <>
           Vraiment ? <MdClose onClick={cancel} />

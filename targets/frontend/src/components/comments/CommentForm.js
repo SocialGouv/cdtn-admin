@@ -1,7 +1,7 @@
 import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { Input, Label } from "theme-ui";
+import { TextField } from "@mui/material";
 
 import { Button } from "../button";
 
@@ -19,25 +19,20 @@ export function CommentForm({ onSubmit }) {
 
   return (
     <form onSubmit={handleSubmit(submitHandler)}>
-      <Label sx={{ alignItems: "center", display: "flex" }}>
-        <Input
+      <div sx={{ alignItems: "center", display: "flex", marginTop: "10px" }}>
+        <TextField
           sx={{
-            border: "1px solid",
-            borderColor: "neutral",
-            borderRadius: "small",
-            padding: "xsmall",
-            paddingRight: "xlarge",
             width: "100%",
           }}
           autoComplete="off"
           type="text"
           {...register("comment", { required: true })}
-          placeholder="laisser un commentaire..."
+          placeholder="Laisser un commentaire..."
         />
         <VisuallyHidden>
           <Button type="submit">Envoyer le commentaire</Button>
         </VisuallyHidden>
-      </Label>
+      </div>
     </form>
   );
 }

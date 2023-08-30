@@ -1,0 +1,32 @@
+table:
+  name: alert_warnings
+  schema: public
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - article
+        - created_at
+        - document
+        - id
+        - seen
+        - source
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - article
+        - created_at
+        - document
+        - id
+        - seen
+        - source
+      filter: {}
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - seen
+      filter: {}
+      check: null

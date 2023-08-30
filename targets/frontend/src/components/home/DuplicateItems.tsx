@@ -6,6 +6,7 @@ import { RELATIONS } from "src/lib/relations";
 import { Card, CardContent, Typography } from "@mui/material";
 import { useQuery } from "urql";
 import { FixedSnackBar } from "../utils/SnackBar";
+import { theme } from "src/theme";
 
 export const getDuplicateQuery = `query duplicate($sources: [String!], $relationTypes: [String!]) {
   documents(
@@ -109,11 +110,11 @@ export function DuplicateContent(): JSX.Element | null {
         <CardContent>
           <Typography
             align="right"
-            color="secondary"
             variant="h2"
             sx={{
-              fontSize: "xxlarge",
+              fontSize: theme.fontSizes.xxlarge,
               fontWeight: "600",
+              color: theme.colors.secondary,
             }}
           >
             {duplicates.length}

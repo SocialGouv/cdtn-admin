@@ -2,11 +2,19 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import React from "react";
 import { Li, List } from "src/components/list";
-import { Box, Flex, Text } from "theme-ui";
+import { Box } from "@mui/material";
+import { theme } from "../../theme";
 
 const TermList = ({ termsByLetters = [] }) => {
   return (
-    <Flex sx={{ flexWrap: "wrap", gap: "xsmall", justifyContent: "stretch" }}>
+    <Box
+      sx={{
+        flexWrap: "wrap",
+        gap: theme.space.xsmall,
+        justifyContent: "stretch",
+        display: "flex",
+      }}
+    >
       {termsByLetters.map(
         ({ letter, terms }) =>
           terms.length > 0 && (
@@ -14,15 +22,20 @@ const TermList = ({ termsByLetters = [] }) => {
               key={letter}
               sx={{
                 border: "2px solid",
-                borderColor: "neutral",
-                borderRadius: "small",
+                borderRadius: theme.space.small,
                 flex: "1 0 auto",
               }}
-              p="xsmall"
+              p={theme.space.small}
             >
-              <Text as="h2" id={`ancre-${letter}`} fontSize="xlarge" mt="0">
+              <h2
+                id={`ancre-${letter}`}
+                style={{
+                  fontSize: theme.fontSizes.xlarge,
+                  marginTop: 0,
+                }}
+              >
                 {letter}
-              </Text>
+              </h2>
               <List>
                 {terms.map(({ term, id }) => (
                   <Li key={id}>
@@ -35,7 +48,7 @@ const TermList = ({ termsByLetters = [] }) => {
             </Box>
           )
       )}
-    </Flex>
+    </Box>
   );
 };
 

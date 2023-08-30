@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import React from "react";
@@ -9,9 +7,10 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
 import { PrequalifiedContent } from "src/types";
-import { Field } from "theme-ui";
+import { TextField as Field, InputLabel } from "@mui/material";
 
 import { ValidationBar } from "./ValidationBar";
+import { theme } from "src/theme";
 
 const PrequalifiedForm = ({
   content = { contentRelations: [] },
@@ -33,24 +32,27 @@ const PrequalifiedForm = ({
   } = useForm();
   return (
     <form
-      onSubmit={handleSubmit((values) =>
+      onSubmit={handleSubmit((values) => {
         onSubmit({
           ...values,
           isPublished: false,
           isSearchable: false,
           text: values.title,
-        })
-      )}
+        });
+      })}
     >
       <>
-        <div sx={{ mb: "small" }}>
+        <div style={{ marginBottom: theme.space.small }}>
+          <InputLabel htmlFor="title">Requete</InputLabel>
           <Field
             type="text"
             {...register("title", {
               required: { message: "La requete est requise", value: true },
             })}
-            label="Requete"
             defaultValue={content.title}
+            sx={{
+              width: "100%",
+            }}
           />
           <FormErrorMessage errors={errors} fieldName="title" />
         </div>

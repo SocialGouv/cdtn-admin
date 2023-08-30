@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.12.1...v2.13.0) (2023-08-25)
+
+**Note:** Version bump only for package @shared/elasticsearch-document-adapter
+
+## [2.12.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.12.0...v2.12.1) (2023-08-04)
+
+**Note:** Version bump only for package @shared/elasticsearch-document-adapter
+
+# [2.12.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.4...v2.12.0) (2023-08-02)
+
+**Note:** Version bump only for package @shared/elasticsearch-document-adapter
+
+## [2.11.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.3...v2.11.4) (2023-07-31)
+
+**Note:** Version bump only for package @shared/elasticsearch-document-adapter
+
+## [2.11.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.2...v2.11.3) (2023-07-28)
+
+**Note:** Version bump only for package @shared/elasticsearch-document-adapter
+
+## [2.11.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.1...v2.11.2) (2023-07-25)
+
+**Note:** Version bump only for package @shared/elasticsearch-document-adapter
+
+## [2.11.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.0...v2.11.1) (2023-07-18)
+
+**Note:** Version bump only for package @shared/elasticsearch-document-adapter
+
 # [2.11.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.2...v2.11.0) (2023-07-12)
 
 **Note:** Version bump only for package @shared/elasticsearch-document-adapter

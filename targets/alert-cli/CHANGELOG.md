@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.12.1...v2.13.0) (2023-08-25)
+
+### Features
+
+- add warnings when DILA API call failed to get references ([#987](https://github.com/SocialGouv/cdtn-admin/issues/987)) ([65b922d](https://github.com/SocialGouv/cdtn-admin/commit/65b922d9cb6450a7a0246d628b30e0f93fbbf9ff))
+
+## [2.12.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.12.0...v2.12.1) (2023-08-04)
+
+**Note:** Version bump only for package alert-cli
+
+# [2.12.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.4...v2.12.0) (2023-08-02)
+
+### Features
+
+- use local diff when github API call fail ([#984](https://github.com/SocialGouv/cdtn-admin/issues/984)) ([2f0e37d](https://github.com/SocialGouv/cdtn-admin/commit/2f0e37de91dc0fa59067f7267ca10f2963528066))
+
+## [2.11.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.3...v2.11.4) (2023-07-31)
+
+### Bug Fixes
+
+- on new file, patch return old file with value /dev/null ([#983](https://github.com/SocialGouv/cdtn-admin/issues/983)) ([e47f62f](https://github.com/SocialGouv/cdtn-admin/commit/e47f62f70481195fb969a0e5645ea3804df6c9ff))
+
+## [2.11.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.2...v2.11.3) (2023-07-28)
+
+### Bug Fixes
+
+- **alert-cli:** file not found error via github api ([e7285ac](https://github.com/SocialGouv/cdtn-admin/commit/e7285acc2870542db65a3a0d31546092badefadb))
+
+## [2.11.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.1...v2.11.2) (2023-07-25)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.11.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.11.0...v2.11.1) (2023-07-18)
+
+### Bug Fixes
+
+- **1740:** remove from alert-cli and migration ([f0f38a6](https://github.com/SocialGouv/cdtn-admin/commit/f0f38a61f2263bf75e7968d6adf8ab6b9275f374))
+
 # [2.11.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.10.2...v2.11.0) (2023-07-12)
 
 ### Bug Fixes
