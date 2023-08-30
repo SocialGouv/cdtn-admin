@@ -1,6 +1,5 @@
 import React from "react";
-import { Paper, Typography, TextField } from "@mui/material";
-import { Button } from "theme-ui";
+import { Button, Paper, Typography, TextField } from "@mui/material";
 
 const classes = {
   root: {
