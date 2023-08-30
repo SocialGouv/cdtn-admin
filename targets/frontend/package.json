@@ -10,7 +10,6 @@
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "11.10.6",
     "@hapi/boom": "^9.1.4",
-    "@hapi/joi": "^17.1.1",
     "@hookform/error-message": "^2.0.0",
     "@mui/icons-material": "5.11.16",
     "@mui/material": "5.12.0",
@@ -28,6 +27,10 @@
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/cdtn-ui": "^4.92.0",
     "@socialgouv/matomo-next": "^1.2.2",
+    "@tiptap/extension-table": "^2.1.7",
+    "@tiptap/extension-table-cell": "^2.1.7",
+    "@tiptap/extension-table-header": "^2.1.7",
+    "@tiptap/extension-table-row": "^2.1.7",
     "@tiptap/pm": "^2.0.3",
     "@tiptap/react": "^2.0.3",
     "@tiptap/starter-kit": "^2.0.3",
@@ -81,7 +84,8 @@
     "unist-util-select": "^4.0.1",
     "urql": "^2.0.5",
     "uuid": "^8.3.2",
-    "wonka": "^4.0.15"
+    "wonka": "^4.0.15",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@shared/types": "^2.13.0",

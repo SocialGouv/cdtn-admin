@@ -1,5 +1,5 @@
 import Boom from "@hapi/boom";
-import Joi from "@hapi/joi";
+import { z } from "zod";
 import { client } from "@shared/graphql-client";
 import cookie from "cookie";
 import { createErrorFor } from "src/lib/apiError";
@@ -8,16 +8,16 @@ import { setToken } from "src/lib/auth/token";
 export default async function logout(req, res) {
   const apiError = createErrorFor(res);
 
-  const schema = Joi.object({
-    refresh_token: Joi.string().guid({ version: "uuidv4" }).required(),
-  }).unknown();
+  const schema = z.object({
+    refresh_token: z.string().uuid(),
+  });
 
-  let { error, value } = schema.validate(req.cookies);
+  let { error, data: value } = schema.safeParse(req.cookies);
 
   if (error) {
-    res = schema.validate(req.body);
+    res = schema.safeParse(req.body);
     error = res.error;
-    value = res.value;
+    value = res.data;
   }
 
   if (error) {

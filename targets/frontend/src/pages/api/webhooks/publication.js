@@ -1,6 +1,6 @@
 import { Client } from "@elastic/elasticsearch";
 import Boom from "@hapi/boom";
-import Joi from "@hapi/joi";
+import { z } from "zod";
 import { createErrorFor } from "src/lib/apiError";
 
 import { majorIndexVersion } from "../actions/preview";
@@ -21,29 +21,19 @@ export default async function publishDocument(req, res) {
     res.status(304).json({ message: "not modified" });
   }
 
-  const schema = Joi.object()
-    .keys({
-      event: Joi.object()
-        .keys({
-          data: Joi.object()
-            .keys({
-              new: Joi.object({
-                cdtn_id: Joi.string().required(),
-                is_published: Joi.bool(),
-              })
-                .required()
-                .unknown(),
-            })
-            .required()
-            .unknown(),
-          op: Joi.string().pattern(/^(UPDATE)$/, "OP"),
-        })
-        .required()
-        .unknown(),
-    })
-    .unknown();
+  const schema = z.object({
+    event: z.object({
+      data: z.object({
+        new: z.object({
+          cdtn_id: z.string(),
+          is_published: z.boolean().optional(),
+        }),
+      }),
+      op: z.string().regex(/^(UPDATE)$/, "OP"),
+    }),
+  });
 
-  const { error, value } = schema.validate(req.body);
+  const { error, data: value } = schema.safeParse(req.body);
 
   if (error) {
     console.error(`[publishDocument] ${error.details[0].message}`);
