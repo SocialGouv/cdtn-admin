@@ -10,7 +10,7 @@ mutation insert_alert($alert: alerts_insert_input!) {
     update_columns: [changes]
   }) {
     repository,
-    ref
+    ref,
     info
   }
 }
