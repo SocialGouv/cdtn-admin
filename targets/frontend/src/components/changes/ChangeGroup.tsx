@@ -203,7 +203,8 @@ export function AddedChanges({ changes }: ChangesProps): JSX.Element {
               <b style={{ marginLeft: "4px", marginRight: "4px" }}>
                 {change.num}
               </b>
-              présente dans le fichier de la DARES mais absente de kali-data
+              présente dans le fichier de la DARES mais absente de la base de
+              données du CDTN
             </ListItem>
           ))}
         </>
@@ -265,7 +266,8 @@ export function RemovedChanges({ changes }: ChangesProps): JSX.Element {
               <b style={{ marginLeft: "4px", marginRight: "4px" }}>
                 {change.num}
               </b>
-              présente dans kali-data mais absente dans le fichier de la DARES
+              présente dans la base de données du CDTN mais absente dans le
+              fichier de la DARES
             </ListItem>
           ))}
         </>
