@@ -8,7 +8,11 @@ object_relationships:
 insert_permissions:
   - role: super
     permission:
-      check: {}
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      set:
+        user_id: x-hasura-User-Id
       columns:
         - answer_id
         - status

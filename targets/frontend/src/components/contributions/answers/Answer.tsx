@@ -1,7 +1,6 @@
 import {
   AlertColor,
   Box,
-  Breadcrumbs,
   Button,
   FormControl,
   Grid,
@@ -9,19 +8,14 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useUser } from "src/hooks/useUser";
 
 import { FormEditionField, FormRadioGroup } from "../../forms";
 import { StatusContainer } from "../status";
+import { Answer, Status } from "../type";
 import {
-  Answer,
-  CdtnReference,
-  KaliReference,
-  LegiReference,
-  OtherReference,
-  Status,
-} from "../type";
-import { useContributionAnswerUpdateMutation } from "./answer.mutation";
+  useContributionAnswerPublishMutation,
+  useContributionAnswerUpdateMutation,
+} from "./answer.mutation";
 import { useContributionAnswerQuery } from "./answer.query";
 import { Comments } from "./Comments";
 import {
@@ -39,15 +33,6 @@ export type ContributionsAnswerProps = {
   id: string;
 };
 
-export type AnswerForm = {
-  otherAnswer?: string;
-  content?: string;
-  kaliReferences: KaliReference[];
-  legiReferences: LegiReference[];
-  otherReferences: OtherReference[];
-  cdtnReferences: CdtnReference[];
-};
-
 const isNotEditable = (answer: Answer | undefined) =>
   answer?.status.status !== "REDACTING" &&
   answer?.status.status !== "TODO" &&
@@ -58,10 +43,9 @@ const isCodeDuTravail = (answer: Answer): boolean =>
 
 export const ContributionsAnswer = ({
   id,
-}: ContributionsAnswerProps): JSX.Element => {
+}: ContributionsAnswerProps): React.ReactElement => {
   const answer = useContributionAnswerQuery({ id });
-  const { user } = useUser() as any;
-  const [status, setStatus] = useState<Status>("TODO");
+  const [status, setStatus] = useState<Status>(Status.TODO);
   useEffect(() => {
     if (answer?.status) {
       setStatus(answer.status.status);
@@ -73,7 +57,7 @@ export const ContributionsAnswer = ({
       content: "",
       otherAnswer: "ANSWER",
       status: {
-        status: "TODO",
+        status: Status.TODO,
       },
       legiReferences: [],
       kaliReferences: [],
@@ -82,6 +66,7 @@ export const ContributionsAnswer = ({
     },
   });
   const updateAnswer = useContributionAnswerUpdateMutation();
+  const publishAnswer = useContributionAnswerPublishMutation();
   const [snack, setSnack] = useState<{
     open: boolean;
     severity?: AlertColor;
@@ -108,17 +93,20 @@ export const ContributionsAnswer = ({
         throw new Error("Id non définit");
       }
 
-      await updateAnswer({
-        content: data.content,
-        id: answer.id,
-        otherAnswer: data.otherAnswer,
-        status: newStatus,
-        userId: user?.id,
-        kaliReferences: data.kaliReferences,
-        legiReferences: data.legiReferences,
-        cdtnReferences: data.cdtnReferences,
-        otherReferences: data.otherReferences,
-      });
+      if (newStatus === Status.PUBLISHED) {
+        await publishAnswer(answer.id);
+      } else {
+        await updateAnswer({
+          content: data.content,
+          id: answer.id,
+          otherAnswer: data.otherAnswer,
+          status: newStatus,
+          kaliReferences: data.kaliReferences,
+          legiReferences: data.legiReferences,
+          cdtnReferences: data.cdtnReferences,
+          otherReferences: data.otherReferences,
+        });
+      }
       setSnack({
         open: true,
         severity: "success",
@@ -220,8 +208,10 @@ export const ContributionsAnswer = ({
                 <Button
                   variant="outlined"
                   type="button"
-                  onClick={() => onSubmit("REDACTING")}
-                  disabled={status === "TODO" || status === "REDACTING"}
+                  onClick={() => onSubmit(Status.REDACTING)}
+                  disabled={
+                    status === Status.TODO || status === Status.REDACTING
+                  }
                 >
                   Remettre en rédaction
                 </Button>
@@ -229,7 +219,7 @@ export const ContributionsAnswer = ({
                   variant="text"
                   type="button"
                   disabled={isNotEditable(answer)}
-                  onClick={() => onSubmit("REDACTING")}
+                  onClick={() => onSubmit(Status.REDACTING)}
                 >
                   Sauvegarder
                 </Button>
@@ -238,7 +228,7 @@ export const ContributionsAnswer = ({
                   type="button"
                   color="success"
                   onClick={() => onSubmit(getNextStatus(status))}
-                  disabled={status === "PUBLISHED"}
+                  disabled={status === Status.PUBLISHED}
                 >
                   {getPrimaryButtonLabel(status)}
                 </Button>

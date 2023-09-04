@@ -59,8 +59,8 @@ select_permissions:
       columns:
         - agreement_id
         - content
-        - id
         - other_answer
+        - id
         - question_id
       filter: {}
       allow_aggregations: true

@@ -6,31 +6,31 @@ export const initStatus = (answer: any) => {
 
 export const getNextStatus = (status: Status): Status => {
   switch (status) {
-    case "REDACTED":
-      return "VALIDATING";
-    case "VALIDATING":
-      return "VALIDATED";
-    case "VALIDATED":
-      return "PUBLISHED";
-    case "TODO":
-    case "REDACTING":
+    case Status.REDACTED:
+      return Status.VALIDATING;
+    case Status.VALIDATING:
+      return Status.VALIDATED;
+    case Status.VALIDATED:
+      return Status.PUBLISHED;
+    case Status.TODO:
+    case Status.REDACTING:
     default:
-      return "REDACTED";
+      return Status.REDACTED;
   }
 };
 
 export const getPrimaryButtonLabel = (status: Status): string => {
   switch (status) {
-    case "REDACTED":
+    case Status.REDACTED:
       return "Commencer Validation";
-    case "VALIDATING":
+    case Status.VALIDATING:
       return "Valider";
-    case "VALIDATED":
+    case Status.VALIDATED:
       return "Publier";
-    case "PUBLISHED":
+    case Status.PUBLISHED:
       return "Publiée";
-    case "TODO":
-    case "REDACTING":
+    case Status.TODO:
+    case Status.REDACTING:
     default:
       return "Soumettre";
   }

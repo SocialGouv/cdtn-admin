@@ -6,13 +6,14 @@ export type Agreement = {
   name: string;
 };
 
-export type Status =
-  | "TODO"
-  | "REDACTING"
-  | "REDACTED"
-  | "VALIDATING"
-  | "VALIDATED"
-  | "PUBLISHED";
+export enum Status {
+  TODO = "TODO",
+  REDACTING = "REDACTING",
+  REDACTED = "REDACTED",
+  VALIDATING = "VALIDATING",
+  VALIDATED = "VALIDATED",
+  PUBLISHED = "PUBLISHED",
+}
 
 export type AnswerStatus = {
   id: string;

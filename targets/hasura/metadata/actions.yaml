@@ -40,6 +40,13 @@ actions:
     permissions:
       - role: super
       - role: user
+  - name: publish_contribution_answer
+    definition:
+      kind: synchronous
+      handler: '{{API_URL}}/actions/contribution/answer/publish'
+    permissions:
+      - role: super
+    comment: publish_contribution_answer
   - name: recentKaliReference
     definition:
       kind: ""
@@ -64,6 +71,7 @@ custom_types:
   input_objects:
     - name: PreviewDocument
     - name: EmailInput
+    - name: UpdateContributionAnswerStatusInput
   objects:
     - name: Status
     - name: RunningPipelines
@@ -90,4 +98,6 @@ custom_types:
           type: object
     - name: KaliArticles
     - name: RecentKaliReferenceOutput
+    - name: UpdateContributionAnswerStatusOutput
+    - name: PublishContributionAnswerOutput
   scalars: []

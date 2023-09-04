@@ -26,6 +26,12 @@ type Mutation {
   ): Status
 }
 
+type Mutation {
+  publish_contribution_answer(
+    answerId: uuid!
+  ): PublishContributionAnswerOutput
+}
+
 type Query {
   recentKaliReference(
     agreementId: bpchar!
@@ -49,6 +55,11 @@ input PreviewDocument {
 input EmailInput {
   email: String!
   secret_token: uuid!
+}
+
+input UpdateContributionAnswerStatusInput {
+  answerId: String!
+  status: String!
 }
 
 type Status {
@@ -96,5 +107,13 @@ type KaliArticles {
 
 type RecentKaliReferenceOutput {
   refs: [KaliArticles]
+}
+
+type UpdateContributionAnswerStatusOutput {
+  status: String!
+}
+
+type PublishContributionAnswerOutput {
+  cdtnId: String!
 }
 
