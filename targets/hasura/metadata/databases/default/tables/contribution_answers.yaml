@@ -62,6 +62,7 @@ select_permissions:
         - id
         - other_answer
         - question_id
+        - updated_at
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -72,3 +73,5 @@ update_permissions:
         - other_answer
       filter: {}
       check: null
+      set:
+        updated_at: now()
