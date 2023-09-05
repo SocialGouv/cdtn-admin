@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.13.0...v2.14.0) (2023-09-05)
+
+### Features
+
+- ajout des tableaux dans l'editeur ([#1001](https://github.com/SocialGouv/cdtn-admin/issues/1001)) ([5866be8](https://github.com/SocialGouv/cdtn-admin/commit/5866be834d5f451ce52d6f25c6444b899e568447))
+- migration to zod ([#1002](https://github.com/SocialGouv/cdtn-admin/issues/1002)) ([083c018](https://github.com/SocialGouv/cdtn-admin/commit/083c018388a5e6f9aa7a6c57587491a0c661bb33))
+
 # [2.13.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.12.1...v2.13.0) (2023-08-25)
 
 ### Bug Fixes

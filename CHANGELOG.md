@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.13.0...v2.14.0) (2023-09-05)
+
+### Bug Fixes
+
+- add filtered for cc which doesnt have id in `kali-data` ([#1011](https://github.com/SocialGouv/cdtn-admin/issues/1011)) ([2bd15d8](https://github.com/SocialGouv/cdtn-admin/commit/2bd15d807a7b72ddca49751e023fed9b43a0e4e1))
+
+### Features
+
+- ajout des colonnes pour messages CC non géré/planifier ([#1005](https://github.com/SocialGouv/cdtn-admin/issues/1005)) ([5a68769](https://github.com/SocialGouv/cdtn-admin/commit/5a68769e55d4fcc0440f872cc68212ca4a63448e))
+- ajout des tableaux dans l'editeur ([#1001](https://github.com/SocialGouv/cdtn-admin/issues/1001)) ([5866be8](https://github.com/SocialGouv/cdtn-admin/commit/5866be834d5f451ce52d6f25c6444b899e568447))
+- migration to zod ([#1002](https://github.com/SocialGouv/cdtn-admin/issues/1002)) ([083c018](https://github.com/SocialGouv/cdtn-admin/commit/083c018388a5e6f9aa7a6c57587491a0c661bb33))
+
 # [2.13.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.12.1...v2.13.0) (2023-08-25)
 
 ### Bug Fixes
