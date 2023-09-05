@@ -56,6 +56,10 @@ www:
       cpu: "50m"
       memory: "128Mi"
   replicas: 1
+  securityContext:
+    fsGroup: 1000
+    runAsUser: 1000
+    runAsGroup: 1000
 
 contributions:
   ~chart: app
@@ -76,6 +80,10 @@ contributions:
       cpu: "50m"
       memory: "128Mi"
   replicas: 1
+  securityContext:
+    fsGroup: 1000
+    runAsUser: 1000
+    runAsGroup: 1000
 
 export:
   ~chart: app
@@ -98,6 +106,10 @@ export:
       cpu: '50m'
       memory: 128Mi
   replicas: 1
+  securityContext:
+    fsGroup: 1000
+    runAsUser: 1000
+    runAsGroup: 1000
 
 hasura:
   ~chart: hasura
@@ -120,6 +132,10 @@ hasura:
     requests:
       cpu: '50m'
       memory: 650Mi
+  securityContext:
+    fsGroup: 1001
+    runAsUser: 1001
+    runAsGroup: 1001
 
 deactivate:
   jobs-deactivate:

@@ -1,7 +1,9 @@
+**/.dockerignore
+**/Dockerfile
 .git
 .github
 .kontinuous
-*.md
+**/*.md
 **/node_modules
 **/.next/cache
 **/data/*

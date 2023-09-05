@@ -1,7 +1,6 @@
 projectName: cdtn
 dependencies:
   fabrique:
-    import: socialgouv/kontinuous/plugins/fabrique
     dependencies:
       contrib:
         preDeploy:

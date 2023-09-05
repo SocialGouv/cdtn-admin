@@ -20,5 +20,6 @@
     "shared/*",
     "targets/*"
   ],
-  "name": "cdtn-admin"
+  "name": "cdtn-admin",
+  "packageManager": "yarn@3.6.3"
 }
