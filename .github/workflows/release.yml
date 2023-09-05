@@ -23,7 +23,7 @@ jobs:
           node-version: 20.3.1
           cache: "yarn"
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn --immutable
       - name: Set git
         run: |
           git config --global user.name "${NAME}"
