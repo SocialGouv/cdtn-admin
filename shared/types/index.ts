@@ -6,6 +6,7 @@ import type {
 import type {
   AgreementArticle,
   AgreementSection,
+  IndexedAgreement,
 } from "@socialgouv/kali-data-types";
 import type {
   Prequalified,
@@ -468,25 +469,6 @@ export type BaseRef = {
   category: null;
   title: string;
   url: string | null;
-};
-
-// from https://github.com/SocialGouv/kali-data/blob/master/src/index.d.ts
-export type IndexedAgreement = {
-  active?: boolean;
-  /** Publication ISO date */
-  date_publi?: string;
-  effectif?: number;
-  etat?: State;
-  /** Agreement ID */
-  id: string;
-  mtime?: number;
-  nature: "IDCC";
-  /** Agreement IDCC */
-  num: number;
-  shortTitle: string;
-  texte_de_base?: string;
-  title: string;
-  url?: string;
 };
 
 export type State =

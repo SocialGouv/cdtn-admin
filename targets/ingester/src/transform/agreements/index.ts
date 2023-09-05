@@ -26,6 +26,10 @@ export const createSorter =
 export default async function getAgreementDocuments() {
   const agreements = await loadAgreements();
 
+  const filteredAgreements = agreements.filter(
+    (convention) => typeof convention.id === "string"
+  );
+
   const contributions = await fetchContributions();
 
   const allKaliBlocks = await getAllKaliBlocks();
@@ -42,7 +46,7 @@ export default async function getAgreementDocuments() {
 
   const agreementPages: AgreementPage[] = [];
 
-  for (const agreement of agreements) {
+  for (const agreement of filteredAgreements) {
     const agreementTree = await loadAgreement(agreement.id);
 
     const highlight = agreementsWithHighlight[agreement.num];

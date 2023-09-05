@@ -1,5 +1,4 @@
-import type { IndexedAgreement } from "@shared/types";
-
+import { IndexedAgreement } from "@socialgouv/kali-data-types";
 import type { AgreementRepository } from "../AgreementRepository";
 import InputAgreement from "./input-agreements.json";
 
