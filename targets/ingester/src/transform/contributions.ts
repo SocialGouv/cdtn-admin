@@ -15,6 +15,10 @@ export default async function getContributionsDocuments(): Promise<
     `@socialgouv/kali-data/data/index.json`
   );
 
+  const filteredAgreements = agreements.filter(
+    (convention) => typeof convention.id === "string"
+  );
+
   return data.flatMap(({ title, answers, id, index }) => {
     const allAnswers = {
       answers,
@@ -28,7 +32,7 @@ export default async function getContributionsDocuments(): Promise<
       title,
     };
     const ccnAnswers = answers.conventions.map((conventionalAnswer) => {
-      const agreement = agreements.find(
+      const agreement = filteredAgreements.find(
         (ccn) => ccn.num === parseInt(conventionalAnswer.idcc, 10)
       );
       if (agreement === undefined) {

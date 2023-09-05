@@ -478,9 +478,9 @@ export type IndexedAgreement = {
   effectif?: number;
   etat?: State;
   /** Agreement ID */
-  id: string;
+  id?: string;
   mtime?: number;
-  nature: "IDCC";
+  nature?: "IDCC";
   /** Agreement IDCC */
   num: number;
   shortTitle: string;
