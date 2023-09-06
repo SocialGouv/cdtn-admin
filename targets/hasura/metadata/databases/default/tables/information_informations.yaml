@@ -1,0 +1,59 @@
+table:
+  name: informations
+  schema: information
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - description
+        - intro
+        - meta_description
+        - meta_title
+        - section_display_mode
+        - title
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - description
+        - intro
+        - meta_description
+        - meta_title
+        - section_display_mode
+        - title
+        - updated_at
+        - id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - description
+        - intro
+        - meta_description
+        - meta_title
+        - section_display_mode
+        - title
+        - updated_at
+        - id
+      filter: {}
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - updated_at
+        - intro
+        - description
+        - section_display_mode
+        - id
+        - title
+        - meta_title
+        - meta_description
+      filter: {}
+      check: null
+      set:
+        updated_at: now()
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
