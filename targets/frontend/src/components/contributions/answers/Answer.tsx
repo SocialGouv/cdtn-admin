@@ -1,7 +1,6 @@
 import {
   AlertColor,
   Box,
-  Breadcrumbs,
   Button,
   FormControl,
   Grid,
@@ -11,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useUser } from "src/hooks/useUser";
 
-import { FormEditionField, FormRadioGroup } from "../../forms";
+import { FormEditionField, FormRadioGroup, FormTextField } from "../../forms";
 import { StatusContainer } from "../status";
 import {
   Answer,
@@ -67,7 +66,7 @@ export const ContributionsAnswer = ({
       setStatus(answer.status.status);
     }
   }, [answer]);
-  const { control, getValues, trigger, watch } = useForm<Answer>({
+  const { control, getValues, trigger } = useForm<Answer>({
     values: answer,
     defaultValues: {
       content: "",
@@ -155,6 +154,15 @@ export const ContributionsAnswer = ({
         <Box sx={{ width: "70%" }}>
           <form>
             <Stack spacing={5}>
+              <FormControl>
+                <FormTextField
+                  name="updateDate"
+                  control={control}
+                  label="Date mise à jour"
+                  disabled
+                  labelFixed
+                />
+              </FormControl>
               <FormControl>
                 <FormEditionField
                   label="Réponse"

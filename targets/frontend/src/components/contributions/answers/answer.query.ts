@@ -1,5 +1,6 @@
 import { useQuery } from "urql";
 import { useMemo } from "react";
+import { format, parseISO } from "date-fns";
 
 import { Answer, AnswerStatus } from "../type";
 import { initStatus } from "../status/utils";
@@ -12,6 +13,7 @@ query contribution_answer($id: uuid) {
     agreementId: agreement_id
     content
     otherAnswer: other_answer
+    updatedAt: updated_at
     question {
       id
       content
@@ -72,7 +74,7 @@ type QueryProps = {
   id: string;
 };
 
-type AnswerWithStatus = Answer & { status: AnswerStatus };
+type AnswerWithStatus = Answer & { status: AnswerStatus; updateDate: string };
 
 type QueryResult = {
   contribution_answers: AnswerWithStatus[];
@@ -105,5 +107,6 @@ export const useContributionAnswerQuery = ({
   return {
     ...answer,
     status: initStatus(answer),
+    updateDate: format(parseISO(answer.updatedAt), "dd/MM/yyyy"),
   };
 };

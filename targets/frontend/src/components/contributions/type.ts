@@ -98,6 +98,7 @@ export type Answer = {
   content?: string;
   question: Omit<Question, "answers">;
   answerComments: Comments[];
+  updatedAt: string;
   kaliReferences: KaliReference[];
   legiReferences: LegiReference[];
   otherReferences: OtherReference[];
