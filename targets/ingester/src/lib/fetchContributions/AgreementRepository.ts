@@ -15,7 +15,11 @@ export class AgreementFile implements AgreementRepository {
     const agreements = await getJson<IndexedAgreement[]>(
       `${this.pkgName}/data/index.json`
     );
-    return agreements;
+    const filteredAgreements = agreements.filter(
+      (convention) => typeof convention.id === "string"
+    );
+
+    return filteredAgreements;
   }
 
   private readonly pkgName: string;

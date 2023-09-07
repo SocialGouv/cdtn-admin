@@ -1,14 +1,15 @@
 import { client } from "@shared/graphql-client";
 
-export type AgreementRecord = {
+export interface AgreementRecord {
   idcc: string;
   name: string;
   kali_id: string;
-};
+}
 
-export type AgreementResult = {
+export interface AgreementResult {
   agreements: AgreementRecord[];
-};
+}
+
 const loadAgreementsQuery = `
 query LoadAgreements {
   agreements(where: {id: {_neq: "0000"}}) {

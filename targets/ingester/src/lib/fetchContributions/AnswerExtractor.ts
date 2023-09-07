@@ -2,7 +2,6 @@ import type {
   Answer,
   ContributionReference,
   GenericAnswer,
-  IndexedAgreement,
 } from "@shared/types";
 import remark from "remark";
 import strip from "strip-markdown";
@@ -11,6 +10,7 @@ import type { AgreementAnswerRaw, AnswerRaw } from "./types";
 // Unified works only with require
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 import unified = require("unified");
+import { IndexedAgreement } from "@socialgouv/kali-data-types";
 
 export class AnswerExtractor {
   constructor(agreements: IndexedAgreement[]) {

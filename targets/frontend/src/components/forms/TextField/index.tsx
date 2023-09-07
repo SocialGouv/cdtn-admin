@@ -13,6 +13,7 @@ type FormTextFieldProps = CommonFormProps & {
   >;
   fullWidth?: boolean;
   multiline?: boolean;
+  labelFixed?: boolean;
 };
 
 export const FormTextField = ({
@@ -24,6 +25,7 @@ export const FormTextField = ({
   fullWidth,
   multiline,
   disabled,
+  labelFixed = false,
 }: FormTextFieldProps) => {
   return (
     <Controller
@@ -44,6 +46,7 @@ export const FormTextField = ({
           variant="outlined"
           multiline={multiline}
           disabled={disabled}
+          InputLabelProps={labelFixed ? { shrink: true } : {}}
         />
       )}
     />

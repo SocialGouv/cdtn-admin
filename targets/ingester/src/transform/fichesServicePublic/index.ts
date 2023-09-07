@@ -53,6 +53,10 @@ export default async function getFichesServicePublic(pkgName: string) {
     getJson<Code>(`@socialgouv/legi-data/data/LEGITEXT000006072050.json`),
   ]);
 
+  const filteredAgreements = agreements.filter(
+    (convention) => typeof convention.id === "string"
+  );
+
   const resolveCdtReference = createReferenceResolver(cdt);
 
   const results = await client
@@ -99,7 +103,9 @@ export default async function getFichesServicePublic(pkgName: string) {
       console.error(">", `${pkgName}/data/${type}/${idFiche}.json`);
       continue;
     }
-    const ficheSp = format(fiche, resolveCdtReference, agreements);
+
+    const ficheSp = format(fiche, resolveCdtReference, filteredAgreements);
+
     fiches.push({
       ...ficheSp,
       is_searchable: !fichesIdFromContrib.includes(ficheSp.id),
