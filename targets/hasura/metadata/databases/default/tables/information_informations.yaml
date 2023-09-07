@@ -6,24 +6,44 @@ insert_permissions:
     permission:
       check: {}
       columns:
+        - cdtn_id
         - description
         - intro
         - meta_description
         - meta_title
-        - section_display_mode
         - title
+        - updated_at
+        - reference_label
+        - section_display_mode
+        - id
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - cdtn_id
+        - description
+        - intro
+        - meta_description
+        - meta_title
+        - title
+        - updated_at
+        - reference_label
+        - section_display_mode
+        - id
 select_permissions:
   - role: super
     permission:
       columns:
+        - cdtn_id
         - description
+        - id
         - intro
         - meta_description
         - meta_title
+        - reference_label
         - section_display_mode
         - title
         - updated_at
-        - id
       filter: {}
   - role: user
     permission:
