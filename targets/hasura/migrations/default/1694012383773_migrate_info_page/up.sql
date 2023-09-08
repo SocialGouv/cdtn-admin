@@ -31,7 +31,10 @@ _informations_inserted as (
         coalesce(meta_title, title),
         meta_description,
         description,
-        section_display_mode::"information"."SectionDisplayModeType",
+        coalesce(
+            section_display_mode::"information"."SectionDisplayModeType",
+            'accordion'
+        ),
         reference_label::"information"."ReferenceLabelType",
         cdtn_id
     from _informations

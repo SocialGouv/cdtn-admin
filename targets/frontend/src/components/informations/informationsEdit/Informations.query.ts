@@ -1,4 +1,6 @@
 import { useQuery } from "urql";
+import { format, parseISO } from "date-fns";
+
 import { Information } from "../type";
 
 const informationsQuery = `query informations($id: uuid) {
@@ -20,9 +22,7 @@ const informationsQuery = `query informations($id: uuid) {
     }
   }`;
 
-export type QueryInformation = Information & {
-  updateDate: Date;
-};
+export type QueryInformation = Information;
 
 export type QueryResult = {
   information_informations: QueryInformation[];
@@ -32,17 +32,13 @@ export type InformationsQueryProps = {
   id?: string;
 };
 
-export type InformationsQueryResult = {
-  information: QueryInformation;
+export type InformationsQueryResult = Information & {
+  updateDate: string;
 };
 
 export const useInformationsQuery = ({
   id,
-}: InformationsQueryProps):
-  | InformationsQueryResult
-  | undefined
-  | "not_found"
-  | "error" => {
+}: InformationsQueryProps): InformationsQueryResult | undefined => {
   const [result] = useQuery<QueryResult>({
     query: informationsQuery,
     requestPolicy: "cache-and-network",
@@ -50,19 +46,12 @@ export const useInformationsQuery = ({
       id,
     },
   });
-  if (result?.error) {
-    return "error";
-  }
-  if (!result?.data) {
+  const information = result.data?.information_informations[0];
+  if (!information) {
     return;
   }
-  if (
-    !result?.data?.information_informations ||
-    result?.data.information_informations?.length == 0
-  ) {
-    return "not_found";
-  }
   return {
-    information: result.data?.information_informations[0],
+    ...information,
+    updateDate: format(parseISO(information.updatedAt), "dd/MM/yyyy"),
   };
 };
