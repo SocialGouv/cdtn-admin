@@ -54,5 +54,7 @@ USER 1000
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-CMD ["node","node_modules/.bin/next","start"]
+WORKDIR /app/targets/frontend
+
+CMD ["node","../../node_modules/.bin/next","start"]
 
