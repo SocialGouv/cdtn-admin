@@ -116,6 +116,11 @@ services:
       ELASTICSEARCH_URL_PREPROD: "http://elasticsearch:9200"
       ELASTICSEARCH_URL_PROD: "http://elasticsearch:9200"
 
+  # alert-cli:
+  #   build:
+  #     context: .
+  #     dockerfile: targets/alert-cli/Dockerfile
+
 volumes:
   db_data:
   azurite_data:

@@ -7,3 +7,7 @@
 **/node_modules
 **/.next/cache
 **/data/*
+shared/*/build
+targets/*/build
+shared/*/lib
+targets/*/lib

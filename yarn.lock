@@ -5498,6 +5498,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@socialgouv/kali-data@npm:^2.628.0":
+  version: 2.628.0
+  resolution: "@socialgouv/kali-data@npm:2.628.0"
+  dependencies:
+    csv-parser: ^3.0.0
+    node-xlsx: ^0.23.0
+    unist-util-find: 1.0.4
+    unist-util-flat-filter: 1.0.0
+    unist-util-parents: 1.0.3
+  checksum: fbbc29222be5ab0e78e463591e7b4eb93de87cff03db630d0fb9e0857121135b6c742036068efbb3db05ae69d7c6abfe3c6ca1535d769a6067fb9007155dfdbd
+  languageName: node
+  linkType: hard
+
 "@socialgouv/legi-data-types@npm:2.73.1":
   version: 2.73.1
   resolution: "@socialgouv/legi-data-types@npm:2.73.1"
@@ -8315,6 +8328,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bail@npm:^2.0.0":
+  version: 2.0.2
+  resolution: "bail@npm:2.0.2"
+  checksum: aab4e8ccdc8d762bf3fdfce8e706601695620c0c2eda256dd85088dc0be3cfd7ff126f6e99c2bee1f24f5d418414aacf09d7f9702f16d6963df2fa488cda8824
+  languageName: node
+  linkType: hard
+
 "balanced-match@npm:^1.0.0":
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
@@ -10163,6 +10183,17 @@ __metadata:
   version: 3.1.2
   resolution: "csstype@npm:3.1.2"
   checksum: e1a52e6c25c1314d6beef5168da704ab29c5186b877c07d822bd0806717d9a265e8493a2e35ca7e68d0f5d472d43fac1cdce70fd79fd0853dff81f3028d857b5
+  languageName: node
+  linkType: hard
+
+"csv-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "csv-parser@npm:3.0.0"
+  dependencies:
+    minimist: ^1.2.0
+  bin:
+    csv-parser: bin/csv-parser
+  checksum: adc9d67d9f185249825570778c24d13004625301655330f6b735a052b9fdfbe1a239a014afb1f89939e0626ee573718f71f9f14164db7c17e4bcb2f38d6a162b
   languageName: node
   linkType: hard
 
@@ -14167,6 +14198,7 @@ __metadata:
     "@socialgouv/cdtn-sources": 4.52.1
     "@socialgouv/fiches-travail-data-types": ^4.191.0
     "@socialgouv/fiches-vdd-types": ^2.197.0
+    "@socialgouv/kali-data": ^2.628.0
     "@socialgouv/kali-data-types": ^2.127.0
     "@socialgouv/legi-data-types": ^2.73.1
     "@types/gunzip-maybe": ^1.4.0
@@ -14188,6 +14220,7 @@ __metadata:
     remark: 13.0.0
     remark-html: 13.0.2
     semver: 7.3.5
+    strip-markdown: ^5.0.1
     tar-fs: 2.1.1
     ts-jest: ^27.0.5
     ts-node: 10.8.0
@@ -14724,6 +14757,13 @@ __metadata:
   version: 3.0.0
   resolution: "is-plain-obj@npm:3.0.0"
   checksum: a6ebdf8e12ab73f33530641972a72a4b8aed6df04f762070d823808303e4f76d87d5ea5bd76f96a7bbe83d93f04ac7764429c29413bd9049853a69cb630fb21c
+  languageName: node
+  linkType: hard
+
+"is-plain-obj@npm:^4.0.0":
+  version: 4.1.0
+  resolution: "is-plain-obj@npm:4.1.0"
+  checksum: 6dc45da70d04a81f35c9310971e78a6a3c7a63547ef782e3a07ee3674695081b6ca4e977fbb8efc48dae3375e0b34558d2bcd722aec9bddfa2d7db5b041be8ce
   languageName: node
   linkType: hard
 
@@ -18262,6 +18302,17 @@ __metadata:
   version: 2.0.12
   resolution: "node-releases@npm:2.0.12"
   checksum: b8c56db82c4642a0f443332b331a4396dae452a2ac5a65c8dbd93ef89ecb2fbb0da9d42ac5366d4764973febadca816cf7587dad492dce18d2a6b2af59cda260
+  languageName: node
+  linkType: hard
+
+"node-xlsx@npm:^0.23.0":
+  version: 0.23.0
+  resolution: "node-xlsx@npm:0.23.0"
+  dependencies:
+    xlsx: "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
+  bin:
+    node-xlsx: lib/bin/cli.js
+  checksum: b9e32edc270bded29a47f39498544ff5e40c85a4eaf0b7e83db9e25f3383567263d2efdf492ad05de516d297b1a40bdd97bb47742ce2f2d89b6a86f49e9c624d
   languageName: node
   linkType: hard
 
@@ -22948,6 +22999,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"strip-markdown@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "strip-markdown@npm:5.0.1"
+  dependencies:
+    "@types/mdast": ^3.0.0
+    "@types/unist": ^2.0.6
+    unified: ^10.0.0
+  checksum: 0cad4aeec911f833df19bbc90fdf6bf7a6f669cb7f541e70219879a4bae06b72f53f9fa4d9832c5aafa2080c5db876043f15cfcf1ebf29d351c41c8fad4f6cc8
+  languageName: node
+  linkType: hard
+
 "strong-log-transformer@npm:^2.1.0":
   version: 2.1.0
   resolution: "strong-log-transformer@npm:2.1.0"
@@ -23625,6 +23687,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"trough@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "trough@npm:2.1.0"
+  checksum: a577bb561c2b401cc0e1d9e188fcfcdf63b09b151ff56a668da12197fe97cac15e3d77d5b51f426ccfd94255744a9118e9e9935afe81a3644fa1be9783c82886
+  languageName: node
+  linkType: hard
+
 "ts-jest@npm:27.0.5":
   version: 27.0.5
   resolution: "ts-jest@npm:27.0.5"
@@ -24226,6 +24295,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unified@npm:^10.0.0":
+  version: 10.1.2
+  resolution: "unified@npm:10.1.2"
+  dependencies:
+    "@types/unist": ^2.0.0
+    bail: ^2.0.0
+    extend: ^3.0.0
+    is-buffer: ^2.0.0
+    is-plain-obj: ^4.0.0
+    trough: ^2.0.0
+    vfile: ^5.0.0
+  checksum: 053e7c65ede644607f87bd625a299e4b709869d2f76ec8138569e6e886903b6988b21cd9699e471eda42bee189527be0a9dac05936f1d069a5e65d0125d5d756
+  languageName: node
+  linkType: hard
+
 "unified@npm:^4.1.1":
   version: 4.2.1
   resolution: "unified@npm:4.2.1"
@@ -24342,6 +24426,16 @@ __metadata:
     lodash.iteratee: ^4.5.0
     unist-util-visit: ^1.1.0
   checksum: d13b92e65a94f8f8280ddddb030456e080d64179c6594e028f0a22c8c86b98744fc2336dfa322c817d7f356b42e46eab13321f7824e4529a5b51e538566587a5
+  languageName: node
+  linkType: hard
+
+"unist-util-find@npm:1.0.4":
+  version: 1.0.4
+  resolution: "unist-util-find@npm:1.0.4"
+  dependencies:
+    lodash.iteratee: ^4.7.0
+    unist-util-visit: ^2.0.0
+  checksum: 98afb5e0db45faee4fc486bacfbc1b31bfdb5cf779e09dabeeba61ac8abbdb32e081a48aa2fe2f6f97bc4828ac3a2eb2a7467f606864a0afb24494c7dda1a269
   languageName: node
   linkType: hard
 
@@ -24472,6 +24566,15 @@ __metadata:
   dependencies:
     "@types/unist": ^2.0.2
   checksum: f755cadc959f9074fe999578a1a242761296705a7fe87f333a37c00044de74ab4b184b3812989a57d4cd12211f0b14ad397b327c3a594c7af84361b1c25a7f09
+  languageName: node
+  linkType: hard
+
+"unist-util-stringify-position@npm:^3.0.0":
+  version: 3.0.3
+  resolution: "unist-util-stringify-position@npm:3.0.3"
+  dependencies:
+    "@types/unist": ^2.0.0
+  checksum: dbd66c15183607ca942a2b1b7a9f6a5996f91c0d30cf8966fb88955a02349d9eefd3974e9010ee67e71175d784c5a9fea915b0aa0b0df99dcb921b95c4c9e124
   languageName: node
   linkType: hard
 
@@ -24961,6 +25064,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"vfile-message@npm:^3.0.0":
+  version: 3.1.4
+  resolution: "vfile-message@npm:3.1.4"
+  dependencies:
+    "@types/unist": ^2.0.0
+    unist-util-stringify-position: ^3.0.0
+  checksum: d0ee7da1973ad76513c274e7912adbed4d08d180eaa34e6bd40bc82459f4b7bc50fcaff41556135e3339995575eac5f6f709aba9332b80f775618ea4880a1367
+  languageName: node
+  linkType: hard
+
 "vfile@npm:^1.0.0":
   version: 1.4.0
   resolution: "vfile@npm:1.4.0"
@@ -24977,6 +25090,18 @@ __metadata:
     unist-util-stringify-position: ^2.0.0
     vfile-message: ^2.0.0
   checksum: ee5726e10d170472cde778fc22e0f7499caa096eb85babea5d0ce0941455b721037ee1c9e6ae506ca2803250acd313d0f464328ead0b55cfe7cb6315f1b462d6
+  languageName: node
+  linkType: hard
+
+"vfile@npm:^5.0.0":
+  version: 5.3.7
+  resolution: "vfile@npm:5.3.7"
+  dependencies:
+    "@types/unist": ^2.0.0
+    is-buffer: ^2.0.0
+    unist-util-stringify-position: ^3.0.0
+    vfile-message: ^3.0.0
+  checksum: 642cce703afc186dbe7cabf698dc954c70146e853491086f5da39e1ce850676fc96b169fcf7898aa3ff245e9313aeec40da93acd1e1fcc0c146dc4f6308b4ef9
   languageName: node
   linkType: hard
 
@@ -25497,6 +25622,15 @@ __metadata:
   version: 4.0.0
   resolution: "xdg-basedir@npm:4.0.0"
   checksum: 0073d5b59a37224ed3a5ac0dd2ec1d36f09c49f0afd769008a6e9cd3cd666bd6317bd1c7ce2eab47e1de285a286bad11a9b038196413cd753b79770361855f3c
+  languageName: node
+  linkType: hard
+
+"xlsx@https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz":
+  version: 0.19.3
+  resolution: "xlsx@https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
+  bin:
+    xlsx: ./bin/xlsx.njs
+  checksum: d8ad11182aea27253e7efdf64a655410aa115787b13fdd990a20c2ddf258f0211da9eaf3fcbba6d9dafee5e850ceaddbeee1c8ab59d5c6b073cf3a80cacebcb9
   languageName: node
   linkType: hard
 
