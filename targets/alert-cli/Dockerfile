@@ -41,8 +41,8 @@ USER 1000
 
 ENV NODE_ENV=production
 
-WORKDIR /app/targets/alert-cli
+WORKDIR /app
 
 COPY --from=dist /app/targets/alert-cli/dist ./dist/
 
-CMD ["node","--enable-source-maps","--unhandled-rejections=strict","./dist/index.js"]
+CMD ["node","--enable-source-maps","--unhandled-rejections=strict","/app/dist/index.js"]
