@@ -1,6 +1,5 @@
 ARG NODE_VERSION=20.3.1-alpine
 
-# dist
 FROM node:$NODE_VERSION AS deps
 
 WORKDIR /app
@@ -31,7 +30,6 @@ RUN yarn workspace frontend build
 RUN yarn workspaces focus --production frontend && yarn cache clean
 RUN mkdir -p targets/frontend/node_modules
 
-# app
 FROM node:$NODE_VERSION
 
 WORKDIR /app

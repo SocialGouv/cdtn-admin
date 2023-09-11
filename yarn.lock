@@ -5066,7 +5066,7 @@ __metadata:
     "@elastic/elasticsearch": ^7.14.1
     "@shared/eslint-config": "workspace:^"
     "@socialgouv/cdtn-elasticsearch": ^2.13.0
-    "@socialgouv/cdtn-logger": ^2.13.0
+    "@socialgouv/cdtn-logger": "workspace:^"
     "@socialgouv/cdtn-monolog": ^1.5.11
     "@socialgouv/cdtn-slugify": ^4.52.1
     "@socialgouv/cdtn-sources": ^4.52.1
@@ -5230,7 +5230,7 @@ __metadata:
     "@babel/core": ^7.15.5
     "@babel/plugin-transform-modules-commonjs": ^7.15.4
     "@shared/eslint-config": "workspace:^"
-    "@socialgouv/cdtn-logger": ^2.13.0
+    "@socialgouv/cdtn-logger": "workspace:^"
     got: ^11.8.2
     jest: ^27.1.1
     lint-staged: ^12.0.0
@@ -5240,7 +5240,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@socialgouv/cdtn-logger@^2.13.0, @socialgouv/cdtn-logger@workspace:shared/logger":
+"@socialgouv/cdtn-logger@npm:^1.10.4":
+  version: 1.20.0
+  resolution: "@socialgouv/cdtn-logger@npm:1.20.0"
+  dependencies:
+    winston: ^3.3.3
+  checksum: eb2e11443550070efdf6b55c19bcaaba173f3e87a65dfe77a5abbca7b10c442bf5731f5c5fc85e0a4c04dd0903fd9d49557da2799b20d8afa99c5003c736829f
+  languageName: node
+  linkType: hard
+
+"@socialgouv/cdtn-logger@workspace:^, @socialgouv/cdtn-logger@workspace:shared/logger":
   version: 0.0.0-use.local
   resolution: "@socialgouv/cdtn-logger@workspace:shared/logger"
   dependencies:
@@ -5256,19 +5265,10 @@ __metadata:
     lint-staged: ^12.0.0
     prettier: ^2.3.2
     std-mocks: ^1.0.1
-    typescript: ^4.4.3
+    typescript: ^4.9.5
     winston: ^3.3.3
   languageName: unknown
   linkType: soft
-
-"@socialgouv/cdtn-logger@npm:^1.10.4":
-  version: 1.20.0
-  resolution: "@socialgouv/cdtn-logger@npm:1.20.0"
-  dependencies:
-    winston: ^3.3.3
-  checksum: eb2e11443550070efdf6b55c19bcaaba173f3e87a65dfe77a5abbca7b10c442bf5731f5c5fc85e0a4c04dd0903fd9d49557da2799b20d8afa99c5003c736829f
-  languageName: node
-  linkType: hard
 
 "@socialgouv/cdtn-monolog@npm:^1.5.11":
   version: 1.22.1
@@ -12124,7 +12124,7 @@ __metadata:
     "@shared/eslint-config": "workspace:^"
     "@shared/graphql-client": "workspace:^"
     "@shared/types": "workspace:^"
-    "@socialgouv/cdtn-logger": ^2.13.0
+    "@socialgouv/cdtn-logger": "workspace:^"
     "@swc/cli": 0.1.55
     "@swc/core": 1.2.150
     "@swc/jest": 0.2.20
@@ -12619,7 +12619,7 @@ __metadata:
     "@shared/graphql-client": "workspace:^"
     "@shared/id-generator": "workspace:^"
     "@shared/types": "workspace:^"
-    "@socialgouv/cdtn-logger": ^2.13.0
+    "@socialgouv/cdtn-logger": "workspace:^"
     "@socialgouv/cdtn-slugify": ^4.52.1
     "@socialgouv/cdtn-sources": ^4.52.1
     "@socialgouv/cdtn-ui": ^4.92.0

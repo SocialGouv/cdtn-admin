@@ -26,7 +26,7 @@
     "@azure/storage-blob": "^12.9.0",
     "@shared/elasticsearch-document-adapter": "workspace:^",
     "@shared/graphql-client": "workspace:^",
-    "@socialgouv/cdtn-logger": "^2.13.0",
+    "@socialgouv/cdtn-logger": "workspace:^",
     "axios": "^0.26.1",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",

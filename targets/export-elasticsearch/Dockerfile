@@ -1,6 +1,5 @@
 ARG NODE_VERSION=20.3.1-alpine
 
-# dist
 FROM node:$NODE_VERSION AS deps
 
 RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
@@ -19,8 +18,13 @@ FROM deps AS build-types
 COPY shared/types ./shared/types
 RUN yarn workspace @shared/types build
 
+FROM deps AS build-cdtn-logger
+COPY shared/logger ./shared/logger
+RUN yarn workspace @socialgouv/cdtn-logger build
+
 FROM deps AS build-elasticsearch-document-adapter
 COPY --from=build-types /app/shared/types ./shared/types
+COPY --from=build-cdtn-logger /app/shared/logger ./shared/logger
 COPY shared/elasticsearch-document-adapter ./shared/elasticsearch-document-adapter
 RUN yarn workspace @shared/elasticsearch-document-adapter build
 
@@ -28,6 +32,7 @@ FROM deps as dist
 COPY --from=build-graphql-client /app/shared/graphql-client ./shared/graphql-client
 COPY --from=build-types /app/shared/types ./shared/types
 COPY --from=build-elasticsearch-document-adapter /app/shared/elasticsearch-document-adapter ./shared/elasticsearch-document-adapter
+COPY --from=build-cdtn-logger /app/shared/logger ./shared/logger
 
 COPY shared/eslint-config ./shared/eslint-config/
 COPY targets/export-elasticsearch ./targets/export-elasticsearch/
@@ -35,8 +40,8 @@ COPY targets/export-elasticsearch ./targets/export-elasticsearch/
 RUN yarn workspace export-elasticsearch build
 
 RUN yarn workspaces focus --production export-elasticsearch && yarn cache clean
+RUN mkdir -p /app/targets/export-elasticsearch/node_modules
 
-# app
 FROM node:$NODE_VERSION
 
 WORKDIR /app

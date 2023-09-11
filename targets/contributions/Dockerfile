@@ -24,7 +24,6 @@ RUN yarn workspace @socialgouv/contibutions build
 RUN yarn workspaces focus --production @socialgouv/contibutions  && yarn cache clean
 RUN mkdir -p /app/targets/contributions/node_modules
 
-# app
 FROM node:$NODE_VERSION
 
 WORKDIR /app
