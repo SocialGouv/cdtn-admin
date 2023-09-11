@@ -9,7 +9,7 @@ WORKDIR /
 
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
-RUN yarn fetch --immutable
+RUN yarn fetch workspace export-elasticsearch focus
 
 COPY shared/eslint-config /shared/eslint-config/
 COPY shared/graphql-client /shared/graphql-client/

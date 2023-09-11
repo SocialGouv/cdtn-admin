@@ -7,7 +7,7 @@ WORKDIR /app
 
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
-RUN yarn fetch --immutable
+RUN yarn fetch workspaces focus alert-cli
 
 COPY shared/graphql-client ./shared/graphql-client
 COPY shared/dila-resolver ./shared/dila-resolver
@@ -16,6 +16,8 @@ COPY shared/types ./shared/types
 RUN yarn workspace @shared/graphql-client build
 RUN yarn workspace @shared/dila-resolver build
 RUN yarn workspace alert-cli build
+
+RUN yarn workspaces focus --production alert-cli && yarn cache clean
 
 # app
 FROM node:$NODE_VERSION

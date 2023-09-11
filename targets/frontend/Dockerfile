@@ -7,18 +7,19 @@ WORKDIR /app
 
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
-RUN yarn workspace frontend focus
+RUN yarn fetch workspaces focus frontend
 
 COPY shared/eslint-config ./shared/eslint-config
 COPY shared/graphql-client ./shared/graphql-client
 COPY shared/id-generator ./shared/id-generator
 COPY shared/types ./shared/types
+COPY targets/frontend ./targets/frontend
 
 RUN yarn workspace @shared/types build
 RUN yarn workspace @shared/graphql-client build
 RUN yarn workspace frontend build
 
-RUN yarn workspace frontend focus --production && yarn cache clean
+RUN yarn workspaces focus --production frontend && yarn cache clean
 
 # app
 FROM node:$NODE_VERSION

@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
-RUN yarn fetch --immutable
+RUN yarn fetch workspaces focus @socialgouv/contibutions
 
 ARG CDTN_API_URL
 ENV CDTN_API_URL=$CDTN_API_URL
@@ -18,7 +18,7 @@ COPY targets/contributions /targets/contributions
 RUN yarn workspace @shared/graphql-client build
 RUN yarn workspace @socialgouv/contibutions build
 
-RUN yarn workspace @socialgouv/contibutions focus --production && yarn cache clean
+RUN yarn workspaces focus --production @socialgouv/contibutions  && yarn cache clean
 
 # app
 FROM node:$NODE_VERSION

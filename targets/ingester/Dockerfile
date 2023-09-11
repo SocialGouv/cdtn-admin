@@ -9,7 +9,7 @@ WORKDIR /
 
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
-RUN yarn workspace frontend focus
+RUN yarn fetch workspace ingester focus
 
 COPY shared/graphql-client-build shared/graphql-client-build/
 COPY targets/ingester targets/ingester/
@@ -17,7 +17,7 @@ COPY targets/ingester targets/ingester/
 RUN yarn workspace @shared/graphql-client build
 RUN yarn workspace ingester build
 
-RUN yarn workspace frontend focus --production && yarn cache clean
+RUN yarn workspaces focus --production ingester && yarn cache clean
 
 # app
 FROM node:$NODE_VERSION
