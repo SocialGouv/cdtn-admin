@@ -7,25 +7,23 @@ RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 WORKDIR /
 
-COPY shared/eslint-config/package.json /shared/eslint-config/package.json
-COPY shared/graphql-client/package.json /shared/graphql-client/package.json
-COPY shared/types/package.json /shared/types/package.json
-COPY shared/elasticsearch-document-adapter/package.json /shared/elasticsearch-document-adapter/package.json
-COPY targets/export-elasticsearch/package.json /targets/export-elasticsearch/package.json
+COPY yarn.lock .yarnrc.yml ./
+COPY .yarn .yarn
+RUN yarn fetch --immutable
+
+COPY shared/eslint-config /shared/eslint-config/
+COPY shared/graphql-client /shared/graphql-client/
+COPY shared/types /shared/types/
+COPY shared/elasticsearch-document-adapter /shared/elasticsearch-document-adapter
+COPY targets/export-elasticsearch /targets/export-elasticsearch
 COPY package.json /package.json
-COPY yarn.lock /yarn.lock
-
-RUN yarn --frozen-lockfile
-
-COPY . /
 
 RUN yarn workspace @shared/types build
-
 RUN yarn workspace @shared/graphql-client build
-
 RUN yarn workspace @shared/elasticsearch-document-adapter build
-
 RUN yarn workspace export-elasticsearch build
+
+RUN yarn workspace export-elasticsearch focus --production && yarn cache clean
 
 # app
 FROM node:$NODE_VERSION
@@ -50,5 +48,5 @@ USER 1000
 
 ENV NODE_ENV=production
 
-CMD ["yarn", "--cwd", "export-elasticsearch", "start"]
-
+WORKDIR /app/targets/export-elasticsearch
+CMD ["node", "./build/index.js"]

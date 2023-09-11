@@ -3,17 +3,21 @@ ARG NODE_VERSION=20.3.1-alpine
 # dist
 FROM node:$NODE_VERSION AS dist
 
-WORKDIR /
-
-COPY . /
-
 RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
-RUN yarn --frozen-lockfile
+WORKDIR /
+
+COPY yarn.lock .yarnrc.yml ./
+COPY .yarn .yarn
+RUN yarn workspace frontend focus
+
+COPY shared/graphql-client-build shared/graphql-client-build/
+COPY targets/ingester targets/ingester/
 
 RUN yarn workspace @shared/graphql-client build
-
 RUN yarn workspace ingester build
+
+RUN yarn workspace frontend focus --production && yarn cache clean
 
 # app
 FROM node:$NODE_VERSION
@@ -29,4 +33,4 @@ USER 1000
 
 ENV NODE_ENV=production
 
-CMD ["yarn", "start"]
+CMD ["node","--enable-source-maps","--unhandled-rejections=strict","dist/index.js"]
