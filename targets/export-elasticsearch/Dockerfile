@@ -16,7 +16,6 @@ COPY shared/graphql-client /shared/graphql-client/
 COPY shared/types /shared/types/
 COPY shared/elasticsearch-document-adapter /shared/elasticsearch-document-adapter
 COPY targets/export-elasticsearch /targets/export-elasticsearch
-COPY package.json /package.json
 
 RUN yarn workspace @shared/types build
 RUN yarn workspace @shared/graphql-client build
@@ -41,7 +40,6 @@ COPY --from=dist targets/export-elasticsearch/dataset /app/export-elasticsearch/
 COPY --from=dist targets/export-elasticsearch/package.json /app/export-elasticsearch/package.json
 COPY --from=dist targets/export-elasticsearch/build /app/export-elasticsearch/build
 COPY --from=dist targets/export-elasticsearch/node_modules /app/export-elasticsearch/node_modules
-COPY --from=dist package.json /app/package.json
 COPY --from=dist node_modules /app/node_modules
 
 USER 1000

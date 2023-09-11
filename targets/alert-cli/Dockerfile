@@ -12,6 +12,7 @@ RUN yarn fetch workspaces focus alert-cli
 COPY shared/graphql-client ./shared/graphql-client
 COPY shared/dila-resolver ./shared/dila-resolver
 COPY shared/types ./shared/types
+COPY target/alert-cli ./target/alert-cli
 
 RUN yarn workspace @shared/graphql-client build
 RUN yarn workspace @shared/dila-resolver build
