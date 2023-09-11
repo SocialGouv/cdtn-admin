@@ -52,10 +52,10 @@ COPY --from=dist /app/shared/types/build /app/shared/types/build
 COPY --from=dist /app/shared/types/package.json /app/shared/types/package.json
 COPY --from=dist /app/shared/elasticsearch-document-adapter/lib /app/shared/elasticsearch-document-adapter/lib
 COPY --from=dist /app/shared/elasticsearch-document-adapter/package.json /app/shared/elasticsearch-document-adapter/package.json
-COPY --from=dist /app/targets/export-elasticsearch/dataset /app/export-elasticsearch/dataset
-COPY --from=dist /app/targets/export-elasticsearch/package.json /app/export-elasticsearch/package.json
-COPY --from=dist /app/targets/export-elasticsearch/build /app/export-elasticsearch/build
-COPY --from=dist /app/targets/export-elasticsearch/node_modules /app/export-elasticsearch/node_modules
+COPY --from=dist /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
+COPY --from=dist /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
+COPY --from=dist /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
+COPY --from=dist /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
 COPY --from=dist /app/node_modules /app/node_modules
 
 USER 1000
@@ -63,4 +63,5 @@ USER 1000
 ENV NODE_ENV=production
 
 WORKDIR /app/targets/export-elasticsearch
+
 CMD ["node", "./build/index.js"]
