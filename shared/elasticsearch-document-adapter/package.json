@@ -27,7 +27,7 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
-    "@shared/eslint-config": "^2.14.0",
+    "@shared/eslint-config": "workspace:^",
     "@socialgouv/kali-data-types": "^2.127.0",
     "@types/jest": "^29.2.3",
     "@types/node-fetch": "^2.5.12",

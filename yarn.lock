@@ -5035,15 +5035,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shared/dila-resolver@^2.13.0, @shared/dila-resolver@workspace:shared/dila-resolver":
+"@shared/dila-resolver@workspace:^, @shared/dila-resolver@workspace:shared/dila-resolver":
   version: 0.0.0-use.local
   resolution: "@shared/dila-resolver@workspace:shared/dila-resolver"
   dependencies:
     "@babel/core": ^7.15.5
     "@babel/plugin-transform-modules-commonjs": ^7.15.4
     "@babel/preset-typescript": ^7.15.0
-    "@shared/eslint-config": ^2.13.0
-    "@shared/types": ^2.13.0
+    "@shared/eslint-config": "workspace:^"
+    "@shared/types": "workspace:^"
     "@socialgouv/dila-api-client": ^1.2.4
     "@tsconfig/node14": ^1.0.1
     "@types/jest": ^27.0.0
@@ -5055,7 +5055,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@shared/elasticsearch-document-adapter@^2.13.0, @shared/elasticsearch-document-adapter@workspace:shared/elasticsearch-document-adapter":
+"@shared/elasticsearch-document-adapter@workspace:^, @shared/elasticsearch-document-adapter@workspace:shared/elasticsearch-document-adapter":
   version: 0.0.0-use.local
   resolution: "@shared/elasticsearch-document-adapter@workspace:shared/elasticsearch-document-adapter"
   dependencies:
@@ -5064,7 +5064,7 @@ __metadata:
     "@babel/preset-env": ^7.16.11
     "@babel/preset-typescript": ^7.16.7
     "@elastic/elasticsearch": ^7.14.1
-    "@shared/eslint-config": ^2.13.0
+    "@shared/eslint-config": "workspace:^"
     "@socialgouv/cdtn-elasticsearch": ^2.13.0
     "@socialgouv/cdtn-logger": ^2.13.0
     "@socialgouv/cdtn-monolog": ^1.5.11
@@ -5094,7 +5094,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@shared/eslint-config@^2.13.0, @shared/eslint-config@workspace:shared/eslint-config":
+"@shared/eslint-config@workspace:^, @shared/eslint-config@workspace:shared/eslint-config":
   version: 0.0.0-use.local
   resolution: "@shared/eslint-config@workspace:shared/eslint-config"
   dependencies:
@@ -5107,7 +5107,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@shared/graphql-client@^2.13.0, @shared/graphql-client@workspace:shared/graphql-client":
+"@shared/graphql-client@workspace:^, @shared/graphql-client@workspace:shared/graphql-client":
   version: 0.0.0-use.local
   resolution: "@shared/graphql-client@workspace:shared/graphql-client"
   dependencies:
@@ -5119,7 +5119,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@shared/id-generator@^2.13.0, @shared/id-generator@workspace:shared/id-generator":
+"@shared/id-generator@workspace:^, @shared/id-generator@workspace:shared/id-generator":
   version: 0.0.0-use.local
   resolution: "@shared/id-generator@workspace:shared/id-generator"
   dependencies:
@@ -5130,7 +5130,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@shared/types@^2.13.0, @shared/types@workspace:shared/types":
+"@shared/types@workspace:^, @shared/types@workspace:shared/types":
   version: 0.0.0-use.local
   resolution: "@shared/types@workspace:shared/types"
   dependencies:
@@ -5228,7 +5228,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.15.5
     "@babel/plugin-transform-modules-commonjs": ^7.15.4
-    "@shared/eslint-config": ^2.13.0
+    "@shared/eslint-config": "workspace:^"
     "@socialgouv/cdtn-logger": ^2.13.0
     got: ^11.8.2
     jest: ^27.1.1
@@ -5246,7 +5246,7 @@ __metadata:
     "@babel/core": ^7.15.5
     "@babel/plugin-transform-modules-commonjs": ^7.15.4
     "@babel/preset-typescript": ^7.15.0
-    "@shared/eslint-config": ^2.13.0
+    "@shared/eslint-config": "workspace:^"
     "@tsconfig/node14": ^1.0.1
     "@types/jest": ^27.0.2
     "@types/std-mocks": ^1.0.1
@@ -5349,7 +5349,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": 5.15.1
     "@fortawesome/react-fontawesome": 0.1.14
     "@koa/router": 10.0.0
-    "@shared/graphql-client": ^2.13.0
+    "@shared/graphql-client": "workspace:^"
     "@socialgouv/kali-data": 2.30.0
     "@socialgouv/legi-data": 2.24.0
     "@testing-library/jest-dom": 5.11.8
@@ -7516,10 +7516,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "alert-cli@workspace:targets/alert-cli"
   dependencies:
-    "@shared/dila-resolver": ^2.13.0
-    "@shared/eslint-config": ^2.13.0
-    "@shared/graphql-client": ^2.13.0
-    "@shared/types": ^2.13.0
+    "@shared/dila-resolver": "workspace:^"
+    "@shared/eslint-config": "workspace:^"
+    "@shared/graphql-client": "workspace:^"
+    "@shared/types": "workspace:^"
     "@socialgouv/cdtn-slugify": 4.52.1
     "@socialgouv/cdtn-sources": 4.52.1
     "@socialgouv/contributions-data-types": 3.27.0
@@ -12088,10 +12088,10 @@ __metadata:
   resolution: "export-elasticsearch@workspace:targets/export-elasticsearch"
   dependencies:
     "@azure/storage-blob": ^12.9.0
-    "@shared/elasticsearch-document-adapter": ^2.13.0
-    "@shared/eslint-config": ^2.13.0
-    "@shared/graphql-client": ^2.13.0
-    "@shared/types": ^2.13.0
+    "@shared/elasticsearch-document-adapter": "workspace:^"
+    "@shared/eslint-config": "workspace:^"
+    "@shared/graphql-client": "workspace:^"
+    "@shared/types": "workspace:^"
     "@socialgouv/cdtn-logger": ^2.13.0
     "@swc/cli": 0.1.55
     "@swc/core": 1.2.150
@@ -12584,9 +12584,9 @@ __metadata:
     "@sentry/browser": ^6.12.0
     "@sentry/integrations": ^6.12.0
     "@sentry/node": ^6.12.0
-    "@shared/graphql-client": ^2.13.0
-    "@shared/id-generator": ^2.13.0
-    "@shared/types": ^2.13.0
+    "@shared/graphql-client": "workspace:^"
+    "@shared/id-generator": "workspace:^"
+    "@shared/types": "workspace:^"
     "@socialgouv/cdtn-logger": ^2.13.0
     "@socialgouv/cdtn-slugify": ^4.52.1
     "@socialgouv/cdtn-sources": ^4.52.1
@@ -14158,10 +14158,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ingester@workspace:targets/ingester"
   dependencies:
-    "@shared/eslint-config": ^2.13.0
-    "@shared/graphql-client": ^2.13.0
-    "@shared/id-generator": ^2.13.0
-    "@shared/types": ^2.13.0
+    "@shared/eslint-config": "workspace:^"
+    "@shared/graphql-client": "workspace:^"
+    "@shared/id-generator": "workspace:^"
+    "@shared/types": "workspace:^"
     "@socialgouv/cdtn-slugify": 4.52.1
     "@socialgouv/cdtn-sources": 4.52.1
     "@socialgouv/fiches-travail-data-types": ^4.191.0
