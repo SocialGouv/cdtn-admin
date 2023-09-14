@@ -19,8 +19,8 @@ mutation registerUser($user: auth_users_insert_input! ) {
 `;
 
 const emailAccountMutation = `
-mutation email($email: citext!, $secret_token: uuid!) {
-	email_account_activation(email: $email, secret_token:$secret_token)
+mutation email($email: citext!) {
+	email_account_activation(email: $email)
 }
 `;
 
@@ -35,6 +35,7 @@ function prepareMutationData(input) {
     },
   };
 }
+
 export function UserPage() {
   const router = useRouter();
   const [result, registerUser] = useMutation(registerUserMutation);
@@ -45,8 +46,8 @@ export function UserPage() {
     registerUser(prepareMutationData(data)).then((result) => {
       if (!result.error) {
         router.push("/users");
-        const { email, secret_token } = result.data.user;
-        emailAccount({ email, secret_token });
+        const { email } = result.data.user;
+        emailAccount({ email });
       }
     });
   }
