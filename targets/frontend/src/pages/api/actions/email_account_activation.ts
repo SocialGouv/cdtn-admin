@@ -1,8 +1,15 @@
 import Boom from "@hapi/boom";
 import { createErrorFor } from "src/lib/apiError";
 import { sendActivateAccountEmail } from "src/lib/emails/activateAccount";
+import { NextApiRequest, NextApiResponse } from "next";
+import { getUserSecretToken } from "../../../lib/emails/getAccountSecretToken";
 
-export default async function ActivateAccount(req, res) {
+type Response = { message: string; statusCode: number };
+
+export default async function ActivateAccount(
+  req: NextApiRequest,
+  res: NextApiResponse<Response>
+) {
   const apiError = createErrorFor(res);
   if (req.method === "GET") {
     console.error("[ActivateAccount] GET method not allowed");
@@ -18,13 +25,14 @@ export default async function ActivateAccount(req, res) {
     return apiError(Boom.unauthorized("Missing secret or env"));
   }
 
-  const { email, secret_token } = req.body.input;
+  const { email } = req.body.input;
   try {
+    const secret_token = await getUserSecretToken(email);
     await sendActivateAccountEmail(email, secret_token);
     console.log("[actions] send activate account email");
     res.json({ message: "email sent!", statusCode: 200 });
   } catch (error) {
-    console.error(`[actions] send activation email to ${email} failed`);
+    console.error(`[actions] send activation email to ${email} failed`, error);
     apiError(
       Boom.badGateway(`[actions] send activation email to ${email} failed`)
     );
