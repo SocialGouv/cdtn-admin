@@ -1,9 +1,9 @@
 import { client } from "@shared/graphql-client";
 import { generateCdtnId } from "@shared/id-generator";
 
-type Versionnable = {
+interface Versionnable {
   version: string;
-};
+}
 
 const getPackageVersionQuery = `
 query package_version ($repository: String!) {
@@ -12,9 +12,10 @@ query package_version ($repository: String!) {
   }
 }
 `;
-type PackageVersionResult = {
+
+interface PackageVersionResult {
   packageVersion?: Versionnable;
-};
+}
 
 const updateDocumentAvailability = `
 mutation update_documents($source: String!) {
@@ -24,11 +25,11 @@ mutation update_documents($source: String!) {
 }
 `;
 
-type UpdateDocumentAvailabilityResult = {
+interface UpdateDocumentAvailabilityResult {
   documents: {
     affected_rows: number;
   };
-};
+}
 
 const insertDocumentsMutation = `
 mutation insert_documents($documents: [documents_insert_input!]!) {
@@ -41,9 +42,20 @@ mutation insert_documents($documents: [documents_insert_input!]!) {
 }
 `;
 
-type InsertdocumentResult = {
+const updatePublishStatusDocumentsMutation = `
+mutation update_published_status_documents($updates: [documents_updates!]!) {
+  update_documents_many(updates: $updates) {
+    returning {
+      cdtn_id
+    }
+  }
+}
+
+`;
+
+interface InsertdocumentResult {
   documents: { returning: { cdtn_id: string }[] };
-};
+}
 
 const insertPackageVersionMutation = `
 mutation insert_package_version($object:package_version_insert_input!) {
@@ -56,12 +68,12 @@ mutation insert_package_version($object:package_version_insert_input!) {
 }
 `;
 
-type UpsertPackageVersionResult = {
+interface UpsertPackageVersionResult {
   version: {
     repository: string;
     version: string;
   };
-};
+}
 
 export async function getLastIngestedVersion(pkgName: string) {
   const result = await client
@@ -104,6 +116,24 @@ export async function insertDocuments(docs: ingester.CdtnDocument[]) {
     throw new Error(`error inserting documents`);
   }
   if (result.data) {
+    // Update is_published status to false if the document should not be published
+    const docsNotPublished = docs.filter(
+      (doc) => doc.is_published !== undefined && !doc.is_published
+    );
+    if (docsNotPublished.length > 0) {
+      const result = await client
+        .mutation<InsertdocumentResult>(updatePublishStatusDocumentsMutation, {
+          updates: docsNotPublished.map(({ id, source }) => ({
+            where: { cdtn_id: { _eq: generateCdtnId(`${source}${id}`) } },
+            _set: { is_published: false },
+          })),
+        })
+        .toPromise();
+      if (result.error) {
+        console.error(result.error.graphQLErrors[0]);
+        throw new Error(`error updating is_published status documents`);
+      }
+    }
     return result.data.documents.returning;
   }
   return [];
