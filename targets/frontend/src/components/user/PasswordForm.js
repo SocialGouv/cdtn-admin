@@ -44,6 +44,7 @@ export function PasswordForm({
     },
     required: { message: "Ce champ est requis", value: true },
   };
+
   async function localSubmit(data) {
     loading = true;
     try {
@@ -107,7 +108,9 @@ export function PasswordForm({
           <FormErrorMessage errors={errors} fieldName="confirmNewPassword" />
         </div>
         <Inline>
-          <Button disabled={hasError || loading}>{buttonLabel}</Button>
+          <Button disabled={hasError || loading} type="submit">
+            {buttonLabel}
+          </Button>
           <Link href={backHref} passHref style={{ textDecoration: "none" }}>
             Annuler
           </Link>
