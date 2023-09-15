@@ -1,3 +1,4 @@
+import { fr } from "@codegouvfr/react-dsfr";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -6,36 +7,38 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export const statusesMapping = {
-  PUBLISHED: {
-    color: "#2e7858",
-    icon: <TaskAltIcon titleAccess="Publié" fontSize="small" />,
-    text: "PUBLIÉ",
-  },
-  REDACTED: {
-    color: "#c3992a",
-    icon: <DescriptionIcon titleAccess="Rédigé" fontSize="small" />,
-    text: "RÉDIGÉ",
-  },
-  REDACTING: {
-    color: "#a9c8fb",
-    icon: <EditNoteIcon titleAccess="En rédaction" fontSize="small" />,
-    text: "RÉDACTION",
-  },
   TODO: {
-    color: "#a94645",
+    color: fr.colors.decisions.text.default.error.default,
     icon: <ClearIcon titleAccess="À traiter" fontSize="small" />,
     text: "À TRAITER",
   },
-  VALIDATED: {
-    color: "#68a532",
-    icon: <CheckIcon titleAccess="Validé" fontSize="small" />,
-    text: "VALIDÉ",
+
+  REDACTING: {
+    color: fr.colors.decisions.text.actionHigh.blueCumulus.default,
+    icon: <EditNoteIcon titleAccess="En rédaction" fontSize="small" />,
+    text: "RÉDACTION",
+  },
+  REDACTED: {
+    color: fr.colors.decisions.text.default.info.default,
+    icon: <DescriptionIcon titleAccess="Rédigé" fontSize="small" />,
+    text: "RÉDIGÉ",
   },
   VALIDATING: {
-    color: "#e4794a",
+    color: fr.colors.decisions.text.actionHigh.orangeTerreBattue.default,
     icon: (
       <VisibilityIcon titleAccess="En cours de validation" fontSize="small" />
     ),
-    text: "VALIDATION",
+    text: "EN VALIDATION",
+  },
+  VALIDATED: {
+    color: fr.colors.decisions.text.default.warning.default,
+    icon: <CheckIcon titleAccess="Validé" fontSize="small" />,
+    text: "VALIDÉ",
+  },
+
+  PUBLISHED: {
+    color: fr.colors.decisions.text.default.success.default,
+    icon: <TaskAltIcon titleAccess="Publié" fontSize="small" />,
+    text: "PUBLIÉ",
   },
 };

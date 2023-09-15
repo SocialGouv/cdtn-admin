@@ -1,5 +1,6 @@
 import { Box, FormLabel } from "@mui/material";
-import styled, { css } from "styled-components";
+import { css } from "styled-components";
+import { styled } from "@mui/system";
 
 export const TitleBox = ({
   title,

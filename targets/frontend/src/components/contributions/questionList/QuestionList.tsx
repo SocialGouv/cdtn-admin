@@ -1,24 +1,36 @@
 import {
+  Card,
+  CardContent,
   Paper,
   Stack,
   Table,
   TableBody,
-  TableHead,
-  TableContainer,
-  TextField,
-  TableRow,
   TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 
 import { useQuestionListQuery } from "./QuestionList.query";
-import { QuestionRow } from "./QuestionRow";
+import { countAnswersWithStatus, QuestionRow } from "./QuestionRow";
+import { fr } from "@codegouvfr/react-dsfr";
+import { statusesMapping } from "../status/data";
+
+function getPercentage(count: number, total: number) {
+  return ((count / total) * 100).toFixed(2);
+}
 
 export const QuestionList = (): JSX.Element => {
   const [search, setSearch] = useState<string | undefined>();
   const { rows } = useQuestionListQuery({
     search,
   });
+
+  const aggregatedRow = rows.map(({ answers }) => answers).flat();
+  const total = aggregatedRow.length;
   return (
     <Stack spacing={2}>
       <Stack direction="row" alignItems="start" spacing={2}>
@@ -31,14 +43,53 @@ export const QuestionList = (): JSX.Element => {
           }}
           data-testid="contributions-list-search"
         />
+        <Card>
+          <CardContent>
+            <Typography>Total</Typography>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                color: fr.colors.decisions.text.default.grey.default,
+                marginBotton: "10px",
+              }}
+            >
+              {total}
+            </Typography>
+          </CardContent>
+        </Card>
+
+        {Object.entries(statusesMapping).map(([status, { text, color }]) => {
+          const count = countAnswersWithStatus(aggregatedRow, status);
+          return (
+            <>
+              <Card>
+                <CardContent
+                  sx={{
+                    color: color,
+                  }}
+                >
+                  {text}
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {count}
+                  </Typography>
+                  <span>{getPercentage(count, total)}%</span>
+                </CardContent>
+              </Card>
+            </>
+          );
+        })}
       </Stack>
 
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table" size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Question</TableCell>
-              <TableCell align="center">Statut</TableCell>
+              <TableCell>Question ({rows.length})</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
