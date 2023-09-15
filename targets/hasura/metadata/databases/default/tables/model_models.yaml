@@ -1,0 +1,57 @@
+table:
+  name: models
+  schema: model
+array_relationships:
+  - name: models_legi_references
+    using:
+      foreign_key_constraint_on:
+        column: letter_id
+        table:
+          name: models_legi_references
+          schema: model
+  - name: models_other_references
+    using:
+      foreign_key_constraint_on:
+        column: letter_id
+        table:
+          name: models_other_references
+          schema: model
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - description
+        - file_name
+        - file_size
+        - preview_html
+        - title
+        - type
+        - updated_at
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - file_size
+        - description
+        - file_name
+        - preview_html
+        - title
+        - type
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - description
+        - file_name
+        - file_size
+        - preview_html
+        - title
+        - type
+        - updated_at
+      filter: {}
+      check: null

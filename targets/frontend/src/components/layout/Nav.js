@@ -143,6 +143,11 @@ export function Nav() {
               Mises à jour
             </ActiveLink>
           </Li>
+          <Li>
+            <ActiveLink href="/models" passHref>
+              Modèles de document
+            </ActiveLink>
+          </Li>
         </List>
       </Box>
       <Box sx={{ paddingTop: "medium" }}>

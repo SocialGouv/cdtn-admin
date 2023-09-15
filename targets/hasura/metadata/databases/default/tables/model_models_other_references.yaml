@@ -1,0 +1,36 @@
+table:
+  name: models_other_references
+  schema: model
+object_relationships:
+  - name: model
+    using:
+      foreign_key_constraint_on: letter_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - label
+        - letter_id
+        - url
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - label
+        - url
+        - id
+        - letter_id
+      filter: {}
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - label
+        - url
+      filter: {}
+      check: null
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

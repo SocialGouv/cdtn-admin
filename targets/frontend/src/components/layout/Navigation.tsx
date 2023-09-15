@@ -84,6 +84,10 @@ export function Navigation() {
           href: "/mises-a-jour",
           label: "Mises à jour",
         },
+        {
+          href: "/models",
+          label: "Modèles de document",
+        },
       ],
     },
     contributions: {
