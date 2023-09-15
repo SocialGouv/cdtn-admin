@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.14.0...v2.15.0) (2023-09-15)
+
+### Bug Fixes
+
+- ne plus envoyer le secret_token depuis le frontend ([#1014](https://github.com/SocialGouv/cdtn-admin/issues/1014)) ([ff10f07](https://github.com/SocialGouv/cdtn-admin/commit/ff10f070ec6b45ab4f4aabd070afeb7917c524ca))
+
 # [2.14.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.13.0...v2.14.0) (2023-09-05)
 
 ### Features

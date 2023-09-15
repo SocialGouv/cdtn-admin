@@ -1,7 +1,7 @@
 {
   "name": "@socialgouv/cdtn-logger",
   "description": "SocialGouv - Code du travail numerique - Infrastructure - Logger",
-  "version": "2.14.0",
+  "version": "2.15.0",
   "babel": {
     "env": {
       "test": {
@@ -22,7 +22,7 @@
     "@babel/core": "^7.15.5",
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "@babel/preset-typescript": "^7.15.0",
-    "@shared/eslint-config": "^2.14.0",
+    "@shared/eslint-config": "^2.15.0",
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^27.0.2",
     "@types/std-mocks": "^1.0.1",

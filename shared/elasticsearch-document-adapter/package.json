@@ -1,11 +1,11 @@
 {
   "name": "@shared/elasticsearch-document-adapter",
   "description": "SocialGouv - Code du travail numerique - Modules - ingester",
-  "version": "2.14.0",
+  "version": "2.15.0",
   "dependencies": {
     "@elastic/elasticsearch": "^7.14.1",
-    "@socialgouv/cdtn-elasticsearch": "^2.14.0",
-    "@socialgouv/cdtn-logger": "^2.14.0",
+    "@socialgouv/cdtn-elasticsearch": "^2.15.0",
+    "@socialgouv/cdtn-logger": "^2.15.0",
     "@socialgouv/cdtn-monolog": "^1.5.11",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
@@ -27,7 +27,7 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
-    "@shared/eslint-config": "^2.14.0",
+    "@shared/eslint-config": "^2.15.0",
     "@socialgouv/kali-data-types": "^2.127.0",
     "@types/jest": "^29.2.3",
     "@types/node-fetch": "^2.5.12",
