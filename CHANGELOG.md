@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.15.0...v2.15.1) (2023-09-18)
+
+### Bug Fixes
+
+- correction sur le bouton de soumission au changement de mot de passe ([#1016](https://github.com/SocialGouv/cdtn-admin/issues/1016)) ([54269cc](https://github.com/SocialGouv/cdtn-admin/commit/54269ccc9cc2f1ce6388824ea18b0c22fba239df))
+
 # [2.15.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.14.0...v2.15.0) (2023-09-15)
 
 ### Bug Fixes
