@@ -24,14 +24,14 @@ export const statusesMapping = {
     text: "RÉDIGÉ",
   },
   VALIDATING: {
-    color: fr.colors.decisions.text.actionHigh.orangeTerreBattue.default,
+    color: fr.colors.decisions.text.default.warning.default,
     icon: (
       <VisibilityIcon titleAccess="En cours de validation" fontSize="small" />
     ),
     text: "EN VALIDATION",
   },
   VALIDATED: {
-    color: fr.colors.decisions.text.default.warning.default,
+    color: fr.colors.decisions.text.label.greenBourgeon.default,
     icon: <CheckIcon titleAccess="Validé" fontSize="small" />,
     text: "VALIDÉ",
   },

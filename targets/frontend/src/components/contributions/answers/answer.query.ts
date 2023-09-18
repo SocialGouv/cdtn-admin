@@ -30,7 +30,7 @@ query contribution_answer($id: uuid) {
         name
       }
     }
-    statuses(order_by: {created_at: desc}, limit: 1) {
+    statuses(order_by: {created_at: desc}) {
       createdAt: created_at
       status
       user {
