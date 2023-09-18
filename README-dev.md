@@ -199,7 +199,7 @@ Il faut ensuite lancer l'`ingester-elasticsearch` pour alimenter l'elasticsearch
 depuis hasura, il est préférable de récupérer les données de prod (
 cf : [Injecter les données depuis la production](https://github.com/SocialGouv/cdtn-admin/blob/master/README-dev.md#injecter-les-donnees-depuis-la-production))
 
-Pour lancer l'`ingester-elasticsearch`, reporter vous à la documentation `export-elasticsearch`
+Pour lancer l'`ingester-elasticsearch`, reporter vous à la [documentation `export-elasticsearch`](./targets/export-elasticsearch/README.md)
 
 **Note :** La durée d'exécution prend du temps (environ 15 minutes)
 

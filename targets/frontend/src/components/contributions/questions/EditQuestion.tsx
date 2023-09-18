@@ -1,5 +1,14 @@
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import { Skeleton, Stack, Typography, Box, Tab, Tabs } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Skeleton,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import { EditQuestionAnswerList } from "./EditQuestionAnswerList";
@@ -7,6 +16,9 @@ import { EditQuestionAnswerList } from "./EditQuestionAnswerList";
 import { EditQuestionForm } from "./EditQuestionForm";
 import { useQuestionQuery } from "./Question.query";
 import { BreadcrumbLink } from "src/components/utils";
+import { statusesMapping } from "../status/data";
+import { countAnswersWithStatus, getPercentage } from "../questionList";
+import { Answer } from "../type";
 
 export type EditQuestionProps = {
   questionId: string;
@@ -30,50 +42,54 @@ export const EditQuestion = ({
   const [tabIndex, setTabIndex] = React.useState<TabValue>(TabValue.answers);
 
   if (data === undefined) {
-    return (
-      <>
-        <Skeleton />
-      </>
-    );
+    return <Skeleton />;
   }
 
   if (data === "not_found") {
     return (
-      <>
-        <Stack alignItems="center" spacing={2}>
-          <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
-          <Typography variant="h5" component="h3" color="error">
-            Question non trouvée
-          </Typography>
-          <Link href={"/contributions"}>
-            Retour à la liste des contributions
-          </Link>
-        </Stack>
-      </>
+      <Stack alignItems="center" spacing={2}>
+        <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
+        <Typography variant="h5" component="h3" color="error">
+          Question non trouvée
+        </Typography>
+        <Link href={"/contributions"}>Retour à la liste des contributions</Link>
+      </Stack>
     );
   }
 
   if (data === "error") {
     return (
-      <>
-        <Stack alignItems="center" spacing={2}>
-          <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
-          <Typography variant="h5" component="h3" color="error">
-            Une erreur est survenue
-          </Typography>
-          <Link href={"/contributions"}>
-            Retour à la liste des contributions
-          </Link>
-        </Stack>
-      </>
+      <Stack alignItems="center" spacing={2}>
+        <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
+        <Typography variant="h5" component="h3" color="error">
+          Une erreur est survenue
+        </Typography>
+        <Link href={"/contributions"}>Retour à la liste des contributions</Link>
+      </Stack>
     );
   }
 
-  const Header = () => (
-    <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
-      <BreadcrumbLink href={"/contributions"}>Contributions</BreadcrumbLink>
-      <BreadcrumbLink>{data?.question?.content}</BreadcrumbLink>
-    </ol>
+  const Header = ({ answers }: { answers: Answer[] }) => (
+    <>
+      <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
+        <BreadcrumbLink href={"/contributions"}>Contributions</BreadcrumbLink>
+        <BreadcrumbLink>{data?.question?.content}</BreadcrumbLink>
+      </ol>
+      <Stack direction="row" alignItems="start" spacing={2}>
+        {Object.entries(statusesMapping).map(([status, { text, color }]) => {
+          const count = countAnswersWithStatus(answers, status);
+          return (
+            <Card key={status}>
+              <CardContent sx={{ color }}>
+                {text}
+                <Typography sx={{ fontWeight: "bold" }}>{count}</Typography>
+                <span>{getPercentage(count, answers.length)}%</span>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </Stack>
+    </>
   );
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: TabValue) => {
@@ -108,33 +124,31 @@ export const EditQuestion = ({
   }
 
   return (
-    <>
-      <Stack
-        alignItems="stretch"
-        direction="column"
-        justifyContent="start"
-        spacing={2}
-      >
-        <Header />
-        <Box sx={{ borderBottom: 1 }}>
-          <Tabs
-            value={tabIndex}
-            onChange={handleTabChange}
-            aria-label="basic tabs example"
-          >
-            <Tab label="Réponses" {...a11yProps(TabValue.answers)} />
-            <Tab label="Édition" {...a11yProps(TabValue.edition)} />
-          </Tabs>
-        </Box>
-        <TabPanel value={tabIndex} index={TabValue.answers}>
-          <EditQuestionAnswerList
-            answers={data.question.answers}
-          ></EditQuestionAnswerList>
-        </TabPanel>
-        <TabPanel value={tabIndex} index={TabValue.edition}>
-          <EditQuestionForm question={data.question} messages={data.messages} />
-        </TabPanel>
-      </Stack>
-    </>
+    <Stack
+      alignItems="stretch"
+      direction="column"
+      justifyContent="start"
+      spacing={2}
+    >
+      <Header answers={data.question.answers} />
+      <Box sx={{ borderBottom: 1 }}>
+        <Tabs
+          value={tabIndex}
+          onChange={handleTabChange}
+          aria-label="basic tabs example"
+        >
+          <Tab label="Réponses" {...a11yProps(TabValue.answers)} />
+          <Tab label="Édition" {...a11yProps(TabValue.edition)} />
+        </Tabs>
+      </Box>
+      <TabPanel value={tabIndex} index={TabValue.answers}>
+        <EditQuestionAnswerList
+          answers={data.question.answers}
+        ></EditQuestionAnswerList>
+      </TabPanel>
+      <TabPanel value={tabIndex} index={TabValue.edition}>
+        <EditQuestionForm question={data.question} messages={data.messages} />
+      </TabPanel>
+    </Stack>
   );
 };

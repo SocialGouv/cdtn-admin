@@ -1,11 +1,16 @@
 import SendIcon from "@mui/icons-material/Send";
 import { AlertColor, Box, Button, FormControl } from "@mui/material";
 import * as React from "react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { FormTextField } from "src/components/forms";
 import { useUser } from "src/hooks/useUser";
 
-import { Comments as AnswerComments } from "../type";
+import {
+  AnswerStatus,
+  Comments as AnswerComments,
+  CommentsAndStatuses,
+} from "../type";
 import { Comment } from "./Comment";
 import { MutationProps, useCommentsInsert } from "./comments.mutation";
 import { SnackBar } from "../../utils/SnackBar";
@@ -13,14 +18,36 @@ import { SnackBar } from "../../utils/SnackBar";
 type Props = {
   answerId: string;
   comments: AnswerComments[];
+  statuses: AnswerStatus[];
 };
 
-export const Comments = (props: Props) => {
+function concatAndSort(
+  comments: AnswerComments[],
+  statuses: AnswerStatus[]
+): CommentsAndStatuses[] {
+  const all: ((AnswerStatus | AnswerComments) & {
+    createdAtDate?: Date;
+  })[] = [...comments, ...statuses];
+  return all
+    .map((notif) => {
+      notif.createdAtDate = new Date(notif.createdAt);
+      return notif as CommentsAndStatuses;
+    })
+    .sort((a, b) => {
+      return a.createdAtDate.getTime() - b.createdAtDate.getTime();
+    });
+}
+
+export const Comments = ({ answerId, comments, statuses }: Props) => {
   const { user }: any = useUser();
 
   const listRef = React.useRef<HTMLDivElement>(null);
 
   const insertComment = useCommentsInsert();
+
+  const notifications: CommentsAndStatuses[] = useMemo(() => {
+    return concatAndSort(comments, statuses);
+  }, [comments, statuses]);
 
   const [snack, setSnack] = React.useState<{
     open: boolean;
@@ -40,13 +67,13 @@ export const Comments = (props: Props) => {
     if (listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
-  }, [props.comments]);
+  }, [notifications]);
 
   const onSubmit = async (data: MutationProps) => {
     try {
       await insertComment(
         {
-          answerId: props.answerId,
+          answerId: answerId,
           content: data.content,
           userId: user.id,
         },
@@ -82,7 +109,7 @@ export const Comments = (props: Props) => {
               overflow: "auto",
             }}
           >
-            {props.comments.map((comment) => (
+            {notifications.map((comment) => (
               <Comment key={comment.id} comment={comment} />
             ))}
           </Box>
