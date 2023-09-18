@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.16.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.15.1...v2.16.0) (2023-09-18)
+
+### Features
+
+- **contribs:** add global stats on contrib page ([#1017](https://github.com/SocialGouv/cdtn-admin/issues/1017)) ([a522361](https://github.com/SocialGouv/cdtn-admin/commit/a522361b83b6dc0f31914289b78ac62336db7cfd))
+
 ## [2.15.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.15.0...v2.15.1) (2023-09-18)
 
 **Note:** Version bump only for package @socialgouv/contibutions
