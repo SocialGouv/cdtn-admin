@@ -17,7 +17,7 @@ const isAnswerComments = (
 const getText = (comment: AnswerComments | AnswerStatus) =>
   isAnswerComments(comment)
     ? comment.content
-    : `Changement de statut: ${statusesMapping[comment.status].text}`;
+    : `Statut: ${statusesMapping[comment.status].text}`;
 
 type Props = {
   comment: CommentsAndStatuses;
