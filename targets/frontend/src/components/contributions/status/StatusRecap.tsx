@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { TableCell } from "@mui/material";
 import { statusesMapping } from "./data";
 import { countAnswersWithStatus, QueryQuestionAnswer } from "../questionList";
 
@@ -10,30 +10,21 @@ export const StatusRecap = ({
   key?: string;
 }) => {
   return (
-    <Stack
-      key={key}
-      direction="row"
-      spacing={4}
-      alignItems="end"
-      justifyContent="end"
-    >
-      {Object.entries(statusesMapping).map(([status, { icon, color }]) => {
+    <>
+      {Object.entries(statusesMapping).map(([status, { color }]) => {
         const count = countAnswersWithStatus(answers, status);
-        if (!count) return <></>;
         return (
-          <Stack
+          <TableCell
+            component="th"
+            scope="row"
             key={`${key}-${status}`}
-            direction="row"
             style={{ color }}
-            spacing={1}
+            align="center"
           >
-            {icon}
-            <Box>
-              <strong>{count}</strong>
-            </Box>
-          </Stack>
+            {count > 0 && <strong>{count}</strong>}
+          </TableCell>
         );
       })}
-    </Stack>
+    </>
   );
 };

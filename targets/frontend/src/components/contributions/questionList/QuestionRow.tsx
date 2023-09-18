@@ -28,9 +28,7 @@ export const QuestionRow = (props: { row: QueryQuestion }) => {
       <TableCell component="th" scope="row">
         {row.content}
       </TableCell>
-      <TableCell component="th" scope="row">
-        <StatusRecap answers={row.answers} key={`${row.id}-statuses`} />
-      </TableCell>
+      <StatusRecap answers={row.answers} key={`${row.id}-statuses`} />
     </TableRow>
   );
 };

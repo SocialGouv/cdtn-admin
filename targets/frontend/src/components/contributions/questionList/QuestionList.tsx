@@ -19,7 +19,7 @@ import { countAnswersWithStatus, QuestionRow } from "./QuestionRow";
 import { fr } from "@codegouvfr/react-dsfr";
 import { statusesMapping } from "../status/data";
 
-function getPercentage(count: number, total: number) {
+export function getPercentage(count: number, total: number) {
   return ((count / total) * 100).toFixed(2);
 }
 
@@ -61,25 +61,13 @@ export const QuestionList = (): JSX.Element => {
         {Object.entries(statusesMapping).map(([status, { text, color }]) => {
           const count = countAnswersWithStatus(aggregatedRow, status);
           return (
-            <>
-              <Card>
-                <CardContent
-                  sx={{
-                    color: color,
-                  }}
-                >
-                  {text}
-                  <Typography
-                    sx={{
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {count}
-                  </Typography>
-                  <span>{getPercentage(count, total)}%</span>
-                </CardContent>
-              </Card>
-            </>
+            <Card key={status}>
+              <CardContent sx={{ color }}>
+                {text}
+                <Typography sx={{ fontWeight: "bold" }}>{count}</Typography>
+                <span>{getPercentage(count, total)}%</span>
+              </CardContent>
+            </Card>
           );
         })}
       </Stack>
@@ -89,7 +77,13 @@ export const QuestionList = (): JSX.Element => {
           <TableHead>
             <TableRow>
               <TableCell>Questions ({rows.length})</TableCell>
-              <TableCell></TableCell>
+              {Object.entries(statusesMapping).map(([_, { text, color }]) => {
+                return (
+                  <TableCell key={text} style={{ color }} align="center">
+                    {text}
+                  </TableCell>
+                );
+              })}
             </TableRow>
           </TableHead>
           <TableBody>
