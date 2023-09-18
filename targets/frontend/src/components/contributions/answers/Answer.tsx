@@ -261,6 +261,7 @@ export const ContributionsAnswer = ({
             <Comments
               answerId={answer.id}
               comments={answer.answerComments ?? []}
+              statuses={answer.statuses}
             />
           )}
         </Box>

@@ -1,15 +1,26 @@
 import { Box } from "@mui/material";
 import * as React from "react";
-import useFormattedDate from "src/hooks/useFormattedDate";
 
-import { Comments as AnswerComments } from "../type";
+import { AnswerStatus, Comments as AnswerComments } from "../type";
+import { fr } from "@codegouvfr/react-dsfr";
+import { statusesMapping } from "../status/data";
+
+const isAnswerComments = (
+  comment: AnswerComments | AnswerStatus
+): comment is AnswerComments =>
+  (comment as AnswerComments).content !== undefined;
+
+const getText = (comment: AnswerComments | AnswerStatus) =>
+  isAnswerComments(comment)
+    ? comment.content
+    : `Changement de statut: ${statusesMapping[comment.status].text}`;
 
 type Props = {
-  comment: AnswerComments;
+  comment: (AnswerComments | AnswerStatus) & { createdAtDate: Date };
 };
 
 export const Comment = ({ comment }: Props) => {
-  const date = useFormattedDate(comment.createdAt); // to avoid error about date format on hydration
+  const date = comment.createdAtDate.toLocaleString("fr-FR");
 
   return (
     <Box
@@ -25,9 +36,18 @@ export const Comment = ({ comment }: Props) => {
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box sx={{ fontWeight: "bold" }}>{comment.user.name}</Box>
-        <Box sx={{ color: "#6e6d6d", fontSize: "small" }}>{date}</Box>
+        <Box
+          sx={{
+            color: fr.colors.decisions.text.mention.grey.default,
+            fontSize: "small",
+          }}
+        >
+          {date}
+        </Box>
       </Box>
-      <Box sx={{ marginTop: 1, whiteSpace: "pre-line" }}>{comment.content}</Box>
+      <Box sx={{ marginTop: 1, whiteSpace: "pre-line" }}>
+        {getText(comment)}
+      </Box>
     </Box>
   );
 };

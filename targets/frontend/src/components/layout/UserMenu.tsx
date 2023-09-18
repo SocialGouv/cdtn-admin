@@ -1,12 +1,12 @@
 import Link from "next/link";
 import {
-  Stack,
-  Typography,
+  FormControlLabel,
+  IconButton,
   Menu,
   MenuItem,
-  IconButton,
-  FormControlLabel,
+  Stack,
   Switch,
+  Typography,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { IoMdContact } from "react-icons/io";
@@ -44,7 +44,7 @@ export function UserMenu() {
                 inputProps={{ "aria-label": "controlled" }}
               />
             }
-            label="Dark mode"
+            label="Thème"
           />
           <IoMdContact style={{ fontSize: theme.fontSizes.icons }} />
           <Typography

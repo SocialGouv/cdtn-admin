@@ -50,7 +50,7 @@ export const QuestionList = (): JSX.Element => {
               sx={{
                 fontWeight: "bold",
                 color: fr.colors.decisions.text.default.grey.default,
-                marginBotton: "10px",
+                marginBottom: "24px",
               }}
             >
               {total}
@@ -88,7 +88,7 @@ export const QuestionList = (): JSX.Element => {
         <Table aria-label="collapsible table" size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Question ({rows.length})</TableCell>
+              <TableCell>Questions ({rows.length})</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
