@@ -1,7 +1,11 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 
-import { AnswerStatus, Comments as AnswerComments } from "../type";
+import {
+  AnswerStatus,
+  Comments as AnswerComments,
+  CommentsAndStatuses,
+} from "../type";
 import { fr } from "@codegouvfr/react-dsfr";
 import { statusesMapping } from "../status/data";
 
@@ -16,7 +20,7 @@ const getText = (comment: AnswerComments | AnswerStatus) =>
     : `Changement de statut: ${statusesMapping[comment.status].text}`;
 
 type Props = {
-  comment: (AnswerComments | AnswerStatus) & { createdAtDate: Date };
+  comment: CommentsAndStatuses;
 };
 
 export const Comment = ({ comment }: Props) => {

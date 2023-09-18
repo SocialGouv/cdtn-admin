@@ -45,6 +45,10 @@ export type Comments = {
   createdAt: string;
 };
 
+export type CommentsAndStatuses = (AnswerStatus | Comments) & {
+  createdAtDate: Date;
+};
+
 export type KaliArticle = {
   cid: string;
   id: string;

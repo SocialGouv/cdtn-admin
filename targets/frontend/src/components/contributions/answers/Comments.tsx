@@ -6,7 +6,11 @@ import { useForm } from "react-hook-form";
 import { FormTextField } from "src/components/forms";
 import { useUser } from "src/hooks/useUser";
 
-import { AnswerStatus, Comments as AnswerComments } from "../type";
+import {
+  AnswerStatus,
+  Comments as AnswerComments,
+  CommentsAndStatuses,
+} from "../type";
 import { Comment } from "./Comment";
 import { MutationProps, useCommentsInsert } from "./comments.mutation";
 import { SnackBar } from "../../utils/SnackBar";
@@ -20,18 +24,14 @@ type Props = {
 function concatAndSort(
   comments: AnswerComments[],
   statuses: AnswerStatus[]
-): ((AnswerStatus | AnswerComments) & {
-  createdAtDate: Date;
-})[] {
+): CommentsAndStatuses[] {
   const all: ((AnswerStatus | AnswerComments) & {
     createdAtDate?: Date;
   })[] = [...comments, ...statuses];
   return all
     .map((notif) => {
       notif.createdAtDate = new Date(notif.createdAt);
-      return notif as (AnswerStatus | AnswerComments) & {
-        createdAtDate: Date;
-      };
+      return notif as CommentsAndStatuses;
     })
     .sort((a, b) => {
       return a.createdAtDate.getTime() - b.createdAtDate.getTime();
@@ -45,9 +45,7 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
 
   const insertComment = useCommentsInsert();
 
-  const notifications: ((AnswerStatus | AnswerComments) & {
-    createdAtDate: Date;
-  })[] = useMemo(() => {
+  const notifications: CommentsAndStatuses[] = useMemo(() => {
     return concatAndSort(comments, statuses);
   }, [comments, statuses]);
 
