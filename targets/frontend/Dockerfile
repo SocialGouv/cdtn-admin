@@ -12,13 +12,15 @@ COPY shared/types/package.json /shared/types/package.json
 COPY targets/frontend/package.json /targets/frontend/package.json
 COPY package.json /package.json
 COPY yarn.lock /yarn.lock
-COPY targets/frontend/.npmrc /targets/frontend/.npmrc
+COPY .npmrc /.npmrc
 
 # hadolint ignore=SC2046
 RUN --mount=type=secret,id=tiptap_pro_token export TIPTAP_PRO_TOKEN=$(cat /run/secrets/tiptap_pro_token); \
     yarn --frozen-lockfile
 
 COPY . /
+
+RUN export TIPTAP_PRO_TOKEN=not_required
 
 RUN yarn workspace @shared/types build
 
