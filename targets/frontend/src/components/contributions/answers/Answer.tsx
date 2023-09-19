@@ -152,7 +152,14 @@ export const ContributionsAnswer = ({
       <h2>{answer?.agreement?.name}</h2>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         <Box sx={{ width: "70%" }}>
-          <form>
+          <form
+            onSubmit={(e) => {
+              // This is a hack to prevent the form from being submitted by the tiptap editor.
+              // The details extension is not working properly and submit the form when click on the arrow.
+              // See https://github.com/ueberdosis/tiptap/issues/4384
+              e.preventDefault();
+            }}
+          >
             <Stack spacing={5}>
               <FormControl>
                 <FormTextField
