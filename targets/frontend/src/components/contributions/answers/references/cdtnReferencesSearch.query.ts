@@ -12,7 +12,9 @@ query SearchCdtnReferences($query: String, $sources: [String!]) {
     ],
     is_available: {_eq: true},
     is_published: {_eq: true},
-    source: {_in: $sources}},
+    source: {_in: $sources}
+  },
+  order_by: {slug: asc},
     limit: 10
     ) {
     title
@@ -32,11 +34,17 @@ export const useContributionSearchCdtnReferencesQuery = (
 ): Result<Pick<CdtnReference, "document">> => {
   const querySplit = query?.split(/[ -,]/);
   const slugQuery = querySplit?.map(
-    (text) => `{slug: {_ilike: "%${text.normalize()}%"}}`
+    (text) =>
+      `{slug: {_ilike: "%${text
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")}%"}}`
   ).join(`,
   `);
   const titleQuery = querySplit?.map(
-    (text) => `{title: {_ilike: "%${text.normalize()}%"}}`
+    (text) =>
+      `{title: {_ilike: "%${text
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")}%"}}`
   ).join(`,
   `);
   const [{ data, fetching, error }] = useQuery<QueryResult>({
@@ -68,6 +76,7 @@ export const useContributionSearchCdtnReferencesQuery = (
         "outils",
         "modeles_de_courriers",
         "contributions",
+        "fiches_service_public",
       ],
     },
   });
