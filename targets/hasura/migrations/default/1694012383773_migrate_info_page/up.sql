@@ -32,10 +32,10 @@ _informations_inserted as (
         meta_description,
         description,
         coalesce(
-            section_display_mode::"information"."SectionDisplayModeType",
+            section_display_mode,
             'accordion'
         ),
-        reference_label::"information"."ReferenceLabelType",
+        reference_label,
         cdtn_id
     from _informations
     returning id,
@@ -64,7 +64,7 @@ _informations_references_inserted as (
     insert into information.informations_references(informations_id, url, "type", title, "order")
     select informations_id,
         url,
-        "type"::"information"."ReferenceType",
+        "type",
         title,
         "order"
     from _informations_references
@@ -97,7 +97,7 @@ _informations_contents_inserted as (
         "title",
         "order",
         informations_id,
-        reference_label::"information"."ReferenceLabelType"
+        reference_label
     from _informations_contents
     returning id,
         informations_id,
@@ -135,7 +135,7 @@ _informations_contents_references_inserted as (
         )
     select informations_contents_id,
         url,
-        "type"::"information"."ReferenceType",
+        "type",
         title,
         "order"
     from _informations_contents_references
@@ -182,7 +182,7 @@ _informations_contents_blocks_inserted as (
         "content",
         "order",
         f.id,
-        "type"::"information"."BlockType"
+        "type"
     from _informations_contents_blocks i
         left outer join _files_inserted f on f.url = i.url
     returning id,

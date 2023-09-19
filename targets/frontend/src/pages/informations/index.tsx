@@ -6,7 +6,7 @@ import { withUserProvider } from "src/hoc/UserProvider";
 
 export function InformationsPage() {
   return (
-    <Layout title="Contributions">
+    <Layout title="Pages Information">
       <QuestionList />
     </Layout>
   );

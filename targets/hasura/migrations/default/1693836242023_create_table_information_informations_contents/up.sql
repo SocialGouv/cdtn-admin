@@ -4,7 +4,7 @@ CREATE TABLE "information"."informations_contents" (
     "title" text NOT NULL,
     "order" Integer NOT NULL,
     "informations_id" uuid NOT NULL,
-    "reference_label" "information"."ReferenceLabelType",
+    "reference_label" text,
     PRIMARY KEY ("id"),
     FOREIGN KEY ("informations_id") REFERENCES "information"."informations"("id") ON UPDATE cascade ON DELETE cascade,
     UNIQUE ("id"),

@@ -1,7 +1,7 @@
 CREATE TABLE "information"."informations_references" (
     "id" uuid NOT NULL DEFAULT gen_random_uuid(),
     "url" text NOT NULL,
-    "type" "information"."ReferenceType" NOT NULL default 'external',
+    "type" text NOT NULL default 'external',
     "title" text NOT NULL,
     "informations_id" uuid NOT NULL,
     "order" integer NOT NULL,

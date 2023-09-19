@@ -1,4 +1,4 @@
-import { useQuery } from "urql";
+import { CombinedError, useQuery } from "urql";
 import { format, parseISO } from "date-fns";
 
 import { Information } from "../type";
@@ -9,16 +9,68 @@ const informationsQuery = `query informations($id: uuid) {
         id: { _eq: $id }
       }
     ) {
-        cdtnId: cdtn_id
+        cdtnId
         description
         id
         intro
-        metaDescription: meta_description
-        metaTitle: meta_title
-        referenceLabel: reference_label
-        sectionDisplayMode: section_display_mode
+        metaDescription
+        metaTitle
+        referenceLabel
+        sectionDisplayMode
         title
-        updatedAt: updated_at
+        updatedAt
+        contents(
+          order_by: {order: asc}
+        ) {
+          id
+          name
+          title
+          referenceLabel
+          order
+          blocks(
+            order_by: {order: asc}
+          ) {
+            id
+            content
+            order
+            type
+            file {
+              id
+              url
+              altText
+              size
+            }
+            contents(
+              order_by: {order: asc}
+            ) {
+              id
+              document {
+                cdtnId: cdtn_id
+                source
+                title
+                slug
+              }
+            }
+          }
+          references(
+            order_by: {order: asc}
+          ) {
+            id
+            url
+            type
+            title
+            order
+          }
+        }
+        references(
+          order_by: {order: asc}
+        ) {
+          id
+          url
+          type
+          title
+          order
+        }
     }
   }`;
 
@@ -32,26 +84,38 @@ export type InformationsQueryProps = {
   id?: string;
 };
 
-export type InformationsQueryResult = Information & {
+export type InformationsResult = Information & {
   updateDate: string;
+};
+
+export type InformationsQueryResult = {
+  data?: InformationsResult;
+  error?: CombinedError;
+  fetching: boolean;
 };
 
 export const useInformationsQuery = ({
   id,
-}: InformationsQueryProps): InformationsQueryResult | undefined => {
-  const [result] = useQuery<QueryResult>({
+}: InformationsQueryProps): InformationsQueryResult => {
+  const [{ data, error, fetching }] = useQuery<QueryResult>({
     query: informationsQuery,
     requestPolicy: "cache-and-network",
     variables: {
       id,
     },
   });
-  const information = result.data?.information_informations[0];
-  if (!information) {
-    return;
-  }
+  const information = data?.information_informations[0];
+  const updateDate = information?.updatedAt
+    ? format(parseISO(information.updatedAt), "dd/MM/yyyy")
+    : "";
   return {
-    ...information,
-    updateDate: format(parseISO(information.updatedAt), "dd/MM/yyyy"),
+    data: information
+      ? {
+          ...information,
+          updateDate,
+        }
+      : undefined,
+    error,
+    fetching,
   };
 };

@@ -1,7 +1,6 @@
-CREATE TYPE "information"."ReferenceType" AS ENUM ('external', 'internal');
 CREATE TABLE "information"."informations_contents_references" (
     "id" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "type" "information"."ReferenceType" NOT NULL default 'external',
+    "type" text NOT NULL default 'external',
     "url" text NOT NULL,
     "title" text NOT NULL,
     "order" integer NOT NULL,

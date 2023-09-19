@@ -32,23 +32,28 @@ export const FormTextField = ({
       name={name}
       control={control}
       rules={rules}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <TextField
-          helperText={
-            error && error.type === "required" ? "Ce champ est requis" : null
-          }
-          size={size}
-          error={!!error}
-          onChange={onChange}
-          value={value}
-          fullWidth={fullWidth}
-          label={label}
-          variant="outlined"
-          multiline={multiline}
-          disabled={disabled}
-          InputLabelProps={labelFixed ? { shrink: true } : {}}
-        />
-      )}
+      render={({ field: { onChange, value }, fieldState: { error } }) => {
+        // if (value === undefined) {
+        //   return <></>;
+        // }
+        return (
+          <TextField
+            helperText={
+              error && error.type === "required" ? "Ce champ est requis" : null
+            }
+            size={size}
+            error={!!error}
+            onChange={onChange}
+            value={value}
+            fullWidth={fullWidth}
+            label={label}
+            variant="outlined"
+            multiline={multiline}
+            disabled={disabled}
+            InputLabelProps={labelFixed ? { shrink: true } : {}}
+          />
+        );
+      }}
     />
   );
 };

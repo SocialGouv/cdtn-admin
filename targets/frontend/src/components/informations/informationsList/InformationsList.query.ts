@@ -7,16 +7,16 @@ export const informationsListQuery = `query informationsList($search: String) {
         title: { _ilike: $search }
       }
     ) {
-        cdtnId: cdtn_id
+        cdtnId
         description
         id
         intro
-        metaDescription: meta_description
-        metaTitle: meta_title
-        referenceLabel: reference_label
-        sectionDisplayMode: section_display_mode
+        metaDescription
+        metaTitle
+        referenceLabel
+        sectionDisplayMode
         title
-        updatedAt: updated_at
+        updatedAt
     }
   }`;
 

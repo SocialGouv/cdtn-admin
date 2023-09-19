@@ -1,3 +1,64 @@
 table:
   name: informations_contents_blocks
   schema: information
+configuration:
+  column_config:
+    files_id:
+      custom_name: filesId
+    informations_contents_id:
+      custom_name: informationsContentsId
+  custom_column_names:
+    files_id: filesId
+    informations_contents_id: informationsContentsId
+  custom_root_fields: {}
+object_relationships:
+  - name: file
+    using:
+      foreign_key_constraint_on: files_id
+array_relationships:
+  - name: contents
+    using:
+      foreign_key_constraint_on:
+        column: informations_contents_blocks_id
+        table:
+          name: informations_contents_blocks_contents
+          schema: information
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - order
+        - content
+        - type
+        - files_id
+        - id
+        - informations_contents_id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - order
+        - content
+        - type
+        - files_id
+        - id
+        - informations_contents_id
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - order
+        - content
+        - type
+        - files_id
+        - id
+        - informations_contents_id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

@@ -1,9 +1,8 @@
-CREATE TYPE "information"."BlockType" AS ENUM ('content', 'markdown', 'graphic');
 CREATE TABLE "information"."informations_contents_blocks" (
     "id" uuid NOT NULL DEFAULT gen_random_uuid(),
     "content" text NOT NULL,
     "order" integer NOT NULL,
-    "type" "information"."BlockType" NOT NULL default 'markdown',
+    "type" text NOT NULL default 'markdown',
     "informations_contents_id" uuid NOT NULL,
     "files_id" uuid,
     PRIMARY KEY ("id"),
