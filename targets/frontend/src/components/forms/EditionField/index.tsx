@@ -17,6 +17,7 @@ export const FormEditionField = (props: FormEditionProps) => {
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <>
           <Editor
+            label={props.label}
             onUpdate={onChange}
             content={value}
             disabled={props.disabled}

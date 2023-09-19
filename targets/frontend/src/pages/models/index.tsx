@@ -4,7 +4,7 @@ import { Layout } from "src/components/layout/auth.layout";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 
-export function InformationsPage() {
+export function ModelsPage() {
   return (
     <Layout title="Modèles de document">
       <ModelList />
@@ -12,4 +12,4 @@ export function InformationsPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(InformationsPage));
+export default withCustomUrqlClient(withUserProvider(ModelsPage));
