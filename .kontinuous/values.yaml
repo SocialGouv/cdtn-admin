@@ -6,6 +6,10 @@ jobs:
       with:
         imagePackage: frontend
         dockerfile: targets/frontend/Dockerfile
+        secrets:
+          tiptap_pro_token:
+            secretName: www-secret
+            secretKey: TIPTAP_PRO_TOKEN
     build-ingester:
       use: build
       with:
