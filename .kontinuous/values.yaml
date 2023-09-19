@@ -8,7 +8,7 @@ jobs:
         dockerfile: targets/frontend/Dockerfile
         secrets:
           tiptap_pro_token:
-            secretName: www-secret
+            secretName: www
             secretKey: TIPTAP_PRO_TOKEN
     build-ingester:
       use: build
