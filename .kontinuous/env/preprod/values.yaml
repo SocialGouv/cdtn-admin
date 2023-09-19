@@ -21,6 +21,13 @@ www:
 
 jobs:
   runs:
+    build-frontend:
+      use: build
+      with:
+        secrets:
+          tiptap_pro_token:
+            secretName: www-secret
+            secretKey: TIPTAP_PRO_TOKEN
     restore:
       use: pg-restore
       checkout: false

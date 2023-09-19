@@ -13,7 +13,9 @@ COPY targets/frontend/package.json /targets/frontend/package.json
 COPY package.json /package.json
 COPY yarn.lock /yarn.lock
 
-RUN yarn --frozen-lockfile
+# hadolint ignore=SC2046
+RUN --mount=type=secret,id=tiptap_pro_token export TIPTAP_PRO_TOKEN=$(cat /run/secrets/tiptap_pro_token); \
+    yarn --frozen-lockfile
 
 COPY . /
 

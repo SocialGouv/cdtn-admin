@@ -15,6 +15,13 @@ hasura:
 
 jobs:
   runs:
+    build-frontend:
+      use: build
+      with:
+        secrets:
+          tiptap_pro_token:
+            secretName: www-secret
+            secretKey: TIPTAP_PRO_TOKEN
     drop-db: # temp
       use: drop-db
     create-db:
