@@ -7,12 +7,9 @@ WORKDIR /
 
 COPY . /
 
-RUN yarn config set "@tiptap-pro:registry" https://registry.tiptap.dev/
-RUN --mount=type=secret,id=tiptap_pro_token yarn config set "//registry.tiptap.dev/:_authToken" $(cat /run/secrets/tiptap_pro_token);
-
-RUN rm -rf /targets/fontend
-
-RUN yarn --frozen-lockfile
+# hadolint ignore=SC2046
+RUN --mount=type=secret,id=npmrc,target=/.npmrc \
+    yarn --frozen-lockfile
 
 RUN yarn workspace @shared/graphql-client build
 

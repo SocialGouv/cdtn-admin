@@ -7,28 +7,36 @@ jobs:
         imagePackage: frontend
         dockerfile: targets/frontend/Dockerfile
         secrets:
-          tiptap_pro_token:
+          npmrc:
             secretName: www
-            secretKey: TIPTAP_PRO_TOKEN
+            secretKey: NPMRC
     build-ingester:
       use: build
       with:
         imagePackage: ingester
         dockerfile: targets/ingester/Dockerfile
+        secrets:
+          npmrc:
+            secretName: www
+            secretKey: NPMRC
     build-alert:
       use: build
       with:
         imagePackage: alert
         dockerfile: targets/alert-cli/Dockerfile
         secrets:
-          tiptap_pro_token:
+          npmrc:
             secretName: www
-            secretKey: TIPTAP_PRO_TOKEN
+            secretKey: NPMRC
     build-export:
       use: build
       with:
         imagePackage: export
         dockerfile: targets/export-elasticsearch/Dockerfile
+        secrets:
+          npmrc:
+            secretName: www
+            secretKey: NPMRC
     build-contributions:
       use: build
       with:
