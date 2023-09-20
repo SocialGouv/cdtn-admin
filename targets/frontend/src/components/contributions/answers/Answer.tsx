@@ -209,17 +209,19 @@ export const ContributionsAnswer = ({
                   ]}
                 />
               )}
-              <FormControl>
-                <FormTextField
-                  label="Url Service public"
-                  name="urlSp"
-                  disabled={isNotEditable(answer)}
-                  control={control}
-                  rules={{
-                    required: answer && answer.otherAnswer === "SP",
-                  }}
-                />
-              </FormControl>
+              {answer && isCodeDuTravail(answer) && (
+                <FormControl>
+                  <FormTextField
+                    label="Url Service public"
+                    name="urlSp"
+                    disabled={isNotEditable(answer)}
+                    control={control}
+                    rules={{
+                      required: answer && answer.otherAnswer === "SP",
+                    }}
+                  />
+                </FormControl>
+              )}
               {answer && !isCodeDuTravail(answer) && (
                 <KaliReferenceInput
                   name="kaliReferences"
