@@ -21,6 +21,7 @@ insert_permissions:
         - content
         - id
         - message_id
+        - order
 select_permissions:
   - role: super
     permission:
