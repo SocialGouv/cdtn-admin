@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.16.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.16.0...v2.16.1) (2023-09-20)
+
+### Bug Fixes
+
+- admin search content ([#1019](https://github.com/SocialGouv/cdtn-admin/issues/1019)) ([f1e3b18](https://github.com/SocialGouv/cdtn-admin/commit/f1e3b18776e39a3d84e00c58883a35ed403f852e))
+
 # [2.16.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.15.1...v2.16.0) (2023-09-18)
 
 ### Features
