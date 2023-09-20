@@ -7,6 +7,7 @@ import StarterKit from "@tiptap/starter-kit";
 import React, { useEffect, useState } from "react";
 import { FieldErrors } from "react-hook-form";
 import { styled } from "@mui/system";
+import { fr } from "@codegouvfr/react-dsfr";
 
 import { TitleBox } from "../TitleBox";
 import { MenuSpecial } from "./MenuSpecial";
@@ -78,19 +79,25 @@ export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
   );
 };
 
-const StyledEditorContent = styled(EditorContent)`
-  padding: 0 12px;
-  .ProseMirror:focus {
-    outline: none;
-  }
-  table {
-    th {
-      background-color: #f3f3f3;
-      min-width: 100px;
-    }
-    td {
-      border: 1px solid black;
-      text-align: center;
-    }
-  }
-`;
+const StyledEditorContent = styled(EditorContent)(() => {
+  return {
+    padding: "0 12px",
+    ".ProseMirror:focus": {
+      outline: "none",
+    },
+    table: {
+      tBody: {
+        borderColor: fr.colors.decisions.text.default.success.default,
+      },
+      th: {
+        border: `1px solid ${fr.colors.decisions.text.default.grey.default}`,
+        backgroundColor: fr.colors.decisions.background.contrast.grey.default,
+        minWidth: "100px",
+      },
+      td: {
+        border: `1px solid ${fr.colors.decisions.text.default.grey.default}`,
+        textAlign: "center",
+      },
+    },
+  };
+});

@@ -9,7 +9,7 @@ import { fr } from "@codegouvfr/react-dsfr";
 export type StatusesMapping = {
   [status: string]: {
     color: string;
-    icon: any;
+    icon: JSX.Element;
     text: string;
   };
 };
