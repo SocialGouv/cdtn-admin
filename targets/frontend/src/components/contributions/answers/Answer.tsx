@@ -3,8 +3,8 @@ import {
   Box,
   Button,
   FormControl,
-  Grid,
   Stack,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -147,27 +147,25 @@ export const ContributionsAnswer = ({
   ];
   return (
     <>
-      <Grid container>
-        <Grid xs={10}>
-          <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
-            <BreadcrumbLink href={"/contributions"}>
-              Contributions
-            </BreadcrumbLink>
-            <BreadcrumbLink
-              href={`/contributions/questions/${answer?.question.id}`}
-            >
-              {answer?.question?.content}
-            </BreadcrumbLink>
-            <BreadcrumbLink>{answer?.agreement?.id}</BreadcrumbLink>
-          </ol>
-        </Grid>
+      <Stack direction="row" justifyContent="space-between">
+        <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
+          <BreadcrumbLink href={"/contributions"}>Contributions</BreadcrumbLink>
+          <BreadcrumbLink
+            href={`/contributions/questions/${answer?.question.id}`}
+          >
+            {`${answer?.question?.order} - ${answer?.question?.content}`}
+          </BreadcrumbLink>
+          <BreadcrumbLink>{answer?.agreement?.id}</BreadcrumbLink>
+        </ol>
         {answer?.status && (
-          <Grid xs={2} style={{ color: statusesMapping[status].color }}>
+          <div style={{ color: statusesMapping[status].color }}>
             <StatusContainer status={answer.status} />
-          </Grid>
+          </div>
         )}
-      </Grid>
-      <h2>{answer?.agreement?.name}</h2>
+      </Stack>
+      <Typography variant="h6" component="h2" marginBottom={32}>
+        {answer?.agreement?.name}
+      </Typography>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         <Box sx={{ width: "70%" }}>
           <form>

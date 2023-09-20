@@ -18,6 +18,7 @@ query contribution_answer($id: uuid) {
     question {
       id
       content
+      order
     }
     agreement {
       id

@@ -17,11 +17,12 @@ export const StatusContainer = ({
         style={{
           color: statusesMapping[status.status].color,
         }}
-        alignItems="end"
-        justifyContent="center"
+        alignItems="center"
+        justifyContent="space-between"
         spacing={1}
         data-testid={dataTestid}
       >
+        {statusesMapping[status.status].icon}
         <Box mt={2}>{statusesMapping[status.status].text}</Box>
       </Stack>
     </Tooltip>

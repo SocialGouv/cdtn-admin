@@ -21,7 +21,7 @@ export const StatusRecap = ({
             style={{ color }}
             align="center"
           >
-            {count > 0 && <strong>{count}</strong>}
+            <strong>{count}</strong>
           </TableCell>
         );
       })}
