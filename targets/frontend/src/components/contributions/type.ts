@@ -89,13 +89,14 @@ export type CdtnReference = {
   document: Document;
 };
 
-export type OtherAnswer = "ANSWER" | "NOTHING" | "UNKNOWN";
+export type OtherAnswer = "ANSWER" | "NOTHING" | "UNKNOWN" | "SP";
 
 export type Answer = {
   id: string;
   agreementId: string;
   questionId: string;
   otherAnswer?: OtherAnswer;
+  urlSp?: string;
   agreement: Agreement;
   statuses: AnswerStatus[];
   status: AnswerStatus;

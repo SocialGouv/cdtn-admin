@@ -113,6 +113,7 @@ export const ContributionsAnswer = ({
         otherAnswer: data.otherAnswer,
         status: newStatus,
         userId: user?.id,
+        urlSp: data.urlSp,
         kaliReferences: data.kaliReferences,
         legiReferences: data.legiReferences,
         cdtnReferences: data.cdtnReferences,
@@ -127,6 +128,23 @@ export const ContributionsAnswer = ({
       setSnack({ open: true, severity: "error", message: e.message });
     }
   };
+
+  const agreementResponseOptions = [
+    {
+      label: "La convention collective ne prévoit rien",
+      value: "NOTHING",
+    },
+    {
+      label: "Nous n'avons pas la réponse",
+      value: "UNKNOWN",
+    },
+  ];
+  const genericResponseOptions = [
+    {
+      label: "Utiliser la fiche service public",
+      value: "SP",
+    },
+  ];
   return (
     <>
       <Grid container>
@@ -174,7 +192,7 @@ export const ContributionsAnswer = ({
                   }}
                 />
               </FormControl>
-              {answer && !isCodeDuTravail(answer) && (
+              {answer && (
                 <FormRadioGroup
                   name="otherAnswer"
                   label="Type de réponse"
@@ -185,16 +203,24 @@ export const ContributionsAnswer = ({
                       label: "Afficher la réponse",
                       value: "ANSWER",
                     },
-                    {
-                      label: "La convention collective ne prévoit rien",
-                      value: "NOTHING",
-                    },
-                    {
-                      label: "Nous n'avons pas la réponse",
-                      value: "UNKNOWN",
-                    },
+                    ...(isCodeDuTravail(answer)
+                      ? genericResponseOptions
+                      : agreementResponseOptions),
                   ]}
                 />
+              )}
+              {answer && isCodeDuTravail(answer) && (
+                <FormControl>
+                  <FormTextField
+                    label="Url Service public"
+                    name="urlSp"
+                    disabled={isNotEditable(answer)}
+                    control={control}
+                    rules={{
+                      required: answer && answer.otherAnswer === "SP",
+                    }}
+                  />
+                </FormControl>
               )}
               {answer && !isCodeDuTravail(answer) && (
                 <KaliReferenceInput

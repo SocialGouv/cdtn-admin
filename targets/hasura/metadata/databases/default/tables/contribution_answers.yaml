@@ -63,6 +63,7 @@ select_permissions:
         - other_answer
         - question_id
         - updated_at
+        - url_sp
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -71,6 +72,7 @@ update_permissions:
       columns:
         - content
         - other_answer
+        - url_sp
       filter: {}
       check: null
       set:
