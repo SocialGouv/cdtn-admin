@@ -20,6 +20,10 @@ jobs:
       with:
         imagePackage: alert
         dockerfile: targets/alert-cli/Dockerfile
+      secrets:
+        tiptap_pro_token:
+          secretName: www
+          secretKey: TIPTAP_PRO_TOKEN
     build-export:
       use: build
       with:
