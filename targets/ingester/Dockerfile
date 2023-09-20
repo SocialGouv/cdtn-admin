@@ -9,6 +9,8 @@ COPY . /
 
 RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
+RUN rm -rf /targets/fontend
+
 RUN yarn --frozen-lockfile
 
 RUN yarn workspace @shared/graphql-client build

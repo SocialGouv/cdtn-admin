@@ -7,6 +7,8 @@ WORKDIR /
 
 COPY . /
 
+RUN rm -rf /targets/fontend
+
 RUN yarn --frozen-lockfile
 
 RUN yarn workspace @shared/graphql-client build
