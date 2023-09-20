@@ -1,7 +1,6 @@
-import { OperationResult, useMutation } from "urql";
+import { useMutation } from "urql";
 
 import { Information } from "../type";
-import { UpsertInformationObject } from "./editInformation.type";
 
 import { mapInformation } from "./editInformation.mapping";
 import { getElementsToDelete } from "src/lib/mutationUtils";
@@ -52,53 +51,58 @@ mutation edit_information(
 }
 `;
 
-type MutationResult = (props: Information) => Promise<OperationResult>;
+export type EditInformationMutationResult = { id?: number };
 
-export const useEditInformationMutation = (): MutationResult => {
-  const [, executeUpdate] =
-    useMutation<UpsertInformationObject>(informationMutation);
-  const resultFunction = async (information: Information) => {
-    const upsert = mapInformation(information);
-    const contentIdsToDelete = getElementsToDelete(
-      defaultInformation,
-      information,
-      ["contents", "id"]
-    );
-    const referenceIdsToDelete = getElementsToDelete(
-      defaultInformation,
-      information,
-      ["references", "id"]
-    );
-    const contentBlockIdsToDelete = getElementsToDelete(
-      defaultInformation,
-      information,
-      ["contents", "blocks", "id"]
-    );
-    const contentBlockContentIdsToDelete = getElementsToDelete(
-      defaultInformation,
-      information,
-      ["contents", "blocks", "contents", "id"]
-    );
-    const contentReferenceIdsToDelete = getElementsToDelete(
-      defaultInformation,
-      information,
-      ["contents", "references", "id"]
-    );
-    const result = await executeUpdate({
-      upsert,
-      contentIdsToDelete,
-      referenceIdsToDelete,
-      contentReferenceIdsToDelete,
-      contentBlockIdsToDelete,
-      contentBlockContentIdsToDelete,
-    });
-    if (result.error) {
-      throw new Error(result.error.message);
-    }
-    return result;
+export type EditInformationMutationExecute = (
+  props: Information
+) => Promise<EditInformationMutationResult>;
+
+export const useEditInformationMutation =
+  (): EditInformationMutationExecute => {
+    const [{ data }, executeUpdate] =
+      useMutation<EditInformationMutationResult>(informationMutation);
+    const resultFunction = async (information: Information) => {
+      const upsert = mapInformation(information);
+      const contentIdsToDelete = getElementsToDelete(
+        defaultInformation,
+        information,
+        ["contents", "id"]
+      );
+      const referenceIdsToDelete = getElementsToDelete(
+        defaultInformation,
+        information,
+        ["references", "id"]
+      );
+      const contentBlockIdsToDelete = getElementsToDelete(
+        defaultInformation,
+        information,
+        ["contents", "blocks", "id"]
+      );
+      const contentBlockContentIdsToDelete = getElementsToDelete(
+        defaultInformation,
+        information,
+        ["contents", "blocks", "contents", "id"]
+      );
+      const contentReferenceIdsToDelete = getElementsToDelete(
+        defaultInformation,
+        information,
+        ["contents", "references", "id"]
+      );
+      const result = await executeUpdate({
+        upsert,
+        contentIdsToDelete,
+        referenceIdsToDelete,
+        contentReferenceIdsToDelete,
+        contentBlockIdsToDelete,
+        contentBlockContentIdsToDelete,
+      });
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+      return data ?? {};
+    };
+    return resultFunction;
   };
-  return resultFunction;
-};
 
 let defaultInformation: Information;
 

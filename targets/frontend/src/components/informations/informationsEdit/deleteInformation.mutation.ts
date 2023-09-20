@@ -12,18 +12,21 @@ mutation delete_information(
 }
 `;
 
-type MutationResult = (id: string) => Promise<OperationResult>;
+export type DeleteInformationMutationResult = (
+  id: string
+) => Promise<OperationResult>;
 
-export const useDeleteInformationMutation = (): MutationResult => {
-  const [, execute] = useMutation<string>(deleteInformationMutation);
-  const resultFunction = async (id: string) => {
-    const result = await execute({
-      id,
-    });
-    if (result.error) {
-      throw new Error(result.error.message);
-    }
-    return result;
+export const useDeleteInformationMutation =
+  (): DeleteInformationMutationResult => {
+    const [, execute] = useMutation<string>(deleteInformationMutation);
+    const resultFunction = async (id: string) => {
+      const result = await execute({
+        id,
+      });
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+      return result;
+    };
+    return resultFunction;
   };
-  return resultFunction;
-};

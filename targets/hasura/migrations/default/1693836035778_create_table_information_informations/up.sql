@@ -5,7 +5,7 @@ CREATE TABLE "information"."informations" (
     "meta_title" text NOT NULL,
     "meta_description" text NOT NULL,
     "description" text NOT NULL,
-    "cdtn_id" text NOT NULL,
+    "cdtn_id" text,
     "section_display_mode" text NOT NULL default 'accordion',
     "reference_label" text,
     "id" uuid NOT NULL DEFAULT gen_random_uuid(),
