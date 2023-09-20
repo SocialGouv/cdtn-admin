@@ -113,6 +113,7 @@ export const ContributionsAnswer = ({
         otherAnswer: data.otherAnswer,
         status: newStatus,
         userId: user?.id,
+        urlSp: data.urlSp,
         kaliReferences: data.kaliReferences,
         legiReferences: data.legiReferences,
         cdtnReferences: data.cdtnReferences,
@@ -208,6 +209,17 @@ export const ContributionsAnswer = ({
                   ]}
                 />
               )}
+              <FormControl>
+                <FormTextField
+                  label="Url Service public"
+                  name="urlSp"
+                  disabled={isNotEditable(answer)}
+                  control={control}
+                  rules={{
+                    required: answer && answer.otherAnswer === "SP",
+                  }}
+                />
+              </FormControl>
               {answer && !isCodeDuTravail(answer) && (
                 <KaliReferenceInput
                   name="kaliReferences"
