@@ -12,7 +12,7 @@ COPY shared/types/package.json /shared/types/package.json
 COPY targets/frontend/package.json /targets/frontend/package.json
 COPY package.json /package.json
 COPY yarn.lock /yarn.lock
-COPY targets/frontend/.npmrc /targets/frontend/.npmrc
+COPY targets/frontend/.npmrc /.npmrc
 
 # hadolint ignore=SC2046
 RUN --mount=type=secret,id=tiptap_pro_token export TIPTAP_PRO_TOKEN=$(cat /run/secrets/tiptap_pro_token); \
@@ -20,13 +20,14 @@ RUN --mount=type=secret,id=tiptap_pro_token export TIPTAP_PRO_TOKEN=$(cat /run/s
 
 COPY . /
 
-RUN export TIPTAP_PRO_TOKEN=not_required
+RUN rm /.npmrc
+RUN rm /targets/frontend/.npmrc
 
 RUN yarn workspace @shared/types build
 
 RUN yarn workspace @shared/graphql-client build
 
-RUN TIPTAP_PRO_TOKEN=not_required yarn workspace frontend build
+RUN yarn workspace frontend build
 
 # app
 FROM node:$NODE_VERSION
