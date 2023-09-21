@@ -46,8 +46,6 @@ services:
       - .env
     environment:
       HASURA_GRAPHQL_ENDPOINT: "http://hasura:8080/v1/graphql"
-    secrets:
-      - npmrc
 
   contributions:
     build:
@@ -117,10 +115,6 @@ services:
       ELASTICSEARCH_INDEX_PROD: "cdtn-v1"
       ELASTICSEARCH_URL_PREPROD: "http://elasticsearch:9200"
       ELASTICSEARCH_URL_PROD: "http://elasticsearch:9200"
-
-secrets:
-  npmrc:
-    file: .npmrc
 
 volumes:
   db_data:
