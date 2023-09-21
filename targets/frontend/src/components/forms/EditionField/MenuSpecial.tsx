@@ -60,8 +60,12 @@ export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
         <GridOnIcon />
       </button>
       <button
-        onClick={() => editor.chain().focus().setDetails().run()}
-        className={editor.isActive("italic") ? "is-active" : ""}
+        onClick={() =>
+          editor.isActive("details")
+            ? editor.chain().focus().unsetDetails().run()
+            : editor.chain().focus().setDetails().run()
+        }
+        className={editor.isActive("details") ? "is-active" : ""}
         type="button"
         title="Ajouter un accordéon"
       >
