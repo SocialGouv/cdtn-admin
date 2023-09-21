@@ -12,14 +12,7 @@ import { useUser } from "src/hooks/useUser";
 
 import { FormEditionField, FormRadioGroup, FormTextField } from "../../forms";
 import { StatusContainer } from "../status";
-import {
-  Answer,
-  CdtnReference,
-  KaliReference,
-  LegiReference,
-  OtherReference,
-  Status,
-} from "../type";
+import { Answer, Status } from "../type";
 import { useContributionAnswerUpdateMutation } from "./answer.mutation";
 import { useContributionAnswerQuery } from "./answer.query";
 import { Comments } from "./Comments";
@@ -32,19 +25,10 @@ import {
 import { statusesMapping } from "../status/data";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { SnackBar } from "../../utils/SnackBar";
-import { BreadcrumbLink } from "src/components/utils";
+import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 
 export type ContributionsAnswerProps = {
   id: string;
-};
-
-export type AnswerForm = {
-  otherAnswer?: string;
-  content?: string;
-  kaliReferences: KaliReference[];
-  legiReferences: LegiReference[];
-  otherReferences: OtherReference[];
-  cdtnReferences: CdtnReference[];
 };
 
 const isNotEditable = (answer: Answer | undefined) =>
@@ -148,24 +132,31 @@ export const ContributionsAnswer = ({
   return (
     <>
       <Stack direction="row" justifyContent="space-between">
-        <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
-          <BreadcrumbLink href={"/contributions"}>Contributions</BreadcrumbLink>
+        <Breadcrumb>
           <BreadcrumbLink
             href={`/contributions/questions/${answer?.question.id}`}
           >
-            {`${answer?.question?.order} - ${answer?.question?.content}`}
+            <>
+              <Typography
+                sx={{
+                  display: "inline-block",
+                  fontSize: "1.4rem",
+                  fontWeight: "bold",
+                }}
+              >
+                [{answer?.question?.order}]
+              </Typography>{" "}
+              {answer?.question?.content}
+            </>
           </BreadcrumbLink>
           <BreadcrumbLink>{answer?.agreement?.id}</BreadcrumbLink>
-        </ol>
+        </Breadcrumb>
         {answer?.status && (
           <div style={{ color: statusesMapping[status].color }}>
             <StatusContainer status={answer.status} />
           </div>
         )}
       </Stack>
-      <Typography variant="h6" component="h2" marginBottom={32}>
-        {answer?.agreement?.name}
-      </Typography>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         <Box sx={{ width: "70%" }}>
           <form>
