@@ -5,4 +5,4 @@ docker-compose.override.yml
 .vscode
 *-error.log
 .swc
-tiptap_pro_token.txt
+.npmrc

@@ -47,7 +47,7 @@ services:
     environment:
       HASURA_GRAPHQL_ENDPOINT: "http://hasura:8080/v1/graphql"
     secrets:
-      - tiptap_pro_token
+      - npmrc
 
   contributions:
     build:
@@ -119,8 +119,8 @@ services:
       ELASTICSEARCH_URL_PROD: "http://elasticsearch:9200"
 
 secrets:
-  tiptap_pro_token:
-    file: ./tiptap_pro_token.txt
+  npmrc:
+    file: .npmrc
 
 volumes:
   db_data:
