@@ -4,7 +4,7 @@ import { countAnswersWithStatus, QueryQuestionAnswer } from "../questionList";
 
 export const StatusRecap = ({
   answers,
-  key,
+  key = "",
 }: {
   answers: QueryQuestionAnswer[] | undefined;
   key?: string;
