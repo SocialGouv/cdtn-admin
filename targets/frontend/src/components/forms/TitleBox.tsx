@@ -29,7 +29,6 @@ export const TitleBox = ({
 const StyledBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== "focus",
 })<{ focus?: boolean }>(({ theme, focus }) => {
-  console.log(theme);
   return {
     border: `1px solid ${theme.palette.text.primary}`,
     borderRadius: "1px",

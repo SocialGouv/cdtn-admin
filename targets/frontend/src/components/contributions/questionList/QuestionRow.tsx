@@ -22,7 +22,7 @@ export const QuestionRow = (props: { row: QueryQuestion }) => {
       <TableCell component="th" scope="row">
         <strong>{row.order}</strong> - {row.content}
       </TableCell>
-      <StatusRecap answers={row.answers} key={`${row.id}-statuses`} />
+      <StatusRecap answers={row.answers} uniqKey={`${row.id}-statuses`} />
     </TableRow>
   );
 };
