@@ -6,21 +6,37 @@ jobs:
       with:
         imagePackage: frontend
         dockerfile: targets/frontend/Dockerfile
+        secrets:
+          npmrc:
+            secretName: npm
+            secretKey: NPMRC
     build-ingester:
       use: build
       with:
         imagePackage: ingester
         dockerfile: targets/ingester/Dockerfile
+        secrets:
+          npmrc:
+            secretName: npm
+            secretKey: NPMRC
     build-alert:
       use: build
       with:
         imagePackage: alert
         dockerfile: targets/alert-cli/Dockerfile
+        secrets:
+          npmrc:
+            secretName: npm
+            secretKey: NPMRC
     build-export:
       use: build
       with:
         imagePackage: export
         dockerfile: targets/export-elasticsearch/Dockerfile
+        secrets:
+          npmrc:
+            secretName: npm
+            secretKey: NPMRC
     build-contributions:
       use: build
       with:

@@ -1,6 +1,7 @@
 import { Client } from "@urql/core/dist/types/client";
 import { AlertChanges, AlertInfo, HasuraAlert } from "@shared/types";
 import { batchPromises } from "../batchPromises";
+import { DaresAlertInsert } from "../dares/types";
 
 const insertAlertsMutation = `
 mutation insert_alert($alert: alerts_insert_input!) {
@@ -9,7 +10,7 @@ mutation insert_alert($alert: alerts_insert_input!) {
     update_columns: [changes]
   }) {
     repository,
-    ref
+    ref,
     info
   }
 }
@@ -28,6 +29,19 @@ export class AlertRepository {
 
   constructor(client: Client) {
     this.client = client;
+  }
+
+  async saveAlertDares(data: DaresAlertInsert) {
+    const result = await this.client
+      .mutation<InsertAlertData>(insertAlertsMutation, {
+        alert: data,
+      })
+      .toPromise();
+    if (result.error || !result.data) {
+      console.error(result.error);
+      throw new Error("insertAlert");
+    }
+    return result.data.alert;
   }
 
   async saveAlertChanges(repository: string, alertChanges: AlertChanges[]) {

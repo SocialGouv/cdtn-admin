@@ -12,8 +12,12 @@ COPY shared/types/package.json /shared/types/package.json
 COPY targets/frontend/package.json /targets/frontend/package.json
 COPY package.json /package.json
 COPY yarn.lock /yarn.lock
+# Hack copy .npmrc file only if exist (dev only) otherwise use secret
+COPY *.npmrc /
 
-RUN yarn --frozen-lockfile
+# hadolint ignore=SC2046
+RUN --mount=type=secret,id=npmrc,target=/.npmrc \
+    yarn --frozen-lockfile
 
 COPY . /
 
