@@ -20,7 +20,7 @@ export const QuestionRow = (props: { row: QueryQuestion }) => {
       hover
     >
       <TableCell component="th" scope="row">
-        {row.order} - {row.content}
+        <strong>{row.order}</strong> - {row.content}
       </TableCell>
       <StatusRecap answers={row.answers} key={`${row.id}-statuses`} />
     </TableRow>
