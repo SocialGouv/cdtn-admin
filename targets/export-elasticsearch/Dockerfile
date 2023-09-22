@@ -15,7 +15,9 @@ COPY targets/export-elasticsearch/package.json /targets/export-elasticsearch/pac
 COPY package.json /package.json
 COPY yarn.lock /yarn.lock
 
-RUN yarn --frozen-lockfile
+# hadolint ignore=SC2046
+RUN --mount=type=secret,id=npmrc,target=/.npmrc \
+    yarn --frozen-lockfile
 
 COPY . /
 
