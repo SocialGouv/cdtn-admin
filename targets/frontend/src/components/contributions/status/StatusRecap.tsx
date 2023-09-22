@@ -4,10 +4,10 @@ import { countAnswersWithStatus, QueryQuestionAnswer } from "../questionList";
 
 export const StatusRecap = ({
   answers,
-  key = "",
+  uniqKey = "",
 }: {
   answers: QueryQuestionAnswer[] | undefined;
-  key?: string;
+  uniqKey?: string;
 }) => {
   return (
     <>
@@ -17,7 +17,7 @@ export const StatusRecap = ({
           <TableCell
             component="th"
             scope="row"
-            key={`${key}-${status}`}
+            key={`${uniqKey}-${status}`}
             style={{ color }}
             align="center"
           >
