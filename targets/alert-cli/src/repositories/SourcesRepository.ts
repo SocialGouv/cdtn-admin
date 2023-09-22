@@ -54,7 +54,8 @@ export class SourcesRepository {
       console.error(result.error);
       throw new Error("getSources");
     }
-    return result.data.sources;
+    const sources = result.data.sources;
+    return sources.filter((source) => source.repository !== "dares");
   }
 
   async updateSource(repository: string, tag: string): Promise<Source> {
