@@ -5,31 +5,6 @@ import { QuestionList } from "..";
 
 jest.mock("../QuestionList.query");
 
-jest.mock("next/router", () => ({
-  useRouter: () => {
-    return { push: jest.fn() };
-  },
-}));
-jest.mock("@codegouvfr/react-dsfr", () => ({
-  fr: {
-    colors: {
-      decisions: {
-        text: {
-          default: {
-            error: {},
-            info: {},
-            warning: {},
-            success: {},
-            grey: {},
-          },
-          actionHigh: { blueCumulus: {} },
-          label: { greenBourgeon: {} },
-        },
-      },
-    },
-  },
-}));
-
 describe("QuestionList", () => {
   beforeEach(() => {
     render(<QuestionList />);
