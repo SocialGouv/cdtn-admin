@@ -146,8 +146,10 @@ _informations_contents_blocks as (
         coalesce(b.block->>'markdown', b.block->>'title') as "content",
         b.block->>'type' as "type",
         b.block->>'size' as "size",
-        b.block->>'imgUrl' as "url",
+        b.block->>'imgUrl' as "img_url",
+        b.block->>'fileUrl' as "file_url",
         b.block->>'altText' as "alt_text",
+        b.block->>'blockDisplayMode' as "content_display_mode",
         b.block->'contents' as contents,
         row_number() over(partition by b.informations_id, b.title) as "order"
     from (
@@ -160,13 +162,37 @@ _informations_contents_blocks as (
         inner join _informations_contents_inserted i on i.informations_id = b.informations_id
         and i.title = b.title
 ),
+_files as (
+    select fa.url,
+        jsonb_agg(
+            jsonb_build_object(
+                'altText',
+                fa.alt_text,
+                'size',
+                fa."size"
+            )
+        ) as agg
+    from (
+            select distinct img_url as url,
+                alt_text,
+                "size"
+            from _informations_contents_blocks
+            where img_url is not null
+            union
+            select distinct file_url as url,
+                alt_text,
+                "size"
+            from _informations_contents_blocks
+            where file_url is not null
+        ) as fa
+    group by fa.url
+),
 _files_inserted as (
     insert into public.files(url, alt_text, "size")
-    select distinct url,
-        alt_text,
-        "size"
-    from _informations_contents_blocks
-    where url is not null
+    select url,
+        agg->0->>'altText' as alt_text,
+        agg->0->>'size' as "size"
+    from _files
     returning id,
         url
 ),
@@ -175,16 +201,21 @@ _informations_contents_blocks_inserted as (
             informations_contents_id,
             "content",
             "order",
-            files_id,
-            "type"
+            file_id,
+            img_id,
+            "type",
+            "content_display_mode"
         )
     select informations_contents_id,
         "content",
         "order",
-        f.id,
-        "type"
+        ff.id,
+        fi.id,
+        "type",
+        content_display_mode
     from _informations_contents_blocks i
-        left outer join _files_inserted f on f.url = i.url
+        left outer join _files_inserted fi on fi.url = i.img_url
+        left outer join _files_inserted ff on ff.url = i.file_url
     returning id,
         informations_contents_id,
         "order"

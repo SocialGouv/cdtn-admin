@@ -1,6 +1,6 @@
 import { Stack, FormControl } from "@mui/material";
 import React from "react";
-import { FormTextField } from "src/components/forms";
+import { FormRadioGroup, FormTextField } from "src/components/forms";
 import { Control } from "react-hook-form";
 import { CdtnReferenceInput } from "src/components/contributions/answers/references";
 
@@ -31,6 +31,21 @@ export const InformationsBlockContent = ({
             labelFixed
           />
         </FormControl>
+        <FormRadioGroup
+          name={`${name}.contentDisplayMode`}
+          label="Affichage contenus"
+          control={control}
+          options={[
+            {
+              label: "Carré",
+              value: "square",
+            },
+            {
+              label: "Ligne",
+              value: "line",
+            },
+          ]}
+        />
         <CdtnReferenceInput
           name={`${name}.contents`}
           control={control}

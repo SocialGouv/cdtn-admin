@@ -3,18 +3,24 @@ table:
   schema: information
 configuration:
   column_config:
-    files_id:
-      custom_name: filesId
+    file_id:
+      custom_name: fileId
+    img_id:
+      custom_name: imgId
     informations_contents_id:
       custom_name: informationsContentsId
   custom_column_names:
-    files_id: filesId
+    file_id: fileId
+    img_id: imgId
     informations_contents_id: informationsContentsId
   custom_root_fields: {}
 object_relationships:
   - name: file
     using:
-      foreign_key_constraint_on: files_id
+      foreign_key_constraint_on: file_id
+  - name: img
+    using:
+      foreign_key_constraint_on: img_id
 array_relationships:
   - name: contents
     using:
@@ -28,34 +34,40 @@ insert_permissions:
     permission:
       check: {}
       columns:
-        - order
         - content
-        - type
-        - files_id
+        - content_display_mode
+        - file_id
         - id
+        - img_id
         - informations_contents_id
+        - order
+        - type
 select_permissions:
   - role: super
     permission:
       columns:
-        - order
         - content
-        - type
-        - files_id
+        - content_display_mode
+        - file_id
         - id
+        - img_id
         - informations_contents_id
+        - order
+        - type
       filter: {}
       allow_aggregations: true
 update_permissions:
   - role: super
     permission:
       columns:
-        - order
         - content
-        - type
-        - files_id
+        - content_display_mode
+        - file_id
         - id
+        - img_id
         - informations_contents_id
+        - order
+        - type
       filter: {}
       check: {}
 delete_permissions:

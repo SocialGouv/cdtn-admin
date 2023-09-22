@@ -34,6 +34,8 @@ export type InformationContentBlock = {
   order?: number;
   type: string;
   file?: File;
+  img?: File;
+  contentDisplayMode?: string;
   contents: InformationContentBlockContent[];
   __typename?: string;
 };

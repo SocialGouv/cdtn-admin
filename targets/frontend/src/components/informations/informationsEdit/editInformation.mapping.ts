@@ -63,10 +63,12 @@ const mapInformationContentsBlocks = (blocks: InformationContentBlock[]) => {
     data:
       blocks?.map((block, blockIndex) => {
         const file = mapInformationContentsBlocksFile(block.file);
+        const img = mapInformationContentsBlocksFile(block.img);
         const contents = mapInformationContentsBlocksContents(block.contents);
         return {
           ...removeTypename(block),
           file,
+          img,
           contents,
           order: blockIndex + 1,
         };

@@ -33,9 +33,19 @@ export const InformationsBlockGraphic = ({
         </FormControl>
         <FormControl>
           <FormTextField
+            name={`${name}.img.url`}
+            control={control}
+            label="Url Image"
+            rules={{ required: true }}
+            fullWidth
+            labelFixed
+          />
+        </FormControl>
+        <FormControl>
+          <FormTextField
             name={`${name}.file.url`}
             control={control}
-            label="Url"
+            label="Url Fichier"
             rules={{ required: true }}
             fullWidth
             labelFixed

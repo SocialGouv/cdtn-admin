@@ -40,6 +40,13 @@ const informationsQuery = `query informations($id: uuid) {
               altText
               size
             }
+            img {
+              id
+              url
+              altText
+              size
+            }
+            contentDisplayMode: content_display_mode
             contents(
               order_by: {order: asc}
             ) {
