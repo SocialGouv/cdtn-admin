@@ -13,7 +13,7 @@ describe("QuestionList", () => {
     expect(screen.getByTestId("contributions-list-search")).toBeInTheDocument();
   });
   test("Verify question display", () => {
-    expect(screen.queryByText("question1")).toBeInTheDocument();
-    expect(screen.queryByText("question2")).toBeInTheDocument();
+    expect(screen.getByText(/question1/)).toBeInTheDocument();
+    expect(screen.getByText(/question2/)).toBeInTheDocument();
   });
 });
