@@ -2,7 +2,7 @@ import { useQuery } from "urql";
 import { useMemo } from "react";
 import { format, parseISO } from "date-fns";
 
-import { Answer, AnswerStatus } from "../type";
+import { Answer, AnswerStatus, CdtnReference, Document } from "../type";
 import { initStatus } from "../status/utils";
 
 const contributionAnswerQuery = `
@@ -14,7 +14,6 @@ query contribution_answer($id: uuid) {
     content
     otherAnswer: other_answer
     updatedAt: updated_at
-    urlSp: url_sp
     contentServicePublicCdtnId: content_service_public_cdtn_id
     question {
       id
@@ -68,6 +67,12 @@ query contribution_answer($id: uuid) {
         slug
       }
     }
+    contentFichesSpDocument: document {
+      cdtnId: cdtn_id
+      title
+      source
+      slug
+    }
   }
 }
 `;
@@ -110,5 +115,10 @@ export const useContributionAnswerQuery = ({
     ...answer,
     status: initStatus(answer),
     updateDate: format(parseISO(answer.updatedAt), "dd/MM/yyyy"),
+    contentFichesSpReference: answer.contentFichesSpDocument
+      ? {
+          document: answer.contentFichesSpDocument,
+        }
+      : undefined,
   };
 };

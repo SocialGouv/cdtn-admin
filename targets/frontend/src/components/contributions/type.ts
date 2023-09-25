@@ -108,4 +108,6 @@ export type Answer = {
   legiReferences: LegiReference[];
   otherReferences: OtherReference[];
   cdtnReferences: CdtnReference[];
+  contentFichesSpDocument?: Document;
+  contentFichesSpReference?: CdtnReference;
 };

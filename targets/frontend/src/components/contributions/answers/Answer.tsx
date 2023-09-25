@@ -46,7 +46,7 @@ export type AnswerForm = {
   legiReferences: LegiReference[];
   otherReferences: OtherReference[];
   cdtnReferences: CdtnReference[];
-  contentServicePublicCdtnId: string;
+  contentFichesSpReference: CdtnReference;
 };
 
 const isNotEditable = (answer: Answer | undefined) =>
@@ -80,6 +80,11 @@ export const ContributionsAnswer = ({
       kaliReferences: [],
       otherReferences: [],
       cdtnReferences: [],
+      contentFichesSpReference: answer?.contentFichesSpDocument
+        ? {
+            document: {},
+          }
+        : undefined,
     },
   });
   const updateAnswer = useContributionAnswerUpdateMutation();
@@ -115,7 +120,8 @@ export const ContributionsAnswer = ({
         otherAnswer: data.otherAnswer,
         status: newStatus,
         userId: user?.id,
-        contentServicePublicCdtnId: data.contentServicePublicCdtnId,
+        contentServicePublicCdtnId:
+          data.contentFichesSpReference?.document.cdtnId,
         kaliReferences: data.kaliReferences,
         legiReferences: data.legiReferences,
         cdtnReferences: data.cdtnReferences,
@@ -220,7 +226,7 @@ export const ContributionsAnswer = ({
               )}
               {answer && isCodeDuTravail(answer) && (
                 <FicheSpReferenceInput
-                  name="contentServicePublicCdtnId"
+                  name="contentFichesSpReference"
                   control={control}
                   disabled={isNotEditable(answer)}
                 />
