@@ -15,6 +15,7 @@ query contribution_answer($id: uuid) {
     otherAnswer: other_answer
     updatedAt: updated_at
     urlSp: url_sp
+    contentServicePublicCdtnId: content_service_public_cdtn_id
     question {
       id
       content

@@ -96,7 +96,7 @@ export type Answer = {
   agreementId: string;
   questionId: string;
   otherAnswer?: OtherAnswer;
-  urlSp?: string;
+  contentServicePublicCdtnId?: string;
   agreement: Agreement;
   statuses: AnswerStatus[];
   status: AnswerStatus;

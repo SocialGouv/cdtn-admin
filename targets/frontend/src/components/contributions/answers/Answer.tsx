@@ -33,6 +33,7 @@ import { statusesMapping } from "../status/data";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { SnackBar } from "../../utils/SnackBar";
 import { BreadcrumbLink } from "src/components/utils";
+import { FicheSpReferenceInput } from "./references/FicheSpReferenceInput";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -45,6 +46,7 @@ export type AnswerForm = {
   legiReferences: LegiReference[];
   otherReferences: OtherReference[];
   cdtnReferences: CdtnReference[];
+  contentServicePublicCdtnId: string;
 };
 
 const isNotEditable = (answer: Answer | undefined) =>
@@ -113,7 +115,7 @@ export const ContributionsAnswer = ({
         otherAnswer: data.otherAnswer,
         status: newStatus,
         userId: user?.id,
-        urlSp: data.urlSp,
+        contentServicePublicCdtnId: data.contentServicePublicCdtnId,
         kaliReferences: data.kaliReferences,
         legiReferences: data.legiReferences,
         cdtnReferences: data.cdtnReferences,
@@ -217,17 +219,11 @@ export const ContributionsAnswer = ({
                 />
               )}
               {answer && isCodeDuTravail(answer) && (
-                <FormControl>
-                  <FormTextField
-                    label="Url Service public"
-                    name="urlSp"
-                    disabled={isNotEditable(answer)}
-                    control={control}
-                    rules={{
-                      required: answer && answer.otherAnswer === "SP",
-                    }}
-                  />
-                </FormControl>
+                <FicheSpReferenceInput
+                  name="contentServicePublicCdtnId"
+                  control={control}
+                  disabled={isNotEditable(answer)}
+                />
               )}
               {answer && !isCodeDuTravail(answer) && (
                 <KaliReferenceInput

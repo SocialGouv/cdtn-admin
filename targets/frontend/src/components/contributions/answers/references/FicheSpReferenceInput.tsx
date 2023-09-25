@@ -1,8 +1,8 @@
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import { Control } from "react-hook-form";
 import { CdtnReference } from "../../type";
-import { useContributionSearchCdtnReferencesQuery } from "./cdtnReferencesSearch.query";
 import { ReferenceInput } from "./ReferenceInput";
+import { useFicheSpSearchCdtnReferencesQuery } from "./ficheSpReferenceSearch.query";
 
 type Props = {
   name: string;
@@ -10,27 +10,22 @@ type Props = {
   disabled?: boolean;
 };
 
-export const CdtnReferenceInput = ({
+export const FicheSpReferenceInput = ({
   name,
   control,
   disabled = false,
 }: Props): React.ReactElement => (
   <ReferenceInput<CdtnReference>
-    isMultiple={true}
-    label={`Contenus liés`}
+    label={`Fiche service-public`}
     color="info"
     name={name}
     disabled={disabled}
     control={control}
-    fetcher={useContributionSearchCdtnReferencesQuery}
+    fetcher={useFicheSpSearchCdtnReferencesQuery}
     isEqual={(option, value) =>
       value.document.cdtnId === option.document.cdtnId
     }
-    getLabel={(item) =>
-      `${getRouteBySource(item.document.source)} > ${item.document.title} (${
-        item.document.slug
-      })`
-    }
+    getLabel={(item) => `${item.document.title} (${item.document.slug})`}
     onClick={(item) => {
       const newWindow = window.open(
         `https://code.travail.gouv.fr/${getRouteBySource(

@@ -5,6 +5,9 @@ object_relationships:
   - name: agreement
     using:
       foreign_key_constraint_on: agreement_id
+  - name: document
+    using:
+      foreign_key_constraint_on: content_service_public_cdtn_id
   - name: question
     using:
       foreign_key_constraint_on: question_id
@@ -63,7 +66,7 @@ select_permissions:
         - other_answer
         - question_id
         - updated_at
-        - url_sp
+        - content_service_public_cdtn_id
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -72,7 +75,7 @@ update_permissions:
       columns:
         - content
         - other_answer
-        - url_sp
+        - content_service_public_cdtn_id
       filter: {}
       check: null
       set:

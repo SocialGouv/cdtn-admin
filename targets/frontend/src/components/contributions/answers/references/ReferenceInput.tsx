@@ -28,6 +28,7 @@ type Props<Type> = {
     | "success"
     | "warning";
   disabled: boolean;
+  isMultiple?: true;
 };
 
 export const ReferenceInput = <Type,>({
@@ -40,6 +41,7 @@ export const ReferenceInput = <Type,>({
   onClick,
   color,
   disabled,
+  isMultiple,
 }: Props<Type>): ReactElement | null => {
   const [query, setQuery] = useState<string | undefined>();
   const { data, fetching, error } = fetcher(query);
@@ -59,6 +61,7 @@ export const ReferenceInput = <Type,>({
 
   return (
     <FormAutocompleteMultiple<Type>
+      multiple={isMultiple}
       noOptionsText={"Aucun résultat trouvé"}
       control={control}
       getOptionLabel={getLabel}
