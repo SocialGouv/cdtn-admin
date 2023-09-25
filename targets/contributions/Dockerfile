@@ -6,7 +6,9 @@ WORKDIR /app
 
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
-RUN yarn fetch workspaces focus @socialgouv/contibutions
+
+# hadolint ignore=SC2046
+RUN --mount=type=secret,id=npmrc,target=/.npmrc yarn fetch workspaces focus @socialgouv/contibutions
 
 FROM deps AS build-graphql-client
 COPY shared/graphql-client ./shared/graphql-client

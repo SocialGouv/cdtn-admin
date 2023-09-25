@@ -6,7 +6,11 @@ WORKDIR /app
 
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
-RUN yarn fetch workspaces focus frontend
+
+# Hack copy .npmrc file only if exist (dev only) otherwise use secret
+COPY *.npmrc /
+# hadolint ignore=SC2046
+RUN --mount=type=secret,id=npmrc,target=/.npmrc yarn fetch workspaces focus frontend
 
 
 FROM deps AS build-graphql-client
