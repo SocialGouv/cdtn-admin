@@ -29,6 +29,7 @@ export const mock: QuestionListQueryResult = {
       ],
       content: "question1",
       id: "questionId1",
+      order: 1,
     },
     {
       answers: [
@@ -41,6 +42,7 @@ export const mock: QuestionListQueryResult = {
       ],
       content: "question2",
       id: "questionId2",
+      order: 2,
     },
   ],
 };

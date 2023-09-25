@@ -1,10 +1,11 @@
 import {
   Box,
-  Toolbar,
-  AppBar,
-  IconButton,
   Drawer,
+  IconButton,
+  styled,
+  Toolbar,
   Typography,
+  useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Head from "next/head";
@@ -13,6 +14,10 @@ import { useState } from "react";
 import { LogoAdmin } from "./LogoAdmin";
 import { Navigation } from "./Navigation";
 import { UserMenu } from "./UserMenu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { fr } from "@codegouvfr/react-dsfr";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
 export type LayoutProps = {
   children: any;
@@ -22,97 +27,125 @@ export type LayoutProps = {
 const drawerWidth = 340;
 const headerHeight = 70;
 
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-end",
+}));
+
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create("margin", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `-${drawerWidth}px`,
+  ...(open && {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  }),
+}));
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})<AppBarProps>(({ theme, open }) => ({
+  transition: theme.transitions.create(["margin", "width"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
 export function Layout({ children, title }: LayoutProps) {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    setMenuOpen(!menuOpen);
   };
+  const theme = useTheme();
 
   return (
     <Box sx={{ display: "flex" }}>
       <Head>
         <title>{title} | Admin cdtn</title>
       </Head>
-      <AppBar
-        position="fixed"
+
+      <Drawer
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boxSizing: "border-box",
+          },
         }}
+        variant="persistent"
+        open={menuOpen}
+        onClose={handleDrawerToggle}
       >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerToggle}>
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Toolbar sx={{ height: headerHeight }}>
+          <LogoAdmin />
+        </Toolbar>
+        <Navigation />
+      </Drawer>
+      <AppBar position="fixed" open={menuOpen}>
         <Toolbar
           sx={{
-            height: headerHeight,
             display: "flex",
             justifyContent: "space-between",
           }}
         >
-          <IconButton
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" }, color: "white" }} // TODO change with theme
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography>{title}</Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton
+              aria-label="ouvrir le menu"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{
+                mr: 2,
+                color: fr.colors.decisions.background.default.grey.default,
+                ...(menuOpen && { display: "none" }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography>{title}</Typography>
+          </Box>
           <UserMenu />
         </Toolbar>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="Admin Menus"
-      >
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          <Toolbar sx={{ height: headerHeight }}>
-            <LogoAdmin />
-          </Toolbar>
-          <Navigation />
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-          open
-        >
-          <Toolbar sx={{ height: headerHeight }}>
-            <LogoAdmin />
-          </Toolbar>
-          <Navigation />
-        </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
+      <Main open={menuOpen}>
         <Toolbar sx={{ height: headerHeight }} />
         {children}
-      </Box>
+      </Main>
     </Box>
   );
 }
