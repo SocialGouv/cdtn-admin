@@ -10,7 +10,8 @@ type QueryResult = {
 export const useContributionSearchCdtnReferencesQuery = (
   query: string | undefined
 ): Result<Pick<CdtnReference, "document">> => {
-  const [slug] = query?.split("/").reverse() ?? [""];
+  const hrefWithoutQuery: string | undefined = query?.split("?")[0];
+  const [slug] = hrefWithoutQuery?.split("/").reverse() ?? [""];
   const title = `%${slug
     ?.split(/[\ \-\,]/gm)
     ?.map((text) => text.normalize().replace(/[\u0300-\u036f]/g, ""))

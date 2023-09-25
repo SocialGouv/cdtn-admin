@@ -1,6 +1,7 @@
-import { Editor, BubbleMenu } from "@tiptap/react";
+import { BubbleMenu, Editor } from "@tiptap/react";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
+import StorageIcon from "@mui/icons-material/Storage";
 import { styled } from "@mui/system";
 
 export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
@@ -42,6 +43,18 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
       >
         <FormatItalicIcon />
       </button>
+      <button
+        onClick={() => {
+          editor.isActive("details")
+            ? editor.chain().focus().unsetDetails().run()
+            : editor.chain().focus().setDetails().run();
+        }}
+        className={editor.isActive("details") ? "is-active" : ""}
+        type="button"
+        title="Placer dans un accordéon"
+      >
+        <StorageIcon />
+      </button>
     </StyledBubbleMenu>
   ) : (
     <></>
@@ -53,6 +66,7 @@ const StyledBubbleMenu = styled(BubbleMenu)`
   background-color: #0d0d0d;
   padding: 0.2rem;
   border-radius: 0.5rem;
+
   button {
     border: none;
     background: none;

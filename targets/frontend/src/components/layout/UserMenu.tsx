@@ -14,6 +14,7 @@ import { useUser } from "../../hooks/useUser";
 import { useState } from "react";
 import { theme } from "src/theme";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
+import { fr } from "@codegouvfr/react-dsfr";
 
 export function UserMenu() {
   const { user, logout } = useUser() as any;
@@ -28,7 +29,7 @@ export function UserMenu() {
   const { isDark, setIsDark } = useIsDark();
 
   return (
-    <div>
+    <>
       {user && (
         <Stack
           direction="row"
@@ -62,7 +63,7 @@ export function UserMenu() {
             id="long-button"
             aria-haspopup="true"
             onClick={handleClick}
-            sx={{ color: "white" }} // TODO: modify with theme
+            sx={{ color: fr.colors.decisions.background.default.grey.default }}
           >
             <MoreVertIcon />
           </IconButton>
@@ -74,6 +75,6 @@ export function UserMenu() {
           </Menu>
         </Stack>
       )}
-    </div>
+    </>
   );
 }

@@ -7,11 +7,16 @@ import StarterKit from "@tiptap/starter-kit";
 import React, { useEffect, useState } from "react";
 import { FieldErrors } from "react-hook-form";
 import { styled } from "@mui/system";
+import { fr } from "@codegouvfr/react-dsfr";
 
 import { TitleBox } from "../TitleBox";
 import { MenuSpecial } from "./MenuSpecial";
 import { MenuStyle } from "./MenuStyle";
 import { MenuTable } from "./MenuTable";
+import { Details } from "@tiptap-pro/extension-details";
+import { DetailsSummary } from "@tiptap-pro/extension-details-summary";
+import { DetailsContent } from "@tiptap-pro/extension-details-content";
+import { Placeholder } from "@tiptap/extension-placeholder";
 
 export type EditorProps = {
   content?: string | null;
@@ -36,6 +41,23 @@ export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
       TableRow,
       TableHeader,
       TableCell,
+      Details.configure({
+        persist: false,
+        HTMLAttributes: {
+          class: "details",
+        },
+      }),
+      DetailsSummary,
+      DetailsContent,
+      Placeholder.configure({
+        includeChildren: true,
+        placeholder: ({ node }) => {
+          if (node.type.name === "detailsSummary") {
+            return "Titre de la section";
+          }
+          return "";
+        },
+      }),
     ],
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
@@ -78,19 +100,72 @@ export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
   );
 };
 
-const StyledEditorContent = styled(EditorContent)`
-  padding: 0 12px;
-  .ProseMirror:focus {
-    outline: none;
-  }
-  table {
-    th {
-      background-color: #f3f3f3;
-      min-width: 100px;
-    }
-    td {
-      border: 1px solid black;
-      text-align: center;
-    }
-  }
-`;
+const StyledEditorContent = styled(EditorContent)(() => {
+  return {
+    padding: "0 12px",
+    ".ProseMirror": {
+      ":focus": {
+        outline: "none",
+      },
+      "> * + *": {
+        marginTop: "0.75em",
+      },
+      ".is-empty::before": {
+        content: "attr(data-placeholder)",
+        float: "left",
+        color: "#adb5bd",
+        pointerEvents: "none",
+        height: "0",
+      },
+      ".details": {
+        display: "flex",
+        margin: "1rem 0",
+        border: "0",
+        padding: "0.5rem",
+        "> button": {
+          display: "flex",
+          cursor: "pointer",
+          background: "transparent",
+          border: "none",
+          padding: "0",
+          "&::before": {
+            content:
+              'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGFyaWEtaGlkZGVuPSJ0cnVlIiBjbGFzcz0ic2MtaW1XWUFJIGpFTHpJTCI+PHBvbHlsaW5lIHBvaW50cz0iOSAxOCAxNSAxMiA5IDYiIHN0cm9rZT0iIzZmOGFjOSI+PC9wb2x5bGluZT48L3N2Zz4=")',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "#6f8ac9",
+            fontWeight: "bold",
+            width: "2.5em",
+            height: "2em",
+          },
+        },
+        "&.is-open > button::before": {
+          content:
+            'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGFyaWEtaGlkZGVuPSJ0cnVlIiBjbGFzcz0ic2MtaW1XWUFJIGpFTHpJTCI+PHBvbHlsaW5lIHBvaW50cz0iOSAxOCAxNSAxMiA5IDYiIHN0cm9rZT0iIzZmOGFjOSI+PC9wb2x5bGluZT48L3N2Zz4=")',
+          transform: "rotate(90deg)",
+        },
+        "> div": {
+          flex: "1 1 auto",
+        },
+        ":last-child": {
+          marginBottom: "0",
+        },
+      },
+    },
+    table: {
+      tBody: {
+        borderColor: fr.colors.decisions.text.default.success.default,
+      },
+      th: {
+        border: `1px solid ${fr.colors.decisions.text.default.grey.default}`,
+        backgroundColor: fr.colors.decisions.background.contrast.grey.default,
+        minWidth: "100px",
+      },
+      td: {
+        border: `1px solid ${fr.colors.decisions.text.default.grey.default}`,
+        textAlign: "center",
+      },
+    },
+  };
+});

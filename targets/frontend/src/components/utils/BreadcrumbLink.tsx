@@ -1,4 +1,30 @@
+import { Typography } from "@mui/material";
 import Link from "next/link";
+
+import { styled } from "@mui/material/styles";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+
+export const Breadcrumb = ({
+  children,
+}: {
+  children: JSX.Element | JSX.Element[];
+}): JSX.Element => (
+  <StyledBreadcrumbs
+    aria-label="breadcrumb"
+    sx={{ marginBottom: "30px" }}
+    separator=">"
+  >
+    {children}
+  </StyledBreadcrumbs>
+);
+
+const StyledBreadcrumbs = styled(Breadcrumbs)(() => {
+  return {
+    "ol > li::marker": {
+      content: '""',
+    },
+  };
+});
 
 export const BreadcrumbLink = ({
   href,
@@ -10,16 +36,14 @@ export const BreadcrumbLink = ({
   target?: string;
 }): JSX.Element => {
   return (
-    <li>
+    <>
       {href ? (
-        <Link target={target} href={href} className="fr-breadcrumb__link">
+        <Link target={target} href={href}>
           {children}
         </Link>
       ) : (
-        <a className="fr-breadcrumb__link" aria-current="page">
-          {children}
-        </a>
+        <Typography aria-current="page">{children}</Typography>
       )}
-    </li>
+    </>
   );
 };

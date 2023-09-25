@@ -10,18 +10,29 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
 
-import { useQuestionListQuery } from "./QuestionList.query";
-import { countAnswersWithStatus, QuestionRow } from "./QuestionRow";
+import {
+  QueryQuestionAnswer,
+  useQuestionListQuery,
+} from "./QuestionList.query";
+import { QuestionRow } from "./QuestionRow";
 import { fr } from "@codegouvfr/react-dsfr";
 import { statusesMapping } from "../status/data";
+import { StatusStats } from "../status/StatusStats";
 
-export function getPercentage(count: number, total: number) {
-  return ((count / total) * 100).toFixed(2);
-}
+export const countAnswersWithStatus = (
+  answers: QueryQuestionAnswer[] | undefined,
+  statusToCount: string
+): number => {
+  const count = answers?.filter((answer) => {
+    return answer.status?.status === statusToCount;
+  }).length;
+  return count ?? 0;
+};
 
 export const QuestionList = (): JSX.Element => {
   const [search, setSearch] = useState<string | undefined>();
@@ -33,7 +44,13 @@ export const QuestionList = (): JSX.Element => {
   const total = aggregatedRow.length;
   return (
     <Stack spacing={2}>
-      <Stack direction="row" alignItems="start" spacing={2}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={1}
+        useFlexGap
+        flexWrap="wrap"
+      >
         <TextField
           label="Recherche"
           variant="outlined"
@@ -50,7 +67,6 @@ export const QuestionList = (): JSX.Element => {
               sx={{
                 fontWeight: "bold",
                 color: fr.colors.decisions.text.default.grey.default,
-                marginBottom: "24px",
               }}
             >
               {total}
@@ -58,18 +74,13 @@ export const QuestionList = (): JSX.Element => {
           </CardContent>
         </Card>
 
-        {Object.entries(statusesMapping).map(([status, { text, color }]) => {
-          const count = countAnswersWithStatus(aggregatedRow, status);
-          return (
-            <Card key={status}>
-              <CardContent sx={{ color }}>
-                {text}
-                <Typography sx={{ fontWeight: "bold" }}>{count}</Typography>
-                <span>{getPercentage(count, total)}%</span>
-              </CardContent>
-            </Card>
-          );
-        })}
+        <StatusStats
+          statusCounts={Object.keys(statusesMapping).map((status) => ({
+            status,
+            count: countAnswersWithStatus(aggregatedRow, status),
+          }))}
+          total={total}
+        ></StatusStats>
       </Stack>
 
       <TableContainer component={Paper}>
@@ -77,13 +88,15 @@ export const QuestionList = (): JSX.Element => {
           <TableHead>
             <TableRow>
               <TableCell>Questions ({rows.length})</TableCell>
-              {Object.entries(statusesMapping).map(([_, { text, color }]) => {
-                return (
-                  <TableCell key={text} style={{ color }} align="center">
-                    {text}
-                  </TableCell>
-                );
-              })}
+              {Object.entries(statusesMapping).map(
+                ([_, { text, icon, color }]) => {
+                  return (
+                    <TableCell key={text} style={{ color }} align="center">
+                      <Tooltip title={text}>{icon}</Tooltip>
+                    </TableCell>
+                  );
+                }
+              )}
             </TableRow>
           </TableHead>
           <TableBody>

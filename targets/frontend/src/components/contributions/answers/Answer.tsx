@@ -3,8 +3,8 @@ import {
   Box,
   Button,
   FormControl,
-  Grid,
   Stack,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,14 +12,7 @@ import { useUser } from "src/hooks/useUser";
 
 import { FormEditionField, FormRadioGroup, FormTextField } from "../../forms";
 import { StatusContainer } from "../status";
-import {
-  Answer,
-  CdtnReference,
-  KaliReference,
-  LegiReference,
-  OtherReference,
-  Status,
-} from "../type";
+import { Answer, Status } from "../type";
 import { useContributionAnswerUpdateMutation } from "./answer.mutation";
 import { useContributionAnswerQuery } from "./answer.query";
 import { Comments } from "./Comments";
@@ -32,19 +25,10 @@ import {
 import { statusesMapping } from "../status/data";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { SnackBar } from "../../utils/SnackBar";
-import { BreadcrumbLink } from "src/components/utils";
+import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 
 export type ContributionsAnswerProps = {
   id: string;
-};
-
-export type AnswerForm = {
-  otherAnswer?: string;
-  content?: string;
-  kaliReferences: KaliReference[];
-  legiReferences: LegiReference[];
-  otherReferences: OtherReference[];
-  cdtnReferences: CdtnReference[];
 };
 
 const isNotEditable = (answer: Answer | undefined) =>
@@ -147,30 +131,42 @@ export const ContributionsAnswer = ({
   ];
   return (
     <>
-      <Grid container>
-        <Grid xs={10}>
-          <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
-            <BreadcrumbLink href={"/contributions"}>
-              Contributions
-            </BreadcrumbLink>
-            <BreadcrumbLink
-              href={`/contributions/questions/${answer?.question.id}`}
-            >
+      <Stack direction="row" justifyContent="space-between">
+        <Breadcrumb>
+          <BreadcrumbLink
+            href={`/contributions/questions/${answer?.question.id}`}
+          >
+            <>
+              <Typography
+                sx={{
+                  display: "inline-block",
+                  fontSize: "1.4rem",
+                  fontWeight: "bold",
+                }}
+              >
+                [{answer?.question?.order}]
+              </Typography>{" "}
               {answer?.question?.content}
-            </BreadcrumbLink>
-            <BreadcrumbLink>{answer?.agreement?.id}</BreadcrumbLink>
-          </ol>
-        </Grid>
+            </>
+          </BreadcrumbLink>
+          <BreadcrumbLink>{answer?.agreement?.id}</BreadcrumbLink>
+        </Breadcrumb>
         {answer?.status && (
-          <Grid xs={2} style={{ color: statusesMapping[status].color }}>
+          <div style={{ color: statusesMapping[status].color }}>
             <StatusContainer status={answer.status} />
-          </Grid>
+          </div>
         )}
-      </Grid>
-      <h2>{answer?.agreement?.name}</h2>
+      </Stack>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         <Box sx={{ width: "70%" }}>
-          <form>
+          <form
+            onSubmit={(e) => {
+              // This is a hack to prevent the form from being submitted by the tiptap editor.
+              // The details extension is not working properly and submit the form when click on the arrow.
+              // See https://github.com/ueberdosis/tiptap/issues/4384
+              e.preventDefault();
+            }}
+          >
             <Stack spacing={5}>
               <FormControl>
                 <FormTextField
