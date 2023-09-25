@@ -21,6 +21,7 @@ insert_permissions:
         - content
         - id
         - message_id
+        - order
 select_permissions:
   - role: super
     permission:
@@ -28,6 +29,7 @@ select_permissions:
         - content
         - id
         - message_id
+        - order
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -36,6 +38,7 @@ update_permissions:
       columns:
         - content
         - message_id
+        - order
       filter: {}
       check: null
 delete_permissions:

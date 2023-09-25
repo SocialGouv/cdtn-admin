@@ -31,6 +31,7 @@ export type Message = {
 export type Question = {
   id: string;
   content: string;
+  order: number;
   answers: Answer[];
   message?: Message;
 };
