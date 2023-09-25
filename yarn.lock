@@ -9035,6 +9035,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cdtn-admin@workspace:."
   dependencies:
+    "@shared/eslint-config": "workspace:^"
     husky: ^7.0.2
     lerna: ^5.0.0
     nps: ^5.10.0

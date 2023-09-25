@@ -56,7 +56,7 @@
     "clean": "rm -rf data/*",
     "cli:dev": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 ncc run -s src/cli.ts",
     "cli:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 yarn start",
-    "lint": "eslint \"./src/**/*.{js,ts}\"",
+    "lint": "npx eslint \"./src/**/*.{js,ts}\"",
     "precommit": "lint-staged",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "start": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
@@ -65,7 +65,7 @@
   },
   "lint-staged": {
     "*.{j,t}s": [
-      "eslint --cache --fix",
+      "npx eslint --cache --fix",
       "jest --bail --findRelatedTests"
     ]
   }
