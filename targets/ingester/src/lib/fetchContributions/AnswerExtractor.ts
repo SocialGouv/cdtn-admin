@@ -71,37 +71,32 @@ export class AnswerExtractor {
     });
   };
 
+  private mapCdtnRefs = (references: any[]): ContributionReference[] => {
+    if (!references.length) return [];
+
+    return references.map((ref) => {
+      return ref.document as BaseRef;
+    });
+  };
+
   private aggregateReferences(answer: AnswerRaw): ContributionReference[] {
     return this.mapKaliRefs(answer.agreement.id, answer.kali_references)
       .concat(this.mapLegiRefs(answer.legi_references))
       .concat(this.mapOtherRefs(answer.other_references))
-      .concat(answer.cdtn_references); // je n'ai pas fait le mapping parce qu'on a besoin du package packages/code-du-travail-utils/src/sources.ts utilisé seulement dans le front
+      .concat(this.mapCdtnRefs(answer.cdtn_references)); // je n'ai pas fait le mapping parce qu'on a besoin du package packages/code-du-travail-utils/src/sources.ts utilisé seulement dans le front
   }
 
   public extractAgreementAnswers(answers: AnswerRaw[]): Answer[] {
-    return this.filterAgreementAnswers(answers)
+    return answers
       .map((answer) => ({
         id: answer.id,
         idcc: answer.agreement.id,
+        shortName: answer.agreement.name,
         content: answer.content,
         otherAnswer: answer.otherAnswer, // on renomerait pas ce champs ici ?
         references: this.aggregateReferences(answer).sort(this.sortBy("title")),
       }))
       .sort(this.sortBy("idcc"));
-  }
-
-  // est-ce toujours nécessaire??
-  // on check que toutes les contrib pointent vers un agreement qui existe
-  private filterAgreementAnswers(answers: AnswerRaw[]): AnswerRaw[] {
-    return answers.filter((answer) => this.hasAgreement(answer.agreement.id));
-  }
-
-  private hasAgreement(idcc: string): boolean {
-    const agreement = this.agreements.find(
-      (convention) =>
-        this.comparableIdcc(convention.num) === this.comparableIdcc(idcc)
-    );
-    return !!agreement;
   }
 
   private toText = (answer: AnswerRaw): string =>

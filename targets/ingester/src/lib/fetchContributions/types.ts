@@ -17,7 +17,8 @@ export interface AnswerRaw {
   legi_references: ContributionReference[];
   cdtn_references: {
     title: string;
-    slug: string;
+    url: string;
+    source: string;
   }[];
   other_references: ContributionReference[];
   agreement: AgreementRaw;

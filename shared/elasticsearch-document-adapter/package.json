@@ -9,7 +9,6 @@
     "@socialgouv/cdtn-monolog": "^1.5.11",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
-    "@socialgouv/contributions-data-types": "^3.27.0",
     "nctx": "^1.2.0",
     "node-fetch": "^2.6.5",
     "p-map": "5.2.0",

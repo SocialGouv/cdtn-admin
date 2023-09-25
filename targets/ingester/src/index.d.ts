@@ -1,11 +1,11 @@
 import type { SourceValues } from "@socialgouv/cdtn-sources";
-import type {
-  Answer,
+
+import {
   BaseRef,
+  CCMultipleAnswers,
+  CCSingleAnswer,
   DilaRef,
-  GenericAnswer,
-  Question,
-} from "@socialgouv/contributions-data-types";
+} from "@shared/types";
 
 export as namespace ingester;
 
@@ -24,17 +24,7 @@ type ExternalDocument = Document & {
   url: string;
 };
 
-type ExtendedQuestion = Omit<Question, "answers"> & {
-  answers: {
-    generic: GenericAnswer;
-    conventionAnswer?: Answer & {
-      shortName: string;
-    };
-    conventions?: Answer[];
-  };
-};
-
-type Contribution = Document & ExtendedQuestion;
+type Contribution = Document & (CCMultipleAnswers | CCSingleAnswer);
 
 type LegiArticle = ExternalDocument & {
   dateDebut: number;

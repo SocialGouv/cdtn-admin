@@ -1,6 +1,5 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import type { Question } from "@socialgouv/contributions-data-types";
 import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 import remark from "remark";
 import html from "remark-html";
@@ -12,6 +11,7 @@ import { formatIdcc } from "../../lib/formatIdcc";
 import getAgreementsWithHighlight from "./agreementsWithHighlight";
 import { getAllKaliBlocks } from "./getKaliBlock";
 import { getKaliArticlesByTheme } from "./kaliArticleBytheme";
+import { Question } from "@shared/types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const compiler = remark().use(html as any, { sanitize: true });
@@ -144,14 +144,13 @@ function getContributionAnswers(
         return [];
       }
       const [answer] = maybeAnswer;
-      const unhandledRegexp =
-        /La convention collective ne prévoit rien sur ce point/i;
-      if (unhandledRegexp.test(answer.markdown)) {
+
+      if (answer.otherAnswer === "NOTHING") {
         return [];
       }
       return [
         {
-          answer: compiler.processSync(answer.markdown).contents.toString(),
+          answer: compiler.processSync(answer.content).contents.toString(),
           index,
           question: title.trim(),
           references: answer.references,

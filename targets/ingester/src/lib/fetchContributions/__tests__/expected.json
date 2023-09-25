@@ -3,8 +3,8 @@
     "answers": {
       "conventions": [
         {
-          "idcc": "0000",
           "content": "<p>Ceci est ma réponse en droit du travail</p>",
+          "idcc": "0000",
           "otherAnswer": "ANSWER",
           "references": [
             {
@@ -12,17 +12,16 @@
               "url": "/code-du-travail/annexe-a-larticle-r1422-4"
             },
             {
-              "document": {
-                "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?",
-                "slug": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
-                "source": "fiches_service_public"
-              }
+              "slug": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
+              "source": "fiches_service_public",
+              "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?"
             }
-          ]
+          ],
+          "shortName": "Code du travail"
         },
         {
-          "idcc": "0016",
           "content": "<p>ceci est ma réponse pour la CC 0016</p>",
+          "idcc": "0016",
           "otherAnswer": "ANSWER",
           "references": [
             {
@@ -49,11 +48,12 @@
             {
               "title": "Avenant n°96 du 19 mars 2021, article 3.1."
             }
-          ]
+          ],
+          "shortName": "Convention collective nationale des transports routiers et activités auxiliaires du transport"
         },
         {
-          "idcc": "0044",
           "content": null,
+          "idcc": "0044",
           "otherAnswer": "NOTHING",
           "references": [
             {
@@ -68,11 +68,12 @@
               "title": "Cass. Soc. 30 novembre 2004 n° 02-45.785",
               "url": "https://www.legifrance.gouv.fr/juri/id/JURITEXT000007052459?page=1&pageSize=10&query=02-45.785&searchField=ALL&searchType=ALL&sortValue=DATE_DESC&tab_selection=juri&typePagination=DEFAULT"
             }
-          ]
+          ],
+          "shortName": "Convention collective nationale des industries chimiques et connexes"
         },
         {
-          "idcc": "0086",
           "content": "<p>Ceci est la réponse à la question pour la CC 0086</p>",
+          "idcc": "0086",
           "otherAnswer": "ANSWER",
           "references": [
             {
@@ -87,11 +88,12 @@
               "title": "Article 61",
               "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005857352/?idConteneur=KALICONT000005635630"
             }
-          ]
+          ],
+          "shortName": "Convention collective nationale des entreprises de publicité et assimilées"
         },
         {
-          "idcc": "1480",
           "content": null,
+          "idcc": "1480",
           "otherAnswer": "NOTHING",
           "references": [
             {
@@ -99,40 +101,38 @@
               "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005786630/?idConteneur=KALICONT000005635444"
             },
             {
-              "document": {
-                "title": "Si un poste se libère ou est créé dans l’entreprise, l’employeur doit-il en informer les salariés ? Ou le leur proposer en priorité ?",
-                "slug": "si-un-poste-se-libere-ou-est-cree-dans-lentreprise-lemployeur-doit-il-en-informer-les-salaries-ou-le-leur-proposer-en-priorite",
-                "source": "contributions"
-              }
+              "slug": "si-un-poste-se-libere-ou-est-cree-dans-lentreprise-lemployeur-doit-il-en-informer-les-salaries-ou-le-leur-proposer-en-priorite",
+              "source": "contributions",
+              "title": "Si un poste se libère ou est créé dans l’entreprise, l’employeur doit-il en informer les salariés ? Ou le leur proposer en priorité ?"
             }
-          ]
+          ],
+          "shortName": "Convention collective nationale des journalistes"
         },
         {
-          "idcc": "2609",
           "content": null,
+          "idcc": "2609",
           "otherAnswer": "UNKNOWN",
           "references": [
             {
               "title": "Article 3.2.3",
               "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000018773794/?idConteneur=KALICONT000018773893"
             }
-          ]
+          ],
+          "shortName": "Convention collective nationale des employés, techniciens et agents de maîtrise du bâtiment"
         }
       ],
       "generic": {
-        "description": "Ceci est ma réponse en droit du travai…",
         "content": "<p>Ceci est ma réponse en droit du travail</p>",
+        "description": "Ceci est ma réponse en droit du travai…",
         "references": [
           {
             "title": "Annexe à l'article R1422-4",
             "url": "/code-du-travail/annexe-a-larticle-r1422-4"
           },
           {
-            "document": {
-              "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?",
-              "slug": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
-              "source": "fiches_service_public"
-            }
+            "slug": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
+            "source": "fiches_service_public",
+            "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?"
           }
         ],
         "text": "Ceci est ma réponse en droit du travail"

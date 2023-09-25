@@ -135,25 +135,26 @@ export interface TravailEmploiReference {
 
 export interface ContributionCompleteDoc {
   index: number;
-  split: false;
   description: string;
   answers: CCMultipleAnswers;
 }
 
 export interface ContributionFilteredDoc {
   index: number;
-  split: true;
+  iddc: string;
   description: string;
-  answers: CCSingleAnswer;
+  answer: CCSingleAnswer;
 }
 
 export interface CCMultipleAnswers {
   generic: GenericAnswer;
-  conventions: Answer[];
+  conventions: {
+    idcc: string;
+    shortName: string;
+  }[];
 }
 
 export interface CCSingleAnswer {
-  generic: GenericAnswer;
   conventionAnswer: Answer;
 }
 
@@ -471,7 +472,9 @@ export type Question = {
 export type Answer = {
   id: string;
   idcc: string;
+  shortName: string;
   content: string;
+  otherAnswer: string;
   references: ContributionReference[];
 };
 

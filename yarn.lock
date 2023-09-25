@@ -3902,16 +3902,6 @@
     styled-components "^5.3.0"
     use-onclickoutside "^0.4.0"
 
-"@socialgouv/contributions-data-types@3.27.0":
-  version "3.27.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data-types/-/contributions-data-types-3.27.0.tgz#5b1ed3553d0b9f47c28d7204e1e85ee07cd8b359"
-  integrity sha512-ZMyNpI8VacXCe26/W2e8EPyeEdaavEEQgCIW/GvieP+DFQ3Q6uXY2a/IeyWZnR7lw1qEt+fZ46zJL+TKjVv6nA==
-
-"@socialgouv/contributions-data-types@^3.27.0":
-  version "3.89.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/contributions-data-types/-/contributions-data-types-3.89.0.tgz#8c1f583cab5bb6631676e5d0cb3146c322f2e2a4"
-  integrity sha512-nmrtXhjNE7GXxjKc83prOUBx13kAYdM24bUwQuVeaLVko4iztpuTISU35SYNp47NoYI+pN6anu5r8rfNJ6RXwA==
-
 "@socialgouv/dila-api-client@1.2.4", "@socialgouv/dila-api-client@^1.2.4":
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@socialgouv/dila-api-client/-/dila-api-client-1.2.4.tgz#56a00f2507fbf0ea8128fdffaa48aa6e8f5e4c42"

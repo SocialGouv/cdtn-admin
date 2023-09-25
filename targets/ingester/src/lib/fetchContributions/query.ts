@@ -37,8 +37,8 @@ query MyQuery {
 
 fragment documentsFragment on documents {
   title
-  slug
-  source
+  url: slug
+  category: source
 }
 
 fragment legi_articlesFragment on legi_articles {
