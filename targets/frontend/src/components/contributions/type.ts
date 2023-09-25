@@ -4,6 +4,7 @@ import { SourceRoute } from "@socialgouv/cdtn-sources";
 export type Agreement = {
   id: string;
   name: string;
+  kaliId: string;
 };
 
 export type Status =
