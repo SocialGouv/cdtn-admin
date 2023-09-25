@@ -60,7 +60,7 @@ select_permissions:
         - agreement_id
         - content
         - id
-        - other_answer
+        - content_type
         - question_id
         - updated_at
         - url_sp
@@ -71,7 +71,7 @@ update_permissions:
     permission:
       columns:
         - content
-        - other_answer
+        - content_type
         - url_sp
       filter: {}
       check: null
