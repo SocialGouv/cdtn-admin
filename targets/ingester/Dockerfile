@@ -41,4 +41,4 @@ USER 1000
 
 ENV NODE_ENV=production
 
-CMD ["node","--enable-source-maps","--unhandled-rejections=strict","dist/index.js"]
+CMD ["yarn","start"]

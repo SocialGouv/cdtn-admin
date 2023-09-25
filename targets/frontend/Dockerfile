@@ -56,5 +56,5 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 WORKDIR /app/targets/frontend
 
-CMD ["node","../../node_modules/.bin/next","start"]
+CMD ["yarn","start"]
 

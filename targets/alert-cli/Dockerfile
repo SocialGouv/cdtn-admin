@@ -45,4 +45,4 @@ WORKDIR /app
 
 COPY --from=dist /app/targets/alert-cli/dist ./dist/
 
-CMD ["node","--enable-source-maps","--unhandled-rejections=strict","/app/dist/index.js"]
+CMD ["yarn","start"]

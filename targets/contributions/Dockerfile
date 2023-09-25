@@ -44,4 +44,4 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 WORKDIR /app/targets/contributions
-CMD ["node", "./server"]
+CMD ["yarn","start"]

@@ -66,4 +66,4 @@ ENV NODE_ENV=production
 
 WORKDIR /app/targets/export-elasticsearch
 
-CMD ["node", "./build/index.js"]
+CMD ["yarn","start"]
