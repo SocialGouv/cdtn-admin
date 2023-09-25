@@ -221,7 +221,7 @@ export const ContributionsAnswer = ({
               {answer && !isCodeDuTravail(answer) && (
                 <KaliReferenceInput
                   name="kaliReferences"
-                  idcc={answer.agreement.id}
+                  agreement={answer.agreement}
                   control={control}
                   disabled={isNotEditable(answer)}
                 />

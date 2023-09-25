@@ -23,6 +23,7 @@ query contribution_answer($id: uuid) {
     agreement {
       id
       name
+      kaliId: kali_id
     }
     answerComments: answer_comments {
       id
