@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.16.1...v2.17.0) (2023-09-25)
+
+### Features
+
+- ajout du support de l'accordéon sur les contributions ([#1020](https://github.com/SocialGouv/cdtn-admin/issues/1020)) ([c55bd4c](https://github.com/SocialGouv/cdtn-admin/commit/c55bd4cb09946c266a7e01775ef17e9884240270))
+- **alerts:** ajout d'un feature de notification pour les alertes de la dares ([#1004](https://github.com/SocialGouv/cdtn-admin/issues/1004)) ([530043d](https://github.com/SocialGouv/cdtn-admin/commit/530043d68ce7def89555ae696d0ac2d6f9aa346b))
+- remise des icones de status et ajout de l'index de question ([#1021](https://github.com/SocialGouv/cdtn-admin/issues/1021)) ([d734c39](https://github.com/SocialGouv/cdtn-admin/commit/d734c398d91e3bd6cd7348aeb706aa3c2a57bb8f)), closes [#1022](https://github.com/SocialGouv/cdtn-admin/issues/1022)
+
 ## [2.16.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.16.0...v2.16.1) (2023-09-20)
 
 ### Bug Fixes
