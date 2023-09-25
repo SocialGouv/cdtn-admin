@@ -9,7 +9,7 @@ COPY .yarn .yarn
 
 # hadolint ignore=SC2046
 RUN --mount=type=secret,id=npmTiptapToken,target=/secrets/npmTiptapToken \
-  NPM_TIPTAP_TOKEN=$(cat /secrets/npmTiptapToken) \
+  export NPM_TIPTAP_TOKEN=$(cat /secrets/npmTiptapToken); \
   yarn fetch workspaces focus alert-cli
 
 FROM deps AS build-graphql-client
