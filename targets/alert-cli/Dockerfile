@@ -48,5 +48,6 @@ ENV NODE_ENV=production
 WORKDIR /app
 
 COPY --from=dist /app/targets/alert-cli/dist ./dist/
+COPY --from=dist /app/targets/alert-cli/package.json ./
 
 CMD ["yarn","start"]
