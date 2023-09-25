@@ -7,36 +7,36 @@ jobs:
         imagePackage: frontend
         dockerfile: targets/frontend/Dockerfile
         secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
+          npmTiptapToken:
+            secretName: npm-tiptap
+            secretKey: NPM_TIPTAP_TOKEN
     build-ingester:
       use: build
       with:
         imagePackage: ingester
         dockerfile: targets/ingester/Dockerfile
         secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
+          npmTiptapToken:
+            secretName: npm-tiptap
+            secretKey: NPM_TIPTAP_TOKEN
     build-alert:
       use: build
       with:
         imagePackage: alert
         dockerfile: targets/alert-cli/Dockerfile
         secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
+          npmTiptapToken:
+            secretName: npm-tiptap
+            secretKey: NPM_TIPTAP_TOKEN
     build-export:
       use: build
       with:
         imagePackage: export
         dockerfile: targets/export-elasticsearch/Dockerfile
         secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
+          npmTiptapToken:
+            secretName: npm-tiptap
+            secretKey: NPM_TIPTAP_TOKEN
     build-contributions:
       use: build
       with:

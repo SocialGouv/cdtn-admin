@@ -5,12 +5,16 @@
 Pour intialiser le projet, nous avons besoin d'une dépendance depuis le registry privé de [tiptap](https://tiptap.dev/). Suivez les étapes suivantes :
  * [Créer un compte (gratuit)](https://tiptap.dev/register) sur tiptap.
  * Se rendre sur la page [Pro Extensions](https://collab.tiptap.dev/pro-extensions) de votre compte pour récupérer le token
- * Créer un fichier `.npmrc` à la racine avec le contenu suivant (le contenu est également disponible sur la page contenant le token de tiptap) :
-
-```
-@tiptap-pro:registry=https://registry.tiptap.dev/
-//registry.tiptap.dev/:_authToken=VOTRE_TOKEN_ICI
-```
+ * Exporter la variable `NPM_TIPTAP_TOKEN` dans votre shell courant
+ * (optionnel) Pour automatiser la chargement de cette variable lorsque l'on est dans le dossier du projet, il est possible d'installer [direnv](https://direnv.net/).
+   ```sh
+   curl -sfL https://direnv.net/install.sh | bash
+   ```
+   Créer ensuite un fichier `.envrc` à la racine avec le contenu suivant (ou en copiant le fichier `.envrc.sample`):
+    ```
+    export NPM_TIPTAP_TOKEN='VOTRE_TOKEN_ICI'
+    ```
+    il faut ensuite executer `direnv allow` (et il faudra exécuter cette commande après chaque changement du fichier .envrc pour autoriser direnv à charger son contenu automatiquement lorsque le shell est dans le dossier)
 
 Vous pouvez maintenant lancer la commande `yarn install` pour installer les packages du projet.
 

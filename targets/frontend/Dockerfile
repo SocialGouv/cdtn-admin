@@ -10,7 +10,9 @@ COPY .yarn .yarn
 # Hack copy .npmrc file only if exist (dev only) otherwise use secret
 COPY *.npmrc /
 # hadolint ignore=SC2046
-RUN --mount=type=secret,id=npmrc,target=/.npmrc yarn fetch workspaces focus frontend
+RUN --mount=type=secret,id=npmTiptapToken,target=/secrets/npmTiptapToken \
+  TIPTAP_AUTH_TOKEN=$(cat /secrets/npmTiptapToken) \
+  yarn fetch workspaces focus frontend
 
 
 FROM deps AS build-graphql-client

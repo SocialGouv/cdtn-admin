@@ -23,7 +23,7 @@ jobs:
           node-version: 20.3.1
           cache: "yarn"
       - name: Install dependencies
-        run: yarn --immutable
+        run: TIPTAP_PRO_TOKEN=${{ secrets.TIPTAP_PRO_TOKEN }} yarn --immutable
       - name: Set git
         run: |
           git config --global user.name "${NAME}"
@@ -39,12 +39,5 @@ jobs:
         run: GH_TOKEN=${GITHUB_TOKEN} yarn lerna version --force-publish --yes --conventional-commits --create-release github
         env:
           GITHUB_TOKEN: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
-      - name: Setup token
-        run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Deploy to npm
         run: yarn lerna publish from-package --yes
-      - name: Remove .npmrc
-        if: always()
-        run: rm .npmrc
