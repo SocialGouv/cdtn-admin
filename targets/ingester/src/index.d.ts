@@ -24,7 +24,18 @@ type ExternalDocument = Document & {
   url: string;
 };
 
-type Contribution = Document & (CCMultipleAnswers | CCSingleAnswer);
+type ExtendedQuestion = Omit<Question, "answers"> & {
+  answers?: {
+    generic: GenericAnswer;
+
+    conventions?: Answer[];
+  };
+  answer?: Answer & {
+    shortName: string;
+  };
+};
+
+type Contribution = Document & ExtendedQuestion;
 
 type LegiArticle = ExternalDocument & {
   dateDebut: number;

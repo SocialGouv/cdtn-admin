@@ -5,9 +5,11 @@ import type {
   GenericAnswer,
 } from "@shared/types";
 
-import type { AnswerRaw } from "./types"; // Unified works only with require
-import { IndexedAgreement } from "@socialgouv/kali-data-types"; // eslint-disable-next-line @typescript-eslint/no-require-imports
+import type { AnswerRaw } from "./types";
+import { IndexedAgreement } from "@socialgouv/kali-data-types";
 import slugify from "@socialgouv/cdtn-slugify";
+
+const HTML_TAGS = /<[^>]*>?/gm;
 
 export class AnswerExtractor {
   constructor(agreements: IndexedAgreement[]) {
@@ -100,7 +102,7 @@ export class AnswerExtractor {
   }
 
   private toText = (answer: AnswerRaw): string =>
-    (answer.content || "").replace(/<[^>]*>?/gm, "").replace(/&nbsp;/gm, " ");
+    (answer.content || "").replace(HTML_TAGS, "").replace(/&nbsp;/gm, " ");
 
   private readonly comparableIdcc = (num: number | string): number =>
     parseInt(num.toString(), 10);
