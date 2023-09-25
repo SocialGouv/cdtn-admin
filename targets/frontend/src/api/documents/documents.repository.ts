@@ -10,7 +10,7 @@ export class DocumentsRepository {
   }
 
   async update(document: Document): Promise<void> {
-    const { error } = await this.client.mutation<any, DocumentsRequest>(
+    const { data, error } = await this.client.mutation<any, DocumentsRequest>(
       documentsMutation,
       document
     );
@@ -18,5 +18,7 @@ export class DocumentsRepository {
       console.log("Error: ", error);
       throw error;
     }
+    console.log("data", data);
+    return data;
   }
 }

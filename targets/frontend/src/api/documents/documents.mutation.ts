@@ -2,7 +2,7 @@ import { gql } from "@urql/core";
 
 export const documentsMutation = gql`
   mutation publishInformation(
-    $cdtnId: !uuid
+    $cdtnId: uuid!
     $document: jsonb
     $text: String
     $title: String

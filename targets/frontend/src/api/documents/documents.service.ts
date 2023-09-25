@@ -93,6 +93,8 @@ export class DocumentsService {
         document = this.mapInformationToDocument(data);
         break;
     }
-    await this.documentsRepository.update(document);
+    const result = await this.documentsRepository.update(document);
+    console.log(result);
+    return result;
   }
 }

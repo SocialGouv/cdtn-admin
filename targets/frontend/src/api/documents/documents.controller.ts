@@ -13,7 +13,7 @@ import { InformationsRepository } from "../informations";
 
 const inputSchema = z.object({
   id: z.string().uuid(),
-  source: z.string().uuid(),
+  source: z.string(),
 });
 
 const actionSchema = z.object({
@@ -46,6 +46,7 @@ export class DocumentsController {
           new DocumentsRepository(client)
         );
         await publish(inputs.input.id, inputs.input.source);
+        console.log();
         this.res.status(201).json({ cdtnId: "test" });
       }
     } catch (error) {
@@ -55,6 +56,7 @@ export class DocumentsController {
       if (error instanceof InvalidQueryError) {
         this.res.status(400).json({ message: error.message });
       } else {
+        console.log("error", error);
         this.res.status(500).json({
           message: DEFAULT_ERROR_500_MESSAGE,
         });
@@ -62,7 +64,7 @@ export class DocumentsController {
     }
   }
 
-  private checkInputs(): z.infer<typeof actionSchema> {
+  checkInputs(): z.infer<typeof actionSchema> {
     const inputResult = actionSchema.safeParse(this.req.body);
 
     if (!inputResult.success) {
