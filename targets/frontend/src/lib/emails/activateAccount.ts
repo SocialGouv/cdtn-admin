@@ -3,7 +3,7 @@ import sendmail from "./sendmail";
 const BASE_URL =
   process.env.FRONTEND_HOST || `http://localhost:${process.env.PORT}`;
 
-export function sendActivateAccountEmail(email, secret_token) {
+export function sendActivateAccountEmail(email: string, secret_token: string) {
   const subject = "Activation de votre compte";
   const activateUrl = `${BASE_URL}/change_password?token=${secret_token}&activate=1`; // todo: dynamic hostname
   const text = `Bonjour,
@@ -13,7 +13,7 @@ export function sendActivateAccountEmail(email, secret_token) {
   L'equipe veille CDTN
   `;
 
-  var mailOptions = {
+  const mailOptions = {
     from: process.env.ACCOUNT_MAIL_SENDER,
     subject,
     text,

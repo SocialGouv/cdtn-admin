@@ -1,17 +1,16 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import PropTypes from "prop-types";
-import { IoIosCheckmark, IoIosClose } from "react-icons/io";
 import { useSelectionContext } from "src/pages/contenus";
 import { theme } from "src/theme";
 import {
-  Box,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
 } from "@mui/material";
+import { Check, Cross } from "../utils/icons";
 
 export function DocumentList({ documents }) {
   return (
@@ -20,8 +19,8 @@ export function DocumentList({ documents }) {
         <TableRow>
           <TableCell />
           <TableCell sx={{ textAlign: "left" }}>Document</TableCell>
-          <TableCell sx={{ textAlign: "left" }}>Publié</TableCell>
-          <TableCell sx={{ textAlign: "left" }}>Disponible</TableCell>
+          <TableCell sx={{ textAlign: "center" }}>Publié</TableCell>
+          <TableCell sx={{ textAlign: "center" }}>Disponible</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -32,6 +31,7 @@ export function DocumentList({ documents }) {
     </Table>
   );
 }
+
 DocumentList.propTypes = {
   documents: PropTypes.arrayOf(
     PropTypes.shape({
@@ -98,26 +98,10 @@ const DocumentRow = function DocumentRow({
         </Link>
       </TableCell>
       <TableCell sx={{ textAlign: "center" }}>
-        {isPublished ? (
-          <Box sx={{ color: "muted" }}>
-            <IoIosCheckmark />
-          </Box>
-        ) : (
-          <Box sx={{ color: "critical" }}>
-            <IoIosClose />
-          </Box>
-        )}
+        {isPublished ? <Check /> : <Cross />}
       </TableCell>
       <TableCell sx={{ textAlign: "center" }}>
-        {isAvailable ? (
-          <Box sx={{ color: "muted" }}>
-            <IoIosCheckmark />
-          </Box>
-        ) : (
-          <Box sx={{ color: "critical" }}>
-            <IoIosClose />
-          </Box>
-        )}
+        {isAvailable ? <Check /> : <Cross />}
       </TableCell>
     </TableRow>
   );

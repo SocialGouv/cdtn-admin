@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.16.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.16.0...v2.16.1) (2023-09-20)
+
+### Bug Fixes
+
+- admin search content ([#1019](https://github.com/SocialGouv/cdtn-admin/issues/1019)) ([f1e3b18](https://github.com/SocialGouv/cdtn-admin/commit/f1e3b18776e39a3d84e00c58883a35ed403f852e))
+
+# [2.16.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.15.1...v2.16.0) (2023-09-18)
+
+### Features
+
+- **contribs:** add global stats on contrib page ([#1017](https://github.com/SocialGouv/cdtn-admin/issues/1017)) ([a522361](https://github.com/SocialGouv/cdtn-admin/commit/a522361b83b6dc0f31914289b78ac62336db7cfd))
+- mise à jour de l'heure du lancement de l'ingester ([#1018](https://github.com/SocialGouv/cdtn-admin/issues/1018)) ([6f41d65](https://github.com/SocialGouv/cdtn-admin/commit/6f41d6576b0b4175d32572343401d7ef35cbfd01))
+
+## [2.15.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.15.0...v2.15.1) (2023-09-18)
+
+### Bug Fixes
+
+- correction sur le bouton de soumission au changement de mot de passe ([#1016](https://github.com/SocialGouv/cdtn-admin/issues/1016)) ([54269cc](https://github.com/SocialGouv/cdtn-admin/commit/54269ccc9cc2f1ce6388824ea18b0c22fba239df))
+
+# [2.15.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.14.0...v2.15.0) (2023-09-15)
+
+### Bug Fixes
+
+- ne plus envoyer le secret_token depuis le frontend ([#1014](https://github.com/SocialGouv/cdtn-admin/issues/1014)) ([ff10f07](https://github.com/SocialGouv/cdtn-admin/commit/ff10f070ec6b45ab4f4aabd070afeb7917c524ca))
+
+### Features
+
+- gestion des conventions collectives sans page legifrance ([#1015](https://github.com/SocialGouv/cdtn-admin/issues/1015)) ([664bb5c](https://github.com/SocialGouv/cdtn-admin/commit/664bb5c0ef7a87a13cceb51b8086ace5bc74b88f))
+
 # [2.14.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.13.0...v2.14.0) (2023-09-05)
 
 ### Bug Fixes

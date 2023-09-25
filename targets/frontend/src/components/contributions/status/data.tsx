@@ -1,41 +1,31 @@
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
-import DescriptionIcon from "@mui/icons-material/Description";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import { fr } from "@codegouvfr/react-dsfr";
 
 export const statusesMapping = {
-  PUBLISHED: {
-    color: "#2e7858",
-    icon: <TaskAltIcon titleAccess="Publié" fontSize="small" />,
-    text: "PUBLIÉ",
+  TODO: {
+    color: fr.colors.decisions.text.default.error.default,
+    text: "À traiter",
+  },
+
+  REDACTING: {
+    color: fr.colors.decisions.text.actionHigh.blueCumulus.default,
+    text: "En rédaction",
   },
   REDACTED: {
-    color: "#c3992a",
-    icon: <DescriptionIcon titleAccess="Rédigé" fontSize="small" />,
-    text: "RÉDIGÉ",
-  },
-  REDACTING: {
-    color: "#a9c8fb",
-    icon: <EditNoteIcon titleAccess="En rédaction" fontSize="small" />,
-    text: "RÉDACTION",
-  },
-  TODO: {
-    color: "#a94645",
-    icon: <ClearIcon titleAccess="À traiter" fontSize="small" />,
-    text: "À TRAITER",
-  },
-  VALIDATED: {
-    color: "#68a532",
-    icon: <CheckIcon titleAccess="Validé" fontSize="small" />,
-    text: "VALIDÉ",
+    color: fr.colors.decisions.text.default.info.default,
+    text: "À validé",
   },
   VALIDATING: {
-    color: "#e4794a",
-    icon: (
-      <VisibilityIcon titleAccess="En cours de validation" fontSize="small" />
-    ),
-    text: "VALIDATION",
+    color: fr.colors.decisions.text.default.warning.default,
+
+    text: "En validation",
+  },
+  VALIDATED: {
+    color: fr.colors.decisions.text.label.greenBourgeon.default,
+    text: "Validé",
+  },
+
+  PUBLISHED: {
+    color: fr.colors.decisions.text.default.success.default,
+    text: "Publié",
   },
 };

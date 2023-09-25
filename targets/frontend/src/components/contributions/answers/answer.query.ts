@@ -14,6 +14,7 @@ query contribution_answer($id: uuid) {
     content
     otherAnswer: other_answer
     updatedAt: updated_at
+    urlSp: url_sp
     question {
       id
       content
@@ -30,7 +31,7 @@ query contribution_answer($id: uuid) {
         name
       }
     }
-    statuses(order_by: {created_at: desc}, limit: 1) {
+    statuses(order_by: {created_at: desc}) {
       createdAt: created_at
       status
       user {

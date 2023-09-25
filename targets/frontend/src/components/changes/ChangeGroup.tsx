@@ -193,6 +193,23 @@ export function AddedChanges({ changes }: ChangesProps): JSX.Element {
         </>
       );
     }
+
+    case "dares": {
+      return (
+        <>
+          {changes.added.map((change) => (
+            <ListItem key={`${changes.ref}-${change.num}-added`}>
+              Convention collective
+              <b style={{ marginLeft: "4px", marginRight: "4px" }}>
+                {change.num}
+              </b>
+              présente dans le fichier de la DARES mais absente de la base de
+              données du CDTN
+            </ListItem>
+          ))}
+        </>
+      );
+    }
   }
 }
 
@@ -235,6 +252,22 @@ export function RemovedChanges({ changes }: ChangesProps): JSX.Element {
               style={styles.listItem}
             >
               <FicheLink change={change} documents={changes.documents} />
+            </ListItem>
+          ))}
+        </>
+      );
+    }
+    case "dares": {
+      return (
+        <>
+          {changes.removed.map((change) => (
+            <ListItem key={`${changes.ref}-${change.num}-removed`}>
+              Convention collective
+              <b style={{ marginLeft: "4px", marginRight: "4px" }}>
+                {change.num}
+              </b>
+              présente dans la base de données du CDTN mais absente dans le
+              fichier de la DARES
             </ListItem>
           ))}
         </>
@@ -372,6 +405,9 @@ export function ModifiedChanges({ changes }: ChangesProps): JSX.Element {
         </>
       );
     }
+    case "dares": {
+      return <></>;
+    }
   }
 }
 
@@ -379,7 +415,7 @@ function getBadgeColor(etat: string) {
   switch (etat) {
     case "VIGUEUR":
       return theme.colors.positive;
-    case "MOIFIE":
+    case "MODIFIE":
       return theme.colors.caution;
     case "ABROGE":
     case "ABROGE_DIFF":

@@ -22,9 +22,12 @@ jobs:
         with:
           node-version: 20.3.1
           cache: "yarn"
-      - name: Install dependencies
+      - name: Setup tiptap pro
         run: |
-          yarn --immutable
+          echo "@tiptap-pro:registry=https://registry.tiptap.dev/" >> ~/.npmrc
+          echo "//registry.tiptap.dev/:_authToken=${{ secrets.TIPTAP_PRO_TOKEN }}" >> ~/.npmrc
+      - name: Install dependencies
+        run: yarn --immutable
       - name: Build code
         run: |
           yarn build

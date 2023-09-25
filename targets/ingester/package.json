@@ -1,6 +1,6 @@
 {
   "name": "ingester",
-  "version": "2.14.0",
+  "version": "2.16.1",
   "dependencies": {
     "@shared/graphql-client": "workspace:^",
     "@shared/id-generator": "workspace:^",

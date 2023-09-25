@@ -13,3 +13,5 @@ docker-compose.override.yml
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+.npmrc
