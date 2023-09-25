@@ -11,7 +11,7 @@ COPY .yarn .yarn
 
 # hadolint ignore=SC2046
 RUN --mount=type=secret,id=npmTiptapToken,target=/secrets/npmTiptapToken \
-  TIPTAP_AUTH_TOKEN=$(cat /secrets/npmTiptapToken) \
+  NPM_TIPTAP_TOKEN=$(cat /secrets/npmTiptapToken) \
   yarn fetch workspaces focus export-elasticsearch
 
 FROM deps AS build-graphql-client
