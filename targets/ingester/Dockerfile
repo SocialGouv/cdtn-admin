@@ -36,6 +36,7 @@ FROM node:$NODE_VERSION
 WORKDIR /app
 
 COPY --from=dist /app/targets/ingester/dist/ /app/dist/
+COPY --from=dist /app/targets/ingester/package.json /app/
 
 USER 1000
 
