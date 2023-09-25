@@ -14,6 +14,7 @@ import { format } from "./format";
 /**
  * Extract external content url from Content tag markdown
  */
+
 function extractMdxContentUrl(markdown: string) {
   if (!markdown) return null;
   // Check Content tag exist on markdown
@@ -31,9 +32,9 @@ query {
   }
 }`;
 
-type FicheIdResult = {
+interface FicheIdResult {
   ficheIds: { id: string }[];
-};
+}
 
 const updateStatusMutation = `
 mutation updateStatus($ids: [String!],$status: String) {
@@ -84,8 +85,9 @@ export default async function getFichesServicePublic(pkgName: string) {
     .toPromise();
   console.timeEnd("service-public updateStatus");
 
+  // TODO here use the new field with fiche SP id
   const fichesIdFromContrib = contributions.flatMap(({ answers }) => {
-    const url = extractMdxContentUrl(answers.generic.markdown) ?? "";
+    const url = extractMdxContentUrl(answers.generic.content) ?? "";
 
     const [, id] = /\/(\w+)$/.exec(url) ?? [];
     if (id) {

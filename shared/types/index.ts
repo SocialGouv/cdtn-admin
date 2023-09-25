@@ -442,13 +442,13 @@ export type Question = {
 export type Answer = {
   id: string;
   idcc: string;
-  markdown: string;
+  content: string;
   references: ContributionReference[];
 };
 
 export type GenericAnswer = {
   id: string;
-  markdown: string;
+  content: string;
   description: string;
   text: string;
   references: ContributionReference[];
@@ -457,7 +457,6 @@ export type GenericAnswer = {
 export type ContributionReference = BaseRef | DilaRef;
 
 export type DilaRef = {
-  category: "agreement" | "labor_code";
   url: string;
   title: string;
   dila_id: string;
@@ -468,7 +467,7 @@ export type DilaRef = {
 export type BaseRef = {
   category: null;
   title: string;
-  url: string | null;
+  url?: string | null;
 };
 
 export type State =

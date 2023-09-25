@@ -23,7 +23,7 @@ async function fetchContributions(
   ]);
   const answerExtractor = new AnswerExtractor(agreements);
 
-  return questions.flatMap(({ id, index, title, answers }) => {
+  return questions.flatMap(({ answers, ...question }) => {
     const genericAnswer = answerExtractor.extractGenericAnswer(answers);
     if (!genericAnswer) return [];
     return {
@@ -31,9 +31,7 @@ async function fetchContributions(
         conventions: answerExtractor.extractAgreementAnswers(answers),
         generic: genericAnswer,
       },
-      id,
-      index,
-      title,
+      ...question,
     };
   });
 }

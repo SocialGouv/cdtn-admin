@@ -1,58 +1,99 @@
 import type {
   Answer,
+  BaseRef,
   ContributionReference,
   GenericAnswer,
 } from "@shared/types";
-import remark from "remark";
-import strip from "strip-markdown";
 
-import type { AgreementAnswerRaw, AnswerRaw } from "./types";
-// Unified works only with require
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-import unified = require("unified");
-import { IndexedAgreement } from "@socialgouv/kali-data-types";
+import type { AnswerRaw } from "./types"; // Unified works only with require
+import { IndexedAgreement } from "@socialgouv/kali-data-types"; // eslint-disable-next-line @typescript-eslint/no-require-imports
+import slugify from "@socialgouv/cdtn-slugify";
 
 export class AnswerExtractor {
   constructor(agreements: IndexedAgreement[]) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.mdStriper = remark().use(strip as any) as any;
     this.agreements = agreements;
   }
 
   public extractGenericAnswer(answers: AnswerRaw[]): GenericAnswer | null {
-    const genericAnswer = answers.find((answer) => answer.agreement === null);
+    const genericAnswer = answers.find(
+      (answer) => answer.agreement.id === "0000"
+    );
     if (!genericAnswer) {
       return null;
     }
-    const genericTextAnswer = this.genericTextAnswer(genericAnswer);
+    const genericTextAnswer = this.toText(genericAnswer);
     return {
       description:
         genericTextAnswer.slice(0, genericTextAnswer.indexOf(" ", 150)) + "…",
       id: genericAnswer.id,
-      markdown: genericAnswer.markdown,
-      references: genericAnswer.references,
-      text: genericTextAnswer,
+      content: genericAnswer.content,
+      references: this.aggregateReferences(genericAnswer),
+      text: genericTextAnswer, // Utilisé pour générer la page contribution TODO: à enlever si plus nécessaire
     };
+  }
+
+  private mapKaliRefs = (
+    idcc: string,
+    references: any[]
+  ): ContributionReference[] => {
+    if (!references.length) return [];
+    const agreement = this.agreements.find(
+      (item) => this.comparableIdcc(item.num) === this.comparableIdcc(idcc)
+    );
+    if (!agreement) {
+      throw new Error(`agreement ${idcc} not found `);
+    }
+    return references.map((ref) => {
+      return {
+        title: ref.title,
+        url: `https://legifrance.gouv.fr/conv_coll/id/${ref.kali_article.id}/?idConteneur=${agreement.id}`,
+      } as BaseRef;
+    });
+  };
+
+  private mapLegiRefs = (references: any[]): ContributionReference[] => {
+    if (!references.length) return [];
+
+    return references.map((ref) => {
+      return {
+        title: ref.legi_article.title,
+        url: "/code-du-travail/" + slugify(ref.legi_article.title),
+      } as BaseRef;
+    });
+  };
+
+  private mapOtherRefs = (references: any[]): ContributionReference[] => {
+    if (!references.length) return [];
+
+    return references.map((ref) => {
+      if (!ref.url) delete ref.url;
+      return ref as BaseRef;
+    });
+  };
+
+  private aggregateReferences(answer: AnswerRaw): ContributionReference[] {
+    return this.mapKaliRefs(answer.agreement.id, answer.kali_references)
+      .concat(this.mapLegiRefs(answer.legi_references))
+      .concat(this.mapOtherRefs(answer.other_references))
+      .concat(answer.cdtn_references); // je n'ai pas fait le mapping parce qu'on a besoin du package packages/code-du-travail-utils/src/sources.ts utilisé seulement dans le front
   }
 
   public extractAgreementAnswers(answers: AnswerRaw[]): Answer[] {
     return this.filterAgreementAnswers(answers)
       .map((answer) => ({
         id: answer.id,
-        idcc: answer.agreement.idcc,
-        markdown: answer.markdown,
-        references: answer.references
-          .map(this.createGetRefUrl(answer.agreement.idcc))
-          .sort(this.sortBy("title")),
+        idcc: answer.agreement.id,
+        content: answer.content,
+        otherAnswer: answer.otherAnswer, // on renomerait pas ce champs ici ?
+        references: this.aggregateReferences(answer).sort(this.sortBy("title")),
       }))
       .sort(this.sortBy("idcc"));
   }
 
-  private filterAgreementAnswers(answers: AnswerRaw[]): AgreementAnswerRaw[] {
-    return answers.filter(
-      (answer) =>
-        answer.agreement !== null && this.hasAgreement(answer.agreement.idcc)
-    ) as AgreementAnswerRaw[];
+  // est-ce toujours nécessaire??
+  // on check que toutes les contrib pointent vers un agreement qui existe
+  private filterAgreementAnswers(answers: AnswerRaw[]): AnswerRaw[] {
+    return answers.filter((answer) => this.hasAgreement(answer.agreement.id));
   }
 
   private hasAgreement(idcc: string): boolean {
@@ -60,57 +101,11 @@ export class AnswerExtractor {
       (convention) =>
         this.comparableIdcc(convention.num) === this.comparableIdcc(idcc)
     );
-    return agreement ? true : false;
+    return !!agreement;
   }
 
-  private createGetRefUrl(
-    idcc: string
-  ): (ref: ContributionReference) => ContributionReference {
-    const agreement = this.agreements.find(
-      (item) => this.comparableIdcc(item.num) === this.comparableIdcc(idcc)
-    );
-    if (!agreement) {
-      throw new Error(`agreement ${idcc} not found `);
-    }
-    return function getRefUrl(reference) {
-      switch (reference.category) {
-        case "agreement": {
-          if (reference.dila_id) {
-            reference.url = `https://legifrance.gouv.fr/conv_coll/id/${reference.dila_id}/?idConteneur=${agreement.id}`;
-          } else if (agreement.url) {
-            reference.url = agreement.url;
-          }
-          return reference;
-        }
-        case "labor_code": {
-          if (reference.dila_id) {
-            reference.url = `https://legifrance.gouv.fr/codes/id/${reference.dila_id}`;
-          } else {
-            reference.url =
-              "https://www.legifrance.gouv.fr/codes/id/LEGITEXT000006072050";
-          }
-          return reference;
-        }
-        case null: /* Nothing to do */
-      }
-
-      return reference;
-    };
-  }
-
-  private genericTextAnswer(genericAnswer: AnswerRaw): string {
-    try {
-      return this.mdStriper
-        .processSync(genericAnswer.markdown)
-        .toString()
-        .replace(/(\s)\s+/, "$1")
-        .trim() as unknown as string;
-    } catch (e) {
-      console.error(genericAnswer);
-      console.error(this.mdStriper.processSync(genericAnswer.markdown));
-      throw e;
-    }
-  }
+  private toText = (answer: AnswerRaw): string =>
+    (answer.content || "").replace(/<[^>]*>?/gm, "").replace(/&nbsp;/gm, " ");
 
   private readonly comparableIdcc = (num: number | string): number =>
     parseInt(num.toString(), 10);
@@ -119,9 +114,6 @@ export class AnswerExtractor {
     <T, K extends keyof T>(key: K) =>
     (a: T, b: T): number =>
       `${a[key]}`.localeCompare(`${b[key]}`);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private readonly mdStriper: unified.Processor<any>;
 
   private readonly agreements: IndexedAgreement[];
 }

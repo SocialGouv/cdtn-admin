@@ -15,15 +15,15 @@ export class ContributionDatabase implements ContributionRepository {
 
   public async fetchAll(): Promise<QuestionRaw[]> {
     const res = await client
-      .query<{ questions: QuestionRaw[] }>(fetchAllContributions)
+      .query<{ contribution_questions: QuestionRaw[] }>(fetchAllContributions)
       .toPromise();
     if (res.error) {
       throw res.error;
     }
-    if (!res.data?.questions) {
-      throw new Error("Failed to get, undefined object");
+    if (!res.data?.contribution_questions) {
+      throw new Error("Failed to get contribution_questions");
     }
-    return res.data.questions;
+    return res.data.contribution_questions;
   }
 
   private readonly client: Client;
