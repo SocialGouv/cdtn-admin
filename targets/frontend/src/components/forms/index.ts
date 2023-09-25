@@ -3,3 +3,5 @@ export * from "./EditionField";
 export * from "./RadioGroup";
 export * from "./Select";
 export * from "./TextField";
+export * from "./ToggleButtonGroup";
+export * from "./File";

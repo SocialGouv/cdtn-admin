@@ -1,30 +1,20 @@
-import { Skeleton, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { BreadcrumbLink } from "src/components/utils";
-import { useListModelQuery } from "./model.query";
 import React from "react";
 import { ModelForm } from "src/components/models/Common";
 import { useModelUpdateMutation } from "src/components/models/Common/model.mutation";
+import { useRouter } from "next/router";
 
-type Props = {
-  id: string;
-};
-
-export const ModelEdition = ({ id }: Props): React.ReactElement => {
-  const model = useListModelQuery({ id });
+export const ModelCreation = (): React.ReactElement => {
+  const router = useRouter();
   const update = useModelUpdateMutation();
-
-  if (!model) {
-    return (
-      <>
-        <Skeleton />
-      </>
-    );
-  }
 
   const Header = () => (
     <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
       <BreadcrumbLink href={"/modeles"}>Modèles de courrier</BreadcrumbLink>
-      <BreadcrumbLink>{model.title}</BreadcrumbLink>
+      <BreadcrumbLink>
+        Création d&apos;un nouveau modèle de document
+      </BreadcrumbLink>
     </ol>
   );
 
@@ -39,9 +29,9 @@ export const ModelEdition = ({ id }: Props): React.ReactElement => {
         <Header />
         <Stack mt={4} spacing={2}>
           <ModelForm
-            model={model}
             onUpsert={async (props) => {
-              await update(props);
+              const { id } = await update(props);
+              router.push(`/models/${id}`);
             }}
           />
         </Stack>

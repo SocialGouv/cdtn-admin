@@ -21,9 +21,11 @@ insert_permissions:
     permission:
       check: {}
       columns:
+        - created_at
         - description
         - file_name
         - file_size
+        - id
         - preview_html
         - title
         - type

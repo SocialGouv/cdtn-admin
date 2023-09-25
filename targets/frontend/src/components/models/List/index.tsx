@@ -1,4 +1,5 @@
 import {
+  Button,
   Paper,
   Stack,
   Table,
@@ -9,6 +10,7 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useListModelQuery } from "./list.query";
@@ -16,12 +18,18 @@ import { Row } from "./Row";
 
 export const ModelList = (): JSX.Element => {
   const [search, setSearch] = useState<string | undefined>();
+  const router = useRouter();
   const { rows } = useListModelQuery({
     search,
   });
   return (
     <Stack spacing={2}>
-      <Stack direction="row" alignItems="start" spacing={2}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        spacing={2}
+      >
         <TextField
           label="Recherche"
           variant="outlined"
@@ -31,6 +39,15 @@ export const ModelList = (): JSX.Element => {
           }}
           data-testid="models-list-search"
         />
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => {
+            router.push("/models/creation");
+          }}
+        >
+          Créer
+        </Button>
       </Stack>
 
       <TableContainer component={Paper}>

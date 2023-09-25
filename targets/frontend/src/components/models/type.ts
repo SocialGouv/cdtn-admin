@@ -7,5 +7,5 @@ export type Model = {
   description: string;
   fileName: string;
   fileSize: number;
-  previewHtml: string;
+  previewHTML: string;
 };
