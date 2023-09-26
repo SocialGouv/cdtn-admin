@@ -74,7 +74,6 @@ update_permissions:
     permission:
       columns:
         - content
-        - other_answer
         - content_service_public_cdtn_id
         - content_type
       filter: {}
