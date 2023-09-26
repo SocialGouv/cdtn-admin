@@ -18,7 +18,7 @@ query SelectQuestion($questionId: uuid) {
       order_by: {agreement_id: asc}
     ) {
       id
-      otherAnswer: other_answer
+      contentType: content_type
       agreement {
         id
         name
