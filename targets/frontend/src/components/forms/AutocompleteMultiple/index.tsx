@@ -44,7 +44,7 @@ type AutocompleteFormProps<T> = PropsWithChildren<
   }
 >;
 
-export const FormAutocompleteMultiple = <T,>({
+export const FormAutocomplete = <T,>({
   name,
   rules,
   label,

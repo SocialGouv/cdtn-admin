@@ -3,7 +3,6 @@ import {
   LegiReference,
   CdtnReference,
   OtherReference,
-  Document,
 } from "../type";
 
 export const formatKaliReferences = (

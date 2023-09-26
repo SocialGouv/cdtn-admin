@@ -2,7 +2,7 @@ import { Chip } from "@mui/material";
 import { ReactElement, useEffect, useState } from "react";
 import { Control } from "react-hook-form";
 
-import { FormAutocompleteMultiple } from "../../../forms";
+import { FormAutocomplete } from "../../../forms";
 import { CombinedError } from "urql";
 
 export type Result<Type> = {
@@ -60,7 +60,7 @@ export const ReferenceInput = <Type,>({
   }, [open]);
 
   return (
-    <FormAutocompleteMultiple<Type>
+    <FormAutocomplete<Type>
       multiple={isMultiple}
       noOptionsText={"Aucun résultat trouvé"}
       control={control}
