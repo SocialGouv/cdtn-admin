@@ -5065,7 +5065,7 @@ __metadata:
     "@babel/preset-typescript": ^7.16.7
     "@elastic/elasticsearch": ^7.14.1
     "@shared/eslint-config": "workspace:^"
-    "@socialgouv/cdtn-elasticsearch": ^2.13.0
+    "@socialgouv/cdtn-elasticsearch": "workspace:^"
     "@socialgouv/cdtn-logger": "workspace:^"
     "@socialgouv/cdtn-monolog": ^1.5.11
     "@socialgouv/cdtn-slugify": ^4.52.1
@@ -5223,7 +5223,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@socialgouv/cdtn-elasticsearch@^2.13.0, @socialgouv/cdtn-elasticsearch@workspace:shared/elasticsearch":
+"@socialgouv/cdtn-elasticsearch@workspace:^, @socialgouv/cdtn-elasticsearch@workspace:shared/elasticsearch":
   version: 0.0.0-use.local
   resolution: "@socialgouv/cdtn-elasticsearch@workspace:shared/elasticsearch"
   dependencies:
