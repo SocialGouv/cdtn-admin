@@ -1,6 +1,6 @@
 {
   "name": "alert-cli",
-  "version": "2.13.0",
+  "version": "2.17.2",
   "engines": {
     "node": ">=20.0.2"
   },
@@ -9,12 +9,14 @@
   "types": "dist/index.d.ts",
   "private": true,
   "dependencies": {
-    "@shared/graphql-client": "^2.13.0",
+    "@shared/graphql-client": "^2.17.2",
     "@socialgouv/cdtn-slugify": "4.52.1",
     "@socialgouv/cdtn-sources": "4.52.1",
     "@socialgouv/dila-api-client": "1.2.4",
+    "axios": "^1.5.0",
     "diff": "^5.1.0",
     "memoizee": "0.4.15",
+    "node-xlsx": "^0.23.0",
     "p-map": "4",
     "semver": "7.3.5",
     "simple-git": "^3.19.1",
@@ -22,9 +24,9 @@
     "unist-util-select": "4.0.1"
   },
   "devDependencies": {
-    "@shared/dila-resolver": "^2.13.0",
-    "@shared/eslint-config": "^2.13.0",
-    "@shared/types": "^2.13.0",
+    "@shared/dila-resolver": "^2.17.2",
+    "@shared/eslint-config": "^2.17.2",
+    "@shared/types": "^2.17.2",
     "@socialgouv/contributions-data-types": "3.27.0",
     "@socialgouv/fiches-travail-data-types": "4.191.0",
     "@socialgouv/kali-data-types": "2.127.0",

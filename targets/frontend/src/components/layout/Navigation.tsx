@@ -1,7 +1,6 @@
 import { List } from "@mui/material";
 import { useNavigationAggregation } from "./NavigationAggregation.query";
 import { slugifyRepository } from "src/models";
-import { NavigationItem } from "./NavigationItem";
 import { NavigationGroup } from "./NavigationGroup";
 import { useState } from "react";
 import { useRouter } from "next/router";

@@ -9,7 +9,7 @@ import type {
 
 export as namespace ingester;
 
-type Document = {
+interface Document {
   id: string;
   description: string;
   title: string;
@@ -17,7 +17,8 @@ type Document = {
   text: string;
   slug: string;
   is_searchable: boolean;
-};
+  is_published?: boolean;
+}
 
 type ExternalDocument = Document & {
   url: string;
@@ -52,14 +53,14 @@ type FicheTravailEmploi = ExternalDocument & {
   sections: TravailEmploiSection[];
 };
 
-type TravailEmploiSection = {
+interface TravailEmploiSection {
   title: string;
   anchor: string;
   html: string;
   text: string;
   description: string;
   references: TravailEmploiReference[];
-};
+}
 
 type AgreementPage = Document & {
   num: number;
@@ -73,15 +74,15 @@ type AgreementPage = Document & {
   synonymes?: string[];
 };
 
-type AgreementAnswer = {
+interface AgreementAnswer {
   index: number;
   references: (BaseRef | DilaRef)[];
   slug: string;
   question: string;
   answer: string;
-};
+}
 
-type AgreementArticleByBlock = {
+interface AgreementArticleByBlock {
   bloc: string;
   articles: {
     cid: string;
@@ -89,7 +90,7 @@ type AgreementArticleByBlock = {
     section: string;
     title: string;
   }[];
-};
+}
 
 /** Document type */
 type CdtnDocument =

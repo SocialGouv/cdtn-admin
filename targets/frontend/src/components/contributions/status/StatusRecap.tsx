@@ -1,42 +1,30 @@
-import { Box, Stack } from "@mui/material";
-
-import { Status } from "../type";
+import { TableCell } from "@mui/material";
 import { statusesMapping } from "./data";
+import { countAnswersWithStatus, QueryQuestionAnswer } from "../questionList";
 
-export const StatusRecap = (props: {
-  todo: number;
-  redacting: number;
-  redacted: number;
-  validating: number;
-  validated: number;
-  published: number;
-  key: string;
+export const StatusRecap = ({
+  answers,
+  uniqKey = "",
+}: {
+  answers: QueryQuestionAnswer[] | undefined;
+  uniqKey?: string;
 }) => {
   return (
-    <Stack
-      key={props.key}
-      direction="row"
-      spacing={4}
-      alignItems="end"
-      justifyContent="end"
-    >
-      {Object.entries(props).map(([status, value]) => {
-        const { icon, color } = statusesMapping[status.toUpperCase() as Status];
-        if (!value) return <></>;
+    <>
+      {Object.entries(statusesMapping).map(([status, { color }]) => {
+        const count = countAnswersWithStatus(answers, status);
         return (
-          <Stack
-            key={`${props.key}-${status}`}
-            direction="row"
+          <TableCell
+            component="th"
+            scope="row"
+            key={`${uniqKey}-${status}`}
             style={{ color }}
-            spacing={1}
+            align="center"
           >
-            {icon}
-            <Box>
-              <strong>{value}</strong>
-            </Box>
-          </Stack>
+            <strong>{count ? count : "-"}</strong>
+          </TableCell>
         );
       })}
-    </Stack>
+    </>
   );
 };

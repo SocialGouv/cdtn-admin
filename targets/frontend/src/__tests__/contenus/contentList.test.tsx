@@ -2,17 +2,6 @@ import { render, RenderResult } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import { DocumentsPage } from "src/pages/contenus";
 
-jest.mock("next/router", () => ({
-  ...jest.requireActual("next/router"),
-  useRouter: () => ({
-    query: {},
-  }),
-}));
-
-jest.mock("@codegouvfr/react-dsfr/useIsDark", () => ({
-  useIsDark: jest.fn().mockReturnValue(false),
-}));
-
 describe("Given parameters", () => {
   describe("When rendering the component DocumentsPage", () => {
     let rendering: RenderResult;

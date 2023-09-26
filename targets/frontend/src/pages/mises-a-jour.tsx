@@ -54,7 +54,7 @@ export function UpdatePage(): JSX.Element {
             Mettre à jour la production
           </TriggerButton>
           <TriggerButton
-            buttonProps={{ variant: "secondary" }}
+            buttonProps={{ variant: "outlined" }}
             isDisabled={false}
             status={exportEsState.latestExportPreproduction?.status}
             onClick={() => onTrigger(Environment.preproduction)}

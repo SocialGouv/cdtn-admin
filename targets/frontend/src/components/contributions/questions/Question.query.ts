@@ -7,6 +7,7 @@ export const contributionQuestionQuery = `
 query SelectQuestion($questionId: uuid) {
   contribution_questions(where: {id: {_eq: $questionId}}) {
     content
+    order
     id
     message {
       id
@@ -17,7 +18,7 @@ query SelectQuestion($questionId: uuid) {
       order_by: {agreement_id: asc}
     ) {
       id
-      otherAnswer: other_answer
+      contentType: content_type
       agreement {
         id
         name

@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import { IoIosCheckmark, IoIosClose } from "react-icons/io";
 import { useMutation } from "urql";
 
 import { MenuButton, MenuItem } from "../button";
+import { Check, Cross } from "../utils/icons";
 
 export const alertMutation = `
 mutation updateAlertStatus($id:uuid!, $status:String!) {
@@ -31,12 +31,10 @@ export function AlertStatus({ alertId }: { alertId: string }) {
         En cours
       </MenuItem>
       <MenuItem onClick={() => updateStatus("done")}>
-        <IoIosCheckmark style={{ height: "iconSmall", width: "iconSmall" }} />{" "}
-        Traité
+        <Check /> Traité
       </MenuItem>
       <MenuItem onClick={() => updateStatus("rejected")}>
-        <IoIosClose style={{ height: "iconSmall", width: "iconSmall" }} />{" "}
-        Rejeté
+        <Cross /> Rejeté
       </MenuItem>
     </MenuButton>
   );

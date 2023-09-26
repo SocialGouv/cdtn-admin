@@ -1,6 +1,5 @@
 import { getLabelBySource } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
-import { IoIosCheckmark, IoIosClose } from "react-icons/io";
 import { sourceToRoute } from "src/components/documents/List";
 import {
   getGhostDocumentQuery,
@@ -10,11 +9,11 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
-import { CircularProgress, TableHead, TableRow } from "@mui/material";
+import { Chip, CircularProgress, TableHead, TableRow } from "@mui/material";
 import { useQuery } from "urql";
-import { Box, Chip } from "@mui/material";
 import { FixedSnackBar } from "../components/utils/SnackBar";
 import React from "react";
+import { Check, Cross } from "../components/utils/icons";
 
 export function DuplicateContentPage(): JSX.Element {
   const [result] = useQuery<GhostDocumentQueryResult>({
@@ -80,27 +79,10 @@ export function DuplicateContentPage(): JSX.Element {
               </Td>
               <Td>{document.title}</Td>
               <Td align="center">
-                {document.is_published ? (
-                  <Box sx={{ color: "muted" }}>
-                    <IoIosCheckmark />
-                  </Box>
-                ) : (
-                  <Box sx={{ color: "critical" }}>
-                    <IoIosClose />
-                  </Box>
-                )}
+                {document.is_published ? <Check /> : <Cross />}
               </Td>
               <Td align="center">
-                {" "}
-                {document.is_available ? (
-                  <Box sx={{ color: "muted" }}>
-                    <IoIosCheckmark />
-                  </Box>
-                ) : (
-                  <Box sx={{ color: "critical" }}>
-                    <IoIosClose />
-                  </Box>
-                )}
+                {document.is_available ? <Check /> : <Cross />}
               </Td>
             </Tr>
           );

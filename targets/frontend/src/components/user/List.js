@@ -1,15 +1,13 @@
 import { useRouter } from "next/router";
-import PropTypes from "prop-types";
 import { useState } from "react";
-import { IoIosCheckmark, IoMdCloseCircle } from "react-icons/io";
 import {
-  Badge,
   Alert,
+  Badge,
   Table,
   TableBody,
   TableCell,
-  TableRow,
   TableHead,
+  TableRow,
 } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
@@ -17,6 +15,7 @@ import { Role } from "../../lib/auth/auth.const";
 import { Button, MenuButton, MenuItem } from "../button";
 import { Dialog } from "../dialog";
 import { Inline } from "../layout/Inline";
+import { Check, Cross } from "../utils/icons";
 
 const query = `
 query getUsers {
@@ -143,7 +142,7 @@ export function UserList() {
                   {new Date(created_at).toLocaleDateString("fr-FR")}
                 </TableCell>
                 <TableCell align="center">
-                  {active ? <IoIosCheckmark /> : <IoMdCloseCircle />}
+                  {active ? <Check /> : <Cross />}
                 </TableCell>
                 <TableCell align="center">
                   <MenuButton variant="secondary">

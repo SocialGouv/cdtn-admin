@@ -26,10 +26,6 @@ export const createSorter =
 export default async function getAgreementDocuments() {
   const agreements = await loadAgreements();
 
-  const filteredAgreements = agreements.filter(
-    (convention) => typeof convention.id === "string"
-  );
-
   const contributions = await fetchContributions();
 
   const allKaliBlocks = await getAllKaliBlocks();
@@ -46,26 +42,45 @@ export default async function getAgreementDocuments() {
 
   const agreementPages: AgreementPage[] = [];
 
-  for (const agreement of filteredAgreements) {
-    const agreementTree = await loadAgreement(agreement.id);
+  for (const agreement of agreements) {
+    if (agreement.id === undefined) {
+      agreementPages.push(handleCCWithNoLegiFrancePage(agreement));
+    } else {
+      const agreementTree = await loadAgreement(agreement.id);
 
-    const highlight = agreementsWithHighlight[agreement.num];
+      const highlight = agreementsWithHighlight[agreement.num];
 
-    agreementPages.push({
-      ...getCCNInfo(agreement),
-      answers: getContributionAnswers(contributionsWithSlug, agreement.num),
-      articlesByTheme: getKaliArticlesByTheme(allKaliBlocks, agreementTree),
-      description: `Idcc ${formatIdcc(agreement.num)} : ${
-        agreement.shortTitle
-      }`,
-      is_searchable: true,
-      source: SOURCES.CCN,
-      synonymes: agreement.synonymes,
-      ...(highlight ? { highlight } : {}),
-    });
+      agreementPages.push({
+        ...getCCNInfo(agreement),
+        answers: getContributionAnswers(contributionsWithSlug, agreement.num),
+        articlesByTheme: getKaliArticlesByTheme(allKaliBlocks, agreementTree),
+        description: `Idcc ${formatIdcc(agreement.num)} : ${
+          agreement.shortTitle
+        }`,
+        is_searchable: true,
+        source: SOURCES.CCN,
+        synonymes: agreement.synonymes,
+        ...(highlight ? { highlight } : {}),
+      });
+    }
   }
   const sorter = createSorter(({ num }: AgreementPage) => num);
   return agreementPages.sort(sorter);
+}
+
+function handleCCWithNoLegiFrancePage(
+  agreement: IndexedAgreement
+): AgreementPage {
+  return {
+    ...getAgreementInfoWithoutId(agreement),
+    answers: [],
+    articlesByTheme: [],
+    description: `Idcc ${formatIdcc(agreement.num)} : ${agreement.shortTitle}`,
+    is_searchable: false,
+    is_published: false,
+    source: SOURCES.CCN,
+    synonymes: agreement.synonymes,
+  };
 }
 
 /**
@@ -92,6 +107,24 @@ function getCCNInfo({
     text: `IDCC ${num}: ${title} ${shortTitle}`,
     title,
     url,
+  };
+}
+
+/**
+ * Get CCN general information
+ */
+function getAgreementInfoWithoutId({
+  num,
+  title,
+  shortTitle,
+}: IndexedAgreement) {
+  return {
+    id: `IDCC-${num}`,
+    num,
+    shortTitle,
+    slug: slugify(`${num}-${shortTitle}`.substring(0, 80)),
+    text: `IDCC ${num}: ${title} ${shortTitle}`,
+    title,
   };
 }
 

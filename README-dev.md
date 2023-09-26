@@ -1,5 +1,19 @@
 # Code du travail numérique - Administration - dev
 
+## Setup
+
+Pour intialiser le projet, nous avons besoin d'une dépendance depuis le registry privé de [tiptap](https://tiptap.dev/). Suivez les étapes suivantes :
+ * [Créer un compte (gratuit)](https://tiptap.dev/register) sur tiptap.
+ * Se rendre sur la page [Pro Extensions](https://collab.tiptap.dev/pro-extensions) de votre compte pour récupérer le token
+ * Créer un fichier `.npmrc` à la racine avec le contenu suivant (le contenu est également disponible sur la page contenant le token de tiptap) :
+
+```
+@tiptap-pro:registry=https://registry.tiptap.dev/
+//registry.tiptap.dev/:_authToken=VOTRE_TOKEN_ICI
+```
+
+Vous pouvez maintenant lancer la commande `yarn install` pour installer les packages du projet.
+
 ## URLs
 
 | Environnement                                      | URL                                                       |
@@ -199,7 +213,7 @@ Il faut ensuite lancer l'`ingester-elasticsearch` pour alimenter l'elasticsearch
 depuis hasura, il est préférable de récupérer les données de prod (
 cf : [Injecter les données depuis la production](https://github.com/SocialGouv/cdtn-admin/blob/master/README-dev.md#injecter-les-donnees-depuis-la-production))
 
-Pour lancer l'`ingester-elasticsearch`, reporter vous à la documentation `export-elasticsearch`
+Pour lancer l'`ingester-elasticsearch`, reporter vous à la [documentation `export-elasticsearch`](./targets/export-elasticsearch/README.md)
 
 **Note :** La durée d'exécution prend du temps (environ 15 minutes)
 

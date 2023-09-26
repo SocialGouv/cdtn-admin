@@ -1,7 +1,6 @@
 type Mutation {
   email_account_activation(
     email: citext!
-    secret_token: uuid!
   ): Status
 }
 

@@ -12,15 +12,18 @@ query contribution_answer($id: uuid) {
     questionId: question_id
     agreementId: agreement_id
     content
-    otherAnswer: other_answer
+    contentType: content_type
     updatedAt: updated_at
+    urlSp: url_sp
     question {
       id
       content
+      order
     }
     agreement {
       id
       name
+      kaliId: kali_id
     }
     answerComments: answer_comments {
       id
@@ -30,7 +33,7 @@ query contribution_answer($id: uuid) {
         name
       }
     }
-    statuses(order_by: {created_at: desc}, limit: 1) {
+    statuses(order_by: {created_at: desc}) {
       createdAt: created_at
       status
       user {

@@ -1,5 +1,5 @@
 import { Box, FormLabel } from "@mui/material";
-import styled, { css } from "styled-components";
+import { styled } from "@mui/system";
 
 export const TitleBox = ({
   title,
@@ -26,33 +26,29 @@ export const TitleBox = ({
   );
 };
 
-const StyledBox = styled(Box)`
-  border: 1px solid #9e9e9e;
-  border-radius: 6px;
-  padding: 12px;
-  position: relative;
-  ${({ focus }: { focus: boolean }) => {
-    if (focus) {
-      return css`
-        border-color: #1565c0;
-      `;
-    }
-  }}
-`;
+const StyledBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "focus",
+})<{ focus?: boolean }>(({ theme, focus }) => {
+  return {
+    border: `1px solid ${theme.palette.text.primary}`,
+    borderRadius: "1px",
+    padding: "12px",
+    position: "relative",
+    borderColor: focus ? theme.palette.primary.main : undefined,
+  };
+});
 
-const StyledFormLabel = styled(FormLabel)`
-  position: absolute;
-  font-size: 12px;
-  background-color: white;
-  border-radius: 6px;
-  padding: 0 4px;
-  top: -8px;
-  left: 8px;
-  ${({ focus }: { focus: boolean }) => {
-    if (focus) {
-      return css`
-        color: #1565c0;
-      `;
-    }
-  }}
-`;
+const StyledFormLabel = styled(FormLabel, {
+  shouldForwardProp: (prop) => prop !== "focus",
+})<{ focus?: boolean }>(({ theme, focus }) => {
+  return {
+    position: "absolute",
+    fontSize: "12px",
+    backgroundColor: theme.palette.background.default,
+    borderRadius: "12px",
+    padding: "0 4px",
+    top: "-8px",
+    left: "10px",
+    color: focus ? theme.palette.primary.main : theme.palette.text.default,
+  };
+});

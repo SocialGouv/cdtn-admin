@@ -4284,6 +4284,21 @@
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.4.3.tgz#af975e367743fa91989cd666666aec31a8f50591"
   integrity sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==
 
+"@tiptap-pro/extension-details-content@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.tiptap.dev/@tiptap-pro%2fextension-details-content/-/extension-details-content-2.2.3.tgz#264b17f7b652771406f6db855ad051af02d27a67"
+  integrity sha512-FiTXIIi2Ji/K+7M4enkHQpYebaIrpD3lwJZlmot/SY/Iuwuho33NSMi1GozBK7pOC4eUks6GLX38Q41U3MO5ag==
+
+"@tiptap-pro/extension-details-summary@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.tiptap.dev/@tiptap-pro%2fextension-details-summary/-/extension-details-summary-2.2.3.tgz#008be3402a627bc3cb5cce745d64fb16ff957106"
+  integrity sha512-HCcIkmiZVc8+ua7m22VDhwpp/9wxbK+Zma6Qdm424P+ncDewuGTo9e0BTa/U6AhAObBSs3EbPceXOZ+qi71LjA==
+
+"@tiptap-pro/extension-details@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.tiptap.dev/@tiptap-pro%2fextension-details/-/extension-details-2.2.3.tgz#806335ede3d158b7cf496508d5bda7fa7fd058a4"
+  integrity sha512-MhcA8utrAavp596tsuiPSXXz/NgjgOqw7dYh46aHHG2EQv5LVpclx6GPGW7dumnzyuM7fgaDzRIYbiFmuTf07A==
+
 "@tiptap/core@^2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@tiptap/core/-/core-2.0.3.tgz#dfd55124b3e7b0482e5ccb8be46eb9c3189167e2"
@@ -4299,10 +4314,10 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-bold/-/extension-bold-2.0.3.tgz#2a28816195562a39c33f50e626796d14a800784f"
   integrity sha512-OGT62fMRovSSayjehumygFWTg2Qn0IDbqyMpigg/RUAsnoOI2yBZFVrdM2gk1StyoSay7gTn2MLw97IUfr7FXg==
 
-"@tiptap/extension-bubble-menu@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-bubble-menu/-/extension-bubble-menu-2.0.3.tgz#44b3c4e35fd478c42467d8fb7dbc9532614e5b18"
-  integrity sha512-lPt1ELrYCuoQrQEUukqjp9xt38EwgPUwaKHI3wwt2Rbv+C6q1gmRsK1yeO/KqCNmFxNqF2p9ZF9srOnug/RZDQ==
+"@tiptap/extension-bubble-menu@^2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-bubble-menu/-/extension-bubble-menu-2.1.10.tgz#551e93219b98f097331b30865123d36e95c37404"
+  integrity sha512-XxgJajXkfAj/fChXkIwKBs7/3pd7OxV1uGc6Opx1qW/nSRYx/rr97654Sx/sg6auwIlbpRoqTmyqjbykGX1/yA==
   dependencies:
     tippy.js "^6.3.7"
 
@@ -4331,10 +4346,10 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-dropcursor/-/extension-dropcursor-2.0.3.tgz#205d02c70b200810572d0b7e264bbdb718343ad0"
   integrity sha512-McthMrfusn6PjcaynJLheZJcXto8TaIW5iVitYh8qQrDXr31MALC/5GvWuiswmQ8bAXiWPwlLDYE/OJfwtggaw==
 
-"@tiptap/extension-floating-menu@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-floating-menu/-/extension-floating-menu-2.0.3.tgz#8d9943246aa3247442c1993f235617094fe705b5"
-  integrity sha512-zN1vRGRvyK3pO2aHRmQSOTpl4UJraXYwKYM009n6WviYKUNm0LPGo+VD4OAtdzUhPXyccnlsTv2p6LIqFty6Bg==
+"@tiptap/extension-floating-menu@^2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-floating-menu/-/extension-floating-menu-2.1.10.tgz#82914a02e04e019d8b5da5158b32ffb29d4cce80"
+  integrity sha512-uChrDrY3usnF9wSegqq+YGaqd229p9gmaB5xyOyMERDs972hKj4Ul95rXzBBiMKAWUMw9eM09i7+ijTzz4KDUw==
   dependencies:
     tippy.js "^6.3.7"
 
@@ -4383,6 +4398,11 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-paragraph/-/extension-paragraph-2.0.3.tgz#88d332158c70622d36849256f90e43ca4d226dfe"
   integrity sha512-a+tKtmj4bU3GVCH1NE8VHWnhVexxX5boTVxsHIr4yGG3UoKo1c5AO7YMaeX2W5xB5iIA+BQqOPCDPEAx34dd2A==
 
+"@tiptap/extension-placeholder@^2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-placeholder/-/extension-placeholder-2.1.10.tgz#bdb03dac209444276f25d76f3929bb2bc1facfe8"
+  integrity sha512-lwtNmMZpxvQBGP72/zrdPFOmn/3QNZAKpkrfrK95Ri4TU6LPeDDwPsP81s9mkAFZPuDQ1i8SPakl+RivWa6qtA==
+
 "@tiptap/extension-strike@^2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-strike/-/extension-strike-2.0.3.tgz#4ec0001db5f51f86d06da22364114f20f073d4b3"
@@ -4413,10 +4433,10 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-text/-/extension-text-2.0.3.tgz#12b6400a31ac6d35cbaf1822600f4c425457902f"
   integrity sha512-LvzChcTCcPSMNLUjZe/A9SHXWGDHtvk73fR7CBqAeNU0MxhBPEBI03GFQ6RzW3xX0CmDmjpZoDxFMB+hDEtW1A==
 
-"@tiptap/pm@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@tiptap/pm/-/pm-2.0.3.tgz#e8bb47df765fc1b7acd52f2800c52d7ff945c5ec"
-  integrity sha512-I9dsInD89Agdm1QjFRO9dmJtU1ldVSILNPW0pEhv9wYqYVvl4HUj/JMtYNqu2jWrCHNXQcaX/WkdSdvGJtmg5g==
+"@tiptap/pm@^2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@tiptap/pm/-/pm-2.1.10.tgz#84d5ae574568dca00ee62698559523d77e980620"
+  integrity sha512-Y+AqizKnjQpx4pSaA6m/cCD5QHQRPtALhO4ZO4YFZV1idYmsJA3/S5lgJI3ZL5eAHKHcGk6Vv3/8Y+eej5YIPw==
   dependencies:
     prosemirror-changeset "^2.2.0"
     prosemirror-collab "^1.3.0"
@@ -4437,13 +4457,13 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.28.2"
 
-"@tiptap/react@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@tiptap/react/-/react-2.0.3.tgz#4b7155ed4bfe3fa9cb691adbbcf3713173ca7a6c"
-  integrity sha512-fiAh8Lk+/NBPAR/PE4Kc/aLiBUbUYI/CpAopz8DI9eInNyV8h8LAGa9uFILJQF/TNu0tclJ4rV0sWc7Se0FZMw==
+"@tiptap/react@^2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@tiptap/react/-/react-2.1.10.tgz#51cd96462e61f6fffa0ca4eb359d8d7d15ebf422"
+  integrity sha512-kzCWzbV2dnD5NmHjN8GiS+k0GOmoEhKnMuMzuuU6FjtOALhJzPTrIXITzWDpU3jL+r/4eeXYhAt64Wp7PVwscg==
   dependencies:
-    "@tiptap/extension-bubble-menu" "^2.0.3"
-    "@tiptap/extension-floating-menu" "^2.0.3"
+    "@tiptap/extension-bubble-menu" "^2.1.10"
+    "@tiptap/extension-floating-menu" "^2.1.10"
 
 "@tiptap/starter-kit@^2.0.3":
   version "2.0.3"
@@ -5751,6 +5771,15 @@ axios@^1.0.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.4.0.tgz#38a7bf1224cd308de271146038b551d725f0be1f"
   integrity sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==
+  dependencies:
+    follow-redirects "^1.15.0"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
+
+axios@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.5.0.tgz#f02e4af823e2e46a9768cfc74691fdd0517ea267"
+  integrity sha512-D4DdjDo5CY50Qms0qGQTTw6Q44jl7zRwY7bthds06pUGfChBCTcQs+N743eFWGEd6pRTMd6A+I87aWyFV5wiZQ==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
@@ -13424,6 +13453,13 @@ node-releases@^2.0.12:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.12.tgz#35627cc224a23bfb06fb3380f2b3afaaa7eb1039"
   integrity sha512-QzsYKWhXTWx8h1kIvqfnC++o0pEmpRQA/aenALsL2F4pqNVr7YzcdMlDij5WBnwftRbJCNJL/O7zdKaxKPHqgQ==
 
+node-xlsx@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/node-xlsx/-/node-xlsx-0.23.0.tgz#0c4b642f9457712d68f30e1e30351d640cc37e90"
+  integrity sha512-r3KaSZSsSrK92rbPXnX/vDdxURmPPik0rjJ3A+Pybzpjyrk4G6WyGfj8JIz5dMMEpCmWVpmO4qoVPBxnpLv/8Q==
+  dependencies:
+    xlsx "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
+
 nodemailer@^6.6.5:
   version "6.9.3"
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.9.3.tgz#e4425b85f05d83c43c5cd81bf84ab968f8ef5cbe"
@@ -16938,7 +16974,7 @@ style-to-object@^0.3.0:
   dependencies:
     inline-style-parser "0.1.1"
 
-styled-components@^5.3.0, styled-components@^5.3.9:
+styled-components@^5.3.0:
   version "5.3.11"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-5.3.11.tgz#9fda7bf1108e39bf3f3e612fcc18170dedcd57a8"
   integrity sha512-uuzIIfnVkagcVHv9nE0VPlHPSCmXIUGKfJ42LNjxCCTDTL5sgnJ8Z7GZBq0EnLYGln77tPpEpExt2+qa+cZqSw==
@@ -18749,6 +18785,10 @@ xdg-basedir@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-4.0.0.tgz#4bc8d9984403696225ef83a1573cbbcb4e79db13"
   integrity sha512-PSNhEJDejZYV7h50BohL09Er9VaIefr2LMAf3OEmpCkjOi34eYyQYAXUTjEQtZJTKcF0E2UKTh+osDLsgNim9Q==
+
+"xlsx@https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz":
+  version "0.19.3"
+  resolved "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz#f804c1850e2da5260165db0a059dc2a6099d55f3"
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
