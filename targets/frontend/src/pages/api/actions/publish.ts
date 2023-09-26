@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { DocumentsController } from "src/api/documents";
+import { DocumentsController } from "src/modules/documents";
 
 export default async function publish(
   req: NextApiRequest,
