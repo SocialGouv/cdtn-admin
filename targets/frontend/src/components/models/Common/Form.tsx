@@ -149,15 +149,17 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={4}>
-        <FormControl>
-          <FormTextField
-            name="updatedAt"
-            control={control}
-            label="Date mise à jour"
-            disabled
-            labelFixed
-          />
-        </FormControl>
+        {model && (
+          <FormControl>
+            <FormTextField
+              name="updatedAt"
+              control={control}
+              label="Date mise à jour"
+              disabled
+              labelFixed
+            />
+          </FormControl>
+        )}
         <FormControl>
           <FormTextField
             name="title"
@@ -172,6 +174,7 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
             name="type"
             label="Type"
             control={control}
+            rules={{ required: true }}
             options={[
               {
                 label: "Fichier",
@@ -203,7 +206,7 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
             name="newFile"
             control={control}
             label="Modèle de courrier"
-            rules={{ required: false }}
+            rules={{ required: !model }}
             defaultFileName={model?.fileName}
             onFileChange={(file) => {
               if (file) {

@@ -1,6 +1,7 @@
 import { useQuery } from "urql";
 import { Model } from "../type";
 import { gql } from "@urql/core";
+import { format, parseISO } from "date-fns";
 
 export const listModelsQuery = gql`
   query SelectModel($id: uuid!) {
@@ -40,5 +41,13 @@ export const useListModelQuery = ({
       id,
     },
   });
-  return result.data?.model;
+  const model = result.data?.model;
+  if (model) {
+    const updatedAt = format(parseISO(model.updatedAt), "dd/MM/yyyy");
+    return {
+      ...model,
+      updatedAt,
+    };
+  }
+  return undefined;
 };

@@ -1,5 +1,6 @@
 import {
   FormControl,
+  FormHelperText,
   FormLabel,
   ToggleButton,
   ToggleButtonGroup,
@@ -34,8 +35,8 @@ export const FormToggleButtonGroup = ({
       name={name}
       control={control}
       rules={rules}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <FormControl fullWidth={fullWidth} error={!!error}>
+      render={({ field: { onChange, value }, fieldState }) => (
+        <FormControl fullWidth={fullWidth} error={!!fieldState.error}>
           <TitleBox title={label} disabled={disabled}>
             <ToggleButtonGroup
               color="primary"
@@ -61,6 +62,9 @@ export const FormToggleButtonGroup = ({
               ))}
             </ToggleButtonGroup>
           </TitleBox>
+          {fieldState.error && fieldState.error.type === "required" ? (
+            <FormHelperText>Ce champ est requis</FormHelperText>
+          ) : null}
         </FormControl>
       )}
     />
