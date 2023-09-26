@@ -120,7 +120,7 @@ export const KaliReferenceInput = ({
               <Grid item xs={7}>
                 <SimpleLink
                   target="_blank"
-                  href={`https://www.legifrance.gouv.fr/conv_coll/id/${ref.kaliArticle.cid}/?idConteneur=${agreement.kaliId}`}
+                  href={`https://www.legifrance.gouv.fr/conv_coll/id/${ref.kaliArticle.id}/?idConteneur=${agreement.kaliId}`}
                 >
                   {ref.kaliArticle.path}
                 </SimpleLink>
