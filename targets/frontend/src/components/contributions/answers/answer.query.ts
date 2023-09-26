@@ -12,7 +12,7 @@ query contribution_answer($id: uuid) {
     questionId: question_id
     agreementId: agreement_id
     content
-    otherAnswer: other_answer
+    contentType: content_type
     updatedAt: updated_at
     contentServicePublicCdtnId: content_service_public_cdtn_id
     question {

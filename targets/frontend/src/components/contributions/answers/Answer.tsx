@@ -55,7 +55,7 @@ export const ContributionsAnswer = ({
     values: answer,
     defaultValues: {
       content: "",
-      otherAnswer: "ANSWER",
+      contentType: "ANSWER",
       status: {
         status: "TODO",
       },
@@ -100,7 +100,7 @@ export const ContributionsAnswer = ({
       await updateAnswer({
         content: data.content,
         id: answer.id,
-        otherAnswer: data.otherAnswer,
+        contentType: data.contentType,
         status: newStatus,
         userId: user?.id,
         contentServicePublicCdtnId:
@@ -191,13 +191,13 @@ export const ContributionsAnswer = ({
                   disabled={isNotEditable(answer)}
                   control={control}
                   rules={{
-                    required: answer && answer.otherAnswer === "ANSWER",
+                    required: answer && answer.contentType === "ANSWER",
                   }}
                 />
               </FormControl>
               {answer && (
                 <FormRadioGroup
-                  name="otherAnswer"
+                  name="contentType"
                   label="Type de réponse"
                   control={control}
                   disabled={isNotEditable(answer)}

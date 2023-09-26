@@ -63,7 +63,7 @@ select_permissions:
         - agreement_id
         - content
         - id
-        - other_answer
+        - content_type
         - question_id
         - updated_at
         - content_service_public_cdtn_id
@@ -76,6 +76,7 @@ update_permissions:
         - content
         - other_answer
         - content_service_public_cdtn_id
+        - content_type
       filter: {}
       check: null
       set:

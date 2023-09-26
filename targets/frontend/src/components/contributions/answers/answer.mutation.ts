@@ -10,8 +10,8 @@ import {
 } from "./answerReferences";
 
 export const contributionAnswerUpdateMutation = `
-mutation contributionAnswerUpdate($id: uuid!, $content: String, $otherAnswer: String, $status: statustype!, $userId: uuid!, $contentServicePublicCdtnId: String, $kaliReferences: [contribution_answer_kali_references_insert_input!]!, $legiReferences: [contribution_answer_legi_references_insert_input!]!, $otherReferences: [contribution_answer_other_references_insert_input!]!, $cdtnReferences: [contribution_answer_cdtn_references_insert_input!]!) {
-  update_contribution_answers_by_pk(pk_columns: {id: $id}, _set: {content: $content, other_answer: $otherAnswer, content_service_public_cdtn_id: $contentServicePublicCdtnId}) {
+mutation contributionAnswerUpdate($id: uuid!, $content: String, $contentType: String, $status: statustype!, $userId: uuid!, $contentServicePublicCdtnId: String, $kaliReferences: [contribution_answer_kali_references_insert_input!]!, $legiReferences: [contribution_answer_legi_references_insert_input!]!, $otherReferences: [contribution_answer_other_references_insert_input!]!, $cdtnReferences: [contribution_answer_cdtn_references_insert_input!]!) {
+  update_contribution_answers_by_pk(pk_columns: {id: $id}, _set: {content: $content, content_type: $contentType, content_service_public_cdtn_id: $contentServicePublicCdtnId}) {
     __typename
   }
   insert_contribution_answer_statuses_one(object: {status: $status, user_id: $userId, answer_id: $id}) {
@@ -48,7 +48,7 @@ mutation contributionAnswerUpdate($id: uuid!, $content: String, $otherAnswer: St
 export type MutationProps = Pick<
   Answer,
   | "id"
-  | "otherAnswer"
+  | "contentType"
   | "contentServicePublicCdtnId"
   | "content"
   | "kaliReferences"
