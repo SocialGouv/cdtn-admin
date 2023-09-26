@@ -5,6 +5,8 @@ configuration:
   column_config:
     cdtn_id:
       custom_name: cdtnId
+    dismissal_process:
+      custom_name: dismissalProcess
     meta_description:
       custom_name: metaDescription
     meta_title:
@@ -17,6 +19,7 @@ configuration:
       custom_name: updatedAt
   custom_column_names:
     cdtn_id: cdtnId
+    dismissal_process: dismissalProcess
     meta_description: metaDescription
     meta_title: metaTitle
     reference_label: referenceLabel
@@ -45,40 +48,46 @@ insert_permissions:
       columns:
         - cdtn_id
         - description
+        - dismissal_process
+        - id
         - intro
         - meta_description
         - meta_title
-        - title
-        - updated_at
         - reference_label
         - section_display_mode
-        - id
+        - text
+        - title
+        - updated_at
   - role: user
     permission:
       check: {}
       columns:
         - cdtn_id
         - description
+        - dismissal_process
+        - id
         - intro
         - meta_description
         - meta_title
-        - title
-        - updated_at
         - reference_label
         - section_display_mode
-        - id
+        - text
+        - title
+        - updated_at
 select_permissions:
   - role: super
     permission:
       columns:
         - cdtn_id
         - description
+        - dismissal_process
         - id
         - intro
         - meta_description
         - meta_title
         - reference_label
         - section_display_mode
+        - text
         - title
         - updated_at
       filter: {}
@@ -88,12 +97,14 @@ select_permissions:
       columns:
         - cdtn_id
         - description
+        - dismissal_process
         - id
         - intro
         - meta_description
         - meta_title
         - reference_label
         - section_display_mode
+        - text
         - title
         - updated_at
       filter: {}
@@ -102,16 +113,18 @@ update_permissions:
   - role: super
     permission:
       columns:
-        - updated_at
-        - intro
-        - title
-        - meta_title
-        - meta_description
-        - description
         - cdtn_id
-        - section_display_mode
-        - reference_label
+        - description
+        - dismissal_process
         - id
+        - intro
+        - meta_description
+        - meta_title
+        - reference_label
+        - section_display_mode
+        - text
+        - title
+        - updated_at
       filter: {}
       check: {}
       set:

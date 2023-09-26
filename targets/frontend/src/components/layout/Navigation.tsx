@@ -38,7 +38,7 @@ export function Navigation() {
           label: "Contenus",
         },
         {
-          href: "/contenus?source=information",
+          href: "/informations",
           label: "Contenus éditoriaux",
         },
         {

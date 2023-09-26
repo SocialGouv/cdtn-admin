@@ -9,6 +9,10 @@ with _informations as (
         "document"->'references' as "references",
         "document"->>'description' as "description",
         "document"->>'sectionDisplayMode' as "section_display_mode",
+        case
+            when "document"->>'dismissalProcess' = 'true' then true
+            else false
+        end as "dismissal_process",
         "document"->'references'->0->>'label' as "reference_label"
     from documents
     where source = 'information'
@@ -22,6 +26,7 @@ _informations_inserted as (
             meta_description,
             description,
             section_display_mode,
+            dismissal_process,
             reference_label,
             cdtn_id
         )
@@ -35,6 +40,7 @@ _informations_inserted as (
             section_display_mode,
             'accordion'
         ),
+        dismissal_process,
         reference_label,
         cdtn_id
     from _informations

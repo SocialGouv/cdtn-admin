@@ -42,7 +42,7 @@ actions:
       - role: user
   - name: publish
     definition:
-      kind: asynchronous
+      kind: synchronous
       handler: '{{API_URL}}/actions/publish'
       forward_client_headers: true
     permissions:

@@ -3,6 +3,8 @@ table:
   schema: information
 configuration:
   column_config:
+    content_display_mode:
+      custom_name: contentDisplayMode
     file_id:
       custom_name: fileId
     img_id:
@@ -10,6 +12,7 @@ configuration:
     informations_contents_id:
       custom_name: informationsContentsId
   custom_column_names:
+    content_display_mode: contentDisplayMode
     file_id: fileId
     img_id: imgId
     informations_contents_id: informationsContentsId
