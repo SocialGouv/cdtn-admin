@@ -7,8 +7,6 @@ WORKDIR /app
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
 
-# Hack copy .npmrc file only if exist (dev only) otherwise use secret
-COPY *.npmrc /
 # hadolint ignore=SC2046
 RUN --mount=type=secret,id=npmTiptapToken,target=/secrets/npmTiptapToken \
   export NPM_TIPTAP_TOKEN=$(cat /secrets/npmTiptapToken); \

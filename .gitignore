@@ -14,4 +14,4 @@ docker-compose.override.yml
 !.yarn/sdks
 !.yarn/versions
 
-.envrc
+.npmTiptapToken.secret

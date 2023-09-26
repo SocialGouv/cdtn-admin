@@ -38,6 +38,8 @@ services:
       context: .
       dockerfile: targets/frontend/Dockerfile
       shm_size: 512m
+      secrets:
+        - npmTiptapToken
     depends_on:
       - hasura
     ports:
@@ -52,6 +54,8 @@ services:
       context: .
       dockerfile: targets/contributions/Dockerfile
       shm_size: 512m
+      secrets:
+        - npmTiptapToken
     depends_on:
       - hasura
       - www
@@ -67,6 +71,8 @@ services:
       context: .
       dockerfile: targets/ingester/Dockerfile
       shm_size: 512m
+      secrets:
+        - npmTiptapToken
     depends_on:
       - hasura
     env_file:
@@ -104,6 +110,8 @@ services:
       context: .
       dockerfile: targets/export-elasticsearch/Dockerfile
       shm_size: 512m
+      secrets:
+        - npmTiptapToken
     ports:
       - 8787:8787
     environment:
@@ -120,8 +128,14 @@ services:
     build:
       context: .
       dockerfile: targets/alert-cli/Dockerfile
+      secrets:
+        - npmTiptapToken
 
 volumes:
   db_data:
   azurite_data:
   elastic_data:
+
+secrets:
+  npmTiptapToken:
+    file: .npmTiptapToken.secret
