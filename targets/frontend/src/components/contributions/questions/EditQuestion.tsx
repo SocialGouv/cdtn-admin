@@ -1,14 +1,5 @@
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import {
-  Box,
-  Card,
-  CardContent,
-  Skeleton,
-  Stack,
-  Tab,
-  Tabs,
-  Typography,
-} from "@mui/material";
+import { Box, Skeleton, Stack, Tab, Tabs, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import { EditQuestionAnswerList } from "./EditQuestionAnswerList";
@@ -17,8 +8,9 @@ import { EditQuestionForm } from "./EditQuestionForm";
 import { useQuestionQuery } from "./Question.query";
 import { BreadcrumbLink } from "src/components/utils";
 import { statusesMapping } from "../status/data";
-import { countAnswersWithStatus, getPercentage } from "../questionList";
+import { countAnswersWithStatus } from "../questionList";
 import { Answer } from "../type";
+import { StatusStats } from "../status/StatusStats";
 
 export type EditQuestionProps = {
   questionId: string;
@@ -69,28 +61,28 @@ export const EditQuestion = ({
     );
   }
 
-  const Header = ({ answers }: { answers: Answer[] }) => (
-    <>
-      <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
-        <BreadcrumbLink href={"/contributions"}>Contributions</BreadcrumbLink>
-        <BreadcrumbLink>{data?.question?.content}</BreadcrumbLink>
-      </ol>
-      <Stack direction="row" alignItems="start" spacing={2}>
-        {Object.entries(statusesMapping).map(([status, { text, color }]) => {
-          const count = countAnswersWithStatus(answers, status);
-          return (
-            <Card key={status}>
-              <CardContent sx={{ color }}>
-                {text}
-                <Typography sx={{ fontWeight: "bold" }}>{count}</Typography>
-                <span>{getPercentage(count, answers.length)}%</span>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </Stack>
-    </>
-  );
+  const Header = ({ answers }: { answers: Answer[] }) => {
+    const statusCounts = Object.keys(statusesMapping).map((status) => {
+      const count = countAnswersWithStatus(answers, status);
+      return { status, count };
+    });
+    return (
+      <>
+        <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
+          <BreadcrumbLink href={"/contributions"}>Contributions</BreadcrumbLink>
+          <BreadcrumbLink>
+            {`${data?.question?.order} - ${data?.question?.content}`}
+          </BreadcrumbLink>
+        </ol>
+        <Stack direction="row" alignItems="start" spacing={2}>
+          <StatusStats
+            total={answers.length}
+            statusCounts={statusCounts}
+          ></StatusStats>
+        </Stack>
+      </>
+    );
+  };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: TabValue) => {
     setTabIndex(newValue);

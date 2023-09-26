@@ -12,7 +12,7 @@ import {
 import { FormTextField } from "../../../forms";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useContributionSearchKaliReferenceQuery } from "./kaliReferencesSearch.query";
-import { Answer, KaliArticle } from "../../type";
+import { Agreement, Answer, KaliArticle } from "../../type";
 import { Result } from "./ReferenceInput";
 import { SimpleLink } from "../../../utils/SimpleLink";
 
@@ -79,14 +79,14 @@ const KaliReferenceSearch = ({
 
 type Props = {
   name: string;
-  idcc: string;
+  agreement: Agreement;
   control: Control<any>;
   disabled?: boolean;
 };
 
 export const KaliReferenceInput = ({
   name,
-  idcc,
+  agreement,
   control,
   disabled = false,
 }: Props): ReactElement | null => {
@@ -97,7 +97,7 @@ export const KaliReferenceInput = ({
 
   return (
     <TitleBox
-      title={`Références liées à la convention collective ${idcc}`}
+      title={`Références liées à la convention collective ${agreement.id}`}
       disabled={disabled}
     >
       <Stack spacing={2} mt={4}>
@@ -120,7 +120,7 @@ export const KaliReferenceInput = ({
               <Grid item xs={7}>
                 <SimpleLink
                   target="_blank"
-                  href={`https://www.legifrance.gouv.fr/conv_coll/id/${ref.kaliArticle.cid}/?idConteneur=KALICONT000005635550`}
+                  href={`https://www.legifrance.gouv.fr/conv_coll/id/${ref.kaliArticle.cid}/?idConteneur=${agreement.kaliId}`}
                 >
                   {ref.kaliArticle.path}
                 </SimpleLink>
@@ -138,7 +138,7 @@ export const KaliReferenceInput = ({
         {!disabled && (
           <KaliReferenceSearch
             fetcher={useContributionSearchKaliReferenceQuery}
-            idcc={idcc}
+            idcc={agreement.id}
             onAdd={(value) => {
               if (value) {
                 append({ kaliArticle: value });

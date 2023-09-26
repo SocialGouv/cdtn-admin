@@ -18,10 +18,12 @@ query contribution_answer($id: uuid) {
     question {
       id
       content
+      order
     }
     agreement {
       id
       name
+      kaliId: kali_id
     }
     answerComments: answer_comments {
       id

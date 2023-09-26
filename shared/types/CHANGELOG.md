@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.1...v2.17.2) (2023-09-25)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.17.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.0...v2.17.1) (2023-09-25)
+
+**Note:** Version bump only for package @shared/types
+
+# [2.17.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.16.1...v2.17.0) (2023-09-25)
+
+### Features
+
+- **alerts:** ajout d'un feature de notification pour les alertes de la dares ([#1004](https://github.com/SocialGouv/cdtn-admin/issues/1004)) ([530043d](https://github.com/SocialGouv/cdtn-admin/commit/530043d68ce7def89555ae696d0ac2d6f9aa346b))
+
 ## [2.16.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.16.0...v2.16.1) (2023-09-20)
 
 **Note:** Version bump only for package @shared/types

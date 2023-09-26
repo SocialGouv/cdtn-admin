@@ -7,10 +7,12 @@ export const questionListQuery = `query questions_answers($search: String) {
   contribution_questions(
     where: {
       content: { _ilike: $search }
-    }
+    },
+    order_by: {order: asc}
   ) {
     id,
     content,
+    order,
     answers {
       statuses(order_by: {created_at: desc}, limit: 1) {
         status
@@ -22,7 +24,7 @@ export const questionListQuery = `query questions_answers($search: String) {
   }
 }`;
 export type QueryQuestionAnswer = Pick<Answer, "status">;
-export type QueryQuestion = Pick<Question, "id" | "content"> & {
+export type QueryQuestion = Pick<Question, "id" | "content" | "order"> & {
   answers: QueryQuestionAnswer[];
 };
 

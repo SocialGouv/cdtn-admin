@@ -4,6 +4,7 @@ import { SourceRoute } from "@socialgouv/cdtn-sources";
 export type Agreement = {
   id: string;
   name: string;
+  kaliId: string;
 };
 
 export type Status =
@@ -31,6 +32,7 @@ export type Message = {
 export type Question = {
   id: string;
   content: string;
+  order: number;
   answers: Answer[];
   message?: Message;
 };
