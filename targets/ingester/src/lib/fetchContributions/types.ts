@@ -9,7 +9,7 @@ export interface AgreementRaw {
 export interface AnswerRaw {
   id: string;
   content: string;
-  otherAnswer: string;
+  contentType: string;
   kali_references: {
     title: string;
     article_id: string;

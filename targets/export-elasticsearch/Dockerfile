@@ -1,56 +1,73 @@
 ARG NODE_VERSION=20.3.1-alpine
 
-# dist
-FROM node:$NODE_VERSION AS dist
+FROM node:$NODE_VERSION AS deps
 
 RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
-WORKDIR /
+WORKDIR /app
 
-COPY shared/eslint-config/package.json /shared/eslint-config/package.json
-COPY shared/graphql-client/package.json /shared/graphql-client/package.json
-COPY shared/types/package.json /shared/types/package.json
-COPY shared/elasticsearch-document-adapter/package.json /shared/elasticsearch-document-adapter/package.json
-COPY targets/export-elasticsearch/package.json /targets/export-elasticsearch/package.json
-COPY package.json /package.json
-COPY yarn.lock /yarn.lock
+COPY yarn.lock .yarnrc.yml ./
+COPY .yarn .yarn
 
 # hadolint ignore=SC2046
-RUN --mount=type=secret,id=npmrc,target=/.npmrc \
-    yarn --frozen-lockfile
+RUN --mount=type=secret,id=npmTiptapToken,target=/secrets/npmTiptapToken \
+  export NPM_TIPTAP_TOKEN=$(cat /secrets/npmTiptapToken); \
+  yarn fetch workspaces focus export-elasticsearch
 
-COPY . /
-
-RUN yarn workspace @shared/types build
-
+FROM deps AS build-graphql-client
+COPY shared/graphql-client ./shared/graphql-client
 RUN yarn workspace @shared/graphql-client build
 
+FROM deps AS build-types
+COPY shared/types ./shared/types
+RUN yarn workspace @shared/types build
+
+FROM deps AS build-cdtn-logger
+COPY shared/logger ./shared/logger
+RUN yarn workspace @socialgouv/cdtn-logger build
+
+FROM deps AS build-elasticsearch-document-adapter
+COPY --from=build-types /app/shared/types ./shared/types
+COPY --from=build-cdtn-logger /app/shared/logger ./shared/logger
+COPY shared/elasticsearch-document-adapter ./shared/elasticsearch-document-adapter
 RUN yarn workspace @shared/elasticsearch-document-adapter build
+
+FROM deps as dist
+COPY --from=build-graphql-client /app/shared/graphql-client ./shared/graphql-client
+COPY --from=build-types /app/shared/types ./shared/types
+COPY --from=build-elasticsearch-document-adapter /app/shared/elasticsearch-document-adapter ./shared/elasticsearch-document-adapter
+COPY --from=build-cdtn-logger /app/shared/logger ./shared/logger
+
+COPY shared/eslint-config ./shared/eslint-config/
+COPY targets/export-elasticsearch ./targets/export-elasticsearch/
 
 RUN yarn workspace export-elasticsearch build
 
-# app
+RUN yarn workspaces focus --production export-elasticsearch && yarn cache clean
+RUN mkdir -p /app/targets/export-elasticsearch/node_modules
+
 FROM node:$NODE_VERSION
 
 WORKDIR /app
 
-COPY --from=dist shared/graphql-client/build /app/shared/graphql-client/build
-COPY --from=dist shared/graphql-client/package.json /app/shared/graphql-client/package.json
-COPY --from=dist shared/types/build /app/shared/types/build
-COPY --from=dist shared/types/package.json /app/shared/types/package.json
-COPY --from=dist shared/elasticsearch-document-adapter/lib /app/shared/elasticsearch-document-adapter/lib
-COPY --from=dist shared/elasticsearch-document-adapter/package.json /app/shared/elasticsearch-document-adapter/package.json
-COPY --from=dist shared/elasticsearch-document-adapter/package.json /app/shared/elasticsearch-document-adapter/package.json
-COPY --from=dist targets/export-elasticsearch/dataset /app/export-elasticsearch/dataset
-COPY --from=dist targets/export-elasticsearch/package.json /app/export-elasticsearch/package.json
-COPY --from=dist targets/export-elasticsearch/build /app/export-elasticsearch/build
-COPY --from=dist targets/export-elasticsearch/node_modules /app/export-elasticsearch/node_modules
-COPY --from=dist package.json /app/package.json
-COPY --from=dist node_modules /app/node_modules
+COPY --from=dist /app/shared/graphql-client/build /app/shared/graphql-client/build
+COPY --from=dist /app/shared/graphql-client/package.json /app/shared/graphql-client/package.json
+COPY --from=dist /app/shared/types/build /app/shared/types/build
+COPY --from=dist /app/shared/types/package.json /app/shared/types/package.json
+COPY --from=dist /app/shared/logger/package.json /app/shared/logger/package.json
+COPY --from=dist /app/shared/logger/lib /app/shared/logger/lib
+COPY --from=dist /app/shared/elasticsearch-document-adapter/lib /app/shared/elasticsearch-document-adapter/lib
+COPY --from=dist /app/shared/elasticsearch-document-adapter/package.json /app/shared/elasticsearch-document-adapter/package.json
+COPY --from=dist /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
+COPY --from=dist /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
+COPY --from=dist /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
+COPY --from=dist /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
+COPY --from=dist /app/node_modules /app/node_modules
 
 USER 1000
 
 ENV NODE_ENV=production
 
-CMD ["yarn", "--cwd", "export-elasticsearch", "start"]
+WORKDIR /app/targets/export-elasticsearch
 
+CMD ["yarn","start"]

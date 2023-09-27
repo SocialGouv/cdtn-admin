@@ -14,7 +14,7 @@
         },
         "agreement_id": "0044",
         "content": null,
-        "otherAnswer": "NOTHING",
+        "contentType": "NOTHING",
         "kali_references": [
           {
             "kali_article": {
@@ -48,7 +48,7 @@
         },
         "agreement_id": "2609",
         "content": null,
-        "otherAnswer": "UNKNOWN",
+        "contentType": "UNKNOWN",
         "kali_references": [
           {
             "kali_article": {
@@ -71,7 +71,7 @@
         },
         "agreement_id": "1480",
         "content": null,
-        "otherAnswer": "NOTHING",
+        "contentType": "NOTHING",
         "kali_references": [
           {
             "kali_article": {
@@ -102,7 +102,7 @@
         },
         "agreement_id": "0000",
         "content": "<p>Ceci est ma réponse en droit du travail</p>",
-        "otherAnswer": "ANSWER",
+        "contentType": "ANSWER",
         "kali_references": [],
         "cdtn_references": [
           {
@@ -132,7 +132,7 @@
         },
         "agreement_id": "0086",
         "content": "<p>Ceci est la réponse à la question pour la CC 0086</p>",
-        "otherAnswer": "ANSWER",
+        "contentType": "ANSWER",
         "kali_references": [
           {
             "kali_article": {
@@ -167,7 +167,7 @@
         },
         "agreement_id": "0016",
         "content": "<p>ceci est ma réponse pour la CC 0016</p>",
-        "otherAnswer": "ANSWER",
+        "contentType": "ANSWER",
         "kali_references": [
           {
             "kali_article": {

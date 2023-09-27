@@ -9,7 +9,7 @@ const mapConventionAnswers = (answers: Answer[]) => {
   return answers.map((a: Answer) => {
     return {
       idcc: a.idcc,
-      otherAnswer: a.otherAnswer,
+      contentType: a.contentType,
     };
   });
 };

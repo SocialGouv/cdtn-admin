@@ -5,7 +5,7 @@
         {
           "content": "<p>Ceci est ma réponse en droit du travail</p>",
           "idcc": "0000",
-          "otherAnswer": "ANSWER",
+          "contentType": "ANSWER",
           "references": [
             {
               "title": "Annexe à l'article R1422-4",
@@ -22,7 +22,7 @@
         {
           "content": "<p>ceci est ma réponse pour la CC 0016</p>",
           "idcc": "0016",
-          "otherAnswer": "ANSWER",
+          "contentType": "ANSWER",
           "references": [
             {
               "title": "Accord du 16 juin 1961 relatifs aux ouvriers - annexe I, article 7 bis",
@@ -54,7 +54,7 @@
         {
           "content": null,
           "idcc": "0044",
-          "otherAnswer": "NOTHING",
+          "contentType": "NOTHING",
           "references": [
             {
               "title": "Avenant n°1 Ouvriers et collaborateurs du 11 février 1971 , article 17",
@@ -74,7 +74,7 @@
         {
           "content": "<p>Ceci est la réponse à la question pour la CC 0086</p>",
           "idcc": "0086",
-          "otherAnswer": "ANSWER",
+          "contentType": "ANSWER",
           "references": [
             {
               "title": "Article 23",
@@ -94,7 +94,7 @@
         {
           "content": null,
           "idcc": "1480",
-          "otherAnswer": "NOTHING",
+          "contentType": "NOTHING",
           "references": [
             {
               "title": "Article 34",
@@ -111,7 +111,7 @@
         {
           "content": null,
           "idcc": "2609",
-          "otherAnswer": "UNKNOWN",
+          "contentType": "UNKNOWN",
           "references": [
             {
               "title": "Article 3.2.3",

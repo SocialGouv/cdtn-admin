@@ -474,7 +474,7 @@ export type Answer = {
   idcc: string;
   shortName: string;
   content: string;
-  otherAnswer: string;
+  contentType: string;
   references: ContributionReference[];
 };
 

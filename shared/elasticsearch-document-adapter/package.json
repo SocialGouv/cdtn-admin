@@ -1,11 +1,11 @@
 {
   "name": "@shared/elasticsearch-document-adapter",
   "description": "SocialGouv - Code du travail numerique - Modules - ingester",
-  "version": "2.16.1",
+  "version": "2.17.2",
   "dependencies": {
     "@elastic/elasticsearch": "^7.14.1",
-    "@socialgouv/cdtn-elasticsearch": "^2.16.1",
-    "@socialgouv/cdtn-logger": "^2.16.1",
+    "@socialgouv/cdtn-elasticsearch": "workspace:^",
+    "@socialgouv/cdtn-logger": "workspace:^",
     "@socialgouv/cdtn-monolog": "^1.5.11",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
@@ -26,7 +26,7 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
-    "@shared/eslint-config": "^2.16.1",
+    "@shared/eslint-config": "workspace:^",
     "@socialgouv/kali-data-types": "^2.127.0",
     "@types/jest": "^29.2.3",
     "@types/node-fetch": "^2.5.12",
@@ -39,7 +39,6 @@
   },
   "license": "Apache-2.0",
   "main": "lib/index.js",
-  "private": "true",
   "repository": {
     "directory": "shared/elasticsearch-document-adapter",
     "type": "git",
@@ -47,7 +46,7 @@
   },
   "scripts": {
     "build": "ncc build src/index.ts -o lib",
-    "lint": "eslint src/**/*.{js,ts}",
+    "lint": "npx eslint src/**/*.{js,ts}",
     "precommit": "lint-staged",
     "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "test": "jest"

@@ -95,7 +95,7 @@ export class AnswerExtractor {
         idcc: answer.agreement.id,
         shortName: answer.agreement.name,
         content: answer.content,
-        otherAnswer: answer.otherAnswer, // on renomerait pas ce champs ici ?
+        contentType: answer.contentType, // on renomerait pas ce champs ici ?
         references: this.aggregateReferences(answer).sort(this.sortBy("title")),
       }))
       .sort(this.sortBy("idcc"));

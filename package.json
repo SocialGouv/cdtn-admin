@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@shared/eslint-config": "workspace:^",
     "husky": "^7.0.2",
     "lerna": "^5.0.0",
     "nps": "^5.10.0",
@@ -20,5 +21,6 @@
     "shared/*",
     "targets/*"
   ],
-  "name": "cdtn-admin"
+  "name": "cdtn-admin",
+  "packageManager": "yarn@3.6.3"
 }

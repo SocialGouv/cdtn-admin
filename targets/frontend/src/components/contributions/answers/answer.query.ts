@@ -12,7 +12,7 @@ query contribution_answer($id: uuid) {
     questionId: question_id
     agreementId: agreement_id
     content
-    otherAnswer: other_answer
+    contentType: content_type
     updatedAt: updated_at
     urlSp: url_sp
     question {
@@ -23,6 +23,7 @@ query contribution_answer($id: uuid) {
     agreement {
       id
       name
+      kaliId: kali_id
     }
     answerComments: answer_comments {
       id

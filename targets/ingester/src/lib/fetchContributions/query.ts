@@ -14,7 +14,7 @@ query MyQuery {
       }
       agreement_id
       content
-      otherAnswer: other_answer
+      contentType: content_type
       kali_references {
         ...contribution_answer_kali_referencesFragment
         title: label

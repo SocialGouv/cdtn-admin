@@ -145,7 +145,7 @@ function getContributionAnswers(
       }
       const [answer] = maybeAnswer;
 
-      if (answer.otherAnswer === "NOTHING") {
+      if (answer.contentType === "NOTHING") {
         return [];
       }
       return [

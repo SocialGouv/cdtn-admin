@@ -4,6 +4,7 @@ import { SourceRoute } from "@socialgouv/cdtn-sources";
 export type Agreement = {
   id: string;
   name: string;
+  kaliId: string;
 };
 
 export type Status =
@@ -90,13 +91,13 @@ export type CdtnReference = {
   document: Document;
 };
 
-export type OtherAnswer = "ANSWER" | "NOTHING" | "UNKNOWN" | "SP";
+export type ContentType = "ANSWER" | "NOTHING" | "UNKNOWN" | "SP";
 
 export type Answer = {
   id: string;
   agreementId: string;
   questionId: string;
-  otherAnswer?: OtherAnswer;
+  contentType?: ContentType;
   urlSp?: string;
   agreement: Agreement;
   statuses: AnswerStatus[];
