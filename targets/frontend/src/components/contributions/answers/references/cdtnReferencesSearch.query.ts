@@ -14,7 +14,7 @@ export const getNormalizedTitle = (title: string): string => {
     .join("%")}%`;
 };
 
-export const getSlugThanksToQuery = (query: string | undefined): string => {
+export const getSlugFromUrl = (query: string | undefined): string => {
   const hrefWithoutQuery: string | undefined = query?.split("?")[0];
   const [slug] = hrefWithoutQuery?.split("/").reverse() ?? [""];
   return slug;
@@ -48,7 +48,7 @@ query SearchCdtnReferences($sources: [String!], $slug: String, $title: String) {
 export const useContributionSearchCdtnReferencesQuery = (
   query: string | undefined
 ): Result<Pick<CdtnReference, "document">> => {
-  const slug = getSlugThanksToQuery(query);
+  const slug = getSlugFromUrl(query);
   const title = getNormalizedTitle(slug);
   const [{ data, fetching, error }] = useQuery<SearchCdtnReferencesQueryResult>(
     {

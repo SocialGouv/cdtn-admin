@@ -4,14 +4,14 @@ import {
   SearchCdtnReferencesQuery,
   SearchCdtnReferencesQueryResult,
   getNormalizedTitle,
-  getSlugThanksToQuery,
+  getSlugFromUrl,
 } from "./cdtnReferencesSearch.query";
 import { useQuery } from "urql";
 
 export const useFicheSpSearchCdtnReferencesQuery = (
   query: string | undefined
 ): Result<Document> => {
-  const slug = getSlugThanksToQuery(query);
+  const slug = getSlugFromUrl(query);
   const title = getNormalizedTitle(slug);
   const [{ data, fetching, error }] = useQuery<SearchCdtnReferencesQueryResult>(
     {
