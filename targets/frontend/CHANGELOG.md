@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.2...v2.17.3) (2023-09-27)
+
+### Bug Fixes
+
+- **contributions:** ajout d'un selecteur de references pour les fiches SP ([#1029](https://github.com/SocialGouv/cdtn-admin/issues/1029)) ([c57d763](https://github.com/SocialGouv/cdtn-admin/commit/c57d763762567d4d7497059a47e8b7b853e998df))
+- **contributions:** rename otherAnswer field by contentType ([#1027](https://github.com/SocialGouv/cdtn-admin/issues/1027)) ([a590140](https://github.com/SocialGouv/cdtn-admin/commit/a5901403d289602c24f7b87c6b96ebeb2af39486))
+- **contribution:** utilisation de l'ID de l'article à la place du CID pour générer le lien ([#1030](https://github.com/SocialGouv/cdtn-admin/issues/1030)) ([69f703c](https://github.com/SocialGouv/cdtn-admin/commit/69f703cb68bee64297ac678502d1f0368ed34d66))
+- yarn berry + fetch + docker opti + sec ([#1012](https://github.com/SocialGouv/cdtn-admin/issues/1012)) ([81bce48](https://github.com/SocialGouv/cdtn-admin/commit/81bce4838781e60c05a084769a35cf0d2a26609c))
+
 ## [2.17.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.1...v2.17.2) (2023-09-25)
 
 ### Bug Fixes

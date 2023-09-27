@@ -1,6 +1,6 @@
 {
   "name": "@shared/id-generator",
-  "version": "2.17.2",
+  "version": "2.17.3",
   "dependencies": {
     "uuid": "^8.3.2",
     "xxhashjs": "^0.2.2"
