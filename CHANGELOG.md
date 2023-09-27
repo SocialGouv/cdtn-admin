@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.4...v2.17.5) (2023-09-27)
+
+### Bug Fixes
+
+- **actions:** use npm token explicit ([a1cb293](https://github.com/SocialGouv/cdtn-admin/commit/a1cb2939fa92fec92363c9d847b0d6365f3853bf))
+
 ## [2.17.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.3...v2.17.4) (2023-09-27)
 
 ### Bug Fixes
