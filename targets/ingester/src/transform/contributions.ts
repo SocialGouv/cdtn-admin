@@ -2,11 +2,11 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
 import type { CdtnDocument } from "../index";
+import { AnswerWithCC } from "../index";
 import fetchContributions from "../lib/fetchContributions";
-import { Answer } from "@shared/types";
 
-const mapConventionAnswers = (answers: Answer[]) => {
-  return answers.map((a: Answer) => {
+const mapConventionAnswers = (answers: AnswerWithCC[]) => {
+  return answers.map((a) => {
     return {
       idcc: a.idcc,
       contentType: a.contentType,
@@ -18,35 +18,34 @@ export default async function getContributionsDocuments(): Promise<
 > {
   const data = await fetchContributions();
 
-  return data.flatMap(({ title, answers, id, index }) => {
+  return data.flatMap(({ title, answers, id }) => {
     const allAnswers = {
-      answers: {
-        generic: answers.generic,
-        conventions: mapConventionAnswers(answers.conventions),
-      },
+      answer: answers.generic,
+      conventions: mapConventionAnswers(answers.conventions),
       description: answers.generic.description,
       id,
-      index,
       is_searchable: true,
       slug: slugify(title),
       source: SOURCES.CONTRIBUTIONS,
-      text: answers.generic.text || title, // TODO : remove after convention page is done
+      text: answers.generic.text || title,
       title,
     };
-    const ccnAnswers = answers.conventions.map((conventionalAnswer) => {
-      return {
-        answer: conventionalAnswer,
-        idcc: conventionalAnswer.idcc,
-        id: conventionalAnswer.id,
-        index,
-        description: answers.generic.description, // TODO: mettre une description unique qui contient l'idcc
-        is_searchable: false, // on laisse comme ça ?
-        slug: slugify(`${parseInt(conventionalAnswer.idcc, 10)}-${title}`),
-        source: SOURCES.CONTRIBUTIONS,
-        text: `${conventionalAnswer.idcc} ${title}`,
-        title,
-      };
-    });
+    const ccnAnswers = answers.conventions.map(
+      ({ idcc, shortName, ...conventionalAnswer }) => {
+        return {
+          answer: conventionalAnswer,
+          idcc: idcc,
+          shortName: shortName,
+          description: answers.generic.description, // TODO: mettre une description unique qui contient l'idcc
+          id: conventionalAnswer.id,
+          is_searchable: false, // on laisse comme ça ?
+          slug: slugify(`${parseInt(idcc, 10)}-${title}`),
+          source: SOURCES.CONTRIBUTIONS,
+          text: `${idcc} ${title}`, // actuellement c'est comme ça mais si la CC à son propre contenu est-ce que ça ne devrait pas être dans text aussi ?
+          title,
+        };
+      }
+    );
 
     return [allAnswers, ...ccnAnswers];
   });

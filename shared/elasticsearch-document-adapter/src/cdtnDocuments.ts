@@ -1,6 +1,7 @@
 import type {
   AgreementDoc,
-  ContributionCompleteDoc,
+  ContributionGenericDoc,
+  ContributionWithCCDoc,
   EditorialContentDoc,
   FicheTravailEmploiDoc,
 } from "@shared/types";
@@ -167,10 +168,9 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== Contributions ===");
-  const contributions = await getDocumentBySource<ContributionCompleteDoc>(
-    SOURCES.CONTRIBUTIONS,
-    getBreadcrumbs
-  );
+  const contributions = await getDocumentBySource<
+    ContributionGenericDoc | ContributionWithCCDoc
+  >(SOURCES.CONTRIBUTIONS, getBreadcrumbs);
 
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
 

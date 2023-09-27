@@ -1,10 +1,13 @@
 import type { SourceValues } from "@socialgouv/cdtn-sources";
 
 import {
+  Answer,
   BaseRef,
-  CCMultipleAnswers,
-  CCSingleAnswer,
+  ContributionGenericDoc,
+  ContributionReference,
+  ContributionWithCCDoc,
   DilaRef,
+  GenericAnswer,
 } from "@shared/types";
 
 export as namespace ingester;
@@ -24,18 +27,27 @@ type ExternalDocument = Document & {
   url: string;
 };
 
-type ExtendedQuestion = Omit<Question, "answers"> & {
-  answers?: {
+interface GenericAnswer {
+  content: string;
+  description: string;
+  contentType: string;
+  text: string;
+  references: ContributionReference[];
+}
+
+type AnswerWithCC = Answer & { idcc: string; shortName: string };
+
+export interface Question {
+  id: string;
+  // index: number; => not needed ??
+  title: string;
+  answers: {
     generic: GenericAnswer;
-
-    conventions?: Answer[];
+    conventions: AnswerWithCC[];
   };
-  answer?: Answer & {
-    shortName: string;
-  };
-};
+}
 
-type Contribution = Document & ExtendedQuestion;
+type Contribution = Document & (ContributionGenericDoc | ContributionWithCCDoc);
 
 type LegiArticle = ExternalDocument & {
   dateDebut: number;

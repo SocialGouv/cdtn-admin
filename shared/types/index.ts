@@ -9,13 +9,14 @@ import type {
   IndexedAgreement,
 } from "@socialgouv/kali-data-types";
 import type {
-  Prequalified,
-  Highlight,
   EditorialContent,
+  Highlight,
+  Prequalified,
 } from "./EditorialContent";
+import type { BaseHasuraDocument } from "./Base";
+
 export * from "./EditorialContent";
 export * from "./utils";
-import type { BaseHasuraDocument } from "./Base";
 
 export enum DOCUMENT_SOURCE {
   fiches_ministere_travail = "fiches_ministere_travail",
@@ -37,12 +38,12 @@ export type FicheTravailEmploi = BaseHasuraDocument & {
 
 export type ContributionComplete = BaseHasuraDocument & {
   source: "contributions";
-  document: ContributionCompleteDoc;
+  document: ContributionGenericDoc;
 };
 
 export type ContributionFiltered = BaseHasuraDocument & {
   source: "contributions";
-  document: ContributionFilteredDoc;
+  document: ContributionWithCCDoc;
 };
 
 export type LaborCodeArticle = BaseHasuraDocument & {
@@ -133,29 +134,22 @@ export interface TravailEmploiReference {
   url: string;
 }
 
-export interface ContributionCompleteDoc {
-  index: number;
+export interface ContributionGenericDoc {
+  // index: number; => not needed ??
   description: string;
-  answers: CCMultipleAnswers;
-}
-
-export interface ContributionFilteredDoc {
-  index: number;
-  iddc: string;
-  description: string;
-  answer: CCSingleAnswer;
-}
-
-export interface CCMultipleAnswers {
-  generic: GenericAnswer;
+  answer: Answer;
   conventions: {
     idcc: string;
-    shortName: string;
+    contentType: string;
   }[];
 }
 
-export interface CCSingleAnswer {
-  conventionAnswer: Answer;
+export interface ContributionWithCCDoc {
+  // index: number; => not needed ??
+  description: string;
+  answer: Answer;
+  idcc: string;
+  shortName: string;
 }
 
 export type LaborCodeDoc = Pick<CodeArticleData, "cid" | "dateDebut" | "id"> & {
@@ -459,30 +453,10 @@ export interface ExportEsStatus {
   user?: User;
 }
 
-export type Question = {
-  id: string;
-  index: number;
-  title: string;
-  answers: {
-    generic: GenericAnswer;
-    conventions: Answer[];
-  };
-};
-
 export type Answer = {
   id: string;
-  idcc: string;
-  shortName: string;
   content: string;
   contentType: string;
-  references: ContributionReference[];
-};
-
-export type GenericAnswer = {
-  id: string;
-  content: string;
-  description: string;
-  text: string;
   references: ContributionReference[];
 };
 

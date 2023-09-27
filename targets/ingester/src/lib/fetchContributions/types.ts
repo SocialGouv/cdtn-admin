@@ -26,7 +26,7 @@ export interface AnswerRaw {
 
 export interface QuestionRaw {
   id: string;
-  index: number;
-  title: string;
+  order: number;
+  content: string;
   answers: AnswerRaw[];
 }

@@ -3,26 +3,9 @@
     "answers": {
       "conventions": [
         {
-          "content": "<p>Ceci est ma réponse en droit du travail</p>",
-          "idcc": "0000",
-          "contentType": "ANSWER",
-          "references": [
-            {
-              "title": "Annexe à l'article R1422-4",
-              "url": "/code-du-travail/annexe-a-larticle-r1422-4"
-            },
-            {
-              "slug": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
-              "source": "fiches_service_public",
-              "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?"
-            }
-          ],
-          "shortName": "Code du travail"
-        },
-        {
           "content": "<p>ceci est ma réponse pour la CC 0016</p>",
-          "idcc": "0016",
           "contentType": "ANSWER",
+          "idcc": "0016",
           "references": [
             {
               "title": "Accord du 16 juin 1961 relatifs aux ouvriers - annexe I, article 7 bis",
@@ -53,8 +36,8 @@
         },
         {
           "content": null,
-          "idcc": "0044",
           "contentType": "NOTHING",
+          "idcc": "0044",
           "references": [
             {
               "title": "Avenant n°1 Ouvriers et collaborateurs du 11 février 1971 , article 17",
@@ -73,8 +56,8 @@
         },
         {
           "content": "<p>Ceci est la réponse à la question pour la CC 0086</p>",
-          "idcc": "0086",
           "contentType": "ANSWER",
+          "idcc": "0086",
           "references": [
             {
               "title": "Article 23",
@@ -93,25 +76,25 @@
         },
         {
           "content": null,
-          "idcc": "1480",
           "contentType": "NOTHING",
+          "idcc": "1480",
           "references": [
             {
               "title": "Article 34",
               "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005786630/?idConteneur=KALICONT000005635444"
             },
             {
-              "slug": "si-un-poste-se-libere-ou-est-cree-dans-lentreprise-lemployeur-doit-il-en-informer-les-salaries-ou-le-leur-proposer-en-priorite",
-              "source": "contributions",
-              "title": "Si un poste se libère ou est créé dans l’entreprise, l’employeur doit-il en informer les salariés ? Ou le leur proposer en priorité ?"
+              "category": "contributions",
+              "title": "Si un poste se libère ou est créé dans l’entreprise, l’employeur doit-il en informer les salariés ? Ou le leur proposer en priorité ?",
+              "url": "si-un-poste-se-libere-ou-est-cree-dans-lentreprise-lemployeur-doit-il-en-informer-les-salaries-ou-le-leur-proposer-en-priorite"
             }
           ],
           "shortName": "Convention collective nationale des journalistes"
         },
         {
           "content": null,
-          "idcc": "2609",
           "contentType": "UNKNOWN",
+          "idcc": "2609",
           "references": [
             {
               "title": "Article 3.2.3",
@@ -123,6 +106,7 @@
       ],
       "generic": {
         "content": "<p>Ceci est ma réponse en droit du travail</p>",
+        "contentType": "ANSWER",
         "description": "Ceci est ma réponse en droit du travai…",
         "references": [
           {
@@ -130,18 +114,18 @@
             "url": "/code-du-travail/annexe-a-larticle-r1422-4"
           },
           {
-            "slug": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
-            "source": "fiches_service_public",
-            "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?"
+            "category": "fiches_service_public",
+            "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?",
+            "url": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu"
           }
         ],
         "text": "Ceci est ma réponse en droit du travail"
       }
     },
-    "content": "Jours fériés et ponts dans le secteur privé",
+    "id": "ae9f8c71-1273-4af8-8991-c0eb2251fd0e",
+    "title": "Jours fériés et ponts dans le secteur privé",
     "message": {
       "content": "Message Bloc 1 à définir"
-    },
-    "order": 52
+    }
   }
 ]

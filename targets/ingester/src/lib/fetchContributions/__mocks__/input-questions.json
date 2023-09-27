@@ -1,5 +1,6 @@
 [
   {
+    "id": "ae9f8c71-1273-4af8-8991-c0eb2251fd0e",
     "content": "Jours fériés et ponts dans le secteur privé",
     "message": {
       "content": "Message Bloc 1 à définir"
@@ -84,8 +85,8 @@
           {
             "document": {
               "title": "Si un poste se libère ou est créé dans l’entreprise, l’employeur doit-il en informer les salariés ? Ou le leur proposer en priorité ?",
-              "slug": "si-un-poste-se-libere-ou-est-cree-dans-lentreprise-lemployeur-doit-il-en-informer-les-salaries-ou-le-leur-proposer-en-priorite",
-              "source": "contributions"
+              "url": "si-un-poste-se-libere-ou-est-cree-dans-lentreprise-lemployeur-doit-il-en-informer-les-salaries-ou-le-leur-proposer-en-priorite",
+              "category": "contributions"
             }
           }
         ],
@@ -108,8 +109,8 @@
           {
             "document": {
               "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?",
-              "slug": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
-              "source": "fiches_service_public"
+              "url": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
+              "category": "fiches_service_public"
             }
           }
         ],

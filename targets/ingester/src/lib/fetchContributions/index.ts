@@ -1,10 +1,17 @@
-import type { Question } from "@shared/types";
-
 import type { AgreementRepository } from "./AgreementRepository";
 import { AgreementFile } from "./AgreementRepository";
 import { AnswerExtractor } from "./AnswerExtractor";
 import type { ContributionRepository } from "./ContributionRepository";
 import { ContributionDatabase } from "./ContributionRepository";
+import { AnswerRaw } from "./types";
+import { Question } from "../../index";
+
+const filterOutAnswerGeneric = (answers: AnswerRaw[]): AnswerRaw[] =>
+  answers.filter((a) => a.agreement.id !== "0000");
+
+const contributionRepository: ContributionRepository =
+  new ContributionDatabase();
+const agreementRepository: AgreementRepository = new AgreementFile();
 
 /**
  *
@@ -13,10 +20,7 @@ import { ContributionDatabase } from "./ContributionRepository";
  * resolve CCN references by IDCC from @socialgouv/kali-data
  *
  */
-async function fetchContributions(
-  contributionRepository: ContributionRepository = new ContributionDatabase(),
-  agreementRepository: AgreementRepository = new AgreementFile()
-): Promise<Question[]> {
+async function fetchContributions(): Promise<Question[]> {
   const [questions, agreements] = await Promise.all([
     contributionRepository.fetchAll(),
     agreementRepository.fetchAll(),
@@ -25,13 +29,16 @@ async function fetchContributions(
 
   return questions.flatMap(({ answers, ...question }) => {
     const genericAnswer = answerExtractor.extractGenericAnswer(answers);
-    if (!genericAnswer) return [];
     return {
       answers: {
-        conventions: answerExtractor.extractAgreementAnswers(answers),
+        conventions: answerExtractor.extractAgreementAnswers(
+          filterOutAnswerGeneric(answers)
+        ),
         generic: genericAnswer,
       },
-      ...question,
+      // index: question.order, => not needed ??
+      title: question.content,
+      id: question.id,
     };
   });
 }
