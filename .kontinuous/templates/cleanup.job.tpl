@@ -2,6 +2,10 @@
 spec:
   template:
     spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
       containers:
         - name: db-cleaner
           image: ghcr.io/socialgouv/docker/psql:7.0.0

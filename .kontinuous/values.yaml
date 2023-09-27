@@ -7,36 +7,36 @@ jobs:
         imagePackage: frontend
         dockerfile: targets/frontend/Dockerfile
         secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
+          npmTiptapToken:
+            secretName: npm-tiptap
+            secretKey: NPM_TIPTAP_TOKEN
     build-ingester:
       use: build
       with:
         imagePackage: ingester
         dockerfile: targets/ingester/Dockerfile
         secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
+          npmTiptapToken:
+            secretName: npm-tiptap
+            secretKey: NPM_TIPTAP_TOKEN
     build-alert:
       use: build
       with:
         imagePackage: alert
         dockerfile: targets/alert-cli/Dockerfile
         secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
+          npmTiptapToken:
+            secretName: npm-tiptap
+            secretKey: NPM_TIPTAP_TOKEN
     build-export:
       use: build
       with:
         imagePackage: export
         dockerfile: targets/export-elasticsearch/Dockerfile
         secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
+          npmTiptapToken:
+            secretName: npm-tiptap
+            secretKey: NPM_TIPTAP_TOKEN
     build-contributions:
       use: build
       with:
@@ -72,6 +72,10 @@ www:
       cpu: "50m"
       memory: "128Mi"
   replicas: 1
+  securityContext:
+    fsGroup: 1000
+    runAsUser: 1000
+    runAsGroup: 1000
 
 contributions:
   ~chart: app
@@ -92,6 +96,10 @@ contributions:
       cpu: "50m"
       memory: "128Mi"
   replicas: 1
+  securityContext:
+    fsGroup: 1000
+    runAsUser: 1000
+    runAsGroup: 1000
 
 export:
   ~chart: app
@@ -114,6 +122,10 @@ export:
       cpu: '50m'
       memory: 128Mi
   replicas: 1
+  securityContext:
+    fsGroup: 1000
+    runAsUser: 1000
+    runAsGroup: 1000
 
 hasura:
   ~chart: hasura
@@ -136,6 +148,10 @@ hasura:
     requests:
       cpu: '50m'
       memory: 650Mi
+  securityContext:
+    fsGroup: 1001
+    runAsUser: 1001
+    runAsGroup: 1001
 
 deactivate:
   jobs-deactivate:
