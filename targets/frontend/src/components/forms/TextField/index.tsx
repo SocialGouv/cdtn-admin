@@ -37,21 +37,26 @@ export const FormTextField = ({
         //   return <></>;
         // }
         return (
-          <TextField
-            helperText={
-              error && error.type === "required" ? "Ce champ est requis" : null
-            }
-            size={size}
-            error={!!error}
-            onChange={onChange}
-            value={value}
-            fullWidth={fullWidth}
-            label={label}
-            variant="outlined"
-            multiline={multiline}
-            disabled={disabled}
-            InputLabelProps={labelFixed ? { shrink: true } : {}}
-          />
+          <>
+            <TextField
+              helperText={
+                error && error.type === "required"
+                  ? "Ce champ est requis"
+                  : null
+              }
+              size={size}
+              error={!!error}
+              onChange={onChange}
+              value={value}
+              fullWidth={fullWidth}
+              label={label}
+              variant="outlined"
+              multiline={multiline}
+              disabled={disabled}
+              InputLabelProps={labelFixed ? { shrink: true } : {}}
+            />
+            <p>{error?.message}</p>
+          </>
         );
       }}
     />
