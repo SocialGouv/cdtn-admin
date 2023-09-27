@@ -1,0 +1,191 @@
+[
+  {
+    "answer": {
+      "description": "Ceci est ma réponse en droit du travai…",
+      "content": "<p>Ceci est ma réponse en droit du travail</p>",
+      "contentType": "ANSWER",
+      "references": [
+        {
+          "title": "Annexe à l'article R1422-4",
+          "url": "/code-du-travail/annexe-a-larticle-r1422-4"
+        },
+        {
+          "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?",
+          "url": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
+          "category": "fiches_service_public"
+        }
+      ],
+      "text": "Ceci est ma réponse en droit du travail"
+    },
+    "conventions": [
+      {
+        "idcc": "0016",
+        "contentType": "ANSWER"
+      },
+      {
+        "idcc": "0044",
+        "contentType": "NOTHING"
+      },
+      {
+        "idcc": "0086",
+        "contentType": "ANSWER"
+      },
+      {
+        "idcc": "1480",
+        "contentType": "NOTHING"
+      },
+      {
+        "idcc": "2609",
+        "contentType": "UNKNOWN"
+      }
+    ],
+    "description": "Ceci est ma réponse en droit du travai…",
+    "id": "ae9f8c71-1273-4af8-8991-c0eb2251fd0e",
+    "is_searchable": true,
+    "slug": "jours-feries-et-ponts-dans-le-secteur-prive",
+    "source": "contributions",
+    "text": "Ceci est ma réponse en droit du travail",
+    "title": "Jours fériés et ponts dans le secteur privé"
+  },
+  {
+    "answer": {
+      "content": "<p>ceci est ma réponse pour la CC 0016</p>",
+      "contentType": "ANSWER",
+      "references": [
+        {
+          "title": "Accord du 16 juin 1961 relatifs aux ouvriers - annexe I, article 7 bis",
+          "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849377/?idConteneur=KALICONT000005635624"
+        },
+        {
+          "title": "Accord du 16 juin 1961 relatifs aux ouvriers - annexe I, article 7 quater",
+          "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849381/?idConteneur=KALICONT000005635624"
+        },
+        {
+          "title": "Accord du 16 juin 1961 relatifs aux ouvriers - annexe I, article 7 ter",
+          "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849379/?idConteneur=KALICONT000005635624"
+        },
+        {
+          "title": "Avenant n°114 du 19 mars 2021, article 2.1."
+        },
+        {
+          "title": "Avenant n°86 du 19 mars 2021, article 2.1."
+        },
+        {
+          "title": "Avenant n°94 du 19 mars 2021, article 3.1."
+        },
+        {
+          "title": "Avenant n°96 du 19 mars 2021, article 3.1."
+        }
+      ]
+    },
+    "idcc": "0016",
+    "shortName": "Convention collective nationale des transports routiers et activités auxiliaires du transport",
+    "description": "Ceci est ma réponse en droit du travai…",
+    "is_searchable": false,
+    "slug": "16-jours-feries-et-ponts-dans-le-secteur-prive",
+    "source": "contributions",
+    "text": "0016 Jours fériés et ponts dans le secteur privé",
+    "title": "Jours fériés et ponts dans le secteur privé"
+  },
+  {
+    "answer": {
+      "content": null,
+      "contentType": "NOTHING",
+      "references": [
+        {
+          "title": "Avenant n°1 Ouvriers et collaborateurs du 11 février 1971 , article 17",
+          "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005846379/?idConteneur=KALICONT000005635613"
+        },
+        {
+          "title": "Avenant n°1 Ouvriers et collaborateurs du 11 février 1971 Article 19",
+          "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005846381/?idConteneur=KALICONT000005635613"
+        },
+        {
+          "title": "Cass. Soc. 30 novembre 2004 n° 02-45.785",
+          "url": "https://www.legifrance.gouv.fr/juri/id/JURITEXT000007052459?page=1&pageSize=10&query=02-45.785&searchField=ALL&searchType=ALL&sortValue=DATE_DESC&tab_selection=juri&typePagination=DEFAULT"
+        }
+      ]
+    },
+    "idcc": "0044",
+    "shortName": "Convention collective nationale des industries chimiques et connexes",
+    "description": "Ceci est ma réponse en droit du travai…",
+    "is_searchable": false,
+    "slug": "44-jours-feries-et-ponts-dans-le-secteur-prive",
+    "source": "contributions",
+    "text": "0044 Jours fériés et ponts dans le secteur privé",
+    "title": "Jours fériés et ponts dans le secteur privé"
+  },
+  {
+    "answer": {
+      "content": "<p>Ceci est la réponse à la question pour la CC 0086</p>",
+      "contentType": "ANSWER",
+      "references": [
+        {
+          "title": "Article 23",
+          "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005857296/?idConteneur=KALICONT000005635630"
+        },
+        {
+          "title": "Article 42",
+          "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005857326/?idConteneur=KALICONT000005635630"
+        },
+        {
+          "title": "Article 61",
+          "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005857352/?idConteneur=KALICONT000005635630"
+        }
+      ]
+    },
+    "idcc": "0086",
+    "shortName": "Convention collective nationale des entreprises de publicité et assimilées",
+    "description": "Ceci est ma réponse en droit du travai…",
+    "is_searchable": false,
+    "slug": "86-jours-feries-et-ponts-dans-le-secteur-prive",
+    "source": "contributions",
+    "text": "0086 Jours fériés et ponts dans le secteur privé",
+    "title": "Jours fériés et ponts dans le secteur privé"
+  },
+  {
+    "answer": {
+      "content": null,
+      "contentType": "NOTHING",
+      "references": [
+        {
+          "title": "Article 34",
+          "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005786630/?idConteneur=KALICONT000005635444"
+        },
+        {
+          "title": "Si un poste se libère ou est créé dans l’entreprise, l’employeur doit-il en informer les salariés ? Ou le leur proposer en priorité ?",
+          "url": "si-un-poste-se-libere-ou-est-cree-dans-lentreprise-lemployeur-doit-il-en-informer-les-salaries-ou-le-leur-proposer-en-priorite",
+          "category": "contributions"
+        }
+      ]
+    },
+    "idcc": "1480",
+    "shortName": "Convention collective nationale des journalistes",
+    "description": "Ceci est ma réponse en droit du travai…",
+    "is_searchable": false,
+    "slug": "1480-jours-feries-et-ponts-dans-le-secteur-prive",
+    "source": "contributions",
+    "text": "1480 Jours fériés et ponts dans le secteur privé",
+    "title": "Jours fériés et ponts dans le secteur privé"
+  },
+  {
+    "answer": {
+      "content": null,
+      "contentType": "UNKNOWN",
+      "references": [
+        {
+          "title": "Article 3.2.3",
+          "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000018773794/?idConteneur=KALICONT000018773893"
+        }
+      ]
+    },
+    "idcc": "2609",
+    "shortName": "Convention collective nationale des employés, techniciens et agents de maîtrise du bâtiment",
+    "description": "Ceci est ma réponse en droit du travai…",
+    "is_searchable": false,
+    "slug": "2609-jours-feries-et-ponts-dans-le-secteur-prive",
+    "source": "contributions",
+    "text": "2609 Jours fériés et ponts dans le secteur privé",
+    "title": "Jours fériés et ponts dans le secteur privé"
+  }
+]

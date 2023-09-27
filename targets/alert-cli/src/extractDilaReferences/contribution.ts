@@ -28,22 +28,20 @@ export function extractContributionsRef(
         source: SOURCES.CONTRIBUTIONS,
         title: question.title,
       },
-      references: question.document.answers.generic.references.flatMap(
-        (ref) => {
-          if (ref.category === null) {
-            return [];
-          }
-          return [
-            {
-              dila_cid: ref.dila_cid,
-              dila_container_id: ref.dila_container_id,
-              dila_id: ref.dila_id,
-              title: ref.title,
-              url: ref.url,
-            },
-          ];
+      references: question.document.answer.references.flatMap((ref) => {
+        if (ref.category === null) {
+          return [];
         }
-      ),
+        return [
+          {
+            dila_cid: ref.dila_cid,
+            dila_container_id: ref.dila_container_id,
+            dila_id: ref.dila_id,
+            title: ref.title,
+            url: ref.url,
+          },
+        ];
+      }),
     });
     if ("conventionAnswer" in question.document.answers) {
       continue;

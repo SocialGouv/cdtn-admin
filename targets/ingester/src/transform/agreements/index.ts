@@ -1,20 +1,15 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { IndexedAgreement } from "@socialgouv/kali-data-types";
-import remark from "remark";
-import html from "remark-html";
 
-import type { AgreementPage } from "../../index";
+import type { AgreementPage, Question } from "../../index";
+import { AnswerWithCC } from "../../index";
 import { loadAgreement, loadAgreements } from "../../lib/data-loaders";
 import fetchContributions from "../../lib/fetchContributions";
 import { formatIdcc } from "../../lib/formatIdcc";
 import getAgreementsWithHighlight from "./agreementsWithHighlight";
 import { getAllKaliBlocks } from "./getKaliBlock";
 import { getKaliArticlesByTheme } from "./kaliArticleBytheme";
-import { Question } from "@shared/types";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const compiler = remark().use(html as any, { sanitize: true });
 
 type QuestionWithSlug = Question & { slug: string };
 
@@ -23,20 +18,23 @@ export const createSorter =
   (a: A, b: A) =>
     fn(a) - fn(b);
 
-export default async function getAgreementDocuments() {
-  const agreements = await loadAgreements();
-
-  const contributions = await fetchContributions();
-
-  const allKaliBlocks = await getAllKaliBlocks();
-
-  const contributionsWithSlug = contributions.map((contrib) => {
+export const getContributionsWithSlug = async () => {
+  const contributions: Question[] = await fetchContributions();
+  return contributions.map((contrib) => {
     const slug = slugify(contrib.title);
     return {
       ...contrib,
       slug,
     };
   });
+};
+
+export default async function getAgreementDocuments() {
+  const agreements = await loadAgreements();
+
+  const allKaliBlocks = await getAllKaliBlocks();
+
+  const contributionsWithSlug = await getContributionsWithSlug();
 
   const agreementsWithHighlight = await getAgreementsWithHighlight();
 
@@ -131,32 +129,29 @@ function getAgreementInfoWithoutId({
 /**
  * Return contribution answer for a given idcc
  */
-function getContributionAnswers(
+export function getContributionAnswers(
   contributionsWithSlug: QuestionWithSlug[],
   agreementNum: number
 ) {
   return contributionsWithSlug
-    .flatMap(({ title, slug, index, answers }) => {
-      const maybeAnswer = answers.conventions.filter(
-        ({ idcc }) => parseInt(idcc, 10) === agreementNum
+    .map(({ title, slug, index, answers }) => {
+      const answer: AnswerWithCC | undefined = answers.conventions.find(
+        (a: AnswerWithCC) => parseInt(a.idcc, 10) === agreementNum
       );
-      if (maybeAnswer.length === 0) {
-        return [];
+      if (!answer) {
+        throw new Error(
+          `No answer find for CC ${agreementNum} on contrib ${title}`
+        );
       }
-      const [answer] = maybeAnswer;
 
-      if (answer.contentType === "NOTHING") {
-        return [];
-      }
-      return [
-        {
-          answer: compiler.processSync(answer.content).contents.toString(),
-          index,
-          question: title.trim(),
-          references: answer.references,
-          slug,
-        },
-      ];
+      return {
+        answer: answer.content,
+        contentType: answer.contentType,
+        index,
+        question: title,
+        references: answer.references,
+        slug,
+      };
     })
     .sort(createSorter((a) => a.index));
 }

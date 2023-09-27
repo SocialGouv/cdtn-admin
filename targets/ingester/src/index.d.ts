@@ -39,7 +39,7 @@ type AnswerWithCC = Answer & { idcc: string; shortName: string };
 
 export interface Question {
   id: string;
-  // index: number; => not needed ??
+  index: number;
   title: string;
   answers: {
     generic: GenericAnswer;
