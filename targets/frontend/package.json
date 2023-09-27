@@ -127,7 +127,6 @@
     "start": "next start",
     "predev": "only-include-used-icons",
     "prebuild": "only-include-used-icons",
-    "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "test": "jest"
   }
 }
