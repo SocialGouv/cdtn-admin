@@ -25,8 +25,8 @@ import {
 import { statusesMapping } from "../status/data";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { SnackBar } from "../../utils/SnackBar";
-import { FicheSpReferenceInput } from "./references/FicheSpReferenceInput";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
+import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -63,11 +63,7 @@ export const ContributionsAnswer = ({
       kaliReferences: [],
       otherReferences: [],
       cdtnReferences: [],
-      contentFichesSpReference: answer?.contentFichesSpDocument
-        ? {
-            document: {},
-          }
-        : undefined,
+      contentFichesSpDocument: answer?.contentFichesSpDocument ? {} : undefined,
     },
   });
   const updateAnswer = useContributionAnswerUpdateMutation();
@@ -103,8 +99,7 @@ export const ContributionsAnswer = ({
         contentType: data.contentType,
         status: newStatus,
         userId: user?.id,
-        contentServicePublicCdtnId:
-          data.contentFichesSpReference?.document.cdtnId,
+        contentServicePublicCdtnId: data.contentFichesSpDocument?.cdtnId,
         kaliReferences: data.kaliReferences,
         legiReferences: data.legiReferences,
         cdtnReferences: data.cdtnReferences,
@@ -213,8 +208,8 @@ export const ContributionsAnswer = ({
                 />
               )}
               {answer && isCodeDuTravail(answer) && (
-                <FicheSpReferenceInput
-                  name="contentFichesSpReference"
+                <FicheSpDocumentInput
+                  name="contentFichesSpDocument"
                   control={control}
                   disabled={isNotEditable(answer)}
                 />

@@ -117,10 +117,5 @@ export const useContributionAnswerQuery = ({
     ...answer,
     status: initStatus(answer),
     updateDate: format(parseISO(answer.updatedAt), "dd/MM/yyyy"),
-    contentFichesSpReference: answer.contentFichesSpDocument
-      ? {
-          document: answer.contentFichesSpDocument,
-        }
-      : undefined,
   };
 };

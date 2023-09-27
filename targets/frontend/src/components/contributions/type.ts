@@ -111,5 +111,4 @@ export type Answer = {
   otherReferences: OtherReference[];
   cdtnReferences: CdtnReference[];
   contentFichesSpDocument?: Document;
-  contentFichesSpReference?: CdtnReference;
 };

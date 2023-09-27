@@ -1,6 +1,6 @@
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import { Control } from "react-hook-form";
-import { CdtnReference } from "../../type";
+import { Document } from "../../type";
 import { ReferenceInput } from "./ReferenceInput";
 import { useFicheSpSearchCdtnReferencesQuery } from "./ficheSpReferenceSearch.query";
 
@@ -10,27 +10,25 @@ type Props = {
   disabled?: boolean;
 };
 
-export const FicheSpReferenceInput = ({
+export const FicheSpDocumentInput = ({
   name,
   control,
   disabled = false,
 }: Props): React.ReactElement => (
-  <ReferenceInput<CdtnReference>
+  <ReferenceInput<Document>
     label={`Fiche service-public`}
     color="info"
     name={name}
     disabled={disabled}
     control={control}
     fetcher={useFicheSpSearchCdtnReferencesQuery}
-    isEqual={(option, value) =>
-      value.document.cdtnId === option.document.cdtnId
-    }
-    getLabel={(item) => `${item.document.title} (${item.document.slug})`}
+    isEqual={(option, value) => value.cdtnId === option.cdtnId}
+    getLabel={(item) => `${item.title} (${item.slug})`}
     onClick={(item) => {
       const newWindow = window.open(
-        `https://code.travail.gouv.fr/${getRouteBySource(
-          item.document.source
-        )}/${item.document.slug}`,
+        `https://code.travail.gouv.fr/${getRouteBySource(item.source)}/${
+          item.slug
+        }`,
         "_blank",
         "noopener,noreferrer"
       );
