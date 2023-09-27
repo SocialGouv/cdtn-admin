@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.5...v2.17.6) (2023-09-27)
+
+### Bug Fixes
+
+- **env:** add env in gitignore ([d99d7c9](https://github.com/SocialGouv/cdtn-admin/commit/d99d7c9b221e3b48b1b897d9cbac515360edfed4))
+- **env:** remove env in targets ([2262e45](https://github.com/SocialGouv/cdtn-admin/commit/2262e4515c01224af115f72b74eedcceca871f9e))
+
 ## [2.17.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.4...v2.17.5) (2023-09-27)
 
 **Note:** Version bump only for package frontend

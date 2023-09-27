@@ -2,7 +2,7 @@
   "name": "@shared/elasticsearch-document-adapter",
   "private": true,
   "description": "SocialGouv - Code du travail numerique - Modules - ingester",
-  "version": "2.17.5",
+  "version": "2.17.6",
   "dependencies": {
     "@elastic/elasticsearch": "^7.14.1",
     "@socialgouv/cdtn-elasticsearch": "workspace:^",
