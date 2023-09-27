@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.6...v2.17.7) (2023-09-27)
+
+### Bug Fixes
+
+- **env:** remove env file in dockerfile ([34ab0ab](https://github.com/SocialGouv/cdtn-admin/commit/34ab0aba5a4dbc1eb9c1042eba7fd1dc8ee217e6))
+
 ## [2.17.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.5...v2.17.6) (2023-09-27)
 
 ### Bug Fixes
