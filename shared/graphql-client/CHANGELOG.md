@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.3...v2.17.4) (2023-09-27)
+
+**Note:** Version bump only for package @shared/graphql-client
+
 ## [2.17.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.2...v2.17.3) (2023-09-27)
 
 **Note:** Version bump only for package @shared/graphql-client
