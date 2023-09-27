@@ -43,28 +43,26 @@ export function Export(): JSX.Element {
       </Stack>
       <Stack>
         <Inline>
-          <Button onClick={() => setValidateExportProdModal(true)}>
-            Mettre à jour la production
-          </Button>
-          <Button onClick={() => setValidateExportPreprodModal(true)}>
-            Mettre à jour la pre-production
-          </Button>
-          {/* <TriggerButton
-            buttonProps={{ variant: "contained" }}
-            isDisabled={false}
-            status={exportEsState.latestExportProduction?.status}
-            onClick={() => onTrigger(Environment.production)}
+          <Button
+            color="primary"
+            variant="contained"
+            disabled={
+              exportEsState.latestExportProduction?.status === "running"
+            }
+            onClick={() => setValidateExportProdModal(true)}
           >
             Mettre à jour la production
-          </TriggerButton>
-          <TriggerButton
-            buttonProps={{ variant: "outlined" }}
-            isDisabled={false}
-            status={exportEsState.latestExportPreproduction?.status}
-            onClick={() => onTrigger(Environment.preproduction)}
+          </Button>
+          <Button
+            color="secondary"
+            variant="contained"
+            disabled={
+              exportEsState.latestExportPreproduction?.status === "running"
+            }
+            onClick={() => setValidateExportPreprodModal(true)}
           >
             Mettre à jour la pre-production
-          </TriggerButton> */}
+          </Button>
         </Inline>
 
         <Table>
@@ -134,8 +132,8 @@ export function Export(): JSX.Element {
       </Stack>
       <ConfirmModal
         open={validateExportPreprodModal}
-        title="MAJ PreProd"
-        message="Vous êtes sur le point de mettre à jour les données de la preprod"
+        title="Mise à jour Pre-Prod"
+        message="Vous êtes sur le point de mettre à jour les données de la pre-production"
         onClose={() => setValidateExportPreprodModal(false)}
         onCancel={() => setValidateExportPreprodModal(false)}
         onValidate={() => {
@@ -145,8 +143,8 @@ export function Export(): JSX.Element {
       />
       <ConfirmModal
         open={validateExportProdModal}
-        title="MAJ Prod"
-        message="Vous êtes sur le point de mettre à jour les données de la prod"
+        title="Mise à jour Prod"
+        message="Vous êtes sur le point de mettre à jour les données de la production"
         onClose={() => setValidateExportProdModal(false)}
         onCancel={() => setValidateExportProdModal(false)}
         onValidate={() => {

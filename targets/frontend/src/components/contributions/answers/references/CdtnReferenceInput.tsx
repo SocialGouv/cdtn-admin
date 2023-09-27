@@ -16,6 +16,7 @@ export const CdtnReferenceInput = ({
   disabled = false,
 }: Props): React.ReactElement => (
   <ReferenceInput<CdtnReference>
+    isMultiple={true}
     label={`Contenus liés`}
     color="info"
     name={name}
