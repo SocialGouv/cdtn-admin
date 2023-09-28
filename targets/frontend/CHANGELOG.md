@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.7...v2.17.8) (2023-09-28)
+
+### Bug Fixes
+
+- **env:** set default credentials when `.env` is not set ([#1041](https://github.com/SocialGouv/cdtn-admin/issues/1041)) ([f545433](https://github.com/SocialGouv/cdtn-admin/commit/f54543347a4ed7ece6738b14ac42cbd9d6f828cc))
+- **env:** use config file instead of env for public variable ([#1039](https://github.com/SocialGouv/cdtn-admin/issues/1039)) ([68eaefa](https://github.com/SocialGouv/cdtn-admin/commit/68eaefa0690e43699eca633d46ff1eda2ebb6058))
+
 ## [2.17.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.6...v2.17.7) (2023-09-27)
 
 ### Bug Fixes
