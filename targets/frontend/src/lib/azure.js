@@ -5,8 +5,8 @@ import {
 } from "@azure/storage-blob";
 
 const AZURE_STORAGE_ACCOUNT = {
-  key: process.env.AZURE_STORAGE_ACCOUNT_KEY || "",
-  name: process.env.AZURE_STORAGE_ACCOUNT_NAME || "",
+  key: process.env.AZURE_STORAGE_ACCOUNT_KEY || "accountKey",
+  name: process.env.AZURE_STORAGE_ACCOUNT_NAME || "cdtnadmindev",
 };
 
 export const getBlobContainer = (containerName) => {
