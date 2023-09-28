@@ -13,7 +13,7 @@ const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
 ];
 
-module.exports = withSourceMaps({
+module.exports = {
   basePath,
   async headers() {
     return [
@@ -25,35 +25,12 @@ module.exports = withSourceMaps({
     ];
   },
   poweredByHeader: false,
-  serverRuntimeConfig: {
-    rootDir: __dirname,
-  },
   webpack: (config, { isServer, dev }) => {
-    config.output.chunkFilename = isServer
-      ? `${dev ? "[name]" : "[name].[fullhash]"}.js`
-      : `static/chunks/${dev ? "[name]" : "[name].[fullhash]"}.js`;
     config.module.rules.push({
       exclude: /node_modules/,
       loader: "graphql-tag/loader",
       test: /\.(graphql|gql)$/,
     });
-    // In `pages/_app.js`, Sentry is imported from @sentry/node. While
-    // @sentry/browser will run in a Node.js environment, @sentry/node will use
-    // Node.js-only APIs to catch even more unhandled exceptions.
-    //
-    // This works well when Next.js is SSRing your page on a server with
-    // Node.js, but it is not what we want when your client-side bundle is being
-    // executed by a browser.
-    //
-    // Luckily, Next.js will call this webpack function twice, once for the
-    // server and once for the client. Read more:
-    // https://nextjs.org/docs#customizing-webpack-config
-    //
-    // So ask Webpack to replace @sentry/node imports with @sentry/browser when
-    // building the browser's bundle
-    if (!isServer) {
-      config.resolve.alias["@sentry/node"] = "@sentry/browser";
-    }
     config.module.rules.push({
       test: /\.woff2$/,
       type: "asset/resource",
@@ -67,4 +44,4 @@ module.exports = withSourceMaps({
     "@codegouvfr/react-dsfr",
     "tss-react",
   ],
-});
+};

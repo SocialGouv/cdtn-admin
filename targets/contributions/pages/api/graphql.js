@@ -15,7 +15,6 @@ const proxy = createProxyMiddleware({
     res.writeHead(500, {
       "Content-Type": "text/plain",
     });
-    // todo: sentry
     res.end("Something went wrong. We've been notified.");
   },
   pathRewrite: { "^/api/graphql": "/v1/graphql" },
