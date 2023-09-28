@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.6...v2.17.7) (2023-09-27)
+
+**Note:** Version bump only for package @shared/eslint-config
+
+## [2.17.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.5...v2.17.6) (2023-09-27)
+
+**Note:** Version bump only for package @shared/eslint-config
+
+## [2.17.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.4...v2.17.5) (2023-09-27)
+
+**Note:** Version bump only for package @shared/eslint-config
+
+## [2.17.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.3...v2.17.4) (2023-09-27)
+
+**Note:** Version bump only for package @shared/eslint-config
+
+## [2.17.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.2...v2.17.3) (2023-09-27)
+
+**Note:** Version bump only for package @shared/eslint-config
+
 ## [2.17.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.1...v2.17.2) (2023-09-25)
 
 **Note:** Version bump only for package @shared/eslint-config

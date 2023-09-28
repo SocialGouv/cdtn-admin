@@ -1,7 +1,7 @@
 {
   "name": "@socialgouv/cdtn-elasticsearch",
   "description": "SocialGouv - Code du travail numerique - Infrastructure - Elasticsearch",
-  "version": "2.17.2",
+  "version": "2.17.7",
   "babel": {
     "plugins": [
       "@babel/plugin-transform-modules-commonjs"
@@ -35,7 +35,6 @@
   "scripts": {
     "lint": "npx eslint \"./src/**/*.{js,ts}\"",
     "precommit": "lint-staged",
-    "prepush": "yarn lint && yarn test --bail --changedSince=master",
     "test": "jest",
     "test:update": "jest -u"
   },

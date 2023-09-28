@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "2.17.2",
+  "version": "2.17.7",
   "dependencies": {
     "@azure/abort-controller": "^1.0.4",
     "@azure/storage-blob": "^12.7.0",
@@ -127,7 +127,6 @@
     "start": "next start",
     "predev": "only-include-used-icons",
     "prebuild": "only-include-used-icons",
-    "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "test": "jest"
   }
 }

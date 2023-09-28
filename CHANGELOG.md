@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.6...v2.17.7) (2023-09-27)
+
+### Bug Fixes
+
+- **env:** remove env file in dockerfile ([34ab0ab](https://github.com/SocialGouv/cdtn-admin/commit/34ab0aba5a4dbc1eb9c1042eba7fd1dc8ee217e6))
+
+## [2.17.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.5...v2.17.6) (2023-09-27)
+
+### Bug Fixes
+
+- **env:** add env in gitignore ([d99d7c9](https://github.com/SocialGouv/cdtn-admin/commit/d99d7c9b221e3b48b1b897d9cbac515360edfed4))
+- **env:** remove env in targets ([2262e45](https://github.com/SocialGouv/cdtn-admin/commit/2262e4515c01224af115f72b74eedcceca871f9e))
+
+## [2.17.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.4...v2.17.5) (2023-09-27)
+
+### Bug Fixes
+
+- **actions:** use npm token explicit ([a1cb293](https://github.com/SocialGouv/cdtn-admin/commit/a1cb2939fa92fec92363c9d847b0d6365f3853bf))
+
+## [2.17.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.3...v2.17.4) (2023-09-27)
+
+### Bug Fixes
+
+- **package.json:** set document-adapter to private ([a49917d](https://github.com/SocialGouv/cdtn-admin/commit/a49917d795263d8fe374ac69c628c78fe89b8166))
+
+## [2.17.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.2...v2.17.3) (2023-09-27)
+
+### Bug Fixes
+
+- **contributions:** ajout d'un selecteur de references pour les fiches SP ([#1029](https://github.com/SocialGouv/cdtn-admin/issues/1029)) ([c57d763](https://github.com/SocialGouv/cdtn-admin/commit/c57d763762567d4d7497059a47e8b7b853e998df))
+- **contributions:** rename otherAnswer field by contentType ([#1027](https://github.com/SocialGouv/cdtn-admin/issues/1027)) ([a590140](https://github.com/SocialGouv/cdtn-admin/commit/a5901403d289602c24f7b87c6b96ebeb2af39486))
+- **contribution:** utilisation de l'ID de l'article à la place du CID pour générer le lien ([#1030](https://github.com/SocialGouv/cdtn-admin/issues/1030)) ([69f703c](https://github.com/SocialGouv/cdtn-admin/commit/69f703cb68bee64297ac678502d1f0368ed34d66))
+- yarn berry + fetch + docker opti + sec ([#1012](https://github.com/SocialGouv/cdtn-admin/issues/1012)) ([81bce48](https://github.com/SocialGouv/cdtn-admin/commit/81bce4838781e60c05a084769a35cf0d2a26609c))
+
 ## [2.17.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.1...v2.17.2) (2023-09-25)
 
 ### Bug Fixes

@@ -46,7 +46,6 @@ COPY --from=dist /app/shared/types/build /app/shared/types/build
 COPY --from=dist /app/shared/types/package.json /app/shared/types/package.json
 COPY --from=dist /app/targets/frontend/package.json /app/targets/frontend/package.json
 COPY --from=dist /app/targets/frontend/next.config.js  /app/targets/frontend/next.config.js
-COPY --from=dist /app/targets/frontend/.env  /app/targets/frontend/.env
 COPY --from=dist /app/targets/frontend/public /app/targets/frontend/public
 COPY --from=dist /app/targets/frontend/.next /app/targets/frontend/.next
 COPY --from=dist /app/targets/frontend/node_modules /app/targets/frontend/node_modules
