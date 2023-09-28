@@ -8,9 +8,5 @@
   "main": "src/index.js",
   "module": "src/index.js",
   "types": "src/index.d.ts",
-  "private": true,
-  "devDependencies": {
-    "@types/uuid": "^8.3.1",
-    "@types/xxhashjs": "^0.2.2"
-  }
+  "private": true
 }
