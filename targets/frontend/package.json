@@ -11,6 +11,7 @@
     "@emotion/styled": "11.10.6",
     "@hapi/boom": "^9.1.4",
     "@hookform/error-message": "^2.0.0",
+    "@hookform/resolvers": "^3.3.1",
     "@mui/icons-material": "5.11.16",
     "@mui/material": "5.12.0",
     "@reach/accordion": "^0.16.1",
@@ -88,7 +89,7 @@
     "urql": "^2.0.5",
     "uuid": "^8.3.2",
     "wonka": "^4.0.15",
-    "zod": "^3.22.2"
+    "zod": "3.21.4"
   },
   "devDependencies": {
     "@shared/types": "^2.17.2",

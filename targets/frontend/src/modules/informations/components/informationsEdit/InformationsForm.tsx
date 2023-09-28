@@ -1,10 +1,11 @@
 import { Stack, Button, FormControl, Typography } from "@mui/material";
 import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FormTextField, FormRadioGroup } from "src/components/forms";
 
 import { InformationsResult } from "./Informations.query";
-import { Information } from "../../type";
+import { Information, informationSchema } from "../../type";
 import { InformationsContent } from "./InformationsContent";
 import { InformationsReference } from "./InformationsReference";
 import { FormCheckbox } from "src/components/forms/Checkbox";
@@ -22,8 +23,15 @@ export const InformationsForm = ({
   onDelete,
   onPublish,
 }: InformationsFormProps): JSX.Element => {
-  const { control, handleSubmit, trigger } = useForm<Information>({
-    defaultValues: data ?? { title: "" },
+  const {
+    control,
+    handleSubmit,
+    trigger,
+    formState: { errors },
+  } = useForm<Information>({
+    defaultValues: data ?? { title: "", dismissalProcess: false },
+    resolver: zodResolver(informationSchema),
+    shouldFocusError: true,
   });
 
   const {
@@ -59,6 +67,11 @@ export const InformationsForm = ({
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
+        {Object.values(errors).map((error) => (
+          <p key={error.message}>
+            {error.types?.type} - {error.types?.message} - {error.message}
+          </p>
+        ))}
         <Stack spacing={4}>
           <FormControl>
             <FormTextField
@@ -74,7 +87,6 @@ export const InformationsForm = ({
               name="title"
               control={control}
               label="Titre"
-              rules={{ required: true }}
               fullWidth
             />
           </FormControl>
@@ -83,7 +95,6 @@ export const InformationsForm = ({
               name="metaTitle"
               control={control}
               label="Titre Meta"
-              rules={{ required: true }}
               fullWidth
             />
           </FormControl>
@@ -92,7 +103,6 @@ export const InformationsForm = ({
               name="description"
               control={control}
               label="Description"
-              rules={{ required: true }}
               multiline
               fullWidth
             />
@@ -102,7 +112,6 @@ export const InformationsForm = ({
               name="metaDescription"
               control={control}
               label="Description Meta"
-              rules={{ required: true }}
               multiline
               fullWidth
             />
@@ -217,6 +226,7 @@ export const InformationsForm = ({
           </Button>
           <Stack direction="row" spacing={2} justifyContent="end">
             <Button
+              type="button"
               variant="contained"
               color="error"
               disabled={!onDelete}
@@ -228,6 +238,7 @@ export const InformationsForm = ({
               Sauvegarder
             </Button>
             <Button
+              type="button"
               variant="contained"
               color="success"
               disabled={!onPublish}
