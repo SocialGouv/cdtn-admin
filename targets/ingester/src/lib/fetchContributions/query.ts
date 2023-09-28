@@ -32,6 +32,9 @@ query MyQuery {
       }
       content_service_public_cdtn_id
       updated_at
+      document {
+        ficheSPDocument: document
+      }
     }
   }
 }

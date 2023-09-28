@@ -1,4 +1,4 @@
-import { BaseRef, ExternalRef } from "@shared/types";
+import { BaseRef, ExternalRef, FicheServicePublicDoc } from "@shared/types";
 
 export interface AgreementRaw {
   id: string;
@@ -9,6 +9,7 @@ export interface AgreementRaw {
 export interface AnswerRaw {
   id: string;
   content: string;
+  document?: { ficheSPDocument: FicheServicePublicDoc };
   contentType: string;
   kali_references: {
     title: string;

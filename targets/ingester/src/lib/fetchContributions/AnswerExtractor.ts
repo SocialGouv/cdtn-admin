@@ -34,6 +34,13 @@ export class AnswerExtractor {
     };
     if (answer.contentType === "ANSWER") {
       answer.content = genericAnswer.content;
+    } else if (answer.contentType === "SP") {
+      if (!genericAnswer.document?.ficheSPDocument) {
+        throw new Error(
+          `Contribution ${genericAnswer.id} is type Fiche SP, but do not have a fiche SP set`
+        );
+      }
+      answer.content = genericAnswer.document.ficheSPDocument;
     }
     return answer;
   }
