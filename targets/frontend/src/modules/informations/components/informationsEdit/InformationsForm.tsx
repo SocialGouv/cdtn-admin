@@ -23,12 +23,7 @@ export const InformationsForm = ({
   onDelete,
   onPublish,
 }: InformationsFormProps): JSX.Element => {
-  const {
-    control,
-    handleSubmit,
-    trigger,
-    formState: { errors },
-  } = useForm<Information>({
+  const { control, handleSubmit, trigger } = useForm<Information>({
     defaultValues: data ?? { title: "", dismissalProcess: false },
     resolver: zodResolver(informationSchema),
     shouldFocusError: true,
@@ -67,11 +62,6 @@ export const InformationsForm = ({
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {Object.values(errors).map((error) => (
-          <p key={error.message}>
-            {error.types?.type} - {error.types?.message} - {error.message}
-          </p>
-        ))}
         <Stack spacing={4}>
           <FormControl>
             <FormTextField
