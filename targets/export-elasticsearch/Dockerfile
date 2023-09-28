@@ -29,6 +29,7 @@ RUN yarn workspace @socialgouv/cdtn-logger build
 FROM deps AS build-elasticsearch-document-adapter
 COPY --from=build-types /app/shared/types ./shared/types
 COPY --from=build-cdtn-logger /app/shared/logger ./shared/logger
+COPY shared/elasticsearch ./shared/elasticsearch
 COPY shared/elasticsearch-document-adapter ./shared/elasticsearch-document-adapter
 RUN yarn workspace @shared/elasticsearch-document-adapter build
 
