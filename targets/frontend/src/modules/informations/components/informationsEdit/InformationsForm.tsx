@@ -29,7 +29,7 @@ export const InformationsForm = ({
     trigger,
     formState: { errors },
   } = useForm<Information>({
-    defaultValues: data ?? { title: "" },
+    defaultValues: data ?? { title: "", dismissalProcess: false },
     resolver: zodResolver(informationSchema),
     shouldFocusError: true,
   });
@@ -58,6 +58,8 @@ export const InformationsForm = ({
   );
 
   const onSubmit = async (data: Information) => {
+    const inputResult = informationSchema.safeParse(data);
+    console.log("ZOD", inputResult);
     const isValid = await trigger();
     if (isValid) {
       onUpsert(data);
@@ -68,7 +70,9 @@ export const InformationsForm = ({
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         {Object.values(errors).map((error) => (
-          <p key={error.message}>{error.message}</p>
+          <p key={error.message}>
+            {error.types?.type} - {error.types?.message} - {error.message}
+          </p>
         ))}
         <Stack spacing={4}>
           <FormControl>
@@ -85,7 +89,6 @@ export const InformationsForm = ({
               name="title"
               control={control}
               label="Titre"
-              rules={{ required: true }}
               fullWidth
             />
           </FormControl>
@@ -94,7 +97,6 @@ export const InformationsForm = ({
               name="metaTitle"
               control={control}
               label="Titre Meta"
-              rules={{ required: true }}
               fullWidth
             />
           </FormControl>
@@ -103,7 +105,6 @@ export const InformationsForm = ({
               name="description"
               control={control}
               label="Description"
-              rules={{ required: true }}
               multiline
               fullWidth
             />
@@ -113,7 +114,6 @@ export const InformationsForm = ({
               name="metaDescription"
               control={control}
               label="Description Meta"
-              rules={{ required: true }}
               multiline
               fullWidth
             />

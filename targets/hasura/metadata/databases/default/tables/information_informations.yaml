@@ -55,7 +55,6 @@ insert_permissions:
         - meta_title
         - reference_label
         - section_display_mode
-        - text
         - title
         - updated_at
   - role: user
@@ -71,7 +70,6 @@ insert_permissions:
         - meta_title
         - reference_label
         - section_display_mode
-        - text
         - title
         - updated_at
 select_permissions:
@@ -87,7 +85,6 @@ select_permissions:
         - meta_title
         - reference_label
         - section_display_mode
-        - text
         - title
         - updated_at
       filter: {}
@@ -104,7 +101,6 @@ select_permissions:
         - meta_title
         - reference_label
         - section_display_mode
-        - text
         - title
         - updated_at
       filter: {}
@@ -122,7 +118,6 @@ update_permissions:
         - meta_title
         - reference_label
         - section_display_mode
-        - text
         - title
         - updated_at
       filter: {}

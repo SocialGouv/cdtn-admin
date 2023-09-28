@@ -50,7 +50,7 @@ export const InformationsContent = ({
     swap: swapBlock,
     remove: removeBlock,
     append: appendBlock,
-  } = useFieldArray<Information, `contents.${number}.blocks`>({
+  } = useFieldArray<DeepPartial<Information>, `contents.${number}.blocks`>({
     control,
     name: `${name}.blocks`,
   });
@@ -59,7 +59,7 @@ export const InformationsContent = ({
     swap: swapReference,
     remove: removeReference,
     append: appendReference,
-  } = useFieldArray<Information, `contents.${number}.references`>({
+  } = useFieldArray<DeepPartial<Information>, `contents.${number}.references`>({
     control,
     name: `${name}.references`,
   });

@@ -17,9 +17,6 @@ export const FormCheckbox = ({
       control={control}
       rules={rules}
       render={({ field: { onChange, value } }) => {
-        if (value === undefined) {
-          return <></>;
-        }
         return (
           <FormGroup>
             <FormControlLabel
