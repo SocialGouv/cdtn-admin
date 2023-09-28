@@ -6,6 +6,7 @@ import { generateJwtToken } from "src/lib/auth/jwt";
 import { setJwtCookie } from "src/lib/auth/setJwtCookie";
 import { getExpiryDate } from "src/lib/duration";
 import { v4 as uuidv4 } from "uuid";
+import { REFRESH_TOKEN_EXPIRES, JWT_TOKEN_EXPIRES } from "../../config";
 
 import {
   deletePreviousRefreshTokenMutation,
@@ -66,9 +67,7 @@ export default async function refreshToken(req, res) {
   result = await client
     .mutation(deletePreviousRefreshTokenMutation, {
       new_refresh_token_data: {
-        expires_at: getExpiryDate(
-          parseInt(process.env.REFRESH_TOKEN_EXPIRES, 10)
-        ),
+        expires_at: getExpiryDate(parseInt(REFRESH_TOKEN_EXPIRES, 10)),
         refresh_token: new_refresh_token,
         user_id: user.id,
       },
@@ -87,9 +86,7 @@ export default async function refreshToken(req, res) {
 
   res.json({
     jwt_token,
-    jwt_token_expiry: getExpiryDate(
-      parseInt(process.env.JWT_TOKEN_EXPIRES, 10) || 15
-    ),
+    jwt_token_expiry: getExpiryDate(parseInt(JWT_TOKEN_EXPIRES, 10) || 15),
     refresh_token: new_refresh_token,
   });
 }

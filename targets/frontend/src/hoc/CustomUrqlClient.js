@@ -1,4 +1,5 @@
 import { withUrqlClient } from "next-urql";
+import { BASE_URL } from "src/config";
 import {
   customAuthExchange,
   customErrorExchange,
@@ -8,9 +9,7 @@ import { cacheExchange, dedupExchange, fetchExchange } from "urql";
 export const withCustomUrqlClient = (Component) =>
   withUrqlClient(
     (ssrExchange, ctx) => {
-      const url = ctx?.req
-        ? `${process.env.FRONTEND_URL}/api/graphql`
-        : `/api/graphql`;
+      const url = ctx?.req ? `${BASE_URL}/api/graphql` : `/api/graphql`;
       console.log(
         "[ withUrqlClient ]",
         ctx ? (ctx?.req ? "server" : "client") : "no ctx",
