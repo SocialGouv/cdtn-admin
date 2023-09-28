@@ -13,8 +13,11 @@ export const fileSchema = z.object({
   id: z.string().uuid().nullable().optional(),
   url: z
     .string({ required_error: "une url doit être renseigner" })
-    .min(1, "une url doit être renseigner")
-    .url("Le format doit correspondre à une url"),
+    .min(1, "un nom de fichier doit être renseigner")
+    .regex(
+      /.*(\.|\/)(svg|jpe?g|png|pdf)$/g,
+      "Le format doit correspondre à une url"
+    ),
   altText: z.string().nullable().optional(),
   size: z.string().nullable().optional(),
 });
