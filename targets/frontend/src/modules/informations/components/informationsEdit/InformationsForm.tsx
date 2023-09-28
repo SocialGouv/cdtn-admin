@@ -58,8 +58,6 @@ export const InformationsForm = ({
   );
 
   const onSubmit = async (data: Information) => {
-    const inputResult = informationSchema.safeParse(data);
-    console.log("ZOD", inputResult);
     const isValid = await trigger();
     if (isValid) {
       onUpsert(data);
