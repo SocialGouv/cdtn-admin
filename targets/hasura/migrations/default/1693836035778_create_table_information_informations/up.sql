@@ -1,6 +1,6 @@
 CREATE TABLE "information"."informations" (
     "updated_at" timestamptz NOT NULL DEFAULT now(),
-    "intro" text NOT NULL,
+    "intro" text,
     "title" text NOT NULL,
     "meta_title" text NOT NULL,
     "meta_description" text NOT NULL,

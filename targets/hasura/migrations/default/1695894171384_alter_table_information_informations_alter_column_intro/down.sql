@@ -1,9 +1,0 @@
-alter table "information"."informations"
-alter column "intro"
-set not null;
-alter table "public"."files"
-alter column "alt_text"
-set not null;
-alter table "public"."files"
-alter column "size"
-set not null;
