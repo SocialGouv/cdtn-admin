@@ -2,9 +2,10 @@ import Boom from "@hapi/boom";
 import { verify } from "jsonwebtoken";
 import { createErrorFor } from "src/lib/apiError";
 import { deleteBlob } from "src/lib/azure";
+import { HASURA_GRAPHQL_JWT_SECRET } from "../../../config";
 
 const container = process.env.STORAGE_CONTAINER;
-const jwtSecret = JSON.parse(process.env.HASURA_GRAPHQL_JWT_SECRET);
+const jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
 
 export default async function deleteFiles(req, res) {
   const apiError = createErrorFor(res);

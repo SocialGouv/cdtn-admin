@@ -30,7 +30,7 @@ import {
 } from "@mui/material";
 
 const listFiles = () =>
-  request(`${process.env.FRONTEND_URL || ""}/api/storage`, {
+  request(`/api/storage`, {
     headers: { token: getToken()?.jwt_token || "" },
   });
 
