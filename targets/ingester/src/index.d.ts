@@ -5,6 +5,7 @@ import {
   ContributionGenericDoc,
   ContributionWithCCDoc,
   ExternalRef,
+  FicheServicePublicDoc,
   GenericAnswer,
 } from "@shared/types";
 
@@ -25,7 +26,11 @@ type ExternalDocument = Document & {
   url: string;
 };
 
-type GenericAnswer = Answer & { description: string; text: string };
+type GenericAnswer = Answer & {
+  description: string;
+  text: string;
+  content?: string | FicheServicePublicDoc;
+};
 type AnswerWithCC = Answer & { idcc: string; shortName: string };
 
 export interface Question {

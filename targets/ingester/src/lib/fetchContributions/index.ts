@@ -20,7 +20,7 @@ const agreementRepository: AgreementRepository = new AgreementFile();
  * resolve CCN references by IDCC from @socialgouv/kali-data
  *
  */
-async function fetchContributions(): Promise<Question[]> {
+export async function fetchContributions(): Promise<Question[]> {
   const [questions, agreements] = await Promise.all([
     contributionRepository.fetchAll(),
     agreementRepository.fetchAll(),
@@ -43,4 +43,9 @@ async function fetchContributions(): Promise<Question[]> {
   });
 }
 
-export default fetchContributions;
+export async function fetchFicheSPIdsFromContributions(): Promise<string[]> {
+  const result =
+    await contributionRepository.fetchFicheSPIdsFromContributions();
+
+  return result.map((a) => a.id);
+}

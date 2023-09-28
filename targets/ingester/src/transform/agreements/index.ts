@@ -5,7 +5,7 @@ import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 import type { AgreementPage, Question } from "../../index";
 import { AgreementAnswer, AnswerWithCC } from "../../index";
 import { loadAgreement, loadAgreements } from "../../lib/data-loaders";
-import fetchContributions from "../../lib/fetchContributions";
+import { fetchContributions } from "../../lib/fetchContributions";
 import { formatIdcc } from "../../lib/formatIdcc";
 import getAgreementsWithHighlight from "./agreementsWithHighlight";
 import { getAllKaliBlocks } from "./getKaliBlock";

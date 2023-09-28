@@ -6,4 +6,8 @@ export class ContributionDatabase implements ContributionRepository {
   async fetchAll(): Promise<QuestionRaw[]> {
     return Promise.resolve(InputQuestions as unknown as QuestionRaw[]);
   }
+
+  async fetchFicheSPIdsFromContributions(): Promise<{ id: string }[]> {
+    return Promise.resolve([{ id: "a708246e55" }]);
+  }
 }

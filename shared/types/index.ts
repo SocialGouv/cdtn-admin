@@ -450,7 +450,7 @@ export interface ExportEsStatus {
 
 export type Answer = {
   id: string;
-  content?: string | FicheServicePublicDoc;
+  content?: string;
   contentType: string;
   references: ExternalRef[];
   linkedContent: BaseRef[];

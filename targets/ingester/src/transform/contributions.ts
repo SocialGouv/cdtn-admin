@@ -3,7 +3,7 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 
 import type { CdtnDocument } from "../index";
 import { AnswerWithCC } from "../index";
-import fetchContributions from "../lib/fetchContributions";
+import { fetchContributions } from "../lib/fetchContributions";
 
 const mapConventionAnswers = (answers: AnswerWithCC[]): string[] => {
   return answers
