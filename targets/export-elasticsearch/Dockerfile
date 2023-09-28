@@ -10,9 +10,7 @@ COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
 
 # hadolint ignore=SC2046
-RUN --mount=type=secret,id=npmTiptapToken,target=/secrets/npmTiptapToken \
-  export NPM_TIPTAP_TOKEN=$(cat /secrets/npmTiptapToken); \
-  yarn fetch workspaces focus export-elasticsearch
+RUN yarn fetch workspaces focus export-elasticsearch
 
 FROM deps AS build-graphql-client
 COPY shared/graphql-client ./shared/graphql-client
@@ -29,6 +27,7 @@ RUN yarn workspace @socialgouv/cdtn-logger build
 FROM deps AS build-elasticsearch-document-adapter
 COPY --from=build-types /app/shared/types ./shared/types
 COPY --from=build-cdtn-logger /app/shared/logger ./shared/logger
+COPY shared/elasticsearch ./shared/elasticsearch
 COPY shared/elasticsearch-document-adapter ./shared/elasticsearch-document-adapter
 RUN yarn workspace @shared/elasticsearch-document-adapter build
 
