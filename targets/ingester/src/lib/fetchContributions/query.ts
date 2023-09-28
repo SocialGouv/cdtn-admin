@@ -13,7 +13,7 @@ query MyQuery {
         kali_id
         name
       }
-      agreement_id
+      id
       content
       contentType: content_type
       kali_references {
@@ -30,7 +30,7 @@ query MyQuery {
         title: label
         url
       }
-      url_sp
+      content_service_public_cdtn_id
       updated_at
     }
   }
@@ -38,8 +38,8 @@ query MyQuery {
 
 fragment documentsFragment on documents {
   title
-  url: slug
-  category: source
+  slug
+  source
 }
 
 fragment legi_articlesFragment on legi_articles {

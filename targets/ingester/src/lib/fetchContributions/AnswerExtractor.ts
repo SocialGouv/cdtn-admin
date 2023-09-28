@@ -1,4 +1,5 @@
-import type { Answer, BaseRef, ContributionReference } from "@shared/types";
+import type { BaseRef } from "@shared/types";
+import { ExternalRef } from "@shared/types";
 
 import type { AnswerRaw } from "./types";
 import { IndexedAgreement } from "@socialgouv/kali-data-types";
@@ -20,20 +21,24 @@ export class AnswerExtractor {
       throw new Error("No generic answer found");
     }
     const genericTextAnswer = this.toText(genericAnswer);
-    return {
+    const answer: GenericAnswer = {
+      id: genericAnswer.id,
       description:
         genericTextAnswer.slice(0, genericTextAnswer.indexOf(" ", 150)) + "…",
-      content: genericAnswer.content,
       contentType: genericAnswer.contentType,
-      references: this.aggregateReferences(genericAnswer),
+      references: this.aggregateReferences(genericAnswer).sort(
+        this.sortBy("title")
+      ),
+      linkedContent: this.mapCdtnRefs(genericAnswer.cdtn_references),
       text: genericTextAnswer,
     };
+    if (answer.contentType === "ANSWER") {
+      answer.content = genericAnswer.content;
+    }
+    return answer;
   }
 
-  private mapKaliRefs = (
-    idcc: string,
-    references: any[]
-  ): ContributionReference[] => {
+  private mapKaliRefs = (idcc: string, references: any[]): ExternalRef[] => {
     if (!references.length) return [];
     const agreement = this.agreements.find(
       (item) => this.comparableIdcc(item.num) === this.comparableIdcc(idcc)
@@ -45,55 +50,65 @@ export class AnswerExtractor {
       return {
         title: ref.title,
         url: `https://legifrance.gouv.fr/conv_coll/id/${ref.kali_article.id}/?idConteneur=${agreement.id}`,
-      } as BaseRef;
+      };
     });
   };
 
-  private mapLegiRefs = (references: any[]): ContributionReference[] => {
+  private mapLegiRefs = (references: any[]): ExternalRef[] => {
     if (!references.length) return [];
 
     return references.map((ref) => {
       return {
         title: ref.legi_article.title,
         url: "/code-du-travail/" + slugify(ref.legi_article.title),
-      } as BaseRef;
+      };
     });
   };
 
-  private mapOtherRefs = (references: any[]): ContributionReference[] => {
+  private mapOtherRefs = (references: any[]): ExternalRef[] => {
     if (!references.length) return [];
 
-    return references.map((ref) => {
+    return references.map((ref: ExternalRef) => {
       if (!ref.url) delete ref.url;
-      return ref as BaseRef;
+      return ref;
     });
   };
 
-  private mapCdtnRefs = (references: any[]): ContributionReference[] => {
+  private mapCdtnRefs = (references: any[]): BaseRef[] => {
     if (!references.length) return [];
 
-    return references.map((ref) => {
-      return ref.document as BaseRef;
-    });
+    return references
+      .map((ref) => {
+        return ref.document as BaseRef;
+      })
+      .sort(this.sortBy("title"));
   };
 
-  private aggregateReferences(answer: AnswerRaw): ContributionReference[] {
+  private aggregateReferences(answer: AnswerRaw): ExternalRef[] {
     return this.mapKaliRefs(answer.agreement.id, answer.kali_references)
       .concat(this.mapLegiRefs(answer.legi_references))
-      .concat(this.mapOtherRefs(answer.other_references))
-      .concat(this.mapCdtnRefs(answer.cdtn_references)); // je n'ai pas fait le mapping parce qu'on a besoin du package packages/code-du-travail-utils/src/sources.ts utilisé seulement dans le front
+      .concat(this.mapOtherRefs(answer.other_references)); // je n'ai pas fait le mapping parce qu'on a besoin du package packages/code-du-travail-utils/src/sources.ts utilisé seulement dans le front
   }
 
   public extractAgreementAnswers(answers: AnswerRaw[]): AnswerWithCC[] {
     return answers
-      .map((answer) => ({
-        id: answer.id,
-        idcc: answer.agreement.id,
-        shortName: answer.agreement.name,
-        content: answer.content,
-        contentType: answer.contentType, // on renomerait pas ce champs ici ?
-        references: this.aggregateReferences(answer).sort(this.sortBy("title")),
-      }))
+      .map((answer) => {
+        const formatted: AnswerWithCC = {
+          id: answer.id,
+          idcc: answer.agreement.id,
+          shortName: answer.agreement.name,
+          contentType: answer.contentType,
+          references: this.aggregateReferences(answer).sort(
+            this.sortBy("title")
+          ),
+          linkedContent: this.mapCdtnRefs(answer.cdtn_references),
+        };
+        if (answer.contentType === "ANSWER") {
+          formatted.content = answer.content;
+        }
+
+        return formatted;
+      })
       .sort(this.sortBy("idcc"));
   }
 

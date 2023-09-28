@@ -135,17 +135,12 @@ export interface TravailEmploiReference {
 }
 
 export interface ContributionGenericDoc {
-  // index: number; => not needed ??
   description: string;
   answer: Answer;
-  conventions: {
-    idcc: string;
-    contentType: string;
-  }[];
+  agreementsWithAnswer: string[];
 }
 
 export interface ContributionWithCCDoc {
-  // index: number; => not needed ??
   description: string;
   answer: Answer;
   idcc: string;
@@ -198,7 +193,7 @@ export interface AgreementContribAnswer {
   index: string;
   answer: string;
   question: string;
-  references: ContributionReference[];
+  references: ExternalRef[];
 }
 
 export interface ArticleTheme {
@@ -455,12 +450,11 @@ export interface ExportEsStatus {
 
 export type Answer = {
   id: string;
-  content: string;
+  content?: string;
   contentType: string;
-  references: ContributionReference[];
+  references: ExternalRef[];
+  linkedContent: BaseRef[];
 };
-
-export type ContributionReference = BaseRef | DilaRef;
 
 export type DilaRef = {
   url: string;
@@ -470,10 +464,15 @@ export type DilaRef = {
   dila_container_id: string;
 };
 
-export type BaseRef = {
-  category: null;
+export type ExternalRef = {
   title: string;
-  url?: string | null;
+  url?: string;
+};
+
+export type BaseRef = {
+  source: string;
+  title: string;
+  slug: string;
 };
 
 export type State =

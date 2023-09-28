@@ -1,44 +1,31 @@
 [
   {
+    "agreementsWithAnswer": [
+      "0016",
+      "0044",
+      "0086",
+      "1480"
+    ],
     "answer": {
-      "description": "Ceci est ma réponse en droit du travai…",
       "content": "<p>Ceci est ma réponse en droit du travail</p>",
       "contentType": "ANSWER",
+      "description": "Ceci est ma réponse en droit du travai…",
+      "id": "e0830982-a600-496c-ba8a-b36aa435df8c",
+      "linkedContent": [
+        {
+          "slug": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
+          "source": "fiches_service_public",
+          "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?"
+        }
+      ],
       "references": [
         {
           "title": "Annexe à l'article R1422-4",
           "url": "/code-du-travail/annexe-a-larticle-r1422-4"
-        },
-        {
-          "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?",
-          "url": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
-          "category": "fiches_service_public"
         }
       ],
       "text": "Ceci est ma réponse en droit du travail"
     },
-    "conventions": [
-      {
-        "idcc": "0016",
-        "contentType": "ANSWER"
-      },
-      {
-        "idcc": "0044",
-        "contentType": "NOTHING"
-      },
-      {
-        "idcc": "0086",
-        "contentType": "ANSWER"
-      },
-      {
-        "idcc": "1480",
-        "contentType": "NOTHING"
-      },
-      {
-        "idcc": "2609",
-        "contentType": "UNKNOWN"
-      }
-    ],
     "description": "Ceci est ma réponse en droit du travai…",
     "id": "ae9f8c71-1273-4af8-8991-c0eb2251fd0e",
     "is_searchable": true,
@@ -51,6 +38,8 @@
     "answer": {
       "content": "<p>ceci est ma réponse pour la CC 0016</p>",
       "contentType": "ANSWER",
+      "id": "b207cc69-4725-4b56-b35e-edac32a416a4",
+      "linkedContent": [],
       "references": [
         {
           "title": "Accord du 16 juin 1961 relatifs aux ouvriers - annexe I, article 7 bis",
@@ -78,10 +67,11 @@
         }
       ]
     },
-    "idcc": "0016",
-    "shortName": "Convention collective nationale des transports routiers et activités auxiliaires du transport",
     "description": "Ceci est ma réponse en droit du travai…",
+    "id": "b207cc69-4725-4b56-b35e-edac32a416a4",
+    "idcc": "0016",
     "is_searchable": false,
+    "shortName": "Convention collective nationale des transports routiers et activités auxiliaires du transport",
     "slug": "16-jours-feries-et-ponts-dans-le-secteur-prive",
     "source": "contributions",
     "text": "0016 Jours fériés et ponts dans le secteur privé",
@@ -89,8 +79,9 @@
   },
   {
     "answer": {
-      "content": null,
       "contentType": "NOTHING",
+      "id": "3c88fe07-40cf-413d-9d99-23c4cf4cd5f4",
+      "linkedContent": [],
       "references": [
         {
           "title": "Avenant n°1 Ouvriers et collaborateurs du 11 février 1971 , article 17",
@@ -106,10 +97,11 @@
         }
       ]
     },
-    "idcc": "0044",
-    "shortName": "Convention collective nationale des industries chimiques et connexes",
     "description": "Ceci est ma réponse en droit du travai…",
+    "id": "3c88fe07-40cf-413d-9d99-23c4cf4cd5f4",
+    "idcc": "0044",
     "is_searchable": false,
+    "shortName": "Convention collective nationale des industries chimiques et connexes",
     "slug": "44-jours-feries-et-ponts-dans-le-secteur-prive",
     "source": "contributions",
     "text": "0044 Jours fériés et ponts dans le secteur privé",
@@ -119,6 +111,8 @@
     "answer": {
       "content": "<p>Ceci est la réponse à la question pour la CC 0086</p>",
       "contentType": "ANSWER",
+      "id": "b2b4fbe4-fd7c-4db9-b97e-f4ffd330c619",
+      "linkedContent": [],
       "references": [
         {
           "title": "Article 23",
@@ -134,10 +128,11 @@
         }
       ]
     },
-    "idcc": "0086",
-    "shortName": "Convention collective nationale des entreprises de publicité et assimilées",
     "description": "Ceci est ma réponse en droit du travai…",
+    "id": "b2b4fbe4-fd7c-4db9-b97e-f4ffd330c619",
+    "idcc": "0086",
     "is_searchable": false,
+    "shortName": "Convention collective nationale des entreprises de publicité et assimilées",
     "slug": "86-jours-feries-et-ponts-dans-le-secteur-prive",
     "source": "contributions",
     "text": "0086 Jours fériés et ponts dans le secteur privé",
@@ -145,24 +140,27 @@
   },
   {
     "answer": {
-      "content": null,
       "contentType": "NOTHING",
+      "id": "544d457c-de69-4f8a-93ac-f44b0dfc3463",
+      "linkedContent": [
+        {
+          "slug": "si-un-poste-se-libere-ou-est-cree-dans-lentreprise-lemployeur-doit-il-en-informer-les-salaries-ou-le-leur-proposer-en-priorite",
+          "source": "contributions",
+          "title": "Si un poste se libère ou est créé dans l’entreprise, l’employeur doit-il en informer les salariés ? Ou le leur proposer en priorité ?"
+        }
+      ],
       "references": [
         {
           "title": "Article 34",
           "url": "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005786630/?idConteneur=KALICONT000005635444"
-        },
-        {
-          "title": "Si un poste se libère ou est créé dans l’entreprise, l’employeur doit-il en informer les salariés ? Ou le leur proposer en priorité ?",
-          "url": "si-un-poste-se-libere-ou-est-cree-dans-lentreprise-lemployeur-doit-il-en-informer-les-salaries-ou-le-leur-proposer-en-priorite",
-          "category": "contributions"
         }
       ]
     },
-    "idcc": "1480",
-    "shortName": "Convention collective nationale des journalistes",
     "description": "Ceci est ma réponse en droit du travai…",
+    "id": "544d457c-de69-4f8a-93ac-f44b0dfc3463",
+    "idcc": "1480",
     "is_searchable": false,
+    "shortName": "Convention collective nationale des journalistes",
     "slug": "1480-jours-feries-et-ponts-dans-le-secteur-prive",
     "source": "contributions",
     "text": "1480 Jours fériés et ponts dans le secteur privé",
@@ -170,8 +168,9 @@
   },
   {
     "answer": {
-      "content": null,
       "contentType": "UNKNOWN",
+      "id": "1cfce577-c837-4bac-bd27-16c60dfff83e",
+      "linkedContent": [],
       "references": [
         {
           "title": "Article 3.2.3",
@@ -179,10 +178,11 @@
         }
       ]
     },
-    "idcc": "2609",
-    "shortName": "Convention collective nationale des employés, techniciens et agents de maîtrise du bâtiment",
     "description": "Ceci est ma réponse en droit du travai…",
+    "id": "1cfce577-c837-4bac-bd27-16c60dfff83e",
+    "idcc": "2609",
     "is_searchable": false,
+    "shortName": "Convention collective nationale des employés, techniciens et agents de maîtrise du bâtiment",
     "slug": "2609-jours-feries-et-ponts-dans-le-secteur-prive",
     "source": "contributions",
     "text": "2609 Jours fériés et ponts dans le secteur privé",

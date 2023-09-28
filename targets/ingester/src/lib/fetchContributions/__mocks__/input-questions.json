@@ -13,7 +13,7 @@
           "kali_id": "KALICONT000005635613",
           "name": "Convention collective nationale des industries chimiques et connexes"
         },
-        "agreement_id": "0044",
+        "id": "3c88fe07-40cf-413d-9d99-23c4cf4cd5f4",
         "content": null,
         "contentType": "NOTHING",
         "kali_references": [
@@ -38,7 +38,7 @@
             "url": "https://www.legifrance.gouv.fr/juri/id/JURITEXT000007052459?page=1&pageSize=10&query=02-45.785&searchField=ALL&searchType=ALL&sortValue=DATE_DESC&tab_selection=juri&typePagination=DEFAULT"
           }
         ],
-        "url_sp": null,
+        "content_service_public_cdtn_id": null,
         "updated_at": "2023-09-25T08:43:49.879715+00:00"
       },
       {
@@ -47,7 +47,7 @@
           "kali_id": "KALICONT000018773893",
           "name": "Convention collective nationale des employés, techniciens et agents de maîtrise du bâtiment"
         },
-        "agreement_id": "2609",
+        "id": "1cfce577-c837-4bac-bd27-16c60dfff83e",
         "content": null,
         "contentType": "UNKNOWN",
         "kali_references": [
@@ -61,7 +61,7 @@
         "cdtn_references": [],
         "legi_references": [],
         "other_references": [],
-        "url_sp": null,
+        "content_service_public_cdtn_id": null,
         "updated_at": "2023-09-25T09:13:17.173699+00:00"
       },
       {
@@ -70,7 +70,7 @@
           "kali_id": "KALICONT000005635444",
           "name": "Convention collective nationale des journalistes"
         },
-        "agreement_id": "1480",
+        "id": "544d457c-de69-4f8a-93ac-f44b0dfc3463",
         "content": null,
         "contentType": "NOTHING",
         "kali_references": [
@@ -85,14 +85,14 @@
           {
             "document": {
               "title": "Si un poste se libère ou est créé dans l’entreprise, l’employeur doit-il en informer les salariés ? Ou le leur proposer en priorité ?",
-              "url": "si-un-poste-se-libere-ou-est-cree-dans-lentreprise-lemployeur-doit-il-en-informer-les-salaries-ou-le-leur-proposer-en-priorite",
-              "category": "contributions"
+              "slug": "si-un-poste-se-libere-ou-est-cree-dans-lentreprise-lemployeur-doit-il-en-informer-les-salaries-ou-le-leur-proposer-en-priorite",
+              "source": "contributions"
             }
           }
         ],
         "legi_references": [],
         "other_references": [],
-        "url_sp": null,
+        "content_service_public_cdtn_id": null,
         "updated_at": "2023-09-25T09:15:37.182675+00:00"
       },
       {
@@ -101,7 +101,7 @@
           "kali_id": "CODE_DU_TRAVAIL",
           "name": "Code du travail"
         },
-        "agreement_id": "0000",
+        "id": "e0830982-a600-496c-ba8a-b36aa435df8c",
         "content": "<p>Ceci est ma réponse en droit du travail</p>",
         "contentType": "ANSWER",
         "kali_references": [],
@@ -109,8 +109,8 @@
           {
             "document": {
               "title": "Quels sont les droits du salarié dont le contrat de travail est suspendu ?",
-              "url": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
-              "category": "fiches_service_public"
+              "slug": "quels-sont-les-droits-du-salarie-dont-le-contrat-de-travail-est-suspendu",
+              "source": "fiches_service_public"
             }
           }
         ],
@@ -122,7 +122,7 @@
           }
         ],
         "other_references": [],
-        "url_sp": null,
+        "content_service_public_cdtn_id": null,
         "updated_at": "2023-09-22T12:48:39.198787+00:00"
       },
       {
@@ -131,7 +131,7 @@
           "kali_id": "KALICONT000005635630",
           "name": "Convention collective nationale des entreprises de publicité et assimilées"
         },
-        "agreement_id": "0086",
+        "id": "b2b4fbe4-fd7c-4db9-b97e-f4ffd330c619",
         "content": "<p>Ceci est la réponse à la question pour la CC 0086</p>",
         "contentType": "ANSWER",
         "kali_references": [
@@ -157,7 +157,7 @@
         "cdtn_references": [],
         "legi_references": [],
         "other_references": [],
-        "url_sp": null,
+        "content_service_public_cdtn_id": null,
         "updated_at": "2023-09-25T09:07:45.812106+00:00"
       },
       {
@@ -166,7 +166,7 @@
           "kali_id": "KALICONT000005635624",
           "name": "Convention collective nationale des transports routiers et activités auxiliaires du transport"
         },
-        "agreement_id": "0016",
+        "id": "b207cc69-4725-4b56-b35e-edac32a416a4",
         "content": "<p>ceci est ma réponse pour la CC 0016</p>",
         "contentType": "ANSWER",
         "kali_references": [
@@ -209,7 +209,7 @@
             "url": null
           }
         ],
-        "url_sp": null,
+        "content_service_public_cdtn_id": null,
         "updated_at": "2023-09-22T12:49:27.334625+00:00"
       }
     ]

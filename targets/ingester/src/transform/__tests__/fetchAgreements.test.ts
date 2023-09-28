@@ -12,9 +12,8 @@ describe("getContributionAnswers", () => {
     const result = getContributionAnswers(contributionsWithSlug, 44);
     expect(result).toEqual([
       {
-        answer: null,
         contentType: "NOTHING",
-        index: 52,
+        order: 52,
         question: "Jours fériés et ponts dans le secteur privé",
         references: [
           {
@@ -32,7 +31,7 @@ describe("getContributionAnswers", () => {
             url: "https://www.legifrance.gouv.fr/juri/id/JURITEXT000007052459?page=1&pageSize=10&query=02-45.785&searchField=ALL&searchType=ALL&sortValue=DATE_DESC&tab_selection=juri&typePagination=DEFAULT",
           },
         ],
-        slug: "jours-feries-et-ponts-dans-le-secteur-prive",
+        genericSlug: "jours-feries-et-ponts-dans-le-secteur-prive",
       },
     ]);
   });
@@ -40,11 +39,11 @@ describe("getContributionAnswers", () => {
   test("one answer with type ANSWER", async () => {
     const contributionsWithSlug = await getContributionsWithSlug();
     const result = getContributionAnswers(contributionsWithSlug, 16);
-    expect(result[0].answer).toEqual(
+    expect(result[0].content).toEqual(
       "<p>ceci est ma réponse pour la CC 0016</p>"
     );
     expect(result[0].contentType).toEqual("ANSWER");
-    expect(result[0].slug).toEqual(
+    expect(result[0].genericSlug).toEqual(
       "jours-feries-et-ponts-dans-le-secteur-prive"
     );
   });

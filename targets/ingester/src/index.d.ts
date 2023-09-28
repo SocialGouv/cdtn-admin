@@ -2,11 +2,9 @@ import type { SourceValues } from "@socialgouv/cdtn-sources";
 
 import {
   Answer,
-  BaseRef,
   ContributionGenericDoc,
-  ContributionReference,
   ContributionWithCCDoc,
-  DilaRef,
+  ExternalRef,
   GenericAnswer,
 } from "@shared/types";
 
@@ -27,19 +25,12 @@ type ExternalDocument = Document & {
   url: string;
 };
 
-interface GenericAnswer {
-  content: string;
-  description: string;
-  contentType: string;
-  text: string;
-  references: ContributionReference[];
-}
-
+type GenericAnswer = Answer & { description: string; text: string };
 type AnswerWithCC = Answer & { idcc: string; shortName: string };
 
 export interface Question {
   id: string;
-  index: number;
+  order: number;
   title: string;
   answers: {
     generic: GenericAnswer;
@@ -88,11 +79,12 @@ type AgreementPage = Document & {
 };
 
 interface AgreementAnswer {
-  index: number;
-  references: (BaseRef | DilaRef)[];
-  slug: string;
+  order: number;
+  references: ExternalRef[];
+  genericSlug: string;
   question: string;
-  answer: string;
+  content?: string;
+  contentType: string;
 }
 
 interface AgreementArticleByBlock {

@@ -5,13 +5,10 @@ import type { CdtnDocument } from "../index";
 import { AnswerWithCC } from "../index";
 import fetchContributions from "../lib/fetchContributions";
 
-const mapConventionAnswers = (answers: AnswerWithCC[]) => {
-  return answers.map((a) => {
-    return {
-      idcc: a.idcc,
-      contentType: a.contentType,
-    };
-  });
+const mapConventionAnswers = (answers: AnswerWithCC[]): string[] => {
+  return answers
+    .filter((a) => a.contentType === "ANSWER" || a.contentType === "NOTHING")
+    .map((a) => a.idcc);
 };
 export default async function getContributionsDocuments(): Promise<
   CdtnDocument[]
@@ -21,7 +18,7 @@ export default async function getContributionsDocuments(): Promise<
   return data.flatMap(({ title, answers, id }) => {
     const allAnswers = {
       answer: answers.generic,
-      conventions: mapConventionAnswers(answers.conventions),
+      agreementsWithAnswer: mapConventionAnswers(answers.conventions),
       description: answers.generic.description,
       id,
       is_searchable: true,
@@ -36,12 +33,12 @@ export default async function getContributionsDocuments(): Promise<
           answer: conventionalAnswer,
           idcc: idcc,
           shortName: shortName,
-          description: answers.generic.description, // TODO: mettre une description unique qui contient l'idcc
+          description: answers.generic.description, // TODO: mettre une description unique qui contient le nom de la CC
           id: conventionalAnswer.id,
-          is_searchable: false, // on laisse comme ça ?
+          is_searchable: false,
           slug: slugify(`${parseInt(idcc, 10)}-${title}`),
           source: SOURCES.CONTRIBUTIONS,
-          text: `${idcc} ${title}`, // actuellement c'est comme ça mais si la CC à son propre contenu est-ce que ça ne devrait pas être dans text aussi ?
+          text: `${idcc} ${title}`, // actuellement c'est comme ça mais si la CC a son propre contenu est-ce que ça ne devrait pas être dans text aussi ?
           title,
         };
       }

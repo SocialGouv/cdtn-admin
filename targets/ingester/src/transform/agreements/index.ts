@@ -3,7 +3,7 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 
 import type { AgreementPage, Question } from "../../index";
-import { AnswerWithCC } from "../../index";
+import { AgreementAnswer, AnswerWithCC } from "../../index";
 import { loadAgreement, loadAgreements } from "../../lib/data-loaders";
 import fetchContributions from "../../lib/fetchContributions";
 import { formatIdcc } from "../../lib/formatIdcc";
@@ -134,7 +134,7 @@ export function getContributionAnswers(
   agreementNum: number
 ) {
   return contributionsWithSlug
-    .map(({ title, slug, index, answers }) => {
+    .map(({ title, slug, order, answers }) => {
       const answer: AnswerWithCC | undefined = answers.conventions.find(
         (a: AnswerWithCC) => parseInt(a.idcc, 10) === agreementNum
       );
@@ -144,14 +144,18 @@ export function getContributionAnswers(
         );
       }
 
-      return {
-        answer: answer.content,
+      const formatted: AgreementAnswer = {
         contentType: answer.contentType,
-        index,
+        order,
         question: title,
         references: answer.references,
-        slug,
+        genericSlug: slug,
       };
+
+      if (answer.contentType === "ANSWER") {
+        formatted.content = answer.content;
+      }
+      return formatted;
     })
-    .sort(createSorter((a) => a.index));
+    .sort(createSorter((a) => a.order));
 }

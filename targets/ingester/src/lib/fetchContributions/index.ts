@@ -36,7 +36,7 @@ async function fetchContributions(): Promise<Question[]> {
         ),
         generic: genericAnswer,
       },
-      index: question.order,
+      order: question.order,
       title: question.content,
       id: question.id,
     };

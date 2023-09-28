@@ -1,4 +1,4 @@
-import type { ContributionReference } from "@shared/types";
+import { BaseRef, ExternalRef } from "@shared/types";
 
 export interface AgreementRaw {
   id: string;
@@ -12,15 +12,17 @@ export interface AnswerRaw {
   contentType: string;
   kali_references: {
     title: string;
-    article_id: string;
+    kali_article: {
+      article_id: string;
+    };
   }[];
-  legi_references: ContributionReference[];
-  cdtn_references: {
-    title: string;
-    url: string;
-    source: string;
+  legi_references: {
+    legi_article: {
+      title: string;
+    };
   }[];
-  other_references: ContributionReference[];
+  cdtn_references: BaseRef[];
+  other_references: ExternalRef[];
   agreement: AgreementRaw;
 }
 
