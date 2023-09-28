@@ -40,7 +40,7 @@ export async function auth(ctx) {
     console.log("[auth] refresh token");
     const tokenData = await request(
       ctx?.req
-        ? `${process.env.FRONTEND_URL}/api/refresh_token`
+        ? `http://localhost:3000/api/refresh_token`
         : "/api/refresh_token",
       {
         body: {},

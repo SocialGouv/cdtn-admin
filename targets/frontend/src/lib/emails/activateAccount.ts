@@ -1,7 +1,6 @@
 import sendmail from "./sendmail";
 
-const BASE_URL =
-  process.env.FRONTEND_HOST || `http://localhost:${process.env.PORT}`;
+const BASE_URL = process.env.FRONTEND_HOST || `http://localhost:3000`;
 
 export function sendActivateAccountEmail(email: string, secret_token: string) {
   const subject = "Activation de votre compte";
