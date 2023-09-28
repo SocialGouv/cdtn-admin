@@ -1,5 +1,5 @@
 export const fetchAllContributions = `
-query MyQuery {
+query GetQuestionsWithAnswers {
   contribution_questions(where: {answers: {statuses: {status: {_eq: "PUBLISHED"}}}}, order_by: {order: asc}) {
     id
     content

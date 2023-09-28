@@ -26,7 +26,7 @@ type ExternalDocument = Document & {
   url: string;
 };
 
-type GenericAnswer = Answer & {
+type GenericAnswer = Omit<Answer, "content"> & {
   description: string;
   text: string;
   content?: string | FicheServicePublicDoc;

@@ -94,7 +94,7 @@ export class AnswerExtractor {
   private aggregateReferences(answer: AnswerRaw): ExternalRef[] {
     return this.mapKaliRefs(answer.agreement.id, answer.kali_references)
       .concat(this.mapLegiRefs(answer.legi_references))
-      .concat(this.mapOtherRefs(answer.other_references)); // je n'ai pas fait le mapping parce qu'on a besoin du package packages/code-du-travail-utils/src/sources.ts utilisé seulement dans le front
+      .concat(this.mapOtherRefs(answer.other_references));
   }
 
   public extractAgreementAnswers(answers: AnswerRaw[]): AnswerWithCC[] {

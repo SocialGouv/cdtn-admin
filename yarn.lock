@@ -14193,6 +14193,7 @@ __metadata:
     semver: 7.3.5
     tar-fs: 2.1.1
     ts-jest: ^27.0.5
+    ts-node: 10.8.0
     typescript: ^4.4.3
     unist-util-find: 1.0.2
     unist-util-flat-filter: 1.0.0
