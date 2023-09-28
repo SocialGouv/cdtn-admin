@@ -39,9 +39,7 @@ export async function auth(ctx) {
   try {
     console.log("[auth] refresh token");
     const tokenData = await request(
-      ctx?.req
-        ? `http://localhost:3000/api/refresh_token`
-        : "/api/refresh_token",
+      ctx?.req ? `${BASE_URL}/api/refresh_token` : "/api/refresh_token",
       {
         body: {},
         credentials: "include",

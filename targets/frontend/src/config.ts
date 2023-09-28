@@ -7,3 +7,4 @@ export const HASURA_GRAPHQL_JWT_SECRET = process.env
   type: "HS256",
   key: "a_pretty_long_secret_key_that_should_be_at_least_32_char",
 };
+export const BASE_URL = process.env.FRONTEND_HOST || `http://localhost:3000`;
