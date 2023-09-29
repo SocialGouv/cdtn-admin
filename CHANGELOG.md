@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.9](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.8...v2.17.9) (2023-09-29)
+
+### Bug Fixes
+
+- **dev:** correction du probleme de socket en phase de dev en HMR + suppression de sentry ([#1045](https://github.com/SocialGouv/cdtn-admin/issues/1045)) ([d371ec1](https://github.com/SocialGouv/cdtn-admin/commit/d371ec1e7e15b3bd4a017f021099ca0edc9c7911))
+
 ## [2.17.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.7...v2.17.8) (2023-09-28)
 
 ### Bug Fixes
