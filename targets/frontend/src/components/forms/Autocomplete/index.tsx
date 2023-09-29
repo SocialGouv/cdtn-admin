@@ -75,7 +75,7 @@ export const FormAutocomplete = <T,>({
             clearOnBlur={false}
             forcePopupIcon={false}
             disabled={disabled}
-            disableClearable
+            disableClearable={!!multiple ? true : undefined}
             multiple={multiple}
             id={`id-${label}`}
             value={value}
