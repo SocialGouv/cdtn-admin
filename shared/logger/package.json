@@ -24,12 +24,10 @@
     "@babel/preset-typescript": "^7.15.0",
     "@shared/eslint-config": "workspace:^",
     "@tsconfig/node14": "^1.0.1",
-    "@types/jest": "^27.0.2",
     "@types/std-mocks": "^1.0.1",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "jest": "^27.1.1",
     "lint-staged": "^12.0.0",
-    "prettier": "^2.3.2",
     "std-mocks": "^1.0.1",
     "typescript": "^4.9.5"
   },
