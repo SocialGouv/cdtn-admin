@@ -1,6 +1,6 @@
 {
   "name": "@shared/dila-resolver",
-  "version": "2.17.7",
+  "version": "2.17.9",
   "main": "lib/index.js",
   "files": [
     "lib"
