@@ -2298,6 +2298,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/resolvers@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "@hookform/resolvers@npm:3.3.1"
+  peerDependencies:
+    react-hook-form: ^7.0.0
+  checksum: 1ddc250a8d6769fb11b03110b586677b03463276dda1cdfd0225ab94f46d422868f74b01bef85f785010cc3d836f0669d6b6c0ed752cae532d2badf3537b1e72
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.10":
   version: 0.11.10
   resolution: "@humanwhocodes/config-array@npm:0.11.10"
@@ -12603,6 +12612,7 @@ __metadata:
     "@emotion/styled": 11.10.6
     "@hapi/boom": ^9.1.4
     "@hookform/error-message": ^2.0.0
+    "@hookform/resolvers": ^3.3.1
     "@mui/icons-material": 5.11.16
     "@mui/material": 5.14.11
     "@reach/accordion": ^0.16.1
@@ -12699,7 +12709,7 @@ __metadata:
     urql: ^2.0.5
     uuid: ^8.3.2
     wonka: ^4.0.15
-    zod: ^3.22.2
+    zod: 3.21.4
   languageName: unknown
   linkType: soft
 
@@ -25848,13 +25858,6 @@ __metadata:
   version: 3.21.4
   resolution: "zod@npm:3.21.4"
   checksum: f185ba87342ff16f7a06686767c2b2a7af41110c7edf7c1974095d8db7a73792696bcb4a00853de0d2edeb34a5b2ea6a55871bc864227dace682a0a28de33e1f
-  languageName: node
-  linkType: hard
-
-"zod@npm:^3.22.2":
-  version: 3.22.2
-  resolution: "zod@npm:3.22.2"
-  checksum: 231e2180c8eabb56e88680d80baff5cf6cbe6d64df3c44c50ebe52f73081ecd0229b1c7215b9552537f537a36d9e36afac2737ddd86dc14e3519bdbc777e82b9
   languageName: node
   linkType: hard
 
