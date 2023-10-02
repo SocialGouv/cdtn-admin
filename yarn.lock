@@ -6607,6 +6607,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jsonwebtoken@npm:^9.0.3":
+  version: 9.0.3
+  resolution: "@types/jsonwebtoken@npm:9.0.3"
+  dependencies:
+    "@types/node": "*"
+  checksum: 2debf3adb19b827a023205234ec439b7258aee6ca9273472abe360738a84f08db78c6e853172e842ec303169ec0bb2df39701ab9a13b9e7868fe284ef9136567
+  languageName: node
+  linkType: hard
+
 "@types/keyv@npm:^3.1.1, @types/keyv@npm:^3.1.4":
   version: 3.1.4
   resolution: "@types/keyv@npm:3.1.4"
@@ -12634,6 +12643,7 @@ __metadata:
     "@tiptap/starter-kit": ^2.0.3
     "@types/formidable": ^2.0.5
     "@types/jest": ^27.4.0
+    "@types/jsonwebtoken": ^9.0.3
     "@types/lodash.get": ^4.4.7
     "@types/react": ^17.0.24
     "@types/react-dom": ^18.0.11

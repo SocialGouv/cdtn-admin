@@ -32,21 +32,21 @@ import {
 const listFiles = () =>
   request(`/api/storage`, {
     headers: { token: getToken()?.jwt_token || "" },
-  });
+  } as any);
 
-const uploadFiles = (formData) =>
+const uploadFiles = (formData: any) =>
   request(`/api/storage`, {
     body: formData,
     headers: { token: getToken()?.jwt_token || "" },
-  });
+  } as any);
 
-const deleteFile = (path) =>
+const deleteFile = (path: any) =>
   request(`/api/storage/${path}`, {
     headers: { token: getToken()?.jwt_token || "" },
     method: "DELETE",
-  });
+  } as any);
 
-const onDeleteClick = function (file) {
+const onDeleteClick = function (file: any) {
   const confirmed = confirm(
     `Êtes-vous sûr(e) de vouloir définitivement supprimer ${file.name} ?`
   );
@@ -64,9 +64,9 @@ const onDeleteClick = function (file) {
 function FilesPage() {
   const { data, error, isValidating } = useSWR("files", listFiles, {
     initialData: undefined,
-  });
+  } as any);
   const [search, setSearch, setDebouncedSearch] = useDebouncedState("", 400);
-  const searchInputEl = useRef(null);
+  const searchInputEl = useRef<any>(null);
   const [isSearching, setSearching] = useState(false);
   const [filter, setFilter] = useState("");
   const [sort, setSort] = useState("mostRecent");
@@ -101,7 +101,7 @@ function FilesPage() {
           });
         }}
       />
-      <Box sx={{ display: "flex" }} as="form" my="medium">
+      <Box sx={{ display: "flex" }} component="form" my="medium">
         <Box
           sx={{ display: "flex", alignItems: "flex-end", position: "relative" }}
         >
@@ -180,7 +180,7 @@ function FilesPage() {
           <List sx={{ listStyleType: "none", m: 0, p: 0 }}>
             {data
               .filter(
-                (file) =>
+                (file: any) =>
                   filterCallback(filter, file) &&
                   (search
                     ? file.name
@@ -189,7 +189,7 @@ function FilesPage() {
                     : true)
               )
               .sort(getSortCallback(sort))
-              .map((file) => {
+              .map((file: any) => {
                 return (
                   <ListItem
                     key={file.name}
@@ -198,6 +198,7 @@ function FilesPage() {
                     }}
                   >
                     <Card
+                      component="a"
                       target="_blank"
                       rel="noopener noreferrer"
                       href={file.url}
@@ -253,17 +254,17 @@ function FilesPage() {
                         variant="secondary"
                         text={file.name}
                         copied={currentClip === file.name}
-                        onClip={(text) => {
+                        onClip={(text: any) => {
                           setCurrentClip(text);
                         }}
                       />
                       <Button
-                        {...buttonProps}
                         variant="outlined"
                         onClick={(evt) => {
                           evt.preventDefault();
                           onDeleteClick(file);
                         }}
+                        sx={{ flex: "0 0 auto", mx: theme.space.xsmall }}
                       >
                         <IoIosTrash style={iconSx} />
                         Supprimer
@@ -285,7 +286,7 @@ export default withCustomUrqlClient(withUserProvider(FilesPage));
 
 const buttonProps = {
   outline: true,
-  size: "small",
+  size: theme.space.small,
   sx: { flex: "0 0 auto", mx: theme.space.xsmall },
   type: "button",
 };
@@ -296,7 +297,7 @@ const iconSx = {
   width: theme.sizes.iconSmall,
 };
 
-const filterCallback = (filter, file) => {
+const filterCallback = (filter: any, file: any) => {
   const extension = file.name.split(".").pop().toLowerCase();
   switch (filter) {
     case "jpg":
@@ -314,23 +315,23 @@ const filterCallback = (filter, file) => {
   }
 };
 
-const getSortCallback = (sort) => {
+const getSortCallback = (sort: any) => {
   switch (sort) {
     case "alphabetic":
-      return (a, b) => a.name.localeCompare(b.name);
+      return (a: any, b: any) => a.name.localeCompare(b.name);
     case "reverse-alphabetic":
-      return (a, b) => b.name.localeCompare(a.name);
+      return (a: any, b: any) => b.name.localeCompare(a.name);
     case "oldest":
-      return (a, b) =>
+      return (a: any, b: any) =>
         new Date(a.lastModified).getTime() - new Date(b.lastModified).getTime();
     case "mostRecent":
-      return (a, b) =>
+      return (a: any, b: any) =>
         new Date(b.lastModified).getTime() - new Date(a.lastModified).getTime();
     case "lightest":
-      return (a, b) => a.contentLength - b.contentLength;
+      return (a: any, b: any) => a.contentLength - b.contentLength;
     case "heaviest":
-      return (a, b) => b.contentLength - a.contentLength;
+      return (a: any, b: any) => b.contentLength - a.contentLength;
     default:
-      return (a, b) => a.name.localeCompare(b.name);
+      return (a: any, b: any) => a.name.localeCompare(b.name);
   }
 };
