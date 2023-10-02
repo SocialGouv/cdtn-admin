@@ -185,9 +185,6 @@ export const ContributionsAnswer = ({
                   name="content"
                   disabled={isNotEditable(answer)}
                   control={control}
-                  rules={{
-                    required: answer && answer.contentType === "ANSWER",
-                  }}
                 />
               </FormControl>
               {answer && (
