@@ -117,7 +117,7 @@ export const ContributionsAnswer = ({
 
   const agreementResponseOptions = [
     {
-      label: "La convention collective ne prévoit rien",
+      label: "La CC ne prévoit rien ou renvoie au CDT",
       value: "NOTHING",
     },
     {
