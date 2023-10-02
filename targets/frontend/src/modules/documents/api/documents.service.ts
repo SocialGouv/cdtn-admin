@@ -22,12 +22,14 @@ export class DocumentsService {
     return {
       ...generateIds(data.title),
       source: "information",
-      meta_description: data.metaDescription ?? "",
+      meta_description: data.metaDescription ?? data.description,
       title: data.title,
       text: data.title,
       slug: slugify(data.title),
       document: {
-        date: format(new Date(data.updatedAt), "dd/MM/yyyy"),
+        date: data.updatedAt
+          ? format(new Date(data.updatedAt), "dd/MM/yyyy")
+          : undefined,
         intro: data.intro,
         description: data.description,
         sectionDisplayMode: data.sectionDisplayMode,
@@ -61,7 +63,7 @@ export class DocumentsService {
                     fileUrl: file?.url,
                     markdown: content,
                     blockDisplayMode: contentDisplayMode,
-                    contents: contents.length
+                    contents: contents?.length
                       ? contents.map(({ document }) => {
                           return {
                             title: document.title,
@@ -73,7 +75,7 @@ export class DocumentsService {
                   };
                 }
               ),
-              references: references.length
+              references: references?.length
                 ? [
                     {
                       label: referenceLabel,
