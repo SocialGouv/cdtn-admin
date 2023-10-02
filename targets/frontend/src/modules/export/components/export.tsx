@@ -133,7 +133,7 @@ export function Export(): JSX.Element {
       <ConfirmModal
         open={validateExportPreprodModal}
         title="Mise à jour Pre-Prod"
-        message="Vous êtes sur le point de mettre à jour les données de la pre-production"
+        message="Êtes-vous sur de vouloir mettre à jour la pre-production ?"
         onClose={() => setValidateExportPreprodModal(false)}
         onCancel={() => setValidateExportPreprodModal(false)}
         onValidate={() => {
@@ -144,7 +144,7 @@ export function Export(): JSX.Element {
       <ConfirmModal
         open={validateExportProdModal}
         title="Mise à jour Prod"
-        message="Vous êtes sur le point de mettre à jour les données de la production"
+        message="Êtes-vous sur de vouloir mettre à jour la production ?"
         onClose={() => setValidateExportProdModal(false)}
         onCancel={() => setValidateExportProdModal(false)}
         onValidate={() => {
