@@ -1,6 +1,6 @@
 {
   "name": "@shared/dila-resolver",
-  "version": "2.17.2",
+  "version": "2.17.9",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -11,7 +11,7 @@
     "url": "https://github.com/SocialGouv/cdtn-admin.git"
   },
   "license": "Apache-2.0",
-  "private": "true",
+  "private": true,
   "dependencies": {
     "@socialgouv/dila-api-client": "^1.2.4"
   },
@@ -19,8 +19,8 @@
     "@babel/core": "^7.15.5",
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "@babel/preset-typescript": "^7.15.0",
-    "@shared/eslint-config": "^2.17.2",
-    "@shared/types": "^2.17.2",
+    "@shared/eslint-config": "workspace:^",
+    "@shared/types": "workspace:^",
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^27.0.0",
     "jest": "^27.0.6",
@@ -32,15 +32,14 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "dev": "ts-node src/main.ts",
-    "lint": "eslint \"./src/**/*.{js,ts}\"",
+    "lint": "npx eslint \"./src/**/*.{js,ts}\"",
     "lint:fix": "yarn lint --fix",
     "precommit": "lint-staged",
-    "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "test": "jest"
   },
   "lint-staged": {
     "*.{j,t}s": [
-      "eslint --cache --fix",
+      "npx eslint --cache --fix",
       "jest --bail --findRelatedTests"
     ]
   },

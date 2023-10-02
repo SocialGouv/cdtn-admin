@@ -16,6 +16,7 @@ export const LegiReferenceInput = ({
 }: Props): React.ReactElement => {
   return (
     <ReferenceInput<LegiReference>
+      isMultiple={true}
       label={`Références liées au code du travail`}
       color="success"
       name={name}

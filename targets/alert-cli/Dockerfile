@@ -1,38 +1,51 @@
 ARG NODE_VERSION=20.3.1-alpine
 
-# dist
-FROM node:$NODE_VERSION AS dist
+FROM node:$NODE_VERSION AS deps
 
-WORKDIR /
+WORKDIR /app
 
-COPY . /
+COPY yarn.lock .yarnrc.yml ./
+COPY .yarn .yarn
 
 # hadolint ignore=SC2046
-RUN --mount=type=secret,id=npmrc,target=/.npmrc \
-    yarn --frozen-lockfile
+RUN yarn fetch workspaces focus alert-cli
 
+FROM deps AS build-graphql-client
+COPY shared/graphql-client ./shared/graphql-client
 RUN yarn workspace @shared/graphql-client build
 
+
+FROM deps AS build-dila-resolver
+COPY shared/types ./shared/types
+COPY shared/dila-resolver ./shared/dila-resolver
 RUN yarn workspace @shared/dila-resolver build
+
+FROM deps AS dist
+
+COPY --from=build-graphql-client /app/shared/graphql-client /app/shared/graphql-client
+COPY --from=build-dila-resolver /app/shared/dila-resolver /app/shared/dila-resolver
+
+COPY shared/types ./shared/types
+COPY targets/alert-cli ./targets/alert-cli
+COPY tsconfig.build.json ./
 
 RUN yarn workspace alert-cli build
 
-# app
+RUN yarn workspaces focus --production alert-cli && yarn cache clean
+
+
 FROM node:$NODE_VERSION
 
 # Add git to docker image
 RUN apk add --no-cache git openssh-client
 
-WORKDIR /app
-
-USER node
-
-COPY --from=dist targets/alert-cli/package.json /app/alert-cli/package.json
-COPY --from=dist targets/alert-cli/dist/ /app/alert-cli/dist/
-COPY --from=dist targets/alert-cli/node_modules/ /app/alert-cli/node_modules/
-COPY --from=dist package.json /app/package.json
-COPY --from=dist node_modules /app/node_modules
+USER 1000
 
 ENV NODE_ENV=production
 
-CMD ["yarn", "--cwd", "alert-cli", "start"]
+WORKDIR /app
+
+COPY --from=dist /app/targets/alert-cli/dist ./dist/
+COPY --from=dist /app/targets/alert-cli/package.json ./
+
+CMD ["yarn","start"]

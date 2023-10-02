@@ -40,10 +40,11 @@ type AutocompleteFormProps<T> = PropsWithChildren<
     ) => React.ReactNode;
     filterOptions: (options: T[], state: FilterOptionsState<T>) => T[];
     noOptionsText?: React.ReactNode;
+    multiple?: true;
   }
 >;
 
-export const FormAutocompleteMultiple = <T,>({
+export const FormAutocomplete = <T,>({
   name,
   rules,
   label,
@@ -61,6 +62,7 @@ export const FormAutocompleteMultiple = <T,>({
   filterOptions,
   noOptionsText,
   disabled,
+  multiple,
 }: AutocompleteFormProps<T>) => {
   return (
     <Controller
@@ -73,8 +75,8 @@ export const FormAutocompleteMultiple = <T,>({
             clearOnBlur={false}
             forcePopupIcon={false}
             disabled={disabled}
-            disableClearable
-            multiple
+            disableClearable={!!multiple ? true : undefined}
+            multiple={multiple}
             id={`id-${label}`}
             value={value}
             onChange={(event, value) => onChange(value)}

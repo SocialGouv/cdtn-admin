@@ -14,7 +14,7 @@ query contribution_answer($id: uuid) {
     content
     contentType: content_type
     updatedAt: updated_at
-    urlSp: url_sp
+    contentServicePublicCdtnId: content_service_public_cdtn_id
     question {
       id
       content
@@ -68,6 +68,12 @@ query contribution_answer($id: uuid) {
         source
         slug
       }
+    }
+    contentFichesSpDocument: document {
+      cdtnId: cdtn_id
+      title
+      source
+      slug
     }
   }
 }

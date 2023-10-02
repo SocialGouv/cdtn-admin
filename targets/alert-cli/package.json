@@ -1,6 +1,6 @@
 {
   "name": "alert-cli",
-  "version": "2.17.2",
+  "version": "2.17.9",
   "engines": {
     "node": ">=20.0.2"
   },
@@ -9,7 +9,7 @@
   "types": "dist/index.d.ts",
   "private": true,
   "dependencies": {
-    "@shared/graphql-client": "^2.17.2",
+    "@shared/graphql-client": "workspace:^",
     "@socialgouv/cdtn-slugify": "4.52.1",
     "@socialgouv/cdtn-sources": "4.52.1",
     "@socialgouv/dila-api-client": "1.2.4",
@@ -24,9 +24,9 @@
     "unist-util-select": "4.0.1"
   },
   "devDependencies": {
-    "@shared/dila-resolver": "^2.17.2",
-    "@shared/eslint-config": "^2.17.2",
-    "@shared/types": "^2.17.2",
+    "@shared/dila-resolver": "workspace:^",
+    "@shared/eslint-config": "workspace:^",
+    "@shared/types": "workspace:^",
     "@socialgouv/contributions-data-types": "3.27.0",
     "@socialgouv/fiches-travail-data-types": "4.191.0",
     "@socialgouv/kali-data-types": "2.127.0",
@@ -51,13 +51,13 @@
     "start": "node --enable-source-maps --unhandled-rejections=strict ./dist/index.js",
     "start:debug": "rm -rf data/* && ncc build ./src/index.ts -o ./dist -e nodegit -s && HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node --enable-source-maps --unhandled-rejections=strict ./dist/index.js",
     "clean": "rm -rf data/*",
-    "lint": "eslint \"./src/**/*.{js,ts}\"",
+    "lint": "npx eslint \"./src/**/*.{js,ts}\"",
     "types": "tsc",
     "test": "jest"
   },
   "lint-staged": {
     "*.{j,t}s": [
-      "eslint --fix",
+      "npx eslint --fix",
       "jest --bail --findRelatedTests"
     ]
   }

@@ -5,9 +5,10 @@ import { createErrorFor } from "src/lib/apiError";
 import { getContainerBlobs, uploadBlob } from "src/lib/azure";
 import { isUploadFileSafe } from "src/lib/secu";
 import * as stream from "stream";
+import { HASURA_GRAPHQL_JWT_SECRET } from "../../../config";
 
-const container = process.env.STORAGE_CONTAINER;
-const jwtSecret = JSON.parse(process.env.HASURA_GRAPHQL_JWT_SECRET);
+const container = process.env.STORAGE_CONTAINER ?? "cdtn-dev";
+const jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
 
 async function endPoint(req, res) {
   const apiError = createErrorFor(res);

@@ -1,6 +1,8 @@
 import jwt, { verify } from "jsonwebtoken";
 
-const { HASURA_GRAPHQL_JWT_SECRET, JWT_TOKEN_EXPIRES } = process.env;
+import { HASURA_GRAPHQL_JWT_SECRET } from "../../config";
+
+import { JWT_TOKEN_EXPIRES } from "../../config";
 
 let jwtSecret;
 try {

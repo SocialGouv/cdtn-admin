@@ -1,34 +1,47 @@
 ARG NODE_VERSION=20.3.1-alpine
 
-# dist
-FROM node:$NODE_VERSION AS dist
-
-WORKDIR /
-
-COPY . /
+FROM node:$NODE_VERSION AS deps
 
 RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
-# hadolint ignore=SC2046
-RUN --mount=type=secret,id=npmrc,target=/.npmrc \
-    yarn --frozen-lockfile
+WORKDIR /app
 
+COPY yarn.lock .yarnrc.yml ./
+COPY .yarn .yarn
+
+# hadolint ignore=SC2046
+RUN yarn fetch workspaces focus ingester
+
+FROM deps AS build-graphql-client
+COPY shared/graphql-client ./shared/graphql-client
 RUN yarn workspace @shared/graphql-client build
+
+FROM deps AS build-types
+COPY shared/types ./shared/types
+RUN yarn workspace @shared/types build
+
+FROM deps as dist
+COPY --from=build-graphql-client /app/shared/graphql-client /app/shared/graphql-client
+COPY --from=build-types /app/shared/types /app/shared/types
+
+COPY shared/id-generator shared/id-generator
+COPY targets/ingester targets/ingester
+COPY tsconfig.build.json .
 
 RUN yarn workspace ingester build
 
-# app
+RUN yarn workspaces focus --production ingester && yarn cache clean
+
+
 FROM node:$NODE_VERSION
 
 WORKDIR /app
 
-COPY --from=dist targets/ingester/package.json /app/package.json
-COPY --from=dist targets/ingester/dist/ /app/dist/
-COPY --from=dist node_modules /app/node_modules
-COPY --from=dist targets/ingester/node_modules /app/node_modules
+COPY --from=dist /app/targets/ingester/dist/ /app/dist/
+COPY --from=dist /app/targets/ingester/package.json /app/
 
 USER 1000
 
 ENV NODE_ENV=production
 
-CMD ["yarn", "start"]
+CMD ["yarn","start"]

@@ -52,6 +52,7 @@ const KaliReferenceSearch = ({
         setQuery(newValue);
       }}
       options={options}
+      filterOptions={(options) => options}
       loading={fetching}
       getOptionLabel={(item: KaliArticle) => {
         return item.path;

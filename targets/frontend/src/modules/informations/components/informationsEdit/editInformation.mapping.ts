@@ -22,7 +22,7 @@ const getRawColumns = (obj?: any): string[] => {
   }, []);
 };
 
-const mapInformationContentsBlocksFile = (file?: File) => {
+const mapInformationContentsBlocksFile = (file?: File | null) => {
   if (!file) return;
   return {
     on_conflict: {
@@ -34,7 +34,7 @@ const mapInformationContentsBlocksFile = (file?: File) => {
 };
 
 const mapInformationContentsBlocksContents = (
-  contents?: InformationContentBlockContent[]
+  contents?: InformationContentBlockContent[] | null
 ) => {
   return {
     on_conflict: {
@@ -54,7 +54,9 @@ const mapInformationContentsBlocksContents = (
   };
 };
 
-const mapInformationContentsBlocks = (blocks: InformationContentBlock[]) => {
+const mapInformationContentsBlocks = (
+  blocks: InformationContentBlock[] | null
+) => {
   return {
     on_conflict: {
       constraint: "informations_contents_blocks_pkey",
@@ -76,7 +78,7 @@ const mapInformationContentsBlocks = (blocks: InformationContentBlock[]) => {
   };
 };
 
-const mapInformationContentsReferences = (references?: Reference[]) => {
+const mapInformationContentsReferences = (references?: Reference[] | null) => {
   return {
     on_conflict: {
       constraint: "informations_contents_references_pkey",

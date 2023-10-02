@@ -38,6 +38,8 @@ services:
       context: .
       dockerfile: targets/frontend/Dockerfile
       shm_size: 512m
+      secrets:
+        - npmTiptapToken
     depends_on:
       - hasura
     ports:
@@ -100,6 +102,7 @@ services:
       - elasticsearch
 
   export:
+    platform: linux/amd64
     build:
       context: .
       dockerfile: targets/export-elasticsearch/Dockerfile
@@ -116,7 +119,16 @@ services:
       ELASTICSEARCH_URL_PREPROD: "http://elasticsearch:9200"
       ELASTICSEARCH_URL_PROD: "http://elasticsearch:9200"
 
+  alert-cli:
+    build:
+      context: .
+      dockerfile: targets/alert-cli/Dockerfile
+
 volumes:
   db_data:
   azurite_data:
   elastic_data:
+
+secrets:
+  npmTiptapToken:
+    file: .npmTiptapToken.secret

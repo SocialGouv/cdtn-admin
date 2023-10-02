@@ -98,7 +98,7 @@ export type Answer = {
   agreementId: string;
   questionId: string;
   contentType?: ContentType;
-  urlSp?: string;
+  contentServicePublicCdtnId?: string;
   agreement: Agreement;
   statuses: AnswerStatus[];
   status: AnswerStatus;
@@ -110,4 +110,5 @@ export type Answer = {
   legiReferences: LegiReference[];
   otherReferences: OtherReference[];
   cdtnReferences: CdtnReference[];
+  contentFichesSpDocument?: Document;
 };

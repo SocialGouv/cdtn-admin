@@ -1,11 +1,12 @@
 {
   "name": "ingester",
-  "version": "2.17.2",
+  "version": "2.17.9",
   "dependencies": {
-    "@shared/graphql-client": "^2.17.2",
-    "@shared/id-generator": "^2.17.2",
+    "@shared/graphql-client": "workspace:^",
+    "@shared/id-generator": "workspace:^",
     "@socialgouv/cdtn-slugify": "4.52.1",
     "@socialgouv/cdtn-sources": "4.52.1",
+    "@socialgouv/kali-data": "^2.628.0",
     "get-uri": "3.0.2",
     "got": "11.8.5",
     "gunzip-maybe": "1.4.2",
@@ -15,6 +16,7 @@
     "remark": "13.0.0",
     "remark-html": "13.0.2",
     "semver": "7.3.5",
+    "strip-markdown": "^5.0.1",
     "tar-fs": "2.1.1",
     "unist-util-filter": "^2.0.3",
     "unist-util-find": "1.0.2",
@@ -25,8 +27,8 @@
     "yargs": "17.1.1"
   },
   "devDependencies": {
-    "@shared/eslint-config": "^2.17.2",
-    "@shared/types": "^2.17.2",
+    "@shared/eslint-config": "workspace:^",
+    "@shared/types": "workspace:^",
     "@socialgouv/fiches-travail-data-types": "^4.191.0",
     "@socialgouv/fiches-vdd-types": "^2.197.0",
     "@socialgouv/kali-data-types": "^2.127.0",
@@ -54,16 +56,15 @@
     "clean": "rm -rf data/*",
     "cli:dev": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 ncc run -s src/cli.ts",
     "cli:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 yarn start",
-    "lint": "eslint \"./src/**/*.{js,ts}\"",
+    "lint": "npx eslint \"./src/**/*.{js,ts}\"",
     "precommit": "lint-staged",
-    "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "start": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
     "test": "jest --passWithNoTests",
     "types": "tsc"
   },
   "lint-staged": {
     "*.{j,t}s": [
-      "eslint --cache --fix",
+      "npx eslint --cache --fix",
       "jest --bail --findRelatedTests"
     ]
   }

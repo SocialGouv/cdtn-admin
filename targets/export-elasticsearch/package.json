@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "export-elasticsearch",
-  "version": "2.17.2",
+  "version": "2.17.9",
   "license": "MIT",
   "description": "",
   "main": "./build/index.js",
@@ -20,13 +20,14 @@
     "build:swc": "swc ./src -d build",
     "build:swc:watch": "swc ./src -d build -w",
     "run:ingester": "curl -X POST -H \"Content-Type: application/json\" -d '{\"environment\": \"preproduction\", \"userId\": \"3d6dddc4-e117-4772-9288-cd8a608693e4\"}' http://localhost:8787/export",
-    "lint": "eslint ./src --ext .ts"
+    "lint": "npx eslint ./src --ext .ts"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.9.0",
-    "@shared/elasticsearch-document-adapter": "^2.17.2",
-    "@shared/graphql-client": "^2.17.2",
-    "@socialgouv/cdtn-logger": "^2.17.2",
+    "@shared/elasticsearch-document-adapter": "workspace:^",
+    "@shared/graphql-client": "workspace:^",
+    "@shared/types": "workspace:^",
+    "@socialgouv/cdtn-logger": "workspace:^",
     "axios": "^0.26.1",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
@@ -37,8 +38,7 @@
     "zod": "^3.14.2"
   },
   "devDependencies": {
-    "@shared/eslint-config": "^2.17.2",
-    "@shared/types": "^2.17.2",
+    "@shared/eslint-config": "workspace:^",
     "@swc/cli": "0.1.55",
     "@swc/core": "1.2.150",
     "@swc/jest": "0.2.20",

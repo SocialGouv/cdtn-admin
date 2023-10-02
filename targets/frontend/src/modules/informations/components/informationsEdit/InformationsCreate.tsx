@@ -23,6 +23,9 @@ export const InformationsCreate = (): JSX.Element => {
     title: "",
     updatedAt: "",
     dismissalProcess: false,
+    description: "",
+    metaDescription: "",
+    metaTitle: "",
     references: [],
     contents: [],
   });
