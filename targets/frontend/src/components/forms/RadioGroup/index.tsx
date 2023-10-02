@@ -35,9 +35,6 @@ export const FormRadioGroup = ({
       control={control}
       rules={rules}
       render={({ field: { onChange, value }, fieldState: { error } }) => {
-        if (value === undefined) {
-          return <></>;
-        }
         return (
           <FormControl fullWidth={fullWidth} error={!!error}>
             <FormLabel>{label}</FormLabel>
