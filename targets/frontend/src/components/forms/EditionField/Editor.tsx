@@ -19,15 +19,20 @@ import { DetailsContent } from "@tiptap-pro/extension-details-content";
 import { Placeholder } from "@tiptap/extension-placeholder";
 
 export type EditorProps = {
-  content?: string | null;
+  content?: string;
   onUpdate: (content: string) => void;
-  error?: FieldErrors;
   disabled?: boolean;
+  isError?: boolean;
 };
 
 const emptyHtml = "<p></p>";
 
-export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
+export const Editor = ({
+  content,
+  onUpdate,
+  disabled,
+  isError = false,
+}: EditorProps) => {
   const [focus, setFocus] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const editor = useEditor({
@@ -83,7 +88,12 @@ export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
   return (
     <>
       {isClient && (
-        <TitleBox title="Réponse" focus={focus} disabled={disabled}>
+        <TitleBox
+          title="Réponse"
+          focus={focus}
+          isError={isError}
+          disabled={disabled}
+        >
           <MenuStyle editor={editor} />
           <MenuSpecial editor={editor} />
           <MenuTable editor={editor} />

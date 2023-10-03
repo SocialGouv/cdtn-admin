@@ -39,7 +39,7 @@ export const Comment = ({ comment }: Props) => {
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box sx={{ fontWeight: "bold" }}>{comment.user.name}</Box>
+        <Box sx={{ fontWeight: "bold" }}>{comment?.user?.name}</Box>
         <Box
           sx={{
             color: fr.colors.decisions.text.mention.grey.default,

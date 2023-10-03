@@ -1,6 +1,6 @@
-import { Status } from "../type";
+import { Answer, Status } from "../type";
 
-export const initStatus = (answer: any) => {
+export const initStatus = (answer: Answer) => {
   return answer.statuses?.[0] || { status: "TODO" };
 };
 

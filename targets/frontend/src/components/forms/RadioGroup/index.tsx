@@ -4,6 +4,8 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  Typography,
+  styled,
 } from "@mui/material";
 import React, { PropsWithChildren } from "react";
 import { Controller } from "react-hook-form";
@@ -54,9 +56,20 @@ export const FormRadioGroup = ({
                 />
               ))}
             </RadioGroup>
+            {error && (
+              <StyledTypography>
+                Un élément doit être sélectionner
+              </StyledTypography>
+            )}
           </FormControl>
         );
       }}
     />
   );
 };
+
+const StyledTypography = styled(Typography)(({ theme }) => {
+  return {
+    color: theme.palette.error.main,
+  };
+});

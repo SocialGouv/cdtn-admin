@@ -30,7 +30,9 @@ function concatAndSort(
   })[] = [...comments, ...statuses];
   return all
     .map((notif) => {
-      notif.createdAtDate = new Date(notif.createdAt);
+      notif.createdAtDate = notif?.createdAt
+        ? new Date(notif.createdAt)
+        : undefined;
       return notif as CommentsAndStatuses;
     })
     .sort((a, b) => {
@@ -109,8 +111,8 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
               overflow: "auto",
             }}
           >
-            {notifications.map((comment) => (
-              <Comment key={comment.id} comment={comment} />
+            {notifications.map((comment, index) => (
+              <Comment key={index} comment={comment} />
             ))}
           </Box>
           <FormControl>

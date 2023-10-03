@@ -14,6 +14,8 @@ function filterRecentKaliReferences(refs: KaliArticle[] = []) {
       ({ cid: _cid, createdAt: _createdAt }) => {
         return (
           _cid === cid &&
+          _createdAt &&
+          createdAt &&
           new Date(_createdAt).getTime() < new Date(createdAt).getTime()
         );
       }
