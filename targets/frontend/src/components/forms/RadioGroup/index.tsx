@@ -1,13 +1,13 @@
 import {
   FormControl,
   FormControlLabel,
-  FormLabel,
   Radio,
   RadioGroup,
 } from "@mui/material";
 import React, { PropsWithChildren } from "react";
 import { Controller } from "react-hook-form";
 import { CommonFormProps } from "../type";
+import { TitleBox } from "../TitleBox";
 
 type OptionProps = {
   label: string;
@@ -36,24 +36,24 @@ export const FormRadioGroup = ({
       rules={rules}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <FormControl fullWidth={fullWidth} error={!!error}>
-          <FormLabel>{label}</FormLabel>
-
-          <RadioGroup
-            value={value}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              onChange(event.target.value)
-            }
-          >
-            {options.map(({ label, value }) => (
-              <FormControlLabel
-                key={value}
-                value={value}
-                control={<Radio />}
-                label={label}
-                disabled={disabled}
-              />
-            ))}
-          </RadioGroup>
+          <TitleBox title={label} disabled={disabled}>
+            <RadioGroup
+              value={value}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                onChange(event.target.value)
+              }
+            >
+              {options.map(({ label, value }) => (
+                <FormControlLabel
+                  key={value}
+                  value={value}
+                  control={<Radio />}
+                  label={label}
+                  disabled={disabled}
+                />
+              ))}
+            </RadioGroup>
+          </TitleBox>
         </FormControl>
       )}
     />
