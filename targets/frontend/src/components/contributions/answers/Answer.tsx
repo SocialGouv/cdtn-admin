@@ -117,8 +117,17 @@ export const ContributionsAnswer = ({
 
   const agreementResponseOptions = [
     {
-      label: "La CC ne prévoit rien ou renvoie au CDT",
+      label: "La convention collective ne prévoit rien",
       value: "NOTHING",
+    },
+    {
+      label: "La convention collective renvoie au Code du Travail",
+      value: "CDT",
+    },
+    {
+      label:
+        "La convention collective intégralement moins favorable que le CDT",
+      value: "UNFAVOURABLE",
     },
     {
       label: "Nous n'avons pas la réponse",
