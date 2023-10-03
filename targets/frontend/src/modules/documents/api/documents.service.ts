@@ -1,5 +1,4 @@
 import { DocumentsRepository } from "./documents.repository";
-import { NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
 import { DocumentRaw } from "../type";
 import { format } from "date-fns";
@@ -27,7 +26,7 @@ export class DocumentsService {
       text: data.title,
       slug: slugify(data.title),
       document: {
-        date: format(new Date(data.updatedAt), "dd/MM/yyyy"),
+        date: format(new Date(data.updatedAt ?? ""), "dd/MM/yyyy"),
         intro: data.intro,
         description: data.description,
         sectionDisplayMode: data.sectionDisplayMode,
@@ -61,7 +60,7 @@ export class DocumentsService {
                     fileUrl: file?.url,
                     markdown: content,
                     blockDisplayMode: contentDisplayMode,
-                    contents: contents.length
+                    contents: contents?.length
                       ? contents.map(({ document }) => {
                           return {
                             title: document.title,
@@ -73,7 +72,7 @@ export class DocumentsService {
                   };
                 }
               ),
-              references: references.length
+              references: references?.length
                 ? [
                     {
                       label: referenceLabel,
@@ -96,13 +95,7 @@ export class DocumentsService {
         const information = await this.informationsRepository.fetchInformation(
           id
         );
-        if (!information) {
-          throw new NotFoundError({
-            message: `data not found with id ${id}`,
-            name: "NOT_FOUND",
-            cause: null,
-          });
-        }
+
         document = this.mapInformationToDocument(information);
         break;
     }

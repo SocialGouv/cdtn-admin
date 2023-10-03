@@ -3,7 +3,8 @@ import {
   InformationsRequest,
   InformationsResponse,
 } from "./informations.query";
-import { ApiClient } from "src/lib/api";
+import { ApiClient, NotFoundError } from "src/lib/api";
+import { QueryInformation } from "../components/informationsList/InformationsList.query";
 
 export class InformationsRepository {
   client: ApiClient;
@@ -12,7 +13,7 @@ export class InformationsRepository {
     this.client = client;
   }
 
-  async fetchInformation(id: string) {
+  async fetchInformation(id: string): Promise<QueryInformation> {
     const { error, data } = await this.client.query<
       InformationsResponse,
       InformationsRequest
@@ -23,13 +24,14 @@ export class InformationsRepository {
       console.log("Error: ", error);
       throw error;
     }
-    if (!data) {
-      throw new Error("");
+    if (!data || data.information_informations.length === 0) {
+      throw new NotFoundError({
+        message: `No Informations document found for ${id}`,
+        name: "NOT_FOUND",
+        cause: null,
+      });
     }
-    if (data.information_informations.length === 0) {
-      return null;
-    }
-    const information = data.information_informations[0];
-    return information;
+
+    return data.information_informations[0];
   }
 }
