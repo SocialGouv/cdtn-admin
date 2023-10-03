@@ -15,6 +15,13 @@ export const listModelsQuery = gql`
       previewHTML: preview_html
       createdAt: created_at
       updatedAt: updated_at
+      legiReferences: models_legi_references {
+        legiArticle: legi_article {
+          cid
+          id
+          label
+        }
+      }
     }
   }
 `;

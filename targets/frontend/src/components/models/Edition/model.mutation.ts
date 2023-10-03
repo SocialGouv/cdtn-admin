@@ -1,35 +1,34 @@
 import { gql } from "@urql/core";
 import { useMutation } from "urql";
 import { Model } from "src/components/models/type";
+import { LegiReference } from "src/components/forms/LegiReferences/type";
 
 type ModelsInsertInput = {
   description?: String;
   file_name?: String;
   file_size?: number;
-  id?: string;
   preview_html?: String;
   title?: String;
   type?: String;
 };
 
-const upsertModelQuery = gql`
-  mutation UpsertModel($model: model_models_insert_input!) {
-    insert_model_models_one(
-      on_conflict: {
-        constraint: models_pkey
-        update_columns: [
-          description
-          file_name
-          file_size
-          preview_html
-          title
-          type
-        ]
-      }
-      object: $model
-    ) {
+const updateModelQuery = gql`
+  mutation UpdateModel(
+    $id: uuid = ""
+    $model: model_models_set_input!
+    $legiReferences: [model_models_legi_references_insert_input!]!
+  ) {
+    update_model_models_by_pk(pk_columns: { id: $id }, _set: $model) {
       id
-      __typename
+    }
+    delete_model_models_legi_references(where: { letter_id: { _eq: $id } }) {
+      affected_rows
+    }
+    insert_model_models_legi_references(
+      objects: $legiReferences
+      on_conflict: { constraint: models_legi_references_pkey }
+    ) {
+      affected_rows
     }
   }
 `;
@@ -44,25 +43,34 @@ export type MutationProps = Pick<
   | "fileSize"
   | "fileName"
   | "previewHTML"
+  | "legiReferences"
 >;
 
 export type MutationResult = {
   id: string;
 };
 
-type MutationGraphQLProps = { model: ModelsInsertInput };
-type MutationGraphQLResult = { insert_model_models_one: { id: string } };
+type MutationGraphQLProps = {
+  id: string;
+  model: ModelsInsertInput;
+  legiReferences: {
+    article_id: string;
+    letter_id: string;
+  }[];
+};
+
+type MutationGraphQLResult = { update_model_models_by_pk: { id: string } };
+
 export type MutationFn = (props: MutationProps) => Promise<MutationResult>;
 
 export const useModelUpdateMutation = (): MutationFn => {
   const [, executeUpdate] = useMutation<
     MutationGraphQLResult,
     MutationGraphQLProps
-  >(upsertModelQuery);
+  >(updateModelQuery);
   const resultFunction = async (data: MutationProps) => {
     const result = await executeUpdate({
       model: {
-        id: data.id,
         title: data.title,
         type: data.type,
         description: data.description,
@@ -70,14 +78,23 @@ export const useModelUpdateMutation = (): MutationFn => {
         file_name: data.fileName,
         preview_html: data.previewHTML,
       },
+      id: data.id,
+      legiReferences: formatLegiReferences(data.id, data.legiReferences),
     });
     if (result.error) {
       throw new Error(result.error.message);
     }
-    if (!result.data?.insert_model_models_one) {
+    if (!result.data?.update_model_models_by_pk) {
       throw new Error("No data returned from mutation");
     }
-    return result.data?.insert_model_models_one;
+    return result.data?.update_model_models_by_pk;
   };
   return resultFunction;
+};
+
+const formatLegiReferences = (modelId: string, refs: LegiReference[]) => {
+  return refs.map((ref) => ({
+    letter_id: modelId,
+    article_id: ref.legiArticle.id,
+  }));
 };

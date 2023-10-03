@@ -21,16 +21,18 @@ import mammoth from "mammoth";
 import { TitleBox } from "src/components/forms/TitleBox";
 import { request } from "src/lib/request";
 import { getToken } from "src/lib/auth/token";
-import { MutationProps } from "src/components/models/Common/model.mutation";
 import { SnackBar } from "src/components/utils/SnackBar";
+import { LegiReferenceInput } from "src/components/contributions/answers/references";
+
+type FormData = Partial<Omit<Model, "createdAt">> & {
+  newFile?: DropzoneFile[];
+};
+
+type FormDataResult = Required<Omit<FormData, "newFile">>;
 
 type Props = {
   model?: Model;
-  onUpsert: (props: MutationProps) => Promise<void>;
-};
-
-type FormData = Partial<Model> & {
-  newFile?: DropzoneFile[];
+  onUpsert: (props: FormDataResult) => Promise<void>;
 };
 
 export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
@@ -48,6 +50,7 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
       fileName: "",
       fileSize: 0,
       previewHTML: "",
+      legiReferences: [],
     },
   });
 
@@ -90,6 +93,7 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
         fileSize: newData.newFile ? newData.newFile[0].size : newData.fileSize!,
         previewHTML: newData.previewHTML!,
         updatedAt: newData.updatedAt!,
+        legiReferences: newData.legiReferences!,
       });
       setSnack({
         open: true,
@@ -200,6 +204,9 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
               required: true,
             }}
           />
+        </FormControl>
+        <FormControl>
+          <LegiReferenceInput name="legiReferences" control={control} />
         </FormControl>
         <FormControl>
           <FormFileField

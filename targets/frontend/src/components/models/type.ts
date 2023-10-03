@@ -1,3 +1,5 @@
+import { LegiReference } from "src/components/contributions";
+
 export type Model = {
   id: string;
   title: string;
@@ -8,4 +10,5 @@ export type Model = {
   fileName: string;
   fileSize: number;
   previewHTML: string;
+  legiReferences: LegiReference[];
 };

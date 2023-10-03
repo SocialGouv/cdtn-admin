@@ -3,7 +3,7 @@ import { BreadcrumbLink } from "src/components/utils";
 import { useListModelQuery } from "./model.query";
 import React from "react";
 import { ModelForm } from "src/components/models/Common";
-import { useModelUpdateMutation } from "src/components/models/Common/model.mutation";
+import { useModelUpdateMutation } from "./model.mutation";
 
 type Props = {
   id: string;

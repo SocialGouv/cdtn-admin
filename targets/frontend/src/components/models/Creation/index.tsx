@@ -2,12 +2,12 @@ import { Stack } from "@mui/material";
 import { BreadcrumbLink } from "src/components/utils";
 import React from "react";
 import { ModelForm } from "src/components/models/Common";
-import { useModelUpdateMutation } from "src/components/models/Common/model.mutation";
 import { useRouter } from "next/router";
+import { useModelInsertMutation } from "src/components/models/Creation/model.mutation";
 
 export const ModelCreation = (): React.ReactElement => {
   const router = useRouter();
-  const update = useModelUpdateMutation();
+  const update = useModelInsertMutation();
 
   const Header = () => (
     <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
