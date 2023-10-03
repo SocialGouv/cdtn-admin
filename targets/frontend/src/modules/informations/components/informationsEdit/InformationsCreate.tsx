@@ -25,6 +25,9 @@ export const InformationsCreate = (): JSX.Element => {
     dismissalProcess: false,
     references: [],
     contents: [],
+    metaTitle: "",
+    description: "",
+    metaDescription: "",
   });
 
   const Header = () => (
