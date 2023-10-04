@@ -90,7 +90,7 @@ export type OtherReference = z.infer<typeof otherReferenceSchema>;
 export const documentSchema = z.object({
   title: z.string(),
   cdtnId: z.string(),
-  source: z.string(), // TODO SourceRoute
+  source: z.string(),
   slug: z.string(),
 });
 export type Document = z.infer<typeof documentSchema>;
