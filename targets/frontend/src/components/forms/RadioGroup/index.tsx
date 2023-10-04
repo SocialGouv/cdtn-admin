@@ -4,7 +4,7 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-  Typography,
+  FormHelperText,
   styled,
 } from "@mui/material";
 import React, { PropsWithChildren } from "react";
@@ -56,11 +56,11 @@ export const FormRadioGroup = ({
                 />
               ))}
             </RadioGroup>
-            {error && (
-              <StyledTypography>
+            {error && error.message === "Required" ? (
+              <StyledFormHelperText>
                 Un élément doit être sélectionner
-              </StyledTypography>
-            )}
+              </StyledFormHelperText>
+            ) : null}
           </FormControl>
         );
       }}
@@ -68,7 +68,7 @@ export const FormRadioGroup = ({
   );
 };
 
-const StyledTypography = styled(Typography)(({ theme }) => {
+const StyledFormHelperText = styled(FormHelperText)(({ theme }) => {
   return {
     color: theme.palette.error.main,
   };

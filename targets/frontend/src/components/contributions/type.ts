@@ -120,9 +120,9 @@ export const questionBaseSchema = z.object({
   id: z.string().uuid(),
   content: z
     .string({
-      required_error: "une question doit être renseignée",
+      required_error: "une question doit être renseigner",
     })
-    .min(1, "une question doit être renseignée"),
+    .min(1, "une question doit être renseigner"),
   order: z.number().optional(),
 });
 
@@ -160,10 +160,10 @@ const answerWithAnswerSchema = answerRelationSchema.extend({
   contentType: z.literal("ANSWER"),
   content: z
     .string({
-      required_error: "Une réponse est requise",
-      invalid_type_error: "Une réponse est requise",
+      required_error: "Une réponse doit être renseigner",
+      invalid_type_error: "Une réponse doit être renseigner",
     })
-    .min(1, "Une réponse est requise"),
+    .min(1, "Une réponse doit être renseigner"),
 });
 const answerWithNothingSchema = answerRelationSchema.extend({
   contentType: z.literal("NOTHING"),
@@ -171,9 +171,15 @@ const answerWithNothingSchema = answerRelationSchema.extend({
 const answerWithUnknownSchema = answerRelationSchema.extend({
   contentType: z.literal("UNKNOWN"),
 });
+const answerWithSPSchema = answerRelationSchema.extend({
+  contentType: z.literal("SP"),
+  contentFichesSpDocument: documentSchema,
+});
+
 export const answerSchema = z.discriminatedUnion("contentType", [
   answerWithAnswerSchema,
   answerWithNothingSchema,
   answerWithUnknownSchema,
+  answerWithSPSchema,
 ]);
 export type Answer = z.infer<typeof answerSchema>;

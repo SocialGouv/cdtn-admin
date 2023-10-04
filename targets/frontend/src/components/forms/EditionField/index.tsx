@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@mui/material";
+import { FormHelperText } from "@mui/material";
 import { Controller } from "react-hook-form";
 
 import { CommonFormProps } from "../type";
@@ -22,14 +22,16 @@ export const FormEditionField = (props: FormEditionProps) => {
             disabled={props.disabled}
             isError={!!error}
           />
-          {error && <StyledTypography>{error.message}</StyledTypography>}
+          {error && (
+            <StyledFormHelperText>{error.message}</StyledFormHelperText>
+          )}
         </>
       )}
     />
   );
 };
 
-const StyledTypography = styled(Typography)(({ theme }) => {
+const StyledFormHelperText = styled(FormHelperText)(({ theme }) => {
   return {
     color: theme.palette.error.main,
   };
