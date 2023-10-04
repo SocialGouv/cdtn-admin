@@ -15,7 +15,7 @@ type Props<Type> = {
   label: string;
   name: string;
   control: Control<any>;
-  fetcher: (query: string | undefined) => Result<Type>;
+  fetcher: (query: string | undefined, idcc?: string) => Result<Type>;
   isEqual: (value: Type, option: Type) => boolean;
   getLabel: (option: Type) => string;
   onClick: (value: Type) => void;
@@ -29,6 +29,7 @@ type Props<Type> = {
     | "warning";
   disabled: boolean;
   isMultiple?: true;
+  idcc?: string;
 };
 
 export const ReferenceInput = <Type,>({
@@ -42,9 +43,10 @@ export const ReferenceInput = <Type,>({
   color,
   disabled,
   isMultiple,
+  idcc,
 }: Props<Type>): ReactElement | null => {
   const [query, setQuery] = useState<string | undefined>();
-  const { data, fetching, error } = fetcher(query);
+  const { data, fetching, error } = fetcher(query, idcc);
 
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<readonly Type[]>([]);

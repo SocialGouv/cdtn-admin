@@ -1,4 +1,13 @@
-import { AlertColor, Box, Stack, Typography } from "@mui/material";
+import {
+  AlertColor,
+  Box,
+  Stack,
+  Tooltip,
+  TooltipProps,
+  Typography,
+  styled,
+  tooltipClasses,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useUser } from "src/hooks/useUser";
 
@@ -77,7 +86,19 @@ export const ContributionsAnswer = ({
               {answer?.question?.content}
             </>
           </BreadcrumbLink>
-          <BreadcrumbLink>{answer?.agreement?.id}</BreadcrumbLink>
+          <BreadcrumbLink>
+            <HtmlTooltip
+              title={
+                <>
+                  <Typography color="inherit">
+                    {answer?.agreement?.name}
+                  </Typography>
+                </>
+              }
+            >
+              <Typography>{answer?.agreement?.id}</Typography>
+            </HtmlTooltip>
+          </BreadcrumbLink>
         </Breadcrumb>
         {answer?.status && (
           <div style={{ color: statusesMapping[answer?.status.status].color }}>
@@ -106,3 +127,15 @@ export const ContributionsAnswer = ({
     </>
   );
 };
+
+const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "#f5f5f9",
+    color: "rgba(0, 0, 0, 0.87)",
+    maxWidth: 220,
+    fontSize: theme.typography.pxToRem(12),
+    border: "1px solid #dadde9",
+  },
+}));
