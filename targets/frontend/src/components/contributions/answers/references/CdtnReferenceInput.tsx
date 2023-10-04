@@ -8,14 +8,12 @@ type Props = {
   name: string;
   control: Control<any>;
   disabled?: boolean;
-  idcc?: string;
 };
 
 export const CdtnReferenceInput = ({
   name,
   control,
   disabled = false,
-  idcc,
 }: Props): React.ReactElement => (
   <ReferenceInput<CdtnReference>
     isMultiple={true}
@@ -25,7 +23,6 @@ export const CdtnReferenceInput = ({
     disabled={disabled}
     control={control}
     fetcher={useContributionSearchCdtnReferencesQuery}
-    idcc={idcc}
     isEqual={(option, value) =>
       value.document.cdtnId === option.document.cdtnId
     }
