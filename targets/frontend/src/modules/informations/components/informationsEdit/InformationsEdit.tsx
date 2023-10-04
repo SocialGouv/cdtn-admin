@@ -1,6 +1,6 @@
 import { AlertColor, Skeleton, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { BreadcrumbLink } from "src/components/utils";
+import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 
 import { useInformationsQuery } from "./Informations.query";
 import {
@@ -49,10 +49,10 @@ export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
   }
 
   const Header = () => (
-    <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
+    <Breadcrumb>
       <BreadcrumbLink href={"/informations"}>Informations</BreadcrumbLink>
       <BreadcrumbLink>{data?.title}</BreadcrumbLink>
-    </ol>
+    </Breadcrumb>
   );
 
   return (
