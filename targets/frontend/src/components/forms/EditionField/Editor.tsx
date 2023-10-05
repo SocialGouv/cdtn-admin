@@ -169,7 +169,7 @@ const StyledEditorContent = styled(EditorContent)(() => {
       },
       th: {
         border: `1px solid ${fr.colors.decisions.text.default.grey.default}`,
-        backgroundColor: fr.colors.decisions.background.contrast.grey.default,
+        backgroundColor: fr.colors.decisions.background.default.grey.default,
         minWidth: "100px",
       },
       td: {
