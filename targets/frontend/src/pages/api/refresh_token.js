@@ -33,7 +33,11 @@ export default async function refreshToken(req, res) {
     value = temp.data;
   }
 
-  const { refresh_token } = value;
+  const refresh_token = value.refresh_token;
+
+  if (!refresh_token) {
+    return apiError(Boom.badRequest("Missing'refresh_token'"));
+  }
 
   if (error) {
     return apiError(Boom.badRequest(error.details[0].message));

@@ -39,18 +39,32 @@ export async function auth(ctx) {
   }
   try {
     console.log("[auth] refresh token");
-    const tokenData = await request(
-      ctx?.req ? `${BASE_URL}/api/refresh_token` : "/api/refresh_token",
-      {
+
+    let res = await fetch(`${BASE_URL}/api/refresh_token`, {
+      method: "POST",
+      body: {},
+      headers: {
+        "Cache-Control": "no-cache",
+        ...cookieHeader,
+      },
+    });
+
+    let tokenData = null;
+
+    try {
+      tokenData = await res.json();
+    } catch (error) {
+      res = await fetch(`${BASE_URL}/api/refresh_token`, {
+        method: "POST",
         body: {},
-        credentials: "include",
         headers: {
           "Cache-Control": "no-cache",
           ...cookieHeader,
         },
-        mode: "same-origin",
-      }
-    );
+      });
+      tokenData = await res.json();
+    }
+
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
     if (ctx?.res) {
