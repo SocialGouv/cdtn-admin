@@ -19,7 +19,7 @@ export type EditInformationProps = {
 };
 
 export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
-  const { data, fetching } = useInformationsQuery({ id });
+  const { data: information, fetching } = useInformationsQuery({ id });
   const router = useRouter();
 
   const [snack, setSnack] = useState<{
@@ -35,12 +35,12 @@ export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
   const onPublish = usePublishInformationMutation();
 
   useEffect(() => {
-    if (!fetching && data) {
-      setDefaultData(data);
+    if (!fetching && information) {
+      setDefaultData(information);
     }
   }, [fetching]);
 
-  if (!data) {
+  if (!information) {
     return (
       <>
         <Skeleton />
@@ -51,7 +51,7 @@ export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
   const Header = () => (
     <Breadcrumb>
       <BreadcrumbLink href={"/informations"}>Informations</BreadcrumbLink>
-      <BreadcrumbLink>{data?.title}</BreadcrumbLink>
+      <BreadcrumbLink>{information?.title}</BreadcrumbLink>
     </Breadcrumb>
   );
 
@@ -67,14 +67,14 @@ export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
         <Stack mt={4} spacing={2}>
           {!fetching && (
             <InformationsForm
-              data={data}
+              data={information}
               onDelete={async () => {
                 setModalDelete(true);
               }}
-              onUpsert={async (data) => {
+              onUpsert={async (upsertData) => {
                 try {
-                  const id = await onUpsert(data);
-                  await router.push(`/informations/${id}`);
+                  const idUpsert = await onUpsert(upsertData);
+                  await router.push(`/informations/${idUpsert}`);
                   setSnack({
                     open: true,
                     severity: "success",
@@ -90,8 +90,8 @@ export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
               }}
               onPublish={async () => {
                 try {
-                  if (data?.id) {
-                    await onPublish(data.id);
+                  if (information?.id) {
+                    await onPublish(information.id);
                     setSnack({
                       open: true,
                       severity: "success",
@@ -117,8 +117,8 @@ export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
           onClose={() => setModalDelete(false)}
           onCancel={() => setModalDelete(false)}
           onValidate={async () => {
-            if (!data?.id) return;
-            await onDelete(data?.id);
+            if (!information?.id) return;
+            await onDelete(information?.id);
             router.push("/informations");
           }}
         />

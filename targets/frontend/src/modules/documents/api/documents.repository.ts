@@ -9,7 +9,7 @@ export class DocumentsRepository {
     this.client = client;
   }
 
-  async update(document: DocumentRaw): Promise<String | undefined> {
+  async update(document: DocumentRaw): Promise<string | undefined> {
     try {
       const { data, error } = await this.client.mutation<
         any,
