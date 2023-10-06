@@ -130,7 +130,7 @@ export const questionBaseSchema = z.object({
       required_error: "une question doit être renseigner",
     })
     .min(1, "une question doit être renseigner"),
-  order: z.number().optional(),
+  order: z.number(),
 });
 
 export const commentsSchema = z.object({
