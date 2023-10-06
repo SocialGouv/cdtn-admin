@@ -112,10 +112,6 @@ export class DocumentsService {
   }
 
   public async getUpdatedAfter(date: Date): Promise<ShortDocument[]> {
-    const documents = await this.documentsRepository.getUpdatedAfter(date);
-
-    return documents.map((doc) => {
-      return doc;
-    });
+    return await this.documentsRepository.getUpdatedAfter(date);
   }
 }

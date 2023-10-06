@@ -1,6 +1,6 @@
 import { ApiClient } from "src/lib/api";
 import { documentsPublishMutation } from "./documents.mutation";
-import { DocumentRaw } from "../type";
+import { DocumentRaw, ShortDocument } from "../type";
 import { getDocumentsUpdatedAfterDateQuery } from "./documents.query";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
@@ -29,7 +29,7 @@ export class DocumentsRepository {
     }
   }
 
-  async getUpdatedAfter(date: Date): Promise<any[]> {
+  async getUpdatedAfter(date: Date): Promise<ShortDocument[]> {
     const { error, data } = await this.client.query<
       { documents: [] },
       { updated_at: Date; sources: string[] }
