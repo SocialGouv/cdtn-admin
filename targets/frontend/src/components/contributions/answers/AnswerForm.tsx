@@ -38,12 +38,7 @@ export const AnswerForm = ({
       setStatus(answer.status.status);
     }
   }, [answer]);
-  const {
-    control,
-    getValues,
-    trigger,
-    formState: { errors },
-  } = useForm<Answer>({
+  const { control, getValues, trigger } = useForm<Answer>({
     resolver: zodResolver(answerSchema),
     shouldFocusError: true,
     defaultValues: {
@@ -74,6 +69,15 @@ export const AnswerForm = ({
     {
       label: "La convention collective ne prévoit rien",
       value: "NOTHING",
+    },
+    {
+      label: "La convention collective renvoie au Code du Travail",
+      value: "CDT",
+    },
+    {
+      label:
+        "La convention collective intégralement moins favorable que le CDT",
+      value: "UNFAVOURABLE",
     },
     {
       label: "Nous n'avons pas la réponse",
