@@ -25,6 +25,13 @@ type Mutation {
   ): Status
 }
 
+type Mutation {
+  publish(
+    id: uuid!
+    source: String!
+  ): publishOutput
+}
+
 type Query {
   recentKaliReference(
     agreementId: bpchar!
@@ -95,5 +102,9 @@ type KaliArticles {
 
 type RecentKaliReferenceOutput {
   refs: [KaliArticles]
+}
+
+type publishOutput {
+  cdtnId: String!
 }
 

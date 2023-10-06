@@ -34,28 +34,29 @@ export const FormRadioGroup = ({
       name={name}
       control={control}
       rules={rules}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <FormControl fullWidth={fullWidth} error={!!error}>
-          <FormLabel>{label}</FormLabel>
-
-          <RadioGroup
-            value={value}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              onChange(event.target.value)
-            }
-          >
-            {options.map(({ label, value }) => (
-              <FormControlLabel
-                key={value}
-                value={value}
-                control={<Radio />}
-                label={label}
-                disabled={disabled}
-              />
-            ))}
-          </RadioGroup>
-        </FormControl>
-      )}
+      render={({ field: { onChange, value }, fieldState: { error } }) => {
+        return (
+          <FormControl fullWidth={fullWidth} error={!!error}>
+            <FormLabel>{label}</FormLabel>
+            <RadioGroup
+              value={value}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                onChange(event.target.value)
+              }
+            >
+              {options.map(({ label, value }) => (
+                <FormControlLabel
+                  key={value}
+                  value={value}
+                  control={<Radio />}
+                  label={label}
+                  disabled={disabled}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
+        );
+      }}
     />
   );
 };
