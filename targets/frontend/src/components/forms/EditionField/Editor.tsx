@@ -131,7 +131,7 @@ const StyledEditorContent = styled(EditorContent)(() => {
         display: "flex",
         border: "0",
         padding: "1rem 0",
-        borderTop: `1px solid ${fr.colors.decisions.border.default.blueCumulus.default}`,
+        borderTop: `1px solid ${fr.colors.decisions.text.default.grey.default}`,
         ":first-child": {
           border: "none",
         },
