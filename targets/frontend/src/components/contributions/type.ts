@@ -91,7 +91,13 @@ export type CdtnReference = {
   document: Document;
 };
 
-export type ContentType = "ANSWER" | "NOTHING" | "UNKNOWN" | "SP";
+export type ContentType =
+  | "ANSWER"
+  | "NOTHING"
+  | "CDT"
+  | "UNFAVOURABLE"
+  | "UNKNOWN"
+  | "SP";
 
 export type Answer = {
   id: string;

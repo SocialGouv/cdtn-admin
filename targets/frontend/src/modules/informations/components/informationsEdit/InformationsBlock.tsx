@@ -22,7 +22,7 @@ export type InformationBlockProps = {
 };
 
 export const InformationsBlock = ({
-  name,
+  name: blockName,
   control,
   first,
   last,
@@ -30,7 +30,7 @@ export const InformationsBlock = ({
   onUp,
   onDelete,
 }: InformationBlockProps): JSX.Element => {
-  const type = useWatch({ name: `${name}.type`, control });
+  const blockType = useWatch({ name: `${blockName}.type`, control });
   const RenderBlock = (name: string, type?: string) => {
     switch (type) {
       case "graphic":
@@ -58,7 +58,7 @@ export const InformationsBlock = ({
             </IconButton>
           </Stack>
         </Stack>
-        {type && (
+        {blockType && (
           <FormRadioGroup
             name={`${name}.type`}
             label="Type"
@@ -79,7 +79,7 @@ export const InformationsBlock = ({
             ]}
           />
         )}
-        {RenderBlock(name, type)}
+        {RenderBlock(blockName, blockType)}
       </StyledBlock>
     </>
   );

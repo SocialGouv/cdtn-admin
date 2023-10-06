@@ -121,6 +121,15 @@ export const ContributionsAnswer = ({
       value: "NOTHING",
     },
     {
+      label: "La convention collective renvoie au Code du Travail",
+      value: "CDT",
+    },
+    {
+      label:
+        "La convention collective intégralement moins favorable que le CDT",
+      value: "UNFAVOURABLE",
+    },
+    {
       label: "Nous n'avons pas la réponse",
       value: "UNKNOWN",
     },
@@ -185,9 +194,6 @@ export const ContributionsAnswer = ({
                   name="content"
                   disabled={isNotEditable(answer)}
                   control={control}
-                  rules={{
-                    required: answer && answer.contentType === "ANSWER",
-                  }}
                 />
               </FormControl>
               {answer && (

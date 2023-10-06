@@ -3,6 +3,6 @@
     "@shared/eslint-config"
   ],
   "rules": {
-    "@typescript-eslint/naming-convention": "warn"
+    "@typescript-eslint/naming-convention": "off"
   }
 }

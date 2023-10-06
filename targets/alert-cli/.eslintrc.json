@@ -1,3 +1,8 @@
 {
-  "extends": ["@shared/eslint-config"]
+  "extends": [
+    "@shared/eslint-config"
+  ],
+  "rules": {
+    "@typescript-eslint/naming-convention": "off"
+  }
 }
