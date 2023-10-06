@@ -6,11 +6,9 @@ import { Export } from "src/modules/export";
 
 export function UpdatePage(): JSX.Element {
   return (
-    <>
-      <Layout title="Mises à jour des environnements">
-        <Export />
-      </Layout>
-    </>
+    <Layout title="Mises à jour des environnements">
+      <Export />
+    </Layout>
   );
 }
 

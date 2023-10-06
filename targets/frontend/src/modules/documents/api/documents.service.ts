@@ -1,7 +1,7 @@
 import { DocumentsRepository } from "./documents.repository";
 import { NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
-import { DocumentRaw } from "../type";
+import { DocumentRaw, ShortDocument } from "../type";
 import { format } from "date-fns";
 import { generateIds } from "@shared/id-generator";
 import slugify from "@socialgouv/cdtn-slugify";
@@ -108,7 +108,14 @@ export class DocumentsService {
         document = this.mapInformationToDocument(information);
         break;
     }
-    const result = await this.documentsRepository.update(document);
-    return result;
+    return await this.documentsRepository.update(document);
+  }
+
+  public async getUpdatedAfter(date: Date): Promise<ShortDocument[]> {
+    const documents = await this.documentsRepository.getUpdatedAfter(date);
+
+    return documents.map((doc) => {
+      return doc;
+    });
   }
 }

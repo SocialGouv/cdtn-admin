@@ -125,7 +125,7 @@ export function Nav() {
           </Li>
           <Li>
             <ActiveLink href="/contenus/fiches-sp" passHref>
-              fiches service-public
+              Fiches service-public
             </ActiveLink>
           </Li>
           <Li>

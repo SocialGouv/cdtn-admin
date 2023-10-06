@@ -1,4 +1,4 @@
-import { Environment } from "@shared/types";
+import { Environment, Status as StatusType } from "@shared/types";
 import React, { useEffect, useState } from "react";
 import { EnvironmentBadge, Status } from "src/components/export-es";
 import { Inline } from "src/components/layout/Inline";
@@ -8,8 +8,10 @@ import { useExportEs } from "src/hooks/exportEs";
 import { useUser } from "src/hooks/useUser";
 import { Button, CircularProgress as Spinner, Typography } from "@mui/material";
 import { FixedSnackBar } from "src/components/utils/SnackBar";
-import { Chip } from "@mui/material";
 import { ConfirmModal } from "../../common/components/modals/ConfirmModal";
+import { request } from "../../../lib/request";
+import { ShortDocument } from "../../documents";
+import DocumentList from "./document-list";
 
 export function Export(): JSX.Element {
   const [validateExportPreprodModal, setValidateExportPreprodModal] =
@@ -26,6 +28,42 @@ export function Export(): JSX.Element {
     getExportEs();
   }, []);
 
+  const [docsToUpdateProd, setDocsToUpdateProd] = useState<ShortDocument[]>([]);
+  const [docsToUpdatePreProd, setDocsToUpdatePreProd] = useState<
+    ShortDocument[]
+  >([]);
+  const [isLoadingDocs, setIsLoadingDocs] = useState<boolean>(false);
+
+  function getLastestDocs(env: Environment) {
+    const lastestCompleted = exportEsState?.exportData.filter(
+      (data) => data.status === StatusType.completed && data.environment === env
+    )[0];
+
+    const lastestCompletedDate = new Date(
+      lastestCompleted?.created_at
+    ).toISOString();
+    return request(`/api/modified-documents?date=${lastestCompletedDate}`);
+  }
+
+  useEffect(() => {
+    setIsLoadingDocs(false);
+  }, [docsToUpdateProd, docsToUpdatePreProd]);
+  useEffect(() => {
+    if (validateExportPreprodModal) {
+      getLastestDocs(Environment.preproduction).then((docs) =>
+        setDocsToUpdatePreProd(docs)
+      );
+    }
+  }, [validateExportPreprodModal]);
+
+  useEffect(() => {
+    if (validateExportProdModal) {
+      getLastestDocs(Environment.production).then((docs) =>
+        setDocsToUpdateProd(docs)
+      );
+    }
+  }, [validateExportProdModal]);
+
   return (
     <>
       <Stack>
@@ -36,9 +74,8 @@ export function Export(): JSX.Element {
         )}
         <p>
           Cette page permet de mettre à jour les données des environnements de{" "}
-          <Chip color="primary" label="production" /> et{" "}
-          <Chip color="secondary" label="pre-production" /> et de suivre l’état
-          de ces mises à jour.
+          <strong>production</strong> et <strong>pre-production</strong>
+          et de suivre l’état de ces mises à jour.
         </p>
       </Stack>
       <Stack>
@@ -47,9 +84,13 @@ export function Export(): JSX.Element {
             color="primary"
             variant="contained"
             disabled={
-              exportEsState.latestExportProduction?.status === "running"
+              exportEsState.latestExportProduction?.status ===
+              StatusType.running
             }
-            onClick={() => setValidateExportProdModal(true)}
+            onClick={() => {
+              setValidateExportProdModal(true);
+              setIsLoadingDocs(true);
+            }}
           >
             Mettre à jour la production
           </Button>
@@ -59,7 +100,10 @@ export function Export(): JSX.Element {
             disabled={
               exportEsState.latestExportPreproduction?.status === "running"
             }
-            onClick={() => setValidateExportPreprodModal(true)}
+            onClick={() => {
+              setValidateExportPreprodModal(true);
+              setIsLoadingDocs(true);
+            }}
           >
             Mettre à jour la pre-production
           </Button>
@@ -132,8 +176,16 @@ export function Export(): JSX.Element {
       </Stack>
       <ConfirmModal
         open={validateExportPreprodModal}
-        title="Mise à jour Pre-Prod"
-        message="Êtes-vous sur de vouloir mettre à jour la pre-production ?"
+        title="Mise à jour de la Pre-Prod"
+        message={
+          <div>
+            <p>Êtes-vous sur de vouloir mettre à jour la pre-production ?</p>
+            <DocumentList
+              docs={docsToUpdatePreProd}
+              isLoadingDocs={isLoadingDocs}
+            ></DocumentList>
+          </div>
+        }
         onClose={() => setValidateExportPreprodModal(false)}
         onCancel={() => setValidateExportPreprodModal(false)}
         onValidate={() => {
@@ -143,8 +195,16 @@ export function Export(): JSX.Element {
       />
       <ConfirmModal
         open={validateExportProdModal}
-        title="Mise à jour Prod"
-        message="Êtes-vous sur de vouloir mettre à jour la production ?"
+        title="Mise à jour de la Prod"
+        message={
+          <div>
+            <p>Êtes-vous sur de vouloir mettre à jour la production ?</p>
+            <DocumentList
+              docs={docsToUpdateProd}
+              isLoadingDocs={isLoadingDocs}
+            ></DocumentList>
+          </div>
+        }
         onClose={() => setValidateExportProdModal(false)}
         onCancel={() => setValidateExportProdModal(false)}
         onValidate={() => {

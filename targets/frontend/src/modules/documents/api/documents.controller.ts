@@ -66,6 +66,30 @@ export class DocumentsController {
     }
   }
 
+  public async getUpdatedAfter() {
+    try {
+      const client = ApiClient.build(this.req.body.session_variables);
+      const service = new DocumentsService(
+        new InformationsRepository(client),
+        new DocumentsRepository(client)
+      );
+
+      if (!this.req.query.date) {
+        return this.res.status(400).json({
+          message: "Date is missing",
+        });
+      }
+      const date = new Date(this.req.query.date as string);
+      const docs = await service.getUpdatedAfter(date);
+
+      this.res.status(201).json(docs);
+    } catch (error) {
+      this.res.status(500).json({
+        message: DEFAULT_ERROR_500_MESSAGE,
+      });
+    }
+  }
+
   checkInputs(): z.infer<typeof actionSchema> {
     const inputResult = actionSchema.safeParse(this.req.body);
 
