@@ -37,7 +37,7 @@ export const EditQuestionAnswerList = ({
               {answers?.map((answer) => {
                 return (
                   <TableRow
-                    key={answer?.agreement?.id}
+                    key={answer.agreement.id}
                     style={{ cursor: "pointer" }}
                     hover
                     onClick={() => {

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormEditionField, FormRadioGroup, FormTextField } from "../../forms";
-import { Answer, Status, answerSchema } from "../type";
+import { Answer, Status, answerFormSchema } from "../type";
 import { AnswerWithStatus } from "./answer.query";
 import {
   CdtnReferenceInput,
@@ -39,7 +39,7 @@ export const AnswerForm = ({
     }
   }, [answer]);
   const { control, getValues, trigger } = useForm<Answer>({
-    resolver: zodResolver(answerSchema),
+    resolver: zodResolver(answerFormSchema),
     shouldFocusError: true,
     defaultValues: {
       content: "",
