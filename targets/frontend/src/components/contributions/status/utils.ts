@@ -1,7 +1,12 @@
 import { Answer, Status } from "../type";
 
 export const initStatus = (answer: Answer) => {
-  return answer.statuses?.[0] || { status: "TODO" };
+  return (
+    answer.statuses?.[0] || {
+      status: "TODO",
+      createdAt: new Date().toISOString(),
+    }
+  );
 };
 
 export const getNextStatus = (status: Status): Status => {

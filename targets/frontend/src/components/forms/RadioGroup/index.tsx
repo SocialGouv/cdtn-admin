@@ -56,11 +56,11 @@ export const FormRadioGroup = ({
                 />
               ))}
             </RadioGroup>
-            {error && error.message === "Required" ? (
+            {error && error.message === "Required" && (
               <StyledFormHelperText>
                 Un élément doit être sélectionner
               </StyledFormHelperText>
-            ) : null}
+            )}
           </FormControl>
         );
       }}
