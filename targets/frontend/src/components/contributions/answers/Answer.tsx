@@ -114,7 +114,7 @@ export const ContributionsAnswer = ({
           )}
         </Box>
         <Box sx={{ width: "30%" }}>
-          {answer?.id && answer?.statuses && (
+          {answer?.id && answer.statuses && (
             <Comments
               answerId={answer.id}
               comments={answer.answerComments ?? []}

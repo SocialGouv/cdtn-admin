@@ -27,7 +27,7 @@ export type Status = z.infer<typeof statusSchema>;
 
 export const answerStatusSchema = z.object({
   id: z.string().uuid().optional(),
-  createdAt: z.string().optional(),
+  createdAt: z.string(),
   status: statusSchema,
   userId: z.string().optional(),
   user: userSchema.partial().optional(),
@@ -53,7 +53,7 @@ export const kaliArticleSchema = z.object({
     .string({ required_error: "Un libellé doit être renseigner" })
     .min(1, "un label doit être renseigner"),
   agreementId: z.string(),
-  createdAt: z.string().optional(),
+  createdAt: z.string(),
 });
 export type KaliArticle = z.infer<typeof kaliArticleSchema>;
 
@@ -100,7 +100,14 @@ export const cdtnReferenceSchema = z.object({
 });
 export type CdtnReference = z.infer<typeof cdtnReferenceSchema>;
 
-export const contentTypeSchema = z.enum(["ANSWER", "NOTHING", "UNKNOWN", "SP"]);
+export const contentTypeSchema = z.enum([
+  "ANSWER",
+  "NOTHING",
+  "CDT",
+  "UNFAVOURABLE",
+  "UNKNOWN",
+  "SP",
+]);
 export type ContentType = z.infer<typeof contentTypeSchema>;
 
 const answerBaseSchema = z.object({
@@ -113,7 +120,7 @@ const answerBaseSchema = z.object({
   }),
   contentServicePublicCdtnId: z.string().nullable().optional(),
   content: z.string().nullable().optional(),
-  updatedAt: z.string().optional(),
+  updatedAt: z.string(),
 });
 
 export const questionBaseSchema = z.object({
@@ -168,6 +175,12 @@ const answerWithAnswerSchema = answerRelationSchema.extend({
 const answerWithNothingSchema = answerRelationSchema.extend({
   contentType: z.literal("NOTHING"),
 });
+const answerWithCdtSchema = answerRelationSchema.extend({
+  contentType: z.literal("CDT"),
+});
+const answerWithUnfavourableSchema = answerRelationSchema.extend({
+  contentType: z.literal("UNFAVOURABLE"),
+});
 const answerWithUnknownSchema = answerRelationSchema.extend({
   contentType: z.literal("UNKNOWN"),
 });
@@ -179,6 +192,8 @@ const answerWithSPSchema = answerRelationSchema.extend({
 export const answerSchema = z.discriminatedUnion("contentType", [
   answerWithAnswerSchema,
   answerWithNothingSchema,
+  answerWithCdtSchema,
+  answerWithUnfavourableSchema,
   answerWithUnknownSchema,
   answerWithSPSchema,
 ]);

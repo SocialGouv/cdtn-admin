@@ -30,9 +30,7 @@ function concatAndSort(
   })[] = [...comments, ...statuses];
   return all
     .map((notif) => {
-      notif.createdAtDate = notif?.createdAt
-        ? new Date(notif.createdAt)
-        : undefined;
+      notif.createdAtDate = new Date(notif.createdAt);
       return notif as CommentsAndStatuses;
     })
     .sort((a, b) => {
