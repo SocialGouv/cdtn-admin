@@ -10,9 +10,9 @@ import { withUserProvider } from "src/hoc/UserProvider";
 import { useDebouncedState } from "src/hooks/";
 import {
   Box,
-  TextField,
-  InputLabel as Label,
   CircularProgress,
+  InputLabel as Label,
+  TextField,
 } from "@mui/material";
 import { useQuery } from "urql";
 import { theme } from "../../theme";
@@ -92,7 +92,6 @@ export function GlossaryPage() {
                 flex: "1 1 auto",
                 flexWrap: "wrap",
                 listStyleType: "none",
-                display: "flex",
               }}
             >
               {termsByLetters.map(({ letter, terms }) => (
