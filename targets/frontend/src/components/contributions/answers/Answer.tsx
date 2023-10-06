@@ -20,6 +20,7 @@ import { statusesMapping } from "../status/data";
 import { SnackBar } from "../../utils/SnackBar";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 import { AnswerForm } from "./AnswerForm";
+import { fr } from "@codegouvfr/react-dsfr";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -132,10 +133,10 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: "#f5f5f9",
-    color: "rgba(0, 0, 0, 0.87)",
+    backgroundColor: fr.colors.decisions.background.default.grey.hover,
+    color: fr.colors.decisions.text.default.grey.default,
     maxWidth: 220,
     fontSize: theme.typography.pxToRem(12),
-    border: "1px solid #dadde9",
+    border: `1px solid ${fr.colors.decisions.border.default.grey.default}`,
   },
 }));
