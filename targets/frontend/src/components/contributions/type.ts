@@ -111,7 +111,7 @@ export const contentTypeSchema = z.enum([
 export type ContentType = z.infer<typeof contentTypeSchema>;
 
 const answerBaseSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.string().uuid(),
   agreementId: z.string().optional(),
   questionId: z.string().uuid().optional(),
   contentType: z.string({

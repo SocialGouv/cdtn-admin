@@ -69,18 +69,10 @@ export const useContributionAnswerUpdateMutation = (): MutationResult => {
   const resultFunction = async (data: MutationProps) => {
     const result = await executeUpdate({
       ...data,
-      kaliReferences: data.id
-        ? formatKaliReferences(data.id, data.kaliReferences)
-        : [],
-      legiReferences: data.id
-        ? formatLegiReferences(data.id, data.legiReferences)
-        : [],
-      cdtnReferences: data.id
-        ? formatCdtnReferences(data.id, data.cdtnReferences)
-        : [],
-      otherReferences: data.id
-        ? formatOtherReferences(data.id, data.otherReferences)
-        : [],
+      kaliReferences: formatKaliReferences(data.id, data.kaliReferences),
+      legiReferences: formatLegiReferences(data.id, data.legiReferences),
+      cdtnReferences: formatCdtnReferences(data.id, data.cdtnReferences),
+      otherReferences: formatOtherReferences(data.id, data.otherReferences),
     });
     if (result.error) {
       throw new Error(result.error.message);
