@@ -1,9 +1,12 @@
-import { BaseRef, ExternalRef, FicheServicePublicDoc } from "@shared/types";
+import {
+  CdtnRelatedContent,
+  FicheServicePublicDoc,
+  LegalRef,
+} from "@shared/types";
 
 export interface AgreementRaw {
   id: string;
   name: string;
-  parent_id: string; // en a-t-on besoin ?
 }
 
 export interface AnswerRaw {
@@ -22,8 +25,8 @@ export interface AnswerRaw {
       title: string;
     };
   }[];
-  cdtn_references: BaseRef[];
-  other_references: ExternalRef[];
+  cdtn_references: CdtnRelatedContent[];
+  other_references: LegalRef[];
   agreement: AgreementRaw;
 }
 

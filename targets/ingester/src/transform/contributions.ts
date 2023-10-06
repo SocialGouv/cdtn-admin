@@ -38,7 +38,7 @@ export default async function getContributionsDocuments(): Promise<
           is_searchable: false,
           slug: slugify(`${parseInt(idcc, 10)}-${title}`),
           source: SOURCES.CONTRIBUTIONS,
-          text: `${idcc} ${title}`, // actuellement c'est comme ça mais si la CC a son propre contenu est-ce que ça ne devrait pas être dans text aussi ?
+          text: `${idcc} ${title}`,
           title,
         };
       }

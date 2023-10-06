@@ -1,5 +1,5 @@
-import type { BaseRef } from "@shared/types";
-import { ExternalRef } from "@shared/types";
+import type { CdtnRelatedContent } from "@shared/types";
+import { LegalRef } from "@shared/types";
 
 import type { AnswerRaw } from "./types";
 import { IndexedAgreement } from "@socialgouv/kali-data-types";
@@ -13,12 +13,15 @@ export class AnswerExtractor {
     this.agreements = agreements;
   }
 
-  public extractGenericAnswer(answers: AnswerRaw[]): GenericAnswer {
+  public extractGenericAnswer(
+    answers: AnswerRaw[],
+    questionText: string
+  ): GenericAnswer {
     const genericAnswer = answers.find(
       (answer) => answer.agreement.id === "0000"
     );
     if (!genericAnswer) {
-      throw new Error("No generic answer found");
+      throw new Error(`No generic answer found for contrib: ${questionText}`);
     }
     const genericTextAnswer = this.toText(genericAnswer);
     const answer: GenericAnswer = {
@@ -45,7 +48,7 @@ export class AnswerExtractor {
     return answer;
   }
 
-  private mapKaliRefs = (idcc: string, references: any[]): ExternalRef[] => {
+  private mapKaliRefs = (idcc: string, references: any[]): LegalRef[] => {
     if (!references.length) return [];
     const agreement = this.agreements.find(
       (item) => this.comparableIdcc(item.num) === this.comparableIdcc(idcc)
@@ -61,7 +64,7 @@ export class AnswerExtractor {
     });
   };
 
-  private mapLegiRefs = (references: any[]): ExternalRef[] => {
+  private mapLegiRefs = (references: any[]): LegalRef[] => {
     if (!references.length) return [];
 
     return references.map((ref) => {
@@ -72,26 +75,26 @@ export class AnswerExtractor {
     });
   };
 
-  private mapOtherRefs = (references: any[]): ExternalRef[] => {
+  private mapOtherRefs = (references: LegalRef[]): LegalRef[] => {
     if (!references.length) return [];
 
-    return references.map((ref: ExternalRef) => {
-      if (!ref.url) delete ref.url;
-      return ref;
+    return references.map(({ url, ...ref }) => {
+      if (!url) ref as LegalRef;
+      return { ...ref, url } as LegalRef;
     });
   };
 
-  private mapCdtnRefs = (references: any[]): BaseRef[] => {
+  private mapCdtnRefs = (references: any[]): CdtnRelatedContent[] => {
     if (!references.length) return [];
 
     return references
       .map((ref) => {
-        return ref.document as BaseRef;
+        return ref.document as CdtnRelatedContent;
       })
       .sort(this.sortBy("title"));
   };
 
-  private aggregateReferences(answer: AnswerRaw): ExternalRef[] {
+  private aggregateReferences(answer: AnswerRaw): LegalRef[] {
     return this.mapKaliRefs(answer.agreement.id, answer.kali_references)
       .concat(this.mapLegiRefs(answer.legi_references))
       .concat(this.mapOtherRefs(answer.other_references));

@@ -2,9 +2,9 @@ import type { SourceValues } from "@socialgouv/cdtn-sources";
 
 import {
   Answer,
-  ContributionGenericDoc,
-  ContributionWithCCDoc,
-  ExternalRef,
+  GenericContributionDoc,
+  CustomizedContributionDoc,
+  LegalRef,
   FicheServicePublicDoc,
   GenericAnswer,
 } from "@shared/types";
@@ -43,7 +43,8 @@ export interface Question {
   };
 }
 
-type Contribution = Document & (ContributionGenericDoc | ContributionWithCCDoc);
+type Contribution = Document &
+  (GenericContributionDoc | CustomizedContributionDoc);
 
 type LegiArticle = ExternalDocument & {
   dateDebut: number;
@@ -85,7 +86,7 @@ type AgreementPage = Document & {
 
 interface AgreementAnswer {
   order: number;
-  references: ExternalRef[];
+  references: LegalRef[];
   genericSlug: string;
   question: string;
   content?: string;

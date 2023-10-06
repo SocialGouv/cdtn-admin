@@ -38,12 +38,12 @@ export type FicheTravailEmploi = BaseHasuraDocument & {
 
 export type ContributionComplete = BaseHasuraDocument & {
   source: "contributions";
-  document: ContributionGenericDoc;
+  document: GenericContributionDoc;
 };
 
 export type ContributionFiltered = BaseHasuraDocument & {
   source: "contributions";
-  document: ContributionWithCCDoc;
+  document: CustomizedContributionDoc;
 };
 
 export type LaborCodeArticle = BaseHasuraDocument & {
@@ -134,13 +134,13 @@ export interface TravailEmploiReference {
   url: string;
 }
 
-export interface ContributionGenericDoc {
+export interface GenericContributionDoc {
   description: string;
   answer: Answer;
   agreementsWithAnswer: string[];
 }
 
-export interface ContributionWithCCDoc {
+export interface CustomizedContributionDoc {
   description: string;
   answer: Answer;
   idcc: string;
@@ -193,7 +193,7 @@ export interface AgreementContribAnswer {
   index: string;
   answer: string;
   question: string;
-  references: ExternalRef[];
+  references: LegalRef[];
 }
 
 export interface ArticleTheme {
@@ -452,8 +452,8 @@ export type Answer = {
   id: string;
   content?: string;
   contentType: string;
-  references: ExternalRef[];
-  linkedContent: BaseRef[];
+  references: LegalRef[];
+  linkedContent: CdtnRelatedContent[];
 };
 
 export type DilaRef = {
@@ -464,12 +464,12 @@ export type DilaRef = {
   dila_container_id: string;
 };
 
-export type ExternalRef = {
+export type LegalRef = {
   title: string;
   url?: string;
 };
 
-export type BaseRef = {
+export type CdtnRelatedContent = {
   source: string;
   title: string;
   slug: string;

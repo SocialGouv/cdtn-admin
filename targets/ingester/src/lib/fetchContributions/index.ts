@@ -28,7 +28,10 @@ export async function fetchContributions(): Promise<Question[]> {
   const answerExtractor = new AnswerExtractor(agreements);
 
   return questions.flatMap(({ answers, ...question }) => {
-    const genericAnswer = answerExtractor.extractGenericAnswer(answers);
+    const genericAnswer = answerExtractor.extractGenericAnswer(
+      answers,
+      question.content
+    );
     return {
       answers: {
         conventions: answerExtractor.extractAgreementAnswers(
