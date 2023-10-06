@@ -52,10 +52,10 @@ export const InformationsForm = ({
     false
   );
 
-  const onSubmit = async (data: Information) => {
+  const onSubmit = async (information: Information) => {
     const isValid = await trigger();
     if (isValid) {
-      onUpsert(data);
+      onUpsert(information);
     }
   };
 
