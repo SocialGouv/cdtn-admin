@@ -13,12 +13,6 @@ export const withCustomUrqlClient = (Component) =>
         : `http://localhost:3000`;
       const isServer = ctx && ctx.req;
       const url = isServer ? `${baseUrl}/api/graphql` : "/api/graphql";
-      console.log(
-        "[ withUrqlClient ]",
-        ctx ? (ctx?.req ? "server" : "client") : "no ctx",
-        ctx?.pathname,
-        url
-      );
       return {
         exchanges: [
           process.env.NODE_ENV !== "production"
