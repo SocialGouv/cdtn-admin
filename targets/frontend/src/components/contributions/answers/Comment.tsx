@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography, Stack } from "@mui/material";
 import * as React from "react";
 
 import {
@@ -14,11 +14,6 @@ const isAnswerComments = (
 ): comment is AnswerComments =>
   (comment as AnswerComments).content !== undefined;
 
-const getText = (comment: AnswerComments | AnswerStatus) =>
-  isAnswerComments(comment)
-    ? comment.content
-    : `Statut: ${statusesMapping[comment.status].text}`;
-
 type Props = {
   comment: CommentsAndStatuses;
 };
@@ -26,32 +21,50 @@ type Props = {
 export const Comment = ({ comment }: Props) => {
   const date = comment.createdAtDate.toLocaleString("fr-FR");
 
-  return (
+  return isAnswerComments(comment) ? (
     <Box
       sx={{
         border: "1px solid",
         borderColor: "grey.300",
-        borderRadius: "4px",
-        display: "flex",
-        flexDirection: "column",
-        marginBottom: 2,
-        padding: 2,
       }}
+      mt={1}
+      mb={1}
+      p={1}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box sx={{ fontWeight: "bold" }}>{comment?.user?.name}</Box>
-        <Box
+        <Typography
           sx={{
             color: fr.colors.decisions.text.mention.grey.default,
             fontSize: "small",
           }}
         >
           {date}
+        </Typography>
+        <Box sx={{ fontSize: "small", fontWeight: "bold" }}>
+          {comment?.user?.name}
         </Box>
       </Box>
-      <Box sx={{ marginTop: 1, whiteSpace: "pre-line" }}>
-        {getText(comment)}
-      </Box>
+      <Box sx={{ marginTop: 1, whiteSpace: "pre-line" }}>{comment.content}</Box>
     </Box>
+  ) : (
+    <Stack direction="row" justifyContent="space-between">
+      <Typography
+        sx={{
+          color: fr.colors.decisions.text.mention.grey.default,
+          fontSize: "small",
+        }}
+      >
+        {date} <strong>{comment.user?.name}</strong>
+      </Typography>
+      <Typography
+        sx={{
+          color: statusesMapping[comment.status].color,
+          fontSize: "small",
+        }}
+      >
+        {" "}
+        {statusesMapping[comment.status].text}
+      </Typography>
+    </Stack>
   );
 };
