@@ -67,7 +67,7 @@ export default async function refreshToken(req, res) {
   result = await client
     .mutation(deletePreviousRefreshTokenMutation, {
       new_refresh_token_data: {
-        expires_at: getExpiryDate(parseInt(REFRESH_TOKEN_EXPIRES, 10)),
+        expires_at: getExpiryDate(REFRESH_TOKEN_EXPIRES),
         refresh_token: new_refresh_token,
         user_id: user.id,
       },
@@ -86,7 +86,7 @@ export default async function refreshToken(req, res) {
 
   res.json({
     jwt_token,
-    jwt_token_expiry: getExpiryDate(parseInt(JWT_TOKEN_EXPIRES, 10) || 15),
+    jwt_token_expiry: getExpiryDate(JWT_TOKEN_EXPIRES),
     refresh_token: new_refresh_token,
   });
 }

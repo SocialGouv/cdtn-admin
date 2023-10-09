@@ -38,7 +38,15 @@ export async function auth(ctx) {
   }
   try {
     console.log("[auth] refresh token");
-    const tokenData = await request("/api/refresh_token", {
+    const baseUrl = process.env.FRONTEND_HOST
+      ? `https://${process.env.FRONTEND_HOST}`
+      : `http://localhost:3000`;
+    const isServer = ctx && ctx.req;
+    const url = isServer
+      ? `${baseUrl}/api/refresh_token`
+      : "/api/refresh_token";
+
+    const tokenData = await request(url, {
       body: {},
       credentials: "include",
       headers: {
