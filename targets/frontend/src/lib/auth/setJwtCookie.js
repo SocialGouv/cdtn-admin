@@ -1,11 +1,11 @@
 import cookie from "cookie";
-import { REFRESH_TOKEN_EXPIRES } from "../../config";
+import { REFRESH_TOKEN_EXPIRES } from "src/config";
 
 export function setJwtCookie(res, refresh_token, jwt_token) {
   const cookies = [
     cookie.serialize("refresh_token", refresh_token, {
       httpOnly: true,
-      maxAge: parseInt(REFRESH_TOKEN_EXPIRES, 10) * 60, // maxAge in second
+      maxAge: REFRESH_TOKEN_EXPIRES * 60, // maxAge in second
       path: "/",
       sameSite: "Strict",
       secure: process.env.NODE_ENV === "production",
