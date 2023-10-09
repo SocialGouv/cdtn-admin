@@ -55,12 +55,9 @@ export async function auth(ctx) {
       },
       mode: "same-origin",
     });
-    console.log("SHHSHHSHSHSHS");
-    console.log(tokenData);
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
     if (ctx?.res) {
-      console.log("on est server side");
       setJwtCookie(ctx.res, tokenData.refresh_token);
       // we also store token in context (this is probably a bad idea b)
       // to reuse it and avoid refresh token twice
