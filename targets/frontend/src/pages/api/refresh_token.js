@@ -14,84 +14,100 @@ import {
 } from "./refresh_token.gql";
 
 export default async function refreshToken(req, res) {
-  const apiError = createErrorFor(res);
-  const schema = z.object({
-    refresh_token: z.string().uuid(),
-  });
+  try {
+    const apiError = createErrorFor(res);
+    const schema = z.object({
+      refresh_token: z.string().uuid(),
+    });
 
-  let value;
+    console.log("coucou");
 
-  let { error, data } = schema.safeParse(req.query);
+    let value;
 
-  value = data;
-  console.log(req.query, req.body, req.cookies);
+    let { error, data } = schema.safeParse(req.query);
 
-  if (error) {
-    const temp = schema.safeParse(req.body);
-    error = temp.error;
-    value = temp.data;
-  }
+    value = data;
 
-  if (error) {
-    const temp = schema.safeParse(req.cookies);
-    error = temp.error;
-    value = temp.data;
-  }
+    console.log("a");
 
-  const { refresh_token } = value;
+    if (error) {
+      const temp = schema.safeParse(req.body);
+      error = temp.error;
+      value = temp.data;
+    }
 
-  if (error) {
-    return apiError(Boom.badRequest(error.details[0].message));
-  }
-  let result = await client
-    .query(getRefreshTokenQuery, {
-      current_timestampz: new Date(),
+    console.log("b");
+
+    if (error) {
+      const temp = schema.safeParse(req.cookies);
+      error = temp.error;
+      value = temp.data;
+    }
+
+    console.log("c");
+
+    console.log(error);
+    console.log(value);
+
+    if (error) {
+      return apiError(Boom.badRequest(error.details[0].message));
+    }
+
+    const { refresh_token } = value;
+
+    let result = await client
+      .query(getRefreshTokenQuery, {
+        current_timestampz: new Date(),
+        refresh_token,
+      })
+      .toPromise();
+
+    if (result.error) {
+      console.error(result.error);
+      return apiError(Boom.unauthorized("Invalid 'refresh_token'"));
+    }
+
+    if (result.data.refresh_tokens.length === 0) {
+      console.error("Incorrect user id or refresh token", refresh_token);
+      return apiError(Boom.unauthorized("Invalid 'refresh_token'"));
+    }
+
+    const { user } = result.data[`refresh_tokens`][0];
+
+    const new_refresh_token = uuidv4();
+
+    console.log("[ /api/refresh_token ]", "replace", {
+      new_refresh_token,
       refresh_token,
-    })
-    .toPromise();
+    });
 
-  if (result.error) {
-    console.error(result.error);
-    return apiError(Boom.unauthorized("Invalid 'refresh_token'"));
+    result = await client
+      .mutation(deletePreviousRefreshTokenMutation, {
+        new_refresh_token_data: {
+          expires_at: getExpiryDate(REFRESH_TOKEN_EXPIRES),
+          refresh_token: new_refresh_token,
+          user_id: user.id,
+        },
+        old_refresh_token: refresh_token,
+      })
+      .toPromise();
+
+    if (result.error) {
+      console.error(result.error);
+      return apiError(Boom.unauthorized("Invalid 'refresh_token'"));
+    }
+
+    const jwt_token = generateJwtToken(user);
+
+    setJwtCookie(res, new_refresh_token, jwt_token);
+
+    res.json({
+      jwt_token,
+      jwt_token_expiry: getExpiryDate(JWT_TOKEN_EXPIRES),
+      refresh_token: new_refresh_token,
+    });
+  } catch (e) {
+    console.error(e);
+    return apiError(Boom.badImplementation(e.message));
   }
-
-  if (result.data.refresh_tokens.length === 0) {
-    console.error("Incorrect user id or refresh token", refresh_token);
-    return apiError(Boom.unauthorized("Invalid 'refresh_token'"));
-  }
-
-  const { user } = result.data[`refresh_tokens`][0];
-
-  const new_refresh_token = uuidv4();
-
-  console.log("[ /api/refresh_token ]", "replace", {
-    new_refresh_token,
-    refresh_token,
-  });
-
-  result = await client
-    .mutation(deletePreviousRefreshTokenMutation, {
-      new_refresh_token_data: {
-        expires_at: getExpiryDate(REFRESH_TOKEN_EXPIRES),
-        refresh_token: new_refresh_token,
-        user_id: user.id,
-      },
-      old_refresh_token: refresh_token,
-    })
-    .toPromise();
-
-  if (result.error) {
-    console.error(result.error);
-    return apiError(Boom.unauthorized("Invalid 'refresh_token'"));
-  }
-
-  const jwt_token = generateJwtToken(user);
-
-  setJwtCookie(res, new_refresh_token, jwt_token);
-
-  res.json({
-    jwt_token,
-    jwt_token_expiry: getExpiryDate(JWT_TOKEN_EXPIRES),
-    refresh_token: new_refresh_token,
-  });
 }
