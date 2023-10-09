@@ -1,4 +1,13 @@
-import { AlertColor, Box, Stack, Typography } from "@mui/material";
+import {
+  AlertColor,
+  Box,
+  Stack,
+  Tooltip,
+  TooltipProps,
+  Typography,
+  styled,
+  tooltipClasses,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useUser } from "src/hooks/useUser";
 
@@ -11,6 +20,7 @@ import { statusesMapping } from "../status/data";
 import { SnackBar } from "../../utils/SnackBar";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 import { AnswerForm } from "./AnswerForm";
+import { fr } from "@codegouvfr/react-dsfr";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -77,7 +87,19 @@ export const ContributionsAnswer = ({
               {answer?.question?.content}
             </>
           </BreadcrumbLink>
-          <BreadcrumbLink>{answer?.agreement?.id}</BreadcrumbLink>
+          <BreadcrumbLink>
+            <HtmlTooltip
+              title={
+                <>
+                  <Typography color="inherit">
+                    {answer?.agreement?.name}
+                  </Typography>
+                </>
+              }
+            >
+              <Typography>{answer?.agreement?.id}</Typography>
+            </HtmlTooltip>
+          </BreadcrumbLink>
         </Breadcrumb>
         {answer?.status && (
           <div style={{ color: statusesMapping[answer?.status.status].color }}>
@@ -106,3 +128,15 @@ export const ContributionsAnswer = ({
     </>
   );
 };
+
+const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: fr.colors.decisions.background.default.grey.hover,
+    color: fr.colors.decisions.text.default.grey.default,
+    maxWidth: 220,
+    fontSize: theme.typography.pxToRem(12),
+    border: `1px solid ${fr.colors.decisions.border.default.grey.default}`,
+  },
+}));

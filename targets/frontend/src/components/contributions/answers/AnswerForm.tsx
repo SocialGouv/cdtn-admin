@@ -164,6 +164,11 @@ export const AnswerForm = ({
             name="cdtnReferences"
             control={control}
             disabled={isNotEditable(answer)}
+            idcc={
+              answer.agreement?.id
+                ? parseInt(answer.agreement?.id).toString()
+                : undefined
+            }
           />
           <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
             <Button

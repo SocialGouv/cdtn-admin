@@ -31,6 +31,7 @@ const answerBase: AnswerWithStatus = {
   contentFichesSpDocument: null,
   status: {
     status: "TODO",
+    createdAt: new Date().toISOString(),
   },
   updateDate: "29/09/2023",
 };
