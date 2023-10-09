@@ -10,7 +10,7 @@ mutation contributionQuestionUpdate($id: uuid!, $content: String, $message_id: u
 }
 `;
 
-type MutationProps = Question;
+type MutationProps = Pick<Question, "id" | "content" | "message_id">;
 
 type MutationResult = (props: MutationProps) => Promise<OperationResult>;
 

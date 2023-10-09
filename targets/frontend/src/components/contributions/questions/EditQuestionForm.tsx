@@ -14,12 +14,9 @@ type EditQuestionProps = {
   messages: Message[];
 };
 
-const formDataSchema = questionRelationSchema.extend({
-  message_id: z
-    .string({
-      required_error: "Un message doit être sélectionné",
-    })
-    .uuid("Un message doit être sélectionné"),
+const formDataSchema = questionRelationSchema.pick({
+  message_id: true,
+  content: true,
 });
 export type FormData = z.infer<typeof formDataSchema>;
 
@@ -32,7 +29,6 @@ export const EditQuestionForm = ({
     shouldFocusError: true,
     defaultValues: {
       content: question.content,
-      id: question.id,
       message_id: question.message?.id ?? "",
     },
   });
@@ -57,9 +53,9 @@ export const EditQuestionForm = ({
     }
   }, [watchMessageId, messages]);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (formData: FormData) => {
     try {
-      const result = await updateQuestion(data);
+      const result = await updateQuestion({ id: question.id, ...formData });
       if (result.error) {
         setSnack({
           message: `Erreur: ${result.error.message}`,
