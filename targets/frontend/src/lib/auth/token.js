@@ -25,6 +25,10 @@ export async function auth(ctx) {
     return ctx.token;
   }
 
+  if (inMemoryToken) {
+    return inMemoryToken;
+  }
+
   const cookieHeader = ctx?.req ? { Cookie: ctx.req.headers.cookie } : {};
   if (
     ctx?.res &&
@@ -41,7 +45,9 @@ export async function auth(ctx) {
     const tokenData = await request(
       ctx?.req
         ? `${
-            `https://${process.env.FRONTEND_HOST}` ?? `http://localhost:3000`
+            process.env.FRONTEND_HOST
+              ? `https://${process.env.FRONTEND_HOST}`
+              : `http://localhost:3000`
           }/api/refresh_token`
         : "/api/refresh_token",
       {
