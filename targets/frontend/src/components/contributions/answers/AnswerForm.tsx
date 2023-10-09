@@ -39,6 +39,7 @@ export const AnswerForm = ({
     }
   }, [answer]);
   const { control, getValues, trigger } = useForm<Answer>({
+    values: answer,
     resolver: zodResolver(answerFormSchema),
     shouldFocusError: true,
     defaultValues: {
