@@ -31,8 +31,14 @@ export async function auth(ctx) {
       ? `${baseUrl}/api/refresh_token`
       : "/api/refresh_token";
 
+    console.log("------");
+    console.log("url", url);
+    console.log("cookieHeader", cookieHeader);
+    console.log("------");
+
     const tokenFromSession = getTokenSessionStorage();
 
+    console.log("[ auth ] tokenFromSession", tokenFromSession);
     let body = {};
 
     if (tokenFromSession) {
@@ -51,10 +57,14 @@ export async function auth(ctx) {
       mode: "same-origin",
     });
 
+    console.log("[ auth ] tokenData", JSON.stringify(tokenData));
+
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
     if (ctx?.res) {
+      console.log("COOOOUCOU");
       setJwtCookie(ctx.res, tokenData.refresh_token);
+      console.log("ça a marché mais what zeu fuck");
       // we also store token in context (this is probably a bad idea b)
       // to reuse it and avoid refresh token twice
       ctx.token = tokenData;
