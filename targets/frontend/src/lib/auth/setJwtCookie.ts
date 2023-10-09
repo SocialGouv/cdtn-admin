@@ -4,7 +4,7 @@ import { REFRESH_TOKEN_EXPIRES } from "src/config";
 export function setJwtCookie(
   res: any,
   refresh_token: string,
-  jwt_token: string
+  jwt_token?: string
 ) {
   const cookies = [
     cookie.serialize("refresh_token", refresh_token, {
