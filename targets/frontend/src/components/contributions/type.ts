@@ -163,8 +163,3 @@ export const questionRelationSchema = questionBaseSchema.extend({
   message: messageSchema.deepPartial().optional(),
 });
 export type Question = z.infer<typeof questionRelationSchema>;
-
-export const questionFormBaseSchema = questionRelationSchema.pick({
-  content: true,
-  message: true,
-});
