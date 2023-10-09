@@ -25,10 +25,6 @@ export async function auth(ctx) {
     return ctx.token;
   }
 
-  if (inMemoryToken) {
-    return inMemoryToken;
-  }
-
   const cookieHeader = ctx?.req ? { Cookie: ctx.req.headers.cookie } : {};
   if (
     ctx?.res &&
@@ -42,27 +38,21 @@ export async function auth(ctx) {
   }
   try {
     console.log("[auth] refresh token");
-    const tokenData = await request(
-      ctx?.req
-        ? `${
-            process.env.FRONTEND_HOST
-              ? `https://${process.env.FRONTEND_HOST}`
-              : `http://localhost:3000`
-          }/api/refresh_token`
-        : "/api/refresh_token",
-      {
-        body: {},
-        credentials: "include",
-        headers: {
-          "Cache-Control": "no-cache",
-          ...cookieHeader,
-        },
-        mode: "same-origin",
-      }
-    );
+    const tokenData = await request("/api/refresh_token", {
+      body: {},
+      credentials: "include",
+      headers: {
+        "Cache-Control": "no-cache",
+        ...cookieHeader,
+      },
+      mode: "same-origin",
+    });
+    console.log("SHHSHHSHSHSHS");
+    console.log(tokenData);
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
     if (ctx?.res) {
+      console.log("on est server side");
       setJwtCookie(ctx.res, tokenData.refresh_token);
       // we also store token in context (this is probably a bad idea b)
       // to reuse it and avoid refresh token twice
