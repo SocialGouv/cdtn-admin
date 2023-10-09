@@ -80,10 +80,12 @@ export type LegiReference = z.infer<typeof legiReferenceSchema>;
 export const otherReferenceSchema = z.object({
   label: z
     .string({ required_error: "un libellé doit être renseigner" })
-    .min(1, "un libellé doit être renseigner"),
+    .min(1, "un nom doit être renseigné"),
   url: z
-    .string({ required_error: "Une url doit être renseigner" })
-    .url("le format de l'url est invalide"),
+    .string({ required_error: "Une url doit être renseigné" })
+    .url("le format du lien est invalide")
+    .optional()
+    .or(z.literal("")),
 });
 export type OtherReference = z.infer<typeof otherReferenceSchema>;
 
