@@ -65,11 +65,6 @@ export default async function refreshToken(req, res) {
 
     const new_refresh_token = uuidv4();
 
-    console.log("[ /api/refresh_token ]", "replace", {
-      new_refresh_token,
-      refresh_token,
-    });
-
     result = await client
       .mutation(deletePreviousRefreshTokenMutation, {
         new_refresh_token_data: {

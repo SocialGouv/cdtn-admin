@@ -1,8 +1,13 @@
 import { errorExchange, makeOperation } from "@urql/core";
 import { authExchange } from "@urql/exchange-auth";
-import { auth, getToken, isTokenExpired, setToken } from "src/lib/auth/token";
+import { auth } from "src/lib/auth/token";
 
 import { request } from "../request";
+import {
+  getTokenSessionStorage,
+  removeTokenSessionStorage,
+  isTokenExpired,
+} from "./store";
 
 export function customAuthExchange(ctx) {
   return authExchange({
@@ -37,7 +42,7 @@ export function customAuthExchange(ctx) {
     getAuth: async ({ authState }) => {
       // for initial launch, fetch the auth state from storage (local storage, async storage etc)
       if (!authState) {
-        const token = getToken() || (await auth(ctx));
+        const token = getTokenSessionStorage() || (await auth(ctx));
         if (token) {
           return { token: token.jwt_token };
         }
@@ -52,7 +57,7 @@ export function customAuthExchange(ctx) {
 
       // if your refresh logic is in graphQL, you must use this mutate function to call it
       // if your refresh logic is a separate RESTful endpoint, use fetch or similar
-      setToken(null);
+      removeTokenSessionStorage();
       const result = await auth(ctx);
       if (result?.jwt_token) {
         // return the new tokens

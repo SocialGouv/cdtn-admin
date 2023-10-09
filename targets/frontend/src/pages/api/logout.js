@@ -3,7 +3,6 @@ import { z } from "zod";
 import { client } from "@shared/graphql-client";
 import cookie from "cookie";
 import { createErrorFor } from "src/lib/apiError";
-import { setToken } from "src/lib/auth/token";
 
 export default async function logout(req, res) {
   const apiError = createErrorFor(res);
@@ -26,8 +25,6 @@ export default async function logout(req, res) {
 
   const { refresh_token } = value;
 
-  // delete JWT (optional)
-  setToken(null);
   // delete refresh token passed in data
   const result = await client
     .mutation(mutation, {

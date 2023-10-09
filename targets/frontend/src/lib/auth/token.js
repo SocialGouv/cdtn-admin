@@ -3,22 +3,6 @@ import Router from "next/router";
 import { request } from "../request";
 import { setJwtCookie } from "./setJwtCookie";
 
-let inMemoryToken;
-
-export function getToken() {
-  return inMemoryToken || null;
-}
-
-export function setToken(token) {
-  inMemoryToken = token;
-}
-
-export function isTokenExpired() {
-  const expired =
-    !inMemoryToken || Date.now() > new Date(inMemoryToken.jwt_token_expiry);
-  return expired;
-}
-
 export async function auth(ctx) {
   console.log("[ auth ] ctx ?", ctx ? true : false);
   if (ctx?.token) {
@@ -46,10 +30,6 @@ export async function auth(ctx) {
       ? `${baseUrl}/api/refresh_token`
       : "/api/refresh_token";
 
-    console.log("oodskqdosqkodqkods");
-    console.log(isServer, url);
-    console.log(cookieHeader);
-
     const tokenData = await request(url, {
       body: {},
       credentials: "include",
@@ -60,9 +40,6 @@ export async function auth(ctx) {
       mode: "same-origin",
     });
 
-    console.log("wffffff");
-
-    console.log(tokenData);
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
     if (ctx?.res) {
@@ -71,9 +48,7 @@ export async function auth(ctx) {
       // to reuse it and avoid refresh token twice
       ctx.token = tokenData;
     }
-    inMemoryToken = { ...tokenData };
-    console.log("[auth] token", inMemoryToken ? "true" : "false");
-    return inMemoryToken;
+    return tokenData;
   } catch (error) {
     console.error("[ auth ] refreshToken error ", { error });
 

@@ -2,9 +2,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { Header } from "src/components/layout/header";
 import LoginForm from "src/components/login";
-import { setToken } from "src/lib/auth/token";
 import { request } from "src/lib/request";
 import { Box } from "@mui/material";
+import { saveTokenSessionStorage } from "src/lib/auth/store";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function LoginPage() {
         "Cache-Control": "no-cache",
       },
     }).then((tokenData) => {
-      setToken(tokenData);
+      saveTokenSessionStorage(tokenData);
     });
   };
 

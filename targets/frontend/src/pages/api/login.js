@@ -39,8 +39,6 @@ export default async function login(req, res) {
     })
     .toPromise();
 
-  console.log(loginResult);
-
   if (loginResult.error) {
     console.error(loginResult.error);
     return apiError(Boom.serverUnavailable("login error"));
@@ -70,11 +68,7 @@ export default async function login(req, res) {
     return apiError(Boom.unauthorized("Invalid 'username' or 'password'"));
   }
 
-  console.log(user);
-
   const jwt_token = generateJwtToken(user);
-
-  console.log(jwt_token);
 
   const refreshTokenResult = await client
     .mutation(refreshTokenMutation, {
@@ -84,8 +78,6 @@ export default async function login(req, res) {
       },
     })
     .toPromise();
-
-  console.log(refreshTokenResult);
 
   if (refreshTokenResult.error) {
     return apiError(
