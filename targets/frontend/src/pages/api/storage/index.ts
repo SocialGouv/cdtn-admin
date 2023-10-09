@@ -5,11 +5,13 @@ import { createErrorFor } from "src/lib/apiError";
 import { getContainerBlobs, uploadBlob } from "src/lib/azure";
 import { isUploadFileSafe } from "src/lib/secu";
 import * as stream from "stream";
-import { HASURA_GRAPHQL_JWT_SECRET } from "../../../config";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const container = process.env.STORAGE_CONTAINER ?? "cdtn-dev";
-const jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
+const jwtSecret = JSON.parse(
+  process.env.HASURA_GRAPHQL_JWT_SECRET ??
+    '{"type":"HS256","key":"a_pretty_long_secret_key_that_should_be_at_least_32_char"}'
+);
 
 async function endPoint(req: NextApiRequest, res: NextApiResponse) {
   const apiError = createErrorFor(res);

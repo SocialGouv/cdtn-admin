@@ -2,7 +2,6 @@ import Router from "next/router";
 
 import { request } from "../request";
 import { setJwtCookie } from "./setJwtCookie";
-import { BASE_URL } from "../../config";
 
 let inMemoryToken;
 
@@ -40,7 +39,11 @@ export async function auth(ctx) {
   try {
     console.log("[auth] refresh token");
     const tokenData = await request(
-      ctx?.req ? `${BASE_URL}/api/refresh_token` : "/api/refresh_token",
+      ctx?.req
+        ? `${
+            process.env.FRONTEND_HOST ?? `http://localhost:3000`
+          }/api/refresh_token`
+        : "/api/refresh_token",
       {
         body: {},
         credentials: "include",

@@ -33,11 +33,18 @@ export function DocumentPage() {
   });
 
   useEffect(() => {
-    if (result.data) {
+    return () => {
+      setDataDocument(undefined);
+      setJsonData(undefined);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (result && result.data && result.data.document) {
       setDataDocument(result.data.document);
       setJsonData(JSON.stringify(result.data.document, undefined, 2));
     }
-  }, [result]);
+  }, [JSON.stringify(result)]);
 
   const { fetching, error } = result;
 
