@@ -19,8 +19,12 @@ export default async function refreshToken(req, res) {
     refresh_token: z.string().uuid(),
   });
 
+  let value;
+
   let { error, data } = schema.safeParse(req.query);
-  console.log(req.query);
+
+  value = data;
+  console.log(req.query, req.body, req.cookies);
 
   if (error) {
     const temp = schema.safeParse(req.body);
@@ -28,9 +32,13 @@ export default async function refreshToken(req, res) {
     value = temp.data;
   }
 
-  console.log(data);
+  if (error) {
+    const temp = schema.safeParse(req.cookies);
+    error = temp.error;
+    value = temp.data;
+  }
 
-  const { refresh_token } = data.refresh_token;
+  const { refresh_token } = value;
 
   if (error) {
     return apiError(Boom.badRequest(error.details[0].message));
