@@ -6494,7 +6494,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^27.0.0, @types/jest@npm:^27.0.1, @types/jest@npm:^27.4.1":
+"@types/jest@npm:^27.0.0, @types/jest@npm:^27.0.1, @types/jest@npm:^27.4.0, @types/jest@npm:^27.4.1":
   version: 27.5.2
   resolution: "@types/jest@npm:27.5.2"
   dependencies:
@@ -6529,12 +6529,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jsonwebtoken@npm:^9.0.3":
+  version: 9.0.3
+  resolution: "@types/jsonwebtoken@npm:9.0.3"
+  dependencies:
+    "@types/node": "*"
+  checksum: 2debf3adb19b827a023205234ec439b7258aee6ca9273472abe360738a84f08db78c6e853172e842ec303169ec0bb2df39701ab9a13b9e7868fe284ef9136567
+  languageName: node
+  linkType: hard
+
 "@types/keyv@npm:^3.1.1, @types/keyv@npm:^3.1.4":
   version: 3.1.4
   resolution: "@types/keyv@npm:3.1.4"
   dependencies:
     "@types/node": "*"
   checksum: e009a2bfb50e90ca9b7c6e8f648f8464067271fd99116f881073fa6fa76dc8d0133181dd65e6614d5fb1220d671d67b0124aef7d97dc02d7e342ab143a47779d
+  languageName: node
+  linkType: hard
+
+"@types/lodash.get@npm:^4.4.7":
+  version: 4.4.7
+  resolution: "@types/lodash.get@npm:4.4.7"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 0dbf1960606e4707c34e8ffbe97ffaad0e47fc5df7a6e24ea6e4fe5838d2468aa13360f38815c77b06e3c9932631ae15662b4139036a69ee16aeb54827a21405
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.14.199
+  resolution: "@types/lodash@npm:4.14.199"
+  checksum: e68d1fcbbfce953ed87b296a628573f62939227bcda0c934954e862b421e8a34c5e71cad6fea27b9980567909e6a4698f09025692958e36d64ea9ed99ec6fb2e
   languageName: node
   linkType: hard
 
@@ -12324,6 +12349,9 @@ __metadata:
     "@tiptap/react": ^2.1.10
     "@tiptap/starter-kit": ^2.0.3
     "@types/formidable": ^2.0.5
+    "@types/jest": ^27.4.0
+    "@types/jsonwebtoken": ^9.0.3
+    "@types/lodash.get": ^4.4.7
     "@types/react": ^17.0.24
     "@types/react-dom": ^18.0.11
     "@urql/devtools": ^2.0.3
