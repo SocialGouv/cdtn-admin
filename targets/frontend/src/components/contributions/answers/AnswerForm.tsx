@@ -2,9 +2,10 @@ import { Button, FormControl, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 import { FormEditionField, FormRadioGroup, FormTextField } from "../../forms";
-import { Answer, Status, answerFormSchema } from "../type";
+import { Answer, Status, answerRelationSchema, documentSchema } from "../type";
 import { AnswerWithStatus } from "./answer.query";
 import {
   CdtnReferenceInput,
@@ -14,6 +15,51 @@ import {
 } from "./references";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
+
+const answerFormBaseSchema = answerRelationSchema.pick({
+  content: true,
+  contentType: true,
+  cdtnReferences: true,
+  kaliReferences: true,
+  legiReferences: true,
+  otherReferences: true,
+  contentFichesSpDocument: true,
+});
+const answerWithAnswerSchema = answerFormBaseSchema.extend({
+  contentType: z.literal("ANSWER"),
+  content: z
+    .string({
+      required_error: "Une réponse doit être renseigner",
+      invalid_type_error: "Une réponse doit être renseigner",
+    })
+    .min(1, "Une réponse doit être renseigner"),
+});
+const answerWithNothingSchema = answerFormBaseSchema.extend({
+  contentType: z.literal("NOTHING"),
+});
+const answerWithCdtSchema = answerFormBaseSchema.extend({
+  contentType: z.literal("CDT"),
+});
+const answerWithUnfavourableSchema = answerFormBaseSchema.extend({
+  contentType: z.literal("UNFAVOURABLE"),
+});
+const answerWithUnknownSchema = answerFormBaseSchema.extend({
+  contentType: z.literal("UNKNOWN"),
+});
+const answerWithSPSchema = answerFormBaseSchema.extend({
+  contentType: z.literal("SP"),
+  contentFichesSpDocument: documentSchema,
+});
+
+export const answerFormSchema = z.discriminatedUnion("contentType", [
+  answerWithAnswerSchema,
+  answerWithNothingSchema,
+  answerWithCdtSchema,
+  answerWithUnfavourableSchema,
+  answerWithUnknownSchema,
+  answerWithSPSchema,
+]);
+export type AnswerFormValidation = z.infer<typeof answerFormSchema>;
 
 export type ContributionsAnswerProps = {
   answer: AnswerWithStatus;
@@ -38,20 +84,17 @@ export const AnswerForm = ({
       setStatus(answer.status.status);
     }
   }, [answer]);
-  const { control, getValues, trigger } = useForm<Answer>({
+  const { control, getValues, trigger } = useForm<AnswerFormValidation>({
     resolver: zodResolver(answerFormSchema),
     shouldFocusError: true,
     defaultValues: {
-      content: "",
-      contentType: "ANSWER",
-      status: {
-        status: "TODO",
-      },
-      legiReferences: [],
-      kaliReferences: [],
-      otherReferences: [],
-      cdtnReferences: [],
-      contentFichesSpDocument: answer?.contentFichesSpDocument ? {} : undefined,
+      content: answer?.content ?? "",
+      contentType: answer?.contentType ?? "ANSWER",
+      legiReferences: answer?.legiReferences ?? [],
+      kaliReferences: answer?.kaliReferences ?? [],
+      otherReferences: answer?.otherReferences ?? [],
+      cdtnReferences: answer?.cdtnReferences ?? [],
+      contentFichesSpDocument: answer?.contentFichesSpDocument ?? undefined,
     },
   });
 
@@ -60,8 +103,11 @@ export const AnswerForm = ({
 
     if (isValid) {
       setStatus(newStatus);
-      const data = getValues();
-      onSubmit(newStatus, data);
+      const formData = getValues();
+      onSubmit(newStatus, {
+        ...answer,
+        ...formData,
+      });
     }
   };
 

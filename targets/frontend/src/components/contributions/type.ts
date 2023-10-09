@@ -102,24 +102,17 @@ export const cdtnReferenceSchema = z.object({
 });
 export type CdtnReference = z.infer<typeof cdtnReferenceSchema>;
 
-export const contentTypeSchema = z.enum([
-  "ANSWER",
-  "NOTHING",
-  "CDT",
-  "UNFAVOURABLE",
-  "UNKNOWN",
-  "SP",
-]);
-export type ContentType = z.infer<typeof contentTypeSchema>;
-
 const answerBaseSchema = z.object({
   id: z.string().uuid(),
   agreementId: z.string(),
   questionId: z.string().uuid(),
-  contentType: z.string({
-    required_error: "Un type de réponse doit être sélectionner",
-    invalid_type_error: " type de réponse doit être sélectionner",
-  }),
+  contentType: z.enum(
+    ["ANSWER", "NOTHING", "CDT", "UNFAVOURABLE", "UNKNOWN", "SP"],
+    {
+      required_error: "Un type de réponse doit être sélectionner",
+      invalid_type_error: " type de réponse doit être sélectionner",
+    }
+  ),
   contentServicePublicCdtnId: z.string().nullable().optional(),
   content: z.string().nullable().optional(),
   updatedAt: z.string(),
@@ -133,6 +126,11 @@ export const questionBaseSchema = z.object({
     })
     .min(1, "une question doit être renseigner"),
   order: z.number(),
+  message_id: z
+    .string({
+      required_error: "Un message doit être sélectionné",
+    })
+    .uuid("Un message doit être sélectionné"),
 });
 
 export const commentsSchema = z.object({
@@ -146,7 +144,7 @@ export const commentsSchema = z.object({
 });
 export type Comments = z.infer<typeof commentsSchema>;
 
-const answerRelationSchema = answerBaseSchema.extend({
+export const answerRelationSchema = answerBaseSchema.extend({
   agreement: agreementSchema,
   statuses: z.array(answerStatusSchema),
   status: answerStatusSchema,
@@ -160,16 +158,13 @@ const answerRelationSchema = answerBaseSchema.extend({
 });
 export type Answer = z.infer<typeof answerRelationSchema>;
 
-export const answerFormBaseSchema = answerRelationSchema.extend({
-  id: z.string().uuid().optional(),
-  agreementId: z.string().optional(),
-  questionId: z.string().uuid().optional(),
-  updatedAt: z.string().optional(),
-  question: questionBaseSchema.deepPartial().optional(),
-  answerComments: z.array(commentsSchema.deepPartial()).optional(),
-  agreement: agreementSchema.deepPartial().optional(),
-  statuses: z.array(answerStatusSchema.deepPartial()).optional(),
-  status: answerStatusSchema.deepPartial().optional(),
+export const answerFormBaseSchema = answerRelationSchema.pick({
+  content: true,
+  contentType: true,
+  cdtnReferences: true,
+  kaliReferences: true,
+  legiReferences: true,
+  otherReferences: true,
 });
 
 export const questionRelationSchema = questionBaseSchema.extend({
@@ -177,6 +172,11 @@ export const questionRelationSchema = questionBaseSchema.extend({
   message: messageSchema.deepPartial().optional(),
 });
 export type Question = z.infer<typeof questionRelationSchema>;
+
+export const questionFormBaseSchema = questionRelationSchema.pick({
+  content: true,
+  message: true,
+});
 
 const answerWithAnswerSchema = answerFormBaseSchema.extend({
   contentType: z.literal("ANSWER"),
