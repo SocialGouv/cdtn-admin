@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
@@ -23,6 +23,7 @@ const CodeWithCodemirror = dynamic(import("src/components/editor/CodeEditor"), {
 
 export function DocumentPage() {
   const router = useRouter();
+  const [dataDocument, setDataDocument] = useState<any>(undefined);
 
   const [result] = useQuery({
     query: getDocumentQuery,
@@ -30,12 +31,18 @@ export function DocumentPage() {
       id: router.query.id,
     },
   });
-  const { fetching, error, data: dataDocument } = result;
+
+  useEffect(() => {
+    if (result.data) {
+      setDataDocument(result.data.document);
+      setJsonData(JSON.stringify(result.data.document, undefined, 2));
+    }
+  }, [result]);
+
+  const { fetching, error } = result;
 
   const [hasChanged, setHasChanged] = useState(false);
-  const [jsonData, setJsonData] = useState(
-    JSON.stringify(dataDocument?.document, undefined, 2)
-  );
+  const [jsonData, setJsonData] = useState<any>(undefined);
   const [, executeUpdate] = useMutation(updateDocumentMutation);
   const [, previewContent] = useMutation(previewContentAction);
   const { handleSubmit } = useForm();
@@ -92,20 +99,19 @@ export function DocumentPage() {
     );
   }
   return (
-    <Layout title={dataDocument.document.title}>
+    <Layout title={dataDocument?.document.title}>
       <form onSubmit={handleSubmit(onEditSubmit)}>
         <Stack>
           <Card>
-            {/*
-              // @ts-ignore */}
-            <CodeWithCodemirror
-              value={jsonData}
-              onChange={handleEditorChange}
-            />
+            {jsonData && (
+              // @ts-ignore
+              <CodeWithCodemirror
+                value={jsonData}
+                onChange={handleEditorChange}
+              />
+            )}
           </Card>
           <Inline>
-            {/*
-              // @ts-ignore */}
             <Button type="submit" disabled={!hasChanged}>
               Enregistrer
             </Button>
