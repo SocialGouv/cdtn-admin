@@ -23,10 +23,8 @@ export const questionListQuery = `query questions_answers($search: String) {
     }
   }
 }`;
-export type QueryQuestionAnswer = Pick<Answer, "status">;
-export type QueryQuestion = Pick<Question, "id" | "content" | "order"> & {
-  answers: QueryQuestionAnswer[];
-};
+export type QueryQuestionAnswer = Answer;
+export type QueryQuestion = Question;
 
 export type QueryResult = {
   contribution_questions: QueryQuestion[];
@@ -44,10 +42,10 @@ function formatAnswers(questions: QueryQuestion[] | undefined) {
   if (!questions) return [];
 
   return questions.map((question) => {
-    question.answers = question.answers.map((answer) => {
-      answer.status = initStatus(answer);
-      return answer;
-    });
+    question.answers = question?.answers?.map((answer) => ({
+      ...answer,
+      status: initStatus(answer as Answer),
+    }));
     return question;
   });
 }

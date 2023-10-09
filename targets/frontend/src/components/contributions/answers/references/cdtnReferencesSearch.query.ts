@@ -21,13 +21,14 @@ export const getSlugFromUrl = (query: string | undefined): string => {
 };
 
 export const SearchCdtnReferencesQuery = `
-query SearchCdtnReferences($sources: [String!], $slug: String, $title: String) {
+query SearchCdtnReferences($sources: [String!], $slug: String, $title: String, $slugRegex: String) {
   documents(where: {
     _or: [{
       title: {_ilike: $title}
     }, {
       slug: {_eq: $slug}
     }],
+    slug: { _regex: $slugRegex },
     is_available: {_eq: true},
     is_published: {_eq: true},
     source: {_in: $sources}
@@ -46,10 +47,14 @@ query SearchCdtnReferences($sources: [String!], $slug: String, $title: String) {
 `;
 
 export const useContributionSearchCdtnReferencesQuery = (
-  query: string | undefined
+  query: string | undefined,
+  idcc?: string
 ): Result<Pick<CdtnReference, "document">> => {
   const slug = getSlugFromUrl(query);
   const title = getNormalizedTitle(slug);
+  const slugRegex = `^(${idcc ? `${idcc}|` : ""}[^0-9])${
+    idcc ? `{${idcc.length}}` : ""
+  }[\-a-zA-Z0-9_]+$`;
   const [{ data, fetching, error }] = useQuery<SearchCdtnReferencesQueryResult>(
     {
       query: SearchCdtnReferencesQuery,
@@ -66,6 +71,7 @@ export const useContributionSearchCdtnReferencesQuery = (
         ],
         slug,
         title,
+        slugRegex,
       },
     }
   );
