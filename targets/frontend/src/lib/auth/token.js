@@ -31,7 +31,7 @@ export async function auth(ctx) {
       ? `${baseUrl}/api/refresh_token`
       : "/api/refresh_token";
 
-    console.log("cookieHeader", ctx.req.headers);
+    if (ctx && ctx.req) console.log("cookieHeader", ctx.req.headers);
 
     const tokenFromSession = getTokenSessionStorage();
 
