@@ -1,14 +1,9 @@
 import React from "react";
-import BlockIcon from "@mui/icons-material/Block";
 import {
   CircularProgress as Spinner,
   Link,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
+  Typography,
 } from "@mui/material";
 import { ShortDocument } from "../../documents";
 import { Check, Cross } from "../../../components/utils/icons";
@@ -24,48 +19,42 @@ export default function DocumentList({
 }: Props): JSX.Element {
   return (
     <>
-      <strong>Pages informations inclus dans la mise à jour</strong>
+      <Typography mb={1}>
+        <strong>Inclus dans la mise à jour :</strong>
+      </Typography>
+      <ul>
+        <li>
+          Documents avec une source externe (fiches service public, fiches
+          ministère du travail, ...)
+        </li>
 
-      {isLoadingDocs ? (
-        <Stack mt={2} justifyContent="center">
-          <Spinner></Spinner>
-        </Stack>
-      ) : docs.length ? (
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ textAlign: "left" }}>Document</TableCell>
-              <TableCell sx={{ textAlign: "center" }}>Publié</TableCell>
-              <TableCell sx={{ textAlign: "center" }}>Disponible</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+        {isLoadingDocs ? (
+          <Stack mt={2} justifyContent="center">
+            <Spinner></Spinner>
+          </Stack>
+        ) : (
+          <>
+            <li>Pages information</li>
+
             {docs.map((doc) => (
-              <TableRow key={doc.slug}>
-                <TableCell>
-                  <Link
-                    href={sourceToRoute(doc)}
-                    target="_blank"
-                    sx={{ fontSize: "0.8rem" }}
-                  >
-                    {doc.title}
-                  </Link>
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {doc.isPublished ? <Check /> : <Cross />}
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {doc.isAvailable ? <Check /> : <Cross />}
-                </TableCell>
-              </TableRow>
+              <Stack direction="row" key={doc.slug}>
+                <Link
+                  href={sourceToRoute(doc)}
+                  target="_blank"
+                  sx={{ fontSize: "0.8rem" }}
+                >
+                  {doc.title}
+                </Link>
+                {doc.isPublished ? (
+                  <Check text="Publié" />
+                ) : (
+                  <Cross text="Dépublié" />
+                )}
+              </Stack>
             ))}
-          </TableBody>
-        </Table>
-      ) : (
-        <Stack mt={2} justifyContent="center">
-          <BlockIcon></BlockIcon>
-        </Stack>
-      )}
+          </>
+        )}
+      </ul>
     </>
   );
 }

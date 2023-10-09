@@ -10,6 +10,5 @@ query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
         slug
         cdtnId: cdtn_id
         isPublished: is_published
-        isAvailable: is_available
       }
 }`;

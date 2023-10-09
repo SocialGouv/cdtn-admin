@@ -14,7 +14,7 @@ export type Document = {
 export type ShortDocument = Pick<
   Document,
   "source" | "slug" | "title" | "cdtnId"
-> & { isAvailable: boolean; isPublished: boolean };
+> & { isPublished: boolean };
 
 export type DocumentRaw = {
   cdtn_id: string;
