@@ -8,11 +8,6 @@ import { cacheExchange, dedupExchange, fetchExchange } from "urql";
 export const withCustomUrqlClient = (Component) =>
   withUrqlClient(
     (ssrExchange, ctx) => {
-      const url = ctx?.req
-        ? `${
-            `https://${process.env.FRONTEND_HOST}` ?? `http://localhost:3000`
-          }/api/graphql`
-        : `/api/graphql`;
       console.log(
         "[ withUrqlClient ]",
         ctx ? (ctx?.req ? "server" : "client") : "no ctx",
@@ -32,7 +27,9 @@ export const withCustomUrqlClient = (Component) =>
           fetchExchange,
         ].filter(Boolean),
         requestPolicy: "cache-first",
-        url,
+        url: process.env.FRONTEND_HOST
+          ? `https://${process.env.FRONTEND_HOST}/api/graphql`
+          : `http://localhost:3000/api/graphql`,
       };
     },
     { ssr: true }
