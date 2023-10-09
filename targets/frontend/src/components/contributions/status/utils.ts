@@ -1,12 +1,7 @@
-import { Answer, Status } from "../type";
+import { Status } from "../type";
 
-export const initStatus = (answer: Answer) => {
-  return (
-    answer.statuses?.[0] || {
-      status: "TODO",
-      createdAt: new Date().toISOString(),
-    }
-  );
+export const initStatus = (answer: any) => {
+  return answer.statuses?.[0] || { status: "TODO" };
 };
 
 export const getNextStatus = (status: Status): Status => {

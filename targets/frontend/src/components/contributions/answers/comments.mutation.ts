@@ -1,4 +1,4 @@
-import { useMutation } from "urql";
+import { OperationResult, useMutation } from "urql";
 
 import { Comments } from "../type";
 

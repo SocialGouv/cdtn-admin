@@ -122,7 +122,7 @@ export const EditQuestion = ({
       justifyContent="start"
       spacing={2}
     >
-      <Header answers={data.question.answers as Answer[]} />
+      <Header answers={data.question.answers} />
       <Box sx={{ borderBottom: 1 }}>
         <Tabs
           value={tabIndex}
@@ -135,7 +135,7 @@ export const EditQuestion = ({
       </Box>
       <TabPanel value={tabIndex} index={TabValue.answers}>
         <EditQuestionAnswerList
-          answers={data.question.answers as Answer[]}
+          answers={data.question.answers}
         ></EditQuestionAnswerList>
       </TabPanel>
       <TabPanel value={tabIndex} index={TabValue.edition}>

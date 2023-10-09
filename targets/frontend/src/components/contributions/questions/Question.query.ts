@@ -1,7 +1,7 @@
 import { useQuery } from "urql";
 import { initStatus } from "../status/utils";
 
-import { Answer, Message, Question } from "../type";
+import { Message, Question } from "../type";
 
 export const contributionQuestionQuery = `
 query SelectQuestion($questionId: uuid) {
@@ -75,11 +75,12 @@ export const useQuestionQuery = ({
   ) {
     return "not_found";
   }
-  const answers =
-    result.data.contribution_questions[0]?.answers?.map((answer) => ({
+  const answers = result.data.contribution_questions[0].answers.map(
+    (answer) => ({
       ...answer,
-      status: initStatus(answer as Answer),
-    })) ?? [];
+      status: initStatus(answer),
+    })
+  );
   const question = {
     ...result.data.contribution_questions[0],
     answers,

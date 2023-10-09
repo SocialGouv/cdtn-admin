@@ -109,8 +109,8 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
               overflow: "auto",
             }}
           >
-            {notifications.map((comment, index) => (
-              <Comment key={index} comment={comment} />
+            {notifications.map((comment) => (
+              <Comment key={comment.id} comment={comment} />
             ))}
           </Box>
           <FormControl>

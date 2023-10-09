@@ -83,10 +83,7 @@ type QueryProps = {
   id: string;
 };
 
-export type AnswerWithStatus = Answer & {
-  status: AnswerStatus;
-  updateDate?: string;
-};
+type AnswerWithStatus = Answer & { status: AnswerStatus; updateDate: string };
 
 type QueryResult = {
   contribution_answers: AnswerWithStatus[];
@@ -119,8 +116,6 @@ export const useContributionAnswerQuery = ({
   return {
     ...answer,
     status: initStatus(answer),
-    updateDate: answer?.updatedAt
-      ? format(parseISO(answer?.updatedAt), "dd/MM/yyyy")
-      : undefined,
+    updateDate: format(parseISO(answer.updatedAt), "dd/MM/yyyy"),
   };
 };

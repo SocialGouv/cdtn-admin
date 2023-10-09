@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 
 import { StatusRecap } from "../status";
 import { QueryQuestion } from "./QuestionList.query";
-import { Answer } from "../type";
 
 export const QuestionRow = (props: { row: QueryQuestion }) => {
   const { row } = props;
@@ -23,10 +22,7 @@ export const QuestionRow = (props: { row: QueryQuestion }) => {
       <TableCell component="th" scope="row">
         <strong>{row.order}</strong> - {row.content}
       </TableCell>
-      <StatusRecap
-        answers={row.answers as Answer[]}
-        uniqKey={`${row.id}-statuses`}
-      />
+      <StatusRecap answers={row.answers} uniqKey={`${row.id}-statuses`} />
     </TableRow>
   );
 };

@@ -44,8 +44,8 @@ export const EditQuestionAnswerList = ({
                       router.push(`/contributions/answers/${answer.id}`);
                     }}
                   >
-                    <TableCell scope="row">{answer?.agreement?.id}</TableCell>
-                    <TableCell scope="row">{answer?.agreement?.name}</TableCell>
+                    <TableCell scope="row">{answer.agreement.id}</TableCell>
+                    <TableCell scope="row">{answer.agreement.name}</TableCell>
                     <TableCell scope="row" align="center">
                       {answer.status && (
                         <StatusContainer status={answer.status} />

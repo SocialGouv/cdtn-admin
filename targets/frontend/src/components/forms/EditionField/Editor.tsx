@@ -19,20 +19,15 @@ import { DetailsContent } from "@tiptap-pro/extension-details-content";
 import { Placeholder } from "@tiptap/extension-placeholder";
 
 export type EditorProps = {
-  content?: string;
+  content?: string | null;
   onUpdate: (content: string) => void;
+  error?: FieldErrors;
   disabled?: boolean;
-  isError?: boolean;
 };
 
 const emptyHtml = "<p></p>";
 
-export const Editor = ({
-  content,
-  onUpdate,
-  disabled,
-  isError = false,
-}: EditorProps) => {
+export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
   const [focus, setFocus] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const editor = useEditor({
@@ -88,12 +83,7 @@ export const Editor = ({
   return (
     <>
       {isClient && (
-        <TitleBox
-          title="Réponse"
-          focus={focus}
-          isError={isError}
-          disabled={disabled}
-        >
+        <TitleBox title="Réponse" focus={focus} disabled={disabled}>
           <MenuStyle editor={editor} />
           <MenuSpecial editor={editor} />
           <MenuTable editor={editor} />
@@ -129,12 +119,9 @@ const StyledEditorContent = styled(EditorContent)(() => {
       },
       ".details": {
         display: "flex",
+        margin: "1rem 0",
         border: "0",
-        padding: "1rem 0",
-        borderTop: `1px solid ${fr.colors.decisions.text.default.grey.default}`,
-        ":first-child": {
-          border: "none",
-        },
+        padding: "0.5rem",
         "> button": {
           display: "flex",
           cursor: "pointer",
@@ -172,7 +159,7 @@ const StyledEditorContent = styled(EditorContent)(() => {
       },
       th: {
         border: `1px solid ${fr.colors.decisions.text.default.grey.default}`,
-        backgroundColor: fr.colors.decisions.background.default.grey.default,
+        backgroundColor: fr.colors.decisions.background.contrast.grey.default,
         minWidth: "100px",
       },
       td: {

@@ -45,7 +45,9 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
       </button>
       <button
         onClick={() => {
-          editor.chain().focus().setDetails().run();
+          editor.isActive("details")
+            ? editor.chain().focus().unsetDetails().run()
+            : editor.chain().focus().setDetails().run();
         }}
         className={editor.isActive("details") ? "is-active" : ""}
         type="button"
