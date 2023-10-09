@@ -31,14 +31,10 @@ export async function auth(ctx) {
       ? `${baseUrl}/api/refresh_token`
       : "/api/refresh_token";
 
-    console.log("------");
-    console.log("url", url);
-    console.log("cookieHeader", cookieHeader);
-    console.log("------");
+    console.log("cookieHeader", ctx.req.headers);
 
     const tokenFromSession = getTokenSessionStorage();
 
-    console.log("[ auth ] tokenFromSession", tokenFromSession);
     let body = {};
 
     if (tokenFromSession) {

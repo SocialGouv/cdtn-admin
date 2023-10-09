@@ -44,7 +44,7 @@ export default async function logout(req, res) {
       maxAge: 0,
       path: "/",
       sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
     })
   );
   res.setHeader(
@@ -54,7 +54,7 @@ export default async function logout(req, res) {
       maxAge: 0,
       path: "/",
       sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
     })
   );
 
