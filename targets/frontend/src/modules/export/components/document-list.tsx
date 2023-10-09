@@ -1,9 +1,18 @@
 import React from "react";
-import { Stack } from "src/components/layout/Stack";
 import BlockIcon from "@mui/icons-material/Block";
-import { CircularProgress as Spinner, Link } from "@mui/material";
-import { getRouteBySource } from "@socialgouv/cdtn-sources";
+import {
+  CircularProgress as Spinner,
+  Link,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { ShortDocument } from "../../documents";
+import { Check, Cross } from "../../../components/utils/icons";
+import { sourceToRoute } from "../../../components/documents/List";
 
 type Props = {
   docs: ShortDocument[];
@@ -15,28 +24,43 @@ export default function DocumentList({
 }: Props): JSX.Element {
   return (
     <>
-      <strong>Documents inclus dans la mise à jour</strong>
+      <strong>Pages informations inclus dans la mise à jour</strong>
 
       {isLoadingDocs ? (
         <Stack mt={2} justifyContent="center">
           <Spinner></Spinner>
         </Stack>
       ) : docs.length ? (
-        <ul>
-          {docs.map((doc) => (
-            <li key={doc.slug}>
-              <Link
-                href={`https://code-du-travail-numerique-preprod.dev.fabrique.social.gouv.fr/${getRouteBySource(
-                  doc.source
-                )}/${doc.slug}`}
-                target="_blank"
-                sx={{ fontSize: "0.8rem" }}
-              >
-                {doc.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ textAlign: "left" }}>Document</TableCell>
+              <TableCell sx={{ textAlign: "center" }}>Publié</TableCell>
+              <TableCell sx={{ textAlign: "center" }}>Disponible</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {docs.map((doc) => (
+              <TableRow key={doc.slug}>
+                <TableCell>
+                  <Link
+                    href={sourceToRoute(doc)}
+                    target="_blank"
+                    sx={{ fontSize: "0.8rem" }}
+                  >
+                    {doc.title}
+                  </Link>
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {doc.isPublished ? <Check /> : <Cross />}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {doc.isAvailable ? <Check /> : <Cross />}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       ) : (
         <Stack mt={2} justifyContent="center">
           <BlockIcon></BlockIcon>

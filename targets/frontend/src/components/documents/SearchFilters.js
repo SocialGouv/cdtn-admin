@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import { IoMdSearch } from "react-icons/io";
 import {
   Box,
-  Input,
-  Select,
-  Radio,
   FormControlLabel,
   FormLabel,
+  Input,
   MenuItem,
+  Radio,
+  Select,
 } from "@mui/material";
 import { useQuery } from "urql";
 
@@ -56,13 +56,6 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
     },
   });
 
-  const { data } = result;
-  function isSourceDisabled(source) {
-    return (
-      data?.sources.nodes.find((node) => node.source === source) === undefined
-    );
-  }
-
   function triggerUpdateUrl(event) {
     console.log("update filters");
     onSearchUpdate({
@@ -93,13 +86,9 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           value={initialValues.source || "no-filter"}
           sx={{ marginRight: "15px" }}
         >
-          <MenuItem value={"no-filter"}>toutes les sources</MenuItem>
+          <MenuItem value={"no-filter"}>Toutes les sources</MenuItem>
           {documentSources.map(([source, label]) => (
-            <MenuItem
-              key={source}
-              value={source}
-              disabled={isSourceDisabled(source)}
-            >
+            <MenuItem key={source} value={source}>
               {label}
             </MenuItem>
           ))}
@@ -133,86 +122,74 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
       <Inline paddingTop="20px" paddingLeft="20px" paddingBottom="10px">
         <Inline>
           <FormLabel>Publication :</FormLabel>
-          <div sx={{ cursor: "pointer" }}>
-            <FormControlLabel
-              value="all"
-              control={
-                <Radio
-                  {...register("published")}
-                  checked={initialValues.published === "all"}
-                  onChange={triggerUpdateUrl}
-                />
-              }
-              label="Tous"
-            />
-          </div>
-          <div sx={{ cursor: "pointer" }}>
-            <FormControlLabel
-              value="yes"
-              control={
-                <Radio
-                  {...register("published")}
-                  checked={initialValues.published === "yes"}
-                  onChange={triggerUpdateUrl}
-                />
-              }
-              label="Publié"
-            />
-          </div>
-          <div sx={{ cursor: "pointer" }}>
-            <FormControlLabel
-              value="no"
-              control={
-                <Radio
-                  {...register("published")}
-                  checked={initialValues.published === "no"}
-                  onChange={triggerUpdateUrl}
-                />
-              }
-              label="Non-publié"
-            />
-          </div>
-        </Inline>
-        <FormLabel>Status :</FormLabel>
-        <div sx={{ cursor: "pointer" }}>
           <FormControlLabel
             value="all"
             control={
               <Radio
-                {...register("available")}
-                checked={initialValues.available === "all"}
+                {...register("published")}
+                checked={initialValues.published === "all"}
                 onChange={triggerUpdateUrl}
               />
             }
             label="Tous"
           />
-        </div>
-        <div sx={{ cursor: "pointer" }}>
           <FormControlLabel
             value="yes"
             control={
               <Radio
-                {...register("available")}
-                checked={initialValues.available === "yes"}
+                {...register("published")}
+                checked={initialValues.published === "yes"}
                 onChange={triggerUpdateUrl}
               />
             }
-            label="Disponible"
+            label="Publié"
           />
-        </div>
-        <div sx={{ cursor: "pointer" }}>
           <FormControlLabel
             value="no"
             control={
               <Radio
-                {...register("available")}
-                checked={initialValues.available === "no"}
+                {...register("published")}
+                checked={initialValues.published === "no"}
                 onChange={triggerUpdateUrl}
               />
             }
-            label="Supprimé"
+            label="Non-publié"
           />
-        </div>
+        </Inline>
+        <FormLabel>Status :</FormLabel>
+        <FormControlLabel
+          value="all"
+          control={
+            <Radio
+              {...register("available")}
+              checked={initialValues.available === "all"}
+              onChange={triggerUpdateUrl}
+            />
+          }
+          label="Tous"
+        />
+        <FormControlLabel
+          value="yes"
+          control={
+            <Radio
+              {...register("available")}
+              checked={initialValues.available === "yes"}
+              onChange={triggerUpdateUrl}
+            />
+          }
+          label="Disponible"
+        />
+        <FormControlLabel
+          value="no"
+          control={
+            <Radio
+              {...register("available")}
+              checked={initialValues.available === "no"}
+              onChange={triggerUpdateUrl}
+            />
+          }
+          label="Supprimé"
+        />
       </Inline>
     </form>
   );
@@ -239,7 +216,7 @@ query documents($source: String, $search: String!, $published: [Boolean!]!,  $av
       source: {_eq: $source, _neq: "code_du_travail"}
       title: {_ilike: $search},
       is_published: {_in: $published}
-      is_available: {_in: $available}  
+      is_available: {_in: $available}
     }
   }) {
     nodes {

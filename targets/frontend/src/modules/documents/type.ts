@@ -11,7 +11,10 @@ export type Document = {
   metaDescription: string;
 };
 
-export type ShortDocument = Pick<Document, "source" | "slug" | "title">;
+export type ShortDocument = Pick<
+  Document,
+  "source" | "slug" | "title" | "cdtnId"
+> & { isAvailable: boolean; isPublished: boolean };
 
 export type DocumentRaw = {
   cdtn_id: string;

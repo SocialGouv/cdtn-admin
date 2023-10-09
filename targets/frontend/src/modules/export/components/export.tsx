@@ -1,12 +1,15 @@
 import { Environment, Status as StatusType } from "@shared/types";
 import React, { useEffect, useState } from "react";
 import { EnvironmentBadge, Status } from "src/components/export-es";
-import { Inline } from "src/components/layout/Inline";
-import { Stack } from "src/components/layout/Stack";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { useExportEs } from "src/hooks/exportEs";
 import { useUser } from "src/hooks/useUser";
-import { Button, CircularProgress as Spinner, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress as Spinner,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { FixedSnackBar } from "src/components/utils/SnackBar";
 import { ConfirmModal } from "../../common/components/modals/ConfirmModal";
 import { request } from "../../../lib/request";
@@ -64,51 +67,51 @@ export function Export(): JSX.Element {
     }
   }, [validateExportProdModal]);
 
+  if (exportEsState.error) {
+    return (
+      <FixedSnackBar>
+        <pre>{JSON.stringify(exportEsState.error, null, 2)}</pre>
+      </FixedSnackBar>
+    );
+  }
+
   return (
     <>
-      <Stack>
-        {exportEsState.error && (
-          <FixedSnackBar>
-            <pre>{JSON.stringify(exportEsState.error, null, 2)}</pre>
-          </FixedSnackBar>
-        )}
-        <p>
-          Cette page permet de mettre à jour les données des environnements de{" "}
-          <strong>production</strong> et <strong>pre-production</strong>
-          et de suivre l’état de ces mises à jour.
-        </p>
-      </Stack>
-      <Stack>
-        <Inline>
-          <Button
-            color="primary"
-            variant="contained"
-            disabled={
-              exportEsState.latestExportProduction?.status ===
-              StatusType.running
-            }
-            onClick={() => {
-              setValidateExportProdModal(true);
-              setIsLoadingDocs(true);
-            }}
-          >
-            Mettre à jour la production
-          </Button>
-          <Button
-            color="secondary"
-            variant="contained"
-            disabled={
-              exportEsState.latestExportPreproduction?.status === "running"
-            }
-            onClick={() => {
-              setValidateExportPreprodModal(true);
-              setIsLoadingDocs(true);
-            }}
-          >
-            Mettre à jour la pre-production
-          </Button>
-        </Inline>
+      <p>
+        Cette page permet de mettre à jour les données des environnements de{" "}
+        <strong>production</strong> et <strong>pre-production</strong>
+        et de suivre l’état de ces mises à jour.
+      </p>
 
+      <Stack direction="row" spacing={2}>
+        <Button
+          color="primary"
+          variant="contained"
+          disabled={
+            exportEsState.latestExportProduction?.status === StatusType.running
+          }
+          onClick={() => {
+            setValidateExportProdModal(true);
+            setIsLoadingDocs(true);
+          }}
+        >
+          Mettre à jour la production
+        </Button>
+        <Button
+          color="secondary"
+          variant="contained"
+          disabled={
+            exportEsState.latestExportPreproduction?.status === "running"
+          }
+          onClick={() => {
+            setValidateExportPreprodModal(true);
+            setIsLoadingDocs(true);
+          }}
+        >
+          Mettre à jour la pre-production
+        </Button>
+      </Stack>
+      <Stack mt={2}>
         <Table>
           <thead>
             <Tr>
