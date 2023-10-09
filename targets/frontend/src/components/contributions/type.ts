@@ -158,15 +158,6 @@ export const answerRelationSchema = answerBaseSchema.extend({
 });
 export type Answer = z.infer<typeof answerRelationSchema>;
 
-export const answerFormBaseSchema = answerRelationSchema.pick({
-  content: true,
-  contentType: true,
-  cdtnReferences: true,
-  kaliReferences: true,
-  legiReferences: true,
-  otherReferences: true,
-});
-
 export const questionRelationSchema = questionBaseSchema.extend({
   answers: z.array(answerBaseSchema.deepPartial()).optional(),
   message: messageSchema.deepPartial().optional(),
@@ -177,39 +168,3 @@ export const questionFormBaseSchema = questionRelationSchema.pick({
   content: true,
   message: true,
 });
-
-const answerWithAnswerSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("ANSWER"),
-  content: z
-    .string({
-      required_error: "Une réponse doit être renseigner",
-      invalid_type_error: "Une réponse doit être renseigner",
-    })
-    .min(1, "Une réponse doit être renseigner"),
-});
-const answerWithNothingSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("NOTHING"),
-});
-const answerWithCdtSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("CDT"),
-});
-const answerWithUnfavourableSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("UNFAVOURABLE"),
-});
-const answerWithUnknownSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("UNKNOWN"),
-});
-const answerWithSPSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("SP"),
-  contentFichesSpDocument: documentSchema,
-});
-
-export const answerFormSchema = z.discriminatedUnion("contentType", [
-  answerWithAnswerSchema,
-  answerWithNothingSchema,
-  answerWithCdtSchema,
-  answerWithUnfavourableSchema,
-  answerWithUnknownSchema,
-  answerWithSPSchema,
-]);
-export type AnswerForm = z.infer<typeof answerFormSchema>;
