@@ -1,10 +1,12 @@
 import { AlertColor, Button, Card, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { FormSelect, FormTextField } from "src/components/forms";
 
 import { useQuestionUpdateMutation } from "./Question.mutation";
-import { Message, Question } from "../type";
+import { Message, Question, questionRelationSchema } from "../type";
 import { SnackBar } from "../../utils/SnackBar";
 
 type EditQuestionProps = {
@@ -12,15 +14,22 @@ type EditQuestionProps = {
   messages: Message[];
 };
 
-type FormData = Omit<Question, "message"> & {
-  message_id: string;
-};
+const formDataSchema = questionRelationSchema.extend({
+  message_id: z
+    .string({
+      required_error: "Un message doit être sélectionné",
+    })
+    .uuid("Un message doit être sélectionné"),
+});
+export type FormData = z.infer<typeof formDataSchema>;
 
 export const EditQuestionForm = ({
   question,
   messages,
 }: EditQuestionProps): JSX.Element => {
   const { control, watch, handleSubmit } = useForm<FormData>({
+    resolver: zodResolver(formDataSchema),
+    shouldFocusError: true,
     defaultValues: {
       content: question.content,
       id: question.id,
@@ -77,7 +86,6 @@ export const EditQuestionForm = ({
             name="content"
             control={control}
             label="Nom de la question"
-            rules={{ required: true }}
             multiline
             fullWidth
           />
@@ -89,7 +97,6 @@ export const EditQuestionForm = ({
               }))}
               name="message_id"
               control={control}
-              rules={{ required: true }}
               label="Message associé à la question"
               fullWidth
             />

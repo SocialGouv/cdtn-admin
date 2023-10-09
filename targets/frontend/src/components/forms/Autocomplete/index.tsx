@@ -11,6 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import { AutocompleteRenderGetTagProps } from "@mui/material/Autocomplete/Autocomplete";
+import { styled } from "@mui/system";
 import React, { PropsWithChildren } from "react";
 import { Controller } from "react-hook-form";
 
@@ -75,7 +76,7 @@ export const FormAutocomplete = <T,>({
             clearOnBlur={false}
             forcePopupIcon={false}
             disabled={disabled}
-            disableClearable
+            disableClearable={!!multiple ? true : undefined}
             multiple={multiple}
             id={`id-${label}`}
             value={value}
@@ -94,6 +95,7 @@ export const FormAutocomplete = <T,>({
             renderInput={(params) => (
               <TextField
                 {...params}
+                error={!!error}
                 label={label}
                 InputProps={{
                   ...params.InputProps,
@@ -109,7 +111,7 @@ export const FormAutocomplete = <T,>({
               />
             )}
           />
-          {error && error.type === "required" ? (
+          {error && error.message === "Required" ? (
             <FormHelperText>Ce champ est requis</FormHelperText>
           ) : null}
         </FormControl>

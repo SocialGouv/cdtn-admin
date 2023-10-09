@@ -1,6 +1,6 @@
 {
   "name": "@shared/dila-resolver",
-  "version": "2.17.9",
+  "version": "2.18.0",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -25,7 +25,6 @@
     "@types/jest": "^27.0.0",
     "jest": "^27.0.6",
     "lint-staged": "^12.0.0",
-    "prettier": "^2.3.2",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
   },
