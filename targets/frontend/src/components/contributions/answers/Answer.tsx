@@ -1,71 +1,36 @@
 import {
   AlertColor,
   Box,
-  Button,
-  FormControl,
   Stack,
+  Tooltip,
+  TooltipProps,
   Typography,
+  styled,
+  tooltipClasses,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
 import { useUser } from "src/hooks/useUser";
 
-import { FormEditionField, FormRadioGroup, FormTextField } from "../../forms";
 import { StatusContainer } from "../status";
 import { Answer, Status } from "../type";
 import { useContributionAnswerUpdateMutation } from "./answer.mutation";
 import { useContributionAnswerQuery } from "./answer.query";
 import { Comments } from "./Comments";
-import {
-  CdtnReferenceInput,
-  KaliReferenceInput,
-  LegiReferenceInput,
-  OtherReferenceInput,
-} from "./references";
 import { statusesMapping } from "../status/data";
-import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { SnackBar } from "../../utils/SnackBar";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
-import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
+import { AnswerForm } from "./AnswerForm";
+import { fr } from "@codegouvfr/react-dsfr";
 
 export type ContributionsAnswerProps = {
   id: string;
 };
-
-const isNotEditable = (answer: Answer | undefined) =>
-  answer?.status.status !== "REDACTING" &&
-  answer?.status.status !== "TODO" &&
-  answer?.status.status !== "VALIDATING";
-
-const isCodeDuTravail = (answer: Answer): boolean =>
-  answer.agreement.id === "0000";
 
 export const ContributionsAnswer = ({
   id,
 }: ContributionsAnswerProps): JSX.Element => {
   const answer = useContributionAnswerQuery({ id });
   const { user } = useUser() as any;
-  const [status, setStatus] = useState<Status>("TODO");
-  useEffect(() => {
-    if (answer?.status) {
-      setStatus(answer.status.status);
-    }
-  }, [answer]);
-  const { control, getValues, trigger } = useForm<Answer>({
-    values: answer,
-    defaultValues: {
-      content: "",
-      contentType: "ANSWER",
-      status: {
-        status: "TODO",
-      },
-      legiReferences: [],
-      kaliReferences: [],
-      otherReferences: [],
-      cdtnReferences: [],
-      contentFichesSpDocument: answer?.contentFichesSpDocument ? {} : undefined,
-    },
-  });
   const updateAnswer = useContributionAnswerUpdateMutation();
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -75,19 +40,7 @@ export const ContributionsAnswer = ({
     open: false,
   });
 
-  const onSubmit = async (newStatus: Status) => {
-    const isValid = await trigger();
-    if (!isValid) {
-      return setSnack({
-        open: true,
-        severity: "error",
-        message: "Formulaire invalide",
-      });
-    }
-
-    setStatus(newStatus);
-    const data = getValues();
-
+  const onSubmit = async (newStatus: Status, data: Answer) => {
     try {
       if (!answer || !answer.id) {
         throw new Error("Id non définit");
@@ -114,38 +67,12 @@ export const ContributionsAnswer = ({
       setSnack({ open: true, severity: "error", message: e.message });
     }
   };
-
-  const agreementResponseOptions = [
-    {
-      label: "La convention collective ne prévoit rien",
-      value: "NOTHING",
-    },
-    {
-      label: "La convention collective renvoie au Code du Travail",
-      value: "CDT",
-    },
-    {
-      label:
-        "La convention collective intégralement moins favorable que le CDT",
-      value: "UNFAVOURABLE",
-    },
-    {
-      label: "Nous n'avons pas la réponse",
-      value: "UNKNOWN",
-    },
-  ];
-  const genericResponseOptions = [
-    {
-      label: "Utiliser la fiche service public",
-      value: "SP",
-    },
-  ];
   return (
     <>
       <Stack direction="row" justifyContent="space-between">
         <Breadcrumb>
           <BreadcrumbLink
-            href={`/contributions/questions/${answer?.question.id}`}
+            href={`/contributions/questions/${answer?.question?.id}`}
           >
             <>
               <Typography
@@ -160,128 +87,34 @@ export const ContributionsAnswer = ({
               {answer?.question?.content}
             </>
           </BreadcrumbLink>
-          <BreadcrumbLink>{answer?.agreement?.id}</BreadcrumbLink>
+          <BreadcrumbLink>
+            <HtmlTooltip
+              title={
+                <>
+                  <Typography color="inherit">
+                    {answer?.agreement?.name}
+                  </Typography>
+                </>
+              }
+            >
+              <Typography>{answer?.agreement?.id}</Typography>
+            </HtmlTooltip>
+          </BreadcrumbLink>
         </Breadcrumb>
         {answer?.status && (
-          <div style={{ color: statusesMapping[status].color }}>
+          <div style={{ color: statusesMapping[answer?.status.status].color }}>
             <StatusContainer status={answer.status} />
           </div>
         )}
       </Stack>
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
+      <Stack direction="row">
         <Box sx={{ width: "70%" }}>
-          <form
-            onSubmit={(e) => {
-              // This is a hack to prevent the form from being submitted by the tiptap editor.
-              // The details extension is not working properly and submit the form when click on the arrow.
-              // See https://github.com/ueberdosis/tiptap/issues/4384
-              e.preventDefault();
-            }}
-          >
-            <Stack spacing={5}>
-              <FormControl>
-                <FormTextField
-                  name="updateDate"
-                  control={control}
-                  label="Date mise à jour"
-                  disabled
-                  labelFixed
-                />
-              </FormControl>
-              <FormControl>
-                <FormEditionField
-                  label="Réponse"
-                  name="content"
-                  disabled={isNotEditable(answer)}
-                  control={control}
-                />
-              </FormControl>
-              {answer && (
-                <FormRadioGroup
-                  name="contentType"
-                  label="Type de réponse"
-                  control={control}
-                  disabled={isNotEditable(answer)}
-                  options={[
-                    {
-                      label: "Afficher la réponse",
-                      value: "ANSWER",
-                    },
-                    ...(isCodeDuTravail(answer)
-                      ? genericResponseOptions
-                      : agreementResponseOptions),
-                  ]}
-                />
-              )}
-              {answer && isCodeDuTravail(answer) && (
-                <FicheSpDocumentInput
-                  name="contentFichesSpDocument"
-                  control={control}
-                  disabled={isNotEditable(answer)}
-                />
-              )}
-              {answer && !isCodeDuTravail(answer) && (
-                <KaliReferenceInput
-                  name="kaliReferences"
-                  agreement={answer.agreement}
-                  control={control}
-                  disabled={isNotEditable(answer)}
-                />
-              )}
-              <LegiReferenceInput
-                name="legiReferences"
-                control={control}
-                disabled={isNotEditable(answer)}
-              />
-              <OtherReferenceInput
-                name="otherReferences"
-                control={control}
-                disabled={isNotEditable(answer)}
-              />
-              <CdtnReferenceInput
-                name="cdtnReferences"
-                control={control}
-                disabled={isNotEditable(answer)}
-              />
-              <Stack
-                direction="row"
-                justifyContent="end"
-                spacing={2}
-                padding={2}
-              >
-                <Button
-                  variant="outlined"
-                  type="button"
-                  onClick={() => onSubmit("REDACTING")}
-                  disabled={status === "TODO" || status === "REDACTING"}
-                >
-                  Remettre en rédaction
-                </Button>
-                <Button
-                  variant="text"
-                  type="button"
-                  disabled={isNotEditable(answer)}
-                  onClick={() => onSubmit("REDACTING")}
-                >
-                  Sauvegarder
-                </Button>
-                <Button
-                  variant="contained"
-                  type="button"
-                  color="success"
-                  onClick={() => onSubmit(getNextStatus(status))}
-                  disabled={status === "PUBLISHED"}
-                >
-                  {getPrimaryButtonLabel(status)}
-                </Button>
-              </Stack>
-            </Stack>
-
-            <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
-          </form>
+          {answer && (
+            <AnswerForm answer={answer} onSubmit={onSubmit}></AnswerForm>
+          )}
         </Box>
         <Box sx={{ width: "30%" }}>
-          {answer && (
+          {answer && answer.statuses && (
             <Comments
               answerId={answer.id}
               comments={answer.answerComments ?? []}
@@ -289,7 +122,21 @@ export const ContributionsAnswer = ({
             />
           )}
         </Box>
-      </Box>
+      </Stack>
+
+      <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
     </>
   );
 };
+
+const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: fr.colors.decisions.background.default.grey.hover,
+    color: fr.colors.decisions.text.default.grey.default,
+    maxWidth: 220,
+    fontSize: theme.typography.pxToRem(12),
+    border: `1px solid ${fr.colors.decisions.border.default.grey.default}`,
+  },
+}));

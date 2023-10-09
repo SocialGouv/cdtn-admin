@@ -119,9 +119,12 @@ const StyledEditorContent = styled(EditorContent)(() => {
       },
       ".details": {
         display: "flex",
-        margin: "1rem 0",
         border: "0",
-        padding: "0.5rem",
+        padding: "1rem 0",
+        borderTop: `1px solid ${fr.colors.decisions.text.default.grey.default}`,
+        ":first-child": {
+          border: "none",
+        },
         "> button": {
           display: "flex",
           cursor: "pointer",

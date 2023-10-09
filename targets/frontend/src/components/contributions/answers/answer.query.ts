@@ -83,7 +83,10 @@ type QueryProps = {
   id: string;
 };
 
-type AnswerWithStatus = Answer & { status: AnswerStatus; updateDate: string };
+export type AnswerWithStatus = Answer & {
+  status: AnswerStatus;
+  updateDate: string;
+};
 
 type QueryResult = {
   contribution_answers: AnswerWithStatus[];
