@@ -1,9 +1,9 @@
 import { DocumentsRepository } from "./documents.repository";
 import { NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
-import { DocumentRaw } from "../type";
+import { Document } from "../type";
 import { format } from "date-fns";
-import { generateIds } from "@shared/id-generator";
+import { generateCdtnId, generateInitialId } from "@shared/id-generator";
 import slugify from "@socialgouv/cdtn-slugify";
 
 export class DocumentsService {
@@ -18,9 +18,13 @@ export class DocumentsService {
     this.documentsRepository = documentsRepository;
   }
 
-  private mapInformationToDocument(data: Information): DocumentRaw {
+  private mapInformationToDocument(
+    data: Information,
+    cdtn_id?: string
+  ): Document {
     return {
-      ...generateIds(data.title),
+      cdtn_id: cdtn_id ?? generateCdtnId(data.title),
+      initial_id: data.id ?? generateInitialId(),
       source: "information",
       meta_description: data.metaDescription ?? data.description,
       title: data.title,
@@ -91,7 +95,12 @@ export class DocumentsService {
   }
 
   public async publish(id: string, source: string) {
-    let document: DocumentRaw | undefined;
+    console.log("id", id);
+    let document = await this.documentsRepository.fetch({
+      source,
+      initialId: id,
+    });
+    console.log("currentDoc", document);
     switch (source) {
       case "information":
       default:
@@ -105,7 +114,10 @@ export class DocumentsService {
             cause: null,
           });
         }
-        document = this.mapInformationToDocument(information);
+        document = this.mapInformationToDocument(
+          information,
+          document?.cdtn_id
+        );
         break;
     }
     const result = await this.documentsRepository.update(document);

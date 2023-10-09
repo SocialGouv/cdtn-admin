@@ -1,6 +1,7 @@
 import { ApiClient } from "src/lib/api";
 import { documentsPublishMutation } from "./documents.mutation";
-import { DocumentRaw } from "../type";
+import { queryDocument, DocumentsQueryProps } from "./documents.query";
+import { Document } from "../type";
 
 export class DocumentsRepository {
   client: ApiClient;
@@ -9,11 +10,19 @@ export class DocumentsRepository {
     this.client = client;
   }
 
-  async update(document: DocumentRaw): Promise<string | undefined> {
+  async fetch(variables: DocumentsQueryProps) {
+    try {
+      return await queryDocument(this.client, variables);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async update(document: Document): Promise<string | undefined> {
     try {
       const { data, error } = await this.client.mutation<
         any,
-        { upsert: DocumentRaw }
+        { upsert: Document }
       >(documentsPublishMutation, { upsert: document });
       if (error) {
         console.log("Error: ", error);
