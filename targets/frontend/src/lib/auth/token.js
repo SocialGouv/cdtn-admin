@@ -3,6 +3,7 @@ import Router from "next/router";
 import { request } from "../request";
 import { setJwtCookie } from "./setJwtCookie";
 import { getTokenSessionStorage } from "./store";
+import cookie from "cookie";
 
 export async function auth(ctx) {
   console.log("[ auth ] ctx ?", ctx ? true : false);
@@ -31,8 +32,6 @@ export async function auth(ctx) {
       ? `${baseUrl}/api/refresh_token`
       : "/api/refresh_token";
 
-    if (ctx && ctx.req) console.log("cookieHeader", ctx.req.headers);
-
     const tokenFromSession = getTokenSessionStorage();
 
     let body = {};
@@ -43,14 +42,22 @@ export async function auth(ctx) {
       };
     }
 
+    if (cookieHeader && cookieHeader.Cookie) {
+      let cookies = cookie.parse(cookieHeader.Cookie);
+      if (cookies && cookies.refresh_token) {
+        body = {
+          ...tokenFromSession,
+        };
+      }
+    }
+
+    console.log("-----");
+    console.log("okkkkkk");
+    console.log(body);
+    console.log("-----");
+
     const tokenData = await request(url, {
       body,
-      credentials: "include",
-      headers: {
-        "Cache-Control": "no-cache",
-        ...cookieHeader,
-      },
-      mode: "same-origin",
     });
 
     console.log("[ auth ] tokenData", JSON.stringify(tokenData));
