@@ -41,7 +41,7 @@ export async function auth(ctx) {
     const tokenData = await request(
       ctx?.req
         ? `${
-            process.env.FRONTEND_HOST ?? `http://localhost:3000`
+            `https://${process.env.FRONTEND_HOST}` ?? `http://localhost:3000`
           }/api/refresh_token`
         : "/api/refresh_token",
       {
