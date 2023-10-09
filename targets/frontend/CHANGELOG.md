@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.19.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.18.0...v2.19.0) (2023-10-09)
+
+### Bug Fixes
+
+- **nextjs:** downgrade nextjs version ([#1071](https://github.com/SocialGouv/cdtn-admin/issues/1071)) ([bca21f8](https://github.com/SocialGouv/cdtn-admin/commit/bca21f80d9328e6f008dafa50ec71fd95b3c3b9f))
+
+### Features
+
+- **upload:** refacto files in typescript ([#1050](https://github.com/SocialGouv/cdtn-admin/issues/1050)) ([a70fc4f](https://github.com/SocialGouv/cdtn-admin/commit/a70fc4fdbf254876d80b0fc477062ce0983f58af))
+
 # [2.18.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.9...v2.18.0) (2023-10-09)
 
 ### Bug Fixes
