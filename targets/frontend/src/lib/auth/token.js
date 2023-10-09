@@ -46,6 +46,10 @@ export async function auth(ctx) {
       ? `${baseUrl}/api/refresh_token`
       : "/api/refresh_token";
 
+    console.log("oodskqdosqkodqkods");
+    console.log(isServer, url);
+    console.log(cookieHeader);
+
     const tokenData = await request(url, {
       body: {},
       credentials: "include",
@@ -55,6 +59,10 @@ export async function auth(ctx) {
       },
       mode: "same-origin",
     });
+
+    console.log("wffffff");
+
+    console.log(tokenData);
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
     if (ctx?.res) {

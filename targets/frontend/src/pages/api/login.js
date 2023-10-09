@@ -39,6 +39,8 @@ export default async function login(req, res) {
     })
     .toPromise();
 
+  console.log(loginResult);
+
   if (loginResult.error) {
     console.error(loginResult.error);
     return apiError(Boom.serverUnavailable("login error"));
@@ -68,15 +70,22 @@ export default async function login(req, res) {
     return apiError(Boom.unauthorized("Invalid 'username' or 'password'"));
   }
 
+  console.log(user);
+
   const jwt_token = generateJwtToken(user);
+
+  console.log(jwt_token);
+
   const refreshTokenResult = await client
     .mutation(refreshTokenMutation, {
       refresh_token_data: {
-        expires_at: getExpiryDate(parseInt(REFRESH_TOKEN_EXPIRES, 10)),
+        expires_at: getExpiryDate(REFRESH_TOKEN_EXPIRES),
         user_id: user.id,
       },
     })
     .toPromise();
+
+  console.log(refreshTokenResult);
 
   if (refreshTokenResult.error) {
     return apiError(
@@ -93,7 +102,7 @@ export default async function login(req, res) {
 
   res.json({
     jwt_token,
-    jwt_token_expiry: getExpiryDate(parseInt(JWT_TOKEN_EXPIRES, 10) || 15),
+    jwt_token_expiry: getExpiryDate(JWT_TOKEN_EXPIRES, 10),
     refresh_token,
   });
 }
