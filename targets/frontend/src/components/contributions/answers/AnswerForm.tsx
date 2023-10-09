@@ -16,15 +16,19 @@ import {
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
 
-const answerFormBaseSchema = answerRelationSchema.pick({
-  content: true,
-  contentType: true,
-  cdtnReferences: true,
-  kaliReferences: true,
-  legiReferences: true,
-  otherReferences: true,
-  contentFichesSpDocument: true,
-});
+const answerFormBaseSchema = answerRelationSchema
+  .pick({
+    content: true,
+    contentType: true,
+    cdtnReferences: true,
+    kaliReferences: true,
+    legiReferences: true,
+    otherReferences: true,
+    contentFichesSpDocument: true,
+  })
+  .extend({
+    updateDate: z.string(),
+  });
 const answerWithAnswerSchema = answerFormBaseSchema.extend({
   contentType: z.literal("ANSWER"),
   content: z
@@ -95,6 +99,7 @@ export const AnswerForm = ({
       otherReferences: answer?.otherReferences ?? [],
       cdtnReferences: answer?.cdtnReferences ?? [],
       contentFichesSpDocument: answer?.contentFichesSpDocument ?? undefined,
+      updateDate: answer?.updateDate ?? "",
     },
   });
 
