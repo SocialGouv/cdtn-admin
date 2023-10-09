@@ -2,6 +2,7 @@ import Router from "next/router";
 
 import { request } from "../request";
 import { setJwtCookie } from "./setJwtCookie";
+import { getTokenSessionStorage } from "./store";
 
 export async function auth(ctx) {
   console.log("[ auth ] ctx ?", ctx ? true : false);
@@ -30,8 +31,18 @@ export async function auth(ctx) {
       ? `${baseUrl}/api/refresh_token`
       : "/api/refresh_token";
 
+    const tokenFromSession = getTokenSessionStorage();
+
+    let body = {};
+
+    if (tokenFromSession) {
+      body = {
+        ...tokenFromSession,
+      };
+    }
+
     const tokenData = await request(url, {
-      body: {},
+      body,
       credentials: "include",
       headers: {
         "Cache-Control": "no-cache",

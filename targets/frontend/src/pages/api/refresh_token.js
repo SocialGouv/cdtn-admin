@@ -42,6 +42,10 @@ export default async function refreshToken(req, res) {
       return apiError(Boom.badRequest(error.details[0].message));
     }
 
+    if (!value.refresh_token) {
+      return apiError(Boom.unauthorized("Invalid 'refresh_token'"));
+    }
+
     const { refresh_token } = value;
 
     let result = await client
