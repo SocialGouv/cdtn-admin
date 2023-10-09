@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.18.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.9...v2.18.0) (2023-10-09)
+
+### Bug Fixes
+
+- contribution ref link ([#1047](https://github.com/SocialGouv/cdtn-admin/issues/1047)) ([1b44bfa](https://github.com/SocialGouv/cdtn-admin/commit/1b44bfa86f19da97d64e61db993c4013de268648))
+- **dependencies:** remove un-used dependencies ([#1034](https://github.com/SocialGouv/cdtn-admin/issues/1034)) ([529ffb4](https://github.com/SocialGouv/cdtn-admin/commit/529ffb40bcf79738494d745b0bb756ebd43ab3a4))
+- **wording:** rename answer type on contribution page ([#1052](https://github.com/SocialGouv/cdtn-admin/issues/1052)) ([2a0ace5](https://github.com/SocialGouv/cdtn-admin/commit/2a0ace55918f3bda72a34ae9ce8b81b92fdd5a16))
+
+### Features
+
+- 1032 admin amélioration bouton maj des données notamment le vraiment ([#1033](https://github.com/SocialGouv/cdtn-admin/issues/1033)) ([ee41911](https://github.com/SocialGouv/cdtn-admin/commit/ee419116d67ba45b11f32346ee323ae001c3a444))
+- contribution zod ([#1056](https://github.com/SocialGouv/cdtn-admin/issues/1056)) ([6f8021f](https://github.com/SocialGouv/cdtn-admin/commit/6f8021fe83ce6969fa78e66e0e766595eaaf4159)), closes [#1040](https://github.com/SocialGouv/cdtn-admin/issues/1040)
+
+### Reverts
+
+- Revert "feat:1007 admin liste des contenus modifiés lors dune maj des données - page info (#1013)" ([ec3584f](https://github.com/SocialGouv/cdtn-admin/commit/ec3584f59094dc238d4ece3eeadd9c02993608af)), closes [#1013](https://github.com/SocialGouv/cdtn-admin/issues/1013)
+
 ## [2.17.9](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.8...v2.17.9) (2023-09-29)
 
 ### Bug Fixes
