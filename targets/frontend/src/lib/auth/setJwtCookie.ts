@@ -6,24 +6,28 @@ export function setJwtCookie(
   refresh_token: string,
   jwt_token?: string
 ) {
-  const cookies = [
-    cookie.serialize("refresh_token", refresh_token, {
-      httpOnly: true,
-      maxAge: REFRESH_TOKEN_EXPIRES * 60, // maxAge in second
-      path: "/",
-      sameSite: "strict",
-      secure: false,
-    }),
-  ];
-  if (jwt_token) {
-    cookies.push(
-      cookie.serialize("jwt", jwt_token, {
+  try {
+    const cookies = [
+      cookie.serialize("refresh_token", refresh_token, {
         httpOnly: true,
+        maxAge: REFRESH_TOKEN_EXPIRES * 60, // maxAge in second
         path: "/",
         sameSite: "strict",
         secure: false,
-      })
-    );
+      }),
+    ];
+    if (jwt_token) {
+      cookies.push(
+        cookie.serialize("jwt", jwt_token, {
+          httpOnly: true,
+          path: "/",
+          sameSite: "strict",
+          secure: false,
+        })
+      );
+    }
+    res.setHeader("Set-Cookie", cookies);
+  } catch (err) {
+    console.error("[setJwtCookie]", err);
   }
-  res.setHeader("Set-Cookie", cookies);
 }

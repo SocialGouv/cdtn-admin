@@ -3,11 +3,10 @@ import { z } from "zod";
 import { client } from "@shared/graphql-client";
 import { createErrorFor } from "src/lib/apiError";
 import { generateJwtToken } from "src/lib/auth/jwt";
-import { setJwtCookie } from "src/lib/auth/setJwtCookie";
 import { getExpiryDate } from "src/lib/duration";
 import { v4 as uuidv4 } from "uuid";
 import { REFRESH_TOKEN_EXPIRES, JWT_TOKEN_EXPIRES } from "../../config";
-
+import { setJwtCookie } from "../../lib/auth/setJwtCookie";
 import {
   deletePreviousRefreshTokenMutation,
   getRefreshTokenQuery,
