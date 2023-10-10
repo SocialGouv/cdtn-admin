@@ -13,7 +13,7 @@ export function setJwtCookie(
         maxAge: REFRESH_TOKEN_EXPIRES * 60, // maxAge in second
         path: "/",
         sameSite: "strict",
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
       }),
     ];
     if (jwt_token) {
@@ -22,7 +22,7 @@ export function setJwtCookie(
           httpOnly: true,
           path: "/",
           sameSite: "strict",
-          secure: false,
+          secure: process.env.NODE_ENV === "production",
         })
       );
     }
