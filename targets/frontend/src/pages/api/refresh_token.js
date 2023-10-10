@@ -6,7 +6,7 @@ import { generateJwtToken } from "src/lib/auth/jwt";
 import { getExpiryDate } from "src/lib/duration";
 import { v4 as uuidv4 } from "uuid";
 import { REFRESH_TOKEN_EXPIRES, JWT_TOKEN_EXPIRES } from "../../config";
-import { setJwtCookie } from "../../lib/auth/setJwtCookie";
+import { setJwtCookie } from "src/lib/auth/setJwtCookie";
 import {
   deletePreviousRefreshTokenMutation,
   getRefreshTokenQuery,
