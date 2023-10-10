@@ -1,12 +1,12 @@
 import Router from "next/router";
 
-import { request } from "../request";
 import { setJwtCookie } from "./setJwtCookie";
 import { getTokenSessionStorage } from "./store";
 import cookie from "cookie";
 
 export async function auth(ctx) {
   console.log("[ auth ] ctx ?", ctx ? true : false);
+
   if (ctx?.token) {
     return ctx.token;
   }
@@ -50,19 +50,23 @@ export async function auth(ctx) {
         };
       }
     }
-    console.log("avant token data");
-    console.log(body);
+    if (body.length === 0) {
+      console.log("no token found");
+      return;
+    }
     const tokenData = await fetch(url, {
       headers: {
-        "content-type": "application/json",
+        "Content-Type": "application/json",
+        "Cache-Control": "no-cache",
       },
       method: "POST",
+      cache: "no-cache",
+      mode: "same-origin",
+      credentials: "include",
       body: JSON.stringify({
         refresh_token: body.refresh_token,
       }),
     }).then((res) => res.json());
-    console.log("apres token data");
-    console.log(tokenData);
 
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
@@ -74,7 +78,6 @@ export async function auth(ctx) {
     }
     return tokenData;
   } catch (error) {
-    console.log(error);
     console.error("[ auth ] refreshToken error ", { error });
 
     // we are on server side and its response is not ended yet
