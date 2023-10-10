@@ -44,7 +44,7 @@ export async function auth(ctx) {
 
     console.log(JSON.stringify(cookieHeader));
 
-    if (cookieHeader && cookieHeader.Cookie) {
+    if (!tokenFromSession && cookieHeader && cookieHeader.Cookie) {
       let cookies = cookie.parse(cookieHeader.Cookie);
       console.log(cookies);
       if (cookies && cookies.refresh_token) {
