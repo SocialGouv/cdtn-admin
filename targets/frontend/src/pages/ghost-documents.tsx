@@ -68,6 +68,7 @@ export function DuplicateContentPage(): JSX.Element {
               <Td>
                 <Link
                   href={sourceToRoute({
+                    id: parent.initial_id,
                     cdtnId: parent.cdtn_id,
                     source: parent.source,
                   })}

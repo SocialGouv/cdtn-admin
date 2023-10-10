@@ -30,6 +30,7 @@ export const getGhostDocumentQuery = gql`
       type
       parent: a {
         cdtn_id
+        initial_id
         source
         title
       }
@@ -47,7 +48,12 @@ export const getGhostDocumentQuery = gql`
 export type ParentRef = Pick<HasuraDocument, "cdtn_id" | "title" | "source">;
 export type DocumentRef = Pick<
   HasuraDocument,
-  "cdtn_id" | "title" | "source" | "is_available" | "is_published"
+  | "cdtn_id"
+  | "initial_id"
+  | "title"
+  | "source"
+  | "is_available"
+  | "is_published"
 >;
 
 export type GhostRelation = {
