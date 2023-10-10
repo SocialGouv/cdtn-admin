@@ -1,84 +1,60 @@
-import type {
-  ContributionComplete,
-  ContributionFiltered,
-  DocumentReferences,
-} from "@shared/types";
+import type { DocumentReferences } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import memoizee from "memoizee";
+import { getContributionsWithReferences } from "./getContributionsReferences";
 
-import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
-
-export type Contrib = Pick<
-  ContributionComplete | ContributionFiltered,
-  "document" | "source" | "title"
-> & {
-  initialId: string;
-  cdtnId: string;
-};
-
-export function extractContributionsRef(
-  questions: Contrib[]
-): DocumentReferences[] {
+export async function getContributionReferences(): Promise<
+  DocumentReferences[]
+> {
+  const contributions = await getContributionsWithReferences();
   const refs: DocumentReferences[] = [];
 
-  for (const question of questions) {
+  contributions.forEach((contribution) => {
+    const kaliReferences = contribution.kali_references.map((ref) => ({
+      dila_cid: ref.kali_article.cid,
+      dila_container_id: ref.kali_article.cid,
+      dila_id: ref.kali_article.id,
+      title: ref.kali_article.label ?? "",
+      url: "",
+    }));
+
+    const legiReferences = contribution.legi_references.map((ref) => ({
+      dila_cid: ref.legi_article.cid,
+      dila_container_id: ref.legi_article.cid,
+      dila_id: ref.legi_article.id,
+      title: ref.legi_article.label,
+      url: "",
+    }));
+
+    const ficheSpReferences = contribution.fiche_sp
+      ? [
+          {
+            dila_cid: contribution.fiche_sp.initial_id,
+            dila_container_id: contribution.fiche_sp.initial_id,
+            dila_id: contribution.fiche_sp.cdtn_id,
+            title: contribution.fiche_sp.initial_id,
+            url: "",
+          },
+        ]
+      : [];
+
+    const references = [
+      ...kaliReferences,
+      ...legiReferences,
+      ...ficheSpReferences,
+    ];
+
     refs.push({
       document: {
-        id: question.initialId,
+        id: contribution.id,
         source: SOURCES.CONTRIBUTIONS,
-        title: question.title,
+        title: contribution.question.content,
       },
-      references: question.document.answer.references.flatMap((ref) => {
-        if (ref.category === null) {
-          return [];
-        }
-        return [
-          {
-            dila_cid: ref.dila_cid,
-            dila_container_id: ref.dila_container_id,
-            dila_id: ref.dila_id,
-            title: ref.title,
-            url: ref.url,
-          },
-        ];
-      }),
+      references,
     });
-    if ("conventionAnswer" in question.document.answers) {
-      continue;
-    }
-    if (question.document.split) {
-      continue;
-    }
-    question.document.answers.conventions.forEach((answer) =>
-      refs.push({
-        document: {
-          id: answer.id,
-          source: SOURCES.CONTRIBUTIONS,
-          title: question.title,
-        },
-        references: answer.references.flatMap((ref) => {
-          if (ref.category === null) return [];
-          return [
-            {
-              dila_cid: ref.dila_cid,
-              dila_container_id: ref.dila_container_id,
-              dila_id: ref.dila_id,
-              title: ref.title,
-              url: ref.url,
-            },
-          ];
-        }),
-      })
-    );
-  }
-  return refs;
-}
+  });
 
-async function getContributionReferences() {
-  const contributions = (await getAllDocumentsBySource([
-    SOURCES.CONTRIBUTIONS,
-  ])) as Contrib[];
-  return extractContributionsRef(contributions);
+  return refs;
 }
 
 export default memoizee(getContributionReferences, { promise: true });

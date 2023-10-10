@@ -27,12 +27,12 @@ yarn test:watch # For watching unit test
 
 ## Environment variable
 
-| Name | Description | Default value |
-| --- | --- | --- |
-| `DISABLE_LIMIT_EXPORT` | It allows you to disable concurrent run in ingester (by default it's one hour between each run) | undefined |
-| `DISABLE_INGESTER` | It allows you to disable ingester in the process of export | undefined |
-| `DISABLE_SITEMAP` | It allows you to disable copy of the sitemap | undefined |
-| `DISABLE_COPY` | It allows you to disable copy between two containers | undefined |
+| Name                   | Description                                                                                     | Default value |
+| ---------------------- | ----------------------------------------------------------------------------------------------- | ------------- |
+| `DISABLE_LIMIT_EXPORT` | It allows you to disable concurrent run in ingester (by default it's one hour between each run) | undefined     |
+| `DISABLE_INGESTER`     | It allows you to disable ingester in the process of export                                      | undefined     |
+| `DISABLE_SITEMAP`      | It allows you to disable copy of the sitemap                                                    | undefined     |
+| `DISABLE_COPY`         | It allows you to disable copy between two containers                                            | undefined     |
 
 ## Testing in real
 
@@ -56,6 +56,13 @@ docker-compose up -d postgres
 ### 3. Load data from production to local
 
 #### 1. Restore data
+
+> Note: **You must have a backup of the production database**
+
+```sh
+docker compose exec -T postgres pg_dump --no-owner --no-acl -v -Fc  \
+  postgres://PostgresAdmins@host.docker.internal:63166/hasura_prod > ~/MY_PATH/hasura_prod_db.psql
+```
 
 ```sh
 docker-compose exec -T postgres pg_restore \
