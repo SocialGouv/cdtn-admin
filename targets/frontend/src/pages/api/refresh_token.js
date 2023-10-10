@@ -26,26 +26,17 @@ export default async function refreshToken(req, res) {
 
     value = data;
 
-    console.log(value);
-    console.log(error);
-
     if (error) {
       const temp = schema.safeParse(req.body);
       error = temp.error;
       value = temp.data;
     }
 
-    console.log(value);
-    console.log(error);
-
     if (error) {
       const temp = schema.safeParse(req.cookies);
       error = temp.error;
       value = temp.data;
     }
-
-    console.log(value);
-    console.log(error);
 
     if (error) {
       return apiError(Boom.badRequest(error.details[0].message));

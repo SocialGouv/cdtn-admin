@@ -50,10 +50,8 @@ export async function auth(ctx) {
         };
       }
     }
-
-    console.log(body);
-
-    const tokenData = await fetch(url, {
+    console.log("avant token data");
+    const tokenData = await fetch(`${baseUrl}/api/refresh_token`, {
       headers: {
         "content-type": "application/json",
       },
@@ -62,6 +60,8 @@ export async function auth(ctx) {
         refresh_token: body.refresh_token,
       }),
     }).then((res) => res.json());
+    console.log("apres token data");
+    console.log(tokenData);
 
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
@@ -73,6 +73,7 @@ export async function auth(ctx) {
     }
     return tokenData;
   } catch (error) {
+    console.log(error);
     console.error("[ auth ] refreshToken error ", { error });
 
     // we are on server side and its response is not ended yet
