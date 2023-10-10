@@ -42,11 +42,8 @@ export async function auth(ctx) {
       };
     }
 
-    console.log(JSON.stringify(cookieHeader));
-
     if (!tokenFromSession && cookieHeader && cookieHeader.Cookie) {
       let cookies = cookie.parse(cookieHeader.Cookie);
-      console.log(cookies);
       if (cookies && cookies.refresh_token) {
         body = {
           ...cookies,
@@ -54,17 +51,21 @@ export async function auth(ctx) {
       }
     }
 
+    console.log(body);
+
     const tokenData = await fetch(url, {
-      method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify(body),
+      method: "POST",
+      body: JSON.stringify({
+        refresh_token: body.refresh_token,
+      }),
     }).then((res) => res.json());
 
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
-    if (ctx?.res) {
+    if (isServer) {
       setJwtCookie(ctx.res, tokenData.refresh_token);
       // we also store token in context (this is probably a bad idea b)
       // to reuse it and avoid refresh token twice

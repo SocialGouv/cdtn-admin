@@ -14,6 +14,7 @@ import {
 
 export default async function refreshToken(req, res) {
   try {
+    console.log("[api/refresh_token.js] refreshToken");
     const apiError = createErrorFor(res);
     const schema = z.object({
       refresh_token: z.string().uuid(),
@@ -25,17 +26,26 @@ export default async function refreshToken(req, res) {
 
     value = data;
 
+    console.log(value);
+    console.log(error);
+
     if (error) {
       const temp = schema.safeParse(req.body);
       error = temp.error;
       value = temp.data;
     }
 
+    console.log(value);
+    console.log(error);
+
     if (error) {
       const temp = schema.safeParse(req.cookies);
       error = temp.error;
       value = temp.data;
     }
+
+    console.log(value);
+    console.log(error);
 
     if (error) {
       return apiError(Boom.badRequest(error.details[0].message));
@@ -53,6 +63,8 @@ export default async function refreshToken(req, res) {
         refresh_token,
       })
       .toPromise();
+
+    console.log(result);
 
     if (result.error) {
       console.error(result.error);
