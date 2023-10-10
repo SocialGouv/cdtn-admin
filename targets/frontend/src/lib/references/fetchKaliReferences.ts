@@ -4,7 +4,7 @@ import { KaliArticle } from "../../components/contributions";
 
 const getKaliReferences = `
 query getKaliReferences($agreementId: bpchar!, $query: String!) {
-  kali_articles(where: {agreement_id: {_eq: $agreementId}, _and: {path: {_ilike: $query}}}) {
+  kali_articles(where: {agreement_id: {_eq: $agreementId}, _or: [{path: {_ilike: $query}}, {id: {_ilike: $query}}]}) {
     path
     label
     id

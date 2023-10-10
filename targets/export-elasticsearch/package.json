@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "export-elasticsearch",
-  "version": "2.17.7",
+  "version": "2.19.0",
   "license": "MIT",
   "description": "",
   "main": "./build/index.js",
@@ -49,7 +49,6 @@
     "@types/supertest": "^2.0.11",
     "jest": "27.5.1",
     "nodemon": "2.0.15",
-    "prettier": "^2.8.8",
     "rimraf": "3.0.2",
     "supertest": "^6.2.2",
     "timekeeper": "^2.2.0",

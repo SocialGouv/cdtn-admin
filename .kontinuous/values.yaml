@@ -15,28 +15,16 @@ jobs:
       with:
         imagePackage: ingester
         dockerfile: targets/ingester/Dockerfile
-        secrets:
-          npmTiptapToken:
-            secretName: npm-tiptap
-            secretKey: NPM_TIPTAP_TOKEN
     build-alert:
       use: build
       with:
         imagePackage: alert
         dockerfile: targets/alert-cli/Dockerfile
-        secrets:
-          npmTiptapToken:
-            secretName: npm-tiptap
-            secretKey: NPM_TIPTAP_TOKEN
     build-export:
       use: build
       with:
         imagePackage: export
         dockerfile: targets/export-elasticsearch/Dockerfile
-        secrets:
-          npmTiptapToken:
-            secretName: npm-tiptap
-            secretKey: NPM_TIPTAP_TOKEN
     build-contributions:
       use: build
       with:

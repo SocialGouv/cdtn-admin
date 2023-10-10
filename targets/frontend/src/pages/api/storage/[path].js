@@ -4,7 +4,7 @@ import { createErrorFor } from "src/lib/apiError";
 import { deleteBlob } from "src/lib/azure";
 import { HASURA_GRAPHQL_JWT_SECRET } from "../../../config";
 
-const container = process.env.STORAGE_CONTAINER;
+const container = process.env.STORAGE_CONTAINER ?? "cdtn-dev";
 const jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
 
 export default async function deleteFiles(req, res) {
