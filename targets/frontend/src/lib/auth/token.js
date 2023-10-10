@@ -51,7 +51,7 @@ export async function auth(ctx) {
       }
     }
     console.log("avant token data");
-    const tokenData = await fetch(`${baseUrl}/api/refresh_token`, {
+    const tokenData = await fetch("/api/refresh_token", {
       headers: {
         "content-type": "application/json",
       },
