@@ -54,9 +54,13 @@ export async function auth(ctx) {
       }
     }
 
-    const tokenData = await request(url, {
-      body,
-    });
+    const tokenData = await fetch(url, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(body),
+    }).then((res) => res.json());
 
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value

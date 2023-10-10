@@ -10,7 +10,12 @@ export function toSecond(minutes = 0) {
 }
 
 export function getExpiryDate(minutes = 0) {
-  return new Date(Date.now() + toMs(minutes));
+  try {
+    return new Date(Date.now() + toMs(minutes));
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 export const timeSince = (date) =>
