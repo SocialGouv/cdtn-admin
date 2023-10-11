@@ -69,6 +69,10 @@ export async function auth(ctx) {
       }),
     }).then((res) => res.json());
 
+    if (!tokenData.refresh_token) {
+      throw new Error("no refresh_token found");
+    }
+
     // for ServerSide call, we need to set the Cookie header
     // to update the refresh_token value
     if (isServer) {
