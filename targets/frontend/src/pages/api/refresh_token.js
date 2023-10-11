@@ -11,11 +11,12 @@ import {
   deletePreviousRefreshTokenMutation,
   getRefreshTokenQuery,
 } from "./refresh_token.gql";
+import cookie from "cookie";
 
 export default async function refreshToken(req, res) {
+  const apiError = createErrorFor(res);
   try {
     console.log("[api/refresh_token.js] refreshToken");
-    const apiError = createErrorFor(res);
     const schema = z.object({
       refresh_token: z.string().uuid(),
     });
@@ -33,13 +34,10 @@ export default async function refreshToken(req, res) {
     }
 
     if (error) {
-      const temp = schema.safeParse(req.cookies);
+      let cookiesFromReq = cookie.parse(cookieHeader.Cookie);
+      const temp = schema.safeParse(cookiesFromReq);
       error = temp.error;
       value = temp.data;
-    }
-
-    if (error) {
-      return apiError(Boom.badRequest(error.details[0].message));
     }
 
     if (!value.refresh_token) {
