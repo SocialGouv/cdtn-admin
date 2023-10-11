@@ -4,7 +4,7 @@ import { client } from "@shared/graphql-client";
 import { verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 import { generateJwtToken } from "src/lib/auth/jwt";
-import { setJwtCookie } from "src/lib/auth/setJwtCookie";
+import { setJwtCookie } from "src/lib/auth/cookie";
 import { getExpiryDate } from "src/lib/duration";
 
 import { loginQuery, refreshTokenMutation } from "./login.gql";

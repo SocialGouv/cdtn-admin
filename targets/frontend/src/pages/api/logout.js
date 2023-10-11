@@ -1,8 +1,8 @@
 import Boom from "@hapi/boom";
 import { z } from "zod";
 import { client } from "@shared/graphql-client";
-import cookie from "cookie";
 import { createErrorFor } from "src/lib/apiError";
+import { removeJwtCookie } from "src/lib/auth/cookie";
 
 export default async function logout(req, res) {
   const apiError = createErrorFor(res);
@@ -37,26 +37,8 @@ export default async function logout(req, res) {
   }
 
   console.log("[ logout ]", { refresh_token });
-  res.setHeader(
-    "Set-Cookie",
-    cookie.serialize("refresh_token", "deleted", {
-      httpOnly: true,
-      maxAge: 0,
-      path: "/",
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-    })
-  );
-  res.setHeader(
-    "Set-Cookie",
-    cookie.serialize("jwt", "deleted", {
-      httpOnly: true,
-      maxAge: 0,
-      path: "/",
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-    })
-  );
+
+  removeJwtCookie(res);
 
   console.log("[logout]", refresh_token);
   res.json({ message: "user logout !" });

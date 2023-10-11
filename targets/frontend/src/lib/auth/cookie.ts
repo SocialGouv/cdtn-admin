@@ -34,3 +34,23 @@ export function setJwtCookie(
     console.error("[setJwtCookie]", err);
   }
 }
+
+export function removeJwtCookie(res: any) {
+  const cookies = [
+    cookie.serialize("refresh_token", "", {
+      httpOnly: true,
+      maxAge: -1,
+      path: "/",
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    }),
+    cookie.serialize("jwt", "", {
+      httpOnly: true,
+      maxAge: -1,
+      path: "/",
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    }),
+  ];
+  res.setHeader("Set-Cookie", cookies);
+}

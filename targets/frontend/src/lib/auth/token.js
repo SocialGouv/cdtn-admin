@@ -1,7 +1,11 @@
 import Router from "next/router";
 
-import { setJwtCookie } from "./setJwtCookie";
-import { getTokenSessionStorage } from "./store";
+import { setJwtCookie, removeJwtCookie } from "./cookie";
+import {
+  getTokenSessionStorage,
+  removeTokenSessionStorage,
+  saveTokenSessionStorage,
+} from "./store";
 import cookie from "cookie";
 
 export async function auth(ctx) {
@@ -80,6 +84,8 @@ export async function auth(ctx) {
       // we also store token in context (this is probably a bad idea b)
       // to reuse it and avoid refresh token twice
       ctx.token = tokenData;
+    } else {
+      saveTokenSessionStorage(tokenData);
     }
     return tokenData;
   } catch (error) {
@@ -87,9 +93,11 @@ export async function auth(ctx) {
 
     // we are on server side and its response is not ended yet
     if (ctx?.res && !ctx.res.writableEnded) {
+      removeJwtCookie(ctx.res);
       ctx.res.writeHead(302, { Location: "/login" });
       ctx.res.end();
     } else if (ctx && !ctx.req) {
+      removeTokenSessionStorage();
       // if we are on the client
       Router.push("/login");
     }
