@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.0...v2.19.1) (2023-10-10)
+
+### Bug Fixes
+
+- bug contribution validation sur page non editable ([#1075](https://github.com/SocialGouv/cdtn-admin/issues/1075)) ([b63771a](https://github.com/SocialGouv/cdtn-admin/commit/b63771aab8f474aebee9eee4e5a8ef9e747ba01f))
+
 # [2.19.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.18.0...v2.19.0) (2023-10-09)
 
 ### Bug Fixes

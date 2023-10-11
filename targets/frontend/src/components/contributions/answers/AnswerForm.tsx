@@ -104,16 +104,18 @@ export const AnswerForm = ({
   });
 
   const submit = async (newStatus: Status) => {
-    const isValid = await trigger();
-
-    if (isValid) {
-      setStatus(newStatus);
-      const formData = getValues();
-      onSubmit(newStatus, {
-        ...answer,
-        ...formData,
-      });
+    if (!isNotEditable(answer)) {
+      const isValid = await trigger();
+      if (!isValid) {
+        return;
+      }
     }
+    const formData = getValues();
+    setStatus(newStatus);
+    onSubmit(newStatus, {
+      ...answer,
+      ...formData,
+    });
   };
 
   const agreementResponseOptions = [
