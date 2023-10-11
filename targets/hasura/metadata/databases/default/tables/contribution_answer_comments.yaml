@@ -27,3 +27,7 @@ select_permissions:
         - user_id
       filter: {}
       allow_aggregations: true
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

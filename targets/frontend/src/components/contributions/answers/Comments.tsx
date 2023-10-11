@@ -82,7 +82,7 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
 
   const onSubmit = async (data: MutationProps) => {
     try {
-      await insertComment(
+      const result = await insertComment(
         {
           answerId: answerId,
           content: data.content,
@@ -90,6 +90,9 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
         },
         { additionalTypenames: ["AnswerComments"] }
       );
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
       setSnack({
         open: true,
         severity: "success",
@@ -103,19 +106,24 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
 
   const onDeleteCom = async (commentToDelete: CommentsAndStatuses) => {
     try {
-      await deleteComment(
+      const result = await deleteComment(
         { id: commentToDelete.id },
         {
           additionalTypenames: ["AnswerComments"],
         }
       );
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
       setSnack({
         open: true,
         severity: "success",
         message: "Le commentaire a bien été supprimé",
       });
       setIsDeleteModalOpen(false);
+      setCommentToDelete(undefined);
     } catch (e: any) {
+      setIsDeleteModalOpen(false);
       setSnack({ open: true, severity: "error", message: e.message });
     }
   };
