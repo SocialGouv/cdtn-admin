@@ -1,11 +1,6 @@
 import Router from "next/router";
 
 import { setJwtCookie, removeJwtCookie } from "./cookie";
-import {
-  getTokenSessionStorage,
-  removeTokenSessionStorage,
-  saveTokenSessionStorage,
-} from "./store";
 import cookie from "cookie";
 
 export async function auth(ctx) {
@@ -36,17 +31,9 @@ export async function auth(ctx) {
       ? `${baseUrl}/api/refresh_token`
       : "/api/refresh_token";
 
-    const tokenFromSession = getTokenSessionStorage();
-
     let body = {};
 
-    if (tokenFromSession) {
-      body = {
-        ...tokenFromSession,
-      };
-    }
-
-    if (!tokenFromSession && cookieHeader && cookieHeader.Cookie) {
+    if (cookieHeader && cookieHeader.Cookie) {
       let cookies = cookie.parse(cookieHeader.Cookie);
       if (cookies && cookies.refresh_token) {
         body = {
@@ -84,8 +71,6 @@ export async function auth(ctx) {
       // we also store token in context (this is probably a bad idea b)
       // to reuse it and avoid refresh token twice
       ctx.token = tokenData;
-    } else {
-      saveTokenSessionStorage(tokenData);
     }
     return tokenData;
   } catch (error) {
@@ -97,7 +82,6 @@ export async function auth(ctx) {
       ctx.res.writeHead(302, { Location: "/login" });
       ctx.res.end();
     } else if (ctx && !ctx.req) {
-      removeTokenSessionStorage();
       // if we are on the client
       Router.push("/login");
     }

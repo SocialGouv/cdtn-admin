@@ -11,7 +11,7 @@ const jwtSecret = JSON.parse(
 
 export default async function deleteFiles(req, res) {
   const apiError = createErrorFor(res);
-  const { token } = req.headers;
+  const { jwt: token } = req.cookies;
 
   if (!token || !verify(token, jwtSecret.key, { algorithms: jwtSecret.type })) {
     return apiError(Boom.badRequest("wrong token"));

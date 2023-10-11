@@ -4,7 +4,6 @@ import { Header } from "src/components/layout/header";
 import LoginForm from "src/components/login";
 import { request } from "src/lib/request";
 import { Box } from "@mui/material";
-import { saveTokenSessionStorage } from "src/lib/auth/store";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -23,8 +22,6 @@ export default function LoginPage() {
       headers: {
         "Cache-Control": "no-cache",
       },
-    }).then((tokenData) => {
-      saveTokenSessionStorage(tokenData);
     });
   };
 

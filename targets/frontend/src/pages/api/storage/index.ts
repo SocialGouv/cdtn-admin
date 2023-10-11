@@ -15,7 +15,7 @@ const jwtSecret = JSON.parse(
 
 async function endPoint(req: NextApiRequest, res: NextApiResponse) {
   const apiError = createErrorFor(res);
-  const { token }: any = req.headers;
+  const { jwt: token } = req.cookies;
 
   if (!token || !verify(token, jwtSecret.key, { algorithms: jwtSecret.type })) {
     return apiError(Boom.badRequest("wrong token"));

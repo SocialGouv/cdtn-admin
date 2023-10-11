@@ -27,22 +27,16 @@ import {
   MenuItem,
   List,
 } from "@mui/material";
-import { getTokenSessionStorage } from "src/lib/auth/store";
 
-const listFiles = () =>
-  request(`/api/storage`, {
-    headers: { token: getTokenSessionStorage()?.jwt_token || "" },
-  } as any);
+const listFiles = () => request(`/api/storage`);
 
 const uploadFiles = (formData: any) =>
   request(`/api/storage`, {
     body: formData,
-    headers: { token: getTokenSessionStorage()?.jwt_token || "" },
   } as any);
 
 const deleteFile = (path: any) =>
   request(`/api/storage/${path}`, {
-    headers: { token: getTokenSessionStorage()?.jwt_token || "" },
     method: "DELETE",
   } as any);
 
