@@ -22,7 +22,7 @@ export async function auth(ctx) {
   }
   try {
     const baseUrl = process.env.FRONTEND_HOST
-      ? `https://${process.env.FRONTEND_HOST}`
+      ? `https://www.${process.env.FRONTEND_HOST}`
       : `http://localhost:3000`;
     const isServer = ctx && ctx.req;
     const url = isServer
