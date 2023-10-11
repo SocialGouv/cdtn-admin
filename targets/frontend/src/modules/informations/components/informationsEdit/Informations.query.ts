@@ -9,7 +9,6 @@ const informationsQuery = `query informations($id: uuid) {
         id: { _eq: $id }
       }
     ) {
-        cdtnId
         description
         id
         intro

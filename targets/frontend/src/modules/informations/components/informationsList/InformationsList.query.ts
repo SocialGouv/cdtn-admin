@@ -8,7 +8,6 @@ export const informationsListQuery = `query informationsList($search: String) {
       }
       order_by: {updatedAt: desc}
     ) {
-        cdtnId
         description
         id
         intro

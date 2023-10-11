@@ -18,7 +18,7 @@ mutation edit_information(
     object: $upsert,
     on_conflict: {
       constraint: informations_pkey,
-      update_columns: [cdtnId,description,intro, metaTitle, metaDescription,referenceLabel,sectionDisplayMode]
+      update_columns: [description,intro, metaTitle, metaDescription,referenceLabel,sectionDisplayMode]
     }
   ) {
     id

@@ -64,7 +64,6 @@ export type InformationContent = z.infer<typeof informationContentSchema>;
 
 export const informationSchema = z.object({
   id: z.string().uuid().optional(),
-  cdtnId: z.string().nullable().optional(),
   title: z
     .string({ required_error: "un titre doit être renseigner" })
     .min(1, "un titre doit être renseigner"),
