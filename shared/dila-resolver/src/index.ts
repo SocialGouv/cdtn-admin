@@ -23,6 +23,7 @@ function createGetArticleReference(client: DilaApiClient) {
           ? data.article.conteneurs[0].cid
           : data.article.textTitles[0].id;
       return {
+        type: "base",
         dila_cid: data.article.cid,
         dila_container_id: containerId,
         dila_id: lastVersion.id,
