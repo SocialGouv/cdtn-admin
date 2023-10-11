@@ -19,8 +19,9 @@ export function withUserProvider(WrappedComponent) {
     };
 
     static async getInitialProps(ctx) {
-      const token = await auth(ctx);
       console.log("[withUserProvider] ctx", ctx ? true : false);
+      const token = await auth(ctx);
+      console.log("le token", token); //TODO delete
       const componentProps =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx));

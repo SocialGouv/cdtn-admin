@@ -9,10 +9,6 @@ export async function auth(ctx) {
     ctx && ctx.req ? true : false
   );
 
-  if (ctx?.token) {
-    return ctx.token;
-  }
-
   const cookieHeader = ctx?.req ? { Cookie: ctx.req.headers.cookie } : {};
   if (
     ctx?.res &&
@@ -70,9 +66,6 @@ export async function auth(ctx) {
     // to update the refresh_token value
     if (isServer) {
       setJwtCookie(ctx.res, tokenData.refresh_token);
-      // we also store token in context (this is probably a bad idea b)
-      // to reuse it and avoid refresh token twice
-      ctx.token = tokenData;
     }
     return tokenData;
   } catch (error) {
