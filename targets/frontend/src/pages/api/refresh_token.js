@@ -34,7 +34,8 @@ export default async function refreshToken(req, res) {
     }
 
     if (error) {
-      let cookiesFromReq = cookie.parse(cookieHeader.Cookie);
+      let cookiesFromReq = cookie.parse(req.cookies);
+      console.log(cookiesFromReq);
       const temp = schema.safeParse(cookiesFromReq);
       error = temp.error;
       value = temp.data;
