@@ -58,6 +58,7 @@ export async function auth(ctx) {
       headers: {
         "Content-Type": "application/json",
         "Cache-Control": "no-cache",
+        ...cookieHeader,
       },
       method: "POST",
       cache: "no-cache",
