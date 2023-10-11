@@ -15,6 +15,7 @@ import {
 } from "./references";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
+import { useRouter } from "next/router";
 
 const answerFormBaseSchema = answerRelationSchema
   .pick({
@@ -83,12 +84,19 @@ export const AnswerForm = ({
   onSubmit,
 }: ContributionsAnswerProps): JSX.Element => {
   const [status, setStatus] = useState<Status>("TODO");
+  const router = useRouter();
   useEffect(() => {
     if (answer?.status) {
       setStatus(answer.status.status);
     }
   }, [answer]);
-  const { control, getValues, trigger } = useForm<AnswerFormValidation>({
+
+  const {
+    control,
+    getValues,
+    trigger,
+    formState: { isDirty },
+  } = useForm<AnswerFormValidation>({
     resolver: zodResolver(answerFormSchema),
     shouldFocusError: true,
     defaultValues: {
@@ -102,6 +110,23 @@ export const AnswerForm = ({
       updateDate: answer?.updateDate ?? "",
     },
   });
+  const onRouteChangeStart = () => {
+    if (isDirty) {
+      if (
+        !window.confirm(
+          `Les modifications que vous avez apportées ne seront peut-être pas enregistrées.`
+        )
+      ) {
+        router.events.emit("routeChangeError");
+        throw `routeChange aborted`;
+      }
+      router.events.off("routeChangeStart", onRouteChangeStart);
+    }
+  };
+  useEffect(() => {
+    window.onbeforeunload = isDirty ? () => true : null;
+    router.events.on("routeChangeStart", onRouteChangeStart);
+  }, [isDirty]);
 
   const submit = async (newStatus: Status) => {
     if (!isNotEditable(answer)) {
