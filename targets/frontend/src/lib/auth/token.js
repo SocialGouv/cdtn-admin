@@ -22,7 +22,7 @@ export async function auth(ctx) {
     return null;
   }
   try {
-    console.log("[auth] refresh token");
+    console.log("[ auth ] refresh token");
     const baseUrl = process.env.FRONTEND_HOST
       ? `https://${process.env.FRONTEND_HOST}`
       : `http://localhost:3000`;
