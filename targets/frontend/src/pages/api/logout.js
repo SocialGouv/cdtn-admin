@@ -36,11 +36,8 @@ export default async function logout(req, res) {
     console.error("logout error", result.error);
   }
 
-  console.log("[ logout ]", { refresh_token });
-
   removeJwtCookie(res);
 
-  console.log("[logout]", refresh_token);
   res.json({ message: "user logout !" });
 }
 

@@ -4,7 +4,10 @@ import { setJwtCookie, removeJwtCookie } from "./cookie";
 import cookie from "cookie";
 
 export async function auth(ctx) {
-  console.log("[ auth ] ctx ?", ctx ? true : false);
+  console.log(
+    "[auth] - refresh token => is server ?",
+    ctx && ctx.req ? true : false
+  );
 
   if (ctx?.token) {
     return ctx.token;
@@ -16,13 +19,12 @@ export async function auth(ctx) {
     !ctx.res.writableEnded &&
     !/refresh_token/.test(cookieHeader.Cookie)
   ) {
-    console.log("[ auth ] no cookie found -> redirect to login");
+    console.log("[auth] no cookie found -> redirect to login");
     ctx.res.writeHead(302, { Location: "/login" });
     ctx.res.end();
     return null;
   }
   try {
-    console.log("[ auth ] refresh token");
     const baseUrl = process.env.FRONTEND_HOST
       ? `https://${process.env.FRONTEND_HOST}`
       : `http://localhost:3000`;
