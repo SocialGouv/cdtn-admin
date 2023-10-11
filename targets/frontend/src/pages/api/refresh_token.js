@@ -17,7 +17,7 @@ export default async function refreshToken(req, res) {
   try {
     console.log("[api/refresh_token.js] refreshToken");
     const schema = z.object({
-      refresh_token: z.string(),
+      refresh_token: z.string().uuid(),
     });
 
     let value;
