@@ -12,11 +12,14 @@ export type Reference = z.infer<typeof referenceSchema>;
 export const fileSchema = z.object({
   id: z.string().uuid().nullable().optional(),
   url: z
-    .string({ required_error: "une url doit être renseigner" })
+    .string({
+      required_error: "un nom de fichier doit être renseigner",
+      invalid_type_error: "un nom de fichier doit être renseigner",
+    })
     .min(1, "un nom de fichier doit être renseigner")
     .regex(
       /.*(\.|\/)(svg|jpe?g|png|pdf)$/g,
-      "Le format doit correspondre à une url"
+      "Le format doit correspondre à une nom de fichier"
     ),
   altText: z.string().nullable().optional(),
   size: z.string().nullable().optional(),
@@ -39,14 +42,30 @@ export const informationContentBlockSchema = z.object({
   id: z.string().uuid().nullable().optional(),
   content: z.string(),
   type: z.string({ required_error: "un type doit être renseigner" }),
-  contentDisplayMode: z.string().nullable().optional(),
+
   order: z.number().nullable().optional(),
-  file: fileSchema.nullable().optional(),
-  img: fileSchema.nullable().optional(),
-  contents: z.array(informationContentBlockContentSchema).nullable().optional(),
 });
+
+export const informationContentBlockDiscriminatedSchema = z.discriminatedUnion(
+  "type",
+  [
+    informationContentBlockSchema.extend({
+      type: z.literal("markdown"),
+    }),
+    informationContentBlockSchema.extend({
+      type: z.literal("graphic"),
+      file: fileSchema,
+      img: fileSchema,
+    }),
+    informationContentBlockSchema.extend({
+      type: z.literal("content"),
+      contentDisplayMode: z.string(),
+      contents: z.array(informationContentBlockContentSchema),
+    }),
+  ]
+);
 export type InformationContentBlock = z.infer<
-  typeof informationContentBlockSchema
+  typeof informationContentBlockDiscriminatedSchema
 >;
 
 export const informationContentSchema = z.object({
@@ -57,7 +76,7 @@ export const informationContentSchema = z.object({
     .min(1, "un titre doit être renseigner"),
   referenceLabel: z.string().nullable().optional(),
   order: z.number().nullable().optional(),
-  blocks: z.array(informationContentBlockSchema),
+  blocks: z.array(informationContentBlockDiscriminatedSchema),
   references: z.array(referenceSchema).nullable().optional(),
 });
 export type InformationContent = z.infer<typeof informationContentSchema>;
