@@ -12,6 +12,9 @@ query getContributionsWithRefs {
         cid
         id
         label
+        agreement {
+          kali_id
+        }
       }
     }
     legi_references {
@@ -29,45 +32,52 @@ query getContributionsWithRefs {
 }
 `;
 
-export interface ContributionsHasuraResult {
+interface ContributionsHasuraResult {
   data: Data;
 }
-export interface Data {
-  contribution_answers?: ContributionAnswersEntity[] | null;
+
+interface Data {
+  contribution_answers: ContributionAnswer[];
 }
-export interface ContributionAnswersEntity {
+
+interface ContributionAnswer {
   id: string;
   question: Question;
-  kali_references: KaliReferencesEntity[];
-  legi_references: LegiReferencesEntity[];
-  fiche_sp?: FicheSp | null;
+  kali_references: KaliReference[];
+  legi_references: LegiReference[];
+  fiche_sp: FicheSP | null;
 }
-export interface Question {
-  content: string;
-}
-export interface KaliReferencesEntity {
-  kali_article: KaliArticle;
-}
-export interface KaliArticle {
-  cid: string;
-  id: string;
-  label?: string | null;
-}
-export interface LegiReferencesEntity {
-  legi_article: KaliArticleOrLegiArticle;
-}
-export interface KaliArticleOrLegiArticle {
-  cid: string;
-  id: string;
-  label: string;
-}
-export interface FicheSp {
+
+interface FicheSP {
   cdtn_id: string;
   initial_id: string;
 }
 
+interface KaliReference {
+  kali_article: IArticle;
+}
+
+interface IArticle {
+  cid: string;
+  id: string;
+  label: null | string;
+  agreement?: Agreement;
+}
+
+interface Agreement {
+  kali_id: string;
+}
+
+interface LegiReference {
+  legi_article: IArticle;
+}
+
+interface Question {
+  content: string;
+}
+
 export async function getContributionsWithReferences(): Promise<
-  ContributionAnswersEntity[]
+  ContributionAnswer[]
 > {
   const res = await client
     .query<ContributionsHasuraResult>(getContributionsWithRefs, {})
@@ -78,5 +88,5 @@ export async function getContributionsWithReferences(): Promise<
     throw new Error("getContributionsWithReferences");
   }
 
-  return res.data.data.contribution_answers ?? [];
+  return res.data.data.contribution_answers;
 }

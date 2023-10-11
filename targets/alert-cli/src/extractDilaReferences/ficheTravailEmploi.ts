@@ -29,6 +29,7 @@ export function extractFicheTravailEmploiRef(
         },
         references: section.references.map(
           ({ cid: dila_cid, title, url, id: dila_id }) => ({
+            type: "base",
             dila_cid,
             dila_container_id: "LEGITEXT000006072050",
             dila_id,

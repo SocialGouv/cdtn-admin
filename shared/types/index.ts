@@ -320,10 +320,33 @@ export type DocumentReferences = {
   references: DocumentReference[];
 };
 
-export type DocumentReference = Pick<
-  DilaRef,
-  "dila_cid" | "dila_container_id" | "dila_id" | "title" | "url"
->;
+export type DocumentReference =
+  | KaliRef
+  | LegiRef
+  | FicheServicePublicRef
+  | DilaRef;
+
+export type KaliRef = {
+  type: "kali";
+  dila_cid: string;
+  dila_container_id: string;
+  dila_id: string;
+  title: string;
+};
+
+export type LegiRef = {
+  type: "legi";
+  dila_cid: string;
+  dila_id: string;
+  title: string;
+};
+
+export type FicheServicePublicRef = {
+  type: "fiche_sp";
+  dila_cid: string;
+  dila_id: string;
+  title: string;
+};
 
 export type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
   id: string;
@@ -457,6 +480,7 @@ export type Answer = {
 };
 
 export type DilaRef = {
+  type: "base";
   url: string;
   title: string;
   dila_id: string;
