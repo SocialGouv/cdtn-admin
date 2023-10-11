@@ -1,18 +1,6 @@
 table:
   name: kali_articles
   schema: public
-object_relationships:
-  - name: agreement
-    using:
-      foreign_key_constraint_on: agreement_id
-array_relationships:
-  - name: answer_kali_references
-    using:
-      foreign_key_constraint_on:
-        column: article_id
-        table:
-          name: answer_kali_references
-          schema: contribution
 select_permissions:
   - role: super
     permission:
