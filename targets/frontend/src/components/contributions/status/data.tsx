@@ -29,7 +29,7 @@ export const statusesMapping: StatusesMapping = {
   REDACTED: {
     color: fr.colors.decisions.text.default.info.default,
     icon: <DescriptionIcon titleAccess="Rédigé" fontSize="small" />,
-    text: "À validé",
+    text: "À valider",
   },
   VALIDATING: {
     color: fr.colors.decisions.text.default.warning.default,

@@ -101,6 +101,7 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
           }}
         >
           <Box
+            mb={4}
             ref={listRef}
             sx={{
               display: "flex",
