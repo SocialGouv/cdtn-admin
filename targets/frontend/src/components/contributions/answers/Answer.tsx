@@ -46,7 +46,7 @@ export const ContributionsAnswer = ({
         throw new Error("Id non définit");
       }
 
-      await updateAnswer({
+      const res = await updateAnswer({
         content: data.content,
         id: answer.id,
         contentType: data.contentType,
@@ -63,6 +63,7 @@ export const ContributionsAnswer = ({
         severity: "success",
         message: "La réponse a été modifiée",
       });
+      return res;
     } catch (e: any) {
       setSnack({ open: true, severity: "error", message: e.message });
     }
