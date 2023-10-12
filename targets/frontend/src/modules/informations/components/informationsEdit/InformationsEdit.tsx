@@ -19,7 +19,11 @@ export type EditInformationProps = {
 };
 
 export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
-  const { data: information, fetching } = useInformationsQuery({ id });
+  const {
+    data: information,
+    fetching,
+    reexecuteQuery,
+  } = useInformationsQuery({ id });
   const router = useRouter();
 
   const [snack, setSnack] = useState<{
@@ -74,7 +78,7 @@ export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
               onUpsert={async (upsertData) => {
                 try {
                   const idUpsert = await onUpsert(upsertData);
-                  await router.push(`/informations/${idUpsert}`);
+                  reexecuteQuery({ requestPolicy: "network-only" });
                   setSnack({
                     open: true,
                     severity: "success",

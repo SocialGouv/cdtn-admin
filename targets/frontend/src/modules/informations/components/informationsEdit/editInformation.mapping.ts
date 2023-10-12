@@ -14,10 +14,11 @@ const removeTypename = (obj: any) => {
   return obj;
 };
 
-const getRawColumns = (obj?: any): string[] => {
+export const getRawColumns = (obj?: any): string[] => {
   if (!obj) return [];
   return Object.entries(obj).reduce<string[]>((result, [key, value]) => {
-    if (key === "__typename" || typeof value === "object") return result;
+    if (key === "__typename" || (value && typeof value === "object"))
+      return result;
     return [...result, key];
   }, []);
 };
