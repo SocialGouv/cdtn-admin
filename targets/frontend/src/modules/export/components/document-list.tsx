@@ -39,7 +39,11 @@ export default function DocumentList({
             {docs.map((doc) => (
               <Stack direction="row" key={doc.slug}>
                 <Link
-                  href={sourceToRoute(doc)}
+                  href={sourceToRoute({
+                    id: doc.initial_id,
+                    cdtnId: doc.cdtn_id,
+                    source: doc.source,
+                  })}
                   target="_blank"
                   sx={{ fontSize: "0.8rem" }}
                 >

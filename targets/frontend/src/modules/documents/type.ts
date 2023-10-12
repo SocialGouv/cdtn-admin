@@ -13,5 +13,5 @@ export type Document = {
 
 export type ShortDocument = Pick<
   Document,
-  "source" | "slug" | "title" | "cdtn_id"
+  "source" | "slug" | "title" | "initial_id" | "cdtn_id"
 > & { isPublished: boolean };

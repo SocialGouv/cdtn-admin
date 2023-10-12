@@ -59,7 +59,8 @@ query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
         title
         source
         slug
-        cdtnId: cdtn_id
+        cdtn_id
+        initial_id
         isPublished: is_published
       }
 }`;
