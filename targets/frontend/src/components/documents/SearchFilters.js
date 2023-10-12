@@ -122,74 +122,86 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
       <Inline paddingTop="20px" paddingLeft="20px" paddingBottom="10px">
         <Inline>
           <FormLabel>Publication :</FormLabel>
+          <div sx={{ cursor: "pointer" }}>
+            <FormControlLabel
+              value="all"
+              control={
+                <Radio
+                  {...register("published")}
+                  checked={initialValues.published === "all"}
+                  onChange={triggerUpdateUrl}
+                />
+              }
+              label="Tous"
+            />
+          </div>
+          <div sx={{ cursor: "pointer" }}>
+            <FormControlLabel
+              value="yes"
+              control={
+                <Radio
+                  {...register("published")}
+                  checked={initialValues.published === "yes"}
+                  onChange={triggerUpdateUrl}
+                />
+              }
+              label="Publié"
+            />
+          </div>
+          <div sx={{ cursor: "pointer" }}>
+            <FormControlLabel
+              value="no"
+              control={
+                <Radio
+                  {...register("published")}
+                  checked={initialValues.published === "no"}
+                  onChange={triggerUpdateUrl}
+                />
+              }
+              label="Non-publié"
+            />
+          </div>
+        </Inline>
+        <FormLabel>Status :</FormLabel>
+        <div sx={{ cursor: "pointer" }}>
           <FormControlLabel
             value="all"
             control={
               <Radio
-                {...register("published")}
-                checked={initialValues.published === "all"}
+                {...register("available")}
+                checked={initialValues.available === "all"}
                 onChange={triggerUpdateUrl}
               />
             }
             label="Tous"
           />
+        </div>
+        <div sx={{ cursor: "pointer" }}>
           <FormControlLabel
             value="yes"
             control={
               <Radio
-                {...register("published")}
-                checked={initialValues.published === "yes"}
+                {...register("available")}
+                checked={initialValues.available === "yes"}
                 onChange={triggerUpdateUrl}
               />
             }
-            label="Publié"
+            label="Disponible"
           />
+        </div>
+        <div sx={{ cursor: "pointer" }}>
           <FormControlLabel
             value="no"
             control={
               <Radio
-                {...register("published")}
-                checked={initialValues.published === "no"}
+                {...register("available")}
+                checked={initialValues.available === "no"}
                 onChange={triggerUpdateUrl}
               />
             }
-            label="Non-publié"
+            label="Supprimé"
           />
-        </Inline>
-        <FormLabel>Status :</FormLabel>
-        <FormControlLabel
-          value="all"
-          control={
-            <Radio
-              {...register("available")}
-              checked={initialValues.available === "all"}
-              onChange={triggerUpdateUrl}
-            />
-          }
-          label="Tous"
-        />
-        <FormControlLabel
-          value="yes"
-          control={
-            <Radio
-              {...register("available")}
-              checked={initialValues.available === "yes"}
-              onChange={triggerUpdateUrl}
-            />
-          }
-          label="Disponible"
-        />
-        <FormControlLabel
-          value="no"
-          control={
-            <Radio
-              {...register("available")}
-              checked={initialValues.available === "no"}
-              onChange={triggerUpdateUrl}
-            />
-          }
-          label="Supprimé"
-        />
+        </div>
       </Inline>
     </form>
   );
