@@ -1,6 +1,6 @@
 {
   "name": "@shared/types",
-  "version": "2.17.7",
+  "version": "2.19.1",
   "private": true,
   "main": "build/index.js",
   "module": "build/index.js",
@@ -9,9 +9,6 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@socialgouv/cdtn-sources": "^4.52.1",
-    "@socialgouv/contributions-data-types": "^3.27.0",
-    "@socialgouv/fiches-travail-data-types": "^4.191.0",
     "@socialgouv/kali-data-types": "^2.127.0",
     "@socialgouv/legi-data-types": "^2.73.1",
     "typescript": "^4.9.5"

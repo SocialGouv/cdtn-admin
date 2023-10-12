@@ -2,6 +2,7 @@ import Router from "next/router";
 
 import { request } from "../request";
 import { setJwtCookie } from "./setJwtCookie";
+import { BASE_URL } from "../../config";
 
 let inMemoryToken;
 

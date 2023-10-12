@@ -1,5 +1,5 @@
 import { withUrqlClient } from "next-urql";
-import { BASE_URL } from "src/config";
+import { BASE_URL } from "../config";
 import {
   customAuthExchange,
   customErrorExchange,

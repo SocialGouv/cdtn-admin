@@ -1,9 +1,10 @@
 import {
   FormControl,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
+  Typography,
+  styled,
 } from "@mui/material";
 import React, { PropsWithChildren } from "react";
 import { Controller } from "react-hook-form";
@@ -56,11 +57,15 @@ export const FormSelect = ({
               </MenuItem>
             ))}
           </Select>
-          {error && error.type === "required" ? (
-            <FormHelperText>Ce champ est requis</FormHelperText>
-          ) : null}
+          {error && <StyledTypography>{error.message}</StyledTypography>}
         </FormControl>
       )}
     />
   );
 };
+
+const StyledTypography = styled(Typography)(({ theme }) => {
+  return {
+    color: theme.palette.error.main,
+  };
+});

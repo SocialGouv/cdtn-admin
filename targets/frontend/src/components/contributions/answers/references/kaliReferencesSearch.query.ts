@@ -24,12 +24,14 @@ type QueryResult = {
 export const useContributionSearchKaliReferenceQuery =
   (idcc: string) =>
   (query: string | undefined): Result<KaliArticle> => {
+    const hrefWithoutQuery: string | undefined = query?.split("?")[0];
+    const [slug] = hrefWithoutQuery?.split("/").reverse() ?? [""];
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [{ data, fetching, error }] = useQuery<QueryResult>({
       query: contributionSearchKaliReferencesSearch,
       variables: {
         idcc,
-        query: `%${query}%`,
+        query: `%${slug}%`,
       },
     });
     return {
