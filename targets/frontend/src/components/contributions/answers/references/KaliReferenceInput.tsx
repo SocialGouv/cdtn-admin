@@ -136,13 +136,13 @@ export const KaliReferenceInput = ({
             </Grid>
           );
         })}
-        {!disabled && (
+        {!disabled && agreement.id && (
           <KaliReferenceSearch
             fetcher={useContributionSearchKaliReferenceQuery}
             idcc={agreement.id}
             onAdd={(value) => {
               if (value) {
-                append({ kaliArticle: value });
+                append({ kaliArticle: value, label: "" });
               }
             }}
           />

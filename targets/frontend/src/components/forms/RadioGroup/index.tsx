@@ -3,6 +3,8 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  FormHelperText,
+  styled,
 } from "@mui/material";
 import React, { PropsWithChildren } from "react";
 import { Controller } from "react-hook-form";
@@ -37,25 +39,38 @@ export const FormRadioGroup = ({
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <FormControl fullWidth={fullWidth} error={!!error}>
           <TitleBox title={label} disabled={disabled}>
-            <RadioGroup
-              value={value}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                onChange(event.target.value)
-              }
-            >
-              {options.map(({ label, value }) => (
-                <FormControlLabel
-                  key={value}
-                  value={value}
-                  control={<Radio />}
-                  label={label}
-                  disabled={disabled}
-                />
-              ))}
-            </RadioGroup>
+            <>
+              <RadioGroup
+                value={value}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  onChange(event.target.value)
+                }
+              >
+                {options.map(({ label, value }) => (
+                  <FormControlLabel
+                    key={value}
+                    value={value}
+                    control={<Radio />}
+                    label={label}
+                    disabled={disabled}
+                  />
+                ))}
+              </RadioGroup>
+              {error && error.message === "Required" && (
+                <StyledFormHelperText>
+                  Un élément doit être sélectionner
+                </StyledFormHelperText>
+              )}
+            </>
           </TitleBox>
         </FormControl>
       )}
     />
   );
 };
+
+const StyledFormHelperText = styled(FormHelperText)(({ theme }) => {
+  return {
+    color: theme.palette.error.main,
+  };
+});

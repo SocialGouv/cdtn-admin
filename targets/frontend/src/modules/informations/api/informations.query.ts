@@ -4,7 +4,6 @@ import { Information } from "../type";
 export const informationsQuery = gql`
   query informations($id: uuid) {
     information_informations(where: { id: { _eq: $id } }) {
-      cdtnId
       description
       id
       intro

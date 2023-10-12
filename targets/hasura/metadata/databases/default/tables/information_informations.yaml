@@ -3,8 +3,6 @@ table:
   schema: information
 configuration:
   column_config:
-    cdtn_id:
-      custom_name: cdtnId
     dismissal_process:
       custom_name: dismissalProcess
     meta_description:
@@ -18,7 +16,6 @@ configuration:
     updated_at:
       custom_name: updatedAt
   custom_column_names:
-    cdtn_id: cdtnId
     dismissal_process: dismissalProcess
     meta_description: metaDescription
     meta_title: metaTitle
@@ -46,7 +43,6 @@ insert_permissions:
     permission:
       check: {}
       columns:
-        - cdtn_id
         - description
         - dismissal_process
         - id
@@ -61,7 +57,6 @@ insert_permissions:
     permission:
       check: {}
       columns:
-        - cdtn_id
         - description
         - dismissal_process
         - id
@@ -76,7 +71,6 @@ select_permissions:
   - role: super
     permission:
       columns:
-        - cdtn_id
         - description
         - dismissal_process
         - id
@@ -92,7 +86,6 @@ select_permissions:
   - role: user
     permission:
       columns:
-        - cdtn_id
         - description
         - dismissal_process
         - id
@@ -109,7 +102,6 @@ update_permissions:
   - role: super
     permission:
       columns:
-        - cdtn_id
         - description
         - dismissal_process
         - id

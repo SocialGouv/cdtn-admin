@@ -4,9 +4,11 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { IoMdTrash } from "react-icons/io";
 import { Button } from "src/components/button";
+import { Dialog } from "src/components/dialog";
 import { EditorialContentForm } from "src/components/editorialContent";
 import { HighlightsForm } from "src/components/highlights";
 import { Layout } from "src/components/layout/auth.layout";
+import { Inline } from "src/components/layout/Inline";
 import { Stack } from "src/components/layout/Stack";
 import { PrequalifiedForm } from "src/components/prequalified";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
@@ -19,7 +21,7 @@ import {
   PrequalifiedContent,
 } from "src/types";
 import Spinner from "@mui/material/CircularProgress";
-import { CombinedError, useMutation, useQuery } from "urql";
+import { useMutation, useQuery } from "urql";
 
 import deleteContentMutation from "./deleteContent.mutation.graphql";
 import editContentMutation from "./editContent.mutation.graphql";
@@ -30,8 +32,6 @@ import {
   getContentRelationIds,
   mapContentRelations,
 } from "../../../lib/contenus/utils";
-import { ConfirmModal } from "../../../modules/common/components/modals/ConfirmModal";
-import { FixedSnackBar } from "../../../components/utils/SnackBar";
 
 const context = { additionalTypenames: ["documents", "document_relations"] };
 
@@ -39,7 +39,6 @@ export function EditInformationPage() {
   const router = useRouter();
   const cdtnId = router.query.id;
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [error, setError] = useState<CombinedError | undefined>();
 
   const [{ fetching, data }] = useQuery<ContentQuery>({
     context,
@@ -62,23 +61,23 @@ export function EditInformationPage() {
       if (!result) return;
       const { slug: computedSlug, metaDescription: computedMetaDescription } =
         result.data.content;
-
-      if (result.error) {
-        return setError(result.error);
+      if (!result.error) {
+        previewContent({
+          cdtnId: content?.cdtnId,
+          document: {
+            metaDescription: computedMetaDescription,
+            slug: computedSlug,
+            title: content?.title,
+          },
+          source: content?.source,
+        }).then((response) => {
+          if (response.error) {
+            console.error("preview impossible", response.error.message);
+          }
+        });
+      } else {
+        console.error("edition impossible", result.error.message);
       }
-      previewContent({
-        cdtnId: content?.cdtnId,
-        document: {
-          metaDescription: computedMetaDescription,
-          slug: computedSlug,
-          title: content?.title,
-        },
-        source: content?.source,
-      }).then((response) => {
-        if (response.error) {
-          setError(response.error);
-        }
-      });
     };
 
   const onSubmitContent = onSubmit<Content>((contentItem: Content) => {
@@ -169,12 +168,9 @@ export function EditInformationPage() {
 
   function onDelete() {
     deleteContent({ cdtnId: content?.cdtnId }).then((result) => {
-      if (result.error) {
-        setError(result.error);
-      } else {
+      if (!result.error) {
         router.back();
       }
-      setShowDeleteConfirmation(false);
     });
   }
 
@@ -206,16 +202,9 @@ export function EditInformationPage() {
           />
         );
       default:
+        //eslint-disable-next-line react/display-name
         return <span>Chargement...</span>;
     }
-  }
-
-  if (error) {
-    return (
-      <FixedSnackBar>
-        <pre>{JSON.stringify(error, null, 2)}</pre>
-      </FixedSnackBar>
-    );
   }
 
   return (
@@ -231,14 +220,24 @@ export function EditInformationPage() {
           <Spinner />
         ) : (
           <>
-            <ConfirmModal
-              open={showDeleteConfirmation}
-              title="Supprimer"
-              message={<p>Êtes-vous sûr de vouloir supprimer ce contenu ?</p>}
-              onClose={() => setShowDeleteConfirmation(false)}
-              onCancel={() => setShowDeleteConfirmation(false)}
-              onValidate={onDelete}
-            />
+            <Dialog
+              isOpen={showDeleteConfirmation}
+              onDismiss={() => setShowDeleteConfirmation(false)}
+              ariaLabel="Supprimer"
+            >
+              <>
+                <span>Êtes-vous sûr de vouloir supprimer ce contenu ?</span>
+                <Inline>
+                  <Button onClick={onDelete}>Confirmer</Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => setShowDeleteConfirmation(false)}
+                  >
+                    Annuler
+                  </Button>
+                </Inline>
+              </>
+            </Dialog>
             {content?.cdtnId && (
               <>
                 <Box

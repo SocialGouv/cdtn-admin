@@ -40,7 +40,7 @@ const mapInformationContentsBlocksContents = (
     on_conflict: {
       constraint:
         "informations_contents_blocks__informations_contents_blocks__key",
-      update_columns: [...getRawColumns(contents?.[0]), "order"],
+      update_columns: getRawColumns(contents?.[0]),
     },
     data:
       contents?.map((contentBlock, contentBlockIndex) => {
@@ -60,7 +60,7 @@ const mapInformationContentsBlocks = (
   return {
     on_conflict: {
       constraint: "informations_contents_blocks_pkey",
-      update_columns: [...getRawColumns(blocks?.[0]), "order"],
+      update_columns: getRawColumns(blocks?.[0]),
     },
     data:
       blocks?.map((block, blockIndex) => {
@@ -82,7 +82,7 @@ const mapInformationContentsReferences = (references?: Reference[] | null) => {
   return {
     on_conflict: {
       constraint: "informations_contents_references_pkey",
-      update_columns: [...getRawColumns(references?.[0]), "order"],
+      update_columns: getRawColumns(references?.[0]),
     },
     data:
       references?.map((reference, referenceIndex) => ({
@@ -96,7 +96,7 @@ const mapInformationContents = (contents?: InformationContent[]) => {
   return {
     on_conflict: {
       constraint: "informations_contents_pkey",
-      update_columns: [...getRawColumns(contents?.[0]), "order"],
+      update_columns: getRawColumns(contents?.[0]),
     },
     data: contents?.map((content, contentIndex) => {
       const blocks = mapInformationContentsBlocks(content.blocks);
@@ -116,7 +116,7 @@ const mapInformationReferences = (references?: Reference[]) => {
   return {
     on_conflict: {
       constraint: "informations_references_pkey",
-      update_columns: [...getRawColumns(references?.[0]), "order"],
+      update_columns: getRawColumns(references?.[0]),
     },
     data:
       references?.map((reference, referenceIndex) => ({

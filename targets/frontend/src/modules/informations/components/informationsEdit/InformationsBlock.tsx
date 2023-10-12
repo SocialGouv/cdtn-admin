@@ -60,7 +60,7 @@ export const InformationsBlock = ({
         </Stack>
         {blockType && (
           <FormRadioGroup
-            name={`${name}.type`}
+            name={`${blockName}.type`}
             label="Type"
             control={control}
             options={[
