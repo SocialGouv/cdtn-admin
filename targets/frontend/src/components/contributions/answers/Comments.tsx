@@ -91,7 +91,11 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
         { additionalTypenames: ["AnswerComments"] }
       );
       if (result.error) {
-        throw new Error(result.error.message);
+        return setSnack({
+          open: true,
+          severity: "error",
+          message: JSON.stringify(result.error),
+        });
       }
       setSnack({
         open: true,
