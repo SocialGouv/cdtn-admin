@@ -7,6 +7,11 @@ import type {
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import memoizee from "memoizee";
 import { getContributionsWithReferences } from "./getContributionsReferences";
+import {
+  generateFichesSpRef,
+  generateKaliRef,
+  generateLegiRef,
+} from "@shared/utils";
 
 export async function getContributionReferences(): Promise<
   DocumentReferences[]
@@ -22,6 +27,12 @@ export async function getContributionReferences(): Promise<
         dila_container_id: ref.kali_article.agreement?.kali_id ?? "",
         dila_id: ref.kali_article.id,
         title: ref.kali_article.label ?? "",
+        url: ref.kali_article.agreement?.kali_id
+          ? generateKaliRef(
+              ref.kali_article.agreement.kali_id,
+              ref.kali_article.id
+            )
+          : "",
       })
     );
 
@@ -31,6 +42,9 @@ export async function getContributionReferences(): Promise<
         dila_cid: ref.legi_article.cid,
         dila_id: ref.legi_article.id,
         title: ref.legi_article.label ?? "",
+        url: ref.legi_article.label
+          ? generateLegiRef(ref.legi_article.label)
+          : "",
       })
     );
 
@@ -41,6 +55,10 @@ export async function getContributionReferences(): Promise<
             dila_cid: contribution.fiche_sp.initial_id,
             dila_id: contribution.fiche_sp.cdtn_id,
             title: contribution.fiche_sp.initial_id,
+            url: generateFichesSpRef(
+              "particuliers",
+              contribution.fiche_sp.initial_id
+            ),
           },
         ]
       : [];

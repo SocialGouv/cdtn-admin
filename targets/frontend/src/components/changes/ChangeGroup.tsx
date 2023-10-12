@@ -99,7 +99,7 @@ export function DilaRelatedDocuments({
                 fontSize: "0.8rem",
                 lineHeight: 1,
               }}
-              href={node.type === "base" ? node.url : ""}
+              href={node.url}
               key={`${docReferences.document.id}-${node.dila_id}-${node.title})-${i}`}
             >
               {node.title}

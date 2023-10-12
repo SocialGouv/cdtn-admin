@@ -332,6 +332,7 @@ export type KaliRef = {
   dila_container_id: string;
   dila_id: string;
   title: string;
+  url: string;
 };
 
 export type LegiRef = {
@@ -339,6 +340,7 @@ export type LegiRef = {
   dila_cid: string;
   dila_id: string;
   title: string;
+  url: string;
 };
 
 export type FicheServicePublicRef = {
@@ -346,6 +348,7 @@ export type FicheServicePublicRef = {
   dila_cid: string;
   dila_id: string;
   title: string;
+  url: string;
 };
 
 export type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
