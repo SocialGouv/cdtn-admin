@@ -10,7 +10,6 @@ export const initStatus = (answer: Answer) => {
 };
 
 export const getNextStatus = (status: Status): Status => {
-  console.log(getNextStatus, status);
   switch (status) {
     case "REDACTED":
       return "VALIDATING";
