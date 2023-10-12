@@ -64,14 +64,19 @@ const mapInformationContentsBlocks = (
     },
     data:
       blocks?.map((block, blockIndex) => {
-        const file = mapInformationContentsBlocksFile(block.file);
-        const img = mapInformationContentsBlocksFile(block.img);
-        const contents = mapInformationContentsBlocksContents(block.contents);
         return {
           ...removeTypename(block),
-          file,
-          img,
-          contents,
+          ...(block.type === "graphic"
+            ? {
+                file: block.file,
+                img: block.img,
+              }
+            : {}),
+          ...(block.type === "content"
+            ? {
+                contents: block.contents,
+              }
+            : {}),
           order: blockIndex + 1,
         };
       }) ?? [],

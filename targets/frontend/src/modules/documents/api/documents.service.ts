@@ -51,34 +51,33 @@ export class DocumentsService {
             return {
               name,
               title,
-              blocks: blocks.map(
-                ({
-                  file,
-                  img,
-                  type,
-                  content,
-                  contentDisplayMode,
-                  contents,
-                }) => {
-                  return {
-                    size: file?.size,
-                    type,
-                    imgUrl: img?.url,
-                    fileUrl: file?.url,
-                    markdown: content,
-                    blockDisplayMode: contentDisplayMode,
-                    contents: contents?.length
-                      ? contents.map(({ document }) => {
-                          return {
-                            title: document.title,
-                            cdtnId: document.cdtnId,
-                            source: document.source,
-                          };
-                        })
-                      : undefined,
-                  };
-                }
-              ),
+              blocks: blocks.map((block) => {
+                return {
+                  type: block.type,
+                  markdown: block.content,
+                  ...(block.type === "graphic"
+                    ? {
+                        size: block.file?.size,
+                        imgUrl: block.img?.url,
+                        fileUrl: block.file?.url,
+                      }
+                    : {}),
+                  ...(block.type === "content"
+                    ? {
+                        blockDisplayMode: block.contentDisplayMode,
+                        contents: block.contents?.length
+                          ? block.contents.map(({ document }) => {
+                              return {
+                                title: document.title,
+                                cdtnId: document.cdtnId,
+                                source: document.source,
+                              };
+                            })
+                          : undefined,
+                      }
+                    : {}),
+                };
+              }),
               references: references?.length
                 ? [
                     {
