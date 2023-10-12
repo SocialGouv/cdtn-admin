@@ -6055,6 +6055,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-link@npm:^2.1.11":
+  version: 2.1.11
+  resolution: "@tiptap/extension-link@npm:2.1.11"
+  dependencies:
+    linkifyjs: ^4.1.0
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+    "@tiptap/pm": ^2.0.0
+  checksum: 59fce6459742728c9e039e945b4bbe33d23097a0d92ae03c2fdf1d189d3402583382aa602c24b59133da51f6f3d1b61b9c45fb4e27735521e99cf366f4a6724b
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-list-item@npm:^2.0.3":
   version: 2.0.3
   resolution: "@tiptap/extension-list-item@npm:2.0.3"
@@ -8823,6 +8835,7 @@ __metadata:
   resolution: "cdtn-admin@workspace:."
   dependencies:
     "@shared/eslint-config": "workspace:^"
+    "@tiptap/extension-link": ^2.1.11
     husky: ^7.0.2
     lerna: ^5.0.0
     nps: ^5.10.0
@@ -16352,6 +16365,13 @@ __metadata:
   dependencies:
     uc.micro: ^1.0.1
   checksum: 3e0a29921269c14eb7ac6f5db2da68d4854ea9acca6e9014a323f75f2dd39b197ffab57c1fbd6a906ceb021aad3ee6d7ba7d0181236dd9630ffc452b392f7f71
+  languageName: node
+  linkType: hard
+
+"linkifyjs@npm:^4.1.0":
+  version: 4.1.1
+  resolution: "linkifyjs@npm:4.1.1"
+  checksum: 312b75ec9bc6e7107f2b70e50682e8baccd7b94a64bf7b88cecd352032126b0d6fa7ea41394c417a178c718caa79b70e6ab3570eee7b96a12399689d666e68fb
   languageName: node
   linkType: hard
 

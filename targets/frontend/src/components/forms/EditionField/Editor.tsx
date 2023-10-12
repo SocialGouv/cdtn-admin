@@ -5,7 +5,6 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import StarterKit from "@tiptap/starter-kit";
 import React, { useEffect, useState } from "react";
-import { FieldErrors } from "react-hook-form";
 import { styled } from "@mui/system";
 import { fr } from "@codegouvfr/react-dsfr";
 
@@ -17,6 +16,7 @@ import { Details } from "@tiptap-pro/extension-details";
 import { DetailsSummary } from "@tiptap-pro/extension-details-summary";
 import { DetailsContent } from "@tiptap-pro/extension-details-content";
 import { Placeholder } from "@tiptap/extension-placeholder";
+import { Link } from "@tiptap/extension-link";
 
 export type EditorProps = {
   content?: string;
@@ -62,6 +62,13 @@ export const Editor = ({
           }
           return "";
         },
+      }),
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          rel: null,
+        },
+        validate: (href) => /^https?:\/\//.test(href),
       }),
     ],
     onUpdate: ({ editor }) => {
@@ -126,6 +133,9 @@ const StyledEditorContent = styled(EditorContent)(() => {
         color: "#adb5bd",
         pointerEvents: "none",
         height: "0",
+      },
+      "a::after": {
+        display: "none",
       },
       ".details": {
         display: "flex",
