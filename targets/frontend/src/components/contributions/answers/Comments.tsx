@@ -11,11 +11,11 @@ import {
   Comments as AnswerComments,
   CommentsAndStatuses,
 } from "../type";
-import { Comment, getCommentText } from "./Comment";
+import { Comment } from "./Comment";
 import {
   MutationProps,
-  useCommentsInsert,
   useCommentsDelete,
+  useCommentsInsert,
 } from "./comments.mutation";
 import { SnackBar } from "../../utils/SnackBar";
 import { ConfirmModal } from "src/modules/common/components/modals/ConfirmModal";
@@ -66,7 +66,7 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
   const [commentToDelete, setCommentToDelete] =
-    React.useState<CommentsAndStatuses>();
+    React.useState<AnswerComments>();
 
   const { control, handleSubmit, resetField } = useForm<MutationProps>({
     defaultValues: {
@@ -104,7 +104,7 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
     }
   };
 
-  const onDeleteCom = async (commentToDelete: CommentsAndStatuses) => {
+  const onDeleteCom = async (commentToDelete: AnswerComments) => {
     try {
       const result = await deleteComment(
         { id: commentToDelete.id },
@@ -113,7 +113,11 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
         }
       );
       if (result.error) {
-        throw new Error(result.error.message);
+        return setSnack({
+          open: true,
+          severity: "error",
+          message: JSON.stringify(result.error),
+        });
       }
       setSnack({
         open: true,
@@ -130,18 +134,18 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <ConfirmModal
-        open={isDeleteModalOpen}
-        title="Suppression d'un commentaire"
-        message={`Êtes-vous sur de vouloir supprimer le commentaire : "${getCommentText(
-          commentToDelete
-        )}" ?`}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onCancel={() => setIsDeleteModalOpen(false)}
-        onValidate={() => {
-          if (commentToDelete) onDeleteCom(commentToDelete);
-        }}
-      />
+      {commentToDelete && (
+        <ConfirmModal
+          open={isDeleteModalOpen}
+          title="Suppression d'un commentaire"
+          message={`Êtes-vous sur de vouloir supprimer le commentaire du "${commentToDelete.content}" ?`}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onCancel={() => setIsDeleteModalOpen(false)}
+          onValidate={() => {
+            onDeleteCom(commentToDelete);
+          }}
+        />
+      )}
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
         <Box
           sx={{
@@ -151,6 +155,7 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
           }}
         >
           <Box
+            mb={4}
             ref={listRef}
             sx={{
               display: "flex",
@@ -163,8 +168,8 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
               <Comment
                 key={index}
                 comment={comment}
-                onDelete={() => {
-                  setCommentToDelete(comment);
+                onDelete={(c: AnswerComments) => {
+                  setCommentToDelete(c);
                   setIsDeleteModalOpen(true);
                 }}
               />
