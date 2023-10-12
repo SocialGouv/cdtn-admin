@@ -68,7 +68,6 @@ export const Editor = ({
         HTMLAttributes: {
           rel: null,
         },
-        validate: (href) => /^https?:\/\//.test(href),
       }),
     ],
     onUpdate: ({ editor }) => {
