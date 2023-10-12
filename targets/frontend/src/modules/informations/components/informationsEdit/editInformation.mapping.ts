@@ -68,13 +68,13 @@ const mapInformationContentsBlocks = (
           ...removeTypename(block),
           ...(block.type === "graphic"
             ? {
-                file: block.file,
-                img: block.img,
+                file: mapInformationContentsBlocksFile(block.file),
+                img: mapInformationContentsBlocksFile(block.img),
               }
             : {}),
           ...(block.type === "content"
             ? {
-                contents: block.contents,
+                contents: mapInformationContentsBlocksContents(block.contents),
               }
             : {}),
           order: blockIndex + 1,
