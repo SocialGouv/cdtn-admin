@@ -1,4 +1,4 @@
-import { Box, Typography, Stack } from "@mui/material";
+import { Box, Typography, Stack, Tooltip } from "@mui/material";
 import * as React from "react";
 
 import {
@@ -19,7 +19,12 @@ type Props = {
 };
 
 export const Comment = ({ comment }: Props) => {
-  const date = comment.createdAtDate.toLocaleString("fr-FR");
+  const date = comment.createdAtDate.toLocaleString("fr-FR", {
+    month: "short",
+    day: "numeric",
+  });
+
+  const dateFull = comment.createdAtDate.toLocaleString("fr-FR");
 
   return isAnswerComments(comment) ? (
     <Box
@@ -32,14 +37,17 @@ export const Comment = ({ comment }: Props) => {
       p={1}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography
-          sx={{
-            color: fr.colors.decisions.text.mention.grey.default,
-            fontSize: "small",
-          }}
-        >
-          {date}
-        </Typography>
+        <Tooltip title={dateFull}>
+          <Typography
+            sx={{
+              color: fr.colors.decisions.text.mention.grey.default,
+              fontSize: "small",
+            }}
+          >
+            {date}
+          </Typography>
+        </Tooltip>
+
         <Box sx={{ fontSize: "small", fontWeight: "bold" }}>
           {comment?.user?.name}
         </Box>
@@ -48,14 +56,16 @@ export const Comment = ({ comment }: Props) => {
     </Box>
   ) : (
     <Stack direction="row" justifyContent="space-between">
-      <Typography
-        sx={{
-          color: fr.colors.decisions.text.mention.grey.default,
-          fontSize: "small",
-        }}
-      >
-        {date} <strong>{comment.user?.name}</strong>
-      </Typography>
+      <Tooltip title={dateFull}>
+        <Typography
+          sx={{
+            color: fr.colors.decisions.text.mention.grey.default,
+            fontSize: "small",
+          }}
+        >
+          {date} <strong>{comment.user?.name}</strong>
+        </Typography>
+      </Tooltip>
       <Typography
         sx={{
           color: statusesMapping[comment.status].color,
