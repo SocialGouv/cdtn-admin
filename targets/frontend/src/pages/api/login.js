@@ -9,9 +9,7 @@ import { getExpiryDate } from "src/lib/duration";
 
 import { loginQuery, refreshTokenMutation } from "./login.gql";
 
-const { REFRESH_TOKEN_EXPIRES = "" } = process.env;
-
-import { JWT_TOKEN_EXPIRES } from "../../config";
+import { JWT_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRES } from "../../config";
 
 export default async function login(req, res) {
   const apiError = createErrorFor(res);

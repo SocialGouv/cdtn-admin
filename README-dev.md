@@ -70,7 +70,7 @@ $ yarn build
 It's easy to setup a new environment with docker compose :
 
 ```sh
-docker-compose up
+docker compose up
 ```
 
 The docker compose performs several steps.
@@ -82,7 +82,7 @@ A postgreSQL database is used to store the data exposed through a Hasura instanc
 > Start only the postgreSQL instance:
 >
 > ```sh
-> docker-compose up postgres
+> docker compose up postgres
 > ```
 
 ### Configure a Hasura instance
@@ -105,7 +105,7 @@ key).
 > Start only the Hasura instance (it starts the postgreSQL as dependency):
 >
 > ```sh
-> docker-compose up hasura
+> docker compose up hasura
 > ```
 
 ### Inject documents
@@ -138,7 +138,7 @@ Frontend is reachable at the address <http://localhost:3000>
 > Run the frontend (it starts Hasura as dependency):
 >
 > ```sh
-> docker-compose up www
+> docker compose up www
 > ```
 >
 > or via npm
@@ -192,7 +192,7 @@ récupérer les données de production dans un environnement de dev. Actuellemen
 backup de la base de données à l'équipe SRE et d'exécuter les commandes suivantes :
 
 ```sh
-docker-compose exec -T postgres pg_restore \
+docker compose exec -T postgres pg_restore \
   --dbname postgres --clean --if-exists --user postgres \
   --no-owner --no-acl --verbose  < ~/Downloads/hasura_prod_db.psql
 ```
@@ -200,7 +200,7 @@ docker-compose exec -T postgres pg_restore \
 et pour remettre les utilisateurs par défaut
 
 ```sh
-docker-compose exec -T postgres psql \
+docker compose exec -T postgres psql \
   --dbname postgres --user postgres \
   < .kontinuous/sql/post-restore.sql
 ```

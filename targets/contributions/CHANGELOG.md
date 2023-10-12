@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.0...v2.19.1) (2023-10-10)
+
+**Note:** Version bump only for package @socialgouv/contibutions
+
+# [2.19.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.18.0...v2.19.0) (2023-10-09)
+
+**Note:** Version bump only for package @socialgouv/contibutions
+
+# [2.18.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.9...v2.18.0) (2023-10-09)
+
+### Bug Fixes
+
+- **dependencies:** remove un-used dependencies ([#1034](https://github.com/SocialGouv/cdtn-admin/issues/1034)) ([529ffb4](https://github.com/SocialGouv/cdtn-admin/commit/529ffb40bcf79738494d745b0bb756ebd43ab3a4))
+
+## [2.17.9](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.8...v2.17.9) (2023-09-29)
+
+### Bug Fixes
+
+- **dev:** correction du probleme de socket en phase de dev en HMR + suppression de sentry ([#1045](https://github.com/SocialGouv/cdtn-admin/issues/1045)) ([d371ec1](https://github.com/SocialGouv/cdtn-admin/commit/d371ec1e7e15b3bd4a017f021099ca0edc9c7911))
+
+## [2.17.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.7...v2.17.8) (2023-09-28)
+
+### Bug Fixes
+
+- **export:** add missing cdtn-elasticsearch to Dockerfile ([#1038](https://github.com/SocialGouv/cdtn-admin/issues/1038)) ([390e646](https://github.com/SocialGouv/cdtn-admin/commit/390e64660fcb8a7143970a20928e98d6da05c22f))
+
 ## [2.17.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.6...v2.17.7) (2023-09-27)
 
 **Note:** Version bump only for package @socialgouv/contibutions
