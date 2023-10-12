@@ -2263,11 +2263,11 @@ __metadata:
   linkType: hard
 
 "@hookform/resolvers@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "@hookform/resolvers@npm:3.3.1"
+  version: 3.3.2
+  resolution: "@hookform/resolvers@npm:3.3.2"
   peerDependencies:
     react-hook-form: ^7.0.0
-  checksum: 1ddc250a8d6769fb11b03110b586677b03463276dda1cdfd0225ab94f46d422868f74b01bef85f785010cc3d836f0669d6b6c0ed752cae532d2badf3537b1e72
+  checksum: bcaefe2a8a212b015b3ea99c93d7ecb5c8f475606d83be9d82dc6cc0cbb3cda03f7fd7a4426688c2de29b6800b93adbf9abb932a1dafee1d053dcaa69ec13f3f
   languageName: node
   linkType: hard
 
@@ -5005,9 +5005,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@shared/types@workspace:shared/types"
   dependencies:
-    "@socialgouv/cdtn-sources": ^4.52.1
-    "@socialgouv/contributions-data-types": ^3.27.0
-    "@socialgouv/fiches-travail-data-types": ^4.191.0
     "@socialgouv/kali-data-types": ^2.127.0
     "@socialgouv/legi-data-types": ^2.73.1
     typescript: ^4.9.5
@@ -6517,9 +6514,9 @@ __metadata:
   linkType: hard
 
 "@types/lodash@npm:*":
-  version: 4.14.199
-  resolution: "@types/lodash@npm:4.14.199"
-  checksum: e68d1fcbbfce953ed87b296a628573f62939227bcda0c934954e862b421e8a34c5e71cad6fea27b9980567909e6a4698f09025692958e36d64ea9ed99ec6fb2e
+  version: 4.14.195
+  resolution: "@types/lodash@npm:4.14.195"
+  checksum: 39b75ca635b3fa943d17d3d3aabc750babe4c8212485a4df166fe0516e39288e14b0c60afc6e21913cc0e5a84734633c71e617e2bd14eaa1cf51b8d7799c432e
   languageName: node
   linkType: hard
 
