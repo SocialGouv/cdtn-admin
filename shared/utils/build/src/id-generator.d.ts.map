@@ -1,0 +1,1 @@
+{"version":3,"file":"id-generator.d.ts","sourceRoot":"","sources":["../../src/id-generator.ts"],"names":[],"mappings":"AAKA,eAAO,MAAM,aAAa,KAAK,CAAC;AAGhC,eAAO,MAAM,cAAc,YAAa,MAAM,iCAGiB,CAAC;AAEhE,eAAO,MAAM,iBAAiB,QAAO,MAEpC,CAAC;AAEF,eAAO,MAAM,WAAW,WACd,MAAM,2BAEb;IACD,OAAO,EAAE,MAAM,CAAC;IAChB,UAAU,EAAE,MAAM,CAAC;CAOpB,CAAC"}
