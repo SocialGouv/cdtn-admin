@@ -7206,13 +7206,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zeit/next-source-maps@npm:0.0.4-canary.1":
-  version: 0.0.4-canary.1
-  resolution: "@zeit/next-source-maps@npm:0.0.4-canary.1"
-  checksum: 20f476b24eca5f414b1f58effc562dccd3b00efcbc7e3daeebe83b60370c11621cef49e3bac4fd81858f581edb2abbaddbe5dfbb843b00d96844cfdaf8ed6948
-  languageName: node
-  linkType: hard
-
 "@zkochan/js-yaml@npm:0.0.6":
   version: 0.0.6
   resolution: "@zkochan/js-yaml@npm:0.0.6"
@@ -12387,7 +12380,6 @@ __metadata:
     "@types/react-dom": ^18.0.11
     "@urql/devtools": ^2.0.3
     "@urql/exchange-auth": ^0.1.6
-    "@zeit/next-source-maps": 0.0.4-canary.1
     ace-builds: ^1.4.12
     argon2: ^0.30.3
     cookie: ^0.4.1

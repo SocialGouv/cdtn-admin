@@ -36,7 +36,6 @@
     "@tiptap/react": "^2.1.10",
     "@tiptap/starter-kit": "^2.0.3",
     "@urql/exchange-auth": "^0.1.6",
-    "@zeit/next-source-maps": "0.0.4-canary.1",
     "ace-builds": "^1.4.12",
     "argon2": "^0.30.3",
     "cookie": "^0.4.1",
