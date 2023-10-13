@@ -50,8 +50,8 @@ export const kaliArticleSchema = z.object({
   id: z.string(),
   path: z.string(),
   label: z
-    .string({ required_error: "Un libellé doit être renseigner" })
-    .min(1, "un label doit être renseigner"),
+    .string({ required_error: "Un libellé doit être renseigné" })
+    .min(1, "un label doit être renseigné"),
   agreementId: z.string(),
   createdAt: z.string(),
 });
@@ -79,7 +79,7 @@ export type LegiReference = z.infer<typeof legiReferenceSchema>;
 
 export const otherReferenceSchema = z.object({
   label: z
-    .string({ required_error: "un libellé doit être renseigner" })
+    .string({ required_error: "un libellé doit être renseigné" })
     .min(1, "un nom doit être renseigné"),
   url: z
     .string({ required_error: "Une url doit être renseigné" })
@@ -109,8 +109,8 @@ const answerBaseSchema = z.object({
   contentType: z.enum(
     ["ANSWER", "NOTHING", "CDT", "UNFAVOURABLE", "UNKNOWN", "SP"],
     {
-      required_error: "Un type de réponse doit être sélectionner",
-      invalid_type_error: " type de réponse doit être sélectionner",
+      required_error: "Un type de réponse doit être sélectionné",
+      invalid_type_error: " type de réponse doit être sélectionné",
     }
   ),
   contentServicePublicCdtnId: z.string().nullable().optional(),
@@ -122,9 +122,9 @@ export const questionBaseSchema = z.object({
   id: z.string().uuid(),
   content: z
     .string({
-      required_error: "une question doit être renseigner",
+      required_error: "une question doit être renseigné",
     })
-    .min(1, "une question doit être renseigner"),
+    .min(1, "une question doit être renseigné"),
   order: z.number(),
   message_id: z
     .string({
