@@ -2,11 +2,11 @@ import {
   AlertColor,
   Box,
   Stack,
+  styled,
   Tooltip,
+  tooltipClasses,
   TooltipProps,
   Typography,
-  styled,
-  tooltipClasses,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useUser } from "src/hooks/useUser";
@@ -89,15 +89,9 @@ export const ContributionsAnswer = ({
           </BreadcrumbLink>
           <BreadcrumbLink>
             <HtmlTooltip
-              title={
-                <>
-                  <Typography color="inherit">
-                    {answer?.agreement?.name}
-                  </Typography>
-                </>
-              }
+              title={<Typography>{answer?.agreement?.name}</Typography>}
             >
-              <Typography>{answer?.agreement?.id}</Typography>
+              <span>{answer?.agreement?.id}</span>
             </HtmlTooltip>
           </BreadcrumbLink>
         </Breadcrumb>

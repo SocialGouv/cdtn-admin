@@ -5,7 +5,6 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import StarterKit from "@tiptap/starter-kit";
 import React, { useEffect, useState } from "react";
-import { FieldErrors } from "react-hook-form";
 import { styled } from "@mui/system";
 import { fr } from "@codegouvfr/react-dsfr";
 
@@ -132,7 +131,7 @@ const StyledEditorContent = styled(EditorContent)(() => {
         border: "0",
         padding: "1rem 0",
         borderTop: `1px solid ${fr.colors.decisions.text.default.grey.default}`,
-        ":first-child": {
+        ":first-of-type": {
           border: "none",
         },
         "> button": {
