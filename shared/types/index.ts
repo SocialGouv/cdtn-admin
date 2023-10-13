@@ -327,7 +327,6 @@ export type DocumentReference =
   | DilaRef;
 
 export type KaliRef = {
-  type: "kali";
   dila_cid: string;
   dila_container_id: string;
   dila_id: string;
@@ -336,7 +335,6 @@ export type KaliRef = {
 };
 
 export type LegiRef = {
-  type: "legi";
   dila_cid: string;
   dila_id: string;
   title: string;
@@ -344,7 +342,6 @@ export type LegiRef = {
 };
 
 export type FicheServicePublicRef = {
-  type: "fiche_sp";
   dila_cid: string;
   dila_id: string;
   title: string;
@@ -483,7 +480,6 @@ export type Answer = {
 };
 
 export type DilaRef = {
-  type: "base";
   url: string;
   title: string;
   dila_id: string;

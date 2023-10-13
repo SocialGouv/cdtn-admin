@@ -18,7 +18,6 @@ jest.mock("@shared/dila-resolver", () => {
     createGetArticleReference: () =>
       async function (id: string): Promise<DocumentReference> {
         return Promise.resolve({
-          type: "base",
           dila_cid: id,
           dila_container_id: "cdtn",
           dila_id: id,

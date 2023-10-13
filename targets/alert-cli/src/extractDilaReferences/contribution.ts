@@ -22,7 +22,6 @@ export async function getContributionReferences(): Promise<
   contributions.forEach((contribution) => {
     const kaliReferences: KaliRef[] = contribution.kali_references.map(
       (ref) => ({
-        type: "kali",
         dila_cid: ref.kali_article.cid,
         dila_container_id: ref.kali_article.agreement?.kali_id ?? "",
         dila_id: ref.kali_article.id,
@@ -38,7 +37,6 @@ export async function getContributionReferences(): Promise<
 
     const legiReferences: LegiRef[] = contribution.legi_references.map(
       (ref) => ({
-        type: "legi",
         dila_cid: ref.legi_article.cid,
         dila_id: ref.legi_article.id,
         title: ref.legi_article.label ?? "",
@@ -51,7 +49,6 @@ export async function getContributionReferences(): Promise<
     const ficheSpReferences: FicheServicePublicRef[] = contribution.fiche_sp
       ? [
           {
-            type: "fiche_sp",
             dila_cid: contribution.fiche_sp.initial_id,
             dila_id: contribution.fiche_sp.cdtn_id,
             title: contribution.fiche_sp.initial_id,
