@@ -25,6 +25,10 @@ export const informationsQuery = gql`
           content
           order
           type
+          img {
+            url
+            altText
+          }
           file {
             id
             url

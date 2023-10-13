@@ -59,6 +59,7 @@ export class DocumentsService {
                     ? {
                         size: block.file?.size,
                         imgUrl: block.img?.url,
+                        altText: block.img?.altText,
                         fileUrl: block.file?.url,
                       }
                     : {}),
