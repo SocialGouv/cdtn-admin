@@ -67,7 +67,7 @@ export type AnswerFormValidation = z.infer<typeof answerFormSchema>;
 
 export type ContributionsAnswerProps = {
   answer: AnswerWithStatus;
-  onSubmit: (status: Status, data: Answer) => Promise<any>;
+  onSubmit: (status: Status, data: Answer) => Promise<void>;
 };
 
 const isCodeDuTravail = (answer: Answer): boolean =>
