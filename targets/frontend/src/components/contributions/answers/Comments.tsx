@@ -64,9 +64,9 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
     open: false,
   });
 
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
-  const [commentToDelete, setCommentToDelete] =
-    React.useState<AnswerComments>();
+  const [commentToDelete, setCommentToDelete] = React.useState<
+    AnswerComments | undefined
+  >();
 
   const { control, handleSubmit, resetField } = useForm<MutationProps>({
     defaultValues: {
@@ -117,21 +117,19 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
         }
       );
       if (result.error) {
-        return setSnack({
-          open: true,
-          severity: "error",
-          message: JSON.stringify(result.error),
-        });
+        throw new Error(JSON.stringify(result.error));
+      }
+      if (!result.data.delete_contribution_answer_comments_by_pk) {
+        throw new Error("Impossible de supprimer ce commentaire...");
       }
       setSnack({
         open: true,
         severity: "success",
         message: "Le commentaire a bien été supprimé",
       });
-      setIsDeleteModalOpen(false);
       setCommentToDelete(undefined);
     } catch (e: any) {
-      setIsDeleteModalOpen(false);
+      setCommentToDelete(undefined);
       setSnack({ open: true, severity: "error", message: e.message });
     }
   };
@@ -140,11 +138,11 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
     <Box sx={{ display: "flex" }}>
       {commentToDelete && (
         <ConfirmModal
-          open={isDeleteModalOpen}
+          open={!!commentToDelete}
           title="Suppression d'un commentaire"
           message={`Êtes-vous sur de vouloir supprimer le commentaire du "${commentToDelete.content}" ?`}
-          onClose={() => setIsDeleteModalOpen(false)}
-          onCancel={() => setIsDeleteModalOpen(false)}
+          onClose={() => setCommentToDelete(undefined)}
+          onCancel={() => setCommentToDelete(undefined)}
           onValidate={() => {
             onDeleteCom(commentToDelete);
           }}
@@ -174,7 +172,6 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
                 comment={comment}
                 onDelete={(c: AnswerComments) => {
                   setCommentToDelete(c);
-                  setIsDeleteModalOpen(true);
                 }}
               />
             ))}

@@ -30,4 +30,7 @@ select_permissions:
 delete_permissions:
   - role: super
     permission:
-      filter: {}
+      filter:
+        user:
+          id:
+            _eq: X-Hasura-User-Id
