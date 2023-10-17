@@ -16,6 +16,7 @@ with _informations as (
         "document"->'references'->0->>'label' as "reference_label"
     from documents
     where source = 'information'
+        and is_published is true
 ),
 _informations_inserted as (
     insert into "information".informations(
@@ -27,8 +28,7 @@ _informations_inserted as (
             description,
             section_display_mode,
             dismissal_process,
-            reference_label,
-            cdtn_id
+            reference_label
         )
     select updated_at,
         intro,
@@ -41,30 +41,26 @@ _informations_inserted as (
             'accordion'
         ),
         dismissal_process,
-        reference_label,
-        cdtn_id
+        reference_label
     from _informations
     returning id,
-        cdtn_id
+        title
 ),
 _informations_references as (
     select i.id as informations_id,
-        l.links->'id' as id,
-        l.links->>'url' as url,
-        l.links->>'type' as "type",
-        l.links->>'title' as title,
-        row_number() over(partition by i.id) as "order"
+        l.value->'id' as id,
+        l.value->>'url' as url,
+        l.value->>'type' as "type",
+        l.value->>'title' as title,
+        l."ordinality" as "order"
     from (
-            select r.cdtn_id,
-                jsonb_array_elements(r.refs->'links') as "links"
-            from (
-                    select cdtn_id,
-                        jsonb_array_elements("references") as refs
-                    from _informations
-                    where jsonb_typeof("references") = 'array'
-                ) r
-        ) l
-        inner join _informations_inserted i on i.cdtn_id = l.cdtn_id
+            select title,
+                jsonb_array_elements("references") as refs
+            from _informations
+            where jsonb_typeof("references") = 'array'
+        ) r
+        cross join jsonb_array_elements(r.refs->'links') WITH ordinality as l
+        inner join _informations_inserted i on i.title = r.title
 ),
 _informations_references_inserted as (
     insert into information.informations_references(informations_id, url, "type", title, "order")
@@ -78,18 +74,15 @@ _informations_references_inserted as (
 ),
 _informations_contents as (
     select i.id as informations_id,
-        c."content"->>'name' as "name",
-        c."content"->>'title' as title,
-        c."content"->'blocks' as blocks,
-        c."content"->'references' as "references",
-        c."content"->'references'->0->>'label' as "reference_label",
-        row_number() over(partition by i.id) as "order"
-    from (
-            select cdtn_id,
-                jsonb_array_elements(contents) as "content"
-            from _informations
-        ) c
-        inner join _informations_inserted i on i.cdtn_id = c.cdtn_id
+        c."value"->>'name' as "name",
+        c."value"->>'title' as title,
+        c."value"->'blocks' as blocks,
+        c."value"->'references' as "references",
+        c."value"->'references'->0->>'label' as "reference_label",
+        c."ordinality" as "order"
+    from _informations as d
+        cross join jsonb_array_elements(d.contents) WITH ordinality as c
+        inner join _informations_inserted i on i.title = d.title
 ),
 _informations_contents_inserted as (
     insert into information.informations_contents(
@@ -107,7 +100,8 @@ _informations_contents_inserted as (
     from _informations_contents
     returning id,
         informations_id,
-        title
+        title,
+        "order"
 ),
 _informations_contents_references as (
     select i.id as informations_contents_id,
@@ -115,11 +109,12 @@ _informations_contents_references as (
         l.links->>'url' as url,
         l.links->>'type' as "type",
         l.links->>'title' as title,
-        row_number() over(partition by i.id) as "order"
+        l."order"
     from (
             select title,
                 informations_id,
-                jsonb_array_elements(r.refs->'links') as "links"
+                l.value as "links",
+                l."ordinality" as "order"
             from (
                     select title,
                         informations_id,
@@ -127,6 +122,7 @@ _informations_contents_references as (
                     from _informations_contents
                     where jsonb_typeof("references") = 'array'
                 ) r
+                cross join jsonb_array_elements(r.refs->'links') WITH ordinality as l
         ) l
         inner join _informations_contents_inserted i on i.informations_id = l.informations_id
         and i.title = l.title
@@ -149,24 +145,20 @@ _informations_contents_references_inserted as (
 ),
 _informations_contents_blocks as (
     select i.id as informations_contents_id,
-        coalesce(b.block->>'markdown', b.block->>'title') as "content",
-        b.block->>'type' as "type",
-        b.block->>'size' as "size",
-        b.block->>'imgUrl' as "img_url",
-        b.block->>'fileUrl' as "file_url",
-        b.block->>'altText' as "alt_text",
-        b.block->>'blockDisplayMode' as "content_display_mode",
-        b.block->'contents' as contents,
-        row_number() over(partition by b.informations_id, b.title) as "order"
-    from (
-            select informations_id,
-                title,
-                jsonb_array_elements(blocks) as block
-            from _informations_contents
-            where jsonb_typeof(blocks) = 'array'
-        ) b
-        inner join _informations_contents_inserted i on i.informations_id = b.informations_id
-        and i.title = b.title
+        coalesce(b.value->>'markdown', b.value->>'title') as "content",
+        b.value->>'type' as "type",
+        b.value->>'size' as "size",
+        b.value->>'imgUrl' as "img_url",
+        b.value->>'fileUrl' as "file_url",
+        b.value->>'altText' as "alt_text",
+        b.value->>'blockDisplayMode' as "content_display_mode",
+        b.value->'contents' as contents,
+        b."ordinality" as "order"
+    from _informations_contents ic
+        cross join jsonb_array_elements(ic.blocks) WITH ordinality as b
+        inner join _informations_contents_inserted i on i.informations_id = ic.informations_id
+        and i.title = ic.title
+    where jsonb_typeof(ic.blocks) = 'array'
 ),
 _files as (
     select fa.url,
@@ -227,18 +219,14 @@ _informations_contents_blocks_inserted as (
         "order"
 ),
 _informations_contents_blocks_contents as (
-    select c."content"->>'cdtnId' as "cdtn_id",
+    select c."value"->>'cdtnId' as "cdtn_id",
         i.id as informations_contents_blocks_id,
-        row_number() over(partition by i.id) as "order"
-    from (
-            select informations_contents_id,
-                "order",
-                jsonb_array_elements(contents) as "content"
-            from _informations_contents_blocks
-            where jsonb_typeof(contents) = 'array'
-        ) c
-        inner join _informations_contents_blocks_inserted i on i.informations_contents_id = c.informations_contents_id
-        and i."order" = c."order"
+        c."ordinality" as "order"
+    from _informations_contents_blocks icb
+        cross join jsonb_array_elements(icb.contents) WITH ordinality as c
+        inner join _informations_contents_blocks_inserted i on i.informations_contents_id = icb.informations_contents_id
+        and i."order" = icb."order"
+    where jsonb_typeof(icb.contents) = 'array'
 )
 insert into information.informations_contents_blocks_contents(
         cdtn_id,
@@ -249,3 +237,8 @@ select cdtn_id,
     informations_contents_blocks_id,
     "order"
 from _informations_contents_blocks_contents;
+update documents
+set initial_id = i.id
+from information.informations i
+where documents."source" = 'information'
+    and documents.title = i.title;
