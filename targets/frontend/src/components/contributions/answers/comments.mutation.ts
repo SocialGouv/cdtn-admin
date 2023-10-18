@@ -10,6 +10,14 @@ mutation contributionCommentInsert($answerId: uuid!, $content: String!, $userId:
 }
 `;
 
+export const deleteCommentMutation = `
+mutation contributionCommentDelete($id: uuid!) {
+  delete_contribution_answer_comments_by_pk(id: $id) {
+    __typename
+  }
+}
+`;
+
 export type MutationProps = Omit<
   Comments,
   "user" | "answer" | "id" | "createdAt"
@@ -18,4 +26,9 @@ export type MutationProps = Omit<
 export const useCommentsInsert = () => {
   const [, executeUpdate] = useMutation<MutationProps>(insertCommentMutation);
   return executeUpdate;
+};
+
+export const useCommentsDelete = () => {
+  const [, executeDelete] = useMutation(deleteCommentMutation);
+  return executeDelete;
 };
