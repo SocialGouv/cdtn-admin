@@ -104,6 +104,7 @@ export function Layout({ children, title }: LayoutProps) {
         onClose={handleDrawerToggle}
       >
         <DrawerHeader>
+          <LogoAdmin />
           <IconButton onClick={handleDrawerToggle}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -112,9 +113,6 @@ export function Layout({ children, title }: LayoutProps) {
             )}
           </IconButton>
         </DrawerHeader>
-        <Toolbar sx={{ height: headerHeight }}>
-          <LogoAdmin />
-        </Toolbar>
         <Navigation />
       </Drawer>
       <AppBar position="fixed" open={menuOpen}>

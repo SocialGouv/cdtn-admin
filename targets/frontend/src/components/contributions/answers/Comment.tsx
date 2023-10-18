@@ -1,4 +1,4 @@
-import { Box, Typography, Stack, Tooltip } from "@mui/material";
+import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import * as React from "react";
 
 import {
@@ -8,6 +8,7 @@ import {
 } from "../type";
 import { fr } from "@codegouvfr/react-dsfr";
 import { statusesMapping } from "../status/data";
+import { Delete } from "@mui/icons-material";
 
 const isAnswerComments = (
   comment: AnswerComments | AnswerStatus
@@ -16,9 +17,10 @@ const isAnswerComments = (
 
 type Props = {
   comment: CommentsAndStatuses;
+  onDelete: (comment: AnswerComments) => void;
 };
 
-export const Comment = ({ comment }: Props) => {
+export const Comment = ({ comment, onDelete }: Props) => {
   const date = comment.createdAtDate.toLocaleString("fr-FR", {
     month: "short",
     day: "numeric",
@@ -44,13 +46,19 @@ export const Comment = ({ comment }: Props) => {
               fontSize: "small",
             }}
           >
-            {date}
+            {date} <strong>{comment.user?.name}</strong>
           </Typography>
         </Tooltip>
 
-        <Box sx={{ fontSize: "small", fontWeight: "bold" }}>
-          {comment?.user?.name}
-        </Box>
+        <IconButton
+          size="small"
+          aria-label="suppression d'un commentaire"
+          onClick={() => {
+            onDelete(comment);
+          }}
+        >
+          <Delete fontSize="inherit" />
+        </IconButton>
       </Box>
       <Box sx={{ marginTop: 1, whiteSpace: "pre-line" }}>{comment.content}</Box>
     </Box>
