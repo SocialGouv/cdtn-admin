@@ -18,7 +18,7 @@
     "@reach/menu-button": "^0.16.1",
     "@reach/visually-hidden": "^0.16.0",
     "@shared/graphql-client": "workspace:^",
-    "@shared/id-generator": "workspace:^",
+    "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/cdtn-ui": "^4.92.0",

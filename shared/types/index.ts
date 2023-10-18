@@ -320,10 +320,22 @@ export type DocumentReferences = {
   references: DocumentReference[];
 };
 
-export type DocumentReference = Pick<
-  DilaRef,
-  "dila_cid" | "dila_container_id" | "dila_id" | "title" | "url"
->;
+export type DocumentReference = KaliRef | LegiRef | DilaRef;
+
+export type KaliRef = {
+  dila_cid: string;
+  dila_container_id: string;
+  dila_id: string;
+  title: string;
+  url: string;
+};
+
+export type LegiRef = {
+  dila_cid: string;
+  dila_id: string;
+  title: string;
+  url: string;
+};
 
 export type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
   id: string;

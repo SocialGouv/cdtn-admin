@@ -14,7 +14,6 @@ FROM deps AS build-graphql-client
 COPY shared/graphql-client ./shared/graphql-client
 RUN yarn workspace @shared/graphql-client build
 
-
 FROM deps AS build-dila-resolver
 COPY shared/types ./shared/types
 COPY shared/dila-resolver ./shared/dila-resolver

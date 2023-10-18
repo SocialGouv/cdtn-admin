@@ -1,11 +1,6 @@
 [
   {
-    "agreementsWithAnswer": [
-      "0016",
-      "0044",
-      "0086",
-      "1480"
-    ],
+    "agreementsWithAnswer": ["0016", "0044", "0086", "1480"],
     "answer": {
       "content": {
         "date": "26/12/2022",
