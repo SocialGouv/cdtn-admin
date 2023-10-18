@@ -320,11 +320,7 @@ export type DocumentReferences = {
   references: DocumentReference[];
 };
 
-export type DocumentReference =
-  | KaliRef
-  | LegiRef
-  | FicheServicePublicRef
-  | DilaRef;
+export type DocumentReference = KaliRef | LegiRef | DilaRef;
 
 export type KaliRef = {
   dila_cid: string;
@@ -335,13 +331,6 @@ export type KaliRef = {
 };
 
 export type LegiRef = {
-  dila_cid: string;
-  dila_id: string;
-  title: string;
-  url: string;
-};
-
-export type FicheServicePublicRef = {
   dila_cid: string;
   dila_id: string;
   title: string;
