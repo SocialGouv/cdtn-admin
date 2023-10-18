@@ -19,3 +19,12 @@ export const generateFichesSpRef = (
 ) => {
   return `https://www.service-public.fr/${audience}/vosdroits/${ficheSpInitialId}`;
 };
+
+export const generateFichesSpRefLocal = (
+  urlSlug: string,
+  withPrefix = true
+) => {
+  return `${
+    withPrefix ? "https://code.travail.gouv.fr" : ""
+  }/fiche-service-public/${urlSlug}`;
+};

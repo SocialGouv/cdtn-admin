@@ -1,17 +1,8 @@
-import type {
-  DocumentReferences,
-  FicheServicePublicRef,
-  KaliRef,
-  LegiRef,
-} from "@shared/types";
+import type { DocumentReferences, KaliRef, LegiRef } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import memoizee from "memoizee";
 import { getContributionsWithReferences } from "./getContributionsReferences";
-import {
-  generateFichesSpRef,
-  generateKaliRef,
-  generateLegiRef,
-} from "@shared/utils";
+import { generateKaliRef, generateLegiRef } from "@shared/utils";
 
 export async function getContributionReferences(): Promise<
   DocumentReferences[]
@@ -46,25 +37,7 @@ export async function getContributionReferences(): Promise<
       })
     );
 
-    const ficheSpReferences: FicheServicePublicRef[] = contribution.fiche_sp
-      ? [
-          {
-            dila_cid: contribution.fiche_sp.initial_id,
-            dila_id: contribution.fiche_sp.cdtn_id,
-            title: contribution.fiche_sp.initial_id,
-            url: generateFichesSpRef(
-              "particuliers",
-              contribution.fiche_sp.initial_id
-            ),
-          },
-        ]
-      : [];
-
-    const references = [
-      ...kaliReferences,
-      ...legiReferences,
-      ...ficheSpReferences,
-    ];
+    const references = [...kaliReferences, ...legiReferences];
 
     refs.push({
       document: {
