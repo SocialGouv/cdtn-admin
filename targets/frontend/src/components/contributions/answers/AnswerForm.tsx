@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { FormEditionField, FormRadioGroup, FormTextField } from "../../forms";
-import { Answer, Status, answerRelationSchema, documentSchema } from "../type";
+import { Answer, answerRelationSchema, documentSchema, Status } from "../type";
 import { AnswerWithStatus } from "./answer.query";
 import {
   CdtnReferenceInput,
@@ -67,13 +67,8 @@ export type AnswerFormValidation = z.infer<typeof answerFormSchema>;
 
 export type ContributionsAnswerProps = {
   answer: AnswerWithStatus;
-  onSubmit: (status: Status, data: Answer) => void;
+  onSubmit: (status: Status, data: Answer) => Promise<void>;
 };
-
-const isNotEditable = (answer: Answer | undefined) =>
-  answer?.status?.status !== "REDACTING" &&
-  answer?.status?.status !== "TODO" &&
-  answer?.status?.status !== "VALIDATING";
 
 const isCodeDuTravail = (answer: Answer): boolean =>
   answer?.agreement?.id === "0000";
@@ -83,6 +78,7 @@ export const AnswerForm = ({
   onSubmit,
 }: ContributionsAnswerProps): JSX.Element => {
   const [status, setStatus] = useState<Status>("TODO");
+  const [submitting, setSubmitting] = useState(false);
   useEffect(() => {
     if (answer?.status) {
       setStatus(answer.status.status);
@@ -103,10 +99,21 @@ export const AnswerForm = ({
     },
   });
 
+  const isNotEditable = (answer: Answer | undefined) => {
+    return (
+      submitting ||
+      (answer?.status?.status !== "REDACTING" &&
+        answer?.status?.status !== "TODO" &&
+        answer?.status?.status !== "VALIDATING")
+    );
+  };
+
   const submit = async (newStatus: Status) => {
+    setSubmitting(true);
     if (!isNotEditable(answer)) {
       const isValid = await trigger();
       if (!isValid) {
+        setSubmitting(false);
         return;
       }
     }
@@ -115,7 +122,7 @@ export const AnswerForm = ({
     onSubmit(newStatus, {
       ...answer,
       ...formData,
-    });
+    }).then(() => setSubmitting(false));
   };
 
   const agreementResponseOptions = [
@@ -223,33 +230,36 @@ export const AnswerForm = ({
                 : undefined
             }
           />
-          <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
-            <Button
-              variant="outlined"
-              type="button"
-              onClick={() => submit("REDACTING")}
-              disabled={status === "TODO" || status === "REDACTING"}
-            >
-              Remettre en rédaction
-            </Button>
-            <Button
-              variant="text"
-              type="button"
-              disabled={isNotEditable(answer)}
-              onClick={() => submit("REDACTING")}
-            >
-              Sauvegarder
-            </Button>
-            <Button
-              variant="contained"
-              type="button"
-              color="success"
-              onClick={() => submit(getNextStatus(status))}
-              disabled={status === "PUBLISHED"}
-            >
-              {getPrimaryButtonLabel(status)}
-            </Button>
-          </Stack>
+
+          {!submitting && (
+            <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
+              <Button
+                variant="outlined"
+                type="button"
+                onClick={() => submit("REDACTING")}
+                disabled={status === "TODO" || status === "REDACTING"}
+              >
+                Remettre en rédaction
+              </Button>
+              <Button
+                variant="text"
+                type="button"
+                disabled={isNotEditable(answer)}
+                onClick={() => submit("REDACTING")}
+              >
+                Sauvegarder
+              </Button>
+              <Button
+                variant="contained"
+                type="button"
+                color="success"
+                onClick={() => submit(getNextStatus(status))}
+                disabled={submitting || status === "PUBLISHED"}
+              >
+                {getPrimaryButtonLabel(status)}
+              </Button>
+            </Stack>
+          )}
         </Stack>
       </form>
     </>
