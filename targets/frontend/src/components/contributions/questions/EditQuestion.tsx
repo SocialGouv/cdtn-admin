@@ -106,11 +106,7 @@ export const EditQuestion = ({
         aria-labelledby={`simple-tab-${index}`}
         {...other}
       >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
+        {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
       </div>
     );
   }
@@ -122,7 +118,7 @@ export const EditQuestion = ({
       justifyContent="start"
       spacing={2}
     >
-      <Header answers={data.question.answers} />
+      <Header answers={data.question.answers as Answer[]} />
       <Box sx={{ borderBottom: 1 }}>
         <Tabs
           value={tabIndex}
@@ -135,7 +131,7 @@ export const EditQuestion = ({
       </Box>
       <TabPanel value={tabIndex} index={TabValue.answers}>
         <EditQuestionAnswerList
-          answers={data.question.answers}
+          answers={data.question.answers as Answer[]}
         ></EditQuestionAnswerList>
       </TabPanel>
       <TabPanel value={tabIndex} index={TabValue.edition}>

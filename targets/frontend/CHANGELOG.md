@@ -3,6 +3,82 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.0...v2.19.1) (2023-10-10)
+
+### Bug Fixes
+
+- bug contribution validation sur page non editable ([#1075](https://github.com/SocialGouv/cdtn-admin/issues/1075)) ([b63771a](https://github.com/SocialGouv/cdtn-admin/commit/b63771aab8f474aebee9eee4e5a8ef9e747ba01f))
+
+# [2.19.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.18.0...v2.19.0) (2023-10-09)
+
+### Bug Fixes
+
+- **nextjs:** downgrade nextjs version ([#1071](https://github.com/SocialGouv/cdtn-admin/issues/1071)) ([bca21f8](https://github.com/SocialGouv/cdtn-admin/commit/bca21f80d9328e6f008dafa50ec71fd95b3c3b9f))
+
+### Features
+
+- **upload:** refacto files in typescript ([#1050](https://github.com/SocialGouv/cdtn-admin/issues/1050)) ([a70fc4f](https://github.com/SocialGouv/cdtn-admin/commit/a70fc4fdbf254876d80b0fc477062ce0983f58af))
+
+# [2.18.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.9...v2.18.0) (2023-10-09)
+
+### Bug Fixes
+
+- contribution ref link ([#1047](https://github.com/SocialGouv/cdtn-admin/issues/1047)) ([1b44bfa](https://github.com/SocialGouv/cdtn-admin/commit/1b44bfa86f19da97d64e61db993c4013de268648))
+- **dependencies:** remove un-used dependencies ([#1034](https://github.com/SocialGouv/cdtn-admin/issues/1034)) ([529ffb4](https://github.com/SocialGouv/cdtn-admin/commit/529ffb40bcf79738494d745b0bb756ebd43ab3a4))
+- **wording:** rename answer type on contribution page ([#1052](https://github.com/SocialGouv/cdtn-admin/issues/1052)) ([2a0ace5](https://github.com/SocialGouv/cdtn-admin/commit/2a0ace55918f3bda72a34ae9ce8b81b92fdd5a16))
+
+### Features
+
+- 1032 admin amélioration bouton maj des données notamment le vraiment ([#1033](https://github.com/SocialGouv/cdtn-admin/issues/1033)) ([ee41911](https://github.com/SocialGouv/cdtn-admin/commit/ee419116d67ba45b11f32346ee323ae001c3a444))
+- contribution zod ([#1056](https://github.com/SocialGouv/cdtn-admin/issues/1056)) ([6f8021f](https://github.com/SocialGouv/cdtn-admin/commit/6f8021fe83ce6969fa78e66e0e766595eaaf4159)), closes [#1040](https://github.com/SocialGouv/cdtn-admin/issues/1040)
+
+### Reverts
+
+- Revert "feat:1007 admin liste des contenus modifiés lors dune maj des données - page info (#1013)" ([ec3584f](https://github.com/SocialGouv/cdtn-admin/commit/ec3584f59094dc238d4ece3eeadd9c02993608af)), closes [#1013](https://github.com/SocialGouv/cdtn-admin/issues/1013)
+
+## [2.17.9](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.8...v2.17.9) (2023-09-29)
+
+### Bug Fixes
+
+- **dev:** correction du probleme de socket en phase de dev en HMR + suppression de sentry ([#1045](https://github.com/SocialGouv/cdtn-admin/issues/1045)) ([d371ec1](https://github.com/SocialGouv/cdtn-admin/commit/d371ec1e7e15b3bd4a017f021099ca0edc9c7911))
+
+## [2.17.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.7...v2.17.8) (2023-09-28)
+
+### Bug Fixes
+
+- **env:** set default credentials when `.env` is not set ([#1041](https://github.com/SocialGouv/cdtn-admin/issues/1041)) ([f545433](https://github.com/SocialGouv/cdtn-admin/commit/f54543347a4ed7ece6738b14ac42cbd9d6f828cc))
+- **env:** use config file instead of env for public variable ([#1039](https://github.com/SocialGouv/cdtn-admin/issues/1039)) ([68eaefa](https://github.com/SocialGouv/cdtn-admin/commit/68eaefa0690e43699eca633d46ff1eda2ebb6058))
+
+## [2.17.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.6...v2.17.7) (2023-09-27)
+
+### Bug Fixes
+
+- **env:** remove env file in dockerfile ([34ab0ab](https://github.com/SocialGouv/cdtn-admin/commit/34ab0aba5a4dbc1eb9c1042eba7fd1dc8ee217e6))
+
+## [2.17.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.5...v2.17.6) (2023-09-27)
+
+### Bug Fixes
+
+- **env:** add env in gitignore ([d99d7c9](https://github.com/SocialGouv/cdtn-admin/commit/d99d7c9b221e3b48b1b897d9cbac515360edfed4))
+- **env:** remove env in targets ([2262e45](https://github.com/SocialGouv/cdtn-admin/commit/2262e4515c01224af115f72b74eedcceca871f9e))
+
+## [2.17.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.4...v2.17.5) (2023-09-27)
+
+**Note:** Version bump only for package frontend
+
+## [2.17.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.3...v2.17.4) (2023-09-27)
+
+**Note:** Version bump only for package frontend
+
+## [2.17.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.2...v2.17.3) (2023-09-27)
+
+### Bug Fixes
+
+- **contributions:** ajout d'un selecteur de references pour les fiches SP ([#1029](https://github.com/SocialGouv/cdtn-admin/issues/1029)) ([c57d763](https://github.com/SocialGouv/cdtn-admin/commit/c57d763762567d4d7497059a47e8b7b853e998df))
+- **contributions:** rename otherAnswer field by contentType ([#1027](https://github.com/SocialGouv/cdtn-admin/issues/1027)) ([a590140](https://github.com/SocialGouv/cdtn-admin/commit/a5901403d289602c24f7b87c6b96ebeb2af39486))
+- **contribution:** utilisation de l'ID de l'article à la place du CID pour générer le lien ([#1030](https://github.com/SocialGouv/cdtn-admin/issues/1030)) ([69f703c](https://github.com/SocialGouv/cdtn-admin/commit/69f703cb68bee64297ac678502d1f0368ed34d66))
+- yarn berry + fetch + docker opti + sec ([#1012](https://github.com/SocialGouv/cdtn-admin/issues/1012)) ([81bce48](https://github.com/SocialGouv/cdtn-admin/commit/81bce4838781e60c05a084769a35cf0d2a26609c))
+
 ## [2.17.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.1...v2.17.2) (2023-09-25)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "ingester",
-  "version": "2.17.2",
+  "version": "2.19.1",
   "dependencies": {
     "@shared/graphql-client": "workspace:^",
     "@shared/id-generator": "workspace:^",
@@ -29,6 +29,7 @@
   "devDependencies": {
     "@shared/eslint-config": "workspace:^",
     "@shared/types": "workspace:^",
+    "@socialgouv/contributions-data-types": "^3.27.0",
     "@socialgouv/fiches-travail-data-types": "^4.191.0",
     "@socialgouv/fiches-vdd-types": "^2.197.0",
     "@socialgouv/kali-data-types": "^2.127.0",
@@ -42,7 +43,6 @@
     "@vercel/ncc": "0.34.0",
     "jest": "^27.1.1",
     "lint-staged": "^12.0.0",
-    "prettier": "^2.3.2",
     "ts-jest": "^27.0.5",
     "ts-node": "10.8.0",
     "typescript": "^4.4.3"
@@ -58,7 +58,6 @@
     "cli:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 yarn start",
     "lint": "npx eslint \"./src/**/*.{js,ts}\"",
     "precommit": "lint-staged",
-    "prepush": "yarn build && yarn lint && yarn test --bail --changedSince=master",
     "start": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
     "test": "jest --passWithNoTests",
     "types": "tsc"

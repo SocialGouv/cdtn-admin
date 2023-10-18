@@ -4,6 +4,7 @@ import { client } from "@shared/graphql-client";
 import { createErrorFor } from "src/lib/apiError";
 import { getExpiryDate } from "src/lib/duration";
 import { v4 as uuidv4 } from "uuid";
+import { ACTIVATION_TOKEN_EXPIRES } from "../../config";
 
 export default async function reset_password(req, res) {
   const apiError = createErrorFor(res);
@@ -28,9 +29,7 @@ export default async function reset_password(req, res) {
   const result = await client
     .mutation(udpateSecretTokenMutation, {
       email,
-      expires: getExpiryDate(
-        parseInt(process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES, 10)
-      ),
+      expires: getExpiryDate(parseInt(ACTIVATION_TOKEN_EXPIRES, 10)),
       secret_token,
     })
     .toPromise();

@@ -12,8 +12,13 @@ import {
   CommentsAndStatuses,
 } from "../type";
 import { Comment } from "./Comment";
-import { MutationProps, useCommentsInsert } from "./comments.mutation";
+import {
+  MutationProps,
+  useCommentsDelete,
+  useCommentsInsert,
+} from "./comments.mutation";
 import { SnackBar } from "../../utils/SnackBar";
+import { ConfirmModal } from "src/modules/common/components/modals/ConfirmModal";
 
 type Props = {
   answerId: string;
@@ -45,6 +50,8 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
 
   const insertComment = useCommentsInsert();
 
+  const deleteComment = useCommentsDelete();
+
   const notifications: CommentsAndStatuses[] = useMemo(() => {
     return concatAndSort(comments, statuses);
   }, [comments, statuses]);
@@ -56,6 +63,10 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
   }>({
     open: false,
   });
+
+  const [commentToDelete, setCommentToDelete] = React.useState<
+    AnswerComments | undefined
+  >();
 
   const { control, handleSubmit, resetField } = useForm<MutationProps>({
     defaultValues: {
@@ -71,7 +82,7 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
 
   const onSubmit = async (data: MutationProps) => {
     try {
-      await insertComment(
+      const result = await insertComment(
         {
           answerId: answerId,
           content: data.content,
@@ -79,6 +90,13 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
         },
         { additionalTypenames: ["AnswerComments"] }
       );
+      if (result.error) {
+        return setSnack({
+          open: true,
+          severity: "error",
+          message: JSON.stringify(result.error),
+        });
+      }
       setSnack({
         open: true,
         severity: "success",
@@ -90,8 +108,46 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
     }
   };
 
+  const onDeleteCom = async (commentToDelete: AnswerComments) => {
+    try {
+      const result = await deleteComment(
+        { id: commentToDelete.id },
+        {
+          additionalTypenames: ["AnswerComments"],
+        }
+      );
+      if (result.error) {
+        throw new Error(JSON.stringify(result.error));
+      }
+      if (!result.data.delete_contribution_answer_comments_by_pk) {
+        throw new Error("Impossible de supprimer ce commentaire...");
+      }
+      setSnack({
+        open: true,
+        severity: "success",
+        message: "Le commentaire a bien été supprimé",
+      });
+      setCommentToDelete(undefined);
+    } catch (e: any) {
+      setCommentToDelete(undefined);
+      setSnack({ open: true, severity: "error", message: e.message });
+    }
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
+      {commentToDelete && (
+        <ConfirmModal
+          open={!!commentToDelete}
+          title="Suppression d'un commentaire"
+          message={`Êtes-vous sur de vouloir supprimer le commentaire du "${commentToDelete.content}" ?`}
+          onClose={() => setCommentToDelete(undefined)}
+          onCancel={() => setCommentToDelete(undefined)}
+          onValidate={() => {
+            onDeleteCom(commentToDelete);
+          }}
+        />
+      )}
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
         <Box
           sx={{
@@ -101,6 +157,7 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
           }}
         >
           <Box
+            mb={4}
             ref={listRef}
             sx={{
               display: "flex",
@@ -109,8 +166,14 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
               overflow: "auto",
             }}
           >
-            {notifications.map((comment) => (
-              <Comment key={comment.id} comment={comment} />
+            {notifications.map((comment, index) => (
+              <Comment
+                key={index}
+                comment={comment}
+                onDelete={(c: AnswerComments) => {
+                  setCommentToDelete(c);
+                }}
+              />
             ))}
           </Box>
           <FormControl>

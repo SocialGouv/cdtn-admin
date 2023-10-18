@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.0...v2.19.1) (2023-10-10)
+
+**Note:** Version bump only for package export-elasticsearch
+
+# [2.19.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.18.0...v2.19.0) (2023-10-09)
+
+**Note:** Version bump only for package export-elasticsearch
+
+# [2.18.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.9...v2.18.0) (2023-10-09)
+
+### Bug Fixes
+
+- **dependencies:** remove un-used dependencies ([#1034](https://github.com/SocialGouv/cdtn-admin/issues/1034)) ([529ffb4](https://github.com/SocialGouv/cdtn-admin/commit/529ffb40bcf79738494d745b0bb756ebd43ab3a4))
+
+## [2.17.9](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.8...v2.17.9) (2023-09-29)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.17.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.7...v2.17.8) (2023-09-28)
+
+### Bug Fixes
+
+- **export:** add missing cdtn-elasticsearch to Dockerfile ([#1038](https://github.com/SocialGouv/cdtn-admin/issues/1038)) ([390e646](https://github.com/SocialGouv/cdtn-admin/commit/390e64660fcb8a7143970a20928e98d6da05c22f))
+
+## [2.17.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.6...v2.17.7) (2023-09-27)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.17.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.5...v2.17.6) (2023-09-27)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.17.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.4...v2.17.5) (2023-09-27)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.17.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.3...v2.17.4) (2023-09-27)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.17.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.2...v2.17.3) (2023-09-27)
+
+### Bug Fixes
+
+- yarn berry + fetch + docker opti + sec ([#1012](https://github.com/SocialGouv/cdtn-admin/issues/1012)) ([81bce48](https://github.com/SocialGouv/cdtn-admin/commit/81bce4838781e60c05a084769a35cf0d2a26609c))
+
 ## [2.17.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.1...v2.17.2) (2023-09-25)
 
 **Note:** Version bump only for package export-elasticsearch

@@ -15,14 +15,15 @@ const proxy = createProxyMiddleware({
     res.writeHead(500, {
       "Content-Type": "text/plain",
     });
-    // todo: sentry
     res.end("Something went wrong. We've been notified.");
   },
   pathRewrite: { "^/api/graphql": "/v1/graphql" },
   prependPath: false,
-  target: process.env.HASURA_GRAPHQL_ENDPOINT,
+  target:
+    process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
   ws: true,
   xfwd: true, // proxy websockets
+  headers: { Connection: "keep-alive" },
 });
 
 export default proxy;

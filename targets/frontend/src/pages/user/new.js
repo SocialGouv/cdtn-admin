@@ -7,6 +7,7 @@ import { withUserProvider } from "src/hoc/UserProvider";
 import { getExpiryDate } from "src/lib/duration";
 import { useMutation } from "urql";
 import { Alert } from "@mui/material";
+import { ACTIVATION_TOKEN_EXPIRES } from "../../config";
 
 const registerUserMutation = `
 mutation registerUser($user: auth_users_insert_input! ) {
@@ -29,7 +30,7 @@ function prepareMutationData(input) {
     user: {
       ...input,
       secret_token_expires_at: getExpiryDate(
-        parseInt(process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES, 10)
+        parseInt(ACTIVATION_TOKEN_EXPIRES, 10)
       ),
       user_roles: { data: { role: input.default_role } },
     },

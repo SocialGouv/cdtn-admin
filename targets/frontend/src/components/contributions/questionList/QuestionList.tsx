@@ -23,6 +23,7 @@ import { QuestionRow } from "./QuestionRow";
 import { fr } from "@codegouvfr/react-dsfr";
 import { statusesMapping } from "../status/data";
 import { StatusStats } from "../status/StatusStats";
+import { Answer } from "../type";
 
 export const countAnswersWithStatus = (
   answers: QueryQuestionAnswer[] | undefined,
@@ -40,7 +41,9 @@ export const QuestionList = (): JSX.Element => {
     search,
   });
 
-  const aggregatedRow = rows.map(({ answers }) => answers).flat();
+  const aggregatedRow = rows.flatMap(({ answers }) =>
+    answers?.length ? (answers as Answer[]) : []
+  );
   const total = aggregatedRow.length;
   return (
     <Stack spacing={2}>
