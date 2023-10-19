@@ -112,9 +112,6 @@ export const FormAutocomplete = <T,>({
               />
             )}
           />
-          {/* {error && error.message === "Required" ? (
-            <FormHelperText>Ce champ est requis</FormHelperText>
-          ) : null} */}
         </FormControl>
       )}
     />
