@@ -95,12 +95,10 @@ export class DocumentsService {
   }
 
   public async publish(id: string, source: string) {
-    console.log("id", id);
     let document = await this.documentsRepository.fetch({
       source,
       initialId: id,
     });
-    console.log("currentDoc", document);
     switch (source) {
       case "information":
       default:

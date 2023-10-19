@@ -34,7 +34,6 @@ export const queryDocument = async (
   client: ApiClient,
   variables: DocumentsQueryProps
 ): Promise<Document | undefined> => {
-  console.log("queryDocument", query, variables);
   const { data: result, error } = await client.query<QueryDocumentResult>(
     query,
     variables
@@ -43,7 +42,6 @@ export const queryDocument = async (
     console.log(error);
     throw error;
   }
-  console.log("result", result);
   const data = result?.documents[0];
 
   return data;
