@@ -11,10 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 import { FixedSnackBar } from "src/components/utils/SnackBar";
-import { ConfirmModal } from "../../common/components/modals/ConfirmModal";
-import { request } from "../../../lib/request";
 import { ShortDocument } from "../../documents";
-import DocumentList from "./document-list";
+import { ShowDocumentsToUpdateModal } from "./ShowDocumentsToUpdateModal";
 
 export function Export(): JSX.Element {
   const [validateExportPreprodModal, setValidateExportPreprodModal] =
@@ -31,41 +29,13 @@ export function Export(): JSX.Element {
     getExportEs();
   }, []);
 
-  const [docsToUpdateProd, setDocsToUpdateProd] = useState<ShortDocument[]>([]);
-  const [docsToUpdatePreProd, setDocsToUpdatePreProd] = useState<
-    ShortDocument[]
-  >([]);
-  const [isLoadingDocs, setIsLoadingDocs] = useState<boolean>(false);
-
-  function getLastestDocs(env: Environment) {
+  function getLatestDeployDate(env: Environment) {
     const lastestCompleted = exportEsState?.exportData.filter(
       (data) => data.status === StatusType.completed && data.environment === env
     )[0];
 
-    const lastestCompletedDate = new Date(
-      lastestCompleted?.created_at
-    ).toISOString();
-    return request(`/api/modified-documents?date=${lastestCompletedDate}`);
+    return lastestCompleted?.created_at;
   }
-
-  useEffect(() => {
-    setIsLoadingDocs(false);
-  }, [docsToUpdateProd, docsToUpdatePreProd]);
-  useEffect(() => {
-    if (validateExportPreprodModal) {
-      getLastestDocs(Environment.preproduction).then((docs) =>
-        setDocsToUpdatePreProd(docs)
-      );
-    }
-  }, [validateExportPreprodModal]);
-
-  useEffect(() => {
-    if (validateExportProdModal) {
-      getLastestDocs(Environment.production).then((docs) =>
-        setDocsToUpdateProd(docs)
-      );
-    }
-  }, [validateExportProdModal]);
 
   if (exportEsState.error) {
     return (
@@ -92,7 +62,6 @@ export function Export(): JSX.Element {
           }
           onClick={() => {
             setValidateExportProdModal(true);
-            setIsLoadingDocs(true);
           }}
         >
           Mettre à jour la production
@@ -105,7 +74,6 @@ export function Export(): JSX.Element {
           }
           onClick={() => {
             setValidateExportPreprodModal(true);
-            setIsLoadingDocs(true);
           }}
         >
           Mettre à jour la pre-production
@@ -177,43 +145,27 @@ export function Export(): JSX.Element {
           </tbody>
         </Table>
       </Stack>
-      <ConfirmModal
+      <ShowDocumentsToUpdateModal
         open={validateExportPreprodModal}
-        title="Mise à jour de la Pre-Prod"
-        message={
-          <div>
-            <p>Êtes-vous sur de vouloir mettre à jour la pre-production ?</p>
-            <DocumentList
-              docs={docsToUpdatePreProd}
-              isLoadingDocs={isLoadingDocs}
-            ></DocumentList>
-          </div>
-        }
+        name="Pre-Prod"
         onClose={() => setValidateExportPreprodModal(false)}
         onCancel={() => setValidateExportPreprodModal(false)}
         onValidate={() => {
           setValidateExportPreprodModal(false);
           onTrigger(Environment.preproduction);
         }}
+        date={getLatestDeployDate(Environment.preproduction)}
       />
-      <ConfirmModal
+      <ShowDocumentsToUpdateModal
         open={validateExportProdModal}
-        title="Mise à jour de la Prod"
-        message={
-          <div>
-            <p>Êtes-vous sur de vouloir mettre à jour la production ?</p>
-            <DocumentList
-              docs={docsToUpdateProd}
-              isLoadingDocs={isLoadingDocs}
-            ></DocumentList>
-          </div>
-        }
+        name="Prod"
         onClose={() => setValidateExportProdModal(false)}
         onCancel={() => setValidateExportProdModal(false)}
         onValidate={() => {
           setValidateExportProdModal(false);
           onTrigger(Environment.production);
         }}
+        date={getLatestDeployDate(Environment.production)}
       />
     </>
   );

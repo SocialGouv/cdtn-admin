@@ -1,7 +1,7 @@
 import { DocumentsRepository } from "./documents.repository";
 import { NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
-import { Document, ShortDocument } from "../type";
+import { Document } from "../type";
 import { format } from "date-fns";
 import { generateCdtnId, generateInitialId } from "@shared/id-generator";
 import slugify from "@socialgouv/cdtn-slugify";
@@ -122,9 +122,5 @@ export class DocumentsService {
     }
     const result = await this.documentsRepository.update(document);
     return result;
-  }
-
-  public async getUpdatedAfter(date: Date): Promise<ShortDocument[]> {
-    return await this.documentsRepository.getUpdatedAfter(date);
   }
 }

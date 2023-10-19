@@ -1,8 +1,7 @@
 import { ApiClient } from "src/lib/api";
 import { documentsPublishMutation } from "./documents.mutation";
-import { queryDocument, getDocumentsUpdatedAfterDateQuery, DocumentsQueryProps } from "./documents.query";
-import { Document, ShortDocument } from "../type";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { DocumentsQueryProps, queryDocument } from "./documents.query";
+import { Document } from "../type";
 
 export class DocumentsRepository {
   client: ApiClient;
@@ -35,24 +34,5 @@ export class DocumentsRepository {
       console.log("Error: ", error);
       throw error;
     }
-  }
-
-  async getUpdatedAfter(date: Date): Promise<ShortDocument[]> {
-    const { error, data } = await this.client.query<
-      { documents: [] },
-      { updated_at: Date; sources: string[] }
-    >(getDocumentsUpdatedAfterDateQuery, {
-      updated_at: date,
-      sources: [SOURCES.LETTERS, SOURCES.EDITORIAL_CONTENT],
-    });
-
-    if (error) {
-      console.log("Error: ", error);
-      throw error;
-    }
-    if (!data || data.documents.length === 0) {
-      return [];
-    }
-    return data.documents;
   }
 }
