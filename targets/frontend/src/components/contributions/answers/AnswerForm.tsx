@@ -96,6 +96,7 @@ export const AnswerForm = ({
     getValues,
     trigger,
     formState: { isDirty },
+    reset,
   } = useForm<AnswerFormValidation>({
     resolver: zodResolver(answerFormSchema),
     shouldFocusError: true,
@@ -110,22 +111,30 @@ export const AnswerForm = ({
       updateDate: answer?.updateDate ?? "",
     },
   });
+
   const onRouteChangeStart = () => {
-    if (isDirty) {
-      if (
-        !window.confirm(
-          `Les modifications que vous avez apportées ne seront peut-être pas enregistrées.`
-        )
-      ) {
-        router.events.emit("routeChangeError");
-        throw `routeChange aborted`;
-      }
-      router.events.off("routeChangeStart", onRouteChangeStart);
+    if (
+      !window.confirm(
+        `Les modifications que vous avez apportées ne seront peut-être pas enregistrées.`
+      )
+    ) {
+      router.events.emit("routeChangeError");
+      throw `routeChange aborted`;
     }
   };
+
+  useEffect(() => {
+    if (isDirty) {
+      router.events.on("routeChangeStart", onRouteChangeStart);
+    }
+    return () => {
+      if (isDirty) {
+        router.events.off("routeChangeStart", onRouteChangeStart);
+      }
+    };
+  }, [router.events, isDirty]);
   useEffect(() => {
     window.onbeforeunload = isDirty ? () => true : null;
-    router.events.on("routeChangeStart", onRouteChangeStart);
   }, [isDirty]);
 
   const submit = async (newStatus: Status) => {
@@ -141,6 +150,7 @@ export const AnswerForm = ({
       ...answer,
       ...formData,
     });
+    reset({ ...formData });
   };
 
   const agreementResponseOptions = [
