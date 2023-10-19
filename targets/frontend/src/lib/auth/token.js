@@ -72,13 +72,13 @@ export async function auth(ctx) {
     console.error("[ auth ] refreshToken error ", { error });
 
     // we are on server side and its response is not ended yet
-    // if (ctx?.res && !ctx.res.writableEnded) {
-    //   removeJwtCookie(ctx.res);
-    //   ctx.res.writeHead(302, { Location: "/login" });
-    //   ctx.res.end();
-    // } else if (ctx && !ctx.req) {
-    //   // if we are on the client
-    //   Router.push("/login");
-    // }
+    if (ctx?.res && !ctx.res.writableEnded) {
+      removeJwtCookie(ctx.res);
+      ctx.res.writeHead(302, { Location: "/login" });
+      ctx.res.end();
+    } else if (ctx && !ctx.req) {
+      // if we are on the client
+      Router.push("/login");
+    }
   }
 }
