@@ -7,4 +7,5 @@ export type Document = {
   text: string;
   title: string;
   meta_description: string;
+  is_available: boolean;
 };

@@ -12,6 +12,7 @@ export const documentsPublishMutation = `
           meta_description
           slug
           source
+          is_available
         ]
       }
     ) {

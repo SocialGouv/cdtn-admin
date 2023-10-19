@@ -16,6 +16,7 @@ const query = `query documents($source: String!, $initialId: String) {
         text
         title
         meta_description
+        is_available
   }
 }`;
 

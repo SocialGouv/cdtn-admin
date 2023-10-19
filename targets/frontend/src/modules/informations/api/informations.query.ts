@@ -25,6 +25,7 @@ export const informationsQuery = gql`
           content
           order
           type
+          contentDisplayMode
           img {
             url
             altText
