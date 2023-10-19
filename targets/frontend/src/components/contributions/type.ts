@@ -51,7 +51,7 @@ export const kaliArticleSchema = z.object({
   path: z.string(),
   label: z
     .string({ required_error: "Un libellé doit être renseigné" })
-    .min(1, "un label doit être renseigné"),
+    .min(1, "Un libellé doit être renseigné"),
   agreementId: z.string(),
   createdAt: z.string(),
 });
@@ -67,8 +67,8 @@ export type LegiArticle = z.infer<typeof legiArticleSchema>;
 export const kaliReferenceSchema = z.object({
   kaliArticle: kaliArticleSchema.partial(),
   label: z
-    .string({ required_error: "Un libellé doit être renseigner" })
-    .min(1, "un label doit être renseigner"),
+    .string({ required_error: "Un libellé doit être renseigné" })
+    .min(1, "Un libellé doit être renseigné"),
 });
 export type KaliReference = z.infer<typeof kaliReferenceSchema>;
 
@@ -79,22 +79,25 @@ export type LegiReference = z.infer<typeof legiReferenceSchema>;
 
 export const otherReferenceSchema = z.object({
   label: z
-    .string({ required_error: "un libellé doit être renseigné" })
-    .min(1, "un nom doit être renseigné"),
+    .string({ required_error: "Un libellé doit être renseigné" })
+    .min(1, "Un libellé doit être renseigné"),
   url: z
-    .string({ required_error: "Une url doit être renseigné" })
-    .url("le format du lien est invalide")
+    .string()
+    .url("Le format du lien est invalide")
     .optional()
     .or(z.literal("")),
 });
 export type OtherReference = z.infer<typeof otherReferenceSchema>;
 
-export const documentSchema = z.object({
-  title: z.string(),
-  cdtnId: z.string(),
-  source: z.string(),
-  slug: z.string(),
-});
+export const documentSchema = z.object(
+  {
+    title: z.string(),
+    cdtnId: z.string(),
+    source: z.string(),
+    slug: z.string(),
+  },
+  { invalid_type_error: "Le document doit être renseigné" }
+);
 export type Document = z.infer<typeof documentSchema>;
 
 export const cdtnReferenceSchema = z.object({
@@ -110,7 +113,7 @@ const answerBaseSchema = z.object({
     ["ANSWER", "NOTHING", "CDT", "UNFAVOURABLE", "UNKNOWN", "SP"],
     {
       required_error: "Un type de réponse doit être sélectionné",
-      invalid_type_error: " type de réponse doit être sélectionné",
+      invalid_type_error: "Un type de réponse doit être sélectionné",
     }
   ),
   contentServicePublicCdtnId: z.string().nullable().optional(),
@@ -122,9 +125,9 @@ export const questionBaseSchema = z.object({
   id: z.string().uuid(),
   content: z
     .string({
-      required_error: "une question doit être renseigné",
+      required_error: "Une question doit être renseignée",
     })
-    .min(1, "une question doit être renseigné"),
+    .min(1, "Une question doit être renseignée"),
   order: z.number(),
   message_id: z
     .string({

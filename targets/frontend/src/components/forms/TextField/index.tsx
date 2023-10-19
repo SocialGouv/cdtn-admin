@@ -14,6 +14,7 @@ type FormTextFieldProps = CommonFormProps & {
   fullWidth?: boolean;
   multiline?: boolean;
   labelFixed?: boolean;
+  id?: string;
 };
 
 export const FormTextField = ({
@@ -34,9 +35,7 @@ export const FormTextField = ({
       rules={rules}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <TextField
-          helperText={
-            error && error.type === "required" ? "Ce champ est requis" : null
-          }
+          helperText={error?.message}
           size={size}
           error={!!error}
           onChange={onChange}
@@ -47,6 +46,7 @@ export const FormTextField = ({
           multiline={multiline}
           disabled={disabled}
           InputLabelProps={labelFixed ? { shrink: true } : {}}
+          id={name}
         />
       )}
     />

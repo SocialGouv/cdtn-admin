@@ -5871,6 +5871,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/user-event@npm:^14.5.1":
+  version: 14.5.1
+  resolution: "@testing-library/user-event@npm:14.5.1"
+  peerDependencies:
+    "@testing-library/dom": ">=7.21.4"
+  checksum: 3e6bc9fd53dfe2f3648190193ed2fd4bca2a1bfb47f68810df3b33f05412526e5fd5c4ef9dc5375635e0f4cdf1859916867b597eed22bda1321e04242ea6c519
+  languageName: node
+  linkType: hard
+
 "@tiptap-pro/extension-details-content@npm:^2.2.3":
   version: 2.2.4
   resolution: "@tiptap-pro/extension-details-content@npm:2.2.4"
@@ -12356,6 +12365,7 @@ __metadata:
     "@socialgouv/matomo-next": ^1.2.2
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0
+    "@testing-library/user-event": ^14.5.1
     "@tiptap-pro/extension-details": ^2.2.3
     "@tiptap-pro/extension-details-content": ^2.2.3
     "@tiptap-pro/extension-details-summary": ^2.2.3
