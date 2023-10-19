@@ -22,7 +22,7 @@ export default function DocumentList({
       <Typography mb={1}>
         <strong>Inclus dans la mise à jour :</strong>
       </Typography>
-      <ul>
+      <ul style={{ maxHeight: "60vh", overflow: "auto" }}>
         <li>
           Documents avec une source externe (fiches service public, fiches
           ministère du travail, ...)
@@ -35,8 +35,8 @@ export default function DocumentList({
         ) : (
           <>
             {docs.length && (
-              <>
-                <li>Pages information</li>
+              <li>
+                <Typography mb={0}>Pages information :</Typography>
 
                 {docs.map((doc) => (
                   <Stack direction="row" key={doc.slug}>
@@ -58,7 +58,7 @@ export default function DocumentList({
                     )}
                   </Stack>
                 ))}
-              </>
+              </li>
             )}
           </>
         )}
