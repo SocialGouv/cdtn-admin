@@ -34,28 +34,32 @@ export default function DocumentList({
           </Stack>
         ) : (
           <>
-            <li>Pages information</li>
+            {docs.length && (
+              <>
+                <li>Pages information</li>
 
-            {docs.map((doc) => (
-              <Stack direction="row" key={doc.slug}>
-                <Link
-                  href={sourceToRoute({
-                    id: doc.initial_id,
-                    cdtnId: doc.cdtn_id,
-                    source: doc.source,
-                  })}
-                  target="_blank"
-                  sx={{ fontSize: "0.8rem" }}
-                >
-                  {doc.title}
-                </Link>
-                {doc.isPublished ? (
-                  <Check text="Publié" />
-                ) : (
-                  <Cross text="Dépublié" />
-                )}
-              </Stack>
-            ))}
+                {docs.map((doc) => (
+                  <Stack direction="row" key={doc.slug}>
+                    <Link
+                      href={sourceToRoute({
+                        id: doc.initial_id,
+                        cdtnId: doc.cdtn_id,
+                        source: doc.source,
+                      })}
+                      target="_blank"
+                      sx={{ fontSize: "0.8rem" }}
+                    >
+                      {doc.title}
+                    </Link>
+                    {doc.isPublished ? (
+                      <Check text="Publié" />
+                    ) : (
+                      <Cross text="Dépublié" />
+                    )}
+                  </Stack>
+                ))}
+              </>
+            )}
           </>
         )}
       </ul>
