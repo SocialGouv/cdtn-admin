@@ -1,4 +1,4 @@
-import { FormLabel } from "@mui/material";
+import { FormLabel, Box } from "@mui/material";
 import { styled } from "@mui/system";
 import { fr } from "@codegouvfr/react-dsfr";
 
@@ -39,7 +39,7 @@ export const TitleBox = ({
   );
 };
 
-const StyledBox = styled("fieldset", {
+const StyledBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== "focus" && prop !== "isError",
 })<{ focus?: boolean; isError?: boolean }>(({ focus, isError }) => {
   return {
