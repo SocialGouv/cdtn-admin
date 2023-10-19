@@ -19,7 +19,6 @@ export function withUserProvider(WrappedComponent) {
     };
 
     static async getInitialProps(ctx) {
-      console.log("[withUserProvider] ctx", ctx ? true : false);
       const token = await auth(ctx);
       const componentProps =
         WrappedComponent.getInitialProps &&
