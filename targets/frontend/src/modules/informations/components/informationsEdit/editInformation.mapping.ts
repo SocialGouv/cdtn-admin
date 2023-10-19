@@ -14,10 +14,11 @@ const removeTypename = (obj: any) => {
   return obj;
 };
 
-const getRawColumns = (obj?: any): string[] => {
+export const getRawColumns = (obj?: any): string[] => {
   if (!obj) return [];
   return Object.entries(obj).reduce<string[]>((result, [key, value]) => {
-    if (key === "__typename" || typeof value === "object") return result;
+    if (key === "__typename" || (value && typeof value === "object"))
+      return result;
     return [...result, key];
   }, []);
 };
@@ -64,14 +65,19 @@ const mapInformationContentsBlocks = (
     },
     data:
       blocks?.map((block, blockIndex) => {
-        const file = mapInformationContentsBlocksFile(block.file);
-        const img = mapInformationContentsBlocksFile(block.img);
-        const contents = mapInformationContentsBlocksContents(block.contents);
         return {
           ...removeTypename(block),
-          file,
-          img,
-          contents,
+          ...(block.type === "graphic"
+            ? {
+                file: mapInformationContentsBlocksFile(block.file),
+                img: mapInformationContentsBlocksFile(block.img),
+              }
+            : {}),
+          ...(block.type === "content"
+            ? {
+                contents: mapInformationContentsBlocksContents(block.contents),
+              }
+            : {}),
           order: blockIndex + 1,
         };
       }) ?? [],

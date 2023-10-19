@@ -127,7 +127,6 @@ export const InformationsContent = ({
                 appendBlock({
                   type: "markdown",
                   content: "",
-                  contents: [],
                 })
               }
             >

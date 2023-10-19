@@ -4,51 +4,59 @@ import { Information } from "../../type";
 
 import { mapInformation } from "./editInformation.mapping";
 import { getElementsToDelete } from "src/lib/mutationUtils";
+import { gql } from "@urql/core";
 
-export const informationMutation = `
-mutation edit_information(
-  $upsert: information_informations_insert_input!,
-  $contentIdsToDelete: [uuid!],
-  $referenceIdsToDelete: [uuid!],
-  $contentBlockIdsToDelete: [uuid!],
-  $contentBlockContentIdsToDelete: [uuid!],
-  $contentReferenceIdsToDelete: [uuid!]
-) {
-  insert_information_informations_one(
-    object: $upsert,
-    on_conflict: {
-      constraint: informations_pkey,
-      update_columns: [description,intro, metaTitle, metaDescription,referenceLabel,sectionDisplayMode]
+export const informationMutation = gql`
+  mutation edit_information(
+    $upsert: information_informations_insert_input!
+    $contentIdsToDelete: [uuid!]
+    $referenceIdsToDelete: [uuid!]
+    $contentBlockIdsToDelete: [uuid!]
+    $contentBlockContentIdsToDelete: [uuid!]
+    $contentReferenceIdsToDelete: [uuid!]
+  ) {
+    delete_information_informations_references(
+      where: { id: { _in: $referenceIdsToDelete } }
+    ) {
+      affectedRows: affected_rows
     }
-  ) {
-    id
+    delete_information_informations_contents(
+      where: { id: { _in: $contentIdsToDelete } }
+    ) {
+      affectedRows: affected_rows
+    }
+    delete_information_informations_contents_references(
+      where: { id: { _in: $contentReferenceIdsToDelete } }
+    ) {
+      affectedRows: affected_rows
+    }
+    delete_information_informations_contents_blocks(
+      where: { id: { _in: $contentBlockIdsToDelete } }
+    ) {
+      affectedRows: affected_rows
+    }
+    delete_information_informations_contents_blocks_contents(
+      where: { id: { _in: $contentBlockContentIdsToDelete } }
+    ) {
+      affectedRows: affected_rows
+    }
+    insert_information_informations_one(
+      object: $upsert
+      on_conflict: {
+        constraint: informations_pkey
+        update_columns: [
+          description
+          intro
+          metaTitle
+          metaDescription
+          referenceLabel
+          sectionDisplayMode
+        ]
+      }
+    ) {
+      id
+    }
   }
-  delete_information_informations_references (
-    where: {id: {_in: $referenceIdsToDelete}}
-  ) {
-    affectedRows: affected_rows
-  }
-  delete_information_informations_contents (
-    where: {id: {_in: $contentIdsToDelete}}
-  ) {
-    affectedRows: affected_rows
-  }
-  delete_information_informations_contents_references (
-    where: {id: {_in: $contentReferenceIdsToDelete}}
-  ) {
-    affectedRows: affected_rows
-  }
-  delete_information_informations_contents_blocks (
-    where: {id: {_in: $contentBlockIdsToDelete}}
-  ) {
-    affectedRows: affected_rows
-  }
-  delete_information_informations_contents_blocks_contents (
-    where: {id: {_in: $contentBlockContentIdsToDelete}}
-  ) {
-    affectedRows: affected_rows
-  }
-}
 `;
 
 export type EditInformationMutationResult = {

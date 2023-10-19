@@ -1,85 +1,74 @@
-import { CombinedError, useQuery } from "urql";
+import { CombinedError, OperationContext, useQuery } from "urql";
 import { format, parseISO } from "date-fns";
 
 import { Information } from "../../type";
+import { gql } from "@urql/core";
 
-const informationsQuery = `query informations($id: uuid) {
-  information_informations(
-      where: {
-        id: { _eq: $id }
-      }
-    ) {
-        description
+const informationsQuery = gql`
+  query informations($id: uuid) {
+    information_informations(where: { id: { _eq: $id } }) {
+      description
+      id
+      intro
+      metaDescription
+      metaTitle
+      referenceLabel
+      sectionDisplayMode
+      title
+      updatedAt
+      dismissalProcess
+      contents(order_by: { order: asc }) {
         id
-        intro
-        metaDescription
-        metaTitle
-        referenceLabel
-        sectionDisplayMode
+        name
         title
-        updatedAt
-        dismissalProcess
-        contents(
-          order_by: {order: asc}
-        ) {
+        referenceLabel
+        order
+        blocks(order_by: { order: asc }) {
           id
-          name
-          title
-          referenceLabel
+          content
           order
-          blocks(
-            order_by: {order: asc}
-          ) {
-            id
-            content
-            order
-            type
-            file {
-              id
-              url
-              altText
-              size
-            }
-            img {
-              id
-              url
-              altText
-              size
-            }
-            contentDisplayMode
-            contents(
-              order_by: {order: asc}
-            ) {
-              id
-              document {
-                cdtnId: cdtn_id
-                source
-                title
-                slug
-              }
-            }
-          }
-          references(
-            order_by: {order: asc}
-          ) {
+          type
+          file {
             id
             url
-            type
-            title
-            order
+            altText
+            size
+          }
+          img {
+            id
+            url
+            altText
+            size
+          }
+          contentDisplayMode
+          contents(order_by: { order: asc }) {
+            id
+            document {
+              cdtnId: cdtn_id
+              source
+              title
+              slug
+            }
           }
         }
-        references(
-          order_by: {order: asc}
-        ) {
+        references(order_by: { order: asc }) {
           id
           url
           type
           title
           order
         }
+      }
+      references(order_by: { order: asc }) {
+        id
+        url
+        type
+        title
+        order
+      }
     }
-  }`;
+  }
+`;
 
 export type QueryInformation = Information;
 
@@ -99,12 +88,13 @@ export type InformationsQueryResult = {
   data?: InformationsResult;
   error?: CombinedError;
   fetching: boolean;
+  reexecuteQuery: (opts?: Partial<OperationContext> | undefined) => void;
 };
 
 export const useInformationsQuery = ({
   id,
 }: InformationsQueryProps): InformationsQueryResult => {
-  const [{ data, error, fetching }] = useQuery<QueryResult>({
+  const [{ data, error, fetching }, reexecuteQuery] = useQuery<QueryResult>({
     query: informationsQuery,
     requestPolicy: "cache-and-network",
     variables: {
@@ -124,5 +114,6 @@ export const useInformationsQuery = ({
       : undefined,
     error,
     fetching,
+    reexecuteQuery,
   };
 };

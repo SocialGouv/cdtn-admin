@@ -42,7 +42,6 @@ export const informationContentBlockSchema = z.object({
   id: z.string().uuid().nullable().optional(),
   content: z.string(),
   type: z.string({ required_error: "un type doit être renseigner" }),
-
   order: z.number().nullable().optional(),
 });
 
