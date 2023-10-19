@@ -6,37 +6,21 @@ jobs:
       with:
         imagePackage: frontend
         dockerfile: targets/frontend/Dockerfile
-        secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
     build-ingester:
       use: build
       with:
         imagePackage: ingester
         dockerfile: targets/ingester/Dockerfile
-        secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
     build-alert:
       use: build
       with:
         imagePackage: alert
         dockerfile: targets/alert-cli/Dockerfile
-        secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
     build-export:
       use: build
       with:
         imagePackage: export
         dockerfile: targets/export-elasticsearch/Dockerfile
-        secrets:
-          npmrc:
-            secretName: npm
-            secretKey: NPMRC
     build-contributions:
       use: build
       with:
@@ -53,7 +37,7 @@ jobs:
 
 www:
   ~chart: app
-  ~needs: [build-frontend]
+  ~needs: [ build-frontend ]
   probesPath: /healthz
   imagePackage: frontend
   envFrom:
@@ -75,7 +59,7 @@ www:
 
 contributions:
   ~chart: app
-  ~needs: [build-contributions]
+  ~needs: [ build-contributions ]
   probesPath: /
   imagePackage: contributions
   containerPort: 3200
@@ -95,7 +79,7 @@ contributions:
 
 export:
   ~chart: app
-  ~needs: [build-export]
+  ~needs: [ build-export ]
   probesPath: /healthz
   ingress:
     enabled: false
@@ -117,7 +101,7 @@ export:
 
 hasura:
   ~chart: hasura
-  ~needs: [build-hasura]
+  ~needs: [ build-hasura ]
   imagePackage: hasura
   ingress:
     enabled: false

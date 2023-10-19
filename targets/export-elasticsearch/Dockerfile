@@ -16,8 +16,7 @@ COPY package.json /package.json
 COPY yarn.lock /yarn.lock
 
 # hadolint ignore=SC2046
-RUN --mount=type=secret,id=npmrc,target=/.npmrc \
-    yarn --frozen-lockfile
+RUN yarn --frozen-lockfile
 
 COPY . /
 

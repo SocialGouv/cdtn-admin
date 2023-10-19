@@ -13,9 +13,6 @@ import { TitleBox } from "../TitleBox";
 import { MenuSpecial } from "./MenuSpecial";
 import { MenuStyle } from "./MenuStyle";
 import { MenuTable } from "./MenuTable";
-import { Details } from "@tiptap-pro/extension-details";
-import { DetailsSummary } from "@tiptap-pro/extension-details-summary";
-import { DetailsContent } from "@tiptap-pro/extension-details-content";
 import { Placeholder } from "@tiptap/extension-placeholder";
 
 export type EditorProps = {
@@ -41,14 +38,6 @@ export const Editor = ({ content, onUpdate, error, disabled }: EditorProps) => {
       TableRow,
       TableHeader,
       TableCell,
-      Details.configure({
-        persist: false,
-        HTMLAttributes: {
-          class: "details",
-        },
-      }),
-      DetailsSummary,
-      DetailsContent,
       Placeholder.configure({
         includeChildren: true,
         placeholder: ({ node }) => {

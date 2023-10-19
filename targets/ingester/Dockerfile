@@ -10,8 +10,7 @@ COPY . /
 RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 # hadolint ignore=SC2046
-RUN --mount=type=secret,id=npmrc,target=/.npmrc \
-    yarn --frozen-lockfile
+RUN yarn --frozen-lockfile
 
 RUN yarn workspace @shared/graphql-client build
 

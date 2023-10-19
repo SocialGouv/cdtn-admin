@@ -2,7 +2,6 @@ import { Editor, FloatingMenu } from "@tiptap/react";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import GridOnIcon from "@mui/icons-material/GridOn";
-import StorageIcon from "@mui/icons-material/Storage";
 import { styled } from "@mui/system";
 
 const tableHTML = `
@@ -58,18 +57,6 @@ export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
         title="Ajouter tableau"
       >
         <GridOnIcon />
-      </button>
-      <button
-        onClick={() =>
-          editor.isActive("details")
-            ? editor.chain().focus().unsetDetails().run()
-            : editor.chain().focus().setDetails().run()
-        }
-        className={editor.isActive("details") ? "is-active" : ""}
-        type="button"
-        title="Ajouter un accordéon"
-      >
-        <StorageIcon />
       </button>
     </StyledFloatingMenu>
   ) : (

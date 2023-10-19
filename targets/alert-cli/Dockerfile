@@ -8,8 +8,7 @@ WORKDIR /
 COPY . /
 
 # hadolint ignore=SC2046
-RUN --mount=type=secret,id=npmrc,target=/.npmrc \
-    yarn --frozen-lockfile
+RUN yarn --frozen-lockfile
 
 RUN yarn workspace @shared/graphql-client build
 
