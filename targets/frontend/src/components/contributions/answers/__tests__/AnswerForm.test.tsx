@@ -1,4 +1,4 @@
-import { render, rerender, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import { fireEvent } from "@testing-library/react";
