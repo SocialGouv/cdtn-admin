@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, rerender, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import { fireEvent } from "@testing-library/react";
@@ -94,23 +94,9 @@ const answerBase: AnswerWithStatus = {
 
 const onSubmit = jest.fn(() => Promise.resolve());
 
-describe("Given a component AnswerForm with generic answer data", () => {
-  beforeEach(() => {
+describe("AnswerForm", () => {
+  test("Vérifier l'affichage du contenu", () => {
     render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
-  });
-  it("Should display respective options", () => {
-    expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
-    expect(
-      screen.queryByText("Utiliser la fiche service public")
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByText("La convention collective ne prévoit rien")
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText("Nous n'avons pas la réponse")
-    ).not.toBeInTheDocument();
-  });
-  it("Should display correctly all the content", () => {
     expect(screen.queryByText("content")).toBeInTheDocument();
 
     const spInput = screen.getByLabelText("Fiche service-public");
@@ -138,76 +124,37 @@ describe("Given a component AnswerForm with generic answer data", () => {
       "reference2"
     );
   });
-  describe("When saving with valid data", () => {
-    beforeEach(() => {
-      fireEvent.click(screen.getByText("Sauvegarder"));
-    });
-    it("should call onSubmit callback", async () => {
-      await waitFor(() => {
-        expect(onSubmit).toHaveBeenCalledTimes(1);
-      });
-    });
-  });
-  describe("When selecting 'use SP file', clearing field and saving", () => {
-    beforeEach(() => {
-      fireEvent.click(screen.getByText("Utiliser la fiche service public"));
-      userEvent.clear(screen.getByLabelText("Fiche service-public"));
-      fireEvent.click(screen.getByText("Sauvegarder"));
-    });
-    it("should throw an error message", async () => {
-      expect(
-        await screen.findByText(/Le document doit être renseigné/)
-      ).toBeInTheDocument();
-    });
-  });
-  describe("When adding new reference", () => {
-    beforeEach(() => {
-      fireEvent.click(screen.getByText("Ajouter une référence"));
-    });
-    describe("When saving", () => {
-      beforeEach(() => {
-        fireEvent.click(screen.getByText("Sauvegarder"));
-      });
-      it("should throw a required error", async () => {
-        const [placeholder] = await screen.findAllByText(
-          /Un libellé doit être renseigné/
-        );
-        expect(placeholder).toBeInTheDocument();
-      });
-    });
-    describe("When filling wrong url and saving", () => {
-      beforeEach(() => {
-        const [field] = screen.getAllByLabelText("Lien");
-        fireEvent.change(field!, {
-          target: { value: "t" },
-        });
-        fireEvent.click(screen.getByText("Sauvegarder"));
-      });
-      test("it should throw an invalid error", async () => {
-        const [placeholder] = await screen.findAllByText(
-          "Le format du lien est invalide"
-        );
-        expect(placeholder).toBeInTheDocument();
-      });
-    });
-  });
-});
 
-describe("Given a basic default CC answer", () => {
-  beforeEach(() => {
-    const answer = {
-      ...answerBase,
-      agreementId: "0016",
-      agreement: {
-        ...answerBase.agreement,
-        id: "0016",
-        name: "0016",
-        kaliId: "0016",
-      },
-    };
-    render(<AnswerForm answer={answer} onSubmit={() => Promise.resolve()} />);
-  });
-  test("Check options are displayed", () => {
+  test("Vérifier l'affichage des options", () => {
+    const { rerender } = render(
+      <AnswerForm answer={answerBase} onSubmit={onSubmit} />
+    );
+    expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
+    expect(
+      screen.queryByText("Utiliser la fiche service public")
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("La convention collective ne prévoit rien")
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("Nous n'avons pas la réponse")
+    ).not.toBeInTheDocument();
+
+    rerender(
+      <AnswerForm
+        answer={{
+          ...answerBase,
+          agreementId: "0016",
+          agreement: {
+            ...answerBase.agreement,
+            id: "0016",
+            name: "0016",
+            kaliId: "0016",
+          },
+        }}
+        onSubmit={onSubmit}
+      />
+    );
     expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
     expect(
       screen.queryByText("Utiliser la fiche service public")
@@ -218,5 +165,42 @@ describe("Given a basic default CC answer", () => {
     expect(
       screen.queryByText("Nous n'avons pas la réponse")
     ).toBeInTheDocument();
+  });
+
+  test("Vérifier que la sauvegarde fonctionne", async () => {
+    render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
+    fireEvent.click(screen.getByText("Sauvegarder"));
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  test("Vérifier l'affichage du message d'erreur pour les fiches SP", async () => {
+    render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
+    fireEvent.click(screen.getByText("Utiliser la fiche service public"));
+    userEvent.clear(screen.getByLabelText("Fiche service-public"));
+    fireEvent.click(screen.getByText("Sauvegarder"));
+    expect(
+      await screen.findByText(/Le document doit être renseigné/)
+    ).toBeInTheDocument();
+  });
+
+  test("Vérifier l'affichage du message d'erreur pour les références", async () => {
+    render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
+    fireEvent.click(screen.getByText("Ajouter une référence"));
+    fireEvent.click(screen.getByText("Sauvegarder"));
+    const [labelRequired] = await screen.findAllByText(
+      /Un libellé doit être renseigné/
+    );
+    expect(labelRequired).toBeInTheDocument();
+    const [field] = screen.getAllByLabelText("Lien");
+    fireEvent.change(field!, {
+      target: { value: "t" },
+    });
+    fireEvent.click(screen.getByText("Sauvegarder"));
+    const [invalidFormat] = await screen.findAllByText(
+      "Le format du lien est invalide"
+    );
+    expect(invalidFormat).toBeInTheDocument();
   });
 });
