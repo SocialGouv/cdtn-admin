@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.20.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.0...v2.20.1) (2023-10-23)
+
+### Bug Fixes
+
+- **auth:** correction du bug qui fait que le contenu du json qui ne s'affiche pas + authentification à chaque refresh ([#1065](https://github.com/SocialGouv/cdtn-admin/issues/1065)) ([86f146e](https://github.com/SocialGouv/cdtn-admin/commit/86f146ef669adbc5447529bc8fb13dbb3acff9e5))
+
 # [2.20.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.1...v2.20.0) (2023-10-19)
 
 ### Bug Fixes
