@@ -15,6 +15,7 @@ import {
 } from "./references";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
+import { useRouter } from "next/router";
 
 const answerFormBaseSchema = answerRelationSchema
   .pick({
@@ -78,13 +79,21 @@ export const AnswerForm = ({
   onSubmit,
 }: ContributionsAnswerProps): JSX.Element => {
   const [status, setStatus] = useState<Status>("TODO");
+  const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   useEffect(() => {
     if (answer?.status) {
       setStatus(answer.status.status);
     }
   }, [answer]);
-  const { control, getValues, trigger } = useForm<AnswerFormValidation>({
+
+  const {
+    control,
+    getValues,
+    trigger,
+    formState: { isDirty },
+    reset,
+  } = useForm<AnswerFormValidation>({
     resolver: zodResolver(answerFormSchema),
     shouldFocusError: true,
     defaultValues: {
@@ -98,6 +107,31 @@ export const AnswerForm = ({
       updateDate: answer?.updateDate ?? "",
     },
   });
+
+  const onRouteChangeStart = () => {
+    if (
+      !window.confirm(
+        `Les modifications que vous avez apportées ne seront peut-être pas enregistrées.`
+      )
+    ) {
+      router.events.emit("routeChangeError");
+      throw `routeChange aborted`;
+    }
+  };
+
+  useEffect(() => {
+    if (isDirty) {
+      router.events.on("routeChangeStart", onRouteChangeStart);
+    }
+    return () => {
+      if (isDirty) {
+        router.events.off("routeChangeStart", onRouteChangeStart);
+      }
+    };
+  }, [router.events, isDirty]);
+  useEffect(() => {
+    window.onbeforeunload = isDirty ? () => true : null;
+  }, [isDirty]);
 
   const isNotEditable = (answer: Answer | undefined) => {
     return (
@@ -123,6 +157,7 @@ export const AnswerForm = ({
       ...answer,
       ...formData,
     }).then(() => setSubmitting(false));
+    reset({ ...formData });
   };
 
   const agreementResponseOptions = [

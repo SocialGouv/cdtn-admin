@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "2.19.1",
+  "version": "2.20.0",
   "dependencies": {
     "@azure/abort-controller": "^1.0.4",
     "@azure/storage-blob": "^12.7.0",
@@ -26,6 +26,7 @@
     "@tiptap-pro/extension-details": "^2.2.3",
     "@tiptap-pro/extension-details-content": "^2.2.3",
     "@tiptap-pro/extension-details-summary": "^2.2.3",
+    "@tiptap/extension-link": "^2.1.12",
     "@tiptap/extension-placeholder": "^2.1.10",
     "@tiptap/extension-table": "^2.1.7",
     "@tiptap/extension-table-cell": "^2.1.7",

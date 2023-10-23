@@ -1,4 +1,5 @@
 import {
+  AlertColor,
   Box,
   Drawer,
   IconButton,
@@ -18,6 +19,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { fr } from "@codegouvfr/react-dsfr";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import { SnackBar } from "../utils/SnackBar";
 
 export type LayoutProps = {
   children: any;
@@ -84,66 +86,104 @@ export function Layout({ children, title }: LayoutProps) {
   };
   const theme = useTheme();
 
-  return (
-    <Box sx={{ display: "flex" }}>
-      <Head>
-        <title>{title} | Admin cdtn</title>
-      </Head>
+  const [snack, setSnack] = useState<{
+    open: boolean;
+    severity?: AlertColor;
+    message?: string;
+  }>({
+    open: false,
+  });
 
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        variant="persistent"
-        open={menuOpen}
-        onClose={handleDrawerToggle}
-      >
-        <DrawerHeader>
-          <LogoAdmin />
-          <IconButton onClick={handleDrawerToggle}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Navigation />
-      </Drawer>
-      <AppBar position="fixed" open={menuOpen}>
-        <Toolbar
+  const truncateError = (message: string, maxLength: number) => {
+    return message.length > maxLength
+      ? `${message.substring(0, maxLength)}...`
+      : message;
+  };
+
+  if (typeof window !== "undefined") {
+    window.addEventListener("error", (event) => {
+      setSnack({
+        open: true,
+        message: truncateError(event.message, 300),
+        severity: "error",
+      });
+    });
+
+    window.addEventListener(
+      "unhandledrejection",
+      (event: PromiseRejectionEvent) => {
+        setSnack({
+          open: true,
+          message: truncateError(event.reason.message, 300),
+          severity: "error",
+        });
+      }
+    );
+  }
+
+  return (
+    <>
+      <Box sx={{ display: "flex" }}>
+        <Head>
+          <title>{title} | Admin cdtn</title>
+        </Head>
+
+        <Drawer
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
+            width: drawerWidth,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
           }}
+          variant="persistent"
+          open={menuOpen}
+          onClose={handleDrawerToggle}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton
-              aria-label="ouvrir le menu"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{
-                mr: 2,
-                color: fr.colors.decisions.background.default.grey.default,
-                ...(menuOpen && { display: "none" }),
-              }}
-            >
-              <MenuIcon />
+          <DrawerHeader>
+            <LogoAdmin />
+            <IconButton onClick={handleDrawerToggle}>
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
             </IconButton>
-            <Typography>{title}</Typography>
-          </Box>
-          <UserMenu />
-        </Toolbar>
-      </AppBar>
-      <Main open={menuOpen}>
-        <Toolbar sx={{ height: headerHeight }} />
-        {children}
-      </Main>
-    </Box>
+          </DrawerHeader>
+          <Navigation />
+        </Drawer>
+        <AppBar position="fixed" open={menuOpen}>
+          <Toolbar
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <IconButton
+                aria-label="ouvrir le menu"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{
+                  mr: 2,
+                  color: fr.colors.decisions.background.default.grey.default,
+                  ...(menuOpen && { display: "none" }),
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography>{title}</Typography>
+            </Box>
+            <UserMenu />
+          </Toolbar>
+        </AppBar>
+        <Main open={menuOpen}>
+          <Toolbar sx={{ height: headerHeight }} />
+          {children}
+        </Main>
+      </Box>
+      <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
+    </>
   );
 }

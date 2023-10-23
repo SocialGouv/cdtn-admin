@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.20.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.1...v2.20.0) (2023-10-19)
+
+**Note:** Version bump only for package @shared/types
+
 ## [2.19.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.0...v2.19.1) (2023-10-10)
 
 **Note:** Version bump only for package @shared/types

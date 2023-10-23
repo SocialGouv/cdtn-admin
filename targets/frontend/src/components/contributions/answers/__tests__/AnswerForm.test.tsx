@@ -6,6 +6,17 @@ import { fireEvent } from "@testing-library/react";
 import { AnswerForm } from "../AnswerForm";
 import { AnswerWithStatus } from "../answer.query";
 
+jest.mock("next/router", () => {
+  return {
+    useRouter: jest.fn(() => ({
+      events: {
+        emit: jest.fn(),
+        on: jest.fn(),
+      },
+    })),
+  };
+});
+
 const answerBase: AnswerWithStatus = {
   id: "",
   questionId: "",
@@ -18,7 +29,7 @@ const answerBase: AnswerWithStatus = {
     id: "2c820037-62bd-4c0e-a1a8-ca80b97b5958",
     content: "Quelle est la durée maximale de la période d’essai ?",
     order: 5,
-    message_id: "",
+    message_id: "1",
   },
   agreement: {
     id: "0000",
@@ -83,11 +94,15 @@ const answerBase: AnswerWithStatus = {
     title: "ficheSP",
   },
   status: {
+    id: "",
     status: "TODO",
     createdAt: new Date().toISOString(),
-    user: { created_at: "", email: "", name: "" },
-    userId: "",
-    id: "",
+    userId: "1",
+    user: {
+      created_at: "",
+      email: "",
+      name: "",
+    },
   },
   updateDate: "29/09/2023",
 };
