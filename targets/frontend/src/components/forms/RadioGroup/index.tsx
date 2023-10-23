@@ -45,14 +45,16 @@ export const FormRadioGroup = ({
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                   onChange(event.target.value)
                 }
+                name={name}
               >
                 {options.map(({ label, value }) => (
                   <FormControlLabel
                     key={value}
                     value={value}
-                    control={<Radio />}
+                    control={<Radio id={`${name}.${value}`} />}
                     label={label}
                     disabled={disabled}
+                    htmlFor={`${name}.${value}`}
                   />
                 ))}
               </RadioGroup>

@@ -14,6 +14,7 @@ export const client = createClient({
       "x-hasura-admin-secret": HASURA_GRAPHQL_ADMIN_SECRET,
     },
   },
+  maskTypename: true,
   requestPolicy: "network-only",
   url: HASURA_GRAPHQL_ENDPOINT,
 });

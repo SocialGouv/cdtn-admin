@@ -84,6 +84,7 @@
     "@shared/types": "workspace:^",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.5.1",
     "@types/formidable": "^2.0.5",
     "@types/jest": "^27.4.0",
     "@types/jsonwebtoken": "^9.0.3",
