@@ -4,7 +4,7 @@ import { client } from "@shared/graphql-client";
 import { verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 import { generateJwtToken } from "src/lib/auth/jwt";
-import { setJwtCookie } from "src/lib/auth/setJwtCookie";
+import { setJwtCookie } from "src/lib/auth/cookie";
 import { getExpiryDate } from "src/lib/duration";
 
 import { loginQuery, refreshTokenMutation } from "./login.gql";
@@ -69,10 +69,11 @@ export default async function login(req, res) {
   }
 
   const jwt_token = generateJwtToken(user);
+
   const refreshTokenResult = await client
     .mutation(refreshTokenMutation, {
       refresh_token_data: {
-        expires_at: getExpiryDate(parseInt(REFRESH_TOKEN_EXPIRES, 10)),
+        expires_at: getExpiryDate(REFRESH_TOKEN_EXPIRES),
         user_id: user.id,
       },
     })
@@ -93,7 +94,7 @@ export default async function login(req, res) {
 
   res.json({
     jwt_token,
-    jwt_token_expiry: getExpiryDate(parseInt(JWT_TOKEN_EXPIRES, 10) || 15),
+    jwt_token_expiry: getExpiryDate(JWT_TOKEN_EXPIRES),
     refresh_token,
   });
 }

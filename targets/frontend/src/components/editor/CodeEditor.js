@@ -7,20 +7,24 @@ import "ace-builds/src-noconflict/theme-github";
 
 export default function CodeEditor({ onChange, value }) {
   return (
-    <AceEditor
-      mode="json"
-      theme="github"
-      name="EditJsonContent"
-      setOptions={{
-        useWorker: false,
-        wrap: true,
-      }}
-      editorProps={{ $blockScrolling: true }}
-      onChange={onChange}
-      value={value}
-      width="100%"
-      height="calc(100vh - 355px)"
-    />
+    <>
+      {window && (
+        <AceEditor
+          mode="json"
+          theme="github"
+          name="EditJsonContent"
+          setOptions={{
+            useWorker: false,
+            wrap: true,
+          }}
+          editorProps={{ $blockScrolling: true }}
+          onChange={onChange}
+          value={value}
+          width="100%"
+          height="calc(100vh - 355px)"
+        />
+      )}
+    </>
   );
 }
 

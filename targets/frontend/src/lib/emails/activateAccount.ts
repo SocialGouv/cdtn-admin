@@ -1,9 +1,12 @@
-import { BASE_URL } from "src/config";
 import sendmail from "./sendmail";
 
 export function sendActivateAccountEmail(email: string, secret_token: string) {
   const subject = "Activation de votre compte";
-  const activateUrl = `${BASE_URL}/change_password?token=${secret_token}&activate=1`; // todo: dynamic hostname
+  const activateUrl = `${
+    process.env.FRONTEND_HOST
+      ? `https://www.${process.env.FRONTEND_HOST}`
+      : `http://localhost:3000`
+  }/change_password?token=${secret_token}&activate=1`; // todo: dynamic hostname
   const text = `Bonjour,
   Vous pouvez activer votre compte ${email} afin d'accéder à
   l'outil d'administration du cdtn en suivant ce lien : ${activateUrl}
