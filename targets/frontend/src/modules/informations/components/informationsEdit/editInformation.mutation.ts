@@ -47,6 +47,7 @@ export const informationMutation = gql`
         update_columns: [
           description
           intro
+          title
           metaTitle
           metaDescription
           referenceLabel
