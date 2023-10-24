@@ -2,7 +2,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { Header } from "src/components/layout/header";
 import LoginForm from "src/components/login";
-import { setToken } from "src/lib/auth/token";
 import { request } from "src/lib/request";
 import { Box } from "@mui/material";
 
@@ -23,8 +22,6 @@ export default function LoginPage() {
       headers: {
         "Cache-Control": "no-cache",
       },
-    }).then((tokenData) => {
-      setToken(tokenData);
     });
   };
 

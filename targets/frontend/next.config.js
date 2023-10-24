@@ -1,9 +1,3 @@
-// Use the hidden-source-map option when you don't want the source maps to be
-// publicly available on the servers, only to the error reporting
-const withSourceMaps = require("@zeit/next-source-maps")();
-
-const basePath = "";
-
 const securityHeaders = [
   {
     key: "X-Frame-Options",
@@ -14,7 +8,6 @@ const securityHeaders = [
 ];
 
 module.exports = {
-  basePath,
   async headers() {
     return [
       {
@@ -25,6 +18,9 @@ module.exports = {
     ];
   },
   poweredByHeader: false,
+  httpAgentOptions: {
+    keepAlive: false,
+  },
   webpack: (config, { isServer, dev }) => {
     config.module.rules.push({
       exclude: /node_modules/,

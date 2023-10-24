@@ -1,0 +1,67 @@
+table:
+  name: informations_contents
+  schema: information
+configuration:
+  column_config:
+    informations_id:
+      custom_name: informationsId
+    reference_label:
+      custom_name: referenceLabel
+  custom_column_names:
+    informations_id: informationsId
+    reference_label: referenceLabel
+  custom_root_fields: {}
+array_relationships:
+  - name: blocks
+    using:
+      foreign_key_constraint_on:
+        column: informations_contents_id
+        table:
+          name: informations_contents_blocks
+          schema: information
+  - name: references
+    using:
+      foreign_key_constraint_on:
+        column: informations_contents_id
+        table:
+          name: informations_contents_references
+          schema: information
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - order
+        - name
+        - title
+        - reference_label
+        - id
+        - informations_id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - order
+        - name
+        - title
+        - reference_label
+        - id
+        - informations_id
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - order
+        - name
+        - title
+        - reference_label
+        - id
+        - informations_id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

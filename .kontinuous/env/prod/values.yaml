@@ -5,7 +5,7 @@ www:
       nginx.ingress.kubernetes.io/whitelist-source-range: 185.24.184.196,185.24.185.196,185.24.186.196,185.24.187.196,185.24.187.254,164.131.160.1,164.131.160.2,164.131.160.3,164.131.160.4,164.131.160.5,164.131.160.6,164.131.160.17,164.131.160.18,164.131.160.19,164.131.160.20,164.131.160.21,164.131.160.22,164.131.160.33,164.131.160.34,164.131.160.35,164.131.160.36,164.131.160.37,164.131.160.38,164.131.160.49,164.131.160.50,164.131.160.51,164.131.160.52,164.131.160.53,164.131.160.54
   env:
     - name: "FRONTEND_HOST"
-      value: https://cdtn-admin.fabrique.social.gouv.fr
+      value: cdtn-admin.fabrique.social.gouv.fr
   resources:
     limits:
       cpu: "200m"
@@ -34,18 +34,18 @@ contributions:
 export:
   resources:
     limits:
-      cpu: '1500m'
-      memory: '4096Mi'
+      cpu: "1500m"
+      memory: "4096Mi"
     requests:
-      cpu: '1000m'
-      memory: '896Mi'
+      cpu: "1000m"
+      memory: "896Mi"
 
 hasura:
   replicas: 2
   resources:
     limits:
-      cpu: '2000m'
-      memory: '4Gi'
+      cpu: "2000m"
+      memory: "4Gi"
     requests:
-      cpu: '1000m'
-      memory: '1Gi'
+      cpu: "1000m"
+      memory: "1Gi"

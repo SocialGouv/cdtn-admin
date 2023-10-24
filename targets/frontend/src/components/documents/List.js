@@ -45,7 +45,7 @@ DocumentList.propTypes = {
 };
 
 const DocumentRow = function DocumentRow({
-  document: { cdtnId, source, title, isPublished, isAvailable },
+  document: { cdtnId, id, source, title, isPublished, isAvailable },
 }) {
   const [selectedItems, setSelectedItems] = useSelectionContext();
   const updatePublishedRef = () => {
@@ -82,7 +82,7 @@ const DocumentRow = function DocumentRow({
       </TableCell>
       <TableCell>
         <Link
-          href={sourceToRoute({ cdtnId, source })}
+          href={sourceToRoute({ cdtnId, id, source })}
           passHref
           shallow
           style={{ textDecoration: "none" }}
@@ -117,11 +117,12 @@ DocumentRow.propTypes = {
   }).isRequired,
 };
 
-export const sourceToRoute = ({ cdtnId, source }) => {
+export const sourceToRoute = ({ cdtnId, id, source }) => {
   switch (source) {
     case SOURCES.THEMES:
       return `/themes/edit/${cdtnId}`;
     case SOURCES.EDITORIAL_CONTENT:
+      return `/informations/${id}`;
     case SOURCES.HIGHLIGHTS:
     case SOURCES.PREQUALIFIED:
       return `/contenus/edit/${cdtnId}`;
