@@ -4,7 +4,7 @@ export function sendActivateAccountEmail(email: string, secret_token: string) {
   const subject = "Activation de votre compte";
   const activateUrl = `${
     process.env.FRONTEND_HOST
-      ? `https://www.${process.env.FRONTEND_HOST}`
+      ? `https://${process.env.FRONTEND_HOST}`
       : `http://localhost:3000`
   }/change_password?token=${secret_token}&activate=1`; // todo: dynamic hostname
   const text = `Bonjour,
