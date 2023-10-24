@@ -50,8 +50,8 @@ export const kaliArticleSchema = z.object({
   id: z.string(),
   path: z.string(),
   label: z
-    .string({ required_error: "Un libellé doit être renseigner" })
-    .min(1, "un label doit être renseigner"),
+    .string({ required_error: "Un libellé doit être renseigné" })
+    .min(1, "un label doit être renseigné"),
   agreementId: z.string(),
   createdAt: z.string(),
 });
@@ -79,7 +79,7 @@ export type LegiReference = z.infer<typeof legiReferenceSchema>;
 
 export const otherReferenceSchema = z.object({
   label: z
-    .string({ required_error: "un libellé doit être renseigner" })
+    .string({ required_error: "un libellé doit être renseigné" })
     .min(1, "un nom doit être renseigné"),
   url: z
     .string({ required_error: "Une url doit être renseigné" })
@@ -102,24 +102,17 @@ export const cdtnReferenceSchema = z.object({
 });
 export type CdtnReference = z.infer<typeof cdtnReferenceSchema>;
 
-export const contentTypeSchema = z.enum([
-  "ANSWER",
-  "NOTHING",
-  "CDT",
-  "UNFAVOURABLE",
-  "UNKNOWN",
-  "SP",
-]);
-export type ContentType = z.infer<typeof contentTypeSchema>;
-
 const answerBaseSchema = z.object({
   id: z.string().uuid(),
   agreementId: z.string(),
   questionId: z.string().uuid(),
-  contentType: z.string({
-    required_error: "Un type de réponse doit être sélectionner",
-    invalid_type_error: " type de réponse doit être sélectionner",
-  }),
+  contentType: z.enum(
+    ["ANSWER", "NOTHING", "CDT", "UNFAVOURABLE", "UNKNOWN", "SP"],
+    {
+      required_error: "Un type de réponse doit être sélectionné",
+      invalid_type_error: " type de réponse doit être sélectionné",
+    }
+  ),
   contentServicePublicCdtnId: z.string().nullable().optional(),
   content: z.string().nullable().optional(),
   updatedAt: z.string(),
@@ -129,10 +122,15 @@ export const questionBaseSchema = z.object({
   id: z.string().uuid(),
   content: z
     .string({
-      required_error: "une question doit être renseigner",
+      required_error: "une question doit être renseigné",
     })
-    .min(1, "une question doit être renseigner"),
+    .min(1, "une question doit être renseigné"),
   order: z.number(),
+  message_id: z
+    .string({
+      required_error: "Un message doit être sélectionné",
+    })
+    .uuid("Un message doit être sélectionné"),
 });
 
 export const commentsSchema = z.object({
@@ -146,7 +144,7 @@ export const commentsSchema = z.object({
 });
 export type Comments = z.infer<typeof commentsSchema>;
 
-const answerRelationSchema = answerBaseSchema.extend({
+export const answerRelationSchema = answerBaseSchema.extend({
   agreement: agreementSchema,
   statuses: z.array(answerStatusSchema),
   status: answerStatusSchema,
@@ -160,56 +158,8 @@ const answerRelationSchema = answerBaseSchema.extend({
 });
 export type Answer = z.infer<typeof answerRelationSchema>;
 
-export const answerFormBaseSchema = answerRelationSchema.extend({
-  id: z.string().uuid().optional(),
-  agreementId: z.string().optional(),
-  questionId: z.string().uuid().optional(),
-  updatedAt: z.string().optional(),
-  question: questionBaseSchema.deepPartial().optional(),
-  answerComments: z.array(commentsSchema.deepPartial()).optional(),
-  agreement: agreementSchema.deepPartial().optional(),
-  statuses: z.array(answerStatusSchema.deepPartial()).optional(),
-  status: answerStatusSchema.deepPartial().optional(),
-});
-
 export const questionRelationSchema = questionBaseSchema.extend({
   answers: z.array(answerBaseSchema.deepPartial()).optional(),
   message: messageSchema.deepPartial().optional(),
 });
 export type Question = z.infer<typeof questionRelationSchema>;
-
-const answerWithAnswerSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("ANSWER"),
-  content: z
-    .string({
-      required_error: "Une réponse doit être renseigner",
-      invalid_type_error: "Une réponse doit être renseigner",
-    })
-    .min(1, "Une réponse doit être renseigner"),
-});
-const answerWithNothingSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("NOTHING"),
-});
-const answerWithCdtSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("CDT"),
-});
-const answerWithUnfavourableSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("UNFAVOURABLE"),
-});
-const answerWithUnknownSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("UNKNOWN"),
-});
-const answerWithSPSchema = answerFormBaseSchema.extend({
-  contentType: z.literal("SP"),
-  contentFichesSpDocument: documentSchema,
-});
-
-export const answerFormSchema = z.discriminatedUnion("contentType", [
-  answerWithAnswerSchema,
-  answerWithNothingSchema,
-  answerWithCdtSchema,
-  answerWithUnfavourableSchema,
-  answerWithUnknownSchema,
-  answerWithSPSchema,
-]);
-export type AnswerForm = z.infer<typeof answerFormSchema>;

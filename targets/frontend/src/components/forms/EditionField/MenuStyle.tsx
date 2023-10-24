@@ -1,8 +1,36 @@
+import { fr } from "@codegouvfr/react-dsfr";
 import { BubbleMenu, Editor } from "@tiptap/react";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
 import StorageIcon from "@mui/icons-material/Storage";
+import LinkIcon from "@mui/icons-material/Link";
+
 import { styled } from "@mui/system";
+
+const setLink = (editor: Editor) => {
+  const previousUrl = editor.getAttributes("link").href;
+  const url = window.prompt("URL", previousUrl);
+
+  // cancelled
+  if (url === null) {
+    return;
+  }
+
+  // empty
+  if (url === "") {
+    editor.chain().focus().unsetLink().run();
+
+    return;
+  }
+  // update link
+  editor
+    .chain()
+    .focus()
+    .extendMarkRange("link")
+    .updateAttributes("a", { rel: null })
+    .setLink({ href: url })
+    .run();
+};
 
 export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
   return editor ? (
@@ -53,6 +81,16 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
       >
         <StorageIcon />
       </button>
+      <button
+        onClick={() => {
+          setLink(editor);
+        }}
+        className={editor.isActive("link") ? "is-active" : ""}
+        type="button"
+        title="Faire un lien"
+      >
+        <LinkIcon />
+      </button>
     </StyledBubbleMenu>
   ) : (
     <></>
@@ -61,18 +99,21 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
 
 const StyledBubbleMenu = styled(BubbleMenu)`
   display: flex;
-  background-color: #0d0d0d;
+  background-color: ${fr.colors.decisions.background.contrast.grey.default};
   padding: 0.2rem;
   border-radius: 0.5rem;
 
   button {
     border: none;
     background: none;
-    color: #fff;
+    color: ${fr.colors.decisions.text.default.grey.default};
     font-size: 0.85rem;
     font-weight: 500;
     padding: 0 0.2rem;
     opacity: 0.6;
+    svg {
+      margin-top: 3px;
+    }
 
     &:hover,
     &.is-active {

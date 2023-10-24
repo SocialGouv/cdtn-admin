@@ -2,9 +2,13 @@ import { z } from "zod";
 
 export const referenceSchema = z.object({
   id: z.string().uuid().nullable().optional(),
-  url: z.string({ required_error: "une url doit être renseigner" }),
-  type: z.string({ required_error: "un type doit être renseigner" }),
-  title: z.string({ required_error: "un titre doit être renseigner" }),
+  url: z
+    .string({ required_error: "Une url doit être renseignée" })
+    .url("Le format de l'url est invalide"),
+  type: z.string({ required_error: "Un type doit être renseigné" }),
+  title: z
+    .string({ required_error: "Un titre doit être renseigné" })
+    .min(1, "Un titre doit être renseigné"),
   order: z.number().nullable().optional(),
 });
 export type Reference = z.infer<typeof referenceSchema>;
@@ -13,10 +17,10 @@ export const fileSchema = z.object({
   id: z.string().uuid().nullable().optional(),
   url: z
     .string({
-      required_error: "un nom de fichier doit être renseigner",
-      invalid_type_error: "un nom de fichier doit être renseigner",
+      required_error: "Un nom de fichier doit être renseigné",
+      invalid_type_error: "Un nom de fichier doit être renseigné",
     })
-    .min(1, "un nom de fichier doit être renseigner")
+    .min(1, "Un nom de fichier doit être renseigné")
     .regex(
       /.*(\.|\/)(svg|jpe?g|png|pdf)$/g,
       "Le format doit correspondre à une nom de fichier"
@@ -41,7 +45,7 @@ export type InformationContentBlockContent = z.infer<
 export const informationContentBlockSchema = z.object({
   id: z.string().uuid().nullable().optional(),
   content: z.string(),
-  type: z.string({ required_error: "un type doit être renseigner" }),
+  type: z.string({ required_error: "Un type doit être renseigné" }),
   order: z.number().nullable().optional(),
 });
 
@@ -50,6 +54,7 @@ export const informationContentBlockDiscriminatedSchema = z.discriminatedUnion(
   [
     informationContentBlockSchema.extend({
       type: z.literal("markdown"),
+      content: z.string().min(1, { message: "Un texte doit être renseigné" }),
     }),
     informationContentBlockSchema.extend({
       type: z.literal("graphic"),
@@ -71,8 +76,8 @@ export const informationContentSchema = z.object({
   id: z.string().uuid().nullable().optional(),
   name: z.string().nullable().optional(),
   title: z
-    .string({ required_error: "un titre doit être renseigner" })
-    .min(1, "un titre doit être renseigner"),
+    .string({ required_error: "Un titre doit être renseigné" })
+    .min(1, "Un titre doit être renseigné"),
   referenceLabel: z.string().nullable().optional(),
   order: z.number().nullable().optional(),
   blocks: z.array(informationContentBlockDiscriminatedSchema),
@@ -83,21 +88,21 @@ export type InformationContent = z.infer<typeof informationContentSchema>;
 export const informationSchema = z.object({
   id: z.string().uuid().optional(),
   title: z
-    .string({ required_error: "un titre doit être renseigner" })
-    .min(1, "un titre doit être renseigner"),
+    .string({ required_error: "Un titre doit être renseigné" })
+    .min(1, "Un titre doit être renseigné"),
   metaTitle: z
-    .string({ required_error: "un titre meta doit être renseigner" })
-    .min(1, "un titre meta doit être renseigner"),
+    .string({ required_error: "Un titre meta doit être renseigné" })
+    .min(1, "Un titre meta doit être renseigné"),
   description: z
     .string({
-      required_error: "une description doit être renseigner",
+      required_error: "Une description doit être renseignée",
     })
-    .min(1, "une description doit être renseigner"),
+    .min(1, "Une description doit être renseignée"),
   metaDescription: z
     .string({
-      required_error: "une description meta doit être renseigner",
+      required_error: "Une description meta doit être renseignée",
     })
-    .min(1, "une description meta doit être renseigner"),
+    .min(1, "Une description meta doit être renseignée"),
   intro: z.string().nullable().optional(),
   referenceLabel: z.string().nullable().optional(),
   sectionDisplayMode: z.string().optional(),

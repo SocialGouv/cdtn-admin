@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.20.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.0...v2.20.1) (2023-10-23)
+
+### Bug Fixes
+
+- **auth:** correction du bug qui fait que le contenu du json qui ne s'affiche pas + authentification à chaque refresh ([#1065](https://github.com/SocialGouv/cdtn-admin/issues/1065)) ([86f146e](https://github.com/SocialGouv/cdtn-admin/commit/86f146ef669adbc5447529bc8fb13dbb3acff9e5))
+
+# [2.20.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.1...v2.20.0) (2023-10-19)
+
+### Bug Fixes
+
+- **comments ui:** meilleur affiche des commentaires & changement de statuts dans les contribs ([#1070](https://github.com/SocialGouv/cdtn-admin/issues/1070)) ([59e35bb](https://github.com/SocialGouv/cdtn-admin/commit/59e35bbe0cc01d0b93d1d8a9bd54dd70f06b141f))
+- **frontend:** ajout du titre dans le header ([#1085](https://github.com/SocialGouv/cdtn-admin/issues/1085)) ([8cdb494](https://github.com/SocialGouv/cdtn-admin/commit/8cdb494a9d094f37a0011550b8e2d483d6e2b03b))
+
+### Features
+
+- **admin:** ajout de la suppression d'un commentaire ([#1081](https://github.com/SocialGouv/cdtn-admin/issues/1081)) ([9503f87](https://github.com/SocialGouv/cdtn-admin/commit/9503f878ee7c384aed540bf4edf52767409e193f))
+- afficher les erreurs dans un snackbar ([#1044](https://github.com/SocialGouv/cdtn-admin/issues/1044)) ([61accc3](https://github.com/SocialGouv/cdtn-admin/commit/61accc368fcb32363468e26a82359177d415419e))
+- ajout des liens dans l editeur ([#1082](https://github.com/SocialGouv/cdtn-admin/issues/1082)) ([000828e](https://github.com/SocialGouv/cdtn-admin/commit/000828ed7b35248441c48efb1b18b1ea320d7295))
+- **contrib:** désactivation du formulaire quand on soumet ([#1083](https://github.com/SocialGouv/cdtn-admin/issues/1083)) ([7bbdb95](https://github.com/SocialGouv/cdtn-admin/commit/7bbdb95204bb3286dd86bd4cc6b05e034c891883))
+- popup confirmation avant quit ([#1077](https://github.com/SocialGouv/cdtn-admin/issues/1077)) ([4d574e4](https://github.com/SocialGouv/cdtn-admin/commit/4d574e4bb45e72deab890bc4c2190013e6fa8273))
+
+## [2.19.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.0...v2.19.1) (2023-10-10)
+
+### Bug Fixes
+
+- bug contribution validation sur page non editable ([#1075](https://github.com/SocialGouv/cdtn-admin/issues/1075)) ([b63771a](https://github.com/SocialGouv/cdtn-admin/commit/b63771aab8f474aebee9eee4e5a8ef9e747ba01f))
+
+# [2.19.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.18.0...v2.19.0) (2023-10-09)
+
+### Bug Fixes
+
+- **nextjs:** downgrade nextjs version ([#1071](https://github.com/SocialGouv/cdtn-admin/issues/1071)) ([bca21f8](https://github.com/SocialGouv/cdtn-admin/commit/bca21f80d9328e6f008dafa50ec71fd95b3c3b9f))
+
+### Features
+
+- **upload:** refacto files in typescript ([#1050](https://github.com/SocialGouv/cdtn-admin/issues/1050)) ([a70fc4f](https://github.com/SocialGouv/cdtn-admin/commit/a70fc4fdbf254876d80b0fc477062ce0983f58af))
+
+# [2.18.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.9...v2.18.0) (2023-10-09)
+
+### Bug Fixes
+
+- contribution ref link ([#1047](https://github.com/SocialGouv/cdtn-admin/issues/1047)) ([1b44bfa](https://github.com/SocialGouv/cdtn-admin/commit/1b44bfa86f19da97d64e61db993c4013de268648))
+- **dependencies:** remove un-used dependencies ([#1034](https://github.com/SocialGouv/cdtn-admin/issues/1034)) ([529ffb4](https://github.com/SocialGouv/cdtn-admin/commit/529ffb40bcf79738494d745b0bb756ebd43ab3a4))
+- **wording:** rename answer type on contribution page ([#1052](https://github.com/SocialGouv/cdtn-admin/issues/1052)) ([2a0ace5](https://github.com/SocialGouv/cdtn-admin/commit/2a0ace55918f3bda72a34ae9ce8b81b92fdd5a16))
+
+### Features
+
+- 1032 admin amélioration bouton maj des données notamment le vraiment ([#1033](https://github.com/SocialGouv/cdtn-admin/issues/1033)) ([ee41911](https://github.com/SocialGouv/cdtn-admin/commit/ee419116d67ba45b11f32346ee323ae001c3a444))
+- contribution zod ([#1056](https://github.com/SocialGouv/cdtn-admin/issues/1056)) ([6f8021f](https://github.com/SocialGouv/cdtn-admin/commit/6f8021fe83ce6969fa78e66e0e766595eaaf4159)), closes [#1040](https://github.com/SocialGouv/cdtn-admin/issues/1040)
+
+### Reverts
+
+- Revert "feat:1007 admin liste des contenus modifiés lors dune maj des données - page info (#1013)" ([ec3584f](https://github.com/SocialGouv/cdtn-admin/commit/ec3584f59094dc238d4ece3eeadd9c02993608af)), closes [#1013](https://github.com/SocialGouv/cdtn-admin/issues/1013)
+
 ## [2.17.9](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.8...v2.17.9) (2023-09-29)
 
 ### Bug Fixes

@@ -23,7 +23,6 @@ const proxy = createProxyMiddleware({
     process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
   ws: true,
   xfwd: true, // proxy websockets
-  headers: { Connection: "keep-alive" },
 });
 
 export default proxy;

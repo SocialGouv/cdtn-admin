@@ -1,6 +1,6 @@
 import { errorExchange, makeOperation } from "@urql/core";
 import { authExchange } from "@urql/exchange-auth";
-import { auth, getToken, isTokenExpired, setToken } from "src/lib/auth/token";
+import { auth } from "src/lib/auth/token";
 
 import { request } from "../request";
 
@@ -35,24 +35,6 @@ export function customAuthExchange(ctx) {
     },
 
     getAuth: async ({ authState }) => {
-      // for initial launch, fetch the auth state from storage (local storage, async storage etc)
-      if (!authState) {
-        const token = getToken() || (await auth(ctx));
-        if (token) {
-          return { token: token.jwt_token };
-        }
-        return null;
-      }
-
-      /**
-       * the following code gets executed when an auth error has occurred
-       * we should refresh the token if possible and return a new auth state
-       * If refresh fails, we should log out
-       **/
-
-      // if your refresh logic is in graphQL, you must use this mutate function to call it
-      // if your refresh logic is a separate RESTful endpoint, use fetch or similar
-      setToken(null);
       const result = await auth(ctx);
       if (result?.jwt_token) {
         // return the new tokens
@@ -64,7 +46,7 @@ export function customAuthExchange(ctx) {
 
     willAuthError: ({ authState }) => {
       // e.g. check for expiration, existence of auth etc
-      if (!authState || isTokenExpired()) return true;
+      if (!authState) return true;
       return false;
     },
   });

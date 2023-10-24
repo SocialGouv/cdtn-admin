@@ -14,6 +14,7 @@ type FormTextFieldProps = CommonFormProps & {
   fullWidth?: boolean;
   multiline?: boolean;
   labelFixed?: boolean;
+  id?: string;
 };
 
 export const FormTextField = ({
@@ -46,6 +47,7 @@ export const FormTextField = ({
             multiline={multiline}
             disabled={disabled}
             InputLabelProps={labelFixed ? { shrink: true } : {}}
+            id={name}
           />
         );
       }}

@@ -1,6 +1,6 @@
 import { ApiClient } from "src/lib/api";
 import { documentsPublishMutation } from "./documents.mutation";
-import { DocumentsQueryProps, queryDocument } from "./documents.query";
+import { queryDocument, DocumentsQueryProps } from "./documents.query";
 import { Document } from "../type";
 
 export class DocumentsRepository {

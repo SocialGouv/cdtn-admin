@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.20.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.0...v2.20.1) (2023-10-23)
+
+**Note:** Version bump only for package @shared/graphql-client
+
+# [2.20.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.1...v2.20.0) (2023-10-19)
+
+**Note:** Version bump only for package @shared/graphql-client
+
+## [2.19.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.0...v2.19.1) (2023-10-10)
+
+**Note:** Version bump only for package @shared/graphql-client
+
+# [2.19.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.18.0...v2.19.0) (2023-10-09)
+
+**Note:** Version bump only for package @shared/graphql-client
+
+# [2.18.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.9...v2.18.0) (2023-10-09)
+
+### Reverts
+
+- Revert "feat:1007 admin liste des contenus modifiés lors dune maj des données - page info (#1013)" ([ec3584f](https://github.com/SocialGouv/cdtn-admin/commit/ec3584f59094dc238d4ece3eeadd9c02993608af)), closes [#1013](https://github.com/SocialGouv/cdtn-admin/issues/1013)
+
 ## [2.17.9](https://github.com/SocialGouv/cdtn-admin/compare/v2.17.8...v2.17.9) (2023-09-29)
 
 **Note:** Version bump only for package @shared/graphql-client

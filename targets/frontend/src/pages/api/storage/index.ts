@@ -5,14 +5,17 @@ import { createErrorFor } from "src/lib/apiError";
 import { getContainerBlobs, uploadBlob } from "src/lib/azure";
 import { isUploadFileSafe } from "src/lib/secu";
 import * as stream from "stream";
-import { HASURA_GRAPHQL_JWT_SECRET } from "../../../config";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const container = process.env.STORAGE_CONTAINER ?? "cdtn-dev";
-const jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
+const jwtSecret = JSON.parse(
+  process.env.HASURA_GRAPHQL_JWT_SECRET ??
+    '{"type":"HS256","key":"a_pretty_long_secret_key_that_should_be_at_least_32_char"}'
+);
 
-async function endPoint(req, res) {
+async function endPoint(req: NextApiRequest, res: NextApiResponse) {
   const apiError = createErrorFor(res);
-  const { token } = req.headers;
+  const { jwt: token } = req.cookies;
 
   if (!token || !verify(token, jwtSecret.key, { algorithms: jwtSecret.type })) {
     return apiError(Boom.badRequest("wrong token"));
@@ -30,12 +33,12 @@ async function endPoint(req, res) {
   }
 }
 
-const errored = (res, err) => {
+const errored = (res: NextApiResponse, err: any) => {
   console.error("[storage]", err);
   res.status(400).json({ success: false });
 };
 
-const done = (res) => res.status(200).json({ success: true });
+const done = (res: NextApiResponse) => res.status(200).json({ success: true });
 
 const ALLOWED_EXTENSIONS = [
   "pdf",
@@ -52,10 +55,10 @@ const ALLOWED_EXTENSIONS = [
   "odt",
 ];
 
-const isAllowedFile = (part) =>
+const isAllowedFile = (part: any) =>
   ALLOWED_EXTENSIONS.includes(part.name.toLowerCase().split(".").reverse()[0]);
 
-function uploadFiles(req, res) {
+function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
   const form = new IncomingForm({ multiples: true });
   // we need to override the onPart method to directly
   // stream the data to azure
@@ -63,8 +66,8 @@ function uploadFiles(req, res) {
   form.onPart = async function (part) {
     try {
       uploadingFilesNumber++;
-      const streamCheckup = part.pipe(new stream.PassThrough());
-      const streamUpload = part.pipe(new stream.PassThrough());
+      const streamCheckup: any = part.pipe(new stream.PassThrough());
+      const streamUpload: any = part.pipe(new stream.PassThrough());
       streamUpload.name = part.name;
       streamUpload.mimetype = part.mimetype;
 
@@ -99,7 +102,7 @@ function uploadFiles(req, res) {
   });
 }
 
-async function getFiles(req, res) {
+async function getFiles(_req: NextApiRequest, res: NextApiResponse) {
   res.json(await getContainerBlobs(container));
 }
 

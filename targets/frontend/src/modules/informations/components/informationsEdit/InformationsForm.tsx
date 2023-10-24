@@ -23,7 +23,12 @@ export const InformationsForm = ({
   onDelete,
   onPublish,
 }: InformationsFormProps): JSX.Element => {
-  const { control, handleSubmit, trigger } = useForm<Information>({
+  const {
+    control,
+    handleSubmit,
+    trigger,
+    formState: { errors },
+  } = useForm<Information>({
     defaultValues: data ?? { title: "", dismissalProcess: false },
     resolver: zodResolver(informationSchema),
     shouldFocusError: true,
@@ -52,16 +57,9 @@ export const InformationsForm = ({
     false
   );
 
-  const onSubmit = async (information: Information) => {
-    const isValid = await trigger();
-    if (isValid) {
-      onUpsert(information);
-    }
-  };
-
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onUpsert)}>
         <Stack spacing={4}>
           <FormControl>
             <FormTextField

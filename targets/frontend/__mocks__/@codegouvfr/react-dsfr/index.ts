@@ -1,11 +1,13 @@
+const TYPES = {
+  error: {},
+  info: {},
+  warning: {},
+  success: {},
+  grey: { default: "" },
+};
+
 const DEFAULT_VARIANTS = {
-  default: {
-    error: {},
-    info: {},
-    warning: {},
-    success: {},
-    grey: {},
-  },
+  default: TYPES,
 };
 module.exports = {
   fr: {
@@ -18,6 +20,9 @@ module.exports = {
         },
         background: {
           ...DEFAULT_VARIANTS,
+          contrast: {
+            ...TYPES,
+          },
         },
       },
     },

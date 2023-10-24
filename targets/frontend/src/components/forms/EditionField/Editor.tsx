@@ -5,7 +5,6 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import StarterKit from "@tiptap/starter-kit";
 import React, { useEffect, useState } from "react";
-import { FieldErrors } from "react-hook-form";
 import { styled } from "@mui/system";
 import { fr } from "@codegouvfr/react-dsfr";
 
@@ -17,6 +16,7 @@ import { Details } from "@tiptap-pro/extension-details";
 import { DetailsSummary } from "@tiptap-pro/extension-details-summary";
 import { DetailsContent } from "@tiptap-pro/extension-details-content";
 import { Placeholder } from "@tiptap/extension-placeholder";
+import { Link } from "@tiptap/extension-link";
 
 export type EditorProps = {
   content?: string;
@@ -61,6 +61,12 @@ export const Editor = ({
             return "Titre de la section";
           }
           return "";
+        },
+      }),
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          rel: null,
         },
       }),
     ],
@@ -127,12 +133,15 @@ const StyledEditorContent = styled(EditorContent)(() => {
         pointerEvents: "none",
         height: "0",
       },
+      "a::after": {
+        display: "none",
+      },
       ".details": {
         display: "flex",
         border: "0",
         padding: "1rem 0",
         borderTop: `1px solid ${fr.colors.decisions.text.default.grey.default}`,
-        ":first-child": {
+        ":first-of-type": {
           border: "none",
         },
         "> button": {

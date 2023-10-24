@@ -29,7 +29,7 @@ export default async function reset_password(req, res) {
   const result = await client
     .mutation(udpateSecretTokenMutation, {
       email,
-      expires: getExpiryDate(parseInt(ACTIVATION_TOKEN_EXPIRES, 10)),
+      expires: getExpiryDate(ACTIVATION_TOKEN_EXPIRES),
       secret_token,
     })
     .toPromise();

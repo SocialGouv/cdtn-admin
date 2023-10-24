@@ -20,16 +20,17 @@ export class DocumentsService {
 
   private mapInformationToDocument(
     data: Information,
-    cdtn_id?: string
+    document?: Document
   ): Document {
     return {
-      cdtn_id: cdtn_id ?? generateCdtnId(data.title),
+      cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id ?? generateInitialId(),
       source: "information",
       meta_description: data.metaDescription ?? data.description,
       title: data.title,
       text: data.title,
-      slug: slugify(data.title),
+      slug: document?.slug ?? slugify(data.title),
+      is_available: true,
       document: {
         date: data.updatedAt
           ? format(new Date(data.updatedAt), "dd/MM/yyyy")
@@ -54,7 +55,11 @@ export class DocumentsService {
               blocks: blocks.map((block) => {
                 return {
                   type: block.type,
-                  markdown: block.content,
+                  ...(block.type === "content"
+                    ? {
+                        title: block.content,
+                      }
+                    : { markdown: block.content }),
                   ...(block.type === "graphic"
                     ? {
                         size: block.file?.size,
@@ -112,10 +117,7 @@ export class DocumentsService {
             cause: null,
           });
         }
-        document = this.mapInformationToDocument(
-          information,
-          document?.cdtn_id
-        );
+        document = this.mapInformationToDocument(information, document);
         break;
     }
     const result = await this.documentsRepository.update(document);

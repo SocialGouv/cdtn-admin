@@ -1,8 +1,11 @@
-import { BASE_URL } from "../../config";
 import sendmail from "./sendmail";
 
 export function sendLostPasswordEmail(email, secret_token) {
-  const activateUrl = `${BASE_URL}/change_password?token=${secret_token}`; // todo: dynamic hostname
+  const activateUrl = `${
+    process.env.FRONTEND_HOST
+      ? `https://${process.env.FRONTEND_HOST}`
+      : `http://localhost:3000`
+  }/change_password?token=${secret_token}`; // todo: dynamic hostname
   const subject = "Réinitialisation de votre mot de passe";
   const text = `
 Bonjour,
