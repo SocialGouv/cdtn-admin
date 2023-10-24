@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import { IoMdSearch } from "react-icons/io";
 import {
   Box,
-  Input,
-  Select,
-  Radio,
   FormControlLabel,
   FormLabel,
+  Input,
   MenuItem,
+  Radio,
+  Select,
 } from "@mui/material";
 import { useQuery } from "urql";
 
@@ -56,13 +56,6 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
     },
   });
 
-  const { data } = result;
-  function isSourceDisabled(source) {
-    return (
-      data?.sources.nodes.find((node) => node.source === source) === undefined
-    );
-  }
-
   function triggerUpdateUrl(event) {
     console.log("update filters");
     onSearchUpdate({
@@ -93,13 +86,9 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           value={initialValues.source || "no-filter"}
           sx={{ marginRight: "15px" }}
         >
-          <MenuItem value={"no-filter"}>toutes les sources</MenuItem>
+          <MenuItem value={"no-filter"}>Toutes les sources</MenuItem>
           {documentSources.map(([source, label]) => (
-            <MenuItem
-              key={source}
-              value={source}
-              disabled={isSourceDisabled(source)}
-            >
+            <MenuItem key={source} value={source}>
               {label}
             </MenuItem>
           ))}
@@ -239,7 +228,7 @@ query documents($source: String, $search: String!, $published: [Boolean!]!,  $av
       source: {_eq: $source, _neq: "code_du_travail"}
       title: {_ilike: $search},
       is_published: {_in: $published}
-      is_available: {_in: $available}  
+      is_available: {_in: $available}
     }
   }) {
     nodes {

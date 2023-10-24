@@ -7,10 +7,10 @@ import remark from "remark";
 import strip from "strip-markdown";
 
 import type { AgreementAnswerRaw, AnswerRaw } from "./types";
+import { IndexedAgreement } from "@socialgouv/kali-data-types";
 // Unified works only with require
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 import unified = require("unified");
-import { IndexedAgreement } from "@socialgouv/kali-data-types";
 
 export class AnswerExtractor {
   constructor(agreements: IndexedAgreement[]) {
@@ -60,7 +60,7 @@ export class AnswerExtractor {
       (convention) =>
         this.comparableIdcc(convention.num) === this.comparableIdcc(idcc)
     );
-    return agreement ? true : false;
+    return !!agreement;
   }
 
   private createGetRefUrl(

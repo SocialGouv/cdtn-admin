@@ -39,7 +39,7 @@ export const AlertWarning = ({ repository }: Props): React.ReactElement => {
     return <></>;
   }
 
-  if (alertWarnings?.length ?? 0 > 0) {
+  if (alertWarnings?.length) {
     return (
       <>
         <Modal
@@ -80,7 +80,7 @@ export const AlertWarning = ({ repository }: Props): React.ReactElement => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {alertWarnings?.map((row, index) => {
+                    {alertWarnings.map((row, index) => {
                       const date = format(
                         parseISO(row.createdAt),
                         "dd/MM/yyyy"
