@@ -1,7 +1,7 @@
 import { Status as StatusType } from "@shared/types";
 import { MdTimelapse } from "react-icons/md";
 import { Box, Typography } from "@mui/material";
-import { theme } from "src/theme";
+import { fr } from "@codegouvfr/react-dsfr";
 
 type StatusProps = {
   status?: StatusType;
@@ -18,9 +18,17 @@ export function Status({ status }: StatusProps): JSX.Element {
   }
   switch (status) {
     case StatusType.completed:
-      return <Typography color={theme.colors.positive}>Succès</Typography>;
+      return (
+        <Typography color={fr.colors.decisions.text.default.success.default}>
+          Succès
+        </Typography>
+      );
     case StatusType.timeout:
-      return <Typography color={theme.colors.muted}>Timeout</Typography>;
+      return (
+        <Typography color={fr.colors.decisions.text.default.warning.default}>
+          Timeout
+        </Typography>
+      );
     case StatusType.running:
       return (
         <Box sx={{ alignItems: "center", display: "flex" }}>
@@ -31,7 +39,11 @@ export function Status({ status }: StatusProps): JSX.Element {
         </Box>
       );
     case StatusType.failed:
-      return <Typography color={theme.colors.critical}>Erreur</Typography>;
+      return (
+        <Typography color={fr.colors.decisions.text.default.error.default}>
+          Erreur
+        </Typography>
+      );
     default:
       return <Typography>{status}</Typography>;
   }
