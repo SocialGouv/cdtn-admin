@@ -13,10 +13,10 @@ module.exports = {
         headers: [
           {
             key: "X-Frame-Options",
-            value: "deny"
+            value: "deny",
           },
           { key: "X-XSS-Protection", value: "1; mode=block" },
-          { key: "X-Content-Type-Options", value: "nosniff" }
+          { key: "X-Content-Type-Options", value: "nosniff" },
         ],
       },
     ];

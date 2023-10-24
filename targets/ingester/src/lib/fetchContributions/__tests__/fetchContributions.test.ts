@@ -1,14 +1,16 @@
-// eslint-disable-next-line jest/no-mocks-import
-import { AgreementMock } from "../__mocks__/AgreementMock";
-// eslint-disable-next-line jest/no-mocks-import
-import { ContributionMock } from "../__mocks__/ContributionMock";
-import fetchContributions from "../index";
+jest.mock("../ContributionRepository");
+jest.mock("../AgreementRepository");
+import { fetchContributions, fetchFicheSPIdsFromContributions } from "../index";
 import ExpectedOutput from "./expected.json";
 
-test("fetchContribution should return all contributions with the expected format", async () => {
-  const result = await fetchContributions(
-    new ContributionMock(),
-    new AgreementMock()
-  );
-  expect(result).toEqual(ExpectedOutput);
+describe("ContributionRepository", () => {
+  test("fetchContribution should return all contributions with the expected format", async () => {
+    const result = await fetchContributions();
+    expect(result).toEqual(ExpectedOutput);
+  });
+
+  test("fetchFicheSPIdsFromContributions should return all fiche SP ids from Published contributions", async () => {
+    const result = await fetchFicheSPIdsFromContributions();
+    expect(result).toEqual(["a708246e55"]);
+  });
 });

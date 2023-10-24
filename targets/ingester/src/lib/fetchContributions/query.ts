@@ -1,26 +1,69 @@
 export const fetchAllContributions = `
 query GetQuestionsWithAnswers {
-  questions: contrib_questions(order_by: {index: asc}) {
+  contribution_questions(where: {answers: {statuses: {status: {_eq: "PUBLISHED"}}}}, order_by: {order: asc}) {
     id
-    index
-    title: value
-    answers(where: {state: {_eq: "published"}}) {
-      id
-      markdown: value
-      references: answers_references {
-        title: value
-        url
-        dila_id
-        dila_cid
-        dila_container_id
-        category
-      }
+    content
+    message {
+      content
+    }
+    order
+    answers(where: {statuses: {status: {_eq: "REDACTED"}}}) {
       agreement {
-        idcc
+        id
+        kali_id
         name
-        parent_id
+      }
+      id
+      content
+      contentType: content_type
+      kali_references {
+        ...contribution_answer_kali_referencesFragment
+        title: label
+      }
+      cdtn_references {
+        ...contribution_answer_cdtn_referencesFragment
+      }
+      legi_references {
+        ...contribution_answer_legi_referencesFragment
+      }
+      other_references {
+        title: label
+        url
+      }
+      content_service_public_cdtn_id
+      updated_at
+      document {
+        ficheSPDocument: document
       }
     }
+  }
+}
+
+fragment documentsFragment on documents {
+  title
+  slug
+  source
+}
+
+fragment legi_articlesFragment on legi_articles {
+  title: label
+}
+
+fragment contribution_answer_legi_referencesFragment on contribution_answer_legi_references {
+  legi_article {
+    ...legi_articlesFragment
+  }
+}
+
+fragment contribution_answer_cdtn_referencesFragment on contribution_answer_cdtn_references {
+  document {
+    ...documentsFragment
+  }
+}
+
+fragment contribution_answer_kali_referencesFragment on contribution_answer_kali_references {
+  kali_article {
+    id
   }
 }
 `;

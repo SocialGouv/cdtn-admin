@@ -1,24 +1,38 @@
-import type { ContributionReference } from "@shared/types";
+import {
+  CdtnRelatedContent,
+  FicheServicePublicDoc,
+  LegalRef,
+} from "@shared/types";
 
-export type AgreementRaw = {
-  idcc: string;
+export interface AgreementRaw {
+  id: string;
   name: string;
-  parent_id: string;
-};
+}
 
-export type AnswerRaw = {
+export interface AnswerRaw {
   id: string;
-  markdown: string;
-  references: ContributionReference[];
-  agreement: AgreementRaw | null;
-};
-
-export type AgreementAnswerRaw = AnswerRaw & {
+  content: string;
+  document?: { ficheSPDocument: FicheServicePublicDoc };
+  contentType: string;
+  kali_references: {
+    title: string;
+    kali_article: {
+      article_id: string;
+    };
+  }[];
+  legi_references: {
+    legi_article: {
+      title: string;
+    };
+  }[];
+  cdtn_references: CdtnRelatedContent[];
+  other_references: LegalRef[];
   agreement: AgreementRaw;
-};
-export type QuestionRaw = {
+}
+
+export interface QuestionRaw {
   id: string;
-  index: number;
-  title: string;
+  order: number;
+  content: string;
   answers: AnswerRaw[];
-};
+}

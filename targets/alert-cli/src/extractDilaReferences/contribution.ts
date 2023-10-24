@@ -1,86 +1,55 @@
-import type {
-  ContributionComplete,
-  ContributionFiltered,
-  DocumentReferences,
-} from "@shared/types";
+import type { DocumentReferences, KaliRef, LegiRef } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import memoizee from "memoizee";
+import { getContributionsWithReferences } from "./getContributionsReferences";
+import { generateKaliRef, generateLegiRef } from "@shared/utils";
 
-import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
-
-export type Contrib = Pick<
-  ContributionComplete | ContributionFiltered,
-  "document" | "source" | "title"
-> & {
-  initialId: string;
-  cdtnId: string;
-};
-
-export function extractContributionsRef(
-  questions: Contrib[]
-): DocumentReferences[] {
+export async function getContributionReferences(): Promise<
+  DocumentReferences[]
+> {
+  const contributions = await getContributionsWithReferences();
   const refs: DocumentReferences[] = [];
 
-  for (const question of questions) {
-    refs.push({
-      document: {
-        id: question.initialId,
-        source: SOURCES.CONTRIBUTIONS,
-        title: question.title,
-      },
-      references: question.document.answers.generic.references.flatMap(
-        (ref) => {
-          if (ref.category === null) {
-            return [];
-          }
-          return [
-            {
-              dila_cid: ref.dila_cid,
-              dila_container_id: ref.dila_container_id,
-              dila_id: ref.dila_id,
-              title: ref.title,
-              url: ref.url,
-            },
-          ];
-        }
-      ),
-    });
-    if ("conventionAnswer" in question.document.answers) {
-      continue;
-    }
-    if (question.document.split) {
-      continue;
-    }
-    question.document.answers.conventions.forEach((answer) =>
-      refs.push({
-        document: {
-          id: answer.id,
-          source: SOURCES.CONTRIBUTIONS,
-          title: question.title,
-        },
-        references: answer.references.flatMap((ref) => {
-          if (ref.category === null) return [];
-          return [
-            {
-              dila_cid: ref.dila_cid,
-              dila_container_id: ref.dila_container_id,
-              dila_id: ref.dila_id,
-              title: ref.title,
-              url: ref.url,
-            },
-          ];
-        }),
+  contributions.forEach((contribution) => {
+    const kaliReferences: KaliRef[] = contribution.kali_references.map(
+      (ref) => ({
+        dila_cid: ref.kali_article.cid,
+        dila_container_id: ref.kali_article.agreement?.kali_id ?? "",
+        dila_id: ref.kali_article.id,
+        title: ref.kali_article.label ?? "",
+        url: ref.kali_article.agreement?.kali_id
+          ? generateKaliRef(
+              ref.kali_article.agreement.kali_id,
+              ref.kali_article.id
+            )
+          : "",
       })
     );
-  }
-  return refs;
-}
 
-async function getContributionReferences() {
-  const contributions = (await getAllDocumentsBySource([
-    SOURCES.CONTRIBUTIONS,
-  ])) as Contrib[];
-  return extractContributionsRef(contributions);
+    const legiReferences: LegiRef[] = contribution.legi_references.map(
+      (ref) => ({
+        dila_cid: ref.legi_article.cid,
+        dila_id: ref.legi_article.id,
+        title: ref.legi_article.label ?? "",
+        url: ref.legi_article.label
+          ? generateLegiRef(ref.legi_article.label)
+          : "",
+      })
+    );
+
+    const references = [...kaliReferences, ...legiReferences];
+
+    refs.push({
+      document: {
+        id: contribution.id,
+        source: SOURCES.CONTRIBUTIONS,
+        title: contribution.question.content,
+      },
+      references,
+    });
+  });
+
+  return refs;
 }
 
 export default memoizee(getContributionReferences, { promise: true });

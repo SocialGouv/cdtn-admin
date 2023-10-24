@@ -1,5 +1,5 @@
 import { client } from "@shared/graphql-client";
-import { generateCdtnId } from "@shared/id-generator";
+import { generateCdtnId } from "@shared/utils";
 
 interface Versionnable {
   version: string;

@@ -5,24 +5,11 @@ import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 import type { Code } from "@socialgouv/legi-data-types";
 
 import type { FicheServicePublic } from "../../index";
-import fetchContributions from "../../lib/fetchContributions";
+import { fetchFicheSPIdsFromContributions } from "../../lib/fetchContributions";
 import { getJson } from "../../lib/getJson";
 import { createReferenceResolver } from "../../lib/referenceResolver";
 import { filter } from "./filter";
 import { format } from "./format";
-
-/**
- * Extract external content url from Content tag markdown
- */
-function extractMdxContentUrl(markdown: string) {
-  if (!markdown) return null;
-  // Check Content tag exist on markdown
-  const [, href = ""] = /<Content.*?href="([^"]+)".*?>/.exec(markdown) ?? [];
-  const matchUrl = href.match(
-    /\bhttps?:\/\/(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)/gi
-  );
-  return matchUrl ? matchUrl[0] : null;
-}
 
 const getFicheIdsQuery = `
 query {
@@ -31,9 +18,9 @@ query {
   }
 }`;
 
-type FicheIdResult = {
+interface FicheIdResult {
   ficheIds: { id: string }[];
-};
+}
 
 const updateStatusMutation = `
 mutation updateStatus($ids: [String!],$status: String) {
@@ -46,12 +33,13 @@ mutation updateStatus($ids: [String!],$status: String) {
 `;
 
 export default async function getFichesServicePublic(pkgName: string) {
-  const [contributions, ficheVddIndex, agreements, cdt] = await Promise.all([
-    fetchContributions(),
-    getJson<FicheIndex[]>("@socialgouv/fiches-vdd/data/index.json"),
-    getJson<IndexedAgreement[]>("@socialgouv/kali-data/data/index.json"),
-    getJson<Code>(`@socialgouv/legi-data/data/LEGITEXT000006072050.json`),
-  ]);
+  const [idsFromContributions, ficheVddIndex, agreements, cdt] =
+    await Promise.all([
+      fetchFicheSPIdsFromContributions(),
+      getJson<FicheIndex[]>("@socialgouv/fiches-vdd/data/index.json"),
+      getJson<IndexedAgreement[]>("@socialgouv/kali-data/data/index.json"),
+      getJson<Code>(`@socialgouv/legi-data/data/LEGITEXT000006072050.json`),
+    ]);
 
   const filteredAgreements = agreements.filter(
     (convention) => typeof convention.id === "string"
@@ -84,16 +72,6 @@ export default async function getFichesServicePublic(pkgName: string) {
     .toPromise();
   console.timeEnd("service-public updateStatus");
 
-  const fichesIdFromContrib = contributions.flatMap(({ answers }) => {
-    const url = extractMdxContentUrl(answers.generic.markdown) ?? "";
-
-    const [, id] = /\/(\w+)$/.exec(url) ?? [];
-    if (id) {
-      return id;
-    }
-    return [];
-  });
-
   const fiches: FicheServicePublic[] = [];
   for (const { id: idFiche, type } of listFicheVdd) {
     let fiche = null;
@@ -108,18 +86,10 @@ export default async function getFichesServicePublic(pkgName: string) {
 
     fiches.push({
       ...ficheSp,
-      is_searchable: !fichesIdFromContrib.includes(ficheSp.id),
+      is_searchable: !idsFromContributions.includes(ficheSp.id),
       slug: slugify(ficheSp.title),
     });
   }
-
-  fichesIdFromContrib.forEach((idFiche) => {
-    if (fiches.find(({ id }) => idFiche === id) === undefined) {
-      throw Error(
-        `[FICHE-SP] The ${idFiche} from service-public is embeded in a contribution and was not found`
-      );
-    }
-  });
 
   return fiches;
 }

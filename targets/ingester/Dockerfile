@@ -16,6 +16,10 @@ FROM deps AS build-graphql-client
 COPY shared/graphql-client ./shared/graphql-client
 RUN yarn workspace @shared/graphql-client build
 
+FROM deps AS build-utils
+COPY shared/utils ./shared/utils
+RUN yarn workspace @shared/utils build
+
 FROM deps AS build-types
 COPY shared/types ./shared/types
 RUN yarn workspace @shared/types build
@@ -23,8 +27,7 @@ RUN yarn workspace @shared/types build
 FROM deps as dist
 COPY --from=build-graphql-client /app/shared/graphql-client /app/shared/graphql-client
 COPY --from=build-types /app/shared/types /app/shared/types
-
-COPY shared/id-generator shared/id-generator
+COPY --from=build-utils /app/shared/utils /app/shared/utils
 COPY targets/ingester targets/ingester
 COPY tsconfig.build.json .
 
