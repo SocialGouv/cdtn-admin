@@ -4964,15 +4964,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@shared/id-generator@workspace:shared/id-generator":
-  version: 0.0.0-use.local
-  resolution: "@shared/id-generator@workspace:shared/id-generator"
-  dependencies:
-    uuid: ^8.3.2
-    xxhashjs: ^0.2.2
-  languageName: unknown
-  linkType: soft
-
 "@shared/types@workspace:^, @shared/types@workspace:shared/types":
   version: 0.0.0-use.local
   resolution: "@shared/types@workspace:shared/types"

@@ -3,7 +3,7 @@ import { NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
 import { Document } from "../type";
 import { format } from "date-fns";
-import { generateCdtnId, generateInitialId } from "@shared/id-generator";
+import { generateCdtnId, generateInitialId } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
 
 export class DocumentsService {
