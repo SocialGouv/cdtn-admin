@@ -1,4 +1,4 @@
-import { ModelList } from "src/components/models";
+import { ModelList } from "src/modules/models";
 
 import { Layout } from "src/components/layout/auth.layout";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";

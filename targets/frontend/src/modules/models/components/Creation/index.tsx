@@ -1,9 +1,9 @@
 import { Stack } from "@mui/material";
 import { BreadcrumbLink } from "src/components/utils";
 import React from "react";
-import { ModelForm } from "src/components/models/Common";
+import { ModelForm } from "src/modules/models/components/Common";
 import { useRouter } from "next/router";
-import { useModelInsertMutation } from "src/components/models/Creation/model.mutation";
+import { useModelInsertMutation } from "src/modules/models/components/Creation/model.mutation";
 
 export const ModelCreation = (): React.ReactElement => {
   const router = useRouter();

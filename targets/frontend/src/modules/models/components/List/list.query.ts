@@ -1,14 +1,17 @@
 import { useQuery } from "urql";
-import { Model } from "../type";
 import { gql } from "@urql/core";
+import { Model } from "../../type";
 
 export const listModelsQuery = gql`
   query ListModels($search: String) {
-    models: model_models(where: { title: { _ilike: $search } }) {
+    models: model_models(
+      where: { title: { _ilike: $search } }
+      order_by: { updatedAt: desc }
+    ) {
       id
       title
       type
-      updated_at
+      updatedAt
     }
   }
 `;

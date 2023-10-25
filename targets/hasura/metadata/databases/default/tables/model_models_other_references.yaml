@@ -1,17 +1,25 @@
 table:
   name: models_other_references
   schema: model
+configuration:
+  column_config:
+    model_id:
+      custom_name: modelId
+  custom_column_names:
+    model_id: modelId
+  custom_root_fields: {}
 object_relationships:
   - name: model
     using:
-      foreign_key_constraint_on: letter_id
+      foreign_key_constraint_on: model_id
 insert_permissions:
   - role: super
     permission:
       check: {}
       columns:
+        - id
+        - model_id
         - label
-        - letter_id
         - url
 select_permissions:
   - role: super
@@ -20,7 +28,7 @@ select_permissions:
         - label
         - url
         - id
-        - letter_id
+        - model_id
       filter: {}
 update_permissions:
   - role: super
@@ -28,6 +36,8 @@ update_permissions:
       columns:
         - label
         - url
+        - id
+        - model_id
       filter: {}
       check: null
 delete_permissions:

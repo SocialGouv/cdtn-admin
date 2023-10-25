@@ -1,18 +1,44 @@
 table:
   name: models
   schema: model
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    file_id:
+      custom_name: fileId
+    meta_description:
+      custom_name: metaDescription
+    meta_title:
+      custom_name: metaTitle
+    preview_html:
+      custom_name: previewHTML
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    created_at: createdAt
+    file_id: fileId
+    meta_description: metaDescription
+    meta_title: metaTitle
+    preview_html: previewHTML
+    updated_at: updatedAt
+  custom_root_fields: {}
+object_relationships:
+  - name: file
+    using:
+      foreign_key_constraint_on: file_id
 array_relationships:
   - name: models_legi_references
     using:
       foreign_key_constraint_on:
-        column: letter_id
+        column: model_id
         table:
           name: models_legi_references
           schema: model
   - name: models_other_references
     using:
       foreign_key_constraint_on:
-        column: letter_id
+        column: model_id
         table:
           name: models_other_references
           schema: model
@@ -21,39 +47,44 @@ insert_permissions:
     permission:
       check: {}
       columns:
-        - created_at
-        - description
-        - file_name
-        - file_size
         - id
-        - preview_html
-        - title
-        - type
+        - created_at
         - updated_at
+        - title
+        - description
+        - meta_title
+        - meta_description
+        - type
+        - preview_html
+        - file_id
 select_permissions:
   - role: super
     permission:
       columns:
-        - file_size
         - description
-        - file_name
+        - meta_description
+        - meta_title
         - preview_html
         - title
         - type
         - created_at
         - updated_at
+        - file_id
         - id
       filter: {}
 update_permissions:
   - role: super
     permission:
       columns:
+        - created_at
         - description
-        - file_name
-        - file_size
+        - file_id
+        - meta_description
+        - meta_title
         - preview_html
         - title
         - type
-        - updated_at
       filter: {}
       check: null
+      set:
+        updated_at: now()

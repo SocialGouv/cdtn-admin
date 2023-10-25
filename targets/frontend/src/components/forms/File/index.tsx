@@ -5,6 +5,7 @@ import { CommonFormProps } from "../type";
 import Dropzone from "react-dropzone";
 import { TitleBox } from "src/components/forms/TitleBox";
 import { Chip, FormControl, FormHelperText, Typography } from "@mui/material";
+import { styled } from "@mui/system";
 
 export type DropzoneFile = File & {
   path: string;
@@ -36,71 +37,86 @@ export const FormFileField = ({
       }) => {
         const values = value as File[];
         return (
-          <FormControl fullWidth={fullWidth} error={!!error}>
-            <Dropzone
-              accept={{
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                  [".docx"],
-              }}
-              noClick
-              onDrop={(acceptedFiles) => {
-                onChange(acceptedFiles);
-                onFileChange &&
-                  onFileChange(acceptedFiles[0] as unknown as DropzoneFile);
-              }}
-            >
-              {({
-                getRootProps,
-                getInputProps,
-                open,
-                isDragActive,
-                acceptedFiles,
-              }) => (
-                <>
-                  <TitleBox
-                    title={label}
-                    focus={isDragActive}
-                    disabled={disabled}
-                  >
-                    <div
-                      style={{
-                        textAlign: "center",
-                      }}
-                      {...getRootProps()}
-                      onClick={open}
+          <>
+            <FormControl fullWidth={fullWidth} error={!!error}>
+              <Dropzone
+                accept={{
+                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                    [".docx"],
+                }}
+                noClick
+                onDrop={(acceptedFiles) => {
+                  onChange(acceptedFiles);
+                  onFileChange &&
+                    onFileChange(acceptedFiles[0] as unknown as DropzoneFile);
+                }}
+              >
+                {({
+                  getRootProps,
+                  getInputProps,
+                  open,
+                  isDragActive,
+                  acceptedFiles,
+                }) => (
+                  <>
+                    <TitleBox
+                      title={label}
+                      focus={isDragActive}
+                      disabled={disabled}
+                      isError={!!error}
                     >
-                      <input
-                        {...getInputProps({
-                          id: "fileupload",
-                          onChange,
-                          onBlur,
-                        })}
-                      />
-
-                      <Typography>
-                        Sélectionnez un fichier ou glissez-le dans cette zone
-                      </Typography>
-                      {values && values.length > 0 ? (
-                        <Chip label={values[0].name} color="success" />
-                      ) : defaultFileName ? (
-                        <Chip label={defaultFileName} color="success" />
-                      ) : (
-                        <Chip
-                          label="Aucun fichier sélectionné"
-                          color="warning"
+                      <div
+                        style={{
+                          textAlign: "center",
+                        }}
+                        {...getRootProps()}
+                        onClick={open}
+                      >
+                        <input
+                          {...getInputProps({
+                            id: "fileupload",
+                            onChange,
+                            onBlur,
+                          })}
                         />
-                      )}
-                    </div>
-                  </TitleBox>
-                  {error && error.type === "required" ? (
-                    <FormHelperText>Un fichier est requis</FormHelperText>
-                  ) : null}
-                </>
-              )}
-            </Dropzone>
-          </FormControl>
+
+                        <Typography color={!!error ? "error" : "standard"}>
+                          Sélectionnez un fichier ou glissez-le dans cette zone
+                        </Typography>
+                        {values && values.length > 0 ? (
+                          <FileDetail label={values[0].name} color="success" />
+                        ) : defaultFileName ? (
+                          <FileDetail label={defaultFileName} color="success" />
+                        ) : (
+                          <FileDetail
+                            label="Aucun fichier sélectionné"
+                            color="warning"
+                          />
+                        )}
+                      </div>
+                    </TitleBox>
+                  </>
+                )}
+              </Dropzone>
+            </FormControl>
+            {error && (
+              <StyledFormHelperText>{error.message}</StyledFormHelperText>
+            )}
+          </>
         );
       }}
     />
   );
 };
+
+const StyledFormHelperText = styled(FormHelperText)(({ theme }) => {
+  return {
+    color: theme.palette.error.main,
+  };
+});
+
+const FileDetail = styled(Chip)(() => {
+  return {
+    margin: "1em",
+  };
+});

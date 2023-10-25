@@ -14,26 +14,51 @@ import {
   FormTextField,
   FormToggleButtonGroup,
 } from "src/components/forms";
+
 import { Controller, useForm } from "react-hook-form";
-import { Model } from "../type";
+import { Model, modelSchema } from "../../type";
 import React, { useState } from "react";
 import mammoth from "mammoth";
 import { TitleBox } from "src/components/forms/TitleBox";
 import { request } from "src/lib/request";
-import { getToken } from "src/lib/auth/token";
 import { SnackBar } from "src/components/utils/SnackBar";
 import { LegiReferenceInput } from "src/components/contributions/answers/references";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-type FormData = Partial<Omit<Model, "createdAt">> & {
-  newFile?: DropzoneFile[];
-};
+type FormData = Partial<z.infer<typeof modelSchemaUpsert>>;
 
-type FormDataResult = Required<Omit<FormData, "newFile">>;
+export type FormDataResult = Required<Omit<Model, "createdAt" | "updatedAt">>;
 
 type Props = {
   model?: Model;
   onUpsert: (props: FormDataResult) => Promise<void>;
 };
+
+const defaultValues: FormData = {
+  title: "",
+  metaTitle: "",
+  description: "",
+  metaDescription: "",
+  type: undefined,
+  previewHTML: "",
+  legiReferences: [],
+};
+
+export const modelSchemaUpsert = modelSchema
+  .extend({
+    newFile: z.array(z.custom<DropzoneFile>()).optional(),
+  })
+  .omit({ updatedAt: true, createdAt: true, file: true })
+  .superRefine(({ newFile, id }, refinementContext) => {
+    if (id === undefined && newFile === undefined) {
+      return refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Un fichier doit être renseigné",
+        path: ["newFile"],
+      });
+    }
+  });
 
 export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
   const [isLoadingPreview, setIsLoadingPreview] = React.useState(false);
@@ -42,16 +67,12 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
   );
 
   const { control, handleSubmit, setValue } = useForm<FormData>({
-    values: model,
     defaultValues: {
-      updatedAt: "",
-      title: "",
-      description: "",
-      fileName: "",
-      fileSize: 0,
-      previewHTML: "",
-      legiReferences: [],
+      ...defaultValues,
+      ...model,
     },
+    resolver: zodResolver(modelSchemaUpsert),
+    shouldFocusError: true,
   });
 
   const [snack, setSnack] = useState<{
@@ -68,7 +89,7 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
     return new Promise((resolve, reject) => {
       request(`/api/storage`, {
         body: formData,
-        headers: { token: getToken()?.jwt_token || "" },
+        // headers: { token: getToken()?.jwt_token || "" },
       })
         .then(() => {
           resolve(file);
@@ -87,12 +108,17 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
       await onUpsert({
         id: newData.id!,
         title: newData.title!,
+        metaTitle: newData.metaTitle!,
         description: newData.description!,
+        metaDescription: newData.metaDescription!,
         type: newData.type!,
-        fileName: newData.newFile ? newData.newFile[0].path : newData.fileName!,
-        fileSize: newData.newFile ? newData.newFile[0].size : newData.fileSize!,
+        file: newData.newFile
+          ? {
+              url: newData.newFile[0].path,
+              size: `${newData.newFile[0].size}`,
+            }
+          : model?.file!,
         previewHTML: newData.previewHTML!,
-        updatedAt: newData.updatedAt!,
         legiReferences: newData.legiReferences!,
       });
       setSnack({
@@ -120,10 +146,6 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
     reader.onloadend = () => {
       const arrayBufferTmp = reader.result;
       if (!arrayBufferTmp || typeof arrayBufferTmp === "string") {
-        console.log(
-          "Erreur dans la génération de l'aperçu",
-          "Impossible de lire le fichier (pas de type ArrayBuffer)"
-        );
         setValue("previewHTML", undefined);
         setIsLoadingPreview(false);
         setPreviewError(
@@ -139,7 +161,6 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
           setIsLoadingPreview(false);
         })
         .catch((error) => {
-          console.log("Erreur dans la génération de l'aperçu", error);
           setValue("previewHTML", undefined);
           setIsLoadingPreview(false);
           setPreviewError(
@@ -153,6 +174,7 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={4}>
+        <FormControl></FormControl>
         {model && (
           <FormControl>
             <FormTextField
@@ -165,20 +187,10 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
           </FormControl>
         )}
         <FormControl>
-          <FormTextField
-            name="title"
-            control={control}
-            label="Titre"
-            rules={{ required: true }}
-            fullWidth
-          />
-        </FormControl>
-        <FormControl>
           <FormToggleButtonGroup
             name="type"
             label="Type"
             control={control}
-            rules={{ required: true }}
             options={[
               {
                 label: "Fichier",
@@ -196,6 +208,23 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
           />
         </FormControl>
         <FormControl>
+          <FormTextField
+            name="title"
+            control={control}
+            label="Titre"
+            fullWidth
+          />
+        </FormControl>
+        <FormControl>
+          <FormTextField
+            name="metaTitle"
+            control={control}
+            label="Méta titre"
+            rules={{ required: true }}
+            fullWidth
+          />
+        </FormControl>
+        <FormControl>
           <FormEditionField
             label="Description"
             name="description"
@@ -206,6 +235,15 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
           />
         </FormControl>
         <FormControl>
+          <FormTextField
+            name="metaDescription"
+            control={control}
+            label="Méta description"
+            rules={{ required: true }}
+            fullWidth
+          />
+        </FormControl>
+        <FormControl>
           <LegiReferenceInput name="legiReferences" control={control} />
         </FormControl>
         <FormControl>
@@ -213,8 +251,7 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
             name="newFile"
             control={control}
             label="Modèle de courrier"
-            rules={{ required: !model }}
-            defaultFileName={model?.fileName}
+            defaultFileName={model?.file?.url}
             onFileChange={(file) => {
               if (file) {
                 convertToHTML(file);
@@ -228,9 +265,8 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
           <Controller
             name="previewHTML"
             control={control}
-            rules={{ required: true }}
             render={({ field: { value } }) => (
-              <TitleBox title="Aperçu du modèle">
+              <TitleBox title="Aperçu du modèle" isError={!!previewError}>
                 {isLoadingPreview ? (
                   <CircularProgress />
                 ) : previewError ? (
