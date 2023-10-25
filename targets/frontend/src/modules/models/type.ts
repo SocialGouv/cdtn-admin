@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { legiReferenceSchema } from "../../components/contributions";
+import {
+  legiReferenceSchema,
+  otherReferenceSchema,
+} from "../../components/contributions";
 import { fileSchema } from "../common/type";
 
 export const modelSchema = z.object({
@@ -28,6 +31,7 @@ export const modelSchema = z.object({
   previewHTML: z.string(),
   file: fileSchema,
   legiReferences: z.array(legiReferenceSchema),
+  otherReferences: z.array(otherReferenceSchema),
 });
 
 export type Model = z.infer<typeof modelSchema>;

@@ -6,10 +6,14 @@ import {
   FilesConstraint,
   FilesUpdateColumn,
   ModelModelsInsertInput,
-} from "../Creation/model.mutation";
+} from "../graphql.type";
+import { OtherReference } from "../../../../components/forms/OtherReferences/type";
 
 const updateModelQuery = gql`
   mutation UpdateModel($id: uuid = "", $model: model_models_insert_input!) {
+    delete_model_models_other_references(where: { modelId: { _eq: $id } }) {
+      affected_rows
+    }
     delete_model_models_legi_references(where: { modelId: { _eq: $id } }) {
       affected_rows
     }
@@ -82,6 +86,9 @@ export const useModelUpdateMutation = (): MutationFn => {
         models_legi_references: {
           data: formatLegiReferences(data.legiReferences),
         },
+        models_other_references: {
+          data: formatOtherReferences(data.otherReferences),
+        },
       },
     });
     if (result.error) {
@@ -98,5 +105,12 @@ export const useModelUpdateMutation = (): MutationFn => {
 const formatLegiReferences = (refs: LegiReference[]) => {
   return refs.map((ref) => ({
     articleId: ref.legiArticle.id,
+  }));
+};
+
+const formatOtherReferences = (refs: OtherReference[]) => {
+  return refs.map((ref) => ({
+    label: ref.label,
+    url: ref.url,
   }));
 };

@@ -25,6 +25,7 @@ import { SnackBar } from "src/components/utils/SnackBar";
 import { LegiReferenceInput } from "src/components/contributions/answers/references";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { FormOtherReferences } from "../../../../components/forms/OtherReferences";
 
 type FormData = Partial<z.infer<typeof modelSchemaUpsert>>;
 
@@ -43,6 +44,7 @@ const defaultValues: FormData = {
   type: undefined,
   previewHTML: "",
   legiReferences: [],
+  otherReferences: [],
 };
 
 export const modelSchemaUpsert = modelSchema
@@ -120,6 +122,7 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
           : model?.file!,
         previewHTML: newData.previewHTML!,
         legiReferences: newData.legiReferences!,
+        otherReferences: newData.otherReferences!,
       });
       setSnack({
         open: true,
@@ -220,7 +223,6 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
             name="metaTitle"
             control={control}
             label="Méta titre"
-            rules={{ required: true }}
             fullWidth
           />
         </FormControl>
@@ -229,9 +231,6 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
             label="Description"
             name="description"
             control={control}
-            rules={{
-              required: true,
-            }}
           />
         </FormControl>
         <FormControl>
@@ -239,12 +238,14 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
             name="metaDescription"
             control={control}
             label="Méta description"
-            rules={{ required: true }}
             fullWidth
           />
         </FormControl>
         <FormControl>
           <LegiReferenceInput name="legiReferences" control={control} />
+        </FormControl>
+        <FormControl>
+          <FormOtherReferences name="otherReferences" control={control} />
         </FormControl>
         <FormControl>
           <FormFileField

@@ -2,89 +2,8 @@ import { gql } from "@urql/core";
 import { useMutation } from "urql";
 import { LegiReference } from "src/components/forms/LegiReferences/type";
 import { FormDataResult } from "../Common";
-
-export type FilesInsertInput = {
-  altText?: string | null;
-  id?: string | null;
-  size?: string | null;
-  url?: string;
-};
-
-export enum FilesConstraint {
-  /** unique or primary key constraint on columns "id" */
-  FilesPkey = "files_pkey",
-}
-
-export enum FilesUpdateColumn {
-  /** column name */
-  AltText = "altText",
-  /** column name */
-  Id = "id",
-  /** column name */
-  Size = "size",
-  /** column name */
-  Url = "url",
-}
-
-export type FilesOnConflict = {
-  constraint: FilesConstraint;
-  update_columns?: FilesUpdateColumn[];
-};
-
-export type FilesObjRelInsertInput = {
-  data: FilesInsertInput;
-  on_conflict?: FilesOnConflict;
-};
-
-export type LegiArticlesInsertInput = {
-  cid?: string;
-  id?: string;
-  label?: string;
-};
-
-export type LegiArticlesObjRelInsertInput = {
-  data: LegiArticlesInsertInput;
-};
-
-export type ModelModelsObjRelInsertInput = {
-  data: ModelModelsInsertInput;
-};
-
-export type ModelModelsLegiReferencesInsertInput = {
-  articleId?: string;
-};
-
-export type ModelModelsLegiReferencesArrRelInsertInput = {
-  data: ModelModelsLegiReferencesInsertInput[];
-};
-
-export type Model_Models_Other_References_Insert_Input = {
-  id?: string;
-  label?: string;
-  model?: string;
-  modelId?: string;
-  url?: string;
-};
-
-export type ModelModelsOtherReferencesArrRelInsertInput = {
-  data: Array<Model_Models_Other_References_Insert_Input>;
-};
-
-export type ModelModelsInsertInput = {
-  createdAt?: string;
-  description?: string;
-  file?: FilesObjRelInsertInput;
-  fileId?: string;
-  id?: string;
-  metaDescription?: string;
-  metaTitle?: string;
-  models_legi_references?: ModelModelsLegiReferencesArrRelInsertInput;
-  models_other_references?: ModelModelsOtherReferencesArrRelInsertInput;
-  previewHTML?: string;
-  title?: string;
-  type?: string;
-  updatedAt?: string;
-};
+import { OtherReference } from "../../../../components/forms/OtherReferences/type";
+import { ModelModelsInsertInput } from "../graphql.type";
 
 const insertModelQuery = gql`
   mutation InsertModel($model: model_models_insert_input!) {
@@ -123,6 +42,7 @@ export const useModelInsertMutation = (): MutationFn => {
         },
         previewHTML: data.previewHTML,
         models_legi_references: formatLegiReferences(data.legiReferences),
+        models_other_references: formatOtherReferences(data.otherReferences),
       },
     });
     if (result.error) {
@@ -142,6 +62,17 @@ const formatLegiReferences = (
   return {
     data: refs.map((ref) => ({
       articleId: ref.legiArticle.id,
+    })),
+  };
+};
+
+const formatOtherReferences = (
+  refs: OtherReference[]
+): ModelModelsInsertInput["models_other_references"] => {
+  return {
+    data: refs.map((ref) => ({
+      label: ref.label,
+      url: ref.url,
     })),
   };
 };
