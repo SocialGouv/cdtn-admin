@@ -9,6 +9,7 @@ import {
 } from "src/lib/api";
 import { DocumentsRepository, DocumentsService } from ".";
 import { InformationsRepository } from "../../informations/api";
+import { ModelRepository } from "../../models/api";
 
 const inputSchema = z.object({
   id: z.string().uuid(),
@@ -43,6 +44,7 @@ export class DocumentsController {
         const client = ApiClient.build(inputs.session_variables);
         const service = new DocumentsService(
           new InformationsRepository(client),
+          new ModelRepository(client),
           new DocumentsRepository(client)
         );
         const cdtnId = await service.publish(
@@ -52,6 +54,7 @@ export class DocumentsController {
         this.res.status(201).json({ cdtnId });
       }
     } catch (error) {
+      console.error("Error ! ", error);
       if (error instanceof NotFoundError) {
         this.res.status(404).json({ message: error.message });
       } else {

@@ -34,6 +34,7 @@ export type FormDataResult = Required<Omit<Model, "createdAt" | "updatedAt">>;
 type Props = {
   model?: Model;
   onUpsert: (props: FormDataResult) => Promise<void>;
+  onPublish?: () => Promise<void>;
 };
 
 const defaultValues: FormData = {
@@ -62,7 +63,11 @@ export const modelSchemaUpsert = modelSchema
     }
   });
 
-export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
+export const ModelForm = ({
+  model,
+  onUpsert,
+  onPublish,
+}: Props): React.ReactElement => {
   const [isLoadingPreview, setIsLoadingPreview] = React.useState(false);
   const [previewError, setPreviewError] = React.useState<string | undefined>(
     undefined
@@ -295,6 +300,33 @@ export const ModelForm = ({ model, onUpsert }: Props): React.ReactElement => {
           <Button variant="contained" type="submit">
             {model ? "Sauvegarder" : "Créer"}
           </Button>
+          {onPublish && (
+            <Button
+              type="button"
+              variant="contained"
+              color="success"
+              onClick={async () => {
+                if (onPublish) {
+                  try {
+                    await onPublish();
+                    setSnack({
+                      open: true,
+                      severity: "success",
+                      message: "Le modèle de document a été publiée",
+                    });
+                  } catch (e: any) {
+                    setSnack({
+                      open: true,
+                      severity: "error",
+                      message: `Erreur lors de la publication du document: ${e.message}`,
+                    });
+                  }
+                }
+              }}
+            >
+              Publier
+            </Button>
+          )}
         </Stack>
       </Stack>
       <SnackBar snack={snack} setSnack={setSnack}></SnackBar>

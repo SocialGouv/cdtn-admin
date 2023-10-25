@@ -23,10 +23,6 @@ export function DropZone({
 }: Props): React.ReactElement {
   const onDrop = useCallback(
     async (acceptedFiles) => {
-      console.log("Accepted files: ", acceptedFiles);
-      acceptedFiles.forEach((file: File) => {
-        console.log("URL: ", URL.createObjectURL(file));
-      });
       const formData = new FormData();
       for (const i in acceptedFiles) {
         if (acceptedFiles[i] instanceof File) {

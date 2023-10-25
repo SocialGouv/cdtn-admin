@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 export function ModelEditionPage() {
   const router = useRouter();
   const modelId = router?.query?.modelId as string;
-  console.log("modelId", modelId);
 
   return (
     <Layout title="Modèles de document">
