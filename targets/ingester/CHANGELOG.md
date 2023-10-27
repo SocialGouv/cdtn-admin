@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.21.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.1...v2.21.0) (2023-10-27)
+
+### Features
+
+- **export:** lister les documents déployés lors des mises à jours de prod et pre-prod ([#1064](https://github.com/SocialGouv/cdtn-admin/issues/1064)) ([6f4b263](https://github.com/SocialGouv/cdtn-admin/commit/6f4b263b86a2f9198b7da3e30e2da2c55ac8260b)), closes [#1040](https://github.com/SocialGouv/cdtn-admin/issues/1040)
+
 ## [2.20.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.0...v2.20.1) (2023-10-23)
 
 **Note:** Version bump only for package ingester
