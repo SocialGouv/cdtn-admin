@@ -41,6 +41,10 @@ export function Navigation() {
           label: "Contenus éditoriaux",
         },
         {
+          href: "/models",
+          label: "Modèles de document",
+        },
+        {
           href: "/contenus?source=highlights",
           label: "À la une",
         },
@@ -83,10 +87,6 @@ export function Navigation() {
         {
           href: "/mises-a-jour",
           label: "Mises à jour",
-        },
-        {
-          href: "/models",
-          label: "Modèles de document",
         },
       ],
     },
