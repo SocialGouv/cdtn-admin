@@ -24,6 +24,8 @@ import type { ThemeQueryResult } from "./types/themes";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
+import getAgreementsAnswers from "./agreements/getAgreementsAnswers";
+import getAgreementsArticlesByTheme from "./agreements/getAgreementsArticlesByTheme";
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -233,33 +235,24 @@ export async function* cdtnDocumentsGen() {
   const ccnQR =
     "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";
 
+  const docCcns = ccnData.map(async ({ title, shortTitle, ...content }) => {
+    return {
+      // default effectif as some CCN doesn't have it defined
+      effectif: 1,
+      longTitle: title,
+      shortTitle,
+      title: shortTitle,
+      ...content,
+      answers: await getAgreementsAnswers(content.num),
+      articlesByTheme: await getAgreementsArticlesByTheme(content.num),
+      contributions: contribIDCCs.has(content.num),
+      description: ccnQR,
+      source: SOURCES.CCN,
+    };
+  });
+
   yield {
-    documents: ccnData.map(({ title, shortTitle, ...content }) => {
-      return {
-        // default effectif as some CCN doesn't have it defined
-        effectif: 1,
-        longTitle: title,
-        shortTitle,
-        title: shortTitle,
-        ...content,
-        answers: content.answers.map((data: any) => {
-          const contrib = contributions.find(({ slug }) => data.slug === slug);
-          if (!contrib) {
-            // slug de la contrib
-            throw `Contribution with slug ${data.slug} not found. Perhaps the contribution has been deactivated, please check on the admin.`;
-          }
-          const [theme] = contrib.breadcrumbs;
-          return {
-            ...data,
-            answer: addGlossary(data.answer),
-            theme: theme && theme.label,
-          };
-        }),
-        contributions: contribIDCCs.has(content.num),
-        description: ccnQR,
-        source: SOURCES.CCN,
-      };
-    }),
+    documents: docCcns,
     source: SOURCES.CCN,
   };
 

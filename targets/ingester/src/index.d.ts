@@ -78,30 +78,9 @@ type AgreementPage = Document & {
   effectif?: number;
   mtime?: number;
   shortTitle: string;
-  answers: AgreementAnswer[];
   url?: string;
-  articlesByTheme: AgreementArticleByBlock[];
   synonymes?: string[];
 };
-
-interface AgreementAnswer {
-  order: number;
-  references: LegalRef[];
-  genericSlug: string;
-  question: string;
-  content?: string;
-  contentType: string;
-}
-
-interface AgreementArticleByBlock {
-  bloc: string;
-  articles: {
-    cid: string;
-    id: string;
-    section: string;
-    title: string;
-  }[];
-}
 
 /** Document type */
 type CdtnDocument =
