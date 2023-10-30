@@ -5,8 +5,8 @@ import {
   InformationContentBlock,
   InformationContentBlockContent,
   Reference,
-  File,
 } from "../../type";
+import { File } from "../../../common/type";
 import { UpsertInformationObject } from "./editInformation.type";
 
 const removeTypename = (obj: any) => {
