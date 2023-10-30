@@ -96,7 +96,6 @@ export const ModelForm = ({
     return new Promise((resolve, reject) => {
       request(`/api/storage`, {
         body: formData,
-        // headers: { token: getToken()?.jwt_token || "" },
       })
         .then(() => {
           resolve(file);

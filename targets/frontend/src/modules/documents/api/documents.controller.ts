@@ -54,7 +54,6 @@ export class DocumentsController {
         this.res.status(201).json({ cdtnId });
       }
     } catch (error) {
-      console.error("Error ! ", error);
       if (error instanceof NotFoundError) {
         this.res.status(404).json({ message: error.message });
       } else {

@@ -2,7 +2,7 @@ import { DocumentsRepository } from "./documents.repository";
 import { NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
 import { Document } from "../type";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { generateCdtnId, generateInitialId } from "@shared/id-generator";
 import slugify from "@socialgouv/cdtn-slugify";
 import { ModelRepository } from "../../models/api";
@@ -118,7 +118,7 @@ export class DocumentsService {
       document: {
         meta_title: data.metaTitle,
         type: data.type,
-        date: data.updatedAt,
+        date: format(parseISO(data.updatedAt), "dd/MM/yyyy"),
         author: "Ministère du Travail",
         references: data.legiReferences
           .map((item) => ({
