@@ -337,6 +337,13 @@ export type LegiRef = {
   url: string;
 };
 
+export type ConventionCollectiveReference = KaliRef | LegiRef | OtherReference;
+
+export type OtherReference = {
+  title: string;
+  url: string;
+};
+
 export type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
   id: string;
 };

@@ -1,7 +1,12 @@
 import { client } from "@shared/graphql-client";
 import { AgreementsAnswers, AnswersResultData } from "./types";
 import slugify from "@socialgouv/cdtn-slugify";
-import { KaliRef, LegiRef } from "@shared/types";
+import {
+  ConventionCollectiveReference,
+  KaliRef,
+  LegiRef,
+  OtherReference,
+} from "@shared/types";
 import { generateKaliRef, generateLegiRef } from "@shared/utils";
 
 const contributionAnswerQuery = `
@@ -81,7 +86,18 @@ export function generateAgreementsAnswers(
         : "",
     }));
 
-    const references = [...kaliReferences, ...legiReferences];
+    const otherReferences: OtherReference[] = answer.other_references.map(
+      (ref) => ({
+        title: ref.label,
+        url: ref.url,
+      })
+    );
+
+    const references: ConventionCollectiveReference[] = [
+      ...kaliReferences,
+      ...legiReferences,
+      ...otherReferences,
+    ];
 
     if (answer.content_type === "ANSWER") {
       res.push({
@@ -92,6 +108,7 @@ export function generateAgreementsAnswers(
         references,
       });
     } else if (answer.content_type === "SP") {
+      // TODO: ATTENTION c'est potentiellement faux 👀
       res.push({
         slug: slugify(answer.question.content),
         answer: answer.content_fiche_sp!.text,

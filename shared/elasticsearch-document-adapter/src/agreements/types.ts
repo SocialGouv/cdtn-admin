@@ -1,4 +1,4 @@
-import { DocumentReference } from "@shared/types";
+import { ConventionCollectiveReference } from "@shared/types";
 
 // Types pour les réponses
 export interface AgreementsAnswers {
@@ -6,7 +6,7 @@ export interface AgreementsAnswers {
   index: number;
   answer: string;
   question: string;
-  references: DocumentReference[];
+  references: ConventionCollectiveReference[];
 }
 
 export interface AnswersResultData {
