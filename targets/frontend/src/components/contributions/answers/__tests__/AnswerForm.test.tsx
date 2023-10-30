@@ -57,7 +57,14 @@ const answerBase: AnswerWithStatus = {
 
 describe("Given a component AnswerForm and a basic default generic answer", () => {
   beforeEach(() => {
-    render(<AnswerForm answer={answerBase} onSubmit={() => {}} />);
+    render(
+      <AnswerForm
+        answer={answerBase}
+        onSubmit={() => {
+          return Promise.resolve();
+        }}
+      />
+    );
   });
   test("Check options are displayed", () => {
     expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
@@ -85,7 +92,14 @@ describe("Given a component AnswerForm and a basic default CC answer", () => {
         kaliId: "0016",
       },
     };
-    render(<AnswerForm answer={answer} onSubmit={() => {}} />);
+    render(
+      <AnswerForm
+        answer={answer}
+        onSubmit={() => {
+          return Promise.resolve();
+        }}
+      />
+    );
   });
   test("Check options are displayed", () => {
     expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
