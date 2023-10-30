@@ -39,6 +39,10 @@ jobs:
         MOUNT_PATH=/mnt/restore
         FILTER_PATH=hasura_prod_db.psql.gz
 
+        if [ -n "$INPUT_PGDATABASE" ]; then
+          PGDATABASE="$INPUT_PGDATABASE"
+        fi
+
         PGPORT=${PGPORT:-5432}
 
         MOUNT_PATH=${MOUNT_PATH:-""}
