@@ -64,6 +64,9 @@ jobs:
 
         set +e
 
+        pg_restore "${DUMP}" -f "${DUMP}.sql"
+        grep "CREATE FUNCTION" "${DUMP}.sql"
+
         pg_restore \
           --dbname "$PGDATABASE" \
           --exclude-schema=audit \
