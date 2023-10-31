@@ -69,7 +69,6 @@ jobs:
 
         pg_restore \
           --dbname "$PGDATABASE" \
-          --exclude-schema=audit \
           --no-owner \
           --role "$OWNER" \
           --no-acl \
