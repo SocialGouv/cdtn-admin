@@ -64,8 +64,8 @@ jobs:
 
         set +e
 
-        pg_restore "${DUMP}" -f "/dump.sql"
-        grep "CREATE FUNCTION" "/dump.sql"
+        pg_restore "${DUMP}" -f "/tmp/dump.sql"
+        grep "CREATE FUNCTION" "/tmp/dump.sql"
 
         pg_restore \
           --dbname "$PGDATABASE" \
