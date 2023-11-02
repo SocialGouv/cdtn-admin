@@ -118,7 +118,7 @@ export const InformationsForm = ({
             label="Dossier licenciement"
             name="dismissalProcess"
           />
-          <Typography variant="h5">Contenus</Typography>
+          <Typography variant="h5">Sections</Typography>
           {!!contents.length && (
             <FormRadioGroup
               name="sectionDisplayMode"
@@ -165,9 +165,9 @@ export const InformationsForm = ({
               });
             }}
           >
-            Ajouter un contenu
+            Ajouter une section
           </Button>
-          <Typography variant="h5">References</Typography>
+          <Typography variant="h5">Références</Typography>
           {!!references.length && (
             <FormRadioGroup
               name="referenceLabel"
