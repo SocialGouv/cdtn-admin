@@ -30,13 +30,19 @@ export function DocumentPage() {
 
   const { fetching, error } = result;
 
+  const [hasBeenInitialized, setHasBeenInitialized] = useState(false);
   const [hasChanged, setHasChanged] = useState(false);
-  const [jsonData, setJsonData] = useState<any>(
-    JSON.stringify(result.data.document, undefined, 2)
-  );
+  const [jsonData, setJsonData] = useState<any>(null);
   const [, executeUpdate] = useMutation(updateDocumentMutation);
   const [, previewContent] = useMutation(previewContentAction);
   const { handleSubmit } = useForm();
+
+  useEffect(() => {
+    if (!hasBeenInitialized && result && result.data && result.data.document) {
+      setJsonData(JSON.stringify(result.data.document, undefined, 2));
+      setHasBeenInitialized(true);
+    }
+  }, [JSON.stringify(result)]);
 
   async function onEditSubmit() {
     const current = JSON.parse(jsonData);
