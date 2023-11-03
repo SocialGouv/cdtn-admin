@@ -16,14 +16,10 @@ import { Card } from "@mui/material";
 import getDocumentQuery from "./getDocument.query.graphql";
 import updateDocumentMutation from "./updateDocument.mutation.graphql";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
-
-const CodeWithCodemirror = dynamic(import("src/components/editor/CodeEditor"), {
-  ssr: false,
-});
+import CodeWithCodemirror from "../../components/editor/CodeEditor";
 
 export function DocumentPage() {
   const router = useRouter();
-  const [dataDocument, setDataDocument] = useState<any>(undefined);
 
   const [result] = useQuery({
     query: getDocumentQuery,
@@ -32,24 +28,12 @@ export function DocumentPage() {
     },
   });
 
-  useEffect(() => {
-    return () => {
-      setDataDocument(undefined);
-      setJsonData(undefined);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (result && result.data && result.data.document) {
-      setDataDocument(result.data.document);
-      setJsonData(JSON.stringify(result.data.document, undefined, 2));
-    }
-  }, [JSON.stringify(result)]);
-
   const { fetching, error } = result;
 
   const [hasChanged, setHasChanged] = useState(false);
-  const [jsonData, setJsonData] = useState<any>(undefined);
+  const [jsonData, setJsonData] = useState<any>(
+    JSON.stringify(result.data.document, undefined, 2)
+  );
   const [, executeUpdate] = useMutation(updateDocumentMutation);
   const [, previewContent] = useMutation(previewContentAction);
   const { handleSubmit } = useForm();
@@ -106,17 +90,14 @@ export function DocumentPage() {
     );
   }
   return (
-    <Layout title={dataDocument?.document.title}>
+    <Layout title={"Edition contenu"}>
       <form onSubmit={handleSubmit(onEditSubmit)}>
         <Stack>
           <Card>
-            {jsonData && (
-              // @ts-ignore
-              <CodeWithCodemirror
-                value={jsonData}
-                onChange={handleEditorChange}
-              />
-            )}
+            <CodeWithCodemirror
+              value={jsonData}
+              onChange={handleEditorChange}
+            />
           </Card>
           <Inline>
             <Button type="submit" disabled={!hasChanged}>
