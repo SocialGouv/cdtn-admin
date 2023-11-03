@@ -96,7 +96,7 @@ export function DocumentPage() {
     );
   }
   return (
-    <Layout title={"Edition contenu"}>
+    <Layout title={"Edition contenu"} disableHeadTag>
       <form onSubmit={handleSubmit(onEditSubmit)}>
         <Stack>
           <Card>

@@ -19,10 +19,12 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { fr } from "@codegouvfr/react-dsfr";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { SnackBar } from "../utils/SnackBar";
+import Head from "next/head";
 
 export type LayoutProps = {
   children: any;
   title?: string;
+  disableHeadTag?: boolean;
 };
 
 const drawerWidth = 340;
@@ -77,7 +79,11 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-export function Layout({ children, title }: LayoutProps) {
+export function Layout({
+  children,
+  title,
+  disableHeadTag = false,
+}: LayoutProps) {
   const [menuOpen, setMenuOpen] = useState(true);
 
   const handleDrawerToggle = () => {
@@ -122,6 +128,11 @@ export function Layout({ children, title }: LayoutProps) {
 
   return (
     <div>
+      {!disableHeadTag && (
+        <Head>
+          <title>{title} | Admin cdtn</title>
+        </Head>
+      )}
       <Box sx={{ display: "flex" }}>
         <Drawer
           sx={{
