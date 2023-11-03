@@ -16,7 +16,7 @@ import { Card } from "@mui/material";
 import getDocumentQuery from "./getDocument.query.graphql";
 import updateDocumentMutation from "./updateDocument.mutation.graphql";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
-import CodeWithCodemirror from "../../components/editor/CodeEditor";
+import CodeEditor from "../../components/editor/CodeEditor";
 
 export function DocumentPage() {
   const router = useRouter();
@@ -32,7 +32,7 @@ export function DocumentPage() {
 
   const [hasBeenInitialized, setHasBeenInitialized] = useState(false);
   const [hasChanged, setHasChanged] = useState(false);
-  const [jsonData, setJsonData] = useState<any>(null);
+  const [jsonData, setJsonData] = useState<string>("{}");
   const [, executeUpdate] = useMutation(updateDocumentMutation);
   const [, previewContent] = useMutation(previewContentAction);
   const { handleSubmit } = useForm();
@@ -100,10 +100,7 @@ export function DocumentPage() {
       <form onSubmit={handleSubmit(onEditSubmit)}>
         <Stack>
           <Card>
-            <CodeWithCodemirror
-              value={jsonData}
-              onChange={handleEditorChange}
-            />
+            <CodeEditor value={jsonData} onChange={handleEditorChange} />
           </Card>
           <Inline>
             <Button type="submit" disabled={!hasChanged}>

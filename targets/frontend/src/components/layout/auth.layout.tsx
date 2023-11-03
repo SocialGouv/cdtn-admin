@@ -9,7 +9,6 @@ import {
   useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Head from "next/head";
 
 import { useState } from "react";
 import { LogoAdmin } from "./LogoAdmin";
@@ -122,12 +121,8 @@ export function Layout({ children, title }: LayoutProps) {
   }
 
   return (
-    <>
+    <div>
       <Box sx={{ display: "flex" }}>
-        <Head>
-          <title>{title} | Admin cdtn</title>
-        </Head>
-
         <Drawer
           sx={{
             width: drawerWidth,
@@ -184,6 +179,6 @@ export function Layout({ children, title }: LayoutProps) {
         </Main>
       </Box>
       <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
-    </>
+    </div>
   );
 }
