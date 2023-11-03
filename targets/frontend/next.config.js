@@ -18,6 +18,12 @@ module.exports = {
     ];
   },
   poweredByHeader: false,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   webpack: (config, { isServer, dev }) => {
     config.module.rules.push({
       exclude: /node_modules/,

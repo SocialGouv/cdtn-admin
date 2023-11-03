@@ -10,8 +10,7 @@ export const EditorWrapper: any = dynamic(
     return ace;
   },
   {
-    // eslint-disable-next-line react/display-name
-    loading: () => <div>En cours de chargement...</div>,
+    loading: () => <p>En cours de chargement...</p>,
     ssr: false,
   }
 );
