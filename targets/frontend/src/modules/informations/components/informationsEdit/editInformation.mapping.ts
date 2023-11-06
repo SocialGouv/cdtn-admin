@@ -1,3 +1,4 @@
+import slugify from "@socialgouv/cdtn-slugify";
 import {
   Information,
   InformationContent,
@@ -110,7 +111,7 @@ const mapInformationContents = (contents?: InformationContent[]) => {
       return {
         ...removeTypename(content),
         order: contentIndex + 1,
-        name: content.title,
+        name: slugify(content.title),
         blocks,
         references,
       };
