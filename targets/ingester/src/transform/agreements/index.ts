@@ -24,7 +24,8 @@ export const createSorter =
     fn(a) - fn(b);
 
 export default async function getAgreementDocuments() {
-  const agreements = await loadAgreements();
+  const allAgreements = await loadAgreements();
+  const agreements = allAgreements.filter((agreement) => agreement.active);
 
   const contributions = await fetchContributions();
 
