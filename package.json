@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "@shared/eslint-config": "workspace:^",
+    "@types/uuid": "^9.0.7",
     "husky": "^7.0.2",
     "lerna": "^5.0.0",
     "nps": "^5.10.0",

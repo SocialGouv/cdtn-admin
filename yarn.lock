@@ -6977,6 +6977,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:^9.0.7":
+  version: 9.0.7
+  resolution: "@types/uuid@npm:9.0.7"
+  checksum: c7321194aeba9ea173efd1e721403bdf4e7ae6945f8f8cdbc87c791f4b505ccf3dbc4a8883d90b394ef13b7c2dc778045792b05dbb23b3c746f8ea347804d448
+  languageName: node
+  linkType: hard
+
 "@types/yargs-parser@npm:*":
   version: 21.0.0
   resolution: "@types/yargs-parser@npm:21.0.0"
@@ -8825,6 +8832,7 @@ __metadata:
   resolution: "cdtn-admin@workspace:."
   dependencies:
     "@shared/eslint-config": "workspace:^"
+    "@types/uuid": ^9.0.7
     husky: ^7.0.2
     lerna: ^5.0.0
     nps: ^5.10.0

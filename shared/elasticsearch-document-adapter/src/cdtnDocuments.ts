@@ -202,6 +202,7 @@ export async function* cdtnDocumentsGen() {
   yield {
     documents: contributions.map(
       ({ answers, breadcrumbs, ...contribution }: any) => {
+        // TODO contribution_v2 : A supprimer
         const newAnswer = answers;
         if (newAnswer.conventions) {
           newAnswer.conventions = answers.conventions.map((answer: any) => {

@@ -19,7 +19,12 @@ export function withUserProvider(WrappedComponent) {
     };
 
     static async getInitialProps(ctx) {
+      console.log("withUserProvider::getInitialProps");
       const token = await auth(ctx);
+      console.log(
+        "withUserProvider::getInitialProps::token:",
+        token ? decode(token.jwt_token) : token
+      );
       const componentProps =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx));
@@ -29,6 +34,7 @@ export function withUserProvider(WrappedComponent) {
         tokenData: token ? decode(token.jwt_token) : null,
       };
     }
+
     render() {
       return (
         <ProvideUser tokenData={this.props.tokenData}>
@@ -41,6 +47,7 @@ export function withUserProvider(WrappedComponent) {
 
 export const ProvideUser = ({ children, tokenData }) => {
   let user = null;
+  console.log("ProvideUser::init::tokenData::", tokenData);
   if (tokenData) {
     const claims = tokenData["https://hasura.io/jwt/claims"];
     if (claims) {
@@ -51,6 +58,8 @@ export const ProvideUser = ({ children, tokenData }) => {
       };
     }
   }
+
+  console.log("ProvideUser::init::user::", user);
 
   async function logout() {
     try {
@@ -63,8 +72,12 @@ export const ProvideUser = ({ children, tokenData }) => {
     }
     window.location = "/login";
   }
+
   const isAuth = Boolean(user);
   const isAdmin = user?.roles.includes(Role.SUPER);
+
+  console.log("ProvideUser::init::isAuth::", Boolean(user));
+  console.log("ProvideUser::init::isAdmin::", user?.roles.includes(Role.SUPER));
 
   return (
     <UserContext.Provider value={{ isAdmin, isAuth, logout, user }}>
