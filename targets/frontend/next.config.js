@@ -18,9 +18,6 @@ module.exports = {
     ];
   },
   poweredByHeader: false,
-  httpAgentOptions: {
-    keepAlive: false,
-  },
   webpack: (config, { isServer, dev }) => {
     config.module.rules.push({
       exclude: /node_modules/,
