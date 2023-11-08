@@ -9,6 +9,7 @@ import {
 } from "src/lib/api";
 import { DocumentsRepository, DocumentsService } from ".";
 import { InformationsRepository } from "../../informations/api";
+import { ContributionRepository } from "src/modules/contribution";
 
 const inputSchema = z.object({
   id: z.string().uuid(),
@@ -43,7 +44,8 @@ export class DocumentsController {
         const client = ApiClient.build(inputs.session_variables);
         const service = new DocumentsService(
           new InformationsRepository(client),
-          new DocumentsRepository(client)
+          new DocumentsRepository(client),
+          new ContributionRepository(client)
         );
         const cdtnId = await service.publish(
           inputs.input.id,

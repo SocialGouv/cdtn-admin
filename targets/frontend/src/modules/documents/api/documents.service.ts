@@ -1,21 +1,28 @@
 import { DocumentsRepository } from "./documents.repository";
-import { NotFoundError } from "src/lib/api/ApiErrors";
+import { MissingDocumentError, NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
 import { Document } from "../type";
 import { format } from "date-fns";
 import { generateCdtnId, generateInitialId } from "@shared/id-generator";
 import slugify from "@socialgouv/cdtn-slugify";
+import {
+  ContributionRepository,
+  mapContributionToDocument,
+} from "src/modules/contribution";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
   private readonly documentsRepository: DocumentsRepository;
+  private readonly contributionRepository: ContributionRepository;
 
   constructor(
     informationsRepository: InformationsRepository,
-    documentsRepository: DocumentsRepository
+    documentsRepository: DocumentsRepository,
+    contributionRepository: ContributionRepository
   ) {
     this.informationsRepository = informationsRepository;
     this.documentsRepository = documentsRepository;
+    this.contributionRepository = contributionRepository;
   }
 
   private mapInformationToDocument(
@@ -118,6 +125,24 @@ export class DocumentsService {
           });
         }
         document = this.mapInformationToDocument(information, document);
+        break;
+      case "contribution":
+        const contribution = await this.contributionRepository.fetch(id);
+        if (!contribution) {
+          throw new NotFoundError({
+            message: `data not found with id ${id}`,
+            name: "NOT_FOUND",
+            cause: null,
+          });
+        }
+        if (!document) {
+          throw new MissingDocumentError({
+            message: `no document found for this id ${id}`,
+            name: "MISSING_DOCUMENT",
+            cause: null,
+          });
+        }
+        document = mapContributionToDocument(contribution, document);
         break;
     }
     const result = await this.documentsRepository.update(document);

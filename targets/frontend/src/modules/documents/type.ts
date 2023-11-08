@@ -1,10 +1,10 @@
 import { SourceRoute } from "@socialgouv/cdtn-sources";
 
-export type Document = {
+export type Document<T> = {
   cdtn_id: string;
   initial_id: string;
   source: SourceRoute;
-  document: any;
+  document: T;
   slug: string;
   text: string;
   title: string;
@@ -12,7 +12,7 @@ export type Document = {
   is_available: boolean;
 };
 
-export type ShortDocument = Pick<
-  Document,
+export type ShortDocument<T> = Pick<
+  Document<T>,
   "source" | "slug" | "title" | "initial_id" | "cdtn_id"
 > & { isPublished: boolean };

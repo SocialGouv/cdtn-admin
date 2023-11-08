@@ -19,6 +19,8 @@ export class ErrorBase<T extends string> extends Error {
 
 export class NotFoundError extends ErrorBase<"NOT_FOUND"> {}
 
+export class MissingDocumentError extends ErrorBase<"MISSING_DOCUMENT"> {}
+
 export const DEFAULT_ERROR_500_MESSAGE =
   "Internal server error during fetching data";
 
