@@ -48,3 +48,29 @@ export const getContributionAnswerById = gql`
     }
   }
 `;
+
+export const getGenericAnswerByQuestionId = gql`
+  query contribution_answer_generic($questionId: uuid!) {
+    contribution_answers(
+      where: {
+        question_id: { _eq: $questionId }
+        agreement_id: { _eq: "0000" }
+      }
+    ) {
+      id
+      content
+      content_type
+      question {
+        id
+        content
+        order
+      }
+      content_fiche_sp: document {
+        title
+        source
+        slug
+        document
+      }
+    }
+  }
+`;

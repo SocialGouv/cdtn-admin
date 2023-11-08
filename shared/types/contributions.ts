@@ -1,14 +1,7 @@
-export interface ContributionsAnswers {
+export type ContributionsAnswers = {
   id: string;
   content: null | string;
-  content_type:
-    | "ANSWER"
-    | "NOTHING"
-    | "CDT"
-    | "UNFAVOURABLE"
-    | "UNKNOWN"
-    | "SP"
-    | null;
+  content_type: ContributionContentType;
   question: {
     id: string;
     content: string;
@@ -50,4 +43,44 @@ export interface ContributionsAnswers {
     id: string;
     name: string;
   } | null;
-}
+};
+
+export type ContributionContentType =
+  | "ANSWER"
+  | "NOTHING"
+  | "CDT"
+  | "UNFAVOURABLE"
+  | "UNKNOWN"
+  | "SP"
+  | null;
+
+export type ContributionDocumentJsonBasic = {
+  references: ContributionRef[];
+  contentType: ContributionContentType;
+  linkedContent: ContributionLinkedContent[];
+  content: string;
+};
+
+export type ContributionDocumentJsonFicheSpContent = Omit<
+  ContributionDocumentJsonBasic,
+  "content"
+> & {
+  raw: Record<string, any>;
+  url: string;
+  date: string;
+};
+
+export type ContributionDocumentJson =
+  | ContributionDocumentJsonFicheSpContent
+  | ContributionDocumentJsonBasic;
+
+export type ContributionLinkedContent = {
+  slug: string;
+  source: string;
+  title: string;
+};
+
+export type ContributionRef = {
+  url: string;
+  title: string;
+};

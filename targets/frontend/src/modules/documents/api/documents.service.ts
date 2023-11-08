@@ -187,7 +187,11 @@ export class DocumentsService {
             cause: null,
           });
         }
-        document = mapContributionToDocument(contribution, document);
+        document = mapContributionToDocument(
+          contribution,
+          document,
+          this.contributionRepository.fetchGenericAnswer
+        );
         break;
 
       case "modeles_de_courriers":
