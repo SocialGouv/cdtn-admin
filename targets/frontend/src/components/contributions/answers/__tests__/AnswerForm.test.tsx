@@ -4,6 +4,40 @@ import React from "react";
 import { AnswerForm } from "../AnswerForm";
 import { AnswerWithStatus } from "../answer.query";
 
+class ClipboardEventMock extends Event {
+  clipboardData: {
+    getData: jest.Mock<any, [string]>;
+    setData: jest.Mock<any, [string, string]>;
+  };
+
+  constructor(type: string, eventInitDict?: EventInit) {
+    super(type, eventInitDict);
+    this.clipboardData = {
+      getData: jest.fn(),
+      setData: jest.fn(),
+    };
+  }
+}
+
+class DragEventMock extends Event {
+  dataTransfer: {
+    getData: jest.Mock<any, [string]>;
+    setData: jest.Mock<any, [string, string]>;
+  };
+
+  constructor(type: string, eventInitDict?: EventInit) {
+    super(type, eventInitDict);
+    this.dataTransfer = {
+      getData: jest.fn(),
+      setData: jest.fn(),
+    };
+  }
+}
+
+(globalThis as any).DragEvent = DragEventMock;
+
+(globalThis as any).ClipboardEvent = ClipboardEventMock;
+
 jest.mock("next/router", () => {
   return {
     useRouter: jest.fn(() => ({
@@ -57,7 +91,14 @@ const answerBase: AnswerWithStatus = {
 
 describe("Given a component AnswerForm and a basic default generic answer", () => {
   beforeEach(() => {
-    render(<AnswerForm answer={answerBase} onSubmit={() => {}} />);
+    render(
+      <AnswerForm
+        answer={answerBase}
+        onSubmit={() => {
+          return Promise.resolve();
+        }}
+      />
+    );
   });
   test("Check options are displayed", () => {
     expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
@@ -85,7 +126,14 @@ describe("Given a component AnswerForm and a basic default CC answer", () => {
         kaliId: "0016",
       },
     };
-    render(<AnswerForm answer={answer} onSubmit={() => {}} />);
+    render(
+      <AnswerForm
+        answer={answer}
+        onSubmit={() => {
+          return Promise.resolve();
+        }}
+      />
+    );
   });
   test("Check options are displayed", () => {
     expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();

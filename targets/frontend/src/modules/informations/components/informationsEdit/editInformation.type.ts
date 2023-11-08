@@ -4,8 +4,8 @@ import {
   InformationContentBlock,
   InformationContentBlockContent,
   Reference,
-  File,
 } from "../../type";
+import { File } from "../../../common/type";
 
 export type HasuraOnConflict = {
   constraint: string;

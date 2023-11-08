@@ -187,14 +187,7 @@ export const AnswerForm = ({
   ];
   return (
     <>
-      <form
-        onSubmit={(e) => {
-          // This is a hack to prevent the form from being submitted by the tiptap editor.
-          // The details extension is not working properly and submit the form when click on the arrow.
-          // See https://github.com/ueberdosis/tiptap/issues/4384
-          e.preventDefault();
-        }}
-      >
+      <form>
         <Stack spacing={5}>
           <FormControl>
             <FormTextField

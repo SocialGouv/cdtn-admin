@@ -10,6 +10,7 @@ import {
 import { DocumentsRepository, DocumentsService } from ".";
 import { InformationsRepository } from "../../informations/api";
 import { ContributionRepository } from "src/modules/contribution";
+import { ModelRepository } from "../../models/api";
 
 const inputSchema = z.object({
   id: z.string().uuid(),
@@ -46,6 +47,7 @@ export class DocumentsController {
           new InformationsRepository(client),
           new DocumentsRepository(client),
           new ContributionRepository(client)
+          new ModelRepository(client),
         );
         const cdtnId = await service.publish(
           inputs.input.id,
