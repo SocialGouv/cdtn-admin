@@ -54,7 +54,7 @@ export const modelSchemaUpsert = modelSchema
   })
   .omit({ updatedAt: true, createdAt: true, file: true })
   .superRefine(({ newFile, id }, refinementContext) => {
-    if (id === undefined && newFile === undefined) {
+    if (!id && !newFile) {
       return refinementContext.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Un fichier doit être renseigné",

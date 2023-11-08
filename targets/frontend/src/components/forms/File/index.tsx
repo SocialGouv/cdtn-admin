@@ -65,13 +65,7 @@ export const FormFileField = ({
                       disabled={disabled}
                       isError={!!error}
                     >
-                      <div
-                        style={{
-                          textAlign: "center",
-                        }}
-                        {...getRootProps()}
-                        onClick={open}
-                      >
+                      <Container {...getRootProps()} onClick={open}>
                         <input
                           {...getInputProps({
                             id: "fileupload",
@@ -93,7 +87,7 @@ export const FormFileField = ({
                             color="warning"
                           />
                         )}
-                      </div>
+                      </Container>
                     </TitleBox>
                   </>
                 )}
@@ -108,6 +102,12 @@ export const FormFileField = ({
     />
   );
 };
+
+const Container = styled("div")(() => {
+  return {
+    textAlign: "center",
+  };
+});
 
 const StyledFormHelperText = styled(FormHelperText)(({ theme }) => {
   return {

@@ -1,7 +1,7 @@
 import { gql } from "@urql/core";
 import { Model } from "../type";
 
-export const modelesQuery = gql`
+export const modelsQuery = gql`
   query SelectModel($id: uuid!) {
     model: model_models_by_pk(id: $id) {
       id

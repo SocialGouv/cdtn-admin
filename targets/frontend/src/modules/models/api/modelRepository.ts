@@ -1,4 +1,4 @@
-import { modelesQuery, ModelRequest, ModelResponse } from "./modeles.query";
+import { modelsQuery, ModelRequest, ModelResponse } from "./modelsQuery";
 import { ApiClient } from "src/lib/api";
 
 export class ModelRepository {
@@ -12,7 +12,7 @@ export class ModelRepository {
     const { error, data } = await this.client.query<
       ModelResponse,
       ModelRequest
-    >(modelesQuery, {
+    >(modelsQuery, {
       id,
     });
     if (error) {

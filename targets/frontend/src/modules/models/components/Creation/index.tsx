@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material";
-import { BreadcrumbLink } from "src/components/utils";
+import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 import React from "react";
 import { ModelForm } from "src/modules/models/components/Common";
 import { useRouter } from "next/router";
@@ -10,12 +10,12 @@ export const ModelCreation = (): React.ReactElement => {
   const update = useModelInsertMutation();
 
   const Header = () => (
-    <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
-      <BreadcrumbLink href={"/modeles"}>Modèles de courrier</BreadcrumbLink>
+    <Breadcrumb>
+      <BreadcrumbLink href={"/models"}>Modèles de documents</BreadcrumbLink>
       <BreadcrumbLink>
         Création d&apos;un nouveau modèle de document
       </BreadcrumbLink>
-    </ol>
+    </Breadcrumb>
   );
 
   return (
