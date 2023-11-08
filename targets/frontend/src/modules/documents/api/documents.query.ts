@@ -20,7 +20,7 @@ const query = `query documents($source: String!, $initialId: String) {
   }
 }`;
 
-export type QueryDocument = Document;
+export type QueryDocument = Document<any>;
 
 export type QueryDocumentResult = {
   documents: QueryDocument[];
@@ -34,7 +34,7 @@ export type DocumentsQueryProps = {
 export const queryDocument = async (
   client: ApiClient,
   variables: DocumentsQueryProps
-): Promise<Document | undefined> => {
+): Promise<Document<any> | undefined> => {
   const { data: result, error } = await client.query<QueryDocumentResult>(
     query,
     variables

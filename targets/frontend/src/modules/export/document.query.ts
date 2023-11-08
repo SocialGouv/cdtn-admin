@@ -24,10 +24,12 @@ type QueryProps = {
 };
 
 type QueryResult = {
-  documents: ShortDocument[];
+  documents: ShortDocument<any>[];
 };
 
-export const useDocumentsQuery = ({ date }: QueryProps): ShortDocument[] => {
+export const useDocumentsQuery = ({
+  date,
+}: QueryProps): ShortDocument<any>[] => {
   const [result] = useQuery<QueryResult>({
     query: getDocumentsUpdatedAfterDateQuery,
     variables: {

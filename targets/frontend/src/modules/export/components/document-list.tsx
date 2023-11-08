@@ -10,7 +10,7 @@ import { Check, Cross } from "../../../components/utils/icons";
 import { sourceToRoute } from "../../../components/documents/List";
 
 type Props = {
-  docs: ShortDocument[];
+  docs: ShortDocument<any>[];
   isLoadingDocs: boolean;
 };
 export default function DocumentList({

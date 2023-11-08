@@ -22,7 +22,7 @@ export function ShowDocumentsToUpdateModal({
   date,
 }: ConfirmModalProps): JSX.Element {
   const [isLoadingDocs, setIsLoadingDocs] = useState<boolean>(true);
-  const [docsToUpdate, setDocsToUpdate] = useState<ShortDocument[]>([]);
+  const [docsToUpdate, setDocsToUpdate] = useState<ShortDocument<any>[]>([]);
   const docs = useDocumentsQuery({ date });
 
   useEffect(() => {

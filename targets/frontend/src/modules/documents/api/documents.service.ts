@@ -21,8 +21,8 @@ export class DocumentsService {
   constructor(
     informationsRepository: InformationsRepository,
     documentsRepository: DocumentsRepository,
-    contributionRepository: ContributionRepository
-    modelRepository: ModelRepository,
+    contributionRepository: ContributionRepository,
+    modelRepository: ModelRepository
   ) {
     this.informationsRepository = informationsRepository;
     this.modelRepository = modelRepository;
@@ -32,8 +32,8 @@ export class DocumentsService {
 
   private mapInformationToDocument(
     data: Information,
-    document?: Document
-  ): Document {
+    document?: Document<any>
+  ): Document<any> {
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id ?? generateInitialId(),
@@ -111,7 +111,10 @@ export class DocumentsService {
     };
   }
 
-  private mapModelToDocument(data: Model, document?: Document): Document {
+  private mapModelToDocument(
+    data: Model,
+    document?: Document<any>
+  ): Document<any> {
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id,

@@ -46,8 +46,8 @@ export class DocumentsController {
         const service = new DocumentsService(
           new InformationsRepository(client),
           new DocumentsRepository(client),
-          new ContributionRepository(client)
-          new ModelRepository(client),
+          new ContributionRepository(client),
+          new ModelRepository(client)
         );
         const cdtnId = await service.publish(
           inputs.input.id,

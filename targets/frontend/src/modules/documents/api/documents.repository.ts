@@ -18,11 +18,11 @@ export class DocumentsRepository {
     }
   }
 
-  async update(document: Document): Promise<string | undefined> {
+  async update(document: Document<any>): Promise<string | undefined> {
     try {
       const { data, error } = await this.client.mutation<
         any,
-        { upsert: Document }
+        { upsert: Document<any> }
       >(documentsPublishMutation, { upsert: document });
       if (error) {
         console.log("Error: ", error);
