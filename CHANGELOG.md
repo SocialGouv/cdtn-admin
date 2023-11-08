@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.21.0...v2.22.0) (2023-11-08)
+
+### Bug Fixes
+
+- ajout du slugify sur les sections name ([#1099](https://github.com/SocialGouv/cdtn-admin/issues/1099)) ([1c4bab2](https://github.com/SocialGouv/cdtn-admin/commit/1c4bab2bfd53723e031585f23689441a343c7504))
+
+### Features
+
+- ajout des triggers sur la partie contribution ([#1069](https://github.com/SocialGouv/cdtn-admin/issues/1069)) ([3c627aa](https://github.com/SocialGouv/cdtn-admin/commit/3c627aa686f050a04f6463088356e61d8d1b1457))
+- **editor:** optimisation de l'éditor de json + upgrade next 14 ([#1102](https://github.com/SocialGouv/cdtn-admin/issues/1102)) ([4ffdee5](https://github.com/SocialGouv/cdtn-admin/commit/4ffdee5cba4d8f91bdc21ce0bc1e7d3cd5783f8d))
+- **ingester:** ne pas ingérer les conventions collectives qui ne sont pas actives ([#1105](https://github.com/SocialGouv/cdtn-admin/issues/1105)) ([e810721](https://github.com/SocialGouv/cdtn-admin/commit/e8107215175cf34680934849e760ea01ffd44adc))
+
 # [2.21.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.1...v2.21.0) (2023-10-27)
 
 ### Bug Fixes

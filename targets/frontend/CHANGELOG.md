@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.21.0...v2.22.0) (2023-11-08)
+
+### Bug Fixes
+
+- ajout du slugify sur les sections name ([#1099](https://github.com/SocialGouv/cdtn-admin/issues/1099)) ([1c4bab2](https://github.com/SocialGouv/cdtn-admin/commit/1c4bab2bfd53723e031585f23689441a343c7504))
+
+### Features
+
+- **editor:** optimisation de l'éditor de json + upgrade next 14 ([#1102](https://github.com/SocialGouv/cdtn-admin/issues/1102)) ([4ffdee5](https://github.com/SocialGouv/cdtn-admin/commit/4ffdee5cba4d8f91bdc21ce0bc1e7d3cd5783f8d))
+
 # [2.21.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.1...v2.21.0) (2023-10-27)
 
 ### Bug Fixes

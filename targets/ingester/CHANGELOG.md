@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.21.0...v2.22.0) (2023-11-08)
+
+### Features
+
+- **ingester:** ne pas ingérer les conventions collectives qui ne sont pas actives ([#1105](https://github.com/SocialGouv/cdtn-admin/issues/1105)) ([e810721](https://github.com/SocialGouv/cdtn-admin/commit/e8107215175cf34680934849e760ea01ffd44adc))
+
 # [2.21.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.1...v2.21.0) (2023-10-27)
 
 ### Features
