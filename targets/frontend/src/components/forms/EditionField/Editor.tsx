@@ -19,6 +19,7 @@ import { Placeholder } from "@tiptap/extension-placeholder";
 import { Link } from "@tiptap/extension-link";
 
 export type EditorProps = {
+  label: string;
   content?: string;
   onUpdate: (content: string) => void;
   disabled?: boolean;
@@ -28,6 +29,7 @@ export type EditorProps = {
 const emptyHtml = "<p></p>";
 
 export const Editor = ({
+  label,
   content,
   onUpdate,
   disabled,
@@ -95,7 +97,7 @@ export const Editor = ({
     <>
       {isClient && (
         <TitleBox
-          title="Réponse"
+          title={label}
           focus={focus}
           isError={isError}
           disabled={disabled}
