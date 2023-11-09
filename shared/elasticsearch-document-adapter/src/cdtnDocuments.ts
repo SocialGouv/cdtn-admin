@@ -195,17 +195,13 @@ export async function* cdtnDocumentsGen() {
     {}
   );
 
-  // we keep track of the idccs used in the contributions
-  // in order to flag the corresponding conventions collectives below
-  const contribIDCCs = updateContributionsAndGetIDCCs(contributions, ccnData);
-
   yield {
     documents: contributions.map(
       ({ answers, breadcrumbs, ...contribution }: any) => {
         const newAnswer = answers;
         if (newAnswer.conventions) {
           newAnswer.conventions = answers.conventions.map((answer: any) => {
-            const highlight = ccnListWithHighlight[answer.idcc];
+            const highlight = ccnListWithHighlight[parseInt(answer.idcc)];
             return {
               ...answer,
               ...(highlight ? { highlight } : {}),
@@ -213,6 +209,16 @@ export async function* cdtnDocumentsGen() {
           });
         }
 
+        if (newAnswer.conventionAnswer) {
+          const highlight =
+            ccnListWithHighlight[parseInt(newAnswer.conventionAnswer.idcc)];
+          if (highlight) {
+            newAnswer.conventionAnswer = {
+              ...newAnswer.conventionAnswer,
+              highlight,
+            };
+          }
+        }
         const obj = addGlossaryToAllMarkdownField({
           ...contribution,
           answers: {
@@ -230,6 +236,10 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== Conventions Collectives ===");
+  // we keep track of the idccs used in the contributions
+  // in order to flag the corresponding conventions collectives below
+  const contribIDCCs = updateContributionsAndGetIDCCs(contributions, ccnData);
+
   const ccnQR =
     "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";
 
