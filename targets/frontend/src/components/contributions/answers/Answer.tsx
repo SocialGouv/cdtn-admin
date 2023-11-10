@@ -21,6 +21,7 @@ import { SnackBar } from "../../utils/SnackBar";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 import { AnswerForm } from "./AnswerForm";
 import { fr } from "@codegouvfr/react-dsfr";
+import { usePublishContributionMutation } from "./usePublishAnswer";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -39,6 +40,7 @@ export const ContributionsAnswer = ({
   }>({
     open: false,
   });
+  const onPublish = usePublishContributionMutation();
 
   const onSubmit = async (newStatus: Status, data: Answer) => {
     try {
@@ -58,6 +60,9 @@ export const ContributionsAnswer = ({
         cdtnReferences: data.cdtnReferences,
         otherReferences: data.otherReferences,
       });
+      if (newStatus === "PUBLISHED") {
+        await onPublish(answer.id);
+      }
       setSnack({
         open: true,
         severity: "success",
