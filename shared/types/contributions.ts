@@ -54,25 +54,25 @@ export type ContributionContentType =
   | "SP"
   | null;
 
-export type ContributionDocumentJsonBasic = {
+type ContributionDocumentJsonBasic = {
   references: ContributionRef[];
   contentType: ContributionContentType;
   linkedContent: ContributionLinkedContent[];
+};
+
+type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
+  type: "content";
   content: string;
 };
 
-export type ContributionDocumentJsonFicheSpContent = Omit<
-  ContributionDocumentJsonBasic,
-  "content"
-> & {
-  raw: Record<string, any>;
-  url: string;
-  date: string;
+type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
+  type: "fiche-sp";
+  ficheSpId: string;
 };
 
 export type ContributionDocumentJson =
-  | ContributionDocumentJsonFicheSpContent
-  | ContributionDocumentJsonBasic;
+  | ContributionDocumentJsonContent
+  | ContributionDocumentJsonFicheSp;
 
 export type ContributionLinkedContent = {
   slug: string;

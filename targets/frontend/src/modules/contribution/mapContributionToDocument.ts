@@ -9,7 +9,7 @@ export const mapContributionToDocument = async (
   fetchGenericAnswer: (
     questionId: string
   ) => Promise<Partial<ContributionsAnswers>>
-): Document<ContributionDocumentJson> => {
+): Promise<Document<ContributionDocumentJson>> => {
   let doc: Partial<ContributionDocumentJson> = {
     contentType: data.content_type,
     linkedContent: data.cdtn_references,
@@ -19,6 +19,7 @@ export const mapContributionToDocument = async (
   if (data.content_type === "ANSWER") {
     doc = {
       ...doc,
+      type: "content",
       content: data.content!,
     };
   } else if (
@@ -31,34 +32,33 @@ export const mapContributionToDocument = async (
     if (genericAnswer.content_type === "SP") {
       doc = {
         ...doc,
-        raw: genericAnswer.content_fiche_sp!.document.raw,
-        date: genericAnswer.content_fiche_sp!.document.date,
-        url: genericAnswer.content_fiche_sp!.document.url,
+        type: "fiche-sp",
+        ficheSpId: genericAnswer.content_fiche_sp!.document.id,
       };
     } else {
       doc = {
         ...doc,
+        type: "content",
         content: genericAnswer.content!,
       };
     }
   } else if (data.content_type === "SP") {
     doc = {
       ...doc,
-      raw: data.content_fiche_sp!.document.raw,
-      date: data.content_fiche_sp!.document.date,
-      url: data.content_fiche_sp!.document.url,
+      type: "fiche-sp",
+      ficheSpId: data.content_fiche_sp!.document.id,
     };
   }
 
   return {
     cdtn_id: document.cdtn_id,
-    initial_id: document.initial_id, // TODO: A voir si on le bouge ou pas
+    initial_id: document.initial_id,
     source: SOURCES.CONTRIBUTIONS,
     meta_description: document.meta_description,
     title: document.title,
     text: document.text,
     slug: document.slug,
     is_available: true,
-    document: doc,
+    document: doc as ContributionDocumentJson,
   };
 };
