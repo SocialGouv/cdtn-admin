@@ -12,7 +12,7 @@ export const mapContributionToDocument = async (
 ): Promise<Document<ContributionDocumentJson>> => {
   let doc: Partial<ContributionDocumentJson> = {
     contentType: data.content_type,
-    linkedContent: data.cdtn_references,
+    linkedContent: data.cdtn_references.map((v) => v.document),
     references: getReferences(data),
   };
 
@@ -33,7 +33,7 @@ export const mapContributionToDocument = async (
       doc = {
         ...doc,
         type: "fiche-sp",
-        ficheSpId: genericAnswer.content_fiche_sp!.document.id,
+        ficheSpId: genericAnswer.content_fiche_sp!.initial_id,
       };
     } else {
       doc = {
@@ -46,7 +46,7 @@ export const mapContributionToDocument = async (
     doc = {
       ...doc,
       type: "fiche-sp",
-      ficheSpId: data.content_fiche_sp!.document.id,
+      ficheSpId: data.content_fiche_sp!.initial_id,
     };
   }
 

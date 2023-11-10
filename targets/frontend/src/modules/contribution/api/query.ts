@@ -6,12 +6,12 @@ export const getContributionAnswerById = gql`
       id
       content
       content_type
-      question_id
       agreement {
         id
         name
       }
       question {
+        id
         content
         order
       }
@@ -43,6 +43,7 @@ export const getContributionAnswerById = gql`
         }
       }
       content_fiche_sp: document {
+        initial_id
         document
       }
     }
@@ -66,9 +67,7 @@ export const getGenericAnswerByQuestionId = gql`
         order
       }
       content_fiche_sp: document {
-        title
-        source
-        slug
+        initial_id
         document
       }
     }

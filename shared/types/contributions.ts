@@ -6,9 +6,6 @@ export type ContributionsAnswers = {
     id: string;
     content: string;
     order: number;
-    message: {
-      content: string;
-    } | null;
   };
   kali_references: {
     label: string;
@@ -32,11 +29,14 @@ export type ContributionsAnswers = {
     url: string;
   }[];
   cdtn_references: {
-    title: string;
-    source: string;
-    slug: string;
+    document: {
+      title: string;
+      source: string;
+      slug: string;
+    };
   }[];
   content_fiche_sp: null | {
+    initial_id: string;
     document: Record<string, any>;
   };
   agreement: {
