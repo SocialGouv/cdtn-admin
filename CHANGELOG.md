@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.23.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.22.0...v2.23.0) (2023-11-10)
+
+### Bug Fixes
+
+- inject highlights on contributions ([#1107](https://github.com/SocialGouv/cdtn-admin/issues/1107)) ([ca7d70a](https://github.com/SocialGouv/cdtn-admin/commit/ca7d70a5f6d4159d182d64a2f14691733a998ae0))
+
+### Features
+
+- ajout de la gestion des modèles de document ([#1031](https://github.com/SocialGouv/cdtn-admin/issues/1031)) ([97b25d0](https://github.com/SocialGouv/cdtn-admin/commit/97b25d025ea874b00639be505f8a61517cafbd92))
+
 # [2.22.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.21.0...v2.22.0) (2023-11-08)
 
 ### Bug Fixes
