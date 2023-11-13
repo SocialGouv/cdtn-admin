@@ -167,6 +167,7 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== Contributions ===");
+
   const contributions = await getDocumentBySource<ContributionCompleteDoc>(
     SOURCES.CONTRIBUTIONS,
     getBreadcrumbs

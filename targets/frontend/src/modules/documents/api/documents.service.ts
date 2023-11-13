@@ -171,7 +171,7 @@ export class DocumentsService {
         }
         document = this.mapInformationToDocument(information, document);
         break;
-      case "contribution":
+      case "contributions":
         const contribution = await this.contributionRepository.fetch(id);
         if (!contribution) {
           throw new NotFoundError({
@@ -180,17 +180,14 @@ export class DocumentsService {
             cause: null,
           });
         }
-        if (!document) {
-          throw new MissingDocumentError({
-            message: `no document found for this id ${id}`,
-            name: "MISSING_DOCUMENT",
-            cause: null,
-          });
-        }
         document = await mapContributionToDocument(
           contribution,
           document,
-          this.contributionRepository.fetchGenericAnswer
+          async (questionId: string) => {
+            return await this.contributionRepository.fetchGenericAnswer(
+              questionId
+            );
+          }
         );
         break;
 

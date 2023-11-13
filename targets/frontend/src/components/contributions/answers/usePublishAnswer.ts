@@ -4,7 +4,7 @@ export const publishContributionMutation = `
 mutation publish_contribution(
   $id: uuid!
 ) {
-    publish(id: $id, source: "contribution") {
+    publish(id: $id, source: "contributions") {
         cdtnId
     }
 }
