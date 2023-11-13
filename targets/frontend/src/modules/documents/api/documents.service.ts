@@ -1,7 +1,6 @@
 import { DocumentsRepository } from "./documents.repository";
 import { MissingDocumentError, NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
-import { Document } from "../type";
 import { format, parseISO } from "date-fns";
 import { generateCdtnId, generateInitialId } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
@@ -11,6 +10,7 @@ import {
 } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { Model } from "../../models";
+import { Document } from "@shared/types";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;

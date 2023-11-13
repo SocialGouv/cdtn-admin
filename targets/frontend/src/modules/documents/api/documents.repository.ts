@@ -1,7 +1,7 @@
 import { ApiClient } from "src/lib/api";
 import { documentsPublishMutation } from "./documents.mutation";
 import { queryDocument, DocumentsQueryProps } from "./documents.query";
-import { Document } from "../type";
+import { Document } from "@shared/types";
 
 export class DocumentsRepository {
   client: ApiClient;

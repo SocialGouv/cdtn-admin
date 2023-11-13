@@ -5051,6 +5051,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@shared/utils@workspace:shared/utils"
   dependencies:
+    "@socialgouv/cdtn-sources": ^4.91.1
     "@socialgouv/cdtn-utils": ^4.109.0
     "@types/uuid": ^9.0.5
     "@types/xxhashjs": ^0.2.2
@@ -5200,7 +5201,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@socialgouv/cdtn-sources@npm:^4.52.1":
+"@socialgouv/cdtn-sources@npm:^4.52.1, @socialgouv/cdtn-sources@npm:^4.91.1":
   version: 4.91.1
   resolution: "@socialgouv/cdtn-sources@npm:4.91.1"
   checksum: 8c7709b6b66384358506cc23b98d48e6d97b3ea8fa6066f002dc8964efec8891c607262ecd3ec30f779cbc8b930a12d107887e6f492f262f4ae7dca21e7c0cf5

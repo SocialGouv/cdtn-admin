@@ -1,5 +1,8 @@
-import { ContributionDocumentJson, ContributionsAnswers } from "@shared/types";
-import { Document } from "../documents/type";
+import {
+  ContributionDocumentJson,
+  ContributionsAnswers,
+  Document,
+} from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getReferences } from "./getReferences";
 import slugify from "@socialgouv/cdtn-slugify";

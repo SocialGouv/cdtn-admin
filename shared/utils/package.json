@@ -2,6 +2,7 @@
   "name": "@shared/utils",
   "version": "2.19.1",
   "dependencies": {
+    "@socialgouv/cdtn-sources": "^4.91.1",
     "@socialgouv/cdtn-utils": "^4.109.0",
     "uuid": "^9.0.1",
     "xxhashjs": "^0.2.2"

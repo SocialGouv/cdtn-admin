@@ -82,6 +82,7 @@ export function updateContributionsAndGetIDCCs(
   const contribIDCCs = new Set<number>();
   contributions.forEach(({ answers }) => {
     if (answers.conventionAnswer) {
+      //WARNING: changer l'idcc
       const idccNum = parseInt(answers.conventionAnswer.idcc);
       contribIDCCs.add(idccNum);
 

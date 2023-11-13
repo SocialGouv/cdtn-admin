@@ -1,6 +1,9 @@
-import { ContributionDocumentJson, ContributionsAnswers } from "@shared/types";
+import {
+  ContributionDocumentJson,
+  ContributionsAnswers,
+  Document,
+} from "@shared/types";
 import { mapContributionToDocument } from "../mapContributionToDocument";
-import { Document } from "../../documents/type";
 
 describe("mapContributionToDocument", () => {
   it("devrait mapper l'answer d'un document sans fiche SP", async () => {
