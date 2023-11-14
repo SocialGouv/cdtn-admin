@@ -1,6 +1,8 @@
 import type {
   AgreementDoc,
   ContributionCompleteDoc,
+  ContributionDocumentJson,
+  ContributionHighlight,
   EditorialContentDoc,
   FicheTravailEmploiDoc,
 } from "@shared/types";
@@ -23,6 +25,8 @@ import type { ThemeQueryResult } from "./types/themes";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
+import { generateContributions } from "./contributions/generate";
+import { isNewContribution } from "./contributions";
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -167,27 +171,47 @@ export async function* cdtnDocumentsGen() {
     source: SOURCES.THEMATIC_FILES,
   };
 
-  logger.info("=== Contributions ===");
-
-  const contributions = await getDocumentBySource<ContributionCompleteDoc>(
-    SOURCES.CONTRIBUTIONS,
-    getBreadcrumbs
-  );
+  logger.info("=== Contributions V2===");
+  const contributions:
+    | DocumentElasticWithSource<ContributionCompleteDoc>[]
+    | DocumentElasticWithSource<ContributionDocumentJson>[] =
+    await getDocumentBySource<ContributionCompleteDoc>(
+      SOURCES.CONTRIBUTIONS,
+      getBreadcrumbs
+    );
 
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
 
   const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
     return ccn.highlight;
   });
+
   const ccnListWithHighlight = ccnListWithHighlightFiltered.reduce(
-    (acc: any, curr: any) => {
-      acc[curr.num] = curr.highlight;
+    (acc: Record<number, ContributionHighlight>, curr) => {
+      acc[curr.num] = curr.highlight as any;
       return acc;
     },
     {}
   );
 
-  const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
+  const newContributions: DocumentElasticWithSource<ContributionDocumentJson>[] =
+    contributions.filter<any>(isNewContribution);
+  const newContribIds = newContributions.map((v) => v.id);
+
+  const result = await generateContributions(
+    newContributions,
+    ccnListWithHighlight,
+    addGlossary
+  );
+
+  yield result;
+
+  logger.info("=== Contributions ===");
+
+  const oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[] =
+    contributions.filter((v) => !newContribIds.includes(v.id));
+
+  const breadcrumbsOfRootContributionsPerIndex = oldContributions.reduce(
     (state: any, contribution: any) => {
       if (contribution.breadcrumbs.length > 0) {
         state[contribution.index] = contribution.breadcrumbs;
@@ -198,7 +222,7 @@ export async function* cdtnDocumentsGen() {
   );
 
   yield {
-    documents: contributions.map(
+    documents: oldContributions.map(
       ({ answers, breadcrumbs, ...contribution }: any) => {
         const newAnswer = answers;
         if (newAnswer.conventions) {

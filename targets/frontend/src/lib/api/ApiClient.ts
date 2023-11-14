@@ -2,7 +2,7 @@ import { Client } from "urql";
 import { DocumentNode } from "graphql/index";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import { OperationContext, OperationResult } from "@urql/core/dist/types/types";
-import { client as gqlClient } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 
 export class ApiClient {
   client: Client;
@@ -17,7 +17,7 @@ export class ApiClient {
   }
 
   public static build(sessionVariables: any = undefined): ApiClient {
-    return new ApiClient(gqlClient, sessionVariables);
+    return new ApiClient(gqlClient(), sessionVariables);
   }
 
   async query<Data = any, Variables extends object = {}>(

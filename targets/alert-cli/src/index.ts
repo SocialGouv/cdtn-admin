@@ -1,4 +1,4 @@
-import { client } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 import { GithubApi } from "./APIs/api";
 import { SourcesRepository } from "./repositories/SourcesRepository";
 import { AlertRepository } from "./repositories/AlertRepository";
@@ -58,9 +58,9 @@ async function main() {
     throw new Error("GITHUB_TOKEN is not defined");
   }
   const api = new GithubApi(githubToken);
-  const sourceRepository = new SourcesRepository(client);
-  const alertRepository = new AlertRepository(client);
-  const ficheSPRepository = new FicheSPRepository(client);
+  const sourceRepository = new SourcesRepository(gqlClient());
+  const alertRepository = new AlertRepository(gqlClient());
+  const ficheSPRepository = new FicheSPRepository(gqlClient());
   const ficheSpIds = await ficheSPRepository.getFicheServicePublicIds();
   const alertDetector = new AlertDetector(api, ficheSpIds);
   await run(api, sourceRepository, alertRepository, alertDetector);

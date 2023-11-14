@@ -4,9 +4,9 @@ import type { EditorialContentSubset } from "../editorialContents";
 import { extractEditorialContentTemplateRef } from "../editorialContents";
 import payload from "./mocks/editorialContent.payload.json";
 
-jest.mock("@shared/graphql-client", () => ({
+jest.mock("@shared/utils", () => ({
   __esModule: true, // this property makes it work
-  client: jest.fn(),
+  gqlClient: jest.fn(),
 }));
 
 jest.mock("@shared/dila-resolver", () => {

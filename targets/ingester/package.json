@@ -2,7 +2,6 @@
   "name": "ingester",
   "version": "2.23.0",
   "dependencies": {
-    "@shared/graphql-client": "workspace:^",
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-slugify": "4.52.1",
     "@socialgouv/cdtn-sources": "4.52.1",

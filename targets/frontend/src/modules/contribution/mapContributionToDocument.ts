@@ -19,6 +19,8 @@ export const mapContributionToDocument = async (
     contentType: data.content_type,
     linkedContent: data.cdtn_references.map((v) => v.document),
     references: getReferences(data),
+    questionIndex: data.question.order,
+    idcc: data.agreement.id,
   };
 
   if (data.content_type === "ANSWER") {
@@ -62,11 +64,11 @@ export const mapContributionToDocument = async (
     title: data.question.content,
     text: document?.text ?? "",
     slug:
-      document?.slug ?? !data.agreement
-        ? slugify(data.question.content)
-        : slugify(
-            `${parseInt(data.agreement.id, 10)}-${data.question.content}`
-          ),
+      document && document.slug
+        ? document.slug
+        : data.agreement.id !== "0000"
+        ? slugify(`${parseInt(data.agreement.id, 10)}-${data.question.content}`)
+        : slugify(data.question.content),
     is_available: true,
     document: doc as ContributionDocumentJson,
   };

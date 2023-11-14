@@ -1,4 +1,4 @@
-import { client } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
 import type { FicheIndex, RawJson } from "@socialgouv/fiches-vdd-types";
 import type { IndexedAgreement } from "@socialgouv/kali-data-types";
@@ -31,9 +31,9 @@ query {
   }
 }`;
 
-type FicheIdResult = {
+interface FicheIdResult {
   ficheIds: { id: string }[];
-};
+}
 
 const updateStatusMutation = `
 mutation updateStatus($ids: [String!],$status: String) {
@@ -59,7 +59,7 @@ export default async function getFichesServicePublic(pkgName: string) {
 
   const resolveCdtReference = createReferenceResolver(cdt);
 
-  const results = await client
+  const results = await gqlClient()
     .query<FicheIdResult>(getFicheIdsQuery)
     .toPromise();
 
@@ -79,7 +79,7 @@ export default async function getFichesServicePublic(pkgName: string) {
     listFicheVdd.every((fiche) => fiche.id !== id)
   );
   console.time("service-public updateStatus");
-  await client
+  await gqlClient()
     .mutation(updateStatusMutation, { ids: unknonwFiches, status: "unknown" })
     .toPromise();
   console.timeEnd("service-public updateStatus");
