@@ -67,7 +67,6 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={editor.isActive("bold") ? "is-active" : ""}
-        disabled={!editor.isActive("bold") && editor.isActive("heading")}
         type="button"
         title="Gras"
       >
