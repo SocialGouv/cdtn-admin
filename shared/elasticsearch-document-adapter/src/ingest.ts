@@ -55,6 +55,7 @@ const excludeSources = [
 
 export async function ingest(
   cdtnAdminEndpoint: string | undefined,
+  cdtnAdminEndpointSecret: string | undefined,
   esLogs: string | undefined,
   esLogsToken: string | undefined,
   esUrl: string | undefined,
@@ -70,6 +71,7 @@ export async function ingest(
   process.env.NLP_URL = nlpUrl; //pour setter la variable d'environment du package elasticsearch...
   await runIngester(
     cdtnAdminEndpoint,
+    cdtnAdminEndpointSecret,
     esLogs,
     esLogsToken,
     esUrl,
@@ -85,6 +87,7 @@ export async function ingest(
 
 async function runIngester(
   cdtnAdminEndpoint: string | undefined,
+  cdtnAdminEndpointSecret: string | undefined,
   esLogs: string | undefined,
   esLogsToken: string | undefined,
   esUrl: string | undefined,
@@ -110,6 +113,7 @@ async function runIngester(
 
   const client = new Client(esClientConfig as unknown as any);
   context.set("cdtnAdminEndpoint", cdtnAdminEndpoint);
+  context.set("cdtnAdminEndpointSecret", cdtnAdminEndpointSecret);
   context.set("esLogs", esLogs);
   context.set("esLogsToken", esLogsToken);
   context.set("esUrl", esUrl);

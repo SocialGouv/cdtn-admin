@@ -25,8 +25,7 @@ import type { ThemeQueryResult } from "./types/themes";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
-import { generateContributions } from "./contributions/generate";
-import { isNewContribution } from "./contributions";
+import { isNewContribution, generateContributions } from "./contributions";
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -80,13 +79,24 @@ export async function getDuplicateSlugs(allDocuments: any) {
 }
 
 export function updateContributionsAndGetIDCCs(
-  contributions: any[],
+  oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[],
+  newContributions: DocumentElasticWithSource<ContributionDocumentJson>[],
   ccnData: DocumentElasticWithSource<AgreementDoc>[]
 ) {
   const contribIDCCs = new Set<number>();
-  contributions.forEach(({ answers }) => {
+  oldContributions.forEach(({ answers }: any) => {
     if (answers.conventionAnswer) {
-      //WARNING: changer l'idcc
+      const idccNum = parseInt(answers.conventionAnswer.idcc);
+      contribIDCCs.add(idccNum);
+
+      const ccn = ccnData.find((ccn) => ccn.num === idccNum);
+      if (ccn?.slug) {
+        answers.conventionAnswer.slug = ccn.slug;
+      }
+    }
+  });
+  newContributions.forEach(({ answers }: any) => {
+    if (answers.conventionAnswer) {
       const idccNum = parseInt(answers.conventionAnswer.idcc);
       contribIDCCs.add(idccNum);
 
@@ -264,7 +274,11 @@ export async function* cdtnDocumentsGen() {
   logger.info("=== Conventions Collectives ===");
   // we keep track of the idccs used in the contributions
   // in order to flag the corresponding conventions collectives below
-  const contribIDCCs = updateContributionsAndGetIDCCs(contributions, ccnData);
+  const contribIDCCs = updateContributionsAndGetIDCCs(
+    oldContributions,
+    newContributions,
+    ccnData
+  );
 
   const ccnQR =
     "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";

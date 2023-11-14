@@ -1,6 +1,7 @@
 import { ContributionDocumentJson, ContributionHighlight } from "@shared/types";
 import { DocumentElasticWithSource } from "../types/Glossary";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import { fetchFicheSp } from "./fetchFicheSp";
 
 export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
@@ -18,7 +19,7 @@ export async function generateContributions(
   );
 
   return {
-    documents: contributions.map((contrib) => {
+    documents: contributions.map(async (contrib) => {
       const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
       let doc = {};
@@ -28,9 +29,11 @@ export async function generateContributions(
           content: addGlossary(contrib.content),
         };
       } else if (contrib.type === "fiche-sp") {
-        const ficheSpContent = "wsh";
+        const ficheSpContent = await fetchFicheSp(contrib.ficheSpId);
         doc = {
-          ficheSpContent,
+          url: ficheSpContent.url,
+          date: ficheSpContent.date,
+          raw: ficheSpContent.raw,
         };
       }
 

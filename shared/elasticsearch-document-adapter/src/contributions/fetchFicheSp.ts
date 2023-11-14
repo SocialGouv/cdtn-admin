@@ -1,94 +1,51 @@
-import { ApiClient } from "src/lib/api";
-import {
-  getContributionAnswerById,
-  getGenericAnswerByQuestionId,
-} from "./query";
-import { ContributionsAnswers } from "@shared/types";
+import { FicheServicePublicDoc } from "@shared/types";
 import { gqlClient } from "@shared/utils";
+import { context } from "../context";
 
-interface FetchContribPkData {
-  contribution_answers_by_pk: ContributionsAnswers;
-}
-
-interface FetchContribQuestionIdData {
-  contribution_answers: Partial<ContributionsAnswers[]>;
-}
-
-export class ContributionRepository {
-  client: ApiClient;
-
-  constructor(client: ApiClient) {
-    this.client = client;
-  }
-
-  async fetch(id: string): Promise<ContributionsAnswers> {
-    const { error, data } = await this.client.query<FetchContribPkData>(
-      getContributionAnswerById,
-      {
-        id,
+const fetchFicheSpByCdtnId = `
+  query fiche_sp_by_cdtn_id($cdtnId: String!) {
+    documents(
+      where: {
+        cdtn_id: { _eq: $cdtnId }
+        source: { _eq: "fiches_service_public" }
       }
-    );
-    if (error) {
-      throw error;
-    }
-    if (!data) {
-      throw new Error(`Aucune contribution pour l'id ${id}`);
-    }
-    return data.contribution_answers_by_pk;
-  }
-
-  async fetchGenericAnswer(
-    questionId: string
-  ): Promise<Partial<ContributionsAnswers>> {
-    const { error, data } = await this.client.query<FetchContribQuestionIdData>(
-      getGenericAnswerByQuestionId,
-      {
-        questionId,
-      }
-    );
-    if (error) {
-      throw error;
-    }
-    if (
-      !data ||
-      data.contribution_answers.length === 0 ||
-      !data.contribution_answers[0]
     ) {
-      throw new Error(
-        `Aucune contribution générique pour la question id ${questionId}`
-      );
+      document
     }
-    return data.contribution_answers[0];
   }
+`;
+
+interface HasuraReturn {
+  documents: {
+    document: FicheServicePublicDoc;
+  }[];
 }
 
-import { gqlClient } from "@shared/utils";
-import type { Client } from "@urql/core/dist/types/client";
-
-import { fetchAllContributions } from "./query";
-import type { QuestionRaw } from "./types";
-
-export interface ContributionRepository {
-  fetchAll: () => Promise<QuestionRaw[]>;
-}
-
-export class ContributionDatabase implements ContributionRepository {
-  constructor() {
-    this.client = gqlClient();
+export async function fetchFicheSp(
+  cdtnId: string
+): Promise<FicheServicePublicDoc> {
+  const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint");
+  const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret");
+  const res = await gqlClient({
+    graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
+    adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
+  })
+    .query<HasuraReturn>(fetchFicheSpByCdtnId, {
+      cdtnId,
+    })
+    .toPromise();
+  if (res.error) {
+    throw res.error;
   }
-
-  public async fetchAll(): Promise<QuestionRaw[]> {
-    const res = await gqlClient()
-      .query<{ questions: QuestionRaw[] }>(fetchAllContributions)
-      .toPromise();
-    if (res.error) {
-      throw res.error;
-    }
-    if (!res.data?.questions) {
-      throw new Error("Failed to get, undefined object");
-    }
-    return res.data.questions;
+  if (!res.data || res.error) {
+    throw new Error(`Impossible de récupérer la fiche sp ${cdtnId}`);
   }
-
-  private readonly client: Client;
+  if (res.data.documents.length !== 1) {
+    throw new Error("Le nombre de fiche sp retourné est différent de 1");
+  }
+  const document = res.data.documents[0].document as FicheServicePublicDoc;
+  if (!document) {
+    throw new Error("Il n'y a pas de document dans la fiche sp");
+  }
+  return document;
 }
