@@ -1,10 +1,15 @@
-import { ContributionDocumentJson, ContributionHighlight } from "@shared/types";
+import {
+  AgreementDoc,
+  ContributionDocumentJson,
+  ContributionHighlight,
+} from "@shared/types";
 import { DocumentElasticWithSource } from "../types/Glossary";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { fetchFicheSp } from "./fetchFicheSp";
 
 export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
+  ccnData: DocumentElasticWithSource<AgreementDoc>[],
   ccnListWithHighlight: Record<number, ContributionHighlight | undefined>,
   addGlossary: (valueInHtml: string) => string
 ) {
@@ -34,6 +39,22 @@ export async function generateContributions(
           url: ficheSpContent.url,
           date: ficheSpContent.date,
           raw: ficheSpContent.raw,
+        };
+      }
+
+      if (contrib.idcc === "0000") {
+        const ccSupported = contributions
+          .filter((v) => v.questionIndex === contrib.questionIndex)
+          .map((v) => v.idcc);
+        doc = {
+          ...doc,
+          ccSupported,
+        };
+      } else {
+        const slug = ccnData.find((v) => v.num === parseInt(contrib.idcc));
+        doc = {
+          ...doc,
+          ccnSlug: slug,
         };
       }
 

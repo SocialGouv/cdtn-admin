@@ -78,32 +78,21 @@ export async function getDuplicateSlugs(allDocuments: any) {
     );
 }
 
-export function updateContributionsAndGetIDCCs(
+export function getIDCCs(
   oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[],
-  newContributions: DocumentElasticWithSource<ContributionDocumentJson>[],
-  ccnData: DocumentElasticWithSource<AgreementDoc>[]
+  newContributions: DocumentElasticWithSource<ContributionDocumentJson>[]
 ) {
   const contribIDCCs = new Set<number>();
   oldContributions.forEach(({ answers }: any) => {
     if (answers.conventionAnswer) {
       const idccNum = parseInt(answers.conventionAnswer.idcc);
       contribIDCCs.add(idccNum);
-
-      const ccn = ccnData.find((ccn) => ccn.num === idccNum);
-      if (ccn?.slug) {
-        answers.conventionAnswer.slug = ccn.slug;
-      }
     }
   });
-  newContributions.forEach(({ answers }: any) => {
-    if (answers.conventionAnswer) {
-      const idccNum = parseInt(answers.conventionAnswer.idcc);
+  newContributions.forEach((contrib: any) => {
+    if (contrib.idcc !== "0000") {
+      const idccNum = parseInt(contrib.idcc);
       contribIDCCs.add(idccNum);
-
-      const ccn = ccnData.find((ccn) => ccn.num === idccNum);
-      if (ccn?.slug) {
-        answers.conventionAnswer.slug = ccn.slug;
-      }
     }
   });
   return contribIDCCs;
@@ -210,6 +199,7 @@ export async function* cdtnDocumentsGen() {
 
   const result = await generateContributions(
     newContributions,
+    ccnData,
     ccnListWithHighlight,
     addGlossary
   );
@@ -274,11 +264,7 @@ export async function* cdtnDocumentsGen() {
   logger.info("=== Conventions Collectives ===");
   // we keep track of the idccs used in the contributions
   // in order to flag the corresponding conventions collectives below
-  const contribIDCCs = updateContributionsAndGetIDCCs(
-    oldContributions,
-    newContributions,
-    ccnData
-  );
+  const contribIDCCs = getIDCCs(oldContributions, newContributions);
 
   const ccnQR =
     "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";
