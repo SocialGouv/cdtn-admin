@@ -9,5 +9,5 @@ export const isNewContribution = (
     | DocumentElasticWithSource<ContributionCompleteDoc>
     | DocumentElasticWithSource<ContributionDocumentJson>
 ): obj is DocumentElasticWithSource<ContributionDocumentJson> => {
-  return "linkedContent" in obj;
+  return "type" in obj;
 };

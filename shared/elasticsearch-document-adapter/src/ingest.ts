@@ -146,7 +146,7 @@ async function runIngester(
   });
 
   const t0 = Date.now();
-  for await (const { source, documents } of cdtnDocumentsGen()) {
+  for await (const { source, documents } of cdtnDocumentsGen() as any) {
     logger.info(`› ${source}... ${documents.length} items`);
 
     let docs = documents;
@@ -156,7 +156,7 @@ async function runIngester(
     });
 
     // add NLP vectors
-    if (!excludeSources.includes(source as unknown as any)) {
+    if (!excludeSources.includes(source)) {
       docs = await pMap(documents, addVector, {
         concurrency: 5,
       });
