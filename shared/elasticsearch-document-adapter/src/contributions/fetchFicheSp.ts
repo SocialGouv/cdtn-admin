@@ -3,10 +3,10 @@ import { gqlClient } from "@shared/utils";
 import { context } from "../context";
 
 const fetchFicheSpByCdtnId = `
-  query fiche_sp_by_cdtn_id($cdtnId: String!) {
+  query fiche_sp_by_id($ficheSpId: String!) {
     documents(
       where: {
-        cdtn_id: { _eq: $cdtnId }
+        initial_id: { _eq: $ficheSpId }
         source: { _eq: "fiches_service_public" }
       }
     ) {
@@ -22,7 +22,7 @@ interface HasuraReturn {
 }
 
 export async function fetchFicheSp(
-  cdtnId: string
+  ficheSpId: string
 ): Promise<FicheServicePublicDoc> {
   const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint");
   const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret");
@@ -31,17 +31,19 @@ export async function fetchFicheSp(
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
   })
     .query<HasuraReturn>(fetchFicheSpByCdtnId, {
-      cdtnId,
+      ficheSpId,
     })
     .toPromise();
   if (res.error) {
     throw res.error;
   }
   if (!res.data || res.error) {
-    throw new Error(`Impossible de récupérer la fiche sp ${cdtnId}`);
+    throw new Error(`Impossible de récupérer la fiche sp ${ficheSpId}`);
   }
   if (res.data.documents.length !== 1) {
-    throw new Error("Le nombre de fiche sp retourné est différent de 1");
+    throw new Error(
+      `Le nombre de fiche sp retourné est différent de 1 pour l'id ${ficheSpId}`
+    );
   }
   const document = res.data.documents[0].document as FicheServicePublicDoc;
   if (!document) {

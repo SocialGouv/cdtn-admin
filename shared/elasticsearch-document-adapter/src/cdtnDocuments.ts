@@ -228,9 +228,11 @@ export async function* cdtnDocumentsGen() {
         if (newAnswer.conventions) {
           newAnswer.conventions = answers.conventions.map((answer: any) => {
             const highlight = ccnListWithHighlight[parseInt(answer.idcc)];
+            const slug = ccnData.find((v) => v.num === parseInt(answer.idcc));
             return {
               ...answer,
               ...(highlight ? { highlight } : {}),
+              ccnSlug: slug,
             };
           });
         }
@@ -238,10 +240,14 @@ export async function* cdtnDocumentsGen() {
         if (newAnswer.conventionAnswer) {
           const highlight =
             ccnListWithHighlight[parseInt(newAnswer.conventionAnswer.idcc)];
+          const slug = ccnData.find(
+            (v) => v.num === parseInt(newAnswer.conventionAnswer.idcc)
+          );
           if (highlight) {
             newAnswer.conventionAnswer = {
               ...newAnswer.conventionAnswer,
               highlight,
+              ccnSlug: slug,
             };
           }
         }
