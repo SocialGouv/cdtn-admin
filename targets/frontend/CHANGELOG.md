@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.24.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.23.0...v2.24.0) (2023-11-15)
+
+### Features
+
+- ajout du h4 pour l'éditeur ([#1115](https://github.com/SocialGouv/cdtn-admin/issues/1115)) ([aba9242](https://github.com/SocialGouv/cdtn-admin/commit/aba92420e369bcd46d37eea38b825d365ac9963c))
+
 # [2.23.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.22.0...v2.23.0) (2023-11-10)
 
 ### Features
