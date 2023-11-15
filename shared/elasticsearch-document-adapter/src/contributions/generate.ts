@@ -51,10 +51,10 @@ export async function generateContributions(
           ccSupported,
         };
       } else {
-        const slug = ccnData.find((v) => v.num === parseInt(contrib.idcc));
+        const cc = ccnData.find((v) => v.num === parseInt(contrib.idcc));
         doc = {
           ...doc,
-          ccnSlug: slug,
+          ccnSlug: cc?.slug,
         };
       }
 
