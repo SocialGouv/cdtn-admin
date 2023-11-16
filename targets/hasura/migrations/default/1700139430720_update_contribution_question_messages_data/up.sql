@@ -26,10 +26,10 @@ update contribution.question_messages
 set content = '<p>Les informations présentes sur cette page sont issues de l’analyse des règles prévues par votre convention collective de branche étendue et par le Code du travail. Dans tous les cas, reportez vous à votre contrat de travail car s’il contient des règles plus favorables, ce sont ces dernières qui s’appliqueront.</p>',
 content_agreement_unplanned = '<p>Les informations présentes sur cette page sont issues de l’analyse des règles prévues par votre convention collective de branche étendue et par le Code du travail. Dans tous les cas, reportez vous à votre contrat de travail car s’il contient des règles plus favorables, ce sont ces dernières qui s’appliqueront.</p>',
 content_agreement_unhandled = '<p>Les informations présentes sur cette page sont issues du Code du travail.</p> <p>Si votre convention de branche prévoit des dispositions sur ce sujet : c’est ce texte qui s’appliquera.</p> <p>Dans tous les cas, reportez vous à votre contrat de travail car s’il contient des règles plus favorables, ce sont ces dernières qui s’appliqueront.</p>'
-where label = 'Message Domaine exclusif de la branche à définir';
+where label = 'Message Domaine exclusif de la branche';
 
 update contribution.questions q
 set message_id = qm.id
 from contribution.question_messages qm
-where qm.label = 'Message Domaine exclusif de la branche à définir'
+where qm.label = 'Message Domaine exclusif de la branche'
 and q.order = any(ARRAY[4, 9, 12, 17, 16]);
