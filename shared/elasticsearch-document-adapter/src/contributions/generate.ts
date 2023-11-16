@@ -68,7 +68,6 @@ export async function generateContributions(
           ccSupported,
         };
       } else {
-        // rajouter le fait qu'on récupère le contenu de la générique dans la table document si le content_type
         const cc = ccnData.find((v) => v.num === parseInt(contrib.idcc));
         doc = {
           ...doc,
