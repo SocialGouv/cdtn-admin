@@ -72,9 +72,16 @@ type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
   ficheSpId: string;
 };
 
+type ContributionDocumentJsonCodeDuTravailReference =
+  ContributionDocumentJsonBasic & {
+    type: "cdt";
+    genericAnswerId: string;
+  };
+
 export type ContributionDocumentJson =
   | ContributionDocumentJsonContent
-  | ContributionDocumentJsonFicheSp;
+  | ContributionDocumentJsonFicheSp
+  | ContributionDocumentJsonCodeDuTravailReference;
 
 export type ContributionLinkedContent = {
   slug: string;

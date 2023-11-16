@@ -40,6 +40,23 @@ export async function generateContributions(
           date: ficheSpContent.date,
           raw: ficheSpContent.raw,
         };
+      } else if (contrib.type === "cdt") {
+        const cdtContrib = contributions.find(
+          (v) => v.id === contrib.genericAnswerId
+        );
+        if (!cdtContrib) {
+          throw new Error(
+            `Aucune contribution générique a été retrovuée avec cet id ${contrib.genericAnswerId}`
+          );
+        }
+        if (cdtContrib.type !== "content") {
+          throw new Error(
+            `La contribution générique ${contrib.genericAnswerId} doit être de type "content"`
+          );
+        }
+        doc = {
+          content: addGlossary(cdtContrib.content),
+        };
       }
 
       if (contrib.idcc === "0000") {
@@ -51,6 +68,7 @@ export async function generateContributions(
           ccSupported,
         };
       } else {
+        // rajouter le fait qu'on récupère le contenu de la générique dans la table document si le content_type
         const cc = ccnData.find((v) => v.num === parseInt(contrib.idcc));
         doc = {
           ...doc,

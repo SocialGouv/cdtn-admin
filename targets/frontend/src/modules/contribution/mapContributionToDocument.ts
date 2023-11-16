@@ -45,8 +45,8 @@ export const mapContributionToDocument = async (
     } else {
       doc = {
         ...doc,
-        type: "content",
-        content: genericAnswer.content!,
+        type: "cdt",
+        genericAnswerId: genericAnswer.id,
       };
     }
   } else if (data.content_type === "SP") {

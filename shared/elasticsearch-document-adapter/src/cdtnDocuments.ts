@@ -229,10 +229,16 @@ export async function* cdtnDocumentsGen() {
           newAnswer.conventions = answers.conventions.map((answer: any) => {
             const highlight = ccnListWithHighlight[parseInt(answer.idcc)];
             const cc = ccnData.find((v) => v.num === parseInt(answer.idcc));
-            return {
+            const answerWithSlug = {
               ...answer,
+              conventionAnswer: {
+                ...answer.conventionAnswer,
+                slug: cc?.slug,
+              },
+            };
+            return {
+              ...answerWithSlug,
               ...(highlight ? { highlight } : {}),
-              ccnSlug: cc?.slug,
             };
           });
         }
@@ -247,7 +253,7 @@ export async function* cdtnDocumentsGen() {
             newAnswer.conventionAnswer = {
               ...newAnswer.conventionAnswer,
               highlight,
-              ccnSlug: cc?.slug,
+              slug: cc?.slug,
             };
           }
         }
