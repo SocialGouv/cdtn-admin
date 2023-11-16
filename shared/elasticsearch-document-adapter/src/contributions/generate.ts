@@ -46,17 +46,21 @@ export async function generateContributions(
         );
         if (!cdtContrib) {
           throw new Error(
-            `Aucune contribution générique a été retrovuée avec cet id ${contrib.genericAnswerId}`
+            `Aucune contribution générique a été retrouvée avec cet id ${contrib.genericAnswerId}`
           );
         }
-        if (cdtContrib.type !== "content") {
-          throw new Error(
-            `La contribution générique ${contrib.genericAnswerId} doit être de type "content"`
-          );
+        if (cdtContrib.type === "content") {
+          doc = {
+            content: addGlossary(cdtContrib.content),
+          };
+        } else if (cdtContrib.type === "fiche-sp") {
+          const ficheSpContent = await fetchFicheSp(cdtContrib.ficheSpId);
+          doc = {
+            url: ficheSpContent.url,
+            date: ficheSpContent.date,
+            raw: ficheSpContent.raw,
+          };
         }
-        doc = {
-          content: addGlossary(cdtContrib.content),
-        };
       }
 
       if (contrib.idcc === "0000") {
@@ -72,6 +76,7 @@ export async function generateContributions(
         doc = {
           ...doc,
           ccnSlug: cc?.slug,
+          ccnShortTitle: cc?.shortTitle,
         };
       }
 
