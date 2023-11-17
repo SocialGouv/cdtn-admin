@@ -117,24 +117,26 @@ export const EditQuestionForm = ({
                 <Accordion>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
+                    aria-controls="Texte applicable si la convention collective est traitée"
+                    id="contentAgreementAnswer"
                   >
                     <Typography>
-                      Texte applicale si réponse CC traitée
+                      Texte applicable si la convention collective est traitée
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography
-                      dangerouslySetInnerHTML={{ __html: message.content }}
+                      dangerouslySetInnerHTML={{
+                        __html: message.contentAgreement,
+                      }}
                     />
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel2a-content"
-                    id="panel2a-header"
+                    aria-controls="Texte applicable si la convention collective ne prévoit rien"
+                    id="contentLegalAnswer"
                   >
                     <Typography>
                       Texte applicable si la convention collective ne prévoit
@@ -143,24 +145,26 @@ export const EditQuestionForm = ({
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography
-                      dangerouslySetInnerHTML={{ __html: message.contentCdt }}
+                      dangerouslySetInnerHTML={{
+                        __html: message.contentAgreementUnplanned,
+                      }}
                     />
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel2a-content"
-                    id="panel2a-header"
+                    aria-controls="Texte applicable si la convention collective est non traitée, non sélectionnée ou si la réponse est dépubliée"
+                    id="contentLegalAnswer"
                   >
                     <Typography>
-                      Texte applicable si CC non traitée, CC non sélectionnée ou
-                      réponse dépubliée
+                      Texte applicable si la convention collective est non
+                      traitée, non sélectionnée ou si la réponse est dépubliée
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography
-                      dangerouslySetInnerHTML={{ __html: message.contentCdt }}
+                      dangerouslySetInnerHTML={{ __html: message.contentLegal }}
                     />
                   </AccordionDetails>
                 </Accordion>
