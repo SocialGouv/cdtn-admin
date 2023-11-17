@@ -121,7 +121,7 @@ export const EditQuestionForm = ({
                     id="panel1a-header"
                   >
                     <Typography>
-                      Texte applicable en cas de réponse :
+                      Texte applicale si réponse CC traitée
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
@@ -138,7 +138,7 @@ export const EditQuestionForm = ({
                   >
                     <Typography>
                       Texte applicable si la convention collective ne prévoit
-                      rien :
+                      rien
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
@@ -154,8 +154,8 @@ export const EditQuestionForm = ({
                     id="panel2a-header"
                   >
                     <Typography>
-                      Texte applicable si la convention collective est non
-                      traité / non disponible / inexistante :
+                      Texte applicable si CC non traitée, CC non sélectionnée ou
+                      réponse dépubliée
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
