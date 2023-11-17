@@ -118,9 +118,9 @@ export const EditQuestionForm = ({
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="Texte applicable si la convention collective est traitée"
-                    id="contentAgreementAnswer"
+                    id="contentAgreement"
                   >
-                    <Typography>
+                    <Typography fontWeight={600}>
                       Texte applicable si la convention collective est traitée
                     </Typography>
                   </AccordionSummary>
@@ -136,9 +136,9 @@ export const EditQuestionForm = ({
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="Texte applicable si la convention collective ne prévoit rien"
-                    id="contentLegalAnswer"
+                    id="contentUnplanned"
                   >
-                    <Typography>
+                    <Typography fontWeight={600}>
                       Texte applicable si la convention collective ne prévoit
                       rien
                     </Typography>
@@ -155,9 +155,9 @@ export const EditQuestionForm = ({
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="Texte applicable si la convention collective est non traitée, non sélectionnée ou si la réponse est dépubliée"
-                    id="contentLegalAnswer"
+                    id="contentLegal"
                   >
-                    <Typography>
+                    <Typography fontWeight={600}>
                       Texte applicable si la convention collective est non
                       traitée, non sélectionnée ou si la réponse est dépubliée
                     </Typography>
