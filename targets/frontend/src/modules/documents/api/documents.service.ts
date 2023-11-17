@@ -1,5 +1,9 @@
 import { DocumentsRepository } from "./documents.repository";
-import { MissingDocumentError, NotFoundError } from "src/lib/api/ApiErrors";
+import {
+  ConflictError,
+  MissingDocumentError,
+  NotFoundError,
+} from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
 import { format, parseISO } from "date-fns";
 import { generateCdtnId, generateInitialId } from "@shared/utils";
@@ -11,6 +15,7 @@ import {
 import { ModelRepository } from "../../models/api";
 import { Model } from "../../models";
 import { Document } from "@shared/types";
+import { generateContributionSlug } from "src/modules/contribution/generateSlug";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -179,6 +184,22 @@ export class DocumentsService {
             name: "NOT_FOUND",
             cause: null,
           });
+        }
+        if (!document) {
+          const contrib = await this.documentsRepository.fetchDocumentBySlug({
+            slug: generateContributionSlug(
+              contribution.agreement.id,
+              contribution.question.content
+            ),
+            source,
+          });
+          if (contrib) {
+            throw new ConflictError({
+              message: `Le document ${contribution.question.content} existe déjà pour l'agrément ${contribution.agreement.id}. Vous devez lancer le script de migration avant de publier un document.`,
+              name: "CONFLICT_ERROR",
+              cause: null,
+            });
+          }
         }
         document = await mapContributionToDocument(
           contribution,

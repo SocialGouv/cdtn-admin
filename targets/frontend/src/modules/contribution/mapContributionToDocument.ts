@@ -5,8 +5,8 @@ import {
 } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getReferences } from "./getReferences";
-import slugify from "@socialgouv/cdtn-slugify";
 import { generateCdtnId } from "@shared/utils";
+import { generateContributionSlug } from "./generateSlug";
 
 export const mapContributionToDocument = async (
   data: ContributionsAnswers,
@@ -64,11 +64,8 @@ export const mapContributionToDocument = async (
     title: data.question.content,
     text: document?.text ?? "",
     slug:
-      document && document.slug
-        ? document.slug
-        : data.agreement.id !== "0000"
-        ? slugify(`${parseInt(data.agreement.id, 10)}-${data.question.content}`)
-        : slugify(data.question.content),
+      document?.slug ??
+      generateContributionSlug(data.agreement.id, data.question.content),
     is_available: true,
     document: doc as ContributionDocumentJson,
   };

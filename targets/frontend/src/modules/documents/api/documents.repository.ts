@@ -1,6 +1,11 @@
 import { ApiClient } from "src/lib/api";
 import { documentsPublishMutation } from "./documents.mutation";
-import { queryDocument, DocumentsQueryProps } from "./documents.query";
+import {
+  queryDocument,
+  DocumentsQueryProps,
+  queryDocumentBySlug,
+  DocumentsQueryBySlugProps,
+} from "./documents.query";
 import { Document } from "@shared/types";
 
 export class DocumentsRepository {
@@ -33,6 +38,14 @@ export class DocumentsRepository {
     } catch (error) {
       console.log("Error: ", error);
       throw error;
+    }
+  }
+
+  async fetchDocumentBySlug(variables: DocumentsQueryBySlugProps) {
+    try {
+      return await queryDocumentBySlug(this.client, variables);
+    } catch (e) {
+      throw e;
     }
   }
 }

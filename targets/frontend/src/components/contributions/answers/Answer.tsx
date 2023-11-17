@@ -69,6 +69,21 @@ export const ContributionsAnswer = ({
         message: "La réponse a été modifiée",
       });
     } catch (e: any) {
+      // Dans le cas où il y a une erreur au niveau de la publication (PUBLISHED), on revert le status en VALIDATED
+      if (newStatus === "PUBLISHED" && answer) {
+        await updateAnswer({
+          content: data.content,
+          id: answer.id,
+          contentType: data.contentType,
+          status: "VALIDATED",
+          userId: user?.id,
+          contentServicePublicCdtnId: data.contentFichesSpDocument?.cdtnId,
+          kaliReferences: data.kaliReferences,
+          legiReferences: data.legiReferences,
+          cdtnReferences: data.cdtnReferences,
+          otherReferences: data.otherReferences,
+        });
+      }
       setSnack({ open: true, severity: "error", message: e.message });
     }
   };
