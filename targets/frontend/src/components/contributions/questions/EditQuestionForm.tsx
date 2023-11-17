@@ -1,4 +1,13 @@
-import { AlertColor, Button, Card, Stack, Typography } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  AlertColor,
+  Button,
+  Card,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,6 +15,7 @@ import { z } from "zod";
 import { FormSelect, FormTextField } from "src/components/forms";
 
 import { useQuestionUpdateMutation } from "./Question.mutation";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Message, Question, questionRelationSchema } from "../type";
 import { SnackBar } from "../../utils/SnackBar";
 
@@ -104,27 +114,56 @@ export const EditQuestionForm = ({
                 }}
                 variant={"outlined"}
               >
-                <Typography variant="h5">
-                  Texte applicable en cas de réponse
-                </Typography>
-                <Typography
-                  dangerouslySetInnerHTML={{ __html: message.content }}
-                />
-                <Typography variant="h5">
-                  Si la convention collective ne prévoit rien
-                </Typography>
-                <Typography
-                  dangerouslySetInnerHTML={{ __html: message.contentCdt }}
-                />
-                <Typography variant="h5">
-                  Si la convention collective est: non traité / non disponible /
-                  inexistante
-                </Typography>
-                <Typography
-                  dangerouslySetInnerHTML={{
-                    __html: message.contentAgreementUnplanned,
-                  }}
-                />
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography>
+                      Texte applicable en cas de réponse :
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography
+                      dangerouslySetInnerHTML={{ __html: message.content }}
+                    />
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel2a-content"
+                    id="panel2a-header"
+                  >
+                    <Typography>
+                      Texte applicable si la convention collective ne prévoit
+                      rien :
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography
+                      dangerouslySetInnerHTML={{ __html: message.contentCdt }}
+                    />
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel2a-content"
+                    id="panel2a-header"
+                  >
+                    <Typography>
+                      Texte applicable si la convention collective est non
+                      traité / non disponible / inexistante :
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography
+                      dangerouslySetInnerHTML={{ __html: message.contentCdt }}
+                    />
+                  </AccordionDetails>
+                </Accordion>
               </Card>
             )}
           </Stack>
