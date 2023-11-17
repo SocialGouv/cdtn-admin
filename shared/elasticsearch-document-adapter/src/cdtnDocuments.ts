@@ -174,7 +174,6 @@ export async function* cdtnDocumentsGen() {
     source: SOURCES.THEMATIC_FILES,
   };
 
-  /*
   logger.info("=== Contributions ===");
   const contributions: DocumentElasticWithSource<
     ContributionDocumentJson | ContributionCompleteDoc
@@ -359,7 +358,7 @@ export async function* cdtnDocumentsGen() {
     }),
     source: SOURCES.SHEET_MT,
   };
-  */
+
   logger.info("=== Themes ===");
   yield {
     documents: buildThemes(themes, getBreadcrumbs),

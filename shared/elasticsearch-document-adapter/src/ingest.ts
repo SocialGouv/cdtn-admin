@@ -111,8 +111,6 @@ async function runIngester(
     node: `${ELASTICSEARCH_URL}`,
   };
 
-  console.log(`Client : ${ELASTICSEARCH_URL} / ${esTokenIngest}`);
-
   const client = new Client(esClientConfig as unknown as any);
   context.set("cdtnAdminEndpoint", cdtnAdminEndpoint);
   context.set("cdtnAdminEndpointSecret", cdtnAdminEndpointSecret);
@@ -146,7 +144,6 @@ async function runIngester(
     indexName: `${DOCUMENT_INDEX_NAME}-${ts}`,
     mappings: documentMapping,
   });
-  logger.info(`Index ${DOCUMENT_INDEX_NAME}-${ts} created`);
   const t0 = Date.now();
   for await (const { source, documents } of cdtnDocumentsGen() as any) {
     logger.info(`› ${source}... ${documents.length} items`);
