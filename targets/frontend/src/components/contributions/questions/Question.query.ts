@@ -33,6 +33,8 @@ query SelectQuestion($questionId: uuid) {
   }
   contribution_question_messages {
     content
+    contentCdt
+    contentAgreementUnplanned
     id
     label
   }

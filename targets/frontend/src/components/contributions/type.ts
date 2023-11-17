@@ -38,6 +38,8 @@ export const messageSchema = z.object({
   id: z.string().uuid(),
   label: z.string(),
   content: z.string(),
+  contentCdt: z.string(),
+  contentAgreementUnplanned: z.string(),
 });
 export type Message = z.infer<typeof messageSchema>;
 

@@ -104,8 +104,27 @@ export const EditQuestionForm = ({
                 }}
                 variant={"outlined"}
               >
-                <Typography variant="subtitle1">Texte applicable</Typography>
-                <Typography variant="body2">{message.content}</Typography>
+                <Typography variant="h5">
+                  Texte applicable en cas de réponse
+                </Typography>
+                <Typography
+                  dangerouslySetInnerHTML={{ __html: message.content }}
+                />
+                <Typography variant="h5">
+                  Si la convention collective ne prévoit rien
+                </Typography>
+                <Typography
+                  dangerouslySetInnerHTML={{ __html: message.contentCdt }}
+                />
+                <Typography variant="h5">
+                  Si la convention collective est: non traité / non disponible /
+                  inexistante
+                </Typography>
+                <Typography
+                  dangerouslySetInnerHTML={{
+                    __html: message.contentAgreementUnplanned,
+                  }}
+                />
               </Card>
             )}
           </Stack>

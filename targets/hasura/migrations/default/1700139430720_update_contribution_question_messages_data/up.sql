@@ -33,3 +33,5 @@ set message_id = qm.id
 from contribution.question_messages qm
 where qm.label = 'Message Domaine exclusif de la branche'
 and q.order = any(ARRAY[4, 9, 12, 17, 16]);
+
+delete from contribution.question_messages where label = 'Message Bloc 1';
