@@ -1,11 +1,16 @@
-import { ContributionDocumentJson, ContributionsAnswers } from "@shared/types";
-import { Document } from "../documents/type";
+import {
+  ContributionDocumentJson,
+  ContributionsAnswers,
+  Document,
+} from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getReferences } from "./getReferences";
+import slugify from "@socialgouv/cdtn-slugify";
+import { generateCdtnId } from "@shared/utils";
 
 export const mapContributionToDocument = async (
   data: ContributionsAnswers,
-  document: Document<ContributionDocumentJson>,
+  document: Document<ContributionDocumentJson> | undefined,
   fetchGenericAnswer: (
     questionId: string
   ) => Promise<Partial<ContributionsAnswers>>
@@ -14,6 +19,8 @@ export const mapContributionToDocument = async (
     contentType: data.content_type,
     linkedContent: data.cdtn_references.map((v) => v.document),
     references: getReferences(data),
+    questionIndex: data.question.order,
+    idcc: data.agreement.id,
   };
 
   if (data.content_type === "ANSWER") {
@@ -38,8 +45,8 @@ export const mapContributionToDocument = async (
     } else {
       doc = {
         ...doc,
-        type: "content",
-        content: genericAnswer.content!,
+        type: "cdt",
+        genericAnswerId: genericAnswer.id,
       };
     }
   } else if (data.content_type === "SP") {
@@ -49,15 +56,19 @@ export const mapContributionToDocument = async (
       ficheSpId: data.content_fiche_sp!.initial_id,
     };
   }
-
   return {
-    cdtn_id: document.cdtn_id,
-    initial_id: document.initial_id,
+    cdtn_id: document?.cdtn_id ?? generateCdtnId(data.question.content),
+    initial_id: data.id,
     source: SOURCES.CONTRIBUTIONS,
-    meta_description: document.meta_description,
-    title: document.title,
-    text: document.text,
-    slug: document.slug,
+    meta_description: document?.meta_description ?? "",
+    title: data.question.content,
+    text: document?.text ?? "",
+    slug:
+      document && document.slug
+        ? document.slug
+        : data.agreement.id !== "0000"
+        ? slugify(`${parseInt(data.agreement.id, 10)}-${data.question.content}`)
+        : slugify(data.question.content),
     is_available: true,
     document: doc as ContributionDocumentJson,
   };

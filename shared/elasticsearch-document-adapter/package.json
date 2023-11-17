@@ -6,6 +6,7 @@
   "dependencies": {
     "@elastic/elasticsearch": "^7.14.1",
     "@shared/types": "workspace:^",
+    "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-elasticsearch": "workspace:^",
     "@socialgouv/cdtn-logger": "workspace:^",
     "@socialgouv/cdtn-slugify": "^4.52.1",

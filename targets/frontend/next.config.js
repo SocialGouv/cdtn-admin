@@ -31,7 +31,6 @@ module.exports = {
     return config;
   },
   transpilePackages: [
-    "@shared/graphql-client",
     "@shared/utils",
     "@socialgouv/cdtn-ui",
     "@codegouvfr/react-dsfr",

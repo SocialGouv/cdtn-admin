@@ -1,4 +1,4 @@
-import { Document } from "../type";
+import { Document } from "@shared/types";
 import { ApiClient } from "src/lib/api";
 
 const query = `query documents($source: String!, $initialId: String) {

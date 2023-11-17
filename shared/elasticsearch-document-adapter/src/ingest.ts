@@ -55,6 +55,7 @@ const excludeSources = [
 
 export async function ingest(
   cdtnAdminEndpoint: string | undefined,
+  cdtnAdminEndpointSecret: string | undefined,
   esLogs: string | undefined,
   esLogsToken: string | undefined,
   esUrl: string | undefined,
@@ -70,6 +71,7 @@ export async function ingest(
   process.env.NLP_URL = nlpUrl; //pour setter la variable d'environment du package elasticsearch...
   await runIngester(
     cdtnAdminEndpoint,
+    cdtnAdminEndpointSecret,
     esLogs,
     esLogsToken,
     esUrl,
@@ -85,6 +87,7 @@ export async function ingest(
 
 async function runIngester(
   cdtnAdminEndpoint: string | undefined,
+  cdtnAdminEndpointSecret: string | undefined,
   esLogs: string | undefined,
   esLogsToken: string | undefined,
   esUrl: string | undefined,
@@ -110,6 +113,7 @@ async function runIngester(
 
   const client = new Client(esClientConfig as unknown as any);
   context.set("cdtnAdminEndpoint", cdtnAdminEndpoint);
+  context.set("cdtnAdminEndpointSecret", cdtnAdminEndpointSecret);
   context.set("esLogs", esLogs);
   context.set("esLogsToken", esLogsToken);
   context.set("esUrl", esUrl);
@@ -142,7 +146,7 @@ async function runIngester(
   });
 
   const t0 = Date.now();
-  for await (const { source, documents } of cdtnDocumentsGen()) {
+  for await (const { source, documents } of cdtnDocumentsGen() as any) {
     logger.info(`› ${source}... ${documents.length} items`);
 
     let docs = documents;
@@ -152,7 +156,7 @@ async function runIngester(
     });
 
     // add NLP vectors
-    if (!excludeSources.includes(source as unknown as any)) {
+    if (!excludeSources.includes(source)) {
       docs = await pMap(documents, addVector, {
         concurrency: 5,
       });

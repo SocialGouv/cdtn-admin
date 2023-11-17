@@ -40,9 +40,9 @@ export type ContributionsAnswers = {
     document: Record<string, any>;
   };
   agreement: {
-    id: string;
+    id: string; // 0000 pour la générique, impossible d'être nulle
     name: string;
-  } | null;
+  };
 };
 
 export type ContributionContentType =
@@ -58,6 +58,8 @@ type ContributionDocumentJsonBasic = {
   references: ContributionRef[];
   contentType: ContributionContentType;
   linkedContent: ContributionLinkedContent[];
+  questionIndex: number;
+  idcc: string; // 0000 pour la générique, impossible d'être nulle
 };
 
 type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
@@ -70,9 +72,16 @@ type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
   ficheSpId: string;
 };
 
+type ContributionDocumentJsonCodeDuTravailReference =
+  ContributionDocumentJsonBasic & {
+    type: "cdt";
+    genericAnswerId: string;
+  };
+
 export type ContributionDocumentJson =
   | ContributionDocumentJsonContent
-  | ContributionDocumentJsonFicheSp;
+  | ContributionDocumentJsonFicheSp
+  | ContributionDocumentJsonCodeDuTravailReference;
 
 export type ContributionLinkedContent = {
   slug: string;
@@ -83,4 +92,10 @@ export type ContributionLinkedContent = {
 export type ContributionRef = {
   url: string;
   title: string;
+};
+
+export type ContributionHighlight = {
+  title?: string;
+  content?: string;
+  searchInfo?: string;
 };

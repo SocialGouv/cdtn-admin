@@ -10,7 +10,7 @@ import pMap from "p-map";
 
 import { getAllDocumentsBySource } from "./getAllDocumentsBySource";
 import { WarningRepository } from "../repositories/WarningRepository";
-import { client } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 
 export type MailTemplateSubset = Pick<
   MailTemplate,
@@ -25,7 +25,7 @@ const getArticleReference = createGetArticleReference(new DilaApiClient());
 export async function extractMailTemplateRef(
   mailTemplates: MailTemplateSubset[]
 ): Promise<DocumentReferences[]> {
-  const repo = new WarningRepository(client);
+  const repo = new WarningRepository(gqlClient());
   const refs: DocumentReferences[] = [];
 
   for (const docData of mailTemplates) {

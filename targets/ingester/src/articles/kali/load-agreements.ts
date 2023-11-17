@@ -1,4 +1,4 @@
-import { client } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 
 export interface AgreementRecord {
   idcc: string;
@@ -21,7 +21,7 @@ query LoadAgreements {
 `;
 
 export const loadAgreements = async (): Promise<AgreementResult> => {
-  const result = await client
+  const result = await gqlClient()
     .query<AgreementResult>(loadAgreementsQuery)
     .toPromise();
 

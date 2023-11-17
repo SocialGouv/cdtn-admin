@@ -1,7 +1,6 @@
 import { DocumentsRepository } from "./documents.repository";
 import { MissingDocumentError, NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
-import { Document } from "../type";
 import { format, parseISO } from "date-fns";
 import { generateCdtnId, generateInitialId } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
@@ -11,6 +10,7 @@ import {
 } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { Model } from "../../models";
+import { Document } from "@shared/types";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -171,7 +171,7 @@ export class DocumentsService {
         }
         document = this.mapInformationToDocument(information, document);
         break;
-      case "contribution":
+      case "contributions":
         const contribution = await this.contributionRepository.fetch(id);
         if (!contribution) {
           throw new NotFoundError({
@@ -180,17 +180,14 @@ export class DocumentsService {
             cause: null,
           });
         }
-        if (!document) {
-          throw new MissingDocumentError({
-            message: `no document found for this id ${id}`,
-            name: "MISSING_DOCUMENT",
-            cause: null,
-          });
-        }
         document = await mapContributionToDocument(
           contribution,
           document,
-          this.contributionRepository.fetchGenericAnswer
+          async (questionId: string) => {
+            return await this.contributionRepository.fetchGenericAnswer(
+              questionId
+            );
+          }
         );
         break;
 

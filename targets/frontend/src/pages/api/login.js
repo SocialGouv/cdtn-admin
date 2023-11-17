@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
 import { z } from "zod";
-import { client } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 import { verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 import { generateJwtToken } from "src/lib/auth/jwt";
@@ -33,7 +33,7 @@ export default async function login(req, res) {
 
   const { username, password } = value;
 
-  const loginResult = await client
+  const loginResult = await gqlClient()
     .query(loginQuery, {
       username,
     })
@@ -70,7 +70,7 @@ export default async function login(req, res) {
 
   const jwt_token = generateJwtToken(user);
 
-  const refreshTokenResult = await client
+  const refreshTokenResult = await gqlClient()
     .mutation(refreshTokenMutation, {
       refresh_token_data: {
         expires_at: getExpiryDate(REFRESH_TOKEN_EXPIRES),

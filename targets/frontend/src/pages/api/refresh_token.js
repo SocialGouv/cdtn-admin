@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
 import { z } from "zod";
-import { client } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 import { createErrorFor } from "src/lib/apiError";
 import { generateJwtToken } from "src/lib/auth/jwt";
 import { getExpiryDate } from "src/lib/duration";
@@ -44,7 +44,7 @@ export default async function refreshToken(req, res) {
 
     const { refresh_token } = value;
 
-    let result = await client
+    let result = await gqlClient()
       .query(getRefreshTokenQuery, {
         current_timestampz: new Date(),
         refresh_token,
@@ -65,7 +65,7 @@ export default async function refreshToken(req, res) {
 
     const new_refresh_token = uuidv4();
 
-    result = await client
+    result = await gqlClient()
       .mutation(deletePreviousRefreshTokenMutation, {
         new_refresh_token_data: {
           expires_at: getExpiryDate(REFRESH_TOKEN_EXPIRES),

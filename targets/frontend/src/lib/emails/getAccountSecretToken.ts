@@ -1,4 +1,4 @@
-import { client as gqlClient } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 import { gql } from "@urql/core";
 
 const getUserSecretTokenRequest = gql`
@@ -16,7 +16,7 @@ const getUserSecretTokenRequest = gql`
 `;
 
 export async function getUserSecretToken(email: string) {
-  const result = await gqlClient
+  const result = await gqlClient()
     .query<{ auth_users: [{ secret_token: string }] }, { email: string }>(
       getUserSecretTokenRequest,
       {

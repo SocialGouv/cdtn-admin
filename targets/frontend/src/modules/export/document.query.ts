@@ -1,7 +1,6 @@
 import { useQuery } from "urql";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-
-import { ShortDocument } from "../documents";
+import { ShortDocument } from "@shared/types";
 
 export const getDocumentsUpdatedAfterDateQuery = `
 query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
