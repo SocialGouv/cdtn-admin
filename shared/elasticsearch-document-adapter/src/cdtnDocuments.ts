@@ -174,6 +174,10 @@ export async function* cdtnDocumentsGen() {
 
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
 
+  // we keep track of the idccs used in the contributions
+  // in order to flag the corresponding conventions collectives below
+  const contribIDCCs = updateContributionsAndGetIDCCs(contributions, ccnData);
+
   const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
     return ccn.highlight;
   });
@@ -236,9 +240,6 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== Conventions Collectives ===");
-  // we keep track of the idccs used in the contributions
-  // in order to flag the corresponding conventions collectives below
-  const contribIDCCs = updateContributionsAndGetIDCCs(contributions, ccnData);
 
   const ccnQR =
     "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";
