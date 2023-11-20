@@ -200,6 +200,6 @@ export const EditQuestionForm = ({
 
 const StyledIconButton = styled(IconButton)(() => {
   return {
-    padding: "0",
+    padding: "0 8px",
   };
 });
