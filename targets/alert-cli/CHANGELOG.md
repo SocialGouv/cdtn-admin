@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.24.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.24.1...v2.24.2) (2023-11-20)
+
+### Bug Fixes
+
+- **alert:** scrap MT qui est à jour par rapport à CDTN ([#1127](https://github.com/SocialGouv/cdtn-admin/issues/1127)) ([e9fa5a9](https://github.com/SocialGouv/cdtn-admin/commit/e9fa5a9075a4eb0b4ef07d842fa271df62fc2c4b))
+
 ## [2.24.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.24.0...v2.24.1) (2023-11-20)
 
 **Note:** Version bump only for package alert-cli
