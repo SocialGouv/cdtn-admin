@@ -97,7 +97,11 @@ async function deleteOldIndex({ client, patterns, timestamp }) {
   );
 
   return Promise.all(pIndicesToDelete).then(() => {
-    logger.info(`Remove ${pIndicesToDelete.length} old indices`);
+    logger.info(
+      `Remove ${pIndicesToDelete.length} old indices (${JSON.stringify(
+        IndicesToDelete
+      )})`
+    );
   });
 }
 

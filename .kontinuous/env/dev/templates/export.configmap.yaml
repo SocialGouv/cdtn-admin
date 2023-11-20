@@ -8,7 +8,7 @@ data:
   NODE_ENV: "production"
   LOG_LEVEL: "info"
   ENVIRONMENT: "dev"
-  SOURCE_CONTAINER_COPY: "cdtn-dev-source"
+  SOURCE_CONTAINER_COPY: "cdtn-dev"
   DESTINATION_CONTAINER_COPY: "cdtn-dev-destination"
   SITEMAP_DESTINATION_CONTAINER: "sitemap"
   SITEMAP_DESTINATION_NAME: "sitemap.xml"
