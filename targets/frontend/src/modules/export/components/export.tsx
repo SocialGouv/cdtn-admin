@@ -11,7 +11,6 @@ import {
   Typography,
 } from "@mui/material";
 import { FixedSnackBar } from "src/components/utils/SnackBar";
-import { ShortDocument } from "../../documents";
 import { ShowDocumentsToUpdateModal } from "./ShowDocumentsToUpdateModal";
 
 export function Export(): JSX.Element {

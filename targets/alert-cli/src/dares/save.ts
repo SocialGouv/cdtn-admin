@@ -1,9 +1,9 @@
 import { AlertRepository } from "../repositories/AlertRepository";
 import { DaresAlertInsert, Diff } from "./types";
-import { client } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 
 export const saveDiff = async (diff: Diff) => {
-  const alertRepository = new AlertRepository(client);
+  const alertRepository = new AlertRepository(gqlClient());
 
   const alertsRemovedToSave: DaresAlertInsert[] =
     diff.exceedingAgreementsFromKali.map((agreement) => ({

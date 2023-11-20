@@ -56,6 +56,15 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
         <BubbleMenuText>H3</BubbleMenuText>
       </button>
       <button
+        onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
+        className={editor.isActive("heading", { level: 4 }) ? "is-active" : ""}
+        disabled={!editor.getHTML().includes("<h3>") || editor.isActive("heading", { level: 3 })}
+        type="button"
+        title="Titre H4"
+      >
+        <BubbleMenuText>H4</BubbleMenuText>
+      </button>
+      <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={editor.isActive("bold") ? "is-active" : ""}
         type="button"

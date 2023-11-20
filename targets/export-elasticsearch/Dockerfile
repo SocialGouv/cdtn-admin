@@ -12,9 +12,9 @@ COPY .yarn .yarn
 # hadolint ignore=SC2046
 RUN yarn fetch workspaces focus export-elasticsearch
 
-FROM deps AS build-graphql-client
-COPY shared/graphql-client ./shared/graphql-client
-RUN yarn workspace @shared/graphql-client build
+FROM deps AS build-utils
+COPY shared/utils ./shared/utils
+RUN yarn workspace @shared/utils build
 
 FROM deps AS build-types
 COPY shared/types ./shared/types
@@ -27,12 +27,13 @@ RUN yarn workspace @socialgouv/cdtn-logger build
 FROM deps AS build-elasticsearch-document-adapter
 COPY --from=build-types /app/shared/types ./shared/types
 COPY --from=build-cdtn-logger /app/shared/logger ./shared/logger
+COPY --from=build-utils /app/shared/utils ./shared/utils
 COPY shared/elasticsearch ./shared/elasticsearch
 COPY shared/elasticsearch-document-adapter ./shared/elasticsearch-document-adapter
 RUN yarn workspace @shared/elasticsearch-document-adapter build
 
 FROM deps as dist
-COPY --from=build-graphql-client /app/shared/graphql-client ./shared/graphql-client
+COPY --from=build-utils /app/shared/utils ./shared/utils
 COPY --from=build-types /app/shared/types ./shared/types
 COPY --from=build-elasticsearch-document-adapter /app/shared/elasticsearch-document-adapter ./shared/elasticsearch-document-adapter
 COPY --from=build-cdtn-logger /app/shared/logger ./shared/logger
@@ -49,8 +50,8 @@ FROM node:$NODE_VERSION
 
 WORKDIR /app
 
-COPY --from=dist /app/shared/graphql-client/build /app/shared/graphql-client/build
-COPY --from=dist /app/shared/graphql-client/package.json /app/shared/graphql-client/package.json
+COPY --from=dist /app/shared/utils/build /app/shared/utils/build
+COPY --from=dist /app/shared/utils/package.json /app/shared/utils/package.json
 COPY --from=dist /app/shared/types/build /app/shared/types/build
 COPY --from=dist /app/shared/types/package.json /app/shared/types/package.json
 COPY --from=dist /app/shared/logger/package.json /app/shared/logger/package.json

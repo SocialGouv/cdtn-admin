@@ -9,7 +9,6 @@ import {
   useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Head from "next/head";
 
 import { useState } from "react";
 import { LogoAdmin } from "./LogoAdmin";
@@ -20,10 +19,12 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { fr } from "@codegouvfr/react-dsfr";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { SnackBar } from "../utils/SnackBar";
+import Head from "next/head";
 
 export type LayoutProps = {
   children: any;
   title?: string;
+  disableHeadTag?: boolean;
 };
 
 const drawerWidth = 340;
@@ -78,7 +79,11 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-export function Layout({ children, title }: LayoutProps) {
+export function Layout({
+  children,
+  title,
+  disableHeadTag = false,
+}: LayoutProps) {
   const [menuOpen, setMenuOpen] = useState(true);
 
   const handleDrawerToggle = () => {
@@ -122,12 +127,13 @@ export function Layout({ children, title }: LayoutProps) {
   }
 
   return (
-    <>
-      <Box sx={{ display: "flex" }}>
+    <div>
+      {!disableHeadTag && (
         <Head>
           <title>{title} | Admin cdtn</title>
         </Head>
-
+      )}
+      <Box sx={{ display: "flex" }}>
         <Drawer
           sx={{
             width: drawerWidth,
@@ -184,6 +190,6 @@ export function Layout({ children, title }: LayoutProps) {
         </Main>
       </Box>
       <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
-    </>
+    </div>
   );
 }

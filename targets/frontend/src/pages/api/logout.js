@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
 import { z } from "zod";
-import { client } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 import { createErrorFor } from "src/lib/apiError";
 import { removeJwtCookie } from "src/lib/auth/cookie";
 
@@ -26,7 +26,7 @@ export default async function logout(req, res) {
   const { refresh_token } = value;
 
   // delete refresh token passed in data
-  const result = await client
+  const result = await gqlClient()
     .mutation(mutation, {
       refresh_token: refresh_token,
     })

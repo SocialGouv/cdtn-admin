@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
 import { z } from "zod";
-import { client } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 import { hash, verify } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 
@@ -27,7 +27,7 @@ export default async function changePassword(req, res) {
     return apiError(Boom.badRequest(error.message));
   }
 
-  let result = await client
+  let result = await gqlClient()
     .query(getOldPassword, {
       id: value.id,
     })
@@ -50,7 +50,7 @@ export default async function changePassword(req, res) {
     return apiError(Boom.unauthorized("Invalid id or password"));
   }
 
-  result = await client
+  result = await gqlClient()
     .mutation(changeMyPasswordMutation, {
       id: value.id,
       password: await hash(value.password),

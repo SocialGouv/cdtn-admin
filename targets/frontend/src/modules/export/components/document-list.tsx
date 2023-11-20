@@ -5,12 +5,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { ShortDocument } from "../../documents";
 import { Check, Cross } from "../../../components/utils/icons";
 import { sourceToRoute } from "../../../components/documents/List";
+import { ShortDocument } from "@shared/types";
 
 type Props = {
-  docs: ShortDocument[];
+  docs: ShortDocument<any>[];
   isLoadingDocs: boolean;
 };
 export default function DocumentList({

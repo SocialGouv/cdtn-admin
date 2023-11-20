@@ -1,4 +1,4 @@
-import { client } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 import { generateCdtnId } from "@shared/utils";
 
 interface Versionnable {
@@ -76,7 +76,7 @@ interface UpsertPackageVersionResult {
 }
 
 export async function getLastIngestedVersion(pkgName: string) {
-  const result = await client
+  const result = await gqlClient()
     .query<PackageVersionResult>(getPackageVersionQuery, {
       repository: pkgName,
     })
@@ -92,7 +92,7 @@ export async function getLastIngestedVersion(pkgName: string) {
 }
 
 export async function insertDocuments(docs: ingester.CdtnDocument[]) {
-  const result = await client
+  const result = await gqlClient()
     .mutation<InsertdocumentResult>(insertDocumentsMutation, {
       documents: docs.map(
         ({ id, text, title, slug, is_searchable, source, ...document }) => ({
@@ -121,7 +121,7 @@ export async function insertDocuments(docs: ingester.CdtnDocument[]) {
       (doc) => doc.is_published !== undefined && !doc.is_published
     );
     if (docsNotPublished.length > 0) {
-      const result = await client
+      const result = await gqlClient()
         .mutation<InsertdocumentResult>(updatePublishStatusDocumentsMutation, {
           updates: docsNotPublished.map(({ id, source }) => ({
             where: { cdtn_id: { _eq: generateCdtnId(`${source}${id}`) } },
@@ -141,7 +141,7 @@ export async function insertDocuments(docs: ingester.CdtnDocument[]) {
 
 export async function initDocAvailabity(source: string) {
   console.time(` initDocAvailabity ${source}`);
-  const result = await client
+  const result = await gqlClient()
     .mutation<UpdateDocumentAvailabilityResult>(updateDocumentAvailability, {
       source,
     })
@@ -160,7 +160,7 @@ export async function initDocAvailabity(source: string) {
 }
 
 export async function updateVersion(repository: string, version: string) {
-  const result = await client
+  const result = await gqlClient()
     .mutation<UpsertPackageVersionResult>(insertPackageVersionMutation, {
       object: { repository, version },
     })

@@ -1,15 +1,20 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import type { Question } from "@socialgouv/contributions-data-types";
 import type { IndexedAgreement } from "@socialgouv/kali-data-types";
+import remark from "remark";
+import html from "remark-html";
 
-import type { AgreementPage, Question } from "../../index";
-import { AgreementAnswer, AnswerWithCC } from "../../index";
+import type { AgreementPage } from "../../index";
 import { loadAgreement, loadAgreements } from "../../lib/data-loaders";
-import { fetchContributions } from "../../lib/fetchContributions";
+import fetchContributions from "../../lib/fetchContributions";
 import { formatIdcc } from "../../lib/formatIdcc";
 import getAgreementsWithHighlight from "./agreementsWithHighlight";
 import { getAllKaliBlocks } from "./getKaliBlock";
 import { getKaliArticlesByTheme } from "./kaliArticleBytheme";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const compiler = remark().use(html as any, { sanitize: true });
 
 type QuestionWithSlug = Question & { slug: string };
 
@@ -18,23 +23,21 @@ export const createSorter =
   (a: A, b: A) =>
     fn(a) - fn(b);
 
-export const getContributionsWithSlug = async () => {
-  const contributions: Question[] = await fetchContributions();
-  return contributions.map((contrib) => {
+export default async function getAgreementDocuments() {
+  const allAgreements = await loadAgreements();
+  const agreements = allAgreements.filter((agreement) => agreement.active);
+
+  const contributions = await fetchContributions();
+
+  const allKaliBlocks = await getAllKaliBlocks();
+
+  const contributionsWithSlug = contributions.map((contrib) => {
     const slug = slugify(contrib.title);
     return {
       ...contrib,
       slug,
     };
   });
-};
-
-export default async function getAgreementDocuments() {
-  const agreements = await loadAgreements();
-
-  const allKaliBlocks = await getAllKaliBlocks();
-
-  const contributionsWithSlug = await getContributionsWithSlug();
 
   const agreementsWithHighlight = await getAgreementsWithHighlight();
 
@@ -129,33 +132,33 @@ function getAgreementInfoWithoutId({
 /**
  * Return contribution answer for a given idcc
  */
-export function getContributionAnswers(
+function getContributionAnswers(
   contributionsWithSlug: QuestionWithSlug[],
   agreementNum: number
 ) {
   return contributionsWithSlug
-    .map(({ title, slug, order, answers }) => {
-      const answer: AnswerWithCC | undefined = answers.conventions.find(
-        (a: AnswerWithCC) => parseInt(a.idcc, 10) === agreementNum
+    .flatMap(({ title, slug, index, answers }) => {
+      const maybeAnswer = answers.conventions.filter(
+        ({ idcc }) => parseInt(idcc, 10) === agreementNum
       );
-      if (!answer) {
-        throw new Error(
-          `No answer find for CC ${agreementNum} on contrib ${title}`
-        );
+      if (maybeAnswer.length === 0) {
+        return [];
       }
-
-      const formatted: AgreementAnswer = {
-        contentType: answer.contentType,
-        order,
-        question: title,
-        references: answer.references,
-        genericSlug: slug,
-      };
-
-      if (answer.contentType === "ANSWER") {
-        formatted.content = answer.content;
+      const [answer] = maybeAnswer;
+      const unhandledRegexp =
+        /La convention collective ne prévoit rien sur ce point/i;
+      if (unhandledRegexp.test(answer.markdown)) {
+        return [];
       }
-      return formatted;
+      return [
+        {
+          answer: compiler.processSync(answer.markdown).contents.toString(),
+          index,
+          question: title.trim(),
+          references: answer.references,
+          slug,
+        },
+      ];
     })
-    .sort(createSorter((a) => a.order));
+    .sort(createSorter((a) => a.index));
 }

@@ -9,14 +9,15 @@ import type {
   IndexedAgreement,
 } from "@socialgouv/kali-data-types";
 import type {
-  EditorialContent,
-  Highlight,
   Prequalified,
+  Highlight,
+  EditorialContent,
 } from "./EditorialContent";
-import type { BaseHasuraDocument } from "./Base";
-
 export * from "./EditorialContent";
 export * from "./utils";
+export * from "./contributions";
+export * from "./documents";
+import type { BaseHasuraDocument } from "./Base";
 
 export enum DOCUMENT_SOURCE {
   fiches_ministere_travail = "fiches_ministere_travail",
@@ -38,12 +39,12 @@ export type FicheTravailEmploi = BaseHasuraDocument & {
 
 export type ContributionComplete = BaseHasuraDocument & {
   source: "contributions";
-  document: GenericContributionDoc;
+  document: ContributionCompleteDoc;
 };
 
 export type ContributionFiltered = BaseHasuraDocument & {
   source: "contributions";
-  document: CustomizedContributionDoc;
+  document: ContributionFilteredDoc;
 };
 
 export type LaborCodeArticle = BaseHasuraDocument & {
@@ -134,17 +135,28 @@ export interface TravailEmploiReference {
   url: string;
 }
 
-export interface GenericContributionDoc {
+export interface ContributionCompleteDoc {
+  index: number;
+  split: false;
   description: string;
-  answer: Answer;
-  agreementsWithAnswer: string[];
+  answers: CCMultipleAnswers;
 }
 
-export interface CustomizedContributionDoc {
+export interface ContributionFilteredDoc {
+  index: number;
+  split: true;
   description: string;
-  answer: Answer;
-  idcc: string;
-  shortName: string;
+  answers: CCSingleAnswer;
+}
+
+export interface CCMultipleAnswers {
+  generic: GenericAnswer;
+  conventions: Answer[];
+}
+
+export interface CCSingleAnswer {
+  generic: GenericAnswer;
+  conventionAnswer: Answer;
 }
 
 export type LaborCodeDoc = Pick<CodeArticleData, "cid" | "dateDebut" | "id"> & {
@@ -193,7 +205,7 @@ export interface AgreementContribAnswer {
   index: string;
   answer: string;
   question: string;
-  references: LegalRef[];
+  references: ContributionReference[];
 }
 
 export interface ArticleTheme {
@@ -320,22 +332,10 @@ export type DocumentReferences = {
   references: DocumentReference[];
 };
 
-export type DocumentReference = KaliRef | LegiRef | DilaRef;
-
-export type KaliRef = {
-  dila_cid: string;
-  dila_container_id: string;
-  dila_id: string;
-  title: string;
-  url: string;
-};
-
-export type LegiRef = {
-  dila_cid: string;
-  dila_id: string;
-  title: string;
-  url: string;
-};
+export type DocumentReference = Pick<
+  DilaRef,
+  "dila_cid" | "dila_container_id" | "dila_id" | "title" | "url"
+>;
 
 export type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
   id: string;
@@ -460,15 +460,35 @@ export interface ExportEsStatus {
   user?: User;
 }
 
-export type Answer = {
+export type Question = {
   id: string;
-  content?: string;
-  contentType: string;
-  references: LegalRef[];
-  linkedContent: CdtnRelatedContent[];
+  index: number;
+  title: string;
+  answers: {
+    generic: GenericAnswer;
+    conventions: Answer[];
+  };
 };
 
+export type Answer = {
+  id: string;
+  idcc: string;
+  markdown: string;
+  references: ContributionReference[];
+};
+
+export type GenericAnswer = {
+  id: string;
+  markdown: string;
+  description: string;
+  text: string;
+  references: ContributionReference[];
+};
+
+export type ContributionReference = BaseRef | DilaRef;
+
 export type DilaRef = {
+  category: "agreement" | "labor_code";
   url: string;
   title: string;
   dila_id: string;
@@ -476,15 +496,10 @@ export type DilaRef = {
   dila_container_id: string;
 };
 
-export type LegalRef = {
+export type BaseRef = {
+  category: null;
   title: string;
-  url?: string;
-};
-
-export type CdtnRelatedContent = {
-  source: string;
-  title: string;
-  slug: string;
+  url: string | null;
 };
 
 export type State =

@@ -1,8 +1,8 @@
 import { ConfirmModal } from "../../common/components/modals/ConfirmModal";
 import DocumentList from "./document-list";
 import React, { useEffect, useState } from "react";
-import { ShortDocument } from "../../documents";
 import { useDocumentsQuery } from "../document.query";
+import { ShortDocument } from "@shared/types";
 
 export type ConfirmModalProps = {
   open: boolean;
@@ -22,7 +22,7 @@ export function ShowDocumentsToUpdateModal({
   date,
 }: ConfirmModalProps): JSX.Element {
   const [isLoadingDocs, setIsLoadingDocs] = useState<boolean>(true);
-  const [docsToUpdate, setDocsToUpdate] = useState<ShortDocument[]>([]);
+  const [docsToUpdate, setDocsToUpdate] = useState<ShortDocument<any>[]>([]);
   const docs = useDocumentsQuery({ date });
 
   useEffect(() => {

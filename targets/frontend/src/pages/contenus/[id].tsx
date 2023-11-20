@@ -16,14 +16,10 @@ import { Card } from "@mui/material";
 import getDocumentQuery from "./getDocument.query.graphql";
 import updateDocumentMutation from "./updateDocument.mutation.graphql";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
-
-const CodeWithCodemirror = dynamic(import("src/components/editor/CodeEditor"), {
-  ssr: false,
-});
+import CodeEditor from "../../components/editor/CodeEditor";
 
 export function DocumentPage() {
   const router = useRouter();
-  const [dataDocument, setDataDocument] = useState<any>(undefined);
 
   const [result] = useQuery({
     query: getDocumentQuery,
@@ -32,27 +28,21 @@ export function DocumentPage() {
     },
   });
 
-  useEffect(() => {
-    return () => {
-      setDataDocument(undefined);
-      setJsonData(undefined);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (result && result.data && result.data.document) {
-      setDataDocument(result.data.document);
-      setJsonData(JSON.stringify(result.data.document, undefined, 2));
-    }
-  }, [JSON.stringify(result)]);
-
   const { fetching, error } = result;
 
+  const [hasBeenInitialized, setHasBeenInitialized] = useState(false);
   const [hasChanged, setHasChanged] = useState(false);
-  const [jsonData, setJsonData] = useState<any>(undefined);
+  const [jsonData, setJsonData] = useState<string>("{}");
   const [, executeUpdate] = useMutation(updateDocumentMutation);
   const [, previewContent] = useMutation(previewContentAction);
   const { handleSubmit } = useForm();
+
+  useEffect(() => {
+    if (!hasBeenInitialized && result && result.data && result.data.document) {
+      setJsonData(JSON.stringify(result.data.document, undefined, 2));
+      setHasBeenInitialized(true);
+    }
+  }, [JSON.stringify(result)]);
 
   async function onEditSubmit() {
     const current = JSON.parse(jsonData);
@@ -106,17 +96,11 @@ export function DocumentPage() {
     );
   }
   return (
-    <Layout title={dataDocument?.document.title}>
+    <Layout title={"Edition contenu"} disableHeadTag>
       <form onSubmit={handleSubmit(onEditSubmit)}>
         <Stack>
           <Card>
-            {jsonData && (
-              // @ts-ignore
-              <CodeWithCodemirror
-                value={jsonData}
-                onChange={handleEditorChange}
-              />
-            )}
+            <CodeEditor value={jsonData} onChange={handleEditorChange} />
           </Card>
           <Inline>
             <Button type="submit" disabled={!hasChanged}>

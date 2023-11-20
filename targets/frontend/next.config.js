@@ -18,9 +18,6 @@ module.exports = {
     ];
   },
   poweredByHeader: false,
-  httpAgentOptions: {
-    keepAlive: false,
-  },
   webpack: (config, { isServer, dev }) => {
     config.module.rules.push({
       exclude: /node_modules/,
@@ -34,7 +31,6 @@ module.exports = {
     return config;
   },
   transpilePackages: [
-    "@shared/graphql-client",
     "@shared/utils",
     "@socialgouv/cdtn-ui",
     "@codegouvfr/react-dsfr",

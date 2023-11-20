@@ -12,24 +12,18 @@ RUN --mount=type=secret,id=npmTiptapToken,target=/secrets/npmTiptapToken \
   export NPM_TIPTAP_TOKEN=$(cat /secrets/npmTiptapToken); \
   yarn fetch workspaces focus frontend
 
-
-FROM deps AS build-graphql-client
-COPY shared/graphql-client ./shared/graphql-client
-RUN yarn workspace @shared/graphql-client build
+FROM deps AS build-types
+COPY shared/types ./shared/types/
+RUN yarn workspace @shared/types build
 
 FROM deps AS build-utils
 COPY shared/utils ./shared/utils
 RUN yarn workspace @shared/utils build
 
-FROM deps AS build-types
-COPY shared/types ./shared/types/
-RUN yarn workspace @shared/types build
-
 FROM deps as dist
 
-COPY --from=build-graphql-client /app/shared/graphql-client /app/shared/graphql-client
-COPY --from=build-utils /app/shared/utils /app/shared/utils
 COPY --from=build-types /app/shared/types /app/shared/types
+COPY --from=build-utils /app/shared/utils /app/shared/utils
 COPY shared/eslint-config ./shared/eslint-config/
 COPY targets/frontend ./targets/frontend/
 
