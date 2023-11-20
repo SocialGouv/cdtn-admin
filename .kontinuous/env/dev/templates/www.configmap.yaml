@@ -7,5 +7,5 @@ data:
   MATOMO_URL: "https://matomo.fabrique.social.gouv.fr/"
   NODE_ENV: "production"
   SMTP_URL: "smtp.tipimail.com"
-  STORAGE_CONTAINER: "cdtn-dev-source"
+  STORAGE_CONTAINER: "cdtn-dev"
   URL_EXPORT: "http://export"
