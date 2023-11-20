@@ -5,12 +5,17 @@ import {
   AlertColor,
   Button,
   Card,
+  IconButton,
+  IconButtonProps,
   Stack,
+  Tooltip,
   Typography,
+  styled,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import HelpIcon from "@mui/icons-material/Help";
 import { z } from "zod";
 import { FormSelect, FormTextField } from "src/components/forms";
 
@@ -142,11 +147,16 @@ export const EditQuestionForm = ({
                       Texte applicable si la convention collective ne prévoit
                       rien
                     </Typography>
+                    <Tooltip title="Autres cas: renvoie au Code du Travail ou est intégralement moins favorable que le Code du Travail">
+                      <StyledIconButton>
+                        <HelpIcon />
+                      </StyledIconButton>
+                    </Tooltip>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography
                       dangerouslySetInnerHTML={{
-                        __html: message.contentAgreementUnplanned,
+                        __html: message.contentNotHandled,
                       }}
                     />
                   </AccordionDetails>
@@ -159,8 +169,13 @@ export const EditQuestionForm = ({
                   >
                     <Typography fontWeight={600}>
                       Texte applicable si la convention collective est non
-                      traitée, non sélectionnée ou si la réponse est dépubliée
+                      traitée
                     </Typography>
+                    <Tooltip title="Autres cas: non sélectionnée ou si la réponse est dépubliée">
+                      <StyledIconButton>
+                        <HelpIcon />
+                      </StyledIconButton>
+                    </Tooltip>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography
@@ -182,3 +197,9 @@ export const EditQuestionForm = ({
     </Stack>
   );
 };
+
+const StyledIconButton = styled(IconButton)(() => {
+  return {
+    padding: "0",
+  };
+});

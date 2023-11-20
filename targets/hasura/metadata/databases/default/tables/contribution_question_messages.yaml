@@ -5,21 +5,21 @@ configuration:
   column_config:
     content_agreement:
       custom_name: contentAgreement
-    content_agreement_unplanned:
-      custom_name: contentAgreementUnplanned
     content_legal:
       custom_name: contentLegal
+    content_not_handled:
+      custom_name: contentNotHandled
   custom_column_names:
     content_agreement: contentAgreement
-    content_agreement_unplanned: contentAgreementUnplanned
     content_legal: contentLegal
+    content_not_handled: contentNotHandled
   custom_root_fields: {}
 select_permissions:
   - role: super
     permission:
       columns:
         - content_agreement
-        - content_agreement_unplanned
+        - content_not_handled
         - content_legal
         - id
         - label
