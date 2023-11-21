@@ -11,3 +11,9 @@ export const isNewContribution = (
 ): obj is DocumentElasticWithSource<ContributionDocumentJson> => {
   return "type" in obj;
 };
+
+export const isGenericContribution = (
+  contrib: DocumentElasticWithSource<ContributionDocumentJson>
+) => {
+  return contrib.idcc === "0000";
+};

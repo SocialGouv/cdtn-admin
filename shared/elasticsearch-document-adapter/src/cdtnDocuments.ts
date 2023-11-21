@@ -197,14 +197,17 @@ export async function* cdtnDocumentsGen() {
     contributions.filter<any>(isNewContribution);
   const newContribIds = newContributions.map((v) => v.id);
 
-  const result = await generateContributions(
+  const generatedContributions = generateContributions(
     newContributions,
     ccnData,
     ccnListWithHighlight,
     addGlossary
   );
 
-  yield result;
+  yield {
+    documents: generatedContributions,
+    source: SOURCES.CONTRIBUTIONS,
+  };
 
   logger.info("=== Contributions ===");
 
