@@ -1,8 +1,6 @@
 import type { SourceValues } from "@socialgouv/cdtn-sources";
 import type {
   Answer,
-  BaseRef,
-  DilaRef,
   GenericAnswer,
   Question,
 } from "@socialgouv/contributions-data-types";
@@ -68,29 +66,9 @@ type AgreementPage = Document & {
   effectif?: number;
   mtime?: number;
   shortTitle: string;
-  answers: AgreementAnswer[];
   url?: string;
-  articlesByTheme: AgreementArticleByBlock[];
   synonymes?: string[];
 };
-
-interface AgreementAnswer {
-  index: number;
-  references: (BaseRef | DilaRef)[];
-  slug: string;
-  question: string;
-  answer: string;
-}
-
-interface AgreementArticleByBlock {
-  bloc: string;
-  articles: {
-    cid: string;
-    id: string;
-    section: string;
-    title: string;
-  }[];
-}
 
 /** Document type */
 type CdtnDocument =
