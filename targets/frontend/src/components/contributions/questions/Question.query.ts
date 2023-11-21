@@ -12,7 +12,9 @@ query SelectQuestion($questionId: uuid) {
     message {
       id
       label
-      content
+      contentAgreement
+      contentLegal
+      contentNotHandled
     }
     answers(
       order_by: {agreement_id: asc}
@@ -32,7 +34,9 @@ query SelectQuestion($questionId: uuid) {
     }
   }
   contribution_question_messages {
-    content
+    contentAgreement
+    contentLegal
+    contentNotHandled
     id
     label
   }

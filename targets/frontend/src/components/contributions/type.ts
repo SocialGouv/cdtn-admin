@@ -37,7 +37,9 @@ export type AnswerStatus = z.infer<typeof answerStatusSchema>;
 export const messageSchema = z.object({
   id: z.string().uuid(),
   label: z.string(),
-  content: z.string(),
+  contentAgreement: z.string(),
+  contentLegal: z.string(),
+  contentNotHandled: z.string(),
 });
 export type Message = z.infer<typeof messageSchema>;
 
