@@ -36,8 +36,6 @@ FROM node:$NODE_VERSION
 
 WORKDIR /app
 
-COPY --from=dist /app/shared/graphql-client/build /app/shared/graphql-client/build
-COPY --from=dist /app/shared/graphql-client/package.json /app/shared/graphql-client/package.json
 COPY --from=dist /app/shared/utils/build /app/shared/utils/build
 COPY --from=dist /app/shared/utils/package.json /app/shared/utils/package.json
 COPY --from=dist /app/shared/types/build /app/shared/types/build
