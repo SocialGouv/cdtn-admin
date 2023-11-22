@@ -39,4 +39,5 @@ export type ContributionElasticDocument =
     (ContributionGenericInfos | ContributionConventionnelInfos) & {
       breadcrumbs: Breadcrumbs[] | Record<number, Breadcrumbs[]>;
       highlight?: ContributionHighlight;
+      messageBlock?: string;
     };

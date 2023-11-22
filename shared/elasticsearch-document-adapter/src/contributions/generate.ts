@@ -16,6 +16,7 @@ import {
   ContributionElasticDocument,
   ContributionGenericInfos,
 } from "./types";
+import { generateMessageBlock } from "./generateMessageBlock";
 
 export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
@@ -40,6 +41,8 @@ export async function generateContributions(
     const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
     const content = await generateContent(contributions, contrib);
+
+    const messageBlock = await generateMessageBlock(contrib);
 
     let doc:
       | ContributionConventionnelInfos
@@ -66,6 +69,7 @@ export async function generateContributions(
           ? contrib.breadcrumbs
           : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex],
       highlight,
+      messageBlock: messageBlock ?? undefined,
     });
   }
 

@@ -21,6 +21,7 @@ export const mapContributionToDocument = async (
     references: getReferences(data),
     questionIndex: data.question.order,
     questionName: data.question.content,
+    questionMessageId: data.question.message_id,
     idcc: data.agreement.id,
   };
 
