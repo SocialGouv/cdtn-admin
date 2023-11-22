@@ -182,30 +182,33 @@ export async function* cdtnDocumentsGen() {
 
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
 
-  // const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
-  //   return ccn.highlight;
-  // });
+  const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
+    return ccn.highlight;
+  });
 
-  // const ccnListWithHighlight = ccnListWithHighlightFiltered.reduce(
-  //   (acc: Record<number, ContributionHighlight>, curr) => {
-  //     acc[curr.num] = curr.highlight as any;
-  //     return acc;
-  //   },
-  //   {}
-  // );
+  const ccnListWithHighlight = ccnListWithHighlightFiltered.reduce(
+    (acc: Record<number, ContributionHighlight>, curr) => {
+      acc[curr.num] = curr.highlight as any;
+      return acc;
+    },
+    {}
+  );
 
   const newContributions: DocumentElasticWithSource<ContributionDocumentJson>[] =
     contributions.filter<any>(isNewContribution);
   const newContribIds = newContributions.map((v) => v.id);
 
-  // const result = await generateContributions(
-  //   newContributions,
-  //   ccnData,
-  //   ccnListWithHighlight,
-  //   addGlossary
-  // );
+  const generatedContributions = generateContributions(
+    newContributions,
+    ccnData,
+    ccnListWithHighlight,
+    addGlossary
+  );
 
-  // yield result;
+  yield {
+    documents: generatedContributions,
+    source: SOURCES.CONTRIBUTIONS,
+  };
 
   logger.info("=== Contributions ===");
 
