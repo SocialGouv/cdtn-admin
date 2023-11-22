@@ -17,12 +17,12 @@ import {
   ContributionGenericInfos,
 } from "./types";
 
-export function generateContributions(
+export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
   ccnListWithHighlight: Record<number, ContributionHighlight | undefined>,
   addGlossary: (valueInHtml: string) => string
-): ContributionElasticDocument[] {
+): Promise<ContributionElasticDocument[]> {
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
     (state: Record<number, Breadcrumbs[]>, contribution) => {
       if (contribution.breadcrumbs.length > 0) {
@@ -35,7 +35,8 @@ export function generateContributions(
 
   const generatedContributions: ContributionElasticDocument[] = [];
 
-  contributions.forEach(async (contrib) => {
+  for (let i = 0; i < contributions.length; i++) {
+    const contrib = contributions[i];
     const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
     const content = await generateContent(contributions, contrib);
@@ -66,7 +67,7 @@ export function generateContributions(
           : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex],
       highlight,
     });
-  });
+  }
 
   return generatedContributions;
 }
