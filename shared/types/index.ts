@@ -202,7 +202,7 @@ export type AgreementDoc = Pick<
 
 export interface AgreementContribAnswer {
   slug: string;
-  index: string;
+  index: number;
   answer: string;
   question: string;
   references: ContributionReference[];
