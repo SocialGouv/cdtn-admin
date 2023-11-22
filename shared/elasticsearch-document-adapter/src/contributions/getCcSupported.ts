@@ -2,7 +2,7 @@ import { ContributionDocumentJson } from "@shared/types";
 import { DocumentElasticWithSource } from "../types/Glossary";
 
 // TODO: à enlever lorsqu'on supporte la nouvelle CC de la métallurgie (3248)
-const CC_OLD_METALLURGIE = [
+export const CC_OLD_METALLURGIE = [
   "0054",
   "0650",
   "0714",
@@ -86,10 +86,10 @@ const CC_OLD_METALLURGIE = [
 
 export const getCcSupported = (
   allContributions: DocumentElasticWithSource<ContributionDocumentJson>[],
-  contribution: DocumentElasticWithSource<ContributionDocumentJson>
+  genericContrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): string[] => {
   const ccSupported = allContributions
-    .filter((v) => v.questionIndex === contribution.questionIndex)
+    .filter((v) => v.questionIndex === genericContrib.questionIndex)
     .filter((v) => v.contentType !== "UNKNOWN")
     .map((v) => v.idcc);
   return [...ccSupported, ...CC_OLD_METALLURGIE];

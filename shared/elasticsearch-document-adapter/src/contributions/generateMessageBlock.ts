@@ -14,7 +14,8 @@ export const generateMessageBlock = async (
   } else if (
     contrib.contentType === "NOTHING" ||
     contrib.contentType === "CDT" ||
-    contrib.contentType === "UNFAVOURABLE"
+    contrib.contentType === "UNFAVOURABLE" ||
+    contrib.contentType === "SP"
   ) {
     return messageBlock.contentLegal;
   } else if (contrib.contentType === "UNKNOWN") {
