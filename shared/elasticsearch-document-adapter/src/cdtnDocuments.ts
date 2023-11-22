@@ -25,7 +25,11 @@ import type { ThemeQueryResult } from "./types/themes";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
-import { isNewContribution, generateContributions } from "./contributions";
+import {
+  isNewContribution,
+  generateContributions,
+  isOldContribution,
+} from "./contributions";
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -170,14 +174,13 @@ export async function* cdtnDocumentsGen() {
     source: SOURCES.THEMATIC_FILES,
   };
 
-  logger.info("=== Contributions V2===");
-  const contributions:
-    | DocumentElasticWithSource<ContributionCompleteDoc>[]
-    | DocumentElasticWithSource<ContributionDocumentJson>[] =
-    await getDocumentBySource<ContributionCompleteDoc>(
-      SOURCES.CONTRIBUTIONS,
-      getBreadcrumbs
-    );
+  logger.info("=== Contributions ===");
+  const contributions: DocumentElasticWithSource<
+    ContributionDocumentJson | ContributionCompleteDoc
+  >[] = await getDocumentBySource<ContributionCompleteDoc>(
+    SOURCES.CONTRIBUTIONS,
+    getBreadcrumbs
+  );
 
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
 
@@ -193,26 +196,17 @@ export async function* cdtnDocumentsGen() {
     {}
   );
 
-  const newContributions: DocumentElasticWithSource<ContributionDocumentJson>[] =
-    contributions.filter<any>(isNewContribution);
-  const newContribIds = newContributions.map((v) => v.id);
+  const newContributions = contributions.filter(isNewContribution);
 
-  const generatedContributions = generateContributions(
+  const newGeneratedContributions = await generateContributions(
     newContributions,
     ccnData,
     ccnListWithHighlight,
     addGlossary
   );
 
-  yield {
-    documents: generatedContributions,
-    source: SOURCES.CONTRIBUTIONS,
-  };
-
-  logger.info("=== Contributions ===");
-
   const oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[] =
-    contributions.filter((v) => !newContribIds.includes(v.id));
+    contributions.filter(isOldContribution);
 
   const breadcrumbsOfRootContributionsPerIndex = oldContributions.reduce(
     (state: any, contribution: any) => {
@@ -224,55 +218,57 @@ export async function* cdtnDocumentsGen() {
     {}
   );
 
-  yield {
-    documents: oldContributions.map(
-      ({ answers, breadcrumbs, ...contribution }: any) => {
-        const newAnswer = answers;
-        if (newAnswer.conventions) {
-          newAnswer.conventions = answers.conventions.map((answer: any) => {
-            const highlight = ccnListWithHighlight[parseInt(answer.idcc)];
-            const cc = ccnData.find((v) => v.num === parseInt(answer.idcc));
-            const answerWithSlug = {
-              ...answer,
-              conventionAnswer: {
-                ...answer.conventionAnswer,
-                slug: cc?.slug,
-              },
-            };
-            return {
-              ...answerWithSlug,
-              ...(highlight ? { highlight } : {}),
-            };
-          });
-        }
-
-        if (newAnswer.conventionAnswer) {
-          const highlight =
-            ccnListWithHighlight[parseInt(newAnswer.conventionAnswer.idcc)];
-          const cc = ccnData.find(
-            (v) => v.num === parseInt(newAnswer.conventionAnswer.idcc)
-          );
-          if (highlight) {
-            newAnswer.conventionAnswer = {
-              ...newAnswer.conventionAnswer,
-              highlight,
+  const oldGeneratedContributions = oldContributions.map(
+    ({ answers, breadcrumbs, ...contribution }: any) => {
+      const newAnswer = answers;
+      if (newAnswer.conventions) {
+        newAnswer.conventions = answers.conventions.map((answer: any) => {
+          const highlight = ccnListWithHighlight[parseInt(answer.idcc)];
+          const cc = ccnData.find((v) => v.num === parseInt(answer.idcc));
+          const answerWithSlug = {
+            ...answer,
+            conventionAnswer: {
+              ...answer.conventionAnswer,
               slug: cc?.slug,
-            };
-          }
-        }
-        const obj = addGlossaryToAllMarkdownField({
-          ...contribution,
-          answers: {
-            ...newAnswer,
-          },
-          breadcrumbs:
-            breadcrumbs.length > 0
-              ? breadcrumbs
-              : breadcrumbsOfRootContributionsPerIndex[contribution.index],
+            },
+          };
+          return {
+            ...answerWithSlug,
+            ...(highlight ? { highlight } : {}),
+          };
         });
-        return obj;
       }
-    ),
+
+      if (newAnswer.conventionAnswer) {
+        const highlight =
+          ccnListWithHighlight[parseInt(newAnswer.conventionAnswer.idcc)];
+        const cc = ccnData.find(
+          (v) => v.num === parseInt(newAnswer.conventionAnswer.idcc)
+        );
+        if (highlight) {
+          newAnswer.conventionAnswer = {
+            ...newAnswer.conventionAnswer,
+            highlight,
+            slug: cc?.slug,
+          };
+        }
+      }
+      const obj = addGlossaryToAllMarkdownField({
+        ...contribution,
+        answers: {
+          ...newAnswer,
+        },
+        breadcrumbs:
+          breadcrumbs.length > 0
+            ? breadcrumbs
+            : breadcrumbsOfRootContributionsPerIndex[contribution.index],
+      });
+      return obj;
+    }
+  );
+
+  yield {
+    documents: [...newGeneratedContributions, ...oldGeneratedContributions],
     source: SOURCES.CONTRIBUTIONS,
   };
 

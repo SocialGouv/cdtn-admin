@@ -23,6 +23,10 @@ export async function generateContributions(
   ccnListWithHighlight: Record<number, ContributionHighlight | undefined>,
   addGlossary: (valueInHtml: string) => string
 ): Promise<ContributionElasticDocument[]> {
+  if (contributions.length === 0) {
+    return [];
+  }
+
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
     (state: Record<number, Breadcrumbs[]>, contribution) => {
       if (contribution.breadcrumbs.length > 0) {

@@ -45,6 +45,7 @@
   },
   "scripts": {
     "build": "ncc build src/index.ts -o lib",
+    "build:watch": "ncc build src/index.ts -o lib -w",
     "lint": "npx eslint src/**/*.{js,ts}",
     "precommit": "lint-staged",
     "test": "jest"
