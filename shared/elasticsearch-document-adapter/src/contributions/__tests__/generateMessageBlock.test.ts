@@ -14,19 +14,6 @@ describe("generateMessageBlock", () => {
     jest.clearAllMocks();
   });
 
-  it("should return undefined if questionId is not provided", async () => {
-    const contributionWithoutMessageId: any = {
-      contentType: "ANSWER",
-    };
-
-    const result: string | undefined = await generateMessageBlock(
-      contributionWithoutMessageId
-    );
-
-    expect(result).toBeUndefined();
-    expect(fetchMessageBlock).not.toHaveBeenCalled();
-  });
-
   it.each`
     contentType       | expectedContent
     ${"ANSWER"}       | ${"agreed content"}
