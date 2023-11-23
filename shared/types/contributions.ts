@@ -60,7 +60,7 @@ type ContributionDocumentJsonBasic = {
   linkedContent: ContributionLinkedContent[];
   questionIndex: number;
   questionName: string;
-  questionId?: string; //TODO: normalement c'est pas possible
+  questionId: string;
   idcc: string; // 0000 pour la générique, impossible d'être nulle
 };
 
