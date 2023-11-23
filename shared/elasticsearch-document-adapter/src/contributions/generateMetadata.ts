@@ -18,7 +18,10 @@ export const generateMetadata = (
   const title = contribution.questionName;
 
   const contentSliced =
-    contentOrDescription.slice(0, contentOrDescription.indexOf(" ", 150)) + "…";
+    contentOrDescription.length > 150
+      ? contentOrDescription.slice(0, contentOrDescription.indexOf(" ", 150)) +
+        "…"
+      : contentOrDescription;
 
   return {
     title,

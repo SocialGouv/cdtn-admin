@@ -21,6 +21,7 @@ export const mapContributionToDocument = async (
     references: getReferences(data),
     questionIndex: data.question.order,
     questionName: data.question.content,
+    questionMessageId: data.question.message_id,
     idcc: data.agreement.id,
   };
 
@@ -56,6 +57,8 @@ export const mapContributionToDocument = async (
       type: "fiche-sp",
       ficheSpId: data.content_fiche_sp!.initial_id,
     };
+  } else {
+    throw new Error("Content type not defined");
   }
   return {
     cdtn_id: document?.cdtn_id ?? generateCdtnId(data.question.content),

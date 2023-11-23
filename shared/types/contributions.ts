@@ -5,6 +5,7 @@ export type ContributionsAnswers = {
   question: {
     id: string;
     content: string;
+    message_id?: string;
     order: number;
   };
   kali_references: {
@@ -60,6 +61,7 @@ type ContributionDocumentJsonBasic = {
   linkedContent: ContributionLinkedContent[];
   questionIndex: number;
   questionName: string;
+  questionMessageId?: string;
   idcc: string; // 0000 pour la générique, impossible d'être nulle
 };
 
@@ -99,4 +101,12 @@ export type ContributionHighlight = {
   title?: string;
   content?: string;
   searchInfo?: string;
+};
+
+export type ContributionMessageBlock = {
+  id: string;
+  label: string;
+  contentAgreement: string;
+  contentLegal: string;
+  contentNotHandled: string;
 };
