@@ -69,7 +69,7 @@ export async function generateContributions(
           ? contrib.breadcrumbs
           : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex],
       highlight,
-      messageBlock: messageBlock ?? undefined,
+      messageBlock,
     });
   }
 
