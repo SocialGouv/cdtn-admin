@@ -33,11 +33,7 @@ export const useDocumentsQuery = ({
     query: getDocumentsUpdatedAfterDateQuery,
     variables: {
       updated_at: date,
-      sources: [
-        SOURCES.LETTERS,
-        SOURCES.EDITORIAL_CONTENT,
-        SOURCES.CONTRIBUTIONS,
-      ],
+      sources: [SOURCES.LETTERS, SOURCES.EDITORIAL_CONTENT],
     },
   });
   if (!result.data) {
