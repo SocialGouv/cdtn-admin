@@ -1,11 +1,10 @@
-import {
-  AgreementContribAnswer,
-  AgreementDoc,
-  ContributionCompleteDoc,
-  ContributionDocumentJson,
-} from "@shared/types";
+import { AgreementDoc } from "@shared/types";
 import { DocumentElasticWithSource } from "../types/Glossary";
 import { SOURCES } from "@socialgouv/cdtn-sources";
+import {
+  ContributionElasticDocument,
+  OldContributionElasticDocument,
+} from "../contributions/types";
 
 const ccnQR =
   "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";
@@ -17,17 +16,50 @@ export const documentToAgreementPage = (
     num,
     ...content
   }: DocumentElasticWithSource<AgreementDoc>,
-  contributions: (
-    | DocumentElasticWithSource<ContributionCompleteDoc>
-    | DocumentElasticWithSource<ContributionDocumentJson>
-  )[],
-  contribIDCCs: Set<number>,
-  addGlossary: (text: string) => string
+  newContributions: ContributionElasticDocument[],
+  oldContributions: OldContributionElasticDocument[],
+  contribIDCCs: Set<number>
 ) => {
-  const contributionByIdcc = contributions.filter(({ slug }) => {
-    const [idcc] = slug.split("-");
+  const newContributionByIdcc = newContributions.filter((item) => {
+    return parseInt(item.idcc) === num;
+  });
+  const oldContributionByIdcc = oldContributions.filter((item) => {
+    const [idcc] = item.slug.split("-");
     return idcc === num.toString();
   });
+  const newAnswers = newContributionByIdcc.map(
+    (data: ContributionElasticDocument) => {
+      return {
+        index: data.questionIndex,
+        slug: data.slug,
+        answer: data.text,
+        theme:
+          data.breadcrumbs && data.breadcrumbs.length
+            ? data.breadcrumbs[0].label
+            : "",
+        question: data.title,
+        references: [],
+      };
+    }
+  );
+
+  const oldAnswers = oldContributionByIdcc.map(
+    (data: OldContributionElasticDocument) => {
+      return {
+        index: data.index,
+        slug: data.slug,
+        answer: data.text,
+        theme:
+          data.breadcrumbs && data.breadcrumbs.length
+            ? data.breadcrumbs[0].label
+            : "",
+        question: data.title,
+        references: [],
+        oldContrib: true,
+      };
+    }
+  );
+
   return {
     // default effectif as some CCN doesn't have it defined
     effectif: 1,
@@ -35,21 +67,8 @@ export const documentToAgreementPage = (
     shortTitle,
     title: shortTitle,
     ...content,
-    answers: contributionByIdcc.reduce<
-      (AgreementContribAnswer & { theme: string })[]
-    >((arr, data) => {
-      const [theme] = data.breadcrumbs;
-      arr.push({
-        index: 50,
-        slug: data.slug,
-        answer: "", //addGlossary(data.answer),
-        theme: theme.label,
-        question: "",
-        references: [],
-      });
-      return arr;
-    }, []),
-    contributions: true, //contribIDCCs.has(content.num),
+    answers: oldAnswers.concat(newAnswers as any),
+    contributions: contribIDCCs.has(num),
     description: ccnQR,
     source: SOURCES.CCN,
   };

@@ -2,6 +2,7 @@ import type {
   AgreementDoc,
   ContributionCompleteDoc,
   ContributionDocumentJson,
+  ContributionFilteredDoc,
   ContributionHighlight,
   EditorialContentDoc,
   FicheTravailEmploiDoc,
@@ -30,6 +31,7 @@ import {
   generateContributions,
   isOldContribution,
 } from "./contributions";
+import { documentToAgreementPage } from "./agreements/exportMapping";
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -208,15 +210,15 @@ export async function* cdtnDocumentsGen() {
   const oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[] =
     contributions.filter(isOldContribution);
 
-  // const breadcrumbsOfRootContributionsPerIndex = oldContributions.reduce(
-  //   (state: any, contribution: any) => {
-  //     if (contribution.breadcrumbs.length > 0) {
-  //       state[contribution.index] = contribution.breadcrumbs;
-  //     }
-  //     return state;
-  //   },
-  //   {}
-  // );
+  const breadcrumbsOfRootContributionsPerIndex = oldContributions.reduce(
+    (state: any, contribution: any) => {
+      if (contribution.breadcrumbs.length > 0) {
+        state[contribution.index] = contribution.breadcrumbs;
+      }
+      return state;
+    },
+    {}
+  );
 
   const oldGeneratedContributions = oldContributions.map(
     ({ answers, breadcrumbs, ...contribution }: any) => {
@@ -275,17 +277,21 @@ export async function* cdtnDocumentsGen() {
   logger.info("=== Conventions Collectives ===");
   // we keep track of the idccs used in the contributions
   // in order to flag the corresponding conventions collectives below
+  //@ts-ignore
   const contribIDCCs = getIDCCs(oldContributions, newContributions);
 
+  const ccnDocuments = ccnData.map((ccnItem) => {
+    return documentToAgreementPage(
+      ccnItem,
+      newGeneratedContributions,
+      // @ts-ignore
+      oldGeneratedContributions,
+      contribIDCCs
+    );
+  });
+
   yield {
-    documents: ccnData.map((ccnItem) => {
-      return documentToAgreementPage(
-        ccnItem,
-        contributions,
-        contribIDCCs,
-        addGlossary
-      );
-    }),
+    documents: ccnDocuments,
     source: SOURCES.CCN,
   };
 

@@ -15,6 +15,7 @@ export const generateMetadata = (
     contentOrDescription = content.content;
   }
 
+  //@ts-ignore
   const title = contribution.questionName;
 
   const contentSliced =
