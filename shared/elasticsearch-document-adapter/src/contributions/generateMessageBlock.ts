@@ -5,10 +5,7 @@ import { fetchMessageBlock } from "./fetchMessageBlock";
 export const generateMessageBlock = async (
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): Promise<string | undefined> => {
-  if (!contrib.questionMessageId) {
-    return undefined;
-  }
-  const messageBlock = await fetchMessageBlock(contrib.questionMessageId);
+  const messageBlock = await fetchMessageBlock(contrib.questionId);
   if (contrib.contentType === "ANSWER") {
     return messageBlock.contentAgreement;
   } else if (

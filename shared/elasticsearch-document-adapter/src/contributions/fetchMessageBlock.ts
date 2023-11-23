@@ -3,23 +3,27 @@ import { gqlClient } from "@shared/utils";
 import { context } from "../context";
 
 const fetchMessageBlockById = `
-query get_message_block($messageId: uuid!) {
-  contribution_question_messages_by_pk(id: $messageId) {
-    id
-    label
-    contentAgreement
-    contentLegal
-    contentNotHandled
+query get_question($id: uuid!) {
+  contribution_questions_by_pk(id: $id) {
+    message {
+      id
+      label
+      contentAgreement
+      contentLegal
+      contentNotHandled
+    }
   }
 }
 `;
 
 interface HasuraReturn {
-  contribution_question_messages_by_pk: ContributionMessageBlock;
+  contribution_question_messages_by_pk: {
+    message: ContributionMessageBlock;
+  };
 }
 
 export async function fetchMessageBlock(
-  messageId: string
+  questionId: string
 ): Promise<ContributionMessageBlock> {
   const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint");
   const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret");
@@ -28,20 +32,16 @@ export async function fetchMessageBlock(
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
   })
     .query<HasuraReturn>(fetchMessageBlockById, {
-      messageId,
+      id: questionId,
     })
     .toPromise();
   if (res.error) {
     throw res.error;
   }
-  if (
-    !res.data ||
-    res.error ||
-    !res.data.contribution_question_messages_by_pk
-  ) {
+  if (!res.data?.contribution_question_messages_by_pk.message) {
     throw new Error(
-      `Impossible de récupérer la message block pour l'id ${messageId}`
+      `Impossible de récupérer la message block pour la question avec l'id ${questionId}`
     );
   }
-  return res.data.contribution_question_messages_by_pk;
+  return res.data.contribution_question_messages_by_pk.message;
 }

@@ -14,7 +14,6 @@ export const getContributionAnswerById = gql`
         id
         content
         order
-        message_id
       }
       kali_references {
         label
@@ -66,7 +65,6 @@ export const getGenericAnswerByQuestionId = gql`
         id
         content
         order
-        message_id
       }
       content_fiche_sp: document {
         initial_id
