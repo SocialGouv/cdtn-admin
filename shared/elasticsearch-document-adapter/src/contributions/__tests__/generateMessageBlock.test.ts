@@ -7,8 +7,7 @@ jest.mock("../fetchMessageBlock");
 describe("generateMessageBlock", () => {
   const mockContribution: any = {
     questionId: "123",
-    contentType: "ANSWER", // replace with the desired content type for your test
-    // Add other necessary properties based on your implementation
+    contentType: "ANSWER",
   };
 
   beforeEach(() => {
@@ -17,7 +16,7 @@ describe("generateMessageBlock", () => {
 
   it("should return undefined if questionId is not provided", async () => {
     const contributionWithoutMessageId: any = {
-      contentType: "ANSWER", // replace with the desired content type for your test
+      contentType: "ANSWER",
     };
 
     const result: string | undefined = await generateMessageBlock(
