@@ -17,9 +17,11 @@ query get_question($id: uuid!) {
 `;
 
 interface HasuraReturn {
-  contribution_question_messages_by_pk: {
-    message: ContributionMessageBlock;
-  };
+  contribution_question_messages_by_pk:
+    | {
+        message: ContributionMessageBlock;
+      }
+    | undefined;
 }
 
 export async function fetchMessageBlock(
@@ -38,7 +40,7 @@ export async function fetchMessageBlock(
   if (res.error) {
     throw res.error;
   }
-  if (!res.data?.contribution_question_messages_by_pk.message) {
+  if (!res.data?.contribution_question_messages_by_pk?.message) {
     throw new Error(
       `Impossible de récupérer la message block pour la question avec l'id ${questionId}`
     );

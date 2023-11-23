@@ -242,16 +242,20 @@ export async function* cdtnDocumentsGen() {
       if (newAnswer.conventionAnswer) {
         const highlight =
           ccnListWithHighlight[parseInt(newAnswer.conventionAnswer.idcc)];
-        const cc = ccnData.find(
-          (v) => v.num === parseInt(newAnswer.conventionAnswer.idcc)
-        );
         if (highlight) {
           newAnswer.conventionAnswer = {
             ...newAnswer.conventionAnswer,
             highlight,
-            slug: cc?.slug,
           };
         }
+
+        const cc = ccnData.find(
+          (v) => v.num === parseInt(newAnswer.conventionAnswer.idcc)
+        );
+        newAnswer.conventionAnswer = {
+          ...newAnswer.conventionAnswer,
+          slug: cc?.slug,
+        };
       }
       const obj = addGlossaryToAllMarkdownField({
         ...contribution,
