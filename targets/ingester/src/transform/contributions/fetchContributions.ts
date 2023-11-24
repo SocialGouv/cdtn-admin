@@ -1,15 +1,12 @@
 import { gqlClient } from "@shared/utils";
 
 const fetchContribs = `
-  query fetch_contribs() {
-    documents(
-      where: {
-        source: { _eq: "contributions" }
-      }
-    ) {
-      slug
-    }
+query fetch_contribs {
+  documents(where: {source: {_eq: "contributions"}}) {
+    slug
+    document
   }
+}
 `;
 
 interface HasuraReturn {
