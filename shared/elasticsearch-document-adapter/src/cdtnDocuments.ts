@@ -5,6 +5,7 @@ import type {
   ContributionHighlight,
   EditorialContentDoc,
   FicheTravailEmploiDoc,
+  OldContributionElasticDocument,
 } from "@shared/types";
 import { logger } from "@socialgouv/cdtn-logger";
 import { SOURCES } from "@socialgouv/cdtn-sources";
@@ -30,6 +31,7 @@ import {
   generateContributions,
   isOldContribution,
 } from "./contributions";
+import { generateAgreements } from "./agreements";
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -80,26 +82,6 @@ export async function getDuplicateSlugs(allDocuments: any) {
       (state: any, { slug, count }: any) => ({ ...state, [slug]: count }),
       {}
     );
-}
-
-export function getIDCCs(
-  oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[],
-  newContributions: DocumentElasticWithSource<ContributionDocumentJson>[]
-) {
-  const contribIDCCs = new Set<number>();
-  oldContributions.forEach(({ answers }: any) => {
-    if (answers.conventionAnswer) {
-      const idccNum = parseInt(answers.conventionAnswer.idcc);
-      contribIDCCs.add(idccNum);
-    }
-  });
-  newContributions.forEach((contrib: any) => {
-    if (contrib.idcc !== "0000") {
-      const idccNum = parseInt(contrib.idcc);
-      contribIDCCs.add(idccNum);
-    }
-  });
-  return contribIDCCs;
 }
 
 export async function* cdtnDocumentsGen() {
@@ -269,7 +251,7 @@ export async function* cdtnDocumentsGen() {
       });
       return obj;
     }
-  );
+  ) as unknown as OldContributionElasticDocument[];
 
   yield {
     documents: [...newGeneratedContributions, ...oldGeneratedContributions],
@@ -277,40 +259,14 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== Conventions Collectives ===");
-  // we keep track of the idccs used in the contributions
-  // in order to flag the corresponding conventions collectives below
-  const contribIDCCs = getIDCCs(oldContributions, newContributions);
-
-  const ccnQR =
-    "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";
+  const agreementsDocs = await generateAgreements(
+    ccnData,
+    newGeneratedContributions,
+    oldGeneratedContributions
+  );
 
   yield {
-    documents: ccnData.map(({ title, shortTitle, ...content }) => {
-      return {
-        // default effectif as some CCN doesn't have it defined
-        effectif: 1,
-        longTitle: title,
-        shortTitle,
-        title: shortTitle,
-        ...content,
-        answers: content.answers.map((data: any) => {
-          const contrib = contributions.find(({ slug }) => data.slug === slug);
-          if (!contrib) {
-            // slug de la contrib
-            throw `Contribution with slug ${data.slug} not found. Perhaps the contribution has been deactivated, please check on the admin.`;
-          }
-          const [theme] = contrib.breadcrumbs;
-          return {
-            ...data,
-            answer: addGlossary(data.answer),
-            theme: theme && theme.label,
-          };
-        }),
-        contributions: contribIDCCs.has(content.num),
-        description: ccnQR,
-        source: SOURCES.CCN,
-      };
-    }),
+    documents: agreementsDocs,
     source: SOURCES.CCN,
   };
 

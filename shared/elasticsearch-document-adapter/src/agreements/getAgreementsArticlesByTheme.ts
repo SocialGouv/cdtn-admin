@@ -1,9 +1,9 @@
-import { gqlClient } from "@shared/utils";
 import {
-  ArticleByTheme,
-  KaliArticlesByIdResult,
   KaliBlockByIdccResult,
-} from "./types";
+  KaliArticlesByIdResult,
+  ArticleByTheme,
+} from "@shared/types";
+import { gqlClient } from "@shared/utils";
 
 const getKaliBlocksQueryByIdcc = `
 query getKaliBlocksByIdcc($idcc: Int!) {

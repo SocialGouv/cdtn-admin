@@ -1,21 +1,19 @@
 import {
   AgreementDoc,
+  Breadcrumbs,
+  ContributionConventionnelInfos,
   ContributionDocumentJson,
+  ContributionElasticDocument,
+  ContributionGenericInfos,
   ContributionHighlight,
+  DocumentElasticWithSource,
 } from "@shared/types";
-import { DocumentElasticWithSource } from "../types/Glossary";
 import { generateMetadata } from "./generateMetadata";
 import { isGenericContribution } from "./helpers";
 import { getCcSupported } from "./getCcSupported";
 import { getCcInfos } from "./getCcInfos";
 import { generateContent } from "./generateContent";
-import { Breadcrumbs } from "../breadcrumbs";
 import { addGlossaryToContent } from "./addGlossaryToContent";
-import {
-  ContributionConventionnelInfos,
-  ContributionElasticDocument,
-  ContributionGenericInfos,
-} from "./types";
 import { generateMessageBlock } from "./generateMessageBlock";
 
 export async function generateContributions(

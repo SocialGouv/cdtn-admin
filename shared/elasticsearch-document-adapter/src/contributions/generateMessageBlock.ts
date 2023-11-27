@@ -1,5 +1,7 @@
-import { ContributionDocumentJson } from "@shared/types";
-import { DocumentElasticWithSource } from "../types/Glossary";
+import {
+  ContributionDocumentJson,
+  DocumentElasticWithSource,
+} from "@shared/types";
 import { fetchMessageBlock } from "./fetchMessageBlock";
 
 export const generateMessageBlock = async (

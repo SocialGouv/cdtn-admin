@@ -8,6 +8,7 @@ import type {
   AgreementSection,
   IndexedAgreement,
 } from "@socialgouv/kali-data-types";
+import type { BaseHasuraDocument } from "./global";
 import type {
   Prequalified,
   Highlight,
@@ -17,7 +18,7 @@ export * from "./EditorialContent";
 export * from "./utils";
 export * from "./contributions";
 export * from "./documents";
-import type { BaseHasuraDocument } from "./Base";
+export * from "./export";
 
 export enum DOCUMENT_SOURCE {
   fiches_ministere_travail = "fiches_ministere_travail",
@@ -202,7 +203,7 @@ export type AgreementDoc = Pick<
 
 export interface AgreementContribAnswer {
   slug: string;
-  index: string;
+  index: number;
   answer: string;
   question: string;
   references: ContributionReference[];
@@ -216,35 +217,6 @@ export interface ArticleTheme {
     title: string;
     section: string;
   };
-}
-
-export interface KaliArticleHDN {
-  idcc: number;
-  title: string;
-  id: string;
-  blocks: Record<string, string[]>;
-}
-
-export interface KaliBlock {
-  id: string;
-  idcc: number;
-  title: string;
-  blocks: Blocks;
-}
-
-export interface Blocks {
-  "1"?: string[];
-  "2"?: string[];
-  "4"?: string[];
-  "6": string[];
-  "7"?: string[];
-  "9"?: string[];
-  "10"?: string[];
-  "15"?: string[];
-  "16"?: string[];
-  "3"?: string[];
-  "5"?: string[];
-  "11"?: string[];
 }
 
 /**
@@ -459,16 +431,6 @@ export interface ExportEsStatus {
   updated_at: Date;
   user?: User;
 }
-
-export type Question = {
-  id: string;
-  index: number;
-  title: string;
-  answers: {
-    generic: GenericAnswer;
-    conventions: Answer[];
-  };
-};
 
 export type Answer = {
   id: string;

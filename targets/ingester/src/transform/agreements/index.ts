@@ -69,15 +69,16 @@ function getCCNInfo({
 }: IndexedAgreement) {
   return {
     date_publi,
-    effectif,
+    effectif: effectif ?? 1,
     id,
     mtime,
     num,
-    shortTitle,
     slug: slugify(`${num}-${shortTitle}`.substring(0, 80)),
     text: `IDCC ${num}: ${title} ${shortTitle}`,
-    title,
     url,
+    title: shortTitle,
+    shortTitle,
+    longTitle: title,
   };
 }
 
@@ -93,8 +94,9 @@ function getAgreementInfoWithoutId({
     id: `IDCC-${num}`,
     num,
     shortTitle,
+    title: shortTitle,
+    longTitle: title,
     slug: slugify(`${num}-${shortTitle}`.substring(0, 80)),
     text: `IDCC ${num}: ${title} ${shortTitle}`,
-    title,
   };
 }
