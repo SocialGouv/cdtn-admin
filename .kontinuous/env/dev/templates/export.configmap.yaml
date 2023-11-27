@@ -4,7 +4,6 @@ metadata:
   name: export-elasticsearch
 data:
   HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
-  NLP_URL: "https://serving-ml-preprod.dev.fabrique.social.gouv.fr"
   NODE_ENV: "production"
   LOG_LEVEL: "info"
   ENVIRONMENT: "dev"
