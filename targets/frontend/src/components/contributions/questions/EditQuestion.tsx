@@ -2,7 +2,7 @@ import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDiss
 import { Box, Skeleton, Stack, Tab, Tabs, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-import { EditQuestionAnswerList } from "./EditQuestionAnswerList";
+import { QuestionAnswerList } from "./QuestionAnswerList";
 
 import { EditQuestionForm } from "./EditQuestionForm";
 import { useQuestionQuery } from "./Question.query";
@@ -11,6 +11,10 @@ import { statusesMapping } from "../status/data";
 import { countAnswersWithStatus } from "../questionList";
 import { Answer } from "../type";
 import { StatusStats } from "../status/StatusStats";
+import { Button } from "../../button";
+import { usePublishContributionMutation } from "../answers/usePublishAnswer";
+import { useUser } from "../../../hooks/useUser";
+import { useContributionAnswerUpdateStatusMutation } from "../answers/answerStatus.mutation";
 
 export type EditQuestionProps = {
   questionId: string;
@@ -66,6 +70,37 @@ export const EditQuestion = ({
       const count = countAnswersWithStatus(answers, status);
       return { status, count };
     });
+
+    const onPublish = usePublishContributionMutation();
+    const { user } = useUser() as any;
+    const updateAnswerStatus = useContributionAnswerUpdateStatusMutation();
+    const publishAll = () => {
+      const allPromises = answers.map((answer) => {
+        if (answer.status.status !== "VALIDATED") {
+          return new Promise((resolve) => {
+            return resolve(true);
+          });
+        }
+
+        return new Promise(async (resolve, reject) => {
+          try {
+            const result = await onPublish(answer.id);
+            answer.status;
+            await updateAnswerStatus({
+              id: answer.id,
+              status: "PUBLISHED",
+              userId: user?.id,
+            });
+            console.log("Published", answer.id);
+            return resolve(result);
+          } catch (e: any) {
+            console.error(e);
+            reject(e);
+          }
+        });
+      });
+      return Promise.all(allPromises);
+    };
     return (
       <>
         <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
@@ -79,6 +114,14 @@ export const EditQuestion = ({
             total={answers.length}
             statusCounts={statusCounts}
           ></StatusStats>
+          <Button
+            variant="contained"
+            type="button"
+            color="success"
+            onClick={() => publishAll()}
+          >
+            Publier les réponses validées
+          </Button>
         </Stack>
       </>
     );
@@ -130,9 +173,9 @@ export const EditQuestion = ({
         </Tabs>
       </Box>
       <TabPanel value={tabIndex} index={TabValue.answers}>
-        <EditQuestionAnswerList
+        <QuestionAnswerList
           answers={data.question.answers as Answer[]}
-        ></EditQuestionAnswerList>
+        ></QuestionAnswerList>
       </TabPanel>
       <TabPanel value={tabIndex} index={TabValue.edition}>
         <EditQuestionForm question={data.question} messages={data.messages} />

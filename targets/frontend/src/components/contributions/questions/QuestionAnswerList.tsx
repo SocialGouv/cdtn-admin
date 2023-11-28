@@ -17,7 +17,7 @@ type EditQuestionAnswerListProps = {
   answers: Answer[];
 };
 
-export const EditQuestionAnswerList = ({
+export const QuestionAnswerList = ({
   answers,
 }: EditQuestionAnswerListProps): JSX.Element => {
   const router = useRouter();

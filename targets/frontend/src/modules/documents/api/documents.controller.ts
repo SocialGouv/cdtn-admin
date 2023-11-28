@@ -55,15 +55,16 @@ export class DocumentsController {
         );
         this.res.status(201).json({ cdtnId });
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof NotFoundError) {
         this.res.status(404).json({ message: error.message });
       } else {
         if (error instanceof InvalidQueryError) {
           this.res.status(400).json({ message: error.message });
         } else {
+          console.error(error);
           this.res.status(400).json({
-            message: DEFAULT_ERROR_500_MESSAGE,
+            message: error.message,
           });
         }
       }
