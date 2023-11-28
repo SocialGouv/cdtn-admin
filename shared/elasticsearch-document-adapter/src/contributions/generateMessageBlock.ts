@@ -6,7 +6,9 @@ export const generateMessageBlock = async (
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): Promise<string> => {
   const messageBlock = await fetchMessageBlock(contrib.questionId);
-  if (contrib.contentType === "ANSWER" || contrib.contentType === "SP") {
+  if (contrib.idcc === "0000") {
+    return messageBlock.contentNotHandled;
+  } else if (contrib.contentType === "ANSWER" || contrib.contentType === "SP") {
     return messageBlock.contentAgreement;
   } else if (
     contrib.contentType === "NOTHING" ||
