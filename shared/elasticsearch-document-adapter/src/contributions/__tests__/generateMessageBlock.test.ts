@@ -19,10 +19,10 @@ describe("generateMessageBlock", () => {
     contentType       | expectedContent
     ${"ANSWER"}       | ${"agreed content"}
     ${"SP"}           | ${"agreed content"}
-    ${"NOTHING"}      | ${"legal content"}
+    ${"NOTHING"}      | ${"not handled content"}
     ${"CDT"}          | ${"legal content"}
     ${"UNFAVOURABLE"} | ${"legal content"}
-    ${"UNKNOWN"}      | ${"not handled content"}
+    ${"UNKNOWN"}      | ${"legal content"}
   `(
     'should return $expectedContent for contentType "$contentType"',
     async ({ contentType, expectedContent }) => {
@@ -46,12 +46,11 @@ describe("generateMessageBlock", () => {
     contentType
     ${"ANSWER"}
     ${"SP"}
-    ${"NOTHING"}
     ${"CDT"}
     ${"UNFAVOURABLE"}
     ${"UNKNOWN"}
   `(
-    'should return "not handled content" for contentType "$contentType" when it\'s a generic',
+    'for a generic should always return "legal content" for contentType "$contentType"',
     async ({ contentType }) => {
       (fetchMessageBlock as jest.Mock).mockResolvedValue({
         contentAgreement: "agreed content",
@@ -65,13 +64,14 @@ describe("generateMessageBlock", () => {
         mockContribution
       );
 
-      expect(result).toEqual("not handled content");
+      expect(result).toEqual("legal content");
       expect(fetchMessageBlock).toHaveBeenCalledWith("123");
     }
   );
 
   it("should throw an error for unknown content type", async () => {
     mockContribution.contentType = "UNKNOWN_TYPE";
+    mockContribution.idcc = "1234";
 
     await expect(generateMessageBlock(mockContribution)).rejects.toThrowError(
       "Unknown content type"
@@ -80,6 +80,7 @@ describe("generateMessageBlock", () => {
 
   it("should throw an error for unknown content type", async () => {
     mockContribution.contentType = null;
+    mockContribution.idcc = "1234";
 
     await expect(generateMessageBlock(mockContribution)).rejects.toThrowError(
       "Unknown content type"
