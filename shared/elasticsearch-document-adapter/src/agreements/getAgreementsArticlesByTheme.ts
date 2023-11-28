@@ -25,7 +25,8 @@ query getKaliArticles($listIds: [String!]) {
 }
 `;
 
-export function getArticleNumberWithPath(path: string) {
+export function getArticleNumberWithPath(path?: string) {
+  if (!path) return "non numéroté";
   const lastPart = path.split(" » ").pop();
   if (lastPart?.includes("Article")) {
     return lastPart.replace("Article ", "");
