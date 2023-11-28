@@ -17,11 +17,11 @@ describe("generateMessageBlock", () => {
   it.each`
     contentType       | expectedContent
     ${"ANSWER"}       | ${"agreed content"}
+    ${"SP"}           | ${"agreed content"}
     ${"NOTHING"}      | ${"legal content"}
     ${"CDT"}          | ${"legal content"}
     ${"UNFAVOURABLE"} | ${"legal content"}
     ${"UNKNOWN"}      | ${"not handled content"}
-    ${"SP"}           | ${"legal content"}
   `(
     'should return $expectedContent for contentType "$contentType"',
     async ({ contentType, expectedContent }) => {

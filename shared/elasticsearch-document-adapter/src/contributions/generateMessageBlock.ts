@@ -6,13 +6,12 @@ export const generateMessageBlock = async (
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): Promise<string> => {
   const messageBlock = await fetchMessageBlock(contrib.questionId);
-  if (contrib.contentType === "ANSWER") {
+  if (contrib.contentType === "ANSWER" || contrib.contentType === "SP") {
     return messageBlock.contentAgreement;
   } else if (
     contrib.contentType === "NOTHING" ||
     contrib.contentType === "CDT" ||
-    contrib.contentType === "UNFAVOURABLE" ||
-    contrib.contentType === "SP"
+    contrib.contentType === "UNFAVOURABLE"
   ) {
     return messageBlock.contentLegal;
   } else if (contrib.contentType === "UNKNOWN") {
