@@ -24,13 +24,18 @@ export const generateAgreements = async (
     });
 
     const oldContributionByIdcc = oldContributions.filter((item) => {
-      const [idcc] = item.slug.split("-");
-      return idcc === cc.num.toString();
+      return item.answers.conventionAnswer
+        ? parseInt(item.answers.conventionAnswer.idcc) === cc.num
+        : false;
     });
 
     const oldAnswers: OldExportAnswer[] = oldContributionByIdcc.map((data) => {
       return {
         ...data,
+        slug: data.slug
+          .split("-")
+          .slice(1, data.slug.split("-").length)
+          .join("-"), // Slug de la générique 😅 (on supprimera hein)
         question: data.title.trim(),
         answer: data.answers.conventionAnswer
           ? data.answers.conventionAnswer.markdown
@@ -44,16 +49,28 @@ export const generateAgreements = async (
             : undefined,
       };
     });
-
-    const newAnswers: ExportAnswer[] = newContributionByIdcc.map((data) => {
-      return {
-        ...data,
-        theme:
-          data.breadcrumbs && data.breadcrumbs.length > 0
-            ? data.breadcrumbs[0].label
-            : undefined,
-      };
+    // Suppression des réponses inutiles qui ne prévoient rien
+    const unhandledRegexp =
+      /La convention collective ne prévoit rien sur ce point/i;
+    oldAnswers.filter((answer) => {
+      return !unhandledRegexp.test(answer.answer);
     });
+    // On ordonne les questions par index
+    oldAnswers.sort((a, b) => a.index - b.index);
+
+    const newAnswers: ExportAnswer[] = newContributionByIdcc
+      .map((data) => {
+        return {
+          ...data,
+          theme:
+            data.breadcrumbs && data.breadcrumbs.length > 0
+              ? data.breadcrumbs[0].label
+              : undefined,
+        };
+      })
+      .sort((a, b) => a.questionIndex - b.questionIndex);
+    console.log("------ NEW ANSWERS ------");
+    console.log(newAnswers);
 
     const articlesByTheme = await getAgreementsArticlesByTheme(cc.num);
 
