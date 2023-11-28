@@ -8,6 +8,7 @@ describe("generateMessageBlock", () => {
   const mockContribution: any = {
     questionId: "123",
     contentType: "ANSWER",
+    idcc: "1234",
   };
 
   beforeEach(() => {
@@ -17,11 +18,11 @@ describe("generateMessageBlock", () => {
   it.each`
     contentType       | expectedContent
     ${"ANSWER"}       | ${"agreed content"}
+    ${"SP"}           | ${"agreed content"}
     ${"NOTHING"}      | ${"legal content"}
     ${"CDT"}          | ${"legal content"}
     ${"UNFAVOURABLE"} | ${"legal content"}
     ${"UNKNOWN"}      | ${"not handled content"}
-    ${"SP"}           | ${"legal content"}
   `(
     'should return $expectedContent for contentType "$contentType"',
     async ({ contentType, expectedContent }) => {
@@ -37,6 +38,34 @@ describe("generateMessageBlock", () => {
       );
 
       expect(result).toEqual(expectedContent);
+      expect(fetchMessageBlock).toHaveBeenCalledWith("123");
+    }
+  );
+
+  it.each`
+    contentType
+    ${"ANSWER"}
+    ${"SP"}
+    ${"NOTHING"}
+    ${"CDT"}
+    ${"UNFAVOURABLE"}
+    ${"UNKNOWN"}
+  `(
+    'should return "not handled content" for contentType "$contentType" when it\'s a generic',
+    async ({ contentType }) => {
+      (fetchMessageBlock as jest.Mock).mockResolvedValue({
+        contentAgreement: "agreed content",
+        contentLegal: "legal content",
+        contentNotHandled: "not handled content",
+      });
+
+      mockContribution.contentType = contentType as ContributionContentType;
+      mockContribution.idcc = "0000";
+      const result: string | undefined = await generateMessageBlock(
+        mockContribution
+      );
+
+      expect(result).toEqual("not handled content");
       expect(fetchMessageBlock).toHaveBeenCalledWith("123");
     }
   );

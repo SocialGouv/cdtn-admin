@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.25.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.24.2...v2.25.0) (2023-11-24)
+
+### Features
+
+- ajout des textes pour message blocs ([#1121](https://github.com/SocialGouv/cdtn-admin/issues/1121)) ([8d81ae8](https://github.com/SocialGouv/cdtn-admin/commit/8d81ae8083558905db7b3a5dbdc4f56cd505f0c6))
+
 ## [2.24.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.24.1...v2.24.2) (2023-11-20)
 
 **Note:** Version bump only for package frontend
