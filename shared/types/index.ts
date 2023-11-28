@@ -199,6 +199,16 @@ export type AgreementDoc = Pick<
   highlight?: ContributionHighlight;
 };
 
+export type Question = {
+  id: string;
+  index: number;
+  title: string;
+  answers: {
+    generic: GenericAnswer;
+    conventions: Answer[];
+  };
+};
+
 export interface AgreementContribAnswer {
   slug: string;
   index: number;
