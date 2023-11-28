@@ -8,16 +8,16 @@ export const generateMessageBlock = async (
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): Promise<string> => {
   const messageBlock = await fetchMessageBlock(contrib.questionId);
-  if (contrib.contentType === "ANSWER") {
-    return messageBlock.contentAgreement;
-  } else if (
-    contrib.contentType === "NOTHING" ||
+  if (
+    contrib.idcc === "0000" || // Generic answer
+    contrib.contentType === "UNKNOWN" ||
     contrib.contentType === "CDT" ||
-    contrib.contentType === "UNFAVOURABLE" ||
-    contrib.contentType === "SP"
+    contrib.contentType === "UNFAVOURABLE"
   ) {
     return messageBlock.contentLegal;
-  } else if (contrib.contentType === "UNKNOWN") {
+  } else if (contrib.contentType === "ANSWER" || contrib.contentType === "SP") {
+    return messageBlock.contentAgreement;
+  } else if (contrib.contentType === "NOTHING") {
     return messageBlock.contentNotHandled;
   }
   throw new Error("Unknown content type");

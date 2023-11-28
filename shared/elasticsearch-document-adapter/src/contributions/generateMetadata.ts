@@ -6,25 +6,29 @@ import {
 } from "@shared/types";
 import { isGenericContribution } from "./helpers";
 
+const HTML_TAGS = /<[^>]*>?/gm;
+const toText = (html: string): string => {
+  return html
+    .slice(0, 250)
+    .replace(HTML_TAGS, "")
+    .replace(/&nbsp;/gm, " ");
+};
+
+const first150 = (text: string): string => {
+  return text.length > 150 ? text.slice(0, text.indexOf(" ", 149)) + "…" : text;
+};
+
 export const generateMetadata = (
   contribution: DocumentElasticWithSource<ContributionDocumentJson>,
   content: ContributionContent
 ): ContributionMetadata => {
-  let contentOrDescription = "";
-
-  if ("ficheSpDescription" in content) {
-    contentOrDescription = content.ficheSpDescription;
-  } else {
-    contentOrDescription = content.content;
-  }
+  const contentOrDescription =
+    "ficheSpDescription" in content
+      ? content.ficheSpDescription
+      : content.content;
 
   const title = contribution.questionName;
-
-  const contentSliced =
-    contentOrDescription.length > 150
-      ? contentOrDescription.slice(0, contentOrDescription.indexOf(" ", 150)) +
-        "…"
-      : contentOrDescription;
+  const contentSliced = first150(toText(contentOrDescription));
 
   return {
     title,
