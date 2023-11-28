@@ -30,23 +30,28 @@ describe("generateMetadata", () => {
     expect(metadata.description).toBe("Sample description");
   });
 
-  it("should slice content correctly", () => {
-    const contribution: any = {
-      questionName: "Sample Question",
-      // Provide other necessary properties
-    };
+  it.each`
+    content                                                                                                                                                                                | expectedDescription
+    ${"hello"}                                                                                                                                                                             | ${"hello"}
+    ${"<p>hello</p>"}                                                                                                                                                                      | ${"hello"}
+    ${"<p>hello&nbsp;hi</p>"}                                                                                                                                                              | ${"hello hi"}
+    ${"Commodo amet adipisicing qui Lorem eu dolore est et exercitation voluptate occaecat irure. Cupidatat et culpa laborum adipisicing ipsum eiusmod irure laborum Lorem."}              | ${"Commodo amet adipisicing qui Lorem eu dolore est et exercitation voluptate occaecat irure. Cupidatat et culpa laborum adipisicing ipsum eiusmod irure…"}
+    ${"<p>Commodo amet adipisicing qui Lorem eu dolore est et exercitation voluptate occaecat irure. Cupidatat et culpa laborum adipisicing ipsum eiusmod irure<br /> laborum Lorem.</p>"} | ${"Commodo amet adipisicing qui Lorem eu dolore est et exercitation voluptate occaecat irure. Cupidatat et culpa laborum adipisicing ipsum eiusmod irure…"}
+  `(
+    "should handle description correctly for $expectedDescription",
+    async ({ content, expectedDescription }) => {
+      const contribution: any = {
+        questionName: "Sample Question",
+        // Provide other necessary properties
+      };
 
-    const content: any = {
-      content:
-        "Commodo amet adipisicing qui Lorem eu dolore est et exercitation voluptate occaecat irure. Cupidatat et culpa laborum adipisicing ipsum eiusmod irure laborum Lorem. Incididunt veniam sint aliquip eiusmod sit proident irure ut. Incididunt minim excepteur irure pariatur et nulla velit enim est dolore aliquip duis deserunt. Excepteur non eu aliquip esse exercitation labore fugiat laboris nulla. Est sunt veniam est pariatur.Quis fugiat minim ex velit est commodo eiusmod consectetur quis. Ad proident velit do amet veniam ex. Commodo reprehenderit elit sunt ad labore labore proident. Non enim aute ex do velit velit adipisicing ea laboris nostrud ut.",
-    };
+      const metadata = generateMetadata(contribution, {
+        content,
+      });
 
-    const metadata: any = generateMetadata(contribution, content);
-
-    expect(metadata.description).toBe(
-      "Commodo amet adipisicing qui Lorem eu dolore est et exercitation voluptate occaecat irure. Cupidatat et culpa laborum adipisicing ipsum eiusmod irure laborum…"
-    );
-  });
+      expect(metadata.description).toBe(expectedDescription);
+    }
+  );
 
   it("should handle generic contribution correctly", () => {
     const contribution: any = {
