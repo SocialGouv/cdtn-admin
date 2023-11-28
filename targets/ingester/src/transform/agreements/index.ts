@@ -1,32 +1,56 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 
-import type { AgreementPage, Question } from "../../index";
+import type { AgreementPage } from "../../index";
 import { loadAgreements } from "../../lib/data-loaders";
 import { formatIdcc } from "../../lib/formatIdcc";
 import getAgreementsWithHighlight from "./agreementsWithHighlight";
 
-export const createSorter =
-  <A>(fn: (data: A) => number) =>
-  (a: A, b: A) =>
-    fn(a) - fn(b);
-
 export default async function getAgreementDocuments() {
   const agreements = await loadAgreements();
 
+  // Pour éviter qu'on perdre l'highlight lorsque l'ingester va ré-écrire les documents dans la db.
   const agreementsWithHighlight = await getAgreementsWithHighlight();
 
   const agreementPages: AgreementPage[] = [];
 
   for (const agreement of agreements) {
+    // Les CCs qui n'ont pas de page Légifrance ont un ID qui est undefined
     if (agreement.id === undefined) {
-      agreementPages.push(handleCCWithNoLegiFrancePage(agreement));
+      agreementPages.push({
+        id: `IDCC-${agreement.num}`,
+        num: agreement.num,
+        shortTitle: agreement.shortTitle,
+        title: agreement.shortTitle,
+        longTitle: agreement.title,
+        slug: slugify(
+          `${agreement.num}-${agreement.shortTitle}`.substring(0, 80)
+        ),
+        text: `IDCC ${agreement.num}: ${agreement.title} ${agreement.shortTitle}`,
+        description: `Idcc ${formatIdcc(agreement.num)} : ${
+          agreement.shortTitle
+        }`,
+        is_searchable: false,
+        is_published: false,
+        source: SOURCES.CCN,
+        synonymes: agreement.synonymes,
+      });
     } else {
       const highlight = agreementsWithHighlight[agreement.num];
-
       agreementPages.push({
-        ...getCCNInfo(agreement),
+        date_publi: agreement.date_publi,
+        effectif: agreement.effectif ?? 1,
+        id: agreement.id,
+        mtime: agreement.mtime,
+        num: agreement.num,
+        slug: slugify(
+          `${agreement.num}-${agreement.shortTitle}`.substring(0, 80)
+        ),
+        text: `IDCC ${agreement.num}: ${agreement.title} ${agreement.shortTitle}`,
+        url: agreement.url,
+        title: agreement.shortTitle,
+        shortTitle: agreement.shortTitle,
+        longTitle: agreement.title,
         description: `Idcc ${formatIdcc(agreement.num)} : ${
           agreement.shortTitle
         }`,
@@ -37,66 +61,5 @@ export default async function getAgreementDocuments() {
       });
     }
   }
-  const sorter = createSorter(({ num }: AgreementPage) => num);
-  return agreementPages.sort(sorter);
-}
-
-function handleCCWithNoLegiFrancePage(
-  agreement: IndexedAgreement
-): AgreementPage {
-  return {
-    ...getAgreementInfoWithoutId(agreement),
-    description: `Idcc ${formatIdcc(agreement.num)} : ${agreement.shortTitle}`,
-    is_searchable: false,
-    is_published: false,
-    source: SOURCES.CCN,
-    synonymes: agreement.synonymes,
-  };
-}
-
-/**
- * Get CCN general information
- */
-function getCCNInfo({
-  id,
-  num,
-  date_publi,
-  effectif,
-  mtime,
-  title,
-  shortTitle,
-  url,
-}: IndexedAgreement) {
-  return {
-    date_publi,
-    effectif: effectif ?? 1,
-    id,
-    mtime,
-    num,
-    slug: slugify(`${num}-${shortTitle}`.substring(0, 80)),
-    text: `IDCC ${num}: ${title} ${shortTitle}`,
-    url,
-    title: shortTitle,
-    shortTitle,
-    longTitle: title,
-  };
-}
-
-/**
- * Get CCN general information
- */
-function getAgreementInfoWithoutId({
-  num,
-  title,
-  shortTitle,
-}: IndexedAgreement) {
-  return {
-    id: `IDCC-${num}`,
-    num,
-    shortTitle,
-    title: shortTitle,
-    longTitle: title,
-    slug: slugify(`${num}-${shortTitle}`.substring(0, 80)),
-    text: `IDCC ${num}: ${title} ${shortTitle}`,
-  };
+  return agreementPages.sort((a, b) => a.num - b.num);
 }

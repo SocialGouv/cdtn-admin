@@ -14,6 +14,7 @@ import type {
   Highlight,
   EditorialContent,
 } from "./EditorialContent";
+import { ContributionHighlight } from "./contributions";
 export * from "./EditorialContent";
 export * from "./utils";
 export * from "./contributions";
@@ -195,10 +196,7 @@ export type AgreementDoc = Pick<
   IndexedAgreement,
   "date_publi" | "effectif" | "mtime" | "num" | "shortTitle" | "url"
 > & {
-  highlight: unknown;
-  description: string;
-  answers: AgreementContribAnswer[];
-  articleByTheme: ArticleTheme[];
+  highlight?: ContributionHighlight;
 };
 
 export interface AgreementContribAnswer {

@@ -17,6 +17,8 @@
     "p-queue": "^6.6.2",
     "rehype-raw": "^5.1.0",
     "rehype-stringify": "^8.0.0",
+    "remark": "13.0.0",
+    "remark-html": "13.0.2",
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.1.0",
     "remark-stringify": "^9.0.1",

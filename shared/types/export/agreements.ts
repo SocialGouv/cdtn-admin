@@ -1,28 +1,29 @@
-import { ContributionHighlight, ContributionRef } from "../contributions";
+import {
+  AgreementDoc,
+  ContributionElasticDocument,
+  OldContributionElasticDocument,
+} from "../index";
+import { DocumentElasticWithSource } from "./global";
 
-export interface AgreementsGenerated {
-  num: number;
-  answers: Answer[];
-  shortTitle: string;
-  description: string;
-  is_published?: boolean;
+export type AgreementGenerated = DocumentElasticWithSource<AgreementDoc> & {
   articlesByTheme: ArticleByTheme[];
-  url?: string;
-  mtime?: number;
-  effectif?: number;
-  date_publi?: Date;
-  highlight?: ContributionHighlight;
-  synonymes?: string[];
-}
+  source: "conventions_collectives";
+  description: string;
+  answers: (OldExportAnswer | ExportAnswer)[];
+  contributions: boolean;
+};
 
 // Type pour les réponses
-export interface Answer {
-  slug: string;
-  index: number;
+export type OldExportAnswer = OldContributionElasticDocument & {
+  theme?: string;
   answer: string;
   question: string;
-  references: ContributionRef[];
-}
+  references: any[];
+};
+
+export type ExportAnswer = ContributionElasticDocument & {
+  theme?: string;
+};
 
 // Types pour les Kali-Blocks
 export interface ArticleByTheme {

@@ -80,6 +80,8 @@ type AgreementPage = Document & {
   shortTitle: string;
   url?: string;
   synonymes?: string[];
+  longTitle: string;
+  date_publi?: string;
 };
 
 /** Document type */

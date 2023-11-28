@@ -75,7 +75,7 @@ export interface OldContributionElasticDocument {
       references: OldContributionReference[];
       description: string;
     };
-    conventionAnswer: {
+    conventionAnswer?: {
       id: string;
       idcc: string;
       markdown: string;
