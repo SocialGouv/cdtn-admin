@@ -80,10 +80,5 @@ export default async function getContributionsDocuments(): Promise<
     (v) => !allNewContributionsBySlug.includes(v.slug)
   );
 
-  // Pour chacune des nouvelles contributions nous allons les passer en is_available à true, car l'ingester les passe à false.
-  for (let i = 0; i < allNewContributionsBySlug.length; i++) {
-    await updateDocumentAvailabilityToTrue(allNewContributionsBySlug[i]);
-  }
-
   return result;
 }
