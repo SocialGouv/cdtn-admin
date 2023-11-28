@@ -69,8 +69,6 @@ export const generateAgreements = async (
         };
       })
       .sort((a, b) => a.questionIndex - b.questionIndex);
-    console.log("------ NEW ANSWERS ------");
-    console.log(newAnswers);
 
     const articlesByTheme = await getAgreementsArticlesByTheme(cc.num);
 
