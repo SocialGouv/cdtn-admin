@@ -29,52 +29,60 @@ export const generateAgreements = async (
         : false;
     });
 
-    const oldAnswers: OldExportAnswer[] = oldContributionByIdcc.map((data) => {
-      return {
-        ...data,
-        slug: data.slug
-          .split("-")
-          .slice(1, data.slug.split("-").length)
-          .join("-"), // Slug de la générique 😅 (on supprimera hein)
-        question: data.title.trim(),
-        answer: data.answers.conventionAnswer
-          ? data.answers.conventionAnswer.markdown
-          : data.answers.generic.markdown,
-        references: data.answers.conventionAnswer
-          ? data.answers.conventionAnswer.references
-          : data.answers.generic.references,
-        theme:
-          data.breadcrumbs && data.breadcrumbs.length > 0
-            ? data.breadcrumbs[0].label
-            : undefined,
-      };
-    });
     // Suppression des réponses inutiles qui ne prévoient rien
     const unhandledRegexp =
-      /La convention collective ne prévoit rien sur ce point/i;
-    oldAnswers.filter((answer) => {
-      return !unhandledRegexp.test(answer.answer);
-    });
-    // On ordonne les questions par index
-    oldAnswers.sort((a, b) => a.index - b.index);
+      /La (<.*>|)convention collective(<.*>|) ne prévoit rien sur ce point/i;
 
-    const newAnswers: ExportAnswer[] = newContributionByIdcc
+    const oldAnswers: OldExportAnswer[] = oldContributionByIdcc
       .map((data) => {
         return {
           ...data,
+          slug: data.slug
+            .split("-")
+            .slice(1, data.slug.split("-").length)
+            .join("-"), // Slug de la générique 😅 (on supprimera hein)
+          question: data.title.trim(),
+          answer: data.answers.conventionAnswer
+            ? data.answers.conventionAnswer.markdown
+            : data.answers.generic.markdown,
+          references: data.answers.conventionAnswer
+            ? data.answers.conventionAnswer.references
+            : data.answers.generic.references,
           theme:
             data.breadcrumbs && data.breadcrumbs.length > 0
               ? data.breadcrumbs[0].label
               : undefined,
         };
       })
-      .sort((a, b) => a.questionIndex - b.questionIndex);
+      .filter((answer) => {
+        return !unhandledRegexp.test(answer.answer);
+      });
+
+    const newAnswers: ExportAnswer[] = newContributionByIdcc.map((data) => {
+      return {
+        ...data,
+        theme:
+          data.breadcrumbs && data.breadcrumbs.length > 0
+            ? data.breadcrumbs[0].label
+            : undefined,
+      };
+    });
+
+    const answers: (OldExportAnswer | ExportAnswer)[] = [
+      ...oldAnswers,
+      ...newAnswers,
+    ].sort(
+      // On ordonne les questions par index
+      (a: OldExportAnswer | ExportAnswer, b: OldExportAnswer | ExportAnswer) =>
+        // @ts-ignore
+        (a.questionIndex ?? a.index) - (b.questionIndex ?? b.index)
+    );
 
     const articlesByTheme = await getAgreementsArticlesByTheme(cc.num);
 
     const agreementGenerated: AgreementGenerated = {
       ...cc,
-      answers: [...oldAnswers, ...newAnswers],
+      answers,
       articlesByTheme,
       contributions: contribIDCCs.has(cc.num),
       description: `Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant la convention collective ${cc.shortTitle}`,
