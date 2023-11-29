@@ -42,6 +42,7 @@ export type ContributionsAnswers = {
   agreement: {
     id: string; // 0000 pour la générique, impossible d'être nulle
     name: string;
+    kaliId: string;
   };
 };
 
