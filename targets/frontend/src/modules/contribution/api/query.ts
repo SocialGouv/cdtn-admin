@@ -38,9 +38,7 @@ export const getContributionAnswerById = gql`
       }
       cdtn_references {
         document {
-          title
-          source
-          slug
+          cdtnId: cdtn_id
         }
       }
       content_fiche_sp: document {

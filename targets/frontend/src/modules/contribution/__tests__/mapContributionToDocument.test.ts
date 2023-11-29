@@ -96,32 +96,22 @@ describe("mapContributionToDocument", () => {
       cdtn_references: [
         {
           document: {
-            title: "Quelle est la durée du congé de maternité ?",
-            source: "contributions",
-            slug: "quelle-est-la-duree-du-conge-de-maternite",
+            cdtnId: "abcdef",
           },
         },
         {
           document: {
-            title: "Le congé de maternité",
-            source: "page_fiche_ministere_travail",
-            slug: "le-conge-de-maternite",
+            cdtnId: "ijhgt",
           },
         },
         {
           document: {
-            title:
-              "Hospitalisation du nouveau-né : quelles conséquences sur le congé de maternité ?",
-            source: "fiches_service_public",
-            slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
+            cdtnId: "klmnop",
           },
         },
         {
           document: {
-            title:
-              "Peut-on interrompre un congé parental pour prendre un congé maternité ?",
-            source: "fiches_service_public",
-            slug: "peut-on-interrompre-un-conge-parental-pour-prendre-un-conge-maternite",
+            cdtnId: "ijhgt",
           },
         },
       ],
@@ -155,26 +145,16 @@ describe("mapContributionToDocument", () => {
           "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
         linkedContent: [
           {
-            slug: "quelle-est-la-duree-du-conge-de-maternite",
-            source: "contributions",
-            title: "Quelle est la durée du congé de maternité ?",
+            cdtnId: "abcdef",
           },
           {
-            slug: "le-conge-de-maternite",
-            source: "page_fiche_ministere_travail",
-            title: "Le congé de maternité",
+            cdtnId: "ijhgt",
           },
           {
-            slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
-            source: "fiches_service_public",
-            title:
-              "Hospitalisation du nouveau-né : quelles conséquences sur le congé de maternité ?",
+            cdtnId: "klmnop",
           },
           {
-            slug: "peut-on-interrompre-un-conge-parental-pour-prendre-un-conge-maternite",
-            source: "fiches_service_public",
-            title:
-              "Peut-on interrompre un congé parental pour prendre un congé maternité ?",
+            cdtnId: "ijhgt",
           },
         ],
         questionIndex: 43,

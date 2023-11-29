@@ -30,9 +30,7 @@ export type ContributionsAnswers = {
   }[];
   cdtn_references: {
     document: {
-      title: string;
-      source: string;
-      slug: string;
+      cdtnId: string;
     };
   }[];
   content_fiche_sp: null | {
@@ -87,9 +85,7 @@ export type ContributionDocumentJson =
   | ContributionDocumentJsonCodeDuTravailReference;
 
 export type ContributionLinkedContent = {
-  slug: string;
-  source: string;
-  title: string;
+  cdtnId: string;
 };
 
 export type ContributionRef = {
