@@ -9,7 +9,7 @@ import { isGenericContribution } from "./helpers";
 import { getCcSupported } from "./getCcSupported";
 import { getCcInfos } from "./getCcInfos";
 import { generateContent } from "./generateContent";
-import { Breadcrumbs } from "../breadcrumbs";
+import { Breadcrumbs, GetBreadcrumbsFn } from "../breadcrumbs";
 import { addGlossaryToContent } from "./addGlossaryToContent";
 import {
   ContributionConventionnelInfos,
@@ -17,12 +17,14 @@ import {
   ContributionGenericInfos,
 } from "./types";
 import { generateMessageBlock } from "./generateMessageBlock";
+import { generateLinkedContent } from "./generateLinkedContent";
 
 export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
   ccnListWithHighlight: Record<number, ContributionHighlight | undefined>,
-  addGlossary: (valueInHtml: string) => string
+  addGlossary: (valueInHtml: string) => string,
+  getBreadcrumbs: GetBreadcrumbsFn
 ): Promise<ContributionElasticDocument[]> {
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
     (state: Record<number, Breadcrumbs[]>, contribution) => {
@@ -59,8 +61,15 @@ export async function generateContributions(
       };
     }
 
+    const linkedContent = await generateLinkedContent(
+      contrib,
+      getBreadcrumbs,
+      breadcrumbsOfRootContributionsPerIndex
+    );
+
     generatedContributions.push({
       ...contrib,
+      ...linkedContent,
       ...generateMetadata(contrib, content),
       ...addGlossaryToContent(content, addGlossary),
       ...doc,

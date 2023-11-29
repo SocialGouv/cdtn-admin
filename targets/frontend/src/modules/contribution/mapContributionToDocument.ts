@@ -26,7 +26,9 @@ export const mapContributionToDocument = async (
     | "questionId"
   > = {
     contentType: data.content_type,
-    linkedContent: data.cdtn_references.map((v) => v.document),
+    linkedContent: data.cdtn_references.map((v) => ({
+      cdtnId: v.document.cdtnId,
+    })),
     references: getReferences(data),
     questionIndex: data.question.order,
     questionName: data.question.content,

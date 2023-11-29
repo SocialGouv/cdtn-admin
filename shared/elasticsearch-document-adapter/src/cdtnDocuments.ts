@@ -202,7 +202,8 @@ export async function* cdtnDocumentsGen() {
     newContributions,
     ccnData,
     ccnListWithHighlight,
-    addGlossary
+    addGlossary,
+    getBreadcrumbs
   );
 
   const oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[] =
