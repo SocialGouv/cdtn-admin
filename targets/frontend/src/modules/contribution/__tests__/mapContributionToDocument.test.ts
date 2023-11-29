@@ -180,19 +180,23 @@ describe("mapContributionToDocument", () => {
         questionIndex: 43,
         references: [
           {
-            title: "Article 22",
+            title:
+              "Accord du 30 mars 1951 relatif aux techniciens et agents de maîtrise Annexe III, article 22",
             url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849277/?idConteneur=KALICONT000005635624",
           },
           {
-            title: "Article 9",
+            title:
+              "Accord du 16 juin 1961 relatifs aux ouvriers - annexe I , article 9",
             url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849388/?idConteneur=KALICONT000005635624",
           },
           {
-            title: "Article 18",
+            title:
+              "Accord du 27 février 1951 relatif aux employés Annexe II, article 18",
             url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849528/?idConteneur=KALICONT000005635624",
           },
           {
-            title: "Article 22",
+            title:
+              "Accord du 30 octobre 1951 relatif aux ingénieurs et cadres - Annexe IV, article 22",
             url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849582/?idConteneur=KALICONT000005635624",
           },
           {
