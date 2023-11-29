@@ -66,7 +66,7 @@ export default async function Sitemap(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("[ /api/sitemap ]", " request: ", req.query);
+  console.log("[/api/sitemap]", " request: ", req.query);
   const startProcessAt = process.hrtime();
   const baseUrl =
     (req.query.baseurl as string) || "https://code.travail.gouv.fr";
@@ -92,7 +92,7 @@ export default async function Sitemap(
 `);
   res.end();
   const endProcess = process.hrtime(startProcessAt);
-  console.log("[ /api/sitemap ]", " end in ", endProcess);
+  console.log("[/api/sitemap]", " end in ", endProcess);
 }
 
 /**

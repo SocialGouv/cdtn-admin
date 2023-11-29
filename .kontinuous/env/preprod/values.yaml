@@ -17,7 +17,7 @@ www:
   host: cdtn-admin-preprod.dev.fabrique.social.gouv.fr
   env:
     - name: "FRONTEND_HOST"
-      value: https://cdtn-admin-preprod.dev.fabrique.social.gouv.fr
+      value: cdtn-admin-preprod.dev.fabrique.social.gouv.fr
 
 jobs:
   runs:

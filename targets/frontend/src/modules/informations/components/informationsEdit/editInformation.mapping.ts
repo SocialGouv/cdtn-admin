@@ -1,11 +1,12 @@
+import slugify from "@socialgouv/cdtn-slugify";
 import {
   Information,
   InformationContent,
   InformationContentBlock,
   InformationContentBlockContent,
   Reference,
-  File,
 } from "../../type";
+import { File } from "../../../common/type";
 import { UpsertInformationObject } from "./editInformation.type";
 
 const removeTypename = (obj: any) => {
@@ -110,7 +111,7 @@ const mapInformationContents = (contents?: InformationContent[]) => {
       return {
         ...removeTypename(content),
         order: contentIndex + 1,
-        name: content.title,
+        name: slugify(content.title),
         blocks,
         references,
       };

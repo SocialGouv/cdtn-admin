@@ -89,6 +89,11 @@ export function Nav() {
             </ActiveLink>
           </Li>
           <Li>
+            <ActiveLink href="/models" passHref>
+              Modèles de document
+            </ActiveLink>
+          </Li>
+          <Li>
             <ActiveLink href="/contenus?source=highlights" passHref>
               À la une
             </ActiveLink>
@@ -125,7 +130,7 @@ export function Nav() {
           </Li>
           <Li>
             <ActiveLink href="/contenus/fiches-sp" passHref>
-              fiches service-public
+              Fiches service-public
             </ActiveLink>
           </Li>
           <Li>

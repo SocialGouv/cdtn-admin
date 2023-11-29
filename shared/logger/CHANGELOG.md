@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.25.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.25.0...v2.25.1) (2023-11-29)
+
+**Note:** Version bump only for package @socialgouv/cdtn-logger
+
+# [2.25.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.24.2...v2.25.0) (2023-11-24)
+
+**Note:** Version bump only for package @socialgouv/cdtn-logger
+
+## [2.24.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.24.1...v2.24.2) (2023-11-20)
+
+**Note:** Version bump only for package @socialgouv/cdtn-logger
+
+## [2.24.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.24.0...v2.24.1) (2023-11-20)
+
+**Note:** Version bump only for package @socialgouv/cdtn-logger
+
+# [2.24.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.23.0...v2.24.0) (2023-11-15)
+
+**Note:** Version bump only for package @socialgouv/cdtn-logger
+
+# [2.23.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.22.0...v2.23.0) (2023-11-10)
+
+**Note:** Version bump only for package @socialgouv/cdtn-logger
+
+# [2.22.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.21.0...v2.22.0) (2023-11-08)
+
+**Note:** Version bump only for package @socialgouv/cdtn-logger
+
+# [2.21.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.1...v2.21.0) (2023-10-27)
+
+**Note:** Version bump only for package @socialgouv/cdtn-logger
+
+## [2.20.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.0...v2.20.1) (2023-10-23)
+
+**Note:** Version bump only for package @socialgouv/cdtn-logger
+
 # [2.20.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.1...v2.20.0) (2023-10-19)
 
 **Note:** Version bump only for package @socialgouv/cdtn-logger

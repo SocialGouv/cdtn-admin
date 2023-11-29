@@ -1,6 +1,7 @@
 import "@reach/menu-button/styles.css";
 import "@reach/dialog/styles.css";
 import "@reach/accordion/styles.css";
+import "../css/modeles.css";
 import { MuiDsfrThemeProvider } from "@codegouvfr/react-dsfr/mui";
 
 import { init } from "@socialgouv/matomo-next";

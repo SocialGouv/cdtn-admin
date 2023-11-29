@@ -1,15 +1,18 @@
-import { Environment } from "@shared/types";
+import { Environment, Status as StatusType } from "@shared/types";
 import React, { useEffect, useState } from "react";
 import { EnvironmentBadge, Status } from "src/components/export-es";
-import { Inline } from "src/components/layout/Inline";
-import { Stack } from "src/components/layout/Stack";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { useExportEs } from "src/hooks/exportEs";
 import { useUser } from "src/hooks/useUser";
-import { Button, CircularProgress as Spinner, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress as Spinner,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { FixedSnackBar } from "src/components/utils/SnackBar";
-import { Chip } from "@mui/material";
-import { ConfirmModal } from "../../common/components/modals/ConfirmModal";
+import { ShortDocument } from "../../documents";
+import { ShowDocumentsToUpdateModal } from "./ShowDocumentsToUpdateModal";
 
 export function Export(): JSX.Element {
   const [validateExportPreprodModal, setValidateExportPreprodModal] =
@@ -26,45 +29,57 @@ export function Export(): JSX.Element {
     getExportEs();
   }, []);
 
+  function getLatestDeployDate(env: Environment) {
+    const lastestCompleted = exportEsState?.exportData.filter(
+      (data) => data.status === StatusType.completed && data.environment === env
+    )[0];
+
+    return lastestCompleted?.created_at;
+  }
+
+  if (exportEsState.error) {
+    return (
+      <FixedSnackBar>
+        <pre>{JSON.stringify(exportEsState.error, null, 2)}</pre>
+      </FixedSnackBar>
+    );
+  }
+
   return (
     <>
-      <Stack>
-        {exportEsState.error && (
-          <FixedSnackBar>
-            <pre>{JSON.stringify(exportEsState.error, null, 2)}</pre>
-          </FixedSnackBar>
-        )}
-        <p>
-          Cette page permet de mettre à jour les données des environnements de{" "}
-          <Chip color="primary" label="production" /> et{" "}
-          <Chip color="secondary" label="pre-production" /> et de suivre l’état
-          de ces mises à jour.
-        </p>
-      </Stack>
-      <Stack>
-        <Inline>
-          <Button
-            color="primary"
-            variant="contained"
-            disabled={
-              exportEsState.latestExportProduction?.status === "running"
-            }
-            onClick={() => setValidateExportProdModal(true)}
-          >
-            Mettre à jour la production
-          </Button>
-          <Button
-            color="secondary"
-            variant="contained"
-            disabled={
-              exportEsState.latestExportPreproduction?.status === "running"
-            }
-            onClick={() => setValidateExportPreprodModal(true)}
-          >
-            Mettre à jour la pre-production
-          </Button>
-        </Inline>
+      <p>
+        Cette page permet de mettre à jour les données des environnements de{" "}
+        <strong>production</strong> et <strong>pre-production</strong>
+        et de suivre l’état de ces mises à jour.
+      </p>
 
+      <Stack direction="row" spacing={2}>
+        <Button
+          color="primary"
+          variant="contained"
+          disabled={
+            exportEsState.latestExportProduction?.status === StatusType.running
+          }
+          onClick={() => {
+            setValidateExportProdModal(true);
+          }}
+        >
+          Mettre à jour la production
+        </Button>
+        <Button
+          color="secondary"
+          variant="contained"
+          disabled={
+            exportEsState.latestExportPreproduction?.status === "running"
+          }
+          onClick={() => {
+            setValidateExportPreprodModal(true);
+          }}
+        >
+          Mettre à jour la pre-production
+        </Button>
+      </Stack>
+      <Stack mt={2}>
         <Table>
           <thead>
             <Tr>
@@ -130,27 +145,27 @@ export function Export(): JSX.Element {
           </tbody>
         </Table>
       </Stack>
-      <ConfirmModal
+      <ShowDocumentsToUpdateModal
         open={validateExportPreprodModal}
-        title="Mise à jour Pre-Prod"
-        message="Êtes-vous sur de vouloir mettre à jour la pre-production ?"
+        name="Pre-Prod"
         onClose={() => setValidateExportPreprodModal(false)}
         onCancel={() => setValidateExportPreprodModal(false)}
         onValidate={() => {
           setValidateExportPreprodModal(false);
           onTrigger(Environment.preproduction);
         }}
+        date={getLatestDeployDate(Environment.preproduction)}
       />
-      <ConfirmModal
+      <ShowDocumentsToUpdateModal
         open={validateExportProdModal}
-        title="Mise à jour Prod"
-        message="Êtes-vous sur de vouloir mettre à jour la production ?"
+        name="Prod"
         onClose={() => setValidateExportProdModal(false)}
         onCancel={() => setValidateExportProdModal(false)}
         onValidate={() => {
           setValidateExportProdModal(false);
           onTrigger(Environment.production);
         }}
+        date={getLatestDeployDate(Environment.production)}
       />
     </>
   );

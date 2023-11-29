@@ -6,12 +6,47 @@ import { fireEvent } from "@testing-library/react";
 import { AnswerForm } from "../AnswerForm";
 import { AnswerWithStatus } from "../answer.query";
 
+class ClipboardEventMock extends Event {
+  clipboardData: {
+    getData: jest.Mock<any, [string]>;
+    setData: jest.Mock<any, [string, string]>;
+  };
+
+  constructor(type: string, eventInitDict?: EventInit) {
+    super(type, eventInitDict);
+    this.clipboardData = {
+      getData: jest.fn(),
+      setData: jest.fn(),
+    };
+  }
+}
+
+class DragEventMock extends Event {
+  dataTransfer: {
+    getData: jest.Mock<any, [string]>;
+    setData: jest.Mock<any, [string, string]>;
+  };
+
+  constructor(type: string, eventInitDict?: EventInit) {
+    super(type, eventInitDict);
+    this.dataTransfer = {
+      getData: jest.fn(),
+      setData: jest.fn(),
+    };
+  }
+}
+
+(globalThis as any).DragEvent = DragEventMock;
+
+(globalThis as any).ClipboardEvent = ClipboardEventMock;
+
 jest.mock("next/router", () => {
   return {
     useRouter: jest.fn(() => ({
       events: {
         emit: jest.fn(),
         on: jest.fn(),
+        off: jest.fn(),
       },
     })),
   };

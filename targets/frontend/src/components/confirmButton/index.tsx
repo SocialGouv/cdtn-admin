@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React from "react";
 import { MdClose } from "react-icons/md";
 import { Button as BaseButton } from "@mui/material";
 
@@ -14,11 +14,11 @@ const buttonPropTypes = {
   variant: PropTypes.oneOf(["contained", "outlined", "text"]),
 };
 
-export const ConfirmButton = React.forwardRef(function _ConfirmButton(
+export const ConfirmButton = React.forwardRef(function useConfirmButton(
   { size = "normal", children, onClick, ...props }: any,
   ref
 ) {
-  const [needConfirm, setNeedConfirm] = useState(false);
+  const [needConfirm, setNeedConfirm] = React.useState(false);
 
   const onClickCustom = (event: any) => {
     if (!needConfirm) {

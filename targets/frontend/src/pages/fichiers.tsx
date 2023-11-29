@@ -12,7 +12,6 @@ import { DropZone } from "src/components/storage/DropZone";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useDebouncedState } from "src/hooks/";
-import { getToken } from "src/lib/auth/token";
 import { timeSince } from "src/lib/duration";
 import { request } from "src/lib/request";
 import useSWR, { mutate } from "swr";
@@ -29,20 +28,15 @@ import {
   List,
 } from "@mui/material";
 
-const listFiles = () =>
-  request(`/api/storage`, {
-    headers: { token: getToken()?.jwt_token || "" },
-  } as any);
+const listFiles = () => request(`/api/storage`);
 
 const uploadFiles = (formData: any) =>
   request(`/api/storage`, {
     body: formData,
-    headers: { token: getToken()?.jwt_token || "" },
   } as any);
 
 const deleteFile = (path: any) =>
   request(`/api/storage/${path}`, {
-    headers: { token: getToken()?.jwt_token || "" },
     method: "DELETE",
   } as any);
 

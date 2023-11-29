@@ -1,0 +1,49 @@
+table:
+  name: models_legi_references
+  schema: model
+configuration:
+  column_config:
+    article_id:
+      custom_name: articleId
+    model_id:
+      custom_name: modelId
+  custom_column_names:
+    article_id: articleId
+    model_id: modelId
+  custom_root_fields: {}
+object_relationships:
+  - name: legiArticle
+    using:
+      foreign_key_constraint_on: article_id
+  - name: model
+    using:
+      foreign_key_constraint_on: model_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - model_id
+        - article_id
+        - id
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - article_id
+        - id
+        - model_id
+      filter: {}
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - article_id
+        - id
+        - model_id
+      filter: {}
+      check: null
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

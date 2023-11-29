@@ -1,11 +1,26 @@
 table:
   name: question_messages
   schema: contribution
+configuration:
+  column_config:
+    content_agreement:
+      custom_name: contentAgreement
+    content_legal:
+      custom_name: contentLegal
+    content_not_handled:
+      custom_name: contentNotHandled
+  custom_column_names:
+    content_agreement: contentAgreement
+    content_legal: contentLegal
+    content_not_handled: contentNotHandled
+  custom_root_fields: {}
 select_permissions:
   - role: super
     permission:
       columns:
-        - content
-        - label
+        - content_agreement
+        - content_not_handled
+        - content_legal
         - id
+        - label
       filter: {}

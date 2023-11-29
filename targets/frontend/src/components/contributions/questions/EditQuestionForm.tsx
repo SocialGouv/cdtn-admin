@@ -1,11 +1,26 @@
-import { AlertColor, Button, Card, Stack, Typography } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  AlertColor,
+  Button,
+  Card,
+  IconButton,
+  IconButtonProps,
+  Stack,
+  Tooltip,
+  Typography,
+  styled,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import HelpIcon from "@mui/icons-material/Help";
 import { z } from "zod";
 import { FormSelect, FormTextField } from "src/components/forms";
 
 import { useQuestionUpdateMutation } from "./Question.mutation";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Message, Question, questionRelationSchema } from "../type";
 import { SnackBar } from "../../utils/SnackBar";
 
@@ -104,8 +119,70 @@ export const EditQuestionForm = ({
                 }}
                 variant={"outlined"}
               >
-                <Typography variant="subtitle1">Texte applicable</Typography>
-                <Typography variant="body2">{message.content}</Typography>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="Texte applicable si la convention collective est traitée"
+                    id="contentAgreement"
+                  >
+                    <Typography fontWeight={600}>
+                      Texte applicable si la convention collective est traitée
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography
+                      dangerouslySetInnerHTML={{
+                        __html: message.contentAgreement,
+                      }}
+                    />
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="Texte applicable si la convention collective ne prévoit rien"
+                    id="contentUnplanned"
+                  >
+                    <Typography fontWeight={600}>
+                      Texte applicable si la convention collective ne prévoit
+                      rien
+                    </Typography>
+                    <Tooltip title="Autres cas: renvoie au Code du Travail ou est intégralement moins favorable que le Code du Travail">
+                      <StyledIconButton>
+                        <HelpIcon />
+                      </StyledIconButton>
+                    </Tooltip>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography
+                      dangerouslySetInnerHTML={{
+                        __html: message.contentNotHandled,
+                      }}
+                    />
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="Texte applicable si la convention collective est non traitée, non sélectionnée ou si la réponse est dépubliée"
+                    id="contentLegal"
+                  >
+                    <Typography fontWeight={600}>
+                      Texte applicable si la convention collective est non
+                      traitée
+                    </Typography>
+                    <Tooltip title="Autres cas: non sélectionnée ou si la réponse est dépubliée">
+                      <StyledIconButton>
+                        <HelpIcon />
+                      </StyledIconButton>
+                    </Tooltip>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography
+                      dangerouslySetInnerHTML={{ __html: message.contentLegal }}
+                    />
+                  </AccordionDetails>
+                </Accordion>
               </Card>
             )}
           </Stack>
@@ -120,3 +197,10 @@ export const EditQuestionForm = ({
     </Stack>
   );
 };
+
+const StyledIconButton = styled(IconButton)(() => {
+  return {
+    padding: 0,
+    marginLeft: "8px",
+  };
+});

@@ -1,16 +1,26 @@
-import PropTypes from "prop-types";
+import CSS from "csstype";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { CircularProgress } from "@mui/material";
 import { theme } from "../../theme";
 
-const defaultStyles = {
+const defaultStyles: CSS.Properties = {
   border: "2px dotted silver",
   borderRadius: theme.space.small,
   padding: theme.space.medium,
 };
 
-export function DropZone({ onDrop: onDropCallback, uploading, customStyles }) {
+type Props = {
+  onDrop: (files: FormData) => void;
+  uploading: boolean;
+  customStyles?: CSS.Properties;
+};
+
+export function DropZone({
+  onDrop: onDropCallback,
+  uploading,
+  customStyles,
+}: Props): React.ReactElement {
   const onDrop = useCallback(
     async (acceptedFiles) => {
       const formData = new FormData();
@@ -25,9 +35,15 @@ export function DropZone({ onDrop: onDropCallback, uploading, customStyles }) {
   );
 
   const { getRootProps, getInputProps, isDragAccept } = useDropzone({
-    accept:
-      "image/jpeg, image/svg+xml, image/png, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    onDrop,
+    accept: {
+      "image/png": [".png"],
+      "image/jpeg": [".jpg, jpeg"],
+      "image/svg+xml": [".svg"],
+      "application/pdf": [".pdf"],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        [".doc", ".docx"],
+    },
+    onDropAccepted: onDrop,
   });
 
   if (isDragAccept) {
@@ -42,9 +58,3 @@ export function DropZone({ onDrop: onDropCallback, uploading, customStyles }) {
     </div>
   );
 }
-
-DropZone.propTypes = {
-  customStyles: PropTypes.object,
-  onDrop: PropTypes.func.isRequired,
-  uploading: PropTypes.bool.isRequired,
-};

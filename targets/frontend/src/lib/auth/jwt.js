@@ -1,12 +1,13 @@
 import jwt, { verify } from "jsonwebtoken";
 
-import { HASURA_GRAPHQL_JWT_SECRET } from "../../config";
-
 import { JWT_TOKEN_EXPIRES } from "../../config";
 
 let jwtSecret;
 try {
-  jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
+  jwtSecret = JSON.parse(
+    process.env.HASURA_GRAPHQL_JWT_SECRET ??
+      '{"type":"HS256","key":"a_pretty_long_secret_key_that_should_be_at_least_32_char"}'
+  );
 } catch (error) {
   console.error("[JWT], HASURA_GRAPHQL_JWT_SECRET is not a valid json");
 }

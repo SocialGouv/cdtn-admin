@@ -3,6 +3,79 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.25.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.25.0...v2.25.1) (2023-11-29)
+
+### Features
+
+- ajout du champs hightlight a la table document ([#1118](https://github.com/SocialGouv/cdtn-admin/issues/1118)) ([2bd4045](https://github.com/SocialGouv/cdtn-admin/commit/2bd404515bbc72b986f79b4b088bc0064d3afedb))
+
+# [2.25.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.24.2...v2.25.0) (2023-11-24)
+
+### Bug Fixes
+
+- update replicas for export ([#1131](https://github.com/SocialGouv/cdtn-admin/issues/1131)) ([615cc15](https://github.com/SocialGouv/cdtn-admin/commit/615cc152c40c2a8bd78ca6082bfc793c23666262))
+
+### Features
+
+- ajout des textes pour message blocs ([#1121](https://github.com/SocialGouv/cdtn-admin/issues/1121)) ([8d81ae8](https://github.com/SocialGouv/cdtn-admin/commit/8d81ae8083558905db7b3a5dbdc4f56cd505f0c6))
+
+## [2.24.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.24.1...v2.24.2) (2023-11-20)
+
+### Bug Fixes
+
+- **alert:** scrap MT qui est à jour par rapport à CDTN ([#1127](https://github.com/SocialGouv/cdtn-admin/issues/1127)) ([e9fa5a9](https://github.com/SocialGouv/cdtn-admin/commit/e9fa5a9075a4eb0b4ef07d842fa271df62fc2c4b))
+
+## [2.24.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.24.0...v2.24.1) (2023-11-20)
+
+### Bug Fixes
+
+- **contributions:** correction des liens vers les conventions collectives ([#1126](https://github.com/SocialGouv/cdtn-admin/issues/1126)) ([7ad182f](https://github.com/SocialGouv/cdtn-admin/commit/7ad182fe434d76950e5a697490c0acfca15863e6))
+
+# [2.24.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.23.0...v2.24.0) (2023-11-15)
+
+### Features
+
+- ajout du h4 pour l'éditeur ([#1115](https://github.com/SocialGouv/cdtn-admin/issues/1115)) ([aba9242](https://github.com/SocialGouv/cdtn-admin/commit/aba92420e369bcd46d37eea38b825d365ac9963c))
+
+# [2.23.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.22.0...v2.23.0) (2023-11-10)
+
+### Bug Fixes
+
+- inject highlights on contributions ([#1107](https://github.com/SocialGouv/cdtn-admin/issues/1107)) ([ca7d70a](https://github.com/SocialGouv/cdtn-admin/commit/ca7d70a5f6d4159d182d64a2f14691733a998ae0))
+
+### Features
+
+- ajout de la gestion des modèles de document ([#1031](https://github.com/SocialGouv/cdtn-admin/issues/1031)) ([97b25d0](https://github.com/SocialGouv/cdtn-admin/commit/97b25d025ea874b00639be505f8a61517cafbd92))
+
+# [2.22.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.21.0...v2.22.0) (2023-11-08)
+
+### Bug Fixes
+
+- ajout du slugify sur les sections name ([#1099](https://github.com/SocialGouv/cdtn-admin/issues/1099)) ([1c4bab2](https://github.com/SocialGouv/cdtn-admin/commit/1c4bab2bfd53723e031585f23689441a343c7504))
+
+### Features
+
+- ajout des triggers sur la partie contribution ([#1069](https://github.com/SocialGouv/cdtn-admin/issues/1069)) ([3c627aa](https://github.com/SocialGouv/cdtn-admin/commit/3c627aa686f050a04f6463088356e61d8d1b1457))
+- **editor:** optimisation de l'éditor de json + upgrade next 14 ([#1102](https://github.com/SocialGouv/cdtn-admin/issues/1102)) ([4ffdee5](https://github.com/SocialGouv/cdtn-admin/commit/4ffdee5cba4d8f91bdc21ce0bc1e7d3cd5783f8d))
+- **ingester:** ne pas ingérer les conventions collectives qui ne sont pas actives ([#1105](https://github.com/SocialGouv/cdtn-admin/issues/1105)) ([e810721](https://github.com/SocialGouv/cdtn-admin/commit/e8107215175cf34680934849e760ea01ffd44adc))
+
+# [2.21.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.1...v2.21.0) (2023-10-27)
+
+### Bug Fixes
+
+- **url:** remove www before FRONTEND_HOST variable ([d554b35](https://github.com/SocialGouv/cdtn-admin/commit/d554b35a00584d8532b0b3873d323600690f1f88))
+
+### Features
+
+- ajout de la 3248 ([#1094](https://github.com/SocialGouv/cdtn-admin/issues/1094)) ([fbef741](https://github.com/SocialGouv/cdtn-admin/commit/fbef7419a50216cae16e62cc5f0b0b5d53b81b5f))
+- **export:** lister les documents déployés lors des mises à jours de prod et pre-prod ([#1064](https://github.com/SocialGouv/cdtn-admin/issues/1064)) ([6f4b263](https://github.com/SocialGouv/cdtn-admin/commit/6f4b263b86a2f9198b7da3e30e2da2c55ac8260b)), closes [#1040](https://github.com/SocialGouv/cdtn-admin/issues/1040)
+
+## [2.20.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.20.0...v2.20.1) (2023-10-23)
+
+### Bug Fixes
+
+- **auth:** correction du bug qui fait que le contenu du json qui ne s'affiche pas + authentification à chaque refresh ([#1065](https://github.com/SocialGouv/cdtn-admin/issues/1065)) ([86f146e](https://github.com/SocialGouv/cdtn-admin/commit/86f146ef669adbc5447529bc8fb13dbb3acff9e5))
+
 # [2.20.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.19.1...v2.20.0) (2023-10-19)
 
 ### Bug Fixes

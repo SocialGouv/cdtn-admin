@@ -3,23 +3,24 @@
 ## Setup
 
 Pour intialiser le projet, nous avons besoin d'une dépendance depuis le registry privé de [tiptap](https://tiptap.dev/). Suivez les étapes suivantes :
- * [Créer un compte (gratuit)](https://tiptap.dev/register) sur tiptap.
- * Se rendre sur la page [Pro Extensions](https://collab.tiptap.dev/pro-extensions) de votre compte pour récupérer le token
- * Créer un fichier `.npmTiptapToken.secret` contenant le token. Il sera utile pour `docker compose` et pour direnv (si l'on souhaite automatiser le chargement de la variable `NPM_TIPTAP_TOKEN`)
- * Exporter la variable `NPM_TIPTAP_TOKEN` dans votre shell courant ou, pour automatiser cette étape, passer à l'étape suivante
- * (optionnel) Pour automatiser la chargement de cette variable lorsque l'on est dans le dossier du projet, il est possible d'installer [direnv](https://direnv.net/).
-   ```sh
-   curl -sfL https://direnv.net/install.sh | bash
-   ```
-   Le fichier `.npmTiptapToken.secret` contenant le token sera chargé par le fichier .envrc déjà présent à la racine.
-   Il faut ensuite executer `direnv allow` (et il faudra exécuter cette commande après chaque changement du fichier .envrc pour autoriser direnv à charger son contenu automatiquement lorsque le shell est dans le dossier)
+
+* [Créer un compte (gratuit)](https://tiptap.dev/register) sur tiptap.
+* Se rendre sur la page [Pro Extensions](https://collab.tiptap.dev/pro-extensions) de votre compte pour récupérer le token
+* Créer un fichier `.npmTiptapToken.secret` contenant le token. Il sera utile pour `docker compose` et pour direnv (si l'on souhaite automatiser le chargement de la variable `NPM_TIPTAP_TOKEN`)
+* Exporter la variable `NPM_TIPTAP_TOKEN` dans votre shell courant ou, pour automatiser cette étape, passer à l'étape suivante
+* (optionnel) Pour automatiser la chargement de cette variable lorsque l'on est dans le dossier du projet, il est possible d'installer [direnv](https://direnv.net/).
+  ```sh
+  curl -sfL https://direnv.net/install.sh | bash
+  ```
+  Le fichier `.npmTiptapToken.secret` contenant le token sera chargé par le fichier .envrc déjà présent à la racine.
+  Il faut ensuite executer `direnv allow` (et il faudra exécuter cette commande après chaque changement du fichier .envrc pour autoriser direnv à charger son contenu automatiquement lorsque le shell est dans le dossier)
 
 Vous pouvez maintenant lancer la commande `yarn install` pour installer les packages du projet.
 
 ## URLs
 
 | Environnement                                      | URL                                                       |
-| -------------------------------------------------- | --------------------------------------------------------- |
+|----------------------------------------------------|-----------------------------------------------------------|
 | Production (access granted only for authorized IP) | <https://cdtn-admin.fabrique.social.gouv.fr/>             |
 | Preproduction                                      | <https://preprod-cdtn-admin.dev.fabrique.social.gouv.fr/> |
 
@@ -129,7 +130,7 @@ This step starts the frontend project (based on `next.js`). User and admin accou
 Hasura step.
 
 | Type  | Username                               | Password |
-| ----- | -------------------------------------- | -------- |
+|-------|----------------------------------------|----------|
 | Admin | codedutravailnumerique@travail.gouv.fr | admin    |
 | User  | utilisateur@travail.gouv.fr            | user     |
 
@@ -148,6 +149,30 @@ Frontend is reachable at the address <http://localhost:3000>
 > ```
 
 That's all 🎉
+
+## Données
+
+### Table public.documents
+
+La table documents dans le schéma public contient les documents qui se transforment (pour la plus grande partie) en page sur le site du code du travail numérique.
+
+Voici un tableau descriptif des champs de cette table :
+
+| Nom du champ     | type                     | Description                                                                                                                                                                                                                                                                                                                                               |
+|------------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| cdtn_id          | text                     | Identifiant unique générer par la méthode `generateCdtnId` dans le package `shared/id-generator`                                                                                                                                                                                                                                                          |
+| initial_id       | text                     | L'identifiant externe du document (pour les contenus legifrance c'est le `KALIARTI` renvoyé par l'API, pour la fiche service publique c'est l'identifiant `FXXX` fourni, pour les contenus internes c'est un UUID généré...)                                                                                                                              |
+| title            | text                     | Le titre de la page qui sera affiché dans le H1. Attention, il y a également le `meta_title` qui peut être présent dans le champ `document`                                                                                                                                                                                                               |
+| meta_description | text                     | La meta description de la page                                                                                                                                                                                                                                                                                                                            |
+| source           | text                     | L'identifiant de la source, voici la liste: (`dossiers`, `prequalified`, `conventions_collectives`, `external`, `themes`, `contributions`, `page_fiche_ministere_travail`, `information`, `outils`, `highlights`, `modeles_de_courriers`, `fiches_service_public`, `code_du_travail`)                                                                     |
+| slug             | text                     | Le slug présent dans l'URL utilisé comme identifiant unique pour récupérer le contenu dans la page depuis le front                                                                                                                                                                                                                                        |
+| text             | text                     | Contenu de la page en format texte brut pour générer les vecteurs de recherche                                                                                                                                                                                                                                                                            |
+| document         | jsonb                    | Contenu de la page dans un format `jsonb` (attention, ça peut être un peu un fourre-tout)                                                                                                                                                                                                                                                                 |
+| is_published     | boolean                  | Permet d'activer/désactiver la génération d'une page sur le site associé au contenu. Utilisé pour dépublier du contenu par l'équipe métier. Attention, actuellement utilisé également pour permettre la recherche de convention collective qui ne possèdent pas de page associée issue du projet `kali-data`                                                                          |
+| is_searchable    | boolean                  | Permet de recherche la page depuis le moteur globale du site code du travail numérique. Cela ne permet pas de désactiver la recherche depuis un moteur externe.                                                                                                                                                                                           |
+| created_at       | timestamp with time zone | Date de création du document                                                                                                                                                                                                                                                                                                                              |
+| updated_at       | timestamp with time zone | Date de mise à jour du document                                                                                                                                                                                                                                                                                                                           |
+| is_available     | boolean                  | **Flag technique**. Il est utilisé par l'ingester. Il permet d'identifier les contenus externes (fiche SP, convention collective...) qui ne sont plus disponibles. L'ingester va mettre le flag à false dans ce cas. On ne supprime pas le contenu car il y a des thèmes associés et si le contenu revient, on ne souhaite pas perdre les thèmes associés |
 
 ## Auditabilité
 
@@ -225,7 +250,7 @@ l'elasticsearch du projet [code-du-travail-numerique](https://github.com/SocialG
 Ce script utilise les variables suivantes :
 
 | Variable                    | Description                                                                                                          | Par défaut                                                                             |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+|-----------------------------|----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
 | CDTN_ADMIN_ENDPOINT         | URL vers l'endpoint de l'admin (ou d'hasura)                                                                         | http://localhost:8080/v1/graphql                                                       |
 | HASURA_GRAPHQL_ENDPOINT     | URL vers l'endpoint GraphQL d'Hasura                                                                                 | http://localhost:8082/v1/graphql                                                       |
 | HASURA_GRAPHQL_ADMIN_SECRET | L'admin secret pour se connected à Hasura                                                                            | admin1                                                                                 |
@@ -298,11 +323,23 @@ query GetAllDocumentsPublished($sources: [String!]) {
 Avec comme paramètres :
 
 ```json
-{"sources": ["page_fiche_ministere_travail", "information", "fiches_service_public", "modeles_de_courriers", "contributions", "conventions_collectives"]}
+{
+  "sources": [
+    "page_fiche_ministere_travail",
+    "information",
+    "fiches_service_public",
+    "modeles_de_courriers",
+    "contributions",
+    "conventions_collectives"
+  ]
+}
 ```
 
 Pour la partie sql, il faut utiliser la requête suivante :
 
 ```sql
-SELECT COUNT(*) FROM documents WHERE source IN ('page_fiche_ministere_travail', 'information', 'fiches_service_public', 'modeles_de_courriers', 'contributions', 'conventions_collectives') AND is_published = TRUE;
+SELECT COUNT(*)
+FROM documents
+WHERE source IN ('page_fiche_ministere_travail', 'information', 'fiches_service_public', 'modeles_de_courriers', 'contributions', 'conventions_collectives')
+  AND is_published = TRUE;
 ```
