@@ -34,7 +34,7 @@ export default function DocumentList({
           </Stack>
         ) : (
           <>
-            {docs.length && (
+            {docs.length ? (
               <li>
                 <Typography mb={0}>Pages information :</Typography>
 
@@ -59,6 +59,8 @@ export default function DocumentList({
                   </Stack>
                 ))}
               </li>
+            ) : (
+              <></>
             )}
           </>
         )}
