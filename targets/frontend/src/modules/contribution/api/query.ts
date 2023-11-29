@@ -9,6 +9,7 @@ export const getContributionAnswerById = gql`
       agreement {
         id
         name
+        kaliId: kali_id
       }
       question {
         id

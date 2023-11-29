@@ -15,6 +15,7 @@ describe("mapContributionToDocument", () => {
       agreement: {
         id: "0016",
         name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
+        kaliId: "KALICONT000005635624",
       },
       question: {
         id: "3384f257-e319-46d1-a4cb-8e8294da337b",
@@ -180,19 +181,19 @@ describe("mapContributionToDocument", () => {
         references: [
           {
             title: "Article 22",
-            url: "https://legifrance.gouv.fr/conv_coll/id/0016/?idConteneur=KALIARTI000005849277",
+            url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849277/?idConteneur=KALICONT000005635624",
           },
           {
             title: "Article 9",
-            url: "https://legifrance.gouv.fr/conv_coll/id/0016/?idConteneur=KALIARTI000005849388",
+            url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849388/?idConteneur=KALICONT000005635624",
           },
           {
             title: "Article 18",
-            url: "https://legifrance.gouv.fr/conv_coll/id/0016/?idConteneur=KALIARTI000005849528",
+            url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849528/?idConteneur=KALICONT000005635624",
           },
           {
             title: "Article 22",
-            url: "https://legifrance.gouv.fr/conv_coll/id/0016/?idConteneur=KALIARTI000005849582",
+            url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849582/?idConteneur=KALICONT000005635624",
           },
           {
             title:
