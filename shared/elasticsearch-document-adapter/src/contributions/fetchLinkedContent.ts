@@ -8,7 +8,7 @@ query get_linked_document($cdtnId: String!) {
     isAvailable: is_available
     slug
     source
-    text
+    description: document(path: "description")
     title
     cdtnId: cdtn_id
   }
@@ -23,7 +23,7 @@ export interface LinkedContentLight {
   cdtnId: string;
   title: string;
   slug: string;
-  text: string;
+  description: string | null;
   source: string;
   isPublished: boolean;
   isAvailable: boolean;
