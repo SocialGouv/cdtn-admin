@@ -1,4 +1,4 @@
-import { Box, FormLabel } from "@mui/material";
+import { FormLabel, Box } from "@mui/material";
 import { styled } from "@mui/system";
 import { fr } from "@codegouvfr/react-dsfr";
 
@@ -9,6 +9,7 @@ export const TitleBox = ({
   className,
   disabled,
   isError = false,
+  htmlFor,
 }: {
   title: string;
   focus?: boolean;
@@ -16,6 +17,7 @@ export const TitleBox = ({
   className?: string;
   disabled?: boolean;
   isError?: boolean;
+  htmlFor?: string;
 }): JSX.Element => {
   return (
     <>
@@ -24,7 +26,11 @@ export const TitleBox = ({
         isError={isError}
         className={className}
       >
-        <StyledFormLabel isError={isError} focus={disabled ? false : focus}>
+        <StyledFormLabel
+          isError={isError}
+          focus={disabled ? false : focus}
+          htmlFor={htmlFor}
+        >
           {title}
         </StyledFormLabel>
         {children}

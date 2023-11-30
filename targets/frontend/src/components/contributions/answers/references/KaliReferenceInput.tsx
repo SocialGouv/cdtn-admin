@@ -110,7 +110,7 @@ export const KaliReferenceInput = ({
               <Grid item xs={2} mr={2}>
                 <FormTextField
                   name={`${name}.${index}.label`}
-                  label="Label"
+                  label="Libellé"
                   control={control}
                   rules={{ required: true }}
                   size="small"

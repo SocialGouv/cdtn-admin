@@ -1,5 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import React from "react";
+import { fireEvent } from "@testing-library/react";
 
 import { AnswerForm } from "../AnswerForm";
 import { AnswerWithStatus } from "../answer.query";
@@ -44,16 +46,17 @@ jest.mock("next/router", () => {
       events: {
         emit: jest.fn(),
         on: jest.fn(),
+        off: jest.fn(),
       },
     })),
   };
 });
 
 const answerBase: AnswerWithStatus = {
-  id: "369336d2-994f-48b1-b6ac-fec78cff240e",
-  questionId: "2c820037-62bd-4c0e-a1a8-ca80b97b5958",
+  id: "",
+  questionId: "",
   agreementId: "0000",
-  content: "",
+  content: "content",
   contentType: "ANSWER",
   updatedAt: "2023-09-29T14:09:52.01401+00:00",
   contentServicePublicCdtnId: null,
@@ -70,11 +73,61 @@ const answerBase: AnswerWithStatus = {
   },
   answerComments: [],
   statuses: [],
-  kaliReferences: [],
-  legiReferences: [],
-  otherReferences: [],
-  cdtnReferences: [],
-  contentFichesSpDocument: null,
+  kaliReferences: [
+    {
+      label: "kaliRef1",
+      kaliArticle: {
+        label: "kaliArt1",
+      },
+    },
+    {
+      label: "kaliRef2",
+      kaliArticle: {
+        label: "kaliArt2",
+      },
+    },
+  ],
+  legiReferences: [
+    {
+      legiArticle: { cid: "1", id: "1", label: "legiArticle1" },
+    },
+    {
+      legiArticle: { cid: "2", id: "2", label: "legiArticle2" },
+    },
+  ],
+  otherReferences: [
+    {
+      label: "otherReferences1",
+      url: "http://otherReferences1.fr",
+    },
+    {
+      label: "otherReferences2",
+    },
+  ],
+  cdtnReferences: [
+    {
+      document: {
+        cdtnId: "1",
+        slug: "1",
+        source: "information",
+        title: "reference1",
+      },
+    },
+    {
+      document: {
+        cdtnId: "2",
+        slug: "2",
+        source: "information",
+        title: "reference2",
+      },
+    },
+  ],
+  contentFichesSpDocument: {
+    cdtnId: "1",
+    slug: "1",
+    source: "",
+    title: "ficheSP",
+  },
   status: {
     id: "",
     status: "TODO",
@@ -89,53 +142,69 @@ const answerBase: AnswerWithStatus = {
   updateDate: "29/09/2023",
 };
 
-describe("Given a component AnswerForm and a basic default generic answer", () => {
-  beforeEach(() => {
-    render(
-      <AnswerForm
-        answer={answerBase}
-        onSubmit={() => {
-          return Promise.resolve();
-        }}
-      />
-    );
-  });
-  test("Check options are displayed", () => {
-    expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
-    expect(
-      screen.queryByText("Utiliser la fiche service public")
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByText("La convention collective ne prévoit rien")
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText("Nous n'avons pas la réponse")
-    ).not.toBeInTheDocument();
-  });
-});
+const onSubmit = jest.fn(() => Promise.resolve());
 
-describe("Given a component AnswerForm and a basic default CC answer", () => {
-  beforeEach(() => {
-    const answer = {
-      ...answerBase,
-      agreementId: "0016",
-      agreement: {
-        ...answerBase.agreement,
-        id: "0016",
-        name: "0016",
-        kaliId: "0016",
-      },
-    };
-    render(
-      <AnswerForm
-        answer={answer}
-        onSubmit={() => {
-          return Promise.resolve();
-        }}
-      />
+describe("AnswerForm", () => {
+  test("Vérifier l'affichage du contenu", () => {
+    render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
+    expect(screen.queryByText("content")).toBeInTheDocument();
+
+    const spInput = screen.getByLabelText("Fiche service-public");
+    expect(spInput?.closest("input")?.value).toContain("ficheSP");
+
+    const cdtInput = screen.queryByLabelText(
+      "Références liées au code du travail"
+    );
+    expect(cdtInput?.parentElement?.innerHTML).toContain("legiArticle1");
+    expect(cdtInput?.parentElement?.innerHTML).toContain("legiArticle2");
+
+    const [nameInput1, nameInput2] = screen.queryAllByLabelText("Nom");
+    expect(nameInput1?.closest("input")?.value).toContain("otherReferences1");
+    expect(nameInput2?.closest("input")?.value).toContain("otherReferences2");
+    const [linkInput1] = screen.queryAllByLabelText("Lien");
+    expect(linkInput1?.closest("input")?.value).toContain(
+      "http://otherReferences1.fr"
+    );
+
+    const linkedContentInput = screen.queryByLabelText("Contenus liés");
+    expect(linkedContentInput?.parentElement?.innerHTML).toContain(
+      "reference1"
+    );
+    expect(linkedContentInput?.parentElement?.innerHTML).toContain(
+      "reference2"
     );
   });
-  test("Check options are displayed", () => {
+
+  test("Vérifier l'affichage des options", () => {
+    const { rerender } = render(
+      <AnswerForm answer={answerBase} onSubmit={onSubmit} />
+    );
+    expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
+    expect(
+      screen.queryByText("Utiliser la fiche service public")
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("La convention collective ne prévoit rien")
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("Nous n'avons pas la réponse")
+    ).not.toBeInTheDocument();
+
+    rerender(
+      <AnswerForm
+        answer={{
+          ...answerBase,
+          agreementId: "0016",
+          agreement: {
+            ...answerBase.agreement,
+            id: "0016",
+            name: "0016",
+            kaliId: "0016",
+          },
+        }}
+        onSubmit={onSubmit}
+      />
+    );
     expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
     expect(
       screen.queryByText("Utiliser la fiche service public")
@@ -146,5 +215,42 @@ describe("Given a component AnswerForm and a basic default CC answer", () => {
     expect(
       screen.queryByText("Nous n'avons pas la réponse")
     ).toBeInTheDocument();
+  });
+
+  test("Vérifier que la sauvegarde fonctionne", async () => {
+    render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
+    fireEvent.click(screen.getByText("Sauvegarder"));
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  test("Vérifier l'affichage du message d'erreur pour les fiches SP", async () => {
+    render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
+    fireEvent.click(screen.getByText("Utiliser la fiche service public"));
+    userEvent.clear(screen.getByLabelText("Fiche service-public"));
+    fireEvent.click(screen.getByText("Sauvegarder"));
+    expect(
+      await screen.findByText(/Le document doit être renseigné/)
+    ).toBeInTheDocument();
+  });
+
+  test("Vérifier l'affichage du message d'erreur pour les références", async () => {
+    render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
+    fireEvent.click(screen.getByText("Ajouter une référence"));
+    fireEvent.click(screen.getByText("Sauvegarder"));
+    const [labelRequired] = await screen.findAllByText(
+      /Un libellé doit être renseigné/
+    );
+    expect(labelRequired).toBeInTheDocument();
+    const [field] = screen.getAllByLabelText("Lien");
+    fireEvent.change(field!, {
+      target: { value: "t" },
+    });
+    fireEvent.click(screen.getByText("Sauvegarder"));
+    const [invalidFormat] = await screen.findAllByText(
+      "Le format du lien est invalide"
+    );
+    expect(invalidFormat).toBeInTheDocument();
   });
 });
