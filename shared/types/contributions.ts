@@ -58,6 +58,8 @@ export type ContributionLegiReferences = {
     cid: string;
     label: string;
   };
+  messageIntro: null | string;
+  messageAlert: null | string;
 };
 
 export type ContributionContentType =
@@ -84,6 +86,12 @@ type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
   content: string;
 };
 
+type ContributionDocumentJsonNothing = ContributionDocumentJsonBasic & {
+  type: "nothing";
+  messageIntro: string;
+  messageAlert: string;
+};
+
 type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
   type: "fiche-sp";
   ficheSpId: string;
@@ -97,6 +105,7 @@ type ContributionDocumentJsonCodeDuTravailReference =
 
 export type ContributionDocumentJson =
   | ContributionDocumentJsonContent
+  | ContributionDocumentJsonNothing
   | ContributionDocumentJsonFicheSp
   | ContributionDocumentJsonCodeDuTravailReference;
 

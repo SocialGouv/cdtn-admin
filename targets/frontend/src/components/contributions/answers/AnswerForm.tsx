@@ -184,6 +184,10 @@ export const AnswerForm = ({
       label: "Utiliser la fiche service public",
       value: "SP",
     },
+    {
+      label: "La code du travail ne prévoit rien",
+      value: "NOTHING",
+    },
   ];
   return (
     <>
@@ -229,6 +233,30 @@ export const AnswerForm = ({
               control={control}
               disabled={isNotEditable(answer)}
             />
+          )}
+          {answer && isCodeDuTravail(answer) && (
+            <>
+              <FormControl>
+                <small>Le code du travail ne prévoit rien</small>
+
+                <FormTextField
+                  label="Message d'intro"
+                  name="nothingIntro"
+                  disabled={isNotEditable(answer)}
+                  control={control}
+                  multiline
+                  fullWidth
+                />
+                <FormTextField
+                  label="Message CC non traitée"
+                  name="nothingAlert"
+                  disabled={isNotEditable(answer)}
+                  control={control}
+                  multiline
+                  fullWidth
+                />
+              </FormControl>
+            </>
           )}
           {answer?.agreement && !isCodeDuTravail(answer) && (
             <KaliReferenceInput
