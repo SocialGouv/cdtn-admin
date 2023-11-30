@@ -23,6 +23,7 @@ export type OldExportAnswer = OldContributionElasticDocument & {
 
 export type ExportAnswer = ContributionElasticDocument & {
   theme?: string;
+  infoMessage: string;
 };
 
 // Types pour les Kali-Blocks

@@ -10,6 +10,8 @@ import { DocumentElasticWithSource } from "../types/Glossary";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getIDCCs } from "./getIdcc";
 import getAgreementsArticlesByTheme from "./getAgreementsArticlesByTheme";
+import { getTheme } from "./getTheme";
+import { getInfoMessage } from "./getInfoMessage";
 
 export const generateAgreements = async (
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
@@ -19,9 +21,11 @@ export const generateAgreements = async (
   const promises = ccnData.map(async (cc) => {
     const contribIDCCs = getIDCCs(oldContributions, newContributions);
 
-    const newContributionByIdcc = newContributions.filter((item) => {
-      return parseInt(item.idcc) === cc.num;
-    });
+    const contributionByIdccNotUnknown = newContributions
+      .filter((item) => {
+        return parseInt(item.idcc) === cc.num;
+      })
+      .filter((item) => item.contentType !== "UNKNOWN");
 
     const oldContributionByIdcc = oldContributions.filter((item) => {
       return item.answers.conventionAnswer
@@ -58,15 +62,15 @@ export const generateAgreements = async (
         return !unhandledRegexp.test(answer.answer);
       });
 
-    const newAnswers: ExportAnswer[] = newContributionByIdcc.map((data) => {
-      return {
-        ...data,
-        theme:
-          data.breadcrumbs && data.breadcrumbs.length > 0
-            ? data.breadcrumbs[0].label
-            : undefined,
-      };
-    });
+    const newAnswers: ExportAnswer[] = contributionByIdccNotUnknown.map(
+      (data) => {
+        return {
+          ...data,
+          theme: getTheme(data),
+          infoMessage: getInfoMessage(data),
+        };
+      }
+    );
 
     const answers: (OldExportAnswer | ExportAnswer)[] = [
       ...oldAnswers,
