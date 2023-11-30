@@ -15,9 +15,20 @@ export const mapContributionToDocument = async (
     questionId: string
   ) => Promise<Partial<ContributionsAnswers>>
 ): Promise<Document<ContributionDocumentJson>> => {
-  let doc: Partial<ContributionDocumentJson> = {
+  let initalDoc: Pick<
+    ContributionDocumentJson,
+    | "contentType"
+    | "linkedContent"
+    | "references"
+    | "questionName"
+    | "questionIndex"
+    | "idcc"
+    | "questionId"
+  > = {
     contentType: data.content_type,
-    linkedContent: data.cdtn_references.map((v) => v.document),
+    linkedContent: data.cdtn_references.map((v) => ({
+      cdtnId: v.document.cdtnId,
+    })),
     references: getReferences(data),
     questionIndex: data.question.order,
     questionName: data.question.content,
@@ -25,9 +36,10 @@ export const mapContributionToDocument = async (
     idcc: data.agreement.id,
   };
 
+  let doc: ContributionDocumentJson;
   if (data.content_type === "ANSWER") {
     doc = {
-      ...doc,
+      ...initalDoc,
       type: "content",
       content: data.content!,
     };
@@ -40,20 +52,20 @@ export const mapContributionToDocument = async (
     const genericAnswer = await fetchGenericAnswer(data.question.id);
     if (genericAnswer.content_type === "SP") {
       doc = {
-        ...doc,
+        ...initalDoc,
         type: "fiche-sp",
         ficheSpId: genericAnswer.content_fiche_sp!.initial_id,
       };
     } else {
       doc = {
-        ...doc,
+        ...initalDoc,
         type: "cdt",
-        genericAnswerId: genericAnswer.id,
+        genericAnswerId: genericAnswer.id!,
       };
     }
   } else if (data.content_type === "SP") {
     doc = {
-      ...doc,
+      ...initalDoc,
       type: "fiche-sp",
       ficheSpId: data.content_fiche_sp!.initial_id,
     };
@@ -71,6 +83,6 @@ export const mapContributionToDocument = async (
       document?.slug ??
       generateContributionSlug(data.agreement.id, data.question.content),
     is_available: true,
-    document: doc as ContributionDocumentJson,
+    document: doc,
   };
 };

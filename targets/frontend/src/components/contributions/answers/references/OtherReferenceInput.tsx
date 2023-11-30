@@ -27,7 +27,6 @@ const OtherReferenceLine = ({
         name={`${name}.${index}.label`}
         label="Nom"
         control={control}
-        rules={{ required: true }}
         size="small"
         disabled={disabled}
       />

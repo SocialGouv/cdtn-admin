@@ -34,15 +34,29 @@ export type ContributionContent =
   | ContributionContentBase
   | ContributionFicheSpContent;
 
-export type ContributionElasticDocument =
-  DocumentElasticWithSource<ContributionDocumentJson> &
-    ContributionMetadata &
-    ContributionContent &
-    (ContributionGenericInfos | ContributionConventionnelInfos) & {
-      breadcrumbs: Breadcrumbs[] | Record<number, Breadcrumbs[]>;
-      highlight?: ContributionHighlight;
-      messageBlock?: string;
-    };
+export interface ExportFullLinkedContent {
+  breadcrumbs: Breadcrumbs[];
+  description: string;
+  source: string;
+  slug: string;
+  title: string;
+}
+
+export interface ExportContributionFullLinkedContent {
+  linkedContent: ExportFullLinkedContent[];
+}
+
+export type ContributionElasticDocument = DocumentElasticWithSource<
+  Omit<ContributionDocumentJson, "linkedContent">
+> &
+  ContributionMetadata &
+  ContributionContent &
+  ExportContributionFullLinkedContent &
+  (ContributionGenericInfos | ContributionConventionnelInfos) & {
+    breadcrumbs: Breadcrumbs[] | Record<number, Breadcrumbs[]>;
+    highlight?: ContributionHighlight;
+    messageBlock?: string;
+  };
 
 export interface OldContributionReference {
   url: string;

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.25.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.25.0...v2.25.1) (2023-11-29)
+
+### Features
+
+- ajout du champs hightlight a la table document ([#1118](https://github.com/SocialGouv/cdtn-admin/issues/1118)) ([2bd4045](https://github.com/SocialGouv/cdtn-admin/commit/2bd404515bbc72b986f79b4b088bc0064d3afedb))
+
 # [2.25.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.24.2...v2.25.0) (2023-11-24)
 
 ### Bug Fixes

@@ -1,13 +1,9 @@
 import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
 
 import type { Theme } from "./types/themes";
+import { Breadcrumbs } from "@shared/types";
 
 export type GetBreadcrumbsFn = (cdtnId: string) => Breadcrumbs[];
-export type Breadcrumbs = {
-  label: string;
-  position: number;
-  slug: string;
-};
 
 function toBreadcrumbs(theme: Theme): Breadcrumbs {
   return {

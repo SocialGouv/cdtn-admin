@@ -33,24 +33,22 @@ export const FormTextField = ({
       name={name}
       control={control}
       rules={rules}
-      render={({ field: { onChange, value }, fieldState: { error } }) => {
-        return (
-          <TextField
-            helperText={error?.message}
-            size={size}
-            error={!!error}
-            onChange={onChange}
-            value={value}
-            fullWidth={fullWidth}
-            label={label}
-            variant="outlined"
-            multiline={multiline}
-            disabled={disabled}
-            InputLabelProps={labelFixed ? { shrink: true } : {}}
-            id={name}
-          />
-        );
-      }}
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <TextField
+          helperText={error?.message}
+          size={size}
+          error={!!error}
+          onChange={onChange}
+          value={value}
+          fullWidth={fullWidth}
+          label={label}
+          variant="outlined"
+          multiline={multiline}
+          disabled={disabled}
+          InputLabelProps={labelFixed ? { shrink: true } : {}}
+          id={name}
+        />
+      )}
     />
   );
 };

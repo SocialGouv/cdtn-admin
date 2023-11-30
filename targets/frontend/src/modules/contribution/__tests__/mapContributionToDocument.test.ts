@@ -15,6 +15,7 @@ describe("mapContributionToDocument", () => {
       agreement: {
         id: "0016",
         name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
+        kaliId: "KALICONT000005635624",
       },
       question: {
         id: "3384f257-e319-46d1-a4cb-8e8294da337b",
@@ -95,32 +96,22 @@ describe("mapContributionToDocument", () => {
       cdtn_references: [
         {
           document: {
-            title: "Quelle est la durée du congé de maternité ?",
-            source: "contributions",
-            slug: "quelle-est-la-duree-du-conge-de-maternite",
+            cdtnId: "abcdef",
           },
         },
         {
           document: {
-            title: "Le congé de maternité",
-            source: "page_fiche_ministere_travail",
-            slug: "le-conge-de-maternite",
+            cdtnId: "ijhgt",
           },
         },
         {
           document: {
-            title:
-              "Hospitalisation du nouveau-né : quelles conséquences sur le congé de maternité ?",
-            source: "fiches_service_public",
-            slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
+            cdtnId: "klmnop",
           },
         },
         {
           document: {
-            title:
-              "Peut-on interrompre un congé parental pour prendre un congé maternité ?",
-            source: "fiches_service_public",
-            slug: "peut-on-interrompre-un-conge-parental-pour-prendre-un-conge-maternite",
+            cdtnId: "ijhgt",
           },
         },
       ],
@@ -154,45 +145,39 @@ describe("mapContributionToDocument", () => {
           "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
         linkedContent: [
           {
-            slug: "quelle-est-la-duree-du-conge-de-maternite",
-            source: "contributions",
-            title: "Quelle est la durée du congé de maternité ?",
+            cdtnId: "abcdef",
           },
           {
-            slug: "le-conge-de-maternite",
-            source: "page_fiche_ministere_travail",
-            title: "Le congé de maternité",
+            cdtnId: "ijhgt",
           },
           {
-            slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
-            source: "fiches_service_public",
-            title:
-              "Hospitalisation du nouveau-né : quelles conséquences sur le congé de maternité ?",
+            cdtnId: "klmnop",
           },
           {
-            slug: "peut-on-interrompre-un-conge-parental-pour-prendre-un-conge-maternite",
-            source: "fiches_service_public",
-            title:
-              "Peut-on interrompre un congé parental pour prendre un congé maternité ?",
+            cdtnId: "ijhgt",
           },
         ],
         questionIndex: 43,
         references: [
           {
-            title: "Article 22",
-            url: "https://legifrance.gouv.fr/conv_coll/id/0016/?idConteneur=KALIARTI000005849277",
+            title:
+              "Accord du 30 mars 1951 relatif aux techniciens et agents de maîtrise Annexe III, article 22",
+            url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849277/?idConteneur=KALICONT000005635624",
           },
           {
-            title: "Article 9",
-            url: "https://legifrance.gouv.fr/conv_coll/id/0016/?idConteneur=KALIARTI000005849388",
+            title:
+              "Accord du 16 juin 1961 relatifs aux ouvriers - annexe I , article 9",
+            url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849388/?idConteneur=KALICONT000005635624",
           },
           {
-            title: "Article 18",
-            url: "https://legifrance.gouv.fr/conv_coll/id/0016/?idConteneur=KALIARTI000005849528",
+            title:
+              "Accord du 27 février 1951 relatif aux employés Annexe II, article 18",
+            url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849528/?idConteneur=KALICONT000005635624",
           },
           {
-            title: "Article 22",
-            url: "https://legifrance.gouv.fr/conv_coll/id/0016/?idConteneur=KALIARTI000005849582",
+            title:
+              "Accord du 30 octobre 1951 relatif aux ingénieurs et cadres - Annexe IV, article 22",
+            url: "https://legifrance.gouv.fr/conv_coll/id/KALIARTI000005849582/?idConteneur=KALICONT000005635624",
           },
           {
             title:

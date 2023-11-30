@@ -5,14 +5,14 @@ export function getReferences(answer: ContributionsAnswers): ContributionRef[] {
   let kaliReferences: ContributionRef[] = [];
   if (answer.agreement) {
     kaliReferences = answer.kali_references.map((ref) => ({
-      title: ref.kali_article.label,
-      url: generateKaliRef(answer.agreement!.id, ref.kali_article.id),
+      title: ref.label,
+      url: generateKaliRef(ref.kali_article.id, answer.agreement.kaliId),
     }));
   }
 
   const legiReferences: ContributionRef[] = answer.legi_references.map(
     (ref) => ({
-      title: ref.legi_article.label,
+      title: `Article ${ref.legi_article.label} du code du travail`,
       url: generateLegiRef(ref.legi_article.label),
     })
   );

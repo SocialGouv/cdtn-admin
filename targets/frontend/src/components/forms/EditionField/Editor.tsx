@@ -146,6 +146,11 @@ const StyledEditorContent = styled(EditorContent)(() => {
         ":first-of-type": {
           border: "none",
         },
+        summary: {
+          fontWeight: 600,
+          fontSize: "1.3rem",
+          fontFamily: '"Open Sans", sans-serif',
+        },
         "> button": {
           display: "flex",
           cursor: "pointer",
