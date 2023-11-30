@@ -12,7 +12,7 @@ export function getReferences(answer: ContributionsAnswers): ContributionRef[] {
 
   const legiReferences: ContributionRef[] = answer.legi_references.map(
     (ref) => ({
-      title: ref.legi_article.label,
+      title: `Article ${ref.legi_article.label} du code du travail`,
       url: generateLegiRef(ref.legi_article.label),
     })
   );
