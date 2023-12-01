@@ -13,6 +13,11 @@ import getAgreementsArticlesByTheme from "./getAgreementsArticlesByTheme";
 import { getTheme } from "./getTheme";
 import { getInfoMessage } from "./getInfoMessage";
 
+const OLD_DESCRIPTION =
+  "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";
+const DESCRIPTION =
+  "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail vous concernant.";
+
 export const generateAgreements = async (
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
   newContributions: ContributionElasticDocument[],
@@ -89,7 +94,7 @@ export const generateAgreements = async (
       answers,
       articlesByTheme,
       contributions: contribIDCCs.has(cc.num),
-      description: `Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant la convention collective ${cc.shortTitle}`,
+      description: oldAnswers.length === 0 ? DESCRIPTION : OLD_DESCRIPTION,
       source: SOURCES.CCN,
     };
 
