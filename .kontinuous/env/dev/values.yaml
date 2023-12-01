@@ -12,6 +12,25 @@ hasura:
         name: hasura
     - secretRef:
         name: hasura
+  replicas: 2
+  # Retirer le commentaire des lignes ci-dessous pour utiliser l'export dans une branche dev
+  # /!\ Penser à remettre le commentaire avant de merger la branche dans master
+  resources:
+    limits:
+      cpu: "2000m"
+      memory: "4Gi"
+    requests:
+      cpu: "1000m"
+      memory: "1Gi"
+
+export:
+  resources:
+    limits:
+      cpu: "1500m"
+      memory: "4096Mi"
+    requests:
+      cpu: "1000m"
+      memory: "896Mi"
 
 jobs:
   runs:
