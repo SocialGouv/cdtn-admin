@@ -94,7 +94,7 @@ export const generateAgreements = async (
       answers,
       articlesByTheme,
       contributions: contribIDCCs.has(cc.num),
-      description: oldAnswers.length === 0 ? DESCRIPTION : OLD_DESCRIPTION,
+      description: oldAnswers.length === 0 ? DESCRIPTION : OLD_DESCRIPTION, // On affiche la nouvelle description s'il n'y a plus d'anciennes réponses conventionnelles
       source: SOURCES.CCN,
     };
 
