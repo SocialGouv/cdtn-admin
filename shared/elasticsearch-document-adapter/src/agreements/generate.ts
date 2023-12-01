@@ -98,8 +98,6 @@ export const generateAgreements = async (
       source: SOURCES.CCN,
     };
 
-    console.log(agreementGenerated);
-
     return agreementGenerated;
   });
 

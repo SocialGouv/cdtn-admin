@@ -5,6 +5,7 @@ import {
 } from "@shared/types";
 import { gqlClient } from "@shared/utils";
 import { context } from "../context";
+import { detectNullInObject } from "../utils/detectNullInObject";
 
 const getKaliBlocksQueryByIdcc = `
 query getKaliBlocksByIdcc($idcc: Int!) {
@@ -98,7 +99,7 @@ export default async function getAgreementsArticlesByTheme(
   }
   if (
     !resultKaliBlocks.data?.kali_blocks ||
-    !resultKaliBlocks.data.kali_blocks[0].blocks
+    detectNullInObject(resultKaliBlocks.data.kali_blocks)
   ) {
     return [];
   }
