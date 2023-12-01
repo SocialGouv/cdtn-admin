@@ -35,7 +35,7 @@ export type ContributionContent =
   | ContributionFicheSpContent;
 
 export interface ExportFullLinkedContent {
-  breadcrumbs: Breadcrumbs[];
+  breadcrumbs: Breadcrumbs[] | Record<number, Breadcrumbs[]>;
   description: string;
   source: string;
   slug: string;
@@ -46,17 +46,21 @@ export interface ExportContributionFullLinkedContent {
   linkedContent: ExportFullLinkedContent[];
 }
 
-export type ContributionElasticDocument = DocumentElasticWithSource<
-  Omit<ContributionDocumentJson, "linkedContent">
+type ExportContributionInfo = {
+  breadcrumbs: Breadcrumbs[] | Record<number, Breadcrumbs[]>;
+  highlight?: ContributionHighlight;
+  messageBlock?: string;
+};
+
+export type ContributionElasticDocument = Omit<
+  DocumentElasticWithSource<Omit<ContributionDocumentJson, "linkedContent">>,
+  "breadcrumbs"
 > &
   ContributionMetadata &
   ContributionContent &
   ExportContributionFullLinkedContent &
-  (ContributionGenericInfos | ContributionConventionnelInfos) & {
-    breadcrumbs: Breadcrumbs[] | Record<number, Breadcrumbs[]>;
-    highlight?: ContributionHighlight;
-    messageBlock?: string;
-  };
+  ExportContributionInfo &
+  (ContributionGenericInfos | ContributionConventionnelInfos);
 
 export interface OldContributionReference {
   url: string;

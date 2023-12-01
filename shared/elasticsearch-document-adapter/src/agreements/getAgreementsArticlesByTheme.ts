@@ -96,7 +96,10 @@ export default async function getAgreementsArticlesByTheme(
   if (resultKaliBlocks.error) {
     throw new Error(`Error fetching kali blocks`);
   }
-  if (!resultKaliBlocks.data) {
+  if (
+    !resultKaliBlocks.data?.kali_blocks ||
+    resultKaliBlocks.data.kali_blocks.length === 0
+  ) {
     return [];
   }
 

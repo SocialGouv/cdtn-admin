@@ -58,7 +58,7 @@ export function buildGetBreadcrumbs(themes: Theme[]): GetBreadcrumbsFn {
         i++;
       }
     });
-    return mainBreadcrumb || [];
+    return mainBreadcrumb ?? [];
   }
 
   return function getBreadcrumbs(cdtnId: string) {
