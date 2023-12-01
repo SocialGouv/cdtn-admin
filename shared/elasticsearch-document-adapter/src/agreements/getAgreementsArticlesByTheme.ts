@@ -4,6 +4,7 @@ import {
   ArticleByTheme,
 } from "@shared/types";
 import { gqlClient } from "@shared/utils";
+import { context } from "../context";
 
 const getKaliBlocksQueryByIdcc = `
 query getKaliBlocksByIdcc($idcc: Int!) {
@@ -82,7 +83,12 @@ export function generateArticleByTheme(
 export default async function getAgreementsArticlesByTheme(
   idccNumber: number
 ): Promise<ArticleByTheme[]> {
-  const resultKaliBlocks = await gqlClient()
+  const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint");
+  const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret");
+  const resultKaliBlocks = await gqlClient({
+    graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
+    adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
+  })
     .query<KaliBlockByIdccResult>(getKaliBlocksQueryByIdcc, {
       idcc: idccNumber,
     })
@@ -96,7 +102,10 @@ export default async function getAgreementsArticlesByTheme(
 
   const allKaliArticlesIds = getArticleIds(resultKaliBlocks.data);
 
-  const resultKaliArticles = await gqlClient()
+  const resultKaliArticles = await gqlClient({
+    graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
+    adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
+  })
     .query<KaliArticlesByIdResult>(getKaliArticlesByIds, {
       listIds: allKaliArticlesIds,
     })
