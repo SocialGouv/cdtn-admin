@@ -7,7 +7,7 @@ describe("getInfoMessage", () => {
     };
 
     const expected =
-      "Les informations ci-dessous sont issues de l’analyse des règles prévues par votre convention collective de branche étendue et par le Code du travail";
+      "Les informations ci-dessous sont issues de l’analyse des règles prévues par votre convention collective de branche étendue et par le Code du travail.";
 
     expect(getInfoMessage(data)).toBe(expected);
   });
@@ -18,7 +18,7 @@ describe("getInfoMessage", () => {
     };
 
     const expected =
-      "Les informations ci-dessous sont issues du code du travail car la convention collective renvoie au code du travail";
+      "Les informations ci-dessous sont issues du code du travail car la convention collective renvoie au code du travail.";
 
     expect(getInfoMessage(data)).toBe(expected);
   });
@@ -29,7 +29,7 @@ describe("getInfoMessage", () => {
     };
 
     const expected =
-      "Les informations ci-dessous sont issues du code du travail car elles sont plus favorables que les dispositions prévues par la convention collective";
+      "Les informations ci-dessous sont issues du code du travail car elles sont plus favorables que les dispositions prévues par la convention collective.";
 
     expect(getInfoMessage(data)).toBe(expected);
   });
@@ -40,7 +40,7 @@ describe("getInfoMessage", () => {
     };
 
     const expected =
-      "Les informations ci-dessous sont issues du code du travail car la convention collective ne prévoit rien sur ce sujet";
+      "Les informations ci-dessous sont issues du code du travail car la convention collective ne prévoit rien sur ce sujet.";
 
     expect(getInfoMessage(data)).toBe(expected);
   });
