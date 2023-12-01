@@ -98,7 +98,7 @@ export default async function getAgreementsArticlesByTheme(
   }
   if (
     !resultKaliBlocks.data?.kali_blocks ||
-    resultKaliBlocks.data.kali_blocks.length === 0
+    !resultKaliBlocks.data.kali_blocks[0].blocks
   ) {
     return [];
   }
