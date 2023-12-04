@@ -39,6 +39,13 @@ describe("Glossary", () => {
       );
     });
 
+    test("should not add webcomponent tooltip in a summary tag with strong", () => {
+      const htmlContent = `<summary><strong>L'indemnité de fin de contrat n'est pas due dans les cas suivants</strong></summary>`;
+      expect(addGlossary(htmlContent)).toEqual(
+        `<summary><strong>L'indemnité de fin de contrat n'est pas due dans les cas suivants</strong></summary>`
+      );
+    });
+
     test("should not replace html property for cc word", () => {
       const htmlContent =
         '<p class="un accord de branche ou pas">voici une convention collective et un web component mais aussi dispositions, ceci est un test</p>';
