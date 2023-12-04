@@ -50,6 +50,7 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
+        disabled={editor.isActive("details")}
         type="button"
         title="Titre H3"
       >
@@ -58,7 +59,10 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
         className={editor.isActive("heading", { level: 4 }) ? "is-active" : ""}
-        disabled={!editor.getHTML().includes("<h3>") || editor.isActive("heading", { level: 3 })}
+        disabled={
+          (!editor.getHTML().includes("<h3>") && !editor.isActive("details")) ||
+          editor.isActive("heading", { level: 3 })
+        }
         type="button"
         title="Titre H4"
       >
