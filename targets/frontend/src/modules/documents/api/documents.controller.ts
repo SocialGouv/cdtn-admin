@@ -62,7 +62,6 @@ export class DocumentsController {
         if (error instanceof InvalidQueryError) {
           this.res.status(400).json({ message: error.message });
         } else {
-          console.error(error);
           this.res.status(400).json({
             message: error.message,
           });
