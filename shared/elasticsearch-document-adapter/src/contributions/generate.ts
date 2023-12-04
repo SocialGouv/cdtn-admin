@@ -77,7 +77,7 @@ export async function generateContributions(
       breadcrumbs:
         contrib.breadcrumbs.length > 0
           ? contrib.breadcrumbs
-          : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex],
+          : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? [],
       highlight,
       messageBlock,
     });
