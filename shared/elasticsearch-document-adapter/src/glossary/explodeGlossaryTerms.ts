@@ -7,8 +7,8 @@ const conventionMatchers =
 const startWordBreaks = `(?<=^| |\\.|,|'|>|\\()`;
 const endWordBreaks = `(?= |\\.|,|'|$|<|\\))`;
 
-const startAnchorOmit = `(?<!<a>|<summary>)`;
-const endAnchorOmit = `(?![^<]*</a>|[^<]*</summary>)`;
+const startAnchorOmit = `(?<!<a>|<summary>|<summary><strong>)`;
+const endAnchorOmit = `(?![^<]*</a>|[^<]*</summary>|[^<]*</strong></summary>)`;
 
 const tagAttributeOmit = `(?<=(^|>)[^><]*)`;
 
