@@ -35,7 +35,7 @@ export type ContributionContent =
   | ContributionFicheSpContent;
 
 export interface ExportFullLinkedContent {
-  breadcrumbs: Breadcrumbs[] | Record<number, Breadcrumbs[]>;
+  breadcrumbs: Breadcrumbs[];
   description: string;
   source: string;
   slug: string;
@@ -47,7 +47,7 @@ export interface ExportContributionFullLinkedContent {
 }
 
 type ExportContributionInfo = {
-  breadcrumbs: Breadcrumbs[] | Record<number, Breadcrumbs[]>;
+  breadcrumbs: Breadcrumbs[];
   highlight?: ContributionHighlight;
   messageBlock?: string;
 };
