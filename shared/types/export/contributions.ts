@@ -36,6 +36,7 @@ export type ContributionContent =
 
 export interface ExportFullLinkedContent {
   breadcrumbs: Breadcrumbs[];
+  description: string;
   source: string;
   slug: string;
   title: string;
