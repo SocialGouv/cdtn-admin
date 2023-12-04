@@ -1,7 +1,6 @@
 import { useQuery } from "urql";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-
-import { ShortDocument } from "../documents";
+import { ShortDocument } from "@shared/types";
 
 export const getDocumentsUpdatedAfterDateQuery = `
 query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
@@ -24,10 +23,12 @@ type QueryProps = {
 };
 
 type QueryResult = {
-  documents: ShortDocument[];
+  documents: ShortDocument<any>[];
 };
 
-export const useDocumentsQuery = ({ date }: QueryProps): ShortDocument[] => {
+export const useDocumentsQuery = ({
+  date,
+}: QueryProps): ShortDocument<any>[] => {
   const [result] = useQuery<QueryResult>({
     query: getDocumentsUpdatedAfterDateQuery,
     variables: {

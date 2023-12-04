@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "lib": ["es2022"],
+    "module": "CommonJS",
+    "target": "es2022",
+    "declaration": true,
+    "outDir": "build",
+    "moduleDetection": "force",
+    "allowJs": true,
+    "noUncheckedIndexedAccess": true,
+    "sourceMap": true,
+    "composite": true,
+    "declarationMap": true
+  }
+}

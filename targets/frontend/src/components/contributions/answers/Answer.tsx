@@ -21,6 +21,7 @@ import { SnackBar } from "../../utils/SnackBar";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 import { AnswerForm } from "./AnswerForm";
 import { fr } from "@codegouvfr/react-dsfr";
+import { usePublishContributionMutation } from "./usePublishAnswer";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -39,6 +40,7 @@ export const ContributionsAnswer = ({
   }>({
     open: false,
   });
+  const onPublish = usePublishContributionMutation();
 
   const onSubmit = async (newStatus: Status, data: Answer) => {
     try {
@@ -58,12 +60,30 @@ export const ContributionsAnswer = ({
         cdtnReferences: data.cdtnReferences,
         otherReferences: data.otherReferences,
       });
+      if (newStatus === "PUBLISHED") {
+        await onPublish(answer.id);
+      }
       setSnack({
         open: true,
         severity: "success",
         message: "La réponse a été modifiée",
       });
     } catch (e: any) {
+      // Dans le cas où il y a une erreur au niveau de la publication (PUBLISHED), on revert le status en VALIDATED
+      if (newStatus === "PUBLISHED" && answer) {
+        await updateAnswer({
+          content: data.content,
+          id: answer.id,
+          contentType: data.contentType,
+          status: "VALIDATED",
+          userId: user?.id,
+          contentServicePublicCdtnId: data.contentFichesSpDocument?.cdtnId,
+          kaliReferences: data.kaliReferences,
+          legiReferences: data.legiReferences,
+          cdtnReferences: data.cdtnReferences,
+          otherReferences: data.otherReferences,
+        });
+      }
       setSnack({ open: true, severity: "error", message: e.message });
     }
   };

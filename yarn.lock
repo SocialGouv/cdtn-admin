@@ -4988,6 +4988,7 @@ __metadata:
     "@elastic/elasticsearch": ^7.14.1
     "@shared/eslint-config": "workspace:^"
     "@shared/types": "workspace:^"
+    "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-elasticsearch": "workspace:^"
     "@socialgouv/cdtn-logger": "workspace:^"
     "@socialgouv/cdtn-slugify": ^4.52.1
@@ -5007,7 +5008,7 @@ __metadata:
     remark-rehype: ^8.1.0
     remark-stringify: ^9.0.1
     ts-jest: ^29.0.3
-    typescript: ^4.5.5
+    typescript: ^4.9.5
     unified: ^9.2.2
   languageName: unknown
   linkType: soft
@@ -5025,27 +5026,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@shared/graphql-client@workspace:^, @shared/graphql-client@workspace:shared/graphql-client":
-  version: 0.0.0-use.local
-  resolution: "@shared/graphql-client@workspace:shared/graphql-client"
-  dependencies:
-    "@types/node": ^17.0.23
-    "@urql/core": ^2.4.3
-    graphql: ^16.3.0
-    isomorphic-unfetch: ^3.1.0
-    typescript: ^4.6.2
-  languageName: unknown
-  linkType: soft
-
-"@shared/id-generator@workspace:^, @shared/id-generator@workspace:shared/id-generator":
-  version: 0.0.0-use.local
-  resolution: "@shared/id-generator@workspace:shared/id-generator"
-  dependencies:
-    uuid: ^8.3.2
-    xxhashjs: ^0.2.2
-  languageName: unknown
-  linkType: soft
-
 "@shared/types@workspace:^, @shared/types@workspace:shared/types":
   version: 0.0.0-use.local
   resolution: "@shared/types@workspace:shared/types"
@@ -5053,6 +5033,23 @@ __metadata:
     "@socialgouv/kali-data-types": ^2.127.0
     "@socialgouv/legi-data-types": ^2.73.1
     typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@shared/utils@workspace:^, @shared/utils@workspace:shared/utils":
+  version: 0.0.0-use.local
+  resolution: "@shared/utils@workspace:shared/utils"
+  dependencies:
+    "@socialgouv/cdtn-sources": ^4.91.1
+    "@socialgouv/cdtn-utils": ^4.109.0
+    "@types/uuid": ^9.0.5
+    "@types/xxhashjs": ^0.2.2
+    "@urql/core": ^2.4.3
+    graphql: ^16.3.0
+    isomorphic-unfetch: ^3.1.0
+    typescript: ^5.2.2
+    uuid: ^9.0.1
+    xxhashjs: ^0.2.2
   languageName: unknown
   linkType: soft
 
@@ -5196,7 +5193,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@socialgouv/cdtn-sources@npm:^4.52.1":
+"@socialgouv/cdtn-sources@npm:^4.52.1, @socialgouv/cdtn-sources@npm:^4.91.1":
   version: 4.91.1
   resolution: "@socialgouv/cdtn-sources@npm:4.91.1"
   checksum: 8c7709b6b66384358506cc23b98d48e6d97b3ea8fa6066f002dc8964efec8891c607262ecd3ec30f779cbc8b930a12d107887e6f492f262f4ae7dca21e7c0cf5
@@ -5218,6 +5215,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@socialgouv/cdtn-utils@npm:^4.109.0":
+  version: 4.112.0
+  resolution: "@socialgouv/cdtn-utils@npm:4.112.0"
+  checksum: edddca926298e0c8922ed6f75f70ac7c43ad01f5256b56393e65cf62c516602d173109b19422dfb856592c590c2d376ab4c512662454618487009bd34ce46a08
+  languageName: node
+  linkType: hard
+
 "@socialgouv/contibutions@workspace:targets/contributions":
   version: 0.0.0-use.local
   resolution: "@socialgouv/contibutions@workspace:targets/contributions"
@@ -5230,7 +5234,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": 5.15.1
     "@fortawesome/react-fontawesome": 0.1.14
     "@koa/router": 10.0.0
-    "@shared/graphql-client": "workspace:^"
+    "@shared/utils": "workspace:^"
     "@socialgouv/kali-data": 2.30.0
     "@socialgouv/legi-data": 2.24.0
     "@testing-library/jest-dom": 5.11.8
@@ -6682,7 +6686,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^17.0.21, @types/node@npm:^17.0.23":
+"@types/node@npm:^17.0.21":
   version: 17.0.45
   resolution: "@types/node@npm:17.0.45"
   checksum: aa04366b9103b7d6cfd6b2ef64182e0eaa7d4462c3f817618486ea0422984c51fc69fd0d436eae6c9e696ddfdbec9ccaa27a917f7c2e8c75c5d57827fe3d95e8
@@ -6983,6 +6987,22 @@ __metadata:
   version: 2.0.6
   resolution: "@types/unist@npm:2.0.6"
   checksum: 25cb860ff10dde48b54622d58b23e66214211a61c84c0f15f88d38b61aa1b53d4d46e42b557924a93178c501c166aa37e28d7f6d994aba13d24685326272d5db
+  languageName: node
+  linkType: hard
+
+"@types/uuid@npm:^9.0.5":
+  version: 9.0.7
+  resolution: "@types/uuid@npm:9.0.7"
+  checksum: c7321194aeba9ea173efd1e721403bdf4e7ae6945f8f8cdbc87c791f4b505ccf3dbc4a8883d90b394ef13b7c2dc778045792b05dbb23b3c746f8ea347804d448
+  languageName: node
+  linkType: hard
+
+"@types/xxhashjs@npm:^0.2.2":
+  version: 0.2.4
+  resolution: "@types/xxhashjs@npm:0.2.4"
+  dependencies:
+    "@types/node": "*"
+  checksum: a199723436a5758ec5c4907ac934dbc400cee35154fbcfd981a7ca373b9be66a8ef9da8f9f3a3bdbceb0e18c2e2b6d47cf8ae4825196f6a68c094bd186ea629f
   languageName: node
   linkType: hard
 
@@ -7465,8 +7485,8 @@ __metadata:
   dependencies:
     "@shared/dila-resolver": "workspace:^"
     "@shared/eslint-config": "workspace:^"
-    "@shared/graphql-client": "workspace:^"
     "@shared/types": "workspace:^"
+    "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-slugify": 4.52.1
     "@socialgouv/cdtn-sources": 4.52.1
     "@socialgouv/contributions-data-types": 3.27.0
@@ -12200,8 +12220,8 @@ __metadata:
     "@azure/storage-blob": ^12.9.0
     "@shared/elasticsearch-document-adapter": "workspace:^"
     "@shared/eslint-config": "workspace:^"
-    "@shared/graphql-client": "workspace:^"
     "@shared/types": "workspace:^"
+    "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-logger": "workspace:^"
     "@swc/cli": 0.1.55
     "@swc/core": 1.2.150
@@ -12679,9 +12699,8 @@ __metadata:
     "@reach/dialog": ^0.16.0
     "@reach/menu-button": ^0.16.1
     "@reach/visually-hidden": ^0.16.0
-    "@shared/graphql-client": "workspace:^"
-    "@shared/id-generator": "workspace:^"
     "@shared/types": "workspace:^"
+    "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-slugify": ^4.52.1
     "@socialgouv/cdtn-sources": ^4.52.1
     "@socialgouv/cdtn-ui": ^4.92.0
@@ -13461,10 +13480,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:^16.0.0, graphql@npm:^16.3.0":
+"graphql@npm:^16.0.0":
   version: 16.7.1
   resolution: "graphql@npm:16.7.1"
   checksum: c924d8428daf0e96a5ea43e9bc3cd1b6802899907d284478ac8f705c8fd233a0a51eef915f7569fb5de8acb2e85b802ccc6c85c2b157ad805c1e9adba5a299bd
+  languageName: node
+  linkType: hard
+
+"graphql@npm:^16.3.0":
+  version: 16.8.1
+  resolution: "graphql@npm:16.8.1"
+  checksum: 8d304b7b6f708c8c5cc164b06e92467dfe36aff6d4f2cf31dd19c4c2905a0e7b89edac4b7e225871131fd24e21460836b369de0c06532644d15b461d55b1ccc0
   languageName: node
   linkType: hard
 
@@ -14273,9 +14299,8 @@ __metadata:
   resolution: "ingester@workspace:targets/ingester"
   dependencies:
     "@shared/eslint-config": "workspace:^"
-    "@shared/graphql-client": "workspace:^"
-    "@shared/id-generator": "workspace:^"
     "@shared/types": "workspace:^"
+    "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-slugify": 4.52.1
     "@socialgouv/cdtn-sources": 4.52.1
     "@socialgouv/contributions-data-types": ^3.27.0
@@ -24540,13 +24565,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^3 || ^4, typescript@npm:^4.4.3, typescript@npm:^4.5.5, typescript@npm:^4.6.2, typescript@npm:^4.9.5":
+"typescript@npm:^3 || ^4, typescript@npm:^4.4.3, typescript@npm:^4.9.5":
   version: 4.9.5
   resolution: "typescript@npm:4.9.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: ee000bc26848147ad423b581bd250075662a354d84f0e06eb76d3b892328d8d4440b7487b5a83e851b12b255f55d71835b008a66cbf8f255a11e4400159237db
+  languageName: node
+  linkType: hard
+
+"typescript@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "typescript@npm:5.2.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 7912821dac4d962d315c36800fe387cdc0a6298dba7ec171b350b4a6e988b51d7b8f051317786db1094bd7431d526b648aba7da8236607febb26cf5b871d2d3c
   languageName: node
   linkType: hard
 
@@ -24570,13 +24605,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^3 || ^4#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.5.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.2#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@^3 || ^4#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
   version: 4.9.5
   resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=289587"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 1f8f3b6aaea19f0f67cba79057674ba580438a7db55057eb89cc06950483c5d632115c14077f6663ea76fd09fce3c190e6414bb98582ec80aa5a4eaf345d5b68
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^5.2.2#~builtin<compat/typescript>":
+  version: 5.2.2
+  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 0f4da2f15e6f1245e49db15801dbee52f2bbfb267e1c39225afdab5afee1a72839cd86000e65ee9d7e4dfaff12239d28beaf5ee431357fcced15fb08583d72ca
   languageName: node
   linkType: hard
 
@@ -25350,6 +25395,15 @@ __metadata:
   bin:
     uuid: dist/bin/uuid
   checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "uuid@npm:9.0.1"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 39931f6da74e307f51c0fb463dc2462807531dc80760a9bff1e35af4316131b4fc3203d16da60ae33f07fdca5b56f3f1dd662da0c99fea9aaeab2004780cc5f4
   languageName: node
   linkType: hard
 

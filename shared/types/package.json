@@ -6,7 +6,8 @@
   "module": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "build:watch": "tsc -w"
   },
   "devDependencies": {
     "@socialgouv/kali-data-types": "^2.127.0",

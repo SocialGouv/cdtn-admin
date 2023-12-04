@@ -1,4 +1,4 @@
-import { generateIds } from "@shared/id-generator";
+import { generateIds } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";

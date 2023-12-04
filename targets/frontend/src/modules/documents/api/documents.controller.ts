@@ -9,6 +9,7 @@ import {
 } from "src/lib/api";
 import { DocumentsRepository, DocumentsService } from ".";
 import { InformationsRepository } from "../../informations/api";
+import { ContributionRepository } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 
 const inputSchema = z.object({
@@ -44,8 +45,9 @@ export class DocumentsController {
         const client = ApiClient.build(inputs.session_variables);
         const service = new DocumentsService(
           new InformationsRepository(client),
-          new ModelRepository(client),
-          new DocumentsRepository(client)
+          new DocumentsRepository(client),
+          new ContributionRepository(client),
+          new ModelRepository(client)
         );
         const cdtnId = await service.publish(
           inputs.input.id,
@@ -53,7 +55,7 @@ export class DocumentsController {
         );
         this.res.status(201).json({ cdtnId });
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof NotFoundError) {
         this.res.status(404).json({ message: error.message });
       } else {
@@ -61,7 +63,7 @@ export class DocumentsController {
           this.res.status(400).json({ message: error.message });
         } else {
           this.res.status(400).json({
-            message: DEFAULT_ERROR_500_MESSAGE,
+            message: error.message,
           });
         }
       }

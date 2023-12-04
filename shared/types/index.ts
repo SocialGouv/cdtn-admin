@@ -15,6 +15,8 @@ import type {
 } from "./EditorialContent";
 export * from "./EditorialContent";
 export * from "./utils";
+export * from "./contributions";
+export * from "./documents";
 import type { BaseHasuraDocument } from "./Base";
 
 export enum DOCUMENT_SOURCE {

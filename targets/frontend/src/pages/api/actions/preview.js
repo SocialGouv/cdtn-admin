@@ -1,6 +1,6 @@
 import { Client } from "@elastic/elasticsearch";
 import { Boom } from "@hapi/boom";
-import { client as gqlClient } from "@shared/graphql-client";
+import { gqlClient } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import memoizee from "memoizee";
 import { createErrorFor } from "src/lib/apiError";
@@ -20,7 +20,7 @@ query getGlossary {
 `;
 
 async function _fetchGlossary() {
-  const result = await gqlClient.query(getGlossary).toPromise();
+  const result = await gqlClient().query(getGlossary).toPromise();
   if (result.error) {
     console.error("[fetchGlossary]", result.error);
     throw result.error;
