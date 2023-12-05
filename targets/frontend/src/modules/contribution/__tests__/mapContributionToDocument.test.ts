@@ -6,6 +6,21 @@ import {
 import { mapContributionToDocument } from "../mapContributionToDocument";
 
 describe("mapContributionToDocument", () => {
+  const inputDoc: Document<any> = {
+    cdtn_id: "cdtn_id",
+    initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+    title:
+      "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+    meta_description: "meta",
+    source: "contributions",
+    slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
+    text: " texte",
+    document: {
+      info_random: "random",
+    },
+    is_available: true,
+  };
+
   it("devrait mapper l'answer d'un document sans fiche SP", async () => {
     const inputContribution: ContributionsAnswers = {
       id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
@@ -116,21 +131,7 @@ describe("mapContributionToDocument", () => {
         },
       ],
       content_fiche_sp: null,
-    };
-
-    const inputDoc: Document<any> = {
-      cdtn_id: "cdtn_id",
-      initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
-      title:
-        "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
-      meta_description: "meta",
-      source: "contributions",
-      slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
-      text: " texte",
-      document: {
-        info_random: "random",
-      },
-      is_available: true,
+      messageBlockGenericNoCDT: null,
     };
 
     const outputDoc: Document<ContributionDocumentJson> = {
@@ -223,5 +224,89 @@ describe("mapContributionToDocument", () => {
       jest.fn()
     );
     expect(result).toEqual(outputDoc);
+  });
+
+  it("devrait mapper l'answer d'une contrib generic de type nothing", async () => {
+    const inputContribution: ContributionsAnswers = {
+      id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+      content: null,
+      content_type: "GENERIC_NO_CDT",
+      agreement: {
+        id: "0000",
+        name: "Code du travail",
+        kaliId: "",
+      },
+      question: {
+        id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+        content:
+          "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+        order: 43,
+      },
+      kali_references: [],
+      legi_references: [],
+      other_references: [],
+      cdtn_references: [],
+      content_fiche_sp: null,
+      messageBlockGenericNoCDT: "Mon message nothing",
+    };
+
+    const result = await mapContributionToDocument(
+      inputContribution,
+      inputDoc,
+      jest.fn()
+    );
+    expect(result.title).toEqual(
+      "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?"
+    );
+    expect(result.document).toEqual({
+      contentType: "GENERIC_NO_CDT",
+      idcc: "0000",
+      questionId: "3384f257-e319-46d1-a4cb-8e8294da337b",
+      questionName:
+        "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+      linkedContent: [],
+      questionIndex: 43,
+      references: [],
+      type: "generic-no-cdt",
+      messageBlockGenericNoCDT: "Mon message nothing",
+    });
+  });
+
+  it("devrait throw une erreure si une contrib personnalisé est de type CDT et la générique est de type NOTHING", async () => {
+    const inputContribution: ContributionsAnswers = {
+      id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+      content: null,
+      content_type: "CDT",
+      agreement: {
+        id: "0016",
+        name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
+        kaliId: "KALICONT000005635624",
+      },
+      question: {
+        id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+        content:
+          "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+        order: 43,
+      },
+      kali_references: [],
+      legi_references: [],
+      other_references: [],
+      cdtn_references: [],
+      content_fiche_sp: null,
+      messageBlockGenericNoCDT: null,
+    };
+    await expect(
+      mapContributionToDocument(
+        inputContribution,
+        inputDoc,
+        jest.fn(function (id) {
+          return new Promise((resolve) => {
+            resolve({ content_type: "GENERIC_NO_CDT" });
+          });
+        })
+      )
+    ).rejects.toThrow(
+      'La contribution ne peut pas être de type "Code du travail" parce que la générique n\'a pas de réponse'
+    );
   });
 });
