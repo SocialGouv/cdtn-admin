@@ -2,6 +2,7 @@ import {
   AgreementDoc,
   ContributionDocumentJson,
   ContributionHighlight,
+  ContributionLinkedContent,
 } from "@shared/types";
 import { DocumentElasticWithSource } from "../types/Glossary";
 import { generateMetadata } from "./generateMetadata";
@@ -18,6 +19,13 @@ import {
 } from "./types";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
+
+export type ContributionElasticDocumentLightRelatedContent = Omit<
+  ContributionElasticDocument,
+  "linkedContent"
+> & {
+  linkedContent: ContributionLinkedContent[];
+};
 
 export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
@@ -36,7 +44,8 @@ export async function generateContributions(
     {}
   );
 
-  const generatedContributions: ContributionElasticDocument[] = [];
+  const generatedContributions: ContributionElasticDocumentLightRelatedContent[] =
+    [];
 
   for (let i = 0; i < contributions.length; i++) {
     const contrib = contributions[i];
@@ -61,15 +70,8 @@ export async function generateContributions(
       };
     }
 
-    const linkedContent = await generateLinkedContent(
-      contrib,
-      getBreadcrumbs,
-      breadcrumbsOfRootContributionsPerIndex
-    );
-
     generatedContributions.push({
       ...contrib,
-      ...linkedContent,
       ...generateMetadata(contrib, content),
       ...addGlossaryToContent(content, addGlossary),
       ...doc,
@@ -82,5 +84,29 @@ export async function generateContributions(
     });
   }
 
-  return generatedContributions;
+  // Some related content link to another customized contribution
+  // In this case, the description of the contribution is not available
+  // so we populate the related content after
+  const allGeneratedContributionsPromises = generatedContributions.map(
+    async (contribution): Promise<ContributionElasticDocument> => {
+      const linkedContent = await generateLinkedContent(
+        generatedContributions,
+        contribution.questionIndex,
+        contribution.idcc,
+        contribution.linkedContent,
+        getBreadcrumbs,
+        breadcrumbsOfRootContributionsPerIndex
+      );
+      return {
+        ...contribution,
+        linkedContent: linkedContent.linkedContent,
+      } as ContributionElasticDocument;
+    }
+  );
+
+  const allGeneratedContributions = await Promise.all(
+    allGeneratedContributionsPromises
+  );
+
+  return allGeneratedContributions;
 }

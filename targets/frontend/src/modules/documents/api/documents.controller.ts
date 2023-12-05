@@ -55,7 +55,7 @@ export class DocumentsController {
         );
         this.res.status(201).json({ cdtnId });
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof NotFoundError) {
         this.res.status(404).json({ message: error.message });
       } else {
@@ -63,7 +63,7 @@ export class DocumentsController {
           this.res.status(400).json({ message: error.message });
         } else {
           this.res.status(400).json({
-            message: DEFAULT_ERROR_500_MESSAGE,
+            message: error.message,
           });
         }
       }

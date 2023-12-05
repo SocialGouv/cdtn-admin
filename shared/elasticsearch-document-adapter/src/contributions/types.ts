@@ -28,7 +28,7 @@ export interface ContributionFicheSpContent {
   ficheSpDescription: string;
 }
 
-export interface LinkedContent {
+export interface FullLinkedContent {
   breadcrumbs: Breadcrumbs[];
   description: string;
   source: string;
@@ -36,8 +36,8 @@ export interface LinkedContent {
   title: string;
 }
 
-export interface ContributionLinkedContent {
-  linkedContent: LinkedContent[];
+export interface ContributionFullLinkedContent {
+  linkedContent: FullLinkedContent[];
 }
 
 export type ContributionContent =
@@ -49,7 +49,7 @@ export type ContributionElasticDocument = DocumentElasticWithSource<
 > &
   ContributionMetadata &
   ContributionContent &
-  ContributionLinkedContent &
+  ContributionFullLinkedContent &
   (ContributionGenericInfos | ContributionConventionnelInfos) & {
     breadcrumbs: Breadcrumbs[] | Record<number, Breadcrumbs[]>;
     highlight?: ContributionHighlight;
