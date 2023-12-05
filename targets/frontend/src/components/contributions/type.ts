@@ -112,7 +112,15 @@ const answerBaseSchema = z.object({
   agreementId: z.string(),
   questionId: z.string().uuid(),
   contentType: z.enum(
-    ["ANSWER", "NOTHING", "CDT", "UNFAVOURABLE", "UNKNOWN", "SP"],
+    [
+      "ANSWER",
+      "NOTHING",
+      "CDT",
+      "UNFAVOURABLE",
+      "UNKNOWN",
+      "SP",
+      "GENERIC_NO_CDT",
+    ],
     {
       required_error: "Un type de réponse doit être sélectionné",
       invalid_type_error: "Un type de réponse doit être sélectionné",
@@ -120,6 +128,7 @@ const answerBaseSchema = z.object({
   ),
   contentServicePublicCdtnId: z.string().nullable().optional(),
   content: z.string().nullable().optional(),
+  messageBlockGenericNoCDT: z.string().nullable().optional(),
   updatedAt: z.string(),
 });
 

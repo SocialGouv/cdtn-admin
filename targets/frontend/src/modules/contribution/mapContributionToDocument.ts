@@ -8,6 +8,57 @@ import { getReferences } from "./getReferences";
 import { generateCdtnId } from "@shared/utils";
 import { generateContributionSlug } from "./generateSlug";
 
+async function getBaseDocument(
+  data: ContributionsAnswers,
+  fetchGenericAnswer: (
+    questionId: string
+  ) => Promise<Partial<ContributionsAnswers>>
+) {
+  switch (data.content_type) {
+    case "ANSWER":
+      return {
+        type: "content",
+        content: data.content!,
+      };
+    case "GENERIC_NO_CDT":
+      return {
+        type: "generic-no-cdt",
+        messageBlockGenericNoCDT: data.messageBlockGenericNoCDT!,
+      };
+    case "CDT":
+    case "NOTHING":
+    case "UNFAVOURABLE":
+    case "UNKNOWN":
+      const genericAnswer = await fetchGenericAnswer(data.question.id);
+      if (
+        data.content_type === "CDT" &&
+        genericAnswer.content_type === "GENERIC_NO_CDT"
+      ) {
+        throw new Error(
+          'La contribution ne peut pas être de type "Code du travail" parce que la générique n\'a pas de réponse'
+        );
+      } else if (genericAnswer.content_type === "SP") {
+        return {
+          type: "fiche-sp",
+          ficheSpId: genericAnswer.content_fiche_sp!.initial_id,
+        };
+      } else {
+        return {
+          type: "cdt",
+          genericAnswerId: genericAnswer.id!,
+        };
+      }
+
+    case "SP":
+      return {
+        type: "fiche-sp",
+        ficheSpId: data.content_fiche_sp!.initial_id,
+      };
+    default:
+      throw new Error("Content type not defined");
+  }
+}
+
 export const mapContributionToDocument = async (
   data: ContributionsAnswers,
   document: Document<ContributionDocumentJson> | undefined,
@@ -36,42 +87,10 @@ export const mapContributionToDocument = async (
     idcc: data.agreement.id,
   };
 
-  let doc: ContributionDocumentJson;
-  if (data.content_type === "ANSWER") {
-    doc = {
-      ...initalDoc,
-      type: "content",
-      content: data.content!,
-    };
-  } else if (
-    data.content_type === "CDT" ||
-    data.content_type === "NOTHING" ||
-    data.content_type === "UNFAVOURABLE" ||
-    data.content_type === "UNKNOWN"
-  ) {
-    const genericAnswer = await fetchGenericAnswer(data.question.id);
-    if (genericAnswer.content_type === "SP") {
-      doc = {
-        ...initalDoc,
-        type: "fiche-sp",
-        ficheSpId: genericAnswer.content_fiche_sp!.initial_id,
-      };
-    } else {
-      doc = {
-        ...initalDoc,
-        type: "cdt",
-        genericAnswerId: genericAnswer.id!,
-      };
-    }
-  } else if (data.content_type === "SP") {
-    doc = {
-      ...initalDoc,
-      type: "fiche-sp",
-      ficheSpId: data.content_fiche_sp!.initial_id,
-    };
-  } else {
-    throw new Error("Content type not defined");
-  }
+  const doc = {
+    ...(await getBaseDocument(data, fetchGenericAnswer)),
+    ...initalDoc,
+  } as ContributionDocumentJson;
   return {
     cdtn_id: document?.cdtn_id ?? generateCdtnId(data.question.content),
     initial_id: data.id,

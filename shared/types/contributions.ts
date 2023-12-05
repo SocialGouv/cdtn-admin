@@ -58,13 +58,13 @@ export type ContributionLegiReferences = {
     cid: string;
     label: string;
   };
-  messageIntro: null | string;
-  messageAlert: null | string;
+  messageBlockGenericNoCDT: null | string;
 };
 
 export type ContributionContentType =
   | "ANSWER"
   | "NOTHING"
+  | "GENERIC_NO_CDT"
   | "CDT"
   | "UNFAVOURABLE"
   | "UNKNOWN"
@@ -88,8 +88,11 @@ type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
 
 type ContributionDocumentJsonNothing = ContributionDocumentJsonBasic & {
   type: "nothing";
-  messageIntro: string;
-  messageAlert: string;
+};
+
+type ContributionDocumentJsonGenericNoCDT = ContributionDocumentJsonBasic & {
+  type: "generic-no-cdt";
+  messageBlockGenericNoCDT: string;
 };
 
 type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
@@ -106,6 +109,7 @@ type ContributionDocumentJsonCodeDuTravailReference =
 export type ContributionDocumentJson =
   | ContributionDocumentJsonContent
   | ContributionDocumentJsonNothing
+  | ContributionDocumentJsonGenericNoCDT
   | ContributionDocumentJsonFicheSp
   | ContributionDocumentJsonCodeDuTravailReference;
 
