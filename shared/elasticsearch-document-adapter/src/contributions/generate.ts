@@ -92,6 +92,7 @@ export async function generateContributions(
       const linkedContent = await generateLinkedContent(
         generatedContributions,
         contribution.questionIndex,
+        contribution.idcc,
         contribution.linkedContent,
         getBreadcrumbs,
         breadcrumbsOfRootContributionsPerIndex
