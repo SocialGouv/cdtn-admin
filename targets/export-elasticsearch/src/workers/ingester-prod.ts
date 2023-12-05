@@ -3,6 +3,12 @@ import { parentPort } from "worker_threads";
 
 const ingester = async (): Promise<string> => {
   return new Promise(async (resolve, reject) => {
+    console.log(`BRANCH_NAME_SLUG : ${process.env.BRANCH_NAME_SLUG}`);
+    console.log(
+      `Use index : ${
+        process.env.BRANCH_NAME_SLUG ?? process.env.ELASTICSEARCH_INDEX_PROD
+      }`
+    );
     try {
       await ingest(
         process.env.HASURA_GRAPHQL_ENDPOINT,
@@ -11,7 +17,7 @@ const ingester = async (): Promise<string> => {
         process.env.ES_LOGS_TOKEN_PROD,
         process.env.ELASTICSEARCH_URL_PROD,
         process.env.ELASTICSEARCH_TOKEN_INGEST_PROD,
-        process.env.ELASTICSEARCH_INDEX_PROD,
+        process.env.BRANCH_NAME_SLUG ?? process.env.ELASTICSEARCH_INDEX_PROD,
         process.env.NLP_URL,
         undefined,
         undefined,

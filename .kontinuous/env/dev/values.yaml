@@ -23,7 +23,11 @@ hasura:
 #      cpu: "1000m"
 #      memory: "1Gi"
 #
-#export:
+
+export:
+  env:
+    - name: "BRANCH_NAME_SLUG"
+      value: "{{.Values.global.branchSlug}}"
 #  resources:
 #    limits:
 #      cpu: "1500m"
