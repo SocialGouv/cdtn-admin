@@ -28,13 +28,13 @@ export:
   env:
     - name: "BRANCH_NAME_SLUG"
       value: "{{.Values.global.branchSlug}}"
-#  resources:
-#    limits:
-#      cpu: "1500m"
-#      memory: "4096Mi"
-#    requests:
-#      cpu: "1000m"
-#      memory: "896Mi"
+  resources:
+    limits:
+      cpu: "1000m"
+      memory: "1024Mi"
+    requests:
+      cpu: "1000m"
+      memory: "896Mi"
 
 jobs:
   runs:
