@@ -27,8 +27,6 @@ describe("generateLinkedContent", () => {
         slug: "slug",
         description: "description",
         source: "information",
-        isPublished: true,
-        isAvailable: true,
       };
       (fetchLinkedContent as jest.Mock).mockResolvedValue(
         dataFetchLinkedContent
@@ -37,6 +35,7 @@ describe("generateLinkedContent", () => {
       const linkedContent = await generateLinkedContent(
         [],
         1,
+        "0000",
         [
           {
             cdtnId: "12345",
@@ -74,6 +73,7 @@ describe("generateLinkedContent", () => {
       const linkedContent = await generateLinkedContent(
         [contribution],
         1,
+        "0000",
         [
           {
             cdtnId: "678910",

@@ -18,6 +18,7 @@ import { GetBreadcrumbsFn } from "../breadcrumbs";
 import { addGlossaryToContent } from "./addGlossaryToContent";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
+import pMap from "p-map";
 
 export type ContributionElasticDocumentLightRelatedContent = Omit<
   ContributionElasticDocument,
@@ -86,11 +87,13 @@ export async function generateContributions(
   // Some related content link to another customized contribution
   // In this case, the description of the contribution is not available
   // so we populate the related content after
-  const allGeneratedContributionsPromises = generatedContributions.map(
+  const allGeneratedContributions = await pMap(
+    generatedContributions,
     async (contribution): Promise<ContributionElasticDocument> => {
       const linkedContent = await generateLinkedContent(
         generatedContributions,
         contribution.questionIndex,
+        contribution.idcc,
         contribution.linkedContent,
         getBreadcrumbs,
         breadcrumbsOfRootContributionsPerIndex
@@ -99,11 +102,8 @@ export async function generateContributions(
         ...contribution,
         linkedContent: linkedContent.linkedContent,
       } as ContributionElasticDocument;
-    }
-  );
-
-  const allGeneratedContributions = await Promise.all(
-    allGeneratedContributionsPromises
+    },
+    { concurrency: 5 }
   );
 
   return allGeneratedContributions;
