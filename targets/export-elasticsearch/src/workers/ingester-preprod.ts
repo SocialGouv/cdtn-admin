@@ -20,6 +20,7 @@ const ingester = async (): Promise<string> => {
       );
       resolve("Export elasticsearch completed successfully");
     } catch (error: unknown) {
+      console.error("Error during export : ", JSON.stringify(error, null, 2));
       reject(error);
     }
   });

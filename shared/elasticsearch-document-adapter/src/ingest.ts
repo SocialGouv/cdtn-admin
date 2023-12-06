@@ -138,6 +138,7 @@ async function runIngester(
 
   await version({ client });
 
+  logger.info(`Creating index ${DOCUMENT_INDEX_NAME}-${ts}`);
   // Indexing documents/search data
   await createIndex({
     client,

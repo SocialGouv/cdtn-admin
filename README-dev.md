@@ -348,9 +348,15 @@ WHERE source IN ('page_fiche_ministere_travail', 'information', 'fiches_service_
 
 Le but est de pouvoir exporter les données de la branche dans elasticsearch et d'avoir une instance du site cdtn qui est lié à ces données.
 
+### Bien nommer sa branche
+
+Afin de lier les deux environnements, il est nécessaire de nommer sa branche en commençant par le mot `linked` (exemple : `linked-my-feature`, `linked/my-feature`).
+Cela permet de lier l'index elasticsearch automatiquement entre les deux branches.
+
 ### Exporter les données sur une branche déployée
 
-Par défaut, les ressources nécessaires à exporter les données ne sont pas demandés dans un environnement de dev. Si vous lancez un export de données, le processus va planter suite à un manque de mémoire.
+Par défaut, les ressources nécessaires à exporter les données ne sont pas demandés dans un environnement de dev.
+Si vous lancez un export de données, le processus va planter suite à un manque de mémoire.
 
 Il faut commencer par donner les ressources nécessaires au processus dans l'environnement de dev :
 
@@ -364,50 +370,7 @@ L'export des données se fait depuis l'admin dans la section `Contenus > Mise à
 > Pourquoi changer les ressources ?
 > L'export est un processus qui demande beaucoup de RAM/CPU. Afin de ne pas surcharger le cluster de dev, on ne va pas demander ces ressources car l'export est peu utilisé pour les tests. Il n'existe aucun mécanisme sur la CI à l'heure actuelle pour permettre de faire le switch autrement.
 
-### Trouver l'index
-
-Le nom de l'index est important pour pouvoir le définir ensuite sur votre branche dans le projet [code-du-travail-numerique](https://github.com/socialgouv/code-du-travail-numerique).
-Pour cela, la méthode la plus simple est de récupérer depuis les logs de l'export.
-
-Vous le trouverez facilement sous cette forme :
-
-```
-{"level":"info","message":"Index cdtn-dev-v2_documents-1700218194840 created."}
-```
-
-Ici, le nom de l'index est : `cdtn-dev-v2_documents-1700218194840`
-
-**Attention**: Il faut lancer avant un export des données depuis l'admin pour avoir le nom de l'index.
-
-### Lié le site cdtn
-
-Sur le projet [code-du-travail-numerique](https://github.com/socialgouv/code-du-travail-numerique), si ce n'est pas déjà fait, il faut créer une branche. Dans cette branche :
-
-* Ouvrir le fichier `packages/code-du-travail-frontend/src/api/utils/elasticsearch.ts` et changer la variable `elasticDocumentsIndex` avec le nom de l'index
-
-Example avec l'index `cdtn-dev-v2_documents-1700148971186` :
-
-```ts
-export const elasticDocumentsIndex = `${ES_INDEX_PREFIX}-${CDTN_ADMIN_VERSION}_documents`;
-```
-
-devient
-
-```ts
-export const elasticDocumentsIndex = "cdtn-dev-v2_documents-1700148971186"; // `${ES_INDEX_PREFIX}-${CDTN_ADMIN_VERSION}_documents`;
-```
-
-<strong>/!\ /!\ /!\ ATTENTION /!\ /!\ /!\ : Bien penser à remettre l'ancien index avant de merger dans master !</strong>
-
-> Pourquoi changer l'index ?
-> Par défaut, les branches vont sur l'index de preprod pour avoir accès au dernier index à jour. Comme il n'y a pas forcément d'admin lié à cette branche, on ne peut pas lier à un index non existant pour les tests.
-
 ### Limitations connues
 
-* A chaque export, un nouvel index est créé, il faut le remplacer à chaque fois dans le frontend
-* A chaque export, les indexs précédents sont supprimés
-* L'index est partagé par l'ensemble des branches. Si dans une branche on export, elle va supprimer les indexs des autres branches
-
-### Améioration
-
-Une discussion est ouverte afin d'améliorer ce prosessus : https://github.com/SocialGouv/cdtn-admin/discussions/1123
+* Les fichiers du site sont stockés au même endroit pour l'ensemble des branches. Si on ajoute/modifie/supprime un fichier, cela sera également le cas sur l'ensemble des branches
+* Le sitemap du site est stockés au même endroit pour l'ensemble des branches. Les branches sur le site CDTN récupérera le dernier sitemap généré. 
