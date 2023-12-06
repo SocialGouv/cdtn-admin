@@ -23,6 +23,7 @@ export const getContributionAnswerById = gql`
           path
           cid
           label
+          agreement_id
         }
       }
       legi_references {

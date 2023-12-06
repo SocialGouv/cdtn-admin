@@ -14,6 +14,7 @@ export type ContributionsAnswers = {
       path?: string;
       cid: string;
       label: string;
+      agreement_id: string;
     };
   }[];
   legi_references: {
