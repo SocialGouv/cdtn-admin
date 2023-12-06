@@ -13,7 +13,7 @@
     "@socialgouv/cdtn-sources": "^4.52.1",
     "nctx": "^1.2.0",
     "node-fetch": "^2.6.5",
-    "p-map": "5.2.0",
+    "p-map": "^4.0.0",
     "p-queue": "^6.6.2",
     "rehype-raw": "^5.1.0",
     "rehype-stringify": "^8.0.0",
