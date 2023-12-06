@@ -36,10 +36,6 @@ query getContributionsWithRefs {
 `;
 
 interface ContributionsHasuraResult {
-  data: Data;
-}
-
-interface Data {
   contribution_answers: Pick<
     ContributionsAnswers,
     "id" | "question" | "kali_references" | "legi_references"
@@ -47,7 +43,7 @@ interface Data {
 }
 
 export async function queryContributionsReferences(): Promise<
-  Data["contribution_answers"]
+  ContributionsHasuraResult["contribution_answers"]
 > {
   const res = await gqlClient()
     .query<ContributionsHasuraResult>(getContributionsWithRefs, {})
@@ -58,5 +54,5 @@ export async function queryContributionsReferences(): Promise<
     throw new Error("getContributionsWithReferences");
   }
 
-  return res.data.data.contribution_answers;
+  return res.data.contribution_answers;
 }
