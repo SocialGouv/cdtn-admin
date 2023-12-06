@@ -348,7 +348,7 @@ WHERE source IN ('page_fiche_ministere_travail', 'information', 'fiches_service_
 
 Le but est de pouvoir exporter les données de la branche dans elasticsearch et d'avoir une instance du site cdtn qui est lié à ces données.
 
-### Exporter les données
+### Exporter les données sur une branche déployée
 
 Par défaut, les ressources nécessaires à exporter les données ne sont pas demandés dans un environnement de dev. Si vous lancez un export de données, le processus va planter suite à un manque de mémoire.
 
