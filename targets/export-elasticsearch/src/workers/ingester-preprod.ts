@@ -11,7 +11,9 @@ const ingester = async (): Promise<string> => {
         process.env.ES_LOGS_TOKEN_PREPROD,
         process.env.ELASTICSEARCH_URL_PREPROD,
         process.env.ELASTICSEARCH_TOKEN_INGEST_PREPROD,
-        process.env.BRANCH_NAME_SLUG ?? process.env.ELASTICSEARCH_INDEX_PREPROD,
+        process.env.BRANCH_NAME_SLUG
+          ? `cdtn-${process.env.BRANCH_NAME_SLUG}`
+          : process.env.ELASTICSEARCH_INDEX_PREPROD,
         process.env.ENVIRONMENT === "dev" ? undefined : process.env.NLP_URL,
         undefined,
         undefined,
