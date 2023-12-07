@@ -350,27 +350,30 @@ Le but est de pouvoir exporter les données de la branche dans elasticsearch et 
 
 ### Bien nommer sa branche
 
-Afin de lier les deux environnements, il est nécessaire de nommer sa branche en commençant par le mot `linked` (exemple : `linked-my-feature`, `linked/my-feature`).
+Afin de lier les deux environnements, il est nécessaire de nommer identiquement ses branches (admin et cdtn) en commençant par le mot `linked` (exemple : `linked-my-feature`, `linked/my-feature`).
 Cela permet de lier l'index elasticsearch automatiquement entre les deux branches.
 
 ### Exporter les données sur une branche déployée
 
-Par défaut, les ressources nécessaires à exporter les données ne sont pas demandés dans un environnement de dev.
-Si vous lancez un export de données, le processus va planter suite à un manque de mémoire.
+L'export des données se fait depuis l'admin dans la section `Contenus > Mise à jour`. Il faut ensuite cliquer sur le bouton `Mettre à jour la pre-production`.
+
+> Note: Le glossary (injection des tooltips) et le NLP (vectorisation des données) sont par défaut désactivé en dev.
+
+#### Activer le glossary et le NLP
 
 Il faut commencer par donner les ressources nécessaires au processus dans l'environnement de dev :
 
 * Ouvrir le fichier `.kontinous/env/dev/values.yaml`
-* Retirer les lignes en commentaire pour activer l'export (on demande les ressources nécessaire pour hasura et l'export)
+* Appliquer ce que les commentaires indiquent pour les ressources sur hasura et export
 
-L'export des données se fait depuis l'admin dans la section `Contenus > Mise à jour`. Il faut ensuite cliquer sur l'un des boutons `Mettre à jour la production` ou `Mettre à jour la pre-production`.
+L'export des données se fait depuis l'admin dans la section `Contenus > Mise à jour`. Il faut ensuite cliquer sur le bouton `Mettre à jour la production`.
 
 <strong>/!\ /!\ /!\ ATTENTION /!\ /!\ /!\ : Bien penser à remettre les lignes en commentaire avant de merger dans master !</strong>
 
 > Pourquoi changer les ressources ?
-> L'export est un processus qui demande beaucoup de RAM/CPU. Afin de ne pas surcharger le cluster de dev, on ne va pas demander ces ressources car l'export est peu utilisé pour les tests. Il n'existe aucun mécanisme sur la CI à l'heure actuelle pour permettre de faire le switch autrement.
+> L'export avec glossary et NLP est un processus qui demande beaucoup de RAM/CPU. Afin de ne pas surcharger le cluster de dev, on ne va pas demander ces ressources car l'export est peu utilisé pour les tests. Il n'existe aucun mécanisme sur la CI à l'heure actuelle pour permettre de faire le switch autrement.
 
 ### Limitations connues
 
 * Les fichiers du site sont stockés au même endroit pour l'ensemble des branches. Si on ajoute/modifie/supprime un fichier, cela sera également le cas sur l'ensemble des branches
-* Le sitemap du site est stockés au même endroit pour l'ensemble des branches. Les branches sur le site CDTN récupérera le dernier sitemap généré. 
+* Le sitemap du site est stocké au même endroit pour l'ensemble des branches. Les branches sur le site CDTN récupérera le dernier sitemap généré. 
