@@ -58,6 +58,7 @@ jobs:
       use: psql
       with:
         sqlFile: .kontinuous/sql/post-restore.sql
+        pgSecretRefName: pg-app
     job-ingester:
       ~needs: [hasura]
       use: trigger-cronjob
