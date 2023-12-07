@@ -17,7 +17,6 @@ query getContributionsWithRefs {
         path
         cid
         label
-        agreement_id
       }
     }
     legi_references {
@@ -27,9 +26,10 @@ query getContributionsWithRefs {
         label
       }
     }
-    fiche_sp: document {
-      cdtn_id
-      initial_id
+    agreement {
+      id
+      name
+      kali_id
     }
   }
 }
@@ -38,7 +38,7 @@ query getContributionsWithRefs {
 interface ContributionsHasuraResult {
   contribution_answers: Pick<
     ContributionsAnswers,
-    "id" | "question" | "kali_references" | "legi_references"
+    "id" | "question" | "legi_references" | "kali_references" | "agreement"
   >[];
 }
 
@@ -50,8 +50,9 @@ export async function queryContributionsReferences(): Promise<
     .toPromise();
 
   if (res.error || !res.data) {
-    console.error(res.error && "no data received");
-    throw new Error("getContributionsWithReferences");
+    throw new Error(
+      "Erreur de récupération des références des contributions au sein de queryContributionsReferences"
+    );
   }
 
   return res.data.contribution_answers;

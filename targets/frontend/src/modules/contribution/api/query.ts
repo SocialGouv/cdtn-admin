@@ -9,7 +9,7 @@ export const getContributionAnswerById = gql`
       agreement {
         id
         name
-        kaliId: kali_id
+        kali_id
       }
       question {
         id
@@ -23,7 +23,6 @@ export const getContributionAnswerById = gql`
           path
           cid
           label
-          agreement_id
         }
       }
       legi_references {
@@ -39,7 +38,7 @@ export const getContributionAnswerById = gql`
       }
       cdtn_references {
         document {
-          cdtnId: cdtn_id
+          cdtn_id
         }
       }
       content_fiche_sp: document {
