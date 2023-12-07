@@ -28,6 +28,10 @@ export interface ContributionFicheSpContent {
   ficheSpDescription: string;
 }
 
+export interface ContributionGenericNoCDTContent {
+  messageBlockGenericNoCDT: string;
+}
+
 export interface FullLinkedContent {
   breadcrumbs: Breadcrumbs[];
   description: string;
@@ -42,7 +46,8 @@ export interface ContributionFullLinkedContent {
 
 export type ContributionContent =
   | ContributionContentBase
-  | ContributionFicheSpContent;
+  | ContributionFicheSpContent
+  | ContributionGenericNoCDTContent;
 
 export type ContributionElasticDocument = DocumentElasticWithSource<
   Omit<ContributionDocumentJson, "linkedContent">

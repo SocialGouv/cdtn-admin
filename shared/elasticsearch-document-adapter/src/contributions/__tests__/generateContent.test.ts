@@ -16,6 +16,11 @@ describe("generateContent", () => {
       raw: "raw data",
       description: "some description",
     },
+    {
+      id: "GENERIC_ID_NO_CDT",
+      type: "generic-no-cdt",
+      messageBlockGenericNoCDT: "some message",
+    },
   ];
 
   beforeEach(() => {
@@ -64,6 +69,21 @@ describe("generateContent", () => {
       generateContent(mockContributions, contribution)
     ).rejects.toThrowError(
       `Aucune contribution générique a été retrouvée avec cet id ${"unknown-type"}`
+    );
+  });
+
+  it("should throw an error if type cdt and generic type generic-no-cdt", async () => {
+    const contribution: any = {
+      type: "cdt",
+      questionIndex: "2",
+      idcc: "1516",
+      genericAnswerId: "GENERIC_ID_NO_CDT",
+    };
+
+    await expect(
+      generateContent(mockContributions, contribution)
+    ).rejects.toThrowError(
+      'La contribution [2 - 1516] ne peut pas être de type "Code du travail" parce que la générique n\'a pas de réponse'
     );
   });
 
@@ -125,11 +145,30 @@ describe("generateContent", () => {
 
   it("should throw an error for unknown contribution type", async () => {
     const contribution: any = {
+      id: "mon id",
       type: "unknown-type",
     };
 
     await expect(
       generateContent(mockContributions, contribution)
-    ).rejects.toThrowError("Type de contribution inconnu unknown-type");
+    ).rejects.toThrowError(
+      'Type de contribution inconnu "unknown-type" for [mon id]'
+    );
+  });
+
+  it('should return message for type "generic-no-cdt"', async () => {
+    const contribution: any = {
+      type: "generic-no-cdt",
+      messageBlockGenericNoCDT: "some message",
+    };
+
+    const result: ContributionContent = await generateContent(
+      mockContributions,
+      contribution
+    );
+
+    expect(result).toEqual({
+      messageBlockGenericNoCDT: "some message",
+    });
   });
 });
