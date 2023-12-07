@@ -5000,7 +5000,7 @@ __metadata:
     lint-staged: ^12.0.0
     nctx: ^1.2.0
     node-fetch: ^2.6.5
-    p-map: 5.2.0
+    p-map: ^4.0.0
     p-queue: ^6.6.2
     rehype-raw: ^5.1.0
     rehype-stringify: ^8.0.0
@@ -5040,6 +5040,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@shared/utils@workspace:shared/utils"
   dependencies:
+    "@shared/types": "workspace:^"
     "@socialgouv/cdtn-sources": ^4.91.1
     "@socialgouv/cdtn-utils": ^4.109.0
     "@types/uuid": ^9.0.5
@@ -19360,15 +19361,6 @@ __metadata:
   dependencies:
     aggregate-error: ^3.0.0
   checksum: cb0ab21ec0f32ddffd31dfc250e3afa61e103ef43d957cc45497afe37513634589316de4eb88abdfd969fe6410c22c0b93ab24328833b8eb1ccc087fc0442a1c
-  languageName: node
-  linkType: hard
-
-"p-map@npm:5.2.0":
-  version: 5.2.0
-  resolution: "p-map@npm:5.2.0"
-  dependencies:
-    aggregate-error: ^4.0.0
-  checksum: e72158cfff2561680772a43475bd3e08f4562704d1cac8d6d4f84281aa4118ba369a6f0f296ed3e3ebba93318d7e8f612aad12beeddf8db3d912b0671686b4c8
   languageName: node
   linkType: hard
 

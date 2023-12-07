@@ -11,15 +11,18 @@ const ingester = async (): Promise<string> => {
         process.env.ES_LOGS_TOKEN_PREPROD,
         process.env.ELASTICSEARCH_URL_PREPROD,
         process.env.ELASTICSEARCH_TOKEN_INGEST_PREPROD,
-        process.env.ELASTICSEARCH_INDEX_PREPROD,
-        process.env.NLP_URL,
+        process.env.BRANCH_NAME_SLUG
+          ? `cdtn-${process.env.BRANCH_NAME_SLUG}`
+          : process.env.ELASTICSEARCH_INDEX_PREPROD,
+        process.env.NLP_PREPROD_DISABLE ? undefined : process.env.NLP_URL,
         undefined,
         undefined,
         undefined,
-        process.env.DISABLE_GLOSSARY === "true"
+        process.env.GLOSSARY_PREPROD_DISABLE === "true"
       );
       resolve("Export elasticsearch completed successfully");
     } catch (error: unknown) {
+      console.error("Error during export : ", JSON.stringify(error, null, 2));
       reject(error);
     }
   });
