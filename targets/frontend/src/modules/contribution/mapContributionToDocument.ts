@@ -35,7 +35,7 @@ async function getBaseDocument(
         genericAnswer.content_type === "GENERIC_NO_CDT"
       ) {
         throw new Error(
-          'La contribution ne peut pas être de type "Code du travail" parce que la générique n\'a pas de réponse'
+          `La contribution [${data.question.order} - ${data.agreement.id}] ne peut pas être de type "Code du travail" parce que la générique n'a pas de réponse`
         );
       } else {
         return {

@@ -306,7 +306,7 @@ describe("mapContributionToDocument", () => {
         })
       )
     ).rejects.toThrow(
-      'La contribution ne peut pas être de type "Code du travail" parce que la générique n\'a pas de réponse'
+      'La contribution [43 - 0016] ne peut pas être de type "Code du travail" parce que la générique n\'a pas de réponse'
     );
   });
 });
