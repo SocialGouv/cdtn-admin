@@ -1,4 +1,4 @@
-import { generateIds } from "@shared/utils";
+import { generateIds } from "@shared/id-generator";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
 const sourceValues = Object.values(SOURCES);

@@ -53,7 +53,6 @@ query getAlerts($status: String!, $repository: String!, $limit: Int!, $offset: I
   }
 }
 `;
-
 type HasuraAlertNoUpdate = Omit<HasuraAlert, "updated_at">;
 type AlertsResultWithCount = {
   alerts: HasuraAlertNoUpdate[];

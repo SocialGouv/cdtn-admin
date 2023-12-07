@@ -1,4 +1,4 @@
-import { gqlClient } from "@shared/utils";
+import { client } from "@shared/graphql-client";
 
 const insertKaliReferenceMutation = `
 mutation insert_kali_articles($articles: [kali_articles_insert_input!]!) {
@@ -8,23 +8,23 @@ mutation insert_kali_articles($articles: [kali_articles_insert_input!]!) {
 }
 `;
 
-interface InsertKaliRefrenceResult {
+type InsertKaliRefrenceResult = {
   insert_kali_articles: { affected_rows: number };
-}
+};
 
-interface KaliArticlesInput {
+type KaliArticlesInput = {
   agreement_id: string;
   cid: string;
   id: string;
   path: string;
   label: string;
-}
+};
 
 export async function updateAgreementArticles(
   idcc: string,
   articles: KaliArticlesInput[]
 ): Promise<number> {
-  const result = await gqlClient()
+  const result = await client
     .mutation<InsertKaliRefrenceResult>(insertKaliReferenceMutation, {
       articles: articles.map((item) => ({
         ...item,

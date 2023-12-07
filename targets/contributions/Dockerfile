@@ -10,13 +10,13 @@ COPY .yarn .yarn
 # hadolint ignore=SC2046
 RUN yarn fetch workspaces focus @socialgouv/contibutions
 
-FROM deps AS build-utils
-COPY shared/utils ./shared/utils
-RUN yarn workspace @shared/utils build
+FROM deps AS build-graphql-client
+COPY shared/graphql-client ./shared/graphql-client
+RUN yarn workspace @shared/graphql-client build
 
 FROM deps as dist
 
-COPY --from=build-utils /app/shared/utils /app/shared/utils
+COPY --from=build-graphql-client /app/shared/graphql-client /app/shared/graphql-client
 COPY targets/contributions ./targets/contributions
 
 ARG CDTN_API_URL
@@ -30,8 +30,8 @@ FROM node:$NODE_VERSION
 
 WORKDIR /app
 
-COPY --from=dist /app/shared/utils/build /app/shared/utils/build
-COPY --from=dist /app/shared/utils/package.json /app/shared/utils/package.json
+COPY --from=dist /app/shared/graphql-client/build /app/shared/graphql-client/build
+COPY --from=dist /app/shared/graphql-client/package.json /app/shared/graphql-client/package.json
 COPY --from=dist /app/targets/contributions/package.json /app/targets/contributions/package.json
 COPY --from=dist /app/targets/contributions/next.config.js  /app/targets/contributions/next.config.js
 COPY --from=dist /app/targets/contributions/public /app/targets/contributions/public

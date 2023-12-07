@@ -10,9 +10,9 @@ COPY .yarn .yarn
 # hadolint ignore=SC2046
 RUN yarn fetch workspaces focus alert-cli
 
-FROM deps AS build-utils
-COPY shared/utils ./shared/utils
-RUN yarn workspace @shared/utils build
+FROM deps AS build-graphql-client
+COPY shared/graphql-client ./shared/graphql-client
+RUN yarn workspace @shared/graphql-client build
 
 
 FROM deps AS build-dila-resolver
@@ -22,7 +22,7 @@ RUN yarn workspace @shared/dila-resolver build
 
 FROM deps AS dist
 
-COPY --from=build-utils /app/shared/utils /app/shared/utils
+COPY --from=build-graphql-client /app/shared/graphql-client /app/shared/graphql-client
 COPY --from=build-dila-resolver /app/shared/dila-resolver /app/shared/dila-resolver
 
 COPY shared/types ./shared/types

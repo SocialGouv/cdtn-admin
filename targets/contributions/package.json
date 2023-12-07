@@ -20,7 +20,7 @@
     "@fortawesome/free-solid-svg-icons": "5.15.1",
     "@fortawesome/react-fontawesome": "0.1.14",
     "@koa/router": "10.0.0",
-    "@shared/utils": "workspace:^",
+    "@shared/graphql-client": "workspace:^",
     "@urql/core": "^2.4.4",
     "axios": "^0.24.0",
     "colors": "1.4.0",

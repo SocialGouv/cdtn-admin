@@ -12,19 +12,21 @@ RUN --mount=type=secret,id=npmTiptapToken,target=/secrets/npmTiptapToken \
   export NPM_TIPTAP_TOKEN=$(cat /secrets/npmTiptapToken); \
   yarn fetch workspaces focus frontend
 
+
+FROM deps AS build-graphql-client
+COPY shared/graphql-client ./shared/graphql-client
+RUN yarn workspace @shared/graphql-client build
+
 FROM deps AS build-types
 COPY shared/types ./shared/types/
 RUN yarn workspace @shared/types build
 
-FROM deps AS build-utils
-COPY shared/utils ./shared/utils
-RUN yarn workspace @shared/utils build
-
 FROM deps as dist
 
+COPY --from=build-graphql-client /app/shared/graphql-client /app/shared/graphql-client
 COPY --from=build-types /app/shared/types /app/shared/types
-COPY --from=build-utils /app/shared/utils /app/shared/utils
 COPY shared/eslint-config ./shared/eslint-config/
+COPY shared/id-generator ./shared/id-generator/
 COPY targets/frontend ./targets/frontend/
 
 RUN yarn workspace frontend build
@@ -36,8 +38,10 @@ FROM node:$NODE_VERSION
 
 WORKDIR /app
 
-COPY --from=dist /app/shared/utils/build /app/shared/utils/build
-COPY --from=dist /app/shared/utils/package.json /app/shared/utils/package.json
+COPY --from=dist /app/shared/graphql-client/build /app/shared/graphql-client/build
+COPY --from=dist /app/shared/graphql-client/package.json /app/shared/graphql-client/package.json
+COPY --from=dist /app/shared/id-generator/src /app/shared/id-generator/src
+COPY --from=dist /app/shared/id-generator/package.json /app/shared/id-generator/package.json
 COPY --from=dist /app/shared/types/build /app/shared/types/build
 COPY --from=dist /app/shared/types/package.json /app/shared/types/package.json
 COPY --from=dist /app/targets/frontend/package.json /app/targets/frontend/package.json

@@ -1,8 +1,6 @@
 import type {
   AgreementDoc,
   ContributionCompleteDoc,
-  ContributionDocumentJson,
-  ContributionHighlight,
   EditorialContentDoc,
   FicheTravailEmploiDoc,
 } from "@shared/types";
@@ -25,11 +23,6 @@ import type { ThemeQueryResult } from "./types/themes";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
-import {
-  isNewContribution,
-  generateContributions,
-  isOldContribution,
-} from "./contributions";
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -82,21 +75,20 @@ export async function getDuplicateSlugs(allDocuments: any) {
     );
 }
 
-export function getIDCCs(
-  oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[],
-  newContributions: DocumentElasticWithSource<ContributionDocumentJson>[]
+export function updateContributionsAndGetIDCCs(
+  contributions: any[],
+  ccnData: DocumentElasticWithSource<AgreementDoc>[]
 ) {
   const contribIDCCs = new Set<number>();
-  oldContributions.forEach(({ answers }: any) => {
+  contributions.forEach(({ answers }) => {
     if (answers.conventionAnswer) {
       const idccNum = parseInt(answers.conventionAnswer.idcc);
       contribIDCCs.add(idccNum);
-    }
-  });
-  newContributions.forEach((contrib: any) => {
-    if (contrib.idcc !== "0000") {
-      const idccNum = parseInt(contrib.idcc);
-      contribIDCCs.add(idccNum);
+
+      const ccn = ccnData.find((ccn) => ccn.num === idccNum);
+      if (ccn?.slug) {
+        answers.conventionAnswer.slug = ccn.slug;
+      }
     }
   });
   return contribIDCCs;
@@ -175,41 +167,29 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== Contributions ===");
-  const contributions: DocumentElasticWithSource<
-    ContributionDocumentJson | ContributionCompleteDoc
-  >[] = await getDocumentBySource<ContributionCompleteDoc>(
+  const contributions = await getDocumentBySource<ContributionCompleteDoc>(
     SOURCES.CONTRIBUTIONS,
     getBreadcrumbs
   );
 
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
 
+  // we keep track of the idccs used in the contributions
+  // in order to flag the corresponding conventions collectives below
+  const contribIDCCs = updateContributionsAndGetIDCCs(contributions, ccnData);
+
   const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
     return ccn.highlight;
   });
-
   const ccnListWithHighlight = ccnListWithHighlightFiltered.reduce(
-    (acc: Record<number, ContributionHighlight>, curr) => {
-      acc[curr.num] = curr.highlight as any;
+    (acc: any, curr: any) => {
+      acc[curr.num] = curr.highlight;
       return acc;
     },
     {}
   );
 
-  const newContributions = contributions.filter(isNewContribution);
-
-  const newGeneratedContributions = await generateContributions(
-    newContributions,
-    ccnData,
-    ccnListWithHighlight,
-    addGlossary,
-    getBreadcrumbs
-  );
-
-  const oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[] =
-    contributions.filter(isOldContribution);
-
-  const breadcrumbsOfRootContributionsPerIndex = oldContributions.reduce(
+  const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
     (state: any, contribution: any) => {
       if (contribution.breadcrumbs.length > 0) {
         state[contribution.index] = contribution.breadcrumbs;
@@ -219,68 +199,47 @@ export async function* cdtnDocumentsGen() {
     {}
   );
 
-  const oldGeneratedContributions = oldContributions.map(
-    ({ answers, breadcrumbs, ...contribution }: any) => {
-      const newAnswer = answers;
-      if (newAnswer.conventions) {
-        newAnswer.conventions = answers.conventions.map((answer: any) => {
-          const highlight = ccnListWithHighlight[parseInt(answer.idcc)];
-          const cc = ccnData.find((v) => v.num === parseInt(answer.idcc));
-          const answerWithSlug = {
-            ...answer,
-            conventionAnswer: {
-              ...answer.conventionAnswer,
-              slug: cc?.slug,
-            },
-          };
-          return {
-            ...answerWithSlug,
-            ...(highlight ? { highlight } : {}),
-          };
-        });
-      }
-
-      if (newAnswer.conventionAnswer) {
-        const highlight =
-          ccnListWithHighlight[parseInt(newAnswer.conventionAnswer.idcc)];
-        if (highlight) {
-          newAnswer.conventionAnswer = {
-            ...newAnswer.conventionAnswer,
-            highlight,
-          };
+  yield {
+    documents: contributions.map(
+      ({ answers, breadcrumbs, ...contribution }: any) => {
+        const newAnswer = answers;
+        if (newAnswer.conventions) {
+          newAnswer.conventions = answers.conventions.map((answer: any) => {
+            const highlight = ccnListWithHighlight[parseInt(answer.idcc)];
+            return {
+              ...answer,
+              ...(highlight ? { highlight } : {}),
+            };
+          });
         }
 
-        const cc = ccnData.find(
-          (v) => v.num === parseInt(newAnswer.conventionAnswer.idcc)
-        );
-        newAnswer.conventionAnswer = {
-          ...newAnswer.conventionAnswer,
-          slug: cc?.slug,
-        };
+        if (newAnswer.conventionAnswer) {
+          const highlight =
+            ccnListWithHighlight[parseInt(newAnswer.conventionAnswer.idcc)];
+          if (highlight) {
+            newAnswer.conventionAnswer = {
+              ...newAnswer.conventionAnswer,
+              highlight,
+            };
+          }
+        }
+        const obj = addGlossaryToAllMarkdownField({
+          ...contribution,
+          answers: {
+            ...newAnswer,
+          },
+          breadcrumbs:
+            breadcrumbs.length > 0
+              ? breadcrumbs
+              : breadcrumbsOfRootContributionsPerIndex[contribution.index],
+        });
+        return obj;
       }
-      const obj = addGlossaryToAllMarkdownField({
-        ...contribution,
-        answers: {
-          ...newAnswer,
-        },
-        breadcrumbs:
-          breadcrumbs.length > 0
-            ? breadcrumbs
-            : breadcrumbsOfRootContributionsPerIndex[contribution.index],
-      });
-      return obj;
-    }
-  );
-
-  yield {
-    documents: [...newGeneratedContributions, ...oldGeneratedContributions],
+    ),
     source: SOURCES.CONTRIBUTIONS,
   };
 
   logger.info("=== Conventions Collectives ===");
-  // we keep track of the idccs used in the contributions
-  // in order to flag the corresponding conventions collectives below
-  const contribIDCCs = getIDCCs(oldContributions, newContributions);
 
   const ccnQR =
     "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail concernant cette convention collective.";

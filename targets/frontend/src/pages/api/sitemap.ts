@@ -1,4 +1,4 @@
-import { gqlClient } from "@shared/utils";
+import { client } from "@shared/graphql-client";
 import {
   getRouteBySource,
   SourceRoute,
@@ -124,7 +124,7 @@ query countDocuments($sources: [String!]!) {
   }
 }
 `;
-  const response = await gqlClient()
+  const response = await client
     .query(gqlCountDocument, {
       sources,
     })
@@ -176,7 +176,7 @@ async function getDocuments() {
   return Promise.all(
     pages.map((page) =>
       limit(() =>
-        gqlClient()
+        client
           .query(gqlListDocument, {
             limit: PAGE_SIZE,
             offset: page * PAGE_SIZE,
@@ -200,7 +200,7 @@ async function getGlossary() {
     slug, modified: updated_at
   }
 }`;
-  const terms = await gqlClient().query(gqlListGlossryTerm).toPromise();
+  const terms = await client.query(gqlListGlossryTerm).toPromise();
   if (terms.error) {
     throw terms.error;
   }

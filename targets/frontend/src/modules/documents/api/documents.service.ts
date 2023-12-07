@@ -1,44 +1,32 @@
 import { DocumentsRepository } from "./documents.repository";
-import {
-  ConflictError,
-  MissingDocumentError,
-  NotFoundError,
-} from "src/lib/api/ApiErrors";
+import { NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
+import { Document } from "../type";
 import { format, parseISO } from "date-fns";
-import { generateCdtnId, generateInitialId } from "@shared/utils";
+import { generateCdtnId, generateInitialId } from "@shared/id-generator";
 import slugify from "@socialgouv/cdtn-slugify";
-import {
-  ContributionRepository,
-  mapContributionToDocument,
-} from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { Model } from "../../models";
-import { Document } from "@shared/types";
-import { generateContributionSlug } from "src/modules/contribution/generateSlug";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
   private readonly modelRepository: ModelRepository;
   private readonly documentsRepository: DocumentsRepository;
-  private readonly contributionRepository: ContributionRepository;
 
   constructor(
     informationsRepository: InformationsRepository,
-    documentsRepository: DocumentsRepository,
-    contributionRepository: ContributionRepository,
-    modelRepository: ModelRepository
+    modelRepository: ModelRepository,
+    documentsRepository: DocumentsRepository
   ) {
     this.informationsRepository = informationsRepository;
     this.modelRepository = modelRepository;
     this.documentsRepository = documentsRepository;
-    this.contributionRepository = contributionRepository;
   }
 
   private mapInformationToDocument(
     data: Information,
-    document?: Document<any>
-  ): Document<any> {
+    document?: Document
+  ): Document {
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id ?? generateInitialId(),
@@ -116,10 +104,7 @@ export class DocumentsService {
     };
   }
 
-  private mapModelToDocument(
-    data: Model,
-    document?: Document<any>
-  ): Document<any> {
+  private mapModelToDocument(data: Model, document?: Document): Document {
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id,
@@ -175,41 +160,6 @@ export class DocumentsService {
           });
         }
         document = this.mapInformationToDocument(information, document);
-        break;
-      case "contributions":
-        const contribution = await this.contributionRepository.fetch(id);
-        if (!contribution) {
-          throw new NotFoundError({
-            message: `data not found with id ${id}`,
-            name: "NOT_FOUND",
-            cause: null,
-          });
-        }
-        if (!document) {
-          const contrib = await this.documentsRepository.fetchDocumentBySlug({
-            slug: generateContributionSlug(
-              contribution.agreement.id,
-              contribution.question.content
-            ),
-            source,
-          });
-          if (contrib) {
-            throw new ConflictError({
-              message: `Le document ${contribution.question.content} existe déjà pour l'agrément ${contribution.agreement.id}. Vous devez lancer le script de migration avant de publier un document.`,
-              name: "CONFLICT_ERROR",
-              cause: null,
-            });
-          }
-        }
-        document = await mapContributionToDocument(
-          contribution,
-          document,
-          async (questionId: string) => {
-            return await this.contributionRepository.fetchGenericAnswer(
-              questionId
-            );
-          }
-        );
         break;
 
       case "modeles_de_courriers":

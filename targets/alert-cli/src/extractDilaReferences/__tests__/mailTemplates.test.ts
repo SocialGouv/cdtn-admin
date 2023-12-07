@@ -4,9 +4,9 @@ import type { MailTemplateSubset } from "../mailTemplates";
 import { extractMailTemplateRef } from "../mailTemplates";
 import payload from "./mocks/mailTemplate.payload.json";
 
-jest.mock("@shared/utils", () => ({
+jest.mock("@shared/graphql-client", () => ({
   __esModule: true, // this property makes it work
-  gqlClient: jest.fn(),
+  client: jest.fn(),
 }));
 
 jest.mock("@shared/dila-resolver", () => {

@@ -2,7 +2,8 @@
   "name": "ingester",
   "version": "2.25.1",
   "dependencies": {
-    "@shared/utils": "workspace:^",
+    "@shared/graphql-client": "workspace:^",
+    "@shared/id-generator": "workspace:^",
     "@socialgouv/cdtn-slugify": "4.52.1",
     "@socialgouv/cdtn-sources": "4.52.1",
     "@socialgouv/kali-data": "^2.628.0",

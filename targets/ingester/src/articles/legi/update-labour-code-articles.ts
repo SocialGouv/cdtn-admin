@@ -1,4 +1,4 @@
-import { gqlClient } from "@shared/utils";
+import { client } from "@shared/graphql-client";
 
 const insertLegiArticlesMutation = `
 mutation insert_legi_articles($articles: [legi_articles_insert_input!]!) {
@@ -8,20 +8,20 @@ mutation insert_legi_articles($articles: [legi_articles_insert_input!]!) {
 }
 `;
 
-interface Result {
+type Result = {
   insert_legi_articles: { affected_rows: number };
-}
+};
 
-interface LegiArticlesInput {
+type LegiArticlesInput = {
   cid: string;
   id: string;
   label: string;
-}
+};
 
 export async function updateLabourCodeArticles(
   articles: LegiArticlesInput[]
 ): Promise<number> {
-  const result = await gqlClient()
+  const result = await client
     .mutation<Result>(insertLegiArticlesMutation, {
       articles: articles.map((item) => ({
         ...item,

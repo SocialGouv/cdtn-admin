@@ -1,4 +1,4 @@
-import { Document } from "@shared/types";
+import { Document } from "../type";
 import { ApiClient } from "src/lib/api";
 
 const query = `query documents($source: String!, $initialId: String) {
@@ -20,20 +20,7 @@ const query = `query documents($source: String!, $initialId: String) {
   }
 }`;
 
-const fetchDocumentBySlug = `
-  query get_contrib_by_slug($slug: String!, $source: String!) {
-    documents(
-      where: {
-        source: { _eq: $source },
-        slug: {_eq: $slug}
-      }
-    ) {
-      document
-    }
-  }
-`;
-
-export type QueryDocument = Document<any>;
+export type QueryDocument = Document;
 
 export type QueryDocumentResult = {
   documents: QueryDocument[];
@@ -44,34 +31,12 @@ export type DocumentsQueryProps = {
   initialId?: string;
 };
 
-export type DocumentsQueryBySlugProps = {
-  source: string;
-  slug: string;
-};
-
 export const queryDocument = async (
   client: ApiClient,
   variables: DocumentsQueryProps
-): Promise<Document<any> | undefined> => {
+): Promise<Document | undefined> => {
   const { data: result, error } = await client.query<QueryDocumentResult>(
     query,
-    variables
-  );
-  if (error) {
-    console.log(error);
-    throw error;
-  }
-  const data = result?.documents[0];
-
-  return data;
-};
-
-export const queryDocumentBySlug = async (
-  client: ApiClient,
-  variables: DocumentsQueryBySlugProps
-): Promise<Document<any> | undefined> => {
-  const { data: result, error } = await client.query<QueryDocumentResult>(
-    fetchDocumentBySlug,
     variables
   );
   if (error) {

@@ -1,4 +1,4 @@
-import { gqlClient } from "@shared/utils";
+import { client } from "@shared/graphql-client";
 import type { KaliArticleHDN } from "@shared/types";
 
 const kaliblockQuery = `
@@ -7,12 +7,12 @@ query KaliBlocks {
 }
 `;
 
-interface KaliblockResult {
+type KaliblockResult = {
   kaliBlocks: KaliArticleHDN[];
-}
+};
 
 export async function getAllKaliBlocks(): Promise<KaliArticleHDN[]> {
-  const result = await gqlClient()
+  const result = await client
     .query<KaliblockResult>(kaliblockQuery)
     .toPromise();
 

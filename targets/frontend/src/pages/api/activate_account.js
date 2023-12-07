@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
 import { z } from "zod";
-import { gqlClient } from "@shared/utils";
+import { client } from "@shared/graphql-client";
 import { hash } from "argon2";
 import { createErrorFor } from "src/lib/apiError";
 
@@ -34,12 +34,12 @@ export function createRequestHandler({
     }
 
     const [queryResult, result] = await Promise.all([
-      await gqlClient()
+      await client
         .query(getUserEmailQuery, {
           secret_token: value.token,
         })
         .toPromise(),
-      await gqlClient()
+      await client
         .mutation(mutation, {
           now: new Date().toISOString(),
           password: await hash(value.password),

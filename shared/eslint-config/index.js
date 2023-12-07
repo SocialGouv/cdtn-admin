@@ -1,37 +1,40 @@
 module.exports = {
-  env: {
-    browser: false,
-    es6: true,
-    node: true,
-    "jest/globals": true,
+  "env": {
+    "browser": false,
+    "es6": true,
+    "node": true,
+    "jest/globals": true
   },
-  parserOptions: {
-    ecmaVersion: 2021,
-    sourceType: "module",
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module"
   },
-  overrides: [
+  "overrides": [
     {
-      files: ["*.js"],
-      plugins: ["jest"],
-      extends: ["eslint:recommended", "prettier"],
-      rules: {
+      "files": ["*.js"],
+      "plugins": ["jest"],
+      "extends": [
+        "eslint:recommended",
+        "prettier"
+      ],
+      "rules": {
         "no-async-promise-executor": "warn",
-      },
+      }
     },
     {
-      files: ["*.ts", "*.tsx"],
-      parser: "@typescript-eslint/parser",
-      parserOptions: {
-        project: "./tsconfig.json",
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": "./tsconfig.json"
       },
-      plugins: ["@typescript-eslint", "jest"],
-      extends: [
+      "plugins": ["@typescript-eslint", "jest"],
+      "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
-        "prettier",
+        "prettier"
       ],
-      rules: {
+      "rules": {
         "no-async-promise-executor": "warn",
         "@typescript-eslint/consistent-type-definitions": "warn",
         "@typescript-eslint/no-require-imports": "warn",
@@ -48,10 +51,10 @@ module.exports = {
         "@typescript-eslint/prefer-optional-chain": "warn",
         "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/no-throw-literal": "warn",
-        "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/no-misused-promises": "warn",
         "@typescript-eslint/require-await": "warn",
-        "@typescript-eslint/ban-ts-comment": "warn",
-      },
-    },
-  ],
-};
+        "@typescript-eslint/ban-ts-comment": "warn"
+      }
+    }
+  ]
+}

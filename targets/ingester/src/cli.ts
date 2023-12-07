@@ -21,7 +21,6 @@ import getContributionsDocuments from "./transform/contributions";
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
 import getFichesServicePublic from "./transform/fichesServicePublic/index";
 import getCdtDocuments from "./transform/legi-data/index";
-import { setContributionsAvailabilityToTrue } from "./transform/contributions/setContributionsAvailabilityToTrue";
 
 interface Args {
   dryRun: unknown;
@@ -166,9 +165,6 @@ async function main() {
   }
   if (packagesToUpdate.get("@socialgouv/kali-data")) {
     await updateKaliArticles();
-  }
-  if (packagesToUpdate.get("@socialgouv/contributions-data")) {
-    await setContributionsAvailabilityToTrue();
   }
   return ids;
 }

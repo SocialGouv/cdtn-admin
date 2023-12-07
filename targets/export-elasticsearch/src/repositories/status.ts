@@ -1,4 +1,4 @@
-import { gqlClient } from "@shared/utils";
+import { client } from "@shared/graphql-client";
 import type { Environment, ExportEsStatus, Status } from "@shared/types";
 import { logger } from "@socialgouv/cdtn-logger";
 import { injectable } from "inversify";
@@ -25,7 +25,7 @@ export class ExportRepository {
     status: Status
   ): Promise<ExportEsStatus> {
     try {
-      const res = await gqlClient()
+      const res = await client
         .mutation<{ insert_export_es_status_one: ExportEsStatus }>(
           createExportEsStatus,
           {
@@ -54,7 +54,7 @@ export class ExportRepository {
     status: Status,
     updatedAt: Date
   ): Promise<ExportEsStatus> {
-    const res = await gqlClient()
+    const res = await client
       .mutation<{ update_export_es_status_by_pk: ExportEsStatus }>(
         updateOneExportEsStatus,
         {
@@ -78,7 +78,7 @@ export class ExportRepository {
     newStatus: Status,
     updatedAt: Date
   ): Promise<ExportEsStatus[]> {
-    const res = await gqlClient()
+    const res = await client
       .mutation<{ update_export_es_status_by_pk: ExportEsStatus[] }>(
         updateExportEsStatus,
         {
@@ -98,7 +98,7 @@ export class ExportRepository {
   }
 
   public async getOneById(id: string): Promise<ExportEsStatus> {
-    const res = await gqlClient()
+    const res = await client
       .query<{ export_es_status_by_pk: ExportEsStatus }>(
         getExportEsStatusById,
         { id }
@@ -116,7 +116,7 @@ export class ExportRepository {
   public async getLatestByEnv(
     environment: Environment
   ): Promise<ExportEsStatus> {
-    const res = await gqlClient()
+    const res = await client
       .query<{ export_es_status: ExportEsStatus[] }>(getLatestExportEsStatus, {
         environment,
       })
@@ -133,7 +133,7 @@ export class ExportRepository {
   public async getByEnvironments(
     environment: Environment
   ): Promise<ExportEsStatus[]> {
-    const res = await gqlClient()
+    const res = await client
       .query<{ export_es_status: ExportEsStatus[] }>(
         getExportEsStatusByEnvironments,
         { environment }
@@ -150,7 +150,7 @@ export class ExportRepository {
 
   public async getAll(): Promise<ExportEsStatus[]> {
     try {
-      const res = await gqlClient()
+      const res = await client
         .query<{ export_es_status: ExportEsStatus[] }>(getAllExport)
         .toPromise();
       if (res.error) {
@@ -167,7 +167,7 @@ export class ExportRepository {
   }
 
   public async getByStatus(status: Status): Promise<ExportEsStatus[]> {
-    const res = await gqlClient()
+    const res = await client
       .query<{ export_es_status: ExportEsStatus[] }>(
         getExportEsStatusByStatus,
         { status }

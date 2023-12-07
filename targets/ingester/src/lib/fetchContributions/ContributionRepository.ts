@@ -1,4 +1,4 @@
-import { gqlClient } from "@shared/utils";
+import { client } from "@shared/graphql-client";
 import type { Client } from "@urql/core/dist/types/client";
 
 import { fetchAllContributions } from "./query";
@@ -10,11 +10,11 @@ export interface ContributionRepository {
 
 export class ContributionDatabase implements ContributionRepository {
   constructor() {
-    this.client = gqlClient();
+    this.client = client;
   }
 
   public async fetchAll(): Promise<QuestionRaw[]> {
-    const res = await gqlClient()
+    const res = await client
       .query<{ questions: QuestionRaw[] }>(fetchAllContributions)
       .toPromise();
     if (res.error) {

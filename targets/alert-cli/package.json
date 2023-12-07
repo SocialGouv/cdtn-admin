@@ -9,7 +9,7 @@
   "types": "dist/index.d.ts",
   "private": true,
   "dependencies": {
-    "@shared/utils": "workspace:^",
+    "@shared/graphql-client": "workspace:^",
     "@socialgouv/cdtn-slugify": "4.52.1",
     "@socialgouv/cdtn-sources": "4.52.1",
     "@socialgouv/dila-api-client": "1.2.4",

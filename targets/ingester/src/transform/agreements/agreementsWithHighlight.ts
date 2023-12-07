@@ -1,4 +1,4 @@
-import { gqlClient } from "@shared/utils";
+import { client } from "@shared/graphql-client";
 
 const getAgreementsWithHighlightQuery = `
 query get_agreements_with_highlight {
@@ -9,25 +9,25 @@ query get_agreements_with_highlight {
 }
 `;
 
-interface AgreementHighlight {
+type AgreementHighlight = {
   title?: string;
   content?: string;
   searchInfo?: string;
-}
+};
 
-interface AgreementWithHighlight {
+type AgreementWithHighlight = {
   num: number;
   highlight: AgreementHighlight;
-}
+};
 
-interface AgreementsResult {
+type AgreementsResult = {
   documents: AgreementWithHighlight[];
-}
+};
 
 const getAgreementsWithHighlight = async (): Promise<
   Partial<Record<number, AgreementHighlight>>
 > => {
-  const result = await gqlClient()
+  const result = await client
     .query<AgreementsResult>(getAgreementsWithHighlightQuery)
     .toPromise();
 

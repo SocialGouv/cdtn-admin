@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
 import { z } from "zod";
-import { gqlClient } from "@shared/utils";
+import { client } from "@shared/graphql-client";
 import { createErrorFor } from "src/lib/apiError";
 import { getExpiryDate } from "src/lib/duration";
 import { v4 as uuidv4 } from "uuid";
@@ -26,7 +26,7 @@ export default async function reset_password(req, res) {
 
   const { email } = value;
   const secret_token = uuidv4();
-  const result = await gqlClient()
+  const result = await client
     .mutation(udpateSecretTokenMutation, {
       email,
       expires: getExpiryDate(ACTIVATION_TOKEN_EXPIRES),
@@ -41,7 +41,7 @@ export default async function reset_password(req, res) {
     return;
   }
 
-  await gqlClient()
+  await client
     .mutation(emailPasswordRequestMutation, { email, secret_token })
     .toPromise();
 

@@ -1,4 +1,4 @@
-import { gqlClient } from "@shared/utils";
+import { client } from "@shared/graphql-client";
 import type { SourceValues } from "@socialgouv/cdtn-sources";
 import memoizee from "memoizee";
 
@@ -28,7 +28,7 @@ const createDocumentsFetcher =
     gqlRequest = getAllDocumentsBySourceQuery
   ) =>
   async (source: SourceValues[]) => {
-    const countResult = await gqlClient()
+    const countResult = await client
       .query<CountDocumentsBySourceResult>(countDocumentsBySourceQuery, {
         source,
       })
@@ -48,7 +48,7 @@ const createDocumentsFetcher =
     const documentResults = await batchPromises(
       pages,
       async (page) =>
-        gqlClient()
+        client
           .query<T>(gqlRequest, {
             limit: PAGE_SIZE,
             offset: page * PAGE_SIZE,
