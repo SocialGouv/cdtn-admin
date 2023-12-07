@@ -87,7 +87,7 @@ DISABLE_GLOSSARY=true DISABLE_LIMIT_EXPORT=true DISABLE_SITEMAP=true DISABLE_COP
 - `DISABLE_LIMIT_EXPORT` is used to disable the limit to run two export in less than one hour
 - `DISABLE_COPY` is used to disable copy between two containers
 - `DISABLE_SITEMAP` is used to disable copy of the sitemap
-- `DISABLE_GLOSSARY` is used to disable glossary to gain time. It is only set for preprod.
+- `GLOSSARY_PREPROD_DISABLE` is used to disable glossary to gain time.
 
 > **Note**: You can remove `NLP_URL` from your environment variables if you don't want to use the NLP service and gain time during the process of ingester elasticsearch.
 
