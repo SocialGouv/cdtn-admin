@@ -1,9 +1,9 @@
 import { expect, test } from "@jest/globals";
 
-import type { Contrib } from "../contribution";
-import main, { extractContributionsRef } from "../contribution";
+import type { Contrib } from "../getOldContribRef";
+import { extractContributionsRef, getOldContribRef } from "../getOldContribRef";
 
-jest.mock("../getAllDocumentsBySource", () => {
+jest.mock("../../getAllDocumentsBySource", () => {
   return {
     getAllDocumentsBySource: () => mockContributions,
   };
@@ -144,5 +144,5 @@ test("extractContributionRef should return an array of references", () => {
 });
 
 test("default export should return an array of references", async () => {
-  expect(await main()).toEqual(expected);
+  expect(await getOldContribRef()).toEqual(expected);
 });

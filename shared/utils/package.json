@@ -19,6 +19,7 @@
     "build:watch": "tsc -w"
   },
   "devDependencies": {
+    "@shared/types": "workspace:^",
     "@types/uuid": "^9.0.5",
     "@types/xxhashjs": "^0.2.2",
     "typescript": "^5.2.2"

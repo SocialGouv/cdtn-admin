@@ -1,7 +1,10 @@
 import { slugify } from "@socialgouv/cdtn-utils";
 
-export const generateKaliRef = (kaliArticleId: string, agreementId: string) => {
-  return `https://legifrance.gouv.fr/conv_coll/id/${kaliArticleId}/?idConteneur=${agreementId}`;
+export const generateKaliRef = (
+  kaliArticleId: string,
+  agreementContainerId: string
+) => {
+  return `https://legifrance.gouv.fr/conv_coll/id/${kaliArticleId}/?idConteneur=${agreementContainerId}`;
 };
 
 export const generateLegiRef = (

@@ -138,13 +138,13 @@ async function runIngester(
 
   await version({ client });
 
+  logger.info(`Creating index ${DOCUMENT_INDEX_NAME}-${ts}`);
   // Indexing documents/search data
   await createIndex({
     client,
     indexName: `${DOCUMENT_INDEX_NAME}-${ts}`,
     mappings: documentMapping,
   });
-
   const t0 = Date.now();
   for await (const { source, documents } of cdtnDocumentsGen() as any) {
     logger.info(`› ${source}... ${documents.length} items`);

@@ -6,7 +6,7 @@ export function getReferences(answer: ContributionsAnswers): ContributionRef[] {
   if (answer.agreement) {
     kaliReferences = answer.kali_references.map((ref) => ({
       title: ref.label,
-      url: generateKaliRef(ref.kali_article.id, answer.agreement.kaliId),
+      url: generateKaliRef(ref.kali_article.id, answer.agreement.kali_id),
     }));
   }
 

@@ -2,7 +2,7 @@ projectName: cdtn
 dependencies:
   fabrique:
     extends:
-    - name: buildkit-service
+      - name: buildkit-service
     dependencies:
       contrib:
         preDeploy:
@@ -10,5 +10,5 @@ dependencies:
             options:
               secrets:
                 cdtnadminprodserver-backup-credentials:
-                  env: [dev, preprod]
+                  env: [ dev, preprod ]
                   required: true
