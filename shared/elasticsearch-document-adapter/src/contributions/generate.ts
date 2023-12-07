@@ -19,7 +19,6 @@ import {
 } from "./types";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
-import pMap from "p-map";
 
 export type ContributionElasticDocumentLightRelatedContent = Omit<
   ContributionElasticDocument,
@@ -88,8 +87,7 @@ export async function generateContributions(
   // Some related content link to another customized contribution
   // In this case, the description of the contribution is not available
   // so we populate the related content after
-  const allGeneratedContributions = await pMap(
-    generatedContributions,
+  const allGeneratedContributionsPromises = generatedContributions.map(
     async (contribution): Promise<ContributionElasticDocument> => {
       const linkedContent = await generateLinkedContent(
         generatedContributions,
@@ -103,8 +101,11 @@ export async function generateContributions(
         ...contribution,
         linkedContent: linkedContent.linkedContent,
       } as ContributionElasticDocument;
-    },
-    { concurrency: 5 }
+    }
+  );
+
+  const allGeneratedContributions = await Promise.all(
+    allGeneratedContributionsPromises
   );
 
   return allGeneratedContributions;
