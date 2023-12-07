@@ -15,19 +15,32 @@ hasura:
 
 jobs:
   runs:
-    drop-db: # temp
-      use: drop-db
-    create-db:
-      ~needs: [drop-db] # temp
-      use: create-db
     restore:
-      ~needs: [create-db]
+      ~needs: [pg]
       use: pg-restore
       checkout: false
       with:
         mountPath: /mnt/restore
         filterPath: "hasura_prod_db.psql.gz"
         restorePath: "${LATEST}"
+        pgAdminUserSecretRefName: pg-superuser
+      env: # there is a bug when setting custom job env, so we have to repeat "with" vars here
+        - name: RESTORE_PATH
+          value: "${LATEST}"
+        - name: OWNER
+          value: "{{ $.Values.global.pgUser }}"
+        - name: MOUNT_PATH
+          value: /mnt/restore
+        - name: FILTER_PATH
+          value: prod_db
+        - name: PGPASSWORD
+          value: "$(password)"
+        - name: PGUSER
+          value: "$(username)"
+        - name: PGHOST
+          value: "pg-rw"
+        - name: PGDATABASE
+          value: "{{ $.Values.global.pgDatabase }}"
       volumeMounts:
         - name: restore
           mountPath: /mnt/restore
