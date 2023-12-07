@@ -101,8 +101,8 @@ async function runIngester(
 ) {
   const ES_INDEX_PREFIX = esIndexPrefix || "cdtn";
 
-  const DOCUMENT_INDEX_NAME = `TEST_CC_${DOCUMENTS}`;
-  const SUGGEST_INDEX_NAME = `TEST_CC_${SUGGESTIONS}`;
+  const DOCUMENT_INDEX_NAME = `cdtn-TEST_CC_${DOCUMENTS}`;
+  const SUGGEST_INDEX_NAME = `cdtn-TEST_CC_${SUGGESTIONS}`;
 
   const ELASTICSEARCH_URL = esUrl || "http://localhost:9200";
 
