@@ -3,7 +3,9 @@ import { context } from "../context";
 
 const fetchLinkedContentById = `
 query get_linked_document($cdtnId: String!) {
-  documents(where: {cdtn_id: {_eq: $cdtnId}, is_available: {_eq: true}, is_published: {_eq: true}}) {
+  documents_by_pk(cdtn_id: $cdtnId) {
+    isPublished: is_published
+    isAvailable: is_available
     slug
     source
     description: document(path: "description")
@@ -11,11 +13,10 @@ query get_linked_document($cdtnId: String!) {
     cdtnId: cdtn_id
   }
 }
-
 `;
 
 interface HasuraReturn {
-  documents: LinkedContentLight[];
+  documents_by_pk: LinkedContentLight | undefined;
 }
 
 export interface LinkedContentLight {
@@ -24,12 +25,12 @@ export interface LinkedContentLight {
   slug: string;
   description: string | null;
   source: string;
+  isPublished: boolean;
+  isAvailable: boolean;
 }
 
 export async function fetchLinkedContent(
-  cdtnId: string,
-  questionIndex: number,
-  idcc: string
+  cdtnId: string
 ): Promise<LinkedContentLight> {
   const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint");
   const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret");
@@ -44,19 +45,19 @@ export async function fetchLinkedContent(
   if (res.error) {
     console.log(
       "Error",
-      `Impossible de récupérer la contenu lié avec l'id ${cdtnId} (QR${questionIndex} - IDCC ${idcc})`,
+      `Impossible de récupérer la contenu lié avec l'id ${cdtnId}`,
       res.error
     );
     throw res.error;
   }
-  if (!res.data?.documents.length) {
+  if (!res.data?.documents_by_pk) {
     console.log(
       "Error",
-      `Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`
+      `Impossible de récupérer la contenu lié avec l'id ${cdtnId}`
     );
     throw new Error(
-      `Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`
+      `Impossible de récupérer la contenu lié avec l'id ${cdtnId}`
     );
   }
-  return res.data.documents[0];
+  return res.data.documents_by_pk;
 }

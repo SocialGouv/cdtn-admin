@@ -7,7 +7,6 @@ import { ContributionElasticDocumentLightRelatedContent } from "./generate";
 export const generateLinkedContent = async (
   allGeneratedContributions: ContributionElasticDocumentLightRelatedContent[],
   questionIndex: number,
-  idcc: string,
   linkedContent: ContributionLinkedContent[],
   getBreadcrumbs: GetBreadcrumbsFn,
   breadcrumbsOfRootContributionsPerIndex: Record<number, Breadcrumbs[]>
@@ -25,11 +24,7 @@ export const generateLinkedContent = async (
         title: contributions.title,
       };
     }
-    const linkedDocument = await fetchLinkedContent(
-      content.cdtnId,
-      questionIndex,
-      idcc
-    );
+    const linkedDocument = await fetchLinkedContent(content.cdtnId);
     let breadcrumbs = getBreadcrumbs(content.cdtnId);
     if (linkedDocument.source === "contributions" && breadcrumbs.length === 0) {
       breadcrumbs = breadcrumbsOfRootContributionsPerIndex[questionIndex];
