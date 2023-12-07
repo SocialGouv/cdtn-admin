@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.26.1...v2.26.2) (2023-12-05)
+
+### Bug Fixes
+
+- limite la concurrency lors de la récupération des contenus liés ([#1148](https://github.com/SocialGouv/cdtn-admin/issues/1148)) ([74874b1](https://github.com/SocialGouv/cdtn-admin/commit/74874b1bf4356a8d5ee2f468cd55da4470ee320c))
+
 ## [2.26.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.26.0...v2.26.1) (2023-12-05)
 
 ### Bug Fixes
