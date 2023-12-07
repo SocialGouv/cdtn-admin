@@ -23,7 +23,7 @@ jobs:
         mountPath: /mnt/restore
         filterPath: "hasura_prod_db.psql.gz"
         restorePath: "${LATEST}"
-        pgAdminUserSecretRefName: pg-superuser
+        pgAdminUserSecretRefName: pg-app
       env: # there is a bug when setting custom job env, so we have to repeat "with" vars here
         - name: RESTORE_PATH
           value: "${LATEST}"
@@ -33,14 +33,20 @@ jobs:
           value: /mnt/restore
         - name: FILTER_PATH
           value: prod_db
-        - name: PGPASSWORD
-          value: "$(password)"
-        - name: PGUSER
-          value: "$(username)"
         - name: PGHOST
           value: "pg-rw"
         - name: PGDATABASE
           value: "{{ $.Values.global.pgDatabase }}"
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pg-superadmin
+              key: password
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: pg-superadmin
+              key: user
       volumeMounts:
         - name: restore
           mountPath: /mnt/restore
