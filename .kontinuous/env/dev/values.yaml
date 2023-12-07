@@ -7,7 +7,7 @@ hasura:
     value: true
   envFrom:
     - secretRef:
-        name: pg-user
+        name: pg-app
     - configMapRef:
         name: hasura
     - secretRef:
