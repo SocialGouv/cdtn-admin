@@ -1,6 +1,6 @@
 hasura:
   imagePackage: hasura
-  ~needs: [post-restore, build-hasura]
+  ~needs: [ post-restore, build-hasura ]
   ~preDeploy.cleaner:
     match:
       kind: Deployment
@@ -12,16 +12,45 @@ hasura:
         name: hasura
     - secretRef:
         name: hasura
+  replicas: 2
+# Retirer le commentaire des lignes ci-dessous pour utiliser l'export dans une branche dev /!\ Penser à remettre le commentaire avant de merger la branche dans master
+#  resources:
+#    limits:
+#      cpu: "2000m"
+#      memory: "4Gi"
+#    requests:
+#      cpu: "1000m"
+#      memory: "1Gi"
+
+
+export:
+  env:
+    - name: "BRANCH_NAME_SLUG"
+      value: "{{.Values.global.branchSlug32}}"
+  resources:
+    # Pour exporter les données avec le glossaire et les vecteurs, il faut modifier les valeurs des ressources comme ceci:
+    #    limits:
+    #      cpu: "2000m"
+    #      memory: "4Gi"
+    #    requests:
+    #      cpu: "1000m"
+    #      memory: "1Gi"
+    limits:
+      cpu: "1000m"
+      memory: "1024Mi"
+    requests:
+      cpu: "1000m"
+      memory: "896Mi"
 
 jobs:
   runs:
     drop-db: # temp
       use: drop-db
     create-db:
-      ~needs: [drop-db] # temp
+      ~needs: [ drop-db ] # temp
       use: create-db
     restore:
-      ~needs: [create-db]
+      ~needs: [ create-db ]
       use: pg-restore
       checkout: false
       with:
@@ -41,7 +70,7 @@ jobs:
               secretName: cdtnadminprodserver-backup-credentials
               shareName: cdtnadminprodserver-backup-restore
     post-restore:
-      ~needs: [restore]
+      ~needs: [ restore ]
       use: psql
       with:
         sqlFile: .kontinuous/sql/post-restore.sql

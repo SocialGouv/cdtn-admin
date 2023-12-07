@@ -7,7 +7,6 @@ data:
   NLP_URL: "https://serving-ml.fabrique.social.gouv.fr"
   NODE_ENV: "production"
   LOG_LEVEL: "info"
-  ENVIRONMENT: "preproduction"
   SOURCE_CONTAINER_COPY: "cdtn-preprod-source"
   DESTINATION_CONTAINER_COPY: "cdtn-preprod-destination"
   SITEMAP_DESTINATION_CONTAINER: "sitemap"
