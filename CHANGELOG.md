@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.26.2...v2.27.0) (2023-12-07)
+
+### Bug Fixes
+
+- add job preprod ([#1152](https://github.com/SocialGouv/cdtn-admin/issues/1152)) ([a9fc6fd](https://github.com/SocialGouv/cdtn-admin/commit/a9fc6fdeec2daf81e0acbe9dbee97513a7311182))
+- utiliser une version 4.0.0 de p-map ([#1149](https://github.com/SocialGouv/cdtn-admin/issues/1149)) ([7c96256](https://github.com/SocialGouv/cdtn-admin/commit/7c9625600fb26419a763d1404577659a18bb53d3))
+
+### Features
+
+- **alert-cli:** ajout des nouvelles contributions + correction pour les anciennes contributions ([#1150](https://github.com/SocialGouv/cdtn-admin/issues/1150)) ([8379d6d](https://github.com/SocialGouv/cdtn-admin/commit/8379d6d57b89863768635790b66632841be255ca))
+
 ## [2.26.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.26.1...v2.26.2) (2023-12-05)
 
 ### Bug Fixes

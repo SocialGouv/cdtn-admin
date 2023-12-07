@@ -1,6 +1,6 @@
 {
   "name": "@shared/eslint-config",
-  "version": "2.26.2",
+  "version": "2.27.0",
   "main": "index.js",
   "private": true,
   "dependencies": {
