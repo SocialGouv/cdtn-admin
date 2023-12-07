@@ -40,12 +40,12 @@ jobs:
         - name: PGPASSWORD
           valueFrom:
             secretKeyRef:
-              name: pg-superadmin
+              name: pg-superuser
               key: password
         - name: PGUSER
           valueFrom:
             secretKeyRef:
-              name: pg-superadmin
+              name: pg-superuser
               key: user
       volumeMounts:
         - name: restore
