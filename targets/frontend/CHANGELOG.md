@@ -3,12 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.26.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.26.0...v2.26.1) (2023-12-05)
-
-### Bug Fixes
-
-- ne pas afficher les contributions personnalisées dans les non thémés ([#1146](https://github.com/SocialGouv/cdtn-admin/issues/1146)) ([be664a7](https://github.com/SocialGouv/cdtn-admin/commit/be664a781144c6528d12501d590dfac1b940cd3d))
-
 # [2.26.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.25.1...v2.26.0) (2023-12-04)
 
 ### Bug Fixes
