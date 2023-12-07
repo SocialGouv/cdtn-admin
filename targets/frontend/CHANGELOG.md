@@ -3,19 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.26.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.25.1...v2.26.0) (2023-12-04)
-
-### Bug Fixes
-
-- **contributions:** augmentation de la taille des titres des accordéons ([#1130](https://github.com/SocialGouv/cdtn-admin/issues/1130)) ([8448f9e](https://github.com/SocialGouv/cdtn-admin/commit/8448f9ee2cf2adc1c202c97c4405a35677a6f778))
-- **popup maj:** suppression du "0" sur la popup qui liste les documents avant une MAJ preprod/prod ([#1135](https://github.com/SocialGouv/cdtn-admin/issues/1135)) ([80b0fa4](https://github.com/SocialGouv/cdtn-admin/commit/80b0fa4fa67f28823f72a70f4246b68a3d3ce1e7))
-
-### Features
-
-- add form tests ([#1089](https://github.com/SocialGouv/cdtn-admin/issues/1089)) ([b0aa4b5](https://github.com/SocialGouv/cdtn-admin/commit/b0aa4b56d79c6b3891c94526b00832963782632f))
-- autoriser l'ajout de h4 dans les accordéons + interdire ajout h3 ([#1140](https://github.com/SocialGouv/cdtn-admin/issues/1140)) ([65d5c8a](https://github.com/SocialGouv/cdtn-admin/commit/65d5c8a37bc270bb069a30b8f3a4f3e0617cdeba))
-- **contributions:** ajout des contributions à l'api publish ([#1110](https://github.com/SocialGouv/cdtn-admin/issues/1110)) ([2ed595c](https://github.com/SocialGouv/cdtn-admin/commit/2ed595cf98720e960dc7d74f28da1a8c3a1b3bd4)), closes [#1113](https://github.com/SocialGouv/cdtn-admin/issues/1113)
-
 ## [2.25.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.25.0...v2.25.1) (2023-11-29)
 
 **Note:** Version bump only for package frontend
