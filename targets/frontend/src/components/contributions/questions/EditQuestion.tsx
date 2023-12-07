@@ -11,6 +11,10 @@ import { statusesMapping } from "../status/data";
 import { countAnswersWithStatus } from "../questionList";
 import { Answer } from "../type";
 import { StatusStats } from "../status/StatusStats";
+<<<<<<< Updated upstream
+=======
+import { Button } from "../../button";
+>>>>>>> Stashed changes
 
 export type EditQuestionProps = {
   questionId: string;
@@ -66,6 +70,10 @@ export const EditQuestion = ({
       const count = countAnswersWithStatus(answers, status);
       return { status, count };
     });
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     return (
       <>
         <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
