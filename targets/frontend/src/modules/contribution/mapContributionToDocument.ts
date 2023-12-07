@@ -37,11 +37,6 @@ async function getBaseDocument(
         throw new Error(
           'La contribution ne peut pas être de type "Code du travail" parce que la générique n\'a pas de réponse'
         );
-      } else if (genericAnswer.content_type === "SP") {
-        return {
-          type: "fiche-sp",
-          ficheSpId: genericAnswer.content_fiche_sp!.initial_id,
-        };
       } else {
         return {
           type: "cdt",
