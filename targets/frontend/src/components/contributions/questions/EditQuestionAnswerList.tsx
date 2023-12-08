@@ -14,24 +14,19 @@ import React, { useEffect, useState } from "react";
 import { Answer } from "../type";
 import { StatusContainer } from "../status";
 import { useRouter } from "next/router";
-import { usePublishContributionMutation } from "../answers/usePublishAnswer";
-import { useUser } from "../../../hooks/useUser";
-import { useContributionAnswerUpdateStatusMutation } from "../answers/answerStatus.mutation";
 
 type EditQuestionAnswerListProps = {
   answers: Answer[];
+  onPublish: (id: string) => Promise<void>;
 };
 
-<<<<<<< Updated upstream:targets/frontend/src/components/contributions/questions/EditQuestionAnswerList.tsx
-export const EditQuestionAnswerList = ({
-=======
 type AnswerCheck = {
   [id: string]: boolean;
 };
 
 export const QuestionAnswerList = ({
->>>>>>> Stashed changes:targets/frontend/src/components/contributions/questions/QuestionAnswerList.tsx
   answers,
+  onPublish,
 }: EditQuestionAnswerListProps): JSX.Element => {
   const router = useRouter();
   const [answersCheck, setAnswersCheck] = useState<AnswerCheck>(
@@ -44,24 +39,19 @@ export const QuestionAnswerList = ({
     )
   );
   const [displayPublish, setDisplayPublish] = useState(false);
-  const onPublish = usePublishContributionMutation();
-  const { user } = useUser() as any;
-  const updateAnswerStatus = useContributionAnswerUpdateStatusMutation();
+
   const publishAll = async () => {
-    const allPromises = Object.entries(answersCheck)
-      .filter(([, checked]) => {
-        return checked;
-      })
-      .map(async ([id]) => {
-        const result = await onPublish(id);
-        await updateAnswerStatus({
-          id: id,
-          status: "PUBLISHED",
-          userId: user?.id,
-        });
-        return result;
-      });
-    await Promise.all(allPromises);
+    const ids = Object.entries(answersCheck).reduce<string[]>(
+      (arr, [id, checked]) => {
+        if (checked) {
+          arr.push(id);
+        }
+        return arr;
+      },
+      []
+    );
+    const promises = ids.map((id) => onPublish(id));
+    await Promise.all(promises);
   };
   const redirectToAnswer = (id: string) => {
     router.push(`/contributions/answers/${id}`);

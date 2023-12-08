@@ -2,7 +2,7 @@ import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDiss
 import { Box, Skeleton, Stack, Tab, Tabs, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-import { EditQuestionAnswerList } from "./EditQuestionAnswerList";
+import { QuestionAnswerList } from "./EditQuestionAnswerList";
 
 import { EditQuestionForm } from "./EditQuestionForm";
 import { useQuestionQuery } from "./Question.query";
@@ -11,10 +11,9 @@ import { statusesMapping } from "../status/data";
 import { countAnswersWithStatus } from "../questionList";
 import { Answer } from "../type";
 import { StatusStats } from "../status/StatusStats";
-<<<<<<< Updated upstream
-=======
-import { Button } from "../../button";
->>>>>>> Stashed changes
+import { usePublishContributionMutation } from "../answers/usePublishAnswer";
+import { useUser } from "../../../hooks/useUser";
+import { useContributionAnswerUpdateStatusMutation } from "../answers/answerStatus.mutation";
 
 export type EditQuestionProps = {
   questionId: string;
@@ -36,6 +35,9 @@ export const EditQuestion = ({
 }: EditQuestionProps): JSX.Element => {
   const data = useQuestionQuery({ questionId });
   const [tabIndex, setTabIndex] = React.useState<TabValue>(TabValue.answers);
+  const onPublish = usePublishContributionMutation();
+  const { user } = useUser() as any;
+  const updateAnswerStatus = useContributionAnswerUpdateStatusMutation();
 
   if (data === undefined) {
     return <Skeleton />;
@@ -70,10 +72,6 @@ export const EditQuestion = ({
       const count = countAnswersWithStatus(answers, status);
       return { status, count };
     });
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
     return (
       <>
         <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
@@ -119,6 +117,16 @@ export const EditQuestion = ({
     );
   }
 
+  const publish = async (id: string) => {
+    const result = await onPublish(id);
+    await updateAnswerStatus({
+      id: id,
+      status: "PUBLISHED",
+      userId: user?.id,
+    });
+    return result;
+  };
+
   return (
     <Stack
       alignItems="stretch"
@@ -138,9 +146,10 @@ export const EditQuestion = ({
         </Tabs>
       </Box>
       <TabPanel value={tabIndex} index={TabValue.answers}>
-        <EditQuestionAnswerList
+        <QuestionAnswerList
           answers={data.question.answers as Answer[]}
-        ></EditQuestionAnswerList>
+          onPublish={publish}
+        ></QuestionAnswerList>
       </TabPanel>
       <TabPanel value={tabIndex} index={TabValue.edition}>
         <EditQuestionForm question={data.question} messages={data.messages} />

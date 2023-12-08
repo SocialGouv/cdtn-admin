@@ -62,7 +62,6 @@ export const useQuestionQuery = ({
 }: QueryProps): QueryResult | undefined | "not_found" | "error" => {
   const [result] = useQuery<QueryOutput>({
     query: contributionQuestionQuery,
-    requestPolicy: "cache-and-network",
     variables: {
       questionId,
     },
