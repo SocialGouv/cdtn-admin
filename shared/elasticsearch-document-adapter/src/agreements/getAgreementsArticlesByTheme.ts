@@ -95,12 +95,14 @@ export default async function getAgreementsArticlesByTheme(
     })
     .toPromise();
   if (resultKaliBlocks.error) {
-    throw new Error(`Error fetching kali blocks`);
+    console.error(`Error fetching kali blocks`);
+    return [];
   }
   if (
     !resultKaliBlocks.data?.kali_blocks ||
     detectNullInObject(resultKaliBlocks.data.kali_blocks)
   ) {
+    console.log("Aucun kali block trouvé");
     return [];
   }
 
