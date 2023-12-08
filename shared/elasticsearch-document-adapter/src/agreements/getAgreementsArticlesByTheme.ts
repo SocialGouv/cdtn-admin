@@ -95,14 +95,16 @@ export default async function getAgreementsArticlesByTheme(
     })
     .toPromise();
   if (resultKaliBlocks.error) {
-    console.error(`Error fetching kali blocks pour l'idcc ${idccNumber}`);
+    console.error(
+      `Note: idcc ${idccNumber} n'est pas présent dans la table kali_block`
+    );
     return [];
   }
   if (
     !resultKaliBlocks.data?.kali_blocks ||
     detectNullInObject(resultKaliBlocks.data.kali_blocks)
   ) {
-    console.log(`Aucun kali block trouvé pour l'idcc ${idccNumber}`);
+    console.error(`Aucun kali_block trouvé pour l'idcc ${idccNumber}`);
     return [];
   }
 
