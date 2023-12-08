@@ -124,7 +124,6 @@ export const EditQuestion = ({
       status: "PUBLISHED",
       userId: user?.id,
     });
-    return result;
   };
 
   return (
