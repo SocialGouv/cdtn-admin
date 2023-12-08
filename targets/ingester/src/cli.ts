@@ -162,12 +162,15 @@ async function main() {
   }
 
   if (packagesToUpdate.get("@socialgouv/legi-data")) {
+    console.log("update legi articles");
     await updateLegiArticles();
   }
   if (packagesToUpdate.get("@socialgouv/kali-data")) {
+    console.log("update kali articles");
     await updateKaliArticles();
   }
   if (packagesToUpdate.get("@socialgouv/contributions-data")) {
+    console.log("set contributions availability to true");
     await setContributionsAvailabilityToTrue();
   }
   return ids;
