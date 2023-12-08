@@ -1,5 +1,6 @@
 import { fetchDocumentContributions } from "./fetchContributions";
 import { updateDocumentAvailabilityToTrue } from "./updateDocument";
+import pMap from "p-map";
 
 export async function setContributionsAvailabilityToTrue() {
   // Nous allons récupérer les contributions de la table document
@@ -13,14 +14,14 @@ export async function setContributionsAvailabilityToTrue() {
     (v) => v.slug
   );
 
-  const promises = [];
-
   // Pour chacune des nouvelles contributions nous allons les passer en is_available à true, car l'ingester les passe à false.
-  for (let i = 0; i < allNewContributionsBySlug.length; i++) {
-    promises.push(
-      updateDocumentAvailabilityToTrue(allNewContributionsBySlug[i])
-    );
-  }
-
-  await Promise.all(promises);
+  await pMap(
+    allNewContributionsBySlug,
+    (contrib) => {
+      return updateDocumentAvailabilityToTrue(contrib);
+    },
+    {
+      concurrency: 10,
+    }
+  );
 }
