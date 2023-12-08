@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.0...v2.27.1) (2023-12-08)
+
+### Bug Fixes
+
+- **ingester:** set pmap instead of promise.all ([248870c](https://github.com/SocialGouv/cdtn-admin/commit/248870c8761f7707f17a354f87646e5a866daa0b))
+
+# [2.27.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.26.2...v2.27.0) (2023-12-07)
+
+**Note:** Version bump only for package ingester
+
 ## [2.26.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.26.1...v2.26.2) (2023-12-05)
 
 **Note:** Version bump only for package ingester
