@@ -21,8 +21,7 @@ export default async function getAgreementDocuments() {
         id: `IDCC-${agreement.num}`,
         num: agreement.num,
         shortTitle: agreement.shortTitle,
-        title: agreement.shortTitle,
-        longTitle: agreement.title,
+        title: agreement.title,
         slug: slugify(
           `${agreement.num}-${agreement.shortTitle}`.substring(0, 80)
         ),
@@ -48,9 +47,8 @@ export default async function getAgreementDocuments() {
         ),
         text: `IDCC ${agreement.num}: ${agreement.title} ${agreement.shortTitle}`,
         url: agreement.url,
-        title: agreement.shortTitle,
+        title: agreement.title,
         shortTitle: agreement.shortTitle,
-        longTitle: agreement.title,
         description: `Idcc ${formatIdcc(agreement.num)} : ${
           agreement.shortTitle
         }`,

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.1...v2.27.2) (2023-12-08)
+
+### Bug Fixes
+
+- **admin:** ES prod index ([15eca1f](https://github.com/SocialGouv/cdtn-admin/commit/15eca1fe25adc75f28000f8809b674a68b95b13a))
+
 ## [2.27.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.0...v2.27.1) (2023-12-08)
 
 ### Bug Fixes

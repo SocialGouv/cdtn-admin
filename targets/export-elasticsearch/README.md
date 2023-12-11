@@ -109,3 +109,11 @@ yarn workspace frontend dev
 2. Connect to the frontend ui with `codedutravailnumerique@travail.gouv.fr` and `admin` as password.
 3. Navigate to `Mise à jour`
 4. Click on `Mettre à jour la pre-production` or `Mettre à jour la production`
+
+## Générer un backup en local
+
+1. Se connecter à teleport : `tsh login --proxy=teleport.fabrique.social.gouv.fr --auth=github`
+2. Lancer la commande pour faire un proxy avec la database de prod : `tsh proxy db --db-user=PostgresAdmins --db-name=postgres cdtnadminprodserver --tunnel`
+3. Utiliser pg_dump pour faire un backup de la database en remplaçant par le bon port : `docker-compose exec -T postgres pg_dump --no-owner --no-acl -v -Fc postgres://PostgresAdmins@host.docker.internal:PORT/hasura_prod > hasura_cdtn_admin_prod_db.psql`
+
+La documentation pour teleport est disponible ici : <https://socialgouv.github.io/support/docs/faq#alternative-via-le-cli-teleport-tsh>
