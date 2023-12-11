@@ -87,10 +87,6 @@ type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
   content: string;
 };
 
-type ContributionDocumentJsonNothing = ContributionDocumentJsonBasic & {
-  type: "nothing";
-};
-
 type ContributionDocumentJsonGenericNoCDT = ContributionDocumentJsonBasic & {
   type: "generic-no-cdt";
   messageBlockGenericNoCDT: string;
@@ -109,7 +105,6 @@ type ContributionDocumentJsonCodeDuTravailReference =
 
 export type ContributionDocumentJson =
   | ContributionDocumentJsonContent
-  | ContributionDocumentJsonNothing
   | ContributionDocumentJsonGenericNoCDT
   | ContributionDocumentJsonFicheSp
   | ContributionDocumentJsonCodeDuTravailReference;

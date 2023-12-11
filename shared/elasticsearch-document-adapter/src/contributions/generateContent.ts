@@ -57,9 +57,5 @@ export const generateContent = async (
         `Type de contribution generic inconnu "${cdtContrib.type}" for [${cdtContrib.id}]`
       );
     }
-    default:
-      throw new Error(
-        `Type de contribution inconnu "${contrib.type}" for [${contrib.id}]`
-      );
   }
 };
