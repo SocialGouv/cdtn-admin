@@ -30,7 +30,7 @@ describe("mapContributionToDocument", () => {
       agreement: {
         id: "0016",
         name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
-        kaliId: "KALICONT000005635624",
+        kali_id: "KALICONT000005635624",
       },
       question: {
         id: "3384f257-e319-46d1-a4cb-8e8294da337b",
@@ -111,22 +111,22 @@ describe("mapContributionToDocument", () => {
       cdtn_references: [
         {
           document: {
-            cdtnId: "abcdef",
+            cdtn_id: "abcdef",
           },
         },
         {
           document: {
-            cdtnId: "ijhgt",
+            cdtn_id: "ijhgt",
           },
         },
         {
           document: {
-            cdtnId: "klmnop",
+            cdtn_id: "klmnop",
           },
         },
         {
           document: {
-            cdtnId: "ijhgt",
+            cdtn_id: "ijhgt",
           },
         },
       ],
