@@ -16,10 +16,12 @@ import {
   ContributionConventionnelInfos,
   ContributionElasticDocument,
   ContributionGenericInfos,
+  ContributionGenericNoCDTContent,
 } from "./types";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
 import pMap from "p-map";
+import { getCcSupportedWithNoContent } from "./getCcSupportedWithNoContent";
 
 export type ContributionElasticDocumentLightRelatedContent = Omit<
   ContributionElasticDocument,
@@ -65,6 +67,9 @@ export async function generateContributions(
       doc = {
         ccSupported: getCcSupported(contributions, contrib),
       };
+      if (contrib.type === "generic-no-cdt") {
+        doc.ccSupportedNoContent = await getCcSupportedWithNoContent(contrib);
+      }
     } else {
       doc = {
         ...getCcInfos(ccnData, contrib),

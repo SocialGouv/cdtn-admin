@@ -138,7 +138,6 @@ export const getCcSupported = (
 ): string[] => {
   const ccSupported = allContributions
     .filter((v) => v.questionIndex === genericContrib.questionIndex)
-    .filter((v) => v.contentType !== "UNKNOWN")
     .map((v) => v.idcc);
   const filteredOldMetallurgieAgreements =
     genericContrib.questionIndex === 4
