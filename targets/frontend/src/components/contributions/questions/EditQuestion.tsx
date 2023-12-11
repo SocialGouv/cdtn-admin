@@ -118,12 +118,13 @@ export const EditQuestion = ({
   }
 
   const publish = async (id: string) => {
-    const result = await onPublish(id);
+    await onPublish(id);
     await updateAnswerStatus({
       id: id,
       status: "PUBLISHED",
       userId: user?.id,
     });
+    data.reExecute();
   };
 
   return (
