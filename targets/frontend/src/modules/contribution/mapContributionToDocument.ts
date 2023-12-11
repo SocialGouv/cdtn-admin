@@ -30,7 +30,10 @@ async function getBaseDocument(
     case "UNFAVOURABLE":
       const genericAnswer = await fetchGenericAnswer(data.question.id);
       if (genericAnswer.content_type === "GENERIC_NO_CDT") {
-        if (data.content_type === "CDT") {
+        if (
+          data.content_type === "CDT" ||
+          data.content_type === "UNFAVOURABLE"
+        ) {
           throw new Error(
             `La contribution [${data.question.order} - ${data.agreement.id}] ne peut pas être de type "Code du travail" parce que la générique n'a pas de réponse`
           );
