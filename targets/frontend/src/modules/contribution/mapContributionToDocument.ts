@@ -23,7 +23,7 @@ async function getBaseDocument(
     case "GENERIC_NO_CDT":
       return {
         type: "generic-no-cdt",
-        messageBlockGenericNoCDT: data.messageBlockGenericNoCDT!,
+        messageBlockGenericNoCDT: data.message_block_generic_no_CDT!,
       };
     case "CDT":
     case "NOTHING":

@@ -8,6 +8,7 @@ export type ContributionsAnswers = {
   other_references: ContributionOtherReferences[];
   cdtn_references: ContributionCdtnReferences[];
   content_fiche_sp: ContributionContentFicheSp | null;
+  message_block_generic_no_CDT: string | null;
   agreement: ContributionAgreement;
 };
 
