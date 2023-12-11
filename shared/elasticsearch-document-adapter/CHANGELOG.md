@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.1...v2.27.2) (2023-12-08)
+
+**Note:** Version bump only for package @shared/elasticsearch-document-adapter
+
+## [2.27.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.0...v2.27.1) (2023-12-08)
+
+**Note:** Version bump only for package @shared/elasticsearch-document-adapter
+
+# [2.27.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.26.2...v2.27.0) (2023-12-07)
+
+### Bug Fixes
+
+- utiliser une version 4.0.0 de p-map ([#1149](https://github.com/SocialGouv/cdtn-admin/issues/1149)) ([7c96256](https://github.com/SocialGouv/cdtn-admin/commit/7c9625600fb26419a763d1404577659a18bb53d3))
+
 ## [2.26.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.26.1...v2.26.2) (2023-12-05)
 
 ### Bug Fixes

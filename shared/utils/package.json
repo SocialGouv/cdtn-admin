@@ -1,6 +1,6 @@
 {
   "name": "@shared/utils",
-  "version": "2.26.2",
+  "version": "2.27.2",
   "dependencies": {
     "@socialgouv/cdtn-sources": "^4.91.1",
     "@socialgouv/cdtn-utils": "^4.109.0",
@@ -19,6 +19,7 @@
     "build:watch": "tsc -w"
   },
   "devDependencies": {
+    "@shared/types": "workspace:^",
     "@types/uuid": "^9.0.5",
     "@types/xxhashjs": "^0.2.2",
     "typescript": "^5.2.2"

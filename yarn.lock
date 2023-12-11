@@ -5040,6 +5040,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@shared/utils@workspace:shared/utils"
   dependencies:
+    "@shared/types": "workspace:^"
     "@socialgouv/cdtn-sources": ^4.91.1
     "@socialgouv/cdtn-utils": ^4.109.0
     "@types/uuid": ^9.0.5

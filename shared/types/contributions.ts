@@ -1,46 +1,62 @@
 export type ContributionsAnswers = {
   id: string;
-  content: null | string;
+  content: string | null;
   content_type: ContributionContentType;
-  question: {
+  question: ContributionQuestion;
+  kali_references: ContributionKaliReferences[];
+  legi_references: ContributionLegiReferences[];
+  other_references: ContributionOtherReferences[];
+  cdtn_references: ContributionCdtnReferences[];
+  content_fiche_sp: ContributionContentFicheSp | null;
+  agreement: ContributionAgreement;
+};
+
+export type ContributionQuestion = {
+  id: string;
+  content: string;
+  order: number;
+};
+
+export type ContributionKaliReferences = {
+  label: string;
+  kali_article: ContributionKaliReferencesKaliArticle;
+};
+
+export type ContributionKaliReferencesKaliArticle = {
+  id: string;
+  path?: string;
+  cid: string;
+  label: string;
+};
+
+export type ContributionOtherReferences = {
+  label: string;
+  url: string;
+};
+
+export type ContributionAgreement = {
+  id: string; // 0000 pour la générique, impossible d'être nulle
+  name: string;
+  kali_id: string;
+};
+
+export type ContributionCdtnReferences = {
+  document: {
+    cdtn_id: string;
+  };
+};
+
+export type ContributionContentFicheSp = {
+  initial_id: string;
+  document: Record<string, any>;
+};
+
+export type ContributionLegiReferences = {
+  legi_article: {
     id: string;
-    content: string;
-    order: number;
-  };
-  kali_references: {
+    path?: string;
+    cid: string;
     label: string;
-    kali_article: {
-      id: string;
-      path?: string;
-      cid: string;
-      label: string;
-    };
-  }[];
-  legi_references: {
-    legi_article: {
-      id: string;
-      path?: string;
-      cid: string;
-      label: string;
-    };
-  }[];
-  other_references: {
-    label: string;
-    url: string;
-  }[];
-  cdtn_references: {
-    document: {
-      cdtnId: string;
-    };
-  }[];
-  content_fiche_sp: null | {
-    initial_id: string;
-    document: Record<string, any>;
-  };
-  agreement: {
-    id: string; // 0000 pour la générique, impossible d'être nulle
-    name: string;
-    kaliId: string;
   };
   messageBlockGenericNoCDT: null | string;
 };

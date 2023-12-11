@@ -94,6 +94,7 @@ type UpdatePipelineOutput {
 type KaliArticles {
   path: String!
   label: String
+  section: String
   id: String!
   cid: String!
   agreementId: String
