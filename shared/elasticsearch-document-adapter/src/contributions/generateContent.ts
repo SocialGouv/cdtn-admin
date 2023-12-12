@@ -1,7 +1,9 @@
-import { ContributionDocumentJson } from "@shared/types";
-import { DocumentElasticWithSource } from "../types/Glossary";
+import {
+  ContributionContent,
+  ContributionDocumentJson,
+  DocumentElasticWithSource,
+} from "@shared/types";
 import { fetchFicheSp } from "./fetchFicheSp";
-import { ContributionContent } from "./types";
 
 export const generateContent = async (
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],

@@ -1,7 +1,10 @@
-import { ContributionDocumentJson } from "@shared/types";
-import { DocumentElasticWithSource } from "../types/Glossary";
+import {
+  ContributionContent,
+  ContributionDocumentJson,
+  ContributionMetadata,
+  DocumentElasticWithSource,
+} from "@shared/types";
 import { isGenericContribution } from "./helpers";
-import { ContributionContent, ContributionMetadata } from "./types";
 
 const HTML_TAGS = /<[^>]*>?/gm;
 const toText = (html: string): string => {

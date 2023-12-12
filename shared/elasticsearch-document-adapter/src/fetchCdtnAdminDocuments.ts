@@ -2,7 +2,7 @@ import type { SourceValues } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
 import PQueue from "p-queue";
 
-import type { Breadcrumbs, GetBreadcrumbsFn } from "./breadcrumbs";
+import type { GetBreadcrumbsFn } from "./breadcrumbs";
 import { context } from "./context";
 import type { Glossary } from "./types";
 import type {
@@ -16,6 +16,7 @@ import type {
   Relation,
   RequestBySourceWithRelationsResponse,
 } from "./types/Glossary";
+import { Breadcrumbs } from "@shared/types";
 
 const PAGE_SIZE = 200;
 const JOB_CONCURRENCY = 5;

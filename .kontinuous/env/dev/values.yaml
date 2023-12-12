@@ -97,13 +97,3 @@ jobs:
       with:
         sqlFile: .kontinuous/sql/post-restore.sql
         pgSecretRefName: pg-app
-    job-ingester:
-      ~needs: [hasura]
-      use: trigger-cronjob
-      with:
-        cronJobName: cron-ingester
-    job-alert:
-      ~needs: [job-ingester]
-      use: trigger-cronjob
-      with:
-        cronJobName: cron-alert

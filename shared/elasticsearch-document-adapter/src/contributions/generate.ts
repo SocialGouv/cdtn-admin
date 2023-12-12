@@ -1,23 +1,22 @@
 import {
   AgreementDoc,
+  Breadcrumbs,
+  ContributionConventionnelInfos,
   ContributionDocumentJson,
+  ContributionElasticDocument,
+  ContributionGenericInfos,
   ContributionHighlight,
+  DocumentElasticWithSource,
+  ContributionGenericNoCDTContent,
   ContributionLinkedContent,
 } from "@shared/types";
-import { DocumentElasticWithSource } from "../types/Glossary";
 import { generateMetadata } from "./generateMetadata";
 import { isGenericContribution } from "./helpers";
 import { getCcSupported } from "./getCcSupported";
 import { getCcInfos } from "./getCcInfos";
 import { generateContent } from "./generateContent";
-import { Breadcrumbs, GetBreadcrumbsFn } from "../breadcrumbs";
+import { GetBreadcrumbsFn } from "../breadcrumbs";
 import { addGlossaryToContent } from "./addGlossaryToContent";
-import {
-  ContributionConventionnelInfos,
-  ContributionElasticDocument,
-  ContributionGenericInfos,
-  ContributionGenericNoCDTContent,
-} from "./types";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
 import pMap from "p-map";
@@ -84,7 +83,7 @@ export async function generateContributions(
       breadcrumbs:
         contrib.breadcrumbs.length > 0
           ? contrib.breadcrumbs
-          : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex],
+          : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? [],
       highlight,
       messageBlock,
     });
