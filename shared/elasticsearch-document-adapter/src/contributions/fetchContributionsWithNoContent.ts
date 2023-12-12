@@ -2,8 +2,8 @@ import { gqlClient } from "@shared/utils";
 import { context } from "../context";
 
 const fetchContribTypeNothingForQuestion = `
-query contribution_answers_type_nothing($_eq: uuid) {
-  contribution_answers(where: {question: {id: {_eq: $_eq}}, content_type: {_eq: "NOTHING"}, statuses: {}}) {
+query contribution_answers_type_nothing($id: uuid) {
+  contribution_answers(where: {question: {id: {_eq: $id}}, content_type: {_eq: "NOTHING"}, statuses: {}}) {
     agreement {
       id
     }
