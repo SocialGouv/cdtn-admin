@@ -118,8 +118,8 @@ export async function getDocumentBySource<T>(
 ): Promise<DocumentElasticWithSource<T>[]> {
   const fetchDocuments = createDocumentsFetcher(gqlRequestBySource);
   const pDocuments = await fetchDocuments(source, {
-    concurrency: 10,
-    pageSize: 300,
+    concurrency: 5,
+    pageSize: 100,
   });
   const documents = await Promise.all(pDocuments);
   return documents.flatMap((docs) =>

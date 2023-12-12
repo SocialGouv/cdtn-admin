@@ -119,12 +119,13 @@ export default async function getAgreementsArticlesByTheme(
     })
     .toPromise();
 
-  if (resultKaliArticles.error) {
-    throw new Error(`Error fetching kali articles`);
-  }
-
-  if (!resultKaliArticles.data) {
-    throw Error("No kali articles founds for this agreement 🤔");
+  if (resultKaliArticles.error || !resultKaliArticles.data) {
+    console.error(
+      `Aucun kali_articles n'a été trouvé pour cette liste d'id ${JSON.stringify(
+        allKaliArticlesIds
+      )}`
+    );
+    return [];
   }
 
   return generateArticleByTheme(resultKaliBlocks.data, resultKaliArticles.data);
