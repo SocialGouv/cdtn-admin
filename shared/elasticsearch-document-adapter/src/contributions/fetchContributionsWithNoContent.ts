@@ -47,6 +47,10 @@ export async function fetchContributionsWithNoContent(
     })
     .toPromise();
   if (res.error) {
+    console.log(
+      "Error while executing fetchContributionsWithNoContent",
+      res.error
+    );
     throw res.error;
   }
 
