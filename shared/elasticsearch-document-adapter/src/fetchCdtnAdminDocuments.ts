@@ -116,39 +116,51 @@ export async function getDocumentBySource<T>(
   source: SourceValues,
   getBreadcrumbs: GetBreadcrumbsFn | undefined = undefined
 ): Promise<DocumentElasticWithSource<T>[]> {
-  const fetchDocuments = createDocumentsFetcher(gqlRequestBySource);
-  const pDocuments = await fetchDocuments(source, {
-    concurrency: 5,
-    pageSize: 100,
-  });
-  const documents = await Promise.all(pDocuments);
-  return documents.flatMap((docs) =>
-    docs.map((doc) => toElastic<T>(doc, [], getBreadcrumbs))
-  );
+  try {
+    const fetchDocuments = createDocumentsFetcher(gqlRequestBySource);
+    const pDocuments = await fetchDocuments(source, {
+      concurrency: 5,
+      pageSize: 500,
+    });
+    const documents = await Promise.all(pDocuments);
+    return documents.flatMap((docs) =>
+      docs.map((doc) => toElastic<T>(doc, [], getBreadcrumbs))
+    );
+  } catch (e: any) {
+    console.error("getDocumentBySource");
+    console.error(e);
+    throw e;
+  }
 }
 
 export async function getDocumentBySourceWithRelation(
   source: SourceValues,
   getBreadcrumbs: GetBreadcrumbsFn
 ): Promise<DocumentElastic[]> {
-  const fetchDocuments = createDocumentsFetcher(
-    gqlRequestBySourceWithRelations
-  );
-  const pDocuments = await fetchDocuments(source, {
-    concurrency: 3,
-    pageSize: 100,
-  });
-  const documents = await Promise.all(pDocuments);
-  return documents.flatMap((docs) =>
-    docs.map((doc) =>
-      toElastic(
-        {
-          ...doc,
-        },
-        toRefs(doc.contentRelations, getBreadcrumbs)
+  try {
+    const fetchDocuments = createDocumentsFetcher(
+      gqlRequestBySourceWithRelations
+    );
+    const pDocuments = await fetchDocuments(source, {
+      concurrency: 3,
+      pageSize: 500,
+    });
+    const documents = await Promise.all(pDocuments);
+    return documents.flatMap((docs) =>
+      docs.map((doc) =>
+        toElastic(
+          {
+            ...doc,
+          },
+          toRefs(doc.contentRelations, getBreadcrumbs)
+        )
       )
-    )
-  );
+    );
+  } catch (e: any) {
+    console.error("getDocumentBySourceWithRelation");
+    console.error(e);
+    throw e;
+  }
 }
 
 const createDocumentsFetcher =
