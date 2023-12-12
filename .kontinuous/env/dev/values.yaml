@@ -14,13 +14,13 @@ hasura:
         name: hasura
   replicas: 2
   # Retirer le commentaire des lignes ci-dessous pour utiliser l'export dans une branche dev /!\ Penser à remettre le commentaire avant de merger la branche dans master
-  resources:
-    limits:
-      cpu: "2000m"
-      memory: "4Gi"
-    requests:
-      cpu: "1000m"
-      memory: "1Gi"
+  # resources:
+  #   limits:
+  #     cpu: "2000m"
+  #     memory: "4Gi"
+  #   requests:
+  #     cpu: "1000m"
+  #     memory: "1Gi"
 
 export:
   env:
@@ -28,18 +28,18 @@ export:
       value: "{{.Values.global.branchSlug32}}"
   resources:
     # Pour exporter les données avec le glossaire et les vecteurs, il faut modifier les valeurs des ressources comme ceci:
-    limits:
-      cpu: "2000m"
-      memory: "4Gi"
-    requests:
-      cpu: "1000m"
-      memory: "1Gi"
     # limits:
-    #   cpu: "1000m"
-    #   memory: "1024Mi"
+    #   cpu: "2000m"
+    #   memory: "4Gi"
     # requests:
     #   cpu: "1000m"
-    #   memory: "896Mi"
+    #   memory: "1Gi"
+    limits:
+      cpu: "1000m"
+      memory: "1024Mi"
+    requests:
+      cpu: "1000m"
+      memory: "896Mi"
 
 jobs:
   runs:
