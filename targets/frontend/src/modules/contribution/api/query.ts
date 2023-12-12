@@ -16,6 +16,7 @@ export const getContributionAnswerById = gql`
         content
         order
       }
+      message_block_generic_no_CDT
       kali_references {
         label
         kali_article {

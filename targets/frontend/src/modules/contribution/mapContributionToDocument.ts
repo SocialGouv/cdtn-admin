@@ -18,12 +18,12 @@ async function getBaseDocument(
     case "ANSWER":
       return {
         type: "content",
-        content: data.content!,
+        content: data.content,
       };
     case "GENERIC_NO_CDT":
       return {
         type: "generic-no-cdt",
-        messageBlockGenericNoCDT: data.message_block_generic_no_CDT!,
+        messageBlockGenericNoCDT: data.message_block_generic_no_CDT,
       };
     case "CDT":
     case "NOTHING":
@@ -42,7 +42,7 @@ async function getBaseDocument(
       } else {
         return {
           type: "cdt",
-          genericAnswerId: genericAnswer.id!,
+          genericAnswerId: genericAnswer.id,
         };
       }
 
