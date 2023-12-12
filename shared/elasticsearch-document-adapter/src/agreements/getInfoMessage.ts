@@ -10,14 +10,14 @@ const CC_AVEC_REPONSE =
   "Les informations ci-dessous sont issues de l’analyse des règles prévues par votre convention collective de branche étendue et par le Code du travail.";
 
 export function getInfoMessage(data: ContributionElasticDocument): string {
-  switch (true) {
-    case data.contentType === "ANSWER":
+  switch (data.contentType) {
+    case "ANSWER":
       return CC_AVEC_REPONSE;
-    case data.contentType === "CDT":
+    case "CDT":
       return CC_RENVOIE_CDT;
-    case data.contentType === "UNFAVOURABLE":
+    case "UNFAVOURABLE":
       return CC_MOINS_FAVORABLE;
-    case data.contentType === "NOTHING":
+    case "NOTHING":
       return CC_NE_PREVOIT_RIEN;
     default:
       throw new Error(
