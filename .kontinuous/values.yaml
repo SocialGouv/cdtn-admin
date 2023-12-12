@@ -39,6 +39,9 @@ jobs:
         imagePackage: hasura
         context: targets/hasura
 
+pg:
+  ~chart: pg
+
 www:
   ~chart: app
   ~needs: [build-frontend]
