@@ -297,7 +297,7 @@ export async function* cdtnDocumentsGen() {
     source: SOURCES.SHEET_MT_PAGE,
   };
 
-  logger.info("=== Fiche MT(split) ===");
+  logger.info("=== Fiche MT ===");
   const splittedFiches = fichesMT.flatMap(splitArticle);
   yield {
     documents: splittedFiches.map((fiche) => {
