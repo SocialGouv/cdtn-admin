@@ -21,6 +21,11 @@ describe("generateContent", () => {
       type: "generic-no-cdt",
       messageBlockGenericNoCDT: "some message",
     },
+    {
+      id: "GENERIC_UNKNOWN_TYPE",
+      type: "unknown_type",
+      messageBlockGenericNoCDT: "some message",
+    },
   ];
 
   beforeEach(() => {
@@ -146,13 +151,14 @@ describe("generateContent", () => {
   it("should throw an error for unknown contribution type", async () => {
     const contribution: any = {
       id: "mon id",
-      type: "unknown-type",
+      type: "cdt",
+      genericAnswerId: "GENERIC_UNKNOWN_TYPE",
     };
 
     await expect(
       generateContent(mockContributions, contribution)
     ).rejects.toThrowError(
-      'Type de contribution inconnu "unknown-type" for [mon id]'
+      'Type de contribution generic inconnu "unknown_type" for [GENERIC_UNKNOWN_TYPE]'
     );
   });
 
