@@ -238,17 +238,17 @@ export const AnswerForm = ({
             ]}
           />
         )}
-        {answer && isCodeDuTravail(answer) && (
+        {isCodeDuTravail(answer) && (
           <FicheSpDocumentInput
             name="contentFichesSpDocument"
             control={control}
             disabled={isNotEditable(answer)}
           />
         )}
-        {answer && isCodeDuTravail(answer) && (
+        {isCodeDuTravail(answer) && (
           <FormControl>
             <FormTextField
-              label="Message block pour les CC qui ne prévoient rien (dans le cas ou pas de CDT)"
+              label="Message block à afficher pour les CC qui ne prévoient rien (si pas de CDT)"
               name="messageBlockGenericNoCDT"
               disabled={isNotEditable(answer)}
               control={control}
