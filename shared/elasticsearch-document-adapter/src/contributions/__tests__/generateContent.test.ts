@@ -1,6 +1,6 @@
+import { ContributionContent } from "@shared/types";
 import { fetchFicheSp } from "../fetchFicheSp";
 import { generateContent } from "../generateContent";
-import { ContributionContent } from "../types";
 
 jest.mock("../fetchFicheSp");
 

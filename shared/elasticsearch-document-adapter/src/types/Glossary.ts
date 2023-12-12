@@ -1,4 +1,4 @@
-import type { Breadcrumbs } from "../breadcrumbs";
+import { Breadcrumbs } from "@shared/types";
 import type { GraphQLResponseRoot } from "./GraphQL";
 
 export type DocumentBySourceResponse = GraphQLResponseRoot<Data>;
@@ -7,24 +7,24 @@ export type RequestBySourceWithRelationsResponse =
   GraphQLResponseRoot<RequestBySourceWithRelationsData>;
 export type GetGlossaryResponse = GraphQLResponseRoot<GetGlossaryData>;
 
-export type GetGlossaryData = {
+export interface GetGlossaryData {
   glossary: GlossaryResponse[];
-};
+}
 
-export type GlossaryResponse = {
+export interface GlossaryResponse {
   term: string;
   abbreviations: string[];
   definition: string;
   variants: string[];
   references: undefined[] | string;
   slug: string;
-};
+}
 
-export type Data = {
+export interface Data {
   documents: Document[];
-};
+}
 
-export type Document = {
+export interface Document {
   id: string;
   cdtnId: string;
   title: string;
@@ -35,11 +35,11 @@ export type Document = {
   isSearchable: boolean;
   metaDescription: string;
   document: unknown;
-};
+}
 
 export type DocumentElasticWithSource<T> = DocumentElastic & T;
 
-export type DocumentElastic = {
+export interface DocumentElastic {
   id: string;
   cdtnId: string;
   breadcrumbs: Breadcrumbs[];
@@ -51,7 +51,7 @@ export type DocumentElastic = {
   excludeFromSearch: boolean;
   metaDescription: string;
   refs: DocumentRef[];
-};
+}
 
 export type AggregateDocumentBySource = GraphQLResponseRoot<{
   documents_aggregate: {
@@ -61,7 +61,7 @@ export type AggregateDocumentBySource = GraphQLResponseRoot<{
   };
 }>;
 
-export type DocumentRef = {
+export interface DocumentRef {
   breadcrumbs: Breadcrumbs[];
   cdtnId: string;
   description: string;
@@ -69,13 +69,13 @@ export type DocumentRef = {
   source: string;
   title: string;
   url: string | undefined;
-};
+}
 
-export type RequestBySourceWithRelationsData = {
+export interface RequestBySourceWithRelationsData {
   documents: DocumentWithRelation[];
-};
+}
 
-export type DocumentWithRelation = {
+export interface DocumentWithRelation {
   id: string;
   cdtnId: string;
   title: string;
@@ -87,17 +87,17 @@ export type DocumentWithRelation = {
   metaDescription: string;
   document: unknown;
   contentRelations: Relation[];
-};
+}
 
-export type Relation = {
+export interface Relation {
   content: RelationContent;
   position: number;
-};
+}
 
-export type RelationContent = {
+export interface RelationContent {
   cdtnId: string;
   slug: string;
   source: string;
   title: string;
   document: unknown;
-};
+}

@@ -1,6 +1,9 @@
-import { AgreementDoc, ContributionDocumentJson } from "@shared/types";
-import { DocumentElasticWithSource } from "../types/Glossary";
-import { ContributionConventionnelInfos } from "./types";
+import {
+  AgreementDoc,
+  ContributionConventionnelInfos,
+  ContributionDocumentJson,
+  DocumentElasticWithSource,
+} from "@shared/types";
 
 export const getCcInfos = (
   ccns: DocumentElasticWithSource<AgreementDoc>[],

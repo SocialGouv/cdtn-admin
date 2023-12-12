@@ -1,7 +1,7 @@
 import { generateLinkedContent } from "../generateLinkedContent";
-import { Breadcrumbs } from "../../breadcrumbs";
 import { fetchLinkedContent, LinkedContentLight } from "../fetchLinkedContent";
 import { ContributionElasticDocumentLightRelatedContent } from "../generate";
+import { Breadcrumbs } from "@shared/types";
 
 jest.mock("../fetchLinkedContent");
 
