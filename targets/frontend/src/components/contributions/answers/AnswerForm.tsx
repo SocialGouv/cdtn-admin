@@ -197,7 +197,7 @@ export const AnswerForm = ({
       value: "SP",
     },
     {
-      label: "La code du travail ne prévoit rien",
+      label: "Le code du travail ne prévoit rien",
       value: "GENERIC_NO_CDT",
     },
   ];
@@ -248,7 +248,7 @@ export const AnswerForm = ({
         {isCodeDuTravail(answer) && (
           <FormControl>
             <FormTextField
-              label="Message block à afficher pour les CC qui ne prévoient rien (si pas de CDT)"
+              label="Message d'alerte pour les CC qui ne prévoient rien (si pas de CDT)"
               name="messageBlockGenericNoCDT"
               disabled={isNotEditable(answer)}
               control={control}
