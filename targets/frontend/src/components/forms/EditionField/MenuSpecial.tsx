@@ -4,6 +4,7 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import StorageIcon from "@mui/icons-material/Storage";
 import { styled } from "@mui/system";
+import InfoIcon from "@mui/icons-material/Info";
 
 const tableHTML = `
   <table style="width:100%">
@@ -66,6 +67,16 @@ export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
         title="Ajouter un accordéon"
       >
         <StorageIcon />
+      </button>
+      <button
+        onClick={() => {
+          editor?.chain().focus().setAlert().run();
+        }}
+        className={editor.isActive("alert") ? "is-active" : ""}
+        type="button"
+        title="Ajouter une section d'information"
+      >
+        <InfoIcon />
       </button>
     </StyledFloatingMenu>
   ) : (
