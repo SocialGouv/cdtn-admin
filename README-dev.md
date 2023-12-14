@@ -341,13 +341,10 @@ WHERE source IN ('page_fiche_ministere_travail', 'information', 'fiches_service_
 
 Le but est de pouvoir exporter les données de la branche dans elasticsearch et d'avoir une instance du site cdtn qui est lié à ces données.
 
-### Nommage de la branche
+### Bien nommer sa branche
 
-Le nom de la branche côté de l'admin peut être nommé à notre bon vouloir. En revanche, côté frontend, il faudra créer une branche qui ait le même nom que celle de l'admin précédée du suffixe `linked`.
-
-Example : ma branche admin s'appelle : `maxgfr/toto`
-
-Sur le frontend, ma branche devra s’appeler : `linked/maxgfr/toto` ou `linked-maxgfr/toto`
+Afin de lier les deux environnements, il est nécessaire de nommer identiquement ses branches (admin et cdtn) en commençant par le mot `linked` (exemple : `linked-my-feature`, `linked/my-feature`).
+Cela permet de lier l'index elasticsearch automatiquement entre les deux branches.
 
 ### Exporter les données sur une branche déployée
 
