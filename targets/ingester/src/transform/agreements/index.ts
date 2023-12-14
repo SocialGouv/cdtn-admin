@@ -15,8 +15,8 @@ export default async function getAgreementDocuments() {
   const agreementPages: AgreementPage[] = [];
 
   for (const agreement of agreements) {
-    // Les CCs qui n'ont pas de page Légifrance ont un ID qui est undefined
     const highlight = agreementsWithHighlight[agreement.num];
+    // Les CCs qui n'ont pas de page Légifrance ont un ID qui est undefined
     if (agreement.id === undefined) {
       agreementPages.push({
         id: `IDCC-${agreement.num}`,
