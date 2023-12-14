@@ -14,7 +14,8 @@ type ExportEsState = {
 export function useExportEs(): [
   ExportEsState,
   () => void,
-  (environment: Environment, user: User) => void
+  (environment: Environment, user: User) => void,
+  (env: Environment) => Date
 ] {
   const [state, setState] = useState<ExportEsState>({
     error: null,
@@ -57,6 +58,14 @@ export function useExportEs(): [
       });
   };
 
+  const getLatestDeployDate = (env: Environment) => {
+    const lastestCompleted = state?.exportData.filter(
+      (data) => data.status === Status.completed && data.environment === env
+    )[0];
+
+    return lastestCompleted?.created_at;
+  };
+
   const runExportEs = (environment: Environment, user: User) => {
     const newExportEs: ExportEsStatus = {
       created_at: new Date(),
@@ -92,18 +101,6 @@ export function useExportEs(): [
           ? Promise.reject(await response.json())
           : response.json();
       })
-      .then((data) => {
-        setState((state) => ({
-          ...state,
-          ...Object.assign(
-            {},
-            environment === Environment.preproduction
-              ? { latestExportPreproduction: data }
-              : { latestExportProduction: data }
-          ),
-          exportData: [data, ...state.exportData].filter((x) => x.id !== "0"),
-        }));
-      })
       .catch((error) => {
         setState((state) => ({
           ...state,
@@ -131,5 +128,5 @@ export function useExportEs(): [
       });
   };
 
-  return [state, getExportEs, runExportEs];
+  return [state, getExportEs, runExportEs, getLatestDeployDate];
 }

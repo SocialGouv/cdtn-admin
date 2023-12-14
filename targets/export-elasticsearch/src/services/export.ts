@@ -25,10 +25,7 @@ export class ExportService {
     private readonly copyContainerService: CopyContainerService
   ) {}
 
-  async runExport(
-    userId: string,
-    environment: Environment
-  ): Promise<ExportEsStatus> {
+  async runExport(userId: string, environment: Environment): Promise<void> {
     logger.info(`[${userId}] run export for ${environment}`);
     let isReadyToRun = false;
     const runningResult = await this.getRunningExport();
@@ -60,17 +57,13 @@ export class ExportService {
         if (!process.env.DISABLE_COPY) {
           await this.copyContainerService.runCopy();
         }
-        return await this.exportRepository.updateOne(
-          id,
-          Status.completed,
-          new Date()
-        );
-      } catch (e) {
-        console.error(e);
-        return await this.exportRepository.updateOne(
+        await this.exportRepository.updateOne(id, Status.completed, new Date());
+      } catch (e: any) {
+        await this.exportRepository.updateOne(
           id,
           Status.failed,
-          new Date()
+          new Date(),
+          e.message
         );
       }
     } else {

@@ -10,15 +10,16 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { FixedSnackBar } from "src/components/utils/SnackBar";
 import { ShowDocumentsToUpdateModal } from "./ShowDocumentsToUpdateModal";
+import { FixedSnackBar } from "src/components/utils/SnackBar";
 
 export function Export(): JSX.Element {
   const [validateExportPreprodModal, setValidateExportPreprodModal] =
     useState<boolean>(false);
   const [validateExportProdModal, setValidateExportProdModal] =
     useState<boolean>(false);
-  const [exportEsState, getExportEs, runExportEs] = useExportEs();
+  const [exportEsState, getExportEs, runExportEs, getLatestDeployDate] =
+    useExportEs();
 
   const { user }: any = useUser();
 
@@ -28,24 +29,13 @@ export function Export(): JSX.Element {
     getExportEs();
   }, []);
 
-  function getLatestDeployDate(env: Environment) {
-    const lastestCompleted = exportEsState?.exportData.filter(
-      (data) => data.status === StatusType.completed && data.environment === env
-    )[0];
-
-    return lastestCompleted?.created_at;
-  }
-
-  if (exportEsState.error) {
-    return (
-      <FixedSnackBar>
-        <pre>{JSON.stringify(exportEsState.error, null, 2)}</pre>
-      </FixedSnackBar>
-    );
-  }
-
   return (
     <>
+      {exportEsState.error && (
+        <FixedSnackBar>
+          <pre>{JSON.stringify(exportEsState.error, null, 2)}</pre>
+        </FixedSnackBar>
+      )}
       <p>
         Cette page permet de mettre à jour les données des environnements de{" "}
         <strong>production</strong> et <strong>pre-production</strong>
@@ -57,6 +47,8 @@ export function Export(): JSX.Element {
           color="primary"
           variant="contained"
           disabled={
+            exportEsState.latestExportPreproduction?.status ===
+              StatusType.running ||
             exportEsState.latestExportProduction?.status === StatusType.running
           }
           onClick={() => {
@@ -69,7 +61,9 @@ export function Export(): JSX.Element {
           color="secondary"
           variant="contained"
           disabled={
-            exportEsState.latestExportPreproduction?.status === "running"
+            exportEsState.latestExportPreproduction?.status ===
+              StatusType.running ||
+            exportEsState.latestExportProduction?.status === StatusType.running
           }
           onClick={() => {
             setValidateExportPreprodModal(true);
@@ -107,14 +101,15 @@ export function Export(): JSX.Element {
                 updated_at,
                 user,
                 status,
-              }: any) => {
+                error,
+              }) => {
                 return (
                   <Tr key={`${id}`}>
                     <Td>
                       <EnvironmentBadge environment={environment} />
                     </Td>
                     <Td>
-                      <Typography>{user.name}</Typography>
+                      <Typography>{user?.name}</Typography>
                     </Td>
                     <Td>
                       <Typography>
@@ -135,7 +130,7 @@ export function Export(): JSX.Element {
                       </Typography>
                     </Td>
                     <Td>
-                      <Status status={status} />
+                      <Status status={status} error={error} />
                     </Td>
                   </Tr>
                 );
