@@ -1,4 +1,4 @@
-import { BaseHasuraDocument } from "./Base";
+import { BaseHasuraDocument } from "./global";
 
 export enum CONTENT_TYPE {
   markdown = "markdown",

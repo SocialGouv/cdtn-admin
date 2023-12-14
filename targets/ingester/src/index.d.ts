@@ -1,11 +1,13 @@
 import type { SourceValues } from "@socialgouv/cdtn-sources";
-import type {
+
+import {
   Answer,
-  BaseRef,
-  DilaRef,
+  GenericContributionDoc,
+  CustomizedContributionDoc,
+  LegalRef,
+  FicheServicePublicDoc,
   GenericAnswer,
-  Question,
-} from "@socialgouv/contributions-data-types";
+} from "@shared/types";
 
 export as namespace ingester;
 
@@ -24,17 +26,25 @@ type ExternalDocument = Document & {
   url: string;
 };
 
-type ExtendedQuestion = Omit<Question, "answers"> & {
+type GenericAnswer = Omit<Answer, "content"> & {
+  description: string;
+  text: string;
+  content?: string | FicheServicePublicDoc;
+};
+type AnswerWithCC = Answer & { idcc: string; shortName: string };
+
+export interface Question {
+  id: string;
+  order: number;
+  title: string;
   answers: {
     generic: GenericAnswer;
-    conventionAnswer?: Answer & {
-      shortName: string;
-    };
-    conventions?: Answer[];
+    conventions: AnswerWithCC[];
   };
-};
+}
 
-type Contribution = Document & ExtendedQuestion;
+type Contribution = Document &
+  (GenericContributionDoc | CustomizedContributionDoc);
 
 type LegiArticle = ExternalDocument & {
   dateDebut: number;
@@ -68,29 +78,10 @@ type AgreementPage = Document & {
   effectif?: number;
   mtime?: number;
   shortTitle: string;
-  answers: AgreementAnswer[];
   url?: string;
-  articlesByTheme: AgreementArticleByBlock[];
   synonymes?: string[];
+  date_publi?: string;
 };
-
-interface AgreementAnswer {
-  index: number;
-  references: (BaseRef | DilaRef)[];
-  slug: string;
-  question: string;
-  answer: string;
-}
-
-interface AgreementArticleByBlock {
-  bloc: string;
-  articles: {
-    cid: string;
-    id: string;
-    section: string;
-    title: string;
-  }[];
-}
 
 /** Document type */
 type CdtnDocument =

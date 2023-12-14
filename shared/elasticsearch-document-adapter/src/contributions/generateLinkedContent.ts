@@ -1,7 +1,10 @@
-import { ContributionFullLinkedContent } from "./types";
-import { Breadcrumbs, GetBreadcrumbsFn } from "../breadcrumbs";
+import { GetBreadcrumbsFn } from "../breadcrumbs";
 import { fetchLinkedContent } from "./fetchLinkedContent";
-import { ContributionLinkedContent } from "@shared/types";
+import {
+  Breadcrumbs,
+  ContributionLinkedContent,
+  ExportContributionFullLinkedContent,
+} from "@shared/types";
 import { ContributionElasticDocumentLightRelatedContent } from "./generate";
 
 export const generateLinkedContent = async (
@@ -11,7 +14,7 @@ export const generateLinkedContent = async (
   linkedContent: ContributionLinkedContent[],
   getBreadcrumbs: GetBreadcrumbsFn,
   breadcrumbsOfRootContributionsPerIndex: Record<number, Breadcrumbs[]>
-): Promise<ContributionFullLinkedContent> => {
+): Promise<ExportContributionFullLinkedContent> => {
   const linkedContentPromises = linkedContent.map(async (content) => {
     const contributions = allGeneratedContributions.find(
       (item) => item.cdtnId === content.cdtnId

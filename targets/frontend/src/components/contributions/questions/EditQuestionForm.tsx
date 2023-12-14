@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   IconButton,
-  IconButtonProps,
   Stack,
   Tooltip,
   Typography,

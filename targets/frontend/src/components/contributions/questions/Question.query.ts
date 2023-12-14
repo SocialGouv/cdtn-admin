@@ -1,4 +1,4 @@
-import { useQuery } from "urql";
+import { OperationContext, useQuery } from "urql";
 import { initStatus } from "../status/utils";
 
 import { Answer, Message, Question } from "../type";
@@ -55,14 +55,14 @@ type QueryOutput = {
 export type QueryResult = {
   question: Question;
   messages: Message[];
+  reExecute: (opts?: Partial<OperationContext> | undefined) => void;
 };
 
 export const useQuestionQuery = ({
   questionId,
 }: QueryProps): QueryResult | undefined | "not_found" | "error" => {
-  const [result] = useQuery<QueryOutput>({
+  const [result, reExecute] = useQuery<QueryOutput>({
     query: contributionQuestionQuery,
-    requestPolicy: "cache-and-network",
     variables: {
       questionId,
     },
@@ -89,5 +89,5 @@ export const useQuestionQuery = ({
     answers,
   };
   const messages = result.data.contribution_question_messages;
-  return { messages, question };
+  return { messages, question, reExecute };
 };

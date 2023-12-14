@@ -1,8 +1,8 @@
 import {
   ContributionCompleteDoc,
   ContributionDocumentJson,
+  DocumentElasticWithSource,
 } from "@shared/types";
-import { DocumentElasticWithSource } from "../types/Glossary";
 
 export function isNewContribution(
   obj: DocumentElasticWithSource<

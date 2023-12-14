@@ -1,4 +1,4 @@
-import { ContributionContent } from "./types";
+import { ContributionContent } from "@shared/types";
 
 export function addGlossaryToContent(
   content: ContributionContent,
