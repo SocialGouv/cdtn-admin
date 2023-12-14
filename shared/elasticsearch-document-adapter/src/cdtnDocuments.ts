@@ -1,5 +1,6 @@
-import type {
+import {
   AgreementDoc,
+  Breadcrumbs,
   ContributionCompleteDoc,
   ContributionDocumentJson,
   ContributionHighlight,
@@ -178,27 +179,28 @@ export async function* cdtnDocumentsGen() {
     {}
   );
 
-  const newContributions = contributions.filter(isNewContribution);
-
-  const newGeneratedContributions = await generateContributions(
-    newContributions,
-    ccnData,
-    ccnListWithHighlight,
-    addGlossary,
-    getBreadcrumbs
-  );
-
   const oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[] =
     contributions.filter(isOldContribution);
 
   const breadcrumbsOfRootContributionsPerIndex = oldContributions.reduce(
-    (state: any, contribution: any) => {
+    (state: Record<number, Breadcrumbs[]>, contribution: any) => {
       if (contribution.breadcrumbs.length > 0) {
         state[contribution.index] = contribution.breadcrumbs;
       }
       return state;
     },
     {}
+  );
+
+  const newContributions = contributions.filter(isNewContribution);
+
+  const newGeneratedContributions = await generateContributions(
+    newContributions,
+    breadcrumbsOfRootContributionsPerIndex,
+    ccnData,
+    ccnListWithHighlight,
+    addGlossary,
+    getBreadcrumbs
   );
 
   const oldGeneratedContributions = oldContributions.map(
