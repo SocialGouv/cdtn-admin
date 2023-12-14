@@ -101,6 +101,18 @@ export function useExportEs(): [
           ? Promise.reject(await response.json())
           : response.json();
       })
+      .then((data) => {
+        setState((state) => ({
+          ...state,
+          ...Object.assign(
+            {},
+            environment === Environment.preproduction
+              ? { latestExportPreproduction: data }
+              : { latestExportProduction: data }
+          ),
+          exportData: [data, ...state.exportData].filter((x) => x.id !== "0"),
+        }));
+      })
       .catch((error) => {
         setState((state) => ({
           ...state,

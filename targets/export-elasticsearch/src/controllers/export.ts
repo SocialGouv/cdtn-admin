@@ -25,10 +25,13 @@ export class ExportController implements interfaces.Controller {
   ) {}
 
   @httpPost("/", getName(ExportEsRunMiddleware))
-  async run(@request() req: Request, @response() res: Response): Promise<void> {
+  async run(
+    @request() req: Request,
+    @response() res: Response
+  ): Promise<ExportEsStatus> {
     const body: ValidatorCreateExportEsStatusType = req.body;
     res.status(202);
-    await this.service.runExport(body.userId, body.environment);
+    return this.service.runExport(body.userId, body.environment);
   }
 
   @httpGet("/")
