@@ -10,7 +10,7 @@ export const withCustomUrqlClient = (Component) =>
     (ssrExchange, ctx) => {
       const baseUrl = process.env.FRONTEND_HOST
         ? `https://${process.env.FRONTEND_HOST}`
-        : `http://localhost:3000`;
+        : `http://localhost:3001`;
       const isServer = ctx && ctx.req;
       const url = isServer ? `${baseUrl}/api/graphql` : "/api/graphql";
       return {
