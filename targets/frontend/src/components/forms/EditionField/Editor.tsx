@@ -143,10 +143,9 @@ const StyledEditorContent = styled(EditorContent)(() => {
       ".alert": {
         marginBottom: "1.6rem",
         padding: "1.6rem 2rem",
-        color: "rgb(62, 72, 110)",
+        color: fr.colors.decisions.text.default,
         fontSize: "1.4rem",
-        backgroundColor: "rgb(242, 245, 250)",
-        border: "1px solid rgb(242, 245, 250)",
+        backgroundColor: fr.colors.decisions.background.contrast.info.active,
         borderRadius: "0.6rem",
       },
       ".details": {
