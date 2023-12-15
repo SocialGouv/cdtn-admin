@@ -38,7 +38,7 @@ export function Status({ status, error }: StatusProps): JSX.Element {
       );
     case StatusType.failed:
       return (
-        <Tooltip title={error ?? "Aucune erreur enregistrée"}>
+        <Tooltip title={error ?? "Aucune  information sur l'erreur n'a été enregistrée"}>
           <Typography color={fr.colors.decisions.text.default.error.default}>
             Erreur
           </Typography>
