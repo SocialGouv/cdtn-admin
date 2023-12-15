@@ -134,7 +134,7 @@ Hasura step.
 | Admin | codedutravailnumerique@travail.gouv.fr | admin    |
 | User  | utilisateur@travail.gouv.fr            | user     |
 
-Frontend is reachable at the address <http://localhost:3000>
+Frontend is reachable at the address <http://localhost:3001>
 
 > Run the frontend (it starts Hasura as dependency):
 >
