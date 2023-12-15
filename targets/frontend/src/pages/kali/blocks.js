@@ -13,7 +13,7 @@ import { theme as th } from "../../theme";
 const searchKaliDocumentQuery = `
 
 query KaliDocumentQuery {
-  kali_blocks(order_by: {title: asc}) {
+  kali_blocks(order_by: {idcc: asc}) {
     id
     idcc
     title

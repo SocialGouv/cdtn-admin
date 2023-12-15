@@ -4,11 +4,11 @@
 
 Pour intialiser le projet, nous avons besoin d'une dépendance depuis le registry privé de [tiptap](https://tiptap.dev/). Suivez les étapes suivantes :
 
-* [Créer un compte (gratuit)](https://tiptap.dev/register) sur tiptap.
-* Se rendre sur la page [Pro Extensions](https://collab.tiptap.dev/pro-extensions) de votre compte pour récupérer le token
-* Créer un fichier `.npmTiptapToken.secret` contenant le token. Il sera utile pour `docker compose` et pour direnv (si l'on souhaite automatiser le chargement de la variable `NPM_TIPTAP_TOKEN`)
-* Exporter la variable `NPM_TIPTAP_TOKEN` dans votre shell courant ou, pour automatiser cette étape, passer à l'étape suivante
-* (optionnel) Pour automatiser la chargement de cette variable lorsque l'on est dans le dossier du projet, il est possible d'installer [direnv](https://direnv.net/).
+- [Créer un compte (gratuit)](https://tiptap.dev/register) sur tiptap.
+- Se rendre sur la page [Pro Extensions](https://collab.tiptap.dev/pro-extensions) de votre compte pour récupérer le token
+- Créer un fichier `.npmTiptapToken.secret` contenant le token. Il sera utile pour `docker compose` et pour direnv (si l'on souhaite automatiser le chargement de la variable `NPM_TIPTAP_TOKEN`)
+- Exporter la variable `NPM_TIPTAP_TOKEN` dans votre shell courant ou, pour automatiser cette étape, passer à l'étape suivante
+- (optionnel) Pour automatiser la chargement de cette variable lorsque l'on est dans le dossier du projet, il est possible d'installer [direnv](https://direnv.net/).
   ```sh
   curl -sfL https://direnv.net/install.sh | bash
   ```
@@ -20,7 +20,7 @@ Vous pouvez maintenant lancer la commande `yarn install` pour installer les pack
 ## URLs
 
 | Environnement                                      | URL                                                       |
-|----------------------------------------------------|-----------------------------------------------------------|
+| -------------------------------------------------- | --------------------------------------------------------- |
 | Production (access granted only for authorized IP) | <https://cdtn-admin.fabrique.social.gouv.fr/>             |
 | Preproduction                                      | <https://preprod-cdtn-admin.dev.fabrique.social.gouv.fr/> |
 
@@ -130,11 +130,11 @@ This step starts the frontend project (based on `next.js`). User and admin accou
 Hasura step.
 
 | Type  | Username                               | Password |
-|-------|----------------------------------------|----------|
+| ----- | -------------------------------------- | -------- |
 | Admin | codedutravailnumerique@travail.gouv.fr | admin    |
 | User  | utilisateur@travail.gouv.fr            | user     |
 
-Frontend is reachable at the address <http://localhost:3000>
+Frontend is reachable at the address <http://localhost:3001>
 
 > Run the frontend (it starts Hasura as dependency):
 >
@@ -159,7 +159,7 @@ La table documents dans le schéma public contient les documents qui se transfor
 Voici un tableau descriptif des champs de cette table :
 
 | Nom du champ     | type                     | Description                                                                                                                                                                                                                                                                                                                                               |
-|------------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ---------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | cdtn_id          | text                     | Identifiant unique générer par la méthode `generateCdtnId` dans le package `shared/id-generator`                                                                                                                                                                                                                                                          |
 | initial_id       | text                     | L'identifiant externe du document (pour les contenus legifrance c'est le `KALIARTI` renvoyé par l'API, pour la fiche service publique c'est l'identifiant `FXXX` fourni, pour les contenus internes c'est un UUID généré...)                                                                                                                              |
 | title            | text                     | Le titre de la page qui sera affiché dans le H1. Attention, il y a également le `meta_title` qui peut être présent dans le champ `document`                                                                                                                                                                                                               |
@@ -250,7 +250,7 @@ l'elasticsearch du projet [code-du-travail-numerique](https://github.com/SocialG
 Ce script utilise les variables suivantes :
 
 | Variable                    | Description                                                                                                          | Par défaut                                                                             |
-|-----------------------------|----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | CDTN_ADMIN_ENDPOINT         | URL vers l'endpoint de l'admin (ou d'hasura)                                                                         | http://localhost:8080/v1/graphql                                                       |
 | HASURA_GRAPHQL_ENDPOINT     | URL vers l'endpoint GraphQL d'Hasura                                                                                 | http://localhost:8082/v1/graphql                                                       |
 | HASURA_GRAPHQL_ADMIN_SECRET | L'admin secret pour se connected à Hasura                                                                            | admin1                                                                                 |
@@ -304,7 +304,7 @@ Pour relancer les checks sur les PRs, vous pouvez supprimer la branche dans gitl
 
 ```gql
 query GetAllDocuments($sources: [String!]) {
-  documents(where: {source: {_in: $sources}}) {
+  documents(where: { source: { _in: $sources } }) {
     cdtn_id
   }
 }
@@ -314,7 +314,7 @@ With published documents:
 
 ```gql
 query GetAllDocumentsPublished($sources: [String!]) {
-  documents(where: {is_published: {_eq: true}, source: {_in: $sources}}) {
+  documents(where: { is_published: { _eq: true }, source: { _in: $sources } }) {
     cdtn_id
   }
 }
@@ -324,14 +324,7 @@ Avec comme paramètres :
 
 ```json
 {
-  "sources": [
-    "page_fiche_ministere_travail",
-    "information",
-    "fiches_service_public",
-    "modeles_de_courriers",
-    "contributions",
-    "conventions_collectives"
-  ]
+  "sources": ["page_fiche_ministere_travail", "information", "fiches_service_public", "modeles_de_courriers", "contributions", "conventions_collectives"]
 }
 ```
 
@@ -363,8 +356,8 @@ L'export des données se fait depuis l'admin dans la section `Contenus > Mise à
 
 Il faut commencer par donner les ressources nécessaires au processus dans l'environnement de dev :
 
-* Ouvrir le fichier `.kontinous/env/dev/values.yaml`
-* Appliquer ce que les commentaires indiquent pour les ressources sur hasura et export
+- Ouvrir le fichier `.kontinous/env/dev/values.yaml`
+- Appliquer ce que les commentaires indiquent pour les ressources sur hasura et export
 
 L'export des données se fait depuis l'admin dans la section `Contenus > Mise à jour`. Il faut ensuite cliquer sur le bouton `Mettre à jour la production`.
 
@@ -375,5 +368,5 @@ L'export des données se fait depuis l'admin dans la section `Contenus > Mise à
 
 ### Limitations connues
 
-* Les fichiers du site sont stockés au même endroit pour l'ensemble des branches. Si on ajoute/modifie/supprime un fichier, cela sera également le cas sur l'ensemble des branches
-* Le sitemap du site est stocké au même endroit pour l'ensemble des branches. Les branches sur le site CDTN récupérera le dernier sitemap généré. 
+- Les fichiers du site sont stockés au même endroit pour l'ensemble des branches. Si on ajoute/modifie/supprime un fichier, cela sera également le cas sur l'ensemble des branches
+- Le sitemap du site est stocké au même endroit pour l'ensemble des branches. Les branches sur le site CDTN récupérera le dernier sitemap généré.
