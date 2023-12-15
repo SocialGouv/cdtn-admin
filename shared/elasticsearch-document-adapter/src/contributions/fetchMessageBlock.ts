@@ -26,7 +26,7 @@ interface HasuraReturn {
 
 export async function fetchMessageBlock(
   questionId: string
-): Promise<ContributionMessageBlock> {
+): Promise<ContributionMessageBlock | undefined> {
   const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint");
   const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret");
   const res = await gqlClient({
@@ -40,10 +40,5 @@ export async function fetchMessageBlock(
   if (res.error) {
     throw res.error;
   }
-  if (!res.data?.contribution_questions_by_pk?.message) {
-    throw new Error(
-      `Impossible de récupérer la message block pour la question avec l'id ${questionId}`
-    );
-  }
-  return res.data.contribution_questions_by_pk.message;
+  return res.data?.contribution_questions_by_pk?.message;
 }
