@@ -1,4 +1,4 @@
-const dependencies = require("../package.json").dependencies;
+const dependencies = require("../../package.json").dependencies;
 
 export function getVersions(pattern = "^@socialgouv/") {
   const packageRule = new RegExp(pattern);

@@ -1,6 +1,6 @@
 import { context } from "../../context";
-import { createGlossaryTransform } from "../";
-import { glossaryData } from "./glossaryData";
+import { createGlossaryTransform } from "..";
+import { glossaryData } from "../__mock__/glossaryData";
 
 describe("Glossary", () => {
   describe("addGlossary", () => {

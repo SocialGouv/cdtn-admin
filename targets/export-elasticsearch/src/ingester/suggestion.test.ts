@@ -9,7 +9,7 @@ import { populateSuggestions } from "./suggestion";
 
 jest.mock("@socialgouv/cdtn-elasticsearch");
 
-const suggestFile = "./__fixtures__/suggestion_data_test.txt";
+const suggestFile = "src/ingester/__fixtures__/suggestion_data_test.txt";
 const bufferSize = 10;
 
 const testCasesCount = 25;
