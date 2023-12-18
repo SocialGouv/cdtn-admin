@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.2...v2.28.0) (2023-12-18)
+
+### Features
+
+- **convention-collective:** support des contributions au nouveau format dans les pages CCs ([#1134](https://github.com/SocialGouv/cdtn-admin/issues/1134)) ([29b29cc](https://github.com/SocialGouv/cdtn-admin/commit/29b29cc1a7726e891681c65ed72830bb1a45d175)), closes [#1113](https://github.com/SocialGouv/cdtn-admin/issues/1113) [#1161](https://github.com/SocialGouv/cdtn-admin/issues/1161)
+- **ingester:** ajout du highlight sur les pages qui n'ont pas d'`id` ([#1172](https://github.com/SocialGouv/cdtn-admin/issues/1172)) ([d72490f](https://github.com/SocialGouv/cdtn-admin/commit/d72490fe86f2474ef9b78fe959e5254d7ed5f291))
+
 ## [2.27.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.1...v2.27.2) (2023-12-08)
 
 **Note:** Version bump only for package ingester
