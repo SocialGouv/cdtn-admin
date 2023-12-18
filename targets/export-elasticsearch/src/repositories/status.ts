@@ -8,10 +8,8 @@ import {
   createExportEsStatus,
   getAllExport,
   getExportEsStatusByEnvironments,
-  getExportEsStatusById,
   getExportEsStatusByStatus,
   getLatestExportEsStatus,
-  updateExportEsStatus,
   updateOneExportEsStatus,
 } from "./graphql";
 
@@ -52,7 +50,8 @@ export class ExportRepository {
   public async updateOne(
     id: string,
     status: Status,
-    updatedAt: Date
+    updatedAt: Date,
+    error?: string
   ): Promise<ExportEsStatus> {
     const res = await gqlClient()
       .mutation<{ update_export_es_status_by_pk: ExportEsStatus }>(
@@ -61,6 +60,7 @@ export class ExportRepository {
           id,
           status,
           updated_at: updatedAt,
+          error: error ?? null,
         }
       )
       .toPromise();
@@ -71,46 +71,6 @@ export class ExportRepository {
       throw new Error("Failed to update, undefined object");
     }
     return res.data.update_export_es_status_by_pk;
-  }
-
-  public async updateAll(
-    oldStatus: Status,
-    newStatus: Status,
-    updatedAt: Date
-  ): Promise<ExportEsStatus[]> {
-    const res = await gqlClient()
-      .mutation<{ update_export_es_status_by_pk: ExportEsStatus[] }>(
-        updateExportEsStatus,
-        {
-          new_status: newStatus,
-          old_status: oldStatus,
-          updated_at: updatedAt,
-        }
-      )
-      .toPromise();
-    if (res.error) {
-      throw res.error;
-    }
-    if (!res.data?.update_export_es_status_by_pk) {
-      throw new Error("Failed to update, undefined object");
-    }
-    return res.data.update_export_es_status_by_pk;
-  }
-
-  public async getOneById(id: string): Promise<ExportEsStatus> {
-    const res = await gqlClient()
-      .query<{ export_es_status_by_pk: ExportEsStatus }>(
-        getExportEsStatusById,
-        { id }
-      )
-      .toPromise();
-    if (res.error) {
-      throw res.error;
-    }
-    if (!res.data?.export_es_status_by_pk) {
-      throw new Error("Failed to get, undefined object");
-    }
-    return res.data.export_es_status_by_pk;
   }
 
   public async getLatestByEnv(

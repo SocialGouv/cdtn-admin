@@ -41,6 +41,7 @@ export function buildThemes(themes, getBreadcrumbs) {
           .map(({ content: { cdtnId, document, slug, source, title } }) => ({
             cdtnId,
             description: document.description,
+            url: document.url,
             slug,
             source,
             title,

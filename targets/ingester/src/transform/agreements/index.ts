@@ -15,6 +15,7 @@ export default async function getAgreementDocuments() {
   const agreementPages: AgreementPage[] = [];
 
   for (const agreement of agreements) {
+    const highlight = agreementsWithHighlight[agreement.num];
     // Les CCs qui n'ont pas de page Légifrance ont un ID qui est undefined
     if (agreement.id === undefined) {
       agreementPages.push({
@@ -33,9 +34,9 @@ export default async function getAgreementDocuments() {
         is_published: false,
         source: SOURCES.CCN,
         synonymes: agreement.synonymes,
+        ...(highlight ? { highlight } : {}),
       });
     } else {
-      const highlight = agreementsWithHighlight[agreement.num];
       agreementPages.push({
         date_publi: agreement.date_publi,
         effectif: agreement.effectif ?? 1,

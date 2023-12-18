@@ -43,6 +43,7 @@ export class DocumentsService {
       title: data.title,
       text: data.title,
       slug: document?.slug ?? slugify(data.title),
+      is_searchable: document ? document.is_searchable : true,
       is_available: true,
       document: {
         date: data.updatedAt
@@ -124,8 +125,8 @@ export class DocumentsService {
       title: data.title,
       text: data.description,
       slug: document?.slug ?? slugify(data.title),
+      is_searchable: document ? document.is_searchable : true,
       is_available: true,
-
       document: {
         meta_title: data.metaTitle,
         type: data.type,
