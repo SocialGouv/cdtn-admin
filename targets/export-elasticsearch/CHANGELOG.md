@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.28.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.0...v2.28.1) (2023-12-18)
+
+### Bug Fixes
+
+- **port:** set default port at 3001 in local ([7734527](https://github.com/SocialGouv/cdtn-admin/commit/773452793836c9bdcd92fda96584f528aee26860))
+
 # [2.28.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.2...v2.28.0) (2023-12-18)
 
 ### Bug Fixes
