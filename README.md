@@ -210,7 +210,7 @@ yarn workspace export-elasticsearch run:ingester
 yarn workspace frontend dev
 ```
 
-1. Go to `http://localhost:3000/`
+1. Go to `http://localhost:3001/`
 2. Connect to the frontend ui with `codedutravailnumerique@travail.gouv.fr` and `admin` as password.
 3. Navigate to `Mise à jour`
 4. Click on `Mettre à jour la pre-production` or `Mettre à jour la production`
