@@ -1,6 +1,6 @@
 hasura:
   imagePackage: hasura
-  ~needs: [post-restore, build-hasura]
+  ~needs: [ post-restore, build-hasura ]
   ~preDeploy.cleaner:
     match:
       kind: Deployment
@@ -48,7 +48,7 @@ pg:
 jobs:
   runs:
     restore:
-      ~needs: [pg]
+      ~needs: [ pg ]
       use: pg-restore
       checkout: false
       with:
@@ -92,7 +92,7 @@ jobs:
               secretName: cdtnadminprodserver-backup-credentials
               shareName: cdtnadminprodserver-backup-restore
     post-restore:
-      ~needs: [restore]
+      ~needs: [ restore ]
       use: psql
       with:
         sqlFile: .kontinuous/sql/post-restore.sql

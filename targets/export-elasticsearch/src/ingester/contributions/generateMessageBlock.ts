@@ -6,8 +6,11 @@ import { fetchMessageBlock } from "./fetchMessageBlock";
 
 export const generateMessageBlock = async (
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
-): Promise<string> => {
+): Promise<string | undefined> => {
   const messageBlock = await fetchMessageBlock(contrib.questionId);
+  if (!messageBlock) {
+    return undefined;
+  }
   if (
     contrib.idcc === "0000" || // Generic answer
     contrib.contentType === "UNKNOWN" ||
