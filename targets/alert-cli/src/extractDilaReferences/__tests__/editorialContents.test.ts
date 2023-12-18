@@ -4,20 +4,22 @@ import type { EditorialContentSubset } from "../editorialContents";
 import { extractEditorialContentTemplateRef } from "../editorialContents";
 import payload from "./mocks/editorialContent.payload.json";
 
-jest.mock("@shared/utils", () => ({
-  __esModule: true, // this property makes it work
-  gqlClient: jest.fn(),
-  createGetArticleReference: () =>
-    async function (id: string): Promise<DocumentReference> {
-      return Promise.resolve({
-        dila_cid: id,
-        dila_container_id: "cdtn",
-        dila_id: id,
-        title: `article ${id}`,
-        url: "",
-      });
-    },
-}));
+jest.mock("@shared/utils", () => {
+  return {
+    ...jest.requireActual("@shared/utils"),
+    gqlClient: jest.fn(),
+    createGetArticleReference: () =>
+      async function (id: string): Promise<DocumentReference> {
+        return Promise.resolve({
+          dila_cid: id,
+          dila_container_id: "cdtn",
+          dila_id: id,
+          title: `article ${id}`,
+          url: "",
+        });
+      },
+  };
+});
 
 test("extractMailTemplateRef", async () => {
   const references = await extractEditorialContentTemplateRef(
