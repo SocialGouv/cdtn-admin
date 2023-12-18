@@ -30,7 +30,7 @@ export default function DocumentList({
 
         {isLoadingDocs ? (
           <Stack mt={2} justifyContent="center">
-            <Spinner></Spinner>
+            <Spinner />
           </Stack>
         ) : (
           <>
