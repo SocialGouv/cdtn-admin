@@ -10,7 +10,7 @@ import {
   version,
   //@ts-expect-error
 } from "@socialgouv/cdtn-elasticsearch";
-import { logger } from "@socialgouv/cdtn-logger";
+import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import pMap from "p-map";
 

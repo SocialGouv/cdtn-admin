@@ -48,9 +48,7 @@ jobs:
             "alert-cli",
             "ingester",
             "export-elasticsearch",
-            "@shared/dila-resolver",
             "@socialgouv/cdtn-elasticsearch",
-            "@socialgouv/cdtn-logger",
           ]
     steps:
       - uses: actions/cache@v2
@@ -80,9 +78,7 @@ jobs:
             "alert-cli",
             "ingester",
             "export-elasticsearch",
-            "@shared/dila-resolver",
             "@socialgouv/cdtn-elasticsearch",
-            "@socialgouv/cdtn-logger",
           ]
     steps:
       - uses: actions/cache@v2

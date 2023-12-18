@@ -20,14 +20,9 @@ FROM deps AS build-types
 COPY shared/types ./shared/types
 RUN yarn workspace @shared/types build
 
-FROM deps AS build-cdtn-logger
-COPY shared/logger ./shared/logger
-RUN yarn workspace @socialgouv/cdtn-logger build
-
 FROM deps as dist
 COPY --from=build-utils /app/shared/utils ./shared/utils
 COPY --from=build-types /app/shared/types ./shared/types
-COPY --from=build-cdtn-logger /app/shared/logger ./shared/logger
 
 COPY shared/eslint-config ./shared/eslint-config/
 COPY targets/export-elasticsearch ./targets/export-elasticsearch/
@@ -45,8 +40,6 @@ COPY --from=dist /app/shared/utils/build /app/shared/utils/build
 COPY --from=dist /app/shared/utils/package.json /app/shared/utils/package.json
 COPY --from=dist /app/shared/types/build /app/shared/types/build
 COPY --from=dist /app/shared/types/package.json /app/shared/types/package.json
-COPY --from=dist /app/shared/logger/package.json /app/shared/logger/package.json
-COPY --from=dist /app/shared/logger/lib /app/shared/logger/lib
 COPY shared/elasticsearch /app/shared/elasticsearch
 COPY --from=dist /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
 COPY --from=dist /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json

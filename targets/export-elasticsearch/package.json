@@ -28,7 +28,6 @@
     "@shared/types": "workspace:^",
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-elasticsearch": "workspace:^",
-    "@socialgouv/cdtn-logger": "workspace:^",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
     "axios": "^0.26.1",

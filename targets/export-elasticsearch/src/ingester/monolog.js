@@ -1,5 +1,5 @@
 import { Client } from "@elastic/elasticsearch";
-import { logger } from "@socialgouv/cdtn-logger";
+import { logger } from "@shared/utils";
 import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
 
 const COVISIT_BATCH_SIZE = 500;

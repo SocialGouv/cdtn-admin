@@ -2,7 +2,7 @@ import { getIDCCs } from "../agreements/getIdcc";
 import { getDuplicateSlugs } from "../cdtnDocuments";
 import { context } from "../context";
 
-jest.mock("@socialgouv/cdtn-logger");
+jest.mock("@shared/utils");
 
 describe("cdtnDocuments", () => {
   describe("getDuplicateSlug", () => {

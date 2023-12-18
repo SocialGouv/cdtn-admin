@@ -8,7 +8,7 @@ import {
   FicheTravailEmploiDoc,
   OldContributionElasticDocument,
 } from "@shared/types";
-import { logger } from "@socialgouv/cdtn-logger";
+import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
 

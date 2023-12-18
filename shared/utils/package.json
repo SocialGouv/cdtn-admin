@@ -4,6 +4,7 @@
   "dependencies": {
     "@socialgouv/cdtn-sources": "^4.91.1",
     "@socialgouv/cdtn-utils": "^4.109.0",
+    "@socialgouv/dila-api-client": "^1.2.4",
     "@urql/core": "^2.4.3",
     "graphql": "^16.3.0",
     "isomorphic-unfetch": "^3.1.0",
@@ -16,12 +17,14 @@
   "types": "build/src/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc -w"
+    "build:watch": "tsc -w",
+    "test": "vitest"
   },
   "devDependencies": {
     "@shared/types": "workspace:^",
     "@types/uuid": "^9.0.5",
     "@types/xxhashjs": "^0.2.2",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vitest": "^1.0.4"
   }
 }

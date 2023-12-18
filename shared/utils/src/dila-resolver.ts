@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import type { DocumentReference } from "@shared/types";
+import type {
+  DocumentReference,
+  ArticlePayload,
+  ArticleVersion,
+} from "@shared/types";
 import type DilaApiClient from "@socialgouv/dila-api-client";
-
-import type { ArticlePayload, ArticleVersion } from "./types";
 
 function createGetArticleReference(client: DilaApiClient) {
   return async function getArticle(
@@ -20,12 +21,12 @@ function createGetArticleReference(client: DilaApiClient) {
       const [lastVersion] = data.article.articleVersions.slice(-1);
       const containerId =
         data.article.conteneurs.length > 0
-          ? data.article.conteneurs[0].cid
-          : data.article.textTitles[0].id;
+          ? data.article.conteneurs[0]!.cid
+          : data.article.textTitles[0]!.id;
       return {
         dila_cid: data.article.cid,
         dila_container_id: containerId,
-        dila_id: lastVersion.id,
+        dila_id: lastVersion!.id,
         title: `${data.article.nature} ${data.article.num}`,
         url: "",
       };

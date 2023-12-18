@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import type DilaApiClient from "@socialgouv/dila-api-client";
+import { expect, test } from "vitest";
 
-import { createGetArticleReference, extractArticleId } from ".";
-import getKaliArticlePayload from "./mocks/kaliArticle.payload.json";
-import getLegiArticlePayload from "./mocks/legiArticle.payload.json";
+import { createGetArticleReference, extractArticleId } from "../dila-resolver";
+import getKaliArticlePayload from "./__mocks__/kaliArticle.json";
+import getLegiArticlePayload from "./__mocks__/legiArticle.json";
 
 test("extractArticleId with legi ref", () => {
   const ref = "LEGIARTI000042683537";
