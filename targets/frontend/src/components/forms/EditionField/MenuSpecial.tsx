@@ -74,7 +74,7 @@ export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
         }}
         className={editor.isActive("alert") ? "is-active" : ""}
         type="button"
-        title="Ajouter une section d'information"
+        title="Ajouter une section d'alerte"
       >
         <InfoIcon />
       </button>
