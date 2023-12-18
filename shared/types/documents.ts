@@ -10,6 +10,7 @@ export type Document<T> = {
   title: string;
   meta_description: string;
   is_available: boolean;
+  is_searchable: boolean;
 };
 
 export type ShortDocument<T> = Pick<
