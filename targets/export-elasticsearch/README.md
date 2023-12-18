@@ -81,7 +81,7 @@ docker-compose up -d hasura azurite elasticsearch
 ### 5. Run ingester in development mode
 
 ```sh
-GLOSSARY_PREPROD_DISABLE=true DISABLE_LIMIT_EXPORT=true DISABLE_SITEMAP=true DISABLE_COPY=true NLP_URL=https://serving-ml-preprod.dev.fabrique.social.gouv.fr HASURA_GRAPHQL_ENDPOINT="http://localhost:8080/v1/graphql" HASURA_GRAPHQL_ADMIN_SECRET="admin1" ELASTICSEARCH_URL_PREPROD="http://localhost:9200" ELASTICSEARCH_URL_PROD="http://localhost:9200" AZ_ACCOUNT_KEY_FROM="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" AZ_ACCOUNT_NAME_FROM="devstoreaccount1" AZ_URL_FROM="http://localhost:10000/devstoreaccount1" AZ_ACCOUNT_KEY_TO="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" AZ_ACCOUNT_NAME_TO="devstoreaccount1" AZ_URL_TO="http://localhost:10000/devstoreaccount1" SITEMAP_DESTINATION_CONTAINER="sitemap" SITEMAP_DESTINATION_NAME="sitemap.xml" SITEMAP_ENDPOINT="http://localhost:3000/api/sitemap" CDTN_ADMIN_ENDPOINT="http://localhost:8080/v1/graphql" SOURCE_CONTAINER_COPY="sitemap" DESTINATION_CONTAINER_COPY="testcopy" ELASTICSEARCH_INDEX_PREPROD="cdtn-v2" ELASTICSEARCH_INDEX_PROD="cdtn-v2" yarn workspace export-elasticsearch dev
+GLOSSARY_PREPROD_DISABLE=true DISABLE_LIMIT_EXPORT=true DISABLE_SITEMAP=true DISABLE_COPY=true NLP_URL=https://serving-ml-preprod.dev.fabrique.social.gouv.fr HASURA_GRAPHQL_ENDPOINT="http://localhost:8080/v1/graphql" HASURA_GRAPHQL_ADMIN_SECRET="admin1" ELASTICSEARCH_URL_PREPROD="http://localhost:9200" ELASTICSEARCH_URL_PROD="http://localhost:9200" AZ_ACCOUNT_KEY_FROM="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" AZ_ACCOUNT_NAME_FROM="devstoreaccount1" AZ_URL_FROM="http://localhost:10000/devstoreaccount1" AZ_ACCOUNT_KEY_TO="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" AZ_ACCOUNT_NAME_TO="devstoreaccount1" AZ_URL_TO="http://localhost:10000/devstoreaccount1" SITEMAP_DESTINATION_CONTAINER="sitemap" SITEMAP_DESTINATION_NAME="sitemap.xml" SITEMAP_ENDPOINT="http://localhost:3001/api/sitemap" CDTN_ADMIN_ENDPOINT="http://localhost:8080/v1/graphql" SOURCE_CONTAINER_COPY="sitemap" DESTINATION_CONTAINER_COPY="testcopy" ELASTICSEARCH_INDEX_PREPROD="cdtn-v2" ELASTICSEARCH_INDEX_PROD="cdtn-v2" yarn workspace export-elasticsearch dev
 ```
 
 - `DISABLE_LIMIT_EXPORT` is used to disable the limit to run two export in less than one hour
@@ -105,7 +105,7 @@ yarn workspace export-elasticsearch run:ingester
 yarn workspace frontend dev
 ```
 
-1. Go to `http://localhost:3000/`
+1. Go to `http://localhost:3001/`
 2. Connect to the frontend ui with `codedutravailnumerique@travail.gouv.fr` and `admin` as password.
 3. Navigate to `Mise à jour`
 4. Click on `Mettre à jour la pre-production` or `Mettre à jour la production`
