@@ -438,6 +438,7 @@ export interface ExportEsStatus {
   created_at: Date;
   updated_at: Date;
   user?: User;
+  error?: string;
 }
 
 export type Answer = {

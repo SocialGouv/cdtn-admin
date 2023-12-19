@@ -86,4 +86,16 @@ describe("generateMessageBlock", () => {
       "Unknown content type"
     );
   });
+
+  it("should return undefined if no message block setup for the question", async () => {
+    (fetchMessageBlock as jest.Mock).mockResolvedValue(undefined);
+
+    const result: string | undefined = await generateMessageBlock(
+      mockContribution
+    );
+
+    expect(result).toEqual(undefined);
+
+    expect(fetchMessageBlock).toHaveBeenCalledWith("123");
+  });
 });

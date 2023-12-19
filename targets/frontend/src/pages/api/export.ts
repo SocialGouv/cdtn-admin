@@ -2,7 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const URL_EXPORT = process.env.URL_EXPORT ?? "http://localhost:8787";
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
+const main = (req: NextApiRequest, res: NextApiResponse) => {
+  // GET
   if (req.method === "GET") {
     const promises = [
       fetch(URL_EXPORT + "/export"),
@@ -28,6 +29,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
         });
       });
   }
+
+  // POST
   if (req.method === "POST") {
     const { environment, userId } = req.body;
     fetch(URL_EXPORT + "/export", {
@@ -58,3 +61,5 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       });
   }
 };
+
+export default main;

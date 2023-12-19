@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.28.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.1...v2.28.2) (2023-12-19)
+
+**Note:** Version bump only for package frontend
+
+## [2.28.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.0...v2.28.1) (2023-12-18)
+
+### Bug Fixes
+
+- **contribution:** autoriser les alertes dans les accordéons ([#1189](https://github.com/SocialGouv/cdtn-admin/issues/1189)) ([752b23e](https://github.com/SocialGouv/cdtn-admin/commit/752b23e0ceda0103f66f3e29a76ceb8c8f744237))
+
+# [2.28.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.2...v2.28.0) (2023-12-18)
+
+### Bug Fixes
+
+- **contribution:** autoriser un message block vide ([#1165](https://github.com/SocialGouv/cdtn-admin/issues/1165)) ([aedddc4](https://github.com/SocialGouv/cdtn-admin/commit/aedddc4e6dd4672661d095ed8464591f2dfbb195))
+- **export:** ajout des messages d'erreur au niveau de l'UI de l'export ([#1171](https://github.com/SocialGouv/cdtn-admin/issues/1171)) ([2375126](https://github.com/SocialGouv/cdtn-admin/commit/237512634f8f6bc7d811db51fd3feb4521476334))
+- **is_searchable:** mettre les documents searchable par défaut à la création ([#1181](https://github.com/SocialGouv/cdtn-admin/issues/1181)) ([ba7dc37](https://github.com/SocialGouv/cdtn-admin/commit/ba7dc3755c42dfe6f900b1fb96d47b6f6fbc190e))
+
+### Features
+
+- **convention-collective:** support des contributions au nouveau format dans les pages CCs ([#1134](https://github.com/SocialGouv/cdtn-admin/issues/1134)) ([29b29cc](https://github.com/SocialGouv/cdtn-admin/commit/29b29cc1a7726e891681c65ed72830bb1a45d175)), closes [#1113](https://github.com/SocialGouv/cdtn-admin/issues/1113) [#1161](https://github.com/SocialGouv/cdtn-admin/issues/1161)
+- **frontend:** utilisation du port 3001 ([#1173](https://github.com/SocialGouv/cdtn-admin/issues/1173)) ([651879c](https://github.com/SocialGouv/cdtn-admin/commit/651879cc3e2f2ba5d61cc55f7985ac1c1d76855c))
+- improve publish multiple within question ([#1156](https://github.com/SocialGouv/cdtn-admin/issues/1156)) ([b42640d](https://github.com/SocialGouv/cdtn-admin/commit/b42640dcf34659795398a7aaf57c4624fc0385dc))
+
 ## [2.27.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.1...v2.27.2) (2023-12-08)
 
 **Note:** Version bump only for package frontend

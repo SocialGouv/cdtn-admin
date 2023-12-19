@@ -3,7 +3,7 @@ import { OperationResult, useMutation } from "urql";
 import { Question } from "../type";
 
 export const questionUpdateMutation = `
-mutation contributionQuestionUpdate($id: uuid!, $content: String, $message_id: uuid!) {
+mutation contributionQuestionUpdate($id: uuid!, $content: String, $message_id: uuid) {
   update_contribution_questions_by_pk(pk_columns: {id: $id}, _set: {content: $content, message_id: $message_id}) {
     __typename
   }

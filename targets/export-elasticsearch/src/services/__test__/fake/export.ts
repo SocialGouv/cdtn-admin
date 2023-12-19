@@ -37,36 +37,7 @@ export class FakeExportRepository {
       status,
       updated_at: updatedAt,
       user_id: "updated-id",
-    };
-  }
-
-  async updateAll(
-    _oldStatus: Status,
-    newStatus: Status,
-    updatedAt: Date
-  ): Promise<ExportEsStatus[]> {
-    await wait(100);
-    return [
-      {
-        created_at: new Date(),
-        environment: Environment.preproduction,
-        id: "1",
-        status: newStatus,
-        updated_at: updatedAt,
-        user_id: "updatedAll-id",
-      },
-    ];
-  }
-
-  async getOneById(id: string): Promise<ExportEsStatus> {
-    await wait(100);
-    return {
-      created_at: new Date(),
-      environment: Environment.preproduction,
-      id,
-      status: Status.completed,
-      updated_at: new Date(),
-      user_id: "getOne-id",
+      error: "error",
     };
   }
 

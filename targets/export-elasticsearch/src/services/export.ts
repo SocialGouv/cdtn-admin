@@ -65,12 +65,12 @@ export class ExportService {
           Status.completed,
           new Date()
         );
-      } catch (e) {
-        console.error(e);
+      } catch (e: any) {
         return await this.exportRepository.updateOne(
           id,
           Status.failed,
-          new Date()
+          new Date(),
+          e.message
         );
       }
     } else {

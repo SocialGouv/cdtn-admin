@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.28.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.1...v2.28.2) (2023-12-19)
+
+**Note:** Version bump only for package @shared/elasticsearch-document-adapter
+
+## [2.28.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.0...v2.28.1) (2023-12-18)
+
+**Note:** Version bump only for package @shared/elasticsearch-document-adapter
+
+# [2.28.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.2...v2.28.0) (2023-12-18)
+
+### Bug Fixes
+
+- **contribution:** autoriser un message block vide ([#1165](https://github.com/SocialGouv/cdtn-admin/issues/1165)) ([aedddc4](https://github.com/SocialGouv/cdtn-admin/commit/aedddc4e6dd4672661d095ed8464591f2dfbb195))
+- **contribution:** récupération des thèmes depuis les anciennes contributions ([#1163](https://github.com/SocialGouv/cdtn-admin/issues/1163)) ([7e0efcd](https://github.com/SocialGouv/cdtn-admin/commit/7e0efcdc925c28a2e6fe0a957279f05ceb8d8a96))
+- **themes:** add url for external link ([#1180](https://github.com/SocialGouv/cdtn-admin/issues/1180)) ([720219d](https://github.com/SocialGouv/cdtn-admin/commit/720219d3bc5c03b66fa7c3dce27d27429a8f14bf))
+
+### Features
+
+- **convention-collective:** support des contributions au nouveau format dans les pages CCs ([#1134](https://github.com/SocialGouv/cdtn-admin/issues/1134)) ([29b29cc](https://github.com/SocialGouv/cdtn-admin/commit/29b29cc1a7726e891681c65ed72830bb1a45d175)), closes [#1113](https://github.com/SocialGouv/cdtn-admin/issues/1113) [#1161](https://github.com/SocialGouv/cdtn-admin/issues/1161)
+
 ## [2.27.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.1...v2.27.2) (2023-12-08)
 
 **Note:** Version bump only for package @shared/elasticsearch-document-adapter
