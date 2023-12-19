@@ -46,7 +46,6 @@ export const generateLinkedContent = async (
       title: linkedDocument.title,
     };
   });
-  return (await Promise.all(linkedContentPromises).then((contents) =>
-    contents.filter((c) => c)
-  )) as ExportFullLinkedContent[];
+  const linkedContents = await Promise.all(linkedContentPromises);
+  return linkedContents.filter((c) => c) as ExportFullLinkedContent[];
 };

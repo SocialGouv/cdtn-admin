@@ -1,5 +1,6 @@
 import { gqlClient } from "@shared/utils";
 import { context } from "../context";
+import { logger } from "@socialgouv/cdtn-logger";
 
 const fetchLinkedContentById = `
 query get_linked_document($cdtnId: String!) {
@@ -50,9 +51,8 @@ export async function fetchLinkedContent(
     throw res.error;
   }
   if (!res.data?.documents.length) {
-    console.log(
-      "Warning",
-      `Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`
+    logger.alert(
+      `Warning: Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`
     );
     return;
   }
