@@ -46,11 +46,6 @@ export function Export(): JSX.Element {
         <Button
           color="primary"
           variant="contained"
-          disabled={
-            exportEsState.latestExportPreproduction?.status ===
-              StatusType.running ||
-            exportEsState.latestExportProduction?.status === StatusType.running
-          }
           onClick={() => {
             setValidateExportProdModal(true);
           }}
@@ -60,11 +55,6 @@ export function Export(): JSX.Element {
         <Button
           color="secondary"
           variant="contained"
-          disabled={
-            exportEsState.latestExportPreproduction?.status ===
-              StatusType.running ||
-            exportEsState.latestExportProduction?.status === StatusType.running
-          }
           onClick={() => {
             setValidateExportPreprodModal(true);
           }}
