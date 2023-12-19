@@ -30,7 +30,7 @@ export async function fetchLinkedContent(
   cdtnId: string,
   questionIndex: number,
   idcc: string
-): Promise<LinkedContentLight> {
+): Promise<LinkedContentLight | undefined> {
   const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint");
   const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret");
   const res = await gqlClient({
@@ -51,12 +51,10 @@ export async function fetchLinkedContent(
   }
   if (!res.data?.documents.length) {
     console.log(
-      "Error",
+      "Warning",
       `Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`
     );
-    throw new Error(
-      `Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`
-    );
+    return;
   }
   return res.data.documents[0];
 }

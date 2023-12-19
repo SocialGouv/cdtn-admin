@@ -1,4 +1,4 @@
-import { Environment, Status as StatusType } from "@shared/types";
+import { Environment } from "@shared/types";
 import React, { useEffect, useState } from "react";
 import { EnvironmentBadge, Status } from "src/components/export-es";
 import { Table, Td, Th, Tr } from "src/components/table";
@@ -38,8 +38,8 @@ export function Export(): JSX.Element {
       )}
       <p>
         Cette page permet de mettre à jour les données des environnements de{" "}
-        <strong>production</strong> et <strong>pre-production</strong>
-        et de suivre l’état de ces mises à jour.
+        <strong>production</strong> et <strong>pre-production</strong> et de
+        suivre l’état de ces mises à jour.
       </p>
 
       <Stack direction="row" spacing={2}>
