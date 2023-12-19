@@ -17,6 +17,12 @@ const consoleTransport = new transports.Console({
 export const LOG_LEVEL = process.env.LOG_LEVEL ?? "info";
 export const logger = createLogger({ level: LOG_LEVEL, transports: [] });
 
+export const logModulus = (text: string, index: number, modulus: number) => {
+  if (index % modulus === 0) {
+    logger.info(text);
+  }
+};
+
 if (process.env.NODE_ENV !== "production") {
   logger.add(consoleTransport);
 } else {

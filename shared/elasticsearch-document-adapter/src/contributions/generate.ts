@@ -19,7 +19,7 @@ import { addGlossaryToContent } from "./addGlossaryToContent";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
 import pMap from "p-map";
-import { logger } from "@socialgouv/cdtn-logger";
+import { logModulus } from "@socialgouv/cdtn-logger";
 
 export type ContributionElasticDocumentLightRelatedContent = Omit<
   ContributionElasticDocument,
@@ -46,12 +46,10 @@ export async function generateContributions(
     {}
   );
 
-  logger.info("= Generate contribution content =");
-
   const generatedContributions: ContributionElasticDocumentLightRelatedContent[] =
     await pMap(
       contributions,
-      async (contrib) => {
+      async (contrib, index) => {
         const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
         const content = await generateContent(contributions, contrib);
@@ -72,6 +70,7 @@ export async function generateContributions(
             ...getCcInfos(ccnData, contrib),
           };
         }
+        logModulus(`Generate contribution content : ${index} items`, index, 10);
 
         return {
           ...contrib,
@@ -91,14 +90,12 @@ export async function generateContributions(
       { concurrency: 5 }
     );
 
-  logger.info("= Generate contribution linked content =");
-
   // Some related content link to another customized contribution
   // In this case, the description of the contribution is not available
   // so we populate the related content after
   return await pMap(
     generatedContributions,
-    async (contribution): Promise<ContributionElasticDocument> => {
+    async (contribution, index): Promise<ContributionElasticDocument> => {
       const linkedContent = await generateLinkedContent(
         generatedContributions,
         contribution.questionIndex,
@@ -106,6 +103,11 @@ export async function generateContributions(
         contribution.linkedContent,
         getBreadcrumbs,
         breadcrumbsOfRootContributionsPerIndex
+      );
+      logModulus(
+        `Generate contribution linked content : ${index} items`,
+        index,
+        10
       );
       return {
         ...contribution,

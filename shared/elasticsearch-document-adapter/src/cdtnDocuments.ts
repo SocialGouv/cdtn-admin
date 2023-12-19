@@ -165,6 +165,7 @@ export async function* cdtnDocumentsGen() {
     getBreadcrumbs
   );
 
+  logger.info(" = Get agreements =");
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
 
   const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
@@ -194,6 +195,7 @@ export async function* cdtnDocumentsGen() {
 
   const newContributions = contributions.filter(isNewContribution);
 
+  logger.info(" = New contributions =");
   const newGeneratedContributions = await generateContributions(
     newContributions,
     breadcrumbsOfRootContributionsPerIndex,
@@ -203,6 +205,7 @@ export async function* cdtnDocumentsGen() {
     getBreadcrumbs
   );
 
+  logger.info(" = Old contributions =");
   const oldGeneratedContributions = oldContributions.map(
     ({ answers, breadcrumbs, ...contribution }: any) => {
       const newAnswer = answers;
