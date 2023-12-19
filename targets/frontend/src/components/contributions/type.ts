@@ -131,11 +131,7 @@ export const questionBaseSchema = z.object({
     })
     .min(1, "Une question doit être renseignée"),
   order: z.number(),
-  message_id: z
-    .string({
-      required_error: "Un message doit être sélectionné",
-    })
-    .uuid("Un message doit être sélectionné"),
+  message_id: z.string().uuid().optional(),
 });
 
 export const commentsSchema = z.object({

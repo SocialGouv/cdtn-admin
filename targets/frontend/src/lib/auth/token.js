@@ -23,7 +23,7 @@ export async function auth(ctx) {
   try {
     const baseUrl = process.env.FRONTEND_HOST
       ? `https://${process.env.FRONTEND_HOST}`
-      : `http://localhost:3000`;
+      : `http://localhost:3001`;
     const isServer = ctx && ctx.req;
     const url = isServer
       ? `${baseUrl}/api/refresh_token`

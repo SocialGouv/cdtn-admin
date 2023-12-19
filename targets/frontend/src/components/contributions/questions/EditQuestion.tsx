@@ -6,7 +6,7 @@ import { QuestionAnswerList } from "./EditQuestionAnswerList";
 
 import { EditQuestionForm } from "./EditQuestionForm";
 import { useQuestionQuery } from "./Question.query";
-import { BreadcrumbLink } from "src/components/utils";
+import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 import { statusesMapping } from "../status/data";
 import { countAnswersWithStatus } from "../questionList";
 import { Answer } from "../type";
@@ -74,12 +74,12 @@ export const EditQuestion = ({
     });
     return (
       <>
-        <ol aria-label="breadcrumb" className="fr-breadcrumb__list">
+        <Breadcrumb>
           <BreadcrumbLink href={"/contributions"}>Contributions</BreadcrumbLink>
           <BreadcrumbLink>
             {`${data?.question?.order} - ${data?.question?.content}`}
           </BreadcrumbLink>
-        </ol>
+        </Breadcrumb>
         <Stack direction="row" alignItems="start" spacing={2}>
           <StatusStats
             total={answers.length}
