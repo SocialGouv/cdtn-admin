@@ -6,8 +6,8 @@ import {
   ContributionElasticDocument,
   ContributionGenericInfos,
   ContributionHighlight,
-  DocumentElasticWithSource,
   ContributionLinkedContent,
+  DocumentElasticWithSource,
 } from "@shared/types";
 import { generateMetadata } from "./generateMetadata";
 import { isGenericContribution } from "./helpers";
@@ -19,6 +19,7 @@ import { addGlossaryToContent } from "./addGlossaryToContent";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
 import pMap from "p-map";
+import { logger } from "@socialgouv/cdtn-logger";
 
 export type ContributionElasticDocumentLightRelatedContent = Omit<
   ContributionElasticDocument,
@@ -45,52 +46,57 @@ export async function generateContributions(
     {}
   );
 
+  logger.info("= Generate contribution content =");
+
   const generatedContributions: ContributionElasticDocumentLightRelatedContent[] =
-    [];
+    await pMap(
+      contributions,
+      async (contrib) => {
+        const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
-  for (let i = 0; i < contributions.length; i++) {
-    const contrib = contributions[i];
-    const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
+        const content = await generateContent(contributions, contrib);
 
-    const content = await generateContent(contributions, contrib);
+        const messageBlock = await generateMessageBlock(contrib);
 
-    const messageBlock = await generateMessageBlock(contrib);
+        let doc:
+          | ContributionConventionnelInfos
+          | ContributionGenericInfos
+          | undefined;
 
-    let doc:
-      | ContributionConventionnelInfos
-      | ContributionGenericInfos
-      | undefined;
+        if (isGenericContribution(contrib)) {
+          doc = {
+            ccSupported: getCcSupported(contributions, contrib),
+          };
+        } else {
+          doc = {
+            ...getCcInfos(ccnData, contrib),
+          };
+        }
 
-    if (isGenericContribution(contrib)) {
-      doc = {
-        ccSupported: getCcSupported(contributions, contrib),
-      };
-    } else {
-      doc = {
-        ...getCcInfos(ccnData, contrib),
-      };
-    }
+        return {
+          ...contrib,
+          ...generateMetadata(contrib, content),
+          ...addGlossaryToContent(content, addGlossary),
+          ...doc,
+          breadcrumbs:
+            contrib.breadcrumbs.length > 0
+              ? contrib.breadcrumbs
+              : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ??
+                breadcrumbsOfOldContributions[contrib.questionIndex] ??
+                [],
+          highlight,
+          messageBlock,
+        };
+      },
+      { concurrency: 5 }
+    );
 
-    generatedContributions.push({
-      ...contrib,
-      ...generateMetadata(contrib, content),
-      ...addGlossaryToContent(content, addGlossary),
-      ...doc,
-      breadcrumbs:
-        contrib.breadcrumbs.length > 0
-          ? contrib.breadcrumbs
-          : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ??
-            breadcrumbsOfOldContributions[contrib.questionIndex] ??
-            [],
-      highlight,
-      messageBlock,
-    });
-  }
+  logger.info("= Generate contribution linked content =");
 
   // Some related content link to another customized contribution
   // In this case, the description of the contribution is not available
   // so we populate the related content after
-  const allGeneratedContributions = await pMap(
+  return await pMap(
     generatedContributions,
     async (contribution): Promise<ContributionElasticDocument> => {
       const linkedContent = await generateLinkedContent(
@@ -108,6 +114,4 @@ export async function generateContributions(
     },
     { concurrency: 5 }
   );
-
-  return allGeneratedContributions;
 }
