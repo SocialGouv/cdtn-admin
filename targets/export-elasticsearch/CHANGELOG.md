@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.28.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.1...v2.28.2) (2023-12-19)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.28.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.0...v2.28.1) (2023-12-18)
+
+### Bug Fixes
+
+- **port:** set default port at 3001 in local ([7734527](https://github.com/SocialGouv/cdtn-admin/commit/773452793836c9bdcd92fda96584f528aee26860))
+
+# [2.28.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.2...v2.28.0) (2023-12-18)
+
+### Bug Fixes
+
+- **export:** ajout des messages d'erreur au niveau de l'UI de l'export ([#1171](https://github.com/SocialGouv/cdtn-admin/issues/1171)) ([2375126](https://github.com/SocialGouv/cdtn-admin/commit/237512634f8f6bc7d811db51fd3feb4521476334))
+
+### Features
+
+- **convention-collective:** support des contributions au nouveau format dans les pages CCs ([#1134](https://github.com/SocialGouv/cdtn-admin/issues/1134)) ([29b29cc](https://github.com/SocialGouv/cdtn-admin/commit/29b29cc1a7726e891681c65ed72830bb1a45d175)), closes [#1113](https://github.com/SocialGouv/cdtn-admin/issues/1113) [#1161](https://github.com/SocialGouv/cdtn-admin/issues/1161)
+
 ## [2.27.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.1...v2.27.2) (2023-12-08)
 
 ### Bug Fixes

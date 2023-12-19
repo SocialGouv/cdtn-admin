@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.28.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.1...v2.28.2) (2023-12-19)
+
+### Bug Fixes
+
+- **contribution:** corrige les unique_id en double dans la table documents ([#1191](https://github.com/SocialGouv/cdtn-admin/issues/1191)) ([91fd2b0](https://github.com/SocialGouv/cdtn-admin/commit/91fd2b03843ca8cdc78a5514a6be0e40d57897c0))
+
+## [2.28.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.0...v2.28.1) (2023-12-18)
+
+### Bug Fixes
+
+- **contribution:** autoriser les alertes dans les accordéons ([#1189](https://github.com/SocialGouv/cdtn-admin/issues/1189)) ([752b23e](https://github.com/SocialGouv/cdtn-admin/commit/752b23e0ceda0103f66f3e29a76ceb8c8f744237))
+- **port:** set default port at 3001 in local ([7734527](https://github.com/SocialGouv/cdtn-admin/commit/773452793836c9bdcd92fda96584f528aee26860))
+
+# [2.28.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.2...v2.28.0) (2023-12-18)
+
+### Bug Fixes
+
+- **ci:** remove cronjob from dev deployment ([194e6ea](https://github.com/SocialGouv/cdtn-admin/commit/194e6eaf1bb4876d64ca2972a7e00d2ef2f45b0a))
+- **contribution:** autoriser un message block vide ([#1165](https://github.com/SocialGouv/cdtn-admin/issues/1165)) ([aedddc4](https://github.com/SocialGouv/cdtn-admin/commit/aedddc4e6dd4672661d095ed8464591f2dfbb195))
+- **contribution:** changement de l'index de la question 54 à 55 ([#1174](https://github.com/SocialGouv/cdtn-admin/issues/1174)) ([c9f52a9](https://github.com/SocialGouv/cdtn-admin/commit/c9f52a9fd095a57d00fdeff299b8a05795f0b620))
+- **contribution:** récupération des thèmes depuis les anciennes contributions ([#1163](https://github.com/SocialGouv/cdtn-admin/issues/1163)) ([7e0efcd](https://github.com/SocialGouv/cdtn-admin/commit/7e0efcdc925c28a2e6fe0a957279f05ceb8d8a96))
+- **documentation:** changement au niveau du déploiement des branches frontend / backend ([#1164](https://github.com/SocialGouv/cdtn-admin/issues/1164)) ([040e2e3](https://github.com/SocialGouv/cdtn-admin/commit/040e2e383d0334a412c116fb8738552b9d4b1e96))
+- **export:** ajout des messages d'erreur au niveau de l'UI de l'export ([#1171](https://github.com/SocialGouv/cdtn-admin/issues/1171)) ([2375126](https://github.com/SocialGouv/cdtn-admin/commit/237512634f8f6bc7d811db51fd3feb4521476334))
+- **is_searchable:** mettre les documents searchable par défaut à la création ([#1181](https://github.com/SocialGouv/cdtn-admin/issues/1181)) ([ba7dc37](https://github.com/SocialGouv/cdtn-admin/commit/ba7dc3755c42dfe6f900b1fb96d47b6f6fbc190e))
+- **themes:** add url for external link ([#1180](https://github.com/SocialGouv/cdtn-admin/issues/1180)) ([720219d](https://github.com/SocialGouv/cdtn-admin/commit/720219d3bc5c03b66fa7c3dce27d27429a8f14bf))
+
+### Features
+
+- changement de wording pour le bloc2 ([#1177](https://github.com/SocialGouv/cdtn-admin/issues/1177)) ([94d2b9a](https://github.com/SocialGouv/cdtn-admin/commit/94d2b9ab17c8b9fc04d76a178d6566bb8960b89b))
+- changement wording Les informations présentes sur cette page -> Ces informations ([#1170](https://github.com/SocialGouv/cdtn-admin/issues/1170)) ([7c7afae](https://github.com/SocialGouv/cdtn-admin/commit/7c7afae804c8e3f58ec47783f3795e5365b346b1))
+- **contribution:** ajout du highlight sur la convention collective 3248 ([#1159](https://github.com/SocialGouv/cdtn-admin/issues/1159)) ([977a3b7](https://github.com/SocialGouv/cdtn-admin/commit/977a3b76b431770db852eb5f013de536d7eb4b11))
+- **convention-collective:** support des contributions au nouveau format dans les pages CCs ([#1134](https://github.com/SocialGouv/cdtn-admin/issues/1134)) ([29b29cc](https://github.com/SocialGouv/cdtn-admin/commit/29b29cc1a7726e891681c65ed72830bb1a45d175)), closes [#1113](https://github.com/SocialGouv/cdtn-admin/issues/1113) [#1161](https://github.com/SocialGouv/cdtn-admin/issues/1161)
+- **frontend:** utilisation du port 3001 ([#1173](https://github.com/SocialGouv/cdtn-admin/issues/1173)) ([651879c](https://github.com/SocialGouv/cdtn-admin/commit/651879cc3e2f2ba5d61cc55f7985ac1c1d76855c))
+- improve publish multiple within question ([#1156](https://github.com/SocialGouv/cdtn-admin/issues/1156)) ([b42640d](https://github.com/SocialGouv/cdtn-admin/commit/b42640dcf34659795398a7aaf57c4624fc0385dc))
+- **ingester:** ajout du highlight sur les pages qui n'ont pas d'`id` ([#1172](https://github.com/SocialGouv/cdtn-admin/issues/1172)) ([d72490f](https://github.com/SocialGouv/cdtn-admin/commit/d72490fe86f2474ef9b78fe959e5254d7ed5f291))
+- retirer CC 650 des contributions ([#1145](https://github.com/SocialGouv/cdtn-admin/issues/1145)) ([9edbb8a](https://github.com/SocialGouv/cdtn-admin/commit/9edbb8a2a5a0476e1e9e6b41df1826284b21d3f9))
+
+### Reverts
+
+- Revert "fix(documentation): changement au niveau du déploiement des branches frontend / backend" (#1175) ([c04b1ea](https://github.com/SocialGouv/cdtn-admin/commit/c04b1ea30f7e2879d25d74655507992300fdee59)), closes [#1175](https://github.com/SocialGouv/cdtn-admin/issues/1175) [#1164](https://github.com/SocialGouv/cdtn-admin/issues/1164)
+
 ## [2.27.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.27.1...v2.27.2) (2023-12-08)
 
 ### Bug Fixes

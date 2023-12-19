@@ -1,20 +1,3 @@
-export const getExportEsStatusById = `
-query getExportEsStatusById($id: uuid!) {
-  export_es_status_by_pk(id: $id) {
-    id
-    environment
-    status
-    user_id
-    user {
-      name
-      email
-      created_at
-    }
-    created_at
-    updated_at
-  }
-}`;
-
 export const getAllExport = `
 query getAllExport {
   export_es_status(order_by: {updated_at: desc}) {
@@ -29,6 +12,7 @@ query getAllExport {
     }
     created_at
     updated_at
+    error
   }
 }`;
 
@@ -46,6 +30,7 @@ query getExportEsStatusByEnvironments($environment: String!) {
     }
     created_at
     updated_at
+    error
   }
 }`;
 
@@ -63,6 +48,7 @@ query getLatestExportEsStatus($environment: String!) {
     }
     created_at
     updated_at
+    error
   }
 }
 `;
@@ -81,5 +67,6 @@ query getExportEsStatusByStatus($status: String!) {
     }
     created_at
     updated_at
+    error
   }
 }`;

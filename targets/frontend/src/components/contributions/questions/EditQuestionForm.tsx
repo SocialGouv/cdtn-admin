@@ -28,10 +28,11 @@ type EditQuestionProps = {
   messages: Message[];
 };
 
-const formDataSchema = questionRelationSchema.pick({
-  message_id: true,
-  content: true,
+const formDataSchema = z.object({
+  message_id: questionRelationSchema.shape.message_id.or(z.literal("")),
+  content: questionRelationSchema.shape.content,
 });
+
 export type FormData = z.infer<typeof formDataSchema>;
 
 export const EditQuestionForm = ({
@@ -69,7 +70,11 @@ export const EditQuestionForm = ({
 
   const onSubmit = async (formData: FormData) => {
     try {
-      const result = await updateQuestion({ id: question.id, ...formData });
+      const result = await updateQuestion({
+        id: question.id,
+        content: formData.content,
+        message_id: formData.message_id ? formData.message_id : undefined, // use to transform empty string sent by the form to undefined
+      });
       if (result.error) {
         setSnack({
           message: `Erreur: ${result.error.message}`,
@@ -101,10 +106,12 @@ export const EditQuestionForm = ({
           />
           <Stack spacing={2}>
             <FormSelect
-              options={messages.map((item) => ({
-                label: item.label,
-                value: item.id,
-              }))}
+              options={[{ label: "Aucun", id: "" }]
+                .concat(messages)
+                .map((item) => ({
+                  label: item.label,
+                  value: item.id,
+                }))}
               name="message_id"
               control={control}
               label="Message associé à la question"
