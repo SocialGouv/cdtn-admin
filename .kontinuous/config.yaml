@@ -10,5 +10,11 @@ dependencies:
             options:
               secrets:
                 cdtnadminprodserver-backup-credentials:
-                  env: [ dev, preprod ]
+                  env: [dev, preprod]
+                  required: true
+                cdtn-admin-prod-backups-access-key:
+                  env: [prod]
+                  required: true
+                cdtn-admin-dev-backups-access-key:
+                  env: [dev, preprod]
                   required: true
