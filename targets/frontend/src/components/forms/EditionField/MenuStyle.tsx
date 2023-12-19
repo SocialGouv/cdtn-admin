@@ -6,6 +6,7 @@ import StorageIcon from "@mui/icons-material/Storage";
 import LinkIcon from "@mui/icons-material/Link";
 
 import { styled } from "@mui/system";
+import InfoIcon from "@mui/icons-material/Info";
 
 const setLink = (editor: Editor) => {
   const previousUrl = editor.getAttributes("link").href;
@@ -104,6 +105,17 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
       >
         <LinkIcon />
       </button>
+      <button
+        onClick={() => {
+          editor?.chain().focus().setAlert().run();
+        }}
+        className={editor.isActive("alert") ? "is-active" : ""}
+        type="button"
+        title="Mettre en section d'alerte"
+        disabled={editor.isActive("alert")}
+      >
+        <InfoIcon />
+      </button>
     </StyledBubbleMenu>
   ) : (
     <></>
@@ -124,6 +136,7 @@ const StyledBubbleMenu = styled(BubbleMenu)`
     font-weight: 500;
     padding: 0 0.2rem;
     opacity: 0.6;
+
     svg {
       margin-top: 3px;
     }
