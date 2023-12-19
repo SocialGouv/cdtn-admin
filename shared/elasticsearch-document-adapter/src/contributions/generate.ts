@@ -103,7 +103,7 @@ export async function generateContributions(
       );
       return {
         ...contribution,
-        linkedContent: linkedContent,
+        linkedContent,
       } as ContributionElasticDocument;
     },
     { concurrency: 5 }
