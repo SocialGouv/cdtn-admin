@@ -19,6 +19,19 @@ describe("generateLinkedContent", () => {
     jest.clearAllMocks();
   });
 
+  it("un contenu lié à document qui n'existe pas doit retourner undefined", async () => {
+    const linkedContent = await generateLinkedContent(
+      [],
+      1,
+      "0000",
+      [{ cdtnId: "1234" }],
+      () => breadcrumbs,
+      {}
+    );
+
+    expect(linkedContent).toEqual([]);
+  });
+
   it("un contenu lié autres qu'une contribution personnalisée doit retourner les infos du document depuis la BDD", async () => {
     const dataFetchLinkedContent: LinkedContentLight = {
       cdtnId: "123456",
@@ -85,17 +98,5 @@ describe("generateLinkedContent", () => {
         title: "title contrib",
       },
     ]);
-  });
-  it("un contenu lié à document qui n'existe pas doit retourner undefined", async () => {
-    const linkedContent = await generateLinkedContent(
-      [],
-      1,
-      "0000",
-      [{ cdtnId: "1234" }],
-      () => breadcrumbs,
-      {}
-    );
-
-    expect(linkedContent).toEqual([]);
   });
 });
