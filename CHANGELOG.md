@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.28.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.1...v2.28.2) (2023-12-19)
+
+### Bug Fixes
+
+- **contribution:** corrige les unique_id en double dans la table documents ([#1191](https://github.com/SocialGouv/cdtn-admin/issues/1191)) ([91fd2b0](https://github.com/SocialGouv/cdtn-admin/commit/91fd2b03843ca8cdc78a5514a6be0e40d57897c0))
+
 ## [2.28.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.0...v2.28.1) (2023-12-18)
 
 ### Bug Fixes
