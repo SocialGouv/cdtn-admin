@@ -8,7 +8,6 @@ export const ccns = [
   { id: "KALICONT000005635856", num: 292 },
   { id: "KALICONT000005635407", num: 413 },
   { id: "KALICONT000005635373", num: 573 },
-  { id: "KALICONT000005635842", num: 650 },
   { id: "KALICONT000005635617", num: 675 },
   { id: "KALICONT000005635826", num: 787 },
   { id: "KALICONT000005635886", num: 843 },
