@@ -82,9 +82,8 @@ export const mapContributionToDocument = async (
     slug:
       document?.slug ??
       generateContributionSlug(data.agreement.id, data.question.content),
-    is_searchable: document
-      ? document.is_searchable
-      : data.agreement.id === "0000",
+    is_searchable:
+      data.agreement.id === "0000" ? document?.is_searchable ?? true : false,
     is_available: true,
     document: doc,
   };
