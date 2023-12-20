@@ -10,23 +10,13 @@ export async function getRelevantSpDocuments({
 }: Pick<VddChanges, "modified" | "removed">): Promise<
   DocumentInfoWithCdtnRef[]
 > {
+  const modifiedAndRemoved = [...modified, ...removed];
+
   const themeOrPrequalifiedDocs = await getDocumentsWithRelations([
     SOURCES.PREQUALIFIED,
     SOURCES.THEMES,
   ]);
-  const themeOrPrequalifiedDataModified = modified.flatMap((doc) => {
-    const documents = themeOrPrequalifiedDocs.get(doc.id);
-    if (documents) {
-      return documents.map((requestInfo) => {
-        return {
-          ...requestInfo,
-          ref: { id: doc.id, title: doc.title },
-        };
-      });
-    }
-    return [];
-  });
-  const themeOrPrequalifiedDataRemoved = removed.flatMap((doc) => {
+  const themeOrPrequaliedRelevantDoc = modifiedAndRemoved.flatMap((doc) => {
     const documents = themeOrPrequalifiedDocs.get(doc.id);
     if (documents) {
       return documents.map((requestInfo) => {
@@ -41,11 +31,8 @@ export async function getRelevantSpDocuments({
 
   const contributions = await queryContributionsWithFicheSp();
   const contributionsRelevantDoc = contributions.flatMap((item) => {
-    const ficheSpId = item.content_fiche_sp?.initial_id;
-    const doc =
-      modified.find((node) => node.id === ficheSpId) ??
-      removed.find((node) => node.id === ficheSpId);
-
+    const ficheSpId = item.content_fiche_sp?.initial_id ?? "";
+    const doc = modifiedAndRemoved.find((node) => node.id === ficheSpId);
     if (doc) {
       const res: DocumentInfoWithCdtnRef = {
         ref: { id: doc.id, title: doc.title },
@@ -58,9 +45,5 @@ export async function getRelevantSpDocuments({
     return [];
   });
 
-  return [
-    ...themeOrPrequalifiedDataModified,
-    ...themeOrPrequalifiedDataRemoved,
-    ...contributionsRelevantDoc,
-  ];
+  return [...themeOrPrequaliedRelevantDoc, ...contributionsRelevantDoc];
 }
