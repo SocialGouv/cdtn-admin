@@ -1,3 +1,5 @@
+import { FicheServicePublicDoc } from "./index";
+
 export type ContributionsAnswers = {
   id: string;
   content: string | null;
@@ -48,7 +50,7 @@ export type ContributionCdtnReferences = {
 
 export type ContributionContentFicheSp = {
   initial_id: string;
-  document: Record<string, any>;
+  document: FicheServicePublicDoc;
 };
 
 export type ContributionLegiReferences = {
