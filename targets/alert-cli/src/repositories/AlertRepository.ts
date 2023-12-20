@@ -1,6 +1,6 @@
 import { Client } from "@urql/core/dist/types/client";
 import { AlertChanges, AlertInfo, HasuraAlert } from "@shared/types";
-import { batchPromises } from "../batchPromises";
+import { batchPromises } from "../utils/batch-promises";
 import { DaresAlertInsert } from "../dares/types";
 
 const insertAlertsMutation = `

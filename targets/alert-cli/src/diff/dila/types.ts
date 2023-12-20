@@ -13,8 +13,8 @@ import type {
 } from "@socialgouv/kali-data-types";
 import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
 
-import type { AgreementFileChange } from "./Agreement/types";
-import type { CodeFileChange } from "./Code/types";
+import type { AgreementFileChange } from "./kali/types";
+import type { CodeFileChange } from "./legi/types";
 
 export type DilaChanges = CommonDilaChanges & {
   file: string;

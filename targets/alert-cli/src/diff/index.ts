@@ -1,11 +1,10 @@
-import { ccns } from "../ccn-list";
-import { DataDiffFunction } from "./type";
+import { DataDiffFunction } from "../types";
 import { processAgreementDataDiff, processCodeDataDiff } from "./dila";
-import { processVddDiff } from "./fiches-vdd";
-import { processTravailDataDiff } from "./fiches-travail-data";
+import { processVddDiff } from "./sp";
+import { processTravailDataDiff } from "./travail-data";
 import { GitTagData } from "../types";
 import { AlertChanges } from "@shared/types";
-import { GithubApi } from "../APIs/api";
+import { GithubApi } from "../utils/github";
 
 export class AlertDetector {
   githubApi: GithubApi;
@@ -19,6 +18,7 @@ export class AlertDetector {
   private async getFileFilter(
     repository: string
   ): Promise<(path: string) => boolean> {
+    const ccns = [{ id: "KALICONT000005635624", num: 16 }];
     switch (repository) {
       case "socialgouv/legi-data":
         // only code-du-travail
