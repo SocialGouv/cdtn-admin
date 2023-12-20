@@ -8,12 +8,10 @@ type Props = {
 };
 
 export function ChangesFicheSp({ documents }: Props): JSX.Element {
-  // const url = ;
   return (
     <div>
       {documents.map((doc) => (
         <div key={doc.id} style={{ marginBottom: "1rem" }}>
-          {JSON.stringify(doc, null, 2)}
           <a
             target="_blank"
             rel="noopener noreferrer"
