@@ -39,6 +39,7 @@ export async function getRelevantSpDocuments({
         id: item.id,
         title: item.question.content,
         source: "contributions",
+        url: item.content_fiche_sp!.document.url,
       };
       return [res];
     }

@@ -1,0 +1,47 @@
+import { VddAlertChanges } from "@shared/types";
+import slugify from "@socialgouv/cdtn-slugify";
+import { getRouteBySource } from "@socialgouv/cdtn-sources";
+import { theme } from "src/theme";
+
+type Props = {
+  documents: VddAlertChanges["documents"];
+};
+
+export function ChangesFicheSp({ documents }: Props): JSX.Element {
+  // const url = ;
+  return (
+    <div>
+      {documents.map((doc) => (
+        <div key={doc.id} style={{ marginBottom: "1rem" }}>
+          {JSON.stringify(doc, null, 2)}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`https://code.travail.gouv.fr/${getRouteBySource(
+              doc.source
+            )}/${slugify(doc.title)}`}
+          >
+            {doc.title}
+          </a>
+          <div>
+            <a
+              style={{
+                color: theme.colors.muted,
+                fontSize: "0.8rem",
+                lineHeight: 1,
+              }}
+              href={
+                doc.url ??
+                `https://code.travail.gouv.fr/fiche-service-public/${slugify(
+                  doc.ref.title
+                )}`
+              }
+            >
+              {doc.ref.id} - {doc.ref.title}
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}

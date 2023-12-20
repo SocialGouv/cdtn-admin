@@ -549,6 +549,8 @@ function FicheLink({ change, documents = [] }: FicheLinkProps) {
             color: theme.colors.muted,
             fontSize: theme.fontSizes.xsmall,
             lineHeight: 1,
+            marginTop: "15px",
+            marginBottom: "15px",
           }}
         >
           Contenus liés : {jsxJoin(linkedDocuments, ", ")}

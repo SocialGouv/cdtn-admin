@@ -24,6 +24,7 @@ import { Card, CardContent } from "@mui/material";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
 import { theme } from "src/theme";
 import { AlertWarning } from "../../components/alerts/warning/AlertWarning";
+import { ChangesFicheSp } from "src/components/changes/ChangesFicheSp";
 
 const getAlertQuery = `
 query getAlerts($status: String!, $repository: String!, $limit: Int!, $offset: Int!) {
@@ -168,6 +169,16 @@ export function AlertPage(): JSX.Element {
             accordionItems.push(
               <ChangesGroup label="Contenus liés">
                 <AlertRelatedDocuments changes={alert.changes} />
+              </ChangesGroup>
+            );
+          }
+          if (
+            alert.changes.documents.length > 0 &&
+            alert.changes.type === "vdd"
+          ) {
+            accordionItems.push(
+              <ChangesGroup label="Contenus liés">
+                <ChangesFicheSp documents={alert.changes.documents} />
               </ChangesGroup>
             );
           }
