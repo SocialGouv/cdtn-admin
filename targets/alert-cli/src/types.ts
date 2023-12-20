@@ -5,6 +5,11 @@ import type {
   VddAlertChanges,
 } from "@shared/types";
 
+export interface PublicAgreement {
+  id: string;
+  kali_id: string;
+}
+
 export interface Diff {
   from: GitTagData;
   to: GitTagData;

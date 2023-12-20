@@ -5,6 +5,7 @@ import { processTravailDataDiff } from "./travail-data";
 import { GitTagData } from "../types";
 import { AlertChanges } from "@shared/types";
 import { GithubApi } from "../utils/github";
+import { getAgreements } from "./shared/getAgreements";
 
 export class AlertDetector {
   githubApi: GithubApi;
@@ -18,7 +19,7 @@ export class AlertDetector {
   private async getFileFilter(
     repository: string
   ): Promise<(path: string) => boolean> {
-    const ccns = [{ id: "KALICONT000005635624", num: 16 }];
+    const ccns = await getAgreements();
     switch (repository) {
       case "socialgouv/legi-data":
         // only code-du-travail
@@ -26,7 +27,7 @@ export class AlertDetector {
       case "socialgouv/kali-data":
         // only a ccn matching our list
         return (path: string) =>
-          ccns.some((ccn) => new RegExp(ccn.id).test(path));
+          ccns.some((ccn) => new RegExp(ccn.kali_id).test(path));
       case "socialgouv/fiches-vdd": {
         /** @type {string[]} */
         const ficheVddIDs = this.fichesServicePublicIds;
