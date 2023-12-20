@@ -17,7 +17,7 @@ function minPositionBreadcrumb(breadcrumb: Breadcrumbs[]) {
   return (
     breadcrumb.reduce<number | undefined>(
       (result, { position }) =>
-        result && result < position ? result : position,
+        result !== undefined && result < position ? result : position,
       undefined
     ) ?? 0
   );
