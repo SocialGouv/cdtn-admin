@@ -2,10 +2,10 @@ import { describe, expect, it } from "@jest/globals";
 import type { DilaChanges } from "@shared/types";
 import { RelevantDocumentsExtractorImpl } from "../RelevantDocuments";
 
-jest.mock("../extractDilaReferences/ficheTravailEmploi", () => () => []);
-jest.mock("../extractDilaReferences/mailTemplates", () => () => []);
-jest.mock("../extractDilaReferences/editorialContents", () => () => []);
-jest.mock("../extractDilaReferences/contribution", () => () => [
+jest.mock("../extractReferences/ficheTravailEmploi", () => () => []);
+jest.mock("../extractReferences/mailTemplates", () => () => []);
+jest.mock("../extractReferences/editorialContents", () => () => []);
+jest.mock("../extractReferences/contribution", () => () => [
   {
     document: {
       id: "id-generic",

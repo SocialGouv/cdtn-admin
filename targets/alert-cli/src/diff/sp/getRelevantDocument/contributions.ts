@@ -18,19 +18,15 @@ export async function getRelevantSpDocumentsContributions({
     ficheSpIdsInModifiedAndRemoved
   );
   const contributionsRelevantDocGenericUsingSp =
-    contributionsGenericUsingSp.map((item) => {
+    contributionsGenericUsingSp.flatMap((item) => {
       if (!item.content_fiche_sp) {
-        throw new Error(
-          `No content_fiche_sp found for contribution ${item.id}`
-        );
+        return [];
       }
       const doc = modifiedAndRemoved.find(
         (node) => node.id === item.content_fiche_sp!.initial_id
       );
       if (!doc) {
-        throw new Error(
-          `No doc found for id ${item.content_fiche_sp.initial_id}`
-        );
+        return [];
       }
       const res: DocumentInfoWithCdtnRef = {
         ref: { id: doc.id, title: doc.title },
@@ -39,7 +35,7 @@ export async function getRelevantSpDocumentsContributions({
         source: "contributions",
         url: item.content_fiche_sp.document.url,
       };
-      return res;
+      return [res];
     });
 
   const contributionsCdtnReferences = await getContributionsCdtnReferences(

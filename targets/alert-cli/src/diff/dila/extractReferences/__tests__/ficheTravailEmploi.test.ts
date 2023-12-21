@@ -3,7 +3,7 @@ import { expect, test } from "@jest/globals";
 import type { FicheTravail } from "../ficheTravailEmploi";
 import main, { extractFicheTravailEmploiRef } from "../ficheTravailEmploi";
 
-jest.mock("../getAllDocumentsBySource", () => {
+jest.mock("../../../shared/getAllDocumentsBySource", () => {
   return {
     getAllDocumentsBySource: () => mockFiches,
   };

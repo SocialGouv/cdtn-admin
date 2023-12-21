@@ -3,7 +3,7 @@ import { expect, test } from "@jest/globals";
 import type { Contrib } from "../getOldContribRef";
 import { extractContributionsRef, getOldContribRef } from "../getOldContribRef";
 
-jest.mock("../../getAllDocumentsBySource", () => {
+jest.mock("../../../../shared/getAllDocumentsBySource", () => {
   return {
     getAllDocumentsBySource: () => mockContributions,
   };

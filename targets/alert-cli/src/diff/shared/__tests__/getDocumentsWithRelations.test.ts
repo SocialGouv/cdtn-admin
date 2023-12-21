@@ -3,7 +3,7 @@ import { describe, expect, it } from "@jest/globals";
 import { getDocumentsWithRelations } from "../getDocumentsWithRelations";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
-jest.mock("../extractDilaReferences/getAllDocumentsBySource", () => ({
+jest.mock("../getAllDocumentsBySource", () => ({
   getDocumentsWithRelationsBySource: async () =>
     Promise.resolve([
       {
