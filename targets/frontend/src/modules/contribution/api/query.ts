@@ -37,9 +37,7 @@ export const getContributionAnswerById = gql`
         url
       }
       cdtn_references {
-        document {
-          cdtn_id
-        }
+        cdtn_id
       }
       content_fiche_sp: document {
         initial_id

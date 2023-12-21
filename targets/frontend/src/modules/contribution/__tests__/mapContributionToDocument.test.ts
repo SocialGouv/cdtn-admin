@@ -95,24 +95,16 @@ describe("mapContributionToDocument", () => {
       ],
       cdtn_references: [
         {
-          document: {
-            cdtn_id: "abcdef",
-          },
+          cdtn_id: "abcdef",
         },
         {
-          document: {
-            cdtn_id: "ijhgt",
-          },
+          cdtn_id: "ijhgt",
         },
         {
-          document: {
-            cdtn_id: "klmnop",
-          },
+          cdtn_id: "klmnop",
         },
         {
-          document: {
-            cdtn_id: "ijhgt",
-          },
+          cdtn_id: "ijhgt",
         },
       ],
       content_fiche_sp: null,
@@ -131,6 +123,7 @@ describe("mapContributionToDocument", () => {
         info_random: "random",
       },
       is_available: true,
+      is_searchable: true,
     };
 
     const outputDoc: Document<ContributionDocumentJson> = {
@@ -215,6 +208,7 @@ describe("mapContributionToDocument", () => {
       text: " texte",
       title:
         "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+      is_searchable: true,
     };
 
     const result = await mapContributionToDocument(

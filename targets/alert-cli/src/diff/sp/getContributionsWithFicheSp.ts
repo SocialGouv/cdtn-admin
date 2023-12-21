@@ -1,9 +1,9 @@
 import { ContributionsAnswers } from "@shared/types";
 import { gqlClient } from "@shared/utils";
 
-const getContributionsWithRefs = `
-query getContribsWithSp {
-  contribution_answers(where: {content_service_public_cdtn_id: {_neq: NULL}}) {
+const queryGetContributionsWithRefs = `
+query getContribsWithSp($ficheSpIds: [String!]) {
+  contribution_answers(where: {document: {initial_id: {_in: $ficheSpIds}}}) {
     id
     question {
       id
@@ -24,11 +24,13 @@ interface ContributionsHasuraResult {
   >[];
 }
 
-export async function queryContributionsWithFicheSp(): Promise<
-  ContributionsHasuraResult["contribution_answers"]
-> {
+export async function getContributionsWithFicheSp(
+  ficheSpIds: string[]
+): Promise<ContributionsHasuraResult["contribution_answers"]> {
   const res = await gqlClient()
-    .query<ContributionsHasuraResult>(getContributionsWithRefs, {})
+    .query<ContributionsHasuraResult>(queryGetContributionsWithRefs, {
+      ficheSpIds,
+    })
     .toPromise();
 
   if (res.error || !res.data) {

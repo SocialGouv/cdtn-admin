@@ -1,4 +1,5 @@
 import { FicheServicePublicDoc } from "./index";
+import { Document } from "./documents";
 
 export type ContributionsAnswers = {
   id: string;
@@ -8,7 +9,7 @@ export type ContributionsAnswers = {
   kali_references: ContributionKaliReferences[];
   legi_references: ContributionLegiReferences[];
   other_references: ContributionOtherReferences[];
-  cdtn_references: ContributionCdtnReferences[];
+  cdtn_references: Partial<ContributionCdtnReferences>[];
   content_fiche_sp: ContributionContentFicheSp | null;
   agreement: ContributionAgreement;
 };
@@ -43,9 +44,10 @@ export type ContributionAgreement = {
 };
 
 export type ContributionCdtnReferences = {
-  document: {
-    cdtn_id: string;
-  };
+  cdtn_id: string;
+  answer: ContributionsAnswers;
+  answer_id: string;
+  document: Partial<Document<any>>;
 };
 
 export type ContributionContentFicheSp = {

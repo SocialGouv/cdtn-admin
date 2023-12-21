@@ -6,7 +6,7 @@ import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
 
 import { createToJson } from "../../utils/node-git.helpers";
 import type { DataDiffFunction } from "../../types";
-import { getRelevantTravailDocuments } from "./getRelevantDocument";
+import { getRelevantMtDocuments } from "./getRelevantDocument";
 
 export const processTravailDataDiff: DataDiffFunction = async ({
   tag,
@@ -26,7 +26,7 @@ export const processTravailDataDiff: DataDiffFunction = async ({
         toAst(patch, patches.from),
       ]);
       const changes = getChanges(prevAst, currAst);
-      changes.documents = await getRelevantTravailDocuments(changes);
+      changes.documents = await getRelevantMtDocuments(changes);
       console.log(
         `${tag.ref} ${changes.documents.length} prequalified/themes found`
       );
