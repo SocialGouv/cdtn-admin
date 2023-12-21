@@ -22,6 +22,7 @@ export function ChangesFicheSp({ documents }: Props): JSX.Element {
           </a>
           <div>
             <a
+               target="_blank"
               style={{
                 color: theme.colors.muted,
                 fontSize: "0.8rem",
