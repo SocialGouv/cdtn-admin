@@ -209,7 +209,6 @@ describe("mapContributionToDocument", () => {
       text: " texte",
       title:
         "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
-      is_searchable: true,
     };
 
     const result = await mapContributionToDocument(
