@@ -14,7 +14,6 @@ export function ChangesFicheSp({ documents }: Props): JSX.Element {
         <div key={doc.id} style={{ marginBottom: "1rem" }}>
           <a
             target="_blank"
-            rel="noopener noreferrer"
             href={`https://code.travail.gouv.fr/${getRouteBySource(
               doc.source
             )}/${slugify(doc.title)}`}
