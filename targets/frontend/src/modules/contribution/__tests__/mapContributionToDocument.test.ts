@@ -111,24 +111,16 @@ describe("mapContributionToDocument", () => {
       ],
       cdtn_references: [
         {
-          document: {
-            cdtn_id: "abcdef",
-          },
+          cdtn_id: "abcdef",
         },
         {
-          document: {
-            cdtn_id: "ijhgt",
-          },
+          cdtn_id: "ijhgt",
         },
         {
-          document: {
-            cdtn_id: "klmnop",
-          },
+          cdtn_id: "klmnop",
         },
         {
-          document: {
-            cdtn_id: "ijhgt",
-          },
+          cdtn_id: "ijhgt",
         },
       ],
       content_fiche_sp: null,

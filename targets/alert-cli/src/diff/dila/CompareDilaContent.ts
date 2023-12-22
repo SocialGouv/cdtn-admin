@@ -19,8 +19,8 @@ import type {
 import parents from "unist-util-parents";
 import { selectAll } from "unist-util-select";
 
-import type { AgreementFileChange } from "./Agreement/types";
-import type { CodeFileChange } from "./Code/types";
+import type { AgreementFileChange } from "./kali/types";
+import type { CodeFileChange } from "./legi/types";
 import type {
   Article,
   ArticleWithParent,

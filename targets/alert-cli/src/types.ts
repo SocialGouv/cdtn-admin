@@ -1,4 +1,43 @@
-import type { AlertChanges } from "@shared/types";
+import type {
+  AlertChanges,
+  DilaAlertChanges,
+  TravailDataAlertChanges,
+  VddAlertChanges,
+} from "@shared/types";
+
+export interface PublicAgreement {
+  id: string;
+  kali_id: string;
+}
+
+export interface Diff {
+  from: GitTagData;
+  to: GitTagData;
+  files: DiffFile[];
+}
+
+export type PatchStatus = "added" | "modified" | "removed";
+
+export interface DiffFile {
+  filename: string;
+  status: PatchStatus;
+}
+
+export type LoadFileFn = (file: DiffFile, tag: GitTagData) => Promise<string>;
+
+export interface DataDiffParams {
+  repositoryId: string;
+  tag: GitTagData;
+  patches: Diff;
+  fileFilter: (path: string) => boolean;
+  loadFile: LoadFileFn;
+}
+
+export type DataDiffFunction = (
+  params: DataDiffParams
+) => Promise<
+  DilaAlertChanges[] | TravailDataAlertChanges[] | VddAlertChanges[]
+>;
 
 export interface Source {
   repository: string;
