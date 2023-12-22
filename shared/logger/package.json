@@ -1,7 +1,7 @@
 {
   "name": "@socialgouv/cdtn-logger",
   "description": "SocialGouv - Code du travail numerique - Infrastructure - Logger",
-  "version": "2.28.2",
+  "version": "2.28.4",
   "babel": {
     "env": {
       "test": {

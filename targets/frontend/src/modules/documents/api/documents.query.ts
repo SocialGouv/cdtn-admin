@@ -17,6 +17,7 @@ const query = `query documents($source: String!, $initialId: String) {
         title
         meta_description
         is_available
+        is_searchable
   }
 }`;
 

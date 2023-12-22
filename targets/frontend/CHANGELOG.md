@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.28.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.3...v2.28.4) (2023-12-21)
+
+**Note:** Version bump only for package frontend
+
+## [2.28.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.2...v2.28.3) (2023-12-20)
+
+### Bug Fixes
+
+- **publish:** les réponses spécifiques ne doivent pas être searchable ([#1203](https://github.com/SocialGouv/cdtn-admin/issues/1203)) ([fbdb7d0](https://github.com/SocialGouv/cdtn-admin/commit/fbdb7d0a43e7b6e896c903e432a8f6a134c1c9fe))
+- **ui:** possibilité de lancer export (pour utiliser le feature de timeout de l'API) ([#1193](https://github.com/SocialGouv/cdtn-admin/issues/1193)) ([24cf061](https://github.com/SocialGouv/cdtn-admin/commit/24cf061cdb43da56ba3b85571a41b8d8d4781286))
+
 ## [2.28.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.1...v2.28.2) (2023-12-19)
 
 **Note:** Version bump only for package frontend

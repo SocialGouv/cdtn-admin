@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.28.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.3...v2.28.4) (2023-12-21)
+
+### Bug Fixes
+
+- réduction de la taille du batch de l'export ([#1206](https://github.com/SocialGouv/cdtn-admin/issues/1206)) ([6e8d968](https://github.com/SocialGouv/cdtn-admin/commit/6e8d968972d0d2c085968cea1135da94abbe7f55))
+
+## [2.28.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.2...v2.28.3) (2023-12-20)
+
+### Bug Fixes
+
+- **export:** ne pas remonter les thèmes vides sur les kali-block ([#1201](https://github.com/SocialGouv/cdtn-admin/issues/1201)) ([50496fd](https://github.com/SocialGouv/cdtn-admin/commit/50496fd7c3075f730c2f99b12249738c4659ae54))
+
 ## [2.28.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.1...v2.28.2) (2023-12-19)
 
 **Note:** Version bump only for package @shared/elasticsearch-document-adapter
