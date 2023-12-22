@@ -1,7 +1,4 @@
-import {
-  createGetArticleReference,
-  extractArticleId,
-} from "@shared/dila-resolver";
+import { createGetArticleReference, extractArticleId } from "@shared/utils";
 import type { DocumentReferences, MailTemplate } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { DilaApiClient } from "@socialgouv/dila-api-client";

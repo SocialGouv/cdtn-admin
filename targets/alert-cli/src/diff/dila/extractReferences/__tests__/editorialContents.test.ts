@@ -4,17 +4,10 @@ import type { EditorialContentSubset } from "../editorialContents";
 import { extractEditorialContentTemplateRef } from "../editorialContents";
 import payload from "./mocks/editorialContent.payload.json";
 
-jest.mock("@shared/utils", () => ({
-  __esModule: true, // this property makes it work
-  gqlClient: jest.fn(),
-}));
-
-jest.mock("@shared/dila-resolver", () => {
-  const originalModule = jest.requireActual("@shared/dila-resolver");
-  /* eslint-disable-next-line */
+jest.mock("@shared/utils", () => {
   return {
-    __esModule: true, // this property makes it work
-    ...originalModule,
+    ...jest.requireActual("@shared/utils"),
+    gqlClient: jest.fn(),
     createGetArticleReference: () =>
       async function (id: string): Promise<DocumentReference> {
         return Promise.resolve({

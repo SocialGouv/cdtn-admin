@@ -1,7 +1,4 @@
-import {
-  createGetArticleReference,
-  extractArticleId,
-} from "@shared/dila-resolver";
+import { createGetArticleReference, extractArticleId } from "@shared/utils";
 import type {
   DocumentReferences,
   EditoralContentReferenceBloc,

@@ -10,20 +10,18 @@ COPY .yarn .yarn
 # hadolint ignore=SC2046
 RUN yarn fetch workspaces focus alert-cli
 
+FROM deps AS build-types
+COPY shared/types ./shared/types/
+RUN yarn workspace @shared/types build
+
 FROM deps AS build-utils
+COPY --from=build-types /app/shared/types /app/shared/types
 COPY shared/utils ./shared/utils
 RUN yarn workspace @shared/utils build
-
-
-FROM deps AS build-dila-resolver
-COPY shared/types ./shared/types
-COPY shared/dila-resolver ./shared/dila-resolver
-RUN yarn workspace @shared/dila-resolver build
 
 FROM deps AS dist
 
 COPY --from=build-utils /app/shared/utils /app/shared/utils
-COPY --from=build-dila-resolver /app/shared/dila-resolver /app/shared/dila-resolver
 
 COPY shared/types ./shared/types
 COPY targets/alert-cli ./targets/alert-cli

@@ -8,7 +8,7 @@
     ]
   },
   "dependencies": {
-    "@socialgouv/cdtn-logger": "workspace:^",
+    "@shared/utils": "workspace:^",
     "got": "^11.8.2"
   },
   "license": "Apache-2.0",

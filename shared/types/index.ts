@@ -20,6 +20,7 @@ export * from "./utils";
 export * from "./contributions";
 export * from "./documents";
 export * from "./export";
+export * from "./dila-resolver";
 
 export enum DOCUMENT_SOURCE {
   fiches_ministere_travail = "fiches_ministere_travail",
