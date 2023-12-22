@@ -55,6 +55,7 @@ export const ContributionsAnswer = ({
         status: newStatus,
         userId: user?.id,
         contentServicePublicCdtnId: data.contentFichesSpDocument?.cdtnId,
+        messageBlockGenericNoCDT: data.messageBlockGenericNoCDT,
         kaliReferences: data.kaliReferences,
         legiReferences: data.legiReferences,
         cdtnReferences: data.cdtnReferences,

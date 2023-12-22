@@ -8,6 +8,7 @@ export type ContributionsAnswers = {
   other_references: ContributionOtherReferences[];
   cdtn_references: ContributionCdtnReferences[];
   content_fiche_sp: ContributionContentFicheSp | null;
+  message_block_generic_no_CDT: string | null;
   agreement: ContributionAgreement;
 };
 
@@ -58,11 +59,13 @@ export type ContributionLegiReferences = {
     cid: string;
     label: string;
   };
+  messageBlockGenericNoCDT: null | string;
 };
 
 export type ContributionContentType =
   | "ANSWER"
   | "NOTHING"
+  | "GENERIC_NO_CDT"
   | "CDT"
   | "UNFAVOURABLE"
   | "UNKNOWN"
@@ -84,6 +87,11 @@ type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
   content: string;
 };
 
+type ContributionDocumentJsonGenericNoCDT = ContributionDocumentJsonBasic & {
+  type: "generic-no-cdt";
+  messageBlockGenericNoCDT: string;
+};
+
 type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
   type: "fiche-sp";
   ficheSpId: string;
@@ -97,6 +105,7 @@ type ContributionDocumentJsonCodeDuTravailReference =
 
 export type ContributionDocumentJson =
   | ContributionDocumentJsonContent
+  | ContributionDocumentJsonGenericNoCDT
   | ContributionDocumentJsonFicheSp
   | ContributionDocumentJsonCodeDuTravailReference;
 

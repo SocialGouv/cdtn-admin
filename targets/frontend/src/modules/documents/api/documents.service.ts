@@ -1,9 +1,5 @@
 import { DocumentsRepository } from "./documents.repository";
-import {
-  ConflictError,
-  MissingDocumentError,
-  NotFoundError,
-} from "src/lib/api/ApiErrors";
+import { ConflictError, NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
 import { format, parseISO } from "date-fns";
 import { generateCdtnId, generateInitialId } from "@shared/utils";
@@ -170,7 +166,7 @@ export class DocumentsService {
         );
         if (!information) {
           throw new NotFoundError({
-            message: `data not found with id ${id}`,
+            message: `No information found with id ${id}`,
             name: "NOT_FOUND",
             cause: null,
           });
@@ -181,7 +177,7 @@ export class DocumentsService {
         const contribution = await this.contributionRepository.fetch(id);
         if (!contribution) {
           throw new NotFoundError({
-            message: `data not found with id ${id}`,
+            message: `No contribution found with id ${id}`,
             name: "NOT_FOUND",
             cause: null,
           });
@@ -217,7 +213,7 @@ export class DocumentsService {
         const model = await this.modelRepository.fetch(id);
         if (!model) {
           throw new NotFoundError({
-            message: `data not found with id ${id}`,
+            message: `No model found with id ${id}`,
             name: "NOT_FOUND",
             cause: null,
           });
@@ -228,7 +224,11 @@ export class DocumentsService {
       default:
         throw new Error(`La source ${source} n'est pas implémentée`);
     }
-    const result = await this.documentsRepository.update(document);
-    return result;
+
+    if (!document) {
+      return await this.documentsRepository.remove(id);
+    }
+
+    return await this.documentsRepository.update(document);
   }
 }

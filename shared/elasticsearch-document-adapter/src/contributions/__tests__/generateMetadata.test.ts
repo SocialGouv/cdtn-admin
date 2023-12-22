@@ -30,6 +30,20 @@ describe("generateMetadata", () => {
     expect(metadata.description).toBe("Sample description");
   });
 
+  it("should handle content with ficheSpDescription correctly", () => {
+    const contribution: any = {
+      questionName: "Sample Question",
+    };
+
+    const content: any = {
+      messageBlockGenericNoCDT: "Sample messageBlockGenericNoCDT",
+    };
+
+    const metadata: any = generateMetadata(contribution, content);
+
+    expect(metadata.description).toBe("Sample messageBlockGenericNoCDT");
+  });
+
   it.each`
     content                                                                                                                                                                                | expectedDescription
     ${"hello"}                                                                                                                                                                             | ${"hello"}
@@ -53,7 +67,7 @@ describe("generateMetadata", () => {
     }
   );
 
-  it("should handle generic contribution correctly", () => {
+  it("should handle non-generic contribution correctly", () => {
     const contribution: any = {
       questionName: "Sample Question",
       idcc: "123",
@@ -69,7 +83,7 @@ describe("generateMetadata", () => {
     expect(metadata.text).toBe("123 Sample Question");
   });
 
-  it("should handle non-generic contribution correctly", () => {
+  it("should handle generic contribution correctly", () => {
     const contribution: any = {
       questionName: "Sample Question",
       idcc: "0000",

@@ -62,11 +62,12 @@ select_permissions:
       columns:
         - agreement_id
         - content
-        - id
+        - content_service_public_cdtn_id
         - content_type
+        - id
+        - message_block_generic_no_CDT
         - question_id
         - updated_at
-        - content_service_public_cdtn_id
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -76,6 +77,7 @@ update_permissions:
         - content
         - content_service_public_cdtn_id
         - content_type
+        - message_block_generic_no_CDT
       filter: {}
       check: null
       set:
