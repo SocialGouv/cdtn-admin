@@ -40,8 +40,6 @@ Used to populate the database with documents provided by external sources.
 Each GitHub repo uses releases to track changes. Each release exposes content as JSON. Ingester retrieves the last
 version and inject data into Hasura.
 
-#### Inject documents
-
 A part of the content is based on documents retrieved from another services (code du travail, contributions, fiche
 travail/emploi...).
 
@@ -107,29 +105,6 @@ That's all 🎉
 
 This service exposes an API which handle to trigger the export of the data from Postgres to Elasticsearch. Then, copy sitemap.xml from a container azure to an other container azure. To finish, it copies a container azure to an other container azure.
 
-### Building and running the code
-
-```sh
-yarn build # For building the code with typechecking
-yarn build:swc # For building without typechecking
-yarn start # For running the code builded
-```
-
-Or in `development` mode:
-
-```sh
-yarn dev # For running the code in development thanks to swc and nodemon
-```
-
-> **/!\ No typechecking made in dev mode**
-
-### Testing the code
-
-```sh
-yarn test # For running unit test
-yarn test:watch # For watching unit test
-```
-
 ### Environment variable
 
 | Name                   | Description                                                                                     | Default value |
@@ -140,7 +115,7 @@ yarn test:watch # For watching unit test
 | `DISABLE_COPY`         | It allows you to disable copy between two containers                                            | undefined     |
 | `DISABLE_GLOSSARY`     | It allows you to disable the glossary (inject tooltips in contents)                             | undefined     |
 
-### Testing in real
+### Running an export
 
 #### 1. Install and build dependencies
 
