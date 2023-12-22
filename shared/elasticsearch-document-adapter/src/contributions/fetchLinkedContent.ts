@@ -1,5 +1,6 @@
 import { gqlClient } from "@shared/utils";
 import { context } from "../context";
+import { logger } from "@socialgouv/cdtn-logger";
 
 const fetchLinkedContentById = `
 query get_linked_document($cdtnId: String!) {
@@ -30,7 +31,7 @@ export async function fetchLinkedContent(
   cdtnId: string,
   questionIndex: number,
   idcc: string
-): Promise<LinkedContentLight> {
+): Promise<LinkedContentLight | undefined> {
   const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint");
   const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret");
   const res = await gqlClient({
@@ -50,13 +51,10 @@ export async function fetchLinkedContent(
     throw res.error;
   }
   if (!res.data?.documents.length) {
-    console.log(
-      "Error",
-      `Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`
+    logger.alert(
+      `Warning: Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`
     );
-    throw new Error(
-      `Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`
-    );
+    return;
   }
   return res.data.documents[0];
 }

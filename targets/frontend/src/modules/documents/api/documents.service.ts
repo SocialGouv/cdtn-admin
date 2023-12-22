@@ -192,7 +192,7 @@ export class DocumentsService {
           });
           if (contrib) {
             throw new ConflictError({
-              message: `Le document ${contribution.question.content} existe déjà pour l'agrément ${contribution.agreement.id}. Vous devez lancer le script de migration avant de publier un document.`,
+              message: `Le document ${contribution.question.content} existe déjà pour la convention collective ${contribution.agreement.id}. Vous devez lancer le script de migration avant de publier un document.`,
               name: "CONFLICT_ERROR",
               cause: null,
             });
