@@ -1,6 +1,5 @@
-import { gqlClient } from "@shared/utils";
+import { gqlClient, logger } from "@shared/utils";
 import { context } from "../context";
-import { logger } from "@socialgouv/cdtn-logger";
 
 const fetchLinkedContentById = `
 query get_linked_document($cdtnId: String!) {

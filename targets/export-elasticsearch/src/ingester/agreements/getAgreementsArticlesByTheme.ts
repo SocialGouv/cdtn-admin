@@ -3,10 +3,9 @@ import {
   KaliArticlesByIdResult,
   ArticleByTheme,
 } from "@shared/types";
-import { gqlClient } from "@shared/utils";
+import { gqlClient, logger } from "@shared/utils";
 import { context } from "../context";
 import { detectNullInObject } from "../utils/detectNullInObject";
-import { logger } from "@socialgouv/cdtn-logger";
 
 const getKaliBlocksQueryByIdcc = `
 query getKaliBlocksByIdcc($idcc: Int!) {
