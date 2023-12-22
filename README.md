@@ -99,8 +99,6 @@ Frontend is reachable at the address <http://localhost:3001>
 > yarn workspace frontend dev
 > ```
 
-That's all 🎉
-
 ## export-elasticsearch
 
 This service exposes an API which handle to trigger the export of the data from Postgres to Elasticsearch. Then, copy sitemap.xml from a container azure to an other container azure. To finish, it copies a container azure to an other container azure.
@@ -123,7 +121,7 @@ At the root of the project
 
 ```sh
 yarn # to install dep
-yarn build # to build project
+yarn workspace export-elasticsearch build # to build project
 ```
 
 #### 2. Run the postgres to add data
@@ -179,10 +177,16 @@ GLOSSARY_PREPROD_DISABLE=true DISABLE_LIMIT_EXPORT=true DISABLE_SITEMAP=true DIS
 yarn workspace export-elasticsearch run:ingester
 ```
 
-##### With frontend ui
+##### On admin
 
 ```sh
 yarn workspace frontend dev
+```
+
+#### On client
+
+```sh
+NLP_URL=https://serving-ml-preprod.dev.fabrique.social.gouv.fr yarn workspace @cdt/frontend dev
 ```
 
 1. Go to `http://localhost:3001/`
@@ -252,75 +256,9 @@ Pour l'instant seulement 2 triggers sont en place:
 - nettoyage de la table `alerts` (alertes traitées conservés pour 3mois)
 - nettoyage de la table `audit.logged_action` (actions conservées pour 3mois)
 
-## How to ?
+## Requêtes hasura utiles
 
-### Injecter les données depuis la production
-
-Actuellement, l'ingester permet d'alimenter la base de données avec les documents externes (contributions, code du
-travail...). Toutes les données écrites par l'équipe (thèmes, dossiers, modèles...) doivent, par contre, être récupéré
-depuis la base de données en production.
-
-Une [issue](https://github.com/SocialGouv/cdtn-admin/issues/320) a été ouverte pour trouver la meilleure façon de
-récupérer les données de production dans un environnement de dev. Actuellement, la meilleure solution est de demander un
-backup de la base de données à l'équipe SRE et d'exécuter les commandes suivantes :
-
-```sh
-docker compose exec -T postgres pg_restore \
-  --dbname postgres --clean --if-exists --user postgres \
-  --no-owner --no-acl --verbose  < ~/Downloads/hasura_prod_db.psql
-```
-
-et pour remettre les utilisateurs par défaut
-
-```sh
-docker compose exec -T postgres psql \
-  --dbname postgres --user postgres \
-  < .kontinuous/sql/post-restore.sql
-```
-
-### Alimenter l'elasticsearch en local (pour le CDTN frontend)
-
-Dans un premier temps, il faut lancer un elasticsearch. Il faut ensuite lancer l'`export-elasticsearch` pour alimenter l'elasticsearch. Ce dernier récupérant les données
-depuis hasura, il est préférable de récupérer les données de prod.
-
-Par défaut, la commande va alimenter l'elasticsearch en local sur le port 9200 qui est le port utilisé par
-l'elasticsearch du projet [code-du-travail-numerique](https://github.com/SocialGouv/code-du-travail-numerique).
-
-Ce script utilise les variables suivantes :
-
-| Variable                    | Description                                                                                                          | Par défaut                                                                             |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| CDTN_ADMIN_ENDPOINT         | URL vers l'endpoint de l'admin (ou d'hasura)                                                                         | http://localhost:8080/v1/graphql                                                       |
-| HASURA_GRAPHQL_ENDPOINT     | URL vers l'endpoint GraphQL d'Hasura                                                                                 | http://localhost:8082/v1/graphql                                                       |
-| HASURA_GRAPHQL_ADMIN_SECRET | L'admin secret pour se connected à Hasura                                                                            | admin1                                                                                 |
-| HASURA_GRAPHQL_JWT_SECRET   | Le JWT secret pour se connected à Hasura                                                                             | `{"type": "HS256", "key": "a_pretty_long_secret_key_that_should_be_at_least_32_char"}` |
-| NLP_URL                     | URL vers le [serving-ml](https://github.com/SocialGouv/serving-ml) permettant de vectoriser les documents            | vide                                                                                   |
-| ES_LOGS                     | URL ver le [monolog](https://github.com/SocialGouv/cdtn-monolog) permettant de récupérer les covisites sur les pages | vide                                                                                   |
-| ES_LOGS_TOKEN               | Token pour se connecter au monolog                                                                                   | vide                                                                                   |
-
-Certaines variables permettent d'activer une fonctionnalité :
-
-- `NLP_URL` permet d'activer la vectorisation des documents pour la recherche. Pour l'activer, vous pouvez utiliser l'URL <https://serving-ml-preprod.dev.fabrique.social.gouv.fr>.
-- `ES_LOGS` et `ES_LOGS_TOKEN` permettent d'activer les `Articles liés`. Pour l'activer, vous pouvez récupérer ces informations depuis Rancher.
-
-#### Tester localement l'ingester ES avec le frontend
-
-```sh
-yarn build # build code
-```
-
-Then, follow instruction in the README.md of `export-elasticsearch`.
-
-On the client, you need to run this command :
-
-```sh
-NLP_URL=https://serving-ml-preprod.dev.fabrique.social.gouv.fr yarn dev:api # côté cdtn-frontend
-API_URL=http://localhost:1337/api/v1 yarn workspace @cdt/frontend dev # côté cdtn-frontend
-```
-
-## Troubleshooting
-
-## Compter le nombre de documents totaux
+### Compter le nombre de documents totaux
 
 ```gql
 query GetAllDocuments($sources: [String!]) {
