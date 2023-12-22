@@ -26,7 +26,7 @@ describe("getCcSupported", () => {
       contribution
     );
 
-    expect(supportedCCs).toEqual(["1234"]);
+    expect(supportedCCs).toEqual(["1234", "5678"]);
   });
 
   it("should return list of supported CCs with old metallurgie agreements", () => {
@@ -56,6 +56,7 @@ describe("getCcSupported", () => {
 
     expect(supportedCCs).toEqual([
       "1234",
+      "5678",
       "0054",
       "0650",
       "0714",

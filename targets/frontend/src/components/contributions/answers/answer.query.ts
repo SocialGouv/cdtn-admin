@@ -15,6 +15,7 @@ query contribution_answer($id: uuid) {
     contentType: content_type
     updatedAt: updated_at
     contentServicePublicCdtnId: content_service_public_cdtn_id
+    messageBlockGenericNoCDT: message_block_generic_no_CDT
     question {
       id
       content

@@ -13,6 +13,31 @@ function toBreadcrumbs(theme: Theme): Breadcrumbs {
   };
 }
 
+function minPositionBreadcrumb(breadcrumb: Breadcrumbs[]) {
+  return (
+    breadcrumb.reduce<number | undefined>(
+      (result, { position }) =>
+        result !== undefined && result < position ? result : position,
+      undefined
+    ) ?? 0
+  );
+}
+
+export function getMainBreadcrumb(
+  allBreadcrumbs: (Breadcrumbs[] | undefined)[] = []
+) {
+  return allBreadcrumbs.reduce<Breadcrumbs[]>((topBreadcrumb, breadcrumb) => {
+    if (
+      topBreadcrumb &&
+      breadcrumb &&
+      minPositionBreadcrumb(topBreadcrumb) > minPositionBreadcrumb(breadcrumb)
+    ) {
+      return breadcrumb;
+    }
+    return topBreadcrumb;
+  }, allBreadcrumbs[0] ?? []);
+}
+
 export function buildGetBreadcrumbs(themes: Theme[]): GetBreadcrumbsFn {
   // beware, this one is recursive
   // we might want to set a depth limit for safety reasons
@@ -35,31 +60,6 @@ export function buildGetBreadcrumbs(themes: Theme[]): GetBreadcrumbsFn {
   const themeToBreadcrumbsMap = new Map(
     themes.map((theme) => [theme.cdtnId, buildAllBreadcrumbs(theme)])
   );
-
-  function getMainBreadcrumb(
-    allBreadcrumbs: (Breadcrumbs[] | undefined)[] = []
-  ) {
-    let mainBreadcrumb = allBreadcrumbs.pop();
-    // we choose to pick the breadcrumb which has the lowest position
-    allBreadcrumbs.forEach((breadcrumbs) => {
-      let i = 0;
-      while (
-        mainBreadcrumb !== undefined &&
-        i < mainBreadcrumb.length &&
-        i < (breadcrumbs?.length ?? 0)
-      ) {
-        if (breadcrumbs?.[i].position ?? 0 > mainBreadcrumb[i].position) {
-          return;
-        }
-        if (breadcrumbs?.[i].position ?? 0 < mainBreadcrumb[i].position) {
-          mainBreadcrumb = breadcrumbs;
-          return;
-        }
-        i++;
-      }
-    });
-    return mainBreadcrumb ?? [];
-  }
 
   return function getBreadcrumbs(cdtnId: string) {
     if (!cdtnId) return [];

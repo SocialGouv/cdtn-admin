@@ -1,3 +1,3 @@
-export * from "./Agreement";
-export * from "./Code";
+export * from "./kali";
+export * from "./legi";
 export * from "./CompareDilaContent";

@@ -165,7 +165,7 @@ async function runIngester(
       client,
       documents: docs,
       indexName: `${DOCUMENT_INDEX_NAME}-${ts}`,
-      size: 1000,
+      size: 800,
     });
   }
 

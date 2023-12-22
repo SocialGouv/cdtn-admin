@@ -3,7 +3,7 @@ import { fetchLinkedContent } from "./fetchLinkedContent";
 import {
   Breadcrumbs,
   ContributionLinkedContent,
-  ExportContributionFullLinkedContent,
+  ExportFullLinkedContent,
 } from "@shared/types";
 import { ContributionElasticDocumentLightRelatedContent } from "./generate";
 
@@ -14,7 +14,7 @@ export const generateLinkedContent = async (
   linkedContent: ContributionLinkedContent[],
   getBreadcrumbs: GetBreadcrumbsFn,
   breadcrumbsOfRootContributionsPerIndex: Record<number, Breadcrumbs[]>
-): Promise<ExportContributionFullLinkedContent> => {
+): Promise<ExportFullLinkedContent[]> => {
   const linkedContentPromises = linkedContent.map(async (content) => {
     const contributions = allGeneratedContributions.find(
       (item) => item.cdtnId === content.cdtnId
@@ -33,6 +33,7 @@ export const generateLinkedContent = async (
       questionIndex,
       idcc
     );
+    if (!linkedDocument) return;
     let breadcrumbs = getBreadcrumbs(content.cdtnId);
     if (linkedDocument.source === "contributions" && breadcrumbs.length === 0) {
       breadcrumbs = breadcrumbsOfRootContributionsPerIndex[questionIndex];
@@ -46,5 +47,5 @@ export const generateLinkedContent = async (
     };
   });
   const linkedContents = await Promise.all(linkedContentPromises);
-  return { linkedContent: linkedContents };
+  return linkedContents.filter((c) => c) as ExportFullLinkedContent[];
 };

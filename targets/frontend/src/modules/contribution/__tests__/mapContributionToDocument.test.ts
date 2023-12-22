@@ -6,6 +6,22 @@ import {
 import { mapContributionToDocument } from "../mapContributionToDocument";
 
 describe("mapContributionToDocument", () => {
+  const inputDoc: Document<any> = {
+    cdtn_id: "cdtn_id",
+    initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+    title:
+      "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+    meta_description: "meta",
+    source: "contributions",
+    slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
+    text: " texte",
+    document: {
+      info_random: "random",
+    },
+    is_available: true,
+    is_searchable: true,
+  };
+
   it("devrait mapper l'answer d'un document sans fiche SP", async () => {
     const inputContribution: ContributionsAnswers = {
       id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
@@ -95,42 +111,20 @@ describe("mapContributionToDocument", () => {
       ],
       cdtn_references: [
         {
-          document: {
-            cdtn_id: "abcdef",
-          },
+          cdtn_id: "abcdef",
         },
         {
-          document: {
-            cdtn_id: "ijhgt",
-          },
+          cdtn_id: "ijhgt",
         },
         {
-          document: {
-            cdtn_id: "klmnop",
-          },
+          cdtn_id: "klmnop",
         },
         {
-          document: {
-            cdtn_id: "ijhgt",
-          },
+          cdtn_id: "ijhgt",
         },
       ],
       content_fiche_sp: null,
-    };
-
-    const inputDoc: Document<any> = {
-      cdtn_id: "cdtn_id",
-      initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
-      title:
-        "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
-      meta_description: "meta",
-      source: "contributions",
-      slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
-      text: " texte",
-      document: {
-        info_random: "random",
-      },
-      is_available: true,
+      message_block_generic_no_CDT: null,
     };
 
     const outputDoc: Document<ContributionDocumentJson> = {
@@ -209,6 +203,7 @@ describe("mapContributionToDocument", () => {
       },
       initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
       is_available: true,
+      is_searchable: false,
       meta_description: "meta",
       slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
       source: "contributions",
@@ -223,5 +218,288 @@ describe("mapContributionToDocument", () => {
       jest.fn()
     );
     expect(result).toEqual(outputDoc);
+  });
+
+  it("devrait mapper l'answer d'une contrib generic de type nothing", async () => {
+    const inputContribution: ContributionsAnswers = {
+      id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+      content: null,
+      content_type: "GENERIC_NO_CDT",
+      agreement: {
+        id: "0000",
+        name: "Code du travail",
+        kali_id: "",
+      },
+      question: {
+        id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+        content:
+          "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+        order: 43,
+      },
+      kali_references: [],
+      legi_references: [],
+      other_references: [],
+      cdtn_references: [],
+      content_fiche_sp: null,
+      message_block_generic_no_CDT: "Mon message nothing",
+    };
+
+    const result = await mapContributionToDocument(
+      inputContribution,
+      inputDoc,
+      jest.fn()
+    );
+    expect(result?.title).toEqual(
+      "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?"
+    );
+    expect(result?.document).toEqual({
+      contentType: "GENERIC_NO_CDT",
+      idcc: "0000",
+      questionId: "3384f257-e319-46d1-a4cb-8e8294da337b",
+      questionName:
+        "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+      linkedContent: [],
+      questionIndex: 43,
+      references: [],
+      type: "generic-no-cdt",
+      messageBlockGenericNoCDT: "Mon message nothing",
+    });
+  });
+
+  it("devrait throw une erreur si une contrib personnalisé est de type CDT et la générique est de type NOTHING", async () => {
+    const inputContribution: ContributionsAnswers = {
+      id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+      content: null,
+      content_type: "CDT",
+      agreement: {
+        id: "0016",
+        name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
+        kali_id: "KALICONT000005635624",
+      },
+      question: {
+        id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+        content:
+          "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+        order: 43,
+      },
+      kali_references: [],
+      legi_references: [],
+      other_references: [],
+      cdtn_references: [],
+      content_fiche_sp: null,
+      message_block_generic_no_CDT: null,
+    };
+    await expect(
+      mapContributionToDocument(
+        inputContribution,
+        inputDoc,
+        jest.fn(function (id) {
+          return new Promise((resolve) => {
+            resolve({ content_type: "GENERIC_NO_CDT" });
+          });
+        })
+      )
+    ).rejects.toThrow(
+      'La contribution [43 - 0016] ne peut pas être de type "Code du travail" parce que la générique n\'a pas de réponse'
+    );
+  });
+
+  it("devrait retourner undefined si de type UNKNOWN", async () => {
+    const inputContribution: ContributionsAnswers = {
+      id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+      content: null,
+      content_type: "UNKNOWN",
+      agreement: {
+        id: "0016",
+        name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
+        kali_id: "KALICONT000005635624",
+      },
+      question: {
+        id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+        content:
+          "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+        order: 43,
+      },
+      kali_references: [],
+      legi_references: [],
+      other_references: [],
+      cdtn_references: [],
+      content_fiche_sp: null,
+      message_block_generic_no_CDT: null,
+    };
+
+    const result = await mapContributionToDocument(
+      inputContribution,
+      inputDoc,
+      jest.fn()
+    );
+    expect(result).toBe(undefined);
+  });
+
+  it('devrait retourner undefined si de type NOTHING et generic de type "" ', async () => {
+    const inputContribution: ContributionsAnswers = {
+      id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+      content: null,
+      content_type: "NOTHING",
+      agreement: {
+        id: "0016",
+        name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
+        kali_id: "KALICONT000005635624",
+      },
+      question: {
+        id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+        content:
+          "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+        order: 43,
+      },
+      kali_references: [],
+      legi_references: [],
+      other_references: [],
+      cdtn_references: [],
+      content_fiche_sp: null,
+      message_block_generic_no_CDT: null,
+    };
+
+    const result = await mapContributionToDocument(
+      inputContribution,
+      inputDoc,
+
+      jest.fn(function (id) {
+        return new Promise((resolve) => {
+          resolve({ content_type: "GENERIC_NO_CDT" });
+        });
+      })
+    );
+    expect(result).toBe(undefined);
+  });
+
+  describe("flag is_searchable", () => {
+    it("devrait être à false pour une réponse personnalisée", async () => {
+      const inputContribution: ContributionsAnswers = {
+        id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+        content: "<p>Texte de la réponse</p>",
+        content_type: "ANSWER",
+        agreement: {
+          id: "0016",
+          name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
+          kali_id: "KALICONT000005635624",
+        },
+        question: {
+          id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+          content:
+            "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+          order: 43,
+        },
+        kali_references: [],
+        legi_references: [],
+        other_references: [],
+        cdtn_references: [],
+        content_fiche_sp: null,
+        message_block_generic_no_CDT: null,
+      };
+
+      const inputDoc: Document<any> = {
+        cdtn_id: "cdtn_id",
+        initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+        title:
+          "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+        meta_description: "meta",
+        source: "contributions",
+        slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
+        text: " texte",
+        document: {
+          info_random: "random",
+        },
+        is_available: true,
+        is_searchable: true,
+      };
+
+      const result = await mapContributionToDocument(
+        inputContribution,
+        inputDoc,
+        jest.fn()
+      );
+      expect(result.is_searchable).toEqual(false);
+    });
+
+    it("devrait être à true pour une réponse générique", async () => {
+      const inputContribution: ContributionsAnswers = {
+        id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+        content: "<p>Texte de la réponse</p>",
+        content_type: "ANSWER",
+        agreement: {
+          id: "0000",
+          name: "Code du travail",
+          kali_id: "CDT",
+        },
+        question: {
+          id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+          content:
+            "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+          order: 43,
+        },
+        kali_references: [],
+        legi_references: [],
+        other_references: [],
+        cdtn_references: [],
+        content_fiche_sp: null,
+        message_block_generic_no_CDT: null,
+      };
+
+      const result = await mapContributionToDocument(
+        inputContribution,
+        undefined,
+        jest.fn()
+      );
+      expect(result.is_searchable).toEqual(true);
+    });
+
+    it("devrait garder la même valeur du document pour une réponse générique", async () => {
+      const inputContribution: ContributionsAnswers = {
+        id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+        content: "<p>Texte de la réponse</p>",
+        content_type: "ANSWER",
+        agreement: {
+          id: "0000",
+          name: "Code du travail",
+          kali_id: "CDT",
+        },
+        question: {
+          id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+          content:
+            "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+          order: 43,
+        },
+        kali_references: [],
+        legi_references: [],
+        other_references: [],
+        cdtn_references: [],
+        content_fiche_sp: null,
+        message_block_generic_no_CDT: null,
+      };
+
+      const inputDoc: Document<any> = {
+        cdtn_id: "cdtn_id",
+        initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+        title:
+          "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+        meta_description: "meta",
+        source: "contributions",
+        slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
+        text: " texte",
+        document: {
+          info_random: "random",
+        },
+        is_available: true,
+        is_searchable: false,
+      };
+
+      const result = await mapContributionToDocument(
+        inputContribution,
+        inputDoc,
+        jest.fn()
+      );
+      expect(result.is_searchable).toEqual(false);
+    });
   });
 });

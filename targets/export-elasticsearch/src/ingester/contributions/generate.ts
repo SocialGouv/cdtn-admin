@@ -7,6 +7,7 @@ import {
   ContributionGenericInfos,
   ContributionHighlight,
   DocumentElasticWithSource,
+  ContributionGenericNoCDTContent,
   ContributionLinkedContent,
 } from "@shared/types";
 import { generateMetadata } from "./generateMetadata";
@@ -19,6 +20,7 @@ import { addGlossaryToContent } from "./addGlossaryToContent";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
 import pMap from "p-map";
+import { getCcSupportedWithNoContent } from "./getCcSupportedWithNoContent";
 
 export type ContributionElasticDocumentLightRelatedContent = Omit<
   ContributionElasticDocument,
@@ -65,6 +67,9 @@ export async function generateContributions(
       doc = {
         ccSupported: getCcSupported(contributions, contrib),
       };
+      if (contrib.type === "generic-no-cdt") {
+        doc.ccSupportedNoContent = await getCcSupportedWithNoContent(contrib);
+      }
     } else {
       doc = {
         ...getCcInfos(ccnData, contrib),
@@ -89,7 +94,7 @@ export async function generateContributions(
 
   // Some related content link to another customized contribution
   // In this case, the description of the contribution is not available
-  // so we populate the related content after
+  // so we populate the related content at the end
   const allGeneratedContributions = await pMap(
     generatedContributions,
     async (contribution): Promise<ContributionElasticDocument> => {
@@ -103,7 +108,7 @@ export async function generateContributions(
       );
       return {
         ...contribution,
-        linkedContent: linkedContent.linkedContent,
+        linkedContent,
       } as ContributionElasticDocument;
     },
     { concurrency: 5 }

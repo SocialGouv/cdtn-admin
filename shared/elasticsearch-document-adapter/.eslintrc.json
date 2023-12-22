@@ -1,0 +1,6 @@
+{
+  "extends": ["@shared/eslint-config"],
+  "rules": {
+    "@typescript-eslint/naming-convention": "off"
+  }
+}

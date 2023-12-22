@@ -323,6 +323,7 @@ export type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
 };
 export type DocumentInfoWithCdtnRef = DocumentInfo & {
   ref: Pick<DocumentInfo, "id" | "title">;
+  url?: string;
 };
 
 /** Fiche travail alert changes */

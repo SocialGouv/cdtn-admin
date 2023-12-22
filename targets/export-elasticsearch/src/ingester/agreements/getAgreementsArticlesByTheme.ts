@@ -6,6 +6,7 @@ import {
 import { gqlClient } from "@shared/utils";
 import { context } from "../context";
 import { detectNullInObject } from "../utils/detectNullInObject";
+import { logger } from "@socialgouv/cdtn-logger";
 
 const getKaliBlocksQueryByIdcc = `
 query getKaliBlocksByIdcc($idcc: Int!) {
@@ -70,10 +71,12 @@ export function generateArticleByTheme(
             });
           }
         });
-        result.push({
-          bloc: keys[i],
-          articles: art,
-        });
+        if (art.length > 0) {
+          result.push({
+            bloc: keys[i],
+            articles: art,
+          });
+        }
       }
     }
   });
@@ -126,6 +129,14 @@ export default async function getAgreementsArticlesByTheme(
       )}`
     );
     return [];
+  }
+
+  if (
+    resultKaliArticles.data.kali_articles.length !== allKaliArticlesIds.length
+  ) {
+    logger.warn(
+      `${allKaliArticlesIds.length} kali-block renseigné et seulement ${resultKaliArticles.data.kali_articles.length} articles trouvés en base de données pour la CC ${idccNumber}`
+    );
   }
 
   return generateArticleByTheme(resultKaliBlocks.data, resultKaliArticles.data);

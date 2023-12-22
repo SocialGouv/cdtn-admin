@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.28.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.3...v2.28.4) (2023-12-21)
+
+### Bug Fixes
+
+- réduction de la taille du batch de l'export ([#1206](https://github.com/SocialGouv/cdtn-admin/issues/1206)) ([6e8d968](https://github.com/SocialGouv/cdtn-admin/commit/6e8d968972d0d2c085968cea1135da94abbe7f55))
+
+## [2.28.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.2...v2.28.3) (2023-12-20)
+
+### Bug Fixes
+
+- **export:** ne pas remonter les thèmes vides sur les kali-block ([#1201](https://github.com/SocialGouv/cdtn-admin/issues/1201)) ([50496fd](https://github.com/SocialGouv/cdtn-admin/commit/50496fd7c3075f730c2f99b12249738c4659ae54))
+- **publish:** les réponses spécifiques ne doivent pas être searchable ([#1203](https://github.com/SocialGouv/cdtn-admin/issues/1203)) ([fbdb7d0](https://github.com/SocialGouv/cdtn-admin/commit/fbdb7d0a43e7b6e896c903e432a8f6a134c1c9fe))
+- **ui:** possibilité de lancer export (pour utiliser le feature de timeout de l'API) ([#1193](https://github.com/SocialGouv/cdtn-admin/issues/1193)) ([24cf061](https://github.com/SocialGouv/cdtn-admin/commit/24cf061cdb43da56ba3b85571a41b8d8d4781286))
+
+### Features
+
+- ajout d'un script pour faciliter la connexion à la DB sur kube ([#1190](https://github.com/SocialGouv/cdtn-admin/issues/1190)) ([2986e12](https://github.com/SocialGouv/cdtn-admin/commit/2986e1262d15acc3b0d1da0d33d2beb663ae204f))
+
+## [2.28.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.1...v2.28.2) (2023-12-19)
+
+### Bug Fixes
+
+- **contribution:** corrige les unique_id en double dans la table documents ([#1191](https://github.com/SocialGouv/cdtn-admin/issues/1191)) ([91fd2b0](https://github.com/SocialGouv/cdtn-admin/commit/91fd2b03843ca8cdc78a5514a6be0e40d57897c0))
+
 ## [2.28.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.0...v2.28.1) (2023-12-18)
 
 ### Bug Fixes
