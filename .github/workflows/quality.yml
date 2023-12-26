@@ -79,6 +79,7 @@ jobs:
             "ingester",
             "export-elasticsearch",
             "@socialgouv/cdtn-elasticsearch",
+            "@shared/utils",
           ]
     steps:
       - uses: actions/cache@v2
