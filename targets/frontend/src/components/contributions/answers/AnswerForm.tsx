@@ -21,6 +21,7 @@ const answerFormBaseSchema = answerRelationSchema
   .pick({
     content: true,
     contentType: true,
+    messageBlockGenericNoCDT: true,
     cdtnReferences: true,
     kaliReferences: true,
     legiReferences: true,
@@ -34,10 +35,10 @@ const answerWithAnswerSchema = answerFormBaseSchema.extend({
   contentType: z.literal("ANSWER"),
   content: z
     .string({
-      required_error: "Une réponse doit être renseigner",
-      invalid_type_error: "Une réponse doit être renseigner",
+      required_error: "Une réponse doit être renseigné",
+      invalid_type_error: "Une réponse doit être renseigné",
     })
-    .min(1, "Une réponse doit être renseigner"),
+    .min(1, "Une réponse doit être renseigné"),
 });
 const answerWithNothingSchema = answerFormBaseSchema.extend({
   contentType: z.literal("NOTHING"),
@@ -55,6 +56,15 @@ const answerWithSPSchema = answerFormBaseSchema.extend({
   contentType: z.literal("SP"),
   contentFichesSpDocument: documentSchema,
 });
+const answerGenericNoCDTSchema = answerFormBaseSchema.extend({
+  contentType: z.literal("GENERIC_NO_CDT"),
+  messageBlockGenericNoCDT: z
+    .string({
+      required_error: "Un message block doit être renseigné",
+      invalid_type_error: "Un message block doit être renseigné",
+    })
+    .min(1, "Un message block doit être renseigné"),
+});
 
 export const answerFormSchema = z.discriminatedUnion("contentType", [
   answerWithAnswerSchema,
@@ -63,6 +73,7 @@ export const answerFormSchema = z.discriminatedUnion("contentType", [
   answerWithUnfavourableSchema,
   answerWithUnknownSchema,
   answerWithSPSchema,
+  answerGenericNoCDTSchema,
 ]);
 export type AnswerFormValidation = z.infer<typeof answerFormSchema>;
 
@@ -104,6 +115,7 @@ export const AnswerForm = ({
       otherReferences: answer?.otherReferences ?? [],
       cdtnReferences: answer?.cdtnReferences ?? [],
       contentFichesSpDocument: answer?.contentFichesSpDocument ?? undefined,
+      messageBlockGenericNoCDT: answer?.messageBlockGenericNoCDT ?? undefined,
       updateDate: answer?.updateDate ?? "",
     },
   });
@@ -184,112 +196,126 @@ export const AnswerForm = ({
       label: "Utiliser la fiche service public",
       value: "SP",
     },
+    {
+      label: "Le code du travail ne prévoit rien",
+      value: "GENERIC_NO_CDT",
+    },
   ];
   return (
-    <>
-      <form>
-        <Stack spacing={5}>
+    <form>
+      <Stack spacing={5}>
+        <FormControl>
+          <FormTextField
+            name="updateDate"
+            control={control}
+            label="Date mise à jour"
+            disabled
+            labelFixed
+          />
+        </FormControl>
+        <FormControl>
+          <FormEditionField
+            label="Réponse"
+            name="content"
+            disabled={isNotEditable(answer)}
+            control={control}
+          />
+        </FormControl>
+        {answer && (
+          <FormRadioGroup
+            name="contentType"
+            label="Type de réponse"
+            control={control}
+            disabled={isNotEditable(answer)}
+            options={[
+              {
+                label: "Afficher la réponse",
+                value: "ANSWER",
+              },
+              ...(isCodeDuTravail(answer)
+                ? genericResponseOptions
+                : agreementResponseOptions),
+            ]}
+          />
+        )}
+        {isCodeDuTravail(answer) && (
+          <FicheSpDocumentInput
+            name="contentFichesSpDocument"
+            control={control}
+            disabled={isNotEditable(answer)}
+          />
+        )}
+        {isCodeDuTravail(answer) && (
           <FormControl>
             <FormTextField
-              name="updateDate"
+              label="Message d'alerte pour les CC qui ne prévoient rien (si pas de CDT)"
+              name="messageBlockGenericNoCDT"
+              disabled={isNotEditable(answer)}
               control={control}
-              label="Date mise à jour"
-              disabled
-              labelFixed
+              multiline
+              fullWidth
             />
           </FormControl>
-          <FormControl>
-            <FormEditionField
-              label="Réponse"
-              name="content"
-              disabled={isNotEditable(answer)}
-              control={control}
-            />
-          </FormControl>
-          {answer && (
-            <FormRadioGroup
-              name="contentType"
-              label="Type de réponse"
-              control={control}
-              disabled={isNotEditable(answer)}
-              options={[
-                {
-                  label: "Afficher la réponse",
-                  value: "ANSWER",
-                },
-                ...(isCodeDuTravail(answer)
-                  ? genericResponseOptions
-                  : agreementResponseOptions),
-              ]}
-            />
-          )}
-          {answer && isCodeDuTravail(answer) && (
-            <FicheSpDocumentInput
-              name="contentFichesSpDocument"
-              control={control}
-              disabled={isNotEditable(answer)}
-            />
-          )}
-          {answer?.agreement && !isCodeDuTravail(answer) && (
-            <KaliReferenceInput
-              name="kaliReferences"
-              agreement={answer.agreement}
-              control={control}
-              disabled={isNotEditable(answer)}
-            />
-          )}
-          <LegiReferenceInput
-            name="legiReferences"
+        )}
+        {answer?.agreement && !isCodeDuTravail(answer) && (
+          <KaliReferenceInput
+            name="kaliReferences"
+            agreement={answer.agreement}
             control={control}
             disabled={isNotEditable(answer)}
           />
-          <OtherReferenceInput
-            name="otherReferences"
-            control={control}
-            disabled={isNotEditable(answer)}
-          />
-          <CdtnReferenceInput
-            name="cdtnReferences"
-            control={control}
-            disabled={isNotEditable(answer)}
-            idcc={
-              answer.agreement?.id
-                ? parseInt(answer.agreement?.id).toString()
-                : undefined
-            }
-          />
+        )}
+        <LegiReferenceInput
+          name="legiReferences"
+          control={control}
+          disabled={isNotEditable(answer)}
+        />
+        <OtherReferenceInput
+          name="otherReferences"
+          control={control}
+          disabled={isNotEditable(answer)}
+        />
+        <CdtnReferenceInput
+          name="cdtnReferences"
+          control={control}
+          disabled={isNotEditable(answer)}
+          idcc={
+            answer.agreement?.id
+              ? parseInt(answer.agreement?.id).toString()
+              : undefined
+          }
+        />
 
-          {!submitting && (
-            <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
-              <Button
-                variant="outlined"
-                type="button"
-                onClick={() => submit("REDACTING")}
-                disabled={status === "TODO" || status === "REDACTING"}
-              >
-                Remettre en rédaction
-              </Button>
-              <Button
-                variant="text"
-                type="button"
-                disabled={isNotEditable(answer)}
-                onClick={() => submit("REDACTING")}
-              >
-                Sauvegarder
-              </Button>
-              <Button
-                variant="contained"
-                type="button"
-                color="success"
-                onClick={() => submit(getNextStatus(status))}
-                disabled={submitting || status === "PUBLISHED"}
-              >
-                {getPrimaryButtonLabel(status)}
-              </Button>
-            </Stack>
-          )}
-        </Stack>
-      </form>
-    </>
+        {!submitting && (
+          <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
+            <Button
+              variant="outlined"
+              type="button"
+              onClick={() => submit("REDACTING")}
+              disabled={status === "TODO" || status === "REDACTING"}
+            >
+              Remettre en rédaction
+            </Button>
+            <Button
+              variant="text"
+              type="button"
+              disabled={isNotEditable(answer)}
+              onClick={() => submit("REDACTING")}
+            >
+              Sauvegarder
+            </Button>
+            <Button
+              variant="contained"
+              type="button"
+              color="success"
+              onClick={() => submit(getNextStatus(status))}
+              disabled={submitting || status === "PUBLISHED"}
+            >
+              {getPrimaryButtonLabel(status)}
+            </Button>
+          </Stack>
+        )}
+      </Stack>
+    </form>
   );
 };

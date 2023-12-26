@@ -54,6 +54,7 @@ export default async function getAgreementDocuments() {
           agreement.shortTitle
         }`,
         is_searchable: true,
+        is_published: agreement.active,
         source: SOURCES.CCN,
         synonymes: agreement.synonymes,
         ...(highlight ? { highlight } : {}),

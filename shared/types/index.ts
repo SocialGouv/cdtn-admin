@@ -20,6 +20,7 @@ export * from "./utils";
 export * from "./contributions";
 export * from "./documents";
 export * from "./export";
+export * from "./dila-resolver";
 
 export enum DOCUMENT_SOURCE {
   fiches_ministere_travail = "fiches_ministere_travail",
@@ -322,6 +323,7 @@ export type DocumentInfo = Pick<HasuraDocument, "source" | "title"> & {
 };
 export type DocumentInfoWithCdtnRef = DocumentInfo & {
   ref: Pick<DocumentInfo, "id" | "title">;
+  url?: string;
 };
 
 /** Fiche travail alert changes */

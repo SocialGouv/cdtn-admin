@@ -12,31 +12,18 @@ COPY .yarn .yarn
 # hadolint ignore=SC2046
 RUN yarn fetch workspaces focus export-elasticsearch
 
-FROM deps AS build-utils
-COPY shared/utils ./shared/utils
-RUN yarn workspace @shared/utils build
-
 FROM deps AS build-types
-COPY shared/types ./shared/types
+COPY shared/types ./shared/types/
 RUN yarn workspace @shared/types build
 
-FROM deps AS build-cdtn-logger
-COPY shared/logger ./shared/logger
-RUN yarn workspace @socialgouv/cdtn-logger build
-
-FROM deps AS build-elasticsearch-document-adapter
-COPY --from=build-types /app/shared/types ./shared/types
-COPY --from=build-cdtn-logger /app/shared/logger ./shared/logger
-COPY --from=build-utils /app/shared/utils ./shared/utils
-COPY shared/elasticsearch ./shared/elasticsearch
-COPY shared/elasticsearch-document-adapter ./shared/elasticsearch-document-adapter
-RUN yarn workspace @shared/elasticsearch-document-adapter build
+FROM deps AS build-utils
+COPY --from=build-types /app/shared/types /app/shared/types
+COPY shared/utils ./shared/utils
+RUN yarn workspace @shared/utils build
 
 FROM deps as dist
 COPY --from=build-utils /app/shared/utils ./shared/utils
 COPY --from=build-types /app/shared/types ./shared/types
-COPY --from=build-elasticsearch-document-adapter /app/shared/elasticsearch-document-adapter ./shared/elasticsearch-document-adapter
-COPY --from=build-cdtn-logger /app/shared/logger ./shared/logger
 
 COPY shared/eslint-config ./shared/eslint-config/
 COPY targets/export-elasticsearch ./targets/export-elasticsearch/
@@ -54,15 +41,13 @@ COPY --from=dist /app/shared/utils/build /app/shared/utils/build
 COPY --from=dist /app/shared/utils/package.json /app/shared/utils/package.json
 COPY --from=dist /app/shared/types/build /app/shared/types/build
 COPY --from=dist /app/shared/types/package.json /app/shared/types/package.json
-COPY --from=dist /app/shared/logger/package.json /app/shared/logger/package.json
-COPY --from=dist /app/shared/logger/lib /app/shared/logger/lib
-COPY --from=dist /app/shared/elasticsearch-document-adapter/lib /app/shared/elasticsearch-document-adapter/lib
-COPY --from=dist /app/shared/elasticsearch-document-adapter/package.json /app/shared/elasticsearch-document-adapter/package.json
+COPY shared/elasticsearch /app/shared/elasticsearch
 COPY --from=dist /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
 COPY --from=dist /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
 COPY --from=dist /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
 COPY --from=dist /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
 COPY --from=dist /app/node_modules /app/node_modules
+
 
 USER 1000
 

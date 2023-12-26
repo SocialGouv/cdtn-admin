@@ -1,3 +1,0 @@
-{
-  "extends": ["@shared/eslint-config"]
-}
