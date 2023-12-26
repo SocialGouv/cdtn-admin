@@ -1,14 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 
-import {
-  ApiClient,
-  DEFAULT_ERROR_500_MESSAGE,
-  InvalidQueryError,
-  NotFoundError,
-} from "src/lib/api";
+import { ApiClient, InvalidQueryError, NotFoundError } from "src/lib/api";
 import { DocumentsRepository, DocumentsService } from ".";
-import { InformationsRepository } from "../../informations/api";
+import { InformationsRepository } from "../../informations";
 import { ContributionRepository } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 

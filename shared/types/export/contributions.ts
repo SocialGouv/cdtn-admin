@@ -11,6 +11,7 @@ export interface ContributionConventionnelInfos {
 
 export interface ContributionGenericInfos {
   ccSupported: string[];
+  ccSupportedNoContent?: string[];
 }
 
 export interface ContributionMetadata {
@@ -29,10 +30,14 @@ export interface ContributionFicheSpContent {
   raw: string;
   ficheSpDescription: string;
 }
+export interface ContributionGenericNoCDTContent {
+  messageBlockGenericNoCDT: string;
+}
 
 export type ContributionContent =
   | ContributionContentBase
-  | ContributionFicheSpContent;
+  | ContributionFicheSpContent
+  | ContributionGenericNoCDTContent;
 
 export interface ExportFullLinkedContent {
   breadcrumbs: Breadcrumbs[];

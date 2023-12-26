@@ -1,4 +1,4 @@
-const { logger } = require("@socialgouv/cdtn-logger");
+const { logger } = require("@shared/utils");
 
 const { analyzer, char_filter, filter, tokenizer } = require("./analysis");
 

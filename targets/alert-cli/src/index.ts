@@ -1,5 +1,5 @@
 import { gqlClient } from "@shared/utils";
-import { GithubApi } from "./APIs/api";
+import { GithubApi } from "./utils/github";
 import { SourcesRepository } from "./repositories/SourcesRepository";
 import { AlertRepository } from "./repositories/AlertRepository";
 import { AlertDetector } from "./diff";

@@ -1,6 +1,6 @@
 import { gqlClient } from "@shared/utils";
 import type { Environment, ExportEsStatus, Status } from "@shared/types";
-import { logger } from "@socialgouv/cdtn-logger";
+import { logger } from "@shared/utils";
 import { injectable } from "inversify";
 
 import { name } from "../utils";

@@ -1,6 +1,6 @@
 import type { ExportEsStatus } from "@shared/types";
 import { Environment, Status } from "@shared/types";
-import { logger } from "@socialgouv/cdtn-logger";
+import { logger } from "@shared/utils";
 import { randomUUID } from "crypto";
 import { inject, injectable } from "inversify";
 

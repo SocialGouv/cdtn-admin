@@ -1,4 +1,4 @@
-import { ingest } from "@shared/elasticsearch-document-adapter";
+import { ingest } from "../ingester";
 import { parentPort } from "worker_threads";
 
 const ingester = async (): Promise<string> => {
