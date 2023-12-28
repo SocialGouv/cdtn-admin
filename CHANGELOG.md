@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.29.0...v2.29.1) (2023-12-28)
+
+### Bug Fixes
+
+- **alert-cli:** contenus éditoriaux qui peuvent être `undefined` si aucun n'élément est renseigné ([#1211](https://github.com/SocialGouv/cdtn-admin/issues/1211)) ([0c36c57](https://github.com/SocialGouv/cdtn-admin/commit/0c36c57eb9f815ea641be5ec8edf341716f5ae73))
+
 # [2.29.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.4...v2.29.0) (2023-12-27)
 
 ### Bug Fixes

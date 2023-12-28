@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.29.0...v2.29.1) (2023-12-28)
+
+**Note:** Version bump only for package @socialgouv/contibutions
+
 # [2.29.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.4...v2.29.0) (2023-12-27)
 
 ### Features
