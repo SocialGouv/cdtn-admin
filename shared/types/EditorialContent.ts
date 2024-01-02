@@ -14,7 +14,7 @@ export declare enum BlockDisplayMode {
 export type BaseContentPart = {
   name: string;
   title: string;
-  references: EditoralContentReferenceBloc[];
+  references?: EditoralContentReferenceBloc[];
   blocks: EditorialContentPart[];
 };
 

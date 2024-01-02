@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.29.0...v2.29.1) (2023-12-28)
+
+### Bug Fixes
+
+- **alert-cli:** contenus éditoriaux qui peuvent être `undefined` si aucun n'élément est renseigné ([#1211](https://github.com/SocialGouv/cdtn-admin/issues/1211)) ([0c36c57](https://github.com/SocialGouv/cdtn-admin/commit/0c36c57eb9f815ea641be5ec8edf341716f5ae73))
+
+# [2.29.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.4...v2.29.0) (2023-12-27)
+
+### Bug Fixes
+
+- algorithme de changement de position des thèmes ([#1204](https://github.com/SocialGouv/cdtn-admin/issues/1204)) ([8f1731b](https://github.com/SocialGouv/cdtn-admin/commit/8f1731bd9e8265e24f155939010b3c9c06e73432))
+- **ci:** add test on ci for `@shared/utils` ([4e80943](https://github.com/SocialGouv/cdtn-admin/commit/4e809430518919dd8a81c237c646688d837197af))
+- **informations:** desactivation de l'UI de création de page information sur `Contenu` ([#1208](https://github.com/SocialGouv/cdtn-admin/issues/1208)) ([3595ead](https://github.com/SocialGouv/cdtn-admin/commit/3595eadb075c073e2c0d0f195ba8f039c5b03d58))
+- **ingester:** utilisation du flag active depuis kali_data ([#1200](https://github.com/SocialGouv/cdtn-admin/issues/1200)) ([aa428d7](https://github.com/SocialGouv/cdtn-admin/commit/aa428d7979ab9731ca7f86f6ac8dc4f716011b4f))
+
+### Features
+
+- **alert-cli:** ajout du support des fiche-sp au niveau des contributions ([#1205](https://github.com/SocialGouv/cdtn-admin/issues/1205)) ([add9832](https://github.com/SocialGouv/cdtn-admin/commit/add98324e06c3db9305b15c8d9c796ab8f94faa5))
+- **contrib:** gestion des contrib sans CDT pour les génériques ([#1160](https://github.com/SocialGouv/cdtn-admin/issues/1160)) ([4e4dbaa](https://github.com/SocialGouv/cdtn-admin/commit/4e4dbaa3f90dc201da3f6bf9150b60c2e01147b0))
+- **export:** ajout du code du `@shared/elastic-document-adapter` dans le code de l'`export-elasticsearch` ([#1183](https://github.com/SocialGouv/cdtn-admin/issues/1183)) ([f6919b4](https://github.com/SocialGouv/cdtn-admin/commit/f6919b427befcc3a298aec3ac4182b2d392b8e34))
+- **meta:** désactivation des anciennes ccs de la métallurgie ([#1167](https://github.com/SocialGouv/cdtn-admin/issues/1167)) ([fff0b48](https://github.com/SocialGouv/cdtn-admin/commit/fff0b48e5c1e6a9f88a3b606dd5a72b3a0729675)), closes [#1157](https://github.com/SocialGouv/cdtn-admin/issues/1157) [#1197](https://github.com/SocialGouv/cdtn-admin/issues/1197)
+- possibilité de publier des contributions même s'il y a des références vers des documents inexistants ([#1192](https://github.com/SocialGouv/cdtn-admin/issues/1192)) ([9971c83](https://github.com/SocialGouv/cdtn-admin/commit/9971c83d1f5d872d75595bfb524f6b02890e5856))
+
 ## [2.28.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.3...v2.28.4) (2023-12-21)
 
 ### Bug Fixes

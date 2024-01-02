@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.29.0...v2.29.1) (2023-12-28)
+
+### Bug Fixes
+
+- **alert-cli:** contenus éditoriaux qui peuvent être `undefined` si aucun n'élément est renseigné ([#1211](https://github.com/SocialGouv/cdtn-admin/issues/1211)) ([0c36c57](https://github.com/SocialGouv/cdtn-admin/commit/0c36c57eb9f815ea641be5ec8edf341716f5ae73))
+
+# [2.29.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.4...v2.29.0) (2023-12-27)
+
+### Features
+
+- **alert-cli:** ajout du support des fiche-sp au niveau des contributions ([#1205](https://github.com/SocialGouv/cdtn-admin/issues/1205)) ([add9832](https://github.com/SocialGouv/cdtn-admin/commit/add98324e06c3db9305b15c8d9c796ab8f94faa5))
+- **contrib:** gestion des contrib sans CDT pour les génériques ([#1160](https://github.com/SocialGouv/cdtn-admin/issues/1160)) ([4e4dbaa](https://github.com/SocialGouv/cdtn-admin/commit/4e4dbaa3f90dc201da3f6bf9150b60c2e01147b0))
+- **export:** ajout du code du `@shared/elastic-document-adapter` dans le code de l'`export-elasticsearch` ([#1183](https://github.com/SocialGouv/cdtn-admin/issues/1183)) ([f6919b4](https://github.com/SocialGouv/cdtn-admin/commit/f6919b427befcc3a298aec3ac4182b2d392b8e34))
+
 ## [2.28.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.3...v2.28.4) (2023-12-21)
 
 **Note:** Version bump only for package @shared/types

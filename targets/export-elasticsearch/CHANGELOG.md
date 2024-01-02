@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.29.0...v2.29.1) (2023-12-28)
+
+**Note:** Version bump only for package export-elasticsearch
+
+# [2.29.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.4...v2.29.0) (2023-12-27)
+
+### Features
+
+- **export:** ajout du code du `@shared/elastic-document-adapter` dans le code de l'`export-elasticsearch` ([#1183](https://github.com/SocialGouv/cdtn-admin/issues/1183)) ([f6919b4](https://github.com/SocialGouv/cdtn-admin/commit/f6919b427befcc3a298aec3ac4182b2d392b8e34))
+
 ## [2.28.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.28.3...v2.28.4) (2023-12-21)
 
 **Note:** Version bump only for package export-elasticsearch
