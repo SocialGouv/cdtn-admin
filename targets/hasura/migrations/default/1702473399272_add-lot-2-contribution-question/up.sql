@@ -5,5 +5,4 @@ from contribution.answers a
 where documents."source" = 'contributions'
     and a.agreement_id = coalesce(documents."document"->'answers'->'conventionAnswer'->>'idcc', '0000')
     and q."content" = documents."title"
-    and q.order in (50, 3, 20, 45, 39, 42, 26, 7, 51, 36, 53);
-    
+    and q.order in (7, 20, 26, 36, 39, 42, 50, 51);
