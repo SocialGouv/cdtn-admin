@@ -45,18 +45,18 @@ describe("getMainBreadcrumb", () => {
     ];
     const breadcrumbs2: Breadcrumbs[] = [
       {
+        label: "label1",
+        position: 1,
+        slug: "slug2",
+      },
+      {
         label: "label2",
         position: 2,
-        slug: "slug2",
+        slug: "slug3",
       },
       {
         label: "label3",
         position: 3,
-        slug: "slug3",
-      },
-      {
-        label: "label4",
-        position: 4,
         slug: "slug4",
       },
     ];
