@@ -27,12 +27,15 @@ export function getMainBreadcrumb(
   allBreadcrumbs: (Breadcrumbs[] | undefined)[] = []
 ) {
   return allBreadcrumbs.reduce<Breadcrumbs[]>((topBreadcrumb, breadcrumb) => {
+    const breadcrumbLength = breadcrumb?.length ?? 0;
     if (
       topBreadcrumb &&
       breadcrumb &&
       minPositionBreadcrumb(topBreadcrumb) > minPositionBreadcrumb(breadcrumb)
     ) {
-      return breadcrumb;
+      return topBreadcrumb.length >= breadcrumbLength
+        ? breadcrumb
+        : topBreadcrumb;
     }
     return topBreadcrumb;
   }, allBreadcrumbs[0] ?? []);
