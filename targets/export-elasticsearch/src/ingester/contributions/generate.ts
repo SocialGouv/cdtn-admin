@@ -58,6 +58,8 @@ export async function generateContributions(
 
     const messageBlock = await generateMessageBlock(contrib);
 
+    const references = generateReferences(contributions, contrib);
+
     let doc:
       | ContributionConventionnelInfos
       | ContributionGenericInfos
@@ -78,7 +80,6 @@ export async function generateContributions(
 
     generatedContributions.push({
       ...contrib,
-      ...generateReferences(contributions, contrib),
       ...generateMetadata(contrib, content),
       ...addGlossaryToContent(content, addGlossary),
       ...doc,
@@ -90,6 +91,7 @@ export async function generateContributions(
             [],
       highlight,
       messageBlock,
+      references,
     });
   }
 
