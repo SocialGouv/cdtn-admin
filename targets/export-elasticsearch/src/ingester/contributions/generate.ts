@@ -7,7 +7,6 @@ import {
   ContributionGenericInfos,
   ContributionHighlight,
   DocumentElasticWithSource,
-  ContributionGenericNoCDTContent,
   ContributionLinkedContent,
 } from "@shared/types";
 import { generateMetadata } from "./generateMetadata";
@@ -21,6 +20,7 @@ import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
 import pMap from "p-map";
 import { getCcSupportedWithNoContent } from "./getCcSupportedWithNoContent";
+import { generateReferences } from "./generateReferences";
 
 export type ContributionElasticDocumentLightRelatedContent = Omit<
   ContributionElasticDocument,
@@ -78,6 +78,7 @@ export async function generateContributions(
 
     generatedContributions.push({
       ...contrib,
+      ...generateReferences(contributions, contrib),
       ...generateMetadata(contrib, content),
       ...addGlossaryToContent(content, addGlossary),
       ...doc,
@@ -100,9 +101,7 @@ export async function generateContributions(
     async (contribution): Promise<ContributionElasticDocument> => {
       const linkedContent = await generateLinkedContent(
         generatedContributions,
-        contribution.questionIndex,
-        contribution.idcc,
-        contribution.linkedContent,
+        contribution,
         getBreadcrumbs,
         breadcrumbsOfRootContributionsPerIndex
       );
