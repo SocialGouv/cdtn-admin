@@ -10,8 +10,9 @@ const HTML_TAGS = /<[^>]*>?/gm;
 const toText = (html: string): string => {
   return html
     .slice(0, 250)
-    .replace(HTML_TAGS, "")
-    .replace(/&nbsp;/gm, " ");
+    .replace(HTML_TAGS, " ")
+    .replace(/&nbsp;/gm, " ")
+    .replace(/[ ]{2,}/gm, " ");
 };
 
 const first150 = (text: string): string => {
@@ -23,11 +24,14 @@ export const generateMetadata = (
   content: ContributionContent
 ): ContributionMetadata => {
   const contentOrDescription =
-    "ficheSpDescription" in content
+    "ficheSpDescription" in content && content.ficheSpDescription !== null
       ? content.ficheSpDescription
-      : "messageBlockGenericNoCDT" in content
+      : "messageBlockGenericNoCDT" in content &&
+        content.messageBlockGenericNoCDT !== null
       ? content.messageBlockGenericNoCDT
-      : content.content;
+      : "content" in content
+      ? content.content
+      : "";
 
   const title = contribution.questionName;
   const contentSliced = first150(toText(contentOrDescription));
