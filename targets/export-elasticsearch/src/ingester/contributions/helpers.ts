@@ -1,5 +1,6 @@
 import {
   ContributionCompleteDoc,
+  ContributionContentType,
   ContributionDocumentJson,
   DocumentElasticWithSource,
 } from "@shared/types";
@@ -26,4 +27,14 @@ export const isGenericContribution = (
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ) => {
   return contrib.idcc === "0000";
+};
+
+export const isReferencingGenericContribution = (
+  contentType: ContributionContentType
+) => {
+  return (
+    contentType === "CDT" ||
+    contentType === "NOTHING" ||
+    contentType === "UNFAVOURABLE"
+  );
 };
