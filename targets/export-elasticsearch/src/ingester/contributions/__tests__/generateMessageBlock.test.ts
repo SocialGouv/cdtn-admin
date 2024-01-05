@@ -20,8 +20,8 @@ describe("generateMessageBlock", () => {
     ${"ANSWER"}       | ${"agreed content"}
     ${"SP"}           | ${"agreed content"}
     ${"NOTHING"}      | ${"not handled content"}
-    ${"CDT"}          | ${"legal content"}
-    ${"UNFAVOURABLE"} | ${"legal content"}
+    ${"CDT"}          | ${"not handled content"}
+    ${"UNFAVOURABLE"} | ${"not handled content"}
     ${"UNKNOWN"}      | ${"legal content"}
   `(
     'should return $expectedContent for contentType "$contentType"',

@@ -13,14 +13,16 @@ export const generateMessageBlock = async (
   }
   if (
     contrib.idcc === "0000" || // Generic answer
-    contrib.contentType === "UNKNOWN" ||
-    contrib.contentType === "CDT" ||
-    contrib.contentType === "UNFAVOURABLE"
+    contrib.contentType === "UNKNOWN"
   ) {
     return messageBlock.contentLegal;
   } else if (contrib.contentType === "ANSWER" || contrib.contentType === "SP") {
     return messageBlock.contentAgreement;
-  } else if (contrib.contentType === "NOTHING") {
+  } else if (
+    contrib.contentType === "NOTHING" ||
+    contrib.contentType === "CDT" ||
+    contrib.contentType === "UNFAVOURABLE"
+  ) {
     return messageBlock.contentNotHandled;
   }
   throw new Error("Unknown content type");
