@@ -16,14 +16,13 @@ export const generateMessageBlock = async (
     contrib.contentType === "UNKNOWN"
   ) {
     return messageBlock.contentLegal;
+  } else if (contrib.contentType === "ANSWER" || contrib.contentType === "SP") {
+    return messageBlock.contentAgreement;
   } else if (
-    contrib.contentType === "ANSWER" ||
-    contrib.contentType === "SP" ||
+    contrib.contentType === "NOTHING" ||
     contrib.contentType === "CDT" ||
     contrib.contentType === "UNFAVOURABLE"
   ) {
-    return messageBlock.contentAgreement;
-  } else if (contrib.contentType === "NOTHING") {
     return messageBlock.contentNotHandled;
   }
   throw new Error("Unknown content type");
