@@ -6,13 +6,11 @@ import {
 } from "@shared/types";
 import { isGenericContribution } from "./helpers";
 
-const HTML_TAGS = /<[^>]*>?/gm;
 const toText = (html: string): string => {
   return html
-    .slice(0, 250)
-    .replace(HTML_TAGS, " ")
-    .replace(/&nbsp;/gm, " ")
-    .replace(/[ ]{2,}/gm, " ");
+    .replace(/(<[^>]*>?)|(&nbsp;)/gm, " ")
+    .replace(/[ ]{2,}/gm, " ")
+    .trim();
 };
 
 const first150 = (text: string): string => {
@@ -24,14 +22,11 @@ export const generateMetadata = (
   content: ContributionContent
 ): ContributionMetadata => {
   const contentOrDescription =
-    "ficheSpDescription" in content && content.ficheSpDescription !== null
+    "ficheSpDescription" in content
       ? content.ficheSpDescription
-      : "messageBlockGenericNoCDT" in content &&
-        content.messageBlockGenericNoCDT !== null
+      : "messageBlockGenericNoCDT" in content
       ? content.messageBlockGenericNoCDT
-      : "content" in content
-      ? content.content
-      : "";
+      : content.content;
 
   const title = contribution.questionName;
   const contentSliced = first150(toText(contentOrDescription));
