@@ -324,11 +324,29 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== Highlights ===");
+  const highlights = await getDocumentBySourceWithRelation(
+    SOURCES.HIGHLIGHTS,
+    getBreadcrumbs
+  );
+  const highlightsWithContrib = highlights.map((highlight) => ({
+    ...highlight,
+    refs: highlight.refs.map((ref) => {
+      if (!ref.description) {
+        const foundContrib = newGeneratedContributions.find(
+          (newGeneratedContribution) => {
+            return newGeneratedContribution.cdtnId === ref.cdtnId;
+          }
+        );
+        return {
+          ...ref,
+          description: foundContrib?.description,
+        };
+      }
+      return ref;
+    }),
+  }));
   yield {
-    documents: await getDocumentBySourceWithRelation(
-      SOURCES.HIGHLIGHTS,
-      getBreadcrumbs
-    ),
+    documents: highlightsWithContrib,
     source: SOURCES.HIGHLIGHTS,
   };
 
