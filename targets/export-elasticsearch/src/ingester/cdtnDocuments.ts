@@ -333,11 +333,29 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== PreQualified Request ===");
+  const prequalified = await getDocumentBySourceWithRelation(
+    SOURCES.PREQUALIFIED,
+    getBreadcrumbs
+  );
+  const prequalifiedWithContrib = prequalified.map((prequalif) => ({
+    ...prequalif,
+    refs: prequalif.refs.map((ref) => {
+      if (!ref.description) {
+        const foundContrib = newGeneratedContributions.find(
+          (newGeneratedContribution) => {
+            return newGeneratedContribution.cdtnId === ref.cdtnId;
+          }
+        );
+        return {
+          ...ref,
+          description: foundContrib?.description,
+        };
+      }
+      return ref;
+    }),
+  }));
   yield {
-    documents: await getDocumentBySourceWithRelation(
-      SOURCES.PREQUALIFIED,
-      getBreadcrumbs
-    ),
+    documents: prequalifiedWithContrib,
     source: SOURCES.PREQUALIFIED,
   };
 
