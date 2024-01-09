@@ -18,8 +18,12 @@ import type {
 } from "./types/Glossary";
 import { Breadcrumbs } from "@shared/types";
 
-const PAGE_SIZE = 200;
-const JOB_CONCURRENCY = 5;
+const PAGE_SIZE = process.env.FETCH_PAGE_SIZE
+  ? parseInt(process.env.FETCH_PAGE_SIZE)
+  : 250;
+const JOB_CONCURRENCY = process.env.FETCH_JOB_CONCURRENCY
+  ? parseInt(process.env.FETCH_JOB_CONCURRENCY)
+  : 5;
 
 const gqlRequestBySource = (
   source: SourceValues,
@@ -118,8 +122,8 @@ export async function getDocumentBySource<T>(
 ): Promise<DocumentElasticWithSource<T>[]> {
   const fetchDocuments = createDocumentsFetcher(gqlRequestBySource);
   const pDocuments = await fetchDocuments(source, {
-    concurrency: 10,
-    pageSize: 300,
+    concurrency: JOB_CONCURRENCY,
+    pageSize: PAGE_SIZE,
   });
   const documents = await Promise.all(pDocuments);
   return documents.flatMap((docs) =>
@@ -135,8 +139,8 @@ export async function getDocumentBySourceWithRelation(
     gqlRequestBySourceWithRelations
   );
   const pDocuments = await fetchDocuments(source, {
-    concurrency: 3,
-    pageSize: 100,
+    concurrency: JOB_CONCURRENCY,
+    pageSize: PAGE_SIZE,
   });
   const documents = await Promise.all(pDocuments);
   return documents.flatMap((docs) =>

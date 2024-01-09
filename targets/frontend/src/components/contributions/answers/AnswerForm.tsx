@@ -248,7 +248,7 @@ export const AnswerForm = ({
         {isCodeDuTravail(answer) && (
           <FormControl>
             <FormTextField
-              label="Message d'alerte pour les CC qui ne prévoient rien (si pas de CDT)"
+              label="Message d'alerte pour les CC non traitées (si pas de CDT)"
               name="messageBlockGenericNoCDT"
               disabled={isNotEditable(answer)}
               control={control}
