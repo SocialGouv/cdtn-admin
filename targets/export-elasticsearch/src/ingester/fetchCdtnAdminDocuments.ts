@@ -18,8 +18,12 @@ import type {
 } from "./types/Glossary";
 import { Breadcrumbs } from "@shared/types";
 
-const PAGE_SIZE = process.env.FETCH_PAGE_SIZE ?? 250;
-const JOB_CONCURRENCY = process.env.FETCH_JOB_CONCURRENCY ?? 5;
+const PAGE_SIZE = process.env.FETCH_PAGE_SIZE
+  ? parseInt(process.env.FETCH_PAGE_SIZE)
+  : 250;
+const JOB_CONCURRENCY = process.env.FETCH_JOB_CONCURRENCY
+  ? parseInt(process.env.FETCH_JOB_CONCURRENCY)
+  : 5;
 
 const gqlRequestBySource = (
   source: SourceValues,
