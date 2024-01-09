@@ -50,7 +50,7 @@ export async function fetchLinkedContent(
     throw res.error;
   }
   if (!res.data?.documents.length) {
-    logger.alert(
+    logger.info(
       `Warning: Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`
     );
     return;
