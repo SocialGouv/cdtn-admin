@@ -19,9 +19,9 @@ describe("generateMessageBlock", () => {
     contentType       | expectedContent
     ${"ANSWER"}       | ${"agreed content"}
     ${"SP"}           | ${"agreed content"}
-    ${"NOTHING"}      | ${"not handled content"}
-    ${"CDT"}          | ${"not handled content"}
-    ${"UNFAVOURABLE"} | ${"not handled content"}
+    ${"NOTHING"}      | ${"nothing content"}
+    ${"CDT"}          | ${"nothing content"}
+    ${"UNFAVOURABLE"} | ${"nothing content"}
     ${"UNKNOWN"}      | ${"legal content"}
   `(
     'should return $expectedContent for contentType "$contentType"',
@@ -29,7 +29,7 @@ describe("generateMessageBlock", () => {
       (fetchMessageBlock as jest.Mock).mockResolvedValue({
         contentAgreement: "agreed content",
         contentLegal: "legal content",
-        contentNotHandled: "not handled content",
+        contentNotHandled: "nothing content",
       });
 
       mockContribution.contentType = contentType as ContributionContentType;
@@ -55,7 +55,7 @@ describe("generateMessageBlock", () => {
       (fetchMessageBlock as jest.Mock).mockResolvedValue({
         contentAgreement: "agreed content",
         contentLegal: "legal content",
-        contentNotHandled: "not handled content",
+        contentNotHandled: "nothing content",
       });
 
       mockContribution.contentType = contentType as ContributionContentType;

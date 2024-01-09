@@ -7,7 +7,7 @@ import {
 import { isGenericContribution } from "./helpers";
 
 const HTML_TAGS = "<[^>]*>?";
-const NBSP = "<[^>]*>?";
+const NBSP = "&nbsp;";
 const MORE_THAN_ONE_WS = "[ ]{2,}";
 
 const toText = (html: string): string => {
