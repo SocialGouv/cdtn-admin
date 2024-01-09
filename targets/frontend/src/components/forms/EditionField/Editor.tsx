@@ -148,6 +148,11 @@ const StyledEditorContent = styled(EditorContent)(() => {
         backgroundColor: fr.colors.decisions.background.contrast.info.active,
         borderRadius: "0.6rem",
       },
+      li: {
+        p: {
+          margin: "0",
+        },
+      },
       ".details": {
         display: "flex",
         border: "0",
