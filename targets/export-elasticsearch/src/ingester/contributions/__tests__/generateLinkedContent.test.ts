@@ -102,47 +102,43 @@ describe("generateLinkedContent", () => {
     ]);
   });
 
-  describe("une contribution générique", () => {
-    it("une contribution générique qui est référencé par une contribution classique", async () => {
-      const dataFetchLinkedContent: LinkedContentLight = {
-        cdtnId: "123456",
-        title: "Titre",
-        slug: "slug",
+  it("devrait renvoyer le contenu de la générique si une CC référence le CDT via son contentType", async () => {
+    const dataFetchLinkedContent: LinkedContentLight = {
+      cdtnId: "123456",
+      title: "Titre",
+      slug: "slug",
+      description: "description",
+      source: "information",
+    };
+    (fetchLinkedContent as jest.Mock).mockResolvedValue(dataFetchLinkedContent);
+    const contribGeneric: any = {
+      questionIndex: 1,
+      idcc: "0000",
+      linkedContent: [{ cdtnId: "123456" }],
+    };
+
+    const contribClassique: any = {
+      contentType: "CDT",
+      questionIndex: 1,
+      idcc: "1900",
+      linkedContent: [{ cdtnId: "ABCD" }],
+    };
+
+    const linkedContent = await generateLinkedContent(
+      [contribGeneric, contribClassique],
+      contribClassique,
+      () => breadcrumbs,
+      {}
+    );
+
+    expect(linkedContent).toEqual([
+      {
+        breadcrumbs,
         description: "description",
+        slug: "slug",
         source: "information",
-      };
-      (fetchLinkedContent as jest.Mock).mockResolvedValue(
-        dataFetchLinkedContent
-      );
-      const contribGeneric: any = {
-        questionIndex: 1,
-        idcc: "0000",
-        linkedContent: [{ cdtnId: "123456" }],
-      };
-
-      const contribClassique: any = {
-        contentType: "CDT",
-        questionIndex: 1,
-        idcc: "1900",
-        linkedContent: [{ cdtnId: "ABCD" }],
-      };
-
-      const linkedContent = await generateLinkedContent(
-        [contribGeneric, contribClassique],
-        contribClassique,
-        () => breadcrumbs,
-        {}
-      );
-
-      expect(linkedContent).toEqual([
-        {
-          breadcrumbs,
-          description: "description",
-          slug: "slug",
-          source: "information",
-          title: "Titre",
-        },
-      ]);
-    });
+        title: "Titre",
+      },
+    ]);
   });
 });
