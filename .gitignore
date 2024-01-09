@@ -15,3 +15,5 @@ docker-compose.override.yml
 !.yarn/versions
 
 .npmTiptapToken.secret
+
+local_dump
