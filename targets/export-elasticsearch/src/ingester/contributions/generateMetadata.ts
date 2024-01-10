@@ -6,12 +6,14 @@ import {
 } from "@shared/types";
 import { isGenericContribution } from "./helpers";
 
-const HTML_TAGS = /<[^>]*>?/gm;
+const HTML_TAGS = "<[^>]*>?";
+const NBSP = "&nbsp;";
+const MORE_THAN_ONE_WS = "[ ]{2,}";
+
 const toText = (html: string): string => {
-  return html
-    .slice(0, 250)
-    .replace(HTML_TAGS, "")
-    .replace(/&nbsp;/gm, " ");
+  const regexClean = new RegExp(`(${HTML_TAGS})|(${NBSP})`, "gm");
+  const regexFindDoubleWS = new RegExp(`${MORE_THAN_ONE_WS}`, "gm");
+  return html.replace(regexClean, " ").replace(regexFindDoubleWS, " ").trim();
 };
 
 const first150 = (text: string): string => {
