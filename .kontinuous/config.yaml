@@ -12,9 +12,9 @@ dependencies:
                 cdtnadminprodserver-backup-credentials:
                   env: [dev, preprod]
                   required: true
-                cdtn-admin-prod-backups-access-key:
+                cdtn-prod-backups-access-key:
                   env: [prod]
                   required: true
-                cdtn-admin-dev-backups-access-key:
+                cdtn-dev-backups-access-key:
                   env: [dev, preprod]
                   required: true
