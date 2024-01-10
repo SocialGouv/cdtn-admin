@@ -26,16 +26,22 @@ function minPositionBreadcrumb(breadcrumb: Breadcrumbs[]) {
 export function getMainBreadcrumb(
   allBreadcrumbs: (Breadcrumbs[] | undefined)[] = []
 ) {
-  return allBreadcrumbs.reduce<Breadcrumbs[]>((topBreadcrumb, breadcrumb) => {
-    if (
-      topBreadcrumb &&
-      breadcrumb &&
-      minPositionBreadcrumb(topBreadcrumb) > minPositionBreadcrumb(breadcrumb)
-    ) {
-      return breadcrumb;
-    }
-    return topBreadcrumb;
-  }, allBreadcrumbs[0] ?? []);
+  return allBreadcrumbs.reduce<Breadcrumbs[]>(
+    (topBreadcrumb, breadcrumb, index) => {
+      if (index === 0) {
+        return topBreadcrumb;
+      }
+      if (
+        breadcrumb &&
+        topBreadcrumb.length > breadcrumb.length &&
+        minPositionBreadcrumb(topBreadcrumb) > minPositionBreadcrumb(breadcrumb)
+      ) {
+        return breadcrumb;
+      }
+      return topBreadcrumb;
+    },
+    allBreadcrumbs[0] ?? []
+  );
 }
 
 export function buildGetBreadcrumbs(themes: Theme[]): GetBreadcrumbsFn {
