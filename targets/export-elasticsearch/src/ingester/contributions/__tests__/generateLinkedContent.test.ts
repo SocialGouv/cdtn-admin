@@ -20,11 +20,14 @@ describe("generateLinkedContent", () => {
   });
 
   it("un contenu lié à document qui n'existe pas doit retourner undefined", async () => {
+    const contrib: any = {
+      questionIndex: 1,
+      idcc: "0000",
+      linkedContent: [{ cdtnId: "1234" }],
+    };
     const linkedContent = await generateLinkedContent(
       [],
-      1,
-      "0000",
-      [{ cdtnId: "1234" }],
+      contrib,
       () => breadcrumbs,
       {}
     );
@@ -41,16 +44,15 @@ describe("generateLinkedContent", () => {
       source: "information",
     };
     (fetchLinkedContent as jest.Mock).mockResolvedValue(dataFetchLinkedContent);
+    const contrib: any = {
+      questionIndex: 1,
+      idcc: "0000",
+      linkedContent: [{ cdtnId: "12345" }],
+    };
 
     const linkedContent = await generateLinkedContent(
       [],
-      1,
-      "0000",
-      [
-        {
-          cdtnId: "12345",
-        },
-      ],
+      contrib,
       () => breadcrumbs,
       {}
     );
@@ -76,15 +78,15 @@ describe("generateLinkedContent", () => {
       title: "title contrib",
     } as ContributionElasticDocumentLightRelatedContent;
 
+    const contrib: any = {
+      questionIndex: 1,
+      idcc: "0000",
+      linkedContent: [{ cdtnId: "678910" }],
+    };
+
     const linkedContent = await generateLinkedContent(
       [contribution],
-      1,
-      "0000",
-      [
-        {
-          cdtnId: "678910",
-        },
-      ],
+      contrib,
       () => breadcrumbs,
       {}
     );
@@ -96,6 +98,46 @@ describe("generateLinkedContent", () => {
         slug: "slug-contrib",
         source: "contributions",
         title: "title contrib",
+      },
+    ]);
+  });
+
+  it("devrait renvoyer le contenu de la générique si une CC référence le CDT via son contentType", async () => {
+    const dataFetchLinkedContent: LinkedContentLight = {
+      cdtnId: "123456",
+      title: "Titre",
+      slug: "slug",
+      description: "description",
+      source: "information",
+    };
+    (fetchLinkedContent as jest.Mock).mockResolvedValue(dataFetchLinkedContent);
+    const contribGeneric: any = {
+      questionIndex: 1,
+      idcc: "0000",
+      linkedContent: [{ cdtnId: "123456" }],
+    };
+
+    const contribClassique: any = {
+      contentType: "CDT",
+      questionIndex: 1,
+      idcc: "1900",
+      linkedContent: [{ cdtnId: "ABCD" }],
+    };
+
+    const linkedContent = await generateLinkedContent(
+      [contribGeneric, contribClassique],
+      contribClassique,
+      () => breadcrumbs,
+      {}
+    );
+
+    expect(linkedContent).toEqual([
+      {
+        breadcrumbs,
+        description: "description",
+        slug: "slug",
+        source: "information",
+        title: "Titre",
       },
     ]);
   });
