@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.30.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.29.1...v2.30.0) (2024-01-10)
+
+### Bug Fixes
+
+- **build:** set environment variable of fetch in int ([73e05ba](https://github.com/SocialGouv/cdtn-admin/commit/73e05ba0e1fefee133e537bf94b553c75f9436aa))
+- contribution description vide ou mal ecrite ([#1217](https://github.com/SocialGouv/cdtn-admin/issues/1217)) ([b846754](https://github.com/SocialGouv/cdtn-admin/commit/b8467541e94983ed19c585f3646dc156eb8743b1))
+- **contributions:** ajout des références sur les CCs référençant le CDT ([#1216](https://github.com/SocialGouv/cdtn-admin/issues/1216)) ([20ac4a2](https://github.com/SocialGouv/cdtn-admin/commit/20ac4a2207005b1fbe634d5f793fa4f041819919))
+- **export:** modification des valeurs du fetch ([#1218](https://github.com/SocialGouv/cdtn-admin/issues/1218)) ([95b092a](https://github.com/SocialGouv/cdtn-admin/commit/95b092a1935a62af6466218535ae0e54db884d28))
+- **wording:** renommage du champs "Message d'alerte pour les CC non traitées" ([#1222](https://github.com/SocialGouv/cdtn-admin/issues/1222)) ([3634cd6](https://github.com/SocialGouv/cdtn-admin/commit/3634cd6f743029d8e2eb1189afeae66351d7167e))
+
+### Features
+
+- afficher les themes avec moins d'éléments en priorité ([#1214](https://github.com/SocialGouv/cdtn-admin/issues/1214)) ([8c1884c](https://github.com/SocialGouv/cdtn-admin/commit/8c1884cf55921dede5297d57cefea6d202f03abe))
+
 ## [2.29.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.29.0...v2.29.1) (2023-12-28)
 
 **Note:** Version bump only for package export-elasticsearch
