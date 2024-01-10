@@ -123,6 +123,7 @@ fi
 
 local_connection=$(echo "$secret" | sed "s/pg-rw:5432/127.0.0.1:$port/")
 local_connection_ssl_disabled=$(echo "$local_connection" | sed 's/?sslmode=require/?sslmode=disable/')
+local_connection_without_ssl=$(echo "$local_connection" | sed 's/?sslmode=require//')
 
 echo -e "Activation du port forwarding..."
 kubectl port-forward -n $namespace $pod $port:5432 > /dev/null 2>&1 &
@@ -140,6 +141,10 @@ while ! nc -vz localhost $port > /dev/null 2>&1 ; do
 done
 echo -e "Port forwarding : ${GREEN}OK${NC}"
 echo -e "${GREEN}Adresse de connexion pour se connecter à la BDD depuis votre poste :\n$local_connection_ssl_disabled${NC}"
+echo -e ""
+echo -e "For DBeaver user"
+echo -e "Click New connection > From JDBC URL > Paste this url (see https://github.com/dbeaver/dbeaver/issues/1802#issuecomment-940810790)"
+echo -e "${GREEN}jdbc:$local_connection_without_ssl ${GREEN}"
 
 echo -e "Appuyez sur Ctrl+C pour quitter."
 while true; do
