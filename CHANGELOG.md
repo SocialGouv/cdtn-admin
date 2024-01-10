@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.30.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.30.0...v2.30.1) (2024-01-10)
+
+### Bug Fixes
+
+- **k8s:** set the good backup key ([#1194](https://github.com/SocialGouv/cdtn-admin/issues/1194)) ([f60fab5](https://github.com/SocialGouv/cdtn-admin/commit/f60fab57ca4830693036893ba4f07af8d0dbb5c3))
+
 # [2.30.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.29.1...v2.30.0) (2024-01-10)
 
 ### Bug Fixes
