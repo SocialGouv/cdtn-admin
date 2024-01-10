@@ -7,7 +7,7 @@ hasura:
     value: true
   envFrom:
     - secretRef:
-        name: pg-user
+        name: pg-app
     - configMapRef:
         name: hasura
     - secretRef:
@@ -22,12 +22,37 @@ www:
 jobs:
   runs:
     restore:
+      ~needs: [ pg ]
       use: pg-restore
       checkout: false
       with:
         mountPath: /mnt/restore
         filterPath: "hasura_prod_db.psql.gz"
         restorePath: "${LATEST}"
+        pgAdminUserSecretRefName: pg-app
+      env: # there is a bug when setting custom job env, so we have to repeat "with" vars here
+        - name: RESTORE_PATH
+          value: "${LATEST}"
+        - name: OWNER
+          value: "{{ $.Values.global.pgUser }}"
+        - name: MOUNT_PATH
+          value: /mnt/restore
+        - name: FILTER_PATH
+          value: hasura_prod_db.psql.gz
+        - name: PGHOST
+          value: "pg-rw"
+        - name: PGDATABASE
+          value: "{{ $.Values.global.pgDatabase }}"
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pg-superuser
+              key: password
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: pg-superuser
+              key: user
       volumeMounts:
         - name: restore
           mountPath: /mnt/restore
@@ -41,10 +66,11 @@ jobs:
               secretName: cdtnadminprodserver-backup-credentials
               shareName: cdtnadminprodserver-backup-restore
     post-restore:
-      ~needs: [restore]
+      ~needs: [ restore ]
       use: psql
       with:
         sqlFile: .kontinuous/sql/post-restore.sql
+        pgSecretRefName: pg-app
     job-ingester:
       ~needs: [hasura]
       use: trigger-cronjob
