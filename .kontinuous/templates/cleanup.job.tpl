@@ -25,6 +25,6 @@ spec:
               month' AND status IN ('done', 'rejected');
           envFrom:
             - secretRef:
-                name: azure-pg-user
+                name: pg-app
       restartPolicy: Never
 {{end}}

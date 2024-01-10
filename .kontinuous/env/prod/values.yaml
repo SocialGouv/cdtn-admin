@@ -50,3 +50,10 @@ hasura:
     requests:
       cpu: "1000m"
       memory: "1Gi"
+  envFrom:
+    - secretRef:
+        name: pg-app
+    - configMapRef:
+        name: hasura
+    - secretRef:
+        name: hasura
