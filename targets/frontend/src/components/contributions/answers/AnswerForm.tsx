@@ -104,6 +104,7 @@ export const AnswerForm = ({
     trigger,
     formState: { isDirty },
     reset,
+    watch,
   } = useForm<AnswerFormValidation>({
     resolver: zodResolver(answerFormSchema),
     shouldFocusError: true,
@@ -119,6 +120,8 @@ export const AnswerForm = ({
       updateDate: answer?.updateDate ?? "",
     },
   });
+
+  const contentType = watch("contentType");
 
   const onRouteChangeStart = () => {
     if (
@@ -238,14 +241,14 @@ export const AnswerForm = ({
             ]}
           />
         )}
-        {isCodeDuTravail(answer) && (
+        {isCodeDuTravail(answer) && contentType === "SP" && (
           <FicheSpDocumentInput
             name="contentFichesSpDocument"
             control={control}
             disabled={isNotEditable(answer)}
           />
         )}
-        {isCodeDuTravail(answer) && (
+        {isCodeDuTravail(answer) && contentType === "GENERIC_NO_CDT" && (
           <FormControl>
             <FormTextField
               label="Message d'alerte pour les CC non traitées (si pas de CDT)"
@@ -285,7 +288,6 @@ export const AnswerForm = ({
               : undefined
           }
         />
-
         {!submitting && (
           <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
             <Button
