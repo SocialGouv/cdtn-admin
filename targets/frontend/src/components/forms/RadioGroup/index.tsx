@@ -14,6 +14,7 @@ import { TitleBox } from "../TitleBox";
 type OptionProps = {
   label: string;
   value: string;
+  isDisabled?: boolean;
 };
 
 export type RadioGroupProps = PropsWithChildren<
@@ -47,13 +48,13 @@ export const FormRadioGroup = ({
                 }
                 name={name}
               >
-                {options.map(({ label, value }) => (
+                {options.map(({ label, value, isDisabled }) => (
                   <FormControlLabel
                     key={value}
                     value={value}
                     control={<Radio id={`${name}.${value}`} />}
                     label={label}
-                    disabled={disabled}
+                    disabled={isDisabled || disabled}
                     htmlFor={`${name}.${value}`}
                   />
                 ))}

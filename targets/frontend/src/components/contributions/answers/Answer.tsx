@@ -8,7 +8,7 @@ import {
   TooltipProps,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "src/hooks/useUser";
 
 import { StatusContainer } from "../status";
@@ -22,6 +22,7 @@ import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 import { AnswerForm } from "./AnswerForm";
 import { fr } from "@codegouvfr/react-dsfr";
 import { usePublishContributionMutation } from "./usePublishAnswer";
+import { useGenericContributionAnswerQuery } from "./answerGeneric.query";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -31,6 +32,9 @@ export const ContributionsAnswer = ({
   id,
 }: ContributionsAnswerProps): JSX.Element => {
   const answer = useContributionAnswerQuery({ id });
+  const genericAnswer = useGenericContributionAnswerQuery({
+    questionId: answer?.questionId,
+  });
   const { user } = useUser() as any;
   const updateAnswer = useContributionAnswerUpdateMutation();
   const [snack, setSnack] = useState<{
@@ -44,7 +48,7 @@ export const ContributionsAnswer = ({
 
   const onSubmit = async (newStatus: Status, data: Answer) => {
     try {
-      if (!answer || !answer.id) {
+      if (!answer || !answer.id || !genericAnswer) {
         throw new Error("Id non définit");
       }
 
@@ -124,8 +128,12 @@ export const ContributionsAnswer = ({
       </Stack>
       <Stack direction="row">
         <Box sx={{ width: "70%" }}>
-          {answer && (
-            <AnswerForm answer={answer} onSubmit={onSubmit}></AnswerForm>
+          {answer && genericAnswer && (
+            <AnswerForm
+              answer={answer}
+              genericAnswerContentType={genericAnswer.contentType}
+              onSubmit={onSubmit}
+            />
           )}
         </Box>
         <Box sx={{ width: "30%" }}>
