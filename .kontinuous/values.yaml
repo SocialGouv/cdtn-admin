@@ -1,3 +1,7 @@
+global:
+  pgUser: cdtn-admin
+  pgDatabase: cdtn-admin
+
 jobs:
   ~chart: jobs
   runs:
