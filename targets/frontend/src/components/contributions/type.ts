@@ -128,6 +128,13 @@ const answerBaseSchema = z.object({
   ),
   contentServicePublicCdtnId: z.string().nullable().optional(),
   content: z.string().nullable().optional(),
+  description: z
+    .string()
+    .max(150, {
+      message: "La description ne doit pas contenir plus de 150 caractères",
+    })
+    .nullable()
+    .optional(),
   messageBlockGenericNoCDT: z.string().nullable().optional(),
   updatedAt: z.string(),
 });

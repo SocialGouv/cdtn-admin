@@ -64,6 +64,7 @@ select_permissions:
         - content
         - content_service_public_cdtn_id
         - content_type
+        - description
         - id
         - message_block_generic_no_CDT
         - question_id
@@ -77,6 +78,7 @@ update_permissions:
         - content
         - content_service_public_cdtn_id
         - content_type
+        - description
         - message_block_generic_no_CDT
       filter: {}
       check: null

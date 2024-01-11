@@ -4,6 +4,7 @@ import { Document } from "./documents";
 export type ContributionsAnswers = {
   id: string;
   content: string | null;
+  description: string | null;
   content_type: ContributionContentType;
   question: ContributionQuestion;
   kali_references: ContributionKaliReferences[];
@@ -83,6 +84,7 @@ type ContributionDocumentJsonBasic = {
   questionIndex: number;
   questionName: string;
   questionId: string;
+  description: string;
   idcc: string; // 0000 pour la générique, impossible d'être nulle
 };
 

@@ -47,6 +47,7 @@ export const FormTextField = ({
           disabled={disabled}
           InputLabelProps={labelFixed ? { shrink: true } : {}}
           id={name}
+          minRows={multiline ? 2 : 1}
         />
       )}
     />

@@ -19,6 +19,7 @@ async function getBaseDocument(
       return {
         type: "content",
         content: data.content,
+        description: data.description,
       };
     case "GENERIC_NO_CDT":
       return {

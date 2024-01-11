@@ -50,6 +50,7 @@ export const ContributionsAnswer = ({
 
       await updateAnswer({
         content: data.content,
+        description: data.description,
         id: answer.id,
         contentType: data.contentType,
         status: newStatus,

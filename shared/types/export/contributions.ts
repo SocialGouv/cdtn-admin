@@ -16,18 +16,19 @@ export interface ContributionGenericInfos {
 
 export interface ContributionMetadata {
   title: string;
-  description: string;
   text: string;
 }
 
 export interface ContributionContentBase {
   content: string;
+  description: string;
 }
 
 export interface ContributionFicheSpContent {
   url: string;
   date: string;
   raw: string;
+  description: string;
   ficheSpDescription: string;
 }
 export interface ContributionGenericNoCDTContent {

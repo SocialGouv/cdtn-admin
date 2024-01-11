@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useRouter } from "next/router";
 
 import { FormEditionField, FormRadioGroup, FormTextField } from "../../forms";
 import { Answer, answerRelationSchema, documentSchema, Status } from "../type";
@@ -15,11 +16,11 @@ import {
 } from "./references";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
-import { useRouter } from "next/router";
 
 const answerFormBaseSchema = answerRelationSchema
   .pick({
     content: true,
+    description: true,
     contentType: true,
     messageBlockGenericNoCDT: true,
     cdtnReferences: true,
@@ -109,6 +110,7 @@ export const AnswerForm = ({
     shouldFocusError: true,
     defaultValues: {
       content: answer?.content ?? "",
+      description: answer?.description ?? "",
       contentType: answer?.contentType ?? "ANSWER",
       legiReferences: answer?.legiReferences ?? [],
       kaliReferences: answer?.kaliReferences ?? [],
@@ -211,6 +213,15 @@ export const AnswerForm = ({
             label="Date mise à jour"
             disabled
             labelFixed
+          />
+        </FormControl>
+        <FormControl>
+          <FormTextField
+            label="Description"
+            name="description"
+            disabled={isNotEditable(answer)}
+            control={control}
+            multiline
           />
         </FormControl>
         <FormControl>
