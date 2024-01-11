@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.30.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.30.2...v2.30.3) (2024-01-11)
+
+### Bug Fixes
+
+- migration de la question 39 et 51 ([#1229](https://github.com/SocialGouv/cdtn-admin/issues/1229)) ([37cb48f](https://github.com/SocialGouv/cdtn-admin/commit/37cb48f8fa16d1cf0ac5ea06b014c2a214583440))
+
 ## [2.30.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.30.1...v2.30.2) (2024-01-10)
 
 **Note:** Version bump only for package cdtn-admin
