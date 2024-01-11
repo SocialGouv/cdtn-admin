@@ -328,3 +328,5 @@ L'export des données se fait depuis l'admin dans la section `Contenus > Mise à
 
 - Les fichiers du site sont stockés au même endroit pour l'ensemble des branches. Si on ajoute/modifie/supprime un fichier, cela sera également le cas sur l'ensemble des branches
 - Le sitemap du site est stocké au même endroit pour l'ensemble des branches. Les branches sur le site CDTN récupérera le dernier sitemap généré.
+
+:)
