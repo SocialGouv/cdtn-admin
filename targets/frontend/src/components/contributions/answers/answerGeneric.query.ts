@@ -26,7 +26,6 @@ export const useGenericContributionAnswerQuery = ({
       questionId,
     },
   });
-  console.log(resultGeneric);
   const genericAnswer = resultGeneric.data?.contribution_answers[0];
   if (!genericAnswer) {
     return;
