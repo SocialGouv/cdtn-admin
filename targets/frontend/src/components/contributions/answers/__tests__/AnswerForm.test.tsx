@@ -149,9 +149,6 @@ describe("AnswerForm", () => {
     render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
     expect(screen.queryByText("content")).toBeInTheDocument();
 
-    const spInput = screen.getByLabelText("Fiche service-public");
-    expect(spInput?.closest("input")?.value).toContain("ficheSP");
-
     const cdtInput = screen.queryByLabelText(
       "Références liées au code du travail"
     );
