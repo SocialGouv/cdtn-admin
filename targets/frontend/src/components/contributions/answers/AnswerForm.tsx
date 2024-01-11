@@ -216,14 +216,16 @@ export const AnswerForm = ({
             labelFixed
           />
         </FormControl>
-        <FormControl>
-          <FormEditionField
-            label="Réponse"
-            name="content"
-            disabled={isNotEditable(answer)}
-            control={control}
-          />
-        </FormControl>
+        {contentType === "ANSWER" && (
+          <FormControl>
+            <FormEditionField
+              label="Réponse"
+              name="content"
+              disabled={isNotEditable(answer)}
+              control={control}
+            />
+          </FormControl>
+        )}
         {answer && (
           <FormRadioGroup
             name="contentType"
