@@ -39,7 +39,7 @@ export const generateContent = async (
       }
       if (cdtContrib.type === "generic-no-cdt") {
         throw new Error(
-          `La contribution [${contrib.questionIndex} - ${contrib.idcc}] ne peut pas être de type "Code du travail" parce que la générique n'a pas de réponse`
+          `La contribution [${contrib.questionIndex} - ${contrib.idcc}] ne peut pas référencer ne générique qui n'a pas de réponse`
         );
       }
       if (cdtContrib.type === "content") {

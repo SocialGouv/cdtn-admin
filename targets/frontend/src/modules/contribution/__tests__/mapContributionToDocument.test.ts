@@ -376,7 +376,7 @@ describe("mapContributionToDocument", () => {
             })
           )
         ).rejects.toThrow(
-          'La contribution [43 - 0016] ne peut pas être de type "Code du travail" parce que la générique n\'a pas de réponse'
+          "La contribution [43 - 0016] ne peut pas référencer une générique qui n'a pas de réponse"
         );
       }
     );
@@ -428,7 +428,7 @@ describe("mapContributionToDocument", () => {
         inputDoc,
         jest.fn()
       );
-      expect(result.is_searchable).toEqual(false);
+      expect(result!.is_searchable).toEqual(false);
     });
 
     it("devrait être à true pour une réponse générique", async () => {
@@ -460,7 +460,7 @@ describe("mapContributionToDocument", () => {
         undefined,
         jest.fn()
       );
-      expect(result.is_searchable).toEqual(true);
+      expect(result!.is_searchable).toEqual(true);
     });
 
     it("devrait garder la même valeur du document pour une réponse générique", async () => {
@@ -508,7 +508,7 @@ describe("mapContributionToDocument", () => {
         inputDoc,
         jest.fn()
       );
-      expect(result.is_searchable).toEqual(false);
+      expect(result!.is_searchable).toEqual(false);
     });
   });
 });

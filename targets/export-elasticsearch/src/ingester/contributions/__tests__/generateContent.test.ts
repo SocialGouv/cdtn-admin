@@ -88,7 +88,7 @@ describe("generateContent", () => {
     await expect(
       generateContent(mockContributions, contribution)
     ).rejects.toThrowError(
-      'La contribution [2 - 1516] ne peut pas être de type "Code du travail" parce que la générique n\'a pas de réponse'
+      "La contribution [2 - 1516] ne peut pas référencer une générique qui n'a pas de réponse"
     );
   });
 
