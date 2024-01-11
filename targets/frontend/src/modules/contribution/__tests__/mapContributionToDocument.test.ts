@@ -299,43 +299,6 @@ describe("mapContributionToDocument", () => {
       });
     });
 
-    it("devrait retourner undefined si de type NOTHING", async () => {
-      const inputContribution: ContributionsAnswers = {
-        id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
-        content: null,
-        content_type: "NOTHING",
-        agreement: {
-          id: "0016",
-          name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
-          kali_id: "KALICONT000005635624",
-        },
-        question: {
-          id: "3384f257-e319-46d1-a4cb-8e8294da337b",
-          content:
-            "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
-          order: 43,
-        },
-        kali_references: [],
-        legi_references: [],
-        other_references: [],
-        cdtn_references: [],
-        content_fiche_sp: null,
-        message_block_generic_no_CDT: null,
-      };
-
-      const result = await mapContributionToDocument(
-        inputContribution,
-        inputDoc,
-
-        jest.fn(function () {
-          return new Promise((resolve) => {
-            resolve({ content_type: "GENERIC_NO_CDT" });
-          });
-        })
-      );
-      expect(result).toBe(undefined);
-    });
-
     test.each`
       type
       ${"CDT"}

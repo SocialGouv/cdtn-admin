@@ -36,7 +36,7 @@ async function getBaseDocument(
           data.content_type === "NOTHING"
         ) {
           throw new Error(
-            `La contribution [${data.question.order} - ${data.agreement.id}] ne peut pas être de ce type parce que la générique n'a pas de réponse`
+            `La contribution [${data.question.order} - ${data.agreement.id}] ne peut pas référencer une générique qui n'a pas de réponse`
           );
         }
         return;
