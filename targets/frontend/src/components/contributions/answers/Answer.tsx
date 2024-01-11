@@ -48,7 +48,7 @@ export const ContributionsAnswer = ({
 
   const onSubmit = async (newStatus: Status, data: Answer) => {
     try {
-      if (!answer || !answer.id || !genericAnswer) {
+      if (!answer || !answer.id) {
         throw new Error("Id non définit");
       }
 
