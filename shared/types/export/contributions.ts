@@ -21,14 +21,12 @@ export interface ContributionMetadata {
 
 export interface ContributionContentBase {
   content: string;
-  description: string;
 }
 
 export interface ContributionFicheSpContent {
   url: string;
   date: string;
   raw: string;
-  description: string;
   ficheSpDescription: string;
 }
 export interface ContributionGenericNoCDTContent {
