@@ -39,11 +39,31 @@ describe("Glossary", () => {
       );
     });
 
+    test("should add webcomponent tooltip even if next tag is omitted", () => {
+      const htmlContent = `<p>indemnité</p><summary>test</summary>`;
+      expect(addGlossary(htmlContent)).toEqual(
+        `<p><webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip></p><summary>test</summary>`
+      );
+    });
+
     test("should not add webcomponent tooltip in a summary tag with strong", () => {
       const htmlContent = `<summary><strong>L'indemnité de fin de contrat n'est pas due dans les cas suivants</strong></summary>`;
       expect(addGlossary(htmlContent)).toEqual(
         `<summary><strong>L'indemnité de fin de contrat n'est pas due dans les cas suivants</strong></summary>`
       );
+    });
+
+    test.each`
+      heading
+      ${"h1"}
+      ${"h2"}
+      ${"h3"}
+      ${"h4"}
+      ${"h5"}
+      ${"h6"}
+    `("should not add webcomponent tooltip in $heading", ({ heading }) => {
+      const markdown = `<${heading}>indemnité</${heading}>`;
+      expect(addGlossary(markdown)).toEqual(markdown);
     });
 
     test("should not replace html property for cc word", () => {
