@@ -1,2 +1,2 @@
-alter table "contribution"."answers" add column "description" text
+alter table "contribution"."answers" add column "description" varchar(270)
  null;

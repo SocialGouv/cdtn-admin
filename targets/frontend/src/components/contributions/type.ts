@@ -130,8 +130,8 @@ const answerBaseSchema = z.object({
   content: z.string().nullable().optional(),
   description: z
     .string()
-    .max(150, {
-      message: "La description ne doit pas contenir plus de 150 caractères",
+    .max(170, {
+      message: "La description ne doit pas contenir plus de 170 caractères",
     })
     .nullable()
     .optional(),
