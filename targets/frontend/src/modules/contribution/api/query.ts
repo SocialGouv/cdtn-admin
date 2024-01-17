@@ -5,6 +5,7 @@ export const getContributionAnswerById = gql`
     contribution_answers_by_pk(id: $id) {
       id
       content
+      description
       content_type
       agreement {
         id

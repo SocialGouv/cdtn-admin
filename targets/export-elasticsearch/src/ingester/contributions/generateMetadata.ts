@@ -36,7 +36,6 @@ export const generateMetadata = (
 
   return {
     title,
-    description: contentSliced,
     text: isGenericContribution(contribution)
       ? contentSliced
       : `${contribution.idcc} ${title}`,

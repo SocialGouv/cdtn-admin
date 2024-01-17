@@ -11,6 +11,7 @@ query contribution_answer($id: uuid) {
     id
     questionId: question_id
     agreementId: agreement_id
+    description
     content
     contentType: content_type
     updatedAt: updated_at

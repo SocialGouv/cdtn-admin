@@ -15,7 +15,6 @@ export interface ContributionGenericInfos {
 
 export interface ContributionMetadata {
   title: string;
-  description: string;
   text: string;
 }
 
