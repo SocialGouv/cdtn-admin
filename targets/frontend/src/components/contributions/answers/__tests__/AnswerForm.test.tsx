@@ -146,7 +146,13 @@ const onSubmit = jest.fn(() => Promise.resolve());
 
 describe("AnswerForm", () => {
   test("Vérifier l'affichage du contenu", () => {
-    render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
+    render(
+      <AnswerForm
+        answer={answerBase}
+        genericAnswerContentType={"ANSWER"}
+        onSubmit={onSubmit}
+      />
+    );
     expect(screen.queryByText("content")).toBeInTheDocument();
 
     const spInput = screen.getByLabelText("Fiche service-public");
@@ -177,7 +183,11 @@ describe("AnswerForm", () => {
 
   test("Vérifier l'affichage des options", () => {
     const { rerender } = render(
-      <AnswerForm answer={answerBase} onSubmit={onSubmit} />
+      <AnswerForm
+        answer={answerBase}
+        genericAnswerContentType={"ANSWER"}
+        onSubmit={onSubmit}
+      />
     );
     expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
     expect(
@@ -192,6 +202,7 @@ describe("AnswerForm", () => {
 
     rerender(
       <AnswerForm
+        genericAnswerContentType={"ANSWER"}
         answer={{
           ...answerBase,
           agreementId: "0016",
@@ -218,7 +229,13 @@ describe("AnswerForm", () => {
   });
 
   test("Vérifier que la sauvegarde fonctionne", async () => {
-    render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
+    render(
+      <AnswerForm
+        genericAnswerContentType={"ANSWER"}
+        answer={answerBase}
+        onSubmit={onSubmit}
+      />
+    );
     fireEvent.click(screen.getByText("Sauvegarder"));
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
@@ -226,7 +243,13 @@ describe("AnswerForm", () => {
   });
 
   test("Vérifier l'affichage du message d'erreur pour les fiches SP", async () => {
-    render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
+    render(
+      <AnswerForm
+        genericAnswerContentType={"ANSWER"}
+        answer={answerBase}
+        onSubmit={onSubmit}
+      />
+    );
     fireEvent.click(screen.getByText("Utiliser la fiche service public"));
     userEvent.clear(screen.getByLabelText("Fiche service-public"));
     fireEvent.click(screen.getByText("Sauvegarder"));
@@ -236,7 +259,13 @@ describe("AnswerForm", () => {
   });
 
   test("Vérifier l'affichage du message d'erreur pour les références", async () => {
-    render(<AnswerForm answer={answerBase} onSubmit={onSubmit} />);
+    render(
+      <AnswerForm
+        genericAnswerContentType={"ANSWER"}
+        answer={answerBase}
+        onSubmit={onSubmit}
+      />
+    );
     fireEvent.click(screen.getByText("Ajouter une référence"));
     fireEvent.click(screen.getByText("Sauvegarder"));
     const [labelRequired] = await screen.findAllByText(

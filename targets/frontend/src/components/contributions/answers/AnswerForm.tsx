@@ -1,4 +1,4 @@
-import { Button, FormControl, Stack } from "@mui/material";
+import { Button, FormControl, Stack, Alert } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -79,6 +79,7 @@ export type AnswerFormValidation = z.infer<typeof answerFormSchema>;
 
 export type ContributionsAnswerProps = {
   answer: AnswerWithStatus;
+  genericAnswerContentType: Answer["contentType"];
   onSubmit: (status: Status, data: Answer) => Promise<void>;
 };
 
@@ -88,6 +89,7 @@ const isCodeDuTravail = (answer: Answer): boolean =>
 export const AnswerForm = ({
   answer,
   onSubmit,
+  genericAnswerContentType,
 }: ContributionsAnswerProps): JSX.Element => {
   const [status, setStatus] = useState<Status>("TODO");
   const router = useRouter();
@@ -97,6 +99,7 @@ export const AnswerForm = ({
       setStatus(answer.status.status);
     }
   }, [answer]);
+  const isAGenericWithNoCdt = genericAnswerContentType === "GENERIC_NO_CDT";
 
   const {
     control,
@@ -176,15 +179,18 @@ export const AnswerForm = ({
     {
       label: "La convention collective ne prévoit rien",
       value: "NOTHING",
+      isDisabled: isAGenericWithNoCdt,
     },
     {
       label: "La convention collective renvoie au Code du Travail",
       value: "CDT",
+      isDisabled: isAGenericWithNoCdt,
     },
     {
       label:
         "La convention collective intégralement moins favorable que le CDT",
       value: "UNFAVOURABLE",
+      isDisabled: isAGenericWithNoCdt,
     },
     {
       label: "Nous n'avons pas la réponse",
@@ -204,6 +210,12 @@ export const AnswerForm = ({
   return (
     <form>
       <Stack spacing={5}>
+        {isAGenericWithNoCdt && answer.agreementId !== "0000" && (
+          <Alert severity="info">
+            La contribution générique est de type `Le code du travail ne prévoit
+            rien`
+          </Alert>
+        )}
         <FormControl>
           <FormTextField
             name="updateDate"
