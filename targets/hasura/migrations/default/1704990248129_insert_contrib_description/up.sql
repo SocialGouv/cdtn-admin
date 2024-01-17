@@ -15,12 +15,12 @@ with _content_get as (
 	where a.content_type in ('NOTHING', 'UNKNOWN', 'UNFAVOURABLE', 'CDT')
 ),
 _content_formatted as (
-	select id, substring(trim(REGEXP_REPLACE(REGEXP_REPLACE("content", '(<[^>]*>?)|(&nbsp;)', ' ', 'gm'), '[ ]{2,}', ' ', 'gm')), 1, 166) as "content"
+	select id, substring(trim(REGEXP_REPLACE(REGEXP_REPLACE("content", '(<[^>]*>?)|(&nbsp;)', ' ', 'gm'), '[ ]{2,}', ' ', 'gm')), 1, 156) as "content"
 	from _content_get
 	where "content" is not null and "content" <> ''
 ),
 _content_points as (
-	select id, case when length("content") = 166 then substring("content", 1, 166 - position(' ' in reverse("content"))) || ' ...' else "content" end as description from _content_formatted
+	select id, case when length("content") = 156 then substring("content", 1, 156 - position(' ' in reverse("content"))) || ' ...' else "content" end as description from _content_formatted
 ),
 _update_contribution as (
 	update contribution.answers a
