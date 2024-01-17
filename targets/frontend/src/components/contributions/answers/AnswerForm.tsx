@@ -1,4 +1,4 @@
-import { Button, FormControl, Stack } from "@mui/material";
+import { Button, FormControl, Stack, Alert } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -80,6 +80,7 @@ export type AnswerFormValidation = z.infer<typeof answerFormSchema>;
 
 export type ContributionsAnswerProps = {
   answer: AnswerWithStatus;
+  genericAnswerContentType: Answer["contentType"];
   onSubmit: (status: Status, data: Answer) => Promise<void>;
 };
 
@@ -89,6 +90,7 @@ const isCodeDuTravail = (answer: Answer): boolean =>
 export const AnswerForm = ({
   answer,
   onSubmit,
+  genericAnswerContentType,
 }: ContributionsAnswerProps): JSX.Element => {
   const [status, setStatus] = useState<Status>("TODO");
   const router = useRouter();
@@ -98,6 +100,7 @@ export const AnswerForm = ({
       setStatus(answer.status.status);
     }
   }, [answer]);
+  const isAGenericWithNoCdt = genericAnswerContentType === "GENERIC_NO_CDT";
 
   const {
     control,
@@ -105,6 +108,7 @@ export const AnswerForm = ({
     trigger,
     formState: { isDirty },
     reset,
+    watch,
   } = useForm<AnswerFormValidation>({
     resolver: zodResolver(answerFormSchema),
     shouldFocusError: true,
@@ -121,6 +125,8 @@ export const AnswerForm = ({
       updateDate: answer?.updateDate ?? "",
     },
   });
+
+  const contentType = watch("contentType");
 
   const onRouteChangeStart = () => {
     if (
@@ -178,15 +184,18 @@ export const AnswerForm = ({
     {
       label: "La convention collective ne prévoit rien",
       value: "NOTHING",
+      isDisabled: isAGenericWithNoCdt,
     },
     {
       label: "La convention collective renvoie au Code du Travail",
       value: "CDT",
+      isDisabled: isAGenericWithNoCdt,
     },
     {
       label:
         "La convention collective intégralement moins favorable que le CDT",
       value: "UNFAVOURABLE",
+      isDisabled: isAGenericWithNoCdt,
     },
     {
       label: "Nous n'avons pas la réponse",
@@ -206,6 +215,12 @@ export const AnswerForm = ({
   return (
     <form>
       <Stack spacing={5}>
+        {isAGenericWithNoCdt && answer.agreementId !== "0000" && (
+          <Alert severity="info">
+            La contribution générique est de type `Le code du travail ne prévoit
+            rien`
+          </Alert>
+        )}
         <FormControl>
           <FormTextField
             name="updateDate"
@@ -224,14 +239,16 @@ export const AnswerForm = ({
             multiline
           />
         </FormControl>
-        <FormControl>
-          <FormEditionField
-            label="Réponse"
-            name="content"
-            disabled={isNotEditable(answer)}
-            control={control}
-          />
-        </FormControl>
+        {contentType === "ANSWER" && (
+          <FormControl>
+            <FormEditionField
+              label="Réponse"
+              name="content"
+              disabled={isNotEditable(answer)}
+              control={control}
+            />
+          </FormControl>
+        )}
         {answer && (
           <FormRadioGroup
             name="contentType"
@@ -249,14 +266,14 @@ export const AnswerForm = ({
             ]}
           />
         )}
-        {isCodeDuTravail(answer) && (
+        {isCodeDuTravail(answer) && contentType === "SP" && (
           <FicheSpDocumentInput
             name="contentFichesSpDocument"
             control={control}
             disabled={isNotEditable(answer)}
           />
         )}
-        {isCodeDuTravail(answer) && (
+        {isCodeDuTravail(answer) && contentType === "GENERIC_NO_CDT" && (
           <FormControl>
             <FormTextField
               label="Message d'alerte pour les CC non traitées (si pas de CDT)"
@@ -296,7 +313,6 @@ export const AnswerForm = ({
               : undefined
           }
         />
-
         {!submitting && (
           <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
             <Button

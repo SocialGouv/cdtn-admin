@@ -108,6 +108,7 @@ export const useContributionAnswerQuery = ({
     },
     context,
   });
+
   if (
     !result?.data?.contribution_answers ||
     !result?.data?.contribution_answers?.length

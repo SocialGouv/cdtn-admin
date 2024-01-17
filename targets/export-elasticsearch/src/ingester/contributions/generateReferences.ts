@@ -20,7 +20,7 @@ export const generateReferences = (
     }
     if (cdtContrib.type === "generic-no-cdt") {
       throw new Error(
-        `La contribution [${contrib.questionIndex} - ${contrib.idcc}] ne peut pas être de type "Code du travail" parce que la générique n'a pas de réponse`
+        `La contribution [${contrib.questionIndex} - ${contrib.idcc}] ne peut pas référencer une générique qui n'a pas de réponse`
       );
     }
     const result = [...contrib.references, ...cdtContrib.references];

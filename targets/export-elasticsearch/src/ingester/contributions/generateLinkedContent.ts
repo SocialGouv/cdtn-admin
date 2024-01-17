@@ -66,7 +66,7 @@ export const generateLinkedContent = async (
     }
     if (genericContribution.type === "generic-no-cdt") {
       throw new Error(
-        `La contribution [${currentContribution.questionIndex} - ${currentContribution.idcc}] ne peut pas être de type "Code du travail" parce que la générique n'a pas de réponse`
+        `La contribution [${currentContribution.questionIndex} - ${currentContribution.idcc}] ne peut pas référencer une générique qui n'a pas de réponse`
       );
     }
     const genericLinkedContent = await generateLinkedContent(
