@@ -24,7 +24,7 @@ Vous pouvez maintenant lancer la commande `yarn install` pour installer les pack
 | Environnement                                      | URL                                                       |
 | -------------------------------------------------- | --------------------------------------------------------- |
 | Production (access granted only for authorized IP) | <https://cdtn-admin.fabrique.social.gouv.fr/>             |
-| Preproduction                                      | <https://preprod-cdtn-admin.dev.fabrique.social.gouv.fr/> |
+| Preproduction                                      | <https://cdtn-admin-preprod.dev.fabrique.social.gouv.fr/> |
 
 ## Projets
 
