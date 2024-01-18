@@ -193,7 +193,7 @@ export const AnswerForm = ({
     },
     {
       label:
-        "La convention collective intégralement moins favorable que le CDT",
+        "La convention collective est intégralement moins favorable que le CDT",
       value: "UNFAVOURABLE",
       isDisabled: isAGenericWithNoCdt,
     },
