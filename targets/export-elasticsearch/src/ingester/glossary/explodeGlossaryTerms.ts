@@ -7,12 +7,11 @@ const conventionMatchers =
 const startWordBreaks = `(?<=^| |\\.|,|'|>|\\()`;
 const endWordBreaks = `(?= |\\.|,|'|$|<|\\))`;
 
-const startAnchorOmit = `(?<!<a>|<summary>|<summary><strong>)`;
-const endAnchorOmit = `(?![^<]*</a>|[^<]*</summary>|[^<]*</strong></summary>)`;
+const endAnchorOmit = `(?![^<]*</a>|[^<]*</summary>|[^<]*</strong></summary>|[^<]*</h[1-6]>)`;
 
 const tagAttributeOmit = `(?<=(^|>)[^><]*)`;
 
-const startTag = `${startAnchorOmit}${tagAttributeOmit}${startWordBreaks}`;
+const startTag = `${tagAttributeOmit}${startWordBreaks}`;
 const endTag = `${endWordBreaks}${endAnchorOmit}`;
 
 export const explodeGlossaryTerms = (glossary: Glossary): GlossaryTerms[] => {
