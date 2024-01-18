@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.31.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.30.3...v2.31.0) (2024-01-18)
+
+### Bug Fixes
+
+- **contributions:** desactive la logique sur les CCs qui ne prévoit rien qui renvoie vers le CDT qui prévoit rien ([#1230](https://github.com/SocialGouv/cdtn-admin/issues/1230)) ([85b4e72](https://github.com/SocialGouv/cdtn-admin/commit/85b4e72e91f28498fe3b29da81d6dd610294b71f))
+- **glossaire:** ignore les headings dans le glossaire ([#1235](https://github.com/SocialGouv/cdtn-admin/issues/1235)) ([f0de3af](https://github.com/SocialGouv/cdtn-admin/commit/f0de3af92c845e71c476046f455c626fb70ef6ae))
+
 ## [2.30.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.30.2...v2.30.3) (2024-01-11)
 
 **Note:** Version bump only for package export-elasticsearch

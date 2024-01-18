@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.31.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.30.3...v2.31.0) (2024-01-18)
+
+**Note:** Version bump only for package ingester
+
 ## [2.30.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.30.2...v2.30.3) (2024-01-11)
 
 **Note:** Version bump only for package ingester
