@@ -31,6 +31,8 @@ export const generateMetadata = (
       ? content.ficheSpDescription
       : "content" in content
       ? content.content
+      : "messageBlockGenericNoCDT" in content
+      ? content.messageBlockGenericNoCDT
       : "";
 
   const title = contribution.questionName;
