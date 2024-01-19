@@ -25,11 +25,13 @@ export const generateMetadata = (
   content: ContributionContent
 ): ContributionMetadata => {
   const contentOrDescription =
-    "ficheSpDescription" in content
+    contribution.contentType === "GENERIC_NO_CDT"
+      ? contribution.description
+      : "ficheSpDescription" in content
       ? content.ficheSpDescription
-      : "messageBlockGenericNoCDT" in content
-      ? content.messageBlockGenericNoCDT
-      : content.content;
+      : "content" in content
+      ? content.content
+      : "";
 
   const title = contribution.questionName;
   const contentSliced = first150(toText(contentOrDescription));
