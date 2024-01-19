@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.31.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.31.0...v2.31.1) (2024-01-19)
+
+### Bug Fixes
+
+- duplicate initial id 39 51 ([#1246](https://github.com/SocialGouv/cdtn-admin/issues/1246)) ([2f1cdc0](https://github.com/SocialGouv/cdtn-admin/commit/2f1cdc03ec35905a1825f9173f103e11f95f6d49))
+
 # [2.31.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.30.3...v2.31.0) (2024-01-18)
 
 ### Bug Fixes
