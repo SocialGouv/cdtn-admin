@@ -9,11 +9,16 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
 } from "@mui/material";
+import DescriptionIcon from "@mui/icons-material/Description";
+import CloseIcon from "@mui/icons-material/Close";
+import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import React, { useEffect, useState } from "react";
 import { Answer } from "../type";
 import { StatusContainer } from "../status";
 import { useRouter } from "next/router";
+import { fr } from "@codegouvfr/react-dsfr";
 
 type EditQuestionAnswerListProps = {
   answers: Answer[];
@@ -22,6 +27,45 @@ type EditQuestionAnswerListProps = {
 
 type AnswerCheck = {
   [id: string]: boolean;
+};
+
+const contentTypes = {
+  ANSWER: {
+    description: "Afficher la réponse",
+    icon: (
+      <DescriptionIcon
+        fontSize="small"
+        style={{
+          color: fr.colors.decisions.artwork.major.greenEmeraude.active,
+        }}
+      />
+    ),
+  },
+  NOTHING: {
+    description: "La convention collective ne prévoit rien",
+    icon: <CloseIcon fontSize="small" />,
+  },
+  CDT: {
+    description: "La convention collective renvoie au Code du Travail",
+    icon: <small>CDT</small>,
+  },
+  UNFAVOURABLE: {
+    description:
+      "La convention collective est intégralement moins favorable que le CDT",
+    icon: <small>CDT</small>,
+  },
+  UNKNOWN: {
+    description: "Nous n'avons pas la réponse",
+    icon: <DoNotDisturbIcon fontSize="small" />,
+  },
+  SP: {
+    description: "Fiche service public",
+    icon: <small>SP</small>,
+  },
+  GENERIC_NO_CDT: {
+    description: "Le code du travail ne prévoit rien",
+    icon: <CloseIcon fontSize="small" />,
+  },
 };
 
 export const QuestionAnswerList = ({
@@ -97,6 +141,7 @@ export const QuestionAnswerList = ({
                 </TableCell>
                 <TableCell align="center">IDCC</TableCell>
                 <TableCell>Convention Collective</TableCell>
+                <TableCell align="center">Type</TableCell>
                 <TableCell align="center">Statut</TableCell>
               </TableRow>
             </TableHead>
@@ -133,6 +178,23 @@ export const QuestionAnswerList = ({
                       onClick={() => redirectToAnswer(answer.id)}
                     >
                       {answer?.agreement?.name}
+                    </TableCell>
+                    <TableCell
+                      scope="row"
+                      align="center"
+                      onClick={() => redirectToAnswer(answer.id)}
+                    >
+                      {answer.contentType && (
+                        <Tooltip
+                          style={{
+                            color:
+                              fr.colors.decisions.text.default.grey.default,
+                          }}
+                          title={contentTypes[answer.contentType].description}
+                        >
+                          {contentTypes[answer.contentType].icon}
+                        </Tooltip>
+                      )}
                     </TableCell>
                     <TableCell
                       scope="row"

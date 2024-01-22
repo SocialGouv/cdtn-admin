@@ -18,7 +18,7 @@ export const StatusContainer = ({
           color: statusesMapping[status.status].color,
         }}
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent="center"
         spacing={1}
         data-testid={dataTestid}
       >
