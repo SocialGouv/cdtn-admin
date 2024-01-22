@@ -36,7 +36,7 @@ const contentTypes = {
       <DescriptionIcon
         fontSize="small"
         style={{
-          color: fr.colors.decisions.background.contrast.blueFrance.active,
+          color: fr.colors.decisions.artwork.major.greenEmeraude.active,
         }}
       />
     ),
@@ -188,8 +188,7 @@ export const QuestionAnswerList = ({
                         <Tooltip
                           style={{
                             color:
-                              fr.colors.decisions.background.contrast.grey
-                                .active,
+                              fr.colors.decisions.text.default.grey.default,
                           }}
                           title={contentTypes[answer.contentType].description}
                         >
