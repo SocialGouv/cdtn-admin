@@ -17,7 +17,7 @@ import { DetailsSummary } from "@tiptap-pro/extension-details-summary";
 import { DetailsContent } from "@tiptap-pro/extension-details-content";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { Link } from "@tiptap/extension-link";
-import { Alert } from "./extensions";
+import { Alert, Title } from "./extensions";
 
 export type EditorProps = {
   label: string;
@@ -73,6 +73,7 @@ export const Editor = ({
         },
       }),
       Alert,
+      Title,
     ],
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
@@ -139,6 +140,14 @@ const StyledEditorContent = styled(EditorContent)(() => {
       },
       "a::after": {
         display: "none",
+      },
+      "span.title": {
+        fontSize: "1.75rem",
+        fontWeight: 700,
+      },
+      "span.sub-title": {
+        fontSize: "1.5rem",
+        fontWeight: 700,
       },
       ".alert": {
         marginBottom: "1.6rem",

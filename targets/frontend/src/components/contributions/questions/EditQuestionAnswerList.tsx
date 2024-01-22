@@ -32,14 +32,7 @@ type AnswerCheck = {
 const contentTypes = {
   ANSWER: {
     description: "Afficher la réponse",
-    icon: (
-      <DescriptionIcon
-        fontSize="small"
-        style={{
-          color: fr.colors.decisions.artwork.major.greenEmeraude.active,
-        }}
-      />
-    ),
+    icon: <DescriptionIcon fontSize="small" />,
   },
   NOTHING: {
     description: "La convention collective ne prévoit rien",
