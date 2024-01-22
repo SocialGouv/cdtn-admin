@@ -76,7 +76,7 @@ export async function generateContributions(
 
     generatedContributions.push({
       ...contrib,
-      ...generateMetadata(contrib, content),
+      ...generateMetadata(contrib),
       ...addGlossaryToContent(content, addGlossary),
       ...doc,
       breadcrumbs:
