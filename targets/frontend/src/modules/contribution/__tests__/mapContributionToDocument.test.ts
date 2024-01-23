@@ -473,5 +473,56 @@ describe("mapContributionToDocument", () => {
       );
       expect(result!.is_searchable).toEqual(false);
     });
+
+    it("devrait remplir le titre et la meta_description", async () => {
+      const inputContribution: ContributionsAnswers = {
+        id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+        content: "<p>Texte de la réponse</p>",
+        content_type: "ANSWER",
+        description: "ma description",
+        agreement: {
+          id: "0000",
+          name: "Code du travail",
+          kali_id: "CDT",
+        },
+        question: {
+          id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+          content:
+            "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+          order: 43,
+        },
+        kali_references: [],
+        legi_references: [],
+        other_references: [],
+        cdtn_references: [],
+        content_fiche_sp: null,
+        message_block_generic_no_CDT: null,
+      };
+
+      const inputDoc: Document<any> = {
+        cdtn_id: "cdtn_id",
+        initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+        title: "",
+        meta_description: "",
+        source: "contributions",
+        slug: "hospitalisation-du-nouveau-ne-quelles-consequences-sur-le-conge-de-maternite",
+        text: " texte",
+        document: {
+          info_random: "random",
+        },
+        is_available: true,
+        is_searchable: false,
+      };
+
+      const result = await mapContributionToDocument(
+        inputContribution,
+        inputDoc,
+        jest.fn()
+      );
+      expect(result!.title).toEqual(
+        "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?"
+      );
+      expect(result!.meta_description).toEqual("ma description");
+    });
   });
 });

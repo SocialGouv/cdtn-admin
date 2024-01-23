@@ -88,8 +88,8 @@ export const mapContributionToDocument = async (
     cdtn_id: document?.cdtn_id ?? generateCdtnId(data.question.content),
     initial_id: data.id,
     source: SOURCES.CONTRIBUTIONS,
-    meta_description: document?.meta_description ?? "", // la génération se fait à l'export car on a besoin du dernier contenu de la fiche sp
-    title: document?.title ?? "", // on aurait pu le faire ici mais pour que ça soit cohérent autant le gérer à l'export
+    meta_description: document?.meta_description || data?.description || "", // la génération se fait à l'export car on a besoin du dernier contenu de la fiche sp
+    title: document?.title || data.question.content, // on aurait pu le faire ici mais pour que ça soit cohérent autant le gérer à l'export
     text: document?.text ?? "", // la génération se fait à l'export car on a besoin du dernier contenu de la fiche sp
     slug:
       document?.slug ??
