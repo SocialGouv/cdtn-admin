@@ -28,8 +28,8 @@ import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
 import {
-  isNewContribution,
   generateContributions,
+  isNewContribution,
   isOldContribution,
 } from "./contributions";
 import { generateAgreements } from "./agreements";
@@ -164,8 +164,10 @@ export async function* cdtnDocumentsGen() {
     SOURCES.CONTRIBUTIONS,
     getBreadcrumbs
   );
+  logger.info(`Fetched ${contributions.length} contributions`);
 
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
+  logger.info(`Fetched ${ccnData.length} conventions`);
 
   const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
     return ccn.highlight;
@@ -181,6 +183,7 @@ export async function* cdtnDocumentsGen() {
 
   const oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[] =
     contributions.filter(isOldContribution);
+  logger.info(`Fetched ${oldContributions.length} old contributions`);
 
   const breadcrumbsOfRootContributionsPerIndex = oldContributions.reduce(
     (state: Record<number, Breadcrumbs[]>, contribution: any) => {
@@ -193,6 +196,7 @@ export async function* cdtnDocumentsGen() {
   );
 
   const newContributions = contributions.filter(isNewContribution);
+  logger.info(`Fetched ${newContributions.length} new contributions`);
 
   const newGeneratedContributions = await generateContributions(
     newContributions,
@@ -202,6 +206,8 @@ export async function* cdtnDocumentsGen() {
     addGlossary,
     getBreadcrumbs
   );
+
+  logger.info(`Generated ${newGeneratedContributions.length} new contributions`);
 
   const oldGeneratedContributions = oldContributions.map(
     ({ answers, breadcrumbs, ...contribution }: any) => {
@@ -255,6 +261,9 @@ export async function* cdtnDocumentsGen() {
       return obj;
     }
   ) as unknown as OldContributionElasticDocument[];
+
+  logger.info(`Generated ${oldGeneratedContributions.length} new contributions`);
+
 
   yield {
     documents: [...newGeneratedContributions, ...oldGeneratedContributions],
