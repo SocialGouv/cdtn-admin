@@ -262,7 +262,7 @@ export async function* cdtnDocumentsGen() {
     }
   ) as unknown as OldContributionElasticDocument[];
 
-  logger.info(`Generated ${oldGeneratedContributions.length} new contributions`);
+  logger.info(`Generated ${oldGeneratedContributions.length} old contributions`);
 
 
   yield {
