@@ -207,7 +207,9 @@ export async function* cdtnDocumentsGen() {
     getBreadcrumbs
   );
 
-  logger.info(`Generated ${newGeneratedContributions.length} new contributions`);
+  logger.info(
+    `Generated ${newGeneratedContributions.length} new contributions`
+  );
 
   const oldGeneratedContributions = oldContributions.map(
     ({ answers, breadcrumbs, ...contribution }: any) => {
@@ -262,11 +264,19 @@ export async function* cdtnDocumentsGen() {
     }
   ) as unknown as OldContributionElasticDocument[];
 
-  logger.info(`Generated ${oldGeneratedContributions.length} old contributions`);
+  logger.info(
+    `Generated ${oldGeneratedContributions.length} old contributions`
+  );
 
-
+  const generatedContributions = [
+    ...newGeneratedContributions,
+    ...oldGeneratedContributions,
+  ];
+  if (generatedContributions.length < 1998) {
+    throw Error("Le nombre de contributions est inférieur à celui attendu");
+  }
   yield {
-    documents: [...newGeneratedContributions, ...oldGeneratedContributions],
+    documents: generatedContributions,
     source: SOURCES.CONTRIBUTIONS,
   };
 
