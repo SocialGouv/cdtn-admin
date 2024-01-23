@@ -5,24 +5,27 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-if ! command -v kubectl &> /dev/null; then
-    echo "${RED}Error : kubectl is not installed.${NC}"
-    exit 1
+if ! command -v kubectl &>/dev/null; then
+  echo "${RED}Error : kubectl is not installed.${NC}"
+  exit 1
 fi
 
-namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}'; echo)
+namespace=$(
+  kubectl config view --minify --output 'jsonpath={..namespace}'
+  echo
+)
 folder="local_dump"
 output="dump_$(date +%d_%m_%Y_%H_%M_%S).psql"
 
 function usage() {
-   echo "Usage: $0 [OPTIONS]"
-   echo "Options:"
-   echo " -h, --help                    Display this help message"
-   echo " -n, --namespace               Set a specific namespace (run on the current otherwise)"
+  echo "Usage: $0 [OPTIONS]"
+  echo "Options:"
+  echo " -h, --help                    Display this help message"
+  echo " -n, --namespace               Set a specific namespace (run on the current otherwise)"
 }
 
 has_argument() {
-    [[ ("$1" == *=* && -n ${1#*=}) || ( ! -z "$2" && "$2" != -*)  ]];
+  [[ ("$1" == *=* && -n ${1#*=}) || (! -z "$2" && "$2" != -*) ]]
 }
 
 extract_argument() {
@@ -32,30 +35,35 @@ extract_argument() {
 handle_options() {
   while [ $# -gt 0 ]; do
     case $1 in
-      -h | --help)
-        usage
-        exit 0
-        ;;
-      -n | --namespace*)
-        if ! has_argument $@; then
-          echo -e "${RED}Namespace manquant.${NC}" >&2
-          usage
-          exit 1
-        fi
-
-        namespace=$(extract_argument $@)
-
-        shift
-        ;;
-      *)
-        echo "Invalid option: $1" >&2
+    -h | --help)
+      usage
+      exit 0
+      ;;
+    -n | --namespace*)
+      if ! has_argument $@; then
+        echo -e "${RED}Namespace manquant.${NC}" >&2
         usage
         exit 1
-        ;;
+      fi
+
+      namespace=$(extract_argument $@)
+
+      shift
+      ;;
+    *)
+      echo "Invalid option: $1" >&2
+      usage
+      exit 1
+      ;;
     esac
     shift
   done
 }
+
+if [ ! -d "$folder" ]; then
+  mkdir $folder
+  echo -e "${GREEN}Création du dossier $folder${NC}"
+fi
 
 # Main script execution
 handle_options "$@"
@@ -88,7 +96,7 @@ if [ -z "$database" ]; then
 fi
 
 echo -e "Dump de la base de données..."
-kubectl exec -n $namespace $pod -c postgres -- pg_dump -Fc -d $database > ${folder}/${output}
+kubectl exec -n $namespace $pod -c postgres -- pg_dump -Fc -d $database >${folder}/${output}
 
 echo -e "${GREEN}Dump terminé : ${folder}/${output}${NC}"
 
@@ -97,4 +105,3 @@ echo -e "Commande pour restaurer la BDD en local :"
 echo -e "docker compose exec -T postgres pg_restore \\"
 echo -e "  --dbname postgres --clean --if-exists --user postgres \\"
 echo -e "  --no-owner --no-acl --verbose  < ${folder}/${output} "
-
