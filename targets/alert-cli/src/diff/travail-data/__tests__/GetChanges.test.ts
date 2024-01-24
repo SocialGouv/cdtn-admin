@@ -1,10 +1,9 @@
 import { describe, expect, it } from "@jest/globals";
 import { getChanges } from "../index";
-import {
-  newFirstAugustWithMajorChanges,
-  newFirstJulyWithTechnicalChanges,
-  oldFirstJuly,
-} from "./data/modification-data";
+
+import oldFirstJuly from "./dataset/oldFirstJuly.json";
+import newFirstJulyWithTechnicalChanges from "./dataset/newFirstJulyWithTechnicalChanges.json";
+import newFirstAugustWithMajorChanges from "./dataset/newFirstAugustWithMajorChanges.json";
 
 describe("getChanges", () => {
   describe("la date de modification ne change pas (le contenu est identique)", () => {
