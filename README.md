@@ -103,16 +103,6 @@ Frontend is reachable at the address <http://localhost:3001>
 
 This service exposes an API which handle to trigger the export of the data from Postgres to Elasticsearch. Then, copy sitemap.xml from a container azure to an other container azure. To finish, it copies a container azure to an other container azure.
 
-### Environment variable
-
-| Name                   | Description                                                                                     | Default value |
-| ---------------------- | ----------------------------------------------------------------------------------------------- | ------------- |
-| `DISABLE_LIMIT_EXPORT` | It allows you to disable concurrent run in ingester (by default it's one hour between each run) | undefined     |
-| `DISABLE_INGESTER`     | It allows you to disable ingester in the process of export                                      | undefined     |
-| `DISABLE_SITEMAP`      | It allows you to disable copy of the sitemap                                                    | undefined     |
-| `DISABLE_COPY`         | It allows you to disable copy between two containers                                            | undefined     |
-| `DISABLE_GLOSSARY`     | It allows you to disable the glossary (inject tooltips in contents)                             | undefined     |
-
 ### Running an export
 
 #### 1. Install and build dependencies
@@ -134,12 +124,18 @@ docker-compose up -d postgres
 
 #### 3. Load data from production to local
 
+##### 0. Create a dump
+
+```sh
+./scripts/dump_db.sh -n cdtn-admin
+```
+
 ##### 1. Restore data
 
 ```sh
 docker-compose exec -T postgres pg_restore \
   --dbname postgres --clean --if-exists --user postgres \
-  --no-owner --no-acl --verbose  < ~/MY_PATH/hasura_prod_db.psql
+  --no-owner --no-acl --verbose  < ~/MY_PATH/file.psql
 ```
 
 ##### 2. Restore roles
@@ -193,14 +189,6 @@ NLP_URL=https://serving-ml-preprod.dev.fabrique.social.gouv.fr yarn workspace @c
 2. Connect to the frontend ui with `codedutravailnumerique@travail.gouv.fr` and `admin` as password.
 3. Navigate to `Mise à jour`
 4. Click on `Mettre à jour la pre-production` or `Mettre à jour la production`
-
-### Générer un backup en local
-
-1. Se connecter à teleport : `tsh login --proxy=teleport.fabrique.social.gouv.fr --auth=github`
-2. Lancer la commande pour faire un proxy avec la database de prod : `tsh proxy db --db-user=PostgresAdmins --db-name=postgres cdtnadminprodserver --tunnel`
-3. Utiliser pg_dump pour faire un backup de la database en remplaçant par le bon port : `docker-compose exec -T postgres pg_dump --no-owner --no-acl -v -Fc postgres://PostgresAdmins@host.docker.internal:PORT/hasura_prod > hasura_cdtn_admin_prod_db.psql`
-
-La documentation pour teleport est disponible ici : <https://socialgouv.github.io/support/docs/faq#alternative-via-le-cli-teleport-tsh>
 
 ## Données
 
