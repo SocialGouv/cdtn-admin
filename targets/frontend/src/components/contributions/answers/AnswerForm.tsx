@@ -236,7 +236,6 @@ export const AnswerForm = ({
             name="description"
             disabled={isNotEditable(answer)}
             control={control}
-            multiline
           />
         </FormControl>
         {contentType === "ANSWER" && (
