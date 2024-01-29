@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.32.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.32.0...v2.32.1) (2024-01-26)
+
+### Bug Fixes
+
+- **contributions:** ajout des contributions pour les contributions sans CDT ([#1262](https://github.com/SocialGouv/cdtn-admin/issues/1262)) ([593812c](https://github.com/SocialGouv/cdtn-admin/commit/593812c22462ab35a597d47bd5c3dad6df7e3517))
+- **contributions:** remove multiline from description field ([#1263](https://github.com/SocialGouv/cdtn-admin/issues/1263)) ([1ab70b5](https://github.com/SocialGouv/cdtn-admin/commit/1ab70b57f1a09e69a9d3daa9b804c9fe06c3b51e))
+- **scripts:** ajout de la création automatique du folder ([#1260](https://github.com/SocialGouv/cdtn-admin/issues/1260)) ([97303bd](https://github.com/SocialGouv/cdtn-admin/commit/97303bd2263a68cec76ce17f337e61cbe46cd372))
+
+# [2.32.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.31.1...v2.32.0) (2024-01-23)
+
+### Bug Fixes
+
+- **contribution:** générer une description pour les contenus qui n'ont pas de CDT ([#1249](https://github.com/SocialGouv/cdtn-admin/issues/1249)) ([d23a8e6](https://github.com/SocialGouv/cdtn-admin/commit/d23a8e6b8ff47471e209a2cb10af1b7172d53147))
+- **ingester logs:** add logs during ingester to debug contributions export ([#1257](https://github.com/SocialGouv/cdtn-admin/issues/1257)) ([c2ab168](https://github.com/SocialGouv/cdtn-admin/commit/c2ab168d5a7d2c1e9c995e9f983badb6fbae25c6))
+
+### Features
+
+- **liste des réponses:** affichage du type de chaque réponse ([#1236](https://github.com/SocialGouv/cdtn-admin/issues/1236)) ([18d77f3](https://github.com/SocialGouv/cdtn-admin/commit/18d77f31ef3d8382c374577fe398e0f8db22fabf))
+
 ## [2.31.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.31.0...v2.31.1) (2024-01-19)
 
 ### Bug Fixes

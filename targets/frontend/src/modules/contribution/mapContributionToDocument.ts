@@ -19,7 +19,6 @@ async function getBaseDocument(
       return {
         type: "content",
         content: data.content,
-        description: data.description,
       };
     case "GENERIC_NO_CDT":
       return {
@@ -82,6 +81,7 @@ export const mapContributionToDocument = async (
     questionName: data.question.content,
     questionId: data.question.id,
     idcc: data.agreement.id,
+    description: data.description,
   } as ContributionDocumentJson;
 
   return {

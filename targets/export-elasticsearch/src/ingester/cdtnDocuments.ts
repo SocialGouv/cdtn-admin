@@ -28,8 +28,8 @@ import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
 import {
-  isNewContribution,
   generateContributions,
+  isNewContribution,
   isOldContribution,
 } from "./contributions";
 import { generateAgreements } from "./agreements";
@@ -164,8 +164,10 @@ export async function* cdtnDocumentsGen() {
     SOURCES.CONTRIBUTIONS,
     getBreadcrumbs
   );
+  logger.info(`Fetched ${contributions.length} contributions`);
 
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
+  logger.info(`Fetched ${ccnData.length} conventions`);
 
   const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
     return ccn.highlight;
@@ -181,6 +183,7 @@ export async function* cdtnDocumentsGen() {
 
   const oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[] =
     contributions.filter(isOldContribution);
+  logger.info(`Fetched ${oldContributions.length} old contributions`);
 
   const breadcrumbsOfRootContributionsPerIndex = oldContributions.reduce(
     (state: Record<number, Breadcrumbs[]>, contribution: any) => {
@@ -193,6 +196,7 @@ export async function* cdtnDocumentsGen() {
   );
 
   const newContributions = contributions.filter(isNewContribution);
+  logger.info(`Fetched ${newContributions.length} new contributions`);
 
   const newGeneratedContributions = await generateContributions(
     newContributions,
@@ -201,6 +205,10 @@ export async function* cdtnDocumentsGen() {
     ccnListWithHighlight,
     addGlossary,
     getBreadcrumbs
+  );
+
+  logger.info(
+    `Generated ${newGeneratedContributions.length} new contributions`
   );
 
   const oldGeneratedContributions = oldContributions.map(
@@ -256,8 +264,19 @@ export async function* cdtnDocumentsGen() {
     }
   ) as unknown as OldContributionElasticDocument[];
 
+  logger.info(
+    `Generated ${oldGeneratedContributions.length} old contributions`
+  );
+
+  const generatedContributions = [
+    ...newGeneratedContributions,
+    ...oldGeneratedContributions,
+  ];
+  if (generatedContributions.length < 1998) {
+    throw Error("Le nombre de contributions est inférieur à celui attendu");
+  }
   yield {
-    documents: [...newGeneratedContributions, ...oldGeneratedContributions],
+    documents: generatedContributions,
     source: SOURCES.CONTRIBUTIONS,
   };
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.32.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.32.0...v2.32.1) (2024-01-26)
+
+**Note:** Version bump only for package export-elasticsearch
+
+# [2.32.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.31.1...v2.32.0) (2024-01-23)
+
+### Bug Fixes
+
+- **contribution:** générer une description pour les contenus qui n'ont pas de CDT ([#1249](https://github.com/SocialGouv/cdtn-admin/issues/1249)) ([d23a8e6](https://github.com/SocialGouv/cdtn-admin/commit/d23a8e6b8ff47471e209a2cb10af1b7172d53147))
+- **ingester logs:** add logs during ingester to debug contributions export ([#1257](https://github.com/SocialGouv/cdtn-admin/issues/1257)) ([c2ab168](https://github.com/SocialGouv/cdtn-admin/commit/c2ab168d5a7d2c1e9c995e9f983badb6fbae25c6))
+
 ## [2.31.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.31.0...v2.31.1) (2024-01-19)
 
 **Note:** Version bump only for package export-elasticsearch
