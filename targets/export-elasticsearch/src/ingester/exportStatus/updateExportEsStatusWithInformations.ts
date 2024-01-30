@@ -1,5 +1,6 @@
 import { gqlClient, logger } from "@shared/utils";
 import { context } from "../context";
+import { ExportEsStatus } from "@shared/types";
 
 const updateExportEsStatusWithInformationsQuery = `
 mutation updateOneExportEsStatus($id: uuid!, $informations: jsonb) {
@@ -17,10 +18,12 @@ query getLatestExportStatus {
 }
 `;
 
-interface HasuraReturn {
-  update_export_es_status_by_pk: {
-    id: string;
-  };
+interface HasuraReturnMutation {
+  update_export_es_status_by_pk: Pick<ExportEsStatus, "id">;
+}
+
+interface HasuraReturnQuery {
+  export_es_status: Pick<ExportEsStatus, "id">[];
 }
 
 export async function updateExportEsStatusWithInformations(
@@ -32,38 +35,32 @@ export async function updateExportEsStatusWithInformations(
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
   })
-    .query<HasuraReturn>(getExportEsStatusQuery, {
-      informations,
-    })
+    .query<HasuraReturnQuery>(getExportEsStatusQuery)
     .toPromise();
 
   if (latestExportEs.error || !latestExportEs.data) {
-    logger.error(
-      "Error",
-      `Impossible de récupérer le dernier export qui tourne`,
-      latestExportEs.error
-    );
-    throw latestExportEs.error;
+    logger.error(`Impossible de récupérer le dernier export qui tourne`);
+    logger.error(latestExportEs.error);
+    throw new Error(latestExportEs.error?.message);
   }
 
-  const exportEsStatusId = latestExportEs.data.update_export_es_status_by_pk.id;
+  const exportEsStatusId = latestExportEs.data.export_es_status[0].id;
 
   const res = await gqlClient({
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
   })
-    .mutation<HasuraReturn>(updateExportEsStatusWithInformationsQuery, {
+    .mutation<HasuraReturnMutation>(updateExportEsStatusWithInformationsQuery, {
       informations,
       id: exportEsStatusId,
     })
     .toPromise();
   if (res.error || !res.data) {
     logger.error(
-      "Error",
-      `Impossible de sauvegarder les informations supplémentaires liés à l'export avec l'id ${exportEsStatusId}`,
-      res.error
+      `Impossible de sauvegarder les informations supplémentaires liés à l'export avec l'id ${exportEsStatusId}`
     );
-    throw res.error;
+    logger.error(res.error);
+    throw new Error(res.error?.message);
   }
-  return res.data.update_export_es_status_by_pk.id;
+  return exportEsStatusId;
 }

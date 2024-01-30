@@ -441,6 +441,7 @@ export interface ExportEsStatus {
   updated_at: Date;
   user?: User;
   error?: string;
+  informations?: Record<string, any>;
 }
 
 export type Answer = {

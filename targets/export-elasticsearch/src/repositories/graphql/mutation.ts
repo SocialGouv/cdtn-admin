@@ -30,5 +30,6 @@ mutation updateOneExportEsStatus($id: uuid!, $status: String!, $updated_at: time
     created_at
     updated_at
     error
+    informations
   }
 }`;
