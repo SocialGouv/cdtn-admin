@@ -46,15 +46,13 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
         className={editor.isActive("title", { level: "title" }) ? "is-active" : ""}
         type="button"
         title="Titre"
-        disabled={editor.isActive("title")}
       >
         <BubbleMenuText>T</BubbleMenuText>
       </button>
       <button
         onClick={() => editor.chain().focus().toggleTitle({ level: "sub-title" }).run()}
         className={editor.isActive("title", { level: "sub-title" }) ? "is-active" : ""}
-        disabled={ (!editor.getHTML().includes("\"title\"") && !editor.isActive("details")) ||
-          editor.isActive("title", { level: "sub-title" })}
+        disabled={ !editor.getHTML().includes("\"title\"") }
         type="button"
         title="Sous-titre"
       >

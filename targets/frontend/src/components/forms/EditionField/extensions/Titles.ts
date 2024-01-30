@@ -12,6 +12,7 @@ declare module "@tiptap/core" {
     title: {
       setTitle: (attributes: { level: Level }) => ReturnType;
       toggleTitle: (attributes: { level: Level }) => ReturnType;
+      unsetTitle: () => ReturnType;
     };
   }
 }
@@ -75,6 +76,9 @@ export const Title = Node.create<TitleOptions>({
 
           return commands.toggleNode(this.name, "paragraph", attributes);
         },
+       unsetTitle: () => ({ commands }) => {
+        return commands.lift(this.name)
+      },
     };
   },
 
