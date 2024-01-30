@@ -8,23 +8,31 @@ import {
   FicheTravailEmploiDoc,
   OldContributionElasticDocument,
 } from "@shared/types";
-import {logger} from "@shared/utils";
-import {SOURCES} from "@socialgouv/cdtn-sources";
+import { logger } from "@shared/utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
 
-import {buildGetBreadcrumbs} from "./breadcrumbs";
-import {buildThemes} from "./buildThemes";
-import {context} from "./context";
-import {getDocumentBySource, getDocumentBySourceWithRelation, getGlossary,} from "./fetchCdtnAdminDocuments";
-import {splitArticle} from "./fichesTravailSplitter";
-import {createGlossaryTransform} from "./glossary";
-import {markdownTransform} from "./markdown";
-import type {ThemeQueryResult} from "./types/themes";
-import {keyFunctionParser} from "./utils";
-import {getVersions} from "./versions";
-import {DocumentElasticWithSource} from "./types/Glossary";
-import {generateContributions, isNewContribution, isOldContribution,} from "./contributions";
-import {generateAgreements} from "./agreements";
+import { buildGetBreadcrumbs } from "./breadcrumbs";
+import { buildThemes } from "./buildThemes";
+import { context } from "./context";
+import {
+  getDocumentBySource,
+  getDocumentBySourceWithRelation,
+  getGlossary,
+} from "./fetchCdtnAdminDocuments";
+import { splitArticle } from "./fichesTravailSplitter";
+import { createGlossaryTransform } from "./glossary";
+import { markdownTransform } from "./markdown";
+import type { ThemeQueryResult } from "./types/themes";
+import { keyFunctionParser } from "./utils";
+import { getVersions } from "./versions";
+import { DocumentElasticWithSource } from "./types/Glossary";
+import {
+  generateContributions,
+  isNewContribution,
+  isOldContribution,
+} from "./contributions";
+import { generateAgreements } from "./agreements";
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -61,7 +69,7 @@ export async function getDuplicateSlugs(allDocuments: any) {
   let slugs: any = [];
   for await (const documents of allDocuments) {
     slugs = slugs.concat(
-      documents.map(({source, slug}: any) => `${source}/${slug}`)
+      documents.map(({ source, slug }: any) => `${source}/${slug}`)
     );
   }
 
@@ -70,9 +78,9 @@ export async function getDuplicateSlugs(allDocuments: any) {
       count: slugs.filter((s: string) => slug === s).length,
       slug,
     }))
-    .filter(({count}: any) => count > 1)
+    .filter(({ count }: any) => count > 1)
     .reduce(
-      (state: any, {slug, count}: any) => ({...state, [slug]: count}),
+      (state: any, { slug, count }: any) => ({ ...state, [slug]: count }),
       {}
     );
 }
@@ -204,7 +212,7 @@ export async function* cdtnDocumentsGen() {
   );
 
   const oldGeneratedContributions = oldContributions.map(
-    ({answers, breadcrumbs, ...contribution}: any) => {
+    ({ answers, breadcrumbs, ...contribution }: any) => {
       const newAnswer = answers;
       if (newAnswer.conventions) {
         newAnswer.conventions = answers.conventions.map((answer: any) => {
@@ -219,7 +227,7 @@ export async function* cdtnDocumentsGen() {
           };
           return {
             ...answerWithSlug,
-            ...(highlight ? {highlight} : {}),
+            ...(highlight ? { highlight } : {}),
           };
         });
       }
@@ -264,9 +272,13 @@ export async function* cdtnDocumentsGen() {
     ...newGeneratedContributions,
     ...oldGeneratedContributions,
   ];
-  // if (generatedContributions.length < 1998) {
-  //   throw Error(`Le nombre de contributions (${generatedContributions.length}) est inférieur à celui attendu (1998)`);
-  // }
+
+  if (generatedContributions.length < 1998) {
+    throw Error(
+      `Le nombre de contributions (${generatedContributions.length}) est inférieur à celui attendu (1998)`
+    );
+  }
+
   yield {
     documents: generatedContributions,
     source: SOURCES.CONTRIBUTIONS,
@@ -296,9 +308,9 @@ export async function* cdtnDocumentsGen() {
     getBreadcrumbs
   );
   yield {
-    documents: fichesMT.map(({sections, ...infos}) => ({
+    documents: fichesMT.map(({ sections, ...infos }) => ({
       ...infos,
-      sections: sections.map(({html, ...section}: any) => {
+      sections: sections.map(({ html, ...section }: any) => {
         delete section.description;
         delete section.text;
         return {
