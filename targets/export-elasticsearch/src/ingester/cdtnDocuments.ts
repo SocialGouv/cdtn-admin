@@ -33,6 +33,7 @@ import {
   isOldContribution,
 } from "./contributions";
 import { generateAgreements } from "./agreements";
+import { updateExportEsStatusWithInformations } from "./exportStatus/updateExportEsStatusWithInformations";
 
 const themesQuery = JSON.stringify({
   query: `{
@@ -86,6 +87,7 @@ export async function getDuplicateSlugs(allDocuments: any) {
 }
 
 export async function* cdtnDocumentsGen() {
+  let documentsLength = {};
   const CDTN_ADMIN_ENDPOINT =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
 
@@ -125,35 +127,66 @@ export async function* cdtnDocumentsGen() {
     SOURCES.EDITORIAL_CONTENT,
     getBreadcrumbs
   );
+  const editorialContents = markdownTransform(addGlossary, documents);
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
+  };
   yield {
-    documents: markdownTransform(addGlossary, documents),
+    documents: editorialContents,
     source: SOURCES.EDITORIAL_CONTENT,
   };
 
   logger.info("=== Courriers ===");
+  const modelesDeCourriers = await getDocumentBySource(
+    SOURCES.LETTERS,
+    getBreadcrumbs
+  );
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.LETTERS]: modelesDeCourriers.length,
+  };
   yield {
-    documents: await getDocumentBySource(SOURCES.LETTERS, getBreadcrumbs),
+    documents: modelesDeCourriers,
     source: SOURCES.LETTERS,
   };
 
   logger.info("=== Outils ===");
+  const tools = await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs);
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.TOOLS]: tools.length,
+  };
   yield {
-    documents: await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs),
+    documents: tools,
     source: SOURCES.TOOLS,
   };
 
   logger.info("=== Outils externes ===");
+  const externalTools = await getDocumentBySource(
+    SOURCES.EXTERNALS,
+    getBreadcrumbs
+  );
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.EXTERNALS]: externalTools.length,
+  };
   yield {
-    documents: await getDocumentBySource(SOURCES.EXTERNALS, getBreadcrumbs),
+    documents: externalTools,
     source: SOURCES.EXTERNALS,
   };
 
   logger.info("=== Dossiers ===");
+  const dossiers = await getDocumentBySource(
+    SOURCES.THEMATIC_FILES,
+    getBreadcrumbs
+  );
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.THEMATIC_FILES]: dossiers.length,
+  };
   yield {
-    documents: await getDocumentBySource(
-      SOURCES.THEMATIC_FILES,
-      getBreadcrumbs
-    ),
+    documents: dossiers,
     source: SOURCES.THEMATIC_FILES,
   };
 
@@ -275,6 +308,12 @@ export async function* cdtnDocumentsGen() {
   if (generatedContributions.length < 1998) {
     throw Error("Le nombre de contributions est inférieur à celui attendu");
   }
+
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.CONTRIBUTIONS]: generatedContributions.length,
+  };
+
   yield {
     documents: generatedContributions,
     source: SOURCES.CONTRIBUTIONS,
@@ -287,14 +326,26 @@ export async function* cdtnDocumentsGen() {
     oldGeneratedContributions
   );
 
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.CCN]: agreementsDocs.length,
+  };
+
   yield {
     documents: agreementsDocs,
     source: SOURCES.CCN,
   };
 
   logger.info("=== Fiches SP ===");
+  const fichesSp = await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs);
+
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.SHEET_SP]: fichesSp.length,
+  };
+
   yield {
-    documents: await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs),
+    documents: fichesSp,
     source: SOURCES.SHEET_SP,
   };
 
@@ -303,42 +354,59 @@ export async function* cdtnDocumentsGen() {
     SOURCES.SHEET_MT_PAGE,
     getBreadcrumbs
   );
+  const fichesMTWithGlossary = fichesMT.map(({ sections, ...infos }) => ({
+    ...infos,
+    sections: sections.map(({ html, ...section }: any) => {
+      delete section.description;
+      delete section.text;
+      return {
+        ...section,
+        html: addGlossary(html),
+      };
+    }),
+  }));
+
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
+  };
+
   yield {
-    documents: fichesMT.map(({ sections, ...infos }) => ({
-      ...infos,
-      sections: sections.map(({ html, ...section }: any) => {
-        delete section.description;
-        delete section.text;
-        return {
-          ...section,
-          html: addGlossary(html),
-        };
-      }),
-    })),
+    documents: fichesMTWithGlossary,
     source: SOURCES.SHEET_MT_PAGE,
   };
 
   logger.info("=== Fiche MT ===");
   const splittedFiches = fichesMT.flatMap(splitArticle);
+  const splittedFichesMt = splittedFiches.map((fiche) => {
+    // we don't want splitted fiches to have the same cdtnId than full pages
+    // it causes bugs, tons of weird bugs, but we need the id for the
+    // breadcrumbs generation
+    const breadcrumbs = getBreadcrumbs(fiche.cdtnId);
+    delete fiche.cdtnId;
+    return {
+      ...fiche,
+      breadcrumbs,
+      source: SOURCES.SHEET_MT,
+    };
+  });
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.SHEET_MT]: splittedFichesMt.length,
+  };
   yield {
-    documents: splittedFiches.map((fiche) => {
-      // we don't want splitted fiches to have the same cdtnId than full pages
-      // it causes bugs, tons of weird bugs, but we need the id for the
-      // breadcrumbs generation
-      const breadcrumbs = getBreadcrumbs(fiche.cdtnId);
-      delete fiche.cdtnId;
-      return {
-        ...fiche,
-        breadcrumbs,
-        source: SOURCES.SHEET_MT,
-      };
-    }),
+    documents: splittedFichesMt,
     source: SOURCES.SHEET_MT,
   };
 
   logger.info("=== Themes ===");
+  const themesDoc = buildThemes(themes, getBreadcrumbs);
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.THEMES]: themesDoc.length,
+  };
   yield {
-    documents: buildThemes(themes, getBreadcrumbs),
+    documents: themesDoc,
     source: SOURCES.THEMES,
   };
 
@@ -364,6 +432,10 @@ export async function* cdtnDocumentsGen() {
       return ref;
     }),
   }));
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.HIGHLIGHTS]: highlightsWithContrib.length,
+  };
   yield {
     documents: highlightsWithContrib,
     source: SOURCES.HIGHLIGHTS,
@@ -391,12 +463,21 @@ export async function* cdtnDocumentsGen() {
       return ref;
     }),
   }));
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.PREQUALIFIED]: prequalifiedWithContrib.length,
+  };
   yield {
     documents: prequalifiedWithContrib,
     source: SOURCES.PREQUALIFIED,
   };
 
   logger.info("=== glossary ===");
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.GLOSSARY]: glossaryTerms.length,
+  };
+
   yield {
     documents: [
       {
@@ -408,8 +489,13 @@ export async function* cdtnDocumentsGen() {
   };
 
   logger.info("=== Code du travail ===");
+  const cdtDoc = await getDocumentBySource(SOURCES.CDT);
+  documentsLength = {
+    ...documentsLength,
+    [SOURCES.CDT]: cdtDoc.length,
+  };
   yield {
-    documents: await getDocumentBySource(SOURCES.CDT),
+    documents: cdtDoc,
     source: SOURCES.CDT,
   };
 
@@ -423,4 +509,7 @@ export async function* cdtnDocumentsGen() {
     ],
     source: SOURCES.VERSIONS,
   };
+
+  logger.info("=== Save the documents length ===");
+  await updateExportEsStatusWithInformations(documentsLength);
 }

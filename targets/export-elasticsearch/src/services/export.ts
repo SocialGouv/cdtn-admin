@@ -5,7 +5,7 @@ import { randomUUID } from "crypto";
 import { inject, injectable } from "inversify";
 
 import { ExportRepository } from "../repositories";
-import { getName, name } from "../utils";
+import { getName, name, sendMattermostMessage } from "../utils";
 import {
   runWorkerIngesterPreproduction,
   runWorkerIngesterProduction,
@@ -49,9 +49,21 @@ export class ExportService {
       try {
         if (!process.env.DISABLE_INGESTER) {
           if (environment === Environment.preproduction) {
+            await sendMattermostMessage(
+              "La mise à jour de la préproduction a été lancée. 😎"
+            );
             await runWorkerIngesterPreproduction();
+            await sendMattermostMessage(
+              "La mise à jour de la préproduction s'est terminée. 😁"
+            );
           } else {
+            await sendMattermostMessage(
+              "La mise à jour de la production a été lancée. 🚀"
+            );
             await runWorkerIngesterProduction();
+            await sendMattermostMessage(
+              "La mise à jour de la production s'est terminée. 🎉"
+            );
           }
         }
         if (!process.env.DISABLE_SITEMAP) {
@@ -66,6 +78,11 @@ export class ExportService {
           new Date()
         );
       } catch (e: any) {
+        await sendMattermostMessage(
+          environment === Environment.preproduction
+            ? " La mise à jour de la préproduction a échouée. 😢"
+            : "La mise à jour de la production a échouée. 😭"
+        );
         return await this.exportRepository.updateOne(
           id,
           Status.failed,
