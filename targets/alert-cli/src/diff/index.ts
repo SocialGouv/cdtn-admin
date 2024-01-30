@@ -5,7 +5,7 @@ import { processTravailDataDiff } from "./travail-data";
 import { GitTagData } from "../types";
 import { AlertChanges } from "@shared/types";
 import { GithubApi } from "../utils/github";
-import { getAgreements } from "./shared/getAgreements";
+import { getSupportedAgreements } from "./shared/getSupportedAgreements";
 
 export class AlertDetector {
   githubApi: GithubApi;
@@ -19,7 +19,7 @@ export class AlertDetector {
   private async getFileFilter(
     repository: string
   ): Promise<(path: string) => boolean> {
-    const ccns = await getAgreements();
+    const ccns = await getSupportedAgreements();
     switch (repository) {
       case "socialgouv/legi-data":
         // only code-du-travail

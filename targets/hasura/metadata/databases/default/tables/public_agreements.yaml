@@ -1,12 +1,44 @@
 table:
   name: agreements
   schema: public
+configuration:
+  column_config:
+    is_supported:
+      custom_name: isSupported
+    legifrance_url:
+      custom_name: legifranceUrl
+    root_text:
+      custom_name: rootText
+    short_name:
+      custom_name: shortName
+    worker_number:
+      custom_name: workerNumber
+  custom_column_names:
+    is_supported: isSupported
+    legifrance_url: legifranceUrl
+    root_text: rootText
+    short_name: shortName
+    worker_number: workerNumber
+  custom_root_fields: {}
+array_relationships:
+  - name: kaliArticles
+    using:
+      foreign_key_constraint_on:
+        column: agreement_id
+        table:
+          name: kali_articles
+          schema: public
 select_permissions:
   - role: super
     permission:
       columns:
         - id
+        - is_supported
         - kali_id
+        - legifrance_url
         - name
+        - root_text
+        - short_name
+        - worker_number
       filter: {}
       allow_aggregations: true
