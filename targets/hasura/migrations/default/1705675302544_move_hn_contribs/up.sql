@@ -6,7 +6,7 @@ SET content =  REPLACE(
     '</h3>'
 )
 WHERE "content" LIKE '%<h4%'
-AND "content" NOT LIKE '%<h3%'
+AND "content" NOT LIKE '%<h3%';
 
 -- idem dans la table documents pour les docs déjà publiés
 UPDATE public.documents
@@ -25,7 +25,7 @@ WHERE source = 'contributions'
 AND "document"->>'idcc' IS NOT NULL
 AND "document"->>'content' IS NOT NULL
 AND "document"->>'content' LIKE '%<h4%'
-AND "document"->>'content' NOT LIKE '%<h3%'
+AND "document"->>'content' NOT LIKE '%<h3%';
 
 -- remplace tous les H3 par des "titles" et les h4 par des "sub-title"
 UPDATE contribution.answers
