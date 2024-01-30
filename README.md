@@ -311,6 +311,8 @@ L'export des données se fait depuis l'admin dans la section `Contenus > Mise à
 
 > Pourquoi changer les ressources ?
 > L'export avec glossary et NLP est un processus qui demande beaucoup de RAM/CPU. Afin de ne pas surcharger le cluster de dev, on ne va pas demander ces ressources car l'export est peu utilisé pour les tests. Il n'existe aucun mécanisme sur la CI à l'heure actuelle pour permettre de faire le switch autrement.
+> 
+TEST
 
 ### Limitations connues
 
