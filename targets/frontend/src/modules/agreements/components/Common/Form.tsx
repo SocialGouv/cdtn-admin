@@ -94,6 +94,15 @@ export const AgreementForm = ({
         )}
         <FormControl>
           <FormTextField
+            name="id"
+            control={control}
+            label="IDCC"
+            disabled={agreement !== undefined}
+            fullWidth
+          />
+        </FormControl>
+        <FormControl>
+          <FormTextField
             name="name"
             control={control}
             label="Titre"
@@ -141,7 +150,11 @@ export const AgreementForm = ({
           />
         </FormControl>
         <FormControl>
-          <FormSwitch name="isSupported" control={control} label="Supporté par le CDTN ?" />
+          <FormSwitch
+            name="isSupported"
+            control={control}
+            label="Supporté par le CDTN ?"
+          />
         </FormControl>
         <Stack direction="row" spacing={2} justifyContent="end">
           <Button variant="contained" type="submit">

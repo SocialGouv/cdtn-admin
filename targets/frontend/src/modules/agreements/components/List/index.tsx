@@ -14,8 +14,10 @@ import { useState } from "react";
 
 import { useListAgreementQuery } from "./list.query";
 import { Row } from "./Row";
+import { useRouter } from "next/router";
 
 export const AgreementList = (): JSX.Element => {
+  const router = useRouter();
   const [idcc, setIdcc] = useState<string | undefined>();
   const [keyword, setKeyword] = useState<string | undefined>();
   const { rows } = useListAgreementQuery({
@@ -59,7 +61,7 @@ export const AgreementList = (): JSX.Element => {
           variant="contained"
           color="success"
           onClick={() => {
-            // TODO redirect to the page to create a new agreement
+            router.push("/agreements/creation");
           }}
         >
           Créer

@@ -4,7 +4,7 @@ import { withUserProvider } from "src/hoc/UserProvider";
 import { useRouter } from "next/router";
 import { AgreementEdition } from "../../modules/agreements";
 
-export function ModelEditionPage() {
+export function AgreementEditionPage() {
   const router = useRouter();
   const agreementId = router?.query?.agreementId as string;
 
@@ -15,4 +15,4 @@ export function ModelEditionPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(ModelEditionPage));
+export default withCustomUrqlClient(withUserProvider(AgreementEditionPage));
