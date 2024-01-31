@@ -8,7 +8,7 @@ const updateAgreementQuery = gql`
     $id: bpchar!
     $agreement: agreement_agreements_set_input
   ) {
-    update_agreement_agreements_by_pk(
+    agreement: update_agreement_agreements_by_pk(
       pk_columns: { id: $id }
       _set: $agreement
     ) {

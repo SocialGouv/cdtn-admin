@@ -15,6 +15,7 @@ export const getAgreementQuery = gql`
       shortName
       workerNumber
       synonyms
+      updatedAt
     }
   }
 `;

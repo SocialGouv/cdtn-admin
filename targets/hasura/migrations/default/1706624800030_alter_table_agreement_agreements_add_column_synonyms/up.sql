@@ -1,2 +1,2 @@
 alter table "public"."agreements" add column "synonyms" Text[]
- null;
+ not null default ARRAY[]::text[];
