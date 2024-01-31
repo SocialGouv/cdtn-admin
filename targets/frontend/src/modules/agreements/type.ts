@@ -9,6 +9,7 @@ export const agreementSchema = z.object({
   rootText: z.string().optional(),
   shortName: z.string(),
   workerNumber: z.number().min(0).optional(),
+  synonyms: z.string().array().optional(),
   updatedAt: z.string(),
 });
 

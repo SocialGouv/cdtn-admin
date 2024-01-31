@@ -1,6 +1,6 @@
 table:
   name: agreements
-  schema: public
+  schema: agreement
 configuration:
   column_config:
     is_supported:
@@ -43,20 +43,22 @@ insert_permissions:
         - name
         - root_text
         - short_name
+        - synonyms
         - worker_number
 select_permissions:
   - role: super
     permission:
       columns:
         - id
-        - worker_number
+        - is_supported
         - kali_id
         - legifrance_url
         - name
         - root_text
         - short_name
+        - synonyms
         - updated_at
-        - is_supported
+        - worker_number
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -70,6 +72,7 @@ update_permissions:
         - name
         - root_text
         - short_name
+        - synonyms
         - worker_number
       filter: {}
       check: {}

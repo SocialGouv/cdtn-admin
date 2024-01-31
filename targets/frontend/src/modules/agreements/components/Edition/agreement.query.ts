@@ -5,7 +5,7 @@ import { format, parseISO } from "date-fns";
 
 export const getAgreementQuery = gql`
   query getAgreement($id: bpchar = "") {
-    agreement: agreements_by_pk(id: $id) {
+    agreement: agreement_agreements_by_pk(id: $id) {
       id
       isSupported
       kali_id
@@ -14,6 +14,7 @@ export const getAgreementQuery = gql`
       rootText
       shortName
       workerNumber
+      synonyms
     }
   }
 `;
@@ -29,6 +30,7 @@ export type AgreementResult = Pick<
   | "shortName"
   | "workerNumber"
   | "updatedAt"
+  | "synonyms"
 >;
 
 export type QueryResult = {

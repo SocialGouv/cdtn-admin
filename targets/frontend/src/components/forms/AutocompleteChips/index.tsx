@@ -4,6 +4,7 @@ import { Control } from "react-hook-form";
 
 import { FormAutocomplete } from "../";
 import { CombinedError } from "urql";
+import { AutocompleteFreeSoloValueMapping } from "@mui/base/useAutocomplete/useAutocomplete";
 
 export type AutocompleteFetcherResult<Type> = {
   data: Type[];
@@ -11,13 +12,15 @@ export type AutocompleteFetcherResult<Type> = {
   error: CombinedError | undefined;
 };
 
-type Props<Type> = {
+type Props<Type, FreeSolo extends boolean | undefined = false> = {
   label: string;
   name: string;
   control: Control<any>;
   fetcher: (query: string | undefined) => AutocompleteFetcherResult<Type>;
   isEqual: (value: Type, option: Type) => boolean;
-  getLabel: (option: Type) => string;
+  getLabel: (
+    option: Type | AutocompleteFreeSoloValueMapping<FreeSolo>
+  ) => string;
   onClick: (value: Type) => void;
   color:
     | "default"
@@ -29,9 +32,13 @@ type Props<Type> = {
     | "warning";
   disabled: boolean;
   isMultiple?: true;
+  freeSolo?: FreeSolo;
 };
 
-export const FormAutocompleteChips = <Type,>({
+export const FormAutocompleteChips = <
+  Type,
+  FreeSolo extends boolean | undefined = false
+>({
   name,
   control,
   fetcher,
@@ -42,7 +49,8 @@ export const FormAutocompleteChips = <Type,>({
   color,
   disabled,
   isMultiple,
-}: Props<Type>): ReactElement | null => {
+  freeSolo,
+}: Props<Type, FreeSolo>): ReactElement | null => {
   const [query, setQuery] = useState<string | undefined>();
   const { data, fetching, error } = fetcher(query);
 
@@ -60,8 +68,9 @@ export const FormAutocompleteChips = <Type,>({
   }, [open]);
 
   return (
-    <FormAutocomplete<Type>
+    <FormAutocomplete<Type, FreeSolo>
       multiple={isMultiple}
+      freeSolo={freeSolo}
       noOptionsText={"Aucun résultat trouvé"}
       control={control}
       getOptionLabel={getLabel}

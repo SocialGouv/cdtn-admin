@@ -4,8 +4,14 @@ import { FormDataResult } from "../Common";
 import { AgreementsInsertInput } from "../graphql.type";
 
 const updateAgreementQuery = gql`
-  mutation UpdateAgreement($id: bpchar!, $agreement: agreements_set_input) {
-    update_agreements_by_pk(pk_columns: { id: $id }, _set: $agreement) {
+  mutation UpdateAgreement(
+    $id: bpchar!
+    $agreement: agreement_agreements_set_input
+  ) {
+    update_agreement_agreements_by_pk(
+      pk_columns: { id: $id }
+      _set: $agreement
+    ) {
       id
     }
   }
@@ -22,7 +28,9 @@ type MutationGraphQLProps = {
   agreement: AgreementsInsertInput;
 };
 
-type MutationGraphQLResult = { update_agreements_by_pk: { id: string } };
+type MutationGraphQLResult = {
+  update_agreement_agreements_by_pk: { id: string };
+};
 
 export type MutationFn = (props: MutationProps) => Promise<MutationResult>;
 
@@ -39,10 +47,10 @@ export const useAgreementUpdateMutation = (): MutationFn => {
     if (result.error) {
       throw new Error(result.error.message);
     }
-    if (!result.data?.update_agreements_by_pk) {
+    if (!result.data?.update_agreement_agreements_by_pk) {
       throw new Error("No data returned from mutation");
     }
-    return result.data?.update_agreements_by_pk;
+    return result.data?.update_agreement_agreements_by_pk;
   };
   return resultFunction;
 };

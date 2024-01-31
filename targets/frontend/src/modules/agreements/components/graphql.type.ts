@@ -8,4 +8,5 @@ export type AgreementsInsertInput = {
   shortName: string;
   workerNumber: number;
   updatedAt?: string;
+  synonyms?: string[];
 };

@@ -4,7 +4,7 @@ import { Agreement } from "../../type";
 
 export const listAgreementsQuery = gql`
   query ListAgreements($idcc: bpchar, $keyword: String) {
-    agreements(
+    agreements: agreement_agreements(
       order_by: { id: asc }
       where: {
         id: { _ilike: $idcc }

@@ -1,5 +1,9 @@
 import { AlertColor, Button, FormControl, Stack } from "@mui/material";
-import { FormSwitch, FormTextField } from "src/components/forms";
+import {
+  FormAutocompleteChips,
+  FormSwitch,
+  FormTextField,
+} from "src/components/forms";
 
 import { useForm } from "react-hook-form";
 import { Agreement, agreementSchema } from "../../type";
@@ -59,6 +63,7 @@ export const AgreementForm = ({
         legifranceUrl: newData.legifranceUrl!,
         rootText: newData.rootText!,
         workerNumber: newData.workerNumber!,
+        synonyms: newData.synonyms!,
       });
       setSnack({
         open: true,
@@ -147,6 +152,21 @@ export const AgreementForm = ({
             control={control}
             label="Nombre de salariés"
             fullWidth
+          />
+        </FormControl>
+        <FormControl>
+          <FormAutocompleteChips<string, true>
+            label={"Synonymes pour la recherche"}
+            name={"synonyms"}
+            control={control}
+            fetcher={() => ({ fetching: false, data: [], error: undefined })}
+            isEqual={(value, option) => value === option}
+            getLabel={(option) => option ?? ""}
+            onClick={() => {}}
+            color="info"
+            disabled={false}
+            isMultiple={true}
+            freeSolo={true}
           />
         </FormControl>
         <FormControl>
