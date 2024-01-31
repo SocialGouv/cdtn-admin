@@ -12,7 +12,7 @@ export interface AgreementResult {
 
 const loadSupportedAgreementsQuery = `
 query LoadAgreements {
-  agreements(where: {isSupported: {_eq: true}}) {
+  agreements: agreement_agreements(where: {isSupported: {_eq: true}}) {
     idcc: id
     kali_id
     name

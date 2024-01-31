@@ -3,7 +3,7 @@ import { PublicAgreement } from "../../types";
 
 const fetchSupportedAgreements = `
 query getSupportedAgreements {
-  agreements(where: {isSupported: {_eq: true}}) {
+  agreements: agreement_agreements(where: {isSupported: {_eq: true}}) {
     id
     kali_id
   }
