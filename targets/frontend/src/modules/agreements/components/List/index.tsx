@@ -12,13 +12,13 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { useListModelQuery } from "./list.query";
+import { useListAgreementQuery } from "./list.query";
 import { Row } from "./Row";
 
 export const AgreementList = (): JSX.Element => {
   const [idcc, setIdcc] = useState<string | undefined>();
   const [keyword, setKeyword] = useState<string | undefined>();
-  const { rows } = useListModelQuery({
+  const { rows } = useListAgreementQuery({
     idcc,
     keyword,
   });

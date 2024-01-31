@@ -5,9 +5,10 @@ import { AgreementResult } from "./list.query";
 import { Tooltip } from "@mui/material";
 
 import GavelIcon from "@mui/icons-material/Gavel";
+import { useRouter } from "next/router";
 
-export const Row = (props: { row: AgreementResult }) => {
-  const { row } = props;
+export const Row = ({ row }: { row: AgreementResult }) => {
+  const router = useRouter();
 
   return (
     <>
@@ -15,7 +16,7 @@ export const Row = (props: { row: AgreementResult }) => {
         key={row.id}
         data-testid={`row-${row.id}`}
         onClick={() => {
-          // TODO router.push(`/agreements/${row.id}`);
+          router.push(`/agreements/${row.id}`);
         }}
         style={{ cursor: "pointer" }}
         hover

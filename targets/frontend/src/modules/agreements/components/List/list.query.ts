@@ -2,7 +2,7 @@ import { useQuery } from "urql";
 import { gql } from "@urql/core";
 import { Agreement } from "../../type";
 
-export const listModelsQuery = gql`
+export const listAgreementsQuery = gql`
   query ListAgreements($idcc: bpchar, $keyword: String) {
     agreements(
       order_by: { id: asc }
@@ -37,12 +37,12 @@ export type AgreementsListQueryResult = {
   rows: AgreementResult[];
 };
 
-export const useListModelQuery = ({
+export const useListAgreementQuery = ({
   idcc,
   keyword,
 }: AgreementListQueryProps): AgreementsListQueryResult => {
   const [result] = useQuery<QueryResult>({
-    query: listModelsQuery,
+    query: listAgreementsQuery,
     requestPolicy: "cache-and-network",
     variables: {
       idcc: idcc?.length ?? 0 > 0 ? `%${idcc}%` : "%",
