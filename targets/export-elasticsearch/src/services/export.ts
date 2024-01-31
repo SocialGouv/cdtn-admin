@@ -40,7 +40,7 @@ export class ExportService {
     }
     if (runningResult.length === 0 || isReadyToRun) {
       const id = randomUUID();
-      await this.exportRepository.create(
+      const exportEs = await this.exportRepository.create(
         id,
         userId,
         environment,
@@ -50,19 +50,25 @@ export class ExportService {
         if (!process.env.DISABLE_INGESTER) {
           if (environment === Environment.preproduction) {
             await sendMattermostMessage(
-              "La mise à jour de la préproduction a été lancée. 😎"
+              `La mise à jour de la préproduction a été lancée par ${exportEs.user?.name}. 😎`,
+              process.env.MATTERMOST_CHANNEL_EXPORT
             );
             await runWorkerIngesterPreproduction();
             await sendMattermostMessage(
-              "La mise à jour de la préproduction s'est terminée. 😁"
+              "La mise à jour de la préproduction s'est terminée. 😁",
+              process.env.MATTERMOST_CHANNEL_EXPORT
             );
           } else {
             await sendMattermostMessage(
-              "La mise à jour de la production a été lancée. 🚀"
+              "La mise à jour de la production a été lancée. 🚀",
+              process.env.MATTERMOST_CHANNEL_EXPORT
             );
             await runWorkerIngesterProduction();
+            // const informations = await getInformationsFromExport(id);
+            // const totalDoc = informations.totalDoc;
             await sendMattermostMessage(
-              "La mise à jour de la production s'est terminée. 🎉"
+              "La mise à jour de la production s'est terminée. 🎉",
+              process.env.MATTERMOST_CHANNEL_EXPORT
             );
           }
         }
@@ -81,7 +87,8 @@ export class ExportService {
         await sendMattermostMessage(
           environment === Environment.preproduction
             ? " La mise à jour de la préproduction a échouée. 😢"
-            : "La mise à jour de la production a échouée. 😭"
+            : "La mise à jour de la production a échouée. 😭",
+          process.env.MATTERMOST_CHANNEL_EXPORT
         );
         return await this.exportRepository.updateOne(
           id,

@@ -98,7 +98,7 @@ export function Export(): JSX.Element {
                   user,
                   status,
                   error,
-                  informations,
+                  documentsCount,
                 },
                 index
               ) => {
@@ -132,11 +132,11 @@ export function Export(): JSX.Element {
                       <Status status={status} error={error} />
                     </Td>
                     <Td>
-                      {informations ? (
+                      {documentsCount ? (
                         <InformationsDialog
-                          informations={informations}
-                          oldInformations={
-                            exportEsState.exportData[index - 1]?.informations
+                          documentsCount={documentsCount}
+                          oldDocumentsCount={
+                            exportEsState.exportData[index + 1]?.documentsCount
                           }
                         />
                       ) : (

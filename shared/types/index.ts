@@ -8,7 +8,7 @@ import type {
   AgreementSection,
   IndexedAgreement,
 } from "@socialgouv/kali-data-types";
-import type { BaseHasuraDocument } from "./global";
+import type { BaseHasuraDocument, ExportSourcesContent } from "./global";
 import type {
   Prequalified,
   Highlight,
@@ -21,6 +21,7 @@ export * from "./contributions";
 export * from "./documents";
 export * from "./export";
 export * from "./dila-resolver";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 export enum DOCUMENT_SOURCE {
   fiches_ministere_travail = "fiches_ministere_travail",
@@ -441,7 +442,10 @@ export interface ExportEsStatus {
   updated_at: Date;
   user?: User;
   error?: string;
-  informations?: Record<string, any>;
+  documentsCount?: Record<
+    Exclude<ExportSourcesContent, "versions"> | "total",
+    number
+  >;
 }
 
 export type Answer = {

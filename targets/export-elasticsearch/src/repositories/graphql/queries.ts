@@ -13,7 +13,7 @@ query getAllExport {
     created_at
     updated_at
     error
-    informations
+    documentsCount
   }
 }`;
 
@@ -32,7 +32,7 @@ query getExportEsStatusByEnvironments($environment: String!) {
     created_at
     updated_at
     error
-    informations
+    documentsCount
   }
 }`;
 
@@ -51,7 +51,7 @@ query getLatestExportEsStatus($environment: String!) {
     created_at
     updated_at
     error
-    informations
+    documentsCount
   }
 }
 `;
@@ -71,6 +71,6 @@ query getExportEsStatusByStatus($status: String!) {
     created_at
     updated_at
     error
-    informations
+    documentsCount
   }
 }`;

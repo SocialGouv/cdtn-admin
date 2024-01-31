@@ -1,28 +1,29 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-}));
+import { getLabelBySource } from "@socialgouv/cdtn-sources";
+import {
+  Table,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@mui/material";
+import { ExportEsStatus } from "@shared/types";
 
 type Props = {
-  oldInformations?: Record<string, any>;
-  informations: Record<string, any>;
+  oldDocumentsCount?: Required<ExportEsStatus>["documentsCount"];
+  documentsCount: Required<ExportEsStatus>["documentsCount"];
 };
 
-export function InformationsDialog({ oldInformations, informations }: Props) {
+export function InformationsDialog({
+  oldDocumentsCount,
+  documentsCount,
+}: Props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -35,9 +36,9 @@ export function InformationsDialog({ oldInformations, informations }: Props) {
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Afficher les informations
+        {documentsCount?.total} documents exportés
       </Button>
-      <BootstrapDialog
+      <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
@@ -58,15 +59,35 @@ export function InformationsDialog({ oldInformations, informations }: Props) {
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          {Object.values(informations).map((value: any, index: number) => (
-            <Typography gutterBottom key={index}>
-              {Object.keys(informations)[index]} - {value} documents
-              {oldInformations ??
-                ` VS ${Object.values(informations)[index]} documents`}
-            </Typography>
-          ))}
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Type</TableCell>
+                <TableCell>Nombre de documents</TableCell>
+                <TableCell>Différentiel</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Object.entries(documentsCount).map(([key, value], index) => (
+                <TableRow key={key}>
+                  <TableCell>
+                    {key === "glossary"
+                      ? "Glossaire"
+                      : getLabelBySource(key as any) ?? "Total"}
+                    {/* TODO: {getLabelBySource(key as keyof typeof documentsCount) ?? "Total"} */}
+                  </TableCell>
+                  <TableCell>{value}</TableCell>
+                  <TableCell>
+                    {oldDocumentsCount
+                      ? value - Object.values(oldDocumentsCount)[index]
+                      : "-"}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </DialogContent>
-      </BootstrapDialog>
+      </Dialog>
     </React.Fragment>
   );
 }

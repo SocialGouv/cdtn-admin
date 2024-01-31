@@ -2,9 +2,9 @@ import { gqlClient, logger } from "@shared/utils";
 import { context } from "../context";
 import { ExportEsStatus } from "@shared/types";
 
-const updateExportEsStatusWithInformationsQuery = `
-mutation updateOneExportEsStatus($id: uuid!, $informations: jsonb) {
-  update_export_es_status_by_pk(pk_columns: {id: $id}, _set: {informations: $informations}) {
+const updateExportEsStatusQuery = `
+mutation updateOneExportEsStatus($id: uuid!, $documentsCount: jsonb) {
+  update_export_es_status_by_pk(pk_columns: {id: $id}, _set: {documentsCount: $documentsCount}) {
     id
   }
 }
@@ -26,8 +26,8 @@ interface HasuraReturnQuery {
   export_es_status: Pick<ExportEsStatus, "id">[];
 }
 
-export async function updateExportEsStatusWithInformations(
-  informations: Record<string, any>
+export async function updateExportEsStatusWithDocumentsCount(
+  documentsCount: ExportEsStatus["documentsCount"]
 ): Promise<string> {
   const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint");
   const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret");
@@ -50,14 +50,14 @@ export async function updateExportEsStatusWithInformations(
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
   })
-    .mutation<HasuraReturnMutation>(updateExportEsStatusWithInformationsQuery, {
-      informations,
+    .mutation<HasuraReturnMutation>(updateExportEsStatusQuery, {
+      documentsCount,
       id: exportEsStatusId,
     })
     .toPromise();
   if (res.error || !res.data) {
     logger.error(
-      `Impossible de sauvegarder les informations supplémentaires liés à l'export avec l'id ${exportEsStatusId}`
+      `Impossible de sauvegarder les documentsCount supplémentaires liés à l'export avec l'id ${exportEsStatusId}`
     );
     logger.error(res.error);
     throw new Error(res.error?.message);
