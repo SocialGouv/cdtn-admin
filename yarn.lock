@@ -4248,7 +4248,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@shared/types@workspace:shared/types"
   dependencies:
-    "@socialgouv/cdtn-utils": ^4.121.1
     "@socialgouv/kali-data-types": ^2.127.0
     "@socialgouv/legi-data-types": ^2.73.1
     typescript: ^4.9.5

@@ -54,20 +54,20 @@ export class ExportService {
               process.env.MATTERMOST_CHANNEL_EXPORT
             );
             await runWorkerIngesterPreproduction();
+            const exportEsDone = await await this.exportRepository.getOne(id);
             await sendMattermostMessage(
-              "La mise à jour de la préproduction s'est terminée. 😁",
+              `La mise à jour de la préproduction s'est terminée avec ${exportEsDone.documentsCount?.total} documents mis à jour. 😁`,
               process.env.MATTERMOST_CHANNEL_EXPORT
             );
           } else {
             await sendMattermostMessage(
-              "La mise à jour de la production a été lancée. 🚀",
+              `La mise à jour de la production a été lancée par ${exportEs.user?.name}. 🚀`,
               process.env.MATTERMOST_CHANNEL_EXPORT
             );
             await runWorkerIngesterProduction();
-            // const informations = await getInformationsFromExport(id);
-            // const totalDoc = informations.totalDoc;
+            const exportEsDone = await this.exportRepository.getOne(id);
             await sendMattermostMessage(
-              "La mise à jour de la production s'est terminée. 🎉",
+              `La mise à jour de la production s'est terminée avec ${exportEsDone.documentsCount?.total} documents mis à jour. 🎉`,
               process.env.MATTERMOST_CHANNEL_EXPORT
             );
           }

@@ -14,6 +14,7 @@ import {
   TableCell,
 } from "@mui/material";
 import { ExportEsStatus } from "@shared/types";
+import { TableCellDiff } from "./TableCellDiff";
 
 type Props = {
   oldDocumentsCount?: Required<ExportEsStatus>["documentsCount"];
@@ -25,6 +26,45 @@ export function InformationsDialog({
   documentsCount,
 }: Props) {
   const [open, setOpen] = React.useState(false);
+
+  function sortDocumentsCount(
+    docCounts: Required<ExportEsStatus>["documentsCount"]
+  ) {
+    let object: any = {};
+    Object.keys(docCounts)
+      .filter(([key, _]: any) => key !== "total")
+      .forEach((key: any) => {
+        // TODO voir comment on peut optimiser car c'est pas beau
+        const label =
+          key === "page_fiche_ministere_travail"
+            ? "Page Ministère du travail"
+            : getLabelBySource(key) ?? "Glossary";
+        object = {
+          ...object,
+          [label]: docCounts[key as keyof typeof docCounts],
+        };
+      });
+    const sortedDocuments = Object.keys(object)
+      .sort((a, b) => a.localeCompare(b))
+      .reduce((obj: any, key: any) => {
+        obj[key] = object[key as keyof typeof object];
+        return obj;
+      }, {});
+    return sortedDocuments;
+  }
+
+  const sortedDocumentsCount: Required<ExportEsStatus>["documentsCount"] =
+    React.useMemo(() => {
+      return sortDocumentsCount(documentsCount);
+    }, [documentsCount]);
+
+  const sortedOldDocumentsCount: Required<ExportEsStatus>["documentsCount"] =
+    React.useMemo(() => {
+      if (!oldDocumentsCount) {
+        return {};
+      }
+      return sortDocumentsCount(oldDocumentsCount);
+    }, [oldDocumentsCount]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -68,22 +108,29 @@ export function InformationsDialog({
               </TableRow>
             </TableHead>
             <TableBody>
-              {Object.entries(documentsCount).map(([key, value], index) => (
-                <TableRow key={key}>
-                  <TableCell>
-                    {key === "glossary"
-                      ? "Glossaire"
-                      : getLabelBySource(key as any) ?? "Total"}
-                    {/* TODO: {getLabelBySource(key as keyof typeof documentsCount) ?? "Total"} */}
-                  </TableCell>
-                  <TableCell>{value}</TableCell>
-                  <TableCell>
-                    {oldDocumentsCount
-                      ? value - Object.values(oldDocumentsCount)[index]
-                      : "-"}
-                  </TableCell>
-                </TableRow>
-              ))}
+              <TableRow>
+                <TableCell>Total</TableCell>
+                <TableCell>{documentsCount.total}</TableCell>
+                <TableCellDiff
+                  valueA={documentsCount.total}
+                  valueB={oldDocumentsCount?.total}
+                />
+              </TableRow>
+              {Object.entries(sortedDocumentsCount).map(
+                ([key, value], index) => (
+                  <TableRow key={`${key}-${index}`}>
+                    <TableCell>
+                      {key === "glossary" ? "Glossaire" : key}
+                      {/* TODO: {key} */}
+                    </TableCell>
+                    <TableCell>{value}</TableCell>
+                    <TableCellDiff
+                      valueA={value}
+                      valueB={Object.values(sortedOldDocumentsCount)[index]}
+                    />
+                  </TableRow>
+                )
+              )}
             </TableBody>
           </Table>
         </DialogContent>
