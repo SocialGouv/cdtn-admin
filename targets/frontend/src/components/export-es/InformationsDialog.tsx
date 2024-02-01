@@ -119,10 +119,7 @@ export function InformationsDialog({
               {Object.entries(sortedDocumentsCount).map(
                 ([key, value], index) => (
                   <TableRow key={`${key}-${index}`}>
-                    <TableCell>
-                      {key === "glossary" ? "Glossaire" : key}
-                      {/* TODO: {key} */}
-                    </TableCell>
+                    <TableCell>{key}</TableCell>
                     <TableCell>{value}</TableCell>
                     <TableCellDiff
                       valueA={value}
