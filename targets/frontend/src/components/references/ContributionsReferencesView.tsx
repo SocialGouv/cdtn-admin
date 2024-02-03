@@ -34,14 +34,14 @@ export function ContributionsReferencesView(props: Props) {
       />
       <CardContent>
         {props.references.map((reference) => (
-          <ListItem key={reference.answer.id} disablePadding>
+          <ListItem key={reference.answerId} disablePadding>
             <ListItemButton
               onClick={() =>
-                router.push(`/contributions/answers/${reference.answer.id}`)
+                router.push(`/contributions/answers/${reference.answerId}`)
               }
             >
               <ListItemText
-                primary={`[${reference.answer.agreement_id}] ${reference.answer.question.content}`}
+                primary={`[${reference.agreementId}] Q${reference.questionIndex} - ${reference.questionName}`}
               />
             </ListItemButton>
           </ListItem>
