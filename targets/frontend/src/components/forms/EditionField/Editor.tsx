@@ -145,11 +145,13 @@ const StyledEditorContent = styled(EditorContent)(() => {
         fontSize: "1.75rem",
         fontWeight: 700,
         display: "block",
+        padding: "O.5rem 0",
       },
       "span.sub-title": {
         fontSize: "1.5rem",
         fontWeight: 700,
         display: "block",
+        padding: "O.5rem 0",
       },
       ".alert": {
         marginBottom: "1.6rem",
