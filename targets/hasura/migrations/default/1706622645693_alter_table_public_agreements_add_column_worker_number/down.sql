@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."agreements" add column "worker_number" integer
---  null;
+ALTER TABLE "public"."agreements" DROP COLUMN "worker_number";

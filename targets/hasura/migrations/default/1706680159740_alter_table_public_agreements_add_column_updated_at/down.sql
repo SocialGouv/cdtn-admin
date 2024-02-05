@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."agreements" add column "updated_at" timestamp
---  not null default now();
+ALTER TABLE "public"."agreements" DROP COLUMN "updated_at";

@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."agreements" add column "short_name" text
---  not null default '''';
+ALTER TABLE "public"."agreements" DROP COLUMN "short_name";
