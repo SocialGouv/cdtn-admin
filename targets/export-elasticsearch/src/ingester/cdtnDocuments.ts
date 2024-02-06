@@ -272,9 +272,13 @@ export async function* cdtnDocumentsGen() {
     ...newGeneratedContributions,
     ...oldGeneratedContributions,
   ];
+
   if (generatedContributions.length < 1998) {
-    throw Error("Le nombre de contributions est inférieur à celui attendu");
+    throw Error(
+      `Le nombre de contributions (${generatedContributions.length}) est inférieur à celui attendu (1998)`
+    );
   }
+
   yield {
     documents: generatedContributions,
     source: SOURCES.CONTRIBUTIONS,
