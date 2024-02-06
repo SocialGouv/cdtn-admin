@@ -15,6 +15,7 @@ import type {
   EditorialContent,
 } from "./EditorialContent";
 import { ContributionHighlight } from "./contributions";
+
 export * from "./EditorialContent";
 export * from "./utils";
 export * from "./contributions";
@@ -195,7 +196,13 @@ export interface ServicePublicExternalReference {
 
 export type AgreementDoc = Pick<
   IndexedAgreement,
-  "date_publi" | "effectif" | "mtime" | "num" | "shortTitle" | "url"
+  | "date_publi"
+  | "effectif"
+  | "mtime"
+  | "num"
+  | "shortTitle"
+  | "url"
+  | "synonymes"
 > & {
   highlight?: ContributionHighlight;
 };

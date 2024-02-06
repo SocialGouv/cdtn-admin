@@ -10,25 +10,31 @@ import {
 } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { Model } from "../../models";
-import { Document } from "@shared/types";
+import { AgreementDoc, Document } from "@shared/types";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
+import { AgreementRepository } from "../../agreements/api";
+import { Agreement } from "../../agreements";
+import { SourceRoute } from "@socialgouv/cdtn-sources";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
   private readonly modelRepository: ModelRepository;
   private readonly documentsRepository: DocumentsRepository;
   private readonly contributionRepository: ContributionRepository;
+  private readonly agreementRepository: AgreementRepository;
 
   constructor(
     informationsRepository: InformationsRepository,
     documentsRepository: DocumentsRepository,
     contributionRepository: ContributionRepository,
-    modelRepository: ModelRepository
+    modelRepository: ModelRepository,
+    agreementRepository: AgreementRepository
   ) {
     this.informationsRepository = informationsRepository;
     this.modelRepository = modelRepository;
     this.documentsRepository = documentsRepository;
     this.contributionRepository = contributionRepository;
+    this.agreementRepository = agreementRepository;
   }
 
   private mapInformationToDocument(
@@ -44,6 +50,7 @@ export class DocumentsService {
       text: data.title,
       slug: document?.slug ?? slugify(data.title),
       is_searchable: document ? document.is_searchable : true,
+      is_published: document ? document.is_published : true,
       is_available: true,
       document: {
         date: data.updatedAt
@@ -126,6 +133,7 @@ export class DocumentsService {
       text: data.description,
       slug: document?.slug ?? slugify(data.title),
       is_searchable: document ? document.is_searchable : true,
+      is_published: document ? document.is_published : true,
       is_available: true,
       document: {
         meta_title: data.metaTitle,
@@ -154,7 +162,47 @@ export class DocumentsService {
     };
   }
 
-  public async publish(id: string, source: string) {
+  private mapAgreementToDocument(
+    data: Agreement,
+    document?: Document<AgreementDoc>
+  ): Document<AgreementDoc> {
+    return {
+      cdtn_id: document?.cdtn_id ?? generateCdtnId(data.name),
+      initial_id: data.id,
+      source: "conventions_collectives",
+      meta_description: `IDCC ${data.id}: ${data.name}`,
+      title: data.name,
+      text: `IDCC ${data.id}: ${data.name} ${data.shortName}`,
+      slug: document?.slug ?? slugify(data.shortName),
+      is_searchable: document
+        ? document.is_searchable
+        : data.kali_id !== undefined,
+      is_available: true,
+      is_published: data.kali_id !== undefined,
+      document:
+        data.kali_id !== undefined
+          ? {
+              date_publi: data.publicationDate
+                ? `${data.publicationDate}T00:00:00.000Z`
+                : undefined,
+              effectif: data.workerNumber ?? undefined,
+              num: Number(data.id),
+              url: data.legifranceUrl ?? undefined,
+              shortTitle: data.shortName,
+              synonymes: data.synonyms,
+            }
+          : {
+              date_publi: data.publicationDate
+                ? parseISO(data.publicationDate).toISOString()
+                : undefined,
+              num: Number(data.id),
+              shortTitle: data.shortName,
+              synonymes: data.synonyms,
+            },
+    };
+  }
+
+  public async publish(id: string, source: SourceRoute) {
     let document = await this.documentsRepository.fetch({
       source,
       initialId: id,
@@ -213,12 +261,24 @@ export class DocumentsService {
         const model = await this.modelRepository.fetch(id);
         if (!model) {
           throw new NotFoundError({
-            message: `No model found with id ${id}`,
+            message: `No agreement found with id ${id}`,
             name: "NOT_FOUND",
             cause: null,
           });
         }
         document = this.mapModelToDocument(model, document);
+        break;
+
+      case "conventions_collectives":
+        const agreement = await this.agreementRepository.fetch(id);
+        if (!agreement) {
+          throw new NotFoundError({
+            message: `No agreement found with id ${id}`,
+            name: "NOT_FOUND",
+            cause: null,
+          });
+        }
+        document = this.mapAgreementToDocument(agreement, document);
         break;
 
       default:
