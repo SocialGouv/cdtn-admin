@@ -15,6 +15,9 @@ query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
         cdtn_id
         initial_id
         isPublished: is_published
+        document {
+          contentType @include(if: $includeContentType)
+        }
       }
 }`;
 
@@ -22,22 +25,31 @@ type QueryProps = {
   date: Date;
 };
 
+type DocumentWIthContentType = { document: { contentType?: string } };
 type QueryResult = {
-  documents: ShortDocument<any>[];
+  documents: (ShortDocument<any> & DocumentWIthContentType)[];
 };
 
 export const useDocumentsQuery = ({
   date,
-}: QueryProps): ShortDocument<any>[] => {
+}: QueryProps): (ShortDocument<any> & DocumentWIthContentType)[] => {
   const [result] = useQuery<QueryResult>({
     query: getDocumentsUpdatedAfterDateQuery,
     variables: {
       updated_at: date,
-      sources: [SOURCES.LETTERS, SOURCES.EDITORIAL_CONTENT],
+      sources: [
+        SOURCES.LETTERS,
+        SOURCES.EDITORIAL_CONTENT,
+        SOURCES.CONTRIBUTIONS,
+      ],
     },
   });
   if (!result.data) {
     return [];
   }
-  return result.data.documents;
+
+  // Temporaire tant que l'ancien outil de contrib est la : exclure les anciennes contribs qui ont une updated date toujours mise à jour
+  return result.data.documents.filter(
+    (doc) => doc.source !== SOURCES.CONTRIBUTIONS || doc.document?.contentType
+  );
 };
