@@ -1,7 +1,6 @@
 import { gqlClient } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
 import type { FicheIndex, RawJson } from "@socialgouv/fiches-vdd-types";
-import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 import type { Code } from "@socialgouv/legi-data-types";
 
 import type { FicheServicePublic } from "../../index";
@@ -10,6 +9,7 @@ import { getJson } from "../../lib/getJson";
 import { createReferenceResolver } from "../../lib/referenceResolver";
 import { filter } from "./filter";
 import { format } from "./format";
+import { fetchAgreementsWithKaliId } from "./fetchAgreementsWithKaliId";
 
 /**
  * Extract external content url from Content tag markdown
@@ -46,16 +46,13 @@ mutation updateStatus($ids: [String!],$status: String) {
 `;
 
 export default async function getFichesServicePublic(pkgName: string) {
-  const [contributions, ficheVddIndex, agreements, cdt] = await Promise.all([
+  const [contributions, ficheVddIndex, cdt] = await Promise.all([
     fetchContributions(),
     getJson<FicheIndex[]>("@socialgouv/fiches-vdd/data/index.json"),
-    getJson<IndexedAgreement[]>("@socialgouv/kali-data/data/index.json"),
     getJson<Code>(`@socialgouv/legi-data/data/LEGITEXT000006072050.json`),
   ]);
 
-  const filteredAgreements = agreements.filter(
-    (convention) => typeof convention.id === "string"
-  );
+  const agreements = await fetchAgreementsWithKaliId();
 
   const resolveCdtReference = createReferenceResolver(cdt);
 
@@ -104,7 +101,7 @@ export default async function getFichesServicePublic(pkgName: string) {
       continue;
     }
 
-    const ficheSp = format(fiche, resolveCdtReference, filteredAgreements);
+    const ficheSp = format(fiche, resolveCdtReference, agreements);
 
     fiches.push({
       ...ficheSp,

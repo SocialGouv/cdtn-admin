@@ -5,6 +5,7 @@ import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 import type { FicheServicePublic } from "../..";
 import type { ReferenceResolver } from "../../lib/referenceResolver";
 import { parseReferences } from "./parseReference";
+import { ShortAgreement } from "./fetchAgreementsWithKaliId";
 
 function getChild(element: RawJson, name: string) {
   // RawJson children not exist on text node
@@ -35,7 +36,7 @@ function getText(element?: RawJson): string {
 export function format(
   fiche: RawJson,
   resolveCdtReference: ReferenceResolver,
-  agreements: IndexedAgreement[]
+  agreements: ShortAgreement[]
 ): Omit<FicheServicePublic, "is_searchable" | "slug"> {
   const publication = fiche.children[0];
   const { ID: id } = publication.attributes;

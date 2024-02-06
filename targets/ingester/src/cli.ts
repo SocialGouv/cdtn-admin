@@ -16,7 +16,6 @@ import {
   insertDocuments,
   updateVersion,
 } from "./lib/hasura-mutations-queries";
-import getAgreementDocuments from "./transform/agreements";
 import getContributionsDocuments from "./transform/contributions";
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
 import getFichesServicePublic from "./transform/fichesServicePublic/index";
@@ -26,6 +25,7 @@ import { setContributionsAvailabilityToTrue } from "./transform/contributions/se
 interface Args {
   dryRun: unknown;
 }
+
 const args: Args = yargs(process.argv)
   .command("ingest", "ingest document into database")
   .example("$0 ingest --dry-run", "count the lines in the given file")
@@ -36,6 +36,7 @@ const args: Args = yargs(process.argv)
 interface Versionnable {
   version: string;
 }
+
 type PackageInfo = Versionnable & {
   dist: {
     tarball: string;
@@ -82,8 +83,7 @@ const dataPackages = [
     pkgName: "@socialgouv/contributions-data",
   },
   {
-    forceUpdate: true,
-    getDocuments: getAgreementDocuments,
+    getDocuments: undefined,
     pkgName: "@socialgouv/kali-data",
   },
 ];
@@ -103,7 +103,7 @@ async function main() {
   const packagesToUpdate = new Map<
     string,
     {
-      getDocuments: (pkgName: string) => Promise<CdtnDocument[]>;
+      getDocuments?: (pkgName: string) => Promise<CdtnDocument[]>;
       version: string;
     }
   >();
@@ -127,6 +127,9 @@ async function main() {
   let ids: { cdtn_id: string }[] = [];
   console.log(`packages to ingest: ${[...packagesToUpdate.keys()]}`);
   for (const [pkgName, { version, getDocuments }] of packagesToUpdate) {
+    if (!getDocuments) {
+      continue;
+    }
     console.time(`update ${pkgName}`);
     console.time(` getDocuments ${pkgName}`);
     const documents = await getDocuments(pkgName);
