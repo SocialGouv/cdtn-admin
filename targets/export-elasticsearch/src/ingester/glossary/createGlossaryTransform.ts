@@ -4,7 +4,7 @@ import { explodeGlossaryTerms } from "./explodeGlossaryTerms";
 import { insertWebComponentGlossary } from "./insertWebComponentGlossary";
 
 /**
- * addGlossary is a heavy operation that is only neede while dumping for ES
+ * addGlossary is a heavy operation that is only needed while dumping for ES
  */
 
 export type AddGlossaryReturnFn = (content: string) => string;
@@ -19,12 +19,7 @@ export const createGlossaryTransform = (
   });
   const glossaryTerms = explodeGlossaryTerms(glossary).map((item) => {
     const definition = item.definition
-      ? encodeURIComponent(
-          item.definition
-            .replace(/'/g, "’")
-            .replace("<p>", "")
-            .replace("</p>", "")
-        )
+      ? encodeURIComponent(item.definition)
       : null;
     return {
       ...item,
@@ -38,8 +33,7 @@ export const createGlossaryTransform = (
     }
     if (!content) return "";
 
-    const result = insertWebComponentGlossary(content, glossaryTerms);
-    return result;
+    return insertWebComponentGlossary(content, glossaryTerms);
   }
 
   return addGlossary;
