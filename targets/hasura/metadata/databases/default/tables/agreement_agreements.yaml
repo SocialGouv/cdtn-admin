@@ -7,6 +7,8 @@ configuration:
       custom_name: isSupported
     legifrance_url:
       custom_name: legifranceUrl
+    publication_date:
+      custom_name: publicationDate
     root_text:
       custom_name: rootText
     short_name:
@@ -18,6 +20,7 @@ configuration:
   custom_column_names:
     is_supported: isSupported
     legifrance_url: legifranceUrl
+    publication_date: publicationDate
     root_text: rootText
     short_name: shortName
     updated_at: updatedAt
@@ -41,6 +44,7 @@ insert_permissions:
         - kali_id
         - legifrance_url
         - name
+        - publication_date
         - root_text
         - short_name
         - synonyms
@@ -54,6 +58,7 @@ select_permissions:
         - kali_id
         - legifrance_url
         - name
+        - publication_date
         - root_text
         - short_name
         - synonyms
@@ -70,6 +75,7 @@ update_permissions:
         - kali_id
         - legifrance_url
         - name
+        - publication_date
         - root_text
         - short_name
         - synonyms

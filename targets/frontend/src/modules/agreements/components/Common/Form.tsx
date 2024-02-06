@@ -26,6 +26,7 @@ const defaultValues: FormData = {
   name: "",
   shortName: "",
   isSupported: false,
+  synonyms: [],
 };
 
 export const agreementSchemaUpsert = agreementSchema.omit({ updatedAt: true });
@@ -64,6 +65,7 @@ export const AgreementForm = ({
         rootText: newData.rootText!,
         workerNumber: newData.workerNumber!,
         synonyms: newData.synonyms!,
+        publicationDate: newData.publicationDate!,
       });
       setSnack({
         open: true,
@@ -104,6 +106,16 @@ export const AgreementForm = ({
             label="IDCC"
             disabled={agreement !== undefined}
             fullWidth
+          />
+        </FormControl>
+        <FormControl>
+          <FormTextField
+            name="publicationDate"
+            control={control}
+            label="Date de publication"
+            fullWidth
+            type="date"
+            labelFixed={true}
           />
         </FormControl>
         <FormControl>

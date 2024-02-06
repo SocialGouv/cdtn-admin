@@ -6,6 +6,7 @@ export const agreementSchema = z.object({
     .length(4, "L'IDCC doit être composé de 4 chiffres (ex: 0016, 3239, ...)"),
   isSupported: z.boolean(),
   kali_id: z.string().nullish(),
+  publicationDate: z.string().nullish(),
   legifranceUrl: z.string().url().nullish(),
   name: z
     .string({ required_error: "Un nom doit être renseigné" })

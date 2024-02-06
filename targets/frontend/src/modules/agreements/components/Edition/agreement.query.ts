@@ -7,6 +7,7 @@ export const getAgreementQuery = gql`
   query getAgreement($id: bpchar = "") {
     agreement: agreement_agreements_by_pk(id: $id) {
       id
+      publicationDate
       isSupported
       kali_id
       legifranceUrl
@@ -32,6 +33,7 @@ export type AgreementResult = Pick<
   | "workerNumber"
   | "updatedAt"
   | "synonyms"
+  | "publicationDate"
 >;
 
 export type QueryResult = {

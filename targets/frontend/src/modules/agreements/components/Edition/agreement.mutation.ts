@@ -29,7 +29,7 @@ type MutationGraphQLProps = {
 };
 
 type MutationGraphQLResult = {
-  update_agreement_agreements_by_pk: { id: string };
+  agreement: { id: string };
 };
 
 export type MutationFn = (props: MutationProps) => Promise<MutationResult>;
@@ -47,10 +47,10 @@ export const useAgreementUpdateMutation = (): MutationFn => {
     if (result.error) {
       throw new Error(result.error.message);
     }
-    if (!result.data?.update_agreement_agreements_by_pk) {
+    if (!result.data?.agreement) {
       throw new Error("No data returned from mutation");
     }
-    return result.data?.update_agreement_agreements_by_pk;
+    return result.data?.agreement;
   };
   return resultFunction;
 };
