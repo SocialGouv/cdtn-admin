@@ -19,7 +19,7 @@ export const createGlossaryTransform = (
   });
   const glossaryTerms = explodeGlossaryTerms(glossary).map((item) => {
     const definition = item.definition
-      ? encodeURIComponent(item.definition)
+      ? encodeURIComponent(item.definition.replace(/'/g, "’"))
       : null;
     return {
       ...item,
