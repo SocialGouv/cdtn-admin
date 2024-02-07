@@ -5,7 +5,7 @@ import { AgreementCreation } from "../../modules/agreements";
 
 export function AgreementCreationPage() {
   return (
-    <Layout title="Modèles de document">
+    <Layout title="Création d'une convention collective">
       <AgreementCreation />
     </Layout>
   );

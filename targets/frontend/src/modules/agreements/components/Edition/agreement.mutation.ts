@@ -48,7 +48,7 @@ export const useAgreementUpdateMutation = (): MutationFn => {
       throw new Error(result.error.message);
     }
     if (!result.data?.agreement) {
-      throw new Error("No data returned from mutation");
+      throw new Error("No data returned from 'updateAgreementQuery' mutation");
     }
     return result.data?.agreement;
   };
