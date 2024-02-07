@@ -45,6 +45,10 @@ export function Navigation() {
           label: "Modèles de document",
         },
         {
+          href: "/agreements",
+          label: "Convention collectives",
+        },
+        {
           href: "/contenus?source=highlights",
           label: "À la une",
         },

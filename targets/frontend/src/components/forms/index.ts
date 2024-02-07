@@ -6,3 +6,4 @@ export * from "./TextField";
 export * from "./ToggleButtonGroup";
 export * from "./File";
 export * from "./AutocompleteChips";
+export * from "./Switch";

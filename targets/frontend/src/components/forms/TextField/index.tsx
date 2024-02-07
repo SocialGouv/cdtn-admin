@@ -15,6 +15,7 @@ type FormTextFieldProps = CommonFormProps & {
   multiline?: boolean;
   labelFixed?: boolean;
   id?: string;
+  type?: React.InputHTMLAttributes<unknown>["type"];
 };
 
 export const FormTextField = ({
@@ -27,6 +28,7 @@ export const FormTextField = ({
   multiline,
   disabled,
   labelFixed = false,
+  type,
 }: FormTextFieldProps) => {
   return (
     <Controller
@@ -48,6 +50,7 @@ export const FormTextField = ({
           InputLabelProps={labelFixed ? { shrink: true } : {}}
           id={name}
           minRows={multiline ? 2 : 1}
+          type={type}
         />
       )}
     />

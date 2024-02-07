@@ -10,9 +10,9 @@ export interface AgreementResult {
   agreements: AgreementRecord[];
 }
 
-const loadAgreementsQuery = `
+const loadSupportedAgreementsQuery = `
 query LoadAgreements {
-  agreements(where: {id: {_neq: "0000"}}) {
+  agreements: agreement_agreements(where: {isSupported: {_eq: true}}) {
     idcc: id
     kali_id
     name
@@ -20,9 +20,9 @@ query LoadAgreements {
 }
 `;
 
-export const loadAgreements = async (): Promise<AgreementResult> => {
+export const loadSupportedAgreements = async (): Promise<AgreementResult> => {
   const result = await gqlClient()
-    .query<AgreementResult>(loadAgreementsQuery)
+    .query<AgreementResult>(loadSupportedAgreementsQuery)
     .toPromise();
 
   if (result.error) {
