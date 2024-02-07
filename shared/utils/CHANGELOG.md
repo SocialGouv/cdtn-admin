@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.33.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.32.1...v2.33.0) (2024-02-06)
+
+### Bug Fixes
+
+- **fiche-sp:** nouveau format de l'url pour les fiches pros ([#1265](https://github.com/SocialGouv/cdtn-admin/issues/1265)) ([03da701](https://github.com/SocialGouv/cdtn-admin/commit/03da7017354ad8edde07506a37eeffc9a9de7495))
+
 ## [2.32.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.32.0...v2.32.1) (2024-01-26)
 
 **Note:** Version bump only for package @shared/utils

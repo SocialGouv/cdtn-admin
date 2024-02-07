@@ -5,6 +5,7 @@ import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 import type { FicheServicePublic } from "../..";
 import type { ReferenceResolver } from "../../lib/referenceResolver";
 import { parseReferences } from "./parseReference";
+import { generateFichesSpRef } from "@shared/utils";
 
 function getChild(element: RawJson, name: string) {
   // RawJson children not exist on text node
@@ -56,13 +57,7 @@ export function format(
     | "Particuliers"
     | "Professionnels";
 
-  const audienceMap = {
-    Associations: "associations",
-    Particuliers: "particuliers",
-    Professionnels: "professionnels-entreprises",
-  };
-
-  const url = `https://www.service-public.fr/${audienceMap[audience]}/vosdroits/${id}`;
+  const url = generateFichesSpRef(audience, id);
 
   const intro = getText(getChild(publication, "Introduction"));
   const texte = getText(getChild(publication, "Texte"));
