@@ -41,33 +41,22 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
       editor={editor}
     >
       <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
+        onClick={() => editor.chain().focus().toggleTitle({ level: "title" }).run()}
+
+        className={editor.isActive("title", { level: "title" }) ? "is-active" : ""}
         type="button"
-        title="Titre H2"
+        title="Titre"
       >
-        <BubbleMenuText>H2</BubbleMenuText>
+        <BubbleMenuText>T</BubbleMenuText>
       </button>
       <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
-        disabled={editor.isActive("details")}
+        onClick={() => editor.chain().focus().toggleTitle({ level: "sub-title" }).run()}
+        className={editor.isActive("title", { level: "sub-title" }) ? "is-active" : ""}
+        disabled={ !editor.getHTML().includes("\"title\"") }
         type="button"
-        title="Titre H3"
+        title="Sous-titre"
       >
-        <BubbleMenuText>H3</BubbleMenuText>
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-        className={editor.isActive("heading", { level: 4 }) ? "is-active" : ""}
-        disabled={
-          (!editor.getHTML().includes("<h3>") && !editor.isActive("details")) ||
-          editor.isActive("heading", { level: 3 })
-        }
-        type="button"
-        title="Titre H4"
-      >
-        <BubbleMenuText>H4</BubbleMenuText>
+        <BubbleMenuText>ST</BubbleMenuText>
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -91,7 +80,7 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
         }}
         className={editor.isActive("details") ? "is-active" : ""}
         type="button"
-        title="Placer dans un accordéon"
+        title="Accordéon"
       >
         <StorageIcon />
       </button>
@@ -101,7 +90,7 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
         }}
         className={editor.isActive("link") ? "is-active" : ""}
         type="button"
-        title="Faire un lien"
+        title="Lien"
       >
         <LinkIcon />
       </button>
@@ -111,7 +100,7 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
         }}
         className={editor.isActive("alert") ? "is-active" : ""}
         type="button"
-        title="Mettre en section d'alerte"
+        title="Section d'alerte"
         disabled={editor.isActive("alert")}
       >
         <InfoIcon />

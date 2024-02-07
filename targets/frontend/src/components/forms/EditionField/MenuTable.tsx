@@ -25,7 +25,7 @@ export const MenuTable = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().addColumnBefore().run()}
         disabled={!editor.can().addColumnBefore()}
         type="button"
-        title="Ajouter colonne à gauche"
+        title="Ajouter une colonne à gauche"
       >
         <InsertColumnLeft width={24} fill="white" />
       </button>
@@ -33,7 +33,7 @@ export const MenuTable = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().addColumnAfter().run()}
         disabled={!editor.can().addColumnAfter()}
         type="button"
-        title="Ajouter colonne à droite"
+        title="Ajouter une colonne à droite"
       >
         <InsertColumnRight width={24} fill="white" />
       </button>
@@ -41,7 +41,7 @@ export const MenuTable = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().deleteColumn().run()}
         disabled={!editor.can().deleteColumn()}
         type="button"
-        title="Supprimer colonne"
+        title="Supprimer la colonne"
       >
         <DeleteColumn width={24} fill="white" />
       </button>
@@ -49,7 +49,7 @@ export const MenuTable = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().addRowBefore().run()}
         disabled={!editor.can().addRowBefore()}
         type="button"
-        title="Ajouter ligne au dessus"
+        title="Ajouter une ligne au dessus"
       >
         <InsertRowTop width={24} fill="white" />
       </button>
@@ -57,7 +57,7 @@ export const MenuTable = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().addRowAfter().run()}
         disabled={!editor.can().addRowAfter()}
         type="button"
-        title="Ajouter ligne en dessous"
+        title="Ajouter une ligne en dessous"
       >
         <InsertRowBottom width={24} fill="white" />
       </button>
@@ -65,7 +65,7 @@ export const MenuTable = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().deleteRow().run()}
         disabled={!editor.can().deleteRow()}
         type="button"
-        title="Supprimer ligne"
+        title="Supprimer la ligne"
       >
         <DeleteRow width={24} fill="white" />
       </button>
@@ -73,7 +73,7 @@ export const MenuTable = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().deleteTable().run()}
         disabled={!editor.can().deleteTable()}
         type="button"
-        title="Supprimer tableau"
+        title="Supprimer le tableau"
       >
         <Delete />
       </button>
