@@ -86,8 +86,8 @@ export function generateArticleByTheme(
 export default async function getAgreementsArticlesByTheme(
   idccNumber: number
 ): Promise<ArticleByTheme[]> {
-  const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint");
-  const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret");
+  const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
+  const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret") ||"admin1";
   const resultKaliBlocks = await gqlClient({
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,

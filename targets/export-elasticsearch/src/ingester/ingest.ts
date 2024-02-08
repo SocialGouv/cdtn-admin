@@ -11,7 +11,7 @@ import {
   //@ts-expect-error
 } from "@socialgouv/cdtn-elasticsearch";
 import { logger } from "@shared/utils";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { Sources, SOURCES } from "@socialgouv/cdtn-sources";
 import pMap from "p-map";
 
 import { cdtnDocumentsGen } from "./cdtnDocuments";
@@ -146,7 +146,7 @@ async function runIngester(
     mappings: documentMapping,
   });
   const t0 = Date.now();
-  for await (const { source, documents } of cdtnDocumentsGen() as any) {
+  const updateDocs = async (source: string, documents: unknown[]) => {
     logger.info(`› ${source}... ${documents.length} items`);
 
     let docs = documents;
@@ -156,7 +156,7 @@ async function runIngester(
     });
 
     // add NLP vectors
-    if (!excludeSources.includes(source)) {
+    if (!(excludeSources as string[]).includes(source)) {
       docs = await pMap(documents, addVector, {
         concurrency: 5,
       });
@@ -167,7 +167,8 @@ async function runIngester(
       indexName: `${DOCUMENT_INDEX_NAME}-${ts}`,
       size: 800,
     });
-  }
+  };
+  await cdtnDocumentsGen(updateDocs);
 
   logger.info(`done in ${(Date.now() - t0) / 1000} s`);
 
@@ -211,3 +212,32 @@ async function runIngester(
 
   await deleteOldIndex({ client, patterns, timestamp: ts });
 }
+
+const generateUpdateDocument = (
+  client: Client,
+  indexName: string,
+  ts: number
+) => {
+  return async function updateDoc(source: string, documents: any[]) {
+    logger.info(`› ${source}... ${documents.length} items`);
+
+    let docs = documents;
+
+    docs.forEach((doc: any) => {
+      addCovisits(doc);
+    });
+
+    // add NLP vectors
+    if (!(excludeSources as string[]).includes(source)) {
+      docs = await pMap(documents, addVector, {
+        concurrency: 5,
+      });
+    }
+    await indexDocumentsBatched({
+      client,
+      documents: docs,
+      indexName: `${indexName}-${ts}`,
+      size: 800,
+    });
+  };
+};
