@@ -30,57 +30,51 @@ export class ExportService {
     environment: Environment
   ): Promise<ExportEsStatus> {
     logger.info(`[${userId}] run export for ${environment}`);
-    try {
-      let isReadyToRun = false;
-      const runningResult = await this.getRunningExport();
-      if (runningResult.length > 0) {
-        isReadyToRun = await this.cleanPreviousExport(
-          runningResult[0],
-          process.env.DISABLE_LIMIT_EXPORT ? 0 : 1
-        ); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
-      }
-      if (runningResult.length === 0 || isReadyToRun) {
-        const id = randomUUID();
-        await this.exportRepository.create(
-          id,
-          userId,
-          environment,
-          Status.running
-        );
-        try {
-          if (!process.env.DISABLE_INGESTER) {
-            if (environment === Environment.preproduction) {
-              await runWorkerIngesterPreproduction();
-            } else {
-              await runWorkerIngesterProduction();
-            }
+    let isReadyToRun = false;
+    const runningResult = await this.getRunningExport();
+    if (runningResult.length > 0) {
+      isReadyToRun = await this.cleanPreviousExport(
+        runningResult[0],
+        process.env.DISABLE_LIMIT_EXPORT ? 0 : 1
+      ); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
+    }
+    if (runningResult.length === 0 || isReadyToRun) {
+      const id = randomUUID();
+      await this.exportRepository.create(
+        id,
+        userId,
+        environment,
+        Status.running
+      );
+      try {
+        if (!process.env.DISABLE_INGESTER) {
+          if (environment === Environment.preproduction) {
+            await runWorkerIngesterPreproduction();
+          } else {
+            await runWorkerIngesterProduction();
           }
-          if (!process.env.DISABLE_SITEMAP) {
-            await this.sitemapService.uploadSitemap();
-          }
-          if (!process.env.DISABLE_COPY) {
-            await this.copyContainerService.runCopy();
-          }
-          return await this.exportRepository.updateOne(
-            id,
-            Status.completed,
-            new Date()
-          );
-        } catch (e: any) {
-          logger.error(`Error: ${JSON.stringify(e)}`);
-          return await this.exportRepository.updateOne(
-            id,
-            Status.failed,
-            new Date(),
-            e.message
-          );
         }
-      } else {
-        throw new Error("There is already a running job");
+        if (!process.env.DISABLE_SITEMAP) {
+          await this.sitemapService.uploadSitemap();
+        }
+        if (!process.env.DISABLE_COPY) {
+          await this.copyContainerService.runCopy();
+        }
+        return await this.exportRepository.updateOne(
+          id,
+          Status.completed,
+          new Date()
+        );
+      } catch (e: any) {
+        return await this.exportRepository.updateOne(
+          id,
+          Status.failed,
+          new Date(),
+          e.message
+        );
       }
-    } catch (e: any) {
-      logger.error(`Error: ${JSON.stringify(e)}`);
-      throw e;
+    } else {
+      throw new Error("There is already a running job");
     }
   }
 
