@@ -212,32 +212,3 @@ async function runIngester(
 
   await deleteOldIndex({ client, patterns, timestamp: ts });
 }
-
-const generateUpdateDocument = (
-  client: Client,
-  indexName: string,
-  ts: number
-) => {
-  return async function updateDoc(source: string, documents: any[]) {
-    logger.info(`› ${source}... ${documents.length} items`);
-
-    let docs = documents;
-
-    docs.forEach((doc: any) => {
-      addCovisits(doc);
-    });
-
-    // add NLP vectors
-    if (!(excludeSources as string[]).includes(source)) {
-      docs = await pMap(documents, addVector, {
-        concurrency: 5,
-      });
-    }
-    await indexDocumentsBatched({
-      client,
-      documents: docs,
-      indexName: `${indexName}-${ts}`,
-      size: 800,
-    });
-  };
-};
