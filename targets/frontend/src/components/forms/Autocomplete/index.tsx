@@ -1,5 +1,6 @@
 import {
   AutocompleteCloseReason,
+  AutocompleteFreeSoloValueMapping,
   AutocompleteInputChangeReason,
   FilterOptionsState,
 } from "@mui/base/useAutocomplete/useAutocomplete";
@@ -7,7 +8,6 @@ import {
   Autocomplete,
   CircularProgress,
   FormControl,
-  FormHelperText,
   TextField,
 } from "@mui/material";
 import { AutocompleteRenderGetTagProps } from "@mui/material/Autocomplete/Autocomplete";
@@ -16,9 +16,12 @@ import { Controller } from "react-hook-form";
 
 import { CommonFormProps } from "../type";
 
-type AutocompleteFormProps<T> = PropsWithChildren<
+type AutocompleteFormProps<T, FreeSolo> = PropsWithChildren<
   CommonFormProps & {
-    getOptionLabel: (option: T) => string;
+    getOptionLabel: (
+      option: T | AutocompleteFreeSoloValueMapping<FreeSolo>
+    ) => string;
+    freeSolo?: FreeSolo;
     options: ReadonlyArray<T>;
     onInputChange?: (
       event: React.SyntheticEvent,
@@ -44,7 +47,10 @@ type AutocompleteFormProps<T> = PropsWithChildren<
   }
 >;
 
-export const FormAutocomplete = <T,>({
+export const FormAutocomplete = <
+  T,
+  FreeSolo extends boolean | undefined = false
+>({
   name,
   rules,
   label,
@@ -63,7 +69,8 @@ export const FormAutocomplete = <T,>({
   noOptionsText,
   disabled,
   multiple,
-}: AutocompleteFormProps<T>) => {
+  freeSolo,
+}: AutocompleteFormProps<T, FreeSolo>) => {
   return (
     <Controller
       name={name}
@@ -71,12 +78,13 @@ export const FormAutocomplete = <T,>({
       rules={rules}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <FormControl fullWidth={fullWidth} error={!!error}>
-          <Autocomplete<T, true, true, false>
+          <Autocomplete<T, true, true, FreeSolo>
             clearOnBlur={false}
             forcePopupIcon={false}
             disabled={disabled}
             disableClearable={!!multiple ? true : undefined}
             multiple={multiple}
+            freeSolo={freeSolo}
             id={`id-${label}`}
             value={value}
             onChange={(event, value) => onChange(value)}

@@ -57,3 +57,11 @@ hasura:
         name: hasura
     - secretRef:
         name: hasura
+
+pg:
+  cnpg-cluster:
+    resources:
+      requests:
+        memory: 2Gi
+      limits:
+        memory: 2Gi
