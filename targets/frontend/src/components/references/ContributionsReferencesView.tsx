@@ -34,7 +34,11 @@ export function ContributionsReferencesView(props: Props) {
       />
       <CardContent>
         {props.references
-          .sort((a, b) => parseInt(a.agreementId) - parseInt(b.agreementId))
+          .sort(
+            (a, b) =>
+              parseInt(a.questionIndex) - parseInt(b.questionIndex) ||
+              parseInt(a.agreementId) - parseInt(b.agreementId)
+          )
           .map((reference) => (
             <ListItem key={reference.answerId} disablePadding>
               <ListItemButton
