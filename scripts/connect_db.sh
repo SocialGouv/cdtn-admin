@@ -104,11 +104,11 @@ fi
 
 pg_pods=$(kubectl -n $namespace get po --selector=cnpg.io/podRole=instance -o=custom-columns="NAME:.metadata.name,ROLE:.metadata.labels.role")
 pg_pods_filtered=$(kubectl -n $namespace get po --selector=cnpg.io/podRole=instance -o=custom-columns="NAME:.metadata.name,ROLE:.metadata.labels.role" | grep "$pg_type")
-pod=$(echo "$pg_pods_filtered" | awk '{print $1}')
+pod=$(echo "$pg_pods_filtered" | awk 'NR==1{print $1}')
 
 if [ -z "$pod" ]; then
   echo -e "${RED}Erreur, impossible de trouver le pod cnpg $pg_type dans le namespace ${YELLOW}$namespace${RED}.${NC}"
-  echo -e "${RED}Voci les pods trouvés:\n$pg_pods\n$pg_pods_filtered${NC}"
+  echo -e "${RED}Voici les pods trouvés:\n$pg_pods\n$pg_pods_filtered${NC}"
   exit 1
 fi
 

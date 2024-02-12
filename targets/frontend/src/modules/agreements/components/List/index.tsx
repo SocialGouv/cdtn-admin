@@ -1,7 +1,10 @@
 import {
   Button,
+  FormControlLabel,
+  FormGroup,
   Paper,
   Stack,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -20,9 +23,11 @@ export const AgreementList = (): JSX.Element => {
   const router = useRouter();
   const [idcc, setIdcc] = useState<string | undefined>();
   const [keyword, setKeyword] = useState<string | undefined>();
+  const [isSupported, setSupported] = useState<boolean>(false);
   const { rows } = useListAgreementQuery({
     idcc,
     keyword,
+    isSupported,
   });
   return (
     <Stack spacing={2}>
@@ -32,12 +37,7 @@ export const AgreementList = (): JSX.Element => {
         justifyContent="space-between"
         spacing={2}
       >
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="flex-start"
-          spacing={2}
-        >
+        <FormGroup row={true}>
           <TextField
             label="IDCC"
             variant="outlined"
@@ -56,7 +56,21 @@ export const AgreementList = (): JSX.Element => {
             }}
             data-testid="agreements-keyword-search"
           />
-        </Stack>
+
+          <FormControlLabel
+            control={
+              <Switch
+                onChange={(event) => {
+                  // console.log(`Value: ${value.target.value}`);
+                  setSupported(event.target.checked);
+                }}
+                checked={isSupported}
+              />
+            }
+            labelPlacement="start"
+            label="Afficher que les supportés"
+          />
+        </FormGroup>
         <Button
           variant="contained"
           color="success"

@@ -17,10 +17,17 @@ export const generateLegiRef = (
 };
 
 export const generateFichesSpRef = (
-  audience: "associations" | "particuliers" | "professionnels-entreprises",
+  audience: "Associations" | "Particuliers" | "Professionnels",
   ficheSpInitialId: string
 ) => {
-  return `https://www.service-public.fr/${audience}/vosdroits/${ficheSpInitialId}`;
+  switch (audience) {
+    case "Associations":
+      return `https://www.service-public.fr/associations/vosdroits/${ficheSpInitialId}`;
+    case "Particuliers":
+      return `https://www.service-public.fr/particuliers/vosdroits/${ficheSpInitialId}`;
+    case "Professionnels":
+      return `https://entreprendre.service-public.fr/vosdroits/${ficheSpInitialId}`;
+  }
 };
 
 export const generateFichesSpRefLocal = (

@@ -51,7 +51,7 @@ export const processTravailDataDiff: DataDiffFunction = async ({
     }));
 };
 
-function getChanges(
+export function getChanges(
   previousJson: FicheTravailEmploi[],
   currentJson: FicheTravailEmploi[]
 ): TravailDataChanges {
@@ -135,13 +135,14 @@ function hasDocumentChanged(
   document: FicheTravailEmploi
 ) {
   return (
-    document.intro !== previousDocument.intro ||
-    previousDocument.sections.length !== document.sections.length ||
-    document.sections.some((section, index) => {
-      return (
-        previousDocument.sections[index].text !== section.text ||
-        previousDocument.sections[index].title !== section.title
-      );
-    })
+    document.date !== previousDocument.date &&
+    (document.intro !== previousDocument.intro ||
+      previousDocument.sections.length !== document.sections.length ||
+      document.sections.some((section, index) => {
+        return (
+          previousDocument.sections[index].text !== section.text ||
+          previousDocument.sections[index].title !== section.title
+        );
+      }))
   );
 }
