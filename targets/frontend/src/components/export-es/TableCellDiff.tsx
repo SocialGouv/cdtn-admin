@@ -9,7 +9,7 @@ export const TableCellDiff = ({ valueA, valueB }: Props) => {
   if (!valueB) {
     return <TableCell> - </TableCell>;
   }
-  const diff = valueB - valueA;
+  const diff = valueA - valueB;
   return (
     <TableCell>
       {diff === 0 && <span>0</span>}
