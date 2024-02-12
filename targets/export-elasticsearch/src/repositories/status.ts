@@ -8,6 +8,7 @@ import {
   createExportEsStatus,
   getAllExport,
   getExportEsStatusByEnvironments,
+  getExportEsStatusById,
   getExportEsStatusByStatus,
   getLatestExportEsStatus,
   updateOneExportEsStatus,
@@ -88,6 +89,24 @@ export class ExportRepository {
       throw new Error("Failed to get, undefined object");
     }
     return res.data.export_es_status[0];
+  }
+
+  public async getOne(id: string): Promise<ExportEsStatus> {
+    const res = await gqlClient()
+      .query<{ export_es_status_by_pk: ExportEsStatus }>(
+        getExportEsStatusById,
+        {
+          id,
+        }
+      )
+      .toPromise();
+    if (res.error) {
+      throw res.error;
+    }
+    if (!res.data?.export_es_status_by_pk) {
+      throw new Error("Failed to get, undefined object");
+    }
+    return res.data.export_es_status_by_pk;
   }
 
   public async getByEnvironments(
