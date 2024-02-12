@@ -1,22 +1,18 @@
 import type { SourceValues } from "@socialgouv/cdtn-sources";
-import fetch from "node-fetch";
 import PQueue from "p-queue";
 
-import type { GetBreadcrumbsFn } from "./breadcrumbs";
-import { context } from "./context";
-import type { Glossary } from "./types";
+import type { GetBreadcrumbsFn } from "../breadcrumbs";
+import { context } from "../context";
 import type {
-  AggregateDocumentBySource,
   Document,
   DocumentElastic,
   DocumentElasticWithSource,
   DocumentRef,
   DocumentWithRelation,
-  GetGlossaryResponse,
   Relation,
-  RequestBySourceWithRelationsResponse,
-} from "./types/Glossary";
+} from "../types/Glossary";
 import { Breadcrumbs } from "@shared/types";
+import { gqlClient } from "@shared/utils";
 
 const PAGE_SIZE = process.env.FETCH_PAGE_SIZE
   ? parseInt(process.env.FETCH_PAGE_SIZE)
@@ -25,96 +21,97 @@ const JOB_CONCURRENCY = process.env.FETCH_JOB_CONCURRENCY
   ? parseInt(process.env.FETCH_JOB_CONCURRENCY)
   : 5;
 
-const gqlRequestBySource = (
-  source: SourceValues,
+interface DocumentRequestVariables {
+  source: string;
+  offset: number;
+  limit: number;
+}
+
+type DocumentRequestGenerator = (param: DocumentRequestVariables) => {
+  query: string;
+  variables: DocumentRequestVariables;
+};
+
+const gqlRequestBySource: DocumentRequestGenerator = ({
+  source,
   offset = 0,
-  limit: number | null = null
-): string =>
-  JSON.stringify({
-    query: `{
-  documents(
-    order_by: {cdtn_id: asc}
-    limit: ${limit}
-    offset: ${offset}
-    where: {source: {_eq: "${source}"},  is_available: {_eq: true} }
-  ) {
-    id:initial_id
-    cdtnId:cdtn_id
+  limit,
+}) => ({
+  query: graphQLRequestBySource,
+  variables: {
+    source,
+    offset,
+    limit,
+  },
+});
+
+const graphQLRequestBySource = `
+query GetDocuments($source: String, $limit: Int, $offset: Int) {
+  documents(order_by: {cdtn_id: asc}, limit: $limit, offset: $offset, where: {source: {_eq: $source}, is_available: {_eq: true}}) {
+    id: initial_id
+    cdtnId: cdtn_id
     title
     slug
     source
     text
     isPublished: is_published
     isSearchable: is_searchable
-    metaDescription:meta_description
+    metaDescription: meta_description
     document
   }
-}`,
-  });
+}
+`;
 
-const gqlRequestBySourceWithRelations = (
-  source: SourceValues,
-  offset = 0,
-  limit: number | null = null
-): string =>
-  JSON.stringify({
-    query: `{
-        documents(order_by: {cdtn_id: asc}, limit: ${limit}, offset: ${offset}, where: {source: {_eq: "${source}"}, is_available: {_eq: true}}) {
-          id: initial_id
-          cdtnId: cdtn_id
-          title
-          slug
-          source
-          text
-          isPublished: is_published
-          isSearchable: is_searchable
-          metaDescription: meta_description
-          document
-          contentRelations: relation_a(where: {type: {_eq: "document-content"}, b: {is_published: {_eq: true}, is_available: {_eq: true}}}) {
-            position: data(path: "position")
-            content: b {
-              cdtnId: cdtn_id
-              slug
-              source
-              title
-              document
-            }
-          }
-        }
-      }`,
-  });
+const gqlRequestBySourceWithRelations: DocumentRequestGenerator = ({
+  source,
+  offset,
+  limit,
+}) => ({
+  query: graphQLRequestBySourceWithRelations,
+  variables: {
+    source,
+    offset,
+    limit,
+  },
+});
 
-const gqlAgreggateDocumentBySource = (source: SourceValues): string =>
-  JSON.stringify({
-    query: `{
-  documents_aggregate(where: {is_available:{_eq: true}, source: {_eq: "${source}"}}){
+const graphQLRequestBySourceWithRelations = `
+query GetDocumentsWithRelations($source: String, $limit: Int, $offset: Int) {
+  documents(order_by: {cdtn_id: asc}, limit: $limit, offset: $offset, where: {source: {_eq: $source}, is_available: {_eq: true}}) {
+    id: initial_id
+    cdtnId: cdtn_id
+    title
+    slug
+    source
+    text
+    isPublished: is_published
+    isSearchable: is_searchable
+    metaDescription: meta_description
+    document
+    contentRelations: relation_a(where: {type: {_eq: "document-content"}, b: {is_published: {_eq: true}, is_available: {_eq: true}}}) {
+      position: data(path: "position")
+      content: b {
+        cdtnId: cdtn_id
+        slug
+        source
+        title
+        document
+      }
+    }
+  }
+}
+
+`;
+
+const graphQLAgreggateDocumentBySource = `
+query GetDocumentCount($source: String) {
+  documents_aggregate(where: {is_available: {_eq: true}, source: {_eq: $source}}) {
     aggregate {
       count
     }
   }
-}`,
-  });
-
-const gqlGlossary = (): string =>
-  JSON.stringify({
-    query: `query Glossary {
-      glossary {term, abbreviations, definition, variants, references, slug}
- }`,
-  });
-
-export async function getGlossary(): Promise<Glossary> {
-  const CDTN_ADMIN_ENDPOINT: string =
-    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
-  const result = await fetch(CDTN_ADMIN_ENDPOINT, {
-    body: gqlGlossary(),
-    method: "POST",
-  }).then(async (r) => (await r.json()) as GetGlossaryResponse);
-  if (result.errors?.length) {
-    console.error(result.errors[0].message);
-    throw new Error(`error fetching kali blocks`);
-  }
-  return result.data?.glossary ?? [];
 }
+`;
 
 export async function getDocumentBySource<T>(
   source: SourceValues,
@@ -156,19 +153,24 @@ export async function getDocumentBySourceWithRelation(
 }
 
 const createDocumentsFetcher =
-  (gqlRequest = gqlRequestBySource) =>
+  (requestGenerator = gqlRequestBySource) =>
   async (
     source: SourceValues,
     { pageSize = PAGE_SIZE, concurrency = JOB_CONCURRENCY }
   ): Promise<Promise<DocumentWithRelation[]>[]> => {
-    const CDTN_ADMIN_ENDPOINT: string =
+    const graphqlEndpoint: string =
       context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
-    const nbDocResult = await fetch(CDTN_ADMIN_ENDPOINT, {
-      body: gqlAgreggateDocumentBySource(source),
-      method: "POST",
-    }).then(
-      async (r) => (await r.json()) as Promise<AggregateDocumentBySource>
-    );
+    const adminSecret: string =
+      context.get("cdtnAdminEndpointSecret") || "admin1";
+    const nbDocResult = await gqlClient({
+      graphqlEndpoint,
+      adminSecret,
+    })
+      .query<
+        { documents_aggregate: { aggregate: { count: number } } },
+        { source: string }
+      >(graphQLAgreggateDocumentBySource, { source })
+      .toPromise();
     if (!nbDocResult.data) {
       return [];
     }
@@ -177,27 +179,29 @@ const createDocumentsFetcher =
 
     return Array.from({ length: Math.ceil(nbDoc / pageSize) }, (_, i) => i).map(
       async (index): Promise<DocumentWithRelation[]> => {
+        const request = requestGenerator({
+          source,
+          offset: index * pageSize,
+          limit: pageSize,
+        });
         return queue.add(async () => {
-          return fetch(CDTN_ADMIN_ENDPOINT, {
-            body: gqlRequest(source, index * pageSize, pageSize),
-            method: "POST",
+          return gqlClient({
+            graphqlEndpoint,
+            adminSecret,
           })
-            .then(async (res) => {
-              if (res.ok) {
-                return (await res.json()) as Promise<RequestBySourceWithRelationsResponse>;
+            .query<
+              { documents: DocumentWithRelation[] },
+              DocumentRequestVariables
+            >(request.query, request.variables)
+            .toPromise()
+            .then((res) => {
+              if (res.error) {
+                throw new Error(JSON.stringify(res.error));
               }
-              const error = new Error(res.statusText) as Error & {
-                status: number;
-              };
-              error.status = res.status;
-              throw error;
-            })
-            .then((result) => {
-              if (result.errors) {
-                console.error(result.errors);
-                throw new Error(JSON.stringify(result.errors[0]));
+              if (!res.data) {
+                throw new Error(`No data found for source ${source}`);
               }
-              return result.data?.documents ?? [];
+              return res.data.documents;
             });
         });
       }
