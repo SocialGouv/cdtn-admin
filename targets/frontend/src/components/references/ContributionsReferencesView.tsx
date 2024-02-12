@@ -33,19 +33,24 @@ export function ContributionsReferencesView(props: Props) {
         subheader={`${props.references.length} référence(s) trouvée(s)`}
       />
       <CardContent>
-        {props.references.map((reference) => (
-          <ListItem key={reference.answerId} disablePadding>
-            <ListItemButton
-              onClick={() =>
-                router.push(`/contributions/answers/${reference.answerId}`)
-              }
-            >
-              <ListItemText
-                primary={`[${reference.agreementId}] Q${reference.questionIndex} - ${reference.questionName}`}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {props.references
+          .sort((a, b) => parseInt(a.agreementId) - parseInt(b.agreementId))
+          .map((reference) => (
+            <ListItem key={reference.answerId} disablePadding>
+              <ListItemButton
+                onClick={() =>
+                  window.open(
+                    `/contributions/answers/${reference.answerId}`,
+                    "_ blank"
+                  )
+                }
+              >
+                <ListItemText
+                  primary={`[${reference.agreementId}] Q${reference.questionIndex} - ${reference.questionName}`}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
       </CardContent>
     </Card>
   );
