@@ -4,6 +4,8 @@ import { Layout } from "src/components/layout/auth.layout";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { useRouter } from "next/router";
+import { ReferencesTabs } from "src/components/references";
+import { ContributionAnswerReferences } from "src/modules/references/ContributionAnswerReferences";
 
 export function ModelEditionPage() {
   const router = useRouter();
@@ -11,7 +13,12 @@ export function ModelEditionPage() {
 
   return (
     <Layout title="Modèles de document">
-      <ModelEdition id={modelId} />
+      <ReferencesTabs
+        firstTabTitle="Modèle"
+        secondTabTitle="Références"
+        firstChildren={<ModelEdition id={modelId} />}
+        secondChildren={<ContributionAnswerReferences id={modelId} />}
+      />
     </Layout>
   );
 }
