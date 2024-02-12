@@ -1,12 +1,8 @@
-import type { GraphQLResponseRoot } from "./GraphQL";
-
-export type ThemeQueryResult = GraphQLResponseRoot<Data>;
-
-export type Data = {
+export interface Data {
   themes: Theme[];
-};
+}
 
-export type Theme = {
+export interface Theme {
   cdtnId: string;
   id: string;
   slug: string;
@@ -15,28 +11,28 @@ export type Theme = {
   document: ThemeDocument;
   contentRelations: ThemeContentRelation[];
   parentRelations: ThemeParentRelation[];
-};
+}
 
-export type ThemeDocument = {
+export interface ThemeDocument {
   icon?: string;
   shortTitle?: string;
   description?: string;
-};
+}
 
-export type ThemeContentRelation = {
+export interface ThemeContentRelation {
   content: ThemeContent;
   position: number;
-};
+}
 
-export type ThemeContent = {
+export interface ThemeContent {
   cdtnId: string;
   slug: string;
   source: string;
   title: string;
   document: unknown;
-};
+}
 
-export type ThemeParentRelation = {
+export interface ThemeParentRelation {
   parentThemeId?: string;
   position: number;
-};
+}
