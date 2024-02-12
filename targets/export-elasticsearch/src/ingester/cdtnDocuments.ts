@@ -5,6 +5,7 @@ import {
   ContributionDocumentJson,
   ContributionHighlight,
   EditorialContentDoc,
+  ExportEsStatus,
   FicheTravailEmploiDoc,
   OldContributionElasticDocument,
 } from "@shared/types";
@@ -31,6 +32,7 @@ import {
 import { generateAgreements } from "./agreements";
 import { getGlossary } from "./documents/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
+import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
 
 /**
  * Find duplicate slugs
@@ -59,6 +61,8 @@ export async function getDuplicateSlugs(allDocuments: any) {
 export async function cdtnDocumentsGen(
   updateDocs: (source: string, documents: unknown[]) => Promise<void>
 ) {
+  let documentsCount: Partial<ExportEsStatus["documentsCount"]> = {};
+
   const themes = await fetchThemes();
 
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
@@ -76,34 +80,55 @@ export async function cdtnDocumentsGen(
     SOURCES.EDITORIAL_CONTENT,
     getBreadcrumbs
   );
-  await updateDocs(
-    SOURCES.EDITORIAL_CONTENT,
-    markdownTransform(addGlossary, documents)
-  );
+  const editorialContents = markdownTransform(addGlossary, documents);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
+  };
+  await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContents);
 
   logger.info("=== Courriers ===");
-  await updateDocs(
+  const modelesDeCourriers = await getDocumentBySource(
     SOURCES.LETTERS,
-    await getDocumentBySource(SOURCES.LETTERS, getBreadcrumbs)
+    getBreadcrumbs
   );
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.LETTERS]: modelesDeCourriers.length,
+  };
+  await updateDocs(SOURCES.LETTERS, modelesDeCourriers);
 
   logger.info("=== Outils ===");
-  await updateDocs(
-    SOURCES.TOOLS,
-    await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs)
-  );
+  const tools = await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.TOOLS]: tools.length,
+  };
+  await updateDocs(SOURCES.TOOLS, tools);
 
   logger.info("=== Outils externes ===");
-  await updateDocs(
+  const externalTools = await getDocumentBySource(
     SOURCES.EXTERNALS,
-    await getDocumentBySource(SOURCES.EXTERNALS, getBreadcrumbs)
+    getBreadcrumbs
   );
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.EXTERNALS]: externalTools.length,
+  };
+  await updateDocs(SOURCES.EXTERNALS, externalTools);
 
   logger.info("=== Dossiers ===");
-  await updateDocs(
+
+  const dossiers = await getDocumentBySource(
     SOURCES.THEMATIC_FILES,
-    await getDocumentBySource(SOURCES.THEMATIC_FILES, getBreadcrumbs)
+    getBreadcrumbs
   );
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.THEMATIC_FILES]: dossiers.length,
+  };
+
+  await updateDocs(SOURCES.THEMATIC_FILES, dossiers);
 
   logger.info("=== Contributions ===");
   const contributions: DocumentElasticWithSource<
@@ -221,11 +246,10 @@ export async function cdtnDocumentsGen(
     ...oldGeneratedContributions,
   ];
 
-  if (generatedContributions.length < 1998) {
-    throw Error(
-      `Le nombre de contributions (${generatedContributions.length}) est inférieur à celui attendu (1998)`
-    );
-  }
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.CONTRIBUTIONS]: generatedContributions.length,
+  };
 
   await updateDocs(SOURCES.CONTRIBUTIONS, generatedContributions);
 
@@ -236,54 +260,74 @@ export async function cdtnDocumentsGen(
     oldGeneratedContributions
   );
 
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.CCN]: agreementsDocs.length,
+  };
+
   await updateDocs(SOURCES.CCN, agreementsDocs);
 
   logger.info("=== Fiches SP ===");
-  await updateDocs(
-    SOURCES.SHEET_SP,
-    await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs)
-  );
+  const fichesSp = await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs);
+
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.SHEET_SP]: fichesSp.length,
+  };
+  await updateDocs(SOURCES.SHEET_SP, fichesSp);
 
   logger.info("=== page fiches travail ===");
   const fichesMT = await getDocumentBySource<FicheTravailEmploiDoc>(
     SOURCES.SHEET_MT_PAGE,
     getBreadcrumbs
   );
-  await updateDocs(
-    SOURCES.SHEET_MT_PAGE,
-    fichesMT.map(({ sections, ...infos }) => ({
-      ...infos,
-      sections: sections.map(({ html, ...section }: any) => {
-        delete section.description;
-        delete section.text;
-        return {
-          ...section,
-          html: addGlossary(html),
-        };
-      }),
-    }))
-  );
+  const fichesMTWithGlossary = fichesMT.map(({ sections, ...infos }) => ({
+    ...infos,
+    sections: sections.map(({ html, ...section }: any) => {
+      delete section.description;
+      delete section.text;
+      return {
+        ...section,
+        html: addGlossary(html),
+      };
+    }),
+  }));
+
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
+  };
+
+  await updateDocs(SOURCES.SHEET_MT_PAGE, fichesMTWithGlossary);
 
   logger.info("=== Fiche MT ===");
   const splittedFiches = fichesMT.flatMap(splitArticle);
-  await updateDocs(
-    SOURCES.SHEET_MT,
-    splittedFiches.map((fiche) => {
-      // we don't want splitted fiches to have the same cdtnId than full pages
-      // it causes bugs, tons of weird bugs, but we need the id for the
-      // breadcrumbs generation
-      const breadcrumbs = getBreadcrumbs(fiche.cdtnId);
-      delete fiche.cdtnId;
-      return {
-        ...fiche,
-        breadcrumbs,
-        source: SOURCES.SHEET_MT,
-      };
-    })
-  );
+  const splittedFichesMt = splittedFiches.map((fiche) => {
+    // we don't want splitted fiches to have the same cdtnId than full pages
+    // it causes bugs, tons of weird bugs, but we need the id for the
+    // breadcrumbs generation
+    const breadcrumbs = getBreadcrumbs(fiche.cdtnId);
+    delete fiche.cdtnId;
+    return {
+      ...fiche,
+      breadcrumbs,
+      source: SOURCES.SHEET_MT,
+    };
+  });
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.SHEET_MT]: splittedFichesMt.length,
+  };
+  await updateDocs(SOURCES.SHEET_MT, splittedFichesMt);
 
   logger.info("=== Themes ===");
-  await updateDocs(SOURCES.THEMES, buildThemes(themes, getBreadcrumbs));
+  const themesDoc = buildThemes(themes, getBreadcrumbs);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.THEMES]: themesDoc.length,
+  };
+
+  await updateDocs(SOURCES.THEMES, themesDoc);
 
   logger.info("=== Highlights ===");
   const highlights = await getDocumentBySourceWithRelation(
@@ -307,6 +351,10 @@ export async function cdtnDocumentsGen(
       return ref;
     }),
   }));
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.HIGHLIGHTS]: highlightsWithContrib.length,
+  };
   await updateDocs(SOURCES.HIGHLIGHTS, highlightsWithContrib);
 
   logger.info("=== PreQualified Request ===");
@@ -331,9 +379,17 @@ export async function cdtnDocumentsGen(
       return ref;
     }),
   }));
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.PREQUALIFIED]: prequalifiedWithContrib.length,
+  };
   await updateDocs(SOURCES.PREQUALIFIED, prequalifiedWithContrib);
 
   logger.info("=== glossary ===");
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.GLOSSARY]: glossaryTerms.length,
+  };
   await updateDocs(SOURCES.GLOSSARY, [
     {
       data: glossaryTerms,
@@ -342,7 +398,12 @@ export async function cdtnDocumentsGen(
   ]);
 
   logger.info("=== Code du travail ===");
-  await updateDocs(SOURCES.CDT, await getDocumentBySource(SOURCES.CDT));
+  const cdtDoc = await getDocumentBySource(SOURCES.CDT);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.CDT]: cdtDoc.length,
+  };
+  await updateDocs(SOURCES.CDT, cdtDoc);
 
   logger.info("=== data version ===");
   await updateDocs(SOURCES.VERSIONS, [
@@ -351,4 +412,13 @@ export async function cdtnDocumentsGen(
       source: SOURCES.VERSIONS,
     },
   ]);
+
+  logger.info("=== Save the documents length ===");
+  documentsCount = {
+    ...documentsCount,
+    total: Object.values(documentsCount).reduce((a: any, b: any) => a + b, 0),
+  };
+  await updateExportEsStatusWithDocumentsCount(
+    documentsCount as ExportEsStatus["documentsCount"]
+  );
 }

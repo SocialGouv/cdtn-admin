@@ -8,7 +8,7 @@ import type {
   AgreementSection,
   IndexedAgreement,
 } from "@socialgouv/kali-data-types";
-import type { BaseHasuraDocument } from "./global";
+import type { BaseHasuraDocument, ExportSourcesContent } from "./global";
 import type {
   Prequalified,
   Highlight,
@@ -441,6 +441,10 @@ export interface ExportEsStatus {
   updated_at: Date;
   user?: User;
   error?: string;
+  documentsCount?: Record<
+    Exclude<ExportSourcesContent, "versions"> | "total",
+    number
+  >;
 }
 
 export type Answer = {

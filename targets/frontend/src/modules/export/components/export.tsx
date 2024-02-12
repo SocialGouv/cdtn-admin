@@ -1,6 +1,10 @@
 import { Environment } from "@shared/types";
 import React, { useEffect, useState } from "react";
-import { EnvironmentBadge, Status } from "src/components/export-es";
+import {
+  EnvironmentBadge,
+  InformationsDialog,
+  Status,
+} from "src/components/export-es";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { useExportEs } from "src/hooks/exportEs";
 import { useUser } from "src/hooks/useUser";
@@ -71,6 +75,7 @@ export function Export(): JSX.Element {
               <Th align="left">Crée le</Th>
               <Th align="left">Complété le</Th>
               <Th align="left">Statut</Th>
+              <Th align="left">Informations</Th>
             </Tr>
           </thead>
           {exportEsState.isGetExportLoading && (
@@ -84,15 +89,19 @@ export function Export(): JSX.Element {
           )}
           <tbody>
             {exportEsState.exportData.map(
-              ({
-                id,
-                environment,
-                created_at,
-                updated_at,
-                user,
-                status,
-                error,
-              }) => {
+              (
+                {
+                  id,
+                  environment,
+                  created_at,
+                  updated_at,
+                  user,
+                  status,
+                  error,
+                  documentsCount,
+                },
+                index
+              ) => {
                 return (
                   <Tr key={`${id}`}>
                     <Td>
@@ -121,6 +130,18 @@ export function Export(): JSX.Element {
                     </Td>
                     <Td>
                       <Status status={status} error={error} />
+                    </Td>
+                    <Td>
+                      {documentsCount ? (
+                        <InformationsDialog
+                          documentsCount={documentsCount}
+                          oldDocumentsCount={
+                            exportEsState.exportData[index + 1]?.documentsCount
+                          }
+                        />
+                      ) : (
+                        <Typography>Aucune information</Typography>
+                      )}
                     </Td>
                   </Tr>
                 );
