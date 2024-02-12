@@ -11,20 +11,16 @@ import {
 } from "@shared/types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import fetch from "node-fetch";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";
 import { buildThemes } from "./buildThemes";
-import { context } from "./context";
 import {
   getDocumentBySource,
   getDocumentBySourceWithRelation,
-  getGlossary,
-} from "./fetchCdtnAdminDocuments";
+} from "./documents/fetchCdtnAdminDocuments";
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
 import { markdownTransform } from "./markdown";
-import type { ThemeQueryResult } from "./types/themes";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
@@ -34,34 +30,9 @@ import {
   isOldContribution,
 } from "./contributions";
 import { generateAgreements } from "./agreements";
+import { getGlossary } from "./documents/fetchGlossary";
+import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
-
-const themesQuery = JSON.stringify({
-  query: `{
-  themes: documents(where: {source: {_eq: "${SOURCES.THEMES}"}}) {
-    cdtnId: cdtn_id
-    id: initial_id
-    slug
-    source
-    title
-    document
-    contentRelations: relation_a(where: {type: {_eq: "theme-content"}, b: {is_published: {_eq: true}, is_available: {_eq: true}}}, order_by: {}) {
-      content: b {
-        cdtnId: cdtn_id
-        slug
-        source
-        title
-        document
-      }
-      position: data(path: "position")
-    }
-    parentRelations: relation_b(where: {type: {_eq: "theme"}}) {
-      parentThemeId: document_a
-      position: data(path: "position")
-    }
-  }
-}`,
-});
 
 /**
  * Find duplicate slugs
@@ -87,31 +58,12 @@ export async function getDuplicateSlugs(allDocuments: any) {
     );
 }
 
-export async function* cdtnDocumentsGen() {
+export async function cdtnDocumentsGen(
+  updateDocs: (source: string, documents: unknown[]) => Promise<void>
+) {
   let documentsCount: Partial<ExportEsStatus["documentsCount"]> = {};
-  const CDTN_ADMIN_ENDPOINT =
-    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
 
-  console.error(`Accessing cdtn admin on ${CDTN_ADMIN_ENDPOINT}`);
-  const themesQueryResult = await fetch(CDTN_ADMIN_ENDPOINT, {
-    body: themesQuery,
-    method: "POST",
-  }).then(async (r: any) => {
-    const data = await r.json();
-    if (r.ok) {
-      return data as ThemeQueryResult;
-    }
-    return Promise.reject(data);
-  });
-
-  if (!themesQueryResult.data) {
-    throw new Error(
-      `Requête pour récupérer les thèmes a échoué ${JSON.stringify(
-        themesQueryResult.errors
-      )}`
-    );
-  }
-  const themes = themesQueryResult.data.themes;
+  const themes = await fetchThemes();
 
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
 
@@ -133,10 +85,7 @@ export async function* cdtnDocumentsGen() {
     ...documentsCount,
     [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
   };
-  yield {
-    documents: editorialContents,
-    source: SOURCES.EDITORIAL_CONTENT,
-  };
+  await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContents);
 
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
@@ -147,10 +96,7 @@ export async function* cdtnDocumentsGen() {
     ...documentsCount,
     [SOURCES.LETTERS]: modelesDeCourriers.length,
   };
-  yield {
-    documents: modelesDeCourriers,
-    source: SOURCES.LETTERS,
-  };
+  await updateDocs(SOURCES.LETTERS, modelesDeCourriers);
 
   logger.info("=== Outils ===");
   const tools = await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs);
@@ -158,10 +104,7 @@ export async function* cdtnDocumentsGen() {
     ...documentsCount,
     [SOURCES.TOOLS]: tools.length,
   };
-  yield {
-    documents: tools,
-    source: SOURCES.TOOLS,
-  };
+  await updateDocs(SOURCES.TOOLS, tools);
 
   logger.info("=== Outils externes ===");
   const externalTools = await getDocumentBySource(
@@ -172,12 +115,10 @@ export async function* cdtnDocumentsGen() {
     ...documentsCount,
     [SOURCES.EXTERNALS]: externalTools.length,
   };
-  yield {
-    documents: externalTools,
-    source: SOURCES.EXTERNALS,
-  };
+  await updateDocs(SOURCES.EXTERNALS, externalTools);
 
   logger.info("=== Dossiers ===");
+
   const dossiers = await getDocumentBySource(
     SOURCES.THEMATIC_FILES,
     getBreadcrumbs
@@ -186,10 +127,8 @@ export async function* cdtnDocumentsGen() {
     ...documentsCount,
     [SOURCES.THEMATIC_FILES]: dossiers.length,
   };
-  yield {
-    documents: dossiers,
-    source: SOURCES.THEMATIC_FILES,
-  };
+
+  await updateDocs(SOURCES.THEMATIC_FILES, dossiers);
 
   logger.info("=== Contributions ===");
   const contributions: DocumentElasticWithSource<
@@ -312,10 +251,7 @@ export async function* cdtnDocumentsGen() {
     [SOURCES.CONTRIBUTIONS]: generatedContributions.length,
   };
 
-  yield {
-    documents: generatedContributions,
-    source: SOURCES.CONTRIBUTIONS,
-  };
+  await updateDocs(SOURCES.CONTRIBUTIONS, generatedContributions);
 
   logger.info("=== Conventions Collectives ===");
   const agreementsDocs = await generateAgreements(
@@ -329,10 +265,7 @@ export async function* cdtnDocumentsGen() {
     [SOURCES.CCN]: agreementsDocs.length,
   };
 
-  yield {
-    documents: agreementsDocs,
-    source: SOURCES.CCN,
-  };
+  await updateDocs(SOURCES.CCN, agreementsDocs);
 
   logger.info("=== Fiches SP ===");
   const fichesSp = await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs);
@@ -341,11 +274,7 @@ export async function* cdtnDocumentsGen() {
     ...documentsCount,
     [SOURCES.SHEET_SP]: fichesSp.length,
   };
-
-  yield {
-    documents: fichesSp,
-    source: SOURCES.SHEET_SP,
-  };
+  await updateDocs(SOURCES.SHEET_SP, fichesSp);
 
   logger.info("=== page fiches travail ===");
   const fichesMT = await getDocumentBySource<FicheTravailEmploiDoc>(
@@ -369,10 +298,7 @@ export async function* cdtnDocumentsGen() {
     [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
   };
 
-  yield {
-    documents: fichesMTWithGlossary,
-    source: SOURCES.SHEET_MT_PAGE,
-  };
+  await updateDocs(SOURCES.SHEET_MT_PAGE, fichesMTWithGlossary);
 
   logger.info("=== Fiche MT ===");
   const splittedFiches = fichesMT.flatMap(splitArticle);
@@ -392,10 +318,7 @@ export async function* cdtnDocumentsGen() {
     ...documentsCount,
     [SOURCES.SHEET_MT]: splittedFichesMt.length,
   };
-  yield {
-    documents: splittedFichesMt,
-    source: SOURCES.SHEET_MT,
-  };
+  await updateDocs(SOURCES.SHEET_MT, splittedFichesMt);
 
   logger.info("=== Themes ===");
   const themesDoc = buildThemes(themes, getBreadcrumbs);
@@ -403,10 +326,8 @@ export async function* cdtnDocumentsGen() {
     ...documentsCount,
     [SOURCES.THEMES]: themesDoc.length,
   };
-  yield {
-    documents: themesDoc,
-    source: SOURCES.THEMES,
-  };
+
+  await updateDocs(SOURCES.THEMES, themesDoc);
 
   logger.info("=== Highlights ===");
   const highlights = await getDocumentBySourceWithRelation(
@@ -434,10 +355,7 @@ export async function* cdtnDocumentsGen() {
     ...documentsCount,
     [SOURCES.HIGHLIGHTS]: highlightsWithContrib.length,
   };
-  yield {
-    documents: highlightsWithContrib,
-    source: SOURCES.HIGHLIGHTS,
-  };
+  await updateDocs(SOURCES.HIGHLIGHTS, highlightsWithContrib);
 
   logger.info("=== PreQualified Request ===");
   const prequalified = await getDocumentBySourceWithRelation(
@@ -465,26 +383,19 @@ export async function* cdtnDocumentsGen() {
     ...documentsCount,
     [SOURCES.PREQUALIFIED]: prequalifiedWithContrib.length,
   };
-  yield {
-    documents: prequalifiedWithContrib,
-    source: SOURCES.PREQUALIFIED,
-  };
+  await updateDocs(SOURCES.PREQUALIFIED, prequalifiedWithContrib);
 
   logger.info("=== glossary ===");
   documentsCount = {
     ...documentsCount,
     [SOURCES.GLOSSARY]: glossaryTerms.length,
   };
-
-  yield {
-    documents: [
-      {
-        data: glossaryTerms,
-        source: SOURCES.GLOSSARY,
-      },
-    ],
-    source: SOURCES.GLOSSARY,
-  };
+  await updateDocs(SOURCES.GLOSSARY, [
+    {
+      data: glossaryTerms,
+      source: SOURCES.GLOSSARY,
+    },
+  ]);
 
   logger.info("=== Code du travail ===");
   const cdtDoc = await getDocumentBySource(SOURCES.CDT);
@@ -492,21 +403,15 @@ export async function* cdtnDocumentsGen() {
     ...documentsCount,
     [SOURCES.CDT]: cdtDoc.length,
   };
-  yield {
-    documents: cdtDoc,
-    source: SOURCES.CDT,
-  };
+  await updateDocs(SOURCES.CDT, cdtDoc);
 
   logger.info("=== data version ===");
-  yield {
-    documents: [
-      {
-        data: getVersions(),
-        source: SOURCES.VERSIONS,
-      },
-    ],
-    source: SOURCES.VERSIONS,
-  };
+  await updateDocs(SOURCES.VERSIONS, [
+    {
+      data: getVersions(),
+      source: SOURCES.VERSIONS,
+    },
+  ]);
 
   logger.info("=== Save the documents length ===");
   documentsCount = {
