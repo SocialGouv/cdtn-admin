@@ -4,6 +4,7 @@ import React from "react";
 import { useAgreementUpdateMutation } from "./agreement.mutation";
 import { useAgreementQuery } from "./agreement.query";
 import { AgreementForm } from "../Common";
+import { usePublishMutation } from "./publish.mutation";
 
 type Props = {
   id: string;
@@ -12,6 +13,7 @@ type Props = {
 export const AgreementEdition = ({ id }: Props): React.ReactElement => {
   const { data, fetching, error, reexecuteQuery } = useAgreementQuery({ id });
   const update = useAgreementUpdateMutation();
+  const publish = usePublishMutation();
 
   if (error) {
     return (
@@ -63,7 +65,7 @@ export const AgreementEdition = ({ id }: Props): React.ReactElement => {
             }}
             onPublish={async () => {
               if (data?.id) {
-                // TODO await publish(data.id);
+                await publish(data.id);
               } else {
                 throw new Error(
                   "Aucune convention collective à publier n'a été détectée"
