@@ -1,22 +1,14 @@
 import { describe, expect, test } from "@jest/globals";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 
 import { extractNewReference, extractOldReference } from "../parseReference";
+import { ShortAgreement } from "../fetchAgreementsWithKaliId";
 
-const agreements: IndexedAgreement[] = [
+const agreements: ShortAgreement[] = [
   {
-    active: true,
-    date_publi: "2019-02-15T00:00:00.000Z",
-    etat: "VIGUEUR_NON_ETEN",
-    id: "KALICONT123",
-    mtime: 1561146467,
-    nature: "IDCC",
-    num: 123,
-    shortTitle: "convention 123",
-    texte_de_base: "KALITEXT123",
-    title: "Convention collective nationale des 123",
-    url: "https://www.legifrance.gouv.fr/affichIDCC.do?idConvention=KALICONT123",
+    id: "0123",
+    kaliId: "KALICONT123",
+    shortName: "convention 123",
   },
 ];
 const referenceResolver = jest.fn().mockImplementation((id) => {

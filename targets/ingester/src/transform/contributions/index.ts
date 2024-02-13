@@ -7,19 +7,14 @@ import fetchContributions from "../../lib/fetchContributions";
 import { getJson } from "../../lib/getJson";
 import { fetchDocumentContributions } from "./fetchContributions";
 import { updateDocumentAvailabilityToTrue } from "./updateDocument";
+import { fetchSupportedAgreements } from "./fetchSupportedAgreements";
 
 export default async function getContributionsDocuments(): Promise<
   CdtnDocument[]
 > {
   const data = await fetchContributions();
 
-  const agreements = await getJson<IndexedAgreement[]>(
-    `@socialgouv/kali-data/data/index.json`
-  );
-
-  const filteredAgreements = agreements.filter(
-    (convention) => typeof convention.id === "string"
-  );
+  const agreements = await fetchSupportedAgreements();
 
   const contributionsToInsert = data.flatMap(
     ({ title, answers, id, index }) => {
@@ -35,8 +30,8 @@ export default async function getContributionsDocuments(): Promise<
         title,
       };
       const ccnAnswers = answers.conventions.map((conventionalAnswer) => {
-        const agreement = filteredAgreements.find(
-          (ccn) => ccn.num === parseInt(conventionalAnswer.idcc, 10)
+        const agreement = agreements.find(
+          (ccn) => parseInt(ccn.id) === parseInt(conventionalAnswer.idcc, 10)
         );
         if (agreement === undefined) {
           throw new Error(`err - no ccn found for ${conventionalAnswer.idcc}`);
@@ -45,7 +40,7 @@ export default async function getContributionsDocuments(): Promise<
           answers: {
             conventionAnswer: {
               ...conventionalAnswer,
-              shortName: agreement.shortTitle,
+              shortName: agreement.shortName,
             },
             generic: answers.generic,
           },
