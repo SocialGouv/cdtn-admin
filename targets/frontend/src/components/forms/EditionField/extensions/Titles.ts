@@ -36,7 +36,7 @@ export const Title = Node.create<TitleOptions>({
   addAttributes() {
     return {
       level: {
-        default: "title",
+        parseHTML: (element) => element.getAttribute("class"),
         rendered: false,
       },
     };
@@ -45,15 +45,17 @@ export const Title = Node.create<TitleOptions>({
   parseHTML() {
     return this.options.levels.map((level: Level) => ({
       tag: `span`,
-      attrs: { level },
+      getAttrs: (node) =>
+        (node as HTMLSpanElement).className === level ? null : false,
     }));
   },
 
   renderHTML({ node, HTMLAttributes }) {
-    const hasLevel = this.options.levels.includes(node.attrs.level);
-    const level = hasLevel ? node.attrs.level : this.options.levels[0];
-
-    return ["span", mergeAttributes({ class: `${level}` }, HTMLAttributes), 0];
+    return [
+      "span",
+      mergeAttributes({ class: `${node.attrs.level}` }, HTMLAttributes),
+      0,
+    ];
   },
 
   addCommands() {
@@ -76,21 +78,11 @@ export const Title = Node.create<TitleOptions>({
 
           return commands.toggleNode(this.name, "paragraph", attributes);
         },
-       unsetTitle: () => ({ commands }) => {
-        return commands.lift(this.name)
-      },
-    };
-  },
-
-  addInputRules() {
-    return this.options.levels.map((level) => {
-      return textblockTypeInputRule({
-        find: new RegExp(`^(#{${level}})\\s$`),
-        type: this.type,
-        getAttributes: {
-          level,
+      unsetTitle:
+        () =>
+        ({ commands }) => {
+          return commands.lift(this.name);
         },
-      });
-    });
+    };
   },
 });
