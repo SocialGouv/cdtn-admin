@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.34.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.33.0...v2.34.0) (2024-02-14)
+
+### Features
+
+- **agreement:** publication d'une convention collective ([#1273](https://github.com/SocialGouv/cdtn-admin/issues/1273)) ([d1f402f](https://github.com/SocialGouv/cdtn-admin/commit/d1f402f52a655574eaf0268d765714c53b3560ff))
+- **export:** ajout du nombre de documents à chaque export ([#1268](https://github.com/SocialGouv/cdtn-admin/issues/1268)) ([4500f96](https://github.com/SocialGouv/cdtn-admin/commit/4500f96668e4075ceedfe40df0480a08e65159e2))
+
 # [2.33.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.32.1...v2.33.0) (2024-02-06)
 
 **Note:** Version bump only for package @shared/types

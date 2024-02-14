@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.34.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.33.0...v2.34.0) (2024-02-14)
+
+### Bug Fixes
+
+- **contribution:** rendu des headings ([#1286](https://github.com/SocialGouv/cdtn-admin/issues/1286)) ([803fb0a](https://github.com/SocialGouv/cdtn-admin/commit/803fb0afc09b3ca72412f802ea0cadb52fec3c08))
+
+### Features
+
+- **agreement:** ajout d'une page pour gérer les conventions collectives ([#1269](https://github.com/SocialGouv/cdtn-admin/issues/1269)) ([7ee6b47](https://github.com/SocialGouv/cdtn-admin/commit/7ee6b477c77eabb87c97c2f8f87ff8cee4463227))
+- **agreement:** publication d'une convention collective ([#1273](https://github.com/SocialGouv/cdtn-admin/issues/1273)) ([d1f402f](https://github.com/SocialGouv/cdtn-admin/commit/d1f402f52a655574eaf0268d765714c53b3560ff))
+- **export:** ajout du nombre de documents à chaque export ([#1268](https://github.com/SocialGouv/cdtn-admin/issues/1268)) ([4500f96](https://github.com/SocialGouv/cdtn-admin/commit/4500f96668e4075ceedfe40df0480a08e65159e2))
+- **glossaire:** retrait du markdown dans les définitions du glossaire ([#1272](https://github.com/SocialGouv/cdtn-admin/issues/1272)) ([5e1aa89](https://github.com/SocialGouv/cdtn-admin/commit/5e1aa89e78873e1faa3af787d550cdb7f81c73b0))
+- **references:** ajout d'une UI sur les pages `informations`, `contributions`, `modeles-de-courrier` qui liste les contributions qui les citent ([#1271](https://github.com/SocialGouv/cdtn-admin/issues/1271)) ([a4c7e3e](https://github.com/SocialGouv/cdtn-admin/commit/a4c7e3e97ad31e2e6577036d862ddab135eea833))
+
 # [2.33.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.32.1...v2.33.0) (2024-02-06)
 
 ### Features

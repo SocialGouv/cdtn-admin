@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.34.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.33.0...v2.34.0) (2024-02-14)
+
+### Features
+
+- **export:** ajout du nombre de documents à chaque export ([#1268](https://github.com/SocialGouv/cdtn-admin/issues/1268)) ([4500f96](https://github.com/SocialGouv/cdtn-admin/commit/4500f96668e4075ceedfe40df0480a08e65159e2))
+- **export:** migration de fetch vers urql ([#1281](https://github.com/SocialGouv/cdtn-admin/issues/1281)) ([16a3e78](https://github.com/SocialGouv/cdtn-admin/commit/16a3e78e94f8ce7c6d16b22fc2425d45371b5396))
+- **glossaire:** retrait du markdown dans les définitions du glossaire ([#1272](https://github.com/SocialGouv/cdtn-admin/issues/1272)) ([5e1aa89](https://github.com/SocialGouv/cdtn-admin/commit/5e1aa89e78873e1faa3af787d550cdb7f81c73b0))
+
 # [2.33.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.32.1...v2.33.0) (2024-02-06)
 
 ### Features
