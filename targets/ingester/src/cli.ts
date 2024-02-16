@@ -72,10 +72,15 @@ async function download(pkgName: string, url: string) {
 
 const dataPackages = [
   { getDocuments: getCdtDocuments, pkgName: "@socialgouv/legi-data" },
-  { getDocuments: getFichesServicePublic, pkgName: "@socialgouv/fiches-vdd" },
+  {
+    getDocuments: getFichesServicePublic,
+    pkgName: "@socialgouv/fiches-vdd",
+    disableSlugUpdate: true,
+  },
   {
     getDocuments: getFicheTravailEmploi,
     pkgName: "@socialgouv/fiches-travail-data",
+    disableSlugUpdate: true,
   },
   {
     forceUpdate: true,
@@ -105,9 +110,15 @@ async function main() {
     {
       getDocuments?: (pkgName: string) => Promise<CdtnDocument[]>;
       version: string;
+      disableSlugUpdate: boolean;
     }
   >();
-  for (const { pkgName, forceUpdate, getDocuments } of dataPackages) {
+  for (const {
+    pkgName,
+    forceUpdate,
+    disableSlugUpdate,
+    getDocuments,
+  } of dataPackages) {
     const pkgInfo = await getPackageInfo(pkgName);
     await download(pkgName, pkgInfo.url);
 
@@ -117,7 +128,11 @@ async function main() {
       (ingestedVersion && semver.gt(pkgInfo.version, ingestedVersion)) ||
       !ingestedVersion
     ) {
-      packagesToUpdate.set(pkgName, { getDocuments, version: pkgInfo.version });
+      packagesToUpdate.set(pkgName, {
+        getDocuments,
+        version: pkgInfo.version,
+        disableSlugUpdate: disableSlugUpdate ?? false,
+      });
     }
   }
 
@@ -126,7 +141,10 @@ async function main() {
   }
   let ids: { cdtn_id: string }[] = [];
   console.log(`packages to ingest: ${[...packagesToUpdate.keys()]}`);
-  for (const [pkgName, { version, getDocuments }] of packagesToUpdate) {
+  for (const [
+    pkgName,
+    { version, getDocuments, disableSlugUpdate },
+  ] of packagesToUpdate) {
     if (!getDocuments) {
       continue;
     }
@@ -144,7 +162,7 @@ async function main() {
       const inserts = await batchPromises(
         chunks,
         async (docs) =>
-          pRetry(async () => insertDocuments(docs), {
+          pRetry(async () => insertDocuments(docs, disableSlugUpdate), {
             onFailedAttempt: (error) => {
               console.error(
                 `insert failed ${error.attemptNumber}/${
