@@ -6,5 +6,5 @@ export interface Term {
   definition: string;
   variants: string[];
   slug?: string;
-  references?: any;
+  references?: string[];
 }
