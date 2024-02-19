@@ -1,6 +1,7 @@
 import { useQuery } from "urql";
-import { SOURCES } from "@socialgouv/cdtn-sources";
-import { ShortDocument } from "@shared/types";
+import { SourceRoute, SOURCES } from "@socialgouv/cdtn-sources";
+import { Document } from "@shared/types";
+import { groupBy } from "graphql/jsutils/groupBy";
 
 export const getDocumentsUpdatedAfterDateQuery = `
 query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
@@ -14,7 +15,7 @@ query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
         slug
         cdtn_id
         initial_id
-        isPublished: is_published
+        is_published
       }
 }`;
 
@@ -22,22 +23,33 @@ type QueryProps = {
   date: Date;
 };
 
+export type UpdatedDocument = Pick<
+  Document<unknown>,
+  "title" | "source" | "slug" | "cdtn_id" | "initial_id" | "is_published"
+>;
+
+export type ResultUpdatedDocument = Map<
+  SourceRoute,
+  readonly UpdatedDocument[]
+>;
+
 type QueryResult = {
-  documents: ShortDocument<any>[];
+  documents: UpdatedDocument[];
 };
 
 export const useDocumentsQuery = ({
   date,
-}: QueryProps): ShortDocument<any>[] => {
+}: QueryProps): ResultUpdatedDocument => {
   const [result] = useQuery<QueryResult>({
     query: getDocumentsUpdatedAfterDateQuery,
     variables: {
       updated_at: date,
       sources: [SOURCES.LETTERS, SOURCES.EDITORIAL_CONTENT],
     },
+    requestPolicy: "network-only",
   });
   if (!result.data) {
-    return [];
+    return new Map();
   }
-  return result.data.documents;
+  return groupBy(result.data.documents, (data) => data.source);
 };
