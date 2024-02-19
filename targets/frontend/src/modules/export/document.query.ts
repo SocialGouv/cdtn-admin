@@ -47,17 +47,9 @@ export const useDocumentsQuery = ({
   if (!result.data) {
     return [];
   }
-console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< result.data.documents")
-console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< result.data.documents")
-console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< result.data.documents")
-console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< result.data.documents")
-console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< result.data.documents")
-console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< result.data.documents")
 
-console.log(result.data.documents)
   // Temporaire tant que l'ancien outil de contrib est la : exclure les anciennes contribs qui ont une updated date toujours mise à jour
-  return result.data.documents
-  // return result.data.documents.filter(
-  //   (doc) => doc.source !== SOURCES.CONTRIBUTIONS || doc.document?.contentType
-  // );
+  return result.data.documents.filter(
+    (doc) => doc.source !== SOURCES.CONTRIBUTIONS || doc.document?.contentType
+  );
 };
