@@ -43,10 +43,7 @@ export function ContributionsReferencesView(props: Props) {
             <ListItem key={reference.answerId} disablePadding>
               <ListItemButton
                 onClick={() =>
-                  window.open(
-                    `/contributions/answers/${reference.answerId}`,
-                    "_ blank"
-                  )
+                  router.push(`/contributions/answers/${reference.answerId}`)
                 }
               >
                 <ListItemText
