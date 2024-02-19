@@ -9,6 +9,8 @@ query Glossary {
     abbreviations
     definition
     variants
+    references
+    slug
   }
 }
 

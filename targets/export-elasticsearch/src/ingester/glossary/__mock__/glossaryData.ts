@@ -5,6 +5,8 @@ export const glossaryData = [
       "Suppression pour l’avenir d’un acte administratif ou d’une règle de droit.",
     term: "Abrogation",
     variants: [],
+    slug: "abrogation",
+    references: [],
   },
   {
     abbreviations: [],
