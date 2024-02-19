@@ -5,6 +5,6 @@ export interface Term {
   abbreviations: string[];
   definition: string;
   variants: string[];
-  slug: string;
-  references: any;
+  slug?: string;
+  references?: any;
 }
