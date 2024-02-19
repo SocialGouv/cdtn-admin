@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.34.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.1...v2.34.2) (2024-02-16)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.34.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.0...v2.34.1) (2024-02-14)
+
+**Note:** Version bump only for package alert-cli
+
+# [2.34.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.33.0...v2.34.0) (2024-02-14)
+
+### Features
+
+- **agreement:** ajout d'une page pour gérer les conventions collectives ([#1269](https://github.com/SocialGouv/cdtn-admin/issues/1269)) ([7ee6b47](https://github.com/SocialGouv/cdtn-admin/commit/7ee6b477c77eabb87c97c2f8f87ff8cee4463227))
+
+# [2.33.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.32.1...v2.33.0) (2024-02-06)
+
+### Bug Fixes
+
+- **alert:** utiliser la date de modification pour détecter les changements ([#1261](https://github.com/SocialGouv/cdtn-admin/issues/1261)) ([3e9c869](https://github.com/SocialGouv/cdtn-admin/commit/3e9c869f4feba6a81c97c5388b8a85173e579521))
+
 ## [2.32.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.32.0...v2.32.1) (2024-01-26)
 
 **Note:** Version bump only for package alert-cli

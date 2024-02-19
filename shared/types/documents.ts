@@ -11,6 +11,7 @@ export type Document<T> = {
   meta_description: string;
   is_available: boolean;
   is_searchable: boolean;
+  is_published: boolean;
 };
 
 export type ShortDocument<T> = Pick<

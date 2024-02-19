@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.34.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.1...v2.34.2) (2024-02-16)
+
+**Note:** Version bump only for package ingester
+
+## [2.34.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.0...v2.34.1) (2024-02-14)
+
+**Note:** Version bump only for package ingester
+
+# [2.34.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.33.0...v2.34.0) (2024-02-14)
+
+### Features
+
+- **agreement:** ajout d'une page pour gérer les conventions collectives ([#1269](https://github.com/SocialGouv/cdtn-admin/issues/1269)) ([7ee6b47](https://github.com/SocialGouv/cdtn-admin/commit/7ee6b477c77eabb87c97c2f8f87ff8cee4463227))
+- **agreement:** ne pas récupérer les conventions collectives depuis kali-data ([#1275](https://github.com/SocialGouv/cdtn-admin/issues/1275)) ([ef66ba2](https://github.com/SocialGouv/cdtn-admin/commit/ef66ba23e75ff1e0d0efeca798fe13899e08ee89))
+
+# [2.33.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.32.1...v2.33.0) (2024-02-06)
+
+### Bug Fixes
+
+- **fiche-sp:** nouveau format de l'url pour les fiches pros ([#1265](https://github.com/SocialGouv/cdtn-admin/issues/1265)) ([03da701](https://github.com/SocialGouv/cdtn-admin/commit/03da7017354ad8edde07506a37eeffc9a9de7495))
+
 ## [2.32.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.32.0...v2.32.1) (2024-01-26)
 
 **Note:** Version bump only for package ingester

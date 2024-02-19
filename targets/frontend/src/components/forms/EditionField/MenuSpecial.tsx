@@ -30,7 +30,7 @@ export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive("bulletList") ? "is-active" : ""}
         type="button"
-        title="Ajouter liste"
+        title="Liste"
       >
         <FormatListBulletedIcon />
       </button>
@@ -38,7 +38,7 @@ export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={editor.isActive("orderedList") ? "is-active" : ""}
         type="button"
-        title="Ajouter liste numérotée"
+        title="Liste numérotée"
       >
         <FormatListNumberedIcon />
       </button>
@@ -56,7 +56,7 @@ export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
         }
         className={editor.isActive("orderedList") ? "is-active" : ""}
         type="button"
-        title="Ajouter tableau"
+        title="Tableau"
       >
         <GridOnIcon />
       </button>
@@ -64,7 +64,7 @@ export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().setDetails().run()}
         className={editor.isActive("details") ? "is-active" : ""}
         type="button"
-        title="Ajouter un accordéon"
+        title="Accordéon"
       >
         <StorageIcon />
       </button>
@@ -74,7 +74,7 @@ export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
         }}
         className={editor.isActive("alert") ? "is-active" : ""}
         type="button"
-        title="Ajouter une section d'alerte"
+        title="Section d'alerte"
       >
         <InfoIcon />
       </button>

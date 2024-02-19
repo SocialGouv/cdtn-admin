@@ -74,11 +74,11 @@ current_context=$(kubectl config current-context)
 echo -e "Connection à la base de données de $namespace en mode lecture seule (cluster: ${YELLOW}$environment${NC})."
 
 # Get the pg instance
-pg_type="replica"
+pg_type="primary"
 
 pg_pods=$(kubectl -n $namespace get po --selector=cnpg.io/podRole=instance -o=custom-columns="NAME:.metadata.name,ROLE:.metadata.labels.role")
 pg_pods_filtered=$(kubectl -n $namespace get po --selector=cnpg.io/podRole=instance -o=custom-columns="NAME:.metadata.name,ROLE:.metadata.labels.role" | grep "$pg_type")
-pod=$(echo "$pg_pods_filtered" | awk '{print $1}')
+pod=$(echo "$pg_pods_filtered" | awk 'NR==1{print $1}')
 
 if [ -z "$pod" ]; then
   echo -e "${RED}Erreur, impossible de trouver le pod cnpg $pg_type dans le namespace ${YELLOW}$namespace${RED}.${NC}"
@@ -100,8 +100,23 @@ kubectl exec -n $namespace $pod -c postgres -- pg_dump -Fc -d $database >${folde
 
 echo -e "${GREEN}Dump terminé : ${folder}/${output}${NC}"
 
-echo -e ""
-echo -e "Commande pour restaurer la BDD en local :"
-echo -e "docker compose exec -T postgres pg_restore \\"
-echo -e "  --dbname postgres --clean --if-exists --user postgres \\"
-echo -e "  --no-owner --no-acl --verbose  < ${folder}/${output} "
+confirm() {
+    while true; do
+        read -p "Voulez-vous relancer votre environnement avec ce dump ? (Y/n) " answer
+        case $answer in
+            [Yy]* ) break;;
+            [Nn]* ) echo -e ""
+                    echo -e "Commande pour restaurer la BDD en local :"
+                    echo -e "docker compose exec -T postgres pg_restore \\"
+                    echo -e "  --dbname postgres --clean --if-exists --user postgres \\"
+                    echo -e "  --no-owner --no-acl --verbose  < ${folder}/${output} "
+                    exit;;
+            * ) echo "Veuillez répondre par Y (oui) ou n (non).";;
+        esac
+    done
+}
+
+confirm
+
+./scripts/reset_from_dump.sh "${folder}/${output}"
+

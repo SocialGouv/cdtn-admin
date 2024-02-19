@@ -5,25 +5,22 @@ import {
   ContributionDocumentJson,
   ContributionHighlight,
   EditorialContentDoc,
+  ExportEsStatus,
   FicheTravailEmploiDoc,
   OldContributionElasticDocument,
 } from "@shared/types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-sources";
-import fetch from "node-fetch";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";
 import { buildThemes } from "./buildThemes";
-import { context } from "./context";
 import {
   getDocumentBySource,
   getDocumentBySourceWithRelation,
-  getGlossary,
-} from "./fetchCdtnAdminDocuments";
+} from "./documents/fetchCdtnAdminDocuments";
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
 import { markdownTransform } from "./markdown";
-import type { ThemeQueryResult } from "./types/themes";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
@@ -33,33 +30,9 @@ import {
   isOldContribution,
 } from "./contributions";
 import { generateAgreements } from "./agreements";
-
-const themesQuery = JSON.stringify({
-  query: `{
-  themes: documents(where: {source: {_eq: "${SOURCES.THEMES}"}}) {
-    cdtnId: cdtn_id
-    id: initial_id
-    slug
-    source
-    title
-    document
-    contentRelations: relation_a(where: {type: {_eq: "theme-content"}, b: {is_published: {_eq: true}, is_available: {_eq: true}}}, order_by: {}) {
-      content: b {
-        cdtnId: cdtn_id
-        slug
-        source
-        title
-        document
-      }
-      position: data(path: "position")
-    }
-    parentRelations: relation_b(where: {type: {_eq: "theme"}}) {
-      parentThemeId: document_a
-      position: data(path: "position")
-    }
-  }
-}`,
-});
+import { getGlossary } from "./documents/fetchGlossary";
+import { fetchThemes } from "./themes/fetchThemes";
+import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
 
 /**
  * Find duplicate slugs
@@ -85,30 +58,12 @@ export async function getDuplicateSlugs(allDocuments: any) {
     );
 }
 
-export async function* cdtnDocumentsGen() {
-  const CDTN_ADMIN_ENDPOINT =
-    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
+export async function cdtnDocumentsGen(
+  updateDocs: (source: string, documents: unknown[]) => Promise<void>
+) {
+  let documentsCount: Partial<ExportEsStatus["documentsCount"]> = {};
 
-  console.error(`Accessing cdtn admin on ${CDTN_ADMIN_ENDPOINT}`);
-  const themesQueryResult = await fetch(CDTN_ADMIN_ENDPOINT, {
-    body: themesQuery,
-    method: "POST",
-  }).then(async (r: any) => {
-    const data = await r.json();
-    if (r.ok) {
-      return data as ThemeQueryResult;
-    }
-    return Promise.reject(data);
-  });
-
-  if (!themesQueryResult.data) {
-    throw new Error(
-      `Requête pour récupérer les thèmes a échoué ${JSON.stringify(
-        themesQueryResult.errors
-      )}`
-    );
-  }
-  const themes = themesQueryResult.data.themes;
+  const themes = await fetchThemes();
 
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
 
@@ -125,37 +80,55 @@ export async function* cdtnDocumentsGen() {
     SOURCES.EDITORIAL_CONTENT,
     getBreadcrumbs
   );
-  yield {
-    documents: markdownTransform(addGlossary, documents),
-    source: SOURCES.EDITORIAL_CONTENT,
+  const editorialContents = markdownTransform(addGlossary, documents);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
   };
+  await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContents);
 
   logger.info("=== Courriers ===");
-  yield {
-    documents: await getDocumentBySource(SOURCES.LETTERS, getBreadcrumbs),
-    source: SOURCES.LETTERS,
+  const modelesDeCourriers = await getDocumentBySource(
+    SOURCES.LETTERS,
+    getBreadcrumbs
+  );
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.LETTERS]: modelesDeCourriers.length,
   };
+  await updateDocs(SOURCES.LETTERS, modelesDeCourriers);
 
   logger.info("=== Outils ===");
-  yield {
-    documents: await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs),
-    source: SOURCES.TOOLS,
+  const tools = await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.TOOLS]: tools.length,
   };
+  await updateDocs(SOURCES.TOOLS, tools);
 
   logger.info("=== Outils externes ===");
-  yield {
-    documents: await getDocumentBySource(SOURCES.EXTERNALS, getBreadcrumbs),
-    source: SOURCES.EXTERNALS,
+  const externalTools = await getDocumentBySource(
+    SOURCES.EXTERNALS,
+    getBreadcrumbs
+  );
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.EXTERNALS]: externalTools.length,
   };
+  await updateDocs(SOURCES.EXTERNALS, externalTools);
 
   logger.info("=== Dossiers ===");
-  yield {
-    documents: await getDocumentBySource(
-      SOURCES.THEMATIC_FILES,
-      getBreadcrumbs
-    ),
-    source: SOURCES.THEMATIC_FILES,
+
+  const dossiers = await getDocumentBySource(
+    SOURCES.THEMATIC_FILES,
+    getBreadcrumbs
+  );
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.THEMATIC_FILES]: dossiers.length,
   };
+
+  await updateDocs(SOURCES.THEMATIC_FILES, dossiers);
 
   logger.info("=== Contributions ===");
   const contributions: DocumentElasticWithSource<
@@ -272,13 +245,13 @@ export async function* cdtnDocumentsGen() {
     ...newGeneratedContributions,
     ...oldGeneratedContributions,
   ];
-  if (generatedContributions.length < 1998) {
-    throw Error("Le nombre de contributions est inférieur à celui attendu");
-  }
-  yield {
-    documents: generatedContributions,
-    source: SOURCES.CONTRIBUTIONS,
+
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.CONTRIBUTIONS]: generatedContributions.length,
   };
+
+  await updateDocs(SOURCES.CONTRIBUTIONS, generatedContributions);
 
   logger.info("=== Conventions Collectives ===");
   const agreementsDocs = await generateAgreements(
@@ -287,60 +260,74 @@ export async function* cdtnDocumentsGen() {
     oldGeneratedContributions
   );
 
-  yield {
-    documents: agreementsDocs,
-    source: SOURCES.CCN,
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.CCN]: agreementsDocs.length,
   };
 
+  await updateDocs(SOURCES.CCN, agreementsDocs);
+
   logger.info("=== Fiches SP ===");
-  yield {
-    documents: await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs),
-    source: SOURCES.SHEET_SP,
+  const fichesSp = await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs);
+
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.SHEET_SP]: fichesSp.length,
   };
+  await updateDocs(SOURCES.SHEET_SP, fichesSp);
 
   logger.info("=== page fiches travail ===");
   const fichesMT = await getDocumentBySource<FicheTravailEmploiDoc>(
     SOURCES.SHEET_MT_PAGE,
     getBreadcrumbs
   );
-  yield {
-    documents: fichesMT.map(({ sections, ...infos }) => ({
-      ...infos,
-      sections: sections.map(({ html, ...section }: any) => {
-        delete section.description;
-        delete section.text;
-        return {
-          ...section,
-          html: addGlossary(html),
-        };
-      }),
-    })),
-    source: SOURCES.SHEET_MT_PAGE,
+  const fichesMTWithGlossary = fichesMT.map(({ sections, ...infos }) => ({
+    ...infos,
+    sections: sections.map(({ html, ...section }: any) => {
+      delete section.description;
+      delete section.text;
+      return {
+        ...section,
+        html: addGlossary(html),
+      };
+    }),
+  }));
+
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
   };
+
+  await updateDocs(SOURCES.SHEET_MT_PAGE, fichesMTWithGlossary);
 
   logger.info("=== Fiche MT ===");
   const splittedFiches = fichesMT.flatMap(splitArticle);
-  yield {
-    documents: splittedFiches.map((fiche) => {
-      // we don't want splitted fiches to have the same cdtnId than full pages
-      // it causes bugs, tons of weird bugs, but we need the id for the
-      // breadcrumbs generation
-      const breadcrumbs = getBreadcrumbs(fiche.cdtnId);
-      delete fiche.cdtnId;
-      return {
-        ...fiche,
-        breadcrumbs,
-        source: SOURCES.SHEET_MT,
-      };
-    }),
-    source: SOURCES.SHEET_MT,
+  const splittedFichesMt = splittedFiches.map((fiche) => {
+    // we don't want splitted fiches to have the same cdtnId than full pages
+    // it causes bugs, tons of weird bugs, but we need the id for the
+    // breadcrumbs generation
+    const breadcrumbs = getBreadcrumbs(fiche.cdtnId);
+    delete fiche.cdtnId;
+    return {
+      ...fiche,
+      breadcrumbs,
+      source: SOURCES.SHEET_MT,
+    };
+  });
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.SHEET_MT]: splittedFichesMt.length,
   };
+  await updateDocs(SOURCES.SHEET_MT, splittedFichesMt);
 
   logger.info("=== Themes ===");
-  yield {
-    documents: buildThemes(themes, getBreadcrumbs),
-    source: SOURCES.THEMES,
+  const themesDoc = buildThemes(themes, getBreadcrumbs);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.THEMES]: themesDoc.length,
   };
+
+  await updateDocs(SOURCES.THEMES, themesDoc);
 
   logger.info("=== Highlights ===");
   const highlights = await getDocumentBySourceWithRelation(
@@ -364,10 +351,11 @@ export async function* cdtnDocumentsGen() {
       return ref;
     }),
   }));
-  yield {
-    documents: highlightsWithContrib,
-    source: SOURCES.HIGHLIGHTS,
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.HIGHLIGHTS]: highlightsWithContrib.length,
   };
+  await updateDocs(SOURCES.HIGHLIGHTS, highlightsWithContrib);
 
   logger.info("=== PreQualified Request ===");
   const prequalified = await getDocumentBySourceWithRelation(
@@ -391,36 +379,46 @@ export async function* cdtnDocumentsGen() {
       return ref;
     }),
   }));
-  yield {
-    documents: prequalifiedWithContrib,
-    source: SOURCES.PREQUALIFIED,
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.PREQUALIFIED]: prequalifiedWithContrib.length,
   };
+  await updateDocs(SOURCES.PREQUALIFIED, prequalifiedWithContrib);
 
   logger.info("=== glossary ===");
-  yield {
-    documents: [
-      {
-        data: glossaryTerms,
-        source: SOURCES.GLOSSARY,
-      },
-    ],
-    source: SOURCES.GLOSSARY,
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.GLOSSARY]: glossaryTerms.length,
   };
+  await updateDocs(SOURCES.GLOSSARY, [
+    {
+      data: glossaryTerms,
+      source: SOURCES.GLOSSARY,
+    },
+  ]);
 
   logger.info("=== Code du travail ===");
-  yield {
-    documents: await getDocumentBySource(SOURCES.CDT),
-    source: SOURCES.CDT,
+  const cdtDoc = await getDocumentBySource(SOURCES.CDT);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.CDT]: cdtDoc.length,
   };
+  await updateDocs(SOURCES.CDT, cdtDoc);
 
   logger.info("=== data version ===");
-  yield {
-    documents: [
-      {
-        data: getVersions(),
-        source: SOURCES.VERSIONS,
-      },
-    ],
-    source: SOURCES.VERSIONS,
+  await updateDocs(SOURCES.VERSIONS, [
+    {
+      data: getVersions(),
+      source: SOURCES.VERSIONS,
+    },
+  ]);
+
+  logger.info("=== Save the documents length ===");
+  documentsCount = {
+    ...documentsCount,
+    total: Object.values(documentsCount).reduce((a: any, b: any) => a + b, 0),
   };
+  await updateExportEsStatusWithDocumentsCount(
+    documentsCount as ExportEsStatus["documentsCount"]
+  );
 }

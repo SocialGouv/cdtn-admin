@@ -1,3 +1,4 @@
+- "!include agreement_agreements.yaml"
 - "!include auth_refresh_tokens.yaml"
 - "!include auth_user_roles.yaml"
 - "!include auth_users.yaml"
@@ -26,7 +27,6 @@
 - "!include model_models.yaml"
 - "!include model_models_legi_references.yaml"
 - "!include model_models_other_references.yaml"
-- "!include public_agreements.yaml"
 - "!include public_alert_notes.yaml"
 - "!include public_alert_status.yaml"
 - "!include public_alert_warnings.yaml"

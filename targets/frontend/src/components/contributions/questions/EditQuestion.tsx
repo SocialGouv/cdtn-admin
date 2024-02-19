@@ -136,11 +136,7 @@ export const EditQuestion = ({
     >
       <Header answers={data.question.answers as Answer[]} />
       <Box sx={{ borderBottom: 1 }}>
-        <Tabs
-          value={tabIndex}
-          onChange={handleTabChange}
-          aria-label="basic tabs example"
-        >
+        <Tabs value={tabIndex} onChange={handleTabChange}>
           <Tab label="Réponses" {...a11yProps(TabValue.answers)} />
           <Tab label="Édition" {...a11yProps(TabValue.edition)} />
         </Tabs>

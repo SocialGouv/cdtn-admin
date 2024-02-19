@@ -3,12 +3,12 @@ import pMap from "p-map";
 import { loadAgreement, loadArticles } from "../lib/data-loaders";
 import {
   loadAgreementArticles,
-  loadAgreements,
+  loadSupportedAgreements,
   updateAgreementArticles,
 } from "./kali";
 
 export const updateKaliArticles = async (): Promise<void> => {
-  const { agreements } = await loadAgreements();
+  const { agreements } = await loadSupportedAgreements();
 
   let i = 0;
   await pMap(

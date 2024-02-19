@@ -8,13 +8,14 @@ import type {
   AgreementSection,
   IndexedAgreement,
 } from "@socialgouv/kali-data-types";
-import type { BaseHasuraDocument } from "./global";
+import type { BaseHasuraDocument, ExportSourcesContent } from "./global";
 import type {
   Prequalified,
   Highlight,
   EditorialContent,
 } from "./EditorialContent";
 import { ContributionHighlight } from "./contributions";
+
 export * from "./EditorialContent";
 export * from "./utils";
 export * from "./contributions";
@@ -195,7 +196,13 @@ export interface ServicePublicExternalReference {
 
 export type AgreementDoc = Pick<
   IndexedAgreement,
-  "date_publi" | "effectif" | "mtime" | "num" | "shortTitle" | "url"
+  | "date_publi"
+  | "effectif"
+  | "mtime"
+  | "num"
+  | "shortTitle"
+  | "url"
+  | "synonymes"
 > & {
   highlight?: ContributionHighlight;
 };
@@ -441,6 +448,10 @@ export interface ExportEsStatus {
   updated_at: Date;
   user?: User;
   error?: string;
+  documentsCount?: Record<
+    Exclude<ExportSourcesContent, "versions"> | "total",
+    number
+  >;
 }
 
 export type Answer = {

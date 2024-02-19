@@ -3,6 +3,8 @@ import { InformationsEdit } from "src/modules/informations";
 import { Layout } from "src/components/layout/auth.layout";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
+import { ReferencesTabs } from "src/components/references";
+import { ContributionAnswerReferences } from "src/modules/references/ContributionAnswerReferences";
 
 export function EditAnswerPage() {
   const router = useRouter();
@@ -10,7 +12,12 @@ export function EditAnswerPage() {
 
   return (
     <Layout title="Pages d'information">
-      <InformationsEdit id={id} />
+      <ReferencesTabs
+        firstTabTitle="Informations"
+        secondTabTitle="Références"
+        firstChildren={<InformationsEdit id={id} />}
+        secondChildren={<ContributionAnswerReferences id={id} />}
+      />
     </Layout>
   );
 }

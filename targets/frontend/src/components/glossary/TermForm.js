@@ -8,8 +8,7 @@ import { Button } from "src/components/button";
 import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
-import { MarkdownLink } from "src/components/MarkdownLink";
-import { Box, TextField as Field, InputLabel as Label } from "@mui/material";
+import { Box, InputLabel as Label, TextField as Field } from "@mui/material";
 import { useMutation } from "urql";
 import { theme } from "../../theme";
 
@@ -99,10 +98,7 @@ export const TermForm = ({ term = {} }) => {
         </Box>
 
         <Box mb={theme.space.small}>
-          <Label htmlFor={"definition"}>
-            Définition&nbsp;
-            <MarkdownLink />
-          </Label>
+          <Label htmlFor={"definition"}>Définition</Label>
           <textarea
             className="fr-input"
             {...register("definition", {

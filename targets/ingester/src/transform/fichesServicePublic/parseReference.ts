@@ -6,13 +6,13 @@ import type {
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { RawJson } from "@socialgouv/fiches-vdd-types";
-import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
 import type { ParsedQuery } from "query-string";
 import * as queryString from "query-string";
 
 import type { ReferenceResolver } from "../../lib/referenceResolver";
 import { fixArticleNum } from "../../lib/referenceResolver";
+import { ShortAgreement } from "./fetchAgreementsWithKaliId";
 
 function isConventionCollective(qs: ParsedQuery) {
   return qs.idConvention;
@@ -50,12 +50,12 @@ function cdtArticleReference(
 }
 
 function agreementReference(
-  agreement: IndexedAgreement
+  agreement: ShortAgreement
 ): ServicePublicInternalReference {
-  const { num, shortTitle } = agreement;
+  const { id, shortName } = agreement;
   return {
-    slug: slugify(`${num}-${shortTitle}`.substring(0, 80)),
-    title: shortTitle,
+    slug: slugify(`${parseInt(id)}-${shortName}`.substring(0, 80)),
+    title: shortName,
     type: SOURCES.CCN,
   };
 }
@@ -74,7 +74,7 @@ function externalReference(
 export function parseReferences(
   references: RawJson[],
   resolveCdtReference: ReferenceResolver,
-  agreements: IndexedAgreement[]
+  agreements: ShortAgreement[]
 ): ServicePublicReference[] {
   const referencedTexts = [];
 
@@ -96,7 +96,7 @@ export function parseReferences(
  */
 export function extractOldReference(
   resolveCdtReference: ReferenceResolver,
-  agreements: IndexedAgreement[],
+  agreements: ShortAgreement[],
   url: string,
   label = ""
 ): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
@@ -161,7 +161,9 @@ export function extractOldReference(
     }
 
     case "convention-collective": {
-      const convention = agreements.find((ccn) => ccn.id === qs.idConvention);
+      const convention = agreements.find(
+        (ccn) => ccn.kaliId === qs.idConvention
+      );
       if (!convention) {
         console.error(
           `extractOldReferences: unkown convention id ${qs.idConvention}`
@@ -182,7 +184,7 @@ export function extractOldReference(
  */
 export function extractNewReference(
   resolveCdtReference: ReferenceResolver,
-  agreements: IndexedAgreement[],
+  agreements: ShortAgreement[],
   url: string,
   label = ""
 ): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
@@ -240,10 +242,15 @@ export function extractNewReference(
 
   if (url.includes("/conv_coll/")) {
     const [, kalicontainerId] = /(KALICONT\w+)(\W|$)/.exec(url) ?? [];
-    const convention = agreements.find((ccn) => ccn.id === kalicontainerId);
+    const [, kaliTextId] = /(KALITEXT\w+)(\W|$)/.exec(url) ?? [];
+    const convention = kalicontainerId
+      ? agreements.find((ccn) => ccn.kaliId === kalicontainerId)
+      : kaliTextId
+      ? agreements.find((ccn) => ccn.rootText === kaliTextId)
+      : undefined;
     if (!convention) {
       console.error(
-        `extractNewReferences: unkown convention id ${kalicontainerId}`
+        `extractNewReferences: unkown convention id ${kalicontainerId} or text ${kaliTextId} from ${url}`
       );
       return [externalReference(url, label)];
     }
