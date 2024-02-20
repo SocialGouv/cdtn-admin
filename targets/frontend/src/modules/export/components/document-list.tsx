@@ -7,10 +7,10 @@ import {
 } from "@mui/material";
 import { Check, Cross } from "../../../components/utils/icons";
 import { sourceToRoute } from "../../../components/documents/List";
-import { ShortDocument } from "@shared/types";
+import { ResultUpdatedDocument } from "../document.query";
 
 type Props = {
-  docs: ShortDocument<any>[];
+  docs: ResultUpdatedDocument;
   isLoadingDocs: boolean;
 };
 export default function DocumentList({
@@ -34,34 +34,33 @@ export default function DocumentList({
           </Stack>
         ) : (
           <>
-            {docs.length ? (
-              <li>
-                <Typography mb={0}>Pages information :</Typography>
-
-                {docs.map((doc) => (
-                  <Stack direction="row" key={doc.slug}>
-                    <Link
-                      href={sourceToRoute({
-                        id: doc.initial_id,
-                        cdtnId: doc.cdtn_id,
-                        source: doc.source,
-                      })}
-                      target="_blank"
-                      sx={{ fontSize: "0.8rem" }}
-                    >
-                      {doc.title}
-                    </Link>
-                    {doc.isPublished ? (
-                      <Check text="Publié" />
-                    ) : (
-                      <Cross text="Dépublié" />
-                    )}
-                  </Stack>
-                ))}
-              </li>
-            ) : (
-              <></>
-            )}
+            {Array.from(docs.keys()).map((source) => {
+              return (
+                <li key={source}>
+                  <Typography mb={0}>Pages {source} :</Typography>
+                  {docs.get(source)?.map((doc) => (
+                    <Stack direction="row" key={doc.slug}>
+                      <Link
+                        href={sourceToRoute({
+                          id: doc.initial_id,
+                          cdtnId: doc.cdtn_id,
+                          source: doc.source,
+                        })}
+                        target="_blank"
+                        sx={{ fontSize: "0.8rem" }}
+                      >
+                        {doc.title}
+                      </Link>
+                      {doc.is_published ? (
+                        <Check text="Publié" />
+                      ) : (
+                        <Cross text="Dépublié" />
+                      )}
+                    </Stack>
+                  ))}
+                </li>
+              );
+            })}
           </>
         )}
       </ul>
