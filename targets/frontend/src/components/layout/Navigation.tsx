@@ -23,62 +23,41 @@ export function Navigation() {
   const router = useRouter();
 
   const navigation: NavigationScheme = {
-    system: {
-      order: 1,
-      label: "Systèmes",
-      links: [{ href: "/users", label: "Gestion des utilisateurs" }],
-    },
     contents: {
-      order: 3,
+      order: 2,
       label: "Contenus",
       links: [
-        {
-          href: "/contenus",
-          label: "Contenus",
-        },
-        {
-          href: "/informations",
-          label: "Contenus éditoriaux",
-        },
-        {
-          href: "/models",
-          label: "Modèles de document",
-        },
-        {
-          href: "/agreements",
-          label: "Convention collectives",
-        },
-        {
-          href: "/contenus?source=highlights",
-          label: "À la une",
-        },
+        { href: "/contenus", label: "Contenus" },
+        { href: "/contributions", label: "Contributions" },
+        { href: "/agreements", label: "Convention collectives" },
+        { href: "/mises-a-jour", label: "Mises à jour" },
+        { href: "/models", label: "Modèles de document" },
+        { href: "/informations", label: "Pages informations" },
+        { href: "/fichiers", label: "Fichiers" },
+      ],
+    },
+    other: {
+      order: 3,
+      label: "Autre contenu",
+      links: [
+        { href: "/contenus?source=highlights", label: "À la une" },
+        { href: "/kali/blocks", label: "Blocs KALI" },
+        { href: "/contenus/fiches-sp", label: "Fiches service-public" },
+        { href: "/glossary", label: "Glossaire" },
         {
           href: "/contenus?source=prequalified",
           label: "Requetes pré-qualifiées",
         },
-        {
-          href: "/glossary",
-          label: "Glossaire",
-        },
-        {
-          href: "/themes",
-          label: "Thèmes",
-        },
-        {
-          href: "/kali/blocks",
-          label: "Blocs KALI",
-        },
-        {
-          href: "/fichiers",
-          label: "Fichiers",
-        },
+        { href: "/themes", label: "Thèmes" },
+      ],
+    },
+    check: {
+      order: 4,
+      label: "Vérification",
+      links: [
         {
           href: "/unthemed",
           label: "Contenus sans thème",
-        },
-        {
-          href: "/contenus/fiches-sp",
-          label: "fiches service-public",
         },
         {
           href: "/duplicates",
@@ -88,21 +67,17 @@ export function Navigation() {
           href: "/ghost-documents",
           label: "Références inaccessibles",
         },
-        {
-          href: "/mises-a-jour",
-          label: "Mises à jour",
-        },
       ],
     },
-    contributions: {
-      order: 4,
-      label: "Contributions",
-      links: [{ href: "/contributions", label: "Questions" }],
+    system: {
+      order: 5,
+      label: "Systèmes",
+      links: [{ href: "/users", label: "Gestion des utilisateurs" }],
     },
   };
   if (navAggregation) {
     navigation.alerts = {
-      order: 2,
+      order: 1,
       label: "Alertes",
       links: navAggregation.map(({ label, repository, aggregateCount }) => ({
         label,
