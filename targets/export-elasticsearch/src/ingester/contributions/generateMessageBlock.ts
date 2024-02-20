@@ -3,6 +3,7 @@ import {
   DocumentElasticWithSource,
 } from "@shared/types";
 import { fetchMessageBlock } from "./fetchMessageBlock";
+import { fetchAgreementMessage } from "./fetchAgreementMessage";
 
 export const generateMessageBlock = async (
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
@@ -11,7 +12,10 @@ export const generateMessageBlock = async (
   if (!messageBlock) {
     return undefined;
   }
-  if (
+  const agreementMessage = await fetchAgreementMessage(contrib.idcc);
+  if (agreementMessage) {
+    return agreementMessage;
+  } else if (
     contrib.idcc === "0000" || // Generic answer
     contrib.contentType === "UNKNOWN"
   ) {

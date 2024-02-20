@@ -137,3 +137,9 @@ export type ContributionMessageBlock = {
   contentLegal: string;
   contentNotHandled: string;
 };
+
+export type ContributionAgreementMessage = {
+  id: string;
+  agreementId: string;
+  content: string;
+};
