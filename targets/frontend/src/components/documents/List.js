@@ -45,7 +45,7 @@ DocumentList.propTypes = {
 };
 
 const DocumentRow = function DocumentRow({
-  document: { cdtnId, id, source, title, isPublished, isAvailable, idcc },
+  document: { cdtnId, id, source, title, isPublished, isAvailable },
 }) {
   const [selectedItems, setSelectedItems] = useSelectionContext();
   const updatePublishedRef = () => {

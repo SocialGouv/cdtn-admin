@@ -63,7 +63,7 @@ export const useDocumentsQuery = ({
   if (!result.data) {
     return new Map();
   }
-  // Temporaire tant que l'ancien outil de contrib est la : exclure les anciennes contribs qui ont une updated date toujours mise à jour
+  // Le filtre est temporaire tant que l'ancien outil de contrib est la : exclure les anciennes contribs qui ont une updated date toujours mise à jour
   const filtered = result.data.documents
     .filter(
       (doc) =>
