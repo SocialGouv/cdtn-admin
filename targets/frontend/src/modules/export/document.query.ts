@@ -16,20 +16,21 @@ query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
         cdtn_id
         initial_id
         is_published
-        document {
-          contentType @include(if: $includeContentType)
-        }
+        document
       }
 }`;
 
 type QueryProps = {
   date: Date;
 };
-type DocumentWIthContentType = { document: { contentType?: string } };
+type DocumentWIthContentType = {
+  document?: { contentType?: string; idcc?: string };
+};
 export type UpdatedDocument = Pick<
   Document<unknown>,
   "title" | "source" | "slug" | "cdtn_id" | "initial_id" | "is_published"
->& DocumentWIthContentType;
+> &
+  DocumentWIthContentType;
 
 export type ResultUpdatedDocument = Map<
   SourceRoute,
@@ -39,6 +40,10 @@ export type ResultUpdatedDocument = Map<
 type QueryResult = {
   documents: UpdatedDocument[];
 };
+
+function compareTitles(a: UpdatedDocument, b: UpdatedDocument): number {
+  return a.title.localeCompare(b.title);
+}
 
 export const useDocumentsQuery = ({
   date,
@@ -59,8 +64,21 @@ export const useDocumentsQuery = ({
     return new Map();
   }
   // Temporaire tant que l'ancien outil de contrib est la : exclure les anciennes contribs qui ont une updated date toujours mise à jour
-  const filtered = result.data.documents.filter(
-    (doc) => doc.source !== SOURCES.CONTRIBUTIONS || doc.document?.contentType
-  );
-  return groupBy(filtered, (data) => data.source);
+  const filtered = result.data.documents
+    .filter(
+      (doc) =>
+        doc.source !== SOURCES.CONTRIBUTIONS || !!doc.document?.contentType
+    )
+    .map((doc) => {
+      if (doc.source === SOURCES.CONTRIBUTIONS && doc.document) {
+        doc.title = `${doc.title} [${doc.document.idcc}]`;
+      }
+      return doc;
+    });
+
+  const grouped = groupBy(filtered, (data) => data.source);
+  grouped.forEach((array, key) => {
+    grouped.set(key, array.slice().sort(compareTitles));
+  });
+  return grouped;
 };

@@ -46,7 +46,6 @@ export default function DocumentList({
                           cdtnId: doc.cdtn_id,
                           source: doc.source,
                         })}
-                        target="_blank"
                         sx={{ fontSize: "0.8rem" }}
                       >
                         {doc.title}
