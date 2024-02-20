@@ -68,13 +68,7 @@ export const useDocumentsQuery = ({
     .filter(
       (doc) =>
         doc.source !== SOURCES.CONTRIBUTIONS || !!doc.document?.contentType
-    )
-    .map((doc) => {
-      if (doc.source === SOURCES.CONTRIBUTIONS && doc.document) {
-        doc.title = `${doc.title} [${doc.document.idcc}]`;
-      }
-      return doc;
-    });
+    );
 
   const grouped = groupBy(filtered, (data) => data.source);
   grouped.forEach((array, key) => {

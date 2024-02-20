@@ -48,7 +48,8 @@ export default function DocumentList({
                         })}
                         sx={{ fontSize: "0.8rem" }}
                       >
-                        {doc.title}
+                        {doc.title}{" "}
+                        {doc.document?.idcc && <>[{doc.document?.idcc}]</>}
                       </Link>
                       {doc.is_published ? (
                         <Check text="Publié" />
