@@ -2,11 +2,15 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { TextField as Field, Select, MenuItem } from "@mui/material";
+import {
+  MenuItem,
+  Select,
+  Stack as StackMUI,
+  TextField as Field,
+} from "@mui/material";
 import { useQuery } from "urql";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";
-import { Inline } from "../layout/Inline";
 import { Stack } from "../layout/Stack";
 import { getRoleQuery } from "../Roles";
 
@@ -73,10 +77,7 @@ export function UserForm({
           </div>
         )}
         <div style={{ marginTop: "20px", marginLeft: "20px" }}>
-          <Inline>
-            <Button disabled={hasError || loading} type="submit">
-              {buttonLabel}
-            </Button>
+          <StackMUI direction="row" spacing={2} mt={4} justifyContent="end">
             <Link
               href={backHref}
               passHref
@@ -84,7 +85,14 @@ export function UserForm({
             >
               Annuler
             </Link>
-          </Inline>
+            <Button
+              variant="contained"
+              disabled={hasError || loading}
+              type="submit"
+            >
+              {buttonLabel}
+            </Button>
+          </StackMUI>
         </div>
       </Stack>
     </form>

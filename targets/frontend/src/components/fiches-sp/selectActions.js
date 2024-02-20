@@ -1,11 +1,9 @@
 import { useContext, useState } from "react";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 import { Button } from "../button";
 import { Dialog } from "../dialog";
-import { Inline } from "../layout/Inline";
-import { Stack } from "../layout/Stack";
 
 export function Actions({ onDelete }) {
   const { selectedItems } = useContext(SelectionContext);
@@ -25,20 +23,18 @@ export function Actions({ onDelete }) {
         onDismiss={closeDeleteDialog}
         aria-label="Modifier le statut de publication"
       >
-        <Stack>
-          <Stack>
-            <p>
-              Êtes vous sûr de vouloir supprimer {selectedItems.length} fiches?
-            </p>
-          </Stack>
-          <Inline>
-            <Button onClick={deleteAction} size="small">
-              Supprimer les fiches
-            </Button>
-            <Button variant="text" onClick={closeDeleteDialog} size="small">
+        <Stack spacing={2}>
+          <p>
+            Êtes vous sûr de vouloir supprimer {selectedItems.length} fiches?
+          </p>
+          <Stack direction="row" spacing={2} mt={4} justifyContent="end">
+            <Button variant="outlined" onClick={closeDeleteDialog}>
               Annuler
             </Button>
-          </Inline>
+            <Button variant="contained" onClick={deleteAction}>
+              Supprimer les fiches
+            </Button>
+          </Stack>
         </Stack>
       </Dialog>
       {selectedItems.length > 0 && (
