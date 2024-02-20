@@ -1,6 +1,7 @@
 import { useQuery } from "urql";
-import { SOURCES } from "@socialgouv/cdtn-sources";
-import { ShortDocument } from "@shared/types";
+import { SourceRoute, SOURCES } from "@socialgouv/cdtn-sources";
+import { Document } from "@shared/types";
+import { groupBy } from "graphql/jsutils/groupBy";
 
 export const getDocumentsUpdatedAfterDateQuery = `
 query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
@@ -14,7 +15,7 @@ query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
         slug
         cdtn_id
         initial_id
-        isPublished: is_published
+        is_published
         document {
           contentType @include(if: $includeContentType)
         }
@@ -24,15 +25,24 @@ query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
 type QueryProps = {
   date: Date;
 };
-
 type DocumentWIthContentType = { document: { contentType?: string } };
+export type UpdatedDocument = Pick<
+  Document<unknown>,
+  "title" | "source" | "slug" | "cdtn_id" | "initial_id" | "is_published"
+>& DocumentWIthContentType;
+
+export type ResultUpdatedDocument = Map<
+  SourceRoute,
+  readonly UpdatedDocument[]
+>;
+
 type QueryResult = {
-  documents: (ShortDocument<any> & DocumentWIthContentType)[];
+  documents: UpdatedDocument[];
 };
 
 export const useDocumentsQuery = ({
   date,
-}: QueryProps): (ShortDocument<any> & DocumentWIthContentType)[] => {
+}: QueryProps): ResultUpdatedDocument => {
   const [result] = useQuery<QueryResult>({
     query: getDocumentsUpdatedAfterDateQuery,
     variables: {
@@ -43,13 +53,14 @@ export const useDocumentsQuery = ({
         SOURCES.CONTRIBUTIONS,
       ],
     },
+    requestPolicy: "network-only",
   });
   if (!result.data) {
-    return [];
+    return new Map();
   }
-
   // Temporaire tant que l'ancien outil de contrib est la : exclure les anciennes contribs qui ont une updated date toujours mise à jour
-  return result.data.documents.filter(
+  const filtered = result.data.documents.filter(
     (doc) => doc.source !== SOURCES.CONTRIBUTIONS || doc.document?.contentType
   );
+  return groupBy(filtered, (data) => data.source);
 };

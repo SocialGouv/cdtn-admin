@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.34.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.3...v2.34.4) (2024-02-19)
+
+### Bug Fixes
+
+- **glossary:** rajout du `slug` et des `references` pour le glossaire ([#1297](https://github.com/SocialGouv/cdtn-admin/issues/1297)) ([43f81b9](https://github.com/SocialGouv/cdtn-admin/commit/43f81b967b4c7579d2b8e9ba99ce58172055b671))
+
+## [2.34.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.2...v2.34.3) (2024-02-19)
+
+**Note:** Version bump only for package export-elasticsearch
+
 ## [2.34.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.1...v2.34.2) (2024-02-16)
 
 **Note:** Version bump only for package export-elasticsearch
