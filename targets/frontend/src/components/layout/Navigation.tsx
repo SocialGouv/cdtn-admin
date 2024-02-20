@@ -61,7 +61,7 @@ export function Navigation() {
         },
         {
           href: "/duplicates",
-          label: "Élements en Doublons",
+          label: "Élements en doublons",
         },
         {
           href: "/ghost-documents",
