@@ -27,18 +27,18 @@ export function Navigation() {
       order: 2,
       label: "Contenus",
       links: [
-        { href: "/contenus", label: "Contenus" },
         { href: "/contributions", label: "Contributions" },
         { href: "/agreements", label: "Convention collectives" },
+        { href: "/fichiers", label: "Fichiers" },
         { href: "/mises-a-jour", label: "Mises à jour" },
         { href: "/models", label: "Modèles de document" },
         { href: "/informations", label: "Pages informations" },
-        { href: "/fichiers", label: "Fichiers" },
+        { href: "/contenus", label: "Tous les contenus" },
       ],
     },
     other: {
       order: 3,
-      label: "Autre contenu",
+      label: "Autres contenus",
       links: [
         { href: "/contenus?source=highlights", label: "À la une" },
         { href: "/kali/blocks", label: "Blocs KALI" },
@@ -53,7 +53,7 @@ export function Navigation() {
     },
     check: {
       order: 4,
-      label: "Vérification",
+      label: "Vérifications",
       links: [
         {
           href: "/unthemed",
