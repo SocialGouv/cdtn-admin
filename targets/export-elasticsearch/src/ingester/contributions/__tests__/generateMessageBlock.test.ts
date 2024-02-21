@@ -3,6 +3,7 @@ import { fetchMessageBlock } from "../fetchMessageBlock";
 import { generateMessageBlock } from "../generateMessageBlock";
 
 jest.mock("../fetchMessageBlock");
+jest.mock("../fetchAgreementMessage");
 
 describe("generateMessageBlock", () => {
   const mockContribution: any = {
