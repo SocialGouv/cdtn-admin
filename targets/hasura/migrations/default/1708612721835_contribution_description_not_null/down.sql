@@ -1,0 +1,1 @@
+alter table contribution.answers drop constraint check_description;
