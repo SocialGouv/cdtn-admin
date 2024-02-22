@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { useUser } from "src/hooks/useUser";
-import { TextField as Field } from "@mui/material";
+import { Stack as StackMUI, TextField as Field } from "@mui/material";
 
 import { passwordValidation } from "../../lib/auth/auth.const";
 import { FormErrorMessage } from "../forms/ErrorMessage";
-import { Inline } from "../layout/Inline";
 import { Stack } from "../layout/Stack";
 
 export function PasswordForm({
@@ -107,14 +106,18 @@ export function PasswordForm({
           />
           <FormErrorMessage errors={errors} fieldName="confirmNewPassword" />
         </div>
-        <Inline>
-          <Button disabled={hasError || loading} type="submit">
+        <StackMUI direction="row" spacing={2} mt={4} justifyContent="end">
+          <Button
+            variant="contained"
+            disabled={hasError || loading}
+            type="submit"
+          >
             {buttonLabel}
           </Button>
           <Link href={backHref} passHref style={{ textDecoration: "none" }}>
             Annuler
           </Link>
-        </Inline>
+        </StackMUI>
       </Stack>
       <input type="hidden" {...register("id")} value={user?.id} />
     </form>

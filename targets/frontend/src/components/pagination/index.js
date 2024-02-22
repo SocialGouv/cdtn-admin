@@ -2,9 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { memo } from "react";
-import { Box } from "@mui/material";
-
-import { Inline } from "../layout/Inline";
+import { Box, Stack } from "@mui/material";
 import { Li, List } from "../list";
 
 // how far has the range to be from the border before displaying "..."
@@ -85,13 +83,16 @@ Pagination.propTypes = {
 
 function PaginationList({ children }) {
   return (
-    <Box sx={{ justifyContent: "center", display: "flex" }}>
+    <Box>
       <List sx={{ display: "flex", fontSize: "xxsmall" }}>
-        <Inline space="xxsmall">{children}</Inline>
+        <Stack direction="row" spacing={1} padding={2} justifyContent="center">
+          {children}
+        </Stack>
       </List>
     </Box>
   );
 }
+
 PaginationList.propTypes = {
   children: PropTypes.node.isRequired,
 };
