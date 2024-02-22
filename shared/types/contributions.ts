@@ -96,6 +96,7 @@ type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
 type ContributionDocumentJsonGenericNoCDT = ContributionDocumentJsonBasic & {
   type: "generic-no-cdt";
   messageBlockGenericNoCDT: string;
+  messageBlockGenericNoCDTUnextendedCC: string;
 };
 
 type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {

@@ -136,6 +136,7 @@ const answerBaseSchema = z.object({
     .nullable()
     .optional(),
   messageBlockGenericNoCDT: z.string().nullable().optional(),
+  messageBlockGenericNoCDTUnextendedCC: z.string().nullable().optional(),
   updatedAt: z.string(),
 });
 
