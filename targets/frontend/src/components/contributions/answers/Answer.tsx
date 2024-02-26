@@ -8,7 +8,7 @@ import {
   TooltipProps,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useUser } from "src/hooks/useUser";
 
 import { StatusContainer } from "../status";
@@ -61,6 +61,8 @@ export const ContributionsAnswer = ({
         userId: user?.id,
         contentServicePublicCdtnId: data.contentFichesSpDocument?.cdtnId,
         messageBlockGenericNoCDT: data.messageBlockGenericNoCDT,
+        messageBlockGenericNoCDTUnextendedCC:
+          data.messageBlockGenericNoCDTUnextendedCC,
         kaliReferences: data.kaliReferences,
         legiReferences: data.legiReferences,
         cdtnReferences: data.cdtnReferences,

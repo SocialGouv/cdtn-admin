@@ -23,6 +23,7 @@ const answerFormBaseSchema = answerRelationSchema
     description: true,
     contentType: true,
     messageBlockGenericNoCDT: true,
+    messageBlockGenericNoCDTUnextendedCC: true,
     cdtnReferences: true,
     kaliReferences: true,
     legiReferences: true,
@@ -122,6 +123,8 @@ export const AnswerForm = ({
       cdtnReferences: answer?.cdtnReferences ?? [],
       contentFichesSpDocument: answer?.contentFichesSpDocument ?? undefined,
       messageBlockGenericNoCDT: answer?.messageBlockGenericNoCDT ?? undefined,
+      messageBlockGenericNoCDTUnextendedCC:
+        answer?.messageBlockGenericNoCDTUnextendedCC ?? undefined,
       updateDate: answer?.updateDate ?? "",
     },
   });
@@ -287,7 +290,7 @@ export const AnswerForm = ({
             <FormControl>
               <FormTextField
                 label="Message d'alerte pour les CC non étendues non traitées (si pas de CDT)"
-                name="messageBlockGenericUnextendedNoCDT"
+                name="messageBlockGenericNoCDTUnextendedCC"
                 disabled={isNotEditable(answer)}
                 control={control}
                 multiline
