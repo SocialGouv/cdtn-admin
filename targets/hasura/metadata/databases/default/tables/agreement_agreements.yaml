@@ -84,3 +84,8 @@ update_permissions:
       check: {}
       set:
         updated_at: now()
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""
