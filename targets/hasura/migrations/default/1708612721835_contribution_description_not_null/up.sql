@@ -2,7 +2,7 @@ with _content_get as (
     select id,
         content as "content"
     from contribution.answers
-    where content_type = 'ANSWER'
+    where content_type in ('ANSWER', 'GENERIC_NO_CDT')
     union
     select a.id,
         d.text as "content"
