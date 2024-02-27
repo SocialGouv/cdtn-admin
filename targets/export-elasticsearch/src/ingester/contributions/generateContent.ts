@@ -26,6 +26,8 @@ export const generateContent = async (
     case "generic-no-cdt": {
       return {
         messageBlockGenericNoCDT: contrib.messageBlockGenericNoCDT,
+        messageBlockGenericNoCDTUnextendedCC:
+          contrib.messageBlockGenericNoCDTUnextendedCC,
       };
     }
     case "cdt": {
