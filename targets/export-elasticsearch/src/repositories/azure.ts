@@ -82,6 +82,23 @@ export class AzureRepository {
     });
   }
 
+  async uploadAgreements(
+    data: string,
+    destinationContainer: string,
+    destinationName: string
+  ): Promise<void> {
+    const containerClient =
+      this.blobServiceClientTo.getContainerClient(destinationContainer);
+    await containerClient.createIfNotExists();
+    const buffer = Buffer.from(data, "utf8");
+    const blockBlobClient = containerClient.getBlockBlobClient(destinationName);
+    await blockBlobClient.uploadData(buffer, {
+      blobHTTPHeaders: {
+        blobContentType: "application/json",
+      },
+    });
+  }
+
   async copyBucket(
     sourceContainerName: string,
     destinationContainerName: string

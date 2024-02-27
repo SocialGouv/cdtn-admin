@@ -12,6 +12,7 @@ import {
 } from "../workers";
 import { CopyContainerService } from "./copy";
 import { SitemapService } from "./sitemap";
+import { AgreementsService } from "./agreements";
 
 @injectable()
 @name("ExportService")
@@ -22,7 +23,9 @@ export class ExportService {
     @inject(getName(SitemapService))
     private readonly sitemapService: SitemapService,
     @inject(getName(CopyContainerService))
-    private readonly copyContainerService: CopyContainerService
+    private readonly copyContainerService: CopyContainerService,
+    @inject(getName(AgreementsService))
+    private readonly exportAgreementsService: AgreementsService
   ) {}
 
   async runExport(
@@ -77,6 +80,9 @@ export class ExportService {
         }
         if (!process.env.DISABLE_COPY) {
           await this.copyContainerService.runCopy();
+        }
+        if (!process.env.DISABLE_AGREEMENTS) {
+          await this.exportAgreementsService.uploadAgreements();
         }
         return await this.exportRepository.updateOne(
           id,
