@@ -32,6 +32,7 @@ export const ContributionsAnswer = ({
   id,
 }: ContributionsAnswerProps): JSX.Element => {
   const answer = useContributionAnswerQuery({ id });
+  console.log(answer);
   const genericAnswer = useGenericContributionAnswerQuery({
     questionId: answer?.questionId,
   });

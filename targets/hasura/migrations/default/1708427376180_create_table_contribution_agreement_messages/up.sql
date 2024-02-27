@@ -9,17 +9,17 @@ CREATE TABLE "contribution"."agreement_messages" (
 insert into contribution.agreement_messages(agreement_id, content)
 values (
         '0413',
-        '<p>Les dispositions de cette convention n’ont pas été étendues. Cela signifie qu''elles ne s''appliquent qu''aux entreprises adhérentes à l’une des organisations signataires de l''accord. Dans ce contexte, nous ne sommes pas en mesure d''identifier si cette règle s''applique ou non au sein de votre entreprise. C''est la raison pour laquelle nous ne portons à votre connaissance que les règles prévues par le code du travail, qui s''appliquent à tous. Vous pouvez toutefois consulter la convention collective ici dans le cas où elle s''applique à votre situation.</p>'
+        '<p>Ces informations sont issues du Code du travail car les dispositions de votre convention collective n’ont pas été étendues. Ces dernières ne s''appliquent qu''aux entreprises adhérentes à l’une des organisations signataires de l''accord. Dans ce contexte, nous ne sommes pas en mesure d''identifier si elles s''appliquent ou non au sein de votre entreprise. Vous pouvez toutefois consulter votre convention collective <a href="https://www.legifrance.gouv.fr/affichIDCC.do?idConvention=KALICONT000005635407" target="_blank">ici</a> dans le cas où elle s''applique à votre situation.</p>'
     );
 insert into contribution.agreement_messages(agreement_id, content)
 values (
         '0029',
-        '<p>Les dispositions de cette convention n’ont pas été étendues. Cela signifie qu''elles ne s''appliquent qu''aux entreprises adhérentes à l’une des organisations signataires de l''accord. Dans ce contexte, nous ne sommes pas en mesure d''identifier si cette règle s''applique ou non au sein de votre entreprise. C''est la raison pour laquelle nous ne portons à votre connaissance que les règles prévues par le code du travail, qui s''appliquent à tous. Vous pouvez toutefois consulter la convention collective ici dans le cas où elle s''applique à votre situation.</p>'
+        '<p>Ces informations sont issues du Code du travail car les dispositions de votre convention collective n’ont pas été étendues. Ces dernières ne s''appliquent qu''aux entreprises adhérentes à l’une des organisations signataires de l''accord. Dans ce contexte, nous ne sommes pas en mesure d''identifier si elles s''appliquent ou non au sein de votre entreprise. Vous pouvez toutefois consulter votre convention collective <a href="https://www.legifrance.gouv.fr/affichIDCC.do?idConvention=KALICONT000005635234" target="_blank">ici</a> dans le cas où elle s''applique à votre situation.</p>'
     );
 insert into contribution.agreement_messages(agreement_id, content)
 values (
         '2420',
-        '<p>Les dispositions de cette convention n’ont pas été étendues. Cela signifie qu''elles ne s''appliquent qu''aux entreprises adhérentes à l’une des organisations signataires de l''accord. Dans ce contexte, nous ne sommes pas en mesure d''identifier si cette règle s''applique ou non au sein de votre entreprise. C''est la raison pour laquelle nous ne portons à votre connaissance que les règles prévues par le code du travail, qui s''appliquent à tous. Vous pouvez toutefois consulter la convention collective ici dans le cas où elle s''applique à votre situation.</p>'
+        '<p>Ces informations sont issues du Code du travail car les dispositions de votre convention collective n’ont pas été étendues. Ces dernières ne s''appliquent qu''aux entreprises adhérentes à l’une des organisations signataires de l''accord. Dans ce contexte, nous ne sommes pas en mesure d''identifier si elles s''appliquent ou non au sein de votre entreprise. Vous pouvez toutefois consulter votre convention collective <a href="https://www.legifrance.gouv.fr/affichIDCC.do?idConvention=KALICONT000017941839" target="_blank">ici</a> dans le cas où elle s''applique à votre situation.</p>'
     );
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 update contribution.answers
