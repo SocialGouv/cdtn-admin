@@ -11,6 +11,7 @@ export const getContributionAnswerById = gql`
         id
         name
         kali_id
+        unextended
       }
       question {
         id

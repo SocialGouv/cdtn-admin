@@ -29,7 +29,10 @@ async function getBaseDocument(
     case "NOTHING":
     case "UNFAVOURABLE":
       const genericAnswer = await fetchGenericAnswer(data.question.id);
-      if (genericAnswer.content_type === "GENERIC_NO_CDT") {
+      if (
+        genericAnswer.content_type === "GENERIC_NO_CDT" &&
+        !data.agreement.unextended
+      ) {
         if (
           data.content_type === "CDT" ||
           data.content_type === "UNFAVOURABLE" ||

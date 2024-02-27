@@ -43,6 +43,7 @@ export type ContributionAgreement = {
   id: string; // 0000 pour la générique, impossible d'être nulle
   name: string;
   kali_id: string;
+  unextended: boolean;
 };
 
 export type ContributionCdtnReferences = {
