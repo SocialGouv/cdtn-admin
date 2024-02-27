@@ -11,6 +11,7 @@ export interface ContributionConventionnelInfos {
 
 export interface ContributionGenericInfos {
   ccSupported: string[];
+  ccUnextended: string[];
 }
 
 export interface ContributionMetadata {
