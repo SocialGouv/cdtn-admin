@@ -67,13 +67,15 @@ describe("generateContent", () => {
   it("should throw an error for unknown generic", async () => {
     const contribution: any = {
       type: "cdt",
+      questionIndex: 10,
+      idcc: 3239,
       genericAnswerId: "unknown-type",
     };
 
     await expect(
       generateContent(mockContributions, contribution)
     ).rejects.toThrowError(
-      `Aucune contribution générique a été retrouvée avec cet id ${"unknown-type"}`
+      `Aucune contribution générique a été retrouvée pour la contribution [10 - 3239] (id générique non trouvé : unknown-type)`
     );
   });
 
