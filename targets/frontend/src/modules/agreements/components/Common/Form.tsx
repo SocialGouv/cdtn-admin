@@ -20,6 +20,7 @@ type Props = {
   agreement?: Agreement;
   onUpsert: (props: FormDataResult) => Promise<void>;
   onPublish?: () => Promise<void>;
+  onDelete?: () => Promise<void>;
 };
 
 const defaultValues: FormData = {
@@ -35,6 +36,7 @@ export const AgreementForm = ({
   agreement,
   onUpsert,
   onPublish,
+  onDelete,
 }: Props): React.ReactElement => {
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
@@ -57,7 +59,7 @@ export const AgreementForm = ({
     try {
       await onUpsert({
         id: newData.id!,
-        isSupported: newData.isSupported!,
+        isSupported: agreement?.isSupported ?? false,
         name: newData.name!,
         shortName: newData.shortName!,
         kali_id: newData.kali_id!,
@@ -181,14 +183,18 @@ export const AgreementForm = ({
             freeSolo={true}
           />
         </FormControl>
-        <FormControl>
-          <FormSwitch
-            name="isSupported"
-            control={control}
-            label="Supporté par le CDTN ?"
-          />
-        </FormControl>
         <Stack direction="row" spacing={2} justifyContent="end">
+          {onDelete && (
+            <Button
+              type="button"
+              variant="contained"
+              color="error"
+              disabled={agreement?.isSupported === true}
+              onClick={() => onDelete()}
+            >
+              Supprimer
+            </Button>
+          )}
           <Button variant="contained" type="submit">
             {agreement ? "Sauvegarder" : "Créer"}
           </Button>
@@ -198,21 +204,19 @@ export const AgreementForm = ({
               variant="contained"
               color="success"
               onClick={async () => {
-                if (onPublish) {
-                  try {
-                    await onPublish();
-                    setSnack({
-                      open: true,
-                      severity: "success",
-                      message: "La convention collective a été publiée",
-                    });
-                  } catch (e: any) {
-                    setSnack({
-                      open: true,
-                      severity: "error",
-                      message: `Erreur lors de la publication de la convention collective: ${e.message}`,
-                    });
-                  }
+                try {
+                  await onPublish();
+                  setSnack({
+                    open: true,
+                    severity: "success",
+                    message: "La convention collective a été publiée",
+                  });
+                } catch (e: any) {
+                  setSnack({
+                    open: true,
+                    severity: "error",
+                    message: `Erreur lors de la publication de la convention collective: ${e.message}`,
+                  });
                 }
               }}
             >

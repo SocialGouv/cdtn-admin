@@ -1,19 +1,37 @@
-import { Alert, Skeleton, Stack } from "@mui/material";
+import {
+  Alert,
+  Button,
+  DialogActions,
+  DialogContentText,
+  Skeleton,
+  Stack,
+} from "@mui/material";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 import React from "react";
 import { useAgreementUpdateMutation } from "./agreement.mutation";
 import { useAgreementQuery } from "./agreement.query";
 import { AgreementForm } from "../Common";
 import { usePublishMutation } from "./publish.mutation";
+import { useAgreementDeleteMutation } from "./delete.mutation";
+import { useRouter } from "next/router";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import agreements from "../../../../pages/agreements";
 
 type Props = {
   id: string;
 };
 
 export const AgreementEdition = ({ id }: Props): React.ReactElement => {
+  const router = useRouter();
+
   const { data, fetching, error, reexecuteQuery } = useAgreementQuery({ id });
   const update = useAgreementUpdateMutation();
   const publish = usePublishMutation();
+  const deleteAgreement = useAgreementDeleteMutation();
+
+  const [open, setOpen] = React.useState(false);
 
   if (error) {
     return (
@@ -72,9 +90,68 @@ export const AgreementEdition = ({ id }: Props): React.ReactElement => {
                 );
               }
             }}
+            onDelete={async () => {
+              setOpen(true);
+            }}
           />
         </Stack>
       </Stack>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          A lire avant suppression d&apos;une convention collective
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <p>
+              Vous êtes sur le point de supprimer une convention collective du
+              site.
+            </p>
+            <p>
+              Merci de contacter l&apos;équipe de dev sur mattermost dans les
+              cas suivants :
+              <ul>
+                <li>
+                  La convention collective a été fusionnée dans une autre
+                  convention collective.
+                </li>
+                <li>
+                  Si la convention collective a été divisée en plusieurs
+                  conventions collectives
+                </li>
+              </ul>
+            </p>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Annuler
+          </Button>
+          <Button
+            onClick={async () => {
+              if (data?.id) {
+                await deleteAgreement({ id: data.id });
+                await router.push(`/agreements`);
+              } else {
+                throw new Error(
+                  "Aucune convention collective à publier n'a été détectée"
+                );
+              }
+            }}
+            autoFocus
+          >
+            Supprimer
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
