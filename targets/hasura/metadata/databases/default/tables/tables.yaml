@@ -9,6 +9,7 @@
 - "!include contrib_locations.yaml"
 - "!include contrib_locations_agreements.yaml"
 - "!include contrib_questions.yaml"
+- "!include contribution_agreement_messages.yaml"
 - "!include contribution_answer_cdtn_references.yaml"
 - "!include contribution_answer_comments.yaml"
 - "!include contribution_answer_kali_references.yaml"
