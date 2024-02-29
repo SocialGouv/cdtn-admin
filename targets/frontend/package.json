@@ -2,8 +2,6 @@
   "name": "frontend",
   "version": "2.34.4",
   "dependencies": {
-    "@azure/abort-controller": "^1.0.4",
-    "@azure/storage-blob": "^12.7.0",
     "@codegouvfr/react-dsfr": "^0.76.4",
     "@elastic/elasticsearch": "^7.14.1",
     "@emotion/react": "11.10.6",

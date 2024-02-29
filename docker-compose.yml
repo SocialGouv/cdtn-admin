@@ -76,13 +76,25 @@ services:
     environment:
       HASURA_GRAPHQL_ENDPOINT: "http://hasura:8080/v1/graphql"
 
-  azurite:
-    image: mcr.microsoft.com/azure-storage/azurite
+  minio:
+    image: "minio/minio:latest"
     ports:
-      - "10000:10000"
-      - "10001:10001"
+      - "9000:9000"
+      - "8900:8900"
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: password
     volumes:
-      - azurite_data:/data
+      - "minio:/data/minio"
+    command: 'minio server /data/minio --console-address ":8900"'
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - "-f"
+        - "http://localhost:9000/minio/health/live"
+      retries: 3
+      timeout: 5s
 
   elasticsearch:
     build:
@@ -126,8 +138,9 @@ services:
 
 volumes:
   db_data:
-  azurite_data:
   elastic_data:
+  minio:
+    driver: local
 
 secrets:
   npmTiptapToken:

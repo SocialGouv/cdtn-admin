@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 
-import { AzureRepository } from "../repositories";
+import { S3Repository } from "../repositories";
 import { getName, name } from "../utils";
 import { AgreementsRepository } from "../repositories/agreements";
 import { logger } from "@shared/utils";
@@ -9,23 +9,21 @@ import { logger } from "@shared/utils";
 @name("AgreementsService")
 export class AgreementsService {
   constructor(
-    @inject(getName(AzureRepository))
-    private readonly azureRepo: AzureRepository,
+    @inject(getName(S3Repository))
+    private readonly s3Repo: S3Repository,
     @inject(getName(AgreementsRepository))
     private readonly agreementRepo: AgreementsRepository
   ) {}
 
   async uploadAgreements(
-    destinationContainer = process.env.AGREEMENTS_DESTINATION_CONTAINER ?? "",
+    destinationFolder = process.env.AGREEMENTS_DESTINATION_FOLDER ?? "",
     destinationName = process.env.AGREEMENTS_DESTINATION_NAME ?? ""
   ): Promise<void> {
     const agreements = await this.agreementRepo.list();
-    logger.info(
-      `Upload agreement to ${destinationContainer}/${destinationName}`
-    );
-    await this.azureRepo.uploadAgreements(
+    logger.info(`Upload agreement to ${destinationFolder}/${destinationName}`);
+    await this.s3Repo.uploadAgreements(
       JSON.stringify(agreements),
-      destinationContainer,
+      destinationFolder,
       destinationName
     );
   }

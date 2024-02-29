@@ -9,5 +9,4 @@ data:
   NODE_ENV: "production"
   PRODUCTION: "true"
   SMTP_URL: "smtp.tipimail.com"
-  STORAGE_CONTAINER: "cdtn"
   URL_EXPORT: "http://export"

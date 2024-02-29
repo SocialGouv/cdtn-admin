@@ -23,7 +23,7 @@
     "lint": "npx eslint ./src --ext .ts"
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.9.0",
+    "@aws-sdk/client-s3": "^3.523.0",
     "@elastic/elasticsearch": "^7.14.1",
     "@shared/types": "workspace:^",
     "@shared/utils": "workspace:^",

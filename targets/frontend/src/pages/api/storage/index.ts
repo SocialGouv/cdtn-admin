@@ -2,12 +2,11 @@ import Boom from "@hapi/boom";
 import { IncomingForm } from "formidable";
 import { verify } from "jsonwebtoken";
 import { createErrorFor } from "src/lib/apiError";
-import { getContainerBlobs, uploadBlob } from "src/lib/azure";
 import { isUploadFileSafe } from "src/lib/secu";
 import * as stream from "stream";
 import { NextApiRequest, NextApiResponse } from "next";
+import { getApiAllFiles, uploadApiFiles } from "src/lib/upload";
 
-const container = process.env.STORAGE_CONTAINER ?? "cdtn-dev";
 const jwtSecret = JSON.parse(
   process.env.HASURA_GRAPHQL_JWT_SECRET ??
     '{"type":"HS256","key":"a_pretty_long_secret_key_that_should_be_at_least_32_char"}'
@@ -76,7 +75,8 @@ function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
         errored(res, "A malicious code was find in the upload");
       }
       if (isAllowedFile(part) && isSafe) {
-        await uploadBlob(container, streamUpload);
+        //TODO: a voir comment transformer le stream en file, voire faire de l'upload stream
+        await uploadApiFiles("key", streamUpload);
       } else {
         console.error(
           "[storage]",
@@ -103,7 +103,7 @@ function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function getFiles(_req: NextApiRequest, res: NextApiResponse) {
-  res.json(await getContainerBlobs(container));
+  res.json(await getApiAllFiles());
 }
 
 export default endPoint;
