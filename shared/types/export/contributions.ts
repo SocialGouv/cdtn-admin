@@ -31,7 +31,6 @@ export interface ContributionFicheSpContent {
 }
 export interface ContributionGenericNoCDTContent {
   messageBlockGenericNoCDT: string;
-  messageBlockGenericNoCDTUnextendedCC: string;
 }
 
 export type ContributionContent =

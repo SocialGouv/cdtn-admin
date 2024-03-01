@@ -23,7 +23,6 @@ const answerFormBaseSchema = answerRelationSchema
     description: true,
     contentType: true,
     messageBlockGenericNoCDT: true,
-    messageBlockGenericNoCDTUnextendedCC: true,
     cdtnReferences: true,
     kaliReferences: true,
     legiReferences: true,
@@ -123,8 +122,6 @@ export const AnswerForm = ({
       cdtnReferences: answer?.cdtnReferences ?? [],
       contentFichesSpDocument: answer?.contentFichesSpDocument ?? undefined,
       messageBlockGenericNoCDT: answer?.messageBlockGenericNoCDT ?? undefined,
-      messageBlockGenericNoCDTUnextendedCC:
-        answer?.messageBlockGenericNoCDTUnextendedCC ?? undefined,
       updateDate: answer?.updateDate ?? "",
     },
   });
@@ -278,28 +275,16 @@ export const AnswerForm = ({
           />
         )}
         {isCodeDuTravail(answer) && contentType === "GENERIC_NO_CDT" && (
-          <>
-            <FormControl>
-              <FormTextField
-                label="Message d'alerte pour les CC non traitées (si pas de CDT)"
-                name="messageBlockGenericNoCDT"
-                disabled={isNotEditable(answer)}
-                control={control}
-                multiline
-                fullWidth
-              />
-            </FormControl>
-            <FormControl>
-              <FormTextField
-                label="Message d'alerte pour les CC non étendues non traitées (si pas de CDT)"
-                name="messageBlockGenericNoCDTUnextendedCC"
-                disabled={isNotEditable(answer)}
-                control={control}
-                multiline
-                fullWidth
-              />
-            </FormControl>
-          </>
+          <FormControl>
+            <FormTextField
+              label="Message d'alerte pour les CC non traitées (si pas de CDT)"
+              name="messageBlockGenericNoCDT"
+              disabled={isNotEditable(answer)}
+              control={control}
+              multiline
+              fullWidth
+            />
+          </FormControl>
         )}
         {answer?.agreement && !isCodeDuTravail(answer) && (
           <KaliReferenceInput

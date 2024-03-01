@@ -1,1 +1,0 @@
-alter table "contribution"."answers" drop column "message_block_generic_no_CDT__unextended_CC";

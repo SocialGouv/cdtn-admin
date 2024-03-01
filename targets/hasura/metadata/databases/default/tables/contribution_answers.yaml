@@ -67,7 +67,6 @@ select_permissions:
         - description
         - id
         - message_block_generic_no_CDT
-        - message_block_generic_no_CDT__unextended_CC
         - question_id
         - updated_at
       filter: {}
@@ -81,7 +80,6 @@ update_permissions:
         - content_type
         - description
         - message_block_generic_no_CDT
-        - message_block_generic_no_CDT__unextended_CC
       filter: {}
       check: null
       set:
