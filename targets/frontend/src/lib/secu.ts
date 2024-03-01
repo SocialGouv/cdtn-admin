@@ -1,24 +1,29 @@
 import formidable from "formidable";
+import fs from "fs";
 
-export const isUploadFileSafe = (stream: formidable.Part): Promise<boolean> => {
+const ALLOWED_EXTENSIONS = [
+  "pdf",
+  "doc",
+  "docx",
+  "gif",
+  "png",
+  "jpg",
+  "jpeg",
+  "svg",
+  "xls",
+  "xlsx",
+  "ods",
+  "odt",
+];
+
+const isAllowedFile = (part: any) =>
+  ALLOWED_EXTENSIONS.includes(part.name.toLowerCase().split(".").reverse()[0]);
+
+export const isUploadFileSafe = (file: formidable.File): Promise<boolean> => {
   return new Promise((resolve) => {
-    if (stream.mimetype !== "image/svg+xml") resolve(true);
-    stream.on("error", (err) => {
-      console.error("[storage]", err);
-      resolve(false);
-    });
-
-    let previousChunk = "";
-    let isSafe = true;
-    stream.on("data", (chunk) => {
-      const currentChunk = previousChunk + chunk.toString();
-      previousChunk = chunk.toString();
-      if (currentChunk.includes("</script>")) {
-        isSafe = false;
-      }
-    });
-    stream.on("end", () => {
-      resolve(isSafe);
-    });
+    if (file.mimetype !== "image/svg+xml") resolve(true);
+    const fileContent = fs.readFileSync(file.filepath, "utf-8");
+    const isSafe = fileContent.includes("<script>");
+    resolve(!isSafe);
   });
 };

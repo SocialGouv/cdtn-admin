@@ -17,7 +17,6 @@ import {
 import { getName } from "./utils";
 import { AgreementsService } from "./services/agreements";
 import { AgreementsRepository } from "./repositories/agreements";
-import { UploadMiddleware } from "./controllers/middlewares/upload";
 
 // set up container
 export const rootContainer = new Container();
@@ -55,9 +54,6 @@ rootContainer
 rootContainer
   .bind<ExportEsRunMiddleware>(getName(ExportEsRunMiddleware))
   .to(ExportEsRunMiddleware);
-rootContainer
-  .bind<UploadMiddleware>(getName(UploadMiddleware))
-  .to(UploadMiddleware);
 /* SERVICES */
 rootContainer.bind<ExportService>(getName(ExportService)).to(ExportService);
 rootContainer.bind<SitemapService>(getName(SitemapService)).to(SitemapService);

@@ -15,7 +15,10 @@ export class SitemapService {
     destinationFolder = process.env.SITEMAP_DESTINATION_FOLDER ?? "",
     sitemapName = process.env.SITEMAP_NAME ?? ""
   ): Promise<string> {
-    const data = await this.repo.getFile(sitemapName, destinationFolder, true);
+    const data = await this.repo.getFileFromDraft(
+      sitemapName,
+      destinationFolder
+    );
     return data;
   }
 

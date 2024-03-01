@@ -2,7 +2,6 @@ import {
   S3Client,
   GetObjectCommand,
   PutObjectCommand,
-  DeleteObjectCommand,
   CopyObjectCommand,
 } from "@aws-sdk/client-s3";
 import axios from "axios";
@@ -50,16 +49,10 @@ export class S3Repository {
     this.publishedFolder = publishedFolder;
   }
 
-  async getFile(
-    key: string,
-    folder: string,
-    isFromDraft: boolean
-  ): Promise<string> {
+  async getFileFromDraft(key: string, folder: string): Promise<string> {
     const command = new GetObjectCommand({
       Bucket: this.bucketName,
-      Key: isFromDraft
-        ? `${this.draftFolder}/${folder}/${key}`
-        : `${this.publishedFolder}/${folder}/${key}`,
+      Key: `${this.draftFolder}/${folder}/${key}`,
     });
     const response = await this.s3Client.send(command);
     if (response.Body === undefined) {
@@ -67,24 +60,6 @@ export class S3Repository {
     }
     const str = await response.Body.transformToString();
     return str;
-  }
-
-  async uploadFile(data: string, folder: string, key: string): Promise<void> {
-    const command = new PutObjectCommand({
-      Bucket: this.bucketName,
-      Key: `${this.draftFolder}/${folder}/${key}`,
-      Body: data,
-      ACL: "public-read",
-    });
-    await this.s3Client.send(command);
-  }
-
-  async deleteFile(folder: string, key: string): Promise<void> {
-    const command = new DeleteObjectCommand({
-      Bucket: this.bucketName,
-      Key: `${this.draftFolder}/${folder}/${key}`,
-    });
-    await this.s3Client.send(command);
   }
 
   async uploadSitemap(

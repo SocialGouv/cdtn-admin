@@ -3,9 +3,9 @@ import { IncomingForm } from "formidable";
 import { verify } from "jsonwebtoken";
 import { createErrorFor } from "src/lib/apiError";
 import { isUploadFileSafe } from "src/lib/secu";
-import * as stream from "stream";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getApiAllFiles, uploadApiFiles } from "src/lib/upload";
+import fs from "fs";
 
 const jwtSecret = JSON.parse(
   process.env.HASURA_GRAPHQL_JWT_SECRET ??
@@ -37,69 +37,29 @@ const errored = (res: NextApiResponse, err: any) => {
   res.status(400).json({ success: false });
 };
 
-const done = (res: NextApiResponse) => res.status(200).json({ success: true });
-
-const ALLOWED_EXTENSIONS = [
-  "pdf",
-  "doc",
-  "docx",
-  "gif",
-  "png",
-  "jpg",
-  "jpeg",
-  "svg",
-  "xls",
-  "xlsx",
-  "ods",
-  "odt",
-];
-
-const isAllowedFile = (part: any) =>
-  ALLOWED_EXTENSIONS.includes(part.name.toLowerCase().split(".").reverse()[0]);
-
 function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
   const form = new IncomingForm({ multiples: true });
-  // we need to override the onPart method to directly
-  // stream the data to azure
-  let uploadingFilesNumber = 0;
-  form.onPart = async function (part) {
-    try {
-      uploadingFilesNumber++;
-      const streamCheckup: any = part.pipe(new stream.PassThrough());
-      const streamUpload: any = part.pipe(new stream.PassThrough());
-      streamUpload.name = part.name;
-      streamUpload.mimetype = part.mimetype;
 
-      const isSafe = await isUploadFileSafe(streamCheckup);
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      throw err;
+    }
+    const { file } = files;
+    const allFiles = Array.isArray(file) ? file : [file];
+    for (let i = 0; i < allFiles.length; i++) {
+      const file = allFiles[i];
+      const isSafe = await isUploadFileSafe(file);
       if (!isSafe) {
         errored(res, "A malicious code was find in the upload");
       }
-      if (isAllowedFile(part) && isSafe) {
-        //TODO: a voir comment transformer le stream en file, voire faire de l'upload stream
-        await uploadApiFiles("key", streamUpload);
-      } else {
-        console.error(
-          "[storage]",
-          `Skip upload of ${part.name}: forbidden type`
-        );
-      }
-      --uploadingFilesNumber;
-      if (uploadingFilesNumber === 0) {
-        done(res);
-      }
-    } catch (err) {
-      errored(res, err);
-    }
-  };
-  form.parse(req, async (err) => {
-    if (err) {
-      errored(res, err);
-      return;
-    }
-    if (!uploadingFilesNumber) {
-      done(res);
+      const fileContent = fs.readFileSync(file.filepath);
+      await uploadApiFiles(
+        `${fields.field[i]}.${file.originalFilename?.split(".").pop()}`,
+        fileContent
+      );
     }
   });
+  res.status(200).json({ success: true });
 }
 
 async function getFiles(_req: NextApiRequest, res: NextApiResponse) {
