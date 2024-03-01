@@ -21,6 +21,7 @@ const isAllowedFile = (part: any) =>
 
 export const isUploadFileSafe = (file: formidable.File): Promise<boolean> => {
   return new Promise((resolve) => {
+    if (!isAllowedFile(file)) resolve(false);
     if (file.mimetype !== "image/svg+xml") resolve(true);
     const fileContent = fs.readFileSync(file.filepath, "utf-8");
     const isSafe = fileContent.includes("<script>");

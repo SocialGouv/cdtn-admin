@@ -63,7 +63,8 @@ function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function getFiles(_req: NextApiRequest, res: NextApiResponse) {
-  res.json(await getApiAllFiles());
+  const files = await getApiAllFiles();
+  res.json(files);
 }
 
 export default endPoint;

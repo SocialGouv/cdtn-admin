@@ -43,6 +43,7 @@ export class S3Repository {
         accessKeyId: accessKey,
         secretAccessKey: secretKey,
       },
+      forcePathStyle: true,
     });
     this.bucketName = bucketName;
     this.draftFolder = draftFolder;

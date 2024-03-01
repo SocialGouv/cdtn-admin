@@ -5,7 +5,7 @@ import {
   ListObjectsCommand,
 } from "@aws-sdk/client-s3";
 
-const region = process.env.BUCKET_REGION;
+const region = process.env.BUCKET_REGION ?? "us-east-1";
 const endpoint = process.env.BUCKET_ENDPOINT ?? "http://localhost:9000";
 const accessKeyId = process.env.BUCKET_ACCESS_KEY ?? "MINIO_ACCESS_KEY";
 const secretAccessKey = process.env.BUCKET_SECRET_KEY ?? "MINIO_SECRET_KEY";
@@ -20,12 +20,13 @@ const client = new S3Client({
     accessKeyId,
     secretAccessKey,
   },
+  forcePathStyle: true,
 });
 
 export const getApiAllFiles = async () => {
   const command = new ListObjectsCommand({
     Bucket: bucketName,
-    Prefix: `${bucketDraftFolder}/${bucketDefaultFolder}/`,
+    Prefix: `${bucketDraftFolder}/${bucketDefaultFolder}`,
   });
   const files = await client.send(command);
   return files.Contents;
