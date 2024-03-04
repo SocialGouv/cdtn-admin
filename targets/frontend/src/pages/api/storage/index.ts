@@ -1,5 +1,5 @@
 import Boom from "@hapi/boom";
-import { IncomingForm } from "formidable";
+import formidable, { IncomingForm } from "formidable";
 import { verify } from "jsonwebtoken";
 import { createErrorFor } from "src/lib/apiError";
 import { isUploadFileSafe } from "src/lib/secu";
@@ -32,31 +32,24 @@ async function endPoint(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-const errored = (res: NextApiResponse, err: any) => {
-  console.error("[storage]", err);
-  res.status(400).json({ success: false });
-};
-
 function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
   const form = new IncomingForm({ multiples: true });
 
-  form.parse(req, async (err, fields, files) => {
+  form.parse(req, async (err, _fields, files) => {
     if (err) {
-      throw err;
+      console.error("An error occurred while parsing the form");
+      return res.status(400).json({ success: false });
     }
-    const { file } = files;
-    const allFiles = Array.isArray(file) ? file : [file];
+    const allFiles = Object.values(files) as formidable.File[];
     for (let i = 0; i < allFiles.length; i++) {
       const file = allFiles[i];
       const isSafe = await isUploadFileSafe(file);
       if (!isSafe) {
-        errored(res, "A malicious code was find in the upload");
+        console.error("A malicious code was find in the upload");
+        return res.status(400).json({ success: false });
       }
       const fileContent = fs.readFileSync(file.filepath);
-      await uploadApiFiles(
-        `${fields.field[i]}.${file.originalFilename?.split(".").pop()}`,
-        fileContent
-      );
+      await uploadApiFiles(`${file.originalFilename}`, fileContent);
     }
   });
   res.status(200).json({ success: true });

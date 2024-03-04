@@ -27,6 +27,7 @@ import {
   MenuItem,
   List,
 } from "@mui/material";
+import { S3File } from "src/lib/upload";
 
 const listFiles = () => request(`/api/storage`);
 
@@ -40,12 +41,13 @@ const deleteFile = (path: any) =>
     method: "DELETE",
   } as any);
 
-const onDeleteClick = function (file: any) {
+const onDeleteClick = function (file: S3File) {
   const confirmed = confirm(
-    `Êtes-vous sûr(e) de vouloir définitivement supprimer ${file.name} ?`
+    `Êtes-vous sûr(e) de vouloir définitivement supprimer ${file.Key} ?`
   );
+  const name = file.Key?.split("/").pop();
   if (confirmed) {
-    deleteFile(file.name)
+    deleteFile(name)
       .then(() => {
         mutate("files");
       })
@@ -56,9 +58,7 @@ const onDeleteClick = function (file: any) {
 };
 
 function FilesPage() {
-  const { data, error, isValidating } = useSWR("files", listFiles, {
-    initialData: undefined,
-  } as any);
+  const { data, error, isValidating } = useSWR<S3File[]>("files", listFiles);
   const [search, setSearch, setDebouncedSearch] = useDebouncedState("", 400);
   const searchInputEl = useRef<any>(null);
   const [isSearching, setSearching] = useState(false);
@@ -169,24 +169,25 @@ function FilesPage() {
       </Box>
       {isSearching || (isValidating && !data) ? (
         <Spinner />
-      ) : data?.length > 0 ? (
+      ) : data && data?.length > 0 ? (
         <>
           <List sx={{ listStyleType: "none", m: 0, p: 0 }}>
             {data
               .filter(
-                (file: any) =>
+                (file) =>
                   filterCallback(filter, file) &&
                   (search
-                    ? file.name
-                        .toLowerCase()
+                    ? file.Key?.split("/")
+                        .pop()
+                        ?.toLowerCase()
                         .includes(search.toLowerCase().trim())
                     : true)
               )
               .sort(getSortCallback(sort))
-              .map((file: any) => {
+              .map((file) => {
                 return (
                   <ListItem
-                    key={file.name}
+                    key={file.Key}
                     style={{
                       width: "100%",
                     }}
@@ -195,9 +196,9 @@ function FilesPage() {
                       component="a"
                       target="_blank"
                       rel="noopener noreferrer"
-                      href={file.url}
-                      key={file.name}
-                      title={file.name}
+                      href={file.Key}
+                      key={file.Key}
+                      title={file.Key?.split("/").pop()}
                       sx={{
                         alignItems: "center",
                         display: "flex",
@@ -230,24 +231,24 @@ function FilesPage() {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {file.name}
+                          {file.Key?.split("/").pop()}
                         </Box>
                         <Box>
                           Poids :{" "}
                           <span style={{ fontWeight: "bold" }}>
-                            {prettyBytes(file.contentLength)}
+                            {prettyBytes(file.Size ?? 0)}
                           </span>{" "}
                           | Mise en ligne il y a{" "}
                           <span style={{ fontWeight: "bold" }}>
-                            {timeSince(file.lastModified)}
+                            {timeSince(file.LastModified)}
                           </span>
                         </Box>
                       </Box>
                       <CopyButton
                         {...buttonProps}
                         variant="secondary"
-                        text={file.name}
-                        copied={currentClip === file.name}
+                        text={file.Key}
+                        copied={currentClip === file.Key}
                         onClip={(text: any) => {
                           setCurrentClip(text);
                         }}
@@ -291,8 +292,8 @@ const iconSx = {
   width: theme.sizes.iconSmall,
 };
 
-const filterCallback = (filter: any, file: any) => {
-  const extension = file.name.split(".").pop().toLowerCase();
+const filterCallback = (filter: any, file: S3File) => {
+  const extension = file.Key?.split(".").pop()?.toLowerCase();
   switch (filter) {
     case "jpg":
       return extension === "jpg" || extension === "jpeg";

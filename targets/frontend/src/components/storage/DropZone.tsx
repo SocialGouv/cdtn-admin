@@ -37,7 +37,7 @@ export function DropZone({
   const { getRootProps, getInputProps, isDragAccept } = useDropzone({
     accept: {
       "image/png": [".png"],
-      "image/jpeg": [".jpg, jpeg"],
+      "image/jpeg": [".jpg", ".jpeg"],
       "image/svg+xml": [".svg"],
       "application/pdf": [".pdf"],
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document":

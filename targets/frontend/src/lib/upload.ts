@@ -3,6 +3,7 @@ import {
   PutObjectCommand,
   DeleteObjectCommand,
   ListObjectsCommand,
+  _Object,
 } from "@aws-sdk/client-s3";
 
 const region = process.env.BUCKET_REGION ?? "us-east-1";
@@ -23,13 +24,15 @@ const client = new S3Client({
   forcePathStyle: true,
 });
 
-export const getApiAllFiles = async () => {
+export type S3File = _Object;
+
+export const getApiAllFiles = async (): Promise<S3File[]> => {
   const command = new ListObjectsCommand({
     Bucket: bucketName,
     Prefix: `${bucketDraftFolder}/${bucketDefaultFolder}`,
   });
   const files = await client.send(command);
-  return files.Contents;
+  return files.Contents ?? [];
 };
 
 export const deleteApiFile = async (key: string) => {

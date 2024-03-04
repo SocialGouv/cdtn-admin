@@ -16,8 +16,14 @@ const ALLOWED_EXTENSIONS = [
   "odt",
 ];
 
-const isAllowedFile = (part: any) =>
-  ALLOWED_EXTENSIONS.includes(part.name.toLowerCase().split(".").reverse()[0]);
+const isAllowedFile = (file: formidable.File) => {
+  const extension = file.originalFilename
+    ?.toLowerCase()
+    .split(".")
+    .reverse()[0];
+  if (!extension) return false;
+  return ALLOWED_EXTENSIONS.includes(extension);
+};
 
 export const isUploadFileSafe = (file: formidable.File): Promise<boolean> => {
   return new Promise((resolve) => {
