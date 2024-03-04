@@ -96,6 +96,7 @@ type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
 type ContributionDocumentJsonGenericNoCDT = ContributionDocumentJsonBasic & {
   type: "generic-no-cdt";
   messageBlockGenericNoCDT: string;
+  messageBlockGenericNoCDTUnextendedCC: string;
 };
 
 type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
@@ -136,4 +137,10 @@ export type ContributionMessageBlock = {
   contentAgreement: string;
   contentLegal: string;
   contentNotHandled: string;
+};
+
+export type ContributionAgreementMessage = {
+  id: string;
+  agreementId: string;
+  content: string;
 };

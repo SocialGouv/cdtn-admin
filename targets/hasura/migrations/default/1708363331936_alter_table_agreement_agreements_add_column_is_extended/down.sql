@@ -1,0 +1,1 @@
+alter table "agreement"."agreements" drop column "is_extended";

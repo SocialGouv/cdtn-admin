@@ -26,6 +26,7 @@ query contribution_answer($id: uuid) {
       id
       name
       kaliId: kali_id
+      unextended
     }
     answerComments: answer_comments {
       id
