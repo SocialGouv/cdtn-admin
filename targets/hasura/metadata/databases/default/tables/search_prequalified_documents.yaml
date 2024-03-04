@@ -1,0 +1,7 @@
+table:
+  name: prequalified_documents
+  schema: search
+object_relationships:
+  - name: document
+    using:
+      foreign_key_constraint_on: document_id

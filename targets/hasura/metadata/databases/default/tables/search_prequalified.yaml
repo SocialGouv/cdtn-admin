@@ -1,0 +1,11 @@
+table:
+  name: prequalified
+  schema: search
+array_relationships:
+  - name: documents
+    using:
+      foreign_key_constraint_on:
+        column: prequalified_id
+        table:
+          name: prequalified_documents
+          schema: search

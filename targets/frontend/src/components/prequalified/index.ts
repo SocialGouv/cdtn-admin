@@ -1,2 +1,2 @@
-export * from "./Prequalified";
+export * from "./PrequalifiedForm";
 export * from "./ValidationBar";
