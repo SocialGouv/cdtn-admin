@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.35.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.4...v2.35.0) (2024-03-04)
+
+### Bug Fixes
+
+- **export:** affichage du nombre de documents mis à jour ([#1295](https://github.com/SocialGouv/cdtn-admin/issues/1295)) ([684db49](https://github.com/SocialGouv/cdtn-admin/commit/684db49b2a6022e8747156ab60a06d14e1121988))
+- **information:** supprimer le document associé au contenu ([#1307](https://github.com/SocialGouv/cdtn-admin/issues/1307)) ([4914239](https://github.com/SocialGouv/cdtn-admin/commit/49142399063e15d61f09cf8c5b32dc9fdc61ef37))
+- **MEP:** ajout des nouvelles contribs dans les liste des documents affichés dans la popup quand on lance une MEP ([#1274](https://github.com/SocialGouv/cdtn-admin/issues/1274)) ([4693535](https://github.com/SocialGouv/cdtn-admin/commit/4693535ee5248c336cf197e05287d2b00256dc48))
+- **refacto:** remove un-needed frontend component Inline ([#1299](https://github.com/SocialGouv/cdtn-admin/issues/1299)) ([cd6ed47](https://github.com/SocialGouv/cdtn-admin/commit/cd6ed4731fc864bc1feda59518041056ee7e7739))
+
+### Features
+
+- **agreement:** supprimer une convention collective ([#1306](https://github.com/SocialGouv/cdtn-admin/issues/1306)) ([43e5981](https://github.com/SocialGouv/cdtn-admin/commit/43e59815501414d0f7218d34a64ed4aaeaf4e6b7))
+- implementation message cc non etendue ([#1300](https://github.com/SocialGouv/cdtn-admin/issues/1300)) ([b419f18](https://github.com/SocialGouv/cdtn-admin/commit/b419f1865fefe3c1603675e938a46843622964ac)), closes [#1305](https://github.com/SocialGouv/cdtn-admin/issues/1305)
+
 ## [2.34.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.3...v2.34.4) (2024-02-19)
 
 ### Bug Fixes
