@@ -104,7 +104,7 @@ services:
       /bin/sh -c "
       /usr/bin/mc alias set myminio http://minio:9000 MINIO_ACCESS_KEY MINIO_SECRET_KEY;
       /usr/bin/mc mb myminio/cdtn;
-      /usr/bin/mc policy set public myminio/cdtn;
+      /usr/bin/mc anonymous set public myminio/cdtn;
       exit 0;
       "
 

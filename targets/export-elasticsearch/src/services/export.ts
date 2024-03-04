@@ -76,13 +76,13 @@ export class ExportService {
           }
         }
         if (!process.env.DISABLE_SITEMAP) {
-          await this.sitemapService.uploadSitemap();
+          await this.sitemapService.uploadSitemap(environment);
         }
         if (!process.env.DISABLE_COPY) {
-          await this.copyContainerService.runCopy();
+          await this.copyContainerService.runCopy(environment);
         }
         if (!process.env.DISABLE_AGREEMENTS) {
-          await this.exportAgreementsService.uploadAgreements();
+          await this.exportAgreementsService.uploadAgreements(environment);
         }
         return await this.exportRepository.updateOne(
           id,

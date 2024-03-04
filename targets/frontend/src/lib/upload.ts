@@ -24,15 +24,32 @@ const client = new S3Client({
   forcePathStyle: true,
 });
 
-export type S3File = _Object;
+export type S3File = {
+  key: string;
+  lastModified: Date;
+  size: number;
+  url: string;
+};
 
 export const getApiAllFiles = async (): Promise<S3File[]> => {
+  const prefix = `${bucketDraftFolder}/${bucketDefaultFolder}/`;
   const command = new ListObjectsCommand({
     Bucket: bucketName,
-    Prefix: `${bucketDraftFolder}/${bucketDefaultFolder}`,
+    Prefix: prefix,
   });
   const files = await client.send(command);
-  return files.Contents ?? [];
+  const contents = files.Contents ?? [];
+  return contents.map((file: _Object) => {
+    if (!file.Key || !file.LastModified || !file.Size) {
+      throw new Error("Error while parsing the file");
+    }
+    return {
+      key: file.Key.replace(prefix, ""),
+      lastModified: file.LastModified,
+      size: file.Size,
+      url: `${endpoint}/${bucketName}/${file.Key}`,
+    };
+  });
 };
 
 export const deleteApiFile = async (key: string) => {
@@ -53,7 +70,7 @@ export const uploadApiFiles = async (key: string, data: Buffer) => {
     });
     return await client.send(command);
   } catch (err) {
-    console.log("Error", err);
+    console.error(err);
     throw new Error("Error while uploading the file to the bucket");
   }
 };

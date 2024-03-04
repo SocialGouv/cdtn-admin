@@ -21,8 +21,6 @@ export default async function deleteFiles(req: any, res: any) {
   }
   const { path } = req.query;
 
-  console.log(path);
-
   await deleteApiFile(path);
 
   res.status(200).json({ success: true });

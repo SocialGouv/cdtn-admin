@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 
 import { S3Repository } from "../repositories";
 import { getName, name } from "../utils";
+import { Environment } from "@shared/types";
 
 @injectable()
 @name("SitemapService")
@@ -11,23 +12,14 @@ export class SitemapService {
     private readonly repo: S3Repository
   ) {}
 
-  async getSitemap(
-    destinationFolder = process.env.SITEMAP_DESTINATION_FOLDER ?? "",
-    sitemapName = process.env.SITEMAP_NAME ?? ""
-  ): Promise<string> {
-    const data = await this.repo.getFileFromDraft(
-      sitemapName,
-      destinationFolder
-    );
-    return data;
-  }
-
   async uploadSitemap(
+    environment: Environment,
     sitemapEndpoint = process.env.SITEMAP_ENDPOINT ?? "",
     destinationFolder = process.env.SITEMAP_DESTINATION_FOLDER ?? "",
     sitemapName = process.env.SITEMAP_NAME ?? ""
   ): Promise<void> {
     await this.repo.uploadSitemap(
+      environment,
       sitemapEndpoint,
       destinationFolder,
       sitemapName

@@ -45,6 +45,9 @@ rootContainer
   .bind<string>(S3Parameters.BUCKET_PUBLISHED_FOLDER)
   .toConstantValue(process.env.BUCKET_PUBLISHED_FOLDER ?? `published`);
 rootContainer
+  .bind<string>(S3Parameters.BUCKET_PREVIEW_FOLDER)
+  .toConstantValue(process.env.BUCKET_PREVIEW_FOLDER ?? `preview`);
+rootContainer
   .bind<ExportRepository>(getName(ExportRepository))
   .to(ExportRepository);
 rootContainer
