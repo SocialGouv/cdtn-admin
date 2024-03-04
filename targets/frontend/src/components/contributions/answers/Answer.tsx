@@ -8,7 +8,7 @@ import {
   TooltipProps,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useUser } from "src/hooks/useUser";
 
 import { StatusContainer } from "../status";
