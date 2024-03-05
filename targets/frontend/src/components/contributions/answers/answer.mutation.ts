@@ -52,7 +52,6 @@ export type MutationProps = Pick<
   | "description"
   | "contentServicePublicCdtnId"
   | "messageBlockGenericNoCDT"
-  | "messageBlockGenericNoCDTUnextendedCC"
   | "content"
   | "kaliReferences"
   | "legiReferences"

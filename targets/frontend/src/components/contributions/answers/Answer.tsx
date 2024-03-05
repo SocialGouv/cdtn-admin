@@ -32,7 +32,6 @@ export const ContributionsAnswer = ({
   id,
 }: ContributionsAnswerProps): JSX.Element => {
   const answer = useContributionAnswerQuery({ id });
-  console.log(answer);
   const genericAnswer = useGenericContributionAnswerQuery({
     questionId: answer?.questionId,
   });
@@ -62,8 +61,6 @@ export const ContributionsAnswer = ({
         userId: user?.id,
         contentServicePublicCdtnId: data.contentFichesSpDocument?.cdtnId,
         messageBlockGenericNoCDT: data.messageBlockGenericNoCDT,
-        messageBlockGenericNoCDTUnextendedCC:
-          data.messageBlockGenericNoCDTUnextendedCC,
         kaliReferences: data.kaliReferences,
         legiReferences: data.legiReferences,
         cdtnReferences: data.cdtnReferences,
