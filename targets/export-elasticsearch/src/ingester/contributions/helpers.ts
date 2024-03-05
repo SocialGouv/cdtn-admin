@@ -29,6 +29,12 @@ export const isGenericContribution = (
   return contrib.idcc === "0000";
 };
 
+export const isGenericNotCdtContribution = (
+  contentType: ContributionContentType
+) => {
+  return contentType === "GENERIC_NO_CDT";
+};
+
 export const isReferencingGenericContribution = (
   contentType: ContributionContentType
 ) => {

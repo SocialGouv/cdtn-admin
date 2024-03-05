@@ -10,7 +10,7 @@ import {
   ContributionLinkedContent,
 } from "@shared/types";
 import { generateMetadata } from "./generateMetadata";
-import { isGenericContribution } from "./helpers";
+import { isGenericContribution, isGenericNotCdtContribution } from "./helpers";
 import { getCcSupported } from "./getCcSupported";
 import { fetchAgreementUnextended } from "./fetchCcUnextended";
 import { getCcInfos } from "./getCcInfos";
@@ -70,7 +70,9 @@ export async function generateContributions(
     if (isGenericContribution(contrib)) {
       doc = {
         ccSupported: getCcSupported(contributions, contrib),
-        ccUnextended,
+        ccUnextended: isGenericNotCdtContribution(contrib.contentType)
+          ? ccUnextended
+          : [],
       };
     } else {
       doc = {
