@@ -101,7 +101,7 @@ Frontend is reachable at the address <http://localhost:3001>
 
 ## export-elasticsearch
 
-This service exposes an API which handle to trigger the export of the data from Postgres to Elasticsearch. Then, copy sitemap.xml from a container azure to an other container azure. To finish, it copies a container azure to an other container azure.
+This service exposes an API which handle to trigger the export of the data from Postgres to Elasticsearch.
 
 ### Running an export
 

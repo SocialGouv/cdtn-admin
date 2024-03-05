@@ -34,7 +34,7 @@ rootContainer
   .toConstantValue(process.env.BUCKET_NAME ?? "");
 rootContainer
   .bind<string>(S3Parameters.BUCKET_REGION)
-  .toConstantValue(process.env.BUCKET_REGION ?? "");
+  .toConstantValue(process.env.BUCKET_REGION ?? "us-east-1");
 rootContainer
   .bind<string>(S3Parameters.BUCKET_SECRET_KEY)
   .toConstantValue(process.env.BUCKET_SECRET_KEY ?? "");
