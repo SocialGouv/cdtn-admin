@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.35.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.0...v2.35.1) (2024-03-05)
+
+### Features
+
+- **contribution:** livraison du lot 4 ([#1311](https://github.com/SocialGouv/cdtn-admin/issues/1311)) ([0bd7f49](https://github.com/SocialGouv/cdtn-admin/commit/0bd7f49d3368d0c8b8aa53a315c1559378430750))
+
 # [2.35.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.4...v2.35.0) (2024-03-04)
 
 ### Bug Fixes
