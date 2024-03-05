@@ -36,7 +36,7 @@ export const generateContent = async (
       );
       if (!cdtContrib) {
         throw new Error(
-          `Aucune contribution générique a été retrouvée avec cet id ${contrib.genericAnswerId}`
+          `Aucune contribution générique a été retrouvée pour la contribution [${contrib.questionIndex} - ${contrib.idcc}] (id générique non trouvé : ${contrib.genericAnswerId})`
         );
       }
       if (cdtContrib.type === "generic-no-cdt") {

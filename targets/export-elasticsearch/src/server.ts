@@ -19,6 +19,8 @@ import {
   SitemapService,
 } from "./services";
 import { getName } from "./utils";
+import { AgreementsService } from "./services/agreements";
+import { AgreementsRepository } from "./repositories/agreements";
 
 // set up container
 export const rootContainer = new Container();
@@ -54,6 +56,9 @@ rootContainer
 rootContainer
   .bind<ExportRepository>(getName(ExportRepository))
   .to(ExportRepository);
+rootContainer
+  .bind<AgreementsRepository>(getName(AgreementsRepository))
+  .to(AgreementsRepository);
 /* MIDDLEWARE */
 rootContainer
   .bind<ExportEsRunMiddleware>(getName(ExportEsRunMiddleware))
@@ -61,6 +66,9 @@ rootContainer
 /* SERVICES */
 rootContainer.bind<ExportService>(getName(ExportService)).to(ExportService);
 rootContainer.bind<SitemapService>(getName(SitemapService)).to(SitemapService);
+rootContainer
+  .bind<AgreementsService>(getName(AgreementsService))
+  .to(AgreementsService);
 rootContainer
   .bind<CopyContainerService>(getName(CopyContainerService))
   .to(CopyContainerService);

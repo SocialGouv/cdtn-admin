@@ -14,6 +14,8 @@ data:
   SITEMAP_DESTINATION_CONTAINER: "sitemap"
   SITEMAP_DESTINATION_NAME: "sitemap.xml"
   SITEMAP_ENDPOINT: "http://www/api/sitemap"
+  AGREEMENTS_DESTINATION_CONTAINER: "agreements"
+  AGREEMENTS_DESTINATION_NAME: "index.json"
   ELASTICSEARCH_INDEX_PREPROD: "cdtn-dev-v2"
   ELASTICSEARCH_INDEX_PROD: "cdtn-dev-v2"
   MATTERMOST_CHANNEL_EXPORT: "s-cdtn-administration-veille-dev"

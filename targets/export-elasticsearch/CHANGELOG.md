@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.35.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.4...v2.35.0) (2024-03-04)
+
+### Bug Fixes
+
+- **export:** améliorer un message d'erreur lors de l'export des contributions ([#1304](https://github.com/SocialGouv/cdtn-admin/issues/1304)) ([a066a9b](https://github.com/SocialGouv/cdtn-admin/commit/a066a9bce023e3b56dad718bcfd05f71bc38f566))
+- **MEP:** ajout des nouvelles contribs dans les liste des documents affichés dans la popup quand on lance une MEP ([#1274](https://github.com/SocialGouv/cdtn-admin/issues/1274)) ([4693535](https://github.com/SocialGouv/cdtn-admin/commit/4693535ee5248c336cf197e05287d2b00256dc48))
+
+### Features
+
+- **agreements:** export des conventions collectives sur azure ([#1280](https://github.com/SocialGouv/cdtn-admin/issues/1280)) ([4a092d8](https://github.com/SocialGouv/cdtn-admin/commit/4a092d85513b0df83b057b384a44059cced4d793))
+- implementation message cc non etendue ([#1300](https://github.com/SocialGouv/cdtn-admin/issues/1300)) ([b419f18](https://github.com/SocialGouv/cdtn-admin/commit/b419f1865fefe3c1603675e938a46843622964ac)), closes [#1305](https://github.com/SocialGouv/cdtn-admin/issues/1305)
+
+## [2.34.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.3...v2.34.4) (2024-02-19)
+
+### Bug Fixes
+
+- **glossary:** rajout du `slug` et des `references` pour le glossaire ([#1297](https://github.com/SocialGouv/cdtn-admin/issues/1297)) ([43f81b9](https://github.com/SocialGouv/cdtn-admin/commit/43f81b967b4c7579d2b8e9ba99ce58172055b671))
+
+## [2.34.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.2...v2.34.3) (2024-02-19)
+
+**Note:** Version bump only for package export-elasticsearch
+
 ## [2.34.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.1...v2.34.2) (2024-02-16)
 
 **Note:** Version bump only for package export-elasticsearch

@@ -94,3 +94,19 @@ query getExportEsStatusByStatus($status: String!) {
     documentsCount
   }
 }`;
+
+export const listSupportedAgreements = `
+query ListSupportedAgreements {
+  agreements: agreement_agreements(where: {id: {_neq: "0000"}, isSupported: {_eq: true}}) {
+    id: kali_id
+    url: legifranceUrl
+    title: name
+    date_publi: publicationDate
+    texte_de_base: rootText
+    shortTitle: shortName
+    effectif: workerNumber
+    fetchArticles: isSupported
+    num: id
+  }
+}
+`;
