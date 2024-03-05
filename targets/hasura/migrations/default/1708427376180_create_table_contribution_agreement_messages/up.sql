@@ -1,10 +1,10 @@
 CREATE TABLE "contribution"."agreement_messages" (
-        "id" uuid NOT NULL DEFAULT gen_random_uuid(),
-        "agreement_id" bpchar NOT NULL,
-        "content" text NOT NULL,
-        PRIMARY KEY ("id"),
-        FOREIGN KEY ("agreement_id") REFERENCES "agreement"."agreements"("id") ON UPDATE cascade ON DELETE cascade,
-        UNIQUE ("agreement_id")
+    "id" uuid NOT NULL DEFAULT gen_random_uuid(),
+    "agreement_id" bpchar NOT NULL,
+    "content" text NOT NULL,
+    PRIMARY KEY ("id"),
+    FOREIGN KEY ("agreement_id") REFERENCES "agreement"."agreements"("id") ON UPDATE cascade ON DELETE cascade,
+    UNIQUE ("agreement_id")
 );
 insert into contribution.agreement_messages(agreement_id, content)
 values (
