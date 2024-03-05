@@ -275,28 +275,16 @@ export const AnswerForm = ({
           />
         )}
         {isCodeDuTravail(answer) && contentType === "GENERIC_NO_CDT" && (
-          <>
-            <FormControl>
-              <FormTextField
-                label="Message d'alerte pour les CC non traitées (si pas de CDT)"
-                name="messageBlockGenericNoCDT"
-                disabled={isNotEditable(answer)}
-                control={control}
-                multiline
-                fullWidth
-              />
-            </FormControl>
-            <FormControl>
-              <FormTextField
-                label="Message d'alerte pour les CC non étendues non traitées (si pas de CDT)"
-                name="messageBlockGenericNoCDTUnextendedCC"
-                disabled={isNotEditable(answer)}
-                control={control}
-                multiline
-                fullWidth
-              />
-            </FormControl>
-          </>
+          <FormControl>
+            <FormTextField
+              label="Message d'alerte pour les CC non traitées (si pas de CDT)"
+              name="messageBlockGenericNoCDT"
+              disabled={isNotEditable(answer)}
+              control={control}
+              multiline
+              fullWidth
+            />
+          </FormControl>
         )}
         {answer?.agreement && !isCodeDuTravail(answer) && (
           <KaliReferenceInput
