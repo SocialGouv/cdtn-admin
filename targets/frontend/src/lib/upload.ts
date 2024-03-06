@@ -8,6 +8,8 @@ import {
 
 const region = process.env.BUCKET_REGION ?? "us-east-1";
 const endpoint = process.env.BUCKET_ENDPOINT ?? "http://localhost:9000";
+const publicEndpoint =
+  process.env.BUCKET_PUBLIC_ENDPOINT ?? "http://localhost:9000";
 const accessKeyId = process.env.BUCKET_ACCESS_KEY ?? "MINIO_ACCESS_KEY";
 const secretAccessKey = process.env.BUCKET_SECRET_KEY ?? "MINIO_SECRET_KEY";
 const bucketName = process.env.BUCKET_NAME ?? "cdtn";
@@ -47,7 +49,7 @@ export const getApiAllFiles = async (): Promise<S3File[]> => {
       key: file.Key.replace(prefix, ""),
       lastModified: file.LastModified,
       size: file.Size,
-      url: `${endpoint}/${bucketName}/${file.Key}`,
+      url: `${publicEndpoint}/${file.Key}`,
     };
   });
 };
