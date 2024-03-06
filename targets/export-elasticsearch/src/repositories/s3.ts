@@ -157,6 +157,7 @@ export class S3Repository {
         MetadataDirective: "REPLACE",
       });
       await this.s3Client.send(copyCommand);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
 
     // 4. Supprimer les clés productions non présente dans le review (clean)
@@ -170,6 +171,7 @@ export class S3Repository {
         Key: `${pasteFolder}/${key}`,
       });
       await this.s3Client.send(deleteCommand);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
   }
 }

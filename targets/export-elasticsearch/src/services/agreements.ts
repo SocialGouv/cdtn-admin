@@ -29,5 +29,6 @@ export class AgreementsService {
       destinationFolder,
       destinationName
     );
+    logger.info(`Agreement has been uploaded 🎉`);
   }
 }

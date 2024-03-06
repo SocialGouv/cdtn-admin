@@ -3,6 +3,7 @@ import { inject, injectable } from "inversify";
 import { S3Repository } from "../repositories";
 import { getName, name } from "../utils";
 import { Environment } from "@shared/types";
+import { logger } from "@shared/utils";
 
 @injectable()
 @name("CopyContainerService")
@@ -13,6 +14,8 @@ export class CopyContainerService {
   ) {}
 
   async runCopy(environment: Environment): Promise<void> {
+    logger.info(`Preparing to copy folder to ${environment}`);
     await this.repo.copyFolder(environment);
+    logger.info(`Folder has been copied 🚀`);
   }
 }
