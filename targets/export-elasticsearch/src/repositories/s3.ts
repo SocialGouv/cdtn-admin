@@ -10,6 +10,7 @@ import { inject, injectable } from "inversify";
 
 import { diff, name } from "../utils";
 import { Environment } from "@shared/types";
+import { logger } from "@shared/utils";
 
 export const S3Parameters = {
   BUCKET_ACCESS_KEY: Symbol("BUCKET_ACCESS_KEY"),
@@ -105,73 +106,79 @@ export class S3Repository {
   }
 
   async copyFolder(environment: Environment): Promise<void> {
-    const copyFolder =
-      environment === "production"
-        ? `${this.previewFolder}/${this.defaultFolder}`
-        : `${this.draftFolder}/${this.defaultFolder}`;
-    const pasteFolder =
-      environment === "production"
-        ? `${this.publishedFolder}/${this.defaultFolder}`
-        : `${this.previewFolder}/${this.defaultFolder}`;
+    try {
+      const copyFolder =
+        environment === "production"
+          ? `${this.previewFolder}/${this.defaultFolder}`
+          : `${this.draftFolder}/${this.defaultFolder}`;
+      const pasteFolder =
+        environment === "production"
+          ? `${this.publishedFolder}/${this.defaultFolder}`
+          : `${this.previewFolder}/${this.defaultFolder}`;
 
-    // 1. Récupérer les anciennes clés dans le published
-    const listCommandPasteFolder = new ListObjectsCommand({
-      Bucket: this.bucketName,
-      Prefix: pasteFolder,
-    });
-    const listContentsPasteFolder = await this.s3Client.send(
-      listCommandPasteFolder
-    );
-    const listKeysPasteFolder =
-      listContentsPasteFolder.Contents?.map((file) => {
-        if (!file.Key) {
-          throw new Error("File key is not defined");
-        }
-        return file.Key;
-      }) ?? [];
-
-    // 2. Récupérer les nouvelles clés dans la preview
-    const listCommandCopyFolder = new ListObjectsCommand({
-      Bucket: this.bucketName,
-      Prefix: copyFolder,
-    });
-    const listContentsCopyFolder = await this.s3Client.send(
-      listCommandCopyFolder
-    );
-    const listKeysCopyFolder =
-      listContentsCopyFolder.Contents?.map((file) => {
-        if (!file.Key) {
-          throw new Error("File key is not defined");
-        }
-        return file.Key;
-      }) ?? [];
-
-    // 3. Copier les clés de la preview vers le published
-    for (const key of listKeysCopyFolder) {
-      const nameFile = key.split("/").pop();
-      const copyCommand = new CopyObjectCommand({
+      // 1. Récupérer les anciennes clés dans le published
+      const listCommandPasteFolder = new ListObjectsCommand({
         Bucket: this.bucketName,
-        CopySource: `${this.bucketName}/${key}`,
-        Key: `${pasteFolder}/${nameFile}`,
-        ACL: "public-read",
-        MetadataDirective: "REPLACE",
+        Prefix: pasteFolder,
       });
-      await this.s3Client.send(copyCommand);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
+      const listContentsPasteFolder = await this.s3Client.send(
+        listCommandPasteFolder
+      );
+      const listKeysPasteFolder =
+        listContentsPasteFolder.Contents?.map((file) => {
+          if (!file.Key) {
+            throw new Error("File key is not defined");
+          }
+          return file.Key;
+        }) ?? [];
 
-    // 4. Supprimer les clés productions non présente dans le review (clean)
-    const listKeysToDelete = diff(
-      listKeysPasteFolder.map((v) => v.split("/").pop()!),
-      listKeysCopyFolder.map((v) => v.split("/").pop()!)
-    );
-    for (const key of listKeysToDelete) {
-      const deleteCommand = new DeleteObjectCommand({
+      // 2. Récupérer les nouvelles clés dans la preview
+      const listCommandCopyFolder = new ListObjectsCommand({
         Bucket: this.bucketName,
-        Key: `${pasteFolder}/${key}`,
+        Prefix: copyFolder,
       });
-      await this.s3Client.send(deleteCommand);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const listContentsCopyFolder = await this.s3Client.send(
+        listCommandCopyFolder
+      );
+      const listKeysCopyFolder =
+        listContentsCopyFolder.Contents?.map((file) => {
+          if (!file.Key) {
+            throw new Error("File key is not defined");
+          }
+          return file.Key;
+        }) ?? [];
+
+      // 3. Copier les clés de la preview vers le published
+      for (const key of listKeysCopyFolder) {
+        const nameFile = key.split("/").pop();
+        const copyCommand = new CopyObjectCommand({
+          Bucket: this.bucketName,
+          CopySource: encodeURI(`${this.bucketName}/${key}`),
+          Key: `${pasteFolder}/${nameFile}`,
+          ACL: "public-read",
+          MetadataDirective: "REPLACE",
+        });
+
+        await this.s3Client.send(copyCommand);
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
+
+      // 4. Supprimer les clés productions non présente dans le review (clean)
+      const listKeysToDelete = diff(
+        listKeysPasteFolder.map((v) => v.split("/").pop()!),
+        listKeysCopyFolder.map((v) => v.split("/").pop()!)
+      );
+      for (const key of listKeysToDelete) {
+        const deleteCommand = new DeleteObjectCommand({
+          Bucket: this.bucketName,
+          Key: `${pasteFolder}/${key}`,
+        });
+        await this.s3Client.send(deleteCommand);
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
+    } catch (error) {
+      logger.error(`Error while copying folder: ${error}`);
+      throw error;
     }
   }
 }
