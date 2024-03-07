@@ -11,6 +11,7 @@ import { inject, injectable } from "inversify";
 import { diff, name } from "../utils";
 import { Environment } from "@shared/types";
 import { logger } from "@shared/utils";
+const mime = require("mime-types");
 
 export const S3Parameters = {
   BUCKET_ACCESS_KEY: Symbol("BUCKET_ACCESS_KEY"),
@@ -151,12 +152,14 @@ export class S3Repository {
       // 3. Copier les clés de la preview vers le published
       for (const key of listKeysCopyFolder) {
         const nameFile = key.split("/").pop();
+        const mimeType = mime.lookup(key);
         const copyCommand = new CopyObjectCommand({
           Bucket: this.bucketName,
           CopySource: encodeURI(`${this.bucketName}/${key}`),
           Key: `${pasteFolder}/${nameFile}`,
           ACL: "public-read",
           MetadataDirective: "REPLACE",
+          ContentType: mimeType,
         });
 
         await this.s3Client.send(copyCommand);

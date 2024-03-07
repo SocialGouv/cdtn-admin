@@ -5,6 +5,7 @@ import {
   ListObjectsCommand,
   _Object,
 } from "@aws-sdk/client-s3";
+const mime = require("mime-types");
 
 const region = process.env.BUCKET_REGION ?? "us-east-1";
 const endpoint = process.env.BUCKET_ENDPOINT ?? "http://localhost:9000";
@@ -64,11 +65,13 @@ export const deleteApiFile = async (key: string) => {
 
 export const uploadApiFiles = async (key: string, data: Buffer) => {
   try {
+    const mimeType = mime.lookup(key);
     const command = new PutObjectCommand({
       Bucket: bucketName,
       Key: `${bucketDraftFolder}/${bucketDefaultFolder}/${key}`,
       ACL: "public-read",
       Body: data,
+      ContentType: mimeType,
     });
     return await client.send(command);
   } catch (err) {
