@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.36.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.1...v2.36.0) (2024-03-08)
+
+### Features
+
+- Linked/1291 admin cas spécifique des cc non étendues message bloc ([#1302](https://github.com/SocialGouv/cdtn-admin/issues/1302)) ([5622cc2](https://github.com/SocialGouv/cdtn-admin/commit/5622cc2f18484c0711dafabe9019ab60db2f29f8))
+
 ## [2.35.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.0...v2.35.1) (2024-03-05)
 
 **Note:** Version bump only for package export-elasticsearch
