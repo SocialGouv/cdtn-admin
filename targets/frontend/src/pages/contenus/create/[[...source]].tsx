@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { HighlightsForm } from "src/components/highlights";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
-import { PrequalifiedForm } from "src/components/prequalified";
+import { PrequalifiedForm } from "src/modules/prequalified";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { Content } from "src/types";

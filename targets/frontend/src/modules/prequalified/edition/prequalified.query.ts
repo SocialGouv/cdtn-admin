@@ -1,14 +1,22 @@
 import { useQuery } from "urql";
+import { Prequalified } from "../type";
+import { useMemo } from "react";
 
 const prequalifiedQuery = `
 query get_prequalified_by_id($id: uuid) {
     search_prequalified (where: {id: {_eq: $id}}) {
       id
+      title
       variants
-      documents {
+      documents(order_by: {order: asc}) {
+        documentId
+        prequalifiedId
+        order
         document {
           cdtnId: cdtn_id
           title
+          source
+          slug
         }
       }
     }
@@ -19,37 +27,23 @@ type QueryProps = {
   id: string;
 };
 
-type PrequalifiedDocument = {
-  cdtnId: string;
-  title: string;
-};
-
-type Prequalified = {
-  id: string;
-  variants: string[];
-  documents: {
-    document: PrequalifiedDocument;
-  }[];
-};
-
 type QueryResult = {
   search_prequalified: Prequalified[];
 };
 
-export type PrequalifiedResult = {
-  id: string;
-  variants: string[];
-  documents: PrequalifiedDocument[];
-};
-
 export const usePrequalifiedQuery = ({
   id,
-}: QueryProps): PrequalifiedResult | undefined => {
+}: QueryProps): Prequalified | undefined => {
+  const context = useMemo(
+    () => ({ additionalTypenames: ["Prequalified"] }),
+    []
+  );
   const [result] = useQuery<QueryResult>({
     query: prequalifiedQuery,
     variables: {
       id,
     },
+    context,
   });
 
   if (
@@ -59,13 +53,6 @@ export const usePrequalifiedQuery = ({
     return;
   }
   const data = result.data?.search_prequalified[0];
-  if (!data) {
-    return;
-  }
-  const { documents, ...props } = data;
 
-  return {
-    ...props,
-    documents: documents.map(({ document }) => document),
-  };
+  return data;
 };

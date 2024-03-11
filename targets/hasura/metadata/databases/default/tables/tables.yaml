@@ -17,7 +17,6 @@
 - "!include contribution_answer_other_references.yaml"
 - "!include contribution_answer_statuses.yaml"
 - "!include contribution_answers.yaml"
-- "!include contribution_prequalified.yaml"
 - "!include contribution_question_messages.yaml"
 - "!include contribution_questions.yaml"
 - "!include information_informations.yaml"

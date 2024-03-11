@@ -33,6 +33,7 @@ import { generateAgreements } from "./agreements";
 import { getGlossary } from "./documents/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
+import { fetchPrequalified } from "./prequalified/fetchPrequalified";
 
 /**
  * Find duplicate slugs
@@ -358,27 +359,34 @@ export async function cdtnDocumentsGen(
   await updateDocs(SOURCES.HIGHLIGHTS, highlightsWithContrib);
 
   logger.info("=== PreQualified Request ===");
-  const prequalified = await getDocumentBySourceWithRelation(
-    SOURCES.PREQUALIFIED,
-    getBreadcrumbs
-  );
-  const prequalifiedWithContrib = prequalified.map((prequalif) => ({
-    ...prequalif,
-    refs: prequalif.refs.map((ref) => {
-      if (!ref.description) {
-        const foundContrib = newGeneratedContributions.find(
-          (newGeneratedContribution) => {
-            return newGeneratedContribution.cdtnId === ref.cdtnId;
-          }
-        );
-        return {
-          ...ref,
-          description: foundContrib?.description,
-        };
-      }
-      return ref;
-    }),
-  }));
+  const prequalified = await fetchPrequalified();
+  const prequalifiedWithContrib =
+    prequalified?.map(({ variants, id, title, documents: refs }) => ({
+      cdtnId: id,
+      id,
+      breadcrumbs: [],
+      excludeFromSearch: true,
+      isPublished: true,
+      metaDescription: title,
+      text: title,
+      title,
+      source: SOURCES.PREQUALIFIED,
+      variants,
+      refs: refs.map(({ document }) => {
+        if (!document.description) {
+          const foundContrib = newGeneratedContributions.find(
+            (newGeneratedContribution) => {
+              return newGeneratedContribution.cdtnId === document.cdtnId;
+            }
+          );
+          return {
+            ...document,
+            description: foundContrib?.description,
+          };
+        }
+        return document;
+      }),
+    })) ?? [];
   documentsCount = {
     ...documentsCount,
     [SOURCES.PREQUALIFIED]: prequalifiedWithContrib.length,

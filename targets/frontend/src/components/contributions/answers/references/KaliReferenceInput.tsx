@@ -32,7 +32,7 @@ const KaliReferenceSearch = ({
   const [value, setValue] = useState<KaliArticle | null>(null);
 
   const [query, setQuery] = useState<string | undefined>();
-  const { data, fetching, error } = fetcher(idcc)(query);
+  const { data, fetching } = fetcher(idcc)(query);
   const [options, setOptions] = useState<readonly KaliArticle[]>([]);
 
   useEffect(() => {

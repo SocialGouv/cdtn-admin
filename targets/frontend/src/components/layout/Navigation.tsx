@@ -53,7 +53,7 @@ export function Navigation() {
           label: "À la une",
         },
         {
-          href: "/contenus?source=prequalified",
+          href: "/prequalified",
           label: "Requetes pré-qualifiées",
         },
         {

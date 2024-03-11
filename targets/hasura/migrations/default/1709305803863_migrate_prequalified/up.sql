@@ -1,14 +1,16 @@
 with _prequalified_variants as (
     select distinct cdtn_id,
+        title,
         jsonb_array_elements_text(document->'variants') as variant
     from documents
     where source = 'prequalified'
 ),
 _prequalified as (
     select distinct cdtn_id,
+        title,
         array_agg(variant) as variants
     from _prequalified_variants
-    group by cdtn_id
+    group by cdtn_id, title
     order by variants asc
 ),
 _prequalified_documents as (
@@ -19,8 +21,8 @@ _prequalified_documents as (
         inner join document_relations dr on dr.document_a = cdtn_id
 ),
 _inserted_prequalified as (
-    insert into "search".prequalified(variants)
-    select variants
+    insert into "search".prequalified(title, variants)
+    select title, variants
     from _prequalified
     returning id,
         variants

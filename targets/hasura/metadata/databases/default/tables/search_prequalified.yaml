@@ -9,3 +9,36 @@ array_relationships:
         table:
           name: prequalified_documents
           schema: search
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - id
+        - title
+        - variants
+    comment: ""
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - id
+        - title
+        - variants
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - id
+        - title
+        - variants
+      filter: {}
+      check: {}
+    comment: ""
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""
