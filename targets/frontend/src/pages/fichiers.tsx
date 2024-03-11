@@ -40,20 +40,20 @@ function FilesPage() {
   const [uploading, setUploading] = useState(false);
   const [currentClip, setCurrentClip] = useState("");
 
-  const onDeleteClick = function (file: S3File) {
+  const onDeleteClick = async function (file: S3File) {
     const confirmed = confirm(
       `Êtes-vous sûr(e) de vouloir définitivement supprimer ${file.key} ?`
     );
     if (confirmed) {
-      request(`/api/storage/${file.key}`, {
-        method: "DELETE",
-      })
-        .then(() => {
-          mutate();
-        })
-        .catch(() => {
-          alert("Impossible de supprimer le fichier :/");
+      try {
+        await request(`/api/storage/${file.key}`, {
+          method: "DELETE",
         });
+        mutate();
+      } catch (e) {
+        console.error(e);
+        alert("Impossible de supprimer le fichier :/");
+      }
     }
   };
 

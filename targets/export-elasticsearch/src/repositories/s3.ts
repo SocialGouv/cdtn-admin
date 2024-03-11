@@ -3,7 +3,7 @@ import {
   PutObjectCommand,
   CopyObjectCommand,
   ListObjectsCommand,
-  DeleteObjectCommand,
+  DeleteObjectsCommand,
 } from "@aws-sdk/client-s3";
 import axios from "axios";
 import { inject, injectable } from "inversify";
@@ -108,25 +108,25 @@ export class S3Repository {
 
   async copyFolder(environment: Environment): Promise<void> {
     try {
-      const copyFolder =
+      const sourceFolder =
         environment === "production"
           ? `${this.previewFolder}/${this.defaultFolder}`
           : `${this.draftFolder}/${this.defaultFolder}`;
-      const pasteFolder =
+      const destinationFolder =
         environment === "production"
           ? `${this.publishedFolder}/${this.defaultFolder}`
           : `${this.previewFolder}/${this.defaultFolder}`;
 
       // 1. Récupérer les anciennes clés dans le published
-      const listCommandPasteFolder = new ListObjectsCommand({
+      const listCommandDestinationFolder = new ListObjectsCommand({
         Bucket: this.bucketName,
-        Prefix: pasteFolder,
+        Prefix: destinationFolder,
       });
-      const listContentsPasteFolder = await this.s3Client.send(
-        listCommandPasteFolder
+      const listContentsDestinationFolder = await this.s3Client.send(
+        listCommandDestinationFolder
       );
-      const listKeysPasteFolder =
-        listContentsPasteFolder.Contents?.map((file) => {
+      const listKeysDestinationFolder =
+        listContentsDestinationFolder.Contents?.map((file) => {
           if (!file.Key) {
             throw new Error("File key is not defined");
           }
@@ -134,15 +134,15 @@ export class S3Repository {
         }) ?? [];
 
       // 2. Récupérer les nouvelles clés dans la preview
-      const listCommandCopyFolder = new ListObjectsCommand({
+      const listCommandSourceFolder = new ListObjectsCommand({
         Bucket: this.bucketName,
-        Prefix: copyFolder,
+        Prefix: sourceFolder,
       });
-      const listContentsCopyFolder = await this.s3Client.send(
-        listCommandCopyFolder
+      const listContentsSourceFolder = await this.s3Client.send(
+        listCommandSourceFolder
       );
-      const listKeysCopyFolder =
-        listContentsCopyFolder.Contents?.map((file) => {
+      const listKeysSourceFolder =
+        listContentsSourceFolder.Contents?.map((file) => {
           if (!file.Key) {
             throw new Error("File key is not defined");
           }
@@ -150,13 +150,13 @@ export class S3Repository {
         }) ?? [];
 
       // 3. Copier les clés de la preview vers le published
-      for (const key of listKeysCopyFolder) {
+      for (const key of listKeysSourceFolder) {
         const nameFile = key.split("/").pop();
         const mimeType = mime.lookup(key);
         const copyCommand = new CopyObjectCommand({
           Bucket: this.bucketName,
           CopySource: encodeURI(`${this.bucketName}/${key}`),
-          Key: `${pasteFolder}/${nameFile}`,
+          Key: `${destinationFolder}/${nameFile}`,
           ACL: "public-read",
           MetadataDirective: "REPLACE",
           ContentType: mimeType,
@@ -168,17 +168,20 @@ export class S3Repository {
 
       // 4. Supprimer les clés productions non présente dans le review (clean)
       const listKeysToDelete = diff(
-        listKeysPasteFolder.map((v) => v.split("/").pop()!),
-        listKeysCopyFolder.map((v) => v.split("/").pop()!)
-      );
-      for (const key of listKeysToDelete) {
-        const deleteCommand = new DeleteObjectCommand({
-          Bucket: this.bucketName,
-          Key: `${pasteFolder}/${key}`,
-        });
-        await this.s3Client.send(deleteCommand);
-        await new Promise((resolve) => setTimeout(resolve, 200));
-      }
+        listKeysDestinationFolder.map((v) => v.split("/").pop()!),
+        listKeysSourceFolder.map((v) => v.split("/").pop()!)
+      ).map((key) => {
+        return {
+          Key: `${destinationFolder}/${key}`,
+        };
+      });
+      const deleteCommand = new DeleteObjectsCommand({
+        Bucket: this.bucketName,
+        Delete: {
+          Objects: listKeysToDelete,
+        },
+      });
+      await this.s3Client.send(deleteCommand);
     } catch (error) {
       logger.error(`Error while copying folder: ${error}`);
       throw error;

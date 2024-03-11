@@ -1,5 +1,6 @@
 import Boom from "@hapi/boom";
 import { verify } from "jsonwebtoken";
+import { NextApiRequest, NextApiResponse } from "next";
 import { createErrorFor } from "src/lib/apiError";
 import { deleteApiFile } from "src/lib/upload";
 
@@ -8,7 +9,10 @@ const jwtSecret = JSON.parse(
     '{"type":"HS256","key":"a_pretty_long_secret_key_that_should_be_at_least_32_char"}'
 );
 
-export default async function deleteFiles(req: any, res: any) {
+export default async function deleteFiles(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const apiError = createErrorFor(res);
   const { jwt: token } = req.cookies;
 
@@ -20,6 +24,10 @@ export default async function deleteFiles(req: any, res: any) {
     return apiError(Boom.methodNotAllowed(`${req.method} method not allowed`));
   }
   const { path } = req.query;
+
+  if (typeof path !== "string") {
+    return apiError(Boom.badRequest("path is not a string"));
+  }
 
   await deleteApiFile(path);
 
