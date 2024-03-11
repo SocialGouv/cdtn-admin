@@ -8,8 +8,6 @@ import { Dialog } from "src/components/dialog";
 import { EditorialContentForm } from "src/components/editorialContent";
 import { HighlightsForm } from "src/components/highlights";
 import { Layout } from "src/components/layout/auth.layout";
-import { Inline } from "src/components/layout/Inline";
-import { Stack } from "src/components/layout/Stack";
 import { PrequalifiedForm } from "src/components/prequalified";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
@@ -26,12 +24,12 @@ import { useMutation, useQuery } from "urql";
 import deleteContentMutation from "./deleteContent.mutation.graphql";
 import editContentMutation from "./editContent.mutation.graphql";
 import getContentQuery from "./getContent.query.graphql";
-import Box from "@mui/material/Box";
 import { theme } from "src/theme";
 import {
   getContentRelationIds,
   mapContentRelations,
 } from "../../../lib/contenus/utils";
+import { Box, Stack } from "@mui/material";
 
 const context = { additionalTypenames: ["documents", "document_relations"] };
 
@@ -226,16 +224,18 @@ export function EditInformationPage() {
               ariaLabel="Supprimer"
             >
               <>
-                <span>Êtes-vous sûr de vouloir supprimer ce contenu ?</span>
-                <Inline>
-                  <Button onClick={onDelete}>Confirmer</Button>
+                <p>Êtes-vous sûr de vouloir supprimer ce contenu ?</p>
+                <Stack direction="row" spacing={2} mt={4} justifyContent="end">
                   <Button
                     variant="outlined"
                     onClick={() => setShowDeleteConfirmation(false)}
                   >
                     Annuler
                   </Button>
-                </Inline>
+                  <Button variant="contained" onClick={onDelete}>
+                    Confirmer
+                  </Button>
+                </Stack>
               </>
             </Dialog>
             {content?.cdtnId && (

@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.36.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.1...v2.36.0) (2024-03-08)
+
+**Note:** Version bump only for package ingester
+
+## [2.35.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.0...v2.35.1) (2024-03-05)
+
+**Note:** Version bump only for package ingester
+
+# [2.35.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.4...v2.35.0) (2024-03-04)
+
+### Bug Fixes
+
+- **MEP:** ajout des nouvelles contribs dans les liste des documents affichés dans la popup quand on lance une MEP ([#1274](https://github.com/SocialGouv/cdtn-admin/issues/1274)) ([4693535](https://github.com/SocialGouv/cdtn-admin/commit/4693535ee5248c336cf197e05287d2b00256dc48))
+
+### Features
+
+- **ingester:** garder la même url des fiches-sp et fiches-mt si le titre change ([#1294](https://github.com/SocialGouv/cdtn-admin/issues/1294)) ([040c9dd](https://github.com/SocialGouv/cdtn-admin/commit/040c9dda622b62e0b48fc31a9f7e87d99a8dc545))
+
 ## [2.34.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.3...v2.34.4) (2024-02-19)
 
 **Note:** Version bump only for package ingester

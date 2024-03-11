@@ -46,10 +46,10 @@ export default function DocumentList({
                           cdtnId: doc.cdtn_id,
                           source: doc.source,
                         })}
-                        target="_blank"
                         sx={{ fontSize: "0.8rem" }}
                       >
-                        {doc.title}
+                        {doc.title}{" "}
+                        {doc.document?.idcc && <>[{doc.document?.idcc}]</>}
                       </Link>
                       {doc.is_published ? (
                         <Check text="Publié" />

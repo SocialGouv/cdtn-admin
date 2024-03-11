@@ -182,7 +182,9 @@ export const AnswerForm = ({
 
   const agreementResponseOptions = [
     {
-      label: "La convention collective ne prévoit rien",
+      label: answer.agreement.unextended
+        ? "La convention collective est non étendue"
+        : "La convention collective ne prévoit rien",
       value: "NOTHING",
       isDisabled: isAGenericWithNoCdt,
     },
@@ -253,7 +255,7 @@ export const AnswerForm = ({
             name="contentType"
             label="Type de réponse"
             control={control}
-            disabled={isNotEditable(answer)}
+            disabled={answer.agreement.unextended || isNotEditable(answer)}
             options={[
               {
                 label: "Afficher la réponse",

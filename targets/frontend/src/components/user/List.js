@@ -3,6 +3,7 @@ import { useState } from "react";
 import {
   Alert,
   Badge,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -14,7 +15,6 @@ import { useMutation, useQuery } from "urql";
 import { Role } from "../../lib/auth/auth.const";
 import { Button, MenuButton, MenuItem } from "../button";
 import { Dialog } from "../dialog";
-import { Inline } from "../layout/Inline";
 import { Check, Cross } from "../utils/icons";
 
 const query = `
@@ -100,12 +100,14 @@ export function UserList() {
       >
         <p>Etes vous sur de vouloir supprimer l’utilisateur</p>
         <strong>{selectedUser?.email}</strong>
-        <Inline>
-          <Button onClick={onDeleteUser}>Supprimer l’utilisateur</Button>
-          <Button variant="text" onClick={close}>
+        <Stack direction="row" spacing={2} mt={4} justifyContent="end">
+          <Button variant="outlined" onClick={close}>
             Annuler
           </Button>
-        </Inline>
+          <Button variant="contained" onClick={onDeleteUser}>
+            Supprimer l’utilisateur
+          </Button>
+        </Stack>
       </Dialog>
       <Table>
         <TableHead>

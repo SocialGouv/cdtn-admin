@@ -48,6 +48,7 @@ insert_permissions:
         - root_text
         - short_name
         - synonyms
+        - unextended
         - worker_number
 select_permissions:
   - role: super
@@ -62,6 +63,7 @@ select_permissions:
         - root_text
         - short_name
         - synonyms
+        - unextended
         - updated_at
         - worker_number
       filter: {}
@@ -79,8 +81,14 @@ update_permissions:
         - root_text
         - short_name
         - synonyms
+        - unextended
         - worker_number
       filter: {}
       check: {}
       set:
         updated_at: now()
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""

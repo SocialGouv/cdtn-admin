@@ -10,11 +10,11 @@ import {
   MenuItem,
   Radio,
   Select,
+  Stack,
 } from "@mui/material";
 import { useQuery } from "urql";
 
 import { Button } from "../button";
-import { Inline } from "../layout/Inline";
 
 export const DEFAULT_ITEMS_PER_PAGE = 25;
 
@@ -71,9 +71,9 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Inline paddingTop="20px" paddingLeft="20px">
+      <Stack direction="row" spacing={2} p={2}>
         <Input
-          sx={{ flex: 1, width: "200px", marginRight: "15px" }}
+          sx={{ flex: 1, width: "100px", marginRight: "15px" }}
           {...register("q")}
           type="search"
           placeholder="Titre..."
@@ -97,13 +97,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           <IoMdSearch style={{ marginRight: "5px" }} /> Rechercher
         </Button>
         <Box sx={{ alignSelf: "flex-end", marginLeft: "20px" }}>
-          <div
-            htmlFor="itemsPerPage"
-            sx={{
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+          <div htmlFor="itemsPerPage">
             <Select
               {...register("itemsPerPage")}
               id="itemsPerPage"
@@ -118,52 +112,46 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
             </Select>
           </div>
         </Box>
-      </Inline>
-      <Inline paddingTop="20px" paddingLeft="20px" paddingBottom="10px">
-        <Inline>
+      </Stack>
+      <Stack direction="row" spacing={8} p={2}>
+        <Stack direction="row" alignItems="center" spacing={1}>
           <FormLabel>Publication :</FormLabel>
-          <div sx={{ cursor: "pointer" }}>
-            <FormControlLabel
-              value="all"
-              control={
-                <Radio
-                  {...register("published")}
-                  checked={initialValues.published === "all"}
-                  onChange={triggerUpdateUrl}
-                />
-              }
-              label="Tous"
-            />
-          </div>
-          <div sx={{ cursor: "pointer" }}>
-            <FormControlLabel
-              value="yes"
-              control={
-                <Radio
-                  {...register("published")}
-                  checked={initialValues.published === "yes"}
-                  onChange={triggerUpdateUrl}
-                />
-              }
-              label="Publié"
-            />
-          </div>
-          <div sx={{ cursor: "pointer" }}>
-            <FormControlLabel
-              value="no"
-              control={
-                <Radio
-                  {...register("published")}
-                  checked={initialValues.published === "no"}
-                  onChange={triggerUpdateUrl}
-                />
-              }
-              label="Non-publié"
-            />
-          </div>
-        </Inline>
-        <FormLabel>Status :</FormLabel>
-        <div sx={{ cursor: "pointer" }}>
+          <FormControlLabel
+            value="all"
+            control={
+              <Radio
+                {...register("published")}
+                checked={initialValues.published === "all"}
+                onChange={triggerUpdateUrl}
+              />
+            }
+            label="Tous"
+          />
+          <FormControlLabel
+            value="yes"
+            control={
+              <Radio
+                {...register("published")}
+                checked={initialValues.published === "yes"}
+                onChange={triggerUpdateUrl}
+              />
+            }
+            label="Publié"
+          />
+          <FormControlLabel
+            value="no"
+            control={
+              <Radio
+                {...register("published")}
+                checked={initialValues.published === "no"}
+                onChange={triggerUpdateUrl}
+              />
+            }
+            label="Non-publié"
+          />
+        </Stack>
+        <Stack direction="row" alignItems="center" spacing={2} mt={2}>
+          <FormLabel>Status :</FormLabel>
           <FormControlLabel
             value="all"
             control={
@@ -175,8 +163,6 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
             }
             label="Tous"
           />
-        </div>
-        <div sx={{ cursor: "pointer" }}>
           <FormControlLabel
             value="yes"
             control={
@@ -188,8 +174,6 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
             }
             label="Disponible"
           />
-        </div>
-        <div sx={{ cursor: "pointer" }}>
           <FormControlLabel
             value="no"
             control={
@@ -201,8 +185,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
             }
             label="Supprimé"
           />
-        </div>
-      </Inline>
+        </Stack>
+      </Stack>
     </form>
   );
 }

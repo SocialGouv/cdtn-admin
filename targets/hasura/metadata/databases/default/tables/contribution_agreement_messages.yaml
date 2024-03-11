@@ -1,0 +1,12 @@
+table:
+  name: agreement_messages
+  schema: contribution
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - agreement_id
+        - content
+        - id
+      filter: {}
+    comment: ""

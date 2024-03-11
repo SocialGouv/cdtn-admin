@@ -217,7 +217,7 @@ export const InformationsForm = ({
               type="button"
               variant="contained"
               color="error"
-              disabled={!onDelete}
+              disabled={!onDelete || data?.dismissalProcess}
               onClick={() => onDelete && onDelete()}
             >
               Supprimer

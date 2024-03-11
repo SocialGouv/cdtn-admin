@@ -1,12 +1,10 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useSelectionContext } from "src/pages/contenus";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 import { Button } from "../button";
 import { Dialog } from "../dialog";
-import { Inline } from "../layout/Inline";
-import { Stack } from "../layout/Stack";
 
 export function DocumentsListActions({ onUpdatePublication }) {
   const [selectedItems] = useSelectionContext();
@@ -28,21 +26,18 @@ export function DocumentsListActions({ onUpdatePublication }) {
         aria-label="Modifier le statut de publication"
       >
         <Stack>
-          <Stack>
-            <p>
-              Êtes vous sûr de vouloir modifier la publication des
-              contenus&nbsp;?
-            </p>
-            <Recap publications={selectedItems} />
-          </Stack>
-          <Inline>
-            <Button onClick={updatePublication} size="small">
-              Modifier la publication des contenus
-            </Button>
-            <Button variant="text" onClick={closePublishDialog} size="small">
+          <p>
+            Êtes vous sûr de vouloir modifier la publication des contenus&nbsp;?
+          </p>
+          <Recap publications={selectedItems} />
+          <Stack direction="row" spacing={2} mt={4} justifyContent="end">
+            <Button variant="outlined" onClick={closePublishDialog}>
               Annuler
             </Button>
-          </Inline>
+            <Button variant="contained" onClick={updatePublication}>
+              Modifier la publication des contenus
+            </Button>
+          </Stack>
         </Stack>
       </Dialog>
       <Button
@@ -58,9 +53,11 @@ export function DocumentsListActions({ onUpdatePublication }) {
     </Box>
   );
 }
+
 DocumentsListActions.propTypes = {
   onUpdatePublication: PropTypes.func.isRequired,
 };
+
 function Recap({ publications }) {
   const items = Object.entries(publications).reduce(
     (state, [, published]) => {

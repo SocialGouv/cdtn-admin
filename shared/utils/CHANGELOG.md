@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.36.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.1...v2.36.0) (2024-03-08)
+
+**Note:** Version bump only for package @shared/utils
+
+## [2.35.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.0...v2.35.1) (2024-03-05)
+
+**Note:** Version bump only for package @shared/utils
+
+# [2.35.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.4...v2.35.0) (2024-03-04)
+
+### Bug Fixes
+
+- **export:** affichage du nombre de documents mis à jour ([#1295](https://github.com/SocialGouv/cdtn-admin/issues/1295)) ([684db49](https://github.com/SocialGouv/cdtn-admin/commit/684db49b2a6022e8747156ab60a06d14e1121988))
+
 ## [2.34.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.3...v2.34.4) (2024-02-19)
 
 **Note:** Version bump only for package @shared/utils
