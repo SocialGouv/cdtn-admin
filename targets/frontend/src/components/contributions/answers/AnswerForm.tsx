@@ -317,7 +317,6 @@ export const AnswerForm = ({
         {!submitting && (
           <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
             <Button
-              variant="outlined"
               type="button"
               onClick={() => submit("REDACTING")}
               disabled={status === "TODO" || status === "REDACTING"}
