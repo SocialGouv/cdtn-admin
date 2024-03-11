@@ -1,19 +1,18 @@
 import formidable from "formidable";
 import fs from "fs";
 
+export const ALLOWED_PNG = [".png"];
+export const ALLOWED_JPG = [".jpg", ".jpeg"];
+export const ALLOWED_SVG = [".svg"];
+export const ALLOWED_PDF = [".pdf"];
+export const ALLOWED_DOC = [".doc", ".docx"];
+
 const ALLOWED_EXTENSIONS = [
-  "pdf",
-  "doc",
-  "docx",
-  "gif",
-  "png",
-  "jpg",
-  "jpeg",
-  "svg",
-  "xls",
-  "xlsx",
-  "ods",
-  "odt",
+  ...ALLOWED_PNG,
+  ...ALLOWED_JPG,
+  ...ALLOWED_SVG,
+  ...ALLOWED_PDF,
+  ...ALLOWED_DOC,
 ];
 
 const isAllowedFile = (file: formidable.File) => {
