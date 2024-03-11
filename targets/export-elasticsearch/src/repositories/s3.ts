@@ -163,7 +163,6 @@ export class S3Repository {
         });
 
         await this.s3Client.send(copyCommand);
-        await new Promise((resolve) => setTimeout(resolve, 200));
       }
 
       // 4. Supprimer les clés productions non présente dans le review (clean)
