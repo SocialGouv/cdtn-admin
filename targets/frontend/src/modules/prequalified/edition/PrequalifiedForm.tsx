@@ -100,7 +100,9 @@ export const PrequalifiedForm = ({
           label="Rechercher"
           name="documents"
           control={control}
-          append={append}
+          append={(value) => {
+            append(value as any);
+          }}
           renderForm={() => (
             <>
               {fields.map(({ document }, index) => (
