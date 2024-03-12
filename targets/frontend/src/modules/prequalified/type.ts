@@ -7,7 +7,6 @@ export const prequalifiedSchema = z.object({
   variants: z.array(z.string()),
   documents: z.array(
     z.object({
-      prequalifiedId: z.string(),
       documentId: z.string(),
       order: z.number(),
       document: documentSchema.optional(),

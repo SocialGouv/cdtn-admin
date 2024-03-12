@@ -27,9 +27,8 @@ const mapPrequalified = (data: Prequalified): Prequalified => {
     id: data.id,
     title: data.title,
     variants: data.variants,
-    documents: data.documents.map(({ documentId, prequalifiedId }, order) => ({
+    documents: data.documents.map(({ documentId }, order) => ({
       documentId,
-      prequalifiedId,
       order,
     })),
   };
