@@ -16,7 +16,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 type PrequalifiedFormParams = {
   data?: Prequalified;
   onSubmit: (data: Prequalified) => Promise<void>;
-  onDelete: () => Promise<void>;
+  onDelete?: () => Promise<void>;
 };
 
 export const PrequalifiedForm = ({
@@ -155,7 +155,9 @@ export const PrequalifiedForm = ({
               variant="text"
               color="error"
               type="button"
-              onClick={() => onDelete()}
+              onClick={() => {
+                if (onDelete) onDelete();
+              }}
             >
               Supprimer
             </Button>
