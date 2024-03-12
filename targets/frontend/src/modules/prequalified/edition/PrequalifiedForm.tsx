@@ -101,13 +101,11 @@ export const PrequalifiedForm = ({
           name="documents"
           control={control}
           append={(value) => {
-            if (data?.id) {
-              append({
-                documentId: value.document.cdtnId,
-                order: fields.length,
-                ...value,
-              });
-            }
+            append({
+              documentId: value.document.cdtnId,
+              order: fields.length,
+              ...value,
+            });
           }}
           renderForm={() => (
             <>
