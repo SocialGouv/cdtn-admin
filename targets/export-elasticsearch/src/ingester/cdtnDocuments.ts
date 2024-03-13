@@ -32,7 +32,9 @@ import { generateAgreements } from "./agreements";
 import { getGlossary } from "./common/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
-import { generateInformations } from "./informations/generate";
+import { generateEditorialContents } from "./informations/generate";
+import { populateRelatedDocuments } from "./common/populateRelatedDocuments";
+import { mergeRelatedDocumentsToEditorialContents } from "./informations/mergeRelatedDocumentsToEditorialContents";
 
 /**
  * Find duplicate slugs
@@ -80,7 +82,10 @@ export async function cdtnDocumentsGen(
     SOURCES.EDITORIAL_CONTENT,
     getBreadcrumbs
   );
-  const editorialContents = await generateInformations(documents, addGlossary);
+  const {
+    documents: editorialContents,
+    relatedIdsDocuments: relatedIdsEditorialDocuments,
+  } = await generateEditorialContents(documents, addGlossary);
   documentsCount = {
     ...documentsCount,
     [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
@@ -404,21 +409,30 @@ export async function cdtnDocumentsGen(
   };
   await updateDocs(SOURCES.CDT, cdtDoc);
 
-  const editorialContentsAugmented = populateRelatedDocuments(
+  logger.info("=== Merge Related Documents ===");
+  const allDocuments = [
+    ...editorialContents,
+    ...modelesDeCourriers,
+    ...tools,
+    ...externalTools,
+    ...dossiers,
+    ...generatedContributions,
+    ...agreementsDocs,
+    ...fichesSp,
+    ...fichesMTWithGlossary,
+    ...splittedFichesMt,
+    ...highlightsWithContrib,
+    ...cdtDoc,
+  ];
+
+  const relatedDocuments = populateRelatedDocuments(
+    allDocuments,
+    relatedIdsEditorialDocuments
+  );
+
+  const editorialContentsAugmented = mergeRelatedDocumentsToEditorialContents(
     editorialContents,
-    modelesDeCourriers,
-    tools,
-    externalTools,
-    dossiers,
-    generatedContributions,
-    agreementsDocs,
-    fichesSp,
-    fichesMTWithGlossary,
-    splittedFichesMt,
-    themesDoc,
-    highlightsWithContrib,
-    prequalifiedWithContrib,
-    cdtDoc
+    relatedDocuments
   );
   await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContentsAugmented);
 

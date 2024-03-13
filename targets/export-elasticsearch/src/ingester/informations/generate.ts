@@ -1,24 +1,20 @@
 import { DocumentElasticWithSource, EditorialContentDoc } from "@shared/types";
 import { markdownTransform } from "./markdown";
-import { getContentBlockIds } from "./getContentBlockIds";
+import { getRelatedIdsDocuments } from "./getRelatedIdsDocuments";
 
-export const generateInformations = async (
+interface Return {
+  documents: DocumentElasticWithSource<EditorialContentDoc>[];
+  relatedIdsDocuments: string[];
+}
+
+export const generateEditorialContents = (
   documents: DocumentElasticWithSource<EditorialContentDoc>[],
   addGlossary: (valueInHtml: string) => string
-) => {
+): Return => {
   const documentsMarkdownified = markdownTransform(addGlossary, documents);
-  const docsToExport: DocumentElasticWithSource<EditorialContentDoc>[] = [];
-
-  for (const document of documentsMarkdownified) {
-    if (document.contents) {
-      const cdtnIdsToFetch = getContentBlockIds(document.contents);
-
-      docsToExport.push({
-        ...document,
-        relatedIdsDocuments: cdtnIdsToFetch,
-      });
-    }
-  }
-
-  return documentsMarkdownified;
+  const relatedIdsDocuments = getRelatedIdsDocuments(documentsMarkdownified);
+  return {
+    documents: documentsMarkdownified,
+    relatedIdsDocuments,
+  };
 };
