@@ -17,7 +17,7 @@ import { buildThemes } from "./buildThemes";
 import {
   getDocumentBySource,
   getDocumentBySourceWithRelation,
-} from "./documents/fetchCdtnAdminDocuments";
+} from "./common/fetchCdtnAdminDocuments";
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
 import { keyFunctionParser } from "./utils";
@@ -29,7 +29,7 @@ import {
   isOldContribution,
 } from "./contributions";
 import { generateAgreements } from "./agreements";
-import { getGlossary } from "./documents/fetchGlossary";
+import { getGlossary } from "./common/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
 import { generateInformations } from "./informations/generate";
@@ -404,7 +404,7 @@ export async function cdtnDocumentsGen(
   };
   await updateDocs(SOURCES.CDT, cdtDoc);
 
-  const editorialContentsAugmented = generateInformationsCdtnDocuments(
+  const editorialContentsAugmented = populateRelatedDocuments(
     editorialContents,
     modelesDeCourriers,
     tools,
