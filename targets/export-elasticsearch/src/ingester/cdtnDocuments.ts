@@ -20,7 +20,6 @@ import {
 } from "./documents/fetchCdtnAdminDocuments";
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
-import { markdownTransform } from "./markdown";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
@@ -33,6 +32,7 @@ import { generateAgreements } from "./agreements";
 import { getGlossary } from "./documents/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
+import { generateInformations } from "./informations/generate";
 
 /**
  * Find duplicate slugs
@@ -80,12 +80,11 @@ export async function cdtnDocumentsGen(
     SOURCES.EDITORIAL_CONTENT,
     getBreadcrumbs
   );
-  const editorialContents = markdownTransform(addGlossary, documents);
+  const editorialContents = await generateInformations(documents, addGlossary);
   documentsCount = {
     ...documentsCount,
     [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
   };
-  await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContents);
 
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
@@ -404,6 +403,24 @@ export async function cdtnDocumentsGen(
     [SOURCES.CDT]: cdtDoc.length,
   };
   await updateDocs(SOURCES.CDT, cdtDoc);
+
+  const editorialContentsAugmented = generateInformationsCdtnDocuments(
+    editorialContents,
+    modelesDeCourriers,
+    tools,
+    externalTools,
+    dossiers,
+    generatedContributions,
+    agreementsDocs,
+    fichesSp,
+    fichesMTWithGlossary,
+    splittedFichesMt,
+    themesDoc,
+    highlightsWithContrib,
+    prequalifiedWithContrib,
+    cdtDoc
+  );
+  await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContentsAugmented);
 
   logger.info("=== data version ===");
   await updateDocs(SOURCES.VERSIONS, [

@@ -5,7 +5,7 @@ import markdownToMardownAst from "remark-parse";
 import markdownAstToHtmlAst from "remark-rehype";
 import unified from "unified";
 
-import type { AddGlossaryReturnFn } from "./glossary";
+import type { AddGlossaryReturnFn } from "../glossary";
 
 const htmlProcessor = unified()
   .use(markdownToMardownAst as any)

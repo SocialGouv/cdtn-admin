@@ -14,7 +14,9 @@ export class CopyContainerService {
   ) {}
 
   async runCopy(environment: Environment): Promise<void> {
-    logger.info(`Preparing to copy folder to ${environment}`);
+    logger.info(
+      `Preparing to copy folder for this environment : ${environment}`
+    );
     await this.repo.copyFolder(environment);
     logger.info(`Folder has been copied 🚀`);
   }
