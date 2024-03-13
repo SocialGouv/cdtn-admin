@@ -101,7 +101,7 @@ Frontend is reachable at the address <http://localhost:3001>
 
 ## export-elasticsearch
 
-This service exposes an API which handle to trigger the export of the data from Postgres to Elasticsearch. Then, copy sitemap.xml from a container azure to an other container azure. To finish, it copies a container azure to an other container azure.
+This service exposes an API which handle to trigger the export of the data from Postgres to Elasticsearch.
 
 ### Running an export
 
@@ -149,18 +149,20 @@ docker-compose exec -T postgres psql \
 #### 4. Run the other containers
 
 ```sh
-docker-compose up -d hasura azurite elasticsearch
+docker-compose up -d hasura minio elasticsearch createbuckets
 ```
 
 #### 5. Run ingester in development mode
 
 ```sh
-GLOSSARY_PREPROD_DISABLE=true DISABLE_LIMIT_EXPORT=true DISABLE_SITEMAP=true DISABLE_COPY=true NLP_URL=https://serving-ml-preprod.dev.fabrique.social.gouv.fr HASURA_GRAPHQL_ENDPOINT="http://localhost:8080/v1/graphql" HASURA_GRAPHQL_ADMIN_SECRET="admin1" ELASTICSEARCH_URL_PREPROD="http://localhost:9200" ELASTICSEARCH_URL_PROD="http://localhost:9200" AZ_ACCOUNT_KEY_FROM="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" AZ_ACCOUNT_NAME_FROM="devstoreaccount1" AZ_URL_FROM="http://localhost:10000/devstoreaccount1" AZ_ACCOUNT_KEY_TO="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" AZ_ACCOUNT_NAME_TO="devstoreaccount1" AZ_URL_TO="http://localhost:10000/devstoreaccount1" SITEMAP_DESTINATION_CONTAINER="sitemap" SITEMAP_DESTINATION_NAME="sitemap.xml" SITEMAP_ENDPOINT="http://localhost:3001/api/sitemap" CDTN_ADMIN_ENDPOINT="http://localhost:8080/v1/graphql" SOURCE_CONTAINER_COPY="sitemap" DESTINATION_CONTAINER_COPY="testcopy" ELASTICSEARCH_INDEX_PREPROD="cdtn-v2" ELASTICSEARCH_INDEX_PROD="cdtn-v2" FETCH_PAGE_SIZE=1000 FETCH_JOB_CONCURRENCY=5 yarn workspace export-elasticsearch dev
+GLOSSARY_PREPROD_DISABLE=true DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true DISABLE_SITEMAP=true  NLP_URL=https://serving-ml-preprod.dev.fabrique.social.gouv.fr HASURA_GRAPHQL_ENDPOINT="http://localhost:8080/v1/graphql" HASURA_GRAPHQL_ADMIN_SECRET="admin1" ELASTICSEARCH_URL_PREPROD="http://localhost:9200" ELASTICSEARCH_URL_PROD="http://localhost:9200" SITEMAP_DESTINATION_FOLDER="sitemap" SITEMAP_NAME="sitemap.xml" SITEMAP_ENDPOINT="http://localhost:3001/api/sitemap" AGREEMENTS_DESTINATION_FOLDER="agreements" AGREEMENTS_DESTINATION_NAME="index.json" BUCKET_DEFAULT_FOLDER="default" BUCKET_DRAFT_FOLDER="draft" BUCKET_PUBLISHED_FOLDER= BUCKET_PREVIEW_FOLDER="preview" BUCKET_ACCESS_KEY="MINIO_ACCESS_KEY" BUCKET_ENDPOINT=http://localhost:9000 BUCKET_NAME="cdtn" BUCKET_SECRET_KEY="MINIO_SECRET_KEY" BUCKET_REGION="us-east-1" CDTN_ADMIN_ENDPOINT="http://localhost:8080/v1/graphql" DESTINATION_CONTAINER_COPY="testcopy" ELASTICSEARCH_INDEX_PREPROD="cdtn-v2" ELASTICSEARCH_INDEX_PROD="cdtn-v2" FETCH_PAGE_SIZE=1000 FETCH_JOB_CONCURRENCY=5 yarn workspace export-elasticsearch dev
 ```
 
 - `DISABLE_LIMIT_EXPORT` is used to disable the limit to run two export in less than one hour
+- `DISABLE_INGESTER` is used to disable the copy from postgres to elasticsearch
 - `DISABLE_COPY` is used to disable copy between two containers
 - `DISABLE_SITEMAP` is used to disable copy of the sitemap
+- `DISABLE_AGREEMENTS` is used to disable copy of the agreements
 - `GLOSSARY_PREPROD_DISABLE` is used to disable glossary to gain time.
 
 > **Note**: You can remove `NLP_URL` from your environment variables if you don't want to use the NLP service and gain time during the process of ingester elasticsearch.

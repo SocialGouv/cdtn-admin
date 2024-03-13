@@ -42,6 +42,17 @@ mutation insert_documents($documents: [documents_insert_input!]!) {
 }
 `;
 
+const insertDocumentsWithoutSlugMutation = `
+mutation insert_documents($documents: [documents_insert_input!]!) {
+  documents: insert_documents(objects: $documents, on_conflict: {
+    constraint: documents_pkey,
+    update_columns: [title, source, text, document, is_available, is_searchable]
+  }) {
+   returning {cdtn_id}
+  }
+}
+`;
+
 const updatePublishStatusDocumentsMutation = `
 mutation update_published_status_documents($updates: [documents_updates!]!) {
   update_documents_many(updates: $updates) {
@@ -91,24 +102,32 @@ export async function getLastIngestedVersion(pkgName: string) {
   }
 }
 
-export async function insertDocuments(docs: ingester.CdtnDocument[]) {
+export async function insertDocuments(
+  docs: ingester.CdtnDocument[],
+  disableSlugUpdate?: boolean
+) {
   const result = await gqlClient()
-    .mutation<InsertdocumentResult>(insertDocumentsMutation, {
-      documents: docs.map(
-        ({ id, text, title, slug, is_searchable, source, ...document }) => ({
-          cdtn_id: generateCdtnId(`${source}${id}`),
-          document,
-          initial_id: id,
-          is_available: true,
-          is_searchable,
-          meta_description: document.description || "",
-          slug,
-          source,
-          text,
-          title,
-        })
-      ),
-    })
+    .mutation<InsertdocumentResult>(
+      disableSlugUpdate
+        ? insertDocumentsWithoutSlugMutation
+        : insertDocumentsMutation,
+      {
+        documents: docs.map(
+          ({ id, text, title, slug, is_searchable, source, ...document }) => ({
+            cdtn_id: generateCdtnId(`${source}${id}`),
+            document,
+            initial_id: id,
+            is_available: true,
+            is_searchable,
+            meta_description: document.description || "",
+            slug,
+            source,
+            text,
+            title,
+          })
+        ),
+      }
+    )
     .toPromise();
 
   if (result.error) {

@@ -1,17 +1,14 @@
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
-import { Inline } from "src/components/layout/Inline";
-import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
 import { useMutation, useQuery } from "urql";
-import { Card } from "@mui/material";
+import { Card, Stack } from "@mui/material";
 
 import getDocumentQuery from "./getDocument.query.graphql";
 import updateDocumentMutation from "./updateDocument.mutation.graphql";
@@ -102,10 +99,8 @@ export function DocumentPage() {
           <Card>
             <CodeEditor value={jsonData} onChange={handleEditorChange} />
           </Card>
-          <Inline>
-            <Button type="submit" disabled={!hasChanged}>
-              Enregistrer
-            </Button>
+
+          <Stack direction="row" spacing={2} mt={4} justifyContent="end">
             <Link
               href="/contenus"
               passHref
@@ -117,7 +112,10 @@ export function DocumentPage() {
             >
               Retour
             </Link>
-          </Inline>
+            <Button variant="contained" type="submit" disabled={!hasChanged}>
+              Enregistrer
+            </Button>
+          </Stack>
         </Stack>
       </form>
     </Layout>

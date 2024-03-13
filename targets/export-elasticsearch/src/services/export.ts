@@ -12,6 +12,7 @@ import {
 } from "../workers";
 import { CopyContainerService } from "./copy";
 import { SitemapService } from "./sitemap";
+import { AgreementsService } from "./agreements";
 
 @injectable()
 @name("ExportService")
@@ -22,7 +23,9 @@ export class ExportService {
     @inject(getName(SitemapService))
     private readonly sitemapService: SitemapService,
     @inject(getName(CopyContainerService))
-    private readonly copyContainerService: CopyContainerService
+    private readonly copyContainerService: CopyContainerService,
+    @inject(getName(AgreementsService))
+    private readonly exportAgreementsService: AgreementsService
   ) {}
 
   async runExport(
@@ -50,33 +53,36 @@ export class ExportService {
         if (!process.env.DISABLE_INGESTER) {
           if (environment === Environment.preproduction) {
             await sendMattermostMessage(
-              `La mise à jour de la préproduction a été lancée par ${exportEs.user?.name}. 😎`,
+              `**Préproduction:** mise à jour lancée par *${exportEs.user?.name}* 😎`,
               process.env.MATTERMOST_CHANNEL_EXPORT
             );
             await runWorkerIngesterPreproduction();
             const exportEsDone = await await this.exportRepository.getOne(id);
             await sendMattermostMessage(
-              `La mise à jour de la préproduction s'est terminée avec ${exportEsDone.documentsCount?.total} documents mis à jour. 😁`,
+              `**Préproduction:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 😁`,
               process.env.MATTERMOST_CHANNEL_EXPORT
             );
           } else {
             await sendMattermostMessage(
-              `La mise à jour de la production a été lancée par ${exportEs.user?.name}. 🚀`,
+              `**Production:** mise à jour lancée par *${exportEs.user?.name}* 🚀`,
               process.env.MATTERMOST_CHANNEL_EXPORT
             );
             await runWorkerIngesterProduction();
             const exportEsDone = await this.exportRepository.getOne(id);
             await sendMattermostMessage(
-              `La mise à jour de la production s'est terminée avec ${exportEsDone.documentsCount?.total} documents mis à jour. 🎉`,
+              `**Production:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`,
               process.env.MATTERMOST_CHANNEL_EXPORT
             );
           }
         }
         if (!process.env.DISABLE_SITEMAP) {
-          await this.sitemapService.uploadSitemap();
+          await this.sitemapService.uploadSitemap(environment);
+        }
+        if (!process.env.DISABLE_AGREEMENTS) {
+          await this.exportAgreementsService.uploadAgreements(environment);
         }
         if (!process.env.DISABLE_COPY) {
-          await this.copyContainerService.runCopy();
+          await this.copyContainerService.runCopy(environment);
         }
         return await this.exportRepository.updateOne(
           id,

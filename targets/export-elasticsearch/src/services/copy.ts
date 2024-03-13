@@ -1,24 +1,23 @@
 import { inject, injectable } from "inversify";
 
-import { AzureRepository } from "../repositories";
+import { S3Repository } from "../repositories";
 import { getName, name } from "../utils";
+import { Environment } from "@shared/types";
+import { logger } from "@shared/utils";
 
 @injectable()
 @name("CopyContainerService")
 export class CopyContainerService {
   constructor(
-    @inject(getName(AzureRepository))
-    private readonly repo: AzureRepository
+    @inject(getName(S3Repository))
+    private readonly repo: S3Repository
   ) {}
 
-  async runCopy(
-    sourceContainerName = process.env.SOURCE_CONTAINER_COPY ?? "",
-    destinationContainerName = process.env.DESTINATION_CONTAINER_COPY ?? ""
-  ): Promise<void> {
-    await this.repo.copyBucket(sourceContainerName, destinationContainerName);
-    await this.repo.setSamePolicy(
-      sourceContainerName,
-      destinationContainerName
+  async runCopy(environment: Environment): Promise<void> {
+    logger.info(
+      `Preparing to copy folder for this environment : ${environment}`
     );
+    await this.repo.copyFolder(environment);
+    logger.info(`Folder has been copied 🚀`);
   }
 }

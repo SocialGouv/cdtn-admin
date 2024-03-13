@@ -8,52 +8,54 @@ import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
 
 import { ExportEsRunMiddleware } from "./controllers/middlewares";
-import {
-  AzureParameters,
-  AzureRepository,
-  ExportRepository,
-} from "./repositories";
+import { S3Parameters, S3Repository, ExportRepository } from "./repositories";
 import {
   CopyContainerService,
   ExportService,
   SitemapService,
 } from "./services";
 import { getName } from "./utils";
+import { AgreementsService } from "./services/agreements";
+import { AgreementsRepository } from "./repositories/agreements";
 
 // set up container
 export const rootContainer = new Container();
 /* REPOSITORIES */
-rootContainer
-  .bind<AzureRepository>(getName(AzureRepository))
-  .to(AzureRepository);
+rootContainer.bind<S3Repository>(getName(S3Repository)).to(S3Repository);
 /* PARAMETERS OF CONTAINER */
 rootContainer
-  .bind<string>(AzureParameters.ACCOUNT_KEY_FROM)
-  .toConstantValue(process.env.AZ_ACCOUNT_KEY_FROM ?? "");
+  .bind<string>(S3Parameters.BUCKET_ACCESS_KEY)
+  .toConstantValue(process.env.BUCKET_ACCESS_KEY ?? "");
 rootContainer
-  .bind<string>(AzureParameters.ACCOUNT_NAME_FROM)
-  .toConstantValue(process.env.AZ_ACCOUNT_NAME_FROM ?? "");
+  .bind<string>(S3Parameters.BUCKET_ENDPOINT)
+  .toConstantValue(process.env.BUCKET_ENDPOINT ?? "");
 rootContainer
-  .bind<string>(AzureParameters.BUCKET_URL_FROM)
-  .toConstantValue(
-    process.env.AZ_URL_FROM ??
-      `https://${process.env.AZ_ACCOUNT_NAME_FROM}.blob.core.windows.net`
-  );
+  .bind<string>(S3Parameters.BUCKET_NAME)
+  .toConstantValue(process.env.BUCKET_NAME ?? "");
 rootContainer
-  .bind<string>(AzureParameters.ACCOUNT_KEY_TO)
-  .toConstantValue(process.env.AZ_ACCOUNT_KEY_TO ?? "");
+  .bind<string>(S3Parameters.BUCKET_REGION)
+  .toConstantValue(process.env.BUCKET_REGION ?? "us-east-1");
 rootContainer
-  .bind<string>(AzureParameters.ACCOUNT_NAME_TO)
-  .toConstantValue(process.env.AZ_ACCOUNT_NAME_TO ?? "");
+  .bind<string>(S3Parameters.BUCKET_SECRET_KEY)
+  .toConstantValue(process.env.BUCKET_SECRET_KEY ?? "");
 rootContainer
-  .bind<string>(AzureParameters.BUCKET_URL_TO)
-  .toConstantValue(
-    process.env.AZ_URL_TO ??
-      `https://${process.env.AZ_ACCOUNT_NAME_TO}.blob.core.windows.net`
-  );
+  .bind<string>(S3Parameters.BUCKET_DRAFT_FOLDER)
+  .toConstantValue(process.env.BUCKET_DRAFT_FOLDER ?? `draft`);
+rootContainer
+  .bind<string>(S3Parameters.BUCKET_PUBLISHED_FOLDER)
+  .toConstantValue(process.env.BUCKET_PUBLISHED_FOLDER ?? `published`);
+rootContainer
+  .bind<string>(S3Parameters.BUCKET_PREVIEW_FOLDER)
+  .toConstantValue(process.env.BUCKET_PREVIEW_FOLDER ?? `preview`);
+rootContainer
+  .bind<string>(S3Parameters.BUCKET_DEFAULT_FOLDER)
+  .toConstantValue(process.env.BUCKET_DEFAULT_FOLDER ?? `default`);
 rootContainer
   .bind<ExportRepository>(getName(ExportRepository))
   .to(ExportRepository);
+rootContainer
+  .bind<AgreementsRepository>(getName(AgreementsRepository))
+  .to(AgreementsRepository);
 /* MIDDLEWARE */
 rootContainer
   .bind<ExportEsRunMiddleware>(getName(ExportEsRunMiddleware))
@@ -61,6 +63,9 @@ rootContainer
 /* SERVICES */
 rootContainer.bind<ExportService>(getName(ExportService)).to(ExportService);
 rootContainer.bind<SitemapService>(getName(SitemapService)).to(SitemapService);
+rootContainer
+  .bind<AgreementsService>(getName(AgreementsService))
+  .to(AgreementsService);
 rootContainer
   .bind<CopyContainerService>(getName(CopyContainerService))
   .to(CopyContainerService);

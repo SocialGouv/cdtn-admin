@@ -155,7 +155,6 @@ export class DocumentsService {
           ),
         description: data.description,
         filename: data.file.url,
-        fileUrl: `https://cdtn.azure.com/${data.file.url}`,
         filesize: parseInt(data.file.size ?? "0"),
         html: data.previewHTML,
       },

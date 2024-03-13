@@ -12,6 +12,7 @@ export const agreementSchema = z.object({
   id: z.string(),
   name: z.string(),
   kaliId: z.string(),
+  unextended: z.boolean(),
 });
 export type Agreement = z.infer<typeof agreementSchema>;
 

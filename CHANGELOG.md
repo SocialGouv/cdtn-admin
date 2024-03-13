@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.0...v2.37.1) (2024-03-13)
+
+### Bug Fixes
+
+- **s3:** correction de la suppression des fichiers + ajout de logs ([#1318](https://github.com/SocialGouv/cdtn-admin/issues/1318)) ([1ba6137](https://github.com/SocialGouv/cdtn-admin/commit/1ba6137a45f7fab619c1fce220b358b77ae0d04b))
+
+# [2.37.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.36.0...v2.37.0) (2024-03-13)
+
+### Features
+
+- **upload:** migration de l'upload `azure` vers `s3` ([#1309](https://github.com/SocialGouv/cdtn-admin/issues/1309)) ([c0c2a18](https://github.com/SocialGouv/cdtn-admin/commit/c0c2a18051978f3be859e1610658617296db3a28))
+
+# [2.36.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.1...v2.36.0) (2024-03-08)
+
+### Features
+
+- Linked/1291 admin cas spécifique des cc non étendues message bloc ([#1302](https://github.com/SocialGouv/cdtn-admin/issues/1302)) ([5622cc2](https://github.com/SocialGouv/cdtn-admin/commit/5622cc2f18484c0711dafabe9019ab60db2f29f8))
+
+## [2.35.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.0...v2.35.1) (2024-03-05)
+
+### Features
+
+- **contribution:** livraison du lot 4 ([#1311](https://github.com/SocialGouv/cdtn-admin/issues/1311)) ([0bd7f49](https://github.com/SocialGouv/cdtn-admin/commit/0bd7f49d3368d0c8b8aa53a315c1559378430750))
+
+# [2.35.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.4...v2.35.0) (2024-03-04)
+
+### Bug Fixes
+
+- **export:** affichage du nombre de documents mis à jour ([#1295](https://github.com/SocialGouv/cdtn-admin/issues/1295)) ([684db49](https://github.com/SocialGouv/cdtn-admin/commit/684db49b2a6022e8747156ab60a06d14e1121988))
+- **export:** améliorer un message d'erreur lors de l'export des contributions ([#1304](https://github.com/SocialGouv/cdtn-admin/issues/1304)) ([a066a9b](https://github.com/SocialGouv/cdtn-admin/commit/a066a9bce023e3b56dad718bcfd05f71bc38f566))
+- **information:** supprimer le document associé au contenu ([#1307](https://github.com/SocialGouv/cdtn-admin/issues/1307)) ([4914239](https://github.com/SocialGouv/cdtn-admin/commit/49142399063e15d61f09cf8c5b32dc9fdc61ef37))
+- **MEP:** ajout des nouvelles contribs dans les liste des documents affichés dans la popup quand on lance une MEP ([#1274](https://github.com/SocialGouv/cdtn-admin/issues/1274)) ([4693535](https://github.com/SocialGouv/cdtn-admin/commit/4693535ee5248c336cf197e05287d2b00256dc48))
+- **refacto:** remove un-needed frontend component Inline ([#1299](https://github.com/SocialGouv/cdtn-admin/issues/1299)) ([cd6ed47](https://github.com/SocialGouv/cdtn-admin/commit/cd6ed4731fc864bc1feda59518041056ee7e7739))
+
+### Features
+
+- **agreements:** export des conventions collectives sur azure ([#1280](https://github.com/SocialGouv/cdtn-admin/issues/1280)) ([4a092d8](https://github.com/SocialGouv/cdtn-admin/commit/4a092d85513b0df83b057b384a44059cced4d793))
+- **agreement:** supprimer une convention collective ([#1306](https://github.com/SocialGouv/cdtn-admin/issues/1306)) ([43e5981](https://github.com/SocialGouv/cdtn-admin/commit/43e59815501414d0f7218d34a64ed4aaeaf4e6b7))
+- implementation message cc non etendue ([#1300](https://github.com/SocialGouv/cdtn-admin/issues/1300)) ([b419f18](https://github.com/SocialGouv/cdtn-admin/commit/b419f1865fefe3c1603675e938a46843622964ac)), closes [#1305](https://github.com/SocialGouv/cdtn-admin/issues/1305)
+- **ingester:** garder la même url des fiches-sp et fiches-mt si le titre change ([#1294](https://github.com/SocialGouv/cdtn-admin/issues/1294)) ([040c9dd](https://github.com/SocialGouv/cdtn-admin/commit/040c9dda622b62e0b48fc31a9f7e87d99a8dc545))
+
 ## [2.34.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.3...v2.34.4) (2024-02-19)
 
 ### Bug Fixes

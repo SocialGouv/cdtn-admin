@@ -6,6 +6,7 @@ import Dropzone from "react-dropzone";
 import { TitleBox } from "src/components/forms/TitleBox";
 import { Chip, FormControl, FormHelperText, Typography } from "@mui/material";
 import { styled } from "@mui/system";
+import { ALLOWED_DOC } from "src/lib/secu";
 
 export type DropzoneFile = File & {
   path: string;
@@ -42,7 +43,7 @@ export const FormFileField = ({
               <Dropzone
                 accept={{
                   "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                    [".docx"],
+                    ALLOWED_DOC,
                 }}
                 noClick
                 onDrop={(acceptedFiles) => {

@@ -1,15 +1,15 @@
 import { OperationResult, useMutation } from "urql";
+import { gql } from "@urql/core";
 
-export const deleteInformationMutation = `
-mutation delete_information(
-  $id: uuid!
-) {
-  delete_information_informations (
-    where: {id: {_eq: $id}}
-  ) {
-    affectedRows: affected_rows
+export const deleteInformationMutation = gql`
+  mutation delete_information($id: uuid!, $initialId: String!) {
+    delete_information_informations(where: { id: { _eq: $id } }) {
+      affectedRows: affected_rows
+    }
+    delete_documents(where: { initial_id: { _eq: $initialId } }) {
+      affected_rows
+    }
   }
-}
 `;
 
 export type DeleteInformationMutationResult = (
@@ -20,7 +20,7 @@ export const useDeleteInformationMutation =
   (): DeleteInformationMutationResult => {
     const [, execute] = useMutation<string>(deleteInformationMutation);
     const resultFunction = async (id: string) => {
-      const result = await execute({ id });
+      const result = await execute({ id, initialId: id });
       if (result.error) {
         throw new Error(result.error.message);
       }

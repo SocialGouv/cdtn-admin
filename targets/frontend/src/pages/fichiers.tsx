@@ -27,38 +27,11 @@ import {
   MenuItem,
   List,
 } from "@mui/material";
-
-const listFiles = () => request(`/api/storage`);
-
-const uploadFiles = (formData: any) =>
-  request(`/api/storage`, {
-    body: formData,
-  } as any);
-
-const deleteFile = (path: any) =>
-  request(`/api/storage/${path}`, {
-    method: "DELETE",
-  } as any);
-
-const onDeleteClick = function (file: any) {
-  const confirmed = confirm(
-    `Êtes-vous sûr(e) de vouloir définitivement supprimer ${file.name} ?`
-  );
-  if (confirmed) {
-    deleteFile(file.name)
-      .then(() => {
-        mutate("files");
-      })
-      .catch(() => {
-        alert("Impossible de supprimer le fichier :/");
-      });
-  }
-};
-
+import { S3File } from "src/lib/upload";
 function FilesPage() {
-  const { data, error, isValidating } = useSWR("files", listFiles, {
-    initialData: undefined,
-  } as any);
+  const { data, error, isValidating, mutate } = useSWR<S3File[]>("files", () =>
+    request(`/api/storage`)
+  );
   const [search, setSearch, setDebouncedSearch] = useDebouncedState("", 400);
   const searchInputEl = useRef<any>(null);
   const [isSearching, setSearching] = useState(false);
@@ -66,6 +39,42 @@ function FilesPage() {
   const [sort, setSort] = useState("mostRecent");
   const [uploading, setUploading] = useState(false);
   const [currentClip, setCurrentClip] = useState("");
+
+  const onDeleteClick = async function (file: S3File) {
+    const confirmed = confirm(
+      `Êtes-vous sûr(e) de vouloir définitivement supprimer ${file.key} ?`
+    );
+    if (confirmed) {
+      try {
+        await request(`/api/storage/${file.key}`, {
+          method: "DELETE",
+        });
+        mutate();
+      } catch (e) {
+        console.error(e);
+        alert("Impossible de supprimer le fichier :/");
+      }
+    }
+  };
+
+  const onUploadClick = function (files: FormData) {
+    setUploading(true);
+    request(`/api/storage`, {
+      body: files,
+    })
+      .then(() => {
+        // wait 3 seconds to let the file be uploaded
+        setTimeout(() => {
+          mutate();
+        }, 3000);
+      })
+      .catch(() => {
+        alert("Impossible de supprimer le fichier :/");
+      })
+      .finally(() => {
+        setUploading(false);
+      });
+  };
 
   useEffect(() => {
     setSearching(false);
@@ -87,13 +96,7 @@ function FilesPage() {
           marginTop: theme.space.medium,
         }}
         uploading={uploading}
-        onDrop={(files) => {
-          setUploading(true);
-          uploadFiles(files).finally(() => {
-            mutate("files");
-            setUploading(false);
-          });
-        }}
+        onDrop={onUploadClick}
       />
       <Box sx={{ display: "flex" }} component="form" my="medium">
         <Box
@@ -169,24 +172,24 @@ function FilesPage() {
       </Box>
       {isSearching || (isValidating && !data) ? (
         <Spinner />
-      ) : data?.length > 0 ? (
+      ) : data && data?.length > 0 ? (
         <>
           <List sx={{ listStyleType: "none", m: 0, p: 0 }}>
             {data
               .filter(
-                (file: any) =>
+                (file) =>
                   filterCallback(filter, file) &&
                   (search
-                    ? file.name
+                    ? file.key
                         .toLowerCase()
                         .includes(search.toLowerCase().trim())
                     : true)
               )
               .sort(getSortCallback(sort))
-              .map((file: any) => {
+              .map((file) => {
                 return (
                   <ListItem
-                    key={file.name}
+                    key={file.key}
                     style={{
                       width: "100%",
                     }}
@@ -196,8 +199,8 @@ function FilesPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       href={file.url}
-                      key={file.name}
-                      title={file.name}
+                      key={file.key}
+                      title={file.key}
                       sx={{
                         alignItems: "center",
                         display: "flex",
@@ -230,12 +233,12 @@ function FilesPage() {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {file.name}
+                          {file.key}
                         </Box>
                         <Box>
                           Poids :{" "}
                           <span style={{ fontWeight: "bold" }}>
-                            {prettyBytes(file.contentLength)}
+                            {prettyBytes(file.size)}
                           </span>{" "}
                           | Mise en ligne il y a{" "}
                           <span style={{ fontWeight: "bold" }}>
@@ -246,8 +249,8 @@ function FilesPage() {
                       <CopyButton
                         {...buttonProps}
                         variant="secondary"
-                        text={file.name}
-                        copied={currentClip === file.name}
+                        text={file.key}
+                        copied={currentClip === file.key}
                         onClip={(text: any) => {
                           setCurrentClip(text);
                         }}
@@ -291,8 +294,8 @@ const iconSx = {
   width: theme.sizes.iconSmall,
 };
 
-const filterCallback = (filter: any, file: any) => {
-  const extension = file.name.split(".").pop().toLowerCase();
+const filterCallback = (filter: any, file: S3File) => {
+  const extension = file.key.toLowerCase();
   switch (filter) {
     case "jpg":
       return extension === "jpg" || extension === "jpeg";
@@ -312,20 +315,20 @@ const filterCallback = (filter: any, file: any) => {
 const getSortCallback = (sort: any) => {
   switch (sort) {
     case "alphabetic":
-      return (a: any, b: any) => a.name.localeCompare(b.name);
+      return (a: S3File, b: S3File) => a.key.localeCompare(b.key);
     case "reverse-alphabetic":
-      return (a: any, b: any) => b.name.localeCompare(a.name);
+      return (a: S3File, b: S3File) => b.key.localeCompare(a.key);
     case "oldest":
-      return (a: any, b: any) =>
+      return (a: S3File, b: S3File) =>
         new Date(a.lastModified).getTime() - new Date(b.lastModified).getTime();
     case "mostRecent":
-      return (a: any, b: any) =>
+      return (a: S3File, b: S3File) =>
         new Date(b.lastModified).getTime() - new Date(a.lastModified).getTime();
     case "lightest":
-      return (a: any, b: any) => a.contentLength - b.contentLength;
+      return (a: S3File, b: S3File) => a.size - b.size;
     case "heaviest":
-      return (a: any, b: any) => b.contentLength - a.contentLength;
+      return (a: S3File, b: S3File) => b.size - a.size;
     default:
-      return (a: any, b: any) => a.name.localeCompare(b.name);
+      return (a: S3File, b: S3File) => a.key.localeCompare(b.key);
   }
 };
