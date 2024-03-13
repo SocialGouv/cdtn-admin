@@ -1,2 +1,2 @@
-export * from "./azure";
+export * from "./s3";
 export * from "./status";

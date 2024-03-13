@@ -102,7 +102,6 @@ export type MailTemplateDoc = {
   date: string;
   html: string;
   author: string;
-  fileUrl: string;
   filename: string;
   filesize: number;
   description: string;
