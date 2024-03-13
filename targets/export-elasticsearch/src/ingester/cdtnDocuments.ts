@@ -373,6 +373,14 @@ export async function cdtnDocumentsGen(
       source: SOURCES.PREQUALIFIED,
       variants,
       refs: refs.map(({ document }) => {
+        const documentRef = {
+          id: document.id,
+          cdtnId: document.cdtnId,
+          slug: document.slug,
+          title: document.title,
+          description: document.description,
+          source: document.source,
+        };
         if (!document.description) {
           const foundContrib = newGeneratedContributions.find(
             (newGeneratedContribution) => {
@@ -380,11 +388,11 @@ export async function cdtnDocumentsGen(
             }
           );
           return {
-            ...document,
+            ...documentRef,
             description: foundContrib?.description,
           };
         }
-        return document;
+        return documentRef;
       }),
     })) ?? [];
   documentsCount = {
