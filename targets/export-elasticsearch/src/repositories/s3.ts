@@ -164,6 +164,9 @@ export class S3Repository {
 
         await this.s3Client.send(copyCommand);
       }
+      logger.info(
+        `Copy of all files has been done. ${listKeysSourceFolder.length} files copied.`
+      );
 
       // 4. Supprimer les clés productions non présente dans le review (clean)
       const listKeysToDelete = diff(
@@ -174,13 +177,18 @@ export class S3Repository {
           Key: `${destinationFolder}/${key}`,
         };
       });
-      const deleteCommand = new DeleteObjectsCommand({
-        Bucket: this.bucketName,
-        Delete: {
-          Objects: listKeysToDelete,
-        },
-      });
-      await this.s3Client.send(deleteCommand);
+      if (listKeysToDelete.length !== 0) {
+        logger.info(
+          `Deleting those files : ${JSON.stringify(listKeysToDelete)}`
+        );
+        const deleteCommand = new DeleteObjectsCommand({
+          Bucket: this.bucketName,
+          Delete: {
+            Objects: listKeysToDelete,
+          },
+        });
+        await this.s3Client.send(deleteCommand);
+      }
     } catch (error) {
       logger.error(`Error while copying folder: ${error}`);
       throw error;
