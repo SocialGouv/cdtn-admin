@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.0...v2.37.1) (2024-03-13)
+
+### Bug Fixes
+
+- **s3:** correction de la suppression des fichiers + ajout de logs ([#1318](https://github.com/SocialGouv/cdtn-admin/issues/1318)) ([1ba6137](https://github.com/SocialGouv/cdtn-admin/commit/1ba6137a45f7fab619c1fce220b358b77ae0d04b))
+
 # [2.37.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.36.0...v2.37.0) (2024-03-13)
 
 ### Features
