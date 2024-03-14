@@ -11,7 +11,7 @@ export function EditInformationPage() {
   const answerId = router?.query?.answerId as string;
 
   return (
-    <Layout title="Contributions - Réponse">
+    <Layout title="Réponse">
       <ReferencesTabs
         firstTabTitle="Contribution"
         secondTabTitle="Références"
