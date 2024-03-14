@@ -37,11 +37,6 @@ export function Navigation() {
         { href: "/informations", label: "Pages informations" },
       ],
     },
-    update: {
-      order: 3,
-      label: "Mises à jour",
-      href: "/mises-a-jour",
-    },
     other: {
       order: 4,
       label: "Autres contenus",
@@ -75,8 +70,13 @@ export function Navigation() {
         },
       ],
     },
-    system: {
+    update: {
       order: 6,
+      label: "Mises à jour",
+      href: "/mises-a-jour",
+    },
+    system: {
+      order: 7,
       label: "Gestion des utilisateurs",
       href: "/users",
     },
