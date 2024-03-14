@@ -66,7 +66,21 @@ describe("Glossary", () => {
       expect(addGlossary(markdown)).toEqual(markdown);
     });
 
-    test("should not replace html property for cc word", () => {
+    test("should not add webcomponent tooltip in a span tag with class \"title\"", () => {
+      const htmlContent = `<span class="title">L'indemnité de fin de contrat n'est pas due dans les cas suivants</span>`;
+      expect(addGlossary(htmlContent)).toEqual(
+        `<span class="title">L'indemnité de fin de contrat n'est pas due dans les cas suivants</span>`
+      );
+    });
+
+    test("should not add webcomponent tooltip in a span tag with class \"sub-title\"", () => {
+      const htmlContent = `<span class="sub-title">L'indemnité de fin de contrat n'est pas due dans les cas suivants</span>`;
+      expect(addGlossary(htmlContent)).toEqual(
+        `<span class="sub-title">L'indemnité de fin de contrat n'est pas due dans les cas suivants</span>`
+      );
+    });
+
+    test("should not replace within tag attributes", () => {
       const htmlContent =
         '<p class="un accord de branche ou pas">voici une convention collective et un web component mais aussi dispositions, ceci est un test</p>';
       expect(addGlossary(htmlContent)).toEqual(
