@@ -37,5 +37,6 @@ export type RelatedDocument = {
   title: string;
   slug: string;
   source: string;
-  metaDescription: string;
+  description: string;
+  icon?: string; // Pour afficher l'icon du simulateur dans la tuile
 };

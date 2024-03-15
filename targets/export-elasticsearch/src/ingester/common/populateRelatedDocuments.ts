@@ -21,7 +21,8 @@ export const populateRelatedDocuments = (
       title: docFound.title,
       slug: docFound.slug,
       source: docFound.source,
-      metaDescription: docFound.metaDescription,
+      description: docFound.description ?? docFound.text,
+      icon: docFound.icon,
     };
   });
   return relatedDocuments;
