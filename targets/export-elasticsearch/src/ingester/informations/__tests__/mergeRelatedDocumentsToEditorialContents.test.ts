@@ -31,7 +31,7 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
       source: "",
       cdtnId: "",
       slug: "",
-      metaDescription: "",
+      description: "",
     },
     id2: {
       id: "2",
@@ -40,7 +40,7 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
       source: "",
       cdtnId: "",
       slug: "",
-      metaDescription: "",
+      description: "",
     },
   };
 
@@ -67,7 +67,7 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
                     source: "",
                     cdtnId: "",
                     slug: "",
-                    metaDescription: "",
+                    description: "",
                   },
                   {
                     id: "2",
@@ -76,7 +76,7 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
                     source: "",
                     cdtnId: "",
                     slug: "",
-                    metaDescription: "",
+                    description: "",
                   },
                 ],
               },
@@ -96,7 +96,7 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
         source: "",
         cdtnId: "",
         slug: "",
-        metaDescription: "",
+        description: "",
       },
     };
 
