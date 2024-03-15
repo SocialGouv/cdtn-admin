@@ -1,3 +1,4 @@
+import { RelatedDocuments } from "../../common/populateRelatedDocuments";
 import { mergeRelatedDocumentsToEditorialContents } from "../mergeRelatedDocumentsToEditorialContents";
 import {
   CONTENT_TYPE,
@@ -22,9 +23,25 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
       ],
     },
   ] as any as DocumentElasticWithSource<EditorialContentDoc>[];
-  const relatedDocuments = {
-    id1: [{ id: "1", title: "Related Document 1" }],
-    id2: [{ id: "2", title: "Related Document 2" }],
+  const relatedDocuments: RelatedDocuments = {
+    id1: {
+      id: "1",
+      title: "Related Document 1",
+      breadcrumbs: [],
+      source: "",
+      cdtnId: "",
+      slug: "",
+      metaDescription: "",
+    },
+    id2: {
+      id: "2",
+      title: "Related Document 2",
+      breadcrumbs: [],
+      source: "",
+      cdtnId: "",
+      slug: "",
+      metaDescription: "",
+    },
   };
 
   it("should merge related documents to editorial contents", () => {
@@ -43,8 +60,24 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
               {
                 type: CONTENT_TYPE.content,
                 contents: [
-                  { id: "1", title: "Related Document 1" },
-                  { id: "2", title: "Related Document 2" },
+                  {
+                    id: "1",
+                    title: "Related Document 1",
+                    breadcrumbs: [],
+                    source: "",
+                    cdtnId: "",
+                    slug: "",
+                    metaDescription: "",
+                  },
+                  {
+                    id: "2",
+                    title: "Related Document 2",
+                    breadcrumbs: [],
+                    source: "",
+                    cdtnId: "",
+                    slug: "",
+                    metaDescription: "",
+                  },
                 ],
               },
             ],
@@ -56,7 +89,15 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
 
   it("should throw an error if no related document is found", () => {
     const invalidRelatedDocuments = {
-      id1: [{ id: "1", title: "Related Document 1" }],
+      id1: {
+        id: "1",
+        title: "Related Document 1",
+        breadcrumbs: [],
+        source: "",
+        cdtnId: "",
+        slug: "",
+        metaDescription: "",
+      },
     };
 
     expect(() =>

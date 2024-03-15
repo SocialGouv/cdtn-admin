@@ -29,3 +29,13 @@ export type DocumentElastic = {
   metaDescription: string;
   refs: DocumentRef[];
 };
+
+export type RelatedDocument = {
+  id: string;
+  cdtnId: string;
+  breadcrumbs: Breadcrumbs[];
+  title: string;
+  slug: string;
+  source: string;
+  metaDescription: string;
+};

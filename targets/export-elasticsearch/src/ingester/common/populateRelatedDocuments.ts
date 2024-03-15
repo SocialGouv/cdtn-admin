@@ -1,7 +1,7 @@
-import { DocumentElasticWithSource } from "@shared/types";
+import { DocumentElasticWithSource, RelatedDocument } from "@shared/types";
 
 export interface RelatedDocuments {
-  [id: string]: DocumentElasticWithSource<any>[];
+  [id: string]: RelatedDocument;
 }
 
 export const populateRelatedDocuments = (
@@ -10,7 +10,19 @@ export const populateRelatedDocuments = (
 ): RelatedDocuments => {
   const relatedDocuments: RelatedDocuments = {};
   relatedIdsDocuments.forEach((id) => {
-    relatedDocuments[id] = allDocuments.filter((doc) => doc.cdtnId === id);
+    const docFound = allDocuments.find((doc) => doc.cdtnId === id);
+    if (!docFound) {
+      throw new Error(`No document found for id ${id}`);
+    }
+    relatedDocuments[id] = {
+      id: docFound.id,
+      cdtnId: docFound.cdtnId,
+      breadcrumbs: docFound.breadcrumbs,
+      title: docFound.title,
+      slug: docFound.slug,
+      source: docFound.source,
+      metaDescription: docFound.metaDescription,
+    };
   });
   return relatedDocuments;
 };
