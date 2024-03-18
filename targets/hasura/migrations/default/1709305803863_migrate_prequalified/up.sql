@@ -39,3 +39,5 @@ _inserted_prequalified_documents as (
 )
 select *
 from _inserted_prequalified_documents;
+
+delete from public.documents where source = 'prequalified';
