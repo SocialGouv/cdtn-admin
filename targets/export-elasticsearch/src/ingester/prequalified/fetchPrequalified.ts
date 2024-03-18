@@ -1,7 +1,7 @@
 import { gqlClient } from "@shared/utils";
 import { context } from "../context";
 
-const fetchPPrequalifiedQuery = `
+const fetchPrequalifiedQuery = `
 query fetch_prequalified {
     search_prequalified {
         id
@@ -60,7 +60,7 @@ export async function fetchPrequalified(): Promise<
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
   })
-    .query<HasuraReturn>(fetchPPrequalifiedQuery)
+    .query<HasuraReturn>(fetchPrequalifiedQuery)
     .toPromise();
   if (res.error) {
     throw res.error;

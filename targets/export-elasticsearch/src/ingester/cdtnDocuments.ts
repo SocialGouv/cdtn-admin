@@ -33,7 +33,7 @@ import { generateAgreements } from "./agreements";
 import { getGlossary } from "./documents/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
-import { fetchPrequalified } from "./prequalified/fetchPrequalified";
+import { generatePrequalified } from "./prequalified";
 
 /**
  * Find duplicate slugs
@@ -359,47 +359,12 @@ export async function cdtnDocumentsGen(
   await updateDocs(SOURCES.HIGHLIGHTS, highlightsWithContrib);
 
   logger.info("=== PreQualified Request ===");
-  const prequalified = await fetchPrequalified();
-  const prequalifiedWithContrib =
-    prequalified?.map(({ variants, id, title, documents: refs }) => ({
-      cdtnId: id,
-      id,
-      breadcrumbs: [],
-      excludeFromSearch: true,
-      isPublished: true,
-      metaDescription: title,
-      text: title,
-      title,
-      source: SOURCES.PREQUALIFIED,
-      variants,
-      refs: refs.map(({ document }) => {
-        const documentRef = {
-          id: document.id,
-          cdtnId: document.cdtnId,
-          slug: document.slug,
-          title: document.title,
-          description: document.description,
-          source: document.source,
-        };
-        if (!document.description) {
-          const foundContrib = newGeneratedContributions.find(
-            (newGeneratedContribution) => {
-              return newGeneratedContribution.cdtnId === document.cdtnId;
-            }
-          );
-          return {
-            ...documentRef,
-            description: foundContrib?.description,
-          };
-        }
-        return documentRef;
-      }),
-    })) ?? [];
+  const prequalified = await generatePrequalified();
   documentsCount = {
     ...documentsCount,
-    [SOURCES.PREQUALIFIED]: prequalifiedWithContrib.length,
+    [SOURCES.PREQUALIFIED]: prequalified.length,
   };
-  await updateDocs(SOURCES.PREQUALIFIED, prequalifiedWithContrib);
+  await updateDocs(SOURCES.PREQUALIFIED, prequalified);
 
   logger.info("=== glossary ===");
   documentsCount = {

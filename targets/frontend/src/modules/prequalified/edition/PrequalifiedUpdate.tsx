@@ -51,7 +51,7 @@ export const PrequalifiedEdition = ({ id }: { id: string }): JSX.Element => {
           onDelete={async () => {
             setModalDelete(true);
           }}
-        ></PrequalifiedForm>
+        />
       )}
       <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
       <ConfirmModal
