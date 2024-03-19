@@ -1,24 +1,13 @@
 import Boom from "@hapi/boom";
 import formidable, { IncomingForm } from "formidable";
-import { verify } from "jsonwebtoken";
 import { createErrorFor } from "src/lib/apiError";
 import { isUploadFileSafe } from "src/lib/secu";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getApiAllFiles, uploadApiFiles } from "src/lib/upload";
 import fs from "fs";
 
-const jwtSecret = JSON.parse(
-  process.env.HASURA_GRAPHQL_JWT_SECRET ??
-    '{"type":"HS256","key":"a_pretty_long_secret_key_that_should_be_at_least_32_char"}'
-);
-
 async function endPoint(req: NextApiRequest, res: NextApiResponse) {
   const apiError = createErrorFor(res);
-  const { jwt: token } = req.cookies;
-
-  if (!token || !verify(token, jwtSecret.key, { algorithms: jwtSecret.type })) {
-    return apiError(Boom.badRequest("wrong token"));
-  }
 
   switch (req.method) {
     case "POST":

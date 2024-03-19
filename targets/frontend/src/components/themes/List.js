@@ -8,7 +8,7 @@ import {
   SortableHandle,
 } from "react-sortable-hoc";
 import { IconButton } from "src/components/button";
-import { useUser } from "src/hooks/useUser";
+import { useSession } from "next-auth/react";
 import { Alert, Card, Box } from "@mui/material";
 import { theme as th } from "../../theme";
 
@@ -21,7 +21,8 @@ const formatRelationsIntoThemes = (relations = []) =>
     }));
 
 const List = ({ relations, updateThemesPosition }) => {
-  const { isAdmin } = useUser();
+  const { data } = useSession();
+  const isAdmin = data?.user.isAdmin;
   // Prevent visual glitch when reordering themes
   const [displayedThemes, setDisplayedThemes] = useState(
     formatRelationsIntoThemes(relations)

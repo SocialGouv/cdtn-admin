@@ -8,7 +8,6 @@ import {
 import { Layout } from "src/components/layout/auth.layout";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { Chip, CircularProgress, TableHead, TableRow } from "@mui/material";
 import { useQuery } from "urql";
 import { FixedSnackBar } from "../components/utils/SnackBar";
@@ -93,4 +92,4 @@ export function DuplicateContentPage(): JSX.Element {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(DuplicateContentPage));
+export default withCustomUrqlClient(DuplicateContentPage);

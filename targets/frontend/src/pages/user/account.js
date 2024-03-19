@@ -2,13 +2,13 @@ import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
-import { useUser } from "src/hooks/useUser";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Box } from "@mui/material";
 
 export function UserPage() {
-  const { user } = useUser();
+  const { data } = useSession();
+  const user = data?.user;
   const router = useRouter();
 
   return (
@@ -61,4 +61,4 @@ export function UserPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(UserPage));
+export default withCustomUrqlClient(UserPage);

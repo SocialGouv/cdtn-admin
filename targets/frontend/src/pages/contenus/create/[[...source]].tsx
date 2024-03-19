@@ -7,7 +7,6 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { PrequalifiedForm } from "src/components/prequalified";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { Content } from "src/types";
 import { useMutation } from "urql";
 import {
@@ -113,4 +112,4 @@ export function CreateDocumentPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(CreateDocumentPage));
+export default withCustomUrqlClient(CreateDocumentPage);

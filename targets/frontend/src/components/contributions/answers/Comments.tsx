@@ -4,7 +4,7 @@ import * as React from "react";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { FormTextField } from "src/components/forms";
-import { useUser } from "src/hooks/useUser";
+import { useSession } from "next-auth/react";
 
 import {
   AnswerStatus,
@@ -44,7 +44,8 @@ function concatAndSort(
 }
 
 export const Comments = ({ answerId, comments, statuses }: Props) => {
-  const { user }: any = useUser();
+  const { data } = useSession();
+  const user = data?.user;
 
   const listRef = React.useRef<HTMLDivElement>(null);
 
@@ -86,7 +87,7 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
         {
           answerId: answerId,
           content: data.content,
-          userId: user.id,
+          userId: user?.id,
         },
         { additionalTypenames: ["AnswerComments"] }
       );

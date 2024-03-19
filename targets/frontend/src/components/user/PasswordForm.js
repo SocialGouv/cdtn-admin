@@ -2,10 +2,10 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { useUser } from "src/hooks/useUser";
+import { useSession } from "next-auth/react";
 import { Stack as StackMUI, TextField as Field } from "@mui/material";
 
-import { passwordValidation } from "../../lib/auth/auth.const";
+import { passwordValidation } from "../../lib/auth/constants";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Stack } from "../layout/Stack";
 
@@ -16,7 +16,8 @@ export function PasswordForm({
   changeOldPassword = false,
   loading,
 }) {
-  const { user } = useUser();
+  const { data } = useSession();
+  const user = data?.user;
   const {
     register,
     handleSubmit,

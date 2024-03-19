@@ -2,8 +2,7 @@ import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { UserForm } from "src/components/user/UserForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
-import { useUser } from "src/hooks/useUser";
+import { useSession } from "next-auth/react";
 import { useMutation } from "urql";
 
 const saveUserMutation = `
@@ -38,7 +37,8 @@ mutation saveRole($id: uuid!, $role:String!) {
 `;
 
 export function EditUserPage() {
-  const { user, isAdmin } = useUser();
+  const { data } = useSession();
+  const user = data?.user;
   const router = useRouter();
   const [userResult, saveUser] = useMutation(saveUserMutation);
   const [roleResult, saveRole] = useMutation(saveRoleMutation);
@@ -63,7 +63,7 @@ export function EditUserPage() {
           user={user}
           loading={userResult.fetching || roleResult.fetching}
           onSubmit={handleSubmit}
-          isAdmin={isAdmin}
+          isAdmin={user.isAdmin}
           backHref="/user/account"
         />
       )}
@@ -71,4 +71,4 @@ export function EditUserPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(EditUserPage));
+export default withCustomUrqlClient(EditUserPage);

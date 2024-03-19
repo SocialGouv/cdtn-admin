@@ -1,4 +1,5 @@
-import { Environment, ExportEsStatus, Status, User } from "@shared/types";
+import { Environment, ExportEsStatus, Status } from "@shared/types";
+import { Session } from "next-auth";
 import { useState } from "react";
 import { serializeError } from "serialize-error";
 
@@ -14,7 +15,7 @@ type ExportEsState = {
 export function useExportEs(): [
   ExportEsState,
   () => void,
-  (environment: Environment, user: User) => void,
+  (environment: Environment, user: Session["user"]) => void,
   (env: Environment) => Date
 ] {
   const [state, setState] = useState<ExportEsState>({
@@ -66,7 +67,7 @@ export function useExportEs(): [
     return lastestCompleted?.created_at;
   };
 
-  const runExportEs = (environment: Environment, user: User) => {
+  const runExportEs = (environment: Environment, user: Session["user"]) => {
     const newExportEs: ExportEsStatus = {
       created_at: new Date(),
       environment,

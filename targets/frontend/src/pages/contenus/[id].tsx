@@ -5,13 +5,12 @@ import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
 import { useMutation, useQuery } from "urql";
 import { Card, Stack } from "@mui/material";
 
-import getDocumentQuery from "./getDocument.query.graphql";
-import updateDocumentMutation from "./updateDocument.mutation.graphql";
+import getDocumentQuery from "../../lib/contenus/getDocument.query.graphql";
+import updateDocumentMutation from "../../lib/contenus/updateDocument.mutation.graphql";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
 import CodeEditor from "../../components/editor/CodeEditor";
 
@@ -122,4 +121,4 @@ export function DocumentPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(DocumentPage));
+export default withCustomUrqlClient(DocumentPage);

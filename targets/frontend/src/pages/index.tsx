@@ -3,7 +3,6 @@ import { GhostLinkedDocuments } from "src/components/home/InvisibleLinkedDocumen
 import { UnThemedContent } from "src/components/home/UnThemedContent";
 import { Layout } from "src/components/layout/auth.layout";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { Stack, Typography } from "@mui/material";
 
 export function IndexPage() {
@@ -21,4 +20,4 @@ export function IndexPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(IndexPage));
+export default withCustomUrqlClient(IndexPage);

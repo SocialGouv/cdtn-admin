@@ -6,7 +6,6 @@ import { TermList } from "src/components/glossary/TermList";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { useDebouncedState } from "src/hooks/";
 import {
   Box,
@@ -164,7 +163,7 @@ export function GlossaryPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(GlossaryPage));
+export default withCustomUrqlClient(GlossaryPage);
 
 const AddATermButton = () => (
   <Link href="/glossary/edit" passHref style={{ textDecoration: "none" }}>

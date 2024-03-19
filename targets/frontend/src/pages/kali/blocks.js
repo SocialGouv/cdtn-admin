@@ -5,7 +5,6 @@ import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { Card, Select, Alert, InputLabel, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 import { theme as th } from "../../theme";
@@ -253,4 +252,4 @@ export function KaliBlocksPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(KaliBlocksPage));
+export default withCustomUrqlClient(KaliBlocksPage);

@@ -3,7 +3,6 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { UserForm } from "src/components/user/UserForm";
 import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { getExpiryDate } from "src/lib/duration";
 import { useMutation } from "urql";
 import { Alert } from "@mui/material";
@@ -65,4 +64,4 @@ export function UserPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(UserPage));
+export default withCustomUrqlClient(UserPage);

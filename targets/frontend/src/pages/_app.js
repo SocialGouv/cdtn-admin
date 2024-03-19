@@ -5,7 +5,7 @@ import "../css/modeles.css";
 import { MuiDsfrThemeProvider } from "@codegouvfr/react-dsfr/mui";
 
 import { init } from "@socialgouv/matomo-next";
-import getConfig from "next/config";
+import { SessionProvider } from "next-auth/react";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 
@@ -31,7 +31,7 @@ const { withDsfr, dsfrDocumentApi } = createNextDsfrIntegrationApi({
 
 export { dsfrDocumentApi };
 
-function App({ Component, pageProps, err }) {
+function App({ Component, pageProps: { session, ...pageProps }, err }) {
   useEffect(() => {
     init({
       siteId: process.env.NEXT_PUBLIC_MATOMO_SITE_ID,
@@ -41,15 +41,11 @@ function App({ Component, pageProps, err }) {
   // Workaround for https://github.com/vercel/next.js/issues/8592
   return (
     <MuiDsfrThemeProvider>
-      <Component {...pageProps} err={err} />
+      <SessionProvider session={session}>
+        <Component {...pageProps} err={err} />
+      </SessionProvider>
     </MuiDsfrThemeProvider>
   );
 }
 
 export default withDsfr(App);
-
-App.propTypes = {
-  Component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
-  err: PropTypes.object,
-  pageProps: PropTypes.object,
-};
