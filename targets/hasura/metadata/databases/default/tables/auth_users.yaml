@@ -1,86 +1,55 @@
 table:
   name: users
   schema: auth
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    expires_at:
+      custom_name: ExpiresAt
+    is_active:
+      custom_name: isActive
+    is_deleted:
+      custom_name: isDeleted
+    refresh_token:
+      custom_name: refreshToken
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    created_at: createdAt
+    expires_at: ExpiresAt
+    is_active: isActive
+    is_deleted: isDeleted
+    refresh_token: refreshToken
+    updated_at: updatedAt
+  custom_root_fields: {}
 insert_permissions:
   - role: super
     permission:
       check: {}
       columns:
-        - active
-        - deleted
-        - default_role
-        - name
-        - password
-        - created_at
-        - secret_token_expires_at
-        - updated_at
         - email
         - id
-        - secret_token
-  - role: user
-    permission:
-      check: {}
-      columns: []
+        - is_active
+        - password
     comment: ""
 select_permissions:
   - role: super
     permission:
       columns:
-        - active
-        - deleted
-        - default_role
-        - name
-        - password
-        - created_at
-        - secret_token_expires_at
-        - updated_at
         - email
-        - id
-        - secret_token
+        - is_active
+        - name
       filter: {}
-      allow_aggregations: true
-  - role: user
-    permission:
-      columns:
-        - active
-        - created_at
-        - default_role
-        - email
-        - id
-        - name
-        - updated_at
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
+    comment: ""
 update_permissions:
   - role: super
     permission:
       columns:
-        - active
-        - deleted
-        - default_role
+        - email
+        - is_active
         - name
         - password
-        - created_at
-        - secret_token_expires_at
-        - updated_at
-        - email
-        - id
-        - secret_token
       filter: {}
-      check: {}
-    comment: ""
-  - role: user
-    permission:
-      columns:
-        - email
-        - name
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
       check: null
-delete_permissions:
-  - role: super
-    permission:
-      filter: {}
     comment: ""
