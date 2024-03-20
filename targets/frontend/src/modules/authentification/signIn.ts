@@ -3,16 +3,20 @@ import { LoginHasuraResult, signInQuery } from "./queries/signIn";
 import {
   AuthEmailNotFound,
   AuthGqlError,
+  AuthJwtRefreshError,
   AuthUserDeleted,
   AuthUserNotActive,
   AuthUserPasswordDifferent,
 } from "./error";
 import { verify } from "argon2";
-import { refreshTokenMutation } from "./queries/refreshToken";
 import { generateJwtToken } from "./jwt";
-import { JWT_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRES } from "src/config";
+import { REFRESH_TOKEN_EXPIRES } from "src/config";
 import { getExpiryDate } from "src/lib/duration";
 import { Session } from "next-auth";
+import {
+  UpdateRefreshTokenHasuraResult,
+  updateRefreshTokenMutation,
+} from "./queries/updateRefreshToken";
 
 export const signIn = async (
   email: string,
@@ -68,14 +72,16 @@ export const signIn = async (
     });
   }
 
-  const jwt_token = generateJwtToken(user);
+  const accessTokenGenerated = generateJwtToken(user);
+  const refreshTokenGenerated = generateJwtToken(user);
+  const expiresInGenerated = getExpiryDate(REFRESH_TOKEN_EXPIRES);
 
+  // update the refresh token, the access token, and the expiry date
   const refreshTokenResult = await gqlClient()
-    .mutation(refreshTokenMutation, {
-      refresh_token_data: {
-        expires_at: getExpiryDate(REFRESH_TOKEN_EXPIRES),
-        user_id: user.id,
-      },
+    .mutation<UpdateRefreshTokenHasuraResult>(updateRefreshTokenMutation, {
+      refreshToken: refreshTokenGenerated,
+      accessToken: accessTokenGenerated,
+      expiresIn: expiresInGenerated,
     })
     .toPromise();
 
@@ -87,12 +93,24 @@ export const signIn = async (
     });
   }
 
-  const { refresh_token } = refreshTokenResult.data.insert_data.returning[0];
+  const refreshToken =
+    refreshTokenResult.data?.update_auth_users_by_pk?.refreshToken;
+  const accessToken =
+    refreshTokenResult.data?.update_auth_users_by_pk?.accessToken;
+  const expiresIn = refreshTokenResult.data?.update_auth_users_by_pk?.expiresIn;
+
+  if (!accessToken || !refreshToken || !expiresIn) {
+    throw new AuthJwtRefreshError({
+      cause: loginResult.error,
+      message: "Could not refresh token of the user",
+      name: "AUTH_JWT_REFRESH_ERROR",
+    });
+  }
 
   return {
     ...user,
-    accessToken: jwt_token,
-    refreshToken: user.refresh_token,
-    expiresIn: user.expires_in,
+    accessToken,
+    refreshToken,
+    expiresIn: new Date(expiresIn),
   };
 };
