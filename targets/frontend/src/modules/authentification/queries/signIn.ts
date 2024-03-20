@@ -1,18 +1,23 @@
+import { Session } from "next-auth";
+
 export const signInQuery = `
-  query login(
-    $email: citext!
-  ) {
-    users: auth_users (
-      where: {
-        email: { _eq: $email}
-      }
-    ) {
+  query login($email: citext!) {
+    auth_users(where: {email: {_eq: $email}}) {
       id
       password
-      active
-      deleted
       name
-      default_role
+      isActive
+      isDeleted
+      created_at
+      role
     }
   }
-  `;
+`;
+
+export interface LoginHasuraResult {
+  auth_users: Required<
+    Session["user"] & {
+      password: string;
+    }
+  >[];
+}

@@ -1,5 +1,5 @@
 import { gqlClient } from "@shared/utils";
-import { signInQuery } from "./queries/signIn";
+import { LoginHasuraResult, signInQuery } from "./queries/signIn";
 import {
   AuthEmailNotFound,
   AuthGqlError,
@@ -10,17 +10,16 @@ import {
 import { verify } from "argon2";
 import { refreshTokenMutation } from "./queries/refreshToken";
 import { generateJwtToken } from "./jwt";
+import { JWT_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRES } from "src/config";
+import { getExpiryDate } from "src/lib/duration";
+import { Session } from "next-auth";
 
-interface HasuraResult {
-  contribution_answers: Pick<
-    ContributionsAnswers,
-    "id" | "question" | "legi_references" | "kali_references" | "agreement"
-  >[];
-}
-
-export const signIn = async (email: string, password: string) => {
+export const signIn = async (
+  email: string,
+  password: string
+): Promise<Session["user"]> => {
   const loginResult = await gqlClient()
-    .query(signInQuery, {
+    .query<LoginHasuraResult>(signInQuery, {
       email,
     })
     .toPromise();
@@ -33,7 +32,7 @@ export const signIn = async (email: string, password: string) => {
     });
   }
 
-  if (loginResult.data.users?.length === 0) {
+  if (loginResult.data?.auth_users.length === 0) {
     throw new AuthEmailNotFound({
       message: `No user with ${email}`,
       name: "AUTH_EMAIL_NOT_FOUND",
@@ -41,9 +40,9 @@ export const signIn = async (email: string, password: string) => {
     });
   }
 
-  const user = loginResult.data.users[0];
+  const user = loginResult.data?.auth_users[0];
 
-  if (!user.active) {
+  if (!user?.isActive) {
     throw new AuthUserNotActive({
       message: `${email} is not activated`,
       name: "AUTH_USER_NOT_ACTIVE",
@@ -51,7 +50,7 @@ export const signIn = async (email: string, password: string) => {
     });
   }
 
-  if (user.deleted) {
+  if (user.isDeleted) {
     throw new AuthUserDeleted({
       message: `${email} has been deleted`,
       name: "AUTH_USER_DELETED",
@@ -59,7 +58,6 @@ export const signIn = async (email: string, password: string) => {
     });
   }
 
-  // see if password hashes matches
   const match = await verify(user.password, password);
 
   if (!match) {
@@ -82,19 +80,19 @@ export const signIn = async (email: string, password: string) => {
     .toPromise();
 
   if (refreshTokenResult.error) {
-    return apiError(
-      Boom.badImplementation(
-        "Could not update 'refresh token' for user",
-        username
-      )
-    );
+    throw new AuthGqlError({
+      cause: loginResult.error,
+      message: "Could not refresh token of the user",
+      name: "AUTH_GQL_ERROR",
+    });
   }
 
   const { refresh_token } = refreshTokenResult.data.insert_data.returning[0];
 
-  res.json({
-    jwt_token,
-    jwt_token_expiry: getExpiryDate(JWT_TOKEN_EXPIRES),
-    refresh_token,
-  });
+  return {
+    ...user,
+    accessToken: jwt_token,
+    refreshToken: user.refresh_token,
+    expiresIn: user.expires_in,
+  };
 };

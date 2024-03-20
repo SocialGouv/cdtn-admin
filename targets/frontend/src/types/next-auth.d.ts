@@ -9,8 +9,13 @@ declare module "next-auth" {
       id: string;
       name: string;
       email: string;
+      isActive: boolean;
       role: string;
+      isDeleted: boolean;
       created_at: Date;
+      accessToken: string;
+      refreshToken: string;
+      expiresIn: Date;
     };
   }
 }

@@ -16,7 +16,7 @@ export default function LoginPage() {
     router.push("/");
   };
 
-  const authenticate = ({ email, password }) => {
+  const authenticate = ({ email, password }: any) => {
     return request("/api/login", {
       body: { password, username: email },
       headers: {

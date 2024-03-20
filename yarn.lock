@@ -6500,15 +6500,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/http-proxy@npm:^1.17.5":
-  version: 1.17.12
-  resolution: "@types/http-proxy@npm:1.17.12"
-  dependencies:
-    "@types/node": "*"
-  checksum: 89700c8e3c8f2c59c87c8db8e7a070c97a3b30a4a38223aca6b8b817e6f2ca931f5a500e16ecadc1ebcfed2676cc60e073d8f887e621d84420298728ec6fd000
-  languageName: node
-  linkType: hard
-
 "@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0, @types/istanbul-lib-coverage@npm:^2.0.1":
   version: 2.0.4
   resolution: "@types/istanbul-lib-coverage@npm:2.0.4"
@@ -8639,9 +8630,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001406, caniuse-lite@npm:^1.0.30001503":
-  version: 1.0.30001508
-  resolution: "caniuse-lite@npm:1.0.30001508"
-  checksum: 0a083ed92194d87e608fc35cac65830a27900249729eb8a68e270f866f2c4f83396c2e54eb47b0ef71360682174dd74e2e68eac0b8d407d125611c7bc12488eb
+  version: 1.0.30001599
+  resolution: "caniuse-lite@npm:1.0.30001599"
+  checksum: d7e619e2e723547b7311ba0ca5134d9cd55df548e93dbedcf8a6e4ec74c7db91969c4272fb1ab2fd94cddeac6a8176ebf05853eb06689d5e76bb97d979a214b0
   languageName: node
   linkType: hard
 
@@ -11366,7 +11357,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventemitter3@npm:^4.0.0, eventemitter3@npm:^4.0.4":
+"eventemitter3@npm:^4.0.4":
   version: 4.0.7
   resolution: "eventemitter3@npm:4.0.7"
   checksum: 1875311c42fcfe9c707b2712c32664a245629b42bb0a5a84439762dd0fd637fc54d078155ea83c2af9e0323c9ac13687e03cfba79b03af9f40c89b4960099374
@@ -11855,7 +11846,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.8, follow-redirects@npm:^1.15.0":
+"follow-redirects@npm:^1.14.8, follow-redirects@npm:^1.15.0":
   version: 1.15.2
   resolution: "follow-redirects@npm:1.15.2"
   peerDependenciesMeta:
@@ -12000,7 +11991,6 @@ __metadata:
     formidable: ^2.0.0
     graphql: ^16.0.0
     graphql-tag: ^2.12.6
-    http-proxy-middleware: 2.0.1
     isomorphic-unfetch: ^3.1.0
     jest: ^29.5.0
     jest-environment-jsdom: ^29.5.0
@@ -13123,30 +13113,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"http-proxy-middleware@npm:2.0.1":
-  version: 2.0.1
-  resolution: "http-proxy-middleware@npm:2.0.1"
-  dependencies:
-    "@types/http-proxy": ^1.17.5
-    http-proxy: ^1.18.1
-    is-glob: ^4.0.1
-    is-plain-obj: ^3.0.0
-    micromatch: ^4.0.2
-  checksum: 0de65bc6644b6efae5d26cd3bec071ceaeb92f26856ffee5ecdde9c702ea1435936e7dfb09da2ac0883eada80fdc993e9925902fc10bf6625565d6365f8cb30f
-  languageName: node
-  linkType: hard
-
-"http-proxy@npm:^1.18.1":
-  version: 1.18.1
-  resolution: "http-proxy@npm:1.18.1"
-  dependencies:
-    eventemitter3: ^4.0.0
-    follow-redirects: ^1.0.0
-    requires-port: ^1.0.0
-  checksum: f5bd96bf83e0b1e4226633dbb51f8b056c3e6321917df402deacec31dd7fe433914fc7a2c1831cf7ae21e69c90b3a669b8f434723e9e8b71fd68afe30737b6a5
-  languageName: node
-  linkType: hard
-
 "http-status-codes@npm:^2.1.4":
   version: 2.2.0
   resolution: "http-status-codes@npm:2.2.0"
@@ -13879,13 +13845,6 @@ __metadata:
   version: 2.1.0
   resolution: "is-plain-obj@npm:2.1.0"
   checksum: cec9100678b0a9fe0248a81743041ed990c2d4c99f893d935545cfbc42876cbe86d207f3b895700c690ad2fa520e568c44afc1605044b535a7820c1d40e38daa
-  languageName: node
-  linkType: hard
-
-"is-plain-obj@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "is-plain-obj@npm:3.0.0"
-  checksum: a6ebdf8e12ab73f33530641972a72a4b8aed6df04f762070d823808303e4f76d87d5ea5bd76f96a7bbe83d93f04ac7764429c29413bd9049853a69cb630fb21c
   languageName: node
   linkType: hard
 
@@ -16916,7 +16875,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"micromatch@npm:^4.0.2, micromatch@npm:^4.0.4, micromatch@npm:^4.0.5":
+"micromatch@npm:^4.0.4, micromatch@npm:^4.0.5":
   version: 4.0.5
   resolution: "micromatch@npm:4.0.5"
   dependencies:
