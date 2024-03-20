@@ -13,9 +13,6 @@ export const signInQuery = `
       deleted
       name
       default_role
-      roles: user_roles {
-        role
-      }
     }
   }
   `;

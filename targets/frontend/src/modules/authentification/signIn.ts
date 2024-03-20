@@ -8,6 +8,8 @@ import {
   AuthUserPasswordDifferent,
 } from "./error";
 import { verify } from "argon2";
+import { refreshTokenMutation } from "./queries/refreshToken";
+import { generateJwtToken } from "./jwt";
 
 interface HasuraResult {
   contribution_answers: Pick<
@@ -89,8 +91,6 @@ export const signIn = async (email: string, password: string) => {
   }
 
   const { refresh_token } = refreshTokenResult.data.insert_data.returning[0];
-
-  setJwtCookie(res, refresh_token, jwt_token);
 
   res.json({
     jwt_token,

@@ -8,9 +8,8 @@ declare module "next-auth" {
     user: {
       id: string;
       name: string;
-      isAdmin: boolean;
       email: string;
-      roles: Array<any>;
+      role: string;
       created_at: Date;
     };
   }
