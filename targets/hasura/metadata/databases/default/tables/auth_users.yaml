@@ -6,7 +6,7 @@ configuration:
     created_at:
       custom_name: createdAt
     expires_at:
-      custom_name: ExpiresAt
+      custom_name: expiresAt
     is_active:
       custom_name: isActive
     is_deleted:
@@ -17,7 +17,7 @@ configuration:
       custom_name: updatedAt
   custom_column_names:
     created_at: createdAt
-    expires_at: ExpiresAt
+    expires_at: expiresAt
     is_active: isActive
     is_deleted: isDeleted
     refresh_token: refreshToken
