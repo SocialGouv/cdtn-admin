@@ -1,51 +1,42 @@
 table:
   name: users
   schema: auth
-object_relationships:
-  - name: role
-    using:
-      foreign_key_constraint_on: default_role
-array_relationships:
-  - name: refresh_tokens
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          name: refresh_tokens
-          schema: auth
-  - name: user_roles
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          name: user_roles
-          schema: auth
 insert_permissions:
   - role: super
     permission:
       check: {}
       columns:
         - active
-        - created_at
+        - deleted
         - default_role
-        - email
-        - id
         - name
-        - secret_token
+        - password
+        - created_at
         - secret_token_expires_at
         - updated_at
+        - email
+        - id
+        - secret_token
+  - role: user
+    permission:
+      check: {}
+      columns: []
+    comment: ""
 select_permissions:
   - role: super
     permission:
       columns:
         - active
-        - created_at
-        - default_role
         - deleted
+        - default_role
+        - name
+        - password
+        - created_at
+        - secret_token_expires_at
+        - updated_at
         - email
         - id
-        - name
-        - updated_at
+        - secret_token
       filter: {}
       allow_aggregations: true
   - role: user
@@ -66,18 +57,19 @@ update_permissions:
     permission:
       columns:
         - active
-        - created_at
-        - default_role
         - deleted
-        - email
-        - id
+        - default_role
         - name
         - password
-        - secret_token
+        - created_at
         - secret_token_expires_at
         - updated_at
+        - email
+        - id
+        - secret_token
       filter: {}
-      check: null
+      check: {}
+    comment: ""
   - role: user
     permission:
       columns:
@@ -87,3 +79,8 @@ update_permissions:
         id:
           _eq: X-Hasura-User-Id
       check: null
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""
