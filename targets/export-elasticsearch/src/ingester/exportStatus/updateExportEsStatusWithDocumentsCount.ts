@@ -29,8 +29,10 @@ interface HasuraReturnQuery {
 export async function updateExportEsStatusWithDocumentsCount(
   documentsCount: ExportEsStatus["documentsCount"]
 ): Promise<string> {
-  const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint");
-  const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret");
+  const HASURA_GRAPHQL_ENDPOINT =
+    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
+  const HASURA_GRAPHQL_ENDPOINT_SECRET =
+    context.get("cdtnAdminEndpointSecret") || "admin1";
   const latestExportEs = await gqlClient({
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
