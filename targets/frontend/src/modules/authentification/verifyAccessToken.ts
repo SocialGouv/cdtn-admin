@@ -12,6 +12,5 @@ export const verifyAccessToken = async (accessToken: string) => {
   if (validity < 0) {
     return false;
   }
-
   return true;
 };
