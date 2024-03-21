@@ -1,11 +1,11 @@
 import { gqlClient } from "@shared/utils";
 import { LoginHasuraResult, signInQuery } from "./queries/signIn";
 import {
-  AuthEmailNotFound,
   AuthGqlError,
   AuthJwtRefreshError,
   AuthUserDeleted,
   AuthUserNotActive,
+  AuthUserNotFound,
   AuthUserPasswordDifferent,
 } from "./error";
 import { verify } from "argon2";
@@ -37,9 +37,9 @@ export const signIn = async (
   }
 
   if (loginResult.data?.auth_users.length === 0) {
-    throw new AuthEmailNotFound({
+    throw new AuthUserNotFound({
       message: `No user with ${email}`,
-      name: "AUTH_EMAIL_NOT_FOUND",
+      name: "AUTH_USER_NOT_FOUND",
       cause: null,
     });
   }
@@ -72,13 +72,23 @@ export const signIn = async (
     });
   }
 
-  const accessTokenGenerated = generateJwtToken(user, JWT_TOKEN_EXPIRES);
-  const refreshTokenGenerated = generateJwtToken(user, REFRESH_TOKEN_EXPIRES);
+  const userToSave = {
+    id: user.id,
+    role: user.role,
+    name: user.name,
+  };
+
+  const accessTokenGenerated = generateJwtToken(userToSave, JWT_TOKEN_EXPIRES);
+  const refreshTokenGenerated = generateJwtToken(
+    userToSave,
+    REFRESH_TOKEN_EXPIRES
+  );
   const expiresInGenerated = getExpiryDate(REFRESH_TOKEN_EXPIRES);
 
   // update the refresh token, the access token, and the expiry date
   const refreshTokenResult = await gqlClient()
     .mutation<UpdateRefreshTokenHasuraResult>(updateRefreshTokenMutation, {
+      id: user.id,
       refreshToken: refreshTokenGenerated,
       accessToken: accessTokenGenerated,
       expiresIn: expiresInGenerated,

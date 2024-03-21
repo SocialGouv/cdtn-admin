@@ -8,8 +8,15 @@ const getJwtToken = (): { type: Algorithm; key: string } => {
   );
 };
 
+export type LightUser = Pick<
+  Session["user"],
+  "email" | "id" | "name" | "role" | "expiresIn"
+>;
+
+export type UserStoredInJwt = Pick<LightUser, "id" | "role" | "name">;
+
 export function generateJwtToken(
-  user: Session["user"],
+  user: UserStoredInJwt,
   expiresInMinutes: number
 ) {
   const jwtSecret = getJwtToken();
@@ -18,7 +25,7 @@ export function generateJwtToken(
       "https://hasura.io/jwt/claims": {
         "x-hasura-allowed-roles": [user.role],
         "x-hasura-default-role": user.role,
-        "x-hasura-user-id": user.id.toString(),
+        "x-hasura-user-id": user.id,
         "x-hasura-user-name": user.name,
       },
     },

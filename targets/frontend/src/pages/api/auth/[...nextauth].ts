@@ -3,6 +3,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { signIn } from "src/modules/authentification/signIn";
 
 export const authOptions: NextAuthOptions = {
+  secret:
+    process.env.NEXTAUTH_SECRET ??
+    "6ZYMHbt0mxOj9y6mTyG2nJVt2zWDEdckLJz248uflwI=",
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -19,9 +22,6 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  secret:
-    process.env.NEXTAUTH_SECRET ??
-    "6ZYMHbt0mxOj9y6mTyG2nJVt2zWDEdckLJz248uflwI=",
 };
 
 export default NextAuth(authOptions);
