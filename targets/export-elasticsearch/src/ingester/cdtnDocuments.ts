@@ -17,10 +17,9 @@ import { buildThemes } from "./buildThemes";
 import {
   getDocumentBySource,
   getDocumentBySourceWithRelation,
-} from "./documents/fetchCdtnAdminDocuments";
+} from "./common/fetchCdtnAdminDocuments";
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
-import { markdownTransform } from "./markdown";
 import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
@@ -30,9 +29,12 @@ import {
   isOldContribution,
 } from "./contributions";
 import { generateAgreements } from "./agreements";
-import { getGlossary } from "./documents/fetchGlossary";
+import { getGlossary } from "./common/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
+import { generateEditorialContents } from "./informations/generate";
+import { populateRelatedDocuments } from "./common/populateRelatedDocuments";
+import { mergeRelatedDocumentsToEditorialContents } from "./informations/mergeRelatedDocumentsToEditorialContents";
 
 /**
  * Find duplicate slugs
@@ -80,12 +82,14 @@ export async function cdtnDocumentsGen(
     SOURCES.EDITORIAL_CONTENT,
     getBreadcrumbs
   );
-  const editorialContents = markdownTransform(addGlossary, documents);
+  const {
+    documents: editorialContents,
+    relatedIdsDocuments: relatedIdsEditorialDocuments,
+  } = await generateEditorialContents(documents, addGlossary);
   documentsCount = {
     ...documentsCount,
     [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
   };
-  await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContents);
 
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
@@ -404,6 +408,33 @@ export async function cdtnDocumentsGen(
     [SOURCES.CDT]: cdtDoc.length,
   };
   await updateDocs(SOURCES.CDT, cdtDoc);
+
+  logger.info("=== Merge Related Documents ===");
+  const allDocuments = [
+    ...editorialContents,
+    ...modelesDeCourriers,
+    ...tools,
+    ...externalTools,
+    ...dossiers,
+    ...generatedContributions,
+    ...agreementsDocs,
+    ...fichesSp,
+    ...fichesMTWithGlossary,
+    ...splittedFichesMt,
+    ...highlightsWithContrib,
+    ...cdtDoc,
+  ];
+
+  const relatedDocuments = populateRelatedDocuments(
+    allDocuments,
+    relatedIdsEditorialDocuments
+  );
+
+  const editorialContentsAugmented = mergeRelatedDocumentsToEditorialContents(
+    editorialContents,
+    relatedDocuments
+  );
+  await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContentsAugmented);
 
   logger.info("=== data version ===");
   await updateDocs(SOURCES.VERSIONS, [
