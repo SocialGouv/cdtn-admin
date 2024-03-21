@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.38.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.1...v2.38.0) (2024-03-18)
+
+### Bug Fixes
+
+- **glossary:** exclure les titres et sous-titres provenant des contribs ([#1316](https://github.com/SocialGouv/cdtn-admin/issues/1316)) ([8f3e62d](https://github.com/SocialGouv/cdtn-admin/commit/8f3e62d9b3e57e9d699552bcce583fca8eaecd47))
+
+## [2.37.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.0...v2.37.1) (2024-03-13)
+
+### Bug Fixes
+
+- **s3:** correction de la suppression des fichiers + ajout de logs ([#1318](https://github.com/SocialGouv/cdtn-admin/issues/1318)) ([1ba6137](https://github.com/SocialGouv/cdtn-admin/commit/1ba6137a45f7fab619c1fce220b358b77ae0d04b))
+
+# [2.37.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.36.0...v2.37.0) (2024-03-13)
+
+### Features
+
+- **upload:** migration de l'upload `azure` vers `s3` ([#1309](https://github.com/SocialGouv/cdtn-admin/issues/1309)) ([c0c2a18](https://github.com/SocialGouv/cdtn-admin/commit/c0c2a18051978f3be859e1610658617296db3a28))
+
+# [2.36.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.1...v2.36.0) (2024-03-08)
+
+### Features
+
+- Linked/1291 admin cas spécifique des cc non étendues message bloc ([#1302](https://github.com/SocialGouv/cdtn-admin/issues/1302)) ([5622cc2](https://github.com/SocialGouv/cdtn-admin/commit/5622cc2f18484c0711dafabe9019ab60db2f29f8))
+
+## [2.35.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.0...v2.35.1) (2024-03-05)
+
+**Note:** Version bump only for package export-elasticsearch
+
 # [2.35.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.4...v2.35.0) (2024-03-04)
 
 ### Bug Fixes

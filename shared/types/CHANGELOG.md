@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.38.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.1...v2.38.0) (2024-03-18)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.37.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.0...v2.37.1) (2024-03-13)
+
+**Note:** Version bump only for package @shared/types
+
+# [2.37.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.36.0...v2.37.0) (2024-03-13)
+
+### Features
+
+- **upload:** migration de l'upload `azure` vers `s3` ([#1309](https://github.com/SocialGouv/cdtn-admin/issues/1309)) ([c0c2a18](https://github.com/SocialGouv/cdtn-admin/commit/c0c2a18051978f3be859e1610658617296db3a28))
+
+# [2.36.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.1...v2.36.0) (2024-03-08)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.35.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.35.0...v2.35.1) (2024-03-05)
+
+**Note:** Version bump only for package @shared/types
+
 # [2.35.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.34.4...v2.35.0) (2024-03-04)
 
 ### Features

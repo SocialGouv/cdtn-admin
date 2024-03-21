@@ -1,33 +1,31 @@
 import { inject, injectable } from "inversify";
 
-import { AzureRepository } from "../repositories";
+import { S3Repository } from "../repositories";
 import { getName, name } from "../utils";
+import { Environment } from "@shared/types";
+import { logger } from "@shared/utils";
 
 @injectable()
 @name("SitemapService")
 export class SitemapService {
   constructor(
-    @inject(getName(AzureRepository))
-    private readonly repo: AzureRepository
+    @inject(getName(S3Repository))
+    private readonly repo: S3Repository
   ) {}
 
-  async getSitemap(
-    destinationContainer = process.env.SITEMAP_DESTINATION_CONTAINER ?? "",
-    destinationName = process.env.SITEMAP_DESTINATION_NAME ?? ""
-  ): Promise<string> {
-    const data = await this.repo.getFile(destinationContainer, destinationName);
-    return data;
-  }
-
   async uploadSitemap(
+    environment: Environment,
     sitemapEndpoint = process.env.SITEMAP_ENDPOINT ?? "",
-    destinationContainer = process.env.SITEMAP_DESTINATION_CONTAINER ?? "",
-    destinationName = process.env.SITEMAP_DESTINATION_NAME ?? ""
+    destinationFolder = process.env.SITEMAP_DESTINATION_FOLDER ?? "",
+    sitemapName = process.env.SITEMAP_NAME ?? ""
   ): Promise<void> {
+    logger.info(`Upload sitemap to ${destinationFolder}/${sitemapName}`);
     await this.repo.uploadSitemap(
+      environment,
       sitemapEndpoint,
-      destinationContainer,
-      destinationName
+      destinationFolder,
+      sitemapName
     );
+    logger.info(`Sitemap has been uploaded 🎉`);
   }
 }

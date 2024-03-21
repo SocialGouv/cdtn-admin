@@ -1,9 +1,8 @@
 {
   "name": "frontend",
-  "version": "2.35.0",
+  "version": "2.38.0",
   "dependencies": {
-    "@azure/abort-controller": "^1.0.4",
-    "@azure/storage-blob": "^12.7.0",
+    "@aws-sdk/client-s3": "^3.525.0",
     "@codegouvfr/react-dsfr": "^0.76.4",
     "@elastic/elasticsearch": "^7.14.1",
     "@emotion/react": "11.10.6",
@@ -51,6 +50,7 @@
     "mammoth": "^1.6.0",
     "memoizee": "^0.4.15",
     "micromark": "^2.11.4",
+    "mime-types": "^2.1.35",
     "next": "14.0.1",
     "next-urql": "^3.2.1",
     "nodemailer": "^6.6.5",

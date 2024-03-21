@@ -56,6 +56,8 @@ www:
         name: www
     - secretRef:
         name: www
+    - secretRef:
+        name: s3
   env:
     - name: "FRONTEND_HOST"
       value: "{{.Values.global.host}}"
@@ -106,15 +108,17 @@ export:
   containerPort: 8787
   envFrom:
     - configMapRef:
-        name: "export-elasticsearch"
+        name: export-elasticsearch
     - secretRef:
-        name: "export-elasticsearch"
+        name: export-elasticsearch
+    - secretRef:
+        name: s3
   resources:
     limits:
-      cpu: '100m'
+      cpu: "100m"
       memory: 256Mi
     requests:
-      cpu: '50m'
+      cpu: "50m"
       memory: 128Mi
   replicas: 1
   securityContext:
@@ -138,10 +142,10 @@ hasura:
   replicas: 2
   resources:
     limits:
-      cpu: '2000m'
-      memory: '4Gi'
+      cpu: "2000m"
+      memory: "4Gi"
     requests:
-      cpu: '50m'
+      cpu: "50m"
       memory: 650Mi
   securityContext:
     fsGroup: 1001

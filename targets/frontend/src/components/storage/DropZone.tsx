@@ -3,6 +3,13 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { CircularProgress } from "@mui/material";
 import { theme } from "../../theme";
+import {
+  ALLOWED_DOC,
+  ALLOWED_JPG,
+  ALLOWED_PDF,
+  ALLOWED_PNG,
+  ALLOWED_SVG,
+} from "src/lib/secu";
 
 const defaultStyles: CSS.Properties = {
   border: "2px dotted silver",
@@ -36,12 +43,12 @@ export function DropZone({
 
   const { getRootProps, getInputProps, isDragAccept } = useDropzone({
     accept: {
-      "image/png": [".png"],
-      "image/jpeg": [".jpg, jpeg"],
-      "image/svg+xml": [".svg"],
-      "application/pdf": [".pdf"],
+      "image/png": ALLOWED_PNG,
+      "image/jpeg": ALLOWED_JPG,
+      "image/svg+xml": ALLOWED_SVG,
+      "application/pdf": ALLOWED_PDF,
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        [".doc", ".docx"],
+        ALLOWED_DOC,
     },
     onDropAccepted: onDrop,
   });
