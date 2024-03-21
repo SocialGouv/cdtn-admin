@@ -8,6 +8,7 @@ import { fetchAgreementMessage } from "./fetchAgreementMessage";
 export const generateMessageBlock = async (
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): Promise<string | undefined> => {
+  console.log(generateMessageBlock, JSON.stringify(contrib));
   const messageBlock = await fetchMessageBlock(contrib.questionId);
   if (!messageBlock) {
     return undefined;

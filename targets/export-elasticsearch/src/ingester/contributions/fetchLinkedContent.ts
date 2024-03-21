@@ -31,8 +31,11 @@ export async function fetchLinkedContent(
   questionIndex: number,
   idcc: string
 ): Promise<LinkedContentLight | undefined> {
-  const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
-  const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret") ||"admin1";
+  console.log("fetchLinkedContent", cdtnId);
+  const HASURA_GRAPHQL_ENDPOINT =
+    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
+  const HASURA_GRAPHQL_ENDPOINT_SECRET =
+    context.get("cdtnAdminEndpointSecret") || "admin1";
   const res = await gqlClient({
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
