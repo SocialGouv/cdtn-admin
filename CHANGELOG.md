@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.38.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.1...v2.38.0) (2024-03-18)
+
+### Bug Fixes
+
+- **glossary:** exclure les titres et sous-titres provenant des contribs ([#1316](https://github.com/SocialGouv/cdtn-admin/issues/1316)) ([8f3e62d](https://github.com/SocialGouv/cdtn-admin/commit/8f3e62d9b3e57e9d699552bcce583fca8eaecd47))
+
+### Features
+
+- **menu:** réorganisation du menu ([#1298](https://github.com/SocialGouv/cdtn-admin/issues/1298)) ([2cf535d](https://github.com/SocialGouv/cdtn-admin/commit/2cf535dd33e62cc9404741f6a7e8e15b246f2861))
+
 ## [2.37.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.0...v2.37.1) (2024-03-13)
 
 ### Bug Fixes
