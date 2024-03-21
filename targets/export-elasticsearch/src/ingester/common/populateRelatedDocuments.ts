@@ -23,6 +23,7 @@ export const populateRelatedDocuments = (
       source: docFound.source,
       description: docFound.description ?? docFound.text,
       icon: docFound.icon,
+      action: docFound.action,
     };
   });
   return relatedDocuments;

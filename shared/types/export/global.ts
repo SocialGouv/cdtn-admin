@@ -39,4 +39,5 @@ export type RelatedDocument = {
   source: string;
   description: string;
   icon?: string; // Pour afficher l'icon du simulateur dans la tuile
+  action?: string; // Pour afficher le texte du bouton pour le simulateur dans la tuile
 };
