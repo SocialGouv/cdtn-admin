@@ -10,13 +10,8 @@ export function toSecond(minutes = 0) {
 }
 
 export function getExpiryDate(minutes = 0) {
-  try {
-    return new Date(Date.now() + toMs(minutes));
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  return new Date(Date.now() + toMs(minutes));
 }
 
-export const timeSince = (date) =>
+export const timeSince = (date: string) =>
   formatDistanceToNow(parseISO(date), { locale: frLocale });

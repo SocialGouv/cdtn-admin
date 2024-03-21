@@ -10,7 +10,7 @@ import {
 } from "./error";
 import { verify } from "argon2";
 import { generateJwtToken } from "./jwt";
-import { REFRESH_TOKEN_EXPIRES } from "src/config";
+import { JWT_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRES } from "src/config";
 import { getExpiryDate } from "src/lib/duration";
 import { Session } from "next-auth";
 import {
@@ -72,8 +72,8 @@ export const signIn = async (
     });
   }
 
-  const accessTokenGenerated = generateJwtToken(user);
-  const refreshTokenGenerated = generateJwtToken(user);
+  const accessTokenGenerated = generateJwtToken(user, JWT_TOKEN_EXPIRES);
+  const refreshTokenGenerated = generateJwtToken(user, REFRESH_TOKEN_EXPIRES);
   const expiresInGenerated = getExpiryDate(REFRESH_TOKEN_EXPIRES);
 
   // update the refresh token, the access token, and the expiry date
@@ -87,8 +87,8 @@ export const signIn = async (
 
   if (refreshTokenResult.error) {
     throw new AuthGqlError({
-      cause: loginResult.error,
-      message: "Could not refresh token of the user",
+      cause: refreshTokenResult.error,
+      message: "Could not set accessToken or refreshToken",
       name: "AUTH_GQL_ERROR",
     });
   }
@@ -101,7 +101,7 @@ export const signIn = async (
 
   if (!accessToken || !refreshToken || !expiresIn) {
     throw new AuthJwtRefreshError({
-      cause: loginResult.error,
+      cause: null,
       message: "Could not refresh token of the user",
       name: "AUTH_JWT_REFRESH_ERROR",
     });

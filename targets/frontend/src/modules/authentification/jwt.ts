@@ -1,6 +1,4 @@
 import jwt, { Algorithm, verify } from "jsonwebtoken";
-
-import { JWT_TOKEN_EXPIRES } from "../../config";
 import { Session } from "next-auth";
 
 const getJwtToken = (): { type: Algorithm; key: string } => {
@@ -10,7 +8,10 @@ const getJwtToken = (): { type: Algorithm; key: string } => {
   );
 };
 
-export function generateJwtToken(user: Session["user"]) {
+export function generateJwtToken(
+  user: Session["user"],
+  expiresInMinutes: number
+) {
   const jwtSecret = getJwtToken();
   return jwt.sign(
     {
@@ -24,7 +25,7 @@ export function generateJwtToken(user: Session["user"]) {
     jwtSecret.key,
     {
       algorithm: jwtSecret.type,
-      expiresIn: `${JWT_TOKEN_EXPIRES}m`,
+      expiresIn: `${expiresInMinutes}m`,
     }
   );
 }
