@@ -1,10 +1,10 @@
 import {
   Accordion,
-  AccordionSummary,
-  Typography,
   AccordionDetails,
+  AccordionSummary,
   Badge,
   Stack,
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
@@ -28,7 +28,11 @@ export function NavigationGroup({
   items = [],
 }: NavigationGroupProps) {
   return (
-    <Accordion expanded={expanded} onChange={() => onExpand(id)} disableGutters>
+    <Accordion
+      expanded={expanded}
+      onChange={() => onExpand(expanded ? "" : id)}
+      disableGutters
+    >
       <AccordionHeader
         aria-controls="panel1d-content"
         id="panel1d-header"

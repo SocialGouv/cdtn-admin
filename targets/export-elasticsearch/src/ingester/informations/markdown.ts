@@ -1,11 +1,14 @@
-import type { EditorialContentDoc } from "@shared/types";
+import type {
+  DocumentElasticWithSource,
+  EditorialContentDoc,
+} from "@shared/types";
 import htmlAstToAnotherHtmlAst from "rehype-raw";
 import htmlAstStringify from "rehype-stringify";
 import markdownToMardownAst from "remark-parse";
 import markdownAstToHtmlAst from "remark-rehype";
 import unified from "unified";
 
-import type { AddGlossaryReturnFn } from "./glossary";
+import type { AddGlossaryReturnFn } from "../glossary";
 
 const htmlProcessor = unified()
   .use(markdownToMardownAst as any)
@@ -15,8 +18,8 @@ const htmlProcessor = unified()
 
 export function markdownTransform(
   addGlossary: AddGlossaryReturnFn,
-  documents: EditorialContentDoc[]
-) {
+  documents: DocumentElasticWithSource<EditorialContentDoc>[]
+): DocumentElasticWithSource<EditorialContentDoc>[] {
   return documents.map(({ contents = [], ...rest }) => ({
     ...rest,
     contents: contents.map((content) => {

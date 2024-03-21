@@ -2,16 +2,17 @@ import type { Glossary, Term } from "../types";
 import type { GlossaryTerms } from "./types";
 
 const conventionMatchers =
-  "[C|c]onventions? [C|c]ollectives?|[A|a]ccords? de [B|b]ranches?|[D|d]ispositions? [C|c]onventionnelles?";
+  "[Cc]onventions? [Cc]ollectives?|[Aa]ccords? de [Bb]ranches?|[Dd]ispositions? [Cc]onventionnelles?";
 
 const startWordBreaks = `(?<=^| |\\.|,|'|>|\\()`;
 const endWordBreaks = `(?= |\\.|,|'|$|<|\\))`;
 
-const endAnchorOmit = `(?![^<]*</a>|[^<]*</summary>|[^<]*</strong></summary>|[^<]*</h[1-6]>)`;
+const startAnchorOmit = `(?<!<span class="(?:sub-)?title">[^<]*)`;
+const endAnchorOmit = `(?![^<]*(?:</a>|</summary>|</strong></summary>|</h[1-6]>))`;
 
 const tagAttributeOmit = `(?<=(^|>)[^><]*)`;
 
-const startTag = `${tagAttributeOmit}${startWordBreaks}`;
+const startTag = `${tagAttributeOmit}${startAnchorOmit}${startWordBreaks}`;
 const endTag = `${endWordBreaks}${endAnchorOmit}`;
 
 export const explodeGlossaryTerms = (glossary: Glossary): GlossaryTerms[] => {
@@ -23,26 +24,14 @@ export const explodeGlossaryTerms = (glossary: Glossary): GlossaryTerms[] => {
 
   return glossaryTerms;
 };
-
+const regexSpecialChars = ["(", ")"];
 const escapeRegexSpecialChars = (term: string) => {
-  const regexSpecialChars = [
-    ".",
-    "+",
-    "*",
-    "?",
-    "^",
-    "$",
-    "(",
-    ")",
-    "[",
-    "]",
-    "{",
-    "}",
-    "|",
-  ];
-  return regexSpecialChars.reduce((term: string, specialChar: string) => {
-    return term.replace(new RegExp(`\\${specialChar}`), `\\${specialChar}`);
-  }, term);
+  return regexSpecialChars.reduce(
+    (escapedTerm: string, specialChar: string) => {
+      return escapedTerm.replace(specialChar, `\\${specialChar}`);
+    },
+    term
+  );
 };
 
 const explodeTerm = (term: Term): GlossaryTerms[] => {
@@ -72,7 +61,7 @@ const regexCapital = (term: string) => {
     const firstCharUp = firstChar.toUpperCase();
     const firstCharRegex =
       firstCharLow !== firstCharUp
-        ? `[${firstCharLow}|${firstCharUp}]`
+        ? `[${firstCharLow}${firstCharUp}]`
         : firstCharLow;
     return `${
       regexString ? `${regexString} ` : ""

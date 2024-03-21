@@ -1,10 +1,9 @@
-import Link from "next/link";
 import {
+  Badge,
   ListItem,
   ListItemButton,
   ListItemText,
   Stack,
-  Badge,
 } from "@mui/material";
 import { useRouter } from "next/router";
 
@@ -22,7 +21,7 @@ export function NavigationItem({
   const router = useRouter();
   return (
     <ListItem disablePadding onClick={() => router.push(href)}>
-      <ListItemButton>
+      <ListItemButton selected={router.asPath?.includes(href)}>
         <ListItemText
           primary={
             <Stack

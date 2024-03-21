@@ -29,3 +29,15 @@ export type DocumentElastic = {
   metaDescription: string;
   refs: DocumentRef[];
 };
+
+export type RelatedDocument = {
+  id: string;
+  cdtnId: string;
+  breadcrumbs: Breadcrumbs[];
+  title: string;
+  slug: string;
+  source: string;
+  description: string;
+  icon?: string; // Pour afficher l'icon du simulateur dans la tuile
+  action?: string; // Pour afficher le texte du bouton pour le simulateur dans la tuile
+};
