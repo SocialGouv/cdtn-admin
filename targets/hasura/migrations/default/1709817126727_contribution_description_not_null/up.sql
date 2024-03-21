@@ -59,11 +59,18 @@ _update_contribution as (
         )
 )
 update public.documents d
-set "document" = jsonb_insert(
+set "document" = case when "document"->'description' is null
+    then jsonb_insert(
         d."document",
         '{description}',
         jsonb_build_object('description', cp.description)->'description'
     )
+    else jsonb_set(
+            d."document",
+            '{description}',
+            jsonb_build_object('description', cp.description)->'description'
+        )
+    end
 from _content_points cp
 where cp.id::text = d.initial_id
     and (
