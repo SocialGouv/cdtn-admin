@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.39.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.1...v2.39.2) (2024-03-25)
+
+### Bug Fixes
+
+- ovh ([39ef3a8](https://github.com/SocialGouv/cdtn-admin/commit/39ef3a8d677a7e02de7fcbb6d493666944d20b49))
+- ovh ([f272f45](https://github.com/SocialGouv/cdtn-admin/commit/f272f45b861a77ccefdeebe9ab91a181aed1a0a7))
+- ovh preprod ([324ee96](https://github.com/SocialGouv/cdtn-admin/commit/324ee96a3d9a09602ba89ddb75cf98f27cd262fe))
+- ovh preprod ([b57eec7](https://github.com/SocialGouv/cdtn-admin/commit/b57eec7a6883eb1e2ff567c1224d8305449fb26e))
+
 ## [2.39.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.0...v2.39.1) (2024-03-25)
 
 ### Bug Fixes
