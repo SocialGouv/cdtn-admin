@@ -1,4 +1,4 @@
-import { Client } from "@urql/core/dist/types/client";
+import { Client } from "@urql/core";
 import { AlertChanges, AlertInfo, HasuraAlert } from "@shared/types";
 import { batchPromises } from "../utils/batch-promises";
 import { DaresAlertInsert } from "../dares/types";

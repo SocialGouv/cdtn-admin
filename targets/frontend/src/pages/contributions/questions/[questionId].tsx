@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { EditQuestion } from "src/components/contributions";
 import { Layout } from "src/components/layout/auth.layout";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 
 export function EditAnswerPage() {
   const router = useRouter();
@@ -14,4 +13,4 @@ export function EditAnswerPage() {
   );
 }
 
-export default withCustomUrqlClient(EditAnswerPage);
+export default EditAnswerPage;

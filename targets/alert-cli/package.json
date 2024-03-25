@@ -13,6 +13,7 @@
     "@socialgouv/cdtn-slugify": "4.52.1",
     "@socialgouv/cdtn-sources": "4.52.1",
     "@socialgouv/dila-api-client": "1.2.4",
+    "@urql/core": "^4.3.0",
     "axios": "^1.5.0",
     "diff": "^5.1.0",
     "memoizee": "0.4.15",

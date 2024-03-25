@@ -1,5 +1,4 @@
 import { Layout } from "src/components/layout/auth.layout";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { useRouter } from "next/router";
 import { AgreementEdition } from "../../modules/agreements";
 
@@ -14,4 +13,4 @@ export function AgreementEditionPage() {
   );
 }
 
-export default withCustomUrqlClient(AgreementEditionPage);
+export default AgreementEditionPage;

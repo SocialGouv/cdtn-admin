@@ -3,7 +3,6 @@ import { ContributionsAnswer } from "src/components/contributions";
 import { ContributionAnswerReferences } from "src/modules/references/ContributionAnswerReferences";
 import { Layout } from "src/components/layout/auth.layout";
 import { ReferencesTabs } from "src/components/references";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 
 export function EditInformationPage() {
   const router = useRouter();
@@ -21,4 +20,4 @@ export function EditInformationPage() {
   );
 }
 
-export default withCustomUrqlClient(EditInformationPage);
+export default EditInformationPage;

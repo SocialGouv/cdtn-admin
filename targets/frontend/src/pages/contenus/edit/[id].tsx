@@ -9,7 +9,6 @@ import { EditorialContentForm } from "src/components/editorialContent";
 import { HighlightsForm } from "src/components/highlights";
 import { Layout } from "src/components/layout/auth.layout";
 import { PrequalifiedForm } from "src/components/prequalified";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { previewContentAction } from "src/lib/preview/preview.gql";
 import {
   Content,
@@ -267,4 +266,4 @@ export function EditInformationPage() {
   );
 }
 
-export default withCustomUrqlClient(EditInformationPage);
+export default EditInformationPage;

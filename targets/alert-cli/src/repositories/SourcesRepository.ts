@@ -1,4 +1,4 @@
-import { Client } from "@urql/core/dist/types/client";
+import { Client } from "@urql/core";
 import { Source } from "../types";
 
 const sourcesQuery = `
@@ -48,7 +48,7 @@ export class SourcesRepository {
 
   async load() {
     const result = await this.client
-      .query<SourceResult>(sourcesQuery)
+      .query<SourceResult>(sourcesQuery, {})
       .toPromise();
     if (result.error || !result.data) {
       console.error(result.error);

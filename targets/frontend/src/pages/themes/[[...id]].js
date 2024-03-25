@@ -7,7 +7,6 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { List } from "src/components/themes/List";
 import { MapModal } from "src/components/themes/MapModal";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { RELATIONS } from "src/lib/relations";
 import { Box, Card, CircularProgress } from "@mui/material";
 import { useMutation, useQuery } from "urql";
@@ -180,7 +179,7 @@ export function ThemePage() {
   );
 }
 
-export default withCustomUrqlClient(ThemePage);
+export default ThemePage;
 
 const AddAThemeButton = ({ themeId }) => (
   <Box my={theme.space.medium}>

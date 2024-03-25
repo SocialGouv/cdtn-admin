@@ -1,7 +1,6 @@
 import { createContext, useState } from "react";
 import { FichesServicePublicContainer } from "src/components/fiches-sp/fichesSpContainer";
 import { Layout } from "src/components/layout/auth.layout";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 
 export type SelectionContextInterface = {
   selectedItems: string[];
@@ -32,4 +31,4 @@ function FichesServicePublicPage() {
   );
 }
 
-export default withCustomUrqlClient(FichesServicePublicPage);
+export default FichesServicePublicPage;

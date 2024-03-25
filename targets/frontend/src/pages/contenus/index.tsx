@@ -3,7 +3,6 @@ import { createContext, useContext, useState } from "react";
 import { DocumentListContainer } from "src/components/documents/Container";
 import { DEFAULT_ITEMS_PER_PAGE } from "src/components/documents/SearchFilters";
 import { Layout } from "src/components/layout/auth.layout";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 
 type ContentQueryParam = {
   available?: string;
@@ -52,4 +51,4 @@ export function DocumentsPage() {
   );
 }
 
-export default withCustomUrqlClient(DocumentsPage);
+export default DocumentsPage;

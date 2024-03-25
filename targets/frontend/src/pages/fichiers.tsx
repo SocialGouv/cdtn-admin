@@ -9,7 +9,6 @@ import {
 import { CopyButton } from "src/components/button/CopyButton";
 import { Layout } from "src/components/layout/auth.layout";
 import { DropZone } from "src/components/storage/DropZone";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { useDebouncedState } from "src/hooks/";
 import { timeSince } from "src/lib/duration";
 import { request } from "src/lib/request";
@@ -241,7 +240,7 @@ function FilesPage() {
                           </span>{" "}
                           | Mise en ligne il y a{" "}
                           <span style={{ fontWeight: "bold" }}>
-                            {timeSince(file.lastModified)}
+                            {timeSince(file.lastModified.toString())}
                           </span>
                         </Box>
                       </Box>
@@ -278,7 +277,7 @@ function FilesPage() {
   );
 }
 
-export default withCustomUrqlClient(FilesPage);
+export default FilesPage;
 
 const buttonProps = {
   outline: true,

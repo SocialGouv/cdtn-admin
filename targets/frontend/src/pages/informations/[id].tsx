@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { InformationsEdit } from "src/modules/informations";
 import { Layout } from "src/components/layout/auth.layout";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { ReferencesTabs } from "src/components/references";
 import { ContributionAnswerReferences } from "src/modules/references/ContributionAnswerReferences";
 
@@ -21,4 +20,4 @@ export function EditAnswerPage() {
   );
 }
 
-export default withCustomUrqlClient(EditAnswerPage);
+export default EditAnswerPage;

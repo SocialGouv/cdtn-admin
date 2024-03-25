@@ -1,4 +1,4 @@
-import { Client } from "@urql/core/dist/types/client";
+import { Client } from "@urql/core";
 
 const insertAlertsMutation = `
 mutation insertAlertWarning($article: String!, $document: String!, $source: String!) {

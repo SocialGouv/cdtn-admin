@@ -1,4 +1,4 @@
-import { Client } from "@urql/core/dist/types/client";
+import { Client } from "@urql/core";
 
 const query = `
 query vdd {
@@ -22,7 +22,7 @@ export class FicheSPRepository {
 
   async getFicheServicePublicIds(): Promise<string[]> {
     const result = await this.client
-      .query<FicheServicePublicIdsResult>(query)
+      .query<FicheServicePublicIdsResult>(query, {})
       .toPromise();
     if (result.error || !result.data) {
       console.error(result.error);

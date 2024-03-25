@@ -1,6 +1,5 @@
 import React from "react";
 import { Layout } from "src/components/layout/auth.layout";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { Export } from "src/modules/export";
 
 export function UpdatePage(): JSX.Element {
@@ -11,4 +10,4 @@ export function UpdatePage(): JSX.Element {
   );
 }
 
-export default withCustomUrqlClient(UpdatePage);
+export default UpdatePage;

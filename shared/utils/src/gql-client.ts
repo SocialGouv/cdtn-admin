@@ -24,4 +24,5 @@ export const gqlClient = (props = defaultProps) =>
     maskTypename: true,
     requestPolicy: "network-only",
     url: props.graphqlEndpoint,
+    exchanges: [],
   });
