@@ -1,4 +1,5 @@
 projectName: cdtn
 dependencies:
-  extends:
-    - name: ovh
+  fabrique:
+    extends:
+      - name: ovh
