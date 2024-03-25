@@ -1,4 +1,4 @@
-import { createClient } from "@urql/core";
+import { cacheExchange, createClient, fetchExchange } from "@urql/core";
 import fetch from "isomorphic-unfetch";
 
 type GqlClientParameter = {
@@ -24,7 +24,7 @@ export const gqlClient = (props = defaultProps) =>
     maskTypename: true,
     requestPolicy: "network-only",
     url: props.graphqlEndpoint,
-    exchanges: [],
+    exchanges: [cacheExchange, fetchExchange],
   });
 
 export type GqlClient = ReturnType<typeof gqlClient>;

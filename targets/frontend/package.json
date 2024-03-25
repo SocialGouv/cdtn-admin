@@ -105,7 +105,7 @@
   "private": true,
   "scripts": {
     "build": "yarn prebuild && next build",
-    "dev": "yarn predev && next dev -p 3001",
+    "dev": "yarn predev && NEXTAUTH_URL=http://localhost:3001 NEXTAUTH_SECRET=6ZYMHbt0mxOj9y6mTyG2nJVt2zWDEdckLJz248uflwI= next dev -p 3001",
     "lint": "next lint",
     "precommit": "lint-staged",
     "start": "next start",

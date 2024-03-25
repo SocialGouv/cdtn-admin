@@ -16,8 +16,7 @@ export const mapExchangeUrql = mapExchange({
 
 export const authExchangeUrql = authExchange(async (utils) => {
   const session = await getSession();
-  const accessToken =
-    session?.user.accessToken ?? localStorage.getItem("token");
+  const accessToken = session?.user.accessToken;
   const refreshToken = session?.user.refreshToken;
 
   return {
