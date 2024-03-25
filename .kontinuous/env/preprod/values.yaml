@@ -32,6 +32,9 @@ pg:
       ~tpl~enabled: "false"
     recovery:
       enabled: true
+      ~tpl~database: "{{ .Values.global.pgDatabase }}"
+      ~tpl~owner: "{{ .Values.global.pgUser }}"
+      secretName: "pg-db"
 
 jobs:
   runs:
