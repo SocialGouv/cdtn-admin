@@ -6,7 +6,7 @@ import { useCallback, useMemo } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { useSelectionContext } from "src/pages/contenus";
 import { Card, Alert, Box } from "@mui/material";
-import { useMutation, useQuery } from "urql";
+import { useMutation, useQuery } from "@urql/next";
 
 import { Stack } from "../layout/Stack";
 import { Pagination } from "../pagination";

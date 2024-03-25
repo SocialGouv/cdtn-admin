@@ -1,4 +1,4 @@
-import { Client } from "@urql/core";
+import { GqlClient } from "@shared/utils";
 
 const insertAlertsMutation = `
 mutation insertAlertWarning($article: String!, $document: String!, $source: String!) {
@@ -15,9 +15,9 @@ interface InsertWarning {
 }
 
 export class WarningRepository {
-  private client: Client;
+  private client: GqlClient;
 
-  constructor(client: Client) {
+  constructor(client: GqlClient) {
     this.client = client;
   }
 

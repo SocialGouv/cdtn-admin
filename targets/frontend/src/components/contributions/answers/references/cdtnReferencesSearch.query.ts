@@ -1,4 +1,4 @@
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 
 import { CdtnReference, Document } from "../../type";
 import { Result } from "./ReferenceInput";

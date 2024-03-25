@@ -2,7 +2,7 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { getStatusLabel, slugifyRepository } from "src/models";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 import { Tabs, Tab } from "@mui/material";
 
 import { FixedSnackBar } from "../utils/SnackBar";

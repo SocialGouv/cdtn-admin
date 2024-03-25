@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
 import { Box, TextField, Typography } from "@mui/material";
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 import { theme as th } from "../../../theme";
 
 const sources = [SOURCES.THEMES];

@@ -1,10 +1,8 @@
-import { useMutation } from "urql";
-
 import { Information } from "../../type";
 
 import { mapInformation } from "./editInformation.mapping";
 import { getElementsToDelete } from "src/lib/mutationUtils";
-import { gql } from "@urql/core";
+import { gql, useMutation } from "@urql/next";
 
 export const informationMutation = gql`
   mutation edit_information(

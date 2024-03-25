@@ -1,7 +1,10 @@
-import { Client } from "urql";
 import { DocumentNode } from "graphql/index";
-import { TypedDocumentNode } from "@graphql-typed-document-node/core";
-import { OperationContext, OperationResult } from "@urql/core/dist/types/types";
+import {
+  OperationContext,
+  OperationResult,
+  TypedDocumentNode,
+  Client,
+} from "@urql/next";
 import { gqlClient } from "@shared/utils";
 
 export class ApiClient {
@@ -22,7 +25,7 @@ export class ApiClient {
 
   async query<Data = any, Variables extends object = {}>(
     query: DocumentNode | TypedDocumentNode<Data, Variables> | string,
-    variables?: Variables,
+    variables: Variables,
     context?: Partial<OperationContext>
   ): Promise<OperationResult<Data, Variables>> {
     let headers = context?.headers;
@@ -34,7 +37,7 @@ export class ApiClient {
       };
     }
     const result = await this.client
-      .query(query, variables, {
+      .query<Data, Variables>(query, variables, {
         ...context,
         fetchOptions: () => ({
           ...context?.fetchOptions,
@@ -48,7 +51,7 @@ export class ApiClient {
 
   async mutation<Data = any, Variables extends object = {}>(
     query: DocumentNode | TypedDocumentNode<Data, Variables> | string,
-    variables?: Variables,
+    variables: Variables,
     context?: Partial<OperationContext>
   ): Promise<OperationResult<Data, Variables>> {
     let headers = context?.headers;

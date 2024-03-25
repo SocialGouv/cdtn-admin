@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
-import { useMutation } from "urql";
+import { useMutation } from "@urql/next";
 
 import { Button } from "../button";
 import { Dialog } from "../dialog";

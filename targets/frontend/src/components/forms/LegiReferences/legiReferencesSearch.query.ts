@@ -1,4 +1,4 @@
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 import { AutocompleteFetcherResult } from "..";
 
 import { LegiArticle, LegiReference } from "./type";

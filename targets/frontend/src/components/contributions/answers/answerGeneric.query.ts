@@ -1,4 +1,4 @@
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 import { AnswerWithStatus } from "./answer.query";
 
 const contributionGenericAnswerQuery = `

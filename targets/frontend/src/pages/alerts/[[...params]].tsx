@@ -17,7 +17,7 @@ import { Stack } from "src/components/layout/Stack";
 import { Pagination } from "src/components/pagination";
 import type { AlertStatusType } from "src/models";
 import { alertStatusWordings } from "src/models";
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 import { Card, CardContent } from "@mui/material";
 import { FixedSnackBar } from "../../components/utils/SnackBar";
 import { theme } from "src/theme";

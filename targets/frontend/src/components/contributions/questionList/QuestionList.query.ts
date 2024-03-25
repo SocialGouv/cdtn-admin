@@ -1,4 +1,4 @@
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 
 import { Answer, Question } from "../type";
 import { initStatus } from "../status/utils";

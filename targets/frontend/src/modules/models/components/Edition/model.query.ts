@@ -1,40 +1,39 @@
-import { CombinedError, OperationContext, useQuery } from "urql";
 import { Model } from "../../type";
-import { gql } from "@urql/core";
+import { gql, CombinedError, OperationContext, useQuery } from "@urql/next";
 import { format, parseISO } from "date-fns";
 
 export const listModelsQuery = gql`
-    query SelectModel($id: uuid!) {
-        model: model_models_by_pk(id: $id) {
-            id
-            title
-            metaTitle
-            type
-            description
-            metaDescription
-            previewHTML
-            createdAt
-            updatedAt
-            file {
-                id
-                url
-                size
-                altText
-            }
-            legiReferences: models_legi_references {
-                legiArticle {
-                    cid
-                    id
-                    label
-                }
-            }
-            otherReferences: models_other_references {
-                id
-                label
-                url
-            }
+  query SelectModel($id: uuid!) {
+    model: model_models_by_pk(id: $id) {
+      id
+      title
+      metaTitle
+      type
+      description
+      metaDescription
+      previewHTML
+      createdAt
+      updatedAt
+      file {
+        id
+        url
+        size
+        altText
+      }
+      legiReferences: models_legi_references {
+        legiArticle {
+          cid
+          id
+          label
         }
+      }
+      otherReferences: models_other_references {
+        id
+        label
+        url
+      }
     }
+  }
 `;
 
 export type ModelResult = Model;

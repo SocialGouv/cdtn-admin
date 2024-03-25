@@ -10,7 +10,7 @@ import {
 } from "src/components/themes/updateContentsMutation";
 import { RELATIONS } from "src/lib/relations";
 import { CircularProgress as Spinner } from "@mui/material";
-import { useMutation, useQuery } from "urql";
+import { useMutation, useQuery } from "@urql/next";
 
 const getInitialData = `
 query getInitialData($parentId: String = null, $isNull: Boolean = false) {

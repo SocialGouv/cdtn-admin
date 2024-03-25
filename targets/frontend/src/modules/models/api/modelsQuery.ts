@@ -1,4 +1,4 @@
-import { gql } from "@urql/core";
+import { gql } from "@urql/next";
 import { Model } from "../type";
 
 export const modelsQuery = gql`

@@ -5,7 +5,7 @@ import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { Card, Select, Alert, InputLabel, MenuItem } from "@mui/material";
-import { useMutation, useQuery } from "urql";
+import { useMutation, useQuery } from "@urql/next";
 import { theme as th } from "../../theme";
 
 const searchKaliDocumentQuery = `

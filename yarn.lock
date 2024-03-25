@@ -4797,6 +4797,7 @@ __metadata:
     "@types/uuid": ^9.0.5
     "@types/xxhashjs": ^0.2.2
     "@urql/core": ^4.3.0
+    graphql: ^16.8.1
     isomorphic-unfetch: ^4.0.2
     jest: ^29.7.0
     typescript: ^5.3.3
@@ -7173,6 +7174,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@urql/next@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@urql/next@npm:1.1.1"
+  peerDependencies:
+    next: ">=13.0.0"
+    react: ">=18.0.0"
+    urql: ^4.0.0
+  checksum: de701d244b37a6ed91a2f00a5ff45362f8e8c280b4a98342fa28048e13985e984d789f8061b10437cb9180795e5e5796d64c13c2d2512a36152646815c3888c8
+  languageName: node
+  linkType: hard
+
 "@vercel/ncc@npm:0.34.0":
   version: 0.34.0
   resolution: "@vercel/ncc@npm:0.34.0"
@@ -7402,7 +7414,6 @@ __metadata:
     "@types/node": 16.11.11
     "@types/semver": 7.3.8
     "@types/unist": 2.0.6
-    "@urql/core": ^4.3.0
     "@vercel/ncc": 0.34.0
     axios: ^1.5.0
     builtin-modules: 3.2.0
@@ -11958,7 +11969,7 @@ __metadata:
     "@types/lodash.get": ^4.4.7
     "@types/react": ^17.0.24
     "@types/react-dom": ^18.0.11
-    "@urql/core": ^4.3.0
+    "@urql/next": ^1.1.1
     ace-builds: ^1.31.1
     argon2: ^0.30.3
     cookie: ^0.4.1
@@ -11969,9 +11980,8 @@ __metadata:
     eslint: ^8.41.0
     eslint-config-next: 14.0.1
     formidable: ^2.0.0
-    graphql: ^16.0.0
+    graphql: ^16.8.1
     graphql-tag: ^2.12.6
-    isomorphic-unfetch: ^3.1.0
     jest: ^29.5.0
     jest-environment-jsdom: ^29.5.0
     jsonwebtoken: ^9.0.2
@@ -12684,10 +12694,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:^16.0.0":
-  version: 16.7.1
-  resolution: "graphql@npm:16.7.1"
-  checksum: c924d8428daf0e96a5ea43e9bc3cd1b6802899907d284478ac8f705c8fd233a0a51eef915f7569fb5de8acb2e85b802ccc6c85c2b157ad805c1e9adba5a299bd
+"graphql@npm:^16.8.1":
+  version: 16.8.1
+  resolution: "graphql@npm:16.8.1"
+  checksum: 8d304b7b6f708c8c5cc164b06e92467dfe36aff6d4f2cf31dd19c4c2905a0e7b89edac4b7e225871131fd24e21460836b369de0c06532644d15b461d55b1ccc0
   languageName: node
   linkType: hard
 
@@ -14056,16 +14066,6 @@ __metadata:
   version: 3.0.1
   resolution: "isobject@npm:3.0.1"
   checksum: db85c4c970ce30693676487cca0e61da2ca34e8d4967c2e1309143ff910c207133a969f9e4ddb2dc6aba670aabce4e0e307146c310350b298e74a31f7d464703
-  languageName: node
-  linkType: hard
-
-"isomorphic-unfetch@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "isomorphic-unfetch@npm:3.1.0"
-  dependencies:
-    node-fetch: ^2.6.1
-    unfetch: ^4.2.0
-  checksum: 82b92fe4ec2823a81ab0fc0d11bd94d710e6f9a940d56b3cba31896d4345ec9ffc7949f4ff31ebcae84f6b95f7ebf3474c4c7452b834eb4078ea3f2c37e459c5
   languageName: node
   linkType: hard
 
@@ -22415,13 +22415,6 @@ __metadata:
   version: 1.13.6
   resolution: "underscore@npm:1.13.6"
   checksum: d5cedd14a9d0d91dd38c1ce6169e4455bb931f0aaf354108e47bd46d3f2da7464d49b2171a5cf786d61963204a42d01ea1332a903b7342ad428deaafaf70ec36
-  languageName: node
-  linkType: hard
-
-"unfetch@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "unfetch@npm:4.2.0"
-  checksum: 6a4b2557e1d921eaa80c4425ce27a404945ec26491ed06e62598f333996a91a44c7908cb26dc7c2746d735762b13276cf4aa41829b4c8f438dde63add3045d7a
   languageName: node
   linkType: hard
 

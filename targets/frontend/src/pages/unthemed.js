@@ -11,7 +11,7 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { RELATIONS } from "src/lib/relations";
 import { Box, CircularProgress, Alert, List, ListItem } from "@mui/material";
-import { useMutation, useQuery } from "urql";
+import { useMutation, useQuery } from "@urql/next";
 import { theme } from "../theme";
 
 const insertRelationMutation = `

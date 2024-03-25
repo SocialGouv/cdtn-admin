@@ -3,7 +3,7 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { UserForm } from "src/components/user/UserForm";
 import { getExpiryDate } from "src/lib/duration";
-import { useMutation } from "urql";
+import { useMutation } from "@urql/next";
 import { Alert } from "@mui/material";
 import { ACTIVATION_TOKEN_EXPIRES } from "../../config";
 

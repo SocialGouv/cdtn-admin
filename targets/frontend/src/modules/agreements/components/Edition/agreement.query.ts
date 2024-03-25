@@ -1,6 +1,5 @@
-import { CombinedError, OperationContext, useQuery } from "urql";
+import { gql, CombinedError, OperationContext, useQuery } from "@urql/next";
 import { Agreement } from "../../type";
-import { gql } from "@urql/core";
 import { format, parseISO } from "date-fns";
 
 export const getAgreementQuery = gql`

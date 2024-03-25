@@ -1,12 +1,12 @@
 import { createClient } from "@urql/core";
 import fetch from "isomorphic-unfetch";
 
-type GqlClient = {
+type GqlClientParameter = {
   graphqlEndpoint: string;
   adminSecret: string;
 };
 
-const defaultProps: GqlClient = {
+const defaultProps: GqlClientParameter = {
   graphqlEndpoint:
     process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
   adminSecret: process.env.HASURA_GRAPHQL_ADMIN_SECRET ?? "admin1",
@@ -26,3 +26,5 @@ export const gqlClient = (props = defaultProps) =>
     url: props.graphqlEndpoint,
     exchanges: [],
   });
+
+export type GqlClient = ReturnType<typeof gqlClient>;

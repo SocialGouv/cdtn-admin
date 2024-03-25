@@ -1,4 +1,4 @@
-import { OperationResult, useMutation } from "urql";
+import { OperationResult, useMutation } from "@urql/next";
 
 const unseenAlertWarningQuery = `
 mutation updateAlertWarningSeen {

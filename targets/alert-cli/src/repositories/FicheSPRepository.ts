@@ -1,4 +1,4 @@
-import { Client } from "@urql/core";
+import { GqlClient } from "@shared/utils";
 
 const query = `
 query vdd {
@@ -14,9 +14,9 @@ export interface FicheServicePublicIdsResult {
 }
 
 export class FicheSPRepository {
-  client: Client;
+  client: GqlClient;
 
-  constructor(client: Client) {
+  constructor(client: GqlClient) {
     this.client = client;
   }
 

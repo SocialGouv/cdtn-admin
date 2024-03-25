@@ -1,4 +1,4 @@
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 import { SourceRoute, SOURCES } from "@socialgouv/cdtn-sources";
 import { Document } from "@shared/types";
 import { groupBy } from "graphql/jsutils/groupBy";
@@ -64,11 +64,9 @@ export const useDocumentsQuery = ({
     return new Map();
   }
   // Le filtre est temporaire tant que l'ancien outil de contrib est la : exclure les anciennes contribs qui ont une updated date toujours mise à jour
-  const filtered = result.data.documents
-    .filter(
-      (doc) =>
-        doc.source !== SOURCES.CONTRIBUTIONS || !!doc.document?.contentType
-    );
+  const filtered = result.data.documents.filter(
+    (doc) => doc.source !== SOURCES.CONTRIBUTIONS || !!doc.document?.contentType
+  );
 
   const grouped = groupBy(filtered, (data) => data.source);
   grouped.forEach((array, key) => {

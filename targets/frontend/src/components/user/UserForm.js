@@ -8,7 +8,7 @@ import {
   Stack as StackMUI,
   TextField as Field,
 } from "@mui/material";
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Stack } from "../layout/Stack";

@@ -3,7 +3,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { Control } from "react-hook-form";
 
 import { FormAutocomplete } from "../../../forms";
-import { CombinedError } from "urql";
+import { CombinedError } from "@urql/next";
 
 export type Result<Type> = {
   data: Type[];

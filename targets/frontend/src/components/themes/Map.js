@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useCallback, useEffect, useRef } from "react";
 import { RELATIONS } from "src/lib/relations";
 import { CircularProgress } from "@mui/material";
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 import { theme as th } from "../../theme";
 
 const getThemesQuery = `

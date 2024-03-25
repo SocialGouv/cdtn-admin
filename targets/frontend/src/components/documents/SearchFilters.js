@@ -12,7 +12,7 @@ import {
   Select,
   Stack,
 } from "@mui/material";
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 
 import { Button } from "../button";
 

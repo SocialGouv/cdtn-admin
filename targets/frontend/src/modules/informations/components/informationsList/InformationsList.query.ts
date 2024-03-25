@@ -1,4 +1,4 @@
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 import { Information } from "../../type";
 
 export const informationsListQuery = `query informationsList($search: String) {

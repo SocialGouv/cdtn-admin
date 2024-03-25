@@ -6,7 +6,7 @@ import {
   getNormalizedTitle,
   getSlugFromUrl,
 } from "./cdtnReferencesSearch.query";
-import { useQuery } from "urql";
+import { useQuery } from "@urql/next";
 
 export const useFicheSpSearchCdtnReferencesQuery = (
   query: string | undefined

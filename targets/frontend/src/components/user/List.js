@@ -10,7 +10,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useMutation, useQuery } from "urql";
+import { useMutation, useQuery } from "@urql/next";
 
 import { Role } from "../../lib/auth/constants";
 import { Button, MenuButton, MenuItem } from "../button";

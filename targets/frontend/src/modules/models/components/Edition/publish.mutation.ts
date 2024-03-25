@@ -1,4 +1,4 @@
-import { OperationResult, useMutation } from "urql";
+import { OperationResult, useMutation } from "@urql/next";
 
 export const publishMutation = `
 mutation publish_information(
@@ -10,19 +10,16 @@ mutation publish_information(
 }
 `;
 
-export type PublishMutationResult = (
-  id: string
-) => Promise<OperationResult>;
+export type PublishMutationResult = (id: string) => Promise<OperationResult>;
 
-export const usePublishMutation =
-  (): PublishMutationResult => {
-    const [, execute] = useMutation<string>(publishMutation);
-    const resultFunction = async (id: string) => {
-      const result = await execute({ id });
-      if (result.error) {
-        throw new Error(result.error.message);
-      }
-      return result;
-    };
-    return resultFunction;
+export const usePublishMutation = (): PublishMutationResult => {
+  const [, execute] = useMutation<string>(publishMutation);
+  const resultFunction = async (id: string) => {
+    const result = await execute({ id });
+    if (result.error) {
+      throw new Error(result.error.message);
+    }
+    return result;
   };
+  return resultFunction;
+};

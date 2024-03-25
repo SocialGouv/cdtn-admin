@@ -1,4 +1,4 @@
-import { OperationContext, useQuery } from "urql";
+import { OperationContext, useQuery } from "@urql/next";
 import { initStatus } from "../status/utils";
 
 import { Answer, Message, Question } from "../type";

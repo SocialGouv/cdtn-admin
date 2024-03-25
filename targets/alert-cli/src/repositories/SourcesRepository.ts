@@ -1,4 +1,4 @@
-import { Client } from "@urql/core";
+import { GqlClient } from "@shared/utils";
 import { Source } from "../types";
 
 const sourcesQuery = `
@@ -40,9 +40,9 @@ interface UpdateSourceResult {
 }
 
 export class SourcesRepository {
-  private client: Client;
+  private client: GqlClient;
 
-  constructor(client: Client) {
+  constructor(client: GqlClient) {
     this.client = client;
   }
 
