@@ -6,13 +6,17 @@ import { MuiDsfrThemeProvider } from "@codegouvfr/react-dsfr/mui";
 
 import { init } from "@socialgouv/matomo-next";
 import { SessionProvider } from "next-auth/react";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 import { createNextDsfrIntegrationApi } from "@codegouvfr/react-dsfr/next-pagesdir";
 import Link from "next/link";
 import type { AppProps } from "next/app";
 import { withUrqlClient } from "next-urql";
-import { cacheExchange, fetchExchange } from "urql";
+import { cacheExchange, fetchExchange, mapExchange } from "urql";
+import {
+  authExchangeUrql,
+  mapExchangeUrql,
+} from "src/modules/authentification/exchanges";
 
 declare module "@codegouvfr/react-dsfr/next-pagesdir" {
   interface RegisterLink {
@@ -56,9 +60,19 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   );
 }
 
-export default withUrqlClient((ssrExchange) => ({
-  url:
-    process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
-  exchanges: [cacheExchange, fetchExchange, ssrExchange],
-  neverSuspend: true,
-}))(withDsfr(App));
+export default withUrqlClient(
+  (ssrExchange) => ({
+    url:
+      process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
+    exchanges: [
+      cacheExchange,
+      fetchExchange,
+      ssrExchange,
+      // authExchangeUrql,
+      // mapExchangeUrql,
+    ],
+    neverSuspend: true,
+    requestPolicy: "cache-first",
+  }),
+  { ssr: true }
+)(withDsfr(App));

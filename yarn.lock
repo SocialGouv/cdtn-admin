@@ -7173,13 +7173,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/core@npm:^4.2.0, @urql/core@npm:^4.3.0":
+"@urql/core@npm:>=4.1.0, @urql/core@npm:^4.2.0, @urql/core@npm:^4.3.0":
   version: 4.3.0
   resolution: "@urql/core@npm:4.3.0"
   dependencies:
     "@0no-co/graphql.web": ^1.0.1
     wonka: ^6.3.2
   checksum: 706e4f28390a1ee441588bfb2ab1517e620c2b63ed26756e8e5dd808acb6c871b1d0d760d569b162af773bff05df3d90fed753963ce70806fa8ca1f7a37bb7e9
+  languageName: node
+  linkType: hard
+
+"@urql/exchange-auth@npm:^2.1.6":
+  version: 2.1.6
+  resolution: "@urql/exchange-auth@npm:2.1.6"
+  dependencies:
+    "@urql/core": ">=4.1.0"
+    wonka: ^6.3.2
+  checksum: 180694184d36c32ad8d408a508886f338aca34117c57874e509e6a20e8f4b4fba7aa8770b63722873e634b69e85b6e7ddab9605187da2dda65f160d18e4e1959
   languageName: node
   linkType: hard
 
@@ -11974,6 +11984,7 @@ __metadata:
     "@types/lodash.get": ^4.4.7
     "@types/react": 18.2.0
     "@types/react-dom": 18.2.0
+    "@urql/exchange-auth": ^2.1.6
     ace-builds: ^1.31.1
     argon2: ^0.30.3
     cookie: ^0.4.1
