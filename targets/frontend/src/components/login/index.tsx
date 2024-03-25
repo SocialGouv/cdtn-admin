@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useForm } from "react-hook-form";
+import { UseFormSetError, useForm } from "react-hook-form";
 import {
   Box,
   Card,
@@ -12,7 +12,16 @@ import { Button } from "../button";
 import { Stack } from "../layout/Stack";
 import { theme } from "../../theme";
 
-const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
+type LoginFormProps = {
+  resetPassword: () => void;
+  onLogin: (
+    email: string,
+    password: string,
+    setError: UseFormSetError<any>
+  ) => void;
+};
+
+const LoginForm = ({ resetPassword, onLogin }: LoginFormProps) => {
   const {
     handleSubmit,
     register,
@@ -21,20 +30,8 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const submit = async ({ email, password }) => {
-    try {
-      const result = await authenticate({ email, password });
-      onSuccess(result);
-    } catch (err) {
-      setError(
-        "password",
-        {
-          message: "Utilisateur ou mot passe incorrect",
-          type: "manual",
-        },
-        { shouldFocus: true }
-      );
-    }
+  const submit = async ({ email, password }: any) => {
+    onLogin(email, password, setError);
   };
   return (
     <Card style={{ maxWidth: "500px", padding: "30px" }}>
@@ -96,9 +93,3 @@ const LoginForm = ({ authenticate, resetPassword, onSuccess }) => {
 };
 
 export default LoginForm;
-
-LoginForm.propTypes = {
-  authenticate: PropTypes.func.isRequired,
-  onSuccess: PropTypes.func.isRequired,
-  resetPassword: PropTypes.func.isRequired,
-};

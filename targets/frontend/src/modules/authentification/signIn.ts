@@ -36,7 +36,10 @@ export const signIn = async (
     });
   }
 
-  if (loginResult.data?.auth_users.length === 0) {
+  if (
+    loginResult.data?.auth_users.length === 0 ||
+    !loginResult.data?.auth_users[0]
+  ) {
     throw new AuthUserNotFound({
       message: `No user with ${email}`,
       name: "AUTH_USER_NOT_FOUND",
@@ -44,9 +47,9 @@ export const signIn = async (
     });
   }
 
-  const user = loginResult.data?.auth_users[0];
+  const user = loginResult.data.auth_users[0];
 
-  if (!user?.isActive) {
+  if (!user.isActive) {
     throw new AuthUserNotActive({
       message: `${email} is not activated`,
       name: "AUTH_USER_NOT_ACTIVE",

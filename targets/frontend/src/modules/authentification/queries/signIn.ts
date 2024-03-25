@@ -8,7 +8,7 @@ export const signInQuery = `
       name
       isActive
       isDeleted
-      created_at
+      createdAt
       role
     }
   }
