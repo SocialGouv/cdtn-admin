@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.39.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.0...v2.39.1) (2024-03-25)
+
+### Bug Fixes
+
+- backup incr ([5e12069](https://github.com/SocialGouv/cdtn-admin/commit/5e1206954804dc804130e0528a43b8475801a9ee))
+- Revert fix: contribution description null ([#1303](https://github.com/SocialGouv/cdtn-admin/issues/1303)) ([#1328](https://github.com/SocialGouv/cdtn-admin/issues/1328)) ([21d8022](https://github.com/SocialGouv/cdtn-admin/commit/21d8022b791d1c46551af52a49efe910bfd74339))
+
 # [2.39.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.38.0...v2.39.0) (2024-03-25)
 
 ### Bug Fixes
