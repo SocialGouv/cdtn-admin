@@ -9,6 +9,7 @@ type Props = {
   control: Control<any>;
   disabled?: boolean;
   idcc?: string;
+  onReorder?: (oldIndex: number, newIndex: number) => void;
 };
 
 export const CdtnReferenceInput = ({

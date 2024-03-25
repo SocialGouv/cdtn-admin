@@ -1,0 +1,50 @@
+table:
+  name: prequalified_documents
+  schema: search
+configuration:
+  column_config:
+    document_id:
+      custom_name: documentId
+    prequalified_id:
+      custom_name: prequalifiedId
+  custom_column_names:
+    document_id: documentId
+    prequalified_id: prequalifiedId
+  custom_root_fields: {}
+object_relationships:
+  - name: document
+    using:
+      foreign_key_constraint_on: document_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - order
+        - document_id
+        - prequalified_id
+    comment: ""
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - order
+        - document_id
+        - prequalified_id
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - order
+        - document_id
+        - prequalified_id
+      filter: {}
+      check: {}
+    comment: ""
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""

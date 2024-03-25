@@ -24,9 +24,9 @@ export type HasuraDocumentForAlert = Pick<
   cdtnId: string;
 };
 
-export type AllDocumentsBySourceResult = {
+export interface AllDocumentsBySourceResult {
   documents: HasuraDocumentForAlert[];
-};
+}
 
 export const countDocumentsBySourceQuery = `
 query coundDocumentsBySource($source:[String!]){
@@ -37,13 +37,13 @@ query coundDocumentsBySource($source:[String!]){
   }
 }`;
 
-export type CountDocumentsBySourceResult = {
+export interface CountDocumentsBySourceResult {
   documents_aggregate: {
     aggregate: {
       count: number;
     };
   };
-};
+}
 
 export const getAllDocumentsWithRelationsBySourceQuery = `
 query($source: [String!], $limit:Int=10,$offset:Int=0 ) {
@@ -70,6 +70,7 @@ query($source: [String!], $limit:Int=10,$offset:Int=0 ) {
   }
 }
 `;
+
 export type HasuraDocumentWithRelations = Pick<
   HasuraDocument,
   "source" | "title"
@@ -83,6 +84,7 @@ export type HasuraDocumentWithRelations = Pick<
     };
   }[];
 };
-export type AllDocumentsWithRelationBySourceResult = {
+
+export interface AllDocumentsWithRelationBySourceResult {
   documents: HasuraDocumentWithRelations[];
-};
+}

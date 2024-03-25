@@ -3,7 +3,7 @@ import { NextRouter } from "next/router";
 import { IoMdCheckmark } from "react-icons/io";
 import { Box } from "@mui/material";
 
-import { Button } from "../button";
+import { Button } from "../../components/button";
 import { theme } from "src/theme";
 
 const ValidationBar = ({

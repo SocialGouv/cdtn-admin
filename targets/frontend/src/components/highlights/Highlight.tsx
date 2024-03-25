@@ -7,7 +7,7 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { HighLightContent } from "src/types";
 
-import { ValidationBar } from "../prequalified";
+import { ValidationBar } from "../../modules/prequalified";
 import { Box, TextField, Typography } from "@mui/material";
 
 const HighlightsForm = ({

@@ -46,7 +46,7 @@ export function Navigation() {
         { href: "/contenus/fiches-sp", label: "Fiches service-public" },
         { href: "/glossary", label: "Glossaire" },
         {
-          href: "/contenus?source=prequalified",
+          href: "/prequalified",
           label: "Requetes pré-qualifiées",
         },
         { href: "/themes", label: "Thèmes" },
