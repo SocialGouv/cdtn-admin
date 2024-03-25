@@ -59,9 +59,14 @@ hasura:
         name: hasura
 
 pg:
+  backup:
+    name: 2024-03-25-12-54
   cnpg-cluster:
     resources:
       requests:
         memory: 2Gi
       limits:
         memory: 2Gi
+    # recovery:
+    #   enabled: true
+    #   name:
