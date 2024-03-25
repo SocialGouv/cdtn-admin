@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.39.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.38.0...v2.39.0) (2024-03-25)
+
+### Features
+
+- **information:** optimisation du chargement des contenus `relatedDocuments` pendant l'export ([#1319](https://github.com/SocialGouv/cdtn-admin/issues/1319)) ([b367d24](https://github.com/SocialGouv/cdtn-admin/commit/b367d24b8a1b5ee90f10b415348c0ab2473208f9))
+
 # [2.38.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.1...v2.38.0) (2024-03-18)
 
 **Note:** Version bump only for package @shared/types

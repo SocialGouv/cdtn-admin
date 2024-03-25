@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.39.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.38.0...v2.39.0) (2024-03-25)
+
+### Bug Fixes
+
+- contribution description null ([#1303](https://github.com/SocialGouv/cdtn-admin/issues/1303)) ([4df3e07](https://github.com/SocialGouv/cdtn-admin/commit/4df3e07b53c877f7f305fb19ed260d9626ee6dfb))
+- **migration ovh:** mise à jour des urls en dev de serving ml ([#1324](https://github.com/SocialGouv/cdtn-admin/issues/1324)) ([b54d17c](https://github.com/SocialGouv/cdtn-admin/commit/b54d17c704f6c02ec0f09de13ee0a46d72d56cf6))
+
+### Features
+
+- **information:** optimisation du chargement des contenus `relatedDocuments` pendant l'export ([#1319](https://github.com/SocialGouv/cdtn-admin/issues/1319)) ([b367d24](https://github.com/SocialGouv/cdtn-admin/commit/b367d24b8a1b5ee90f10b415348c0ab2473208f9))
+
 # [2.38.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.1...v2.38.0) (2024-03-18)
 
 ### Bug Fixes
