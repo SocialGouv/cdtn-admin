@@ -1,1 +1,0 @@
-alter table contribution.answers drop constraint check_description_not_null;
