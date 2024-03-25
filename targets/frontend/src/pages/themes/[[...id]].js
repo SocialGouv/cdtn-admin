@@ -9,7 +9,7 @@ import { List } from "src/components/themes/List";
 import { MapModal } from "src/components/themes/MapModal";
 import { RELATIONS } from "src/lib/relations";
 import { Box, Card, CircularProgress } from "@mui/material";
-import { useMutation, useQuery } from "@urql/next";
+import { useMutation, useQuery } from "urql";
 import { theme } from "../../theme";
 
 const getThemeQuery = `

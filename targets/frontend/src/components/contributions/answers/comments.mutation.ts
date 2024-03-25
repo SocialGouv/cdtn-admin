@@ -1,4 +1,4 @@
-import { useMutation } from "@urql/next";
+import { useMutation } from "urql";
 
 import { Comments } from "../type";
 

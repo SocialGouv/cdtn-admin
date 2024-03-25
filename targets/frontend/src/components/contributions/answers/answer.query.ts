@@ -1,4 +1,4 @@
-import { useQuery } from "@urql/next";
+import { useQuery } from "urql";
 import { useMemo } from "react";
 import { format, parseISO } from "date-fns";
 

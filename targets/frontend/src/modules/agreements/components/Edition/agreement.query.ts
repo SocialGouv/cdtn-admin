@@ -1,4 +1,4 @@
-import { gql, CombinedError, OperationContext, useQuery } from "@urql/next";
+import { gql, CombinedError, OperationContext, useQuery } from "urql";
 import { Agreement } from "../../type";
 import { format, parseISO } from "date-fns";
 

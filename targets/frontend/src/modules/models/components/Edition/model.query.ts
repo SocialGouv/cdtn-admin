@@ -1,5 +1,5 @@
 import { Model } from "../../type";
-import { gql, CombinedError, OperationContext, useQuery } from "@urql/next";
+import { gql, CombinedError, OperationContext, useQuery } from "urql";
 import { format, parseISO } from "date-fns";
 
 export const listModelsQuery = gql`

@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@urql/next";
+import { gql, useQuery } from "urql";
 import { Agreement } from "../../type";
 
 export const listAgreementsQuery = gql`

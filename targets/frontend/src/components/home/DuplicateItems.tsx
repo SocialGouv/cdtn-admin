@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { RELATIONS } from "src/lib/relations";
 import { Card, CardContent, Typography } from "@mui/material";
-import { useQuery } from "@urql/next";
+import { useQuery } from "urql";
 import { FixedSnackBar } from "../utils/SnackBar";
 import { theme } from "src/theme";
 

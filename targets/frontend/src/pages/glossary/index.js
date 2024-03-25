@@ -12,7 +12,7 @@ import {
   InputLabel as Label,
   TextField,
 } from "@mui/material";
-import { useQuery } from "@urql/next";
+import { useQuery } from "urql";
 import { theme } from "../../theme";
 
 const getGlossaryQuery = `

@@ -1,4 +1,4 @@
-import { OperationContext, useQuery } from "@urql/next";
+import { OperationContext, useQuery } from "urql";
 
 const unseenAlertWarningQuery = `
 query getUnseenAlertWarnings {

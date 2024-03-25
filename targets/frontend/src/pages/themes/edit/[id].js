@@ -12,7 +12,7 @@ import {
 } from "src/components/themes/updateContentsMutation";
 import { RELATIONS } from "src/lib/relations";
 import { Alert, Box, CircularProgress as Spinner, Stack } from "@mui/material";
-import { useMutation, useQuery } from "@urql/next";
+import { useMutation, useQuery } from "urql";
 
 const getThemeQuery = `
 query GetTheme($id: String!) {

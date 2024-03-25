@@ -8,7 +8,7 @@ import {
 import { Layout } from "src/components/layout/auth.layout";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { Chip, CircularProgress, TableHead, TableRow } from "@mui/material";
-import { useQuery } from "@urql/next";
+import { useQuery } from "urql";
 import { FixedSnackBar } from "../components/utils/SnackBar";
 import React from "react";
 import { Check, Cross } from "../components/utils/icons";

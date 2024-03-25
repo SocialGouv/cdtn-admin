@@ -7,7 +7,7 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { PrequalifiedForm } from "src/components/prequalified";
 import { Content } from "src/types";
-import { useMutation } from "@urql/next";
+import { useMutation } from "urql";
 import {
   FormControl,
   InputLabel as Label,

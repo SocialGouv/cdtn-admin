@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { UserForm } from "src/components/user/UserForm";
 import { useSession } from "next-auth/react";
-import { useMutation } from "@urql/next";
+import { useMutation } from "urql";
 
 const saveUserMutation = `
 mutation saveUser($id: uuid!, $name:String!, $email: citext!) {

@@ -1,7 +1,7 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { RELATIONS } from "src/lib/relations";
-import { useQuery } from "@urql/next";
+import { useQuery } from "urql";
 import { Card, CardContent, Typography } from "@mui/material";
 import { FixedSnackBar } from "../utils/SnackBar";
 import React from "react";

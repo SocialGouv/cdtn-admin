@@ -9,7 +9,7 @@ import { FormErrorMessage } from "src/components/forms/ErrorMessage";
 import { Fieldset } from "src/components/forms/Fieldset";
 import { Lister } from "src/components/forms/Lister";
 import { Box, InputLabel as Label, TextField as Field } from "@mui/material";
-import { useMutation } from "@urql/next";
+import { useMutation } from "urql";
 import { theme } from "../../theme";
 
 const editTermMutation = `

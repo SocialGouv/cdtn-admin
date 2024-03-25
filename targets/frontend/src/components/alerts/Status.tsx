@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useMutation } from "@urql/next";
+import { useMutation } from "urql";
 
 import { MenuButton, MenuItem } from "../button";
 import { Check, Cross } from "../utils/icons";

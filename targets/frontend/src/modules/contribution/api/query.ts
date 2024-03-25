@@ -1,4 +1,4 @@
-import { gql } from "@urql/next";
+import { gql } from "urql";
 
 export const getContributionAnswerById = gql`
   query contribution_answer($id: uuid!) {

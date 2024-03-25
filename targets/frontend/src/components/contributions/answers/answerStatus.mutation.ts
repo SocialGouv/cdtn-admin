@@ -1,4 +1,4 @@
-import { OperationResult, useMutation } from "@urql/next";
+import { OperationResult, useMutation } from "urql";
 
 import { Answer } from "../type";
 

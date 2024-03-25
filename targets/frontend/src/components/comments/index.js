@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 import { Card, Alert } from "@mui/material";
-import { useMutation, useQuery } from "@urql/next";
+import { useMutation, useQuery } from "urql";
 
 import { Stack } from "../layout/Stack";
 import { CommentForm } from "./CommentForm";

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { previewContentAction } from "src/lib/preview/preview.gql";
-import { useMutation, useQuery } from "@urql/next";
+import { useMutation, useQuery } from "urql";
 import { Card, Stack } from "@mui/material";
 
 import getDocumentQuery from "../../lib/contenus/getDocument.query.graphql";

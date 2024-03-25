@@ -17,7 +17,7 @@ import {
   PrequalifiedContent,
 } from "src/types";
 import Spinner from "@mui/material/CircularProgress";
-import { useMutation, useQuery } from "@urql/next";
+import { useMutation, useQuery } from "urql";
 
 import deleteContentMutation from "./deleteContent.mutation.graphql";
 import editContentMutation from "./editContent.mutation.graphql";

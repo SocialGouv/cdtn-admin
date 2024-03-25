@@ -4,7 +4,7 @@ import {
   OperationResult,
   TypedDocumentNode,
   Client,
-} from "@urql/next";
+} from "urql";
 import { gqlClient } from "@shared/utils";
 
 export class ApiClient {

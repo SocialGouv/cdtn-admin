@@ -1,4 +1,4 @@
-import { useQuery } from "@urql/next";
+import { useQuery } from "urql";
 
 export const getAlertsQuery = `
 query getAlerts {

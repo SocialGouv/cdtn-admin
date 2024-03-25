@@ -1,4 +1,4 @@
-import { OperationResult, useMutation } from "@urql/next";
+import { OperationResult, useMutation } from "urql";
 
 export const publishContributionMutation = `
 mutation publish_contribution(

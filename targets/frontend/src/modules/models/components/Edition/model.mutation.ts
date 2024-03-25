@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@urql/next";
+import { gql, useMutation } from "urql";
 import { LegiReference } from "src/components/forms/LegiReferences/type";
 import { FormDataResult } from "../Common";
 import {

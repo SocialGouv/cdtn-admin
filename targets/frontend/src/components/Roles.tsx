@@ -1,4 +1,4 @@
-import { useQuery } from "@urql/next";
+import { useQuery } from "urql";
 import { FixedSnackBar } from "./utils/SnackBar";
 import React from "react";
 import { Chip } from "@mui/material";

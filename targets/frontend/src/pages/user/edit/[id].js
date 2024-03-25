@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { UserForm } from "src/components/user/UserForm";
-import { useMutation } from "@urql/next";
+import { useMutation } from "urql";
 
 const getUserQuery = `
 query getUser($id: uuid!) {

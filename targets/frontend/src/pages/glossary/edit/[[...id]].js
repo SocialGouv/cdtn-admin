@@ -6,7 +6,7 @@ import { Dialog } from "src/components/dialog";
 import { TermForm } from "src/components/glossary/TermForm";
 import { Layout } from "src/components/layout/auth.layout";
 import { Box, CircularProgress as Spinner, Stack } from "@mui/material";
-import { useMutation, useQuery } from "@urql/next";
+import { useMutation, useQuery } from "urql";
 
 const getTermQuery = `
 query getTerm($id: uuid!) {

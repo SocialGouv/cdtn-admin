@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@urql/next";
+import { gql, useQuery } from "urql";
 
 const getContributionsReferencesWithDocumentInitialId = gql`
   query getContributionsReferencesById($id: String!) {

@@ -3,7 +3,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { Control } from "react-hook-form";
 
 import { FormAutocomplete } from "../";
-import { CombinedError } from "@urql/next";
+import { CombinedError } from "urql";
 import { AutocompleteFreeSoloValueMapping } from "@mui/base/useAutocomplete/useAutocomplete";
 
 export type AutocompleteFetcherResult<Type> = {

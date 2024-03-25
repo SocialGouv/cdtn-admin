@@ -1,4 +1,4 @@
-import { useQuery } from "@urql/next";
+import { useQuery } from "urql";
 import { SourceRoute, SOURCES } from "@socialgouv/cdtn-sources";
 import { Document } from "@shared/types";
 import { groupBy } from "graphql/jsutils/groupBy";

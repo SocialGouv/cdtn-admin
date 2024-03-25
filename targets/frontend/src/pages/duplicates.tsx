@@ -12,7 +12,7 @@ import { Stack } from "src/components/layout/Stack";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { RELATIONS } from "src/lib/relations";
 import { Alert, CircularProgress } from "@mui/material";
-import { useQuery } from "@urql/next";
+import { useQuery } from "urql";
 
 export function DuplicateContentPage(): JSX.Element {
   const [duplicates, setDuplicates] = useState<Relation[]>([]);

@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@urql/next";
+import { gql, useMutation } from "urql";
 
 const deleteAgreementQuery = gql`
   mutation DeleteAgreement($id: bpchar!, $initialId: String!) {
