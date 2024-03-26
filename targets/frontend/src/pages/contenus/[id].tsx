@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { previewContentAction } from "src/lib/preview/preview.gql";
 import { useMutation, useQuery } from "urql";
 import { Card, Stack } from "@mui/material";
@@ -121,4 +120,4 @@ export function DocumentPage() {
   );
 }
 
-export default withCustomUrqlClient(DocumentPage);
+export default DocumentPage;

@@ -1,78 +1,56 @@
-import { errorExchange, makeOperation } from "@urql/core";
+import { getSession, signOut, useSession } from "next-auth/react";
+import { mapExchange } from "urql";
 import { authExchange } from "@urql/exchange-auth";
+import { generateNewAccessToken } from "./generateAccessToken";
 
-import { getSession, signOut } from "next-auth/react";
+export const mapExchangeUrql = mapExchange({
+  onError(error) {
+    const isAuthError = error.graphQLErrors.some(
+      (e) => e.extensions?.code === "FORBIDDEN"
+    );
+    if (isAuthError) {
+      signOut();
+    }
+  },
+});
 
-export function customAuthExchange(ctx: any) {
-  const isServer = ctx && ctx.req;
+export const authExchangeUrql = authExchange(async (utils) => {
+  const session = await getSession();
+  const accessToken = session?.user.accessToken;
+  const refreshToken = session?.user.refreshToken;
 
-  return authExchange({
-    addAuthToOperation: function addAuthToOperation({
-      authState,
-      operation,
-    }: any) {
-      if (!authState?.token) {
-        return operation;
+  return {
+    addAuthToOperation(operation) {
+      if (accessToken) {
+        return utils.appendHeaders(operation, {
+          Authorization: `Bearer ${accessToken}`,
+        });
       }
-      const fetchOptions =
-        typeof operation.context.fetchOptions === "function"
-          ? operation.context.fetchOptions()
-          : operation.context.fetchOptions || {};
-
-      return makeOperation(operation.kind, operation, {
-        ...operation.context,
-        fetchOptions: {
-          ...fetchOptions,
-          headers: {
-            ...fetchOptions.headers,
-            Authorization: `Bearer ${authState.token}`,
-          },
-        },
-      });
+      return operation;
     },
-
-    didAuthError: ({ error }) => {
+    willAuthError(_operation) {
+      // e.g. check for expiration, existence of auth etc
+      return !accessToken;
+    },
+    didAuthError(error, _operation) {
       return error.graphQLErrors.some(
-        (e) => e.extensions?.code === "invalid-jwt"
+        (e) => e.extensions?.code === "FORBIDDEN"
       );
     },
-
-    getAuth: async () => {
-      if (!isServer) {
-        // get auth from nextjs next-auth react
-        const session = await getSession();
-        if (session) {
-          return { token: session.user.accessToken };
+    async refreshAuth() {
+      try {
+        if (!accessToken || !refreshToken) {
+          throw new Error("No accessToken or refreshToken found");
         }
-      } else {
-        // get auth from nextjs server
-        const session = await getSession({ req: ctx.req });
-        if (session) {
-          return { token: session.user.accessToken };
-        }
-      }
-      return null;
-    },
-
-    willAuthError: ({ authState }) => {
-      if (!authState) return true;
-      return false;
-    },
-  });
-}
-
-export function customErrorExchange(ctx: any) {
-  const isServer = ctx && ctx.req;
-
-  return errorExchange({
-    onError: (error) => {
-      const { graphQLErrors } = error;
-      const isAuthError = graphQLErrors.some(
-        (e) => e.extensions?.code === "invalid-jwt"
-      );
-      if (isAuthError && !isServer) {
+        const newAccessToken = await generateNewAccessToken(
+          accessToken,
+          refreshToken
+        );
+        localStorage.setItem("token", newAccessToken); // Il faudrait update la session plutôt
+      } catch (error) {
+        console.error("Failed to refresh token", error);
         signOut();
       }
     },
-  });
-}
+  };
+});

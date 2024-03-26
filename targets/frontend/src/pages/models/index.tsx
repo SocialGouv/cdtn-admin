@@ -1,7 +1,6 @@
 import { ModelList } from "src/modules/models";
 
 import { Layout } from "src/components/layout/auth.layout";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 
 export function ModelsPage() {
   return (
@@ -11,4 +10,4 @@ export function ModelsPage() {
   );
 }
 
-export default withCustomUrqlClient(ModelsPage);
+export default ModelsPage;

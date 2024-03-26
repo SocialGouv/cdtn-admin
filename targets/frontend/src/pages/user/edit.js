@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { UserForm } from "src/components/user/UserForm";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { useSession } from "next-auth/react";
 import { useMutation } from "urql";
 
@@ -71,4 +70,4 @@ export function EditUserPage() {
   );
 }
 
-export default withCustomUrqlClient(EditUserPage);
+export default EditUserPage;

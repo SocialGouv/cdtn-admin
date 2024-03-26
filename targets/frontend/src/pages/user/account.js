@@ -1,7 +1,6 @@
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Box } from "@mui/material";
@@ -61,4 +60,4 @@ export function UserPage() {
   );
 }
 
-export default withCustomUrqlClient(UserPage);
+export default UserPage;

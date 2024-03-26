@@ -18,7 +18,7 @@ interface HasuraReturn {
 
 export async function fetchSupportedAgreements() {
   const res = await gqlClient()
-    .query<HasuraReturn>(getSupportedAgreements)
+    .query<HasuraReturn>(getSupportedAgreements, {})
     .toPromise();
   if (res.error) {
     throw res.error;

@@ -53,8 +53,8 @@ const LoginForm = ({ resetPassword, onLogin }: LoginFormProps) => {
             type="email"
             aria-invalid={errors.email ? "true" : "false"}
           />
-          {errors.email && (
-            <Alert severity="error">{errors.email?.message}</Alert>
+          {errors.email && errors.email.message && (
+            <Alert severity="error">{errors.email.message.toString()}</Alert>
           )}
           <Field
             sx={{ fontWeight: theme.fontWeights.body, marginTop: "20px" }}
@@ -68,8 +68,8 @@ const LoginForm = ({ resetPassword, onLogin }: LoginFormProps) => {
             type="password"
             aria-invalid={errors.password ? "true" : "false"}
           />
-          {errors.password && (
-            <Alert severity="error">{errors.password?.message}</Alert>
+          {errors.password && errors.password.message && (
+            <Alert severity="error">{errors.password.message.toString()}</Alert>
           )}
           <Button
             type="submit"

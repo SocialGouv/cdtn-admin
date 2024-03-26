@@ -40,7 +40,7 @@ export const fetchThemes = async (): Promise<Theme[]> => {
     graphqlEndpoint,
     adminSecret,
   })
-    .query<Data>(graphQLThemesQuery)
+    .query<Data>(graphQLThemesQuery, {})
     .toPromise();
 
   if (result.error || !result.data) {

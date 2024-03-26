@@ -23,7 +23,7 @@ export async function fetchAgreementUnextended(): Promise<string[]> {
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
   })
-    .query<HasuraReturn>(fetchAgreementUnextendedQuery)
+    .query<HasuraReturn>(fetchAgreementUnextendedQuery, {})
     .toPromise();
   if (res.error) {
     throw res.error;

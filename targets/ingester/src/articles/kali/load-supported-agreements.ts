@@ -22,7 +22,7 @@ query LoadAgreements {
 
 export const loadSupportedAgreements = async (): Promise<AgreementResult> => {
   const result = await gqlClient()
-    .query<AgreementResult>(loadSupportedAgreementsQuery)
+    .query<AgreementResult>(loadSupportedAgreementsQuery, {})
     .toPromise();
 
   if (result.error) {

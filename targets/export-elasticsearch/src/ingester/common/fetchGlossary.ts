@@ -25,7 +25,7 @@ export async function getGlossary(): Promise<Glossary> {
     graphqlEndpoint,
     adminSecret,
   })
-    .query<{ glossary: Glossary }>(gqlGlossary)
+    .query<{ glossary: Glossary }>(gqlGlossary, {})
     .toPromise();
   if (result.error || !result.data) {
     console.error(result.error);

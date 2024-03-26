@@ -1,5 +1,4 @@
 import { gqlClient } from "@shared/utils";
-import type { Client } from "@urql/core/dist/types/client";
 
 import { fetchAllContributions } from "./query";
 import type { QuestionRaw } from "./types";
@@ -15,7 +14,7 @@ export class ContributionDatabase implements ContributionRepository {
 
   public async fetchAll(): Promise<QuestionRaw[]> {
     const res = await gqlClient()
-      .query<{ questions: QuestionRaw[] }>(fetchAllContributions)
+      .query<{ questions: QuestionRaw[] }>(fetchAllContributions, {})
       .toPromise();
     if (res.error) {
       throw res.error;
@@ -26,5 +25,5 @@ export class ContributionDatabase implements ContributionRepository {
     return res.data.questions;
   }
 
-  private readonly client: Client;
+  private readonly client;
 }

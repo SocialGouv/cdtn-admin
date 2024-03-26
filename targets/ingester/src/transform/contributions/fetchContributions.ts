@@ -17,7 +17,9 @@ interface HasuraReturn {
 }
 
 export async function fetchDocumentContributions() {
-  const res = await gqlClient().query<HasuraReturn>(fetchContribs).toPromise();
+  const res = await gqlClient()
+    .query<HasuraReturn>(fetchContribs, {})
+    .toPromise();
   if (res.error) {
     throw res.error;
   }

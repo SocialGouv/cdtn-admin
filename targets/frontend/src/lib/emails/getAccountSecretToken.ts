@@ -1,5 +1,5 @@
 import { gqlClient } from "@shared/utils";
-import { gql } from "@urql/core";
+import { gql } from "urql";
 
 const getUserSecretTokenRequest = gql`
   query GetUserSecretToken($email: citext!) {

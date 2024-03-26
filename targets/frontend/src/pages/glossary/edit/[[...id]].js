@@ -5,7 +5,6 @@ import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { TermForm } from "src/components/glossary/TermForm";
 import { Layout } from "src/components/layout/auth.layout";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
 import { Box, CircularProgress as Spinner, Stack } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
@@ -120,4 +119,4 @@ export function EditTermPage() {
   );
 }
 
-export default withCustomUrqlClient(EditTermPage);
+export default EditTermPage;
