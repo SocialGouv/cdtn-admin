@@ -96,7 +96,7 @@ export:
 
 hasura:
   ~chart: hasura
-  ~needs: [build-hasura]
+  ~needs: [build-hasura, pg]
   imagePackage: hasura
   ingress:
     enabled: false

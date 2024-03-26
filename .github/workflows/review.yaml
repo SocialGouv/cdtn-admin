@@ -12,5 +12,5 @@ concurrency:
 jobs:
   kontinuous:
     name: "Deploy on Kubernetes 🐳"
-    uses: socialgouv/workflows/.github/workflows/use-ks-gh-review.yaml@v1
+    uses: socialgouv/workflows/.github/workflows/use-ks-gh-with-env-review.yaml@v1
     secrets: inherit

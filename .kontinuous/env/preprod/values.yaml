@@ -14,10 +14,10 @@ hasura:
         name: hasura
 
 www:
-  host: cdtn-admin-preprod.dev.fabrique.social.gouv.fr
+  host: cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
   env:
     - name: "FRONTEND_HOST"
-      value: cdtn-admin-preprod.dev.fabrique.social.gouv.fr
+      value: cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
 
 pg:
   ~chart: pg
@@ -35,6 +35,7 @@ pg:
       ~tpl~database: "{{ .Values.global.pgDatabase }}"
       ~tpl~owner: "{{ .Values.global.pgUser }}"
       secretName: "pg-db"
+      # need to specify full barman config because we reload from another bucket (prod)
       barmanObjectStore:
         ~tpl~destinationPath: "s3://cdtn-prod-backups/cdtn-admin"
         s3Credentials:
