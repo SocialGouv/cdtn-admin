@@ -7,7 +7,7 @@ import {
   AuthUserNotActive,
   AuthUserNotFound,
   AuthUserPasswordDifferent,
-} from "./error";
+} from "./errors";
 import { verify } from "argon2";
 import { generateJwtToken } from "./jwt";
 import { JWT_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRES } from "src/config";

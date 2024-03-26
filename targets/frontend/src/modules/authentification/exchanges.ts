@@ -1,4 +1,4 @@
-import { getSession } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 import { authExchange } from "@urql/exchange-auth";
 
 export const authExchangeUrql = authExchange(async (utils) => {
@@ -9,7 +9,7 @@ export const authExchangeUrql = authExchange(async (utils) => {
     addAuthToOperation(operation) {
       if (accessToken) {
         return utils.appendHeaders(operation, {
-          Authorization: `Bearer ${accessToken}s`,
+          Authorization: `Bearer ${accessToken}`,
         });
       }
       return operation;
@@ -26,20 +26,17 @@ export const authExchangeUrql = authExchange(async (utils) => {
     },
     async refreshAuth() {
       try {
-        if (!accessToken) {
-          throw new Error("No accessToken");
+        const session = await getSession();
+        if (!session) {
+          throw new Error("No session");
         }
-        // const session = await getSession();
-        // if (!session) {
-        //   throw new Error("No session");
-        // }
-        // accessToken = session.user.accessToken;
+        accessToken = session.user.accessToken;
       } catch (error) {
         console.error(error);
-        // signOut({
-        //   redirect: true,
-        //   callbackUrl: "/login",
-        // });
+        signOut({
+          redirect: true,
+          callbackUrl: "/login",
+        });
       }
     },
   };

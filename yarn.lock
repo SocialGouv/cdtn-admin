@@ -6378,13 +6378,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cookie@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "@types/cookie@npm:0.5.2"
-  checksum: 4a1e46379d877f5a3cc687a9799dd72e5f7e68c4764d45cb469789dec92b4b4a7a5bb8b10a08c90be15939fa7b9b402f87ed339dfac0cabf43699c5189880e88
-  languageName: node
-  linkType: hard
-
 "@types/cookiejar@npm:*":
   version: 2.1.2
   resolution: "@types/cookiejar@npm:2.1.2"
@@ -9334,13 +9327,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:^0.4.1":
-  version: 0.4.2
-  resolution: "cookie@npm:0.4.2"
-  checksum: a00833c998bedf8e787b4c342defe5fa419abd96b32f4464f718b91022586b8f1bafbddd499288e75c037642493c83083da426c6a9080d309e3bd90fd11baa9b
-  languageName: node
-  linkType: hard
-
 "cookiejar@npm:^2.1.4":
   version: 2.1.4
   resolution: "cookiejar@npm:2.1.4"
@@ -11967,7 +11953,6 @@ __metadata:
     "@tiptap/pm": ^2.1.12
     "@tiptap/react": ^2.1.12
     "@tiptap/starter-kit": ^2.1.12
-    "@types/cookie": ^0.5.2
     "@types/formidable": ^2.0.5
     "@types/jest": ^27.4.0
     "@types/jsonwebtoken": ^9.0.6
@@ -11977,7 +11962,6 @@ __metadata:
     "@urql/exchange-auth": ^2.1.6
     ace-builds: ^1.31.1
     argon2: ^0.30.3
-    cookie: ^0.4.1
     d3: ^6.7.0
     d3-hierarchy: ^2.0.0
     date-fns: ^2.23.0

@@ -5,7 +5,7 @@ import {
   AuthJwtRefreshError,
   AuthRefreshTokenExpired,
   AuthUserNotFound,
-} from "./error";
+} from "./errors";
 import { generateJwtToken, verifyToken } from "./jwt";
 import { JWT_TOKEN_EXPIRES } from "src/config";
 import {
