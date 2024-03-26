@@ -60,9 +60,7 @@ hasura:
 
 pg:
   backup:
-    name: 2024-03-26-11-05
-  recovery:
-    name: 2024-03-25-12-54
+    name: 2024-03-26-12-33
   cnpg-cluster:
     resources:
       requests:
