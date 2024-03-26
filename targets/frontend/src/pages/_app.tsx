@@ -60,19 +60,15 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   );
 }
 
-export default withUrqlClient(
-  (ssrExchange) => ({
-    url:
-      process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
-    exchanges: [
-      cacheExchange,
-      fetchExchange,
-      ssrExchange,
-      // authExchangeUrql,
-      // mapExchangeUrql,
-    ],
-    neverSuspend: true,
-    requestPolicy: "cache-first",
-  }),
-  { ssr: true }
-)(withDsfr(App));
+export default withUrqlClient(() => ({
+  url:
+    process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
+  exchanges: [
+    cacheExchange,
+    fetchExchange,
+    // authExchangeUrql,
+    // mapExchangeUrql,
+  ],
+  neverSuspend: true,
+  requestPolicy: "cache-first",
+}))(withDsfr(App));

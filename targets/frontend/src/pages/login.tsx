@@ -5,9 +5,6 @@ import LoginForm from "src/components/login";
 import { Box } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { UseFormSetError } from "react-hook-form";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]";
-import { GetServerSidePropsContext } from "next";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,14 +56,4 @@ export default function LoginPage() {
       </Box>
     </>
   );
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // const session = await getServerSession(context.req, context.res, authOptions);
-
-  // if (session) {
-  //   return { redirect: { destination: "/" } };
-  // }
-
-  return { props: {} };
 }

@@ -101,7 +101,7 @@ export function UnthemedPage() {
                         title={title}
                       >
                         <Link
-                          href={`https://code-du-travail-numerique-preprod.dev.fabrique.social.gouv.fr/${getRouteBySource(
+                          href={`https://code-du-travail-numerique-preprod.ovh.fabrique.social.gouv.fr/${getRouteBySource(
                             source
                           )}/${slug}`}
                           target="_blank"
