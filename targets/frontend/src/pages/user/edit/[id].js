@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { UserForm } from "src/components/user/UserForm";
-import { useMutation } from "urql";
+import { useMutation, useQuery } from "urql";
 
 const getUserQuery = `
 query getUser($id: uuid!) {
@@ -41,10 +41,19 @@ mutation saveRole($id: uuid!, $role:String!) {
 }
 `;
 
-export function EditUserPage({ user }) {
+export function EditUserPage() {
   const router = useRouter();
+  const [result] = useQuery(getUserQuery, { user });
+  const user = result.data.user;
   const [userResult, saveUser] = useMutation(saveUserMutation);
   const [roleResult, saveRole] = useMutation(saveRoleMutation);
+
+  if (result.error) {
+    const error = new Error("user not found");
+    error.statusCode = 404;
+    return Promise.reject(error);
+  }
+
   function handleSubmit(data) {
     const { name, email, default_role } = data;
     let rolePromise = Promise.resolve();
@@ -71,17 +80,5 @@ export function EditUserPage({ user }) {
     </Layout>
   );
 }
-
-EditUserPage.getInitialProps = async function ({ urqlClient, query }) {
-  const { id } = query;
-  const result = await urqlClient.query(getUserQuery, { id }).toPromise();
-
-  if (result.error) {
-    const error = new Error("user not found");
-    error.statusCode = 404;
-    return Promise.reject(error);
-  }
-  return { user: result.data.user };
-};
 
 export default EditUserPage;
