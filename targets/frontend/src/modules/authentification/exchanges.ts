@@ -46,9 +46,8 @@ export const authExchangeUrql = authExchange(async (utils) => {
           accessToken,
           refreshToken
         );
-        localStorage.setItem("token", newAccessToken); // Il faudrait update la session plutôt
       } catch (error) {
-        console.error("Failed to refresh token", error);
+        console.error(error);
         signOut();
       }
     },
