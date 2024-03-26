@@ -130,7 +130,7 @@ export class ExportRepository {
   public async getAll(): Promise<ExportEsStatus[]> {
     try {
       const res = await gqlClient()
-        .query<{ export_es_status: ExportEsStatus[] }>(getAllExport)
+        .query<{ export_es_status: ExportEsStatus[] }>(getAllExport, {})
         .toPromise();
       if (res.error) {
         throw res.error;

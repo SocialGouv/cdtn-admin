@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
-import { Role } from "../../lib/auth/auth.const";
+import { Role } from "../../lib/auth/constants";
 import { Button, MenuButton, MenuItem } from "../button";
 import { Dialog } from "../dialog";
 import { Check, Cross } from "../utils/icons";

@@ -29,7 +29,7 @@ export function DropZone({
   customStyles,
 }: Props): React.ReactElement {
   const onDrop = useCallback(
-    async (acceptedFiles) => {
+    async (acceptedFiles: any) => {
       const formData = new FormData();
       for (const i in acceptedFiles) {
         if (acceptedFiles[i] instanceof File) {

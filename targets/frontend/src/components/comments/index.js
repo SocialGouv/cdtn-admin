@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useMemo } from "react";
-import { useUser } from "src/hooks/useUser";
 import { Card, Alert } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
@@ -26,7 +25,8 @@ query getComments($alertId: uuid!) {
 
 function Comments({ alertId }) {
   const [, postComment] = useMutation(commentMutation);
-  const { user } = useUser();
+  const { data: session } = useSession();
+  const user = session?.user;
 
   function sendComment(comment) {
     return postComment({

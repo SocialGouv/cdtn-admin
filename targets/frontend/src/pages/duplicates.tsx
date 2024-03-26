@@ -10,8 +10,6 @@ import { getDuplicateQuery } from "src/components/home/DuplicateItems";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { Table, Td, Th, Tr } from "src/components/table";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
 import { Alert, CircularProgress } from "@mui/material";
 import { useQuery } from "urql";
@@ -110,4 +108,4 @@ export function DuplicateContentPage(): JSX.Element {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(DuplicateContentPage));
+export default DuplicateContentPage;

@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "build": "nps build",
-    "build:watch": "lerna run --stream build:watch --ignore @socialgouv/contibutions",
+    "build:watch": "lerna run --stream build:watch",
     "dev": "nps dev",
     "lint": "nps lint",
     "start": "nps",

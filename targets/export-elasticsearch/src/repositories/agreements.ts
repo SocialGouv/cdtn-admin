@@ -9,7 +9,7 @@ import { listSupportedAgreements } from "./graphql";
 export class AgreementsRepository {
   public async list(): Promise<unknown> {
     const res = await gqlClient()
-      .query<{ agreements: unknown }>(listSupportedAgreements)
+      .query<{ agreements: unknown }>(listSupportedAgreements, {})
       .toPromise();
     if (res.error || !res.data) {
       throw new Error(`Failed to get agreements : ${res.error}`);

@@ -29,14 +29,6 @@ jobs:
       with:
         imagePackage: export
         dockerfile: targets/export-elasticsearch/Dockerfile
-    build-contributions:
-      use: build
-      with:
-        imagePackage: contributions
-        dockerfile: targets/contributions/Dockerfile
-        buildArgs:
-          NODE_ENV: production
-          CDTN_API_URL: https://cdtn-api.fabrique.social.gouv.fr
     build-hasura:
       use: build
       with:
@@ -61,30 +53,6 @@ www:
   env:
     - name: "FRONTEND_HOST"
       value: "{{.Values.global.host}}"
-  resources:
-    limits:
-      cpu: "100m"
-      memory: "256Mi"
-    requests:
-      cpu: "50m"
-      memory: "128Mi"
-  replicas: 1
-  securityContext:
-    fsGroup: 1000
-    runAsUser: 1000
-    runAsGroup: 1000
-
-contributions:
-  ~chart: app
-  ~needs: [build-contributions]
-  probesPath: /
-  imagePackage: contributions
-  containerPort: 3200
-  envFrom:
-    - configMapRef:
-        name: contributions
-    - secretRef:
-        name: contributions
   resources:
     limits:
       cpu: "100m"

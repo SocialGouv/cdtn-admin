@@ -24,7 +24,7 @@ interface HasuraReturn {
 
 export async function fetchAgreementsWithKaliId() {
   const res = await gqlClient()
-    .query<HasuraReturn>(getAgreementsWithKaliId)
+    .query<HasuraReturn>(getAgreementsWithKaliId, {})
     .toPromise();
   if (res.error) {
     throw res.error;

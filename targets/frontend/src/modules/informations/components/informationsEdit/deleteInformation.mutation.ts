@@ -1,5 +1,4 @@
-import { OperationResult, useMutation } from "urql";
-import { gql } from "@urql/core";
+import { gql, OperationResult, useMutation } from "urql";
 
 export const deleteInformationMutation = gql`
   mutation delete_information($id: uuid!, $initialId: String!) {

@@ -1,5 +1,4 @@
-import { gql } from "@urql/core";
-import { useMutation } from "urql";
+import { gql, useMutation } from "urql";
 import { FormDataResult } from "../Common";
 import { AgreementsInsertInput } from "../graphql.type";
 

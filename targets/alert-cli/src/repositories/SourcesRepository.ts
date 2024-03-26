@@ -1,4 +1,4 @@
-import { Client } from "@urql/core/dist/types/client";
+import { GqlClient } from "@shared/utils";
 import { Source } from "../types";
 
 const sourcesQuery = `
@@ -40,15 +40,15 @@ interface UpdateSourceResult {
 }
 
 export class SourcesRepository {
-  private client: Client;
+  private client: GqlClient;
 
-  constructor(client: Client) {
+  constructor(client: GqlClient) {
     this.client = client;
   }
 
   async load() {
     const result = await this.client
-      .query<SourceResult>(sourcesQuery)
+      .query<SourceResult>(sourcesQuery, {})
       .toPromise();
     if (result.error || !result.data) {
       console.error(result.error);

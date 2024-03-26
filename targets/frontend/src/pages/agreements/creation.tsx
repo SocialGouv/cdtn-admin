@@ -1,6 +1,4 @@
 import { Layout } from "src/components/layout/auth.layout";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { AgreementCreation } from "../../modules/agreements";
 
 export function AgreementCreationPage() {
@@ -11,4 +9,4 @@ export function AgreementCreationPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(AgreementCreationPage));
+export default AgreementCreationPage;

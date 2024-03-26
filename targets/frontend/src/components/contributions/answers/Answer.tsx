@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useUser } from "src/hooks/useUser";
+import { useSession } from "next-auth/react";
 
 import { StatusContainer } from "../status";
 import { Answer, Status } from "../type";
@@ -35,7 +35,8 @@ export const ContributionsAnswer = ({
   const genericAnswer = useGenericContributionAnswerQuery({
     questionId: answer?.questionId,
   });
-  const { user } = useUser() as any;
+  const { data } = useSession();
+  const user = data?.user;
   const updateAnswer = useContributionAnswerUpdateMutation();
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -50,6 +51,10 @@ export const ContributionsAnswer = ({
     try {
       if (!answer || !answer.id) {
         throw new Error("Id non définit");
+      }
+
+      if (!user) {
+        throw new Error("Utilisateur non connecté");
       }
 
       await updateAnswer({
@@ -76,13 +81,13 @@ export const ContributionsAnswer = ({
       });
     } catch (e: any) {
       // Dans le cas où il y a une erreur au niveau de la publication (PUBLISHED), on revert le status en VALIDATED
-      if (newStatus === "PUBLISHED" && answer) {
+      if (newStatus === "PUBLISHED" && answer && user) {
         await updateAnswer({
           content: data.content,
           id: answer.id,
           contentType: data.contentType,
           status: "VALIDATED",
-          userId: user?.id,
+          userId: user.id,
           contentServicePublicCdtnId: data.contentFichesSpDocument?.cdtnId,
           kaliReferences: data.kaliReferences,
           legiReferences: data.legiReferences,

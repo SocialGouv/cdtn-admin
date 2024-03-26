@@ -12,7 +12,7 @@ import { countAnswersWithStatus } from "../questionList";
 import { Answer } from "../type";
 import { StatusStats } from "../status/StatusStats";
 import { usePublishContributionMutation } from "../answers/usePublishAnswer";
-import { useUser } from "../../../hooks/useUser";
+import { useSession } from "next-auth/react";
 import { useContributionAnswerUpdateStatusMutation } from "../answers/answerStatus.mutation";
 
 export type EditQuestionProps = {
@@ -36,10 +36,11 @@ export const EditQuestion = ({
   const data = useQuestionQuery({ questionId });
   const [tabIndex, setTabIndex] = React.useState<TabValue>(TabValue.answers);
   const onPublish = usePublishContributionMutation();
-  const { user } = useUser() as any;
+  const { data: session } = useSession();
+  const user = session?.user;
   const updateAnswerStatus = useContributionAnswerUpdateStatusMutation();
 
-  if (data === undefined) {
+  if (data === undefined || !user) {
     return <Skeleton />;
   }
 

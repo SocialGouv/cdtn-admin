@@ -25,6 +25,7 @@ import { theme } from "src/theme";
 
 type Props = {
   label: string;
+  children: React.ReactNode;
 };
 
 export const ChangesGroup: React.FC<Props> = ({ label, children }) => {
@@ -436,6 +437,7 @@ function DilaLabelItem({ info }: DilaLinkProps) {
 
 type DilaLinkProps = {
   info: DilaAddedNode | DilaRemovedNode | DilaModifiedNode;
+  children?: React.ReactNode;
 };
 const DilaLink: React.FC<DilaLinkProps> = ({ info, children }) => {
   const { parents, id, title } = info;

@@ -1,8 +1,7 @@
-import { CombinedError, OperationContext, useQuery } from "urql";
+import { CombinedError, OperationContext, useQuery, gql } from "urql";
 import { format, parseISO } from "date-fns";
 
 import { Information } from "../../type";
-import { gql } from "@urql/core";
 
 const informationsQuery = gql`
   query informations($id: uuid) {
