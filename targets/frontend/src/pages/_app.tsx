@@ -7,12 +7,8 @@ import { SessionProvider } from "next-auth/react";
 import { createNextDsfrIntegrationApi } from "@codegouvfr/react-dsfr/next-pagesdir";
 import Link from "next/link";
 import type { AppProps } from "next/app";
-import { withUrqlClient } from "next-urql";
-import { cacheExchange, fetchExchange, mapExchange } from "urql";
-import {
-  authExchangeUrql,
-  mapExchangeUrql,
-} from "src/modules/authentification/exchanges";
+import { Client, Provider, cacheExchange, fetchExchange } from "urql";
+import { authExchangeUrql } from "src/modules/authentification/exchanges";
 
 declare module "@codegouvfr/react-dsfr/next-pagesdir" {
   interface RegisterLink {
@@ -26,27 +22,25 @@ const { withDsfr, dsfrDocumentApi } = createNextDsfrIntegrationApi({
   preloadFonts: ["Marianne-Regular", "Marianne-Medium", "Marianne-Bold"],
 });
 
+const client = new Client({
+  url:
+    process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
+  exchanges: [authExchangeUrql, cacheExchange, fetchExchange],
+  requestPolicy: "cache-first",
+});
+
 export { dsfrDocumentApi };
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <MuiDsfrThemeProvider>
-      <SessionProvider session={session}>
-        <Component {...pageProps} />
-      </SessionProvider>
-    </MuiDsfrThemeProvider>
+    <Provider value={client}>
+      <MuiDsfrThemeProvider>
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </MuiDsfrThemeProvider>
+    </Provider>
   );
 }
 
-export default withUrqlClient((ssrExchange) => ({
-  url:
-    process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
-  exchanges: [
-    cacheExchange,
-    ssrExchange,
-    fetchExchange,
-    authExchangeUrql,
-    mapExchangeUrql,
-  ],
-  requestPolicy: "cache-first",
-}))(withDsfr(App));
+export default withDsfr(App);

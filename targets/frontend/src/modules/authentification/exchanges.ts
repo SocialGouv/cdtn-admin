@@ -1,53 +1,45 @@
-import { getSession, signOut, useSession } from "next-auth/react";
-import { mapExchange } from "urql";
+import { getSession } from "next-auth/react";
 import { authExchange } from "@urql/exchange-auth";
-import { generateNewAccessToken } from "./generateAccessToken";
-
-export const mapExchangeUrql = mapExchange({
-  onError(error) {
-    const isAuthError = error.graphQLErrors.some(
-      (e) => e.extensions?.code === "FORBIDDEN"
-    );
-    if (isAuthError) {
-      signOut();
-    }
-  },
-});
 
 export const authExchangeUrql = authExchange(async (utils) => {
   const session = await getSession();
-  const accessToken = session?.user.accessToken;
+  let accessToken = session?.user.accessToken;
 
   return {
     addAuthToOperation(operation) {
       if (accessToken) {
         return utils.appendHeaders(operation, {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}s`,
         });
       }
       return operation;
     },
     willAuthError(_operation) {
-      // e.g. check for expiration, existence of auth etc
       return !accessToken;
     },
     didAuthError(error, _operation) {
       return error.graphQLErrors.some(
-        (e) => e.extensions?.code === "FORBIDDEN"
+        (e) =>
+          e.extensions?.code === "validation-failed" ||
+          e.extensions?.code === "invalid-jwt"
       );
     },
     async refreshAuth() {
       try {
         if (!accessToken) {
-          throw new Error("No accessToken or refreshToken found");
+          throw new Error("No accessToken");
         }
-        const newAccessToken = await generateNewAccessToken(
-          accessToken,
-          "refreshToken"
-        );
+        // const session = await getSession();
+        // if (!session) {
+        //   throw new Error("No session");
+        // }
+        // accessToken = session.user.accessToken;
       } catch (error) {
         console.error(error);
-        signOut();
+        // signOut({
+        //   redirect: true,
+        //   callbackUrl: "/login",
+        // });
       }
     },
   };

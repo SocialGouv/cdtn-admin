@@ -72,7 +72,16 @@ export function UserMenu() {
             <MenuItem component={Link} href="/user/account">
               Mon compte
             </MenuItem>
-            <MenuItem onClick={() => signOut()}>Déconnexion</MenuItem>
+            <MenuItem
+              onClick={() =>
+                signOut({
+                  redirect: true,
+                  callbackUrl: "/login",
+                })
+              }
+            >
+              Déconnexion
+            </MenuItem>
           </Menu>
         </Stack>
       )}

@@ -1,11 +1,12 @@
 import { gqlClient } from "@shared/utils";
 import {
   AuthGqlError,
+  AuthJwtAccessError,
   AuthJwtRefreshError,
   AuthRefreshTokenExpired,
   AuthUserNotFound,
 } from "./error";
-import { generateJwtToken, verifyJwtToken } from "./jwt";
+import { generateJwtToken, verifyToken } from "./jwt";
 import { JWT_TOKEN_EXPIRES } from "src/config";
 import {
   UpdateAccessTokenHasuraResult,
@@ -20,19 +21,19 @@ export const generateNewAccessToken = async (
   refreshToken: string,
   oldAccessToken: string
 ): Promise<string> => {
-  const tokenVerified = verifyJwtToken(refreshToken);
+  const isValid = verifyToken(refreshToken);
 
-  if (typeof tokenVerified === "string") {
+  if (!isValid) {
     throw new AuthJwtRefreshError({
       cause: null,
-      message: tokenVerified,
+      message: "Invalid refresh token",
       name: "AUTH_JWT_REFRESH_ERROR",
     });
   }
 
   const userToSaveResult = await gqlClient()
     .query<GetLightUserHasuraResult>(getLightUserQuery, {
-      oldAccessToken,
+      accessToken: oldAccessToken,
       refreshToken,
     })
     .toPromise();
@@ -62,8 +63,16 @@ export const generateNewAccessToken = async (
 
   if (validity < 0) {
     throw new AuthRefreshTokenExpired({
-      message: `No user with this refresh and access token `,
+      message: `The refresh token has expired`,
       name: "AUTH_REFRESH_TOKEN_EXPIRED",
+      cause: null,
+    });
+  }
+
+  if (userToSave.accessToken !== oldAccessToken) {
+    throw new AuthJwtAccessError({
+      message: `Old access token is not valid`,
+      name: "AUTH_JWT_ACCESS_ERROR",
       cause: null,
     });
   }
