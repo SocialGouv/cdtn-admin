@@ -5623,15 +5623,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@socialgouv/matomo-next@npm:^1.2.2":
-  version: 1.6.1
-  resolution: "@socialgouv/matomo-next@npm:1.6.1"
-  peerDependencies:
-    next: ">= 9.5.5"
-  checksum: 748d2b7792f002afc4ed9660616ff23f826b6fea5b3b02d90db1668eb81e17410940320f8b50c63c282264735bd673341012632d95a5cd41937914e880c4eecd
-  languageName: node
-  linkType: hard
-
 "@socialgouv/react-accessible-accordion@npm:4.1.1":
   version: 4.1.1
   resolution: "@socialgouv/react-accessible-accordion@npm:4.1.1"
@@ -11961,7 +11952,6 @@ __metadata:
     "@socialgouv/cdtn-sources": ^4.52.1
     "@socialgouv/cdtn-ui": ^4.92.0
     "@socialgouv/cdtn-utils": ^4.121.1
-    "@socialgouv/matomo-next": ^1.2.2
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.5.1

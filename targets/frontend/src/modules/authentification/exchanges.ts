@@ -17,7 +17,6 @@ export const mapExchangeUrql = mapExchange({
 export const authExchangeUrql = authExchange(async (utils) => {
   const session = await getSession();
   const accessToken = session?.user.accessToken;
-  const refreshToken = session?.user.refreshToken;
 
   return {
     addAuthToOperation(operation) {
@@ -39,12 +38,12 @@ export const authExchangeUrql = authExchange(async (utils) => {
     },
     async refreshAuth() {
       try {
-        if (!accessToken || !refreshToken) {
+        if (!accessToken) {
           throw new Error("No accessToken or refreshToken found");
         }
         const newAccessToken = await generateNewAccessToken(
           accessToken,
-          refreshToken
+          "refreshToken"
         );
       } catch (error) {
         console.error(error);

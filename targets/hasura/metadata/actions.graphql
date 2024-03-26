@@ -11,12 +11,6 @@ type Mutation {
   ): Status
 }
 
-type Query {
-  pipeline_status(
-    pipelineId: String!
-  ): PipelineStatus
-}
-
 type Mutation {
   preview_document(
     cdtnId: String!
@@ -30,20 +24,6 @@ type Mutation {
     id: uuid!
     source: String!
   ): publishOutput
-}
-
-type Query {
-  recentKaliReference(
-    agreementId: bpchar!
-    query: String!
-    limit: Int
-  ): RecentKaliReferenceOutput
-}
-
-type Mutation {
-  updatePipeline(
-    environment: String!
-  ): UpdatePipelineOutput
 }
 
 input PreviewDocument {

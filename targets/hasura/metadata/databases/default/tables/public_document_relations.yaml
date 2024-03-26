@@ -28,16 +28,6 @@ insert_permissions:
         - type
         - data
 select_permissions:
-  - role: public
-    permission:
-      columns:
-        - id
-        - document_a
-        - document_b
-        - type
-        - data
-      filter: {}
-      allow_aggregations: true
   - role: super
     permission:
       columns:
