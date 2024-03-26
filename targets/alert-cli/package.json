@@ -1,6 +1,6 @@
 {
   "name": "alert-cli",
-  "version": "2.39.4",
+  "version": "2.39.5",
   "engines": {
     "node": ">=20.0.2"
   },
