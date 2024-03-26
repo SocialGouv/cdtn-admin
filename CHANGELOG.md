@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.39.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.3...v2.39.4) (2024-03-26)
+
+### Bug Fixes
+
+- add missing hasura dependency to pg ([3ebc0b7](https://github.com/SocialGouv/cdtn-admin/commit/3ebc0b718d59ea48b426e456ec66d3dcb022bcfb))
+- recovery name ([6bca263](https://github.com/SocialGouv/cdtn-admin/commit/6bca2634b83aaf4474cd71b587cead06ef09f032))
+
 ## [2.39.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.2...v2.39.3) (2024-03-25)
 
 ### Bug Fixes
