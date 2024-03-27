@@ -1,4 +1,5 @@
 import NextAuth from "next-auth";
+import { UserSignedIn } from "src/modules/authentification/signIn";
 
 declare module "next-auth" {
   /**
@@ -6,16 +7,10 @@ declare module "next-auth" {
    */
   interface Session {
     user: {
-      id: string;
       name: string;
       email: string;
-      isActive: boolean;
-      role: string;
-      isDeleted: boolean;
-      created_at: Date;
       accessToken: string;
-      refreshToken: string;
-      expiresIn: Date;
+      id: string;
     };
   }
 }

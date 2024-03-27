@@ -13,5 +13,3 @@ export class AuthUserPasswordDifferent extends ErrorBase<"AUTH_USER_PASSWORD_DIF
 export class AuthJwtRefreshError extends ErrorBase<"AUTH_JWT_REFRESH_ERROR"> {}
 
 export class AuthRefreshTokenExpired extends ErrorBase<"AUTH_REFRESH_TOKEN_EXPIRED"> {}
-
-export class AuthJwtAccessError extends ErrorBase<"AUTH_JWT_ACCESS_ERROR"> {}

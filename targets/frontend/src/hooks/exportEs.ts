@@ -74,7 +74,11 @@ export function useExportEs(): [
       id: "0",
       status: Status.running,
       updated_at: new Date(),
-      user,
+      user: {
+        email: user.email,
+        id: user.id,
+        name: user.name,
+      },
       user_id: user.id,
     };
     setState((state) => ({

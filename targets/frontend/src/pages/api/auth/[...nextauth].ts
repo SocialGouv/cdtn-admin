@@ -2,7 +2,7 @@ import NextAuth, { NextAuthOptions, Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { generateNewAccessToken } from "src/modules/authentification/generateAccessToken";
 import { verifyToken } from "src/modules/authentification/jwt";
-import { signIn } from "src/modules/authentification/signIn";
+import { UserSignedIn, signIn } from "src/modules/authentification/signIn";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -32,16 +32,13 @@ export const authOptions: NextAuthOptions = {
       };
     },
     jwt: async ({ token, user }) => {
-      const usr: Session["user"] = { ...token, ...user } as any;
-      const isAccessTokenValid = verifyToken(usr.accessToken);
+      const tokenUser: UserSignedIn = { ...token, ...user } as any;
+      const isAccessTokenValid = verifyToken(tokenUser.accessToken);
       if (!isAccessTokenValid) {
-        const newAccessToken = await generateNewAccessToken(
-          usr.refreshToken,
-          usr.accessToken
-        );
-        usr.accessToken = newAccessToken;
+        const newAccessToken = await generateNewAccessToken(tokenUser);
+        tokenUser.accessToken = newAccessToken;
       }
-      return usr;
+      return tokenUser;
     },
   },
 };

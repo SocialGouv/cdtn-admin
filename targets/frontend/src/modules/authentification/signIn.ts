@@ -1,27 +1,52 @@
 import { gqlClient } from "@shared/utils";
-import { LoginHasuraResult, signInQuery } from "./queries/signIn";
 import {
   AuthGqlError,
-  AuthJwtRefreshError,
   AuthUserDeleted,
   AuthUserNotActive,
   AuthUserNotFound,
   AuthUserPasswordDifferent,
 } from "./errors";
 import { verify } from "argon2";
-import { generateJwtToken } from "./jwt";
+import { UserStoredInJwt, generateJwtToken } from "./jwt";
 import { JWT_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRES } from "src/config";
-import { getExpiryDate } from "src/lib/duration";
-import { Session } from "next-auth";
-import {
-  UpdateRefreshTokenHasuraResult,
-  updateRefreshTokenMutation,
-} from "./queries/updateRefreshToken";
+
+const signInQuery = `
+  query login($email: citext!) {
+    auth_users(where: {email: {_eq: $email}}) {
+      id
+      email
+      password
+      name
+      isActive
+      isDeleted
+      role
+    }
+  }
+`;
+
+interface LoginHasuraResult {
+  auth_users: Required<
+    Pick<UserSignedIn, "id" | "email" | "name" | "role"> & {
+      password: string;
+      isActive: boolean;
+      isDeleted: boolean;
+    }
+  >[];
+}
+
+export type UserSignedIn = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  accessToken: string;
+  refreshToken: string;
+};
 
 export const signIn = async (
   email: string,
   password: string
-): Promise<Session["user"]> => {
+): Promise<UserSignedIn> => {
   const loginResult = await gqlClient()
     .query<LoginHasuraResult>(signInQuery, {
       email,
@@ -75,7 +100,7 @@ export const signIn = async (
     });
   }
 
-  const userToSave = {
+  const userToSave: UserStoredInJwt = {
     id: user.id,
     role: user.role,
     name: user.name,
@@ -86,44 +111,11 @@ export const signIn = async (
     userToSave,
     REFRESH_TOKEN_EXPIRES
   );
-  const expiresInGenerated = getExpiryDate(REFRESH_TOKEN_EXPIRES);
-
-  // update the refresh token, the access token, and the expiry date
-  const refreshTokenResult = await gqlClient()
-    .mutation<UpdateRefreshTokenHasuraResult>(updateRefreshTokenMutation, {
-      id: user.id,
-      refreshToken: refreshTokenGenerated,
-      accessToken: accessTokenGenerated,
-      expiresIn: expiresInGenerated,
-    })
-    .toPromise();
-
-  if (refreshTokenResult.error) {
-    throw new AuthGqlError({
-      cause: refreshTokenResult.error,
-      message: "Could not set accessToken or refreshToken",
-      name: "AUTH_GQL_ERROR",
-    });
-  }
-
-  const refreshToken =
-    refreshTokenResult.data?.update_auth_users_by_pk?.refreshToken;
-  const accessToken =
-    refreshTokenResult.data?.update_auth_users_by_pk?.accessToken;
-  const expiresIn = refreshTokenResult.data?.update_auth_users_by_pk?.expiresIn;
-
-  if (!accessToken || !refreshToken || !expiresIn) {
-    throw new AuthJwtRefreshError({
-      cause: null,
-      message: "Could not refresh token of the user",
-      name: "AUTH_JWT_REFRESH_ERROR",
-    });
-  }
 
   return {
-    ...user,
-    accessToken,
-    refreshToken,
-    expiresIn: new Date(expiresIn),
+    ...userToSave,
+    email: user.email,
+    accessToken: accessTokenGenerated,
+    refreshToken: refreshTokenGenerated,
   };
 };

@@ -1,5 +1,5 @@
 import jwt, { Algorithm, verify } from "jsonwebtoken";
-import { Session } from "next-auth";
+import { UserSignedIn } from "./signIn";
 
 const getJwtTokenSecret = (): { type: Algorithm; key: string } => {
   return JSON.parse(
@@ -8,12 +8,7 @@ const getJwtTokenSecret = (): { type: Algorithm; key: string } => {
   );
 };
 
-export type LightUser = Pick<
-  Session["user"],
-  "email" | "id" | "name" | "role" | "expiresIn" | "accessToken"
->;
-
-export type UserStoredInJwt = Pick<LightUser, "id" | "role" | "name">;
+export type UserStoredInJwt = Pick<UserSignedIn, "id" | "role" | "name">;
 
 export type HasuraJwtToken = {
   "https://hasura.io/jwt/claims": {

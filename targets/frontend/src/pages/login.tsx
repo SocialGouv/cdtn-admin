@@ -22,6 +22,8 @@ export default function LoginPage() {
       redirect: false,
       email,
       password,
+    }).catch((error) => {
+      return { error: error.message };
     });
     if (!response || response.error) {
       setError(
