@@ -2,9 +2,7 @@ import sendmail from "./sendmail";
 
 export function sendLostPasswordEmail(email, secret_token) {
   const activateUrl = `${
-    process.env.FRONTEND_HOST
-      ? `https://${process.env.FRONTEND_HOST}`
-      : `http://localhost:3001`
+    process.env.NEXTAUTH_URL ?? `http://localhost:3001`
   }/change_password?token=${secret_token}`; // todo: dynamic hostname
   const subject = "Réinitialisation de votre mot de passe";
   const text = `

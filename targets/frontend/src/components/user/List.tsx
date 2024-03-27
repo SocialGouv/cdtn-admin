@@ -51,9 +51,8 @@ mutation deleteUser($id: uuid!, $name:String!, $email: citext!) {
 `;
 
 export function UserList() {
-  const router = useRouter();
   const [showDialog, setShowDialog] = useState(false);
-  const [selectedUser, setSelectedUser] = useState();
+  const [selectedUser, setSelectedUser] = useState<any>();
   const open = () => setShowDialog(true);
   const close = () => setShowDialog(false);
 
@@ -61,9 +60,10 @@ export function UserList() {
     query,
   });
   const { data, fetching, error } = result;
+  const users = data?.users || [];
   const [, executeDelete] = useMutation(deleteUserMutation);
 
-  function confirmDeleteUser(id, email) {
+  function confirmDeleteUser(id: string, email: string) {
     setSelectedUser({ email, id });
     open();
   }
@@ -84,7 +84,7 @@ export function UserList() {
   if (error)
     return (
       <Alert severity="error">
-        <pre>{JSON.stringify(error, 0, 2)}</pre>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
       </Alert>
     );
   return (
@@ -117,10 +117,10 @@ export function UserList() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.users.map(({ id, role, name, email, createdAt, isActive }) => (
+          {users.map(({ id, role, name, email, createdAt, isActive }: any) => (
             <TableRow key={id}>
               <TableCell align="center">
-                <Badge variant={role === "super" ? "primary" : "secondary"}>
+                <Badge variant={role === "super" ? "standard" : "dot"}>
                   {role}
                 </Badge>
               </TableCell>
@@ -133,14 +133,7 @@ export function UserList() {
                 {isActive ? <Check /> : <Cross />}
               </TableCell>
               <TableCell align="center">
-                <MenuButton variant="secondary">
-                  <MenuItem
-                    onClick={() =>
-                      router.push("/user/edit/[id]", `/user/edit/${id}`)
-                    }
-                  >
-                    Modifier
-                  </MenuItem>
+                <MenuButton variant="contained">
                   <MenuItem onClick={() => confirmDeleteUser(id, email)}>
                     Supprimer
                   </MenuItem>

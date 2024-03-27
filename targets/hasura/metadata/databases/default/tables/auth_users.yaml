@@ -23,17 +23,21 @@ insert_permissions:
       check: {}
       columns:
         - email
-        - id
-        - is_active
-        - password
+        - name
+        - role
     comment: ""
 select_permissions:
   - role: super
     permission:
       columns:
+        - created_at
         - email
+        - id
         - is_active
+        - is_deleted
         - name
+        - role
+        - updated_at
       filter: {}
     comment: ""
 update_permissions:
@@ -41,7 +45,6 @@ update_permissions:
     permission:
       columns:
         - email
-        - is_active
         - name
         - password
       filter:

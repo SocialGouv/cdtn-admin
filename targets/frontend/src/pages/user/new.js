@@ -27,6 +27,9 @@ function prepareMutationData(input) {
   return {
     user: {
       ...input,
+      secret_token_expires_at: getExpiryDate(
+        parseInt(process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES, 10)
+      ),
       role: input.default_role,
     },
   };
