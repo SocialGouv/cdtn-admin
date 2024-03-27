@@ -27,19 +27,20 @@ export function EditUserPage() {
   const user = data?.user;
   const router = useRouter();
   const [userResult, saveUser] = useMutation(saveUserMutation);
-  function handleSubmit(data) {
+  function handleSubmit(data: any) {
+    if (!user) return;
     const { name, email, role } = data;
     saveUser({ email, id: user.id, name, role });
-    router.push("/users");
+    router.push("/user");
   }
   return (
     <Layout title="Modifier mes informations">
       {user && (
         <UserForm
           user={user}
-          loading={userResult.fetching || roleResult.fetching}
+          loading={userResult.fetching}
           onSubmit={handleSubmit}
-          isAdmin={user.isAdmin}
+          isAdmin={user.role === "super"}
           backHref="/user/account"
         />
       )}

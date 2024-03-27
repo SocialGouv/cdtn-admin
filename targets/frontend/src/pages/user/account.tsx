@@ -1,6 +1,5 @@
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
-import { Stack } from "src/components/layout/Stack";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Box } from "@mui/material";
@@ -13,7 +12,7 @@ export function UserPage() {
   return (
     <Layout title="Mon compte">
       {user && (
-        <Stack>
+        <Box>
           <div>
             <p className="fr-text--heavy">Nom d’utilisateur</p>
             <p>{user.name}</p>
@@ -24,7 +23,7 @@ export function UserPage() {
           </div>
           <div>
             <p className="fr-text--heavy">role</p>
-            <p>{user.roles[0].role}</p>
+            <p>{user.role}</p>
           </div>
           <Box
             style={{
@@ -54,7 +53,7 @@ export function UserPage() {
               Modifier mon mot de passe
             </Button>
           </Box>
-        </Stack>
+        </Box>
       )}
     </Layout>
   );

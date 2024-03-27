@@ -41,7 +41,7 @@ export function UserPage() {
   function handleCreate(data) {
     registerUser(prepareMutationData(data)).then((result) => {
       if (!result.error) {
-        router.push("/users");
+        router.push("/user");
         const { email } = result.data.user;
         emailAccount({ email });
       }

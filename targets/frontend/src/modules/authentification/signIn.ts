@@ -38,7 +38,7 @@ export type UserSignedIn = {
   id: string;
   name: string;
   email: string;
-  role: string;
+  role: "super" | "user";
   accessToken: string;
   refreshToken: string;
 };

@@ -1,4 +1,4 @@
-import { passwordValidation } from "../../lib/auth/constants";
+import { passwordValidation } from "../../modules/authentification/passwordValidation";
 import { z } from "zod";
 
 export const passwordSchema = z

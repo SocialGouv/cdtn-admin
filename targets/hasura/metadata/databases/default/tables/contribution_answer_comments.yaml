@@ -11,7 +11,9 @@ object_relationships:
 insert_permissions:
   - role: super
     permission:
-      check: {}
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
       columns:
         - answer_id
         - content

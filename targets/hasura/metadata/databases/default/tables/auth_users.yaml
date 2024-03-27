@@ -44,6 +44,8 @@ update_permissions:
         - is_active
         - name
         - password
-      filter: {}
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
       check: null
     comment: ""

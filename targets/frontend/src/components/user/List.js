@@ -12,25 +12,21 @@ import {
 } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
-import { Role } from "../../lib/auth/constants";
 import { Button, MenuButton, MenuItem } from "../button";
 import { Dialog } from "../dialog";
 import { Check, Cross } from "../utils/icons";
 
 const query = `
 query getUsers {
-  users: auth_users(where: {deleted: {_eq: false}}) {
+  users: auth_users(where: {isDeleted: {_eq: false}}) {
     __typename
     id
     email
     name
-    active
-    deleted
-    created_at
-    default_role
-    roles: user_roles {
-      role
-    }
+    isActive
+    isDeleted
+    createdAt
+    role
   }
 }
 `;
@@ -41,7 +37,7 @@ mutation deleteUser($id: uuid!, $name:String!, $email: citext!) {
     name: $name,
     email: $email,
     password: "mot de passe",
-    deleted: true
+    isDeleted: true
     },
     where: {
     id: {_eq: $id}
@@ -121,48 +117,37 @@ export function UserList() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.users.map(
-            ({
-              id,
-              roles: [{ role } = {}],
-              name,
-              email,
-              created_at,
-              active,
-            }) => (
-              <TableRow key={id}>
-                <TableCell align="center">
-                  <Badge
-                    variant={role === Role.SUPER ? "primary" : "secondary"}
+          {data.users.map(({ id, role, name, email, createdAt, isActive }) => (
+            <TableRow key={id}>
+              <TableCell align="center">
+                <Badge variant={role === "super" ? "primary" : "secondary"}>
+                  {role}
+                </Badge>
+              </TableCell>
+              <TableCell>{name}</TableCell>
+              <TableCell>{email}</TableCell>
+              <TableCell>
+                {new Date(createdAt).toLocaleDateString("fr-FR")}
+              </TableCell>
+              <TableCell align="center">
+                {isActive ? <Check /> : <Cross />}
+              </TableCell>
+              <TableCell align="center">
+                <MenuButton variant="secondary">
+                  <MenuItem
+                    onClick={() =>
+                      router.push("/user/edit/[id]", `/user/edit/${id}`)
+                    }
                   >
-                    {role}
-                  </Badge>
-                </TableCell>
-                <TableCell>{name}</TableCell>
-                <TableCell>{email}</TableCell>
-                <TableCell>
-                  {new Date(created_at).toLocaleDateString("fr-FR")}
-                </TableCell>
-                <TableCell align="center">
-                  {active ? <Check /> : <Cross />}
-                </TableCell>
-                <TableCell align="center">
-                  <MenuButton variant="secondary">
-                    <MenuItem
-                      onClick={() =>
-                        router.push("/user/edit/[id]", `/user/edit/${id}`)
-                      }
-                    >
-                      Modifier
-                    </MenuItem>
-                    <MenuItem onClick={() => confirmDeleteUser(id, email)}>
-                      Supprimer
-                    </MenuItem>
-                  </MenuButton>
-                </TableCell>
-              </TableRow>
-            )
-          )}
+                    Modifier
+                  </MenuItem>
+                  <MenuItem onClick={() => confirmDeleteUser(id, email)}>
+                    Supprimer
+                  </MenuItem>
+                </MenuButton>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </>

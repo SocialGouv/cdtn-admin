@@ -27,7 +27,7 @@ export function EditUserPage() {
     if (!user) return;
     const { name, email, role } = data;
     await saveUser({ email, id: user.id, name, role });
-    router.push("/users");
+    router.push("/user");
   }
   return (
     <Layout title="Modifier mes informations">
@@ -36,7 +36,7 @@ export function EditUserPage() {
         loading={userResult.fetching}
         onSubmit={handleSubmit}
         isAdmin={user?.role === "admin"}
-        backHref="/users"
+        backHref="/user"
       />
     </Layout>
   );

@@ -5,9 +5,9 @@ import { Button } from "src/components/button";
 import { useSession } from "next-auth/react";
 import { Stack as StackMUI, TextField as Field } from "@mui/material";
 
-import { passwordValidation } from "../../lib/auth/constants";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Stack } from "../layout/Stack";
+import { passwordValidation } from "../../modules/authentification/passwordValidation";
 
 export function PasswordForm({
   onSubmit,
