@@ -49,7 +49,7 @@ function Comments({ alertId }) {
   if (error) {
     return (
       <Alert severity="error">
-        <pre>{JSON.stringify(error, 0, null)}</pre>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
       </Alert>
     );
   }

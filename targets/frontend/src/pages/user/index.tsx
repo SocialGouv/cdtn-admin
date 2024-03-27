@@ -1,12 +1,18 @@
 import { Button } from "@mui/material";
-import Link from "next/link";
 import { IoIosAdd } from "react-icons/io";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { UserList } from "src/components/user/List";
 import { Box } from "@mui/material";
+import { useRouter } from "next/router";
 
 export function UserPage() {
+  const router = useRouter();
+
+  const onDeleteUser = (userId: string) => {
+    console.log("Delete user", userId); //TODO: Implement delete user
+  };
+
   return (
     <Layout title="Gestion des utilisateurs">
       <Stack>
@@ -17,13 +23,11 @@ export function UserPage() {
             justifyContent: "flex-end",
           }}
         >
-          <Link href="/user/new" passHref style={{ textDecoration: "none" }}>
-            <Button variant="outlined" size="small">
-              <IoIosAdd /> Ajouter un utilisateur
-            </Button>
-          </Link>
+          <Button onClick={() => router.push("/user/new")}>
+            <IoIosAdd /> Ajouter un utilisateur
+          </Button>
         </Box>
-        <UserList />
+        <UserList onDeleteUser={onDeleteUser} />
       </Stack>
     </Layout>
   );

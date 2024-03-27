@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useState } from "react";
 import {
   Alert,
@@ -10,7 +9,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useMutation, useQuery } from "urql";
+import { useQuery } from "urql";
 
 import { Button, MenuButton, MenuItem } from "../button";
 import { Dialog } from "../dialog";
@@ -31,26 +30,11 @@ query getUsers {
 }
 `;
 
-const deleteUserMutation = `
-mutation deleteUser($id: uuid!, $name:String!, $email: citext!) {
-  update_auth_users(_set: {
-    name: $name,
-    email: $email,
-    password: "mot de passe",
-    isDeleted: true
-    },
-    where: {
-    id: {_eq: $id}
-    }
-  ){
-    returning {
-      __typename
-    }
-  }
-}
-`;
+type Props = {
+  onDeleteUser: (userId: string) => void;
+};
 
-export function UserList() {
+export function UserList({ onDeleteUser }: Props) {
   const [showDialog, setShowDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState<any>();
   const open = () => setShowDialog(true);
@@ -61,22 +45,17 @@ export function UserList() {
   });
   const { data, fetching, error } = result;
   const users = data?.users || [];
-  const [, executeDelete] = useMutation(deleteUserMutation);
 
   function confirmDeleteUser(id: string, email: string) {
     setSelectedUser({ email, id });
     open();
   }
 
-  function onDeleteUser() {
+  function onClickDeleteUser() {
     if (!selectedUser?.id) {
       return;
     }
-    executeDelete({
-      email: `${selectedUser.id}@gouv.fr`,
-      id: selectedUser.id,
-      name: selectedUser.id,
-    });
+    onDeleteUser(selectedUser.id);
     close();
   }
 
@@ -100,7 +79,7 @@ export function UserList() {
           <Button variant="outlined" onClick={close}>
             Annuler
           </Button>
-          <Button variant="contained" onClick={onDeleteUser}>
+          <Button variant="contained" onClick={onClickDeleteUser}>
             Supprimer l’utilisateur
           </Button>
         </Stack>

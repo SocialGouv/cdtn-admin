@@ -27,9 +27,7 @@ function prepareMutationData(input) {
   return {
     user: {
       ...input,
-      secret_token_expires_at: getExpiryDate(
-        parseInt(process.env.NEXT_PUBLIC_ACTIVATION_TOKEN_EXPIRES, 10)
-      ),
+      secret_token_expires_at: getExpiryDate(ACTIVATION_TOKEN_EXPIRES),
       role: input.default_role,
     },
   };
@@ -56,7 +54,7 @@ export function UserPage() {
       <Stack>
         {error && (
           <Alert severity="error">
-            <pre>{JSON.stringify(error, 0, 2)}</pre>
+            <pre>{JSON.stringify(error, null, 2)}</pre>
           </Alert>
         )}
         <UserForm onSubmit={handleCreate} isAdmin={true} loading={fetching} />

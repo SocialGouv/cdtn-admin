@@ -11,3 +11,6 @@ export function toSecond(minutes = 0) {
 
 export const timeSince = (date: string) =>
   formatDistanceToNow(parseISO(date), { locale: frLocale });
+
+export const getExpiryDate = (minutes: number) =>
+  new Date(Date.now() + toMs(minutes)).toISOString();
