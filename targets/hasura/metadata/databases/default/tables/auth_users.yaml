@@ -3,27 +3,18 @@ table:
   schema: auth
 configuration:
   column_config:
-    access_token:
-      custom_name: accessToken
     created_at:
       custom_name: createdAt
-    expires_in:
-      custom_name: expiresIn
     is_active:
       custom_name: isActive
     is_deleted:
       custom_name: isDeleted
-    refresh_token:
-      custom_name: refreshToken
     updated_at:
       custom_name: updatedAt
   custom_column_names:
-    access_token: accessToken
     created_at: createdAt
-    expires_in: expiresIn
     is_active: isActive
     is_deleted: isDeleted
-    refresh_token: refreshToken
     updated_at: updatedAt
   custom_root_fields: {}
 insert_permissions:
