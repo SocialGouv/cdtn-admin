@@ -8,6 +8,7 @@ export const getLightUserQuery = `
       email
       accessToken
       expiresIn
+      role
     }
   }
 `;

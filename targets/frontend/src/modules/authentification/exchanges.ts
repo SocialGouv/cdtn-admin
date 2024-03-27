@@ -21,7 +21,8 @@ export const authExchangeUrql = authExchange(async (utils) => {
       return error.graphQLErrors.some(
         (e) =>
           e.extensions?.code === "validation-failed" ||
-          e.extensions?.code === "invalid-jwt"
+          e.extensions?.code === "invalid-jwt" ||
+          e.extensions?.code === "jwt-invalid-claims"
       );
     },
     async refreshAuth() {

@@ -33,8 +33,8 @@ export const authOptions: NextAuthOptions = {
     },
     jwt: async ({ token, user }) => {
       const usr: Session["user"] = { ...token, ...user } as any;
-      const isValid = verifyToken(usr.accessToken);
-      if (!isValid) {
+      const isAccessTokenValid = verifyToken(usr.accessToken);
+      if (!isAccessTokenValid) {
         const newAccessToken = await generateNewAccessToken(
           usr.refreshToken,
           usr.accessToken

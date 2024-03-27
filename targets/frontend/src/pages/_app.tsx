@@ -26,7 +26,7 @@ const client = new Client({
   url:
     process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
   exchanges: [authExchangeUrql, cacheExchange, fetchExchange],
-  requestPolicy: "cache-first",
+  requestPolicy: "cache-and-network",
 });
 
 export { dsfrDocumentApi };
