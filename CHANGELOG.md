@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.39.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.4...v2.39.5) (2024-03-26)
+
+### Bug Fixes
+
+- up ([0185d77](https://github.com/SocialGouv/cdtn-admin/commit/0185d77a22dc80d5168abcc9705d409d95d97516))
+
+## [2.39.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.3...v2.39.4) (2024-03-26)
+
+### Bug Fixes
+
+- add missing hasura dependency to pg ([3ebc0b7](https://github.com/SocialGouv/cdtn-admin/commit/3ebc0b718d59ea48b426e456ec66d3dcb022bcfb))
+- recovery name ([6bca263](https://github.com/SocialGouv/cdtn-admin/commit/6bca2634b83aaf4474cd71b587cead06ef09f032))
+
+## [2.39.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.2...v2.39.3) (2024-03-25)
+
+### Bug Fixes
+
+- sealedsecret spec ([1597b26](https://github.com/SocialGouv/cdtn-admin/commit/1597b26cb98bbf3add35793bf97392767ffd67e1))
+
+## [2.39.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.1...v2.39.2) (2024-03-25)
+
+### Bug Fixes
+
+- ovh ([39ef3a8](https://github.com/SocialGouv/cdtn-admin/commit/39ef3a8d677a7e02de7fcbb6d493666944d20b49))
+- ovh ([f272f45](https://github.com/SocialGouv/cdtn-admin/commit/f272f45b861a77ccefdeebe9ab91a181aed1a0a7))
+- ovh preprod ([324ee96](https://github.com/SocialGouv/cdtn-admin/commit/324ee96a3d9a09602ba89ddb75cf98f27cd262fe))
+- ovh preprod ([b57eec7](https://github.com/SocialGouv/cdtn-admin/commit/b57eec7a6883eb1e2ff567c1224d8305449fb26e))
+
+## [2.39.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.0...v2.39.1) (2024-03-25)
+
+### Bug Fixes
+
+- backup incr ([5e12069](https://github.com/SocialGouv/cdtn-admin/commit/5e1206954804dc804130e0528a43b8475801a9ee))
+- Revert fix: contribution description null ([#1303](https://github.com/SocialGouv/cdtn-admin/issues/1303)) ([#1328](https://github.com/SocialGouv/cdtn-admin/issues/1328)) ([21d8022](https://github.com/SocialGouv/cdtn-admin/commit/21d8022b791d1c46551af52a49efe910bfd74339))
+
+# [2.39.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.38.0...v2.39.0) (2024-03-25)
+
+### Bug Fixes
+
+- contribution description null ([#1303](https://github.com/SocialGouv/cdtn-admin/issues/1303)) ([4df3e07](https://github.com/SocialGouv/cdtn-admin/commit/4df3e07b53c877f7f305fb19ed260d9626ee6dfb))
+- **migration ovh:** mise à jour des urls en dev de serving ml ([#1324](https://github.com/SocialGouv/cdtn-admin/issues/1324)) ([b54d17c](https://github.com/SocialGouv/cdtn-admin/commit/b54d17c704f6c02ec0f09de13ee0a46d72d56cf6))
+
+### Features
+
+- **information:** optimisation du chargement des contenus `relatedDocuments` pendant l'export ([#1319](https://github.com/SocialGouv/cdtn-admin/issues/1319)) ([b367d24](https://github.com/SocialGouv/cdtn-admin/commit/b367d24b8a1b5ee90f10b415348c0ab2473208f9))
+
 # [2.38.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.1...v2.38.0) (2024-03-18)
 
 ### Bug Fixes

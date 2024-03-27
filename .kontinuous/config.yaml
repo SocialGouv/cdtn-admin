@@ -2,19 +2,4 @@ projectName: cdtn
 dependencies:
   fabrique:
     extends:
-      - name: buildkit-service
-    dependencies:
-      contrib:
-        preDeploy:
-          importSecrets:
-            options:
-              secrets:
-                cdtnadminprodserver-backup-credentials:
-                  env: [dev, preprod]
-                  required: true
-                cdtn-prod-backups-access-key:
-                  env: [prod]
-                  required: true
-                cdtn-dev-backups-access-key:
-                  env: [dev, preprod]
-                  required: true
+      - name: ovh
