@@ -6,6 +6,8 @@ www:
   env:
     - name: "FRONTEND_HOST"
       value: cdtn-admin.fabrique.social.gouv.fr
+    - name: NEXTAUTH_URL
+      value: "https://cdtn-admin.fabrique.social.gouv.fr"
   resources:
     limits:
       cpu: "200m"

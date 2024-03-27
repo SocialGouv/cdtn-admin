@@ -18,6 +18,8 @@ www:
   env:
     - name: "FRONTEND_HOST"
       value: cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
+    - name: NEXTAUTH_URL
+      value: "https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr"
 
 pg:
   ~chart: pg
