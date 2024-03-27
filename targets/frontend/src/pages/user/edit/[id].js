@@ -10,34 +10,22 @@ query getUser($id: uuid!) {
     id
     email
     name
-    active
-    default_role
-    roles: user_roles {
-      role
-    }
+    isActive
+    role
   }
 }
 `;
 
 const saveUserMutation = `
-mutation saveUser($id: uuid!, $name:String!, $email: citext!) {
+mutation saveUser($id: uuid!, $name:String!, $email: citext!, $role: String!) {
   update_auth_users_by_pk(
     _set: {
-    	name: $name,
-    	email: $email,
+      name: $name,
+      email: $email,
+      role: $role
     },
     pk_columns: { id: $id}
   ){ __typename }
-}
-`;
-
-const saveRoleMutation = `
-mutation saveRole($id: uuid!, $role:String!) {
-  update_auth_user_roles(_set: {role: $role}, where: {
-    user_id: {_eq: $id}
-  }){
-    returning { __typename }
-  }
 }
 `;
 
@@ -46,7 +34,6 @@ export function EditUserPage() {
   const [result] = useQuery(getUserQuery, { user });
   const user = result.data.user;
   const [userResult, saveUser] = useMutation(saveUserMutation);
-  const [roleResult, saveRole] = useMutation(saveRoleMutation);
 
   if (result.error) {
     const error = new Error("user not found");
@@ -54,19 +41,10 @@ export function EditUserPage() {
     return Promise.reject(error);
   }
 
-  function handleSubmit(data) {
-    const { name, email, default_role } = data;
-    let rolePromise = Promise.resolve();
-    if (user.roles.every(({ role }) => role !== default_role)) {
-      rolePromise = saveRole({ id: user.id, role: default_role });
-    }
-    rolePromise
-      .then(() => saveUser({ email, id: user.id, name }))
-      .then((result) => {
-        if (!result.error) {
-          router.push("/users");
-        }
-      });
+  async function handleSubmit(data) {
+    const { name, email, role } = data;
+    await saveUser({ email, id: user.id, name, role });
+    router.push("/users");
   }
   return (
     <Layout title="Modifier mes informations">

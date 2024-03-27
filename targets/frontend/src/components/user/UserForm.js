@@ -8,11 +8,9 @@ import {
   Stack as StackMUI,
   TextField as Field,
 } from "@mui/material";
-import { useQuery } from "urql";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Stack } from "../layout/Stack";
-import { getRoleQuery } from "../Roles";
 
 export function UserForm({
   onSubmit,
@@ -21,8 +19,6 @@ export function UserForm({
   isAdmin = false,
   backHref = "/users",
 }) {
-  const [results] = useQuery({ query: getRoleQuery });
-  const { data, fetching, error } = results;
   const {
     register,
     handleSubmit,
@@ -40,7 +36,7 @@ export function UserForm({
         <div style={{ marginBottom: "20px" }}>
           <Field
             type="text"
-            placeholder="Lionel Bé"
+            placeholder="Lionel"
             {...register("name", {
               required: { message: "Ce champ est requis", value: true },
             })}
@@ -65,14 +61,13 @@ export function UserForm({
         {isAdmin && (
           <div style={{ marginBottom: "20px" }}>
             <p class="fr-text--heavy">Role</p>
-            <Select {...register("default_role")} value={user?.roles[0].role}>
-              {!fetching &&
-                !error &&
-                data.roles.map((item) => (
-                  <MenuItem key={item.role} value={item.role}>
-                    {item.role}
-                  </MenuItem>
-                ))}
+            <Select {...register("role")} value={user?.role}>
+              <MenuItem key="super" value="super">
+                super
+              </MenuItem>
+              <MenuItem key="user" value="user">
+                user
+              </MenuItem>
             </Select>
           </div>
         )}

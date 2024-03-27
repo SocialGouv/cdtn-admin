@@ -27,8 +27,7 @@ function prepareMutationData(input) {
   return {
     user: {
       ...input,
-      secret_token_expires_at: getExpiryDate(ACTIVATION_TOKEN_EXPIRES),
-      user_roles: { data: { role: input.default_role } },
+      role: input.default_role,
     },
   };
 }
