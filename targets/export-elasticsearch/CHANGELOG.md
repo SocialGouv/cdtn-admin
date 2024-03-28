@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.39.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.6...v2.39.7) (2024-03-28)
+
+### Bug Fixes
+
+- **glossary:** gère le cas de multiple strong dans un summary ([#1343](https://github.com/SocialGouv/cdtn-admin/issues/1343)) ([022d313](https://github.com/SocialGouv/cdtn-admin/commit/022d313aa06b7f270de1e55deabb9529dab69681))
+
+## [2.39.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.5...v2.39.6) (2024-03-27)
+
+**Note:** Version bump only for package export-elasticsearch
+
 ## [2.39.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.4...v2.39.5) (2024-03-26)
 
 **Note:** Version bump only for package export-elasticsearch
