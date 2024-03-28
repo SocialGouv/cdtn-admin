@@ -6,13 +6,11 @@ declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     alert: {
       setAlert: () => ReturnType;
-      toggleAlert: () => ReturnType;
-      unsetAlert: () => ReturnType;
     };
   }
 }
 
-export const inputRegex = /^\s*>\s$/;
+export const inputRegex = /^\s*\!\!\s$/;
 
 export const Alert = Node.create<AlertOptions>({
   name: "alert",
@@ -26,8 +24,6 @@ export const Alert = Node.create<AlertOptions>({
   content: "block+",
 
   group: "block",
-
-  defining: true,
 
   parseHTML() {
     return [{ tag: "div" }];
@@ -43,16 +39,6 @@ export const Alert = Node.create<AlertOptions>({
         () =>
         ({ commands }) => {
           return commands.wrapIn(this.name);
-        },
-      toggleBlockquote:
-        () =>
-        ({ commands }) => {
-          return commands.toggleWrap(this.name);
-        },
-      unsetBlockquote:
-        () =>
-        ({ commands }) => {
-          return commands.lift(this.name);
         },
     };
   },
