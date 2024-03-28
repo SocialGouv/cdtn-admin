@@ -16,11 +16,9 @@ import {
   insertDocuments,
   updateVersion,
 } from "./lib/hasura-mutations-queries";
-import getContributionsDocuments from "./transform/contributions";
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
 import getFichesServicePublic from "./transform/fichesServicePublic/index";
 import getCdtDocuments from "./transform/legi-data/index";
-import { setContributionsAvailabilityToTrue } from "./transform/contributions/setContributionsAvailabilityToTrue";
 
 interface Args {
   dryRun: unknown;
@@ -83,11 +81,6 @@ const dataPackages = [
     disableSlugUpdate: true,
   },
   {
-    forceUpdate: true,
-    getDocuments: getContributionsDocuments,
-    pkgName: "@socialgouv/contributions-data",
-  },
-  {
     getDocuments: undefined,
     pkgName: "@socialgouv/kali-data",
   },
@@ -113,18 +106,12 @@ async function main() {
       disableSlugUpdate: boolean;
     }
   >();
-  for (const {
-    pkgName,
-    forceUpdate,
-    disableSlugUpdate,
-    getDocuments,
-  } of dataPackages) {
+  for (const { pkgName, disableSlugUpdate, getDocuments } of dataPackages) {
     const pkgInfo = await getPackageInfo(pkgName);
     await download(pkgName, pkgInfo.url);
 
     const ingestedVersion = await getLastIngestedVersion(pkgName);
     if (
-      forceUpdate ||
       (ingestedVersion && semver.gt(pkgInfo.version, ingestedVersion)) ||
       !ingestedVersion
     ) {
@@ -189,10 +176,6 @@ async function main() {
   if (packagesToUpdate.get("@socialgouv/kali-data")) {
     console.log("update kali articles");
     await updateKaliArticles();
-  }
-  if (packagesToUpdate.get("@socialgouv/contributions-data")) {
-    console.log("set contributions availability to true");
-    await setContributionsAvailabilityToTrue();
   }
   return ids;
 }

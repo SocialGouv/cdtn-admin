@@ -49,21 +49,6 @@ services:
     environment:
       HASURA_GRAPHQL_ENDPOINT: "http://hasura:8080/v1/graphql"
 
-  contributions:
-    build:
-      context: .
-      dockerfile: targets/contributions/Dockerfile
-      shm_size: 512m
-    depends_on:
-      - hasura
-      - www
-    ports:
-      - "3200:3200"
-    environment:
-      API_URI: http://www
-    env_file:
-      - .env
-
   ingester:
     build:
       context: .

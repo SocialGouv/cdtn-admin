@@ -1,13 +1,10 @@
 import {
   AgreementDoc,
-  Breadcrumbs,
-  ContributionCompleteDoc,
   ContributionDocumentJson,
   ContributionHighlight,
   EditorialContentDoc,
   ExportEsStatus,
   FicheTravailEmploiDoc,
-  OldContributionElasticDocument,
 } from "@shared/types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-sources";
@@ -20,14 +17,9 @@ import {
 } from "./common/fetchCdtnAdminDocuments";
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
-import { keyFunctionParser } from "./utils";
 import { getVersions } from "./versions";
 import { DocumentElasticWithSource } from "./types/Glossary";
-import {
-  generateContributions,
-  isNewContribution,
-  isOldContribution,
-} from "./contributions";
+import { generateContributions } from "./contributions";
 import { generateAgreements } from "./agreements";
 import { getGlossary } from "./common/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
@@ -71,11 +63,6 @@ export async function cdtnDocumentsGen(
 
   const glossaryTerms = await getGlossary();
   const addGlossary = createGlossaryTransform(glossaryTerms);
-  const addGlossaryToAllMarkdownField = (obj: Record<string, any>) => {
-    return keyFunctionParser("markdown", obj, (content) =>
-      addGlossary(content)
-    );
-  };
 
   logger.info("=== Editorial contents ===");
   const documents = await getDocumentBySource<EditorialContentDoc>(
@@ -135,12 +122,11 @@ export async function cdtnDocumentsGen(
   await updateDocs(SOURCES.THEMATIC_FILES, dossiers);
 
   logger.info("=== Contributions ===");
-  const contributions: DocumentElasticWithSource<
-    ContributionDocumentJson | ContributionCompleteDoc
-  >[] = await getDocumentBySource<ContributionCompleteDoc>(
-    SOURCES.CONTRIBUTIONS,
-    getBreadcrumbs
-  );
+  const contributions: DocumentElasticWithSource<ContributionDocumentJson>[] =
+    await getDocumentBySource<ContributionDocumentJson>(
+      SOURCES.CONTRIBUTIONS,
+      getBreadcrumbs
+    );
   logger.info(`Fetched ${contributions.length} contributions`);
 
   const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
@@ -158,97 +144,16 @@ export async function cdtnDocumentsGen(
     {}
   );
 
-  const oldContributions: DocumentElasticWithSource<ContributionCompleteDoc>[] =
-    contributions.filter(isOldContribution);
-  logger.info(`Fetched ${oldContributions.length} old contributions`);
-
-  const breadcrumbsOfRootContributionsPerIndex = oldContributions.reduce(
-    (state: Record<number, Breadcrumbs[]>, contribution: any) => {
-      if (contribution.breadcrumbs.length > 0) {
-        state[contribution.index] = contribution.breadcrumbs;
-      }
-      return state;
-    },
-    {}
-  );
-
-  const newContributions = contributions.filter(isNewContribution);
-  logger.info(`Fetched ${newContributions.length} new contributions`);
-
-  const newGeneratedContributions = await generateContributions(
-    newContributions,
-    breadcrumbsOfRootContributionsPerIndex,
+  logger.info(`Fetched ${contributions.length} contributions`);
+  const generatedContributions = await generateContributions(
+    contributions,
     ccnData,
     ccnListWithHighlight,
     addGlossary,
     getBreadcrumbs
   );
 
-  logger.info(
-    `Generated ${newGeneratedContributions.length} new contributions`
-  );
-
-  const oldGeneratedContributions = oldContributions.map(
-    ({ answers, breadcrumbs, ...contribution }: any) => {
-      const newAnswer = answers;
-      if (newAnswer.conventions) {
-        newAnswer.conventions = answers.conventions.map((answer: any) => {
-          const highlight = ccnListWithHighlight[parseInt(answer.idcc)];
-          const cc = ccnData.find((v) => v.num === parseInt(answer.idcc));
-          const answerWithSlug = {
-            ...answer,
-            conventionAnswer: {
-              ...answer.conventionAnswer,
-              slug: cc?.slug,
-            },
-          };
-          return {
-            ...answerWithSlug,
-            ...(highlight ? { highlight } : {}),
-          };
-        });
-      }
-
-      if (newAnswer.conventionAnswer) {
-        const highlight =
-          ccnListWithHighlight[parseInt(newAnswer.conventionAnswer.idcc)];
-        if (highlight) {
-          newAnswer.conventionAnswer = {
-            ...newAnswer.conventionAnswer,
-            highlight,
-          };
-        }
-
-        const cc = ccnData.find(
-          (v) => v.num === parseInt(newAnswer.conventionAnswer.idcc)
-        );
-        newAnswer.conventionAnswer = {
-          ...newAnswer.conventionAnswer,
-          slug: cc?.slug,
-        };
-      }
-      const obj = addGlossaryToAllMarkdownField({
-        ...contribution,
-        answers: {
-          ...newAnswer,
-        },
-        breadcrumbs:
-          breadcrumbs.length > 0
-            ? breadcrumbs
-            : breadcrumbsOfRootContributionsPerIndex[contribution.index],
-      });
-      return obj;
-    }
-  ) as unknown as OldContributionElasticDocument[];
-
-  logger.info(
-    `Generated ${oldGeneratedContributions.length} old contributions`
-  );
-
-  const generatedContributions = [
-    ...newGeneratedContributions,
-    ...oldGeneratedContributions,
-  ];
+  logger.info(`Generated ${generatedContributions.length} contributions`);
 
   documentsCount = {
     ...documentsCount,
@@ -260,8 +165,7 @@ export async function cdtnDocumentsGen(
   logger.info("=== Conventions Collectives ===");
   const agreementsDocs = await generateAgreements(
     ccnData,
-    newGeneratedContributions,
-    oldGeneratedContributions
+    generatedContributions
   );
 
   documentsCount = {
@@ -342,9 +246,9 @@ export async function cdtnDocumentsGen(
     ...highlight,
     refs: highlight.refs.map((ref) => {
       if (!ref.description) {
-        const foundContrib = newGeneratedContributions.find(
-          (newGeneratedContribution) => {
-            return newGeneratedContribution.cdtnId === ref.cdtnId;
+        const foundContrib = generatedContributions.find(
+          (generatedContribution) => {
+            return generatedContribution.cdtnId === ref.cdtnId;
           }
         );
         return {
@@ -370,9 +274,9 @@ export async function cdtnDocumentsGen(
     ...prequalif,
     refs: prequalif.refs.map((ref) => {
       if (!ref.description) {
-        const foundContrib = newGeneratedContributions.find(
-          (newGeneratedContribution) => {
-            return newGeneratedContribution.cdtnId === ref.cdtnId;
+        const foundContrib = generatedContributions.find(
+          (generatedContribution) => {
+            return generatedContribution.cdtnId === ref.cdtnId;
           }
         );
         return {

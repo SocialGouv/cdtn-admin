@@ -45,32 +45,13 @@ describe("cdtnDocuments", () => {
 
   describe("updateContributionsAndGetIDCCs", () => {
     test("should return a list of iddc", async () => {
-      const ccnData = [
-        {
-          num: 829,
-          slug: "829-convention-collective-departementale-des-industries-metallurgiques-et-des-in",
-        },
-        {
-          num: 292,
-          slug: "292-plasturgie",
-        },
-        {
-          num: 1557,
-          slug: "1557-commerce-des-articles-de-sport-et-equipements-de-loisirs",
-        },
-        {
-          num: 1909,
-          slug: "1909-organismes-de-tourisme",
-        },
-      ];
-
       const contributions: any[] = [
-        { answers: { conventionAnswer: { idcc: "0292" } } },
-        { answers: { conventionAnswer: { idcc: "0829" } } },
-        { answers: { conventionAnswer: { idcc: "1557" } } },
-        { answers: { conventionAnswer: { idcc: "1909" } } },
+        { idcc: "0292" },
+        { idcc: "0829" },
+        { idcc: "1557" },
+        { idcc: "1909" },
       ];
-      const idccs = await getIDCCs(contributions, []);
+      const idccs = await getIDCCs(contributions);
       expect(Array.from(idccs)).toEqual([292, 829, 1557, 1909]);
     });
   });
