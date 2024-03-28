@@ -22,6 +22,8 @@ export const generateNewAccessToken = async (
     role: user.role,
   };
 
+  // verifier en db que l'utilisateur n'est pas deleted
+
   const accessTokenGenerated = generateJwtToken(userToSave, JWT_TOKEN_EXPIRES);
 
   return accessTokenGenerated;

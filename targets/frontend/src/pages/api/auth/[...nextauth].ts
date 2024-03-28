@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions, Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { REFRESH_TOKEN_EXPIRES } from "src/config";
 import { generateNewAccessToken } from "src/modules/authentification/generateAccessToken";
 import { verifyToken } from "src/modules/authentification/jwt";
 import { UserSignedIn, signIn } from "src/modules/authentification/signIn";
@@ -46,6 +47,9 @@ export const authOptions: NextAuthOptions = {
       }
       return tokenUser;
     },
+  },
+  session: {
+    maxAge: REFRESH_TOKEN_EXPIRES * 60,
   },
 };
 
