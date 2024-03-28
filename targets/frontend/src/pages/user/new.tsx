@@ -21,7 +21,7 @@ const emailAccountMutation = `
 mutation email($email: citext!) {
 	email_account_activation(email: $email)
 }
-`;
+`; //TODO: delete
 
 function prepareMutationData(input) {
   return {

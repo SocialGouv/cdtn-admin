@@ -1,29 +1,17 @@
 type Mutation {
-  email_account_activation(
-    email: citext!
-  ): Status
+  preview_document(cdtnId: String!, document: jsonb!, source: String!): Status
 }
 
 type Mutation {
-  email_password_request(
-    email: citext!
-    secret_token: uuid!
-  ): Status
+  publish(id: uuid!, source: String!): publishOutput
 }
 
-type Mutation {
-  preview_document(
-    cdtnId: String!
-    document: jsonb!
-    source: String!
-  ): Status
-}
-
-type Mutation {
-  publish(
-    id: uuid!
-    source: String!
-  ): publishOutput
+type Query {
+  recentKaliReference(
+    agreementId: bpchar!
+    query: String!
+    limit: Int
+  ): RecentKaliReferenceOutput
 }
 
 input PreviewDocument {
@@ -89,3 +77,6 @@ type publishOutput {
   cdtnId: String!
 }
 
+type RecentKaliReferenceOutput {
+  refs: [KaliArticles]
+}

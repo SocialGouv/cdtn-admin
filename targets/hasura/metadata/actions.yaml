@@ -1,29 +1,16 @@
 actions:
-  - name: email_account_activation
+  - name: recentKaliReference
     definition:
-      kind: asynchronous
-      handler: '{{API_URL}}/actions/email_account_activation'
+      kind: ""
+      handler: "{{API_URL}}/actions/recent_kali_references"
       forward_client_headers: true
-      headers:
-        - name: actions-secret
-          value_from_env: ACTIONS_SECRET
     permissions:
       - role: user
       - role: super
-  - name: email_password_request
-    definition:
-      kind: asynchronous
-      handler: '{{API_URL}}/actions/email_password_request'
-      forward_client_headers: true
-      headers:
-        - name: actions-secret
-          value_from_env: ACTIONS_SECRET
-    permissions:
-      - role: public
   - name: preview_document
     definition:
       kind: synchronous
-      handler: '{{API_URL}}/actions/preview'
+      handler: "{{API_URL}}/actions/preview"
       forward_client_headers: true
       headers:
         - name: actions-secret
@@ -34,7 +21,7 @@ actions:
   - name: publish
     definition:
       kind: synchronous
-      handler: '{{API_URL}}/actions/publish'
+      handler: "{{API_URL}}/actions/publish"
       forward_client_headers: true
     permissions:
       - role: super
