@@ -21,7 +21,7 @@
     "semver": "7.3.5",
     "simple-git": "^3.19.1",
     "unist-util-parents": "1.0.3",
-    "unist-util-select": "4.0.1"
+    "unist-util-select": "4.0.3"
   },
   "devDependencies": {
     "@shared/eslint-config": "workspace:^",
@@ -32,18 +32,18 @@
     "@socialgouv/kali-data-types": "2.127.0",
     "@socialgouv/legi-data-types": "2.73.1",
     "@types/diff": "^5.0.3",
-    "@types/jest": "27.4.0",
-    "@types/memoizee": "0.4.6",
-    "@types/node": "16.11.11",
-    "@types/semver": "7.3.8",
-    "@types/unist": "2.0.6",
+    "@types/jest": "27.4.1",
+    "@types/memoizee": "0.4.11",
+    "@types/node": "16.11.68",
+    "@types/semver": "7.3.13",
+    "@types/unist": "2.0.10",
     "@vercel/ncc": "0.34.0",
     "builtin-modules": "3.2.0",
     "jest": "27.0.6",
-    "lint-staged": "12.0.0",
-    "ts-jest": "27.0.5",
-    "ts-node": "10.8.0",
-    "typescript": "4.7.2"
+    "lint-staged": "12.0.3",
+    "ts-jest": "27.0.7",
+    "ts-node": "10.8.2",
+    "typescript": "4.7.4"
   },
   "scripts": {
     "build": "ncc build ./src/index.ts -o ./dist -e nodegit -s",
