@@ -34,17 +34,6 @@ export function UserPage() {
             }}
           >
             <Button
-              style={{
-                marginBottom: "20px",
-              }}
-              onClick={() => {
-                router.push("/users/edit");
-              }}
-            >
-              Modifier mes informations
-            </Button>
-
-            <Button
               outline
               onClick={() => {
                 router.push("/users/password");

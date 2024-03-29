@@ -1,9 +1,16 @@
 type Mutation {
-  preview_document(cdtnId: String!, document: jsonb!, source: String!): Status
+  preview_document(
+    cdtnId: String!
+    document: jsonb!
+    source: String!
+  ): Status
 }
 
 type Mutation {
-  publish(id: uuid!, source: String!): publishOutput
+  publish(
+    id: uuid!
+    source: String!
+  ): publishOutput
 }
 
 type Query {
@@ -76,3 +83,4 @@ type RecentKaliReferenceOutput {
 type publishOutput {
   cdtnId: String!
 }
+

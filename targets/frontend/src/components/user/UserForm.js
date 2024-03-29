@@ -16,7 +16,6 @@ export function UserForm({
   onSubmit,
   loading = false,
   user,
-  isAdmin = false,
   backHref = "/users",
 }) {
   const {
@@ -58,19 +57,6 @@ export function UserForm({
           />
           <FormErrorMessage errors={errors} fieldName="email" />
         </div>
-        {isAdmin && (
-          <div style={{ marginBottom: "20px" }}>
-            <p class="fr-text--heavy">Role</p>
-            <Select {...register("role")} value={user?.role}>
-              <MenuItem key="super" value="super">
-                super
-              </MenuItem>
-              <MenuItem key="user" value="user">
-                user
-              </MenuItem>
-            </Select>
-          </div>
-        )}
         <div style={{ marginTop: "20px", marginLeft: "20px" }}>
           <StackMUI direction="row" spacing={2} mt={4} justifyContent="end">
             <Link
@@ -96,7 +82,6 @@ export function UserForm({
 
 UserForm.propTypes = {
   backHref: PropTypes.string,
-  isAdmin: PropTypes.bool,
   loading: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   user: PropTypes.object,

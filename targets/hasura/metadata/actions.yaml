@@ -1,16 +1,8 @@
 actions:
-  - name: recentKaliReference
-    definition:
-      kind: ""
-      handler: "{{API_URL}}/actions/recent_kali_references"
-      forward_client_headers: true
-    permissions:
-      - role: user
-      - role: super
   - name: preview_document
     definition:
       kind: synchronous
-      handler: "{{API_URL}}/actions/preview"
+      handler: '{{API_URL}}/actions/preview'
       forward_client_headers: true
       headers:
         - name: actions-secret
@@ -21,11 +13,19 @@ actions:
   - name: publish
     definition:
       kind: synchronous
-      handler: "{{API_URL}}/actions/publish"
+      handler: '{{API_URL}}/actions/publish'
       forward_client_headers: true
     permissions:
       - role: super
     comment: Action pour publier un document
+  - name: recentKaliReference
+    definition:
+      kind: ""
+      handler: '{{API_URL}}/actions/recent_kali_references'
+      forward_client_headers: true
+    permissions:
+      - role: user
+      - role: super
 custom_types:
   enums: []
   input_objects:
