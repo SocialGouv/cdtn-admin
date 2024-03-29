@@ -6,8 +6,26 @@ import { UserForm } from "src/components/user/UserForm";
 export function UserPage() {
   const router = useRouter();
 
-  function handleCreate({ name, email }: any) {
+  async function handleCreate({ name, email }: any) {
     console.log(name, email);
+    const result = await fetch(`/api/users/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email }),
+    });
+
+    const resultJson = await result.json();
+
+    if (!result.ok) {
+      alert(
+        `Une erreur est survenue lors de la création du compte <=> ${resultJson.message}`
+      );
+      return;
+    }
+
+    router.push("/users");
   }
 
   return (

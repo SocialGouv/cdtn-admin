@@ -2,12 +2,7 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import {
-  MenuItem,
-  Select,
-  Stack as StackMUI,
-  TextField as Field,
-} from "@mui/material";
+import { Stack as StackMUI, TextField as Field } from "@mui/material";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Stack } from "../layout/Stack";
@@ -46,7 +41,7 @@ export function UserForm({
         </div>
         <div style={{ marginBottom: "20px" }}>
           <Field
-            type="text"
+            type="email"
             label="Email"
             placeholder="lionel.be@beta.gouv.fr"
             {...register("email", {

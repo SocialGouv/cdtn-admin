@@ -18,7 +18,7 @@ export function ChangeMyPasswordPage() {
 
     if (!result.ok) {
       alert(
-        `Une erreur est survenue lors du changement du mot de passe : ${resultJson.message}`
+        `Une erreur est survenue lors du changement du mot de passe <=> ${resultJson.message}`
       );
       return;
     }

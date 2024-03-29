@@ -22,7 +22,7 @@ export function UserPage() {
 
     if (!result.ok) {
       alert(
-        `Une erreur est survenue lors de la suppression de l'utilisateur, le message d'erreur est : ${resultJson.message}`
+        `Une erreur est survenue lors de la suppression de l'utilisateur, le message d'erreur est <=> ${resultJson.message}`
       );
       return false;
     }
