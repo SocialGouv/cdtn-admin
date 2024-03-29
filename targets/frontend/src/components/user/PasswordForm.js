@@ -11,7 +11,6 @@ import { passwordValidation } from "../../modules/authentification/passwordValid
 
 export function PasswordForm({
   onSubmit,
-  action = "/api/change_password",
   backHref = "/users/account",
   changeOldPassword = false,
   loading = false,
@@ -64,7 +63,7 @@ export function PasswordForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(localSubmit)} action={action}>
+    <form onSubmit={handleSubmit(localSubmit)}>
       <div style={{ marginBottom: "20px" }}>
         Le mot de passe doit faire au moins 12 caractères et doit être composer
         d&apos;au moins 1 minuscule, 1 majuscule, 1 nombre et 1 caractère
@@ -126,7 +125,6 @@ export function PasswordForm({
 }
 
 PasswordForm.propTypes = {
-  action: PropTypes.string,
   backHref: PropTypes.string,
   changeOldPassword: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,

@@ -92,8 +92,12 @@ export function generateActivationToken(id: string) {
   );
 }
 
-export function getActivationToken(token: string): ActivationToken {
+export function getAndVerifyActivationToken(token: string): ActivationToken {
   const jwtSecret = getJwtTokenSecret();
+  const isValid = verifyToken(token);
+  if (!isValid) {
+    throw new Error("Token has expired");
+  }
   const payloadToken = verify(token, jwtSecret.key, {
     algorithms: [jwtSecret.type],
   });
