@@ -37,13 +37,16 @@ export default async function handler(
     return;
   }
 
-  const result = await createUser(name, email);
-
-  if (!result) {
-    res.status(500).json({ message: "Error during user creation" });
+  try {
+    const result = await createUser(name, email);
+    if (!result) {
+      res.status(500).json({ message: "Error during user creation" });
+      return;
+    }
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
     return;
   }
-
   return res.json({
     message: "Success",
   });

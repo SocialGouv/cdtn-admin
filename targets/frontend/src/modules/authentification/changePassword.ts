@@ -13,7 +13,7 @@ const getUserQuery = gql`
   }
 `;
 
-interface getUserHasuraResult {
+interface GetUserHasuraResult {
   auth_users_by_pk: {
     password: string;
   };
@@ -42,7 +42,7 @@ export const changePassword = async (
   newPassword: string
 ): Promise<boolean> => {
   const getUserResult = await gqlClient()
-    .query<getUserHasuraResult>(getUserQuery, {
+    .query<GetUserHasuraResult>(getUserQuery, {
       id: userId,
     })
     .toPromise();

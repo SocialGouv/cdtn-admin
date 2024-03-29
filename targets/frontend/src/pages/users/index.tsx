@@ -21,9 +21,7 @@ export function UserPage() {
     const resultJson = await result.json();
 
     if (!result.ok) {
-      alert(
-        `Une erreur est survenue lors de la suppression de l'utilisateur, le message d'erreur est <=> ${resultJson.message}`
-      );
+      alert(`Un problème est survenu, l'erreur est : ${resultJson.message}`);
       return false;
     }
 

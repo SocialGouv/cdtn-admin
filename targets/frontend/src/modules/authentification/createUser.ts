@@ -1,7 +1,9 @@
 import { gqlClient } from "@shared/utils";
 import { gql } from "urql";
-import { AuthGqlError } from "./errors";
+import { AuthEmailSendError, AuthGqlError } from "./errors";
 import { UserSignedIn } from "./signIn";
+import { sendActivateAccountEmail } from "../emails/sendActivateAccountEmail";
+import { generateActivationToken } from "./jwt";
 
 const insertQuery = gql`
   mutation insertUser($name: String!, $email: citext!, $role: String!) {
@@ -21,11 +23,12 @@ export const createUser = async (
   name: string,
   email: string
 ): Promise<boolean> => {
+  const defaultRole = "super" as UserSignedIn["role"];
   const result = await gqlClient()
     .mutation<InsertUserHasuraResult>(insertQuery, {
       name,
       email,
-      role: "super" as UserSignedIn["role"],
+      role: defaultRole,
     })
     .toPromise();
 
@@ -34,6 +37,20 @@ export const createUser = async (
       cause: result.error,
       message: "Impossible to register user",
       name: "AUTH_GQL_ERROR",
+    });
+  }
+
+  const activationTokenGenerated = generateActivationToken(
+    result.data.insert_auth_users_one.id
+  );
+
+  try {
+    await sendActivateAccountEmail(email, activationTokenGenerated);
+  } catch (error) {
+    throw new AuthEmailSendError({
+      cause: error,
+      message: "Impossible to send activation email",
+      name: "SEND_EMAIL_ERROR",
     });
   }
 

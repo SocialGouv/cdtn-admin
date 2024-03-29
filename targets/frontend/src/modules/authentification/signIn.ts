@@ -9,10 +9,11 @@ import {
 import { verify } from "argon2";
 import { UserStoredInJwt, generateJwtToken } from "./jwt";
 import { JWT_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRES } from "src/config";
+import { gql } from "urql";
 
-const signInQuery = `
+const signInQuery = gql`
   query login($email: citext!) {
-    auth_users(where: {email: {_eq: $email}}) {
+    auth_users(where: { email: { _eq: $email } }) {
       id
       email
       password

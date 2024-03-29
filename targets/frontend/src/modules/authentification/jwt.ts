@@ -1,5 +1,6 @@
 import jwt, { Algorithm, verify } from "jsonwebtoken";
 import { UserSignedIn } from "./signIn";
+import { USER_ACTIVATION_TOKEN_EXPIRES } from "src/config";
 
 const getJwtTokenSecret = (): { type: Algorithm; key: string } => {
   return JSON.parse(
@@ -17,6 +18,12 @@ export type HasuraJwtToken = {
     "x-hasura-user-id": string;
     "x-hasura-user-name": string;
   };
+  iat: number;
+  exp: number;
+};
+
+export type ActivationToken = {
+  id: string;
   iat: number;
   exp: number;
 };
@@ -70,3 +77,28 @@ export const verifyToken = (token?: string) => {
     return false;
   }
 };
+
+export function generateActivationToken(id: string) {
+  const jwtSecret = getJwtTokenSecret();
+  return jwt.sign(
+    {
+      id,
+    },
+    jwtSecret.key,
+    {
+      algorithm: jwtSecret.type,
+      expiresIn: `${USER_ACTIVATION_TOKEN_EXPIRES}m`,
+    }
+  );
+}
+
+export function getActivationToken(token: string): ActivationToken {
+  const jwtSecret = getJwtTokenSecret();
+  const payloadToken = verify(token, jwtSecret.key, {
+    algorithms: [jwtSecret.type],
+  });
+  if (typeof payloadToken === "string") {
+    throw new Error("Invalid token");
+  }
+  return payloadToken as ActivationToken;
+}

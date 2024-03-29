@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
+import Mail from "nodemailer/lib/mailer";
 
-export default function sendmail(mailOptions) {
+export default function sendmail(mailOptions: Mail.Options) {
   const transport = nodemailer.createTransport({
     auth: {
       pass: process.env.SMTP_EMAIL_PASSWORD ?? "pass",

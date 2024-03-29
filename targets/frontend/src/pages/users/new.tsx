@@ -7,7 +7,6 @@ export function UserPage() {
   const router = useRouter();
 
   async function handleCreate({ name, email }: any) {
-    console.log(name, email);
     const result = await fetch(`/api/users/create`, {
       method: "POST",
       headers: {
@@ -19,9 +18,7 @@ export function UserPage() {
     const resultJson = await result.json();
 
     if (!result.ok) {
-      alert(
-        `Une erreur est survenue lors de la création du compte <=> ${resultJson.message}`
-      );
+      alert(`Un problème est survenu, l'erreur est : ${resultJson.message}`);
       return;
     }
 

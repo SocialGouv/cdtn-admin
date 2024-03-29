@@ -17,9 +17,7 @@ export function ChangeMyPasswordPage() {
     const resultJson = await result.json();
 
     if (!result.ok) {
-      alert(
-        `Une erreur est survenue lors du changement du mot de passe <=> ${resultJson.message}`
-      );
+      alert(`Un problème est survenu, l'erreur est : ${resultJson.message}`);
       return;
     }
 
