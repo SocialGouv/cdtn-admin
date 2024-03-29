@@ -69,7 +69,7 @@ export function UserMenu() {
             <MoreVertIcon />
           </IconButton>
           <Menu anchorEl={anchorMenu} open={open} onClose={handleClose}>
-            <MenuItem component={Link} href="/user/account">
+            <MenuItem component={Link} href="/users/account">
               Mon compte
             </MenuItem>
             <MenuItem

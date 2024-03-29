@@ -32,36 +32,54 @@ interface UpdateDocumentAvailabilityResult {
 }
 
 const insertDocumentsMutation = `
-mutation insert_documents($documents: [documents_insert_input!]!) {
-  documents: insert_documents(objects: $documents, on_conflict: {
-    constraint: documents_pkey,
-    update_columns: [title, source, slug, text, document, is_available, is_searchable]
-  }) {
-   returning {cdtn_id}
-  }
-}
-`;
-
-const insertDocumentsWithoutSlugMutation = `
-mutation insert_documents($documents: [documents_insert_input!]!) {
-  documents: insert_documents(objects: $documents, on_conflict: {
-    constraint: documents_pkey,
-    update_columns: [title, source, text, document, is_available, is_searchable]
-  }) {
-   returning {cdtn_id}
-  }
-}
-`;
-
-const updatePublishStatusDocumentsMutation = `
-mutation update_published_status_documents($updates: [documents_updates!]!) {
-  update_documents_many(updates: $updates) {
-    returning {
+  mutation insert_documents($documents: [documents_insert_input!]!) {
+    documents: insert_documents(
+      objects: $documents
+      on_conflict: {
+        constraint: documents_pkey
+        update_columns: [
+          title
+          source
+          slug
+          text
+          document
+          is_available
+          is_searchable
+        ]
+      }
+    ) {
       cdtn_id
     }
   }
-}
+`;
 
+const insertDocumentsWithoutSlugMutation = `
+  mutation insert_documents($documents: [documents_insert_input!]!) {
+    documents: insert_documents(
+      objects: $documents
+      on_conflict: {
+        constraint: documents_pkey
+        update_columns: [
+          title
+          source
+          text
+          document
+          is_available
+          is_searchable
+        ]
+      }
+    ) {
+      cdtn_id
+    }
+  }
+`;
+
+const updatePublishStatusDocumentsMutation = `
+  mutation update_published_status_documents($updates: [documents_updates!]!) {
+    update_documents_many(updates: $updates) {
+      cdtn_id
+    }
+  }
 `;
 
 interface InsertdocumentResult {

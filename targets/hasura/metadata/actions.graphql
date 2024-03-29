@@ -76,7 +76,3 @@ type RecentKaliReferenceOutput {
 type publishOutput {
   cdtnId: String!
 }
-
-type RecentKaliReferenceOutput {
-  refs: [KaliArticles]
-}

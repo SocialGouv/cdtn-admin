@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
   Alert,
   Badge,
@@ -31,7 +31,8 @@ query getUsers {
 `;
 
 type Props = {
-  onDeleteUser: (userId: string) => void;
+  onDeleteUser: (userId: string) => Promise<boolean>;
+  refresh?: boolean;
 };
 
 export function UserList({ onDeleteUser }: Props) {
@@ -40,7 +41,7 @@ export function UserList({ onDeleteUser }: Props) {
   const open = () => setShowDialog(true);
   const close = () => setShowDialog(false);
 
-  const [result] = useQuery({
+  const [result, executeQuery] = useQuery({
     query,
   });
   const { data, fetching, error } = result;
@@ -51,12 +52,15 @@ export function UserList({ onDeleteUser }: Props) {
     open();
   }
 
-  function onClickDeleteUser() {
+  async function onClickDeleteUser() {
     if (!selectedUser?.id) {
       return;
     }
-    onDeleteUser(selectedUser.id);
     close();
+    const result = await onDeleteUser(selectedUser.id);
+    if (result) {
+      executeQuery({ requestPolicy: "network-only" });
+    }
   }
 
   if (fetching) return <p>chargement...</p>;

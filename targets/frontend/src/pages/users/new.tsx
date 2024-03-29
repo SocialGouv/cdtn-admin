@@ -23,7 +23,7 @@ mutation email($email: citext!) {
 }
 `; //TODO: delete
 
-function prepareMutationData(input) {
+function prepareMutationData(input: any) {
   return {
     user: {
       ...input,
@@ -39,7 +39,7 @@ export function UserPage() {
   const [, emailAccount] = useMutation(emailAccountMutation);
   const { fetching, error } = result;
 
-  function handleCreate(data) {
+  function handleCreate(data: any) {
     registerUser(prepareMutationData(data)).then((result) => {
       if (!result.error) {
         router.push("/user");

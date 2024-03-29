@@ -12,7 +12,7 @@ import { passwordValidation } from "../../modules/authentification/passwordValid
 export function PasswordForm({
   onSubmit,
   action = "/api/change_password",
-  backHref = "/user/account",
+  backHref = "/users/account",
   changeOldPassword = false,
   loading,
 }) {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
-import { useMutation } from "urql";
+import { useMutation, gql } from "urql";
 
 import { Button } from "../button";
 import { Dialog } from "../dialog";
@@ -31,13 +31,13 @@ export function AddFiches() {
   );
 }
 
-const insertFicheServicePublicId = `
-mutation addFichesServicePublic($objects: [service_public_contents_insert_input!]!) {
-  fiches: insert_service_public_contents(objects: $objects) {
-    affected_rows
-    returning {
-      id, status
+const insertFicheServicePublicId = gql`
+  mutation addFichesServicePublic(
+    $objects: [service_public_contents_insert_input!]!
+  ) {
+    fiches: insert_service_public_contents(objects: $objects) {
+      id
+      status
     }
   }
-}
 `;

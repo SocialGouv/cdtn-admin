@@ -5,12 +5,12 @@ import { request } from "src/lib/request";
 
 export function ChangeMyPasswordPage() {
   const router = useRouter();
-  async function handleChangePasword({ id, oldPassword, password }) {
+  async function handleChangePasword({ id, oldPassword, password }: any) {
     await request("/api/change_password", {
       body: { id, oldPassword, password },
     });
 
-    router.push("/user/account");
+    router.push("/users/account");
   }
 
   return (

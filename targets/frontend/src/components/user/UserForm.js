@@ -17,7 +17,7 @@ export function UserForm({
   loading = false,
   user,
   isAdmin = false,
-  backHref = "/user",
+  backHref = "/users",
 }) {
   const {
     register,

@@ -78,7 +78,7 @@ export function Navigation() {
     system: {
       order: 7,
       label: "Gestion des utilisateurs",
-      href: "/user",
+      href: "/users",
     },
   };
   if (navAggregation) {

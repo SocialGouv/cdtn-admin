@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo } from "react";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
 import { CircularProgress as Spinner, Alert } from "@mui/material";
-import { useMutation, useQuery } from "urql";
+import { useMutation, useQuery, gql } from "urql";
 
 import { Stack } from "../layout/Stack";
 import { Pagination } from "../pagination";
@@ -69,28 +69,27 @@ export function FichesServicePublicContainer() {
   );
 }
 
-const getFicheServicePublicId = `
-query getServicePublicId($offset: Int = 0, $limit: Int = 50) {
-  ficheIds: v1_fiches_sp( offset: $offset, limit: $limit) {
-   id, cdtn_id, status, is_available, is_published
-  }
-  aggs:v1_fiches_sp_aggregate {
-    aggregate{
-      count
+const getFicheServicePublicId = gql`
+  query getServicePublicId($offset: Int = 0, $limit: Int = 50) {
+    ficheIds: v1_fiches_sp(offset: $offset, limit: $limit) {
+      id
+      cdtn_id
+      status
+      is_available
+      is_published
+    }
+    aggs: v1_fiches_sp_aggregate {
+      aggregate {
+        count
+      }
     }
   }
-}
 `;
 
-const deleteFicheServicePublicId = `
-mutation deleteServicePublicIds($ids: [String!] = []) {
-  delete_service_public_contents(where: {
-    id: {_in: $ids}
-  }) {
-    affected_rows
-    returning {
+const deleteFicheServicePublicId = gql`
+  mutation deleteServicePublicIds($ids: [String!] = []) {
+    delete_service_public_contents(where: { id: { _in: $ids } }) {
       id
     }
   }
-}
 `;

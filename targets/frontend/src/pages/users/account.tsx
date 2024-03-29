@@ -38,7 +38,7 @@ export function UserPage() {
                 marginBottom: "20px",
               }}
               onClick={() => {
-                router.push("/user/edit");
+                router.push("/users/edit");
               }}
             >
               Modifier mes informations
@@ -47,7 +47,7 @@ export function UserPage() {
             <Button
               outline
               onClick={() => {
-                router.push("/user/password");
+                router.push("/users/password");
               }}
             >
               Modifier mon mot de passe
