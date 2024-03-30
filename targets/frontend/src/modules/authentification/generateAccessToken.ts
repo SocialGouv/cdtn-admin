@@ -1,5 +1,9 @@
-import { AuthGqlError, AuthJwtRefreshError, AuthUserDeleted } from "./errors";
-import { UserStoredInJwt, generateJwtToken, verifyToken } from "./jwt";
+import {
+  AuthGqlError,
+  AuthJwtRefreshError,
+  AuthUserDeleted,
+} from "./utils/errors";
+import { UserStoredInJwt, generateJwtToken, verifyToken } from "./utils/jwt";
 import { JWT_TOKEN_EXPIRES } from "src/config";
 import { UserSignedIn } from "./signIn";
 import { gqlClient } from "@shared/utils";

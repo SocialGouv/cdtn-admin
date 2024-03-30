@@ -8,7 +8,7 @@ import { createNextDsfrIntegrationApi } from "@codegouvfr/react-dsfr/next-pagesd
 import Link from "next/link";
 import type { AppProps } from "next/app";
 import { Client, Provider, cacheExchange, fetchExchange } from "urql";
-import { authExchangeUrql } from "src/modules/authentification/exchanges";
+import { authExchangeUrql } from "src/modules/authentification/utils/exchanges";
 
 declare module "@codegouvfr/react-dsfr/next-pagesdir" {
   interface RegisterLink {

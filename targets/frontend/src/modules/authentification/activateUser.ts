@@ -1,8 +1,8 @@
 import { gqlClient } from "@shared/utils";
 import { hash } from "argon2";
 import { gql } from "urql";
-import { AuthGqlError } from "./errors";
-import { getAndVerifyActivationToken } from "./jwt";
+import { AuthGqlError } from "./utils/errors";
+import { getAndVerifyActivationToken } from "./utils/jwt";
 
 const getUserQuery = gql`
   query getUser($id: uuid!) {

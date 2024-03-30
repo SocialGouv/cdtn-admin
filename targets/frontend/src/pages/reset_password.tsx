@@ -6,7 +6,7 @@ import { PasswordLayout } from "src/components/layout/password.layout";
 import { Stack } from "src/components/layout/Stack";
 import { TextField as Field } from "@mui/material";
 import { useRouter } from "next/router";
-import { emailValidation } from "src/modules/authentification/regex";
+import { emailValidation } from "src/modules/authentification/utils/regex";
 
 export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);

@@ -1,5 +1,5 @@
 import jwt, { Algorithm, verify } from "jsonwebtoken";
-import { UserSignedIn } from "./signIn";
+import { UserSignedIn } from "../signIn";
 import { USER_ACTIVATION_TOKEN_EXPIRES } from "src/config";
 
 const getJwtTokenSecret = (): { type: Algorithm; key: string } => {

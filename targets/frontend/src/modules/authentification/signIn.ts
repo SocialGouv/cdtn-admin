@@ -5,9 +5,9 @@ import {
   AuthUserNotActive,
   AuthUserNotFound,
   AuthUserPasswordDifferent,
-} from "./errors";
+} from "./utils/errors";
 import { verify } from "argon2";
-import { UserStoredInJwt, generateJwtToken } from "./jwt";
+import { UserStoredInJwt, generateJwtToken } from "./utils/jwt";
 import { JWT_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRES } from "src/config";
 import { gql } from "urql";
 

@@ -1,9 +1,9 @@
 import { gqlClient } from "@shared/utils";
 import { gql } from "urql";
-import { AuthEmailSendError, AuthGqlError } from "./errors";
+import { AuthEmailSendError, AuthGqlError } from "./utils/errors";
 import { UserSignedIn } from "./signIn";
 import { sendActivateAccountEmail } from "../emails/sendActivateAccountEmail";
-import { generateActivationToken } from "./jwt";
+import { generateActivationToken } from "./utils/jwt";
 
 const insertQuery = gql`
   mutation insertUser($name: String!, $email: citext!, $role: String!) {

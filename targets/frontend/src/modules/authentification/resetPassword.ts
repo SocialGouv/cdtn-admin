@@ -1,9 +1,9 @@
 import { gqlClient } from "@shared/utils";
 import { hash, verify } from "argon2";
 import { gql } from "urql";
-import { AuthEmailResetPasswordError, AuthGqlError } from "./errors";
+import { AuthEmailResetPasswordError, AuthGqlError } from "./utils/errors";
 import { sendLostPasswordEmail } from "../emails/sendLostPasswordEmail";
-import { generateActivationToken } from "./jwt";
+import { generateActivationToken } from "./utils/jwt";
 
 const getUserQuery = gql`
   query login($email: citext!) {

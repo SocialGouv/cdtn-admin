@@ -1,7 +1,7 @@
 import { gqlClient } from "@shared/utils";
 import { hash, verify } from "argon2";
 import { gql } from "urql";
-import { AuthGqlError, AuthUserPasswordDifferent } from "./errors";
+import { AuthGqlError, AuthUserPasswordDifferent } from "./utils/errors";
 
 const getUserQuery = gql`
   query getUser($id: uuid!) {

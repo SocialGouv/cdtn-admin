@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]";
 import { NextApiRequest, NextApiResponse } from "next";
-import { verifyToken } from "src/modules/authentification/jwt";
+import { verifyToken } from "src/modules/authentification/utils/jwt";
 import { changePassword } from "src/modules/authentification/changePassword";
 
 export default async function handler(
