@@ -6,6 +6,7 @@ import { PasswordLayout } from "src/components/layout/password.layout";
 import { Stack } from "src/components/layout/Stack";
 import { TextField as Field } from "@mui/material";
 import { useRouter } from "next/router";
+import { emailValidation } from "src/modules/authentification/regex";
 
 export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);
@@ -98,7 +99,7 @@ export default function ResetPasswordPage() {
             {...register("email", {
               pattern: {
                 message: "L'email est invalide",
-                value: /^\S+@\S+$/i,
+                value: emailValidation,
               },
               required: { message: "Ce champ est requis", value: true },
             })}

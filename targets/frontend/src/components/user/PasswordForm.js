@@ -7,7 +7,7 @@ import { Stack as StackMUI, TextField as Field } from "@mui/material";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Stack } from "../layout/Stack";
-import { passwordValidation } from "../../modules/authentification/passwordValidation";
+import { passwordValidation } from "../../modules/authentification/regex";
 
 export function PasswordForm({
   onSubmit,
