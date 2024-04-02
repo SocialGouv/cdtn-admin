@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { HighlightsForm } from "src/components/highlights";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
-import { PrequalifiedForm } from "src/components/prequalified";
 import { Content } from "src/types";
 import { useMutation } from "urql";
 import {
@@ -64,9 +63,6 @@ export function CreateDocumentPage() {
   switch (source) {
     case SOURCES.HIGHLIGHTS:
       ContentForm = HighlightsForm;
-      break;
-    case SOURCES.PREQUALIFIED:
-      ContentForm = PrequalifiedForm;
       break;
     default:
       // eslint-disable-next-line react/display-name

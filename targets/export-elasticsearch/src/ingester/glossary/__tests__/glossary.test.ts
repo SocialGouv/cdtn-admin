@@ -53,6 +53,27 @@ describe("Glossary", () => {
       );
     });
 
+    test("should not add webcomponent tooltip in a summary tag with multiple strong", () => {
+      const htmlContent = `<summary><strong>L'indemnité de fin de contrat </strong>n'est pas due<strong> dans les cas suivants</strong></summary>`;
+      expect(addGlossary(htmlContent)).toEqual(
+        `<summary><strong>L'indemnité de fin de contrat </strong>n'est pas due<strong> dans les cas suivants</strong></summary>`
+      );
+    });
+
+    test("should not add webcomponent tooltip in a summary tag with multiple strong", () => {
+      const htmlContent = `<summary>Test <strong>L'indemnité de fin de contrat </strong>n'est pas due<strong> dans les cas suivants</strong> Test</summary>`;
+      expect(addGlossary(htmlContent)).toEqual(
+        `<summary>Test <strong>L'indemnité de fin de contrat </strong>n'est pas due<strong> dans les cas suivants</strong> Test</summary>`
+      );
+    });
+
+    test("should not add webcomponent tooltip in a summaries tag with multiple strong", () => {
+      const htmlContent = `<summary><strong>L'indemnité de fin de contrat </strong>n'est pas due<strong> dans les cas suivants</strong></summary>L'indemnité doit être un tooltip<summary><strong>L'indemnité de fin de contrat </strong>n'est pas due<strong> dans les cas suivants</strong></summary>`;
+      expect(addGlossary(htmlContent)).toEqual(
+        `<summary><strong>L'indemnité de fin de contrat </strong>n'est pas due<strong> dans les cas suivants</strong></summary>L'<webcomponent-tooltip content="Sommes%20vers%C3%A9es%20en%20compensation%20ou%20en%20r%C3%A9paration%20de%20quelque%20chose.">indemnité</webcomponent-tooltip> doit être un tooltip<summary><strong>L'indemnité de fin de contrat </strong>n'est pas due<strong> dans les cas suivants</strong></summary>`
+      );
+    });
+
     test.each`
       heading
       ${"h1"}
@@ -66,14 +87,14 @@ describe("Glossary", () => {
       expect(addGlossary(markdown)).toEqual(markdown);
     });
 
-    test("should not add webcomponent tooltip in a span tag with class \"title\"", () => {
+    test('should not add webcomponent tooltip in a span tag with class "title"', () => {
       const htmlContent = `<span class="title">L'indemnité de fin de contrat n'est pas due dans les cas suivants</span>`;
       expect(addGlossary(htmlContent)).toEqual(
         `<span class="title">L'indemnité de fin de contrat n'est pas due dans les cas suivants</span>`
       );
     });
 
-    test("should not add webcomponent tooltip in a span tag with class \"sub-title\"", () => {
+    test('should not add webcomponent tooltip in a span tag with class "sub-title"', () => {
       const htmlContent = `<span class="sub-title">L'indemnité de fin de contrat n'est pas due dans les cas suivants</span>`;
       expect(addGlossary(htmlContent)).toEqual(
         `<span class="sub-title">L'indemnité de fin de contrat n'est pas due dans les cas suivants</span>`

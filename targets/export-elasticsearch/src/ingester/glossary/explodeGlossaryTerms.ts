@@ -8,7 +8,7 @@ const startWordBreaks = `(?<=^| |\\.|,|'|>|\\()`;
 const endWordBreaks = `(?= |\\.|,|'|$|<|\\))`;
 
 const startAnchorOmit = `(?<!<span class="(?:sub-)?title">[^<]*)`;
-const endAnchorOmit = `(?![^<]*(?:</a>|</summary>|</strong></summary>|</h[1-6]>))`;
+const endAnchorOmit = `(?![^<]*(?:</a>|</summary>|</strong>.*</summary>|</h[1-6]>))`;
 
 const tagAttributeOmit = `(?<=(^|>)[^><]*)`;
 

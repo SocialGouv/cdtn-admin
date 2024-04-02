@@ -8,7 +8,6 @@ import { Dialog } from "src/components/dialog";
 import { EditorialContentForm } from "src/components/editorialContent";
 import { HighlightsForm } from "src/components/highlights";
 import { Layout } from "src/components/layout/auth.layout";
-import { PrequalifiedForm } from "src/components/prequalified";
 import { previewContentAction } from "src/lib/preview/preview.gql";
 import {
   Content,
@@ -187,14 +186,6 @@ export function EditInformationPage() {
             content={content as Partial<HighLightContent>}
             loading={updating || deleting}
             onSubmit={onSubmitHighlightMemo}
-          />
-        );
-      case SOURCES.PREQUALIFIED:
-        return (
-          <PrequalifiedForm
-            content={content as Partial<PrequalifiedContent>}
-            loading={updating || deleting}
-            onSubmit={onSubmitPrequalifiedMemo}
           />
         );
       default:

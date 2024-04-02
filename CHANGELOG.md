@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.39.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.6...v2.39.7) (2024-03-28)
+
+### Bug Fixes
+
+- **glossary:** gère le cas de multiple strong dans un summary ([#1343](https://github.com/SocialGouv/cdtn-admin/issues/1343)) ([022d313](https://github.com/SocialGouv/cdtn-admin/commit/022d313aa06b7f270de1e55deabb9529dab69681))
+- reload latest timeline db data in dev ([#1337](https://github.com/SocialGouv/cdtn-admin/issues/1337)) ([934e526](https://github.com/SocialGouv/cdtn-admin/commit/934e5264cc668ca9830f999da5e9591b9105216b))
+
+## [2.39.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.5...v2.39.6) (2024-03-27)
+
+### Features
+
+- add lot 5 (linked) ([#1336](https://github.com/SocialGouv/cdtn-admin/issues/1336)) ([e6bcc00](https://github.com/SocialGouv/cdtn-admin/commit/e6bcc002fe89b124f01fcb13b90670dca9e1a94c))
+
+## [2.39.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.4...v2.39.5) (2024-03-26)
+
+### Bug Fixes
+
+- up ([0185d77](https://github.com/SocialGouv/cdtn-admin/commit/0185d77a22dc80d5168abcc9705d409d95d97516))
+
+## [2.39.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.3...v2.39.4) (2024-03-26)
+
+### Bug Fixes
+
+- add missing hasura dependency to pg ([3ebc0b7](https://github.com/SocialGouv/cdtn-admin/commit/3ebc0b718d59ea48b426e456ec66d3dcb022bcfb))
+- recovery name ([6bca263](https://github.com/SocialGouv/cdtn-admin/commit/6bca2634b83aaf4474cd71b587cead06ef09f032))
+
 ## [2.39.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.2...v2.39.3) (2024-03-25)
 
 ### Bug Fixes
