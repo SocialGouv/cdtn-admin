@@ -24,6 +24,7 @@ import { generateAgreements } from "./agreements";
 import { getGlossary } from "./common/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
+import { generatePrequalified } from "./prequalified";
 import { generateEditorialContents } from "./informations/generate";
 import { populateRelatedDocuments } from "./common/populateRelatedDocuments";
 import { mergeRelatedDocumentsToEditorialContents } from "./informations/mergeRelatedDocumentsToEditorialContents";
@@ -266,32 +267,12 @@ export async function cdtnDocumentsGen(
   await updateDocs(SOURCES.HIGHLIGHTS, highlightsWithContrib);
 
   logger.info("=== PreQualified Request ===");
-  const prequalified = await getDocumentBySourceWithRelation(
-    SOURCES.PREQUALIFIED,
-    getBreadcrumbs
-  );
-  const prequalifiedWithContrib = prequalified.map((prequalif) => ({
-    ...prequalif,
-    refs: prequalif.refs.map((ref) => {
-      if (!ref.description) {
-        const foundContrib = generatedContributions.find(
-          (generatedContribution) => {
-            return generatedContribution.cdtnId === ref.cdtnId;
-          }
-        );
-        return {
-          ...ref,
-          description: foundContrib?.description,
-        };
-      }
-      return ref;
-    }),
-  }));
+  const prequalified = await generatePrequalified();
   documentsCount = {
     ...documentsCount,
-    [SOURCES.PREQUALIFIED]: prequalifiedWithContrib.length,
+    [SOURCES.PREQUALIFIED]: prequalified.length,
   };
-  await updateDocs(SOURCES.PREQUALIFIED, prequalifiedWithContrib);
+  await updateDocs(SOURCES.PREQUALIFIED, prequalified);
 
   logger.info("=== glossary ===");
   documentsCount = {
