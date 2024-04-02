@@ -18,6 +18,8 @@ www:
   env:
     - name: NEXTAUTH_URL
       value: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
+    - name: NEXT_PUBLIC_BASE_PATH
+      value: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
 
 pg:
   ~chart: pg

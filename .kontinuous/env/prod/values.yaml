@@ -6,6 +6,8 @@ www:
   env:
     - name: NEXTAUTH_URL
       value: https://cdtn-admin.fabrique.social.gouv.fr
+    - name: NEXT_PUBLIC_BASE_PATH
+      value: https://cdtn-admin.fabrique.social.gouv.fr
   resources:
     limits:
       cpu: "200m"
