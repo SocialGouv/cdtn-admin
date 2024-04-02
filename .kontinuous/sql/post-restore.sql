@@ -1,14 +1,9 @@
 -- Anonymize users
-with user_ids as (
-  select distinct id
-  from auth.users
-)
-update "auth"."users"
-set password = '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8',
+UPDATE "auth"."users"
+SET 
+  password = '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8',
   email = u.id || '@travail.gouv.fr',
-  name = u.id,
-from user_ids u
-where u.id = users.id;
+  name = u.id
 
 -- Disable triggers
 ALTER TABLE auth.users DISABLE TRIGGER USER;
@@ -48,11 +43,3 @@ CREATE TABLE IF NOT EXISTS audit.logged_actions (
 
 -- Enable triggers
 ALTER TABLE auth.users ENABLE TRIGGER USER;
-
--- Kill all connections !
--- Make all connected services restart !
--- Hasura migration will be re-applyed.
-SELECT pg_terminate_backend(pid)
-FROM pg_stat_activity
-WHERE pid <> pg_backend_pid()
-  AND datname = '${PGDATABASE}';
