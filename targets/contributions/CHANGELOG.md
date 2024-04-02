@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.40.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.7...v2.40.0) (2024-04-02)
+
+**Note:** Version bump only for package @socialgouv/contibutions
+
 ## [2.39.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.6...v2.39.7) (2024-03-28)
 
 **Note:** Version bump only for package @socialgouv/contibutions
