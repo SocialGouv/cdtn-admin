@@ -18,6 +18,7 @@ export default function sendMail(mailOptions: Mail.Options) {
     },
     host: process.env.SMTP_URL,
     port: 587,
+    secure: true,
   });
   return transport.sendMail(mailOptions).finally(() => transport.close());
 }
