@@ -5,6 +5,7 @@ import { fireEvent } from "@testing-library/react";
 
 import { AnswerForm } from "../AnswerForm";
 import { AnswerWithStatus } from "../answer.query";
+import { Provider } from "urql";
 
 class ClipboardEventMock extends Event {
   clipboardData: {
@@ -70,6 +71,7 @@ const answerBase: AnswerWithStatus = {
     id: "0000",
     name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
     kaliId: "KALICONT000005635624",
+    unextended: false,
   },
   answerComments: [],
   statuses: [],
@@ -144,14 +146,22 @@ const answerBase: AnswerWithStatus = {
 
 const onSubmit = jest.fn(() => Promise.resolve());
 
+const mockClient = {
+  executeQuery: jest.fn(),
+  executeMutation: jest.fn(),
+  executeSubscription: jest.fn(),
+};
+
 describe("AnswerForm", () => {
   test("Vérifier l'affichage du contenu", () => {
     render(
-      <AnswerForm
-        answer={answerBase}
-        genericAnswerContentType={"ANSWER"}
-        onSubmit={onSubmit}
-      />
+      <Provider value={mockClient}>
+        <AnswerForm
+          answer={answerBase}
+          genericAnswerContentType={"ANSWER"}
+          onSubmit={onSubmit}
+        />
+      </Provider>
     );
     expect(screen.queryByText("content")).toBeInTheDocument();
 
@@ -180,11 +190,13 @@ describe("AnswerForm", () => {
 
   test("Vérifier l'affichage des options", () => {
     const { rerender } = render(
-      <AnswerForm
-        answer={answerBase}
-        genericAnswerContentType={"ANSWER"}
-        onSubmit={onSubmit}
-      />
+      <Provider value={mockClient}>
+        <AnswerForm
+          answer={answerBase}
+          genericAnswerContentType={"ANSWER"}
+          onSubmit={onSubmit}
+        />
+      </Provider>
     );
     expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
     expect(
@@ -198,20 +210,22 @@ describe("AnswerForm", () => {
     ).not.toBeInTheDocument();
 
     rerender(
-      <AnswerForm
-        genericAnswerContentType={"ANSWER"}
-        answer={{
-          ...answerBase,
-          agreementId: "0016",
-          agreement: {
-            ...answerBase.agreement,
-            id: "0016",
-            name: "0016",
-            kaliId: "0016",
-          },
-        }}
-        onSubmit={onSubmit}
-      />
+      <Provider value={mockClient}>
+        <AnswerForm
+          genericAnswerContentType={"ANSWER"}
+          answer={{
+            ...answerBase,
+            agreementId: "0016",
+            agreement: {
+              ...answerBase.agreement,
+              id: "0016",
+              name: "0016",
+              kaliId: "0016",
+            },
+          }}
+          onSubmit={onSubmit}
+        />
+      </Provider>
     );
     expect(screen.queryByText("Afficher la réponse")).toBeInTheDocument();
     expect(
@@ -227,11 +241,13 @@ describe("AnswerForm", () => {
 
   test("Vérifier que la sauvegarde fonctionne", async () => {
     render(
-      <AnswerForm
-        genericAnswerContentType={"ANSWER"}
-        answer={answerBase}
-        onSubmit={onSubmit}
-      />
+      <Provider value={mockClient}>
+        <AnswerForm
+          genericAnswerContentType={"ANSWER"}
+          answer={answerBase}
+          onSubmit={onSubmit}
+        />
+      </Provider>
     );
     fireEvent.click(screen.getByText("Sauvegarder"));
     await waitFor(() => {
@@ -241,11 +257,13 @@ describe("AnswerForm", () => {
 
   test("Vérifier l'affichage du message d'erreur pour les fiches SP", async () => {
     render(
-      <AnswerForm
-        genericAnswerContentType={"ANSWER"}
-        answer={answerBase}
-        onSubmit={onSubmit}
-      />
+      <Provider value={mockClient}>
+        <AnswerForm
+          genericAnswerContentType={"ANSWER"}
+          answer={answerBase}
+          onSubmit={onSubmit}
+        />
+      </Provider>
     );
     fireEvent.click(screen.getByText("Utiliser la fiche service public"));
     userEvent.clear(screen.getByLabelText("Fiche service-public"));
@@ -257,11 +275,13 @@ describe("AnswerForm", () => {
 
   test("Vérifier l'affichage du message d'erreur pour les références", async () => {
     render(
-      <AnswerForm
-        genericAnswerContentType={"ANSWER"}
-        answer={answerBase}
-        onSubmit={onSubmit}
-      />
+      <Provider value={mockClient}>
+        <AnswerForm
+          genericAnswerContentType={"ANSWER"}
+          answer={answerBase}
+          onSubmit={onSubmit}
+        />
+      </Provider>
     );
     fireEvent.click(screen.getByText("Ajouter une référence"));
     fireEvent.click(screen.getByText("Sauvegarder"));

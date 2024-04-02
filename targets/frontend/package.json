@@ -107,6 +107,6 @@
     "start": "next start",
     "predev": "only-include-used-icons",
     "prebuild": "only-include-used-icons",
-    "test": "jest"
+    "test": "jest --silent"
   }
 }

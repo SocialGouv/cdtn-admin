@@ -52,7 +52,7 @@ www:
         name: s3
   env:
     - name: NEXTAUTH_URL
-      value: https://{{.Values.global.host}}
+      value: https://www-{{.Values.global.host}}
   resources:
     limits:
       cpu: "100m"

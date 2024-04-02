@@ -12,14 +12,6 @@ export async function fetchKaliReferences(
       path: "path",
       label: "label",
       createdAt: "2023-01-01T00:00:00.000000+00:00",
-      kaliArticle: {
-        cid: undefined,
-        id: undefined,
-        path: undefined,
-        label: undefined,
-        agreementId: undefined,
-        createdAt: undefined,
-      },
     },
     {
       agreementId: "0001",
@@ -28,14 +20,6 @@ export async function fetchKaliReferences(
       path: "path2",
       label: "label",
       createdAt: "2023-01-01T01:00:00.000000+00:00",
-      kaliArticle: {
-        cid: undefined,
-        id: undefined,
-        path: undefined,
-        label: undefined,
-        agreementId: undefined,
-        createdAt: undefined,
-      },
     },
   ]);
 }

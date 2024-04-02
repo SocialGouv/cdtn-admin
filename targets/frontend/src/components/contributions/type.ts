@@ -67,12 +67,14 @@ export const legiArticleSchema = z.object({
 });
 export type LegiArticle = z.infer<typeof legiArticleSchema>;
 
-export const kaliReferenceSchema = z.object({
-  kaliArticle: kaliArticleSchema.partial(),
-  label: z
-    .string({ required_error: "Un libellé doit être renseigné" })
-    .min(1, "Un libellé doit être renseigné"),
-});
+export const kaliReferenceSchema = z
+  .object({
+    kaliArticle: kaliArticleSchema.partial(),
+    label: z
+      .string({ required_error: "Un libellé doit être renseigné" })
+      .min(1, "Un libellé doit être renseigné"),
+  })
+  .partial();
 export type KaliReference = z.infer<typeof kaliReferenceSchema>;
 
 export const legiReferenceSchema = z.object({
