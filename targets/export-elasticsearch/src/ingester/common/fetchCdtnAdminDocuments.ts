@@ -171,6 +171,13 @@ const createDocumentsFetcher =
         { source: string }
       >(graphQLAgreggateDocumentBySource, { source })
       .toPromise();
+    if (nbDocResult.error) {
+      throw new Error(
+        `Failed to count ${source} documents -> ${JSON.stringify(
+          nbDocResult.error
+        )}`
+      );
+    }
     if (!nbDocResult.data) {
       return [];
     }
