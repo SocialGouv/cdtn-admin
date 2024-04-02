@@ -15,6 +15,9 @@ const proxy = createProxyMiddleware({
   prependPath: false,
   target:
     process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
+  followRedirects: true,
+  ws: true,
+  xfwd: true,
 });
 
 export default proxy;
