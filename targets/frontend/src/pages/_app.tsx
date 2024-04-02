@@ -24,7 +24,8 @@ const { withDsfr, dsfrDocumentApi } = createNextDsfrIntegrationApi({
 
 const client = new Client({
   url:
-    process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
+    process.env.NEXT_PUBLIC_HASURA_GRAPHQL_ENDPOINT ??
+    "http://localhost:8080/v1/graphql",
   exchanges: [authExchangeUrql, cacheExchange, fetchExchange],
   requestPolicy: "cache-and-network",
 });
