@@ -43,5 +43,5 @@
     ]
   },
   "sideEffects": false,
-  "typings": "src/index.d.ts"
+  "types": "src/index.d.ts"
 }
