@@ -42,6 +42,7 @@
     "diff": "^5.0.0",
     "formidable": "^2.0.0",
     "graphql": "^16.8.1",
+    "http-proxy-middleware": "^3.0.0",
     "jsonwebtoken": "^9.0.2",
     "mammoth": "^1.6.0",
     "memoizee": "^0.4.15",

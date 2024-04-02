@@ -4,7 +4,6 @@ metadata:
   name: www
 data:
   HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
-  NEXT_PUBLIC_HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
   MATOMO_SITE_ID: "27"
   MATOMO_URL: "https://matomo.fabrique.social.gouv.fr/"
   NODE_ENV: "production"

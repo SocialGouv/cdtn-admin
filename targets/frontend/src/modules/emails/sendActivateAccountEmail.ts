@@ -1,10 +1,8 @@
-import { ACCOUNT_MAIL_SENDER } from "src/config";
+import { ACCOUNT_MAIL_SENDER, BASE_URL } from "src/config";
 import sendMail from "./send";
 
 export function sendActivateAccountEmail(email: string, secret_token: string) {
-  const activateUrl = `${
-    process.env.NEXTAUTH_URL ?? `http://localhost:3001`
-  }/change_password?token=${secret_token}`;
+  const activateUrl = `${BASE_URL}/change_password?token=${secret_token}`;
 
   const subject = "Activation de votre compte";
 

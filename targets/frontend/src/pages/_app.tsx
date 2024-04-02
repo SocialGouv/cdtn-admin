@@ -9,6 +9,7 @@ import Link from "next/link";
 import type { AppProps } from "next/app";
 import { Client, Provider, cacheExchange, fetchExchange } from "urql";
 import { authExchangeUrql } from "src/modules/authentification/utils/exchanges";
+import { BASE_URL } from "src/config";
 
 declare module "@codegouvfr/react-dsfr/next-pagesdir" {
   interface RegisterLink {
@@ -22,17 +23,15 @@ const { withDsfr, dsfrDocumentApi } = createNextDsfrIntegrationApi({
   preloadFonts: ["Marianne-Regular", "Marianne-Medium", "Marianne-Bold"],
 });
 
-const client = new Client({
-  url:
-    process.env.NEXT_PUBLIC_HASURA_GRAPHQL_ENDPOINT ??
-    "http://localhost:8080/v1/graphql",
-  exchanges: [authExchangeUrql, cacheExchange, fetchExchange],
-  requestPolicy: "cache-and-network",
-});
-
 export { dsfrDocumentApi };
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  const client = new Client({
+    url: `${BASE_URL}/api/graphql`,
+    exchanges: [authExchangeUrql, cacheExchange, fetchExchange],
+    requestPolicy: "cache-and-network",
+  });
+
   return (
     <Provider value={client}>
       <MuiDsfrThemeProvider>
