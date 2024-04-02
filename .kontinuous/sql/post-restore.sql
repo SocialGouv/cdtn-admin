@@ -1,5 +1,5 @@
 -- Anonymize users
-UPDATE "auth"."users"
+UPDATE auth.users as u
 SET 
   password = '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8',
   email = u.id || '@travail.gouv.fr',
