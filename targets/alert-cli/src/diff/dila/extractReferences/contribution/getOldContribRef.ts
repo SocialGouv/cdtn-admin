@@ -1,14 +1,10 @@
-import type {
-  ContributionComplete,
-  ContributionFiltered,
-  DocumentReferences,
-} from "@shared/types";
+import type { ContributionComplete, DocumentReferences } from "@shared/types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
 import { getAllDocumentsBySource } from "../../../shared/getAllDocumentsBySource";
 
 export type Contrib = Pick<
-  ContributionComplete | ContributionFiltered,
+  ContributionComplete,
   "document" | "source" | "title"
 > & {
   initialId: string;

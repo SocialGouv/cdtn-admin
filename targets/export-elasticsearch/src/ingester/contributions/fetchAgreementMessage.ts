@@ -21,7 +21,6 @@ interface HasuraReturn {
 export async function fetchAgreementMessage(
   idcc: string
 ): Promise<string | undefined> {
-  console.log("fetchAgreementMessage", idcc);
   const HASURA_GRAPHQL_ENDPOINT =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const HASURA_GRAPHQL_ENDPOINT_SECRET =

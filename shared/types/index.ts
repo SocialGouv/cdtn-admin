@@ -46,11 +46,6 @@ export type ContributionComplete = BaseHasuraDocument & {
   document: ContributionCompleteDoc;
 };
 
-export type ContributionFiltered = BaseHasuraDocument & {
-  source: "contributions";
-  document: ContributionFilteredDoc;
-};
-
 export type LaborCodeArticle = BaseHasuraDocument & {
   source: "code_du_travail";
   document: LaborCodeDoc;
@@ -79,7 +74,6 @@ export type MailTemplate = BaseHasuraDocument & {
 export type HasuraDocument =
   | Agreement
   | ContributionComplete
-  | ContributionFiltered
   | FicheServicePublic
   | FicheTravailEmploi
   | LaborCodeArticle
@@ -143,13 +137,6 @@ export interface ContributionCompleteDoc {
   split: false;
   description: string;
   answers: CCMultipleAnswers;
-}
-
-export interface ContributionFilteredDoc {
-  index: number;
-  split: true;
-  description: string;
-  answers: CCSingleAnswer;
 }
 
 export interface CCMultipleAnswers {

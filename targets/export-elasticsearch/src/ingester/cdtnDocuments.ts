@@ -145,7 +145,6 @@ export async function cdtnDocumentsGen(
     {}
   );
 
-  logger.info(`Fetched ${contributions.length} contributions`);
   const generatedContributions = await generateContributions(
     contributions,
     ccnData,

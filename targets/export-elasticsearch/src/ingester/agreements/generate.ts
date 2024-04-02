@@ -41,7 +41,6 @@ export const generateAgreements = async (
         .sort(
           // On ordonne les questions par index
           (a: ExportAnswer, b: ExportAnswer) =>
-            // @ts-ignore
             a.questionIndex - b.questionIndex
         );
 
@@ -52,7 +51,7 @@ export const generateAgreements = async (
         answers,
         articlesByTheme,
         contributions: contribIDCCs.has(cc.num),
-        description: DESCRIPTION, // On affiche la nouvelle description s'il n'y a plus d'anciennes réponses conventionnelles
+        description: DESCRIPTION,
         source: SOURCES.CCN,
       };
 

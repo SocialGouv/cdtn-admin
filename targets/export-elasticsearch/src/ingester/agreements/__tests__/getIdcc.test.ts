@@ -1,7 +1,7 @@
 import { getIDCCs } from "../getIdcc";
 
 describe("getIDCCs", () => {
-  it("returns unique IDCC values from old and new contributions", () => {
+  it("returns unique IDCC values from contributions", () => {
     const contribs: any = [{ idcc: "5678" }];
 
     const idccs = getIDCCs(contribs);
