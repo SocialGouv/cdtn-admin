@@ -7,9 +7,10 @@ export default function sendMail(mailOptions: Mail.Options) {
     !process.env.SMTP_EMAIL_PASSWORD ||
     !process.env.SMTP_URL
   ) {
-    throw new Error(
+    console.error(
       "SMTP_EMAIL_USER, SMTP_EMAIL_PASSWORD and SMTP_URL must be set"
     );
+    return Promise.resolve();
   }
   const transport = nodemailer.createTransport({
     auth: {
