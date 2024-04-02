@@ -9,7 +9,7 @@ SET
 ALTER TABLE auth.users DISABLE TRIGGER USER;
 
 -- Add a fake user
-INSERT INTO auth.users (email, password, name, role, isActive, id)
+INSERT INTO auth.users (email, password, name, role, is_active, id)
 VALUES (
     'codedutravailnumerique@travail.gouv.fr',
     '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8',
