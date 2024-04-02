@@ -1,5 +1,5 @@
 import { ACCOUNT_MAIL_SENDER } from "src/config";
-import sendmail from "./sendmail";
+import sendMail from "./send";
 
 export function sendActivateAccountEmail(email: string, secret_token: string) {
   const activateUrl = `${
@@ -24,5 +24,5 @@ export function sendActivateAccountEmail(email: string, secret_token: string) {
     to: email,
   };
 
-  return sendmail(mailOptions);
+  return sendMail(mailOptions);
 }

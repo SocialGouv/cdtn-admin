@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 
-export default function sendmail(mailOptions: Mail.Options) {
+export default function sendMail(mailOptions: Mail.Options) {
   if (
     !process.env.SMTP_EMAIL_USER ||
     !process.env.SMTP_EMAIL_PASSWORD ||
