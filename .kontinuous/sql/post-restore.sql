@@ -1,3 +1,4 @@
+-- Anonymize users
 with user_ids as (
   select distinct id
   from auth.users
@@ -8,10 +9,11 @@ set password = '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJ
   name = u.id,
 from user_ids u
 where u.id = users.id;
---
--- DISABLE TRIGGERS
---
 
+-- Disable triggers
+ALTER TABLE auth.users DISABLE TRIGGER USER;
+
+-- Add a fake user
 INSERT INTO auth.users (email, password, name, role, isActive, id)
 VALUES (
     'codedutravailnumerique@travail.gouv.fr',
@@ -22,11 +24,7 @@ VALUES (
     'd8b11bd2-dd16-4632-b5de-0e7021faadeb'
   )
     
-
---
--- create empty audit logs table
---
-
+-- Create empty audit logs
 CREATE TABLE IF NOT EXISTS audit.logged_actions (
   event_id bigserial primary key,
   schema_name text not null,
@@ -47,17 +45,13 @@ CREATE TABLE IF NOT EXISTS audit.logged_actions (
   changed_fields jsonb,
   statement_only boolean not null
 );
---
--- ENABLE TRIGGERS
---
 
+-- Enable triggers
 ALTER TABLE auth.users ENABLE TRIGGER USER;
---
+
 -- Kill all connections !
 -- Make all connected services restart !
 -- Hasura migration will be re-applyed.
---
-
 SELECT pg_terminate_backend(pid)
 FROM pg_stat_activity
 WHERE pid <> pg_backend_pid()
