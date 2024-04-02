@@ -24,10 +24,9 @@ RUN yarn workspace @shared/utils build
 FROM deps as dist
 COPY --from=build-utils /app/shared/utils ./shared/utils
 COPY --from=build-types /app/shared/types ./shared/types
-
 COPY shared/eslint-config ./shared/eslint-config/
 COPY targets/export-elasticsearch ./targets/export-elasticsearch/
-
+COPY shared/elasticsearch ./shared/elasticsearch
 RUN yarn workspace export-elasticsearch build
 
 RUN yarn workspaces focus --production export-elasticsearch && yarn cache clean
@@ -41,7 +40,7 @@ COPY --from=dist /app/shared/utils/build /app/shared/utils/build
 COPY --from=dist /app/shared/utils/package.json /app/shared/utils/package.json
 COPY --from=dist /app/shared/types/build /app/shared/types/build
 COPY --from=dist /app/shared/types/package.json /app/shared/types/package.json
-COPY shared/elasticsearch /app/shared/elasticsearch
+COPY --from=dist /app/shared/elasticsearch /app/shared/elasticsearch
 COPY --from=dist /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
 COPY --from=dist /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
 COPY --from=dist /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
