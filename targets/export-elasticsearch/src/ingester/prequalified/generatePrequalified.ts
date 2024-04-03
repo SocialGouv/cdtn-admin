@@ -30,7 +30,7 @@ export const generatePrequalified = async (
         title: document.title,
         source: document.source,
         description: document.description || document.document.description,
-        breadcrumbs: getBreadcrumbs(document.cdtnId) ?? [],
+        breadcrumbs: getBreadcrumbs(document.cdtnId),
         url: document.url,
         icon: document.icon,
         action: document.action,
