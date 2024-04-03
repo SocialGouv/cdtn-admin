@@ -63,7 +63,6 @@ describe("generatePrequalified", () => {
             slug: "slug-information",
             source: "information",
             title: "titleInformation",
-            url: "",
           },
           {
             breadcrumbs: [],
@@ -73,7 +72,6 @@ describe("generatePrequalified", () => {
             slug: "slug-contribution",
             source: "contribution",
             title: "titleContribution",
-            url: "",
           },
         ],
         source: "prequalified",
