@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.40.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.0...v2.40.1) (2024-04-03)
+
+### Bug Fixes
+
+- **contribution:** ne pas placer dans une alerte un tableau à la copie ([#1338](https://github.com/SocialGouv/cdtn-admin/issues/1338)) ([09d04fd](https://github.com/SocialGouv/cdtn-admin/commit/09d04fd864ff4e5bbf735ea84f0851561fb769ce))
+- **export:** correctif rapide pour la mise en prod des données ([#1349](https://github.com/SocialGouv/cdtn-admin/issues/1349)) ([a9c6ee9](https://github.com/SocialGouv/cdtn-admin/commit/a9c6ee9dc3c791f39e732f21ffd119026630128a))
+
+# [2.40.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.7...v2.40.0) (2024-04-02)
+
+### Features
+
+- 1308 admin extraction des prqualifis ([#1315](https://github.com/SocialGouv/cdtn-admin/issues/1315)) ([cef0ceb](https://github.com/SocialGouv/cdtn-admin/commit/cef0cebe84919b58045bb369a5d49b72c211ea7f))
+- **export:** ajout de contexte sur l'erreur quand on récupère les docs ([#1347](https://github.com/SocialGouv/cdtn-admin/issues/1347)) ([45a81c0](https://github.com/SocialGouv/cdtn-admin/commit/45a81c045d4147c3fab979ace03aa73e14398e04))
+
 ## [2.39.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.6...v2.39.7) (2024-03-28)
 
 ### Bug Fixes

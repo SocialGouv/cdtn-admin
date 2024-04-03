@@ -65,20 +65,6 @@ export async function cdtnDocumentsGen(
   const glossaryTerms = await getGlossary();
   const addGlossary = createGlossaryTransform(glossaryTerms);
 
-  logger.info("=== Editorial contents ===");
-  const documents = await getDocumentBySource<EditorialContentDoc>(
-    SOURCES.EDITORIAL_CONTENT,
-    getBreadcrumbs
-  );
-  const {
-    documents: editorialContents,
-    relatedIdsDocuments: relatedIdsEditorialDocuments,
-  } = await generateEditorialContents(documents, addGlossary);
-  documentsCount = {
-    ...documentsCount,
-    [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
-  };
-
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
     SOURCES.LETTERS,
@@ -293,6 +279,20 @@ export async function cdtnDocumentsGen(
     [SOURCES.CDT]: cdtDoc.length,
   };
   await updateDocs(SOURCES.CDT, cdtDoc);
+
+  logger.info("=== Editorial contents ===");
+  const documents = await getDocumentBySource<EditorialContentDoc>(
+    SOURCES.EDITORIAL_CONTENT,
+    getBreadcrumbs
+  );
+  const {
+    documents: editorialContents,
+    relatedIdsDocuments: relatedIdsEditorialDocuments,
+  } = await generateEditorialContents(documents, addGlossary);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
+  };
 
   logger.info("=== Merge Related Documents ===");
   const allDocuments = [

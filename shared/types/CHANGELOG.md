@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.40.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.0...v2.40.1) (2024-04-03)
+
+**Note:** Version bump only for package @shared/types
+
+# [2.40.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.7...v2.40.0) (2024-04-02)
+
+### Features
+
+- 1308 admin extraction des prqualifis ([#1315](https://github.com/SocialGouv/cdtn-admin/issues/1315)) ([cef0ceb](https://github.com/SocialGouv/cdtn-admin/commit/cef0cebe84919b58045bb369a5d49b72c211ea7f))
+
 ## [2.39.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.6...v2.39.7) (2024-03-28)
 
 **Note:** Version bump only for package @shared/types
