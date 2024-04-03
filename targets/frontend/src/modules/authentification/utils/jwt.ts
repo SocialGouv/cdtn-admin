@@ -73,7 +73,6 @@ export const verifyToken = (token?: string) => {
     }
     return true;
   } catch (error) {
-    console.error(error);
     return false;
   }
 };

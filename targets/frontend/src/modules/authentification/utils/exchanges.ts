@@ -32,8 +32,7 @@ export const authExchangeUrql = authExchange(async (utils) => {
           throw new Error("No session");
         }
         accessToken = session.user.accessToken;
-      } catch (error) {
-        console.error(error);
+      } catch (_error) {
         signOut({
           redirect: true,
           callbackUrl: "/login",

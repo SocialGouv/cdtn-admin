@@ -8,10 +8,6 @@ export interface ContributionRepository {
 }
 
 export class ContributionDatabase implements ContributionRepository {
-  constructor() {
-    this.client = gqlClient();
-  }
-
   public async fetchAll(): Promise<QuestionRaw[]> {
     const res = await gqlClient()
       .query<{ questions: QuestionRaw[] }>(fetchAllContributions, {})
@@ -24,6 +20,4 @@ export class ContributionDatabase implements ContributionRepository {
     }
     return res.data.questions;
   }
-
-  private readonly client;
 }
