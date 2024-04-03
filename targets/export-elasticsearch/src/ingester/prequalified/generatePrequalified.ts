@@ -2,10 +2,11 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 import { fetchPrequalified } from "./fetchPrequalified";
 import { PrequalifiedElasticDocument } from "@shared/types";
 import { removeUndefinedKeys } from "../utils/removeUndefinedKeys";
+import { GetBreadcrumbsFn } from "../breadcrumbs";
 
-export const generatePrequalified = async (): Promise<
-  PrequalifiedElasticDocument[]
-> => {
+export const generatePrequalified = async (
+  getBreadcrumbs: GetBreadcrumbsFn
+): Promise<PrequalifiedElasticDocument[]> => {
   const prequalified = await fetchPrequalified();
   if (!prequalified) {
     return [];
@@ -29,7 +30,7 @@ export const generatePrequalified = async (): Promise<
         title: document.title,
         source: document.source,
         description: document.description || document.document.description,
-        breadcrumbs: [],
+        breadcrumbs: getBreadcrumbs(document.cdtnId) ?? [],
         url: document.url,
         icon: document.icon,
         action: document.action,
