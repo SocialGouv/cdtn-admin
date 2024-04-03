@@ -54,8 +54,10 @@ const updateThemesPositionMutation = gql`
       objects: $objects
       on_conflict: { constraint: document_relations_pkey, update_columns: data }
     ) {
-      position: data(path: "position")
-      id
+      returning {
+        position: data(path: "position")
+        id
+      }
     }
   }
 `;

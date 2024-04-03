@@ -89,7 +89,10 @@ const getFicheServicePublicId = gql`
 const deleteFicheServicePublicId = gql`
   mutation deleteServicePublicIds($ids: [String!] = []) {
     delete_service_public_contents(where: { id: { _in: $ids } }) {
-      id
+      affected_rows
+      returning {
+        id
+      }
     }
   }
 `;

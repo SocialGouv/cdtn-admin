@@ -36,8 +36,11 @@ const insertFicheServicePublicId = gql`
     $objects: [service_public_contents_insert_input!]!
   ) {
     fiches: insert_service_public_contents(objects: $objects) {
-      id
-      status
+      affected_rows
+      returning {
+        id
+        status
+      }
     }
   }
 `;
