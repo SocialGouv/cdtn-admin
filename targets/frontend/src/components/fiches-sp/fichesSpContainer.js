@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo } from "react";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
 import { CircularProgress as Spinner, Alert } from "@mui/material";
-import { useMutation, useQuery, gql } from "urql";
+import { useMutation, useQuery } from "urql";
 
 import { Stack } from "../layout/Stack";
 import { Pagination } from "../pagination";
@@ -86,7 +86,7 @@ const getFicheServicePublicId = gql`
   }
 `;
 
-const deleteFicheServicePublicId = gql`
+const deleteFicheServicePublicId = `
   mutation deleteServicePublicIds($ids: [String!] = []) {
     delete_service_public_contents(where: { id: { _in: $ids } }) {
       affected_rows

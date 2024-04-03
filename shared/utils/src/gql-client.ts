@@ -1,4 +1,9 @@
-import { cacheExchange, createClient, fetchExchange } from "@urql/core";
+import {
+  cacheExchange,
+  createClient,
+  fetchExchange,
+  gql as gqlHelper,
+} from "@urql/core";
 import fetch from "isomorphic-unfetch";
 
 type GqlClientParameter = {
@@ -28,3 +33,5 @@ export const gqlClient = (props = defaultProps) =>
   });
 
 export type GqlClient = ReturnType<typeof gqlClient>;
+
+export const gql = gqlHelper;

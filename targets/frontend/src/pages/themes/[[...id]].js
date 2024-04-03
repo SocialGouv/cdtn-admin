@@ -9,10 +9,10 @@ import { List } from "src/components/themes/List";
 import { MapModal } from "src/components/themes/MapModal";
 import { RELATIONS } from "src/lib/relations";
 import { Box, Card, CircularProgress } from "@mui/material";
-import { useMutation, useQuery, gql } from "urql";
+import { useMutation, useQuery } from "urql";
 import { theme } from "../../theme";
 
-const getThemeQuery = gql`
+const getThemeQuery = `
 query getTheme($themeId: String!) {
   themeData: documents_by_pk(cdtn_id: $themeId) {
     cdtnId: cdtn_id
@@ -35,7 +35,7 @@ query getTheme($themeId: String!) {
 }
 `;
 
-const getRootThemesQuery = gql`
+const getRootThemesQuery = `
 query getRootThemes {
   rootThemeRelations: document_relations(where: {document_a: {_is_null: true}, type: {_eq: "${RELATIONS.THEME}"}}) {
     id
@@ -48,7 +48,7 @@ query getRootThemes {
 }
 `;
 
-const updateThemesPositionMutation = gql`
+const updateThemesPositionMutation = `
   mutation updateThemesPosition($objects: [document_relations_insert_input!]!) {
     insert_document_relations(
       objects: $objects
