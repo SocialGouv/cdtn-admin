@@ -31,8 +31,8 @@ export const generatePrequalified = async (
         source: document.source,
         description: document.description || document.document.description,
         breadcrumbs: getBreadcrumbs(document.cdtnId),
-        url: document.document.url,
-        action: document.document.action,
+        url: document.document.url, // pour les outils externes
+        action: document.document.action, // pour les outils (interne/externe)
       })
     ),
   }));
