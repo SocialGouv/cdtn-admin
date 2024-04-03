@@ -32,7 +32,6 @@ export const generatePrequalified = async (
         description: document.description || document.document.description,
         breadcrumbs: getBreadcrumbs(document.cdtnId),
         url: document.document.url,
-        icon: document.document.icon,
         action: document.document.action,
       })
     ),
