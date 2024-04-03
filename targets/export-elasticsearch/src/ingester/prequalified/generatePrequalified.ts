@@ -28,7 +28,9 @@ export const generatePrequalified = async (): Promise<
       source: document.source,
       description: document.description || document.document.description,
       breadcrumbs: [],
-      url: "",
+      url: document.url,
+      icon: document.icon,
+      action: document.action,
     })),
   }));
 };
