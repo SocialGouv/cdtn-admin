@@ -12,7 +12,7 @@ export const generateEditorialContents = (
   addGlossary: (valueInHtml: string) => string
 ): Return => {
   const documentsMarkdownified = markdownTransform(addGlossary, documents);
-  const relatedIdsDocuments: string[] = []; // getRelatedIdsDocuments(documentsMarkdownified);
+  const relatedIdsDocuments = getRelatedIdsDocuments(documentsMarkdownified);
   return {
     documents: documentsMarkdownified,
     relatedIdsDocuments,

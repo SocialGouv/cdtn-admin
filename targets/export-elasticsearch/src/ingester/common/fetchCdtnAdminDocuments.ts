@@ -12,7 +12,7 @@ import type {
   Relation,
 } from "../types/Glossary";
 import { Breadcrumbs } from "@shared/types";
-import { gqlClient } from "@shared/utils";
+import { gqlClient, logger } from "@shared/utils";
 
 const PAGE_SIZE = process.env.FETCH_PAGE_SIZE
   ? parseInt(process.env.FETCH_PAGE_SIZE)
@@ -162,7 +162,8 @@ const createDocumentsFetcher =
       context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
     const adminSecret: string =
       context.get("cdtnAdminEndpointSecret") || "admin1";
-    const nbDocResult = await gqlClient({
+    logger.info("Fetch nbDoc");
+    let nbDocResult = await gqlClient({
       graphqlEndpoint,
       adminSecret,
     })
@@ -172,11 +173,36 @@ const createDocumentsFetcher =
       >(graphQLAgreggateDocumentBySource, { source })
       .toPromise();
     if (nbDocResult.error) {
-      throw new Error(
-        `Failed to count ${source} documents -> ${JSON.stringify(
-          nbDocResult.error
-        )}`
-      );
+      // Retry
+      logger.info("Fetch nbDoc retry 1");
+      nbDocResult = await gqlClient({
+        graphqlEndpoint,
+        adminSecret,
+      })
+        .query<
+          { documents_aggregate: { aggregate: { count: number } } },
+          { source: string }
+        >(graphQLAgreggateDocumentBySource, { source })
+        .toPromise();
+      if (nbDocResult.error) {
+        logger.info("Fetch nbDoc retry 2");
+        nbDocResult = await gqlClient({
+          graphqlEndpoint,
+          adminSecret,
+        })
+          .query<
+            { documents_aggregate: { aggregate: { count: number } } },
+            { source: string }
+          >(graphQLAgreggateDocumentBySource, { source })
+          .toPromise();
+        if (nbDocResult.error) {
+          throw new Error(
+            `Failed to count ${source} documents -> ${JSON.stringify(
+              nbDocResult.error
+            )}`
+          );
+        }
+      }
     }
     if (!nbDocResult.data) {
       return [];
