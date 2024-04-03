@@ -27,7 +27,6 @@ interface HasuraReturn {
 export async function fetchMessageBlock(
   questionId: string
 ): Promise<ContributionMessageBlock | undefined> {
-  console.log("fetchMessageBlock", questionId);
   const HASURA_GRAPHQL_ENDPOINT =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const HASURA_GRAPHQL_ENDPOINT_SECRET =

@@ -24,7 +24,6 @@ interface HasuraReturn {
 export async function fetchFicheSp(
   ficheSpId: string
 ): Promise<FicheServicePublicDoc> {
-  console.log("fetchFicheSp", ficheSpId);
   const HASURA_GRAPHQL_ENDPOINT =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const HASURA_GRAPHQL_ENDPOINT_SECRET =
