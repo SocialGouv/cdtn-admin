@@ -1,5 +1,7 @@
 # Code du travail numérique - Outil d'administration
 
+DO NOT MERGE
+
 ## Setup
 
 Pour initialiser le projet, nous avons besoin d'une dépendance depuis le registry privé de [tiptap](https://tiptap.dev/). Suivez les étapes suivantes :
@@ -22,7 +24,7 @@ Vous pouvez maintenant lancer la commande `yarn install` pour installer les pack
 ## URLs
 
 | Environnement                                      | URL                                                       |
-| -------------------------------------------------- | --------------------------------------------------------- |
+|----------------------------------------------------|-----------------------------------------------------------|
 | Production (access granted only for authorized IP) | <https://cdtn-admin.fabrique.social.gouv.fr/>             |
 | Preproduction                                      | <https://cdtn-admin-preprod.dev.fabrique.social.gouv.fr/> |
 
@@ -81,7 +83,7 @@ This step starts the frontend project (based on `next.js`). User and admin accou
 Hasura step.
 
 | Type  | Username                               | Password |
-| ----- | -------------------------------------- | -------- |
+|-------|----------------------------------------|----------|
 | Admin | codedutravailnumerique@travail.gouv.fr | admin    |
 | User  | utilisateur@travail.gouv.fr            | user     |
 
@@ -201,7 +203,7 @@ La table documents dans le schéma public contient les documents qui se transfor
 Voici un tableau descriptif des champs de cette table :
 
 | Nom du champ     | type                     | Description                                                                                                                                                                                                                                                                                                                                               |
-| ---------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|------------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | cdtn_id          | text                     | Identifiant unique générer par la méthode `generateCdtnId` dans le package `shared/id-generator`                                                                                                                                                                                                                                                          |
 | initial_id       | text                     | L'identifiant externe du document (pour les contenus legifrance c'est le `KALIARTI` renvoyé par l'API, pour la fiche service publique c'est l'identifiant `FXXX` fourni, pour les contenus internes c'est un UUID généré...)                                                                                                                              |
 | title            | text                     | Le titre de la page qui sera affiché dans le H1. Attention, il y a également le `meta_title` qui peut être présent dans le champ `document`                                                                                                                                                                                                               |
@@ -272,7 +274,14 @@ Avec comme paramètres :
 
 ```json
 {
-  "sources": ["page_fiche_ministere_travail", "information", "fiches_service_public", "modeles_de_courriers", "contributions", "conventions_collectives"]
+  "sources": [
+    "page_fiche_ministere_travail",
+    "information",
+    "fiches_service_public",
+    "modeles_de_courriers",
+    "contributions",
+    "conventions_collectives"
+  ]
 }
 ```
 
