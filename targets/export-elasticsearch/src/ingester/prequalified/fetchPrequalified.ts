@@ -35,9 +35,6 @@ export interface FetchedPrequalified {
       cdtnId: string;
       title: string;
       slug: string;
-      url?: string; // Pour les outils externes
-      action?: string; // Pour les outils externes ou pas
-      icon?: string; // Pour les outils externes ou pas
       source: string;
       text: string;
       isPublished: boolean;
