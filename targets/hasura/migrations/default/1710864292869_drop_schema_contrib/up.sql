@@ -5,9 +5,7 @@ where cdtn_id in (
 	FROM public.documents
 	WHERE source = 'contributions'
 	AND document ? 'split'
-	AND is_available = false
 );
 delete FROM public.documents
 WHERE source = 'contributions'
-AND document ? 'split'
-AND is_available = false;
+AND document ? 'split';
