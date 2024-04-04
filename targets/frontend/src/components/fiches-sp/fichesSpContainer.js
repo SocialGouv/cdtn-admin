@@ -69,7 +69,7 @@ export function FichesServicePublicContainer() {
   );
 }
 
-const getFicheServicePublicId = gql`
+const getFicheServicePublicId = `
   query getServicePublicId($offset: Int = 0, $limit: Int = 50) {
     ficheIds: v1_fiches_sp(offset: $offset, limit: $limit) {
       id
