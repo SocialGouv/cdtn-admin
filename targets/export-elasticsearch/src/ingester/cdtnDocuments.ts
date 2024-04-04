@@ -253,7 +253,7 @@ export async function cdtnDocumentsGen(
   await updateDocs(SOURCES.HIGHLIGHTS, highlightsWithContrib);
 
   logger.info("=== PreQualified Request ===");
-  const prequalified = await generatePrequalified();
+  const prequalified = await generatePrequalified(getBreadcrumbs);
   documentsCount = {
     ...documentsCount,
     [SOURCES.PREQUALIFIED]: prequalified.length,

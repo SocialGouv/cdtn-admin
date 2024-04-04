@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.40.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.1...v2.40.2) (2024-04-04)
+
+### Bug Fixes
+
+- **export:** ajout des éléments liés aux outils sur les préqualifiés ([#1352](https://github.com/SocialGouv/cdtn-admin/issues/1352)) ([1fedf81](https://github.com/SocialGouv/cdtn-admin/commit/1fedf816282c29ff8ea09254a1f5eb91419c9c2b))
+
 ## [2.40.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.0...v2.40.1) (2024-04-03)
 
 ### Bug Fixes
