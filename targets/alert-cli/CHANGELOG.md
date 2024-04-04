@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.41.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.2...v2.41.0) (2024-04-04)
+
+### Features
+
+- desinstaller les anciennes contributions de l'admin ([#1326](https://github.com/SocialGouv/cdtn-admin/issues/1326)) ([917574c](https://github.com/SocialGouv/cdtn-admin/commit/917574c135f3f74ae445d2b10ca5eb21375787b7))
+
 ## [2.40.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.1...v2.40.2) (2024-04-04)
 
 **Note:** Version bump only for package alert-cli
