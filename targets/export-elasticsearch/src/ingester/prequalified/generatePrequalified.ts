@@ -1,10 +1,12 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { fetchPrequalified } from "./fetchPrequalified";
 import { PrequalifiedElasticDocument } from "@shared/types";
+import { removeUndefinedKeys } from "../utils/removeUndefinedKeys";
+import { GetBreadcrumbsFn } from "../breadcrumbs";
 
-export const generatePrequalified = async (): Promise<
-  PrequalifiedElasticDocument[]
-> => {
+export const generatePrequalified = async (
+  getBreadcrumbs: GetBreadcrumbsFn
+): Promise<PrequalifiedElasticDocument[]> => {
   const prequalified = await fetchPrequalified();
   if (!prequalified) {
     return [];
@@ -20,15 +22,18 @@ export const generatePrequalified = async (): Promise<
     title,
     source: SOURCES.PREQUALIFIED,
     variants,
-    refs: refs.map(({ document }) => ({
-      id: document.id,
-      cdtnId: document.cdtnId,
-      slug: document.slug,
-      title: document.title,
-      source: document.source,
-      description: document.description || document.document.description,
-      breadcrumbs: [],
-      url: "",
-    })),
+    refs: refs.map(({ document }) =>
+      removeUndefinedKeys({
+        id: document.id,
+        cdtnId: document.cdtnId,
+        slug: document.slug,
+        title: document.title,
+        source: document.source,
+        description: document.description || document.document.description,
+        breadcrumbs: getBreadcrumbs(document.cdtnId),
+        url: document.document.url, // pour les outils externes
+        action: document.document.action, // pour les outils (interne/externe)
+      })
+    ),
   }));
 };

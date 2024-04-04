@@ -44,7 +44,7 @@ jest.mock("../fetchPrequalified", () => ({
 
 describe("generatePrequalified", () => {
   it("should return prequalified", async () => {
-    const result = await generatePrequalified();
+    const result = await generatePrequalified(jest.fn());
 
     expect(result).toEqual([
       {
@@ -56,24 +56,20 @@ describe("generatePrequalified", () => {
         metaDescription: "titlePrequalified",
         refs: [
           {
-            breadcrumbs: [],
             cdtnId: "cdtnIdInformation",
             description: "descriptionInformation",
             id: "idInformation",
             slug: "slug-information",
             source: "information",
             title: "titleInformation",
-            url: "",
           },
           {
-            breadcrumbs: [],
             cdtnId: "cdtnIdContribution",
             description: "descriptionContribution",
             id: "idContribution",
             slug: "slug-contribution",
             source: "contribution",
             title: "titleContribution",
-            url: "",
           },
         ],
         source: "prequalified",

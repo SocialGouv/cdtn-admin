@@ -31,7 +31,6 @@ export type ContributionElasticDocumentLightRelatedContent = Omit<
 
 export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
-  breadcrumbsOfOldContributions: Record<number, Breadcrumbs[]>,
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
   ccnListWithHighlight: Record<number, ContributionHighlight | undefined>,
   addGlossary: (valueInHtml: string) => string,
@@ -88,9 +87,7 @@ export async function generateContributions(
       breadcrumbs:
         contrib.breadcrumbs.length > 0
           ? contrib.breadcrumbs
-          : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ??
-            breadcrumbsOfOldContributions[contrib.questionIndex] ??
-            [],
+          : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? [],
       highlight,
       messageBlock,
       references,

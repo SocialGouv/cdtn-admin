@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.40.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.1...v2.40.2) (2024-04-04)
+
+**Note:** Version bump only for package frontend
+
+## [2.40.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.0...v2.40.1) (2024-04-03)
+
+### Bug Fixes
+
+- **contribution:** ne pas placer dans une alerte un tableau à la copie ([#1338](https://github.com/SocialGouv/cdtn-admin/issues/1338)) ([09d04fd](https://github.com/SocialGouv/cdtn-admin/commit/09d04fd864ff4e5bbf735ea84f0851561fb769ce))
+
 # [2.40.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.7...v2.40.0) (2024-04-02)
 
 ### Features
