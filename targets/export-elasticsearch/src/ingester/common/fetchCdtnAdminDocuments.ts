@@ -13,6 +13,7 @@ import type {
 } from "../types/Glossary";
 import { Breadcrumbs } from "@shared/types";
 import { gqlClient, logger } from "@shared/utils";
+import { OperationResult } from "@urql/core/dist/types/types";
 
 const PAGE_SIZE = process.env.FETCH_PAGE_SIZE
   ? parseInt(process.env.FETCH_PAGE_SIZE)
@@ -162,19 +163,13 @@ const createDocumentsFetcher =
       context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
     const adminSecret: string =
       context.get("cdtnAdminEndpointSecret") || "admin1";
-    logger.info("Fetch nbDoc");
-    let nbDocResult = await gqlClient({
-      graphqlEndpoint,
-      adminSecret,
-    })
-      .query<
-        { documents_aggregate: { aggregate: { count: number } } },
-        { source: string }
-      >(graphQLAgreggateDocumentBySource, { source })
-      .toPromise();
-    if (nbDocResult.error) {
-      // Retry
-      logger.info("Fetch nbDoc retry 1");
+    let retryCount = 0;
+    let nbDocResult: OperationResult<
+      { documents_aggregate: { aggregate: { count: number } } },
+      { source: string }
+    >;
+    do {
+      logger.info(`Get count document Retry#${retryCount}`);
       nbDocResult = await gqlClient({
         graphqlEndpoint,
         adminSecret,
@@ -184,26 +179,17 @@ const createDocumentsFetcher =
           { source: string }
         >(graphQLAgreggateDocumentBySource, { source })
         .toPromise();
-      if (nbDocResult.error) {
-        logger.info("Fetch nbDoc retry 2");
-        nbDocResult = await gqlClient({
-          graphqlEndpoint,
-          adminSecret,
-        })
-          .query<
-            { documents_aggregate: { aggregate: { count: number } } },
-            { source: string }
-          >(graphQLAgreggateDocumentBySource, { source })
-          .toPromise();
-        if (nbDocResult.error) {
-          throw new Error(
-            `Failed to count ${source} documents -> ${JSON.stringify(
-              nbDocResult.error
-            )}`
-          );
-        }
-      }
+      retryCount++;
+    } while (nbDocResult.error && retryCount < 10);
+
+    if (nbDocResult.error) {
+      throw new Error(
+        `Failed to count ${source} documents -> ${JSON.stringify(
+          nbDocResult.error
+        )}`
+      );
     }
+
     if (!nbDocResult.data) {
       return [];
     }
