@@ -1,5 +1,4 @@
-import { OperationResult, useMutation } from "urql";
-import { gql } from "@urql/core";
+import { OperationResult, useMutation, gql } from "urql";
 
 export const deletePrequalifiedMutation = gql`
   mutation delete_prequalified($id: uuid) {
