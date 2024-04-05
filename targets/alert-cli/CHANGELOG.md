@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.41.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.0...v2.41.1) (2024-04-05)
+
+### Bug Fixes
+
+- **alert:** passer directement le token dans l'URL pour contacter le site MT ([#1357](https://github.com/SocialGouv/cdtn-admin/issues/1357)) ([4486e8f](https://github.com/SocialGouv/cdtn-admin/commit/4486e8ff6fb226c97500698734345bac81c1de97))
+
 # [2.41.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.2...v2.41.0) (2024-04-04)
 
 ### Features
