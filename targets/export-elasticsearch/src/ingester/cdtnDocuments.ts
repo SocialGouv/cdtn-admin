@@ -65,284 +65,276 @@ export async function cdtnDocumentsGen(
   const glossaryTerms = await getGlossary();
   const addGlossary = createGlossaryTransform(glossaryTerms);
 
-  try {
-    logger.info("=== Courriers ===");
-    const modelesDeCourriers = await getDocumentBySource(
-      SOURCES.LETTERS,
+  logger.info("=== Courriers ===");
+  const modelesDeCourriers = await getDocumentBySource(
+    SOURCES.LETTERS,
+    getBreadcrumbs
+  );
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.LETTERS]: modelesDeCourriers.length,
+  };
+  await updateDocs(SOURCES.LETTERS, modelesDeCourriers);
+
+  logger.info("=== Outils ===");
+  const tools = await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.TOOLS]: tools.length,
+  };
+  await updateDocs(SOURCES.TOOLS, tools);
+
+  logger.info("=== Outils externes ===");
+  const externalTools = await getDocumentBySource(
+    SOURCES.EXTERNALS,
+    getBreadcrumbs
+  );
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.EXTERNALS]: externalTools.length,
+  };
+  await updateDocs(SOURCES.EXTERNALS, externalTools);
+
+  logger.info("=== Dossiers ===");
+
+  const dossiers = await getDocumentBySource(
+    SOURCES.THEMATIC_FILES,
+    getBreadcrumbs
+  );
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.THEMATIC_FILES]: dossiers.length,
+  };
+
+  await updateDocs(SOURCES.THEMATIC_FILES, dossiers);
+
+  logger.info("=== Contributions ===");
+  const contributions: DocumentElasticWithSource<ContributionDocumentJson>[] =
+    await getDocumentBySource<ContributionDocumentJson>(
+      SOURCES.CONTRIBUTIONS,
       getBreadcrumbs
     );
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.LETTERS]: modelesDeCourriers.length,
-    };
-    await updateDocs(SOURCES.LETTERS, modelesDeCourriers);
+  logger.info(`Fetched ${contributions.length} contributions`);
 
-    logger.info("=== Outils ===");
-    const tools = await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs);
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.TOOLS]: tools.length,
-    };
-    await updateDocs(SOURCES.TOOLS, tools);
+  const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
+  logger.info(`Fetched ${ccnData.length} conventions`);
 
-    logger.info("=== Outils externes ===");
-    const externalTools = await getDocumentBySource(
-      SOURCES.EXTERNALS,
-      getBreadcrumbs
-    );
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.EXTERNALS]: externalTools.length,
-    };
-    await updateDocs(SOURCES.EXTERNALS, externalTools);
+  const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
+    return ccn.highlight;
+  });
 
-    logger.info("=== Dossiers ===");
+  const ccnListWithHighlight = ccnListWithHighlightFiltered.reduce(
+    (acc: Record<number, ContributionHighlight>, curr) => {
+      acc[curr.num] = curr.highlight as any;
+      return acc;
+    },
+    {}
+  );
 
-    const dossiers = await getDocumentBySource(
-      SOURCES.THEMATIC_FILES,
-      getBreadcrumbs
-    );
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.THEMATIC_FILES]: dossiers.length,
-    };
+  logger.info(`Fetched ${contributions.length} contributions`);
+  const generatedContributions = await generateContributions(
+    contributions,
+    ccnData,
+    ccnListWithHighlight,
+    addGlossary,
+    getBreadcrumbs
+  );
 
-    await updateDocs(SOURCES.THEMATIC_FILES, dossiers);
+  logger.info(`Generated ${generatedContributions.length} contributions`);
 
-    logger.info("=== Contributions ===");
-    const contributions: DocumentElasticWithSource<ContributionDocumentJson>[] =
-      await getDocumentBySource<ContributionDocumentJson>(
-        SOURCES.CONTRIBUTIONS,
-        getBreadcrumbs
-      );
-    logger.info(`Fetched ${contributions.length} contributions`);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.CONTRIBUTIONS]: generatedContributions.length,
+  };
 
-    const ccnData = await getDocumentBySource<AgreementDoc>(SOURCES.CCN);
-    logger.info(`Fetched ${ccnData.length} conventions`);
+  await updateDocs(SOURCES.CONTRIBUTIONS, generatedContributions);
 
-    const ccnListWithHighlightFiltered = ccnData.filter((ccn) => {
-      return ccn.highlight;
-    });
+  logger.info("=== Conventions Collectives ===");
+  const agreementsDocs = await generateAgreements(
+    ccnData,
+    generatedContributions
+  );
 
-    const ccnListWithHighlight = ccnListWithHighlightFiltered.reduce(
-      (acc: Record<number, ContributionHighlight>, curr) => {
-        acc[curr.num] = curr.highlight as any;
-        return acc;
-      },
-      {}
-    );
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.CCN]: agreementsDocs.length,
+  };
 
-    logger.info(`Fetched ${contributions.length} contributions`);
-    const generatedContributions = await generateContributions(
-      contributions,
-      ccnData,
-      ccnListWithHighlight,
-      addGlossary,
-      getBreadcrumbs
-    );
+  await updateDocs(SOURCES.CCN, agreementsDocs);
 
-    logger.info(`Generated ${generatedContributions.length} contributions`);
+  logger.info("=== Fiches SP ===");
+  const fichesSp = await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs);
 
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.CONTRIBUTIONS]: generatedContributions.length,
-    };
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.SHEET_SP]: fichesSp.length,
+  };
+  await updateDocs(SOURCES.SHEET_SP, fichesSp);
 
-    await updateDocs(SOURCES.CONTRIBUTIONS, generatedContributions);
-
-    logger.info("=== Conventions Collectives ===");
-    const agreementsDocs = await generateAgreements(
-      ccnData,
-      generatedContributions
-    );
-
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.CCN]: agreementsDocs.length,
-    };
-
-    await updateDocs(SOURCES.CCN, agreementsDocs);
-
-    logger.info("=== Fiches SP ===");
-    const fichesSp = await getDocumentBySource(
-      SOURCES.SHEET_SP,
-      getBreadcrumbs
-    );
-
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.SHEET_SP]: fichesSp.length,
-    };
-    await updateDocs(SOURCES.SHEET_SP, fichesSp);
-
-    logger.info("=== page fiches travail ===");
-    const fichesMT = await getDocumentBySource<FicheTravailEmploiDoc>(
-      SOURCES.SHEET_MT_PAGE,
-      getBreadcrumbs
-    );
-    const fichesMTWithGlossary = fichesMT.map(({ sections, ...infos }) => ({
-      ...infos,
-      sections: sections.map(({ html, ...section }: any) => {
-        delete section.description;
-        delete section.text;
-        return {
-          ...section,
-          html: addGlossary(html),
-        };
-      }),
-    }));
-
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
-    };
-
-    await updateDocs(SOURCES.SHEET_MT_PAGE, fichesMTWithGlossary);
-
-    logger.info("=== Fiche MT ===");
-    const splittedFiches = fichesMT.flatMap(splitArticle);
-    const splittedFichesMt = splittedFiches.map((fiche) => {
-      // we don't want splitted fiches to have the same cdtnId than full pages
-      // it causes bugs, tons of weird bugs, but we need the id for the
-      // breadcrumbs generation
-      const breadcrumbs = getBreadcrumbs(fiche.cdtnId);
-      delete fiche.cdtnId;
+  logger.info("=== page fiches travail ===");
+  const fichesMT = await getDocumentBySource<FicheTravailEmploiDoc>(
+    SOURCES.SHEET_MT_PAGE,
+    getBreadcrumbs
+  );
+  const fichesMTWithGlossary = fichesMT.map(({ sections, ...infos }) => ({
+    ...infos,
+    sections: sections.map(({ html, ...section }: any) => {
+      delete section.description;
+      delete section.text;
       return {
-        ...fiche,
-        breadcrumbs,
-        source: SOURCES.SHEET_MT,
+        ...section,
+        html: addGlossary(html),
       };
-    });
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.SHEET_MT]: splittedFichesMt.length,
+    }),
+  }));
+
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
+  };
+
+  await updateDocs(SOURCES.SHEET_MT_PAGE, fichesMTWithGlossary);
+
+  logger.info("=== Fiche MT ===");
+  const splittedFiches = fichesMT.flatMap(splitArticle);
+  const splittedFichesMt = splittedFiches.map((fiche) => {
+    // we don't want splitted fiches to have the same cdtnId than full pages
+    // it causes bugs, tons of weird bugs, but we need the id for the
+    // breadcrumbs generation
+    const breadcrumbs = getBreadcrumbs(fiche.cdtnId);
+    delete fiche.cdtnId;
+    return {
+      ...fiche,
+      breadcrumbs,
+      source: SOURCES.SHEET_MT,
     };
-    await updateDocs(SOURCES.SHEET_MT, splittedFichesMt);
+  });
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.SHEET_MT]: splittedFichesMt.length,
+  };
+  await updateDocs(SOURCES.SHEET_MT, splittedFichesMt);
 
-    logger.info("=== Themes ===");
-    const themesDoc = buildThemes(themes, getBreadcrumbs);
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.THEMES]: themesDoc.length,
-    };
+  logger.info("=== Themes ===");
+  const themesDoc = buildThemes(themes, getBreadcrumbs);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.THEMES]: themesDoc.length,
+  };
 
-    await updateDocs(SOURCES.THEMES, themesDoc);
+  await updateDocs(SOURCES.THEMES, themesDoc);
 
-    logger.info("=== Highlights ===");
-    const highlights = await getDocumentBySourceWithRelation(
-      SOURCES.HIGHLIGHTS,
-      getBreadcrumbs
-    );
-    const highlightsWithContrib = highlights.map((highlight) => ({
-      ...highlight,
-      refs: highlight.refs.map((ref) => {
-        if (!ref.description) {
-          const foundContrib = generatedContributions.find(
-            (generatedContribution) => {
-              return generatedContribution.cdtnId === ref.cdtnId;
-            }
-          );
-          return {
-            ...ref,
-            description: foundContrib?.description,
-          };
-        }
-        return ref;
-      }),
-    }));
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.HIGHLIGHTS]: highlightsWithContrib.length,
-    };
-    await updateDocs(SOURCES.HIGHLIGHTS, highlightsWithContrib);
+  logger.info("=== Highlights ===");
+  const highlights = await getDocumentBySourceWithRelation(
+    SOURCES.HIGHLIGHTS,
+    getBreadcrumbs
+  );
+  const highlightsWithContrib = highlights.map((highlight) => ({
+    ...highlight,
+    refs: highlight.refs.map((ref) => {
+      if (!ref.description) {
+        const foundContrib = generatedContributions.find(
+          (generatedContribution) => {
+            return generatedContribution.cdtnId === ref.cdtnId;
+          }
+        );
+        return {
+          ...ref,
+          description: foundContrib?.description,
+        };
+      }
+      return ref;
+    }),
+  }));
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.HIGHLIGHTS]: highlightsWithContrib.length,
+  };
+  await updateDocs(SOURCES.HIGHLIGHTS, highlightsWithContrib);
 
-    logger.info("=== PreQualified Request ===");
-    const prequalified = await generatePrequalified(getBreadcrumbs);
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.PREQUALIFIED]: prequalified.length,
-    };
-    await updateDocs(SOURCES.PREQUALIFIED, prequalified);
+  logger.info("=== PreQualified Request ===");
+  const prequalified = await generatePrequalified(getBreadcrumbs);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.PREQUALIFIED]: prequalified.length,
+  };
+  await updateDocs(SOURCES.PREQUALIFIED, prequalified);
 
-    logger.info("=== glossary ===");
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.GLOSSARY]: glossaryTerms.length,
-    };
-    await updateDocs(SOURCES.GLOSSARY, [
-      {
-        data: glossaryTerms,
-        source: SOURCES.GLOSSARY,
-      },
-    ]);
+  logger.info("=== glossary ===");
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.GLOSSARY]: glossaryTerms.length,
+  };
+  await updateDocs(SOURCES.GLOSSARY, [
+    {
+      data: glossaryTerms,
+      source: SOURCES.GLOSSARY,
+    },
+  ]);
 
-    logger.info("=== Code du travail ===");
-    const cdtDoc = await getDocumentBySource(SOURCES.CDT);
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.CDT]: cdtDoc.length,
-    };
-    await updateDocs(SOURCES.CDT, cdtDoc);
+  logger.info("=== Code du travail ===");
+  const cdtDoc = await getDocumentBySource(SOURCES.CDT);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.CDT]: cdtDoc.length,
+  };
+  await updateDocs(SOURCES.CDT, cdtDoc);
 
-    logger.info("=== Editorial contents ===");
-    const documents = await getDocumentBySource<EditorialContentDoc>(
-      SOURCES.EDITORIAL_CONTENT,
-      getBreadcrumbs
-    );
-    const {
-      documents: editorialContents,
-      relatedIdsDocuments: relatedIdsEditorialDocuments,
-    } = await generateEditorialContents(documents, addGlossary);
-    documentsCount = {
-      ...documentsCount,
-      [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
-    };
+  logger.info("=== Editorial contents ===");
+  const documents = await getDocumentBySource<EditorialContentDoc>(
+    SOURCES.EDITORIAL_CONTENT,
+    getBreadcrumbs
+  );
+  const {
+    documents: editorialContents,
+    relatedIdsDocuments: relatedIdsEditorialDocuments,
+  } = await generateEditorialContents(documents, addGlossary);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
+  };
 
-    logger.info("=== Merge Related Documents ===");
-    const allDocuments = [
-      ...editorialContents,
-      ...modelesDeCourriers,
-      ...tools,
-      ...externalTools,
-      ...dossiers,
-      ...generatedContributions,
-      ...agreementsDocs,
-      ...fichesSp,
-      ...fichesMTWithGlossary,
-      ...splittedFichesMt,
-      ...highlightsWithContrib,
-      ...cdtDoc,
-    ];
+  logger.info("=== Merge Related Documents ===");
+  const allDocuments = [
+    ...editorialContents,
+    ...modelesDeCourriers,
+    ...tools,
+    ...externalTools,
+    ...dossiers,
+    ...generatedContributions,
+    ...agreementsDocs,
+    ...fichesSp,
+    ...fichesMTWithGlossary,
+    ...splittedFichesMt,
+    ...highlightsWithContrib,
+    ...cdtDoc,
+  ];
 
-    const relatedDocuments = populateRelatedDocuments(
-      allDocuments,
-      relatedIdsEditorialDocuments
-    );
+  const relatedDocuments = populateRelatedDocuments(
+    allDocuments,
+    relatedIdsEditorialDocuments
+  );
 
-    const editorialContentsAugmented = mergeRelatedDocumentsToEditorialContents(
-      editorialContents,
-      relatedDocuments
-    );
-    await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContentsAugmented);
+  const editorialContentsAugmented = mergeRelatedDocumentsToEditorialContents(
+    editorialContents,
+    relatedDocuments
+  );
+  await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContentsAugmented);
 
-    logger.info("=== data version ===");
-    await updateDocs(SOURCES.VERSIONS, [
-      {
-        data: getVersions(),
-        source: SOURCES.VERSIONS,
-      },
-    ]);
+  logger.info("=== data version ===");
+  await updateDocs(SOURCES.VERSIONS, [
+    {
+      data: getVersions(),
+      source: SOURCES.VERSIONS,
+    },
+  ]);
 
-    logger.info("=== Save the documents length ===");
-    documentsCount = {
-      ...documentsCount,
-      total: Object.values(documentsCount).reduce((a: any, b: any) => a + b, 0),
-    };
-    await updateExportEsStatusWithDocumentsCount(
-      documentsCount as ExportEsStatus["documentsCount"]
-    );
-  } catch (e: any) {
-    console.warn(e.message);
-    throw e;
-  }
+  logger.info("=== Save the documents length ===");
+  documentsCount = {
+    ...documentsCount,
+    total: Object.values(documentsCount).reduce((a: any, b: any) => a + b, 0),
+  };
+  await updateExportEsStatusWithDocumentsCount(
+    documentsCount as ExportEsStatus["documentsCount"]
+  );
 }
