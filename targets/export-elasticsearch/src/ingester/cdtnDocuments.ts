@@ -56,16 +56,16 @@ export async function getDuplicateSlugs(allDocuments: any) {
 export async function cdtnDocumentsGen(
   updateDocs: (source: string, documents: unknown[]) => Promise<void>
 ) {
+  let documentsCount: Partial<ExportEsStatus["documentsCount"]> = {};
+
+  const themes = await fetchThemes();
+
+  const getBreadcrumbs = buildGetBreadcrumbs(themes);
+
+  const glossaryTerms = await getGlossary();
+  const addGlossary = createGlossaryTransform(glossaryTerms);
+
   try {
-    let documentsCount: Partial<ExportEsStatus["documentsCount"]> = {};
-
-    const themes = await fetchThemes();
-
-    const getBreadcrumbs = buildGetBreadcrumbs(themes);
-
-    const glossaryTerms = await getGlossary();
-    const addGlossary = createGlossaryTransform(glossaryTerms);
-
     logger.info("=== Courriers ===");
     const modelesDeCourriers = await getDocumentBySource(
       SOURCES.LETTERS,
@@ -341,8 +341,8 @@ export async function cdtnDocumentsGen(
     await updateExportEsStatusWithDocumentsCount(
       documentsCount as ExportEsStatus["documentsCount"]
     );
-  } catch (e) {
-    console.warn(e);
+  } catch (e: any) {
+    console.warn(e.message);
     throw e;
   }
 }
