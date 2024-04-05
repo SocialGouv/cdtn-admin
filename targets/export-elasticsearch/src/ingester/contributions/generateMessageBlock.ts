@@ -8,13 +8,13 @@ import { fetchAgreementMessage } from "./fetchAgreementMessage";
 export const generateMessageBlock = async (
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): Promise<string | undefined> => {
-  const messageBlock = await fetchMessageBlock(contrib.questionId);
-  if (!messageBlock) {
-    return undefined;
-  }
   const agreementMessage = await fetchAgreementMessage(contrib.idcc);
   if (agreementMessage) {
     return agreementMessage;
+  }
+  const messageBlock = await fetchMessageBlock(contrib.questionId);
+  if (!messageBlock) {
+    return undefined;
   } else if (
     contrib.idcc === "0000" || // Generic answer
     contrib.contentType === "UNKNOWN"
