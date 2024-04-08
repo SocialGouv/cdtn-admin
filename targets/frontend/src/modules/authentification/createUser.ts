@@ -19,6 +19,14 @@ interface InsertUserHasuraResult {
   };
 }
 
+const deleteQuery = gql`
+  mutation deleteUser($id: uuid!) {
+    delete_auth_users_by_pk(id: $id) {
+      id
+    }
+  }
+`;
+
 export const createUser = async (
   name: string,
   email: string
@@ -40,13 +48,18 @@ export const createUser = async (
     });
   }
 
-  const activationTokenGenerated = generateActivationToken(
-    result.data.insert_auth_users_one.id
-  );
+  const userId = result.data.insert_auth_users_one.id;
+
+  const activationTokenGenerated = generateActivationToken(userId);
 
   try {
     await sendActivateAccountEmail(email, activationTokenGenerated);
   } catch (error) {
+    await gqlClient()
+      .mutation(deleteQuery, {
+        id: userId,
+      })
+      .toPromise();
     throw new AuthEmailSendError({
       cause: error,
       message: "Impossible to send activation email",
