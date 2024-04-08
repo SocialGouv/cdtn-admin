@@ -2,11 +2,9 @@ import axios from "axios";
 import { URL_SCRAPING } from "./config";
 
 export const extractDaresXlsxFromMT = async () => {
-  const response = await axios.get(URL_SCRAPING, {
-    headers: {
-      Cookie: `cgtoken=${process.env.TOKEN_MT};`,
-    },
-  });
+  const response = await axios.get(
+    `${URL_SCRAPING}?cgtoken=${process.env.TOKEN_MT}`
+  );
   const html = response.data;
   const regex = /href="([^"]*\.xlsx)"/g;
   const match = regex.exec(html);
