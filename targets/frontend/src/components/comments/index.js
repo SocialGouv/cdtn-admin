@@ -7,6 +7,7 @@ import { Stack } from "../layout/Stack";
 import { CommentForm } from "./CommentForm";
 import { CommentList } from "./CommentList";
 import { theme } from "src/theme";
+import { useSession } from "next-auth/react";
 
 const commentMutation = `
 mutation insertNote($data: alert_notes_insert_input!) {
