@@ -95,7 +95,7 @@ export function UserList({ onDeleteUser }: Props) {
             <TableCell>Nom d’utilisateur</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Date de création</TableCell>
-            <TableCell align="center">Activé</TableCell>
+            <TableCell align="center">Actif</TableCell>
             <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
