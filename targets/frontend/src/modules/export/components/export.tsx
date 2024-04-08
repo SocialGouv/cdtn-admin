@@ -7,7 +7,7 @@ import {
 } from "src/components/export-es";
 import { Table, Td, Th, Tr } from "src/components/table";
 import { useExportEs } from "src/hooks/exportEs";
-import { useUser } from "src/hooks/useUser";
+import { useSession } from "next-auth/react";
 import {
   Button,
   CircularProgress as Spinner,
@@ -25,9 +25,13 @@ export function Export(): JSX.Element {
   const [exportEsState, getExportEs, runExportEs, getLatestDeployDate] =
     useExportEs();
 
-  const { user }: any = useUser();
+  const { data } = useSession();
+  const user = data?.user;
 
-  const onTrigger = (env: Environment) => runExportEs(env, user);
+  const onTrigger = (env: Environment) => {
+    if (!user) throw new Error("Utilisateur non connecté");
+    runExportEs(env, user);
+  };
 
   useEffect(() => {
     getExportEs();

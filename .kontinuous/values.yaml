@@ -51,8 +51,10 @@ www:
     - secretRef:
         name: s3
   env:
-    - name: "FRONTEND_HOST"
-      value: "{{.Values.global.host}}"
+    - name: NEXTAUTH_URL
+      value: https://www-{{.Values.global.host}}
+    - name: NEXT_PUBLIC_BASE_PATH
+      value: https://www-{{.Values.global.host}}
   resources:
     limits:
       cpu: "100m"

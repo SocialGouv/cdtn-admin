@@ -10,14 +10,15 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { IoMdContact } from "react-icons/io";
-import { useUser } from "../../hooks/useUser";
+import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import { theme } from "src/theme";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { fr } from "@codegouvfr/react-dsfr";
 
 export function UserMenu() {
-  const { user, logout } = useUser() as any;
+  const { data } = useSession();
+  const user = data?.user;
   const [anchorMenu, setAnchorMenu] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorMenu);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -68,10 +69,19 @@ export function UserMenu() {
             <MoreVertIcon />
           </IconButton>
           <Menu anchorEl={anchorMenu} open={open} onClose={handleClose}>
-            <MenuItem component={Link} href="/user/account">
+            <MenuItem component={Link} href="/users/account">
               Mon compte
             </MenuItem>
-            <MenuItem onClick={logout}>Déconnexion</MenuItem>
+            <MenuItem
+              onClick={() =>
+                signOut({
+                  redirect: true,
+                  callbackUrl: "/login",
+                })
+              }
+            >
+              Déconnexion
+            </MenuItem>
           </Menu>
         </Stack>
       )}

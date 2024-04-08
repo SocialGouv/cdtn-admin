@@ -10,8 +10,6 @@ import {
   formatContentsMutation,
   updateContentsMutation,
 } from "src/components/themes/updateContentsMutation";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
 import { Alert, Box, CircularProgress as Spinner, Stack } from "@mui/material";
 import { useMutation, useQuery } from "urql";
@@ -207,4 +205,4 @@ export function EditThemePage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(EditThemePage));
+export default EditThemePage;

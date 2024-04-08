@@ -1,4 +1,4 @@
-import { Client } from "@urql/core/dist/types/client";
+import { GqlClient } from "@shared/utils";
 
 const query = `
 query vdd {
@@ -14,15 +14,15 @@ export interface FicheServicePublicIdsResult {
 }
 
 export class FicheSPRepository {
-  client: Client;
+  client: GqlClient;
 
-  constructor(client: Client) {
+  constructor(client: GqlClient) {
     this.client = client;
   }
 
   async getFicheServicePublicIds(): Promise<string[]> {
     const result = await this.client
-      .query<FicheServicePublicIdsResult>(query)
+      .query<FicheServicePublicIdsResult>(query, {})
       .toPromise();
     if (result.error || !result.data) {
       console.error(result.error);

@@ -19,14 +19,6 @@ insert_permissions:
         - idcc
         - blocks
 select_permissions:
-  - role: public
-    permission:
-      columns:
-        - id
-        - title
-        - idcc
-        - blocks
-      filter: {}
   - role: super
     permission:
       columns:

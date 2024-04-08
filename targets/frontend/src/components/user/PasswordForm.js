@@ -2,21 +2,21 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import { useUser } from "src/hooks/useUser";
+import { useSession } from "next-auth/react";
 import { Stack as StackMUI, TextField as Field } from "@mui/material";
 
-import { passwordValidation } from "../../lib/auth/auth.const";
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Stack } from "../layout/Stack";
+import { passwordValidation } from "../../modules/authentification/utils/regex";
 
 export function PasswordForm({
   onSubmit,
-  action = "/api/change_password",
-  backHref = "/user/account",
+  backHref = "/users/account",
   changeOldPassword = false,
-  loading,
+  loading = false,
 }) {
-  const { user } = useUser();
+  const { data } = useSession();
+  const user = data?.user;
   const {
     register,
     handleSubmit,
@@ -63,7 +63,7 @@ export function PasswordForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(localSubmit)} action={action}>
+    <form onSubmit={handleSubmit(localSubmit)}>
       <div style={{ marginBottom: "20px" }}>
         Le mot de passe doit faire au moins 12 caractères et doit être composer
         d&apos;au moins 1 minuscule, 1 majuscule, 1 nombre et 1 caractère
@@ -125,7 +125,6 @@ export function PasswordForm({
 }
 
 PasswordForm.propTypes = {
-  action: PropTypes.string,
   backHref: PropTypes.string,
   changeOldPassword: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,

@@ -1,6 +1,6 @@
 hasura:
   imagePackage: hasura
-  ~needs: [post-restore, build-hasura]
+  ~needs: [build-hasura]
   ~preDeploy.cleaner:
     match:
       kind: Deployment
@@ -16,8 +16,10 @@ hasura:
 www:
   host: cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
   env:
-    - name: "FRONTEND_HOST"
-      value: cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
+    - name: NEXTAUTH_URL
+      value: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
+    - name: NEXT_PUBLIC_BASE_PATH
+      value: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
 
 pg:
   ~chart: pg
@@ -52,7 +54,7 @@ pg:
 jobs:
   runs:
     post-restore:
-      ~needs: [pg]
+      ~needs: [pg, hasura]
       use: psql
       with:
         sqlFile: .kontinuous/sql/post-restore.sql

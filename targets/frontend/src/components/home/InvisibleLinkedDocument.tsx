@@ -1,7 +1,6 @@
 import { HasuraDocument } from "@shared/types";
-import { gql } from "@urql/core";
+import { gql, useQuery } from "urql";
 import Link from "next/link";
-import { useQuery } from "urql";
 import { Card, CardContent, Typography } from "@mui/material";
 import { FixedSnackBar } from "../utils/SnackBar";
 import React from "react";

@@ -37,7 +37,7 @@ export async function updateExportEsStatusWithDocumentsCount(
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
   })
-    .query<HasuraReturnQuery>(getExportEsStatusQuery)
+    .query<HasuraReturnQuery>(getExportEsStatusQuery, {})
     .toPromise();
 
   if (latestExportEs.error || !latestExportEs.data) {

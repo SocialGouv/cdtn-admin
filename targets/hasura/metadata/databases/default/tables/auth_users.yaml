@@ -1,89 +1,33 @@
 table:
   name: users
   schema: auth
-object_relationships:
-  - name: role
-    using:
-      foreign_key_constraint_on: default_role
-array_relationships:
-  - name: refresh_tokens
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          name: refresh_tokens
-          schema: auth
-  - name: user_roles
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          name: user_roles
-          schema: auth
-insert_permissions:
-  - role: super
-    permission:
-      check: {}
-      columns:
-        - active
-        - created_at
-        - default_role
-        - email
-        - id
-        - name
-        - secret_token
-        - secret_token_expires_at
-        - updated_at
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    is_active:
+      custom_name: isActive
+    is_deleted:
+      custom_name: isDeleted
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    created_at: createdAt
+    is_active: isActive
+    is_deleted: isDeleted
+    updated_at: updatedAt
+  custom_root_fields: {}
 select_permissions:
   - role: super
     permission:
       columns:
-        - active
         - created_at
-        - default_role
-        - deleted
         - email
         - id
+        - is_active
+        - is_deleted
         - name
+        - role
         - updated_at
       filter: {}
-      allow_aggregations: true
-  - role: user
-    permission:
-      columns:
-        - active
-        - created_at
-        - default_role
-        - email
-        - id
-        - name
-        - updated_at
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
-update_permissions:
-  - role: super
-    permission:
-      columns:
-        - active
-        - created_at
-        - default_role
-        - deleted
-        - email
-        - id
-        - name
-        - password
-        - secret_token
-        - secret_token_expires_at
-        - updated_at
-      filter: {}
-      check: null
-  - role: user
-    permission:
-      columns:
-        - email
-        - name
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
-      check: null
+    comment: ""

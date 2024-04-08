@@ -7,8 +7,6 @@ import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { List } from "src/components/themes/List";
 import { MapModal } from "src/components/themes/MapModal";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
 import { Box, Card, CircularProgress } from "@mui/material";
 import { useMutation, useQuery } from "urql";
@@ -51,22 +49,17 @@ query getRootThemes {
 `;
 
 const updateThemesPositionMutation = `
-mutation updateThemesPosition(
-  $objects: [document_relations_insert_input!]!
-) {
-  insert_document_relations(
-    objects: $objects,
-    on_conflict: {
-      constraint: document_relations_pkey,
-      update_columns: data
-    }
-  ) {
-    returning {
-      position: data(path: "position")
-      id
+  mutation updateThemesPosition($objects: [document_relations_insert_input!]!) {
+    insert_document_relations(
+      objects: $objects
+      on_conflict: { constraint: document_relations_pkey, update_columns: data }
+    ) {
+      returning {
+        position: data(path: "position")
+        id
+      }
     }
   }
-}
 `;
 
 const context = { additionalTypenames: ["documents", "document_relations"] };
@@ -181,7 +174,7 @@ export function ThemePage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(ThemePage));
+export default ThemePage;
 
 const AddAThemeButton = ({ themeId }) => (
   <Box my={theme.space.medium}>

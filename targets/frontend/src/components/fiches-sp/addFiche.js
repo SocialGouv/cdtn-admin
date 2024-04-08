@@ -32,12 +32,15 @@ export function AddFiches() {
 }
 
 const insertFicheServicePublicId = `
-mutation addFichesServicePublic($objects: [service_public_contents_insert_input!]!) {
-  fiches: insert_service_public_contents(objects: $objects) {
-    affected_rows
-    returning {
-      id, status
+  mutation addFichesServicePublic(
+    $objects: [service_public_contents_insert_input!]!
+  ) {
+    fiches: insert_service_public_contents(objects: $objects) {
+      affected_rows
+      returning {
+        id
+        status
+      }
     }
   }
-}
 `;

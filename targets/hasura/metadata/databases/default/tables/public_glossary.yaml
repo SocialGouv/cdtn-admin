@@ -29,19 +29,6 @@ insert_permissions:
         - updated_at
         - id
 select_permissions:
-  - role: public
-    permission:
-      columns:
-        - abbreviations
-        - references
-        - variants
-        - definition
-        - slug
-        - term
-        - created_at
-        - updated_at
-        - id
-      filter: {}
   - role: super
     permission:
       columns:

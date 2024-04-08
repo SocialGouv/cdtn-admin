@@ -60,7 +60,7 @@ export async function fetchPrequalified(): Promise<
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
   })
-    .query<HasuraReturn>(fetchPrequalifiedQuery)
+    .query<HasuraReturn>(fetchPrequalifiedQuery, {})
     .toPromise();
   if (res.error) {
     throw res.error;

@@ -15,8 +15,6 @@ import {
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { Pagination } from "src/components/pagination";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import type { AlertStatusType } from "src/models";
 import { alertStatusWordings } from "src/models";
 import { useQuery } from "urql";
@@ -244,4 +242,4 @@ export function AlertPage(): JSX.Element {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(AlertPage));
+export default AlertPage;

@@ -1,8 +1,6 @@
 import { ModelEdition } from "src/modules/models";
 
 import { Layout } from "src/components/layout/auth.layout";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { useRouter } from "next/router";
 import { ReferencesTabs } from "src/components/references";
 import { ContributionAnswerReferences } from "src/modules/references/ContributionAnswerReferences";
@@ -23,4 +21,4 @@ export function ModelEditionPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(ModelEditionPage));
+export default ModelEditionPage;

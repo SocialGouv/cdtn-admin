@@ -2,7 +2,6 @@ import {
   createIndex,
   indexDocumentsBatched,
   suggestionMapping,
-  //@ts-expect-error
 } from "@socialgouv/cdtn-elasticsearch";
 import fs from "fs";
 import { join } from "path";

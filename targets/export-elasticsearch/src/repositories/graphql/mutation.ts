@@ -8,7 +8,7 @@ mutation createExportEsStatus($id: uuid!, $user_id: uuid!, $environment: String!
     user {
       name
       email
-      created_at
+      id
     }
     created_at
     updated_at
@@ -25,7 +25,7 @@ mutation updateOneExportEsStatus($id: uuid!, $status: String!, $updated_at: time
     user {
       name
       email
-      created_at
+      id
     }
     created_at
     updated_at

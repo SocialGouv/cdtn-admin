@@ -1,6 +1,6 @@
 hasura:
   imagePackage: hasura
-  ~needs: [post-restore, build-hasura]
+  ~needs: [build-hasura]
   ~preDeploy.cleaner:
     match:
       kind: Deployment
@@ -73,7 +73,7 @@ pg:
 jobs:
   runs:
     post-restore:
-      ~needs: [pg]
+      ~needs: [pg, hasura]
       use: psql
       with:
         sqlFile: .kontinuous/sql/post-restore.sql

@@ -42,7 +42,7 @@ export default async function getFichesServicePublic(pkgName: string) {
   const resolveCdtReference = createReferenceResolver(cdt);
 
   const results = await gqlClient()
-    .query<FicheIdResult>(getFicheIdsQuery)
+    .query<FicheIdResult>(getFicheIdsQuery, {})
     .toPromise();
 
   if (results.error) {

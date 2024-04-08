@@ -27,7 +27,7 @@ const SortableSectionList = SortableContainer(
       ))}
     </List>
   )
-);
+) as any;
 
 export function ContentSections({ name }: any) {
   const {

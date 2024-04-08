@@ -8,9 +8,6 @@ import { Dialog } from "src/components/dialog";
 import { EditorialContentForm } from "src/components/editorialContent";
 import { HighlightsForm } from "src/components/highlights";
 import { Layout } from "src/components/layout/auth.layout";
-import { PrequalifiedEdition } from "src/modules/prequalified";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { previewContentAction } from "src/lib/preview/preview.gql";
 import {
   Content,
@@ -260,4 +257,4 @@ export function EditInformationPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(EditInformationPage));
+export default EditInformationPage;
