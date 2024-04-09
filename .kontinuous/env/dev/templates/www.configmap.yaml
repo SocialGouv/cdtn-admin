@@ -6,7 +6,6 @@ data:
   HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
   MATOMO_URL: "https://matomo.fabrique.social.gouv.fr/"
   NODE_ENV: "production"
-  SMTP_URL: "smtp.tipimail.com"
   URL_EXPORT: "http://export"
   BUCKET_PUBLIC_ENDPOINT: "https://cdtn-dev-public.s3.gra.io.cloud.ovh.net"
   BUCKET_DEFAULT_FOLDER: "default"

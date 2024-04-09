@@ -50,6 +50,10 @@ www:
         name: www
     - secretRef:
         name: s3
+    - secretRef:
+        name: tipimail
+    - secretRef:
+        name: hasura
   env:
     - name: NEXTAUTH_URL
       value: https://www-{{.Values.global.host}}
