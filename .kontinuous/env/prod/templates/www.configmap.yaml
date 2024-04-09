@@ -8,7 +8,6 @@ data:
   MATOMO_URL: "https://matomo.fabrique.social.gouv.fr/"
   NODE_ENV: "production"
   PRODUCTION: "true"
-  SMTP_URL: "smtp.tipimail.com"
   URL_EXPORT: "http://export"
   BUCKET_PUBLIC_ENDPOINT: "https://cdtn-prod-public.s3.gra.io.cloud.ovh.net"
   BUCKET_DEFAULT_FOLDER: "default"
