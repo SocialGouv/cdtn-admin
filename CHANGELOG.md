@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.41.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.3...v2.41.4) (2024-04-09)
+
+### Bug Fixes
+
+- **credentials:** set special secret for tipimail ([#1359](https://github.com/SocialGouv/cdtn-admin/issues/1359)) ([e972086](https://github.com/SocialGouv/cdtn-admin/commit/e972086da29feebb189def1799151e427bec4a03))
+
 ## [2.41.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.2...v2.41.3) (2024-04-09)
 
 ### Bug Fixes
