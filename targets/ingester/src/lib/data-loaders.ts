@@ -1,5 +1,5 @@
 import type { IndexedArticle } from "@socialgouv/kali-data";
-import type { Agreement, IndexedAgreement } from "@socialgouv/kali-data-types";
+import type { Agreement } from "@socialgouv/kali-data-types";
 
 import { getJson } from "./getJson";
 
@@ -11,6 +11,3 @@ export const loadAgreement = async (
 
 export const loadArticles = async (): Promise<IndexedArticle[]> =>
   getJson<IndexedArticle[]>(`@socialgouv/kali-data/data/articles/index.json`);
-
-export const loadAgreements = async (): Promise<IndexedAgreement[]> =>
-  getJson<IndexedAgreement[]>(`@socialgouv/kali-data/data/index.json`);

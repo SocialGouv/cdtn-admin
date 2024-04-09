@@ -13,7 +13,6 @@ const config = {
     "**/__tests__/**/*.+(ts|tsx|js)",
     "**/?(*.)+(spec|test).+(ts|tsx|js)",
   ],
-  transformIgnorePatterns: ["<rootDir>/node_modules/(?!(strip-markdown)/)"],
 };
 
 module.exports = config;
