@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "export-elasticsearch",
-  "version": "2.37.1",
+  "version": "2.41.4",
   "license": "MIT",
   "description": "",
   "main": "./build/index.js",
@@ -65,6 +65,6 @@
     "rimraf": "3.0.2",
     "supertest": "^6.2.2",
     "timekeeper": "^2.2.0",
-    "typescript": "4.6.2"
+    "typescript": "^5.4.3"
   }
 }

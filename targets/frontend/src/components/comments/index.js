@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useMemo } from "react";
-import { useUser } from "src/hooks/useUser";
 import { Card, Alert } from "@mui/material";
 import { useMutation, useQuery } from "urql";
 
@@ -8,6 +7,7 @@ import { Stack } from "../layout/Stack";
 import { CommentForm } from "./CommentForm";
 import { CommentList } from "./CommentList";
 import { theme } from "src/theme";
+import { useSession } from "next-auth/react";
 
 const commentMutation = `
 mutation insertNote($data: alert_notes_insert_input!) {
@@ -26,7 +26,8 @@ query getComments($alertId: uuid!) {
 
 function Comments({ alertId }) {
   const [, postComment] = useMutation(commentMutation);
-  const { user } = useUser();
+  const { data: session } = useSession();
+  const user = session?.user;
 
   function sendComment(comment) {
     return postComment({
@@ -49,7 +50,7 @@ function Comments({ alertId }) {
   if (error) {
     return (
       <Alert severity="error">
-        <pre>{JSON.stringify(error, 0, null)}</pre>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
       </Alert>
     );
   }

@@ -1,6 +1,6 @@
 hasura:
   imagePackage: hasura
-  ~needs: [post-restore, build-hasura]
+  ~needs: [build-hasura]
   ~preDeploy.cleaner:
     match:
       kind: Deployment
@@ -58,7 +58,7 @@ pg:
       ~tpl~owner: "{{ .Values.global.pgUser }}"
       secretName: "pg-db"
       barmanObjectStore:
-        ~tpl~destinationPath: "s3://cdtn-prod-backups/cdtn-admin"
+        ~tpl~destinationPath: "s3://cdtn-prod-backups/cdtn-admin-2024-03-26-12-33"
         s3Credentials:
           accessKeyId:
             ~tpl~name: "cdtn-prod-backups-access-key"
@@ -73,7 +73,7 @@ pg:
 jobs:
   runs:
     post-restore:
-      ~needs: [pg]
+      ~needs: [pg, hasura]
       use: psql
       with:
         sqlFile: .kontinuous/sql/post-restore.sql

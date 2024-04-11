@@ -1,7 +1,6 @@
 import {
   createIndex,
   indexDocumentsBatched,
-  //@ts-expect-error
 } from "@socialgouv/cdtn-elasticsearch";
 
 import { context } from "./context";

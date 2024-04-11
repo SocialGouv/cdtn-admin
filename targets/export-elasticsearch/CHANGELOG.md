@@ -3,6 +3,89 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.41.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.3...v2.41.4) (2024-04-09)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.41.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.2...v2.41.3) (2024-04-09)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.41.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.1...v2.41.2) (2024-04-09)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.41.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.0...v2.41.1) (2024-04-05)
+
+**Note:** Version bump only for package export-elasticsearch
+
+# [2.41.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.2...v2.41.0) (2024-04-04)
+
+### Features
+
+- desinstaller les anciennes contributions de l'admin ([#1326](https://github.com/SocialGouv/cdtn-admin/issues/1326)) ([917574c](https://github.com/SocialGouv/cdtn-admin/commit/917574c135f3f74ae445d2b10ca5eb21375787b7))
+
+## [2.40.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.1...v2.40.2) (2024-04-04)
+
+### Bug Fixes
+
+- **export:** ajout des éléments liés aux outils sur les préqualifiés ([#1352](https://github.com/SocialGouv/cdtn-admin/issues/1352)) ([1fedf81](https://github.com/SocialGouv/cdtn-admin/commit/1fedf816282c29ff8ea09254a1f5eb91419c9c2b))
+
+## [2.40.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.0...v2.40.1) (2024-04-03)
+
+### Bug Fixes
+
+- **export:** correctif rapide pour la mise en prod des données ([#1349](https://github.com/SocialGouv/cdtn-admin/issues/1349)) ([a9c6ee9](https://github.com/SocialGouv/cdtn-admin/commit/a9c6ee9dc3c791f39e732f21ffd119026630128a))
+
+# [2.40.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.7...v2.40.0) (2024-04-02)
+
+### Features
+
+- 1308 admin extraction des prqualifis ([#1315](https://github.com/SocialGouv/cdtn-admin/issues/1315)) ([cef0ceb](https://github.com/SocialGouv/cdtn-admin/commit/cef0cebe84919b58045bb369a5d49b72c211ea7f))
+- **export:** ajout de contexte sur l'erreur quand on récupère les docs ([#1347](https://github.com/SocialGouv/cdtn-admin/issues/1347)) ([45a81c0](https://github.com/SocialGouv/cdtn-admin/commit/45a81c045d4147c3fab979ace03aa73e14398e04))
+
+## [2.39.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.6...v2.39.7) (2024-03-28)
+
+### Bug Fixes
+
+- **glossary:** gère le cas de multiple strong dans un summary ([#1343](https://github.com/SocialGouv/cdtn-admin/issues/1343)) ([022d313](https://github.com/SocialGouv/cdtn-admin/commit/022d313aa06b7f270de1e55deabb9529dab69681))
+
+## [2.39.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.5...v2.39.6) (2024-03-27)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.39.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.4...v2.39.5) (2024-03-26)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.39.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.3...v2.39.4) (2024-03-26)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.39.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.2...v2.39.3) (2024-03-25)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.39.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.1...v2.39.2) (2024-03-25)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.39.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.0...v2.39.1) (2024-03-25)
+
+**Note:** Version bump only for package export-elasticsearch
+
+# [2.39.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.38.0...v2.39.0) (2024-03-25)
+
+### Features
+
+- **information:** optimisation du chargement des contenus `relatedDocuments` pendant l'export ([#1319](https://github.com/SocialGouv/cdtn-admin/issues/1319)) ([b367d24](https://github.com/SocialGouv/cdtn-admin/commit/b367d24b8a1b5ee90f10b415348c0ab2473208f9))
+
+# [2.38.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.1...v2.38.0) (2024-03-18)
+
+### Bug Fixes
+
+- **glossary:** exclure les titres et sous-titres provenant des contribs ([#1316](https://github.com/SocialGouv/cdtn-admin/issues/1316)) ([8f3e62d](https://github.com/SocialGouv/cdtn-admin/commit/8f3e62d9b3e57e9d699552bcce583fca8eaecd47))
+
 ## [2.37.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.0...v2.37.1) (2024-03-13)
 
 ### Bug Fixes

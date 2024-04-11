@@ -26,23 +26,23 @@ test("extractMailTemplateRef", async () => {
     payload as MailTemplateSubset[]
   );
   expect(references).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "document": Object {
-      "id": "576b0a92-16de-449e-a9d0-199e89d674cd",
-      "source": "modeles_de_courriers",
-      "title": "document de test",
-    },
-    "references": Array [
-      Object {
-        "dila_cid": "LEGIARTI000035643605",
-        "dila_container_id": "cdtn",
-        "dila_id": "LEGIARTI000035643605",
-        "title": "article LEGIARTI000035643605",
-        "url": "",
+    [
+      {
+        "document": {
+          "id": "576b0a92-16de-449e-a9d0-199e89d674cd",
+          "source": "modeles_de_courriers",
+          "title": "document de test",
+        },
+        "references": [
+          {
+            "dila_cid": "LEGIARTI000035643605",
+            "dila_container_id": "cdtn",
+            "dila_id": "LEGIARTI000035643605",
+            "title": "article LEGIARTI000035643605",
+            "url": "",
+          },
+        ],
       },
-    ],
-  },
-]
-`);
+    ]
+  `);
 });

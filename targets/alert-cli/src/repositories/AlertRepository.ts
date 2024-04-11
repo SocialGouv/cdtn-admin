@@ -1,7 +1,7 @@
-import { Client } from "@urql/core/dist/types/client";
 import { AlertChanges, AlertInfo, HasuraAlert } from "@shared/types";
 import { batchPromises } from "../utils/batch-promises";
 import { DaresAlertInsert } from "../dares/types";
+import { GqlClient } from "@shared/utils";
 
 const insertAlertsMutation = `
 mutation insert_alert($alert: alerts_insert_input!) {
@@ -25,9 +25,9 @@ interface InsertAlertData {
 }
 
 export class AlertRepository {
-  private client: Client;
+  private client: GqlClient;
 
-  constructor(client: Client) {
+  constructor(client: GqlClient) {
     this.client = client;
   }
 

@@ -215,16 +215,13 @@ export const InformationsForm = ({
           <Stack direction="row" spacing={2} justifyContent="end">
             <Button
               type="button"
-              variant="contained"
               color="error"
               disabled={!onDelete || data?.dismissalProcess}
               onClick={() => onDelete && onDelete()}
             >
               Supprimer
             </Button>
-            <Button variant="contained" type="submit">
-              Sauvegarder
-            </Button>
+            <Button type="submit">Sauvegarder</Button>
             <Button
               type="button"
               variant="contained"

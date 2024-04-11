@@ -3,6 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.41.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.3...v2.41.4) (2024-04-09)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.41.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.2...v2.41.3) (2024-04-09)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.41.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.1...v2.41.2) (2024-04-09)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.41.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.0...v2.41.1) (2024-04-05)
+
+### Bug Fixes
+
+- **alert:** passer directement le token dans l'URL pour contacter le site MT ([#1357](https://github.com/SocialGouv/cdtn-admin/issues/1357)) ([4486e8f](https://github.com/SocialGouv/cdtn-admin/commit/4486e8ff6fb226c97500698734345bac81c1de97))
+
+# [2.41.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.2...v2.41.0) (2024-04-04)
+
+### Features
+
+- desinstaller les anciennes contributions de l'admin ([#1326](https://github.com/SocialGouv/cdtn-admin/issues/1326)) ([917574c](https://github.com/SocialGouv/cdtn-admin/commit/917574c135f3f74ae445d2b10ca5eb21375787b7))
+
+## [2.40.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.1...v2.40.2) (2024-04-04)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.40.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.0...v2.40.1) (2024-04-03)
+
+**Note:** Version bump only for package alert-cli
+
+# [2.40.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.7...v2.40.0) (2024-04-02)
+
+### Features
+
+- 1308 admin extraction des prqualifis ([#1315](https://github.com/SocialGouv/cdtn-admin/issues/1315)) ([cef0ceb](https://github.com/SocialGouv/cdtn-admin/commit/cef0cebe84919b58045bb369a5d49b72c211ea7f))
+
+## [2.39.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.6...v2.39.7) (2024-03-28)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.39.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.5...v2.39.6) (2024-03-27)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.39.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.4...v2.39.5) (2024-03-26)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.39.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.3...v2.39.4) (2024-03-26)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.39.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.2...v2.39.3) (2024-03-25)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.39.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.1...v2.39.2) (2024-03-25)
+
+**Note:** Version bump only for package alert-cli
+
+## [2.39.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.0...v2.39.1) (2024-03-25)
+
+**Note:** Version bump only for package alert-cli
+
+# [2.39.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.38.0...v2.39.0) (2024-03-25)
+
+**Note:** Version bump only for package alert-cli
+
+# [2.38.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.1...v2.38.0) (2024-03-18)
+
+**Note:** Version bump only for package alert-cli
+
 ## [2.37.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.0...v2.37.1) (2024-03-13)
 
 **Note:** Version bump only for package alert-cli

@@ -52,24 +52,6 @@ insert_permissions:
         - title
         - updated_at
 select_permissions:
-  - role: public
-    permission:
-      columns:
-        - cdtn_id
-        - initial_id
-        - title
-        - meta_description
-        - source
-        - slug
-        - text
-        - document
-        - is_published
-        - is_searchable
-        - created_at
-        - updated_at
-        - is_available
-      filter: {}
-      allow_aggregations: true
   - role: super
     permission:
       columns:

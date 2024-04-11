@@ -8,10 +8,9 @@ import {
   SUGGESTIONS,
   vectorizeDocument,
   version,
-  //@ts-expect-error
 } from "@socialgouv/cdtn-elasticsearch";
 import { logger } from "@shared/utils";
-import { Sources, SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import pMap from "p-map";
 
 import { cdtnDocumentsGen } from "./cdtnDocuments";

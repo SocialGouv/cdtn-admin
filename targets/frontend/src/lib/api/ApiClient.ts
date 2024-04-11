@@ -1,15 +1,13 @@
-import { Client } from "urql";
 import { DocumentNode } from "graphql/index";
-import { TypedDocumentNode } from "@graphql-typed-document-node/core";
-import { OperationContext, OperationResult } from "@urql/core/dist/types/types";
-import { gqlClient } from "@shared/utils";
+import { OperationContext, OperationResult, TypedDocumentNode } from "urql";
+import { gqlClient, GqlClient } from "@shared/utils";
 
 export class ApiClient {
-  client: Client;
+  client: GqlClient;
   hasuraGraphqlAdminSecret: string;
   sessionVariables?: any;
 
-  constructor(client: Client, sessionVariables?: any) {
+  constructor(client: GqlClient, sessionVariables?: any) {
     this.client = client;
     this.hasuraGraphqlAdminSecret =
       process.env.HASURA_GRAPHQL_ADMIN_SECRET ?? "admin1";
@@ -22,7 +20,7 @@ export class ApiClient {
 
   async query<Data = any, Variables extends object = {}>(
     query: DocumentNode | TypedDocumentNode<Data, Variables> | string,
-    variables?: Variables,
+    variables: Variables,
     context?: Partial<OperationContext>
   ): Promise<OperationResult<Data, Variables>> {
     let headers = context?.headers;
@@ -34,8 +32,8 @@ export class ApiClient {
       };
     }
     const result = await this.client
-      .query(query, variables, {
-        ...context,
+      .query<Data, Variables>(query, variables, {
+        ...(context as any),
         fetchOptions: () => ({
           ...context?.fetchOptions,
           headers,
@@ -43,12 +41,12 @@ export class ApiClient {
       })
       .toPromise();
 
-    return result;
+    return result as any;
   }
 
   async mutation<Data = any, Variables extends object = {}>(
     query: DocumentNode | TypedDocumentNode<Data, Variables> | string,
-    variables?: Variables,
+    variables: Variables,
     context?: Partial<OperationContext>
   ): Promise<OperationResult<Data, Variables>> {
     let headers = context?.headers;
@@ -61,7 +59,7 @@ export class ApiClient {
     }
     const result = await this.client
       .mutation(query, variables, {
-        ...context,
+        ...(context as any),
         fetchOptions: () => ({
           ...context?.fetchOptions,
           headers,
@@ -69,6 +67,6 @@ export class ApiClient {
       })
       .toPromise();
 
-    return result;
+    return result as any;
   }
 }

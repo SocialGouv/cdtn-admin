@@ -23,6 +23,9 @@ RUN yarn workspace @shared/utils build
 
 FROM deps as dist
 
+ARG NEXT_PUBLIC_BASE_PATH
+ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
+
 COPY --from=build-types /app/shared/types /app/shared/types
 COPY --from=build-utils /app/shared/utils /app/shared/utils
 COPY shared/eslint-config ./shared/eslint-config/

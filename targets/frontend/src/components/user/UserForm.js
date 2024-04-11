@@ -2,27 +2,17 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
-import {
-  MenuItem,
-  Select,
-  Stack as StackMUI,
-  TextField as Field,
-} from "@mui/material";
-import { useQuery } from "urql";
+import { Stack as StackMUI, TextField as Field } from "@mui/material";
 
 import { FormErrorMessage } from "../forms/ErrorMessage";
 import { Stack } from "../layout/Stack";
-import { getRoleQuery } from "../Roles";
 
 export function UserForm({
   onSubmit,
   loading = false,
   user,
-  isAdmin = false,
   backHref = "/users",
 }) {
-  const [results] = useQuery({ query: getRoleQuery });
-  const { data, fetching, error } = results;
   const {
     register,
     handleSubmit,
@@ -40,7 +30,7 @@ export function UserForm({
         <div style={{ marginBottom: "20px" }}>
           <Field
             type="text"
-            placeholder="Lionel Bé"
+            placeholder="Lionel"
             {...register("name", {
               required: { message: "Ce champ est requis", value: true },
             })}
@@ -51,7 +41,7 @@ export function UserForm({
         </div>
         <div style={{ marginBottom: "20px" }}>
           <Field
-            type="text"
+            type="email"
             label="Email"
             placeholder="lionel.be@beta.gouv.fr"
             {...register("email", {
@@ -62,20 +52,6 @@ export function UserForm({
           />
           <FormErrorMessage errors={errors} fieldName="email" />
         </div>
-        {isAdmin && (
-          <div style={{ marginBottom: "20px" }}>
-            <p class="fr-text--heavy">Role</p>
-            <Select {...register("default_role")} value={user?.roles[0].role}>
-              {!fetching &&
-                !error &&
-                data.roles.map((item) => (
-                  <MenuItem key={item.role} value={item.role}>
-                    {item.role}
-                  </MenuItem>
-                ))}
-            </Select>
-          </div>
-        )}
         <div style={{ marginTop: "20px", marginLeft: "20px" }}>
           <StackMUI direction="row" spacing={2} mt={4} justifyContent="end">
             <Link
@@ -101,7 +77,6 @@ export function UserForm({
 
 UserForm.propTypes = {
   backHref: PropTypes.string,
-  isAdmin: PropTypes.bool,
   loading: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   user: PropTypes.object,

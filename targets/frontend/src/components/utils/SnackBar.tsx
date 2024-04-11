@@ -41,7 +41,7 @@ export const FixedSnackBar = ({
       open={true}
       anchorOrigin={{ horizontal: "center", vertical: "top" }}
     >
-      <Alert sx={{ "min-width": "800px" }} severity={severity}>
+      <Alert sx={{ minWidth: "800px" }} severity={severity}>
         {children}
       </Alert>
     </Snackbar>

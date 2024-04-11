@@ -3,23 +3,45 @@ import { describe, expect, it } from "@jest/globals";
 import { getDocumentsWithRelations } from "../getDocumentsWithRelations";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
-jest.mock("../getAllDocumentsBySource", () => ({
-  getDocumentsWithRelationsBySource: async () =>
+jest.mock("../createDocumentsFetcher", () => ({
+  createDocumentsFetcher: () => async () =>
     Promise.resolve([
       {
-        cdtnId: "1",
-        contentRelations: [
-          {
-            document: {
-              initialId: "F2839",
-            },
+        status: "fulfilled",
+        value: {
+          data: {
+            documents: [
+              {
+                cdtnId: "1",
+                isPublished: true,
+                contentRelations: [
+                  {
+                    position: 1,
+                    document: {
+                      initialId: "F2839",
+                      slug: "slug1",
+                      source: "contributions",
+                      title: "contribution1",
+                    },
+                  },
+                ],
+                source: "themes",
+                title: "Handicap",
+              },
+            ],
           },
-        ],
-        source: "themes",
-        title: "Handicap",
+        },
       },
+    ]),
+}));
+
+jest.mock("../fetchPrequalified", () => ({
+  fetchPrequalified: async () =>
+    Promise.resolve([
       {
         cdtnId: "2",
+        isPublished: true,
+        source: "prequalified",
         contentRelations: [
           {
             document: {
@@ -32,11 +54,12 @@ jest.mock("../getAllDocumentsBySource", () => ({
             },
           },
         ],
-        source: "prequalified",
         title: "procédure licenciement pour inaptitude",
       },
       {
         cdtnId: "3",
+        isPublished: true,
+        source: "prequalified",
         contentRelations: [
           {
             document: {
@@ -44,7 +67,6 @@ jest.mock("../getAllDocumentsBySource", () => ({
             },
           },
         ],
-        source: "prequalified",
         title: "complement-salaire pole emploi",
       },
     ]),

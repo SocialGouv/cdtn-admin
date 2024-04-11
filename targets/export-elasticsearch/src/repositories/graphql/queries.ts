@@ -8,7 +8,7 @@ query getAllExport {
     user {
       name
       email
-      created_at
+      id
     }
     created_at
     updated_at
@@ -27,7 +27,7 @@ query getExportEsStatusByEnvironments($environment: String!) {
     user {
       name
       email
-      created_at
+      id
     }
     created_at
     updated_at
@@ -46,7 +46,7 @@ query getLatestExportEsStatus($environment: String!) {
     user {
       name
       email
-      created_at
+      id
     }
     created_at
     updated_at
@@ -66,7 +66,7 @@ query getExportEsById($id: uuid!) {
     user {
       name
       email
-      created_at
+      id
     }
     created_at
     updated_at
@@ -86,7 +86,7 @@ query getExportEsStatusByStatus($status: String!) {
     user {
       name
       email
-      created_at
+      id
     }
     created_at
     updated_at

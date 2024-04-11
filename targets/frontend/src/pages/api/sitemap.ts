@@ -200,7 +200,7 @@ async function getGlossary() {
     slug, modified: updated_at
   }
 }`;
-  const terms = await gqlClient().query(gqlListGlossryTerm).toPromise();
+  const terms = await gqlClient().query(gqlListGlossryTerm, {}).toPromise();
   if (terms.error) {
     throw terms.error;
   }

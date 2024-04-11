@@ -9,8 +9,6 @@ import {
 } from "src/components/home/UnThemedContent";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
-import { withCustomUrqlClient } from "src/hoc/CustomUrqlClient";
-import { withUserProvider } from "src/hoc/UserProvider";
 import { RELATIONS } from "src/lib/relations";
 import { Box, CircularProgress, Alert, List, ListItem } from "@mui/material";
 import { useMutation, useQuery } from "urql";
@@ -103,7 +101,7 @@ export function UnthemedPage() {
                         title={title}
                       >
                         <Link
-                          href={`https://code-du-travail-numerique-preprod.dev.fabrique.social.gouv.fr/${getRouteBySource(
+                          href={`https://code-du-travail-numerique-preprod.ovh.fabrique.social.gouv.fr/${getRouteBySource(
                             source
                           )}/${slug}`}
                           target="_blank"
@@ -150,4 +148,4 @@ export function UnthemedPage() {
   );
 }
 
-export default withCustomUrqlClient(withUserProvider(UnthemedPage));
+export default UnthemedPage;

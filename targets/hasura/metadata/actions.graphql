@@ -1,23 +1,4 @@
 type Mutation {
-  email_account_activation(
-    email: citext!
-  ): Status
-}
-
-type Mutation {
-  email_password_request(
-    email: citext!
-    secret_token: uuid!
-  ): Status
-}
-
-type Query {
-  pipeline_status(
-    pipelineId: String!
-  ): PipelineStatus
-}
-
-type Mutation {
   preview_document(
     cdtnId: String!
     document: jsonb!
@@ -38,12 +19,6 @@ type Query {
     query: String!
     limit: Int
   ): RecentKaliReferenceOutput
-}
-
-type Mutation {
-  updatePipeline(
-    environment: String!
-  ): UpdatePipelineOutput
 }
 
 input PreviewDocument {

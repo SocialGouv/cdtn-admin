@@ -70,27 +70,29 @@ export function FichesServicePublicContainer() {
 }
 
 const getFicheServicePublicId = `
-query getServicePublicId($offset: Int = 0, $limit: Int = 50) {
-  ficheIds: v1_fiches_sp( offset: $offset, limit: $limit) {
-   id, cdtn_id, status, is_available, is_published
-  }
-  aggs:v1_fiches_sp_aggregate {
-    aggregate{
-      count
+  query getServicePublicId($offset: Int = 0, $limit: Int = 50) {
+    ficheIds: v1_fiches_sp(offset: $offset, limit: $limit) {
+      id
+      cdtn_id
+      status
+      is_available
+      is_published
+    }
+    aggs: v1_fiches_sp_aggregate {
+      aggregate {
+        count
+      }
     }
   }
-}
 `;
 
 const deleteFicheServicePublicId = `
-mutation deleteServicePublicIds($ids: [String!] = []) {
-  delete_service_public_contents(where: {
-    id: {_in: $ids}
-  }) {
-    affected_rows
-    returning {
-      id
+  mutation deleteServicePublicIds($ids: [String!] = []) {
+    delete_service_public_contents(where: { id: { _in: $ids } }) {
+      affected_rows
+      returning {
+        id
+      }
     }
   }
-}
 `;

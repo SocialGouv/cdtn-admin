@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LogoAdmin } from "./LogoAdmin";
 import { Navigation } from "./Navigation";
 import { UserMenu } from "./UserMenu";
@@ -20,6 +20,8 @@ import { fr } from "@codegouvfr/react-dsfr";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { SnackBar } from "../utils/SnackBar";
 import Head from "next/head";
+import { getSession, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export type LayoutProps = {
   children: any;
@@ -85,6 +87,15 @@ export function Layout({
   disableHeadTag = false,
 }: LayoutProps) {
   const [menuOpen, setMenuOpen] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    getSession().then((session) => {
+      if (!session) {
+        router.push("/login");
+      }
+    });
+  }, [router]);
 
   const handleDrawerToggle = () => {
     setMenuOpen(!menuOpen);

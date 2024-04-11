@@ -3,6 +3,78 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.41.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.3...v2.41.4) (2024-04-09)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.41.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.2...v2.41.3) (2024-04-09)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.41.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.1...v2.41.2) (2024-04-09)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.41.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.0...v2.41.1) (2024-04-05)
+
+**Note:** Version bump only for package @shared/types
+
+# [2.41.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.2...v2.41.0) (2024-04-04)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.40.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.1...v2.40.2) (2024-04-04)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.40.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.40.0...v2.40.1) (2024-04-03)
+
+**Note:** Version bump only for package @shared/types
+
+# [2.40.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.7...v2.40.0) (2024-04-02)
+
+### Features
+
+- 1308 admin extraction des prqualifis ([#1315](https://github.com/SocialGouv/cdtn-admin/issues/1315)) ([cef0ceb](https://github.com/SocialGouv/cdtn-admin/commit/cef0cebe84919b58045bb369a5d49b72c211ea7f))
+
+## [2.39.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.6...v2.39.7) (2024-03-28)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.39.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.5...v2.39.6) (2024-03-27)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.39.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.4...v2.39.5) (2024-03-26)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.39.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.3...v2.39.4) (2024-03-26)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.39.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.2...v2.39.3) (2024-03-25)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.39.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.1...v2.39.2) (2024-03-25)
+
+**Note:** Version bump only for package @shared/types
+
+## [2.39.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.39.0...v2.39.1) (2024-03-25)
+
+**Note:** Version bump only for package @shared/types
+
+# [2.39.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.38.0...v2.39.0) (2024-03-25)
+
+### Features
+
+- **information:** optimisation du chargement des contenus `relatedDocuments` pendant l'export ([#1319](https://github.com/SocialGouv/cdtn-admin/issues/1319)) ([b367d24](https://github.com/SocialGouv/cdtn-admin/commit/b367d24b8a1b5ee90f10b415348c0ab2473208f9))
+
+# [2.38.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.1...v2.38.0) (2024-03-18)
+
+**Note:** Version bump only for package @shared/types
+
 ## [2.37.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.37.0...v2.37.1) (2024-03-13)
 
 **Note:** Version bump only for package @shared/types

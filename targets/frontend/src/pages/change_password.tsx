@@ -1,57 +1,63 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { PasswordLayout } from "src/components/layout/password.layout";
 import { PasswordForm } from "src/components/user/PasswordForm";
-import { request } from "src/lib/request";
 import { Typography } from "@mui/material";
+import { Button } from "src/components/button";
 
 export default function ChangePasswordPage() {
   const router = useRouter();
-  const { activate, token } = router.query;
-  let title = "Nouveau mot de passe";
-  let url = "/api/renew_password";
-  if (activate) {
-    title = "Activer votre compte";
-    url = "/api/activate_account";
-  }
+  const { token } = router.query;
   const [success, setSuccess] = useState(false);
-  let loading = false;
+  const [loading, setLoading] = useState(false);
 
   async function updatePassword({ password }: { password: string }) {
-    loading = true;
+    setLoading(true);
     try {
-      await request(url, { body: { password, token } });
+      const result = await fetch(`/api/users/activate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password, token }),
+      });
+
+      const resultJson = await result.json();
+
+      if (!result.ok) {
+        alert(`Un problème est survenu, l'erreur est : ${resultJson.message}`);
+        return;
+      }
       setSuccess(true);
     } catch (error) {
       console.error(error);
+      alert("Une erreur est survenue...");
+    } finally {
+      setLoading(false);
     }
-    loading = false;
   }
 
   if (success) {
     return (
-      <PasswordLayout title={title}>
-        {activate ? (
-          <Typography style={{ fontWeight: 300 }}>
-            Votre compte a été activé. Suivez le lien fourni pour vous
-            connecter.
-          </Typography>
-        ) : (
-          <Typography style={{ fontWeight: 300 }}>
-            Votre mot de passe a été ré-initialisé, suivez le lien fourni pour
-            vous connecter.
-          </Typography>
-        )}
-        <Link href="/login" passHref style={{ textDecoration: "none" }}>
+      <PasswordLayout title={"Nouveau mot de passe"}>
+        <Typography style={{ fontWeight: 300 }}>
+          Votre mot passe a été mis à jour. Suivez le lien fourni pour vous
+          connecter.
+        </Typography>
+        <Button
+          style={{ marginTop: "30px" }}
+          onClick={() => {
+            router.push("/login");
+          }}
+        >
           Se connecter
-        </Link>
+        </Button>
       </PasswordLayout>
     );
   }
   return (
-    <PasswordLayout title={title}>
-      <PasswordForm onSubmit={updatePassword} loading={loading} action={url} />
+    <PasswordLayout title={"Nouveau mot de passe"}>
+      <PasswordForm onSubmit={updatePassword} loading={loading} />
     </PasswordLayout>
   );
 }
