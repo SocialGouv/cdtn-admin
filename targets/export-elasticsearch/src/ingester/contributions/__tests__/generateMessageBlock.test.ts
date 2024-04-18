@@ -1,5 +1,6 @@
 import { ContributionContentType } from "@shared/types";
 import { fetchMessageBlock } from "../fetchMessageBlock";
+import { fetchAgreementMessage } from "../fetchAgreementMessage";
 import { generateMessageBlock } from "../generateMessageBlock";
 
 jest.mock("../fetchMessageBlock");
@@ -98,5 +99,18 @@ describe("generateMessageBlock", () => {
     expect(result).toEqual(undefined);
 
     expect(fetchMessageBlock).toHaveBeenCalledWith("123");
+  });
+  it("should return agreement Message even if no question message block are linked", async () => {
+    (fetchMessageBlock as jest.Mock).mockResolvedValue(undefined);
+    (fetchAgreementMessage as jest.Mock).mockResolvedValue(
+      "fetchedAgreementMessage"
+    );
+
+    const result: string | undefined = await generateMessageBlock(
+      mockContribution
+    );
+
+    expect(fetchAgreementMessage).toHaveBeenCalledWith("1234");
+    expect(result).toEqual("fetchedAgreementMessage");
   });
 });
