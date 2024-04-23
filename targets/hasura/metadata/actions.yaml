@@ -1,15 +1,4 @@
 actions:
-  - name: preview_document
-    definition:
-      kind: synchronous
-      handler: '{{API_URL}}/actions/preview'
-      forward_client_headers: true
-      headers:
-        - name: actions-secret
-          value_from_env: ACTIONS_SECRET
-    permissions:
-      - role: super
-      - role: user
   - name: publish
     definition:
       kind: synchronous

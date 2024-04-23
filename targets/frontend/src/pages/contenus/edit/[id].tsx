@@ -8,7 +8,6 @@ import { Dialog } from "src/components/dialog";
 import { EditorialContentForm } from "src/components/editorialContent";
 import { HighlightsForm } from "src/components/highlights";
 import { Layout } from "src/components/layout/auth.layout";
-import { previewContentAction } from "src/lib/preview/preview.gql";
 import {
   Content,
   ContentQuery,
@@ -46,7 +45,6 @@ export function EditInformationPage() {
   const [{ fetching: deleting }, deleteContent] = useMutation(
     deleteContentMutation
   );
-  const [, previewContent] = useMutation(previewContentAction);
 
   const onSubmit =
     <T,>(mapper: (content: T) => object) =>
@@ -56,23 +54,6 @@ export function EditInformationPage() {
       if (!result) return;
       const { slug: computedSlug, metaDescription: computedMetaDescription } =
         result.data.content;
-      if (!result.error) {
-        previewContent({
-          cdtnId: content?.cdtnId,
-          document: {
-            metaDescription: computedMetaDescription,
-            slug: computedSlug,
-            title: content?.title,
-          },
-          source: content?.source,
-        }).then((response) => {
-          if (response.error) {
-            console.error("preview impossible", response.error.message);
-          }
-        });
-      } else {
-        console.error("edition impossible", result.error.message);
-      }
     };
 
   const onSubmitContent = onSubmit<Content>((contentItem: Content) => {
@@ -99,7 +80,6 @@ export function EditInformationPage() {
     router,
     data?.content,
     editContent,
-    previewContent,
   ]);
 
   const onSubmitHightlight = onSubmit<HighLightContent>(
@@ -125,7 +105,6 @@ export function EditInformationPage() {
     router,
     data?.content,
     editContent,
-    previewContent,
   ]);
 
   if (!data?.content) {

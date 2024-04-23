@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
-import { previewContentAction } from "src/lib/preview/preview.gql";
 import { useMutation, useQuery } from "urql";
 import { Card, Stack } from "@mui/material";
 
@@ -29,7 +28,6 @@ export function DocumentPage() {
   const [hasChanged, setHasChanged] = useState(false);
   const [jsonData, setJsonData] = useState<string>("{}");
   const [, executeUpdate] = useMutation(updateDocumentMutation);
-  const [, previewContent] = useMutation(previewContentAction);
   const { handleSubmit } = useForm();
 
   useEffect(() => {
@@ -54,23 +52,8 @@ export function DocumentPage() {
       console.error("update impossible");
       return;
     }
-    const { cdtnId, source, document, metaDescription, text, title } =
-      data?.document;
     if (errorUpdate) {
       console.error("update impossible", errorUpdate.message);
-    }
-    const response: any = previewContent({
-      cdtnId,
-      document: {
-        ...document,
-        metaDescription,
-        text,
-        title,
-      },
-      source,
-    });
-    if (response.error) {
-      console.error("preview impossible", response.error.message);
     }
   }
 

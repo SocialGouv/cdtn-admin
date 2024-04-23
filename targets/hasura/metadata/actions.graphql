@@ -1,12 +1,4 @@
 type Mutation {
-  preview_document(
-    cdtnId: String!
-    document: jsonb!
-    source: String!
-  ): Status
-}
-
-type Mutation {
   publish(
     id: uuid!
     source: String!
