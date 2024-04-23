@@ -128,32 +128,6 @@ export function EditInformationPage() {
     previewContent,
   ]);
 
-  const onSubmitPrequalified = onSubmit<PrequalifiedContent>(
-    (contentItem: PrequalifiedContent) => {
-      const relationIds = getContentRelationIds(contentItem.contentRelations);
-      const relations = mapContentRelations(
-        contentItem.contentRelations,
-        router.query.id as string
-      );
-      return {
-        cdtnId: data?.content?.cdtnId,
-        document: contentItem.document,
-        metaDescription: contentItem.title,
-        relationIds,
-        relations,
-        slug: contentItem?.slug || slugify(contentItem?.title as string),
-        title: contentItem?.title,
-      };
-    }
-  );
-
-  const onSubmitPrequalifiedMemo = useCallback(onSubmitPrequalified, [
-    router,
-    data?.content,
-    editContent,
-    previewContent,
-  ]);
-
   if (!data?.content) {
     return <span>Chargement...</span>;
   }
