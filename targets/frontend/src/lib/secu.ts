@@ -21,7 +21,7 @@ const isAllowedFile = (file: formidable.File) => {
     .split(".")
     .reverse()[0];
   if (!extension) return false;
-  return ALLOWED_EXTENSIONS.includes(extension);
+  return ALLOWED_EXTENSIONS.includes("." + extension);
 };
 
 export const isUploadFileSafe = (file: formidable.File): Promise<boolean> => {

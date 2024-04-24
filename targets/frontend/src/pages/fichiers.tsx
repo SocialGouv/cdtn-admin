@@ -66,8 +66,12 @@ function FilesPage() {
           mutate();
         }, 3000);
       })
-      .catch(() => {
-        alert("Impossible de supprimer le fichier :/");
+      .catch((err) => {
+        console.log(JSON.stringify(err));
+        alert(
+          "Impossible de supprimer le fichier :/, le message d'erreur est : " +
+            JSON.stringify(err.data.errorMessage)
+        );
       })
       .finally(() => {
         setUploading(false);
