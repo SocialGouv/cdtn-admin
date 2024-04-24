@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.41.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.4...v2.41.5) (2024-04-24)
+
+### Bug Fixes
+
+- **outils de contrib:** nettoyage de fichiers non utilisés ([#1360](https://github.com/SocialGouv/cdtn-admin/issues/1360)) ([740abdd](https://github.com/SocialGouv/cdtn-admin/commit/740abdd37c92e6b2ebb6e4417adae8b8882e8b04))
+- remonter les message applicables cc non etendu dans tous les cas ([#1358](https://github.com/SocialGouv/cdtn-admin/issues/1358)) ([33e9ad2](https://github.com/SocialGouv/cdtn-admin/commit/33e9ad29d9d5390f4f7df762e5f68dc40d8d9946))
+- **upload:** bug sur l'ajout de l'extension ([#1367](https://github.com/SocialGouv/cdtn-admin/issues/1367)) ([5f94886](https://github.com/SocialGouv/cdtn-admin/commit/5f948869bb445883882588985fd8a21e384a4ed4))
+
 ## [2.41.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.3...v2.41.4) (2024-04-09)
 
 ### Bug Fixes

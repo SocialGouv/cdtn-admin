@@ -1,6 +1,6 @@
 {
   "name": "@shared/utils",
-  "version": "2.41.4",
+  "version": "2.41.5",
   "dependencies": {
     "@socialgouv/cdtn-sources": "^4.91.1",
     "@socialgouv/cdtn-utils": "^4.109.0",
