@@ -15,7 +15,7 @@ const ALLOWED_EXTENSIONS = [
   ...ALLOWED_DOC,
 ];
 
-const isAllowedFile = (file: formidable.File) => {
+export const isAllowedFile = (file: formidable.File) => {
   const extension = file.originalFilename
     ?.toLowerCase()
     .split(".")
