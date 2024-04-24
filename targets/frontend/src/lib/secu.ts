@@ -15,13 +15,13 @@ const ALLOWED_EXTENSIONS = [
   ...ALLOWED_DOC,
 ];
 
-const isAllowedFile = (file: formidable.File) => {
+export const isAllowedFile = (file: formidable.File) => {
   const extension = file.originalFilename
     ?.toLowerCase()
     .split(".")
     .reverse()[0];
   if (!extension) return false;
-  return ALLOWED_EXTENSIONS.includes(extension);
+  return ALLOWED_EXTENSIONS.includes("." + extension);
 };
 
 export const isUploadFileSafe = (file: formidable.File): Promise<boolean> => {
