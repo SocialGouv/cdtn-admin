@@ -1,6 +1,6 @@
 import "../export";
 
-import { Environment, Status } from "@shared/types";
+import { Environment, Status } from "@socialgouv/cdtn-types";
 import bodyParser from "body-parser";
 import type { NextFunction, Request, Response } from "express";
 import { Container } from "inversify";

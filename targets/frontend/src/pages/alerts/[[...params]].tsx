@@ -1,5 +1,5 @@
 import { Accordion } from "@reach/accordion";
-import { HasuraAlert } from "@shared/types";
+import { HasuraAlert } from "@socialgouv/cdtn-types";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { IoIosInformationCircleOutline } from "react-icons/io";

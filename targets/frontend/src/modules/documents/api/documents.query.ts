@@ -1,4 +1,4 @@
-import { Document } from "@shared/types";
+import { Document } from "@socialgouv/cdtn-types";
 import { ApiClient } from "src/lib/api";
 
 const query = `query documents($source: String!, $initialId: String) {

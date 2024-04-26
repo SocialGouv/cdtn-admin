@@ -3,7 +3,7 @@ import {
   getContributionAnswerById,
   getGenericAnswerByQuestionId,
 } from "./query";
-import { ContributionsAnswers } from "@shared/types";
+import { ContributionsAnswers } from "@socialgouv/cdtn-types";
 
 interface FetchContribPkData {
   contribution_answers_by_pk: ContributionsAnswers;

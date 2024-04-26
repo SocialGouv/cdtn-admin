@@ -3,7 +3,7 @@ import getEditorialContentReferences from "./extractReferences/editorialContents
 import getTravailEmploiReferences from "./extractReferences/ficheTravailEmploi";
 import getMailTemplateReferences from "./extractReferences/mailTemplates";
 import { DilaChanges } from "./types";
-import { DocumentReferences } from "@shared/types";
+import { DocumentReferences } from "@socialgouv/cdtn-types";
 
 export interface RelevantDocumentsExtractor {
   extractReferences({

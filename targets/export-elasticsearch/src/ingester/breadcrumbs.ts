@@ -1,7 +1,7 @@
 import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
 
 import type { Theme } from "./types/themes";
-import { Breadcrumbs } from "@shared/types";
+import { Breadcrumbs } from "@socialgouv/cdtn-types";
 
 export type GetBreadcrumbsFn = (cdtnId: string) => Breadcrumbs[];
 

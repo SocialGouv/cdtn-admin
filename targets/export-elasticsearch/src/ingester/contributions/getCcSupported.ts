@@ -1,7 +1,7 @@
 import {
   ContributionDocumentJson,
   DocumentElasticWithSource,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 
 // TODO: à enlever lorsqu'on supporte la nouvelle CC de la métallurgie (3248)
 const OLD_METALLURGIE_INDEX_4 = [

@@ -1,6 +1,6 @@
 import { useQuery } from "urql";
 import { SourceRoute, SOURCES } from "@socialgouv/cdtn-sources";
-import { Document } from "@shared/types";
+import { Document } from "@socialgouv/cdtn-types";
 import { groupBy } from "graphql/jsutils/groupBy";
 
 export const getDocumentsUpdatedAfterDateQuery = `

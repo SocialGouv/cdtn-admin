@@ -1,6 +1,6 @@
 import { GetBreadcrumbsFn } from "../breadcrumbs";
 import { fetchLinkedContent } from "./fetchLinkedContent";
-import { Breadcrumbs, ExportFullLinkedContent } from "@shared/types";
+import { Breadcrumbs, ExportFullLinkedContent } from "@socialgouv/cdtn-types";
 import { ContributionElasticDocumentLightRelatedContent } from "./generate";
 import { isReferencingGenericContribution } from "./helpers";
 

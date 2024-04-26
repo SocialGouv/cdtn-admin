@@ -1,4 +1,4 @@
-import type { DocumentReferences } from "@shared/types";
+import type { DocumentReferences } from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { queryContributionsReferences } from "./queryContributionsReferences";
 import {

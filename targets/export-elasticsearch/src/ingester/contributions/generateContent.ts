@@ -2,7 +2,7 @@ import {
   ContributionContent,
   ContributionDocumentJson,
   DocumentElasticWithSource,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { fetchFicheSp } from "./fetchFicheSp";
 
 export const generateContent = async (

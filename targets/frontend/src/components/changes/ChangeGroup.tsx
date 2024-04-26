@@ -8,7 +8,7 @@ import type {
   DocumentReferences,
   FicheTravailEmploiInfo,
   FicheVddInfo,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import { Badge, Box, Card, List, ListItem } from "@mui/material";

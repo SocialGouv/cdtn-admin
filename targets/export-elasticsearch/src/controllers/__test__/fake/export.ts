@@ -1,5 +1,5 @@
-import type { ExportEsStatus } from "@shared/types";
-import { Environment, Status } from "@shared/types";
+import type { ExportEsStatus } from "@socialgouv/cdtn-types";
+import { Environment, Status } from "@socialgouv/cdtn-types";
 import { injectable } from "inversify";
 
 import { wait } from "../../../utils";

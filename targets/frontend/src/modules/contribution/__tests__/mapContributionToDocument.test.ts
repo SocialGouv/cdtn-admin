@@ -2,7 +2,7 @@ import {
   ContributionDocumentJson,
   ContributionsAnswers,
   Document,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { mapContributionToDocument } from "../mapContributionToDocument";
 
 describe("mapContributionToDocument", () => {

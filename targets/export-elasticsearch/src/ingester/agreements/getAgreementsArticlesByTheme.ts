@@ -2,7 +2,7 @@ import {
   KaliBlockByIdccResult,
   KaliArticlesByIdResult,
   ArticleByTheme,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { gqlClient, logger } from "@shared/utils";
 import { context } from "../context";
 import { detectNullInObject } from "../utils/detectNullInObject";
@@ -86,8 +86,10 @@ export function generateArticleByTheme(
 export default async function getAgreementsArticlesByTheme(
   idccNumber: number
 ): Promise<ArticleByTheme[]> {
-  const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
-  const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret") ||"admin1";
+  const HASURA_GRAPHQL_ENDPOINT =
+    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
+  const HASURA_GRAPHQL_ENDPOINT_SECRET =
+    context.get("cdtnAdminEndpointSecret") || "admin1";
   const resultKaliBlocks = await gqlClient({
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,

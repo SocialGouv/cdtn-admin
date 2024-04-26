@@ -1,4 +1,4 @@
-import { Environment } from "@shared/types";
+import { Environment } from "@socialgouv/cdtn-types";
 import type { NextFunction, Request, Response } from "express";
 import { injectable } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";

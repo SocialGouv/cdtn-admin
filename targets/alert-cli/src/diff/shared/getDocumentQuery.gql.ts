@@ -1,4 +1,4 @@
-import type { HasuraDocument } from "@shared/types";
+import type { HasuraDocument } from "@socialgouv/cdtn-types";
 
 export const getAllDocumentsBySourceQuery = `
 query getAllDocumentsBySource($source: [String!], $limit:Int=10,$offset:Int=0 ) {

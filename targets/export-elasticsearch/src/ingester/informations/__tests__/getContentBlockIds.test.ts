@@ -5,7 +5,7 @@ import {
   ContentType,
 } from "@socialgouv/cdtn-utils";
 import { getContentBlockIds } from "../getContentBlockIds";
-import { BaseContentPart, CONTENT_TYPE } from "@shared/types";
+import { BaseContentPart, CONTENT_TYPE } from "@socialgouv/cdtn-types";
 
 describe("function getContentBlockIds", () => {
   const mockedContent: BaseContentPart = {

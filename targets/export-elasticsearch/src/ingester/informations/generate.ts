@@ -1,4 +1,7 @@
-import { DocumentElasticWithSource, EditorialContentDoc } from "@shared/types";
+import {
+  DocumentElasticWithSource,
+  EditorialContentDoc,
+} from "@socialgouv/cdtn-types";
 import { markdownTransform } from "./markdown";
 import { getRelatedIdsDocuments } from "./getRelatedIdsDocuments";
 

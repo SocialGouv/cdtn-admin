@@ -1,5 +1,5 @@
 import { createGetArticleReference, extractArticleId } from "@shared/utils";
-import type { DocumentReferences, MailTemplate } from "@shared/types";
+import type { DocumentReferences, MailTemplate } from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { DilaApiClient } from "@socialgouv/dila-api-client";
 import memoizee from "memoizee";

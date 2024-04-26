@@ -11,7 +11,7 @@ import type {
   DocumentWithRelation,
   Relation,
 } from "../types/Glossary";
-import { Breadcrumbs } from "@shared/types";
+import { Breadcrumbs } from "@socialgouv/cdtn-types";
 import { gqlClient } from "@shared/utils";
 
 const PAGE_SIZE = process.env.FETCH_PAGE_SIZE

@@ -1,4 +1,4 @@
-import { BaseContentPart, CONTENT_TYPE } from "@shared/types";
+import { BaseContentPart, CONTENT_TYPE } from "@socialgouv/cdtn-types";
 
 export const getContentBlockIds = (data: BaseContentPart[]): string[] => {
   return data.reduce((idsAcc: string[], content) => {

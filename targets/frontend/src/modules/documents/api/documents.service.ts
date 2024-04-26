@@ -10,7 +10,7 @@ import {
 } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { Model } from "../../models";
-import { AgreementDoc, Document } from "@shared/types";
+import { AgreementDoc, Document } from "@socialgouv/cdtn-types";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
 import { AgreementRepository } from "../../agreements/api";
 import { Agreement } from "../../agreements";

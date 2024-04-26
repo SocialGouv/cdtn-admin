@@ -1,4 +1,4 @@
-import { ContributionContent } from "@shared/types";
+import { ContributionContent } from "@socialgouv/cdtn-types";
 import { fetchFicheSp } from "../fetchFicheSp";
 import { generateContent } from "../generateContent";
 

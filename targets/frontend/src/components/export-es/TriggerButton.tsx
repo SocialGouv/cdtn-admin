@@ -1,4 +1,4 @@
-import { Status } from "@shared/types";
+import { Status } from "@socialgouv/cdtn-types";
 import React, { ReactNode } from "react";
 import { MdSyncProblem, MdTimelapse, MdTimerOff } from "react-icons/md";
 import { Chip } from "@mui/material";

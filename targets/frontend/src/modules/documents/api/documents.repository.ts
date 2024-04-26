@@ -9,7 +9,7 @@ import {
   queryDocument,
   queryDocumentBySlug,
 } from "./documents.query";
-import { Document } from "@shared/types";
+import { Document } from "@socialgouv/cdtn-types";
 
 export class DocumentsRepository {
   client: ApiClient;

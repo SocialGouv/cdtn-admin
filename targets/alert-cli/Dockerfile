@@ -12,7 +12,7 @@ RUN yarn fetch workspaces focus alert-cli
 
 FROM deps AS build-types
 COPY shared/types ./shared/types/
-RUN yarn workspace @shared/types build
+RUN yarn workspace @socialgouv/cdtn-types build
 
 FROM deps AS build-utils
 COPY --from=build-types /app/shared/types /app/shared/types

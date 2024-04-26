@@ -1,4 +1,4 @@
-import type { DocumentReferences } from "@shared/types";
+import type { DocumentReferences } from "@socialgouv/cdtn-types";
 import memoizee from "memoizee";
 import { getContributionsReferences } from "./getContributionsReferences";
 

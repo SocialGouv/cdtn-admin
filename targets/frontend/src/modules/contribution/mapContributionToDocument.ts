@@ -2,7 +2,7 @@ import {
   ContributionDocumentJson,
   ContributionsAnswers,
   Document,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getReferences } from "./getReferences";
 import { generateCdtnId } from "@shared/utils";

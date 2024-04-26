@@ -2,7 +2,7 @@ import {
   CONTENT_TYPE,
   DocumentElasticWithSource,
   EditorialContentDoc,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { RelatedDocuments } from "../common/populateRelatedDocuments";
 
 export const mergeRelatedDocumentsToEditorialContents = (

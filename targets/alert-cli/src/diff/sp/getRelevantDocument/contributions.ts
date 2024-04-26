@@ -1,4 +1,7 @@
-import type { DocumentInfoWithCdtnRef, VddChanges } from "@shared/types";
+import type {
+  DocumentInfoWithCdtnRef,
+  VddChanges,
+} from "@socialgouv/cdtn-types";
 
 import { getContributionsWithFicheSp } from "./../getContributionsWithFicheSp";
 import { getContributionsCdtnReferences } from "../../shared/getContributionsCdtnReferences";

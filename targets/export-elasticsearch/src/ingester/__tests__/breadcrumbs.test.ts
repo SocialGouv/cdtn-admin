@@ -1,5 +1,5 @@
 import { getMainBreadcrumb } from "../breadcrumbs";
-import { Breadcrumbs } from "@shared/types";
+import { Breadcrumbs } from "@socialgouv/cdtn-types";
 
 describe("getMainBreadcrumb", () => {
   test("Vérifier que le breadcrumbs avec la plus petite position remonte", () => {

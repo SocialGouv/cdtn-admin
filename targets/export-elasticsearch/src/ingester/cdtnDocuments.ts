@@ -5,7 +5,7 @@ import {
   EditorialContentDoc,
   ExportEsStatus,
   FicheTravailEmploiDoc,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 

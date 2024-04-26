@@ -9,9 +9,9 @@ import {
   KeysToCamelCase,
   MarkdownContentPart,
   Prequalified,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 
-export * from "@shared/types";
+export * from "@socialgouv/cdtn-types";
 
 export type PrequalifiedContent = Prequalified & {
   contentRelations: ContentRelation[];

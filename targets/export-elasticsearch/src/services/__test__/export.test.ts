@@ -1,4 +1,4 @@
-import { Environment, Status } from "@shared/types";
+import { Environment, Status } from "@socialgouv/cdtn-types";
 import timekeeper from "timekeeper";
 
 import { ExportRepository } from "../../repositories";

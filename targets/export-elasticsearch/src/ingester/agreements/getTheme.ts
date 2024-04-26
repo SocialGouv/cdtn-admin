@@ -1,4 +1,4 @@
-import { ContributionElasticDocument } from "@shared/types";
+import { ContributionElasticDocument } from "@socialgouv/cdtn-types";
 
 export function getTheme(
   data: ContributionElasticDocument

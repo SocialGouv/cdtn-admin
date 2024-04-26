@@ -1,4 +1,4 @@
-import { Breadcrumbs } from "@shared/types";
+import { Breadcrumbs } from "@socialgouv/cdtn-types";
 import type { GraphQLResponseRoot } from "./GraphQL";
 
 export type DocumentBySourceResponse = GraphQLResponseRoot<Data>;

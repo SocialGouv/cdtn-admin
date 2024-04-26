@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 
 import { S3Repository } from "../repositories";
 import { getName, name } from "../utils";
-import { Environment } from "@shared/types";
+import { Environment } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
 
 @injectable()

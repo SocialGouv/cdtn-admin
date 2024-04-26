@@ -4,7 +4,7 @@ import {
   CONTENT_TYPE,
   DocumentElasticWithSource,
   EditorialContentDoc,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 
 describe("mergeRelatedDocumentsToEditorialContents", () => {
   const editorialContents = [

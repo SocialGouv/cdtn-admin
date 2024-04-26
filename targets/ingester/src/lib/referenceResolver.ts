@@ -1,4 +1,4 @@
-import type { TravailEmploiReference } from "@shared/types";
+import type { TravailEmploiReference } from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import find from "unist-util-find";

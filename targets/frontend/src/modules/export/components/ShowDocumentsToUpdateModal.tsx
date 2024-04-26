@@ -2,7 +2,7 @@ import { ConfirmModal } from "../../common/components/modals/ConfirmModal";
 import DocumentList from "./document-list";
 import React, { useEffect, useState } from "react";
 import { useDocumentsQuery } from "../document.query";
-import { ShortDocument } from "@shared/types";
+import { ShortDocument } from "@socialgouv/cdtn-types";
 
 export type ConfirmModalProps = {
   open: boolean;

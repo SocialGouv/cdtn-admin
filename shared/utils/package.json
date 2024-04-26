@@ -22,7 +22,7 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@shared/types": "workspace:^",
+    "@socialgouv/cdtn-types": "workspace:^",
     "@swc/jest": "^0.2.29",
     "@types/uuid": "^9.0.5",
     "@types/xxhashjs": "^0.2.2",

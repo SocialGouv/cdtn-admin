@@ -3,7 +3,7 @@ import {
   AgreementGenerated,
   ContributionElasticDocument,
   ExportAnswer,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { DocumentElasticWithSource } from "../types/Glossary";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getIDCCs } from "./getIdcc";

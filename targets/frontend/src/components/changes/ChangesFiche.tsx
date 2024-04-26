@@ -1,5 +1,5 @@
 import { Chip } from "@mui/material";
-import { DocumentInfoWithCdtnRef } from "@shared/types";
+import { DocumentInfoWithCdtnRef } from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import { theme } from "src/theme";

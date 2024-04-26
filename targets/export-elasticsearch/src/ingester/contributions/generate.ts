@@ -8,7 +8,7 @@ import {
   ContributionHighlight,
   DocumentElasticWithSource,
   ContributionLinkedContent,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { generateMetadata } from "./generateMetadata";
 import { isGenericContribution, isGenericNotCdtContribution } from "./helpers";
 import { getCcSupported } from "./getCcSupported";

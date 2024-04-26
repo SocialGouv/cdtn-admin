@@ -1,7 +1,7 @@
 import { generateLinkedContent } from "../generateLinkedContent";
 import { fetchLinkedContent, LinkedContentLight } from "../fetchLinkedContent";
 import { ContributionElasticDocumentLightRelatedContent } from "../generate";
-import { Breadcrumbs } from "@shared/types";
+import { Breadcrumbs } from "@socialgouv/cdtn-types";
 
 jest.mock("../fetchLinkedContent");
 

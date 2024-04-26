@@ -4,7 +4,7 @@ import type {
   DilaModifiedNode,
   DilaRemovedNode,
   DocumentReferences,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import type {
   AgreementArticle,
   AgreementArticleData,

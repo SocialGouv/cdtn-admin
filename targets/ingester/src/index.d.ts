@@ -7,7 +7,7 @@ import {
   LegalRef,
   FicheServicePublicDoc,
   GenericAnswer,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 
 export as namespace ingester;
 

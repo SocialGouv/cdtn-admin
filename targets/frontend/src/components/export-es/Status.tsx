@@ -1,4 +1,4 @@
-import { Status as StatusType } from "@shared/types";
+import { Status as StatusType } from "@socialgouv/cdtn-types";
 import {
   Box,
   CircularProgress,

@@ -1,7 +1,7 @@
 import {
   ContributionDocumentJson,
   DocumentElasticWithSource,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { fetchMessageBlock } from "./fetchMessageBlock";
 import { fetchAgreementMessage } from "./fetchAgreementMessage";
 

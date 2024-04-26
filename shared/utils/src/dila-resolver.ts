@@ -2,7 +2,7 @@ import type {
   DocumentReference,
   ArticlePayload,
   ArticleVersion,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import type DilaApiClient from "@socialgouv/dila-api-client";
 
 function createGetArticleReference(client: DilaApiClient) {

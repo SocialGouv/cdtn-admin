@@ -1,4 +1,4 @@
-import { AlertChanges, AlertInfo, HasuraAlert } from "@shared/types";
+import { AlertChanges, AlertInfo, HasuraAlert } from "@socialgouv/cdtn-types";
 import { batchPromises } from "../utils/batch-promises";
 import { DaresAlertInsert } from "../dares/types";
 import { GqlClient } from "@shared/utils";

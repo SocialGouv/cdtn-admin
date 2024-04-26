@@ -1,4 +1,4 @@
-import { HasuraDocument } from "@shared/types";
+import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { gql, useQuery } from "urql";
 import Link from "next/link";
 import { Card, CardContent, Typography } from "@mui/material";

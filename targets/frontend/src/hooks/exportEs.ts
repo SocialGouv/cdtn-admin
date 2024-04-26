@@ -1,4 +1,4 @@
-import { Environment, ExportEsStatus, Status } from "@shared/types";
+import { Environment, ExportEsStatus, Status } from "@socialgouv/cdtn-types";
 import { Session } from "next-auth";
 import { useState } from "react";
 import { serializeError } from "serialize-error";
