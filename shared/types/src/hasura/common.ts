@@ -1,9 +1,9 @@
 import { SourceRoute } from "@socialgouv/cdtn-sources";
 
-export type Document<T> = {
+export type HasuraDocument<T, U extends SourceRoute = SourceRoute> = {
   cdtn_id: string;
   initial_id: string;
-  source: SourceRoute;
+  source: U;
   document: T;
   slug: string;
   text: string;
@@ -14,7 +14,7 @@ export type Document<T> = {
   is_published: boolean;
 };
 
-export type ShortDocument<T> = Pick<
-  Document<T>,
+export type ShortHasuraDocument<T> = Pick<
+  HasuraDocument<T>,
   "source" | "slug" | "title" | "initial_id" | "cdtn_id"
 > & { isPublished: boolean };

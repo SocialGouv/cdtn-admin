@@ -1,6 +1,6 @@
 import {
   AgreementDoc,
-  AgreementGenerated,
+  ElasticAgreement,
   ContributionElasticDocument,
   ExportAnswer,
 } from "@socialgouv/cdtn-types";
@@ -18,7 +18,7 @@ const DESCRIPTION =
 export const generateAgreements = async (
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
   contributions: ContributionElasticDocument[]
-): Promise<AgreementGenerated[]> => {
+): Promise<ElasticAgreement[]> => {
   return await pMap(
     ccnData,
     async (cc) => {
@@ -47,7 +47,7 @@ export const generateAgreements = async (
 
       const articlesByTheme = await getAgreementsArticlesByTheme(cc.num);
 
-      const agreementGenerated: AgreementGenerated = {
+      const agreementGenerated: ElasticAgreement = {
         ...cc,
         answers,
         articlesByTheme,

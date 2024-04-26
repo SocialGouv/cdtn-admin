@@ -1,8 +1,5 @@
-import {
-  ContributionDocumentJson,
-  ContributionHighlight,
-} from "../contributions";
-import { Breadcrumbs, DocumentElasticWithSource } from "./global";
+import { ContributionDocumentJson, ContributionHighlight } from "../hasura";
+import { Breadcrumb, DocumentElasticWithSource } from "./common";
 
 export interface ContributionConventionnelInfos {
   ccnSlug: string;
@@ -39,7 +36,7 @@ export type ContributionContent =
   | ContributionGenericNoCDTContent;
 
 export interface ExportFullLinkedContent {
-  breadcrumbs: Breadcrumbs[];
+  breadcrumbs: Breadcrumb[];
   description: string;
   source: string;
   slug: string;
@@ -51,17 +48,34 @@ export interface ExportContributionFullLinkedContent {
 }
 
 type ExportContributionInfo = {
-  breadcrumbs: Breadcrumbs[];
+  breadcrumbs: Breadcrumb[];
   highlight?: ContributionHighlight;
   messageBlock?: string;
 };
 
-export type ContributionElasticDocument = Omit<
+type ContributionElasticDocumentBase = Omit<
   DocumentElasticWithSource<Omit<ContributionDocumentJson, "linkedContent">>,
   "breadcrumbs"
 > &
   ContributionMetadata &
   ContributionContent &
   ExportContributionFullLinkedContent &
-  ExportContributionInfo &
+  ExportContributionInfo;
+
+export type ContributionElasticDocument = ContributionElasticDocumentBase &
   (ContributionGenericInfos | ContributionConventionnelInfos);
+
+export type ElasticSearchContributionGeneric = ContributionElasticDocumentBase &
+  ContributionGenericInfos;
+
+export type ElasticSearchContributionConventionnelle =
+  ContributionElasticDocumentBase & ContributionConventionnelInfos;
+
+export type ElasticSearchContribution =
+  | ElasticSearchContributionGeneric
+  | ElasticSearchContributionConventionnelle;
+
+export type ElasticSearchContributionWithInfoMessage =
+  ElasticSearchContribution & {
+    infoMessage: string;
+  };

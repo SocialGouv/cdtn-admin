@@ -1,7 +1,8 @@
-import { AgreementDoc, ContributionElasticDocument } from "../index";
-import { DocumentElasticWithSource } from "./global";
+import { AgreementDoc } from "../hasura";
+import { DocumentElasticWithSource } from "./common";
+import { ContributionElasticDocument } from "./contributions";
 
-export type AgreementGenerated = DocumentElasticWithSource<AgreementDoc> & {
+export type ElasticAgreement = DocumentElasticWithSource<AgreementDoc> & {
   articlesByTheme: ArticleByTheme[];
   source: "conventions_collectives";
   description: string;
@@ -10,7 +11,6 @@ export type AgreementGenerated = DocumentElasticWithSource<AgreementDoc> & {
 };
 
 // Type pour les réponses
-
 export type ExportAnswer = ContributionElasticDocument & {
   theme?: string;
   infoMessage: string;

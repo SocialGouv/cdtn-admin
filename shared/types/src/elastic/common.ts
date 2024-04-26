@@ -1,7 +1,7 @@
 export type DocumentElasticWithSource<T> = DocumentElastic & T;
 
 export type DocumentRef = {
-  breadcrumbs: Breadcrumbs[];
+  breadcrumbs: Breadcrumb[];
   cdtnId: string;
   description: string;
   slug: string;
@@ -10,7 +10,7 @@ export type DocumentRef = {
   url: string | undefined;
 };
 
-export type Breadcrumbs = {
+export type Breadcrumb = {
   label: string;
   position: number;
   slug: string;
@@ -19,7 +19,7 @@ export type Breadcrumbs = {
 export type DocumentElastic = {
   id: string;
   cdtnId: string;
-  breadcrumbs: Breadcrumbs[];
+  breadcrumbs: Breadcrumb[];
   title: string;
   slug: string;
   source: string;
@@ -33,7 +33,7 @@ export type DocumentElastic = {
 export type RelatedDocument = {
   id: string;
   cdtnId: string;
-  breadcrumbs: Breadcrumbs[];
+  breadcrumbs: Breadcrumb[];
   title: string;
   slug: string;
   source: string;
