@@ -1,4 +1,4 @@
-import { Document } from "@socialgouv/cdtn-types";
+import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { ApiClient } from "src/lib/api";
 
 const query = `query documents($source: String!, $initialId: String) {
@@ -34,7 +34,7 @@ const fetchDocumentBySlug = `
   }
 `;
 
-export type QueryDocument = Document<any>;
+export type QueryDocument = HasuraDocument<any>;
 
 export type QueryDocumentResult = {
   documents: QueryDocument[];
@@ -53,7 +53,7 @@ export type DocumentsQueryBySlugProps = {
 export const queryDocument = async (
   client: ApiClient,
   variables: DocumentsQueryProps
-): Promise<Document<any> | undefined> => {
+): Promise<HasuraDocument<any> | undefined> => {
   const { data: result, error } = await client.query<QueryDocumentResult>(
     query,
     variables
@@ -70,7 +70,7 @@ export const queryDocument = async (
 export const queryDocumentBySlug = async (
   client: ApiClient,
   variables: DocumentsQueryBySlugProps
-): Promise<Document<any> | undefined> => {
+): Promise<HasuraDocument<any> | undefined> => {
   const { data: result, error } = await client.query<QueryDocumentResult>(
     fetchDocumentBySlug,
     variables

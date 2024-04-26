@@ -1,7 +1,7 @@
 import { RelatedDocuments } from "../../common/populateRelatedDocuments";
 import { mergeRelatedDocumentsToEditorialContents } from "../mergeRelatedDocumentsToEditorialContents";
 import {
-  CONTENT_TYPE,
+  EditorialContentType,
   DocumentElasticWithSource,
   EditorialContentDoc,
 } from "@socialgouv/cdtn-types";
@@ -15,7 +15,7 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
           id: "1",
           blocks: [
             {
-              type: CONTENT_TYPE.content,
+              type: EditorialContentType.content,
               contents: [{ cdtnId: "id1" }, { cdtnId: "id2" }],
             },
           ],
@@ -58,7 +58,7 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
             id: "1",
             blocks: [
               {
-                type: CONTENT_TYPE.content,
+                type: EditorialContentType.content,
                 contents: [
                   {
                     id: "1",

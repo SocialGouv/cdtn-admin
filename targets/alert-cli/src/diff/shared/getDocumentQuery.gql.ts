@@ -17,7 +17,7 @@ query getAllDocumentsBySource($source: [String!], $limit:Int=10,$offset:Int=0 ) 
 `;
 
 export type HasuraDocumentForAlert = Pick<
-  HasuraDocument,
+  HasuraDocument<any>,
   "source" | "title"
 > & {
   initialId: string;
@@ -72,14 +72,14 @@ query($source: [String!], $limit:Int=10,$offset:Int=0 ) {
 `;
 
 export type HasuraDocumentWithRelations = Pick<
-  HasuraDocument,
+  HasuraDocument<any>,
   "source" | "title"
 > & {
   cdtnId: string;
   isPublished: boolean;
   contentRelations: {
     position: number;
-    document: Pick<HasuraDocument, "slug" | "source" | "title"> & {
+    document: Pick<HasuraDocument<any>, "slug" | "source" | "title"> & {
       initialId: string;
     };
   }[];

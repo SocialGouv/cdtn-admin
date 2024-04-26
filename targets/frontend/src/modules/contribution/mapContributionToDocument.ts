@@ -1,7 +1,7 @@
 import {
   ContributionDocumentJson,
   ContributionsAnswers,
-  Document,
+  HasuraDocument,
 } from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getReferences } from "./getReferences";
@@ -62,11 +62,11 @@ async function getBaseDocument(
 
 export const mapContributionToDocument = async (
   data: ContributionsAnswers,
-  document: Document<ContributionDocumentJson> | undefined,
+  document: HasuraDocument<ContributionDocumentJson> | undefined,
   fetchGenericAnswer: (
     questionId: string
   ) => Promise<Partial<ContributionsAnswers>>
-): Promise<Document<ContributionDocumentJson> | undefined> => {
+): Promise<HasuraDocument<ContributionDocumentJson> | undefined> => {
   const baseDoc = await getBaseDocument(data, fetchGenericAnswer);
   if (!baseDoc) return;
 

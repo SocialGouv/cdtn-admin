@@ -19,7 +19,8 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w",
-    "test": "jest"
+    "test": "jest",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@socialgouv/cdtn-types": "workspace:^",

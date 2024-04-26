@@ -1,3 +1,5 @@
+import { SourceRoute } from "@socialgouv/cdtn-sources";
+
 export type DocumentElasticWithSource<T> = DocumentElastic & T;
 
 export type DocumentRef = {
@@ -5,7 +7,7 @@ export type DocumentRef = {
   cdtnId: string;
   description: string;
   slug: string;
-  source: string;
+  source: SourceRoute;
   title: string;
   url: string | undefined;
 };
@@ -22,7 +24,7 @@ export type DocumentElastic = {
   breadcrumbs: Breadcrumb[];
   title: string;
   slug: string;
-  source: string;
+  source: SourceRoute;
   text: string;
   isPublished: boolean;
   excludeFromSearch: boolean;
@@ -36,7 +38,7 @@ export type RelatedDocument = {
   breadcrumbs: Breadcrumb[];
   title: string;
   slug: string;
-  source: string;
+  source: SourceRoute;
   description: string;
   icon?: string; // Pour afficher l'icon du simulateur dans la tuile
   action?: string; // Pour afficher le texte du bouton pour le simulateur dans la tuile

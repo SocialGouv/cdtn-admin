@@ -2,7 +2,7 @@ import { ConfirmModal } from "../../common/components/modals/ConfirmModal";
 import DocumentList from "./document-list";
 import React, { useEffect, useState } from "react";
 import { useDocumentsQuery } from "../document.query";
-import { ShortDocument } from "@socialgouv/cdtn-types";
+import { ShortHasuraDocument } from "@socialgouv/cdtn-types";
 
 export type ConfirmModalProps = {
   open: boolean;
@@ -22,7 +22,7 @@ export function ShowDocumentsToUpdateModal({
   date,
 }: ConfirmModalProps): JSX.Element {
   const [isLoadingDocs, setIsLoadingDocs] = useState<boolean>(true);
-  const [docsToUpdate] = useState<ShortDocument<any>[]>([]);
+  const [docsToUpdate] = useState<ShortHasuraDocument<any>[]>([]);
   const docs = useDocumentsQuery({ date });
 
   useEffect(() => {

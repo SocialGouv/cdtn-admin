@@ -11,7 +11,7 @@ export enum EditorialContentBlockDisplayMode {
   square = "square",
 }
 
-export type EditorialContentContent = {
+export type EditorialContentBaseContentPart = {
   name: string;
   title: string;
   references?: EditoralContentReferenceBloc[];
@@ -72,7 +72,7 @@ export type EditorialContentDoc = {
   intro: string;
   section_display_mode?: EditorialSectionDisplayMode;
   dismissalProcess?: boolean;
-  contents: EditorialContentContent[];
+  contents: EditorialContentBaseContentPart[];
   references?: EditoralContentReferenceBloc[];
   description: string;
 };

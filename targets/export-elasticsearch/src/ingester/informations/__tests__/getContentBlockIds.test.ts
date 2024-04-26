@@ -5,10 +5,13 @@ import {
   ContentType,
 } from "@socialgouv/cdtn-utils";
 import { getContentBlockIds } from "../getContentBlockIds";
-import { BaseContentPart, CONTENT_TYPE } from "@socialgouv/cdtn-types";
+import {
+  EditorialContentBaseContentPart,
+  EditorialContentType,
+} from "@socialgouv/cdtn-types";
 
 describe("function getContentBlockIds", () => {
-  const mockedContent: BaseContentPart = {
+  const mockedContent: EditorialContentBaseContentPart = {
     blocks: [],
     name: "name",
     references: [],
@@ -27,7 +30,7 @@ describe("function getContentBlockIds", () => {
     slug: "slug",
     source: "source",
   };
-  let props: BaseContentPart[];
+  let props: EditorialContentBaseContentPart[];
   let result: string[];
   beforeEach(() => {
     result = getContentBlockIds(props);
@@ -42,7 +45,7 @@ describe("function getContentBlockIds", () => {
             { ...mockedContentItem, cdtnId: "id1" },
             { ...mockedContentItem, cdtnId: "id2" },
           ],
-          type: CONTENT_TYPE.content,
+          type: EditorialContentType.content,
         },
       ];
     });
@@ -61,7 +64,7 @@ describe("function getContentBlockIds", () => {
             { ...mockedContentItem, cdtnId: "id1" },
             { ...mockedContentItem, cdtnId: "id3" },
           ],
-          type: CONTENT_TYPE.content,
+          type: EditorialContentType.content,
         },
       ];
     });

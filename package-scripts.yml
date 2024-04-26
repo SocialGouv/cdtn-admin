@@ -17,6 +17,9 @@ scripts:
   test:
     default: lerna run --stream --parallel test
 
+  type-check:
+    default: lerna run --stream --parallel type-check
+
   docker:
     up:
       default: docker-compose up --build postgres hasura

@@ -20,7 +20,8 @@
     "build:swc": "swc ./src -d build",
     "build:swc:watch": "swc ./src -d build -w",
     "run:ingester": "curl -X POST -H \"Content-Type: application/json\" -d '{\"environment\": \"preproduction\", \"userId\": \"3d6dddc4-e117-4772-9288-cd8a608693e4\"}' http://localhost:8787/export",
-    "lint": "npx eslint ./src --ext .ts"
+    "lint": "npx eslint ./src --ext .ts",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.523.0",

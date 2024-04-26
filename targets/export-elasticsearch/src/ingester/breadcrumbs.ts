@@ -1,11 +1,11 @@
 import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
 
 import type { Theme } from "./types/themes";
-import { Breadcrumbs } from "@socialgouv/cdtn-types";
+import { Breadcrumb } from "@socialgouv/cdtn-types";
 
-export type GetBreadcrumbsFn = (cdtnId: string) => Breadcrumbs[];
+export type GetBreadcrumbsFn = (cdtnId: string) => Breadcrumb[];
 
-function toBreadcrumbs(theme: Theme): Breadcrumbs {
+function toBreadcrumbs(theme: Theme): Breadcrumb {
   return {
     label: theme.title,
     position: theme.parentRelations[0].position,
@@ -13,7 +13,7 @@ function toBreadcrumbs(theme: Theme): Breadcrumbs {
   };
 }
 
-function minPositionBreadcrumb(breadcrumb: Breadcrumbs[]) {
+function minPositionBreadcrumb(breadcrumb: Breadcrumb[]) {
   return (
     breadcrumb.reduce<number | undefined>(
       (result, { position }) =>
@@ -24,9 +24,9 @@ function minPositionBreadcrumb(breadcrumb: Breadcrumbs[]) {
 }
 
 export function getMainBreadcrumb(
-  allBreadcrumbs: (Breadcrumbs[] | undefined)[] = []
+  allBreadcrumbs: (Breadcrumb[] | undefined)[] = []
 ) {
-  return allBreadcrumbs.reduce<Breadcrumbs[]>(
+  return allBreadcrumbs.reduce<Breadcrumb[]>(
     (topBreadcrumb, breadcrumb, index) => {
       if (index === 0) {
         return topBreadcrumb;
@@ -48,7 +48,7 @@ export function buildGetBreadcrumbs(themes: Theme[]): GetBreadcrumbsFn {
   // beware, this one is recursive
   // we might want to set a depth limit for safety reasons
   // it picks a relation and returns an array of all possible breadcrumbs
-  function buildAllBreadcrumbs(theme: Theme): (Breadcrumbs[] | undefined)[] {
+  function buildAllBreadcrumbs(theme: Theme): (Breadcrumb[] | undefined)[] {
     const currentBreadcrumb = toBreadcrumbs(theme);
     const parentTheme = themes.filter(
       (parentTheme) =>

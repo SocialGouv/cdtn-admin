@@ -40,7 +40,7 @@ export type DuplicateContentResult = {
 export type DuplicateDocument = {
   relations: Relation[];
 };
-type DocumentRef = Pick<HasuraDocument, "source" | "cdtn_id" | "title">;
+type DocumentRef = Pick<HasuraDocument<any>, "source" | "cdtn_id" | "title">;
 export type Relation = {
   type: string;
   data: Data;

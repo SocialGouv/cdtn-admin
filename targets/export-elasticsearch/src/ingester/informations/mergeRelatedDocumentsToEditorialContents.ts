@@ -1,5 +1,5 @@
 import {
-  CONTENT_TYPE,
+  EditorialContentType,
   DocumentElasticWithSource,
   EditorialContentDoc,
 } from "@socialgouv/cdtn-types";
@@ -12,7 +12,7 @@ export const mergeRelatedDocumentsToEditorialContents = (
   const augmentedEditorialContents = editorialContents.map((document) => {
     const contents = document.contents.map((content) => {
       const blocks = content.blocks.map((block) => {
-        if (block.type !== CONTENT_TYPE.content) return block;
+        if (block.type !== EditorialContentType.content) return block;
         const contents = block.contents.flatMap((blockContent) => {
           const contentFound = relatedDocuments[blockContent.cdtnId];
           if (!contentFound) {

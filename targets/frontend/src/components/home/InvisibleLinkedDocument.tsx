@@ -44,9 +44,12 @@ export const getGhostDocumentQuery = gql`
   }
 `;
 
-export type ParentRef = Pick<HasuraDocument, "cdtn_id" | "title" | "source">;
+export type ParentRef = Pick<
+  HasuraDocument<any>,
+  "cdtn_id" | "title" | "source"
+>;
 export type DocumentRef = Pick<
-  HasuraDocument,
+  HasuraDocument<any>,
   | "cdtn_id"
   | "initial_id"
   | "title"

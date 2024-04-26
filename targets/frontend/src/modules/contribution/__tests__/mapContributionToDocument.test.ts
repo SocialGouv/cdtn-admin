@@ -1,12 +1,12 @@
 import {
   ContributionDocumentJson,
   ContributionsAnswers,
-  Document,
+  HasuraDocument,
 } from "@socialgouv/cdtn-types";
 import { mapContributionToDocument } from "../mapContributionToDocument";
 
 describe("mapContributionToDocument", () => {
-  const inputDoc: Document<any> = {
+  const inputDoc: HasuraDocument<any> = {
     cdtn_id: "cdtn_id",
     initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
     title:
@@ -130,7 +130,7 @@ describe("mapContributionToDocument", () => {
       message_block_generic_no_CDT: null,
     };
 
-    const outputDoc: Document<ContributionDocumentJson> = {
+    const outputDoc: HasuraDocument<ContributionDocumentJson> = {
       cdtn_id: "cdtn_id",
       document: {
         content:
@@ -381,7 +381,7 @@ describe("mapContributionToDocument", () => {
         message_block_generic_no_CDT: null,
       };
 
-      const inputDoc: Document<any> = {
+      const inputDoc: HasuraDocument<any> = {
         cdtn_id: "cdtn_id",
         initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
         title:
@@ -464,7 +464,7 @@ describe("mapContributionToDocument", () => {
         message_block_generic_no_CDT: null,
       };
 
-      const inputDoc: Document<any> = {
+      const inputDoc: HasuraDocument<any> = {
         cdtn_id: "cdtn_id",
         initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
         title:

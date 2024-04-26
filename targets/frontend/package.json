@@ -99,6 +99,7 @@
     "start": "next start",
     "predev": "only-include-used-icons",
     "prebuild": "only-include-used-icons",
-    "test": "jest --silent"
+    "test": "jest --silent",
+    "type-check": "tsc --noEmit"
   }
 }

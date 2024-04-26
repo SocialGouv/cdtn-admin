@@ -1,4 +1,4 @@
-import { Breadcrumbs } from "@socialgouv/cdtn-types";
+import { Breadcrumb } from "@socialgouv/cdtn-types";
 import type { GraphQLResponseRoot } from "./GraphQL";
 
 export type DocumentBySourceResponse = GraphQLResponseRoot<Data>;
@@ -42,7 +42,7 @@ export type DocumentElasticWithSource<T> = DocumentElastic & T;
 export interface DocumentElastic {
   id: string;
   cdtnId: string;
-  breadcrumbs: Breadcrumbs[];
+  Breadcrumb: Breadcrumb[];
   title: string;
   slug: string;
   source: string;
@@ -62,7 +62,7 @@ export type AggregateDocumentBySource = GraphQLResponseRoot<{
 }>;
 
 export interface DocumentRef {
-  breadcrumbs: Breadcrumbs[];
+  Breadcrumb: Breadcrumb[];
   cdtnId: string;
   description: string;
   slug: string;

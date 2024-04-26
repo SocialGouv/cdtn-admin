@@ -1,9 +1,9 @@
 import { getMainBreadcrumb } from "../breadcrumbs";
-import { Breadcrumbs } from "@socialgouv/cdtn-types";
+import { Breadcrumb } from "@socialgouv/cdtn-types";
 
 describe("getMainBreadcrumb", () => {
   test("Vérifier que le breadcrumbs avec la plus petite position remonte", () => {
-    const breadcrumbs1: Breadcrumbs[] = [
+    const breadcrumbs1: Breadcrumb[] = [
       {
         label: "label1",
         position: 1,
@@ -15,7 +15,7 @@ describe("getMainBreadcrumb", () => {
         slug: "slug2",
       },
     ];
-    const breadcrumbs2: Breadcrumbs[] = [
+    const breadcrumbs2: Breadcrumb[] = [
       {
         label: "label2",
         position: 2,
@@ -31,7 +31,7 @@ describe("getMainBreadcrumb", () => {
     expect(result).toEqual(breadcrumbs1);
   });
   test("Vérifier que le breadcrumbs avec le moins de themes remonte en premier", () => {
-    const breadcrumbs1: Breadcrumbs[] = [
+    const breadcrumbs1: Breadcrumb[] = [
       {
         label: "label2",
         position: 2,
@@ -43,7 +43,7 @@ describe("getMainBreadcrumb", () => {
         slug: "slug3",
       },
     ];
-    const breadcrumbs2: Breadcrumbs[] = [
+    const breadcrumbs2: Breadcrumb[] = [
       {
         label: "label1",
         position: 1,

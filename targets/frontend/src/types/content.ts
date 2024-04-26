@@ -1,5 +1,5 @@
 import {
-  BaseContentPart,
+  EditorialContentBaseContentPart,
   EditoralContentReferenceBloc,
   EditorialContent,
   EditorialContentDoc,
@@ -32,7 +32,7 @@ export type TextSectionContent = MarkdownContentPart & {
 
 export type BlockSectionContent = ImageSectionContent | TextSectionContent;
 
-export type ContentSection = BaseContentPart & {
+export type ContentSection = EditorialContentBaseContentPart & {
   key: string;
 };
 

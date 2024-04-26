@@ -1,6 +1,6 @@
 import { useQuery } from "urql";
 import { SourceRoute, SOURCES } from "@socialgouv/cdtn-sources";
-import { Document } from "@socialgouv/cdtn-types";
+import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { groupBy } from "graphql/jsutils/groupBy";
 
 export const getDocumentsUpdatedAfterDateQuery = `
@@ -27,7 +27,7 @@ type DocumentWIthContentType = {
   document?: { contentType?: string; idcc?: string };
 };
 export type UpdatedDocument = Pick<
-  Document<unknown>,
+  HasuraDocument<unknown>,
   "title" | "source" | "slug" | "cdtn_id" | "initial_id" | "is_published"
 > &
   DocumentWIthContentType;
