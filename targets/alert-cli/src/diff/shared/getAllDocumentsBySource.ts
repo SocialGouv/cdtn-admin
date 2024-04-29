@@ -1,4 +1,4 @@
-import { SOURCES, type SourceValues } from "@socialgouv/cdtn-sources";
+import { SOURCES, type SourceValues } from "@socialgouv/cdtn-utils";
 import memoizee from "memoizee";
 
 import type {

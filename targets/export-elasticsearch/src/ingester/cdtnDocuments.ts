@@ -7,7 +7,7 @@ import {
   FicheTravailEmploiDoc,
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";
 import { buildThemes } from "./buildThemes";

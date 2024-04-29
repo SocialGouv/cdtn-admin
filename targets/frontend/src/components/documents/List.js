@@ -1,4 +1,4 @@
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { useSelectionContext } from "src/pages/contenus";

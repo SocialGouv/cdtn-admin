@@ -1,6 +1,5 @@
 import type { TravailEmploiReference } from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
-import { SOURCES } from "@socialgouv/cdtn-sources";
 import find from "unist-util-find";
 
 type DilaNode =
@@ -32,7 +31,7 @@ export function articleToReference(
     id: node.data.id,
     slug: slugify(title),
     title: title,
-    type: SOURCES.CDT,
+    type: "code_du_travail",
     url: getArticleUrl(node.data.id),
   };
 }

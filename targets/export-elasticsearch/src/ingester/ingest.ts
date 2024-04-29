@@ -10,7 +10,7 @@ import {
   version,
 } from "@socialgouv/cdtn-elasticsearch";
 import { logger } from "@shared/utils";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import pMap from "p-map";
 
 import { cdtnDocumentsGen } from "./cdtnDocuments";
