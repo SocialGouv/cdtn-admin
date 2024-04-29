@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 
 import { getDocumentsWithRelations } from "../getDocumentsWithRelations";
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 
 jest.mock("../createDocumentsFetcher", () => ({
   createDocumentsFetcher: () => async () =>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SourceRoute, getRouteBySource } from "@socialgouv/cdtn-utils";
+import { SourceRoute, getRouteBySource } from "@socialgouv/cdtn-sources";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 

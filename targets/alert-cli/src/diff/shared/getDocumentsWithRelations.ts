@@ -1,5 +1,5 @@
 import type { DocumentInfo } from "@socialgouv/cdtn-types";
-import { SourceValues } from "@socialgouv/cdtn-utils";
+import { SourceValues } from "@socialgouv/cdtn-sources";
 
 import { getDocumentsWithRelationsBySource } from "./getAllDocumentsBySource";
 

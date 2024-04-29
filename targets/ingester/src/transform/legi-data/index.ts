@@ -1,5 +1,5 @@
 import slugify from "@socialgouv/cdtn-slugify";
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import { selectAll } from "unist-util-select";
 
 import { loadCodeDuTravail } from "./data-loaders";

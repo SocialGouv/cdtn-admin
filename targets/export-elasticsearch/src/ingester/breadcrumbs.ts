@@ -1,4 +1,4 @@
-import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-utils";
+import { getRouteBySource, SOURCES } from "@socialgouv/cdtn-sources";
 
 import type { Theme } from "./types/themes";
 import { Breadcrumb } from "@socialgouv/cdtn-types";

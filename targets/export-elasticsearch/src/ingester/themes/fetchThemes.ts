@@ -1,7 +1,7 @@
 import { context } from "../context";
 import { gqlClient } from "@shared/utils";
 import { Data, Theme } from "../types/themes";
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 
 const graphQLThemesQuery = `
 {

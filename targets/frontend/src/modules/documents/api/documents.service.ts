@@ -14,7 +14,7 @@ import { AgreementDoc, HasuraDocument } from "@socialgouv/cdtn-types";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
 import { AgreementRepository } from "../../agreements/api";
 import { Agreement } from "../../agreements";
-import { SourceRoute } from "@socialgouv/cdtn-utils";
+import { SourceRoute } from "@socialgouv/cdtn-sources";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;

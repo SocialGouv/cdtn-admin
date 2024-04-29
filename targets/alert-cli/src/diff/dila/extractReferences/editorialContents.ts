@@ -4,7 +4,7 @@ import type {
   EditoralContentReferenceBloc,
   EditorialContent,
 } from "@socialgouv/cdtn-types";
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import { DilaApiClient } from "@socialgouv/dila-api-client";
 import memoizee from "memoizee";
 import pMap from "p-map";

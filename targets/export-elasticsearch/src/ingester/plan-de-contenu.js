@@ -1,5 +1,5 @@
 import slugify from "@socialgouv/cdtn-slugify";
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import fetch from "node-fetch";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";

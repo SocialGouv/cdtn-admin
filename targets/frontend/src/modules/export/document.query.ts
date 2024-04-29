@@ -1,5 +1,5 @@
 import { useQuery } from "urql";
-import { SourceRoute, SOURCES } from "@socialgouv/cdtn-utils";
+import { SourceRoute, SOURCES } from "@socialgouv/cdtn-sources";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { groupBy } from "graphql/jsutils/groupBy";
 

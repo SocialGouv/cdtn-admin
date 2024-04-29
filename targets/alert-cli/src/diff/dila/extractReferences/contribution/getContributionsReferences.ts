@@ -1,5 +1,5 @@
 import type { DocumentReferences } from "@socialgouv/cdtn-types";
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import { queryContributionsReferences } from "./queryContributionsReferences";
 import {
   LEGI_CONTAINER_ID,

@@ -1,4 +1,4 @@
-import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-utils";
+import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Autosuggest from "react-autosuggest";
