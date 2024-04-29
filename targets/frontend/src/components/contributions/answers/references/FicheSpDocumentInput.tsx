@@ -1,4 +1,4 @@
-import { SourceRoute, getRouteBySource } from "@socialgouv/cdtn-sources";
+import { SourceRoute, getRouteBySource } from "@socialgouv/cdtn-utils";
 import { Control } from "react-hook-form";
 import { Document } from "../../type";
 import { ReferenceInput } from "./ReferenceInput";

@@ -1,4 +1,4 @@
-import { SourceValues } from "@socialgouv/cdtn-sources";
+import { SourceValues } from "@socialgouv/cdtn-utils";
 import {
   AllDocumentsBySourceResult,
   AllDocumentsWithRelationBySourceResult,

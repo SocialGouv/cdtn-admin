@@ -11,7 +11,7 @@
   "dependencies": {
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-slugify": "4.52.1",
-    "@socialgouv/cdtn-sources": "4.52.1",
+    "@socialgouv/cdtn-utils": "^4.134.2",
     "@socialgouv/dila-api-client": "1.2.4",
     "axios": "^1.5.0",
     "diff": "^5.1.0",

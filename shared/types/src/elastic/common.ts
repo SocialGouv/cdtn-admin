@@ -1,4 +1,4 @@
-import { SourceRoute } from "@socialgouv/cdtn-sources";
+import { SourceRoute } from "@socialgouv/cdtn-utils";
 
 export type DocumentElasticWithSource<T> = DocumentElastic & T;
 

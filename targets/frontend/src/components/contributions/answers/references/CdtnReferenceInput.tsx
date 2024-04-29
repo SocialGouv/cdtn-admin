@@ -1,4 +1,4 @@
-import { SourceRoute, getRouteBySource } from "@socialgouv/cdtn-sources";
+import { SourceRoute, getRouteBySource } from "@socialgouv/cdtn-utils";
 import { Control } from "react-hook-form";
 import { CdtnReference } from "../../type";
 import { useContributionSearchCdtnReferencesQuery } from "./cdtnReferencesSearch.query";

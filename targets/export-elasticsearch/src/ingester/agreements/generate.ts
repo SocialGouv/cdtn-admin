@@ -5,7 +5,7 @@ import {
   ExportAnswer,
 } from "@socialgouv/cdtn-types";
 import { DocumentElasticWithSource } from "../types/Glossary";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import { getIDCCs } from "./getIdcc";
 import getAgreementsArticlesByTheme from "./getAgreementsArticlesByTheme";
 import { getTheme } from "./getTheme";

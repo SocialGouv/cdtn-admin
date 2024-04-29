@@ -1,9 +1,5 @@
 import { gqlClient } from "@shared/utils";
-import {
-  getRouteBySource,
-  SourceRoute,
-  SOURCES,
-} from "@socialgouv/cdtn-sources";
+import { getRouteBySource, SourceRoute, SOURCES } from "@socialgouv/cdtn-utils";
 import { NextApiRequest, NextApiResponse } from "next";
 import pLimit from "p-limit";
 
