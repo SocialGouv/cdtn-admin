@@ -1,4 +1,4 @@
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import { fetchPrequalified } from "./fetchPrequalified";
 import { PrequalifiedElasticDocument } from "@socialgouv/cdtn-types";
 import { removeUndefinedKeys } from "../utils/removeUndefinedKeys";

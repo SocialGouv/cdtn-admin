@@ -4,6 +4,7 @@ import type {
   ServicePublicReference,
 } from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { RawJson } from "@socialgouv/fiches-vdd-types";
 import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
 import type { ParsedQuery } from "query-string";
@@ -44,7 +45,7 @@ function cdtArticleReference(
   return {
     slug: slugify(fixArticleNum(article.data.id, article.data.num)),
     title: article.data.num,
-    type: "code_du_travail",
+    type: SOURCES.CDT,
   };
 }
 
@@ -55,7 +56,7 @@ function agreementReference(
   return {
     slug: slugify(`${parseInt(id)}-${shortName}`.substring(0, 80)),
     title: shortName,
-    type: "conventions_collectives",
+    type: SOURCES.CCN,
   };
 }
 
@@ -65,7 +66,7 @@ function externalReference(
 ): ServicePublicExternalReference {
   return {
     title: label,
-    type: "external",
+    type: SOURCES.EXTERNALS,
     url,
   };
 }

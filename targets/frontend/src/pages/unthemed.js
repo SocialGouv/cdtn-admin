@@ -1,4 +1,4 @@
-import { getLabelBySource, getRouteBySource } from "@socialgouv/cdtn-utils";
+import { getLabelBySource, getRouteBySource } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/button";

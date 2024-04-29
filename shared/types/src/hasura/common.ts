@@ -1,4 +1,4 @@
-import { SourceRoute } from "@socialgouv/cdtn-utils";
+import { SourceRoute } from "@socialgouv/cdtn-sources";
 
 export type HasuraDocument<T, U extends SourceRoute = SourceRoute> = {
   cdtn_id: string;

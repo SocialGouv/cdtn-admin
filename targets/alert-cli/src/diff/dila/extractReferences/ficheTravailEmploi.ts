@@ -2,7 +2,7 @@ import type {
   DocumentReferences,
   FicheTravailEmploi,
 } from "@socialgouv/cdtn-types";
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import memoizee from "memoizee";
 
 import { getAllDocumentsBySource } from "../../shared/getAllDocumentsBySource";

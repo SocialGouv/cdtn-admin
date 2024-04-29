@@ -1,4 +1,4 @@
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { RELATIONS } from "src/lib/relations";
 import { useQuery } from "urql";

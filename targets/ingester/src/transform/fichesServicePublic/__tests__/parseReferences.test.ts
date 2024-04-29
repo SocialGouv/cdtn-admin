@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 
 import { extractNewReference, extractOldReference } from "../parseReference";
 import { ShortAgreement } from "../fetchAgreementsWithKaliId";

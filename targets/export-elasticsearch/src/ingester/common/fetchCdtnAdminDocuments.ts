@@ -1,4 +1,4 @@
-import type { SourceValues } from "@socialgouv/cdtn-utils";
+import type { SourceValues } from "@socialgouv/cdtn-sources";
 import PQueue from "p-queue";
 
 import type { GetBreadcrumbsFn } from "../breadcrumbs";

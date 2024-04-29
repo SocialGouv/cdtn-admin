@@ -1,5 +1,5 @@
 import slugify from "@socialgouv/cdtn-slugify";
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { IoMdTrash } from "react-icons/io";

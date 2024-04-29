@@ -1,6 +1,6 @@
 import { generateIds } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
-import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-utils";
+import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
 import { useRouter } from "next/router";
 import { HighlightsForm } from "src/components/highlights";
 import { Layout } from "src/components/layout/auth.layout";

@@ -1,5 +1,5 @@
 import { HasuraDocument } from "@socialgouv/cdtn-types";
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { RELATIONS } from "src/lib/relations";

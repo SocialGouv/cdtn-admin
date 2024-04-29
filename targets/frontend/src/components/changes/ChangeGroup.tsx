@@ -10,7 +10,7 @@ import type {
   FicheVddInfo,
 } from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
-import { getRouteBySource } from "@socialgouv/cdtn-utils";
+import { getRouteBySource } from "@socialgouv/cdtn-sources";
 import { Badge, Box, Card, List, ListItem } from "@mui/material";
 
 import Link from "next/link";
