@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.41.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.5...v2.41.6) (2024-04-29)
+
+### Bug Fixes
+
+- **hasura:** suppression de code `preview` + `webhook` ([#1365](https://github.com/SocialGouv/cdtn-admin/issues/1365)) ([01ba533](https://github.com/SocialGouv/cdtn-admin/commit/01ba533f4f274765bd96803078b0fce56d3b03d5))
+
 ## [2.41.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.4...v2.41.5) (2024-04-24)
 
 ### Bug Fixes
