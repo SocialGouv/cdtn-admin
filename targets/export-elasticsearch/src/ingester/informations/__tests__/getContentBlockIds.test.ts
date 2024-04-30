@@ -1,13 +1,10 @@
-import {
-  BlockDisplayMode,
-  ContentBlockContent,
-  ContentBlockContentItem,
-  ContentType,
-} from "@socialgouv/cdtn-utils";
 import { getContentBlockIds } from "../getContentBlockIds";
 import {
   EditorialContentBaseContentPart,
   EditorialContentType,
+  EditorialContentBlockDisplayMode,
+  EditorialContentPart,
+  ContentItem,
 } from "@socialgouv/cdtn-types";
 
 describe("function getContentBlockIds", () => {
@@ -17,17 +14,15 @@ describe("function getContentBlockIds", () => {
     references: [],
     title: "title",
   };
-  const mockedBlock: ContentBlockContent = {
-    type: ContentType.content,
-    blockDisplayMode: BlockDisplayMode.line,
+  const mockedBlock: EditorialContentPart = {
+    type: EditorialContentType.content,
+    blockDisplayMode: EditorialContentBlockDisplayMode.line,
     contents: [],
     title: "title",
   };
-  const mockedContentItem: ContentBlockContentItem = {
+  const mockedContentItem: ContentItem = {
     cdtnId: "cdtnId",
     title: "title",
-    description: "description",
-    slug: "slug",
     source: "source",
   };
   let props: EditorialContentBaseContentPart[];

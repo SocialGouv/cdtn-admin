@@ -10,7 +10,7 @@ const createAnswerStatus = (status: Status): AnswerStatus => {
     user: {
       name: "user1",
       id: "1",
-      created_at: new Date(),
+      created_at: new Date().toString(),
       email: "user1@user.com",
     },
   };
@@ -19,27 +19,13 @@ const createAnswerStatus = (status: Status): AnswerStatus => {
 export const mock: QuestionListQueryResult = {
   rows: [
     {
-      answers: [
-        {
-          status: createAnswerStatus("TODO"),
-        },
-        {
-          status: createAnswerStatus("REDACTING"),
-        },
-      ],
+      answers: [createAnswerStatus("TODO"), createAnswerStatus("REDACTING")],
       content: "question1",
       id: "questionId1",
       order: 1,
     },
     {
-      answers: [
-        {
-          status: createAnswerStatus("TODO"),
-        },
-        {
-          status: createAnswerStatus("TODO"),
-        },
-      ],
+      answers: [createAnswerStatus("TODO"), createAnswerStatus("TODO")],
       content: "question2",
       id: "questionId2",
       order: 2,

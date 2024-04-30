@@ -1,7 +1,9 @@
 import { PrequalifiedDoc } from "../hasura";
-import { DocumentElasticWithSource } from "./common";
+import { DocumentElasticWithSource, RelatedDocument } from "./common";
 
 export type PrequalifiedElasticDocument = Omit<
-  DocumentElasticWithSource<PrequalifiedDoc>,
-  "slug"
->;
+  DocumentElasticWithSource<PrequalifiedDoc, "prequalified">,
+  "slug" | "refs"
+> & {
+  refs: RelatedDocument[];
+};

@@ -1,4 +1,4 @@
-import { Breadcrumb } from "@socialgouv/cdtn-types";
+import { SourceRoute } from "@socialgouv/cdtn-sources";
 import type { GraphQLResponseRoot } from "./GraphQL";
 
 export type DocumentBySourceResponse = GraphQLResponseRoot<Data>;
@@ -29,28 +29,12 @@ export interface Document {
   cdtnId: string;
   title: string;
   slug: string;
-  source: string;
+  source: SourceRoute;
   text: string;
   isPublished: boolean;
   isSearchable: boolean;
   metaDescription: string;
   document: unknown;
-}
-
-export type DocumentElasticWithSource<T> = DocumentElastic & T;
-
-export interface DocumentElastic {
-  id: string;
-  cdtnId: string;
-  Breadcrumb: Breadcrumb[];
-  title: string;
-  slug: string;
-  source: string;
-  text: string;
-  isPublished: boolean;
-  excludeFromSearch: boolean;
-  metaDescription: string;
-  refs: DocumentRef[];
 }
 
 export type AggregateDocumentBySource = GraphQLResponseRoot<{
@@ -61,16 +45,6 @@ export type AggregateDocumentBySource = GraphQLResponseRoot<{
   };
 }>;
 
-export interface DocumentRef {
-  Breadcrumb: Breadcrumb[];
-  cdtnId: string;
-  description: string;
-  slug: string;
-  source: string;
-  title: string;
-  url: string | undefined;
-}
-
 export interface RequestBySourceWithRelationsData {
   documents: DocumentWithRelation[];
 }
@@ -80,7 +54,7 @@ export interface DocumentWithRelation {
   cdtnId: string;
   title: string;
   slug: string;
-  source: string;
+  source: SourceRoute;
   text: string;
   isPublished: boolean;
   isSearchable: boolean;
@@ -97,7 +71,7 @@ export interface Relation {
 export interface RelationContent {
   cdtnId: string;
   slug: string;
-  source: string;
+  source: SourceRoute;
   title: string;
   document: unknown;
 }

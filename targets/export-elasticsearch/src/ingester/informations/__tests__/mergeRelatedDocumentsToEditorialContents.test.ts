@@ -28,7 +28,7 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
       id: "1",
       title: "Related Document 1",
       breadcrumbs: [],
-      source: "",
+      source: "code_du_travail",
       cdtnId: "",
       slug: "",
       description: "",
@@ -37,7 +37,7 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
       id: "2",
       title: "Related Document 2",
       breadcrumbs: [],
-      source: "",
+      source: "code_du_travail",
       cdtnId: "",
       slug: "",
       description: "",
@@ -88,12 +88,12 @@ describe("mergeRelatedDocumentsToEditorialContents", () => {
   });
 
   it("should throw an error if no related document is found", () => {
-    const invalidRelatedDocuments = {
+    const invalidRelatedDocuments: RelatedDocuments = {
       id1: {
         id: "1",
         title: "Related Document 1",
         breadcrumbs: [],
-        source: "",
+        source: "code_du_travail",
         cdtnId: "",
         slug: "",
         description: "",

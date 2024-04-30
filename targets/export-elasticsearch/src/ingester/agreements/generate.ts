@@ -3,8 +3,8 @@ import {
   ElasticAgreement,
   ContributionElasticDocument,
   ExportAnswer,
+  DocumentElasticWithSource,
 } from "@socialgouv/cdtn-types";
-import { DocumentElasticWithSource } from "../types/Glossary";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getIDCCs } from "./getIdcc";
 import getAgreementsArticlesByTheme from "./getAgreementsArticlesByTheme";
@@ -41,7 +41,6 @@ export const generateAgreements = async (
         .sort(
           // On ordonne les questions par index
           (a: ExportAnswer, b: ExportAnswer) =>
-            // @ts-ignore
             a.questionIndex - b.questionIndex
         );
 
