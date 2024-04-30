@@ -110,7 +110,6 @@ jobs:
             "ingester",
             "export-elasticsearch",
             "@socialgouv/cdtn-elasticsearch",
-            "@socialgouv/cdtn-types",
             "@shared/utils",
           ]
     steps:

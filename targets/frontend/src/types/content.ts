@@ -11,8 +11,6 @@ import {
   Prequalified,
 } from "@socialgouv/cdtn-types";
 
-export * from "@socialgouv/cdtn-types";
-
 export type PrequalifiedContent = Prequalified & {
   contentRelations: ContentRelation[];
   cdtnId?: number;

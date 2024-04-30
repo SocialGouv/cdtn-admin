@@ -7,11 +7,7 @@ import React, { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { IoMdCheckmark } from "react-icons/io";
 
-import {
-  EditorialContentBaseContentPart,
-  Content,
-  EditorialSectionDisplayMode,
-} from "../../types";
+import { Content } from "../../types";
 import { Button } from "../button";
 import { MarkdownLink } from "../MarkdownLink";
 import { ContentSections } from "./ContentSections";
@@ -27,6 +23,10 @@ import {
 import { FormRadioGroup, FormTextField } from "../forms";
 import { SnackBar } from "../utils/SnackBar";
 import { theme } from "src/theme";
+import {
+  EditorialContentBaseContentPart,
+  EditorialSectionDisplayMode,
+} from "@socialgouv/cdtn-types";
 
 const addComputedFields =
   (onSubmit: (content: Partial<Content>) => void) =>
