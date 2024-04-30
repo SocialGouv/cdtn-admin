@@ -57,8 +57,6 @@ www:
   env:
     - name: NEXTAUTH_URL
       value: https://www-{{.Values.global.host}}
-    - name: NEXT_PUBLIC_BASE_PATH
-      value: https://www-{{.Values.global.host}}
   resources:
     limits:
       cpu: "100m"

@@ -1,3 +1,26 @@
+jobs:
+  runs:
+    build-frontend:
+      with:
+        buildArgs:
+          NEXT_PUBLIC_BASE_PATH: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
+    post-restore:
+      ~needs: [pg, hasura]
+      use: psql
+      with:
+        sqlFile: .kontinuous/sql/post-restore.sql
+        pgSecretRefName: pg-app
+    job-ingester:
+      ~needs: [hasura]
+      use: trigger-cronjob
+      with:
+        cronJobName: cron-ingester
+    job-alert:
+      ~needs: [job-ingester]
+      use: trigger-cronjob
+      with:
+        cronJobName: cron-alert
+
 hasura:
   imagePackage: hasura
   ~needs: [build-hasura]
@@ -17,8 +40,6 @@ www:
   host: cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
   env:
     - name: NEXTAUTH_URL
-      value: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
-    - name: NEXT_PUBLIC_BASE_PATH
       value: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
 
 pg:
@@ -50,22 +71,3 @@ pg:
           region:
             ~tpl~name: "cdtn-prod-backups-access-key"
             key: bucket_region
-
-jobs:
-  runs:
-    post-restore:
-      ~needs: [pg, hasura]
-      use: psql
-      with:
-        sqlFile: .kontinuous/sql/post-restore.sql
-        pgSecretRefName: pg-app
-    job-ingester:
-      ~needs: [hasura]
-      use: trigger-cronjob
-      with:
-        cronJobName: cron-ingester
-    job-alert:
-      ~needs: [job-ingester]
-      use: trigger-cronjob
-      with:
-        cronJobName: cron-alert
