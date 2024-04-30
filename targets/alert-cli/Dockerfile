@@ -22,8 +22,8 @@ RUN yarn workspace @shared/utils build
 FROM deps AS dist
 
 COPY --from=build-utils /app/shared/utils /app/shared/utils
+COPY --from=build-types /app/shared/types /app/shared/types
 
-COPY shared/types ./shared/types
 COPY targets/alert-cli ./targets/alert-cli
 COPY tsconfig.build.json ./
 
