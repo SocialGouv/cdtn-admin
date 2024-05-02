@@ -1,3 +1,16 @@
+jobs:
+  runs:
+    build-frontend:
+      with:
+        buildArgs:
+          NEXT_PUBLIC_BASE_PATH: https://www-{{.Values.global.host}}
+    post-restore:
+      ~needs: [pg, hasura]
+      use: psql
+      with:
+        sqlFile: .kontinuous/sql/post-restore.sql
+        pgSecretRefName: pg-app
+
 hasura:
   imagePackage: hasura
   ~needs: [build-hasura]
@@ -69,12 +82,3 @@ pg:
           region:
             ~tpl~name: "cdtn-prod-backups-access-key"
             key: bucket_region
-
-jobs:
-  runs:
-    post-restore:
-      ~needs: [pg, hasura]
-      use: psql
-      with:
-        sqlFile: .kontinuous/sql/post-restore.sql
-        pgSecretRefName: pg-app
