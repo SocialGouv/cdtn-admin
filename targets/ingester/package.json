@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@shared/eslint-config": "workspace:^",
-    "@shared/types": "workspace:^",
+    "@socialgouv/cdtn-types": "workspace:^",
     "@socialgouv/contributions-data-types": "^3.27.0",
     "@socialgouv/fiches-travail-data-types": "^4.191.0",
     "@socialgouv/fiches-vdd-types": "^2.197.0",
@@ -56,7 +56,7 @@
     "precommit": "lint-staged",
     "start": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
     "test": "jest --passWithNoTests",
-    "types": "tsc"
+    "type-check": "tsc --noEmit"
   },
   "lint-staged": {
     "*.{j,t}s": [

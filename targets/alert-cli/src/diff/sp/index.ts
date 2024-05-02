@@ -1,4 +1,4 @@
-import type { FicheVddInfo, VddChanges } from "@shared/types";
+import type { FicheVddInfo, VddChanges } from "@socialgouv/cdtn-types";
 
 import { createToJson } from "../../utils/node-git.helpers";
 import type {

@@ -3,7 +3,7 @@ import { KaliReference } from "../../../components/contributions";
 
 export async function fetchKaliReferences(
   props: Omit<fetchKaliReferencesInput, "limit">
-): Promise<KaliReference[]> {
+): Promise<Partial<KaliReference>[]> {
   return Promise.resolve([
     {
       agreementId: "0001",

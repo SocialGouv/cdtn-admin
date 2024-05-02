@@ -2,7 +2,7 @@ import {
   ContributionRef,
   ContributionDocumentJson,
   DocumentElasticWithSource,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { isReferencingGenericContribution } from "./helpers";
 
 export const generateReferences = (

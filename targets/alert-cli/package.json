@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "@shared/eslint-config": "workspace:^",
-    "@shared/types": "workspace:^",
     "@shared/utils": "workspace:^",
+    "@socialgouv/cdtn-types": "workspace:^",
     "@socialgouv/contributions-data-types": "3.27.0",
     "@socialgouv/fiches-travail-data-types": "4.191.0",
     "@socialgouv/kali-data-types": "2.127.0",
@@ -51,7 +51,7 @@
     "start:debug": "rm -rf data/* && ncc build ./src/index.ts -o ./dist -e nodegit -s && HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 node --enable-source-maps --unhandled-rejections=strict ./dist/index.js",
     "clean": "rm -rf data/*",
     "lint": "npx eslint \"./src/**/*.{js,ts}\"",
-    "types": "tsc",
+    "type-check": "tsc --noEmit",
     "test": "jest"
   },
   "lint-staged": {

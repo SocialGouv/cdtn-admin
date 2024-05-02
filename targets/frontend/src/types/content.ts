@@ -1,5 +1,5 @@
 import {
-  BaseContentPart,
+  EditorialContentBaseContentPart,
   EditoralContentReferenceBloc,
   EditorialContent,
   EditorialContentDoc,
@@ -9,9 +9,7 @@ import {
   KeysToCamelCase,
   MarkdownContentPart,
   Prequalified,
-} from "@shared/types";
-
-export * from "@shared/types";
+} from "@socialgouv/cdtn-types";
 
 export type PrequalifiedContent = Prequalified & {
   contentRelations: ContentRelation[];
@@ -32,7 +30,7 @@ export type TextSectionContent = MarkdownContentPart & {
 
 export type BlockSectionContent = ImageSectionContent | TextSectionContent;
 
-export type ContentSection = BaseContentPart & {
+export type ContentSection = EditorialContentBaseContentPart & {
   key: string;
 };
 

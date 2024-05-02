@@ -1,7 +1,7 @@
 import type {
   DocumentInfoWithCdtnRef,
   TravailDataChanges,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { getRelevantMtDocumentsThemeAndPrequalified } from "./themesAndPrequalified";
 import { getRelevantMtDocumentsContributions } from "./contributions";
 

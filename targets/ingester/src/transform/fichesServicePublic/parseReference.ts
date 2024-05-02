@@ -2,7 +2,7 @@ import type {
   ServicePublicExternalReference,
   ServicePublicInternalReference,
   ServicePublicReference,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { RawJson } from "@socialgouv/fiches-vdd-types";

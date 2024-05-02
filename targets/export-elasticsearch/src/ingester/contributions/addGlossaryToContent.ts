@@ -1,4 +1,4 @@
-import { ContributionContent } from "@shared/types";
+import { ContributionContent } from "@socialgouv/cdtn-types";
 
 export function addGlossaryToContent(
   content: ContributionContent,

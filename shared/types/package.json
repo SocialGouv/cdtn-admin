@@ -1,13 +1,21 @@
 {
-  "name": "@shared/types",
+  "name": "@socialgouv/cdtn-types",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "version": "2.41.6",
   "private": true,
   "main": "build/index.js",
   "module": "build/index.js",
   "types": "build/index.d.ts",
+  "files": [
+    "build"
+  ],
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc -w"
+    "build:watch": "tsc -w",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@socialgouv/kali-data-types": "^2.127.0",

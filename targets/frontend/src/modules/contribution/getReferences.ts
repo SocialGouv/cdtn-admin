@@ -1,4 +1,4 @@
-import { ContributionRef, ContributionsAnswers } from "@shared/types";
+import { ContributionRef, ContributionsAnswers } from "@socialgouv/cdtn-types";
 import { generateKaliRef, generateLegiRef } from "@shared/utils";
 
 export function getReferences(answer: ContributionsAnswers): ContributionRef[] {

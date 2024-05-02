@@ -3,7 +3,7 @@ import {
   ContributionConventionnelInfos,
   ContributionDocumentJson,
   DocumentElasticWithSource,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 
 export const getCcInfos = (
   ccns: DocumentElasticWithSource<AgreementDoc>[],

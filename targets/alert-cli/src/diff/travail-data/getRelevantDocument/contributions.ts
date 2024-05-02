@@ -1,7 +1,7 @@
 import type {
   DocumentInfoWithCdtnRef,
   TravailDataChanges,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 
 import { getContributionsCdtnReferences } from "../../shared/getContributionsCdtnReferences";
 

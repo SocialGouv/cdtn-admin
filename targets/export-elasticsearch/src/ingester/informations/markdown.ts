@@ -1,7 +1,7 @@
 import type {
   DocumentElasticWithSource,
   EditorialContentDoc,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import htmlAstToAnotherHtmlAst from "rehype-raw";
 import htmlAstStringify from "rehype-stringify";
 import markdownToMardownAst from "remark-parse";

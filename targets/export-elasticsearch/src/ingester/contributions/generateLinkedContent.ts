@@ -1,6 +1,6 @@
 import { GetBreadcrumbsFn } from "../breadcrumbs";
 import { fetchLinkedContent } from "./fetchLinkedContent";
-import { Breadcrumbs, ExportFullLinkedContent } from "@shared/types";
+import { Breadcrumb, ExportFullLinkedContent } from "@socialgouv/cdtn-types";
 import { ContributionElasticDocumentLightRelatedContent } from "./generate";
 import { isReferencingGenericContribution } from "./helpers";
 
@@ -8,7 +8,7 @@ export const generateLinkedContent = async (
   allGeneratedContributions: ContributionElasticDocumentLightRelatedContent[],
   currentContribution: ContributionElasticDocumentLightRelatedContent,
   getBreadcrumbs: GetBreadcrumbsFn,
-  breadcrumbsOfRootContributionsPerIndex: Record<number, Breadcrumbs[]>
+  breadcrumbsOfRootContributionsPerIndex: Record<number, Breadcrumb[]>
 ): Promise<ExportFullLinkedContent[]> => {
   const linkedContentPromises = currentContribution.linkedContent.map(
     async (content) => {

@@ -1,4 +1,4 @@
-import type { DocumentReference } from "@shared/types";
+import type { DocumentReference } from "@socialgouv/cdtn-types";
 
 import type { EditorialContentSubset } from "../editorialContents";
 import { extractEditorialContentTemplateRef } from "../editorialContents";

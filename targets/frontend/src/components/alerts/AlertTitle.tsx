@@ -1,4 +1,4 @@
-import { AlertChanges } from "@shared/types";
+import { AlertChanges } from "@socialgouv/cdtn-types";
 import React, { useState } from "react";
 import { IoIosLink, IoMdChatbubbles } from "react-icons/io";
 import { Box, Stack } from "@mui/material";

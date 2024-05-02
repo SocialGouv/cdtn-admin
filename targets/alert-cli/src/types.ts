@@ -3,7 +3,7 @@ import type {
   DilaAlertChanges,
   TravailDataAlertChanges,
   VddAlertChanges,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 
 export interface PublicAgreement {
   id: string;

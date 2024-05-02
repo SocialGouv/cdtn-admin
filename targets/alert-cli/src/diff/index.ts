@@ -3,7 +3,7 @@ import { processAgreementDataDiff, processCodeDataDiff } from "./dila";
 import { processVddDiff } from "./sp";
 import { processTravailDataDiff } from "./travail-data";
 import { GitTagData } from "../types";
-import { AlertChanges } from "@shared/types";
+import { AlertChanges } from "@socialgouv/cdtn-types";
 import { GithubApi } from "../utils/github";
 import { getSupportedAgreements } from "./shared/getSupportedAgreements";
 

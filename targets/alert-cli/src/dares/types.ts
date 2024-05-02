@@ -1,4 +1,4 @@
-import { DaresAlert } from "@shared/types";
+import { DaresAlert } from "@socialgouv/cdtn-types";
 
 export interface Diff {
   missingAgreementsFromDares: Agreement[];

@@ -1,4 +1,4 @@
-import { HasuraDocument } from "@shared/types";
+import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { gql, useQuery } from "urql";
 import Link from "next/link";
 import { Card, CardContent, Typography } from "@mui/material";
@@ -44,9 +44,12 @@ export const getGhostDocumentQuery = gql`
   }
 `;
 
-export type ParentRef = Pick<HasuraDocument, "cdtn_id" | "title" | "source">;
+export type ParentRef = Pick<
+  HasuraDocument<any>,
+  "cdtn_id" | "title" | "source"
+>;
 export type DocumentRef = Pick<
-  HasuraDocument,
+  HasuraDocument<any>,
   | "cdtn_id"
   | "initial_id"
   | "title"

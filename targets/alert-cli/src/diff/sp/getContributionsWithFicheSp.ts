@@ -1,4 +1,4 @@
-import { ContributionsAnswers } from "@shared/types";
+import { ContributionsAnswers } from "@socialgouv/cdtn-types";
 import { gqlClient } from "@shared/utils";
 
 const queryGetContributionsWithRefs = `

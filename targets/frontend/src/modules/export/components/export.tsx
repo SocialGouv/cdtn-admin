@@ -1,4 +1,4 @@
-import { Environment } from "@shared/types";
+import { Environment } from "@socialgouv/cdtn-types";
 import React, { useEffect, useState } from "react";
 import {
   EnvironmentBadge,

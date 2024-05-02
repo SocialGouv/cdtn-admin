@@ -5,7 +5,9 @@ import {
   EditorialContentDoc,
   ExportEsStatus,
   FicheTravailEmploiDoc,
-} from "@shared/types";
+  DocumentElasticWithSource,
+  DocumentRef,
+} from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
@@ -18,7 +20,6 @@ import {
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
 import { getVersions } from "./versions";
-import { DocumentElasticWithSource } from "./types/Glossary";
 import { generateContributions } from "./contributions";
 import { generateAgreements } from "./agreements";
 import { getGlossary } from "./common/fetchGlossary";
@@ -231,7 +232,7 @@ export async function cdtnDocumentsGen(
   );
   const highlightsWithContrib = highlights.map((highlight) => ({
     ...highlight,
-    refs: highlight.refs.map((ref) => {
+    refs: highlight.refs.map((ref: DocumentRef) => {
       if (!ref.description) {
         const foundContrib = generatedContributions.find(
           (generatedContribution) => {

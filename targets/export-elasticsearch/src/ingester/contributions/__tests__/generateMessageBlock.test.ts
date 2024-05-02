@@ -1,4 +1,4 @@
-import { ContributionContentType } from "@shared/types";
+import { ContributionContentType } from "@socialgouv/cdtn-types";
 import { fetchMessageBlock } from "../fetchMessageBlock";
 import { fetchAgreementMessage } from "../fetchAgreementMessage";
 import { generateMessageBlock } from "../generateMessageBlock";

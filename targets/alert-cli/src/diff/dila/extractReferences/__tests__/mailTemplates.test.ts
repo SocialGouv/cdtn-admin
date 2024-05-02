@@ -1,4 +1,4 @@
-import type { DocumentReference } from "@shared/types";
+import type { DocumentReference } from "@socialgouv/cdtn-types";
 
 import type { MailTemplateSubset } from "../mailTemplates";
 import { extractMailTemplateRef } from "../mailTemplates";

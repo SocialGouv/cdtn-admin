@@ -1,10 +1,10 @@
 import {
   AgreementDoc,
-  AgreementGenerated,
+  ElasticAgreement,
   ContributionElasticDocument,
   ExportAnswer,
-} from "@shared/types";
-import { DocumentElasticWithSource } from "../types/Glossary";
+  DocumentElasticWithSource,
+} from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getIDCCs } from "./getIdcc";
 import getAgreementsArticlesByTheme from "./getAgreementsArticlesByTheme";
@@ -18,7 +18,7 @@ const DESCRIPTION =
 export const generateAgreements = async (
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
   contributions: ContributionElasticDocument[]
-): Promise<AgreementGenerated[]> => {
+): Promise<ElasticAgreement[]> => {
   return await pMap(
     ccnData,
     async (cc) => {
@@ -41,13 +41,12 @@ export const generateAgreements = async (
         .sort(
           // On ordonne les questions par index
           (a: ExportAnswer, b: ExportAnswer) =>
-            // @ts-ignore
             a.questionIndex - b.questionIndex
         );
 
       const articlesByTheme = await getAgreementsArticlesByTheme(cc.num);
 
-      const agreementGenerated: AgreementGenerated = {
+      const agreementGenerated: ElasticAgreement = {
         ...cc,
         answers,
         articlesByTheme,

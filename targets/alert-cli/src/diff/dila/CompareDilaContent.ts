@@ -3,7 +3,7 @@ import type {
   DilaModifiedNode,
   DilaNode,
   DilaRemovedNode,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import type {
   Agreement,
   AgreementArticle,

@@ -1,6 +1,9 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { fetchPrequalified } from "./fetchPrequalified";
-import { PrequalifiedElasticDocument } from "@shared/types";
+import {
+  PrequalifiedElasticDocument,
+  RelatedDocument,
+} from "@socialgouv/cdtn-types";
 import { removeUndefinedKeys } from "../utils/removeUndefinedKeys";
 import { GetBreadcrumbsFn } from "../breadcrumbs";
 
@@ -33,7 +36,7 @@ export const generatePrequalified = async (
         breadcrumbs: getBreadcrumbs(document.cdtnId),
         url: document.document.url, // pour les outils externes
         action: document.document.action, // pour les outils (interne/externe)
-      })
+      } as RelatedDocument)
     ),
   }));
 };

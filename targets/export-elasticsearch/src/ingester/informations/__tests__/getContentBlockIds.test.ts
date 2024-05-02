@@ -1,33 +1,31 @@
-import {
-  BlockDisplayMode,
-  ContentBlockContent,
-  ContentBlockContentItem,
-  ContentType,
-} from "@socialgouv/cdtn-utils";
 import { getContentBlockIds } from "../getContentBlockIds";
-import { BaseContentPart, CONTENT_TYPE } from "@shared/types";
+import {
+  EditorialContentBaseContentPart,
+  EditorialContentType,
+  EditorialContentBlockDisplayMode,
+  EditorialContentPart,
+  ContentItem,
+} from "@socialgouv/cdtn-types";
 
 describe("function getContentBlockIds", () => {
-  const mockedContent: BaseContentPart = {
+  const mockedContent: EditorialContentBaseContentPart = {
     blocks: [],
     name: "name",
     references: [],
     title: "title",
   };
-  const mockedBlock: ContentBlockContent = {
-    type: ContentType.content,
-    blockDisplayMode: BlockDisplayMode.line,
+  const mockedBlock: EditorialContentPart = {
+    type: EditorialContentType.content,
+    blockDisplayMode: EditorialContentBlockDisplayMode.line,
     contents: [],
     title: "title",
   };
-  const mockedContentItem: ContentBlockContentItem = {
+  const mockedContentItem: ContentItem = {
     cdtnId: "cdtnId",
     title: "title",
-    description: "description",
-    slug: "slug",
     source: "source",
   };
-  let props: BaseContentPart[];
+  let props: EditorialContentBaseContentPart[];
   let result: string[];
   beforeEach(() => {
     result = getContentBlockIds(props);
@@ -42,7 +40,7 @@ describe("function getContentBlockIds", () => {
             { ...mockedContentItem, cdtnId: "id1" },
             { ...mockedContentItem, cdtnId: "id2" },
           ],
-          type: CONTENT_TYPE.content,
+          type: EditorialContentType.content,
         },
       ];
     });
@@ -61,7 +59,7 @@ describe("function getContentBlockIds", () => {
             { ...mockedContentItem, cdtnId: "id1" },
             { ...mockedContentItem, cdtnId: "id3" },
           ],
-          type: CONTENT_TYPE.content,
+          type: EditorialContentType.content,
         },
       ];
     });

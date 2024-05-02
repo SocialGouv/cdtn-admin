@@ -1,6 +1,6 @@
 import { gqlClient, logger } from "@shared/utils";
 import { context } from "../context";
-import { ExportEsStatus } from "@shared/types";
+import { ExportEsStatus } from "@socialgouv/cdtn-types";
 
 const updateExportEsStatusQuery = `
 mutation updateOneExportEsStatus($id: uuid!, $documentsCount: jsonb) {

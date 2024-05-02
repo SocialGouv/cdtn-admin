@@ -10,7 +10,7 @@ import {
 } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { Model } from "../../models";
-import { AgreementDoc, Document } from "@shared/types";
+import { AgreementDoc, HasuraDocument } from "@socialgouv/cdtn-types";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
 import { AgreementRepository } from "../../agreements/api";
 import { Agreement } from "../../agreements";
@@ -39,8 +39,8 @@ export class DocumentsService {
 
   private mapInformationToDocument(
     data: Information,
-    document?: Document<any>
-  ): Document<any> {
+    document?: HasuraDocument<any>
+  ): HasuraDocument<any> {
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id ?? generateInitialId(),
@@ -122,8 +122,8 @@ export class DocumentsService {
 
   private mapModelToDocument(
     data: Model,
-    document?: Document<any>
-  ): Document<any> {
+    document?: HasuraDocument<any>
+  ): HasuraDocument<any> {
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id,
@@ -163,8 +163,8 @@ export class DocumentsService {
 
   private mapAgreementToDocument(
     data: Agreement,
-    document?: Document<AgreementDoc>
-  ): Document<AgreementDoc> {
+    document?: HasuraDocument<AgreementDoc>
+  ): HasuraDocument<AgreementDoc> {
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.name),
       initial_id: data.id,

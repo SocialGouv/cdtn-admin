@@ -1,4 +1,7 @@
-import { DocumentElasticWithSource, RelatedDocument } from "@shared/types";
+import {
+  DocumentElasticWithSource,
+  RelatedDocument,
+} from "@socialgouv/cdtn-types";
 
 export interface RelatedDocuments {
   [id: string]: RelatedDocument;

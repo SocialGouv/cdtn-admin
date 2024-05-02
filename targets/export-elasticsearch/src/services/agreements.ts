@@ -4,7 +4,7 @@ import { S3Repository } from "../repositories";
 import { getName, name } from "../utils";
 import { AgreementsRepository } from "../repositories/agreements";
 import { logger } from "@shared/utils";
-import { Environment } from "@shared/types";
+import { Environment } from "@socialgouv/cdtn-types";
 
 @injectable()
 @name("AgreementsService")

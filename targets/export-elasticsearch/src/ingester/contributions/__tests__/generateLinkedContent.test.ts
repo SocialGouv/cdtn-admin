@@ -1,11 +1,11 @@
 import { generateLinkedContent } from "../generateLinkedContent";
 import { fetchLinkedContent, LinkedContentLight } from "../fetchLinkedContent";
 import { ContributionElasticDocumentLightRelatedContent } from "../generate";
-import { Breadcrumbs } from "@shared/types";
+import { Breadcrumb } from "@socialgouv/cdtn-types";
 
 jest.mock("../fetchLinkedContent");
 
-const breadcrumbs: Breadcrumbs[] = [
+const breadcrumbs: Breadcrumb[] = [
   {
     label: "Thème 1",
     position: 0,

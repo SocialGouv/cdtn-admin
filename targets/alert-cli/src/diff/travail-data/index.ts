@@ -1,7 +1,7 @@
 import type {
   FicheTravailEmploiInfoWithDiff,
   TravailDataChanges,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
 
 import { createToJson } from "../../utils/node-git.helpers";

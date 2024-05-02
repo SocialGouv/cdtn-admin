@@ -1,5 +1,5 @@
-import type { ExportEsStatus } from "@shared/types";
-import { Environment } from "@shared/types";
+import type { ExportEsStatus } from "@socialgouv/cdtn-types";
+import { Environment } from "@socialgouv/cdtn-types";
 import { Request, Response } from "express";
 import { inject } from "inversify";
 import type { interfaces } from "inversify-express-utils";

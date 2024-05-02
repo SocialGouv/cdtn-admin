@@ -1,4 +1,4 @@
-import { ContributionMessageBlock } from "@shared/types";
+import { ContributionMessageBlock } from "@socialgouv/cdtn-types";
 import { gqlClient } from "@shared/utils";
 import { context } from "../context";
 

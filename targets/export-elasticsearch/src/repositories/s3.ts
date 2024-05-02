@@ -9,7 +9,7 @@ import axios from "axios";
 import { inject, injectable } from "inversify";
 
 import { diff, name } from "../utils";
-import { Environment } from "@shared/types";
+import { Environment } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
 const mime = require("mime-types");
 

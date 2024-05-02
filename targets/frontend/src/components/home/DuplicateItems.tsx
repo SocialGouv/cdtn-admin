@@ -1,4 +1,4 @@
-import { HasuraDocument } from "@shared/types";
+import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -40,7 +40,7 @@ export type DuplicateContentResult = {
 export type DuplicateDocument = {
   relations: Relation[];
 };
-type DocumentRef = Pick<HasuraDocument, "source" | "cdtn_id" | "title">;
+type DocumentRef = Pick<HasuraDocument<any>, "source" | "cdtn_id" | "title">;
 export type Relation = {
   type: string;
   data: Data;

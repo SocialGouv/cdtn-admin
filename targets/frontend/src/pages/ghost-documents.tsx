@@ -62,7 +62,7 @@ export function DuplicateContentPage(): JSX.Element {
         {data?.relations.map(({ id, parent, document }) => {
           return (
             <Tr key={`${id}`}>
-              <Td>{getLabelBySource(parent.source)}</Td>
+              <Td>{getLabelBySource(parent.source as any)}</Td>
               <Td>
                 <Link
                   href={sourceToRoute({

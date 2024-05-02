@@ -2,7 +2,7 @@ import {
   ContributionDocumentJson,
   ContributionMetadata,
   DocumentElasticWithSource,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 
 export const generateMetadata = (
   contribution: DocumentElasticWithSource<ContributionDocumentJson>

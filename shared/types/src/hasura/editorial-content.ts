@@ -1,17 +1,17 @@
-import { BaseHasuraDocument } from "./global";
+import { HasuraDocument } from "./common";
 
-export enum CONTENT_TYPE {
+export enum EditorialContentType {
   markdown = "markdown",
   graphic = "graphic",
   content = "content",
 }
 
-export declare enum BlockDisplayMode {
+export enum EditorialContentBlockDisplayMode {
   line = "line",
   square = "square",
 }
 
-export type BaseContentPart = {
+export type EditorialContentBaseContentPart = {
   name: string;
   title: string;
   references?: EditoralContentReferenceBloc[];
@@ -19,7 +19,7 @@ export type BaseContentPart = {
 };
 
 export type MarkdownContentPart = {
-  type: CONTENT_TYPE.markdown;
+  type: EditorialContentType.markdown;
   markdown: string;
 };
 
@@ -31,9 +31,9 @@ export type ContentItem = {
 
 export type ContentContentPart = {
   title?: string;
-  type: CONTENT_TYPE.content;
+  type: EditorialContentType.content;
   contents: ContentItem[];
-  blockDisplayMode: BlockDisplayMode;
+  blockDisplayMode: EditorialContentBlockDisplayMode;
 };
 
 export type EditorialContentPart =
@@ -54,7 +54,7 @@ export type EditoralContentReferenceBloc = {
 };
 
 export type GraphicContentPart = {
-  type: CONTENT_TYPE.graphic;
+  type: EditorialContentType.graphic;
   size: string;
   imgUrl: string;
   altText: string;
@@ -62,7 +62,7 @@ export type GraphicContentPart = {
   markdown: string;
 };
 
-export enum SectionDisplayMode {
+export enum EditorialSectionDisplayMode {
   accordion = "accordion",
   tab = "tab",
 }
@@ -70,27 +70,14 @@ export enum SectionDisplayMode {
 export type EditorialContentDoc = {
   date: string;
   intro: string;
-  section_display_mode?: SectionDisplayMode;
+  section_display_mode?: EditorialSectionDisplayMode;
   dismissalProcess?: boolean;
-  contents: BaseContentPart[];
+  contents: EditorialContentBaseContentPart[];
   references?: EditoralContentReferenceBloc[];
   description: string;
 };
 
-export type PrequalifiedDoc = {
-  variants: string[];
-};
-
-export type Prequalified = BaseHasuraDocument & {
-  source: "prequalified";
-  document: PrequalifiedDoc;
-};
-
-export type Highlight = BaseHasuraDocument & {
-  source: "highlights";
-};
-
-export type EditorialContent = BaseHasuraDocument & {
-  source: "information";
-  document: EditorialContentDoc;
-};
+export type EditorialContent = HasuraDocument<
+  EditorialContentDoc,
+  "information"
+>;

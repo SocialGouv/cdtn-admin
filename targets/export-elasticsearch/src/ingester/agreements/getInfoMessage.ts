@@ -1,4 +1,4 @@
-import { ContributionElasticDocument } from "@shared/types";
+import { ContributionElasticDocument } from "@socialgouv/cdtn-types";
 
 const CC_NE_PREVOIT_RIEN =
   "Les informations ci-dessous sont issues du code du travail car la convention collective ne prévoit rien sur ce sujet.";

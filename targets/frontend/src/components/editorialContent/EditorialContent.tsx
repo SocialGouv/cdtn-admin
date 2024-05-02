@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { IoMdCheckmark } from "react-icons/io";
 
-import { BaseContentPart, Content, SectionDisplayMode } from "../../types";
+import { Content } from "../../types";
 import { Button } from "../button";
 import { MarkdownLink } from "../MarkdownLink";
 import { ContentSections } from "./ContentSections";
@@ -23,6 +23,10 @@ import {
 import { FormRadioGroup, FormTextField } from "../forms";
 import { SnackBar } from "../utils/SnackBar";
 import { theme } from "src/theme";
+import {
+  EditorialContentBaseContentPart,
+  EditorialSectionDisplayMode,
+} from "@socialgouv/cdtn-types";
 
 const addComputedFields =
   (onSubmit: (content: Partial<Content>) => void) =>
@@ -33,15 +37,17 @@ const addComputedFields =
         link.type = SOURCES.EXTERNALS;
       });
     });
-    data.document?.contents?.forEach((content: BaseContentPart) => {
-      content.name = slugify(content.title as string);
-      content.references?.forEach((block) => {
-        block.links.forEach((reference) => {
-          reference.id = slugify(reference.title);
-          reference.type = SOURCES.EXTERNALS;
+    data.document?.contents?.forEach(
+      (content: EditorialContentBaseContentPart) => {
+        content.name = slugify(content.title as string);
+        content.references?.forEach((block) => {
+          block.links.forEach((reference) => {
+            reference.id = slugify(reference.title);
+            reference.type = SOURCES.EXTERNALS;
+          });
         });
-      });
-    });
+      }
+    );
     onSubmit(data);
   };
 
@@ -176,11 +182,11 @@ const EditorialContentForm = ({
             options={[
               {
                 label: "Accordéon",
-                value: SectionDisplayMode.accordion,
+                value: EditorialSectionDisplayMode.accordion,
               },
               {
                 label: "Onglet",
-                value: SectionDisplayMode.tab,
+                value: EditorialSectionDisplayMode.tab,
               },
             ]}
           />

@@ -1,5 +1,5 @@
 import { RelevantDocumentsExtractor } from "../RelevantDocuments";
-import { DilaChanges, DocumentReferences } from "@shared/types";
+import { DilaChanges, DocumentReferences } from "@socialgouv/cdtn-types";
 
 export class RelevantDocumentsExtractorStub
   implements RelevantDocumentsExtractor

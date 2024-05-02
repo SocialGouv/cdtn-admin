@@ -3,7 +3,7 @@ import type {
   DocumentReferences,
   EditoralContentReferenceBloc,
   EditorialContent,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { DilaApiClient } from "@socialgouv/dila-api-client";
 import memoizee from "memoizee";

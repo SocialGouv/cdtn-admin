@@ -1,4 +1,7 @@
-import { DocumentElasticWithSource, EditorialContentDoc } from "@shared/types";
+import {
+  DocumentElasticWithSource,
+  EditorialContentDoc,
+} from "@socialgouv/cdtn-types";
 import { getContentBlockIds } from "./getContentBlockIds";
 
 export const getRelatedIdsDocuments = (

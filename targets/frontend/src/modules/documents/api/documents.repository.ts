@@ -9,7 +9,7 @@ import {
   queryDocument,
   queryDocumentBySlug,
 } from "./documents.query";
-import { Document } from "@shared/types";
+import { HasuraDocument } from "@socialgouv/cdtn-types";
 
 export class DocumentsRepository {
   client: ApiClient;
@@ -26,11 +26,11 @@ export class DocumentsRepository {
     }
   }
 
-  async update(document: Document<any>): Promise<string | undefined> {
+  async update(document: HasuraDocument<any>): Promise<string | undefined> {
     try {
       const { data, error } = await this.client.mutation<
         any,
-        { upsert: Document<any> }
+        { upsert: HasuraDocument<any> }
       >(documentsPublishMutation, { upsert: document });
       if (error) {
         console.log("Error while updating document: ", document.cdtn_id, error);

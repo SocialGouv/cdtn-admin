@@ -1,4 +1,4 @@
-import { Environment } from "@shared/types";
+import { Environment } from "@socialgouv/cdtn-types";
 import { Chip } from "@mui/material";
 
 type EnvironmentTagProps = {

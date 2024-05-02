@@ -20,16 +20,17 @@
     "build:swc": "swc ./src -d build",
     "build:swc:watch": "swc ./src -d build -w",
     "run:ingester": "curl -X POST -H \"Content-Type: application/json\" -d '{\"environment\": \"preproduction\", \"userId\": \"3d6dddc4-e117-4772-9288-cd8a608693e4\"}' http://localhost:8787/export",
-    "lint": "npx eslint ./src --ext .ts"
+    "lint": "npx eslint ./src --ext .ts",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.523.0",
     "@elastic/elasticsearch": "^7.14.1",
-    "@shared/types": "workspace:^",
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-elasticsearch": "workspace:^",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-sources": "^4.52.1",
+    "@socialgouv/cdtn-types": "workspace:^",
     "axios": "^0.26.1",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",

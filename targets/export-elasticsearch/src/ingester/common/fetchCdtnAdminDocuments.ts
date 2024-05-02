@@ -5,13 +5,15 @@ import type { GetBreadcrumbsFn } from "../breadcrumbs";
 import { context } from "../context";
 import type {
   Document,
-  DocumentElastic,
-  DocumentElasticWithSource,
-  DocumentRef,
   DocumentWithRelation,
   Relation,
 } from "../types/Glossary";
-import { Breadcrumbs } from "@shared/types";
+import {
+  Breadcrumb,
+  DocumentElastic,
+  DocumentElasticWithSource,
+  DocumentRef,
+} from "@socialgouv/cdtn-types";
 import { gqlClient } from "@shared/utils";
 
 const PAGE_SIZE = process.env.FETCH_PAGE_SIZE
@@ -231,7 +233,7 @@ function toElastic<T>(
   refs: DocumentRef[],
   getBreadcrumbs: GetBreadcrumbsFn | undefined = undefined
 ): DocumentElasticWithSource<T> {
-  let breadcrumbs: Breadcrumbs[] = [];
+  let breadcrumbs: Breadcrumb[] = [];
   if (getBreadcrumbs) {
     breadcrumbs = getBreadcrumbs(cdtnId);
   }

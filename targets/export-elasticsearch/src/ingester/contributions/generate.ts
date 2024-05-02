@@ -1,6 +1,6 @@
 import {
   AgreementDoc,
-  Breadcrumbs,
+  Breadcrumb,
   ContributionConventionnelInfos,
   ContributionDocumentJson,
   ContributionElasticDocument,
@@ -8,7 +8,7 @@ import {
   ContributionHighlight,
   DocumentElasticWithSource,
   ContributionLinkedContent,
-} from "@shared/types";
+} from "@socialgouv/cdtn-types";
 import { generateMetadata } from "./generateMetadata";
 import { isGenericContribution, isGenericNotCdtContribution } from "./helpers";
 import { getCcSupported } from "./getCcSupported";
@@ -37,7 +37,7 @@ export async function generateContributions(
   getBreadcrumbs: GetBreadcrumbsFn
 ): Promise<ContributionElasticDocument[]> {
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
-    (state: Record<number, Breadcrumbs[]>, contribution) => {
+    (state: Record<number, Breadcrumb[]>, contribution) => {
       if (contribution.breadcrumbs.length > 0) {
         state[contribution.questionIndex] = contribution.breadcrumbs;
       }

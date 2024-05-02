@@ -13,7 +13,7 @@ import {
   TableHead,
   TableCell,
 } from "@mui/material";
-import { ExportEsStatus } from "@shared/types";
+import { ExportEsStatus } from "@socialgouv/cdtn-types";
 import { TableCellDiff } from "./TableCellDiff";
 
 type Props = {

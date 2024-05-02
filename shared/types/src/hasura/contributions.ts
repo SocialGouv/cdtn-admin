@@ -1,5 +1,5 @@
-import { FicheServicePublicDoc } from "./index";
-import { Document } from "./documents";
+import { HasuraDocument } from "./common";
+import { FicheServicePublicDoc } from "./fiche-sp";
 
 export type ContributionsAnswers = {
   id: string;
@@ -49,7 +49,7 @@ export type ContributionCdtnReferences = {
   cdtn_id: string;
   answer: ContributionsAnswers;
   answer_id: string;
-  document: Partial<Document<any>>;
+  document: Partial<HasuraDocument<any>>;
 };
 
 export type ContributionContentFicheSp = {
