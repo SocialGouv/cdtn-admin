@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.0...v2.42.1) (2024-05-03)
+
+### Bug Fixes
+
+- **types:** set good element to publish it to npm ([#1379](https://github.com/SocialGouv/cdtn-admin/issues/1379)) ([5175336](https://github.com/SocialGouv/cdtn-admin/commit/5175336976779447d110817a0206c614140c72a8))
+
 # [2.42.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.6...v2.42.0) (2024-05-03)
 
 ### Features
