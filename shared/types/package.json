@@ -1,11 +1,16 @@
 {
   "name": "@socialgouv/cdtn-types",
+  "description": "SocialGouv - Code du travail numérique - Types",
+  "license": "Apache-2.0",
   "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "access": "public"
+  },
+  "repository": {
+    "directory": "shared/types",
+    "type": "git",
+    "url": "https://github.com/SocialGouv/cdtn-admin.git"
   },
   "version": "2.42.0",
-  "private": true,
   "main": "build/index.js",
   "module": "build/index.js",
   "types": "build/index.d.ts",
