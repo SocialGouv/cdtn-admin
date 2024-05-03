@@ -1,0 +1,5 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- UPDATE documents
+-- SET is_searchable = false
+-- WHERE slug = 'indemnite-rupture-conventionnelle';

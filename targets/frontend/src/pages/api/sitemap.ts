@@ -140,18 +140,29 @@ query countDocuments($sources: [String!]!) {
  * list all the available and published documents
  */
 async function getDocuments() {
-  const gqlListDocument = `query listDocuments($sources: [String!]!,  $offset: Int = 0, $limit: Int = 50) {
-  documents(
-    order_by: [{source: asc}, {slug: asc}],
-    limit: $limit
-    offset: $offset
-    where: {source: {_in: $sources},  is_available: {_eq: true}, is_published: {_eq: true} }) {
-    slug
-    source
-    modified: updated_at
-  }
-}
-`;
+  const gqlListDocument = `
+    query listDocuments(
+      $sources: [String!]!
+      $offset: Int = 0
+      $limit: Int = 50
+    ) {
+      documents(
+        order_by: [{ source: asc }, { slug: asc }]
+        limit: $limit
+        offset: $offset
+        where: {
+          source: { _in: $sources }
+          is_available: { _eq: true }
+          is_published: { _eq: true }
+          _not: { document: { _contains: { displayTool: false } } }
+        }
+      ) {
+        slug
+        source
+        modified: updated_at
+      }
+    }
+  `;
 
   const sources = [
     SOURCES.CDT,
