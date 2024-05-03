@@ -4,7 +4,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "version": "2.41.6",
+  "version": "2.42.0",
   "private": true,
   "main": "build/index.js",
   "module": "build/index.js",

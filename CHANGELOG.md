@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.42.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.6...v2.42.0) (2024-05-03)
+
+### Bug Fixes
+
+- **env:** set base url using build variable ([#1371](https://github.com/SocialGouv/cdtn-admin/issues/1371)) ([ef8b4c5](https://github.com/SocialGouv/cdtn-admin/commit/ef8b4c5ab605f057b6199d61cb08ffcbc5af8975))
+- **tools:** ignore in sitemap tools which are `displayTool: false` ([#1377](https://github.com/SocialGouv/cdtn-admin/issues/1377)) ([383b11b](https://github.com/SocialGouv/cdtn-admin/commit/383b11bec746a85ce0a745017fba62775a104be0))
+
+### Features
+
+- **types:** ajout d'un package commun pour les types avec classification entre données fetchées par `hasura` et `elastic` ([#1370](https://github.com/SocialGouv/cdtn-admin/issues/1370)) ([a5c7463](https://github.com/SocialGouv/cdtn-admin/commit/a5c7463670e953418606f0e03c0ed39afc67ce5c))
+
 ## [2.41.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.41.5...v2.41.6) (2024-04-29)
 
 ### Bug Fixes
