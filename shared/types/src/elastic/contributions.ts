@@ -1,4 +1,9 @@
-import { ContributionDocumentJson, ContributionHighlight } from "../hasura";
+import {
+  ContributionContentType,
+  ContributionHighlight,
+  ContributionLinkedContent,
+  ContributionRef,
+} from "../hasura";
 import { Breadcrumb, DocumentElasticWithSource } from "./common";
 
 export interface ContributionConventionnelInfos {
@@ -16,24 +21,44 @@ export interface ContributionMetadata {
   text: string;
 }
 
-export interface ContributionContentBase {
+type ContributionDocumentJsonBasic = {
+  references: ContributionRef[];
+  contentType: ContributionContentType;
+  linkedContent: ContributionLinkedContent[];
+  questionIndex: number;
+  questionName: string;
+  questionId: string;
+  description: string;
+  idcc: string; // 0000 pour la générique, impossible d'être nulle
+};
+
+type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
+  type: "content";
   content: string;
-}
+};
 
-export interface ContributionFicheSpContent {
-  url: string;
-  date: string;
-  raw: string;
-  ficheSpDescription: string;
-}
-export interface ContributionGenericNoCDTContent {
+type ContributionDocumentJsonGenericNoCDT = ContributionDocumentJsonBasic & {
+  type: "generic-no-cdt";
   messageBlockGenericNoCDT: string;
-}
+  messageBlockGenericNoCDTUnextendedCC: string;
+};
 
-export type ContributionContent =
-  | ContributionContentBase
-  | ContributionFicheSpContent
-  | ContributionGenericNoCDTContent;
+type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
+  type: "fiche-sp";
+  ficheSpId: string;
+};
+
+type ContributionDocumentJsonCodeDuTravailReference =
+  ContributionDocumentJsonBasic & {
+    type: "cdt";
+    genericAnswerId: string;
+  };
+
+export type ContributionDocumentJson =
+  | ContributionDocumentJsonContent
+  | ContributionDocumentJsonGenericNoCDT
+  | ContributionDocumentJsonFicheSp
+  | ContributionDocumentJsonCodeDuTravailReference;
 
 export interface ExportFullLinkedContent {
   breadcrumbs: Breadcrumb[];
@@ -58,7 +83,7 @@ type ContributionElasticDocumentBase = Omit<
   "breadcrumbs"
 > &
   ContributionMetadata &
-  ContributionContent &
+  ContributionDocumentJson &
   ExportContributionFullLinkedContent &
   ExportContributionInfo;
 

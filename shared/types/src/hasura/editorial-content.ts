@@ -21,12 +21,15 @@ export type EditorialContentBaseContentPart = {
 export type MarkdownContentPart = {
   type: EditorialContentType.markdown;
   markdown: string;
+  html: string;
 };
 
 export type ContentItem = {
   title: string;
   source: string;
   cdtnId: string;
+  slug: string;
+  description: string;
 };
 
 export type ContentContentPart = {
@@ -46,6 +49,7 @@ export type EditorialContentLink = {
   url: string;
   type: string;
   title: string;
+  slug: string;
 };
 
 export type EditoralContentReferenceBloc = {
@@ -60,6 +64,7 @@ export type GraphicContentPart = {
   altText: string;
   fileUrl: string;
   markdown: string;
+  html: string;
 };
 
 export enum EditorialSectionDisplayMode {
