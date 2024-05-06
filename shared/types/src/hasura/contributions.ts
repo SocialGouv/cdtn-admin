@@ -77,6 +77,45 @@ export type ContributionContentType =
   | "SP"
   | null;
 
+type ContributionDocumentJsonBasic = {
+  references: ContributionRef[];
+  contentType: ContributionContentType;
+  linkedContent: ContributionLinkedContent[];
+  questionIndex: number;
+  questionName: string;
+  questionId: string;
+  description: string;
+  idcc: string; // 0000 pour la générique, impossible d'être nulle
+};
+
+type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
+  type: "content";
+  content: string;
+};
+
+type ContributionDocumentJsonGenericNoCDT = ContributionDocumentJsonBasic & {
+  type: "generic-no-cdt";
+  messageBlockGenericNoCDT: string;
+  messageBlockGenericNoCDTUnextendedCC: string;
+};
+
+type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
+  type: "fiche-sp";
+  ficheSpId: string;
+};
+
+type ContributionDocumentJsonCodeDuTravailReference =
+  ContributionDocumentJsonBasic & {
+    type: "cdt";
+    genericAnswerId: string;
+  };
+
+export type ContributionDocumentJson =
+  | ContributionDocumentJsonContent
+  | ContributionDocumentJsonGenericNoCDT
+  | ContributionDocumentJsonFicheSp
+  | ContributionDocumentJsonCodeDuTravailReference;
+
 export type ContributionLinkedContent = {
   cdtnId: string;
 };
