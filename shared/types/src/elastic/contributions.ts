@@ -65,11 +65,62 @@ type ContributionElasticDocumentBase = Omit<
 export type ContributionElasticDocument = ContributionElasticDocumentBase &
   (ContributionGenericInfos | ContributionConventionnelInfos);
 
-export type ElasticSearchContributionGeneric = ContributionElasticDocumentBase &
-  ContributionGenericInfos;
+type ElasticSearchContributionFicheSp = {
+  type: "fiche-sp";
+  url: string;
+  date: string;
+  raw: string;
+};
+
+type ElasticSearchContributionGenericNoCDT = {
+  type: "generic-no-cdt";
+  messageBlockGenericNoCDT: string;
+};
+
+type ElasticSearchContributionContent = {
+  type: "content" | "cdt";
+  content: string;
+};
+
+type ContributionLinkedContent = {
+  slug: string;
+  source: string;
+  title: string;
+  description?: string;
+};
+
+type ContributionRef = {
+  url?: string | null;
+  title: string;
+};
+
+type ElasticSearchContributionBase = {
+  description: string;
+  title: string;
+  slug: string;
+  breadcrumbs: Breadcrumb[];
+  source: "contributions";
+  linkedContent: ContributionLinkedContent[];
+  references: ContributionRef[];
+  idcc: string;
+  messageBlock?: string;
+} & (
+  | ElasticSearchContributionFicheSp
+  | ElasticSearchContributionContent
+  | ElasticSearchContributionGenericNoCDT
+);
+
+export type ElasticSearchContributionGeneric = ElasticSearchContributionBase & {
+  ccSupported: string[];
+  ccUnextended: string[];
+};
 
 export type ElasticSearchContributionConventionnelle =
-  ContributionElasticDocumentBase & ContributionConventionnelInfos;
+  ElasticSearchContributionBase & {
+    ccnSlug: string;
+    ccnShortTitle: string;
+    highlight?: ContributionHighlight;
+  };
 
 export type ElasticSearchContribution =
   | ElasticSearchContributionGeneric
