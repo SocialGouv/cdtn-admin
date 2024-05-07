@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.2...v2.42.3) (2024-05-07)
+
+### Bug Fixes
+
+- **types:** correction du type `KeysToCamelCase` ([#1383](https://github.com/SocialGouv/cdtn-admin/issues/1383)) ([c18f68d](https://github.com/SocialGouv/cdtn-admin/commit/c18f68d2e6a249fdf96f3864c6091c7bc0528e65))
+
 ## [2.42.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.1...v2.42.2) (2024-05-07)
 
 ### Bug Fixes
