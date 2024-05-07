@@ -24,6 +24,8 @@ describe("function getContentBlockIds", () => {
     cdtnId: "cdtnId",
     title: "title",
     source: "source",
+    description: "",
+    slug: "",
   };
   let props: EditorialContentBaseContentPart[];
   let result: string[];
