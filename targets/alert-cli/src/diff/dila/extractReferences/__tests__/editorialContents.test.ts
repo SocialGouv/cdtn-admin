@@ -1,6 +1,4 @@
 import type { DocumentReference } from "@socialgouv/cdtn-types";
-
-import type { EditorialContentSubset } from "../editorialContents";
 import { extractEditorialContentTemplateRef } from "../editorialContents";
 import payload from "./mocks/editorialContent.payload.json";
 
@@ -22,9 +20,7 @@ jest.mock("@shared/utils", () => {
 });
 
 test("extractMailTemplateRef", async () => {
-  const references = await extractEditorialContentTemplateRef(
-    payload as EditorialContentSubset[]
-  );
+  const references = await extractEditorialContentTemplateRef(payload as any);
   expect(references).toMatchInlineSnapshot(`
     [
       {
