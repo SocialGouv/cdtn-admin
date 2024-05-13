@@ -7,7 +7,7 @@ query fetch_prequalified {
         id
         title
         variants
-        documents(order_by: {order: asc}) {
+        documents(order_by: {order: asc}, where: {document: {_and: {is_published: { _eq: true }, is_searchable: { _eq: true }, is_available: { _eq: true }} }}) {
           document {
             id: initial_id
             cdtnId: cdtn_id
