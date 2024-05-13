@@ -3,26 +3,26 @@ import { context } from "../context";
 
 const fetchPrequalifiedQuery = `
 query fetch_prequalified {
-    search_prequalified {
-        id
-        title
-        variants
-        documents(order_by: {order: asc}) {
-          document {
-            id: initial_id
-            cdtnId: cdtn_id
-            title
-            slug
-            source
-            text
-            isPublished: is_published
-            isSearchable: is_searchable
-            description: meta_description
-            document
-          }
+  search_prequalified {
+      id
+      title
+      variants
+      documents(order_by: {order: asc}, where: {document: {is_published: { _eq: true} }}) {
+        document {
+          id: initial_id
+          cdtnId: cdtn_id
+          title
+          slug
+          source
+          text
+          isPublished: is_published
+          isSearchable: is_searchable
+          description: meta_description
+          document
         }
       }
-  }
+    }
+}
 `;
 
 export interface FetchedPrequalified {
