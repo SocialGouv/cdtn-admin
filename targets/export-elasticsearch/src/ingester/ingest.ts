@@ -152,14 +152,12 @@ async function runIngester(
       });
     }
 
-    console.log("ok");
     await indexDocumentsBatched({
       client,
       documents: docs,
       indexName: `${DOCUMENT_INDEX_NAME}-${ts}`,
       size: 800,
     });
-    console.log("mdr");
   };
   await cdtnDocumentsGen(updateDocs);
 
