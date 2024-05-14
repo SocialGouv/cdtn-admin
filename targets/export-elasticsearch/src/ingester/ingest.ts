@@ -91,19 +91,27 @@ async function runIngester(
   suggestFile: string | undefined,
   disableGlossary: boolean | undefined
 ) {
-  const ES_INDEX_PREFIX = esIndexPrefix || "cdtn";
+  const ES_INDEX_PREFIX = esIndexPrefix ?? "cdtn";
 
   const DOCUMENT_INDEX_NAME = `${ES_INDEX_PREFIX}_${DOCUMENTS}`;
   const SUGGEST_INDEX_NAME = `${ES_INDEX_PREFIX}_${SUGGESTIONS}`;
 
-  const ELASTICSEARCH_URL = esUrl || "http://localhost:9200";
+  const ELASTICSEARCH_URL = esUrl ?? "http://localhost:9200";
 
-  const esClientConfig = {
-    auth: { apiKey: esTokenIngest },
-    node: `${ELASTICSEARCH_URL}`,
-  };
-
-  const client = new Client(esClientConfig as unknown as any);
+  const client = new Client(
+    Object.assign(
+      {
+        node: ELASTICSEARCH_URL,
+      },
+      esTokenIngest
+        ? {
+            auth: {
+              apiKey: esTokenIngest,
+            },
+          }
+        : {}
+    )
+  );
 
   context.set("cdtnAdminEndpoint", cdtnAdminEndpoint);
   context.set("cdtnAdminEndpointSecret", cdtnAdminEndpointSecret);
