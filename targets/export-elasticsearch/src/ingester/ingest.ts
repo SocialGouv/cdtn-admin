@@ -104,6 +104,7 @@ async function runIngester(
   };
 
   const client = new Client(esClientConfig as unknown as any);
+
   context.set("cdtnAdminEndpoint", cdtnAdminEndpoint);
   context.set("cdtnAdminEndpointSecret", cdtnAdminEndpointSecret);
   context.set("esUrl", esUrl);
