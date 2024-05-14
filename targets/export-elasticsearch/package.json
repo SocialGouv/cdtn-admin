@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.523.0",
-    "@elastic/elasticsearch": "^7.14.1",
+    "@elastic/elasticsearch": "^8.13.1",
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-elasticsearch": "workspace:^",
     "@socialgouv/cdtn-slugify": "^4.52.1",
