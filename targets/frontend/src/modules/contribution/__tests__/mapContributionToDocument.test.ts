@@ -488,5 +488,69 @@ describe("mapContributionToDocument", () => {
       );
       expect(result!.is_searchable).toEqual(false);
     });
+
+    it("devrait garder la même valeur du document pour une réponse générique", async () => {
+      const inputContribution: ContributionsAnswers = {
+        id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+        content: "<p>Texte de la réponse</p>",
+        description: "Texte de la réponse",
+        content_type: "ANSWER",
+        agreement: {
+          id: "16",
+          name: "CC 16",
+          kali_id: "ABCDE",
+        },
+        question: {
+          id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+          content:
+            "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+          order: 43,
+        },
+        kali_references: [],
+        legi_references: [],
+        other_references: [],
+        cdtn_references: [],
+        content_fiche_sp: null,
+        message_block_generic_no_CDT: null,
+      };
+
+      const result = await mapContributionToDocument(
+        inputContribution,
+        undefined,
+        jest.fn()
+      );
+      expect(result!.cdtn_id).toEqual("b3bc78aed5");
+
+      const inputContribution2: ContributionsAnswers = {
+        id: "effee3b9-84fb-4667-944b-4b1e1fd14eb6",
+        content: "<p>Texte de la réponse</p>",
+        description: "Texte de la réponse",
+        content_type: "ANSWER",
+        agreement: {
+          id: "3248",
+          name: "CC 3248",
+          kali_id: "ABCDE",
+        },
+        question: {
+          id: "3384f257-e319-46d1-a4cb-8e8294da337b",
+          content:
+            "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+          order: 43,
+        },
+        kali_references: [],
+        legi_references: [],
+        other_references: [],
+        cdtn_references: [],
+        content_fiche_sp: null,
+        message_block_generic_no_CDT: null,
+      };
+
+      const result2 = await mapContributionToDocument(
+        inputContribution2,
+        undefined,
+        jest.fn()
+      );
+      expect(result2?.cdtn_id).not.toEqual(result?.cdtn_id);
+    });
   });
 });

@@ -85,7 +85,7 @@ export const mapContributionToDocument = async (
   } as ContributionDocumentJson;
 
   return {
-    cdtn_id: document?.cdtn_id ?? generateCdtnId(data.question.content),
+    cdtn_id: document?.cdtn_id ?? generateCdtnId("contributions" + data.id),
     initial_id: data.id,
     source: SOURCES.CONTRIBUTIONS,
     meta_description: document?.meta_description ?? "", // la génération se fait à l'export car on a besoin du dernier contenu de la fiche sp
