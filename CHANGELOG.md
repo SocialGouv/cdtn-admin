@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.3...v2.42.4) (2024-05-14)
+
+### Bug Fixes
+
+- **actions:** upgrade codeql to latest version ([#1384](https://github.com/SocialGouv/cdtn-admin/issues/1384)) ([9a4aa36](https://github.com/SocialGouv/cdtn-admin/commit/9a4aa36dacd0588d29ff726c2e63ec04dcb36596))
+- prequalifié sans non publié ([#1387](https://github.com/SocialGouv/cdtn-admin/issues/1387)) ([af8f634](https://github.com/SocialGouv/cdtn-admin/commit/af8f6347582601dc8c8671cd1b99794eebd2f77e))
+
 ## [2.42.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.2...v2.42.3) (2024-05-07)
 
 ### Bug Fixes
