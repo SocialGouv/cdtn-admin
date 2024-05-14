@@ -120,7 +120,8 @@ docker-compose up -d postgres
 ##### 0. Create a dump
 
 ```sh
-./scripts/dump_db.sh -n cdtn-admin
+kubectx ovh-prod pour utiliser le contexte prod
+./scripts/dump_db.sh -n cdtn-admin # Dans le cas où on accepte de relancer l'environnement avec ce dump, alors on peut passer à l'étape 4
 ```
 
 ##### 1. Restore data
