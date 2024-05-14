@@ -3,7 +3,7 @@ const { logger } = require("@shared/utils");
 const { analyzer, char_filter, filter, tokenizer } = require("./analysis");
 
 async function createIndex({ client, indexName, mappings }) {
-  const { body } = await client.indices.exists({ index: indexName });
+  const body = await client.indices.exists({ index: indexName });
   if (body) {
     try {
       await client.indices.delete({ index: indexName });
@@ -38,7 +38,7 @@ async function createIndex({ client, indexName, mappings }) {
 }
 
 async function version({ client }) {
-  const { body } = await client.info();
+  const body = await client.info();
   logger.info(body.version.number);
 }
 
@@ -63,10 +63,8 @@ async function bulkIndexDocuments({ client, indexName, documents }) {
       ),
       index: indexName,
     });
-    if (resp.body.errors) {
-      const errorDocs = resp.body.items.filter(
-        (item) => item.index.status !== 201
-      );
+    if (resp.errors) {
+      const errorDocs = resp.items.filter((item) => item.index.status !== 201);
       throw new Error(`Error during indexing ${JSON.stringify(errorDocs)}`);
     }
     logger.info(`Index ${documents.length} documents.`);
@@ -89,7 +87,7 @@ async function indexDocumentsBatched({
 }
 
 async function deleteOldIndex({ client, patterns, timestamp }) {
-  const { body: indices } = await client.cat.indices({ format: "json" });
+  const indices = await client.cat.indices({ format: "json" });
 
   const IndicesToDelete = getIndicesToDelete(patterns, timestamp, indices);
   const pIndicesToDelete = IndicesToDelete.map(({ index }) =>
