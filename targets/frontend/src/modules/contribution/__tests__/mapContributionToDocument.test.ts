@@ -489,7 +489,7 @@ describe("mapContributionToDocument", () => {
       expect(result!.is_searchable).toEqual(false);
     });
 
-    it("devrait garder la même valeur du document pour une réponse générique", async () => {
+    it("2 contribs de la même question doivent générer des cdtn_id différent si elle n'existe pas", async () => {
       const inputContribution: ContributionsAnswers = {
         id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
         content: "<p>Texte de la réponse</p>",
