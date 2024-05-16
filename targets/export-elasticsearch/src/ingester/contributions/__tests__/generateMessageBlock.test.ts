@@ -1,10 +1,16 @@
-import { ContributionContentType } from "@socialgouv/cdtn-types";
+import {
+  ContributionContentType,
+  ContributionDocumentJson,
+  DocumentElasticWithSource,
+} from "@socialgouv/cdtn-types";
 import { fetchMessageBlock } from "../fetchMessageBlock";
 import { fetchAgreementMessage } from "../fetchAgreementMessage";
 import { generateMessageBlock } from "../generateMessageBlock";
 
 jest.mock("../fetchMessageBlock");
 jest.mock("../fetchAgreementMessage");
+
+const contributions: DocumentElasticWithSource<ContributionDocumentJson>[] = [];
 
 describe("generateMessageBlock", () => {
   const mockContribution: any = {
@@ -36,6 +42,7 @@ describe("generateMessageBlock", () => {
 
       mockContribution.contentType = contentType as ContributionContentType;
       const result: string | undefined = await generateMessageBlock(
+        contributions,
         mockContribution
       );
 
@@ -63,6 +70,7 @@ describe("generateMessageBlock", () => {
       mockContribution.contentType = contentType as ContributionContentType;
       mockContribution.idcc = "0000";
       const result: string | undefined = await generateMessageBlock(
+        contributions,
         mockContribution
       );
 
@@ -75,24 +83,25 @@ describe("generateMessageBlock", () => {
     mockContribution.contentType = "UNKNOWN_TYPE";
     mockContribution.idcc = "1234";
 
-    await expect(generateMessageBlock(mockContribution)).rejects.toThrowError(
-      "Unknown content type"
-    );
+    await expect(
+      generateMessageBlock(contributions, mockContribution)
+    ).rejects.toThrowError("Unknown content type");
   });
 
   it("should throw an error for unknown content type", async () => {
     mockContribution.contentType = null;
     mockContribution.idcc = "1234";
 
-    await expect(generateMessageBlock(mockContribution)).rejects.toThrowError(
-      "Unknown content type"
-    );
+    await expect(
+      generateMessageBlock(contributions, mockContribution)
+    ).rejects.toThrowError("Unknown content type");
   });
 
   it("should return undefined if no message block setup for the question", async () => {
     (fetchMessageBlock as jest.Mock).mockResolvedValue(undefined);
 
     const result: string | undefined = await generateMessageBlock(
+      contributions,
       mockContribution
     );
 
@@ -107,6 +116,7 @@ describe("generateMessageBlock", () => {
     );
 
     const result: string | undefined = await generateMessageBlock(
+      contributions,
       mockContribution
     );
 

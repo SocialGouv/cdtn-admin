@@ -55,7 +55,7 @@ export async function generateContributions(
 
     const content = await generateContent(contributions, contrib);
 
-    const messageBlock = await generateMessageBlock(contrib);
+    const messageBlock = await generateMessageBlock(contributions, contrib);
 
     const references = generateReferences(contributions, contrib);
 

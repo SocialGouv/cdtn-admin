@@ -1,0 +1,13 @@
+alter table "contribution"."question_messages" add column "content_agreement_without_legal" text
+ null;
+alter table "contribution"."question_messages" add column "content_not_handled_without_legal" text
+ null;
+
+update contribution.question_messages
+set content_not_handled_without_legal = '<p>Ces informations sont issues de l’analyse de votre convention collective de branche étendue.</p><p>D’autres textes ou votre contrat de travail peuvent également prévoir des règles spécifiques sur ce sujet. Plusieurs cas de figure peuvent se présenter :</p><ul><li>Si un accord d’entreprise (ou de groupe ou d’établissement) traite de ce sujet : c’est ce texte qui s’appliquera ;</li><li>Dans tous les cas, si le contrat de travail prévoit des règles plus favorables : il s’appliquera.</li></ul><p> Attention, d’autres règles non étendues peuvent potentiellement vous être applicables.</p>',
+content_agreement_without_legal = '<p>Ces informations sont issues de l’analyse des règles prévues par votre convention collective de branche étendue. Si une convention ou un accord d’entreprise (ou de groupe, ou d’établissement) existe dans votre entreprise, il s’appliquera, qu’il soit plus ou moins favorable. Toutefois, si votre contrat de travail contient des règles plus favorables, ce sont celles-ci qui s’appliqueront.</p><p>Attention, d’autres règles non étendues peuvent potentiellement vous être applicables.</p>'
+where label = 'Message Bloc 3';
+update contribution.question_messages
+set content_not_handled_without_legal = '<p>Ces informations sont issues de l’analyse de votre convention collective de branche étendue.</p><p>D’autres textes ou votre contrat de travail peuvent également prévoir des règles spécifiques sur ce sujet. </p><p>Plusieurs cas de figure peuvent se présenter :</p><ul><li>Si un accord d’entreprise (ou de groupe ou d’établissement) traite de ce sujet : c’est ce texte qui s’appliquera ;</li><li>Dans tous les cas, si le contrat de travail prévoit des règles plus favorables : il s’appliquera.</li></ul><p> Attention, d’autres règles non étendues peuvent potentiellement vous être applicables.</p>',
+content_agreement_without_legal = '<p>Ces informations sont issues de l’analyse des règles prévues par votre convention collective de branche étendue. Si une convention ou un accord d’entreprise (ou de groupe, ou d’établissement) existant dans votre entreprise prévoit des garanties au moins équivalentes sur le même sujet, elles s’appliqueront, sauf si votre contrat de travail contient des règles plus favorables.</p><p>Attention, d’autres règles non étendues peuvent potentiellement vous être applicables.</p>'
+where label = 'Message Bloc 2';

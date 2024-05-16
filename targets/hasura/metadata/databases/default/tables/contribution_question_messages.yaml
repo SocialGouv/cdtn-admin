@@ -5,14 +5,20 @@ configuration:
   column_config:
     content_agreement:
       custom_name: contentAgreement
+    content_agreement_without_legal:
+      custom_name: contentAgreementWithoutLegal
     content_legal:
       custom_name: contentLegal
     content_not_handled:
       custom_name: contentNotHandled
+    content_not_handled_without_legal:
+      custom_name: contentNotHandledWithoutLegal
   custom_column_names:
     content_agreement: contentAgreement
+    content_agreement_without_legal: contentAgreementWithoutLegal
     content_legal: contentLegal
     content_not_handled: contentNotHandled
+    content_not_handled_without_legal: contentNotHandledWithoutLegal
   custom_root_fields: {}
 select_permissions:
   - role: super
