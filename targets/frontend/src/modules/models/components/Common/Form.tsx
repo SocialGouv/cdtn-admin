@@ -73,7 +73,7 @@ export const ModelForm = ({
     undefined
   );
 
-  const { control, handleSubmit, setValue } = useForm<FormData>({
+  const { control, handleSubmit, setValue, formState } = useForm<FormData>({
     defaultValues: {
       ...defaultValues,
       ...model,
@@ -209,7 +209,7 @@ export const ModelForm = ({
               },
               {
                 label: "Lettre",
-                value: "letter",
+                value: "lettre",
               },
             ]}
           />
