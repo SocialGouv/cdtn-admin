@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.5...v2.42.6) (2024-05-17)
+
+### Bug Fixes
+
+- **modele:** correction de la création des modèles ([#1393](https://github.com/SocialGouv/cdtn-admin/issues/1393)) ([0a19d55](https://github.com/SocialGouv/cdtn-admin/commit/0a19d5516a952d2a13335056c9f9da75147bda96))
+
 ## [2.42.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.4...v2.42.5) (2024-05-14)
 
 ### Bug Fixes
