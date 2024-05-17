@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.5...v2.42.6) (2024-05-17)
+
+### Bug Fixes
+
+- **contributions:** ajout d'un message texte applicable pour les contributions de la 3239 ([#1386](https://github.com/SocialGouv/cdtn-admin/issues/1386)) ([e26df23](https://github.com/SocialGouv/cdtn-admin/commit/e26df23f63dcbfbbced59b7d1d99639189d4c862))
+- **modele:** correction de la création des modèles ([#1393](https://github.com/SocialGouv/cdtn-admin/issues/1393)) ([0a19d55](https://github.com/SocialGouv/cdtn-admin/commit/0a19d5516a952d2a13335056c9f9da75147bda96))
+
+## [2.42.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.4...v2.42.5) (2024-05-14)
+
+### Bug Fixes
+
+- **contributions:** écrasement de contribution par d'autres contributions à la publication ([#1390](https://github.com/SocialGouv/cdtn-admin/issues/1390)) ([1f9829c](https://github.com/SocialGouv/cdtn-admin/commit/1f9829cc467075df2969572f490c7936b89c0314))
+
 ## [2.42.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.3...v2.42.4) (2024-05-14)
 
 ### Bug Fixes
