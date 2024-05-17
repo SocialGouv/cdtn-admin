@@ -126,7 +126,7 @@ export class DocumentsService {
   ): HasuraDocument<any> {
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
-      initial_id: data.id,
+      initial_id: data.id!,
       source: "modeles_de_courriers",
       meta_description: data.metaDescription,
       title: data.title,

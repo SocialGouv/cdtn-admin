@@ -6,7 +6,7 @@ import {
 import { fileSchema } from "../common/type";
 
 export const modelSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().uuid().optional(),
   title: z
     .string({ required_error: "Un titre doit être renseigné" })
     .min(1, "Un titre doit être renseigné"),
