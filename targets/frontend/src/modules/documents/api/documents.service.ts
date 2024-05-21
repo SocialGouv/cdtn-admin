@@ -130,7 +130,7 @@ export class DocumentsService {
       source: "modeles_de_courriers",
       meta_description: data.metaDescription,
       title: data.title,
-      text: data.description,
+      text: data.intro,
       slug: document?.slug ?? slugify(data.title),
       is_searchable: document ? document.is_searchable : true,
       is_published: document ? document.is_published : true,
@@ -153,7 +153,8 @@ export class DocumentsService {
               type: "external",
             }))
           ),
-        description: data.description,
+        description: data.metaDescription,
+        intro: data.intro,
         filename: data.file.url,
         filesize: parseInt(data.file.size ?? "0"),
         html: data.previewHTML,

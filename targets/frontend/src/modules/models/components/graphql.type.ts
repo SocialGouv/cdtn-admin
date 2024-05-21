@@ -48,7 +48,7 @@ export type ModelModelsOtherReferencesArrRelInsertInput = {
 
 export type ModelModelsInsertInput = {
   createdAt?: string;
-  description?: string;
+  intro?: string;
   file?: FilesObjRelInsertInput;
   fileId?: string;
   id?: string;

@@ -8,7 +8,7 @@ export const modelsQuery = gql`
       title
       metaTitle
       type
-      description
+      intro
       metaDescription
       previewHTML
       createdAt
