@@ -48,21 +48,6 @@ const defaultValues: FormData = {
   otherReferences: [],
 };
 
-export const modelSchemaUpsert = modelSchema
-  .extend({
-    newFile: z.array(z.custom<DropzoneFile>()).optional(),
-  })
-  .omit({ updatedAt: true, createdAt: true, file: true })
-  .superRefine(({ newFile, id }, refinementContext) => {
-    if (!id && !newFile) {
-      return refinementContext.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Un fichier doit être renseigné",
-        path: ["newFile"],
-      });
-    }
-  });
-
 export const ModelForm = ({
   model,
   onUpsert,
@@ -72,13 +57,38 @@ export const ModelForm = ({
   const [previewError, setPreviewError] = React.useState<string | undefined>(
     undefined
   );
+  const isCreation = !model;
 
-  const { control, handleSubmit, setValue } = useForm<FormData>({
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormData>({
     defaultValues: {
       ...defaultValues,
       ...model,
     },
-    resolver: zodResolver(modelSchemaUpsert),
+    resolver: zodResolver(
+      modelSchema
+        .extend({
+          newFile: z.array(z.custom<DropzoneFile>()).optional(),
+        })
+        .omit(
+          isCreation
+            ? { updatedAt: true, createdAt: true, file: true, id: true }
+            : { updatedAt: true, createdAt: true, file: true }
+        )
+        .superRefine(({ newFile }, refinementContext) => {
+          if (!newFile) {
+            return refinementContext.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: "Un fichier doit être renseigné",
+              path: ["newFile"],
+            });
+          }
+        })
+    ),
     shouldFocusError: true,
   });
 
@@ -181,6 +191,7 @@ export const ModelForm = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={4}>
+        {JSON.stringify(errors)}
         <FormControl></FormControl>
         {model && (
           <FormControl>
@@ -297,7 +308,7 @@ export const ModelForm = ({
         </FormControl>
         <Stack direction="row" spacing={2} justifyContent="end">
           <Button variant="contained" type="submit">
-            {model ? "Sauvegarder" : "Créer"}
+            {!isCreation ? "Sauvegarder" : "Créer"}
           </Button>
           {onPublish && (
             <Button
