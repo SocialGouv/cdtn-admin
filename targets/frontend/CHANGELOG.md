@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.6...v2.42.7) (2024-05-23)
+
+### Bug Fixes
+
+- tuile modeles recherche contenant des tags html ([#1396](https://github.com/SocialGouv/cdtn-admin/issues/1396)) ([a042702](https://github.com/SocialGouv/cdtn-admin/commit/a0427027c4d0da5c03101fec1986fb78ddceccf0))
+
 ## [2.42.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.5...v2.42.6) (2024-05-17)
 
 ### Bug Fixes

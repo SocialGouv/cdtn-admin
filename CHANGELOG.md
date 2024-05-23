@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.6...v2.42.7) (2024-05-23)
+
+### Bug Fixes
+
+- tuile modeles recherche contenant des tags html ([#1396](https://github.com/SocialGouv/cdtn-admin/issues/1396)) ([a042702](https://github.com/SocialGouv/cdtn-admin/commit/a0427027c4d0da5c03101fec1986fb78ddceccf0))
+
+### Features
+
+- **docs:** ajout de page unique pour chaque widget ([#1398](https://github.com/SocialGouv/cdtn-admin/issues/1398)) ([39bf9fb](https://github.com/SocialGouv/cdtn-admin/commit/39bf9fbd0545bf82db8ddea49d79d0438c75482e))
+- update wording message bloc ([#1391](https://github.com/SocialGouv/cdtn-admin/issues/1391)) ([28b972e](https://github.com/SocialGouv/cdtn-admin/commit/28b972e0da0b3ee1116a0805e8d1551bd370e583))
+- **widget:** ajout d'une page de test pour afficher les widgets ([#1397](https://github.com/SocialGouv/cdtn-admin/issues/1397)) ([daf91f5](https://github.com/SocialGouv/cdtn-admin/commit/daf91f58750e7ede4b1e6762127e9274603e20f2))
+
 ## [2.42.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.5...v2.42.6) (2024-05-17)
 
 ### Bug Fixes
