@@ -209,7 +209,7 @@ export const ModelForm = ({
               },
               {
                 label: "Lettre",
-                value: "letter",
+                value: "lettre",
               },
             ]}
           />
