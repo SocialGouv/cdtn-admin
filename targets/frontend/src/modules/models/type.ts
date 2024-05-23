@@ -13,11 +13,11 @@ export const modelSchema = z.object({
   metaTitle: z
     .string({ required_error: "Un titre meta doit être renseigné" })
     .min(1, "Un titre meta doit être renseigné"),
-  description: z
+  intro: z
     .string({
-      required_error: "Une description doit être renseignée",
+      required_error: "Une introduction doit être renseignée",
     })
-    .min(1, "Une description doit être renseignée"),
+    .min(1, "Une introduction doit être renseignée"),
   metaDescription: z
     .string({
       required_error: "Une description meta doit être renseignée",

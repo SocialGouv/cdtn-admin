@@ -23,7 +23,7 @@ const updateModelQuery = gql`
         update_columns: [
           title
           metaTitle
-          description
+          intro
           metaDescription
           type
           previewHTML
@@ -62,7 +62,7 @@ export const useModelUpdateMutation = (): MutationFn => {
         id: data.id,
         title: data.title,
         metaTitle: data.metaTitle,
-        description: data.description,
+        intro: data.intro,
         metaDescription: data.metaDescription,
         type: data.type,
         file: {
