@@ -42,23 +42,8 @@ const main = (req: NextApiRequest, res: NextApiResponse) => {
         "Content-Type": "application/json",
       },
       method: "POST",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.errors) {
-          res.status(500).json({
-            error: data.error,
-          });
-        }
-        res.status(200).json({
-          ...data,
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({
-          error,
-        });
-      });
+    });
+    res.status(200);
   }
 };
 
