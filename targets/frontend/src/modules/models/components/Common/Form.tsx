@@ -40,7 +40,7 @@ type Props = {
 const defaultValues: FormData = {
   title: "",
   metaTitle: "",
-  description: "",
+  intro: "",
   metaDescription: "",
   type: undefined,
   previewHTML: "",
@@ -115,7 +115,7 @@ export const ModelForm = ({
         id: newData.id!,
         title: newData.title!,
         metaTitle: newData.metaTitle!,
-        description: newData.description!,
+        intro: newData.intro!,
         metaDescription: newData.metaDescription!,
         type: newData.type!,
         file: newData.newFile
@@ -209,7 +209,7 @@ export const ModelForm = ({
               },
               {
                 label: "Lettre",
-                value: "letter",
+                value: "lettre",
               },
             ]}
           />
@@ -232,8 +232,8 @@ export const ModelForm = ({
         </FormControl>
         <FormControl>
           <FormEditionField
-            label="Description"
-            name="description"
+            label="Introduction"
+            name="intro"
             control={control}
           />
         </FormControl>

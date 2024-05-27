@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.6...v2.42.7) (2024-05-23)
+
+### Bug Fixes
+
+- tuile modeles recherche contenant des tags html ([#1396](https://github.com/SocialGouv/cdtn-admin/issues/1396)) ([a042702](https://github.com/SocialGouv/cdtn-admin/commit/a0427027c4d0da5c03101fec1986fb78ddceccf0))
+
+### Features
+
+- **docs:** ajout de page unique pour chaque widget ([#1398](https://github.com/SocialGouv/cdtn-admin/issues/1398)) ([39bf9fb](https://github.com/SocialGouv/cdtn-admin/commit/39bf9fbd0545bf82db8ddea49d79d0438c75482e))
+- update wording message bloc ([#1391](https://github.com/SocialGouv/cdtn-admin/issues/1391)) ([28b972e](https://github.com/SocialGouv/cdtn-admin/commit/28b972e0da0b3ee1116a0805e8d1551bd370e583))
+- **widget:** ajout d'une page de test pour afficher les widgets ([#1397](https://github.com/SocialGouv/cdtn-admin/issues/1397)) ([daf91f5](https://github.com/SocialGouv/cdtn-admin/commit/daf91f58750e7ede4b1e6762127e9274603e20f2))
+
+## [2.42.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.5...v2.42.6) (2024-05-17)
+
+### Bug Fixes
+
+- **contributions:** ajout d'un message texte applicable pour les contributions de la 3239 ([#1386](https://github.com/SocialGouv/cdtn-admin/issues/1386)) ([e26df23](https://github.com/SocialGouv/cdtn-admin/commit/e26df23f63dcbfbbced59b7d1d99639189d4c862))
+- **modele:** correction de la création des modèles ([#1393](https://github.com/SocialGouv/cdtn-admin/issues/1393)) ([0a19d55](https://github.com/SocialGouv/cdtn-admin/commit/0a19d5516a952d2a13335056c9f9da75147bda96))
+
+## [2.42.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.4...v2.42.5) (2024-05-14)
+
+### Bug Fixes
+
+- **contributions:** écrasement de contribution par d'autres contributions à la publication ([#1390](https://github.com/SocialGouv/cdtn-admin/issues/1390)) ([1f9829c](https://github.com/SocialGouv/cdtn-admin/commit/1f9829cc467075df2969572f490c7936b89c0314))
+
 ## [2.42.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.3...v2.42.4) (2024-05-14)
 
 ### Bug Fixes

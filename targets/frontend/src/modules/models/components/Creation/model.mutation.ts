@@ -34,7 +34,7 @@ export const useModelInsertMutation = (): MutationFn => {
         title: data.title,
         metaTitle: data.metaTitle,
         type: data.type,
-        description: data.description,
+        intro: data.intro,
         metaDescription: data.metaDescription,
         file: {
           data: data.file,
