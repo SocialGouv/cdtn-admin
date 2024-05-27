@@ -58,7 +58,7 @@ const filter = {
 
 const analyzer = {
   article_id_analyzer: {
-    filter: ["lowercase", "french_acronyms", "asciifolding"],
+    filter: ["lowercase", "french_acronyms"],
     tokenizer: "article_id_tokenizer",
   },
 
@@ -66,7 +66,7 @@ const analyzer = {
   // for all suggestion
   // see below, ngram from tokens
   autocomplete: {
-    filter: ["lowercase", "asciifolding"],
+    filter: ["lowercase"],
     tokenizer: "autocomplete", //, "french_stop"]
   },
 
@@ -121,7 +121,7 @@ const analyzer = {
   // (as opposite to match "in the middle")
   sugg_prefix: {
     char_filter: ["startwith"],
-    filter: ["lowercase", "asciifolding"],
+    filter: ["lowercase"],
     tokenizer: "@rd",
   },
 };
