@@ -1,15 +1,14 @@
 import {
   AgreementDoc,
-  ElasticAgreement,
   ContributionElasticDocument,
-  ExportAnswer,
   DocumentElasticWithSource,
+  ElasticAgreement,
+  ExportAnswer,
 } from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getIDCCs } from "./getIdcc";
 import getAgreementsArticlesByTheme from "./getAgreementsArticlesByTheme";
 import { getTheme } from "./getTheme";
-import { getInfoMessage } from "./getInfoMessage";
 import pMap from "p-map";
 
 const DESCRIPTION =
@@ -33,9 +32,10 @@ export const generateAgreements = async (
       const answers: ExportAnswer[] = contributionByIdccNotUnknown
         .map((data) => {
           return {
-            ...data,
+            title: data.title,
+            slug: data.slug,
+            questionIndex: data.questionIndex,
             theme: getTheme(data),
-            infoMessage: getInfoMessage(data),
           };
         })
         .sort(
@@ -51,14 +51,14 @@ export const generateAgreements = async (
         answers,
         articlesByTheme,
         contributions: contribIDCCs.has(cc.num),
-        description: DESCRIPTION, // On affiche la nouvelle description s'il n'y a plus d'anciennes réponses conventionnelles
+        description: DESCRIPTION,
         source: SOURCES.CCN,
       };
 
       return agreementGenerated;
     },
     {
-      concurrency: 5,
+      concurrency: 10,
     }
   );
 };

@@ -1,6 +1,5 @@
 import { AgreementDoc } from "../hasura";
 import { DocumentElasticWithSource } from "./common";
-import { ContributionElasticDocument } from "./contributions";
 
 export type ElasticAgreement = DocumentElasticWithSource<AgreementDoc> & {
   articlesByTheme: ArticleByTheme[];
@@ -11,9 +10,11 @@ export type ElasticAgreement = DocumentElasticWithSource<AgreementDoc> & {
 };
 
 // Type pour les réponses
-export type ExportAnswer = ContributionElasticDocument & {
+export type ExportAnswer = {
   theme?: string;
-  infoMessage: string;
+  slug: string;
+  title: string;
+  questionIndex: number;
 };
 
 // Types pour les Kali-Blocks
