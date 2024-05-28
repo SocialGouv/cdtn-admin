@@ -25,13 +25,13 @@ describe("contributionsByTheme", () => {
             "questionIndex": 1,
             "slug": "contrib-1",
             "theme": "A",
-            "title": "contrib"
+            "question": "contrib"
           },
           {
             "questionIndex": 2,
             "slug": "contrib-2",
             "theme": "A",
-            "title": "contrib"
+            "question": "contrib"
           }
         ],
         "theme": "A"
@@ -42,7 +42,7 @@ describe("contributionsByTheme", () => {
             "questionIndex": 1,
             "slug": "contrib-1",
             "theme": "B",
-            "title": "contrib"
+            "question": "contrib"
           }
         ],
         "theme": "B"
@@ -53,7 +53,7 @@ describe("contributionsByTheme", () => {
             "questionIndex": 1,
             "slug": "contrib-1",
             "theme": "C",
-            "title": "contrib"
+            "question": "contrib"
           }
         ],
         "theme": "C"
