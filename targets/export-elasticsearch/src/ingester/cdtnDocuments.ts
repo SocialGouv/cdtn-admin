@@ -177,6 +177,7 @@ export async function cdtnDocumentsGen(
     SOURCES.SHEET_MT_PAGE,
     getBreadcrumbs
   );
+  logger.info(`Fetched ${fichesMT.length} fiches travail`);
   const fichesMTWithGlossary = fichesMT.map(({ sections, ...infos }) => ({
     ...infos,
     sections: sections.map(({ html, ...section }: any) => {
@@ -188,7 +189,7 @@ export async function cdtnDocumentsGen(
       };
     }),
   }));
-
+  logger.info(`Mapped ${fichesMTWithGlossary.length} fiches travail with glossary`);
   documentsCount = {
     ...documentsCount,
     [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
