@@ -1,8 +1,5 @@
-import slugify from "@socialgouv/cdtn-slugify";
-
-function splitArticle(article) {
-  const { cdtnId, title, id, isPublished, excludeFromSearch } = article;
-  const slug = slugify(title);
+function splitArticle(article: any) {
+  const { cdtnId, title, id, isPublished, excludeFromSearch, slug } = article;
   let prefixTitle = title;
   // extract accronyms inside parenthesis
   // Contrat de sécurisation professionnelle (CSP)
@@ -37,8 +34,18 @@ function splitArticle(article) {
         text,
         references,
         title: sectionTitle,
+      }: {
+        anchor: string;
+        description: string;
+        html: string;
+        text: string;
+        references: any[];
+        title: string;
       }) => {
-        const title = transformSectionTitle({ prefixTitle, sectionTitle });
+        const transformedSectionTitle = transformSectionTitle({
+          prefixTitle,
+          sectionTitle,
+        });
         return {
           anchor,
           cdtnId,
@@ -50,17 +57,23 @@ function splitArticle(article) {
           references,
           slug: `${slug}${anchor ? `#${anchor}` : ""}`,
           text,
-          title,
+          title: transformedSectionTitle,
         };
       }
     );
 }
 
-function isUnusedSection({ title }) {
+function isUnusedSection({ title }: { title: string }) {
   return !/L.INFO EN PLUS/i.test(title) && !/POUR ALLER PLUS LOIN/i.test(title);
 }
 
-function transformSectionTitle({ sectionTitle: title, prefixTitle }) {
+function transformSectionTitle({
+  sectionTitle: title,
+  prefixTitle,
+}: {
+  sectionTitle: string;
+  prefixTitle: string;
+}) {
   // Remove '1)', '2)', '3)' etc.
   let sectionTitle = title.replace(/\d\)/, "");
 
@@ -75,7 +88,9 @@ function transformSectionTitle({ sectionTitle: title, prefixTitle }) {
   // replace multiple spaces by a single space.
   sectionTitle = sectionTitle.replace(/\s+/g, " ").trim();
 
-  return sectionTitle.trim().replace(/^\w/, (value) => value.toUpperCase());
+  return sectionTitle
+    .trim()
+    .replace(/^\w/, (value: string) => value.toUpperCase());
 }
 
 export { splitArticle };
