@@ -66,7 +66,7 @@ const analyzer = {
   // for all suggestion
   // see below, ngram from tokens
   autocomplete: {
-    filter: ["lowercase"],
+    filter: ["lowercase", "asciifolding"],
     tokenizer: "autocomplete", //, "french_stop"]
   },
 
@@ -74,15 +74,16 @@ const analyzer = {
   // the entire query (no ngrams)
   autocomplete_search: {
     tokenizer: "lowercase",
+    filter: "asciifolding",
   },
 
   french: {
     filter: [
       "french_elision",
+      "asciifolding",
       "lowercase",
       "french_stop",
       "french_stemmer",
-      "asciifolding",
     ],
     tokenizer: "standard",
   },
@@ -91,10 +92,10 @@ const analyzer = {
     char_filter: ["startwith"],
     filter: [
       "french_elision",
+      "asciifolding",
       "lowercase",
       "french_stop",
       "french_stemmer",
-      "asciifolding",
     ],
     tokenizer: "standard",
   },
@@ -103,11 +104,11 @@ const analyzer = {
     char_filter: ["html_strip"],
     filter: [
       "french_elision",
+      "asciifolding",
       "lowercase",
       "french_synonyms",
       "french_stop",
       "french_stemmer",
-      "asciifolding",
     ],
     tokenizer: "standard",
   },
@@ -121,8 +122,8 @@ const analyzer = {
   // (as opposite to match "in the middle")
   sugg_prefix: {
     char_filter: ["startwith"],
-    filter: ["lowercase"],
-    tokenizer: "@rd",
+    filter: ["lowercase", "asciifolding"],
+    tokenizer: "standard",
   },
 };
 
