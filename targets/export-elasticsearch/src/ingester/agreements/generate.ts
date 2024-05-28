@@ -3,13 +3,13 @@ import {
   ContributionElasticDocument,
   DocumentElasticWithSource,
   ElasticAgreement,
-  ExportAnswer,
 } from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getIDCCs } from "./getIdcc";
 import getAgreementsArticlesByTheme from "./getAgreementsArticlesByTheme";
 import { getTheme } from "./getTheme";
 import pMap from "p-map";
+import { groupByTheme } from "./groupByTheme";
 
 const DESCRIPTION =
   "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail vous concernant.";
@@ -29,26 +29,20 @@ export const generateAgreements = async (
         })
         .filter((item) => item.contentType !== "UNKNOWN");
 
-      const answers: ExportAnswer[] = contributionByIdccNotUnknown
-        .map((data) => {
-          return {
-            title: data.title,
-            slug: data.slug,
-            questionIndex: data.questionIndex,
-            theme: getTheme(data),
-          };
-        })
-        .sort(
-          // On ordonne les questions par index
-          (a: ExportAnswer, b: ExportAnswer) =>
-            a.questionIndex - b.questionIndex
-        );
+      const answers = contributionByIdccNotUnknown.map((data) => {
+        return {
+          title: data.title,
+          slug: data.slug,
+          questionIndex: data.questionIndex,
+          theme: getTheme(data),
+        };
+      });
 
       const articlesByTheme = await getAgreementsArticlesByTheme(cc.num);
 
       const agreementGenerated: ElasticAgreement = {
         ...cc,
-        answers,
+        answers: groupByTheme(answers),
         articlesByTheme,
         contributions: contribIDCCs.has(cc.num),
         description: DESCRIPTION,

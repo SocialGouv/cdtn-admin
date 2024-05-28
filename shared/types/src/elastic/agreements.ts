@@ -5,13 +5,17 @@ export type ElasticAgreement = DocumentElasticWithSource<AgreementDoc> & {
   articlesByTheme: ArticleByTheme[];
   source: "conventions_collectives";
   description: string;
-  answers: ExportAnswer[];
+  answers: AnswerByTheme[];
   contributions: boolean;
 };
 
-// Type pour les réponses
+export type AnswerByTheme = {
+  theme: string;
+  answers: ExportAnswer[];
+};
+
 export type ExportAnswer = {
-  theme?: string;
+  theme: string;
   slug: string;
   title: string;
   questionIndex: number;
