@@ -17,7 +17,7 @@ export type AnswerByTheme = {
 export type ExportAnswer = {
   theme: string;
   slug: string;
-  title: string;
+  question: string;
   questionIndex: number;
 };
 

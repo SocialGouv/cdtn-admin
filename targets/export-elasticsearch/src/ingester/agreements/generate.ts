@@ -31,8 +31,8 @@ export const generateAgreements = async (
 
       const answers = contributionByIdccNotUnknown.map((data) => {
         return {
-          title: data.title,
           slug: data.slug,
+          question: data.questionName,
           questionIndex: data.questionIndex,
           theme: getTheme(data),
         };

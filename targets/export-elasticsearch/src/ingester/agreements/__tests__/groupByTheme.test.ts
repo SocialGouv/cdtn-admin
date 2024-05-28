@@ -5,17 +5,17 @@ describe("contributionsByTheme", () => {
   it("should throw if a contrib has no theme", () => {
     expect(() => {
       groupByTheme([
-        { slug: "hello", questionIndex: 1, title: "contrib" },
+        { slug: "hello", questionIndex: 1, question: "contrib" },
       ]);
     }).toThrow("Contribution [1] - hello has no theme.");
   });
 
   it("returns the first breadcrumb label", () => {
     const data: ExportAnswer[] = [
-      { slug: "contrib-1", questionIndex: 1, theme: "A", title: "contrib" },
-      { slug: "contrib-1", questionIndex: 1, theme: "C", title: "contrib" },
-      { slug: "contrib-1", questionIndex: 1, theme: "B", title: "contrib" },
-      { slug: "contrib-2", questionIndex: 2, theme: "A", title: "contrib" },
+      { slug: "contrib-1", questionIndex: 1, theme: "A", question: "contrib" },
+      { slug: "contrib-1", questionIndex: 1, theme: "C", question: "contrib" },
+      { slug: "contrib-1", questionIndex: 1, theme: "B", question: "contrib" },
+      { slug: "contrib-2", questionIndex: 2, theme: "A", question: "contrib" },
     ];
 
     expect(groupByTheme(data)).toEqual([

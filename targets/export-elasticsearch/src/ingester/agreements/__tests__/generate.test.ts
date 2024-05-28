@@ -25,7 +25,7 @@ describe("generateAgreements", () => {
             questionIndex: 44,
             slug: "1486-quelle-est-la-duree-du-conge-de-maternite",
             theme: "Congés et repos",
-            title: "Quelle est la durée du congé de maternité ?",
+            question: "Quelle est la durée du congé de maternité ?",
           },
         ],
         theme: "Congés et repos",
@@ -36,7 +36,7 @@ describe("generateAgreements", () => {
             questionIndex: 47,
             slug: "1351-en-cas-de-maladie-le-salarie-a-t-il-droit-a-une-garantie-demploi",
             theme: "Santé, sécurité et conditions de travail",
-            title:
+            question:
               "En cas de maladie, le salarié a-t-il droit à une garantie d’emploi ?",
           },
         ],
