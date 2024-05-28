@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.7...v2.42.8) (2024-05-28)
+
+### Bug Fixes
+
+- **docs:** ajout de la page sans redirection ([0bf5ec1](https://github.com/SocialGouv/cdtn-admin/commit/0bf5ec1ebada97ccfebad6cba00ae776e3b2ae02))
+- **fiches MT:** utilisé le slug du document pour les fiches MT qui sont découpées en section pour de garder toujours le bon slug ([#1402](https://github.com/SocialGouv/cdtn-admin/issues/1402)) ([9e2d2e8](https://github.com/SocialGouv/cdtn-admin/commit/9e2d2e8ceb14d66e2e0ff8dd235ce67a7dc9e8dc))
+
 ## [2.42.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.6...v2.42.7) (2024-05-23)
 
 ### Bug Fixes
