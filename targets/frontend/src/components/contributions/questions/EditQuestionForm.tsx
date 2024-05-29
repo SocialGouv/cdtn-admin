@@ -146,6 +146,30 @@ export const EditQuestionForm = ({
                 <Accordion>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
+                    aria-controls="Texte applicable si la convention collective est non traitée, non sélectionnée ou si la réponse est dépubliée"
+                    id="contentLegal"
+                  >
+                    <Typography fontWeight={600}>
+                      Texte applicable si la convention collective est non
+                      traitée et n&apos;a pas de légal
+                    </Typography>
+                    <Tooltip title="Autres cas: non sélectionnée ou si la réponse est dépubliée">
+                      <StyledIconButton>
+                        <HelpIcon />
+                      </StyledIconButton>
+                    </Tooltip>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography
+                      dangerouslySetInnerHTML={{
+                        __html: message.contentAgreementWithoutLegal,
+                      }}
+                    />
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
                     aria-controls="Texte applicable si la convention collective ne prévoit rien"
                     id="contentUnplanned"
                   >
@@ -163,6 +187,30 @@ export const EditQuestionForm = ({
                     <Typography
                       dangerouslySetInnerHTML={{
                         __html: message.contentNotHandled,
+                      }}
+                    />
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="Texte applicable si la convention collective est non traitée, non sélectionnée ou si la réponse est dépubliée"
+                    id="contentLegal"
+                  >
+                    <Typography fontWeight={600}>
+                      Texte applicable si la convention collective ne prévoit
+                      rien et n&apos;a pas de légal
+                    </Typography>
+                    <Tooltip title="Autres cas: non sélectionnée ou si la réponse est dépubliée">
+                      <StyledIconButton>
+                        <HelpIcon />
+                      </StyledIconButton>
+                    </Tooltip>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography
+                      dangerouslySetInnerHTML={{
+                        __html: message.contentNotHandledWithoutLegal,
                       }}
                     />
                   </AccordionDetails>
