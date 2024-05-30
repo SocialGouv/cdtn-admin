@@ -1,11 +1,12 @@
+import { markdownProcessor } from "../markdownProcessor";
 import { explodeGlossaryTerms } from "./explodeGlossaryTerms";
 import { insertWebComponentGlossary } from "./insertWebComponentGlossary";
 import { Glossary } from "@socialgouv/cdtn-types";
 
-export const addGlossaryContent = async (
+export const addGlossaryContent = (
   glossary: Glossary,
   content: string
-): Promise<string> => {
+): string => {
   glossary.sort((previous, next) => {
     return next.term.length - previous.term.length;
   });
@@ -22,3 +23,13 @@ export const addGlossaryContent = async (
   if (!content) return "";
   return insertWebComponentGlossary(content, glossaryTerms);
 };
+
+export function addGlossaryContentToMarkdown(
+  glossary: Glossary,
+  markdown: string
+): string {
+  return addGlossaryContent(
+    glossary,
+    markdownProcessor.processSync(markdown).contents as string
+  );
+}

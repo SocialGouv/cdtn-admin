@@ -5,7 +5,11 @@ import {
 } from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getReferences } from "./getReferences";
-import { generateCdtnId } from "@shared/utils";
+import {
+  generateCdtnId,
+  addGlossaryContent,
+  fetchGlossary,
+} from "@shared/utils";
 import { generateContributionSlug } from "./generateSlug";
 
 async function getBaseDocument(
@@ -14,20 +18,11 @@ async function getBaseDocument(
     questionId: string
   ) => Promise<Partial<ContributionsAnswers>>
 ) {
-  const glossaryContent = await fetch("http://localhost:8787/glossary", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      content: data.content,
-    }),
-  }).then((res) => res.json());
   switch (data.content_type) {
     case "ANSWER":
       return {
         type: "content",
-        content: glossaryContent,
+        content: addGlossaryContent(await fetchGlossary(), data.content ?? ""),
       };
     case "GENERIC_NO_CDT":
       return {

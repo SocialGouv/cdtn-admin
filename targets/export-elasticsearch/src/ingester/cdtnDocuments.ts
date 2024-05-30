@@ -21,13 +21,13 @@ import { splitArticle } from "./fichesTravailSplitter";
 import { getVersions } from "./versions";
 import { generateContributions } from "./contributions";
 import { generateAgreements } from "./agreements";
-import { getGlossary } from "./common/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
 import { generatePrequalified } from "./prequalified";
 import { generateEditorialContents } from "./informations/generate";
 import { populateRelatedDocuments } from "./common/populateRelatedDocuments";
 import { mergeRelatedDocumentsToEditorialContents } from "./informations/mergeRelatedDocumentsToEditorialContents";
+import { getGlossary } from "./common/fetchGlossary";
 
 /**
  * Find duplicate slugs
@@ -175,13 +175,10 @@ export async function cdtnDocumentsGen(
   logger.info(`Fetched ${fichesMT.length} fiches travail`);
   const fichesMTWithGlossary = fichesMT.map(({ sections, ...infos }) => ({
     ...infos,
-    sections: sections.map(({ html, ...section }: any) => {
+    sections: sections.map(({ ...section }: any) => {
       delete section.description;
       delete section.text;
-      return {
-        ...section,
-        html,
-      };
+      return section;
     }),
   }));
   logger.info(

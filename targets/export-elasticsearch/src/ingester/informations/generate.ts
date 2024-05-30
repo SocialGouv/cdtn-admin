@@ -2,7 +2,6 @@ import {
   DocumentElasticWithSource,
   EditorialContentDoc,
 } from "@socialgouv/cdtn-types";
-import { markdownTransform } from "./markdown";
 import { getRelatedIdsDocuments } from "./getRelatedIdsDocuments";
 
 interface Return {
@@ -13,10 +12,9 @@ interface Return {
 export const generateEditorialContents = (
   documents: DocumentElasticWithSource<EditorialContentDoc>[]
 ): Return => {
-  const documentsMarkdownified = markdownTransform(documents);
-  const relatedIdsDocuments = getRelatedIdsDocuments(documentsMarkdownified);
+  const relatedIdsDocuments = getRelatedIdsDocuments(documents);
   return {
-    documents: documentsMarkdownified,
+    documents,
     relatedIdsDocuments,
   };
 };
