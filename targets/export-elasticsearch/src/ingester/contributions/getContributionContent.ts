@@ -1,6 +1,6 @@
 import { ContributionContent } from "@socialgouv/cdtn-types";
 
-export function addGlossaryToContent(
+export function getContributionContent(
   content: ContributionContent
 ): ContributionContent {
   if (

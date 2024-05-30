@@ -16,7 +16,7 @@ import { fetchAgreementUnextended } from "./fetchCcUnextended";
 import { getCcInfos } from "./getCcInfos";
 import { generateContent } from "./generateContent";
 import { GetBreadcrumbsFn } from "../breadcrumbs";
-import { addGlossaryToContent } from "./addGlossaryToContent";
+import { getContributionContent } from "./getContributionContent";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
 import pMap from "p-map";
@@ -81,7 +81,7 @@ export async function generateContributions(
     generatedContributions.push({
       ...contrib,
       ...generateMetadata(contrib),
-      ...addGlossaryToContent(content),
+      ...getContributionContent(content),
       ...doc,
       breadcrumbs:
         contrib.breadcrumbs.length > 0

@@ -1,13 +1,13 @@
-import { addGlossaryToContent } from "../addGlossaryToContent";
+import { getContributionContent } from "../getContributionContent";
 
-describe("addGlossaryToContent", () => {
+describe("getContributionContent", () => {
   it("should return original content if ficheSpDescription exists", () => {
     const content = {
       ficheSpDescription: "Description",
       content: "Content",
     };
 
-    const result = addGlossaryToContent(content);
+    const result = getContributionContent(content);
 
     expect(result).toEqual(content);
   });
@@ -17,7 +17,7 @@ describe("addGlossaryToContent", () => {
       content: "Content",
     };
 
-    const result = addGlossaryToContent(content);
+    const result = getContributionContent(content);
 
     expect(result).toEqual({
       content: "Modified content",
