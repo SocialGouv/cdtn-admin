@@ -11,10 +11,9 @@ interface Return {
 }
 
 export const generateEditorialContents = (
-  documents: DocumentElasticWithSource<EditorialContentDoc>[],
-  addGlossary: (valueInHtml: string) => string
+  documents: DocumentElasticWithSource<EditorialContentDoc>[]
 ): Return => {
-  const documentsMarkdownified = markdownTransform(addGlossary, documents);
+  const documentsMarkdownified = markdownTransform(documents);
   const relatedIdsDocuments = getRelatedIdsDocuments(documentsMarkdownified);
   return {
     documents: documentsMarkdownified,

@@ -1,4 +1,4 @@
-import type { Glossary } from "../types";
+import { Glossary } from "@socialgouv/cdtn-types";
 import { context } from "../context";
 import { gqlClient } from "@shared/utils";
 

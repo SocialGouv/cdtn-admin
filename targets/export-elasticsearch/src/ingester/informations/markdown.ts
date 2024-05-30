@@ -8,8 +8,6 @@ import markdownToMardownAst from "remark-parse";
 import markdownAstToHtmlAst from "remark-rehype";
 import unified from "unified";
 
-import type { AddGlossaryReturnFn } from "../glossary";
-
 const htmlProcessor = unified()
   .use(markdownToMardownAst as any)
   .use(markdownAstToHtmlAst as any, { allowDangerousHtml: true })
@@ -17,7 +15,6 @@ const htmlProcessor = unified()
   .use(htmlAstStringify as any);
 
 export function markdownTransform(
-  addGlossary: AddGlossaryReturnFn,
   documents: DocumentElasticWithSource<EditorialContentDoc>[]
 ): DocumentElasticWithSource<EditorialContentDoc>[] {
   return documents.map(({ contents = [], ...rest }) => ({
@@ -27,16 +24,12 @@ export function markdownTransform(
         return {
           ...block,
           html: block.markdown
-            ? addGlossary(
-                htmlProcessor.processSync(block.markdown).contents as string
-              )
+            ? (htmlProcessor.processSync(block.markdown).contents as string)
             : undefined,
         };
       });
       return content;
     }),
-    intro: addGlossary(
-      htmlProcessor.processSync(rest.intro).contents as string
-    ),
+    intro: htmlProcessor.processSync(rest.intro).contents as string,
   }));
 }

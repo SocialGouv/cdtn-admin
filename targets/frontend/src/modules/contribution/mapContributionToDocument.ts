@@ -14,11 +14,20 @@ async function getBaseDocument(
     questionId: string
   ) => Promise<Partial<ContributionsAnswers>>
 ) {
+  const glossaryContent = await fetch("http://localhost:8787/glossary", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      content: data.content,
+    }),
+  }).then((res) => res.json());
   switch (data.content_type) {
     case "ANSWER":
       return {
         type: "content",
-        content: data.content,
+        content: glossaryContent,
       };
     case "GENERIC_NO_CDT":
       return {
@@ -85,7 +94,8 @@ export const mapContributionToDocument = async (
   } as ContributionDocumentJson;
 
   return {
-    cdtn_id: document?.cdtn_id ?? generateCdtnId(SOURCES.CONTRIBUTIONS + data.id),
+    cdtn_id:
+      document?.cdtn_id ?? generateCdtnId(SOURCES.CONTRIBUTIONS + data.id),
     initial_id: data.id,
     source: SOURCES.CONTRIBUTIONS,
     meta_description: document?.meta_description ?? "", // la génération se fait à l'export car on a besoin du dernier contenu de la fiche sp

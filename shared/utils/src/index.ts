@@ -4,3 +4,4 @@ export * from "./gql-client";
 export * from "./config";
 export * from "./logger";
 export * from "./dila-resolver";
+export * from "./glossary";

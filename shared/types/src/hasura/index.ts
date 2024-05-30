@@ -12,3 +12,4 @@ export * from "./highlights";
 export * from "./modeles-de-courrier";
 export * from "./prequalified";
 export * from "./themes";
+export * from "./glossary";

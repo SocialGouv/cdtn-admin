@@ -33,7 +33,6 @@ export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
   ccnListWithHighlight: Record<number, ContributionHighlight | undefined>,
-  addGlossary: (valueInHtml: string) => string,
   getBreadcrumbs: GetBreadcrumbsFn
 ): Promise<ContributionElasticDocument[]> {
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
@@ -82,7 +81,7 @@ export async function generateContributions(
     generatedContributions.push({
       ...contrib,
       ...generateMetadata(contrib),
-      ...addGlossaryToContent(content, addGlossary),
+      ...addGlossaryToContent(content),
       ...doc,
       breadcrumbs:
         contrib.breadcrumbs.length > 0

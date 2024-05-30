@@ -18,7 +18,6 @@ import {
   getDocumentBySourceWithRelation,
 } from "./common/fetchCdtnAdminDocuments";
 import { splitArticle } from "./fichesTravailSplitter";
-import { createGlossaryTransform } from "./glossary";
 import { getVersions } from "./versions";
 import { generateContributions } from "./contributions";
 import { generateAgreements } from "./agreements";
@@ -62,9 +61,6 @@ export async function cdtnDocumentsGen(
   const themes = await fetchThemes();
 
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
-
-  const glossaryTerms = await getGlossary();
-  const addGlossary = createGlossaryTransform(glossaryTerms);
 
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
@@ -137,7 +133,6 @@ export async function cdtnDocumentsGen(
     contributions,
     ccnData,
     ccnListWithHighlight,
-    addGlossary,
     getBreadcrumbs
   );
 
@@ -185,11 +180,13 @@ export async function cdtnDocumentsGen(
       delete section.text;
       return {
         ...section,
-        html: addGlossary(html),
+        html,
       };
     }),
   }));
-  logger.info(`Mapped ${fichesMTWithGlossary.length} fiches travail with glossary`);
+  logger.info(
+    `Mapped ${fichesMTWithGlossary.length} fiches travail with glossary`
+  );
   documentsCount = {
     ...documentsCount,
     [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
@@ -263,6 +260,7 @@ export async function cdtnDocumentsGen(
   await updateDocs(SOURCES.PREQUALIFIED, prequalified);
 
   logger.info("=== glossary ===");
+  const glossaryTerms = await getGlossary();
   documentsCount = {
     ...documentsCount,
     [SOURCES.GLOSSARY]: glossaryTerms.length,
@@ -290,7 +288,7 @@ export async function cdtnDocumentsGen(
   const {
     documents: editorialContents,
     relatedIdsDocuments: relatedIdsEditorialDocuments,
-  } = await generateEditorialContents(documents, addGlossary);
+  } = await generateEditorialContents(documents);
   documentsCount = {
     ...documentsCount,
     [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,

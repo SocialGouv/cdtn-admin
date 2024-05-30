@@ -1,8 +1,7 @@
 import { ContributionContent } from "@socialgouv/cdtn-types";
 
 export function addGlossaryToContent(
-  content: ContributionContent,
-  addGlossary: (valueInHtml: string) => string
+  content: ContributionContent
 ): ContributionContent {
   if (
     "ficheSpDescription" in content ||
@@ -11,7 +10,7 @@ export function addGlossaryToContent(
     return content;
   } else {
     return {
-      content: addGlossary(content.content),
+      content: content.content,
     };
   }
 }
