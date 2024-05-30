@@ -2,7 +2,12 @@ import { DocumentsRepository } from "./documents.repository";
 import { ConflictError, NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
 import { format, parseISO } from "date-fns";
-import { generateCdtnId, generateInitialId } from "@shared/utils";
+import {
+  addGlossaryContentToMarkdown,
+  fetchGlossary,
+  generateCdtnId,
+  generateInitialId,
+} from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
 import {
   ContributionRepository,
@@ -37,10 +42,11 @@ export class DocumentsService {
     this.agreementRepository = agreementRepository;
   }
 
-  private mapInformationToDocument(
+  private async mapInformationToDocument(
     data: Information,
     document?: HasuraDocument<any>
-  ): HasuraDocument<any> {
+  ): Promise<HasuraDocument<any>> {
+    const glossary = await fetchGlossary();
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id ?? generateInitialId(),
@@ -57,6 +63,10 @@ export class DocumentsService {
           ? format(new Date(data.updatedAt), "dd/MM/yyyy")
           : undefined,
         intro: data.intro,
+        introWithGlossary: addGlossaryContentToMarkdown(
+          glossary,
+          data.intro ?? ""
+        ),
         description: data.description,
         sectionDisplayMode: data.sectionDisplayMode,
         dismissalProcess: data.dismissalProcess,
@@ -80,7 +90,13 @@ export class DocumentsService {
                     ? {
                         title: block.content,
                       }
-                    : { markdown: block.content }),
+                    : {
+                        markdown: block.content,
+                        htmlWithGlossary: addGlossaryContentToMarkdown(
+                          glossary,
+                          block.content
+                        ),
+                      }),
                   ...(block.type === "graphic"
                     ? {
                         size: block.file?.size,

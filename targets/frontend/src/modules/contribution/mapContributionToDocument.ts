@@ -18,11 +18,13 @@ async function getBaseDocument(
     questionId: string
   ) => Promise<Partial<ContributionsAnswers>>
 ) {
+  const glossary = await fetchGlossary();
   switch (data.content_type) {
     case "ANSWER":
       return {
         type: "content",
-        content: addGlossaryContent(await fetchGlossary(), data.content ?? ""),
+        content: data.content,
+        contentWithGlossary: addGlossaryContent(glossary, data.content ?? ""),
       };
     case "GENERIC_NO_CDT":
       return {

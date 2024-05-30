@@ -7,6 +7,7 @@ import {
   articleToReference,
   createReferenceResolver,
 } from "../lib/referenceResolver";
+import { addGlossaryContent, fetchGlossary } from "@shared/utils";
 
 export default async function getFicheTravailEmploi(pkgName: string) {
   const [fichesMT, cdt] = await Promise.all([
@@ -15,6 +16,7 @@ export default async function getFicheTravailEmploi(pkgName: string) {
       `@socialgouv/legi-data/data/LEGITEXT000006072050.json`
     ),
   ]);
+  const glossary = await fetchGlossary();
   const resolveCdtReference = createReferenceResolver(cdt);
   return fichesMT.map(({ pubId, sections, ...content }) => {
     return {
@@ -23,6 +25,7 @@ export default async function getFicheTravailEmploi(pkgName: string) {
       is_searchable: true,
       sections: sections.map(({ references, ...section }) => ({
         ...section,
+        htmlWithGlossary: addGlossaryContent(glossary, section.html),
         references: Object.keys(references).flatMap((key) => {
           if (key !== "LEGITEXT000006072050") {
             return [];
