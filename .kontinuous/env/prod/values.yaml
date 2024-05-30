@@ -15,34 +15,13 @@ www:
   env:
     - name: NEXTAUTH_URL
       value: https://cdtn-admin.fabrique.social.gouv.fr
-  resources:
-    limits:
-      cpu: "200m"
-      memory: "512Mi"
-    requests:
-      cpu: "100m"
-      memory: "256Mi"
 
 export:
   replicas: 1
-  resources:
-    limits:
-      cpu: "1500m"
-      memory: "4096Mi"
-    requests:
-      cpu: "1000m"
-      memory: "896Mi"
 
 hasura:
   autoscale:
     enabled: true
-  resources:
-    limits:
-      cpu: "2000m"
-      memory: "4Gi"
-    requests:
-      cpu: "1000m"
-      memory: "1Gi"
   envFrom:
     - secretRef:
         name: pg-app

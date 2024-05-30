@@ -11,13 +11,13 @@ spec:
       containers:
         - name: update-alert
           image: "{{ or .Values.registry .Values.global.registry }}/{{ .Values.global.imageProject }}/{{ .Values.global.imageRepository }}/alert:{{ .Values.global.imageTag }}"
-          resources:
-            requests:
-              cpu: 1500m
-              memory: 2.5Gi
-            limits:
-              cpu: 2000m
-              memory: 4.5Gi
+          # resources:
+          #   requests:
+          #     cpu: 1500m
+          #     memory: 2.5Gi
+          #   limits:
+          #     cpu: 2000m
+          #     memory: 4.5Gi
           workingDir: /app
           env:
             - name: PRODUCTION
