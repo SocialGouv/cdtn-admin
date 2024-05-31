@@ -235,7 +235,7 @@ export class DocumentsService {
             cause: null,
           });
         }
-        document = this.mapInformationToDocument(information, document);
+        document = await this.mapInformationToDocument(information, document);
         break;
       case "contributions":
         const contribution = await this.contributionRepository.fetch(id);

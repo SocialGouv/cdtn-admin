@@ -12,7 +12,7 @@ export const generateContent = async (
   switch (contrib.type) {
     case "content":
       return {
-        content: contrib.content,
+        content: contrib.contentWithGlossary,
       };
     case "fiche-sp": {
       const ficheSpContent = await fetchFicheSp(contrib.ficheSpId);
@@ -44,7 +44,7 @@ export const generateContent = async (
       }
       if (cdtContrib.type === "content") {
         return {
-          content: cdtContrib.content,
+          content: cdtContrib.contentWithGlossary,
         };
       } else if (cdtContrib.type === "fiche-sp") {
         const ficheSpContent = await fetchFicheSp(cdtContrib.ficheSpId);

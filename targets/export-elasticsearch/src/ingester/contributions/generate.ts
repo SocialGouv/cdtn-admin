@@ -78,8 +78,13 @@ export async function generateContributions(
       };
     }
 
+    const contribWithoutGlossary = {
+      ...contrib.document,
+      content,
+    };
+
     generatedContributions.push({
-      ...contrib,
+      ...contribWithoutGlossary,
       ...generateMetadata(contrib),
       ...getContributionContent(content),
       ...doc,

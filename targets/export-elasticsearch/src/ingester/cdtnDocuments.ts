@@ -176,9 +176,11 @@ export async function cdtnDocumentsGen(
   const fichesMTWithGlossary = fichesMT.map(({ sections, ...infos }) => ({
     ...infos,
     sections: sections.map(({ ...section }: any) => {
+      const html = section.htmlWithGlossary;
       delete section.description;
       delete section.text;
-      return section;
+      delete section.htmlWithGlossary;
+      return { ...section, html };
     }),
   }));
   logger.info(
