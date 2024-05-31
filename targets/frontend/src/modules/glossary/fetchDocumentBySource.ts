@@ -3,7 +3,7 @@ import { SourceRoute } from "@socialgouv/cdtn-sources";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 
 const fetchDocumentQuery = `
-query fetchDocument() {
+query fetchDocument($source: String) {
   documents(where: {source: {_eq: $source}}) {
     cdtn_id
     document

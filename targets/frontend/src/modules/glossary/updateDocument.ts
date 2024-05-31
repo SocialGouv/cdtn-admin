@@ -2,7 +2,7 @@ import { gqlClient } from "@shared/utils";
 
 const updateDocumentWithCdtnId = `
 mutation editDocument($cdtnId: String!, $document: jsonb) {
-  update_documents(where: {cdtn_id: {_eq: $cdtnId}, _set: {document: $document}) {
+  update_documents(where: {cdtn_id: {_eq: $cdtnId}}, _set: {document: $document}) {
     affected_rows
   }
 }
