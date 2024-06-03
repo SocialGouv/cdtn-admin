@@ -43,7 +43,7 @@ const main = (req: NextApiRequest, res: NextApiResponse) => {
       },
       method: "POST",
     });
-    res.status(200);
+    res.status(201);
   }
 };
 
