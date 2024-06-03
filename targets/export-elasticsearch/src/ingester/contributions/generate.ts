@@ -56,11 +56,11 @@ export async function generateContributions(
     );
     const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
-    const content = await generateContent(contributions, contrib);
+    const content = await generateContent(contribGeneric, contrib);
 
     const messageBlock = await generateMessageBlock(contribGeneric, contrib);
 
-    const references = generateReferences(contributions, contrib);
+    const references = generateReferences(contribGeneric, contrib);
 
     const ccUnextended = await fetchAgreementUnextended();
 
