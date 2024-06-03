@@ -6,7 +6,7 @@ import { fetchMessageBlock } from "./fetchMessageBlock";
 import { fetchAgreementMessage } from "./fetchAgreementMessage";
 
 export const generateMessageBlock = async (
-  contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
+  contribGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined,
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): Promise<string | undefined> => {
   const agreementMessage = await fetchAgreementMessage(contrib.idcc);
@@ -14,9 +14,6 @@ export const generateMessageBlock = async (
     return agreementMessage;
   }
   const messageBlock = await fetchMessageBlock(contrib.questionId);
-  const contribGeneric = contributions.find(
-    (c) => c.questionId === contrib.questionId && c.idcc === "0000"
-  );
   if (!messageBlock) {
     return undefined;
   } else if (
