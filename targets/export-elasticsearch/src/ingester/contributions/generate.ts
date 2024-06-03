@@ -27,6 +27,7 @@ export type ContributionElasticDocumentLightRelatedContent = Omit<
   "linkedContent"
 > & {
   linkedContent: ContributionLinkedContent[];
+  contentWithGlossary?: string;
 };
 
 export async function generateContributions(
@@ -78,13 +79,8 @@ export async function generateContributions(
       };
     }
 
-    const contribWithoutGlossary = {
-      ...contrib.document,
-      content,
-    };
-
-    generatedContributions.push({
-      ...contribWithoutGlossary,
+    const contribution: ContributionElasticDocumentLightRelatedContent = {
+      ...contrib,
       ...generateMetadata(contrib),
       ...getContributionContent(content),
       ...doc,
@@ -95,7 +91,11 @@ export async function generateContributions(
       highlight,
       messageBlock,
       references,
-    });
+    };
+
+    delete contribution.contentWithGlossary;
+
+    generatedContributions.push(contribution);
   }
 
   // Some related content link to another customized contribution

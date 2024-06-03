@@ -12,28 +12,30 @@ interface Return {
 export const generateEditorialContents = (
   documents: DocumentElasticWithSource<EditorialContentDoc>[]
 ): Return => {
-  //   intro: data.intro,
-  //   introWithGlossary: addGlossaryContentToMarkdown(
-  //     glossary,
-  //     data.intro ?? ""
-  //   ),
-  //   description: data.description,
-  //   sectionDisplayMode: data.sectionDisplayMode,
-  //   dismissalProcess: data.dismissalProcess,
-  //               ? {
-  //                   title: block.content,
-  //                 }
-  //               : {
-  //                   markdown: block.content,
-  //                   htmlWithGlossary: addGlossaryContentToMarkdown(
-  //                     glossary,
-  //                     block.content
-  //                   ),
-  //                 }),
-  // remove markdown et intro
-  const relatedIdsDocuments = getRelatedIdsDocuments(documents);
+  const documentsOptimized = documents.map((document: any) => {
+    const introWithGlossary = document.introWithGlossary;
+    delete document.intro;
+    delete document.introWithGlossary;
+    return {
+      ...document,
+      intro: introWithGlossary,
+      contents: document.contents.map((content: any) => {
+        content.blocks = content.blocks.map((block: any) => {
+          const htmlWithGlossary = block.htmlWithGlossary;
+          delete block.markdown;
+          delete block.htmlWithGlossary;
+          return {
+            ...block,
+            html: htmlWithGlossary,
+          };
+        });
+        return content;
+      }),
+    };
+  });
+  const relatedIdsDocuments = getRelatedIdsDocuments(documentsOptimized);
   return {
-    documents,
+    documents: documentsOptimized,
     relatedIdsDocuments,
   };
 };

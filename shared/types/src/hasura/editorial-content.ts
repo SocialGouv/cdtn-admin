@@ -77,6 +77,7 @@ export enum EditorialSectionDisplayMode {
 export type EditorialContentDoc = {
   date: string;
   intro: string;
+  introWithGlossary: string;
   section_display_mode?: EditorialSectionDisplayMode;
   dismissalProcess?: boolean;
   contents: EditorialContentBaseContentPart[];
