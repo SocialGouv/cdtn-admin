@@ -11,16 +11,4 @@ describe("getContributionContent", () => {
 
     expect(result).toEqual(content);
   });
-
-  it("should call addGlossary and return modified content if no ficheSpDescription", () => {
-    const content = {
-      content: "Content",
-    };
-
-    const result = getContributionContent(content);
-
-    expect(result).toEqual({
-      content: "Modified content",
-    });
-  });
 });

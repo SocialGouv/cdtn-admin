@@ -6,10 +6,14 @@ jest.mock("../fetchFicheSp");
 
 describe("generateContent", () => {
   const mockContributions: any[] = [
-    { id: "GENERIC_ID", content: "GENERIC_CONTENT", type: "content" },
+    {
+      id: "GENERIC_ID",
+      contentWithGlossary: "GENERIC_CONTENT",
+      type: "content",
+    },
     {
       id: "GENERIC_ID_2",
-      content: "GENERIC_CONTENT",
+      contentWithGlossary: "GENERIC_CONTENT",
       type: "fiche-sp",
       url: "some url",
       date: "2023-01-01",
@@ -35,7 +39,7 @@ describe("generateContent", () => {
   it('should return content for type "content"', async () => {
     const contribution: any = {
       type: "content",
-      content: "some content",
+      contentWithGlossary: "some content",
     };
 
     const result: ContributionContent = await generateContent(
