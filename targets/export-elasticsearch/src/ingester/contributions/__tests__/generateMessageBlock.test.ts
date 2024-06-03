@@ -18,8 +18,6 @@ const mockContribution: any = {
 };
 
 describe("generateMessageBlock", () => {
-  
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -159,6 +157,7 @@ describe("Tests avec une contribution generic no cdt", () => {
       contentAgreementWithoutLegal: "agrement without legal",
       contentNotHandledWithoutLegal: "content not handled without legal"
     });
+    (fetchAgreementMessage as jest.Mock).mockResolvedValue(undefined);
   })
   it.each(["ANSWER", "SP"])("should throw a contentAgreementWithoutLegal", async (contentType) => {
     
