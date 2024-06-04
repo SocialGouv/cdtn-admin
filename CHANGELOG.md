@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.43.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.8...v2.43.0) (2024-06-04)
+
+### Bug Fixes
+
+- autoscale prod ([#1409](https://github.com/SocialGouv/cdtn-admin/issues/1409)) ([32e2030](https://github.com/SocialGouv/cdtn-admin/commit/32e2030aed88aac2c96b76baba8a2e66292d213b))
+
+### Features
+
+- implement message bloc no cdt ([#1394](https://github.com/SocialGouv/cdtn-admin/issues/1394)) ([305cb46](https://github.com/SocialGouv/cdtn-admin/commit/305cb46e92aa90b09c43575c731245b2bfa75b99))
+- **page CC:** affichage seulement des liens vers les contribs sur les pages CC ([#1404](https://github.com/SocialGouv/cdtn-admin/issues/1404)) ([10a11e9](https://github.com/SocialGouv/cdtn-admin/commit/10a11e985fb38b9bfa00cb64c8208d40486dc709))
+
 ## [2.42.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.7...v2.42.8) (2024-05-28)
 
 ### Bug Fixes
