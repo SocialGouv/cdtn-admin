@@ -25,19 +25,11 @@ hasura:
         name: hasura
     - secretRef:
         name: hasura
-  replicas: 2
 
 export:
   env:
     - name: "BRANCH_NAME_SLUG"
       value: "{{.Values.global.branchSlug32}}"
-  resources:
-    limits:
-      cpu: "1000m"
-      memory: "1024Mi"
-    requests:
-      cpu: "1000m"
-      memory: "896Mi"
 
 pg:
   ~chart: pg

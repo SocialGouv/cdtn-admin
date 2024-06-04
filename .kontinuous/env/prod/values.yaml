@@ -15,8 +15,8 @@ www:
       value: https://cdtn-admin.fabrique.social.gouv.fr
   resources:
     limits:
-      cpu: "500m"
-      memory: "1Gi"
+      cpu: "1000m"
+      memory: "2Gi"
     requests:
       cpu: "250m"
       memory: "512Mi"
@@ -29,7 +29,7 @@ export:
       memory: "4096Mi"
     requests:
       cpu: "1000m"
-      memory: "896Mi"
+      memory: "512Mi"
 
 hasura:
   replicas: 2
