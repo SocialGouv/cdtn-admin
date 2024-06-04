@@ -1,5 +1,3 @@
-const { logger } = require("@shared/utils");
-
 const { analyzer, char_filter, filter, tokenizer } = require("./analysis");
 
 async function createIndex({ client, indexName, mappings }) {
@@ -7,9 +5,9 @@ async function createIndex({ client, indexName, mappings }) {
   if (body) {
     try {
       await client.indices.delete({ index: indexName });
-      logger.info(`Index ${indexName} deleted.`);
+      console.info(`Index ${indexName} deleted.`);
     } catch (error) {
-      logger.error("index delete", error);
+      console.error("index delete", error);
     }
   }
   try {
@@ -31,15 +29,15 @@ async function createIndex({ client, indexName, mappings }) {
       },
       index: indexName,
     });
-    logger.info(`Index ${indexName} created.`);
+    console.info(`Index ${indexName} created.`);
   } catch (error) {
-    logger.error("index create", error);
+    console.error("index create", error);
   }
 }
 
 async function version({ client }) {
   const body = await client.info();
-  logger.info(body.version.number);
+  console.info(body.version.number);
 }
 
 async function bulkIndexDocuments({ client, indexName, documents }) {
@@ -67,9 +65,9 @@ async function bulkIndexDocuments({ client, indexName, documents }) {
       const errorDocs = resp.items.filter((item) => item.index.status !== 201);
       throw new Error(`Error during indexing ${JSON.stringify(errorDocs)}`);
     }
-    logger.info(`Index ${documents.length} documents.`);
+    console.info(`Index ${documents.length} documents.`);
   } catch (error) {
-    logger.error(`Failed to index documents (${error})`);
+    console.error(`Failed to index documents (${error})`);
     throw error;
   }
 }
@@ -80,7 +78,7 @@ async function indexDocumentsBatched({
   documents,
   size = 500,
 }) {
-  logger.info(`Loaded ${documents.length} documents`);
+  console.info(`Loaded ${documents.length} documents`);
   for (const chunk of chunks(documents, size)) {
     await bulkIndexDocuments({ client, documents: chunk, indexName });
   }
@@ -95,7 +93,7 @@ async function deleteOldIndex({ client, patterns, timestamp }) {
   );
 
   return Promise.all(pIndicesToDelete).then(() => {
-    logger.info(
+    console.info(
       `Remove ${pIndicesToDelete.length} old indices (${JSON.stringify(
         IndicesToDelete
       )})`

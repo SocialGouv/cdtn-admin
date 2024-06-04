@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.44.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.0...v2.44.1) (2024-06-04)
+
+### Bug Fixes
+
+- **cdtn-elasticsearch:** use `console` instead of `logger` ([#1419](https://github.com/SocialGouv/cdtn-admin/issues/1419)) ([f08b17a](https://github.com/SocialGouv/cdtn-admin/commit/f08b17ae7d5c5f607e391b7774cdd272314be1d3))
+
 # [2.44.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.43.0...v2.44.0) (2024-06-04)
 
 ### Features
