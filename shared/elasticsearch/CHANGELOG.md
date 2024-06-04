@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.44.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.43.0...v2.44.0) (2024-06-04)
+
+### Features
+
+- **elasticsearch:** upgrade to v8 ([#1389](https://github.com/SocialGouv/cdtn-admin/issues/1389)) ([b1f8598](https://github.com/SocialGouv/cdtn-admin/commit/b1f85983fed17123990d9f3c0fc417ea7534c24c))
+
 # [2.43.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.8...v2.43.0) (2024-06-04)
 
 **Note:** Version bump only for package @socialgouv/cdtn-elasticsearch
