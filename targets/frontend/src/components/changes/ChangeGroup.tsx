@@ -22,6 +22,7 @@ import { jsxJoin } from "../../lib/jsx";
 import { Stack } from "../layout/Stack";
 import { ViewDiff } from "./ViewDiff";
 import { theme } from "src/theme";
+import { generateFichesSpRef } from "@shared/utils";
 
 type Props = {
   label: string;
@@ -536,14 +537,17 @@ function FicheLink({ change, documents = [] }: FicheLinkProps) {
       </>
     );
   }
-  const url = `https://www.service-public.fr/${change.type}/vosdroits/${change.id}`;
+
   return (
     <>
       <a
         target="_blank"
         aria-label={`${change.title} (nouvelle fenêtre)`}
         rel="noreferrer noopener"
-        href={url}
+        href={generateFichesSpRef(
+          change.type as "Associations" | "Particuliers" | "Professionnels",
+          change.id
+        )}
       >
         {change.title}
       </a>
