@@ -6,24 +6,21 @@ import {
 import { isReferencingGenericContribution } from "./helpers";
 
 export const generateReferences = (
-  contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
+  contribGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined,
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): ContributionRef[] => {
   if (isReferencingGenericContribution(contrib.contentType)) {
-    const cdtContrib = contributions.find(
-      (v) => v.questionIndex === contrib.questionIndex && v.idcc === "0000"
-    );
-    if (!cdtContrib) {
+    if (!contribGeneric) {
       throw new Error(
         `Aucune contribution générique a été retrouvée pour la question ${contrib.questionIndex}`
       );
     }
-    if (cdtContrib.type === "generic-no-cdt") {
+    if (contribGeneric.type === "generic-no-cdt") {
       throw new Error(
         `La contribution [${contrib.questionIndex} - ${contrib.idcc}] ne peut pas référencer une générique qui n'a pas de réponse`
       );
     }
-    const result = [...contrib.references, ...cdtContrib.references];
+    const result = [...contrib.references, ...contribGeneric.references];
     return removeDuplicates(result);
   }
   return contrib.references;

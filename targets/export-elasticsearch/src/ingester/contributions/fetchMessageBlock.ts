@@ -11,6 +11,8 @@ query get_question($id: uuid!) {
       contentAgreement
       contentLegal
       contentNotHandled
+      contentAgreementWithoutLegal
+      contentNotHandledWithoutLegal
     }
   }
 }

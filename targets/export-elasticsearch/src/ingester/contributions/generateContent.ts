@@ -6,7 +6,7 @@ import {
 import { fetchFicheSp } from "./fetchFicheSp";
 
 export const generateContent = async (
-  contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
+  contribGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined,
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): Promise<ContributionContent> => {
   switch (contrib.type) {
@@ -29,25 +29,22 @@ export const generateContent = async (
       };
     }
     case "cdt": {
-      const cdtContrib = contributions.find(
-        (v) => v.id === contrib.genericAnswerId
-      );
-      if (!cdtContrib) {
+      if (!contribGeneric) {
         throw new Error(
           `Aucune contribution générique a été retrouvée pour la contribution [${contrib.questionIndex} - ${contrib.idcc}] (id générique non trouvé : ${contrib.genericAnswerId})`
         );
       }
-      if (cdtContrib.type === "generic-no-cdt") {
+      if (contribGeneric.type === "generic-no-cdt") {
         throw new Error(
           `La contribution [${contrib.questionIndex} - ${contrib.idcc}] ne peut pas référencer une générique qui n'a pas de réponse`
         );
       }
-      if (cdtContrib.type === "content") {
+      if (contribGeneric.type === "content") {
         return {
-          content: cdtContrib.content,
+          content: contribGeneric.content,
         };
-      } else if (cdtContrib.type === "fiche-sp") {
-        const ficheSpContent = await fetchFicheSp(cdtContrib.ficheSpId);
+      } else if (contribGeneric.type === "fiche-sp") {
+        const ficheSpContent = await fetchFicheSp(contribGeneric.ficheSpId);
         return {
           url: ficheSpContent.url,
           date: ficheSpContent.date,
@@ -56,7 +53,7 @@ export const generateContent = async (
         };
       }
       throw new Error(
-        `Type de contribution generic inconnu "${cdtContrib.type}" for [${cdtContrib.id}]`
+        `Type de contribution generic inconnu "${contribGeneric.type}" for [${contribGeneric.id}]`
       );
     }
   }
