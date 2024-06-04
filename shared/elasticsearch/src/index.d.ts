@@ -7,3 +7,4 @@ export const SUGGESTIONS: string;
 export const vectorizeDocument: any;
 export const version: any;
 export const suggestionMapping: any;
+export const vectorizeQuery: any;

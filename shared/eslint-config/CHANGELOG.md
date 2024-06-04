@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.44.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.1...v2.44.2) (2024-06-04)
+
+**Note:** Version bump only for package @shared/eslint-config
+
 ## [2.44.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.0...v2.44.1) (2024-06-04)
 
 **Note:** Version bump only for package @shared/eslint-config
