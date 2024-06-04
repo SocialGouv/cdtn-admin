@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.44.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.1...v2.44.2) (2024-06-04)
+
+### Bug Fixes
+
+- **cdtn-elasticsearch:** add `vectorizeQuery` to type ([3c18e95](https://github.com/SocialGouv/cdtn-admin/commit/3c18e95b53dc07da3c7c53ca01e500b7338103f3))
+
 ## [2.44.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.0...v2.44.1) (2024-06-04)
 
 ### Bug Fixes
