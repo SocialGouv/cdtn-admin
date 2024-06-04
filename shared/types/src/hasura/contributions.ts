@@ -136,8 +136,10 @@ export type ContributionMessageBlock = {
   id: string;
   label: string;
   contentAgreement: string;
+  contentAgreementWithoutLegal: string;
   contentLegal: string;
   contentNotHandled: string;
+  contentNotHandledWithoutLegal: string;
 };
 
 export type ContributionAgreementMessage = {

@@ -15,7 +15,6 @@ import pMap from "p-map";
 
 import { cdtnDocumentsGen } from "./cdtnDocuments";
 import { context } from "./context";
-import { addCovisits, buildCovisitMap } from "./monolog";
 import { populateSuggestions } from "./suggestion";
 
 async function addVector(data: any) {
@@ -55,8 +54,6 @@ const excludeSources = [
 export async function ingest(
   cdtnAdminEndpoint: string | undefined,
   cdtnAdminEndpointSecret: string | undefined,
-  esLogs: string | undefined,
-  esLogsToken: string | undefined,
   esUrl: string | undefined,
   esTokenIngest: string | undefined,
   esIndexPrefix: string | undefined,
@@ -70,8 +67,6 @@ export async function ingest(
   await runIngester(
     cdtnAdminEndpoint,
     cdtnAdminEndpointSecret,
-    esLogs,
-    esLogsToken,
     esUrl,
     esTokenIngest,
     esIndexPrefix,
@@ -85,8 +80,6 @@ export async function ingest(
 async function runIngester(
   cdtnAdminEndpoint: string | undefined,
   cdtnAdminEndpointSecret: string | undefined,
-  esLogs: string | undefined,
-  esLogsToken: string | undefined,
   esUrl: string | undefined,
   esTokenIngest: string | undefined,
   esIndexPrefix: string | undefined,
@@ -95,23 +88,30 @@ async function runIngester(
   bufferSize: number | undefined,
   suggestFile: string | undefined
 ) {
-  const ES_INDEX_PREFIX = esIndexPrefix || "cdtn";
+  const ES_INDEX_PREFIX = esIndexPrefix ?? "cdtn";
 
   const DOCUMENT_INDEX_NAME = `${ES_INDEX_PREFIX}_${DOCUMENTS}`;
   const SUGGEST_INDEX_NAME = `${ES_INDEX_PREFIX}_${SUGGESTIONS}`;
 
-  const ELASTICSEARCH_URL = esUrl || "http://localhost:9200";
+  const ELASTICSEARCH_URL = esUrl ?? "http://localhost:9200";
 
-  const esClientConfig = {
-    auth: { apiKey: esTokenIngest },
-    node: `${ELASTICSEARCH_URL}`,
-  };
+  const client = new Client(
+    Object.assign(
+      {
+        node: ELASTICSEARCH_URL,
+      },
+      esTokenIngest
+        ? {
+            auth: {
+              apiKey: esTokenIngest,
+            },
+          }
+        : {}
+    )
+  );
 
-  const client = new Client(esClientConfig as unknown as any);
   context.set("cdtnAdminEndpoint", cdtnAdminEndpoint);
   context.set("cdtnAdminEndpointSecret", cdtnAdminEndpointSecret);
-  context.set("esLogs", esLogs);
-  context.set("esLogsToken", esLogsToken);
   context.set("esUrl", esUrl);
   context.set("suggestIndexName", suggestIndexName);
   context.set("bufferSize", bufferSize);
@@ -124,11 +124,6 @@ async function runIngester(
     logger.info(`Using NLP service to retrieve tf vectors on ${nlpUrl}`);
   } else {
     logger.info(`NLP_URL not defined, semantic search will be disabled.`);
-  }
-
-  if (esLogs && esLogsToken) {
-    logger.info(`Reading Covisits from Elastic ${esLogs}`);
-    await buildCovisitMap(esLogs, esLogsToken);
   }
 
   await version({ client });
@@ -146,16 +141,13 @@ async function runIngester(
 
     let docs = documents;
 
-    docs.forEach((doc: any) => {
-      addCovisits(doc);
-    });
-
     // add NLP vectors
     if (!(excludeSources as string[]).includes(source)) {
       docs = await pMap(documents, addVector, {
         concurrency: 5,
       });
     }
+
     await indexDocumentsBatched({
       client,
       documents: docs,

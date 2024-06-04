@@ -51,13 +51,16 @@ export async function generateContributions(
 
   for (let i = 0; i < contributions.length; i++) {
     const contrib = contributions[i];
+    const contribGeneric = contributions.find(
+      (c) => c.questionId === contrib.questionId && c.idcc === "0000"
+    );
     const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
-    const content = await generateContent(contributions, contrib);
+    const content = await generateContent(contribGeneric, contrib);
 
-    const messageBlock = await generateMessageBlock(contrib);
+    const messageBlock = await generateMessageBlock(contribGeneric, contrib);
 
-    const references = generateReferences(contributions, contrib);
+    const references = generateReferences(contribGeneric, contrib);
 
     const ccUnextended = await fetchAgreementUnextended();
 

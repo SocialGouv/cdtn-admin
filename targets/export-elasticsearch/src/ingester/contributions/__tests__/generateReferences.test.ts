@@ -37,7 +37,7 @@ describe("generateReferences", () => {
       },
     ];
 
-    const result = generateReferences(contributions, contrib);
+    const result = generateReferences(contributions[0], contrib);
 
     expect(result).toEqual([
       {
@@ -74,7 +74,7 @@ describe("generateReferences", () => {
       ],
     };
 
-    const result = generateReferences([], contrib);
+    const result = generateReferences(undefined, contrib);
 
     expect(result).toEqual([
       {
@@ -92,7 +92,7 @@ describe("generateReferences", () => {
     const contrib: any = { contentType: "CDT", questionIndex: 1 };
 
     expect(() => {
-      generateReferences([], contrib);
+      generateReferences(undefined, contrib);
     }).toThrowError();
   });
 

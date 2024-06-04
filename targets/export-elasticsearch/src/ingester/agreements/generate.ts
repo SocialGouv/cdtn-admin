@@ -1,16 +1,15 @@
 import {
   AgreementDoc,
-  ElasticAgreement,
   ContributionElasticDocument,
-  ExportAnswer,
   DocumentElasticWithSource,
+  ElasticAgreement,
 } from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getIDCCs } from "./getIdcc";
 import getAgreementsArticlesByTheme from "./getAgreementsArticlesByTheme";
 import { getTheme } from "./getTheme";
-import { getInfoMessage } from "./getInfoMessage";
 import pMap from "p-map";
+import { groupByTheme } from "./groupByTheme";
 
 const DESCRIPTION =
   "Retrouvez les questions-réponses les plus fréquentes organisées par thème et élaborées par le ministère du Travail vous concernant.";
@@ -30,35 +29,30 @@ export const generateAgreements = async (
         })
         .filter((item) => item.contentType !== "UNKNOWN");
 
-      const answers: ExportAnswer[] = contributionByIdccNotUnknown
-        .map((data) => {
-          return {
-            ...data,
-            theme: getTheme(data),
-            infoMessage: getInfoMessage(data),
-          };
-        })
-        .sort(
-          // On ordonne les questions par index
-          (a: ExportAnswer, b: ExportAnswer) =>
-            a.questionIndex - b.questionIndex
-        );
+      const answers = contributionByIdccNotUnknown.map((data) => {
+        return {
+          slug: data.slug,
+          question: data.questionName,
+          questionIndex: data.questionIndex,
+          theme: getTheme(data),
+        };
+      });
 
       const articlesByTheme = await getAgreementsArticlesByTheme(cc.num);
 
       const agreementGenerated: ElasticAgreement = {
         ...cc,
-        answers,
+        answers: groupByTheme(answers),
         articlesByTheme,
         contributions: contribIDCCs.has(cc.num),
-        description: DESCRIPTION, // On affiche la nouvelle description s'il n'y a plus d'anciennes réponses conventionnelles
+        description: DESCRIPTION,
         source: SOURCES.CCN,
       };
 
       return agreementGenerated;
     },
     {
-      concurrency: 5,
+      concurrency: 10,
     }
   );
 };
