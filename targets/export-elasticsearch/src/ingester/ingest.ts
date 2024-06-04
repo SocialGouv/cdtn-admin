@@ -63,8 +63,7 @@ export async function ingest(
   nlpUrl: string | undefined,
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
-  suggestFile: string | undefined,
-  disableGlossary: boolean | undefined
+  suggestFile: string | undefined
 ) {
   context.provide();
   process.env.NLP_URL = nlpUrl; //pour setter la variable d'environment du package elasticsearch...
@@ -79,8 +78,7 @@ export async function ingest(
     nlpUrl,
     suggestIndexName,
     bufferSize,
-    suggestFile,
-    disableGlossary
+    suggestFile
   );
 }
 
@@ -95,8 +93,7 @@ async function runIngester(
   nlpUrl: string | undefined,
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
-  suggestFile: string | undefined,
-  disableGlossary: boolean | undefined
+  suggestFile: string | undefined
 ) {
   const ES_INDEX_PREFIX = esIndexPrefix || "cdtn";
 
@@ -119,7 +116,6 @@ async function runIngester(
   context.set("suggestIndexName", suggestIndexName);
   context.set("bufferSize", bufferSize);
   context.set("suggestFile", suggestFile);
-  context.set("disableGlossary", disableGlossary);
   context.set("nlpUrl", nlpUrl);
   const ts = Date.now();
   logger.info(`Using cdtn elasticsearch ${ELASTICSEARCH_URL}`);

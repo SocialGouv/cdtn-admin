@@ -17,8 +17,7 @@ const ingester = async (): Promise<string> => {
         process.env.NLP_URL,
         undefined,
         undefined,
-        undefined,
-        false
+        undefined
       );
       resolve("Export elasticsearch completed successfully");
     } catch (error: unknown) {
