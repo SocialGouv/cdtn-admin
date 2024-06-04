@@ -172,6 +172,7 @@ const AddATermButton = () => (
 );
 
 const SynchronizeButton = () => {
+  const [isDisabled, setIsDisabled] = useState(false);
   const onClick = async () => {
     const result = await fetch(`/api/glossary`, {
       method: "POST",
@@ -184,6 +185,7 @@ const SynchronizeButton = () => {
       return;
     }
     alert("Le lexique est en cours de synchronisation");
+    setIsDisabled(true);
   };
   return (
     <Button
@@ -192,6 +194,7 @@ const SynchronizeButton = () => {
       color="primary"
       style={{ marginLeft: "1rem" }}
       onClick={onClick}
+      disabled={isDisabled}
     >
       <IoMdSync style={{ height: "1rem", marginRight: "2px", width: "1rem" }} />
       Synchroniser le lexique
