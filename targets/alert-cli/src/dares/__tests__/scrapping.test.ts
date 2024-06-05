@@ -1,5 +1,7 @@
 import axios from "axios";
 import { extractDaresXlsxFromMT } from "../scrapping";
+import fs from "fs";
+import path from "path";
 
 jest.mock("axios");
 
@@ -37,7 +39,6 @@ describe("extractXlsxFromUrl", () => {
   });
 
   it("should throw error if no xlsx file found", async () => {
-    const url = "https://example.com/files";
     const html = `
       <html>
         <body>
@@ -48,6 +49,20 @@ describe("extractXlsxFromUrl", () => {
     (axios.get as jest.Mock).mockResolvedValueOnce({ data: html });
     await expect(extractDaresXlsxFromMT()).rejects.toThrow(
       "No xlsx file found"
+    );
+  });
+
+  it("should work with a real dares html page", async () => {
+    const html = fs
+      .readFileSync(path.join(__dirname, "../__mocks__/page_dares.html"))
+      .toString();
+
+    console.log(html);
+
+    (axios.get as jest.Mock).mockResolvedValueOnce({ data: html });
+    const result = await extractDaresXlsxFromMT();
+    expect(result).toBe(
+      "https://travail-emploi.gouv.fr//IMG/xlsx/dares_donnes_identifiant_convention_collective_avril24.xlsx"
     );
   });
 });
