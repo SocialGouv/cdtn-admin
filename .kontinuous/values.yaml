@@ -57,18 +57,13 @@ www:
   env:
     - name: NEXTAUTH_URL
       value: https://www-{{.Values.global.host}}
-  resources:
-    limits:
-      cpu: "500m"
-      memory: "1Gi"
-    requests:
-      cpu: "100m"
-      memory: "256Mi"
-  replicas: 1
   securityContext:
     fsGroup: 1000
     runAsUser: 1000
     runAsGroup: 1000
+  annotations:
+    vpa.socialgouv.io/min-cpu: "500m"
+    vpa.socialgouv.io/min-memory: "1Gi"
 
 export:
   ~chart: app
@@ -85,14 +80,6 @@ export:
         name: export-elasticsearch
     - secretRef:
         name: s3
-  resources:
-    limits:
-      cpu: "100m"
-      memory: 256Mi
-    requests:
-      cpu: "50m"
-      memory: 128Mi
-  replicas: 1
   securityContext:
     fsGroup: 1000
     runAsUser: 1000
@@ -111,14 +98,6 @@ hasura:
         name: hasura
     - secretRef:
         name: hasura
-  replicas: 2
-  resources:
-    limits:
-      cpu: "2000m"
-      memory: "4Gi"
-    requests:
-      cpu: "50m"
-      memory: 650Mi
   securityContext:
     fsGroup: 1001
     runAsUser: 1001

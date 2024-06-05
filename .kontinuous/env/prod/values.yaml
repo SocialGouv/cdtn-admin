@@ -36,13 +36,6 @@ export:
 hasura:
   autoscale:
     enabled: true
-  resources:
-    limits:
-      cpu: "2000m"
-      memory: "4Gi"
-    requests:
-      cpu: "1000m"
-      memory: "1Gi"
   envFrom:
     - secretRef:
         name: pg-app
