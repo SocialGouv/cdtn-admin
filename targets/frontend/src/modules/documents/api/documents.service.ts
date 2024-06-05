@@ -47,6 +47,10 @@ export class DocumentsService {
     document?: HasuraDocument<any>
   ): Promise<HasuraDocument<any>> {
     const glossary = await fetchGlossary();
+    const introWithGlossary = await addGlossaryContentToMarkdown(
+      glossary,
+      data.intro ?? ""
+    );
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id ?? generateInitialId(),
@@ -63,10 +67,7 @@ export class DocumentsService {
           ? format(new Date(data.updatedAt), "dd/MM/yyyy")
           : undefined,
         intro: data.intro,
-        introWithGlossary: addGlossaryContentToMarkdown(
-          glossary,
-          data.intro ?? ""
-        ),
+        introWithGlossary,
         description: data.description,
         sectionDisplayMode: data.sectionDisplayMode,
         dismissalProcess: data.dismissalProcess,
@@ -78,59 +79,66 @@ export class DocumentsService {
               },
             ]
           : undefined,
-        contents: data.contents.map(
-          ({ name, title, blocks, references, referenceLabel }) => {
-            return {
-              name,
-              title,
-              blocks: blocks.map((block) => {
-                return {
-                  type: block.type,
-                  ...(block.type === "content"
-                    ? {
-                        title: block.content,
-                      }
-                    : {
-                        markdown: block.content,
-                        htmlWithGlossary: addGlossaryContentToMarkdown(
+        contents: await Promise.all(
+          data.contents.map(
+            async ({ name, title, blocks, references, referenceLabel }) => {
+              return {
+                name,
+                title,
+                blocks: await Promise.all(
+                  blocks.map(async (block) => {
+                    const htmlWithGlossary = block.content
+                      ? await addGlossaryContentToMarkdown(
                           glossary,
                           block.content
-                        ),
-                      }),
-                  ...(block.type === "graphic"
-                    ? {
-                        size: block.file?.size,
-                        imgUrl: block.img?.url,
-                        altText: block.img?.altText,
-                        fileUrl: block.file?.url,
-                      }
-                    : {}),
-                  ...(block.type === "content"
-                    ? {
-                        blockDisplayMode: block.contentDisplayMode,
-                        contents: block.contents?.length
-                          ? block.contents.map(({ document }) => {
-                              return {
-                                title: document.title,
-                                cdtnId: document.cdtnId,
-                                source: document.source,
-                              };
-                            })
-                          : undefined,
-                      }
-                    : {}),
-                };
-              }),
-              references: references?.length
-                ? [
-                    {
-                      label: referenceLabel,
-                      links: references,
-                    },
-                  ]
-                : undefined,
-            };
-          }
+                        )
+                      : "";
+                    return {
+                      type: block.type,
+                      ...(block.type === "content"
+                        ? {
+                            title: block.content,
+                          }
+                        : {
+                            markdown: block.content,
+                            htmlWithGlossary,
+                          }),
+                      ...(block.type === "graphic"
+                        ? {
+                            size: block.file?.size,
+                            imgUrl: block.img?.url,
+                            altText: block.img?.altText,
+                            fileUrl: block.file?.url,
+                          }
+                        : {}),
+                      ...(block.type === "content"
+                        ? {
+                            blockDisplayMode: block.contentDisplayMode,
+                            contents: block.contents?.length
+                              ? block.contents.map(({ document }) => {
+                                  return {
+                                    title: document.title,
+                                    cdtnId: document.cdtnId,
+                                    source: document.source,
+                                  };
+                                })
+                              : undefined,
+                          }
+                        : {}),
+                    };
+                  })
+                ),
+                references: references?.length
+                  ? [
+                      {
+                        label: referenceLabel,
+                        links: references,
+                      },
+                    ]
+                  : undefined,
+              };
+            }
+          )
         ),
       },
     };

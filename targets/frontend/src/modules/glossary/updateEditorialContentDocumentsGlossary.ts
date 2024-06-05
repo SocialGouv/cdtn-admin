@@ -15,29 +15,35 @@ export const updateEditorialContentDocumentsGlossary = async () => {
   logger.info(`Found ${editorialContents.length} editorial contents`);
   for (let i = 0; i < editorialContents.length; i++) {
     const document = editorialContents[i].document;
+    const introWithGlossary = await addGlossaryContentToMarkdown(
+      glossary,
+      document.intro ?? ""
+    );
     await updateDocument(editorialContents[i].cdtn_id, {
       ...document,
-      introWithGlossary: addGlossaryContentToMarkdown(
-        glossary,
-        document.intro ?? ""
+      introWithGlossary,
+      contents: await Promise.all(
+        document.contents.map(async (content: any) => {
+          return {
+            ...content,
+            blocks: await Promise.all(
+              content.blocks.map(async (block: any) => {
+                if ("markdown" in block) {
+                  const htmlWithGlossary = await addGlossaryContentToMarkdown(
+                    glossary,
+                    block.markdown
+                  );
+                  return {
+                    ...block,
+                    htmlWithGlossary,
+                  };
+                }
+                return block;
+              })
+            ),
+          };
+        })
       ),
-      contents: document.contents.map((content: any) => {
-        return {
-          ...content,
-          blocks: content.blocks.map((block: any) => {
-            if ("markdown" in block) {
-              return {
-                ...block,
-                htmlWithGlossary: addGlossaryContentToMarkdown(
-                  glossary,
-                  block.markdown
-                ),
-              };
-            }
-            return block;
-          }),
-        };
-      }),
     });
     logger.info(
       `Updated editorial content ${i + 1}/${

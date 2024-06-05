@@ -24,12 +24,11 @@ export const addGlossaryContent = (
   return insertWebComponentGlossary(content, glossaryTerms);
 };
 
-export function addGlossaryContentToMarkdown(
+export async function addGlossaryContentToMarkdown(
   glossary: Glossary,
   markdown: string
-): string {
-  return addGlossaryContent(
-    glossary,
-    markdownProcessor.processSync(markdown).contents as string
-  );
+): Promise<string> {
+  const content = (await markdownProcessor.process(markdown))
+    .contents as string;
+  return addGlossaryContent(glossary, content);
 }
