@@ -544,10 +544,7 @@ function FicheLink({ change, documents = [] }: FicheLinkProps) {
         target="_blank"
         aria-label={`${change.title} (nouvelle fenêtre)`}
         rel="noreferrer noopener"
-        href={generateFichesSpRef(
-          change.type as "Associations" | "Particuliers" | "Professionnels",
-          change.id
-        )}
+        href={generateFichesSpRef(change.type, change.id)}
       >
         {change.title}
       </a>
