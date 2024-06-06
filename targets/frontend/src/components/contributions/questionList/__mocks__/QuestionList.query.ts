@@ -19,16 +19,24 @@ const createAnswerStatus = (status: Status): AnswerStatus => {
 export const mock: QuestionListQueryResult = {
   rows: [
     {
-      answers: [createAnswerStatus("TODO"), createAnswerStatus("REDACTING")],
       content: "question1",
       id: "questionId1",
       order: 1,
+      answers_aggregate: {
+        aggregate: {
+          count: 50
+        }
+      }
     },
     {
-      answers: [createAnswerStatus("TODO"), createAnswerStatus("TODO")],
       content: "question2",
       id: "questionId2",
       order: 2,
+      answers_aggregate: {
+        aggregate: {
+          count: 50
+        }
+      }
     },
   ],
 };
