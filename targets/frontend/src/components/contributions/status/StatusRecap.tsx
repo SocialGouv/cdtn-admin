@@ -11,20 +11,22 @@ export const StatusRecap = ({
 }) => {
   return (
     <>
-      {Object.entries(statusesMapping).filter(([status]) => status === "PUBLISHED").map(([status, { color }]) => {
-        const count = countAnswersWithStatus(answers, status);
-        return (
-          <TableCell
-            component="th"
-            scope="row"
-            key={`${uniqKey}-${status}`}
-            style={{ color }}
-            align="center"
-          >
-            <strong>{count ? count : "-"}</strong>
-          </TableCell>
-        );
-      })}
+      {Object.entries(statusesMapping)
+        .filter(([status]) => status === "PUBLISHED")
+        .map(([status, { color }]) => {
+          const count = countAnswersWithStatus(answers, status);
+          return (
+            <TableCell
+              component="th"
+              scope="row"
+              key={`${uniqKey}-${status}`}
+              style={{ color }}
+              align="center"
+            >
+              <strong>{count ? count : "-"}</strong>
+            </TableCell>
+          );
+        })}
     </>
   );
 };

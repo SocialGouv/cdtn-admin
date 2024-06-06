@@ -142,7 +142,10 @@ export const QuestionAnswerList = ({
             </TableHead>
             <TableBody>
               {answers?.map((answer) => {
-                const publicationDate = getLastPublicationDate({status: answer.status, exportStatus: answer.publication?.export});
+                const publicationDate = getLastPublicationDate({
+                  status: answer.status,
+                  exportStatus: answer.publication?.export,
+                });
                 return (
                   <TableRow
                     key={answer.agreement.id}
@@ -201,7 +204,8 @@ export const QuestionAnswerList = ({
                         <StatusContainer
                           status={answer.status.status}
                           statusDate={answer.status.createdAt}
-                          exportDate={answer.publication?.export.createdAt} />
+                          exportDate={answer.publication?.export.createdAt}
+                        />
                       )}
                     </TableCell>
                     <TableCell
@@ -209,9 +213,17 @@ export const QuestionAnswerList = ({
                       align="center"
                       onClick={() => redirectToAnswer(answer.id)}
                     >
-                      {publicationDate
-                        ? <StatusContainer status={"PUBLISHED"} exportDate={answer.publication?.export.createdAt} />
-                        : <StatusContainer status={"TODO"} exportDate={answer.publication?.export.createdAt} />}
+                      {publicationDate ? (
+                        <StatusContainer
+                          status={"PUBLISHED"}
+                          exportDate={answer.publication?.export.createdAt}
+                        />
+                      ) : (
+                        <StatusContainer
+                          status={"TODO"}
+                          exportDate={answer.publication?.export.createdAt}
+                        />
+                      )}
                     </TableCell>
                   </TableRow>
                 );

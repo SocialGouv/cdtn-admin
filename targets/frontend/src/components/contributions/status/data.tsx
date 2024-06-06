@@ -3,7 +3,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DescriptionIcon from "@mui/icons-material/Description";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import { fr } from "@codegouvfr/react-dsfr";
 
 export type StatusesMapping = {

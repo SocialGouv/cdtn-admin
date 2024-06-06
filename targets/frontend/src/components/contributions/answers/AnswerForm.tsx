@@ -332,15 +332,17 @@ export const AnswerForm = ({
             >
               Sauvegarder
             </Button>
-            {primaryButtonLabel && <Button
-              variant="contained"
-              type="button"
-              color="success"
-              onClick={() => submit(getNextStatus(status))}
-              disabled={submitting || status === "PUBLISHED"}
-            >
-              {primaryButtonLabel}
-            </Button>}
+            {primaryButtonLabel && (
+              <Button
+                variant="contained"
+                type="button"
+                color="success"
+                onClick={() => submit(getNextStatus(status))}
+                disabled={submitting || status === "PUBLISHED"}
+              >
+                {primaryButtonLabel}
+              </Button>
+            )}
           </Stack>
         )}
       </Stack>

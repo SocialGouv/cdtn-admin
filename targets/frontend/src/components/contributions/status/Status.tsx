@@ -18,10 +18,14 @@ export const StatusContainer = ({
   displayText?: boolean;
   dataTestid?: string;
 }) => {
-  let tooltipDate = exportDate ? format(parseISO(exportDate), "dd/MM/yyyy HH:mm:ss") : "";
-  const tooltipTitle = !statusDate ? tooltipDate : statusesMapping[status].text
+  let tooltipDate = exportDate
+    ? format(parseISO(exportDate), "dd/MM/yyyy HH:mm:ss")
+    : "";
+  const tooltipTitle = !statusDate ? tooltipDate : statusesMapping[status].text;
   if (statusDate && exportDate && status === "PUBLISHED") {
-    status = isPublished({statusDate, exportDate}) ? "PUBLISHED" : "TO_PUBLISH"
+    status = isPublished({ statusDate, exportDate })
+      ? "PUBLISHED"
+      : "TO_PUBLISH";
   }
   return (
     <Tooltip title={tooltipTitle}>
