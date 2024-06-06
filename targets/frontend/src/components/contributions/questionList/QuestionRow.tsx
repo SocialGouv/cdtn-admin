@@ -26,7 +26,6 @@ export const QuestionRow = (props: { row: QueryQuestion }) => {
         component="th"
         scope="row"
         align="center"
-        style={{ color: statusesMapping.PUBLISHED.color }}
       >
         <strong>{row.answers_aggregate.aggregate.count || "-"}</strong>
       </TableCell>

@@ -7,14 +7,14 @@ query fetchContributions {
     documents(where: {source: {_eq: "contributions"}}) {
       cdtn_id
       export {
-        created_at
+        createdAt: created_at
       }
       contribution {
         id
-        updated_at
+        updatedAt: updated_at
         statuses(where:{status: {_eq: "PUBLISHED"}}, order_by: {created_at: desc}, limit: 1) {
           status
-          created_at
+          createdAt: created_at
         }
       }
     }
@@ -25,8 +25,8 @@ interface HasuraReturn {
     documents: [DocumentElasticWithSource<ContributionDocumentJson>] | undefined
 }
 
-function filterDocumentToPublish(documents: DocumentElasticWithSource<any>[] | undefined): DocumentElasticWithSource<any>[] | undefined {
-    return documents?.filter((doc) => {
+export function filterContributionDocumentsToPublish(contributionDocs: DocumentElasticWithSource<any>[] | undefined): DocumentElasticWithSource<any>[] | undefined {
+    return contributionDocs?.filter((doc) => {
         const exportDate = doc.export?.createdAt ? new Date(doc.export?.createdAt).getTime() : 0;
         const statusDate = doc.contribution?.statuses.length ? new Date(doc.contribution?.statuses[0].createdAt).getTime() : 0;
         return statusDate > exportDate;
@@ -47,5 +47,5 @@ export async function fetchContributionDocumentToPublish(): Promise<DocumentElas
     if (res.error) {
         throw res.error;
     }
-    return filterDocumentToPublish(res.data?.documents);
+    return filterContributionDocumentsToPublish(res.data?.documents);
 }

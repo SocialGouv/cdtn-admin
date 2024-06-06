@@ -39,10 +39,6 @@ export const QuestionList = (): JSX.Element => {
     search,
   });
 
-  const aggregatedRow = rows.flatMap(({ answers }) =>
-    answers?.length ? (answers as Answer[]) : []
-  );
-  const total = aggregatedRow.length;
   return (
     <Stack spacing={2}>
       <Stack

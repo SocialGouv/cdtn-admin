@@ -24,6 +24,7 @@ export const statusSchema = z.enum([
   "VALIDATED",
   "TO_PUBLISH",
   "PUBLISHED",
+  "NOT_PUBLISHED"
 ]);
 export type Status = z.infer<typeof statusSchema>;
 

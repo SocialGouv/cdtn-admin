@@ -3,7 +3,6 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DescriptionIcon from "@mui/icons-material/Description";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import { fr } from "@codegouvfr/react-dsfr";
 
@@ -45,11 +44,16 @@ export const statusesMapping: StatusesMapping = {
     text: "Validé",
   },
   TO_PUBLISH: {
-    color: fr.colors.decisions.text.default.grey.default,
-    icon: <CloudSyncIcon titleAccess="à Publier" fontSize="small" />,
+    color: fr.colors.decisions.text.default.warning.default,
+    icon: <CloudDoneIcon titleAccess="Publié" fontSize="small" />,
     text: "À publier",
   },
   PUBLISHED: {
+    color: fr.colors.decisions.text.default.success.default,
+    icon: <CloudDoneIcon titleAccess="Publié" fontSize="small" />,
+    text: "Publié",
+  },
+  NOT_PUBLISHED: {
     color: fr.colors.decisions.text.default.success.default,
     icon: <CloudDoneIcon titleAccess="Publié" fontSize="small" />,
     text: "Publié",

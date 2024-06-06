@@ -1,4 +1,3 @@
-import { DocumentElasticWithSource } from "@socialgouv/cdtn-types";
 import {fetchContributionDocumentToPublish} from "../contributions";
 import {fetchLastExportStatus} from "./fetchLastExportStatus";
 import { gqlClient } from "@shared/utils";
@@ -17,30 +16,28 @@ export const updateToLastExportStatusMutation = `mutation updateToLastExportStat
   }
 }`;
 
-export async function updateExportStatuses(): Promise<DocumentElasticWithSource<any> | undefined> {
+export async function updateExportStatuses() {
   const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret") || "admin1";
   const exportStatus = await fetchLastExportStatus();
-  console.log("exportStatus",exportStatus);
   const contributionsToPublish = await fetchContributionDocumentToPublish();
-  console.log("contributionsToPublish",contributionsToPublish);
 
   if (!exportStatus?.id) {
     return;
   }
-  const res = await gqlClient({
-    graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
-    adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
-  })
-  .mutation(updateToLastExportStatusMutation, {
-    cdtnIds: contributionsToPublish?.map((contribution) => contribution.cdtnId),
-    exportId: exportStatus.id
-  })
-  .toPromise();
-  if (res.error) {
-      throw res.error;
-  }
+  const cdtnIds = contributionsToPublish?.map((contribution) => contribution.cdtn_id);
+  const {id: exportId} = exportStatus;
 
-  return contributionsToPublish;
+  if (cdtnIds?.length) {
+    const res = await gqlClient({
+      graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
+      adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
+    })
+    .mutation(updateToLastExportStatusMutation, { cdtnIds, exportId })
+    .toPromise();
+    if (res.error) {
+        throw res.error;
+    }
+  }
 }
   

@@ -128,7 +128,7 @@ export const ContributionsAnswer = ({
         </Breadcrumb>
         {answer?.status && (
           <div>
-            <StatusContainer status={answer.status} exportStatus={answer.publication?.export} />
+            <StatusContainer status={answer.status.status} statusDate={answer.status.createdAt} exportDate={answer.publication?.export.createdAt} displayText/>
             {answer.publication ? `dernière publication: ${getLastPublicationDate({status: answer.status, exportStatus: answer.publication?.export})}` : ""}
           </div>
         )}

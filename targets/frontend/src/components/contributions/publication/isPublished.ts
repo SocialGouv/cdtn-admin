@@ -1,14 +1,11 @@
 import { AnswerStatus, ExportStatus } from "../type";
 
 export const isPublished = ({
-    status,
-    exportStatus
+    statusDate,
+    exportDate
   }: {
-    status: AnswerStatus;
-    exportStatus?: ExportStatus;
+    statusDate: string;
+    exportDate?: string;
   }): boolean => {
-    if (!exportStatus) {
-        return false;
-    }
-    return new Date(exportStatus.createdAt).getTime() > new Date(status.createdAt).getTime();
+    return new Date(exportDate).getTime() > new Date(statusDate).getTime();
 }
