@@ -24,7 +24,7 @@ async function getBaseDocument(
       return {
         type: "content",
         content: data.content,
-        contentWithGlossary: addGlossaryContentWorker({
+        contentWithGlossary: await addGlossaryContentWorker({
           glossary,
           type: "html",
           content: data.content,
