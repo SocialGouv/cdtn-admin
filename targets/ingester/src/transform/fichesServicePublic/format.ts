@@ -58,7 +58,7 @@ export function format(
     | "Particuliers"
     | "Professionnels";
 
-  const url = generateFichesSpRef(audience, id);
+  const url: string = generateFichesSpRef(audience, id);
 
   const intro = getText(getChild(publication, "Introduction"));
   const texte = getText(getChild(publication, "Texte"));
