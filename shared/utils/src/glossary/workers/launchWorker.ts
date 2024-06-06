@@ -12,11 +12,9 @@ export const addGlossaryContentWorker = async (
   workerData: GlossaryWorkerData
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
+    const packagePath = path.dirname(require.resolve("@shared/utils"));
     const worker = new Worker(
-      path.resolve(
-        process.cwd(),
-        "../../shared/utils/build/src/glossary/workers/runGlossaryProcess.js"
-      ),
+      path.join("../", packagePath, "/glossary/workers/runGlossaryProcess.js"),
       {
         workerData,
       }

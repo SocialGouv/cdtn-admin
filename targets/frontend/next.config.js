@@ -29,6 +29,7 @@ module.exports = {
       ...config.resolve,
       fallback: {
         fs: false,
+        worker_threads: false,
       },
     };
     return config;
