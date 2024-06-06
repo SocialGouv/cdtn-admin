@@ -1,2 +1,2 @@
-export * from "./workers/launchWorker";
+export * from "./launchWorker";
 export * from "./fetchGlossary";
