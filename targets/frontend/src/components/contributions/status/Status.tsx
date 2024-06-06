@@ -1,15 +1,21 @@
 import { Box, Stack, Tooltip } from "@mui/material";
 
-import { AnswerStatus } from "../type";
+import { AnswerStatus, ExportStatus } from "../type";
 import { statusesMapping } from "./data";
+import { isPublished } from "../publication";
 
 export const StatusContainer = ({
   status,
+  exportStatus,
   dataTestid,
 }: {
   status: AnswerStatus;
+  exportStatus?: ExportStatus;
   dataTestid?: string;
 }) => {
+  if (status.status === "PUBLISHED") {
+    status.status = isPublished({status, exportStatus}) ? "PUBLISHED" : "TO_PUBLISH"
+  }
   return (
     <Tooltip title={status.user?.name && `Par ${status.user.name}`}>
       <Stack

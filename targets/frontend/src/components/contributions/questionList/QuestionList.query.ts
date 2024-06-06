@@ -10,21 +10,24 @@ export const questionListQuery = `query questions_answers($search: String) {
     },
     order_by: {order: asc}
   ) {
-    id,
-    content,
-    order,
-    answers {
-      statuses(order_by: {created_at: desc}, limit: 1) {
-        status
-        user {
-          name
-        }
+    id
+    content
+    order
+    answers_aggregate(where: {cdtnId: {_is_null: false }}) {
+      aggregate {
+        count
       }
     }
   }
 }`;
 export type QueryQuestionAnswer = Answer;
-export type QueryQuestion = Question;
+export type QueryQuestion = Question & {
+  answers_aggregate: {
+    aggregate: {
+      count: number;
+    }
+  }
+};
 
 export type QueryResult = {
   contribution_questions: QueryQuestion[];
@@ -61,6 +64,6 @@ export const useQuestionListQuery = ({
     },
   });
   return {
-    rows: formatAnswers(result.data?.contribution_questions),
+    rows: result.data?.contribution_questions ?? [],
   };
 };

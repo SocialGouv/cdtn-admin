@@ -1,6 +1,11 @@
 import { HasuraDocument } from "./common";
 import { FicheServicePublicDoc } from "./fiche-sp";
 
+export type ContributionStatus = {
+  createdAt: string;
+  status: string;
+}
+
 export type ContributionsAnswers = {
   id: string;
   content: string | null;
@@ -14,6 +19,7 @@ export type ContributionsAnswers = {
   content_fiche_sp: ContributionContentFicheSp | null;
   message_block_generic_no_CDT: string | null;
   agreement: ContributionAgreement;
+  statuses: ContributionStatus[];
 };
 
 export type ContributionQuestion = {

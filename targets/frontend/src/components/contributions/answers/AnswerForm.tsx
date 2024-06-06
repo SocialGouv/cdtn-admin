@@ -214,6 +214,7 @@ export const AnswerForm = ({
       value: "GENERIC_NO_CDT",
     },
   ];
+  const primaryButtonLabel = getPrimaryButtonLabel(status);
   return (
     <form>
       <Stack spacing={5}>
@@ -331,15 +332,15 @@ export const AnswerForm = ({
             >
               Sauvegarder
             </Button>
-            <Button
+            {primaryButtonLabel && <Button
               variant="contained"
               type="button"
               color="success"
               onClick={() => submit(getNextStatus(status))}
               disabled={submitting || status === "PUBLISHED"}
             >
-              {getPrimaryButtonLabel(status)}
-            </Button>
+              {primaryButtonLabel}
+            </Button>}
           </Stack>
         )}
       </Stack>

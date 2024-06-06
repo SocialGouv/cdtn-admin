@@ -11,7 +11,7 @@ export const StatusRecap = ({
 }) => {
   return (
     <>
-      {Object.entries(statusesMapping).map(([status, { color }]) => {
+      {Object.entries(statusesMapping).filter(([status]) => status === "PUBLISHED").map(([status, { color }]) => {
         const count = countAnswersWithStatus(answers, status);
         return (
           <TableCell

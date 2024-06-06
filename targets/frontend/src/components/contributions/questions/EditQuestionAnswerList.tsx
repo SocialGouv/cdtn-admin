@@ -19,6 +19,7 @@ import { Answer } from "../type";
 import { StatusContainer } from "../status";
 import { useRouter } from "next/router";
 import { fr } from "@codegouvfr/react-dsfr";
+import { getLastPublicationDate } from "../publication";
 
 type EditQuestionAnswerListProps = {
   answers: Answer[];
@@ -136,6 +137,7 @@ export const QuestionAnswerList = ({
                 <TableCell>Convention Collective</TableCell>
                 <TableCell align="center">Type</TableCell>
                 <TableCell align="center">Statut</TableCell>
+                <TableCell align="center">Dernière Publication</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -195,8 +197,15 @@ export const QuestionAnswerList = ({
                       onClick={() => redirectToAnswer(answer.id)}
                     >
                       {answer.status && (
-                        <StatusContainer status={answer.status} />
+                        <StatusContainer status={answer.status} exportStatus={answer.publication?.export} />
                       )}
+                    </TableCell>
+                    <TableCell
+                      scope="row"
+                      align="center"
+                      onClick={() => redirectToAnswer(answer.id)}
+                    >
+                      {getLastPublicationDate({status: answer.status, exportStatus: answer.publication?.export})}
                     </TableCell>
                   </TableRow>
                 );

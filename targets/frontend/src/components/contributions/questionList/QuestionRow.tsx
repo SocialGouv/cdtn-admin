@@ -2,9 +2,8 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
 
-import { StatusRecap } from "../status";
 import { QueryQuestion } from "./QuestionList.query";
-import { Answer } from "../type";
+import { statusesMapping } from "../status/data";
 
 export const QuestionRow = (props: { row: QueryQuestion }) => {
   const { row } = props;
@@ -23,10 +22,14 @@ export const QuestionRow = (props: { row: QueryQuestion }) => {
       <TableCell component="th" scope="row">
         <strong>{row.order}</strong> - {row.content}
       </TableCell>
-      <StatusRecap
-        answers={row.answers as Answer[]}
-        uniqKey={`${row.id}-statuses`}
-      />
+      <TableCell
+        component="th"
+        scope="row"
+        align="center"
+        style={{ color: statusesMapping.PUBLISHED.color }}
+      >
+        <strong>{row.answers_aggregate.aggregate.count || "-"}</strong>
+      </TableCell>
     </TableRow>
   );
 };

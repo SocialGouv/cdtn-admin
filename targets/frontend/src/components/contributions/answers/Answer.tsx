@@ -16,13 +16,13 @@ import { Answer, Status } from "../type";
 import { useContributionAnswerUpdateMutation } from "./answer.mutation";
 import { useContributionAnswerQuery } from "./answer.query";
 import { Comments } from "./Comments";
-import { statusesMapping } from "../status/data";
 import { SnackBar } from "../../utils/SnackBar";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 import { AnswerForm } from "./AnswerForm";
 import { fr } from "@codegouvfr/react-dsfr";
 import { usePublishContributionMutation } from "./usePublishAnswer";
 import { useGenericContributionAnswerQuery } from "./answerGeneric.query";
+import { getLastPublicationDate } from "../publication";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -127,8 +127,9 @@ export const ContributionsAnswer = ({
           </BreadcrumbLink>
         </Breadcrumb>
         {answer?.status && (
-          <div style={{ color: statusesMapping[answer?.status.status].color }}>
-            <StatusContainer status={answer.status} />
+          <div>
+            <StatusContainer status={answer.status} exportStatus={answer.publication?.export} />
+            {answer.publication ? `dernière publication: ${getLastPublicationDate({status: answer.status, exportStatus: answer.publication?.export})}` : ""}
           </div>
         )}
       </Stack>

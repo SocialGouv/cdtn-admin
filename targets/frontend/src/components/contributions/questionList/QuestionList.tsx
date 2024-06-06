@@ -20,9 +20,7 @@ import {
   useQuestionListQuery,
 } from "./QuestionList.query";
 import { QuestionRow } from "./QuestionRow";
-import { fr } from "@codegouvfr/react-dsfr";
 import { statusesMapping } from "../status/data";
-import { StatusStats } from "../status/StatusStats";
 import { Answer } from "../type";
 
 export const countAnswersWithStatus = (
@@ -63,27 +61,6 @@ export const QuestionList = (): JSX.Element => {
           }}
           data-testid="contributions-list-search"
         />
-        <Card>
-          <CardContent>
-            <Typography>Total</Typography>
-            <Typography
-              sx={{
-                fontWeight: "bold",
-                color: fr.colors.decisions.text.default.grey.default,
-              }}
-            >
-              {total}
-            </Typography>
-          </CardContent>
-        </Card>
-
-        <StatusStats
-          statusCounts={Object.keys(statusesMapping).map((status) => ({
-            status,
-            count: countAnswersWithStatus(aggregatedRow, status),
-          }))}
-          total={total}
-        ></StatusStats>
       </Stack>
 
       <TableContainer component={Paper}>
@@ -91,15 +68,9 @@ export const QuestionList = (): JSX.Element => {
           <TableHead>
             <TableRow>
               <TableCell>Questions ({rows.length})</TableCell>
-              {Object.entries(statusesMapping).map(
-                ([_, { text, icon, color }]) => {
-                  return (
-                    <TableCell key={text} style={{ color }} align="center">
-                      <Tooltip title={text}>{icon}</Tooltip>
-                    </TableCell>
-                  );
-                }
-              )}
+              <TableCell key={statusesMapping.PUBLISHED.text} style={{ color: statusesMapping.PUBLISHED.color }} align="center">
+                <Tooltip title={statusesMapping.PUBLISHED.text}>{statusesMapping.PUBLISHED.icon}</Tooltip>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

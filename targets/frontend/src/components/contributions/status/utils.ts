@@ -31,9 +31,10 @@ export const getPrimaryButtonLabel = (status: Status): string => {
     case "VALIDATING":
       return "Valider";
     case "VALIDATED":
-      return "Publier";
+      return "À publier";
     case "PUBLISHED":
-      return "Publiée";
+    case "TO_PUBLISH":
+      return "";
     case "TODO":
     case "REDACTING":
     default:
