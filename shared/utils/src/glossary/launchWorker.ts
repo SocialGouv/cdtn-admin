@@ -30,13 +30,11 @@ export const addGlossaryContentWorker = async (
 
 if (!isMainThread) {
   const { glossary, type, content } = workerData as GlossaryWorkerData;
-  let result = "";
   if (type === "markdown") {
     addGlossaryContentToMarkdown(glossary, content).then((res) => {
       parentPort?.postMessage(res);
     });
   } else if (type === "html") {
-    result = addGlossaryContent(glossary, content);
-    parentPort?.postMessage(result);
+    parentPort?.postMessage(addGlossaryContent(glossary, content));
   }
 }
