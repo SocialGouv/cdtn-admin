@@ -1,6 +1,6 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { fetchDocumentBySource } from "./fetchDocumentBySource";
-import { addGlossaryContentWorker, fetchGlossary } from "@shared/utils";
+import { addGlossaryContent, fetchGlossary } from "@shared/utils";
 import { updateDocument } from "./updateDocument";
 import { logger } from "@shared/utils";
 
@@ -11,11 +11,10 @@ export const updateContributionsDocumentsGlossary = async () => {
   for (let i = 0; i < contributions.length; i++) {
     const document = contributions[i].document;
     if (document.contentType === "ANSWER") {
-      const contentWithGlossary = await addGlossaryContentWorker({
+      const contentWithGlossary = await addGlossaryContent(
         glossary,
-        type: "html",
-        content: document.content,
-      });
+        document.content
+      );
       await updateDocument(contributions[i].cdtn_id, {
         ...document,
         contentWithGlossary,

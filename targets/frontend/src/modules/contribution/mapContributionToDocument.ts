@@ -9,6 +9,7 @@ import {
   generateCdtnId,
   addGlossaryContentWorker,
   fetchGlossary,
+  addGlossaryContent,
 } from "@shared/utils";
 import { generateContributionSlug } from "./generateSlug";
 
@@ -24,11 +25,7 @@ async function getBaseDocument(
       return {
         type: "content",
         content: data.content,
-        contentWithGlossary: await addGlossaryContentWorker({
-          glossary,
-          type: "html",
-          content: data.content,
-        }),
+        contentWithGlossary: addGlossaryContent(glossary, data.content),
       };
     case "GENERIC_NO_CDT":
       return {
