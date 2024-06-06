@@ -20,4 +20,3 @@ export const getLastPublicationDate = ({
     ? format(parseISO(exportStatus?.createdAt), "dd/MM/yyyy HH:mm:ss")
     : "";
 };
-screen;
