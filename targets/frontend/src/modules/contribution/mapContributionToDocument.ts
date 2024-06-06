@@ -7,7 +7,7 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getReferences } from "./getReferences";
 import {
   generateCdtnId,
-  addGlossaryContent,
+  addGlossaryContentWorker,
   fetchGlossary,
 } from "@shared/utils";
 import { generateContributionSlug } from "./generateSlug";
@@ -24,7 +24,11 @@ async function getBaseDocument(
       return {
         type: "content",
         content: data.content,
-        contentWithGlossary: addGlossaryContent(glossary, data.content ?? ""),
+        contentWithGlossary: addGlossaryContentWorker({
+          glossary,
+          type: "html",
+          content: data.content,
+        }),
       };
     case "GENERIC_NO_CDT":
       return {

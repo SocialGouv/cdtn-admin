@@ -1,10 +1,6 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { fetchDocumentBySource } from "./fetchDocumentBySource";
-import {
-  addGlossaryContentToMarkdown,
-  fetchGlossary,
-  logger,
-} from "@shared/utils";
+import { addGlossaryContentWorker, fetchGlossary, logger } from "@shared/utils";
 import { updateDocument } from "./updateDocument";
 
 export const updateEditorialContentDocumentsGlossary = async () => {
@@ -15,10 +11,11 @@ export const updateEditorialContentDocumentsGlossary = async () => {
   logger.info(`Found ${editorialContents.length} editorial contents`);
   for (let i = 0; i < editorialContents.length; i++) {
     const document = editorialContents[i].document;
-    const introWithGlossary = await addGlossaryContentToMarkdown(
+    const introWithGlossary = await addGlossaryContentWorker({
       glossary,
-      document.intro ?? ""
-    );
+      type: "markdown",
+      content: document.intro,
+    });
     await updateDocument(editorialContents[i].cdtn_id, {
       ...document,
       introWithGlossary,
@@ -29,10 +26,11 @@ export const updateEditorialContentDocumentsGlossary = async () => {
             blocks: await Promise.all(
               content.blocks.map(async (block: any) => {
                 if ("markdown" in block) {
-                  const htmlWithGlossary = await addGlossaryContentToMarkdown(
+                  const htmlWithGlossary = await addGlossaryContentWorker({
                     glossary,
-                    block.markdown
-                  );
+                    type: "markdown",
+                    content: block.markdown,
+                  });
                   return {
                     ...block,
                     htmlWithGlossary,

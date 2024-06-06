@@ -3,7 +3,7 @@ import { ConflictError, NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
 import { format, parseISO } from "date-fns";
 import {
-  addGlossaryContentToMarkdown,
+  addGlossaryContentWorker,
   fetchGlossary,
   generateCdtnId,
   generateInitialId,
@@ -47,10 +47,11 @@ export class DocumentsService {
     document?: HasuraDocument<any>
   ): Promise<HasuraDocument<any>> {
     const glossary = await fetchGlossary();
-    const introWithGlossary = await addGlossaryContentToMarkdown(
+    const introWithGlossary = await addGlossaryContentWorker({
       glossary,
-      data.intro ?? ""
-    );
+      type: "markdown",
+      content: data.intro,
+    });
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id ?? generateInitialId(),
@@ -87,12 +88,11 @@ export class DocumentsService {
                 title,
                 blocks: await Promise.all(
                   blocks.map(async (block) => {
-                    const htmlWithGlossary = block.content
-                      ? await addGlossaryContentToMarkdown(
-                          glossary,
-                          block.content
-                        )
-                      : "";
+                    const htmlWithGlossary = await addGlossaryContentWorker({
+                      glossary,
+                      type: "markdown",
+                      content: block.content,
+                    });
                     return {
                       type: block.type,
                       ...(block.type === "content"

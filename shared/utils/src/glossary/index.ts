@@ -1,2 +1,2 @@
-export * from "./addGlossaryContent";
+export * from "./workers/launchWorker";
 export * from "./fetchGlossary";

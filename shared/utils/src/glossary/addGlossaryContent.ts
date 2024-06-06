@@ -5,8 +5,10 @@ import { Glossary } from "@socialgouv/cdtn-types";
 
 export const addGlossaryContent = (
   glossary: Glossary,
-  content: string
+  content?: string | null
 ): string => {
+  if (!content) return "";
+
   glossary.sort((previous, next) => {
     return next.term.length - previous.term.length;
   });
@@ -20,14 +22,15 @@ export const addGlossaryContent = (
     };
   });
 
-  if (!content) return "";
   return insertWebComponentGlossary(content, glossaryTerms);
 };
 
 export async function addGlossaryContentToMarkdown(
   glossary: Glossary,
-  markdown: string
+  markdown?: string | null
 ): Promise<string> {
+  if (!markdown) return "";
+
   const content = (await markdownProcessor.process(markdown))
     .contents as string;
   return addGlossaryContent(glossary, content);
