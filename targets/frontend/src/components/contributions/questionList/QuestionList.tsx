@@ -1,6 +1,4 @@
 import {
-  Card,
-  CardContent,
   Paper,
   Stack,
   Table,
@@ -11,7 +9,6 @@ import {
   TableRow,
   TextField,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -21,7 +18,6 @@ import {
 } from "./QuestionList.query";
 import { QuestionRow } from "./QuestionRow";
 import { statusesMapping } from "../status/data";
-import { Answer } from "../type";
 
 export const countAnswersWithStatus = (
   answers: QueryQuestionAnswer[] | undefined,

@@ -3,7 +3,6 @@ import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
 
 import { QueryQuestion } from "./QuestionList.query";
-import { statusesMapping } from "../status/data";
 
 export const QuestionRow = (props: { row: QueryQuestion }) => {
   const { row } = props;
@@ -22,11 +21,7 @@ export const QuestionRow = (props: { row: QueryQuestion }) => {
       <TableCell component="th" scope="row">
         <strong>{row.order}</strong> - {row.content}
       </TableCell>
-      <TableCell
-        component="th"
-        scope="row"
-        align="center"
-      >
+      <TableCell component="th" scope="row" align="center">
         <strong>{row.answers_aggregate.aggregate.count || "-"}</strong>
       </TableCell>
     </TableRow>
