@@ -1,6 +1,5 @@
 import { Glossary } from "@socialgouv/cdtn-types";
-import { Worker } from "node:worker_threads";
-import url from "node:url";
+import { Worker } from "worker_threads";
 import path from "path";
 
 export type GlossaryWorkerData = {
@@ -14,15 +13,8 @@ export const addGlossaryContentWorker = async (
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     const packagePath = path.dirname(require.resolve("@shared/utils"));
-    console.log("__dirname:", __dirname);
-    console.log("packagespath:", packagePath);
-    console.log(
-      "url:",
-      new url.URL("./runGlossaryProcess.js", import.meta.url)
-    );
-
     const worker = new Worker(
-      new url.URL("./runGlossaryProcess.js", import.meta.url),
+      path.join("../", packagePath, "/glossary/workers/runGlossaryProcess.js"),
       {
         workerData,
       }
