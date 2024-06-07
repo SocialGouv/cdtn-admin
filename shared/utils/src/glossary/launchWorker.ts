@@ -1,5 +1,5 @@
 import { Glossary } from "@socialgouv/cdtn-types";
-import { Worker, isMainThread, parentPort, workerData } from "worker_threads";
+import { Worker, parentPort, workerData, isMainThread } from "worker_threads";
 import {
   addGlossaryContent,
   addGlossaryContentToMarkdown,
@@ -11,9 +11,9 @@ export type GlossaryWorkerData = {
   content?: string | null;
 };
 
-export const addGlossaryContentWorker = async (
+export function addGlossaryContentWorker(
   workerData: GlossaryWorkerData
-): Promise<string> => {
+): Promise<string> {
   return new Promise((resolve, reject) => {
     const worker = new Worker(__filename, {
       workerData,
@@ -32,13 +32,10 @@ export const addGlossaryContentWorker = async (
       }
     });
   });
-};
-
-console.log("GFR - isMainThread", isMainThread);
+}
 
 if (!isMainThread) {
-  console.log("GFR - worker qui se lance", workerData);
-  const { glossary, type, content } = workerData as GlossaryWorkerData;
+  const { glossary, type, content }: GlossaryWorkerData = workerData;
   if (type === "markdown") {
     addGlossaryContentToMarkdown(glossary, content).then((res) => {
       parentPort?.postMessage(res);
