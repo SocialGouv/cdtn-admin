@@ -19,16 +19,25 @@ export const addGlossaryContentWorker = async (
       workerData,
     });
     worker.on("message", resolve);
-    worker.on("error", reject);
+    worker.on("error", (error) => {
+      console.error("[addGlossaryContentWorker] - error", error);
+      reject(error);
+    });
     worker.on("exit", (code) => {
       if (code !== 0) {
-        reject(new Error(`Worker stopped with exit code ${code}`));
+        console.error(
+          `[addGlossaryContentWorker] - Worker stopped with exit code ${code}`
+        );
+        reject(`Worker stopped with exit code ${code}`);
       }
     });
   });
 };
 
+console.log("GFR - isMainThread", isMainThread);
+
 if (!isMainThread) {
+  console.log("GFR - worker qui se lance", workerData);
   const { glossary, type, content } = workerData as GlossaryWorkerData;
   if (type === "markdown") {
     addGlossaryContentToMarkdown(glossary, content).then((res) => {
