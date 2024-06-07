@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-const URL_EXPORT = process.env.URL_EXPORT ?? "http://localhost:8787";
+export const URL_EXPORT = process.env.URL_EXPORT ?? "http://localhost:8787";
 
 const main = (req: NextApiRequest, res: NextApiResponse) => {
   // GET

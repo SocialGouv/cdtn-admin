@@ -2,12 +2,7 @@ import { DocumentsRepository } from "./documents.repository";
 import { ConflictError, NotFoundError } from "src/lib/api/ApiErrors";
 import { Information, InformationsRepository } from "src/modules/informations";
 import { format, parseISO } from "date-fns";
-import {
-  addGlossaryContentWorker,
-  fetchGlossary,
-  generateCdtnId,
-  generateInitialId,
-} from "@shared/utils";
+import { generateCdtnId, generateInitialId } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
 import {
   ContributionRepository,
@@ -20,6 +15,7 @@ import { generateContributionSlug } from "src/modules/contribution/generateSlug"
 import { AgreementRepository } from "../../agreements/api";
 import { Agreement } from "../../agreements";
 import { SourceRoute } from "@socialgouv/cdtn-sources";
+import { getGlossaryContent } from "src/modules/common/getGlossaryContent";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -46,12 +42,10 @@ export class DocumentsService {
     data: Information,
     document?: HasuraDocument<any>
   ): Promise<HasuraDocument<any>> {
-    const glossary = await fetchGlossary();
-    const introWithGlossary = await addGlossaryContentWorker({
-      glossary,
-      type: "markdown",
-      content: data.intro,
-    });
+    const introWithGlossary = await getGlossaryContent(
+      "markdown",
+      data.intro ?? ""
+    );
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id ?? generateInitialId(),
@@ -88,11 +82,10 @@ export class DocumentsService {
                 title,
                 blocks: await Promise.all(
                   blocks.map(async (block) => {
-                    const htmlWithGlossary = await addGlossaryContentWorker({
-                      glossary,
-                      type: "markdown",
-                      content: block.content,
-                    });
+                    const htmlWithGlossary = await getGlossaryContent(
+                      "markdown",
+                      block.content ?? ""
+                    );
                     return {
                       type: block.type,
                       ...(block.type === "content"

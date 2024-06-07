@@ -33,3 +33,11 @@ mutation updateOneExportEsStatus($id: uuid!, $status: String!, $updated_at: time
     documentsCount
   }
 }`;
+
+export const updateDocumentWithCdtnIdMutation = `
+mutation editDocument($cdtnId: String!, $document: jsonb) {
+  update_documents(where: {cdtn_id: {_eq: $cdtnId}}, _set: {document: $document}) {
+    affected_rows
+  }
+}
+`;

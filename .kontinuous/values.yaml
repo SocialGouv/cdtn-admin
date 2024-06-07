@@ -61,9 +61,6 @@ www:
     fsGroup: 1000
     runAsUser: 1000
     runAsGroup: 1000
-  annotations:
-    vpa.socialgouv.io/min-cpu: "2000m"
-    vpa.socialgouv.io/min-memory: "3Gi"
 
 export:
   ~chart: app

@@ -1,7 +1,7 @@
-import { markdownProcessor } from "../markdownProcessor";
 import { explodeGlossaryTerms } from "./explodeGlossaryTerms";
 import { insertWebComponentGlossary } from "./insertWebComponentGlossary";
 import { Glossary } from "@socialgouv/cdtn-types";
+import { markdownProcessor } from "./markdownProcessor";
 
 export const addGlossaryContent = (
   glossary: Glossary,

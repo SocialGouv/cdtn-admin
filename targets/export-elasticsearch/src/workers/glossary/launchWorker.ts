@@ -5,11 +5,11 @@ import {
   addGlossaryContentToMarkdown,
 } from "./addGlossaryContent";
 
-export type GlossaryWorkerData = {
+export interface GlossaryWorkerData {
   glossary: Glossary;
   type: "markdown" | "html";
-  content?: string | null;
-};
+  content: string;
+}
 
 export function addGlossaryContentWorker(
   workerData: GlossaryWorkerData

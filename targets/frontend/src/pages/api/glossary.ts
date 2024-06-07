@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
 import { NextApiRequest, NextApiResponse } from "next";
-import { updateGlossary } from "src/modules/glossary";
+import { URL_EXPORT } from "./export";
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,9 +19,11 @@ export default async function handler(
     return;
   }
 
-  updateGlossary();
-
-  return res.json({
-    message: "Success",
+  fetch(URL_EXPORT + "/glossary/all", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
   });
+  res.status(201).json({ message: "Glossary content is being updated." });
 }

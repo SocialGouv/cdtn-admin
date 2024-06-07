@@ -7,7 +7,8 @@ import {
   articleToReference,
   createReferenceResolver,
 } from "../lib/referenceResolver";
-import { addGlossaryContentWorker, fetchGlossary } from "@shared/utils";
+
+const URL_EXPORT = process.env.URL_EXPORT || "http://localhost:8787";
 
 export default async function getFicheTravailEmploi(pkgName: string) {
   const [fichesMT, cdt] = await Promise.all([
@@ -16,7 +17,6 @@ export default async function getFicheTravailEmploi(pkgName: string) {
       `@socialgouv/legi-data/data/LEGITEXT000006072050.json`
     ),
   ]);
-  const glossary = await fetchGlossary();
   const resolveCdtReference = createReferenceResolver(cdt);
   const result = await Promise.all(
     fichesMT.map(async ({ pubId, sections, ...content }) => {
@@ -26,11 +26,29 @@ export default async function getFicheTravailEmploi(pkgName: string) {
         is_searchable: true,
         sections: await Promise.all(
           sections.map(async ({ references, ...section }) => {
-            const htmlWithGlossary = await addGlossaryContentWorker({
-              glossary,
-              type: "html",
-              content: section.html,
-            });
+            const resultProcess = await fetch(URL_EXPORT + "/glossary", {
+              body: JSON.stringify({
+                type: "html",
+                content: section.html,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+              method: "POST",
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error(
+                    `HTTP error on glossary! status: ${response.status}`
+                  );
+                }
+                return response.json();
+              })
+              .catch((error) => {
+                throw new Error(`Error on glossary! ${error}`);
+              });
+            const htmlWithGlossary = resultProcess.result;
+
             return {
               ...section,
               htmlWithGlossary,
