@@ -17,11 +17,11 @@ www:
       value: https://cdtn-admin.fabrique.social.gouv.fr
   resources:
     limits:
-      cpu: "1000m"
-      memory: "2Gi"
-    requests:
-      cpu: "250m"
+      cpu: "200m"
       memory: "512Mi"
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
 
 export:
   replicas: 1
@@ -31,7 +31,7 @@ export:
       memory: "4096Mi"
     requests:
       cpu: "1000m"
-      memory: "512Mi"
+      memory: "896Mi"
 
 hasura:
   autoscale:
