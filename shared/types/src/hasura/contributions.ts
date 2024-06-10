@@ -19,6 +19,7 @@ export type ContributionsAnswers = {
   content_fiche_sp: ContributionContentFicheSp | null;
   message_block_generic_no_CDT: string | null;
   agreement: ContributionAgreement;
+  updatedAt: string;
   statuses?: ContributionStatus[];
 };
 

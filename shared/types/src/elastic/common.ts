@@ -15,7 +15,7 @@ export type Breadcrumb = {
 export type Export = {
   id: string;
   createdAt: string;
-}
+};
 
 export type DocumentElastic<T extends SourceRoute = SourceRoute> = {
   id: string;
