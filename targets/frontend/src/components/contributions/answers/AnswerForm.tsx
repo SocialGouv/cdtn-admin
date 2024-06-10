@@ -338,7 +338,7 @@ export const AnswerForm = ({
                 type="button"
                 color="success"
                 onClick={() => submit(getNextStatus(status))}
-                disabled={submitting || status === "PUBLISHED"}
+                disabled={submitting || status === "TO_PUBLISH"}
               >
                 {primaryButtonLabel}
               </Button>

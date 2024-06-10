@@ -211,6 +211,7 @@ export const QuestionAnswerList = ({
                       onClick={() => redirectToAnswer(answer.id)}
                     >
                       <StatusPublicationContainer
+                        status={answer.status.status}
                         exportDate={answer.publication?.export.createdAt}
                         statusDate={answer.status.createdAt}
                       />

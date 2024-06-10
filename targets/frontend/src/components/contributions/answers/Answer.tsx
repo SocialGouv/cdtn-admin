@@ -22,7 +22,6 @@ import { AnswerForm } from "./AnswerForm";
 import { fr } from "@codegouvfr/react-dsfr";
 import { usePublishContributionMutation } from "./usePublishAnswer";
 import { useGenericContributionAnswerQuery } from "./answerGeneric.query";
-import { getLastPublicationDate } from "../publication";
 import { StatusPublicationContainer } from "../status/StatusPublication";
 
 export type ContributionsAnswerProps = {
@@ -72,7 +71,7 @@ export const ContributionsAnswer = ({
         cdtnReferences: data.cdtnReferences,
         otherReferences: data.otherReferences,
       });
-      if (newStatus === "PUBLISHED") {
+      if (newStatus === "TO_PUBLISH") {
         await onPublish(answer.id);
       }
       setSnack({
@@ -81,8 +80,8 @@ export const ContributionsAnswer = ({
         message: "La réponse a été modifiée",
       });
     } catch (e: any) {
-      // Dans le cas où il y a une erreur au niveau de la publication (PUBLISHED), on revert le status en VALIDATED
-      if (newStatus === "PUBLISHED" && answer && user) {
+      // Dans le cas où il y a une erreur au niveau de la publication (TO_PUBLISH), on revert le status en VALIDATED
+      if (newStatus === "TO_PUBLISH" && answer && user) {
         await updateAnswer({
           content: data.content,
           id: answer.id,
@@ -131,6 +130,7 @@ export const ContributionsAnswer = ({
           <Stack>
             <StatusContainer status={answer.status.status} displayText />
             <StatusPublicationContainer
+              status={answer.status.status}
               statusDate={answer.status.createdAt}
               exportDate={answer.publication?.export.createdAt}
               displayText

@@ -109,7 +109,7 @@ export const EditQuestion = ({
     await onPublish(id);
     await updateAnswerStatus({
       id: id,
-      status: "PUBLISHED",
+      status: "TO_PUBLISH",
       userId: user?.id,
     });
     data.reExecute();

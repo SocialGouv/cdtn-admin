@@ -14,7 +14,7 @@ export const getLastPublicationDate = ({
       new Date(exportStatus.createdAt).getTime() >
       new Date(status.createdAt).getTime()
         ? "PUBLISHED"
-        : "TO_PUBLISH";
+        : "PUBLISHING";
   }
   return exportStatus?.createdAt
     ? format(parseISO(exportStatus?.createdAt), "dd/MM/yyyy HH:mm:ss")
