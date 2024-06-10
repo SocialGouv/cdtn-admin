@@ -130,7 +130,6 @@ services:
       DISABLE_COPY: "true"
       DISABLE_SITEMAP: "true"
       DISABLE_AGREEMENTS: "true"
-      NLP_URL: "https://serving-ml-preprod.ovh.fabrique.social.gouv.fr"
       ELASTICSEARCH_INDEX_PREPROD: "cdtn-preprod-v1"
       ELASTICSEARCH_INDEX_PROD: "cdtn-v1"
       ELASTICSEARCH_URL_PREPROD: "http://elasticsearch:9200"

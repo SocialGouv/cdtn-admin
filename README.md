@@ -157,10 +157,6 @@ GLOSSARY_PREPROD_DISABLE=true DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true 
 - `DISABLE_COPY` is used to disable copy between two containers
 - `DISABLE_SITEMAP` is used to disable copy of the sitemap
 - `DISABLE_AGREEMENTS` is used to disable copy of the agreements
-- `GLOSSARY_PREPROD_DISABLE` is used to disable glossary to gain time.
-- `NLP_URL` could be set by `https://serving-ml-preprod.ovh.fabrique.social.gouv.fr`, by default it is `undefined`
-
-> **Note**: You can remove `NLP_URL` from your environment variables if you don't want to use the NLP service and gain time during the process of ingester elasticsearch.
 
 #### 6. Run the export elasticsearch
 
@@ -179,7 +175,7 @@ yarn workspace frontend dev
 #### On client
 
 ```sh
-NLP_URL=https://serving-ml-preprod.ovh.fabrique.social.gouv.fr yarn workspace @cdt/frontend dev
+yarn workspace @cdt/frontend dev
 ```
 
 1. Go to `http://localhost:3001/`

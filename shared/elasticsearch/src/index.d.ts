@@ -4,7 +4,5 @@ export const documentMapping: any;
 export const DOCUMENTS: string;
 export const indexDocumentsBatched: any;
 export const SUGGESTIONS: string;
-export const vectorizeDocument: any;
 export const version: any;
 export const suggestionMapping: any;
-export const vectorizeQuery: any;
