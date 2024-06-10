@@ -24,6 +24,7 @@ describe("mapContributionToDocument", () => {
   };
 
   it("devrait mapper l'answer d'un document sans fiche SP", async () => {
+    // @ts-ignore
     const inputContribution: ContributionsAnswers = {
       id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
       content:
@@ -227,6 +228,7 @@ describe("mapContributionToDocument", () => {
   });
 
   it("devrait retourner undefined si de type UNKNOWN", async () => {
+    // @ts-ignore
     const inputContribution: ContributionsAnswers = {
       id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
       content: null,
@@ -261,6 +263,7 @@ describe("mapContributionToDocument", () => {
 
   describe("avec une contrib generic de type GENERIC_NO_CDT", () => {
     it("devrait mapper l'answer de la contrib generic", async () => {
+      // @ts-ignore
       const inputContribution: ContributionsAnswers = {
         id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
         content: null,
@@ -315,6 +318,7 @@ describe("mapContributionToDocument", () => {
     `(
       "devrait throw une erreur si une contrib personnalisé est de type $type",
       async ({ type }) => {
+        // @ts-ignore
         const inputContribution: ContributionsAnswers = {
           id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
           content: null,
@@ -357,6 +361,7 @@ describe("mapContributionToDocument", () => {
 
   describe("flag is_searchable", () => {
     it("devrait être à false pour une réponse personnalisée", async () => {
+      // @ts-ignore
       const inputContribution: ContributionsAnswers = {
         id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
         content: "<p>Texte de la réponse</p>",
@@ -407,6 +412,7 @@ describe("mapContributionToDocument", () => {
     });
 
     it("devrait être à true pour une réponse générique", async () => {
+      // @ts-ignore
       const inputContribution: ContributionsAnswers = {
         id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
         content: "<p>Texte de la réponse</p>",
@@ -440,6 +446,7 @@ describe("mapContributionToDocument", () => {
     });
 
     it("devrait garder la même valeur du document pour une réponse générique", async () => {
+      // @ts-ignore
       const inputContribution: ContributionsAnswers = {
         id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
         content: "<p>Texte de la réponse</p>",
@@ -490,6 +497,7 @@ describe("mapContributionToDocument", () => {
     });
 
     it("2 contribs de la même question doivent générer des cdtn_id différent si elle n'existe pas", async () => {
+      // @ts-ignore
       const inputContribution: ContributionsAnswers = {
         id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
         content: "<p>Texte de la réponse</p>",
@@ -521,6 +529,7 @@ describe("mapContributionToDocument", () => {
       );
       expect(result!.cdtn_id).toEqual("b3bc78aed5");
 
+      // @ts-ignore
       const inputContribution2: ContributionsAnswers = {
         id: "effee3b9-84fb-4667-944b-4b1e1fd14eb6",
         content: "<p>Texte de la réponse</p>",

@@ -49,12 +49,12 @@ export const statusesMapping: StatusesMapping = {
   TO_PUBLISH: {
     color: fr.colors.decisions.text.default.success.default,
     icon: <TaskAltIcon titleAccess="Publié" fontSize="small" />,
-    text: "À Publier",
+    text: "Publication",
   },
   PUBLISHING: {
     color: fr.colors.decisions.text.default.warning.default,
     icon: <CloudUploadIcon titleAccess="Publié" fontSize="small" />,
-    text: "En cours de publication",
+    text: "En attente",
   },
   PUBLISHED: {
     color: fr.colors.decisions.text.default.success.default,
