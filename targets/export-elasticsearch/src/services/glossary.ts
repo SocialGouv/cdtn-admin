@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { getName, name } from "../utils";
+import { getName, name, sendMattermostMessage } from "../utils";
 import { addGlossaryContentWorker } from "../workers/glossary";
 import { ValidatorCreateGlossaryType } from "../controllers/middlewares";
 import { GlossaryRepository } from "../repositories/glossary";
@@ -30,12 +30,20 @@ export class GlossaryService {
 
   async runGlossaryForAllContent() {
     const glossary = await this.glossaryRepository.getGlossary();
+    await sendMattermostMessage(
+      `**Glossaire:** Lancement du processus ⏳`,
+      process.env.MATTERMOST_CHANNEL_EXPORT
+    );
     logger.info("=== Starting glossary update ===");
     logger.info("Updating contributions documents glossary...");
     await this.updateGlossaryForEditorialContents(glossary);
     logger.info("Updating editorial content documents glossary...");
     await this.updateGlossaryForContributions(glossary);
     logger.info("=== Ending glossary update ===");
+    await sendMattermostMessage(
+      `**Glossaire:** Fin du processus ⌛️`,
+      process.env.MATTERMOST_CHANNEL_EXPORT
+    );
   }
 
   private async updateGlossaryForContributions(glossary: Glossary) {
