@@ -39,7 +39,7 @@ describe("generateContent", () => {
     };
 
     const result: ContributionContent = await generateContent(
-      mockContributions,
+      mockContributions.find(({id}) => id === contribution.genericAnswerId),
       contribution
     );
 
@@ -55,7 +55,7 @@ describe("generateContent", () => {
     };
 
     const result: ContributionContent = await generateContent(
-      mockContributions,
+      mockContributions.find(({id}) => id === contribution.genericAnswerId),
       contribution
     );
 
@@ -73,7 +73,7 @@ describe("generateContent", () => {
     };
 
     await expect(
-      generateContent(mockContributions, contribution)
+      generateContent(mockContributions.find(({id}) => id === contribution.genericAnswerId), contribution)
     ).rejects.toThrowError(
       `Aucune contribution générique a été retrouvée pour la contribution [10 - 3239] (id générique non trouvé : unknown-type)`
     );
@@ -88,7 +88,7 @@ describe("generateContent", () => {
     };
 
     await expect(
-      generateContent(mockContributions, contribution)
+      generateContent(mockContributions.find(({id}) => id === contribution.genericAnswerId), contribution)
     ).rejects.toThrowError(
       "La contribution [2 - 1516] ne peut pas référencer une générique qui n'a pas de réponse"
     );
@@ -110,7 +110,7 @@ describe("generateContent", () => {
     (fetchFicheSp as jest.Mock).mockResolvedValue(mockFicheSpContent);
 
     const result: ContributionContent = await generateContent(
-      mockContributions,
+      mockContributions.find(({id}) => id === contribution.genericAnswerId),
       contribution
     );
 
@@ -138,7 +138,7 @@ describe("generateContent", () => {
     (fetchFicheSp as jest.Mock).mockResolvedValue(mockFicheSpContent);
 
     const result: ContributionContent = await generateContent(
-      mockContributions,
+      mockContributions.find(({id}) => id === contribution.genericAnswerId),
       contribution
     );
 
@@ -158,7 +158,7 @@ describe("generateContent", () => {
     };
 
     await expect(
-      generateContent(mockContributions, contribution)
+      generateContent(mockContributions.find(({id}) => id === contribution.genericAnswerId), contribution)
     ).rejects.toThrowError(
       'Type de contribution generic inconnu "unknown_type" for [GENERIC_UNKNOWN_TYPE]'
     );
@@ -171,7 +171,7 @@ describe("generateContent", () => {
     };
 
     const result: ContributionContent = await generateContent(
-      mockContributions,
+      mockContributions.find(({id}) => id === contribution.genericAnswerId),
       contribution
     );
 

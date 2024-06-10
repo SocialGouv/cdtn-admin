@@ -6,6 +6,8 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: https://cdtn-admin.fabrique.social.gouv.fr
 
 www:
+  autoscale:
+    enabled: true
   host: cdtn-admin.fabrique.social.gouv.fr
   ingress:
     annotations:
@@ -32,7 +34,8 @@ export:
       memory: "896Mi"
 
 hasura:
-  replicas: 2
+  autoscale:
+    enabled: true
   resources:
     limits:
       cpu: "2000m"

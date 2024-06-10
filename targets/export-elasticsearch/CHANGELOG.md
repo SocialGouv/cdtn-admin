@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.44.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.1...v2.44.2) (2024-06-04)
+
+**Note:** Version bump only for package export-elasticsearch
+
+## [2.44.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.0...v2.44.1) (2024-06-04)
+
+**Note:** Version bump only for package export-elasticsearch
+
+# [2.44.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.43.0...v2.44.0) (2024-06-04)
+
+### Features
+
+- **elasticsearch:** upgrade to v8 ([#1389](https://github.com/SocialGouv/cdtn-admin/issues/1389)) ([b1f8598](https://github.com/SocialGouv/cdtn-admin/commit/b1f85983fed17123990d9f3c0fc417ea7534c24c))
+
+# [2.43.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.8...v2.43.0) (2024-06-04)
+
+### Features
+
+- implement message bloc no cdt ([#1394](https://github.com/SocialGouv/cdtn-admin/issues/1394)) ([305cb46](https://github.com/SocialGouv/cdtn-admin/commit/305cb46e92aa90b09c43575c731245b2bfa75b99))
+- **page CC:** affichage seulement des liens vers les contribs sur les pages CC ([#1404](https://github.com/SocialGouv/cdtn-admin/issues/1404)) ([10a11e9](https://github.com/SocialGouv/cdtn-admin/commit/10a11e985fb38b9bfa00cb64c8208d40486dc709))
+
 ## [2.42.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.7...v2.42.8) (2024-05-28)
 
 ### Bug Fixes

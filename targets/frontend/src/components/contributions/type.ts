@@ -43,7 +43,9 @@ export const messageSchema = z.object({
   label: z.string(),
   contentAgreement: z.string(),
   contentLegal: z.string(),
+  contentAgreementWithoutLegal: z.string(),
   contentNotHandled: z.string(),
+  contentNotHandledWithoutLegal: z.string(),
 });
 export type Message = z.infer<typeof messageSchema>;
 

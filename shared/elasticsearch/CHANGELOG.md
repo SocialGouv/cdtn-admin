@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.44.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.1...v2.44.2) (2024-06-04)
+
+### Bug Fixes
+
+- **cdtn-elasticsearch:** add `vectorizeQuery` to type ([3c18e95](https://github.com/SocialGouv/cdtn-admin/commit/3c18e95b53dc07da3c7c53ca01e500b7338103f3))
+
+## [2.44.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.0...v2.44.1) (2024-06-04)
+
+### Bug Fixes
+
+- **cdtn-elasticsearch:** use `console` instead of `logger` ([#1419](https://github.com/SocialGouv/cdtn-admin/issues/1419)) ([f08b17a](https://github.com/SocialGouv/cdtn-admin/commit/f08b17ae7d5c5f607e391b7774cdd272314be1d3))
+
+# [2.44.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.43.0...v2.44.0) (2024-06-04)
+
+### Features
+
+- **elasticsearch:** upgrade to v8 ([#1389](https://github.com/SocialGouv/cdtn-admin/issues/1389)) ([b1f8598](https://github.com/SocialGouv/cdtn-admin/commit/b1f85983fed17123990d9f3c0fc417ea7534c24c))
+
+# [2.43.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.8...v2.43.0) (2024-06-04)
+
+**Note:** Version bump only for package @socialgouv/cdtn-elasticsearch
+
 ## [2.42.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.42.7...v2.42.8) (2024-05-28)
 
 **Note:** Version bump only for package @socialgouv/cdtn-elasticsearch

@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "export-elasticsearch",
-  "version": "2.42.8",
+  "version": "2.44.2",
   "license": "MIT",
   "description": "",
   "main": "./build/index.js",
@@ -19,13 +19,13 @@
     "build:watch": "tsc -w -p tsconfig.json",
     "build:swc": "swc ./src -d build",
     "build:swc:watch": "swc ./src -d build -w",
-    "run:ingester": "curl -X POST -H \"Content-Type: application/json\" -d '{\"environment\": \"preproduction\", \"userId\": \"3d6dddc4-e117-4772-9288-cd8a608693e4\"}' http://localhost:8787/export",
+    "run:ingester": "curl -X POST -H \"Content-Type: application/json\" -d '{\"environment\": \"preproduction\", \"userId\": \"d8b11bd2-dd16-4632-b5de-0e7021faadeb\"}' http://localhost:8787/export",
     "lint": "npx eslint ./src --ext .ts",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.523.0",
-    "@elastic/elasticsearch": "^7.14.1",
+    "@elastic/elasticsearch": "^8.13.1",
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-elasticsearch": "workspace:^",
     "@socialgouv/cdtn-slugify": "^4.52.1",

@@ -43,6 +43,8 @@ query SelectQuestion($questionId: uuid) {
     contentAgreement
     contentLegal
     contentNotHandled
+    contentNotHandledWithoutLegal
+    contentAgreementWithoutLegal
     id
     label
   }

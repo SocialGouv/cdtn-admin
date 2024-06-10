@@ -1,4 +1,8 @@
-import { ContributionContentType } from "@socialgouv/cdtn-types";
+import {
+  ContributionContentType,
+  ContributionDocumentJson,
+  DocumentElasticWithSource,
+} from "@socialgouv/cdtn-types";
 import { fetchMessageBlock } from "../fetchMessageBlock";
 import { fetchAgreementMessage } from "../fetchAgreementMessage";
 import { generateMessageBlock } from "../generateMessageBlock";
@@ -6,13 +10,14 @@ import { generateMessageBlock } from "../generateMessageBlock";
 jest.mock("../fetchMessageBlock");
 jest.mock("../fetchAgreementMessage");
 
-describe("generateMessageBlock", () => {
-  const mockContribution: any = {
-    questionId: "123",
-    contentType: "ANSWER",
-    idcc: "1234",
-  };
+const contributionGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined = undefined;
+const mockContribution: any = {
+  questionId: "123",
+  contentType: "ANSWER",
+  idcc: "1234",
+};
 
+describe("generateMessageBlock", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -36,6 +41,7 @@ describe("generateMessageBlock", () => {
 
       mockContribution.contentType = contentType as ContributionContentType;
       const result: string | undefined = await generateMessageBlock(
+        contributionGeneric,
         mockContribution
       );
 
@@ -63,6 +69,7 @@ describe("generateMessageBlock", () => {
       mockContribution.contentType = contentType as ContributionContentType;
       mockContribution.idcc = "0000";
       const result: string | undefined = await generateMessageBlock(
+        contributionGeneric,
         mockContribution
       );
 
@@ -75,24 +82,25 @@ describe("generateMessageBlock", () => {
     mockContribution.contentType = "UNKNOWN_TYPE";
     mockContribution.idcc = "1234";
 
-    await expect(generateMessageBlock(mockContribution)).rejects.toThrowError(
-      "Unknown content type"
-    );
+    await expect(
+      generateMessageBlock(contributionGeneric, mockContribution)
+    ).rejects.toThrowError("Unknown content type");
   });
 
   it("should throw an error for unknown content type", async () => {
     mockContribution.contentType = null;
     mockContribution.idcc = "1234";
 
-    await expect(generateMessageBlock(mockContribution)).rejects.toThrowError(
-      "Unknown content type"
-    );
+    await expect(
+      generateMessageBlock(contributionGeneric, mockContribution)
+    ).rejects.toThrowError("Unknown content type");
   });
 
   it("should return undefined if no message block setup for the question", async () => {
     (fetchMessageBlock as jest.Mock).mockResolvedValue(undefined);
 
     const result: string | undefined = await generateMessageBlock(
+      contributionGeneric,
       mockContribution
     );
 
@@ -107,10 +115,70 @@ describe("generateMessageBlock", () => {
     );
 
     const result: string | undefined = await generateMessageBlock(
+      contributionGeneric,
       mockContribution
     );
 
     expect(fetchAgreementMessage).toHaveBeenCalledWith("1234");
     expect(result).toEqual("fetchedAgreementMessage");
   });
+  
+
+  
 });
+describe("Tests avec une contribution generic no cdt", () => {
+  let mockedContributionGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined = undefined;
+  beforeEach(() => {
+    mockedContributionGeneric = {
+      contentType: "GENERIC_NO_CDT",
+      id: "id",
+      cdtnId: "cdtnId",
+      breadcrumbs: [],
+      title: "",
+      slug: "",
+      source: "contributions",
+      text: "text",
+      isPublished: true,
+      excludeFromSearch: false,
+      metaDescription: "metaDescription",
+      refs: [],
+      references: [],
+      questionIndex: 0,
+      questionId: "questionId",
+      questionName: "questionName",
+      linkedContent: [],
+      description: "description",
+      idcc: "0000",
+      type: "generic-no-cdt",
+      messageBlockGenericNoCDT: "messageBlockGenericNoCDT",
+      messageBlockGenericNoCDTUnextendedCC: "messageBlockGenericNoCDTUnextendedCC"
+    };
+    (fetchMessageBlock as jest.Mock).mockResolvedValue({
+      contentAgreementWithoutLegal: "agrement without legal",
+      contentNotHandledWithoutLegal: "content not handled without legal"
+    });
+    (fetchAgreementMessage as jest.Mock).mockResolvedValue(undefined);
+  })
+  it.each(["ANSWER", "SP"])("should throw a contentAgreementWithoutLegal", async (contentType) => {
+    
+    mockContribution.contentType = contentType;
+    mockContribution.idcc = "1234";
+
+    const messageBloc = await generateMessageBlock(mockedContributionGeneric, mockContribution);
+
+    expect(
+      messageBloc
+    ).toEqual("agrement without legal");
+  });
+
+  it.each(["NOTHING", "CDT", "UNFAVOURABLE"])("should throw a contentNotHandledWithoutLegal", async (contentType) => {
+    mockContribution.contentType = contentType;
+    mockContribution.idcc = "1234";
+
+    const messageBloc = await generateMessageBlock(mockedContributionGeneric, mockContribution);
+
+    expect(
+      messageBloc
+    ).toEqual("content not handled without legal");
+  });
+})
