@@ -33,6 +33,7 @@ export const Comment = ({ comment, onDelete }: Props) => {
       sx={{
         border: "1px solid",
         borderColor: "grey.300",
+        minWidth: "300px",
       }}
       mt={1}
       mb={1}
@@ -81,7 +82,9 @@ export const Comment = ({ comment, onDelete }: Props) => {
         }}
       >
         {" "}
-        {statusesMapping[comment.status].text === "Publié" ? "À Publier" : statusesMapping[comment.status].text}
+        {statusesMapping[comment.status].text === "Publié"
+          ? "À Publier"
+          : statusesMapping[comment.status].text}
       </Typography>
     </Stack>
   );

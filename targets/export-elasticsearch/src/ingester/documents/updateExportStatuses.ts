@@ -1,7 +1,10 @@
-import {fetchContributionDocumentToPublish} from "../contributions";
-import {fetchLastExportStatus} from "./fetchLastExportStatus";
+import { fetchLastExportStatus } from "./fetchLastExportStatus";
 import { gqlClient } from "@shared/utils";
 import { context } from "../context";
+import {
+  ContributionDocumentJson,
+  DocumentElasticWithSource,
+} from "@socialgouv/cdtn-types";
 
 export const updateToLastExportStatusMutation = `mutation updateToLastExportStatus($cdtnIds: [String!], $exportId: uuid) {
   updateDocuments: update_documents(
@@ -16,28 +19,32 @@ export const updateToLastExportStatusMutation = `mutation updateToLastExportStat
   }
 }`;
 
-export async function updateExportStatuses() {
-  const HASURA_GRAPHQL_ENDPOINT = context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
-  const HASURA_GRAPHQL_ENDPOINT_SECRET = context.get("cdtnAdminEndpointSecret") || "admin1";
+export async function updateExportStatuses(
+  contributionsToPublish: DocumentElasticWithSource<ContributionDocumentJson>[]
+) {
+  const HASURA_GRAPHQL_ENDPOINT =
+    context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
+  const HASURA_GRAPHQL_ENDPOINT_SECRET =
+    context.get("cdtnAdminEndpointSecret") || "admin1";
   const exportStatus = await fetchLastExportStatus();
-  const contributionsToPublish = await fetchContributionDocumentToPublish();
 
   if (!exportStatus?.id) {
     return;
   }
-  const cdtnIds = contributionsToPublish?.map((contribution) => contribution.cdtn_id);
-  const {id: exportId} = exportStatus;
+  const cdtnIds = contributionsToPublish.map(
+    (contribution) => contribution.cdtnId
+  );
+  const { id: exportId } = exportStatus;
 
-  if (cdtnIds?.length) {
+  if (cdtnIds.length) {
     const res = await gqlClient({
       graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
       adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
     })
-    .mutation(updateToLastExportStatusMutation, { cdtnIds, exportId })
-    .toPromise();
+      .mutation(updateToLastExportStatusMutation, { cdtnIds, exportId })
+      .toPromise();
     if (res.error) {
-        throw res.error;
+      throw res.error;
     }
   }
 }
-  

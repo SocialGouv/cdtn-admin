@@ -4,6 +4,9 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import CloudOffIcon from "@mui/icons-material/CloudOff";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import { fr } from "@codegouvfr/react-dsfr";
 
 export type StatusesMapping = {
@@ -44,9 +47,14 @@ export const statusesMapping: StatusesMapping = {
     text: "Validé",
   },
   TO_PUBLISH: {
+    color: fr.colors.decisions.text.default.success.default,
+    icon: <TaskAltIcon titleAccess="Publié" fontSize="small" />,
+    text: "À Publier",
+  },
+  PUBLISHING: {
     color: fr.colors.decisions.text.default.warning.default,
-    icon: <CloudDoneIcon titleAccess="Publié" fontSize="small" />,
-    text: "À publier",
+    icon: <CloudUploadIcon titleAccess="Publié" fontSize="small" />,
+    text: "En cours de publication",
   },
   PUBLISHED: {
     color: fr.colors.decisions.text.default.success.default,
@@ -54,8 +62,8 @@ export const statusesMapping: StatusesMapping = {
     text: "Publié",
   },
   NOT_PUBLISHED: {
-    color: fr.colors.decisions.text.default.success.default,
-    icon: <CloudDoneIcon titleAccess="Publié" fontSize="small" />,
-    text: "Publié",
+    color: fr.colors.decisions.text.default.error.default,
+    icon: <CloudOffIcon titleAccess="Publié" fontSize="small" />,
+    text: "Non Publié",
   },
 };

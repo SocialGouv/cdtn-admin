@@ -17,6 +17,7 @@ import { cdtnDocumentsGen } from "./cdtnDocuments";
 import { context } from "./context";
 import { addCovisits, buildCovisitMap } from "./monolog";
 import { populateSuggestions } from "./suggestion";
+import { Environment } from "@socialgouv/cdtn-types";
 
 async function addVector(data: any) {
   const NLP_URL = context.get("nlpUrl");
@@ -64,7 +65,8 @@ export async function ingest(
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
   suggestFile: string | undefined,
-  disableGlossary: boolean | undefined
+  disableGlossary: boolean | undefined,
+  isProd = false
 ) {
   context.provide();
   process.env.NLP_URL = nlpUrl; //pour setter la variable d'environment du package elasticsearch...
@@ -80,7 +82,8 @@ export async function ingest(
     suggestIndexName,
     bufferSize,
     suggestFile,
-    disableGlossary
+    disableGlossary,
+    isProd
   );
 }
 
@@ -96,7 +99,8 @@ async function runIngester(
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
   suggestFile: string | undefined,
-  disableGlossary: boolean | undefined
+  disableGlossary: boolean | undefined,
+  isProd: boolean
 ) {
   const ES_INDEX_PREFIX = esIndexPrefix || "cdtn";
 
@@ -167,7 +171,7 @@ async function runIngester(
       size: 800,
     });
   };
-  await cdtnDocumentsGen(updateDocs);
+  await cdtnDocumentsGen(updateDocs, isProd);
 
   logger.info(`done in ${(Date.now() - t0) / 1000} s`);
 

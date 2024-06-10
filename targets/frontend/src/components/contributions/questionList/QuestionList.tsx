@@ -60,15 +60,7 @@ export const QuestionList = (): JSX.Element => {
           <TableHead>
             <TableRow>
               <TableCell>Questions ({rows.length})</TableCell>
-              <TableCell
-                key={statusesMapping.PUBLISHED.text}
-                style={{ color: statusesMapping.PUBLISHED.color }}
-                align="center"
-              >
-                <Tooltip title={statusesMapping.PUBLISHED.text}>
-                  {statusesMapping.PUBLISHED.icon}
-                </Tooltip>
-              </TableCell>
+              <TableCell align="center">Publiées</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

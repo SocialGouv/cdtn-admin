@@ -23,8 +23,9 @@ export const statusSchema = z.enum([
   "VALIDATING",
   "VALIDATED",
   "TO_PUBLISH",
+  "PUBLISHING",
   "PUBLISHED",
-  "NOT_PUBLISHED"
+  "NOT_PUBLISHED",
 ]);
 export type Status = z.infer<typeof statusSchema>;
 
@@ -165,7 +166,7 @@ export const commentsSchema = z.object({
 export type Comments = z.infer<typeof commentsSchema>;
 
 export const exportStatus = z.object({
-  createdAt: z.string()
+  createdAt: z.string(),
 });
 export type ExportStatus = z.infer<typeof exportStatus>;
 
@@ -181,8 +182,8 @@ export const answerRelationSchema = answerBaseSchema.extend({
   question: questionBaseSchema,
   answerComments: z.array(commentsSchema),
   publication: z.object({
-    export: exportStatus
-  })
+    export: exportStatus,
+  }),
 });
 export type Answer = z.infer<typeof answerRelationSchema>;
 

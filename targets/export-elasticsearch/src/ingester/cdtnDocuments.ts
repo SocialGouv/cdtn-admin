@@ -20,7 +20,10 @@ import {
 import { splitArticle } from "./fichesTravailSplitter";
 import { createGlossaryTransform } from "./glossary";
 import { getVersions } from "./versions";
-import { generateContributions } from "./contributions";
+import {
+  fetchContributionDocumentToPublish,
+  generateContributions,
+} from "./contributions";
 import { generateAgreements } from "./agreements";
 import { getGlossary } from "./common/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
@@ -56,7 +59,8 @@ export async function getDuplicateSlugs(allDocuments: any) {
 }
 
 export async function cdtnDocumentsGen(
-  updateDocs: (source: string, documents: unknown[]) => Promise<void>
+  updateDocs: (source: string, documents: unknown[]) => Promise<void>,
+  isProd: boolean
 ) {
   let documentsCount: Partial<ExportEsStatus["documentsCount"]> = {};
 
@@ -190,11 +194,15 @@ export async function cdtnDocumentsGen(
       };
     }),
   }));
-  logger.info(`Mapped ${fichesMTWithGlossary.length} fiches travail with glossary`);
+  logger.info(
+    `Mapped ${fichesMTWithGlossary.length} fiches travail with glossary`
+  );
   documentsCount = {
     ...documentsCount,
     [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
   };
+
+  const contributionsToPublish = await fetchContributionDocumentToPublish();
 
   await updateDocs(SOURCES.SHEET_MT_PAGE, fichesMTWithGlossary);
 
@@ -332,7 +340,9 @@ export async function cdtnDocumentsGen(
     },
   ]);
 
-  await updateExportStatuses();
+  if (isProd && contributionsToPublish) {
+    await updateExportStatuses(contributionsToPublish);
+  }
 
   logger.info("=== Save the documents length ===");
   documentsCount = {

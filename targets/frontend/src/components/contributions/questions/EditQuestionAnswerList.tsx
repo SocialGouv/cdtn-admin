@@ -20,6 +20,7 @@ import { StatusContainer } from "../status";
 import { useRouter } from "next/router";
 import { fr } from "@codegouvfr/react-dsfr";
 import { getLastPublicationDate } from "../publication";
+import { StatusPublicationContainer } from "../status/StatusPublication";
 
 type EditQuestionAnswerListProps = {
   answers: Answer[];
@@ -201,11 +202,7 @@ export const QuestionAnswerList = ({
                       onClick={() => redirectToAnswer(answer.id)}
                     >
                       {answer.status && (
-                        <StatusContainer
-                          status={answer.status.status}
-                          statusDate={answer.status.createdAt}
-                          exportDate={answer.publication?.export.createdAt}
-                        />
+                        <StatusContainer status={answer.status.status} />
                       )}
                     </TableCell>
                     <TableCell
@@ -213,17 +210,10 @@ export const QuestionAnswerList = ({
                       align="center"
                       onClick={() => redirectToAnswer(answer.id)}
                     >
-                      {publicationDate ? (
-                        <StatusContainer
-                          status={"PUBLISHED"}
-                          exportDate={answer.publication?.export.createdAt}
-                        />
-                      ) : (
-                        <StatusContainer
-                          status={"TODO"}
-                          exportDate={answer.publication?.export.createdAt}
-                        />
-                      )}
+                      <StatusPublicationContainer
+                        exportDate={answer.publication?.export.createdAt}
+                        statusDate={answer.status.createdAt}
+                      />
                     </TableCell>
                   </TableRow>
                 );

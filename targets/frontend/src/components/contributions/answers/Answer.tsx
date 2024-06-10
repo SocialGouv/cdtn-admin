@@ -23,6 +23,7 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { usePublishContributionMutation } from "./usePublishAnswer";
 import { useGenericContributionAnswerQuery } from "./answerGeneric.query";
 import { getLastPublicationDate } from "../publication";
+import { StatusPublicationContainer } from "../status/StatusPublication";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -127,20 +128,14 @@ export const ContributionsAnswer = ({
           </BreadcrumbLink>
         </Breadcrumb>
         {answer?.status && (
-          <div>
-            <StatusContainer
-              status={answer.status.status}
+          <Stack>
+            <StatusContainer status={answer.status.status} displayText />
+            <StatusPublicationContainer
               statusDate={answer.status.createdAt}
               exportDate={answer.publication?.export.createdAt}
               displayText
             />
-            {answer.publication
-              ? `dernière publication: ${getLastPublicationDate({
-                  status: answer.status,
-                  exportStatus: answer.publication?.export,
-                })}`
-              : ""}
-          </div>
+          </Stack>
         )}
       </Stack>
       <Stack direction="row">
