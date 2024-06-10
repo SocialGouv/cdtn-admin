@@ -81,6 +81,9 @@ export:
     fsGroup: 1000
     runAsUser: 1000
     runAsGroup: 1000
+  annotations:
+    vpa.socialgouv.io/min-cpu: "1500m"
+    vpa.socialgouv.io/min-memory: "2Gi"
 
 hasura:
   ~chart: hasura
