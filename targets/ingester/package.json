@@ -14,6 +14,7 @@
     "query-string": "7.0.1",
     "semver": "7.3.5",
     "tar-fs": "2.1.1",
+    "undici": "^6.18.2",
     "unist-util-filter": "^2.0.3",
     "unist-util-find": "1.0.2",
     "unist-util-flat-filter": "1.0.0",

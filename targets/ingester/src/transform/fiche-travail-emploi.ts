@@ -1,6 +1,7 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
+import { fetch } from "undici";
 
 import { getJson } from "../lib/getJson";
 import {
@@ -26,7 +27,7 @@ export default async function getFicheTravailEmploi(pkgName: string) {
         is_searchable: true,
         sections: await Promise.all(
           sections.map(async ({ references, ...section }) => {
-            const resultProcess = await fetch(URL_EXPORT + "/glossary", {
+            const resultProcess: any = await fetch(URL_EXPORT + "/glossary", {
               body: JSON.stringify({
                 type: "html",
                 content: section.html,
