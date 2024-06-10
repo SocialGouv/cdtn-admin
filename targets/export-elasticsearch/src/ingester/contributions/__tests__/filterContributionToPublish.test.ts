@@ -15,7 +15,7 @@ describe("filterContributionDocumentsToPublish", () => {
           updatedAt: "2024-03-25T17:25:33.002376+00:00",
           statuses: [
             {
-              status: "PUBLISHED",
+              status: "TO_PUBLISH",
               createdAt: "2024-03-27T14:26:28.387898+00:00",
             },
           ],
@@ -38,7 +38,7 @@ describe("filterContributionDocumentsToPublish", () => {
           updatedAt: "2024-03-25T17:25:33.002376+00:00",
           statuses: [
             {
-              status: "PUBLISHED",
+              status: "TO_PUBLISH",
               createdAt: "2024-06-27T14:26:28.387898+00:00",
             },
           ],

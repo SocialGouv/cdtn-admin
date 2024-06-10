@@ -71,6 +71,8 @@ export async function cdtnDocumentsGen(
   const glossaryTerms = await getGlossary();
   const addGlossary = createGlossaryTransform(glossaryTerms);
 
+  const contributionsToPublish = await fetchContributionDocumentToPublish();
+
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
     SOURCES.LETTERS,
@@ -201,8 +203,6 @@ export async function cdtnDocumentsGen(
     ...documentsCount,
     [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
   };
-
-  const contributionsToPublish = await fetchContributionDocumentToPublish();
 
   await updateDocs(SOURCES.SHEET_MT_PAGE, fichesMTWithGlossary);
 

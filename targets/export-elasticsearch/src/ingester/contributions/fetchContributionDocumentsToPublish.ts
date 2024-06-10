@@ -15,7 +15,7 @@ query fetchContributions {
       contribution {
         id
         updatedAt: updated_at
-        statuses(where:{status: {_eq: "PUBLISHED"}}, order_by: {created_at: desc}, limit: 1) {
+        statuses(where:{status: {_eq: "TO_PUBLISH"}}, order_by: {created_at: desc}, limit: 1) {
           status
           createdAt: created_at
         }
