@@ -1,5 +1,5 @@
 import type {
-  AlertChanges,
+  AlertChanges, Audience,
   DilaAddedNode,
   DilaAlertChanges,
   DilaModifiedNode,
@@ -545,7 +545,7 @@ function FicheLink({ change, documents = [] }: FicheLinkProps) {
         aria-label={`${change.title} (nouvelle fenêtre)`}
         rel="noreferrer noopener"
         href={generateFichesSpRef(
-          change.type as "associations" | "particuliers" | "professionnels",
+          change.type.toLowerCase() as Audience,
           change.id
         )}
       >
