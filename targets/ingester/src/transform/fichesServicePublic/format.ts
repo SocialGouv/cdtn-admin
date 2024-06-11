@@ -57,7 +57,7 @@ export function format(
     getChild(publication, "Audience")
   ).toLowerCase() as Audience;
 
-  const url: string = generateFichesSpRef(audience, id);
+  const url = generateFichesSpRef(audience, id);
 
   const intro = getText(getChild(publication, "Introduction"));
   const texte = getText(getChild(publication, "Texte"));
