@@ -57,14 +57,6 @@ www:
   env:
     - name: NEXTAUTH_URL
       value: https://www-{{.Values.global.host}}
-  resources:
-    limits:
-      cpu: "100m"
-      memory: "256Mi"
-    requests:
-      cpu: "50m"
-      memory: "128Mi"
-  replicas: 1
   securityContext:
     fsGroup: 1000
     runAsUser: 1000
@@ -85,18 +77,15 @@ export:
         name: export-elasticsearch
     - secretRef:
         name: s3
-  resources:
-    limits:
-      cpu: "100m"
-      memory: 256Mi
-    requests:
-      cpu: "50m"
-      memory: 128Mi
-  replicas: 1
   securityContext:
     fsGroup: 1000
     runAsUser: 1000
     runAsGroup: 1000
+  annotations:
+    oblik.socialgouv.io/min-request-cpu: "1500m"
+    oblik.socialgouv.io/min-request-memory: "2Gi"
+    oblik.socialgouv.io/min-limit-cpu: "2000m"
+    oblik.socialgouv.io/min-limit-memory: "4Gi"
 
 hasura:
   ~chart: hasura
@@ -111,18 +100,15 @@ hasura:
         name: hasura
     - secretRef:
         name: hasura
-  replicas: 2
-  resources:
-    limits:
-      cpu: "2000m"
-      memory: "4Gi"
-    requests:
-      cpu: "50m"
-      memory: 650Mi
   securityContext:
     fsGroup: 1001
     runAsUser: 1001
     runAsGroup: 1001
+  annotations:
+    oblik.socialgouv.io/min-request-cpu: "1000m"
+    oblik.socialgouv.io/min-request-memory: "1Gi"
+    oblik.socialgouv.io/min-limit-cpu: "2000m"
+    oblik.socialgouv.io/min-limit-memory: "4Gi"
 
 deactivate:
   jobs-deactivate:
