@@ -3,36 +3,30 @@ import { Box, Stack, Tooltip } from "@mui/material";
 
 import { Status } from "../type";
 import { statusesMapping } from "./data";
-import { isPublished } from "../publication";
 
 export const StatusPublicationContainer = ({
   status,
-  statusDate,
   exportDate,
   displayText = false,
   dataTestid,
+  center = false,
 }: {
   status: Status;
-  statusDate?: string;
   exportDate?: string | null;
   displayText?: boolean;
   dataTestid?: string;
+  center?: boolean;
 }) => {
   let tooltipText: string | undefined;
-  if (!exportDate || !statusDate) {
+  if (!exportDate) {
     status = "NOT_PUBLISHED";
     tooltipText = statusesMapping[status].text;
   } else {
-    if (status !== "TO_PUBLISH" || isPublished({ statusDate, exportDate })) {
-      status = "PUBLISHED";
-      tooltipText = `${statusesMapping[status].text} le ${format(
-        parseISO(exportDate),
-        "dd/MM/yyyy HH:mm:ss"
-      )}`;
-    } else {
-      status = "PUBLISHING";
-      tooltipText = statusesMapping[status].text;
-    }
+    status = "PUBLISHED";
+    tooltipText = `${statusesMapping[status].text} le ${format(
+      parseISO(exportDate),
+      "dd/MM/yyyy HH:mm:ss"
+    )}`;
   }
   return (
     <Tooltip title={tooltipText}>
@@ -42,7 +36,7 @@ export const StatusPublicationContainer = ({
           color: statusesMapping[status].color,
         }}
         alignItems="center"
-        justifyContent="center"
+        justifyContent={center ? "center" : "flex-start"}
         spacing={1}
         data-testid={dataTestid}
       >

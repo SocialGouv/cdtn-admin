@@ -131,7 +131,6 @@ export const ContributionsAnswer = ({
             <StatusContainer status={answer.status.status} displayText />
             <StatusPublicationContainer
               status={answer.status.status}
-              statusDate={answer.status.createdAt}
               exportDate={answer.publication?.export.createdAt}
               displayText
             />

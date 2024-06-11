@@ -4,7 +4,6 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CloudOffIcon from "@mui/icons-material/CloudOff";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import { fr } from "@codegouvfr/react-dsfr";
@@ -49,12 +48,12 @@ export const statusesMapping: StatusesMapping = {
   TO_PUBLISH: {
     color: fr.colors.decisions.text.default.success.default,
     icon: <TaskAltIcon titleAccess="Publié" fontSize="small" />,
-    text: "Publication",
+    text: "Publié",
   },
   PUBLISHING: {
     color: fr.colors.decisions.text.default.warning.default,
-    icon: <CloudUploadIcon titleAccess="Publié" fontSize="small" />,
-    text: "En attente",
+    icon: <TaskAltIcon titleAccess="Publié" fontSize="small" />,
+    text: "À publier",
   },
   PUBLISHED: {
     color: fr.colors.decisions.text.default.success.default,

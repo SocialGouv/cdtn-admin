@@ -143,10 +143,6 @@ export const QuestionAnswerList = ({
             </TableHead>
             <TableBody>
               {answers?.map((answer) => {
-                const publicationDate = getLastPublicationDate({
-                  status: answer.status,
-                  exportStatus: answer.publication?.export,
-                });
                 return (
                   <TableRow
                     key={answer.agreement.id}
@@ -202,7 +198,12 @@ export const QuestionAnswerList = ({
                       onClick={() => redirectToAnswer(answer.id)}
                     >
                       {answer.status && (
-                        <StatusContainer status={answer.status.status} />
+                        <StatusContainer
+                          status={answer.status.status}
+                          exportDate={answer.publication?.export.createdAt}
+                          statusDate={answer.status.createdAt}
+                          center
+                        />
                       )}
                     </TableCell>
                     <TableCell
@@ -213,7 +214,7 @@ export const QuestionAnswerList = ({
                       <StatusPublicationContainer
                         status={answer.status.status}
                         exportDate={answer.publication?.export.createdAt}
-                        statusDate={answer.status.createdAt}
+                        center
                       />
                     </TableCell>
                   </TableRow>
