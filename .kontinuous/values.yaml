@@ -82,8 +82,10 @@ export:
     runAsUser: 1000
     runAsGroup: 1000
   annotations:
-    vpa.socialgouv.io/min-cpu: "1500m"
-    vpa.socialgouv.io/min-memory: "2Gi"
+    oblik.socialgouv.io/min-request-cpu: "1500m"
+    oblik.socialgouv.io/min-request-memory: "2Gi"
+    oblik.socialgouv.io/min-limit-cpu: "2000m"
+    oblik.socialgouv.io/min-limit-memory: "4Gi"
 
 hasura:
   ~chart: hasura
@@ -102,6 +104,11 @@ hasura:
     fsGroup: 1001
     runAsUser: 1001
     runAsGroup: 1001
+  annotations:
+    oblik.socialgouv.io/min-request-cpu: "1000m"
+    oblik.socialgouv.io/min-request-memory: "1Gi"
+    oblik.socialgouv.io/min-limit-cpu: "2000m"
+    oblik.socialgouv.io/min-limit-memory: "4Gi"
 
 deactivate:
   jobs-deactivate:
