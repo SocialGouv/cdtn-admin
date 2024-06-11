@@ -17,7 +17,6 @@ export type Tool = {
   source: string;
   text: string;
   title: string;
-  title_vector: number[];
   _id: string;
   displayTool?: boolean;
 };

@@ -236,10 +236,6 @@ exports.documentMapping = {
       type: "text",
     },
 
-    title_vector: {
-      dims: 512,
-      type: "dense_vector",
-    },
     // The source URL
     url: {
       type: "keyword",
