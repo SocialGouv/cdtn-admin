@@ -57,8 +57,6 @@ describe("extractXlsxFromUrl", () => {
       .readFileSync(path.join(__dirname, "../__mocks__/page_dares.html"))
       .toString();
 
-    console.log(html);
-
     (axios.get as jest.Mock).mockResolvedValueOnce({ data: html });
     const result = await extractDaresXlsxFromMT();
     expect(result).toBe(
