@@ -27,15 +27,22 @@ export:
   replicas: 1
   resources:
     limits:
-      cpu: "2000m"
+      cpu: "1500m"
       memory: "4096Mi"
     requests:
-      cpu: "1500m"
-      memory: "2Gi"
+      cpu: "1000m"
+      memory: "896Mi"
 
 hasura:
   autoscale:
     enabled: true
+  resources:
+    limits:
+      cpu: "2000m"
+      memory: "4Gi"
+    requests:
+      cpu: "1000m"
+      memory: "1Gi"
   envFrom:
     - secretRef:
         name: pg-app
