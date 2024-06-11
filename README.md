@@ -157,6 +157,7 @@ GLOSSARY_PREPROD_DISABLE=true DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true 
 - `DISABLE_COPY` is used to disable copy between two containers
 - `DISABLE_SITEMAP` is used to disable copy of the sitemap
 - `DISABLE_AGREEMENTS` is used to disable copy of the agreements
+- `GLOSSARY_PREPROD_DISABLE` is used to disable glossary to gain time.
 
 #### 6. Run the export elasticsearch
 
