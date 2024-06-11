@@ -18,3 +18,5 @@ data:
   ELASTICSEARCH_INDEX_PREPROD: "cdtn-preprod-v2"
   ELASTICSEARCH_INDEX_PROD: "cdtn-prod-v2"
   MATTERMOST_CHANNEL_EXPORT: "s-cdtn-administration-veille"
+  DISABLE_LIMIT_EXPORT: "true"
+

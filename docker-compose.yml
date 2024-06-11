@@ -129,6 +129,7 @@ services:
       HASURA_GRAPHQL_ENDPOINT: "http://hasura:8080/v1/graphql"
       DISABLE_COPY: "true"
       DISABLE_SITEMAP: "true"
+      DISABLE_LIMIT_EXPORT: "true"
       DISABLE_AGREEMENTS: "true"
       ELASTICSEARCH_INDEX_PREPROD: "cdtn-preprod-v1"
       ELASTICSEARCH_INDEX_PROD: "cdtn-v1"
