@@ -97,6 +97,7 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
     environment:
+      - ES_JAVA_OPTS=-Xmx4g
       - cluster.name=code-du-travail-data-elasticsearch
       - node.name=code-du-travail-data-elasticsearch-single-node
       - network.host=0.0.0.0
