@@ -7,5 +7,5 @@ with _last_export as (
 update public.documents d
 set export_id = le.id
 from _last_export le
-where (d.source = 'contributions' or d.source = 'information' or d.source = 'modeles_de_courriers')
+where d.source = 'contributions'
 and d.export_id is null;
