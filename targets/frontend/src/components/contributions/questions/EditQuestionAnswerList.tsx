@@ -19,7 +19,6 @@ import { Answer } from "../type";
 import { StatusContainer } from "../status";
 import { useRouter } from "next/router";
 import { fr } from "@codegouvfr/react-dsfr";
-import { getLastPublicationDate } from "../publication";
 import { StatusPublicationContainer } from "../status/StatusPublication";
 
 type EditQuestionAnswerListProps = {

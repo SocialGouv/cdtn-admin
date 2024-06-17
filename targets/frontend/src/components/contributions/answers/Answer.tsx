@@ -128,7 +128,12 @@ export const ContributionsAnswer = ({
         </Breadcrumb>
         {answer?.status && (
           <Stack>
-            <StatusContainer status={answer.status.status} displayText />
+            <StatusContainer
+              status={answer.status.status}
+              exportDate={answer.publication?.export.createdAt}
+              statusDate={answer.status.createdAt}
+              displayText
+            />
             <StatusPublicationContainer
               status={answer.status.status}
               exportDate={answer.publication?.export.createdAt}
