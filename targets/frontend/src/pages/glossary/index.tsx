@@ -184,7 +184,9 @@ const SynchronizeButton = () => {
       alert(`Un problème est survenu, l'erreur est : ${resultJson.message}`);
       return;
     }
-    alert("Le lexique est en cours de synchronisation");
+    alert(
+      "Le glossaire est en cours de synchronisation. Cette opération prends du temps (environ 30 minutes). veuillez ne pas faire de modification entre temps."
+    );
     setIsDisabled(true);
   };
   return (
@@ -197,7 +199,7 @@ const SynchronizeButton = () => {
       disabled={isDisabled}
     >
       <IoMdSync style={{ height: "1rem", marginRight: "2px", width: "1rem" }} />
-      Synchroniser le lexique
+      Mettre à jour le glossaire sur toutes les pages
     </Button>
   );
 };
