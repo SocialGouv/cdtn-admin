@@ -54,27 +54,33 @@ const fetchSections = async (
     sections,
     async ({ references, ...section }) => {
       let htmlWithGlossary = section.html;
-      const fetchResult: any = await got
-        .post(`${URL_EXPORT}/glossary`, {
-          json: {
-            type: "html",
-            content: section.html,
-          },
-          responseType: "json",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .json();
+      if (section.html && section.html !== "") {
+        const fetchResult: any = await got
+          .post(`${URL_EXPORT}/glossary`, {
+            json: {
+              type: "html",
+              content: section.html,
+            },
+            responseType: "json",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .json();
 
-      if (!fetchResult?.result) {
-        console.error(
-          `Error with glossary for this html :${
-            section.html
-          }, we get this result from API : ${JSON.stringify(fetchResult)} `
-        );
+        if (!fetchResult?.result) {
+          console.error(
+            `Error with glossary for this html :${
+              section.html
+            }, we get this result from API : ${JSON.stringify(fetchResult)} `
+          );
+        } else {
+          htmlWithGlossary = fetchResult.result;
+        }
       } else {
-        htmlWithGlossary = fetchResult.result;
+        console.warn(
+          `No html found for this section : ${JSON.stringify(section)}`
+        );
       }
 
       return {
