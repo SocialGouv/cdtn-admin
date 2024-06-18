@@ -27,11 +27,4 @@ spec:
                 name: alert
             - secretRef:
                 name: alert
-          volumeMounts:
-            - name: tz-paris
-              mountPath: /etc/localtime
-      volumes:
-        - name: tz-paris
-          hostPath:
-            path: /usr/share/zoneinfo/Europe/Paris
 {{end}}
