@@ -1,7 +1,6 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
-import { fetch } from "undici";
 
 import { getJson } from "../lib/getJson";
 import {

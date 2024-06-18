@@ -31,7 +31,7 @@ export class GlossaryService {
   async runGlossaryForAllContent() {
     const glossary = await this.glossaryRepository.getGlossary();
     await sendMattermostMessage(
-      `**Glossaire:** Lancement du processus ⏳`,
+      `**Glossaire:** Début de la synchronisation du glossaire ⏳`,
       process.env.MATTERMOST_CHANNEL_EXPORT
     );
     logger.info("=== Starting glossary update ===");
@@ -41,7 +41,7 @@ export class GlossaryService {
     await this.updateGlossaryForContributions(glossary);
     logger.info("=== Ending glossary update ===");
     await sendMattermostMessage(
-      `**Glossaire:** Fin du processus ⌛️`,
+      `**Glossaire:** Fin de la synchronisation du glossaire ⌛️`,
       process.env.MATTERMOST_CHANNEL_EXPORT
     );
   }

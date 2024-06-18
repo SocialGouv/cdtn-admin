@@ -1,11 +1,18 @@
 {
-  "extends": "../../tsconfig.build.json",
   "compilerOptions": {
-    "target": "es2015",
+    "target": "ESNext",
     "module": "es2015",
     "moduleResolution": "node",
     "allowJs": true,
-    "lib": ["DOM"]
+    "lib": ["es2020", "DOM"],
+    "outDir": "./lib",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "resolveJsonModule": true
   },
-  "include": ["src", "@types"]
+  "include": ["src", "@types"],
+  "exclude": ["node_modules", "dist"]
 }

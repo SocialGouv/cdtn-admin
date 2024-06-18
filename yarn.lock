@@ -13368,7 +13368,6 @@ __metadata:
     ts-jest: ^27.0.5
     ts-node: 10.8.0
     typescript: ^5.4.3
-    undici: ^6.18.2
     unist-util-filter: ^2.0.3
     unist-util-find: 1.0.2
     unist-util-flat-filter: 1.0.0
@@ -22368,13 +22367,6 @@ __metadata:
   dependencies:
     "@fastify/busboy": ^2.0.0
   checksum: a8193132d84540e4dc1895ecc8dbaa176e8a49d26084d6fbe48a292e28397cd19ec5d13bc13e604484e76f94f6e334b2bdc740d5f06a6e50c44072818d0c19f9
-  languageName: node
-  linkType: hard
-
-"undici@npm:^6.18.2":
-  version: 6.18.2
-  resolution: "undici@npm:6.18.2"
-  checksum: c20e47bd4f959c00d24516756b178190f0a9ae000007e875f1f68c8e7f3f9a68b0a7faa03f3d030ddd71a9e3feb558fbce661b5229a0aa8380cfbe1cea4281e4
   languageName: node
   linkType: hard
 
