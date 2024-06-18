@@ -7,6 +7,7 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 import { getReferences } from "./getReferences";
 import { generateCdtnId } from "@shared/utils";
 import { generateContributionSlug } from "./generateSlug";
+import { getGlossaryContent } from "../common/getGlossaryContent";
 
 async function getBaseDocument(
   data: ContributionsAnswers,
@@ -19,6 +20,10 @@ async function getBaseDocument(
       return {
         type: "content",
         content: data.content,
+        contentWithGlossary: await getGlossaryContent(
+          "html",
+          data.content ?? ""
+        ),
       };
     case "GENERIC_NO_CDT":
       return {
@@ -85,7 +90,8 @@ export const mapContributionToDocument = async (
   } as ContributionDocumentJson;
 
   return {
-    cdtn_id: document?.cdtn_id ?? generateCdtnId(SOURCES.CONTRIBUTIONS + data.id),
+    cdtn_id:
+      document?.cdtn_id ?? generateCdtnId(SOURCES.CONTRIBUTIONS + data.id),
     initial_id: data.id,
     source: SOURCES.CONTRIBUTIONS,
     meta_description: document?.meta_description ?? "", // la génération se fait à l'export car on a besoin du dernier contenu de la fiche sp

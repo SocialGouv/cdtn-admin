@@ -6,13 +6,15 @@ import {
 import { fetchFicheSp } from "./fetchFicheSp";
 
 export const generateContent = async (
-  contribGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined,
+  contribGeneric:
+    | DocumentElasticWithSource<ContributionDocumentJson>
+    | undefined,
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): Promise<ContributionContent> => {
   switch (contrib.type) {
     case "content":
       return {
-        content: contrib.content,
+        content: contrib.contentWithGlossary,
       };
     case "fiche-sp": {
       const ficheSpContent = await fetchFicheSp(contrib.ficheSpId);
@@ -41,7 +43,7 @@ export const generateContent = async (
       }
       if (contribGeneric.type === "content") {
         return {
-          content: contribGeneric.content,
+          content: contribGeneric.contentWithGlossary,
         };
       } else if (contribGeneric.type === "fiche-sp") {
         const ficheSpContent = await fetchFicheSp(contribGeneric.ficheSpId);

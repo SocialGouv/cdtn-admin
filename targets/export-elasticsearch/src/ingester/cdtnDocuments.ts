@@ -18,17 +18,16 @@ import {
   getDocumentBySourceWithRelation,
 } from "./common/fetchCdtnAdminDocuments";
 import { splitArticle } from "./fichesTravailSplitter";
-import { createGlossaryTransform } from "./glossary";
 import { getVersions } from "./versions";
 import { generateContributions } from "./contributions";
 import { generateAgreements } from "./agreements";
-import { getGlossary } from "./common/fetchGlossary";
 import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
 import { generatePrequalified } from "./prequalified";
 import { generateEditorialContents } from "./informations/generate";
 import { populateRelatedDocuments } from "./common/populateRelatedDocuments";
 import { mergeRelatedDocumentsToEditorialContents } from "./informations/mergeRelatedDocumentsToEditorialContents";
+import { getGlossary } from "./common/fetchGlossary";
 
 /**
  * Find duplicate slugs
@@ -62,9 +61,6 @@ export async function cdtnDocumentsGen(
   const themes = await fetchThemes();
 
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
-
-  const glossaryTerms = await getGlossary();
-  const addGlossary = createGlossaryTransform(glossaryTerms);
 
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
@@ -137,7 +133,6 @@ export async function cdtnDocumentsGen(
     contributions,
     ccnData,
     ccnListWithHighlight,
-    addGlossary,
     getBreadcrumbs
   );
 
@@ -180,16 +175,17 @@ export async function cdtnDocumentsGen(
   logger.info(`Fetched ${fichesMT.length} fiches travail`);
   const fichesMTWithGlossary = fichesMT.map(({ sections, ...infos }) => ({
     ...infos,
-    sections: sections.map(({ html, ...section }: any) => {
+    sections: sections.map(({ ...section }: any) => {
+      const html = section.htmlWithGlossary;
       delete section.description;
       delete section.text;
-      return {
-        ...section,
-        html: addGlossary(html),
-      };
+      delete section.htmlWithGlossary;
+      return { ...section, html };
     }),
   }));
-  logger.info(`Mapped ${fichesMTWithGlossary.length} fiches travail with glossary`);
+  logger.info(
+    `Mapped ${fichesMTWithGlossary.length} fiches travail with glossary`
+  );
   documentsCount = {
     ...documentsCount,
     [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
@@ -263,6 +259,7 @@ export async function cdtnDocumentsGen(
   await updateDocs(SOURCES.PREQUALIFIED, prequalified);
 
   logger.info("=== glossary ===");
+  const glossaryTerms = await getGlossary();
   documentsCount = {
     ...documentsCount,
     [SOURCES.GLOSSARY]: glossaryTerms.length,
@@ -290,7 +287,7 @@ export async function cdtnDocumentsGen(
   const {
     documents: editorialContents,
     relatedIdsDocuments: relatedIdsEditorialDocuments,
-  } = await generateEditorialContents(documents, addGlossary);
+  } = await generateEditorialContents(documents);
   documentsCount = {
     ...documentsCount,
     [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,

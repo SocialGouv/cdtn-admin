@@ -16,6 +16,7 @@ export interface FicheTravailEmploiDoc {
 export interface Section {
   anchor: string;
   html: string;
+  htmlWithGlossary: string;
   text: string;
   title: string;
   description: string;

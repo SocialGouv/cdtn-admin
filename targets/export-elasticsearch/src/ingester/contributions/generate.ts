@@ -16,7 +16,7 @@ import { fetchAgreementUnextended } from "./fetchCcUnextended";
 import { getCcInfos } from "./getCcInfos";
 import { generateContent } from "./generateContent";
 import { GetBreadcrumbsFn } from "../breadcrumbs";
-import { addGlossaryToContent } from "./addGlossaryToContent";
+import { getContributionContent } from "./getContributionContent";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
 import pMap from "p-map";
@@ -27,13 +27,13 @@ export type ContributionElasticDocumentLightRelatedContent = Omit<
   "linkedContent"
 > & {
   linkedContent: ContributionLinkedContent[];
+  contentWithGlossary?: string;
 };
 
 export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
   ccnListWithHighlight: Record<number, ContributionHighlight | undefined>,
-  addGlossary: (valueInHtml: string) => string,
   getBreadcrumbs: GetBreadcrumbsFn
 ): Promise<ContributionElasticDocument[]> {
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
@@ -82,10 +82,10 @@ export async function generateContributions(
       };
     }
 
-    generatedContributions.push({
+    const contribution: ContributionElasticDocumentLightRelatedContent = {
       ...contrib,
       ...generateMetadata(contrib),
-      ...addGlossaryToContent(content, addGlossary),
+      ...getContributionContent(content),
       ...doc,
       breadcrumbs:
         contrib.breadcrumbs.length > 0
@@ -94,7 +94,11 @@ export async function generateContributions(
       highlight,
       messageBlock,
       references,
-    });
+    };
+
+    delete contribution.contentWithGlossary;
+
+    generatedContributions.push(contribution);
   }
 
   // Some related content link to another customized contribution

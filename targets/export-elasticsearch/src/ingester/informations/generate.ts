@@ -2,7 +2,6 @@ import {
   DocumentElasticWithSource,
   EditorialContentDoc,
 } from "@socialgouv/cdtn-types";
-import { markdownTransform } from "./markdown";
 import { getRelatedIdsDocuments } from "./getRelatedIdsDocuments";
 
 interface Return {
@@ -11,13 +10,32 @@ interface Return {
 }
 
 export const generateEditorialContents = (
-  documents: DocumentElasticWithSource<EditorialContentDoc>[],
-  addGlossary: (valueInHtml: string) => string
+  documents: DocumentElasticWithSource<EditorialContentDoc>[]
 ): Return => {
-  const documentsMarkdownified = markdownTransform(addGlossary, documents);
-  const relatedIdsDocuments = getRelatedIdsDocuments(documentsMarkdownified);
+  const documentsOptimized = documents.map((document: any) => {
+    const introWithGlossary = document.introWithGlossary;
+    delete document.intro;
+    delete document.introWithGlossary;
+    return {
+      ...document,
+      intro: introWithGlossary,
+      contents: document.contents.map((content: any) => {
+        content.blocks = content.blocks.map((block: any) => {
+          const htmlWithGlossary = block.htmlWithGlossary;
+          delete block.markdown;
+          delete block.htmlWithGlossary;
+          return {
+            ...block,
+            html: htmlWithGlossary,
+          };
+        });
+        return content;
+      }),
+    };
+  });
+  const relatedIdsDocuments = getRelatedIdsDocuments(documentsOptimized);
   return {
-    documents: documentsMarkdownified,
+    documents: documentsOptimized,
     relatedIdsDocuments,
   };
 };

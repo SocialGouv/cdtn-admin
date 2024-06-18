@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { IoMdAdd, IoMdCloseCircleOutline } from "react-icons/io";
+import { IoMdAdd, IoMdSync, IoMdCloseCircleOutline } from "react-icons/io";
 import { Button, IconButton } from "src/components/button";
 import { TermList } from "src/components/glossary/TermList";
 import { Layout } from "src/components/layout/auth.layout";
@@ -35,7 +35,7 @@ function getTermsByLetter(glossary = []) {
   return alphabet.map((letter) => ({
     letter,
     terms: glossary.filter(
-      ({ slug }) => slug.substring(0, 1).toUpperCase() === letter
+      ({ slug }: any) => slug.substring(0, 1).toUpperCase() === letter
     ),
   }));
 }
@@ -55,7 +55,7 @@ export function GlossaryPage() {
     if (!displayedTerms && !search) return setDisplayedTerms(glossary);
     setSearching(true);
     setDebouncedDisplayedTerms(
-      glossary.filter((entry) =>
+      glossary.filter((entry: any) =>
         entry.term.toLowerCase().includes(search.toLowerCase().trim())
       )
     );
@@ -80,16 +80,16 @@ export function GlossaryPage() {
           <>
             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
               <AddATermButton />
+              <SynchronizeButton />
             </Box>
-            <Box
-              as="ul"
-              p="0"
-              sx={{
+            <ul
+              style={{
                 alignItems: "center",
                 display: "flex",
                 flex: "1 1 auto",
                 flexWrap: "wrap",
                 listStyleType: "none",
+                padding: 0,
               }}
             >
               {termsByLetters.map(({ letter, terms }) => (
@@ -106,10 +106,9 @@ export function GlossaryPage() {
                   )}
                 </li>
               ))}
-            </Box>
-            <Box
-              as="form"
-              sx={{
+            </ul>
+            <form
+              style={{
                 alignItems: "center",
                 justifyContent: "flex-start",
                 display: "flex",
@@ -117,10 +116,10 @@ export function GlossaryPage() {
             >
               <Label
                 htmlFor={"search"}
-                sx={{
+                style={{
                   display: "inline-block",
                   fontSize: "medium",
-                  mr: theme.space.small,
+                  marginRight: theme.space.small,
                   width: "auto",
                 }}
               >
@@ -130,7 +129,7 @@ export function GlossaryPage() {
                 id="search"
                 name="search"
                 placeholder="renseignez le terme que vous cherchez ici"
-                sx={{ width: "450px" }}
+                style={{ width: "450px" }}
                 onChange={(e) => {
                   setSearch(e.target.value);
                 }}
@@ -139,7 +138,6 @@ export function GlossaryPage() {
               {search.length > 0 && (
                 <IconButton
                   type="button"
-                  sx={{ color: "text" }}
                   onClick={() => {
                     setSearch("");
                   }}
@@ -147,7 +145,7 @@ export function GlossaryPage() {
                   <IoMdCloseCircleOutline />
                 </IconButton>
               )}
-            </Box>
+            </form>
             {isSearching ? (
               <CircularProgress />
             ) : displayedTerms?.length ? (
@@ -167,8 +165,41 @@ export default GlossaryPage;
 const AddATermButton = () => (
   <Link href="/glossary/edit" passHref style={{ textDecoration: "none" }}>
     <Button size="small">
-      <IoMdAdd sx={{ height: "2rem", mr: "xxsmall", width: "2rem" }} />
+      <IoMdAdd style={{ height: "1rem", width: "1rem", marginRight: "2px" }} />
       Ajouter un terme
     </Button>
   </Link>
 );
+
+const SynchronizeButton = () => {
+  const [isDisabled, setIsDisabled] = useState(false);
+  const onClick = async () => {
+    const result = await fetch(`/api/glossary`, {
+      method: "POST",
+    });
+
+    const resultJson = await result.json();
+
+    if (!result.ok) {
+      alert(`Un problème est survenu, l'erreur est : ${resultJson.message}`);
+      return;
+    }
+    alert(
+      "Le glossaire est en cours de synchronisation. Cette opération prends du temps (environ 30 minutes). veuillez ne pas faire de modification entre temps."
+    );
+    setIsDisabled(true);
+  };
+  return (
+    <Button
+      size="small"
+      variant="outlined"
+      color="primary"
+      style={{ marginLeft: "1rem" }}
+      onClick={onClick}
+      disabled={isDisabled}
+    >
+      <IoMdSync style={{ height: "1rem", marginRight: "2px", width: "1rem" }} />
+      Mettre à jour le glossaire sur toutes les pages
+    </Button>
+  );
+};

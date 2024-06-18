@@ -1,4 +1,4 @@
-import type { GlossaryTerms } from "./types";
+import { GlossaryTerms } from "@socialgouv/cdtn-types";
 
 export const insertWebComponentGlossary = (
   initialContent: string,

@@ -1,22 +1,9 @@
-import type { Glossary } from "../types";
-import { context } from "../context";
 import { gqlClient } from "@shared/utils";
+import { context } from "../context";
+import { Glossary } from "@socialgouv/cdtn-types";
+import { getGlossaryQuery } from "../../repositories/graphql";
 
-const gqlGlossary = `
-query Glossary {
-  glossary {
-    term
-    abbreviations
-    definition
-    variants
-    references
-    slug
-  }
-}
-
-`;
-
-export async function getGlossary(): Promise<Glossary> {
+export const getGlossary = async (): Promise<Glossary> => {
   const graphqlEndpoint: string =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const adminSecret: string =
@@ -25,13 +12,13 @@ export async function getGlossary(): Promise<Glossary> {
     graphqlEndpoint,
     adminSecret,
   })
-    .query<{ glossary: Glossary }>(gqlGlossary, {})
+    .query<{ glossary: Glossary }>(getGlossaryQuery, {})
     .toPromise();
   if (result.error || !result.data) {
     console.error(result.error);
     throw new Error(
-      `error fetching kali blocks => ${JSON.stringify(result.error)}`
+      `Error fetching glossary => ${JSON.stringify(result.error)}`
     );
   }
   return result.data.glossary;
-}
+};

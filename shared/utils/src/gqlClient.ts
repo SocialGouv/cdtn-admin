@@ -11,13 +11,13 @@ type GqlClientParameter = {
   adminSecret: string;
 };
 
-const defaultProps: GqlClientParameter = {
+export const gqlDefaultProps: GqlClientParameter = {
   graphqlEndpoint:
     process.env.HASURA_GRAPHQL_ENDPOINT ?? "http://localhost:8080/v1/graphql",
   adminSecret: process.env.HASURA_GRAPHQL_ADMIN_SECRET ?? "admin1",
 };
 
-export const gqlClient = (props = defaultProps) =>
+export const gqlClient = (props = gqlDefaultProps) =>
   createClient({
     fetch,
     fetchOptions: {

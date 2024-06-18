@@ -15,8 +15,7 @@ const ingester = async (): Promise<string> => {
         process.env.NLP_PREPROD_DISABLE ? undefined : process.env.NLP_URL,
         undefined,
         undefined,
-        undefined,
-        process.env.GLOSSARY_PREPROD_DISABLE === "true"
+        undefined
       );
       resolve("Export elasticsearch completed successfully");
     } catch (error: unknown) {

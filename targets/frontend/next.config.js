@@ -15,7 +15,7 @@ module.exports = {
     ];
   },
   poweredByHeader: false,
-  webpack: (config, { isServer, dev }) => {
+  webpack: (config, { isServer }) => {
     config.module.rules.push({
       exclude: /node_modules/,
       loader: "graphql-tag/loader",
@@ -25,12 +25,15 @@ module.exports = {
       test: /\.woff2$/,
       type: "asset/resource",
     });
-    config.resolve = {
-      ...config.resolve,
-      fallback: {
-        fs: false,
-      },
-    };
+    if (!isServer) {
+      config.resolve = {
+        ...config.resolve,
+        fallback: {
+          ...config.resolve.fallback,
+          fs: false,
+        },
+      };
+    }
     return config;
   },
   transpilePackages: [

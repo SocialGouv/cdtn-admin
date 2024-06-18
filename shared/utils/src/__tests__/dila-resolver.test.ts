@@ -1,6 +1,6 @@
 import type DilaApiClient from "@socialgouv/dila-api-client";
 
-import { createGetArticleReference, extractArticleId } from "../dila-resolver";
+import { createGetArticleReference, extractArticleId } from "../dilaResolver";
 import getKaliArticlePayload from "./__mocks__/kaliArticle.json";
 import getLegiArticlePayload from "./__mocks__/legiArticle.json";
 

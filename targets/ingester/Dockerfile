@@ -25,7 +25,6 @@ FROM deps as dist
 COPY --from=build-types /app/shared/types /app/shared/types
 COPY --from=build-utils /app/shared/utils /app/shared/utils
 COPY targets/ingester targets/ingester
-COPY tsconfig.build.json .
 
 RUN yarn workspace ingester build
 

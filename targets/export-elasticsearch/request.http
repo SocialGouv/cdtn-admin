@@ -26,3 +26,15 @@ POST http://localhost:8787/sitemap
 
 ###
 POST http://localhost:8787/copy
+
+###
+POST http://localhost:8787/glossary/all
+
+###
+POST http://localhost:8787/glossary
+content-type: application/json
+
+{
+  "type": "html",
+  "content": "<p>Ceci est une abrogation</p>"
+}

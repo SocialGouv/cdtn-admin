@@ -149,7 +149,7 @@ docker-compose up -d hasura minio elasticsearch createbuckets
 #### 5. Run ingester in development mode
 
 ```sh
-GLOSSARY_PREPROD_DISABLE=true DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true DISABLE_SITEMAP=true HASURA_GRAPHQL_ENDPOINT="http://localhost:8080/v1/graphql" HASURA_GRAPHQL_ADMIN_SECRET="admin1" ELASTICSEARCH_URL_PREPROD="http://localhost:9200" ELASTICSEARCH_URL_PROD="http://localhost:9200" SITEMAP_DESTINATION_FOLDER="sitemap" SITEMAP_NAME="sitemap.xml" SITEMAP_ENDPOINT="http://localhost:3001/api/sitemap" AGREEMENTS_DESTINATION_FOLDER="agreements" AGREEMENTS_DESTINATION_NAME="index.json" BUCKET_DEFAULT_FOLDER="default" BUCKET_DRAFT_FOLDER="draft" BUCKET_PUBLISHED_FOLDER= BUCKET_PREVIEW_FOLDER="preview" BUCKET_ACCESS_KEY="MINIO_ACCESS_KEY" BUCKET_ENDPOINT=http://localhost:9000 BUCKET_NAME="cdtn" BUCKET_SECRET_KEY="MINIO_SECRET_KEY" BUCKET_REGION="us-east-1" CDTN_ADMIN_ENDPOINT="http://localhost:8080/v1/graphql" ELASTICSEARCH_INDEX_PREPROD="cdtn-v2" ELASTICSEARCH_INDEX_PROD="cdtn-v2" FETCH_PAGE_SIZE=1000 FETCH_JOB_CONCURRENCY=5 yarn workspace export-elasticsearch dev
+DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true DISABLE_SITEMAP=true HASURA_GRAPHQL_ENDPOINT="http://localhost:8080/v1/graphql" HASURA_GRAPHQL_ADMIN_SECRET="admin1" ELASTICSEARCH_URL_PREPROD="http://localhost:9200" ELASTICSEARCH_URL_PROD="http://localhost:9200" SITEMAP_DESTINATION_FOLDER="sitemap" SITEMAP_NAME="sitemap.xml" SITEMAP_ENDPOINT="http://localhost:3001/api/sitemap" AGREEMENTS_DESTINATION_FOLDER="agreements" AGREEMENTS_DESTINATION_NAME="index.json" BUCKET_DEFAULT_FOLDER="default" BUCKET_DRAFT_FOLDER="draft" BUCKET_PUBLISHED_FOLDER= BUCKET_PREVIEW_FOLDER="preview" BUCKET_ACCESS_KEY="MINIO_ACCESS_KEY" BUCKET_ENDPOINT=http://localhost:9000 BUCKET_NAME="cdtn" BUCKET_SECRET_KEY="MINIO_SECRET_KEY" BUCKET_REGION="us-east-1" CDTN_ADMIN_ENDPOINT="http://localhost:8080/v1/graphql" ELASTICSEARCH_INDEX_PREPROD="cdtn-v2" ELASTICSEARCH_INDEX_PROD="cdtn-v2" FETCH_PAGE_SIZE=1000 FETCH_JOB_CONCURRENCY=5 yarn workspace export-elasticsearch dev
 ```
 
 - `DISABLE_LIMIT_EXPORT` is used to disable the limit to run two export in less than one hour
@@ -157,7 +157,6 @@ GLOSSARY_PREPROD_DISABLE=true DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true 
 - `DISABLE_COPY` is used to disable copy between two containers
 - `DISABLE_SITEMAP` is used to disable copy of the sitemap
 - `DISABLE_AGREEMENTS` is used to disable copy of the agreements
-- `GLOSSARY_PREPROD_DISABLE` is used to disable glossary to gain time.
 - `NLP_URL` could be set by `https://serving-ml-preprod.ovh.fabrique.social.gouv.fr`, by default it is `undefined`
 
 > **Note**: You can remove `NLP_URL` from your environment variables if you don't want to use the NLP service and gain time during the process of ingester elasticsearch.

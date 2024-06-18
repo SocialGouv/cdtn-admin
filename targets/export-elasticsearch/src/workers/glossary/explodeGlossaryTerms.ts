@@ -1,5 +1,4 @@
-import type { Glossary, Term } from "../types";
-import type { GlossaryTerms } from "./types";
+import { GlossaryTerms, Glossary, Term } from "@socialgouv/cdtn-types";
 
 const conventionMatchers =
   "[Cc]onventions? [Cc]ollectives?|[Aa]ccords? de [Bb]ranches?|[Dd]ispositions? [Cc]onventionnelles?";
