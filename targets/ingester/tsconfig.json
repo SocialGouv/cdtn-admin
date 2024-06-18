@@ -9,7 +9,7 @@
     "noEmit": true,
     "skipLibCheck": true,
     "strict": true,
-    "lib": ["es2020"],
+    "lib": ["ESNext"],
     "module": "commonjs",
     "resolveJsonModule": true
   },

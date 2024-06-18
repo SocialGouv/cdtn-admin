@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "es2015",
+    "module": "ESNext",
     "moduleResolution": "node",
     "allowJs": true,
-    "lib": ["es2020", "DOM"],
+    "lib": ["ESNext"],
     "outDir": "./lib",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
