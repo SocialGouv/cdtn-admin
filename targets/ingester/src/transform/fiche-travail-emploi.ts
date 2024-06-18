@@ -1,14 +1,17 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
+import got from "got";
+import pMap from "p-map";
 
 import { getJson } from "../lib/getJson";
 import {
   articleToReference,
   createReferenceResolver,
 } from "../lib/referenceResolver";
+import { Code } from "@socialgouv/legi-data-types";
 
-const URL_EXPORT = process.env.URL_EXPORT || "http://localhost:8787";
+const URL_EXPORT = process.env.URL_EXPORT ?? "http://localhost:8787";
 
 export default async function getFicheTravailEmploi(pkgName: string) {
   const [fichesMT, cdt] = await Promise.all([
@@ -17,59 +20,15 @@ export default async function getFicheTravailEmploi(pkgName: string) {
       `@socialgouv/legi-data/data/LEGITEXT000006072050.json`
     ),
   ]);
-  const resolveCdtReference = createReferenceResolver(cdt);
-  const result = await Promise.all(
-    fichesMT.map(async ({ pubId, sections, ...content }) => {
+  const result = await pMap(
+    fichesMT,
+    async ({ pubId, sections, ...content }) => {
+      const sectionsWithGlossary = await fetchSections(sections, cdt);
       return {
         id: pubId,
         ...content,
         is_searchable: true,
-        sections: await Promise.all(
-          sections.map(async ({ references, ...section }) => {
-            const resultProcess: any = await fetch(URL_EXPORT + "/glossary", {
-              body: JSON.stringify({
-                type: "html",
-                content: section.html,
-              }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-              method: "POST",
-            })
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error(
-                    `HTTP error on glossary! status: ${response.status}`
-                  );
-                }
-                return response.json();
-              })
-              .catch((error) => {
-                throw new Error(`Error on glossary! ${error}`);
-              });
-            const htmlWithGlossary = resultProcess.result;
-
-            return {
-              ...section,
-              htmlWithGlossary,
-              references: Object.keys(references).flatMap((key) => {
-                if (key !== "LEGITEXT000006072050") {
-                  return [];
-                }
-                const { articles } = references[key];
-                return articles.flatMap(({ id }) => {
-                  const maybeArticle = resolveCdtReference(
-                    id
-                  ) as LegiData.CodeArticle[];
-                  if (maybeArticle.length !== 1) {
-                    return [];
-                  }
-                  return articleToReference(maybeArticle[0]);
-                });
-              }),
-            };
-          })
-        ),
+        sections: sectionsWithGlossary,
         slug: slugify(content.title),
         source: SOURCES.SHEET_MT_PAGE,
         /**
@@ -78,7 +37,72 @@ export default async function getFicheTravailEmploi(pkgName: string) {
          */
         text: "",
       };
-    })
+    },
+    { concurrency: 1 }
   );
+
   return result;
 }
+
+const fetchSections = async (
+  sections: FicheTravailEmploi["sections"],
+  cdt: Code
+) => {
+  const resolveCdtReference = createReferenceResolver(cdt);
+
+  return await pMap(
+    sections,
+    async ({ references, ...section }) => {
+      let htmlWithGlossary = section.html;
+      if (section.html && section.html !== "") {
+        const fetchResult: any = await got
+          .post(`${URL_EXPORT}/glossary`, {
+            json: {
+              type: "html",
+              content: section.html,
+            },
+            responseType: "json",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .json();
+
+        if (!fetchResult?.result) {
+          console.error(
+            `Error with glossary for this html :${
+              section.html
+            }, we get this result from API : ${JSON.stringify(fetchResult)} `
+          );
+        } else {
+          htmlWithGlossary = fetchResult.result;
+        }
+      } else {
+        console.warn(
+          `No html found for this section : ${JSON.stringify(section)}`
+        );
+      }
+
+      return {
+        ...section,
+        htmlWithGlossary,
+        references: Object.keys(references).flatMap((key) => {
+          if (key !== "LEGITEXT000006072050") {
+            return [];
+          }
+          const { articles } = references[key];
+          return articles.flatMap(({ id }) => {
+            const maybeArticle = resolveCdtReference(
+              id
+            ) as LegiData.CodeArticle[];
+            if (maybeArticle.length !== 1) {
+              return [];
+            }
+            return articleToReference(maybeArticle[0]);
+          });
+        }),
+      };
+    },
+    { concurrency: 1 }
+  );
+};
