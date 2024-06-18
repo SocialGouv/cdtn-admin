@@ -106,6 +106,14 @@ export function Export(): JSX.Element {
                 },
                 index
               ) => {
+                const dateCreatedInfo = `${new Date(
+                  created_at
+                ).toLocaleDateString("fr-FR")} à ${new Date(
+                  created_at
+                ).toLocaleTimeString("fr-FR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}`;
                 return (
                   <Tr key={`${id}`}>
                     <Td>
@@ -115,13 +123,7 @@ export function Export(): JSX.Element {
                       <Typography>{user?.name}</Typography>
                     </Td>
                     <Td>
-                      <Typography>
-                        {new Date(created_at).toLocaleDateString("fr-FR")} à{" "}
-                        {new Date(created_at).toLocaleTimeString("fr-FR", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </Typography>
+                      <Typography>{dateCreatedInfo}</Typography>
                     </Td>
                     <Td>
                       <Typography>
@@ -142,6 +144,7 @@ export function Export(): JSX.Element {
                           oldDocumentsCount={
                             exportEsState.exportData[index + 1]?.documentsCount
                           }
+                          dateInfo={dateCreatedInfo}
                         />
                       ) : (
                         <Typography>Aucune information</Typography>

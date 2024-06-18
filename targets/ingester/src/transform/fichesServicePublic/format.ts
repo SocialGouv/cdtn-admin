@@ -1,12 +1,12 @@
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { RawJson } from "@socialgouv/fiches-vdd-types";
-import type { IndexedAgreement } from "@socialgouv/kali-data-types";
 
 import type { FicheServicePublic } from "../..";
 import type { ReferenceResolver } from "../../lib/referenceResolver";
 import { parseReferences } from "./parseReference";
 import { generateFichesSpRef } from "@shared/utils";
 import { ShortAgreement } from "./fetchAgreementsWithKaliId";
+import { Audience } from "@socialgouv/cdtn-types";
 
 function getChild(element: RawJson, name: string) {
   // RawJson children not exist on text node
@@ -53,10 +53,9 @@ export function format(
   const [year, month, day] = dateRaw.split(" ")[1].split("-");
   const date = `${day}/${month}/${year}`;
 
-  const audience = getText(getChild(publication, "Audience")) as
-    | "Associations"
-    | "Particuliers"
-    | "Professionnels";
+  const audience = getText(
+    getChild(publication, "Audience")
+  ).toLowerCase() as Audience;
 
   const url = generateFichesSpRef(audience, id);
 
