@@ -1,5 +1,4 @@
 import {
-  Button,
   Checkbox,
   Paper,
   Stack,
@@ -19,6 +18,7 @@ import { Answer } from "../type";
 import { StatusContainer } from "../status";
 import { useRouter } from "next/router";
 import { fr } from "@codegouvfr/react-dsfr";
+import { PublishButton } from "../../button/PublishButton";
 
 type EditQuestionAnswerListProps = {
   answers: Answer[];
@@ -76,8 +76,10 @@ export const QuestionAnswerList = ({
     )
   );
   const [displayPublish, setDisplayPublish] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
 
   const publishAll = async () => {
+    setIsPublishing(true);
     const ids = Object.entries(answersCheck).reduce<string[]>(
       (arr, [id, checked]) => {
         if (checked) {
@@ -88,7 +90,12 @@ export const QuestionAnswerList = ({
       []
     );
     const promises = ids.map((id) => onPublish(id));
-    await Promise.all(promises);
+    try {
+      await Promise.all(promises).finally(() => setIsPublishing(false));
+    } catch (e) {
+      setIsPublishing(false);
+      throw e;
+    }
   };
   const redirectToAnswer = (id: string) => {
     router.push(`/contributions/answers/${id}`);
@@ -103,15 +110,13 @@ export const QuestionAnswerList = ({
     <Stack alignItems="stretch">
       <Stack>
         <Stack direction="row" alignItems="start" spacing={2}>
-          <Button
-            variant="contained"
-            type="button"
-            color="success"
+          <PublishButton
             disabled={!displayPublish}
             onClick={publishAll}
+            isPublishing={isPublishing}
           >
             Publier
-          </Button>
+          </PublishButton>
         </Stack>
         <TableContainer component={Paper}>
           <Table size="small" aria-label="purchases">

@@ -1,9 +1,5 @@
 import { AlertColor, Button, FormControl, Stack } from "@mui/material";
-import {
-  FormAutocompleteChips,
-  FormSwitch,
-  FormTextField,
-} from "src/components/forms";
+import { FormAutocompleteChips, FormTextField } from "src/components/forms";
 
 import { useForm } from "react-hook-form";
 import { Agreement, agreementSchema } from "../../type";
@@ -11,6 +7,7 @@ import React, { useState } from "react";
 import { SnackBar } from "src/components/utils/SnackBar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { PublishButton } from "../../../../components/button/PublishButton";
 
 type FormData = Partial<z.infer<typeof agreementSchemaUpsert>>;
 
@@ -86,6 +83,7 @@ export const AgreementForm = ({
       });
     }
   };
+  const [isPublishing, setIsPublishing] = useState(false);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -199,11 +197,10 @@ export const AgreementForm = ({
             {agreement ? "Sauvegarder" : "Créer"}
           </Button>
           {onPublish && (
-            <Button
-              type="button"
-              variant="contained"
-              color="success"
+            <PublishButton
+              isPublishing={isPublishing}
               onClick={async () => {
+                setIsPublishing(true);
                 try {
                   await onPublish();
                   setSnack({
@@ -211,17 +208,19 @@ export const AgreementForm = ({
                     severity: "success",
                     message: "La convention collective a été publiée",
                   });
+                  setIsPublishing(false);
                 } catch (e: any) {
                   setSnack({
                     open: true,
                     severity: "error",
                     message: `Erreur lors de la publication de la convention collective: ${e.message}`,
                   });
+                  setIsPublishing(false);
                 }
               }}
             >
               Publier
-            </Button>
+            </PublishButton>
           )}
         </Stack>
       </Stack>

@@ -1,4 +1,4 @@
-import { Button, FormControl, Stack, Alert } from "@mui/material";
+import { Alert, Button, FormControl, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +16,7 @@ import {
 } from "./references";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
+import { PublishButton } from "src/components/button/PublishButton";
 
 const answerFormBaseSchema = answerRelationSchema
   .pick({
@@ -331,15 +332,13 @@ export const AnswerForm = ({
             >
               Sauvegarder
             </Button>
-            <Button
-              variant="contained"
-              type="button"
-              color="success"
+            <PublishButton
               onClick={() => submit(getNextStatus(status))}
               disabled={submitting || status === "PUBLISHED"}
+              isPublishing={submitting}
             >
               {getPrimaryButtonLabel(status)}
-            </Button>
+            </PublishButton>
           </Stack>
         )}
       </Stack>

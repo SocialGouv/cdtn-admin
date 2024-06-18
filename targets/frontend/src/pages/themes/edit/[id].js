@@ -126,10 +126,8 @@ export function EditThemePage() {
     });
   }
 
-  // const notFound = !fetching && !deleteResult.fetching && !theme?.cdtnId;
-
   return (
-    <Layout /* errorCode={(notFound && 404) || null} */ title="Éditer le theme">
+    <Layout title="Éditer le theme">
       <Stack>
         {fetching ? (
           <Spinner />

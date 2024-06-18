@@ -127,6 +127,7 @@ export function Navigation() {
           ) : (
             href && (
               <Stack
+                key={key}
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
