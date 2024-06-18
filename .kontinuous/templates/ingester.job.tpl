@@ -30,12 +30,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /app/data
-            - name: tz-paris
-              mountPath: /etc/localtime
       volumes:
         - name: data
           emptyDir: {}
-        - name: tz-paris
-          hostPath:
-            path: /usr/share/zoneinfo/Europe/Paris
 {{end}}
