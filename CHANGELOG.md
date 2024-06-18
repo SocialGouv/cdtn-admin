@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.45.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.2...v2.45.0) (2024-06-18)
+
+### Bug Fixes
+
+- **alert-cli:** dares xlsx are unaccessible ([#1422](https://github.com/SocialGouv/cdtn-admin/issues/1422)) ([0b550b3](https://github.com/SocialGouv/cdtn-admin/commit/0b550b3d12eaf92e40957545f5f0e6da197e0824))
+- **alerting:** urls correctes des fiches SP dans les alerts ([#1420](https://github.com/SocialGouv/cdtn-admin/issues/1420)) ([5534aa3](https://github.com/SocialGouv/cdtn-admin/commit/5534aa3eddc8098a4884a69c7006d4270531edee))
+- **infra:** suppression du paramètre de timezone non utilisé ([#1430](https://github.com/SocialGouv/cdtn-admin/issues/1430)) ([534f960](https://github.com/SocialGouv/cdtn-admin/commit/534f960a0725c066ccfa52b38835e01ff17dfbeb))
+- **ingester:** utilisation d'un `pmap` pour le glossaire afin d'éviter n-appels en parallèle ([#1431](https://github.com/SocialGouv/cdtn-admin/issues/1431)) ([ceabb16](https://github.com/SocialGouv/cdtn-admin/commit/ceabb16a0f8e7069ae1b85aead2a8d57e99e05bc))
+- **performance:** set minimal cpu for `export` service ([#1427](https://github.com/SocialGouv/cdtn-admin/issues/1427)) ([b2b82f3](https://github.com/SocialGouv/cdtn-admin/commit/b2b82f35329cee65b71f134746117f2a9d8cc573))
+
+### Features
+
+- affichage date export + fix erreur ([#1403](https://github.com/SocialGouv/cdtn-admin/issues/1403)) ([1609584](https://github.com/SocialGouv/cdtn-admin/commit/16095847424ae86a64254116ac232533c427ff45))
+- **glossary:** from export to publish ([#1424](https://github.com/SocialGouv/cdtn-admin/issues/1424)) ([c724fbf](https://github.com/SocialGouv/cdtn-admin/commit/c724fbfe977ace9351ed3d2e4e3556c1b0735946))
+
 ## [2.44.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.1...v2.44.2) (2024-06-04)
 
 ### Bug Fixes
