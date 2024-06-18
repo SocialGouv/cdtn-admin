@@ -25,7 +25,6 @@ COPY --from=build-utils /app/shared/utils /app/shared/utils
 COPY --from=build-types /app/shared/types /app/shared/types
 
 COPY targets/alert-cli ./targets/alert-cli
-COPY tsconfig.build.json ./
 
 RUN yarn workspace alert-cli build
 

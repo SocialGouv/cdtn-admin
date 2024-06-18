@@ -22,6 +22,7 @@ export type MarkdownContentPart = {
   type: EditorialContentType.markdown;
   markdown: string;
   html: string;
+  htmlWithGlossary: string;
 };
 
 export type ContentItem = {
@@ -65,6 +66,7 @@ export type GraphicContentPart = {
   fileUrl: string;
   markdown: string;
   html: string;
+  htmlWithGlossary: string;
 };
 
 export enum EditorialSectionDisplayMode {
@@ -75,6 +77,7 @@ export enum EditorialSectionDisplayMode {
 export type EditorialContentDoc = {
   date: string;
   intro: string;
+  introWithGlossary: string;
   section_display_mode?: EditorialSectionDisplayMode;
   dismissalProcess?: boolean;
   contents: EditorialContentBaseContentPart[];

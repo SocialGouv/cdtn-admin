@@ -14,8 +14,7 @@ const ingester = async (): Promise<string> => {
           : process.env.ELASTICSEARCH_INDEX_PROD,
         undefined,
         undefined,
-        undefined,
-        false
+        undefined
       );
       resolve("Export elasticsearch completed successfully");
     } catch (error: unknown) {

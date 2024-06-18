@@ -15,6 +15,7 @@ import { generateContributionSlug } from "src/modules/contribution/generateSlug"
 import { AgreementRepository } from "../../agreements/api";
 import { Agreement } from "../../agreements";
 import { SourceRoute } from "@socialgouv/cdtn-sources";
+import { getGlossaryContent } from "src/modules/common/getGlossaryContent";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -37,10 +38,14 @@ export class DocumentsService {
     this.agreementRepository = agreementRepository;
   }
 
-  private mapInformationToDocument(
+  private async mapInformationToDocument(
     data: Information,
     document?: HasuraDocument<any>
-  ): HasuraDocument<any> {
+  ): Promise<HasuraDocument<any>> {
+    const introWithGlossary = await getGlossaryContent(
+      "markdown",
+      data.intro ?? ""
+    );
     return {
       cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
       initial_id: data.id ?? generateInitialId(),
@@ -57,6 +62,7 @@ export class DocumentsService {
           ? format(new Date(data.updatedAt), "dd/MM/yyyy")
           : undefined,
         intro: data.intro,
+        introWithGlossary,
         description: data.description,
         sectionDisplayMode: data.sectionDisplayMode,
         dismissalProcess: data.dismissalProcess,
@@ -68,53 +74,64 @@ export class DocumentsService {
               },
             ]
           : undefined,
-        contents: data.contents.map(
-          ({ name, title, blocks, references, referenceLabel }) => {
-            return {
-              name,
-              title,
-              blocks: blocks.map((block) => {
-                return {
-                  type: block.type,
-                  ...(block.type === "content"
-                    ? {
-                        title: block.content,
-                      }
-                    : { markdown: block.content }),
-                  ...(block.type === "graphic"
-                    ? {
-                        size: block.file?.size,
-                        imgUrl: block.img?.url,
-                        altText: block.img?.altText,
-                        fileUrl: block.file?.url,
-                      }
-                    : {}),
-                  ...(block.type === "content"
-                    ? {
-                        blockDisplayMode: block.contentDisplayMode,
-                        contents: block.contents?.length
-                          ? block.contents.map(({ document }) => {
-                              return {
-                                title: document.title,
-                                cdtnId: document.cdtnId,
-                                source: document.source,
-                              };
-                            })
-                          : undefined,
-                      }
-                    : {}),
-                };
-              }),
-              references: references?.length
-                ? [
-                    {
-                      label: referenceLabel,
-                      links: references,
-                    },
-                  ]
-                : undefined,
-            };
-          }
+        contents: await Promise.all(
+          data.contents.map(
+            async ({ name, title, blocks, references, referenceLabel }) => {
+              return {
+                name,
+                title,
+                blocks: await Promise.all(
+                  blocks.map(async (block) => {
+                    const htmlWithGlossary = await getGlossaryContent(
+                      "markdown",
+                      block.content ?? ""
+                    );
+                    return {
+                      type: block.type,
+                      ...(block.type === "content"
+                        ? {
+                            title: block.content,
+                          }
+                        : {
+                            markdown: block.content,
+                            htmlWithGlossary,
+                          }),
+                      ...(block.type === "graphic"
+                        ? {
+                            size: block.file?.size,
+                            imgUrl: block.img?.url,
+                            altText: block.img?.altText,
+                            fileUrl: block.file?.url,
+                          }
+                        : {}),
+                      ...(block.type === "content"
+                        ? {
+                            blockDisplayMode: block.contentDisplayMode,
+                            contents: block.contents?.length
+                              ? block.contents.map(({ document }) => {
+                                  return {
+                                    title: document.title,
+                                    cdtnId: document.cdtnId,
+                                    source: document.source,
+                                  };
+                                })
+                              : undefined,
+                          }
+                        : {}),
+                    };
+                  })
+                ),
+                references: references?.length
+                  ? [
+                      {
+                        label: referenceLabel,
+                        links: references,
+                      },
+                    ]
+                  : undefined,
+              };
+            }
+          )
         ),
       },
     };
@@ -219,7 +236,7 @@ export class DocumentsService {
             cause: null,
           });
         }
-        document = this.mapInformationToDocument(information, document);
+        document = await this.mapInformationToDocument(information, document);
         break;
       case "contributions":
         const contribution = await this.contributionRepository.fetch(id);

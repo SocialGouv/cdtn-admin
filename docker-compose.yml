@@ -32,22 +32,6 @@ services:
       HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
       HASURA_GRAPHQL_METADATA_DIR: /hasura-metadata
 
-  www:
-    build:
-      context: .
-      dockerfile: targets/frontend/Dockerfile
-      shm_size: 512m
-      secrets:
-        - npmTiptapToken
-    depends_on:
-      - hasura
-    ports:
-      - "3001:3001"
-    env_file:
-      - .env
-    environment:
-      HASURA_GRAPHQL_ENDPOINT: "http://hasura:8080/v1/graphql"
-
   ingester:
     build:
       context: .
@@ -97,6 +81,7 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
     environment:
+      - ES_JAVA_OPTS=-Xmx4g
       - cluster.name=code-du-travail-data-elasticsearch
       - node.name=code-du-travail-data-elasticsearch-single-node
       - network.host=0.0.0.0
@@ -116,6 +101,21 @@ services:
       - 5601:5601
     depends_on:
       - elasticsearch
+
+  www:
+    build:
+      context: .
+      dockerfile: targets/frontend/Dockerfile
+      secrets:
+        - npmTiptapToken
+    depends_on:
+      - hasura
+    ports:
+      - "3001:3000"
+    environment:
+      HASURA_GRAPHQL_ENDPOINT: "http://hasura:8080/v1/graphql"
+      NEXTAUTH_SECRET: "6ZYMHbt0mxOj9y6mTyG2nJVt2zWDEdckLJz248uflwI="
+      NEXTAUTH_URL: "http://localhost:3001"
 
   export:
     platform: linux/amd64

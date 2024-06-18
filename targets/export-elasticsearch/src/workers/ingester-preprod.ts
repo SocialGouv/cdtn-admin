@@ -14,8 +14,7 @@ const ingester = async (): Promise<string> => {
           : process.env.ELASTICSEARCH_INDEX_PREPROD,
         undefined,
         undefined,
-        undefined,
-        process.env.GLOSSARY_PREPROD_DISABLE === "true"
+        undefined
       );
       resolve("Export elasticsearch completed successfully");
     } catch (error: unknown) {

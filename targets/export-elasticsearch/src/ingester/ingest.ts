@@ -22,8 +22,7 @@ export async function ingest(
   esIndexPrefix: string | undefined,
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
-  suggestFile: string | undefined,
-  disableGlossary: boolean | undefined
+  suggestFile: string | undefined
 ) {
   context.provide();
   await runIngester(
@@ -34,8 +33,7 @@ export async function ingest(
     esIndexPrefix,
     suggestIndexName,
     bufferSize,
-    suggestFile,
-    disableGlossary
+    suggestFile
   );
 }
 
@@ -47,8 +45,7 @@ async function runIngester(
   esIndexPrefix: string | undefined,
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
-  suggestFile: string | undefined,
-  disableGlossary: boolean | undefined
+  suggestFile: string | undefined
 ) {
   const ES_INDEX_PREFIX = esIndexPrefix ?? "cdtn";
 

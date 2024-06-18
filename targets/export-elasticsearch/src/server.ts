@@ -7,7 +7,10 @@ import type { NextFunction, Request, Response } from "express";
 import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
 
-import { ExportEsRunMiddleware } from "./controllers/middlewares";
+import {
+  ExportEsRunMiddleware,
+  GlossaryMiddleware,
+} from "./controllers/middlewares";
 import { S3Parameters, S3Repository, ExportRepository } from "./repositories";
 import {
   CopyContainerService,
@@ -17,11 +20,11 @@ import {
 import { getName } from "./utils";
 import { AgreementsService } from "./services/agreements";
 import { AgreementsRepository } from "./repositories/agreements";
+import { GlossaryService } from "./services/glossary";
+import { GlossaryRepository } from "./repositories/glossary";
 
 // set up container
 export const rootContainer = new Container();
-/* REPOSITORIES */
-rootContainer.bind<S3Repository>(getName(S3Repository)).to(S3Repository);
 /* PARAMETERS OF CONTAINER */
 rootContainer
   .bind<string>(S3Parameters.BUCKET_ACCESS_KEY)
@@ -50,16 +53,24 @@ rootContainer
 rootContainer
   .bind<string>(S3Parameters.BUCKET_DEFAULT_FOLDER)
   .toConstantValue(process.env.BUCKET_DEFAULT_FOLDER ?? `default`);
+/* REPOSITORIES */
+rootContainer.bind<S3Repository>(getName(S3Repository)).to(S3Repository);
 rootContainer
   .bind<ExportRepository>(getName(ExportRepository))
   .to(ExportRepository);
 rootContainer
   .bind<AgreementsRepository>(getName(AgreementsRepository))
   .to(AgreementsRepository);
+rootContainer
+  .bind<GlossaryRepository>(getName(GlossaryRepository))
+  .to(GlossaryRepository);
 /* MIDDLEWARE */
 rootContainer
   .bind<ExportEsRunMiddleware>(getName(ExportEsRunMiddleware))
   .to(ExportEsRunMiddleware);
+rootContainer
+  .bind<GlossaryMiddleware>(getName(GlossaryMiddleware))
+  .to(GlossaryMiddleware);
 /* SERVICES */
 rootContainer.bind<ExportService>(getName(ExportService)).to(ExportService);
 rootContainer.bind<SitemapService>(getName(SitemapService)).to(SitemapService);
@@ -69,6 +80,9 @@ rootContainer
 rootContainer
   .bind<CopyContainerService>(getName(CopyContainerService))
   .to(CopyContainerService);
+rootContainer
+  .bind<GlossaryService>(getName(GlossaryService))
+  .to(GlossaryService);
 
 // create server
 const server = new InversifyExpressServer(rootContainer);
