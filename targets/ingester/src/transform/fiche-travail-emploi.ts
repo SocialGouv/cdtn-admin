@@ -69,7 +69,9 @@ const fetchSections = async (
 
       if (!fetchResult?.result) {
         console.error(
-          `Error with glossary API, result : ${fetchResult} for ${section.html}`
+          `Error with glossary for this html :${
+            section.html
+          }, we get this result from API : ${JSON.stringify(fetchResult)} `
         );
       } else {
         htmlWithGlossary = fetchResult.result;
