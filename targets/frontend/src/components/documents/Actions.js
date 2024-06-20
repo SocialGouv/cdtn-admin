@@ -42,13 +42,12 @@ export function DocumentsListActions({ onUpdatePublication }) {
       </Dialog>
       <Button
         type="button"
-        outline
-        size="small"
-        variant="secondary"
+        variant="contained"
+        color="success"
         disabled={Object.keys(selectedItems).length === 0}
         onClick={openPublishDialog}
       >
-        Modifier
+        Sauvegarder
       </Button>
     </Box>
   );
