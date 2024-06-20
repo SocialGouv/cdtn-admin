@@ -1,6 +1,4 @@
 import {
-  Card,
-  CardContent,
   Paper,
   Stack,
   Table,
@@ -11,7 +9,6 @@ import {
   TableRow,
   TextField,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -20,10 +17,7 @@ import {
   useQuestionListQuery,
 } from "./QuestionList.query";
 import { QuestionRow } from "./QuestionRow";
-import { fr } from "@codegouvfr/react-dsfr";
 import { statusesMapping } from "../status/data";
-import { StatusStats } from "../status/StatusStats";
-import { Answer } from "../type";
 
 export const countAnswersWithStatus = (
   answers: QueryQuestionAnswer[] | undefined,
@@ -41,10 +35,6 @@ export const QuestionList = (): JSX.Element => {
     search,
   });
 
-  const aggregatedRow = rows.flatMap(({ answers }) =>
-    answers?.length ? (answers as Answer[]) : []
-  );
-  const total = aggregatedRow.length;
   return (
     <Stack spacing={2}>
       <Stack
@@ -63,27 +53,6 @@ export const QuestionList = (): JSX.Element => {
           }}
           data-testid="contributions-list-search"
         />
-        <Card>
-          <CardContent>
-            <Typography>Total</Typography>
-            <Typography
-              sx={{
-                fontWeight: "bold",
-                color: fr.colors.decisions.text.default.grey.default,
-              }}
-            >
-              {total}
-            </Typography>
-          </CardContent>
-        </Card>
-
-        <StatusStats
-          statusCounts={Object.keys(statusesMapping).map((status) => ({
-            status,
-            count: countAnswersWithStatus(aggregatedRow, status),
-          }))}
-          total={total}
-        ></StatusStats>
       </Stack>
 
       <TableContainer component={Paper}>
@@ -91,15 +60,7 @@ export const QuestionList = (): JSX.Element => {
           <TableHead>
             <TableRow>
               <TableCell>Questions ({rows.length})</TableCell>
-              {Object.entries(statusesMapping).map(
-                ([_, { text, icon, color }]) => {
-                  return (
-                    <TableCell key={text} style={{ color }} align="center">
-                      <Tooltip title={text}>{icon}</Tooltip>
-                    </TableCell>
-                  );
-                }
-              )}
+              <TableCell align="center">Publiées</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

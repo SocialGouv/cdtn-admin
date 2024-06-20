@@ -60,7 +60,8 @@ export async function ingest(
   nlpUrl: string | undefined,
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
-  suggestFile: string | undefined
+  suggestFile: string | undefined,
+  isProd = false
 ) {
   context.provide();
   process.env.NLP_URL = nlpUrl; //pour setter la variable d'environment du package elasticsearch...
@@ -73,7 +74,8 @@ export async function ingest(
     nlpUrl,
     suggestIndexName,
     bufferSize,
-    suggestFile
+    suggestFile,
+    isProd
   );
 }
 
@@ -86,7 +88,8 @@ async function runIngester(
   nlpUrl: string | undefined,
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
-  suggestFile: string | undefined
+  suggestFile: string | undefined,
+  isProd: boolean
 ) {
   const ES_INDEX_PREFIX = esIndexPrefix ?? "cdtn";
 
@@ -155,7 +158,7 @@ async function runIngester(
       size: 800,
     });
   };
-  await cdtnDocumentsGen(updateDocs);
+  await cdtnDocumentsGen(updateDocs, isProd);
 
   logger.info(`done in ${(Date.now() - t0) / 1000} s`);
 

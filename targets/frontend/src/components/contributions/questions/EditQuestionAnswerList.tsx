@@ -19,6 +19,7 @@ import { Answer } from "../type";
 import { StatusContainer } from "../status";
 import { useRouter } from "next/router";
 import { fr } from "@codegouvfr/react-dsfr";
+import { StatusPublicationContainer } from "../status/StatusPublication";
 
 type EditQuestionAnswerListProps = {
   answers: Answer[];
@@ -136,6 +137,7 @@ export const QuestionAnswerList = ({
                 <TableCell>Convention Collective</TableCell>
                 <TableCell align="center">Type</TableCell>
                 <TableCell align="center">Statut</TableCell>
+                <TableCell align="center">Publication</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -195,8 +197,24 @@ export const QuestionAnswerList = ({
                       onClick={() => redirectToAnswer(answer.id)}
                     >
                       {answer.status && (
-                        <StatusContainer status={answer.status} />
+                        <StatusContainer
+                          status={answer.status.status}
+                          exportDate={answer.publication?.export.createdAt}
+                          statusDate={answer.status.createdAt}
+                          center
+                        />
                       )}
+                    </TableCell>
+                    <TableCell
+                      scope="row"
+                      align="center"
+                      onClick={() => redirectToAnswer(answer.id)}
+                    >
+                      <StatusPublicationContainer
+                        status={answer.status.status}
+                        exportDate={answer.publication?.export.createdAt}
+                        center
+                      />
                     </TableCell>
                   </TableRow>
                 );

@@ -1,6 +1,13 @@
 table:
   name: answers
   schema: contribution
+configuration:
+  column_config:
+    cdtn_id:
+      custom_name: cdtnId
+  custom_column_names:
+    cdtn_id: cdtnId
+  custom_root_fields: {}
 object_relationships:
   - name: agreement
     using:
@@ -8,6 +15,15 @@ object_relationships:
   - name: document
     using:
       foreign_key_constraint_on: content_service_public_cdtn_id
+  - name: publication
+    using:
+      manual_configuration:
+        column_mapping:
+          cdtn_id: cdtn_id
+        insertion_order: null
+        remote_table:
+          name: documents
+          schema: public
   - name: question
     using:
       foreign_key_constraint_on: question_id
@@ -61,6 +77,7 @@ select_permissions:
     permission:
       columns:
         - agreement_id
+        - cdtn_id
         - content
         - content_service_public_cdtn_id
         - content_type
@@ -75,6 +92,7 @@ update_permissions:
   - role: super
     permission:
       columns:
+        - cdtn_id
         - content
         - content_service_public_cdtn_id
         - content_type
