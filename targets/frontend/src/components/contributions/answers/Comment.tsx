@@ -82,9 +82,7 @@ export const Comment = ({ comment, onDelete }: Props) => {
         }}
       >
         {" "}
-        {statusesMapping[comment.status].text === "Publié"
-          ? "À Publier"
-          : statusesMapping[comment.status].text}
+        {statusesMapping[comment.status].text}
       </Typography>
     </Stack>
   );
