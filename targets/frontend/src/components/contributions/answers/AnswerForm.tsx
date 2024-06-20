@@ -315,32 +315,30 @@ export const AnswerForm = ({
               : undefined
           }
         />
-        {!submitting && (
-          <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
-            <Button
-              type="button"
-              onClick={() => submit("REDACTING")}
-              disabled={status === "TODO" || status === "REDACTING"}
-            >
-              Remettre en rédaction
-            </Button>
-            <Button
-              variant="text"
-              type="button"
-              disabled={isNotEditable(answer)}
-              onClick={() => submit("REDACTING")}
-            >
-              Sauvegarder
-            </Button>
-            <PublishButton
-              onClick={() => submit(getNextStatus(status))}
-              disabled={submitting || status === "PUBLISHED"}
-              isPublishing={submitting}
-            >
-              {getPrimaryButtonLabel(status)}
-            </PublishButton>
-          </Stack>
-        )}
+        <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
+          <Button
+            type="button"
+            onClick={() => submit("REDACTING")}
+            disabled={status === "TODO" || status === "REDACTING" || submitting}
+          >
+            Remettre en rédaction
+          </Button>
+          <Button
+            variant="text"
+            type="button"
+            disabled={isNotEditable(answer) || submitting}
+            onClick={() => submit("REDACTING")}
+          >
+            Sauvegarder
+          </Button>
+          <PublishButton
+            onClick={() => submit(getNextStatus(status))}
+            disabled={submitting || status === "PUBLISHED"}
+            isPublishing={submitting}
+          >
+            {getPrimaryButtonLabel(status)}
+          </PublishButton>
+        </Stack>
       </Stack>
     </form>
   );
