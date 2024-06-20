@@ -95,9 +95,10 @@ type ContributionDocumentJsonBasic = {
   idcc: string; // 0000 pour la générique, impossible d'être nulle
 };
 
-type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
+export type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {
   type: "content";
   content: string;
+  contentWithGlossary: string;
 };
 
 type ContributionDocumentJsonGenericNoCDT = ContributionDocumentJsonBasic & {

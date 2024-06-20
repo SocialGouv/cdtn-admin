@@ -22,6 +22,7 @@ const mockFiches: FicheTravail[] = [
           anchor: "sous-titre",
           description: "desc",
           html: "html",
+          htmlWithGlossary: "html",
           references: [
             {
               cid: "cid123",
@@ -47,6 +48,7 @@ const mockFiches: FicheTravail[] = [
           anchor: "sous-titre-2",
           description: "desc 2",
           html: "html",
+          htmlWithGlossary: "html",
           references: [
             {
               cid: "cid123",

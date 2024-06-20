@@ -110,3 +110,25 @@ query ListSupportedAgreements {
   }
 }
 `;
+
+export const getGlossaryQuery = `
+  query Glossary {
+    glossary {
+      term
+      abbreviations
+      definition
+      variants
+      references
+      slug
+    }
+  }
+`;
+
+export const fetchDocumentQuery = `
+query fetchDocument($source: String) {
+  documents(where: {source: {_eq: $source}}) {
+    cdtn_id
+    document
+  }
+}
+`;

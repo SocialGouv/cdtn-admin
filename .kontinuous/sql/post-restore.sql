@@ -19,7 +19,7 @@ VALUES (
     'Administrateur',
     'super',
     TRUE,
-    'd8b11bd2-dd16-4632-b5de-0e7021faadeb'
+    '8babda41-6001-4665-96f5-c430fddb0c53'
   );
 
 -- Remove all data from audit tables

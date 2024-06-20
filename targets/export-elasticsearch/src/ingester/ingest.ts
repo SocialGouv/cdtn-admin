@@ -16,7 +16,6 @@ import pMap from "p-map";
 import { cdtnDocumentsGen } from "./cdtnDocuments";
 import { context } from "./context";
 import { populateSuggestions } from "./suggestion";
-import { Environment } from "@socialgouv/cdtn-types";
 
 async function addVector(data: any) {
   const NLP_URL = context.get("nlpUrl");
@@ -62,7 +61,6 @@ export async function ingest(
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
   suggestFile: string | undefined,
-  disableGlossary: boolean | undefined,
   isProd = false
 ) {
   context.provide();
@@ -77,7 +75,6 @@ export async function ingest(
     suggestIndexName,
     bufferSize,
     suggestFile,
-    disableGlossary,
     isProd
   );
 }
@@ -92,7 +89,6 @@ async function runIngester(
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
   suggestFile: string | undefined,
-  disableGlossary: boolean | undefined,
   isProd: boolean
 ) {
   const ES_INDEX_PREFIX = esIndexPrefix ?? "cdtn";
@@ -123,7 +119,6 @@ async function runIngester(
   context.set("suggestIndexName", suggestIndexName);
   context.set("bufferSize", bufferSize);
   context.set("suggestFile", suggestFile);
-  context.set("disableGlossary", disableGlossary);
   context.set("nlpUrl", nlpUrl);
   const ts = Date.now();
   logger.info(`Using cdtn elasticsearch ${ELASTICSEARCH_URL}`);

@@ -8,3 +8,8 @@ export interface Term {
   slug?: string;
   references?: string[];
 }
+
+export type GlossaryTerms = {
+  definition: string | null;
+  pattern: RegExp;
+};

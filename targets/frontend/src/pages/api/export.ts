@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-const URL_EXPORT = process.env.URL_EXPORT ?? "http://localhost:8787";
+export const URL_EXPORT = process.env.URL_EXPORT ?? "http://localhost:8787";
 
 const main = (req: NextApiRequest, res: NextApiResponse) => {
   // GET
@@ -42,23 +42,8 @@ const main = (req: NextApiRequest, res: NextApiResponse) => {
         "Content-Type": "application/json",
       },
       method: "POST",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.errors) {
-          res.status(500).json({
-            error: data.error,
-          });
-        }
-        res.status(200).json({
-          ...data,
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({
-          error,
-        });
-      });
+    });
+    res.status(201);
   }
 };
 

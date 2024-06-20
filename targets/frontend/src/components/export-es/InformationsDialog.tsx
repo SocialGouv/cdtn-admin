@@ -19,11 +19,13 @@ import { TableCellDiff } from "./TableCellDiff";
 type Props = {
   oldDocumentsCount?: Required<ExportEsStatus>["documentsCount"];
   documentsCount: Required<ExportEsStatus>["documentsCount"];
+  dateInfo: string;
 };
 
 export function InformationsDialog({
   oldDocumentsCount,
   documentsCount,
+  dateInfo,
 }: Props) {
   const [open, setOpen] = React.useState(false);
 
@@ -99,37 +101,40 @@ export function InformationsDialog({
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Type</TableCell>
-                <TableCell>Nombre de documents</TableCell>
-                <TableCell>Différentiel</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>Total</TableCell>
-                <TableCell>{documentsCount.total}</TableCell>
-                <TableCellDiff
-                  valueA={documentsCount.total}
-                  valueB={oldDocumentsCount?.total}
-                />
-              </TableRow>
-              {Object.entries(sortedDocumentsCount).map(
-                ([key, value], index) => (
-                  <TableRow key={`${key}-${index}`}>
-                    <TableCell>{key}</TableCell>
-                    <TableCell>{value}</TableCell>
-                    <TableCellDiff
-                      valueA={value}
-                      valueB={Object.values(sortedOldDocumentsCount)[index]}
-                    />
-                  </TableRow>
-                )
-              )}
-            </TableBody>
-          </Table>
+          <>
+            <p>{dateInfo}</p>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Nombre de documents</TableCell>
+                  <TableCell>Différentiel</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Total</TableCell>
+                  <TableCell>{documentsCount.total}</TableCell>
+                  <TableCellDiff
+                    valueA={documentsCount.total}
+                    valueB={oldDocumentsCount?.total}
+                  />
+                </TableRow>
+                {Object.entries(sortedDocumentsCount).map(
+                  ([key, value], index) => (
+                    <TableRow key={`${key}-${index}`}>
+                      <TableCell>{key}</TableCell>
+                      <TableCell>{value}</TableCell>
+                      <TableCellDiff
+                        valueA={value}
+                        valueB={Object.values(sortedOldDocumentsCount)[index]}
+                      />
+                    </TableRow>
+                  )
+                )}
+              </TableBody>
+            </Table>
+          </>
         </DialogContent>
       </Dialog>
     </React.Fragment>
