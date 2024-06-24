@@ -289,22 +289,6 @@ Cela permet de lier l'index elasticsearch automatiquement entre les deux branche
 
 L'export des données se fait depuis l'admin dans la section `Contenus > Mise à jour`. Il faut ensuite cliquer sur le bouton `Mettre à jour la pre-production`.
 
-> Note: Le glossary (injection des tooltips) et le NLP (vectorisation des données) sont par défaut désactivé en dev.
-
-#### Activer le glossary et le NLP
-
-Il faut commencer par donner les ressources nécessaires au processus dans l'environnement de dev :
-
-- Ouvrir le fichier `.kontinous/env/dev/values.yaml`
-- Appliquer ce que les commentaires indiquent pour les ressources sur hasura et export
-
-L'export des données se fait depuis l'admin dans la section `Contenus > Mise à jour`. Il faut ensuite cliquer sur le bouton `Mettre à jour la production`.
-
-<strong>/!\ /!\ /!\ ATTENTION /!\ /!\ /!\ : Bien penser à remettre les lignes en commentaire avant de merger dans master !</strong>
-
-> Pourquoi changer les ressources ?
-> L'export avec glossary et NLP est un processus qui demande beaucoup de RAM/CPU. Afin de ne pas surcharger le cluster de dev, on ne va pas demander ces ressources car l'export est peu utilisé pour les tests. Il n'existe aucun mécanisme sur la CI à l'heure actuelle pour permettre de faire le switch autrement.
-
 ### Limitations connues
 
 - Les fichiers du site sont stockés au même endroit pour l'ensemble des branches. Si on ajoute/modifie/supprime un fichier, cela sera également le cas sur l'ensemble des branches
