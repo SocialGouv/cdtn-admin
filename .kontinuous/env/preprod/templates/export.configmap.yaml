@@ -4,7 +4,6 @@ metadata:
   name: export-elasticsearch
 data:
   HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
-  NLP_URL: "https://serving-ml.fabrique.social.gouv.fr"
   NODE_ENV: "production"
   LOG_LEVEL: "info"
   BUCKET_DEFAULT_FOLDER: "default"
@@ -19,3 +18,4 @@ data:
   ELASTICSEARCH_INDEX_PREPROD: "cdtn-main-v2"
   ELASTICSEARCH_INDEX_PROD: "cdtn-main-v2"
   MATTERMOST_CHANNEL_EXPORT: "s-cdtn-administration-veille-preprod"
+  DISABLE_LIMIT_EXPORT: "true"

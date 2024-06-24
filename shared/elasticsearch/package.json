@@ -7,9 +7,6 @@
       "@babel/plugin-transform-modules-commonjs"
     ]
   },
-  "dependencies": {
-    "got": "^11.8.2"
-  },
   "license": "Apache-2.0",
   "main": "src/index.js",
   "publishConfig": {

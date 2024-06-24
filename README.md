@@ -157,9 +157,6 @@ DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true DISABLE_SITEMAP=true HASURA_GR
 - `DISABLE_COPY` is used to disable copy between two containers
 - `DISABLE_SITEMAP` is used to disable copy of the sitemap
 - `DISABLE_AGREEMENTS` is used to disable copy of the agreements
-- `NLP_URL` could be set by `https://serving-ml-preprod.ovh.fabrique.social.gouv.fr`, by default it is `undefined`
-
-> **Note**: You can remove `NLP_URL` from your environment variables if you don't want to use the NLP service and gain time during the process of ingester elasticsearch.
 
 #### 6. Run the export elasticsearch
 
@@ -178,7 +175,7 @@ yarn workspace frontend dev
 #### On client
 
 ```sh
-NLP_URL=https://serving-ml-preprod.ovh.fabrique.social.gouv.fr yarn workspace @cdt/frontend dev
+yarn workspace @cdt/frontend dev
 ```
 
 1. Go to `http://localhost:3001/`
@@ -291,22 +288,6 @@ Cela permet de lier l'index elasticsearch automatiquement entre les deux branche
 ### Exporter les données sur une branche déployée
 
 L'export des données se fait depuis l'admin dans la section `Contenus > Mise à jour`. Il faut ensuite cliquer sur le bouton `Mettre à jour la pre-production`.
-
-> Note: Le glossary (injection des tooltips) et le NLP (vectorisation des données) sont par défaut désactivé en dev.
-
-#### Activer le glossary et le NLP
-
-Il faut commencer par donner les ressources nécessaires au processus dans l'environnement de dev :
-
-- Ouvrir le fichier `.kontinous/env/dev/values.yaml`
-- Appliquer ce que les commentaires indiquent pour les ressources sur hasura et export
-
-L'export des données se fait depuis l'admin dans la section `Contenus > Mise à jour`. Il faut ensuite cliquer sur le bouton `Mettre à jour la production`.
-
-<strong>/!\ /!\ /!\ ATTENTION /!\ /!\ /!\ : Bien penser à remettre les lignes en commentaire avant de merger dans master !</strong>
-
-> Pourquoi changer les ressources ?
-> L'export avec glossary et NLP est un processus qui demande beaucoup de RAM/CPU. Afin de ne pas surcharger le cluster de dev, on ne va pas demander ces ressources car l'export est peu utilisé pour les tests. Il n'existe aucun mécanisme sur la CI à l'heure actuelle pour permettre de faire le switch autrement.
 
 ### Limitations connues
 
