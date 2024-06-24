@@ -5,7 +5,7 @@ type Props = {
   disabled?: boolean;
   isPublishing: boolean;
   onClick: () => void;
-  children: JSX.Element | string | undefined;
+  children: React.ReactNode;
 };
 
 export function PublishButton({
