@@ -1,4 +1,18 @@
-import { Button, IconButton, ListItem } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CircularProgress as Spinner,
+  IconButton,
+  InputLabel as Label,
+  List,
+  ListItem,
+  MenuItem,
+  Select,
+  TextField as Field,
+  Stack,
+} from "@mui/material";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -12,20 +26,10 @@ import { DropZone } from "src/components/storage/DropZone";
 import { useDebouncedState } from "src/hooks/";
 import { timeSince } from "src/lib/duration";
 import { request } from "src/lib/request";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { theme } from "../theme";
-import {
-  Box,
-  Card,
-  TextField as Field,
-  InputLabel as Label,
-  Alert,
-  Select,
-  CircularProgress as Spinner,
-  MenuItem,
-  List,
-} from "@mui/material";
 import { S3File } from "src/lib/upload";
+
 function FilesPage() {
   const { data, error, isValidating, mutate } = useSWR<S3File[]>("files", () =>
     request(`/api/storage`)
@@ -174,7 +178,7 @@ function FilesPage() {
       {isSearching || (isValidating && !data) ? (
         <Spinner />
       ) : data && data?.length > 0 ? (
-        <>
+        <Stack>
           <List sx={{ listStyleType: "none", m: 0, p: 0 }}>
             {data
               .filter(
@@ -272,9 +276,9 @@ function FilesPage() {
                 );
               })}
           </List>
-        </>
+        </Stack>
       ) : (
-        <>Pas de résultats</>
+        <p>Pas de résultats</p>
       )}
     </Layout>
   );

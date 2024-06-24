@@ -26,6 +26,7 @@ import { LegiReferenceInput } from "src/components/contributions/answers/referen
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FormOtherReferences } from "../../../../components/forms/OtherReferences";
+import { PublishButton } from "../../../../components/button/PublishButton";
 
 type FormData = Partial<z.infer<typeof modelSchemaUpsert>>;
 
@@ -144,6 +145,7 @@ export const ModelForm = ({
       });
     }
   };
+  const [isPublishing, setIsPublishing] = useState(false);
 
   const convertToHTML = async (file: File) => {
     setIsLoadingPreview(true);
@@ -300,31 +302,31 @@ export const ModelForm = ({
             {model ? "Sauvegarder" : "Créer"}
           </Button>
           {onPublish && (
-            <Button
-              type="button"
-              variant="contained"
-              color="success"
+            <PublishButton
+              isPublishing={isPublishing}
               onClick={async () => {
-                if (onPublish) {
-                  try {
-                    await onPublish();
-                    setSnack({
-                      open: true,
-                      severity: "success",
-                      message: "Le modèle de document a été publiée",
-                    });
-                  } catch (e: any) {
-                    setSnack({
-                      open: true,
-                      severity: "error",
-                      message: `Erreur lors de la publication du document: ${e.message}`,
-                    });
-                  }
+                setIsPublishing(true);
+
+                try {
+                  await onPublish();
+                  setSnack({
+                    open: true,
+                    severity: "success",
+                    message: "Le modèle de document a été publiée",
+                  });
+                  setIsPublishing(false);
+                } catch (e: any) {
+                  setSnack({
+                    open: true,
+                    severity: "error",
+                    message: `Erreur lors de la publication du document: ${e.message}`,
+                  });
+                  setIsPublishing(false);
                 }
               }}
             >
               Publier
-            </Button>
+            </PublishButton>
           )}
         </Stack>
       </Stack>

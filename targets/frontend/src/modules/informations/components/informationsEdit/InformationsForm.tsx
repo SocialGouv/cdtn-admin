@@ -1,14 +1,15 @@
-import { Stack, Button, FormControl, Typography } from "@mui/material";
-import React from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { Button, FormControl, Stack, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormTextField, FormRadioGroup } from "src/components/forms";
+import { FormRadioGroup, FormTextField } from "src/components/forms";
 
 import { InformationsResult } from "./Informations.query";
 import { Information, informationSchema } from "../../type";
 import { InformationsContent } from "./InformationsContent";
 import { InformationsReference } from "./InformationsReference";
 import { FormCheckbox } from "src/components/forms/Checkbox";
+import { PublishButton } from "../../../../components/button/PublishButton";
 
 export type InformationsFormProps = {
   data?: InformationsResult;
@@ -23,12 +24,7 @@ export const InformationsForm = ({
   onDelete,
   onPublish,
 }: InformationsFormProps): JSX.Element => {
-  const {
-    control,
-    handleSubmit,
-    trigger,
-    formState: { errors },
-  } = useForm<Information>({
+  const { control, handleSubmit } = useForm<Information>({
     defaultValues: data ?? { title: "", dismissalProcess: false },
     resolver: zodResolver(informationSchema),
     shouldFocusError: true,
@@ -56,6 +52,7 @@ export const InformationsForm = ({
   const [expandedContent, setExpandedContent] = React.useState<string | false>(
     false
   );
+  const [isPublishing, setIsPublishing] = useState(false);
 
   return (
     <>
@@ -222,19 +219,21 @@ export const InformationsForm = ({
               Supprimer
             </Button>
             <Button type="submit">Sauvegarder</Button>
-            <Button
-              type="button"
-              variant="contained"
-              color="success"
-              disabled={!onPublish}
-              onClick={async () => {
-                if (onPublish && data?.id) {
-                  await onPublish();
-                }
-              }}
-            >
-              Publier
-            </Button>
+            {onPublish && (
+              <PublishButton
+                disabled={!onPublish}
+                onClick={async () => {
+                  if (data?.id) {
+                    setIsPublishing(true);
+                    await onPublish();
+                    setIsPublishing(false);
+                  }
+                }}
+                isPublishing={isPublishing}
+              >
+                Publier
+              </PublishButton>
+            )}
           </Stack>
         </Stack>
       </form>

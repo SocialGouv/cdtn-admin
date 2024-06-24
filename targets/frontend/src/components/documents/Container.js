@@ -100,8 +100,8 @@ export function DocumentListContainer({ initialFilterValues }) {
         <>chargement...</>
       ) : data.documents.length ? (
         <form>
-          <DocumentList documents={data.documents} />
           <DocumentsListActions onUpdatePublication={updatePublicationStatus} />
+          <DocumentList documents={data.documents} />
           <Pagination
             count={data.documents_aggregate.aggregate.count}
             currentPage={initialFilterValues.page}

@@ -1,4 +1,4 @@
-import { Button, FormControl, Stack, Alert } from "@mui/material";
+import { Alert, Button, FormControl, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +16,7 @@ import {
 } from "./references";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
+import { PublishButton } from "src/components/button/PublishButton";
 
 const answerFormBaseSchema = answerRelationSchema
   .pick({
@@ -315,36 +316,32 @@ export const AnswerForm = ({
               : undefined
           }
         />
-        {!submitting && (
-          <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
-            <Button
-              type="button"
-              onClick={() => submit("REDACTING")}
-              disabled={status === "TODO" || status === "REDACTING"}
+        <Stack direction="row" justifyContent="end" spacing={2} padding={2}>
+          <Button
+            type="button"
+            onClick={() => submit("REDACTING")}
+            disabled={status === "TODO" || status === "REDACTING"}
+          >
+            Remettre en rédaction
+          </Button>
+          <Button
+            variant="text"
+            type="button"
+            disabled={isNotEditable(answer)}
+            onClick={() => submit("REDACTING")}
+          >
+            Sauvegarder
+          </Button>
+          {primaryButtonLabel && (
+            <PublishButton
+              onClick={() => submit(getNextStatus(status))}
+              disabled={submitting || status === "TO_PUBLISH"}
+              isPublishing={submitting}
             >
-              Remettre en rédaction
-            </Button>
-            <Button
-              variant="text"
-              type="button"
-              disabled={isNotEditable(answer)}
-              onClick={() => submit("REDACTING")}
-            >
-              Sauvegarder
-            </Button>
-            {primaryButtonLabel && (
-              <Button
-                variant="contained"
-                type="button"
-                color="success"
-                onClick={() => submit(getNextStatus(status))}
-                disabled={submitting || status === "TO_PUBLISH"}
-              >
-                {primaryButtonLabel}
-              </Button>
-            )}
-          </Stack>
-        )}
+              {primaryButtonLabel}
+            </PublishButton>
+          )}
+        </Stack>
       </Stack>
     </form>
   );
