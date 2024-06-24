@@ -45,8 +45,8 @@
     "reflect-metadata": "^0.1.13",
     "rehype-raw": "^5.1.0",
     "rehype-stringify": "^8.0.0",
-    "remark-parse": "^9.0.0",
-    "remark-rehype": "^8.1.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.0.0",
     "unified": "^9.2.2",
     "zod": "^3.14.2"
   },
