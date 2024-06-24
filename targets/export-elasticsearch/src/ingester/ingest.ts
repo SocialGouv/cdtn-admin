@@ -22,7 +22,8 @@ export async function ingest(
   esIndexPrefix: string | undefined,
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
-  suggestFile: string | undefined
+  suggestFile: string | undefined,
+  isProd = false
 ) {
   context.provide();
   await runIngester(
@@ -33,7 +34,8 @@ export async function ingest(
     esIndexPrefix,
     suggestIndexName,
     bufferSize,
-    suggestFile
+    suggestFile,
+    isProd
   );
 }
 
@@ -45,7 +47,8 @@ async function runIngester(
   esIndexPrefix: string | undefined,
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
-  suggestFile: string | undefined
+  suggestFile: string | undefined,
+  isProd: boolean
 ) {
   const ES_INDEX_PREFIX = esIndexPrefix ?? "cdtn";
 
@@ -98,7 +101,7 @@ async function runIngester(
       size: 800,
     });
   };
-  await cdtnDocumentsGen(updateDocs);
+  await cdtnDocumentsGen(updateDocs, isProd);
 
   logger.info(`done in ${(Date.now() - t0) / 1000} s`);
 

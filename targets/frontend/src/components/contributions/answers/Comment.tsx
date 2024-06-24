@@ -33,6 +33,7 @@ export const Comment = ({ comment, onDelete }: Props) => {
       sx={{
         border: "1px solid",
         borderColor: "grey.300",
+        minWidth: "300px",
       }}
       mt={1}
       mb={1}

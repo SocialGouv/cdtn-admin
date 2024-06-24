@@ -16,13 +16,13 @@ import { Answer, Status } from "../type";
 import { useContributionAnswerUpdateMutation } from "./answer.mutation";
 import { useContributionAnswerQuery } from "./answer.query";
 import { Comments } from "./Comments";
-import { statusesMapping } from "../status/data";
 import { SnackBar } from "../../utils/SnackBar";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 import { AnswerForm } from "./AnswerForm";
 import { fr } from "@codegouvfr/react-dsfr";
 import { usePublishContributionMutation } from "./usePublishAnswer";
 import { useGenericContributionAnswerQuery } from "./answerGeneric.query";
+import { StatusPublicationContainer } from "../status/StatusPublication";
 
 export type ContributionsAnswerProps = {
   id: string;
@@ -71,7 +71,7 @@ export const ContributionsAnswer = ({
         cdtnReferences: data.cdtnReferences,
         otherReferences: data.otherReferences,
       });
-      if (newStatus === "PUBLISHED") {
+      if (newStatus === "TO_PUBLISH") {
         await onPublish(answer.id);
       }
       setSnack({
@@ -80,8 +80,8 @@ export const ContributionsAnswer = ({
         message: "La réponse a été modifiée",
       });
     } catch (e: any) {
-      // Dans le cas où il y a une erreur au niveau de la publication (PUBLISHED), on revert le status en VALIDATED
-      if (newStatus === "PUBLISHED" && answer && user) {
+      // Dans le cas où il y a une erreur au niveau de la publication (TO_PUBLISH), on revert le status en VALIDATED
+      if (newStatus === "TO_PUBLISH" && answer && user) {
         await updateAnswer({
           content: data.content,
           id: answer.id,
@@ -127,9 +127,19 @@ export const ContributionsAnswer = ({
           </BreadcrumbLink>
         </Breadcrumb>
         {answer?.status && (
-          <div style={{ color: statusesMapping[answer?.status.status].color }}>
-            <StatusContainer status={answer.status} />
-          </div>
+          <Stack>
+            <StatusContainer
+              status={answer.status.status}
+              exportDate={answer.publication?.export.createdAt}
+              statusDate={answer.status.createdAt}
+              displayText
+            />
+            <StatusPublicationContainer
+              status={answer.status.status}
+              exportDate={answer.publication?.export.createdAt}
+              displayText
+            />
+          </Stack>
         )}
       </Stack>
       <Stack direction="row">

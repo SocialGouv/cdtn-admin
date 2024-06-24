@@ -1,34 +1,35 @@
+import { format, parseISO } from "date-fns";
 import { Box, Stack, Tooltip } from "@mui/material";
 
 import { Status } from "../type";
 import { statusesMapping } from "./data";
-import { isPublished } from "../publication";
 
-export const StatusContainer = ({
+export const StatusPublicationContainer = ({
   status,
-  statusDate,
   exportDate,
   displayText = false,
   dataTestid,
   center = false,
 }: {
   status: Status;
-  statusDate?: string;
   exportDate?: string | null;
   displayText?: boolean;
   dataTestid?: string;
   center?: boolean;
 }) => {
-  if (status === "TO_PUBLISH") {
-    if (statusDate && exportDate && isPublished({ statusDate, exportDate })) {
-      status = "TO_PUBLISH";
-    } else {
-      status = "PUBLISHING";
-    }
+  let tooltipText: string | undefined;
+  if (!exportDate) {
+    status = "NOT_PUBLISHED";
+    tooltipText = statusesMapping[status].text;
+  } else {
+    status = "PUBLISHED";
+    tooltipText = `${statusesMapping[status].text} le ${format(
+      parseISO(exportDate),
+      "dd/MM/yyyy HH:mm:ss"
+    )}`;
   }
-  const tooltipTitle = statusesMapping[status].text;
   return (
-    <Tooltip title={tooltipTitle}>
+    <Tooltip title={tooltipText}>
       <Stack
         direction="row"
         style={{
@@ -40,7 +41,7 @@ export const StatusContainer = ({
         data-testid={dataTestid}
       >
         {statusesMapping[status].icon}
-        {displayText && <Box mt={2}>{tooltipTitle}</Box>}
+        {displayText && <Box mt={2}>{tooltipText}</Box>}
       </Stack>
     </Tooltip>
   );

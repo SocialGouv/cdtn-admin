@@ -1,4 +1,5 @@
 import { SourceRoute } from "@socialgouv/cdtn-sources";
+import { ContributionsAnswers } from "../hasura";
 
 export type DocumentElasticWithSource<
   T,
@@ -9,6 +10,11 @@ export type Breadcrumb = {
   label: string;
   position: number;
   slug: string;
+};
+
+export type Export = {
+  id: string;
+  createdAt: string;
 };
 
 export type DocumentElastic<T extends SourceRoute = SourceRoute> = {
@@ -23,6 +29,8 @@ export type DocumentElastic<T extends SourceRoute = SourceRoute> = {
   excludeFromSearch: boolean;
   metaDescription: string;
   refs: DocumentRef[];
+  contribution?: ContributionsAnswers;
+  export?: Export;
 };
 
 export type RelatedDocument<T extends SourceRoute = SourceRoute> = {
