@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.46.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.45.0...v2.46.0) (2024-06-24)
+
+### Bug Fixes
+
+- **config:** exlude from sonarcloud tests and mocks ([67b3d5a](https://github.com/SocialGouv/cdtn-admin/commit/67b3d5ab740f1e0d53749f9a351308bc8d5bbe1f))
+
+### Features
+
+- 1406 contrib affichage des status sur ladmin ([#1425](https://github.com/SocialGouv/cdtn-admin/issues/1425)) ([9f63a2a](https://github.com/SocialGouv/cdtn-admin/commit/9f63a2a53c935e67f8153ee551eb252b22eeadfe))
+- **loader:** ajout d'un loader à la place du bouton lorsque l'on publie un document ([#1432](https://github.com/SocialGouv/cdtn-admin/issues/1432)) ([859a0c9](https://github.com/SocialGouv/cdtn-admin/commit/859a0c944972bc143ce99378a63cd59ce7dd0462))
+- **search:** remove usage of NLP to search document ([#1426](https://github.com/SocialGouv/cdtn-admin/issues/1426)) ([4f76e37](https://github.com/SocialGouv/cdtn-admin/commit/4f76e37d9d3ac34a70f041aa5946b72e8cc3fd36))
+
 # [2.45.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.2...v2.45.0) (2024-06-18)
 
 ### Bug Fixes

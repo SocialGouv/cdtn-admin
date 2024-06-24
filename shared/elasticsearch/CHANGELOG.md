@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.46.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.45.0...v2.46.0) (2024-06-24)
+
+### Features
+
+- **search:** remove usage of NLP to search document ([#1426](https://github.com/SocialGouv/cdtn-admin/issues/1426)) ([4f76e37](https://github.com/SocialGouv/cdtn-admin/commit/4f76e37d9d3ac34a70f041aa5946b72e8cc3fd36))
+
 # [2.45.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.2...v2.45.0) (2024-06-18)
 
 **Note:** Version bump only for package @socialgouv/cdtn-elasticsearch
