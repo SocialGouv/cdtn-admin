@@ -19,7 +19,10 @@ import {
 } from "./common/fetchCdtnAdminDocuments";
 import { splitArticle } from "./fichesTravailSplitter";
 import { getVersions } from "./versions";
-import { generateContributions } from "./contributions";
+import {
+  fetchContributionDocumentToPublish,
+  generateContributions,
+} from "./contributions";
 import { generateAgreements } from "./agreements";
 import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
@@ -27,6 +30,7 @@ import { generatePrequalified } from "./prequalified";
 import { generateEditorialContents } from "./informations/generate";
 import { populateRelatedDocuments } from "./common/populateRelatedDocuments";
 import { mergeRelatedDocumentsToEditorialContents } from "./informations/mergeRelatedDocumentsToEditorialContents";
+import { updateExportStatuses } from "./documents/updateExportStatuses";
 import { getGlossary } from "./common/fetchGlossary";
 
 /**
@@ -54,13 +58,16 @@ export async function getDuplicateSlugs(allDocuments: any) {
 }
 
 export async function cdtnDocumentsGen(
-  updateDocs: (source: string, documents: unknown[]) => Promise<void>
+  updateDocs: (source: string, documents: unknown[]) => Promise<void>,
+  isProd: boolean
 ) {
   let documentsCount: Partial<ExportEsStatus["documentsCount"]> = {};
 
   const themes = await fetchThemes();
 
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
+
+  const contributionsToPublish = await fetchContributionDocumentToPublish();
 
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
@@ -327,6 +334,10 @@ export async function cdtnDocumentsGen(
       source: SOURCES.VERSIONS,
     },
   ]);
+
+  if (isProd && contributionsToPublish) {
+    await updateExportStatuses(contributionsToPublish);
+  }
 
   logger.info("=== Save the documents length ===");
   documentsCount = {

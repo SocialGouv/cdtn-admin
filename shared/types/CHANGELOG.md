@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.45.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.2...v2.45.0) (2024-06-18)
+
+### Bug Fixes
+
+- **alerting:** urls correctes des fiches SP dans les alerts ([#1420](https://github.com/SocialGouv/cdtn-admin/issues/1420)) ([5534aa3](https://github.com/SocialGouv/cdtn-admin/commit/5534aa3eddc8098a4884a69c7006d4270531edee))
+
+### Features
+
+- **glossary:** from export to publish ([#1424](https://github.com/SocialGouv/cdtn-admin/issues/1424)) ([c724fbf](https://github.com/SocialGouv/cdtn-admin/commit/c724fbfe977ace9351ed3d2e4e3556c1b0735946))
+
 ## [2.44.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.44.1...v2.44.2) (2024-06-04)
 
 **Note:** Version bump only for package @socialgouv/cdtn-types

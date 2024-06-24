@@ -215,6 +215,7 @@ export const AnswerForm = ({
       value: "GENERIC_NO_CDT",
     },
   ];
+  const primaryButtonLabel = getPrimaryButtonLabel(status);
   return (
     <form>
       <Stack spacing={5}>
@@ -319,25 +320,27 @@ export const AnswerForm = ({
           <Button
             type="button"
             onClick={() => submit("REDACTING")}
-            disabled={status === "TODO" || status === "REDACTING" || submitting}
+            disabled={status === "TODO" || status === "REDACTING"}
           >
             Remettre en rédaction
           </Button>
           <Button
             variant="text"
             type="button"
-            disabled={isNotEditable(answer) || submitting}
+            disabled={isNotEditable(answer)}
             onClick={() => submit("REDACTING")}
           >
             Sauvegarder
           </Button>
-          <PublishButton
-            onClick={() => submit(getNextStatus(status))}
-            disabled={submitting || status === "PUBLISHED"}
-            isPublishing={submitting}
-          >
-            {getPrimaryButtonLabel(status)}
-          </PublishButton>
+          {primaryButtonLabel && (
+            <PublishButton
+              onClick={() => submit(getNextStatus(status))}
+              disabled={submitting || status === "TO_PUBLISH"}
+              isPublishing={submitting}
+            >
+              {primaryButtonLabel}
+            </PublishButton>
+          )}
         </Stack>
       </Stack>
     </form>

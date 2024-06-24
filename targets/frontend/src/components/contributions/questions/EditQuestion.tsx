@@ -7,10 +7,7 @@ import { QuestionAnswerList } from "./EditQuestionAnswerList";
 import { EditQuestionForm } from "./EditQuestionForm";
 import { useQuestionQuery } from "./Question.query";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
-import { statusesMapping } from "../status/data";
-import { countAnswersWithStatus } from "../questionList";
 import { Answer } from "../type";
-import { StatusStats } from "../status/StatusStats";
 import { usePublishContributionMutation } from "../answers/usePublishAnswer";
 import { useSession } from "next-auth/react";
 import { useContributionAnswerUpdateStatusMutation } from "../answers/answerStatus.mutation";
@@ -68,11 +65,7 @@ export const EditQuestion = ({
     );
   }
 
-  const Header = ({ answers }: { answers: Answer[] }) => {
-    const statusCounts = Object.keys(statusesMapping).map((status) => {
-      const count = countAnswersWithStatus(answers, status);
-      return { status, count };
-    });
+  const Header = () => {
     return (
       <>
         <Breadcrumb>
@@ -81,12 +74,6 @@ export const EditQuestion = ({
             {`${data?.question?.order} - ${data?.question?.content}`}
           </BreadcrumbLink>
         </Breadcrumb>
-        <Stack direction="row" alignItems="start" spacing={2}>
-          <StatusStats
-            total={answers.length}
-            statusCounts={statusCounts}
-          ></StatusStats>
-        </Stack>
       </>
     );
   };
@@ -122,7 +109,7 @@ export const EditQuestion = ({
     await onPublish(id);
     await updateAnswerStatus({
       id: id,
-      status: "PUBLISHED",
+      status: "TO_PUBLISH",
       userId: user?.id,
     });
     data.reExecute();
@@ -135,7 +122,7 @@ export const EditQuestion = ({
       justifyContent="start"
       spacing={2}
     >
-      <Header answers={data.question.answers as Answer[]} />
+      <Header />
       <Box sx={{ borderBottom: 1 }}>
         <Tabs value={tabIndex} onChange={handleTabChange}>
           <Tab label="Réponses" {...a11yProps(TabValue.answers)} />

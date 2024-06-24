@@ -27,8 +27,14 @@ query SelectQuestion($questionId: uuid) {
       }
       statuses(order_by: {created_at: desc}, limit: 1) {
         status
+        createdAt: created_at
         user {
           name
+        }
+      }
+      publication {
+        export {
+          createdAt: created_at
         }
       }
     }

@@ -1,6 +1,32 @@
 table:
   name: documents
   schema: public
+configuration:
+  column_config:
+    export_id:
+      custom_name: exportId
+  custom_column_names:
+    export_id: exportId
+  custom_root_fields: {}
+object_relationships:
+  - name: contribution
+    using:
+      manual_configuration:
+        column_mapping:
+          cdtn_id: cdtn_id
+        insertion_order: null
+        remote_table:
+          name: answers
+          schema: contribution
+  - name: export
+    using:
+      manual_configuration:
+        column_mapping:
+          export_id: id
+        insertion_order: null
+        remote_table:
+          name: export_es_status
+          schema: public
 array_relationships:
   - name: relation_a
     using:
@@ -21,18 +47,19 @@ insert_permissions:
     permission:
       check: {}
       columns:
+        - cdtn_id
+        - created_at
+        - document
+        - export_id
+        - initial_id
         - is_available
         - is_published
         - is_searchable
-        - document
-        - cdtn_id
-        - initial_id
         - meta_description
         - slug
         - source
         - text
         - title
-        - created_at
         - updated_at
   - role: user
     permission:
@@ -55,18 +82,19 @@ select_permissions:
   - role: super
     permission:
       columns:
+        - cdtn_id
+        - created_at
+        - document
+        - export_id
+        - initial_id
         - is_available
         - is_published
         - is_searchable
-        - document
-        - cdtn_id
-        - initial_id
         - meta_description
         - slug
         - source
         - text
         - title
-        - created_at
         - updated_at
       filter: {}
       allow_aggregations: true
@@ -92,18 +120,19 @@ update_permissions:
   - role: super
     permission:
       columns:
+        - cdtn_id
+        - created_at
+        - document
+        - export_id
+        - initial_id
         - is_available
         - is_published
         - is_searchable
-        - document
-        - cdtn_id
-        - initial_id
         - meta_description
         - slug
         - source
         - text
         - title
-        - created_at
         - updated_at
       filter: {}
       check: {}
