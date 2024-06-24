@@ -37,10 +37,22 @@ hasura:
         name: hasura
 
 www:
+  tolerations:
+    - key: startup
+      operator: Equal
+      value: cdtn
+      effect: NoSchedule
   host: cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
   env:
     - name: NEXTAUTH_URL
       value: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
+
+export:
+  tolerations:
+    - key: startup
+      operator: Equal
+      value: cdtn
+      effect: NoSchedule
 
 pg:
   ~chart: pg
