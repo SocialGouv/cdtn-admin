@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.46.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.0...v2.46.1) (2024-06-27)
+
+### Bug Fixes
+
+- dedicated nodepool for app chart ([#1434](https://github.com/SocialGouv/cdtn-admin/issues/1434)) ([a75add5](https://github.com/SocialGouv/cdtn-admin/commit/a75add53fd202295705a413e7c6c262d6aed8886))
+- new github token ([#1435](https://github.com/SocialGouv/cdtn-admin/issues/1435)) ([3397a8f](https://github.com/SocialGouv/cdtn-admin/commit/3397a8f3ed548406b124fc5b6f85d66477dd791a))
+
 # [2.46.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.45.0...v2.46.0) (2024-06-24)
 
 ### Bug Fixes
