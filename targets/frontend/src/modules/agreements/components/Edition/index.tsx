@@ -114,16 +114,19 @@ export const AgreementEdition = ({ id }: Props): React.ReactElement => {
             <p>
               Merci de contacter l&apos;équipe de dev sur mattermost dans les
               cas suivants :
-              <ul>
-                <li>
-                  La convention collective a été fusionnée dans une autre
-                  convention collective.
-                </li>
-                <li>
-                  Si la convention collective a été divisée en plusieurs
-                  conventions collectives
-                </li>
-              </ul>
+            </p>
+            <ul>
+              <li>
+                La convention collective a été fusionnée dans une autre
+                convention collective.
+              </li>
+              <li>
+                Si la convention collective a été divisée en plusieurs
+                conventions collectives
+              </li>
+            </ul>
+            <p>
+              Voulez-vous quand même la supprimer maintenant&nbsp;?
             </p>
           </DialogContentText>
         </DialogContent>
@@ -136,6 +139,9 @@ export const AgreementEdition = ({ id }: Props): React.ReactElement => {
             Annuler
           </Button>
           <Button
+            variant="contained"
+            type="button"
+            color="success"
             onClick={async () => {
               if (data?.id) {
                 await deleteAgreement({ id: data.id });
@@ -148,7 +154,7 @@ export const AgreementEdition = ({ id }: Props): React.ReactElement => {
             }}
             autoFocus
           >
-            Supprimer
+            Oui
           </Button>
         </DialogActions>
       </Dialog>
