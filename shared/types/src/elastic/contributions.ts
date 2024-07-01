@@ -14,6 +14,7 @@ export interface ContributionGenericInfos {
 export interface ContributionMetadata {
   title: string;
   text: string;
+  date: string;
 }
 
 export interface ContributionContentBase {
@@ -68,7 +69,6 @@ export type ContributionElasticDocument = ContributionElasticDocumentBase &
 type ElasticSearchContributionFicheSp = {
   type: "fiche-sp";
   url: string;
-  date: string;
   raw: string;
 };
 

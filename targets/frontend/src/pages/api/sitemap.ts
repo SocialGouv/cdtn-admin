@@ -81,14 +81,10 @@ export default async function Sitemap(
 
   res.setHeader("Content-Type", "text/xml");
   res.write(`<?xml version="1.0" encoding="UTF-8"?>
-  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-      <loc>${baseUrl}/</loc>
-      <lastmod>${new Date(latestPost).toISOString()}</lastmod>
-      <priority>0.8</priority>
-    </url>
-    ${pages.concat(staticPages, glossaryPages).join("")}
-  </urlset>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url><loc>${baseUrl}/</loc><lastmod>${new Date(latestPost).toISOString()}</lastmod><priority>0.8</priority></url>
+${pages.concat(staticPages, glossaryPages).join("")}
+</urlset>
 `);
   res.end();
   const endProcess = process.hrtime(startProcessAt);
