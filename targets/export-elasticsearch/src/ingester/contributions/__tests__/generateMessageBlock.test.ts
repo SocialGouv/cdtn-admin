@@ -122,14 +122,15 @@ describe("generateMessageBlock", () => {
     expect(fetchAgreementMessage).toHaveBeenCalledWith("1234");
     expect(result).toEqual("fetchedAgreementMessage");
   });
-  
 
-  
+
+
 });
 describe("Tests avec une contribution generic no cdt", () => {
   let mockedContributionGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined = undefined;
   beforeEach(() => {
     mockedContributionGeneric = {
+      updated_at: new Date(),
       contentType: "GENERIC_NO_CDT",
       id: "id",
       cdtnId: "cdtnId",
@@ -160,7 +161,7 @@ describe("Tests avec une contribution generic no cdt", () => {
     (fetchAgreementMessage as jest.Mock).mockResolvedValue(undefined);
   })
   it.each(["ANSWER", "SP"])("should throw a contentAgreementWithoutLegal", async (contentType) => {
-    
+
     mockContribution.contentType = contentType;
     mockContribution.idcc = "1234";
 
