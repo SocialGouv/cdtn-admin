@@ -61,9 +61,3 @@ pg:
         memory: 1Gi
   backup:
     name: 2024-03-26-12-33
-  cnpg-cluster:
-    resources:
-      requests:
-        memory: 2Gi
-      limits:
-        memory: 2Gi
