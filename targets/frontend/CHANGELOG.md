@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.46.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.1...v2.46.2) (2024-07-04)
+
+### Bug Fixes
+
+- **convention-collectives:** texte plus clair pour la dialog de confirmation de suppression de la CC ([#1433](https://github.com/SocialGouv/cdtn-admin/issues/1433)) ([1f7a4ba](https://github.com/SocialGouv/cdtn-admin/commit/1f7a4ba2b5994986e0181e0f0f4a7b03d548febe))
+
 ## [2.46.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.0...v2.46.1) (2024-06-27)
 
 **Note:** Version bump only for package frontend
