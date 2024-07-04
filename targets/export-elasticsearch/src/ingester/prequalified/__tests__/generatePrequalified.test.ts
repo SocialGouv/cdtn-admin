@@ -32,9 +32,7 @@ jest.mock("../fetchPrequalified", () => ({
               text: "textContribution",
               isPublished: true,
               isSeachable: true,
-              document: {
-                description: "descriptionContribution",
-              },
+              documentDescription: "descriptionContribution",
             },
           },
         ],
