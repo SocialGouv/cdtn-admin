@@ -18,7 +18,9 @@ query fetch_prequalified {
           isPublished: is_published
           isSearchable: is_searchable
           description: meta_description
-          document
+          documentDescription: document(path: "$.description")
+          url: document(path: "$.url")
+          action: document(path: "$.action")
         }
       }
     }
@@ -40,7 +42,9 @@ export interface FetchedPrequalified {
       isPublished: boolean;
       isSearchable: boolean;
       description: string;
-      document: any;
+      documentDescription: string;
+      url?: string;
+      action?: string;
     };
   }[];
 }

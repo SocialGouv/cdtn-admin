@@ -32,10 +32,10 @@ export const generatePrequalified = async (
         slug: document.slug,
         title: document.title,
         source: document.source,
-        description: document.description || document.document.description,
+        description: document.description || document.documentDescription,
         breadcrumbs: getBreadcrumbs(document.cdtnId),
-        url: document.document.url, // pour les outils externes
-        action: document.document.action, // pour les outils (interne/externe)
+        url: document.url, // pour les outils externes
+        action: document.action, // pour les outils (interne/externe)
       } as RelatedDocument)
     ),
   }));
