@@ -1,6 +1,5 @@
-import type { ExportEsStatus } from "@socialgouv/cdtn-types";
-import { Environment } from "@socialgouv/cdtn-types";
-import { Request, Response } from "express";
+import { ExportEsStatus, Environment } from "@socialgouv/cdtn-types";
+import { Request } from "express";
 import { inject } from "inversify";
 import type { interfaces } from "inversify-express-utils";
 import {
@@ -9,7 +8,6 @@ import {
   httpPost,
   queryParam,
   request,
-  response,
 } from "inversify-express-utils";
 
 import { ExportService } from "../services/export";
@@ -25,13 +23,12 @@ export class ExportController implements interfaces.Controller {
   ) {}
 
   @httpPost("/", getName(ExportEsRunMiddleware))
-  async run(
-    @request() req: Request,
-    @response() res: Response
-  ): Promise<ExportEsStatus> {
+  async run(@request() req: Request): Promise<{ isRunning: true }> {
     const body: ValidatorCreateExportEsStatusType = req.body;
-    res.status(202);
-    return this.service.runExport(body.userId, body.environment);
+    this.service.runExport(body.userId, body.environment);
+    return {
+      isRunning: true,
+    };
   }
 
   @httpGet("/")

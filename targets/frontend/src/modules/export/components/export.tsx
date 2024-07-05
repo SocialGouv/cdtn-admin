@@ -6,7 +6,6 @@ import {
   Status,
 } from "src/components/export-es";
 import { Table, Td, Th, Tr } from "src/components/table";
-import { useExportEs } from "src/hooks/exportEs";
 import { useSession } from "next-auth/react";
 import {
   Button,
@@ -16,6 +15,7 @@ import {
 } from "@mui/material";
 import { ShowDocumentsToUpdateModal } from "./ShowDocumentsToUpdateModal";
 import { FixedSnackBar } from "src/components/utils/SnackBar";
+import { useExportEs } from "../hooks/export";
 
 export function Export(): JSX.Element {
   const [validateExportPreprodModal, setValidateExportPreprodModal] =
@@ -29,13 +29,24 @@ export function Export(): JSX.Element {
   const user = data?.user;
 
   const onTrigger = (env: Environment) => {
-    if (!user) throw new Error("Utilisateur non connecté");
+    if (!user) {
+      alert("Vous devez être connecté pour effectuer cette action");
+      return;
+    }
     runExportEs(env, user);
   };
 
   useEffect(() => {
-    getExportEs();
+    getExportEs(false);
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getExportEs(true);
+    }, 20000); // 20000 milliseconds = 20 seconds
+
+    return () => clearInterval(interval);
+  }, [getExportEs]);
 
   return (
     <>

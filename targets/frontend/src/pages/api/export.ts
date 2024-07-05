@@ -19,9 +19,7 @@ const main = (req: NextApiRequest, res: NextApiResponse) => {
             });
           }
         });
-        res.status(200).json({
-          ...data,
-        });
+        res.status(200).json(data);
       })
       .catch((error) => {
         res.status(500).json({
@@ -42,8 +40,24 @@ const main = (req: NextApiRequest, res: NextApiResponse) => {
         "Content-Type": "application/json",
       },
       method: "POST",
-    });
-    res.status(201);
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        if (data.errors) {
+          res.status(500).json({
+            error: data.errors,
+          });
+        } else {
+          res.status(200).json(data);
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
   }
 };
 
