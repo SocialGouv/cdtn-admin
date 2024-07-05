@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.46.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.3...v2.46.4) (2024-07-05)
+
+### Bug Fixes
+
+- **agreements:** mise à jour du slug de la convention collective 7026 ([#1440](https://github.com/SocialGouv/cdtn-admin/issues/1440)) ([83351b1](https://github.com/SocialGouv/cdtn-admin/commit/83351b1fd98accfd47893648618780792adc355e))
+
 ## [2.46.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.2...v2.46.3) (2024-07-04)
 
 ### Bug Fixes
