@@ -7,6 +7,7 @@ import {
   FicheTravailEmploiDoc,
   DocumentElasticWithSource,
   DocumentRef,
+  FicheSPDocument,
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-sources";
@@ -166,7 +167,10 @@ export async function cdtnDocumentsGen(
   await updateDocs(SOURCES.CCN, agreementsDocs);
 
   logger.info("=== Fiches SP ===");
-  const fichesSp = await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs);
+  const fichesSp = await getDocumentBySource<FicheSPDocument>(
+    SOURCES.SHEET_SP,
+    getBreadcrumbs
+  );
 
   documentsCount = {
     ...documentsCount,
