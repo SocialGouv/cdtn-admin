@@ -33,83 +33,72 @@ export class ExportService {
     environment: Environment
   ): Promise<ExportEsStatus> {
     logger.info(`[${userId}] run export for ${environment}`);
-    let isReadyToRun = false;
     const runningResult = await this.getRunningExport();
-    if (runningResult.length > 0) {
-      if (runningResult[0].environment !== environment) {
-        throw new Error(
-          "Il y a déjà un export en cours pour un autre environnement..."
-        );
+    await this.verifyAndCleanPreviousExport(
+      runningResult,
+      environment,
+      process.env.DISABLE_LIMIT_EXPORT ? 0 : 15
+    );
+    const id = randomUUID();
+    const exportEs = await this.exportRepository.create(
+      id,
+      userId,
+      environment,
+      Status.running
+    );
+    try {
+      if (!process.env.DISABLE_INGESTER) {
+        if (environment === Environment.preproduction) {
+          await sendMattermostMessage(
+            `**Préproduction:** mise à jour lancée par *${exportEs.user?.name}* 😎`,
+            process.env.MATTERMOST_CHANNEL_EXPORT
+          );
+          await runWorkerIngesterPreproduction();
+          const exportEsDone = await await this.exportRepository.getOne(id);
+          await sendMattermostMessage(
+            `**Préproduction:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 😁`,
+            process.env.MATTERMOST_CHANNEL_EXPORT
+          );
+        } else {
+          await sendMattermostMessage(
+            `**Production:** mise à jour lancée par *${exportEs.user?.name}* 🚀`,
+            process.env.MATTERMOST_CHANNEL_EXPORT
+          );
+          await runWorkerIngesterProduction();
+        }
       }
-      isReadyToRun = await this.cleanPreviousExport(
-        runningResult[0],
-        process.env.DISABLE_LIMIT_EXPORT ? 0 : 15
+      if (!process.env.DISABLE_SITEMAP) {
+        await this.sitemapService.uploadSitemap(environment);
+      }
+      if (!process.env.DISABLE_AGREEMENTS) {
+        await this.exportAgreementsService.uploadAgreements(environment);
+      }
+      if (!process.env.DISABLE_COPY) {
+        await this.copyContainerService.runCopy(environment);
+      }
+      const exportEsDone = await this.exportRepository.getOne(id);
+      await sendMattermostMessage(
+        `**Production:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`,
+        process.env.MATTERMOST_CHANNEL_EXPORT
       );
-    }
-    if (runningResult.length === 0 || isReadyToRun) {
-      const id = randomUUID();
-      const exportEs = await this.exportRepository.create(
+      return await this.exportRepository.updateOne(
         id,
-        userId,
-        environment,
-        Status.running
+        Status.completed,
+        new Date()
       );
-      try {
-        if (!process.env.DISABLE_INGESTER) {
-          if (environment === Environment.preproduction) {
-            await sendMattermostMessage(
-              `**Préproduction:** mise à jour lancée par *${exportEs.user?.name}* 😎`,
-              process.env.MATTERMOST_CHANNEL_EXPORT
-            );
-            await runWorkerIngesterPreproduction();
-            const exportEsDone = await await this.exportRepository.getOne(id);
-            await sendMattermostMessage(
-              `**Préproduction:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 😁`,
-              process.env.MATTERMOST_CHANNEL_EXPORT
-            );
-          } else {
-            await sendMattermostMessage(
-              `**Production:** mise à jour lancée par *${exportEs.user?.name}* 🚀`,
-              process.env.MATTERMOST_CHANNEL_EXPORT
-            );
-            await runWorkerIngesterProduction();
-          }
-        }
-        if (!process.env.DISABLE_SITEMAP) {
-          await this.sitemapService.uploadSitemap(environment);
-        }
-        if (!process.env.DISABLE_AGREEMENTS) {
-          await this.exportAgreementsService.uploadAgreements(environment);
-        }
-        if (!process.env.DISABLE_COPY) {
-          await this.copyContainerService.runCopy(environment);
-        }
-        const exportEsDone = await this.exportRepository.getOne(id);
-        await sendMattermostMessage(
-          `**Production:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`,
-          process.env.MATTERMOST_CHANNEL_EXPORT
-        );
-        return await this.exportRepository.updateOne(
-          id,
-          Status.completed,
-          new Date()
-        );
-      } catch (e: any) {
-        await sendMattermostMessage(
-          environment === Environment.preproduction
-            ? " La mise à jour de la préproduction a échouée. 😢"
-            : "La mise à jour de la production a échouée. 😭",
-          process.env.MATTERMOST_CHANNEL_EXPORT
-        );
-        return await this.exportRepository.updateOne(
-          id,
-          Status.failed,
-          new Date(),
-          e.message
-        );
-      }
-    } else {
-      throw new Error("Il y a déjà un export en cours...");
+    } catch (e: any) {
+      await sendMattermostMessage(
+        environment === Environment.preproduction
+          ? " La mise à jour de la préproduction a échouée. 😢"
+          : "La mise à jour de la production a échouée. 😭",
+        process.env.MATTERMOST_CHANNEL_EXPORT
+      );
+      return await this.exportRepository.updateOne(
+        id,
+        Status.failed,
+        new Date(),
+        e.message
+      );
     }
   }
 
@@ -140,21 +129,31 @@ export class ExportService {
     return this.exportRepository.getByStatus(Status.running);
   }
 
-  private async cleanPreviousExport(
-    runningResult: ExportEsStatus,
+  private async verifyAndCleanPreviousExport(
+    runningResult: ExportEsStatus[],
+    environment: Environment,
     minutes: number
-  ): Promise<boolean> {
-    if (
-      new Date(runningResult.created_at).getTime() <
-      new Date(Date.now() - 1000 * 60 * minutes).getTime()
-    ) {
-      await this.exportRepository.updateOne(
-        runningResult.id,
-        Status.timeout,
-        new Date()
-      );
-      return true;
+  ): Promise<void> {
+    if (runningResult.length > 0) {
+      if (runningResult[0].environment !== environment) {
+        throw new Error(
+          "Il y a déjà un export en cours sur un autre environnement..."
+        );
+      }
+      if (
+        new Date(runningResult[0].created_at).getTime() <
+        new Date(Date.now() - 1000 * 60 * minutes).getTime()
+      ) {
+        await this.exportRepository.updateOne(
+          runningResult[0].id,
+          Status.timeout,
+          new Date()
+        );
+      } else {
+        throw new Error(
+          `Il y a déjà un export en cours qui a été lancé il y a moins de ${minutes} minutes...`
+        );
+      }
     }
-    return false;
   }
 }
