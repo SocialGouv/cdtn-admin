@@ -70,10 +70,11 @@ export function useExportEs(): [
   };
 
   const runExportEs = (environment: Environment, user: Session["user"]) => {
+    const randomId = Math.random().toString(36).substring(7);
     const newExportEs: ExportEsStatus = {
       created_at: new Date(),
       environment,
-      id: "0",
+      id: randomId,
       status: Status.running,
       updated_at: new Date(),
       user: {
@@ -131,7 +132,7 @@ export function useExportEs(): [
                 }
           ),
           exportData: state.exportData.map((x) =>
-            x.id === "0" ? { ...x, status: Status.failed } : x
+            x.id === randomId ? { ...x, status: Status.failed } : x
           ),
         }));
       });

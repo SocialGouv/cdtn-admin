@@ -48,11 +48,6 @@ export class ExportService {
             process.env.MATTERMOST_CHANNEL_EXPORT
           );
           await runWorkerIngesterPreproduction();
-          const exportEsDone = await await this.exportRepository.getOne(id);
-          await sendMattermostMessage(
-            `**Préproduction:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 😁`,
-            process.env.MATTERMOST_CHANNEL_EXPORT
-          );
         } else {
           await sendMattermostMessage(
             `**Production:** mise à jour lancée par *${exportEs.user?.name}* 🚀`,
@@ -71,10 +66,17 @@ export class ExportService {
         await this.copyContainerService.runCopy(environment);
       }
       const exportEsDone = await this.exportRepository.getOne(id);
-      await sendMattermostMessage(
-        `**Production:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`,
-        process.env.MATTERMOST_CHANNEL_EXPORT
-      );
+      if (environment === Environment.preproduction) {
+        await sendMattermostMessage(
+          `**Production:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`,
+          process.env.MATTERMOST_CHANNEL_EXPORT
+        );
+      } else {
+        await sendMattermostMessage(
+          `**Préproduction:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 😁`,
+          process.env.MATTERMOST_CHANNEL_EXPORT
+        );
+      }
       return await this.exportRepository.updateOne(
         id,
         Status.completed,
