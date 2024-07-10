@@ -36,6 +36,9 @@ export class ExportService {
     let isReadyToRun = false;
     const runningResult = await this.getRunningExport();
     if (runningResult.length > 0) {
+      if (runningResult[0].environment !== environment) {
+        throw new Error("L'export en cours n'est pas pour cet environnement");
+      }
       isReadyToRun = await this.cleanPreviousExport(
         runningResult[0],
         process.env.DISABLE_LIMIT_EXPORT ? 0 : 1
@@ -68,11 +71,6 @@ export class ExportService {
               process.env.MATTERMOST_CHANNEL_EXPORT
             );
             await runWorkerIngesterProduction();
-            const exportEsDone = await this.exportRepository.getOne(id);
-            await sendMattermostMessage(
-              `**Production:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`,
-              process.env.MATTERMOST_CHANNEL_EXPORT
-            );
           }
         }
         if (!process.env.DISABLE_SITEMAP) {
@@ -84,6 +82,11 @@ export class ExportService {
         if (!process.env.DISABLE_COPY) {
           await this.copyContainerService.runCopy(environment);
         }
+        const exportEsDone = await this.exportRepository.getOne(id);
+        await sendMattermostMessage(
+          `**Production:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`,
+          process.env.MATTERMOST_CHANNEL_EXPORT
+        );
         return await this.exportRepository.updateOne(
           id,
           Status.completed,
@@ -104,7 +107,7 @@ export class ExportService {
         );
       }
     } else {
-      throw new Error("There is already a running job");
+      throw new Error("Il y a déjà un export en cours...");
     }
   }
 
@@ -137,11 +140,11 @@ export class ExportService {
 
   private async cleanPreviousExport(
     runningResult: ExportEsStatus,
-    hour = 1 // job created 1 hour ago
+    minutes = 15
   ): Promise<boolean> {
     if (
       new Date(runningResult.created_at).getTime() <
-      new Date(Date.now() - 1000 * 60 * 60 * hour).getTime()
+      new Date(Date.now() - 1000 * 60 * minutes).getTime()
     ) {
       await this.exportRepository.updateOne(
         runningResult.id,
