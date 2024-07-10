@@ -37,7 +37,9 @@ export class ExportService {
     const runningResult = await this.getRunningExport();
     if (runningResult.length > 0) {
       if (runningResult[0].environment !== environment) {
-        throw new Error("L'export en cours n'est pas pour cet environnement");
+        throw new Error(
+          "Il y a déjà un export en cours pour un autre environnement..."
+        );
       }
       isReadyToRun = await this.cleanPreviousExport(
         runningResult[0],
