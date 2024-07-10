@@ -92,24 +92,10 @@ describe("ExportService", () => {
           .runExport("ABC", Environment.preproduction)
           .catch((e: Error) => {
             // eslint-disable-next-line jest/no-conditional-expect
-            expect(e.message).toBe("There is already a running job");
+            expect(e.message).toBe(
+              "Il y a déjà un export en cours qui a été lancé il y a moins de 15 minutes..."
+            );
           });
-      });
-
-      it("should not clean previous job", async () => {
-        const date = new Date();
-        const spy = jest.spyOn(mockRepository, "updateOne");
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        await service.cleanPreviousExport({
-          created_at: date,
-          environment: Environment.preproduction,
-          id: "1",
-          status: Status.running,
-          updated_at: date,
-          user_id: "userId",
-        });
-        expect(spy).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -133,24 +119,57 @@ describe("ExportService", () => {
         expect(runWorkerIngesterPreproduction).toHaveBeenCalledTimes(1);
       });
 
-      it("should clean previous job because launched > 1h", async () => {
+      it("should clean previous job because launched > 15min", async () => {
         const oldDate = new Date();
         const expiryDate = new Date(
-          new Date().setHours(new Date().getHours() + 2)
+          new Date().setHours(new Date().getMinutes() + 20)
         );
         timekeeper.travel(expiryDate);
         const spy = jest.spyOn(mockRepository, "updateOne");
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        await service.cleanPreviousExport({
-          created_at: oldDate,
-          environment: Environment.preproduction,
-          id: "1",
-          status: Status.running,
-          updated_at: oldDate,
-          user_id: "userId",
-        });
+        await service.verifyAndCleanPreviousExport(
+          [
+            {
+              created_at: oldDate,
+              environment: Environment.preproduction,
+              id: "1",
+              status: Status.running,
+              updated_at: oldDate,
+              user_id: "userId",
+            },
+          ],
+          Environment.preproduction,
+          15
+        );
         expect(spy).toHaveBeenCalledTimes(1);
+      });
+
+      it("should cancel because there are already an export in an other env", async () => {
+        const spy = jest.spyOn(mockRepository, "updateOne");
+        await service
+          // @ts-expect-error
+          .verifyAndCleanPreviousExport(
+            [
+              {
+                created_at: new Date("2020-01-01"),
+                environment: Environment.preproduction,
+                id: "1",
+                status: Status.running,
+                updated_at: new Date("2020-01-01"),
+                user_id: "userId",
+              },
+            ],
+            Environment.production,
+            15
+          )
+          .catch((e: Error) => {
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(e.message).toBe(
+              "Il y a déjà un export en cours sur un autre environnement..."
+            );
+          });
+
+        expect(spy).toHaveBeenCalledTimes(0);
       });
     });
   });
