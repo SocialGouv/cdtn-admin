@@ -126,7 +126,6 @@ describe("ExportService", () => {
         );
         timekeeper.travel(expiryDate);
         const spy = jest.spyOn(mockRepository, "updateOne");
-        // @ts-expect-error
         await service.verifyAndCleanPreviousExport(
           [
             {
@@ -147,7 +146,6 @@ describe("ExportService", () => {
       it("should cancel because there are already an export in an other env", async () => {
         const spy = jest.spyOn(mockRepository, "updateOne");
         await service
-          // @ts-expect-error
           .verifyAndCleanPreviousExport(
             [
               {

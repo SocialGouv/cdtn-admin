@@ -25,6 +25,12 @@ export class ExportController implements interfaces.Controller {
   @httpPost("/", getName(ExportEsRunMiddleware))
   async run(@request() req: Request): Promise<{ isRunning: true }> {
     const body: ValidatorCreateExportEsStatusType = req.body;
+    const runningResult = await this.service.getRunningExport();
+    await this.service.verifyAndCleanPreviousExport(
+      runningResult,
+      body.environment,
+      process.env.DISABLE_LIMIT_EXPORT ? 0 : 15
+    );
     this.service.runExport(body.userId, body.environment);
     return {
       isRunning: true,

@@ -33,12 +33,6 @@ export class ExportService {
     environment: Environment
   ): Promise<ExportEsStatus> {
     logger.info(`[${userId}] run export for ${environment}`);
-    const runningResult = await this.getRunningExport();
-    await this.verifyAndCleanPreviousExport(
-      runningResult,
-      environment,
-      process.env.DISABLE_LIMIT_EXPORT ? 0 : 15
-    );
     const id = randomUUID();
     const exportEs = await this.exportRepository.create(
       id,
@@ -125,11 +119,11 @@ export class ExportService {
     };
   }
 
-  private async getRunningExport(): Promise<ExportEsStatus[]> {
+  async getRunningExport(): Promise<ExportEsStatus[]> {
     return this.exportRepository.getByStatus(Status.running);
   }
 
-  private async verifyAndCleanPreviousExport(
+  async verifyAndCleanPreviousExport(
     runningResult: ExportEsStatus[],
     environment: Environment,
     minutes: number
