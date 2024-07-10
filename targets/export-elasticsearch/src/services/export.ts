@@ -41,8 +41,8 @@ export class ExportService {
       }
       isReadyToRun = await this.cleanPreviousExport(
         runningResult[0],
-        process.env.DISABLE_LIMIT_EXPORT ? 0 : 1
-      ); // we can avoid to do that with a queue system (e.g. RabbitMQ, Kafka, etc.)
+        process.env.DISABLE_LIMIT_EXPORT ? 0 : 15
+      );
     }
     if (runningResult.length === 0 || isReadyToRun) {
       const id = randomUUID();
@@ -140,7 +140,7 @@ export class ExportService {
 
   private async cleanPreviousExport(
     runningResult: ExportEsStatus,
-    minutes = 15
+    minutes: number
   ): Promise<boolean> {
     if (
       new Date(runningResult.created_at).getTime() <
