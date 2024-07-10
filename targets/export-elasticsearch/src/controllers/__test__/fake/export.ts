@@ -49,15 +49,17 @@ export class FakeExportService {
     ];
   }
 
-  getRunningExport(): ExportEsStatus[] {
+  async getRunningExport(): Promise<ExportEsStatus[]> {
+    await wait(100);
     return [];
   }
 
-  verifyAndCleanPreviousExport(
+  async verifyAndCleanPreviousExport(
     runningResult: ExportEsStatus[],
     environment: Environment,
     minutes: number
-  ): void {
+  ): Promise<void> {
+    await wait(100);
     return;
   }
 }

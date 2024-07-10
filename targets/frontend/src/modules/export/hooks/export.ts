@@ -2,7 +2,7 @@ import { Environment, ExportEsStatus, Status } from "@socialgouv/cdtn-types";
 import { Session } from "next-auth";
 import { useState } from "react";
 import { serializeError, ErrorObject } from "serialize-error";
-import { randomUUID } from "crypto";
+import { generateInitialId } from "@shared/utils";
 
 type ExportEsState = {
   error: ErrorObject | null;
@@ -71,7 +71,7 @@ export function useExportEs(): [
   };
 
   const runExportEs = (environment: Environment, user: Session["user"]) => {
-    const randomId = randomUUID();
+    const randomId = generateInitialId();
     const newExportEs: ExportEsStatus = {
       created_at: new Date(),
       environment,

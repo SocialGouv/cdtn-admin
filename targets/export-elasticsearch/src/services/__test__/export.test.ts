@@ -11,6 +11,8 @@ import { SitemapService } from "../sitemap";
 import { FakeCopyService } from "./fake/copy";
 import { FakeExportRepository } from "./fake/export";
 import { FakeSitemapService } from "./fake/sitemap";
+import { FakeAgreementsService } from "./fake/agreements";
+import { AgreementsService } from "../agreements";
 
 jest.mock("../../workers", () => {
   return {
@@ -39,6 +41,10 @@ describe("ExportService", () => {
     container
       .bind<FakeSitemapService>(getName(SitemapService))
       .to(FakeSitemapService)
+      .inSingletonScope();
+    container
+      .bind<FakeAgreementsService>(getName(AgreementsService))
+      .to(FakeAgreementsService)
       .inSingletonScope();
     service = container.get<ExportService>(getName(ExportService));
     mockRepository = container.get<ExportRepository>(getName(ExportRepository));
