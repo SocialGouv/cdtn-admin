@@ -103,9 +103,10 @@ export function useExportEs(): [
       },
       method: "POST",
     })
-      .then((response) => {
+      .then(async (response) => {
         if (!response.ok) {
-          return Promise.reject("Error running export");
+          const errors = await response.json();
+          return Promise.reject(errors.error);
         }
         return response.json();
       })

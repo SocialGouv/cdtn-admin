@@ -48,4 +48,16 @@ export class FakeExportService {
       },
     ];
   }
+
+  getRunningExport(): ExportEsStatus[] {
+    return [];
+  }
+
+  verifyAndCleanPreviousExport(
+    runningResult: ExportEsStatus[],
+    environment: Environment,
+    minutes: number
+  ): void {
+    return;
+  }
 }

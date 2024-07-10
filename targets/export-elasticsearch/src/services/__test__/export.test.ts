@@ -115,7 +115,7 @@ describe("ExportService", () => {
         );
         const spy = jest.spyOn(mockRepository, "updateOne");
         await service.runExport("ABC", Environment.preproduction);
-        expect(spy).toHaveBeenCalledTimes(2);
+        expect(spy).toHaveBeenCalledTimes(1);
         expect(runWorkerIngesterPreproduction).toHaveBeenCalledTimes(1);
       });
 
