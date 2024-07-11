@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.46.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.5...v2.46.6) (2024-07-11)
+
+### Features
+
+- update ips ([#1447](https://github.com/SocialGouv/cdtn-admin/issues/1447)) ([c4d16c5](https://github.com/SocialGouv/cdtn-admin/commit/c4d16c52ce11d1315e83fc9c0ce9911261d240af))
+
+## [2.46.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.4...v2.46.5) (2024-07-11)
+
+### Bug Fixes
+
+- **export:** correction de l'erreur d'affichage ([#1443](https://github.com/SocialGouv/cdtn-admin/issues/1443)) ([3f32c4c](https://github.com/SocialGouv/cdtn-admin/commit/3f32c4cba0e60b5bc8171b786901f418713cc49e))
+
+### Features
+
+- update ips ([#1446](https://github.com/SocialGouv/cdtn-admin/issues/1446)) ([cd7ced5](https://github.com/SocialGouv/cdtn-admin/commit/cd7ced5a3bf58d852e965c1825608dca6595f496))
+
+## [2.46.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.3...v2.46.4) (2024-07-05)
+
+### Bug Fixes
+
+- **agreements:** mise à jour du slug de la convention collective 7026 ([#1440](https://github.com/SocialGouv/cdtn-admin/issues/1440)) ([83351b1](https://github.com/SocialGouv/cdtn-admin/commit/83351b1fd98accfd47893648618780792adc355e))
+
+## [2.46.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.2...v2.46.3) (2024-07-04)
+
+### Bug Fixes
+
+- values ([f9acfac](https://github.com/SocialGouv/cdtn-admin/commit/f9acfacc4bb61de46c5fbcc3303b533032eac139))
+
+## [2.46.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.1...v2.46.2) (2024-07-04)
+
+### Bug Fixes
+
+- cdtn-admin update resources ([#1438](https://github.com/SocialGouv/cdtn-admin/issues/1438)) ([9ebda48](https://github.com/SocialGouv/cdtn-admin/commit/9ebda488e4b46a42c07f4dba95ae2a2726d23b34))
+- **convention-collectives:** texte plus clair pour la dialog de confirmation de suppression de la CC ([#1433](https://github.com/SocialGouv/cdtn-admin/issues/1433)) ([1f7a4ba](https://github.com/SocialGouv/cdtn-admin/commit/1f7a4ba2b5994986e0181e0f0f4a7b03d548febe))
+
 ## [2.46.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.0...v2.46.1) (2024-06-27)
 
 ### Bug Fixes

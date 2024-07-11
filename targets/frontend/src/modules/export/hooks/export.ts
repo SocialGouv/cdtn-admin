@@ -1,10 +1,11 @@
 import { Environment, ExportEsStatus, Status } from "@socialgouv/cdtn-types";
 import { Session } from "next-auth";
 import { useState } from "react";
-import { serializeError } from "serialize-error";
+import { serializeError, ErrorObject } from "serialize-error";
+import { generateInitialId } from "@shared/utils";
 
 type ExportEsState = {
-  error: Error | null;
+  error: ErrorObject | null;
   exportData: ExportEsStatus[];
   hasGetExportError: boolean;
   isGetExportLoading: boolean;
@@ -14,7 +15,7 @@ type ExportEsState = {
 
 export function useExportEs(): [
   ExportEsState,
-  () => void,
+  (hideLoader: boolean) => void,
   (environment: Environment, user: Session["user"]) => void,
   (env: Environment) => Date
 ] {
@@ -27,18 +28,19 @@ export function useExportEs(): [
     latestExportProduction: null,
   });
 
-  const getExportEs = () => {
+  const getExportEs = (hideLoader: boolean) => {
     setState((state) => ({
       ...state,
       error: null,
       hasGetExportError: false,
-      isGetExportLoading: true,
+      isGetExportLoading: hideLoader ? false : true,
     }));
     fetch("/api/export")
-      .then(async (response) => {
-        return response.status === 500
-          ? Promise.reject(await response.json())
-          : response.json();
+      .then((response) => {
+        if (!response.ok) {
+          return Promise.reject("Error fetching export data");
+        }
+        return response.json();
       })
       .then((data) => {
         setState((state) => ({
@@ -47,6 +49,7 @@ export function useExportEs(): [
           isGetExportLoading: false,
           latestExportPreproduction: data[1].preproduction,
           latestExportProduction: data[1].production,
+          error: null,
         }));
       })
       .catch((error) => {
@@ -68,10 +71,11 @@ export function useExportEs(): [
   };
 
   const runExportEs = (environment: Environment, user: Session["user"]) => {
+    const randomId = generateInitialId();
     const newExportEs: ExportEsStatus = {
       created_at: new Date(),
       environment,
-      id: "0",
+      id: randomId,
       status: Status.running,
       updated_at: new Date(),
       user: {
@@ -102,21 +106,11 @@ export function useExportEs(): [
       method: "POST",
     })
       .then(async (response) => {
-        return response.status === 500
-          ? Promise.reject(await response.json())
-          : response.json();
-      })
-      .then((data) => {
-        setState((state) => ({
-          ...state,
-          ...Object.assign(
-            {},
-            environment === Environment.preproduction
-              ? { latestExportPreproduction: data }
-              : { latestExportProduction: data }
-          ),
-          exportData: [data, ...state.exportData].filter((x) => x.id !== "0"),
-        }));
+        if (!response.ok) {
+          const errors = await response.json();
+          return Promise.reject(errors.error);
+        }
+        return response.json();
       })
       .catch((error) => {
         setState((state) => ({
@@ -139,7 +133,7 @@ export function useExportEs(): [
                 }
           ),
           exportData: state.exportData.map((x) =>
-            x.id === "0" ? { ...x, status: Status.failed } : x
+            x.id === randomId ? { ...x, status: Status.failed } : x
           ),
         }));
       });

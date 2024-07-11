@@ -1,14 +1,14 @@
-export type GraphQLResponseRoot<Data> = {
+export interface GraphQLResponseRoot<Data> {
   data?: Data;
   errors?: GraphQLResponseError[];
-};
+}
 
-export type GraphQLResponseError = {
+export interface GraphQLResponseError {
   message: string;
   locations?: GraphQLResponseErrorLocation[];
-};
+}
 
-export type GraphQLResponseErrorLocation = {
+export interface GraphQLResponseErrorLocation {
   line: number;
   column: number;
-};
+}
