@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.46.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.5...v2.46.6) (2024-07-11)
+
+### Features
+
+- update ips ([#1447](https://github.com/SocialGouv/cdtn-admin/issues/1447)) ([c4d16c5](https://github.com/SocialGouv/cdtn-admin/commit/c4d16c52ce11d1315e83fc9c0ce9911261d240af))
+
 ## [2.46.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.4...v2.46.5) (2024-07-11)
 
 ### Bug Fixes
