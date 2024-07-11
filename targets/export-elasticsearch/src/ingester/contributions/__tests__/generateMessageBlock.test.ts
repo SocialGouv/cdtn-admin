@@ -130,7 +130,7 @@ describe("Tests avec une contribution generic no cdt", () => {
   let mockedContributionGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined = undefined;
   beforeEach(() => {
     mockedContributionGeneric = {
-      updated_at: new Date(),
+      date: "",
       contentType: "GENERIC_NO_CDT",
       id: "id",
       cdtnId: "cdtnId",

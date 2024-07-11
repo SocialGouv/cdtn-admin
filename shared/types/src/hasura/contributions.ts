@@ -93,7 +93,7 @@ type ContributionDocumentJsonBasic = {
   questionId: string;
   description: string;
   idcc: string; // 0000 pour la générique, impossible d'être nulle
-  updated_at: Date;
+  date: string;
 };
 
 export type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {

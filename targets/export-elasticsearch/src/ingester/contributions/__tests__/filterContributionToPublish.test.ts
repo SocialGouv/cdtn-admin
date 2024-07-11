@@ -40,7 +40,7 @@ const contributionMock: ContributionsAnswers = {
 };
 
 const doc: DocumentElasticWithSource<ContributionDocumentJson> = {
-  updated_at: new Date(),
+  date: "",
   id: "",
   title: "",
   excludeFromSearch: true,
@@ -62,7 +62,7 @@ const doc: DocumentElasticWithSource<ContributionDocumentJson> = {
   cdtnId: "",
   contentType: "ANSWER",
   description: "",
-  contribution: contributionMock
+  contribution: contributionMock,
 };
 
 describe("filterContributionDocumentsToPublish", () => {

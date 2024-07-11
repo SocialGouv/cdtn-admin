@@ -213,7 +213,7 @@ describe("mapContributionToDocument", () => {
           },
         ],
         type: "content",
-        updated_at: new Date(),
+        date: new Date().toDateString(),
       },
       initial_id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
       is_available: true,

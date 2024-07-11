@@ -8,6 +8,7 @@ import { getReferences } from "./getReferences";
 import { generateCdtnId } from "@shared/utils";
 import { generateContributionSlug } from "./generateSlug";
 import { getGlossaryContent } from "../common/getGlossaryContent";
+import { format } from "date-fns";
 
 async function getBaseDocument(
   data: ContributionsAnswers,
@@ -77,6 +78,7 @@ export const mapContributionToDocument = async (
 
   const initalDoc: ContributionDocumentJson = {
     ...baseDoc,
+    date: format(new Date(data.updatedAt), "dd/MM/yyyy"),
     contentType: data.content_type,
     linkedContent: data.cdtn_references.map((v) => ({
       cdtnId: v.cdtn_id!,
