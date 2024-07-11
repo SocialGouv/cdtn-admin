@@ -87,8 +87,8 @@ export function Export(): JSX.Element {
             <Tr>
               <Th align="left">Environnement</Th>
               <Th align="left">Utilisateur</Th>
-              <Th align="left">Crée le</Th>
-              <Th align="left">Complété le</Th>
+              <Th align="left">Début</Th>
+              <Th align="left">Fin</Th>
               <Th align="left">Statut</Th>
               <Th align="left">Informations</Th>
             </Tr>
