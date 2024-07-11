@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.46.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.4...v2.46.5) (2024-07-11)
+
+### Bug Fixes
+
+- **export:** correction de l'erreur d'affichage ([#1443](https://github.com/SocialGouv/cdtn-admin/issues/1443)) ([3f32c4c](https://github.com/SocialGouv/cdtn-admin/commit/3f32c4cba0e60b5bc8171b786901f418713cc49e))
+
+### Features
+
+- update ips ([#1446](https://github.com/SocialGouv/cdtn-admin/issues/1446)) ([cd7ced5](https://github.com/SocialGouv/cdtn-admin/commit/cd7ced5a3bf58d852e965c1825608dca6595f496))
+
 ## [2.46.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.3...v2.46.4) (2024-07-05)
 
 ### Bug Fixes
