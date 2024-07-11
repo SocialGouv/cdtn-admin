@@ -103,6 +103,7 @@ type ElasticSearchContributionBase = {
   references: ContributionRef[];
   idcc: string;
   messageBlock?: string;
+  date: string;
 } & (
   | ElasticSearchContributionFicheSp
   | ElasticSearchContributionContent
