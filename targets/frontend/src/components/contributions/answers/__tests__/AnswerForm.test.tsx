@@ -146,7 +146,7 @@ const answerBase: AnswerWithStatus = {
     export: {
       createdAt: "29/09/2023",
     },
-  },
+  }
 };
 
 const onSubmit = jest.fn(() => Promise.resolve());

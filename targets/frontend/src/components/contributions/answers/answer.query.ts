@@ -94,7 +94,7 @@ type QueryProps = {
 export type AnswerWithStatus = Answer & {
   status: AnswerStatus;
   updateDate?: string;
-  updatedDate: string;
+  updatedAt: string;
 };
 
 type QueryResult = {
