@@ -68,12 +68,12 @@ export class ExportService {
       const exportEsDone = await this.exportRepository.getOne(id);
       if (environment === Environment.preproduction) {
         await sendMattermostMessage(
-          `**Production:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`,
+          `**Préproduction:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 😁`,
           process.env.MATTERMOST_CHANNEL_EXPORT
         );
       } else {
         await sendMattermostMessage(
-          `**Préproduction:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 😁`,
+          `**Production:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`,
           process.env.MATTERMOST_CHANNEL_EXPORT
         );
       }
