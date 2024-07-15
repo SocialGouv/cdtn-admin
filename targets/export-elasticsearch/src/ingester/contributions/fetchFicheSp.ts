@@ -39,7 +39,7 @@ export async function fetchFicheSp(
   if (res.error) {
     throw res.error;
   }
-  if (!res.data || res.error) {
+  if (!res.data) {
     throw new Error(`Impossible de récupérer la fiche sp ${ficheSpId}`);
   }
   if (res.data.documents.length !== 1) {
