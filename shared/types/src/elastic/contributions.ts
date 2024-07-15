@@ -22,7 +22,6 @@ export interface ContributionContentBase {
 
 export interface ContributionFicheSpContent {
   url: string;
-  date: string;
   raw: string;
   ficheSpDescription: string;
 }
@@ -109,6 +108,7 @@ type ElasticSearchContributionBase = {
   | ElasticSearchContributionContent
   | ElasticSearchContributionGenericNoCDT
 );
+
 
 export type ElasticSearchContributionGeneric = ElasticSearchContributionBase & {
   ccSupported: string[];
