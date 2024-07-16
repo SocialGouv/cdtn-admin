@@ -68,7 +68,6 @@ export type ContributionElasticDocument = ContributionElasticDocumentBase &
 type ElasticSearchContributionFicheSp = {
   type: "fiche-sp";
   url: string;
-  date: string;
   raw: string;
 };
 
@@ -104,6 +103,7 @@ type ElasticSearchContributionBase = {
   references: ContributionRef[];
   idcc: string;
   messageBlock?: string;
+  date: string;
 } & (
   | ElasticSearchContributionFicheSp
   | ElasticSearchContributionContent

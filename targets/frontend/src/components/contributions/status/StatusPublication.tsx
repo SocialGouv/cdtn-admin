@@ -25,7 +25,7 @@ export const StatusPublicationContainer = ({
     status = "PUBLISHED";
     tooltipText = `${statusesMapping[status].text} le ${format(
       parseISO(exportDate),
-      "dd/MM/yyyy HH:mm:ss"
+      "dd/MM/yyyy HH:mm"
     )}`;
   }
   return (

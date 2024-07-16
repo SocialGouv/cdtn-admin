@@ -10,7 +10,9 @@ import { generateMessageBlock } from "../generateMessageBlock";
 jest.mock("../fetchMessageBlock");
 jest.mock("../fetchAgreementMessage");
 
-const contributionGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined = undefined;
+const contributionGeneric:
+  | DocumentElasticWithSource<ContributionDocumentJson>
+  | undefined = undefined;
 const mockContribution: any = {
   questionId: "123",
   contentType: "ANSWER",
@@ -122,14 +124,15 @@ describe("generateMessageBlock", () => {
     expect(fetchAgreementMessage).toHaveBeenCalledWith("1234");
     expect(result).toEqual("fetchedAgreementMessage");
   });
-  
-
-  
 });
+
 describe("Tests avec une contribution generic no cdt", () => {
-  let mockedContributionGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined = undefined;
+  let mockedContributionGeneric:
+    | DocumentElasticWithSource<ContributionDocumentJson>
+    | undefined = undefined;
   beforeEach(() => {
     mockedContributionGeneric = {
+      date: "",
       contentType: "GENERIC_NO_CDT",
       id: "id",
       cdtnId: "cdtnId",
@@ -151,34 +154,42 @@ describe("Tests avec une contribution generic no cdt", () => {
       idcc: "0000",
       type: "generic-no-cdt",
       messageBlockGenericNoCDT: "messageBlockGenericNoCDT",
-      messageBlockGenericNoCDTUnextendedCC: "messageBlockGenericNoCDTUnextendedCC"
+      messageBlockGenericNoCDTUnextendedCC:
+        "messageBlockGenericNoCDTUnextendedCC",
     };
     (fetchMessageBlock as jest.Mock).mockResolvedValue({
       contentAgreementWithoutLegal: "agrement without legal",
-      contentNotHandledWithoutLegal: "content not handled without legal"
+      contentNotHandledWithoutLegal: "content not handled without legal",
     });
     (fetchAgreementMessage as jest.Mock).mockResolvedValue(undefined);
-  })
-  it.each(["ANSWER", "SP"])("should throw a contentAgreementWithoutLegal", async (contentType) => {
-    
-    mockContribution.contentType = contentType;
-    mockContribution.idcc = "1234";
-
-    const messageBloc = await generateMessageBlock(mockedContributionGeneric, mockContribution);
-
-    expect(
-      messageBloc
-    ).toEqual("agrement without legal");
   });
+  it.each(["ANSWER", "SP"])(
+    "should throw a contentAgreementWithoutLegal",
+    async (contentType) => {
+      mockContribution.contentType = contentType;
+      mockContribution.idcc = "1234";
 
-  it.each(["NOTHING", "CDT", "UNFAVOURABLE"])("should throw a contentNotHandledWithoutLegal", async (contentType) => {
-    mockContribution.contentType = contentType;
-    mockContribution.idcc = "1234";
+      const messageBloc = await generateMessageBlock(
+        mockedContributionGeneric,
+        mockContribution
+      );
 
-    const messageBloc = await generateMessageBlock(mockedContributionGeneric, mockContribution);
+      expect(messageBloc).toEqual("agrement without legal");
+    }
+  );
 
-    expect(
-      messageBloc
-    ).toEqual("content not handled without legal");
-  });
-})
+  it.each(["NOTHING", "CDT", "UNFAVOURABLE"])(
+    "should throw a contentNotHandledWithoutLegal",
+    async (contentType) => {
+      mockContribution.contentType = contentType;
+      mockContribution.idcc = "1234";
+
+      const messageBloc = await generateMessageBlock(
+        mockedContributionGeneric,
+        mockContribution
+      );
+
+      expect(messageBloc).toEqual("content not handled without legal");
+    }
+  );
+});

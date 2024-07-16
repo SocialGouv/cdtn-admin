@@ -10,8 +10,9 @@ import {
   ListItem,
   MenuItem,
   Select,
-  TextField as Field,
   Stack,
+  TextField as Field,
+  Typography,
 } from "@mui/material";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
@@ -24,11 +25,12 @@ import { CopyButton } from "src/components/button/CopyButton";
 import { Layout } from "src/components/layout/auth.layout";
 import { DropZone } from "src/components/storage/DropZone";
 import { useDebouncedState } from "src/hooks/";
-import { timeSince } from "src/lib/duration";
 import { request } from "src/lib/request";
 import useSWR from "swr";
 import { theme } from "../theme";
 import { S3File } from "src/lib/upload";
+import { fr } from "@codegouvfr/react-dsfr";
+import { format, parseISO } from "date-fns";
 
 function FilesPage() {
   const { data, error, isValidating, mutate } = useSWR<S3File[]>("files", () =>
@@ -72,7 +74,7 @@ function FilesPage() {
       })
       .catch((err) => {
         alert(
-          "Impossible de supprimer le fichier :/, le message d'erreur est : " +
+          "Impossible de supprimer le fichier, le message d'erreur est : " +
             JSON.stringify(err.data)
         );
       })
@@ -229,27 +231,47 @@ function FilesPage() {
                           minWidth: 0,
                         }}
                       >
-                        <Box
+                        <Typography
                           sx={{
-                            fontSize: "1.1rem",
+                            fontSize: "large",
                             fontWeight: "bold",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
+                            wordBreak: "break-all",
+                            maxWidth: "100%",
                           }}
                         >
                           {file.key}
-                        </Box>
-                        <Box>
-                          Poids :{" "}
-                          <span style={{ fontWeight: "bold" }}>
-                            {prettyBytes(file.size)}
-                          </span>{" "}
-                          | Mise en ligne il y a{" "}
-                          <span style={{ fontWeight: "bold" }}>
-                            {timeSince(file.lastModified.toString())}
-                          </span>
-                        </Box>
+                        </Typography>
+                        <Stack direction="row" spacing={2}>
+                          <Typography
+                            sx={{
+                              fontSize: "small",
+                              color:
+                                fr.colors.decisions.text.mention.grey.default,
+                            }}
+                          >
+                            Poids :{" "}
+                            <span style={{ fontWeight: "bold" }}>
+                              {prettyBytes(file.size)}
+                            </span>
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: "small",
+                              color:
+                                fr.colors.decisions.text.default.grey.default,
+                            }}
+                          >
+                            Téléversé le{" "}
+                            <span style={{ fontWeight: "bold" }}>
+                              {format(
+                                parseISO(file.lastModified.toString()),
+                                "dd/MM/yyyy"
+                              )}
+                            </span>
+                          </Typography>
+                        </Stack>
                       </Box>
                       <CopyButton
                         {...buttonProps}
@@ -287,7 +309,6 @@ function FilesPage() {
 export default FilesPage;
 
 const buttonProps = {
-  outline: true,
   size: theme.space.small,
   sx: { flex: "0 0 auto", mx: theme.space.xsmall },
   type: "button",

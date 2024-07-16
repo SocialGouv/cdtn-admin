@@ -61,7 +61,7 @@ export const Comment = ({ comment, onDelete }: Props) => {
           <Delete fontSize="inherit" />
         </IconButton>
       </Box>
-      <Box sx={{ marginTop: 1, whiteSpace: "pre-line" }}>{comment.content}</Box>
+      <Typography sx={{ fontSize: "small" }}>{comment.content}</Typography>
     </Box>
   ) : (
     <Stack direction="row" justifyContent="space-between">

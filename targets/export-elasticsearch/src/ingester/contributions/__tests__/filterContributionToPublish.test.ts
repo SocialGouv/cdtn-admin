@@ -40,6 +40,7 @@ const contributionMock: ContributionsAnswers = {
 };
 
 const doc: DocumentElasticWithSource<ContributionDocumentJson> = {
+  date: "",
   id: "",
   title: "",
   excludeFromSearch: true,

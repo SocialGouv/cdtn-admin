@@ -7,7 +7,7 @@ import { FormErrorMessage } from "../forms/ErrorMessage";
 import { References } from "./References";
 import { FormRadioGroup } from "../forms";
 import React from "react";
-import { Box, Card, CardContent, Stack } from "@mui/material";
+import { Box, Card, CardContent } from "@mui/material";
 import { theme } from "src/theme";
 
 const JURIDIQUES_LABEL = "Références juridiques";

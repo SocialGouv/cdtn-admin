@@ -7,6 +7,7 @@ export const getContributionAnswerById = gql`
       content
       description
       content_type
+      updatedAt: updated_at
       agreement {
         id
         name
