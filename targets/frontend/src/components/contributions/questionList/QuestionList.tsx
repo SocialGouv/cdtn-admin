@@ -8,7 +8,6 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Tooltip,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -17,7 +16,6 @@ import {
   useQuestionListQuery,
 } from "./QuestionList.query";
 import { QuestionRow } from "./QuestionRow";
-import { statusesMapping } from "../status/data";
 
 export const countAnswersWithStatus = (
   answers: QueryQuestionAnswer[] | undefined,
