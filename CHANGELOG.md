@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.47.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.47.0...v2.47.1) (2024-07-24)
+
+### Features
+
+- **tools:** mise en prod de l'outil d'indemnité de rupture conventionnelle ([#1450](https://github.com/SocialGouv/cdtn-admin/issues/1450)) ([c0ad13e](https://github.com/SocialGouv/cdtn-admin/commit/c0ad13e71d1a48a891156ef08d85f108a31af504))
+
 # [2.47.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.46.7...v2.47.0) (2024-07-16)
 
 ### Features
