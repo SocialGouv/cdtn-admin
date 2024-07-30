@@ -42,6 +42,7 @@ export interface ExportEsStatus {
   user_id: string;
   created_at: Date;
   updated_at: Date;
+  finished_at?: Date;
   user?: User;
   error?: string;
   documentsCount?: Record<

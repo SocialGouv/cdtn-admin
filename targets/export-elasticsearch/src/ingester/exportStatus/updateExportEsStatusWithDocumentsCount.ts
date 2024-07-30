@@ -3,8 +3,8 @@ import { context } from "../context";
 import { ExportEsStatus } from "@socialgouv/cdtn-types";
 
 const updateExportEsStatusQuery = `
-mutation updateOneExportEsStatus($id: uuid!, $documentsCount: jsonb) {
-  update_export_es_status_by_pk(pk_columns: {id: $id}, _set: {documentsCount: $documentsCount}) {
+mutation updateOneExportEsStatus($id: uuid!, $documentsCount: jsonb, $finishedAt: timestamptz) {
+  update_export_es_status_by_pk(pk_columns: {id: $id}, _set: {documentsCount: $documentsCount, finished_at: $finishedAt}) {
     id
   }
 }
@@ -54,6 +54,7 @@ export async function updateExportEsStatusWithDocumentsCount(
   })
     .mutation<HasuraReturnMutation>(updateExportEsStatusQuery, {
       documentsCount,
+      finishedAt: new Date(),
       id: exportEsStatusId,
     })
     .toPromise();

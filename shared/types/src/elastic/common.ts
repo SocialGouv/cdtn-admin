@@ -1,5 +1,5 @@
 import { SourceRoute } from "@socialgouv/cdtn-sources";
-import { ContributionsAnswers } from "../hasura";
+import { ContributionsAnswers, ExportEsStatus } from "../hasura";
 
 export type DocumentElasticWithSource<
   T,
@@ -10,11 +10,6 @@ export type Breadcrumb = {
   label: string;
   position: number;
   slug: string;
-};
-
-export type Export = {
-  id: string;
-  createdAt: string;
 };
 
 export type DocumentElastic<T extends SourceRoute = SourceRoute> = {
@@ -30,7 +25,7 @@ export type DocumentElastic<T extends SourceRoute = SourceRoute> = {
   metaDescription: string;
   refs: DocumentRef[];
   contribution?: ContributionsAnswers;
-  export?: Export;
+  export?: Pick<ExportEsStatus, "finished_at">;
 };
 
 export type RelatedDocument<T extends SourceRoute = SourceRoute> = {

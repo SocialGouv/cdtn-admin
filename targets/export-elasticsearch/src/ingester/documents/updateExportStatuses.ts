@@ -6,11 +6,12 @@ import {
   DocumentElasticWithSource,
 } from "@socialgouv/cdtn-types";
 
-export const updateToLastExportStatusMutation = `mutation updateToLastExportStatus($cdtnIds: [String!], $exportId: uuid) {
+export const updateToLastExportStatusMutation = `mutation updateToLastExportStatus($cdtnIds: [String!], $exportId: uuid, $exportedAt: timestamptz) {
   updateDocuments: update_documents(
     where: {cdtn_id: {_in: $cdtnIds}},
     _set: {
       exportId: $exportId
+      exportedAt: $exportedAt
     }
   ) {
     returning {
@@ -41,7 +42,11 @@ export async function updateExportStatuses(
       graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
       adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
     })
-      .mutation(updateToLastExportStatusMutation, { cdtnIds, exportId })
+      .mutation(updateToLastExportStatusMutation, {
+        cdtnIds,
+        exportId,
+        exportedAt: new Date(),
+      })
       .toPromise();
     if (res.error) {
       throw res.error;

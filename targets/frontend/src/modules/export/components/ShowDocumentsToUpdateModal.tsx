@@ -6,7 +6,7 @@ import { ShortHasuraDocument } from "@socialgouv/cdtn-types";
 
 export type ConfirmModalProps = {
   open: boolean;
-  name: string;
+  name: "Prod" | "Pre-Prod";
   onClose: () => void;
   onCancel: () => void;
   onValidate: () => void;

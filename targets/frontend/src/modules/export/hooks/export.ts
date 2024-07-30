@@ -67,7 +67,7 @@ export function useExportEs(): [
       (data) => data.status === Status.completed && data.environment === env
     )[0];
 
-    return lastestCompleted?.created_at;
+    return lastestCompleted?.finished_at ?? lastestCompleted.created_at;
   };
 
   const runExportEs = (environment: Environment, user: Session["user"]) => {

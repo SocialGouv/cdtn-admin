@@ -4,9 +4,9 @@ import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { groupBy } from "graphql/jsutils/groupBy";
 
 export const getDocumentsUpdatedAfterDateQuery = `
-query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
+query GetDocuments($exportEsStatusFinishedDate: timestamptz!, $sources: [String!]) {
   documents(where: {
-        updated_at: {_gte: $updated_at},
+        exportedAt: {_gte: $exportEsStatusFinishedDate},
         source: {_in: $sources}
       },
       order_by: {updated_at: desc}) {
@@ -51,7 +51,7 @@ export const useDocumentsQuery = ({
   const [result] = useQuery<QueryResult>({
     query: getDocumentsUpdatedAfterDateQuery,
     variables: {
-      updated_at: date,
+      exportEsStatusFinishedDate: date,
       sources: [
         SOURCES.LETTERS,
         SOURCES.EDITORIAL_CONTENT,
@@ -60,15 +60,12 @@ export const useDocumentsQuery = ({
     },
     requestPolicy: "network-only",
   });
+
   if (!result.data) {
     return new Map();
   }
-  // Le filtre est temporaire tant que l'ancien outil de contrib est la : exclure les anciennes contribs qui ont une updated date toujours mise à jour
-  const filtered = result.data.documents.filter(
-    (doc) => doc.source !== SOURCES.CONTRIBUTIONS || !!doc.document?.contentType
-  );
 
-  const grouped = groupBy(filtered, (data) => data.source);
+  const grouped = groupBy(result.data.documents, (data) => data.source);
   grouped.forEach((array, key) => {
     grouped.set(key, array.slice().sort(compareTitles));
   });

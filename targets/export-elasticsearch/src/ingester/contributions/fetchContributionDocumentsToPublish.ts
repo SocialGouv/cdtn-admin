@@ -10,11 +10,10 @@ query fetchContributions {
     documents(where: {source: {_eq: "contributions"}}) {
       cdtnId: cdtn_id
       export {
-        createdAt: created_at
+        finished_at
       }
       contribution {
         id
-        updatedAt: updated_at
         statuses(where:{status: {_eq: "TO_PUBLISH"}}, order_by: {created_at: desc}, limit: 1) {
           status
           createdAt: created_at
@@ -34,8 +33,8 @@ export function filterContributionDocumentsToPublish(
     | undefined
 ): DocumentElasticWithSource<ContributionDocumentJson>[] | undefined {
   return contributionDocs?.filter((doc) => {
-    const exportDate = doc.export?.createdAt
-      ? new Date(doc.export.createdAt).getTime()
+    const exportDate = doc.export?.finished_at
+      ? new Date(doc.export.finished_at).getTime()
       : 0;
     const statusDate = doc.contribution?.statuses?.length
       ? new Date(doc.contribution.statuses[0].createdAt).getTime()
