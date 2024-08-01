@@ -3,8 +3,8 @@ import { context } from "../context";
 import { ExportEsStatus } from "@socialgouv/cdtn-types";
 
 const updateExportEsStatusQuery = `
-mutation updateOneExportEsStatus($id: uuid!, $documentsCount: jsonb, ) {
-  update_export_es_status_by_pk(pk_columns: {id: $id}, _set: {documentsCount: $documentsCount}) {
+mutation updateOneExportEsStatus($exportEsStatusId: uuid!, $documentsCount: jsonb) {
+  update_export_es_status_by_pk(pk_columns: {id: $exportEsStatusId}, _set: {documentsCount: $documentsCount}) {
     id
   }
 }

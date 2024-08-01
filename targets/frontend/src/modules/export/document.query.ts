@@ -4,9 +4,9 @@ import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { groupBy } from "graphql/jsutils/groupBy";
 
 export const getDocumentsUpdatedAfterDateQuery = `
-query GetDocuments($exportEsStatusFinishedDate: timestamptz!, $sources: [String!]) {
+query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
   documents(where: {
-        exportedAt: {_gte: $exportEsStatusFinishedDate},
+        updated_at: {_gte: $updated_at},
         source: {_in: $sources}
       },
       order_by: {updated_at: desc}) {
@@ -51,7 +51,7 @@ export const useDocumentsQuery = ({
   const [result] = useQuery<QueryResult>({
     query: getDocumentsUpdatedAfterDateQuery,
     variables: {
-      exportEsStatusFinishedDate: date,
+      updated_at: date,
       sources: [
         SOURCES.LETTERS,
         SOURCES.EDITORIAL_CONTENT,
