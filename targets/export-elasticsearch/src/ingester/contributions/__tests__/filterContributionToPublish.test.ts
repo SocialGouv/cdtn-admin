@@ -67,14 +67,10 @@ const doc: DocumentElasticWithSource<ContributionDocumentJson> = {
 
 describe("filterContributionDocumentsToPublish", () => {
   it("should send the list of contributions which have been updated after last export", () => {
-    const result = filterContributionDocumentsToPublish([
+    const result = filterContributionDocumentsToPublish(undefined, [
       {
         ...doc,
         cdtnId: "388f8d7860",
-        export: {
-          id: "id",
-          createdAt: "2024-06-03T08:10:03.697249+00:00",
-        },
         contribution: {
           ...contributionMock,
           statuses: [
@@ -89,25 +85,27 @@ describe("filterContributionDocumentsToPublish", () => {
     expect(result?.length).toBe(0);
   });
   it("should send the list of contributions which have been updated after last export2", () => {
-    const result = filterContributionDocumentsToPublish([
+    const result = filterContributionDocumentsToPublish(
       {
-        ...doc,
-        cdtnId: "388f8d7860",
-        export: {
-          id: "id",
-          createdAt: "2024-06-03T08:10:03.697249+00:00",
-        },
-        contribution: {
-          ...contributionMock,
-          statuses: [
-            {
-              status: "TO_PUBLISH",
-              createdAt: "2024-06-27T14:26:28.387898+00:00",
-            },
-          ],
-        },
+        id: "id",
+        created_at: new Date("2024-06-03T08:10:03.697249+00:00"),
       },
-    ]);
+      [
+        {
+          ...doc,
+          cdtnId: "388f8d7860",
+          contribution: {
+            ...contributionMock,
+            statuses: [
+              {
+                status: "TO_PUBLISH",
+                createdAt: "2024-06-27T14:26:28.387898+00:00",
+              },
+            ],
+          },
+        },
+      ]
+    );
     expect(result?.length).toBe(1);
   });
 });

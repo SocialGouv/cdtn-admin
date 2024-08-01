@@ -1,17 +1,16 @@
 import {
   ContributionDocumentJson,
   DocumentElasticWithSource,
+  ExportEsStatus,
 } from "@socialgouv/cdtn-types";
 import { context } from "../context";
 import { gqlClient } from "@shared/utils";
+import { fetchLastExportStatus } from "../documents/fetchLastExportStatus";
 
 export const fetchContributionDocumentsQuery = `
 query fetchContributions {
     documents(where: {source: {_eq: "contributions"}}) {
       cdtnId: cdtn_id
-      export {
-        finished_at
-      }
       contribution {
         id
         statuses(where:{status: {_eq: "TO_PUBLISH"}}, order_by: {created_at: desc}, limit: 1) {
@@ -21,20 +20,21 @@ query fetchContributions {
       }
     }
   }
-  `;
+`;
 
 interface HasuraReturn {
   documents: [DocumentElasticWithSource<ContributionDocumentJson>] | undefined;
 }
 
 export function filterContributionDocumentsToPublish(
+  latestExportEs: Partial<ExportEsStatus> | undefined,
   contributionDocs:
     | DocumentElasticWithSource<ContributionDocumentJson>[]
     | undefined
 ): DocumentElasticWithSource<ContributionDocumentJson>[] | undefined {
   return contributionDocs?.filter((doc) => {
-    const exportDate = doc.export?.finished_at
-      ? new Date(doc.export.finished_at).getTime()
+    const exportDate = latestExportEs?.created_at
+      ? new Date(latestExportEs.created_at).getTime()
       : 0;
     const statusDate = doc.contribution?.statuses?.length
       ? new Date(doc.contribution.statuses[0].createdAt).getTime()
@@ -43,9 +43,9 @@ export function filterContributionDocumentsToPublish(
   });
 }
 
-export async function fetchContributionDocumentToPublish(): Promise<
-  DocumentElasticWithSource<ContributionDocumentJson>[] | undefined
-> {
+export async function fetchContributionDocumentToPublish(
+  isProd: boolean
+): Promise<DocumentElasticWithSource<ContributionDocumentJson>[] | undefined> {
   const HASURA_GRAPHQL_ENDPOINT =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const HASURA_GRAPHQL_ENDPOINT_SECRET =
@@ -59,5 +59,10 @@ export async function fetchContributionDocumentToPublish(): Promise<
   if (res.error) {
     throw res.error;
   }
-  return filterContributionDocumentsToPublish(res.data?.documents);
+  const exportEsStatus = await fetchLastExportStatus(isProd);
+
+  return filterContributionDocumentsToPublish(
+    exportEsStatus,
+    res.data?.documents
+  );
 }

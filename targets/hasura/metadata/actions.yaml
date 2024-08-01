@@ -17,33 +17,8 @@ actions:
       - role: super
 custom_types:
   enums: []
-  input_objects:
-    - name: PreviewDocument
-    - name: EmailInput
+  input_objects: []
   objects:
-    - name: Status
-    - name: RunningPipelines
-    - name: UpdateDataSourceOutput
-      relationships:
-        - field_mapping:
-            user_id: id
-          name: user
-          remote_table:
-            name: users
-            schema: auth
-          source: default
-          type: object
-    - name: PipelineStatus
-    - name: UpdatePipelineOutput
-      relationships:
-        - field_mapping:
-            user_id: id
-          name: user
-          remote_table:
-            name: users
-            schema: auth
-          source: default
-          type: object
     - name: KaliArticles
     - name: RecentKaliReferenceOutput
     - name: publishOutput

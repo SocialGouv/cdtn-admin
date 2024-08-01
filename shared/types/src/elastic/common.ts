@@ -25,7 +25,6 @@ export type DocumentElastic<T extends SourceRoute = SourceRoute> = {
   metaDescription: string;
   refs: DocumentRef[];
   contribution?: ContributionsAnswers;
-  export?: Pick<ExportEsStatus, "finished_at">;
 };
 
 export type RelatedDocument<T extends SourceRoute = SourceRoute> = {

@@ -1,0 +1,2 @@
+CREATE TABLE "public"."document_exports" ("export_id" uuid NOT NULL, "cdtn_id" text NOT NULL, "id" uuid NOT NULL DEFAULT gen_random_uuid(), PRIMARY KEY ("id") , FOREIGN KEY ("cdtn_id") REFERENCES "public"."documents"("cdtn_id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("export_id") REFERENCES "public"."export_es_status"("id") ON UPDATE restrict ON DELETE restrict);COMMENT ON TABLE "public"."document_exports" IS E'Table technique pour lister chaque documents qui ont été export';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

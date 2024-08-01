@@ -1,16 +1,6 @@
 table:
   name: documents
   schema: public
-configuration:
-  column_config:
-    export_id:
-      custom_name: exportId
-    exported_at:
-      custom_name: exportedAt
-  custom_column_names:
-    export_id: exportId
-    exported_at: exportedAt
-  custom_root_fields: {}
 object_relationships:
   - name: contribution
     using:
