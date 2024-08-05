@@ -142,11 +142,11 @@ const answerBase: AnswerWithStatus = {
     },
   },
   updateDate: "29/09/2023",
-  publication: {
+  document_export: {
     export: {
       createdAt: "29/09/2023",
     },
-  }
+  },
 };
 
 const onSubmit = jest.fn(() => Promise.resolve());

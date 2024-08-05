@@ -13,6 +13,51 @@ type Query {
   ): RecentKaliReferenceOutput
 }
 
+input PreviewDocument {
+  cdtn_id: String
+  document: jsonb
+  source: String
+}
+
+input EmailInput {
+  email: String!
+  secret_token: uuid!
+}
+
+type Status {
+  message: String!
+  statusCode: Int!
+}
+
+type RunningPipelines {
+  id: String!
+  status: String!
+  environment: String!
+}
+
+type UpdateDataSourceOutput {
+  created_at: timestamptz!
+  environment: String!
+  id: uuid!
+  pipeline_id: String!
+  status: String!
+  user_id: uuid!
+}
+
+type PipelineStatus {
+  id: String!
+  status: String!
+}
+
+type UpdatePipelineOutput {
+  created_at: timestamptz!
+  environment: String!
+  id: uuid!
+  pipeline_id: String!
+  status: String!
+  user_id: uuid!
+}
+
 type KaliArticles {
   path: String!
   label: String

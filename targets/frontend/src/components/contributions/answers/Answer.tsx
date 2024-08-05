@@ -130,13 +130,13 @@ export const ContributionsAnswer = ({
           <Stack>
             <StatusContainer
               status={answer.status.status}
-              exportDate={answer.publication?.export.createdAt}
+              exportDate={answer.document_export?.export.createdAt}
               statusDate={answer.status.createdAt}
               displayText
             />
             <StatusPublicationContainer
               status={answer.status.status}
-              exportDate={answer.publication?.export.createdAt}
+              exportDate={answer.document_export?.export.createdAt}
               displayText
             />
           </Stack>

@@ -1,10 +1,3 @@
 table:
   name: document_exports
   schema: public
-object_relationships:
-  - name: document
-    using:
-      foreign_key_constraint_on: cdtn_id
-  - name: export_es_status
-    using:
-      foreign_key_constraint_on: export_id

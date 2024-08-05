@@ -183,7 +183,7 @@ export const answerRelationSchema = answerBaseSchema.extend({
   contentFichesSpDocument: documentSchema.nullable().optional(),
   question: questionBaseSchema,
   answerComments: z.array(commentsSchema),
-  publication: z.object({
+  document_export: z.object({
     export: exportStatus,
   }),
 });
