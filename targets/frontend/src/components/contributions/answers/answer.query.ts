@@ -43,11 +43,6 @@ query contribution_answer($id: uuid) {
         name
       }
     }
-    publication {
-      export {
-        createdAt: created_at
-      }
-    }
     kaliReferences: kali_references {
      label
       kaliArticle: kali_article {

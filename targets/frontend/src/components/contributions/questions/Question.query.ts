@@ -32,11 +32,6 @@ query SelectQuestion($questionId: uuid) {
           name
         }
       }
-      publication {
-        export {
-          createdAt: created_at
-        }
-      }
     }
   }
   contribution_question_messages {
