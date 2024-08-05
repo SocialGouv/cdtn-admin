@@ -143,7 +143,7 @@ const answerBase: AnswerWithStatus = {
   },
   updateDate: "29/09/2023",
   document_export: {
-    export: {
+    export_es_status: {
       createdAt: "29/09/2023",
     },
   },
