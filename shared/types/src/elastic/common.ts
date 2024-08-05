@@ -1,5 +1,5 @@
 import { SourceRoute } from "@socialgouv/cdtn-sources";
-import { ContributionsAnswers, ExportEsStatus } from "../hasura";
+import { ContributionsAnswers } from "../hasura";
 
 export type DocumentElasticWithSource<
   T,
