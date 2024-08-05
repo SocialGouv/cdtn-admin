@@ -33,7 +33,7 @@ query SelectQuestion($questionId: uuid) {
         }
       }
       document_export {
-        export {
+        export_es_status {
           createdAt: created_at
         }
       }
@@ -76,6 +76,7 @@ export const useQuestionQuery = ({
     },
   });
   if (result?.error) {
+    console.error(result.error);
     return "error";
   }
   if (!result?.data) {

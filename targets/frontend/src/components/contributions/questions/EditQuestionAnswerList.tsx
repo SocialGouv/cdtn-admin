@@ -204,7 +204,9 @@ export const QuestionAnswerList = ({
                       {answer.status && (
                         <StatusContainer
                           status={answer.status.status}
-                          exportDate={answer.document_export?.export.createdAt}
+                          exportDate={
+                            answer.document_export?.export_es_status.createdAt
+                          }
                           statusDate={answer.status.createdAt}
                           center
                         />
@@ -217,7 +219,9 @@ export const QuestionAnswerList = ({
                     >
                       <StatusPublicationContainer
                         status={answer.status.status}
-                        exportDate={answer.document_export?.export.createdAt}
+                        exportDate={
+                          answer.document_export?.export_es_status.createdAt
+                        }
                         center
                       />
                     </TableCell>

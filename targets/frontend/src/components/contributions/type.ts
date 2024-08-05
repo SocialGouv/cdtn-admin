@@ -184,7 +184,7 @@ export const answerRelationSchema = answerBaseSchema.extend({
   question: questionBaseSchema,
   answerComments: z.array(commentsSchema),
   document_export: z.object({
-    export: exportStatus,
+    export_es_status: exportStatus,
   }),
 });
 export type Answer = z.infer<typeof answerRelationSchema>;

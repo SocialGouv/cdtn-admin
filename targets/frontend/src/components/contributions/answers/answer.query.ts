@@ -44,7 +44,7 @@ query contribution_answer($id: uuid) {
       }
     }
     document_export {
-      export {
+      export_es_status {
         createdAt: created_at
       }
     }
