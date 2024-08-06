@@ -27,6 +27,7 @@ export type ContributionQuestion = {
   id: string;
   content: string;
   order: number;
+  seo_title: string;
 };
 
 export type ContributionKaliReferences = {
@@ -90,6 +91,7 @@ type ContributionDocumentJsonBasic = {
   linkedContent: ContributionLinkedContent[];
   questionIndex: number;
   questionName: string;
+  seoTitle?: string;
   questionId: string;
   description: string;
   idcc: string; // 0000 pour la générique, impossible d'être nulle

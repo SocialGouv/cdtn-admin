@@ -9,6 +9,7 @@ query getContribCdtnReferences($ids: [String!]) {
       id
       content
       order
+      seo_title
     }
     cdtn_references {
       cdtn_id

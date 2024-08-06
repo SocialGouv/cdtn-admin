@@ -1,14 +1,40 @@
 import {
+  AgreementDoc,
+  Breadcrumb,
   ContributionDocumentJson,
   ContributionMetadata,
   DocumentElasticWithSource,
 } from "@socialgouv/cdtn-types";
 
 export const generateMetadata = (
-  contribution: DocumentElasticWithSource<ContributionDocumentJson>
+  ccns: DocumentElasticWithSource<AgreementDoc>[],
+  contribution: DocumentElasticWithSource<ContributionDocumentJson>,
+  breadcrumbs: Breadcrumb[]
 ): ContributionMetadata => {
+  const cc = ccns.find((v) => v.num === parseInt(contribution.idcc));
+
+  const defaultTitle =
+    cc?.shortTitle &&
+    cc.shortTitle.length > 14 &&
+    contribution.questionName.length > 50
+      ? `${contribution.questionName} - ${cc.shortTitle}`
+      : contribution.questionName;
+
+  const metaTitle =
+    breadcrumbs.length > 0 && cc?.shortTitle
+      ? `${breadcrumbs[breadcrumbs.length - 1].label} + " - " + ${
+          cc.shortTitle
+        }`
+      : defaultTitle;
+
+  const metaDescription = defaultTitle + " " + contribution.description;
+
   return {
-    title: contribution.questionName,
+    title: defaultTitle,
     text: contribution.description, // champ qui est indexé par elasticsearch
+    metas: {
+      title: metaTitle,
+      description: metaDescription,
+    },
   };
 };

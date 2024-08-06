@@ -9,6 +9,7 @@ query SelectQuestion($questionId: uuid) {
     content
     order
     id
+    seo_title
     message {
       id
       label

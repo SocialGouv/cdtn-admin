@@ -17,6 +17,7 @@ export const getContributionAnswerById = gql`
         id
         content
         order
+        seo_title
       }
       message_block_generic_no_CDT
       kali_references {
@@ -65,6 +66,7 @@ export const getGenericAnswerByQuestionId = gql`
         id
         content
         order
+        seo_title
       }
       content_fiche_sp: document {
         initial_id

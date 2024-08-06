@@ -152,6 +152,7 @@ describe("mapContributionToDocument", () => {
         questionId: "3384f257-e319-46d1-a4cb-8e8294da337b",
         questionName:
           "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+        seoTitle: "Titre SEO",
         linkedContent: [
           {
             cdtnId: "abcdef",
@@ -313,6 +314,7 @@ describe("mapContributionToDocument", () => {
         questionId: "3384f257-e319-46d1-a4cb-8e8294da337b",
         questionName:
           "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
+        seoTitle: "seoTitle",
         linkedContent: [],
         questionIndex: 43,
         references: [],

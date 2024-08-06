@@ -13,6 +13,7 @@ export const questionListQuery = `query questions_answers($search: String) {
     id
     content
     order
+    seo_title
     answers_aggregate(where: {cdtnId: {_is_null: false }}) {
       aggregate {
         count
@@ -25,8 +26,8 @@ export type QueryQuestion = Question & {
   answers_aggregate: {
     aggregate: {
       count: number;
-    }
-  }
+    };
+  };
 };
 
 export type QueryResult = {
