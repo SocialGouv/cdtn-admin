@@ -17,13 +17,7 @@ object_relationships:
       foreign_key_constraint_on: content_service_public_cdtn_id
   - name: document_export
     using:
-      manual_configuration:
-        column_mapping:
-          cdtn_id: cdtn_id
-        insertion_order: null
-        remote_table:
-          name: documents_exports
-          schema: public
+      foreign_key_constraint_on: cdtn_id
   - name: question
     using:
       foreign_key_constraint_on: question_id
