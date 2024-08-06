@@ -32,8 +32,8 @@ query SelectQuestion($questionId: uuid) {
           name
         }
       }
-      publication {
-        export {
+      document_export {
+        export_es_status {
           createdAt: created_at
         }
       }
@@ -76,6 +76,7 @@ export const useQuestionQuery = ({
     },
   });
   if (result?.error) {
+    console.error(result.error);
     return "error";
   }
   if (!result?.data) {
