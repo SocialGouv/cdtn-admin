@@ -32,7 +32,7 @@ export async function updateExportStatuses(
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const HASURA_GRAPHQL_ENDPOINT_SECRET =
     context.get("cdtnAdminEndpointSecret") || "admin1";
-  const exportStatus = await fetchLastExportStatus(true);
+  const exportStatus = await fetchLastExportStatus(true, false);
 
   if (!exportStatus?.id) {
     return;

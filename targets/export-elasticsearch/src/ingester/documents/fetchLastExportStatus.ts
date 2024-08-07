@@ -1,10 +1,14 @@
 import { Environment, ExportEsStatus } from "@socialgouv/cdtn-types";
 import { context } from "../context";
 import { gqlClient } from "@shared/utils";
-import { getLatestExportEsStatus } from "../../repositories/graphql";
+import {
+  getLatestCompletedExportEsStatus,
+  getLatestExportEsStatus,
+} from "../../repositories/graphql";
 
 export async function fetchLastExportStatus(
-  isProd: boolean
+  isProd: boolean,
+  isCompleted: boolean
 ): Promise<ExportEsStatus | undefined> {
   const HASURA_GRAPHQL_ENDPOINT =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
@@ -14,9 +18,14 @@ export async function fetchLastExportStatus(
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
     adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
   })
-    .query<{ export_es_status: ExportEsStatus[] }>(getLatestExportEsStatus, {
-      environment: isProd ? Environment.production : Environment.preproduction,
-    })
+    .query<{ export_es_status: ExportEsStatus[] }>(
+      isCompleted ? getLatestCompletedExportEsStatus : getLatestExportEsStatus,
+      {
+        environment: isProd
+          ? Environment.production
+          : Environment.preproduction,
+      }
+    )
     .toPromise();
 
   if (resLatestExport.error) {
