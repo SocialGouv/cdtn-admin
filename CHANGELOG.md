@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.47.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.47.1...v2.47.2) (2024-08-07)
+
+### Bug Fixes
+
+- dedicated prod nodepool ([#1455](https://github.com/SocialGouv/cdtn-admin/issues/1455)) ([7e49717](https://github.com/SocialGouv/cdtn-admin/commit/7e49717f90a31cfd979dffbfb7e2075ab2a4281a))
+
 ## [2.47.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.47.0...v2.47.1) (2024-07-24)
 
 ### Features
