@@ -23,7 +23,6 @@
 - "!include public_alert_status.yaml"
 - "!include public_alert_warnings.yaml"
 - "!include public_alerts.yaml"
-- "!include public_document_exports.yaml"
 - "!include public_document_relations.yaml"
 - "!include public_documents.yaml"
 - "!include public_export_es_status.yaml"

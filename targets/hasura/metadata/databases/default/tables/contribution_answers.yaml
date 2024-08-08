@@ -15,9 +15,15 @@ object_relationships:
   - name: document
     using:
       foreign_key_constraint_on: content_service_public_cdtn_id
-  - name: document_export
+  - name: publication
     using:
-      foreign_key_constraint_on: cdtn_id
+      manual_configuration:
+        column_mapping:
+          cdtn_id: cdtn_id
+        insertion_order: null
+        remote_table:
+          name: documents
+          schema: public
   - name: question
     using:
       foreign_key_constraint_on: question_id
