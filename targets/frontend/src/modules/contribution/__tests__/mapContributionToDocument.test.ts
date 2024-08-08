@@ -50,6 +50,7 @@ describe("mapContributionToDocument", () => {
         content:
           "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
         order: 43,
+        seo_title: "Titre SEO",
       },
       kali_references: [
         {
@@ -255,6 +256,7 @@ describe("mapContributionToDocument", () => {
         content:
           "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
         order: 43,
+        seo_title: "seoTitle",
       },
       kali_references: [],
       legi_references: [],
@@ -290,6 +292,7 @@ describe("mapContributionToDocument", () => {
           content:
             "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
           order: 43,
+          seo_title: "seoTitle",
         },
         kali_references: [],
         legi_references: [],
