@@ -67,7 +67,9 @@ export async function cdtnDocumentsGen(
 
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
 
-  const contributionsToPublish = await fetchContributionDocumentToPublish();
+  const contributionsToPublish = await fetchContributionDocumentToPublish(
+    isProd
+  );
 
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(

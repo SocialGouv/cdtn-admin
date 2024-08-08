@@ -12,11 +12,6 @@ export type Breadcrumb = {
   slug: string;
 };
 
-export type Export = {
-  id: string;
-  createdAt: string;
-};
-
 export type DocumentElastic<T extends SourceRoute = SourceRoute> = {
   id: string;
   cdtnId: string;
@@ -30,7 +25,6 @@ export type DocumentElastic<T extends SourceRoute = SourceRoute> = {
   metaDescription: string;
   refs: DocumentRef[];
   contribution?: ContributionsAnswers;
-  export?: Export;
 };
 
 export type RelatedDocument<T extends SourceRoute = SourceRoute> = {

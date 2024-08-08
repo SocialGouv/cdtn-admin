@@ -43,8 +43,8 @@ query contribution_answer($id: uuid) {
         name
       }
     }
-    publication {
-      export {
+    document_export {
+      export_es_status {
         createdAt: created_at
       }
     }

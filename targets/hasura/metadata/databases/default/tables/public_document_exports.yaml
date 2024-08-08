@@ -1,0 +1,43 @@
+table:
+  name: document_exports
+  schema: public
+object_relationships:
+  - name: document
+    using:
+      foreign_key_constraint_on: cdtn_id
+  - name: export_es_status
+    using:
+      foreign_key_constraint_on: export_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - cdtn_id
+        - export_id
+        - id
+    comment: ""
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - cdtn_id
+        - export_id
+        - id
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - cdtn_id
+        - export_id
+        - id
+      filter: {}
+      check: {}
+    comment: ""
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""

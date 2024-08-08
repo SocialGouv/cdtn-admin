@@ -56,6 +56,26 @@ query getLatestExportEsStatus($environment: String!) {
 }
 `;
 
+export const getLatestCompletedExportEsStatus = `
+query getLatestCompletedExportEsStatus($environment: String!) {
+  export_es_status(where: {environment: {_eq: $environment}, status: {_eq: "completed"}}, order_by: {created_at: desc}) {
+    id
+    environment
+    status
+    user_id
+    user {
+      name
+      email
+      id
+    }
+    created_at
+    updated_at
+    error
+    documentsCount
+  }
+}
+`;
+
 export const getExportEsStatusById = `
 query getExportEsById($id: uuid!) {
   export_es_status_by_pk(id: $id) {
