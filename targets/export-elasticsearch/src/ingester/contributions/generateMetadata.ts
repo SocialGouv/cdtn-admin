@@ -13,12 +13,14 @@ export const generateMetadata = (
 ): ContributionMetadata => {
   const cc = ccns.find((v) => v.num === parseInt(contribution.idcc));
 
-  const defaultTitle =
+  const titleWithQuestion =
     cc?.shortTitle &&
     cc.shortTitle.length > 14 &&
     contribution.questionName.length > 50
       ? `${contribution.questionName} - ${cc.shortTitle}`
       : contribution.questionName;
+
+  const defaultTitle = contribution.seoTitle ?? titleWithQuestion;
 
   const metaTitle =
     breadcrumbs.length > 0 && cc?.shortTitle
@@ -27,7 +29,7 @@ export const generateMetadata = (
         }`
       : defaultTitle;
 
-  const metaDescription = defaultTitle + " " + contribution.description;
+  const metaDescription = `${defaultTitle} ${contribution.description}`;
 
   return {
     title: defaultTitle,

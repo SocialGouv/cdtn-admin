@@ -77,6 +77,7 @@ export const useQuestionQuery = ({
     },
   });
   if (result?.error) {
+    console.error(result.error);
     return "error";
   }
   if (!result?.data) {

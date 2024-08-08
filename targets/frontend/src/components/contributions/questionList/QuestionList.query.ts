@@ -64,6 +64,9 @@ export const useQuestionListQuery = ({
       search,
     },
   });
+  if (result.error) {
+    console.error(result.error);
+  }
   return {
     rows: result.data?.contribution_questions ?? [],
   };

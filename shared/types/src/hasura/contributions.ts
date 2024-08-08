@@ -27,7 +27,7 @@ export type ContributionQuestion = {
   id: string;
   content: string;
   order: number;
-  seo_title: string;
+  seo_title?: string;
 };
 
 export type ContributionKaliReferences = {
