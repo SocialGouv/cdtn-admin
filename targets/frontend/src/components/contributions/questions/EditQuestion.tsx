@@ -11,6 +11,7 @@ import { Answer } from "../type";
 import { usePublishContributionMutation } from "../answers/usePublishAnswer";
 import { useSession } from "next-auth/react";
 import { useContributionAnswerUpdateStatusMutation } from "../answers/answerStatus.mutation";
+import { usePublishAllAnswersMutation } from "../answers/usePublishAllAnswers";
 
 export type EditQuestionProps = {
   questionId: string;
@@ -36,6 +37,7 @@ export const EditQuestion = ({
   const { data: session } = useSession();
   const user = session?.user;
   const updateAnswerStatus = useContributionAnswerUpdateStatusMutation();
+  const onRepublish = usePublishAllAnswersMutation();
 
   if (data === undefined || !user) {
     return <Skeleton />;
@@ -115,6 +117,10 @@ export const EditQuestion = ({
     data.reExecute();
   };
 
+  const republish = async () => {
+    await onRepublish();
+  };
+
   return (
     <Stack
       alignItems="stretch"
@@ -133,6 +139,7 @@ export const EditQuestion = ({
         <QuestionAnswerList
           answers={data.question.answers as Answer[]}
           onPublish={publish}
+          onRepublish={republish}
         ></QuestionAnswerList>
       </TabPanel>
       <TabPanel value={tabIndex} index={TabValue.edition}>

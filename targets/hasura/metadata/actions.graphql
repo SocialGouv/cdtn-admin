@@ -5,6 +5,12 @@ type Mutation {
   ): publishOutput
 }
 
+type Mutation {
+  publishAll(
+    source: String!
+  ): publishAllOutput
+}
+
 type Query {
   recentKaliReference(
     agreementId: bpchar!
@@ -74,5 +80,9 @@ type RecentKaliReferenceOutput {
 
 type publishOutput {
   cdtnId: String!
+}
+
+type publishAllOutput {
+  isPending: Boolean
 }
 

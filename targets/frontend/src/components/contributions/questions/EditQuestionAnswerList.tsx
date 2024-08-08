@@ -24,6 +24,7 @@ import { StatusPublicationContainer } from "../status/StatusPublication";
 type EditQuestionAnswerListProps = {
   answers: Answer[];
   onPublish: (id: string) => Promise<void>;
+  onRepublish: () => Promise<void>;
 };
 
 type AnswerCheck = {
@@ -65,6 +66,7 @@ const contentTypes = {
 export const QuestionAnswerList = ({
   answers,
   onPublish,
+  onRepublish,
 }: EditQuestionAnswerListProps): JSX.Element => {
   const router = useRouter();
   const [answersCheck, setAnswersCheck] = useState<AnswerCheck>(
@@ -98,6 +100,7 @@ export const QuestionAnswerList = ({
       throw e;
     }
   };
+
   const redirectToAnswer = (id: string) => {
     router.push(`/contributions/answers/${id}`);
   };
@@ -117,6 +120,13 @@ export const QuestionAnswerList = ({
             isPublishing={isPublishing}
           >
             Publier
+          </PublishButton>
+          <PublishButton
+            disabled={!displayPublish}
+            onClick={onRepublish}
+            isPublishing={isPublishing}
+          >
+            Re-publier l&apos;ensemble des réponses
           </PublishButton>
         </Stack>
         <TableContainer component={Paper}>

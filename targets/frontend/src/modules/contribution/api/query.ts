@@ -75,3 +75,11 @@ export const getGenericAnswerByQuestionId = gql`
     }
   }
 `;
+
+export const getAllContributions = gql`
+  query allContributions {
+    contribution_answers {
+      id
+    }
+  }
+`;

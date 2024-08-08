@@ -2,6 +2,7 @@ import { ApiClient } from "src/lib/api";
 import {
   getContributionAnswerById,
   getGenericAnswerByQuestionId,
+  getAllContributions,
 } from "./query";
 import { ContributionsAnswers } from "@socialgouv/cdtn-types";
 
@@ -11,6 +12,10 @@ interface FetchContribPkData {
 
 interface FetchContribQuestionIdData {
   contribution_answers: Partial<ContributionsAnswers[]>;
+}
+
+interface FetchAllContribData {
+  contribution_answers: Pick<ContributionsAnswers, "id">[];
 }
 
 export class ContributionRepository {
@@ -58,5 +63,17 @@ export class ContributionRepository {
       );
     }
     return data.contribution_answers[0];
+  }
+
+  async fetchAll(): Promise<FetchAllContribData["contribution_answers"]> {
+    const { error, data } = await this.client.query<FetchAllContribData>(
+      getAllContributions,
+      {}
+    );
+    if (error || !data) {
+      console.error(error ?? "No data");
+      throw error;
+    }
+    return data.contribution_answers;
   }
 }
