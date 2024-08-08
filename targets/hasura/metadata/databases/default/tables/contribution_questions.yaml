@@ -24,29 +24,33 @@ insert_permissions:
     permission:
       check: {}
       columns:
+        - order
         - content
+        - seo_title
         - id
         - message_id
-        - order
 select_permissions:
   - role: super
     permission:
       columns:
+        - order
         - content
+        - seo_title
         - id
         - message_id
-        - order
       filter: {}
       allow_aggregations: true
 update_permissions:
   - role: super
     permission:
       columns:
-        - content
-        - message_id
         - order
+        - content
+        - seo_title
+        - id
+        - message_id
       filter: {}
-      check: null
+      check: {}
 delete_permissions:
   - role: super
     permission:
