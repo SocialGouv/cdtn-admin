@@ -89,7 +89,7 @@ export async function generateContributions(
 
     const contribution: ContributionElasticDocumentLightRelatedContent = {
       ...contrib,
-      ...generateMetadata(ccnData, contrib),
+      ...generateMetadata(ccnData, contrib, breadcrumbs),
       ...getContributionContent(content),
       ...doc,
       breadcrumbs,
