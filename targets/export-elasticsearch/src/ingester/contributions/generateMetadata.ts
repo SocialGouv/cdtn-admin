@@ -20,23 +20,20 @@ export const generateMetadata = (
       ? `${contribution.questionName} - ${cc.shortTitle}`
       : contribution.questionName;
 
-  const defaultTitle = contribution.seoTitle ?? titleWithQuestion;
-
   const metaTitle =
-    breadcrumbs.length > 0 && cc?.shortTitle
+    contribution.seoTitle ??
+    (breadcrumbs.length > 0 && cc?.shortTitle
       ? `${breadcrumbs[breadcrumbs.length - 1].label} + " - " + ${
           cc.shortTitle
         }`
-      : defaultTitle;
+      : titleWithQuestion);
 
-  const metaDescription = `${defaultTitle} ${contribution.description}`;
+  const metaDescription = `${metaTitle} ${contribution.description}`;
 
   return {
-    title: defaultTitle,
+    title: titleWithQuestion,
     text: contribution.description, // champ qui est indexé par elasticsearch
-    metas: {
-      title: metaTitle,
-      description: metaDescription,
-    },
+    metaTitle,
+    metaDescription,
   };
 };
