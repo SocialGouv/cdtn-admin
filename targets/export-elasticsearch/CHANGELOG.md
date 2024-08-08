@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.47.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.47.1...v2.47.2) (2024-08-07)
+
+**Note:** Version bump only for package export-elasticsearch
+
 ## [2.47.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.47.0...v2.47.1) (2024-07-24)
 
 **Note:** Version bump only for package export-elasticsearch
