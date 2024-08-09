@@ -10,7 +10,7 @@ actions:
   - name: publishAll
     definition:
       kind: synchronous
-      handler: '{{API_URL}}/actions/publishAll'
+      handler: '{{API_URL}}/actions/publish-all'
       forward_client_headers: true
     permissions:
       - role: super

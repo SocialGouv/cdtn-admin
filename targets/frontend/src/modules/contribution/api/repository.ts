@@ -15,7 +15,7 @@ interface FetchContribQuestionIdData {
 }
 
 interface FetchAllContribData {
-  contribution_answers: Pick<ContributionsAnswers, "id">[];
+  contribution_answers: Pick<ContributionsAnswers, "id" | "statuses">[];
 }
 
 export class ContributionRepository {
@@ -65,7 +65,9 @@ export class ContributionRepository {
     return data.contribution_answers[0];
   }
 
-  async fetchAll(): Promise<FetchAllContribData["contribution_answers"]> {
+  async fetchAllPublishedContributions(): Promise<
+    FetchAllContribData["contribution_answers"]
+  > {
     const { error, data } = await this.client.query<FetchAllContribData>(
       getAllContributions,
       {}
@@ -74,6 +76,9 @@ export class ContributionRepository {
       console.error(error ?? "No data");
       throw error;
     }
-    return data.contribution_answers;
+    return data.contribution_answers.filter(
+      (contrib) =>
+        contrib.statuses && contrib.statuses[0].status === "TO_PUBLISH"
+    );
   }
 }

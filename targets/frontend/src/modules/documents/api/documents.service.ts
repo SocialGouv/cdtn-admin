@@ -313,13 +313,18 @@ export class DocumentsService {
   public async publishAll(source: SourceRoute) {
     switch (source) {
       case "contributions":
-        const allContributions = await this.contributionRepository.fetchAll();
+        const allContributions =
+          await this.contributionRepository.fetchAllPublishedContributions();
         pMap(
           allContributions,
           async (contribution) => {
             await this.publish(contribution.id, source);
+            console.log(`Contribution ${contribution.id} has been republished`);
           },
           { concurrency: 1 }
+        );
+        console.log(
+          "All contributions that has been already published have been republished"
         );
         break;
       default:

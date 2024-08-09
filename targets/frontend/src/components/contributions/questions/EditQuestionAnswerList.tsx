@@ -1,5 +1,4 @@
 import {
-  Button,
   Checkbox,
   Paper,
   Stack,
@@ -25,7 +24,6 @@ import { StatusPublicationContainer } from "../status/StatusPublication";
 type EditQuestionAnswerListProps = {
   answers: Answer[];
   onPublish: (id: string) => Promise<void>;
-  onRepublish: () => Promise<void>;
 };
 
 type AnswerCheck = {
@@ -67,7 +65,6 @@ const contentTypes = {
 export const QuestionAnswerList = ({
   answers,
   onPublish,
-  onRepublish,
 }: EditQuestionAnswerListProps): JSX.Element => {
   const router = useRouter();
   const [answersCheck, setAnswersCheck] = useState<AnswerCheck>(
@@ -115,14 +112,6 @@ export const QuestionAnswerList = ({
     <Stack alignItems="stretch">
       <Stack>
         <Stack direction="row" alignItems="start" spacing={2}>
-          <Button
-            variant="contained"
-            type="button"
-            color="success"
-            onClick={onRepublish}
-          >
-            Re-publier l&apos;ensemble des réponses
-          </Button>
           <PublishButton
             disabled={!displayPublish}
             onClick={publishAll}

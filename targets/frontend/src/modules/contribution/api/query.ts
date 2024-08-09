@@ -80,6 +80,9 @@ export const getAllContributions = gql`
   query allContributions {
     contribution_answers {
       id
+      statuses(order_by: { created_at: desc }, limit: 1) {
+        status
+      }
     }
   }
 `;

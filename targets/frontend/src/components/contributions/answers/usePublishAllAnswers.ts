@@ -1,7 +1,7 @@
 import { OperationResult, useMutation } from "urql";
 
 export const publishContributionMutation = `
-mutation publish_contribution{
+mutation publish_contributions{
     publishAll(source: "contributions") {
         isPending
     }
@@ -15,6 +15,7 @@ export const usePublishAllAnswersMutation = (): PublishMutationResult => {
   const resultFunction = async () => {
     const result = await execute();
     if (result.error) {
+      console.error(result.error);
       throw new Error(result.error.message);
     }
     return result;
