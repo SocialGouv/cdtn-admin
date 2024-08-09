@@ -9,6 +9,7 @@ query SelectQuestion($questionId: uuid) {
     content
     order
     id
+    seo_title
     message {
       id
       label
@@ -76,6 +77,7 @@ export const useQuestionQuery = ({
     },
   });
   if (result?.error) {
+    console.error(result.error);
     return "error";
   }
   if (!result?.data) {

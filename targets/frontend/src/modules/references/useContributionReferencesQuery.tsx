@@ -29,6 +29,7 @@ type HasuraReturn = {
       question: {
         order: number;
         content: string;
+        seo_title?: string;
       };
     };
   }>;
@@ -38,6 +39,7 @@ export type ContributionReferences = {
   answerId: string;
   questionIndex: string;
   questionName: string;
+  seoTitle?: string;
   agreementId: string;
 };
 
@@ -57,6 +59,7 @@ export const useContributionReferencesQuery = ({
   return result.data.contribution_answer_cdtn_references.map((v) => ({
     answerId: v.answer.id,
     questionName: v.answer.question.content,
+    seoTitle: v.answer.question.seo_title,
     agreementId: v.answer.agreement_id,
     questionIndex: v.answer.question.order.toString(),
   }));

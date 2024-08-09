@@ -24,9 +24,9 @@ export const mock: QuestionListQueryResult = {
       order: 1,
       answers_aggregate: {
         aggregate: {
-          count: 50
-        }
-      }
+          count: 50,
+        },
+      },
     },
     {
       content: "question2",
@@ -34,9 +34,9 @@ export const mock: QuestionListQueryResult = {
       order: 2,
       answers_aggregate: {
         aggregate: {
-          count: 50
-        }
-      }
+          count: 50,
+        },
+      },
     },
   ],
 };

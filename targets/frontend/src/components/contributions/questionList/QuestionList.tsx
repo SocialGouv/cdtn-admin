@@ -1,4 +1,5 @@
 import {
+  Button,
   Paper,
   Stack,
   Table,
@@ -16,6 +17,7 @@ import {
   useQuestionListQuery,
 } from "./QuestionList.query";
 import { QuestionRow } from "./QuestionRow";
+import { usePublishAllAnswersMutation } from "../answers/usePublishAllAnswers";
 
 export const countAnswersWithStatus = (
   answers: QueryQuestionAnswer[] | undefined,
@@ -29,6 +31,8 @@ export const countAnswersWithStatus = (
 
 export const QuestionList = (): JSX.Element => {
   const [search, setSearch] = useState<string | undefined>();
+  const onRepublish = usePublishAllAnswersMutation();
+
   const { rows } = useQuestionListQuery({
     search,
   });
@@ -51,6 +55,14 @@ export const QuestionList = (): JSX.Element => {
           }}
           data-testid="contributions-list-search"
         />
+        <Button
+          variant="contained"
+          type="button"
+          color="success"
+          onClick={onRepublish}
+        >
+          Re-publier l&apos;ensemble des réponses
+        </Button>
       </Stack>
 
       <TableContainer component={Paper}>

@@ -98,6 +98,7 @@ export const QuestionAnswerList = ({
       throw e;
     }
   };
+
   const redirectToAnswer = (id: string) => {
     router.push(`/contributions/answers/${id}`);
   };

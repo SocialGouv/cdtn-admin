@@ -18,11 +18,26 @@ const inputSchema = z.object({
   ]),
 });
 
+const inputSchemaAll = z.object({
+  source: z.enum(["contributions"]),
+});
+
 const actionSchema = z.object({
   action: z.object({
     name: z.string(),
   }),
   input: inputSchema,
+  session_variables: z.object({
+    "x-hasura-user-id": z.string().uuid().optional(),
+    "x-hasura-role": z.string().optional(),
+  }),
+});
+
+const actionSchemaAll = z.object({
+  action: z.object({
+    name: z.string(),
+  }),
+  input: inputSchemaAll,
   session_variables: z.object({
     "x-hasura-user-id": z.string().uuid().optional(),
     "x-hasura-role": z.string().optional(),
@@ -72,8 +87,52 @@ export class DocumentsController {
     }
   }
 
+  public async publishAll() {
+    try {
+      const inputs = this.checkInputsAll();
+
+      if (inputs) {
+        const client = ApiClient.build(inputs.session_variables);
+        const service = new DocumentsService(
+          new InformationsRepository(client),
+          new DocumentsRepository(client),
+          new ContributionRepository(client),
+          new ModelRepository(client),
+          new AgreementRepository(client)
+        );
+        service.publishAll(inputs.input.source);
+        this.res.status(201).json({ isPending: true });
+      }
+    } catch (error: any) {
+      if (error instanceof NotFoundError) {
+        this.res.status(404).json({ message: error.message });
+      } else {
+        if (error instanceof InvalidQueryError) {
+          this.res.status(400).json({ message: error.message });
+        } else {
+          this.res.status(400).json({
+            message: error.message,
+          });
+        }
+      }
+    }
+  }
+
   checkInputs(): z.infer<typeof actionSchema> {
     const inputResult = actionSchema.safeParse(this.req.body);
+
+    if (!inputResult.success) {
+      throw new InvalidQueryError(
+        inputResult.error.message,
+        inputResult.error.errors
+      );
+    }
+
+    return inputResult.data;
+  }
+
+  checkInputsAll(): z.infer<typeof actionSchemaAll> {
+    const inputResult = actionSchemaAll.safeParse(this.req.body);
 
     if (!inputResult.success) {
       throw new InvalidQueryError(

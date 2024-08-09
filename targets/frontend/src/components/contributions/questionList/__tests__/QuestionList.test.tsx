@@ -5,6 +5,10 @@ import { QuestionList } from "..";
 
 jest.mock("../QuestionList.query");
 
+jest.mock("../../answers/usePublishAllAnswers", () => ({
+  usePublishAllAnswersMutation: jest.fn(),
+}));
+
 describe("QuestionList", () => {
   beforeEach(() => {
     render(<QuestionList />);

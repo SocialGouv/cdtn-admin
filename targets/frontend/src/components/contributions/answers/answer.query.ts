@@ -21,6 +21,7 @@ query contribution_answer($id: uuid) {
       id
       content
       order
+      seo_title
     }
     agreement {
       id

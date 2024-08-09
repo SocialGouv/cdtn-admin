@@ -31,6 +31,7 @@ type EditQuestionProps = {
 const formDataSchema = z.object({
   message_id: questionRelationSchema.shape.message_id.or(z.literal("")),
   content: questionRelationSchema.shape.content,
+  seo_title: questionRelationSchema.shape.seo_title,
 });
 
 export type FormData = z.infer<typeof formDataSchema>;
@@ -45,6 +46,7 @@ export const EditQuestionForm = ({
     defaultValues: {
       content: question.content,
       message_id: question.message?.id ?? "",
+      seo_title: question.seo_title ?? "",
     },
   });
   const [message, setMessage] = useState<Message | undefined>(undefined);
@@ -72,6 +74,7 @@ export const EditQuestionForm = ({
     try {
       const result = await updateQuestion({
         id: question.id,
+        seo_title: formData.seo_title ?? undefined,
         content: formData.content,
         message_id: formData.message_id ? formData.message_id : undefined, // use to transform empty string sent by the form to undefined
       });
@@ -97,6 +100,13 @@ export const EditQuestionForm = ({
     <Stack mt={4} spacing={2}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
+          <FormTextField
+            name="seo_title"
+            control={control}
+            label="Nom SEO pour la question"
+            multiline
+            fullWidth
+          />
           <FormTextField
             name="content"
             control={control}

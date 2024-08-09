@@ -17,6 +17,7 @@ export const getContributionAnswerById = gql`
         id
         content
         order
+        seo_title
       }
       message_block_generic_no_CDT
       kali_references {
@@ -65,10 +66,22 @@ export const getGenericAnswerByQuestionId = gql`
         id
         content
         order
+        seo_title
       }
       content_fiche_sp: document {
         initial_id
         document
+      }
+    }
+  }
+`;
+
+export const getAllContributions = gql`
+  query allContributions {
+    contribution_answers {
+      id
+      statuses(order_by: { created_at: desc }, limit: 1) {
+        status
       }
     }
   }
