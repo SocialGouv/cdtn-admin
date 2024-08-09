@@ -1,4 +1,5 @@
 import {
+  Button,
   Checkbox,
   Paper,
   Stack,
@@ -114,19 +115,20 @@ export const QuestionAnswerList = ({
     <Stack alignItems="stretch">
       <Stack>
         <Stack direction="row" alignItems="start" spacing={2}>
+          <Button
+            variant="contained"
+            type="button"
+            color="success"
+            onClick={onRepublish}
+          >
+            Re-publier l&apos;ensemble des réponses
+          </Button>
           <PublishButton
             disabled={!displayPublish}
             onClick={publishAll}
             isPublishing={isPublishing}
           >
             Publier
-          </PublishButton>
-          <PublishButton
-            disabled={!displayPublish}
-            onClick={onRepublish}
-            isPublishing={isPublishing}
-          >
-            Re-publier l&apos;ensemble des réponses
           </PublishButton>
         </Stack>
         <TableContainer component={Paper}>
