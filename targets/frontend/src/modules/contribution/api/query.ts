@@ -76,9 +76,9 @@ export const getGenericAnswerByQuestionId = gql`
   }
 `;
 
-export const getAllContributions = gql`
-  query allContributions {
-    contribution_answers {
+export const getAllContributionsByQuestionId = gql`
+  query allContributions($questionId: uuid!) {
+    contribution_answers(where: { question_id: { _eq: $questionId } }) {
       id
       statuses(order_by: { created_at: desc }, limit: 1) {
         status

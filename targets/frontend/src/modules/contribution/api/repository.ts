@@ -2,7 +2,7 @@ import { ApiClient } from "src/lib/api";
 import {
   getContributionAnswerById,
   getGenericAnswerByQuestionId,
-  getAllContributions,
+  getAllContributionsByQuestionId,
 } from "./query";
 import { ContributionsAnswers } from "@socialgouv/cdtn-types";
 
@@ -65,12 +65,12 @@ export class ContributionRepository {
     return data.contribution_answers[0];
   }
 
-  async fetchAllPublishedContributions(): Promise<
-    FetchAllContribData["contribution_answers"]
-  > {
+  async fetchAllPublishedContributionsByQuestionId(
+    questionId: string
+  ): Promise<FetchAllContribData["contribution_answers"]> {
     const { error, data } = await this.client.query<FetchAllContribData>(
-      getAllContributions,
-      {}
+      getAllContributionsByQuestionId,
+      { questionId }
     );
     if (error || !data) {
       console.error(error ?? "No data");

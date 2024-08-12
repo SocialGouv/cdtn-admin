@@ -310,12 +310,14 @@ export class DocumentsService {
     return await this.documentsRepository.update(document);
   }
 
-  public async publishAll(source: SourceRoute) {
+  public async publishAll(questionId: string, source: SourceRoute) {
     switch (source) {
       case "contributions":
         const allContributions =
-          await this.contributionRepository.fetchAllPublishedContributions();
-        pMap(
+          await this.contributionRepository.fetchAllPublishedContributionsByQuestionId(
+            questionId
+          );
+        await pMap(
           allContributions,
           async (contribution) => {
             await this.publish(contribution.id, source);

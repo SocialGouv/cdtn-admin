@@ -22,6 +22,7 @@ import { useQuestionUpdateMutation } from "./Question.mutation";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Message, Question, questionRelationSchema } from "../type";
 import { SnackBar } from "../../utils/SnackBar";
+import { usePublishAllAnswersMutation } from "../answers/usePublishAllAnswers";
 
 type EditQuestionProps = {
   question: Question;
@@ -52,6 +53,7 @@ export const EditQuestionForm = ({
   const [message, setMessage] = useState<Message | undefined>(undefined);
   const watchMessageId = watch("message_id", question.message?.id);
   const updateQuestion = useQuestionUpdateMutation();
+  const updateAllAnswers = usePublishAllAnswersMutation();
 
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -85,6 +87,7 @@ export const EditQuestionForm = ({
           severity: "error",
         });
       } else {
+        updateAllAnswers(question.id);
         setSnack({ open: true, severity: "success", message: "Sauvegardé" });
       }
     } catch (e: any) {
@@ -101,16 +104,17 @@ export const EditQuestionForm = ({
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
           <FormTextField
-            name="seo_title"
-            control={control}
-            label="Nom SEO pour la question"
-            multiline
-            fullWidth
-          />
-          <FormTextField
             name="content"
             control={control}
             label="Nom de la question"
+            multiline
+            fullWidth
+            disabled
+          />
+          <FormTextField
+            name="seo_title"
+            control={control}
+            label="Nom SEO pour la question"
             multiline
             fullWidth
           />

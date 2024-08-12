@@ -7,6 +7,7 @@ type Mutation {
 
 type Mutation {
   publishAll(
+    questionId: uuid!
     source: String!
   ): publishAllOutput
 }

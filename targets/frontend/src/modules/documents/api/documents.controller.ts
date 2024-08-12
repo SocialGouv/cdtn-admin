@@ -19,6 +19,7 @@ const inputSchema = z.object({
 });
 
 const inputSchemaAll = z.object({
+  questionId: z.string(),
   source: z.enum(["contributions"]),
 });
 
@@ -100,7 +101,7 @@ export class DocumentsController {
           new ModelRepository(client),
           new AgreementRepository(client)
         );
-        service.publishAll(inputs.input.source);
+        service.publishAll(inputs.input.questionId, inputs.input.source);
         this.res.status(201).json({ isPending: true });
       }
     } catch (error: any) {
