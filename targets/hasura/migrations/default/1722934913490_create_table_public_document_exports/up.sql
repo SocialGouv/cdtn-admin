@@ -7,6 +7,5 @@ CREATE TABLE "public"."document_exports" (
     PRIMARY KEY ("id"),
     FOREIGN KEY ("export_id") REFERENCES "public"."export_es_status"("id") ON UPDATE restrict ON DELETE restrict,
     FOREIGN KEY ("cdtn_id") REFERENCES "public"."documents"("cdtn_id") ON UPDATE restrict ON DELETE restrict,
-    UNIQUE ("cdtn_id"),
-    UNIQUE ("export_id")
+    UNIQUE ("export_id", "cdtn_id")
 );
