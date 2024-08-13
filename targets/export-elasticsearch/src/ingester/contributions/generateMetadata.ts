@@ -23,9 +23,7 @@ export const generateMetadata = (
   const metaTitle =
     contribution.seoTitle ??
     (breadcrumbs.length > 0 && cc?.shortTitle
-      ? `${breadcrumbs[breadcrumbs.length - 1].label} + " - " + ${
-          cc.shortTitle
-        }`
+      ? `${breadcrumbs[breadcrumbs.length - 1].label} - ${cc.shortTitle}`
       : titleWithQuestion);
 
   const metaDescription = `${metaTitle} - ${contribution.description}`;
