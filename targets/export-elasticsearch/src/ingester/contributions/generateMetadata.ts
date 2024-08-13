@@ -26,12 +26,14 @@ export const generateMetadata = (
       ? `${breadcrumbs[breadcrumbs.length - 1].label} - ${cc.shortTitle}`
       : titleWithQuestion);
 
-  const metaDescription = `${metaTitle} - ${contribution.description}`;
+  const metaDescription = `${contribution.questionName} - ${contribution.description}`;
 
   return {
     title: titleWithQuestion,
     text: contribution.description, // champ qui est indexé par elasticsearch
-    metaTitle,
-    metaDescription,
+    metas: {
+      title: metaTitle,
+      description: metaDescription,
+    },
   };
 };

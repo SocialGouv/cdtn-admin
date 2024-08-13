@@ -98,8 +98,6 @@ exports.documentMapping = {
 
     metaDescription: { type: "text" },
 
-    metaTitle: { type: "text" },
-
     nbArticles: {
       properties: {
         vigueurEtendu: { type: "integer" },

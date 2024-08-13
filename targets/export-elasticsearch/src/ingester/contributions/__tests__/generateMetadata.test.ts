@@ -45,7 +45,7 @@ describe("generateMetadata", () => {
 
     expect(metadata.title).toBe("Question");
     expect(metadata.text).toBe("Description");
-    expect(metadata.metaTitle).toBe("SEO Title");
-    expect(metadata.metaDescription).toBe("SEO Title Description");
+    expect(metadata.metas.title).toBe("SEO Title");
+    expect(metadata.metas.description).toBe("Question - Description");
   });
 });
