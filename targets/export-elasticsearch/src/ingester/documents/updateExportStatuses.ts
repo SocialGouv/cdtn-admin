@@ -11,7 +11,7 @@ mutation UpsertDocumentExports($objects: [document_exports_insert_input!]!) {
   insert_document_exports(
     objects: $objects,
     on_conflict: {
-      constraint: document_exports_cdtn_id_key,  
+      constraint: document_exports_cdtn_id_export_id_key,  
       update_columns: [export_id]
     }
   ) {
