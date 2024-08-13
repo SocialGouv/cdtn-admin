@@ -28,7 +28,7 @@ export const generateMetadata = (
         }`
       : titleWithQuestion);
 
-  const metaDescription = `${metaTitle} ${contribution.description}`;
+  const metaDescription = `${metaTitle} - ${contribution.description}`;
 
   return {
     title: titleWithQuestion,

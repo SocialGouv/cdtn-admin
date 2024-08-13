@@ -88,10 +88,10 @@ export async function generateContributions(
         : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? [];
 
     const contribution: ContributionElasticDocumentLightRelatedContent = {
+      ...doc,
       ...contrib,
       ...generateMetadata(ccnData, contrib, breadcrumbs),
       ...getContributionContent(content),
-      ...doc,
       breadcrumbs,
       highlight,
       messageBlock,
