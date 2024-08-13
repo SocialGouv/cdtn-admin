@@ -11,14 +11,14 @@ object_relationships:
         remote_table:
           name: answers
           schema: contribution
-  - name: document_export
+array_relationships:
+  - name: document_exports
     using:
       foreign_key_constraint_on:
         column: cdtn_id
         table:
           name: document_exports
           schema: public
-array_relationships:
   - name: relation_a
     using:
       foreign_key_constraint_on:

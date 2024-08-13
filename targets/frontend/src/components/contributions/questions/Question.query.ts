@@ -32,7 +32,7 @@ query SelectQuestion($questionId: uuid) {
           name
         }
       }
-      document_export {
+      document_exports(order_by: {created_at: desc}, limit: 1) {
         export_es_status {
           createdAt: created_at
         }

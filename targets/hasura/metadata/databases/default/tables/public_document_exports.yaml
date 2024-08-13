@@ -14,6 +14,8 @@ insert_permissions:
       check: {}
       columns:
         - cdtn_id
+        - created_at
+        - updated_at
         - export_id
         - id
     comment: ""
@@ -22,6 +24,8 @@ select_permissions:
     permission:
       columns:
         - cdtn_id
+        - created_at
+        - updated_at
         - export_id
         - id
       filter: {}
@@ -31,6 +35,8 @@ update_permissions:
     permission:
       columns:
         - cdtn_id
+        - created_at
+        - updated_at
         - export_id
         - id
       filter: {}

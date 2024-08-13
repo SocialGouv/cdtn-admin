@@ -6,23 +6,17 @@ import {
   DocumentElasticWithSource,
 } from "@socialgouv/cdtn-types";
 
-const upsertDocumentExportMutation = `
-mutation UpsertDocumentExports($objects: [document_exports_insert_input!]!) {
-  insert_document_exports(
-    objects: $objects,
-    on_conflict: {
-      constraint: document_exports_cdtn_id_export_id_key,  
-      update_columns: [export_id]
-    }
-  ) {
-    affected_rows
-    returning {
-      export_id
-      cdtn_id
-      id
+const insertDocumentExportMutation = `
+  mutation UpsertDocumentExports($objects: [document_exports_insert_input!]!) {
+    insert_document_exports(objects: $objects) {
+      affected_rows
+      returning {
+        export_id
+        cdtn_id
+        id
+      }
     }
   }
-}
 `;
 
 export async function updateExportStatuses(
@@ -52,7 +46,7 @@ export async function updateExportStatuses(
       graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
       adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
     })
-      .mutation(upsertDocumentExportMutation, { objects: objectsToInsert })
+      .mutation(insertDocumentExportMutation, { objects: objectsToInsert })
       .toPromise();
     if (res.error) {
       throw res.error;
