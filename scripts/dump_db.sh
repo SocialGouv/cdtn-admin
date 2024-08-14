@@ -101,22 +101,23 @@ kubectl exec -n $namespace $pod -c postgres -- pg_dump -Fc -d $database >${folde
 echo -e "${GREEN}Dump terminé : ${folder}/${output}${NC}"
 
 confirm() {
-    while true; do
-        read -p "Voulez-vous relancer votre environnement avec ce dump ? (Y/n) " answer
-        case $answer in
-            [Yy]* ) break;;
-            [Nn]* ) echo -e ""
-                    echo -e "Commande pour restaurer la BDD en local :"
-                    echo -e "docker compose exec -T postgres pg_restore \\"
-                    echo -e "  --dbname postgres --clean --if-exists --user postgres \\"
-                    echo -e "  --no-owner --no-acl --verbose  < ${folder}/${output} "
-                    exit;;
-            * ) echo "Veuillez répondre par Y (oui) ou n (non).";;
-        esac
-    done
+  while true; do
+    read -p "Voulez-vous relancer votre environnement avec ce dump ? (Y/n) " answer
+    case $answer in
+    [Yy]*) break ;;
+    [Nn]*)
+      echo -e ""
+      echo -e "Commande pour restaurer la BDD en local :"
+      echo -e "docker compose exec -T postgres pg_restore \\"
+      echo -e "  --dbname postgres --clean --if-exists --user postgres \\"
+      echo -e "  --no-owner --no-acl --verbose  < ${folder}/${output} "
+      exit
+      ;;
+    *) echo "Veuillez répondre par Y (oui) ou n (non)." ;;
+    esac
+  done
 }
 
 confirm
 
 ./scripts/reset_from_dump.sh "${folder}/${output}"
-

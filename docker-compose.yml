@@ -45,7 +45,7 @@ services:
       HASURA_GRAPHQL_ENDPOINT: "http://hasura:8080/v1/graphql"
 
   minio:
-    image: "minio/minio:latest"
+    image: minio/minio
     ports:
       - "9000:9000"
       - "8900:8900"
@@ -53,7 +53,7 @@ services:
       MINIO_ROOT_USER: MINIO_ACCESS_KEY
       MINIO_ROOT_PASSWORD: MINIO_SECRET_KEY
     volumes:
-      - minio_data:/data/minio
+      - minio_data:/data
     command: 'minio server /data/minio --console-address ":8900"'
     healthcheck:
       test:
@@ -70,6 +70,7 @@ services:
       - minio
     entrypoint: >
       /bin/sh -c "
+      sleep 5;
       /usr/bin/mc alias set myminio http://minio:9000 MINIO_ACCESS_KEY MINIO_SECRET_KEY;
       /usr/bin/mc mb myminio/cdtn;
       /usr/bin/mc anonymous set public myminio/cdtn;
