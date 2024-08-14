@@ -1,13 +1,6 @@
 table:
   name: documents
   schema: public
-configuration:
-  column_config:
-    export_id:
-      custom_name: exportId
-  custom_column_names:
-    export_id: exportId
-  custom_root_fields: {}
 object_relationships:
   - name: contribution
     using:
@@ -18,16 +11,14 @@ object_relationships:
         remote_table:
           name: answers
           schema: contribution
-  - name: export
-    using:
-      manual_configuration:
-        column_mapping:
-          export_id: id
-        insertion_order: null
-        remote_table:
-          name: export_es_status
-          schema: public
 array_relationships:
+  - name: document_exports
+    using:
+      foreign_key_constraint_on:
+        column: cdtn_id
+        table:
+          name: document_exports
+          schema: public
   - name: relation_a
     using:
       foreign_key_constraint_on:
@@ -47,20 +38,20 @@ insert_permissions:
     permission:
       check: {}
       columns:
-        - cdtn_id
-        - created_at
-        - document
-        - export_id
-        - initial_id
         - is_available
         - is_published
         - is_searchable
+        - document
+        - cdtn_id
+        - initial_id
         - meta_description
         - slug
         - source
         - text
         - title
+        - created_at
         - updated_at
+    comment: ""
   - role: user
     permission:
       check: {}
@@ -82,22 +73,21 @@ select_permissions:
   - role: super
     permission:
       columns:
-        - cdtn_id
-        - created_at
-        - document
-        - export_id
-        - initial_id
         - is_available
         - is_published
         - is_searchable
+        - document
+        - cdtn_id
+        - initial_id
         - meta_description
         - slug
         - source
         - text
         - title
+        - created_at
         - updated_at
       filter: {}
-      allow_aggregations: true
+    comment: ""
   - role: user
     permission:
       columns:
@@ -120,24 +110,22 @@ update_permissions:
   - role: super
     permission:
       columns:
-        - cdtn_id
-        - created_at
-        - document
-        - export_id
-        - initial_id
         - is_available
         - is_published
         - is_searchable
+        - document
+        - cdtn_id
+        - initial_id
         - meta_description
         - slug
         - source
         - text
         - title
+        - created_at
         - updated_at
       filter: {}
       check: {}
-      set:
-        updated_at: now()
+    comment: ""
   - role: user
     permission:
       columns:
@@ -162,6 +150,7 @@ delete_permissions:
   - role: super
     permission:
       filter: {}
+    comment: ""
   - role: user
     permission:
       filter: {}
