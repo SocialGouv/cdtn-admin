@@ -196,3 +196,4 @@ export const questionRelationSchema = questionBaseSchema.extend({
   message: messageSchema.deepPartial().optional(),
 });
 export type Question = z.infer<typeof questionRelationSchema>;
+export type QuestionBase = z.infer<typeof questionBaseSchema>;

@@ -84,6 +84,6 @@ type publishOutput {
 }
 
 type publishAllOutput {
-  isPending: Boolean
+  count: Int!
 }
 

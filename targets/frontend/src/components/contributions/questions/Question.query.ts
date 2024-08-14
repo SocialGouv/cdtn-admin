@@ -1,103 +1,52 @@
-import { OperationContext, useQuery } from "urql";
-import { initStatus } from "../status/utils";
+import { gql, useQuery } from "urql";
 
-import { Answer, Message, Question } from "../type";
+import { QuestionBase } from "../type";
 
-export const contributionQuestionQuery = `
-query SelectQuestion($questionId: uuid) {
-  contribution_questions(where: {id: {_eq: $questionId}}) {
-    content
-    order
-    id
-    seo_title
-    message {
-      id
-      label
-      contentAgreement
-      contentLegal
-      contentNotHandled
-    }
-    answers(
-      order_by: {agreement_id: asc}
-    ) {
-      id
-      contentType: content_type
-      agreement {
-        id
-        name
-      }
-      statuses(order_by: {created_at: desc}, limit: 1) {
-        status
-        createdAt: created_at
-        user {
-          name
-        }
-      }
-      publication {
-        export {
-          createdAt: created_at
-        }
-      }
+export const contributionQuestionQuery = gql`
+  query SelectQuestion($questionId: uuid!) {
+    contribution_questions_by_pk(id: $questionId) {
+      content
+      order
     }
   }
-  contribution_question_messages {
-    contentAgreement
-    contentLegal
-    contentNotHandled
-    contentNotHandledWithoutLegal
-    contentAgreementWithoutLegal
-    id
-    label
-  }
-}
 `;
+
+export type QuestionTitle = Pick<QuestionBase, "content" | "order">;
 
 type QueryProps = {
   questionId: string;
 };
 
 type QueryOutput = {
-  contribution_questions: Question[];
-  contribution_question_messages: Message[];
+  contribution_questions_by_pk: QuestionTitle | null;
 };
 
-export type QueryResult = {
-  question: Question;
-  messages: Message[];
-  reExecute: (opts?: Partial<OperationContext> | undefined) => void;
-};
-
-export const useQuestionQuery = ({
-  questionId,
-}: QueryProps): QueryResult | undefined | "not_found" | "error" => {
+export const useQuestionQuery = ({ questionId }: QueryProps): QuestionTitle => {
   const [result, reExecute] = useQuery<QueryOutput>({
     query: contributionQuestionQuery,
+    requestPolicy: "network-only",
     variables: {
       questionId,
     },
   });
   if (result?.error) {
     console.error(result.error);
-    return "error";
+    return {
+      content: "",
+      order: -1,
+    };
   }
   if (!result?.data) {
-    return;
+    return {
+      content: "",
+      order: -1,
+    };
   }
-  if (
-    !result?.data?.contribution_questions ||
-    result?.data.contribution_questions?.length == 0
-  ) {
-    return "not_found";
+  if (!result?.data?.contribution_questions_by_pk) {
+    return {
+      content: "",
+      order: -1,
+    };
   }
-  const answers =
-    result.data.contribution_questions[0]?.answers?.map((answer) => ({
-      ...answer,
-      status: initStatus(answer as Answer),
-    })) ?? [];
-  const question = {
-    ...result.data.contribution_questions[0],
-    answers,
-  };
-  const messages = result.data.contribution_question_messages;
-  return { messages, question, reExecute };
+  return result.data.contribution_questions_by_pk;
 };

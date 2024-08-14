@@ -16,6 +16,8 @@ type FormTextFieldProps = CommonFormProps & {
   labelFixed?: boolean;
   id?: string;
   type?: React.InputHTMLAttributes<unknown>["type"];
+  hintText?: string;
+  placeholder?: string;
 };
 
 export const FormTextField = ({
@@ -29,6 +31,8 @@ export const FormTextField = ({
   disabled,
   labelFixed = false,
   type,
+  hintText,
+  placeholder,
 }: FormTextFieldProps) => {
   return (
     <Controller
@@ -37,7 +41,8 @@ export const FormTextField = ({
       rules={rules}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <TextField
-          helperText={error?.message}
+          placeholder={placeholder}
+          helperText={error?.message ?? hintText}
           size={size}
           error={!!error}
           onChange={onChange}

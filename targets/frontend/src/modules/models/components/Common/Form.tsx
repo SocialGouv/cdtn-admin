@@ -26,7 +26,7 @@ import { LegiReferenceInput } from "src/components/contributions/answers/referen
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FormOtherReferences } from "../../../../components/forms/OtherReferences";
-import { PublishButton } from "../../../../components/button/PublishButton";
+import { LoadingButton } from "../../../../components/button/LoadingButton";
 
 type FormData = Partial<z.infer<typeof modelSchemaUpsert>>;
 
@@ -302,8 +302,8 @@ export const ModelForm = ({
             {model ? "Sauvegarder" : "Créer"}
           </Button>
           {onPublish && (
-            <PublishButton
-              isPublishing={isPublishing}
+            <LoadingButton
+              loading={isPublishing}
               onClick={async () => {
                 setIsPublishing(true);
 
@@ -326,7 +326,7 @@ export const ModelForm = ({
               }}
             >
               Publier
-            </PublishButton>
+            </LoadingButton>
           )}
         </Stack>
       </Stack>

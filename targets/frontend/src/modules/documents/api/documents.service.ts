@@ -310,7 +310,10 @@ export class DocumentsService {
     return await this.documentsRepository.update(document);
   }
 
-  public async publishAll(questionId: string, source: SourceRoute) {
+  public async publishAll(
+    questionId: string,
+    source: SourceRoute
+  ): Promise<number> {
     switch (source) {
       case "contributions":
         const allContributions =
@@ -328,7 +331,7 @@ export class DocumentsService {
         console.log(
           "All contributions that has been already published have been republished"
         );
-        break;
+        return allContributions.length;
       default:
         throw new Error(`La source ${source} n'est pas implémentée`);
     }

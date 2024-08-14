@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { EditQuestion } from "src/components/contributions";
+import { ViewQuestion } from "src/components/contributions";
 import { Layout } from "src/components/layout/auth.layout";
 
 export function EditAnswerPage() {
@@ -8,7 +8,7 @@ export function EditAnswerPage() {
 
   return (
     <Layout title="Questions">
-      <EditQuestion questionId={questionId} />
+      <ViewQuestion questionId={questionId} />
     </Layout>
   );
 }

@@ -1,1 +1,1 @@
-export * from "./EditQuestion";
+export * from "./ViewQuestion";

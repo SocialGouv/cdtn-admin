@@ -101,8 +101,8 @@ export class DocumentsController {
           new ModelRepository(client),
           new AgreementRepository(client)
         );
-        service.publishAll(inputs.input.questionId, inputs.input.source);
-        this.res.status(201).json({ isPending: true });
+        await service.publishAll(inputs.input.questionId, inputs.input.source);
+        this.res.status(200).json({ count: true });
       }
     } catch (error: any) {
       if (error instanceof NotFoundError) {
