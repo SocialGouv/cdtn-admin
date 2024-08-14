@@ -205,7 +205,10 @@ export const QuestionAnswerList = ({
                         <StatusContainer
                           status={answer.status.status}
                           exportDate={
-                            answer.document_export?.export_es_status.createdAt
+                            answer.document_exports.length > 0
+                              ? answer.document_exports[0].export_es_status
+                                  .createdAt
+                              : undefined
                           }
                           statusDate={answer.status.createdAt}
                           center
@@ -220,7 +223,10 @@ export const QuestionAnswerList = ({
                       <StatusPublicationContainer
                         status={answer.status.status}
                         exportDate={
-                          answer.document_export?.export_es_status.createdAt
+                          answer.document_exports.length > 0
+                            ? answer.document_exports[0].export_es_status
+                                .createdAt
+                            : undefined
                         }
                         center
                       />
