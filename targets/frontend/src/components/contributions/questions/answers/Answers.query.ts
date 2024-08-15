@@ -22,8 +22,8 @@ export const contributionQuestionQuery = gql`
           name
         }
       }
-      publication {
-        export {
+      document_exports(order_by: { created_at: desc }, limit: 1) {
+        export_es_status {
           createdAt: created_at
         }
       }
@@ -38,13 +38,18 @@ type QueryProps = {
 type QueryOutput = {
   contribution_answers: Pick<
     Answer,
-    "id" | "contentType" | "agreement" | "statuses" | "publication"
+    "id" | "contentType" | "agreement" | "statuses" | "document_exports"
   >[];
 };
 
 export type AnswerLight = Pick<
   Answer,
-  "id" | "contentType" | "agreement" | "statuses" | "publication" | "status"
+  | "id"
+  | "contentType"
+  | "agreement"
+  | "statuses"
+  | "document_exports"
+  | "status"
 >;
 
 export type QueryResult = {

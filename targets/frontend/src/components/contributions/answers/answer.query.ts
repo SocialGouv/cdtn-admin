@@ -50,7 +50,7 @@ query contribution_answer($id: uuid) {
       }
     }
     kaliReferences: kali_references {
-     label
+      label
       kaliArticle: kali_article {
         id
         path
