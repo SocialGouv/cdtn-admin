@@ -41,6 +41,7 @@ export type AnswerStatus = z.infer<typeof answerStatusSchema>;
 export const messageSchema = z.object({
   id: z.string().uuid(),
   label: z.string(),
+  seoLabel: z.string(),
   contentAgreement: z.string(),
   contentLegal: z.string(),
   contentAgreementWithoutLegal: z.string(),
@@ -154,6 +155,7 @@ export const questionBaseSchema = z.object({
     .min(1, "Une question doit être renseignée"),
   order: z.number(),
   message_id: z.string().uuid().optional(),
+  seo_title: z.string().optional(),
 });
 
 export const commentsSchema = z.object({
@@ -196,3 +198,4 @@ export const questionRelationSchema = questionBaseSchema.extend({
   message: messageSchema.deepPartial().optional(),
 });
 export type Question = z.infer<typeof questionRelationSchema>;
+export type QuestionBase = z.infer<typeof questionBaseSchema>;

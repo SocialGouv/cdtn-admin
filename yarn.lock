@@ -12040,6 +12040,7 @@ __metadata:
     next-auth: ^4.24.7
     nodemailer: ^6.9.13
     p-limit: ^4.0.0
+    p-map: ^4.0.0
     polished: ^4.1.3
     pretty-bytes: ^5.6.0
     prop-types: ^15.7.2

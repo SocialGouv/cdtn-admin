@@ -16,6 +16,7 @@ import { AgreementRepository } from "../../agreements/api";
 import { Agreement } from "../../agreements";
 import { SourceRoute } from "@socialgouv/cdtn-sources";
 import { getGlossaryContent } from "src/modules/common/getGlossaryContent";
+import pMap from "p-map";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -307,5 +308,32 @@ export class DocumentsService {
     }
 
     return await this.documentsRepository.update(document);
+  }
+
+  public async publishAll(
+    questionId: string,
+    source: SourceRoute
+  ): Promise<number> {
+    switch (source) {
+      case "contributions":
+        const allContributions =
+          await this.contributionRepository.fetchAllPublishedContributionsByQuestionId(
+            questionId
+          );
+        await pMap(
+          allContributions,
+          async (contribution) => {
+            await this.publish(contribution.id, source);
+            console.log(`Contribution ${contribution.id} has been republished`);
+          },
+          { concurrency: 1 }
+        );
+        console.log(
+          "All contributions that has been already published have been republished"
+        );
+        return allContributions.length;
+      default:
+        throw new Error(`La source ${source} n'est pas implémentée`);
+    }
   }
 }

@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { SnackBar } from "src/components/utils/SnackBar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { PublishButton } from "../../../../components/button/PublishButton";
+import { LoadingButton } from "../../../../components/button/LoadingButton";
 
 type FormData = Partial<z.infer<typeof agreementSchemaUpsert>>;
 
@@ -197,8 +197,8 @@ export const AgreementForm = ({
             {agreement ? "Sauvegarder" : "Créer"}
           </Button>
           {onPublish && (
-            <PublishButton
-              isPublishing={isPublishing}
+            <LoadingButton
+              loading={isPublishing}
               onClick={async () => {
                 setIsPublishing(true);
                 try {
@@ -220,7 +220,7 @@ export const AgreementForm = ({
               }}
             >
               Publier
-            </PublishButton>
+            </LoadingButton>
           )}
         </Stack>
       </Stack>

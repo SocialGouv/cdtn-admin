@@ -3,13 +3,12 @@ import {
   AccordionDetails,
   AccordionSummary,
   AlertColor,
-  Button,
   Card,
   IconButton,
   Stack,
+  styled,
   Tooltip,
   Typography,
-  styled,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,39 +16,42 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import HelpIcon from "@mui/icons-material/Help";
 import { z } from "zod";
 import { FormSelect, FormTextField } from "src/components/forms";
-
-import { useQuestionUpdateMutation } from "./Question.mutation";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Message, Question, questionRelationSchema } from "../type";
-import { SnackBar } from "../../utils/SnackBar";
+import { Message, QuestionBase, questionRelationSchema } from "../../type";
+import { SnackBar } from "../../../utils/SnackBar";
+import { LoadingButton } from "../../../button/LoadingButton";
 
 type EditQuestionProps = {
-  question: Question;
+  question: QuestionBase;
   messages: Message[];
+  onUpsert: (props: QuestionFormData) => Promise<void>;
 };
 
 const formDataSchema = z.object({
   message_id: questionRelationSchema.shape.message_id.or(z.literal("")),
   content: questionRelationSchema.shape.content,
+  seo_title: questionRelationSchema.shape.seo_title,
 });
 
-export type FormData = z.infer<typeof formDataSchema>;
+export type QuestionFormData = z.infer<typeof formDataSchema>;
 
-export const EditQuestionForm = ({
+export const Form = ({
   question,
   messages,
+  onUpsert,
 }: EditQuestionProps): JSX.Element => {
-  const { control, watch, handleSubmit } = useForm<FormData>({
+  const { control, watch, handleSubmit } = useForm<QuestionFormData>({
     resolver: zodResolver(formDataSchema),
     shouldFocusError: true,
     defaultValues: {
       content: question.content,
-      message_id: question.message?.id ?? "",
+      message_id: question.message_id ?? "",
+      seo_title: question.seo_title ?? "",
     },
   });
   const [message, setMessage] = useState<Message | undefined>(undefined);
-  const watchMessageId = watch("message_id", question.message?.id);
-  const updateQuestion = useQuestionUpdateMutation();
+  const watchMessageId = watch("message_id", question.message_id);
+  const [submitting, setSubmit] = useState<boolean>(false);
 
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -68,22 +70,11 @@ export const EditQuestionForm = ({
     }
   }, [watchMessageId, messages]);
 
-  const onSubmit = async (formData: FormData) => {
+  const onSubmit = async (formData: QuestionFormData) => {
+    setSubmit(true);
     try {
-      const result = await updateQuestion({
-        id: question.id,
-        content: formData.content,
-        message_id: formData.message_id ? formData.message_id : undefined, // use to transform empty string sent by the form to undefined
-      });
-      if (result.error) {
-        setSnack({
-          message: `Erreur: ${result.error.message}`,
-          open: true,
-          severity: "error",
-        });
-      } else {
-        setSnack({ open: true, severity: "success", message: "Sauvegardé" });
-      }
+      await onUpsert(formData);
+      setSnack({ open: true, severity: "success", message: "Sauvegardé" });
     } catch (e: any) {
       setSnack({
         open: true,
@@ -91,6 +82,7 @@ export const EditQuestionForm = ({
         message: `Erreur: ${e.message}`,
       });
     }
+    setSubmit(false);
   };
 
   return (
@@ -101,7 +93,14 @@ export const EditQuestionForm = ({
             name="content"
             control={control}
             label="Nom de la question"
-            multiline
+            fullWidth
+            disabled
+          />
+          <FormTextField
+            name="seo_title"
+            control={control}
+            label="Nom SEO"
+            hintText="Cette valeur va remplacer le nom du thème dans le titre de la page pour les contributions personnalisées. Laissez vide pour utiliser le thème de la question par défaut."
             fullWidth
           />
           <Stack spacing={2}>
@@ -241,9 +240,13 @@ export const EditQuestionForm = ({
             )}
           </Stack>
           <Stack direction="row" spacing={2} justifyContent="end">
-            <Button variant="contained" type="submit">
+            <LoadingButton
+              variant="contained"
+              loading={submitting}
+              type="submit"
+            >
               Sauvegarder
-            </Button>
+            </LoadingButton>
           </Stack>
         </Stack>
       </form>
