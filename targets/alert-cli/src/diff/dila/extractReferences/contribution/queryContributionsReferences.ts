@@ -9,6 +9,7 @@ query getContributionsWithRefs {
       id
       content
       order
+      seo_title
     }
     kali_references {
       label

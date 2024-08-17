@@ -21,6 +21,7 @@ query contribution_answer($id: uuid) {
       id
       content
       order
+      seo_title
     }
     agreement {
       id
@@ -49,7 +50,7 @@ query contribution_answer($id: uuid) {
       }
     }
     kaliReferences: kali_references {
-     label
+      label
       kaliArticle: kali_article {
         id
         path

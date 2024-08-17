@@ -86,6 +86,7 @@ export const mapContributionToDocument = async (
     references: getReferences(data),
     questionIndex: data.question.order,
     questionName: data.question.content,
+    seoTitle: data.question.seo_title,
     questionId: data.question.id,
     idcc: data.agreement.id,
     description: data.description,

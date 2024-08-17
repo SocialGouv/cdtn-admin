@@ -82,15 +82,17 @@ export async function generateContributions(
       };
     }
 
+    const breadcrumbs =
+      contrib.breadcrumbs.length > 0
+        ? contrib.breadcrumbs
+        : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? [];
+
     const contribution: ContributionElasticDocumentLightRelatedContent = {
       ...contrib,
-      ...generateMetadata(contrib),
-      ...getContributionContent(content),
       ...doc,
-      breadcrumbs:
-        contrib.breadcrumbs.length > 0
-          ? contrib.breadcrumbs
-          : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? [],
+      ...generateMetadata(ccnData, contrib, breadcrumbs),
+      ...getContributionContent(content),
+      breadcrumbs,
       highlight,
       messageBlock,
       references,

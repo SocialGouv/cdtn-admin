@@ -5,6 +5,13 @@ type Mutation {
   ): publishOutput
 }
 
+type Mutation {
+  publishAll(
+    questionId: uuid!
+    source: String!
+  ): publishAllOutput
+}
+
 type Query {
   recentKaliReference(
     agreementId: bpchar!
@@ -74,5 +81,9 @@ type RecentKaliReferenceOutput {
 
 type publishOutput {
   cdtnId: String!
+}
+
+type publishAllOutput {
+  count: Int!
 }
 

@@ -16,7 +16,7 @@ import {
 } from "./references";
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
-import { PublishButton } from "src/components/button/PublishButton";
+import { LoadingButton } from "src/components/button/LoadingButton";
 
 const answerFormBaseSchema = answerRelationSchema
   .pick({
@@ -333,13 +333,13 @@ export const AnswerForm = ({
             Sauvegarder
           </Button>
           {primaryButtonLabel && (
-            <PublishButton
+            <LoadingButton
               onClick={() => submit(getNextStatus(status))}
               disabled={submitting || status === "TO_PUBLISH"}
-              isPublishing={submitting}
+              loading={submitting}
             >
               {primaryButtonLabel}
-            </PublishButton>
+            </LoadingButton>
           )}
         </Stack>
       </Stack>

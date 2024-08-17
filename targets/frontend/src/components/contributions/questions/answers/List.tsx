@@ -14,15 +14,15 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import CloseIcon from "@mui/icons-material/Close";
 import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import React, { useEffect, useState } from "react";
-import { Answer } from "../type";
-import { StatusContainer } from "../status";
+import { StatusContainer } from "../../status";
 import { useRouter } from "next/router";
 import { fr } from "@codegouvfr/react-dsfr";
-import { PublishButton } from "../../button/PublishButton";
-import { StatusPublicationContainer } from "../status/StatusPublication";
+import { LoadingButton } from "../../../button/LoadingButton";
+import { StatusPublicationContainer } from "../../status/StatusPublication";
+import type { AnswerLight } from "./Answers.query";
 
 type EditQuestionAnswerListProps = {
-  answers: Answer[];
+  answers: AnswerLight[];
   onPublish: (id: string) => Promise<void>;
 };
 
@@ -62,7 +62,7 @@ const contentTypes = {
   },
 };
 
-export const QuestionAnswerList = ({
+export const List = ({
   answers,
   onPublish,
 }: EditQuestionAnswerListProps): JSX.Element => {
@@ -98,6 +98,7 @@ export const QuestionAnswerList = ({
       throw e;
     }
   };
+
   const redirectToAnswer = (id: string) => {
     router.push(`/contributions/answers/${id}`);
   };
@@ -111,13 +112,13 @@ export const QuestionAnswerList = ({
     <Stack alignItems="stretch">
       <Stack>
         <Stack direction="row" alignItems="start" spacing={2}>
-          <PublishButton
+          <LoadingButton
             disabled={!displayPublish}
             onClick={publishAll}
-            isPublishing={isPublishing}
+            loading={isPublishing}
           >
             Publier
-          </PublishButton>
+          </LoadingButton>
         </Stack>
         <TableContainer component={Paper}>
           <Table size="small" aria-label="purchases">

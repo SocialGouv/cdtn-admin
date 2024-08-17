@@ -9,7 +9,7 @@ import { Information, informationSchema } from "../../type";
 import { InformationsContent } from "./InformationsContent";
 import { InformationsReference } from "./InformationsReference";
 import { FormCheckbox } from "src/components/forms/Checkbox";
-import { PublishButton } from "../../../../components/button/PublishButton";
+import { LoadingButton } from "../../../../components/button/LoadingButton";
 
 export type InformationsFormProps = {
   data?: InformationsResult;
@@ -220,7 +220,7 @@ export const InformationsForm = ({
             </Button>
             <Button type="submit">Sauvegarder</Button>
             {onPublish && (
-              <PublishButton
+              <LoadingButton
                 disabled={!onPublish}
                 onClick={async () => {
                   if (data?.id) {
@@ -229,10 +229,10 @@ export const InformationsForm = ({
                     setIsPublishing(false);
                   }
                 }}
-                isPublishing={isPublishing}
+                loading={isPublishing}
               >
                 Publier
-              </PublishButton>
+              </LoadingButton>
             )}
           </Stack>
         </Stack>

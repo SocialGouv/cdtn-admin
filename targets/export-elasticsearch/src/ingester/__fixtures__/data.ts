@@ -84,6 +84,7 @@ export const contribs = [
       "Lorsqu’un salarié est en arrêt maladie, son contrat de travail est suspendu. Lors de la suspension du contrat de travail pour cause de maladie, les règles ...",
     questionName:
       "En cas de maladie, le salarié a-t-il droit à une garantie d’emploi ?",
+    seoTitle: "Titre SEO",
     linkedContent: [
       {
         breadcrumbs: [
@@ -180,6 +181,7 @@ export const contribs = [
     description:
       "Vous êtes salariée en activité et vous êtes enceinte ? Vous bénéficiez d'un congé de maternité qui comporte une période avant votre accouchement (dit congé ...",
     questionName: "Quelle est la durée du congé de maternité ?",
+    seoTitle: "Titre SEO",
     linkedContent: [
       {
         breadcrumbs: [

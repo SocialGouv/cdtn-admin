@@ -7,6 +7,14 @@ actions:
     permissions:
       - role: super
     comment: Action pour publier un document
+  - name: publishAll
+    definition:
+      kind: synchronous
+      handler: '{{API_URL}}/actions/publish-all'
+      forward_client_headers: true
+    permissions:
+      - role: super
+    comment: Action pour publier tous les documents d'une source
   - name: recentKaliReference
     definition:
       kind: ""
@@ -47,4 +55,5 @@ custom_types:
     - name: KaliArticles
     - name: RecentKaliReferenceOutput
     - name: publishOutput
+    - name: publishAllOutput
   scalars: []
