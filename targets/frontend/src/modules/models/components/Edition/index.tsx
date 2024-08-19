@@ -15,7 +15,6 @@ export const ModelEdition = ({ id }: Props): React.ReactElement => {
   const update = useModelUpdateMutation();
   const publish = usePublishMutation();
 
-  console.log("Use list model query ", data, fetching, error);
   if (error) {
     return (
       <Alert severity="error">

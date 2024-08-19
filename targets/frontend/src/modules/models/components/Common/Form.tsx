@@ -185,16 +185,13 @@ export const ModelForm = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={4}>
-        <FormControl></FormControl>
-        {model && (
-          <FormControl>
-            <FormDatePicker
-              name="displayDate"
-              control={control}
-              label="Date mise à jour"
-            />
-          </FormControl>
-        )}
+        <FormControl>
+          <FormDatePicker
+            name="displayDate"
+            control={control}
+            label="Date mise à jour"
+          />
+        </FormControl>
         <FormControl>
           <FormToggleButtonGroup
             name="type"

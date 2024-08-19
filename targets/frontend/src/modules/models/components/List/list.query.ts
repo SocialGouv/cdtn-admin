@@ -10,16 +10,12 @@ export const listModelsQuery = gql`
       id
       title
       type
-      updatedAt
       displayDate
     }
   }
 `;
 
-export type ModelResult = Pick<
-  Model,
-  "id" | "title" | "type" | "updatedAt" | "displayDate"
->;
+export type ModelResult = Pick<Model, "id" | "title" | "type" | "displayDate">;
 
 export type QueryResult = {
   models: ModelResult[];

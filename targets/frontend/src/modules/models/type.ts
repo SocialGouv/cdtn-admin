@@ -32,7 +32,7 @@ export const modelSchema = z.object({
   file: fileSchema,
   legiReferences: z.array(legiReferenceSchema),
   otherReferences: z.array(otherReferenceSchema),
-  displayDate: z.string(),
+  displayDate: z.string().nullable(),
 });
 
 export type Model = z.infer<typeof modelSchema>;

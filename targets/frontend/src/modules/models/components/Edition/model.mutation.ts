@@ -89,7 +89,7 @@ export const useModelUpdateMutation = (): MutationFn => {
         models_other_references: {
           data: formatOtherReferences(data.otherReferences),
         },
-        displayDate: data.displayDate,
+        displayDate: data.displayDate ?? undefined,
       },
     });
     if (result.error) {

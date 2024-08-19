@@ -125,7 +125,6 @@ export const AnswerForm = ({
       cdtnReferences: answer?.cdtnReferences ?? [],
       contentFichesSpDocument: answer?.contentFichesSpDocument ?? undefined,
       messageBlockGenericNoCDT: answer?.messageBlockGenericNoCDT ?? undefined,
-      displayDate: answer?.displayDate ?? "",
     },
   });
 

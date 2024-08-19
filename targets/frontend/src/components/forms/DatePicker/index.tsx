@@ -15,11 +15,30 @@ export const FormDatePicker = ({
   rules,
   disabled,
 }: FormDatePickerProps) => {
-  const formatDate = (date?: string | null) =>
-    date ? new Date(format(parseISO(date.toString()), "dd/MM/yyyy")) : null;
+  const formatDate = (date?: string | null) => {
+    try {
+      if (date && date !== "") {
+        const dateString = format(parseISO(date), "dd/MM/yyyy");
+        const [day, month, year] = dateString.split("/").map(Number);
+        const formattedDate = new Date(year, month - 1, day);
+        return formattedDate;
+      }
+      return null;
+    } catch (error) {
+      return null;
+    }
+  };
 
-  const unFormatDate = (date?: Date | null) =>
-    date ? format(parseISO(date.toString()), "yyyy-MM-dd") : null;
+  const unFormatDate = (date?: Date | null) => {
+    try {
+      if (date) {
+        return format(new Date(date.toString()), "yyyy-MM-dd");
+      }
+      return null;
+    } catch (error) {
+      return null;
+    }
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fr}>
@@ -31,7 +50,9 @@ export const FormDatePicker = ({
           <DatePicker
             label={label}
             value={formatDate(value)}
-            onChange={(date) => onChange(unFormatDate(date))}
+            onChange={(date) => {
+              onChange(unFormatDate(date));
+            }}
             disabled={disabled}
           />
         )}
