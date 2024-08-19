@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.48.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.48.0...v2.48.1) (2024-08-19)
+
+### Bug Fixes
+
+- **types:** set metadata to main contribution document ([#1459](https://github.com/SocialGouv/cdtn-admin/issues/1459)) ([ff69641](https://github.com/SocialGouv/cdtn-admin/commit/ff6964177d251f31be711f79890114e712ef56e4))
+
+# [2.48.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.47.2...v2.48.0) (2024-08-19)
+
+### Bug Fixes
+
+- **export-es:** affichage des documents qui ont été mis à jour dans la popup ([#1454](https://github.com/SocialGouv/cdtn-admin/issues/1454)) ([0e3efe0](https://github.com/SocialGouv/cdtn-admin/commit/0e3efe0afd89f05279882b04e01f5c4da483d901)), closes [#1457](https://github.com/SocialGouv/cdtn-admin/issues/1457)
+
+### Features
+
+- **contribution:** ajout d'un titre pour le SEO ([#1456](https://github.com/SocialGouv/cdtn-admin/issues/1456)) ([c471b66](https://github.com/SocialGouv/cdtn-admin/commit/c471b66d9de0406e3bbe3697dbf48acf72d51e62))
+
 ## [2.47.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.47.1...v2.47.2) (2024-08-07)
 
 ### Bug Fixes
