@@ -99,7 +99,6 @@ type ContributionRef = {
 
 type ElasticSearchContributionBase = {
   description: string;
-  title: string;
   slug: string;
   breadcrumbs: Breadcrumb[];
   source: "contributions";
@@ -108,11 +107,12 @@ type ElasticSearchContributionBase = {
   idcc: string;
   messageBlock?: string;
   date: string;
-} & (
-  | ElasticSearchContributionFicheSp
-  | ElasticSearchContributionContent
-  | ElasticSearchContributionGenericNoCDT
-);
+} & ContributionMetadata &
+  (
+    | ElasticSearchContributionFicheSp
+    | ElasticSearchContributionContent
+    | ElasticSearchContributionGenericNoCDT
+  );
 
 export type ElasticSearchContributionGeneric = ElasticSearchContributionBase & {
   ccSupported: string[];
