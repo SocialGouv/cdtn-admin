@@ -5,6 +5,8 @@ configuration:
   column_config:
     created_at:
       custom_name: createdAt
+    display_date:
+      custom_name: displayDate
     file_id:
       custom_name: fileId
     meta_description:
@@ -17,6 +19,7 @@ configuration:
       custom_name: updatedAt
   custom_column_names:
     created_at: createdAt
+    display_date: displayDate
     file_id: fileId
     meta_description: metaDescription
     meta_title: metaTitle
@@ -47,44 +50,47 @@ insert_permissions:
     permission:
       check: {}
       columns:
-        - id
         - created_at
-        - updated_at
-        - title
-        - intro
-        - meta_title
-        - meta_description
-        - type
-        - preview_html
+        - display_date
         - file_id
+        - id
+        - intro
+        - meta_description
+        - meta_title
+        - preview_html
+        - title
+        - type
+        - updated_at
 select_permissions:
   - role: super
     permission:
       columns:
+        - created_at
+        - display_date
+        - file_id
+        - id
         - intro
         - meta_description
         - meta_title
         - preview_html
         - title
         - type
-        - created_at
         - updated_at
-        - file_id
-        - id
       filter: {}
 update_permissions:
   - role: super
     permission:
       columns:
         - created_at
-        - intro
+        - display_date
         - file_id
+        - intro
         - meta_description
         - meta_title
         - preview_html
         - title
         - type
       filter: {}
-      check: null
+      check: {}
       set:
         updated_at: now()

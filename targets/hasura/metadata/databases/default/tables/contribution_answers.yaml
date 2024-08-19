@@ -72,6 +72,23 @@ array_relationships:
         remote_table:
           name: answer_statuses
           schema: contribution
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - agreement_id
+        - description
+        - display_date
+        - cdtn_id
+        - content
+        - content_service_public_cdtn_id
+        - content_type
+        - message_block_generic_no_CDT
+        - updated_at
+        - id
+        - question_id
+    comment: ""
 select_permissions:
   - role: super
     permission:
@@ -82,6 +99,7 @@ select_permissions:
         - content_service_public_cdtn_id
         - content_type
         - description
+        - display_date
         - id
         - message_block_generic_no_CDT
         - question_id
@@ -92,13 +110,23 @@ update_permissions:
   - role: super
     permission:
       columns:
+        - agreement_id
+        - description
+        - display_date
         - cdtn_id
         - content
         - content_service_public_cdtn_id
         - content_type
-        - description
         - message_block_generic_no_CDT
+        - updated_at
+        - id
+        - question_id
       filter: {}
-      check: null
+      check: {}
       set:
         updated_at: now()
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""
