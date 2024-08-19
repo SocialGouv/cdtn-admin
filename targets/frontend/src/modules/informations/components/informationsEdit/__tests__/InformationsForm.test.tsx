@@ -42,7 +42,7 @@ const information: InformationsResult = {
       url: "http://ref1.ref",
     },
   ],
-  displayDate: "2023-10-20T15:29:22.687685+00:00",
+  displayDate: "2023-04-19T15:29:22.687685+00:00",
 };
 
 const onSubmit = jest.fn(() => Promise.resolve());
