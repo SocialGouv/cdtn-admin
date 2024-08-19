@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.48.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.47.2...v2.48.0) (2024-08-19)
+
+### Features
+
+- **contribution:** ajout d'un titre pour le SEO ([#1456](https://github.com/SocialGouv/cdtn-admin/issues/1456)) ([c471b66](https://github.com/SocialGouv/cdtn-admin/commit/c471b66d9de0406e3bbe3697dbf48acf72d51e62))
+
 ## [2.47.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.47.1...v2.47.2) (2024-08-07)
 
 **Note:** Version bump only for package alert-cli
