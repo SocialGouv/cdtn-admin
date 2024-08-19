@@ -14,6 +14,7 @@ export const listModelsQuery = gql`
       previewHTML
       createdAt
       updatedAt
+      displayDate
       file {
         id
         url

@@ -27,6 +27,7 @@ const updateModelQuery = gql`
           metaDescription
           type
           previewHTML
+          displayDate
         ]
       }
     ) {
@@ -88,6 +89,7 @@ export const useModelUpdateMutation = (): MutationFn => {
         models_other_references: {
           data: formatOtherReferences(data.otherReferences),
         },
+        displayDate: data.displayDate,
       },
     });
     if (result.error) {

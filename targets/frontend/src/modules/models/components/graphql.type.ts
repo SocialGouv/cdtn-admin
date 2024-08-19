@@ -60,4 +60,5 @@ export type ModelModelsInsertInput = {
   title?: string;
   type?: string;
   updatedAt?: string;
+  displayDate?: string;
 };

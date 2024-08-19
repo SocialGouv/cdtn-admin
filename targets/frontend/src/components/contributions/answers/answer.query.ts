@@ -15,6 +15,7 @@ query contribution_answer($id: uuid) {
     content
     contentType: content_type
     updatedAt: updated_at
+    displayDate: display_date
     contentServicePublicCdtnId: content_service_public_cdtn_id
     messageBlockGenericNoCDT: message_block_generic_no_CDT
     question {
@@ -94,7 +95,6 @@ type QueryProps = {
 
 export type AnswerWithStatus = Answer & {
   status: AnswerStatus;
-  updateDate?: string;
   updatedAt: string;
 };
 
@@ -130,8 +130,5 @@ export const useContributionAnswerQuery = ({
   return {
     ...answer,
     status: initStatus(answer),
-    updateDate: answer?.updatedAt
-      ? format(parseISO(answer?.updatedAt), "dd/MM/yyyy")
-      : undefined,
   };
 };

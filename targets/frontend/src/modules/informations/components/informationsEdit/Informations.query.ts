@@ -16,6 +16,7 @@ const informationsQuery = gql`
       title
       updatedAt
       dismissalProcess
+      displayDate
       contents(order_by: { order: asc }) {
         id
         name
@@ -79,9 +80,7 @@ export type InformationsQueryProps = {
   id?: string;
 };
 
-export type InformationsResult = Information & {
-  updateDate: string;
-};
+export type InformationsResult = Information;
 
 export type InformationsQueryResult = {
   data?: InformationsResult;
@@ -101,14 +100,10 @@ export const useInformationsQuery = ({
     },
   });
   const information = data?.information_informations[0];
-  const updateDate = information?.updatedAt
-    ? format(parseISO(information.updatedAt), "dd/MM/yyyy")
-    : "";
   return {
     data: information
       ? {
           ...information,
-          updateDate,
         }
       : undefined,
     error,

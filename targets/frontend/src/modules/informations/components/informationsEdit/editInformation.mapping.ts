@@ -11,7 +11,6 @@ import { UpsertInformationObject } from "./editInformation.type";
 
 const removeTypename = (obj: any) => {
   delete obj?.__typename;
-  delete obj?.updateDate;
   return obj;
 };
 

@@ -13,6 +13,7 @@ import {
   FormFileField,
   FormTextField,
   FormToggleButtonGroup,
+  FormDatePicker,
 } from "src/components/forms";
 
 import { Controller, useForm } from "react-hook-form";
@@ -128,6 +129,7 @@ export const ModelForm = ({
         previewHTML: newData.previewHTML!,
         legiReferences: newData.legiReferences!,
         otherReferences: newData.otherReferences!,
+        displayDate: newData.displayDate!,
       });
       setSnack({
         open: true,
@@ -186,12 +188,10 @@ export const ModelForm = ({
         <FormControl></FormControl>
         {model && (
           <FormControl>
-            <FormTextField
-              name="updatedAt"
+            <FormDatePicker
+              name="displayDate"
               control={control}
               label="Date mise à jour"
-              disabled
-              labelFixed
             />
           </FormControl>
         )}

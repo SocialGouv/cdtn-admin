@@ -57,6 +57,7 @@ export type MutationProps = Pick<
   | "legiReferences"
   | "otherReferences"
   | "cdtnReferences"
+  | "displayDate"
 > & {
   status: string;
   userId: string;

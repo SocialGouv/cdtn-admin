@@ -82,6 +82,7 @@ select_permissions:
         - content_service_public_cdtn_id
         - content_type
         - description
+        - display_date
         - id
         - message_block_generic_no_CDT
         - question_id
@@ -97,6 +98,7 @@ update_permissions:
         - content_service_public_cdtn_id
         - content_type
         - description
+        - display_date
         - message_block_generic_no_CDT
       filter: {}
       check: null

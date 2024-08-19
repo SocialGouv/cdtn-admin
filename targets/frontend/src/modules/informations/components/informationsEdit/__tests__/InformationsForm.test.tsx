@@ -42,7 +42,6 @@ const information: InformationsResult = {
       url: "http://ref1.ref",
     },
   ],
-  updateDate: "19/04/2023",
   updatedAt: "2023-10-20T15:29:22.687685+00:00",
 };
 

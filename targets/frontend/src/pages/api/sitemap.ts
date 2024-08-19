@@ -8,10 +8,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import pLimit from "p-limit";
 
 export type Document = {
-  __typename: string;
-  modified: string;
+  updated_at: string;
   slug: string;
   source: SourceRoute;
+  document: any;
 };
 
 const slugStartsWithNumber = (slug: string) => {
@@ -23,25 +23,27 @@ export async function toUrlEntries(
   documents: Document[],
   glossaryTerms: Document[],
   baseUrl: string
-  // @ts-ignore
-): any {
-  let latestPost = 0;
+) {
+  let latestPostDate = new Date("2020-01-01");
+
   const pages = documents.flat().map((doc) => {
-    const postDate = Date.parse(doc.modified);
-    if (!latestPost || postDate > latestPost) {
-      latestPost = postDate;
+    const date = doc.document?.date
+      ? new Date(doc.document.date)
+      : new Date(doc.updated_at);
+    if (date.getTime() > latestPostDate.getTime()) {
+      latestPostDate = date;
     }
     const source = getRouteBySource(doc.source);
     const priority =
-      source === SOURCES.EDITORIAL_CONTENT ||
+      source === "information" ||
+      source === "modeles-de-courriers" ||
       (source === "contribution" && !slugStartsWithNumber(doc.slug))
         ? 0.7
         : 0.5;
     const projectURL = `${baseUrl}/${source}/${doc.slug}`;
-    return toUrlEntry(projectURL, doc.modified, priority);
+    return toUrlEntry(projectURL, date, priority);
   });
 
-  /** static pages list come from cdtn project */
   const staticPages = [
     `/a-propos`,
     `/droit-du-travail`,
@@ -51,15 +53,15 @@ export async function toUrlEntries(
     `/modeles-de-courriers`,
     `/outils`,
     `/glossaire`,
-  ].map((path) => toUrlEntry(`${baseUrl}${path}`));
+  ].map((path) => toUrlEntry(`${baseUrl}${path}`, latestPostDate));
 
-  const glossaryPages = glossaryTerms.map(({ slug, modified }) =>
+  const glossaryPages = glossaryTerms.map(({ slug, updated_at }) =>
     toUrlEntry(
       `${baseUrl}/${getRouteBySource(SOURCES.GLOSSARY)}/${slug}`,
-      modified
+      new Date(updated_at)
     )
   );
-  return { glossaryPages, latestPost, pages, staticPages };
+  return { latestPostDate, glossaryPages, pages, staticPages };
 }
 
 export default async function Sitemap(
@@ -73,37 +75,24 @@ export default async function Sitemap(
   const documents = await getDocuments();
   const glossaryTerms = await getGlossary();
 
-  const { latestPost, pages, staticPages, glossaryPages } = await toUrlEntries(
-    documents,
-    glossaryTerms,
-    baseUrl
-  );
+  const { latestPostDate, pages, staticPages, glossaryPages } =
+    await toUrlEntries(documents, glossaryTerms, baseUrl);
 
   res.setHeader("Content-Type", "text/xml");
-  res.write(`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>${baseUrl}/</loc><lastmod>${new Date(latestPost).toISOString()}</lastmod><priority>0.8</priority></url>
-${pages.concat(staticPages, glossaryPages).join("")}
-</urlset>
-`);
+  res.write(`
+    <?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      <url><loc>${baseUrl}/</loc><lastmod>${latestPostDate.toISOString()}</lastmod><priority>0.8</priority></url>
+      ${pages.concat(staticPages, glossaryPages).join("")}
+    </urlset>
+  `);
   res.end();
   const endProcess = process.hrtime(startProcessAt);
   console.log("[/api/sitemap]", " end in ", endProcess);
 }
 
-/**
- * Transform url into a sitemap entry
- * @param {string} url
- * @param {Date} date
- * @param {number} priority
- */
-function toUrlEntry(
-  url: string,
-  date = new Date().toISOString(),
-  priority = 0.5
-) {
-  return `<url><loc>${url}</loc><lastmod>${date}</lastmod><priority>${priority}</priority></url>
-`;
+function toUrlEntry(url: string, date: Date, priority = 0.5) {
+  return `<url><loc>${url}</loc><lastmod>${date.toISOString()}</lastmod><priority>${priority}</priority></url>`;
 }
 
 /**
@@ -155,7 +144,8 @@ async function getDocuments() {
       ) {
         slug
         source
-        modified: updated_at
+        updated_at
+        document
       }
     }
   `;
@@ -204,7 +194,7 @@ async function getDocuments() {
 async function getGlossary() {
   const gqlListGlossryTerm = `query getGlossary {
   glossary(order_by: {slug: asc}) {
-    slug, modified: updated_at
+    slug, updated_at
   }
 }`;
   const terms = await gqlClient().query(gqlListGlossryTerm, {}).toPromise();
