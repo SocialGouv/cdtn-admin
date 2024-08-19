@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.48.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.48.0...v2.48.1) (2024-08-19)
+
+### Bug Fixes
+
+- **types:** set metadata to main contribution document ([#1459](https://github.com/SocialGouv/cdtn-admin/issues/1459)) ([ff69641](https://github.com/SocialGouv/cdtn-admin/commit/ff6964177d251f31be711f79890114e712ef56e4))
+
 # [2.48.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.47.2...v2.48.0) (2024-08-19)
 
 ### Bug Fixes
