@@ -13,5 +13,5 @@ export function formatDateToCustomISO(date: Date): string {
   const year = date.getFullYear();
   const month = pad(date.getMonth() + 1);
   const day = pad(date.getDate());
-  return `${year}-${month}-${day}T12:00:00+02:00`;
+  return `${year}-${month}-${day}`;
 }
