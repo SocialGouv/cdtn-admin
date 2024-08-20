@@ -87,6 +87,7 @@ select_permissions:
         - created_at
         - updated_at
       filter: {}
+      allow_aggregations: true
     comment: ""
   - role: user
     permission:
@@ -125,6 +126,8 @@ update_permissions:
         - updated_at
       filter: {}
       check: {}
+      set:
+        updated_at: now()
     comment: ""
   - role: user
     permission:
