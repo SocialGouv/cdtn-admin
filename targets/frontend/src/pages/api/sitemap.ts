@@ -82,7 +82,9 @@ export default async function Sitemap(
   res.write(`
     <?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      <url><loc>${baseUrl}/</loc><lastmod>${latestPostDate.toISOString()}</lastmod><priority>0.8</priority></url>
+      <url><loc>${baseUrl}/</loc><lastmod>${formatDateToCustomISO(
+    latestPostDate
+  )}</lastmod><priority>0.8</priority></url>
       ${pages.concat(staticPages, glossaryPages).join("")}
     </urlset>
   `);
@@ -92,7 +94,27 @@ export default async function Sitemap(
 }
 
 function toUrlEntry(url: string, date: Date, priority = 0.5) {
-  return `<url><loc>${url}</loc><lastmod>${date.toISOString()}</lastmod><priority>${priority}</priority></url>`;
+  return `<url><loc>${url}</loc><lastmod>${formatDateToCustomISO(
+    date
+  )}</lastmod><priority>${priority}</priority></url>`;
+}
+
+function formatDateToCustomISO(date: Date): string {
+  const pad = (num: number) => (num < 10 ? "0" : "") + num;
+
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  const seconds = pad(date.getSeconds());
+
+  const timezoneOffset = -date.getTimezoneOffset();
+  const sign = timezoneOffset >= 0 ? "+" : "-";
+  const offsetHours = pad(Math.floor(Math.abs(timezoneOffset) / 60));
+  const offsetMinutes = pad(Math.abs(timezoneOffset) % 60);
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${sign}${offsetHours}:${offsetMinutes}`;
 }
 
 /**
@@ -101,14 +123,20 @@ function toUrlEntry(url: string, date: Date, priority = 0.5) {
  */
 async function getNbTotalDocuments(sources: string[]) {
   const gqlCountDocument = `
-query countDocuments($sources: [String!]!) {
-  documents_aggregate(where: {is_available:{_eq: true}, is_published: {_eq: true}, source: {_in: $sources }}){
-    aggregate {
-      count
+    query countDocuments($sources: [String!]!) {
+      documents_aggregate(
+        where: {
+          is_available: { _eq: true }
+          is_published: { _eq: true }
+          source: { _in: $sources }
+        }
+      ) {
+        aggregate {
+          count
+        }
+      }
     }
-  }
-}
-`;
+  `;
   const response = await gqlClient()
     .query(gqlCountDocument, {
       sources,
