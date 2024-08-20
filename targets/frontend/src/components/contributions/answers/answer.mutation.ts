@@ -76,7 +76,6 @@ export const useContributionAnswerUpdateMutation = (): MutationResult => {
       legiReferences: formatLegiReferences(data.id, data.legiReferences),
       cdtnReferences: formatCdtnReferences(data.id, data.cdtnReferences),
       otherReferences: formatOtherReferences(data.id, data.otherReferences),
-      displayDate: "2024-02-02",
     });
     if (result.error) {
       throw new Error(result.error.message);

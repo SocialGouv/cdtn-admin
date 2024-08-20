@@ -13,7 +13,6 @@ query contribution_answer($id: uuid) {
     description
     content
     contentType: content_type
-    updatedAt: updated_at
     displayDate: display_date
     contentServicePublicCdtnId: content_service_public_cdtn_id
     messageBlockGenericNoCDT: message_block_generic_no_CDT
@@ -94,7 +93,6 @@ type QueryProps = {
 
 export type AnswerWithStatus = Answer & {
   status: AnswerStatus;
-  updatedAt: string;
 };
 
 type QueryResult = {

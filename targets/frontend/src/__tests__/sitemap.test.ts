@@ -68,19 +68,19 @@ describe("Sitemap", () => {
       new Date("2022-01-19T11:07:11.314Z").getTime()
     );
     expect(pages).toEqual([
-      "<url><loc>base.url/code-du-travail/l1235-12</loc><lastmod>2022-01-03T01:30:44+01:00</lastmod><priority>0.5</priority></url>",
-      "<url><loc>base.url/fiche-service-public/un-salarie-peut-il-travailler-pendant-un-arret-de-travail</loc><lastmod>2022-01-11T01:31:14+01:00</lastmod><priority>0.5</priority></url>",
-      "<url><loc>base.url/modeles-de-courriers/demande-de-versement-de-lindemnite-inflation</loc><lastmod>2022-01-05T16:59:30+01:00</lastmod><priority>0.7</priority></url>",
-      "<url><loc>base.url/fiche-ministere-travail/5-questions-reponses-sur-le-versement-du-salaire</loc><lastmod>2022-01-11T01:31:27+01:00</lastmod><priority>0.5</priority></url>",
-      "<url><loc>base.url/information/indemnite-inflation-infographies</loc><lastmod>2022-01-07T14:09:02+01:00</lastmod><priority>0.7</priority></url>",
-      "<url><loc>base.url/themes/greve</loc><lastmod>2020-11-16T16:46:33+01:00</lastmod><priority>0.5</priority></url>",
-      "<url><loc>base.url/contribution/1634-quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite</loc><lastmod>2022-01-19T12:07:11+01:00</lastmod><priority>0.5</priority></url>",
-      "<url><loc>base.url/contribution/quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite</loc><lastmod>2022-01-19T12:07:11+01:00</lastmod><priority>0.7</priority></url>",
+      "<url><loc>base.url/code-du-travail/l1235-12</loc><lastmod>2022-01-03T12:00:00+02:00</lastmod><priority>0.5</priority></url>",
+      "<url><loc>base.url/fiche-service-public/un-salarie-peut-il-travailler-pendant-un-arret-de-travail</loc><lastmod>2022-01-11T12:00:00+02:00</lastmod><priority>0.5</priority></url>",
+      "<url><loc>base.url/modeles-de-courriers/demande-de-versement-de-lindemnite-inflation</loc><lastmod>2022-01-05T12:00:00+02:00</lastmod><priority>0.7</priority></url>",
+      "<url><loc>base.url/fiche-ministere-travail/5-questions-reponses-sur-le-versement-du-salaire</loc><lastmod>2022-01-11T12:00:00+02:00</lastmod><priority>0.5</priority></url>",
+      "<url><loc>base.url/information/indemnite-inflation-infographies</loc><lastmod>2022-01-07T12:00:00+02:00</lastmod><priority>0.7</priority></url>",
+      "<url><loc>base.url/themes/greve</loc><lastmod>2020-11-16T12:00:00+02:00</lastmod><priority>0.5</priority></url>",
+      "<url><loc>base.url/contribution/1634-quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite</loc><lastmod>2022-01-19T12:00:00+02:00</lastmod><priority>0.5</priority></url>",
+      "<url><loc>base.url/contribution/quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite</loc><lastmod>2022-01-19T12:00:00+02:00</lastmod><priority>0.7</priority></url>",
     ]);
     expect(staticPages.length).toEqual(8);
     expect(staticPages[0]).toContain("<url><loc>base.url/a-propos</loc>");
     expect(glossaryPages).toEqual([
-      "<url><loc>base.url/glossaire/abrogation</loc><lastmod>2020-11-25T15:38:50+01:00</lastmod><priority>0.5</priority></url>",
+      "<url><loc>base.url/glossaire/abrogation</loc><lastmod>2020-11-25T12:00:00+02:00</lastmod><priority>0.5</priority></url>",
     ]);
   });
 });

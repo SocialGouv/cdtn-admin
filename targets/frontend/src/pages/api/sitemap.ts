@@ -6,6 +6,10 @@ import {
 } from "@socialgouv/cdtn-sources";
 import { NextApiRequest, NextApiResponse } from "next";
 import pLimit from "p-limit";
+import {
+  formatDateToCustomISO,
+  transformStringDate,
+} from "src/modules/sitemap/date";
 
 export type Document = {
   updated_at: string;
@@ -28,7 +32,7 @@ export async function toUrlEntries(
 
   const pages = documents.flat().map((doc) => {
     const date = doc.document?.date
-      ? new Date(doc.document.date)
+      ? transformStringDate(doc.document.date)
       : new Date(doc.updated_at);
     if (date.getTime() > latestPostDate.getTime()) {
       latestPostDate = date;
@@ -68,8 +72,6 @@ export default async function Sitemap(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("[/api/sitemap]", " request: ", req.query);
-  const startProcessAt = process.hrtime();
   const baseUrl =
     (req.query.baseurl as string) || "https://code.travail.gouv.fr";
   const documents = await getDocuments();
@@ -79,42 +81,20 @@ export default async function Sitemap(
     await toUrlEntries(documents, glossaryTerms, baseUrl);
 
   res.setHeader("Content-Type", "text/xml");
-  res.write(`
-    <?xml version="1.0" encoding="UTF-8"?>
-    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      <url><loc>${baseUrl}/</loc><lastmod>${formatDateToCustomISO(
-    latestPostDate
-  )}</lastmod><priority>0.8</priority></url>
-      ${pages.concat(staticPages, glossaryPages).join("")}
-    </urlset>
-  `);
+  res.write(
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"><url><loc>${baseUrl}/</loc><lastmod>${formatDateToCustomISO(
+      latestPostDate
+    )}</lastmod><priority>0.8</priority></url>${pages
+      .concat(staticPages, glossaryPages)
+      .join("")}</urlset>`
+  );
   res.end();
-  const endProcess = process.hrtime(startProcessAt);
-  console.log("[/api/sitemap]", " end in ", endProcess);
 }
 
 function toUrlEntry(url: string, date: Date, priority = 0.5) {
   return `<url><loc>${url}</loc><lastmod>${formatDateToCustomISO(
     date
   )}</lastmod><priority>${priority}</priority></url>`;
-}
-
-function formatDateToCustomISO(date: Date): string {
-  const pad = (num: number) => (num < 10 ? "0" : "") + num;
-
-  const year = date.getFullYear();
-  const month = pad(date.getMonth() + 1);
-  const day = pad(date.getDate());
-  const hours = pad(date.getHours());
-  const minutes = pad(date.getMinutes());
-  const seconds = pad(date.getSeconds());
-
-  const timezoneOffset = -date.getTimezoneOffset();
-  const sign = timezoneOffset >= 0 ? "+" : "-";
-  const offsetHours = pad(Math.floor(Math.abs(timezoneOffset) / 60));
-  const offsetMinutes = pad(Math.abs(timezoneOffset) % 60);
-
-  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${sign}${offsetHours}:${offsetMinutes}`;
 }
 
 /**
