@@ -37,6 +37,7 @@ const contributionMock: ContributionsAnswers = {
     order: 1,
   },
   statuses: [],
+  display_date: "2024-03-25",
 };
 
 const doc: DocumentElasticWithSource<ContributionDocumentJson> = {
