@@ -263,6 +263,7 @@ describe("mapContributionToDocument", () => {
       cdtn_references: [],
       content_fiche_sp: null,
       message_block_generic_no_CDT: null,
+      display_date: "2024-07-11",
     };
 
     const result = await mapContributionToDocument(
@@ -357,6 +358,7 @@ describe("mapContributionToDocument", () => {
           cdtn_references: [],
           content_fiche_sp: null,
           message_block_generic_no_CDT: null,
+          display_date: "2024-07-11",
         };
         await expect(
           mapContributionToDocument(
