@@ -21,7 +21,7 @@ export const InformationsCreate = (): JSX.Element => {
   });
   setDefaultData({
     title: "",
-    updatedAt: "",
+    displayDate: "",
     dismissalProcess: false,
     description: "",
     metaDescription: "",

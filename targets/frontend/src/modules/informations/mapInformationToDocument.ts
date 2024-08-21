@@ -25,11 +25,7 @@ export const mapInformationToDocument = async (
     is_published: document ? document.is_published : true,
     is_available: true,
     document: {
-      date: data.displayDate
-        ? format(parseISO(data.displayDate), "dd/MM/yyyy")
-        : data.updatedAt
-        ? format(parseISO(data.updatedAt), "dd/MM/yyyy")
-        : undefined,
+      date: format(parseISO(data.displayDate), "dd/MM/yyyy"),
       intro: data.intro,
       introWithGlossary,
       description: data.description,

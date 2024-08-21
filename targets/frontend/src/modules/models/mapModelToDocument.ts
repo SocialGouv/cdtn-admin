@@ -22,11 +22,7 @@ export const mapModelToDocument = (
     document: {
       meta_title: data.metaTitle,
       type: data.type,
-      date: data.displayDate
-        ? format(parseISO(data.displayDate), "dd/MM/yyyy")
-        : data.updatedAt
-        ? format(parseISO(data.updatedAt), "dd/MM/yyyy")
-        : undefined,
+      date: format(parseISO(data.displayDate), "dd/MM/yyyy"),
       author: "Ministère du Travail",
       references: data.legiReferences
         .map((item) => ({

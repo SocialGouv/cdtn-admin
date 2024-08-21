@@ -78,11 +78,7 @@ export const mapContributionToDocument = async (
 
   const initalDoc: ContributionDocumentJson = {
     ...baseDoc,
-    date: data.display_date
-      ? format(parseISO(data.display_date), "dd/MM/yyyy")
-      : data.updatedAt
-      ? format(parseISO(data.updatedAt), "dd/MM/yyyy")
-      : undefined,
+    date: format(parseISO(data.display_date), "dd/MM/yyyy"),
     contentType: data.content_type,
     linkedContent: data.cdtn_references.map((v) => ({
       cdtnId: v.cdtn_id!,

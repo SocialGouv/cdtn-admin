@@ -21,7 +21,7 @@ export type ContributionsAnswers = {
   agreement: ContributionAgreement;
   updatedAt: string;
   statuses?: ContributionStatus[];
-  display_date?: string;
+  display_date: string;
 };
 
 export type ContributionQuestion = {

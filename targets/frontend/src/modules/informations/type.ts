@@ -94,6 +94,6 @@ export const informationSchema = z.object({
   updatedAt: z.string().nullable().optional(),
   contents: z.array(informationContentSchema),
   references: z.array(referenceSchema),
-  displayDate: z.string().nullable().optional(),
+  displayDate: z.string(),
 });
 export type Information = z.infer<typeof informationSchema>;
