@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.49.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.48.1...v2.49.0) (2024-08-22)
+
+### Bug Fixes
+
+- droit sur l'aggregation de la table documents ([#1461](https://github.com/SocialGouv/cdtn-admin/issues/1461)) ([6081104](https://github.com/SocialGouv/cdtn-admin/commit/6081104920e1a5decbca431d3fa4169ebbe02050))
+- **sql:** add down for hasura `display_date` property ([#1462](https://github.com/SocialGouv/cdtn-admin/issues/1462)) ([d24e4ca](https://github.com/SocialGouv/cdtn-admin/commit/d24e4ca51e57fc9209fcce8971fdc6e660527478))
+
+### Features
+
+- **contenus:** ajout d'une date ([#1458](https://github.com/SocialGouv/cdtn-admin/issues/1458)) ([05a90c9](https://github.com/SocialGouv/cdtn-admin/commit/05a90c9419cd706b33f900d12922efd7afa1e68f))
+
 ## [2.48.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.48.0...v2.48.1) (2024-08-19)
 
 ### Bug Fixes
