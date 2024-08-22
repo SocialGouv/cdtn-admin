@@ -13,6 +13,7 @@ export const informationsQuery = gql`
       sectionDisplayMode
       title
       updatedAt
+      displayDate
       dismissalProcess
       contents(order_by: { order: asc }) {
         id

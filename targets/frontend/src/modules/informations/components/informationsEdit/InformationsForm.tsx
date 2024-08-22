@@ -2,7 +2,11 @@ import { Button, FormControl, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormRadioGroup, FormTextField } from "src/components/forms";
+import {
+  FormDatePicker,
+  FormRadioGroup,
+  FormTextField,
+} from "src/components/forms";
 
 import { InformationsResult } from "./Informations.query";
 import { Information, informationSchema } from "../../type";
@@ -59,12 +63,10 @@ export const InformationsForm = ({
       <form onSubmit={handleSubmit(onUpsert)}>
         <Stack spacing={4}>
           <FormControl>
-            <FormTextField
-              name="updateDate"
+            <FormDatePicker
+              name="displayDate"
               control={control}
               label="Date mise à jour"
-              disabled
-              labelFixed
             />
           </FormControl>
           <FormControl>

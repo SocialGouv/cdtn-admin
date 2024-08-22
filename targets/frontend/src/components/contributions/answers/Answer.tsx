@@ -70,6 +70,7 @@ export const ContributionsAnswer = ({
         legiReferences: data.legiReferences,
         cdtnReferences: data.cdtnReferences,
         otherReferences: data.otherReferences,
+        displayDate: data.displayDate,
       });
       if (newStatus === "TO_PUBLISH") {
         await onPublish(answer.id);
@@ -93,6 +94,7 @@ export const ContributionsAnswer = ({
           legiReferences: data.legiReferences,
           cdtnReferences: data.cdtnReferences,
           otherReferences: data.otherReferences,
+          displayDate: data.displayDate,
         });
       }
       setSnack({ open: true, severity: "error", message: e.message });

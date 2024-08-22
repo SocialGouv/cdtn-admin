@@ -14,6 +14,7 @@ export const listModelsQuery = gql`
       previewHTML
       createdAt
       updatedAt
+      displayDate
       file {
         id
         url
@@ -63,17 +64,8 @@ export const useListModelQuery = ({
       id,
     },
   });
-  const model = data?.model;
-  const updatedAt = model?.updatedAt
-    ? format(parseISO(model.updatedAt), "dd/MM/yyyy")
-    : "";
   return {
-    data: model
-      ? {
-          ...model,
-          updatedAt,
-        }
-      : undefined,
+    data: data?.model,
     error,
     fetching,
     reexecuteQuery,

@@ -5,6 +5,8 @@ configuration:
   column_config:
     dismissal_process:
       custom_name: dismissalProcess
+    display_date:
+      custom_name: displayDate
     meta_description:
       custom_name: metaDescription
     meta_title:
@@ -17,6 +19,7 @@ configuration:
       custom_name: updatedAt
   custom_column_names:
     dismissal_process: dismissalProcess
+    display_date: displayDate
     meta_description: metaDescription
     meta_title: metaTitle
     reference_label: referenceLabel
@@ -45,6 +48,7 @@ insert_permissions:
       columns:
         - description
         - dismissal_process
+        - display_date
         - id
         - intro
         - meta_description
@@ -59,6 +63,7 @@ insert_permissions:
       columns:
         - description
         - dismissal_process
+        - display_date
         - id
         - intro
         - meta_description
@@ -73,6 +78,7 @@ select_permissions:
       columns:
         - description
         - dismissal_process
+        - display_date
         - id
         - intro
         - meta_description
@@ -88,6 +94,7 @@ select_permissions:
       columns:
         - description
         - dismissal_process
+        - display_date
         - id
         - intro
         - meta_description
@@ -104,6 +111,7 @@ update_permissions:
       columns:
         - description
         - dismissal_process
+        - display_date
         - id
         - intro
         - meta_description

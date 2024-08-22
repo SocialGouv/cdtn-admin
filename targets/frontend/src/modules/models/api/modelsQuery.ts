@@ -13,6 +13,7 @@ export const modelsQuery = gql`
       previewHTML
       createdAt
       updatedAt
+      displayDate
       file {
         id
         url

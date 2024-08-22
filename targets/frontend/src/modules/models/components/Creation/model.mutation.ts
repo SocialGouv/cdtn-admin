@@ -42,6 +42,7 @@ export const useModelInsertMutation = (): MutationFn => {
         previewHTML: data.previewHTML,
         models_legi_references: formatLegiReferences(data.legiReferences),
         models_other_references: formatOtherReferences(data.otherReferences),
+        displayDate: data.displayDate,
       },
     });
     if (result.error) {

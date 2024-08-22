@@ -50,6 +50,7 @@ export const informationMutation = gql`
           metaDescription
           referenceLabel
           sectionDisplayMode
+          displayDate
         ]
       }
     ) {

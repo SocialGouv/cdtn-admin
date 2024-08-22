@@ -5,7 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/router";
 
-import { FormEditionField, FormRadioGroup, FormTextField } from "../../forms";
+import {
+  FormDatePicker,
+  FormEditionField,
+  FormRadioGroup,
+  FormTextField,
+} from "../../forms";
 import { Answer, answerRelationSchema, documentSchema, Status } from "../type";
 import { AnswerWithStatus } from "./answer.query";
 import {
@@ -18,21 +23,18 @@ import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
 import { LoadingButton } from "src/components/button/LoadingButton";
 
-const answerFormBaseSchema = answerRelationSchema
-  .pick({
-    content: true,
-    description: true,
-    contentType: true,
-    messageBlockGenericNoCDT: true,
-    cdtnReferences: true,
-    kaliReferences: true,
-    legiReferences: true,
-    otherReferences: true,
-    contentFichesSpDocument: true,
-  })
-  .extend({
-    updateDate: z.string(),
-  });
+const answerFormBaseSchema = answerRelationSchema.pick({
+  content: true,
+  description: true,
+  contentType: true,
+  messageBlockGenericNoCDT: true,
+  cdtnReferences: true,
+  kaliReferences: true,
+  legiReferences: true,
+  otherReferences: true,
+  contentFichesSpDocument: true,
+  displayDate: true,
+});
 const answerWithAnswerSchema = answerFormBaseSchema.extend({
   contentType: z.literal("ANSWER"),
   content: z
@@ -123,7 +125,7 @@ export const AnswerForm = ({
       cdtnReferences: answer?.cdtnReferences ?? [],
       contentFichesSpDocument: answer?.contentFichesSpDocument ?? undefined,
       messageBlockGenericNoCDT: answer?.messageBlockGenericNoCDT ?? undefined,
-      updateDate: answer?.updateDate ?? "",
+      displayDate: answer?.displayDate ?? undefined,
     },
   });
 
@@ -226,12 +228,11 @@ export const AnswerForm = ({
           </Alert>
         )}
         <FormControl>
-          <FormTextField
-            name="updateDate"
+          <FormDatePicker
+            name="displayDate"
             control={control}
             label="Date mise à jour"
-            disabled
-            labelFixed
+            disabled={isNotEditable(answer)}
           />
         </FormControl>
         <FormControl>

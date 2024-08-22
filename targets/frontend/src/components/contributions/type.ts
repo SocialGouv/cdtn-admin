@@ -144,6 +144,7 @@ const answerBaseSchema = z.object({
     .optional(),
   messageBlockGenericNoCDT: z.string().nullable().optional(),
   updatedAt: z.string(),
+  displayDate: z.string(),
 });
 
 export const questionBaseSchema = z.object({

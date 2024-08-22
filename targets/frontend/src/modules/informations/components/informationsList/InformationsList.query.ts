@@ -16,6 +16,7 @@ export const informationsListQuery = `query informationsList($search: String) {
         referenceLabel
         sectionDisplayMode
         title
+        displayDate
         updatedAt
     }
   }`;
