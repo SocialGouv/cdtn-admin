@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "information"."informations" add column "display_date" date
---  null;
+alter table "information"."informations" drop column "display_date";

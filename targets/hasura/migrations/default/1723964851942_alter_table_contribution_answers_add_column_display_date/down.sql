@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "contribution"."answers" add column "display_date" date
---  null;
+alter table "contribution"."answers" drop column "display_date";
