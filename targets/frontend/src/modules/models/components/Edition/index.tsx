@@ -4,7 +4,7 @@ import { useListModelQuery } from "./model.query";
 import React from "react";
 import { ModelForm } from "src/modules/models/components/Common";
 import { useModelUpdateMutation } from "./model.mutation";
-import { usePublishMutation } from "./publish.mutation";
+import { usePublishMutation } from "../../../documents/components/publish.mutation";
 
 type Props = {
   id: string;
@@ -61,7 +61,7 @@ export const ModelEdition = ({ id }: Props): React.ReactElement => {
             }}
             onPublish={async () => {
               if (data?.id) {
-                await publish(data.id);
+                await publish({ id: data.id, source: "modeles_de_courriers" });
               } else {
                 throw new Error(
                   "Aucune modèle de document à publier n'a été détecté"

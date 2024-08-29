@@ -1,7 +1,7 @@
 import { useQuery } from "urql";
 import { Information } from "../../type";
 
-export const informationsListQuery = `query informationsList($search: String) {
+export const listQuery = `query informationsList($search: String) {
   information_informations(
       where: {
         title: { _ilike: $search }
@@ -39,7 +39,7 @@ export const useInformationsListQuery = ({
   search,
 }: InformationsListQueryProps): InformationsListQueryResult => {
   const [result] = useQuery<QueryResult>({
-    query: informationsListQuery,
+    query: listQuery,
     requestPolicy: "cache-and-network",
     variables: {
       search,
