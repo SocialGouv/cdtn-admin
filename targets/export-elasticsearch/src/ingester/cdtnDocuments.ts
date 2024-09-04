@@ -12,7 +12,7 @@ import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";
-import { buildThemes } from "./buildThemes";
+import { buildThemes } from "./themes/buildThemes";
 import {
   getDocumentBySource,
   getDocumentBySourceWithRelation,

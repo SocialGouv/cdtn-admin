@@ -18,7 +18,8 @@ const graphQLThemesQuery = `
         slug
         source
         title
-        document
+        description: document(path: "description")
+        url: document(path: "url")
       }
       position: data(path: "position")
     }
