@@ -1,3 +1,5 @@
+import { SourceRoute } from "@socialgouv/cdtn-sources";
+
 export interface Data {
   themes: Theme[];
 }
@@ -6,7 +8,7 @@ export interface Theme {
   cdtnId: string;
   id: string;
   slug: string;
-  source: string;
+  source: "themes";
   title: string;
   document: ThemeDocument;
   contentRelations: ThemeContentRelation[];
@@ -27,9 +29,10 @@ export interface ThemeContentRelation {
 export interface ThemeContent {
   cdtnId: string;
   slug: string;
-  source: string;
+  source: SourceRoute;
   title: string;
-  document: unknown;
+  description: string;
+  url?: string;
 }
 
 export interface ThemeParentRelation {

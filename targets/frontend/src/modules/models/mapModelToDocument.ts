@@ -2,12 +2,16 @@ import { format, parseISO } from "date-fns";
 import { generateCdtnId } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
 import { Model } from "../models";
-import { HasuraDocument } from "@socialgouv/cdtn-types";
+import {
+  HasuraDocument,
+  MailTemplateDoc,
+  MailTemplateReference,
+} from "@socialgouv/cdtn-types";
 
 export const mapModelToDocument = (
   data: Model,
-  document?: HasuraDocument<any>
-): HasuraDocument<any> => {
+  document?: HasuraDocument<MailTemplateDoc>
+): HasuraDocument<MailTemplateDoc> => {
   return {
     cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
     initial_id: data.id!,
@@ -25,11 +29,13 @@ export const mapModelToDocument = (
       date: format(parseISO(data.displayDate), "dd/MM/yyyy"),
       author: "Ministère du Travail",
       references: data.legiReferences
-        .map((item) => ({
-          url: `https://www.legifrance.gouv.fr/codes/article_lc/${item.legiArticle.cid}`,
-          title: item.legiArticle.label,
-          type: "external",
-        }))
+        .map(
+          (item): MailTemplateReference => ({
+            url: `https://www.legifrance.gouv.fr/codes/article_lc/${item.legiArticle.cid}`,
+            title: item.legiArticle.label,
+            type: "external",
+          })
+        )
         .concat(
           data.otherReferences.map((item) => ({
             url: item.url ?? "",
