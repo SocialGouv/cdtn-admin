@@ -22,11 +22,6 @@ www:
     requests:
       cpu: "100m"
       memory: "386Mi"
-  tolerations:
-    - key: startup
-      operator: Equal
-      value: cdtn
-      effect: NoSchedule
 
 export:
   replicas: 1
@@ -37,11 +32,6 @@ export:
     requests:
       cpu: "1500m"
       memory: "2Gi"
-  tolerations:
-    - key: startup
-      operator: Equal
-      value: cdtn
-      effect: NoSchedule
 
 hasura:
   autoscale:
