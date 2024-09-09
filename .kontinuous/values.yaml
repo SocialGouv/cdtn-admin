@@ -61,6 +61,20 @@ www:
     fsGroup: 1000
     runAsUser: 1000
     runAsGroup: 1000
+  tolerations:
+    - key: startup
+      operator: Equal
+      value: cdtn
+      effect: NoSchedule
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: nodepool
+                operator: In
+                values:
+                  - cdtn-worker-nodepool
 
 export:
   ~chart: app
@@ -86,6 +100,20 @@ export:
     oblik.socialgouv.io/min-request-memory: "2Gi"
     oblik.socialgouv.io/min-limit-cpu: "2000m"
     oblik.socialgouv.io/min-limit-memory: "4Gi"
+  tolerations:
+    - key: startup
+      operator: Equal
+      value: cdtn
+      effect: NoSchedule
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: nodepool
+                operator: In
+                values:
+                  - cdtn-worker-nodepool
 
 hasura:
   ~chart: hasura
