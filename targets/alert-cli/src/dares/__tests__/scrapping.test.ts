@@ -9,9 +9,6 @@ describe("extractXlsxFromUrl", () => {
   it("should extract xlsx file from url", async () => {
     const html = `
       <html>
-        <head>
-          <base href="https://www.domain.com" />
-        </head>
         <body>
           <a href="file1.xlsx">File 1</a>
           <a href="file2.xlsx">File 2</a>
@@ -20,22 +17,7 @@ describe("extractXlsxFromUrl", () => {
     `;
     (axios.get as jest.Mock).mockResolvedValueOnce({ data: html });
     const result = await extractDaresXlsxFromMT();
-    expect(result).toBe("https://www.domain.com/file1.xlsx");
-  });
-
-  it("should throw error if xlsx file is present but url is relative with base tag", async () => {
-    const html = `
-      <html>
-        <body>
-          <a href="file1.xlsx">File 1</a>
-          <a href="file2.xlsx">File 2</a>
-        </body>
-      </html>
-    `;
-    (axios.get as jest.Mock).mockResolvedValueOnce({ data: html });
-    await expect(extractDaresXlsxFromMT()).rejects.toThrow(
-      "xlsx file url not valid : file1.xlsx"
-    );
+    expect(result).toBe("https://travail-emploi.gouv.fr/file1.xlsx");
   });
 
   it("should throw error if no xlsx file found", async () => {
@@ -60,7 +42,7 @@ describe("extractXlsxFromUrl", () => {
     (axios.get as jest.Mock).mockResolvedValueOnce({ data: html });
     const result = await extractDaresXlsxFromMT();
     expect(result).toBe(
-      "https://travail-emploi.gouv.fr//IMG/xlsx/dares_donnes_identifiant_convention_collective_avril24.xlsx"
+      "https://travail-emploi.gouv.fr/IMG/xlsx/dares_donnes_identifiant_convention_collective_septembre24.xlsx"
     );
   });
 });
