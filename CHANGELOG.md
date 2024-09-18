@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.49.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.1...v2.49.2) (2024-09-18)
+
+### Bug Fixes
+
+- **alert:** ne pas utiliser le base pour générer l'url des CCs ([#1469](https://github.com/SocialGouv/cdtn-admin/issues/1469)) ([3ffaf96](https://github.com/SocialGouv/cdtn-admin/commit/3ffaf964b4c969814636f08a2bfc5ee60b382f12))
+- dedicated nodepool ([#1465](https://github.com/SocialGouv/cdtn-admin/issues/1465)) ([7110107](https://github.com/SocialGouv/cdtn-admin/commit/71101075512f4a6768ce0d5a01c3cd21e582f399))
+
 ## [2.49.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.0...v2.49.1) (2024-09-04)
 
 ### Bug Fixes
