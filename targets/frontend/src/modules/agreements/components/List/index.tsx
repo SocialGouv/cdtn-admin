@@ -1,103 +1,81 @@
-import {
-  Button,
-  FormControlLabel,
-  FormGroup,
-  Paper,
-  Stack,
-  Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-} from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { useListAgreementQuery } from "./list.query";
-import { Row } from "./Row";
 import { useRouter } from "next/router";
+import { EnhancedTable } from "../../../../components/data";
+import { Tooltip } from "@mui/material";
+import GavelIcon from "@mui/icons-material/Gavel";
+import Filter from "./Filter";
+
+type AgreementData = {
+  id: string;
+  title: string;
+  isSupported: boolean;
+};
 
 export const AgreementList = (): JSX.Element => {
   const router = useRouter();
-  const [idcc, setIdcc] = useState<string | undefined>();
   const [keyword, setKeyword] = useState<string | undefined>();
-  const [isSupported, setSupported] = useState<boolean>(false);
+  const [isSupported, setSupported] = useState<boolean[]>([true, false]);
   const { rows } = useListAgreementQuery({
-    idcc,
     keyword,
     isSupported,
   });
   return (
-    <Stack spacing={2}>
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        spacing={2}
-      >
-        <FormGroup row={true}>
-          <TextField
-            label="IDCC"
-            variant="outlined"
-            onChange={(event) => {
-              const value = event.target.value;
-              setIdcc(value ? `%${value}%` : undefined);
-            }}
-            data-testid="agreements-idcc-search"
-          />
-          <TextField
-            label="Recherche mot clé"
-            variant="outlined"
-            onChange={(event) => {
-              const value = event.target.value;
-              setKeyword(value ? `%${value}%` : undefined);
-            }}
-            data-testid="agreements-keyword-search"
-          />
-
-          <FormControlLabel
-            control={
-              <Switch
-                onChange={(event) => {
-                  // console.log(`Value: ${value.target.value}`);
-                  setSupported(event.target.checked);
-                }}
-                checked={isSupported}
-              />
-            }
-            labelPlacement="start"
-            label="Afficher que les supportés"
-          />
-        </FormGroup>
-        <Button
-          variant="contained"
-          color="success"
-          onClick={() => {
-            router.push("/agreements/creation");
+    <EnhancedTable<AgreementData>
+      source="conventions_collectives"
+      headCells={[
+        {
+          id: "id",
+          dataIndex: "id",
+          label: "IDCC",
+        },
+        {
+          id: "supported",
+          dataIndex: "isSupported",
+          label: "",
+          render: (value) => {
+            return (
+              <>
+                {value ? (
+                  <Tooltip title="Convention collective traitée par le CDTN">
+                    <GavelIcon fontSize="small" />
+                  </Tooltip>
+                ) : undefined}
+              </>
+            );
+          },
+        },
+        {
+          id: "title",
+          dataIndex: "title",
+          label: "Titre",
+        },
+      ]}
+      rows={rows.map((row) => ({
+        id: row.id ?? "",
+        title: row.shortName,
+        isSupported: row.isSupported,
+      }))}
+      onClickItem={(id) => {
+        router.push(`/agreements/${id}`);
+      }}
+      onClickCreation={() => {
+        router.push("/agreements/creation");
+      }}
+      setSearch={(value) => setKeyword(value)}
+      customFilters={
+        <Filter
+          data={["traitée", "non traitée"]}
+          onChange={(data) => {
+            setSupported(
+              data.length > 0
+                ? data.map((item) => item === "traitée")
+                : [true, false]
+            );
           }}
-        >
-          Créer
-        </Button>
-      </Stack>
-
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table" size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>IDCC</TableCell>
-              <TableCell></TableCell>
-              <TableCell>Titre</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <Row row={row} key={row.id} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Stack>
+        />
+      }
+    />
   );
 };

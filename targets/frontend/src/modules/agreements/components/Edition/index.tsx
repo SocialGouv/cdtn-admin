@@ -11,13 +11,12 @@ import React from "react";
 import { useAgreementUpdateMutation } from "./agreement.mutation";
 import { useAgreementQuery } from "./agreement.query";
 import { AgreementForm } from "../Common";
-import { usePublishMutation } from "./publish.mutation";
+import { usePublishMutation } from "../../../documents/components/publish.mutation";
 import { useAgreementDeleteMutation } from "./delete.mutation";
 import { useRouter } from "next/router";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import agreements from "../../../../pages/agreements";
 
 type Props = {
   id: string;
@@ -83,7 +82,10 @@ export const AgreementEdition = ({ id }: Props): React.ReactElement => {
             }}
             onPublish={async () => {
               if (data?.id) {
-                await publish(data.id);
+                await publish({
+                  id: data.id,
+                  source: "conventions_collectives",
+                });
               } else {
                 throw new Error(
                   "Aucune convention collective à publier n'a été détectée"
@@ -125,9 +127,7 @@ export const AgreementEdition = ({ id }: Props): React.ReactElement => {
                 conventions collectives
               </li>
             </ul>
-            <p>
-              Voulez-vous quand même la supprimer maintenant&nbsp;?
-            </p>
+            <p>Voulez-vous quand même la supprimer maintenant&nbsp;?</p>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
