@@ -9,7 +9,7 @@ import {
 } from "./editInformation.mutation";
 import { InformationsForm } from "./InformationsForm";
 import { useDeleteInformationMutation } from "./deleteInformation.mutation";
-import { usePublishInformationMutation } from "./publishInformation.mutation";
+import { usePublishMutation } from "../../../documents/components/publish.mutation";
 import { useRouter } from "next/router";
 import { SnackBar } from "src/components/utils/SnackBar";
 import { ConfirmModal } from "src/modules/common/components/modals/ConfirmModal";
@@ -36,7 +36,7 @@ export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
   const [modalDelete, setModalDelete] = useState<boolean>(false);
   const onUpsert = useEditInformationMutation();
   const onDelete = useDeleteInformationMutation();
-  const onPublish = usePublishInformationMutation();
+  const onPublish = usePublishMutation();
 
   useEffect(() => {
     if (!fetching && information) {
@@ -77,7 +77,7 @@ export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
               }}
               onUpsert={async (upsertData) => {
                 try {
-                  const idUpsert = await onUpsert(upsertData);
+                  await onUpsert(upsertData);
                   reexecuteQuery({ requestPolicy: "network-only" });
                   setSnack({
                     open: true,
@@ -95,7 +95,10 @@ export const InformationsEdit = ({ id }: EditInformationProps): JSX.Element => {
               onPublish={async () => {
                 try {
                   if (information?.id) {
-                    await onPublish(information.id);
+                    await onPublish({
+                      id: information.id,
+                      source: "information",
+                    });
                     setSnack({
                       open: true,
                       severity: "success",
