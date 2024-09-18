@@ -48,7 +48,7 @@ export const mapInformationToDocument = async (
               blocks: await Promise.all(
                 blocks.map(async (block) => {
                   const htmlWithGlossary = await getGlossaryContent(
-                    "markdown",
+                    "html",
                     block.content ?? ""
                   );
                   return {
