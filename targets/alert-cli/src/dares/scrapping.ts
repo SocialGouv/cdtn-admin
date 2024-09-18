@@ -14,10 +14,5 @@ export const extractDaresXlsxFromMT = async () => {
   if (match[1].startsWith("http")) {
     return match[1];
   }
-  const baseRegex = /<base href="(.*)" \/>/g;
-  const baseMatch = baseRegex.exec(html);
-  if (!baseMatch) {
-    throw new Error(`xlsx file url not valid : ${match[1]}`);
-  }
-  return `${baseMatch[1]}/${match[1]}`;
+  return `https://travail-emploi.gouv.fr/${match[1]}`;
 };
