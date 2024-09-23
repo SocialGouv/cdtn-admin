@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.49.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.2...v2.49.3) (2024-09-23)
+
+### Bug Fixes
+
+- augmente la taille autorisée pour glossariser un contenu ([#1476](https://github.com/SocialGouv/cdtn-admin/issues/1476)) ([d1d850e](https://github.com/SocialGouv/cdtn-admin/commit/d1d850ef2b6c3b54239a57239a1696c72a603e56))
+
 ## [2.49.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.1...v2.49.2) (2024-09-18)
 
 **Note:** Version bump only for package export-elasticsearch
