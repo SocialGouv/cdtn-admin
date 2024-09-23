@@ -4,6 +4,7 @@ import "./controllers";
 import bodyParser from "body-parser";
 import cors from "cors";
 import type { NextFunction, Request, Response } from "express";
+import express from "express";
 import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
 
@@ -11,7 +12,7 @@ import {
   ExportEsRunMiddleware,
   GlossaryMiddleware,
 } from "./controllers/middlewares";
-import { S3Parameters, S3Repository, ExportRepository } from "./repositories";
+import { ExportRepository, S3Parameters, S3Repository } from "./repositories";
 import {
   CopyContainerService,
   ExportService,
@@ -87,6 +88,9 @@ rootContainer
 // create server
 const server = new InversifyExpressServer(rootContainer);
 server.setConfig((srv) => {
+  // Increase limit for glossary
+  srv.use(express.json({ limit: "5mb" }));
+
   // add body parser
   srv.use(
     bodyParser.urlencoded({
