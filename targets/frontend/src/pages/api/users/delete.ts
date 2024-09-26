@@ -14,7 +14,7 @@ export default async function handler(
   }
 
   const userId = req.body.userId;
-  const userName = req.body.name;
+  const userName = req.body.userName;
 
   if (!userId) {
     res.status(400).json({ message: "Missing user id" });

@@ -12,14 +12,14 @@ const deleteQuery = gql`
         isDeleted: true
       }
     ) {
-      name
+      id
     }
   }
 `;
 
 interface DeleteUserHasuraResult {
   update_auth_users_by_pk: {
-    name: string;
+    id: string;
   };
 }
 
@@ -46,7 +46,7 @@ export const deleteUser = async (
     .toPromise();
 
   if (
-    deleteResult.data?.update_auth_users_by_pk.name !== userId ||
+    deleteResult.data?.update_auth_users_by_pk.id !== userId ||
     deleteResult.error
   ) {
     return false;
