@@ -12,7 +12,6 @@ import {
   Select,
   Stack,
 } from "@mui/material";
-import { useQuery } from "urql";
 
 import { Button } from "../button";
 
@@ -36,28 +35,8 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
   ];
 
   const { handleSubmit, register } = useForm();
-  const [result] = useQuery({
-    query: sourceQuery,
-    variables: {
-      available:
-        initialValues.available === "yes"
-          ? [true]
-          : initialValues.available === "no"
-          ? [false]
-          : [true, false],
-      published:
-        initialValues.published === "yes"
-          ? [true]
-          : initialValues.published === "no"
-          ? [false]
-          : [true, false],
-      search: `%${initialValues.q}%`,
-      source: initialValues.source || null,
-    },
-  });
 
   function triggerUpdateUrl(event) {
-    console.log("update filters");
     onSearchUpdate({
       ...initialValues,
       [event.target.name]:
@@ -201,23 +180,3 @@ SearchFilters.propTypes = {
   }),
   onSearchUpdate: PropTypes.func.isRequired,
 };
-
-const sourceQuery = `
-query documents($source: String, $search: String!, $published: [Boolean!]!,  $available: [Boolean!]!) {
-  sources:   documents_aggregate(where: {
-    _not: {
-      document: {_has_key: "split"}
-    }
-    _and: {
-      source: {_eq: $source, _neq: "code_du_travail"}
-      title: {_ilike: $search},
-      is_published: {_in: $published}
-      is_available: {_in: $available}
-    }
-  }) {
-    nodes {
-      source
-    }
-  }
-}
-`;
