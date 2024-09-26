@@ -25,12 +25,7 @@ interface DeleteUserHasuraResult {
 
 const anonymizeUser = (userName: string, userId: string): string => {
   if (!userName?.length) return userId.slice(4);
-  let anonymous = userName[0].toUpperCase();
-  const spaceIndex = userName.indexOf(" ");
-  if (spaceIndex > 0 && userName.length > spaceIndex) {
-    anonymous += userName[spaceIndex + 1].toUpperCase();
-  }
-  return anonymous;
+  return userName.toUpperCase().split(" ").map((word) => word[0]).join();
 };
 
 export const deleteUser = async (
