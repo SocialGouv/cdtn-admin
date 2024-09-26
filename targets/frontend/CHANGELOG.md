@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.49.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.3...v2.49.4) (2024-09-26)
+
+### Bug Fixes
+
+- ne pas afficher les contribs personnalisées ([#1478](https://github.com/SocialGouv/cdtn-admin/issues/1478)) ([cfd1c8e](https://github.com/SocialGouv/cdtn-admin/commit/cfd1c8eb98ebb67a3741cf3bd49ea6b2bdabfc92))
+
 ## [2.49.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.2...v2.49.3) (2024-09-23)
 
 **Note:** Version bump only for package frontend
