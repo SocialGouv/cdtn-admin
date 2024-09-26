@@ -27,7 +27,7 @@ const anonymizeUser = (userName: string, userId: string): string => {
   if (!userName?.length) return userId.slice(4);
   let anonymous = userName[0].toUpperCase();
   const spaceIndex = userName.indexOf(" ");
-  if (spaceIndex && userName.length > spaceIndex) {
+  if (spaceIndex > 0 && userName.length > spaceIndex) {
     anonymous += userName[spaceIndex + 1].toUpperCase();
   }
   return anonymous;
