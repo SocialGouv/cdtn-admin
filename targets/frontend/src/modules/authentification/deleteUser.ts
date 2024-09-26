@@ -23,12 +23,25 @@ interface DeleteUserHasuraResult {
   };
 }
 
-export const deleteUser = async (userId: string): Promise<boolean> => {
+const anonymizeUser = (userName: string, userId: string): string => {
+  if (!userName?.length) return userId.slice(4);
+  let anonymous = userName[0].toUpperCase();
+  const spaceIndex = userName.indexOf(" ");
+  if (spaceIndex && userName.length > spaceIndex) {
+    anonymous += userName[spaceIndex + 1].toUpperCase();
+  }
+  return anonymous;
+};
+
+export const deleteUser = async (
+  userId: string,
+  userName: string
+): Promise<boolean> => {
   const deleteResult = await gqlClient()
     .mutation<DeleteUserHasuraResult>(deleteQuery, {
       email: `${userId}@gouv.fr`,
       id: userId,
-      name: userId,
+      name: anonymizeUser(userName, userId),
     })
     .toPromise();
 

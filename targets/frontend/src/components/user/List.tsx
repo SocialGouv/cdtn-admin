@@ -31,7 +31,7 @@ query getUsers {
 `;
 
 type Props = {
-  onDeleteUser: (userId: string) => Promise<boolean>;
+  onDeleteUser: (userId: string, name: string) => Promise<boolean>;
   refresh?: boolean;
 };
 
@@ -57,7 +57,7 @@ export function UserList({ onDeleteUser }: Props) {
       return;
     }
     close();
-    const result = await onDeleteUser(selectedUser.id);
+    const result = await onDeleteUser(selectedUser.id, selectedUser.name);
     if (result) {
       executeQuery({ requestPolicy: "network-only" });
     }

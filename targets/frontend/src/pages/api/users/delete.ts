@@ -14,6 +14,7 @@ export default async function handler(
   }
 
   const userId = req.body.userId;
+  const userName = req.body.name;
 
   if (!userId) {
     res.status(400).json({ message: "Missing user id" });
@@ -36,7 +37,7 @@ export default async function handler(
     return;
   }
 
-  const result = await deleteUser(userId);
+  const result = await deleteUser(userId, userName);
 
   if (!result) {
     res.status(500).json({ message: "Error deleting user" });

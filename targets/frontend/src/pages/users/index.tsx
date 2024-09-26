@@ -9,13 +9,13 @@ import { useRouter } from "next/router";
 export function UserPage() {
   const router = useRouter();
 
-  const onDeleteUser = async (userId: string) => {
+  const onDeleteUser = async (userId: string, name: string) => {
     const result = await fetch(`/api/users/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ userId, name }),
     });
 
     const resultJson = await result.json();
