@@ -24,7 +24,17 @@ const AUTOSUGGEST_MAX_RESULTS = 15;
 
 const searchDocumentsQuery = `
 query searchDocuments($sources: [String!]! = "", $search: String = "") {
-  documents(where: {title: {_ilike: $search}, source: {_in: $sources}, _not: {document: {_has_key: "split"}}}, limit: ${AUTOSUGGEST_MAX_RESULTS}) {
+  documents(
+    where: {
+      title: { _ilike: $search }
+      source: { _in: $sources }
+      _or: [
+        { source: { _neq: "contributions" } }
+        { source: { _eq: "contributions" }, document: { _contains: { idcc: "0000" } } }
+      ]
+    }
+    limit: ${AUTOSUGGEST_MAX_RESULTS}
+  ) {
     source
     title
     cdtnId: cdtn_id
@@ -136,6 +146,7 @@ const renderInputComponent = (inputProps) => (
 function shouldRenderSuggestions(value) {
   return value.trim().length > 2;
 }
+
 function renderSectionTitle(section) {
   return section.suggestions.length ? (
     <Box bg={th.colors.neutral} fontWeight="bold" p={th.space.xxsmall}>
@@ -154,7 +165,7 @@ const renderSuggestion = (content) => (
   <div>
     {content.title}
     {content.category === "document" && (
-      <strong> | {getLabelBySource(content.source)}</strong>
+      <strong> | {getLabelBySource(content.source)}</strong>
     )}
   </div>
 );
