@@ -1,10 +1,11 @@
 import { ApiClient } from "src/lib/api";
 import {
+  getAllContributionsByQuestionId,
   getContributionAnswerById,
   getGenericAnswerByQuestionId,
-  getAllContributionsByQuestionId,
 } from "./query";
 import { ContributionsAnswers } from "@socialgouv/cdtn-types";
+import { updatePublicationMutation } from "./mutation";
 
 interface FetchContribPkData {
   contribution_answers_by_pk: ContributionsAnswers;
@@ -80,5 +81,18 @@ export class ContributionRepository {
       (contrib) =>
         contrib.statuses && contrib.statuses[0].status === "TO_PUBLISH"
     );
+  }
+
+  async updateCdtnId(id: string, cdtnId: string): Promise<void> {
+    const { error } = await this.client.mutation<FetchContribPkData>(
+      updatePublicationMutation,
+      {
+        id,
+        cdtnId,
+      }
+    );
+    if (error) {
+      throw error;
+    }
   }
 }

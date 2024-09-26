@@ -88,6 +88,13 @@ export class DocumentsService {
             );
           }
         );
+
+        if (!contribution.cdtnId && document?.cdtn_id) {
+          this.contributionRepository.updateCdtnId(
+            contribution.id,
+            document.cdtn_id
+          );
+        }
         break;
 
       case "modeles_de_courriers":

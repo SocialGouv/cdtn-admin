@@ -8,6 +8,7 @@ export type ContributionStatus = {
 
 export type ContributionsAnswers = {
   id: string;
+  cdtnId: string | null;
   content: string | null;
   description: string | null;
   content_type: ContributionContentType;

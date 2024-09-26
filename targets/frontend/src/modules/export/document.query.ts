@@ -63,12 +63,8 @@ export const useDocumentsQuery = ({
   if (!result.data) {
     return new Map();
   }
-  // Le filtre est temporaire tant que l'ancien outil de contrib est la : exclure les anciennes contribs qui ont une updated date toujours mise à jour
-  const filtered = result.data.documents.filter(
-    (doc) => doc.source !== SOURCES.CONTRIBUTIONS || !!doc.document?.contentType
-  );
 
-  const grouped = groupBy(filtered, (data) => data.source);
+  const grouped = groupBy(result.data.documents, (data) => data.source);
   grouped.forEach((array, key) => {
     grouped.set(key, array.slice().sort(compareTitles));
   });

@@ -26,5 +26,6 @@ module.exports = {
         },
       },
     },
+    spacing: jest.fn()
   },
 };

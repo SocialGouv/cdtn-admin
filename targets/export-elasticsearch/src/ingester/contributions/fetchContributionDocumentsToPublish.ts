@@ -1,7 +1,6 @@
 import {
   ContributionDocumentJson,
   DocumentElasticWithSource,
-  ExportEsStatus,
 } from "@socialgouv/cdtn-types";
 import { context } from "../context";
 import { gqlClient } from "@shared/utils";
@@ -17,10 +16,6 @@ query fetchContributionsInDocuments($updated_at: timestamptz!) {
         cdtnId: cdtn_id
         contribution {
           id
-          statuses(where:{status: {_eq: "TO_PUBLISH"}}, order_by: {created_at: desc}, limit: 1) {
-            status
-            createdAt: created_at
-          }
         }
       }
 }
@@ -28,24 +23,6 @@ query fetchContributionsInDocuments($updated_at: timestamptz!) {
 
 interface HasuraReturn {
   documents: [DocumentElasticWithSource<ContributionDocumentJson>] | undefined;
-}
-
-export function filterContributionDocumentsToPublish(
-  latestExportEs: Partial<ExportEsStatus> | undefined,
-  contributionDocs:
-    | DocumentElasticWithSource<ContributionDocumentJson>[]
-    | undefined
-): DocumentElasticWithSource<ContributionDocumentJson>[] | undefined {
-  return contributionDocs?.filter((doc) => {
-    const exportDate = latestExportEs?.created_at
-      ? new Date(latestExportEs.created_at).getTime()
-      : 0;
-    const statusDate = doc.contribution?.statuses?.length
-      ? new Date(doc.contribution.statuses[0].createdAt).getTime()
-      : 0;
-
-    return statusDate > exportDate;
-  });
 }
 
 export async function fetchContributionDocumentToPublish(
@@ -75,8 +52,5 @@ export async function fetchContributionDocumentToPublish(
     throw res.error;
   }
 
-  return filterContributionDocumentsToPublish(
-    lastCompletedExportEsStatus,
-    res.data?.documents
-  );
+  return res.data?.documents;
 }
