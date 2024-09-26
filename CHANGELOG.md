@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.49.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.3...v2.49.4) (2024-09-26)
+
+### Bug Fixes
+
+- ne pas afficher les contribs personnalisées ([#1478](https://github.com/SocialGouv/cdtn-admin/issues/1478)) ([cfd1c8e](https://github.com/SocialGouv/cdtn-admin/commit/cfd1c8eb98ebb67a3741cf3bd49ea6b2bdabfc92))
+
+## [2.49.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.2...v2.49.3) (2024-09-23)
+
+### Bug Fixes
+
+- augmente la taille autorisée pour glossariser un contenu ([#1476](https://github.com/SocialGouv/cdtn-admin/issues/1476)) ([d1d850e](https://github.com/SocialGouv/cdtn-admin/commit/d1d850ef2b6c3b54239a57239a1696c72a603e56))
+- back to main nodepool ([#1474](https://github.com/SocialGouv/cdtn-admin/issues/1474)) ([fa4294d](https://github.com/SocialGouv/cdtn-admin/commit/fa4294db291ad036e1245db11801317cde39d84d))
+
 ## [2.49.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.1...v2.49.2) (2024-09-18)
 
 ### Bug Fixes

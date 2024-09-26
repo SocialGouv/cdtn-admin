@@ -129,9 +129,10 @@ DocumentListContainer.propTypes = {
 const searchDocumentQuery = `
 query documents($source: String, $search: String!, $published: [Boolean!]!, $available: [Boolean!]!, $offset: Int = 0, $limit: Int = 50) {
   documents(where: {
-    _not: {
-      document: {_has_key: "split"}
-    }
+    _or: [
+        { source: { _neq: "contributions" } }
+        { source: { _eq: "contributions" }, document: { _contains: { idcc: "0000" } } }
+    ]
     _and: {
       source: {_eq: $source, _neq: "code_du_travail"}
       title: {_ilike: $search}
@@ -149,9 +150,10 @@ query documents($source: String, $search: String!, $published: [Boolean!]!, $ava
   }
 
   documents_aggregate(where: {
-    _not: {
-      document: {_has_key: "split"}
-    }
+    _or: [
+        { source: { _neq: "contributions" } }
+        { source: { _eq: "contributions" }, document: { _contains: { idcc: "0000" } } }
+    ]
     _and: {
       source: {_eq: $source, _neq: "code_du_travail"}
       title: {_ilike: $search},

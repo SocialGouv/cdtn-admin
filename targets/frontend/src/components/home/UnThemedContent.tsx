@@ -18,12 +18,9 @@ query getUnthemed($themeSources: [String!]!) {
       {_not: {
         relation_b: {type: {_eq: "${RELATIONS.THEME_CONTENT}"} a :{source: {_eq: "${SOURCES.THEMES}"}} }
       }}
-      {_and: [
-        {_not: {document: {_has_key: "split"}}},
-        {_or: [
-          {_not: {document: {_has_key: "idcc"}}},
-          {document: {_contains: {idcc: "0000"}}}
-        ]}
+      {_or: [
+        {_not: {document: {_has_key: "idcc"}}},
+        {document: {_contains: {idcc: "0000"}}}
       ]}
     ]
   }) {
