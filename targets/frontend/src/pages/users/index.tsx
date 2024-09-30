@@ -9,13 +9,13 @@ import { useRouter } from "next/router";
 export function UserPage() {
   const router = useRouter();
 
-  const onDeleteUser = async (userId: string) => {
+  const onDeleteUser = async (userId: string, userName: string) => {
     const result = await fetch(`/api/users/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ userId, userName }),
     });
 
     const resultJson = await result.json();
@@ -26,7 +26,6 @@ export function UserPage() {
     }
 
     alert("L'utilisateur a été supprimé avec succès");
-
     return true;
   };
 

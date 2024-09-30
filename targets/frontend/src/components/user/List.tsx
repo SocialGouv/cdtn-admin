@@ -31,7 +31,7 @@ query getUsers {
 `;
 
 type Props = {
-  onDeleteUser: (userId: string) => Promise<boolean>;
+  onDeleteUser: (userId: string, userName: string) => Promise<boolean>;
   refresh?: boolean;
 };
 
@@ -47,8 +47,8 @@ export function UserList({ onDeleteUser }: Props) {
   const { data, fetching, error } = result;
   const users = data?.users || [];
 
-  function confirmDeleteUser(id: string, email: string) {
-    setSelectedUser({ email, id });
+  function confirmDeleteUser(id: string, email: string, userName:string) {
+    setSelectedUser({ email, id, userName });
     open();
   }
 
@@ -57,7 +57,7 @@ export function UserList({ onDeleteUser }: Props) {
       return;
     }
     close();
-    const result = await onDeleteUser(selectedUser.id);
+    const result = await onDeleteUser(selectedUser.id, selectedUser.userName);
     if (result) {
       executeQuery({ requestPolicy: "network-only" });
     }
@@ -78,7 +78,7 @@ export function UserList({ onDeleteUser }: Props) {
         ariaLabel="Supprimer l'utilisateur"
       >
         <p>Etes vous sur de vouloir supprimer l’utilisateur</p>
-        <strong>{selectedUser?.email}</strong>
+        <strong>{selectedUser?.userName} ({selectedUser?.email})</strong>
         <Stack direction="row" spacing={2} mt={4} justifyContent="end">
           <Button variant="outlined" onClick={close}>
             Annuler
@@ -117,7 +117,7 @@ export function UserList({ onDeleteUser }: Props) {
               </TableCell>
               <TableCell align="center">
                 <MenuButton variant="contained">
-                  <MenuItem onClick={() => confirmDeleteUser(id, email)}>
+                  <MenuItem onClick={() => confirmDeleteUser(id, email, name)}>
                     Supprimer
                   </MenuItem>
                 </MenuButton>
