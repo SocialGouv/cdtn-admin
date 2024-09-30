@@ -40,19 +40,21 @@ export class ExportService {
       environment,
       Status.running
     );
+    const envName =
+      environment === Environment.preproduction
+        ? "Préproduction"
+        : "Production";
     try {
       if (!process.env.DISABLE_INGESTER) {
+        const startMessage = `**${envName}:** mise à jour lancée par *${exportEs.user?.name}* 🚀`;
+        await sendMattermostMessage(
+          startMessage,
+          process.env.MATTERMOST_CHANNEL_EXPORT
+        );
+        logger.info(startMessage);
         if (environment === Environment.preproduction) {
-          await sendMattermostMessage(
-            `**Préproduction:** mise à jour lancée par *${exportEs.user?.name}* 😎`,
-            process.env.MATTERMOST_CHANNEL_EXPORT
-          );
           await runWorkerIngesterPreproduction();
         } else {
-          await sendMattermostMessage(
-            `**Production:** mise à jour lancée par *${exportEs.user?.name}* 🚀`,
-            process.env.MATTERMOST_CHANNEL_EXPORT
-          );
           await runWorkerIngesterProduction();
         }
       }
@@ -66,17 +68,14 @@ export class ExportService {
         await this.copyContainerService.runCopy(environment);
       }
       const exportEsDone = await this.exportRepository.getOne(id);
-      if (environment === Environment.preproduction) {
-        await sendMattermostMessage(
-          `**Préproduction:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 😁`,
-          process.env.MATTERMOST_CHANNEL_EXPORT
-        );
-      } else {
-        await sendMattermostMessage(
-          `**Production:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`,
-          process.env.MATTERMOST_CHANNEL_EXPORT
-        );
-      }
+
+      const message = `**${envName}:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`;
+       logger.info(message);
+      await sendMattermostMessage(
+        message,
+        process.env.MATTERMOST_CHANNEL_EXPORT
+      );
+
       return await this.exportRepository.updateOne(
         id,
         Status.completed,
@@ -84,9 +83,7 @@ export class ExportService {
       );
     } catch (e: any) {
       await sendMattermostMessage(
-        environment === Environment.preproduction
-          ? " La mise à jour de la préproduction a échouée. 😢"
-          : "La mise à jour de la production a échouée. 😭",
+        `⚠️ **${envName}:** La mise à jour a échouée. ⚠️`,
         process.env.MATTERMOST_CHANNEL_EXPORT
       );
       return await this.exportRepository.updateOne(
