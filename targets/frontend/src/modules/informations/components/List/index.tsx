@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 import { useInformationsListQuery } from "./list.query";
-import { EnhancedTable } from "src/components/data";
+import { DataTable } from "../../../../components/data";
 
 type InfoData = {
   id: string;
@@ -17,7 +17,7 @@ export const InformationList = (): JSX.Element => {
   });
 
   return (
-    <EnhancedTable<InfoData>
+    <DataTable<InfoData>
       source="information"
       headCells={[
         {

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useListModelQuery } from "./list.query";
-import { EnhancedTable } from "src/components/data";
+import { DataTable } from "../../../../components/data";
 
 type ModelData = {
   id: string;
@@ -16,7 +16,7 @@ export const ModelList = (): JSX.Element => {
     search,
   });
   return (
-    <EnhancedTable<ModelData>
+    <DataTable<ModelData>
       source="modeles_de_courriers"
       headCells={[
         {

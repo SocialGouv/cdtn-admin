@@ -1,11 +1,15 @@
-import Toolbar from "@mui/material/Toolbar";
+import {
+  Button,
+  FormGroup,
+  TextField,
+  Toolbar as MuiToolbar,
+} from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import PublishIcon from "@mui/icons-material/Publish";
 import * as React from "react";
-import { Button, FormGroup, Stack, TextField } from "@mui/material";
 
-interface EnhancedTableToolbarProps {
+interface ToolbarProps {
   numSelected: number;
   onClickPublish: () => void;
   onClickCreation: () => void;
@@ -13,15 +17,15 @@ interface EnhancedTableToolbarProps {
   customFilters?: React.ReactNode;
 }
 
-export const EnhancedTableToolbar = ({
+export const Toolbar = ({
   numSelected,
   onClickPublish,
   onClickCreation,
   setSearch,
   customFilters = undefined,
-}: EnhancedTableToolbarProps) => {
+}: ToolbarProps) => {
   return (
-    <Toolbar
+    <MuiToolbar
       sx={[
         {
           pl: { sm: 2 },
@@ -74,6 +78,6 @@ export const EnhancedTableToolbar = ({
           Créer
         </Button>
       )}
-    </Toolbar>
+    </MuiToolbar>
   );
 };
