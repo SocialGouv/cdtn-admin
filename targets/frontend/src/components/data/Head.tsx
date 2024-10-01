@@ -5,19 +5,19 @@ import Checkbox from "@mui/material/Checkbox";
 import * as React from "react";
 import { Data, HeadCell } from "./type";
 
-export type EnhancedTableProps<T extends Data> = {
+export type HeadProps<T extends Data> = {
   readonly headCells: HeadCell<T>[];
   numSelected: number;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   rowCount: number;
 };
 
-export const EnhancedTableHead = <T extends Data>({
+export const Head = <T extends Data>({
   onSelectAllClick,
   numSelected,
   rowCount,
   headCells,
-}: EnhancedTableProps<T>) => {
+}: HeadProps<T>) => {
   return (
     <TableHead>
       <TableRow>

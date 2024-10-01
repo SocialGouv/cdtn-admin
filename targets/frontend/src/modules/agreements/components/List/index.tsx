@@ -2,10 +2,10 @@ import React, { useState } from "react";
 
 import { useListAgreementQuery } from "./list.query";
 import { useRouter } from "next/router";
-import { EnhancedTable } from "src/components/data";
 import { Tooltip } from "@mui/material";
 import GavelIcon from "@mui/icons-material/Gavel";
 import Filter from "./Filter";
+import { DataTable } from "../../../../components/data";
 
 type AgreementData = {
   id: string;
@@ -22,7 +22,7 @@ export const AgreementList = (): JSX.Element => {
     isSupported,
   });
   return (
-    <EnhancedTable<AgreementData>
+    <DataTable<AgreementData>
       source="conventions_collectives"
       headCells={[
         {
