@@ -1,46 +1,22 @@
-import xlsx from "node-xlsx";
 import { Diff, Agreement } from "./types";
-import fs from "fs";
+import { getDaresData } from "./getDaresData";
+import { getAgreements } from "./getAgreementsData";
 
-export function getDifferenceBetweenIndexAndDares(
-  pathDares: string,
-  pathIndex: string
-): Diff {
-  const workSheetsFromFile = xlsx.parse(pathDares);
+export async function getDifferenceBetweenIndexAndDares(): Promise<Diff> {
+  const daresDataList = await getDaresData();
+  const AgreementDataList = (await getAgreements()) ?? [];
 
-  const supportedCcXlsx: Agreement[] = [];
-
-  workSheetsFromFile[0].data.forEach((row: string[]) => {
-    const ccNumber = parseInt(row[0]);
-    const ccName = row[1];
-    if (ccNumber && ccName) {
-      const ccNameWithoutParenthesis = ccName
-        .replace(/\(.*annexée.*\)/gi, "")
-        .trim();
-      supportedCcXlsx.push({
-        name: ccNameWithoutParenthesis,
-        num: ccNumber,
-      });
-    }
-  });
-
-  const dataJson = JSON.parse(fs.readFileSync(pathIndex, "utf8"));
-
-  const supportedCcIndexJson: Agreement[] = dataJson.map((cc: any) => {
-    return {
-      name: cc.title,
-      num: cc.num,
-    };
-  });
-
-  const missingAgreementsFromDares: Agreement[] = supportedCcXlsx.filter(
-    (ccIndex) =>
-      !supportedCcIndexJson.find((ccXlsx) => ccXlsx.num === ccIndex.num)
+  const missingAgreements: Agreement[] = daresDataList.filter(
+    (daresData) =>
+      !AgreementDataList.find(
+        (agreementData) => agreementData.num === daresData.num
+      )
   );
 
-  const exceedingAgreementsFromKali = supportedCcIndexJson.filter(
-    (ccXlsx) => !supportedCcXlsx.find((ccIndex) => ccIndex.num === ccXlsx.num)
+  const exceedingAgreements = AgreementDataList.filter(
+    (agreementData) =>
+      !daresDataList.find((daresData) => daresData.num === agreementData.num)
   );
 
-  return { missingAgreementsFromDares, exceedingAgreementsFromKali };
+  return { missingAgreements, exceedingAgreements };
 }

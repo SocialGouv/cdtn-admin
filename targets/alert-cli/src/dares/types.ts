@@ -1,8 +1,8 @@
 import { DaresAlert } from "@socialgouv/cdtn-types";
 
 export interface Diff {
-  missingAgreementsFromDares: Agreement[];
-  exceedingAgreementsFromKali: Agreement[];
+  missingAgreements: Agreement[];
+  exceedingAgreements: Agreement[];
 }
 
 export interface Agreement {
