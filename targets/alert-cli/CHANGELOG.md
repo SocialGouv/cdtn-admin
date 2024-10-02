@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.50.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.4...v2.50.0) (2024-10-02)
+
+### Bug Fixes
+
+- alerts dares ([#1481](https://github.com/SocialGouv/cdtn-admin/issues/1481)) ([28ee2ea](https://github.com/SocialGouv/cdtn-admin/commit/28ee2ea5b381942648cb028d853f245a67da1f99))
+
 ## [2.49.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.3...v2.49.4) (2024-09-26)
 
 **Note:** Version bump only for package alert-cli
