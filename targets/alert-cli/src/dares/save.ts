@@ -6,7 +6,7 @@ export const saveDiff = async (diff: Diff) => {
   const alertRepository = new AlertRepository(gqlClient());
 
   const alertsRemovedToSave: DaresAlertInsert[] =
-    diff.exceedingAgreementsFromKali.map((agreement) => ({
+    diff.removedAgreementsFromDares.map((agreement) => ({
       info: {
         id: agreement.num,
       },
@@ -31,7 +31,7 @@ export const saveDiff = async (diff: Diff) => {
     }));
 
   const alertsAddedToSave: DaresAlertInsert[] =
-    diff.missingAgreementsFromDares.map((agreement) => ({
+    diff.addedAgreementsFromDares.map((agreement) => ({
       info: {
         id: agreement.num,
       },
