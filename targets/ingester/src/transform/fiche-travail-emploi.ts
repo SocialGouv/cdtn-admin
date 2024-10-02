@@ -82,7 +82,6 @@ const fetchSections = async (
           `No html found for this section : ${JSON.stringify(section)}`
         );
       }
-
       return {
         ...section,
         htmlWithGlossary,

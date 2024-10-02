@@ -6,6 +6,9 @@ import path from "path";
 import * as semver from "semver";
 import * as tar from "tar-fs";
 import yargs from "yargs";
+import * as unzipper from "unzipper";
+import { promises as fs } from "fs";
+import { createWriteStream } from "fs";
 
 import type { CdtnDocument } from ".";
 import { updateKaliArticles, updateLegiArticles } from "./articles";
@@ -58,12 +61,55 @@ async function download(pkgName: string, url: string) {
           tar.extract(getPkgPath(pkgName), {
             map: function mapHeader(header) {
               // npm tarball have a root directory called /package so we remove it when extracting
-              header.name = header.name.replace("package/", "");
+              header.name = header.name.replace(
+                pkgName === "@socialgouv/fiches-travail-data"
+                  ? "fiches-travail-data-test-mt-dsfr/"
+                  : "package/",
+                ""
+              );
               return header;
             },
           })
         )
         .on("finish", resolve);
+    });
+  });
+}
+
+async function downloadZip(pkgName: string, url: string) {
+  return new Promise((resolve, reject) => {
+    getUri(url, async function (err, rs) {
+      if (err || !rs) {
+        reject(`Error while downloading package ${pkgName} - ${url}`);
+        return;
+      }
+
+      const outputDir = getPkgPath(pkgName);
+
+      await fs.mkdir(outputDir, { recursive: true });
+
+      rs.pipe(unzipper.Parse())
+        .on("entry", function (entry) {
+          const filePath = entry.path.replace(
+            "fiches-travail-data-test-mt-dsfr/",
+            ""
+          );
+
+          const outputPath = path.join(outputDir, filePath);
+
+          if (entry.type === "Directory") {
+            fs.mkdir(outputPath, { recursive: true }).catch(reject);
+            entry.autodrain();
+          } else {
+            entry.pipe(createWriteStream(outputPath)).on("error", reject);
+          }
+        })
+        .on("finish", resolve)
+        .on("error", (error) => {
+          reject(
+            `Error while extracting package ${pkgName} - ${error.message}`
+          );
+        });
     });
   });
 }
@@ -87,6 +133,12 @@ const dataPackages = [
 ];
 
 async function getPackageInfo(pkgName: string) {
+  if (pkgName === "@socialgouv/fiches-travail-data") {
+    return {
+      url: "https://github.com/SocialGouv/fiches-travail-data/archive/refs/heads/test-mt-dsfr.zip",
+      version: "v4.700.1",
+    };
+  }
   const pkgInfo: PackageInfo = await got(
     `http://registry.npmjs.org/${pkgName}/latest`
   ).json();
@@ -108,7 +160,11 @@ async function main() {
   >();
   for (const { pkgName, disableSlugUpdate, getDocuments } of dataPackages) {
     const pkgInfo = await getPackageInfo(pkgName);
-    await download(pkgName, pkgInfo.url);
+    if (pkgName === "@socialgouv/fiches-travail-data") {
+      await downloadZip(pkgName, pkgInfo.url);
+    } else {
+      await download(pkgName, pkgInfo.url);
+    }
 
     const ingestedVersion = await getLastIngestedVersion(pkgName);
     if (
@@ -132,7 +188,9 @@ async function main() {
     pkgName,
     { version, getDocuments, disableSlugUpdate },
   ] of packagesToUpdate) {
+    console.log(`Start package: ${pkgName}`);
     if (!getDocuments) {
+      console.log(`Get document not defined, skip it !`);
       continue;
     }
     console.time(`update ${pkgName}`);
@@ -185,6 +243,7 @@ main()
     console.log(`Finish ingest ${data.length} documents`);
   })
   .catch((err) => {
+    console.info("Failed :(");
     console.error(err);
     process.exit(1);
   });
