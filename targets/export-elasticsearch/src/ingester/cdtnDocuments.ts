@@ -2,11 +2,12 @@ import {
   AgreementDoc,
   ContributionDocumentJson,
   ContributionHighlight,
-  EditorialContentDoc,
-  ExportEsStatus,
-  FicheTravailEmploiDoc,
   DocumentElasticWithSource,
   DocumentRef,
+  EditorialContentDoc,
+  ElasticFicheTravailEmploi,
+  ExportEsStatus,
+  FicheTravailEmploiDoc,
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-sources";
@@ -182,16 +183,17 @@ export async function cdtnDocumentsGen(
     getBreadcrumbs
   );
   logger.info(`Fetched ${fichesMT.length} fiches travail`);
-  const fichesMTWithGlossary = fichesMT.map(({ sections, ...infos }) => ({
-    ...infos,
-    sections: sections.map(({ ...section }: any) => {
-      const html = section.htmlWithGlossary;
-      delete section.description;
-      delete section.text;
-      delete section.htmlWithGlossary;
-      return { ...section, html };
-    }),
-  }));
+  const fichesMTWithGlossary: ElasticFicheTravailEmploi[] = fichesMT.map(
+    ({ sections, ...infos }): ElasticFicheTravailEmploi => ({
+      ...infos,
+      sections: sections.map((section) => ({
+        html: section.htmlWithGlossary,
+        anchor: section.anchor,
+        references: section.references,
+        title: section.title,
+      })),
+    })
+  );
   logger.info(
     `Mapped ${fichesMTWithGlossary.length} fiches travail with glossary`
   );
