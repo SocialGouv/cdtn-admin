@@ -42,6 +42,15 @@ www:
   ~chart: app
   ~needs: [build-frontend]
   probesPath: /healthz
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+      scheme: HTTP
+    initialDelaySeconds: 30   # Délai avant la première vérification après le démarrage du pod
+    periodSeconds: 10         # Fréquence des vérifications
+    timeoutSeconds: 10         # Temps maximum pour que l'endpoint réponde
+    failureThreshold: 15       # Nombre d'échecs avant de redémarrer le conteneur
   imagePackage: frontend
   envFrom:
     - configMapRef:
