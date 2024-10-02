@@ -6,7 +6,6 @@ export const getDaresData = async () => {
     name: string;
     data: any[][];
   }[] = await fetchDaresXlsx();
-  console.log("workSheetsFromFile", JSON.stringify(workSheetsFromFile));
 
   return workSheetsFromFile[0].data.reduce<Agreement[]>((arr, row) => {
     const ccNumber = parseInt(row[0]);
