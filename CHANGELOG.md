@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.50.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.4...v2.50.0) (2024-10-02)
+
+### Bug Fixes
+
+- alerts dares ([#1481](https://github.com/SocialGouv/cdtn-admin/issues/1481)) ([28ee2ea](https://github.com/SocialGouv/cdtn-admin/commit/28ee2ea5b381942648cb028d853f245a67da1f99))
+- ne pas afficher les contribs personnalisées ([#1479](https://github.com/SocialGouv/cdtn-admin/issues/1479)) ([f7f0d8a](https://github.com/SocialGouv/cdtn-admin/commit/f7f0d8a66966756d878817f754525f7b27ccd33c))
+
+### Features
+
+- **anonymisation:** anonymiser les utiliseurs quand on le supprime en mettant leur initiales ([#1480](https://github.com/SocialGouv/cdtn-admin/issues/1480)) ([831c37a](https://github.com/SocialGouv/cdtn-admin/commit/831c37a3d5cf9adc4a644bcf566161d2b4492289))
+
 ## [2.49.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.3...v2.49.4) (2024-09-26)
 
 ### Bug Fixes
