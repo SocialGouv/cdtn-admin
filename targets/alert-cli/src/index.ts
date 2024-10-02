@@ -53,17 +53,17 @@ export async function run(
 
 async function main() {
   await runDares();
-  const githubToken = process.env.GITHUB_TOKEN;
-  if (!githubToken) {
-    throw new Error("GITHUB_TOKEN is not defined");
-  }
-  const api = new GithubApi(githubToken);
-  const sourceRepository = new SourcesRepository(gqlClient());
-  const alertRepository = new AlertRepository(gqlClient());
-  const ficheSPRepository = new FicheSPRepository(gqlClient());
-  const ficheSpIds = await ficheSPRepository.getFicheServicePublicIds();
-  const alertDetector = new AlertDetector(api, ficheSpIds);
-  await run(api, sourceRepository, alertRepository, alertDetector);
+  // const githubToken = process.env.GITHUB_TOKEN;
+  // if (!githubToken) {
+  //   throw new Error("GITHUB_TOKEN is not defined");
+  // }
+  // const api = new GithubApi(githubToken);
+  // const sourceRepository = new SourcesRepository(gqlClient());
+  // const alertRepository = new AlertRepository(gqlClient());
+  // const ficheSPRepository = new FicheSPRepository(gqlClient());
+  // const ficheSpIds = await ficheSPRepository.getFicheServicePublicIds();
+  // const alertDetector = new AlertDetector(api, ficheSpIds);
+  // await run(api, sourceRepository, alertRepository, alertDetector);
 }
 
 main().catch((error) => {

@@ -23,12 +23,15 @@ interface GetAgreementQueryResult {
   }[];
 }
 
-export async function getAgreements(): Promise<GetAgreementData[] | undefined> {
+export async function getAgreements(): Promise<GetAgreementData[]> {
   const client = gqlClient();
   const result = await client
     .query<GetAgreementQueryResult>(getAgreementQuery, {})
     .toPromise();
-  return result.data?.agreements?.map(({ name, id }) => {
+  if (!result || !result.data || !result.data?.agreements) {
+    throw new Error("An error occured on hasura agreement loading");
+  }
+  return result.data.agreements.map(({ name, id }) => {
     return { name, num: parseInt(id) };
   });
 }

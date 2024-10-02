@@ -5,8 +5,8 @@ import { gqlClient } from "@shared/utils";
 export const saveDiff = async (diff: Diff) => {
   const alertRepository = new AlertRepository(gqlClient());
 
-  const alertsRemovedToSave: DaresAlertInsert[] = diff.exceedingAgreements.map(
-    (agreement) => ({
+  const alertsRemovedToSave: DaresAlertInsert[] =
+    diff.removedAgreementsFromDares.map((agreement) => ({
       info: {
         id: agreement.num,
       },
@@ -28,11 +28,10 @@ export const saveDiff = async (diff: Diff) => {
         added: [],
         documents: [],
       },
-    })
-  );
+    }));
 
-  const alertsAddedToSave: DaresAlertInsert[] = diff.missingAgreements.map(
-    (agreement) => ({
+  const alertsAddedToSave: DaresAlertInsert[] =
+    diff.addedAgreementsFromDares.map((agreement) => ({
       info: {
         id: agreement.num,
       },
@@ -54,8 +53,7 @@ export const saveDiff = async (diff: Diff) => {
         removed: [],
         documents: [],
       },
-    })
-  );
+    }));
 
   const alertsToSave = [...alertsAddedToSave, ...alertsRemovedToSave];
 
