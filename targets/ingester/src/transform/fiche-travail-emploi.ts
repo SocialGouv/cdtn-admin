@@ -53,8 +53,9 @@ const fetchSections = async (
   return await pMap(
     sections,
     async ({ references, ...section }) => {
-      let htmlWithGlossary = section.html;
+      const htmlWithGlossary = section.html;
       if (section.html && section.html !== "") {
+        /*
         const fetchResult: any = await got
           .post(`${URL_EXPORT}/glossary`, {
             json: {
@@ -77,6 +78,7 @@ const fetchSections = async (
         } else {
           htmlWithGlossary = fetchResult.result;
         }
+         */
       } else {
         console.warn(
           `No html found for this section : ${JSON.stringify(section)}`
