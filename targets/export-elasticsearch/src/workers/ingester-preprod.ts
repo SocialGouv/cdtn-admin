@@ -18,6 +18,7 @@ const ingester = async (): Promise<string> => {
       );
       resolve("Export elasticsearch completed successfully");
     } catch (error: unknown) {
+      console.error("Failure during ingest", error);
       reject(error);
     }
   });
