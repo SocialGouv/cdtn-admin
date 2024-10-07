@@ -1,2 +1,2 @@
-export * from "./informationsList";
+export * from "./List";
 export * from "./informationsEdit";

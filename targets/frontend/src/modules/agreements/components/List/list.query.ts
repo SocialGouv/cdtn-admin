@@ -10,8 +10,7 @@ export const listAgreementsQuery = gql`
     agreements: agreement_agreements(
       order_by: { id: asc }
       where: {
-        id: { _ilike: $idcc }
-        name: { _ilike: $keyword }
+        _or: [{ id: { _ilike: $idcc } }, { shortName: { _ilike: $keyword } }]
         _and: { id: { _neq: "0000" } }
         isSupported: { _in: $isSupported }
       }
@@ -33,9 +32,8 @@ export type QueryResult = {
 };
 
 export type AgreementListQueryProps = {
-  idcc?: string;
   keyword?: string;
-  isSupported: boolean;
+  isSupported: boolean[];
 };
 
 export type AgreementsListQueryResult = {
@@ -43,7 +41,6 @@ export type AgreementsListQueryResult = {
 };
 
 export const useListAgreementQuery = ({
-  idcc,
   keyword,
   isSupported,
 }: AgreementListQueryProps): AgreementsListQueryResult => {
@@ -51,9 +48,9 @@ export const useListAgreementQuery = ({
     query: listAgreementsQuery,
     requestPolicy: "cache-and-network",
     variables: {
-      idcc: idcc?.length ?? 0 > 0 ? `%${idcc}%` : "%",
+      idcc: keyword?.length ?? 0 > 0 ? `%${keyword}%` : "%",
       keyword: keyword?.length ?? 0 > 0 ? `%${keyword}%` : "%",
-      isSupported: isSupported ? [true] : [true, false],
+      isSupported: isSupported,
     },
   });
   return {
