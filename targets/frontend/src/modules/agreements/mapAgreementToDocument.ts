@@ -15,7 +15,7 @@ export const mapAgreementToDocument = (
     meta_description: `IDCC ${data.id}: ${data.name}`,
     title: data.name,
     text: `IDCC ${data.id}: ${data.name} ${data.shortName}`,
-    slug: document?.slug ?? slugify(data.shortName),
+    slug: document?.slug ?? `${data.id}-${slugify(data.shortName)}`,
     is_searchable: document
       ? document.is_searchable
       : data.kali_id !== undefined,
