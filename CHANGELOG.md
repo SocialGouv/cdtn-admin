@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.50.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.50.0...v2.50.1) (2024-10-07)
+
+### Bug Fixes
+
+- ajout des types manquants fiches MT + article du CDT ([#1484](https://github.com/SocialGouv/cdtn-admin/issues/1484)) ([9ad877b](https://github.com/SocialGouv/cdtn-admin/commit/9ad877b09e4746146fca77194e4ba9d2cb6cebd9))
+- **convention collectives:** fix de la generation du slug pour les CC qui sont créés ([#1486](https://github.com/SocialGouv/cdtn-admin/issues/1486)) ([061e7da](https://github.com/SocialGouv/cdtn-admin/commit/061e7da467caca4c3c749c00943daddda76f9d40))
+- liveness probe ([#1482](https://github.com/SocialGouv/cdtn-admin/issues/1482)) ([277c32c](https://github.com/SocialGouv/cdtn-admin/commit/277c32c4c44be2633591ec29d1a367edbd225d64))
+
 # [2.50.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.4...v2.50.0) (2024-10-02)
 
 ### Bug Fixes

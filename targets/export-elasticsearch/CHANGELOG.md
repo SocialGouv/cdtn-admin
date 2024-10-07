@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.50.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.50.0...v2.50.1) (2024-10-07)
+
+### Bug Fixes
+
+- ajout des types manquants fiches MT + article du CDT ([#1484](https://github.com/SocialGouv/cdtn-admin/issues/1484)) ([9ad877b](https://github.com/SocialGouv/cdtn-admin/commit/9ad877b09e4746146fca77194e4ba9d2cb6cebd9))
+
 # [2.50.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.49.4...v2.50.0) (2024-10-02)
 
 **Note:** Version bump only for package export-elasticsearch
