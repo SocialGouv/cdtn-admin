@@ -103,8 +103,6 @@ hasura:
   ingress:
     enabled: false
   envFrom:
-    - secretRef:
-        name: azure-pg-user
     - configMapRef:
         name: hasura
     - secretRef:
