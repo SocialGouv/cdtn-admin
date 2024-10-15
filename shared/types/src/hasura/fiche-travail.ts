@@ -3,7 +3,7 @@ import { HasuraDocument } from "./common";
 
 export type FicheTravailEmploi = HasuraDocument<
   FicheTravailEmploiDoc,
-  typeof SOURCES.SHEET_MT | typeof SOURCES.SHEET_MT_PAGE
+  typeof SOURCES.SHEET_MT_PAGE
 >;
 
 export interface FicheTravailEmploiDoc {

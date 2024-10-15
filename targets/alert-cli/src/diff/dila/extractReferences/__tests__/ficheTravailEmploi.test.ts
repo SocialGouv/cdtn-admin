@@ -74,7 +74,7 @@ const mockFiches: FicheTravail[] = [
       url: "https://travail-emploi",
     },
     initialId: "fiche-sp-1",
-    source: "fiches_ministere_travail",
+    source: "page_fiche_ministere_travail",
     title: "fiche1",
   },
 ];
@@ -83,7 +83,7 @@ const expected = [
   {
     document: {
       id: "fiche-sp-1",
-      source: "fiches_ministere_travail",
+      source: "page_fiche_ministere_travail",
       title: "fiche1#sous-titre",
     },
     references: [
@@ -106,7 +106,7 @@ const expected = [
   {
     document: {
       id: "fiche-sp-1",
-      source: "fiches_ministere_travail",
+      source: "page_fiche_ministere_travail",
       title: "fiche1#sous-titre-2",
     },
     references: [
