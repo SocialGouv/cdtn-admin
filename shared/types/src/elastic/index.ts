@@ -6,3 +6,4 @@ export * from "./tools";
 export * from "./editorial-content";
 export * from "./fiche-travail";
 export * from "./code-du-travail";
+export * from "./highlights";
