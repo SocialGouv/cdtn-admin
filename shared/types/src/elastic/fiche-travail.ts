@@ -4,7 +4,7 @@ import { SOURCES } from "@socialgouv/cdtn-utils";
 
 export type ElasticFicheTravailEmploi = DocumentElasticWithSource<
   Omit<FicheTravailEmploiDoc, "sections">,
-  typeof SOURCES.SHEET_MT | typeof SOURCES.SHEET_MT_PAGE
+  typeof SOURCES.SHEET_MT_PAGE
 > & {
   sections: ElasticFicheTravailEmploiSection[];
 };
