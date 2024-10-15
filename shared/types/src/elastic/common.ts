@@ -1,9 +1,9 @@
-import { SourceRoute } from "@socialgouv/cdtn-sources";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 import { ContributionsAnswers } from "../hasura";
 
 export type DocumentElasticWithSource<
   T,
-  U extends SourceRoute = SourceRoute
+  U extends SourceKeys = SourceKeys
 > = DocumentElastic<U> & T;
 
 export type Breadcrumb = {
@@ -12,7 +12,7 @@ export type Breadcrumb = {
   slug: string;
 };
 
-export type DocumentElastic<T extends SourceRoute = SourceRoute> = {
+export type DocumentElastic<T extends SourceKeys = SourceKeys> = {
   id: string;
   cdtnId: string;
   breadcrumbs: Breadcrumb[];
@@ -27,7 +27,7 @@ export type DocumentElastic<T extends SourceRoute = SourceRoute> = {
   contribution?: ContributionsAnswers;
 };
 
-export type RelatedDocument<T extends SourceRoute = SourceRoute> = {
+export type RelatedDocument<T extends SourceKeys = SourceKeys> = {
   id: string;
   cdtnId: string;
   breadcrumbs: Breadcrumb[];
@@ -40,7 +40,7 @@ export type RelatedDocument<T extends SourceRoute = SourceRoute> = {
   url?: string; // Pour les outils externes
 };
 
-export type DocumentRef<T extends SourceRoute = SourceRoute> = Omit<
+export type DocumentRef<T extends SourceKeys = SourceKeys> = Omit<
   RelatedDocument<T>,
   "action" | "url" | "id"
 >;

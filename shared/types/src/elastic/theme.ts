@@ -1,8 +1,9 @@
 import { DocumentElasticWithSource } from "./common";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 export type ThemeElasticDocument = DocumentElasticWithSource<
   ThemeElastic,
-  "themes"
+  typeof SOURCES.THEMES
 >;
 
 export type ThemeElastic = {

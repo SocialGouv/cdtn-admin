@@ -1,9 +1,10 @@
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import { AgreementDoc } from "../hasura";
 import { DocumentElasticWithSource } from "./common";
 
 export type ElasticAgreement = DocumentElasticWithSource<AgreementDoc> & {
   articlesByTheme: ArticleByTheme[];
-  source: "conventions_collectives";
+  source: typeof SOURCES.CCN;
   description: string;
   answers: AnswerByTheme[];
   contributions: boolean;

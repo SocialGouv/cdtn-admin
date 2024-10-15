@@ -1,5 +1,6 @@
 import { ContributionDocumentJson, ContributionHighlight } from "../hasura";
 import { Breadcrumb, DocumentElasticWithSource } from "./common";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 export interface ContributionConventionnelInfos {
   ccnSlug: string;
@@ -101,7 +102,7 @@ type ElasticSearchContributionBase = {
   description: string;
   slug: string;
   breadcrumbs: Breadcrumb[];
-  source: "contributions";
+  source: typeof SOURCES.CONTRIBUTIONS;
   linkedContent: ContributionLinkedContent[];
   references: ContributionRef[];
   idcc: string;

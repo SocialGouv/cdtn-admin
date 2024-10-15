@@ -1,3 +1,4 @@
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import { HasuraDocument } from "./common";
 
 export enum EditorialContentType {
@@ -87,5 +88,5 @@ export type EditorialContentDoc = {
 
 export type EditorialContent = HasuraDocument<
   EditorialContentDoc,
-  "information"
+  typeof SOURCES.EDITORIAL_CONTENT
 >;
