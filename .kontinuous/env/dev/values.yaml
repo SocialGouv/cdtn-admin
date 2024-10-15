@@ -18,15 +18,6 @@ hasura:
     match:
       kind: Deployment
     value: true
-  autoscale:
-    enabled: true
-  resources:
-    limits:
-      cpu: "1000m"
-      memory: "1.5Gi"
-    requests:
-      cpu: "500m"
-      memory: "1Gi"
   envFrom:
     - secretRef:
         name: pg-app
@@ -37,13 +28,6 @@ hasura:
 
 export:
   replicas: 1
-  resources:
-    limits:
-      cpu: "2000m"
-      memory: "4096Mi"
-    requests:
-      cpu: "1500m"
-      memory: "2Gi"
   env:
     - name: "BRANCH_NAME_SLUG"
       value: "{{.Values.global.branchSlug32}}"
@@ -56,12 +40,6 @@ pg:
       kind: Cluster
     value: true
   cnpg-cluster:
-    resources:
-      requests:
-        memory: 1Gi
-      limits:
-        cpu: "1"
-        memory: 1Gi
     backup:
       # don't enable backup because we would need a new path each time as the cluster is recreated
       ~tpl~enabled: "false"

@@ -11,13 +11,6 @@ spec:
       containers:
         - name: update-ingester
           image: "{{ or .Values.registry .Values.global.registry }}/{{ .Values.global.imageProject }}/{{ .Values.global.imageRepository }}/ingester:{{ .Values.global.imageTag }}"
-          resources:
-            requests:
-              cpu: 1500m
-              memory: 2.5Gi
-            limits:
-              cpu: 2000m
-              memory: 3Gi
           workingDir: /app
           env:
             - name: PRODUCTION
