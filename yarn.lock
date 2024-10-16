@@ -5681,6 +5681,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@socialgouv/cdtn-types@workspace:shared/types"
   dependencies:
+    "@socialgouv/cdtn-utils": ^4.156.1
     "@socialgouv/kali-data-types": ^2.127.0
     "@socialgouv/legi-data-types": ^2.73.1
     typescript: ^5.4.3
@@ -5713,6 +5714,13 @@ __metadata:
   version: 4.121.1
   resolution: "@socialgouv/cdtn-utils@npm:4.121.1"
   checksum: bad99ad3eab8d8e5c9737a39e634ffc370f30ef1bb0b01ead5192cbcef05e3b2f83c6c632b81e8e44440a0893c7f47f4ab1ef1e0dc820011224364e9c968b340
+  languageName: node
+  linkType: hard
+
+"@socialgouv/cdtn-utils@npm:^4.156.1":
+  version: 4.156.1
+  resolution: "@socialgouv/cdtn-utils@npm:4.156.1"
+  checksum: 3429e6f801e7bc748a7fc666972fee2855627fab13a32fe902f6f39cb9aff332248cf83a8cd061b6e303f75a9e5bdffcfe8c91681fbd8da7770e759a41a405f9
   languageName: node
   linkType: hard
 

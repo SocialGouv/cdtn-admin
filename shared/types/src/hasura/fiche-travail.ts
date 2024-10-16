@@ -1,8 +1,9 @@
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import { HasuraDocument } from "./common";
 
 export type FicheTravailEmploi = HasuraDocument<
   FicheTravailEmploiDoc,
-  "fiches_ministere_travail"
+  typeof SOURCES.SHEET_MT_PAGE | typeof SOURCES.SHEET_MT
 >;
 
 export interface FicheTravailEmploiDoc {

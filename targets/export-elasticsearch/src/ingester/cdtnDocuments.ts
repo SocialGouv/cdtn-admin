@@ -192,6 +192,7 @@ export async function cdtnDocumentsGen(
         references: section.references,
         title: section.title,
       })),
+      source: SOURCES.SHEET_MT_PAGE,
     })
   );
   logger.info(

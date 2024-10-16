@@ -1,3 +1,5 @@
+import { SOURCES } from "@socialgouv/cdtn-utils";
+
 export type Tool = {
   date: string;
   icon: string;
@@ -14,7 +16,7 @@ export type Tool = {
   isPublished: boolean;
   metaDescription: string;
   slug: string;
-  source: "outils";
+  source: typeof SOURCES.TOOLS;
   text: string;
   title: string;
   _id: string;

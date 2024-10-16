@@ -1,8 +1,9 @@
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import { HasuraDocument } from "./common";
 
 export type FicheServicePublic = HasuraDocument<
   FicheServicePublicDoc,
-  "fiches_service_public"
+  typeof SOURCES.SHEET_SP
 >;
 
 export interface FicheServicePublicDoc {

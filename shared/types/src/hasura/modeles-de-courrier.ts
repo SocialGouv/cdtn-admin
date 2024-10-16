@@ -1,8 +1,9 @@
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import { HasuraDocument } from "./common";
 
 export type MailTemplate = HasuraDocument<
   MailTemplateDoc,
-  "modeles_de_courriers"
+  typeof SOURCES.LETTERS
 >;
 
 export type MailTemplateDoc = {
