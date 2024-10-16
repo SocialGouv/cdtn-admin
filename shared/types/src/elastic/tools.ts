@@ -16,7 +16,7 @@ export type Tool = {
   isPublished: boolean;
   metaDescription: string;
   slug: string;
-  source: typeof SOURCES.TOOLS;
+  source: typeof SOURCES.TOOLS | typeof SOURCES.EXTERNALS;
   text: string;
   title: string;
   _id: string;
