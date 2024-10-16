@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.50.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.50.2...v2.50.3) (2024-10-16)
+
+### Bug Fixes
+
+- **types:** ajout d'une description sur le type de base ([#1493](https://github.com/SocialGouv/cdtn-admin/issues/1493)) ([c29b377](https://github.com/SocialGouv/cdtn-admin/commit/c29b377b17a6cd9df306cff4a05084a03b82329c))
+
 ## [2.50.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.50.1...v2.50.2) (2024-10-16)
 
 ### Bug Fixes
