@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.50.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.50.3...v2.50.4) (2024-10-16)
+
+### Bug Fixes
+
+- **types:** ajout du fait que les outils peuvent être de type `EXTERNALS` ([#1494](https://github.com/SocialGouv/cdtn-admin/issues/1494)) ([df27265](https://github.com/SocialGouv/cdtn-admin/commit/df2726579b1ce6dbf988a3a356ba4fc9004c8627))
+
 ## [2.50.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.50.2...v2.50.3) (2024-10-16)
 
 ### Bug Fixes
