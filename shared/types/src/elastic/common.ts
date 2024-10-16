@@ -22,6 +22,7 @@ export type DocumentElastic<T extends SourceKeys = SourceKeys> = {
   text: string;
   isPublished: boolean;
   excludeFromSearch: boolean;
+  description: string;
   metaDescription: string;
   refs: DocumentRef[];
   contribution?: ContributionsAnswers;
