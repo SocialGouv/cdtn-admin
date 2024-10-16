@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.50.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.50.1...v2.50.2) (2024-10-16)
+
+### Bug Fixes
+
+- **types:** utilisation de `cdtn-utils` au lieu de `cdtn-source` qui n'est plus d'actualité ([#1492](https://github.com/SocialGouv/cdtn-admin/issues/1492)) ([8858db4](https://github.com/SocialGouv/cdtn-admin/commit/8858db4294b4d9092f514b4dbf87943ae8bd2abe))
+
 ## [2.50.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.50.0...v2.50.1) (2024-10-07)
 
 ### Bug Fixes
