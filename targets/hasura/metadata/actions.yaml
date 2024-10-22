@@ -4,6 +4,7 @@ actions:
       kind: synchronous
       handler: '{{API_URL}}/actions/publish'
       forward_client_headers: true
+      timeout: 180
     permissions:
       - role: super
     comment: Action pour publier un document

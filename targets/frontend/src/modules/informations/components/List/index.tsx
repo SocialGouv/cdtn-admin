@@ -1,23 +1,24 @@
-import { useRouter } from "next/router";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
-import { useListModelQuery } from "./list.query";
+import { useInformationsListQuery } from "./list.query";
 import { DataList } from "../../../../components/list";
 
-type ModelData = {
+type InfoData = {
   id: string;
   title: string;
 };
 
-export const ModelList = (): JSX.Element => {
+export const InformationList = (): JSX.Element => {
   const [search, setSearch] = useState<string | undefined>();
   const router = useRouter();
-  const { rows } = useListModelQuery({
+  const { rows } = useInformationsListQuery({
     search,
   });
+
   return (
-    <DataList<ModelData>
-      source="modeles_de_courriers"
+    <DataList<InfoData>
+      source="information"
       headCells={[
         {
           id: "id",
@@ -30,10 +31,10 @@ export const ModelList = (): JSX.Element => {
         title: row.title,
       }))}
       onClickItem={(id) => {
-        router.push(`/models/${id}`);
+        router.push(`/informations/${id}`);
       }}
       onClickCreation={() => {
-        router.push("/models/creation");
+        router.push("/informations/creation");
       }}
       setSearch={(value) => setSearch(value)}
     />
