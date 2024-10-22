@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { Tooltip } from "@mui/material";
 import GavelIcon from "@mui/icons-material/Gavel";
 import Filter from "./Filter";
-import { DataTable } from "../../../../components/data";
+import { DataList } from "../../../../components/list";
 
 type AgreementData = {
   id: string;
@@ -22,7 +22,7 @@ export const AgreementList = (): JSX.Element => {
     isSupported,
   });
   return (
-    <DataTable<AgreementData>
+    <DataList<AgreementData>
       source="conventions_collectives"
       headCells={[
         {

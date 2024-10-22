@@ -26,7 +26,7 @@ type ItemCheck = {
   [id: string]: boolean;
 };
 
-export const DataTable = <T extends Data>({
+export const DataList = <T extends Data>({
   source,
   headCells,
   rows,

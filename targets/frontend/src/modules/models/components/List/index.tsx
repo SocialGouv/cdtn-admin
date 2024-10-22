@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useListModelQuery } from "./list.query";
-import { DataTable } from "../../../../components/data";
+import { DataList } from "../../../../components/list";
 
 type ModelData = {
   id: string;
@@ -16,7 +16,7 @@ export const ModelList = (): JSX.Element => {
     search,
   });
   return (
-    <DataTable<ModelData>
+    <DataList<ModelData>
       source="modeles_de_courriers"
       headCells={[
         {
