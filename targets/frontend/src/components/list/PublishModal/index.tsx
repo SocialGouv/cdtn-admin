@@ -106,11 +106,13 @@ export function PublishModal({
               status: contentProgression[item.id] ?? "pending",
             }))}
           />
-          <p>
+          <div className={fr.cx("fr-callout")}>
             Ces derniers seront disponible sur le site après une mise en
-            production des données. Êtes-vous sûr de vouloir publier ces
-            contenus ?
-          </p>
+            production des données.
+          </div>
+          {processing === "waiting" && (
+            <p>Êtes-vous sûr de vouloir publier ces contenus ?</p>
+          )}
         </Stack>
         <Stack direction="row" spacing={2} mt={4} justifyContent="end">
           {processing === "waiting" && (
