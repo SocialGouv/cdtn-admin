@@ -70,7 +70,7 @@ export class ExportService {
       const exportEsDone = await this.exportRepository.getOne(id);
 
       const message = `**${envName}:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`;
-       logger.info(message);
+      logger.info(message);
       await sendMattermostMessage(
         message,
         process.env.MATTERMOST_CHANNEL_EXPORT
@@ -82,6 +82,7 @@ export class ExportService {
         new Date()
       );
     } catch (e: any) {
+      console.log("Error during process: ", e);
       await sendMattermostMessage(
         `⚠️ **${envName}:** La mise à jour a échouée. ⚠️`,
         process.env.MATTERMOST_CHANNEL_EXPORT
