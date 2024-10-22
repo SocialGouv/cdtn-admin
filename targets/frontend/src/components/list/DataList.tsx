@@ -40,10 +40,10 @@ export const DataList = <T extends Data>({
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     setItemCheck(
-      rows.reduce((acc, item) => {
+      rows.reduce<ItemCheck>((acc, item) => {
         acc[item.id] = event.target.checked;
         return acc;
-      }, {} as ItemCheck)
+      }, {})
     );
   };
 
