@@ -1,7 +1,6 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { FicheTravailEmploi } from "@socialgouv/fiches-travail-data-types";
-import got from "got";
 import pMap from "p-map";
 
 import { getJson } from "../lib/getJson";
@@ -10,8 +9,6 @@ import {
   createReferenceResolver,
 } from "../lib/referenceResolver";
 import { Code } from "@socialgouv/legi-data-types";
-
-const URL_EXPORT = process.env.URL_EXPORT ?? "http://localhost:8787";
 
 export default async function getFicheTravailEmploi(pkgName: string) {
   const [fichesMT, cdt] = await Promise.all([
@@ -52,57 +49,25 @@ const fetchSections = async (
 
   return await pMap(
     sections,
-    async ({ references, ...section }) => {
-      let htmlWithGlossary = section.html;
-      if (section.html && section.html !== "") {
-        const fetchResult: any = await got
-          .post(`${URL_EXPORT}/glossary`, {
-            json: {
-              type: "html",
-              content: section.html,
-            },
-            responseType: "json",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-          .json();
-
-        if (!fetchResult?.result) {
-          console.error(
-            `Error with glossary for this html :${
-              section.html
-            }, we get this result from API : ${JSON.stringify(fetchResult)} `
-          );
-        } else {
-          htmlWithGlossary = fetchResult.result;
+    async ({ references, ...section }) => ({
+      ...section,
+      htmlWithGlossary: section.html,
+      references: Object.keys(references).flatMap((key) => {
+        if (key !== "LEGITEXT000006072050") {
+          return [];
         }
-      } else {
-        console.warn(
-          `No html found for this section : ${JSON.stringify(section)}`
-        );
-      }
-
-      return {
-        ...section,
-        htmlWithGlossary,
-        references: Object.keys(references).flatMap((key) => {
-          if (key !== "LEGITEXT000006072050") {
+        const { articles } = references[key];
+        return articles.flatMap(({ id }) => {
+          const maybeArticle = resolveCdtReference(
+            id
+          ) as LegiData.CodeArticle[];
+          if (maybeArticle.length !== 1) {
             return [];
           }
-          const { articles } = references[key];
-          return articles.flatMap(({ id }) => {
-            const maybeArticle = resolveCdtReference(
-              id
-            ) as LegiData.CodeArticle[];
-            if (maybeArticle.length !== 1) {
-              return [];
-            }
-            return articleToReference(maybeArticle[0]);
-          });
-        }),
-      };
-    },
+          return articleToReference(maybeArticle[0]);
+        });
+      }),
+    }),
     { concurrency: 1 }
   );
 };
