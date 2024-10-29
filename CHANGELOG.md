@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.51.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.50.4...v2.51.0) (2024-10-29)
+
+### Bug Fixes
+
+- **types:** export des types modeles-de-courriers ([#1498](https://github.com/SocialGouv/cdtn-admin/issues/1498)) ([abb954f](https://github.com/SocialGouv/cdtn-admin/commit/abb954f80943d0656b5c50fb712c2e514dcaec4a))
+
+### Features
+
+- add publish function on list ([#1473](https://github.com/SocialGouv/cdtn-admin/issues/1473)) ([2a4808d](https://github.com/SocialGouv/cdtn-admin/commit/2a4808d6d520fcedbdecd8869ad3a691645d1ba2))
+
 ## [2.50.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.50.3...v2.50.4) (2024-10-16)
 
 ### Bug Fixes

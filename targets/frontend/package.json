@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "2.50.4",
+  "version": "2.51.0",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.525.0",
     "@codegouvfr/react-dsfr": "^0.76.4",
