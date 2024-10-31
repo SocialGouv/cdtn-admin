@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.52.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.51.0...v2.52.0) (2024-10-31)
+
+### Features
+
+- disable glossary on fiches MT ([#1497](https://github.com/SocialGouv/cdtn-admin/issues/1497)) ([1db4113](https://github.com/SocialGouv/cdtn-admin/commit/1db4113b148ab046e9e4fe553e9daef64bd80457))
+
 # [2.51.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.50.4...v2.51.0) (2024-10-29)
 
 **Note:** Version bump only for package ingester
