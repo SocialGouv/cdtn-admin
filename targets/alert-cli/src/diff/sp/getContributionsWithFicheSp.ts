@@ -11,7 +11,7 @@ query getContribsWithSp($ficheSpIds: [String!]) {
       order
       seo_title
     }
-    content_fiche_sp: document {
+    content_fiche_sp: document_fiche_sp {
       initial_id
       document
     }
