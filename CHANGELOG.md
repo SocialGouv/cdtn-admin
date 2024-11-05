@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.52.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.0...v2.52.1) (2024-11-05)
+
+### Bug Fixes
+
+- **contributions:** correction des contributions avec une fiche SP ([#1501](https://github.com/SocialGouv/cdtn-admin/issues/1501)) ([908d73c](https://github.com/SocialGouv/cdtn-admin/commit/908d73c61e857d10a5194eec3809c002278b8c98))
+- **ip:** update IP Caro ([#1503](https://github.com/SocialGouv/cdtn-admin/issues/1503)) ([d724073](https://github.com/SocialGouv/cdtn-admin/commit/d72407319155a62dde25a228cc22b02eb01b04a5))
+
 # [2.52.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.51.0...v2.52.0) (2024-10-31)
 
 ### Bug Fixes

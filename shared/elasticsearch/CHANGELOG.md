@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.52.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.0...v2.52.1) (2024-11-05)
+
+**Note:** Version bump only for package @socialgouv/cdtn-elasticsearch
+
 # [2.52.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.51.0...v2.52.0) (2024-10-31)
 
 **Note:** Version bump only for package @socialgouv/cdtn-elasticsearch
