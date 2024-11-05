@@ -45,7 +45,7 @@ export const getContributionAnswerById = gql`
       cdtn_references {
         cdtn_id
       }
-      content_fiche_sp: document {
+      content_fiche_sp: document_fiche_sp {
         initial_id
         document
       }
@@ -70,7 +70,7 @@ export const getGenericAnswerByQuestionId = gql`
         order
         seo_title
       }
-      content_fiche_sp: document {
+      content_fiche_sp: document_fiche_sp {
         initial_id
         document
       }

@@ -77,7 +77,7 @@ query contribution_answer($id: uuid) {
         slug
       }
     }
-    contentFichesSpDocument: document {
+    contentFichesSpDocument: document_fiche_sp {
       cdtnId: cdtn_id
       title
       source
