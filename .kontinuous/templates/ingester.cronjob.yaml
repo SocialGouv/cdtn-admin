@@ -2,6 +2,10 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: cron-ingester
+  annotations:
+    oblik.socialgouv.io/min-request-cpu: "1500m"
+    oblik.socialgouv.io/min-request-memory: "2.5Gi"
+    oblik.socialgouv.io/min-limit-memory: "3Gi"
 spec:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
