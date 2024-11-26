@@ -34,18 +34,30 @@ function getText(element?: RawJson): string {
   return "";
 }
 
+const elementToNotDisplay = [
+  "OuSAdresser",
+  "ServiceEnLigne",
+  "QuestionReponse",
+  "VoirAussi",
+  "PourEnSavoirPlus",
+  "Definition",
+  "Abreviation",
+];
+
+const filterOutElementToNotDisplay = (publication: RawJson) =>
+  publication.children.filter(
+    (child) => !elementToNotDisplay.includes(child.name),
+  );
+
 export function format(
   fiche: RawJson,
   resolveCdtReference: ReferenceResolver,
-  agreements: ShortAgreement[]
+  agreements: ShortAgreement[],
 ): Omit<FicheServicePublic, "is_searchable" | "slug"> {
   const publication = fiche.children[0];
   const { ID: id } = publication.attributes;
 
-  // We filter out the elements we will never use nor display
-  publication.children = publication.children.filter(
-    (child) => child.name !== "OuSAdresser" && child.name !== "ServiceEnLigne"
-  );
+  publication.children = filterOutElementToNotDisplay(publication);
 
   const title = getText(getChild(publication, "dc:title"));
   const description = getText(getChild(publication, "dc:description"));
@@ -54,7 +66,7 @@ export function format(
   const date = `${day}/${month}/${year}`;
 
   const audience = getText(
-    getChild(publication, "Audience")
+    getChild(publication, "Audience"),
   ).toLowerCase() as Audience;
 
   const url = generateFichesSpRef(audience, id);
@@ -65,13 +77,13 @@ export function format(
   const text = intro + " " + texte + " " + listeSituations;
 
   const references = publication.children.filter(
-    (el) => el.name === "Reference"
+    (el) => el.name === "Reference",
   );
 
   const referencedTexts = parseReferences(
     references,
     resolveCdtReference,
-    agreements
+    agreements,
   );
 
   return {
