@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.52.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.1...v2.52.2) (2024-11-28)
+
+### Bug Fixes
+
+- cron oblik min resources ([#1507](https://github.com/SocialGouv/cdtn-admin/issues/1507)) ([b11d2fc](https://github.com/SocialGouv/cdtn-admin/commit/b11d2fc046e435ace20abfcb7b0bdcb0954c43a9))
+- **fiche SP:** ne plus afficher en bas de page les liens "Voir aussi", "Pour en savoir plus" et "Service en ligne" ([#1508](https://github.com/SocialGouv/cdtn-admin/issues/1508)) ([f824cf3](https://github.com/SocialGouv/cdtn-admin/commit/f824cf3b1c415bb309a976e0197a1406ee1df1db))
+
 ## [2.52.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.0...v2.52.1) (2024-11-05)
 
 ### Bug Fixes
