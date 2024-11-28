@@ -42,17 +42,18 @@ const elementToNotDisplay = [
   "PourEnSavoirPlus",
   "Definition",
   "Abreviation",
+  "QuiPeutMAider",
 ];
 
 const filterOutElementToNotDisplay = (publication: RawJson) =>
   publication.children.filter(
-    (child) => !elementToNotDisplay.includes(child.name),
+    (child) => !elementToNotDisplay.includes(child.name)
   );
 
 export function format(
   fiche: RawJson,
   resolveCdtReference: ReferenceResolver,
-  agreements: ShortAgreement[],
+  agreements: ShortAgreement[]
 ): Omit<FicheServicePublic, "is_searchable" | "slug"> {
   const publication = fiche.children[0];
   const { ID: id } = publication.attributes;
@@ -66,7 +67,7 @@ export function format(
   const date = `${day}/${month}/${year}`;
 
   const audience = getText(
-    getChild(publication, "Audience"),
+    getChild(publication, "Audience")
   ).toLowerCase() as Audience;
 
   const url = generateFichesSpRef(audience, id);
@@ -77,13 +78,13 @@ export function format(
   const text = intro + " " + texte + " " + listeSituations;
 
   const references = publication.children.filter(
-    (el) => el.name === "Reference",
+    (el) => el.name === "Reference"
   );
 
   const referencedTexts = parseReferences(
     references,
     resolveCdtReference,
-    agreements,
+    agreements
   );
 
   return {

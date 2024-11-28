@@ -2,11 +2,13 @@
   "attributes": {
     "ID": "F2918",
     "dateDerniereModificationImportante": "2024-11-01T00:00:00",
+    "profilsPro": "tout",
     "spUrl": "https://www.service-public.fr/particuliers/vosdroits/F2918",
+    "statut": "miseAJourAVenir",
     "type": "Fiche d'information conditionnée",
     "xmlns:dc": "http://purl.org/dc/elements/1.1/",
     "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-    "xsi:noNamespaceSchemaLocation": "../Schemas/3.3/Publication.xsd"
+    "xsi:noNamespaceSchemaLocation": "../Schemas/3.4/Publication.xsd"
   },
   "children": [
     {
@@ -1138,6 +1140,7 @@
                   "attributes": {
                     "ID": "R1319",
                     "URL": "https://www.formulaires.service-public.fr/gf/cerfa_10103.do",
+                    "audience": "Particuliers",
                     "autrenumero": "FA13",
                     "numerocerfa": "10103*12",
                     "type": "Formulaire"
@@ -2702,6 +2705,7 @@
                   "attributes": {
                     "ID": "R63645",
                     "URL": "https://www.alternance.emploi.gouv.fr/simulateur-alternant/etape-1",
+                    "audience": "Particuliers",
                     "type": "Simulateur"
                   },
                   "children": [
@@ -2956,7 +2960,7 @@
                       "type": "element"
                     }
                   ],
-                  "name": "ANoter",
+                  "name": "Exemple",
                   "type": "element"
                 },
                 {
@@ -3062,7 +3066,7 @@
                       "type": "element"
                     }
                   ],
-                  "name": "ANoter",
+                  "name": "Exemple",
                   "type": "element"
                 }
               ],
@@ -3161,7 +3165,7 @@
                               "type": "element"
                             }
                           ],
-                          "name": "ANoter",
+                          "name": "Exemple",
                           "type": "element"
                         }
                       ],
@@ -3227,7 +3231,7 @@
                               "type": "element"
                             }
                           ],
-                          "name": "ANoter",
+                          "name": "Exemple",
                           "type": "element"
                         }
                       ],
@@ -6092,7 +6096,7 @@
                   "type": "element"
                 }
               ],
-              "name": "ANoter",
+              "name": "Exemple",
               "type": "element"
             },
             {
@@ -6161,6 +6165,16 @@
                 "type": "Image"
               },
               "children": [
+                {
+                  "children": [
+                    {
+                      "text": "Comment rompre le contrat d’apprentissage ?",
+                      "type": "text"
+                    }
+                  ],
+                  "name": "Titre",
+                  "type": "element"
+                },
                 {
                   "children": [
                     {
