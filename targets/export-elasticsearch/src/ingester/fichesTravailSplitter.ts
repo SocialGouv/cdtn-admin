@@ -59,12 +59,17 @@ function splitArticle(article: any) {
           text,
           title: transformedSectionTitle,
         };
-      }
+      },
     );
 }
 
 function isUnusedSection({ title }: { title: string }) {
-  return !/L.INFO EN PLUS/i.test(title) && !/POUR ALLER PLUS LOIN/i.test(title);
+  return (
+    title.length > 0 &&
+    !/L.INFO EN PLUS/i.test(title) &&
+    !/POUR ALLER PLUS LOIN/i.test(title) &&
+    !/TEXTES DE RÉFÉRENCE/i.test(title)
+  );
 }
 
 function transformSectionTitle({
