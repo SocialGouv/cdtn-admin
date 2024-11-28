@@ -34,6 +34,22 @@ function getText(element?: RawJson): string {
   return "";
 }
 
+const elementToNotDisplay = [
+  "OuSAdresser",
+  "ServiceEnLigne",
+  "QuestionReponse",
+  "VoirAussi",
+  "PourEnSavoirPlus",
+  "Definition",
+  "Abreviation",
+  "QuiPeutMAider",
+];
+
+const filterOutElementToNotDisplay = (publication: RawJson) =>
+  publication.children.filter(
+    (child) => !elementToNotDisplay.includes(child.name)
+  );
+
 export function format(
   fiche: RawJson,
   resolveCdtReference: ReferenceResolver,
@@ -42,10 +58,7 @@ export function format(
   const publication = fiche.children[0];
   const { ID: id } = publication.attributes;
 
-  // We filter out the elements we will never use nor display
-  publication.children = publication.children.filter(
-    (child) => child.name !== "OuSAdresser" && child.name !== "ServiceEnLigne"
-  );
+  publication.children = filterOutElementToNotDisplay(publication);
 
   const title = getText(getChild(publication, "dc:title"));
   const description = getText(getChild(publication, "dc:description"));

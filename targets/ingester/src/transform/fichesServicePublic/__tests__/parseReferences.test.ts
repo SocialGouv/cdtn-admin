@@ -11,7 +11,7 @@ const agreements: ShortAgreement[] = [
     shortName: "convention 123",
   },
 ];
-const referenceResolver = jest.fn().mockImplementation((id) => {
+export const referenceResolverMock = jest.fn().mockImplementation((id) => {
   if (id === "LEGISCTA42")
     return [
       {
@@ -91,7 +91,7 @@ describe("extractNewReference", () => {
     `it should extract new reference from %p`,
     (url: string, label: string, reference) => {
       expect(
-        extractNewReference(referenceResolver, agreements, url, label)
+        extractNewReference(referenceResolverMock, agreements, url, label),
       ).toEqual(reference);
     }
   );
@@ -129,7 +129,7 @@ describe("extractOldReference", () => {
     `it should extract old reference for %s %s`,
     (url: string, label: string, reference) => {
       expect(
-        extractOldReference(referenceResolver, agreements, url, label)
+        extractOldReference(referenceResolverMock, agreements, url, label),
       ).toEqual(reference);
     }
   );
