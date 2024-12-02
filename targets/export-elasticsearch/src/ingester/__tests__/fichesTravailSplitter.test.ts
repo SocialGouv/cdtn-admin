@@ -65,7 +65,7 @@ const articleWithEmptySections = {
     {
       html: "<div class=\"fr-highlight\"><p><strong>À savoir ! </strong><br>Plusieurs dispositifs ont été mis en œuvre à compter du début de l'année 2020 afin de limiter le <strong>recours trop fréquent aux CDD</strong> d'usage qui peuvent être source de précarité pour les salariés et de déséquilibre financier pour l'assurance chômage. Certains aménagements récents ont toutefois été apportés à ces dispositifs, afin de tenir compte des conséquences économiques et sociales de l'épidémie de Covid-19. </p></div>",
       text: "À savoir !  Plusieurs dispositifs ont été mis en œuvre à compter du début de l'année 2020 afin de limiter le recours trop fréquent aux CDD d'usage qui peuvent être source de précarité pour les salariés et de déséquilibre financier pour l'assurance chômage. Certains aménagements récents ont toutefois été apportés à ces dispositifs, afin de tenir compte des conséquences économiques et sociales de l'épidémie de Covid-19.",
-      title: "",
+      title: "Documents à télécharger",
       anchor: "",
       references: [],
       description:

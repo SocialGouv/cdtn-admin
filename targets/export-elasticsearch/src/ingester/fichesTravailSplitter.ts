@@ -65,9 +65,10 @@ function splitArticle(article: any) {
 
 function isUnusedSection({ title }: { title: string }) {
   return (
-    title.length > 0 &&
     !/L.INFO EN PLUS/i.test(title) &&
     !/POUR ALLER PLUS LOIN/i.test(title) &&
+    !/LIRE EN COMPLÉMENT/i.test(title) &&
+    !/DOCUMENTS À TÉLÉCHARGER/i.test(title) &&
     !/TEXTES DE RÉFÉRENCE/i.test(title)
   );
 }
