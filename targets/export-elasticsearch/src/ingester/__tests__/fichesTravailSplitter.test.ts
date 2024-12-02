@@ -181,7 +181,7 @@ describe("splitArticle", () => {
     );
   });
 
-  test("should exclude sections with empty titles and 'Références juridiques'", async () => {
+  test("should exclude some sections like 'Références juridiques'", async () => {
     const splitArticles = await splitArticle(articleWithEmptySections);
     expect(splitArticles.length).toBe(2);
     expect(splitArticles[0].title).toBe(
