@@ -1,5 +1,12 @@
 export const glossaryData = [
   {
+    abbreviations: ["ZC"],
+    definition: "Definition de la zone commerciale",
+    term: "Zone commerciale",
+    variants: [],
+    references: [],
+  },
+  {
     abbreviations: [],
     definition:
       "Suppression pour l’avenir d’un acte administratif ou d’une règle de droit.",
