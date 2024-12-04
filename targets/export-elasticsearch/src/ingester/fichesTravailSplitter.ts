@@ -59,12 +59,18 @@ function splitArticle(article: any) {
           text,
           title: transformedSectionTitle,
         };
-      }
+      },
     );
 }
 
 function isUnusedSection({ title }: { title: string }) {
-  return !/L.INFO EN PLUS/i.test(title) && !/POUR ALLER PLUS LOIN/i.test(title);
+  return (
+    !/L.INFO EN PLUS/i.test(title) &&
+    !/POUR ALLER PLUS LOIN/i.test(title) &&
+    !/LIRE EN COMPLÉMENT/i.test(title) &&
+    !/DOCUMENTS À TÉLÉCHARGER/i.test(title) &&
+    !/TEXTES DE RÉFÉRENCE/i.test(title)
+  );
 }
 
 function transformSectionTitle({
