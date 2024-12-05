@@ -3,8 +3,8 @@ import { GlossaryTerms, Glossary, Term } from "@socialgouv/cdtn-types";
 const conventionMatchers =
   "[Cc]onventions? [Cc]ollectives?|[Aa]ccords? de [Bb]ranches?|[Dd]ispositions? [Cc]onventionnelles?";
 
-const startWordBreaks = `(?<=^| |\\.|,|'|>|\\()`;
-const endWordBreaks = `(?= |\\.|,|'|$|<|\\))`;
+const startWordBreaks = `(?<=^| |\\.|,|'|>|\\(|&nbsp;)`;
+const endWordBreaks = `(?= |\\.|,|'|$|<|\\)|&nbsp;)`;
 
 const startAnchorOmit = `(?<!<span class="(?:sub-)?title">[^<]*)`;
 const endAnchorOmit = `(?![^<]*(?:</a>|</summary>|</strong>.*</summary>|</h[1-6]>))`;

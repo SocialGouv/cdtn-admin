@@ -542,6 +542,14 @@ describe("Glossary", () => {
           `<webcomponent-tooltip content="word">ward</webcomponent-tooltip>`
         );
       });
+
+      test("should work with a composed name in tag with a non breaking space", async () => {
+        const htmlContent = "<p>Une zone commerciale&nbsp;</p>";
+        expect(await addGlossaryContent(glossaryData, htmlContent)).toEqual(
+          `<p>Une <webcomponent-tooltip content="Definition%20de%20la%20zone%20commerciale">zone commerciale</webcomponent-tooltip>&nbsp;</p>`
+        );
+      });
+
       test("should match a variant with plural", async () => {
         const htmlContent = `wards`;
         expect(
