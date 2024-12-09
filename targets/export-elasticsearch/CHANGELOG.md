@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.52.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.2...v2.52.3) (2024-12-09)
+
+### Bug Fixes
+
+- **articles liés des fiches MT:** exclusion des split articles les sections avec titre vides et les références juridiques ([#1510](https://github.com/SocialGouv/cdtn-admin/issues/1510)) ([415e918](https://github.com/SocialGouv/cdtn-admin/commit/415e918107f165926f603b699b421f7d4f0b93b7))
+- **glossary:** correction des `&nbsp;` sur la reconnaissance des mots ([a1ceb18](https://github.com/SocialGouv/cdtn-admin/commit/a1ceb181e23635cff06aeb973808a0604c686d89))
+
 ## [2.52.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.1...v2.52.2) (2024-11-28)
 
 **Note:** Version bump only for package export-elasticsearch
