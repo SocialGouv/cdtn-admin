@@ -1,9 +1,9 @@
 import { describe, expect, test } from "@jest/globals";
 import { ShortAgreement } from "../fetchAgreementsWithKaliId";
 import { format } from "../format";
-import fiche from "./data/ficheSP-mock.json";
-import ficheWithRef from "./data/fiche-SP-with-external-ref.json";
-import expected from "./data/formatted-raw-ficheSP.json";
+import fiche from "./ficheSP-mock.json";
+import ficheWithRef from "./fiche-SP-with-external-ref.json";
+import expected from "./formatted-raw-ficheSP.json";
 import { referenceResolverMock } from "./parseReferences.test";
 
 const agreements: ShortAgreement[] = [
