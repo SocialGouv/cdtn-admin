@@ -22,7 +22,7 @@ describe("format", () => {
       "Le contrat d'apprentissage est un contrat de travail conclu entre un employeur et un salarié lui permettant de suivre une formation en alternance.",
     );
     expect(formatted.id).toEqual("F2918");
-    expect(formatted.referencedTexts.length).toEqual(4);
+    expect(formatted.referencedTexts.length).toEqual(34);
     expect(formatted.text).toMatch(
       /Le contrat d'apprentissage est un contrat de travail qui permet de suivre par alternance des périodes de formation/,
     );
