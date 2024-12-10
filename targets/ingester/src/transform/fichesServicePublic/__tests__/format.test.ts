@@ -2,6 +2,7 @@ import { describe, expect, test } from "@jest/globals";
 import { ShortAgreement } from "../fetchAgreementsWithKaliId";
 import { format } from "../format";
 import fiche from "./ficheSP-mock.json";
+import ficheWithRef from "./fiche-SP-with-external-ref.json";
 import expected from "./formatted-raw-ficheSP.json";
 import { referenceResolverMock } from "./parseReferences.test";
 
@@ -21,7 +22,7 @@ describe("format", () => {
       "Le contrat d'apprentissage est un contrat de travail conclu entre un employeur et un salarié lui permettant de suivre une formation en alternance.",
     );
     expect(formatted.id).toEqual("F2918");
-    expect(formatted.referencedTexts.length).toEqual(4);
+    expect(formatted.referencedTexts.length).toEqual(34);
     expect(formatted.text).toMatch(
       /Le contrat d'apprentissage est un contrat de travail qui permet de suivre par alternance des périodes de formation/,
     );
@@ -32,5 +33,20 @@ describe("format", () => {
 
     const raw = JSON.parse(formatted.raw);
     expect(raw).toEqual(expected);
+  });
+
+  test("format bien toutes les references", () => {
+    const formatted = format(
+      ficheWithRef as any,
+      referenceResolverMock,
+      agreements,
+    );
+
+    expect(formatted.referencedTexts.length).toEqual(5);
+    expect(formatted.referencedTexts[0]).toEqual({
+      title: "Code de la sécurité sociale : articles L323-1 à L323-7",
+      type: "external",
+      url: "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006073189/LEGISCTA000006156085/",
+    });
   });
 });

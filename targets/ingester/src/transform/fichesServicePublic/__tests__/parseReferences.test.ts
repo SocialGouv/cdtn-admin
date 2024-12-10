@@ -48,6 +48,7 @@ export const referenceResolverMock = jest.fn().mockImplementation((id) => {
         type: "article",
       },
     ];
+
   return [];
 });
 
@@ -93,7 +94,7 @@ describe("extractNewReference", () => {
       expect(
         extractNewReference(referenceResolverMock, agreements, url, label),
       ).toEqual(reference);
-    }
+    },
   );
 });
 
@@ -131,6 +132,6 @@ describe("extractOldReference", () => {
       expect(
         extractOldReference(referenceResolverMock, agreements, url, label),
       ).toEqual(reference);
-    }
+    },
   );
 });

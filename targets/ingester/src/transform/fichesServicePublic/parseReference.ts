@@ -226,7 +226,7 @@ export function extractNewReference(
       ) as CodeSection[];
 
       if (!section) {
-        return [];
+        return [externalReference(url, label)];
       }
       if (section.children.every((child) => child.type !== "article")) {
         return [externalReference(url, label)];
