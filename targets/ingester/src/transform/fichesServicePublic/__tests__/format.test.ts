@@ -1,8 +1,9 @@
 import { describe, expect, test } from "@jest/globals";
 import { ShortAgreement } from "../fetchAgreementsWithKaliId";
 import { format } from "../format";
-import fiche from "./ficheSP-mock.json";
-import expected from "./formatted-raw-ficheSP.json";
+import fiche from "./data/ficheSP-mock.json";
+import ficheWithRef from "./data/fiche-SP-with-external-ref.json";
+import expected from "./data/formatted-raw-ficheSP.json";
 import { referenceResolverMock } from "./parseReferences.test";
 
 const agreements: ShortAgreement[] = [
@@ -32,5 +33,20 @@ describe("format", () => {
 
     const raw = JSON.parse(formatted.raw);
     expect(raw).toEqual(expected);
+  });
+
+  test("format bien toutes les references", () => {
+    const formatted = format(
+      ficheWithRef as any,
+      referenceResolverMock,
+      agreements,
+    );
+
+    expect(formatted.referencedTexts.length).toEqual(5);
+    expect(formatted.referencedTexts[0]).toEqual({
+      title: "Code de la sécurité sociale : articles L323-1 à L323-7",
+      type: "external",
+      url: "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006073189/LEGISCTA000006156085/",
+    });
   });
 });
