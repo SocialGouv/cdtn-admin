@@ -4,6 +4,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   FormDatePicker,
+  FormEditionField,
   FormRadioGroup,
   FormTextField,
 } from "src/components/forms";
@@ -104,12 +105,11 @@ export const InformationsForm = ({
             />
           </FormControl>
           <FormControl>
-            <FormTextField
+            <FormEditionField
+              label="Intro"
               name="intro"
               control={control}
-              label="Intro"
-              multiline
-              fullWidth
+              rules={{ required: true }}
             />
           </FormControl>
           <FormCheckbox

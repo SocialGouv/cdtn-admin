@@ -9,10 +9,7 @@ export const mapInformationToDocument = async (
   data: Information,
   document?: HasuraDocument<any>
 ): Promise<HasuraDocument<any>> => {
-  const introWithGlossary = await getGlossaryContent(
-    "markdown",
-    data.intro ?? ""
-  );
+  const introWithGlossary = await getGlossaryContent(data.intro ?? "");
   return {
     cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
     initial_id: data.id ?? generateInitialId(),
@@ -48,7 +45,6 @@ export const mapInformationToDocument = async (
               blocks: await Promise.all(
                 blocks.map(async (block) => {
                   const htmlWithGlossary = await getGlossaryContent(
-                    "markdown",
                     block.content ?? ""
                   );
                   return {

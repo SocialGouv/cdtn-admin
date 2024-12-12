@@ -1,10 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import { fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { InformationsForm } from "../InformationsForm";
 import { InformationsResult } from "../Informations.query";
+import { ClipboardEventMock, DragEventMock } from "./richeTextUtils";
 
 const information: InformationsResult = {
   id: "cafaf8d6-af91-4901-a18d-e70921788088",
@@ -46,6 +46,9 @@ const information: InformationsResult = {
 };
 
 const onSubmit = jest.fn(() => Promise.resolve());
+
+(global as any).ClipboardEvent = ClipboardEventMock;
+(global as any).DragEvent = DragEventMock;
 
 describe("InformationForm", () => {
   afterEach(() => {
@@ -147,8 +150,6 @@ describe("InformationForm", () => {
       screen.getAllByLabelText<HTMLInputElement>("Description");
     const [inputInfoDescriptionMeta] =
       screen.getAllByLabelText<HTMLInputElement>("Description Meta");
-    const [inputContentText1] =
-      screen.getAllByLabelText<HTMLInputElement>("Texte");
     const [inputContentRefUrl1, inputRefUrl1] =
       screen.getAllByLabelText<HTMLInputElement>("Url");
     const buttonSave = screen.getByText("Sauvegarder");
@@ -158,7 +159,6 @@ describe("InformationForm", () => {
     userEvent.clear(inputInfoDescription);
     userEvent.clear(inputInfoDescriptionMeta);
     userEvent.clear(inputContentTitle1);
-    userEvent.clear(inputContentText1);
     userEvent.clear(inputContentRefTitle1);
     userEvent.clear(inputContentRefUrl1);
     userEvent.clear(inputRefTitle1);
@@ -180,9 +180,6 @@ describe("InformationForm", () => {
     const [errorInfoMetaDescription] = await screen.findAllByText(
       "Une description meta doit être renseignée"
     );
-    const [errorContentText] = await screen.findAllByText(
-      "Un texte doit être renseigné"
-    );
     const [errorContentRefUrl1, errorRefUrl1] = await screen.findAllByText(
       "Le format de l'url est invalide"
     );
@@ -196,7 +193,6 @@ describe("InformationForm", () => {
     expect(errorContentRefUrl1).toBeInTheDocument();
     expect(errorRefTitle1).toBeInTheDocument();
     expect(errorRefUrl1).toBeInTheDocument();
-    expect(errorContentText).toBeInTheDocument();
 
     await waitFor(() => {
       expect(onSubmit).not.toHaveBeenCalledTimes(1);

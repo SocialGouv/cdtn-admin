@@ -21,10 +21,7 @@ async function getBaseDocument(
       return {
         type: "content",
         content: data.content,
-        contentWithGlossary: await getGlossaryContent(
-          "html",
-          data.content ?? ""
-        ),
+        contentWithGlossary: await getGlossaryContent(data.content ?? ""),
       };
     case "GENERIC_NO_CDT":
       return {

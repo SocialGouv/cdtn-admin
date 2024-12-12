@@ -16,13 +16,11 @@ export class GlossaryService {
   ) {}
 
   async getContentWithGlossary(
-    type: ValidatorCreateGlossaryType["type"],
     content: ValidatorCreateGlossaryType["content"]
   ): Promise<string> {
     const glossary = await this.glossaryRepository.getGlossary();
     const result = await addGlossaryContentWorker({
       glossary,
-      type,
       content,
     });
     return result;
@@ -56,7 +54,6 @@ export class GlossaryService {
       if (document.contentType === "ANSWER") {
         const contentWithGlossary = await addGlossaryContentWorker({
           glossary,
-          type: "html",
           content: document.content,
         });
         await this.glossaryRepository.updateDocument(contributions[i].cdtn_id, {
@@ -80,7 +77,6 @@ export class GlossaryService {
       const document = editorialContents[i].document;
       const introWithGlossary = await addGlossaryContentWorker({
         glossary,
-        type: "markdown",
         content: document.intro,
       });
       await this.glossaryRepository.updateDocument(
@@ -97,7 +93,6 @@ export class GlossaryService {
                     if ("markdown" in block) {
                       const htmlWithGlossary = await addGlossaryContentWorker({
                         glossary,
-                        type: "markdown",
                         content: block.markdown,
                       });
                       return {
