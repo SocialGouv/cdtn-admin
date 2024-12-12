@@ -1,13 +1,9 @@
 import { Glossary } from "@socialgouv/cdtn-types";
-import { Worker, parentPort, workerData, isMainThread } from "worker_threads";
-import {
-  addGlossaryContent,
-  addGlossaryContentToMarkdown,
-} from "./addGlossaryContent";
+import { isMainThread, parentPort, Worker, workerData } from "worker_threads";
+import { addGlossaryContent } from "./addGlossaryContent";
 
 export interface GlossaryWorkerData {
   glossary: Glossary;
-  type: "markdown" | "html";
   content: string;
 }
 
@@ -35,12 +31,6 @@ export function addGlossaryContentWorker(
 }
 
 if (!isMainThread) {
-  const { glossary, type, content }: GlossaryWorkerData = workerData;
-  if (type === "markdown") {
-    addGlossaryContentToMarkdown(glossary, content).then((res) => {
-      parentPort?.postMessage(res);
-    });
-  } else if (type === "html") {
-    parentPort?.postMessage(addGlossaryContent(glossary, content));
-  }
+  const { glossary, content }: GlossaryWorkerData = workerData;
+  parentPort?.postMessage(addGlossaryContent(glossary, content));
 }

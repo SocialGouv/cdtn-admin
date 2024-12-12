@@ -65,7 +65,7 @@ export const InformationsBlock = ({
             control={control}
             options={[
               {
-                label: "Markdown",
+                label: "Contenu",
                 value: "markdown",
               },
               {
@@ -73,7 +73,7 @@ export const InformationsBlock = ({
                 value: "graphic",
               },
               {
-                label: "Contenus",
+                label: "Contenus liés",
                 value: "content",
               },
             ]}

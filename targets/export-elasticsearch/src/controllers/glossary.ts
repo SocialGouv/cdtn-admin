@@ -23,10 +23,7 @@ export class GlossaryController implements interfaces.Controller {
   @httpPost("/", getName(GlossaryMiddleware))
   async getForOneContent(@request() req: Request) {
     const body: ValidatorCreateGlossaryType = req.body;
-    const result = await this.service.getContentWithGlossary(
-      body.type,
-      body.content
-    );
+    const result = await this.service.getContentWithGlossary(body.content);
     return {
       result,
     };

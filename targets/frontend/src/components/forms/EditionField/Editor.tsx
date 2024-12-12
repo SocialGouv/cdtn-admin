@@ -36,6 +36,7 @@ export const Editor = ({
   disabled,
   isError = false,
 }: EditorProps) => {
+  const [currentContent, setCurrentContent] = useState(content);
   const [focus, setFocus] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const editor = useEditor({
@@ -77,6 +78,7 @@ export const Editor = ({
     ],
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
+      setCurrentContent(html);
       onUpdate(html !== emptyHtml ? html : "");
     },
   });
@@ -104,6 +106,7 @@ export const Editor = ({
           focus={focus}
           isError={isError}
           disabled={disabled}
+          htmlFor={label}
         >
           <MenuStyle editor={editor} />
           <MenuSpecial editor={editor} />
@@ -114,6 +117,12 @@ export const Editor = ({
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}
             disabled={disabled}
+          />
+          <input
+            id={label}
+            value={currentContent}
+            aria-hidden={true}
+            className={"fr-hidden"}
           />
         </TitleBox>
       )}

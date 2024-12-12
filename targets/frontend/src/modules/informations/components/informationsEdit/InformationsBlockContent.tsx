@@ -25,7 +25,7 @@ export const InformationsBlockContent = ({
           <FormTextField
             name={`${name}.content`}
             control={control}
-            label="Texte"
+            label="Contenus liés"
             multiline
             fullWidth
             labelFixed

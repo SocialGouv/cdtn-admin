@@ -6,7 +6,6 @@ import { z } from "zod";
 import { name } from "../../utils";
 
 const ValidatorCreateGlossary = z.object({
-  type: z.enum(["markdown", "html"]),
   content: z.string(),
 });
 

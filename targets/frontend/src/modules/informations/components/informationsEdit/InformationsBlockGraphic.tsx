@@ -1,6 +1,6 @@
 import { Stack, FormControl } from "@mui/material";
 import React from "react";
-import { FormTextField } from "src/components/forms";
+import { FormEditionField, FormTextField } from "src/components/forms";
 import { Control } from "react-hook-form";
 
 export type InformationBlockGraphicProps = {
@@ -21,14 +21,11 @@ export const InformationsBlockGraphic = ({
         spacing={2}
       >
         <FormControl>
-          <FormTextField
+          <FormEditionField
+            label="Texte"
             name={`${name}.content`}
             control={control}
-            label="Texte"
             rules={{ required: true }}
-            multiline
-            fullWidth
-            labelFixed
           />
         </FormControl>
         <FormControl>
