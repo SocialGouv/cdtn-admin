@@ -1,12 +1,8 @@
 import { URL_EXPORT } from "src/pages/api/export";
 
-export const getGlossaryContent = async (
-  type: "html" | "markdown",
-  content: string
-): Promise<string> => {
+export const getGlossaryContent = async (content: string): Promise<string> => {
   const resultProcess = await fetch(URL_EXPORT + "/glossary", {
     body: JSON.stringify({
-      type,
       content,
     }),
     headers: {
