@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.53.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.3...v2.53.0) (2024-12-18)
+
+### Features
+
+- **information:** utilisation de tiptap sur les pages infos ([#1515](https://github.com/SocialGouv/cdtn-admin/issues/1515)) ([0eac658](https://github.com/SocialGouv/cdtn-admin/commit/0eac658c3e535f293a0e847f307d2e3dc3fb6667))
+
 ## [2.52.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.2...v2.52.3) (2024-12-09)
 
 ### Bug Fixes
