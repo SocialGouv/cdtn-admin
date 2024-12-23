@@ -80,10 +80,6 @@ An administration website is available to configure and inject custom data.
 This step starts the frontend project (based on `next.js`). User and admin accounts are automatically created by the
 Hasura step.
 
-| Type  | Username                               | Password | Role  |
-| ----- | -------------------------------------- | -------- | ----- |
-| Admin | codedutravailnumerique@travail.gouv.fr | admin    | super |
-
 Frontend is reachable at the address <http://localhost:3001>
 
 > Run the frontend (it starts Hasura as dependency):
