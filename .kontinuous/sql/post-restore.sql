@@ -1,7 +1,7 @@
 -- Anonymize users
 UPDATE auth.users as u
 SET 
-  password = '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8',
+  password = '$argon2id$v=19$m=65536,t=3,p=4$mId827NijFQET4RdT+sIMA$FVZz/GH6E4Y4PeDbG+823fyXFCcokEtEdE++ZOMbP3I',
   email = u.id || '@travail.gouv.fr',
   name = CONCAT(
     UPPER(SUBSTRING(name FROM 1 FOR 1)),
@@ -15,7 +15,7 @@ SET
 INSERT INTO auth.users (email, password, name, role, is_active, id)
 VALUES (
     'codedutravailnumerique@travail.gouv.fr',
-    '$argon2i$v=19$m=4096,t=3,p=1$n9eoWSv+5sCgc7SjB5hLig$iBQ7NzrHHLkJSku/dCetNs+n/JI1CMdkWaoZsUekLU8',
+    '$argon2id$v=19$m=65536,t=3,p=4$mId827NijFQET4RdT+sIMA$FVZz/GH6E4Y4PeDbG+823fyXFCcokEtEdE++ZOMbP3I',
     'Administrateur',
     'super',
     TRUE,
