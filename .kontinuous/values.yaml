@@ -40,7 +40,7 @@ pg:
 
 www:
   ~chart: app
-  ~needs: [build-frontend]
+  ~needs: [ build-frontend ]
   probesPath: /healthz
   livenessProbe:
     httpGet:
@@ -73,7 +73,7 @@ www:
 
 export:
   ~chart: app
-  ~needs: [build-export]
+  ~needs: [ build-export ]
   probesPath: /healthz
   ingress:
     enabled: false
@@ -98,7 +98,7 @@ export:
 
 hasura:
   ~chart: hasura
-  ~needs: [build-hasura, pg]
+  ~needs: [ build-hasura, pg ]
   imagePackage: hasura
   ingress:
     enabled: false
