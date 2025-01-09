@@ -40,7 +40,7 @@ pg:
 
 www:
   ~chart: app
-  ~needs: [build-frontend]
+  ~needs: [ build-frontend ]
   probesPath: /healthz
   livenessProbe:
     httpGet:
@@ -70,10 +70,15 @@ www:
     fsGroup: 1000
     runAsUser: 1000
     runAsGroup: 1000
+  annotations:
+    oblik.socialgouv.io/min-request-cpu: "100m"
+    oblik.socialgouv.io/min-request-memory: "386Mi"
+    oblik.socialgouv.io/min-limit-cpu: "200m"
+    oblik.socialgouv.io/min-limit-memory: "512Mi"
 
 export:
   ~chart: app
-  ~needs: [build-export]
+  ~needs: [ build-export ]
   probesPath: /healthz
   ingress:
     enabled: false
@@ -98,7 +103,7 @@ export:
 
 hasura:
   ~chart: hasura
-  ~needs: [build-hasura, pg]
+  ~needs: [ build-hasura, pg ]
   imagePackage: hasura
   ingress:
     enabled: false
