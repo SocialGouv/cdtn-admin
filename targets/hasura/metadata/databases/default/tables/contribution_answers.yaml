@@ -75,6 +75,16 @@ array_relationships:
         remote_table:
           name: answer_statuses
           schema: contribution
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - agreement_id
+        - content_type
+        - display_date
+        - question_id
+    comment: ""
 select_permissions:
   - role: super
     permission:
