@@ -22,15 +22,17 @@ import { SnackBar } from "../../../utils/SnackBar";
 import { LoadingButton } from "../../../button/LoadingButton";
 
 type EditQuestionProps = {
-  question: QuestionBase;
+  question?: QuestionBase;
   messages: Message[];
-  onUpsert: (props: QuestionFormData) => Promise<void>;
+  defaultOrder?: number;
+  onSubmit: (props: QuestionFormData) => Promise<void>;
 };
 
 const formDataSchema = z.object({
   message_id: questionRelationSchema.shape.message_id.or(z.literal("")),
   content: questionRelationSchema.shape.content,
   seo_title: questionRelationSchema.shape.seo_title,
+  order: questionRelationSchema.shape.order,
 });
 
 export type QuestionFormData = z.infer<typeof formDataSchema>;
@@ -38,19 +40,21 @@ export type QuestionFormData = z.infer<typeof formDataSchema>;
 export const Form = ({
   question,
   messages,
-  onUpsert,
+  defaultOrder,
+  onSubmit,
 }: EditQuestionProps): JSX.Element => {
   const { control, watch, handleSubmit } = useForm<QuestionFormData>({
     resolver: zodResolver(formDataSchema),
     shouldFocusError: true,
     defaultValues: {
-      content: question.content,
-      message_id: question.message_id ?? "",
-      seo_title: question.seo_title ?? "",
+      content: question?.content ?? "",
+      message_id: question?.message_id ?? "",
+      seo_title: question?.seo_title ?? "",
+      order: question?.order ?? defaultOrder ?? -1,
     },
   });
   const [message, setMessage] = useState<Message | undefined>(undefined);
-  const watchMessageId = watch("message_id", question.message_id);
+  const watchMessageId = watch("message_id", question?.message_id);
   const [submitting, setSubmit] = useState<boolean>(false);
 
   const [snack, setSnack] = useState<{
@@ -70,10 +74,10 @@ export const Form = ({
     }
   }, [watchMessageId, messages]);
 
-  const onSubmit = async (formData: QuestionFormData) => {
+  const onSubmitForm = async (formData: QuestionFormData) => {
     setSubmit(true);
     try {
-      await onUpsert(formData);
+      await onSubmit(formData);
       setSnack({ open: true, severity: "success", message: "Sauvegardé" });
     } catch (e: any) {
       setSnack({
@@ -87,14 +91,31 @@ export const Form = ({
 
   return (
     <Stack mt={4} spacing={2}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmitForm)}>
         <Stack spacing={4}>
+          <FormTextField
+            name="order"
+            type="number"
+            control={control}
+            hintText={
+              <>
+                Cette valeur est indicative. Vous pouvez modifier cette valeur
+                mais elle ne doit pas déjà être utilisée.{" "}
+                <b>
+                  Il est recommandé de ne pas modifier la valeur par défaut.
+                </b>
+              </>
+            }
+            label="Ordre"
+            fullWidth
+            disabled={question !== undefined}
+          />
           <FormTextField
             name="content"
             control={control}
             label="Nom de la question"
             fullWidth
-            disabled
+            disabled={question !== undefined}
           />
           <FormTextField
             name="seo_title"
@@ -245,7 +266,7 @@ export const Form = ({
               loading={submitting}
               type="submit"
             >
-              Sauvegarder
+              {question ? "Sauvegarder" : "Créer"}
             </LoadingButton>
           </Stack>
         </Stack>

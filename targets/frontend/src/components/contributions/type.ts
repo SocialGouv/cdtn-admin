@@ -154,7 +154,7 @@ export const questionBaseSchema = z.object({
       required_error: "Une question doit être renseignée",
     })
     .min(1, "Une question doit être renseignée"),
-  order: z.number(),
+  order: z.coerce.number(),
   message_id: z.string().uuid().optional(),
   seo_title: z.string().optional(),
 });

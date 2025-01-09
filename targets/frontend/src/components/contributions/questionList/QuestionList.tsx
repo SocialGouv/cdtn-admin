@@ -17,6 +17,7 @@ import {
   useQuestionListQuery,
 } from "./QuestionList.query";
 import { QuestionRow } from "./QuestionRow";
+import { useRouter } from "next/router";
 
 export const countAnswersWithStatus = (
   answers: QueryQuestionAnswer[] | undefined,
@@ -29,6 +30,7 @@ export const countAnswersWithStatus = (
 };
 
 export const QuestionList = (): JSX.Element => {
+  const router = useRouter();
   const [search, setSearch] = useState<string | undefined>();
 
   const { rows } = useQuestionListQuery({
@@ -53,6 +55,14 @@ export const QuestionList = (): JSX.Element => {
           }}
           data-testid="contributions-list-search"
         />
+        <Button
+          variant="contained"
+          onClick={() => {
+            router.push(`/contributions/questions/creation`);
+          }}
+        >
+          Créer une nouvelle contribution
+        </Button>
       </Stack>
 
       <TableContainer component={Paper}>

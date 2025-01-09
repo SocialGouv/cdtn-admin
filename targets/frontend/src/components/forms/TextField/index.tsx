@@ -16,7 +16,7 @@ type FormTextFieldProps = CommonFormProps & {
   labelFixed?: boolean;
   id?: string;
   type?: React.InputHTMLAttributes<unknown>["type"];
-  hintText?: string;
+  hintText?: string | React.ReactElement;
   placeholder?: string;
 };
 
