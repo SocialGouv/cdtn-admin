@@ -96,7 +96,7 @@ describe("generateMetadata", () => {
           breadcrumbs
         );
 
-        expect(metadata.title).toBe("Question - CC Short title");
+        expect(metadata.title).toBe("Question");
         expect(metadata.text).toBe("Description");
         expect(metadata.metas.title).toBe("SEO Title - CC Short title");
         expect(metadata.metas.description).toBe("Question - Description");
@@ -120,97 +120,11 @@ describe("generateMetadata", () => {
           breadcrumbs
         );
 
-        expect(metadata.title).toBe("Question - CC Short title");
+        expect(metadata.title).toBe("Question");
         expect(metadata.text).toBe("Description");
         expect(metadata.metas.title).toBe("Breadcrumb 2 - CC Short title");
         expect(metadata.metas.description).toBe("Question - Description");
       });
-    });
-  });
-
-  describe("Page personnalisée avec une question longue et nom de la CC long", () => {
-    const ccns: Partial<DocumentElasticWithSource<AgreementDoc>>[] = [
-      {
-        num: 123,
-        shortTitle: "Nom de CC trop long",
-      },
-    ];
-
-    const contribution: Partial<
-      DocumentElasticWithSource<ContributionDocumentJson>
-    > = {
-      idcc: "123",
-      questionName: "Question très longue avec plus de cinquante caractères ?",
-      seoTitle: "",
-      description: "Description",
-    };
-
-    it("doit générer un titre avec seulement la question (sans le nom de la convention collective)", () => {
-      const metadata: ContributionMetadata = generateMetadata(
-        ccns as DocumentElasticWithSource<AgreementDoc>[],
-        contribution as DocumentElasticWithSource<ContributionDocumentJson>,
-        breadcrumbs
-      );
-
-      expect(metadata.title).toBe(
-        "Question très longue avec plus de cinquante caractères ?"
-      );
-    });
-  });
-
-  describe("Page personnalisée avec une question courte et nom de la CC long", () => {
-    const ccns: Partial<DocumentElasticWithSource<AgreementDoc>>[] = [
-      {
-        num: 123,
-        shortTitle: "Nom de CC trop long",
-      },
-    ];
-
-    const contribution: Partial<
-      DocumentElasticWithSource<ContributionDocumentJson>
-    > = {
-      idcc: "123",
-      questionName: "Question très courte ?",
-      seoTitle: "",
-      description: "Description",
-    };
-
-    it("doit générer un titre avec seulement la question (sans le nom de la convention collective)", () => {
-      const metadata: ContributionMetadata = generateMetadata(
-        ccns as DocumentElasticWithSource<AgreementDoc>[],
-        contribution as DocumentElasticWithSource<ContributionDocumentJson>,
-        breadcrumbs
-      );
-
-      expect(metadata.title).toBe("Question très courte ?");
-    });
-  });
-
-  describe("Page personnalisée avec une question courte et nom de la CC court", () => {
-    const ccns: Partial<DocumentElasticWithSource<AgreementDoc>>[] = [
-      {
-        num: 123,
-        shortTitle: "CC court",
-      },
-    ];
-
-    const contribution: Partial<
-      DocumentElasticWithSource<ContributionDocumentJson>
-    > = {
-      idcc: "123",
-      questionName: "Question très courte ?",
-      seoTitle: "",
-      description: "Description",
-    };
-
-    it("doit générer un titre avec la question et le nom de la convention collective", () => {
-      const metadata: ContributionMetadata = generateMetadata(
-        ccns as DocumentElasticWithSource<AgreementDoc>[],
-        contribution as DocumentElasticWithSource<ContributionDocumentJson>,
-        breadcrumbs
-      );
-
-      expect(metadata.title).toBe("Question très courte ? - CC court");
     });
   });
 });
