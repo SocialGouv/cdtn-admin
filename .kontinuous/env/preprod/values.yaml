@@ -5,25 +5,25 @@ jobs:
         buildArgs:
           NEXT_PUBLIC_BASE_PATH: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
     post-restore:
-      ~needs: [pg, hasura]
+      ~needs: [ pg, hasura ]
       use: psql
       with:
         sqlFile: .kontinuous/sql/post-restore.sql
         pgSecretRefName: pg-app
     job-ingester:
-      ~needs: [hasura]
+      ~needs: [ hasura ]
       use: trigger-cronjob
       with:
         cronJobName: cron-ingester
     job-alert:
-      ~needs: [job-ingester]
+      ~needs: [ job-ingester ]
       use: trigger-cronjob
       with:
         cronJobName: cron-alert
 
 hasura:
   imagePackage: hasura
-  ~needs: [build-hasura]
+  ~needs: [ build-hasura, pg ]
   ~preDeploy.cleaner:
     match:
       kind: Deployment
