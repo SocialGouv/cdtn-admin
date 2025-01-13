@@ -10,7 +10,7 @@ describe("QuestionList", () => {
     render(<QuestionList />);
   });
   test("Verify inputs presence", () => {
-    expect(screen.getByTestId("contributions-list-search")).toBeInTheDocument();
+    expect(screen.getByTestId("list-search")).toBeInTheDocument();
   });
   test("Verify question display", () => {
     expect(screen.getByText(/question1/)).toBeInTheDocument();
