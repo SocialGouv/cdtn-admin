@@ -58,7 +58,7 @@ type ExportContributionInfo = {
   messageBlock?: string;
 };
 
-type ContributionElasticDocumentBase = Omit<
+export type ContributionElasticDocumentBase = Omit<
   DocumentElasticWithSource<Omit<ContributionDocumentJson, "linkedContent">>,
   "breadcrumbs"
 > &
