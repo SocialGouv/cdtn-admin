@@ -1,5 +1,4 @@
 import {
-  Button,
   Paper,
   Stack,
   Table,
@@ -8,7 +7,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -17,6 +15,8 @@ import {
   useQuestionListQuery,
 } from "./QuestionList.query";
 import { QuestionRow } from "./QuestionRow";
+import { useRouter } from "next/router";
+import { Toolbar } from "../../list/Toolbard";
 
 export const countAnswersWithStatus = (
   answers: QueryQuestionAnswer[] | undefined,
@@ -29,6 +29,7 @@ export const countAnswersWithStatus = (
 };
 
 export const QuestionList = (): JSX.Element => {
+  const router = useRouter();
   const [search, setSearch] = useState<string | undefined>();
 
   const { rows } = useQuestionListQuery({
@@ -37,23 +38,15 @@ export const QuestionList = (): JSX.Element => {
 
   return (
     <Stack spacing={2}>
-      <Stack
-        direction="row"
-        alignItems="center"
-        spacing={1}
-        useFlexGap
-        flexWrap="wrap"
-      >
-        <TextField
-          label="Recherche"
-          variant="outlined"
-          onChange={(event) => {
-            const value = event.target.value;
-            setSearch(value ? `%${value}%` : undefined);
-          }}
-          data-testid="contributions-list-search"
-        />
-      </Stack>
+      <Toolbar
+        numSelected={0}
+        onClickCreation={() => {
+          router.push(`/contributions/questions/creation`);
+        }}
+        setSearch={(value) => {
+          setSearch(value ? `%${value}%` : undefined);
+        }}
+      />
 
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table" size="small">
