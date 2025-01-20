@@ -99,11 +99,11 @@ export const Form = ({
             control={control}
             hintText={
               <>
-                Cette valeur est indicative. Vous pouvez modifier cette valeur
-                mais elle ne doit pas déjà être utilisée.{" "}
-                <b>
+                Cette valeur est indicative. Vous pouvez la modifier mais le
+                numéro de question ne doit pas déjà être utilisée.{" "}
+                <strong>
                   Il est recommandé de ne pas modifier la valeur par défaut.
-                </b>
+                </strong>
               </>
             }
             label="Ordre"

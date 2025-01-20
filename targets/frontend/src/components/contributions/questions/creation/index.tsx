@@ -2,12 +2,12 @@ import { Form, QuestionFormData } from "../common";
 import { useQuestionCreationMutation } from "./question.mutation";
 import { useQuestionCreationDataQuery } from "./question.query";
 import { useRouter } from "next/router";
-import { Link, Stack, Typography } from "@mui/material";
+import { CircularProgress, Link, Stack, Typography } from "@mui/material";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 
 export const NewQuestion = (): JSX.Element => {
   const router = useRouter();
-  const { data } = useQuestionCreationDataQuery();
+  const { data, error } = useQuestionCreationDataQuery();
   const create = useQuestionCreationMutation();
 
   const onCreate = async (formData: QuestionFormData) => {
@@ -32,7 +32,20 @@ export const NewQuestion = (): JSX.Element => {
       `/contributions/questions/${result.insert_contribution_questions_one.id}`
     );
   };
+
   if (!data) {
+    return (
+      <Stack alignItems="center" spacing={2}>
+        <CircularProgress size={70} />
+        <Typography variant="h5" component="h3">
+          Chargement...
+        </Typography>
+        <Link href={"/contributions"}>Retour à la liste des contributions</Link>
+      </Stack>
+    );
+  }
+
+  if (error) {
     return (
       <Stack alignItems="center" spacing={2}>
         <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
