@@ -28,9 +28,7 @@ type Result = {
   };
 };
 
-export type MutationResult = (
-  props: MutationProps["question"],
-) => Promise<Result>;
+export type MutationResult = (props: MutationProps["question"]) => Promise<Result>;
 
 export const useQuestionCreationMutation = (): MutationResult => {
   const [, executeUpdate] = useMutation<Result, MutationProps>(

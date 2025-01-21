@@ -92,7 +92,7 @@ export class DocumentsService {
             return await this.contributionRepository.fetchGenericAnswer(
               questionId,
             );
-          },
+          }
         );
 
         if (!contribution.cdtnId) {
