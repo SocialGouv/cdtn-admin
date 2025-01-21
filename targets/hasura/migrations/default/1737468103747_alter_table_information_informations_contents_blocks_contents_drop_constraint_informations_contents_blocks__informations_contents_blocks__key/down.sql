@@ -1,0 +1,1 @@
+alter table "information"."informations_contents_blocks_contents" add constraint "informations_contents_blocks_contents_informations_contents_blocks_id_order_key" unique ("informations_contents_blocks_id", "order");

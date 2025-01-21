@@ -1,0 +1,1 @@
+alter table "information"."informations_contents_blocks_contents" drop constraint "informations_contents_blocks__informations_contents_blocks__key";
