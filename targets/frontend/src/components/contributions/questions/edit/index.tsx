@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Form, QuestionFormData } from "./Form";
+import { Form, QuestionFormData } from "../common";
 import { useQuestionUpdateMutation } from "./Question.mutation";
 import { useQuestionQuery } from "./Question.query";
 
@@ -29,7 +29,7 @@ export const EditQuestion = ({
         <Form
           question={data.question}
           messages={data.messages}
-          onUpsert={onUpdate}
+          onSubmit={onUpdate}
         />
       )}
     </>

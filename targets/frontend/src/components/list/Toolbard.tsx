@@ -10,15 +10,15 @@ import PublishIcon from "@mui/icons-material/Publish";
 import * as React from "react";
 
 interface ToolbarProps {
-  numSelected: number;
-  onClickPublish: () => void;
+  numSelected?: number;
+  onClickPublish?: () => void;
   onClickCreation: () => void;
   setSearch: (value: string | undefined) => void;
   customFilters?: React.ReactNode;
 }
 
 export const Toolbar = ({
-  numSelected,
+  numSelected = 0,
   onClickPublish,
   onClickCreation,
   setSearch,
@@ -35,7 +35,7 @@ export const Toolbar = ({
           bgcolor: (theme) =>
             alpha(
               theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
+              theme.palette.action.activatedOpacity,
             ),
         },
       ]}

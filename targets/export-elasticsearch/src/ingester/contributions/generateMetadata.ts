@@ -11,6 +11,12 @@ export const generateMetadata = (
   contribution: DocumentElasticWithSource<ContributionDocumentJson>,
   breadcrumbs: Breadcrumb[],
 ): ContributionMetadata => {
+  if (breadcrumbs.length === 0) {
+    throw new Error(
+      `Merci d'assigner un thème à la contribution ${contribution.questionIndex} - ${contribution.questionName} (${contribution.id}). Cette opération est disponible dans le menu Vérifications -> Contenus sans thèmes.`,
+    );
+  }
+
   if (contribution.idcc === "0000") {
     return generateGenericMetadata(contribution);
   }
@@ -22,12 +28,6 @@ export const generateMetadata = (
   if (!agreement) {
     throw new Error(
       `Can't find the agreement (${contribution.idcc}) information for contribution ${contribution.questionIndex} - ${contribution.questionName} (${contribution.id})`,
-    );
-  }
-
-  if (breadcrumbs.length === 0) {
-    throw new Error(
-      `Contribution ${contribution.questionIndex} - ${contribution.questionName} (${contribution.id}) must be themed`,
     );
   }
 

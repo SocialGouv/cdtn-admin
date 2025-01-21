@@ -13,6 +13,7 @@ import pMap from "p-map";
 import { mapAgreementToDocument } from "src/modules/agreements/mapAgreementToDocument";
 import { mapInformationToDocument } from "src/modules/informations/mapInformationToDocument";
 import { mapModelToDocument } from "src/modules/models/mapModelToDocument";
+import { HasuraDocument } from "@socialgouv/cdtn-types";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -40,6 +41,11 @@ export class DocumentsService {
       source,
       initialId: id,
     });
+
+    let postTreatment:
+      | ((document: HasuraDocument<any>) => Promise<void>)
+      | undefined = undefined;
+
     switch (source) {
       case "information":
         const information = await this.informationsRepository.fetchInformation(
@@ -84,16 +90,18 @@ export class DocumentsService {
           document,
           async (questionId: string) => {
             return await this.contributionRepository.fetchGenericAnswer(
-              questionId
+              questionId,
             );
-          }
+          },
         );
 
-        if (!contribution.cdtnId && document?.cdtn_id) {
-          this.contributionRepository.updateCdtnId(
-            contribution.id,
-            document.cdtn_id
-          );
+        if (!contribution.cdtnId) {
+          postTreatment = async (document) => {
+            await this.contributionRepository.updateCdtnId(
+              contribution.id,
+              document.cdtn_id,
+            );
+          };
         }
         break;
 
@@ -129,7 +137,13 @@ export class DocumentsService {
       return await this.documentsRepository.remove(id);
     }
 
-    return await this.documentsRepository.update(document);
+    const result = await this.documentsRepository.update(document);
+
+    if (postTreatment) {
+      await postTreatment(document);
+    }
+
+    return result;
   }
 
   public async publishAll(

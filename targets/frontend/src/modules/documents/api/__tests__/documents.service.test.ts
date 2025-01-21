@@ -144,20 +144,20 @@ describe("document service", () => {
         }),
       mutation: jest
         .fn()
-        .mockImplementationOnce((arg, arg2) => {
-          savedArgs = arg2
-          return {
-            toPromise: () => Promise.resolve({ data: {} }),
-          };
-        })
         .mockReturnValueOnce({
           toPromise: () =>
             Promise.resolve({
               data: { insert_documents_one: { cdtn_id: "1234" } },
             }),
+        })
+        .mockImplementationOnce((arg, arg2) => {
+          savedArgs = arg2;
+          return {
+            toPromise: () => Promise.resolve({ data: {} }),
+          };
         }),
     } as unknown as GqlClient,
-    {}
+    {},
   );
   it("publish sauvegarde le cdtnId s'il n'existait pas dans la contribution answer", async () => {
     const service = new DocumentsService(
@@ -171,8 +171,8 @@ describe("document service", () => {
     await service.publish("1234", "contributions");
     expect(client.client.mutation).toHaveBeenCalledTimes(2);
     expect(savedArgs).toEqual({
-      "cdtnId": "b3bc78aed5",
-      "id": "effee3b9-84fb-4667-944b-4b1e1fd14eb5"
+      cdtnId: "b3bc78aed5",
+      id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
     });
   });
 });

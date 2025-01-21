@@ -1,6 +1,7 @@
 {{define "job.ingester"}}
 spec:
   backoffLimit: 1
+  activeDeadlineSeconds: 21600 # 6 hours
   template:
     spec:
       restartPolicy: Never

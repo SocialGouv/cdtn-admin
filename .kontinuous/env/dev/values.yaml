@@ -59,3 +59,8 @@ pg:
           region:
             ~tpl~name: "cdtn-prod-backups-access-key"
             key: bucket_region
+    annotations:
+      oblik.socialgouv.io/min-request-cpu: "500m"
+      oblik.socialgouv.io/min-request-memory: "500Mi"
+      oblik.socialgouv.io/min-limit-cpu: "1000m"
+      oblik.socialgouv.io/min-limit-memory: "2Gi"
