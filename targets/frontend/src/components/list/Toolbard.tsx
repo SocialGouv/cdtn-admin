@@ -35,7 +35,7 @@ export const Toolbar = ({
           bgcolor: (theme) =>
             alpha(
               theme.palette.primary.main,
-              theme.palette.action.activatedOpacity,
+              theme.palette.action.activatedOpacity
             ),
         },
       ]}

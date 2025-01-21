@@ -157,7 +157,7 @@ describe("document service", () => {
           };
         }),
     } as unknown as GqlClient,
-    {},
+    {}
   );
   it("publish sauvegarde le cdtnId s'il n'existait pas dans la contribution answer", async () => {
     const service = new DocumentsService(

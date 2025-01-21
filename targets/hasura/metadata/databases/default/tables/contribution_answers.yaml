@@ -78,7 +78,7 @@ array_relationships:
 insert_permissions:
   - role: super
     permission:
-      check: { }
+      check: {}
       columns:
         - agreement_id
         - content_type

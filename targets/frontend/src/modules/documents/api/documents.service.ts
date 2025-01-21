@@ -90,7 +90,7 @@ export class DocumentsService {
           document,
           async (questionId: string) => {
             return await this.contributionRepository.fetchGenericAnswer(
-              questionId,
+              questionId
             );
           }
         );
@@ -99,7 +99,7 @@ export class DocumentsService {
           postTreatment = async (document) => {
             await this.contributionRepository.updateCdtnId(
               contribution.id,
-              document.cdtn_id,
+              document.cdtn_id
             );
           };
         }

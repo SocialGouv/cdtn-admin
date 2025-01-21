@@ -28,11 +28,13 @@ type Result = {
   };
 };
 
-export type MutationResult = (props: MutationProps["question"]) => Promise<Result>;
+export type MutationResult = (
+  props: MutationProps["question"]
+) => Promise<Result>;
 
 export const useQuestionCreationMutation = (): MutationResult => {
   const [, executeUpdate] = useMutation<Result, MutationProps>(
-    questionCreationMutation,
+    questionCreationMutation
   );
   const resultFunction = async (question: MutationProps["question"]) => {
     const result = await executeUpdate({ question });
@@ -41,7 +43,7 @@ export const useQuestionCreationMutation = (): MutationResult => {
     }
     if (!result.data) {
       throw new Error(
-        "No data returned from 'useQuestionCreationMutation' mutation",
+        "No data returned from 'useQuestionCreationMutation' mutation"
       );
     }
     return result.data;

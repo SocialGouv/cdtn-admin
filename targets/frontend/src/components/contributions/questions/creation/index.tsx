@@ -29,7 +29,7 @@ export const NewQuestion = (): JSX.Element => {
     });
 
     router.push(
-      `/contributions/questions/${result.insert_contribution_questions_one.id}`,
+      `/contributions/questions/${result.insert_contribution_questions_one.id}`
     );
   };
 
