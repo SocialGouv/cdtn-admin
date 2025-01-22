@@ -79,7 +79,9 @@ export class ContributionRepository {
     }
     return data.contribution_answers.filter(
       (contrib) =>
-        contrib.statuses && contrib.statuses[0].status === "TO_PUBLISH"
+        contrib.statuses &&
+        contrib.statuses.length > 0 &&
+        contrib.statuses[0].status === "TO_PUBLISH"
     );
   }
 

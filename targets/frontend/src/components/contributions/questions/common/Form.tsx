@@ -115,7 +115,6 @@ export const Form = ({
             control={control}
             label="Nom de la question"
             fullWidth
-            disabled={question !== undefined}
           />
           <FormTextField
             name="seo_title"
