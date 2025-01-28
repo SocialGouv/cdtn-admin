@@ -1,10 +1,16 @@
-import { Editor, FloatingMenu } from "@tiptap/react";
+import {
+  Editor,
+  FloatingMenu,
+  getText,
+  getTextSerializersFromSchema,
+} from "@tiptap/react";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import StorageIcon from "@mui/icons-material/Storage";
 import { styled } from "@mui/system";
 import InfoIcon from "@mui/icons-material/Info";
+import { Node as ProseMirrorNode } from "@tiptap/pm/model";
 
 const tableHTML = `
   <table style="width:100%">
@@ -20,11 +26,45 @@ const tableHTML = `
 `;
 
 export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
+  const getTextContent = (node: ProseMirrorNode) => {
+    if (editor) {
+      return getText(node, {
+        textSerializers: getTextSerializersFromSchema(editor.schema),
+      });
+    }
+  };
+
   return editor ? (
     <StyledFloatingMenu
       className="floating-menu"
       tippyOptions={{ duration: 100 }}
       editor={editor}
+      shouldShow={({ editor, view, state }) => {
+        // Code extracted from the plugin : https://github.com/ueberdosis/tiptap/blob/main/packages/extension-floating-menu/src/floating-menu-plugin.ts#L74
+        const { selection } = state;
+        const { $anchor, empty } = selection;
+        // Ici on autorise à afficher le menu à tout les niveaux sauf dans les listes et les tableaux
+        const isRootDepth = !(
+          editor.isActive("orderedList") ||
+          editor.isActive("bulletList") ||
+          editor.isActive("table")
+        );
+
+        const isEmptyTextBlock =
+          $anchor.parent.isTextblock &&
+          !$anchor.parent.type.spec.code &&
+          !$anchor.parent.textContent &&
+          $anchor.parent.childCount === 0 &&
+          !getTextContent($anchor.parent);
+
+        return !(
+          !view.hasFocus() ||
+          !empty ||
+          !isRootDepth ||
+          !isEmptyTextBlock ||
+          !editor.isEditable
+        );
+      }}
     >
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}

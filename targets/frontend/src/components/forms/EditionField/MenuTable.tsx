@@ -16,10 +16,7 @@ export const MenuTable = ({ editor }: { editor: Editor | null }) => {
       className="floating-menu"
       tippyOptions={{ duration: 100, maxWidth: 500 }}
       editor={editor}
-      shouldShow={({ state }) => {
-        const fragment = state.selection.content().content;
-        return fragment.firstChild?.type.name === "table";
-      }}
+      shouldShow={({ editor, state }) => editor.isActive("table")}
     >
       <button
         onClick={() => editor.chain().focus().addColumnBefore().run()}
