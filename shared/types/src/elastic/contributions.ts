@@ -1,6 +1,7 @@
 import { ContributionDocumentJson, ContributionHighlight } from "../hasura";
 import { Breadcrumb, DocumentElasticWithSource } from "./common";
 import { SOURCES } from "@socialgouv/cdtn-utils";
+import { LinkedContent } from "./related-items";
 
 export interface ContributionConventionnelInfos {
   ccnSlug: string;
@@ -40,16 +41,8 @@ export type ContributionContent =
   | ContributionFicheSpContent
   | ContributionGenericNoCDTContent;
 
-export interface ExportFullLinkedContent {
-  breadcrumbs: Breadcrumb[];
-  description: string;
-  source: string;
-  slug: string;
-  title: string;
-}
-
 export interface ExportContributionFullLinkedContent {
-  linkedContent: ExportFullLinkedContent[];
+  linkedContent: LinkedContent[];
 }
 
 type ExportContributionInfo = {

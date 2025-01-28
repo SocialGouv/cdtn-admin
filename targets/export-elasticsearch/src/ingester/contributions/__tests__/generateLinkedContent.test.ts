@@ -1,18 +1,9 @@
 import { generateLinkedContent } from "../generateLinkedContent";
-import { fetchLinkedContent, LinkedContentLight } from "../fetchLinkedContent";
+import { fetchLinkedContent } from "../fetchLinkedContent";
 import { ContributionElasticDocumentLightRelatedContent } from "../generate";
-import { Breadcrumb } from "@socialgouv/cdtn-types";
+import { LinkedContent } from "@socialgouv/cdtn-types/build/elastic/related-items";
 
 jest.mock("../fetchLinkedContent");
-
-const breadcrumbs: Breadcrumb[] = [
-  {
-    label: "Thème 1",
-    position: 0,
-    slug: "theme-1",
-  },
-  { label: "Thème 2", position: 0, slug: "theme-2" },
-];
 
 describe("generateLinkedContent", () => {
   beforeEach(() => {
@@ -25,22 +16,15 @@ describe("generateLinkedContent", () => {
       idcc: "0000",
       linkedContent: [{ cdtnId: "1234" }],
     };
-    const linkedContent = await generateLinkedContent(
-      [],
-      contrib,
-      () => breadcrumbs,
-      {}
-    );
+    const linkedContent = await generateLinkedContent([], contrib);
 
     expect(linkedContent).toEqual([]);
   });
 
   it("un contenu lié autres qu'une contribution personnalisée doit retourner les infos du document depuis la BDD", async () => {
-    const dataFetchLinkedContent: LinkedContentLight = {
-      cdtnId: "123456",
+    const dataFetchLinkedContent: LinkedContent = {
       title: "Titre",
       slug: "slug",
-      description: "description",
       source: "information",
     };
     (fetchLinkedContent as jest.Mock).mockResolvedValue(dataFetchLinkedContent);
@@ -50,17 +34,10 @@ describe("generateLinkedContent", () => {
       linkedContent: [{ cdtnId: "12345" }],
     };
 
-    const linkedContent = await generateLinkedContent(
-      [],
-      contrib,
-      () => breadcrumbs,
-      {}
-    );
+    const linkedContent = await generateLinkedContent([], contrib);
 
     expect(linkedContent).toEqual([
       {
-        breadcrumbs: breadcrumbs,
-        description: "description",
         slug: "slug",
         source: "information",
         title: "Titre",
@@ -71,8 +48,6 @@ describe("generateLinkedContent", () => {
   it("un contenu lié qui est une contribution personnalisée doit retourner les infos de la contribution générée", async () => {
     const contribution = {
       cdtnId: "678910",
-      breadcrumbs: breadcrumbs,
-      description: "description contrib",
       source: "contributions",
       slug: "slug-contrib",
       title: "title contrib",
@@ -84,17 +59,10 @@ describe("generateLinkedContent", () => {
       linkedContent: [{ cdtnId: "678910" }],
     };
 
-    const linkedContent = await generateLinkedContent(
-      [contribution],
-      contrib,
-      () => breadcrumbs,
-      {}
-    );
+    const linkedContent = await generateLinkedContent([contribution], contrib);
 
     expect(linkedContent).toEqual([
       {
-        breadcrumbs: breadcrumbs,
-        description: "description contrib",
         slug: "slug-contrib",
         source: "contributions",
         title: "title contrib",
@@ -103,11 +71,9 @@ describe("generateLinkedContent", () => {
   });
 
   it("devrait renvoyer le contenu de la générique si une CC référence le CDT via son contentType", async () => {
-    const dataFetchLinkedContent: LinkedContentLight = {
-      cdtnId: "123456",
+    const dataFetchLinkedContent: LinkedContent = {
       title: "Titre",
       slug: "slug",
-      description: "description",
       source: "information",
     };
     (fetchLinkedContent as jest.Mock).mockResolvedValue(dataFetchLinkedContent);
@@ -127,14 +93,10 @@ describe("generateLinkedContent", () => {
     const linkedContent = await generateLinkedContent(
       [contribGeneric, contribClassique],
       contribClassique,
-      () => breadcrumbs,
-      {}
     );
 
     expect(linkedContent).toEqual([
       {
-        breadcrumbs,
-        description: "description",
         slug: "slug",
         source: "information",
         title: "Titre",

@@ -1,36 +1,29 @@
 import { gqlClient, logger } from "@shared/utils";
 import { context } from "../context";
+import { LinkedContent } from "@socialgouv/cdtn-types/build/elastic/related-items";
 
 const fetchLinkedContentById = `
 query get_linked_document($cdtnId: String!) {
   documents(where: {cdtn_id: {_eq: $cdtnId}, is_available: {_eq: true}, is_published: {_eq: true}}) {
     slug
     source
-    description: document(path: "description")
     title
-    cdtnId: cdtn_id
   }
 }
 
 `;
 
 interface HasuraReturn {
-  documents: LinkedContentLight[];
+  documents: LinkedContent[];
 }
 
-export interface LinkedContentLight {
-  cdtnId: string;
-  title: string;
-  slug: string;
-  description: string | null;
-  source: string;
-}
+
 
 export async function fetchLinkedContent(
   cdtnId: string,
   questionIndex: number,
-  idcc: string
-): Promise<LinkedContentLight | undefined> {
+  idcc: string,
+): Promise<LinkedContent | undefined> {
   const HASURA_GRAPHQL_ENDPOINT =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
   const HASURA_GRAPHQL_ENDPOINT_SECRET =
@@ -47,13 +40,13 @@ export async function fetchLinkedContent(
     console.log(
       "Error",
       `Impossible de récupérer la contenu lié avec l'id ${cdtnId} (QR${questionIndex} - IDCC ${idcc})`,
-      res.error
+      res.error,
     );
     throw res.error;
   }
   if (!res.data?.documents.length) {
     logger.info(
-      `Warning: Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`
+      `Warning: Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`,
     );
     return;
   }
