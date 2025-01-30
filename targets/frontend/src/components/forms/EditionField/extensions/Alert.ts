@@ -26,7 +26,7 @@ export const Alert = Node.create<AlertOptions>({
   group: "block",
 
   parseHTML() {
-    return [{ tag: "div" }];
+    return [{ tag: "div.alert" }];
   },
 
   renderHTML({ HTMLAttributes }) {
