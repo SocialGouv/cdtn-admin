@@ -1,19 +1,21 @@
 import { Node } from "@tiptap/core";
 
-export interface InfographicOptions {}
+export interface InfographicOptions {
+  baseUrl: string;
+}
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     infographic: {
       setInfographic: (
-        src: string,
-        urlPdf: string,
+        infoName: string,
+        pdfName: string,
         sizePdf: string
       ) => ReturnType;
       updateInfographicSrc: (
-        newSrc: string,
-        newUrlPdf: string,
-        newSizePdf: string
+        newInfoName: string,
+        newPdfName: string,
+        newPdfSize: string
       ) => ReturnType;
       removeInfographic: () => ReturnType;
     };
@@ -27,23 +29,24 @@ export const Infographic = Node.create<InfographicOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      baseUrl: "",
     };
   },
 
   addAttributes() {
     return {
-      src: {
+      infoName: {
         parseHTML: (element) =>
-          element.querySelector("img")?.getAttribute("src"),
+          element.querySelector("img")?.getAttribute("data-infographic"),
         renderHTML: (attributes) => {
-          return { src: attributes.src };
+          return { "data-infographic": attributes.infoName };
         },
       },
-      urlPdf: {
+      pdfName: {
         parseHTML: (element) =>
           element.querySelector("div.infographic")?.getAttribute("data-pdf"),
         renderHTML: (attributes) => {
-          return { "data-pdf": attributes.urlPdf };
+          return { "data-pdf": attributes.pdfName };
         },
       },
       pdfSize: {
@@ -69,8 +72,8 @@ export const Infographic = Node.create<InfographicOptions>({
         getAttrs: (element) => {
           const el = element as HTMLElement;
           return {
-            src: el.querySelector("img")?.getAttribute("src") || "",
-            urlPdf: el.getAttribute("data-pdf") || "",
+            infoName: el.getAttribute("data-infographic") || "",
+            pdfName: el.getAttribute("data-pdf") || "",
             pdfSize: el.getAttribute("data-pdf-size") || "",
           };
         },
@@ -85,11 +88,12 @@ export const Infographic = Node.create<InfographicOptions>({
         class: "infographic",
         "data-pdf": HTMLAttributes["data-pdf"],
         "data-pdf-size": HTMLAttributes["data-pdf-size"],
+        "data-infographic": HTMLAttributes["data-infographic"],
       },
       [
         "img",
         {
-          src: HTMLAttributes.src,
+          src: `${this.options.baseUrl}/${HTMLAttributes["data-infographic"]}`,
           height: "auto",
           width: "500",
         },
@@ -101,11 +105,11 @@ export const Infographic = Node.create<InfographicOptions>({
   addCommands() {
     return {
       setInfographic:
-        (src: string, urlPdf: string, pdfSize: string) =>
+        (infoName: string, pdfName: string, pdfSize: string) =>
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,
-            attrs: { src, urlPdf, pdfSize },
+            attrs: { infoName, pdfName, pdfSize },
             content: [
               {
                 type: "details",
@@ -140,7 +144,7 @@ export const Infographic = Node.create<InfographicOptions>({
         },
 
       updateInfographicSrc:
-        (newSrc: string, newUrlPdf: string, newSizePdf: string) =>
+        (newInfoName: string, newPdfName: string, newPdfSize: string) =>
         ({ state, chain }) => {
           const { selection } = state;
           const node = selection.$anchor.node();
@@ -150,9 +154,9 @@ export const Infographic = Node.create<InfographicOptions>({
           }
           return chain()
             .updateAttributes("infographic", {
-              src: newSrc,
-              urlPdf: newUrlPdf,
-              pdfSize: newSizePdf,
+              infoName: newInfoName,
+              pdfName: newPdfName,
+              pdfSize: newPdfSize,
             })
             .run();
         },

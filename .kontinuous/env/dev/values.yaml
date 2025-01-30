@@ -4,6 +4,9 @@ jobs:
       with:
         buildArgs:
           NEXT_PUBLIC_BASE_PATH: https://www-{{.Values.global.host}}
+          NEXT_PUBLIC_BUCKET_PUBLIC_ENDPOINT: "https://cdtn-dev-public.s3.gra.io.cloud.ovh.net"
+          NEXT_PUBLIC_BUCKET_DEFAULT_FOLDER: "default"
+          NEXT_PUBLIC_BUCKET_DRAFT_FOLDER: "draft"
     post-restore:
       ~needs: [ pg, hasura ]
       use: psql

@@ -36,6 +36,7 @@ export type EditorProps = {
   onUpdate: (content: string) => void;
   disabled?: boolean;
   isError?: boolean;
+  infographicBaseUrl: string;
 };
 
 const emptyHtml = "<p></p>";
@@ -47,18 +48,18 @@ const Creation: ModeCreation = { mode: 0 };
 
 type ModeEdition = {
   mode: 1;
-  infoUrl: string;
-  pdfUrl: string;
+  infoName: string;
+  pdfName: string;
   pdfSize: string;
 };
 const Edition = (
-  infoUrl: string,
-  pdfUrl: string,
+  infoName: string,
+  pdfName: string,
   pdfSize: string
 ): ModeEdition => ({
   mode: 1,
-  infoUrl,
-  pdfUrl,
+  infoName,
+  pdfName,
   pdfSize,
 });
 
@@ -74,6 +75,7 @@ export const Editor = ({
   content,
   onUpdate,
   disabled,
+  infographicBaseUrl,
   isError = false,
 }: EditorProps) => {
   const [currentContent, setCurrentContent] = useState(content);
@@ -117,7 +119,9 @@ export const Editor = ({
       }),
       Alert,
       Title,
-      Infographic,
+      Infographic.configure({
+        baseUrl: infographicBaseUrl,
+      }),
     ],
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
@@ -194,10 +198,10 @@ export const Editor = ({
             onEdit={() => {
               const node = editor?.state.selection.$from.node();
               if (node?.type.name === "infographic") {
-                const src = node.attrs.src;
-                const dataPdf = node.attrs.urlPdf;
+                const dataInfo = node.attrs.infoName;
+                const dataPdf = node.attrs.pdfName;
                 const dataPdfSize = node.attrs.pdfSize;
-                setInfographicModal(Edition(src, dataPdf, dataPdfSize));
+                setInfographicModal(Edition(dataInfo, dataPdf, dataPdfSize));
               }
             }}
             onDelete={() => {
@@ -229,17 +233,17 @@ export const Editor = ({
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
-            const { infoUrl, pdfUrl, pdfSize } = Object.fromEntries(
+            const { infoName, pdfName, pdfSize } = Object.fromEntries(
               (formData as any).entries()
             );
             if (infographicModal.mode === Creation.mode) {
               editor
                 ?.chain()
                 .focus()
-                .setInfographic(infoUrl, pdfUrl, pdfSize)
+                .setInfographic(infoName, pdfName, pdfSize)
                 .run();
             } else {
-              editor?.commands.updateInfographicSrc(infoUrl, pdfUrl, pdfSize);
+              editor?.commands.updateInfographicSrc(infoName, pdfName, pdfSize);
             }
             setInfographicModal(Hide);
           },
@@ -255,41 +259,46 @@ export const Editor = ({
             autoFocus
             required
             margin="dense"
-            id="infoUrl"
-            name="infoUrl"
-            label="URL vers l'infographie"
+            id="infoName"
+            name="infoName"
+            label="Nom du fichier contenant l'image de l'infographie"
             defaultValue={
-              infographicModal.mode === 1 ? infographicModal.infoUrl : undefined
+              infographicModal.mode === 1
+                ? infographicModal.infoName
+                : undefined
             }
             type="text"
             fullWidth
             variant="standard"
+            helperText={"Exemple : MIN_Travail_Emploi_RVB.svg"}
           />
           <TextField
             required
             margin="dense"
-            id="pdfUrl"
-            name="pdfUrl"
-            label="URL vers le PDF"
+            id="pdfName"
+            name="pdfName"
+            label="Nom du fichier contenant le PDF"
             defaultValue={
-              infographicModal.mode === 1 ? infographicModal.pdfUrl : undefined
+              infographicModal.mode === 1 ? infographicModal.pdfName : undefined
             }
             type="text"
             fullWidth
             variant="standard"
+            helperText={"Exemple : MIN_Travail_Emploi_RVB.pdf"}
           />
           <TextField
             required
             margin="dense"
             id="pdfSize"
             name="pdfSize"
-            label="Taille du PDF"
+            label="Taille du PDF en Ko"
             defaultValue={
               infographicModal.mode === 1 ? infographicModal.pdfSize : undefined
             }
-            type="text"
+            type="number"
             fullWidth
             variant="standard"
+            helperText="Exemple : 320"
           />
         </DialogContent>
         <DialogActions>
@@ -300,7 +309,7 @@ export const Editor = ({
           >
             Annuler
           </Button>
-          <Button type="submit">
+          <Button type="submit" variant="contained">
             {infographicModal.mode === Creation.mode ? "Ajouter" : "Modifier"}
           </Button>
         </DialogActions>
