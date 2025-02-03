@@ -26,6 +26,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          token: ${{ steps.token.outputs.token }}
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
