@@ -129,37 +129,27 @@ DocumentListContainer.propTypes = {
 const searchDocumentQuery = `
 query documents($source: String, $search: String!, $published: [Boolean!]!, $available: [Boolean!]!, $offset: Int = 0, $limit: Int = 50) {
   documents(where: {
-    _or: [
-        { source: { _neq: "contributions" } }
-        { source: { _eq: "contributions" }, document: { _contains: { idcc: "0000" } } }
-    ]
-    _and: {
       source: {_eq: $source, _neq: "code_du_travail"}
       title: {_ilike: $search}
       is_published: {_in: $published}
       is_available: {_in: $available}
-    }
   },
   offset: $offset, limit: $limit, order_by: [{source: asc}, {slug: asc}]) {
     id: initial_id
     cdtnId: cdtn_id
     title
     source
+    idcc: document(path: "$idcc")
+    questionIndex: document(path: "$questionIndex")
     isPublished: is_published
     isAvailable: is_available
   }
 
   documents_aggregate(where: {
-    _or: [
-        { source: { _neq: "contributions" } }
-        { source: { _eq: "contributions" }, document: { _contains: { idcc: "0000" } } }
-    ]
-    _and: {
       source: {_eq: $source, _neq: "code_du_travail"}
       title: {_ilike: $search},
       is_published: {_in: $published}
       is_available: {_in: $available}
-    }
   }) {
     aggregate {
       count

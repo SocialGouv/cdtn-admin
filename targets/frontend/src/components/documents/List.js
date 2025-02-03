@@ -45,7 +45,16 @@ DocumentList.propTypes = {
 };
 
 const DocumentRow = function DocumentRow({
-  document: { cdtnId, id, source, title, isPublished, isAvailable },
+  document: {
+    cdtnId,
+    id,
+    source,
+    title,
+    idcc,
+    questionIndex,
+    isPublished,
+    isAvailable,
+  },
 }) {
   const [selectedItems, setSelectedItems] = useSelectionContext();
   const updatePublishedRef = () => {
@@ -93,7 +102,15 @@ const DocumentRow = function DocumentRow({
               textDecoration: isAvailable ? "none" : " line-through",
             }}
           >
-            {source} › {title}
+            {source === SOURCES.CONTRIBUTIONS ? (
+              <>
+                {source} › {questionIndex} - {title} (IDCC {idcc})
+              </>
+            ) : (
+              <>
+                {source} › {title}
+              </>
+            )}
           </span>
         </Link>
       </TableCell>
