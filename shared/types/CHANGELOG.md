@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.54.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.53.0...v2.54.0) (2025-02-03)
+
+### Bug Fixes
+
+- **contributions:** remettre les titres des contribs avec le nom de la question pour afficher dans le front le nom de la CC dans le h1 ([#1530](https://github.com/SocialGouv/cdtn-admin/issues/1530)) ([9d88c04](https://github.com/SocialGouv/cdtn-admin/commit/9d88c041454855b6ef0dd29c1ea6fcca22be623c))
+
+### Features
+
+- export contribution base type ([#1527](https://github.com/SocialGouv/cdtn-admin/issues/1527)) ([24433af](https://github.com/SocialGouv/cdtn-admin/commit/24433af3b317887b1dea0f8cfc56abb06c37bf92))
+
 # [2.53.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.3...v2.53.0) (2024-12-18)
 
 **Note:** Version bump only for package @socialgouv/cdtn-types

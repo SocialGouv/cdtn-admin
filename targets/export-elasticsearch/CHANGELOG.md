@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.54.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.53.0...v2.54.0) (2025-02-03)
+
+### Bug Fixes
+
+- **contributions:** remettre les titres des contribs avec le nom de la question pour afficher dans le front le nom de la CC dans le h1 ([#1530](https://github.com/SocialGouv/cdtn-admin/issues/1530)) ([9d88c04](https://github.com/SocialGouv/cdtn-admin/commit/9d88c041454855b6ef0dd29c1ea6fcca22be623c))
+- **deps:** update all dependencies ([#765](https://github.com/SocialGouv/cdtn-admin/issues/765)) ([d91b03c](https://github.com/SocialGouv/cdtn-admin/commit/d91b03c54600baa58297923fd608bbcd39c8031b))
+
+### Features
+
+- ajouter une nouvelle contribution ([#1524](https://github.com/SocialGouv/cdtn-admin/issues/1524)) ([ec323b9](https://github.com/SocialGouv/cdtn-admin/commit/ec323b9db632d43fcc277266549096b92093a80a))
+
 # [2.53.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.3...v2.53.0) (2024-12-18)
 
 ### Features

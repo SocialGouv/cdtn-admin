@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.54.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.53.0...v2.54.0) (2025-02-03)
+
+### Bug Fixes
+
+- add ingester timeout ([#1528](https://github.com/SocialGouv/cdtn-admin/issues/1528)) ([d73a2ee](https://github.com/SocialGouv/cdtn-admin/commit/d73a2ee911d80a79b71b46061fd797a1fdbfba95))
+- **ci-cd:** use token-bureau ([#1521](https://github.com/SocialGouv/cdtn-admin/issues/1521)) ([a6e9482](https://github.com/SocialGouv/cdtn-admin/commit/a6e9482f7d9bf264341e9b84a80c57ee4d0fb19d))
+- **ci:** gh token ([f8c5b37](https://github.com/SocialGouv/cdtn-admin/commit/f8c5b3739d201eb48e97f4e9c9e497de22b2c133))
+- **contributions:** remettre les titres des contribs avec le nom de la question pour afficher dans le front le nom de la CC dans le h1 ([#1530](https://github.com/SocialGouv/cdtn-admin/issues/1530)) ([9d88c04](https://github.com/SocialGouv/cdtn-admin/commit/9d88c041454855b6ef0dd29c1ea6fcca22be623c))
+- **deps:** update all dependencies ([#765](https://github.com/SocialGouv/cdtn-admin/issues/765)) ([d91b03c](https://github.com/SocialGouv/cdtn-admin/commit/d91b03c54600baa58297923fd608bbcd39c8031b))
+- permettre le réordonnancement dans les pages infos ([#1532](https://github.com/SocialGouv/cdtn-admin/issues/1532)) ([0cfd6b3](https://github.com/SocialGouv/cdtn-admin/commit/0cfd6b3401f4367f4460fb00c0c5b852ec54fa7b))
+- **readme:** remove information about default password ([#1517](https://github.com/SocialGouv/cdtn-admin/issues/1517)) ([9a53b92](https://github.com/SocialGouv/cdtn-admin/commit/9a53b927a351e58e11694e2ee45807f005a612de))
+- **ressources:** augmenter les ressources de PG pour preprod ([#1543](https://github.com/SocialGouv/cdtn-admin/issues/1543)) ([609e7bd](https://github.com/SocialGouv/cdtn-admin/commit/609e7bd2a13d5e1fdecc23343e6b638c9d2e57fa))
+
+### Features
+
+- ajouter une nouvelle contribution ([#1524](https://github.com/SocialGouv/cdtn-admin/issues/1524)) ([ec323b9](https://github.com/SocialGouv/cdtn-admin/commit/ec323b9db632d43fcc277266549096b92093a80a))
+- **contribution:** ajout des contributions conventionnelles dans la liste des documents ([#1539](https://github.com/SocialGouv/cdtn-admin/issues/1539)) ([effc719](https://github.com/SocialGouv/cdtn-admin/commit/effc7195659c94aacd3dba6cfefe9f3ea8efa0b5))
+- **contribution:** renommer la question ([#1529](https://github.com/SocialGouv/cdtn-admin/issues/1529)) ([46c2792](https://github.com/SocialGouv/cdtn-admin/commit/46c2792b840073dbd3038d25f2f543a2680f97cf))
+- **contributions:** autoriser les tableaux dans des accordéons ([#1538](https://github.com/SocialGouv/cdtn-admin/issues/1538)) ([de0a89d](https://github.com/SocialGouv/cdtn-admin/commit/de0a89d42c2a4a31d47b512cad9ba035b748f0e5))
+- export contribution base type ([#1527](https://github.com/SocialGouv/cdtn-admin/issues/1527)) ([24433af](https://github.com/SocialGouv/cdtn-admin/commit/24433af3b317887b1dea0f8cfc56abb06c37bf92))
+- mise à jour du password de l'admin en dev ([#1523](https://github.com/SocialGouv/cdtn-admin/issues/1523)) ([15b4631](https://github.com/SocialGouv/cdtn-admin/commit/15b46317d4d053b792044a85d964ec4758f60e86))
+
 # [2.53.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.3...v2.53.0) (2024-12-18)
 
 ### Features

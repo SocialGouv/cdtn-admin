@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.54.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.53.0...v2.54.0) (2025-02-03)
+
+### Bug Fixes
+
+- **deps:** update all dependencies ([#765](https://github.com/SocialGouv/cdtn-admin/issues/765)) ([d91b03c](https://github.com/SocialGouv/cdtn-admin/commit/d91b03c54600baa58297923fd608bbcd39c8031b))
+
+### Features
+
+- ajouter une nouvelle contribution ([#1524](https://github.com/SocialGouv/cdtn-admin/issues/1524)) ([ec323b9](https://github.com/SocialGouv/cdtn-admin/commit/ec323b9db632d43fcc277266549096b92093a80a))
+- **contribution:** ajout des contributions conventionnelles dans la liste des documents ([#1539](https://github.com/SocialGouv/cdtn-admin/issues/1539)) ([effc719](https://github.com/SocialGouv/cdtn-admin/commit/effc7195659c94aacd3dba6cfefe9f3ea8efa0b5))
+- **contribution:** renommer la question ([#1529](https://github.com/SocialGouv/cdtn-admin/issues/1529)) ([46c2792](https://github.com/SocialGouv/cdtn-admin/commit/46c2792b840073dbd3038d25f2f543a2680f97cf))
+- **contributions:** autoriser les tableaux dans des accordéons ([#1538](https://github.com/SocialGouv/cdtn-admin/issues/1538)) ([de0a89d](https://github.com/SocialGouv/cdtn-admin/commit/de0a89d42c2a4a31d47b512cad9ba035b748f0e5))
+
 # [2.53.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.52.3...v2.53.0) (2024-12-18)
 
 ### Features
