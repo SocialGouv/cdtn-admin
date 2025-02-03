@@ -6,8 +6,8 @@ import {
   ContributionElasticDocument,
   ContributionGenericInfos,
   ContributionHighlight,
-  DocumentElasticWithSource,
   ContributionLinkedContent,
+  DocumentElasticWithSource,
 } from "@socialgouv/cdtn-types";
 import { generateMetadata } from "./generateMetadata";
 import { isGenericContribution, isGenericNotCdtContribution } from "./helpers";
@@ -15,7 +15,6 @@ import { getCcSupported } from "./getCcSupported";
 import { fetchAgreementUnextended } from "./fetchCcUnextended";
 import { getCcInfos } from "./getCcInfos";
 import { generateContent } from "./generateContent";
-import { GetBreadcrumbsFn } from "../breadcrumbs";
 import { getContributionContent } from "./getContributionContent";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
@@ -34,7 +33,6 @@ export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
   ccnListWithHighlight: Record<number, ContributionHighlight | undefined>,
-  getBreadcrumbs: GetBreadcrumbsFn
 ): Promise<ContributionElasticDocument[]> {
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
     (state: Record<number, Breadcrumb[]>, contribution) => {
@@ -43,7 +41,7 @@ export async function generateContributions(
       }
       return state;
     },
-    {}
+    {},
   );
 
   const generatedContributions: ContributionElasticDocumentLightRelatedContent[] =
@@ -52,7 +50,7 @@ export async function generateContributions(
   for (let i = 0; i < contributions.length; i++) {
     const contrib = contributions[i];
     const contribGeneric = contributions.find(
-      (c) => c.questionId === contrib.questionId && c.idcc === "0000"
+      (c) => c.questionId === contrib.questionId && c.idcc === "0000",
     );
     const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
@@ -85,7 +83,7 @@ export async function generateContributions(
     const breadcrumbs =
       contrib.breadcrumbs.length > 0
         ? contrib.breadcrumbs
-        : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? [];
+        : (breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? []);
 
     const contribution: ContributionElasticDocumentLightRelatedContent = {
       ...contrib,
@@ -112,15 +110,13 @@ export async function generateContributions(
       const linkedContent = await generateLinkedContent(
         generatedContributions,
         contribution,
-        getBreadcrumbs,
-        breadcrumbsOfRootContributionsPerIndex
       );
       return {
         ...contribution,
         linkedContent,
       } as ContributionElasticDocument;
     },
-    { concurrency: 5 }
+    { concurrency: 5 },
   );
 
   return allGeneratedContributions;
