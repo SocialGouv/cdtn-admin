@@ -61,3 +61,8 @@ pg:
         memory: 1Gi
   backup:
     name: 2024-03-26-12-33
+  annotations:
+    oblik.socialgouv.io/min-request-cpu: "500m"
+    oblik.socialgouv.io/min-request-memory: "500Mi"
+    oblik.socialgouv.io/min-limit-cpu: "1000m"
+    oblik.socialgouv.io/min-limit-memory: "2Gi"
