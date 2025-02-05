@@ -60,6 +60,7 @@ pg:
   cnpg-cluster:
     resources:
       requests:
+        cpu: "1"
         memory: 2Gi
       limits:
         cpu: "2"
@@ -67,7 +68,7 @@ pg:
   backup:
     name: 2024-03-26-12-33
   annotations:
-    oblik.socialgouv.io/min-request-cpu: "500m"
-    oblik.socialgouv.io/min-request-memory: "1.5Gi"
-    oblik.socialgouv.io/min-limit-cpu: "1500m"
-    oblik.socialgouv.io/min-limit-memory: "2.5Gi"
+    oblik.socialgouv.io/min-request-cpu: "1"
+    oblik.socialgouv.io/min-request-memory: "2Gi"
+    oblik.socialgouv.io/min-limit-cpu: "2"
+    oblik.socialgouv.io/min-limit-memory: "2Gi"
