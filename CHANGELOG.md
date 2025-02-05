@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.54.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.54.1...v2.54.2) (2025-02-05)
+
+### Bug Fixes
+
+- **production:** increase perfs on `hasura` ([#1548](https://github.com/SocialGouv/cdtn-admin/issues/1548)) ([0856e83](https://github.com/SocialGouv/cdtn-admin/commit/0856e83ce9998348d9380cb6cdcaee1b9999b635))
+
 ## [2.54.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.54.0...v2.54.1) (2025-02-05)
 
 ### Bug Fixes
