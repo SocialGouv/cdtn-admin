@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.55.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.54.3...v2.55.0) (2025-02-06)
+
+### Features
+
+- **deps:** upgrade `urql` ([#1550](https://github.com/SocialGouv/cdtn-admin/issues/1550)) ([831786b](https://github.com/SocialGouv/cdtn-admin/commit/831786bb37c7b0950b130c5fb8ab090732740c5c))
+
 ## [2.54.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.54.2...v2.54.3) (2025-02-06)
 
 **Note:** Version bump only for package @shared/utils
