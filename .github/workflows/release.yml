@@ -7,7 +7,7 @@ concurrency:
   group: release-${{ github.ref }}
 
 permissions:
-  id-token: write  # Required for OIDC token generation
+  id-token: write # Required for OIDC token generation
 
 jobs:
   release:
@@ -30,7 +30,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.3.1
+          node-version: 20.18.2
           cache: "yarn"
       - name: Install dependencies
         env:
