@@ -19,7 +19,7 @@ export const gqlDefaultProps: GqlClientParameter = {
 
 export const gqlClient = (props = gqlDefaultProps) =>
   createClient({
-    fetch: global.fetch,
+    fetch: (global as typeof globalThis).fetch,
     fetchOptions: {
       headers: {
         "Content-Type": "application/json",
