@@ -15,10 +15,10 @@ spec:
           resources:
             requests:
               cpu: 1500m
-              memory: 3Gi
+              memory: 2.5Gi
             limits:
-              cpu: 2500m
-              memory: 3.5Gi
+              cpu: 2000m
+              memory: 3Gi
           workingDir: /app
           env:
             - name: PRODUCTION
