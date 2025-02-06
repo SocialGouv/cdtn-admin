@@ -5,7 +5,6 @@ import {
   mapExchange,
   gql as gqlHelper,
 } from "@urql/core";
-import fetch from "isomorphic-unfetch";
 
 type GqlClientParameter = {
   graphqlEndpoint: string;
@@ -31,6 +30,9 @@ export const gqlClient = (props = gqlDefaultProps) =>
     url: props.graphqlEndpoint,
     exchanges: [
       mapExchange({
+        onError(error) {
+          console.error("URQL ERROR :", JSON.stringify(error));
+        },
         onResult(result) {
           return result.operation.kind === "query"
             ? { ...result, data: maskTypename(result.data, true) }

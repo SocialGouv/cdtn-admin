@@ -1,4 +1,4 @@
-ARG NODE_VERSION=20.3.1-alpine
+ARG NODE_VERSION=22.13.1-alpine
 
 FROM node:$NODE_VERSION AS deps
 
