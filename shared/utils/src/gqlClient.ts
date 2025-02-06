@@ -19,7 +19,7 @@ export const gqlDefaultProps: GqlClientParameter = {
 
 export const gqlClient = (props = gqlDefaultProps) =>
   createClient({
-    fetch: fetch,
+    fetch: global.fetch,
     fetchOptions: {
       headers: {
         "Content-Type": "application/json",
@@ -30,6 +30,9 @@ export const gqlClient = (props = gqlDefaultProps) =>
     url: props.graphqlEndpoint,
     exchanges: [
       mapExchange({
+        onError(error) {
+          console.error("urql error", JSON.stringify(error));
+        },
         onResult(result) {
           return result.operation.kind === "query"
             ? { ...result, data: maskTypename(result.data, true) }
