@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.55.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.55.0...v2.55.1) (2025-02-06)
+
+**Note:** Version bump only for package @shared/eslint-config
+
 # [2.55.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.54.3...v2.55.0) (2025-02-06)
 
 **Note:** Version bump only for package @shared/eslint-config

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.55.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.55.0...v2.55.1) (2025-02-06)
+
+### Bug Fixes
+
+- **client:** use the default node `fetch` for `gqlClient` ([#1551](https://github.com/SocialGouv/cdtn-admin/issues/1551)) ([8190187](https://github.com/SocialGouv/cdtn-admin/commit/8190187242d11418895150cfdc2b3566aa0e7cb8))
+
 # [2.55.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.54.3...v2.55.0) (2025-02-06)
 
 **Note:** Version bump only for package alert-cli
