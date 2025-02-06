@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.18.2
+          node-version: 22.13.1
           cache: "yarn"
       - name: Install dependencies
         env:
@@ -59,7 +59,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.18.2
+          node-version: 22.13.1
           cache: "yarn"
       - name: Lint ${{ matrix.repositories }}
         run: |
@@ -90,7 +90,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.18.2
+          node-version: 22.13.1
           cache: "yarn"
       - name: Type-check ${{ matrix.repositories }}
         run: |
@@ -121,7 +121,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.18.2
+          node-version: 22.13.1
           cache: "yarn"
       - name: Test ${{ matrix.repositories }}
         run: |
