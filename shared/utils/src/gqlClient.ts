@@ -2,7 +2,7 @@ import {
   cacheExchange,
   createClient,
   fetchExchange,
-  mapExchange
+  mapExchange,
   gql as gqlHelper,
 } from "@urql/core";
 import fetch from "isomorphic-unfetch";
