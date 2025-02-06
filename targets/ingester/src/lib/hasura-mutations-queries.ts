@@ -187,22 +187,22 @@ export async function insertDocuments(
 }
 
 export async function initDocAvailabity(source: string) {
-  console.time(` initDocAvailabity ${source}`);
+  console.time(`=> initDocAvailabity ${source}`);
   const result = await gqlClient()
     .mutation<UpdateDocumentAvailabilityResult>(updateDocumentAvailability, {
       source,
     })
     .toPromise();
+  console.timeEnd(`=> initDocAvailabity ${source}`);
   if (result.error) {
     console.error(result.error);
     throw new Error(`error initializing documents availability`);
   }
-  console.timeEnd(` initDocAvailabity ${source}`);
   if (!result.data) {
     throw new Error(`no data received for documents availability`);
   }
   const nbDocs = result.data.documents.affected_rows;
-  console.log(` > updated availability of ${nbDocs} documents`);
+  console.log(`=> updated availability of ${nbDocs} documents`);
   return nbDocs;
 }
 
