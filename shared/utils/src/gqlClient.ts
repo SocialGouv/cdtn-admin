@@ -5,7 +5,6 @@ import {
   mapExchange,
   gql as gqlHelper,
 } from "@urql/core";
-import fetch from "isomorphic-unfetch";
 
 type GqlClientParameter = {
   graphqlEndpoint: string;
@@ -20,7 +19,7 @@ export const gqlDefaultProps: GqlClientParameter = {
 
 export const gqlClient = (props = gqlDefaultProps) =>
   createClient({
-    fetch,
+    fetch: fetch,
     fetchOptions: {
       headers: {
         "Content-Type": "application/json",
