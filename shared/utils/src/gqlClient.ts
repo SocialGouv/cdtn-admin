@@ -2,6 +2,7 @@ import {
   cacheExchange,
   createClient,
   fetchExchange,
+  mapExchange
   gql as gqlHelper,
 } from "@urql/core";
 import fetch from "isomorphic-unfetch";
@@ -26,12 +27,49 @@ export const gqlClient = (props = gqlDefaultProps) =>
         "x-hasura-admin-secret": props.adminSecret,
       },
     },
-    maskTypename: true,
     requestPolicy: "network-only",
     url: props.graphqlEndpoint,
-    exchanges: [cacheExchange, fetchExchange],
+    exchanges: [
+      mapExchange({
+        onResult(result) {
+          return result.operation.kind === "query"
+            ? { ...result, data: maskTypename(result.data, true) }
+            : result;
+        },
+      }),
+      cacheExchange,
+      fetchExchange,
+    ],
   });
 
 export type GqlClient = ReturnType<typeof gqlClient>;
 
 export const gql = gqlHelper;
+
+// maskTypename: true => https://github.com/urql-graphql/urql/pull/3299
+const maskTypename = (data: any, isRoot?: boolean): any => {
+  if (!data || typeof data !== "object") {
+    return data;
+  } else if (Array.isArray(data)) {
+    return data.map((d) => maskTypename(d));
+  } else if (
+    data &&
+    typeof data === "object" &&
+    (isRoot || "__typename" in data)
+  ) {
+    const acc: { [key: string]: any } = {};
+    for (const key in data) {
+      if (key === "__typename") {
+        Object.defineProperty(acc, "__typename", {
+          enumerable: false,
+          value: data.__typename,
+        });
+      } else {
+        acc[key] = maskTypename(data[key]);
+      }
+    }
+    return acc;
+  } else {
+    return data;
+  }
+};
