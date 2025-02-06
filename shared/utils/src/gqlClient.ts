@@ -31,7 +31,7 @@ export const gqlClient = (props = gqlDefaultProps) =>
     exchanges: [
       mapExchange({
         onError(error) {
-          console.error("urql error", JSON.stringify(error));
+          console.error("URQL ERROR :", JSON.stringify(error));
         },
         onResult(result) {
           return result.operation.kind === "query"
