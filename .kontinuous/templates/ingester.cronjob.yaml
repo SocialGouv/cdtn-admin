@@ -4,12 +4,12 @@ metadata:
   name: cron-ingester
   annotations:
     oblik.socialgouv.io/min-request-cpu: "1500m"
-    oblik.socialgouv.io/min-request-memory: "2.5Gi"
-    oblik.socialgouv.io/min-limit-memory: "3Gi"
+    oblik.socialgouv.io/min-request-memory: "3Gi"
+    oblik.socialgouv.io/min-limit-cpu: "2500m"
+    oblik.socialgouv.io/min-limit-memory: "3.5Gi"
 spec:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   schedule: 0 1 * * *
-  jobTemplate:
-    {{- include "job.ingester" . | nindent 4 }}
+  jobTemplate: { { - include "job.ingester" . | nindent 4 } }
