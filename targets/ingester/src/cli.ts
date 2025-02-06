@@ -141,27 +141,7 @@ async function main() {
     console.timeEnd(` getDocuments ${pkgName}`);
     console.log(` ${pkgName}: ${documents.length} documents`);
     if (!args.dryRun && documents.length > 0) {
-      await pRetry(
-        async () => {
-          console.time(`=> initDocAvailabity ${documents[0].source}`);
-          try {
-            const result = await initDocAvailabity(documents[0].source);
-            console.log(`=> updated availability of ${result} documents`);
-            return result;
-          } finally {
-            console.timeEnd(`=> initDocAvailabity ${documents[0].source}`);
-          }
-        },
-        {
-          retries: 3,
-          onFailedAttempt: (error) => {
-            console.log(
-              `Attempt ${error.attemptNumber} failed. ${error.retriesLeft} retries left.`
-            );
-          },
-        }
-      );
-
+      await initDocAvailabity(documents[0].source);
       console.log(
         ` ready to ingest ${documents.length} documents from ${pkgName}`
       );
