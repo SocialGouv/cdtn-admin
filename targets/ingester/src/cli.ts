@@ -141,7 +141,18 @@ async function main() {
     console.timeEnd(` getDocuments ${pkgName}`);
     console.log(` ${pkgName}: ${documents.length} documents`);
     if (!args.dryRun && documents.length > 0) {
-      await initDocAvailabity(documents[0].source);
+      await pRetry(async () => await initDocAvailabity(documents[0].source), {
+        onFailedAttempt: (error) => {
+          console.error(
+            `Init doc availability failed ${error.attemptNumber}/${
+              error.retriesLeft + error.attemptNumber
+            }`,
+            error.name,
+            error.message
+          );
+        },
+        retries: 5,
+      });
       console.log(
         ` ready to ingest ${documents.length} documents from ${pkgName}`
       );
