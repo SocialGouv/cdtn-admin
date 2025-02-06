@@ -5,7 +5,6 @@ import {
   mapExchange,
   gql as gqlHelper,
 } from "@urql/core";
-import { retryExchange } from "@urql/exchange-retry";
 
 type GqlClientParameter = {
   graphqlEndpoint: string;
@@ -41,11 +40,6 @@ export const gqlClient = (props = gqlDefaultProps) =>
         },
       }),
       cacheExchange,
-      retryExchange({
-        maxDelayMs: 15000,
-        randomDelay: true,
-        maxNumberAttempts: 3,
-      }),
       fetchExchange,
     ],
   });
