@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.54.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.54.2...v2.54.3) (2025-02-06)
+
+### Bug Fixes
+
+- **logs:** ajout de log sur la fonction `initDocAvailabity` [#1549](https://github.com/SocialGouv/cdtn-admin/issues/1549) ([f88f37e](https://github.com/SocialGouv/cdtn-admin/commit/f88f37ef622436f830c4e8dbc96caf989c526f0e))
+
 ## [2.54.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.54.1...v2.54.2) (2025-02-05)
 
 ### Bug Fixes
