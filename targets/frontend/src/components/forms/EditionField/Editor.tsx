@@ -17,7 +17,18 @@ import { DetailsSummary } from "@tiptap-pro/extension-details-summary";
 import { DetailsContent } from "@tiptap-pro/extension-details-content";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { Link } from "@tiptap/extension-link";
-import { Alert, Title } from "./extensions";
+import { Alert, Infographic, Title } from "./extensions";
+import { MenuInfographic } from "./MenuInfographic";
+import {
+  Button,
+  DialogActions,
+  DialogContentText,
+  TextField,
+} from "@mui/material";
+import DialogTitle from "@mui/material/DialogTitle";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import { NodeSelection } from "@tiptap/pm/state";
 
 export type EditorProps = {
   label: string;
@@ -25,20 +36,53 @@ export type EditorProps = {
   onUpdate: (content: string) => void;
   disabled?: boolean;
   isError?: boolean;
+  infographicBaseUrl: string;
 };
 
 const emptyHtml = "<p></p>";
+
+type ModeCreation = {
+  mode: 0;
+};
+const Creation: ModeCreation = { mode: 0 };
+
+type ModeEdition = {
+  mode: 1;
+  infoName: string;
+  pdfName: string;
+  pdfSize: string;
+};
+const Edition = (
+  infoName: string,
+  pdfName: string,
+  pdfSize: string
+): ModeEdition => ({
+  mode: 1,
+  infoName,
+  pdfName,
+  pdfSize,
+});
+
+type ModeHide = {
+  mode: -1;
+};
+const Hide: ModeHide = { mode: -1 };
+
+type Mode = ModeEdition | ModeCreation | ModeHide;
 
 export const Editor = ({
   label,
   content,
   onUpdate,
   disabled,
+  infographicBaseUrl,
   isError = false,
 }: EditorProps) => {
   const [currentContent, setCurrentContent] = useState(content);
   const [focus, setFocus] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [infographicModal, setInfographicModal] = useState<Mode>(Hide);
+
   const editor = useEditor({
     content,
     editable: !disabled,
@@ -75,6 +119,9 @@ export const Editor = ({
       }),
       Alert,
       Title,
+      Infographic.configure({
+        baseUrl: infographicBaseUrl,
+      }),
     ],
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
@@ -98,6 +145,36 @@ export const Editor = ({
     editor?.setOptions({ editable: !disabled });
   }, [disabled]);
 
+  useEffect(() => {
+    // We need to focus on the infographic to edit it
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+
+      if (
+        target.tagName === "IMG" &&
+        target.closest(".infographic") &&
+        editor
+      ) {
+        const pos = editor.view.posAtDOM(
+          target.closest(".infographic") as HTMLElement,
+          0
+        );
+
+        editor.view.dispatch(
+          editor.state.tr.setSelection(
+            NodeSelection.create(editor.state.doc, pos)
+          )
+        );
+        editor.commands.focus();
+      }
+    };
+
+    document.addEventListener("click", handleClick);
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, [editor]);
+
   return (
     <>
       {isClient && (
@@ -109,8 +186,28 @@ export const Editor = ({
           htmlFor={label}
         >
           <MenuStyle editor={editor} />
-          <MenuSpecial editor={editor} />
+          <MenuSpecial
+            editor={editor}
+            onNewInfographic={() => {
+              setInfographicModal(Creation);
+            }}
+          />
           <MenuTable editor={editor} />
+          <MenuInfographic
+            editor={editor}
+            onEdit={() => {
+              const node = editor?.state.selection.$from.node();
+              if (node?.type.name === "infographic") {
+                const dataInfo = node.attrs.infoName;
+                const dataPdf = node.attrs.pdfName;
+                const dataPdfSize = node.attrs.pdfSize;
+                setInfographicModal(Edition(dataInfo, dataPdf, dataPdfSize));
+              }
+            }}
+            onDelete={() => {
+              editor?.commands.removeInfographic();
+            }}
+          />
 
           <StyledEditorContent
             editor={editor}
@@ -126,6 +223,97 @@ export const Editor = ({
           />
         </TitleBox>
       )}
+      <Dialog
+        open={infographicModal.mode !== Hide.mode}
+        onClose={() => {
+          setInfographicModal(Hide);
+        }}
+        PaperProps={{
+          component: "form",
+          onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            const formData = new FormData(event.currentTarget);
+            const { infoName, pdfName, pdfSize } = Object.fromEntries(
+              (formData as any).entries()
+            );
+            if (infographicModal.mode === Creation.mode) {
+              editor
+                ?.chain()
+                .focus()
+                .setInfographic(infoName, pdfName, pdfSize)
+                .run();
+            } else {
+              editor?.commands.updateInfographicSrc(infoName, pdfName, pdfSize);
+            }
+            setInfographicModal(Hide);
+          },
+        }}
+      >
+        <DialogTitle>Infographie</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Veuillez renseigner les informations suivantes pour ajouter une
+            infographie au document
+          </DialogContentText>
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="infoName"
+            name="infoName"
+            label="Nom du fichier contenant l'image de l'infographie"
+            defaultValue={
+              infographicModal.mode === 1
+                ? infographicModal.infoName
+                : undefined
+            }
+            type="text"
+            fullWidth
+            variant="standard"
+            helperText={"Exemple : MIN_Travail_Emploi_RVB.svg"}
+          />
+          <TextField
+            required
+            margin="dense"
+            id="pdfName"
+            name="pdfName"
+            label="Nom du fichier contenant le PDF"
+            defaultValue={
+              infographicModal.mode === 1 ? infographicModal.pdfName : undefined
+            }
+            type="text"
+            fullWidth
+            variant="standard"
+            helperText={"Exemple : MIN_Travail_Emploi_RVB.pdf"}
+          />
+          <TextField
+            required
+            margin="dense"
+            id="pdfSize"
+            name="pdfSize"
+            label="Taille du PDF en Ko"
+            defaultValue={
+              infographicModal.mode === 1 ? infographicModal.pdfSize : undefined
+            }
+            type="number"
+            fullWidth
+            variant="standard"
+            helperText="Exemple : 320"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setInfographicModal(Hide);
+            }}
+          >
+            Annuler
+          </Button>
+          <Button type="submit" variant="contained">
+            {infographicModal.mode === Creation.mode ? "Ajouter" : "Modifier"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
@@ -169,6 +357,10 @@ const StyledEditorContent = styled(EditorContent)(() => {
         fontSize: "1.4rem",
         backgroundColor: fr.colors.decisions.background.contrast.info.active,
         borderRadius: "0.6rem",
+      },
+      ".infographic": {
+        marginBottom: "1.6rem",
+        color: fr.colors.decisions.text.default,
       },
       li: {
         p: {

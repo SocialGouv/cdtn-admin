@@ -5,6 +5,7 @@ import { Controller } from "react-hook-form";
 import { CommonFormProps } from "../type";
 import { Editor } from "./Editor";
 import { styled } from "@mui/system";
+import { buildFilePathUrl } from "../../utils";
 
 type FormEditionProps = CommonFormProps;
 
@@ -21,6 +22,7 @@ export const FormEditionField = (props: FormEditionProps) => {
             onUpdate={onChange}
             content={value}
             disabled={props.disabled}
+            infographicBaseUrl={buildFilePathUrl()}
             isError={!!error}
           />
           {error && (
