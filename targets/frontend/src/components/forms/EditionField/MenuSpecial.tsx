@@ -6,10 +6,10 @@ import {
 } from "@tiptap/react";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import StorageIcon from "@mui/icons-material/Storage";
 import { styled } from "@mui/system";
-import InfoIcon from "@mui/icons-material/Info";
 import { Node as ProseMirrorNode } from "@tiptap/pm/model";
 
 const tableHTML = `
@@ -25,7 +25,13 @@ const tableHTML = `
   </table>
 `;
 
-export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
+export const MenuSpecial = ({
+  editor,
+  onNewInfographic,
+}: {
+  editor: Editor | null;
+  onNewInfographic: (editor: Editor) => void;
+}) => {
   const getTextContent = (node: ProseMirrorNode) => {
     if (editor) {
       return getText(node, {
@@ -110,13 +116,13 @@ export const MenuSpecial = ({ editor }: { editor: Editor | null }) => {
       </button>
       <button
         onClick={() => {
-          editor?.chain().focus().setAlert().run();
+          onNewInfographic(editor);
         }}
-        className={editor.isActive("alert") ? "is-active" : ""}
+        className={editor.isActive("infographic") ? "is-active" : ""}
         type="button"
-        title="Section d'alerte"
+        title="Infographie"
       >
-        <InfoIcon />
+        <AddPhotoAlternateIcon />
       </button>
     </StyledFloatingMenu>
   ) : (

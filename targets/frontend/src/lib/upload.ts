@@ -10,12 +10,14 @@ const mime = require("mime-types");
 const region = process.env.BUCKET_REGION ?? "us-east-1";
 const endpoint = process.env.BUCKET_ENDPOINT ?? "http://localhost:9000";
 const publicEndpoint =
-  process.env.BUCKET_PUBLIC_ENDPOINT ?? "http://localhost:9000";
+  process.env.NEXT_PUBLIC_BUCKET_PUBLIC_ENDPOINT ?? "http://localhost:9000";
 const accessKeyId = process.env.BUCKET_ACCESS_KEY ?? "MINIO_ACCESS_KEY";
 const secretAccessKey = process.env.BUCKET_SECRET_KEY ?? "MINIO_SECRET_KEY";
 const bucketName = process.env.BUCKET_NAME ?? "cdtn";
-const bucketDraftFolder = process.env.BUCKET_DRAFT_FOLDER ?? "draft";
-const bucketDefaultFolder = process.env.BUCKET_DEFAULT_FOLDER ?? "default";
+const bucketDraftFolder =
+  process.env.NEXT_PUBLIC_BUCKET_DRAFT_FOLDER ?? "draft";
+const bucketDefaultFolder =
+  process.env.NEXT_PUBLIC_BUCKET_DEFAULT_FOLDER ?? "default";
 
 const client = new S3Client({
   region,

@@ -44,7 +44,7 @@ rootContainer
   .toConstantValue(process.env.BUCKET_SECRET_KEY ?? "");
 rootContainer
   .bind<string>(S3Parameters.BUCKET_DRAFT_FOLDER)
-  .toConstantValue(process.env.BUCKET_DRAFT_FOLDER ?? `draft`);
+  .toConstantValue(process.env.NEXT_PUBLIC_BUCKET_DRAFT_FOLDER ?? `draft`);
 rootContainer
   .bind<string>(S3Parameters.BUCKET_PUBLISHED_FOLDER)
   .toConstantValue(process.env.BUCKET_PUBLISHED_FOLDER ?? `published`);
@@ -53,7 +53,7 @@ rootContainer
   .toConstantValue(process.env.BUCKET_PREVIEW_FOLDER ?? `preview`);
 rootContainer
   .bind<string>(S3Parameters.BUCKET_DEFAULT_FOLDER)
-  .toConstantValue(process.env.BUCKET_DEFAULT_FOLDER ?? `default`);
+  .toConstantValue(process.env.NEXT_PUBLIC_BUCKET_DEFAULT_FOLDER ?? `default`);
 /* REPOSITORIES */
 rootContainer.bind<S3Repository>(getName(S3Repository)).to(S3Repository);
 rootContainer
