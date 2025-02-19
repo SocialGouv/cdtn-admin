@@ -37,7 +37,9 @@ export const Infographic = Node.create<InfographicOptions>({
     return {
       infoName: {
         parseHTML: (element) =>
-          element.querySelector("img")?.getAttribute("data-infographic"),
+          element
+            .querySelector("div.infographic")
+            ?.getAttribute("data-infographic"),
         renderHTML: (attributes) => {
           return { "data-infographic": attributes.infoName };
         },
