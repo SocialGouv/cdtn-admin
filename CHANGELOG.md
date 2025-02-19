@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.56.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.55.1...v2.56.0) (2025-02-19)
+
+### Bug Fixes
+
+- **sonarcloud:** code duplication alert due to sql and migration [#1556](https://github.com/SocialGouv/cdtn-admin/issues/1556) ([539e3fd](https://github.com/SocialGouv/cdtn-admin/commit/539e3fd53e331159dced2d9fb941bf8c36958991))
+
+### Features
+
+- **contributions:** ajouter des infographies ([#1544](https://github.com/SocialGouv/cdtn-admin/issues/1544)) ([00ae218](https://github.com/SocialGouv/cdtn-admin/commit/00ae21823362747025868b91db8c992ab252e972))
+
 ## [2.55.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.55.0...v2.55.1) (2025-02-06)
 
 ### Bug Fixes
