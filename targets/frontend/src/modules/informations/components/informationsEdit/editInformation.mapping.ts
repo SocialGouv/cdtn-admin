@@ -39,8 +39,7 @@ const mapInformationContentsBlocksContents = (
 ) => {
   return {
     on_conflict: {
-      constraint:
-        "informations_contents_blocks__informations_contents_blocks__key",
+      constraint: "informations_contents_blocks_contents_pkey",
       update_columns: getRawColumns(contents?.[0]),
     },
     data:
