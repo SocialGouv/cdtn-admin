@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.56.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.56.0...v2.56.1) (2025-03-28)
+
+### Bug Fixes
+
+- **pages-infos:** problème de sauvegarde des contenus `Dossier licenciement` ([#1560](https://github.com/SocialGouv/cdtn-admin/issues/1560)) ([e82fa1d](https://github.com/SocialGouv/cdtn-admin/commit/e82fa1d052ee9c23ec97ed1c8420b63f80aedbbd))
+
 # [2.56.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.55.1...v2.56.0) (2025-02-19)
 
 ### Features
