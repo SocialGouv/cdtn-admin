@@ -85,7 +85,7 @@ export class ContributionRepository {
     );
   }
 
-  async updateCdtnId(id: string, cdtnId: string): Promise<void> {
+  async updateCdtnId(id: string, cdtnId: string | null): Promise<void> {
     const { error } = await this.client.mutation<FetchContribPkData>(
       updatePublicationMutation,
       {
