@@ -4161,7 +4161,7 @@ __metadata:
     "@swc/jest": ^0.2.29
     "@types/uuid": ^9.0.5
     "@types/xxhashjs": ^0.2.2
-    "@urql/core": 5.1.0
+    "@urql/core": 5.1.1
     graphql: ^16.8.1
     jest: ^29.7.0
     typescript: ^5.4.3
@@ -5975,10 +5975,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/memoizee@npm:0.4.11":
-  version: 0.4.11
-  resolution: "@types/memoizee@npm:0.4.11"
-  checksum: 1ecc8b617738a97d9063fbd9aa9bf366ec984d94100ba570392cd9fab632a2066b925d8c8b98139a51931fc081e5e893770b63a7678abe991f48d4f35d897c0b
+"@types/memoizee@npm:0.4.12":
+  version: 0.4.12
+  resolution: "@types/memoizee@npm:0.4.12"
+  checksum: c8ea5ee009d2ac2a886b68429da746dfc57bbc247ae8e4d9dfb9577f9fa8ebb6b80be4f9ebc472a7d289fb06269c23358c303697d979f4b3da118d93462518c4
   languageName: node
   linkType: hard
 
@@ -6498,23 +6498,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/core@npm:5.1.0":
-  version: 5.1.0
-  resolution: "@urql/core@npm:5.1.0"
+"@urql/core@npm:5.1.1, @urql/core@npm:>=4.1.0, @urql/core@npm:^5.0.0":
+  version: 5.1.1
+  resolution: "@urql/core@npm:5.1.1"
   dependencies:
     "@0no-co/graphql.web": ^1.0.5
     wonka: ^6.3.2
-  checksum: 63b8c1f25a5e3a50d84aeae63141e06ee8913c3a53d936fcb8453108034e50938fc774da298f50358ec2f3825bd62b2a3e4754ab1c9107dd9a79cb0c9c0d2a12
-  languageName: node
-  linkType: hard
-
-"@urql/core@npm:>=4.1.0, @urql/core@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@urql/core@npm:5.0.0"
-  dependencies:
-    "@0no-co/graphql.web": ^1.0.5
-    wonka: ^6.3.2
-  checksum: a7e546486c5a940128ed7c1c88b41b1d7d501725137f6e3050258717ed71d1172d21039de2a34aa0713adb264c95c5857029be6de0fafabbc541bb364255e055
+  checksum: c28736706abe5d0a0172bcde1c80807aba44606041347beba8e73d5237598034301cccad0169c4f63ba08f5bffe7b3a3ad95ee4a53a0d719ad5525f44b84dbcc
   languageName: node
   linkType: hard
 
@@ -6753,7 +6743,7 @@ __metadata:
     "@socialgouv/legi-data-types": 2.73.1
     "@types/diff": ^5.0.3
     "@types/jest": ^29.5.12
-    "@types/memoizee": 0.4.11
+    "@types/memoizee": 0.4.12
     "@types/node": 16.11.68
     "@types/semver": 7.3.13
     "@types/unist": 2.0.11

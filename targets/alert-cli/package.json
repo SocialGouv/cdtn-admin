@@ -33,7 +33,7 @@
     "@socialgouv/legi-data-types": "2.73.1",
     "@types/diff": "^5.0.3",
     "@types/jest": "^29.5.12",
-    "@types/memoizee": "0.4.11",
+    "@types/memoizee": "0.4.12",
     "@types/node": "16.11.68",
     "@types/semver": "7.3.13",
     "@types/unist": "2.0.11",
