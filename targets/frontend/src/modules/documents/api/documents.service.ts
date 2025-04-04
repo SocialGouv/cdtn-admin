@@ -94,8 +94,9 @@ export class DocumentsService {
             );
           }
         );
-
-        if (!contribution.cdtnId) {
+        if (!document) {
+          await this.contributionRepository.updateCdtnId(contribution.id, null);
+        } else if (!contribution.cdtnId) {
           postTreatment = async (document) => {
             await this.contributionRepository.updateCdtnId(
               contribution.id,
