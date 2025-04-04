@@ -25,9 +25,17 @@ export async function updateAgreementArticles(
   idcc: string,
   articles: KaliArticlesInput[]
 ): Promise<number> {
+  const uniqueArticlesMap = new Map<string, KaliArticlesInput>();
+
+  articles.forEach((article) => {
+    uniqueArticlesMap.set(article.id, article);
+  });
+
+  const uniqueArticles = Array.from(uniqueArticlesMap.values());
+
   const result = await gqlClient()
     .mutation<InsertKaliRefrenceResult>(insertKaliReferenceMutation, {
-      articles: articles.map((item) => ({
+      articles: uniqueArticles.map((item) => ({
         ...item,
         agreement_id: idcc,
       })),
