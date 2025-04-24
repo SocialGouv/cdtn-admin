@@ -1,24 +1,34 @@
-import { SOURCES } from "@socialgouv/cdtn-utils";
+import {SOURCES} from "@socialgouv/cdtn-utils";
+import {DocumentElasticWithSource} from "./common";
 
-export type Tool = {
+export type ToolAction = "Estimer" | "Calculer" | "Consulter";
+
+export interface ToolDoc {
   date: string;
   icon: string;
   order: number;
-  action: string;
+  action: ToolAction;
   metaTitle: string;
   questions?: string[];
   description: string;
+  displayTool: boolean;
   displayTitle: string;
-  breadcrumbs: Record<string, string | number>[];
-  cdtnId: string;
-  excludeFromSearch: boolean;
-  id: string;
-  isPublished: boolean;
-  metaDescription: string;
-  slug: string;
-  source: typeof SOURCES.TOOLS | typeof SOURCES.EXTERNALS;
-  text: string;
-  title: string;
-  _id: string;
-  displayTool?: boolean;
+}
+
+export type ExternalToolDoc = {
+  url: string;
+  icon: string;
+  action: ToolAction;
+  description: string;
+  displayTool: boolean;
 };
+
+export type ElasticTool = DocumentElasticWithSource<
+  ToolDoc,
+  typeof SOURCES.TOOLS
+>;
+
+export type ElasticExternalTool = DocumentElasticWithSource<
+  ExternalToolDoc,
+  typeof SOURCES.EXTERNALS
+>;
