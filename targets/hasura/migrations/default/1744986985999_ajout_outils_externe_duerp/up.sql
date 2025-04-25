@@ -11,7 +11,8 @@ values(
         "url": "https://www.inrs.fr/metiers/oira-outil-tpe.html",
         "icon": "FileCheck",
         "action": "Évaluer",
-        "description": "Réalisez en ligne le document unique et le plan d''action de prévention par secteur d''activité ou métier"
+        "description": "Réalisez en ligne le document unique et le plan d''action de prévention par secteur d''activité ou métier",
+        "displayTool": true
     }'::jsonb,
     true,
     true,
