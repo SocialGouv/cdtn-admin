@@ -3372,6 +3372,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@noble/hashes@npm:^1.1.5":
+  version: 1.8.0
+  resolution: "@noble/hashes@npm:1.8.0"
+  checksum: c94e98b941963676feaba62475b1ccfa8341e3f572adbb3b684ee38b658df44100187fa0ef4220da580b13f8d27e87d5492623c8a02ecc61f23fb9960c7918f5
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -3824,6 +3831,15 @@ __metadata:
   version: 1.1.1
   resolution: "@panva/hkdf@npm:1.1.1"
   checksum: f0dd12903751d8792420353f809ed3c7de860cf506399759fff5f59f7acfef8a77e2b64012898cee7e5b047708fa0bd91dff5ef55a502bf8ea11aad9842160da
+  languageName: node
+  linkType: hard
+
+"@paralleldrive/cuid2@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "@paralleldrive/cuid2@npm:2.2.2"
+  dependencies:
+    "@noble/hashes": ^1.1.5
+  checksum: f7f6ac70e0268ec2c72e555719240d5c2c9a859ce541ac1c637eed3f3ee971b42881d299dedafbded53e7365b9e98176c5a31c442c1112f7e9e7306f2fd0ecbb
   languageName: node
   linkType: hard
 
@@ -6498,23 +6514,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/core@npm:5.1.0":
+"@urql/core@npm:5.1.0, @urql/core@npm:>=4.1.0, @urql/core@npm:^5.0.0":
   version: 5.1.0
   resolution: "@urql/core@npm:5.1.0"
   dependencies:
     "@0no-co/graphql.web": ^1.0.5
     wonka: ^6.3.2
   checksum: 63b8c1f25a5e3a50d84aeae63141e06ee8913c3a53d936fcb8453108034e50938fc774da298f50358ec2f3825bd62b2a3e4754ab1c9107dd9a79cb0c9c0d2a12
-  languageName: node
-  linkType: hard
-
-"@urql/core@npm:>=4.1.0, @urql/core@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@urql/core@npm:5.0.0"
-  dependencies:
-    "@0no-co/graphql.web": ^1.0.5
-    wonka: ^6.3.2
-  checksum: a7e546486c5a940128ed7c1c88b41b1d7d501725137f6e3050258717ed71d1172d21039de2a34aa0713adb264c95c5857029be6de0fafabbc541bb364255e055
   languageName: node
   linkType: hard
 
@@ -11006,7 +11012,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"formidable@npm:^2.0.0, formidable@npm:^2.1.2":
+"formidable@npm:^2.1.2":
   version: 2.1.2
   resolution: "formidable@npm:2.1.2"
   dependencies:
@@ -11015,6 +11021,17 @@ __metadata:
     once: ^1.4.0
     qs: ^6.11.0
   checksum: 81c8e5d89f5eb873e992893468f0de22c01678ca3d315db62be0560f9de1c77d4faefc9b1f4575098eb2263b3c81ba1024833a9fc3206297ddbac88a4f69b7a8
+  languageName: node
+  linkType: hard
+
+"formidable@npm:^3.0.0":
+  version: 3.5.4
+  resolution: "formidable@npm:3.5.4"
+  dependencies:
+    "@paralleldrive/cuid2": ^2.2.2
+    dezalgo: ^1.0.4
+    once: ^1.4.0
+  checksum: bdb8ecd8af16d40e7e4c06a9dbaf0394fe9cabb7a4cef6f68512ce6fe7933f5a9c588dfc5c1d92cbf83a9e4764f5216064d955669530d3d23ca816e93ea62989
   languageName: node
   linkType: hard
 
@@ -11094,7 +11111,7 @@ __metadata:
     diff: ^5.0.0
     eslint: ^8.41.0
     eslint-config-next: 14.1.4
-    formidable: ^2.0.0
+    formidable: ^3.0.0
     graphql: ^16.8.1
     graphql-tag: ^2.12.6
     http-proxy-middleware: ^3.0.0
