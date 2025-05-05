@@ -129,7 +129,7 @@ describe("generateMetadata", () => {
   });
 
   describe("Vérification de l'assignation d'un thème", () => {
-    describe("lorsque isPublished est true et breadcrumbs est vide", () => {
+    describe("lorsque la contribution est publié et aucun thème associé", () => {
       const contribution: Partial<
         DocumentElasticWithSource<ContributionDocumentJson>
       > = {
@@ -154,7 +154,7 @@ describe("generateMetadata", () => {
       });
     });
 
-    describe("lorsque isPublished est false et breadcrumbs est vide", () => {
+    describe("lorsque la contribution n'est pas publié et aucun thème associé", () => {
       const contribution: Partial<
         DocumentElasticWithSource<ContributionDocumentJson>
       > = {
