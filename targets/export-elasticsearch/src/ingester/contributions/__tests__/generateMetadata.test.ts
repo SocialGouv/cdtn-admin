@@ -127,4 +127,54 @@ describe("generateMetadata", () => {
       });
     });
   });
+
+  describe("Vérification de l'assignation d'un thème", () => {
+    describe("lorsque la contribution est publié et aucun thème associé", () => {
+      const contribution: Partial<
+        DocumentElasticWithSource<ContributionDocumentJson>
+      > = {
+        id: "123",
+        idcc: "123",
+        questionName: "Question",
+        questionIndex: 1,
+        isPublished: true,
+        description: "Description",
+      };
+
+      it("doit lever une erreur demandant d'assigner un thème", () => {
+        expect(() => {
+          generateMetadata(
+            [] as DocumentElasticWithSource<AgreementDoc>[],
+            contribution as DocumentElasticWithSource<ContributionDocumentJson>,
+            []
+          );
+        }).toThrow(
+          `Merci d'assigner un thème à la contribution 1 - Question (123). Cette opération est disponible dans le menu Vérifications -> Contenus sans thèmes.`
+        );
+      });
+    });
+
+    describe("lorsque la contribution n'est pas publié et aucun thème associé", () => {
+      const contribution: Partial<
+        DocumentElasticWithSource<ContributionDocumentJson>
+      > = {
+        id: "123",
+        idcc: "0000",
+        questionName: "Question",
+        questionIndex: 1,
+        isPublished: false,
+        description: "Description",
+      };
+
+      it("ne doit pas lever d'erreur", () => {
+        expect(() => {
+          generateMetadata(
+            [] as DocumentElasticWithSource<AgreementDoc>[],
+            contribution as DocumentElasticWithSource<ContributionDocumentJson>,
+            []
+          );
+        }).not.toThrow();
+      });
+    });
+  });
 });

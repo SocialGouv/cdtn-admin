@@ -11,7 +11,7 @@ export const generateMetadata = (
   contribution: DocumentElasticWithSource<ContributionDocumentJson>,
   breadcrumbs: Breadcrumb[],
 ): ContributionMetadata => {
-  if (breadcrumbs.length === 0) {
+  if (contribution.isPublished === true && breadcrumbs.length === 0) {
     throw new Error(
       `Merci d'assigner un thème à la contribution ${contribution.questionIndex} - ${contribution.questionName} (${contribution.id}). Cette opération est disponible dans le menu Vérifications -> Contenus sans thèmes.`,
     );
