@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.57.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.1...v2.57.2) (2025-05-06)
+
+### Bug Fixes
+
+- **package.json:** maj sécurité pour next ([#1573](https://github.com/SocialGouv/cdtn-admin/issues/1573)) ([406be30](https://github.com/SocialGouv/cdtn-admin/commit/406be302da301dbeb6b0093dd482f26dba7db293))
+
+### Features
+
+- ajout du nouvelle outils duerp ([#1569](https://github.com/SocialGouv/cdtn-admin/issues/1569)) ([8ca8dd9](https://github.com/SocialGouv/cdtn-admin/commit/8ca8dd99cdbc9fb4e9d55ba94d5d54d15ead6397))
+
 ## [2.57.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.0...v2.57.1) (2025-05-05)
 
 ### Bug Fixes

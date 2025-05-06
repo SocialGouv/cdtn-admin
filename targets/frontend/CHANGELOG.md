@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.57.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.1...v2.57.2) (2025-05-06)
+
+### Bug Fixes
+
+- **package.json:** maj sécurité pour next ([#1573](https://github.com/SocialGouv/cdtn-admin/issues/1573)) ([406be30](https://github.com/SocialGouv/cdtn-admin/commit/406be302da301dbeb6b0093dd482f26dba7db293))
+
 ## [2.57.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.0...v2.57.1) (2025-05-05)
 
 **Note:** Version bump only for package frontend
