@@ -1,0 +1,1 @@
+delete from documents where cdtn_id = 'd8e77197de';
