@@ -47,7 +47,7 @@
     "mammoth": "^1.6.0",
     "micromark": "^2.11.4",
     "mime-types": "^2.1.35",
-    "next": "14.2.25",
+    "next": "14.2.28",
     "next-auth": "^4.24.7",
     "nodemailer": "^6.9.13",
     "p-limit": "^4.0.0",
