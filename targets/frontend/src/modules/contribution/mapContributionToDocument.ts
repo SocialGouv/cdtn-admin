@@ -95,7 +95,7 @@ export const mapContributionToDocument = async (
     initial_id: data.id,
     source: SOURCES.CONTRIBUTIONS,
     meta_description: document?.meta_description ?? "", // la génération se fait à l'export car on a besoin du dernier contenu de la fiche sp
-    title: document?.title?.length ? document.title : data.question.content, // même si généré à l'export, on set un title par défaut pour ne pas avoir une string vide dans la table document
+    title: data.question.content, // même si généré à l'export, on set un title par défaut pour l'affichage dans l'admin (maj, publication...)
     text: document?.text ?? "", // la génération se fait à l'export car on a besoin du dernier contenu de la fiche sp
     slug:
       document?.slug ??
