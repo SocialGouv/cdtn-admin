@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.57.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.2...v2.57.3) (2025-05-23)
+
+### Bug Fixes
+
+- support des tableaux dans le type KeysToCamelCase ([#1576](https://github.com/SocialGouv/cdtn-admin/issues/1576)) ([3d41e65](https://github.com/SocialGouv/cdtn-admin/commit/3d41e651acecdff8f2e274766cbe0a588cc76e63))
+
 ## [2.57.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.1...v2.57.2) (2025-05-06)
 
 **Note:** Version bump only for package @socialgouv/cdtn-types
