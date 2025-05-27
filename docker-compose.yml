@@ -100,7 +100,7 @@ services:
       context: .
       dockerfile: targets/frontend/Dockerfile
       secrets:
-        - npmTiptapToken
+        - NPM_TIPTAP_TOKEN
     depends_on:
       - hasura
     ports:
@@ -140,5 +140,5 @@ volumes:
   minio_data:
 
 secrets:
-  npmTiptapToken:
+  NPM_TIPTAP_TOKEN:
     file: .npmTiptapToken.secret
