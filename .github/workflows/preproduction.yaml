@@ -11,7 +11,185 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.ref }}
 
 jobs:
+  build-frontend:
+    environment: build-preproduction
+    outputs:
+      tags: ${{ steps.meta.outputs.tags }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⏬ Checkout code repository
+        uses: actions/checkout@v4
+
+      - name: 📌 Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/frontend
+          tags: |
+            type=sha,prefix=preprod-,format=long,priority=850
+            type=sha,prefix=sha-,format=long,priority=890
+
+      - name: 📦 Build and push Docker image for frontend
+        uses: socialgouv/workflows/actions/buildkit@v1
+        with:
+          context: "."
+          dockerfile: "targets/frontend/Dockerfile"
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          registry: "${{ vars.REGISTRY_URL }}"
+          registry-username: "${{ secrets.REGISTRY_USERNAME }}"
+          registry-password: "${{ secrets.REGISTRY_PASSWORD }}"
+          buildkit-cert-ca: "${{ secrets.BUILDKIT_CERT_CA }}"
+          buildkit-cert: "${{ secrets.BUILDKIT_CERT }}"
+          buildkit-cert-key: "${{ secrets.BUILDKIT_CERT_KEY }}"
+          buildkit-svc-count: ${{ vars.BUILDKIT_SVC_COUNT }}
+          buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
+          build-args: |
+            NEXT_PUBLIC_BASE_PATH=https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
+            NEXT_PUBLIC_BUCKET_PUBLIC_ENDPOINT=https://cdtn-dev-public.s3.gra.io.cloud.ovh.net
+            NEXT_PUBLIC_BUCKET_DEFAULT_FOLDER=default
+            NEXT_PUBLIC_BUCKET_DRAFT_FOLDER=draft
+          secrets: |
+            NPM_TIPTAP_TOKEN=${{ secrets.NPM_TIPTAP_TOKEN }}
+
+  build-ingester:
+    environment: build-preproduction
+    outputs:
+      tags: ${{ steps.meta.outputs.tags }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⏬ Checkout code repository
+        uses: actions/checkout@v4
+
+      - name: 📌 Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/ingester
+          tags: |
+            type=sha,prefix=preprod-,format=long,priority=850
+            type=sha,prefix=sha-,format=long,priority=890
+
+      - name: 📦 Build and push Docker image for ingester
+        uses: socialgouv/workflows/actions/buildkit@v1
+        with:
+          context: "."
+          dockerfile: "targets/ingester/Dockerfile"
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          registry: "${{ vars.REGISTRY_URL }}"
+          registry-username: "${{ secrets.REGISTRY_USERNAME }}"
+          registry-password: "${{ secrets.REGISTRY_PASSWORD }}"
+          buildkit-cert-ca: "${{ secrets.BUILDKIT_CERT_CA }}"
+          buildkit-cert: "${{ secrets.BUILDKIT_CERT }}"
+          buildkit-cert-key: "${{ secrets.BUILDKIT_CERT_KEY }}"
+          buildkit-svc-count: ${{ vars.BUILDKIT_SVC_COUNT }}
+          buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
+
+  build-alert:
+    environment: build-preproduction
+    outputs:
+      tags: ${{ steps.meta.outputs.tags }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⏬ Checkout code repository
+        uses: actions/checkout@v4
+
+      - name: 📌 Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/alert
+          tags: |
+            type=sha,prefix=preprod-,format=long,priority=850
+            type=sha,prefix=sha-,format=long,priority=890
+
+      - name: 📦 Build and push Docker image for alert
+        uses: socialgouv/workflows/actions/buildkit@v1
+        with:
+          context: "."
+          dockerfile: "targets/alert-cli/Dockerfile"
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          registry: "${{ vars.REGISTRY_URL }}"
+          registry-username: "${{ secrets.REGISTRY_USERNAME }}"
+          registry-password: "${{ secrets.REGISTRY_PASSWORD }}"
+          buildkit-cert-ca: "${{ secrets.BUILDKIT_CERT_CA }}"
+          buildkit-cert: "${{ secrets.BUILDKIT_CERT }}"
+          buildkit-cert-key: "${{ secrets.BUILDKIT_CERT_KEY }}"
+          buildkit-svc-count: ${{ vars.BUILDKIT_SVC_COUNT }}
+          buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
+
+  build-export:
+    environment: build-preproduction
+    outputs:
+      tags: ${{ steps.meta.outputs.tags }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⏬ Checkout code repository
+        uses: actions/checkout@v4
+
+      - name: 📌 Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/export
+          tags: |
+            type=sha,prefix=preprod-,format=long,priority=850
+            type=sha,prefix=sha-,format=long,priority=890
+
+      - name: 📦 Build and push Docker image for export
+        uses: socialgouv/workflows/actions/buildkit@v1
+        with:
+          context: "."
+          dockerfile: "targets/export-elasticsearch/Dockerfile"
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          registry: "${{ vars.REGISTRY_URL }}"
+          registry-username: "${{ secrets.REGISTRY_USERNAME }}"
+          registry-password: "${{ secrets.REGISTRY_PASSWORD }}"
+          buildkit-cert-ca: "${{ secrets.BUILDKIT_CERT_CA }}"
+          buildkit-cert: "${{ secrets.BUILDKIT_CERT }}"
+          buildkit-cert-key: "${{ secrets.BUILDKIT_CERT_KEY }}"
+          buildkit-svc-count: ${{ vars.BUILDKIT_SVC_COUNT }}
+          buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
+
+  build-hasura:
+    environment: build-preproduction
+    outputs:
+      tags: ${{ steps.meta.outputs.tags }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⏬ Checkout code repository
+        uses: actions/checkout@v4
+
+      - name: 📌 Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/hasura
+          tags: |
+            type=sha,prefix=preprod-,format=long,priority=850
+            type=sha,prefix=sha-,format=long,priority=890
+
+      - name: 📦 Build and push Docker image for hasura
+        uses: socialgouv/workflows/actions/buildkit@v1
+        with:
+          context: "targets/hasura"
+          dockerfile: "Dockerfile"
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          registry: "${{ vars.REGISTRY_URL }}"
+          registry-username: "${{ secrets.REGISTRY_USERNAME }}"
+          registry-password: "${{ secrets.REGISTRY_PASSWORD }}"
+          buildkit-cert-ca: "${{ secrets.BUILDKIT_CERT_CA }}"
+          buildkit-cert: "${{ secrets.BUILDKIT_CERT }}"
+          buildkit-cert-key: "${{ secrets.BUILDKIT_CERT_KEY }}"
+          buildkit-svc-count: ${{ vars.BUILDKIT_SVC_COUNT }}
+          buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
+
   kontinuous:
+    needs: [build-frontend, build-ingester, build-alert, build-export, build-hasura]
     name: "Deploy on Kubernetes 🐳"
-    uses: socialgouv/workflows/.github/workflows/use-ks-gh-with-env-preproduction.yaml@v1
+    uses: socialgouv/workflows/.github/workflows/use-ks-gh-preproduction-atlas.yaml@v1
     secrets: inherit

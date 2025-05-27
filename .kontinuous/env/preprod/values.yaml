@@ -1,12 +1,5 @@
 jobs:
   runs:
-    build-frontend:
-      with:
-        buildArgs:
-          NEXT_PUBLIC_BASE_PATH: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
-          NEXT_PUBLIC_BUCKET_PUBLIC_ENDPOINT: "https://cdtn-dev-public.s3.gra.io.cloud.ovh.net"
-          NEXT_PUBLIC_BUCKET_DEFAULT_FOLDER: "default"
-          NEXT_PUBLIC_BUCKET_DRAFT_FOLDER: "draft"
     post-restore:
       ~needs: [ pg, hasura ]
       use: psql
@@ -26,7 +19,7 @@ jobs:
 
 hasura:
   imagePackage: hasura
-  ~needs: [ build-hasura, pg ]
+  ~needs: [ pg ]
   ~preDeploy.cleaner:
     match:
       kind: Deployment
