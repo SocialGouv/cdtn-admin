@@ -2,45 +2,12 @@ global:
   pgUser: cdtn-admin
   pgDatabase: cdtn-admin
 
-jobs:
-  ~chart: jobs
-  runs:
-    build-frontend:
-      use: build
-      with:
-        imagePackage: frontend
-        dockerfile: targets/frontend/Dockerfile
-        secrets:
-          npmTiptapToken:
-            secretName: npm-tiptap
-            secretKey: NPM_TIPTAP_TOKEN
-    build-ingester:
-      use: build
-      with:
-        imagePackage: ingester
-        dockerfile: targets/ingester/Dockerfile
-    build-alert:
-      use: build
-      with:
-        imagePackage: alert
-        dockerfile: targets/alert-cli/Dockerfile
-    build-export:
-      use: build
-      with:
-        imagePackage: export
-        dockerfile: targets/export-elasticsearch/Dockerfile
-    build-hasura:
-      use: build
-      with:
-        imagePackage: hasura
-        context: targets/hasura
 
 pg:
   ~chart: pg
 
 www:
   ~chart: app
-  ~needs: [ build-frontend ]
   probesPath: /healthz
   livenessProbe:
     httpGet:
@@ -78,7 +45,6 @@ www:
 
 export:
   ~chart: app
-  ~needs: [ build-export ]
   probesPath: /healthz
   ingress:
     enabled: false
@@ -103,7 +69,7 @@ export:
 
 hasura:
   ~chart: hasura
-  ~needs: [ build-hasura, pg ]
+  ~needs: [ pg ]
   imagePackage: hasura
   ingress:
     enabled: false
