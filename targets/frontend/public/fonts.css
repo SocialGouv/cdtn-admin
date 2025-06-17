@@ -16,8 +16,6 @@
   src: local("Muli Regular"), local("Muli-Regular"),
     url("/fonts/muli.woff2") format("woff2"),
     url("/fonts/muli.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
 }
 
 @font-face {

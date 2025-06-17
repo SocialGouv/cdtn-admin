@@ -32,7 +32,7 @@ export type ContributionElasticDocumentLightRelatedContent = Omit<
 export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
-  ccnListWithHighlight: Record<number, ContributionHighlight | undefined>,
+  ccnListWithHighlight: Record<number, ContributionHighlight | undefined>
 ): Promise<ContributionElasticDocument[]> {
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
     (state: Record<number, Breadcrumb[]>, contribution) => {
@@ -41,16 +41,15 @@ export async function generateContributions(
       }
       return state;
     },
-    {},
+    {}
   );
 
   const generatedContributions: ContributionElasticDocumentLightRelatedContent[] =
     [];
 
-  for (let i = 0; i < contributions.length; i++) {
-    const contrib = contributions[i];
+  for (const contrib of contributions) {
     const contribGeneric = contributions.find(
-      (c) => c.questionId === contrib.questionId && c.idcc === "0000",
+      (c) => c.questionId === contrib.questionId && c.idcc === "0000"
     );
     const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
@@ -83,7 +82,7 @@ export async function generateContributions(
     const breadcrumbs =
       contrib.breadcrumbs.length > 0
         ? contrib.breadcrumbs
-        : (breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? []);
+        : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? [];
 
     const contribution: ContributionElasticDocumentLightRelatedContent = {
       ...contrib,
@@ -104,20 +103,18 @@ export async function generateContributions(
   // Some related content link to another customized contribution
   // In this case, the description of the contribution is not available
   // so we populate the related content at the end
-  const allGeneratedContributions = await pMap(
+  return await pMap(
     generatedContributions,
     async (contribution): Promise<ContributionElasticDocument> => {
       const linkedContent = await generateLinkedContent(
         generatedContributions,
-        contribution,
+        contribution
       );
       return {
         ...contribution,
         linkedContent,
       } as ContributionElasticDocument;
     },
-    { concurrency: 5 },
+    { concurrency: 5 }
   );
-
-  return allGeneratedContributions;
 }

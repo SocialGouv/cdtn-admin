@@ -1,8 +1,7 @@
-import { DataDiffFunction } from "../types";
+import { DataDiffFunction, GitTagData } from "../types";
 import { processAgreementDataDiff, processCodeDataDiff } from "./dila";
 import { processVddDiff } from "./sp";
 import { processTravailDataDiff } from "./travail-data";
-import { GitTagData } from "../types";
 import { AlertChanges } from "@socialgouv/cdtn-types";
 import { GithubApi } from "../utils/github";
 import { getSupportedAgreements } from "./shared/getSupportedAgreements";
@@ -32,10 +31,7 @@ export class AlertDetector {
         /** @type {string[]} */
         const ficheVddIDs = this.fichesServicePublicIds;
         return (path: string) => {
-          const matched = ficheVddIDs.some((id) =>
-            new RegExp(`${id}.json$`).test(path)
-          );
-          return matched;
+          return ficheVddIDs.some((id) => new RegExp(`${id}.json$`).test(path));
         };
       }
       case "socialgouv/fiches-travail-data":
@@ -83,7 +79,7 @@ export class AlertDetector {
       repositoryId: repository,
       tag: currentTag,
       loadFile: async (file, tag) =>
-        await this.githubApi.raw(repository, file.filename, tag),
+        this.githubApi.raw(repository, file.filename, tag),
     });
   }
 }

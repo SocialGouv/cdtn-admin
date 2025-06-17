@@ -4,10 +4,7 @@ import { wait } from "../../../utils";
 
 @injectable()
 export class FakeCopyService {
-  async runCopy(
-    sourceContainerName: string,
-    destinationContainerName: string
-  ): Promise<void> {
+  async runCopy(): Promise<void> {
     await wait(100);
   }
 }

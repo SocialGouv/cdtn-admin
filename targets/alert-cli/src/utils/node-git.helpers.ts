@@ -1,5 +1,4 @@
-import { DiffFile, LoadFileFn } from "../types";
-import { GitTagData } from "../types";
+import { DiffFile, LoadFileFn, GitTagData } from "../types";
 
 export function getFilename(patch: DiffFile): string {
   return patch.filename;

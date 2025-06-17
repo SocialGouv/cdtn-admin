@@ -15,7 +15,7 @@ const buttonPropTypes = {
 };
 
 export const ConfirmButton = React.forwardRef(function useConfirmButton(
-  { size = "normal", children, onClick, ...props }: any,
+  { children, onClick, ...props }: any,
   ref
 ) {
   const [needConfirm, setNeedConfirm] = React.useState(false);

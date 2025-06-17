@@ -27,7 +27,8 @@ export function buildThemes(
         metaDescription: `Explorez les contenus autour du thème ${title}`,
         children: themes
           .filter(
-            ({ parentRelations }) => parentRelations[0].parentThemeId === cdtnId
+            ({ parentRelations: relations }) =>
+              relations[0].parentThemeId === cdtnId
           )
           .sort(
             (
@@ -35,9 +36,9 @@ export function buildThemes(
               { parentRelations: [{ position: positionB }] }
             ) => positionA - positionB
           )
-          .map(({ slug, title }) => ({
-            label: title,
-            slug,
+          .map(({ slug: _slug, title: _title }) => ({
+            label: _title,
+            slug: _slug,
           })),
         description,
         icon,
@@ -57,12 +58,12 @@ const getContentRelation = (
   contentRelations: ThemeContentRelation[],
   getBreadcrumbs: GetBreadcrumbsFn
 ): DocumentRef[] => {
-  return contentRelations
-    .sort(
-      ({ position: positionA }, { position: positionB }) =>
-        positionA - positionB
-    )
-    .map(({ content: { cdtnId, description, url, slug, source, title } }) => ({
+  const sortedRelations = [...contentRelations].sort(
+    ({ position: positionA }, { position: positionB }) => positionA - positionB
+  );
+
+  return sortedRelations.map(
+    ({ content: { cdtnId, description, url, slug, source, title } }) => ({
       cdtnId,
       description,
       url,
@@ -70,5 +71,6 @@ const getContentRelation = (
       source,
       title,
       breadcrumbs: getBreadcrumbs(cdtnId),
-    }));
+    })
+  );
 };

@@ -47,7 +47,7 @@ export const ContributionsAnswer = ({
   });
   const onPublish = usePublishContributionMutation();
 
-  const onSubmit = async (newStatus: Status, data: Answer) => {
+  const onSubmit = async (newStatus: Status, _data: Answer) => {
     try {
       if (!answer || !answer.id) {
         throw new Error("Id non définit");
@@ -58,19 +58,19 @@ export const ContributionsAnswer = ({
       }
 
       await updateAnswer({
-        content: data.content,
-        description: data.description,
+        content: _data.content,
+        description: _data.description,
         id: answer.id,
-        contentType: data.contentType,
+        contentType: _data.contentType,
         status: newStatus,
         userId: user?.id,
-        contentServicePublicCdtnId: data.contentFichesSpDocument?.cdtnId,
-        messageBlockGenericNoCDT: data.messageBlockGenericNoCDT,
-        kaliReferences: data.kaliReferences,
-        legiReferences: data.legiReferences,
-        cdtnReferences: data.cdtnReferences,
-        otherReferences: data.otherReferences,
-        displayDate: data.displayDate,
+        contentServicePublicCdtnId: _data.contentFichesSpDocument?.cdtnId,
+        messageBlockGenericNoCDT: _data.messageBlockGenericNoCDT,
+        kaliReferences: _data.kaliReferences,
+        legiReferences: _data.legiReferences,
+        cdtnReferences: _data.cdtnReferences,
+        otherReferences: _data.otherReferences,
+        displayDate: _data.displayDate,
       });
       if (newStatus === "TO_PUBLISH") {
         await onPublish(answer.id);
@@ -84,17 +84,17 @@ export const ContributionsAnswer = ({
       // Dans le cas où il y a une erreur au niveau de la publication (TO_PUBLISH), on revert le status en VALIDATED
       if (newStatus === "TO_PUBLISH" && answer && user) {
         await updateAnswer({
-          content: data.content,
+          content: _data.content,
           id: answer.id,
-          contentType: data.contentType,
+          contentType: _data.contentType,
           status: "VALIDATED",
           userId: user.id,
-          contentServicePublicCdtnId: data.contentFichesSpDocument?.cdtnId,
-          kaliReferences: data.kaliReferences,
-          legiReferences: data.legiReferences,
-          cdtnReferences: data.cdtnReferences,
-          otherReferences: data.otherReferences,
-          displayDate: data.displayDate,
+          contentServicePublicCdtnId: _data.contentFichesSpDocument?.cdtnId,
+          kaliReferences: _data.kaliReferences,
+          legiReferences: _data.legiReferences,
+          cdtnReferences: _data.cdtnReferences,
+          otherReferences: _data.otherReferences,
+          displayDate: _data.displayDate,
         });
       }
       setSnack({ open: true, severity: "error", message: e.message });

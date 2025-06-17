@@ -18,7 +18,7 @@ export async function getRelevantMtDocumentsThemeAndPrequalified({
     SOURCES.PREQUALIFIED,
     SOURCES.THEMES,
   ]);
-  const themeAndPrequaliedRelevantDoc = modifiedAndRemoved.flatMap((doc) => {
+  return modifiedAndRemoved.flatMap((doc) => {
     const documents = themeAndPrequalifiedDocs.get(doc.pubId);
     if (documents) {
       return documents.map((requestInfo) => {
@@ -30,6 +30,4 @@ export async function getRelevantMtDocumentsThemeAndPrequalified({
     }
     return [];
   });
-
-  return themeAndPrequaliedRelevantDoc;
 }

@@ -1,5 +1,4 @@
-import { Commit, GitTagData } from "../types";
-import { Diff } from "../types";
+import { Commit, GitTagData, Diff } from "../types";
 import { getDiff } from "./get-diff";
 
 export type Tags = GitTagData[];
@@ -58,13 +57,12 @@ export class GithubApi {
   private async _tags(project: string, page = 1, limit = 5): Promise<Tags> {
     const url = `https://api.github.com/repos/${project}/tags?per_page=${limit}&page=${page}`;
     const tags = await this.fetchJson<GithubTagsResponse>(url);
-    const tagsWithCommit = await Promise.all(
+    return await Promise.all(
       tags.map(async (tag) => {
         const commit = await this.loadCommit(tag);
         return { ref: tag.name, commit };
       })
     );
-    return tagsWithCommit;
   }
 
   private async loadCommit(tag: GithubTag): Promise<Commit> {
@@ -128,17 +126,15 @@ export class GithubApi {
 
   async raw(project: string, path: string, tag: GitTagData): Promise<string> {
     const url = `https://raw.githubusercontent.com/${project}/${tag.ref}/${path}`;
-    const data = await this.fetchText(url);
-    return data;
+    return await this.fetchText(url);
   }
 
   private async fetchGithub(url: string): Promise<Response> {
-    const response = await fetch(url, {
+    return await fetch(url, {
       headers: {
         Authorization: `Bearer ${this.githubToken}`,
       },
     });
-    return response;
   }
 
   private async fetchJson<T>(url: string): Promise<T> {

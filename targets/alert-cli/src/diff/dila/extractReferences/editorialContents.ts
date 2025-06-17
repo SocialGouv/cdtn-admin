@@ -1,4 +1,8 @@
-import { createGetArticleReference, extractArticleId } from "@shared/utils";
+import {
+  createGetArticleReference,
+  extractArticleId,
+  gqlClient,
+} from "@shared/utils";
 import type {
   DocumentReferences,
   EditoralContentReferenceBloc,
@@ -11,7 +15,6 @@ import pMap from "p-map";
 
 import { getAllDocumentsBySource } from "../../shared/getAllDocumentsBySource";
 import { WarningRepository } from "../../../repositories/WarningRepository";
-import { gqlClient } from "@shared/utils";
 
 export type EditorialContentSubset = Pick<
   EditorialContent,
@@ -77,8 +80,7 @@ async function getEditorialContentTemplateReferences() {
   const letters = (await getAllDocumentsBySource([
     SOURCES.EDITORIAL_CONTENT,
   ])) as EditorialContentSubset[];
-  const documentReferences = await extractEditorialContentTemplateRef(letters);
-  return documentReferences;
+  return await extractEditorialContentTemplateRef(letters);
 }
 
 export default memoizee(getEditorialContentTemplateReferences, {

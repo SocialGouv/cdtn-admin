@@ -18,7 +18,7 @@ export async function getRelevantSpDocumentsThemeAndPrequalified({
     SOURCES.PREQUALIFIED,
     SOURCES.THEMES,
   ]);
-  const themeAndPrequaliedRelevantDoc = modifiedAndRemoved.flatMap((doc) => {
+  return modifiedAndRemoved.flatMap((doc) => {
     const documents = themeAndPrequalifiedDocs.get(doc.id);
     if (documents) {
       return documents.map((requestInfo) => {
@@ -30,6 +30,4 @@ export async function getRelevantSpDocumentsThemeAndPrequalified({
     }
     return [];
   });
-
-  return themeAndPrequaliedRelevantDoc;
 }

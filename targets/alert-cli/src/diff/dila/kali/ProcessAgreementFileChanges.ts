@@ -2,8 +2,7 @@ import type { Agreement } from "@socialgouv/kali-data-types";
 
 import { createToJson, getFilename } from "../../../utils/node-git.helpers";
 import type { AgreementFileChange } from "./types";
-import { Diff, DiffFile, LoadFileFn } from "../../../types";
-import { GitTagData } from "../../../types";
+import { Diff, DiffFile, LoadFileFn, GitTagData } from "../../../types";
 
 const agreementFileChange = async (
   file: DiffFile,

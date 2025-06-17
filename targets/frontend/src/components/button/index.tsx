@@ -3,14 +3,15 @@ import {
   ButtonProps,
   Button as MuiButton,
   IconButton as MuiIconButton,
+  Box,
+  Menu,
+  MenuItem as MenuItemButton,
 } from "@mui/material";
-import { Menu, MenuItem as MenuItemButton } from "@mui/material";
 import {
   ExpandMore as ExpandMoreIcon,
   ChevronRight as ChevronRightIcon,
   MoreVert as MoreVertIcon,
 } from "@mui/icons-material";
-import { Box } from "@mui/material";
 import { theme } from "src/theme";
 
 type ButtonPropTypes = {
@@ -81,6 +82,7 @@ export const IconButton: React.FC<ButtonPropTypesWithSx> = ({
   return (
     <MuiIconButton
       {...props}
+      variant={variant}
       sx={{
         borderRadius: 32,
         fontSize: size,

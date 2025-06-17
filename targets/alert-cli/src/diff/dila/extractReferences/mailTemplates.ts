@@ -1,4 +1,8 @@
-import { createGetArticleReference, extractArticleId } from "@shared/utils";
+import {
+  createGetArticleReference,
+  extractArticleId,
+  gqlClient,
+} from "@shared/utils";
 import type { DocumentReferences, MailTemplate } from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import { DilaApiClient } from "@socialgouv/dila-api-client";
@@ -7,7 +11,6 @@ import pMap from "p-map";
 
 import { getAllDocumentsBySource } from "../../shared/getAllDocumentsBySource";
 import { WarningRepository } from "../../../repositories/WarningRepository";
-import { gqlClient } from "@shared/utils";
 
 export type MailTemplateSubset = Pick<
   MailTemplate,
@@ -63,8 +66,7 @@ async function getMailTemplateReferences() {
   const letters = (await getAllDocumentsBySource([
     SOURCES.LETTERS,
   ])) as MailTemplateSubset[];
-  const documentReferences = await extractMailTemplateRef(letters);
-  return documentReferences;
+  return await extractMailTemplateRef(letters);
 }
 
 export default memoizee(getMailTemplateReferences, { promise: true });
