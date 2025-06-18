@@ -130,7 +130,7 @@ export const DataList = <T extends Data>({
           contents={Object.entries(itemsCheck)
             .filter(([_, value]) => value)
             .map(([key, _]) => {
-              const find = rows.find((item) => item.id === key)!!;
+              const find = rows.find((item) => item.id === key)!;
               return {
                 id: find.id,
                 title: find.title,

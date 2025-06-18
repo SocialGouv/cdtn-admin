@@ -17,8 +17,7 @@ export const authOptions: NextAuthOptions = {
         if (!credentials) {
           return null;
         }
-        const user = await signIn(credentials.email, credentials.password);
-        return user;
+        return signIn(credentials.email, credentials.password);
       },
     }),
   ],
@@ -39,7 +38,7 @@ export const authOptions: NextAuthOptions = {
       };
     },
     jwt: async ({ token, user }) => {
-      const tokenUser: UserSignedIn = { ...token, ...user } as any;
+      const tokenUser: UserSignedIn = { ...token, ...user } as UserSignedIn;
       const isAccessTokenValid = verifyToken(tokenUser.accessToken);
       if (!isAccessTokenValid) {
         const newAccessToken = await generateNewAccessToken(tokenUser);

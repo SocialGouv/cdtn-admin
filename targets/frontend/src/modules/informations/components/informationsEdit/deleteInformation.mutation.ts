@@ -18,12 +18,11 @@ export type DeleteInformationMutationResult = (
 export const useDeleteInformationMutation =
   (): DeleteInformationMutationResult => {
     const [, execute] = useMutation<string>(deleteInformationMutation);
-    const resultFunction = async (id: string) => {
+    return async (id: string) => {
       const result = await execute({ id, initialId: id });
       if (result.error) {
         throw new Error(result.error.message);
       }
       return result;
     };
-    return resultFunction;
   };

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { activateUser } from "src/modules/authentification/activateUser";
 
-export default async function handler(
+export default async function activate(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

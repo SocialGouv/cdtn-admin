@@ -24,7 +24,6 @@ export const SectionBlock = ({
   let block;
   const {
     control,
-    register,
     formState: { errors },
     setValue,
   } = useFormContext();

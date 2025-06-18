@@ -24,7 +24,7 @@ query getThemes {
 
 const context = { additionalTypenames: ["documents", "document_relations"] };
 
-export const Map = ({ setShowThemeMap = () => {} }) => {
+export const ThemeMap = ({ setShowThemeMap = () => {} }) => {
   const svg = useRef();
   const router = useRouter();
 
@@ -35,7 +35,8 @@ export const Map = ({ setShowThemeMap = () => {} }) => {
 
   const onClickTheme = useCallback(
     (id) => {
-      router.push("/themes/[[...id]]", `/themes${id ? `/${id}` : ""}`);
+      const themePath = id ? `/themes/${id}` : "/themes";
+      router.push("/themes/[[...id]]", themePath);
       setShowThemeMap(false);
     },
     [router, setShowThemeMap]
@@ -57,7 +58,7 @@ export const Map = ({ setShowThemeMap = () => {} }) => {
   );
 };
 
-Map.propTypes = {
+ThemeMap.propTypes = {
   setShowThemeMap: PropTypes.func,
 };
 
@@ -150,14 +151,14 @@ const buildMap = ({ onClickTheme, themeRelations, svg }) => {
     .join("g")
     .attr("transform", (d) => `translate(${d.y},${d.x})`)
     .on("mouseenter", function () {
-      const node = d3.select(this);
-      node
+      const _node = d3.select(this);
+      _node
         .transition()
         .attr("transform", (d) => `translate(${d.y},${d.x}), scale(1.1)`);
     })
     .on("mouseleave", function () {
-      const node = d3.select(this);
-      node.transition().attr("transform", (d) => `translate(${d.y},${d.x})`);
+      const _node = d3.select(this);
+      _node.transition().attr("transform", (d) => `translate(${d.y},${d.x})`);
     })
     .on("click", function () {
       const id = d3.select(this).data()[0].data.id;

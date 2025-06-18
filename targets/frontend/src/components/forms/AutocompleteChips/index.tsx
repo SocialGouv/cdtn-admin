@@ -52,7 +52,7 @@ export const FormAutocompleteChips = <
   freeSolo,
 }: Props<Type, FreeSolo>): ReactElement | null => {
   const [query, setQuery] = useState<string | undefined>();
-  const { data, fetching, error } = fetcher(query);
+  const { data, fetching } = fetcher(query);
 
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<readonly Type[]>([]);
@@ -78,7 +78,7 @@ export const FormAutocompleteChips = <
       disabled={disabled}
       label={label}
       options={options}
-      filterOptions={(options) => options}
+      filterOptions={(_options) => _options}
       isOptionEqualToValue={isEqual}
       loading={fetching}
       onOpen={() => {

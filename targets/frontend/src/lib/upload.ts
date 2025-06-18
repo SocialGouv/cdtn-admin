@@ -62,7 +62,7 @@ export const deleteApiFile = async (key: string) => {
     Bucket: bucketName,
     Key: `${bucketDraftFolder}/${bucketDefaultFolder}/${key}`,
   });
-  return await client.send(command);
+  return client.send(command);
 };
 
 export const uploadApiFiles = async (key: string, data: Buffer) => {

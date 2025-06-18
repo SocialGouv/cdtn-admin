@@ -2,7 +2,7 @@ import NextErrorPage from "next/error";
 import PropTypes from "prop-types";
 import Page404 from "src/pages/404";
 
-const MyError = ({ statusCode, hasGetInitialPropsRun, err }) => {
+const MyError = ({ statusCode }) => {
   if (statusCode === 404) {
     return <Page404 />;
   }
@@ -14,7 +14,7 @@ const MyError = ({ statusCode, hasGetInitialPropsRun, err }) => {
   );
 };
 
-MyError.getInitialProps = async ({ res, err, asPath }) => {
+MyError.getInitialProps = async ({ res, err }) => {
   const errorInitialProps = await NextErrorPage.getInitialProps({
     err,
     res,

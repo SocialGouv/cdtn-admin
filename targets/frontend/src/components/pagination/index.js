@@ -117,7 +117,7 @@ function PageButton({ pageIndex }) {
 function addPaginationParam(url, pageIndex) {
   if (url.includes("?")) {
     if (/page=(\d+)/.test(url)) {
-      return url.replace(/(&|\?)page=(\d+)(&|$)/, `$1page=${pageIndex}$3`);
+      return url.replace(/([&?])page=(\d+)(&|$)/, `$1page=${pageIndex}$3`);
     } else {
       return `${url}&page=${pageIndex}`;
     }

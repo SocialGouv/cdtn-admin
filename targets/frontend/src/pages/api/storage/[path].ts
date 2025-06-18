@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { createErrorFor } from "src/lib/apiError";
 import { deleteApiFile } from "src/lib/upload";
 
-export default async function deleteFiles(
+export default async function storagePath(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

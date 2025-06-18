@@ -87,7 +87,7 @@ export const FormAutocomplete = <
             freeSolo={freeSolo}
             id={`id-${label}`}
             value={value}
-            onChange={(event, value) => onChange(value)}
+            onChange={(_event, _value) => onChange(_value)}
             open={open}
             onOpen={onOpen}
             onClose={onClose}

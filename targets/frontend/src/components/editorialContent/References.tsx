@@ -10,11 +10,7 @@ import Box from "@mui/material/Box";
 import { FormTextField } from "../forms";
 
 export const References = ({ nestName }: { nestName: string }) => {
-  const {
-    control,
-    register,
-    formState: { errors },
-  } = useFormContext();
+  const { control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     keyName: "key",

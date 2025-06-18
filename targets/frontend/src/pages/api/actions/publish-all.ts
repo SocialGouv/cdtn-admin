@@ -7,6 +7,6 @@ export default async function publishAll(
 ) {
   if (req.method === "POST") {
     const controller = new DocumentsController(req, res);
-    return await controller.publishAll();
+    return controller.publishAll();
   }
 }

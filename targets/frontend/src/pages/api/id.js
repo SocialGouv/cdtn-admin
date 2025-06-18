@@ -3,7 +3,7 @@ import { SOURCES } from "@socialgouv/cdtn-sources";
 
 const sourceValues = Object.values(SOURCES);
 
-export default async function getId(req, res) {
+export default async function id(req, res) {
   const source = req.query.source;
   if (!source || !sourceValues.includes(source)) {
     res.status(400).json({

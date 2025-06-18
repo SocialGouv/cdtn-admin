@@ -20,7 +20,7 @@ import { fr } from "@codegouvfr/react-dsfr";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { SnackBar } from "../utils/SnackBar";
 import Head from "next/head";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export type LayoutProps = {

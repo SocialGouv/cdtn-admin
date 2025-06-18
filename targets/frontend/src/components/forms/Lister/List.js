@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { IoMdClose } from "react-icons/io";
 import { IconButton } from "src/components/button";
-import { Box, List as Ul, ListItem, Stack } from "@mui/material";
+import { Box, List as Ul, ListItem } from "@mui/material";
 import { theme } from "src/theme";
 
 export const List = ({

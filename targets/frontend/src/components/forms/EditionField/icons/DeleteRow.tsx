@@ -17,5 +17,5 @@ const DeleteRow = (props: any) => (
   </svg>
 );
 
-const Memo = memo(DeleteRow);
-export default Memo;
+const DeleteRowMemo = memo(DeleteRow);
+export default DeleteRowMemo;

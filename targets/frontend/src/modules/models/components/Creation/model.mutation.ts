@@ -28,7 +28,7 @@ export const useModelInsertMutation = (): MutationFn => {
     MutationGraphQLResult,
     MutationGraphQLProps
   >(insertModelQuery);
-  const resultFunction = async (data: MutationProps) => {
+  return async (data: MutationProps) => {
     const result = await executeUpdate({
       model: {
         title: data.title,
@@ -53,7 +53,6 @@ export const useModelInsertMutation = (): MutationFn => {
     }
     return result.data?.insert_model_models_one;
   };
-  return resultFunction;
 };
 
 const formatLegiReferences = (

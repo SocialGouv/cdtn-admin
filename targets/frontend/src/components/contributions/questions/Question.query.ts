@@ -22,7 +22,7 @@ type QueryOutput = {
 };
 
 export const useQuestionQuery = ({ questionId }: QueryProps): QuestionTitle => {
-  const [result, reExecute] = useQuery<QueryOutput>({
+  const [result] = useQuery<QueryOutput>({
     query: contributionQuestionQuery,
     requestPolicy: "network-only",
     variables: {

@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { verifyToken } from "src/modules/authentification/utils/jwt";
 import { createUser } from "src/modules/authentification/createUser";
 
-export default async function handler(
+export default async function create(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

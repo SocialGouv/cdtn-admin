@@ -1,5 +1,5 @@
 import { ACCOUNT_MAIL_SENDER, BASE_URL } from "src/config";
-import sendMail from "./send";
+import sendMail from "./sendMail";
 
 export function sendLostPasswordEmail(email: string, secret_token: string) {
   const activateUrl = `${BASE_URL}/change_password?token=${secret_token}`;
@@ -16,7 +16,7 @@ export function sendLostPasswordEmail(email: string, secret_token: string) {
     L'équipe CDTN
 `;
 
-  var mailOptions = {
+  const mailOptions = {
     from: ACCOUNT_MAIL_SENDER,
     subject,
     text,

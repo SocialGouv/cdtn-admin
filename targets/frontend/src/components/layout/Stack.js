@@ -1,7 +1,11 @@
 import { Box } from "@mui/material";
 
-import { spacePropTypes } from "./spaces";
 import { theme } from "src/theme";
+
+const spacePropTypes = PropTypes.oneOfType([
+  PropTypes.oneOf(spaces),
+  PropTypes.arrayOf(PropTypes.oneOf(spaces)),
+]);
 
 export function Stack({ gap = theme.space.medium, ...props }) {
   return (

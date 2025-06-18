@@ -23,7 +23,7 @@ export const SectionBlocks = ({ name }: SectionBlockProps) => {
   });
   return (
     <>
-      {fields.map((item, index) => (
+      {fields.map((_item, index) => (
         <div key={`${name}.${index}`}>
           <SectionBlock
             name={`${name}.${index}`}

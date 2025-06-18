@@ -3,7 +3,7 @@ import { authOptions } from "./auth/[...nextauth]";
 import { NextApiRequest, NextApiResponse } from "next";
 import { URL_EXPORT } from "./export";
 
-export default async function handler(
+export default async function glossary(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

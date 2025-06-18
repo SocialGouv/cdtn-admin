@@ -52,9 +52,10 @@ export const useContributionSearchCdtnReferencesQuery = (
 ): Result<Pick<CdtnReference, "document">> => {
   const slug = getSlugFromUrl(query);
   const title = getNormalizedTitle(slug);
-  const slugRegex = `^(${idcc ? `${idcc}|` : ""}[^0-9])${
-    idcc ? `{${idcc.length}}` : ""
-  }[\-a-zA-Z0-9_]+$`;
+  // Build regex parts separately to avoid nested template literals
+  const idccPrefix = idcc ? `${idcc}|` : "";
+  const idccQuantifier = idcc ? `{${idcc.length}}` : "";
+  const slugRegex = `^(${idccPrefix}[^0-9])${idccQuantifier}[\-a-zA-Z0-9_]+$`;
   const [{ data, fetching, error }] = useQuery<SearchCdtnReferencesQueryResult>(
     {
       query: SearchCdtnReferencesQuery,

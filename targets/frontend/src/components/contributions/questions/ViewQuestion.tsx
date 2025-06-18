@@ -22,7 +22,10 @@ interface TabPanelProps {
 export const ViewQuestion = ({ questionId }: Props): JSX.Element => {
   const [tabIndex, setTabIndex] = useState<TabValue>(TabValue.answers);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: TabValue) => {
+  const handleTabChange = (
+    _event: React.SyntheticEvent,
+    newValue: TabValue
+  ) => {
     setTabIndex(newValue);
   };
 

@@ -50,8 +50,6 @@ export function EditTermPage() {
     });
   }
 
-  // const notFound = !fetching && termId && !term.id;
-
   if (!term) {
     return <Layout title="Terme introuvable" />;
   }

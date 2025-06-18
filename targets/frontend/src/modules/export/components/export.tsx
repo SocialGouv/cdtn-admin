@@ -110,7 +110,7 @@ export function Export(): JSX.Element {
                   environment,
                   created_at,
                   updated_at,
-                  user,
+                  user: _user,
                   status,
                   error,
                   documentsCount,
@@ -131,7 +131,7 @@ export function Export(): JSX.Element {
                       <EnvironmentBadge environment={environment} />
                     </Td>
                     <Td>
-                      <Typography>{user?.name}</Typography>
+                      <Typography>{_user?.name}</Typography>
                     </Td>
                     <Td>
                       <Typography>{dateCreatedInfo}</Typography>

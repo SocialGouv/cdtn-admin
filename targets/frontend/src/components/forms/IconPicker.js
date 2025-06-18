@@ -37,7 +37,7 @@ function RootIconPicker({ disabled, value, onChange }) {
       >
         <div>
           {Object.keys(icons).map((key) => {
-            const Icon = icons[key];
+            const CardIcon = icons[key];
             return (
               <Card
                 as="button"
@@ -50,7 +50,7 @@ function RootIconPicker({ disabled, value, onChange }) {
                 title={key}
                 style={generateIconCardStyles()}
               >
-                <Icon
+                <CardIcon
                   style={{
                     ...iconBaseStyle,
                   }}

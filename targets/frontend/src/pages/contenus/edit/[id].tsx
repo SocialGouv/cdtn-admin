@@ -52,8 +52,6 @@ export function EditInformationPage() {
       const variables = mapper(contentItem);
       const result = await editContent(variables, context);
       if (!result) return;
-      const { slug: computedSlug, metaDescription: computedMetaDescription } =
-        result.data.content;
     };
 
   const onSubmitContent = onSubmit<Content>((contentItem: Content) => {

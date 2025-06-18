@@ -71,9 +71,7 @@ export const useEditInformationMutation =
   (): EditInformationMutationExecute => {
     const [, executeUpdate] =
       useMutation<EditInformationMutationResult>(informationMutation);
-    const resultFunction = async (
-      information: Information
-    ): Promise<string | undefined> => {
+    return async (information: Information): Promise<string | undefined> => {
       const upsert = mapInformation(information);
       const contentIdsToDelete = getElementsToDelete(
         defaultInformation,
@@ -113,7 +111,6 @@ export const useEditInformationMutation =
       }
       return result?.data?.insert_information_informations_one.id;
     };
-    return resultFunction;
   };
 
 let defaultInformation: Information;

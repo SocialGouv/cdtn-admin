@@ -20,8 +20,7 @@ export const FormDatePicker = ({
       if (date && date !== "") {
         const dateString = format(parseISO(date), "dd/MM/yyyy");
         const [day, month, year] = dateString.split("/").map(Number);
-        const formattedDate = new Date(year, month - 1, day);
-        return formattedDate;
+        return new Date(year, month - 1, day);
       }
       return null;
     } catch (error) {

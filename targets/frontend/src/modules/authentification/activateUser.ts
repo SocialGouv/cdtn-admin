@@ -41,7 +41,7 @@ export const activateUser = async (
   token: string,
   newPassword: string
 ): Promise<void> => {
-  const { id } = await getAndVerifyActivationToken(token);
+  const { id } = getAndVerifyActivationToken(token);
 
   const getUserResult = await gqlClient()
     .query<GetUserHasuraResult>(getUserQuery, {

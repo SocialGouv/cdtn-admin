@@ -36,108 +36,140 @@ export class DocumentsService {
     this.agreementRepository = agreementRepository;
   }
 
+  private async handleInformationSource(
+    id: string,
+    document: HasuraDocument<any> | undefined
+  ) {
+    const information = await this.informationsRepository.fetchInformation(id);
+    if (!information) {
+      throw new NotFoundError({
+        message: `No information found with id ${id}`,
+        name: "NOT_FOUND",
+        cause: null,
+      });
+    }
+    return await mapInformationToDocument(information, document);
+  }
+
+  private async handleContributionSource(
+    id: string,
+    document: HasuraDocument<any> | undefined,
+    source: SourceRoute
+  ) {
+    const contribution = await this.contributionRepository.fetch(id);
+    if (!contribution) {
+      throw new NotFoundError({
+        message: `No contribution found with id ${id}`,
+        name: "NOT_FOUND",
+        cause: null,
+      });
+    }
+
+    // Check for existing document with same slug
+    if (!document) {
+      const slug = generateContributionSlug(
+        contribution.agreement.id,
+        contribution.question.content
+      );
+      const contrib = await this.documentsRepository.fetchDocumentBySlug({
+        slug,
+        source,
+      });
+
+      if (contrib) {
+        throw new ConflictError({
+          message: `Le document ${contribution.question.content} existe déjà pour la convention collective ${contribution.agreement.id}. Vous devez lancer le script de migration avant de publier un document.`,
+          name: "CONFLICT_ERROR",
+          cause: null,
+        });
+      }
+    }
+
+    // Map contribution to document
+    const mappedDocument = await mapContributionToDocument(
+      contribution,
+      document,
+      async (questionId: string) => {
+        return this.contributionRepository.fetchGenericAnswer(questionId);
+      }
+    );
+
+    // Handle CDTN ID updates
+    let postTreatment = undefined;
+    if (!mappedDocument) {
+      await this.contributionRepository.updateCdtnId(contribution.id, null);
+    } else if (!contribution.cdtnId) {
+      postTreatment = async (doc: HasuraDocument<any>) => {
+        await this.contributionRepository.updateCdtnId(
+          contribution.id,
+          doc.cdtn_id
+        );
+      };
+    }
+
+    return { document: mappedDocument, postTreatment };
+  }
+
+  private async handleModelSource(
+    id: string,
+    document: HasuraDocument<any> | undefined
+  ) {
+    const model = await this.modelRepository.fetch(id);
+    if (!model) {
+      throw new NotFoundError({
+        message: `No model found with id ${id}`,
+        name: "NOT_FOUND",
+        cause: null,
+      });
+    }
+    return mapModelToDocument(model, document);
+  }
+
+  private async handleAgreementSource(
+    id: string,
+    document: HasuraDocument<any> | undefined
+  ) {
+    const agreement = await this.agreementRepository.fetch(id);
+    if (!agreement) {
+      throw new NotFoundError({
+        message: `No agreement found with id ${id}`,
+        name: "NOT_FOUND",
+        cause: null,
+      });
+    }
+    return mapAgreementToDocument(agreement, document);
+  }
+
   public async publish(id: string, source: SourceRoute) {
+    // Fetch existing document
     let document = await this.documentsRepository.fetch({
       source,
       initialId: id,
     });
 
-    let postTreatment:
-      | ((document: HasuraDocument<any>) => Promise<void>)
-      | undefined = undefined;
+    let postTreatment = undefined;
 
-    switch (source) {
-      case "information":
-        const information = await this.informationsRepository.fetchInformation(
-          id
-        );
-        if (!information) {
-          throw new NotFoundError({
-            message: `No information found with id ${id}`,
-            name: "NOT_FOUND",
-            cause: null,
-          });
-        }
-        document = await mapInformationToDocument(information, document);
-        break;
-      case "contributions":
-        const contribution = await this.contributionRepository.fetch(id);
-        if (!contribution) {
-          throw new NotFoundError({
-            message: `No contribution found with id ${id}`,
-            name: "NOT_FOUND",
-            cause: null,
-          });
-        }
-        if (!document) {
-          const contrib = await this.documentsRepository.fetchDocumentBySlug({
-            slug: generateContributionSlug(
-              contribution.agreement.id,
-              contribution.question.content
-            ),
-            source,
-          });
-          if (contrib) {
-            throw new ConflictError({
-              message: `Le document ${contribution.question.content} existe déjà pour la convention collective ${contribution.agreement.id}. Vous devez lancer le script de migration avant de publier un document.`,
-              name: "CONFLICT_ERROR",
-              cause: null,
-            });
-          }
-        }
-        document = await mapContributionToDocument(
-          contribution,
-          document,
-          async (questionId: string) => {
-            return await this.contributionRepository.fetchGenericAnswer(
-              questionId
-            );
-          }
-        );
-        if (!document) {
-          await this.contributionRepository.updateCdtnId(contribution.id, null);
-        } else if (!contribution.cdtnId) {
-          postTreatment = async (document) => {
-            await this.contributionRepository.updateCdtnId(
-              contribution.id,
-              document.cdtn_id
-            );
-          };
-        }
-        break;
-
-      case "modeles_de_courriers":
-        const model = await this.modelRepository.fetch(id);
-        if (!model) {
-          throw new NotFoundError({
-            message: `No agreement found with id ${id}`,
-            name: "NOT_FOUND",
-            cause: null,
-          });
-        }
-        document = mapModelToDocument(model, document);
-        break;
-
-      case "conventions_collectives":
-        const agreement = await this.agreementRepository.fetch(id);
-        if (!agreement) {
-          throw new NotFoundError({
-            message: `No agreement found with id ${id}`,
-            name: "NOT_FOUND",
-            cause: null,
-          });
-        }
-        document = mapAgreementToDocument(agreement, document);
-        break;
-
-      default:
-        throw new Error(`La source ${source} n'est pas implémentée`);
+    // Process document based on source type
+    if (source === "information") {
+      document = await this.handleInformationSource(id, document);
+    } else if (source === "contributions") {
+      const result = await this.handleContributionSource(id, document, source);
+      document = result.document;
+      postTreatment = result.postTreatment;
+    } else if (source === "modeles_de_courriers") {
+      document = await this.handleModelSource(id, document);
+    } else if (source === "conventions_collectives") {
+      document = await this.handleAgreementSource(id, document);
+    } else {
+      throw new Error(`La source ${source} n'est pas implémentée`);
     }
 
+    // Handle document removal if needed
     if (!document) {
-      return await this.documentsRepository.remove(id);
+      return this.documentsRepository.remove(id);
     }
 
+    // Update document and apply post-treatment if needed
     const result = await this.documentsRepository.update(document);
 
     if (postTreatment) {
@@ -151,26 +183,25 @@ export class DocumentsService {
     questionId: string,
     source: SourceRoute
   ): Promise<number> {
-    switch (source) {
-      case "contributions":
-        const allContributions =
-          await this.contributionRepository.fetchAllPublishedContributionsByQuestionId(
-            questionId
-          );
-        await pMap(
-          allContributions,
-          async (contribution) => {
-            await this.publish(contribution.id, source);
-            console.log(`Contribution ${contribution.id} has been republished`);
-          },
-          { concurrency: 1 }
+    if (source === "contributions") {
+      const allContributions =
+        await this.contributionRepository.fetchAllPublishedContributionsByQuestionId(
+          questionId
         );
-        console.log(
-          "All contributions that has been already published have been republished"
-        );
-        return allContributions.length;
-      default:
-        throw new Error(`La source ${source} n'est pas implémentée`);
+      await pMap(
+        allContributions,
+        async (contribution) => {
+          await this.publish(contribution.id, source);
+          console.log(`Contribution ${contribution.id} has been republished`);
+        },
+        { concurrency: 1 }
+      );
+      console.log(
+        "All contributions that has been already published have been republished"
+      );
+      return allContributions.length;
+    } else {
+      throw new Error(`La source ${source} n'est pas implémentée`);
     }
   }
 }

@@ -19,11 +19,7 @@ export class DocumentsRepository {
   }
 
   async fetch(variables: DocumentsQueryProps) {
-    try {
-      return await queryDocument(this.client, variables);
-    } catch (e) {
-      throw e;
-    }
+    return queryDocument(this.client, variables);
   }
 
   async update(document: HasuraDocument<any>): Promise<string | undefined> {
@@ -63,10 +59,6 @@ export class DocumentsRepository {
   }
 
   async fetchDocumentBySlug(variables: DocumentsQueryBySlugProps) {
-    try {
-      return await queryDocumentBySlug(this.client, variables);
-    } catch (e) {
-      throw e;
-    }
+    return await queryDocumentBySlug(this.client, variables);
   }
 }

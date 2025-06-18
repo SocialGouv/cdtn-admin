@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { Button } from "src/components/button";
 import { useSession } from "next-auth/react";
 import { Stack as StackMUI, TextField as Field } from "@mui/material";
@@ -13,8 +14,9 @@ export function PasswordForm({
   onSubmit,
   backHref = "/users/account",
   changeOldPassword = false,
-  loading = false,
+  initialLoading = false,
 }) {
+  const [isLoading, setIsLoading] = useState(initialLoading);
   const { data } = useSession();
   const user = data?.user;
   const {
@@ -44,10 +46,10 @@ export function PasswordForm({
     required: { message: "Ce champ est requis", value: true },
   };
 
-  async function localSubmit(data) {
-    loading = true;
+  async function localSubmit(_data) {
+    setIsLoading(true);
     try {
-      await onSubmit(data);
+      await onSubmit(_data);
     } catch (err) {
       console.error("[ PasswordForm ]", err);
       setError(
@@ -59,7 +61,7 @@ export function PasswordForm({
         { shouldFocus: true }
       );
     }
-    loading = false;
+    setIsLoading(false);
   }
 
   return (
@@ -109,7 +111,7 @@ export function PasswordForm({
         <StackMUI direction="row" spacing={2} mt={4} justifyContent="end">
           <Button
             variant="contained"
-            disabled={hasError || loading}
+            disabled={hasError || isLoading}
             type="submit"
           >
             {buttonLabel}
@@ -127,5 +129,6 @@ export function PasswordForm({
 PasswordForm.propTypes = {
   backHref: PropTypes.string,
   changeOldPassword: PropTypes.bool,
+  initialLoading: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
 };

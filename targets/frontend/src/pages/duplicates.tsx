@@ -43,9 +43,9 @@ export function DuplicateContentPage(): JSX.Element {
     }
     const duplicateDocs =
       result?.data?.documents.flatMap((t) => {
-        const duplicates = getDoublons(t);
-        if (duplicates.length > 0) {
-          return duplicates;
+        const duplicateItems = getDoublons(t);
+        if (duplicateItems.length > 0) {
+          return duplicateItems;
         }
         return [];
       }) || [];
