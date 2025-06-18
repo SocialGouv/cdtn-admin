@@ -38,7 +38,7 @@ export const createDocumentsFetcher =
       { length: Math.ceil(count / PAGE_SIZE) },
       (_, i) => i
     );
-    return await batchPromises(
+    return batchPromises(
       pages,
       async (page) =>
         gqlClient()

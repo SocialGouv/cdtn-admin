@@ -80,7 +80,7 @@ async function getEditorialContentTemplateReferences() {
   const letters = (await getAllDocumentsBySource([
     SOURCES.EDITORIAL_CONTENT,
   ])) as EditorialContentSubset[];
-  return await extractEditorialContentTemplateRef(letters);
+  return extractEditorialContentTemplateRef(letters);
 }
 
 export default memoizee(getEditorialContentTemplateReferences, {

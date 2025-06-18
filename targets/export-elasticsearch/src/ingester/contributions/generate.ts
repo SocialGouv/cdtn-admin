@@ -103,7 +103,7 @@ export async function generateContributions(
   // Some related content link to another customized contribution
   // In this case, the description of the contribution is not available
   // so we populate the related content at the end
-  return await pMap(
+  return pMap(
     generatedContributions,
     async (contribution): Promise<ContributionElasticDocument> => {
       const linkedContent = await generateLinkedContent(

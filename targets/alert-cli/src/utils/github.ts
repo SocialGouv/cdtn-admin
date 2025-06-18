@@ -57,7 +57,7 @@ export class GithubApi {
   private async _tags(project: string, page = 1, limit = 5): Promise<Tags> {
     const url = `https://api.github.com/repos/${project}/tags?per_page=${limit}&page=${page}`;
     const tags = await this.fetchJson<GithubTagsResponse>(url);
-    return await Promise.all(
+    return Promise.all(
       tags.map(async (tag) => {
         const commit = await this.loadCommit(tag);
         return { ref: tag.name, commit };
@@ -126,11 +126,11 @@ export class GithubApi {
 
   async raw(project: string, path: string, tag: GitTagData): Promise<string> {
     const url = `https://raw.githubusercontent.com/${project}/${tag.ref}/${path}`;
-    return await this.fetchText(url);
+    return this.fetchText(url);
   }
 
   private async fetchGithub(url: string): Promise<Response> {
-    return await fetch(url, {
+    return fetch(url, {
       headers: {
         Authorization: `Bearer ${this.githubToken}`,
       },

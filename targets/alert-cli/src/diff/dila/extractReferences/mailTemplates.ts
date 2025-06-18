@@ -66,7 +66,7 @@ async function getMailTemplateReferences() {
   const letters = (await getAllDocumentsBySource([
     SOURCES.LETTERS,
   ])) as MailTemplateSubset[];
-  return await extractMailTemplateRef(letters);
+  return extractMailTemplateRef(letters);
 }
 
 export default memoizee(getMailTemplateReferences, { promise: true });
