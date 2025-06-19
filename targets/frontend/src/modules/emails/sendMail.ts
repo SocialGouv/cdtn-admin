@@ -19,6 +19,12 @@ export default function sendMail(mailOptions: Mail.Options) {
     },
     host: process.env.SMTP_URL,
     port: 587,
+    secure: false,
+    requireTLS: true,
+    tls: {
+      minVersion: "TLSv1.2",
+      rejectUnauthorized: true,
+    },
   });
   return transport.sendMail(mailOptions).finally(() => transport.close());
 }
