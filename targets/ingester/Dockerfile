@@ -2,7 +2,7 @@ ARG NODE_VERSION=22.13.1-alpine
 
 FROM node:$NODE_VERSION AS deps
 
-RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
+RUN apk add --update g++ make python3 && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
@@ -21,7 +21,7 @@ COPY --from=build-types /app/shared/types /app/shared/types
 COPY shared/utils ./shared/utils
 RUN yarn workspace @shared/utils build
 
-FROM deps as dist
+FROM deps AS dist
 COPY --from=build-types /app/shared/types /app/shared/types
 COPY --from=build-utils /app/shared/utils /app/shared/utils
 COPY targets/ingester targets/ingester

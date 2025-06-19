@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { UseFormSetError } from "react-hook-form";
 
-export default function LoginPage() {
+export default function Login() {
   const router = useRouter();
 
   const resetPassword = () => {

@@ -94,6 +94,78 @@ export function parseReferences(
 /**
  * @returns {ingester.ReferencedTexts[]}
  */
+// Helper function to handle article references
+function handleArticleReference(
+  resolveCdtReference: ReferenceResolver,
+  articleId: string | string[] | null,
+  url: string,
+  label: string
+): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
+  const unwrappedId = Array.isArray(articleId) ? articleId[0] : articleId;
+  const [article = undefined] = resolveCdtReference(
+    unwrappedId
+  ) as CodeArticle[];
+
+  if (!article) {
+    console.error(
+      `extractOldReferences: unknown article id ${articleId}, maybe reference is obsolete`
+    );
+    return [externalReference(url, label)];
+  }
+
+  return [cdtArticleReference(article)];
+}
+
+// Helper function to handle section references
+function handleSectionReference(
+  resolveCdtReference: ReferenceResolver,
+  sectionId: string | string[] | null,
+  url: string,
+  label: string
+): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
+  const unwrappedId = Array.isArray(sectionId) ? sectionId[0] : sectionId;
+  const [section = undefined] = resolveCdtReference(
+    unwrappedId
+  ) as CodeSection[];
+
+  if (!section) {
+    console.error(
+      `extractOldReferences: unknown section id ${sectionId}, maybe reference is obsolete`
+    );
+    return [externalReference(url, label)];
+  }
+
+  if (section.children.every((child) => child.type !== "article")) {
+    return [externalReference(url, label)];
+  }
+
+  return section.children.flatMap((child) => {
+    if (child.type !== "article") {
+      return [];
+    }
+    return [cdtArticleReference(child)];
+  });
+}
+
+// Helper function to handle convention collective references
+function handleConventionReference(
+  agreements: ShortAgreement[],
+  conventionId: string | string[] | null,
+  url: string,
+  label: string
+): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
+  const convention = agreements.find((ccn) => ccn.kaliId === conventionId);
+
+  if (!convention) {
+    console.error(
+      `extractOldReferences: unknown convention id ${conventionId}`
+    );
+    return [externalReference(url, label)];
+  }
+
+  return [agreementReference(convention)];
+}
+
 export function extractOldReference(
   resolveCdtReference: ReferenceResolver,
   agreements: ShortAgreement[],
@@ -113,46 +185,25 @@ export function extractOldReference(
    *
    */
   const qs = queryString.parse(url.split("?")[1]);
-
-  const unwrapQuerystringParam = (param: (string | null)[] | string) => {
-    return Array.isArray(param) ? param[0] : param;
-  };
-
   const type = getTextType(qs);
 
   switch (type) {
     case "code-du-travail": {
       if (qs.idArticle) {
-        const [article = undefined] = resolveCdtReference(
-          unwrapQuerystringParam(qs.idArticle)
-        ) as CodeArticle[];
-        if (!article) {
-          console.error(
-            `extractOldReferences: unkown article id ${qs.idArticle}, maybe reference is obsolete`
-          );
-          return [externalReference(url, label)];
-        }
-        return [cdtArticleReference(article)];
+        return handleArticleReference(
+          resolveCdtReference,
+          qs.idArticle,
+          url,
+          label
+        );
       }
       if (qs.idSectionTA) {
-        const [section = undefined] = resolveCdtReference(
-          unwrapQuerystringParam(qs.idSectionTA)
-        ) as CodeSection[];
-        if (!section) {
-          console.error(
-            `extractOldReferences: unkown section id ${qs.idSectionTA}, maybe reference is obsolete`
-          );
-          return [externalReference(url, label)];
-        }
-        if (section.children.every((child) => child.type !== "article")) {
-          return [externalReference(url, label)];
-        }
-        return section.children.flatMap((child) => {
-          if (child.type !== "article") {
-            return [];
-          }
-          return [cdtArticleReference(child)];
-        });
+        return handleSectionReference(
+          resolveCdtReference,
+          qs.idSectionTA,
+          url,
+          label
+        );
       }
       console.error(
         `extractOldReferences: cannot extract article reference from url ${url}`
@@ -161,16 +212,7 @@ export function extractOldReference(
     }
 
     case "convention-collective": {
-      const convention = agreements.find(
-        (ccn) => ccn.kaliId === qs.idConvention
-      );
-      if (!convention) {
-        console.error(
-          `extractOldReferences: unkown convention id ${qs.idConvention}`
-        );
-        return [externalReference(url, label)];
-      }
-      return [agreementReference(convention)];
+      return handleConventionReference(agreements, qs.idConvention, url, label);
     }
     // all other type fall as external link
     default: {
@@ -182,6 +224,72 @@ export function extractOldReference(
 /**
  * @returns {ingester.ReferencedTexts[]}
  */
+// Helper function to handle article references in new Legifrance format
+function handleNewArticleReference(
+  resolveCdtReference: ReferenceResolver,
+  url: string
+): ServicePublicInternalReference[] {
+  const [, articleId] = /(LEGIARTI\w+)(\W|$)/.exec(url) ?? [];
+  const [article = undefined] = resolveCdtReference(articleId) as CodeArticle[];
+
+  if (!article) {
+    return [];
+  }
+
+  return [cdtArticleReference(article)];
+}
+
+// Helper function to handle section references in new Legifrance format
+function handleNewSectionReference(
+  resolveCdtReference: ReferenceResolver,
+  url: string,
+  label: string
+): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
+  const [, sectionId] = /(LEGISCTA\w+)(\W|$)/.exec(url) ?? [];
+  const [section = undefined] = resolveCdtReference(sectionId) as CodeSection[];
+
+  if (!section) {
+    return [externalReference(url, label)];
+  }
+
+  if (section.children.every((child) => child.type !== "article")) {
+    return [externalReference(url, label)];
+  }
+
+  return section.children.flatMap((child) => {
+    if (child.type !== "article") {
+      return [];
+    }
+    return [cdtArticleReference(child)];
+  });
+}
+
+// Helper function to handle convention collective references in new Legifrance format
+function handleNewConventionReference(
+  agreements: ShortAgreement[],
+  url: string,
+  label: string
+): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
+  const [, kalicontainerId] = /(KALICONT\w+)(\W|$)/.exec(url) ?? [];
+  const [, kaliTextId] = /(KALITEXT\w+)(\W|$)/.exec(url) ?? [];
+
+  let convention;
+  if (kalicontainerId) {
+    convention = agreements.find((ccn) => ccn.kaliId === kalicontainerId);
+  } else if (kaliTextId) {
+    convention = agreements.find((ccn) => ccn.rootText === kaliTextId);
+  }
+
+  if (!convention) {
+    console.error(
+      `extractNewReferences: unknown convention id ${kalicontainerId} or text ${kaliTextId} from ${url}`
+    );
+    return [externalReference(url, label)];
+  }
+
+  return [agreementReference(convention)];
+}
+
 export function extractNewReference(
   resolveCdtReference: ReferenceResolver,
   agreements: ShortAgreement[],
@@ -209,53 +317,22 @@ export function extractNewReference(
    *
    */
 
+  // Handle code references
   if (url.includes("/codes/")) {
     if (url.includes("LEGIARTI")) {
-      const [, articleId] = /(LEGIARTI\w+)(\W|$)/.exec(url) ?? [];
-      const [article = undefined] = resolveCdtReference(
-        articleId
-      ) as CodeArticle[];
-      if (!article) {
-        return [];
-      }
-      return [cdtArticleReference(article)];
-    } else if (url.includes("LEGISCTA")) {
-      const [, sectionId] = /(LEGISCTA\w+)(\W|$)/.exec(url) ?? [];
-      const [section = undefined] = resolveCdtReference(
-        sectionId
-      ) as CodeSection[];
+      return handleNewArticleReference(resolveCdtReference, url);
+    }
 
-      if (!section) {
-        return [externalReference(url, label)];
-      }
-      if (section.children.every((child) => child.type !== "article")) {
-        return [externalReference(url, label)];
-      }
-      return section.children.flatMap((child) => {
-        if (child.type !== "article") {
-          return [];
-        }
-        return [cdtArticleReference(child)];
-      });
+    if (url.includes("LEGISCTA")) {
+      return handleNewSectionReference(resolveCdtReference, url, label);
     }
   }
 
+  // Handle convention collective references
   if (url.includes("/conv_coll/")) {
-    const [, kalicontainerId] = /(KALICONT\w+)(\W|$)/.exec(url) ?? [];
-    const [, kaliTextId] = /(KALITEXT\w+)(\W|$)/.exec(url) ?? [];
-    const convention = kalicontainerId
-      ? agreements.find((ccn) => ccn.kaliId === kalicontainerId)
-      : kaliTextId
-      ? agreements.find((ccn) => ccn.rootText === kaliTextId)
-      : undefined;
-    if (!convention) {
-      console.error(
-        `extractNewReferences: unkown convention id ${kalicontainerId} or text ${kaliTextId} from ${url}`
-      );
-      return [externalReference(url, label)];
-    }
-    return [agreementReference(convention)];
+    return handleNewConventionReference(agreements, url, label);
   }
 
+  // Default case: return as external reference
   return [externalReference(url, label)];
 }

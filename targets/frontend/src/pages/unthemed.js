@@ -34,13 +34,13 @@ export function UnthemedPage() {
 
   const [resultInsert, insertRelations] = useMutation(insertRelationMutation);
 
-  function onSubmit(data) {
-    const themedDocuments = Object.entries(data).flatMap(
-      ([contentId, theme]) => {
-        if (!theme) return [];
+  function onSubmit(submitData) {
+    const themedDocuments = Object.entries(submitData).flatMap(
+      ([contentId, themeData]) => {
+        if (!themeData) return [];
         return {
-          data: { position: theme.position },
-          document_a: theme.cdtnId,
+          data: { position: themeData.position },
+          document_a: themeData.cdtnId,
           document_b: contentId,
           type: RELATIONS.THEME_CONTENT,
         };

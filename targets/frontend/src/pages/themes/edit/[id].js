@@ -118,10 +118,9 @@ export function EditThemePage() {
     deleteTheme({ cdtnId: theme.cdtnId }).then((result) => {
       if (!result.error) {
         const parentId = theme.parentRelations[0].parent?.cdtnId;
-        router.push(
-          "/themes/[[...id]]",
-          `/themes${parentId ? `/${parentId}` : ""}`
-        );
+        const pathSegment = parentId ? `/${parentId}` : "";
+
+        router.push("/themes/[[...id]]", `/themes${pathSegment}`);
       }
     });
   }

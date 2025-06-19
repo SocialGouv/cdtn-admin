@@ -10,14 +10,14 @@ import {
 } from "../lib/referenceResolver";
 import { Code } from "@socialgouv/legi-data-types";
 
-export default async function getFicheTravailEmploi(pkgName: string) {
+export default async function FicheTravailEmploi(pkgName: string) {
   const [fichesMT, cdt] = await Promise.all([
     getJson<FicheTravailEmploi[]>(`${pkgName}/data/fiches-travail.json`),
     getJson<LegiData.Code>(
       `@socialgouv/legi-data/data/LEGITEXT000006072050.json`
     ),
   ]);
-  const result = await pMap(
+  return await pMap(
     fichesMT,
     async ({ pubId, sections, ...content }) => {
       const sectionsWithGlossary = await fetchSections(sections, cdt);
@@ -37,8 +37,6 @@ export default async function getFicheTravailEmploi(pkgName: string) {
     },
     { concurrency: 1 }
   );
-
-  return result;
 }
 
 const fetchSections = async (
@@ -47,7 +45,7 @@ const fetchSections = async (
 ) => {
   const resolveCdtReference = createReferenceResolver(cdt);
 
-  return await pMap(
+  return pMap(
     sections,
     async ({ references, ...section }) => ({
       ...section,

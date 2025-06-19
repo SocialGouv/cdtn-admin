@@ -8,7 +8,7 @@ import { TextField as Field } from "@mui/material";
 import { useRouter } from "next/router";
 import { emailValidation } from "src/modules/authentification/utils/regex";
 
-export default function ResetPasswordPage() {
+export default function ResetPassword() {
   const [success, setSuccess] = useState(false);
   const {
     register,
