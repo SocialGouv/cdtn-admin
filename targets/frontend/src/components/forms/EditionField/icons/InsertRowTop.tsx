@@ -8,5 +8,5 @@ const InsertRowTop = (props: any) => (
   </svg>
 );
 
-const InsertRowTopMemo = memo(InsertRowTop);
-export default InsertRowTopMemo;
+const Memo = memo(InsertRowTop);
+export default Memo;

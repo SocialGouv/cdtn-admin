@@ -8,5 +8,5 @@ const InsertColumnRight = (props: any) => (
   </svg>
 );
 
-const InsertColumnRightMemo = memo(InsertColumnRight);
-export default InsertColumnRightMemo;
+const Memo = memo(InsertColumnRight);
+export default Memo;

@@ -17,5 +17,5 @@ const DeleteColumn = (props: any) => (
   </svg>
 );
 
-const DeleteColumnMemo = memo(DeleteColumn);
-export default DeleteColumnMemo;
+const Memo = memo(DeleteColumn);
+export default Memo;

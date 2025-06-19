@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { verifyToken } from "src/modules/authentification/utils/jwt";
 import { deleteUser } from "src/modules/authentification/deleteUser";
 
-export default async function deleteApi(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

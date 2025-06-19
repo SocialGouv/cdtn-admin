@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { resetPassword } from "src/modules/authentification/resetPassword";
 
-export default async function resetApi(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

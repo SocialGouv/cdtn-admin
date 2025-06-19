@@ -10,7 +10,7 @@ import {
 } from "../lib/referenceResolver";
 import { Code } from "@socialgouv/legi-data-types";
 
-export default async function FicheTravailEmploi(pkgName: string) {
+export default async function getFicheTravailEmploi(pkgName: string) {
   const [fichesMT, cdt] = await Promise.all([
     getJson<FicheTravailEmploi[]>(`${pkgName}/data/fiches-travail.json`),
     getJson<LegiData.Code>(
