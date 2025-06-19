@@ -33,30 +33,12 @@ function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
   const allowedFileTypes = [
     "image/jpeg",
     "image/png",
-    "image/gif",
-    "image/webp",
     "application/pdf",
-    "text/plain",
-    "text/csv",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
-    "application/json",
   ];
 
   // Define allowed file extensions as a fallback
-  const allowedExtensions = [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".gif",
-    ".webp",
-    ".pdf",
-    ".txt",
-    ".csv",
-    ".docx",
-    ".xlsx",
-    ".json",
-  ];
+  const allowedExtensions = [".jpg", ".jpeg", ".png", ".svg", ".pdf", ".docx"];
 
   const form = new IncomingForm({
     multiples: true,
