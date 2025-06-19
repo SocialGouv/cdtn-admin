@@ -29,37 +29,117 @@ function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 
-  // Define allowed file types (whitelist approach)
-  const allowedFileTypes = [
-    "image/jpeg",
-    "image/png",
-    "application/pdf",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-  ];
+  // Define allowed file types with their corresponding extensions (whitelist approach)
+  const allowedFileMap: Record<string, string[]> = {
+    "image/jpeg": [".jpg", ".jpeg"],
+    "image/png": [".png"],
+    "application/pdf": [".pdf"],
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
+      ".docx",
+    ],
+  };
 
-  // Define allowed file extensions as a fallback
-  const allowedExtensions = [".jpg", ".jpeg", ".png", ".svg", ".pdf", ".docx"];
+  // Extract all allowed MIME types and extensions for easier access
+  const allowedFileTypes = Object.keys(allowedFileMap);
+  const allowedExtensions = Object.values(allowedFileMap).flat();
+
+  // Function to validate file type based on actual content (magic numbers)
+  const validateFileContent = (
+    filepath: string,
+    claimedMimeType?: string
+  ): boolean => {
+    try {
+      const fileBuffer = fs.readFileSync(filepath);
+
+      // Check file signatures (magic numbers)
+      // JPEG: FF D8 FF
+      if (
+        fileBuffer[0] === 0xff &&
+        fileBuffer[1] === 0xd8 &&
+        fileBuffer[2] === 0xff
+      ) {
+        return claimedMimeType === "image/jpeg";
+      }
+
+      // PNG: 89 50 4E 47 0D 0A 1A 0A
+      if (
+        fileBuffer[0] === 0x89 &&
+        fileBuffer[1] === 0x50 &&
+        fileBuffer[2] === 0x4e &&
+        fileBuffer[3] === 0x47 &&
+        fileBuffer[4] === 0x0d &&
+        fileBuffer[5] === 0x0a &&
+        fileBuffer[6] === 0x1a &&
+        fileBuffer[7] === 0x0a
+      ) {
+        return claimedMimeType === "image/png";
+      }
+
+      // PDF: 25 50 44 46
+      if (
+        fileBuffer[0] === 0x25 &&
+        fileBuffer[1] === 0x50 &&
+        fileBuffer[2] === 0x44 &&
+        fileBuffer[3] === 0x46
+      ) {
+        return claimedMimeType === "application/pdf";
+      }
+
+      // For Office documents (docx), check for ZIP signature (they are ZIP-based formats)
+      if (fileBuffer[0] === 0x50 && fileBuffer[1] === 0x4b) {
+        const extension = path.extname(filepath).toLowerCase();
+        return (
+          extension === ".docx" &&
+          claimedMimeType ===
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        );
+      }
+
+      return false;
+    } catch (error) {
+      console.error("Error validating file content:", error);
+      return false;
+    }
+  };
 
   const form = new IncomingForm({
     multiples: true,
     uploadDir, // Restrict uploads to this specific directory
     keepExtensions: true, // Keep file extensions for better file type identification
     maxFileSize: 10 * 1024 * 1024, // Limit file size to 10MB for additional security
-    filter: ({ name, originalFilename, mimetype }) => {
-      // Check if the file has a valid mime type
-      const hasValidMimeType = mimetype && allowedFileTypes.includes(mimetype);
+    filter: ({
+      name,
+      originalFilename,
+      mimetype,
+    }: {
+      name: string | null;
+      originalFilename: string | null;
+      mimetype: string | null;
+    }) => {
+      // Reject if missing filename or mimetype
+      if (!originalFilename || !mimetype) {
+        console.error(`Rejected file upload: Missing filename or mimetype`);
+        return false;
+      }
 
-      // Check if the file has a valid extension as a fallback
-      const hasValidExtension =
-        originalFilename &&
-        allowedExtensions.some((ext) =>
-          originalFilename.toLowerCase().endsWith(ext)
-        );
+      const fileExtension = path.extname(originalFilename).toLowerCase();
 
-      // Reject the file if neither condition is met
-      if (!hasValidMimeType && !hasValidExtension) {
+      // Check if the MIME type is allowed
+      const hasValidMimeType = allowedFileTypes.includes(mimetype);
+
+      // Check if the extension is allowed
+      const hasValidExtension = allowedExtensions.includes(fileExtension);
+
+      // Check if the extension matches the claimed MIME type
+      const validExtensionsForMime = allowedFileMap[mimetype] || [];
+      const extensionMatchesMime =
+        validExtensionsForMime.includes(fileExtension);
+
+      // Reject if ANY validation fails (using OR instead of AND)
+      if (!hasValidMimeType || !hasValidExtension || !extensionMatchesMime) {
         console.error(
-          `Rejected file upload: ${name}, type: ${mimetype}, filename: ${originalFilename}`
+          `Rejected file upload: ${name}, type: ${mimetype}, filename: ${originalFilename}, ` +
+            `validMime: ${hasValidMimeType}, validExt: ${hasValidExtension}, extMatchesMime: ${extensionMatchesMime}`
         );
         return false;
       }
@@ -95,6 +175,19 @@ function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
 
     try {
       for (const file of allFiles) {
+        // Get the MIME type from the file
+        const mimeType = (file as any).mimetype || "";
+
+        // Validate file content matches claimed MIME type
+        const contentIsValid = validateFileContent(file.filepath, mimeType);
+        if (!contentIsValid) {
+          console.error(`File content doesn't match claimed type: ${mimeType}`);
+          return res.status(400).json({
+            success: false,
+            errorMessage: "File content doesn't match claimed type",
+          });
+        }
+
         // Double-check file safety
         const isSafe = await isUploadFileSafe(file);
         if (!isSafe) {
@@ -105,9 +198,18 @@ function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
         }
 
         // Sanitize the original filename
-        const sanitizedFilename = path.basename(
-          file.originalFilename || "unknown"
-        );
+        const originalFilename = (file as any).originalFilename;
+        const sanitizedFilename = path.basename(originalFilename || "unknown");
+
+        // Ensure the sanitized filename has a valid extension
+        const fileExtension = path.extname(sanitizedFilename).toLowerCase();
+        if (!allowedExtensions.includes(fileExtension)) {
+          console.error(`Invalid file extension: ${fileExtension}`);
+          return res.status(400).json({
+            success: false,
+            errorMessage: "Invalid file extension",
+          });
+        }
 
         const fileContent = fs.readFileSync(file.filepath);
         await uploadApiFiles(sanitizedFilename, fileContent);
