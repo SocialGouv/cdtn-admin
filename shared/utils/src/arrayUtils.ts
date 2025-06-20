@@ -4,8 +4,11 @@ const groupBy = <T>(
 ) =>
   array.reduce((acc, value, index, _array) => {
     const key = predicate(value, index, _array);
-    acc[key] ||= [];
-    acc[key].push(value);
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    // Use non-null assertion since we've guaranteed acc[key] exists
+    acc[key]!.push(value);
     return acc;
   }, {} as { [key: string]: T[] });
 

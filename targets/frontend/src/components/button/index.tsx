@@ -82,11 +82,13 @@ export const IconButton: React.FC<ButtonPropTypesWithSx> = ({
   return (
     <MuiIconButton
       {...props}
-      variant={variant}
+      // MuiIconButton doesn't accept a variant prop
       sx={{
         borderRadius: 32,
         fontSize: size,
         overflow: "hidden",
+        // We can use the variant for custom styling if needed
+        ...(variant === "outlined" ? { border: "1px solid currentColor" } : {}),
         ...sx,
       }}
     />
