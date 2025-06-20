@@ -40,6 +40,17 @@ const fileTypeMap: Record<string, string> = {
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 };
 
+function isExtensionAllowed(filename: string): boolean {
+  const ext = path.extname(filename).toLowerCase();
+  return allowedExtensions.includes(ext) && !deniedExtensions.includes(ext);
+}
+
+function isMimeTypeAllowed(mimetype: string): boolean {
+  return (
+    allowedFileTypes.includes(mimetype) && !deniedMimeTypes.includes(mimetype)
+  );
+}
+
 async function validateFileContent(file: formidable.File): Promise<boolean> {
   const buffer = await fsPromises.readFile(file.filepath);
   const uint8Array = new Uint8Array(
@@ -81,33 +92,19 @@ async function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
     keepExtensions: true,
     maxFileSize: 2 * 1024 * 1024,
     filter: ({ name, originalFilename, mimetype }) => {
-      const hasDeniedMimeType = mimetype && deniedMimeTypes.includes(mimetype);
-      const hasDeniedExtension =
-        originalFilename &&
-        deniedExtensions.some((ext) =>
-          originalFilename.toLowerCase().endsWith(ext.toLowerCase())
-        );
+      if (!originalFilename || !mimetype) {
+        return false;
+      }
+      const extAllowed = isExtensionAllowed(originalFilename);
+      const mimeAllowed = isMimeTypeAllowed(mimetype);
 
-      if (hasDeniedMimeType || hasDeniedExtension) {
+      if (!extAllowed || !mimeAllowed) {
         console.error(
-          `Rejected file upload: ${name}, type: ${mimetype}, filename: ${originalFilename}, reason: Executable file detected`
+          `Rejected file upload: ${name}, type: ${mimetype}, filename: ${originalFilename}, reason: disallowed extension or MIME type`
         );
         return false;
       }
 
-      const hasValidMimeType = mimetype && allowedFileTypes.includes(mimetype);
-      const hasValidExtension =
-        originalFilename &&
-        allowedExtensions.some((ext) =>
-          originalFilename.toLowerCase().endsWith(ext.toLowerCase())
-        );
-
-      if (!hasValidMimeType || !hasValidExtension) {
-        console.error(
-          `Rejected file upload: ${name}, type: ${mimetype}, filename: ${originalFilename}, reason: Invalid MIME type or extension`
-        );
-        return false;
-      }
       return true;
     },
   });
