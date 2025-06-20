@@ -15,10 +15,34 @@ const allowedFileTypes = [
   "application/pdf",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ];
+const allowedExtensions = [".jpg", ".jpeg", ".png", ".pdf", ".docx"];
+const deniedExtensions = [
+  ".exe",
+  ".js",
+  ".bat",
+  ".sh",
+  ".cmd",
+  ".php",
+  ".py",
+  ".jar",
+];
+const deniedMimeTypes = [
+  "application/javascript",
+  "text/javascript",
+  "application/x-sh",
+  "application/x-executable",
+];
+const fileTypeMap: Record<string, string> = {
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".png": "image/png",
+  ".pdf": "application/pdf",
+  ".docx":
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+};
 
 async function validateFileContent(file: formidable.File): Promise<boolean> {
   const buffer = await fsPromises.readFile(file.filepath);
-  // Create a proper Uint8Array from the buffer for fileTypeFromBuffer
   const uint8Array = new Uint8Array(
     buffer.buffer,
     buffer.byteOffset,
@@ -28,6 +52,15 @@ async function validateFileContent(file: formidable.File): Promise<boolean> {
 
   if (!fileType || !allowedFileTypes.includes(fileType.mime)) {
     console.error(`Invalid file content for ${file.originalFilename}`);
+    return false;
+  }
+
+  const extension = path.extname(file.originalFilename || "").toLowerCase();
+  const expectedMime = fileTypeMap[extension];
+  if (!expectedMime || fileType.mime !== expectedMime) {
+    console.error(
+      `MIME type mismatch for ${file.originalFilename}: expected ${expectedMime}, got ${fileType.mime}`
+    );
     return false;
   }
 
@@ -43,14 +76,26 @@ async function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
     await fsPromises.mkdir(uploadDir, { recursive: true, mode: 0o700 });
   }
 
-  const allowedExtensions = [".jpg", ".jpeg", ".png", ".svg", ".pdf", ".docx"];
-
   const form = new IncomingForm({
     multiples: true,
     uploadDir,
     keepExtensions: true,
     maxFileSize: 2 * 1024 * 1024,
     filter: ({ name, originalFilename, mimetype }) => {
+      const hasDeniedMimeType = mimetype && deniedMimeTypes.includes(mimetype);
+      const hasDeniedExtension =
+        originalFilename &&
+        deniedExtensions.some((ext) =>
+          originalFilename.toLowerCase().endsWith(ext.toLowerCase())
+        );
+
+      if (hasDeniedMimeType || hasDeniedExtension) {
+        console.error(
+          `Rejected file upload: ${name}, type: ${mimetype}, filename: ${originalFilename}, reason: Executable file detected`
+        );
+        return false;
+      }
+
       const hasValidMimeType = mimetype && allowedFileTypes.includes(mimetype);
       const hasValidExtension =
         originalFilename &&
@@ -103,6 +148,7 @@ async function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
           });
         }
 
+        // isUploadFileSafe performs additional security checks, including antivirus scanning.
         const isSafe = await isUploadFileSafe(file);
         if (!isSafe) {
           console.error("Malicious code detected");
