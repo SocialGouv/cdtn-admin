@@ -1,9 +1,6 @@
 import { Box } from "@mui/material";
 
 import { theme } from "src/theme";
-import PropTypes from "prop-types";
-
-const spaces = Object.keys(theme.space);
 
 const spacePropTypes = PropTypes.oneOfType([
   PropTypes.oneOf(spaces),
