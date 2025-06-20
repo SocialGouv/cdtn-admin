@@ -2,7 +2,6 @@ import formidable, { IncomingForm } from "formidable";
 import { isUploadFileSafe } from "src/lib/secu";
 import { NextApiRequest, NextApiResponse } from "next";
 import { uploadApiFiles } from "src/lib/upload";
-import fs from "fs";
 import { promises as fsPromises } from "fs";
 import path from "path";
 import os from "os";
@@ -193,5 +192,5 @@ export default async function handler(
       .json({ success: false, errorMessage: "Method not allowed" });
   }
 
-  return await uploadFiles(req, res);
+  return uploadFiles(req, res);
 }

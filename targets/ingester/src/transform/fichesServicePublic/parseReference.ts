@@ -3,6 +3,11 @@ import type {
   ServicePublicInternalReference,
   ServicePublicReference,
 } from "@socialgouv/cdtn-types";
+
+/**
+ * Type alias for reference identifiers that can be a string, array of strings, or null
+ */
+type ReferenceId = string | string[] | null;
 import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-sources";
 import type { RawJson } from "@socialgouv/fiches-vdd-types";
@@ -97,7 +102,7 @@ export function parseReferences(
 // Helper function to handle article references
 function handleArticleReference(
   resolveCdtReference: ReferenceResolver,
-  articleId: string | string[] | null,
+  articleId: ReferenceId,
   url: string,
   label: string
 ): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
@@ -119,7 +124,7 @@ function handleArticleReference(
 // Helper function to handle section references
 function handleSectionReference(
   resolveCdtReference: ReferenceResolver,
-  sectionId: string | string[] | null,
+  sectionId: ReferenceId,
   url: string,
   label: string
 ): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
@@ -150,7 +155,7 @@ function handleSectionReference(
 // Helper function to handle convention collective references
 function handleConventionReference(
   agreements: ShortAgreement[],
-  conventionId: string | string[] | null,
+  conventionId: ReferenceId,
   url: string,
   label: string
 ): ServicePublicExternalReference[] | ServicePublicInternalReference[] {

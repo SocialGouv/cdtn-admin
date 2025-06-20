@@ -59,6 +59,6 @@ export class DocumentsRepository {
   }
 
   async fetchDocumentBySlug(variables: DocumentsQueryBySlugProps) {
-    return await queryDocumentBySlug(this.client, variables);
+    return queryDocumentBySlug(this.client, variables);
   }
 }

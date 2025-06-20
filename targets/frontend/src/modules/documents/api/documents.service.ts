@@ -48,7 +48,7 @@ export class DocumentsService {
         cause: null,
       });
     }
-    return await mapInformationToDocument(information, document);
+    return mapInformationToDocument(information, document);
   }
 
   private async handleContributionSource(
@@ -153,9 +153,9 @@ export class DocumentsService {
     if (source === "information") {
       document = await this.handleInformationSource(id, document);
     } else if (source === "contributions") {
-      const result = await this.handleContributionSource(id, document, source);
-      document = result.document;
-      postTreatment = result.postTreatment;
+      const _result = await this.handleContributionSource(id, document, source);
+      document = _result.document;
+      postTreatment = _result.postTreatment;
     } else if (source === "modeles_de_courriers") {
       document = await this.handleModelSource(id, document);
     } else if (source === "conventions_collectives") {

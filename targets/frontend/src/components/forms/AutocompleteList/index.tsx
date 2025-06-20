@@ -83,8 +83,8 @@ export const AutocompleteList = <T,>({
               isOptionEqualToValue={isOptionEqualToValue}
               getOptionLabel={getOptionLabel}
               filterOptions={filterOptions}
-              onInputChange={(_event, value) => {
-                setQuery(value);
+              onInputChange={(_event, _value) => {
+                setQuery(_value);
               }}
               noOptionsText={noOptionsText}
               renderInput={(params) => (
