@@ -1,4 +1,4 @@
-import { getLabelBySource } from "@socialgouv/cdtn-sources";
+import { getLabelBySource, SourceLabel } from "@socialgouv/cdtn-sources";
 import Link from "next/link";
 import { sourceToRoute } from "src/components/documents/List";
 import {
@@ -62,7 +62,7 @@ export function DuplicateContentPage(): JSX.Element {
         {data?.relations.map(({ id, parent, document }) => {
           return (
             <Tr key={`${id}`}>
-              <Td>{getLabelBySource(parent.source as any)}</Td>
+              <Td>{getLabelBySource(parent.source as SourceLabel)}</Td>
               <Td>
                 <Link
                   href={sourceToRoute({

@@ -30,11 +30,7 @@ const SortableSectionList = SortableContainer(
 ) as any;
 
 export function ContentSections({ name }: any) {
-  const {
-    control,
-    register,
-    formState: { errors },
-  } = useFormContext();
+  const { control } = useFormContext();
   const { fields, append, move, remove } = useFieldArray({
     control,
     keyName: "key",
@@ -73,7 +69,6 @@ export function ContentSections({ name }: any) {
             append({ blocks: [{ markdown: "", type: "markdown" }] })
           }
         >
-          {/* todo refactor to a ButtonWithicon since sx props not working */}
           <IoMdAdd
             style={{
               height: theme.sizes.iconSmall,

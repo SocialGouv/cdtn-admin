@@ -69,11 +69,11 @@ export const mapInformationToDocument = async (
                       ? {
                           blockDisplayMode: block.contentDisplayMode,
                           contents: block.contents?.length
-                            ? block.contents.map(({ document }) => {
+                            ? block.contents.map(({ document: _document }) => {
                                 return {
-                                  title: document.title,
-                                  cdtnId: document.cdtnId,
-                                  source: document.source,
+                                  title: _document.title,
+                                  cdtnId: _document.cdtnId,
+                                  source: _document.source,
                                 };
                               })
                             : undefined,

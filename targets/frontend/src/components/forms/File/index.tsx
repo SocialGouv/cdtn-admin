@@ -52,13 +52,7 @@ export const FormFileField = ({
                     onFileChange(acceptedFiles[0] as unknown as DropzoneFile);
                 }}
               >
-                {({
-                  getRootProps,
-                  getInputProps,
-                  open,
-                  isDragActive,
-                  acceptedFiles,
-                }) => (
+                {({ getRootProps, getInputProps, open, isDragActive }) => (
                   <>
                     <TitleBox
                       title={label}

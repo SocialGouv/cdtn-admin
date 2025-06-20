@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef } from "react";
 import { theme } from "src/theme";
-import { Table as Tb, TableHead, TableCell, TableRow } from "@mui/material";
+import { Table as Tb, TableCell, TableRow } from "@mui/material";
 
 export const Table = (props: ComponentPropsWithoutRef<"table">) => (
   <Tb

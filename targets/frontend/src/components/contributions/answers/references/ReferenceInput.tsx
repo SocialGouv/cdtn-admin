@@ -46,7 +46,7 @@ export const ReferenceInput = <Type,>({
   idcc,
 }: Props<Type>): ReactElement | null => {
   const [query, setQuery] = useState<string | undefined>();
-  const { data, fetching, error } = fetcher(query, idcc);
+  const { data, fetching } = fetcher(query, idcc);
 
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<readonly Type[]>([]);
@@ -71,7 +71,7 @@ export const ReferenceInput = <Type,>({
       disabled={disabled}
       label={label}
       options={options}
-      filterOptions={(options) => options}
+      filterOptions={(_options) => _options}
       isOptionEqualToValue={isEqual}
       loading={fetching}
       onOpen={() => {

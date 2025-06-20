@@ -2,8 +2,7 @@ import type { Code } from "@socialgouv/legi-data-types";
 
 import { createToJson } from "../../../utils/node-git.helpers";
 import type { CodeFileChange } from "./types";
-import { Diff, DiffFile, LoadFileFn } from "../../../types";
-import { GitTagData } from "../../../types";
+import { Diff, DiffFile, LoadFileFn, GitTagData } from "../../../types";
 
 const codeFileChanges = async (
   file: DiffFile,

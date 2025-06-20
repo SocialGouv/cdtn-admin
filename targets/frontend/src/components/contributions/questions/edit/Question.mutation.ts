@@ -42,7 +42,7 @@ export const useQuestionUpdateMutation = (): MutationResult => {
   const [, executeUpdate] = useMutation<Result, MutationProps>(
     questionUpdateMutation
   );
-  const resultFunction = async (data: MutationProps) => {
+  return async (data: MutationProps) => {
     const result = await executeUpdate(data);
     if (result.error) {
       throw new Error(result.error.message);
@@ -54,5 +54,4 @@ export const useQuestionUpdateMutation = (): MutationResult => {
     }
     return result.data;
   };
-  return resultFunction;
 };

@@ -26,7 +26,6 @@ export class InformationsRepository {
     if (!data || data.information_informations.length === 0) {
       throw new Error(`Pas de page information pour l'id ${id}`);
     }
-    const information = data.information_informations[0];
-    return information;
+    return data.information_informations[0];
   }
 }

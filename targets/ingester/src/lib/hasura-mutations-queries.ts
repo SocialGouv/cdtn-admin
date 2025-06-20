@@ -1,5 +1,4 @@
-import { gqlClient } from "@shared/utils";
-import { generateCdtnId } from "@shared/utils";
+import { gqlClient, generateCdtnId } from "@shared/utils";
 
 interface Versionnable {
   version: string;
@@ -168,7 +167,7 @@ export async function insertDocuments(
       (doc) => doc.is_published !== undefined && !doc.is_published
     );
     if (docsNotPublished.length > 0) {
-      const result = await gqlClient()
+      const insertDocResult = await gqlClient()
         .mutation<InsertdocumentResult>(updatePublishStatusDocumentsMutation, {
           updates: docsNotPublished.map(({ id, source }) => ({
             where: { cdtn_id: { _eq: generateCdtnId(`${source}${id}`) } },
@@ -176,8 +175,8 @@ export async function insertDocuments(
           })),
         })
         .toPromise();
-      if (result.error) {
-        console.error(result.error.graphQLErrors[0]);
+      if (insertDocResult.error) {
+        console.error(insertDocResult.error.graphQLErrors[0]);
         throw new Error(`error updating is_published status documents`);
       }
     }

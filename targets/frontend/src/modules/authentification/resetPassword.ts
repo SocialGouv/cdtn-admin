@@ -1,5 +1,4 @@
 import { gqlClient } from "@shared/utils";
-import { hash, verify } from "argon2";
 import { gql } from "urql";
 import { AuthEmailResetPasswordError, AuthGqlError } from "./utils/errors";
 import { sendLostPasswordEmail } from "../emails/sendLostPasswordEmail";

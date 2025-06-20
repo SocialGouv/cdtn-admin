@@ -38,7 +38,7 @@ export const useAgreementDeleteMutation = (): MutationFn => {
     MutationGraphQLResult,
     MutationGraphQLProps
   >(deleteAgreementQuery);
-  const resultFunction = async ({ id }: MutationProps) => {
+  return async ({ id }: MutationProps) => {
     const result = await executeUpdate({
       id,
       initialId: id,
@@ -51,5 +51,4 @@ export const useAgreementDeleteMutation = (): MutationFn => {
     }
     return result.data.delete_agreement_agreements_by_pk.id;
   };
-  return resultFunction;
 };

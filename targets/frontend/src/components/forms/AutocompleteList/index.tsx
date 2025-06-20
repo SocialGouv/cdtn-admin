@@ -48,7 +48,6 @@ export const AutocompleteList = <T,>({
   renderForm,
   fetcher,
   append,
-  value,
 }: ListAutocompleteProps<T>) => {
   const [query, setQuery] = useState<string | undefined>();
   const [options, setOptions] = useState<readonly T[]>([]);
@@ -72,7 +71,7 @@ export const AutocompleteList = <T,>({
               clearOnBlur={true}
               forcePopupIcon={false}
               id={`id-${label}`}
-              onChange={(event, newValue) => {
+              onChange={(_event, newValue) => {
                 if (newValue) {
                   append(newValue);
                 }
@@ -84,8 +83,8 @@ export const AutocompleteList = <T,>({
               isOptionEqualToValue={isOptionEqualToValue}
               getOptionLabel={getOptionLabel}
               filterOptions={filterOptions}
-              onInputChange={(event, value) => {
-                setQuery(value);
+              onInputChange={(_event, _value) => {
+                setQuery(_value);
               }}
               noOptionsText={noOptionsText}
               renderInput={(params) => (

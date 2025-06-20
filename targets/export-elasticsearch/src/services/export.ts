@@ -70,23 +70,19 @@ export class ExportService {
       const exportEsDone = await this.exportRepository.getOne(id);
 
       const message = `**${envName}:** mise à jour terminée (${exportEsDone.documentsCount?.total} documents) 🎉`;
-       logger.info(message);
+      logger.info(message);
       await sendMattermostMessage(
         message,
         process.env.MATTERMOST_CHANNEL_EXPORT
       );
 
-      return await this.exportRepository.updateOne(
-        id,
-        Status.completed,
-        new Date()
-      );
+      return this.exportRepository.updateOne(id, Status.completed, new Date());
     } catch (e: any) {
       await sendMattermostMessage(
         `⚠️ **${envName}:** La mise à jour a échouée. ⚠️`,
         process.env.MATTERMOST_CHANNEL_EXPORT
       );
-      return await this.exportRepository.updateOne(
+      return this.exportRepository.updateOne(
         id,
         Status.failed,
         new Date(),
