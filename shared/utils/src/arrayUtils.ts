@@ -7,8 +7,7 @@ const groupBy = <T>(
     if (!acc[key]) {
       acc[key] = [];
     }
-    // Use non-null assertion since we've guaranteed acc[key] exists
-    acc[key]!.push(value);
+    acc[key].push(value);
     return acc;
   }, {} as { [key: string]: T[] });
 
