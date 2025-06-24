@@ -4,10 +4,9 @@ const groupBy = <T>(
 ) =>
   array.reduce((acc, value, index, _array) => {
     const key = predicate(value, index, _array);
-    if (!acc[key]) {
-      acc[key] = [];
-    }
-    acc[key].push(value);
+    const group = acc[key] || []; // Use a local variable
+    group.push(value);
+    acc[key] = group;
     return acc;
   }, {} as { [key: string]: T[] });
 
