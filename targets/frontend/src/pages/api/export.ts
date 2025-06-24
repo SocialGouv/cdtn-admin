@@ -41,8 +41,8 @@ const main = (req: NextApiRequest, res: NextApiResponse) => {
       },
       method: "POST",
     })
-      .then((res) => {
-        return res.json();
+      .then((result) => {
+        return result.json();
       })
       .then((data) => {
         if (data.errors) {

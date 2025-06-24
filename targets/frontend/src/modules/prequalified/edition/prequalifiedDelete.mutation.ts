@@ -20,12 +20,11 @@ export type DeletePrequalifiedMutationResult = (
 export const useDeletePrequalifiedMutation =
   (): DeletePrequalifiedMutationResult => {
     const [, execute] = useMutation<string>(deletePrequalifiedMutation);
-    const resultFunction = async (id: string) => {
+    return async (id: string) => {
       const result = await execute({ id });
       if (result.error) {
         throw new Error(result.error.message);
       }
       return result;
     };
-    return resultFunction;
   };

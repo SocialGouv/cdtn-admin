@@ -109,10 +109,10 @@ export function CreateThemePage() {
         })
       );
       if (!result.error) {
-        router.push(
-          "/themes/[[...id]]",
-          `/themes${parentId ? `/${parentId}` : ""}`
-        );
+        // Create the path segment without nested template literals
+        const pathSegment = parentId ? `/${parentId}` : "";
+
+        router.push("/themes/[[...id]]", `/themes${pathSegment}`);
       }
     }
   }

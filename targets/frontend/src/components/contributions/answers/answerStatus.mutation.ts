@@ -22,12 +22,11 @@ export const useContributionAnswerUpdateStatusMutation = (): MutationResult => {
   const [, executeUpdate] = useMutation<MutationProps>(
     contributionAnswerUpdateStatusMutation
   );
-  const resultFunction = async (data: MutationProps) => {
+  return async (data: MutationProps) => {
     const result = await executeUpdate(data);
     if (result.error) {
       throw new Error(result.error.message);
     }
     return result;
   };
-  return resultFunction;
 };

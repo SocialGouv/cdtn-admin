@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, textblockTypeInputRule } from "@tiptap/core";
+import { mergeAttributes, Node } from "@tiptap/core";
 
 export type Level = "title" | "sub-title";
 

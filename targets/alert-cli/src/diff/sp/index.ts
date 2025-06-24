@@ -6,8 +6,10 @@ import type {
   FicheVddIndex,
   FicheVddNode,
   GitTagData,
+  DataDiffFunction,
+  DiffFile,
+  LoadFileFn,
 } from "../../types";
-import type { DataDiffFunction, DiffFile, LoadFileFn } from "../../types";
 import { getRelevantSpDocuments } from "./getRelevantDocument";
 
 export const processVddDiff: DataDiffFunction = async ({
@@ -159,9 +161,7 @@ const getTextFromRawFiche = (fiche: FicheVdd): string => {
   const intro = getText(getChild(publication, "Introduction"));
   const texte = getText(getChild(publication, "Texte"));
   const listeSituations = getText(getChild(publication, "ListeSituations"));
-  const text = intro + " " + texte + " " + listeSituations;
-
-  return text;
+  return intro + " " + texte + " " + listeSituations;
 };
 
 function getChild(

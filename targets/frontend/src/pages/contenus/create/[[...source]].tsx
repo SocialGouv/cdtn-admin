@@ -60,13 +60,12 @@ export function CreateDocumentPage() {
   }
 
   let ContentForm;
-  switch (source) {
-    case SOURCES.HIGHLIGHTS:
-      ContentForm = HighlightsForm;
-      break;
-    default:
-      // eslint-disable-next-line react/display-name
-      ContentForm = () => null;
+
+  if (source === SOURCES.HIGHLIGHTS) {
+    ContentForm = HighlightsForm;
+  } else {
+    // eslint-disable-next-line react/display-name
+    ContentForm = () => null;
   }
 
   return (

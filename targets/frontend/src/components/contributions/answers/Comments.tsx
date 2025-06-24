@@ -81,12 +81,12 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
     }
   }, [notifications]);
 
-  const onSubmit = async (data: MutationProps) => {
+  const onSubmit = async (_data: MutationProps) => {
     try {
       const result = await insertComment(
         {
           answerId: answerId,
-          content: data.content,
+          content: _data.content,
           userId: user?.id,
         },
         { additionalTypenames: ["AnswerComments"] }
@@ -109,10 +109,10 @@ export const Comments = ({ answerId, comments, statuses }: Props) => {
     }
   };
 
-  const onDeleteCom = async (commentToDelete: AnswerComments) => {
+  const onDeleteCom = async (_commentToDelete: AnswerComments) => {
     try {
       const result = await deleteComment(
-        { id: commentToDelete.id },
+        { id: _commentToDelete.id },
         {
           additionalTypenames: ["AnswerComments"],
         }

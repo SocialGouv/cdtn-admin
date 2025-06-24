@@ -27,11 +27,11 @@ export const authExchangeUrql = authExchange(async (utils) => {
     },
     async refreshAuth() {
       try {
-        const session = await getSession();
-        if (!session) {
+        const _session = await getSession();
+        if (!_session) {
           throw new Error("No session");
         }
-        accessToken = session.user.accessToken;
+        accessToken = _session.user.accessToken;
       } catch (_error) {
         signOut({
           redirect: true,

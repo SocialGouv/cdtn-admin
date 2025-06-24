@@ -20,7 +20,7 @@ COPY --from=build-types /app/shared/types /app/shared/types
 COPY shared/utils ./shared/utils
 RUN yarn workspace @shared/utils build
 
-FROM deps as dist
+FROM deps AS dist
 
 ARG NEXT_PUBLIC_BASE_PATH
 ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH

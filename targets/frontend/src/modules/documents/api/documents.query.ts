@@ -62,9 +62,7 @@ export const queryDocument = async (
     console.log(error);
     throw error;
   }
-  const data = result?.documents[0];
-
-  return data;
+  return result?.documents[0];
 };
 
 export const queryDocumentBySlug = async (
@@ -79,7 +77,5 @@ export const queryDocumentBySlug = async (
     console.log(error);
     throw error;
   }
-  const data = result?.documents[0];
-
-  return data;
+  return result?.documents[0];
 };

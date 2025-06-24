@@ -298,7 +298,7 @@ export async function cdtnDocumentsGen(
   const {
     documents: editorialContents,
     relatedIdsDocuments: relatedIdsEditorialDocuments,
-  } = await generateEditorialContents(documents);
+  } = generateEditorialContents(documents);
   documentsCount = {
     ...documentsCount,
     [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,

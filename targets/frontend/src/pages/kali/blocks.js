@@ -36,7 +36,6 @@ mutation EditBlocks(
 }
 `;
 
-// todo: move somewhere ?
 // d'après la note DGT "DGT - Fiche 2018-29 - Ordonnances 2017 -Fiche Hiérarchie des normes"
 const blocksDefinition = [
   { id: 1, label: `Bloc 1 : Salaires minima hiérarchiques` },
@@ -94,7 +93,7 @@ function CcnBlocks({ id, blocks, onChange }) {
     () =>
       Array.from(
         { length: nbBlocks },
-        (k, v) => (blocks && blocks[v + 1] && blocks[v + 1]) || []
+        (_k, v) => (blocks && blocks[v + 1] && blocks[v + 1]) || []
       ),
     [blocks]
   );
@@ -177,9 +176,7 @@ export function KaliBlocksPage() {
   const { fetching, error, data } = result;
 
   // eslint-disable-next-line no-unused-vars
-  const [updateBlocksResult, updateBlocks] = useMutation(
-    editKaliBlocksMutation
-  );
+  const [, updateBlocks] = useMutation(editKaliBlocksMutation);
 
   if (fetching) {
     return <Layout title="Blocs KALI">chargement...</Layout>;
@@ -216,10 +213,10 @@ export function KaliBlocksPage() {
             onChange={onCcnSelectChange}
             label="Convention collective"
           >
-            {data.kali_blocks.map((ccn) => (
+            {data.kali_blocks.map((_ccn) => (
               <MenuItem
-                key={ccn.id}
-                value={ccn.id}
+                key={_ccn.id}
+                value={_ccn.id}
                 style={{
                   maxWidth: "70vw",
                   display: "flex",
@@ -227,7 +224,7 @@ export function KaliBlocksPage() {
                   whiteSpace: "normal",
                 }}
               >
-                {ccn.idcc} - {ccn.title}
+                {_ccn.idcc} - {_ccn.title}
               </MenuItem>
             ))}
           </Select>

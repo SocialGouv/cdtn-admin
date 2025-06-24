@@ -57,7 +57,7 @@ export default function ChangePasswordPage() {
   }
   return (
     <PasswordLayout title={"Nouveau mot de passe"}>
-      <PasswordForm onSubmit={updatePassword} loading={loading} />
+      <PasswordForm onSubmit={updatePassword} initialLoading={loading} />
     </PasswordLayout>
   );
 }

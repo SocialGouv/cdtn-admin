@@ -17,12 +17,11 @@ export type PublishInformationMutationResult = (
 export const usePublishContributionMutation =
   (): PublishInformationMutationResult => {
     const [, execute] = useMutation<string>(publishContributionMutation);
-    const resultFunction = async (id: string) => {
+    return async (id: string) => {
       const result = await execute({ id });
       if (result.error) {
         throw new Error(result.error.message);
       }
       return result;
     };
-    return resultFunction;
   };

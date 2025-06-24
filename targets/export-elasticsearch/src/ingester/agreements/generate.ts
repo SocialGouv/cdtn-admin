@@ -18,7 +18,7 @@ export const generateAgreements = async (
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
   contributions: ContributionElasticDocument[]
 ): Promise<ElasticAgreement[]> => {
-  return await pMap(
+  return pMap(
     ccnData,
     async (cc) => {
       const contribIDCCs = getIDCCs(contributions);

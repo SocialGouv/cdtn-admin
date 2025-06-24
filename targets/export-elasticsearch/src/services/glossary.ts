@@ -19,11 +19,10 @@ export class GlossaryService {
     content: ValidatorCreateGlossaryType["content"]
   ): Promise<string> {
     const glossary = await this.glossaryRepository.getGlossary();
-    const result = await addGlossaryContentWorker({
+    return addGlossaryContentWorker({
       glossary,
       content,
     });
-    return result;
   }
 
   async runGlossaryForAllContent() {

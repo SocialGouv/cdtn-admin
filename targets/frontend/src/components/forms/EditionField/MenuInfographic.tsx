@@ -17,11 +17,11 @@ export const MenuInfographic = ({
       className="floating-menu"
       tippyOptions={{ duration: 100, maxWidth: 500 }}
       editor={editor}
-      shouldShow={({ editor, state }) => {
+      shouldShow={({ editor: _editor, state }) => {
         return (
-          editor?.state.selection.$from.node()?.type.name === "infographic" &&
+          _editor?.state.selection.$from.node()?.type.name === "infographic" &&
           state.selection.content().content.size > 0 &&
-          editor.isActive("infographic")
+          _editor.isActive("infographic")
         );
       }}
     >

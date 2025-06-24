@@ -22,7 +22,7 @@ type MutationResult = (
 
 export const usePrequalifiedUpdateMutation = (): MutationResult => {
   const [, executeUpdate] = useMutation<MutationProps>(prequalifiedUpdate);
-  const resultFunction = async (data: MutationProps) => {
+  return async (data: MutationProps) => {
     const value = mapPrequalified(data);
     const result = await executeUpdate({ id: value.id, value });
     if (result.error) {
@@ -30,5 +30,4 @@ export const usePrequalifiedUpdateMutation = (): MutationResult => {
     }
     return result;
   };
-  return resultFunction;
 };

@@ -138,7 +138,7 @@ export const AnswerForm = ({
       )
     ) {
       router.events.emit("routeChangeError");
-      throw `routeChange aborted`;
+      throw new Error(`routeChange aborted`);
     }
   };
 
@@ -156,12 +156,12 @@ export const AnswerForm = ({
     window.onbeforeunload = isDirty ? () => true : null;
   }, [isDirty]);
 
-  const isNotEditable = (answer: Answer | undefined) => {
+  const isNotEditable = (_answer: Answer | undefined) => {
     return (
       submitting ||
-      (answer?.status?.status !== "REDACTING" &&
-        answer?.status?.status !== "TODO" &&
-        answer?.status?.status !== "VALIDATING")
+      (_answer?.status?.status !== "REDACTING" &&
+        _answer?.status?.status !== "TODO" &&
+        _answer?.status?.status !== "VALIDATING")
     );
   };
 

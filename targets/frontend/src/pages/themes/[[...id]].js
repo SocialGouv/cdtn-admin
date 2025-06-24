@@ -89,8 +89,6 @@ export function ThemePage() {
     (relationA, relationB) => relationA.position - relationB.position
   );
 
-  // const notFound = themeId && !fetching && !themeData?.cdtnId;
-
   return (
     <Layout
       /* errorCode={(notFound && 404) || null}*/ title={`Gestion des thèmes`}
@@ -176,59 +174,67 @@ export function ThemePage() {
 
 export default ThemePage;
 
-const AddAThemeButton = ({ themeId }) => (
-  <Box my={theme.space.medium}>
-    <Link
-      href={`/themes/${themeId ? `${themeId}/` : ""}create`}
-      passHref
-      style={{ textDecoration: "none" }}
-    >
-      <Button mr={theme.space.medium}>
-        <IoMdAdd
-          style={{
-            height: theme.sizes.iconMedium,
-            mr: theme.space.xxsmall,
-            width: theme.sizes.iconMedium,
-          }}
-        />
-        Ajouter un thème ici
-      </Button>
-    </Link>
-  </Box>
-);
+const AddAThemeButton = ({ themeId }) => {
+  const pathSegment = themeId ? `${themeId}/` : "";
+
+  return (
+    <Box my={theme.space.medium}>
+      <Link
+        href={`/themes/${pathSegment}create`}
+        passHref
+        style={{ textDecoration: "none" }}
+      >
+        <Button mr={theme.space.medium}>
+          <IoMdAdd
+            style={{
+              height: theme.sizes.iconMedium,
+              mr: theme.space.xxsmall,
+              width: theme.sizes.iconMedium,
+            }}
+          />
+          Ajouter un thème ici
+        </Button>
+      </Link>
+    </Box>
+  );
+};
 
 AddAThemeButton.propTypes = {
   themeId: PropTypes.string,
 };
 
-const ParentLink = ({ id, ...props }) => (
-  <Link href={`/themes${id ? `/${id}` : ""}`} passHref>
-    <Card
-      sx={{
-        ":hover": { boxShadow: "cardHover" },
-        ":link, :visited": { color: "text" },
-        color: "text",
-        cursor: "pointer",
-        display: "block",
-        textDecoration: "none",
-        padding: "30px",
-        width: "fit-content",
-        marginBottom: theme.space.small,
-      }}
-    >
-      <Box sx={{ alignItems: "center", display: "flex" }}>
-        <IoIosArrowDropleftCircle
-          style={{
-            height: theme.sizes.iconMedium,
-            marginRight: theme.space.small,
-            width: theme.sizes.iconMedium,
-          }}
-        />
-        <div {...props} />
-      </Box>
-    </Card>
-  </Link>
-);
+const ParentLink = ({ id, ...props }) => {
+  const pathSegment = id ? `/${id}` : "";
+
+  return (
+    <Link href={`/themes${pathSegment}`} passHref>
+      <Card
+        sx={{
+          ":hover": { boxShadow: "cardHover" },
+          ":link, :visited": { color: "text" },
+          color: "text",
+          cursor: "pointer",
+          display: "block",
+          textDecoration: "none",
+          padding: "30px",
+          width: "fit-content",
+          marginBottom: theme.space.small,
+        }}
+      >
+        <Box sx={{ alignItems: "center", display: "flex" }}>
+          <IoIosArrowDropleftCircle
+            style={{
+              height: theme.sizes.iconMedium,
+              marginRight: theme.space.small,
+              width: theme.sizes.iconMedium,
+            }}
+          />
+          <div {...props} />
+        </Box>
+      </Card>
+    </Link>
+  );
+};
 
 ParentLink.propTypes = {
   id: PropTypes.string,

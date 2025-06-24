@@ -168,7 +168,7 @@ function createBreadcrumbsTransform(getBreadcrumbs) {
       title,
       url,
     } = document;
-    const path = `"${getBreadcrumbs(`${source}/${slug}`).join(" | ")}"`;
+    const path = `"${getBreadcrumbs(source + "/" + slug).join(" | ")}"`;
     return `${source},${title},${cdtnId},${id},${slug},${url},${path},${escapeText(
       metaDescription || ""
     )},${escapeText(description || "")}`;
