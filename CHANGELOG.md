@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.57.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.3...v2.57.4) (2025-06-30)
+
+### Bug Fixes
+
+- buildkit in gh ([#1577](https://github.com/SocialGouv/cdtn-admin/issues/1577)) ([fa1fcbe](https://github.com/SocialGouv/cdtn-admin/commit/fa1fcbe26fa3139be5ebb22e1de556c8e85c1cb3))
+
+### Features
+
+- update github token ([#1583](https://github.com/SocialGouv/cdtn-admin/issues/1583)) ([c2fd8ea](https://github.com/SocialGouv/cdtn-admin/commit/c2fd8ea85678b883199144f4c1301cf71769d90a))
+
 ## [2.57.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.2...v2.57.3) (2025-05-23)
 
 ### Bug Fixes
