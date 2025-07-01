@@ -25,11 +25,11 @@ jobs:
         with:
           images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/frontend
           tags: |
-            type=raw,value=persist-{{sha}},enable=${{ 
-              github.ref_name == 'dev' || 
-              github.ref_name == 'develop' || 
-              github.ref_name == 'preprod' || 
-              github.ref_name == 'main' || 
+            type=raw,value=persist-{{sha}},enable=${{
+              github.ref_name == 'dev' ||
+              github.ref_name == 'develop' ||
+              github.ref_name == 'preprod' ||
+              github.ref_name == 'main' ||
               github.ref_name == 'master'
             }},priority=840
             type=sha,prefix=sha-,format=long,priority=890
@@ -55,7 +55,7 @@ jobs:
           buildkit-svc-count: ${{ vars.BUILDKIT_SVC_COUNT }}
           buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
           build-args: |
-            NEXT_PUBLIC_BASE_PATH=https://www-${{ steps.env.outputs.subdomain }}
+            NEXT_PUBLIC_BASE_PATH=https://www-${{ steps.env.outputs.subdomain }}.ovh.fabrique.social.gouv.fr
             NEXT_PUBLIC_BUCKET_PUBLIC_ENDPOINT=https://cdtn-dev-public.s3.gra.io.cloud.ovh.net
             NEXT_PUBLIC_BUCKET_DEFAULT_FOLDER=default
             NEXT_PUBLIC_BUCKET_DRAFT_FOLDER=draft
@@ -77,11 +77,11 @@ jobs:
         with:
           images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/ingester
           tags: |
-            type=raw,value=persist-{{sha}},enable=${{ 
-              github.ref_name == 'dev' || 
-              github.ref_name == 'develop' || 
-              github.ref_name == 'preprod' || 
-              github.ref_name == 'main' || 
+            type=raw,value=persist-{{sha}},enable=${{
+              github.ref_name == 'dev' ||
+              github.ref_name == 'develop' ||
+              github.ref_name == 'preprod' ||
+              github.ref_name == 'main' ||
               github.ref_name == 'master'
             }},priority=840
             type=sha,prefix=sha-,format=long,priority=890
@@ -118,11 +118,11 @@ jobs:
         with:
           images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/alert
           tags: |
-            type=raw,value=persist-{{sha}},enable=${{ 
-              github.ref_name == 'dev' || 
-              github.ref_name == 'develop' || 
-              github.ref_name == 'preprod' || 
-              github.ref_name == 'main' || 
+            type=raw,value=persist-{{sha}},enable=${{
+              github.ref_name == 'dev' ||
+              github.ref_name == 'develop' ||
+              github.ref_name == 'preprod' ||
+              github.ref_name == 'main' ||
               github.ref_name == 'master'
             }},priority=840
             type=sha,prefix=sha-,format=long,priority=890
@@ -159,11 +159,11 @@ jobs:
         with:
           images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/export
           tags: |
-            type=raw,value=persist-{{sha}},enable=${{ 
-              github.ref_name == 'dev' || 
-              github.ref_name == 'develop' || 
-              github.ref_name == 'preprod' || 
-              github.ref_name == 'main' || 
+            type=raw,value=persist-{{sha}},enable=${{
+              github.ref_name == 'dev' ||
+              github.ref_name == 'develop' ||
+              github.ref_name == 'preprod' ||
+              github.ref_name == 'main' ||
               github.ref_name == 'master'
             }},priority=840
             type=sha,prefix=sha-,format=long,priority=890
@@ -200,11 +200,11 @@ jobs:
         with:
           images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/hasura
           tags: |
-            type=raw,value=persist-{{sha}},enable=${{ 
-              github.ref_name == 'dev' || 
-              github.ref_name == 'develop' || 
-              github.ref_name == 'preprod' || 
-              github.ref_name == 'main' || 
+            type=raw,value=persist-{{sha}},enable=${{
+              github.ref_name == 'dev' ||
+              github.ref_name == 'develop' ||
+              github.ref_name == 'preprod' ||
+              github.ref_name == 'main' ||
               github.ref_name == 'master'
             }},priority=840
             type=sha,prefix=sha-,format=long,priority=890
