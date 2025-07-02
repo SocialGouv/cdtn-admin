@@ -48,14 +48,14 @@ export const FormRadioGroup = ({
                 }
                 name={name}
               >
-                {options.map(({ label, value, isDisabled }) => (
+                {options.map(({ label: _label, value: _value, isDisabled }) => (
                   <FormControlLabel
-                    key={value}
-                    value={value}
-                    control={<Radio id={`${name}.${value}`} />}
-                    label={label}
+                    key={_value}
+                    value={_value}
+                    control={<Radio id={`${name}.${_value}`} />}
+                    label={_label}
                     disabled={isDisabled || disabled}
-                    htmlFor={`${name}.${value}`}
+                    htmlFor={`${name}.${_value}`}
                   />
                 ))}
               </RadioGroup>

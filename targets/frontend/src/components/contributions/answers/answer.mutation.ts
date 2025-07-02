@@ -69,7 +69,7 @@ export const useContributionAnswerUpdateMutation = (): MutationResult => {
   const [, executeUpdate] = useMutation<MutationProps>(
     contributionAnswerUpdateMutation
   );
-  const resultFunction = async (data: MutationProps) => {
+  return async (data: MutationProps) => {
     const result = await executeUpdate({
       ...data,
       kaliReferences: formatKaliReferences(data.id, data.kaliReferences),
@@ -82,5 +82,4 @@ export const useContributionAnswerUpdateMutation = (): MutationResult => {
     }
     return result;
   };
-  return resultFunction;
 };

@@ -26,6 +26,13 @@ export function ContributionsReferencesView(props: Props) {
       </Card>
     );
   }
+  // Create a sorted copy of the references array to avoid mutating props
+  const sortedReferences = [...props.references].sort(
+    (a, b) =>
+      parseInt(a.questionIndex) - parseInt(b.questionIndex) ||
+      parseInt(a.agreementId) - parseInt(b.agreementId)
+  );
+
   return (
     <Card variant="outlined">
       <CardHeader
@@ -33,25 +40,19 @@ export function ContributionsReferencesView(props: Props) {
         subheader={`${props.references.length} référence(s) trouvée(s)`}
       />
       <CardContent>
-        {props.references
-          .sort(
-            (a, b) =>
-              parseInt(a.questionIndex) - parseInt(b.questionIndex) ||
-              parseInt(a.agreementId) - parseInt(b.agreementId)
-          )
-          .map((reference) => (
-            <ListItem key={reference.answerId} disablePadding>
-              <ListItemButton
-                onClick={() =>
-                  router.push(`/contributions/answers/${reference.answerId}`)
-                }
-              >
-                <ListItemText
-                  primary={`[${reference.agreementId}] Q${reference.questionIndex} - ${reference.questionName}`}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
+        {sortedReferences.map((reference) => (
+          <ListItem key={reference.answerId} disablePadding>
+            <ListItemButton
+              onClick={() =>
+                router.push(`/contributions/answers/${reference.answerId}`)
+              }
+            >
+              <ListItemText
+                primary={`[${reference.agreementId}] Q${reference.questionIndex} - ${reference.questionName}`}
+              />
+            </ListItemButton>
+          </ListItem>
+        ))}
       </CardContent>
     </Card>
   );

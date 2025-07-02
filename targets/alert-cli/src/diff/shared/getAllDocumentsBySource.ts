@@ -22,13 +22,12 @@ export async function _getDocumentsBySource(
   );
   const documentResults = await fetchDocuments(source);
 
-  const documents = documentResults.flatMap((result) => {
+  return documentResults.flatMap((result) => {
     if (result.status === "fulfilled" && result.value.data) {
       return result.value.data.documents;
     }
     return [];
   });
-  return documents;
 }
 
 export const getAllDocumentsBySource = memoizee(_getDocumentsBySource);

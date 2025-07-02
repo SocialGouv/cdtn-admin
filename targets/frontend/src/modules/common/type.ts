@@ -9,7 +9,7 @@ export const fileSchema = z.object({
     })
     .min(1, "Un nom de fichier doit être renseigné")
     .regex(
-      /.*(\.|\/)(svg|jpe?g|png|pdf)$/g,
+      /.*[./](svg|jpe?g|png|pdf)$/g,
       "Le format doit correspondre à une nom de fichier"
     ),
   altText: z.string().nullable().optional(),

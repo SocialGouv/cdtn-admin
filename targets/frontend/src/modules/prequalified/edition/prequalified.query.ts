@@ -52,7 +52,5 @@ export const usePrequalifiedQuery = ({
   ) {
     return;
   }
-  const data = result.data?.search_prequalified[0];
-
-  return data;
+  return result.data?.search_prequalified[0];
 };

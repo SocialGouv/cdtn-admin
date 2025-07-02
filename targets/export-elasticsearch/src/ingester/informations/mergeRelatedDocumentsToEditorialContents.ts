@@ -9,11 +9,11 @@ export const mergeRelatedDocumentsToEditorialContents = (
   editorialContents: DocumentElasticWithSource<EditorialContentDoc>[],
   relatedDocuments: RelatedDocuments
 ): DocumentElasticWithSource<EditorialContentDoc>[] => {
-  const augmentedEditorialContents = editorialContents.map((document) => {
+  return editorialContents.map((document) => {
     const contents = document.contents.map((content) => {
       const blocks = content.blocks.map((block) => {
         if (block.type !== EditorialContentType.content) return block;
-        const contents = block.contents.flatMap((blockContent) => {
+        const blockContents = block.contents.flatMap((blockContent) => {
           const contentFound = relatedDocuments[blockContent.cdtnId];
           if (!contentFound) {
             throw new Error(
@@ -22,11 +22,10 @@ export const mergeRelatedDocumentsToEditorialContents = (
           }
           return contentFound;
         });
-        return { ...block, contents };
+        return { ...block, contents: blockContents };
       });
       return { ...content, blocks };
     });
     return { ...document, contents };
   });
-  return augmentedEditorialContents;
 };

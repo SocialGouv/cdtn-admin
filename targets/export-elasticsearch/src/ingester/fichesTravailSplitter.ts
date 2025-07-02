@@ -55,11 +55,11 @@ function splitArticle(article: any) {
           id: id + (anchor ? `#${anchor}` : ""),
           isPublished,
           references,
-          slug: `${slug}${anchor ? `#${anchor}` : ""}`,
+          slug: anchor ? `${slug}#${anchor}` : slug,
           text,
           title: transformedSectionTitle,
         };
-      },
+      }
     );
 }
 

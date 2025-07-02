@@ -67,8 +67,8 @@ export const Form = ({
 
   useEffect(() => {
     if (watchMessageId) {
-      const message = messages.find((message) => message.id === watchMessageId);
-      setMessage(message);
+      const messageToSet = messages.find(({ id }) => id === watchMessageId);
+      setMessage(messageToSet);
     } else {
       setMessage(undefined);
     }

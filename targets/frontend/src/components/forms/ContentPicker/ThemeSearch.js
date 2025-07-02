@@ -48,12 +48,12 @@ export function ThemeSearch({ onChange }) {
     setSuggestions(results.data?.documents || []);
   }, [results.data]);
 
-  const onSearchValueChange = (event, { newValue }) => {
+  const onSearchValueChange = (_event, { newValue }) => {
     setInputSearchValue(newValue);
   };
 
   const onSuggestionSelected = (
-    event,
+    _event,
     { suggestion: { cdtnId, source, title = null, themeDocuments } }
   ) => {
     const position = themeDocuments.aggregate.count;

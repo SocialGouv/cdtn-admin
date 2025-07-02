@@ -57,6 +57,5 @@ export class GlossaryRepository {
       console.error(res.error);
       throw res.error;
     }
-    return;
   }
 }

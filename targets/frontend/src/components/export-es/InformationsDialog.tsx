@@ -36,7 +36,6 @@ export function InformationsDialog({
     Object.keys(docCounts)
       .filter(([key, _]: any) => key !== "total")
       .forEach((key: any) => {
-        // TODO voir comment on peut optimiser car c'est pas beau
         const label =
           key === "page_fiche_ministere_travail"
             ? "Page Ministère du travail"
@@ -46,13 +45,12 @@ export function InformationsDialog({
           [label]: docCounts[key as keyof typeof docCounts],
         };
       });
-    const sortedDocuments = Object.keys(object)
+    return Object.keys(object)
       .sort((a, b) => a.localeCompare(b))
       .reduce((obj: any, key: any) => {
         obj[key] = object[key as keyof typeof object];
         return obj;
       }, {});
-    return sortedDocuments;
   }
 
   const sortedDocumentsCount: Required<ExportEsStatus>["documentsCount"] =

@@ -32,7 +32,7 @@ export type PublishMutationResult = (
 
 export const usePublishMutation = (): PublishMutationResult => {
   const [, execute] = useMutation<Result, PublishProps>(publishMutation);
-  const resultFunction = async ({ id, source }: PublishProps) => {
+  return async ({ id, source }: PublishProps) => {
     const result = await execute({ id, source });
     if (result.error) {
       console.error(
@@ -43,5 +43,4 @@ export const usePublishMutation = (): PublishMutationResult => {
     }
     return result;
   };
-  return resultFunction;
 };

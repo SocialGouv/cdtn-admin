@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
-import { Box, Card, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { useQuery } from "urql";
 import { theme as th } from "../../../theme";
 
@@ -81,12 +81,12 @@ export const ContentSearch = ({ contents = [], onChange }) => {
     ]);
   }, [results.data]);
 
-  const onSearchValueChange = (event, { newValue }) => {
+  const onSearchValueChange = (_event, { newValue }) => {
     setInputSearchValue(newValue);
     setDebouncedSearchValue(newValue);
   };
   const onSuggestionSelected = (
-    event,
+    _event,
     { suggestion: { cdtnId, source, title = null, description, slug } }
   ) => {
     if (contents.find((content) => content.cdtnId === cdtnId)) {

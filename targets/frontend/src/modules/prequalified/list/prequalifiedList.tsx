@@ -1,5 +1,4 @@
 import {
-  Link,
   Paper,
   Stack,
   Table,

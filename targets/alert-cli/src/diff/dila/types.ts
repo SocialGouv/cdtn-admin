@@ -3,7 +3,6 @@ import type {
   DilaChanges as CommonDilaChanges,
   DilaModifiedNode,
   DilaRemovedNode,
-  DocumentReferences,
 } from "@socialgouv/cdtn-types";
 import type {
   AgreementArticle,

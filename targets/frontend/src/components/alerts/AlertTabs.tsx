@@ -1,4 +1,3 @@
-import Link from "next/link";
 import PropTypes from "prop-types";
 import { getStatusLabel, slugifyRepository } from "src/models";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -35,7 +34,7 @@ export function AlertTabs({
 
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
@@ -48,7 +47,7 @@ export function AlertTabs({
 
   React.useEffect(() => {
     const status = result.data?.statuses.find(
-      (status: any) => status.name === activeStatus
+      (_status: any) => _status.name === activeStatus
     );
     if (status) {
       setValue(result.data?.statuses.indexOf(status));

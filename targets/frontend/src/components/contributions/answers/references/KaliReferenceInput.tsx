@@ -42,17 +42,17 @@ const KaliReferenceSearch = ({
   return (
     <Autocomplete
       disabled={disabled}
-      onChange={(event: any, newValue: KaliArticle | null) => {
+      onChange={(_event: any, newValue: KaliArticle | null) => {
         onAdd(newValue);
         setValue(null);
         setQuery("");
       }}
       value={value}
-      onInputChange={(event, newValue) => {
+      onInputChange={(_event, newValue) => {
         setQuery(newValue);
       }}
       options={options}
-      filterOptions={(options) => options}
+      filterOptions={(_options) => _options}
       loading={fetching}
       getOptionLabel={(item: KaliArticle) => {
         return item.path;

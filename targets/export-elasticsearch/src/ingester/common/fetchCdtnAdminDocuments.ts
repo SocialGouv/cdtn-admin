@@ -257,12 +257,12 @@ function toRefs(
   contentRelations: Relation[],
   getBreadcrumbs: GetBreadcrumbsFn
 ): DocumentRef[] {
-  return contentRelations
-    .sort(
-      ({ position: positionA }, { position: positionB }) =>
-        positionA - positionB
-    )
-    .map(({ content: { cdtnId, document, slug, source, title } }) => ({
+  const sortedRelations = [...contentRelations].sort(
+    ({ position: positionA }, { position: positionB }) => positionA - positionB
+  );
+
+  return sortedRelations.map(
+    ({ content: { cdtnId, document, slug, source, title } }) => ({
       breadcrumbs: getBreadcrumbs(cdtnId),
       cdtnId,
       description: (document as { description: string }).description,
@@ -270,5 +270,6 @@ function toRefs(
       source,
       title,
       url: (document as { url?: string }).url,
-    }));
+    })
+  );
 }

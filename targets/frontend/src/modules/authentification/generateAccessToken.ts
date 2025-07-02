@@ -62,7 +62,5 @@ export const generateNewAccessToken = async (
     });
   }
 
-  const accessTokenGenerated = generateJwtToken(userToSave, JWT_TOKEN_EXPIRES);
-
-  return accessTokenGenerated;
+  return generateJwtToken(userToSave, JWT_TOKEN_EXPIRES);
 };
