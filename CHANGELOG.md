@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.57.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.4...v2.57.5) (2025-07-02)
+
+### Bug Fixes
+
+- **ci:** subdomain typo ([715b73b](https://github.com/SocialGouv/cdtn-admin/commit/715b73b8182d9f536f3b93ba3ad484a810db21f2))
+
 ## [2.57.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.3...v2.57.4) (2025-06-30)
 
 ### Bug Fixes
