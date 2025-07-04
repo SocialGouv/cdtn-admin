@@ -22,6 +22,9 @@ VALUES (
     '8babda41-6001-4665-96f5-c430fddb0c53'
   );
 
+-- Anonymize contrib comments
+update contribution.answer_comments ac set content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec volutpat vitae felis sed iaculis. Donec.';
+
 -- Remove all data from audit tables
 TRUNCATE audit.logged_actions;
 
