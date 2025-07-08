@@ -78,7 +78,7 @@ export const FormAutocompleteChips = <
       disabled={disabled}
       label={label}
       options={options}
-      filterOptions={(_options) => _options}
+      filterOptions={(autocompleteOptions) => autocompleteOptions}
       isOptionEqualToValue={isEqual}
       loading={fetching}
       onOpen={() => {

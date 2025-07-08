@@ -213,10 +213,10 @@ export function KaliBlocksPage() {
             onChange={onCcnSelectChange}
             label="Convention collective"
           >
-            {data.kali_blocks.map((_ccn) => (
+            {data.kali_blocks.map((blockCcn) => (
               <MenuItem
-                key={_ccn.id}
-                value={_ccn.id}
+                key={blockCcn.id}
+                value={blockCcn.id}
                 style={{
                   maxWidth: "70vw",
                   display: "flex",
@@ -224,7 +224,7 @@ export function KaliBlocksPage() {
                   whiteSpace: "normal",
                 }}
               >
-                {_ccn.idcc} - {_ccn.title}
+                {blockCcn.idcc} - {blockCcn.title}
               </MenuItem>
             ))}
           </Select>

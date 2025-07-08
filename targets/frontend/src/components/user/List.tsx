@@ -57,8 +57,11 @@ export function UserList({ onDeleteUser }: Props) {
       return;
     }
     close();
-    const _result = await onDeleteUser(selectedUser.id, selectedUser.userName);
-    if (_result) {
+    const deleteUserResult = await onDeleteUser(
+      selectedUser.id,
+      selectedUser.userName
+    );
+    if (deleteUserResult) {
       executeQuery({ requestPolicy: "network-only" });
     }
   }

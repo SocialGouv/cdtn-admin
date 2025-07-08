@@ -83,9 +83,9 @@ export function DuplicateContent(): JSX.Element | null {
 
     const duplicateDocs =
       result?.data?.documents.flatMap((t) => {
-        const _duplicates = getDoublons(t);
-        if (_duplicates.length > 0) {
-          return _duplicates;
+        const documentDuplicates = getDoublons(t);
+        if (documentDuplicates.length > 0) {
+          return documentDuplicates;
         }
         return [];
       }) || [];

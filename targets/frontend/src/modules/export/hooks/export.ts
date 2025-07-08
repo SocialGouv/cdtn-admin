@@ -29,8 +29,8 @@ export function useExportEs(): [
   });
 
   const getExportEs = (hideLoader: boolean) => {
-    setState((_state) => ({
-      ..._state,
+    setState((exportState) => ({
+      ...exportState,
       error: null,
       hasGetExportError: false,
       isGetExportLoading: hideLoader ? false : true,
@@ -43,8 +43,8 @@ export function useExportEs(): [
         return response.json();
       })
       .then((data) => {
-        setState((_state) => ({
-          ..._state,
+        setState((exportState) => ({
+          ...exportState,
           exportData: data[0],
           isGetExportLoading: false,
           latestExportPreproduction: data[1].preproduction,
@@ -53,8 +53,8 @@ export function useExportEs(): [
         }));
       })
       .catch((error) => {
-        setState((_state) => ({
-          ..._state,
+        setState((exportState) => ({
+          ...exportState,
           error: serializeError(error),
           hasGetExportError: true,
           isGetExportLoading: false,
@@ -85,8 +85,8 @@ export function useExportEs(): [
       },
       user_id: user.id,
     };
-    setState((_state) => ({
-      ..._state,
+    setState((exportState) => ({
+      ...exportState,
       exportData: [newExportEs, ...state.exportData],
       ...Object.assign(
         environment === Environment.preproduction
@@ -113,8 +113,8 @@ export function useExportEs(): [
         return response.json();
       })
       .catch((error) => {
-        setState((_state) => ({
-          ..._state,
+        setState((exportState) => ({
+          ...exportState,
           error: serializeError(error),
           ...Object.assign(
             {},

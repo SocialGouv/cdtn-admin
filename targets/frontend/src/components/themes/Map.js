@@ -151,14 +151,16 @@ const buildMap = ({ onClickTheme, themeRelations, svg }) => {
     .join("g")
     .attr("transform", (d) => `translate(${d.y},${d.x})`)
     .on("mouseenter", function () {
-      const _node = d3.select(this);
-      _node
+      const nodeItem = d3.select(this);
+      nodeItem
         .transition()
         .attr("transform", (d) => `translate(${d.y},${d.x}), scale(1.1)`);
     })
     .on("mouseleave", function () {
-      const _node = d3.select(this);
-      _node.transition().attr("transform", (d) => `translate(${d.y},${d.x})`);
+      const nodeItem = d3.select(this);
+      nodeItem
+        .transition()
+        .attr("transform", (d) => `translate(${d.y},${d.x})`);
     })
     .on("click", function () {
       const id = d3.select(this).data()[0].data.id;

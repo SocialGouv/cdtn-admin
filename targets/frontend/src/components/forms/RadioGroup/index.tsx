@@ -48,16 +48,18 @@ export const FormRadioGroup = ({
                 }
                 name={name}
               >
-                {options.map(({ label: _label, value: _value, isDisabled }) => (
-                  <FormControlLabel
-                    key={_value}
-                    value={_value}
-                    control={<Radio id={`${name}.${_value}`} />}
-                    label={_label}
-                    disabled={isDisabled || disabled}
-                    htmlFor={`${name}.${_value}`}
-                  />
-                ))}
+                {options.map(
+                  ({ label: optionLabel, value: optionValue, isDisabled }) => (
+                    <FormControlLabel
+                      key={optionValue}
+                      value={optionValue}
+                      control={<Radio id={`${name}.${optionValue}`} />}
+                      label={optionLabel}
+                      disabled={isDisabled || disabled}
+                      htmlFor={`${name}.${optionValue}`}
+                    />
+                  )
+                )}
               </RadioGroup>
               {error && error.message === "Required" && (
                 <StyledFormHelperText>

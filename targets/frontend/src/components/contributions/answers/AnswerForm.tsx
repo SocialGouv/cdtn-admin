@@ -156,12 +156,12 @@ export const AnswerForm = ({
     window.onbeforeunload = isDirty ? () => true : null;
   }, [isDirty]);
 
-  const isNotEditable = (_answer: Answer | undefined) => {
+  const isNotEditable = (answerItem: Answer | undefined) => {
     return (
       submitting ||
-      (_answer?.status?.status !== "REDACTING" &&
-        _answer?.status?.status !== "TODO" &&
-        _answer?.status?.status !== "VALIDATING")
+      (answerItem?.status?.status !== "REDACTING" &&
+        answerItem?.status?.status !== "TODO" &&
+        answerItem?.status?.status !== "VALIDATING")
     );
   };
 

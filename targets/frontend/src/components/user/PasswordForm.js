@@ -46,10 +46,10 @@ export function PasswordForm({
     required: { message: "Ce champ est requis", value: true },
   };
 
-  async function localSubmit(_data) {
+  async function localSubmit(submitData) {
     setIsLoading(true);
     try {
-      await onSubmit(_data);
+      await onSubmit(submitData);
     } catch (err) {
       console.error("[ PasswordForm ]", err);
       setError(

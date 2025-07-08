@@ -123,8 +123,8 @@ export const Editor = ({
         baseUrl: infographicBaseUrl,
       }),
     ],
-    onUpdate: ({ editor: _editor }) => {
-      const html = _editor.getHTML();
+    onUpdate: ({ editor: editorInstance }) => {
+      const html = editorInstance.getHTML();
       setCurrentContent(html);
       onUpdate(html !== emptyHtml ? html : "");
     },

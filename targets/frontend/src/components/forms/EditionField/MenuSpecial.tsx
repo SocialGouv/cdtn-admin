@@ -45,15 +45,15 @@ export const MenuSpecial = ({
       className="floating-menu"
       tippyOptions={{ duration: 100 }}
       editor={editor}
-      shouldShow={({ editor: _editor, view, state }) => {
+      shouldShow={({ editor: editorInstance, view, state }) => {
         // Code extracted from the plugin : https://github.com/ueberdosis/tiptap/blob/main/packages/extension-floating-menu/src/floating-menu-plugin.ts#L74
         const { selection } = state;
         const { $anchor, empty } = selection;
         // Ici on autorise à afficher le menu à tout les niveaux sauf dans les listes et les tableaux
         const isRootDepth = !(
-          _editor.isActive("orderedList") ||
-          _editor.isActive("bulletList") ||
-          _editor.isActive("table")
+          editorInstance.isActive("orderedList") ||
+          editorInstance.isActive("bulletList") ||
+          editorInstance.isActive("table")
         );
 
         const isEmptyTextBlock =
@@ -68,7 +68,7 @@ export const MenuSpecial = ({
           !empty ||
           !isRootDepth ||
           !isEmptyTextBlock ||
-          !_editor.isEditable
+          !editorInstance.isEditable
         );
       }}
     >

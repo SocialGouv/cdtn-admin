@@ -46,17 +46,17 @@ export const FormToggleButtonGroup = ({
                 disabled={disabled}
                 onChange={(
                   event: React.MouseEvent<HTMLElement>,
-                  _value: string
+                  toggleValue: string
                 ) => {
-                  (event.target as any).value = _value;
+                  (event.target as any).value = toggleValue;
                   onChange(event);
                 }}
               >
-                {options.map(({ label: _label, value: _value }) => (
+                {options.map(({ label: toggleLabel, value: toggleValue }) => (
                   <ToggleButton
-                    key={`${_label}-${_value}`}
-                    value={_value}
-                    aria-label={`${_label}-${_value}`}
+                    key={`${toggleLabel}-${toggleValue}`}
+                    value={toggleValue}
+                    aria-label={`${toggleLabel}-${toggleValue}`}
                   >
                     {label}
                   </ToggleButton>

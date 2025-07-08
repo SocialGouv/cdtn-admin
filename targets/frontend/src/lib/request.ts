@@ -21,8 +21,8 @@ export function request(
       config.body = body;
       // auto set by the browser with its specific multipart/form-data boundaries
       if (config.headers) {
-        const _headers = config.headers as any;
-        delete _headers["Content-Type"];
+        const configHeaders = config.headers as any;
+        delete configHeaders["Content-Type"];
       }
     } else {
       config.body = JSON.stringify(body);

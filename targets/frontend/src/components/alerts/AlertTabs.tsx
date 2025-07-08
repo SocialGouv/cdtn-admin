@@ -47,7 +47,7 @@ export function AlertTabs({
 
   React.useEffect(() => {
     const status = result.data?.statuses.find(
-      (_status: any) => _status.name === activeStatus
+      (statusItem: any) => statusItem.name === activeStatus
     );
     if (status) {
       setValue(result.data?.statuses.indexOf(status));

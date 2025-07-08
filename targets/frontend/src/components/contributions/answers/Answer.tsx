@@ -47,7 +47,7 @@ export const ContributionsAnswer = ({
   });
   const onPublish = usePublishContributionMutation();
 
-  const onSubmit = async (newStatus: Status, _data: Answer) => {
+  const onSubmit = async (newStatus: Status, submittedAnswer: Answer) => {
     try {
       if (!answer || !answer.id) {
         throw new Error("Id non définit");
@@ -58,19 +58,20 @@ export const ContributionsAnswer = ({
       }
 
       await updateAnswer({
-        content: _data.content,
-        description: _data.description,
+        content: submittedAnswer.content,
+        description: submittedAnswer.description,
         id: answer.id,
-        contentType: _data.contentType,
+        contentType: submittedAnswer.contentType,
         status: newStatus,
         userId: user?.id,
-        contentServicePublicCdtnId: _data.contentFichesSpDocument?.cdtnId,
-        messageBlockGenericNoCDT: _data.messageBlockGenericNoCDT,
-        kaliReferences: _data.kaliReferences,
-        legiReferences: _data.legiReferences,
-        cdtnReferences: _data.cdtnReferences,
-        otherReferences: _data.otherReferences,
-        displayDate: _data.displayDate,
+        contentServicePublicCdtnId:
+          submittedAnswer.contentFichesSpDocument?.cdtnId,
+        messageBlockGenericNoCDT: submittedAnswer.messageBlockGenericNoCDT,
+        kaliReferences: submittedAnswer.kaliReferences,
+        legiReferences: submittedAnswer.legiReferences,
+        cdtnReferences: submittedAnswer.cdtnReferences,
+        otherReferences: submittedAnswer.otherReferences,
+        displayDate: submittedAnswer.displayDate,
       });
       if (newStatus === "TO_PUBLISH") {
         await onPublish(answer.id);
@@ -84,17 +85,18 @@ export const ContributionsAnswer = ({
       // Dans le cas où il y a une erreur au niveau de la publication (TO_PUBLISH), on revert le status en VALIDATED
       if (newStatus === "TO_PUBLISH" && answer && user) {
         await updateAnswer({
-          content: _data.content,
+          content: submittedAnswer.content,
           id: answer.id,
-          contentType: _data.contentType,
+          contentType: submittedAnswer.contentType,
           status: "VALIDATED",
           userId: user.id,
-          contentServicePublicCdtnId: _data.contentFichesSpDocument?.cdtnId,
-          kaliReferences: _data.kaliReferences,
-          legiReferences: _data.legiReferences,
-          cdtnReferences: _data.cdtnReferences,
-          otherReferences: _data.otherReferences,
-          displayDate: _data.displayDate,
+          contentServicePublicCdtnId:
+            submittedAnswer.contentFichesSpDocument?.cdtnId,
+          kaliReferences: submittedAnswer.kaliReferences,
+          legiReferences: submittedAnswer.legiReferences,
+          cdtnReferences: submittedAnswer.cdtnReferences,
+          otherReferences: submittedAnswer.otherReferences,
+          displayDate: submittedAnswer.displayDate,
         });
       }
       setSnack({ open: true, severity: "error", message: e.message });

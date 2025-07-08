@@ -51,8 +51,7 @@ export function buildGetBreadcrumbs(themes: Theme[]): GetBreadcrumbsFn {
   function buildAllBreadcrumbs(theme: Theme): (Breadcrumb[] | undefined)[] {
     const currentBreadcrumb = toBreadcrumbs(theme);
     const parentTheme = themes.filter(
-      (_parentTheme) =>
-        _parentTheme.cdtnId === theme.parentRelations[0].parentThemeId
+      (themeItem) => themeItem.cdtnId === theme.parentRelations[0].parentThemeId
     );
     if (!parentTheme.length) {
       return [[currentBreadcrumb]];
