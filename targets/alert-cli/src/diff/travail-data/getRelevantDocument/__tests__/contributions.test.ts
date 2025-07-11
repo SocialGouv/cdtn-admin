@@ -44,6 +44,7 @@ describe("getRelevantMtDocumentsContributions", () => {
       {
         ref: { id: "pubId1", title: "Modified 1" },
         id: "c1",
+        slug: "",
         title: "Nom question 1",
         source: "contributions",
       },

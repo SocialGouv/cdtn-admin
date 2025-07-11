@@ -1,4 +1,4 @@
-import { HasuraDocument } from "./common";
+import { HasuraDocument, HasuraDocumentBase } from "./common";
 import { FicheServicePublicDoc } from "./fiche-sp";
 
 export type ContributionStatus = {
@@ -23,6 +23,7 @@ export type ContributionsAnswers = {
   updatedAt: string;
   statuses?: ContributionStatus[];
   display_date: string;
+  document?: HasuraDocumentBase | null,
 };
 
 export type ContributionQuestion = {
@@ -55,12 +56,7 @@ export type ContributionAgreement = {
   kali_id: string;
 };
 
-export type ContributionCdtnReferences = {
-  cdtn_id: string;
-  answer: ContributionsAnswers;
-  answer_id: string;
-  document: Partial<HasuraDocument<any>>;
-};
+export type ContributionCdtnReferences = HasuraDocument<any>;
 
 export type ContributionContentFicheSp = {
   initial_id: string;
@@ -119,9 +115,9 @@ type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
 
 type ContributionDocumentJsonCodeDuTravailReference =
   ContributionDocumentJsonBasic & {
-    type: "cdt";
-    genericAnswerId: string;
-  };
+  type: "cdt";
+  genericAnswerId: string;
+};
 
 export type ContributionDocumentJson =
   | ContributionDocumentJsonContent

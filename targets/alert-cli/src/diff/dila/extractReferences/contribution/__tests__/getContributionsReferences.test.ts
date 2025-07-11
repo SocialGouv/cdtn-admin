@@ -5,6 +5,7 @@ jest.mock("../queryContributionsReferences", () => ({
     {
       id: "1",
       question: { content: "Sample question" },
+      document: { slug: "slug1" },
       kali_references: [
         { kali_article: { cid: "123", id: "456", label: "Kali Article" } },
       ],
@@ -32,6 +33,7 @@ describe("getContributionsReferences", () => {
       {
         document: {
           id: "1",
+          slug: "slug1",
           source: "contributions",
           title: "Sample question",
         },

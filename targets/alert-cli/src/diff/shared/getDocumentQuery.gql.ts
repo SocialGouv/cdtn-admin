@@ -57,6 +57,7 @@ query($source: [String!], $limit:Int=10,$offset:Int=0 ) {
     cdtnId:cdtn_id
     title
     source
+    slug
     isPublished: is_published
     contentRelations: relation_a(where: {type: {_in: ["document-content", "theme-content"] }}) {
       position: data(path: "position")
@@ -76,6 +77,7 @@ export type HasuraDocumentWithRelations = Pick<
   "source" | "title"
 > & {
   cdtnId: string;
+  slug: string;
   isPublished: boolean;
   contentRelations: {
     position: number;

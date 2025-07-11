@@ -35,6 +35,7 @@ export async function getRelevantSpDocumentsContributions({
         ref: { id: doc.id, title: doc.title },
         id: item.id,
         title: item.question.content,
+        slug: item.document.slug,
         source: "contributions",
         url: item.content_fiche_sp.document.url,
       };
@@ -55,6 +56,7 @@ export async function getRelevantSpDocumentsContributions({
           ref: { id: doc.id, title: doc.title },
           id: item.id,
           title: item.question.content,
+          slug: item.document ? item.document.slug : "",
           source: "contributions",
         });
       }

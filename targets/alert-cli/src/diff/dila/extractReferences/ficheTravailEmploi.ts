@@ -11,7 +11,7 @@ let references: DocumentReferences[] = [];
 
 export type FicheTravail = Pick<
   FicheTravailEmploi,
-  "document" | "source" | "title"
+  "document" | "source" | "title" | "slug"
 > & {
   initialId: string;
   cdtnId: string;
@@ -29,6 +29,7 @@ export function extractFicheTravailEmploiRef(
           id: fiche.initialId,
           source: SOURCES.SHEET_MT,
           title: `${fiche.title}#${section.anchor}`,
+          slug: fiche.slug,
         },
         references: section.references.map(
           ({ cid: dila_cid, title, url, id: dila_id }) => ({

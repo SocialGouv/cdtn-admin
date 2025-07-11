@@ -88,7 +88,7 @@ export function DilaRelatedDocuments({
         rel="noopener noreferrer"
         href={`https://code.travail.gouv.fr/${getRouteBySource(
           docReferences.document.source
-        )}/${slugify(title)}${anchor ? `#${anchor}` : ``}`}
+        )}/${docReferences.document.slug && docReferences.document.slug !== "" ? docReferences.document.slug : slugify(title)}${anchor ? `#${anchor}` : ``}`}
       >
         {title} {anchor}
       </a>

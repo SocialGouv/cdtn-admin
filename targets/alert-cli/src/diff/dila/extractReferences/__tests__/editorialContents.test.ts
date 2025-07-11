@@ -26,6 +26,7 @@ test("extractMailTemplateRef", async () => {
       {
         "document": {
           "id": "be3ba4c0-4540-4c38-9203-65bc732486a0",
+          "slug": "interessement-et-participation-nouveautes-covid-19",
           "source": "information",
           "title": "Intéressement et participation : nouveautés Covid-19",
         },

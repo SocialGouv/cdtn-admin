@@ -16,6 +16,7 @@ export async function getDocumentsWithRelations(
           id: document.cdtnId,
           source: document.source,
           title: document.title,
+          slug: document.slug,
         });
       } else {
         docMapped.set(doc.document.initialId, [
@@ -23,6 +24,7 @@ export async function getDocumentsWithRelations(
             id: document.cdtnId,
             source: document.source,
             title: document.title,
+            slug: document.slug,
           },
         ]);
       }

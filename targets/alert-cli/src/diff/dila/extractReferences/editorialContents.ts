@@ -15,7 +15,7 @@ import { gqlClient } from "@shared/utils";
 
 export type EditorialContentSubset = Pick<
   EditorialContent,
-  "document" | "source" | "title"
+  "document" | "source" | "title" | "slug"
 > & {
   initialId: string;
   cdtnId: string;
@@ -66,6 +66,7 @@ export async function extractEditorialContentTemplateRef(
         id: docData.initialId,
         source: SOURCES.EDITORIAL_CONTENT,
         title: docData.title,
+        slug: docData.slug,
       },
       references: references.flatMap((item) => (item !== null ? [item] : [])),
     });

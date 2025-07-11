@@ -10,6 +10,9 @@ jest.mock("../../getContributionsWithFicheSp", () => ({
           title: "Modified 1",
           content: "Nom question 1",
         },
+        document: {
+          slug: "slug1",
+        },
         content_fiche_sp: { initial_id: "pubId1", document: { url: "url1" } },
       },
       {
@@ -18,6 +21,9 @@ jest.mock("../../getContributionsWithFicheSp", () => ({
           id: "2",
           title: "Modified 2",
           content: "Nom question 2",
+        },
+        document: {
+          slug: "slug2",
         },
         content_fiche_sp: { initial_id: "pubId3", document: { url: "url3" } },
       },
@@ -35,6 +41,9 @@ jest.mock("../../../shared/getContributionsCdtnReferences", () => ({
           content: "Nom question 3",
         },
         cdtn_references: [{ document: { initial_id: "pubId2" } }],
+        document: {
+          slug: "slug3",
+        }
       },
     ]),
 }));
@@ -60,6 +69,7 @@ describe("getRelevantSpDocumentsContributions", () => {
         ref: { id: "pubId1", title: "Modified 1" },
         id: "c1",
         title: "Nom question 1",
+        slug: "slug1",
         source: "contributions",
         url: "url1",
       },
@@ -67,6 +77,7 @@ describe("getRelevantSpDocumentsContributions", () => {
         ref: { id: "pubId2", title: "Removed 2" },
         id: "c3",
         title: "Nom question 3",
+        slug: "slug3",
         source: "contributions",
       },
     ];
