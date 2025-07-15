@@ -32,6 +32,7 @@ export async function getRelevantMtDocumentsContributions({
           ref: { id: doc.pubId, title: doc.title },
           id: item.id,
           title: item.question.content,
+          slug: item.document?.slug ?? "",
           source: "contributions",
         });
       }

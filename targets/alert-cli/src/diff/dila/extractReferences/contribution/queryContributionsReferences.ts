@@ -32,6 +32,9 @@ query getContributionsWithRefs {
       name
       kali_id
     }
+    document {
+      slug
+    }
   }
 }
 `;
@@ -39,7 +42,7 @@ query getContributionsWithRefs {
 interface ContributionsHasuraResult {
   contribution_answers: Pick<
     ContributionsAnswers,
-    "id" | "question" | "legi_references" | "kali_references" | "agreement"
+    "id" | "question" | "legi_references" | "kali_references" | "agreement" | "document"
   >[];
 }
 

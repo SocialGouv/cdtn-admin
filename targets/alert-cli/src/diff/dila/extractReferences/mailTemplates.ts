@@ -11,7 +11,7 @@ import { gqlClient } from "@shared/utils";
 
 export type MailTemplateSubset = Pick<
   MailTemplate,
-  "document" | "source" | "title"
+  "document" | "source" | "title" | "slug"
 > & {
   initialId: string;
   cdtnId: string;
@@ -52,6 +52,7 @@ export async function extractMailTemplateRef(
         id: docData.initialId,
         source: SOURCES.LETTERS,
         title: docData.title,
+        slug: docData.slug,
       },
       references: references.flatMap((item) => (item !== null ? [item] : [])),
     });

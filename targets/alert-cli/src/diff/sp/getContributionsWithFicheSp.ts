@@ -1,5 +1,5 @@
-import { ContributionsAnswers } from "@socialgouv/cdtn-types";
-import { gqlClient } from "@shared/utils";
+import {ContributionsAnswers} from "@socialgouv/cdtn-types";
+import {gqlClient} from "@shared/utils";
 
 const queryGetContributionsWithRefs = `
 query getContribsWithSp($ficheSpIds: [String!]) {
@@ -15,13 +15,16 @@ query getContribsWithSp($ficheSpIds: [String!]) {
       initial_id
       document
     }
+    document {
+      slug
+    }
   }
 }
 `;
 
 interface ContributionsHasuraResult {
   contribution_answers: Required<
-    Pick<ContributionsAnswers, "id" | "question" | "content_fiche_sp">
+    Pick<ContributionsAnswers, "id" | "question" | "content_fiche_sp"> & { document: { slug: string } }
   >[];
 }
 

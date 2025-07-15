@@ -30,6 +30,7 @@ test("extractMailTemplateRef", async () => {
       {
         "document": {
           "id": "576b0a92-16de-449e-a9d0-199e89d674cd",
+          "slug": undefined,
           "source": "modeles_de_courriers",
           "title": "document de test",
         },

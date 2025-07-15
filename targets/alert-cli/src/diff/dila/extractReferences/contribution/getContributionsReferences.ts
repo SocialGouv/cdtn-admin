@@ -37,6 +37,7 @@ export async function getContributionsReferences(): Promise<
         id: contribution.id,
         source: SOURCES.CONTRIBUTIONS,
         title: contribution.question.content,
+        slug: contribution.document?.slug ?? "",
       },
       references,
     });

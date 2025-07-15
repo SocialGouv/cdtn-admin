@@ -11,11 +11,13 @@ query getContribCdtnReferences($ids: [String!]) {
       order
       seo_title
     }
+    document {
+      slug
+    }
     cdtn_references {
       cdtn_id
       document {
         initial_id
-        document
       }
     }
   }
@@ -24,7 +26,7 @@ query getContribCdtnReferences($ids: [String!]) {
 
 interface ContributionsHasuraResult {
   contribution_answers: Required<
-    Pick<ContributionsAnswers, "id" | "question" | "cdtn_references">
+    Pick<ContributionsAnswers, "id" | "question" | "cdtn_references"> & { document: { slug: string } | null }
   >[];
 }
 

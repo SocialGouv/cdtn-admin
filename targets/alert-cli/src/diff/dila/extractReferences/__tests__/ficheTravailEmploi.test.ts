@@ -1,7 +1,7 @@
-import { expect, test } from "@jest/globals";
+import {expect, test} from "@jest/globals";
 
-import type { FicheTravail } from "../ficheTravailEmploi";
-import main, { extractFicheTravailEmploiRef } from "../ficheTravailEmploi";
+import type {FicheTravail} from "../ficheTravailEmploi";
+import main, {extractFicheTravailEmploiRef} from "../ficheTravailEmploi";
 
 jest.mock("../../../shared/getAllDocumentsBySource", () => {
   return {
@@ -75,6 +75,7 @@ const mockFiches: FicheTravail[] = [
     },
     initialId: "fiche-sp-1",
     source: "fiches_ministere_travail",
+    slug: "fiche1",
     title: "fiche1",
   },
 ];
@@ -83,6 +84,7 @@ const expected = [
   {
     document: {
       id: "fiche-sp-1",
+      slug: "fiche1",
       source: "fiches_ministere_travail",
       title: "fiche1#sous-titre",
     },
@@ -106,6 +108,7 @@ const expected = [
   {
     document: {
       id: "fiche-sp-1",
+      slug: "fiche1",
       source: "fiches_ministere_travail",
       title: "fiche1#sous-titre-2",
     },
