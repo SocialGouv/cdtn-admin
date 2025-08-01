@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.58.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.6...v2.58.0) (2025-08-01)
+
+### Bug Fixes
+
+- add anonymization of contrib comments ([#1571](https://github.com/SocialGouv/cdtn-admin/issues/1571)) ([84e3694](https://github.com/SocialGouv/cdtn-admin/commit/84e3694ca1c218d969e9423f7f483f8c9d6346f3))
+- lien 404 sur les alertes ([#1585](https://github.com/SocialGouv/cdtn-admin/issues/1585)) ([e250057](https://github.com/SocialGouv/cdtn-admin/commit/e2500573ca46dd37ed6e27647f4f136968929c00))
+
+### Features
+
+- **contribution:** ajout d'un message block sur les contributions ([#1587](https://github.com/SocialGouv/cdtn-admin/issues/1587)) ([38e85be](https://github.com/SocialGouv/cdtn-admin/commit/38e85bec13f53a80ff76a8bbb7c4e10dd8b8c971))
+- **infographie:** ajout d'un titre pour gérer les alt ([#1586](https://github.com/SocialGouv/cdtn-admin/issues/1586)) ([1b76f48](https://github.com/SocialGouv/cdtn-admin/commit/1b76f48543270200d76221a47d3c2fa396e518fb))
+
 ## [2.57.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.5...v2.57.6) (2025-07-02)
 
 ### Bug Fixes

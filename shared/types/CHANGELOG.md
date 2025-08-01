@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.58.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.6...v2.58.0) (2025-08-01)
+
+### Bug Fixes
+
+- lien 404 sur les alertes ([#1585](https://github.com/SocialGouv/cdtn-admin/issues/1585)) ([e250057](https://github.com/SocialGouv/cdtn-admin/commit/e2500573ca46dd37ed6e27647f4f136968929c00))
+
 ## [2.57.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.5...v2.57.6) (2025-07-02)
 
 **Note:** Version bump only for package @socialgouv/cdtn-types
