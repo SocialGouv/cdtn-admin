@@ -8,11 +8,13 @@ declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     infographic: {
       setInfographic: (
+        infoTitle: string,
         infoName: string,
         pdfName: string,
         sizePdf: string
       ) => ReturnType;
       updateInfographicSrc: (
+        newInfoTitle: string,
         newInfoName: string,
         newPdfName: string,
         newPdfSize: string
@@ -35,6 +37,15 @@ export const Infographic = Node.create<InfographicOptions>({
 
   addAttributes() {
     return {
+      infoTitle: {
+        parseHTML: (element) =>
+          element
+            .querySelector("div.infographic")
+            ?.getAttribute("data-infographic-title"),
+        renderHTML: (attributes) => {
+          return { "data-infographic-title": attributes.infoTitle };
+        },
+      },
       infoName: {
         parseHTML: (element) =>
           element
@@ -74,6 +85,7 @@ export const Infographic = Node.create<InfographicOptions>({
         getAttrs: (element) => {
           const el = element as HTMLElement;
           return {
+            infoTitle: el.getAttribute("data-infographic-title") || "",
             infoName: el.getAttribute("data-infographic") || "",
             pdfName: el.getAttribute("data-pdf") || "",
             pdfSize: el.getAttribute("data-pdf-size") || "",
@@ -88,9 +100,10 @@ export const Infographic = Node.create<InfographicOptions>({
       "div",
       {
         class: "infographic",
+        "data-infographic-title": HTMLAttributes["data-infographic-title"],
+        "data-infographic": HTMLAttributes["data-infographic"],
         "data-pdf": HTMLAttributes["data-pdf"],
         "data-pdf-size": HTMLAttributes["data-pdf-size"],
-        "data-infographic": HTMLAttributes["data-infographic"],
       },
       [
         "img",
@@ -107,11 +120,11 @@ export const Infographic = Node.create<InfographicOptions>({
   addCommands() {
     return {
       setInfographic:
-        (infoName: string, pdfName: string, pdfSize: string) =>
+        (infoTitle: string, infoName: string, pdfName: string, pdfSize: string) =>
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,
-            attrs: { infoName, pdfName, pdfSize },
+            attrs: { infoTitle, infoName, pdfName, pdfSize },
             content: [
               {
                 type: "details",
@@ -146,7 +159,7 @@ export const Infographic = Node.create<InfographicOptions>({
         },
 
       updateInfographicSrc:
-        (newInfoName: string, newPdfName: string, newPdfSize: string) =>
+        (newInfoTitle: string, newInfoName: string, newPdfName: string, newPdfSize: string) =>
         ({ state, chain }) => {
           const { selection } = state;
           const node = selection.$anchor.node();
@@ -156,6 +169,7 @@ export const Infographic = Node.create<InfographicOptions>({
           }
           return chain()
             .updateAttributes("infographic", {
+              infoTitle: newInfoTitle,
               infoName: newInfoName,
               pdfName: newPdfName,
               pdfSize: newPdfSize,
