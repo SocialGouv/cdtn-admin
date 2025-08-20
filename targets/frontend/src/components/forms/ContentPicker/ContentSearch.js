@@ -38,6 +38,9 @@ query searchDocuments($sources: [String!]! = "", $search: String = "") {
     source
     title
     cdtnId: cdtn_id
+    slug
+    isAvailable: is_available
+    isPublished: is_published
   }
 }
 `;
@@ -86,13 +89,27 @@ export const ContentSearch = ({ contents = [], onChange }) => {
     setDebouncedSearchValue(newValue);
   };
   const onSuggestionSelected = (
-    event,
-    { suggestion: { cdtnId, source, title = null, description, slug } }
+    _event,
+    {
+      suggestion: {
+        cdtnId,
+        source,
+        title = null,
+        description,
+        slug,
+        isAvailable,
+        isPublished,
+      },
+    }
   ) => {
     if (contents.find((content) => content.cdtnId === cdtnId)) {
       return;
     }
-    onChange(contents.concat([{ cdtnId, description, slug, source, title }]));
+    onChange(
+      contents.concat([
+        { cdtnId, description, slug, source, title, isAvailable, isPublished },
+      ])
+    );
     setInputSearchValue("");
     setSuggestions([]);
   };
