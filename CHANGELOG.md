@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.58.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.0...v2.58.1) (2025-08-21)
+
+### Bug Fixes
+
+- bug de l'affichage du libellé supprimé dans la sélection de contenu ([#1589](https://github.com/SocialGouv/cdtn-admin/issues/1589)) ([4f6f9df](https://github.com/SocialGouv/cdtn-admin/commit/4f6f9dfd17b53e87806711db0acd1dbec2339e5d))
+
 # [2.58.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.57.6...v2.58.0) (2025-08-01)
 
 ### Bug Fixes
