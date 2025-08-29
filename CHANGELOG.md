@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.58.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.1...v2.58.2) (2025-08-29)
+
+### Bug Fixes
+
+- **sitemap:** passage au format ISO de la date ([#1590](https://github.com/SocialGouv/cdtn-admin/issues/1590)) ([be89bee](https://github.com/SocialGouv/cdtn-admin/commit/be89beec236e22697ccca350578475892d401fbc))
+
 ## [2.58.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.0...v2.58.1) (2025-08-21)
 
 ### Bug Fixes
