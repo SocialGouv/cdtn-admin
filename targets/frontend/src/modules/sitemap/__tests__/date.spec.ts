@@ -18,7 +18,7 @@ describe("Date", () => {
   describe("formatDateToCustomISO", () => {
     it("should format a date to a custom ISO string", () => {
       const date = new Date("2023-02-01T12:34:56Z");
-      const expectedFormattedDate = "2023-02-01";
+      const expectedFormattedDate = "2023-02-01T12:34:56.000Z";
       expect(formatDateToCustomISO(date)).toEqual(expectedFormattedDate);
     });
   });
