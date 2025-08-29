@@ -9,9 +9,5 @@ export const transformStringDate = (date: string): Date => {
 };
 
 export function formatDateToCustomISO(date: Date): string {
-  const pad = (num: number) => (num < 10 ? "0" : "") + num;
-  const year = date.getFullYear();
-  const month = pad(date.getMonth() + 1);
-  const day = pad(date.getDate());
-  return `${year}-${month}-${day}`;
+  return date.toISOString();
 }
