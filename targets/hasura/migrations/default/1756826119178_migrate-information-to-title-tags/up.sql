@@ -23,4 +23,4 @@ SET document = document || jsonb_build_object(
         ),
         '</h4>', '</span>', 'gi'
     )
-) where source='information' and document->>'dismissalProcess' = 'true';
+) where source='information';
