@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.58.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.3...v2.58.4) (2025-09-09)
+
+### Bug Fixes
+
+- migration title ([#1593](https://github.com/SocialGouv/cdtn-admin/issues/1593)) ([688e0e5](https://github.com/SocialGouv/cdtn-admin/commit/688e0e5373149184a76db4407d1a375e987b818c))
+
 ## [2.58.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.2...v2.58.3) (2025-09-08)
 
 ### Bug Fixes

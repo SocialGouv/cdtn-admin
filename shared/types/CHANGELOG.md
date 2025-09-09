@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.58.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.3...v2.58.4) (2025-09-09)
+
+**Note:** Version bump only for package @socialgouv/cdtn-types
+
 ## [2.58.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.2...v2.58.3) (2025-09-08)
 
 **Note:** Version bump only for package @socialgouv/cdtn-types
