@@ -8,6 +8,12 @@ list as (
     FROM other_ref aor
     inner JOIN kali_articles ka
         ON aor.kaidgen = ka.cid or aor.kaidgen = ka.id
+    where not exists(
+        select 1
+        from contribution.answer_kali_references akr
+        where akr.answer_id = aor.answer_id
+        and akr.article_id = aor.kaidgen
+    )
 ),
 inserted as (
     INSERT INTO contribution.answer_kali_references (answer_id, article_id, "label")
