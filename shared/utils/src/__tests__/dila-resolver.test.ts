@@ -23,7 +23,7 @@ test("extractArticleId with jor ref", () => {
 });
 
 test("extractArticleId with no ref", () => {
-  const urlWithNoRef = `ttps://www.service-public.fr/particuliers/vosdroits/F13965`;
+  const urlWithNoRef = `ttps://www.service-public.gouv.fr/particuliers/vosdroits/F13965`;
   expect(extractArticleId(urlWithNoRef)).toEqual([]);
 });
 

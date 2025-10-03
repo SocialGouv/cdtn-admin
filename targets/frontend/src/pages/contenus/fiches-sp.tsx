@@ -24,7 +24,7 @@ function FichesServicePublicPage() {
         setSelectedItems,
       }}
     >
-      <Layout title="Fiches service-public.fr">
+      <Layout title="Fiches service-public.gouv.fr">
         <FichesServicePublicContainer />
       </Layout>
     </SelectionContext.Provider>
