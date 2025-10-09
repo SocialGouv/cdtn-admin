@@ -23,10 +23,10 @@ export const generateFichesSpRef = (
 ): string => {
   switch (audience) {
     case "associations":
-      return `https://www.service-public.fr/associations/vosdroits/${ficheSpInitialId}`;
+      return `https://www.service-public.gouv.fr/associations/vosdroits/${ficheSpInitialId}`;
     case "particuliers":
-      return `https://www.service-public.fr/particuliers/vosdroits/${ficheSpInitialId}`;
+      return `https://www.service-public.gouv.fr/particuliers/vosdroits/${ficheSpInitialId}`;
     case "professionnels":
-      return `https://entreprendre.service-public.fr/vosdroits/${ficheSpInitialId}`;
+      return `https://entreprendre.service-public.gouv.fr/vosdroits/${ficheSpInitialId}`;
   }
 };

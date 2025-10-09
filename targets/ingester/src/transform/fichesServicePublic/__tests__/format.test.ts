@@ -19,16 +19,16 @@ describe("format", () => {
     const formatted = format(fiche as any, referenceResolverMock, agreements);
     expect(formatted.date).toEqual("01/11/2024");
     expect(formatted.description).toEqual(
-      "Le contrat d'apprentissage est un contrat de travail conclu entre un employeur et un salarié lui permettant de suivre une formation en alternance.",
+      "Le contrat d'apprentissage est un contrat de travail conclu entre un employeur et un salarié lui permettant de suivre une formation en alternance."
     );
     expect(formatted.id).toEqual("F2918");
     expect(formatted.referencedTexts.length).toEqual(34);
     expect(formatted.text).toMatch(
-      /Le contrat d'apprentissage est un contrat de travail qui permet de suivre par alternance des périodes de formation/,
+      /Le contrat d'apprentissage est un contrat de travail qui permet de suivre par alternance des périodes de formation/
     );
     expect(formatted.title).toEqual("Contrat d'apprentissage");
     expect(formatted.url).toEqual(
-      "https://www.service-public.fr/particuliers/vosdroits/F2918",
+      "https://www.service-public.gouv.fr/particuliers/vosdroits/F2918"
     );
 
     const raw = JSON.parse(formatted.raw);
@@ -39,7 +39,7 @@ describe("format", () => {
     const formatted = format(
       ficheWithRef as any,
       referenceResolverMock,
-      agreements,
+      agreements
     );
 
     expect(formatted.referencedTexts.length).toEqual(5);

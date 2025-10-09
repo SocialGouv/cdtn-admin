@@ -189,7 +189,7 @@ export function extractNewReference(
   label = ""
 ): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
   /**
-   * typologie des nouveaux liens legifrance que l'on trouve dans les fiches service-public.fr
+   * typologie des nouveaux liens legifrance que l'on trouve dans les fiches service-public.gouv.fr
    *
    * /codes/id/LEGIARTI000041973733/: affiche un article et la section qui le contient
    * /codes/article_lc/LEGIARTI000041973733/ : affiche l'article seul
