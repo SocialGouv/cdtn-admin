@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.58.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.4...v2.58.5) (2025-10-15)
+
+### Bug Fixes
+
+- **naming:** remplacement de service-public.fr par service-public.gouv.fr ([#1596](https://github.com/SocialGouv/cdtn-admin/issues/1596)) ([3fe6b62](https://github.com/SocialGouv/cdtn-admin/commit/3fe6b6237443cfdd45e3eed2e585351847017ad0))
+
+### Features
+
+- ajout du script de migration des other ref vers kali ref ([#1594](https://github.com/SocialGouv/cdtn-admin/issues/1594)) ([6a6797d](https://github.com/SocialGouv/cdtn-admin/commit/6a6797d412d062e489862e9f20654ee59eb252b9))
+
 ## [2.58.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.3...v2.58.4) (2025-09-09)
 
 ### Bug Fixes
