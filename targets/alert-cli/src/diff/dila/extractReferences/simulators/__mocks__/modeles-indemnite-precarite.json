@@ -1,0 +1,1476 @@
+{
+  "16": {
+    "contrat salarié . convention collective . transports routiers": {
+      "description": "Convention collective nationale des transports routiers",
+      "applicable si": "convention collective = 'IDCC0016'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 16,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . transports routiers . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . transports routiers . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "44": {
+    "contrat salarié . convention collective . industries chimiques": {
+      "description": "Convention collective nationale des industries chimiques et connexes du 30 décembre 1952.",
+      "applicable si": "convention collective = 'IDCC0044'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 44,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . industries chimiques . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . industries chimiques . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "86": {
+    "contrat salarié . convention collective . publicité française": {
+      "description": "Convention collective nationale de travail des Techniciens et agents de maitrise (coefficients 220 à 390), techniciens et employés de la publicité française du 22 avril 1955.",
+      "applicable si": "convention collective = 'IDCC0086'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 86,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . publicité française . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . publicité française . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "176": {
+    "contrat salarié . convention collective . industrie pharmaceutique": {
+      "titre": "Convention collective nationale de l'industrie pharmaceutique",
+      "applicable si": "convention collective = 'IDCC0176'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 176,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . industrie pharmaceutique . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . industrie pharmaceutique . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "275": {
+    "contrat salarié . convention collective . transport aérien personnel au sol": {
+      "titre": "Convention collective nationale du personnel au sol des entreprises de transport aérien du 22 mai 1959.",
+      "applicable si": "convention collective = 'IDCC0275'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 275,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . transport aérien personnel au sol . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . transport aérien personnel au sol . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "292": {
+    "contrat salarié . convention collective . plasturgie": {
+      "description": "Convention collective nationale plasturgie",
+      "applicable si": "convention collective = 'IDCC0292'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 292,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . plasturgie . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . plasturgie . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "573": {
+    "contrat salarié . convention collective . commerces de gros": {
+      "description": "Convention collective nationale de commerces de gros du 23 juin 1970.",
+      "applicable si": "convention collective = 'IDCC0573'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 573,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . commerces de gros . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . commerces de gros . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "675": {
+    "contrat salarié . convention collective . habillement commerce succursales": {
+      "titre": "Convention collective nationale des maisons à succursales de vente au détail d'habillement du 30 juin 1972.",
+      "applicable si": "convention collective = 'IDCC0675'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 675,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . habillement commerce succursales . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . habillement commerce succursales . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "787": {
+    "contrat salarié . convention collective . comptables": {
+      "description": "Convention collective nationale des cabinets d'experts-comptables et de commissaires aux comptes du 9 décembre 1974. Etendue par arrêté du 30 mai 1975 JONC 12 juin 1975.",
+      "applicable si": "convention collective = 'IDCC0787'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 787,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . comptables . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . comptables . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "843": {
+    "contrat salarié . convention collective . boulangerie patisserie": {
+      "description": "Convention collective nationale de la boulangerie-pâtisserie du 19 mars 1976.",
+      "applicable si": "convention collective = 'IDCC0843'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 843,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . boulangerie patisserie . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . boulangerie patisserie . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1043": {
+    "contrat salarié . convention collective . gardien concierge": {
+      "description": "Convention collective nationale des gardiens, concierges et employés d'immeubles (réécrite par l'avenant n° 74 du 27 avril 2009 portant modification de la convention).",
+      "applicable si": "convention collective = 'IDCC1043'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1043,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . gardien concierge . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . gardien concierge . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1090": {
+    "contrat salarié . convention collective . automobiles": {
+      "description": "Convention collective nationale du commerce et de la réparation de l'automobile, du cycle et du motocycle et des activités connexes, ainsi que du contrôle technique automobile du 15 janvier 1981.",
+      "applicable si": "convention collective = 'IDCC1090'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1090,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . automobiles . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . automobiles . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1147": {
+    "contrat salarié . convention collective . cabinets médicaux": {
+      "description": "Convention collective nationale du personnel des cabinets médicaux du 14 octobre 1981",
+      "applicable si": "convention collective = 'IDCC1147'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1147,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . cabinets médicaux . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . cabinets médicaux . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1266": {
+    "contrat salarié . convention collective . restauration collectivités": {
+      "description": "Convention collective nationale du personnel des entreprises de restauration de collectivités du 20 juin 1983. Etendue par arrêté du 2 février 1984 JONC 17 février 1984",
+      "applicable si": "convention collective = 'IDCC1266'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1266,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . restauration collectivités . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . restauration collectivités . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1351": {
+    "contrat salarié . convention collective . prevention sécurité entreprise": {
+      "description": "Convention collective nationale des entreprises de prévention et de sécurité du 15 février 1985. Etendue par arrêté du 25 juillet 1985 (JO du 30 juillet 1985).",
+      "applicable si": "convention collective = 'IDCC1351'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1351,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . prevention sécurité entreprise . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . prevention sécurité entreprise . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1404": {
+    "contrat salarié . convention collective . sedima": {
+      "titre": "Convention collective nationale des entreprises de commerce, de location et de réparation de tracteurs, machines et matériels agricoles, de matériels de travaux publics, de bâtiment et de manutention, de matériels de motoculture de plaisance, de jardins et d'espaces verts (SEDIMA)",
+      "applicable si": "convention collective = 'IDCC1404'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1404,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . sedima . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . sedima . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1480": {
+    "contrat salarié . convention collective . journalisme": {
+      "description": "Convention collective nationale des journalistes du 1er novembre 1976, refondue le 27 octobre 1987. Etendue par arrêté du 2 février 1988 (JO du 13 février 1988)",
+      "applicable si": "convention collective = 'IDCC1480'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1480,
+        "préavis-retraite": true,
+        "indemnité-licenciement": false,
+        "préavis-demission": true,
+        "rupture-conventionnelle": false,
+        "indemnité-précarité": false,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    }
+  },
+  "1483": {
+    "contrat salarié . convention collective . habillement textiles commerce de detail": {
+      "description": "Convention collective nationale du commerce de détail de l'habillement et des articles textiles du 25 novembre 1987, révisée par avenant du 17 juin 2004.",
+      "applicable si": "convention collective = 'IDCC1483'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1483,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . habillement textiles commerce de detail . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . habillement textiles commerce de detail . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1486": {
+    "contrat salarié . convention collective . bureaux études techniques": {
+      "description": "Convention collective nationale des bureaux d'études techniques, des cabinets d'ingénieurs-conseils et des sociétés de conseils du 15 décembre 1987.",
+      "applicable si": "convention collective = 'IDCC1486'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1486,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . bureaux études techniques . type de cdd Enquêteurs vacataires": {
+      "applicable si": "type de cdd = 'Enquêteurs vacataires'"
+    },
+    "contrat salarié . convention collective . bureaux études techniques . type de cdd Enquêteurs vacataires . résultat conventionnel": {
+      "valeur": {
+        "produit": {
+          "assiette": "contrat salarié . salaire de référence",
+          "facteur": 0.04
+        }
+      },
+      "arrondi": "2 décimales",
+      "unité": "€",
+      "cdtn": {
+        "formule": {
+          "explanations": [
+            {
+              "S : Salaires renseignés": "contrat salarié . salaire de référence"
+            }
+          ],
+          "formula": "4/100 * S"
+        },
+        "label": "L'indemnité de fin de contrat"
+      },
+      "remplace": "contrat salarié . convention collective . résultat conventionnel",
+      "références": {
+        "Article 53 de l'annexe relative aux enquêteurs - Accord du 16 décembre 1991": "https://www.legifrance.gouv.fr/affichIDCCArticle.do;jsessionid=7625C278F6496D100BB4EC20B6D7BAA7.tplgfr25s_3?idArticle=KALIARTI000005851356&cidTexte=KALITEXT000005679885&dateTexte=29990101&categorieLien=id",
+        "Article L1243-8 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000006901219&cidTexte=LEGITEXT000006072050&dateTexte=20080501",
+        "Article L1243-9 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=0FA35871C82B78139407AE9BD9480D9B.tplgfr31s_2?idArticle=LEGIARTI000006901220&cidTexte=LEGITEXT000006072050&dateTexte=20080501&categorieLien=id&oldAction=&nbResultRech="
+      }
+    },
+    "contrat salarié . convention collective . bureaux études techniques . type de cdd Contrat d'intervention dans le secteur d'activité d'organisation des foires, salons et congrès": {
+      "applicable si": "type de cdd = 'Contrat d'intervention dans le secteur d'activité d'organisation des foires, salons et congrès'"
+    },
+    "contrat salarié . convention collective . bureaux études techniques . type de cdd Contrat d'intervention dans le secteur d'activité d'organisation des foires, salons et congrès . avec proposition cdi non": {
+      "applicable si": "avec proposition cdi = 'non'"
+    },
+    "contrat salarié . convention collective . bureaux études techniques . type de cdd Contrat d'intervention dans le secteur d'activité d'organisation des foires, salons et congrès . avec proposition cdi non . résultat conventionnel": {
+      "valeur": {
+        "produit": {
+          "assiette": "contrat salarié . salaire de référence",
+          "facteur": 0.06
+        }
+      },
+      "arrondi": "2 décimales",
+      "unité": "€",
+      "cdtn": {
+        "formule": {
+          "explanations": [
+            {
+              "S : Salaires renseignés": "contrat salarié . salaire de référence"
+            }
+          ],
+          "formula": "6/100 * S"
+        },
+        "label": "La prime d'intervention"
+      },
+      "remplace": "contrat salarié . convention collective . résultat conventionnel",
+      "références": {
+        "Chapitre III : Contrat d'intervention à durée déterminée de l'accord du 5 juillet 2001 relatif au statut des salariés du secteur d'activité d'organisation des foires, salons et congrès": "https://www.legifrance.gouv.fr/affichIDCCArticle.do?idArticle=KALIARTI000005851689&cidTexte=KALITEXT000005679946&dateTexte=20190918",
+        "Article L1243-8 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000006901219&cidTexte=LEGITEXT000006072050&dateTexte=20080501",
+        "Article L1243-9 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=0FA35871C82B78139407AE9BD9480D9B.tplgfr31s_2?idArticle=LEGIARTI000006901220&cidTexte=LEGITEXT000006072050&dateTexte=20080501&categorieLien=id&oldAction=&nbResultRech="
+      }
+    },
+    "contrat salarié . convention collective . bureaux études techniques . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . bureaux études techniques . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1501": {
+    "contrat salarié . convention collective . restauration rapide": {
+      "titre": "Convention collective nationale de la restauration rapide du 18 mars 1988",
+      "applicable si": "convention collective = 'IDCC1501'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1501,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . restauration rapide . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . restauration rapide . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1505": {
+    "contrat salarié . convention collective . commerces de détail fruits et légumes": {
+      "description": "Convention collective nationale du commerce de détail des fruits et légumes, épicerie et produits laitiers du 15 avril 1988. Etendue par arrêté du 20 juin 1988, JORF 25 juin 1988.",
+      "applicable si": "convention collective = 'IDCC1505'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1505,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . commerces de détail fruits et légumes . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . commerces de détail fruits et légumes . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1516": {
+    "contrat salarié . convention collective . organismes de formation": {
+      "description": "Convention collective nationale des organismes de formation du 10 juin 1988.",
+      "applicable si": "convention collective = 'IDCC1516'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1516,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . organismes de formation . type de cdd CDD d'usage": {
+      "applicable si": "type de cdd = 'CDD d'usage'"
+    },
+    "contrat salarié . convention collective . organismes de formation . type de cdd CDD d'usage . embauché en cdi non": {
+      "applicable si": "embauché en cdi = 'non'"
+    },
+    "contrat salarié . convention collective . organismes de formation . type de cdd CDD d'usage . embauché en cdi non . résultat conventionnel": {
+      "valeur": {
+        "produit": {
+          "assiette": "contrat salarié . salaire de référence",
+          "facteur": 0.06
+        }
+      },
+      "arrondi": "2 décimales",
+      "unité": "€",
+      "cdtn": {
+        "formule": {
+          "explanations": [
+            {
+              "S : Salaires renseignés": "contrat salarié . salaire de référence"
+            }
+          ],
+          "formula": "6/100 * S"
+        },
+        "label": "L'indemnité dite d'usage"
+      },
+      "remplace": "contrat salarié . convention collective . résultat conventionnel",
+      "références": {
+        "Article 5 de la convention collective": "https://www.legifrance.gouv.fr/conv_coll/article/KALIARTI000047382739",
+        "Article L1243-8 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000006901219&cidTexte=LEGITEXT000006072050&dateTexte=20080501",
+        "Article L1243-9 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=0FA35871C82B78139407AE9BD9480D9B.tplgfr31s_2?idArticle=LEGIARTI000006901220&cidTexte=LEGITEXT000006072050&dateTexte=20080501&categorieLien=id&oldAction=&nbResultRech="
+      }
+    },
+    "contrat salarié . convention collective . organismes de formation . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . organismes de formation . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1517": {
+    "contrat salarié . convention collective . commerces de detail non alimentaires": {
+      "description": "Convention collective nationale des commerces de détail non alimentaires : antiquités, brocante, galeries d'art (œuvres d'art), arts de la table, coutellerie, droguerie, équipement du foyer, bazars, commerces ménagers, modélisme, jeux, jouets, puérinatalité et maroquinerie du 9 mai 2012 (avenant du 9 mai 2012).",
+      "applicable si": "convention collective = 'IDCC1517'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1517,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . commerces de detail non alimentaires . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . commerces de detail non alimentaires . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1518": {
+    "contrat salarié . convention collective . éducation et loisirs": {
+      "description": "Convention collective nationale des métiers de l'éducation, de la culture, des loisirs et de l'animation agissant pour l'utilité sociale et environnementale, au service des territoires (ÉCLAT) du 28 juin 1988. Étendue par arrêté du 10 janvier 1989 JORF 13 janvier 1989.",
+      "applicable si": "convention collective = 'IDCC1518'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1518,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . éducation et loisirs . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . éducation et loisirs . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1527": {
+    "contrat salarié . convention collective . immobilier": {
+      "description": "Convention collective nationale de l'immobilier, administrateurs de biens, sociétés immobilières, agents immobiliers, etc. (anciennement cabinets d'administrateurs de biens et des sociétés immobilières), du 9 septembre 1988. Etendue par arrêté du 24 février 1989 JORF 3 mars 1989. Mise à jour par avenant n° 47 du 23 novembre 2010, JORF 18 juillet 2012 puis mise à jour par avenant n° 83 du 2 décembre 2019 étendu par arrêté du 2 juillet 2021 JORF 14 juillet 2021.",
+      "applicable si": "convention collective = 'IDCC1527'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1527,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . immobilier . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . immobilier . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1596": {
+    "contrat salarié . convention collective . batiment ouvriers employés": {
+      "description": "Nouvelle convention collective nationale des ouvriers employés par les entreprises du bâtiment visées par le décret du 1er mars 1962 (c'est-à-dire occupant jusqu'à 10 salariés) du 7 mars 2018 (Avenant du 7 mars 2018)",
+      "applicable si": "convention collective = 'IDCC1596'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1596,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . batiment ouvriers employés . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . batiment ouvriers employés . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1597": {
+    "contrat salarié . convention collective . batiment ouvriers employés bis": {
+      "description": "Nouvelle convention collective nationale des ouvriers employés par les entreprises du bâtiment non visées par le décret du 1er mars 1962 (c'est-à-dire occupant plus de 10 salariés) du 7 mars 2018 (Avenant du 7 mars 2018)",
+      "applicable si": "convention collective = 'IDCC1597'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1597,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . batiment ouvriers employés bis . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . batiment ouvriers employés bis . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1606": {
+    "contrat salarié . convention collective . bricolage": {
+      "description": "Convention collective nationale du bricolage (vente au détail en libre-service) du 30 septembre 1991.",
+      "applicable si": "convention collective = 'IDCC1606'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1606,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . bricolage . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . bricolage . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1672": {
+    "contrat salarié . convention collective . sociétés d'assurances": {
+      "description": "Convention collective nationale des sociétés d'assurances du 27 mai 1992.",
+      "applicable si": "convention collective = 'IDCC1672'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1672,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . sociétés d'assurances . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . sociétés d'assurances . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1702": {
+    "contrat salarié . convention collective . ouvriers travaux public": {
+      "description": "Convention collective nationale des ouvriers des travaux publics du 15 décembre 1992",
+      "applicable si": "convention collective = 'IDCC1702'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1702,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . ouvriers travaux public . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . ouvriers travaux public . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1740": {
+    "contrat salarié . convention collective . ouvriers bâtiment région parisienne": {
+      "description": "Convention collective régionale des ouvriers du bâtiment de la région parisienne du 28 juin 1993.",
+      "applicable si": "convention collective = 'IDCC1740'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1740,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . ouvriers bâtiment région parisienne . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . ouvriers bâtiment région parisienne . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1979": {
+    "contrat salarié . convention collective . hotels cafes restaurants": {
+      "description": "Convention collective nationale des hôtels, cafés restaurants (HCR) du 30 avril 1997",
+      "applicable si": "convention collective = 'IDCC1979'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1979,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . hotels cafes restaurants . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . hotels cafes restaurants . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "1996": {
+    "contrat salarié . convention collective . pharmacie": {
+      "description": "Convention collective nationale de la pharmacie d'officine du 3 décembre 1997. Etendue par arrêté du 13 août 1998 (JO du 8 septembre 1998).",
+      "applicable si": "convention collective = 'IDCC1996'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 1996,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . pharmacie . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . pharmacie . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "2098": {
+    "contrat salarié . convention collective . personnel presta service tertiaire": {
+      "description": "Convention collective nationale du personnel des prestataires de services dans le domaine du secteur tertiaire du 13 août 1999.",
+      "applicable si": "convention collective = 'IDCC2098'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 2098,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . personnel presta service tertiaire . type de cdd CDD d'optimisation linéaire": {
+      "applicable si": "type de cdd = 'CDD d'optimisation linéaire'"
+    },
+    "contrat salarié . convention collective . personnel presta service tertiaire . type de cdd CDD d'optimisation linéaire . résultat conventionnel": {
+      "valeur": {
+        "produit": {
+          "assiette": "contrat salarié . salaire de référence",
+          "facteur": 0.1
+        }
+      },
+      "arrondi": "2 décimales",
+      "unité": "€",
+      "cdtn": {
+        "formule": {
+          "explanations": [
+            {
+              "S : Salaires renseignés": "contrat salarié . salaire de référence"
+            }
+          ],
+          "formula": "1/10 * S"
+        }
+      },
+      "remplace": "contrat salarié . convention collective . résultat conventionnel",
+      "références": {
+        "Article 9 de l'accord du 10 mai 2010 relatif à l'activité d'optimisation de linéaires": "https://www.legifrance.gouv.fr/affichIDCCArticle.do?idArticle=KALIARTI000023105275&cidTexte=KALITEXT000023105252&dateTexte=20190918",
+        "Article L1243-8 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000006901219&cidTexte=LEGITEXT000006072050&dateTexte=20080501",
+        "Article L1243-9 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=0FA35871C82B78139407AE9BD9480D9B.tplgfr31s_2?idArticle=LEGIARTI000006901220&cidTexte=LEGITEXT000006072050&dateTexte=20080501&categorieLien=id&oldAction=&nbResultRech="
+      }
+    },
+    "contrat salarié . convention collective . personnel presta service tertiaire . type de cdd CDD d'animation commerciale": {
+      "applicable si": "type de cdd = 'CDD d'animation commerciale'"
+    },
+    "contrat salarié . convention collective . personnel presta service tertiaire . type de cdd CDD d'animation commerciale . résultat conventionnel": {
+      "valeur": {
+        "produit": {
+          "assiette": "contrat salarié . salaire de référence",
+          "facteur": 0.1
+        }
+      },
+      "arrondi": "2 décimales",
+      "unité": "€",
+      "cdtn": {
+        "formule": {
+          "explanations": [
+            {
+              "S : Salaires renseignés": "contrat salarié . salaire de référence"
+            }
+          ],
+          "formula": "1/10 * S"
+        }
+      },
+      "remplace": "contrat salarié . convention collective . résultat conventionnel",
+      "références": {
+        "Article 9 de l'accord du 13 février 2006 Activités de l'animation commerciale": "https://www.legifrance.gouv.fr/affichIDCCArticle.do;jsessionid=793A05966FD38DF94E5C833A2BA3BAA6.tplgfr35s_3?idArticle=KALIARTI000005853800&cidTexte=KALITEXT000005680889&dateTexte=29990101&categorieLien=id",
+        "Article L1243-8 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000006901219&cidTexte=LEGITEXT000006072050&dateTexte=20080501",
+        "Article L1243-9 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=0FA35871C82B78139407AE9BD9480D9B.tplgfr31s_2?idArticle=LEGIARTI000006901220&cidTexte=LEGITEXT000006072050&dateTexte=20080501&categorieLien=id&oldAction=&nbResultRech="
+      }
+    },
+    "contrat salarié . convention collective . personnel presta service tertiaire . type de cdd Contrat d'intervention dans le secteur de l'accueil événementiel": {
+      "applicable si": "type de cdd = 'Contrat d'intervention dans le secteur de l'accueil événementiel'"
+    },
+    "contrat salarié . convention collective . personnel presta service tertiaire . type de cdd Contrat d'intervention dans le secteur de l'accueil événementiel . résultat conventionnel": {
+      "valeur": {
+        "produit": {
+          "assiette": "contrat salarié . salaire de référence",
+          "facteur": 0.1
+        }
+      },
+      "arrondi": "2 décimales",
+      "unité": "€",
+      "cdtn": {
+        "formule": {
+          "explanations": [
+            {
+              "S : Salaires renseignés": "contrat salarié . salaire de référence"
+            }
+          ],
+          "formula": "1/10 * S"
+        }
+      },
+      "remplace": "contrat salarié . convention collective . résultat conventionnel",
+      "références": {
+        "Article 4.1 de l'accord du 20 septembre 2002 (1) relatif aux dispositions spécifiques à l'accueil événementiel": "https://www.legifrance.gouv.fr/affichIDCCArticle.do;jsessionid=498352440FE8B0C9DFAD6C46CE391F1F.tplgfr27s_3?idArticle=KALIARTI000028460654&cidTexte=KALITEXT000005680353&dateTexte=29990101&categorieLien=id",
+        "Article L1243-8 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000006901219&cidTexte=LEGITEXT000006072050&dateTexte=20080501",
+        "Article L1243-9 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=0FA35871C82B78139407AE9BD9480D9B.tplgfr31s_2?idArticle=LEGIARTI000006901220&cidTexte=LEGITEXT000006072050&dateTexte=20080501&categorieLien=id&oldAction=&nbResultRech="
+      }
+    },
+    "contrat salarié . convention collective . personnel presta service tertiaire . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . personnel presta service tertiaire . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "2120": {
+    "contrat salarié . convention collective . banque": {
+      "description": "Convention collective nationale de la banque du 10 janvier 2000. Etendue par arrêté du 17 novembre 2004 JORF 11 décembre 2004.",
+      "applicable si": "convention collective = 'IDCC2120'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 2120,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . banque . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . banque . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "2148": {
+    "contrat salarié . convention collective . télécommunications": {
+      "description": "Convention collective nationale des télécommunications du 26 avril 2000.",
+      "applicable si": "convention collective = 'IDCC2148'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 2148,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . télécommunications . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . télécommunications . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "2216": {
+    "contrat salarié . convention collective . commerce gros et detail alimentation": {
+      "description": "Convention collective nationale du commerce de détail et de gros à prédominance alimentaire du 12 juillet 2001.",
+      "applicable si": "convention collective = 'IDCC2216'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 2216,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . commerce gros et detail alimentation . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . commerce gros et detail alimentation . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "2264": {
+    "contrat salarié . convention collective . hospitalisation privées": {
+      "description": "Convention collective nationale de l'hospitalisation privée du 18 avril 2002.",
+      "applicable si": "convention collective = 'IDCC2264'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 2264,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . hospitalisation privées . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . hospitalisation privées . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "2511": {
+    "contrat salarié . convention collective . sport": {
+      "description": "Convention collective nationale du sport du 7 juillet 2005 étendue par arrêté du 21 novembre 2006.",
+      "applicable si": "convention collective = 'IDCC2511'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 2511,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . sport . type de cdd CDD d'usage appelé contrat d'intervention": {
+      "applicable si": "type de cdd = 'CDD d'usage appelé « contrat d'intervention »'"
+    },
+    "contrat salarié . convention collective . sport . type de cdd CDD d'usage appelé contrat d'intervention . embauché en cdi non": {
+      "applicable si": "embauché en cdi = 'non'"
+    },
+    "contrat salarié . convention collective . sport . type de cdd CDD d'usage appelé contrat d'intervention . embauché en cdi non . résultat conventionnel": {
+      "valeur": {
+        "produit": {
+          "assiette": "contrat salarié . salaire de référence",
+          "facteur": 0.1
+        }
+      },
+      "arrondi": "2 décimales",
+      "unité": "€",
+      "cdtn": {
+        "formule": {
+          "explanations": [
+            {
+              "S : Salaires renseignés": "contrat salarié . salaire de référence"
+            }
+          ],
+          "formula": "1/10 * S"
+        },
+        "label": "La prime d'intervention"
+      },
+      "remplace": "contrat salarié . convention collective . résultat conventionnel",
+      "références": {
+        "Article 4.7 de la convention collective": "https://www.legifrance.gouv.fr/conv_coll/article/KALIARTI000041494560",
+        "Article L1243-8 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000006901219&cidTexte=LEGITEXT000006072050&dateTexte=20080501",
+        "Article L1243-9 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=0FA35871C82B78139407AE9BD9480D9B.tplgfr31s_2?idArticle=LEGIARTI000006901220&cidTexte=LEGITEXT000006072050&dateTexte=20080501&categorieLien=id&oldAction=&nbResultRech="
+      }
+    },
+    "contrat salarié . convention collective . sport . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . sport . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "2596": {
+    "contrat salarié . convention collective . coiffure": {
+      "description": "Convention collective nationale de la coiffure et des professions connexes du 10 juillet 2006.",
+      "applicable si": "convention collective = 'IDCC2596'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 2596,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . coiffure . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . coiffure . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "2609": {
+    "contrat salarié . convention collective . batiment etam": {
+      "description": "Convention collective nationale des employés, techniciens et agents de maîtrise du bâtiment du 12 juillet 2006.",
+      "applicable si": "convention collective = 'IDCC2609'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 2609,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . batiment etam . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . batiment etam . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "2614": {
+    "contrat salarié . convention collective . travaux publics": {
+      "description": "Convention collective nationale des employés, techniciens et agents de maîtrise des travaux publics du 12 juillet 2006.",
+      "applicable si": "convention collective = 'IDCC2614'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 2614,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . travaux publics . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . travaux publics . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "2941": {
+    "contrat salarié . convention collective . bad": {
+      "description": "Convention collective nationale de la branche de l'aide, de l'accompagnement, des soins et des services à domicile du 21 mai 2010 (BAD).",
+      "applicable si": "convention collective = 'IDCC2941'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 2941,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . bad . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . bad . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "3043": {
+    "contrat salarié . convention collective . entreprises de propreté": {
+      "description": "Convention collective nationale des entreprises de propreté du 1er juillet 1994. Etendue par arrêté du 31 octobre 1994 JORF 5 novembre 1994.",
+      "applicable si": "convention collective = 'IDCC3043'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 3043,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . entreprises de propreté . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . entreprises de propreté . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "3127": {
+    "contrat salarié . convention collective . entreprises de services à la personne": {
+      "description": "Convention collective nationale des entreprises de services à la personne du 20 septembre 2012.",
+      "applicable si": "convention collective = 'IDCC3127'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 3127,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . entreprises de services à la personne . type de cdd CDD dit de mission ponctuelle ou occasionnelle": {
+      "applicable si": "type de cdd = 'CDD dit de « mission ponctuelle ou occasionnelle »'"
+    },
+    "contrat salarié . convention collective . entreprises de services à la personne . type de cdd CDD dit de mission ponctuelle ou occasionnelle . embauché en cdi sans interruption non": {
+      "applicable si": "embauché en cdi sans interruption = 'non'"
+    },
+    "contrat salarié . convention collective . entreprises de services à la personne . type de cdd CDD dit de mission ponctuelle ou occasionnelle . embauché en cdi sans interruption non . résultat conventionnel": {
+      "valeur": {
+        "produit": {
+          "assiette": "contrat salarié . salaire de référence",
+          "facteur": 0.1
+        }
+      },
+      "arrondi": "2 décimales",
+      "unité": "€",
+      "cdtn": {
+        "formule": {
+          "explanations": [
+            {
+              "S : Salaires renseignés": "contrat salarié . salaire de référence"
+            }
+          ],
+          "formula": "1/10 * S"
+        },
+        "label": "La prime de mission"
+      },
+      "remplace": "contrat salarié . convention collective . résultat conventionnel",
+      "références": {
+        "Article 2.5 de la section 1 du Chapitre I de la Partie 2 de la convention collective": "https://www.legifrance.gouv.fr/conv_coll/article/KALIARTI000041895535",
+        "Article L1243-8 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000006901219&cidTexte=LEGITEXT000006072050&dateTexte=20080501",
+        "Article L1243-9 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=0FA35871C82B78139407AE9BD9480D9B.tplgfr31s_2?idArticle=LEGIARTI000006901220&cidTexte=LEGITEXT000006072050&dateTexte=20080501&categorieLien=id&oldAction=&nbResultRech="
+      }
+    },
+    "contrat salarié . convention collective . entreprises de services à la personne . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . entreprises de services à la personne . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "3239": {
+    "contrat salarié . convention collective . particuliers employeurs et emploi à domicile": {
+      "description": "Secteur des particuliers employeurs et de l'emploi à domicile",
+      "applicable si": "convention collective = 'IDCC3239'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 3239,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . particuliers employeurs et emploi à domicile . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . particuliers employeurs et emploi à domicile . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "3248": {
+    "contrat salarié . convention collective . métallurgie": {
+      "description": "Convention collective nationale de la métallurgie",
+      "applicable si": "convention collective = 'IDCC3248'",
+      "valeur": "oui",
+      "cdtn": {
+        "idcc": 3248,
+        "préavis-retraite": true,
+        "indemnité-licenciement": true,
+        "préavis-demission": true,
+        "rupture-conventionnelle": true,
+        "indemnité-précarité": true,
+        "préavis-licenciement": true,
+        "heures-recherche-emploi": true
+      }
+    },
+    "contrat salarié . convention collective . métallurgie . type de cdd Autres": {
+      "applicable si": "type de cdd = 'Autres'"
+    },
+    "contrat salarié . convention collective . métallurgie . type de cdd Autres . résultat conventionnel": {
+      "valeur": 0,
+      "remplace": "contrat salarié . convention collective . résultat conventionnel"
+    }
+  },
+  "base": {
+    "contrat salarié": "oui",
+    "contrat salarié . convention collective": {
+      "titre": "Convention collective",
+      "question": "Quelle est votre convention collective ?",
+      "par défaut": "''"
+    },
+    "contrat salarié . contractType": {
+      "titre": "Quel est le type de CDD ?",
+      "cdtn": {
+        "type": "liste",
+        "valeurs": {
+          "Autres": "'CDD'",
+          "Enquêteurs vacataires": "'CTT'"
+        }
+      }
+    },
+    "contrat salarié . finContratPeriodeDessai": "non",
+    "contrat salarié . propositionCDIFindeContrat": "non",
+    "contrat salarié . refusCDIFindeContrat": "non",
+    "contrat salarié . interruptionFauteGrave": "non",
+    "contrat salarié . refusRenouvellementAuto": "non",
+    "contrat salarié . cttFormation": "non",
+    "contrat salarié . ruptureContratFauteGrave": "non",
+    "contrat salarié . propositionCDIFinContrat": "non",
+    "contrat salarié . refusSouplesse": "non",
+    "contrat salarié . salaire de référence": {
+      "unité": "€"
+    },
+    "contrat salarié . résultat légal": {
+      "valeur": {
+        "produit": {
+          "assiette": "contrat salarié . salaire de référence",
+          "facteur": 0.1
+        }
+      },
+      "arrondi": "2 décimales",
+      "unité": "€",
+      "cdtn": {
+        "formule": {
+          "explanations": [
+            {
+              "S : Salaires renseignés": "contrat salarié . salaire de référence"
+            }
+          ],
+          "formula": "1/10 * S"
+        }
+      },
+      "références": {
+        "Article L1243-8 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000006901219&cidTexte=LEGITEXT000006072050&dateTexte=20080501",
+        "Article L1243-9 du code du travail": "https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=0FA35871C82B78139407AE9BD9480D9B.tplgfr31s_2?idArticle=LEGIARTI000006901220&cidTexte=LEGITEXT000006072050&dateTexte=20080501&categorieLien=id&oldAction=&nbResultRech="
+      }
+    },
+    "contrat salarié . convention collective . résultat conventionnel": {
+      "valeur": 0
+    },
+    "contrat salarié . type de cdd": {
+      "titre": "Quel est le type de CDD ?",
+      "cdtn": {
+        "type": "liste",
+        "valeurs": {
+          "Autres": "'Autres'",
+          "Enquêteurs vacataires": "'Enquêteurs vacataires'",
+          "Contrat d'intervention dans le secteur d'activité d'organisation des foires, salons et congrès": "'Contrat d'intervention dans le secteur d'activité d'organisation des foires, salons et congrès'",
+          "CDD d'usage": "'CDD d'usage'",
+          "CDD d'optimisation linéaire": "'CDD d'optimisation linéaire'",
+          "CDD d'animation commerciale": "'CDD d'animation commerciale'",
+          "Contrat d'intervention dans le secteur de l'accueil événementiel": "'Contrat d'intervention dans le secteur de l'accueil événementiel'",
+          "CDD d'usage appelé « contrat d'intervention »": "'CDD d'usage appelé « contrat d'intervention »'",
+          "CDD dit de « mission ponctuelle ou occasionnelle »": "'CDD dit de « mission ponctuelle ou occasionnelle »'"
+        }
+      }
+    },
+    "contrat salarié . avec proposition cdi": {
+      "titre": "À la fin du CDD, le salarié a-t-il reçu une proposition de CDI ?",
+      "cdtn": {
+        "type": "liste",
+        "valeurs": {
+          "non": "'non'",
+          "oui": "'oui'"
+        }
+      }
+    },
+    "contrat salarié . embauché en cdi": {
+      "titre": "À la fin du CDD, le salarié a-t-il été immédiatement embauché en CDI ?",
+      "cdtn": {
+        "type": "liste",
+        "valeurs": {
+          "non": "'non'",
+          "oui": "'oui'"
+        }
+      }
+    },
+    "contrat salarié . embauché en cdi sans interruption": {
+      "titre": "À la fin du CDD, le salarié a-t-il été immédiatement embauché en CDI, sans interruption, sur un même poste ou sur un poste différent ?",
+      "cdtn": {
+        "type": "liste",
+        "valeurs": {
+          "non": "'non'",
+          "oui": "'oui'"
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,8 @@
 module.exports = {
-  extends: ["@shared/eslint-config", "next/core-web-vitals"],
+  extends: ["@shared/eslint-config"],
+  rules: {
+    "@typescript-eslint/naming-convention": "off",
+  },
   parserOptions: {
     project: "tsconfig.json",
     sourceType: "module",
