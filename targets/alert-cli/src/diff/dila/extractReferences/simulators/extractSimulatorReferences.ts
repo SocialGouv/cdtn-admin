@@ -118,7 +118,16 @@ export async function extractSimulatorReferences(
         title: `Simulateur ${simulatorName}`,
         slug: simulatorName,
       },
-      references: references.flatMap((item) => (item !== null ? [item] : [])),
+      references: references.flatMap((item) =>
+        item !== null
+          ? [
+              {
+                ...item,
+                url: `https://www.legifrance.gouv.fr/conv_coll/id/${item.dila_id}`,
+              },
+            ]
+          : []
+      ),
     });
   }
 

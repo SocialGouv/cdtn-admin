@@ -21,12 +21,7 @@ export async function getSimulatorReferences(): Promise<DocumentReferences[]> {
     tempDir = await downloadAndExtractTarball(packageInfo.tarballUrl);
 
     console.log("Extracting references from simulator models...");
-    const references = await extractSimulatorReferences(tempDir);
-    console.log(
-      `Found ${references.length} simulator documents with references`
-    );
-    console.log(JSON.stringify(references));
-    return references;
+    return extractSimulatorReferences(tempDir);
   } catch (error: unknown) {
     console.error("Error fetching simulator references:", error);
     throw error;

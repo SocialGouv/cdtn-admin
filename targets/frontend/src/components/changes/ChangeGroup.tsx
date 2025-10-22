@@ -1,5 +1,6 @@
 import type {
-  AlertChanges, Audience,
+  AlertChanges,
+  Audience,
   DilaAddedNode,
   DilaAlertChanges,
   DilaModifiedNode,
@@ -88,24 +89,34 @@ export function DilaRelatedDocuments({
         rel="noopener noreferrer"
         href={`https://code.travail.gouv.fr/${getRouteBySource(
           docReferences.document.source
-        )}/${docReferences.document.slug && docReferences.document.slug !== "" ? docReferences.document.slug : slugify(title)}${anchor ? `#${anchor}` : ``}`}
+        )}/${
+          docReferences.document.slug && docReferences.document.slug !== ""
+            ? docReferences.document.slug
+            : slugify(title)
+        }${anchor ? `#${anchor}` : ``}`}
       >
         {title} {anchor}
       </a>
       <Box>
         {jsxJoin(
           docReferences.references.map((node, i) => (
-            <a
-              style={{
-                color: theme.colors.muted,
-                fontSize: "0.8rem",
-                lineHeight: 1,
-              }}
-              href={node.url}
-              key={`${docReferences.document.id}-${node.dila_id}-${node.title})-${i}`}
-            >
-              {node.title}
-            </a>
+            <>
+              {node.url ? (
+                <a
+                  style={{
+                    color: theme.colors.muted,
+                    fontSize: "0.8rem",
+                    lineHeight: 1,
+                  }}
+                  href={node.url}
+                  key={`${docReferences.document.id}-${node.dila_id}-${node.title})-${i}`}
+                >
+                  {node.title}
+                </a>
+              ) : (
+                <span>{node.title}</span>
+              )}
+            </>
           )),
           ", "
         )}
@@ -124,7 +135,7 @@ export function FicheRelatedDocuments({
   return (
     <>
       <Link href={`/contenus/${doc.id}`} passHref>
-        <a>{doc.title}</a>
+        {doc.title}
       </Link>{" "}
       <br />
       <span
@@ -430,7 +441,7 @@ function getBadgeColor(etat: string) {
 function DilaLabelItem({ info }: DilaLinkProps) {
   const context = [];
   if (/SCTA/.test(info.id) && info.parents.length > 2) {
-    info.parents.slice(-2, -1).forEach((item) => context.push(<>{item}</>));
+    context.push(<>{info.parents[info.parents.length - 2]}</>);
   }
   context.push(<DilaLink info={info}>{info.title}</DilaLink>);
   return jsxJoin(context, " › ");
@@ -499,6 +510,7 @@ function FicheLink({ change, documents = [] }: FicheLinkProps) {
     if (doc.ref.id === docId) {
       return (
         <Link
+          key={doc.id}
           href={`/contenus/edit/${doc.id}`}
           passHref
           style={{ textDecoration: "none" }}
