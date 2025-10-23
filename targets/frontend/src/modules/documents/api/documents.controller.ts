@@ -16,7 +16,7 @@ const inputSchema = z.object({
     "modeles_de_courriers",
     "contributions",
     "conventions_collectives",
-    "infographics",
+    "infographies",
   ]),
 });
 

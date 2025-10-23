@@ -7,6 +7,7 @@ import { ContributionRepository } from "../../../contribution";
 import { ModelRepository } from "../../../models/api";
 import { AgreementRepository } from "../../../agreements/api";
 import { GqlClient } from "@shared/utils";
+import { InfographicRepository } from "../../../infographics/api";
 
 jest.mock("../../../common/getGlossaryContent.ts", () => {
   return {
@@ -157,7 +158,7 @@ describe("document service", () => {
           };
         }),
     } as unknown as GqlClient,
-    {}
+    {},
   );
   it("publish sauvegarde le cdtnId s'il n'existait pas dans la contribution answer", async () => {
     const service = new DocumentsService(
@@ -165,7 +166,8 @@ describe("document service", () => {
       new DocumentsRepository(client),
       new ContributionRepository(client),
       new ModelRepository(client),
-      new AgreementRepository(client)
+      new AgreementRepository(client),
+      new InfographicRepository(client),
     );
 
     await service.publish("1234", "contributions");

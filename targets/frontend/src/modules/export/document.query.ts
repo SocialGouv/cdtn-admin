@@ -56,6 +56,7 @@ export const useDocumentsQuery = ({
         SOURCES.LETTERS,
         SOURCES.EDITORIAL_CONTENT,
         SOURCES.CONTRIBUTIONS,
+        SOURCES.INFOGRAPHICS,
       ],
     },
     requestPolicy: "network-only",

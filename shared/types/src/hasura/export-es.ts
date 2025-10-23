@@ -1,3 +1,5 @@
+import { SourceKeys } from "@socialgouv/cdtn-utils";
+
 export enum Status {
   running = "running",
   completed = "completed",
@@ -16,24 +18,7 @@ interface User {
   email: string;
 }
 
-type ExportSourcesContent =
-  | "conventions_collectives"
-  | "code_du_travail"
-  | "contributions"
-  | "information"
-  | "external"
-  | "glossary"
-  | "highlights"
-  | "droit_du_travail"
-  | "modeles_de_courriers"
-  | "prequalified"
-  | "fiches_ministere_travail"
-  | "page_fiche_ministere_travail"
-  | "fiches_service_public"
-  | "dossiers"
-  | "themes"
-  | "outils"
-  | "versions";
+type ExportSourcesContent = SourceKeys;
 
 export interface ExportEsStatus {
   id: string;

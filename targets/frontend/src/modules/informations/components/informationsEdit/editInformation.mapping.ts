@@ -68,8 +68,8 @@ const mapInformationContentsBlocks = (
           ...removeTypename(block),
           ...(block.type === "graphic"
             ? {
-                file: mapInformationContentsBlocksFile(block.file),
-                img: mapInformationContentsBlocksFile(block.img),
+                file: mapInformationContentsBlocksFile(block.infographic.pdfFile),
+                img: mapInformationContentsBlocksFile(block.infographic.svgFile),
               }
             : {}),
           ...(block.type === "content"

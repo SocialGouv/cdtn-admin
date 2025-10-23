@@ -126,15 +126,16 @@ export const InfographicForm = ({
         open: true,
         severity: "success",
         message: infographic
-          ? "Le modèle a été modifié avec succès"
-          : "Le modèle a été créé avec succès",
+          ? "L'infographie a été modifiée avec succès"
+          : "L'infographie a été créée avec succès",
       });
     } catch (error) {
       console.error("Echec à la sauvegarde", error);
       setSnack({
         open: true,
         severity: "error",
-        message: "Une erreur est survenue lors de la sauvegarde du modèle",
+        message:
+          "Une erreur est survenue lors de la sauvegarde de l'infographie",
       });
     }
   };
@@ -170,8 +171,8 @@ export const InfographicForm = ({
         </FormControl>
         <FormControl>
           <FormEditionField
-            label="Introduction"
-            name="intro"
+            label="Description"
+            name="description"
             control={control}
           />
         </FormControl>
@@ -234,7 +235,7 @@ export const InfographicForm = ({
                   setSnack({
                     open: true,
                     severity: "success",
-                    message: "Le modèle de document a été publiée",
+                    message: "L'infographie a été publiée",
                   });
                   setIsPublishing(false);
                 } catch (e: any) {

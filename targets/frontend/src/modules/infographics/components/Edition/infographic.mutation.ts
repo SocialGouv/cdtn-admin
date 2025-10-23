@@ -6,7 +6,7 @@ import {
   InfographicInsertInput,
 } from "../graphql.type";
 
-const updateModelQuery = gql`
+const updateInfographicQuery = gql`
   mutation UpdateInfographic(
     $infographic: infographic_infographic_insert_input!
   ) {
@@ -50,7 +50,7 @@ export const useModelUpdateMutation = (): MutationFn => {
   const [, executeUpdate] = useMutation<
     MutationGraphQLResult,
     MutationGraphQLProps
-  >(updateModelQuery);
+  >(updateInfographicQuery);
   const resultFunction = async (data: MutationProps) => {
     const result = await executeUpdate({
       id: data.id,

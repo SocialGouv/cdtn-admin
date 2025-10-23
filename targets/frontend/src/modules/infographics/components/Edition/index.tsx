@@ -20,7 +20,7 @@ export const InfographicEdition = ({ id }: Props): React.ReactElement => {
   if (error) {
     return (
       <Alert severity="error">
-        Erreur lors de la récupération de l@apos;infographie.
+        Erreur lors de la récupération de l&apos;infographie.
         <p>
           <code>{JSON.stringify(error)}</code>
         </p>
@@ -63,7 +63,7 @@ export const InfographicEdition = ({ id }: Props): React.ReactElement => {
             }}
             onPublish={async () => {
               if (data?.id) {
-                await publish({ id: data.id, source: "infographics" });
+                await publish({ id: data.id, source: "infographies" });
               } else {
                 throw new Error(
                   "Aucune infographie à publier n'a été détectée",

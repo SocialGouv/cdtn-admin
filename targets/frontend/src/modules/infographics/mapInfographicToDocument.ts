@@ -12,7 +12,7 @@ export const mapInfographicToDocument = (
   return {
     cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
     initial_id: data.id!,
-    source: "infographics",
+    source: "infographies",
     meta_description: data.metaDescription,
     title: data.title,
     text: data.description,

@@ -14,7 +14,6 @@ import { mapAgreementToDocument } from "src/modules/agreements/mapAgreementToDoc
 import { mapInformationToDocument } from "src/modules/informations/mapInformationToDocument";
 import { mapModelToDocument } from "src/modules/models/mapModelToDocument";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
-import { SourceKeys } from "@socialgouv/cdtn-types/build/Source";
 import { mapInfographicToDocument } from "../../infographics/mapInfographicToDocument";
 import { InfographicRepository } from "../../infographics/api";
 
@@ -123,7 +122,7 @@ export class DocumentsService {
         document = mapModelToDocument(model, document);
         break;
 
-      case "infographics":
+      case "infographies":
         const infographic = await this.infographicRepository.fetch(id);
         if (!infographic) {
           throw new NotFoundError({

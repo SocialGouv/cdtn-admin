@@ -1,7 +1,7 @@
 import { Infographic } from "../../type";
 import { CombinedError, gql, OperationContext, useQuery } from "urql";
 
-export const listModelsQuery = gql`
+export const listInfographicsQuery = gql`
   query SelectInfographic($id: uuid!) {
     infographic: infographic_infographic_by_pk(id: $id) {
       id
@@ -50,7 +50,7 @@ export const useListInfographicQuery = ({
   id,
 }: InfographicListQueryProps): InfographicListQueryResult => {
   const [{ data, error, fetching }, reexecuteQuery] = useQuery<QueryResult>({
-    query: listModelsQuery,
+    query: listInfographicsQuery,
     requestPolicy: "cache-and-network",
     variables: {
       id,
