@@ -59,10 +59,10 @@ export const mapInformationToDocument = async (
                         }),
                     ...(block.type === "graphic"
                       ? {
-                          size: block.file?.size,
-                          imgUrl: block.img?.url,
-                          altText: block.img?.altText,
-                          fileUrl: block.file?.url,
+                          size: block.infographic.pdfFile?.size,
+                          imgUrl: block.infographic.svgFile?.url,
+                          altText: block.infographic.svgFile?.altText,
+                          fileUrl: block.infographic.pdfFile?.url,
                         }
                       : {}),
                     ...(block.type === "content"

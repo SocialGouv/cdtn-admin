@@ -1,9 +1,9 @@
-import { SourceKeys } from "@socialgouv/cdtn-utils";
 import { ContributionsAnswers } from "../hasura";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 
 export type DocumentElasticWithSource<
   T,
-  U extends SourceKeys = SourceKeys
+  U extends SourceKeys = SourceKeys,
 > = DocumentElastic<U> & T;
 
 export type Breadcrumb = {

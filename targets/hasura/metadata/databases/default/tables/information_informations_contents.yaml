@@ -11,6 +11,10 @@ configuration:
     informations_id: informationsId
     reference_label: referenceLabel
   custom_root_fields: {}
+object_relationships:
+  - name: information
+    using:
+      foreign_key_constraint_on: informations_id
 array_relationships:
   - name: blocks
     using:

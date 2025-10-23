@@ -14,6 +14,9 @@ import { mapAgreementToDocument } from "src/modules/agreements/mapAgreementToDoc
 import { mapInformationToDocument } from "src/modules/informations/mapInformationToDocument";
 import { mapModelToDocument } from "src/modules/models/mapModelToDocument";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
+import { SourceKeys } from "@socialgouv/cdtn-types/build/Source";
+import { mapInfographicToDocument } from "../../infographics/mapInfographicToDocument";
+import { InfographicRepository } from "../../infographics/api";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -21,19 +24,22 @@ export class DocumentsService {
   private readonly documentsRepository: DocumentsRepository;
   private readonly contributionRepository: ContributionRepository;
   private readonly agreementRepository: AgreementRepository;
+  private readonly infographicRepository: InfographicRepository;
 
   constructor(
     informationsRepository: InformationsRepository,
     documentsRepository: DocumentsRepository,
     contributionRepository: ContributionRepository,
     modelRepository: ModelRepository,
-    agreementRepository: AgreementRepository
+    agreementRepository: AgreementRepository,
+    infographicRepository: InfographicRepository,
   ) {
     this.informationsRepository = informationsRepository;
     this.modelRepository = modelRepository;
     this.documentsRepository = documentsRepository;
     this.contributionRepository = contributionRepository;
     this.agreementRepository = agreementRepository;
+    this.infographicRepository = infographicRepository;
   }
 
   public async publish(id: string, source: SourceKeys) {
@@ -48,9 +54,8 @@ export class DocumentsService {
 
     switch (source) {
       case "information":
-        const information = await this.informationsRepository.fetchInformation(
-          id
-        );
+        const information =
+          await this.informationsRepository.fetchInformation(id);
         if (!information) {
           throw new NotFoundError({
             message: `No information found with id ${id}`,
@@ -73,7 +78,7 @@ export class DocumentsService {
           const contrib = await this.documentsRepository.fetchDocumentBySlug({
             slug: generateContributionSlug(
               contribution.agreement.id,
-              contribution.question.content
+              contribution.question.content,
             ),
             source,
           });
@@ -90,9 +95,9 @@ export class DocumentsService {
           document,
           async (questionId: string) => {
             return await this.contributionRepository.fetchGenericAnswer(
-              questionId
+              questionId,
             );
-          }
+          },
         );
         if (!document) {
           await this.contributionRepository.updateCdtnId(contribution.id, null);
@@ -100,7 +105,7 @@ export class DocumentsService {
           postTreatment = async (document) => {
             await this.contributionRepository.updateCdtnId(
               contribution.id,
-              document.cdtn_id
+              document.cdtn_id,
             );
           };
         }
@@ -118,6 +123,17 @@ export class DocumentsService {
         document = mapModelToDocument(model, document);
         break;
 
+      case "infographics":
+        const infographic = await this.infographicRepository.fetch(id);
+        if (!infographic) {
+          throw new NotFoundError({
+            message: `No infographic found with id ${id}`,
+            name: "NOT_FOUND",
+            cause: null,
+          });
+        }
+        document = mapInfographicToDocument(infographic, document);
+        break;
       case "conventions_collectives":
         const agreement = await this.agreementRepository.fetch(id);
         if (!agreement) {
@@ -155,7 +171,7 @@ export class DocumentsService {
       case "contributions":
         const allContributions =
           await this.contributionRepository.fetchAllPublishedContributionsByQuestionId(
-            questionId
+            questionId,
           );
         await pMap(
           allContributions,
@@ -163,10 +179,10 @@ export class DocumentsService {
             await this.publish(contribution.id, source);
             console.log(`Contribution ${contribution.id} has been republished`);
           },
-          { concurrency: 1 }
+          { concurrency: 1 },
         );
         console.log(
-          "All contributions that has been already published have been republished"
+          "All contributions that has been already published have been republished",
         );
         return allContributions.length;
       default:

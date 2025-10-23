@@ -7,6 +7,7 @@ import { InformationsRepository } from "../../informations";
 import { ContributionRepository } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { AgreementRepository } from "../../agreements/api";
+import { InfographicRepository } from "../../infographics/api";
 
 const inputSchema = z.object({
   id: z.string(),
@@ -15,6 +16,7 @@ const inputSchema = z.object({
     "modeles_de_courriers",
     "contributions",
     "conventions_collectives",
+    "infographics",
   ]),
 });
 
@@ -65,11 +67,12 @@ export class DocumentsController {
           new DocumentsRepository(client),
           new ContributionRepository(client),
           new ModelRepository(client),
-          new AgreementRepository(client)
+          new AgreementRepository(client),
+          new InfographicRepository(client),
         );
         const cdtnId = await service.publish(
           inputs.input.id,
-          inputs.input.source
+          inputs.input.source,
         );
         this.res.status(201).json({ cdtnId });
       }
@@ -99,7 +102,8 @@ export class DocumentsController {
           new DocumentsRepository(client),
           new ContributionRepository(client),
           new ModelRepository(client),
-          new AgreementRepository(client)
+          new AgreementRepository(client),
+          new InfographicRepository(client),
         );
         await service.publishAll(inputs.input.questionId, inputs.input.source);
         this.res.status(200).json({ count: true });
@@ -125,7 +129,7 @@ export class DocumentsController {
     if (!inputResult.success) {
       throw new InvalidQueryError(
         inputResult.error.message,
-        inputResult.error.errors
+        inputResult.error.errors,
       );
     }
 
@@ -138,7 +142,7 @@ export class DocumentsController {
     if (!inputResult.success) {
       throw new InvalidQueryError(
         inputResult.error.message,
-        inputResult.error.errors
+        inputResult.error.errors,
       );
     }
 

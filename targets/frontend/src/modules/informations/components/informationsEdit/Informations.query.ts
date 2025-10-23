@@ -1,7 +1,7 @@
-import { CombinedError, OperationContext, useQuery, gql } from "urql";
-import { format, parseISO } from "date-fns";
+import {CombinedError, OperationContext, useQuery, gql} from "urql";
+import {format, parseISO} from "date-fns";
 
-import { Information } from "../../type";
+import {Information} from "../../type";
 
 const informationsQuery = gql`
   query informations($id: uuid) {
@@ -28,17 +28,21 @@ const informationsQuery = gql`
           content
           order
           type
-          file {
+          infographic {
             id
-            url
-            altText
-            size
-          }
-          img {
-            id
-            url
-            altText
-            size
+            transcription
+            svgFile {
+              id
+              url
+              altText
+              size
+            }
+            pdfFile {
+              id
+              url
+              altText
+              size
+            }
           }
           contentDisplayMode
           contents(order_by: { order: asc }) {

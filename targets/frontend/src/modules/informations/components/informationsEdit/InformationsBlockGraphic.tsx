@@ -1,7 +1,7 @@
-import { Stack, FormControl } from "@mui/material";
+import {Stack, FormControl} from "@mui/material";
 import React from "react";
-import { FormEditionField, FormTextField } from "src/components/forms";
-import { Control } from "react-hook-form";
+import {FormEditionField, FormTextField} from "src/components/forms";
+import {Control} from "react-hook-form";
 
 export type InformationBlockGraphicProps = {
   name: string;
@@ -23,14 +23,14 @@ export const InformationsBlockGraphic = ({
         <FormControl>
           <FormEditionField
             label="Texte"
-            name={`${name}.content`}
+            name={`${name}.infographic.transcription`}
             control={control}
             rules={{ required: true }}
           />
         </FormControl>
         <FormControl>
           <FormTextField
-            name={`${name}.img.url`}
+            name={`${name}.infographic.svgFile.url`}
             control={control}
             label="Url Image"
             rules={{ required: true }}
@@ -40,7 +40,7 @@ export const InformationsBlockGraphic = ({
         </FormControl>
         <FormControl>
           <FormTextField
-            name={`${name}.file.url`}
+            name={`${name}.infographic.pdfFile.url`}
             control={control}
             label="Url Fichier"
             rules={{ required: true }}
@@ -50,7 +50,7 @@ export const InformationsBlockGraphic = ({
         </FormControl>
         <FormControl>
           <FormTextField
-            name={`${name}.file.altText`}
+            name={`${name}.infographic.pdfFile.altText`}
             control={control}
             label="Texte Alt"
             rules={{ required: true }}
@@ -60,7 +60,7 @@ export const InformationsBlockGraphic = ({
         </FormControl>
         <FormControl>
           <FormTextField
-            name={`${name}.file.size`}
+            name={`${name}.infographic.pdfFile.size`}
             control={control}
             label="Taille"
             rules={{ required: true }}

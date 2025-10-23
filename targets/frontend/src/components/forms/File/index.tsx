@@ -4,14 +4,23 @@ import { Controller } from "react-hook-form";
 import { CommonFormProps } from "../type";
 import Dropzone from "react-dropzone";
 import { TitleBox } from "src/components/forms/TitleBox";
-import { Chip, FormControl, FormHelperText, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  FormControl,
+  FormHelperText,
+  Typography,
+} from "@mui/material";
 import { styled } from "@mui/system";
-import { ALLOWED_DOC } from "src/lib/secu";
 
+export interface Accept {
+  [key: string]: readonly string[];
+}
 export type DropzoneFile = File & {
   path: string;
 };
 type FormFileFieldProps = CommonFormProps & {
+  accept?: Accept;
   fullWidth?: boolean;
   defaultFileName?: string;
   onFileChange?: (file: DropzoneFile | undefined) => void;
@@ -26,6 +35,7 @@ export const FormFileField = ({
   disabled,
   onFileChange,
   fullWidth,
+  accept,
 }: FormFileFieldProps) => {
   return (
     <Controller
@@ -41,10 +51,7 @@ export const FormFileField = ({
           <>
             <FormControl fullWidth={fullWidth} error={!!error}>
               <Dropzone
-                accept={{
-                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                    ALLOWED_DOC,
-                }}
+                accept={accept}
                 noClick
                 onDrop={(acceptedFiles) => {
                   onChange(acceptedFiles);

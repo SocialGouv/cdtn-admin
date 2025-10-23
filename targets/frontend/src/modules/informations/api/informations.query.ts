@@ -27,15 +27,17 @@ export const informationsQuery = gql`
           order
           type
           contentDisplayMode
-          img {
-            url
-            altText
-          }
-          file {
-            id
-            url
-            altText
-            size
+          infographic {
+            svgFile {
+              url
+              altText
+            }
+            pdfFile {
+              id
+              url
+              altText
+              size
+            }
           }
           contents(order_by: { order: asc }) {
             id

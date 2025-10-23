@@ -28,6 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FormOtherReferences } from "../../../../components/forms/OtherReferences";
 import { LoadingButton } from "../../../../components/button/LoadingButton";
+import { ALLOWED_DOC } from "../../../../lib/secu";
 
 type FormData = Partial<z.infer<typeof modelSchemaUpsert>>;
 
@@ -72,7 +73,7 @@ export const ModelForm = ({
 }: Props): React.ReactElement => {
   const [isLoadingPreview, setIsLoadingPreview] = React.useState(false);
   const [previewError, setPreviewError] = React.useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   const { control, handleSubmit, setValue } = useForm<FormData>({
@@ -160,7 +161,7 @@ export const ModelForm = ({
         setValue("previewHTML", undefined);
         setIsLoadingPreview(false);
         setPreviewError(
-          "Impossible de lire le fichier (pas de type ArrayBuffer)"
+          "Impossible de lire le fichier (pas de type ArrayBuffer)",
         );
       }
 
@@ -175,7 +176,7 @@ export const ModelForm = ({
           setValue("previewHTML", undefined);
           setIsLoadingPreview(false);
           setPreviewError(
-            `Erreur dans la génération de l'aperçu: ${error.message}`
+            `Erreur dans la génération de l'aperçu: ${error.message}`,
           );
         });
     };
@@ -256,6 +257,10 @@ export const ModelForm = ({
             control={control}
             label="Modèle de courrier"
             defaultFileName={model?.file?.url}
+            accept={{
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                ALLOWED_DOC,
+            }}
             onFileChange={(file) => {
               if (file) {
                 convertToHTML(file);

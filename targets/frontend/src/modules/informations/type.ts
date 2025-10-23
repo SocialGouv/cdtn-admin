@@ -1,14 +1,14 @@
-import { z } from "zod";
-import { fileSchema } from "../common/type";
+import {z} from "zod";
+import {fileSchema} from "../common/type";
 
 export const referenceSchema = z.object({
   id: z.string().uuid().nullable().optional(),
   url: z
-    .string({ required_error: "Une url doit être renseignée" })
+    .string({required_error: "Une url doit être renseignée"})
     .url("Le format de l'url est invalide"),
-  type: z.string({ required_error: "Un type doit être renseigné" }),
+  type: z.string({required_error: "Un type doit être renseigné"}),
   title: z
-    .string({ required_error: "Un titre doit être renseigné" })
+    .string({required_error: "Un titre doit être renseigné"})
     .min(1, "Un titre doit être renseigné"),
   order: z.number().nullable().optional(),
 });
@@ -29,21 +29,27 @@ export type InformationContentBlockContent = z.infer<
 export const informationContentBlockSchema = z.object({
   id: z.string().uuid().nullable().optional(),
   content: z.string(),
-  type: z.string({ required_error: "Un type doit être renseigné" }),
+  type: z.string({required_error: "Un type doit être renseigné"}),
   order: z.number().nullable().optional(),
 });
+
+export const informationContentBlockGraphicSchema = z.object({
+  id: z.string().uuid().nullable().optional(),
+  transcription: z.string().nullable().optional(),
+  svgFile: fileSchema,
+  pdfFile: fileSchema,
+})
 
 export const informationContentBlockDiscriminatedSchema = z.discriminatedUnion(
   "type",
   [
     informationContentBlockSchema.extend({
       type: z.literal("markdown"),
-      content: z.string().min(1, { message: "Un texte doit être renseigné" }),
+      content: z.string().min(1, {message: "Un texte doit être renseigné"}),
     }),
     informationContentBlockSchema.extend({
       type: z.literal("graphic"),
-      file: fileSchema,
-      img: fileSchema,
+      infographic: informationContentBlockGraphicSchema,
     }),
     informationContentBlockSchema.extend({
       type: z.literal("content"),
@@ -60,7 +66,7 @@ export const informationContentSchema = z.object({
   id: z.string().uuid().nullable().optional(),
   name: z.string().nullable().optional(),
   title: z
-    .string({ required_error: "Un titre doit être renseigné" })
+    .string({required_error: "Un titre doit être renseigné"})
     .min(1, "Un titre doit être renseigné"),
   referenceLabel: z.string().nullable().optional(),
   order: z.number().nullable().optional(),
@@ -72,10 +78,10 @@ export type InformationContent = z.infer<typeof informationContentSchema>;
 export const informationSchema = z.object({
   id: z.string().uuid().optional(),
   title: z
-    .string({ required_error: "Un titre doit être renseigné" })
+    .string({required_error: "Un titre doit être renseigné"})
     .min(1, "Un titre doit être renseigné"),
   metaTitle: z
-    .string({ required_error: "Un titre meta doit être renseigné" })
+    .string({required_error: "Un titre meta doit être renseigné"})
     .min(1, "Un titre meta doit être renseigné"),
   description: z
     .string({

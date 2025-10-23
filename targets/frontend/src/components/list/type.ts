@@ -15,4 +15,5 @@ export type Source =
   | "information"
   | "modeles_de_courriers"
   | "contributions"
-  | "conventions_collectives";
+  | "conventions_collectives"
+  | "infographics";
