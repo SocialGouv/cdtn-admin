@@ -1,4 +1,4 @@
-import { getLabelBySource } from "@socialgouv/cdtn-sources";
+import { getLabelBySource } from "@socialgouv/cdtn-utils";
 import { IoIosReorder, IoMdTrash } from "react-icons/io";
 import {
   SortableContainer,

@@ -8,7 +8,7 @@ import {
 import { ModelRepository } from "../../models/api";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
 import { AgreementRepository } from "../../agreements/api";
-import { SourceRoute } from "@socialgouv/cdtn-sources";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 import pMap from "p-map";
 import { mapAgreementToDocument } from "src/modules/agreements/mapAgreementToDocument";
 import { mapInformationToDocument } from "src/modules/informations/mapInformationToDocument";
@@ -36,7 +36,7 @@ export class DocumentsService {
     this.agreementRepository = agreementRepository;
   }
 
-  public async publish(id: string, source: SourceRoute) {
+  public async publish(id: string, source: SourceKeys) {
     let document = await this.documentsRepository.fetch({
       source,
       initialId: id,
@@ -149,7 +149,7 @@ export class DocumentsService {
 
   public async publishAll(
     questionId: string,
-    source: SourceRoute
+    source: SourceKeys
   ): Promise<number> {
     switch (source) {
       case "contributions":

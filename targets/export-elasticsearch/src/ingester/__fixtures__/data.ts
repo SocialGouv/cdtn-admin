@@ -1,4 +1,4 @@
-import { SourceRoute } from "@socialgouv/cdtn-sources";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 import { ContributionContentType } from "@socialgouv/cdtn-types";
 
 export const CCN = [
@@ -22,7 +22,7 @@ export const CCN = [
       "Idcc 1875 : Vétérinaires : personnel salarié des cabinets et cliniques vétérinaires",
     refs: [],
     slug: "1875-veterinaires-personnel-salarie-des-cabinets-et-cliniques-veterinaires",
-    source: "conventions_collectives" as SourceRoute,
+    source: "conventions_collectives" as SourceKeys,
     text: "IDCC 1875: Convention collective nationale des cabinets et cliniques vétérinaires du 5 juillet 1995.  Etendue par arrêté du 16 janvier 1996 JORF 24 janvier 1996.  Vétérinaires : personnel salarié des cabinets et cliniques vétérinaires",
     title:
       "Convention collective nationale des cabinets et cliniques vétérinaires du 5 juillet 1995.  Etendue par arrêté du 16 janvier 1996 JORF 24 janvier 1996. ",
@@ -40,7 +40,7 @@ export const CCN = [
     metaDescription: "Idcc 5571 : Convention d'entreprise Fondation d'Auteuil",
     refs: [],
     slug: "5571-convention-dentreprise-fondation-dauteuil",
-    source: "conventions_collectives" as SourceRoute,
+    source: "conventions_collectives" as SourceKeys,
     text: "IDCC 5571: Convention d'entreprise Fondation d'Auteuil Convention d'entreprise Fondation d'Auteuil",
     title: "Convention d'entreprise Fondation d'Auteuil",
   },
@@ -138,7 +138,7 @@ export const contribs = [
       "Le code du travail prévoit une protection différente du salarié en cas de maladie ou accident non professionnel et en cas de maladie professionnelle ou…",
     refs: [],
     slug: "1351-en-cas-de-maladie-le-salarie-a-t-il-droit-a-une-garantie-demploi",
-    source: "contributions" as SourceRoute,
+    source: "contributions" as SourceKeys,
     text: "Lorsqu’un salarié est en arrêt maladie, son contrat de travail est suspendu. Lors de la suspension du contrat de travail pour cause de maladie, les règles ...",
     title:
       "En cas de maladie, le salarié a-t-il droit à une garantie d’emploi ?",
@@ -260,7 +260,7 @@ export const contribs = [
       "L'employeur applique les conditions prévues par la convention ou l'accord collectif ou un usage, si elles sont plus favorables que le code du travail pour…",
     refs: [],
     slug: "1486-quelle-est-la-duree-du-conge-de-maternite",
-    source: "contributions" as SourceRoute,
+    source: "contributions" as SourceKeys,
     text: "Vous êtes salariée en activité et vous êtes enceinte ? Vous bénéficiez d'un congé de maternité qui comporte une période avant votre accouchement (dit congé ...",
     title: "Quelle est la durée du congé de maternité ?",
     content:

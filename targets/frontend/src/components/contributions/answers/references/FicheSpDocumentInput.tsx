@@ -1,4 +1,4 @@
-import { SourceRoute, getRouteBySource } from "@socialgouv/cdtn-sources";
+import { SourceKeys, getRouteBySource } from "@socialgouv/cdtn-utils";
 import { Control } from "react-hook-form";
 import { Document } from "../../type";
 import { ReferenceInput } from "./ReferenceInput";
@@ -27,7 +27,7 @@ export const FicheSpDocumentInput = ({
     onClick={(item) => {
       const newWindow = window.open(
         `https://code.travail.gouv.fr/${getRouteBySource(
-          item.source as SourceRoute
+          item.source as SourceKeys
         )}/${item.slug}`,
         "_blank",
         "noopener,noreferrer"

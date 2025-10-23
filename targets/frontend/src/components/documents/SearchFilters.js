@@ -1,4 +1,4 @@
-import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-sources";
+import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-utils";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { IoMdSearch } from "react-icons/io";

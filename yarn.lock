@@ -4154,9 +4154,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@shared/utils@workspace:shared/utils"
   dependencies:
-    "@socialgouv/cdtn-sources": ^4.91.1
     "@socialgouv/cdtn-types": "workspace:^"
-    "@socialgouv/cdtn-utils": ^4.109.0
+    "@socialgouv/cdtn-utils": ^4.196.0
     "@socialgouv/dila-api-client": ^1.2.4
     "@swc/jest": ^0.2.29
     "@types/uuid": ^9.0.5
@@ -4838,25 +4837,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@socialgouv/cdtn-sources@npm:4.52.1":
-  version: 4.52.1
-  resolution: "@socialgouv/cdtn-sources@npm:4.52.1"
-  checksum: ca70219f18e6fcda9b13dbfac1c07d72e88e45b0254474e7c1b7a3b55b6f3d3b6ec3d3b4e7dd68a62cf1e611e6d9ea5b111d771da5d94020014a61850eccf7b4
-  languageName: node
-  linkType: hard
-
-"@socialgouv/cdtn-sources@npm:^4.52.1, @socialgouv/cdtn-sources@npm:^4.91.1":
-  version: 4.91.1
-  resolution: "@socialgouv/cdtn-sources@npm:4.91.1"
-  checksum: 8c7709b6b66384358506cc23b98d48e6d97b3ea8fa6066f002dc8964efec8891c607262ecd3ec30f779cbc8b930a12d107887e6f492f262f4ae7dca21e7c0cf5
-  languageName: node
-  linkType: hard
-
 "@socialgouv/cdtn-types@workspace:^, @socialgouv/cdtn-types@workspace:shared/types":
   version: 0.0.0-use.local
   resolution: "@socialgouv/cdtn-types@workspace:shared/types"
   dependencies:
-    "@socialgouv/cdtn-utils": ^4.156.1
+    "@socialgouv/cdtn-utils": ^4.196.0
     "@socialgouv/kali-data-types": ^2.127.0
     "@socialgouv/legi-data-types": ^2.73.1
     typescript: ^5.4.3
@@ -4878,10 +4863,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@socialgouv/cdtn-utils@npm:^4.109.0, @socialgouv/cdtn-utils@npm:^4.121.1, @socialgouv/cdtn-utils@npm:^4.156.1":
-  version: 4.156.1
-  resolution: "@socialgouv/cdtn-utils@npm:4.156.1"
-  checksum: 3429e6f801e7bc748a7fc666972fee2855627fab13a32fe902f6f39cb9aff332248cf83a8cd061b6e303f75a9e5bdffcfe8c91681fbd8da7770e759a41a405f9
+"@socialgouv/cdtn-utils@npm:4.196.0, @socialgouv/cdtn-utils@npm:^4.196.0":
+  version: 4.196.0
+  resolution: "@socialgouv/cdtn-utils@npm:4.196.0"
+  checksum: 9f75d2ebb3e3a7d1f868f0be1a7b4f5c4f20dc074ef20c9ff28ce8950d2454d8092d6ed91b3c265bf326c6e23d4ece80af062a5c3be634f89331c73591b8a208
   languageName: node
   linkType: hard
 
@@ -6744,8 +6729,8 @@ __metadata:
     "@shared/eslint-config": "workspace:^"
     "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-slugify": 4.52.1
-    "@socialgouv/cdtn-sources": 4.52.1
     "@socialgouv/cdtn-types": "workspace:^"
+    "@socialgouv/cdtn-utils": 4.196.0
     "@socialgouv/contributions-data-types": 3.27.0
     "@socialgouv/dila-api-client": 1.2.4
     "@socialgouv/fiches-travail-data-types": 4.191.0
@@ -10532,8 +10517,8 @@ __metadata:
     "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-elasticsearch": "workspace:^"
     "@socialgouv/cdtn-slugify": ^4.52.1
-    "@socialgouv/cdtn-sources": ^4.52.1
     "@socialgouv/cdtn-types": "workspace:^"
+    "@socialgouv/cdtn-utils": ^4.196.0
     "@swc/cli": 0.1.65
     "@swc/core": 1.2.249
     "@swc/jest": 0.2.37
@@ -11059,10 +11044,9 @@ __metadata:
     "@reach/visually-hidden": ^0.16.0
     "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-slugify": ^4.52.1
-    "@socialgouv/cdtn-sources": ^4.52.1
     "@socialgouv/cdtn-types": "workspace:^"
     "@socialgouv/cdtn-ui": ^4.92.0
-    "@socialgouv/cdtn-utils": ^4.121.1
+    "@socialgouv/cdtn-utils": ^4.196.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.5.1
@@ -12173,8 +12157,8 @@ __metadata:
     "@shared/eslint-config": "workspace:^"
     "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-slugify": 4.52.1
-    "@socialgouv/cdtn-sources": 4.52.1
     "@socialgouv/cdtn-types": "workspace:^"
+    "@socialgouv/cdtn-utils": 4.196.0
     "@socialgouv/contributions-data-types": ^3.27.0
     "@socialgouv/fiches-travail-data-types": ^4.191.0
     "@socialgouv/fiches-vdd-types": ^2.197.0

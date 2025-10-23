@@ -1,6 +1,6 @@
 import { generateIds } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import { useRouter } from "next/router";
 import { Layout } from "src/components/layout/auth.layout";
 import { ThemeForm } from "src/components/themes/Form";

@@ -1,4 +1,4 @@
-import { SOURCES, type SourceValues } from "@socialgouv/cdtn-sources";
+import { SOURCES, type SourceKeys } from "@socialgouv/cdtn-utils";
 import memoizee from "memoizee";
 
 import type {
@@ -15,7 +15,7 @@ import { fetchPrequalified } from "./fetchPrequalified";
 import { createDocumentsFetcher } from "./createDocumentsFetcher";
 
 export async function _getDocumentsBySource(
-  source: SourceValues[]
+  source: SourceKeys[]
 ): Promise<HasuraDocumentForAlert[]> {
   const fetchDocuments = createDocumentsFetcher<AllDocumentsBySourceResult>(
     getAllDocumentsBySourceQuery
@@ -34,7 +34,7 @@ export async function _getDocumentsBySource(
 export const getAllDocumentsBySource = memoizee(_getDocumentsBySource);
 
 export async function _getDocumentsWithRelationsBySource(
-  source: SourceValues[]
+  source: SourceKeys[]
 ): Promise<HasuraDocumentWithRelations[]> {
   const fetchDocuments =
     createDocumentsFetcher<AllDocumentsWithRelationBySourceResult>(

@@ -1,4 +1,4 @@
-import { getLabelBySource } from "@socialgouv/cdtn-sources";
+import { getLabelBySource } from "@socialgouv/cdtn-utils";
 import Link from "next/link";
 import { sourceToRoute } from "src/components/documents/List";
 import {

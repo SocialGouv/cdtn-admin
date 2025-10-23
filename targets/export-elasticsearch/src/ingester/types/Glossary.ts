@@ -1,4 +1,4 @@
-import { SourceRoute } from "@socialgouv/cdtn-sources";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 import type { GraphQLResponseRoot } from "./GraphQL";
 
 export type DocumentBySourceResponse = GraphQLResponseRoot<Data>;
@@ -29,7 +29,7 @@ export interface Document {
   cdtnId: string;
   title: string;
   slug: string;
-  source: SourceRoute;
+  source: SourceKeys;
   text: string;
   isPublished: boolean;
   isSearchable: boolean;
@@ -54,7 +54,7 @@ export interface DocumentWithRelation {
   cdtnId: string;
   title: string;
   slug: string;
-  source: SourceRoute;
+  source: SourceKeys;
   text: string;
   isPublished: boolean;
   isSearchable: boolean;
@@ -71,7 +71,7 @@ export interface Relation {
 export interface RelationContent {
   cdtnId: string;
   slug: string;
-  source: SourceRoute;
+  source: SourceKeys;
   title: string;
   document: unknown;
 }
