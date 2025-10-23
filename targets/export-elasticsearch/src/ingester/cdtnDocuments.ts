@@ -10,7 +10,7 @@ import {
   FicheTravailEmploiDoc,
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";
 import { buildThemes } from "./themes/buildThemes";
@@ -19,7 +19,6 @@ import {
   getDocumentBySourceWithRelation,
 } from "./common/fetchCdtnAdminDocuments";
 import { splitArticle } from "./fichesTravailSplitter";
-import { getVersions } from "./versions";
 import {
   fetchContributionDocumentToPublish,
   generateContributions,
@@ -330,14 +329,6 @@ export async function cdtnDocumentsGen(
     relatedDocuments
   );
   await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContentsAugmented);
-
-  logger.info("=== data version ===");
-  await updateDocs(SOURCES.VERSIONS, [
-    {
-      data: getVersions(),
-      source: SOURCES.VERSIONS,
-    },
-  ]);
 
   if (isProd && contributionsToPublish) {
     await updateExportStatuses(contributionsToPublish);

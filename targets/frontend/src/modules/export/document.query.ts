@@ -1,5 +1,5 @@
 import { useQuery } from "urql";
-import { SourceRoute, SOURCES } from "@socialgouv/cdtn-sources";
+import { SourceKeys, SOURCES } from "@socialgouv/cdtn-utils";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { groupBy } from "graphql/jsutils/groupBy";
 
@@ -33,7 +33,7 @@ export type UpdatedDocument = Pick<
   DocumentWIthContentType;
 
 export type ResultUpdatedDocument = Map<
-  SourceRoute,
+  SourceKeys,
   readonly UpdatedDocument[]
 >;
 

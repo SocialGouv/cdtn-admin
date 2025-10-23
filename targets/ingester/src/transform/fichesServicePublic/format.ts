@@ -1,4 +1,4 @@
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import type { RawJson } from "@socialgouv/fiches-vdd-types";
 
 import type { FicheServicePublic } from "../..";

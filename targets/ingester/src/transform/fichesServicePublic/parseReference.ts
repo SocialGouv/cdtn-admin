@@ -4,7 +4,7 @@ import type {
   ServicePublicReference,
 } from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import type { RawJson } from "@socialgouv/fiches-vdd-types";
 import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
 import type { ParsedQuery } from "query-string";

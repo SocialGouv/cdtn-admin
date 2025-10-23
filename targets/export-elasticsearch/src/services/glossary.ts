@@ -5,7 +5,7 @@ import { ValidatorCreateGlossaryType } from "../controllers/middlewares";
 import { GlossaryRepository } from "../repositories/glossary";
 import { logger } from "@shared/utils";
 import { Glossary } from "@socialgouv/cdtn-types";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 @injectable()
 @name("GlossaryService")

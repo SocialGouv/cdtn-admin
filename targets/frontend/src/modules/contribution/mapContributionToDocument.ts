@@ -3,7 +3,7 @@ import {
   ContributionsAnswers,
   HasuraDocument,
 } from "@socialgouv/cdtn-types";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import { getReferences } from "./getReferences";
 import { generateCdtnId } from "@shared/utils";
 import { generateContributionSlug } from "./generateSlug";

@@ -8,7 +8,7 @@ import {
   updateDocumentWithCdtnIdMutation,
 } from "./graphql";
 import { Glossary, HasuraDocument } from "@socialgouv/cdtn-types";
-import { SourceRoute } from "@socialgouv/cdtn-sources";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 
 interface HasuraReturnFetchDocumentBySource {
   documents: Pick<HasuraDocument<any>, "cdtn_id" | "document">[];
@@ -31,7 +31,7 @@ export class GlossaryRepository {
   }
 
   public async fetchDocumentBySource(
-    source: SourceRoute
+    source: SourceKeys
   ): Promise<HasuraReturnFetchDocumentBySource["documents"]> {
     const res = await gqlClient()
       .query<HasuraReturnFetchDocumentBySource>(fetchDocumentQuery, { source })
