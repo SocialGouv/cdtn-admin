@@ -2,7 +2,7 @@ import { getSimulatorReferences } from "../index";
 import * as fetchModule from "../fetchSimulatorPackage";
 import * as extractModule from "../extractSimulatorReferences";
 import { mockPackageMetadata } from "../__mocks__/mockSimulatorData";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 jest.mock("../fetchSimulatorPackage");
 jest.mock("../extractSimulatorReferences");

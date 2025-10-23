@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { extractSimulatorReferences } from "../extractSimulatorReferences";
 import { mockSimulatorModels } from "../__mocks__/mockSimulatorData";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import { WarningRepository } from "../../../../../repositories/WarningRepository";
 
 jest.mock("fs");
