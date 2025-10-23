@@ -1,4 +1,4 @@
-import { SourceValues } from "@socialgouv/cdtn-sources";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 import {
   AllDocumentsBySourceResult,
   AllDocumentsWithRelationBySourceResult,
@@ -20,7 +20,7 @@ export const createDocumentsFetcher =
   >(
     gqlRequest = getAllDocumentsBySourceQuery
   ) =>
-  async (source: SourceValues[]) => {
+  async (source: SourceKeys[]) => {
     const countResult = await gqlClient()
       .query<CountDocumentsBySourceResult>(countDocumentsBySourceQuery, {
         source,

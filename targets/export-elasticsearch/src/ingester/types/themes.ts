@@ -1,4 +1,4 @@
-import { SourceRoute } from "@socialgouv/cdtn-sources";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 
 export interface Data {
   themes: Theme[];
@@ -29,7 +29,7 @@ export interface ThemeContentRelation {
 export interface ThemeContent {
   cdtnId: string;
   slug: string;
-  source: SourceRoute;
+  source: SourceKeys;
   title: string;
   description: string;
   url?: string;

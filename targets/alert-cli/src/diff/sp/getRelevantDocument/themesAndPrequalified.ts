@@ -2,7 +2,7 @@ import type {
   DocumentInfoWithCdtnRef,
   VddChanges,
 } from "@socialgouv/cdtn-types";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 import { getDocumentsWithRelations } from "../../shared/getDocumentsWithRelations";
 

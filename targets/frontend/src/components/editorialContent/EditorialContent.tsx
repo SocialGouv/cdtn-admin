@@ -1,6 +1,6 @@
 import { ErrorMessage } from "@hookform/error-message";
 import slugify from "@socialgouv/cdtn-slugify";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
