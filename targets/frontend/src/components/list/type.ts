@@ -13,4 +13,9 @@ export type HeadCell<T extends Data> = {
   render?: (value: T[HeadCell<T>["dataIndex"]]) => React.ReactNode;
 };
 
-export type Source = SourceKeys;
+export type Source =
+  | "information"
+  | "modeles_de_courriers"
+  | "contributions"
+  | "conventions_collectives"
+  | "infographics";
