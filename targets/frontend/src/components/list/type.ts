@@ -1,5 +1,3 @@
-import { SourceKeys } from "@socialgouv/cdtn-utils";
-
 export type Data = {
   id: string;
   title: string;
