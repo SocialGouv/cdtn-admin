@@ -27,6 +27,7 @@ const mockGetArticleReference = jest.fn<
 );
 
 jest.mock("@shared/utils", () => ({
+  ...jest.requireActual("@shared/utils"),
   createGetArticleReference: jest.fn(() => mockGetArticleReference),
   gqlClient: jest.fn(),
 }));
