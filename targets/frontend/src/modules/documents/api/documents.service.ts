@@ -3,7 +3,7 @@ import { ConflictError, NotFoundError } from "src/lib/api/ApiErrors";
 import { InformationsRepository } from "src/modules/informations";
 import {
   ContributionRepository,
-  mapContributionToDocument,
+  mapContributionToDocument
 } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
@@ -14,6 +14,8 @@ import { mapAgreementToDocument } from "src/modules/agreements/mapAgreementToDoc
 import { mapInformationToDocument } from "src/modules/informations/mapInformationToDocument";
 import { mapModelToDocument } from "src/modules/models/mapModelToDocument";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
+import { mapInfographicToDocument } from "../../infographics/mapInfographicToDocument";
+import { InfographicRepository } from "../../infographics/api";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -21,25 +23,28 @@ export class DocumentsService {
   private readonly documentsRepository: DocumentsRepository;
   private readonly contributionRepository: ContributionRepository;
   private readonly agreementRepository: AgreementRepository;
+  private readonly infographicRepository: InfographicRepository;
 
   constructor(
     informationsRepository: InformationsRepository,
     documentsRepository: DocumentsRepository,
     contributionRepository: ContributionRepository,
     modelRepository: ModelRepository,
-    agreementRepository: AgreementRepository
+    agreementRepository: AgreementRepository,
+    infographicRepository: InfographicRepository
   ) {
     this.informationsRepository = informationsRepository;
     this.modelRepository = modelRepository;
     this.documentsRepository = documentsRepository;
     this.contributionRepository = contributionRepository;
     this.agreementRepository = agreementRepository;
+    this.infographicRepository = infographicRepository;
   }
 
   public async publish(id: string, source: SourceKeys) {
     let document = await this.documentsRepository.fetch({
       source,
-      initialId: id,
+      initialId: id
     });
 
     let postTreatment:
@@ -48,14 +53,13 @@ export class DocumentsService {
 
     switch (source) {
       case "information":
-        const information = await this.informationsRepository.fetchInformation(
-          id
-        );
+        const information =
+          await this.informationsRepository.fetchInformation(id);
         if (!information) {
           throw new NotFoundError({
             message: `No information found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null,
+            cause: null
           });
         }
         document = await mapInformationToDocument(information, document);
@@ -66,7 +70,7 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No contribution found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null,
+            cause: null
           });
         }
         if (!document) {
@@ -75,13 +79,13 @@ export class DocumentsService {
               contribution.agreement.id,
               contribution.question.content
             ),
-            source,
+            source
           });
           if (contrib) {
             throw new ConflictError({
               message: `Le document ${contribution.question.content} existe déjà pour la convention collective ${contribution.agreement.id}. Vous devez lancer le script de migration avant de publier un document.`,
               name: "CONFLICT_ERROR",
-              cause: null,
+              cause: null
             });
           }
         }
@@ -112,19 +116,30 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No agreement found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null,
+            cause: null
           });
         }
         document = mapModelToDocument(model, document);
         break;
 
+      case "infographies":
+        const infographic = await this.infographicRepository.fetch(id);
+        if (!infographic) {
+          throw new NotFoundError({
+            message: `No infographic found with id ${id}`,
+            name: "NOT_FOUND",
+            cause: null
+          });
+        }
+        document = mapInfographicToDocument(infographic, document);
+        break;
       case "conventions_collectives":
         const agreement = await this.agreementRepository.fetch(id);
         if (!agreement) {
           throw new NotFoundError({
             message: `No agreement found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null,
+            cause: null
           });
         }
         document = mapAgreementToDocument(agreement, document);

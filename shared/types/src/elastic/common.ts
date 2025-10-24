@@ -1,5 +1,5 @@
-import { SourceKeys } from "@socialgouv/cdtn-utils";
 import { ContributionsAnswers } from "../hasura";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 
 export type DocumentElasticWithSource<
   T,

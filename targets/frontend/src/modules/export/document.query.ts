@@ -32,10 +32,7 @@ export type UpdatedDocument = Pick<
 > &
   DocumentWIthContentType;
 
-export type ResultUpdatedDocument = Map<
-  SourceKeys,
-  readonly UpdatedDocument[]
->;
+export type ResultUpdatedDocument = Map<SourceKeys, readonly UpdatedDocument[]>;
 
 type QueryResult = {
   documents: UpdatedDocument[];
@@ -46,7 +43,7 @@ function compareTitles(a: UpdatedDocument, b: UpdatedDocument): number {
 }
 
 export const useDocumentsQuery = ({
-  date,
+  date
 }: QueryProps): ResultUpdatedDocument => {
   const [result] = useQuery<QueryResult>({
     query: getDocumentsUpdatedAfterDateQuery,
@@ -56,9 +53,10 @@ export const useDocumentsQuery = ({
         SOURCES.LETTERS,
         SOURCES.EDITORIAL_CONTENT,
         SOURCES.CONTRIBUTIONS,
-      ],
+        SOURCES.INFOGRAPHICS
+      ]
     },
-    requestPolicy: "network-only",
+    requestPolicy: "network-only"
   });
   if (!result.data) {
     return new Map();

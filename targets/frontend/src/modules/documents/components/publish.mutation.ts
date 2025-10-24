@@ -15,7 +15,8 @@ export type Source =
   | "information"
   | "modeles_de_courriers"
   | "contributions"
-  | "conventions_collectives";
+  | "conventions_collectives"
+  | "infographies";
 
 export type PublishProps = {
   id: string;

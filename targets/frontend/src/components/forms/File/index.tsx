@@ -6,12 +6,15 @@ import Dropzone from "react-dropzone";
 import { TitleBox } from "src/components/forms/TitleBox";
 import { Chip, FormControl, FormHelperText, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { ALLOWED_DOC } from "src/lib/secu";
 
+export interface Accept {
+  [key: string]: readonly string[];
+}
 export type DropzoneFile = File & {
   path: string;
 };
 type FormFileFieldProps = CommonFormProps & {
+  accept?: Accept;
   fullWidth?: boolean;
   defaultFileName?: string;
   onFileChange?: (file: DropzoneFile | undefined) => void;
@@ -26,6 +29,7 @@ export const FormFileField = ({
   disabled,
   onFileChange,
   fullWidth,
+  accept
 }: FormFileFieldProps) => {
   return (
     <Controller
@@ -34,17 +38,14 @@ export const FormFileField = ({
       rules={rules}
       render={({
         field: { value, onChange, onBlur },
-        fieldState: { error },
+        fieldState: { error }
       }) => {
         const values = value as File[];
         return (
           <>
             <FormControl fullWidth={fullWidth} error={!!error}>
               <Dropzone
-                accept={{
-                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                    ALLOWED_DOC,
-                }}
+                accept={accept}
                 noClick
                 onDrop={(acceptedFiles) => {
                   onChange(acceptedFiles);
@@ -52,13 +53,7 @@ export const FormFileField = ({
                     onFileChange(acceptedFiles[0] as unknown as DropzoneFile);
                 }}
               >
-                {({
-                  getRootProps,
-                  getInputProps,
-                  open,
-                  isDragActive,
-                  acceptedFiles,
-                }) => (
+                {({ getRootProps, getInputProps, open, isDragActive }) => (
                   <>
                     <TitleBox
                       title={label}
@@ -71,7 +66,7 @@ export const FormFileField = ({
                           {...getInputProps({
                             id: "fileupload",
                             onChange,
-                            onBlur,
+                            onBlur
                           })}
                         />
 
@@ -106,18 +101,18 @@ export const FormFileField = ({
 
 const Container = styled("div")(() => {
   return {
-    textAlign: "center",
+    textAlign: "center"
   };
 });
 
 const StyledFormHelperText = styled(FormHelperText)(({ theme }) => {
   return {
-    color: theme.palette.error.main,
+    color: theme.palette.error.main
   };
 });
 
 const FileDetail = styled(Chip)(() => {
   return {
-    margin: "1em",
+    margin: "1em"
   };
 });

@@ -5,25 +5,19 @@ configuration:
   column_config:
     content_display_mode:
       custom_name: contentDisplayMode
-    file_id:
-      custom_name: fileId
-    img_id:
-      custom_name: imgId
     informations_contents_id:
       custom_name: informationsContentsId
   custom_column_names:
     content_display_mode: contentDisplayMode
-    file_id: fileId
-    img_id: imgId
     informations_contents_id: informationsContentsId
   custom_root_fields: {}
 object_relationships:
-  - name: file
+  - name: infographic
     using:
-      foreign_key_constraint_on: file_id
-  - name: img
+      foreign_key_constraint_on: infographic_id
+  - name: informations_content
     using:
-      foreign_key_constraint_on: img_id
+      foreign_key_constraint_on: informations_contents_id
 array_relationships:
   - name: contents
     using:
@@ -39,9 +33,8 @@ insert_permissions:
       columns:
         - content
         - content_display_mode
-        - file_id
         - id
-        - img_id
+        - infographic_id
         - informations_contents_id
         - order
         - type
@@ -51,9 +44,8 @@ select_permissions:
       columns:
         - content
         - content_display_mode
-        - file_id
         - id
-        - img_id
+        - infographic_id
         - informations_contents_id
         - order
         - type
@@ -65,9 +57,8 @@ update_permissions:
       columns:
         - content
         - content_display_mode
-        - file_id
         - id
-        - img_id
+        - infographic_id
         - informations_contents_id
         - order
         - type

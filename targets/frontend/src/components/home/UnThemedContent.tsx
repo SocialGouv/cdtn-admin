@@ -7,7 +7,6 @@ import { FixedSnackBar } from "../utils/SnackBar";
 import React from "react";
 import { theme } from "src/theme";
 
-// TODO Retirer le split de la requête quand les anciennes contributions seront retirées
 export const getUnthemedContentQuery = `
 query getUnthemed($themeSources: [String!]!) {
   documents(where: {
@@ -41,14 +40,15 @@ export const THEMABLE_CONTENT = [
   SOURCES.SHEET_SP,
   SOURCES.THEMATIC_FILES,
   SOURCES.TOOLS,
+  SOURCES.INFOGRAPHICS
 ];
 
 export function UnThemedContent() {
   const [result] = useQuery({
     query: getUnthemedContentQuery,
     variables: {
-      themeSources: THEMABLE_CONTENT,
-    },
+      themeSources: THEMABLE_CONTENT
+    }
   });
 
   const { data, fetching, error } = result;
@@ -73,7 +73,7 @@ export function UnThemedContent() {
             sx={{
               fontSize: theme.fontSizes.xxlarge,
               fontWeight: "600",
-              color: theme.colors.secondary,
+              color: theme.colors.secondary
             }}
           >
             {data.documents.length}

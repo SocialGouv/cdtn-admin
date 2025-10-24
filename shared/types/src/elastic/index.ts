@@ -8,3 +8,4 @@ export * from "./fiche-travail";
 export * from "./code-du-travail";
 export * from "./modeles-de-courrier";
 export * from "./highlights";
+export * from "./infographic";

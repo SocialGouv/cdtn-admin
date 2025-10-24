@@ -1,8 +1,17 @@
 import { SourceKeys } from "@socialgouv/cdtn-utils";
 
-export type HasuraDocument<T, U extends SourceKeys = SourceKeys> =
-  Pick<HasuraDocumentBase, "cdtn_id" | "initial_id" | "slug" | "text" | "title" | "meta_description" | "is_available" | "is_published" | "is_searchable">
-  & {
+export type HasuraDocument<T, U extends SourceKeys = SourceKeys> = Pick<
+  HasuraDocumentBase,
+  | "cdtn_id"
+  | "initial_id"
+  | "slug"
+  | "text"
+  | "title"
+  | "meta_description"
+  | "is_available"
+  | "is_published"
+  | "is_searchable"
+> & {
   source: U;
   document: T;
 };
@@ -22,4 +31,4 @@ export type HasuraDocumentBase = {
   is_available: boolean;
   is_searchable: boolean;
   is_published: boolean;
-}
+};
