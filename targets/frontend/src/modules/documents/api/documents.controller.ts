@@ -106,14 +106,12 @@ export class DocumentsController {
   handleError(error: any) {
     if (error instanceof NotFoundError) {
       this.res.status(404).json({ message: error.message });
+    } else if (error instanceof InvalidQueryError) {
+      this.res.status(400).json({ message: error.message });
     } else {
-      if (error instanceof InvalidQueryError) {
-        this.res.status(400).json({ message: error.message });
-      } else {
-        this.res.status(400).json({
-          message: error.message
-        });
-      }
+      this.res.status(500).json({
+        message: error.message
+      });
     }
   }
 
