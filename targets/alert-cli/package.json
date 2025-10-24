@@ -20,6 +20,7 @@
     "p-map": "4",
     "semver": "7.3.5",
     "simple-git": "^3.19.1",
+    "tar": "^6.2.0",
     "unist-util-parents": "1.0.3",
     "unist-util-select": "4.0.3"
   },
@@ -36,6 +37,7 @@
     "@types/memoizee": "0.4.11",
     "@types/node": "16.11.68",
     "@types/semver": "7.3.13",
+    "@types/tar": "^6.1.5",
     "@types/unist": "2.0.11",
     "@vercel/ncc": "0.34.0",
     "builtin-modules": "3.2.0",
