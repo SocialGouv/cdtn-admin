@@ -1,25 +1,40 @@
 import * as fs from "fs";
 import * as path from "path";
-import { extractSimulatorReferences } from "../extractSimulatorReferences";
 import { mockSimulatorModels } from "../__mocks__/mockSimulatorData";
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import { WarningRepository } from "../../../../../repositories/WarningRepository";
 
 jest.mock("fs");
+
+// Mock getArticleReference to return valid data by default
+const mockGetArticleReference = jest.fn<
+  Promise<{
+    dila_id: string;
+    dila_cid: string;
+    dila_container_id: string;
+    title: string;
+    url: string;
+  } | null>,
+  [string]
+>((id: string) =>
+  Promise.resolve({
+    dila_id: id,
+    dila_cid: `CID_${id}`,
+    dila_container_id: `CONTAINER_${id}`,
+    title: `Article ${id}`,
+    url: `https://www.legifrance.gouv.fr/article/${id}`,
+  })
+);
+
 jest.mock("@shared/utils", () => ({
-  createGetArticleReference: jest.fn(() => jest.fn()),
-  extractArticleId: jest.fn((url: string) => {
-    // Mock extractArticleId to extract KALI article IDs from URLs
-    const match = url.match(/idArticle=([A-Z0-9]+)/);
-    if (match) return [match[1]];
-    const hashMatch = url.match(/#([A-Z0-9]+)$/);
-    if (hashMatch) return [hashMatch[1]];
-    return [];
-  }),
+  createGetArticleReference: jest.fn(() => mockGetArticleReference),
   gqlClient: jest.fn(),
 }));
 jest.mock("@socialgouv/dila-api-client");
 jest.mock("../../../../../repositories/WarningRepository");
+
+// Import after mocks are set up
+import { extractSimulatorReferences } from "../extractSimulatorReferences";
 
 const mockedFs = fs as jest.Mocked<typeof fs>;
 const MockedWarningRepository = WarningRepository as jest.MockedClass<
@@ -30,6 +45,17 @@ describe("extractSimulatorReferences", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     MockedWarningRepository.prototype.saveWarning = jest.fn();
+
+    // Reset mock to default implementation
+    mockGetArticleReference.mockImplementation((id: string) =>
+      Promise.resolve({
+        dila_id: id,
+        dila_cid: `CID_${id}`,
+        dila_container_id: `CONTAINER_${id}`,
+        title: `Article ${id}`,
+        url: `https://www.legifrance.gouv.fr/article/${id}`,
+      })
+    );
   });
 
   it("should extract references from simulator files", async () => {
@@ -56,19 +82,6 @@ describe("extractSimulatorReferences", () => {
       }
       return "{}";
     });
-
-    // Mock the getArticleReference function
-    const { createGetArticleReference } = require("@shared/utils");
-    const mockGetArticleReference = jest.fn((id: string) =>
-      Promise.resolve({
-        dila_id: id,
-        dila_cid: `CID_${id}`,
-        dila_container_id: "KALITEXT000005678903",
-        title: `Article ${id}`,
-        url: `https://www.legifrance.gouv.fr/article/${id}`,
-      })
-    );
-    createGetArticleReference.mockReturnValue(mockGetArticleReference);
 
     const result = await extractSimulatorReferences(mockPackageDir);
 
@@ -138,8 +151,7 @@ describe("extractSimulatorReferences", () => {
     });
 
     // Mock getArticleReference to return null for some articles
-    const { createGetArticleReference } = require("@shared/utils");
-    const mockGetArticleReference = jest.fn((id: string) => {
+    mockGetArticleReference.mockImplementation((id: string) => {
       if (id.includes("INVALID")) {
         return Promise.resolve(null);
       }
@@ -151,7 +163,6 @@ describe("extractSimulatorReferences", () => {
         url: `https://www.legifrance.gouv.fr/article/${id}`,
       });
     });
-    createGetArticleReference.mockReturnValue(mockGetArticleReference);
 
     await extractSimulatorReferences(mockPackageDir);
 
@@ -183,5 +194,55 @@ describe("extractSimulatorReferences", () => {
     await expect(extractSimulatorReferences(mockPackageDir)).rejects.toThrow(
       "Failed to read simulator file"
     );
+  });
+
+  it("should extract references from all real simulator documents and match snapshot", async () => {
+    const mockPackageDir = "/tmp/simulator-test";
+    const modelesDir = path.join(mockPackageDir, "package", "lib", "modeles");
+
+    // Mock filesystem to return true for all simulator files
+    mockedFs.existsSync.mockImplementation((filePath: any) => {
+      if (filePath === modelesDir) return true;
+      if (typeof filePath === "string" && filePath.includes("modeles-")) {
+        return true;
+      }
+      return false;
+    });
+
+    // Mock readFileSync to return actual simulator data from mock
+    mockedFs.readFileSync.mockImplementation((filePath: any) => {
+      if (typeof filePath === "string") {
+        if (filePath.includes("modeles-preavis-retraite.json")) {
+          return JSON.stringify(mockSimulatorModels["preavis-retraite"]);
+        }
+        if (filePath.includes("modeles-rupture-conventionnelle.json")) {
+          return JSON.stringify(mockSimulatorModels["rupture-conventionnelle"]);
+        }
+        if (filePath.includes("modeles-preavis-licenciement.json")) {
+          return JSON.stringify(mockSimulatorModels["preavis-licenciement"]);
+        }
+        if (filePath.includes("modeles-preavis-demission.json")) {
+          return JSON.stringify(mockSimulatorModels["preavis-demission"]);
+        }
+        if (filePath.includes("modeles-indemnite-licenciement.json")) {
+          return JSON.stringify(mockSimulatorModels["indemnite-licenciement"]);
+        }
+        if (filePath.includes("modeles-indemnite-precarite.json")) {
+          return JSON.stringify(mockSimulatorModels["indemnite-precarite"]);
+        }
+        if (filePath.includes("modeles-heures-recherche-emploi.json")) {
+          return JSON.stringify(mockSimulatorModels["heures-recherche-emploi"]);
+        }
+      }
+      return "{}";
+    });
+
+    const result = await extractSimulatorReferences(mockPackageDir);
+
+    // Expect all 7 simulators to be processed
+    expect(result).toHaveLength(7);
+
+    // Snapshot the entire result to capture all references
+    expect(result).toMatchSnapshot();
   });
 });

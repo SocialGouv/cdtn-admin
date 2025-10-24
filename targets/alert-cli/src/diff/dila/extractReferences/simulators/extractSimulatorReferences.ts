@@ -1,12 +1,13 @@
 import * as fs from "fs";
 import * as path from "path";
-import { createGetArticleReference, extractArticleId } from "@shared/utils";
+import { createGetArticleReference } from "@shared/utils";
 import type { DocumentReferences } from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import { DilaApiClient } from "@socialgouv/dila-api-client";
 import pMap from "p-map";
 import { WarningRepository } from "../../../../repositories/WarningRepository";
 import { gqlClient } from "@shared/utils";
+import { extractArticleId } from "./extractArticleId";
 
 const getArticleReference = createGetArticleReference(new DilaApiClient());
 
@@ -34,21 +35,30 @@ const SIMULATOR_FILES = [
 function extractReferencesFromModel(model: SimulatorModel): string[] {
   const references: string[] = [];
 
-  for (const idcc in model) {
-    const idccData = model[idcc];
-    for (const key in idccData) {
-      const entry = idccData[key];
-      if (entry.références && typeof entry.références === "object") {
-        for (const label in entry.références) {
-          const url = entry.références[label];
-          if (typeof url === "string" && url.length > 0) {
-            references.push(url);
-          }
+  function extractFromObject(obj: any): void {
+    if (!obj || typeof obj !== "object") {
+      return;
+    }
+
+    // If this object has a "références" property, extract URLs
+    if (obj.références && typeof obj.références === "object") {
+      for (const label in obj.références) {
+        const url = obj.références[label];
+        if (typeof url === "string" && url.length > 0) {
+          references.push(url);
         }
+      }
+    }
+
+    // Recursively search in all nested objects
+    for (const key in obj) {
+      if (typeof obj[key] === "object") {
+        extractFromObject(obj[key]);
       }
     }
   }
 
+  extractFromObject(model);
   return references;
 }
 
@@ -118,16 +128,12 @@ export async function extractSimulatorReferences(
         title: `Simulateur ${simulatorName}`,
         slug: simulatorName,
       },
-      references: references.flatMap((item) =>
-        item !== null
-          ? [
-              {
-                ...item,
-                url: `https://www.legifrance.gouv.fr/conv_coll/id/${item.dila_id}`,
-              },
-            ]
-          : []
-      ),
+      references: references
+        .filter((item): item is NonNullable<typeof item> => item !== null)
+        .map((item) => ({
+          ...item,
+          url: `https://www.legifrance.gouv.fr/conv_coll/id/${item.dila_id}`,
+        })),
     });
   }
 
