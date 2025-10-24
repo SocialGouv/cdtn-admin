@@ -1,13 +1,14 @@
-import { Information } from "src/modules/informations";
 import { format, parseISO } from "date-fns";
 import { generateCdtnId, generateInitialId } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { getGlossaryContent } from "src/modules/common/getGlossaryContent";
+import { undefined } from "zod";
+import { Information } from "./type";
 
 export const mapInformationToDocument = async (
   data: Information,
-  document?: HasuraDocument<any>
+  document?: HasuraDocument<any>,
 ): Promise<HasuraDocument<any>> => {
   const introWithGlossary = await getGlossaryContent(data.intro ?? "");
   return {
@@ -45,7 +46,7 @@ export const mapInformationToDocument = async (
               blocks: await Promise.all(
                 blocks.map(async (block) => {
                   const htmlWithGlossary = await getGlossaryContent(
-                    block.content ?? ""
+                    block.content ?? "",
                   );
                   return {
                     type: block.type,
@@ -59,10 +60,7 @@ export const mapInformationToDocument = async (
                         }),
                     ...(block.type === "graphic"
                       ? {
-                          size: block.infographic.pdfFile?.size,
-                          imgUrl: block.infographic.svgFile?.url,
-                          altText: block.infographic.svgFile?.altText,
-                          fileUrl: block.infographic.pdfFile?.url,
+                          infographic_id: block.infographic_id,
                         }
                       : {}),
                     ...(block.type === "content"
@@ -80,7 +78,7 @@ export const mapInformationToDocument = async (
                         }
                       : {}),
                   };
-                })
+                }),
               ),
               references: references?.length
                 ? [
@@ -91,8 +89,8 @@ export const mapInformationToDocument = async (
                   ]
                 : undefined,
             };
-          }
-        )
+          },
+        ),
       ),
     },
   };

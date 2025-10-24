@@ -27,7 +27,9 @@ export const mapInfographicToDocument = (
       description: data.description,
       meta_description: data.metaDescription,
       svgFilename: data.svgFile.url,
-      svgFilesize: parseInt(data.svgFile.size ?? "0"),
+      svgFilesizeOctet: parseInt(data.svgFile.size ?? "0"),
+      pdfFilename: data.pdfFile.url,
+      pdfFilesizeOctet: parseInt(data.pdfFile.size ?? "0"),
       transcription: data.transcription,
     },
   };

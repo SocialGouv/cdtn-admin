@@ -8,6 +8,7 @@ import {
   ElasticFicheTravailEmploi,
   ExportEsStatus,
   FicheTravailEmploiDoc,
+  InfographicTemplateDoc,
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-utils";
@@ -41,7 +42,7 @@ export async function getDuplicateSlugs(allDocuments: any) {
   let slugs: any = [];
   for await (const documents of allDocuments) {
     slugs = slugs.concat(
-      documents.map(({ source, slug }: any) => `${source}/${slug}`),
+      documents.map(({ source, slug }: any) => `${source}/${slug}`)
     );
   }
 
@@ -53,13 +54,13 @@ export async function getDuplicateSlugs(allDocuments: any) {
     .filter(({ count }: any) => count > 1)
     .reduce(
       (state: any, { slug, count }: any) => ({ ...state, [slug]: count }),
-      {},
+      {}
     );
 }
 
 export async function cdtnDocumentsGen(
   updateDocs: (source: string, documents: unknown[]) => Promise<void>,
-  isProd: boolean,
+  isProd: boolean
 ) {
   let documentsCount: Partial<ExportEsStatus["documentsCount"]> = {};
 
@@ -73,7 +74,7 @@ export async function cdtnDocumentsGen(
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
     SOURCES.LETTERS,
-    getBreadcrumbs,
+    getBreadcrumbs
   );
   documentsCount = {
     ...documentsCount,
@@ -92,7 +93,7 @@ export async function cdtnDocumentsGen(
   logger.info("=== Outils externes ===");
   const externalTools = await getDocumentBySource(
     SOURCES.EXTERNALS,
-    getBreadcrumbs,
+    getBreadcrumbs
   );
   documentsCount = {
     ...documentsCount,
@@ -104,7 +105,7 @@ export async function cdtnDocumentsGen(
 
   const dossiers = await getDocumentBySource(
     SOURCES.THEMATIC_FILES,
-    getBreadcrumbs,
+    getBreadcrumbs
   );
   documentsCount = {
     ...documentsCount,
@@ -117,7 +118,7 @@ export async function cdtnDocumentsGen(
   const contributions: DocumentElasticWithSource<ContributionDocumentJson>[] =
     await getDocumentBySource<ContributionDocumentJson>(
       SOURCES.CONTRIBUTIONS,
-      getBreadcrumbs,
+      getBreadcrumbs
     );
   logger.info(`Fetched ${contributions.length} contributions`);
 
@@ -133,14 +134,14 @@ export async function cdtnDocumentsGen(
       acc[curr.num] = curr.highlight as any;
       return acc;
     },
-    {},
+    {}
   );
 
   logger.info(`Fetched ${contributions.length} contributions`);
   const generatedContributions = await generateContributions(
     contributions,
     ccnData,
-    ccnListWithHighlight,
+    ccnListWithHighlight
   );
 
   logger.info(`Generated ${generatedContributions.length} contributions`);
@@ -155,7 +156,7 @@ export async function cdtnDocumentsGen(
   logger.info("=== Conventions Collectives ===");
   const agreementsDocs = await generateAgreements(
     ccnData,
-    generatedContributions,
+    generatedContributions
   );
 
   documentsCount = {
@@ -177,7 +178,7 @@ export async function cdtnDocumentsGen(
   logger.info("=== page fiches travail ===");
   const fichesMT = await getDocumentBySource<FicheTravailEmploiDoc>(
     SOURCES.SHEET_MT_PAGE,
-    getBreadcrumbs,
+    getBreadcrumbs
   );
   logger.info(`Fetched ${fichesMT.length} fiches travail`);
   const fichesMTWithGlossary: ElasticFicheTravailEmploi[] = fichesMT.map(
@@ -190,10 +191,10 @@ export async function cdtnDocumentsGen(
         title: section.title,
       })),
       source: SOURCES.SHEET_MT_PAGE,
-    }),
+    })
   );
   logger.info(
-    `Mapped ${fichesMTWithGlossary.length} fiches travail with glossary`,
+    `Mapped ${fichesMTWithGlossary.length} fiches travail with glossary`
   );
   documentsCount = {
     ...documentsCount,
@@ -234,7 +235,7 @@ export async function cdtnDocumentsGen(
   logger.info("=== Highlights ===");
   const highlights = await getDocumentBySourceWithRelation(
     SOURCES.HIGHLIGHTS,
-    getBreadcrumbs,
+    getBreadcrumbs
   );
   const highlightsWithContrib = highlights.map((highlight) => ({
     ...highlight,
@@ -243,7 +244,7 @@ export async function cdtnDocumentsGen(
         const foundContrib = generatedContributions.find(
           (generatedContribution) => {
             return generatedContribution.cdtnId === ref.cdtnId;
-          },
+          }
         );
         return {
           ...ref,
@@ -288,30 +289,30 @@ export async function cdtnDocumentsGen(
   };
   await updateDocs(SOURCES.CDT, cdtDoc);
 
-  logger.info("=== Editorial contents ===");
-  const documents = await getDocumentBySource<EditorialContentDoc>(
-    SOURCES.EDITORIAL_CONTENT,
-    getBreadcrumbs,
-  );
-  const {
-    documents: editorialContents,
-    relatedIdsDocuments: relatedIdsEditorialDocuments,
-  } = await generateEditorialContents(documents);
-  documentsCount = {
-    ...documentsCount,
-    [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
-  };
-
   logger.info("=== Infographies ===");
-  const infographics = await getDocumentBySource(
+  const infographics = await getDocumentBySource<InfographicTemplateDoc>(
     SOURCES.INFOGRAPHICS,
-    getBreadcrumbs,
+    getBreadcrumbs
   );
   documentsCount = {
     ...documentsCount,
     [SOURCES.INFOGRAPHICS]: infographics.length,
   };
   await updateDocs(SOURCES.INFOGRAPHICS, infographics);
+
+  logger.info("=== Editorial contents ===");
+  const documents = await getDocumentBySource<EditorialContentDoc>(
+    SOURCES.EDITORIAL_CONTENT,
+    getBreadcrumbs
+  );
+  const {
+    documents: editorialContents,
+    relatedIdsDocuments: relatedIdsEditorialDocuments,
+  } = generateEditorialContents(documents, infographics);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
+  };
 
   logger.info("=== Merge Related Documents ===");
   const allDocuments = [
@@ -331,12 +332,12 @@ export async function cdtnDocumentsGen(
 
   const relatedDocuments = populateRelatedDocuments(
     allDocuments,
-    relatedIdsEditorialDocuments,
+    relatedIdsEditorialDocuments
   );
 
   const editorialContentsAugmented = mergeRelatedDocumentsToEditorialContents(
     editorialContents,
-    relatedDocuments,
+    relatedDocuments
   );
   await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContentsAugmented);
 
@@ -350,6 +351,6 @@ export async function cdtnDocumentsGen(
     total: Object.values(documentsCount).reduce((a: any, b: any) => a + b, 0),
   };
   await updateExportEsStatusWithDocumentsCount(
-    documentsCount as ExportEsStatus["documentsCount"],
+    documentsCount as ExportEsStatus["documentsCount"]
   );
 }

@@ -17,7 +17,7 @@ export const InfographicList = (): JSX.Element => {
   });
   return (
     <DataList<InfographicData>
-      source="infographics"
+      source="infographies"
       headCells={[
         {
           id: "id",

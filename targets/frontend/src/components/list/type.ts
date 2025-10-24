@@ -1,3 +1,5 @@
+import { SourceKeys } from "@socialgouv/cdtn-types";
+
 export type Data = {
   id: string;
   title: string;
@@ -11,9 +13,4 @@ export type HeadCell<T extends Data> = {
   render?: (value: T[HeadCell<T>["dataIndex"]]) => React.ReactNode;
 };
 
-export type Source =
-  | "information"
-  | "modeles_de_courriers"
-  | "contributions"
-  | "conventions_collectives"
-  | "infographics";
+export type Source = SourceKeys;

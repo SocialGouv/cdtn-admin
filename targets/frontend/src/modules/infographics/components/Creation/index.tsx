@@ -7,7 +7,7 @@ import { useInfographicInsertMutation } from "./infographic.mutation";
 
 export const InfographicCreation = (): React.ReactElement => {
   const router = useRouter();
-  const update = useInfographicInsertMutation();
+  const insert = useInfographicInsertMutation();
 
   const Header = () => (
     <Breadcrumb>
@@ -28,7 +28,7 @@ export const InfographicCreation = (): React.ReactElement => {
         <Stack mt={4} spacing={2}>
           <InfographicForm
             onUpsert={async (props) => {
-              const { id } = await update(props);
+              const { id } = await insert(props);
               router.push(`/infographics/${id}`);
             }}
           />

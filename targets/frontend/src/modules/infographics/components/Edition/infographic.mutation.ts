@@ -36,7 +36,6 @@ export type MutationResult = {
 };
 
 type MutationGraphQLProps = {
-  id: string;
   infographic: InfographicInsertInput;
 };
 
@@ -53,7 +52,6 @@ export const useModelUpdateMutation = (): MutationFn => {
   >(updateInfographicQuery);
   const resultFunction = async (data: MutationProps) => {
     const result = await executeUpdate({
-      id: data.id,
       infographic: {
         id: data.id,
         title: data.title,

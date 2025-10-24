@@ -19,7 +19,7 @@ import { ALLOWED_PDF, ALLOWED_SVG } from "../../../../lib/secu";
 import { buildFilePathUrl } from "../../../../components/utils";
 import Image from "next/image";
 
-type FormData = Partial<z.infer<typeof infographicSchemaUpsert>>;
+type FormData = Partial<z.infer<typeof infographicSchemaInsert>>;
 
 export type FormDataResult = Required<
   Omit<Infographic, "createdAt" | "updatedAt">
@@ -39,35 +39,42 @@ const defaultValues: FormData = {
   transcription: "",
 };
 
-export const infographicSchemaUpsert = infographicSchema
+export const infographicSchemaInsert = infographicSchema
+  .extend({
+    newSvg: z
+      .array(z.custom<DropzoneFile>())
+      .min(1, "Une infographie au format SVG doit être renseignée"),
+    newPdf: z
+      .array(z.custom<DropzoneFile>())
+      .min(1, "Le format PDF de l'infographie doit être renseigné"),
+  })
+  .omit({ updatedAt: true, createdAt: true, pdfFile: true, svgFile: true });
+
+export const infographicSchemaUpdate = infographicSchema
   .extend({
     newSvg: z.array(z.custom<DropzoneFile>()).optional(),
     newPdf: z.array(z.custom<DropzoneFile>()).optional(),
   })
-  .omit({ updatedAt: true, createdAt: true, pdfFile: true, svgFile: true })
-  .superRefine(({ newSvg, id }, refinementContext) => {
-    if (!id && !newSvg) {
-      return refinementContext.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Une infographie au format SVG doit être renseignée",
-        path: ["newSvg"],
-      });
-    }
-  });
+  .omit({ updatedAt: true, createdAt: true, pdfFile: true, svgFile: true });
 
 export const InfographicForm = ({
   infographic,
   onUpsert,
   onPublish,
 }: Props): React.ReactElement => {
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit, formState, getValues } = useForm<FormData>({
     defaultValues: {
       ...defaultValues,
       ...infographic,
     },
-    resolver: zodResolver(infographicSchemaUpsert),
+    resolver: zodResolver(
+      infographic ? infographicSchemaUpdate : infographicSchemaInsert,
+    ),
     shouldFocusError: true,
   });
+
+  console.log("Form : ", formState.errors);
+  console.log("Form values : ", getValues());
 
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -111,8 +118,6 @@ export const InfographicForm = ({
             }
           : infographic?.svgFile!,
         transcription: newData.transcription!,
-        legiReferences: newData.legiReferences!,
-        otherReferences: newData.otherReferences!,
         displayDate: newData.displayDate!,
 
         pdfFile: newData.newPdf
@@ -221,7 +226,7 @@ export const InfographicForm = ({
           />
         </FormControl>
         <Stack direction="row" spacing={2} justifyContent="end">
-          <Button variant="contained" type="submit">
+          <Button variant="contained" color="primary" type="submit">
             {infographic ? "Sauvegarder" : "Créer"}
           </Button>
           {onPublish && (

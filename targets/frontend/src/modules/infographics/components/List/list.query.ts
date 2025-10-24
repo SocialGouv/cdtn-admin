@@ -10,13 +10,8 @@ export const listInfographicsQuery = gql`
       id
       title
       displayDate
-      infoLink: informations_contents_blocks {
-        detail: informations_content {
-          information {
-            id
-            title
-          }
-        }
+      svgFile {
+        url
       }
     }
   }
@@ -24,19 +19,8 @@ export const listInfographicsQuery = gql`
 
 export type InfographicResult = Pick<
   Infographic,
-  "id" | "title" | "displayDate"
-> & {
-  infoLink: [
-    {
-      detail: {
-        information: {
-          id: string;
-          title: string;
-        };
-      };
-    },
-  ];
-};
+  "id" | "title" | "displayDate" | "svgFile"
+>;
 
 export type QueryResult = {
   infographics: InfographicResult[];

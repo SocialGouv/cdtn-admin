@@ -28,22 +28,7 @@ const informationsQuery = gql`
           content
           order
           type
-          infographic {
-            id
-            transcription
-            svgFile {
-              id
-              url
-              altText
-              size
-            }
-            pdfFile {
-              id
-              url
-              altText
-              size
-            }
-          }
+          infographic_id
           contentDisplayMode
           contents(order_by: { order: asc }) {
             id

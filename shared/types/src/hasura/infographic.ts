@@ -11,7 +11,9 @@ export type InfographicTemplateDoc = {
   date: string;
   author: string;
   svgFilename: string;
-  svgFilesize: number;
+  svgFilesizeOctet: number;
+  pdfFilename: string;
+  pdfFilesizeOctet: number;
   description: string;
   meta_description: string;
   transcription: string;
