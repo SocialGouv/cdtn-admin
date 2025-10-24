@@ -41,7 +41,7 @@ export const useListInfographicQuery = ({
     query: listInfographicsQuery,
     requestPolicy: "cache-and-network",
     variables: {
-      search: (search?.length ?? 0 > 0) ? `%${search}%` : "%"
+      search: (search?.length ?? 0) > 0 ? `%${search}%` : "%"
     }
   });
   return {
