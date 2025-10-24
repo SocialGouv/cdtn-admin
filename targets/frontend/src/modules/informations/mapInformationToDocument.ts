@@ -8,7 +8,7 @@ import { Information } from "./type";
 
 export const mapInformationToDocument = async (
   data: Information,
-  document?: HasuraDocument<any>,
+  document?: HasuraDocument<any>
 ): Promise<HasuraDocument<any>> => {
   const introWithGlossary = await getGlossaryContent(data.intro ?? "");
   return {
@@ -33,8 +33,8 @@ export const mapInformationToDocument = async (
         ? [
             {
               label: data.referenceLabel,
-              links: data.references,
-            },
+              links: data.references
+            }
           ]
         : undefined,
       contents: await Promise.all(
@@ -46,21 +46,21 @@ export const mapInformationToDocument = async (
               blocks: await Promise.all(
                 blocks.map(async (block) => {
                   const htmlWithGlossary = await getGlossaryContent(
-                    block.content ?? "",
+                    block.content ?? ""
                   );
                   return {
                     type: block.type,
                     ...(block.type === "content"
                       ? {
-                          title: block.content,
+                          title: block.content
                         }
                       : {
                           markdown: block.content,
-                          htmlWithGlossary,
+                          htmlWithGlossary
                         }),
                     ...(block.type === "graphic"
                       ? {
-                          infographic_id: block.infographic_id,
+                          infographic_id: block.infographic_id
                         }
                       : {}),
                     ...(block.type === "content"
@@ -71,27 +71,27 @@ export const mapInformationToDocument = async (
                                 return {
                                   title: document.title,
                                   cdtnId: document.cdtnId,
-                                  source: document.source,
+                                  source: document.source
                                 };
                               })
-                            : undefined,
+                            : undefined
                         }
-                      : {}),
+                      : {})
                   };
-                }),
+                })
               ),
               references: references?.length
                 ? [
                     {
                       label: referenceLabel,
-                      links: references,
-                    },
+                      links: references
+                    }
                   ]
-                : undefined,
+                : undefined
             };
-          },
-        ),
-      ),
-    },
+          }
+        )
+      )
+    }
   };
 };

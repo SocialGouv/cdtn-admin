@@ -1,10 +1,10 @@
-import {List, Stack, styled} from "@mui/material";
-import {useNavigationAggregation} from "./NavigationAggregation.query";
-import {slugifyRepository} from "src/models";
-import {NavigationGroup} from "./NavigationGroup";
-import {useState} from "react";
-import {useRouter} from "next/router";
-import {NavigationItem} from "./NavigationItem";
+import { List, Stack, styled } from "@mui/material";
+import { useNavigationAggregation } from "./NavigationAggregation.query";
+import { slugifyRepository } from "src/models";
+import { NavigationGroup } from "./NavigationGroup";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { NavigationItem } from "./NavigationItem";
 
 type NavigationScheme = {
   [key: string]: {
@@ -29,30 +29,30 @@ export function Navigation() {
       order: 2,
       label: "Contenus",
       links: [
-        {href: "/contenus", label: "Tous les contenus"},
-        {href: "/contributions", label: "Contributions"},
-        {href: "/agreements", label: "Convention collectives"},
-        {href: "/infographics", label: "Infographies"},
+        { href: "/contenus", label: "Tous les contenus" },
+        { href: "/contributions", label: "Contributions" },
+        { href: "/agreements", label: "Convention collectives" },
+        { href: "/infographics", label: "Infographies" },
 
-        {href: "/models", label: "Modèles de document"},
-        {href: "/informations", label: "Pages informations"},
-      ],
+        { href: "/models", label: "Modèles de document" },
+        { href: "/informations", label: "Pages informations" }
+      ]
     },
     other: {
       order: 4,
       label: "Autres contenus",
       links: [
-        {href: "/contenus?source=highlights", label: "À la une"},
-        {href: "/kali/blocks", label: "Blocs KALI"},
-        {href: "/contenus/fiches-sp", label: "Fiches service-public"},
-        {href: "/glossary", label: "Glossaire"},
-        {href: "/fichiers", label: "Fichiers"},
+        { href: "/contenus?source=highlights", label: "À la une" },
+        { href: "/kali/blocks", label: "Blocs KALI" },
+        { href: "/contenus/fiches-sp", label: "Fiches service-public" },
+        { href: "/glossary", label: "Glossaire" },
+        { href: "/fichiers", label: "Fichiers" },
         {
           href: "/prequalified",
-          label: "Requetes pré-qualifiées",
+          label: "Requetes pré-qualifiées"
         },
-        {href: "/themes", label: "Thèmes"},
-      ],
+        { href: "/themes", label: "Thèmes" }
+      ]
     },
     check: {
       order: 5,
@@ -60,45 +60,45 @@ export function Navigation() {
       links: [
         {
           href: "/unthemed",
-          label: "Contenus sans thème",
+          label: "Contenus sans thème"
         },
         {
           href: "/duplicates",
-          label: "Élements en doublons",
+          label: "Élements en doublons"
         },
         {
           href: "/ghost-documents",
-          label: "Références inaccessibles",
-        },
-      ],
+          label: "Références inaccessibles"
+        }
+      ]
     },
     update: {
       order: 6,
       label: "Mises à jour",
-      href: "/mises-a-jour",
+      href: "/mises-a-jour"
     },
     system: {
       order: 7,
       label: "Gestion des utilisateurs",
-      href: "/users",
-    },
+      href: "/users"
+    }
   };
   if (navAggregation) {
     navigation.alerts = {
       order: 1,
       label: "Alertes",
-      links: navAggregation.map(({label, repository, aggregateCount}) => ({
+      links: navAggregation.map(({ label, repository, aggregateCount }) => ({
         label,
         href: `/alerts/${slugifyRepository(repository)}`,
-        aggregateCount,
-      })),
+        aggregateCount
+      }))
     };
   }
 
-  Object.entries(navigation).forEach(([key, {links}]) => {
+  Object.entries(navigation).forEach(([key, { links }]) => {
     if (
       !expanded &&
-      links?.some(({href}) => {
+      links?.some(({ href }) => {
         return router?.asPath?.includes(href);
       })
     ) {
@@ -109,10 +109,10 @@ export function Navigation() {
   return (
     <List>
       {Object.entries(navigation)
-        .sort(([, {order: orderA}], [, {order: orderB}]) =>
+        .sort(([, { order: orderA }], [, { order: orderB }]) =>
           orderA > orderB ? 1 : -1
         )
-        .map(([key, {label, links, href}]) => {
+        .map(([key, { label, links, href }]) => {
           return links ? (
             <NavigationGroup
               key={key}
@@ -121,7 +121,7 @@ export function Navigation() {
               expanded={expanded === key}
               onExpand={setExpanded}
               aggregateCount={links.reduce(
-                (sum, {aggregateCount}) => sum + (aggregateCount ?? 0),
+                (sum, { aggregateCount }) => sum + (aggregateCount ?? 0),
                 0
               )}
               items={links}
@@ -134,7 +134,7 @@ export function Navigation() {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Space/>
+                <Space />
                 <NavigationItem
                   key={label}
                   label={label}
@@ -149,5 +149,5 @@ export function Navigation() {
 }
 
 const Space = styled("span")({
-  padding: "11px",
+  padding: "11px"
 });

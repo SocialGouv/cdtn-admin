@@ -11,7 +11,7 @@ import { InfographicRepository } from "../../../infographics/api";
 
 jest.mock("../../../common/getGlossaryContent.ts", () => {
   return {
-    getGlossaryContent: jest.fn(() => "mocked-glossary-content"),
+    getGlossaryContent: jest.fn(() => "mocked-glossary-content")
   };
 });
 
@@ -29,14 +29,14 @@ describe("document service", () => {
     agreement: {
       id: "0016",
       name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
-      kali_id: "KALICONT000005635624",
+      kali_id: "KALICONT000005635624"
     },
     question: {
       id: "3384f257-e319-46d1-a4cb-8e8294da337b",
       content:
         "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
       order: 43,
-      seo_title: "Titre SEO",
+      seo_title: "Titre SEO"
     },
     kali_references: [
       {
@@ -46,8 +46,8 @@ describe("document service", () => {
           id: "KALIARTI000005849277",
           path: "Textes Attachés » Accord du 30 mars 1951 relatif aux techniciens et agents de maîtrise Annexe III » Maternité » Article 22",
           cid: "KALIARTI000005849277",
-          label: "Article 22",
-        },
+          label: "Article 22"
+        }
       },
       {
         label:
@@ -56,8 +56,8 @@ describe("document service", () => {
           id: "KALIARTI000005849388",
           path: "Textes Attachés » Accord du 16 juin 1961 relatif aux ouvriers - annexe I » Chapitre Ier : Dispositions communes aux différents groupes d'ouvriers » Maternité » Article 9",
           cid: "KALIARTI000005849387",
-          label: "Article 9",
-        },
+          label: "Article 9"
+        }
       },
       {
         label:
@@ -66,8 +66,8 @@ describe("document service", () => {
           id: "KALIARTI000005849528",
           path: "Textes Attachés » Accord du 27 février 1951 relatif aux employés Annexe II » Maternité » Article 18",
           cid: "KALIARTI000005849527",
-          label: "Article 18",
-        },
+          label: "Article 18"
+        }
       },
       {
         label:
@@ -76,52 +76,52 @@ describe("document service", () => {
           id: "KALIARTI000005849582",
           path: "Textes Attachés » Accord du 30 octobre 1951 relatif aux ingénieurs et cadres - Annexe IV » Maternité » Article 22",
           cid: "KALIARTI000005849582",
-          label: "Article 22",
-        },
-      },
+          label: "Article 22"
+        }
+      }
     ],
     legi_references: [],
     other_references: [
       {
         label:
           "Sous-section 3 : Autorisations d'absence et congé de maternité. (Articles L1225-16 à L1225-28)",
-        url: "https://www.legifrance.gouv.fr/codes/id/LEGISCTA000006195592/",
+        url: "https://www.legifrance.gouv.fr/codes/id/LEGISCTA000006195592/"
       },
       {
         label:
           "Chapitre 3 : Droit aux prestations (maladie, maternité, invalidité, décès) (Articles L313-1 à L313-6) ",
-        url: "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006073189/LEGISCTA000006156079/",
+        url: "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006073189/LEGISCTA000006156079/"
       },
       {
         label: "Section 3 : Prestations en espèces (Articles L331-3 à L331-7)",
-        url: "https://www.legifrance.gouv.fr/codes/id/LEGISCTA000006172598",
+        url: "https://www.legifrance.gouv.fr/codes/id/LEGISCTA000006172598"
       },
       {
         label:
           "Chapitre 3 : Droit aux prestations (maladie, maternité, congé de paternité, invalidité, décès). (Articles R313-1 à R313-17)",
-        url: "https://www.legifrance.gouv.fr/codes/id/LEGISCTA000006156797/",
+        url: "https://www.legifrance.gouv.fr/codes/id/LEGISCTA000006156797/"
       },
       {
         label: "Section 3 : Prestations en espèces. (Articles R331-5 à R331-7)",
-        url: "https://www.legifrance.gouv.fr/codes/id/LEGISCTA000006173387",
-      },
+        url: "https://www.legifrance.gouv.fr/codes/id/LEGISCTA000006173387"
+      }
     ],
     cdtn_references: [
       {
-        cdtn_id: "abcdef",
+        cdtn_id: "abcdef"
       },
       {
-        cdtn_id: "ijhgt",
+        cdtn_id: "ijhgt"
       },
       {
-        cdtn_id: "klmnop",
+        cdtn_id: "klmnop"
       },
       {
-        cdtn_id: "ijhgt",
-      },
+        cdtn_id: "ijhgt"
+      }
     ],
     content_fiche_sp: null,
-    message_block_generic_no_CDT: null,
+    message_block_generic_no_CDT: null
   };
   let savedArgs: any;
   const client: ApiClient = new ApiClient(
@@ -131,34 +131,34 @@ describe("document service", () => {
         .mockReturnValueOnce({
           toPromise: () =>
             Promise.resolve({
-              data: { documents: [] },
-            }),
+              data: { documents: [] }
+            })
         })
         .mockReturnValueOnce({
           toPromise: () =>
             Promise.resolve({
-              data: { contribution_answers_by_pk: inputContribution },
-            }),
+              data: { contribution_answers_by_pk: inputContribution }
+            })
         })
         .mockReturnValueOnce({
-          toPromise: () => Promise.resolve({}),
+          toPromise: () => Promise.resolve({})
         }),
       mutation: jest
         .fn()
         .mockReturnValueOnce({
           toPromise: () =>
             Promise.resolve({
-              data: { insert_documents_one: { cdtn_id: "1234" } },
-            }),
+              data: { insert_documents_one: { cdtn_id: "1234" } }
+            })
         })
         .mockImplementationOnce((arg, arg2) => {
           savedArgs = arg2;
           return {
-            toPromise: () => Promise.resolve({ data: {} }),
+            toPromise: () => Promise.resolve({ data: {} })
           };
-        }),
+        })
     } as unknown as GqlClient,
-    {},
+    {}
   );
   it("publish sauvegarde le cdtnId s'il n'existait pas dans la contribution answer", async () => {
     const service = new DocumentsService(
@@ -167,14 +167,14 @@ describe("document service", () => {
       new ContributionRepository(client),
       new ModelRepository(client),
       new AgreementRepository(client),
-      new InfographicRepository(client),
+      new InfographicRepository(client)
     );
 
     await service.publish("1234", "contributions");
     expect(client.client.mutation).toHaveBeenCalledTimes(2);
     expect(savedArgs).toEqual({
       cdtnId: "b3bc78aed5",
-      id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+      id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5"
     });
   });
 });

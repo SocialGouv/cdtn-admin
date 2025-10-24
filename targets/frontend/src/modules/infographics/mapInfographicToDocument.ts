@@ -7,7 +7,7 @@ import { InfographicTemplateDoc } from "@socialgouv/cdtn-types/build/hasura/info
 
 export const mapInfographicToDocument = (
   data: Infographic,
-  document?: HasuraDocument<InfographicTemplateDoc>,
+  document?: HasuraDocument<InfographicTemplateDoc>
 ): HasuraDocument<InfographicTemplateDoc> => {
   return {
     cdtn_id: document?.cdtn_id ?? generateCdtnId(data.title),
@@ -30,7 +30,7 @@ export const mapInfographicToDocument = (
       svgFilesizeOctet: parseInt(data.svgFile.size ?? "0"),
       pdfFilename: data.pdfFile.url,
       pdfFilesizeOctet: parseInt(data.pdfFile.size ?? "0"),
-      transcription: data.transcription,
-    },
+      transcription: data.transcription
+    }
   };
 };

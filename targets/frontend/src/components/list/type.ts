@@ -1,4 +1,4 @@
-import { SourceKeys } from "@socialgouv/cdtn-types";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 
 export type Data = {
   id: string;

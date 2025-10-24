@@ -28,7 +28,7 @@ type Result = {
 };
 
 export type PublishMutationResult = (
-  props: PublishProps,
+  props: PublishProps
 ) => Promise<OperationResult<Result>>;
 
 export const usePublishMutation = (): PublishMutationResult => {
@@ -38,7 +38,7 @@ export const usePublishMutation = (): PublishMutationResult => {
     if (result.error) {
       console.error(
         `Publication error for ${source} with id ${id}`,
-        result.error,
+        result.error
       );
       throw new Error(result.error.message);
     }

@@ -5,7 +5,7 @@ import {
   Button,
   CircularProgress,
   FormControl,
-  Stack,
+  Stack
 } from "@mui/material";
 import {
   DropzoneFile,
@@ -13,7 +13,7 @@ import {
   FormFileField,
   FormTextField,
   FormToggleButtonGroup,
-  FormDatePicker,
+  FormDatePicker
 } from "src/components/forms";
 
 import { Controller, useForm } from "react-hook-form";
@@ -48,12 +48,12 @@ const defaultValues: FormData = {
   type: undefined,
   previewHTML: "",
   legiReferences: [],
-  otherReferences: [],
+  otherReferences: []
 };
 
 export const modelSchemaUpsert = modelSchema
   .extend({
-    newFile: z.array(z.custom<DropzoneFile>()).optional(),
+    newFile: z.array(z.custom<DropzoneFile>()).optional()
   })
   .omit({ updatedAt: true, createdAt: true, file: true })
   .superRefine(({ newFile, id }, refinementContext) => {
@@ -61,7 +61,7 @@ export const modelSchemaUpsert = modelSchema
       return refinementContext.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Un fichier doit être renseigné",
-        path: ["newFile"],
+        path: ["newFile"]
       });
     }
   });
@@ -69,20 +69,20 @@ export const modelSchemaUpsert = modelSchema
 export const ModelForm = ({
   model,
   onUpsert,
-  onPublish,
+  onPublish
 }: Props): React.ReactElement => {
   const [isLoadingPreview, setIsLoadingPreview] = React.useState(false);
   const [previewError, setPreviewError] = React.useState<string | undefined>(
-    undefined,
+    undefined
   );
 
   const { control, handleSubmit, setValue } = useForm<FormData>({
     defaultValues: {
       ...defaultValues,
-      ...model,
+      ...model
     },
     resolver: zodResolver(modelSchemaUpsert),
-    shouldFocusError: true,
+    shouldFocusError: true
   });
 
   const [snack, setSnack] = useState<{
@@ -90,7 +90,7 @@ export const ModelForm = ({
     severity?: AlertColor;
     message?: string;
   }>({
-    open: false,
+    open: false
   });
 
   const uploadFile = async (file: DropzoneFile) => {
@@ -98,7 +98,7 @@ export const ModelForm = ({
     formData.append(file.path, file);
     return new Promise((resolve, reject) => {
       request(`/api/storage`, {
-        body: formData,
+        body: formData
       })
         .then(() => {
           resolve(file);
@@ -124,27 +124,27 @@ export const ModelForm = ({
         file: newData.newFile
           ? {
               url: newData.newFile[0].path,
-              size: `${newData.newFile[0].size}`,
+              size: `${newData.newFile[0].size}`
             }
           : model?.file!,
         previewHTML: newData.previewHTML!,
         legiReferences: newData.legiReferences!,
         otherReferences: newData.otherReferences!,
-        displayDate: newData.displayDate!,
+        displayDate: newData.displayDate!
       });
       setSnack({
         open: true,
         severity: "success",
         message: model
           ? "Le modèle a été modifié avec succès"
-          : "Le modèle a été créé avec succès",
+          : "Le modèle a été créé avec succès"
       });
     } catch (error) {
       console.error("Echec à la sauvegarde", error);
       setSnack({
         open: true,
         severity: "error",
-        message: "Une erreur est survenue lors de la sauvegarde du modèle",
+        message: "Une erreur est survenue lors de la sauvegarde du modèle"
       });
     }
   };
@@ -161,7 +161,7 @@ export const ModelForm = ({
         setValue("previewHTML", undefined);
         setIsLoadingPreview(false);
         setPreviewError(
-          "Impossible de lire le fichier (pas de type ArrayBuffer)",
+          "Impossible de lire le fichier (pas de type ArrayBuffer)"
         );
       }
 
@@ -176,7 +176,7 @@ export const ModelForm = ({
           setValue("previewHTML", undefined);
           setIsLoadingPreview(false);
           setPreviewError(
-            `Erreur dans la génération de l'aperçu: ${error.message}`,
+            `Erreur dans la génération de l'aperçu: ${error.message}`
           );
         });
     };
@@ -201,16 +201,16 @@ export const ModelForm = ({
             options={[
               {
                 label: "Fichier",
-                value: "fichier",
+                value: "fichier"
               },
               {
                 label: "Document",
-                value: "document",
+                value: "document"
               },
               {
                 label: "Lettre",
-                value: "lettre",
-              },
+                value: "lettre"
+              }
             ]}
           />
         </FormControl>
@@ -259,7 +259,7 @@ export const ModelForm = ({
             defaultFileName={model?.file?.url}
             accept={{
               "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                ALLOWED_DOC,
+                ALLOWED_DOC
             }}
             onFileChange={(file) => {
               if (file) {
@@ -314,14 +314,14 @@ export const ModelForm = ({
                   setSnack({
                     open: true,
                     severity: "success",
-                    message: "Le modèle de document a été publiée",
+                    message: "Le modèle de document a été publiée"
                   });
                   setIsPublishing(false);
                 } catch (e: any) {
                   setSnack({
                     open: true,
                     severity: "error",
-                    message: `Erreur lors de la publication du document: ${e.message}`,
+                    message: `Erreur lors de la publication du document: ${e.message}`
                   });
                   setIsPublishing(false);
                 }
@@ -347,6 +347,6 @@ const mammothOptions = {
     "p[style-name='destinataire'] => div.courrier-destinataire > p:fresh",
     "p[style-name='Titre'] => h3.courrier-titre:fresh",
     "r[style-name='options'] => span.options",
-    "r[style-name='editable'] => span.editable",
-  ],
+    "r[style-name='editable'] => span.editable"
+  ]
 };

@@ -3,7 +3,7 @@ import { FormDataResult } from "../Common";
 import {
   FilesConstraint,
   FilesUpdateColumn,
-  InfographicInsertInput,
+  InfographicInsertInput
 } from "../graphql.type";
 
 const updateInfographicQuery = gql`
@@ -64,35 +64,35 @@ export const useModelUpdateMutation = (): MutationFn => {
             url: data.svgFile.url,
             size: data.svgFile.size,
             altText: data.svgFile.altText,
-            id: data.svgFile.id,
+            id: data.svgFile.id
           },
           on_conflict: {
             constraint: FilesConstraint.FilesPkey,
             update_columns: [
               FilesUpdateColumn.Url,
               FilesUpdateColumn.Size,
-              FilesUpdateColumn.AltText,
-            ],
-          },
+              FilesUpdateColumn.AltText
+            ]
+          }
         },
         pdfFile: {
           data: {
             url: data.pdfFile.url,
             size: data.pdfFile.size,
             altText: data.pdfFile.altText,
-            id: data.pdfFile.id,
+            id: data.pdfFile.id
           },
           on_conflict: {
             constraint: FilesConstraint.FilesPkey,
             update_columns: [
               FilesUpdateColumn.Url,
               FilesUpdateColumn.Size,
-              FilesUpdateColumn.AltText,
-            ],
-          },
+              FilesUpdateColumn.AltText
+            ]
+          }
         },
-        displayDate: data.displayDate,
-      },
+        displayDate: data.displayDate
+      }
     });
     if (result.error) {
       throw new Error(result.error.message);

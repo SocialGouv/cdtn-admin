@@ -12,7 +12,7 @@ type Props = {
 
 export const InfographicEdition = ({ id }: Props): React.ReactElement => {
   const { data, fetching, error, reexecuteQuery } = useListInfographicQuery({
-    id,
+    id
   });
   const update = useModelUpdateMutation();
   const publish = usePublishMutation();
@@ -66,7 +66,7 @@ export const InfographicEdition = ({ id }: Props): React.ReactElement => {
                 await publish({ id: data.id, source: "infographies" });
               } else {
                 throw new Error(
-                  "Aucune infographie à publier n'a été détectée",
+                  "Aucune infographie à publier n'a été détectée"
                 );
               }
             }}

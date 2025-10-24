@@ -1,7 +1,7 @@
-import {CombinedError, OperationContext, useQuery, gql} from "urql";
-import {format, parseISO} from "date-fns";
+import { CombinedError, OperationContext, useQuery, gql } from "urql";
+import { format, parseISO } from "date-fns";
 
-import {Information} from "../../type";
+import { Information } from "../../type";
 
 const informationsQuery = gql`
   query informations($id: uuid) {
@@ -79,24 +79,24 @@ export type InformationsQueryResult = {
 };
 
 export const useInformationsQuery = ({
-  id,
+  id
 }: InformationsQueryProps): InformationsQueryResult => {
   const [{ data, error, fetching }, reexecuteQuery] = useQuery<QueryResult>({
     query: informationsQuery,
     requestPolicy: "cache-and-network",
     variables: {
-      id,
-    },
+      id
+    }
   });
   const information = data?.information_informations[0];
   return {
     data: information
       ? {
-          ...information,
+          ...information
         }
       : undefined,
     error,
     fetching,
-    reexecuteQuery,
+    reexecuteQuery
   };
 };

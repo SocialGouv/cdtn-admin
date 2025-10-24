@@ -16,35 +16,35 @@ const inputSchema = z.object({
     "modeles_de_courriers",
     "contributions",
     "conventions_collectives",
-    "infographies",
-  ]),
+    "infographies"
+  ])
 });
 
 const inputSchemaAll = z.object({
   questionId: z.string(),
-  source: z.enum(["contributions"]),
+  source: z.enum(["contributions"])
 });
 
 const actionSchema = z.object({
   action: z.object({
-    name: z.string(),
+    name: z.string()
   }),
   input: inputSchema,
   session_variables: z.object({
     "x-hasura-user-id": z.string().uuid().optional(),
-    "x-hasura-role": z.string().optional(),
-  }),
+    "x-hasura-role": z.string().optional()
+  })
 });
 
 const actionSchemaAll = z.object({
   action: z.object({
-    name: z.string(),
+    name: z.string()
   }),
   input: inputSchemaAll,
   session_variables: z.object({
     "x-hasura-user-id": z.string().uuid().optional(),
-    "x-hasura-role": z.string().optional(),
-  }),
+    "x-hasura-role": z.string().optional()
+  })
 });
 
 export class DocumentsController {
@@ -68,11 +68,11 @@ export class DocumentsController {
           new ContributionRepository(client),
           new ModelRepository(client),
           new AgreementRepository(client),
-          new InfographicRepository(client),
+          new InfographicRepository(client)
         );
         const cdtnId = await service.publish(
           inputs.input.id,
-          inputs.input.source,
+          inputs.input.source
         );
         this.res.status(201).json({ cdtnId });
       }
@@ -84,7 +84,7 @@ export class DocumentsController {
           this.res.status(400).json({ message: error.message });
         } else {
           this.res.status(400).json({
-            message: error.message,
+            message: error.message
           });
         }
       }
@@ -103,7 +103,7 @@ export class DocumentsController {
           new ContributionRepository(client),
           new ModelRepository(client),
           new AgreementRepository(client),
-          new InfographicRepository(client),
+          new InfographicRepository(client)
         );
         await service.publishAll(inputs.input.questionId, inputs.input.source);
         this.res.status(200).json({ count: true });
@@ -116,7 +116,7 @@ export class DocumentsController {
           this.res.status(400).json({ message: error.message });
         } else {
           this.res.status(400).json({
-            message: error.message,
+            message: error.message
           });
         }
       }
@@ -129,7 +129,7 @@ export class DocumentsController {
     if (!inputResult.success) {
       throw new InvalidQueryError(
         inputResult.error.message,
-        inputResult.error.errors,
+        inputResult.error.errors
       );
     }
 
@@ -142,7 +142,7 @@ export class DocumentsController {
     if (!inputResult.success) {
       throw new InvalidQueryError(
         inputResult.error.message,
-        inputResult.error.errors,
+        inputResult.error.errors
       );
     }
 

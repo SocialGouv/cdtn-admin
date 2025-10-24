@@ -13,7 +13,7 @@ export const InfographicList = (): JSX.Element => {
   const [search, setSearch] = useState<string | undefined>();
   const router = useRouter();
   const { rows } = useListInfographicQuery({
-    search,
+    search
   });
   return (
     <DataList<InfographicData>
@@ -22,12 +22,12 @@ export const InfographicList = (): JSX.Element => {
         {
           id: "id",
           dataIndex: "title",
-          label: "Titre",
-        },
+          label: "Titre"
+        }
       ]}
       rows={rows.map((row) => ({
         id: row.id ?? "",
-        title: row.title,
+        title: row.title
       }))}
       onClickItem={(id) => {
         router.push(`/infographics/${id}`);

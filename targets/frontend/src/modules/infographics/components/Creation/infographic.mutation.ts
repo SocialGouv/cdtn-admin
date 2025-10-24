@@ -39,13 +39,13 @@ export const useInfographicInsertMutation = (): MutationFn => {
         description: data.description,
         metaDescription: data.metaDescription,
         svgFile: {
-          data: data.svgFile,
+          data: data.svgFile
         },
         pdfFile: {
-          data: data.pdfFile,
+          data: data.pdfFile
         },
-        displayDate: data.displayDate,
-      },
+        displayDate: data.displayDate
+      }
     });
     if (result.error) {
       throw new Error(result.error.message);

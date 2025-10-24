@@ -3,7 +3,7 @@ import { ConflictError, NotFoundError } from "src/lib/api/ApiErrors";
 import { InformationsRepository } from "src/modules/informations";
 import {
   ContributionRepository,
-  mapContributionToDocument,
+  mapContributionToDocument
 } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
@@ -31,7 +31,7 @@ export class DocumentsService {
     contributionRepository: ContributionRepository,
     modelRepository: ModelRepository,
     agreementRepository: AgreementRepository,
-    infographicRepository: InfographicRepository,
+    infographicRepository: InfographicRepository
   ) {
     this.informationsRepository = informationsRepository;
     this.modelRepository = modelRepository;
@@ -44,7 +44,7 @@ export class DocumentsService {
   public async publish(id: string, source: SourceKeys) {
     let document = await this.documentsRepository.fetch({
       source,
-      initialId: id,
+      initialId: id
     });
 
     let postTreatment:
@@ -59,7 +59,7 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No information found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null,
+            cause: null
           });
         }
         document = await mapInformationToDocument(information, document);
@@ -70,22 +70,22 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No contribution found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null,
+            cause: null
           });
         }
         if (!document) {
           const contrib = await this.documentsRepository.fetchDocumentBySlug({
             slug: generateContributionSlug(
               contribution.agreement.id,
-              contribution.question.content,
+              contribution.question.content
             ),
-            source,
+            source
           });
           if (contrib) {
             throw new ConflictError({
               message: `Le document ${contribution.question.content} existe déjà pour la convention collective ${contribution.agreement.id}. Vous devez lancer le script de migration avant de publier un document.`,
               name: "CONFLICT_ERROR",
-              cause: null,
+              cause: null
             });
           }
         }
@@ -94,9 +94,9 @@ export class DocumentsService {
           document,
           async (questionId: string) => {
             return await this.contributionRepository.fetchGenericAnswer(
-              questionId,
+              questionId
             );
-          },
+          }
         );
         if (!document) {
           await this.contributionRepository.updateCdtnId(contribution.id, null);
@@ -104,7 +104,7 @@ export class DocumentsService {
           postTreatment = async (document) => {
             await this.contributionRepository.updateCdtnId(
               contribution.id,
-              document.cdtn_id,
+              document.cdtn_id
             );
           };
         }
@@ -116,7 +116,7 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No agreement found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null,
+            cause: null
           });
         }
         document = mapModelToDocument(model, document);
@@ -128,7 +128,7 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No infographic found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null,
+            cause: null
           });
         }
         document = mapInfographicToDocument(infographic, document);
@@ -139,7 +139,7 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No agreement found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null,
+            cause: null
           });
         }
         document = mapAgreementToDocument(agreement, document);
@@ -170,7 +170,7 @@ export class DocumentsService {
       case "contributions":
         const allContributions =
           await this.contributionRepository.fetchAllPublishedContributionsByQuestionId(
-            questionId,
+            questionId
           );
         await pMap(
           allContributions,
@@ -178,10 +178,10 @@ export class DocumentsService {
             await this.publish(contribution.id, source);
             console.log(`Contribution ${contribution.id} has been republished`);
           },
-          { concurrency: 1 },
+          { concurrency: 1 }
         );
         console.log(
-          "All contributions that has been already published have been republished",
+          "All contributions that has been already published have been republished"
         );
         return allContributions.length;
       default:

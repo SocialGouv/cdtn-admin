@@ -9,7 +9,7 @@ import {
   Chip,
   FormControl,
   FormHelperText,
-  Typography,
+  Typography
 } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -35,7 +35,7 @@ export const FormFileField = ({
   disabled,
   onFileChange,
   fullWidth,
-  accept,
+  accept
 }: FormFileFieldProps) => {
   return (
     <Controller
@@ -44,7 +44,7 @@ export const FormFileField = ({
       rules={rules}
       render={({
         field: { value, onChange, onBlur },
-        fieldState: { error },
+        fieldState: { error }
       }) => {
         const values = value as File[];
         return (
@@ -64,7 +64,7 @@ export const FormFileField = ({
                   getInputProps,
                   open,
                   isDragActive,
-                  acceptedFiles,
+                  acceptedFiles
                 }) => (
                   <>
                     <TitleBox
@@ -78,7 +78,7 @@ export const FormFileField = ({
                           {...getInputProps({
                             id: "fileupload",
                             onChange,
-                            onBlur,
+                            onBlur
                           })}
                         />
 
@@ -113,18 +113,18 @@ export const FormFileField = ({
 
 const Container = styled("div")(() => {
   return {
-    textAlign: "center",
+    textAlign: "center"
   };
 });
 
 const StyledFormHelperText = styled(FormHelperText)(({ theme }) => {
   return {
-    color: theme.palette.error.main,
+    color: theme.palette.error.main
   };
 });
 
 const FileDetail = styled(Chip)(() => {
   return {
-    margin: "1em",
+    margin: "1em"
   };
 });
