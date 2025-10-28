@@ -10,6 +10,7 @@
 - "!include contribution_answers.yaml"
 - "!include contribution_question_messages.yaml"
 - "!include contribution_questions.yaml"
+- "!include infographic_infographic.yaml"
 - "!include information_informations.yaml"
 - "!include information_informations_contents.yaml"
 - "!include information_informations_contents_blocks.yaml"

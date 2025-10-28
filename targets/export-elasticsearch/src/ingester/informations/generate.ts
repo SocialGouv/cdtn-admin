@@ -32,7 +32,7 @@ export const generateEditorialContents = (
             );
             if (!infographic) {
               throw new Error(
-                `No infographic found for information page ${document.title}/${document.cdtnId} (block: ${block.infographic_id})`
+                `No infographic found for information page ${document.title}/${document.cdtnId} (block: ${JSON.stringify(block)})`
               );
             }
             return {
