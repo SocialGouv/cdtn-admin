@@ -3,20 +3,31 @@ import { GhostLinkedDocuments } from "src/components/home/InvisibleLinkedDocumen
 import { UnThemedContent } from "src/components/home/UnThemedContent";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack, Typography } from "@mui/material";
+import MetabaseDashboard from "./MetabaseDashboard";
 
-export function IndexPage() {
+export default function IndexPage() {
   return (
     <Layout title="Administration des contenus et gestion des alertes">
-      <Stack spacing={2}>
+      <Stack spacing={3} sx={{ width: "100%" }}>
         <Typography variant="h3">Tableau de bord</Typography>
-        <Stack direction="row" spacing={2}>
+
+        {/* Ligne 1 : Les 3 petits composants */}
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={2}
+          useFlexGap
+          flexWrap="wrap"
+        >
           <UnThemedContent />
           <DuplicateContent />
           <GhostLinkedDocuments />
+        </Stack>
+
+        {/* Ligne 2 : Iframe pleine largeur */}
+        <Stack sx={{ width: "100%" }}>
+          <MetabaseDashboard />
         </Stack>
       </Stack>
     </Layout>
   );
 }
-
-export default IndexPage;
