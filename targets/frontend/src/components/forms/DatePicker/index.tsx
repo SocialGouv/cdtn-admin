@@ -46,7 +46,7 @@ export const FormDatePicker = ({
         name={name}
         control={control}
         rules={rules}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
           <DatePicker
             label={label}
             value={formatDate(value)}
@@ -54,6 +54,12 @@ export const FormDatePicker = ({
               onChange(unFormatDate(date));
             }}
             disabled={disabled}
+            slotProps={{
+              textField: {
+                error: !!error,
+                helperText: error?.message,
+              },
+            }}
           />
         )}
       />

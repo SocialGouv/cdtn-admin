@@ -8,6 +8,7 @@ import {
   ElasticFicheTravailEmploi,
   ExportEsStatus,
   FicheTravailEmploiDoc,
+  InfographicTemplateDoc,
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-utils";
@@ -67,9 +68,8 @@ export async function cdtnDocumentsGen(
 
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
 
-  const contributionsToPublish = await fetchContributionDocumentToPublish(
-    isProd
-  );
+  const contributionsToPublish =
+    await fetchContributionDocumentToPublish(isProd);
 
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
@@ -289,6 +289,17 @@ export async function cdtnDocumentsGen(
   };
   await updateDocs(SOURCES.CDT, cdtDoc);
 
+  logger.info("=== Infographies ===");
+  const infographics = await getDocumentBySource<InfographicTemplateDoc>(
+    SOURCES.INFOGRAPHICS,
+    getBreadcrumbs
+  );
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.INFOGRAPHICS]: infographics.length,
+  };
+  await updateDocs(SOURCES.INFOGRAPHICS, infographics);
+
   logger.info("=== Editorial contents ===");
   const documents = await getDocumentBySource<EditorialContentDoc>(
     SOURCES.EDITORIAL_CONTENT,
@@ -297,7 +308,7 @@ export async function cdtnDocumentsGen(
   const {
     documents: editorialContents,
     relatedIdsDocuments: relatedIdsEditorialDocuments,
-  } = await generateEditorialContents(documents);
+  } = generateEditorialContents(documents, infographics);
   documentsCount = {
     ...documentsCount,
     [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,

@@ -28,18 +28,7 @@ const informationsQuery = gql`
           content
           order
           type
-          file {
-            id
-            url
-            altText
-            size
-          }
-          img {
-            id
-            url
-            altText
-            size
-          }
+          infographic_id
           contentDisplayMode
           contents(order_by: { order: asc }) {
             id
@@ -90,24 +79,24 @@ export type InformationsQueryResult = {
 };
 
 export const useInformationsQuery = ({
-  id,
+  id
 }: InformationsQueryProps): InformationsQueryResult => {
   const [{ data, error, fetching }, reexecuteQuery] = useQuery<QueryResult>({
     query: informationsQuery,
     requestPolicy: "cache-and-network",
     variables: {
-      id,
-    },
+      id
+    }
   });
   const information = data?.information_informations[0];
   return {
     data: information
       ? {
-          ...information,
+          ...information
         }
       : undefined,
     error,
     fetching,
-    reexecuteQuery,
+    reexecuteQuery
   };
 };

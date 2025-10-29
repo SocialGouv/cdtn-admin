@@ -4,10 +4,10 @@ import {
   InformationContent,
   InformationContentBlock,
   InformationContentBlockContent,
-  Reference,
+  Reference
 } from "../../type";
-import { File } from "../../../common/type";
 import { UpsertInformationObject } from "./editInformation.type";
+import { undefined } from "zod";
 
 const removeTypename = (obj: any) => {
   delete obj?.__typename;
@@ -23,24 +23,13 @@ export const getRawColumns = (obj?: any): string[] => {
   }, []);
 };
 
-const mapInformationContentsBlocksFile = (file?: File | null) => {
-  if (!file) return;
-  return {
-    on_conflict: {
-      constraint: "files_pkey",
-      update_columns: getRawColumns(file),
-    },
-    data: { ...removeTypename(file) },
-  };
-};
-
 const mapInformationContentsBlocksContents = (
   contents?: InformationContentBlockContent[] | null
 ) => {
   return {
     on_conflict: {
       constraint: "informations_contents_blocks_contents_pkey",
-      update_columns: getRawColumns(contents?.[0]),
+      update_columns: getRawColumns(contents?.[0])
     },
     data:
       contents?.map((contentBlock, contentBlockIndex) => {
@@ -48,19 +37,20 @@ const mapInformationContentsBlocksContents = (
           ...removeTypename(contentBlock),
           document: undefined,
           cdtnId: contentBlock.document.cdtnId,
-          order: contentBlockIndex + 1,
+          order: contentBlockIndex + 1
         };
-      }) ?? [],
+      }) ?? []
   };
 };
 
 const mapInformationContentsBlocks = (
   blocks: InformationContentBlock[] | null
 ) => {
+  console.log("mapInformationContentsBlocks", blocks);
   return {
     on_conflict: {
       constraint: "informations_contents_blocks_pkey",
-      update_columns: getRawColumns(blocks?.[0]),
+      update_columns: getRawColumns(blocks?.[0])
     },
     data:
       blocks?.map((block, blockIndex) => {
@@ -68,18 +58,17 @@ const mapInformationContentsBlocks = (
           ...removeTypename(block),
           ...(block.type === "graphic"
             ? {
-                file: mapInformationContentsBlocksFile(block.file),
-                img: mapInformationContentsBlocksFile(block.img),
+                infographic_id: block.infographic_id!
               }
             : {}),
           ...(block.type === "content"
             ? {
-                contents: mapInformationContentsBlocksContents(block.contents),
+                contents: mapInformationContentsBlocksContents(block.contents)
               }
             : {}),
-          order: blockIndex + 1,
+          order: blockIndex + 1
         };
-      }) ?? [],
+      }) ?? []
   };
 };
 
@@ -87,13 +76,13 @@ const mapInformationContentsReferences = (references?: Reference[] | null) => {
   return {
     on_conflict: {
       constraint: "informations_contents_references_pkey",
-      update_columns: getRawColumns(references?.[0]),
+      update_columns: getRawColumns(references?.[0])
     },
     data:
       references?.map((reference, referenceIndex) => ({
         ...removeTypename(reference),
-        order: referenceIndex + 1,
-      })) ?? [],
+        order: referenceIndex + 1
+      })) ?? []
   };
 };
 
@@ -101,7 +90,7 @@ const mapInformationContents = (contents?: InformationContent[]) => {
   return {
     on_conflict: {
       constraint: "informations_contents_pkey",
-      update_columns: getRawColumns(contents?.[0]),
+      update_columns: getRawColumns(contents?.[0])
     },
     data: contents?.map((content, contentIndex) => {
       const blocks = mapInformationContentsBlocks(content.blocks);
@@ -111,9 +100,9 @@ const mapInformationContents = (contents?: InformationContent[]) => {
         order: contentIndex + 1,
         name: slugify(content.title),
         blocks,
-        references,
+        references
       };
-    }),
+    })
   };
 };
 
@@ -121,13 +110,13 @@ const mapInformationReferences = (references?: Reference[]) => {
   return {
     on_conflict: {
       constraint: "informations_references_pkey",
-      update_columns: getRawColumns(references?.[0]),
+      update_columns: getRawColumns(references?.[0])
     },
     data:
       references?.map((reference, referenceIndex) => ({
         ...removeTypename(reference),
-        order: referenceIndex + 1,
-      })) ?? [],
+        order: referenceIndex + 1
+      })) ?? []
   };
 };
 
@@ -139,6 +128,6 @@ export const mapInformation = (
   return {
     ...removeTypename(information),
     contents,
-    references,
+    references
   };
 };

@@ -32,10 +32,11 @@ export function Navigation() {
         { href: "/contenus", label: "Tous les contenus" },
         { href: "/contributions", label: "Contributions" },
         { href: "/agreements", label: "Convention collectives" },
-        { href: "/fichiers", label: "Infographies" },
+        { href: "/infographics", label: "Infographies" },
+
         { href: "/models", label: "Modèles de document" },
-        { href: "/informations", label: "Pages informations" },
-      ],
+        { href: "/informations", label: "Pages informations" }
+      ]
     },
     other: {
       order: 4,
@@ -45,12 +46,13 @@ export function Navigation() {
         { href: "/kali/blocks", label: "Blocs KALI" },
         { href: "/contenus/fiches-sp", label: "Fiches service-public" },
         { href: "/glossary", label: "Glossaire" },
+        { href: "/fichiers", label: "Fichiers" },
         {
           href: "/prequalified",
-          label: "Requetes pré-qualifiées",
+          label: "Requetes pré-qualifiées"
         },
-        { href: "/themes", label: "Thèmes" },
-      ],
+        { href: "/themes", label: "Thèmes" }
+      ]
     },
     check: {
       order: 5,
@@ -58,28 +60,28 @@ export function Navigation() {
       links: [
         {
           href: "/unthemed",
-          label: "Contenus sans thème",
+          label: "Contenus sans thème"
         },
         {
           href: "/duplicates",
-          label: "Élements en doublons",
+          label: "Élements en doublons"
         },
         {
           href: "/ghost-documents",
-          label: "Références inaccessibles",
-        },
-      ],
+          label: "Références inaccessibles"
+        }
+      ]
     },
     update: {
       order: 6,
       label: "Mises à jour",
-      href: "/mises-a-jour",
+      href: "/mises-a-jour"
     },
     system: {
       order: 7,
       label: "Gestion des utilisateurs",
-      href: "/users",
-    },
+      href: "/users"
+    }
   };
   if (navAggregation) {
     navigation.alerts = {
@@ -88,8 +90,8 @@ export function Navigation() {
       links: navAggregation.map(({ label, repository, aggregateCount }) => ({
         label,
         href: `/alerts/${slugifyRepository(repository)}`,
-        aggregateCount,
-      })),
+        aggregateCount
+      }))
     };
   }
 
@@ -147,5 +149,5 @@ export function Navigation() {
 }
 
 const Space = styled("span")({
-  padding: "11px",
+  padding: "11px"
 });

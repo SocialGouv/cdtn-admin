@@ -1,0 +1,4 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- alter table "information"."informations_contents_blocks" add column "infographic_id" uuid
+--  null;
