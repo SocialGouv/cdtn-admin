@@ -441,7 +441,7 @@ function getBadgeColor(etat: string) {
 function DilaLabelItem({ info }: DilaLinkProps) {
   const context = [];
   if (/SCTA/.test(info.id) && info.parents.length > 2) {
-    context.push(<>{info.parents[info.parents.length - 2]}</>);
+    info.parents.slice(-2, -1).forEach((item) => context.push(<>{item}</>));
   }
   context.push(<DilaLink info={info}>{info.title}</DilaLink>);
   return jsxJoin(context, " › ");
