@@ -1,4 +1,3 @@
-// MetabaseDashboard.tsx
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -28,7 +27,6 @@ export default function MetabaseDashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  // Injection CSS pour NO SCROLL + cacher footer
   useEffect(() => {
     if (!iframeRef.current || !iframeUrl) return;
 
@@ -81,7 +79,7 @@ export default function MetabaseDashboard() {
         ref={iframeRef}
         src={iframeUrl}
         width="100%"
-        height="1200" // ← HAUTEUR FIXE GÉNÉREUSE (ajuste selon ton dashboard)
+        height="1200"
         style={{ border: "none", display: "block" }}
         allowFullScreen
         title="Metabase Dashboard"
