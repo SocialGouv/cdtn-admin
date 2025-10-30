@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.59.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.5...v2.59.0) (2025-10-30)
+
+### Bug Fixes
+
+- **dependency:** utilisation de la librairie utils du frontend ([#1603](https://github.com/SocialGouv/cdtn-admin/issues/1603)) ([a0a2d10](https://github.com/SocialGouv/cdtn-admin/commit/a0a2d10b65dd1dd865ad4ece44bd47778784cd96))
+
+### Features
+
+- **alerting:** recevoir des alertes sur les références des simulateurs ([#1602](https://github.com/SocialGouv/cdtn-admin/issues/1602)) ([a306385](https://github.com/SocialGouv/cdtn-admin/commit/a30638543233d66c6d030b557a467c1b00d1d378))
+- **node:** upgrade to v24 ([#1601](https://github.com/SocialGouv/cdtn-admin/issues/1601)) ([9e4350c](https://github.com/SocialGouv/cdtn-admin/commit/9e4350cf1df72bff066ab92733bef60f1b684b10))
+
 ## [2.58.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.4...v2.58.5) (2025-10-15)
 
 ### Bug Fixes

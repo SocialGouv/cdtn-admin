@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.59.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.5...v2.59.0) (2025-10-30)
+
+### Bug Fixes
+
+- **release:** downgrade prettier en version 2 (compatibilité avec lerna) ([5da58f0](https://github.com/SocialGouv/cdtn-admin/commit/5da58f05ba32c9565bb24d64cbc92c7b95f09ab0))
+
+### Features
+
+- **infographic:** implementation des pages infographies ([#1604](https://github.com/SocialGouv/cdtn-admin/issues/1604)) ([b73a5f7](https://github.com/SocialGouv/cdtn-admin/commit/b73a5f7b6a465b0cd73d5f4d3bae21f9ddccd085))
+
 ## [2.58.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.4...v2.58.5) (2025-10-15)
 
 **Note:** Version bump only for package @shared/eslint-config

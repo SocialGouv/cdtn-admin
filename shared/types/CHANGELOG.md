@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.59.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.5...v2.59.0) (2025-10-30)
+
+### Bug Fixes
+
+- **dependency:** utilisation de la librairie utils du frontend ([#1603](https://github.com/SocialGouv/cdtn-admin/issues/1603)) ([a0a2d10](https://github.com/SocialGouv/cdtn-admin/commit/a0a2d10b65dd1dd865ad4ece44bd47778784cd96))
+
+### Features
+
+- **infographic:** implementation des pages infographies ([#1604](https://github.com/SocialGouv/cdtn-admin/issues/1604)) ([b73a5f7](https://github.com/SocialGouv/cdtn-admin/commit/b73a5f7b6a465b0cd73d5f4d3bae21f9ddccd085))
+
 ## [2.58.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.4...v2.58.5) (2025-10-15)
 
 **Note:** Version bump only for package @socialgouv/cdtn-types
