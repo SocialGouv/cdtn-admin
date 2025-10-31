@@ -2,7 +2,6 @@ global:
   pgUser: cdtn-admin
   pgDatabase: cdtn-admin
 
-
 pg:
   ~chart: pg
 
@@ -14,10 +13,10 @@ www:
       path: /healthz
       port: http
       scheme: HTTP
-    initialDelaySeconds: 30   # Délai avant la première vérification après le démarrage du pod
-    periodSeconds: 10         # Fréquence des vérifications
-    timeoutSeconds: 10         # Temps maximum pour que l'endpoint réponde
-    failureThreshold: 15       # Nombre d'échecs avant de redémarrer le conteneur
+    initialDelaySeconds: 30 # Délai avant la première vérification après le démarrage du pod
+    periodSeconds: 10 # Fréquence des vérifications
+    timeoutSeconds: 10 # Temps maximum pour que l'endpoint réponde
+    failureThreshold: 15 # Nombre d'échecs avant de redémarrer le conteneur
   imagePackage: frontend
   envFrom:
     - configMapRef:
@@ -30,6 +29,8 @@ www:
         name: tipimail
     - secretRef:
         name: hasura
+    - secretRef:
+        name: metabase
   env:
     - name: NEXTAUTH_URL
       value: https://www-{{.Values.global.host}}
@@ -69,7 +70,7 @@ export:
 
 hasura:
   ~chart: hasura
-  ~needs: [ pg ]
+  ~needs: [pg]
   imagePackage: hasura
   ingress:
     enabled: false
