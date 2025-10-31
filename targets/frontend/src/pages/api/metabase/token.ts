@@ -36,8 +36,8 @@ export default function token(
   };
 
   try {
-    const token = sign(payload, METABASE_SECRET_KEY);
-    const iframeUrl = `${METABASE_SITE_URL}/embed/dashboard/${token}#bordered=true&titled=false&resize=true&hide_footer=true`;
+    const key = sign(payload, METABASE_SECRET_KEY);
+    const iframeUrl = `${METABASE_SITE_URL}/embed/dashboard/${key}#bordered=true&titled=false&resize=true&hide_footer=true`;
 
     res.status(200).json({ iframeUrl });
   } catch (error) {
