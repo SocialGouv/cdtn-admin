@@ -8,7 +8,7 @@ if (!METABASE_SECRET_KEY) {
   throw new Error("METABASE_SECRET_KEY is missing");
 }
 
-export default function handler(
+export default function token(
   req: NextApiRequest,
   res: NextApiResponse<{ iframeUrl: string } | { error: string }>
 ) {
