@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { EditQuestion } from "./edit";
 import { Answers } from "./answers";
 import { Header } from "./Header";
+import { QuestionStatistics } from "./statistics";
+import MetabaseDashboard from "src/pages/MetabaseDashboard";
 
 type Props = {
   questionId: string;
@@ -11,6 +13,7 @@ type Props = {
 enum TabValue {
   answers = 0,
   edition = 1,
+  statistiques = 2,
 }
 
 interface TabPanelProps {
@@ -61,6 +64,7 @@ export const ViewQuestion = ({ questionId }: Props): JSX.Element => {
         <Tabs value={tabIndex} onChange={handleTabChange}>
           <Tab label="Réponses" {...a11yProps(TabValue.answers)} />
           <Tab label="Édition" {...a11yProps(TabValue.edition)} />
+          <Tab label="Statistiques" {...a11yProps(TabValue.edition)} />
         </Tabs>
       </Box>
       <TabPanel value={tabIndex} index={TabValue.answers}>
@@ -68,6 +72,9 @@ export const ViewQuestion = ({ questionId }: Props): JSX.Element => {
       </TabPanel>
       <TabPanel value={tabIndex} index={TabValue.edition}>
         <EditQuestion questionId={questionId} />
+      </TabPanel>
+      <TabPanel value={tabIndex} index={TabValue.statistiques}>
+        <QuestionStatistics questionId={questionId}></QuestionStatistics>
       </TabPanel>
     </Stack>
   );

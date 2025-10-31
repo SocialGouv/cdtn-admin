@@ -21,6 +21,18 @@ export const contributionQuestionQuery = gql`
       id
       label
     }
+    generic_answer: contribution_answers(
+      where: {
+        _and: [
+          { agreement_id: { _eq: "0000" } }
+          { question_id: { _eq: $questionId } }
+        ]
+      }
+    ) {
+      slug: document {
+        slug
+      }
+    }
   }
 `;
 
@@ -36,6 +48,7 @@ type QueryOutput = {
 export type QueryResult = {
   question: QuestionBase | null;
   messages: Message[];
+  generic_answer: { document: { slug: string } }[];
 };
 
 type Result = {

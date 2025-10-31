@@ -1,16 +1,38 @@
+// MetabaseDashboard.tsx
 "use client";
 
 import { useState, useEffect, useRef } from "react";
 import { Box, CircularProgress, Alert } from "@mui/material";
 
-export default function MetabaseDashboard() {
+interface MetabaseParams {
+  [key: string]: string | string[];
+}
+
+interface Props {
+  dashboardId: number;
+  params?: MetabaseParams; // ← N'IMPORTE QUEL PARAMÈTRE
+}
+
+export default function MetabaseDashboard({ dashboardId, params = {} }: Props) {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const fetchUrl = async () => {
+    const queryParams = new URLSearchParams();
+    queryParams.append("dashboard", dashboardId.toString());
+
+    // Ajoute tous les params
+    Object.entries(params).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((v) => queryParams.append(key, v));
+      } else {
+        queryParams.append(key, value);
+      }
+    });
+
     try {
-      const res = await fetch("/api/metabase/token");
+      const res = await fetch(`/api/metabase/token?${queryParams}`);
       if (!res.ok) throw new Error();
       const data = await res.json();
       setIframeUrl(data.iframeUrl);
@@ -25,65 +47,51 @@ export default function MetabaseDashboard() {
     fetchUrl();
     const interval = setInterval(fetchUrl, 9 * 60 * 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [dashboardId, params]);
 
+  // === CSS : cacher footer + no scroll ===
   useEffect(() => {
     if (!iframeRef.current || !iframeUrl) return;
-
     const iframe = iframeRef.current;
     iframe.onload = () => {
       setTimeout(() => {
         try {
           const doc = iframe.contentDocument || iframe.contentWindow?.document;
           if (!doc) return;
-
           const style = doc.createElement("style");
           style.textContent = `
-            html, body { overflow: hidden !important; margin: 0 !important; padding: 0 !important; height: auto !important; }
             .EmbedFrame-footer { display: none !important; }
-            * { -ms-overflow-style: none; scrollbar-width: none; }
-            ::-webkit-scrollbar { display: none; }
+            html, body { overflow: hidden !important; margin: 0; padding: 0; }
           `;
           doc.head.appendChild(style);
         } catch (err) {
-          console.error("Injection CSS échouée:", err);
+          console.error("Injection CSS:", err);
         }
       }, 1000);
     };
   }, [iframeUrl]);
 
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          height: 300,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (!iframeUrl) {
-    return <Alert severity="error">Erreur de chargement</Alert>;
-  }
+  if (loading) return <CircularProgress />;
+  if (!iframeUrl) return <Alert severity="error">Erreur</Alert>;
 
   return (
     <Box
-      sx={{ width: "100%", borderRadius: 2, overflow: "hidden", boxShadow: 2 }}
+      sx={{
+        width: "100%",
+        minHeight: 600,
+        borderRadius: 2,
+        overflow: "hidden",
+        boxShadow: 2,
+      }}
     >
       <iframe
         ref={iframeRef}
         src={iframeUrl}
         width="100%"
-        height="1200"
+        height="1000"
         style={{ border: "none", display: "block" }}
         allowFullScreen
-        title="Metabase Dashboard"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+        title={`Dashboard ${dashboardId}`}
       />
     </Box>
   );

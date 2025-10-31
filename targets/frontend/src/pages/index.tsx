@@ -25,7 +25,7 @@ export default function IndexPage() {
 
         {/* Ligne 2 : Iframe pleine largeur */}
         <Stack sx={{ width: "100%" }}>
-          <MetabaseDashboard />
+          <MetabaseDashboard dashboardId={8} />
         </Stack>
       </Stack>
     </Layout>
