@@ -24,7 +24,10 @@ interface TabPanelProps {
 export const ViewQuestion = ({ questionId }: Props): JSX.Element => {
   const [tabIndex, setTabIndex] = useState<TabValue>(TabValue.answers);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: TabValue) => {
+  const handleTabChange = (
+    _event: React.SyntheticEvent,
+    newValue: TabValue
+  ) => {
     setTabIndex(newValue);
   };
 
@@ -45,14 +48,13 @@ export const ViewQuestion = ({ questionId }: Props): JSX.Element => {
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
         {...other}
-        style={{ width: "100%" }} // important
+        style={{ width: "100%" }}
       >
         {value === index && (
           <Box
             sx={{
               p: 3,
               width: "100%",
-              // Pas de hauteur fixe, on laisse pousser
             }}
           >
             {children}
@@ -67,9 +69,9 @@ export const ViewQuestion = ({ questionId }: Props): JSX.Element => {
       direction="column"
       spacing={2}
       sx={{
-        minHeight: "100vh", // prend toute la hauteur de l'écran
+        minHeight: "100vh",
         width: "100%",
-        pb: 4, // marge basse
+        pb: 4,
       }}
     >
       <Header questionId={questionId} />
@@ -84,7 +86,6 @@ export const ViewQuestion = ({ questionId }: Props): JSX.Element => {
 
       <Box sx={{ flex: 1, width: "100%" }}>
         {" "}
-        {/* ← CLÉ : prend tout l’espace restant */}
         <TabPanel value={tabIndex} index={TabValue.answers}>
           <Answers questionId={questionId} />
         </TabPanel>

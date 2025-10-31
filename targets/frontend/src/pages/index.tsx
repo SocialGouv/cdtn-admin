@@ -11,7 +11,6 @@ export default function IndexPage() {
       <Stack spacing={3} sx={{ width: "100%" }}>
         <Typography variant="h3">Tableau de bord</Typography>
 
-        {/* Ligne 1 : Les 3 petits composants */}
         <Stack
           direction={{ xs: "column", md: "row" }}
           spacing={2}
@@ -23,7 +22,6 @@ export default function IndexPage() {
           <GhostLinkedDocuments />
         </Stack>
 
-        {/* Ligne 2 : Iframe pleine largeur */}
         <Stack sx={{ width: "100%" }}>
           <MetabaseDashboard dashboardId={8} />
         </Stack>
