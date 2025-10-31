@@ -1,8 +1,34 @@
 // MetabaseDashboard.tsx
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Box, CircularProgress, Alert } from "@mui/material";
+import dynamic from "next/dynamic";
+
+interface IframeResizerProps {
+  src: string;
+  style?: React.CSSProperties;
+  license?: string;
+  heightCalculationMethod?: string;
+  checkOrigin?: boolean;
+  log?: boolean;
+  inPageLinks?: boolean;
+  enablePublicMethods?: boolean;
+  interval?: number;
+  onResized?: (data: { height: number; width: number }) => void;
+  title?: string;
+  allowFullScreen?: boolean;
+  [key: string]: any;
+}
+
+const IframeResizer = dynamic(
+  // @ts-ignore
+  () => import("iframe-resizer-react").then((mod) => mod.default),
+  {
+    ssr: false,
+    loading: () => <CircularProgress />,
+  }
+) as React.FC<IframeResizerProps>;
 
 interface MetabaseParams {
   [key: string]: string | string[];
@@ -10,19 +36,17 @@ interface MetabaseParams {
 
 interface Props {
   dashboardId: number;
-  params?: MetabaseParams; // ← N'IMPORTE QUEL PARAMÈTRE
+  params?: MetabaseParams;
 }
 
 export default function MetabaseDashboard({ dashboardId, params = {} }: Props) {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const fetchUrl = async () => {
     const queryParams = new URLSearchParams();
     queryParams.append("dashboard", dashboardId.toString());
 
-    // Ajoute tous les params
     Object.entries(params).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((v) => queryParams.append(key, v));
@@ -33,7 +57,7 @@ export default function MetabaseDashboard({ dashboardId, params = {} }: Props) {
 
     try {
       const res = await fetch(`/api/metabase/token?${queryParams}`);
-      if (!res.ok) throw new Error();
+      if (!res.ok) throw new Error("Failed to fetch token");
       const data = await res.json();
       setIframeUrl(data.iframeUrl);
     } catch (err) {
@@ -49,30 +73,9 @@ export default function MetabaseDashboard({ dashboardId, params = {} }: Props) {
     return () => clearInterval(interval);
   }, [dashboardId, params]);
 
-  // === CSS : cacher footer + no scroll ===
-  useEffect(() => {
-    if (!iframeRef.current || !iframeUrl) return;
-    const iframe = iframeRef.current;
-    iframe.onload = () => {
-      setTimeout(() => {
-        try {
-          const doc = iframe.contentDocument || iframe.contentWindow?.document;
-          if (!doc) return;
-          const style = doc.createElement("style");
-          style.textContent = `
-            .EmbedFrame-footer { display: none !important; }
-            html, body { overflow: hidden !important; margin: 0; padding: 0; }
-          `;
-          doc.head.appendChild(style);
-        } catch (err) {
-          console.error("Injection CSS:", err);
-        }
-      }, 1000);
-    };
-  }, [iframeUrl]);
-
   if (loading) return <CircularProgress />;
-  if (!iframeUrl) return <Alert severity="error">Erreur</Alert>;
+  if (!iframeUrl)
+    return <Alert severity="error">Erreur de chargement du dashboard</Alert>;
 
   return (
     <Box
@@ -82,16 +85,25 @@ export default function MetabaseDashboard({ dashboardId, params = {} }: Props) {
         borderRadius: 2,
         overflow: "hidden",
         boxShadow: 2,
+        mt: 2,
       }}
     >
-      <iframe
-        ref={iframeRef}
+      <IframeResizer
         src={iframeUrl}
-        width="100%"
-        height="1000"
-        style={{ border: "none", display: "block" }}
+        style={{
+          width: "1px",
+          minWidth: "100%",
+          border: "none",
+        }}
+        license="GPLv3"
+        heightCalculationMethod="lowestElement"
+        checkOrigin={false}
+        log={false}
+        inPageLinks
+        enablePublicMethods
+        interval={50}
+        title={`Dashboard Metabase ${dashboardId}`}
         allowFullScreen
-        title={`Dashboard ${dashboardId}`}
       />
     </Box>
   );

@@ -1148,6 +1148,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.24.7":
+  version: 7.28.4
+  resolution: "@babel/runtime@npm:7.28.4"
+  checksum: 934b0a0460f7d06637d93fcd1a44ac49adc33518d17253b5a0b55ff4cb90a45d8fe78bf034b448911dbec7aff2a90b918697559f78d21c99ff8dbadae9565b55
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.22.5, @babel/template@npm:^7.3.3":
   version: 7.22.5
   resolution: "@babel/template@npm:7.22.5"
@@ -1618,6 +1625,27 @@ __metadata:
   version: 3.0.2
   resolution: "@hutson/parse-repository-url@npm:3.0.2"
   checksum: 39992c5f183c5ca3d761d6ed9dfabcb79b5f3750bf1b7f3532e1dc439ca370138bbd426ee250fdaba460bc948e6761fbefd484b8f4f36885d71ded96138340d1
+  languageName: node
+  linkType: hard
+
+"@iframe-resizer/core@npm:5.1.5":
+  version: 5.1.5
+  resolution: "@iframe-resizer/core@npm:5.1.5"
+  checksum: 4ad7055b1d3908b733c41eaf95637c182a09cb6bb80515872783b95d2968c786fd3c8d55edca1ab3f02e992aff8fa1a15c39ccd04faa2130703714b0c7a5fa5f
+  languageName: node
+  linkType: hard
+
+"@iframe-resizer/react@npm:5.1.5":
+  version: 5.1.5
+  resolution: "@iframe-resizer/react@npm:5.1.5"
+  dependencies:
+    "@babel/runtime": ^7.24.7
+    "@iframe-resizer/core": 5.1.5
+    warning: ^4.0.3
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 4f59ee31fcf88f4c982821445d267ad80a901793910df81b4a598bb28b319778964dc63f304014f1fa4c81051081bdafe0241d9c92421c4660d17a5ae87b9c42
   languageName: node
   linkType: hard
 
@@ -11098,6 +11126,7 @@ __metadata:
     graphql: ^16.8.1
     graphql-tag: ^2.12.6
     http-proxy-middleware: ^3.0.0
+    iframe-resizer-react: ^5.1.5
     jest: ^29.5.0
     jest-environment-jsdom: ^29.5.0
     jsonwebtoken: ^9.0.2
@@ -12064,6 +12093,18 @@ __metadata:
   version: 1.2.1
   resolution: "ieee754@npm:1.2.1"
   checksum: 5144c0c9815e54ada181d80a0b810221a253562422e7c6c3a60b1901154184f49326ec239d618c416c1c5945a2e197107aee8d986a3dd836b53dffefd99b5e7e
+  languageName: node
+  linkType: hard
+
+"iframe-resizer-react@npm:^5.1.5":
+  version: 5.1.5
+  resolution: "iframe-resizer-react@npm:5.1.5"
+  dependencies:
+    "@iframe-resizer/react": 5.1.5
+  peerDependencies:
+    react: ^16.13.1 || >= 18.0.0
+    react-dom: ^16.13.1 || >= 18.0.0
+  checksum: 3c3928425aca9ee388338d9dca3a35f8147411d00ca47d168736d2fa4a5ba4a80ae26f87a2dc26baf61a04b0dfe00230f69e2a9b835c57a42d60ad763183a812
   languageName: node
   linkType: hard
 
@@ -20799,6 +20840,15 @@ __metadata:
   dependencies:
     makeerror: 1.0.12
   checksum: ad7a257ea1e662e57ef2e018f97b3c02a7240ad5093c392186ce0bcf1f1a60bbadd520d073b9beb921ed99f64f065efb63dfc8eec689a80e569f93c1c5d5e16c
+  languageName: node
+  linkType: hard
+
+"warning@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "warning@npm:4.0.3"
+  dependencies:
+    loose-envify: ^1.0.0
+  checksum: 4f2cb6a9575e4faf71ddad9ad1ae7a00d0a75d24521c193fa464f30e6b04027bd97aa5d9546b0e13d3a150ab402eda216d59c1d0f2d6ca60124d96cd40dfa35c
   languageName: node
   linkType: hard
 
