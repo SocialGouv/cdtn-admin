@@ -28,7 +28,7 @@ export default function handler(
   const cleanParams: Record<string, string | string[]> = {};
   Object.entries(params).forEach(([key, value]) => {
     if (value) {
-      cleanParams[key] = Array.isArray(value) ? value : value;
+      cleanParams[key] = value;
     }
   });
 
