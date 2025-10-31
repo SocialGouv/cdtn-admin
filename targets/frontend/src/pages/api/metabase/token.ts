@@ -1,4 +1,3 @@
-// src/pages/api/metabase/token.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { sign } from "jsonwebtoken";
 
@@ -15,7 +14,6 @@ export default function handler(
 ) {
   const { dashboard, ...params } = req.query;
 
-  // --- Validation dashboard ---
   if (!dashboard || Array.isArray(dashboard)) {
     return res.status(400).json({ error: "Paramètre 'dashboard' requis" });
   }
@@ -24,7 +22,6 @@ export default function handler(
     return res.status(400).json({ error: "dashboard doit être un nombre" });
   }
 
-  // --- Nettoyage des params ---
   const cleanParams: Record<string, string | string[]> = {};
   Object.entries(params).forEach(([key, value]) => {
     if (value) {
@@ -34,10 +31,9 @@ export default function handler(
 
   const payload = {
     resource: { dashboard: dashboardId },
-    params: cleanParams, // ← TOUS les params
+    params: cleanParams,
     exp: Math.round(Date.now() / 1000) + 10 * 60,
   };
-  console.log("payload", payload);
 
   try {
     const token = sign(payload, METABASE_SECRET_KEY);
