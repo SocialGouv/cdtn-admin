@@ -40,7 +40,6 @@ export const useQuestionSlugQuery = ({ questionId }: QueryProps): Result => {
     },
   });
 
-  console.log("data", data);
   return {
     data: data?.generic_answer?.[0]?.document?.slug ?? "",
     fetching,
