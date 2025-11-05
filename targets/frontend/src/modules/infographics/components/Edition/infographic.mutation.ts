@@ -5,11 +5,24 @@ import {
   FilesUpdateColumn,
   InfographicInsertInput
 } from "../graphql.type";
+import { LegiReference } from "../../../../components/forms/LegiReferences/type";
+import { OtherReference } from "../../../../components/forms/OtherReferences/type";
 
 const updateInfographicQuery = gql`
   mutation UpdateInfographic(
+    $id: uuid = ""
     $infographic: infographic_infographic_insert_input!
   ) {
+    delete_infographic_infographic_other_references(
+      where: { infographicId: { _eq: $id } }
+    ) {
+      affected_rows
+    }
+    delete_infographic_infographic_legi_references(
+      where: { infographicId: { _eq: $id } }
+    ) {
+      affected_rows
+    }
     insert_infographic_infographic_one(
       object: $infographic
       on_conflict: {
@@ -36,6 +49,7 @@ export type MutationResult = {
 };
 
 type MutationGraphQLProps = {
+  id: string;
   infographic: InfographicInsertInput;
 };
 
@@ -52,6 +66,7 @@ export const useModelUpdateMutation = (): MutationFn => {
   >(updateInfographicQuery);
   const resultFunction = async (data: MutationProps) => {
     const result = await executeUpdate({
+      id: data.id,
       infographic: {
         id: data.id,
         title: data.title,
@@ -91,6 +106,12 @@ export const useModelUpdateMutation = (): MutationFn => {
             ]
           }
         },
+        infographic_legi_references: {
+          data: formatLegiReferences(data.legiReferences)
+        },
+        infographic_other_references: {
+          data: formatOtherReferences(data.otherReferences)
+        },
         displayDate: data.displayDate
       }
     });
@@ -103,4 +124,17 @@ export const useModelUpdateMutation = (): MutationFn => {
     return result.data?.insert_infographic_infographic_one;
   };
   return resultFunction;
+};
+
+const formatLegiReferences = (refs: LegiReference[]) => {
+  return refs.map((ref) => ({
+    articleId: ref.legiArticle.id
+  }));
+};
+
+const formatOtherReferences = (refs: OtherReference[]) => {
+  return refs.map((ref) => ({
+    label: ref.label,
+    url: ref.url
+  }));
 };

@@ -26,6 +26,26 @@ export type FilesObjRelInsertInput = {
   on_conflict?: FilesOnConflict;
 };
 
+export type InfographicLegiReferencesInsertInput = {
+  articleId?: string;
+};
+
+export type InfographicLegiReferencesArrRelInsertInput = {
+  data: InfographicLegiReferencesInsertInput[];
+};
+
+export type Infographic_Other_References_Insert_Input = {
+  id?: string;
+  label?: string;
+  model?: string;
+  modelId?: string;
+  url?: string;
+};
+
+export type InfographicOtherReferencesArrRelInsertInput = {
+  data: Infographic_Other_References_Insert_Input[];
+};
+
 export type InfographicInsertInput = {
   createdAt?: string;
   description?: string;
@@ -40,4 +60,6 @@ export type InfographicInsertInput = {
   title?: string;
   updatedAt?: string;
   displayDate?: string;
+  infographic_legi_references?: InfographicLegiReferencesArrRelInsertInput;
+  infographic_other_references?: InfographicOtherReferencesArrRelInsertInput;
 };

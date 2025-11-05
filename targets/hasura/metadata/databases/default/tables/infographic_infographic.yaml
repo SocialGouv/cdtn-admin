@@ -28,6 +28,20 @@ object_relationships:
     using:
       foreign_key_constraint_on: svg
 array_relationships:
+  - name: infographic_legi_references
+    using:
+      foreign_key_constraint_on:
+        column: infographic_id
+        table:
+          name: infographic_legi_references
+          schema: infographic
+  - name: infographic_other_references
+    using:
+      foreign_key_constraint_on:
+        column: infographic_id
+        table:
+          name: infographic_other_references
+          schema: infographic
   - name: informations_contents_blocks
     using:
       foreign_key_constraint_on:

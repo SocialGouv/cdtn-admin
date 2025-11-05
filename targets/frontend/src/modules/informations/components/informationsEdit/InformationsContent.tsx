@@ -6,7 +6,7 @@ import {
   AccordionSummary,
   IconButton,
   Button,
-  Typography,
+  Typography
 } from "@mui/material";
 import { styled } from "@mui/system";
 import React from "react";
@@ -42,26 +42,25 @@ export const InformationsContent = ({
   last,
   onDown,
   onUp,
-  onDelete,
+  onDelete
 }: InformationBlockProps): JSX.Element => {
   const title = useWatch({ name: `${name}.title`, control });
   const {
     fields: blocks,
     swap: swapBlock,
-    remove: removeBlock,
-    append: appendBlock,
+    remove: removeBlock
   } = useFieldArray<Information, `contents.${number}.blocks`>({
     control,
-    name: `${name}.blocks`,
+    name: `${name}.blocks`
   });
   const {
     fields: references,
     swap: swapReference,
     remove: removeReference,
-    append: appendReference,
+    append: appendReference
   } = useFieldArray<Information, `contents.${number}.references`>({
     control,
-    name: `${name}.references`,
+    name: `${name}.references`
   });
 
   return (
@@ -120,61 +119,53 @@ export const InformationsContent = ({
                 }}
               ></InformationsBlock>
             ))}
-            <Button
-              variant="outlined"
-              type="button"
-              onClick={() =>
-                appendBlock({
-                  type: "markdown",
-                  content: "",
-                })
-              }
-            >
-              Ajouter un bloc
-            </Button>
-            <Typography variant="h6">References</Typography>
-            {!!references.length && (
-              <FormRadioGroup
-                name={`${name}.referenceLabel`}
-                label="Libellé de référence"
-                control={control}
-                options={[
-                  {
-                    label: "Références juridiques",
-                    value: "Références juridiques",
-                  },
-                  {
-                    label: "Liens utiles",
-                    value: "Liens utiles",
-                  },
-                ]}
-              />
+            {blocks.filter((i) => i.type === "graphic").length === 0 && (
+              <>
+                <Typography variant="h6">References</Typography>
+                {!!references.length && (
+                  <FormRadioGroup
+                    name={`${name}.referenceLabel`}
+                    label="Libellé de référence"
+                    control={control}
+                    options={[
+                      {
+                        label: "Références juridiques",
+                        value: "Références juridiques"
+                      },
+                      {
+                        label: "Liens utiles",
+                        value: "Liens utiles"
+                      }
+                    ]}
+                  />
+                )}
+                {references.map(({ id }, index) => (
+                  <InformationsReference
+                    key={id}
+                    name={`${name}.references.${index}`}
+                    control={control}
+                    first={index === 0}
+                    last={index === references.length - 1}
+                    onDown={() => swapReference(index, index + 1)}
+                    onUp={() => swapReference(index, index - 1)}
+                    onDelete={() => removeReference(index)}
+                  ></InformationsReference>
+                ))}
+                <Button
+                  variant="outlined"
+                  type="button"
+                  onClick={() =>
+                    appendReference({
+                      title: "",
+                      type: "external",
+                      url: ""
+                    })
+                  }
+                >
+                  Ajouter une Référence
+                </Button>
+              </>
             )}
-            {references.map(({ id }, index) => (
-              <InformationsReference
-                key={id}
-                name={`${name}.references.${index}`}
-                control={control}
-                first={index === 0}
-                last={index === references.length - 1}
-                onDown={() => swapReference(index, index + 1)}
-                onUp={() => swapReference(index, index - 1)}
-                onDelete={() => removeReference(index)}
-              ></InformationsReference>
-            ))}
-            <Button
-              variant="outlined"
-              type="button"
-              onClick={() =>
-                appendReference({
-                  title: "",
-                  type: "external",
-                  url: "",
-                })
-              }
-            >
-              Ajouter une Référence
-            </Button>
           </Stack>
         </AccordionDetails>
       </StyledAccordion>

@@ -1,6 +1,8 @@
 import { gql, useMutation } from "urql";
 import { FormDataResult } from "../Common";
 import { InfographicInsertInput } from "../graphql.type";
+import { LegiReference } from "../../../../components/forms/LegiReferences/type";
+import { OtherReference } from "../../../../components/forms/OtherReferences/type";
 
 const insertInfographicQuery = gql`
   mutation InsertInfographic(
@@ -44,6 +46,10 @@ export const useInfographicInsertMutation = (): MutationFn => {
         pdfFile: {
           data: data.pdfFile
         },
+        infographic_legi_references: formatLegiReferences(data.legiReferences),
+        infographic_other_references: formatOtherReferences(
+          data.otherReferences
+        ),
         displayDate: data.displayDate
       }
     });
@@ -56,4 +62,25 @@ export const useInfographicInsertMutation = (): MutationFn => {
     return result.data?.insert_infographic_infographic_one;
   };
   return resultFunction;
+};
+
+const formatLegiReferences = (
+  refs: LegiReference[]
+): InfographicInsertInput["infographic_legi_references"] => {
+  return {
+    data: refs.map((ref) => ({
+      articleId: ref.legiArticle.id
+    }))
+  };
+};
+
+const formatOtherReferences = (
+  refs: OtherReference[]
+): InfographicInsertInput["infographic_other_references"] => {
+  return {
+    data: refs.map((ref) => ({
+      label: ref.label,
+      url: ref.url
+    }))
+  };
 };
