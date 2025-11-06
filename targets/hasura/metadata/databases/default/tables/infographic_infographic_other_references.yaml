@@ -1,0 +1,49 @@
+table:
+  name: infographic_other_references
+  schema: infographic
+configuration:
+  column_config:
+    infographic_id:
+      custom_name: infographicId
+  custom_column_names:
+    infographic_id: infographicId
+  custom_root_fields: {}
+object_relationships:
+  - name: infographic
+    using:
+      foreign_key_constraint_on: infographic_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - label
+        - url
+        - id
+        - infographic_id
+    comment: ""
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - label
+        - url
+        - id
+        - infographic_id
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - infographic_id
+        - label
+        - url
+      filter: {}
+      check: null
+    comment: ""
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""

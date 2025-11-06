@@ -1,5 +1,9 @@
 import { z } from "zod";
 import { fileSchema } from "../common/type";
+import {
+  legiReferenceSchema,
+  otherReferenceSchema
+} from "../../components/contributions";
 
 export const infographicSchema = z.object({
   id: z.string().uuid().optional(),
@@ -32,7 +36,9 @@ export const infographicSchema = z.object({
     })
     .min(1, "Une transcription de l'infographie doit être renseignée"),
   svgFile: fileSchema,
-  pdfFile: fileSchema
+  pdfFile: fileSchema,
+  legiReferences: z.array(legiReferenceSchema),
+  otherReferences: z.array(otherReferenceSchema)
 });
 
 export type Infographic = z.infer<typeof infographicSchema>;

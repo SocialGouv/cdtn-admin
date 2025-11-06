@@ -4,6 +4,7 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { Infographic } from "./type";
 import { InfographicTemplateDoc } from "@socialgouv/cdtn-types/build/hasura/infographic";
+import { InfographicTemplateReference } from "@socialgouv/cdtn-types/src/hasura/infographic";
 
 export const mapInfographicToDocument = (
   data: Infographic,
@@ -30,7 +31,23 @@ export const mapInfographicToDocument = (
       svgFilesizeOctet: parseInt(data.svgFile.size ?? "0"),
       pdfFilename: data.pdfFile.url,
       pdfFilesizeOctet: parseInt(data.pdfFile.size ?? "0"),
-      transcription: data.transcription
+      transcription: data.transcription,
+      references: [
+        ...data.legiReferences.map(
+          (ref): InfographicTemplateReference => ({
+            type: "legi",
+            url: ref.legiArticle.id,
+            title: ref.legiArticle.label
+          })
+        ),
+        ...data.otherReferences.map(
+          (ref): InfographicTemplateReference => ({
+            type: "external",
+            url: ref.url,
+            title: ref.label
+          })
+        )
+      ]
     }
   };
 };

@@ -25,6 +25,18 @@ export const infographicsQuery = gql`
         size
         altText
       }
+      legiReferences: infographic_legi_references {
+        legiArticle {
+          cid
+          id
+          label
+        }
+      }
+      otherReferences: infographic_other_references {
+        id
+        label
+        url
+      }
     }
   }
 `;

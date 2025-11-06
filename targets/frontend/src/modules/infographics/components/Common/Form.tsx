@@ -18,6 +18,8 @@ import { LoadingButton } from "../../../../components/button/LoadingButton";
 import { ALLOWED_PDF, ALLOWED_SVG } from "../../../../lib/secu";
 import { buildFilePathUrl } from "../../../../components/utils";
 import Image from "next/image";
+import { LegiReferenceInput } from "../../../../components/contributions/answers/references";
+import { FormOtherReferences } from "../../../../components/forms/OtherReferences";
 
 type FormData = Partial<z.infer<typeof infographicSchemaInsert>>;
 
@@ -36,7 +38,9 @@ const defaultValues: FormData = {
   metaTitle: "",
   description: "",
   metaDescription: "",
-  transcription: ""
+  transcription: "",
+  legiReferences: [],
+  otherReferences: []
 };
 
 export const infographicSchemaInsert = infographicSchema
@@ -125,7 +129,9 @@ export const InfographicForm = ({
               url: newData.newPdf[0].path,
               size: `${newData.newPdf[0].size}`
             }
-          : infographic?.pdfFile!
+          : infographic?.pdfFile!,
+        legiReferences: newData.legiReferences!,
+        otherReferences: newData.otherReferences!
       });
       setSnack({
         open: true,
@@ -224,6 +230,12 @@ export const InfographicForm = ({
             }}
             defaultFileName={infographic?.pdfFile?.url}
           />
+        </FormControl>
+        <FormControl>
+          <LegiReferenceInput name="legiReferences" control={control} />
+        </FormControl>
+        <FormControl>
+          <FormOtherReferences name="otherReferences" control={control} />
         </FormControl>
         <Stack direction="row" spacing={2} justifyContent="end">
           <Button variant="contained" color="primary" type="submit">
