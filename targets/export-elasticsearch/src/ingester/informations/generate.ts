@@ -32,9 +32,22 @@ export const generateEditorialContents = (
             );
             if (!infographic) {
               throw new Error(
-                `No infographic found for information page ${document.title}/${document.cdtnId} (block: ${JSON.stringify(block)})`
+                `No infographic found for information page ${document.title}/${
+                  document.cdtnId
+                } (block: ${JSON.stringify(block)})`
               );
             }
+            content.references = [
+              {
+                label: "Références juridiques",
+                links: infographic.references.map((ref, index) => ({
+                  url: ref.url,
+                  type: ref.type,
+                  title: ref.title,
+                  order: index + 1
+                }))
+              }
+            ];
             return {
               ...block,
               size: infographic.pdfFilesizeOctet,
