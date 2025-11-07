@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.60.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.59.0...v2.60.0) (2025-11-07)
+
+### Features
+
+- **infographic:** ajout des infographies aux alertes ([#1608](https://github.com/SocialGouv/cdtn-admin/issues/1608)) ([f33f2b4](https://github.com/SocialGouv/cdtn-admin/commit/f33f2b4fca5f05d760d18226f1c06596c04b06d2))
+- **infographic:** ajout des références sur les infographies ([#1607](https://github.com/SocialGouv/cdtn-admin/issues/1607)) ([c611ebb](https://github.com/SocialGouv/cdtn-admin/commit/c611ebb989adcec43dcaa759832873c4863bd6bc))
+
 # [2.59.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.5...v2.59.0) (2025-10-30)
 
 ### Bug Fixes
