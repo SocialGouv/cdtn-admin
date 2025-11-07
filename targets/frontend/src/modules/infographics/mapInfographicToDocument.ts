@@ -32,22 +32,21 @@ export const mapInfographicToDocument = (
       pdfFilename: data.pdfFile.url,
       pdfFilesizeOctet: parseInt(data.pdfFile.size ?? "0"),
       transcription: data.transcription,
-      references: [
-        ...data.legiReferences.map(
-          (ref): InfographicTemplateReference => ({
-            type: "legi",
-            url: ref.legiArticle.id,
-            title: ref.legiArticle.label
-          })
-        ),
-        ...data.otherReferences.map(
-          (ref): InfographicTemplateReference => ({
-            type: "external",
-            url: ref.url,
-            title: ref.label
+      references: data.legiReferences
+        .map(
+          (item): InfographicTemplateReference => ({
+            url: `https://www.legifrance.gouv.fr/codes/article_lc/${item.legiArticle.cid}`,
+            title: item.legiArticle.label,
+            type: "legi"
           })
         )
-      ]
+        .concat(
+          data.otherReferences.map((item) => ({
+            url: item.url ?? "",
+            title: item.label,
+            type: "external"
+          }))
+        )
     }
   };
 };

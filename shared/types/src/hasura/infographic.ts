@@ -21,7 +21,7 @@ export type InfographicTemplateDoc = {
 };
 
 export type InfographicTemplateReference = {
-  url: string | undefined;
+  url: string;
   title: string;
   type: "external" | "legi";
 };

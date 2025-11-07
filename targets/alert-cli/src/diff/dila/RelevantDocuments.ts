@@ -2,6 +2,7 @@ import getContribReferences from "./extractReferences/contribution";
 import getEditorialContentReferences from "./extractReferences/editorialContents";
 import getTravailEmploiReferences from "./extractReferences/ficheTravailEmploi";
 import getMailTemplateReferences from "./extractReferences/mailTemplates";
+import getInfographicReferences from "./extractReferences/infographics";
 import getSimulatorReferences from "./extractReferences/simulators";
 import { DilaChanges } from "./types";
 import { DocumentReferences } from "@socialgouv/cdtn-types";
@@ -9,7 +10,7 @@ import { DocumentReferences } from "@socialgouv/cdtn-types";
 export interface RelevantDocumentsExtractor {
   extractReferences({
     modified,
-    removed,
+    removed
   }: Pick<DilaChanges, "modified" | "removed">): Promise<DocumentReferences[]>;
 }
 
@@ -18,18 +19,20 @@ export class RelevantDocumentsExtractorImpl
 {
   async extractReferences({
     modified,
-    removed,
+    removed
   }: Pick<DilaChanges, "modified" | "removed">): Promise<DocumentReferences[]> {
     const contribReferences = await getContribReferences();
     const travailEmploiReferences = await getTravailEmploiReferences();
     const mailTemplateRef = await getMailTemplateReferences();
     const editorialContentRef = await getEditorialContentReferences();
     const simulatorRef = await getSimulatorReferences();
+    const infographicRef = await getInfographicReferences();
     const docsReferences = contribReferences.concat(
       travailEmploiReferences,
       mailTemplateRef,
       editorialContentRef,
-      simulatorRef
+      simulatorRef,
+      infographicRef
     );
     return docsReferences.flatMap((item) => {
       const references = item.references.filter(
