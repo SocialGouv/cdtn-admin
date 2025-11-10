@@ -6493,23 +6493,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/core@npm:5.1.0":
+"@urql/core@npm:5.1.0, @urql/core@npm:>=4.1.0, @urql/core@npm:^5.0.0":
   version: 5.1.0
   resolution: "@urql/core@npm:5.1.0"
   dependencies:
     "@0no-co/graphql.web": ^1.0.5
     wonka: ^6.3.2
   checksum: 63b8c1f25a5e3a50d84aeae63141e06ee8913c3a53d936fcb8453108034e50938fc774da298f50358ec2f3825bd62b2a3e4754ab1c9107dd9a79cb0c9c0d2a12
-  languageName: node
-  linkType: hard
-
-"@urql/core@npm:>=4.1.0, @urql/core@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@urql/core@npm:5.0.0"
-  dependencies:
-    "@0no-co/graphql.web": ^1.0.5
-    wonka: ^6.3.2
-  checksum: a7e546486c5a940128ed7c1c88b41b1d7d501725137f6e3050258717ed71d1172d21039de2a34aa0713adb264c95c5857029be6de0fafabbc541bb364255e055
   languageName: node
   linkType: hard
 
@@ -11103,7 +11093,7 @@ __metadata:
     mime-types: ^2.1.35
     next: 14.2.28
     next-auth: ^4.24.7
-    nodemailer: ^6.9.13
+    nodemailer: ^7.0.0
     p-limit: ^4.0.0
     p-map: ^4.0.0
     polished: ^4.1.3
@@ -15719,10 +15709,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:^6.9.13":
-  version: 6.9.13
-  resolution: "nodemailer@npm:6.9.13"
-  checksum: 1b591ef480be2ff69480127cbff819e6593b1ef263b6f920e1a4e83e40280582daf7a14a809ef92f9828e2a70bdb3ce22b11924e209f2afe4975f9ff37e08e9d
+"nodemailer@npm:^7.0.0":
+  version: 7.0.10
+  resolution: "nodemailer@npm:7.0.10"
+  checksum: 1a577e6d4b8855f136f556ff2de6e37c79a5bf2a80e8269449c88df16b7f4034937c15d9027c6a95af73d179aa78886f5ddb451aede4c14019756aa61f3baa20
   languageName: node
   linkType: hard
 
@@ -19638,21 +19628,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:^6.1.0, tar@npm:^6.1.11, tar@npm:^6.1.2":
-  version: 6.1.15
-  resolution: "tar@npm:6.1.15"
-  dependencies:
-    chownr: ^2.0.0
-    fs-minipass: ^2.0.0
-    minipass: ^5.0.0
-    minizlib: ^2.1.1
-    mkdirp: ^1.0.3
-    yallist: ^4.0.0
-  checksum: f23832fceeba7578bf31907aac744ae21e74a66f4a17a9e94507acf460e48f6db598c7023882db33bab75b80e027c21f276d405e4a0322d58f51c7088d428268
-  languageName: node
-  linkType: hard
-
-"tar@npm:^6.2.0":
+"tar@npm:^6.1.0, tar@npm:^6.1.11, tar@npm:^6.1.2, tar@npm:^6.2.0":
   version: 6.2.1
   resolution: "tar@npm:6.2.1"
   dependencies:
