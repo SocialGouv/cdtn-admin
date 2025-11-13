@@ -7,6 +7,7 @@ import {
 } from "../graphql.type";
 import { LegiReference } from "../../../../components/forms/LegiReferences/type";
 import { OtherReference } from "../../../../components/forms/OtherReferences/type";
+import { CdtnReference } from "../../../../components/forms/CdtnReferences/type";
 
 const updateInfographicQuery = gql`
   mutation UpdateInfographic(
@@ -19,6 +20,11 @@ const updateInfographicQuery = gql`
       affected_rows
     }
     delete_infographic_infographic_legi_references(
+      where: { infographicId: { _eq: $id } }
+    ) {
+      affected_rows
+    }
+    delete_infographic_infographic_cdtn_references(
       where: { infographicId: { _eq: $id } }
     ) {
       affected_rows
@@ -112,6 +118,9 @@ export const useModelUpdateMutation = (): MutationFn => {
         infographic_other_references: {
           data: formatOtherReferences(data.otherReferences)
         },
+        infographic_cdtn_references: {
+          data: formatCdtnReferences(data.cdtnReferences)
+        },
         displayDate: data.displayDate
       }
     });
@@ -136,5 +145,11 @@ const formatOtherReferences = (refs: OtherReference[]) => {
   return refs.map((ref) => ({
     label: ref.label,
     url: ref.url
+  }));
+};
+
+const formatCdtnReferences = (refs: CdtnReference[]) => {
+  return refs.map((ref) => ({
+    cdtnId: ref.document.cdtnId
   }));
 };

@@ -11,6 +11,7 @@
 - "!include contribution_question_messages.yaml"
 - "!include contribution_questions.yaml"
 - "!include infographic_infographic.yaml"
+- "!include infographic_infographic_cdtn_references.yaml"
 - "!include infographic_infographic_legi_references.yaml"
 - "!include infographic_infographic_other_references.yaml"
 - "!include information_informations.yaml"

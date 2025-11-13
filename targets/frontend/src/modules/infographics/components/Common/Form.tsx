@@ -1,9 +1,12 @@
 import { AlertColor, Box, Button, FormControl, Stack } from "@mui/material";
 import {
   DropzoneFile,
+  FormCdtnReferences,
   FormDatePicker,
   FormEditionField,
   FormFileField,
+  FormLegiReferences,
+  FormOtherReferences,
   FormTextField
 } from "src/components/forms";
 
@@ -18,8 +21,6 @@ import { LoadingButton } from "../../../../components/button/LoadingButton";
 import { ALLOWED_PDF, ALLOWED_SVG } from "../../../../lib/secu";
 import { buildFilePathUrl } from "../../../../components/utils";
 import Image from "next/image";
-import { LegiReferenceInput } from "../../../../components/contributions/answers/references";
-import { FormOtherReferences } from "../../../../components/forms/OtherReferences";
 
 type FormData = Partial<z.infer<typeof infographicSchemaInsert>>;
 
@@ -40,7 +41,8 @@ const defaultValues: FormData = {
   metaDescription: "",
   transcription: "",
   legiReferences: [],
-  otherReferences: []
+  otherReferences: [],
+  cdtnReferences: []
 };
 
 export const infographicSchemaInsert = infographicSchema
@@ -66,7 +68,7 @@ export const InfographicForm = ({
   onUpsert,
   onPublish
 }: Props): React.ReactElement => {
-  const { control, handleSubmit, formState, getValues } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       ...defaultValues,
       ...infographic
@@ -76,9 +78,6 @@ export const InfographicForm = ({
     ),
     shouldFocusError: true
   });
-
-  console.log("Form : ", formState.errors);
-  console.log("Form values : ", getValues());
 
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -131,7 +130,8 @@ export const InfographicForm = ({
             }
           : infographic?.pdfFile!,
         legiReferences: newData.legiReferences!,
-        otherReferences: newData.otherReferences!
+        otherReferences: newData.otherReferences!,
+        cdtnReferences: newData.cdtnReferences!
       });
       setSnack({
         open: true,
@@ -232,10 +232,13 @@ export const InfographicForm = ({
           />
         </FormControl>
         <FormControl>
-          <LegiReferenceInput name="legiReferences" control={control} />
+          <FormLegiReferences name="legiReferences" control={control} />
         </FormControl>
         <FormControl>
           <FormOtherReferences name="otherReferences" control={control} />
+        </FormControl>
+        <FormControl>
+          <FormCdtnReferences name="cdtnReferences" control={control} />
         </FormControl>
         <Stack direction="row" spacing={2} justifyContent="end">
           <Button variant="contained" color="primary" type="submit">

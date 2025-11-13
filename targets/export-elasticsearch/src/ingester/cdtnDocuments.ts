@@ -8,7 +8,7 @@ import {
   ElasticFicheTravailEmploi,
   ExportEsStatus,
   FicheTravailEmploiDoc,
-  InfographicTemplateDoc,
+  InfographicTemplateDoc
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-utils";
@@ -18,21 +18,22 @@ import { buildThemes } from "./themes/buildThemes";
 import {
   getDocumentBySource,
   getDocumentBySourceWithRelation,
-} from "./common/fetchCdtnAdminDocuments";
+  getGlossary,
+  populateRelatedDocuments
+} from "./common";
 import { splitArticle } from "./fichesTravailSplitter";
 import {
   fetchContributionDocumentToPublish,
-  generateContributions,
+  generateContributions
 } from "./contributions";
 import { generateAgreements } from "./agreements";
 import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
 import { generatePrequalified } from "./prequalified";
 import { generateEditorialContents } from "./informations/generate";
-import { populateRelatedDocuments } from "./common/populateRelatedDocuments";
 import { mergeRelatedDocumentsToEditorialContents } from "./informations/mergeRelatedDocumentsToEditorialContents";
 import { updateExportStatuses } from "./documents/updateExportStatuses";
-import { getGlossary } from "./common/fetchGlossary";
+import { generateInfographics } from "./infographics";
 
 /**
  * Find duplicate slugs
@@ -49,7 +50,7 @@ export async function getDuplicateSlugs(allDocuments: any) {
   return slugs
     .map((slug: string) => ({
       count: slugs.filter((s: string) => slug === s).length,
-      slug,
+      slug
     }))
     .filter(({ count }: any) => count > 1)
     .reduce(
@@ -68,8 +69,9 @@ export async function cdtnDocumentsGen(
 
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
 
-  const contributionsToPublish =
-    await fetchContributionDocumentToPublish(isProd);
+  const contributionsToPublish = await fetchContributionDocumentToPublish(
+    isProd
+  );
 
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
@@ -78,7 +80,7 @@ export async function cdtnDocumentsGen(
   );
   documentsCount = {
     ...documentsCount,
-    [SOURCES.LETTERS]: modelesDeCourriers.length,
+    [SOURCES.LETTERS]: modelesDeCourriers.length
   };
   await updateDocs(SOURCES.LETTERS, modelesDeCourriers);
 
@@ -86,7 +88,7 @@ export async function cdtnDocumentsGen(
   const tools = await getDocumentBySource(SOURCES.TOOLS, getBreadcrumbs);
   documentsCount = {
     ...documentsCount,
-    [SOURCES.TOOLS]: tools.length,
+    [SOURCES.TOOLS]: tools.length
   };
   await updateDocs(SOURCES.TOOLS, tools);
 
@@ -97,7 +99,7 @@ export async function cdtnDocumentsGen(
   );
   documentsCount = {
     ...documentsCount,
-    [SOURCES.EXTERNALS]: externalTools.length,
+    [SOURCES.EXTERNALS]: externalTools.length
   };
   await updateDocs(SOURCES.EXTERNALS, externalTools);
 
@@ -109,7 +111,7 @@ export async function cdtnDocumentsGen(
   );
   documentsCount = {
     ...documentsCount,
-    [SOURCES.THEMATIC_FILES]: dossiers.length,
+    [SOURCES.THEMATIC_FILES]: dossiers.length
   };
 
   await updateDocs(SOURCES.THEMATIC_FILES, dossiers);
@@ -148,7 +150,7 @@ export async function cdtnDocumentsGen(
 
   documentsCount = {
     ...documentsCount,
-    [SOURCES.CONTRIBUTIONS]: generatedContributions.length,
+    [SOURCES.CONTRIBUTIONS]: generatedContributions.length
   };
 
   await updateDocs(SOURCES.CONTRIBUTIONS, generatedContributions);
@@ -161,7 +163,7 @@ export async function cdtnDocumentsGen(
 
   documentsCount = {
     ...documentsCount,
-    [SOURCES.CCN]: agreementsDocs.length,
+    [SOURCES.CCN]: agreementsDocs.length
   };
 
   await updateDocs(SOURCES.CCN, agreementsDocs);
@@ -171,7 +173,7 @@ export async function cdtnDocumentsGen(
 
   documentsCount = {
     ...documentsCount,
-    [SOURCES.SHEET_SP]: fichesSp.length,
+    [SOURCES.SHEET_SP]: fichesSp.length
   };
   await updateDocs(SOURCES.SHEET_SP, fichesSp);
 
@@ -188,9 +190,9 @@ export async function cdtnDocumentsGen(
         html: section.htmlWithGlossary,
         anchor: section.anchor,
         references: section.references,
-        title: section.title,
+        title: section.title
       })),
-      source: SOURCES.SHEET_MT_PAGE,
+      source: SOURCES.SHEET_MT_PAGE
     })
   );
   logger.info(
@@ -198,7 +200,7 @@ export async function cdtnDocumentsGen(
   );
   documentsCount = {
     ...documentsCount,
-    [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length,
+    [SOURCES.SHEET_MT_PAGE]: fichesMTWithGlossary.length
   };
 
   await updateDocs(SOURCES.SHEET_MT_PAGE, fichesMTWithGlossary);
@@ -214,12 +216,12 @@ export async function cdtnDocumentsGen(
     return {
       ...fiche,
       breadcrumbs,
-      source: SOURCES.SHEET_MT,
+      source: SOURCES.SHEET_MT
     };
   });
   documentsCount = {
     ...documentsCount,
-    [SOURCES.SHEET_MT]: splittedFichesMt.length,
+    [SOURCES.SHEET_MT]: splittedFichesMt.length
   };
   await updateDocs(SOURCES.SHEET_MT, splittedFichesMt);
 
@@ -227,7 +229,7 @@ export async function cdtnDocumentsGen(
   const themesDoc = buildThemes(themes, getBreadcrumbs);
   documentsCount = {
     ...documentsCount,
-    [SOURCES.THEMES]: themesDoc.length,
+    [SOURCES.THEMES]: themesDoc.length
   };
 
   await updateDocs(SOURCES.THEMES, themesDoc);
@@ -248,15 +250,15 @@ export async function cdtnDocumentsGen(
         );
         return {
           ...ref,
-          description: foundContrib?.description,
+          description: foundContrib?.description
         };
       }
       return ref;
-    }),
+    })
   }));
   documentsCount = {
     ...documentsCount,
-    [SOURCES.HIGHLIGHTS]: highlightsWithContrib.length,
+    [SOURCES.HIGHLIGHTS]: highlightsWithContrib.length
   };
   await updateDocs(SOURCES.HIGHLIGHTS, highlightsWithContrib);
 
@@ -264,7 +266,7 @@ export async function cdtnDocumentsGen(
   const prequalified = await generatePrequalified(getBreadcrumbs);
   documentsCount = {
     ...documentsCount,
-    [SOURCES.PREQUALIFIED]: prequalified.length,
+    [SOURCES.PREQUALIFIED]: prequalified.length
   };
   await updateDocs(SOURCES.PREQUALIFIED, prequalified);
 
@@ -272,31 +274,32 @@ export async function cdtnDocumentsGen(
   const glossaryTerms = await getGlossary();
   documentsCount = {
     ...documentsCount,
-    [SOURCES.GLOSSARY]: glossaryTerms.length,
+    [SOURCES.GLOSSARY]: glossaryTerms.length
   };
   await updateDocs(SOURCES.GLOSSARY, [
     {
       data: glossaryTerms,
-      source: SOURCES.GLOSSARY,
-    },
+      source: SOURCES.GLOSSARY
+    }
   ]);
 
   logger.info("=== Code du travail ===");
   const cdtDoc = await getDocumentBySource(SOURCES.CDT);
   documentsCount = {
     ...documentsCount,
-    [SOURCES.CDT]: cdtDoc.length,
+    [SOURCES.CDT]: cdtDoc.length
   };
   await updateDocs(SOURCES.CDT, cdtDoc);
 
   logger.info("=== Infographies ===");
-  const infographics = await getDocumentBySource<InfographicTemplateDoc>(
+  const infographicDocs = await getDocumentBySource<InfographicTemplateDoc>(
     SOURCES.INFOGRAPHICS,
     getBreadcrumbs
   );
+  const infographics = await generateInfographics(infographicDocs);
   documentsCount = {
     ...documentsCount,
-    [SOURCES.INFOGRAPHICS]: infographics.length,
+    [SOURCES.INFOGRAPHICS]: infographics.length
   };
   await updateDocs(SOURCES.INFOGRAPHICS, infographics);
 
@@ -307,11 +310,11 @@ export async function cdtnDocumentsGen(
   );
   const {
     documents: editorialContents,
-    relatedIdsDocuments: relatedIdsEditorialDocuments,
+    relatedIdsDocuments: relatedIdsEditorialDocuments
   } = generateEditorialContents(documents, infographics);
   documentsCount = {
     ...documentsCount,
-    [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
+    [SOURCES.EDITORIAL_CONTENT]: editorialContents.length
   };
 
   logger.info("=== Merge Related Documents ===");
@@ -327,7 +330,7 @@ export async function cdtnDocumentsGen(
     ...fichesMTWithGlossary,
     ...splittedFichesMt,
     ...highlightsWithContrib,
-    ...cdtDoc,
+    ...cdtDoc
   ];
 
   const relatedDocuments = populateRelatedDocuments(
@@ -348,7 +351,7 @@ export async function cdtnDocumentsGen(
   logger.info("=== Save the documents length ===");
   documentsCount = {
     ...documentsCount,
-    total: Object.values(documentsCount).reduce((a: any, b: any) => a + b, 0),
+    total: Object.values(documentsCount).reduce((a: any, b: any) => a + b, 0)
   };
   await updateExportEsStatusWithDocumentsCount(
     documentsCount as ExportEsStatus["documentsCount"]

@@ -18,6 +18,11 @@ export type InfographicTemplateDoc = {
   meta_description: string;
   transcription: string;
   references: InfographicTemplateReference[];
+  cdtnReferences: InfographicLinkedContent[];
+};
+
+export type InfographicLinkedContent = {
+  cdtnId: string;
 };
 
 export type InfographicTemplateReference = {
