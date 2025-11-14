@@ -35,16 +35,16 @@ export type InfographicListQueryResult = {
 };
 
 export const useListInfographicQuery = ({
-  search
+  search,
 }: InfographicListQueryProps): InfographicListQueryResult => {
   const [result] = useQuery<QueryResult>({
     query: listInfographicsQuery,
     requestPolicy: "cache-and-network",
     variables: {
-      search: (search?.length ?? 0) > 0 ? `%${search}%` : "%"
-    }
+      search: (search?.length ?? 0) > 0 ? `%${search}%` : "%",
+    },
   });
   return {
-    rows: result.data?.infographics ?? []
+    rows: result.data?.infographics ?? [],
   };
 };

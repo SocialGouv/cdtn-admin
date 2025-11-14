@@ -91,7 +91,10 @@ export type DocumentReference = Pick<
   "dila_cid" | "dila_container_id" | "dila_id" | "title" | "url"
 >;
 
-export type DocumentInfo = Pick<HasuraDocument<any>, "source" | "title" | "slug"> & {
+export type DocumentInfo = Pick<
+  HasuraDocument<any>,
+  "source" | "title" | "slug"
+> & {
   id: string;
 };
 

@@ -189,7 +189,8 @@ jobs:
           buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
 
   kontinuous:
-    needs: [build-frontend, build-ingester, build-alert, build-export, build-hasura]
+    needs:
+      [build-frontend, build-ingester, build-alert, build-export, build-hasura]
     name: "Deploy on Kubernetes 🐳"
     uses: socialgouv/workflows/.github/workflows/use-ks-gh-preproduction-atlas.yaml@v1
     secrets: inherit

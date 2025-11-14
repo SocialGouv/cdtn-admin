@@ -1,5 +1,5 @@
-import {SOURCES} from "@socialgouv/cdtn-utils";
-import {DocumentElasticWithSource} from "./common";
+import { SOURCES } from "@socialgouv/cdtn-utils";
+import { DocumentElasticWithSource } from "./common";
 
 export type ToolAction = "Estimer" | "Calculer" | "Consulter";
 

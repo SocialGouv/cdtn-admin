@@ -11,5 +11,4 @@ spec:
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   schedule: 30 2 * * *
-  jobTemplate:
-    {{- include "job.alert" . | nindent 4 }}
+  jobTemplate: { { - include "job.alert" . | nindent 4 } }

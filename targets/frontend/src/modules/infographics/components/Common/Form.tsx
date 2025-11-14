@@ -7,7 +7,7 @@ import {
   FormFileField,
   FormLegiReferences,
   FormOtherReferences,
-  FormTextField
+  FormTextField,
 } from "src/components/forms";
 
 import { useForm } from "react-hook-form";
@@ -42,7 +42,7 @@ const defaultValues: FormData = {
   transcription: "",
   legiReferences: [],
   otherReferences: [],
-  cdtnReferences: []
+  cdtnReferences: [],
 };
 
 export const infographicSchemaInsert = infographicSchema
@@ -52,31 +52,31 @@ export const infographicSchemaInsert = infographicSchema
       .min(1, "Une infographie au format SVG doit être renseignée"),
     newPdf: z
       .array(z.custom<DropzoneFile>())
-      .min(1, "Le format PDF de l'infographie doit être renseigné")
+      .min(1, "Le format PDF de l'infographie doit être renseigné"),
   })
   .omit({ updatedAt: true, createdAt: true, pdfFile: true, svgFile: true });
 
 export const infographicSchemaUpdate = infographicSchema
   .extend({
     newSvg: z.array(z.custom<DropzoneFile>()).optional(),
-    newPdf: z.array(z.custom<DropzoneFile>()).optional()
+    newPdf: z.array(z.custom<DropzoneFile>()).optional(),
   })
   .omit({ updatedAt: true, createdAt: true, pdfFile: true, svgFile: true });
 
 export const InfographicForm = ({
   infographic,
   onUpsert,
-  onPublish
+  onPublish,
 }: Props): React.ReactElement => {
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       ...defaultValues,
-      ...infographic
+      ...infographic,
     },
     resolver: zodResolver(
       infographic ? infographicSchemaUpdate : infographicSchemaInsert
     ),
-    shouldFocusError: true
+    shouldFocusError: true,
   });
 
   const [snack, setSnack] = useState<{
@@ -84,7 +84,7 @@ export const InfographicForm = ({
     severity?: AlertColor;
     message?: string;
   }>({
-    open: false
+    open: false,
   });
 
   const uploadFile = async (file: DropzoneFile) => {
@@ -92,7 +92,7 @@ export const InfographicForm = ({
     formData.append(file.path, file);
     return new Promise((resolve, reject) => {
       request(`/api/storage`, {
-        body: formData
+        body: formData,
       })
         .then(() => {
           resolve(file);
@@ -117,7 +117,7 @@ export const InfographicForm = ({
         svgFile: newData.newSvg
           ? {
               url: newData.newSvg[0].path,
-              size: `${newData.newSvg[0].size}`
+              size: `${newData.newSvg[0].size}`,
             }
           : infographic?.svgFile!,
         transcription: newData.transcription!,
@@ -126,19 +126,19 @@ export const InfographicForm = ({
         pdfFile: newData.newPdf
           ? {
               url: newData.newPdf[0].path,
-              size: `${newData.newPdf[0].size}`
+              size: `${newData.newPdf[0].size}`,
             }
           : infographic?.pdfFile!,
         legiReferences: newData.legiReferences!,
         otherReferences: newData.otherReferences!,
-        cdtnReferences: newData.cdtnReferences!
+        cdtnReferences: newData.cdtnReferences!,
       });
       setSnack({
         open: true,
         severity: "success",
         message: infographic
           ? "L'infographie a été modifiée avec succès"
-          : "L'infographie a été créée avec succès"
+          : "L'infographie a été créée avec succès",
       });
     } catch (error) {
       console.error("Echec à la sauvegarde", error);
@@ -146,7 +146,7 @@ export const InfographicForm = ({
         open: true,
         severity: "error",
         message:
-          "Une erreur est survenue lors de la sauvegarde de l'infographie"
+          "Une erreur est survenue lors de la sauvegarde de l'infographie",
       });
     }
   };
@@ -201,7 +201,7 @@ export const InfographicForm = ({
             control={control}
             label="Infographie au format SVG"
             accept={{
-              "application/svg": ALLOWED_SVG
+              "application/svg": ALLOWED_SVG,
             }}
             onFileChange={(file) => {
               setUploadSvgFile(file);
@@ -226,7 +226,7 @@ export const InfographicForm = ({
             control={control}
             label="Infographie au format PDF"
             accept={{
-              "application/pdf": ALLOWED_PDF
+              "application/pdf": ALLOWED_PDF,
             }}
             defaultFileName={infographic?.pdfFile?.url}
           />
@@ -255,14 +255,14 @@ export const InfographicForm = ({
                   setSnack({
                     open: true,
                     severity: "success",
-                    message: "L'infographie a été publiée"
+                    message: "L'infographie a été publiée",
                   });
                   setIsPublishing(false);
                 } catch (e: any) {
                   setSnack({
                     open: true,
                     severity: "error",
-                    message: `Erreur lors de la publication du document: ${e.message}`
+                    message: `Erreur lors de la publication du document: ${e.message}`,
                   });
                   setIsPublishing(false);
                 }
@@ -280,7 +280,7 @@ export const InfographicForm = ({
 
 const ImagePreview: React.FC<{ file?: File; defaultValue?: string }> = ({
   file,
-  defaultValue
+  defaultValue,
 }) => {
   const [src, setSrc] = React.useState<string>();
 

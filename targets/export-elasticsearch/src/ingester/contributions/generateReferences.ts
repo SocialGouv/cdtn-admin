@@ -6,7 +6,9 @@ import {
 import { isReferencingGenericContribution } from "./helpers";
 
 export const generateReferences = (
-  contribGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined,
+  contribGeneric:
+    | DocumentElasticWithSource<ContributionDocumentJson>
+    | undefined,
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): ContributionRef[] => {
   if (isReferencingGenericContribution(contrib.contentType)) {

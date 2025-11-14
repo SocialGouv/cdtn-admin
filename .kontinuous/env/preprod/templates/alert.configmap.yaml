@@ -7,4 +7,3 @@ data:
   HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
   API_HOST: https://api.aife.economie.gouv.fr/dila/legifrance-beta/lf-engine-app
   TOKEN_HOST: https://oauth.aife.economie.gouv.fr
-

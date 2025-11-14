@@ -67,19 +67,19 @@ export type InfographicListQueryResult = {
 };
 
 export const useListInfographicQuery = ({
-  id
+  id,
 }: InfographicListQueryProps): InfographicListQueryResult => {
   const [{ data, error, fetching }, reexecuteQuery] = useQuery<QueryResult>({
     query: listInfographicsQuery,
     requestPolicy: "cache-and-network",
     variables: {
-      id
-    }
+      id,
+    },
   });
   return {
     data: data?.infographic,
     error,
     fetching,
-    reexecuteQuery
+    reexecuteQuery,
   };
 };

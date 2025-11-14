@@ -120,7 +120,12 @@ export const Infographic = Node.create<InfographicOptions>({
   addCommands() {
     return {
       setInfographic:
-        (infoTitle: string, infoName: string, pdfName: string, pdfSize: string) =>
+        (
+          infoTitle: string,
+          infoName: string,
+          pdfName: string,
+          pdfSize: string
+        ) =>
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,
@@ -159,7 +164,12 @@ export const Infographic = Node.create<InfographicOptions>({
         },
 
       updateInfographicSrc:
-        (newInfoTitle: string, newInfoName: string, newPdfName: string, newPdfSize: string) =>
+        (
+          newInfoTitle: string,
+          newInfoName: string,
+          newPdfName: string,
+          newPdfSize: string
+        ) =>
         ({ state, chain }) => {
           const { selection } = state;
           const node = selection.$anchor.node();

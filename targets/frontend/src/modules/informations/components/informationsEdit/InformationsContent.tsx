@@ -6,7 +6,7 @@ import {
   AccordionSummary,
   IconButton,
   Button,
-  Typography
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import React from "react";
@@ -42,25 +42,25 @@ export const InformationsContent = ({
   last,
   onDown,
   onUp,
-  onDelete
+  onDelete,
 }: InformationBlockProps): JSX.Element => {
   const title = useWatch({ name: `${name}.title`, control });
   const {
     fields: blocks,
     swap: swapBlock,
-    remove: removeBlock
+    remove: removeBlock,
   } = useFieldArray<Information, `contents.${number}.blocks`>({
     control,
-    name: `${name}.blocks`
+    name: `${name}.blocks`,
   });
   const {
     fields: references,
     swap: swapReference,
     remove: removeReference,
-    append: appendReference
+    append: appendReference,
   } = useFieldArray<Information, `contents.${number}.references`>({
     control,
-    name: `${name}.references`
+    name: `${name}.references`,
   });
 
   return (
@@ -130,12 +130,12 @@ export const InformationsContent = ({
                     options={[
                       {
                         label: "Références juridiques",
-                        value: "Références juridiques"
+                        value: "Références juridiques",
                       },
                       {
                         label: "Liens utiles",
-                        value: "Liens utiles"
-                      }
+                        value: "Liens utiles",
+                      },
                     ]}
                   />
                 )}
@@ -158,7 +158,7 @@ export const InformationsContent = ({
                     appendReference({
                       title: "",
                       type: "external",
-                      url: ""
+                      url: "",
                     })
                   }
                 >

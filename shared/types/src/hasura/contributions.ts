@@ -23,7 +23,7 @@ export type ContributionsAnswers = {
   updatedAt: string;
   statuses?: ContributionStatus[];
   display_date: string;
-  document?: HasuraDocumentBase | null,
+  document?: HasuraDocumentBase | null;
 };
 
 export type ContributionQuestion = {
@@ -115,9 +115,9 @@ type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
 
 type ContributionDocumentJsonCodeDuTravailReference =
   ContributionDocumentJsonBasic & {
-  type: "cdt";
-  genericAnswerId: string;
-};
+    type: "cdt";
+    genericAnswerId: string;
+  };
 
 export type ContributionDocumentJson =
   | ContributionDocumentJsonContent

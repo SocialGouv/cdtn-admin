@@ -40,15 +40,15 @@ export const THEMABLE_CONTENT = [
   SOURCES.SHEET_SP,
   SOURCES.THEMATIC_FILES,
   SOURCES.TOOLS,
-  SOURCES.INFOGRAPHICS
+  SOURCES.INFOGRAPHICS,
 ];
 
 export function UnThemedContent() {
   const [result] = useQuery({
     query: getUnthemedContentQuery,
     variables: {
-      themeSources: THEMABLE_CONTENT
-    }
+      themeSources: THEMABLE_CONTENT,
+    },
   });
 
   const { data, fetching, error } = result;
@@ -73,7 +73,7 @@ export function UnThemedContent() {
             sx={{
               fontSize: theme.fontSizes.xxlarge,
               fontWeight: "600",
-              color: theme.colors.secondary
+              color: theme.colors.secondary,
             }}
           >
             {data.documents.length}

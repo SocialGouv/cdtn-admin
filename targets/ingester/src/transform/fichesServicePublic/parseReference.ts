@@ -246,8 +246,8 @@ export function extractNewReference(
     const convention = kalicontainerId
       ? agreements.find((ccn) => ccn.kaliId === kalicontainerId)
       : kaliTextId
-      ? agreements.find((ccn) => ccn.rootText === kaliTextId)
-      : undefined;
+        ? agreements.find((ccn) => ccn.rootText === kaliTextId)
+        : undefined;
     if (!convention) {
       console.error(
         `extractNewReferences: unkown convention id ${kalicontainerId} or text ${kaliTextId} from ${url}`

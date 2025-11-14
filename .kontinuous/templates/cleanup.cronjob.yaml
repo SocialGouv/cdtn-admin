@@ -7,5 +7,4 @@ spec:
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   schedule: 0 4 * * 6
-  jobTemplate:
-    {{- include "job.cleanup" . | nindent 4 }}
+  jobTemplate: { { - include "job.cleanup" . | nindent 4 } }

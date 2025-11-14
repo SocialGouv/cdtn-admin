@@ -1,7 +1,7 @@
-import {expect, test} from "@jest/globals";
+import { expect, test } from "@jest/globals";
 
-import type {FicheTravail} from "../ficheTravailEmploi";
-import main, {extractFicheTravailEmploiRef} from "../ficheTravailEmploi";
+import type { FicheTravail } from "../ficheTravailEmploi";
+import main, { extractFicheTravailEmploiRef } from "../ficheTravailEmploi";
 
 jest.mock("../../../shared/getAllDocumentsBySource", () => {
   return {
