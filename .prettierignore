@@ -43,3 +43,6 @@ targets/hasura/**
 # Coverage and test outputs
 coverage
 .nyc_output
+
+# Kontinuous
+.kontinuous/**
