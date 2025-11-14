@@ -46,7 +46,10 @@ export const mapInfographicToDocument = (
             title: item.label,
             type: "external"
           }))
-        )
+        ),
+      cdtnReferences: data.cdtnReferences.map((ref) => ({
+        cdtnId: ref.document.cdtnId
+      }))
     }
   };
 };

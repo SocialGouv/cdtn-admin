@@ -1,8 +1,16 @@
 import { DocumentElasticWithSource } from "./common";
-import { InfographicTemplateDoc } from "../hasura/infographic";
+import { HasuraDocument, InfographicTemplateDoc } from "../hasura";
 import { SOURCES } from "@socialgouv/cdtn-utils";
+import { LinkedContent } from "./related-items";
 
 export type InfographicElasticDocument = DocumentElasticWithSource<
-  InfographicTemplateDoc,
+  InfographicHasuraDoc,
   typeof SOURCES.INFOGRAPHICS
 >;
+
+export type InfographicHasuraDoc = Omit<
+  InfographicTemplateDoc,
+  "cdtnReferences"
+> & {
+  linkedContent: LinkedContent[];
+};

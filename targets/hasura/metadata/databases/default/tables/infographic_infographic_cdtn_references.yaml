@@ -1,0 +1,50 @@
+table:
+  name: infographic_cdtn_references
+  schema: infographic
+configuration:
+  column_config:
+    cdtn_id:
+      custom_name: cdtnId
+    infographic_id:
+      custom_name: infographicId
+  custom_column_names:
+    cdtn_id: cdtnId
+    infographic_id: infographicId
+  custom_root_fields: {}
+object_relationships:
+  - name: document
+    using:
+      foreign_key_constraint_on: cdtn_id
+  - name: infographic
+    using:
+      foreign_key_constraint_on: infographic_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - cdtn_id
+        - infographic_id
+    comment: ""
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - cdtn_id
+        - infographic_id
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - cdtn_id
+        - infographic_id
+      filter: {}
+      check: {}
+    comment: ""
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""

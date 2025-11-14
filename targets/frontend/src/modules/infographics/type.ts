@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { fileSchema } from "../common/type";
 import {
+  cdtnReferenceSchema,
   legiReferenceSchema,
   otherReferenceSchema
 } from "../../components/contributions";
@@ -38,7 +39,8 @@ export const infographicSchema = z.object({
   svgFile: fileSchema,
   pdfFile: fileSchema,
   legiReferences: z.array(legiReferenceSchema),
-  otherReferences: z.array(otherReferenceSchema)
+  otherReferences: z.array(otherReferenceSchema),
+  cdtnReferences: z.array(cdtnReferenceSchema)
 });
 
 export type Infographic = z.infer<typeof infographicSchema>;

@@ -1,7 +1,7 @@
 import {
   DocumentElasticWithSource,
   EditorialContentDoc,
-  InfographicTemplateDoc
+  InfographicElasticDocument
 } from "@socialgouv/cdtn-types";
 import { getRelatedIdsDocuments } from "./getRelatedIdsDocuments";
 
@@ -12,7 +12,7 @@ interface Return {
 
 export const generateEditorialContents = (
   documents: DocumentElasticWithSource<EditorialContentDoc>[],
-  infographics: DocumentElasticWithSource<InfographicTemplateDoc>[]
+  infographics: InfographicElasticDocument[]
 ): Return => {
   const documentsOptimized = documents.map((document: any) => {
     const introWithGlossary = document.introWithGlossary;

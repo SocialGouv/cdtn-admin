@@ -37,6 +37,14 @@ export const infographicsQuery = gql`
         label
         url
       }
+      cdtnReferences: infographic_cdtn_references {
+        document {
+          cdtnId: cdtn_id
+          title
+          source
+          slug
+        }
+      }
     }
   }
 `;

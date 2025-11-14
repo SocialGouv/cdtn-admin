@@ -46,6 +46,14 @@ export type InfographicOtherReferencesArrRelInsertInput = {
   data: Infographic_Other_References_Insert_Input[];
 };
 
+export type InfographicCdtnReferencesInsertInput = {
+  cdtnId: string;
+};
+
+export type InfographicCdtnReferencesArrRelInsertInput = {
+  data: InfographicCdtnReferencesInsertInput[];
+};
+
 export type InfographicInsertInput = {
   createdAt?: string;
   description?: string;
@@ -62,4 +70,5 @@ export type InfographicInsertInput = {
   displayDate?: string;
   infographic_legi_references?: InfographicLegiReferencesArrRelInsertInput;
   infographic_other_references?: InfographicOtherReferencesArrRelInsertInput;
+  infographic_cdtn_references?: InfographicCdtnReferencesArrRelInsertInput;
 };
