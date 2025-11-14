@@ -1,6 +1,7 @@
 node_modules
 .env.production
 .env.preprod
+.env.local
 docker-compose.override.yml
 .vscode
 *-error.log
