@@ -1,0 +1,77 @@
+jobs:
+  runs:
+    post-restore:
+      ~needs: [ pg, hasura ]
+      use: psql
+      with:
+        sqlFile: .kontinuous/sql/post-restore.sql
+        pgSecretRefName: pg-app
+    job-ingester:
+      ~needs: [ hasura ]
+      use: trigger-cronjob
+      with:
+        cronJobName: cron-ingester
+    job-alert:
+      ~needs: [ job-ingester ]
+      use: trigger-cronjob
+      with:
+        cronJobName: cron-alert
+
+hasura:
+  imagePackage: hasura
+  ~needs: [ pg ]
+  ~preDeploy.cleaner:
+    match:
+      kind: Deployment
+    value: true
+  envFrom:
+    - secretRef:
+        name: pg-superuser
+    - configMapRef:
+        name: hasura
+    - secretRef:
+        name: hasura
+  env:
+    - name: "HASURA_GRAPHQL_DATABASE_URL"
+      value: "postgresql://$(username):$(password)@$(host):$(port)/cdtn-admin?sslmode=require"
+
+www:
+  host: cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
+  env:
+    - name: NEXTAUTH_URL
+      value: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
+
+pg:
+  ~chart: pg
+  # force this PG cluster to be destroyed/recreated on redeploys
+  ~preDeploy.cleaner:
+    match:
+      kind: Cluster
+    value: true
+  cnpg-cluster:
+    backup:
+      # don't enable backup because we would need a new path each time as the cluster is recreated
+      ~tpl~enabled: "false"
+    recovery:
+      enabled: true
+      ~tpl~database: "{{ .Values.global.pgDatabase }}"
+      ~tpl~owner: "{{ .Values.global.pgUser }}"
+      secretName: "pg-db"
+      # need to specify full barman config because we reload from another bucket (prod)
+      barmanObjectStore:
+        ~tpl~destinationPath: "s3://cdtn-prod-backups/cdtn-admin"
+        s3Credentials:
+          accessKeyId:
+            ~tpl~name: "cdtn-prod-backups-access-key"
+            key: bucket_access_key
+          secretAccessKey:
+            ~tpl~name: "cdtn-prod-backups-access-key"
+            key: bucket_secret_key
+          region:
+            ~tpl~name: "cdtn-prod-backups-access-key"
+            key: bucket_region
+    annotations:
+      oblik.socialgouv.io/min-request-cpu: "500m"
+      oblik.socialgouv.io/min-request-memory: "500Mi"
+      oblik.socialgouv.io/min-limit-cpu: "1000m"
+      oblik.socialgouv.io/min-limit-memory: "2Gi"
