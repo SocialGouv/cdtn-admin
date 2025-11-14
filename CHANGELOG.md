@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.61.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.60.0...v2.61.0) (2025-11-14)
+
+### Features
+
+- **infographic:** ajout des documents liés aux infographies ([#1609](https://github.com/SocialGouv/cdtn-admin/issues/1609)) ([4ffb581](https://github.com/SocialGouv/cdtn-admin/commit/4ffb5817585966d905e47e52e04c6ac8756bed1b))
+
 # [2.60.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.59.0...v2.60.0) (2025-11-07)
 
 ### Features
