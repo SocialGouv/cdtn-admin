@@ -20,6 +20,10 @@ scripts:
   type-check:
     default: lerna run --stream --parallel type-check
 
+  format:
+    default: prettier --write "**/*.{js,jsx,ts,tsx,json,md,yml,yaml}"
+    check: prettier --check "**/*.{js,jsx,ts,tsx,json,md,yml,yaml}"
+
   docker:
     up:
       default: docker-compose up --build postgres hasura

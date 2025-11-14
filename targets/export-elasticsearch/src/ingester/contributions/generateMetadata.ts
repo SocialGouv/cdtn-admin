@@ -9,11 +9,11 @@ import {
 export const generateMetadata = (
   agreements: DocumentElasticWithSource<AgreementDoc>[],
   contribution: DocumentElasticWithSource<ContributionDocumentJson>,
-  breadcrumbs: Breadcrumb[],
+  breadcrumbs: Breadcrumb[]
 ): ContributionMetadata => {
   if (contribution.isPublished === true && breadcrumbs.length === 0) {
     throw new Error(
-      `Merci d'assigner un thème à la contribution ${contribution.questionIndex} - ${contribution.questionName} (${contribution.id}). Cette opération est disponible dans le menu Vérifications -> Contenus sans thèmes.`,
+      `Merci d'assigner un thème à la contribution ${contribution.questionIndex} - ${contribution.questionName} (${contribution.id}). Cette opération est disponible dans le menu Vérifications -> Contenus sans thèmes.`
     );
   }
 
@@ -22,24 +22,24 @@ export const generateMetadata = (
   }
 
   const agreement = agreements.find(
-    (v) => v.num === parseInt(contribution.idcc),
+    (v) => v.num === parseInt(contribution.idcc)
   );
 
   if (!agreement) {
     throw new Error(
-      `Can't find the agreement (${contribution.idcc}) information for contribution ${contribution.questionIndex} - ${contribution.questionName} (${contribution.id})`,
+      `Can't find the agreement (${contribution.idcc}) information for contribution ${contribution.questionIndex} - ${contribution.questionName} (${contribution.id})`
     );
   }
 
   return generateCustomMetadata(
     contribution,
     breadcrumbs[breadcrumbs.length - 1],
-    agreement,
+    agreement
   );
 };
 
 const generateGenericMetadata = (
-  contribution: DocumentElasticWithSource<ContributionDocumentJson>,
+  contribution: DocumentElasticWithSource<ContributionDocumentJson>
 ): ContributionMetadata => {
   return {
     title: contribution.questionName,
@@ -54,7 +54,7 @@ const generateGenericMetadata = (
 const generateCustomMetadata = (
   contribution: DocumentElasticWithSource<ContributionDocumentJson>,
   breadcrumb: Breadcrumb,
-  agreement: DocumentElasticWithSource<AgreementDoc>,
+  agreement: DocumentElasticWithSource<AgreementDoc>
 ): ContributionMetadata => {
   return {
     title: contribution.questionName,
@@ -63,7 +63,7 @@ const generateCustomMetadata = (
       title: generateMetaTitle(
         contribution.seoTitle,
         breadcrumb,
-        agreement.shortTitle,
+        agreement.shortTitle
       ),
       description: `${contribution.questionName} - ${contribution.description}`,
     },
@@ -73,7 +73,7 @@ const generateCustomMetadata = (
 const generateMetaTitle = (
   seoTitle: string | undefined,
   breadcrumb: Breadcrumb,
-  agreementShortTitle: string,
+  agreementShortTitle: string
 ): string => {
   if (seoTitle && seoTitle !== "") {
     return `${seoTitle} - ${agreementShortTitle}`;

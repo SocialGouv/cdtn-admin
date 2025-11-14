@@ -6,7 +6,9 @@ import { fetchMessageBlock } from "./fetchMessageBlock";
 import { fetchAgreementMessage } from "./fetchAgreementMessage";
 
 export const generateMessageBlock = async (
-  contribGeneric: DocumentElasticWithSource<ContributionDocumentJson> | undefined,
+  contribGeneric:
+    | DocumentElasticWithSource<ContributionDocumentJson>
+    | undefined,
   contrib: DocumentElasticWithSource<ContributionDocumentJson>
 ): Promise<string | undefined> => {
   const agreementMessage = await fetchAgreementMessage(contrib.idcc);

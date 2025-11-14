@@ -48,7 +48,7 @@ export const informationContentBlockDiscriminatedSchema = z.discriminatedUnion(
       contentDisplayMode: z.string(),
       contents: z.array(informationContentBlockContentSchema),
     }),
-  ],
+  ]
 );
 export type InformationContentBlock = z.infer<
   typeof informationContentBlockDiscriminatedSchema

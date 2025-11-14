@@ -40,7 +40,7 @@ export function InformationsDialog({
         const label =
           key === "page_fiche_ministere_travail"
             ? "Page Ministère du travail"
-            : getLabelBySource(key) ?? "Glossary";
+            : (getLabelBySource(key) ?? "Glossary");
         object = {
           ...object,
           [label]: docCounts[key as keyof typeof docCounts],

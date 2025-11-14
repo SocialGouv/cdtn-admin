@@ -13,13 +13,13 @@ export type InformationBlockGraphicProps = {
 
 export const InformationsBlockGraphic = ({
   name,
-  control
+  control,
 }: InformationBlockGraphicProps): JSX.Element => {
   const infographicList = useListInfographicQuery({ search: "" });
 
   const selectedInfographic = useWatch({
     name: `${name}.infographic_id`,
-    control
+    control,
   });
   const currentSvg = infographicList.rows.find(
     (i) => i.id === selectedInfographic
@@ -39,7 +39,7 @@ export const InformationsBlockGraphic = ({
             control={control}
             options={infographicList.rows.map((item) => ({
               value: item.id!,
-              label: item.title
+              label: item.title,
             }))}
             rules={{ required: true }}
           />

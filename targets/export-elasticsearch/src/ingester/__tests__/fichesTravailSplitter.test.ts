@@ -177,7 +177,7 @@ describe("splitArticle", () => {
     const splitArticles = await splitArticle(article);
     expect(splitArticles.length).toBe(2);
     expect(splitArticles[0].slug).toBe(
-      "titres-professionnels#Qu-est-ce-qu-un-titre-professionnel",
+      "titres-professionnels#Qu-est-ce-qu-un-titre-professionnel"
     );
   });
 
@@ -185,10 +185,10 @@ describe("splitArticle", () => {
     const splitArticles = await splitArticle(articleWithEmptySections);
     expect(splitArticles.length).toBe(2);
     expect(splitArticles[0].title).toBe(
-      "CDDU : dans quelles conditions peut-on conclure un cdd d'usage ?",
+      "CDDU : dans quelles conditions peut-on conclure un cdd d'usage ?"
     );
     expect(splitArticles[1].title).toBe(
-      "CDDU : quelles sont les règles applicables aux cdd d'usage ?",
+      "CDDU : quelles sont les règles applicables aux cdd d'usage ?"
     );
   });
 });

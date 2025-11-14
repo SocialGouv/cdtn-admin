@@ -4,9 +4,7 @@ import { ExportAnswer } from "@socialgouv/cdtn-types";
 describe("contributionsByTheme", () => {
   it("should throw if a contrib has no theme", () => {
     expect(() => {
-      groupByTheme([
-        { slug: "hello", questionIndex: 1, question: "contrib" },
-      ]);
+      groupByTheme([{ slug: "hello", questionIndex: 1, question: "contrib" }]);
     }).toThrow("Contribution [1] - hello has no theme.");
   });
 
@@ -20,44 +18,44 @@ describe("contributionsByTheme", () => {
 
     expect(groupByTheme(data)).toEqual([
       {
-        "answers": [
+        answers: [
           {
-            "questionIndex": 1,
-            "slug": "contrib-1",
-            "theme": "A",
-            "question": "contrib"
+            questionIndex: 1,
+            slug: "contrib-1",
+            theme: "A",
+            question: "contrib",
           },
           {
-            "questionIndex": 2,
-            "slug": "contrib-2",
-            "theme": "A",
-            "question": "contrib"
-          }
+            questionIndex: 2,
+            slug: "contrib-2",
+            theme: "A",
+            question: "contrib",
+          },
         ],
-        "theme": "A"
+        theme: "A",
       },
       {
-        "answers": [
+        answers: [
           {
-            "questionIndex": 1,
-            "slug": "contrib-1",
-            "theme": "B",
-            "question": "contrib"
-          }
+            questionIndex: 1,
+            slug: "contrib-1",
+            theme: "B",
+            question: "contrib",
+          },
         ],
-        "theme": "B"
+        theme: "B",
       },
       {
-        "answers": [
+        answers: [
           {
-            "questionIndex": 1,
-            "slug": "contrib-1",
-            "theme": "C",
-            "question": "contrib"
-          }
+            questionIndex: 1,
+            slug: "contrib-1",
+            theme: "C",
+            question: "contrib",
+          },
         ],
-        "theme": "C"
-      }
+        theme: "C",
+      },
     ]);
   });
 });

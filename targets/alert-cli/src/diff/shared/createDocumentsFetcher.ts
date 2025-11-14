@@ -16,7 +16,7 @@ export const createDocumentsFetcher =
   <
     T extends
       | AllDocumentsBySourceResult
-      | AllDocumentsWithRelationBySourceResult
+      | AllDocumentsWithRelationBySourceResult,
   >(
     gqlRequest = getAllDocumentsBySourceQuery
   ) =>

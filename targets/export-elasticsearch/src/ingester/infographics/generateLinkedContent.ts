@@ -2,7 +2,7 @@ import { LinkedContent } from "@socialgouv/cdtn-types/build/elastic/related-item
 import { fetchLinkedContent } from "../common";
 import {
   DocumentElasticWithSource,
-  InfographicTemplateDoc
+  InfographicTemplateDoc,
 } from "@socialgouv/cdtn-types";
 
 export const generateLinkedContent = async (
@@ -18,7 +18,7 @@ export const generateLinkedContent = async (
         return {
           source: infographic.source,
           slug: infographic.slug,
-          title: infographic.title
+          title: infographic.title,
         };
       }
       const linkedDocument = await fetchLinkedContent(
@@ -30,7 +30,7 @@ export const generateLinkedContent = async (
       return {
         source: linkedDocument.source,
         slug: linkedDocument.slug,
-        title: linkedDocument.title
+        title: linkedDocument.title,
       };
     }
   );

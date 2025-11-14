@@ -16,19 +16,19 @@ export const generateLinkedContent = async (
         return {
           source: contributions.source,
           slug: contributions.slug,
-          title: contributions.title
+          title: contributions.title,
         };
       }
       const linkedDocument = await fetchLinkedContent(
         content.cdtnId,
-        `QR${currentContribution.questionIndex} - IDCC ${ currentContribution.idcc}`
+        `QR${currentContribution.questionIndex} - IDCC ${currentContribution.idcc}`
       );
       if (!linkedDocument) return;
 
       return {
         source: linkedDocument.source,
         slug: linkedDocument.slug,
-        title: linkedDocument.title
+        title: linkedDocument.title,
       };
     }
   );

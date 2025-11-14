@@ -1,7 +1,7 @@
 import {
   DocumentElasticWithSource,
   InfographicElasticDocument,
-  InfographicTemplateDoc
+  InfographicTemplateDoc,
 } from "@socialgouv/cdtn-types";
 import pMap from "p-map";
 import { generateLinkedContent } from "./generateLinkedContent";
@@ -20,7 +20,7 @@ export const generateInfographics = async (
       return {
         ...infographicWithoutRefs,
         source: "infographies",
-        linkedContent
+        linkedContent,
       };
     },
     { concurrency: 5 }

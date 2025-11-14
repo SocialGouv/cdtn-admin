@@ -37,19 +37,19 @@ export const mapInfographicToDocument = (
           (item): InfographicTemplateReference => ({
             url: `https://www.legifrance.gouv.fr/codes/article_lc/${item.legiArticle.cid}`,
             title: item.legiArticle.label,
-            type: "legi"
+            type: "legi",
           })
         )
         .concat(
           data.otherReferences.map((item) => ({
             url: item.url ?? "",
             title: item.label,
-            type: "external"
+            type: "external",
           }))
         ),
       cdtnReferences: data.cdtnReferences.map((ref) => ({
-        cdtnId: ref.document.cdtnId
-      }))
-    }
+        cdtnId: ref.document.cdtnId,
+      })),
+    },
   };
 };

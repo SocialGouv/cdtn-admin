@@ -259,7 +259,14 @@ Avec comme paramètres :
 
 ```json
 {
-  "sources": ["page_fiche_ministere_travail", "information", "fiches_service_public", "modeles_de_courriers", "contributions", "conventions_collectives"]
+  "sources": [
+    "page_fiche_ministere_travail",
+    "information",
+    "fiches_service_public",
+    "modeles_de_courriers",
+    "contributions",
+    "conventions_collectives"
+  ]
 }
 ```
 

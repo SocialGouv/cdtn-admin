@@ -24,7 +24,7 @@ type QueryResult = {
 
 export const useUnseenAlertWarningAnswerQuery = (): [
   AlertWarning[] | undefined,
-  (opts?: Partial<OperationContext>) => void
+  (opts?: Partial<OperationContext>) => void,
 ] => {
   const [result, reexecuteQuery] = useQuery<QueryResult>({
     query: unseenAlertWarningQuery,

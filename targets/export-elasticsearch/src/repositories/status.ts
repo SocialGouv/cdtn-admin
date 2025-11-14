@@ -117,10 +117,9 @@ export class ExportRepository {
     environment: Environment
   ): Promise<ExportEsStatus[]> {
     const res = await gqlClient()
-      .query<{ export_es_status: ExportEsStatus[] }>(
-        getExportEsStatusByEnvironments,
-        { environment }
-      )
+      .query<{
+        export_es_status: ExportEsStatus[];
+      }>(getExportEsStatusByEnvironments, { environment })
       .toPromise();
     if (res.error) {
       throw res.error;
@@ -151,10 +150,9 @@ export class ExportRepository {
 
   public async getByStatus(status: Status): Promise<ExportEsStatus[]> {
     const res = await gqlClient()
-      .query<{ export_es_status: ExportEsStatus[] }>(
-        getExportEsStatusByStatus,
-        { status }
-      )
+      .query<{
+        export_es_status: ExportEsStatus[];
+      }>(getExportEsStatusByStatus, { status })
       .toPromise();
     if (res.error) {
       throw res.error;

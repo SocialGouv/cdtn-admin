@@ -7,7 +7,7 @@ import {
   ContributionGenericInfos,
   ContributionHighlight,
   ContributionLinkedContent,
-  DocumentElasticWithSource
+  DocumentElasticWithSource,
 } from "@socialgouv/cdtn-types";
 import { generateMetadata } from "./generateMetadata";
 import { isGenericContribution, isGenericNotCdtContribution } from "./helpers";
@@ -72,18 +72,18 @@ export async function generateContributions(
         ccSupported: getCcSupported(contributions, contrib),
         ccUnextended: isGenericNotCdtContribution(contrib.contentType)
           ? ccUnextended
-          : []
+          : [],
       };
     } else {
       doc = {
-        ...getCcInfos(ccnData, contrib)
+        ...getCcInfos(ccnData, contrib),
       };
     }
 
     const breadcrumbs =
       contrib.breadcrumbs.length > 0
         ? contrib.breadcrumbs
-        : breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? [];
+        : (breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? []);
 
     const contribution: ContributionElasticDocumentLightRelatedContent = {
       ...contrib,
@@ -93,7 +93,7 @@ export async function generateContributions(
       breadcrumbs,
       highlight,
       messageBlock,
-      references
+      references,
     };
 
     delete contribution.contentWithGlossary;
@@ -113,7 +113,7 @@ export async function generateContributions(
       );
       return {
         ...contribution,
-        linkedContent
+        linkedContent,
       } as ContributionElasticDocument;
     },
     { concurrency: 5 }

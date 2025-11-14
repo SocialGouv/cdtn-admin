@@ -47,7 +47,7 @@ export function UserList({ onDeleteUser }: Props) {
   const { data, fetching, error } = result;
   const users = data?.users || [];
 
-  function confirmDeleteUser(id: string, email: string, userName:string) {
+  function confirmDeleteUser(id: string, email: string, userName: string) {
     setSelectedUser({ email, id, userName });
     open();
   }
@@ -78,7 +78,9 @@ export function UserList({ onDeleteUser }: Props) {
         ariaLabel="Supprimer l'utilisateur"
       >
         <p>Etes vous sur de vouloir supprimer l’utilisateur</p>
-        <strong>{selectedUser?.userName} ({selectedUser?.email})</strong>
+        <strong>
+          {selectedUser?.userName} ({selectedUser?.email})
+        </strong>
         <Stack direction="row" spacing={2} mt={4} justifyContent="end">
           <Button variant="outlined" onClick={close}>
             Annuler

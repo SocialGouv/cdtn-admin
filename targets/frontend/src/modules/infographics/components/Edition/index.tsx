@@ -12,7 +12,7 @@ type Props = {
 
 export const InfographicEdition = ({ id }: Props): React.ReactElement => {
   const { data, fetching, error, reexecuteQuery } = useListInfographicQuery({
-    id
+    id,
   });
   const update = useModelUpdateMutation();
   const publish = usePublishMutation();

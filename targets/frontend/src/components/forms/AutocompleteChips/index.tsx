@@ -37,7 +37,7 @@ type Props<Type, FreeSolo extends boolean | undefined = false> = {
 
 export const FormAutocompleteChips = <
   Type,
-  FreeSolo extends boolean | undefined = false
+  FreeSolo extends boolean | undefined = false,
 >({
   name,
   control,

@@ -14,7 +14,10 @@ export function groupByTheme(
       if (group) {
         group.answers.push(answer as ExportAnswer);
       } else {
-        grouped.push({ theme: answer.theme, answers: [answer as ExportAnswer] });
+        grouped.push({
+          theme: answer.theme,
+          answers: [answer as ExportAnswer],
+        });
       }
       return grouped;
     }, [])

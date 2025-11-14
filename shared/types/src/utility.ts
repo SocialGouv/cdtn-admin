@@ -10,4 +10,4 @@ export type KeysToCamelCase<T> = {
       : T[K];
 };
 
-export type Audience = "associations" | "particuliers" | "professionnels"
+export type Audience = "associations" | "particuliers" | "professionnels";

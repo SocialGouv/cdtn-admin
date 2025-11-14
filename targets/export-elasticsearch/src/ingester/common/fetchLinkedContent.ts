@@ -27,10 +27,10 @@ export async function fetchLinkedContent(
     context.get("cdtnAdminEndpointSecret") || "admin1";
   const res = await gqlClient({
     graphqlEndpoint: HASURA_GRAPHQL_ENDPOINT,
-    adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET
+    adminSecret: HASURA_GRAPHQL_ENDPOINT_SECRET,
   })
     .query<HasuraReturn>(fetchLinkedContentById, {
-      cdtnId: cdtnId
+      cdtnId: cdtnId,
     })
     .toPromise();
   if (res.error) {

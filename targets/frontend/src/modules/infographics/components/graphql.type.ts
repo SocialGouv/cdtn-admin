@@ -6,14 +6,14 @@ export type FilesInsertInput = {
 };
 
 export enum FilesConstraint {
-  FilesPkey = "files_pkey"
+  FilesPkey = "files_pkey",
 }
 
 export enum FilesUpdateColumn {
   AltText = "altText",
   Id = "id",
   Size = "size",
-  Url = "url"
+  Url = "url",
 }
 
 export type FilesOnConflict = {

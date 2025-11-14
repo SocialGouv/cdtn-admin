@@ -1,7 +1,7 @@
 import {
   DocumentElasticWithSource,
   EditorialContentDoc,
-  InfographicElasticDocument
+  InfographicElasticDocument,
 } from "@socialgouv/cdtn-types";
 import { getRelatedIdsDocuments } from "./getRelatedIdsDocuments";
 
@@ -44,9 +44,9 @@ export const generateEditorialContents = (
                   url: ref.url,
                   type: ref.type,
                   title: ref.title,
-                  order: index + 1
-                }))
-              }
+                  order: index + 1,
+                })),
+              },
             ];
             return {
               ...block,
@@ -56,21 +56,21 @@ export const generateEditorialContents = (
               altText: infographic.title,
               fileUrl: infographic.pdfFilename,
               html: infographic.transcription,
-              slug: infographic.slug
+              slug: infographic.slug,
             };
           }
           return {
             ...block,
-            html: htmlWithGlossary
+            html: htmlWithGlossary,
           };
         });
         return content;
-      })
+      }),
     };
   });
   const relatedIdsDocuments = getRelatedIdsDocuments(documentsOptimized);
   return {
     documents: documentsOptimized,
-    relatedIdsDocuments
+    relatedIdsDocuments,
   };
 };

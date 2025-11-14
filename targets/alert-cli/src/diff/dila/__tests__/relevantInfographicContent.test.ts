@@ -8,7 +8,7 @@ const info1 = {
     id: "id-infographic-1",
     source: SOURCES.INFOGRAPHICS,
     title: "Titre infographic 1",
-    slug: "titre-infographic 1"
+    slug: "titre-infographic 1",
   },
   references: [
     {
@@ -16,16 +16,16 @@ const info1 = {
       dila_container_id: "KALICONT1",
       dila_id: "1",
       title: "Titre dila 1",
-      url: "legifrance.url/kalicont1/cid1"
+      url: "legifrance.url/kalicont1/cid1",
     },
     {
       dila_cid: "cid2",
       dila_container_id: "KALICONT2",
       dila_id: "2",
       title: "Titre dila 2",
-      url: "legifrance.url/kalicont1/cid2"
-    }
-  ]
+      url: "legifrance.url/kalicont1/cid2",
+    },
+  ],
 };
 
 const info2 = {
@@ -33,7 +33,7 @@ const info2 = {
     id: "id-infographic-2",
     source: SOURCES.INFOGRAPHICS,
     title: "Titre infographic 2",
-    slug: "titre-infographic 2"
+    slug: "titre-infographic 2",
   },
   references: [
     {
@@ -41,16 +41,16 @@ const info2 = {
       dila_container_id: "KALICONT1",
       dila_id: "1",
       title: "Titre dila 1",
-      url: "legifrance.url/kalicont1/cid1"
+      url: "legifrance.url/kalicont1/cid1",
     },
     {
       dila_cid: "cid3",
       dila_container_id: "KALICONT3",
       dila_id: "3",
       title: "Titre dila 3",
-      url: "legifrance.url/kalicont1/cid3"
-    }
-  ]
+      url: "legifrance.url/kalicont1/cid3",
+    },
+  ],
 };
 
 jest.mock("../extractReferences/ficheTravailEmploi", () => () => []);
@@ -73,16 +73,16 @@ describe("getRelevantContent", () => {
             {
               currentText: "VIGUEUR",
               previousText: "VIGUEUR ETENDUE",
-              type: "etat"
-            }
+              type: "etat",
+            },
           ],
           etat: "VIGUEYR",
           id: "123",
           parents: ["parents section"],
-          title: "yolo"
-        }
+          title: "yolo",
+        },
       ],
-      removed: []
+      removed: [],
     };
     expect(await extractor.extractReferences(changes)).toEqual([
       {
@@ -90,7 +90,7 @@ describe("getRelevantContent", () => {
           id: "id-infographic-1",
           source: SOURCES.INFOGRAPHICS,
           title: "Titre infographic 1",
-          slug: "titre-infographic 1"
+          slug: "titre-infographic 1",
         },
         references: [
           {
@@ -98,10 +98,10 @@ describe("getRelevantContent", () => {
             dila_container_id: "KALICONT2",
             dila_id: "2",
             title: "Titre dila 2",
-            url: "legifrance.url/kalicont1/cid2"
-          }
-        ]
-      }
+            url: "legifrance.url/kalicont1/cid2",
+          },
+        ],
+      },
     ]);
   });
 
@@ -110,8 +110,8 @@ describe("getRelevantContent", () => {
       added: [],
       modified: [],
       removed: [
-        { cid: "cid2", id: "2", parents: ["section parent"], title: "test" }
-      ]
+        { cid: "cid2", id: "2", parents: ["section parent"], title: "test" },
+      ],
     };
     expect(await extractor.extractReferences(changes)).toEqual([
       {
@@ -119,7 +119,7 @@ describe("getRelevantContent", () => {
           id: "id-infographic-1",
           source: SOURCES.INFOGRAPHICS,
           title: "Titre infographic 1",
-          slug: "titre-infographic 1"
+          slug: "titre-infographic 1",
         },
         references: [
           {
@@ -127,10 +127,10 @@ describe("getRelevantContent", () => {
             dila_container_id: "KALICONT2",
             dila_id: "2",
             title: "Titre dila 2",
-            url: "legifrance.url/kalicont1/cid2"
-          }
-        ]
-      }
+            url: "legifrance.url/kalicont1/cid2",
+          },
+        ],
+      },
     ]);
   });
 });

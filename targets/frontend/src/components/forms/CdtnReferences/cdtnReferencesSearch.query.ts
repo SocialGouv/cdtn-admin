@@ -72,17 +72,17 @@ export const useSearchCdtnReferencesQuery = (
           "outils",
           "modeles_de_courriers",
           "contributions",
-          "fiches_service_public"
+          "fiches_service_public",
         ],
         slug,
         title,
-        slugRegex
-      }
+        slugRegex,
+      },
     }
   );
   return {
     data: data?.documents.map((document) => ({ document })) ?? [],
     error,
-    fetching
+    fetching,
   };
 };

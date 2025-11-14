@@ -14,7 +14,7 @@ type Props = {
 export const FormCdtnReferences = ({
   name,
   control,
-  disabled = false
+  disabled = false,
 }: Props): React.ReactElement => (
   <FormAutocompleteChips<CdtnReference>
     isMultiple={true}

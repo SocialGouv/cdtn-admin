@@ -1,7 +1,7 @@
 import {
   InfographicRequest,
   InfographicResponse,
-  infographicsQuery
+  infographicsQuery,
 } from "./infographic.query";
 import { ApiClient } from "src/lib/api";
 import { Infographic } from "../type";
@@ -18,7 +18,7 @@ export class InfographicRepository {
       InfographicResponse,
       InfographicRequest
     >(infographicsQuery, {
-      id
+      id,
     });
     if (error) {
       throw error;

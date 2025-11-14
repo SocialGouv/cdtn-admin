@@ -42,7 +42,12 @@ query getContributionsWithRefs {
 interface ContributionsHasuraResult {
   contribution_answers: Pick<
     ContributionsAnswers,
-    "id" | "question" | "legi_references" | "kali_references" | "agreement" | "document"
+    | "id"
+    | "question"
+    | "legi_references"
+    | "kali_references"
+    | "agreement"
+    | "document"
   >[];
 }
 

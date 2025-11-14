@@ -1,29 +1,34 @@
-import {EditorContent, useEditor} from "@tiptap/react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import Table from "@tiptap/extension-table";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import StarterKit from "@tiptap/starter-kit";
-import React, {useEffect, useState} from "react";
-import {styled} from "@mui/system";
-import {fr} from "@codegouvfr/react-dsfr";
+import React, { useEffect, useState } from "react";
+import { styled } from "@mui/system";
+import { fr } from "@codegouvfr/react-dsfr";
 
-import {TitleBox} from "../TitleBox";
-import {MenuSpecial} from "./MenuSpecial";
-import {MenuStyle} from "./MenuStyle";
-import {MenuTable} from "./MenuTable";
-import {Details} from "@tiptap-pro/extension-details";
-import {DetailsSummary} from "@tiptap-pro/extension-details-summary";
-import {DetailsContent} from "@tiptap-pro/extension-details-content";
-import {Placeholder} from "@tiptap/extension-placeholder";
-import {Link} from "@tiptap/extension-link";
-import {Alert, Infographic, Title} from "./extensions";
-import {MenuInfographic} from "./MenuInfographic";
-import {Button, DialogActions, DialogContentText, TextField,} from "@mui/material";
+import { TitleBox } from "../TitleBox";
+import { MenuSpecial } from "./MenuSpecial";
+import { MenuStyle } from "./MenuStyle";
+import { MenuTable } from "./MenuTable";
+import { Details } from "@tiptap-pro/extension-details";
+import { DetailsSummary } from "@tiptap-pro/extension-details-summary";
+import { DetailsContent } from "@tiptap-pro/extension-details-content";
+import { Placeholder } from "@tiptap/extension-placeholder";
+import { Link } from "@tiptap/extension-link";
+import { Alert, Infographic, Title } from "./extensions";
+import { MenuInfographic } from "./MenuInfographic";
+import {
+  Button,
+  DialogActions,
+  DialogContentText,
+  TextField,
+} from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import {NodeSelection} from "@tiptap/pm/state";
+import { NodeSelection } from "@tiptap/pm/state";
 
 export type EditorProps = {
   label: string;
@@ -39,7 +44,7 @@ const emptyHtml = "<p></p>";
 type ModeCreation = {
   mode: 0;
 };
-const Creation: ModeCreation = {mode: 0};
+const Creation: ModeCreation = { mode: 0 };
 
 type ModeEdition = {
   mode: 1;
@@ -64,18 +69,18 @@ const Edition = (
 type ModeHide = {
   mode: -1;
 };
-const Hide: ModeHide = {mode: -1};
+const Hide: ModeHide = { mode: -1 };
 
 type Mode = ModeEdition | ModeCreation | ModeHide;
 
 export const Editor = ({
-                         label,
-                         content,
-                         onUpdate,
-                         disabled,
-                         infographicBaseUrl,
-                         isError = false,
-                       }: EditorProps) => {
+  label,
+  content,
+  onUpdate,
+  disabled,
+  infographicBaseUrl,
+  isError = false,
+}: EditorProps) => {
   const [currentContent, setCurrentContent] = useState(content);
   const [focus, setFocus] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -102,7 +107,7 @@ export const Editor = ({
       DetailsContent,
       Placeholder.configure({
         includeChildren: true,
-        placeholder: ({node}) => {
+        placeholder: ({ node }) => {
           if (node.type.name === "detailsSummary") {
             return "Titre de la section";
           }
@@ -121,7 +126,7 @@ export const Editor = ({
         baseUrl: infographicBaseUrl,
       }),
     ],
-    onUpdate: ({editor}) => {
+    onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       setCurrentContent(html);
       onUpdate(html !== emptyHtml ? html : "");
@@ -140,7 +145,7 @@ export const Editor = ({
     }
   }, [content]);
   useEffect(() => {
-    editor?.setOptions({editable: !disabled});
+    editor?.setOptions({ editable: !disabled });
   }, [disabled]);
 
   useEffect(() => {
@@ -183,14 +188,14 @@ export const Editor = ({
           disabled={disabled}
           htmlFor={label}
         >
-          <MenuStyle editor={editor}/>
+          <MenuStyle editor={editor} />
           <MenuSpecial
             editor={editor}
             onNewInfographic={() => {
               setInfographicModal(Creation);
             }}
           />
-          <MenuTable editor={editor}/>
+          <MenuTable editor={editor} />
           <MenuInfographic
             editor={editor}
             onEdit={() => {
@@ -200,7 +205,9 @@ export const Editor = ({
                 const infoName = node.attrs.infoName;
                 const dataPdf = node.attrs.pdfName;
                 const dataPdfSize = node.attrs.pdfSize;
-                setInfographicModal(Edition(infoTitle, infoName, dataPdf, dataPdfSize));
+                setInfographicModal(
+                  Edition(infoTitle, infoName, dataPdf, dataPdfSize)
+                );
               }
             }}
             onDelete={() => {
@@ -232,9 +239,8 @@ export const Editor = ({
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
-            const {infoTitle, infoName, pdfName, pdfSize} = Object.fromEntries(
-              (formData as any).entries()
-            );
+            const { infoTitle, infoName, pdfName, pdfSize } =
+              Object.fromEntries((formData as any).entries());
             if (infographicModal.mode === Creation.mode) {
               editor
                 ?.chain()
@@ -242,7 +248,12 @@ export const Editor = ({
                 .setInfographic(infoTitle, infoName, pdfName, pdfSize)
                 .run();
             } else {
-              editor?.commands.updateInfographicSrc(infoTitle, infoName, pdfName, pdfSize);
+              editor?.commands.updateInfographicSrc(
+                infoTitle,
+                infoName,
+                pdfName,
+                pdfSize
+              );
             }
             setInfographicModal(Hide);
           },

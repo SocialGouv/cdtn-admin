@@ -5,7 +5,7 @@ import { RegisterOptions } from "react-hook-form/dist/types/validator";
 
 export type CommonFormProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
   name: TName;
   label: string;

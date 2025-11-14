@@ -48,8 +48,8 @@ export const useListAgreementQuery = ({
     query: listAgreementsQuery,
     requestPolicy: "cache-and-network",
     variables: {
-      idcc: keyword?.length ?? 0 > 0 ? `%${keyword}%` : "%",
-      keyword: keyword?.length ?? 0 > 0 ? `%${keyword}%` : "%",
+      idcc: (keyword?.length ?? 0 > 0) ? `%${keyword}%` : "%",
+      keyword: (keyword?.length ?? 0 > 0) ? `%${keyword}%` : "%",
       isSupported: isSupported,
     },
   });

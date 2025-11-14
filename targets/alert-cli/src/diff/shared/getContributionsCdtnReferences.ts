@@ -26,7 +26,9 @@ query getContribCdtnReferences($ids: [String!]) {
 
 interface ContributionsHasuraResult {
   contribution_answers: Required<
-    Pick<ContributionsAnswers, "id" | "question" | "cdtn_references"> & { document: { slug: string } | null }
+    Pick<ContributionsAnswers, "id" | "question" | "cdtn_references"> & {
+      document: { slug: string } | null;
+    }
   >[];
 }
 

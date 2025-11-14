@@ -28,10 +28,7 @@
     },
     "contrat salarié . convention collective . transports routiers . indemnité de licenciement . droit à la retraite au titre du régime en vigueur dans l'entreprise": {
       "applicable si": {
-        "toutes ces conditions": [
-          "age >= 60",
-          "age <= 65"
-        ]
+        "toutes ces conditions": ["age >= 60", "age <= 65"]
       },
       "titre": "Le salarié remplit les conditions pour partir à la retraite",
       "question": "Le salarié a-t-il atteint l'âge qui lui permet de bénéficier d'une retraite&nbsp;?",
@@ -575,10 +572,7 @@
     },
     "contrat salarié . convention collective . transports routiers . indemnité de licenciement . catégorie professionnelle . Ouvriers . autres licenciement . droit à la retraite au titre du régime en vigueur dans l'entreprise": {
       "applicable si": {
-        "toutes ces conditions": [
-          "age >= 60",
-          "age <= 65"
-        ]
+        "toutes ces conditions": ["age >= 60", "age <= 65"]
       },
       "titre": "Le salarié remplit les conditions pour partir à la retraite",
       "question": "Le salarié a-t-il atteint l'âge qui lui permet de bénéficier d'une retraite&nbsp;?",
@@ -1541,10 +1535,7 @@
     "contrat salarié . convention collective . publicité française . indemnité de licenciement . résultat conventionnel": {
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
       "applicable si": "contrat salarié . indemnité de licenciement . ancienneté conventionnelle requise en année >= paramètre . minimum ancienneté conventionnelle requise en année",
-      "somme": [
-        "facteur 1",
-        "facteur 2"
-      ],
+      "somme": ["facteur 1", "facteur 2"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -1643,10 +1634,7 @@
     },
     "contrat salarié . convention collective . industrie pharmaceutique . après avenant 1er juillet 2019 . moins de 5 ans d'ancienneté . entre 45 et 50 ans d'age": {
       "applicable si": {
-        "toutes ces conditions": [
-          "age >= 45 ans",
-          "age < 50 ans"
-        ]
+        "toutes ces conditions": ["age >= 45 ans", "age < 50 ans"]
       },
       "valeur": "oui"
     },
@@ -1766,10 +1754,7 @@
     },
     "contrat salarié . convention collective . industrie pharmaceutique . après avenant 1er juillet 2019 . entre 5 et 10 ans d'ancienneté . entre 45 et 50 ans d'age": {
       "applicable si": {
-        "toutes ces conditions": [
-          "age >= 45 ans",
-          "age < 50 ans"
-        ]
+        "toutes ces conditions": ["age >= 45 ans", "age < 50 ans"]
       },
       "valeur": "oui"
     },
@@ -1889,10 +1874,7 @@
     },
     "contrat salarié . convention collective . industrie pharmaceutique . après avenant 1er juillet 2019 . entre 10 et 15 ans d'ancienneté . entre 45 et 50 ans d'age": {
       "applicable si": {
-        "toutes ces conditions": [
-          "age >= 45 ans",
-          "age < 50 ans"
-        ]
+        "toutes ces conditions": ["age >= 45 ans", "age < 50 ans"]
       },
       "valeur": "oui"
     },
@@ -2587,10 +2569,7 @@
     },
     "contrat salarié . convention collective . industrie pharmaceutique . avant avenant 1er juillet 2019 . moins de 15 ans d'ancienneté . entre 45 et 50 ans d'age": {
       "applicable si": {
-        "toutes ces conditions": [
-          "age >= 45 ans",
-          "age < 50 ans"
-        ]
+        "toutes ces conditions": ["age >= 45 ans", "age < 50 ans"]
       },
       "valeur": "oui"
     },
@@ -4239,10 +4218,7 @@
       "unité": "€"
     },
     "contrat salarié . convention collective . commerces de gros . somme autre": {
-      "somme": [
-        "formule 1 autre",
-        "formule 2 autre"
-      ],
+      "somme": ["formule 1 autre", "formule 2 autre"],
       "unité": "€"
     },
     "contrat salarié . convention collective . commerces de gros . formule 1 agent": {
@@ -4309,10 +4285,7 @@
       "unité": "€"
     },
     "contrat salarié . convention collective . commerces de gros . somme agent sans majoration": {
-      "somme": [
-        "formule 3 agent",
-        "formule 4 agent"
-      ],
+      "somme": ["formule 3 agent", "formule 4 agent"],
       "unité": "€"
     },
     "contrat salarié . convention collective . commerces de gros . formule 1 cadre": {
@@ -4397,11 +4370,7 @@
       "unité": "€"
     },
     "contrat salarié . convention collective . commerces de gros . somme cadre sans majoration": {
-      "somme": [
-        "formule 1 cadre",
-        "formule 2 cadre",
-        "formule 3 cadre"
-      ],
+      "somme": ["formule 1 cadre", "formule 2 cadre", "formule 3 cadre"],
       "unité": "€"
     },
     "contrat salarié . convention collective . commerces de gros . somme cadre avec majoration 15%": {
@@ -4517,9 +4486,7 @@
               "Sref : Salaire de référence": "contrat salarié . indemnité de licenciement . salaire de référence conventionnel"
             }
           ],
-          "annotations": [
-            "20% : majoration pour motif économique"
-          ]
+          "annotations": ["20% : majoration pour motif économique"]
         }
       }
     },
@@ -5733,10 +5700,7 @@
       "unité": "€"
     },
     "contrat salarié . convention collective . cabinets médicaux . somme formule": {
-      "somme": [
-        "formule 1",
-        "formule 2"
-      ],
+      "somme": ["formule 1", "formule 2"],
       "unité": "€"
     },
     "contrat salarié . convention collective . cabinets médicaux . minimum ancienneté conventionnelle requise en année": {
@@ -5835,10 +5799,7 @@
     "contrat salarié . convention collective . restauration collectivités . catégorie professionnelle . non cadres . résultat conventionnel": {
       "applicable si": "contrat salarié . indemnité de licenciement . ancienneté conventionnelle requise en année >= paramètre . minimum ancienneté conventionnelle requise en année",
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
-      "somme": [
-        "calcul total",
-        "calcul au delà de dix ans"
-      ],
+      "somme": ["calcul total", "calcul au delà de dix ans"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -7214,9 +7175,7 @@
       "applicable si": {
         "une de ces conditions": [
           {
-            "toutes ces conditions": [
-              "licenciement économique != 'Oui'"
-            ]
+            "toutes ces conditions": ["licenciement économique != 'Oui'"]
           },
           {
             "toutes ces conditions": [
@@ -7328,9 +7287,7 @@
         "formule": {
           "formula": "$formule + (15% * ($formule))"
         },
-        "annotations": [
-          "15% : majoration pour motif économique"
-        ]
+        "annotations": ["15% : majoration pour motif économique"]
       }
     },
     "contrat salarié . convention collective . restauration rapide . indemnité de licenciement . cadre": {
@@ -7445,9 +7402,7 @@
       "applicable si": {
         "une de ces conditions": [
           {
-            "toutes ces conditions": [
-              "licenciement économique != 'Oui'"
-            ]
+            "toutes ces conditions": ["licenciement économique != 'Oui'"]
           },
           {
             "toutes ces conditions": [
@@ -7593,9 +7548,7 @@
         "formule": {
           "formula": "$formule + (15% * ($formule))"
         },
-        "annotations": [
-          "15% : majoration pour motif économique"
-        ]
+        "annotations": ["15% : majoration pour motif économique"]
       }
     },
     "contrat salarié . convention collective . restauration rapide . rupture conventionnelle": {
@@ -7754,10 +7707,7 @@
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
       "applicable si": "indemnité de licenciement . ancienneté conventionnelle requise en année >= paramètre . minimum ancienneté conventionnelle requise en année",
       "plafond": "contrat salarié . indemnité de licenciement . salaire de référence conventionnel * 6",
-      "somme": [
-        "ancienneté totale",
-        "plus de quinze ans"
-      ],
+      "somme": ["ancienneté totale", "plus de quinze ans"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -7926,10 +7876,7 @@
       "applicable si": "contrat salarié . indemnité de licenciement . ancienneté conventionnelle en année > 10 an",
       "remplace": "calcul",
       "valeur": {
-        "somme": [
-          "dix ans ou moins",
-          "plus de dix ans"
-        ]
+        "somme": ["dix ans ou moins", "plus de dix ans"]
       },
       "cdtn": {
         "formule": {
@@ -8201,9 +8148,7 @@
     },
     "contrat salarié . convention collective . batiment ouvriers employés . indemnité de licenciement . age . moins de 55 ans . entre 2 et 5 ans d'ancienneté . résultat conventionnel": {
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
-      "somme": [
-        "un dixième du salaire de reference"
-      ],
+      "somme": ["un dixième du salaire de reference"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -8483,9 +8428,7 @@
     },
     "contrat salarié . convention collective . batiment ouvriers employés bis . indemnité de licenciement . age . moins de 55 ans . entre 2 et 5 ans d'ancienneté . résultat conventionnel": {
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
-      "somme": [
-        "un dixième du salaire de reference"
-      ],
+      "somme": ["un dixième du salaire de reference"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -8792,10 +8735,7 @@
     "contrat salarié . convention collective . sociétés d'assurances . catégorie professionnelle . non cadres . résultat conventionnel . base . calcul entre 10 et 20 ans": {
       "remplace": "base",
       "applicable si": {
-        "toutes ces conditions": [
-          "ancienneté >= 10 an",
-          "ancienneté < 20 an"
-        ]
+        "toutes ces conditions": ["ancienneté >= 10 an", "ancienneté < 20 an"]
       },
       "valeur": "0.03 * contrat salarié . indemnité de licenciement . salaire de référence conventionnel * ancienneté",
       "cdtn": {
@@ -8815,10 +8755,7 @@
     "contrat salarié . convention collective . sociétés d'assurances . catégorie professionnelle . non cadres . résultat conventionnel . base . calcul entre 20 et 30 ans": {
       "remplace": "base",
       "applicable si": {
-        "toutes ces conditions": [
-          "ancienneté >= 20 an",
-          "ancienneté < 30 an"
-        ]
+        "toutes ces conditions": ["ancienneté >= 20 an", "ancienneté < 30 an"]
       },
       "valeur": "0.035 * contrat salarié . indemnité de licenciement . salaire de référence conventionnel * ancienneté",
       "cdtn": {
@@ -9603,10 +9540,7 @@
           "contrat salarié . indemnité de licenciement . ancienneté conventionnelle en année < 10 ans"
         ]
       },
-      "somme": [
-        "facteur 1",
-        "facteur 2"
-      ],
+      "somme": ["facteur 1", "facteur 2"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -9629,10 +9563,7 @@
     "contrat salarié . convention collective . hotels cafes restaurants . indemnité de licenciement . résultat conventionnel 2": {
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
       "applicable si": "contrat salarié . indemnité de licenciement . ancienneté conventionnelle en année >= 10 ans",
-      "somme": [
-        "facteur 1",
-        "facteur 2"
-      ],
+      "somme": ["facteur 1", "facteur 2"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -9821,10 +9752,7 @@
       "applicable si": "contrat salarié . indemnité de licenciement . ancienneté conventionnelle en année > 10 an",
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
       "valeur": {
-        "somme": [
-          "dix ans ou moins",
-          "plus de dix ans"
-        ]
+        "somme": ["dix ans ou moins", "plus de dix ans"]
       },
       "unité": "€",
       "arrondi": "2 décimales",
@@ -9932,10 +9860,7 @@
       },
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
       "valeur": {
-        "somme": [
-          "cadres dix ans ou moins",
-          "entre 10 et 15ans"
-        ]
+        "somme": ["cadres dix ans ou moins", "entre 10 et 15ans"]
       },
       "unité": "€",
       "arrondi": "2 décimales",
@@ -10033,10 +9958,7 @@
       "applicable si": "indemnité de licenciement . ancienneté conventionnelle en année >= 15 ans",
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
       "valeur": {
-        "somme": [
-          "cadres jusqu'à 15ans",
-          "plus de 15ans"
-        ]
+        "somme": ["cadres jusqu'à 15ans", "plus de 15ans"]
       },
       "unité": "€",
       "arrondi": "2 décimales",
@@ -10384,10 +10306,7 @@
     "contrat salarié . convention collective . personnel presta service tertiaire . autre licenciement . cadres . résultat conventionnel": {
       "applicable si": "indemnité de licenciement . ancienneté conventionnelle requise en année >= paramètre . minimum ancienneté conventionnelle requise en année",
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
-      "somme": [
-        "base",
-        "majoration"
-      ],
+      "somme": ["base", "majoration"],
       "plafond": "indemnité de licenciement . salaire de référence conventionnel * 18",
       "unité": "€",
       "arrondi": "2 décimales",
@@ -10442,10 +10361,7 @@
     },
     "contrat salarié . convention collective . personnel presta service tertiaire . autre licenciement . cadres . résultat conventionnel . formule plus de 50 ans": {
       "applicable si": {
-        "toutes ces conditions": [
-          "age >= 50 ans",
-          "age < 55 ans"
-        ]
+        "toutes ces conditions": ["age >= 50 ans", "age < 55 ans"]
       },
       "valeur": "oui",
       "cdtn": {
@@ -11437,10 +11353,7 @@
         ]
       },
       "valeur": {
-        "somme": [
-          "dix ans ou moins",
-          "plus de dix ans"
-        ]
+        "somme": ["dix ans ou moins", "plus de dix ans"]
       },
       "unité": "€",
       "arrondi": "2 décimales"
@@ -11706,9 +11619,7 @@
       "arrondi": "2 décimales",
       "cdtn": {
         "formule": {
-          "annotations": [
-            "20% : majoration pour motif économique"
-          ],
+          "annotations": ["20% : majoration pour motif économique"],
           "formula": "$formule + (20% * ($formule))"
         }
       }
@@ -11745,9 +11656,7 @@
               "Sref : Salaire de référence": "contrat salarié . indemnité de licenciement . salaire de référence conventionnel"
             }
           ],
-          "annotations": [
-            "20% : majoration pour motif économique"
-          ],
+          "annotations": ["20% : majoration pour motif économique"],
           "formula": "1/4 * Sref * A + (20% * (1/4 * Sref * A))"
         }
       }
@@ -11778,9 +11687,7 @@
       },
       "cdtn": {
         "formule": {
-          "annotations": [
-            "20% : majoration pour motif économique"
-          ],
+          "annotations": ["20% : majoration pour motif économique"],
           "formula": "($formule) + (20% * ($formule))"
         }
       }
@@ -11878,10 +11785,7 @@
           "contrat salarié . indemnité de licenciement . ancienneté conventionnelle en année <= 10 ans"
         ]
       },
-      "somme": [
-        "non cadre . facteur 1",
-        "non cadre . facteur 2"
-      ],
+      "somme": ["non cadre . facteur 1", "non cadre . facteur 2"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -11904,10 +11808,7 @@
     "contrat salarié . convention collective . hospitalisation privées . indemnité de licenciement . catégorie professionnelle . non cadre . résultat conventionnel 2": {
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
       "applicable si": "contrat salarié . indemnité de licenciement . ancienneté conventionnelle en année > 10 ans",
-      "somme": [
-        "non cadre . facteur 1",
-        "non cadre . facteur 2"
-      ],
+      "somme": ["non cadre . facteur 1", "non cadre . facteur 2"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -12030,10 +11931,7 @@
       "non applicable si": "contrat salarié . convention collective . hospitalisation privées . indemnité de licenciement . catégorie professionnelle . cadre . non cadre durant une période . temps",
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
       "plafond": "contrat salarié . indemnité de licenciement . salaire de référence conventionnel * 12",
-      "somme": [
-        "cadre . facteur 2",
-        "cadre . facteur 3"
-      ],
+      "somme": ["cadre . facteur 2", "cadre . facteur 3"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -12074,10 +11972,7 @@
       "applicable si": "contrat salarié . indemnité de licenciement . ancienneté conventionnelle en année > 15 an",
       "non applicable si": "contrat salarié . convention collective . hospitalisation privées . indemnité de licenciement . catégorie professionnelle . cadre . non cadre durant une période . temps",
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
-      "somme": [
-        "cadre . facteur 2",
-        "cadre . facteur 3"
-      ],
+      "somme": ["cadre . facteur 2", "cadre . facteur 3"],
       "plafond": "contrat salarié . indemnité de licenciement . salaire de référence conventionnel * 25",
       "unité": "€",
       "arrondi": "2 décimales",
@@ -12137,17 +12032,11 @@
     },
     "contrat salarié . convention collective . hospitalisation privées . indemnité de licenciement . catégorie professionnelle . cadre . non cadre durant une période . temps . ancienneté 10 ans ou moins": {
       "valeur": {
-        "le minimum de": [
-          "temps",
-          "10 an"
-        ]
+        "le minimum de": ["temps", "10 an"]
       }
     },
     "contrat salarié . convention collective . hospitalisation privées . indemnité de licenciement . catégorie professionnelle . cadre . non cadre durant une période . temps . ancienneté de plus de 10 ans": {
-      "somme": [
-        "temps",
-        "(- 10 an)"
-      ],
+      "somme": ["temps", "(- 10 an)"],
       "plancher": "0 an"
     },
     "contrat salarié . convention collective . hospitalisation privées . indemnité de licenciement . catégorie professionnelle . cadre . non cadre durant une période . temps . facteur 1 non cadre": {
@@ -12170,10 +12059,7 @@
     },
     "contrat salarié . convention collective . hospitalisation privées . indemnité de licenciement . catégorie professionnelle . cadre . non cadre durant une période . temps . résultat conventionnel en tant que non cadre": {
       "applicable si": "contrat salarié . indemnité de licenciement . ancienneté conventionnelle requise en année >= paramètre . minimum ancienneté conventionnelle requise en année",
-      "somme": [
-        "facteur 1 non cadre",
-        "facteur 2 non cadre"
-      ],
+      "somme": ["facteur 1 non cadre", "facteur 2 non cadre"],
       "unité": "€",
       "arrondi": "2 décimales",
       "cdtn": {
@@ -12200,17 +12086,11 @@
     },
     "contrat salarié . convention collective . hospitalisation privées . indemnité de licenciement . catégorie professionnelle . cadre . non cadre durant une période . temps . ancienneté jusqu'à 5 ans en tant que cadre": {
       "valeur": {
-        "le minimum de": [
-          "ancienneté cadre",
-          "5 an"
-        ]
+        "le minimum de": ["ancienneté cadre", "5 an"]
       }
     },
     "contrat salarié . convention collective . hospitalisation privées . indemnité de licenciement . catégorie professionnelle . cadre . non cadre durant une période . temps . ancienneté supérieur à 5 ans en tant que cadre": {
-      "somme": [
-        "ancienneté cadre",
-        "(- 5 an)"
-      ],
+      "somme": ["ancienneté cadre", "(- 5 an)"],
       "plancher": "0 an"
     },
     "contrat salarié . convention collective . hospitalisation privées . indemnité de licenciement . catégorie professionnelle . cadre . non cadre durant une période . temps . facteur 1 cadre": {
@@ -12565,10 +12445,7 @@
     "contrat salarié . convention collective . sport . indemnité de licenciement . résultat conventionnel 2": {
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
       "applicable si": "contrat salarié . indemnité de licenciement . ancienneté conventionnelle en année > 10 an",
-      "somme": [
-        "plus de dix ans",
-        "dix ans ou moins"
-      ],
+      "somme": ["plus de dix ans", "dix ans ou moins"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -12737,10 +12614,7 @@
     "contrat salarié . convention collective . coiffure . indemnité de licenciement . non cadre . résultat conventionnel": {
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
       "applicable si": "contrat salarié . indemnité de licenciement . ancienneté conventionnelle requise en année >= paramètre . minimum ancienneté conventionnelle requise en année",
-      "somme": [
-        "plus de dix ans",
-        "dix ans ou moins"
-      ],
+      "somme": ["plus de dix ans", "dix ans ou moins"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -12922,9 +12796,7 @@
     },
     "contrat salarié . convention collective . batiment etam . indemnité de licenciement . résultat conventionnel . majoration": {
       "applicable si": {
-        "une de ces conditions": [
-          "age à la fin de son préavis >= 55"
-        ]
+        "une de ces conditions": ["age à la fin de son préavis >= 55"]
       },
       "valeur": {
         "produit": {
@@ -13181,10 +13053,7 @@
     },
     "contrat salarié . convention collective . travaux publics . age . entre 55 ans et 65 ans": {
       "applicable si": {
-        "toutes ces conditions": [
-          "age >= 55",
-          "age < 65"
-        ]
+        "toutes ces conditions": ["age >= 55", "age < 65"]
       },
       "valeur": "oui"
     },
@@ -13674,10 +13543,7 @@
     "contrat salarié . convention collective . entreprises de services à la personne . indemnité de licenciement . résultat conventionnel plus de 10ans": {
       "remplace": "contrat salarié . indemnité de licenciement . résultat conventionnel",
       "applicable si": "indemnité de licenciement . ancienneté conventionnelle en année > 10 ans",
-      "somme": [
-        "calcul total",
-        "calcul plus de dix ans"
-      ],
+      "somme": ["calcul total", "calcul plus de dix ans"],
       "unité": "€",
       "arrondi": "2 décimales",
       "références": {
@@ -14550,19 +14416,13 @@
     },
     "contrat salarié . indemnité de licenciement . jusqu'à dix ans ou moins": {
       "valeur": {
-        "le minimum de": [
-          "ancienneté en année",
-          "10 an"
-        ]
+        "le minimum de": ["ancienneté en année", "10 an"]
       }
     },
     "contrat salarié . paramètre . minimum ancienneté requise en année": "8 mois",
     "contrat salarié . paramètre . minimum ancienneté conventionnelle requise en année": "8 mois",
     "contrat salarié . indemnité de licenciement . au dela de dix ans": {
-      "somme": [
-        "ancienneté en année",
-        "(- 10 an)"
-      ],
+      "somme": ["ancienneté en année", "(- 10 an)"],
       "plancher": "0 an"
     },
     "contrat salarié . indemnité de licenciement . facteur dix ans ou moins": {
@@ -14591,19 +14451,13 @@
         {
           "si": "ancienneté requise en année >= contrat salarié . paramètre . minimum ancienneté requise en année",
           "alors": {
-            "somme": [
-              "facteur dix ans ou moins",
-              "facteur plus de dix ans"
-            ]
+            "somme": ["facteur dix ans ou moins", "facteur plus de dix ans"]
           }
         },
         {
           "si": "inaptitude suite à un accident ou maladie professionnelle = oui",
           "alors": {
-            "somme": [
-              "facteur dix ans ou moins",
-              "facteur plus de dix ans"
-            ]
+            "somme": ["facteur dix ans ou moins", "facteur plus de dix ans"]
           }
         },
         {
@@ -14700,17 +14554,11 @@
     },
     "contrat salarié . indemnité de licenciement . jusqu'à dix ans ou moins cc": {
       "valeur": {
-        "le minimum de": [
-          "ancienneté conventionnelle en année",
-          "10 an"
-        ]
+        "le minimum de": ["ancienneté conventionnelle en année", "10 an"]
       }
     },
     "contrat salarié . indemnité de licenciement . au dela de dix ans cc": {
-      "somme": [
-        "ancienneté conventionnelle en année",
-        "(- 10 an)"
-      ],
+      "somme": ["ancienneté conventionnelle en année", "(- 10 an)"],
       "plancher": "0 an"
     },
     "contrat salarié . indemnité de licenciement . facteur dix ans ou moins cc": {

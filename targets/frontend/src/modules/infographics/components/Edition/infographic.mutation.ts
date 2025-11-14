@@ -3,7 +3,7 @@ import { FormDataResult } from "../Common";
 import {
   FilesConstraint,
   FilesUpdateColumn,
-  InfographicInsertInput
+  InfographicInsertInput,
 } from "../graphql.type";
 import { LegiReference } from "../../../../components/forms/LegiReferences/type";
 import { OtherReference } from "../../../../components/forms/OtherReferences/type";
@@ -85,44 +85,44 @@ export const useModelUpdateMutation = (): MutationFn => {
             url: data.svgFile.url,
             size: data.svgFile.size,
             altText: data.svgFile.altText,
-            id: data.svgFile.id
+            id: data.svgFile.id,
           },
           on_conflict: {
             constraint: FilesConstraint.FilesPkey,
             update_columns: [
               FilesUpdateColumn.Url,
               FilesUpdateColumn.Size,
-              FilesUpdateColumn.AltText
-            ]
-          }
+              FilesUpdateColumn.AltText,
+            ],
+          },
         },
         pdfFile: {
           data: {
             url: data.pdfFile.url,
             size: data.pdfFile.size,
             altText: data.pdfFile.altText,
-            id: data.pdfFile.id
+            id: data.pdfFile.id,
           },
           on_conflict: {
             constraint: FilesConstraint.FilesPkey,
             update_columns: [
               FilesUpdateColumn.Url,
               FilesUpdateColumn.Size,
-              FilesUpdateColumn.AltText
-            ]
-          }
+              FilesUpdateColumn.AltText,
+            ],
+          },
         },
         infographic_legi_references: {
-          data: formatLegiReferences(data.legiReferences)
+          data: formatLegiReferences(data.legiReferences),
         },
         infographic_other_references: {
-          data: formatOtherReferences(data.otherReferences)
+          data: formatOtherReferences(data.otherReferences),
         },
         infographic_cdtn_references: {
-          data: formatCdtnReferences(data.cdtnReferences)
+          data: formatCdtnReferences(data.cdtnReferences),
         },
-        displayDate: data.displayDate
-      }
+        displayDate: data.displayDate,
+      },
     });
     if (result.error) {
       throw new Error(result.error.message);
@@ -137,19 +137,19 @@ export const useModelUpdateMutation = (): MutationFn => {
 
 const formatLegiReferences = (refs: LegiReference[]) => {
   return refs.map((ref) => ({
-    articleId: ref.legiArticle.id
+    articleId: ref.legiArticle.id,
   }));
 };
 
 const formatOtherReferences = (refs: OtherReference[]) => {
   return refs.map((ref) => ({
     label: ref.label,
-    url: ref.url
+    url: ref.url,
   }));
 };
 
 const formatCdtnReferences = (refs: CdtnReference[]) => {
   return refs.map((ref) => ({
-    cdtnId: ref.document.cdtnId
+    cdtnId: ref.document.cdtnId,
   }));
 };

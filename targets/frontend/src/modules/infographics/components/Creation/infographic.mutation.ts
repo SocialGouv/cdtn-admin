@@ -41,17 +41,17 @@ export const useInfographicInsertMutation = (): MutationFn => {
         description: data.description,
         metaDescription: data.metaDescription,
         svgFile: {
-          data: data.svgFile
+          data: data.svgFile,
         },
         pdfFile: {
-          data: data.pdfFile
+          data: data.pdfFile,
         },
         infographic_legi_references: formatLegiReferences(data.legiReferences),
         infographic_other_references: formatOtherReferences(
           data.otherReferences
         ),
-        displayDate: data.displayDate
-      }
+        displayDate: data.displayDate,
+      },
     });
     if (result.error) {
       throw new Error(result.error.message);
@@ -69,8 +69,8 @@ const formatLegiReferences = (
 ): InfographicInsertInput["infographic_legi_references"] => {
   return {
     data: refs.map((ref) => ({
-      articleId: ref.legiArticle.id
-    }))
+      articleId: ref.legiArticle.id,
+    })),
   };
 };
 
@@ -80,7 +80,7 @@ const formatOtherReferences = (
   return {
     data: refs.map((ref) => ({
       label: ref.label,
-      url: ref.url
-    }))
+      url: ref.url,
+    })),
   };
 };

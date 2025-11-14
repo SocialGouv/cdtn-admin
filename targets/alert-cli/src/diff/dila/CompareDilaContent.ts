@@ -192,7 +192,7 @@ function addedNodeAdapter(node: WithParent<DilaNode>): DilaAddedNode {
     id: node.data.id,
     parents: getParents(node),
     title:
-      node.type === "article" ? node.data.num ?? "Article" : node.data.title,
+      node.type === "article" ? (node.data.num ?? "Article") : node.data.title,
   };
 }
 
@@ -202,7 +202,7 @@ function removedNodeAdapter(node: WithParent<DilaNode>): DilaRemovedNode {
     id: node.data.id,
     parents: getParents(node),
     title:
-      node.type === "article" ? node.data.num ?? "Article" : node.data.title,
+      node.type === "article" ? (node.data.num ?? "Article") : node.data.title,
   };
 }
 
@@ -256,7 +256,9 @@ const createModifiedAdapter =
       id: node.data.id,
       parents: getParents(node),
       title:
-        node.type === "article" ? node.data.num ?? "Article" : node.data.title,
+        node.type === "article"
+          ? (node.data.num ?? "Article")
+          : node.data.title,
     };
   };
 

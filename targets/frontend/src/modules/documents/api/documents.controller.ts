@@ -16,35 +16,35 @@ const inputSchema = z.object({
     "modeles_de_courriers",
     "contributions",
     "conventions_collectives",
-    "infographies"
-  ])
+    "infographies",
+  ]),
 });
 
 const inputSchemaAll = z.object({
   questionId: z.string(),
-  source: z.enum(["contributions"])
+  source: z.enum(["contributions"]),
 });
 
 const actionSchema = z.object({
   action: z.object({
-    name: z.string()
+    name: z.string(),
   }),
   input: inputSchema,
   session_variables: z.object({
     "x-hasura-user-id": z.string().uuid().optional(),
-    "x-hasura-role": z.string().optional()
-  })
+    "x-hasura-role": z.string().optional(),
+  }),
 });
 
 const actionSchemaAll = z.object({
   action: z.object({
-    name: z.string()
+    name: z.string(),
   }),
   input: inputSchemaAll,
   session_variables: z.object({
     "x-hasura-user-id": z.string().uuid().optional(),
-    "x-hasura-role": z.string().optional()
-  })
+    "x-hasura-role": z.string().optional(),
+  }),
 });
 
 export class DocumentsController {
@@ -110,7 +110,7 @@ export class DocumentsController {
       this.res.status(400).json({ message: error.message });
     } else {
       this.res.status(500).json({
-        message: error.message
+        message: error.message,
       });
     }
   }

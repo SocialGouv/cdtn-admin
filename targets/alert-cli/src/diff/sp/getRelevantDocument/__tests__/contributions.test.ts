@@ -43,7 +43,7 @@ jest.mock("../../../shared/getContributionsCdtnReferences", () => ({
         cdtn_references: [{ document: { initial_id: "pubId2" } }],
         document: {
           slug: "slug3",
-        }
+        },
       },
     ]),
 }));
