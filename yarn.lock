@@ -5,15 +5,15 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"@0no-co/graphql.web@npm:^1.0.5":
-  version: 1.0.6
-  resolution: "@0no-co/graphql.web@npm:1.0.6"
+"@0no-co/graphql.web@npm:^1.0.13":
+  version: 1.2.0
+  resolution: "@0no-co/graphql.web@npm:1.2.0"
   peerDependencies:
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
   peerDependenciesMeta:
     graphql:
       optional: true
-  checksum: a83e3d9b10cd7259fd5c9b6f548c602aecb343c9fba1a5dc628369b8638c69505b62281ac7b5f52284f5188f4d899096d8acd2a8cea8b3f7afce8f44e469f1cb
+  checksum: 4d5a54b93e6024b7d476e94b991e4e4ebc4ecb97e4ce886f76889741f5e419b587bedc6a00488753069534d8ae3e4de2e901ad58506ba2f74eeb8642edccc4ca
   languageName: node
   linkType: hard
 
@@ -1772,12 +1772,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/create-cache-key-function@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "@jest/create-cache-key-function@npm:29.7.0"
+"@jest/create-cache-key-function@npm:^30.0.0":
+  version: 30.2.0
+  resolution: "@jest/create-cache-key-function@npm:30.2.0"
   dependencies:
-    "@jest/types": ^29.6.3
-  checksum: 681bc761fa1d6fa3dd77578d444f97f28296ea80755e90e46d1c8fa68661b9e67f54dd38b988742db636d26cf160450dc6011892cec98b3a7ceb58cad8ff3aae
+    "@jest/types": 30.2.0
+  checksum: feed341c3c798a9727889a751068b1cb35b0e17c2490da33ec4ccc73c4995e49d24e95fc066a7fc1c15cc1872f2f11a7400308a200cf6a4220e39ca6eef9b583
   languageName: node
   linkType: hard
 
@@ -1875,6 +1875,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jest/pattern@npm:30.0.1":
+  version: 30.0.1
+  resolution: "@jest/pattern@npm:30.0.1"
+  dependencies:
+    "@types/node": "*"
+    jest-regex-util: 30.0.1
+  checksum: 1a1857df19be87e714786c3ab36862702bf8ed1e2665044b2ce5ffa787b5ab74c876f1756e83d3b09737dd98c1e980e259059b65b9b0f49b03716634463a8f9e
+  languageName: node
+  linkType: hard
+
 "@jest/reporters@npm:^27.5.1":
   version: 27.5.1
   resolution: "@jest/reporters@npm:27.5.1"
@@ -1947,6 +1957,15 @@ __metadata:
     node-notifier:
       optional: true
   checksum: 7eadabd62cc344f629024b8a268ecc8367dba756152b761bdcb7b7e570a3864fc51b2a9810cd310d85e0a0173ef002ba4528d5ea0329fbf66ee2a3ada9c40455
+  languageName: node
+  linkType: hard
+
+"@jest/schemas@npm:30.0.5":
+  version: 30.0.5
+  resolution: "@jest/schemas@npm:30.0.5"
+  dependencies:
+    "@sinclair/typebox": ^0.34.0
+  checksum: 7a4fc4166f688947c22d81e61aaf2cb22f178dbf6ee806b0931b75136899d426a72a8330762f27f0cf6f79da0d2a56f49a22fe09f5f80df95a683ed237a0f3b0
   languageName: node
   linkType: hard
 
@@ -2072,6 +2091,21 @@ __metadata:
     slash: ^3.0.0
     write-file-atomic: ^4.0.2
   checksum: 0f8ac9f413903b3cb6d240102db848f2a354f63971ab885833799a9964999dd51c388162106a807f810071f864302cdd8e3f0c241c29ce02d85a36f18f3f40ab
+  languageName: node
+  linkType: hard
+
+"@jest/types@npm:30.2.0":
+  version: 30.2.0
+  resolution: "@jest/types@npm:30.2.0"
+  dependencies:
+    "@jest/pattern": 30.0.1
+    "@jest/schemas": 30.0.5
+    "@types/istanbul-lib-coverage": ^2.0.6
+    "@types/istanbul-reports": ^3.0.4
+    "@types/node": "*"
+    "@types/yargs": ^17.0.33
+    chalk: ^4.1.2
+  checksum: e92a2c954f0e1e2703b16632c79428c50c891e50434b682234f310b9f0d292ae5a5da49ae625249f5103cbe34f7a396dfc8237edf5b73f7fe70b57d6295fa01b
   languageName: node
   linkType: hard
 
@@ -4160,7 +4194,7 @@ __metadata:
     "@swc/jest": ^0.2.29
     "@types/uuid": ^9.0.5
     "@types/xxhashjs": ^0.2.2
-    "@urql/core": 5.1.0
+    "@urql/core": 5.1.2
     graphql: ^16.8.1
     jest: ^29.7.0
     typescript: ^5.4.3
@@ -4197,6 +4231,13 @@ __metadata:
   version: 0.27.8
   resolution: "@sinclair/typebox@npm:0.27.8"
   checksum: 00bd7362a3439021aa1ea51b0e0d0a0e8ca1351a3d54c606b115fdcc49b51b16db6e5f43b4fe7a28c38688523e22a94d49dd31168868b655f0d4d50f032d07a1
+  languageName: node
+  linkType: hard
+
+"@sinclair/typebox@npm:^0.34.0":
+  version: 0.34.41
+  resolution: "@sinclair/typebox@npm:0.34.41"
+  checksum: dbcfdc55caef47ef5b728c2bc6979e50d00ee943b63eaaf604551be9a039187cdd256d810b790e61fdf63131df54b236149aef739d83bfe9a594a9863ac28115
   languageName: node
   linkType: hard
 
@@ -4863,10 +4904,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@socialgouv/cdtn-utils@npm:4.196.0, @socialgouv/cdtn-utils@npm:^4.196.0":
-  version: 4.196.0
-  resolution: "@socialgouv/cdtn-utils@npm:4.196.0"
-  checksum: 9f75d2ebb3e3a7d1f868f0be1a7b4f5c4f20dc074ef20c9ff28ce8950d2454d8092d6ed91b3c265bf326c6e23d4ece80af062a5c3be634f89331c73591b8a208
+"@socialgouv/cdtn-utils@npm:4.196.1, @socialgouv/cdtn-utils@npm:^4.196.0":
+  version: 4.196.1
+  resolution: "@socialgouv/cdtn-utils@npm:4.196.1"
+  checksum: 0aab6eebac14ae805ecb7dadbd9971b9ed276e490942df8fd259b6a2f2aab4e2b4b9091c6faa2043356030f84a91dc571e0d3f42f00cbf23f25930fb53dc4cba
   languageName: node
   linkType: hard
 
@@ -5163,16 +5204,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/jest@npm:0.2.37, @swc/jest@npm:^0.2.29":
-  version: 0.2.37
-  resolution: "@swc/jest@npm:0.2.37"
+"@swc/jest@npm:0.2.39, @swc/jest@npm:^0.2.29":
+  version: 0.2.39
+  resolution: "@swc/jest@npm:0.2.39"
   dependencies:
-    "@jest/create-cache-key-function": ^29.7.0
+    "@jest/create-cache-key-function": ^30.0.0
     "@swc/counter": ^0.1.3
     jsonc-parser: ^3.2.0
   peerDependencies:
     "@swc/core": "*"
-  checksum: 8d9a16404068c7f7d0548bc62f9d1465592178affbc7fe105dd59d463975d82cdcab2e0582c2a542250e6d240c76828bdbc404c77c85dd4d81061eb720351c4a
+  checksum: e1e69dc1434e6c8f708f969167325e6bc982e4373d123ae13c62a193a801bda9fd8d0ef2fe1efc8d17325feb41007c92906ecc6eca08d3cfe3b321ea2b15acf4
   languageName: node
   linkType: hard
 
@@ -5836,10 +5877,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0, @types/istanbul-lib-coverage@npm:^2.0.1":
-  version: 2.0.4
-  resolution: "@types/istanbul-lib-coverage@npm:2.0.4"
-  checksum: a25d7589ee65c94d31464c16b72a9dc81dfa0bea9d3e105ae03882d616e2a0712a9c101a599ec482d297c3591e16336962878cb3eb1a0a62d5b76d277a890ce7
+"@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0, @types/istanbul-lib-coverage@npm:^2.0.1, @types/istanbul-lib-coverage@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "@types/istanbul-lib-coverage@npm:2.0.6"
+  checksum: 3feac423fd3e5449485afac999dcfcb3d44a37c830af898b689fadc65d26526460bedb889db278e0d4d815a670331796494d073a10ee6e3a6526301fe7415778
   languageName: node
   linkType: hard
 
@@ -5852,12 +5893,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/istanbul-reports@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "@types/istanbul-reports@npm:3.0.1"
+"@types/istanbul-reports@npm:^3.0.0, @types/istanbul-reports@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "@types/istanbul-reports@npm:3.0.4"
   dependencies:
     "@types/istanbul-lib-report": "*"
-  checksum: f1ad54bc68f37f60b30c7915886b92f86b847033e597f9b34f2415acdbe5ed742fa559a0a40050d74cdba3b6a63c342cac1f3a64dba5b68b66a6941f4abd7903
+  checksum: 93eb18835770b3431f68ae9ac1ca91741ab85f7606f310a34b3586b5a34450ec038c3eed7ab19266635499594de52ff73723a54a72a75b9f7d6a956f01edee95
   languageName: node
   linkType: hard
 
@@ -5960,10 +6001,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/memoizee@npm:0.4.11":
-  version: 0.4.11
-  resolution: "@types/memoizee@npm:0.4.11"
-  checksum: 1ecc8b617738a97d9063fbd9aa9bf366ec984d94100ba570392cd9fab632a2066b925d8c8b98139a51931fc081e5e893770b63a7678abe991f48d4f35d897c0b
+"@types/memoizee@npm:0.4.12":
+  version: 0.4.12
+  resolution: "@types/memoizee@npm:0.4.12"
+  checksum: c8ea5ee009d2ac2a886b68429da746dfc57bbc247ae8e4d9dfb9577f9fa8ebb6b80be4f9ebc472a7d289fb06269c23358c303697d979f4b3da118d93462518c4
   languageName: node
   linkType: hard
 
@@ -6300,12 +6341,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^17.0.8":
-  version: 17.0.24
-  resolution: "@types/yargs@npm:17.0.24"
+"@types/yargs@npm:^17.0.33, @types/yargs@npm:^17.0.8":
+  version: 17.0.34
+  resolution: "@types/yargs@npm:17.0.34"
   dependencies:
     "@types/yargs-parser": "*"
-  checksum: 5f3ac4dc4f6e211c1627340160fbe2fd247ceba002190da6cf9155af1798450501d628c9165a183f30a224fc68fa5e700490d740ff4c73e2cdef95bc4e8ba7bf
+  checksum: 8f39dad7e345236b1c92ddc20dcee74b01d5322639054fe0c494b3d870ce0d784f8fd6ed81f5d010671625ae95b216ac9df13662c079afd112503b0ffd949e5e
   languageName: node
   linkType: hard
 
@@ -6493,23 +6534,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/core@npm:5.1.0":
-  version: 5.1.0
-  resolution: "@urql/core@npm:5.1.0"
+"@urql/core@npm:5.1.2, @urql/core@npm:>=4.1.0, @urql/core@npm:^5.0.0":
+  version: 5.1.2
+  resolution: "@urql/core@npm:5.1.2"
   dependencies:
-    "@0no-co/graphql.web": ^1.0.5
+    "@0no-co/graphql.web": ^1.0.13
     wonka: ^6.3.2
-  checksum: 63b8c1f25a5e3a50d84aeae63141e06ee8913c3a53d936fcb8453108034e50938fc774da298f50358ec2f3825bd62b2a3e4754ab1c9107dd9a79cb0c9c0d2a12
-  languageName: node
-  linkType: hard
-
-"@urql/core@npm:>=4.1.0, @urql/core@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@urql/core@npm:5.0.0"
-  dependencies:
-    "@0no-co/graphql.web": ^1.0.5
-    wonka: ^6.3.2
-  checksum: a7e546486c5a940128ed7c1c88b41b1d7d501725137f6e3050258717ed71d1172d21039de2a34aa0713adb264c95c5857029be6de0fafabbc541bb364255e055
+  checksum: 89dec4d5e017241903a6a9b72060178d9acb0cd9c97c3fa8041925a9d7dd896a616202b88202c74f6a182fa4b7dadbf5e91d3091bb850cf95e6ffa594b75835b
   languageName: node
   linkType: hard
 
@@ -6740,7 +6771,7 @@ __metadata:
     "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-slugify": 4.52.1
     "@socialgouv/cdtn-types": "workspace:^"
-    "@socialgouv/cdtn-utils": 4.196.0
+    "@socialgouv/cdtn-utils": 4.196.1
     "@socialgouv/contributions-data-types": 3.27.0
     "@socialgouv/dila-api-client": 1.2.4
     "@socialgouv/fiches-travail-data-types": 4.191.0
@@ -6748,7 +6779,7 @@ __metadata:
     "@socialgouv/legi-data-types": 2.73.1
     "@types/diff": ^5.0.3
     "@types/jest": ^29.5.12
-    "@types/memoizee": 0.4.11
+    "@types/memoizee": 0.4.12
     "@types/node": 16.11.68
     "@types/semver": 7.3.13
     "@types/tar": ^6.1.5
@@ -7867,7 +7898,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0, chalk@npm:^4.1.1":
+"chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0, chalk@npm:^4.1.1, chalk@npm:^4.1.2":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -10533,7 +10564,7 @@ __metadata:
     "@socialgouv/cdtn-utils": ^4.196.0
     "@swc/cli": 0.1.65
     "@swc/core": 1.2.249
-    "@swc/jest": 0.2.37
+    "@swc/jest": 0.2.39
     "@types/cors": ^2.8.12
     "@types/express": ^4.17.13
     "@types/jest": ^27.4.1
@@ -12170,7 +12201,7 @@ __metadata:
     "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-slugify": 4.52.1
     "@socialgouv/cdtn-types": "workspace:^"
-    "@socialgouv/cdtn-utils": 4.196.0
+    "@socialgouv/cdtn-utils": 4.196.1
     "@socialgouv/contributions-data-types": ^3.27.0
     "@socialgouv/fiches-travail-data-types": ^4.191.0
     "@socialgouv/fiches-vdd-types": ^2.197.0
@@ -13539,6 +13570,13 @@ __metadata:
     jest-resolve:
       optional: true
   checksum: db1a8ab2cb97ca19c01b1cfa9a9c8c69a143fde833c14df1fab0766f411b1148ff0df878adea09007ac6a2085ec116ba9a996a6ad104b1e58c20adbf88eed9b2
+  languageName: node
+  linkType: hard
+
+"jest-regex-util@npm:30.0.1":
+  version: 30.0.1
+  resolution: "jest-regex-util@npm:30.0.1"
+  checksum: fa8dac80c3e94db20d5e1e51d1bdf101cf5ede8f4e0b8f395ba8b8ea81e71804ffd747452a6bb6413032865de98ac656ef8ae43eddd18d980b6442a2764ed562
   languageName: node
   linkType: hard
 
@@ -19638,21 +19676,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:^6.1.0, tar@npm:^6.1.11, tar@npm:^6.1.2":
-  version: 6.1.15
-  resolution: "tar@npm:6.1.15"
-  dependencies:
-    chownr: ^2.0.0
-    fs-minipass: ^2.0.0
-    minipass: ^5.0.0
-    minizlib: ^2.1.1
-    mkdirp: ^1.0.3
-    yallist: ^4.0.0
-  checksum: f23832fceeba7578bf31907aac744ae21e74a66f4a17a9e94507acf460e48f6db598c7023882db33bab75b80e027c21f276d405e4a0322d58f51c7088d428268
-  languageName: node
-  linkType: hard
-
-"tar@npm:^6.2.0":
+"tar@npm:^6.1.0, tar@npm:^6.1.11, tar@npm:^6.1.2, tar@npm:^6.2.0":
   version: 6.2.1
   resolution: "tar@npm:6.2.1"
   dependencies:
