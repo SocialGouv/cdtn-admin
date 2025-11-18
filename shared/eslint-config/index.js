@@ -13,7 +13,7 @@ module.exports = {
     {
       files: ["*.js"],
       plugins: ["jest"],
-      extends: ["eslint:recommended", "prettier"],
+      extends: ["eslint:recommended"],
       rules: {
         "no-async-promise-executor": "warn",
       },
@@ -29,7 +29,6 @@ module.exports = {
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
-        "prettier",
       ],
       rules: {
         "no-async-promise-executor": "warn",

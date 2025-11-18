@@ -10,7 +10,7 @@ import { DocumentReferences } from "@socialgouv/cdtn-types";
 export interface RelevantDocumentsExtractor {
   extractReferences({
     modified,
-    removed
+    removed,
   }: Pick<DilaChanges, "modified" | "removed">): Promise<DocumentReferences[]>;
 }
 
@@ -19,7 +19,7 @@ export class RelevantDocumentsExtractorImpl
 {
   async extractReferences({
     modified,
-    removed
+    removed,
   }: Pick<DilaChanges, "modified" | "removed">): Promise<DocumentReferences[]> {
     const contribReferences = await getContribReferences();
     const travailEmploiReferences = await getTravailEmploiReferences();

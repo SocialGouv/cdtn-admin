@@ -1,11 +1,11 @@
 import {
   createGetArticleReference,
   extractArticleId,
-  gqlClient
+  gqlClient,
 } from "@shared/utils";
 import type {
   DocumentReferences,
-  InfographicTemplate
+  InfographicTemplate,
 } from "@socialgouv/cdtn-types";
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import { DilaApiClient } from "@socialgouv/dila-api-client";
@@ -45,7 +45,7 @@ export async function extractInfographicRef(
           await repo.saveWarning({
             article: id,
             document: docData.title,
-            source: docData.source
+            source: docData.source,
           });
         }
         return result;
@@ -58,9 +58,9 @@ export async function extractInfographicRef(
         id: docData.initialId,
         source: SOURCES.INFOGRAPHICS,
         title: docData.title,
-        slug: docData.slug
+        slug: docData.slug,
       },
-      references: references.flatMap((item) => (item !== null ? [item] : []))
+      references: references.flatMap((item) => (item !== null ? [item] : [])),
     });
   }
   return refs;
@@ -68,7 +68,7 @@ export async function extractInfographicRef(
 
 async function getInfographicReferences() {
   const letters = (await getAllDocumentsBySource([
-    SOURCES.INFOGRAPHICS
+    SOURCES.INFOGRAPHICS,
   ])) as InfographicTemplateSubset[];
   const documentReferences = await extractInfographicRef(letters);
   return documentReferences;

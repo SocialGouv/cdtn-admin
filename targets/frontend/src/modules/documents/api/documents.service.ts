@@ -3,7 +3,7 @@ import { ConflictError, NotFoundError } from "src/lib/api/ApiErrors";
 import { InformationsRepository } from "src/modules/informations";
 import {
   ContributionRepository,
-  mapContributionToDocument
+  mapContributionToDocument,
 } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
@@ -44,7 +44,7 @@ export class DocumentsService {
   public async publish(id: string, source: SourceKeys) {
     let document = await this.documentsRepository.fetch({
       source,
-      initialId: id
+      initialId: id,
     });
 
     let postTreatment:
@@ -59,7 +59,7 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No information found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null
+            cause: null,
           });
         }
         document = await mapInformationToDocument(information, document);
@@ -70,7 +70,7 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No contribution found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null
+            cause: null,
           });
         }
         if (!document) {
@@ -79,13 +79,13 @@ export class DocumentsService {
               contribution.agreement.id,
               contribution.question.content
             ),
-            source
+            source,
           });
           if (contrib) {
             throw new ConflictError({
               message: `Le document ${contribution.question.content} existe déjà pour la convention collective ${contribution.agreement.id}. Vous devez lancer le script de migration avant de publier un document.`,
               name: "CONFLICT_ERROR",
-              cause: null
+              cause: null,
             });
           }
         }
@@ -116,7 +116,7 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No agreement found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null
+            cause: null,
           });
         }
         document = mapModelToDocument(model, document);
@@ -128,7 +128,7 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No infographic found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null
+            cause: null,
           });
         }
         document = mapInfographicToDocument(infographic, document);
@@ -139,7 +139,7 @@ export class DocumentsService {
           throw new NotFoundError({
             message: `No agreement found with id ${id}`,
             name: "NOT_FOUND",
-            cause: null
+            cause: null,
           });
         }
         document = mapAgreementToDocument(agreement, document);

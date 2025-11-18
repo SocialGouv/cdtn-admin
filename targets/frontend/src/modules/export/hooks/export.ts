@@ -17,7 +17,7 @@ export function useExportEs(): [
   ExportEsState,
   (hideLoader: boolean) => void,
   (environment: Environment, user: Session["user"]) => void,
-  (env: Environment) => Date
+  (env: Environment) => Date,
 ] {
   const [state, setState] = useState<ExportEsState>({
     error: null,

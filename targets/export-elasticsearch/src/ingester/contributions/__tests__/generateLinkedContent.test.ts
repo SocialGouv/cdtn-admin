@@ -92,7 +92,7 @@ describe("generateLinkedContent", () => {
 
     const linkedContent = await generateLinkedContent(
       [contribGeneric, contribClassique],
-      contribClassique,
+      contribClassique
     );
 
     expect(linkedContent).toEqual([

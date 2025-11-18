@@ -21,7 +21,9 @@ export function ChangesFiche({ documents, type }: Props): JSX.Element {
               target="_blank"
               href={`https://code.travail.gouv.fr/${getRouteBySource(
                 doc.source
-              )}/${doc.slug && doc.slug !== "" ? doc.slug : slugify(doc.title)}`}
+              )}/${
+                doc.slug && doc.slug !== "" ? doc.slug : slugify(doc.title)
+              }`}
             >
               {doc.title}
             </DocumentLink>
@@ -30,10 +32,10 @@ export function ChangesFiche({ documents, type }: Props): JSX.Element {
               target="_blank"
               href={
                 type === "vdd"
-                  ? doc.url ??
+                  ? (doc.url ??
                     `https://code.travail.gouv.fr/fiche-service-public/${slugify(
                       doc.ref.title
-                    )}`
+                    )}`)
                   : `https://code.travail.gouv.fr/fiche-ministere-travail/${slugify(
                       doc.ref.title
                     )}`

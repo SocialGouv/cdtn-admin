@@ -49,7 +49,7 @@ type AutocompleteFormProps<T, FreeSolo> = PropsWithChildren<
 
 export const FormAutocomplete = <
   T,
-  FreeSolo extends boolean | undefined = false
+  FreeSolo extends boolean | undefined = false,
 >({
   name,
   rules,

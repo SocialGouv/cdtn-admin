@@ -1,0 +1,48 @@
+# Dependencies
+node_modules
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Build outputs
+dist
+build
+.next
+.swc
+
+# Environment files
+.env.production
+.env.preprod
+
+# IDE
+.vscode
+
+# Logs
+*-error.log
+*.log
+
+# System files
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+
+# Dumps
+local_dump
+
+# Secrets
+.npmTiptapToken.secret
+
+# Generated files
+targets/ingester/data/**
+targets/hasura/**
+
+# Coverage and test outputs
+coverage
+.nyc_output
+
+# Kontinuous
+.kontinuous/**
