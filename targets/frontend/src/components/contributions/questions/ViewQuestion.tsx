@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { EditQuestion } from "./edit";
 import { Answers } from "./answers";
 import { Header } from "./Header";
+import { QuestionStatistics } from "./statistics";
 
 type Props = {
   questionId: string;
@@ -11,6 +12,7 @@ type Props = {
 enum TabValue {
   answers = 0,
   edition = 1,
+  statistiques = 2,
 }
 
 interface TabPanelProps {
@@ -22,7 +24,10 @@ interface TabPanelProps {
 export const ViewQuestion = ({ questionId }: Props): JSX.Element => {
   const [tabIndex, setTabIndex] = useState<TabValue>(TabValue.answers);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: TabValue) => {
+  const handleTabChange = (
+    _event: React.SyntheticEvent,
+    newValue: TabValue
+  ) => {
     setTabIndex(newValue);
   };
 
@@ -43,32 +48,54 @@ export const ViewQuestion = ({ questionId }: Props): JSX.Element => {
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
         {...other}
+        style={{ width: "100%" }}
       >
-        {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+        {value === index && (
+          <Box
+            sx={{
+              p: 3,
+              width: "100%",
+            }}
+          >
+            {children}
+          </Box>
+        )}
       </div>
     );
   }
 
   return (
     <Stack
-      alignItems="stretch"
       direction="column"
-      justifyContent="start"
       spacing={2}
+      sx={{
+        minHeight: "100vh",
+        width: "100%",
+        pb: 4,
+      }}
     >
       <Header questionId={questionId} />
-      <Box sx={{ borderBottom: 1 }}>
+
+      <Box sx={{ borderBottom: 1, width: "100%" }}>
         <Tabs value={tabIndex} onChange={handleTabChange}>
           <Tab label="Réponses" {...a11yProps(TabValue.answers)} />
           <Tab label="Édition" {...a11yProps(TabValue.edition)} />
+          <Tab label="Statistiques" {...a11yProps(TabValue.statistiques)} />
         </Tabs>
       </Box>
-      <TabPanel value={tabIndex} index={TabValue.answers}>
-        <Answers questionId={questionId} />
-      </TabPanel>
-      <TabPanel value={tabIndex} index={TabValue.edition}>
-        <EditQuestion questionId={questionId} />
-      </TabPanel>
+
+      <Box sx={{ flex: 1, width: "100%" }}>
+        {" "}
+        <TabPanel value={tabIndex} index={TabValue.answers}>
+          <Answers questionId={questionId} />
+        </TabPanel>
+        <TabPanel value={tabIndex} index={TabValue.edition}>
+          <EditQuestion questionId={questionId} />
+        </TabPanel>
+        <TabPanel value={tabIndex} index={TabValue.statistiques}>
+          <QuestionStatistics questionId={questionId} />
+        </TabPanel>
+      </Box>
     </Stack>
   );
 };
