@@ -11,7 +11,7 @@
   "dependencies": {
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-slugify": "4.52.1",
-    "@socialgouv/cdtn-utils": "4.196.0",
+    "@socialgouv/cdtn-utils": "4.196.1",
     "@socialgouv/dila-api-client": "1.2.4",
     "axios": "^1.5.0",
     "diff": "^5.1.0",
@@ -34,7 +34,7 @@
     "@socialgouv/legi-data-types": "2.73.1",
     "@types/diff": "^5.0.3",
     "@types/jest": "^29.5.12",
-    "@types/memoizee": "0.4.11",
+    "@types/memoizee": "0.4.12",
     "@types/node": "16.11.68",
     "@types/semver": "7.3.13",
     "@types/tar": "^6.1.5",
