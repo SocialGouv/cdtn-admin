@@ -47,8 +47,8 @@
   },
   "devDependencies": {
     "@shared/eslint-config": "workspace:^",
-    "@swc/cli": "0.1.65",
-    "@swc/core": "1.2.249",
+    "@swc/cli": "0.7.9",
+    "@swc/core": "1.15.3",
     "@swc/jest": "0.2.37",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
