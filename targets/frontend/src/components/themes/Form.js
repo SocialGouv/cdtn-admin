@@ -80,6 +80,7 @@ const ThemeForm = ({ parentId, onSubmit, loading = false, theme = {} }) => {
         <Box mb={th.space.small}>
           <Label htmlFor={"icon"}>Icône</Label>
           <IconPicker
+            label="Icône"
             control={control}
             name="icon"
             id="icon"
