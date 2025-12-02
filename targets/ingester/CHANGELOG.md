@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.62.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.61.0...v2.62.0) (2025-12-02)
+
+### Bug Fixes
+
+- **prettier:** add formater at the root of the project + add verification of the ci that formatting is respecting ([#1610](https://github.com/SocialGouv/cdtn-admin/issues/1610)) ([d8c74ec](https://github.com/SocialGouv/cdtn-admin/commit/d8c74ecc63b8f0c8bd9b8cde3e8d26884e180783))
+
 # [2.61.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.60.0...v2.61.0) (2025-11-14)
 
 **Note:** Version bump only for package ingester
