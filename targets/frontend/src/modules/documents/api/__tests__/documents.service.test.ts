@@ -26,6 +26,7 @@ describe("document service", () => {
     description:
       "Quand une femme tombe enceinte et décide de partir en congé maternité, cette dernière a droit à des indemnités journalières de sécurité sociale venant indemniser la période durant laquelle elle ne peut plus travailler.",
     content_type: "ANSWER",
+    infographics: [],
     agreement: {
       id: "0016",
       name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",

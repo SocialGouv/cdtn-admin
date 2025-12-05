@@ -7,18 +7,7 @@ export interface InfographicOptions {
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     infographic: {
-      setInfographic: (
-        infoTitle: string,
-        infoName: string,
-        pdfName: string,
-        sizePdf: string
-      ) => ReturnType;
-      updateInfographicSrc: (
-        newInfoTitle: string,
-        newInfoName: string,
-        newPdfName: string,
-        newPdfSize: string
-      ) => ReturnType;
+      setInfographic: (infoId: string, infoFileName: string) => ReturnType;
       removeInfographic: () => ReturnType;
     };
   }
@@ -37,44 +26,28 @@ export const Infographic = Node.create<InfographicOptions>({
 
   addAttributes() {
     return {
-      infoTitle: {
+      infoId: {
         parseHTML: (element) =>
           element
             .querySelector("div.infographic")
-            ?.getAttribute("data-infographic-title"),
+            ?.getAttribute("data-infographic-id"),
         renderHTML: (attributes) => {
-          return { "data-infographic-title": attributes.infoTitle };
+          return { "data-infographic-id": attributes.infoId };
         },
       },
-      infoName: {
+      infoFileName: {
         parseHTML: (element) =>
           element
             .querySelector("div.infographic")
             ?.getAttribute("data-infographic"),
         renderHTML: (attributes) => {
-          return { "data-infographic": attributes.infoName };
-        },
-      },
-      pdfName: {
-        parseHTML: (element) =>
-          element.querySelector("div.infographic")?.getAttribute("data-pdf"),
-        renderHTML: (attributes) => {
-          return { "data-pdf": attributes.pdfName };
-        },
-      },
-      pdfSize: {
-        parseHTML: (element) =>
-          element
-            .querySelector("div.infographic")
-            ?.getAttribute("data-pdf-size"),
-        renderHTML: (attributes) => {
-          return { "data-pdf-size": attributes.pdfSize };
+          return { "data-infographic": attributes.infoFileName };
         },
       },
     };
   },
 
-  content: "block+",
+  atom: true,
 
   group: "block",
 
@@ -85,10 +58,8 @@ export const Infographic = Node.create<InfographicOptions>({
         getAttrs: (element) => {
           const el = element as HTMLElement;
           return {
-            infoTitle: el.getAttribute("data-infographic-title") || "",
-            infoName: el.getAttribute("data-infographic") || "",
-            pdfName: el.getAttribute("data-pdf") || "",
-            pdfSize: el.getAttribute("data-pdf-size") || "",
+            infoId: el.getAttribute("data-infographic-id") || "",
+            infoFileName: el.getAttribute("data-infographic") || "",
           };
         },
       },
@@ -100,10 +71,8 @@ export const Infographic = Node.create<InfographicOptions>({
       "div",
       {
         class: "infographic",
-        "data-infographic-title": HTMLAttributes["data-infographic-title"],
+        "data-infographic-id": HTMLAttributes["data-infographic-id"],
         "data-infographic": HTMLAttributes["data-infographic"],
-        "data-pdf": HTMLAttributes["data-pdf"],
-        "data-pdf-size": HTMLAttributes["data-pdf-size"],
       },
       [
         "img",
@@ -113,99 +82,46 @@ export const Infographic = Node.create<InfographicOptions>({
           width: "500",
         },
       ],
-      ["div", {}, 0],
     ];
   },
 
   addCommands() {
     return {
       setInfographic:
-        (
-          infoTitle: string,
-          infoName: string,
-          pdfName: string,
-          pdfSize: string
-        ) =>
+        (infoId: string, infoFileName: string) =>
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,
-            attrs: { infoTitle, infoName, pdfName, pdfSize },
-            content: [
-              {
-                type: "details",
-                content: [
-                  {
-                    type: "detailsSummary",
-                    content: [
-                      {
-                        type: "text",
-                        text: "Afficher le contenu de l'infographie",
-                      },
-                    ],
-                  },
-                  {
-                    type: "detailsContent",
-                    content: [
-                      {
-                        type: "paragraph",
-                        content: [
-                          {
-                            type: "text",
-                            text: "Décrire ici le contenu de l'infographie",
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
+            attrs: { infoId, infoFileName },
           });
-        },
-
-      updateInfographicSrc:
-        (
-          newInfoTitle: string,
-          newInfoName: string,
-          newPdfName: string,
-          newPdfSize: string
-        ) =>
-        ({ state, chain }) => {
-          const { selection } = state;
-          const node = selection.$anchor.node();
-
-          if (node.type.name !== "infographic") {
-            return false;
-          }
-          return chain()
-            .updateAttributes("infographic", {
-              infoTitle: newInfoTitle,
-              infoName: newInfoName,
-              pdfName: newPdfName,
-              pdfSize: newPdfSize,
-            })
-            .run();
         },
 
       removeInfographic:
         () =>
         ({ state, dispatch }) => {
           const { selection } = state;
-          const node = selection.$anchor.node();
 
-          if (node.type.name !== "infographic") {
-            return false;
+          const selectedNode = (selection as any).node;
+          if (selectedNode && selectedNode.type.name === "infographic") {
+            if (dispatch) {
+              dispatch(state.tr.deleteSelection());
+            }
+            return true;
           }
 
-          if (dispatch) {
-            const tr = state.tr.delete(
-              selection.$anchor.before(),
-              selection.$anchor.after()
-            );
-            dispatch(tr);
+          const { $from } = selection;
+          for (let d = $from.depth; d > 0; d--) {
+            const node = $from.node(d);
+            if (node.type.name === "infographic") {
+              if (dispatch) {
+                const pos = $from.before(d);
+                dispatch(state.tr.delete(pos, pos + node.nodeSize));
+              }
+              return true;
+            }
           }
 
-          return true;
+          return false;
         },
     };
   },

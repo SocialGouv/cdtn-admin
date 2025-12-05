@@ -8,6 +8,7 @@ import {
   ContributionHighlight,
   ContributionLinkedContent,
   DocumentElasticWithSource,
+  InfographicElasticDocument,
 } from "@socialgouv/cdtn-types";
 import { generateMetadata } from "./generateMetadata";
 import { isGenericContribution, isGenericNotCdtContribution } from "./helpers";
@@ -32,7 +33,8 @@ export type ContributionElasticDocumentLightRelatedContent = Omit<
 export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
-  ccnListWithHighlight: Record<number, ContributionHighlight | undefined>
+  ccnListWithHighlight: Record<number, ContributionHighlight | undefined>,
+  infographicDocuments: InfographicElasticDocument[]
 ): Promise<ContributionElasticDocument[]> {
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
     (state: Record<number, Breadcrumb[]>, contribution) => {
@@ -54,7 +56,11 @@ export async function generateContributions(
     );
     const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
-    const content = await generateContent(contribGeneric, contrib);
+    const content = await generateContent(
+      contribGeneric,
+      contrib,
+      infographicDocuments
+    );
 
     const messageBlock = await generateMessageBlock(contribGeneric, contrib);
 

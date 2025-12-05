@@ -3,6 +3,7 @@
 - "!include contribution_agreement_messages.yaml"
 - "!include contribution_answer_cdtn_references.yaml"
 - "!include contribution_answer_comments.yaml"
+- "!include contribution_answer_infographics.yaml"
 - "!include contribution_answer_kali_references.yaml"
 - "!include contribution_answer_legi_references.yaml"
 - "!include contribution_answer_other_references.yaml"
