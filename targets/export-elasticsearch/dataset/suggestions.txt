@@ -1,646 +1,646 @@
-{"entity": "Cong\u00e9 exceptionnel", "value": 42}
-{"entity": "Prise d\u2019acte et r\u00e9siliation judiciaire", "value": 42}
-{"entity": "Seniors", "value": 42}
-{"entity": "Caves coop\u00e9ratives vinicoles et leurs unions", "value": 42}
-{"entity": "Cong\u00e9 paternit\u00e9", "value": 42}
-{"entity": "Cong\u00e9s pay\u00e9s", "value": 42}
-{"entity": "Industries de fabrication m\u00e9canique du verre", "value": 42}
-{"entity": "Exploitation cin\u00e9matographique", "value": 42}
-{"entity": "Commerce succursaliste de la chaussure", "value": 42}
-{"entity": "Entreprises au service de la cr\u00e9ation et de l'\u00e9v\u00e9nement", "value": 42}
-{"entity": "Cong\u00e9s et repos", "value": 42}
-{"entity": "Cong\u00e9s li\u00e9s \u00e0 la naissance et \u00e0 l\u2019enfance", "value": 42}
-{"entity": "Maladie", "value": 42}
-{"entity": "Temps de pause", "value": 42}
-{"entity": "Combien de jours de cong\u00e9s en cas de d\u00e9c\u00e8s d'un proche ?", "value": 42}
-{"entity": "Industries carri\u00e8res  et mat\u00e9riaux de construction", "value": 42}
-{"entity": "Golf", "value": 42}
-{"entity": "Licenciement", "value": 42}
-{"entity": "Maisons \u00e0 succursales de vente au d\u00e9tail d'habillement", "value": 42}
-{"entity": "Travail m\u00e9canique du bois, des scieries, du n\u00e9goce et de l'importation des bois", "value": 42}
-{"entity": "Licenciement pour inaptitude et indemnit\u00e9s", "value": 42}
-{"entity": "Licenciement \u00e9conomique", "value": 42}
-{"entity": "Autres cong\u00e9s", "value": 42}
-{"entity": "Indemnit\u00e9 repas", "value": 42}
-{"entity": "Repas", "value": 42}
-{"entity": "Accident de trajet", "value": 42}
-{"entity": "Rupture cdd", "value": 42}
-{"entity": "Smic", "value": 42}
-{"entity": "Hospitalisation priv\u00e9e : \u00e9tablissements priv\u00e9s d'hospitalisation, de soins, de cure et de garde \u00e0 but non lucratif (FEHAP)", "value": 42}
-{"entity": "Idcc", "value": 42}
-{"entity": "Cdd", "value": 42}
-{"entity": "Le paiement des heures suppl\u00e9mentaires", "value": 42}
-{"entity": "Pr\u00e9avis cdi", "value": 42}
-{"entity": "Entretien professionnel", "value": 42}
-{"entity": "Entreprises d'expertises en mati\u00e8re d'\u00e9valuations industrielles et commerciales", "value": 42}
-{"entity": "Entreprises de pr\u00e9vention et de s\u00e9curit\u00e9", "value": 42}
-{"entity": "Espaces de loisirs, d'attractions et culturels (CCNELAC)", "value": 42}
-{"entity": "Travailler le dimanche", "value": 42}
-{"entity": "Equipements de travail et de protection", "value": 42}
-{"entity": "B\u00e2timent ETAM", "value": 42}
-{"entity": "Discrimination", "value": 42}
-{"entity": "Fin de cdd", "value": 42}
-{"entity": "Industries des jeux, jouets, articles de f\u00eates et ornements de No\u00ebl, articles de pu\u00e9riculture et voitures d'enfants, mod\u00e9lisme et industries connexes", "value": 42}
-{"entity": "Mise \u00e0 la retraite", "value": 42}
-{"entity": "Gr\u00e8ve", "value": 42}
-{"entity": "Bureaux d'\u00e9tudes techniques, cabinets d'ing\u00e9nieurs-conseils et soci\u00e9t\u00e9s de conseils", "value": 42}
-{"entity": "Certificat de travail", "value": 42}
-{"entity": "Int\u00e9rim", "value": 42}
-{"entity": "Institutions de retraite compl\u00e9mentaire (personnel)", "value": 42}
-{"entity": "Papeterie : commerce de d\u00e9tail de papeterie, fournitures de bureau, bureautique et informatique, librairie", "value": 42}
-{"entity": "Restauration rapide", "value": 42}
-{"entity": "Industries charcuti\u00e8res (salaisons, charcuteries, conserves de viandes)", "value": 42}
-{"entity": "Heures de d\u00e9l\u00e9gation", "value": 42}
-{"entity": "Mod\u00e8le type lettre de licenciement", "value": 42}
-{"entity": "Modification du contrat de travail", "value": 42}
-{"entity": "Cin\u00e9ma : distribution de films (employ\u00e9s et ouvriers, cadres et agents de ma\u00eetrise)", "value": 42}
-{"entity": "Soci\u00e9t\u00e9s d'assistance", "value": 42}
-{"entity": "Code du travail", "value": 42}
-{"entity": "D\u00e9part volontaire \u00e0 la retraite", "value": 42}
-{"entity": "P\u00e9riode d\u2019essai", "value": 42}
-{"entity": "Branche ferroviaire", "value": 42}
-{"entity": "Les structures d\u2019insertion", "value": 42}
-{"entity": "Solde de tout compte", "value": 42}
-{"entity": "Entreprises d'architecture", "value": 42}
-{"entity": "Banque", "value": 42}
-{"entity": "Journalistes", "value": 42}
-{"entity": "Rupture de p\u00e9riode d'essai", "value": 42}
-{"entity": "Inaptitude", "value": 42}
-{"entity": "Inspection du travail", "value": 42}
-{"entity": "Production cin\u00e9matographique", "value": 42}
-{"entity": "Compte \u00e9pargne-temps (CET)", "value": 42}
-{"entity": "Contentieux", "value": 42}
-{"entity": "Cong\u00e9s \u00e9v\u00e9nement familial", "value": 42}
-{"entity": "Construction-promotion", "value": 42}
-{"entity": "Convention collective", "value": 42}
-{"entity": "Entreprises de travaux et services agricoles, ruraux et forestiers (ETARF)", "value": 42}
-{"entity": "Mutualit\u00e9", "value": 42}
-{"entity": "Formation professionnelle", "value": 42}
-{"entity": "Comment d\u00e9missionner en arr\u00eat maladie ?", "value": 42}
-{"entity": "Prime d'anciennet\u00e9", "value": 42}
-{"entity": "Navigation int\u00e9rieure", "value": 42}
-{"entity": "Cong\u00e9 d\u00e9c\u00e8s", "value": 42}
-{"entity": "Remise solde de tout compte", "value": 42}
-{"entity": "Maintien de salaire et maladie", "value": 42}
-{"entity": "Quelle est la majoration des heures de nuit ?", "value": 42}
-{"entity": "Caoutchouc", "value": 42}
-{"entity": "Conserveries coop\u00e9ratives et SICA", "value": 42}
-{"entity": "Journ\u00e9e de solidarit\u00e9", "value": 42}
-{"entity": "Invalidit\u00e9", "value": 42}
-{"entity": "Indemnit\u00e9 licenciement", "value": 42}
-{"entity": "Transport a\u00e9rien : personnel au sol", "value": 42}
-{"entity": "Industries des tuiles et briques", "value": 42}
-{"entity": "Panier repas transport", "value": 42}
-{"entity": "Jeunes travailleurs", "value": 42}
-{"entity": "D\u00e9lai de carence cdd", "value": 42}
-{"entity": "Modalit\u00e9s de calcul indemnit\u00e9s de licenciement", "value": 42}
-{"entity": "Commerce de d\u00e9tail alimentaire non sp\u00e9cialis\u00e9", "value": 42}
-{"entity": "Cdd transform\u00e9 en cdi", "value": 42}
-{"entity": "Retraite progressive", "value": 42}
-{"entity": "La certification professionnelle", "value": 42}
-{"entity": "Temps partiel", "value": 42}
-{"entity": "D\u00e9c\u00e8s employeur", "value": 42}
-{"entity": "L4121-2", "value": 42}
-{"entity": "Contrat de professionnalisation", "value": 42}
-{"entity": "Exp\u00e9dition et exportation de fruits et l\u00e9gumes", "value": 42}
-{"entity": "Quelles sont les nouvelles modalit\u00e9s de remboursement des frais de d\u00e9placement domicile-travail ?", "value": 42}
-{"entity": "Pr\u00e9avis cdd", "value": 42}
-{"entity": "Indemnit\u00e9 compensatrice de pr\u00e9avis", "value": 42}
-{"entity": "Risques professionnels et pr\u00e9vention", "value": 42}
-{"entity": "Horaires", "value": 42}
-{"entity": "Astreinte et temps de travail effectif", "value": 42}
-{"entity": "Travail dissimul\u00e9", "value": 42}
-{"entity": "Usages", "value": 42}
-{"entity": "Simulateur calcul indemnit\u00e9 de licenciement pour inaptitude", "value": 42}
-{"entity": "Mise \u00e0 pied disciplinaire", "value": 42}
-{"entity": "Missions locales et PAIO", "value": 42}
-{"entity": "Presse (Information sp\u00e9cialis\u00e9e [employ\u00e9s, techniciens, agents de ma\u00eetrise et cadres])", "value": 42}
-{"entity": "Salaire", "value": 42}
-{"entity": "Branche des salari\u00e9s en portage salarial", "value": 42}
-{"entity": "R\u00e8glement int\u00e9rieur", "value": 42}
-{"entity": "P\u00e2tisserie", "value": 42}
-{"entity": "L2317-1", "value": 42}
-{"entity": "Entreprises de courtage d'assurances et/ou de r\u00e9assurances", "value": 42}
-{"entity": "Lait : industrie laiti\u00e8re", "value": 42}
-{"entity": "Bdese", "value": 42}
-{"entity": "Apprentissage", "value": 42}
-{"entity": "Hospitalisation priv\u00e9e", "value": 42}
-{"entity": "Am\u00e9nagement du temps de travail", "value": 42}
-{"entity": "Cong\u00e9s sans solde", "value": 42}
-{"entity": "Entreprises de transport et services maritimes (personnels navigants officiers)", "value": 42}
-{"entity": "Fiche de paie", "value": 42}
-{"entity": "N\u00e9gociations dans l\u2019entreprise", "value": 42}
-{"entity": "Services de l'automobile (Commerce et r\u00e9paration de l'automobile, du cycle et du motocycle, activit\u00e9s connexes, contr\u00f4le technique automobile, formation des conducteurs)", "value": 42}
-{"entity": "Industries du cartonnage", "value": 42}
-{"entity": "Fermeture de l'entreprise et cong\u00e9s pay\u00e9s", "value": 42}
-{"entity": "D\u00e9mission et ch\u00f4mage", "value": 42}
-{"entity": "Distribution et commerce de gros des papiers-cartons", "value": 42}
-{"entity": "Exploitations frigorifiques", "value": 42}
-{"entity": "Contingent heures suppl\u00e9mentaires", "value": 42}
-{"entity": "Csp", "value": 42}
-{"entity": "Absence injustifi\u00e9e", "value": 42}
-{"entity": "Cong\u00e9s impos\u00e9s par l' employeur", "value": 42}
-{"entity": "Accords d'entreprise", "value": 42}
-{"entity": "Pr\u00e9avis d\u00e9mission", "value": 42}
-{"entity": "Heures suppl\u00e9mentaires", "value": 42}
-{"entity": "Travailleur de nuit", "value": 42}
-{"entity": "Demandeurs d\u2019emploi", "value": 42}
-{"entity": "D\u00e9m\u00e9nagement", "value": 42}
-{"entity": "Services de sant\u00e9 au travail interentreprises", "value": 42}
-{"entity": "Clause de non concurrence", "value": 42}
-{"entity": "Risques professionnels", "value": 42}
-{"entity": "Documents de fin de contrat d\u00e9lai", "value": 42}
-{"entity": "Grossesse", "value": 42}
-{"entity": "Pause d\u00e9jeuner", "value": 42}
-{"entity": "Pr\u00e9-retraite", "value": 42}
-{"entity": "Convention de forfait (en heures ou en jours)", "value": 42}
-{"entity": "B\u00e2timent et travaux publics ETAM (Guadeloupe)", "value": 42}
-{"entity": "Temps de travail", "value": 42}
-{"entity": "Personnels des agences g\u00e9n\u00e9rales d'assurances", "value": 42}
-{"entity": "Commerce de d\u00e9tail de l'habillement et des articles textiles", "value": 42}
-{"entity": "Remont\u00e9es m\u00e9caniques et domaines skiables", "value": 42}
-{"entity": "Inspection d'assurance", "value": 42}
-{"entity": "Manutention portuaire du port de Fort-de-France", "value": 42}
-{"entity": "Bricolage (vente au d\u00e9tail en libre-service)", "value": 42}
-{"entity": "Stage", "value": 42}
-{"entity": "\u00c9diteurs de la presse magazine Employ\u00e9s et cadres (30 octobre 2017)", "value": 42}
-{"entity": "N\u00e9goce de l'ameublement", "value": 42}
-{"entity": "Assistante maternelle", "value": 42}
-{"entity": "Modulation du temps de travail", "value": 42}
-{"entity": "Conseil et service en \u00e9levage", "value": 42}
-{"entity": "Assainissement et maintenance industrielle", "value": 42}
-{"entity": "Entreprises de navigation : personnel s\u00e9dentaire", "value": 42}
-{"entity": "Formation", "value": 42}
-{"entity": "Embauche et contrat de travail", "value": 42}
-{"entity": "Travail a\u00e9rien : personnel navigant des essais et r\u00e9ceptions", "value": 42}
-{"entity": "Repr\u00e9sentation du personnel", "value": 42}
-{"entity": "Industries c\u00e9ramiques de France", "value": 42}
-{"entity": "Production et transformation des papiers et cartons", "value": 42}
-{"entity": "B\u00e2timent de la r\u00e9gion parisienne : ouvriers, employ\u00e9s, techniciens et agents de ma\u00eetrise, ing\u00e9nieurs, assimil\u00e9s et cadres", "value": 42}
-{"entity": "Inaptitude au travail", "value": 42}
-{"entity": "N\u00e9gociations de branche", "value": 42}
-{"entity": "Couture parisienne", "value": 42}
-{"entity": "Rupture conventionnelle cdi", "value": 42}
-{"entity": "Entreprises de la publicit\u00e9 et assimil\u00e9es", "value": 42}
-{"entity": "Chaleur et canicule au travail", "value": 42}
-{"entity": "P\u00f4le emploi", "value": 42}
-{"entity": "Le cong\u00e9 de proche aidant", "value": 42}
-{"entity": "Production de films d'animation", "value": 42}
-{"entity": "Mareyeurs-exp\u00e9diteurs", "value": 42}
-{"entity": "Commerces de d\u00e9tail non alimentaires : antiquit\u00e9s, brocante, galeries d'art (\u0153uvres d'art), arts de la table, coutellerie, droguerie, \u00e9quipement du foyer, bazars, commerces m\u00e9nagers, mod\u00e9lisme, jeux, jouets, pu\u00e9rinatalit\u00e9, maroquinerie, presse et jeux de hasard ou pronostics, produits de la vape", "value": 42}
-{"entity": "Bulletin de salaire", "value": 42}
-{"entity": "Visite m\u00e9dicale travail", "value": 42}
-{"entity": "Licenciement \u00e9conomique proc\u00e9dure", "value": 42}
-{"entity": "Harc\u00e8lement au travail", "value": 42}
-{"entity": "Confiserie, chocolaterie, biscuiterie (d\u00e9taillants et d\u00e9taillants-fabricants)", "value": 42}
-{"entity": "Acteurs de la formation", "value": 42}
-{"entity": "Salari\u00e9s expatri\u00e9s", "value": 42}
-{"entity": "Emploi et formation professionnelle", "value": 42}
-{"entity": "Harc\u00e8lement moral", "value": 42}
-{"entity": "Libert\u00e9s du salari\u00e9", "value": 42}
-{"entity": "Heures suppl\u00e9mentaires non pay\u00e9es", "value": 42}
-{"entity": "Frais de d\u00e9placement trajet domicile travail", "value": 42}
-{"entity": "Changement des horaires de travail", "value": 42}
-{"entity": "Cabinets dentaires", "value": 42}
-{"entity": "Spectacle vivant (entreprises du secteur priv\u00e9)", "value": 42}
-{"entity": "Compte professionnel de pr\u00e9vention (C2P) ", "value": 42}
-{"entity": "Presse quotidienne et hebdomadaire en r\u00e9gions", "value": 42}
-{"entity": "Re\u00e7u pour solde de tout compte", "value": 42}
-{"entity": "Travail de nuit", "value": 42}
-{"entity": "T\u00e9l\u00e9communications", "value": 42}
-{"entity": "Industrie pharmaceutique", "value": 42}
-{"entity": "Fin d\u2019un CDD - CTT", "value": 42}
-{"entity": "Documents \u00e0 remettre au salari\u00e9", "value": 42}
-{"entity": "Repos quotidien et hebdomadaire", "value": 42}
-{"entity": "Panier repas", "value": 42}
-{"entity": "Jours f\u00e9ri\u00e9s", "value": 42}
-{"entity": "Indemnit\u00e9 compensatrice de cong\u00e9s pay\u00e9s", "value": 42}
-{"entity": "Industrie de la chaussure et des articles chaussants", "value": 42}
-{"entity": "D\u00e9tachement", "value": 42}
-{"entity": "Coop\u00e9ratives agricoles de c\u00e9r\u00e9ales, de meunerie, d'approvisionnement, d'alimentation du b\u00e9tail et d'ol\u00e9agineux", "value": 42}
-{"entity": "Handicap", "value": 42}
-{"entity": "Agences de presse (employ\u00e9s, techniciens et cadres)", "value": 42}
-{"entity": "Quelles sont les heures de nuit", "value": 42}
-{"entity": "Personnel des cabinets m\u00e9dicaux", "value": 42}
-{"entity": "Licenciement pour inaptitude professionnelle", "value": 42}
-{"entity": "Comment calculer l'indemnit\u00e9 compensatrice de pr\u00e9avis ?", "value": 42}
-{"entity": "Activit\u00e9s de production des eaux embouteill\u00e9es, de boissons rafra\u00eechissantes sans alcool et de bi\u00e8re", "value": 42}
-{"entity": "Mi-temps th\u00e9rapeutique", "value": 42}
-{"entity": "R\u00e9mun\u00e9ration", "value": 42}
-{"entity": "Am\u00e9nagement du poste de travail", "value": 42}
-{"entity": "Ciment : industrie de la fabrication des ciments", "value": 42}
-{"entity": "Clause de mobilit\u00e9", "value": 42}
-{"entity": "Entreprises de la maintenance, distribution et location de mat\u00e9riels agricoles, de travaux publics, de b\u00e2timent, de manutention, de motoculture de plaisance et activit\u00e9s connexes, dite SDLM", "value": 42}
-{"entity": "Prime de participation", "value": 42}
-{"entity": "Rqth", "value": 42}
-{"entity": "Embauche", "value": 42}
-{"entity": "Formalit\u00e9s obligatoires", "value": 42}
-{"entity": "Sant\u00e9, s\u00e9curit\u00e9 et conditions de travail", "value": 42}
-{"entity": "Annualisation du temps de travail", "value": 42}
-{"entity": "Taxis", "value": 42}
-{"entity": "Remboursement des frais de transport", "value": 42}
-{"entity": "Maternit\u00e9", "value": 42}
-{"entity": "Convention collective de branche", "value": 42}
-{"entity": "Grands magasins et magasins populaires", "value": 42}
-{"entity": "Entretien pr\u00e9alable", "value": 42}
-{"entity": "Contrats d\u2019insertion et emplois aid\u00e9s", "value": 42}
-{"entity": "Imprimeries de labeur et industries graphiques", "value": 42}
-{"entity": "B\u00e2timent Ouvriers (entreprises occupant plus de 10 salari\u00e9s)", "value": 42}
-{"entity": "Commerces de gros de l'habillement, de la mercerie, de la chaussure et du jouet", "value": 42}
-{"entity": "Centres de lutte contre le cancer", "value": 42}
-{"entity": "Licenciement pour motif personnel", "value": 42}
-{"entity": "Dur\u00e9e du pr\u00e9avis", "value": 42}
-{"entity": "Entreprises d'ambulances Ouvriers, employ\u00e9s et techniciens (Guyane)", "value": 42}
-{"entity": "M\u00e9daille du travail", "value": 42}
-{"entity": "Proth\u00e9sistes dentaires et personnels des laboratoires de proth\u00e8ses dentaires", "value": 42}
-{"entity": "Industrie et services nautiques", "value": 42}
-{"entity": "H\u00f4tels, caf\u00e9s, restaurants", "value": 42}
-{"entity": "Accident du travail et maintien de salaire", "value": 42}
-{"entity": "Fractionnement", "value": 42}
-{"entity": "Miroiterie (transformation et n\u00e9goce du verre)", "value": 42}
-{"entity": "Pharmacie d'officine", "value": 42}
-{"entity": "Primes et avantages", "value": 42}
-{"entity": "Omnipraticiens exer\u00e7ant dans les centres de sant\u00e9 miniers", "value": 42}
-{"entity": "Repos", "value": 42}
-{"entity": "Personnels des structures associatives cyn\u00e9g\u00e9tiques", "value": 42}
-{"entity": "Cse", "value": 42}
-{"entity": "Pr\u00e9avis", "value": 42}
-{"entity": "Amplitude et temps de pause", "value": 42}
-{"entity": "Lin : rouissage et teillage du lin", "value": 42}
-{"entity": "Prestataires de services dans le domaine du secteur tertiaire", "value": 42}
-{"entity": "Conseil de prud'hommes", "value": 42}
-{"entity": "Renouvellement cdd", "value": 42}
-{"entity": "Contrat cdd", "value": 42}
-{"entity": "Banque : personnel des banques de la Guyane", "value": 42}
-{"entity": "Mise a pied conservatoire", "value": 42}
-{"entity": "Les cong\u00e9s pour \u00e9v\u00e9nements familiaux", "value": 42}
-{"entity": "Droit de retrait", "value": 42}
-{"entity": "Entreprises de d\u00e9sinfection, d\u00e9sinsectisation et d\u00e9ratisation (3D)", "value": 42}
-{"entity": "Accord professionnel relatif aux cadres de direction des soci\u00e9t\u00e9s d'assurances", "value": 42}
-{"entity": "Coefficient", "value": 42}
-{"entity": "Distribution directe", "value": 42}
-{"entity": "Calcul solde de tout compte et primes", "value": 42}
-{"entity": "Changement de planning", "value": 42}
-{"entity": "Absence", "value": 42}
-{"entity": "Maladie professionnelle", "value": 42}
-{"entity": "P\u00e2tes alimentaires s\u00e8ches et couscous non pr\u00e9par\u00e9", "value": 42}
-{"entity": "Remise documents fin de contrat d\u00e9lai", "value": 42}
-{"entity": "Absences pour maladie", "value": 42}
-{"entity": "Sport", "value": 42}
-{"entity": "Industrie textile", "value": 42}
-{"entity": "Cong\u00e9 maternit\u00e9", "value": 42}
-{"entity": "Coiffure et professions connexes", "value": 42}
-{"entity": "Commerce de d\u00e9tail et de gros \u00e0 pr\u00e9dominance alimentaire", "value": 42}
-{"entity": "Guides et accompagnateurs en milieu amazonien", "value": 42}
-{"entity": "Dur\u00e9e du travail et temps de travail", "value": 42}
-{"entity": "Enseignement priv\u00e9 ind\u00e9pendant", "value": 42}
-{"entity": "Licenciement pour faute grave", "value": 42}
-{"entity": "Retraite", "value": 42}
-{"entity": "Calcul de cong\u00e9s pay\u00e9s", "value": 42}
-{"entity": "Cong\u00e9s d'anciennet\u00e9", "value": 42}
-{"entity": "Industries de la transformation des volailles", "value": 42}
-{"entity": "Horlogerie-bijouterie (commerce de d\u00e9tail)", "value": 42}
-{"entity": "Licenciement pour faute", "value": 42}
-{"entity": "Faute grave", "value": 42}
-{"entity": "Repos hebdomadaire", "value": 42}
-{"entity": "Salari\u00e9s permanents des entreprises de travail temporaire", "value": 42}
-{"entity": "D\u00e9mission", "value": 42}
-{"entity": "Rupture conventionnelle onf", "value": 42}
-{"entity": "Mutuelle sant\u00e9 obligatoire", "value": 42}
-{"entity": "Rupture p\u00e9riode d'essai pr\u00e9avis", "value": 42}
-{"entity": "Installation, entretien, r\u00e9paration et d\u00e9pannage de mat\u00e9riel a\u00e9raulique, thermique et frigorifique", "value": 42}
-{"entity": "Licenciement abusif", "value": 42}
-{"entity": "Cesu", "value": 42}
-{"entity": "Bulletin de salaire et cotisations sociales", "value": 42}
-{"entity": "Cdd dur\u00e9e", "value": 42}
-{"entity": "Convocation entretien pr\u00e9alable \u00e0 une sanction disciplinaire", "value": 42}
-{"entity": "Jardineries et graineteries", "value": 42}
-{"entity": "Convention collective nationale", "value": 42}
-{"entity": "L4131-1", "value": 42}
-{"entity": "Industrie du p\u00e9trole", "value": 42}
-{"entity": "Organismes gestionnaires de foyers et services pour jeunes travailleurs", "value": 42}
-{"entity": "Cong\u00e9s pay\u00e9s et fractionnement", "value": 42}
-{"entity": "Plans d\u2019\u00e9pargne salariale", "value": 42}
-{"entity": "Cdd et p\u00e9riode d'essai", "value": 42}
-{"entity": "Temps partiel th\u00e9rapeutique", "value": 42}
-{"entity": "13\u00e8me mois", "value": 42}
-{"entity": "Personnel des offices publics de l'habitat", "value": 42}
-{"entity": "Autres d\u00e9parts", "value": 42}
-{"entity": "Dimanches, jours f\u00e9ri\u00e9s et ponts", "value": 42}
-{"entity": "Banque : personnel des banques de la Guadeloupe, de Saint-Martin et de Saint-Barth\u00e9lemy", "value": 42}
-{"entity": "Rupture conventionnelle collective", "value": 42}
-{"entity": "Egalit\u00e9 professionnelle", "value": 42}
-{"entity": "Industries chimiques et connexes", "value": 42}
-{"entity": "Validation des acquis de l\u2019exp\u00e9rience (VAE)", "value": 42}
-{"entity": "Voyageurs de commerce, repr\u00e9sentants de commerce, placiers, VRP", "value": 42}
-{"entity": "Cong\u00e9s pay\u00e9s et maladie", "value": 42}
-{"entity": "Anciennet\u00e9 calcul", "value": 42}
-{"entity": "T\u00e9l\u00e9diffusion", "value": 42}
-{"entity": "Harc\u00e8lement et discrimination", "value": 42}
-{"entity": "Simulateur indemnit\u00e9 compensatrice de cong\u00e9s pay\u00e9s", "value": 42}
-{"entity": "Indemnit\u00e9s", "value": 42}
-{"entity": "Dur\u00e9e du travail d\u2019un jeune avant 18 ans", "value": 42}
-{"entity": "M\u00e9thodes de recrutement", "value": 42}
-{"entity": "CDD", "value": 42}
-{"entity": "Fleuristes, vente et services des animaux familiers", "value": 42}
-{"entity": "\u00c9lections cse", "value": 42}
-{"entity": "Codit", "value": 42}
-{"entity": "Rupture conventionnelle individuelle indemnit\u00e9 de rupture", "value": 42}
-{"entity": "Document unique d'\u00e9valuation des risques", "value": 42}
-{"entity": "\u00c9dition", "value": 42}
-{"entity": "Femme enceinte - Maternit\u00e9", "value": 42}
-{"entity": "Publics et mesures sp\u00e9cifiques", "value": 42}
-{"entity": "Obligation de s\u00e9curit\u00e9 de r\u00e9sultat de l'employeur", "value": 42}
-{"entity": "Commerce des articles de sport et \u00e9quipements de loisirs", "value": 42}
-{"entity": "Dur\u00e9e du travail", "value": 42}
-{"entity": "Personnel des parcs et jardins zoologiques priv\u00e9s", "value": 42}
-{"entity": "Salari\u00e9s des cabinets d'avocats", "value": 42}
-{"entity": "Industries alimentaires diverses", "value": 42}
-{"entity": "Activit\u00e9 partielle (anciennement ch\u00f4mage partiel)", "value": 42}
-{"entity": "Alternance et contrat d'apprentissage", "value": 42}
-{"entity": "Modification horaires de travail", "value": 42}
-{"entity": "Ports de plaisance", "value": 42}
-{"entity": "Contrats divers et professions particuli\u00e8res", "value": 42}
-{"entity": "Comment calculer le montant de l'indemnit\u00e9 de licenciement", "value": 42}
-{"entity": "Soci\u00e9t\u00e9s d'assurances", "value": 42}
-{"entity": "M\u00e9tiers de la transformation des grains", "value": 42}
-{"entity": "Ateliers et chantiers d'insertion", "value": 42}
-{"entity": "B\u00e2timent et travaux publics et activit\u00e9s annexes ETAM (Martinique)", "value": 42}
-{"entity": "M\u00e9tallurgie", "value": 42}
-{"entity": "R\u00e9partition pharmaceutique", "value": 42}
-{"entity": "Avenant au contrat de travail", "value": 42}
+{"entity": "Entreprises de services \u00e0 la personne", "value": 42}
+{"entity": "Notariat", "value": 42}
+{"entity": "Aides financi\u00e8res et exon\u00e9rations", "value": 42}
+{"entity": "Plan de pr\u00e9vention", "value": 42}
+{"entity": "Salaire minimum", "value": 42}
+{"entity": "Heures pour recherche d'emploi", "value": 42}
+{"entity": "Gardiens, concierges et employ\u00e9s d'immeubles", "value": 42}
 {"entity": "Forfait jour", "value": 42}
-{"entity": "Harc\u00e8lement moral au travail", "value": 42}
+{"entity": "Bricolage (vente au d\u00e9tail en libre-service)", "value": 42}
+{"entity": "Idcc", "value": 42}
+{"entity": "Licenciement inaptitude", "value": 42}
+{"entity": "Invalidit\u00e9", "value": 42}
+{"entity": "\u00c9lections cse", "value": 42}
+{"entity": "Demandeurs d\u2019emploi", "value": 42}
+{"entity": "Exploitation cin\u00e9matographique", "value": 42}
+{"entity": "Absences pour maladie", "value": 42}
+{"entity": "Pr\u00e9avis d\u00e9mission", "value": 42}
+{"entity": "Commerces de gros de l'habillement, de la mercerie, de la chaussure et du jouet", "value": 42}
+{"entity": "Augmentation de salaire", "value": 42}
+{"entity": "P\u00e9riode d'essai", "value": 42}
+{"entity": "Harc\u00e8lement", "value": 42}
+{"entity": "Cong\u00e9s pay\u00e9s et maladie", "value": 42}
+{"entity": "Cong\u00e9 pour d\u00e9c\u00e8s grand parent", "value": 42}
+{"entity": "Indemnit\u00e9 de fin de contrat cdd", "value": 42}
+{"entity": "Jours de fractionnement", "value": 42}
+{"entity": "Clause de non concurrence", "value": 42}
+{"entity": "Indemnit\u00e9 licenciement", "value": 42}
+{"entity": "Certificat de travail", "value": 42}
+{"entity": "Cong\u00e9 exceptionnel", "value": 42}
+{"entity": "Entreprises de la publicit\u00e9 et assimil\u00e9es", "value": 42}
+{"entity": "Licenciement pour inaptitude", "value": 42}
+{"entity": "Enfant malade", "value": 42}
+{"entity": "Heures de nuit", "value": 42}
+{"entity": "Rupture conventionnelle cdi", "value": 42}
+{"entity": "L'employeur a t il le droit d'imposer des cong\u00e9s pay\u00e9s", "value": 42}
+{"entity": "Prime macron", "value": 42}
+{"entity": "Production et transformation des papiers et cartons", "value": 42}
+{"entity": "Lettre de convocation \u00e0 un entretien pr\u00e9alable pour sanction disciplinaire", "value": 42}
+{"entity": "Heures compl\u00e9mentaires", "value": 42}
+{"entity": "Manutention portuaire du port de Fort-de-France", "value": 42}
+{"entity": "Distribution directe", "value": 42}
+{"entity": "Industries c\u00e9ramiques de France", "value": 42}
+{"entity": "\u00c9pargne salariale, participation et interessement", "value": 42}
+{"entity": "Astreinte", "value": 42}
+{"entity": "Blanchisserie, laverie, location de linge, nettoyage \u00e0 sec, pressing et teinturerie", "value": 42}
+{"entity": "Papeterie : commerce de d\u00e9tail de papeterie, fournitures de bureau, bureautique et informatique, librairie", "value": 42}
+{"entity": "Modification du contrat de travail", "value": 42}
+{"entity": "Accord de performance collective", "value": 42}
+{"entity": "Activit\u00e9s industrielles de boulangerie et p\u00e2tisserie", "value": 42}
+{"entity": "Droit d\u2019alerte et de retrait des salari\u00e9s", "value": 42}
+{"entity": "Sauvegarde, redressement et liquidation judiciaire", "value": 42}
+{"entity": "Actions de formation", "value": 42}
+{"entity": "Sport", "value": 42}
+{"entity": "Commerce de d\u00e9tail de l'habillement et des articles textiles", "value": 42}
+{"entity": "Branche des salari\u00e9s en portage salarial", "value": 42}
+{"entity": "Licenciement pour motif personnel ou disciplinaire", "value": 42}
+{"entity": "Entreprises artistiques et culturelles", "value": 42}
+{"entity": "Prestataires de services dans le domaine du secteur tertiaire", "value": 42}
+{"entity": "P\u00e9riode essai", "value": 42}
+{"entity": "Rupture cdd", "value": 42}
+{"entity": "Conflit, contr\u00f4le et contentieux", "value": 42}
+{"entity": "P\u00e2tes alimentaires s\u00e8ches et couscous non pr\u00e9par\u00e9", "value": 42}
+{"entity": "Activit\u00e9s de march\u00e9s financiers", "value": 42}
+{"entity": "L4121-2", "value": 42}
+{"entity": "Renouvellement cdd", "value": 42}
+{"entity": "Personnels des structures associatives cyn\u00e9g\u00e9tiques", "value": 42}
+{"entity": "Comment calculer le montant de l'indemnit\u00e9 de licenciement", "value": 42}
+{"entity": "Acteurs du lien social et familial (centres sociaux et socioculturels, associations d'accueil de jeunes enfants, associations de d\u00e9veloppement social local)", "value": 42}
+{"entity": "Temps de trajet travail", "value": 42}
+{"entity": "Licenciement pour motif \u00e9conomique", "value": 42}
+{"entity": "Licenciement \u00e9conomique proc\u00e9dure", "value": 42}
+{"entity": "Conserveries coop\u00e9ratives et SICA", "value": 42}
+{"entity": "Banque : personnel des banques de la Martinique", "value": 42}
+{"entity": "Inaptitude au travail", "value": 42}
+{"entity": "Arr\u00eat maladie", "value": 42}
+{"entity": "Fleuristes, vente et services des animaux familiers", "value": 42}
+{"entity": "Faute grave", "value": 42}
+{"entity": "Institutions de retraite compl\u00e9mentaire (personnel)", "value": 42}
+{"entity": "B\u00e2timent Ouvriers (entreprises occupant plus de 10 salari\u00e9s)", "value": 42}
+{"entity": "Travail de nuit", "value": 42}
+{"entity": "Cin\u00e9ma : distribution de films (cadres et agents de ma\u00eetrise)", "value": 42}
+{"entity": "Comment d\u00e9missionner en arr\u00eat maladie ?", "value": 42}
+{"entity": "Industries de l'habillement", "value": 42}
+{"entity": "Visite de reprise", "value": 42}
+{"entity": "Rupture conventionnelle", "value": 42}
+{"entity": "D\u00e9mission cdi", "value": 42}
+{"entity": "Licenciement \u00e9conomique", "value": 42}
+{"entity": "Salari\u00e9s permanents des entreprises de travail temporaire", "value": 42}
+{"entity": "Retard dans le paiement du salaire", "value": 42}
+{"entity": "Taxis", "value": 42}
+{"entity": "Hospitalisation priv\u00e9e", "value": 42}
+{"entity": "Accords d'entreprise", "value": 42}
+{"entity": "Avenant", "value": 42}
+{"entity": "Cse", "value": 42}
+{"entity": "Cabinets ou entreprises d'expertises en automobile", "value": 42}
+{"entity": "Accord professionnel relatif aux cadres de direction des soci\u00e9t\u00e9s d'assurances", "value": 42}
+{"entity": "Cabinets dentaires", "value": 42}
+{"entity": "Visite m\u00e9dicale travail", "value": 42}
+{"entity": "Portage de presse", "value": 42}
+{"entity": "Annualisation du temps de travail", "value": 42}
+{"entity": "Assainissement et maintenance industrielle", "value": 42}
+{"entity": "Csp", "value": 42}
+{"entity": "Personnels des soci\u00e9t\u00e9s anonymes et fondations d'HLM", "value": 42}
+{"entity": "Restauration de collectivit\u00e9s", "value": 42}
+{"entity": "Harc\u00e8lement moral", "value": 42}
+{"entity": "Absence", "value": 42}
+{"entity": "Mi-temps th\u00e9rapeutique", "value": 42}
+{"entity": "Indemnit\u00e9 de licenciement", "value": 42}
+{"entity": "Comment calculer les indemnit\u00e9s de d\u00e9part \u00e0 la retraite ?", "value": 42}
+{"entity": "Entreprises au service de la cr\u00e9ation et de l'\u00e9v\u00e9nement", "value": 42}
+{"entity": "Repos compensateur", "value": 42}
+{"entity": "Collaborateurs salari\u00e9s des entreprises d'\u00e9conomistes de la construction et des m\u00e9treurs-v\u00e9rificateurs", "value": 42}
+{"entity": "Fiche de poste", "value": 42}
+{"entity": "Cong\u00e9 enfant malade", "value": 42}
+{"entity": "Travail de nuit et en soir\u00e9e", "value": 42}
+{"entity": "Conseil et service en \u00e9levage", "value": 42}
+{"entity": "Lait : industrie laiti\u00e8re", "value": 42}
+{"entity": "Personnel des offices publics de l'habitat", "value": 42}
+{"entity": "N\u00e9goce et prestations de services dans les domaines m\u00e9dico-techniques", "value": 42}
+{"entity": "B\u00e2timent ETAM", "value": 42}
+{"entity": "CDD", "value": 42}
+{"entity": "Mareyeurs-exp\u00e9diteurs", "value": 42}
+{"entity": "Retraite progressive", "value": 42}
+{"entity": "Miroiterie (transformation et n\u00e9goce du verre)", "value": 42}
+{"entity": "Travail ill\u00e9gal", "value": 42}
+{"entity": "V\u00e9t\u00e9rinaires : personnel salari\u00e9 des cabinets et cliniques v\u00e9t\u00e9rinaires", "value": 42}
+{"entity": "\u00c9diteurs de la presse magazine Employ\u00e9s et cadres (30 octobre 2017)", "value": 42}
+{"entity": "Femme enceinte travail", "value": 42}
+{"entity": "Personnel des parcs et jardins zoologiques priv\u00e9s", "value": 42}
+{"entity": "Pr\u00e9vention des risques", "value": 42}
+{"entity": "Force majeure, prise d'acte et r\u00e9siliation judiciaire", "value": 42}
+{"entity": "Cdd transform\u00e9 en cdi", "value": 42}
+{"entity": "Calcul solde de tout compte et primes", "value": 42}
+{"entity": "Mutuelle sant\u00e9 obligatoire", "value": 42}
+{"entity": "Distributeurs conseils hors domicile (bi\u00e8res, eaux min\u00e9rales et de table, boissons gazeuses ou non gazeuses, boissons aux jus de fruits, sirops, jus de fruits, boissons lact\u00e9es et gaz carbonique)", "value": 42}
+{"entity": "Entreprises d'accouvage et de s\u00e9lection avicoles", "value": 42}
+{"entity": "Int\u00e9rim", "value": 42}
+{"entity": "Cong\u00e9s sans solde", "value": 42}
+{"entity": "Fractionnement cong\u00e9s pay\u00e9s jours ouvr\u00e9s", "value": 42}
+{"entity": "Convocation entretien pr\u00e9alable \u00e0 une sanction disciplinaire", "value": 42}
+{"entity": "D\u00e9m\u00e9nagement", "value": 42}
+{"entity": "Industrie des panneaux \u00e0 base de bois", "value": 42}
+{"entity": "Maroquinerie, articles de voyage, chasse sellerie, gainerie, bracelets en cuir : industries", "value": 42}
+{"entity": "Pr\u00e9voyance", "value": 42}
+{"entity": "Coop\u00e9ratives agricoles laiti\u00e8res", "value": 42}
+{"entity": "Cong\u00e9s et r\u00e9mun\u00e9ration de la formation", "value": 42}
+{"entity": "Changement des horaires de travail", "value": 42}
+{"entity": "\u00c9ducation, culture, loisirs et animation au service des territoires (\u00c9CLAT)", "value": 42}
+{"entity": "Retraite", "value": 42}
+{"entity": "Mod\u00e8le convocation entretien pr\u00e9alable licenciement", "value": 42}
+{"entity": "Personnels des activit\u00e9s hippiques", "value": 42}
+{"entity": "Contrat de travail", "value": 42}
+{"entity": "Pompes fun\u00e8bres", "value": 42}
+{"entity": "Coop\u00e9ratives et soci\u00e9t\u00e9s d'int\u00e9r\u00eat collectif agricole b\u00e9tail et viande", "value": 42}
+{"entity": "Organismes de formation", "value": 42}
+{"entity": "Industries de produits alimentaires \u00e9labor\u00e9s", "value": 42}
+{"entity": "Entreprises d'architecture", "value": 42}
+{"entity": "Golf", "value": 42}
+{"entity": "Exp\u00e9dition et exportation de fruits et l\u00e9gumes", "value": 42}
+{"entity": "Ports et manutention", "value": 42}
+{"entity": "Distribution et commerce de gros des papiers-cartons", "value": 42}
+{"entity": "Repas", "value": 42}
+{"entity": "Restauration ferroviaire", "value": 42}
+{"entity": "L2315-3", "value": 42}
+{"entity": "Lin : rouissage et teillage du lin", "value": 42}
+{"entity": "Indemnit\u00e9s frais de repas", "value": 42}
+{"entity": "Immobilier : administrateurs de biens, soci\u00e9t\u00e9s immobili\u00e8res, agents immobiliers", "value": 42}
+{"entity": "Heures suppl\u00e9mentaires", "value": 42}
+{"entity": "Industrie du p\u00e9trole", "value": 42}
+{"entity": "Menuiseries, charpentes et constructions industrialis\u00e9es et portes planes", "value": 42}
+{"entity": "Exploitation d'h\u00e9licopt\u00e8res", "value": 42}
+{"entity": "Plasturgie", "value": 42}
+{"entity": "Grille salaire convention collective", "value": 42}
+{"entity": "Op\u00e9rateurs de voyages et guides", "value": 42}
+{"entity": "Les structures d\u2019insertion", "value": 42}
+{"entity": "Date paiement salaire", "value": 42}
+{"entity": "Caves coop\u00e9ratives vinicoles et leurs unions", "value": 42}
+{"entity": "R\u00e8glement int\u00e9rieur", "value": 42}
+{"entity": "L2312-9", "value": 42}
+{"entity": "Attestation de travail", "value": 42}
+{"entity": "Droit de retrait", "value": 42}
+{"entity": "Convocation entretien pr\u00e9alable de licenciement", "value": 42}
+{"entity": "Activit\u00e9 partielle (anciennement ch\u00f4mage partiel)", "value": 42}
+{"entity": "Arr\u00eat de travail : droits et obligations", "value": 42}
+{"entity": "Changement de planning", "value": 42}
+{"entity": "Coop\u00e9ratives agricoles de teillage du lin", "value": 42}
+{"entity": "Statut des salari\u00e9s prot\u00e9g\u00e9s", "value": 42}
+{"entity": "Stage", "value": 42}
+{"entity": "Banque", "value": 42}
+{"entity": "Commerce de d\u00e9tail alimentaire sp\u00e9cialis\u00e9", "value": 42}
+{"entity": "Dur\u00e9e du travail", "value": 42}
+{"entity": "Imprimeries de labeur et industries graphiques", "value": 42}
+{"entity": "Qui paye le compl\u00e9ment de salaire en arr\u00eat maladie ?", "value": 42}
+{"entity": "Cdd dur\u00e9e", "value": 42}
+{"entity": "Ciment : industrie de la fabrication des ciments", "value": 42}
+{"entity": "Planning", "value": 42}
+{"entity": "Commerce de d\u00e9tail et de gros \u00e0 pr\u00e9dominance alimentaire", "value": 42}
+{"entity": "Fractionnement", "value": 42}
+{"entity": "Entreprises de la maintenance, distribution et location de mat\u00e9riels agricoles, de travaux publics, de b\u00e2timent, de manutention, de motoculture de plaisance et activit\u00e9s connexes, dite SDLM", "value": 42}
+{"entity": "H\u00f4tellerie de plein air", "value": 42}
+{"entity": "\u00c9tablissements m\u00e9dico-sociaux de l'union intersyndicale des secteurs sanitaires et sociaux", "value": 42}
+{"entity": "Embauche", "value": 42}
+{"entity": "Temps partiel", "value": 42}
+{"entity": "R\u00e9gime de retraite", "value": 42}
+{"entity": "Fabrication du verre \u00e0 la main semi-automatique et mixte", "value": 42}
+{"entity": "Promesse d'embauche", "value": 42}
+{"entity": "Calcul de cong\u00e9s pay\u00e9s", "value": 42}
+{"entity": "Accident de trajet", "value": 42}
+{"entity": "Travailleurs en situation de handicap", "value": 42}
+{"entity": "Soci\u00e9t\u00e9s financi\u00e8res", "value": 42}
+{"entity": "Banque : personnel des banques de la Guyane", "value": 42}
+{"entity": "Soci\u00e9t\u00e9s d'assistance", "value": 42}
+{"entity": "Organismes gestionnaires de foyers et services pour jeunes travailleurs", "value": 42}
+{"entity": "Restauration rapide", "value": 42}
+{"entity": "Personnels des agences g\u00e9n\u00e9rales d'assurances", "value": 42}
+{"entity": "Commerce succursaliste de la chaussure", "value": 42}
+{"entity": "Prime", "value": 42}
+{"entity": "Aides \u00e0 l'insertion et \u00e0 la formation", "value": 42}
+{"entity": "Acquisition cong\u00e9s pay\u00e9s pendant arr\u00eat maladie", "value": 42}
+{"entity": "Casinos", "value": 42}
+{"entity": "CDI", "value": 42}
+{"entity": "L2312-8", "value": 42}
+{"entity": "Cse entreprise", "value": 42}
+{"entity": "Recours \u00e0 un organisme de service \u00e0 la personne", "value": 42}
+{"entity": "Indemnit\u00e9 compensatrice de cong\u00e9s pay\u00e9s", "value": 42}
+{"entity": "Code du travail", "value": 42}
+{"entity": "Inspection d'assurance", "value": 42}
+{"entity": "Entreprises agricoles de d\u00e9shydratation", "value": 42}
+{"entity": "Organismes de tourisme", "value": 42}
+{"entity": "Pr\u00e9avis cdi", "value": 42}
+{"entity": "Construction-promotion", "value": 42}
+{"entity": "Produits du sol, engrais et produits connexes : n\u00e9goce et industrie", "value": 42}
+{"entity": "Re\u00e7u pour solde de tout compte", "value": 42}
+{"entity": "Production audiovisuelle", "value": 42}
+{"entity": "Formation professionnelle", "value": 42}
+{"entity": "Entreprises de pr\u00e9vention et de s\u00e9curit\u00e9", "value": 42}
+{"entity": "Cong\u00e9s pay\u00e9s et fractionnement", "value": 42}
+{"entity": "Accident du travail et maintien de salaire", "value": 42}
+{"entity": "Industries charcuti\u00e8res (salaisons, charcuteries, conserves de viandes)", "value": 42}
+{"entity": "M\u00e9tiers de la transformation des grains", "value": 42}
+{"entity": "Formation", "value": 42}
+{"entity": "Cong\u00e9s d'anciennet\u00e9", "value": 42}
+{"entity": "Compte personnel de formation (CPF)", "value": 42}
+{"entity": "Jours f\u00e9ri\u00e9s travaill\u00e9s r\u00e9cup\u00e9ration", "value": 42}
+{"entity": "Rupture de p\u00e9riode d'essai", "value": 42}
+{"entity": "Primes", "value": 42}
+{"entity": "Licenciement", "value": 42}
+{"entity": "Syntec", "value": 42}
+{"entity": "Mon employeur peut-il m'imposer des cong\u00e9s pay\u00e9s ?", "value": 42}
+{"entity": "Indemnit\u00e9 de pr\u00e9carit\u00e9", "value": 42}
+{"entity": "Emplois aid\u00e9s, demandeurs d'emploi et insertion", "value": 42}
+{"entity": "Usages", "value": 42}
+{"entity": "Industries de la transformation des volailles", "value": 42}
+{"entity": "Les syndicats", "value": 42}
+{"entity": "La certification professionnelle", "value": 42}
+{"entity": "Article de loi", "value": 42}
+{"entity": "Grossesse", "value": 42}
+{"entity": "Quelle est la majoration des heures de nuit ?", "value": 42}
+{"entity": "Hospitalisation priv\u00e9e : \u00e9tablissements priv\u00e9s d'hospitalisation, de soins, de cure et de garde \u00e0 but non lucratif (FEHAP)", "value": 42}
+{"entity": "P\u00e2tisserie", "value": 42}
+{"entity": "Quelles sont les heures de nuit", "value": 42}
+{"entity": "Grossesse et travail", "value": 42}
+{"entity": "Entreprises de vente \u00e0 distance", "value": 42}
+{"entity": "D\u00e9l\u00e9gu\u00e9 syndical", "value": 42}
+{"entity": "Fiche de paie", "value": 42}
+{"entity": "Fin de cdd", "value": 42}
+{"entity": "Licenciement pour inaptitude professionnelle", "value": 42}
+{"entity": "Cong\u00e9 paternit\u00e9", "value": 42}
+{"entity": "Rqth", "value": 42}
+{"entity": "Cin\u00e9ma : distribution de films (employ\u00e9s et ouvriers)", "value": 42}
+{"entity": "Absence injustifi\u00e9e", "value": 42}
+{"entity": "Repos", "value": 42}
+{"entity": "Pr\u00e9avis de d\u00e9part \u00e0 la retraite", "value": 42}
+{"entity": "Grands magasins et magasins populaires", "value": 42}
+{"entity": "Cong\u00e9s pay\u00e9s", "value": 42}
+{"entity": "Apprentissage", "value": 42}
+{"entity": "Entreprises de navigation : personnel s\u00e9dentaire", "value": 42}
+{"entity": "Coefficient", "value": 42}
+{"entity": "Medaille du travail", "value": 42}
+{"entity": "Professions r\u00e9glement\u00e9es aupr\u00e8s des juridictions", "value": 42}
+{"entity": "Sucreries, sucreries-distilleries et raffineries de sucre", "value": 42}
+{"entity": "Licenciement pour faute grave", "value": 42}
+{"entity": "Jours f\u00e9ri\u00e9s travaill\u00e9s", "value": 42}
+{"entity": "Financement et formation", "value": 42}
+{"entity": "Entreprises d'ambulances Ouvriers, employ\u00e9s et techniciens (Guyane)", "value": 42}
+{"entity": "T\u00e9l\u00e9communications", "value": 42}
+{"entity": "Convention collective nationale", "value": 42}
+{"entity": "Remise solde de tout compte", "value": 42}
+{"entity": "Salari\u00e9s au pair", "value": 42}
+{"entity": "Avenant au contrat de travail", "value": 42}
+{"entity": "Temps de pause", "value": 42}
+{"entity": "Harc\u00e8lement moral et sexuel", "value": 42}
+{"entity": "Document unique d'\u00e9valuation des risques", "value": 42}
+{"entity": "Spectacle vivant (entreprises du secteur priv\u00e9)", "value": 42}
+{"entity": "Mutualit\u00e9", "value": 42}
+{"entity": "Entreprises de l'industrie et des commerces en gros des viandes", "value": 42}
+{"entity": "Cotisations sociales et patronales", "value": 42}
+{"entity": "Entreprises du paysage", "value": 42}
+{"entity": "Cong\u00e9s \u00e9v\u00e9nement familial", "value": 42}
+{"entity": "Industrie textile", "value": 42}
+{"entity": "Sant\u00e9 au travail", "value": 42}
+{"entity": "Commerce des articles de sport et \u00e9quipements de loisirs", "value": 42}
+{"entity": "Obligation de s\u00e9curit\u00e9 de r\u00e9sultat de l'employeur", "value": 42}
+{"entity": "Salari\u00e9s des cabinets d'avocats", "value": 42}
+{"entity": "Heures suppl\u00e9mentaires non pay\u00e9es", "value": 42}
+{"entity": "R\u00e9gies de quartier", "value": 42}
+{"entity": "Entreprises de commission, de courtage et de commerce intracommunautaire et d'importation-exportation de France m\u00e9tropolitaine (CCNIE)", "value": 42}
+{"entity": "Maisons d'\u00e9tudiants", "value": 42}
+{"entity": "Handicap\u00e9s : \u00e9tablissements et services pour les personnes inadapt\u00e9es et handicap\u00e9es", "value": 42}
+{"entity": "Pause", "value": 42}
+{"entity": "Personnel des \u00e9levages aquacoles", "value": 42}
+{"entity": "Arr\u00eat de travail", "value": 42}
+{"entity": "Commission sant\u00e9 s\u00e9curit\u00e9 et conditions de travail", "value": 42}
+{"entity": "Panier repas", "value": 42}
+{"entity": "Travailler le dimanche", "value": 42}
+{"entity": "Tourisme social et familial", "value": 42}
+{"entity": "Politique de l\u2019emploi", "value": 42}
+{"entity": "Documents de fin de contrat et droit des salari\u00e9s", "value": 42}
+{"entity": "Inspection du travail", "value": 42}
+{"entity": "Attestation pole emploi d\u00e9lai", "value": 42}
+{"entity": "Alternance et contrat d'apprentissage", "value": 42}
+{"entity": "D\u00e9c\u00e8s", "value": 42}
+{"entity": "Maladie, accident du travail et maladie professionnelle", "value": 42}
+{"entity": "Mutuelle et protection sociale", "value": 42}
+{"entity": "Jours f\u00e9ri\u00e9s et ponts", "value": 42}
+{"entity": "Aide, accompagnement, soins et services \u00e0 domicile (BAD)", "value": 42}
+{"entity": "Navigation int\u00e9rieure", "value": 42}
+{"entity": "Charcuterie de d\u00e9tail", "value": 42}
+{"entity": "Activit\u00e9s du d\u00e9chet", "value": 42}
+{"entity": "Travailleurs \u00e9trangers", "value": 42}
+{"entity": "Presse quotidienne et hebdomadaire en r\u00e9gions", "value": 42}
+{"entity": "Maternit\u00e9, paternit\u00e9 et adoption", "value": 42}
+{"entity": "D\u00e9mission et pr\u00e9avis", "value": 42}
+{"entity": "N\u00e9goce de l'ameublement", "value": 42}
+{"entity": "Repos hebdomadaire", "value": 42}
+{"entity": "D\u00e9marches d\u00e9part \u00e0 la retraite", "value": 42}
+{"entity": "Dur\u00e9e du pr\u00e9avis de d\u00e9mission", "value": 42}
+{"entity": "Contingent heures suppl\u00e9mentaires", "value": 42}
+{"entity": "Avertissement", "value": 42}
+{"entity": "Conchyliculture", "value": 42}
+{"entity": "Emploi direct par l'employeur particulier", "value": 42}
+{"entity": "Optique-lunetterie de d\u00e9tail", "value": 42}
+{"entity": "Quelles sont les indemnit\u00e9s de rupture conventionnelle?", "value": 42}
+{"entity": "Maisons \u00e0 succursales de vente au d\u00e9tail d'habillement", "value": 42}
+{"entity": "Principales caract\u00e9ristiques", "value": 42}
+{"entity": "Simulateur calcul indemnit\u00e9 de licenciement pour inaptitude", "value": 42}
+{"entity": "Personnel des organismes de s\u00e9curit\u00e9 sociale", "value": 42}
+{"entity": "Mise a pied conservatoire", "value": 42}
+{"entity": "D\u00e9taillants en chaussures", "value": 42}
+{"entity": "Cong\u00e9 d\u00e9c\u00e8s", "value": 42}
+{"entity": "Ports de plaisance", "value": 42}
+{"entity": "Frais de d\u00e9placement trajet domicile travail", "value": 42}
+{"entity": "Local de travail", "value": 42}
+{"entity": "L2317-1", "value": 42}
+{"entity": "Jardineries et graineteries", "value": 42}
+{"entity": "Exploitations frigorifiques", "value": 42}
+{"entity": "D\u00e9part volontaire \u00e0 la retraite", "value": 42}
+{"entity": "Jours f\u00e9ri\u00e9s jours ch\u00f4m\u00e9s", "value": 42}
+{"entity": "Journ\u00e9e de solidarit\u00e9", "value": 42}
+{"entity": "Cong\u00e9 maternit\u00e9", "value": 42}
+{"entity": "Vins, cidres, jus de fruits, sirops, spiritueux et liqueurs de France", "value": 42}
+{"entity": "B\u00e2timent et travaux publics ETAM (Guadeloupe)", "value": 42}
+{"entity": "Branche ferroviaire", "value": 42}
+{"entity": "Cdd et p\u00e9riode d'essai", "value": 42}
+{"entity": "Professions de la photographie", "value": 42}
+{"entity": "Temps de trajet", "value": 42}
+{"entity": "Prime de participation", "value": 42}
+{"entity": "Travaux publics (Tome III : ETAM)", "value": 42}
 {"entity": "Ameublement (Fabrication)", "value": 42}
 {"entity": "Classification", "value": 42}
-{"entity": "Travaux publics (Tome III : ETAM)", "value": 42}
-{"entity": "Grossesse et travail", "value": 42}
-{"entity": "Les syndicats dans l\u2019entreprise", "value": 42}
-{"entity": "Menuiseries, charpentes et constructions industrialis\u00e9es et portes planes", "value": 42}
-{"entity": "Sant\u00e9 au travail", "value": 42}
-{"entity": "Calcul solde de tout compte", "value": 42}
-{"entity": "D\u00e9marches d\u00e9part \u00e0 la retraite", "value": 42}
-{"entity": "Prise d'acte", "value": 42}
-{"entity": "Repr\u00e9sentant syndical", "value": 42}
-{"entity": "Suivi m\u00e9dical des salari\u00e9s", "value": 42}
-{"entity": "Activit\u00e9s de march\u00e9s financiers", "value": 42}
-{"entity": "Entreprises de l'industrie et des commerces en gros des viandes", "value": 42}
-{"entity": "Abandon de poste", "value": 42}
-{"entity": "Restauration de collectivit\u00e9s", "value": 42}
-{"entity": "Collaborateurs salari\u00e9s des entreprises d'\u00e9conomistes de la construction et des m\u00e9treurs-v\u00e9rificateurs", "value": 42}
-{"entity": "Licenciement pour inaptitude", "value": 42}
-{"entity": "Heures compl\u00e9mentaires", "value": 42}
-{"entity": "Licenciement : droits des salari\u00e9s et proc\u00e9dures", "value": 42}
-{"entity": "Activit\u00e9s du d\u00e9chet", "value": 42}
-{"entity": "Fabrication du verre \u00e0 la main semi-automatique et mixte", "value": 42}
-{"entity": "Transports routiers et activit\u00e9s auxiliaires du transport", "value": 42}
-{"entity": "Contrat de travail", "value": 42}
-{"entity": "Manutention ferroviaire et travaux connexes", "value": 42}
-{"entity": "Dispositifs d\u2019acc\u00e8s \u00e0 la formation", "value": 42}
-{"entity": "Cumuler deux emplois", "value": 42}
-{"entity": "Attestation de travail", "value": 42}
-{"entity": "Commerces de gros", "value": 42}
-{"entity": "H\u00f4tellerie de plein air", "value": 42}
-{"entity": "D\u00e9l\u00e9gu\u00e9 syndical", "value": 42}
-{"entity": "Proc\u00e9dure de licenciement", "value": 42}
-{"entity": "Ports et manutention", "value": 42}
-{"entity": "Thermique : \u00e9quipements thermiques (OETAM, cadres, ing\u00e9nieurs et assimil\u00e9s)", "value": 42}
-{"entity": "Organismes de tourisme", "value": 42}
-{"entity": "Attestation pole emploi d\u00e9lai", "value": 42}
-{"entity": "Licenciement pour motif \u00e9conomique", "value": 42}
-{"entity": "Personnels des activit\u00e9s hippiques", "value": 42}
-{"entity": "L2312-8", "value": 42}
-{"entity": "Sanctions disciplinaires", "value": 42}
-{"entity": "Renouvellement p\u00e9riode d'essai", "value": 42}
-{"entity": "Notariat", "value": 42}
-{"entity": "Temps de trajet travail", "value": 42}
-{"entity": "Heures suppl\u00e9mentaires, d\u2019\u00e9quivalence et astreintes", "value": 42}
-{"entity": "Fractionnement cong\u00e9s pay\u00e9s jours ouvr\u00e9s", "value": 42}
-{"entity": "Caf\u00e9t\u00e9rias et assimil\u00e9s (cha\u00eenes)", "value": 42}
-{"entity": "Accord de performance collective", "value": 42}
-{"entity": "\u00c9tablissements m\u00e9dico-sociaux de l'union intersyndicale des secteurs sanitaires et sociaux", "value": 42}
-{"entity": "Commissaires de justice et soci\u00e9t\u00e9s de ventes volontaires", "value": 42}
-{"entity": "Indemnit\u00e9 de d\u00e9part \u00e0 la retraite", "value": 42}
-{"entity": "Travail de nuit et en soir\u00e9e", "value": 42}
-{"entity": "Maisons d'\u00e9tudiants", "value": 42}
-{"entity": "Lettre licenciement", "value": 42}
-{"entity": "Travail ill\u00e9gal", "value": 42}
-{"entity": "Particuliers employeurs et emploi \u00e0 domicile", "value": 42}
-{"entity": "Convocation entretien pr\u00e9alable de licenciement", "value": 42}
-{"entity": "V\u00e9t\u00e9rinaires : personnel salari\u00e9 des cabinets et cliniques v\u00e9t\u00e9rinaires", "value": 42}
-{"entity": "Mat\u00e9riaux de construction (n\u00e9goce)", "value": 42}
-{"entity": "Entreprises en difficult\u00e9", "value": 42}
-{"entity": "Aide, accompagnement, soins et services \u00e0 domicile (BAD)", "value": 42}
-{"entity": "Licenciement inaptitude", "value": 42}
-{"entity": "Conditions de travail", "value": 42}
-{"entity": "Affichage obligatoire", "value": 42}
-{"entity": "Visites m\u00e9dicales obligations de l'employeur", "value": 42}
-{"entity": "Commerces et services de l'audiovisuel, de l'\u00e9lectronique et de l'\u00e9quipement m\u00e9nager", "value": 42}
-{"entity": "Emploi", "value": 42}
-{"entity": "Indemnit\u00e9 de fin de contrat cdd", "value": 42}
-{"entity": "Entreprises du paysage", "value": 42}
-{"entity": "Document unique", "value": 42}
-{"entity": "Prime d'anciennet\u00e9 cadre", "value": 42}
-{"entity": "N\u00e9goce et prestations de services dans les domaines m\u00e9dico-techniques", "value": 42}
-{"entity": "Cong\u00e9 mariage", "value": 42}
-{"entity": "Activit\u00e9s industrielles de boulangerie et p\u00e2tisserie", "value": 42}
-{"entity": "Lieu de travail", "value": 42}
-{"entity": "T\u00e9l\u00e9travail", "value": 42}
-{"entity": "Cong\u00e9 pacs", "value": 42}
-{"entity": "Travailleurs et secteurs sp\u00e9cifiques", "value": 42}
-{"entity": "L'employeur a t il le droit d'imposer des cong\u00e9s pay\u00e9s", "value": 42}
-{"entity": "Coop\u00e9ration maritime", "value": 42}
-{"entity": "Gardiens, concierges et employ\u00e9s d'immeubles", "value": 42}
-{"entity": "Mon employeur peut-il m'imposer des cong\u00e9s pay\u00e9s ?", "value": 42}
-{"entity": "Commerce de d\u00e9tail alimentaire sp\u00e9cialis\u00e9", "value": 42}
-{"entity": "L2315-3", "value": 42}
-{"entity": "Boucherie - poissonnerie", "value": 42}
-{"entity": "Banque populaire", "value": 42}
-{"entity": "Arr\u00eat maladie", "value": 42}
-{"entity": "Op\u00e9rateurs de voyages et guides", "value": 42}
-{"entity": "Entreprises de commission, de courtage et de commerce intracommunautaire et d'importation-exportation de France m\u00e9tropolitaine (CCNIE)", "value": 42}
-{"entity": "Personnels des soci\u00e9t\u00e9s anonymes et fondations d'HLM", "value": 42}
-{"entity": "Industries de produits alimentaires \u00e9labor\u00e9s", "value": 42}
-{"entity": "Soci\u00e9t\u00e9s financi\u00e8res", "value": 42}
-{"entity": "D\u00e9mission et pr\u00e9avis", "value": 42}
-{"entity": "Obligations g\u00e9n\u00e9rales de pr\u00e9vention", "value": 42}
-{"entity": "Fiche de poste", "value": 42}
-{"entity": "Tickets restaurants", "value": 42}
-{"entity": "Cong\u00e9s pay\u00e9s acquisition", "value": 42}
-{"entity": "Sucreries, sucreries-distilleries et raffineries de sucre", "value": 42}
-{"entity": "Syntec", "value": 42}
-{"entity": "B\u00e2timent Cadres", "value": 42}
-{"entity": "Surveillance des salari\u00e9s par cam\u00e9ra", "value": 42}
-{"entity": "\u00c9pargne salariale", "value": 42}
-{"entity": "R\u00e9seaux de transports publics urbains de voyageurs", "value": 42}
-{"entity": "Laboratoires de biologie m\u00e9dicale extrahospitaliers", "value": 42}
-{"entity": "Travailleurs \u00e9trangers", "value": 42}
-{"entity": "Blanchisserie, laverie, location de linge, nettoyage \u00e0 sec, pressing et teinturerie", "value": 42}
-{"entity": "Organismes du r\u00e9gime g\u00e9n\u00e9ral de s\u00e9curit\u00e9 sociale agents de direction (18 septembre 2018)", "value": 42}
-{"entity": "Acquisition cong\u00e9s pay\u00e9s pendant arr\u00eat maladie", "value": 42}
-{"entity": "P\u00e9riode d'essai : rupture et d\u00e9lai de pr\u00e9venance", "value": 42}
-{"entity": "Professions de la photographie", "value": 42}
-{"entity": "P\u00e9riode d'essai", "value": 42}
-{"entity": "Prime", "value": 42}
-{"entity": "N\u00e9goce et distribution de combustibles solides, liquides, gazeux et produits p\u00e9troliers", "value": 42}
-{"entity": "Travaux publics (Tome II : Ouvriers)", "value": 42}
-{"entity": "Grille de salaire", "value": 42}
-{"entity": "Coop\u00e9ratives agricoles de teillage du lin", "value": 42}
-{"entity": "Produits du sol, engrais et produits connexes : n\u00e9goce et industrie", "value": 42}
-{"entity": "Optique-lunetterie de d\u00e9tail", "value": 42}
-{"entity": "CDI", "value": 42}
-{"entity": "Int\u00e9ressement et participation", "value": 42}
-{"entity": "D\u00e9lai de paiement du solde de tout compte", "value": 42}
-{"entity": "Comment sont pay\u00e9s les dimanches ?", "value": 42}
-{"entity": "Jours f\u00e9ri\u00e9s jours ch\u00f4m\u00e9s", "value": 42}
-{"entity": "Contrat d\u2019apprentissage", "value": 42}
-{"entity": "Cabinets ou entreprises d'expertises en automobile", "value": 42}
-{"entity": "Acteurs du lien social et familial (centres sociaux et socioculturels, associations d'accueil de jeunes enfants, associations de d\u00e9veloppement social local)", "value": 42}
-{"entity": "Inaptitude professionnelle", "value": 42}
-{"entity": "Date paiement salaire", "value": 42}
-{"entity": "Coop\u00e9ratives de consommation (23 novembre 2018)", "value": 42}
-{"entity": "D\u00e9lai de pr\u00e9venance p\u00e9riode d'essai", "value": 42}
-{"entity": "Coop\u00e9ratives agricoles, unions de coop\u00e9ratives agricoles et SICA de fleurs, de fruits et l\u00e9gumes et de pommes de terre (M\u00e9tropole)", "value": 42}
-{"entity": "Librairie", "value": 42}
-{"entity": "Mod\u00e8le convocation entretien pr\u00e9alable licenciement", "value": 42}
-{"entity": "Publicit\u00e9 directe : entreprises de logistique en publicit\u00e9 directe", "value": 42}
-{"entity": "S\u00e9curit\u00e9 sociale : praticiens-conseils du r\u00e9gime g\u00e9n\u00e9ral", "value": 42}
-{"entity": "Promesse d'embauche", "value": 42}
-{"entity": "Rtt", "value": 42}
-{"entity": "Arr\u00eat maladie longue dur\u00e9e", "value": 42}
-{"entity": "Qui paye le compl\u00e9ment de salaire en arr\u00eat maladie ?", "value": 42}
-{"entity": "Industries de l'habillement", "value": 42}
-{"entity": "Travailleurs handicap\u00e9s", "value": 42}
-{"entity": "Industries et commerce de la r\u00e9cup\u00e9ration", "value": 42}
-{"entity": "Radiodiffusion", "value": 42}
-{"entity": "Cadres des travaux publics", "value": 42}
-{"entity": "Groupement des armateurs de services de passages d'eau (personnel navigant)", "value": 42}
-{"entity": "Femme enceinte travail", "value": 42}
-{"entity": "Lettre de convocation \u00e0 un entretien pr\u00e9alable pour sanction disciplinaire", "value": 42}
-{"entity": "Contrat cdi", "value": 42}
-{"entity": "Salaire apprenti", "value": 42}
-{"entity": "2216", "value": 42}
-{"entity": "Accident du travail", "value": 42}
-{"entity": "Entreprises d'accouvage et de s\u00e9lection avicoles", "value": 42}
-{"entity": "Banque : personnel des banques de la Martinique", "value": 42}
-{"entity": "Mise \u00e0 pied", "value": 42}
-{"entity": "Quincaillerie, fournitures industrielles, fers, m\u00e9taux et \u00e9quipement de la maison (commerces)", "value": 42}
-{"entity": "Charcuterie de d\u00e9tail", "value": 42}
-{"entity": "Bijouterie, joaillerie, orf\u00e8vrerie, horlogerie (BJOH)", "value": 42}
-{"entity": "Apprenti", "value": 42}
-{"entity": "Accident du travail et maladie professionnelle", "value": 42}
-{"entity": "Deces", "value": 42}
-{"entity": "Retard dans le paiement du salaire", "value": 42}
-{"entity": "Immobilier : administrateurs de biens, soci\u00e9t\u00e9s immobili\u00e8res, agents immobiliers", "value": 42}
-{"entity": "Production agricole et CUMA", "value": 42}
-{"entity": "D\u00e9mission cdi", "value": 42}
-{"entity": "Exploitation d'h\u00e9licopt\u00e8res", "value": 42}
-{"entity": "Activit\u00e9 partielle et r\u00e9duction du temps de travail", "value": 42}
-{"entity": "Vins, cidres, jus de fruits, sirops, spiritueux et liqueurs de France", "value": 42}
-{"entity": "Fin de p\u00e9riode d'essai \u00e0 l'initiative du salari\u00e9", "value": 42}
-{"entity": "Duerp", "value": 42}
-{"entity": "Tourisme social et familial", "value": 42}
-{"entity": "Cong\u00e9s pour \u00e9v\u00e9nement familial", "value": 42}
-{"entity": "Industrie des panneaux \u00e0 base de bois", "value": 42}
-{"entity": "Contrat", "value": 42}
-{"entity": "Plasturgie", "value": 42}
-{"entity": "Distributeurs conseils hors domicile (bi\u00e8res, eaux min\u00e9rales et de table, boissons gazeuses ou non gazeuses, boissons aux jus de fruits, sirops, jus de fruits, boissons lact\u00e9es et gaz carbonique)", "value": 42}
-{"entity": "Personnel des cabinets d'experts-comptables et de commissaires aux comptes", "value": 42}
-{"entity": "Cong\u00e9 enfant malade", "value": 42}
-{"entity": "Entreprises des services d'eau et d'assainissement", "value": 42}
-{"entity": "Salaire et R\u00e9mun\u00e9ration", "value": 42}
-{"entity": "Temps de travail et dur\u00e9e l\u00e9gale", "value": 42}
-{"entity": "Article de loi", "value": 42}
-{"entity": "Rupture conventionnelle", "value": 42}
-{"entity": "Bulletin de paie", "value": 42}
-{"entity": "Production audiovisuelle", "value": 42}
-{"entity": "Entreprises agricoles de d\u00e9shydratation", "value": 42}
-{"entity": "L4121-1", "value": 42}
-{"entity": "Panier repas obligatoire ou pas", "value": 42}
-{"entity": "Quelles sont les indemnit\u00e9s de rupture conventionnelle?", "value": 42}
+{"entity": "D\u00e9lai de carence cdd", "value": 42}
+{"entity": "Inaptitude", "value": 42}
+{"entity": "Cong\u00e9s li\u00e9s \u00e0 une autre activit\u00e9", "value": 42}
 {"entity": "Repr\u00e9sentation du personnel et n\u00e9gociation collective", "value": 42}
-{"entity": "Arr\u00eat de travail indemnisation", "value": 42}
-{"entity": "P\u00e9riode essai", "value": 42}
-{"entity": "Avantages en nature", "value": 42}
-{"entity": "Rupture contrat d apprentissage", "value": 42}
-{"entity": "Cong\u00e9s", "value": 42}
-{"entity": "Cdi", "value": 42}
-{"entity": "Organismes de formation", "value": 42}
-{"entity": "Grille salaire convention collective", "value": 42}
-{"entity": "Augmentation de salaire", "value": 42}
-{"entity": "Coop\u00e9ratives et soci\u00e9t\u00e9s d'int\u00e9r\u00eat collectif agricole b\u00e9tail et viande", "value": 42}
-{"entity": "Boulangerie-p\u00e2tisserie (entreprises artisanales)", "value": 42}
-{"entity": "Arr\u00eat de travail", "value": 42}
-{"entity": "Maroquinerie, articles de voyage, chasse sellerie, gainerie, bracelets en cuir : industries", "value": 42}
-{"entity": "\u00c9ducation, culture, loisirs et animation au service des territoires (\u00c9CLAT)", "value": 42}
-{"entity": "Cse entreprise", "value": 42}
-{"entity": "D\u00e9part de l\u2019entreprise", "value": 42}
-{"entity": "Indemnit\u00e9s frais de repas", "value": 42}
-{"entity": "Fabrication et commerce des produits \u00e0 usage pharmaceutique, parapharmaceutique et v\u00e9t\u00e9rinaire", "value": 42}
-{"entity": "Rupture p\u00e9riode essai", "value": 42}
-{"entity": "Cong\u00e9 pour d\u00e9c\u00e8s grand parent", "value": 42}
-{"entity": "Commission sant\u00e9 s\u00e9curit\u00e9 et conditions de travail", "value": 42}
-{"entity": "Coop\u00e9ratives agricoles laiti\u00e8res", "value": 42}
-{"entity": "Conflit, contr\u00f4le et contentieux", "value": 42}
-{"entity": "Politique de l\u2019emploi", "value": 42}
-{"entity": "D\u00e9taillants en chaussures", "value": 42}
-{"entity": "Prime macron", "value": 42}
-{"entity": "Jeunes", "value": 42}
-{"entity": "Entreprises artistiques et culturelles", "value": 42}
-{"entity": "Lettre de d\u00e9mission", "value": 42}
-{"entity": "Temps de trajet", "value": 42}
-{"entity": "Avertissement", "value": 42}
-{"entity": "R\u00e9gies de quartier", "value": 42}
-{"entity": "Prime d\u00e9part retraite", "value": 42}
-{"entity": "Cabinets ou entreprises de g\u00e9om\u00e8tres-experts, g\u00e9om\u00e8tres-topographes, photogramm\u00e8tres et experts fonciers", "value": 42}
+{"entity": "Cong\u00e9s li\u00e9s \u00e0 la vie familiale (mariage, d\u00e9c\u00e8s, naissance...)", "value": 42}
+{"entity": "Cong\u00e9s impos\u00e9s par l' employeur", "value": 42}
+{"entity": "Comit\u00e9 social et \u00e9conomique (CSE)", "value": 42}
+{"entity": "Acteurs de la formation", "value": 42}
+{"entity": "Prime d'anciennet\u00e9", "value": 42}
+{"entity": "Dur\u00e9e p\u00e9riode d'essai", "value": 42}
+{"entity": "Particuliers employeurs", "value": 42}
+{"entity": "Equipements de travail et de protection", "value": 42}
+{"entity": "Assistant(e) maternel(e)", "value": 42}
+{"entity": "Proc\u00e9dure et licenciement pour motif \u00e9conomique", "value": 42}
+{"entity": "Travaux publics (Tome II : Ouvriers)", "value": 42}
+{"entity": "Elections professionnelles et \u00e0 la repr\u00e9sentation", "value": 42}
+{"entity": "Coop\u00e9ratives agricoles de c\u00e9r\u00e9ales, de meunerie, d'approvisionnement, d'alimentation du b\u00e9tail et d'ol\u00e9agineux", "value": 42}
+{"entity": "L4131-1", "value": 42}
+{"entity": "Cong\u00e9s sp\u00e9ciaux (sabbatique, d\u00e9m\u00e9nagement...)", "value": 42}
+{"entity": "Bijouterie, joaillerie, orf\u00e8vrerie, horlogerie (BJOH)", "value": 42}
+{"entity": "Banque populaire", "value": 42}
+{"entity": "Caoutchouc", "value": 42}
+{"entity": "Saisir le Conseil de prud'hommes", "value": 42}
+{"entity": "Difficult\u00e9s de l'entreprise", "value": 42}
+{"entity": "Les cong\u00e9s pour \u00e9v\u00e9nements familiaux", "value": 42}
+{"entity": "H\u00f4tels, caf\u00e9s, restaurants", "value": 42}
+{"entity": "Licenciement pour faute", "value": 42}
 {"entity": "B\u00e2timent Ouvriers (entreprises occupant jusqu'\u00e0 10 salari\u00e9s)", "value": 42}
-{"entity": "Entreprises de vente \u00e0 distance", "value": 42}
-{"entity": "Jours f\u00e9ri\u00e9s travaill\u00e9s r\u00e9cup\u00e9ration", "value": 42}
+{"entity": "Dur\u00e9e du pr\u00e9avis", "value": 42}
+{"entity": "P\u00f4le emploi", "value": 42}
+{"entity": "D\u00e9part anticip\u00e9 et retraite progressive", "value": 42}
 {"entity": "R\u00e8glement int\u00e9rieur d\u2019une entreprise", "value": 42}
+{"entity": "Cong\u00e9 mariage", "value": 42}
+{"entity": "Missions locales et PAIO", "value": 42}
+{"entity": "Remboursements de frais et avantages", "value": 42}
+{"entity": "Groupement des armateurs de services de passages d'eau (personnel navigant)", "value": 42}
+{"entity": "Maintien de salaire et maladie", "value": 42}
+{"entity": "Pr\u00e9avis", "value": 42}
+{"entity": "Type de contrat", "value": 42}
+{"entity": "Abandon de poste", "value": 42}
+{"entity": "D\u00e9mission", "value": 42}
+{"entity": "Transport a\u00e9rien : personnel au sol", "value": 42}
+{"entity": "Comment sont pay\u00e9s les dimanches ?", "value": 42}
+{"entity": "R\u00e9seaux de transports publics urbains de voyageurs", "value": 42}
+{"entity": "Calcul solde de tout compte", "value": 42}
+{"entity": "Production agricole et CUMA", "value": 42}
+{"entity": "Entreprises d'expertises en mati\u00e8re d'\u00e9valuations industrielles et commerciales", "value": 42}
+{"entity": "Convention collective", "value": 42}
+{"entity": "Astreinte et temps de travail effectif", "value": 42}
+{"entity": "Cong\u00e9s", "value": 42}
+{"entity": "Mod\u00e8le type lettre de licenciement", "value": 42}
 {"entity": "Soci\u00e9t\u00e9s concessionnaires ou exploitantes d'autoroutes ou d'ouvrages routiers", "value": 42}
-{"entity": "M\u00e9decine du travail", "value": 42}
-{"entity": "Astreinte", "value": 42}
-{"entity": "Entreprises de services \u00e0 la personne", "value": 42}
-{"entity": "Accords-convention d'entreprise Cit\u00e9 de la musique", "value": 42}
-{"entity": "Travailleur \u00e0 domicile", "value": 42}
-{"entity": "Compte personnel d\u2019activit\u00e9 (CPA)", "value": 42}
-{"entity": "Anciennet\u00e9", "value": 42}
-{"entity": "Cong\u00e9 parental", "value": 42}
-{"entity": "Enfant malade", "value": 42}
-{"entity": "Pompes fun\u00e8bres", "value": 42}
-{"entity": "Combien de jours de cong\u00e9s pour un mariage ?", "value": 42}
-{"entity": "Jours de fractionnement", "value": 42}
-{"entity": "Allaitement", "value": 42}
-{"entity": "Maintien de salaire arr\u00eat maladie", "value": 42}
-{"entity": "Casinos", "value": 42}
-{"entity": "R\u00e9duction du temps de travail (RTT)", "value": 42}
-{"entity": "Droit d\u2019alerte et de retrait des salari\u00e9s", "value": 42}
-{"entity": "Cdd remplacement", "value": 42}
-{"entity": "Enseignement priv\u00e9 non lucratif (EPNL)", "value": 42}
-{"entity": "Personnel des organismes de s\u00e9curit\u00e9 sociale", "value": 42}
-{"entity": "Rupture conventionnelle individuelle", "value": 42}
-{"entity": "Cong\u00e9s et absences pour formation", "value": 42}
-{"entity": "Les aides \u00e0 l\u2019emploi", "value": 42}
-{"entity": "Pr\u00e9voyance", "value": 42}
+{"entity": "Industries de fabrication m\u00e9canique du verre", "value": 42}
+{"entity": "Soci\u00e9t\u00e9s d'assurances", "value": 42}
+{"entity": "Guides et accompagnateurs en milieu amazonien", "value": 42}
+{"entity": "Jeunes travailleurs, alternance et stages", "value": 42}
+{"entity": "Activit\u00e9 partielle et r\u00e9duction du temps de travail", "value": 42}
+{"entity": "Commissaires de justice et soci\u00e9t\u00e9s de ventes volontaires", "value": 42}
+{"entity": "Bdese", "value": 42}
+{"entity": "Temps d\u2019\u00e9quivalence, astreintes et temps d'habillage", "value": 42}
+{"entity": "Temps de travail et dur\u00e9e l\u00e9gale", "value": 42}
+{"entity": "Production de films d'animation", "value": 42}
+{"entity": "Boulangerie-p\u00e2tisserie (entreprises artisanales)", "value": 42}
+{"entity": "Thermique : \u00e9quipements thermiques (ouvriers, employ\u00e9s, techniciens et agents de ma\u00eetrise)", "value": 42}
+{"entity": "Attestation france travail", "value": 42}
+{"entity": "Bulletin de paie", "value": 42}
+{"entity": "Entreprises de travaux et services agricoles, ruraux et forestiers (ETARF)", "value": 42}
+{"entity": "Fermeture de l'entreprise et cong\u00e9s pay\u00e9s", "value": 42}
+{"entity": "Coop\u00e9ratives agricoles, unions de coop\u00e9ratives agricoles et SICA de fleurs, de fruits et l\u00e9gumes et de pommes de terre (M\u00e9tropole)", "value": 42}
+{"entity": "Organismes du r\u00e9gime g\u00e9n\u00e9ral de s\u00e9curit\u00e9 sociale agents de direction (18 septembre 2018)", "value": 42}
+{"entity": "Entreprises de transport et services maritimes (personnels navigants officiers)", "value": 42}
+{"entity": "Droit du conseiller prud'homal", "value": 42}
+{"entity": "L4121-1", "value": 42}
 {"entity": "Entreprises de propret\u00e9 et services associ\u00e9s", "value": 42}
-{"entity": "Fin de contrat cdd", "value": 42}
-{"entity": "Prime de pr\u00e9carit\u00e9", "value": 42}
-{"entity": "Parfumerie, esth\u00e9tique", "value": 42}
-{"entity": "Handicap\u00e9s : \u00e9tablissements et services pour les personnes inadapt\u00e9es et handicap\u00e9es", "value": 42}
-{"entity": "Heures de nuit", "value": 42}
+{"entity": "S\u00e9curit\u00e9 sociale : praticiens-conseils du r\u00e9gime g\u00e9n\u00e9ral", "value": 42}
+{"entity": "Laboratoires de biologie m\u00e9dicale extrahospitaliers", "value": 42}
+{"entity": "Quelles sont les nouvelles modalit\u00e9s de remboursement des frais de d\u00e9placement domicile-travail ?", "value": 42}
+{"entity": "N\u00e9gociation de branche", "value": 42}
+{"entity": "Travailleur de nuit", "value": 42}
+{"entity": "R\u00e9mun\u00e9ration", "value": 42}
+{"entity": "Entretien professionnel", "value": 42}
+{"entity": "Entreprises de d\u00e9sinfection, d\u00e9sinsectisation et d\u00e9ratisation (3D)", "value": 42}
+{"entity": "T\u00e9l\u00e9diffusion", "value": 42}
+{"entity": "Anciennet\u00e9 calcul", "value": 42}
+{"entity": "Le paiement des heures suppl\u00e9mentaires", "value": 42}
+{"entity": "Indemnit\u00e9 compensatrice de pr\u00e9avis", "value": 42}
+{"entity": "Participation", "value": 42}
+{"entity": "Industries des jeux, jouets, articles de f\u00eates et ornements de No\u00ebl, articles de pu\u00e9riculture et voitures d'enfants, mod\u00e9lisme et industries connexes", "value": 42}
+{"entity": "Fabrication et commerce des produits \u00e0 usage pharmaceutique, parapharmaceutique et v\u00e9t\u00e9rinaire", "value": 42}
+{"entity": "Industrie pharmaceutique", "value": 42}
+{"entity": "Mise \u00e0 pied disciplinaire", "value": 42}
+{"entity": "2216", "value": 42}
+{"entity": "Temp\u00e9rature l\u00e9gale pour travailler", "value": 42}
+{"entity": "Maintien de salaire arr\u00eat maladie", "value": 42}
+{"entity": "Environnement sp\u00e9cifique de travail", "value": 42}
+{"entity": "Pr\u00e9avis de licenciement et de d\u00e9mission", "value": 42}
+{"entity": "Mise \u00e0 pied", "value": 42}
+{"entity": "Production cin\u00e9matographique", "value": 42}
+{"entity": "Temps de travail et temps de travail effectif", "value": 42}
+{"entity": "Harc\u00e8lement moral au travail", "value": 42}
+{"entity": "Suivi m\u00e9dical et m\u00e9decine du travail", "value": 42}
+{"entity": "M\u00e9tallurgie", "value": 42}
+{"entity": "Libert\u00e9 et vie priv\u00e9e du salari\u00e9", "value": 42}
+{"entity": "Entreprises de courtage d'assurances et/ou de r\u00e9assurances", "value": 42}
+{"entity": "Modification horaires de travail", "value": 42}
+{"entity": "N\u00e9gociation dans l'entreprise", "value": 42}
+{"entity": "Contestation du licenciement", "value": 42}
+{"entity": "Horlogerie-bijouterie (commerce de d\u00e9tail)", "value": 42}
+{"entity": "Lutte contre les discriminations", "value": 42}
+{"entity": "Manutention ferroviaire et travaux connexes", "value": 42}
+{"entity": "Cesu", "value": 42}
+{"entity": "D\u00e9lai de paiement du solde de tout compte", "value": 42}
+{"entity": "Pause d\u00e9jeuner", "value": 42}
+{"entity": "Cdd", "value": 42}
+{"entity": "Accords-convention d'entreprise Cit\u00e9 de la musique", "value": 42}
+{"entity": "Indemnit\u00e9s", "value": 42}
+{"entity": "Industries chimiques et connexes", "value": 42}
+{"entity": "Publicit\u00e9 directe : entreprises de logistique en publicit\u00e9 directe", "value": 42}
+{"entity": "Solde de tout compte", "value": 42}
+{"entity": "Enseignement priv\u00e9 ind\u00e9pendant", "value": 42}
+{"entity": "Industrie et services nautiques", "value": 42}
+{"entity": "Contrat cdi", "value": 42}
+{"entity": "Sanctions disciplinaires", "value": 42}
+{"entity": "Travail du dimanche", "value": 42}
+{"entity": "Cong\u00e9 pacs", "value": 42}
+{"entity": "Cumuler deux emplois", "value": 42}
+{"entity": "Nombre de trimestres de retraite", "value": 42}
+{"entity": "N\u00e9goce et distribution de combustibles solides, liquides, gazeux et produits p\u00e9troliers", "value": 42}
+{"entity": "Jours f\u00e9ri\u00e9s", "value": 42}
+{"entity": "Proth\u00e9sistes dentaires et personnels des laboratoires de proth\u00e8ses dentaires", "value": 42}
+{"entity": "Installation, entretien, r\u00e9paration et d\u00e9pannage de mat\u00e9riel a\u00e9raulique, thermique et frigorifique", "value": 42}
+{"entity": "Coop\u00e9ratives de consommation (23 novembre 2018)", "value": 42}
+{"entity": "Remise documents fin de contrat d\u00e9lai", "value": 42}
+{"entity": "Rupture conventionnelle collective et d\u00e9part volontaire", "value": 42}
+{"entity": "Caf\u00e9t\u00e9rias et assimil\u00e9s (cha\u00eenes)", "value": 42}
+{"entity": "Montant de la pension de retraite", "value": 42}
+{"entity": "Maladie professionnelle", "value": 42}
+{"entity": "Cdd remplacement", "value": 42}
+{"entity": "Accident du travail", "value": 42}
 {"entity": "Prime de d\u00e9part \u00e0 la retraite", "value": 42}
-{"entity": "Dur\u00e9e du pr\u00e9avis de d\u00e9mission", "value": 42}
-{"entity": "Absences pour rendez vous m\u00e9dicaux grossesse", "value": 42}
-{"entity": "Professions r\u00e9glement\u00e9es aupr\u00e8s des juridictions", "value": 42}
-{"entity": "Restauration ferroviaire", "value": 42}
-{"entity": "Repos compensateur", "value": 42}
-{"entity": "Pause", "value": 42}
+{"entity": "Journalistes", "value": 42}
+{"entity": "Ppv", "value": 42}
+{"entity": "Allocations", "value": 42}
+{"entity": "Industries et commerce de la r\u00e9cup\u00e9ration", "value": 42}
+{"entity": "Arr\u00eat maladie : indemnisation", "value": 42}
+{"entity": "Voyageurs de commerce, repr\u00e9sentants de commerce, placiers, VRP", "value": 42}
+{"entity": "Ateliers et chantiers d'insertion", "value": 42}
+{"entity": "Grille de salaire", "value": 42}
+{"entity": "S\u00e9curit\u00e9 au travail", "value": 42}
+{"entity": "Jeunes travailleurs", "value": 42}
+{"entity": "D\u00e9c\u00e8s employeur", "value": 42}
+{"entity": "Avantages en nature", "value": 42}
+{"entity": "Prime de pr\u00e9carit\u00e9", "value": 42}
+{"entity": "Entreprises des services d'eau et d'assainissement", "value": 42}
+{"entity": "Mise \u00e0 disposition, d\u00e9tachement et portage salarial", "value": 42}
+{"entity": "Coiffure et professions connexes", "value": 42}
+{"entity": "Espaces de loisirs, d'attractions et culturels (CCNELAC)", "value": 42}
+{"entity": "Arr\u00eat maladie longue dur\u00e9e", "value": 42}
+{"entity": "Indemnit\u00e9 de d\u00e9part \u00e0 la retraite", "value": 42}
+{"entity": "Contrat cdd", "value": 42}
+{"entity": "Bulletin de salaire", "value": 42}
+{"entity": "Bureaux d'\u00e9tudes techniques, cabinets d'ing\u00e9nieurs-conseils et soci\u00e9t\u00e9s de conseils", "value": 42}
+{"entity": "Cabinets ou entreprises de g\u00e9om\u00e8tres-experts, g\u00e9om\u00e8tres-topographes, photogramm\u00e8tres et experts fonciers", "value": 42}
+{"entity": "R\u00e9partition pharmaceutique", "value": 42}
+{"entity": "Enseignement priv\u00e9 non lucratif (EPNL)", "value": 42}
+{"entity": "Lettre de d\u00e9mission", "value": 42}
+{"entity": "Dur\u00e9e du travail et temps de travail", "value": 42}
+{"entity": "Dimanches", "value": 42}
+{"entity": "Proc\u00e9dure de licenciement", "value": 42}
+{"entity": "Industries des tuiles et briques", "value": 42}
+{"entity": "Mutuelle et retraite", "value": 42}
+{"entity": "Personnel des cabinets d'experts-comptables et de commissaires aux comptes", "value": 42}
+{"entity": "Particuliers employeurs et emploi \u00e0 domicile", "value": 42}
+{"entity": "Anciennet\u00e9", "value": 42}
+{"entity": "Handicap", "value": 42}
+{"entity": "Omnipraticiens exer\u00e7ant dans les centres de sant\u00e9 miniers", "value": 42}
+{"entity": "Inaptitude professionnelle", "value": 42}
+{"entity": "Commerce de d\u00e9tail alimentaire non sp\u00e9cialis\u00e9", "value": 42}
+{"entity": "Contrat d'apprentissage", "value": 42}
+{"entity": "T\u00e9l\u00e9travail", "value": 42}
+{"entity": "Industries carri\u00e8res  et mat\u00e9riaux de construction", "value": 42}
+{"entity": "13\u00e8me mois", "value": 42}
+{"entity": "Licenciement abusif", "value": 42}
+{"entity": "Services de sant\u00e9 au travail interentreprises", "value": 42}
+{"entity": "Coop\u00e9ration maritime", "value": 42}
+{"entity": "Travail m\u00e9canique du bois, des scieries, du n\u00e9goce et de l'importation des bois", "value": 42}
+{"entity": "Simulateur indemnit\u00e9 compensatrice de cong\u00e9s pay\u00e9s", "value": 42}
+{"entity": "Formalit\u00e9s obligatoires", "value": 42}
+{"entity": "Presse (Information sp\u00e9cialis\u00e9e [employ\u00e9s, techniciens, agents de ma\u00eetrise et cadres])", "value": 42}
+{"entity": "Risques chimiques", "value": 42}
+{"entity": "Paternit\u00e9", "value": 42}
+{"entity": "Panier repas obligatoire ou pas", "value": 42}
+{"entity": "Boucherie - poissonnerie", "value": 42}
+{"entity": "Rupture conventionnelle onf", "value": 42}
+{"entity": "Smic", "value": 42}
+{"entity": "Personnel des cabinets m\u00e9dicaux", "value": 42}
+{"entity": "Combien de jours de cong\u00e9s en cas de d\u00e9c\u00e8s d'un proche ?", "value": 42}
+{"entity": "M\u00e9thodes de recrutement", "value": 42}
+{"entity": "Radiodiffusion", "value": 42}
+{"entity": "Acompte", "value": 42}
+{"entity": "Chaleur et canicule au travail", "value": 42}
+{"entity": "Arr\u00eat de travail indemnisation", "value": 42}
+{"entity": "Transports routiers et activit\u00e9s auxiliaires du transport", "value": 42}
+{"entity": "Discrimination", "value": 42}
+{"entity": "Fin et rupture du contrat", "value": 42}
+{"entity": "Cong\u00e9s pay\u00e9s acquisition", "value": 42}
+{"entity": "Commerces de gros", "value": 42}
+{"entity": "Temps de travail", "value": 42}
+{"entity": "Temps partiel th\u00e9rapeutique", "value": 42}
+{"entity": "Services de l'automobile (Commerce et r\u00e9paration de l'automobile, du cycle et du motocycle, activit\u00e9s connexes, contr\u00f4le technique automobile, formation des conducteurs)", "value": 42}
+{"entity": "Am\u00e9nagement du poste de travail", "value": 42}
+{"entity": "Cong\u00e9 li\u00e9 \u00e0 la maladie ou handicap de l'enfant", "value": 42}
+{"entity": "Agences de presse (employ\u00e9s, techniciens et cadres)", "value": 42}
+{"entity": "Activit\u00e9s de production des eaux embouteill\u00e9es, de boissons rafra\u00eechissantes sans alcool et de bi\u00e8re", "value": 42}
+{"entity": "Cdi", "value": 42}
+{"entity": "Entretien professionnel et conseil en \u00e9volution professionnelle (CEP)", "value": 42}
+{"entity": "Maternit\u00e9", "value": 42}
+{"entity": "Industries du cartonnage", "value": 42}
+{"entity": "Cadres des travaux publics", "value": 42}
+{"entity": "Quincaillerie, fournitures industrielles, fers, m\u00e9taux et \u00e9quipement de la maison (commerces)", "value": 42}
+{"entity": "Clause de mobilit\u00e9", "value": 42}
+{"entity": "Remont\u00e9es m\u00e9caniques et domaines skiables", "value": 42}
+{"entity": "Am\u00e9nagement du temps de travail", "value": 42}
+{"entity": "Commerces de d\u00e9tail non alimentaires : antiquit\u00e9s, brocante, galeries d'art (\u0153uvres d'art), arts de la table, coutellerie, droguerie, \u00e9quipement du foyer, bazars, commerces m\u00e9nagers, mod\u00e9lisme, jeux, jouets, pu\u00e9rinatalit\u00e9, maroquinerie, presse et jeux de hasard ou pronostics, produits de la vape", "value": 42}
+{"entity": "Heures de d\u00e9l\u00e9gation", "value": 42}
+{"entity": "Maladie", "value": 42}
+{"entity": "Formalit\u00e9s d'embauche", "value": 42}
+{"entity": "Parfumerie, esth\u00e9tique", "value": 42}
+{"entity": "Rupture p\u00e9riode essai", "value": 42}
+{"entity": "Rupture conventionnelle individuelle indemnit\u00e9 de rupture", "value": 42}
+{"entity": "Librairie", "value": 42}
+{"entity": "Licenciement pour inaptitude et indemnit\u00e9s", "value": 42}
+{"entity": "Cong\u00e9 parental", "value": 42}
+{"entity": "Duerp", "value": 42}
+{"entity": "Couture parisienne", "value": 42}
+{"entity": "Mat\u00e9riaux de construction (n\u00e9goce)", "value": 42}
+{"entity": "Rupture et fin d'un CDD - CTT", "value": 42}
+{"entity": "Assistante maternelle", "value": 42}
+{"entity": "Travail a\u00e9rien : personnel navigant des essais et r\u00e9ceptions", "value": 42}
+{"entity": "Rtt", "value": 42}
+{"entity": "\u00c9dition", "value": 42}
+{"entity": "Surveillance des salari\u00e9s par cam\u00e9ra", "value": 42}
+{"entity": "Industries alimentaires diverses", "value": 42}
+{"entity": "Confiserie, chocolaterie, biscuiterie (d\u00e9taillants et d\u00e9taillants-fabricants)", "value": 42}
+{"entity": "Codit", "value": 42}
+{"entity": "Entretien pr\u00e9alable", "value": 42}
+{"entity": "Commerces et services de l'audiovisuel, de l'\u00e9lectronique et de l'\u00e9quipement m\u00e9nager", "value": 42}
+{"entity": "Temps partiel", "value": 42}
+{"entity": "B\u00e2timent et travaux publics et activit\u00e9s annexes ETAM (Martinique)", "value": 42}
+{"entity": "Harc\u00e8lement au travail", "value": 42}
+{"entity": "Mise \u00e0 la retraite", "value": 42}
+{"entity": "Affichage obligatoire", "value": 42}
+{"entity": "Salaire apprenti", "value": 42}
+{"entity": "Banque : personnel des banques de la Guadeloupe, de Saint-Martin et de Saint-Barth\u00e9lemy", "value": 42}
+{"entity": "Entretien pr\u00e9alable au licenciement", "value": 42}
+{"entity": "Modalit\u00e9s de calcul indemnit\u00e9s de licenciement", "value": 42}
+{"entity": "Centres de lutte contre le cancer", "value": 42}
 {"entity": "Indemnit\u00e9s de licenciement", "value": 42}
-{"entity": "Salaire minimum", "value": 42}
-{"entity": "Personnel des \u00e9levages aquacoles", "value": 42}
-{"entity": "Formalit\u00e9s d\u2019embauche", "value": 42}
-{"entity": "Jours f\u00e9ri\u00e9s travaill\u00e9s", "value": 42}
-{"entity": "Compte personnel de formation (CPF)", "value": 42}
-{"entity": "Portage de presse", "value": 42}
-{"entity": "Conchyliculture", "value": 42}
-{"entity": "Comment calculer les indemnit\u00e9s de d\u00e9part \u00e0 la retraite ?", "value": 42}
+{"entity": "Hygi\u00e8ne, s\u00e9curit\u00e9 et conditions de travail", "value": 42}
+{"entity": "P\u00e9riode d'essai : rupture et d\u00e9lai de pr\u00e9venance", "value": 42}
+{"entity": "Gr\u00e8ve", "value": 42}
+{"entity": "Pharmacie d'officine", "value": 42}
+{"entity": "Convention collective applicable", "value": 42}
+{"entity": "Lettre licenciement", "value": 42}
+{"entity": "Contrat", "value": 42}
+{"entity": "B\u00e2timent de la r\u00e9gion parisienne : ouvriers, employ\u00e9s, techniciens et agents de ma\u00eetrise, ing\u00e9nieurs, assimil\u00e9s et cadres", "value": 42}
+{"entity": "Contrat de professionnalisation", "value": 42}
+{"entity": "Repr\u00e9sentant syndical", "value": 42}
+{"entity": "Thermique : \u00e9quipements thermiques (cadres, ing\u00e9nieurs et assimil\u00e9s)", "value": 42}
+{"entity": "Industrie de la chaussure et des articles chaussants", "value": 42}
+{"entity": "D\u00e9lai de pr\u00e9venance p\u00e9riode d'essai", "value": 42}
+{"entity": "Salaire", "value": 42}
+{"entity": "Risques professionnels et pr\u00e9ventions", "value": 42}
+{"entity": "Adoption", "value": 42}
+{"entity": "Documents de fin de contrat d\u00e9lai", "value": 42}
+{"entity": "B\u00e2timent Cadres", "value": 42}
