@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.62.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.0...v2.62.1) (2025-12-10)
+
+### Bug Fixes
+
+- **dataset:** update suggestions file ([#1613](https://github.com/SocialGouv/cdtn-admin/issues/1613)) ([38f5439](https://github.com/SocialGouv/cdtn-admin/commit/38f5439f665272aeb5ee2ed3d376eb94dacab75b))
+
 # [2.62.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.61.0...v2.62.0) (2025-12-02)
 
 ### Bug Fixes
