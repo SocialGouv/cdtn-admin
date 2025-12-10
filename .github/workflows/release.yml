@@ -7,6 +7,7 @@ concurrency:
   group: release-${{ github.ref }}
 
 permissions:
+  contents: read
   id-token: write # Required for OIDC token generation
 
 jobs:
@@ -14,8 +15,6 @@ jobs:
     if: github.ref == 'refs/heads/master'
     name: Release
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
     steps:
       - name: Get GitHub App Token
         id: token
@@ -34,6 +33,10 @@ jobs:
         with:
           node-version-file: .node-version
           cache: "yarn"
+          registry-url: "https://registry.npmjs.org"
+          scope: "@socialgouv"
+      - name: Update npm (required for npm trusted publishing)
+        run: npm install -g npm@latest
       - name: Install dependencies
         env:
           NPM_TIPTAP_TOKEN: ${{ secrets.TIPTAP_PRO_TOKEN }}
