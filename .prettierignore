@@ -46,3 +46,4 @@ coverage
 
 # Kontinuous
 .kontinuous/**
+/.nx/workspace-data

@@ -2,7 +2,7 @@
   "devDependencies": {
     "@shared/eslint-config": "workspace:^",
     "husky": "^7.0.2",
-    "lerna": "^8.2.3",
+    "lerna": "9.0.3",
     "nps": "^5.10.0",
     "nps-utils": "^1.7.0",
     "prettier": "^3.6.2"

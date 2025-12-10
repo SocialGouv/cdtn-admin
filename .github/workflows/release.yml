@@ -51,12 +51,5 @@ jobs:
         run: GH_TOKEN=${GITHUB_TOKEN} yarn lerna version --force-publish --yes --conventional-commits --create-release github
         env:
           GITHUB_TOKEN: ${{ steps.token.outputs.token }}
-      - name: Setup token
-        run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Deploy to npm
         run: yarn lerna publish from-package --yes
-      - name: Remove .npmrc
-        if: always()
-        run: rm .npmrc
