@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.62.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.1...v2.62.2) (2025-12-10)
+
+### Features
+
+- **npm:** utilisation de l'OIDC pour les packages npm ([#1617](https://github.com/SocialGouv/cdtn-admin/issues/1617)) ([db33ce5](https://github.com/SocialGouv/cdtn-admin/commit/db33ce58e51a5db1c32c933b0a2fcf08594ec180))
+
 ## [2.62.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.0...v2.62.1) (2025-12-10)
 
 ### Bug Fixes
