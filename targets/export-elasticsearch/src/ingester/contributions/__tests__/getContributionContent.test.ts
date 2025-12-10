@@ -5,6 +5,7 @@ describe("getContributionContent", () => {
     const content = {
       ficheSpDescription: "Description",
       content: "Content",
+      infographics: [],
     };
 
     const result = getContributionContent(content);

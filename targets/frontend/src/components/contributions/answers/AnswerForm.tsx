@@ -32,6 +32,7 @@ const answerFormBaseSchema = answerRelationSchema.pick({
   kaliReferences: true,
   legiReferences: true,
   otherReferences: true,
+  infographics: true,
   contentFichesSpDocument: true,
   displayDate: true,
 });
@@ -108,6 +109,7 @@ export const AnswerForm = ({
   const {
     control,
     getValues,
+    setValue,
     trigger,
     formState: { isDirty },
     reset,
@@ -119,6 +121,7 @@ export const AnswerForm = ({
       content: answer?.content ?? "",
       description: answer?.description ?? "",
       contentType: answer?.contentType ?? "ANSWER",
+      infographics: answer?.infographics ?? [],
       legiReferences: answer?.legiReferences ?? [],
       kaliReferences: answer?.kaliReferences ?? [],
       otherReferences: answer?.otherReferences ?? [],
@@ -250,6 +253,25 @@ export const AnswerForm = ({
               name="content"
               disabled={isNotEditable(answer)}
               control={control}
+              onInfographicChange={(infoId, state) => {
+                const currentInfographics = getValues("infographics") ?? [];
+                if (state === "added") {
+                  setValue(
+                    "infographics",
+                    [...currentInfographics, { infographicId: infoId }],
+                    { shouldDirty: true }
+                  );
+                } else {
+                  setValue(
+                    "infographics",
+                    currentInfographics.filter(
+                      (info) => info.infographicId !== infoId
+                    ),
+                    { shouldDirty: true }
+                  );
+                }
+              }}
+              infographicEnabled={true}
             />
           </FormControl>
         )}

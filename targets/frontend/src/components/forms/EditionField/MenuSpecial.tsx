@@ -27,9 +27,11 @@ const tableHTML = `
 
 export const MenuSpecial = ({
   editor,
+  infographicEnabled,
   onNewInfographic,
 }: {
   editor: Editor | null;
+  infographicEnabled: boolean;
   onNewInfographic: (editor: Editor) => void;
 }) => {
   const getTextContent = (node: ProseMirrorNode) => {
@@ -53,7 +55,8 @@ export const MenuSpecial = ({
         const isRootDepth = !(
           editor.isActive("orderedList") ||
           editor.isActive("bulletList") ||
-          editor.isActive("table")
+          editor.isActive("table") ||
+          editor.isActive("infographic")
         );
 
         const isEmptyTextBlock =
@@ -114,16 +117,18 @@ export const MenuSpecial = ({
       >
         <StorageIcon />
       </button>
-      <button
-        onClick={() => {
-          onNewInfographic(editor);
-        }}
-        className={editor.isActive("infographic") ? "is-active" : ""}
-        type="button"
-        title="Infographie"
-      >
-        <AddPhotoAlternateIcon />
-      </button>
+      {infographicEnabled && (
+        <button
+          onClick={() => {
+            onNewInfographic(editor);
+          }}
+          className={editor.isActive("infographic") ? "is-active" : ""}
+          type="button"
+          title="Infographie"
+        >
+          <AddPhotoAlternateIcon />
+        </button>
+      )}
     </StyledFloatingMenu>
   ) : (
     <></>

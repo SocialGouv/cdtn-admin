@@ -45,6 +45,13 @@ array_relationships:
         remote_table:
           name: document_exports
           schema: public
+  - name: infographics
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          name: answer_infographics
+          schema: contribution
   - name: kali_references
     using:
       foreign_key_constraint_on:

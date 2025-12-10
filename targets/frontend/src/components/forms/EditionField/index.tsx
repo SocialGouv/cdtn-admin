@@ -7,23 +7,36 @@ import { Editor } from "./Editor";
 import { styled } from "@mui/system";
 import { buildFilePathUrl } from "../../utils";
 
-type FormEditionProps = CommonFormProps;
+type FormEditionProps = CommonFormProps & {
+  infographicEnabled?: boolean;
+  onInfographicChange?: (id: string, state: "added" | "deleted") => void;
+};
 
-export const FormEditionField = (props: FormEditionProps) => {
+export const FormEditionField = ({
+  name,
+  control,
+  rules,
+  label,
+  disabled,
+  infographicEnabled = false,
+  onInfographicChange,
+}: FormEditionProps) => {
   return (
     <Controller
-      name={props.name}
-      control={props.control}
-      rules={props.rules}
+      name={name}
+      control={control}
+      rules={rules}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <>
           <Editor
-            label={props.label}
+            label={label}
             onUpdate={onChange}
             content={value}
-            disabled={props.disabled}
+            disabled={disabled}
             infographicBaseUrl={buildFilePathUrl()}
             isError={!!error}
+            infographicEnabled={infographicEnabled}
+            onInfographicChange={onInfographicChange}
           />
           {error && (
             <StyledFormHelperText>{error.message}</StyledFormHelperText>

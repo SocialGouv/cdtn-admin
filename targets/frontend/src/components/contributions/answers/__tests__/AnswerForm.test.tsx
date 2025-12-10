@@ -59,6 +59,7 @@ const answerBase: AnswerWithStatus = {
   agreementId: "0000",
   content: "content",
   contentType: "ANSWER",
+  infographics: [],
   updatedAt: "2023-09-29T14:09:52.01401+00:00",
   contentServicePublicCdtnId: null,
   question: {

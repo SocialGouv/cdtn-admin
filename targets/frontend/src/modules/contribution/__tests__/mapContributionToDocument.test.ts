@@ -38,6 +38,7 @@ describe("mapContributionToDocument", () => {
     description:
       "Quand une femme tombe enceinte et décide de partir en congé maternité, cette dernière a droit à des indemnités journalières de sécurité sociale venant indemniser la période durant laquelle elle ne peut plus travailler.",
     content_type: "ANSWER",
+    infographics: [],
     agreement: {
       id: "0016",
       name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
@@ -147,6 +148,7 @@ describe("mapContributionToDocument", () => {
           "Quand une femme tombe enceinte et décide de partir en congé maternité, cette dernière a droit à des indemnités journalières de sécurité sociale venant indemniser la période durant laquelle elle ne peut plus travailler.",
         contentType: "ANSWER",
         idcc: "0016",
+        infographics: [],
         questionId: "3384f257-e319-46d1-a4cb-8e8294da337b",
         questionName:
           "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
@@ -248,6 +250,7 @@ describe("mapContributionToDocument", () => {
         description:
           "Quand une femme tombe enceinte et décide de partir en congé maternité, cette dernière a droit à des indemnités journalières de sécurité sociale venant indemniser la période durant laquelle elle ne peut plus travailler.",
         idcc: "0016",
+        infographics: [],
         linkedContent: [
           {
             cdtnId: "abcdef",
@@ -371,6 +374,7 @@ describe("mapContributionToDocument", () => {
         content: null,
         description: null,
         content_type: "GENERIC_NO_CDT",
+        infographics: [],
         agreement: {
           id: "0000",
           name: "Code du travail",
@@ -403,6 +407,7 @@ describe("mapContributionToDocument", () => {
         contentType: "GENERIC_NO_CDT",
         date: "11/07/2024",
         idcc: "0000",
+        infographics: [],
         questionId: "3384f257-e319-46d1-a4cb-8e8294da337b",
         questionName:
           "Quelles sont les conditions d’indemnisation pendant le congé de maternité ?",
@@ -430,6 +435,7 @@ describe("mapContributionToDocument", () => {
           content: null,
           description: null,
           content_type: type,
+          infographics: [],
           agreement: {
             id: "0016",
             name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
@@ -476,6 +482,7 @@ describe("mapContributionToDocument", () => {
         content: "<p>Texte de la réponse</p>",
         description: "Texte de la réponse",
         content_type: "ANSWER",
+        infographics: [],
         agreement: {
           id: "0016",
           name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
@@ -529,6 +536,7 @@ describe("mapContributionToDocument", () => {
         content: "<p>Texte de la réponse</p>",
         description: "Texte de la réponse",
         content_type: "ANSWER",
+        infographics: [],
         agreement: {
           id: "0000",
           name: "Code du travail",
@@ -565,6 +573,7 @@ describe("mapContributionToDocument", () => {
         content: "<p>Texte de la réponse</p>",
         description: "Texte de la réponse",
         content_type: "ANSWER",
+        infographics: [],
         agreement: {
           id: "0000",
           name: "Code du travail",
@@ -618,6 +627,7 @@ describe("mapContributionToDocument", () => {
         content: "<p>Texte de la réponse</p>",
         description: "Texte de la réponse",
         content_type: "ANSWER",
+        infographics: [],
         agreement: {
           id: "16",
           name: "CC 16",
@@ -652,6 +662,7 @@ describe("mapContributionToDocument", () => {
         content: "<p>Texte de la réponse</p>",
         description: "Texte de la réponse",
         content_type: "ANSWER",
+        infographics: [],
         agreement: {
           id: "3248",
           name: "CC 3248",

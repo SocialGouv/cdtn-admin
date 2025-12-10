@@ -4,45 +4,104 @@ import { Answer } from "../type";
 
 import {
   formatCdtnReferences,
+  formatInfographics,
   formatKaliReferences,
   formatLegiReferences,
   formatOtherReferences,
 } from "./answerReferences";
+import { gql } from "@shared/utils";
 
-export const contributionAnswerUpdateMutation = `
-mutation contributionAnswerUpdate($id: uuid!, $displayDate: date, $content: String, $description: String, $contentType: String, $status: statustype!, $userId: uuid!, $contentServicePublicCdtnId: String, $messageIntroNoCDT: String, $messageBlockGenericNoCDT: String, $kaliReferences: [contribution_answer_kali_references_insert_input!]!, $legiReferences: [contribution_answer_legi_references_insert_input!]!, $otherReferences: [contribution_answer_other_references_insert_input!]!, $cdtnReferences: [contribution_answer_cdtn_references_insert_input!]!) {
-  update_contribution_answers_by_pk(pk_columns: {id: $id}, _set: {display_date: $displayDate, content: $content, description: $description, content_type: $contentType, content_service_public_cdtn_id: $contentServicePublicCdtnId, message_block_generic_no_CDT: $messageBlockGenericNoCDT}) {
-    __typename
+export const contributionAnswerUpdateMutation = gql`
+  mutation contributionAnswerUpdate(
+    $id: uuid!
+    $displayDate: date
+    $content: String
+    $description: String
+    $contentType: String
+    $status: statustype!
+    $userId: uuid!
+    $contentServicePublicCdtnId: String
+    $messageIntroNoCDT: String
+    $messageBlockGenericNoCDT: String
+    $kaliReferences: [contribution_answer_kali_references_insert_input!]!
+    $legiReferences: [contribution_answer_legi_references_insert_input!]!
+    $otherReferences: [contribution_answer_other_references_insert_input!]!
+    $cdtnReferences: [contribution_answer_cdtn_references_insert_input!]!
+    $infographics: [contribution_answer_infographics_insert_input!]!
+  ) {
+    update_contribution_answers_by_pk(
+      pk_columns: { id: $id }
+      _set: {
+        display_date: $displayDate
+        content: $content
+        description: $description
+        content_type: $contentType
+        content_service_public_cdtn_id: $contentServicePublicCdtnId
+        message_block_generic_no_CDT: $messageBlockGenericNoCDT
+      }
+    ) {
+      __typename
+    }
+    insert_contribution_answer_statuses_one(
+      object: { status: $status, user_id: $userId, answer_id: $id }
+    ) {
+      id
+      created_at
+    }
+    delete_contribution_answer_kali_references(
+      where: { answer_id: { _eq: $id } }
+    ) {
+      affected_rows
+    }
+    insert_contribution_answer_kali_references(
+      objects: $kaliReferences
+      on_conflict: { constraint: answer_kali_references_pkey }
+    ) {
+      affected_rows
+    }
+    delete_contribution_answer_legi_references(
+      where: { answer_id: { _eq: $id } }
+    ) {
+      affected_rows
+    }
+    insert_contribution_answer_legi_references(
+      objects: $legiReferences
+      on_conflict: { constraint: answer_legi_references_pkey }
+    ) {
+      affected_rows
+    }
+    delete_contribution_answer_cdtn_references(
+      where: { answer_id: { _eq: $id } }
+    ) {
+      affected_rows
+    }
+    insert_contribution_answer_cdtn_references(
+      objects: $cdtnReferences
+      on_conflict: { constraint: answer_cdtn_references_pkey }
+    ) {
+      affected_rows
+    }
+    delete_contribution_answer_other_references(
+      where: { answer_id: { _eq: $id } }
+    ) {
+      affected_rows
+    }
+    insert_contribution_answer_other_references(
+      objects: $otherReferences
+      on_conflict: { constraint: answer_other_references_pkey }
+    ) {
+      affected_rows
+    }
+    delete_contribution_answer_infographics(where: { answerId: { _eq: $id } }) {
+      affected_rows
+    }
+    insert_contribution_answer_infographics(
+      objects: $infographics
+      on_conflict: { constraint: answer_infographics_pkey }
+    ) {
+      affected_rows
+    }
   }
-  insert_contribution_answer_statuses_one(object: {status: $status, user_id: $userId, answer_id: $id}) {
-    id
-    created_at
-  }
-  delete_contribution_answer_kali_references(where: {answer_id: {_eq: $id}}) {
-    affected_rows
-  }
-  insert_contribution_answer_kali_references(objects: $kaliReferences, on_conflict: {constraint: answer_kali_references_pkey}) {
-    affected_rows
-  }
-  delete_contribution_answer_legi_references(where: {answer_id: {_eq: $id}}) {
-    affected_rows
-  }
-  insert_contribution_answer_legi_references(objects: $legiReferences, on_conflict: {constraint: answer_legi_references_pkey}) {
-    affected_rows
-  }
-  delete_contribution_answer_cdtn_references(where: {answer_id: {_eq: $id}}) {
-    affected_rows
-  }
-  insert_contribution_answer_cdtn_references(objects: $cdtnReferences, on_conflict: {constraint: answer_cdtn_references_pkey}) {
-    affected_rows
-  }
-  delete_contribution_answer_other_references(where: {answer_id: {_eq: $id}}) {
-    affected_rows
-  }
-  insert_contribution_answer_other_references(objects: $otherReferences, on_conflict: {constraint: answer_other_references_pkey}) {
-    affected_rows
-  }
-}
 `;
 
 export type MutationProps = Pick<
@@ -57,6 +116,7 @@ export type MutationProps = Pick<
   | "legiReferences"
   | "otherReferences"
   | "cdtnReferences"
+  | "infographics"
   | "displayDate"
 > & {
   status: string;
@@ -76,6 +136,7 @@ export const useContributionAnswerUpdateMutation = (): MutationResult => {
       legiReferences: formatLegiReferences(data.id, data.legiReferences),
       cdtnReferences: formatCdtnReferences(data.id, data.cdtnReferences),
       otherReferences: formatOtherReferences(data.id, data.otherReferences),
+      infographics: formatInfographics(data.id, data.infographics),
     });
     if (result.error) {
       throw new Error(result.error.message);

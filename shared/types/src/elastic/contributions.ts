@@ -22,8 +22,18 @@ export interface ContributionMetadata {
   };
 }
 
+export type ContributionInfographicFull = {
+  infographicId: string;
+  title: string;
+  svgFilename: string;
+  pdfFilename: string;
+  pdfFilesizeOctet: number;
+  transcription: string;
+};
+
 export interface ContributionContentBase {
   content: string;
+  infographics: ContributionInfographicFull[];
 }
 
 export interface ContributionFicheSpContent {

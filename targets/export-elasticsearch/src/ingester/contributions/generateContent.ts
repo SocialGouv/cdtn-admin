@@ -1,7 +1,9 @@
 import {
   ContributionContent,
   ContributionDocumentJson,
+  ContributionInfographicFull,
   DocumentElasticWithSource,
+  InfographicElasticDocument,
 } from "@socialgouv/cdtn-types";
 import { fetchFicheSp } from "./fetchFicheSp";
 
@@ -9,12 +11,14 @@ export const generateContent = async (
   contribGeneric:
     | DocumentElasticWithSource<ContributionDocumentJson>
     | undefined,
-  contrib: DocumentElasticWithSource<ContributionDocumentJson>
+  contrib: DocumentElasticWithSource<ContributionDocumentJson>,
+  infographicDocuments: InfographicElasticDocument[]
 ): Promise<ContributionContent> => {
   switch (contrib.type) {
     case "content":
       return {
         content: contrib.contentWithGlossary,
+        infographics: mapInfographic(contrib, infographicDocuments),
       };
     case "fiche-sp": {
       const ficheSpContent = await fetchFicheSp(contrib.ficheSpId);
@@ -44,6 +48,7 @@ export const generateContent = async (
       if (contribGeneric.type === "content") {
         return {
           content: contribGeneric.contentWithGlossary,
+          infographics: mapInfographic(contribGeneric, infographicDocuments),
         };
       } else if (contribGeneric.type === "fiche-sp") {
         const ficheSpContent = await fetchFicheSp(contribGeneric.ficheSpId);
@@ -59,4 +64,31 @@ export const generateContent = async (
       );
     }
   }
+};
+
+const mapInfographic = (
+  contrib: DocumentElasticWithSource<ContributionDocumentJson>,
+  infographicDocuments: InfographicElasticDocument[]
+): ContributionInfographicFull[] => {
+  if (!contrib.infographics) {
+    return [];
+  }
+  return contrib.infographics.map((info): ContributionInfographicFull => {
+    const infographic = infographicDocuments.find(
+      (item) => item.id === info.infographicId
+    );
+    if (!infographic) {
+      throw new Error(
+        `Infographic ${info.infographicId} not published for contrib ${contrib.id} (${contrib.questionIndex} - ${contrib.questionName})`
+      );
+    }
+    return {
+      infographicId: infographic.id,
+      title: infographic.title,
+      pdfFilename: infographic.pdfFilename,
+      pdfFilesizeOctet: infographic.pdfFilesizeOctet,
+      svgFilename: infographic.svgFilename,
+      transcription: infographic.transcription,
+    };
+  });
 };

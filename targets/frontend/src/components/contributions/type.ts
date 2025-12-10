@@ -114,6 +114,11 @@ export const cdtnReferenceSchema = z.object({
 });
 export type CdtnReference = z.infer<typeof cdtnReferenceSchema>;
 
+export const infographicReferenceSchema = z.object({
+  infographicId: z.string(),
+});
+export type InfographicReference = z.infer<typeof infographicReferenceSchema>;
+
 const answerBaseSchema = z.object({
   id: z.string().uuid(),
   agreementId: z.string(),
@@ -183,6 +188,7 @@ export const answerRelationSchema = answerBaseSchema.extend({
   legiReferences: z.array(legiReferenceSchema),
   otherReferences: z.array(otherReferenceSchema),
   cdtnReferences: z.array(cdtnReferenceSchema),
+  infographics: z.array(infographicReferenceSchema),
   contentFichesSpDocument: documentSchema.nullable().optional(),
   question: questionBaseSchema,
   answerComments: z.array(commentsSchema),

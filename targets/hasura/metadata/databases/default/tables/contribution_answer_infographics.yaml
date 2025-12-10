@@ -1,0 +1,50 @@
+table:
+  name: answer_infographics
+  schema: contribution
+configuration:
+  column_config:
+    answer_id:
+      custom_name: answerId
+    infographic_id:
+      custom_name: infographicId
+  custom_column_names:
+    answer_id: answerId
+    infographic_id: infographicId
+  custom_root_fields: {}
+object_relationships:
+  - name: answer
+    using:
+      foreign_key_constraint_on: answer_id
+  - name: infographic
+    using:
+      foreign_key_constraint_on: infographic_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - answer_id
+        - infographic_id
+    comment: ""
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - answer_id
+        - infographic_id
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - answer_id
+        - infographic_id
+      filter: {}
+      check: {}
+    comment: ""
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""
