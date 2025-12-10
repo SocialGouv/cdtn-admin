@@ -54,4 +54,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.token.outputs.token }}
       - name: Deploy to npm
-        run: yarn lerna publish from-package --yes
+        run: |
+          export DEBUG=lerna:*
+          export NPM_CONFIG_LOGLEVEL=verbose
+          yarn lerna publish from-package --yes --loglevel silly
