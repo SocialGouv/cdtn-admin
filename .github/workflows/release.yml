@@ -14,6 +14,8 @@ jobs:
     if: github.ref == 'refs/heads/master'
     name: Release
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Get GitHub App Token
         id: token
