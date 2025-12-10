@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/SocialGouv/cdtn-admin.git"
   },
-  "version": "2.62.6",
+  "version": "2.62.7",
   "main": "build/index.js",
   "module": "build/index.js",
   "types": "build/index.d.ts",
