@@ -45,6 +45,9 @@ export const getContributionAnswerById = gql`
       cdtn_references {
         cdtn_id
       }
+      infographics {
+        infographicId
+      }
       content_fiche_sp: document_fiche_sp {
         initial_id
         document

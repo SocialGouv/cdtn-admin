@@ -115,6 +115,18 @@ export async function cdtnDocumentsGen(
 
   await updateDocs(SOURCES.THEMATIC_FILES, dossiers);
 
+  logger.info("=== Infographies ===");
+  const infographicDocs = await getDocumentBySource<InfographicTemplateDoc>(
+    SOURCES.INFOGRAPHICS,
+    getBreadcrumbs
+  );
+  const infographics = await generateInfographics(infographicDocs);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.INFOGRAPHICS]: infographics.length,
+  };
+  await updateDocs(SOURCES.INFOGRAPHICS, infographics);
+
   logger.info("=== Contributions ===");
   const contributions: DocumentElasticWithSource<ContributionDocumentJson>[] =
     await getDocumentBySource<ContributionDocumentJson>(
@@ -142,7 +154,8 @@ export async function cdtnDocumentsGen(
   const generatedContributions = await generateContributions(
     contributions,
     ccnData,
-    ccnListWithHighlight
+    ccnListWithHighlight,
+    infographics
   );
 
   logger.info(`Generated ${generatedContributions.length} contributions`);
@@ -289,18 +302,6 @@ export async function cdtnDocumentsGen(
     [SOURCES.CDT]: cdtDoc.length,
   };
   await updateDocs(SOURCES.CDT, cdtDoc);
-
-  logger.info("=== Infographies ===");
-  const infographicDocs = await getDocumentBySource<InfographicTemplateDoc>(
-    SOURCES.INFOGRAPHICS,
-    getBreadcrumbs
-  );
-  const infographics = await generateInfographics(infographicDocs);
-  documentsCount = {
-    ...documentsCount,
-    [SOURCES.INFOGRAPHICS]: infographics.length,
-  };
-  await updateDocs(SOURCES.INFOGRAPHICS, infographics);
 
   logger.info("=== Editorial contents ===");
   const documents = await getDocumentBySource<EditorialContentDoc>(
