@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SourceRoute, getRouteBySource } from "@socialgouv/cdtn-sources";
+import { SourceKeys, getRouteBySource } from "@socialgouv/cdtn-utils";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -116,7 +116,7 @@ export const PrequalifiedForm = ({
                   justifyContent="space-between"
                 >
                   <span>{`${getRouteBySource(
-                    document?.source as SourceRoute
+                    document?.source as SourceKeys
                   )} > ${document?.title} (${document?.slug})`}</span>
                   <Stack direction="row" className={index.toString()}>
                     <IconButton
@@ -148,7 +148,7 @@ export const PrequalifiedForm = ({
             value.document.cdtnId === option.document.cdtnId
           }
           getOptionLabel={(item) =>
-            `${getRouteBySource(item.document.source as SourceRoute)} > ${
+            `${getRouteBySource(item.document.source as SourceKeys)} > ${
               item.document.title
             } (${item.document.slug})`
           }

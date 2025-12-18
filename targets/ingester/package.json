@@ -1,10 +1,10 @@
 {
   "name": "ingester",
-  "version": "2.58.2",
+  "version": "2.63.0",
   "dependencies": {
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-slugify": "4.52.1",
-    "@socialgouv/cdtn-sources": "4.52.1",
+    "@socialgouv/cdtn-utils": "4.196.0",
     "@socialgouv/kali-data": "^2.628.0",
     "get-uri": "3.0.2",
     "got": "11.8.6",

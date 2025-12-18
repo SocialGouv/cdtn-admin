@@ -1,4 +1,4 @@
-import type { SourceValues } from "@socialgouv/cdtn-sources";
+import type { SourceKeys } from "@socialgouv/cdtn-utils";
 
 import {
   Answer,
@@ -15,7 +15,7 @@ interface Document {
   id: string;
   description: string;
   title: string;
-  source: SourceValues;
+  source: SourceKeys;
   text: string;
   slug: string;
   is_searchable: boolean;

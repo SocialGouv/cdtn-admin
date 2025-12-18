@@ -1,4 +1,4 @@
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import Link from "next/link";
 import { RELATIONS } from "src/lib/relations";
 import { useQuery } from "urql";
@@ -7,7 +7,6 @@ import { FixedSnackBar } from "../utils/SnackBar";
 import React from "react";
 import { theme } from "src/theme";
 
-// TODO Retirer le split de la requête quand les anciennes contributions seront retirées
 export const getUnthemedContentQuery = `
 query getUnthemed($themeSources: [String!]!) {
   documents(where: {
@@ -41,6 +40,7 @@ export const THEMABLE_CONTENT = [
   SOURCES.SHEET_SP,
   SOURCES.THEMATIC_FILES,
   SOURCES.TOOLS,
+  SOURCES.INFOGRAPHICS,
 ];
 
 export function UnThemedContent() {

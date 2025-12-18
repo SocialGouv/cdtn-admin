@@ -1,29 +1,25 @@
-import {EditorContent, useEditor} from "@tiptap/react";
+import { EditorContent, Extensions, useEditor } from "@tiptap/react";
 import Table from "@tiptap/extension-table";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import StarterKit from "@tiptap/starter-kit";
-import React, {useEffect, useState} from "react";
-import {styled} from "@mui/system";
-import {fr} from "@codegouvfr/react-dsfr";
+import React, { useEffect, useState } from "react";
+import { styled } from "@mui/system";
+import { fr } from "@codegouvfr/react-dsfr";
 
-import {TitleBox} from "../TitleBox";
-import {MenuSpecial} from "./MenuSpecial";
-import {MenuStyle} from "./MenuStyle";
-import {MenuTable} from "./MenuTable";
-import {Details} from "@tiptap-pro/extension-details";
-import {DetailsSummary} from "@tiptap-pro/extension-details-summary";
-import {DetailsContent} from "@tiptap-pro/extension-details-content";
-import {Placeholder} from "@tiptap/extension-placeholder";
-import {Link} from "@tiptap/extension-link";
-import {Alert, Infographic, Title} from "./extensions";
-import {MenuInfographic} from "./MenuInfographic";
-import {Button, DialogActions, DialogContentText, TextField,} from "@mui/material";
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import {NodeSelection} from "@tiptap/pm/state";
+import { TitleBox } from "../TitleBox";
+import { MenuSpecial } from "./MenuSpecial";
+import { MenuStyle } from "./MenuStyle";
+import { MenuTable } from "./MenuTable";
+import { Details } from "@tiptap-pro/extension-details";
+import { DetailsSummary } from "@tiptap-pro/extension-details-summary";
+import { DetailsContent } from "@tiptap-pro/extension-details-content";
+import { Placeholder } from "@tiptap/extension-placeholder";
+import { Link } from "@tiptap/extension-link";
+import { Alert, Infographic, Title } from "./extensions";
+import { NodeSelection } from "@tiptap/pm/state";
+import { AddInfographyDialog } from "./component/AddInfographyDialog";
 
 export type EditorProps = {
   label: string;
@@ -31,97 +27,95 @@ export type EditorProps = {
   onUpdate: (content: string) => void;
   disabled?: boolean;
   isError?: boolean;
+  infographicEnabled: boolean;
   infographicBaseUrl: string;
+  onInfographicChange?: (infoId: string, state: "added" | "deleted") => void;
 };
 
 const emptyHtml = "<p></p>";
 
-type ModeCreation = {
-  mode: 0;
-};
-const Creation: ModeCreation = {mode: 0};
-
-type ModeEdition = {
-  mode: 1;
-  infoTitle: string;
-  infoName: string;
-  pdfName: string;
-  pdfSize: string;
-};
-const Edition = (
-  infoTitle: string,
-  infoName: string,
-  pdfName: string,
-  pdfSize: string
-): ModeEdition => ({
-  mode: 1,
-  infoTitle,
-  infoName,
-  pdfName,
-  pdfSize,
-});
-
-type ModeHide = {
-  mode: -1;
-};
-const Hide: ModeHide = {mode: -1};
-
-type Mode = ModeEdition | ModeCreation | ModeHide;
-
 export const Editor = ({
-                         label,
-                         content,
-                         onUpdate,
-                         disabled,
-                         infographicBaseUrl,
-                         isError = false,
-                       }: EditorProps) => {
+  label,
+  content,
+  onUpdate,
+  disabled,
+  infographicBaseUrl,
+  isError = false,
+  infographicEnabled,
+  onInfographicChange,
+}: EditorProps) => {
   const [currentContent, setCurrentContent] = useState(content);
   const [focus, setFocus] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [infographicModal, setInfographicModal] = useState<Mode>(Hide);
+  const [isInfoModalOpened, openInfoModal] = useState<boolean>(false);
+
+  const defaultExtensions: Extensions = [
+    StarterKit,
+    Table.configure({
+      resizable: true,
+    }),
+    TableRow,
+    TableHeader,
+    TableCell,
+    Details.configure({
+      persist: false,
+      HTMLAttributes: {
+        class: "details",
+      },
+    }),
+    DetailsSummary,
+    DetailsContent,
+    Placeholder.configure({
+      includeChildren: true,
+      placeholder: ({ node }) => {
+        if (node.type.name === "detailsSummary") {
+          return "Titre de la section";
+        }
+        return "";
+      },
+    }),
+    Link.configure({
+      openOnClick: false,
+      HTMLAttributes: {
+        rel: null,
+      },
+    }),
+    Alert,
+    Title,
+  ];
 
   const editor = useEditor({
     content,
     editable: !disabled,
-    extensions: [
-      StarterKit,
-      Table.configure({
-        resizable: true,
-      }),
-      TableRow,
-      TableHeader,
-      TableCell,
-      Details.configure({
-        persist: false,
-        HTMLAttributes: {
-          class: "details",
-        },
-      }),
-      DetailsSummary,
-      DetailsContent,
-      Placeholder.configure({
-        includeChildren: true,
-        placeholder: ({node}) => {
-          if (node.type.name === "detailsSummary") {
-            return "Titre de la section";
+    extensions: !infographicEnabled
+      ? defaultExtensions
+      : defaultExtensions.concat(
+          Infographic.configure({
+            baseUrl: infographicBaseUrl,
+          })
+        ),
+    onUpdate: ({ editor, transaction }) => {
+      if (infographicEnabled && onInfographicChange && transaction.docChanged) {
+        // Detect if an infography has been deleted or added
+        transaction.steps.forEach((step) => {
+          const from = (step as any).from;
+          const to = (step as any).to;
+
+          transaction.before.nodesBetween(from, to, (node) => {
+            if (node.type.name === "infographic") {
+              onInfographicChange(node.attrs.infoId, "deleted");
+            }
+          });
+
+          if ((step as any).slice) {
+            (step as any).slice.content.descendants((node: any) => {
+              if (node.type.name === "infographic") {
+                onInfographicChange(node.attrs.infoId, "added");
+              }
+            });
           }
-          return "";
-        },
-      }),
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: {
-          rel: null,
-        },
-      }),
-      Alert,
-      Title,
-      Infographic.configure({
-        baseUrl: infographicBaseUrl,
-      }),
-    ],
-    onUpdate: ({editor}) => {
+        });
+      }
       const html = editor.getHTML();
       setCurrentContent(html);
       onUpdate(html !== emptyHtml ? html : "");
@@ -140,7 +134,7 @@ export const Editor = ({
     }
   }, [content]);
   useEffect(() => {
-    editor?.setOptions({editable: !disabled});
+    editor?.setOptions({ editable: !disabled });
   }, [disabled]);
 
   useEffect(() => {
@@ -183,30 +177,15 @@ export const Editor = ({
           disabled={disabled}
           htmlFor={label}
         >
-          <MenuStyle editor={editor}/>
+          <MenuStyle editor={editor} />
           <MenuSpecial
             editor={editor}
+            infographicEnabled={infographicEnabled}
             onNewInfographic={() => {
-              setInfographicModal(Creation);
+              openInfoModal(true);
             }}
           />
-          <MenuTable editor={editor}/>
-          <MenuInfographic
-            editor={editor}
-            onEdit={() => {
-              const node = editor?.state.selection.$from.node();
-              if (node?.type.name === "infographic") {
-                const infoTitle = node.attrs.infoTitle;
-                const infoName = node.attrs.infoName;
-                const dataPdf = node.attrs.pdfName;
-                const dataPdfSize = node.attrs.pdfSize;
-                setInfographicModal(Edition(infoTitle, infoName, dataPdf, dataPdfSize));
-              }
-            }}
-            onDelete={() => {
-              editor?.commands.removeInfographic();
-            }}
-          />
+          <MenuTable editor={editor} />
 
           <StyledEditorContent
             editor={editor}
@@ -222,113 +201,19 @@ export const Editor = ({
           />
         </TitleBox>
       )}
-      <Dialog
-        open={infographicModal.mode !== Hide.mode}
-        onClose={() => {
-          setInfographicModal(Hide);
-        }}
-        PaperProps={{
-          component: "form",
-          onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const {infoTitle, infoName, pdfName, pdfSize} = Object.fromEntries(
-              (formData as any).entries()
-            );
-            if (infographicModal.mode === Creation.mode) {
-              editor
-                ?.chain()
-                .focus()
-                .setInfographic(infoTitle, infoName, pdfName, pdfSize)
-                .run();
-            } else {
-              editor?.commands.updateInfographicSrc(infoTitle, infoName, pdfName, pdfSize);
-            }
-            setInfographicModal(Hide);
-          },
-        }}
-      >
-        <DialogTitle>Infographie</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Veuillez renseigner les informations suivantes pour ajouter une
-            infographie au document
-          </DialogContentText>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="infoTitle"
-            name="infoTitle"
-            label="Nom de l'infographie"
-            defaultValue={
-              infographicModal.mode === 1
-                ? infographicModal.infoTitle
-                : undefined
-            }
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="infoName"
-            name="infoName"
-            label="Nom du fichier contenant l'image de l'infographie"
-            defaultValue={
-              infographicModal.mode === 1
-                ? infographicModal.infoName
-                : undefined
-            }
-            type="text"
-            fullWidth
-            variant="standard"
-            helperText={"Exemple : MIN_Travail_Emploi_RVB.svg"}
-          />
-          <TextField
-            required
-            margin="dense"
-            id="pdfName"
-            name="pdfName"
-            label="Nom du fichier contenant le PDF"
-            defaultValue={
-              infographicModal.mode === 1 ? infographicModal.pdfName : undefined
-            }
-            type="text"
-            fullWidth
-            variant="standard"
-            helperText={"Exemple : MIN_Travail_Emploi_RVB.pdf"}
-          />
-          <TextField
-            required
-            margin="dense"
-            id="pdfSize"
-            name="pdfSize"
-            label="Taille du PDF en Ko"
-            defaultValue={
-              infographicModal.mode === 1 ? infographicModal.pdfSize : undefined
-            }
-            type="number"
-            fullWidth
-            variant="standard"
-            helperText="Exemple : 320"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => {
-              setInfographicModal(Hide);
-            }}
-          >
-            Annuler
-          </Button>
-          <Button type="submit" variant="contained">
-            {infographicModal.mode === Creation.mode ? "Ajouter" : "Modifier"}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {infographicEnabled && (
+        <AddInfographyDialog
+          open={isInfoModalOpened}
+          baseUrl={infographicBaseUrl}
+          onClose={() => {
+            openInfoModal(false);
+          }}
+          onAdd={(infoId, infoFileName) => {
+            editor?.chain().focus().setInfographic(infoId, infoFileName).run();
+            openInfoModal(false);
+          }}
+        />
+      )}
     </>
   );
 };
@@ -376,6 +261,9 @@ const StyledEditorContent = styled(EditorContent)(() => {
       ".infographic": {
         marginBottom: "1.6rem",
         color: fr.colors.decisions.text.default,
+      },
+      ".ProseMirror-selectednode": {
+        border: "1px solid #6f8ac9",
       },
       li: {
         p: {

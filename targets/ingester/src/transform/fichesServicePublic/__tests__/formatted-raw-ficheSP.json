@@ -3,7 +3,7 @@
     "ID": "F2918",
     "dateDerniereModificationImportante": "2024-11-01T00:00:00",
     "profilsPro": "tout",
-    "spUrl": "https://www.service-public.fr/particuliers/vosdroits/F2918",
+    "spUrl": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2918",
     "statut": "miseAJourAVenir",
     "type": "Fiche d'information conditionnée",
     "xmlns:dc": "http://purl.org/dc/elements/1.1/",
@@ -154,7 +154,7 @@
     {
       "children": [
         {
-          "text": "https://www.service-public.fr/a-propos/mentions-legales",
+          "text": "https://www.service-public.gouv.fr/a-propos/mentions-legales",
           "type": "text"
         }
       ],
@@ -194,7 +194,7 @@
     {
       "children": [
         {
-          "text": "www.service-public.fr",
+          "text": "www.service-public.gouv.fr",
           "type": "text"
         }
       ],
@@ -1139,7 +1139,7 @@
                 {
                   "attributes": {
                     "ID": "R1319",
-                    "URL": "https://www.formulaires.service-public.fr/gf/cerfa_10103.do",
+                    "URL": "https://www.formulaires.service-public.gouv.fr/gf/cerfa_10103.do",
                     "audience": "Particuliers",
                     "autrenumero": "FA13",
                     "numerocerfa": "10103*12",
@@ -1172,7 +1172,7 @@
                     {
                       "attributes": {
                         "ID": "R13767",
-                        "URL": "https://www.formulaires.service-public.fr/gf/getNotice.do?cerfaNotice=51649&cerfaFormulaire=10103",
+                        "URL": "https://www.formulaires.service-public.gouv.fr/gf/getNotice.do?cerfaNotice=51649&cerfaFormulaire=10103",
                         "format": "application/pdf",
                         "numerocerfa": "51649#07",
                         "poids": "254.8 KB",

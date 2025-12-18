@@ -11,9 +11,9 @@ export const getContentBlockIds = (
     return idsAcc.concat(
       content.blocks.flatMap((block) => {
         return block.type === EditorialContentType.content
-          ? block.contents
+          ? (block.contents
               .map(({ cdtnId }) => cdtnId)
-              .filter((cdtnId: string) => idsAcc.indexOf(cdtnId) === -1) ?? []
+              .filter((cdtnId: string) => idsAcc.indexOf(cdtnId) === -1) ?? [])
           : [];
       })
     );

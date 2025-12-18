@@ -2,11 +2,11 @@ import type { CodeArticle } from "@socialgouv/legi-data-types";
 import unistUtilFlatFilter from "unist-util-flat-filter";
 import parents from "unist-util-parents";
 
-export type NormalizedArticle = {
+export interface NormalizedArticle {
   id: string;
   cid: string;
   label: string;
-};
+}
 
 function convertCodeArticleToArticle(
   codeArticle: CodeArticle

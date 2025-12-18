@@ -1,6 +1,7 @@
 import {
   DocumentElasticWithSource,
   EditorialContentDoc,
+  InfographicElasticDocument,
 } from "@socialgouv/cdtn-types";
 import { getRelatedIdsDocuments } from "./getRelatedIdsDocuments";
 
@@ -10,7 +11,8 @@ interface Return {
 }
 
 export const generateEditorialContents = (
-  documents: DocumentElasticWithSource<EditorialContentDoc>[]
+  documents: DocumentElasticWithSource<EditorialContentDoc>[],
+  infographics: InfographicElasticDocument[]
 ): Return => {
   const documentsOptimized = documents.map((document: any) => {
     const introWithGlossary = document.introWithGlossary;
@@ -24,6 +26,39 @@ export const generateEditorialContents = (
           const htmlWithGlossary = block.htmlWithGlossary;
           delete block.markdown;
           delete block.htmlWithGlossary;
+          if (block.type === "graphic") {
+            const infographic = infographics.find(
+              (info) => info.id === block.infographic_id
+            );
+            if (!infographic) {
+              throw new Error(
+                `No infographic found for information page ${document.title}/${
+                  document.cdtnId
+                } (block: ${JSON.stringify(block)})`
+              );
+            }
+            content.references = [
+              {
+                label: "Références juridiques",
+                links: infographic.references.map((ref, index) => ({
+                  url: ref.url,
+                  type: ref.type,
+                  title: ref.title,
+                  order: index + 1,
+                })),
+              },
+            ];
+            return {
+              ...block,
+              size: infographic.pdfFilesizeOctet,
+              type: "graphic",
+              imgUrl: infographic.svgFilename,
+              altText: infographic.title,
+              fileUrl: infographic.pdfFilename,
+              html: infographic.transcription,
+              slug: infographic.slug,
+            };
+          }
           return {
             ...block,
             html: htmlWithGlossary,

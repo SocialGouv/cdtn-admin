@@ -1,9 +1,8 @@
 {
   "name": "@shared/utils",
-  "version": "2.58.2",
+  "version": "2.63.0",
   "dependencies": {
-    "@socialgouv/cdtn-sources": "^4.91.1",
-    "@socialgouv/cdtn-utils": "^4.109.0",
+    "@socialgouv/cdtn-utils": "^4.196.0",
     "@socialgouv/dila-api-client": "^1.2.4",
     "@urql/core": "5.1.0",
     "graphql": "^16.8.1",

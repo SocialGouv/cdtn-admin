@@ -50,16 +50,16 @@ export function DocumentListContainer({ initialFilterValues }) {
         initialFilterValues.available === "yes"
           ? [true]
           : initialFilterValues.available === "no"
-          ? [false]
-          : [true, false],
+            ? [false]
+            : [true, false],
       limit: initialFilterValues.itemsPerPage,
       offset: initialFilterValues.page * initialFilterValues.itemsPerPage,
       published:
         initialFilterValues.published === "yes"
           ? [true]
           : initialFilterValues.published === "no"
-          ? [false]
-          : [true, false],
+            ? [false]
+            : [true, false],
       search: `%${initialFilterValues.q}%`,
       source: initialFilterValues.source || null,
     },

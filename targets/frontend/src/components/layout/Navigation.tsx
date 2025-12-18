@@ -32,7 +32,8 @@ export function Navigation() {
         { href: "/contenus", label: "Tous les contenus" },
         { href: "/contributions", label: "Contributions" },
         { href: "/agreements", label: "Convention collectives" },
-        { href: "/fichiers", label: "Infographies" },
+        { href: "/infographics", label: "Infographies" },
+
         { href: "/models", label: "Modèles de document" },
         { href: "/informations", label: "Pages informations" },
       ],
@@ -45,6 +46,7 @@ export function Navigation() {
         { href: "/kali/blocks", label: "Blocs KALI" },
         { href: "/contenus/fiches-sp", label: "Fiches service-public" },
         { href: "/glossary", label: "Glossaire" },
+        { href: "/fichiers", label: "Fichiers" },
         {
           href: "/prequalified",
           label: "Requetes pré-qualifiées",

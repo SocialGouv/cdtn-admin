@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { fileSchema } from "../common/type";
 
 export const referenceSchema = z.object({
   id: z.string().uuid().nullable().optional(),
@@ -42,8 +41,7 @@ export const informationContentBlockDiscriminatedSchema = z.discriminatedUnion(
     }),
     informationContentBlockSchema.extend({
       type: z.literal("graphic"),
-      file: fileSchema,
-      img: fileSchema,
+      infographic_id: z.string().uuid().nullable().optional(),
     }),
     informationContentBlockSchema.extend({
       type: z.literal("content"),
@@ -96,4 +94,5 @@ export const informationSchema = z.object({
   references: z.array(referenceSchema),
   displayDate: z.string(),
 });
+
 export type Information = z.infer<typeof informationSchema>;

@@ -1,0 +1,109 @@
+table:
+  name: infographic
+  schema: infographic
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    display_date:
+      custom_name: displayDate
+    meta_description:
+      custom_name: metaDescription
+    meta_title:
+      custom_name: metaTitle
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    created_at: createdAt
+    display_date: displayDate
+    meta_description: metaDescription
+    meta_title: metaTitle
+    updated_at: updatedAt
+  custom_root_fields: {}
+object_relationships:
+  - name: pdfFile
+    using:
+      foreign_key_constraint_on: pdf
+  - name: svgFile
+    using:
+      foreign_key_constraint_on: svg
+array_relationships:
+  - name: infographic_cdtn_references
+    using:
+      foreign_key_constraint_on:
+        column: infographic_id
+        table:
+          name: infographic_cdtn_references
+          schema: infographic
+  - name: infographic_legi_references
+    using:
+      foreign_key_constraint_on:
+        column: infographic_id
+        table:
+          name: infographic_legi_references
+          schema: infographic
+  - name: infographic_other_references
+    using:
+      foreign_key_constraint_on:
+        column: infographic_id
+        table:
+          name: infographic_other_references
+          schema: infographic
+  - name: informations_contents_blocks
+    using:
+      foreign_key_constraint_on:
+        column: infographic_id
+        table:
+          name: informations_contents_blocks
+          schema: information
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - created_at
+        - description
+        - display_date
+        - id
+        - meta_description
+        - meta_title
+        - pdf
+        - svg
+        - title
+        - transcription
+        - updated_at
+    comment: ""
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - created_at
+        - description
+        - display_date
+        - id
+        - meta_description
+        - meta_title
+        - pdf
+        - svg
+        - title
+        - transcription
+        - updated_at
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - description
+        - display_date
+        - meta_description
+        - meta_title
+        - pdf
+        - svg
+        - title
+        - transcription
+      filter: {}
+      check: null
+      set:
+        updated_at: now()
+    comment: ""

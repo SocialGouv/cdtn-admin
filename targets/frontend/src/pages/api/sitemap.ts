@@ -1,9 +1,5 @@
 import { gqlClient } from "@shared/utils";
-import {
-  getRouteBySource,
-  SourceRoute,
-  SOURCES,
-} from "@socialgouv/cdtn-sources";
+import { getRouteBySource, SourceKeys, SOURCES } from "@socialgouv/cdtn-utils";
 import { NextApiRequest, NextApiResponse } from "next";
 import pLimit from "p-limit";
 import {
@@ -14,7 +10,7 @@ import {
 export type Document = {
   updated_at: string;
   slug: string;
-  source: SourceRoute;
+  source: SourceKeys;
   document: any;
 };
 

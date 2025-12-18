@@ -1,9 +1,10 @@
-import { Information } from "src/modules/informations";
 import { format, parseISO } from "date-fns";
 import { generateCdtnId, generateInitialId } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { getGlossaryContent } from "src/modules/common/getGlossaryContent";
+import { undefined } from "zod";
+import { Information } from "./type";
 
 export const mapInformationToDocument = async (
   data: Information,
@@ -59,10 +60,7 @@ export const mapInformationToDocument = async (
                         }),
                     ...(block.type === "graphic"
                       ? {
-                          size: block.file?.size,
-                          imgUrl: block.img?.url,
-                          altText: block.img?.altText,
-                          fileUrl: block.file?.url,
+                          infographic_id: block.infographic_id,
                         }
                       : {}),
                     ...(block.type === "content"

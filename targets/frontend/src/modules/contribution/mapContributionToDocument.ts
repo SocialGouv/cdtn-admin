@@ -3,7 +3,7 @@ import {
   ContributionsAnswers,
   HasuraDocument,
 } from "@socialgouv/cdtn-types";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import { getReferences } from "./getReferences";
 import { generateCdtnId } from "@shared/utils";
 import { generateContributionSlug } from "./generateSlug";
@@ -80,6 +80,7 @@ export const mapContributionToDocument = async (
     linkedContent: data.cdtn_references.map((v) => ({
       cdtnId: v.cdtn_id!,
     })),
+    infographics: data.infographics,
     references: getReferences(data),
     questionIndex: data.question.order,
     questionName: data.question.content,
@@ -101,7 +102,7 @@ export const mapContributionToDocument = async (
       document?.slug ??
       generateContributionSlug(data.agreement.id, data.question.content),
     is_searchable:
-      data.agreement.id === "0000" ? document?.is_searchable ?? true : false,
+      data.agreement.id === "0000" ? (document?.is_searchable ?? true) : false,
     is_published: document?.is_published ?? true,
     is_available: true,
     document: initalDoc,

@@ -7,6 +7,7 @@ import LinkIcon from "@mui/icons-material/Link";
 
 import { styled } from "@mui/system";
 import InfoIcon from "@mui/icons-material/Info";
+import Delete from "@mui/icons-material/Delete";
 
 const setLink = (editor: Editor) => {
   const previousUrl = editor.getAttributes("link").href;
@@ -41,18 +42,25 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
       editor={editor}
     >
       <button
-        onClick={() => editor.chain().focus().toggleTitle({ level: "title" }).run()}
-
-        className={editor.isActive("title", { level: "title" }) ? "is-active" : ""}
+        onClick={() =>
+          editor.chain().focus().toggleTitle({ level: "title" }).run()
+        }
+        className={
+          editor.isActive("title", { level: "title" }) ? "is-active" : ""
+        }
         type="button"
         title="Titre"
       >
         <BubbleMenuText>T</BubbleMenuText>
       </button>
       <button
-        onClick={() => editor.chain().focus().toggleTitle({ level: "sub-title" }).run()}
-        className={editor.isActive("title", { level: "sub-title" }) ? "is-active" : ""}
-        disabled={ !editor.getHTML().includes("\"title\"") }
+        onClick={() =>
+          editor.chain().focus().toggleTitle({ level: "sub-title" }).run()
+        }
+        className={
+          editor.isActive("title", { level: "sub-title" }) ? "is-active" : ""
+        }
+        disabled={!editor.getHTML().includes('"title"')}
         type="button"
         title="Sous-titre"
       >
@@ -105,6 +113,18 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
       >
         <InfoIcon />
       </button>
+      {editor.isActive("infographic") && (
+        <button
+          onClick={() => {
+            editor?.chain().focus().removeInfographic().run();
+          }}
+          className={editor.isActive("infographic") ? "is-active" : ""}
+          type="button"
+          title="Supprimer l'infographie"
+        >
+          <Delete />
+        </button>
+      )}
     </StyledBubbleMenu>
   ) : (
     <></>

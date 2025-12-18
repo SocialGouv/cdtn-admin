@@ -18,13 +18,17 @@ describe("keyFunctionParser", () => {
   markdown: "result",
   res: { markdown: "result", resp: [{ markdown: "result", sol: "oui" }], rien: "yo", yo: { markdown: "result" } },
 }}
-    ${"markdown"} | ${[{
+    ${"markdown"} | ${[
+  {
     markdown: "wesh",
     res: { markdown: "ok", resp: [{ markdown: "no", sol: "oui" }], rien: "yo", yo: { markdown: "yes" } },
-  }]} | ${[{
+  },
+]} | ${[
+  {
     markdown: "result",
     res: { markdown: "result", resp: [{ markdown: "result", sol: "oui" }], rien: "yo", yo: { markdown: "result" } },
-  }]}
+  },
+]}
   `(
     "should return $expected for $object for this $key",
     ({ key, object, expected }) => {

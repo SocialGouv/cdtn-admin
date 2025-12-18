@@ -7,6 +7,7 @@ import { ContributionRepository } from "../../../contribution";
 import { ModelRepository } from "../../../models/api";
 import { AgreementRepository } from "../../../agreements/api";
 import { GqlClient } from "@shared/utils";
+import { InfographicRepository } from "../../../infographics/api";
 
 jest.mock("../../../common/getGlossaryContent.ts", () => {
   return {
@@ -25,6 +26,7 @@ describe("document service", () => {
     description:
       "Quand une femme tombe enceinte et décide de partir en congé maternité, cette dernière a droit à des indemnités journalières de sécurité sociale venant indemniser la période durant laquelle elle ne peut plus travailler.",
     content_type: "ANSWER",
+    infographics: [],
     agreement: {
       id: "0016",
       name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
@@ -165,7 +167,8 @@ describe("document service", () => {
       new DocumentsRepository(client),
       new ContributionRepository(client),
       new ModelRepository(client),
-      new AgreementRepository(client)
+      new AgreementRepository(client),
+      new InfographicRepository(client)
     );
 
     await service.publish("1234", "contributions");

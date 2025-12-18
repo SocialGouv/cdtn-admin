@@ -49,7 +49,6 @@ export const InformationsContent = ({
     fields: blocks,
     swap: swapBlock,
     remove: removeBlock,
-    append: appendBlock,
   } = useFieldArray<Information, `contents.${number}.blocks`>({
     control,
     name: `${name}.blocks`,
@@ -120,61 +119,53 @@ export const InformationsContent = ({
                 }}
               ></InformationsBlock>
             ))}
-            <Button
-              variant="outlined"
-              type="button"
-              onClick={() =>
-                appendBlock({
-                  type: "markdown",
-                  content: "",
-                })
-              }
-            >
-              Ajouter un bloc
-            </Button>
-            <Typography variant="h6">References</Typography>
-            {!!references.length && (
-              <FormRadioGroup
-                name={`${name}.referenceLabel`}
-                label="Libellé de référence"
-                control={control}
-                options={[
-                  {
-                    label: "Références juridiques",
-                    value: "Références juridiques",
-                  },
-                  {
-                    label: "Liens utiles",
-                    value: "Liens utiles",
-                  },
-                ]}
-              />
+            {blocks.filter((i) => i.type === "graphic").length === 0 && (
+              <>
+                <Typography variant="h6">References</Typography>
+                {!!references.length && (
+                  <FormRadioGroup
+                    name={`${name}.referenceLabel`}
+                    label="Libellé de référence"
+                    control={control}
+                    options={[
+                      {
+                        label: "Références juridiques",
+                        value: "Références juridiques",
+                      },
+                      {
+                        label: "Liens utiles",
+                        value: "Liens utiles",
+                      },
+                    ]}
+                  />
+                )}
+                {references.map(({ id }, index) => (
+                  <InformationsReference
+                    key={id}
+                    name={`${name}.references.${index}`}
+                    control={control}
+                    first={index === 0}
+                    last={index === references.length - 1}
+                    onDown={() => swapReference(index, index + 1)}
+                    onUp={() => swapReference(index, index - 1)}
+                    onDelete={() => removeReference(index)}
+                  ></InformationsReference>
+                ))}
+                <Button
+                  variant="outlined"
+                  type="button"
+                  onClick={() =>
+                    appendReference({
+                      title: "",
+                      type: "external",
+                      url: "",
+                    })
+                  }
+                >
+                  Ajouter une Référence
+                </Button>
+              </>
             )}
-            {references.map(({ id }, index) => (
-              <InformationsReference
-                key={id}
-                name={`${name}.references.${index}`}
-                control={control}
-                first={index === 0}
-                last={index === references.length - 1}
-                onDown={() => swapReference(index, index + 1)}
-                onUp={() => swapReference(index, index - 1)}
-                onDelete={() => removeReference(index)}
-              ></InformationsReference>
-            ))}
-            <Button
-              variant="outlined"
-              type="button"
-              onClick={() =>
-                appendReference({
-                  title: "",
-                  type: "external",
-                  url: "",
-                })
-              }
-            >
-              Ajouter une Référence
-            </Button>
           </Stack>
         </AccordionDetails>
       </StyledAccordion>

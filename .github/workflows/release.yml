@@ -7,6 +7,7 @@ concurrency:
   group: release-${{ github.ref }}
 
 permissions:
+  contents: read
   id-token: write # Required for OIDC token generation
 
 jobs:
@@ -28,10 +29,14 @@ jobs:
           persist-credentials: false
           token: ${{ steps.token.outputs.token }}
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 22.13.1
+          node-version-file: .node-version
           cache: "yarn"
+          registry-url: "https://registry.npmjs.org"
+          scope: "@socialgouv"
+      - name: Update npm (required for npm trusted publishing)
+        run: npm install -g npm@latest
       - name: Install dependencies
         env:
           NPM_TIPTAP_TOKEN: ${{ secrets.TIPTAP_PRO_TOKEN }}
@@ -51,12 +56,8 @@ jobs:
         run: GH_TOKEN=${GITHUB_TOKEN} yarn lerna version --force-publish --yes --conventional-commits --create-release github
         env:
           GITHUB_TOKEN: ${{ steps.token.outputs.token }}
-      - name: Setup token
-        run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Deploy to npm
-        run: yarn lerna publish from-package --yes
-      - name: Remove .npmrc
-        if: always()
-        run: rm .npmrc
+        run: |
+          export DEBUG=lerna:*
+          export NPM_CONFIG_LOGLEVEL=verbose
+          yarn lerna publish from-package --yes --loglevel silly

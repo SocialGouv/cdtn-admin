@@ -38,11 +38,14 @@ hasura:
       memory: "1.5Gi"
   envFrom:
     - secretRef:
-        name: pg-app
+        name: pg-superuser
     - configMapRef:
         name: hasura
     - secretRef:
         name: hasura
+  env:
+    - name: "HASURA_GRAPHQL_DATABASE_URL"
+      value: "postgresql://$(username):$(password)@$(host):$(port)/cdtn-admin?sslmode=require"
   annotations:
     oblik.socialgouv.io/min-request-cpu: "500m"
     oblik.socialgouv.io/min-request-memory: "1.5Gi"

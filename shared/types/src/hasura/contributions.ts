@@ -17,13 +17,14 @@ export type ContributionsAnswers = {
   legi_references: ContributionLegiReferences[];
   other_references: ContributionOtherReferences[];
   cdtn_references: Partial<ContributionCdtnReferences>[];
+  infographics: InfographicReference[];
   content_fiche_sp: ContributionContentFicheSp | null;
   message_block_generic_no_CDT: string | null;
   agreement: ContributionAgreement;
   updatedAt: string;
   statuses?: ContributionStatus[];
   display_date: string;
-  document?: HasuraDocumentBase | null,
+  document?: HasuraDocumentBase | null;
 };
 
 export type ContributionQuestion = {
@@ -36,6 +37,10 @@ export type ContributionQuestion = {
 export type ContributionKaliReferences = {
   label: string;
   kali_article: ContributionKaliReferencesKaliArticle;
+};
+
+export type InfographicReference = {
+  infographicId: string;
 };
 
 export type ContributionKaliReferencesKaliArticle = {
@@ -87,6 +92,7 @@ type ContributionDocumentJsonBasic = {
   references: ContributionRef[];
   contentType: ContributionContentType;
   linkedContent: ContributionLinkedContent[];
+  infographics?: ContributionInfographic[];
   questionIndex: number;
   questionName: string;
   seoTitle?: string;
@@ -115,9 +121,9 @@ type ContributionDocumentJsonFicheSp = ContributionDocumentJsonBasic & {
 
 type ContributionDocumentJsonCodeDuTravailReference =
   ContributionDocumentJsonBasic & {
-  type: "cdt";
-  genericAnswerId: string;
-};
+    type: "cdt";
+    genericAnswerId: string;
+  };
 
 export type ContributionDocumentJson =
   | ContributionDocumentJsonContent
@@ -127,6 +133,10 @@ export type ContributionDocumentJson =
 
 export type ContributionLinkedContent = {
   cdtnId: string;
+};
+
+export type ContributionInfographic = {
+  infographicId: string;
 };
 
 export type ContributionRef = {

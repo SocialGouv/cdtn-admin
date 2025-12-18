@@ -1,14 +1,12 @@
 {
   "name": "@shared/eslint-config",
-  "version": "2.58.2",
+  "version": "2.63.0",
   "main": "index.js",
   "private": true,
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^5.59.7",
     "eslint": "^8.41.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-jest": "^27.2.1",
-    "prettier": "^2.8.8"
+    "eslint-plugin-jest": "^27.2.1"
   }
 }

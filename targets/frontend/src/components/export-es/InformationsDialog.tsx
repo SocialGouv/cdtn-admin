@@ -5,7 +5,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { getLabelBySource } from "@socialgouv/cdtn-sources";
+import { getLabelBySource } from "@socialgouv/cdtn-utils";
 import {
   Table,
   TableBody,
@@ -40,7 +40,7 @@ export function InformationsDialog({
         const label =
           key === "page_fiche_ministere_travail"
             ? "Page Ministère du travail"
-            : getLabelBySource(key) ?? "Glossary";
+            : (getLabelBySource(key) ?? "Glossary");
         object = {
           ...object,
           [label]: docCounts[key as keyof typeof docCounts],

@@ -1,5 +1,5 @@
 import { useQuery } from "urql";
-import { SourceRoute, SOURCES } from "@socialgouv/cdtn-sources";
+import { SourceKeys, SOURCES } from "@socialgouv/cdtn-utils";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { groupBy } from "graphql/jsutils/groupBy";
 
@@ -32,10 +32,7 @@ export type UpdatedDocument = Pick<
 > &
   DocumentWIthContentType;
 
-export type ResultUpdatedDocument = Map<
-  SourceRoute,
-  readonly UpdatedDocument[]
->;
+export type ResultUpdatedDocument = Map<SourceKeys, readonly UpdatedDocument[]>;
 
 type QueryResult = {
   documents: UpdatedDocument[];
@@ -56,6 +53,7 @@ export const useDocumentsQuery = ({
         SOURCES.LETTERS,
         SOURCES.EDITORIAL_CONTENT,
         SOURCES.CONTRIBUTIONS,
+        SOURCES.INFOGRAPHICS,
       ],
     },
     requestPolicy: "network-only",

@@ -6,8 +6,8 @@ import {
   InformationContentBlockContent,
   Reference,
 } from "../../type";
-import { File } from "../../../common/type";
 import { UpsertInformationObject } from "./editInformation.type";
+import { undefined } from "zod";
 
 const removeTypename = (obj: any) => {
   delete obj?.__typename;
@@ -21,17 +21,6 @@ export const getRawColumns = (obj?: any): string[] => {
       return result;
     return [...result, key];
   }, []);
-};
-
-const mapInformationContentsBlocksFile = (file?: File | null) => {
-  if (!file) return;
-  return {
-    on_conflict: {
-      constraint: "files_pkey",
-      update_columns: getRawColumns(file),
-    },
-    data: { ...removeTypename(file) },
-  };
 };
 
 const mapInformationContentsBlocksContents = (
@@ -57,6 +46,7 @@ const mapInformationContentsBlocksContents = (
 const mapInformationContentsBlocks = (
   blocks: InformationContentBlock[] | null
 ) => {
+  console.log("mapInformationContentsBlocks", blocks);
   return {
     on_conflict: {
       constraint: "informations_contents_blocks_pkey",
@@ -68,8 +58,7 @@ const mapInformationContentsBlocks = (
           ...removeTypename(block),
           ...(block.type === "graphic"
             ? {
-                file: mapInformationContentsBlocksFile(block.file),
-                img: mapInformationContentsBlocksFile(block.img),
+                infographic_id: block.infographic_id!,
               }
             : {}),
           ...(block.type === "content"

@@ -4,7 +4,7 @@ import type {
   ServicePublicReference,
 } from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 import type { RawJson } from "@socialgouv/fiches-vdd-types";
 import type { CodeArticle, CodeSection } from "@socialgouv/legi-data-types";
 import type { ParsedQuery } from "query-string";
@@ -189,7 +189,7 @@ export function extractNewReference(
   label = ""
 ): ServicePublicExternalReference[] | ServicePublicInternalReference[] {
   /**
-   * typologie des nouveaux liens legifrance que l'on trouve dans les fiches service-public.fr
+   * typologie des nouveaux liens legifrance que l'on trouve dans les fiches service-public.gouv.fr
    *
    * /codes/id/LEGIARTI000041973733/: affiche un article et la section qui le contient
    * /codes/article_lc/LEGIARTI000041973733/ : affiche l'article seul
@@ -246,8 +246,8 @@ export function extractNewReference(
     const convention = kalicontainerId
       ? agreements.find((ccn) => ccn.kaliId === kalicontainerId)
       : kaliTextId
-      ? agreements.find((ccn) => ccn.rootText === kaliTextId)
-      : undefined;
+        ? agreements.find((ccn) => ccn.rootText === kaliTextId)
+        : undefined;
     if (!convention) {
       console.error(
         `extractNewReferences: unkown convention id ${kalicontainerId} or text ${kaliTextId} from ${url}`

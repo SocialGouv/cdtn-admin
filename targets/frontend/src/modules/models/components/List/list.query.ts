@@ -36,7 +36,7 @@ export const useListModelQuery = ({
     query: listModelsQuery,
     requestPolicy: "cache-and-network",
     variables: {
-      search: search?.length ?? 0 > 0 ? `%${search}%` : "%",
+      search: (search?.length ?? 0 > 0) ? `%${search}%` : "%",
     },
   });
   return {

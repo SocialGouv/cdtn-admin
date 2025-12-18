@@ -70,6 +70,7 @@ export const ContributionsAnswer = ({
         legiReferences: data.legiReferences,
         cdtnReferences: data.cdtnReferences,
         otherReferences: data.otherReferences,
+        infographics: data.infographics,
         displayDate: data.displayDate,
       });
       if (newStatus === "TO_PUBLISH") {
@@ -94,6 +95,7 @@ export const ContributionsAnswer = ({
           legiReferences: data.legiReferences,
           cdtnReferences: data.cdtnReferences,
           otherReferences: data.otherReferences,
+          infographics: data.infographics,
           displayDate: data.displayDate,
         });
       }

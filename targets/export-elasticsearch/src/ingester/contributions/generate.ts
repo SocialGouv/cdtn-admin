@@ -8,6 +8,7 @@ import {
   ContributionHighlight,
   ContributionLinkedContent,
   DocumentElasticWithSource,
+  InfographicElasticDocument,
 } from "@socialgouv/cdtn-types";
 import { generateMetadata } from "./generateMetadata";
 import { isGenericContribution, isGenericNotCdtContribution } from "./helpers";
@@ -33,6 +34,7 @@ export async function generateContributions(
   contributions: DocumentElasticWithSource<ContributionDocumentJson>[],
   ccnData: DocumentElasticWithSource<AgreementDoc>[],
   ccnListWithHighlight: Record<number, ContributionHighlight | undefined>,
+  infographicDocuments: InfographicElasticDocument[]
 ): Promise<ContributionElasticDocument[]> {
   const breadcrumbsOfRootContributionsPerIndex = contributions.reduce(
     (state: Record<number, Breadcrumb[]>, contribution) => {
@@ -41,7 +43,7 @@ export async function generateContributions(
       }
       return state;
     },
-    {},
+    {}
   );
 
   const generatedContributions: ContributionElasticDocumentLightRelatedContent[] =
@@ -50,11 +52,15 @@ export async function generateContributions(
   for (let i = 0; i < contributions.length; i++) {
     const contrib = contributions[i];
     const contribGeneric = contributions.find(
-      (c) => c.questionId === contrib.questionId && c.idcc === "0000",
+      (c) => c.questionId === contrib.questionId && c.idcc === "0000"
     );
     const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
-    const content = await generateContent(contribGeneric, contrib);
+    const content = await generateContent(
+      contribGeneric,
+      contrib,
+      infographicDocuments
+    );
 
     const messageBlock = await generateMessageBlock(contribGeneric, contrib);
 
@@ -109,14 +115,14 @@ export async function generateContributions(
     async (contribution): Promise<ContributionElasticDocument> => {
       const linkedContent = await generateLinkedContent(
         generatedContributions,
-        contribution,
+        contribution
       );
       return {
         ...contribution,
         linkedContent,
       } as ContributionElasticDocument;
     },
-    { concurrency: 5 },
+    { concurrency: 5 }
   );
 
   return allGeneratedContributions;

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 import { extractNewReference, extractOldReference } from "../parseReference";
 import { ShortAgreement } from "../fetchAgreementsWithKaliId";
@@ -92,9 +92,9 @@ describe("extractNewReference", () => {
     `it should extract new reference from %p`,
     (url: string, label: string, reference) => {
       expect(
-        extractNewReference(referenceResolverMock, agreements, url, label),
+        extractNewReference(referenceResolverMock, agreements, url, label)
       ).toEqual(reference);
-    },
+    }
   );
 });
 
@@ -130,8 +130,8 @@ describe("extractOldReference", () => {
     `it should extract old reference for %s %s`,
     (url: string, label: string, reference) => {
       expect(
-        extractOldReference(referenceResolverMock, agreements, url, label),
+        extractOldReference(referenceResolverMock, agreements, url, label)
       ).toEqual(reference);
-    },
+    }
   );
 });

@@ -3,6 +3,81 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.63.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.8...v2.63.0) (2025-12-16)
+
+**Note:** Version bump only for package ingester
+
+## [2.62.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.7...v2.62.8) (2025-12-10)
+
+**Note:** Version bump only for package ingester
+
+## [2.62.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.6...v2.62.7) (2025-12-10)
+
+**Note:** Version bump only for package ingester
+
+## [2.62.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.5...v2.62.6) (2025-12-10)
+
+**Note:** Version bump only for package ingester
+
+## [2.62.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.4...v2.62.5) (2025-12-10)
+
+**Note:** Version bump only for package ingester
+
+## [2.62.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.3...v2.62.4) (2025-12-10)
+
+**Note:** Version bump only for package ingester
+
+## [2.62.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.2...v2.62.3) (2025-12-10)
+
+**Note:** Version bump only for package ingester
+
+## [2.62.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.1...v2.62.2) (2025-12-10)
+
+**Note:** Version bump only for package ingester
+
+## [2.62.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.0...v2.62.1) (2025-12-10)
+
+**Note:** Version bump only for package ingester
+
+# [2.62.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.61.0...v2.62.0) (2025-12-02)
+
+### Bug Fixes
+
+- **prettier:** add formater at the root of the project + add verification of the ci that formatting is respecting ([#1610](https://github.com/SocialGouv/cdtn-admin/issues/1610)) ([d8c74ec](https://github.com/SocialGouv/cdtn-admin/commit/d8c74ecc63b8f0c8bd9b8cde3e8d26884e180783))
+
+# [2.61.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.60.0...v2.61.0) (2025-11-14)
+
+**Note:** Version bump only for package ingester
+
+# [2.60.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.59.0...v2.60.0) (2025-11-07)
+
+**Note:** Version bump only for package ingester
+
+# [2.59.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.5...v2.59.0) (2025-10-30)
+
+### Bug Fixes
+
+- **dependency:** utilisation de la librairie utils du frontend ([#1603](https://github.com/SocialGouv/cdtn-admin/issues/1603)) ([a0a2d10](https://github.com/SocialGouv/cdtn-admin/commit/a0a2d10b65dd1dd865ad4ece44bd47778784cd96))
+
+### Features
+
+- **alerting:** recevoir des alertes sur les références des simulateurs ([#1602](https://github.com/SocialGouv/cdtn-admin/issues/1602)) ([a306385](https://github.com/SocialGouv/cdtn-admin/commit/a30638543233d66c6d030b557a467c1b00d1d378))
+- **node:** upgrade to v24 ([#1601](https://github.com/SocialGouv/cdtn-admin/issues/1601)) ([9e4350c](https://github.com/SocialGouv/cdtn-admin/commit/9e4350cf1df72bff066ab92733bef60f1b684b10))
+
+## [2.58.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.4...v2.58.5) (2025-10-15)
+
+### Bug Fixes
+
+- **naming:** remplacement de service-public.fr par service-public.gouv.fr ([#1596](https://github.com/SocialGouv/cdtn-admin/issues/1596)) ([3fe6b62](https://github.com/SocialGouv/cdtn-admin/commit/3fe6b6237443cfdd45e3eed2e585351847017ad0))
+
+## [2.58.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.3...v2.58.4) (2025-09-09)
+
+**Note:** Version bump only for package ingester
+
+## [2.58.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.2...v2.58.3) (2025-09-08)
+
+**Note:** Version bump only for package ingester
+
 ## [2.58.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.58.1...v2.58.2) (2025-08-29)
 
 **Note:** Version bump only for package ingester

@@ -7,6 +7,7 @@ import { InformationsRepository } from "../../informations";
 import { ContributionRepository } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { AgreementRepository } from "../../agreements/api";
+import { InfographicRepository } from "../../infographics/api";
 
 const inputSchema = z.object({
   id: z.string(),
@@ -15,6 +16,7 @@ const inputSchema = z.object({
     "modeles_de_courriers",
     "contributions",
     "conventions_collectives",
+    "infographies",
   ]),
 });
 
@@ -65,7 +67,8 @@ export class DocumentsController {
           new DocumentsRepository(client),
           new ContributionRepository(client),
           new ModelRepository(client),
-          new AgreementRepository(client)
+          new AgreementRepository(client),
+          new InfographicRepository(client)
         );
         const cdtnId = await service.publish(
           inputs.input.id,
@@ -74,17 +77,7 @@ export class DocumentsController {
         this.res.status(201).json({ cdtnId });
       }
     } catch (error: any) {
-      if (error instanceof NotFoundError) {
-        this.res.status(404).json({ message: error.message });
-      } else {
-        if (error instanceof InvalidQueryError) {
-          this.res.status(400).json({ message: error.message });
-        } else {
-          this.res.status(400).json({
-            message: error.message,
-          });
-        }
-      }
+      this.handleError(error);
     }
   }
 
@@ -99,23 +92,26 @@ export class DocumentsController {
           new DocumentsRepository(client),
           new ContributionRepository(client),
           new ModelRepository(client),
-          new AgreementRepository(client)
+          new AgreementRepository(client),
+          new InfographicRepository(client)
         );
         await service.publishAll(inputs.input.questionId, inputs.input.source);
         this.res.status(200).json({ count: true });
       }
     } catch (error: any) {
-      if (error instanceof NotFoundError) {
-        this.res.status(404).json({ message: error.message });
-      } else {
-        if (error instanceof InvalidQueryError) {
-          this.res.status(400).json({ message: error.message });
-        } else {
-          this.res.status(400).json({
-            message: error.message,
-          });
-        }
-      }
+      this.handleError(error);
+    }
+  }
+
+  handleError(error: any) {
+    if (error instanceof NotFoundError) {
+      this.res.status(404).json({ message: error.message });
+    } else if (error instanceof InvalidQueryError) {
+      this.res.status(400).json({ message: error.message });
+    } else {
+      this.res.status(500).json({
+        message: error.message,
+      });
     }
   }
 

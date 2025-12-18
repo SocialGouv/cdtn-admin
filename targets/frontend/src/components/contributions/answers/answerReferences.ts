@@ -3,6 +3,7 @@ import {
   LegiReference,
   CdtnReference,
   OtherReference,
+  InfographicReference,
 } from "../type";
 
 export const formatKaliReferences = (
@@ -43,5 +44,15 @@ export const formatOtherReferences = (
     answer_id: answerId,
     label: ref.label,
     url: ref.url,
+  }));
+};
+
+export const formatInfographics = (
+  answerId: string,
+  refs: InfographicReference[]
+) => {
+  return refs.map(({ infographicId }) => ({
+    answerId,
+    infographicId,
   }));
 };

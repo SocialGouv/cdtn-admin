@@ -28,6 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FormOtherReferences } from "../../../../components/forms/OtherReferences";
 import { LoadingButton } from "../../../../components/button/LoadingButton";
+import { ALLOWED_DOC } from "../../../../lib/secu";
 
 type FormData = Partial<z.infer<typeof modelSchemaUpsert>>;
 
@@ -256,6 +257,10 @@ export const ModelForm = ({
             control={control}
             label="Modèle de courrier"
             defaultFileName={model?.file?.url}
+            accept={{
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                ALLOWED_DOC,
+            }}
             onFileChange={(file) => {
               if (file) {
                 convertToHTML(file);

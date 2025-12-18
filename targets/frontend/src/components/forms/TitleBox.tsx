@@ -50,8 +50,8 @@ const StyledBox = styled(Box, {
     borderColor: focus
       ? fr.colors.decisions.text.default.info.default
       : isError
-      ? fr.colors.decisions.text.default.error.default
-      : fr.colors.decisions.text.default.grey.default,
+        ? fr.colors.decisions.text.default.error.default
+        : fr.colors.decisions.text.default.grey.default,
   };
 });
 
@@ -69,7 +69,7 @@ const StyledFormLabel = styled(FormLabel, {
     color: focus
       ? fr.colors.decisions.text.default.info.default
       : isError
-      ? fr.colors.decisions.text.default.error.default
-      : fr.colors.decisions.text.default.grey.default,
+        ? fr.colors.decisions.text.default.error.default
+        : fr.colors.decisions.text.default.grey.default,
   };
 });

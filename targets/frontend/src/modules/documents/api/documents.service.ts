@@ -8,12 +8,14 @@ import {
 import { ModelRepository } from "../../models/api";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
 import { AgreementRepository } from "../../agreements/api";
-import { SourceRoute } from "@socialgouv/cdtn-sources";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 import pMap from "p-map";
 import { mapAgreementToDocument } from "src/modules/agreements/mapAgreementToDocument";
 import { mapInformationToDocument } from "src/modules/informations/mapInformationToDocument";
 import { mapModelToDocument } from "src/modules/models/mapModelToDocument";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
+import { mapInfographicToDocument } from "../../infographics/mapInfographicToDocument";
+import { InfographicRepository } from "../../infographics/api";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -21,22 +23,25 @@ export class DocumentsService {
   private readonly documentsRepository: DocumentsRepository;
   private readonly contributionRepository: ContributionRepository;
   private readonly agreementRepository: AgreementRepository;
+  private readonly infographicRepository: InfographicRepository;
 
   constructor(
     informationsRepository: InformationsRepository,
     documentsRepository: DocumentsRepository,
     contributionRepository: ContributionRepository,
     modelRepository: ModelRepository,
-    agreementRepository: AgreementRepository
+    agreementRepository: AgreementRepository,
+    infographicRepository: InfographicRepository
   ) {
     this.informationsRepository = informationsRepository;
     this.modelRepository = modelRepository;
     this.documentsRepository = documentsRepository;
     this.contributionRepository = contributionRepository;
     this.agreementRepository = agreementRepository;
+    this.infographicRepository = infographicRepository;
   }
 
-  public async publish(id: string, source: SourceRoute) {
+  public async publish(id: string, source: SourceKeys) {
     let document = await this.documentsRepository.fetch({
       source,
       initialId: id,
@@ -48,9 +53,8 @@ export class DocumentsService {
 
     switch (source) {
       case "information":
-        const information = await this.informationsRepository.fetchInformation(
-          id
-        );
+        const information =
+          await this.informationsRepository.fetchInformation(id);
         if (!information) {
           throw new NotFoundError({
             message: `No information found with id ${id}`,
@@ -118,6 +122,17 @@ export class DocumentsService {
         document = mapModelToDocument(model, document);
         break;
 
+      case "infographies":
+        const infographic = await this.infographicRepository.fetch(id);
+        if (!infographic) {
+          throw new NotFoundError({
+            message: `No infographic found with id ${id}`,
+            name: "NOT_FOUND",
+            cause: null,
+          });
+        }
+        document = mapInfographicToDocument(infographic, document);
+        break;
       case "conventions_collectives":
         const agreement = await this.agreementRepository.fetch(id);
         if (!agreement) {
@@ -149,7 +164,7 @@ export class DocumentsService {
 
   public async publishAll(
     questionId: string,
-    source: SourceRoute
+    source: SourceKeys
   ): Promise<number> {
     switch (source) {
       case "contributions":

@@ -5,6 +5,8 @@ import { RelevantDocumentsExtractorImpl } from "../RelevantDocuments";
 jest.mock("../extractReferences/ficheTravailEmploi", () => () => []);
 jest.mock("../extractReferences/mailTemplates", () => () => []);
 jest.mock("../extractReferences/editorialContents", () => () => []);
+jest.mock("../extractReferences/simulators", () => () => []);
+jest.mock("../extractReferences/infographics", () => () => []);
 jest.mock("../extractReferences/contribution", () => () => [
   {
     document: {

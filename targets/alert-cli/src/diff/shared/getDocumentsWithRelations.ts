@@ -1,10 +1,10 @@
 import type { DocumentInfo } from "@socialgouv/cdtn-types";
-import { SourceValues } from "@socialgouv/cdtn-sources";
+import { SourceKeys } from "@socialgouv/cdtn-utils";
 
 import { getDocumentsWithRelationsBySource } from "./getAllDocumentsBySource";
 
 export async function getDocumentsWithRelations(
-  sources: SourceValues[]
+  sources: SourceKeys[]
 ): Promise<Map<string, DocumentInfo[]>> {
   const documents = await getDocumentsWithRelationsBySource(sources);
   const docMapped = new Map<string, DocumentInfo[]>();

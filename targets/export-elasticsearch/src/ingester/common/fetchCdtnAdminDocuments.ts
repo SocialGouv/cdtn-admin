@@ -1,4 +1,3 @@
-import type { SourceValues } from "@socialgouv/cdtn-sources";
 import PQueue from "p-queue";
 
 import type { GetBreadcrumbsFn } from "../breadcrumbs";
@@ -15,6 +14,7 @@ import {
   DocumentRef,
 } from "@socialgouv/cdtn-types";
 import { gqlClient } from "@shared/utils";
+import { SourceKeys } from "@socialgouv/cdtn-utils/build/sources";
 
 const PAGE_SIZE = process.env.FETCH_PAGE_SIZE
   ? parseInt(process.env.FETCH_PAGE_SIZE)
@@ -116,7 +116,7 @@ query GetDocumentCount($source: String) {
 `;
 
 export async function getDocumentBySource<T>(
-  source: SourceValues,
+  source: SourceKeys,
   getBreadcrumbs: GetBreadcrumbsFn | undefined = undefined
 ): Promise<DocumentElasticWithSource<T>[]> {
   const fetchDocuments = createDocumentsFetcher(gqlRequestBySource);
@@ -131,7 +131,7 @@ export async function getDocumentBySource<T>(
 }
 
 export async function getDocumentBySourceWithRelation(
-  source: SourceValues,
+  source: SourceKeys,
   getBreadcrumbs: GetBreadcrumbsFn
 ): Promise<DocumentElastic[]> {
   const fetchDocuments = createDocumentsFetcher(
@@ -157,7 +157,7 @@ export async function getDocumentBySourceWithRelation(
 const createDocumentsFetcher =
   (requestGenerator = gqlRequestBySource) =>
   async (
-    source: SourceValues,
+    source: SourceKeys,
     { pageSize = PAGE_SIZE, concurrency = JOB_CONCURRENCY }
   ): Promise<Promise<DocumentWithRelation[]>[]> => {
     const graphqlEndpoint: string =

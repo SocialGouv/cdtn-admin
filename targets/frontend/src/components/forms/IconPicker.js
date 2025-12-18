@@ -1,14 +1,15 @@
-import { icons } from "@socialgouv/cdtn-ui";
-import PropTypes from "prop-types";
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
 import { IoMdCloseCircle } from "react-icons/io";
 import { IconButton } from "src/components/button";
-import { Dialog } from "src/components/dialog";
-import { Card } from "@mui/material";
+import { Card, Dialog } from "@mui/material";
 import { theme as th } from "../../theme";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import { ThemeIcons } from "@socialgouv/cdtn-utils";
 
-const IconPicker = ({ defaultValue = null, disabled, ...props }) => {
+const IconPicker = ({ defaultValue = null, disabled = false, ...props }) => {
   return (
     <Controller
       {...props}
@@ -27,38 +28,37 @@ export { IconPicker };
 
 function RootIconPicker({ disabled, value, onChange }) {
   const [showIconList, setShowIconList] = useState(false);
-  const Icon = icons[value];
+  const Icon = ThemeIcons[value];
   return (
     <>
       <Dialog
-        isOpen={showIconList}
-        onDismiss={() => setShowIconList(false)}
-        aria-label="Voir toutes les icones"
+        open={showIconList}
+        onClose={() => setShowIconList(false)}
+        aria-labelledby="alert-dialog-title"
       >
-        <div>
-          {Object.keys(icons).map((key) => {
-            const Icon = icons[key];
+        <DialogTitle id="alert-dialog-title">
+          Sélectionner le pictogramme du thème
+        </DialogTitle>
+        <DialogContent>
+          {Object.keys(ThemeIcons).map((icon) => {
+            const IconComponent = ThemeIcons[icon];
             return (
               <Card
                 as="button"
                 type="button"
                 onClick={() => {
                   setShowIconList(false);
-                  onChange(key);
+                  onChange(icon);
                 }}
-                key={key}
-                title={key}
+                key={icon}
+                title={icon}
                 style={generateIconCardStyles()}
               >
-                <Icon
-                  style={{
-                    ...iconBaseStyle,
-                  }}
-                />
+                <IconComponent />
               </Card>
             );
           })}
-        </div>
+        </DialogContent>
       </Dialog>
       <div style={{ display: "inline-block", position: "relative" }}>
         <Card
@@ -67,7 +67,7 @@ function RootIconPicker({ disabled, value, onChange }) {
           sx={generateIconCardStyles(disabled)}
           onClick={() => !disabled && setShowIconList(true)}
         >
-          {Icon ? <Icon style={iconBaseStyle} /> : <NoIcon />}
+          {Icon ? <Icon /> : <NoIcon />}
         </Card>
         {value && !disabled && (
           <IconButton
@@ -102,11 +102,6 @@ RootIconPicker.propTypes = {
   disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
-};
-
-const iconBaseStyle = {
-  height: "3rem",
-  width: "3rem",
 };
 
 const generateIconCardStyles = (disabled = false) => ({

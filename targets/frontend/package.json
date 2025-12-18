@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "2.58.2",
+  "version": "2.63.0",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.525.0",
     "@codegouvfr/react-dsfr": "^0.76.4",
@@ -18,9 +18,8 @@
     "@reach/visually-hidden": "^0.16.0",
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-slugify": "^4.52.1",
-    "@socialgouv/cdtn-sources": "^4.52.1",
     "@socialgouv/cdtn-ui": "^4.92.0",
-    "@socialgouv/cdtn-utils": "^4.121.1",
+    "@socialgouv/cdtn-utils": "^4.203.0",
     "@tiptap-pro/extension-details": "^2.3.3",
     "@tiptap-pro/extension-details-content": "^2.3.3",
     "@tiptap-pro/extension-details-summary": "^2.3.3",

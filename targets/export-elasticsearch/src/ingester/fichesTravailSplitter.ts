@@ -59,7 +59,7 @@ function splitArticle(article: any) {
           text,
           title: transformedSectionTitle,
         };
-      },
+      }
     );
 }
 

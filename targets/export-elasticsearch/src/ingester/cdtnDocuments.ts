@@ -8,18 +8,20 @@ import {
   ElasticFicheTravailEmploi,
   ExportEsStatus,
   FicheTravailEmploiDoc,
+  InfographicTemplateDoc,
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
-import { SOURCES } from "@socialgouv/cdtn-sources";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";
 import { buildThemes } from "./themes/buildThemes";
 import {
   getDocumentBySource,
   getDocumentBySourceWithRelation,
-} from "./common/fetchCdtnAdminDocuments";
+  getGlossary,
+  populateRelatedDocuments,
+} from "./common";
 import { splitArticle } from "./fichesTravailSplitter";
-import { getVersions } from "./versions";
 import {
   fetchContributionDocumentToPublish,
   generateContributions,
@@ -29,10 +31,9 @@ import { fetchThemes } from "./themes/fetchThemes";
 import { updateExportEsStatusWithDocumentsCount } from "./exportStatus/updateExportEsStatusWithDocumentsCount";
 import { generatePrequalified } from "./prequalified";
 import { generateEditorialContents } from "./informations/generate";
-import { populateRelatedDocuments } from "./common/populateRelatedDocuments";
 import { mergeRelatedDocumentsToEditorialContents } from "./informations/mergeRelatedDocumentsToEditorialContents";
 import { updateExportStatuses } from "./documents/updateExportStatuses";
-import { getGlossary } from "./common/fetchGlossary";
+import { generateInfographics } from "./infographics";
 
 /**
  * Find duplicate slugs
@@ -68,9 +69,8 @@ export async function cdtnDocumentsGen(
 
   const getBreadcrumbs = buildGetBreadcrumbs(themes);
 
-  const contributionsToPublish = await fetchContributionDocumentToPublish(
-    isProd
-  );
+  const contributionsToPublish =
+    await fetchContributionDocumentToPublish(isProd);
 
   logger.info("=== Courriers ===");
   const modelesDeCourriers = await getDocumentBySource(
@@ -115,6 +115,18 @@ export async function cdtnDocumentsGen(
 
   await updateDocs(SOURCES.THEMATIC_FILES, dossiers);
 
+  logger.info("=== Infographies ===");
+  const infographicDocs = await getDocumentBySource<InfographicTemplateDoc>(
+    SOURCES.INFOGRAPHICS,
+    getBreadcrumbs
+  );
+  const infographics = await generateInfographics(infographicDocs);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.INFOGRAPHICS]: infographics.length,
+  };
+  await updateDocs(SOURCES.INFOGRAPHICS, infographics);
+
   logger.info("=== Contributions ===");
   const contributions: DocumentElasticWithSource<ContributionDocumentJson>[] =
     await getDocumentBySource<ContributionDocumentJson>(
@@ -142,7 +154,8 @@ export async function cdtnDocumentsGen(
   const generatedContributions = await generateContributions(
     contributions,
     ccnData,
-    ccnListWithHighlight
+    ccnListWithHighlight,
+    infographics
   );
 
   logger.info(`Generated ${generatedContributions.length} contributions`);
@@ -298,7 +311,7 @@ export async function cdtnDocumentsGen(
   const {
     documents: editorialContents,
     relatedIdsDocuments: relatedIdsEditorialDocuments,
-  } = await generateEditorialContents(documents);
+  } = generateEditorialContents(documents, infographics);
   documentsCount = {
     ...documentsCount,
     [SOURCES.EDITORIAL_CONTENT]: editorialContents.length,
@@ -330,14 +343,6 @@ export async function cdtnDocumentsGen(
     relatedDocuments
   );
   await updateDocs(SOURCES.EDITORIAL_CONTENT, editorialContentsAugmented);
-
-  logger.info("=== data version ===");
-  await updateDocs(SOURCES.VERSIONS, [
-    {
-      data: getVersions(),
-      source: SOURCES.VERSIONS,
-    },
-  ]);
 
   if (isProd && contributionsToPublish) {
     await updateExportStatuses(contributionsToPublish);

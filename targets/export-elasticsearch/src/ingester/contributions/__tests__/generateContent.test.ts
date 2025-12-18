@@ -43,12 +43,14 @@ describe("generateContent", () => {
     };
 
     const result: ContributionContent = await generateContent(
-      mockContributions.find(({id}) => id === contribution.genericAnswerId),
-      contribution
+      mockContributions.find(({ id }) => id === contribution.genericAnswerId),
+      contribution,
+      []
     );
 
     expect(result).toEqual({
       content: "some content",
+      infographics: [],
     });
   });
 
@@ -59,12 +61,14 @@ describe("generateContent", () => {
     };
 
     const result: ContributionContent = await generateContent(
-      mockContributions.find(({id}) => id === contribution.genericAnswerId),
-      contribution
+      mockContributions.find(({ id }) => id === contribution.genericAnswerId),
+      contribution,
+      []
     );
 
     expect(result).toEqual({
       content: "GENERIC_CONTENT",
+      infographics: [],
     });
   });
 
@@ -77,7 +81,11 @@ describe("generateContent", () => {
     };
 
     await expect(
-      generateContent(mockContributions.find(({id}) => id === contribution.genericAnswerId), contribution)
+      generateContent(
+        mockContributions.find(({ id }) => id === contribution.genericAnswerId),
+        contribution,
+        []
+      )
     ).rejects.toThrowError(
       `Aucune contribution générique a été retrouvée pour la contribution [10 - 3239] (id générique non trouvé : unknown-type)`
     );
@@ -92,7 +100,11 @@ describe("generateContent", () => {
     };
 
     await expect(
-      generateContent(mockContributions.find(({id}) => id === contribution.genericAnswerId), contribution)
+      generateContent(
+        mockContributions.find(({ id }) => id === contribution.genericAnswerId),
+        contribution,
+        []
+      )
     ).rejects.toThrowError(
       "La contribution [2 - 1516] ne peut pas référencer une générique qui n'a pas de réponse"
     );
@@ -114,8 +126,9 @@ describe("generateContent", () => {
     (fetchFicheSp as jest.Mock).mockResolvedValue(mockFicheSpContent);
 
     const result: ContributionContent = await generateContent(
-      mockContributions.find(({id}) => id === contribution.genericAnswerId),
-      contribution
+      mockContributions.find(({ id }) => id === contribution.genericAnswerId),
+      contribution,
+      []
     );
 
     expect(result).toEqual({
@@ -142,8 +155,9 @@ describe("generateContent", () => {
     (fetchFicheSp as jest.Mock).mockResolvedValue(mockFicheSpContent);
 
     const result: ContributionContent = await generateContent(
-      mockContributions.find(({id}) => id === contribution.genericAnswerId),
-      contribution
+      mockContributions.find(({ id }) => id === contribution.genericAnswerId),
+      contribution,
+      []
     );
 
     expect(result).toEqual({
@@ -162,7 +176,11 @@ describe("generateContent", () => {
     };
 
     await expect(
-      generateContent(mockContributions.find(({id}) => id === contribution.genericAnswerId), contribution)
+      generateContent(
+        mockContributions.find(({ id }) => id === contribution.genericAnswerId),
+        contribution,
+        []
+      )
     ).rejects.toThrowError(
       'Type de contribution generic inconnu "unknown_type" for [GENERIC_UNKNOWN_TYPE]'
     );
@@ -175,12 +193,77 @@ describe("generateContent", () => {
     };
 
     const result: ContributionContent = await generateContent(
-      mockContributions.find(({id}) => id === contribution.genericAnswerId),
-      contribution
+      mockContributions.find(({ id }) => id === contribution.genericAnswerId),
+      contribution,
+      []
     );
 
     expect(result).toEqual({
       messageBlockGenericNoCDT: "some message",
+    });
+  });
+
+  it('should return content with infographics for type "content"', async () => {
+    const contribution: any = {
+      type: "content",
+      contentWithGlossary: "some content",
+      infographics: [
+        {
+          infographicId: "id_info",
+        },
+      ],
+    };
+
+    await expect(
+      generateContent(
+        mockContributions.find(({ id }) => id === contribution.genericAnswerId),
+        contribution,
+        []
+      )
+    ).rejects.toThrowError(
+      "Infographic id_info not published for contrib undefined (undefined - undefined)"
+    );
+  });
+
+  it('should return content with infographics for type "content"', async () => {
+    const contribution: any = {
+      type: "content",
+      contentWithGlossary: "some content",
+      infographics: [
+        {
+          infographicId: "id_info",
+        },
+      ],
+    };
+    const infographics: any = [
+      {
+        id: "id_info",
+        title: "title",
+        pdfFilename: "pdfFilename",
+        pdfFilesizeOctet: "pdfFilesizeOctet",
+        svgFilename: "svgFilename",
+        transcription: "transcription",
+      },
+    ];
+
+    const result: ContributionContent = await generateContent(
+      mockContributions.find(({ id }) => id === contribution.genericAnswerId),
+      contribution,
+      infographics
+    );
+
+    expect(result).toEqual({
+      content: "some content",
+      infographics: [
+        {
+          infographicId: "id_info",
+          title: "title",
+          pdfFilename: "pdfFilename",
+          pdfFilesizeOctet: "pdfFilesizeOctet",
+          svgFilename: "svgFilename",
+          transcription: "transcription",
+        },
+      ],
     });
   });
 });

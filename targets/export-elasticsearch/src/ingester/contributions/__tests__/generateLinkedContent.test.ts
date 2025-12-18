@@ -1,9 +1,9 @@
 import { generateLinkedContent } from "../generateLinkedContent";
-import { fetchLinkedContent } from "../fetchLinkedContent";
+import { fetchLinkedContent } from "../../common/fetchLinkedContent";
 import { ContributionElasticDocumentLightRelatedContent } from "../generate";
 import { LinkedContent } from "@socialgouv/cdtn-types/build/elastic/related-items";
 
-jest.mock("../fetchLinkedContent");
+jest.mock("../../common/fetchLinkedContent");
 
 describe("generateLinkedContent", () => {
   beforeEach(() => {
@@ -92,7 +92,7 @@ describe("generateLinkedContent", () => {
 
     const linkedContent = await generateLinkedContent(
       [contribGeneric, contribClassique],
-      contribClassique,
+      contribClassique
     );
 
     expect(linkedContent).toEqual([

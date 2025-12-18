@@ -17,12 +17,9 @@ interface HasuraReturn {
   documents: LinkedContent[];
 }
 
-
-
 export async function fetchLinkedContent(
   cdtnId: string,
-  questionIndex: number,
-  idcc: string,
+  logDetails: string
 ): Promise<LinkedContent | undefined> {
   const HASURA_GRAPHQL_ENDPOINT =
     context.get("cdtnAdminEndpoint") || "http://localhost:8080/v1/graphql";
@@ -39,15 +36,13 @@ export async function fetchLinkedContent(
   if (res.error) {
     console.log(
       "Error",
-      `Impossible de récupérer la contenu lié avec l'id ${cdtnId} (QR${questionIndex} - IDCC ${idcc})`,
-      res.error,
+      `Impossible de récupérer la contenu lié avec l'id ${cdtnId} (${logDetails})`,
+      res.error
     );
     throw res.error;
   }
   if (!res.data?.documents.length) {
-    logger.info(
-      `Warning: Pas de contenu lié ${cdtnId}, voir QR${questionIndex} - IDCC ${idcc}`,
-    );
+    logger.info(`Warning: Pas de contenu lié ${cdtnId}, (${logDetails})`);
     return;
   }
   return res.data.documents[0];

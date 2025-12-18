@@ -11,6 +11,7 @@ export function getContributionContent(
   } else {
     return {
       content: content.content,
+      infographics: content.infographics,
     };
   }
 }
