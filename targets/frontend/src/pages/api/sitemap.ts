@@ -171,7 +171,7 @@ async function getDocuments() {
     SOURCES.THEMATIC_FILES,
     SOURCES.TOOLS,
     SOURCES.THEMES,
-    "infographie",
+    SOURCES.INFOGRAPHICS,
   ];
   const PAGE_SIZE = 300;
   const limit = pLimit(5);
