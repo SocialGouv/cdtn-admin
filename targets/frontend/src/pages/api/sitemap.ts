@@ -57,6 +57,12 @@ export async function toUrlEntries(
     `/modeles-de-courriers`,
     `/outils`,
     `/glossaire`,
+    `/quoi-de-neuf`,
+    `/modeles-de-courriers`,
+    `/contribution`,
+    `/themes`,
+    `/convention-collective`,
+    `/infographie`,
   ].map((path) => toUrlEntry(`${baseUrl}${path}`, latestPostDate));
 
   const glossaryPages = glossaryTerms.map(({ slug, updated_at }) =>
@@ -169,6 +175,7 @@ async function getDocuments() {
     SOURCES.THEMATIC_FILES,
     SOURCES.TOOLS,
     SOURCES.THEMES,
+    "infographie"
   ];
   const PAGE_SIZE = 300;
   const limit = pLimit(5);
