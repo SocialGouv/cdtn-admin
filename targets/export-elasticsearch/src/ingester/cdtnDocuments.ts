@@ -127,6 +127,18 @@ export async function cdtnDocumentsGen(
   };
   await updateDocs(SOURCES.INFOGRAPHICS, infographics);
 
+  logger.info("=== Quoi de neuf ? ===");
+  const whatIsNewDocs = await getDocumentBySource(
+    "what_is_new" as any,
+    getBreadcrumbs
+  );
+  logger.info(`Fetched ${whatIsNewDocs.length} "Quoi de neuf ?" documents`);
+  documentsCount = {
+    ...documentsCount,
+    what_is_new: whatIsNewDocs.length,
+  } as any;
+  await updateDocs("what_is_new", whatIsNewDocs);
+
   logger.info("=== Contributions ===");
   const contributions: DocumentElasticWithSource<ContributionDocumentJson>[] =
     await getDocumentBySource<ContributionDocumentJson>(

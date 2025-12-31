@@ -31,6 +31,7 @@
 - "!include public_document_exports.yaml"
 - "!include public_document_relations.yaml"
 - "!include public_documents.yaml"
+- "!include public_what_is_new_months.yaml"
 - "!include public_export_es_status.yaml"
 - "!include public_files.yaml"
 - "!include public_glossary.yaml"
