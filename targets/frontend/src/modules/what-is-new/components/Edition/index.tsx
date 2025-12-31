@@ -38,7 +38,10 @@ type QueryResult = {
 };
 
 const updateWhatIsNewMonthMutation = gql`
-  mutation UpdateWhatIsNewMonth($id: uuid!, $patch: what_is_new_months_set_input!) {
+  mutation UpdateWhatIsNewMonth(
+    $id: uuid!
+    $patch: what_is_new_months_set_input!
+  ) {
     update_what_is_new_months_by_pk(pk_columns: { id: $id }, _set: $patch) {
       id
       updatedAt
@@ -91,9 +94,7 @@ export const WhatIsNewEdition = ({ id }: Props): React.ReactElement => {
 
   if (!data?.month) {
     return (
-      <Alert severity="error">
-        Ce mois « Quoi de neuf ? » n’existe plus.
-      </Alert>
+      <Alert severity="error">Ce mois « Quoi de neuf ? » n’existe plus.</Alert>
     );
   }
 
@@ -115,7 +116,12 @@ export const WhatIsNewEdition = ({ id }: Props): React.ReactElement => {
   );
 
   return (
-    <Stack alignItems="stretch" direction="column" justifyContent="start" spacing={2}>
+    <Stack
+      alignItems="stretch"
+      direction="column"
+      justifyContent="start"
+      spacing={2}
+    >
       <Header />
       <Stack mt={4} spacing={2}>
         <WhatIsNewMonthForm

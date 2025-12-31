@@ -55,7 +55,11 @@ export const WhatIsNewMonthForm = ({
     shouldFocusError: true,
   });
 
-  const { fields: weekFields, append, remove } = useFieldArray({
+  const {
+    fields: weekFields,
+    append,
+    remove,
+  } = useFieldArray({
     control: control as any,
     name: "weeks" as any,
     // Our domain model already has `id` for week identifier,
@@ -154,7 +158,11 @@ export const WhatIsNewMonthForm = ({
 
         <Divider />
 
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography variant="h6">Semaines</Typography>
           <Button
             variant="outlined"
@@ -244,7 +252,11 @@ const WeekEditor = ({
   return (
     <Box sx={{ border: "1px solid #ddd", borderRadius: 1, p: 2 }}>
       <Stack spacing={2}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography variant="subtitle1">Semaine #{weekIndex + 1}</Typography>
           <IconButton aria-label="Supprimer la semaine" onClick={onDelete}>
             <DeleteIcon />
@@ -343,7 +355,11 @@ const CategoryEditor = ({
   return (
     <Box sx={{ border: "1px solid #eee", borderRadius: 1, p: 2 }}>
       <Stack spacing={2}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography variant="body1">
             Catégorie #{categoryIndex + 1}
           </Typography>
@@ -376,7 +392,11 @@ const CategoryEditor = ({
 
         <Divider />
 
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography variant="subtitle2">Items</Typography>
           <Button
             variant="outlined"
@@ -427,7 +447,11 @@ const ItemEditor = ({
   return (
     <Box sx={{ border: "1px dashed #ddd", borderRadius: 1, p: 2 }}>
       <Stack spacing={2}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography variant="body2">Item #{itemIndex + 1}</Typography>
           <IconButton aria-label="Supprimer l'item" onClick={onDelete}>
             <DeleteIcon />

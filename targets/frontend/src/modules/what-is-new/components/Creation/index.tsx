@@ -19,7 +19,12 @@ export const WhatIsNewCreation = (): React.ReactElement => {
   );
 
   return (
-    <Stack alignItems="stretch" direction="column" justifyContent="start" spacing={2}>
+    <Stack
+      alignItems="stretch"
+      direction="column"
+      justifyContent="start"
+      spacing={2}
+    >
       <Header />
       <Stack mt={4} spacing={2}>
         <WhatIsNewMonthForm
