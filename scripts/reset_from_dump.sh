@@ -67,8 +67,31 @@ echo -e "${YELLOW}Clean de la base de données...${NC}"
 docker compose exec -T postgres psql \
   --dbname postgres --user postgres <.kontinuous/sql/post-restore.sql
 
+echo -e "${YELLOW}Correction de Hasura pour la migration...${NC}"
+
+docker compose exec -T postgres psql \
+  --dbname postgres --user postgres <scripts/fix_hasura_after_migration.sql
+
+echo -e "${YELLOW}Préparation du répertoire des migrations...${NC}"
+
+# Rename migrations directory temporarily to prevent Hasura from trying to apply them
+if [ -d "targets/hasura/migrations" ]; then
+  mv targets/hasura/migrations targets/hasura/migrations_backup
+fi
+
+# Create empty migrations directory structure to satisfy Hasura
+mkdir -p targets/hasura/migrations/default
+
 echo -e "${YELLOW}Lancement d'hasura, d'elasticsearch et de minio...${NC}"
 
 docker compose up --wait -d hasura elasticsearch minio createbuckets
+
+echo -e "${YELLOW}Restauration du répertoire des migrations...${NC}"
+
+# Restore original migrations directory
+if [ -d "targets/hasura/migrations_backup" ]; then
+  rm -rf targets/hasura/migrations
+  mv targets/hasura/migrations_backup targets/hasura/migrations
+fi
 
 echo -e "${GREEN}Environnement prêt \o/${NC}"
