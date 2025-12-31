@@ -33,6 +33,7 @@ export function Navigation() {
         { href: "/contributions", label: "Contributions" },
         { href: "/agreements", label: "Convention collectives" },
         { href: "/infographics", label: "Infographies" },
+        { href: "/what-is-new", label: "Quoi de neuf ?" },
 
         { href: "/models", label: "Modèles de document" },
         { href: "/informations", label: "Pages informations" },

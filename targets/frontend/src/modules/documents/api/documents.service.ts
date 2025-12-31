@@ -16,6 +16,8 @@ import { mapModelToDocument } from "src/modules/models/mapModelToDocument";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { mapInfographicToDocument } from "../../infographics/mapInfographicToDocument";
 import { InfographicRepository } from "../../infographics/api";
+import { mapWhatIsNewToDocument } from "../../what-is-new/mapWhatIsNewToDocument";
+import { WhatIsNewRepository } from "../../what-is-new/api";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -24,6 +26,7 @@ export class DocumentsService {
   private readonly contributionRepository: ContributionRepository;
   private readonly agreementRepository: AgreementRepository;
   private readonly infographicRepository: InfographicRepository;
+  private readonly whatIsNewRepository: WhatIsNewRepository;
 
   constructor(
     informationsRepository: InformationsRepository,
@@ -31,7 +34,8 @@ export class DocumentsService {
     contributionRepository: ContributionRepository,
     modelRepository: ModelRepository,
     agreementRepository: AgreementRepository,
-    infographicRepository: InfographicRepository
+    infographicRepository: InfographicRepository,
+    whatIsNewRepository: WhatIsNewRepository
   ) {
     this.informationsRepository = informationsRepository;
     this.modelRepository = modelRepository;
@@ -39,11 +43,12 @@ export class DocumentsService {
     this.contributionRepository = contributionRepository;
     this.agreementRepository = agreementRepository;
     this.infographicRepository = infographicRepository;
+    this.whatIsNewRepository = whatIsNewRepository;
   }
 
-  public async publish(id: string, source: SourceKeys) {
+  public async publish(id: string, source: SourceKeys | "what_is_new") {
     let document = await this.documentsRepository.fetch({
-      source,
+      source: source as SourceKeys,
       initialId: id,
     });
 
@@ -144,6 +149,19 @@ export class DocumentsService {
         }
         document = mapAgreementToDocument(agreement, document);
         break;
+
+      case "what_is_new": {
+        const whatIsNewMonth = await this.whatIsNewRepository.fetch(id);
+        if (!whatIsNewMonth) {
+          throw new NotFoundError({
+            message: `No "Quoi de neuf ?" month found with id ${id}`,
+            name: "NOT_FOUND",
+            cause: null,
+          });
+        }
+        document = mapWhatIsNewToDocument(whatIsNewMonth, document);
+        break;
+      }
 
       default:
         throw new Error(`La source ${source} n'est pas implémentée`);

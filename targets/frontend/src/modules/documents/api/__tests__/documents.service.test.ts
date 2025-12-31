@@ -8,6 +8,7 @@ import { ModelRepository } from "../../../models/api";
 import { AgreementRepository } from "../../../agreements/api";
 import { GqlClient } from "@shared/utils";
 import { InfographicRepository } from "../../../infographics/api";
+import { WhatIsNewRepository } from "../../../what-is-new/api";
 
 jest.mock("../../../common/getGlossaryContent.ts", () => {
   return {
@@ -168,7 +169,8 @@ describe("document service", () => {
       new ContributionRepository(client),
       new ModelRepository(client),
       new AgreementRepository(client),
-      new InfographicRepository(client)
+      new InfographicRepository(client),
+      new WhatIsNewRepository(client)
     );
 
     await service.publish("1234", "contributions");
