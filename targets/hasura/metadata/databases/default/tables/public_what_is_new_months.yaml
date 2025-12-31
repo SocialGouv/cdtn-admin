@@ -1,0 +1,102 @@
+table:
+  name: what_is_new_months
+  schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    short_label:
+      custom_name: shortLabel
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    created_at: createdAt
+    short_label: shortLabel
+    updated_at: updatedAt
+  custom_root_fields: {}
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - created_at
+        - id
+        - label
+        - period
+        - short_label
+        - updated_at
+        - weeks
+    comment: ""
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - created_at
+        - id
+        - label
+        - period
+        - short_label
+        - updated_at
+        - weeks
+    comment: ""
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - created_at
+        - id
+        - label
+        - period
+        - short_label
+        - updated_at
+        - weeks
+      filter: {}
+      allow_aggregations: true
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - id
+        - label
+        - period
+        - short_label
+        - updated_at
+        - weeks
+      filter: {}
+      allow_aggregations: true
+    comment: ""
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - label
+        - period
+        - short_label
+        - weeks
+      filter: {}
+      check: {}
+      set:
+        updated_at: now()
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - label
+        - period
+        - short_label
+        - weeks
+      filter: {}
+      check: {}
+      set:
+        updated_at: now()
+    comment: ""
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""
+  - role: user
+    permission:
+      filter: {}
+    comment: ""
