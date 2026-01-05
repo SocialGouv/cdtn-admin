@@ -77,7 +77,7 @@ describe("Sitemap", () => {
       "<url><loc>base.url/contribution/1634-quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite</loc><lastmod>2022-01-19T11:07:11.314Z</lastmod><priority>0.5</priority></url>",
       "<url><loc>base.url/contribution/quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite</loc><lastmod>2022-01-19T11:07:11.314Z</lastmod><priority>0.7</priority></url>",
     ]);
-    expect(staticPages.length).toEqual(14);
+    expect(staticPages.length).toEqual(13);
     expect(staticPages[0]).toContain("<url><loc>base.url/a-propos</loc>");
     expect(glossaryPages).toEqual([
       "<url><loc>base.url/glossaire/abrogation</loc><lastmod>2020-11-25T14:38:50.085Z</lastmod><priority>0.5</priority></url>",
