@@ -54,7 +54,6 @@ export async function toUrlEntries(
     `/outils`,
     `/glossaire`,
     `/quoi-de-neuf`,
-    `/modeles-de-courriers`,
     `/contribution`,
     `/themes`,
     `/convention-collective`,
