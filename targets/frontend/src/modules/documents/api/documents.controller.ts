@@ -8,7 +8,7 @@ import { ContributionRepository } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { AgreementRepository } from "../../agreements/api";
 import { InfographicRepository } from "../../infographics/api";
-import { WhatIsNewRepository } from "../../what-is-new/api";
+import { WhatIsNewItemsRepository } from "../../what-is-new/api";
 
 const inputSchema = z.object({
   id: z.string(),
@@ -71,7 +71,7 @@ export class DocumentsController {
           new ModelRepository(client),
           new AgreementRepository(client),
           new InfographicRepository(client),
-          new WhatIsNewRepository(client)
+          new WhatIsNewItemsRepository(client)
         );
         const cdtnId = await service.publish(
           inputs.input.id,
@@ -97,7 +97,7 @@ export class DocumentsController {
           new ModelRepository(client),
           new AgreementRepository(client),
           new InfographicRepository(client),
-          new WhatIsNewRepository(client)
+          new WhatIsNewItemsRepository(client)
         );
         await service.publishAll(inputs.input.questionId, inputs.input.source);
         this.res.status(200).json({ count: true });

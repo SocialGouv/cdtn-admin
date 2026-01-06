@@ -16,8 +16,8 @@ import { mapModelToDocument } from "src/modules/models/mapModelToDocument";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { mapInfographicToDocument } from "../../infographics/mapInfographicToDocument";
 import { InfographicRepository } from "../../infographics/api";
-import { mapWhatIsNewToDocument } from "../../what-is-new/mapWhatIsNewToDocument";
-import { WhatIsNewRepository } from "../../what-is-new/api";
+import { mapWhatIsNewItemsToDocument } from "../../what-is-new/mapWhatIsNewItemsToDocument";
+import { WhatIsNewItemsRepository } from "../../what-is-new/api";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -26,7 +26,7 @@ export class DocumentsService {
   private readonly contributionRepository: ContributionRepository;
   private readonly agreementRepository: AgreementRepository;
   private readonly infographicRepository: InfographicRepository;
-  private readonly whatIsNewRepository: WhatIsNewRepository;
+  private readonly whatIsNewItemsRepository: WhatIsNewItemsRepository;
 
   constructor(
     informationsRepository: InformationsRepository,
@@ -35,7 +35,7 @@ export class DocumentsService {
     modelRepository: ModelRepository,
     agreementRepository: AgreementRepository,
     infographicRepository: InfographicRepository,
-    whatIsNewRepository: WhatIsNewRepository
+    whatIsNewItemsRepository: WhatIsNewItemsRepository
   ) {
     this.informationsRepository = informationsRepository;
     this.modelRepository = modelRepository;
@@ -43,13 +43,16 @@ export class DocumentsService {
     this.contributionRepository = contributionRepository;
     this.agreementRepository = agreementRepository;
     this.infographicRepository = infographicRepository;
-    this.whatIsNewRepository = whatIsNewRepository;
+    this.whatIsNewItemsRepository = whatIsNewItemsRepository;
   }
 
   public async publish(id: string, source: SourceKeys | "what_is_new") {
+    // "Quoi de neuf ?" is a single published document: always use this constant initial_id.
+    const initialId = source === "what_is_new" ? "what_is_new" : id;
+
     let document = await this.documentsRepository.fetch({
       source: source as SourceKeys,
-      initialId: id,
+      initialId,
     });
 
     let postTreatment:
@@ -151,15 +154,8 @@ export class DocumentsService {
         break;
 
       case "what_is_new": {
-        const whatIsNewMonth = await this.whatIsNewRepository.fetch(id);
-        if (!whatIsNewMonth) {
-          throw new NotFoundError({
-            message: `No "Quoi de neuf ?" month found with id ${id}`,
-            name: "NOT_FOUND",
-            cause: null,
-          });
-        }
-        document = mapWhatIsNewToDocument(whatIsNewMonth, document);
+        const items = await this.whatIsNewItemsRepository.fetchAll();
+        document = mapWhatIsNewItemsToDocument(items, document);
         break;
       }
 
@@ -168,7 +164,7 @@ export class DocumentsService {
     }
 
     if (!document) {
-      return await this.documentsRepository.remove(id);
+      return await this.documentsRepository.remove(initialId);
     }
 
     const result = await this.documentsRepository.update(document);

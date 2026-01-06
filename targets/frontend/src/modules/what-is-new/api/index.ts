@@ -1,2 +1,2 @@
-export * from "./whatIsNew.query";
-export * from "./whatIsNewRepository";
+export * from "./whatIsNewItems.query";
+export * from "./whatIsNewItemsRepository";

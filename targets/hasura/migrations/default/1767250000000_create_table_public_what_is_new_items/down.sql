@@ -1,0 +1,1 @@
+DROP TABLE "public"."what_is_new_items";
