@@ -82,7 +82,10 @@ const insertItemMutation = gql`
 `;
 
 const updateItemMutation = gql`
-  mutation UpdateWhatIsNewItem($id: uuid!, $patch: what_is_new_items_set_input!) {
+  mutation UpdateWhatIsNewItem(
+    $id: uuid!
+    $patch: what_is_new_items_set_input!
+  ) {
     update_what_is_new_items_by_pk(pk_columns: { id: $id }, _set: $patch) {
       id
       updatedAt
@@ -227,7 +230,8 @@ export const WhatIsNewDashboard = (): JSX.Element => {
 
   const [{ data: itemsData }, reexecuteItems] = useQuery<ItemsByRangeResult>({
     query: itemsByRangeQuery,
-    variables: range.from && range.to ? { from: range.from, to: range.to } : undefined,
+    variables:
+      range.from && range.to ? { from: range.from, to: range.to } : undefined,
     pause: !range.from || !range.to,
     requestPolicy: "cache-and-network",
   });
@@ -244,15 +248,18 @@ export const WhatIsNewDashboard = (): JSX.Element => {
     return map;
   }, [items]);
 
-  const [, execInsert] = useMutation<{ insert_what_is_new_items_one: { id: string } | null }, InsertVariables>(
-    insertItemMutation
-  );
-  const [, execUpdate] = useMutation<{ update_what_is_new_items_by_pk: { id: string } | null }, UpdateVariables>(
-    updateItemMutation
-  );
-  const [, execDelete] = useMutation<{ delete_what_is_new_items_by_pk: { id: string } | null }, DeleteVariables>(
-    deleteItemMutation
-  );
+  const [, execInsert] = useMutation<
+    { insert_what_is_new_items_one: { id: string } | null },
+    InsertVariables
+  >(insertItemMutation);
+  const [, execUpdate] = useMutation<
+    { update_what_is_new_items_by_pk: { id: string } | null },
+    UpdateVariables
+  >(updateItemMutation);
+  const [, execDelete] = useMutation<
+    { delete_what_is_new_items_by_pk: { id: string } | null },
+    DeleteVariables
+  >(deleteItemMutation);
 
   const monthIndex = months.findIndex((p) => p === selectedPeriod);
   const hasMoreRecent = monthIndex > 0;
@@ -290,7 +297,9 @@ export const WhatIsNewDashboard = (): JSX.Element => {
   return (
     <Stack spacing={2}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography variant="h5">{periodToMonthLabel(selectedPeriod)}</Typography>
+        <Typography variant="h5">
+          {periodToMonthLabel(selectedPeriod)}
+        </Typography>
         <Button variant="outlined" onClick={onPublish} disabled={isPublishing}>
           Publier
         </Button>
@@ -438,7 +447,11 @@ const WeekCard = ({
   return (
     <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
       <Stack spacing={2}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography variant="h6" sx={{ fontWeight: 700 }}>
             {label}
           </Typography>
@@ -459,7 +472,12 @@ const WeekCard = ({
 
         {hasAny && (
           <Stack spacing={2}>
-            {(["mise-a-jour-fonctionnelle", "evolution-juridique"] as WhatIsNewItemKind[])
+            {(
+              [
+                "mise-a-jour-fonctionnelle",
+                "evolution-juridique",
+              ] as WhatIsNewItemKind[]
+            )
               .filter((k) => (groups[k]?.length ?? 0) > 0)
               .map((k) => (
                 <Box key={k}>
@@ -626,7 +644,11 @@ const ItemRow = ({
   return (
     <Paper variant="outlined" sx={{ p: 2 }}>
       <Stack spacing={1.5}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Stack spacing={0.25} sx={{ minWidth: 0 }}>
             <Typography variant="body2" noWrap sx={{ fontWeight: 700 }}>
               {item.title}

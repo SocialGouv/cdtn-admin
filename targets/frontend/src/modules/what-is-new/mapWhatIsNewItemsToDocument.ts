@@ -29,7 +29,8 @@ const capitalizeFirst = (s: string) =>
 
 const toPeriod = (date: Date): string => format(date, "MM-yyyy");
 
-const periodToMonthDate = (period: string): Date => parse(period, "MM-yyyy", new Date());
+const periodToMonthDate = (period: string): Date =>
+  parse(period, "MM-yyyy", new Date());
 
 const periodToLabel = (period: string): string => {
   const d = periodToMonthDate(period);
@@ -81,8 +82,10 @@ export const mapWhatIsNewItemsToDocument = (
     itemsByWeekStart.set(item.weekStart, list);
 
     const monthAnchor = toMonthAnchor(item.weekStart);
-    if (!minMonth || monthAnchor.getTime() < minMonth.getTime()) minMonth = monthAnchor;
-    if (!maxMonth || monthAnchor.getTime() > maxMonth.getTime()) maxMonth = monthAnchor;
+    if (!minMonth || monthAnchor.getTime() < minMonth.getTime())
+      minMonth = monthAnchor;
+    if (!maxMonth || monthAnchor.getTime() > maxMonth.getTime())
+      maxMonth = monthAnchor;
   }
 
   const currentPeriod = toPeriod(new Date());

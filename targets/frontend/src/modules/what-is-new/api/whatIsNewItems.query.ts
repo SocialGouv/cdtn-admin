@@ -2,7 +2,9 @@ import { gql } from "urql";
 
 export const whatIsNewItemsQuery = gql`
   query GetWhatIsNewItems {
-    items: what_is_new_items(order_by: [{ weekStart: desc }, { createdAt: asc }]) {
+    items: what_is_new_items(
+      order_by: [{ weekStart: desc }, { createdAt: asc }]
+    ) {
       id
       weekStart
       kind
@@ -15,7 +17,9 @@ export const whatIsNewItemsQuery = gql`
   }
 `;
 
-export type WhatIsNewItemKind = "evolution-juridique" | "mise-a-jour-fonctionnelle";
+export type WhatIsNewItemKind =
+  | "evolution-juridique"
+  | "mise-a-jour-fonctionnelle";
 
 export type WhatIsNewItemRow = {
   id: string;
