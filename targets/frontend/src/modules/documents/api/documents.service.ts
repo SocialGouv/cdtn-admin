@@ -16,7 +16,7 @@ import { mapModelToDocument } from "src/modules/models/mapModelToDocument";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { mapInfographicToDocument } from "../../infographics/mapInfographicToDocument";
 import { InfographicRepository } from "../../infographics/api";
-import { mapWhatIsNewItemsToDocument } from "../../what-is-new/mapWhatIsNewItemsToDocument";
+import { mapWhatIsNewItemToDocument } from "../../what-is-new/mapWhatIsNewItemToDocument";
 import { WhatIsNewItemsRepository } from "../../what-is-new/api";
 
 export class DocumentsService {
@@ -46,11 +46,12 @@ export class DocumentsService {
     this.whatIsNewItemsRepository = whatIsNewItemsRepository;
   }
 
-  public async publish(id: string, source: SourceKeys | "what_is_new") {
-    const initialId = source === "what_is_new" ? "what_is_new" : id;
+  public async publish(id: string, source: SourceKeys) {
+    // default behavior: one id = one document
+    const initialId = id;
 
     let document = await this.documentsRepository.fetch({
-      source: source as SourceKeys,
+      source,
       initialId,
     });
 
@@ -116,7 +117,6 @@ export class DocumentsService {
           };
         }
         break;
-
       case "modeles_de_courriers":
         const model = await this.modelRepository.fetch(id);
         if (!model) {
@@ -128,7 +128,6 @@ export class DocumentsService {
         }
         document = mapModelToDocument(model, document);
         break;
-
       case "infographies":
         const infographic = await this.infographicRepository.fetch(id);
         if (!infographic) {
@@ -151,13 +150,21 @@ export class DocumentsService {
         }
         document = mapAgreementToDocument(agreement, document);
         break;
-
       case "what_is_new": {
-        const items = await this.whatIsNewItemsRepository.fetchAll();
-        document = mapWhatIsNewItemsToDocument(items, document);
+        const item = await this.whatIsNewItemsRepository.fetchById(id);
+
+        await this.documentsRepository.removeBySourceAndInitialId({
+          source: "what_is_new",
+          initialId: id,
+        });
+
+        if (!item) {
+          return id;
+        }
+
+        document = mapWhatIsNewItemToDocument(item, document);
         break;
       }
-
       default:
         throw new Error(`La source ${source} n'est pas implémentée`);
     }

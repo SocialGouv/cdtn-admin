@@ -1,8 +1,8 @@
 import { ApiClient } from "src/lib/api";
 import {
-  whatIsNewItemsQuery,
-  WhatIsNewItemsResponse,
-  WhatIsNewItemRow,
+  whatIsNewItemByIdQuery,
+  type WhatIsNewItemByIdResponse,
+  type WhatIsNewItemRow,
 } from "./whatIsNewItems.query";
 
 export class WhatIsNewItemsRepository {
@@ -12,17 +12,16 @@ export class WhatIsNewItemsRepository {
     this.client = client;
   }
 
-  async fetchAll(): Promise<WhatIsNewItemRow[]> {
-    const { error, data } = await this.client.query<WhatIsNewItemsResponse>(
-      whatIsNewItemsQuery,
-      {}
-    );
+  async fetchById(id: string): Promise<WhatIsNewItemRow | null> {
+    const { error, data } = await this.client.query<
+      WhatIsNewItemByIdResponse,
+      { id: string }
+    >(whatIsNewItemByIdQuery, { id });
+
     if (error) {
       throw error;
     }
-    if (!data) {
-      return [];
-    }
-    return data.items ?? [];
+
+    return data?.item ?? null;
   }
 }

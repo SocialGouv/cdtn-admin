@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Button, Divider, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { addMonths, isValid, parse } from "date-fns";
@@ -141,16 +141,13 @@ export const WhatIsNewDashboard = (): JSX.Element => {
     );
   };
 
-  const [isPublishing, setIsPublishing] = useState(false);
-
-  const onPublish = async () => {
-    setIsPublishing(true);
-    try {
-      await publish({ id: "what_is_new", source: "what_is_new" });
-    } finally {
-      setIsPublishing(false);
-    }
-  };
+  const publishWhatIsNew = (itemId: string) =>
+    publish({ id: itemId, source: "what_is_new" }).catch((error) => {
+      console.error(
+        `Auto-publication error for what_is_new item ${itemId}`,
+        error
+      );
+    });
 
   return (
     <Stack spacing={2}>
@@ -158,9 +155,6 @@ export const WhatIsNewDashboard = (): JSX.Element => {
         <Typography variant="h5">
           {periodToMonthLabel(selectedPeriod)}
         </Typography>
-        <Button variant="outlined" onClick={onPublish} disabled={isPublishing}>
-          Publier
-        </Button>
       </Stack>
 
       <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
@@ -244,6 +238,9 @@ export const WhatIsNewDashboard = (): JSX.Element => {
                 });
                 if (result.error) throw new Error(result.error.message);
                 reexecuteItems({ requestPolicy: "network-only" });
+
+                const createdId = result.data?.insert_what_is_new_items_one?.id;
+                if (createdId) void publishWhatIsNew(createdId);
               }}
               onUpdate={async (id, patch) => {
                 const result = await execUpdate({
@@ -258,11 +255,13 @@ export const WhatIsNewDashboard = (): JSX.Element => {
                 });
                 if (result.error) throw new Error(result.error.message);
                 reexecuteItems({ requestPolicy: "network-only" });
+                void publishWhatIsNew(id);
               }}
               onDelete={async (id) => {
                 const result = await execDelete({ id });
                 if (result.error) throw new Error(result.error.message);
                 reexecuteItems({ requestPolicy: "network-only" });
+                void publishWhatIsNew(id);
               }}
             />
           );

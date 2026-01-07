@@ -17,6 +17,21 @@ export const whatIsNewItemsQuery = gql`
   }
 `;
 
+export const whatIsNewItemByIdQuery = gql`
+  query GetWhatIsNewItemById($id: uuid!) {
+    item: what_is_new_items_by_pk(id: $id) {
+      id
+      weekStart
+      kind
+      title
+      href
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export type WhatIsNewItemKind =
   | "evolution-juridique"
   | "mise-a-jour-fonctionnelle";
@@ -32,6 +47,6 @@ export type WhatIsNewItemRow = {
   updatedAt?: string;
 };
 
-export type WhatIsNewItemsResponse = {
-  items: WhatIsNewItemRow[];
+export type WhatIsNewItemByIdResponse = {
+  item: WhatIsNewItemRow | null;
 };

@@ -6,9 +6,10 @@ import { DocumentsRepository } from "../documents.repository";
 import { ContributionRepository } from "../../../contribution";
 import { ModelRepository } from "../../../models/api";
 import { AgreementRepository } from "../../../agreements/api";
-import { GqlClient } from "@shared/utils";
+import { GqlClient, generateCdtnId } from "@shared/utils";
 import { InfographicRepository } from "../../../infographics/api";
 import { WhatIsNewItemsRepository } from "../../../what-is-new/api";
+import { SOURCES } from "@socialgouv/cdtn-utils";
 
 jest.mock("../../../common/getGlossaryContent.ts", () => {
   return {
@@ -178,6 +179,124 @@ describe("document service", () => {
     expect(savedArgs).toEqual({
       cdtnId: "b3bc78aed5",
       id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+    });
+  });
+
+  describe("what_is_new", () => {
+    it("publish upsert 1 document pour l'item demandé", async () => {
+      const itemId = "2c3c6cf0-9fb4-4b0e-9f2c-d4a2c1bd69c2";
+      const expectedCdtnId = generateCdtnId(SOURCES.WHAT_IS_NEW + itemId);
+      let savedUpsertArgs: any;
+
+      const localClient: ApiClient = new ApiClient(
+        {
+          query: jest
+            .fn()
+            // DocumentsRepository.fetch() at the start of publish()
+            .mockReturnValueOnce({
+              toPromise: () => Promise.resolve({ data: { documents: [] } }),
+            })
+            // WhatIsNewItemsRepository.fetchById()
+            .mockReturnValueOnce({
+              toPromise: () =>
+                Promise.resolve({
+                  data: {
+                    item: {
+                      id: itemId,
+                      weekStart: "2026-01-06",
+                      kind: "evolution-juridique",
+                      title: "Un titre",
+                      href: "https://example.com",
+                      description: "Une description",
+                      createdAt: "2026-01-06T12:00:00.000Z",
+                      updatedAt: "2026-01-06T12:00:00.000Z",
+                    },
+                  },
+                }),
+            }),
+          mutation: jest
+            .fn()
+            // DocumentsRepository.removeBySourceAndInitialId()
+            .mockReturnValueOnce({
+              toPromise: () =>
+                Promise.resolve({
+                  data: { delete_documents: { affected_rows: 1 } },
+                }),
+            })
+            // DocumentsRepository.update()
+            .mockImplementationOnce((_query, variables) => {
+              savedUpsertArgs = variables;
+              return {
+                toPromise: () =>
+                  Promise.resolve({
+                    data: {
+                      insert_documents_one: { cdtn_id: expectedCdtnId },
+                    },
+                  }),
+              };
+            }),
+        } as unknown as GqlClient,
+        {}
+      );
+
+      const service = new DocumentsService(
+        new InformationsRepository(localClient),
+        new DocumentsRepository(localClient),
+        new ContributionRepository(localClient),
+        new ModelRepository(localClient),
+        new AgreementRepository(localClient),
+        new InfographicRepository(localClient),
+        new WhatIsNewItemsRepository(localClient)
+      );
+
+      const cdtnId = await service.publish(itemId, "what_is_new");
+      expect(cdtnId).toEqual(expectedCdtnId);
+      expect(savedUpsertArgs?.upsert?.cdtn_id).toEqual(expectedCdtnId);
+      expect(savedUpsertArgs?.upsert?.initial_id).toEqual(itemId);
+      expect(localClient.client.mutation).toHaveBeenCalledTimes(2);
+    });
+
+    it("publish supprime le document si l'item n'existe plus", async () => {
+      const itemId = "2c3c6cf0-9fb4-4b0e-9f2c-d4a2c1bd69c2";
+
+      const localClient: ApiClient = new ApiClient(
+        {
+          query: jest
+            .fn()
+            // DocumentsRepository.fetch() at the start of publish()
+            .mockReturnValueOnce({
+              toPromise: () => Promise.resolve({ data: { documents: [] } }),
+            })
+            // WhatIsNewItemsRepository.fetchById() => not found
+            .mockReturnValueOnce({
+              toPromise: () => Promise.resolve({ data: { item: null } }),
+            }),
+          mutation: jest
+            .fn()
+            // DocumentsRepository.removeBySourceAndInitialId()
+            .mockReturnValueOnce({
+              toPromise: () =>
+                Promise.resolve({
+                  data: { delete_documents: { affected_rows: 1 } },
+                }),
+            }),
+        } as unknown as GqlClient,
+        {}
+      );
+
+      const service = new DocumentsService(
+        new InformationsRepository(localClient),
+        new DocumentsRepository(localClient),
+        new ContributionRepository(localClient),
+        new ModelRepository(localClient),
+        new AgreementRepository(localClient),
+        new InfographicRepository(localClient),
+        new WhatIsNewItemsRepository(localClient)
+      );
+
+      const cdtnId = await service.publish(itemId, "what_is_new");
+      expect(cdtnId).toEqual(itemId);
+      expect(localClient.client.mutation).toHaveBeenCalledTimes(1);
     });
   });
 });
