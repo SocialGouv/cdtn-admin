@@ -153,12 +153,12 @@ export class DocumentsService {
       case "what_is_new": {
         const item = await this.whatIsNewItemsRepository.fetchById(id);
 
-        await this.documentsRepository.removeBySourceAndInitialId({
-          source: "what_is_new",
-          initialId: id,
-        });
-
         if (!item) {
+          // L'item a été supprimé, on supprime le document associé
+          await this.documentsRepository.removeBySourceAndInitialId({
+            source: "what_is_new",
+            initialId: id,
+          });
           return id;
         }
 
