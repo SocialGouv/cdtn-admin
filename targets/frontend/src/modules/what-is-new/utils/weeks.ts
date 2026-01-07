@@ -21,11 +21,8 @@ export type GeneratedWeek = {
 };
 
 export const parseWhatIsNewPeriod = (period: string): Date | null => {
-  // Expected format: MM-YYYY
   const parsed = parse(period, "MM-yyyy", new Date());
   if (!isValid(parsed)) return null;
-
-  // Use midday to avoid timezone/DST edge cases when formatting dates.
   return new Date(parsed.getFullYear(), parsed.getMonth(), 1, 12, 0, 0);
 };
 
@@ -54,7 +51,6 @@ export const generateWeeksForPeriod = (period: string): GeneratedWeek[] => {
 
   const monthEnd = endOfMonth(monthStart);
 
-  // First Monday within the month (ISO-like weeks).
   let start = startOfWeek(monthStart, { weekStartsOn: 1 });
   if (isBefore(start, monthStart)) {
     start = addWeeks(start, 1);

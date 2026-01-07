@@ -1,6 +1,6 @@
 type Mutation {
   publish(
-    id: String!
+    id: uuid!
     source: String!
   ): publishOutput
 }

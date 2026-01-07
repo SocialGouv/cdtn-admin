@@ -52,8 +52,6 @@ export const WhatIsNewDashboard = (): JSX.Element => {
   const minWeekStart = aggData?.agg?.aggregate?.min?.weekStart ?? null;
   const maxWeekStart = aggData?.agg?.aggregate?.max?.weekStart ?? null;
 
-  // Prefilled UI even when there are no items:
-  // default window = last 4 months (including current), extended if items exist outside.
   const minWindow = addMonths(currentMonth, -3);
   const maxWindow = currentMonth;
 
@@ -74,7 +72,6 @@ export const WhatIsNewDashboard = (): JSX.Element => {
 
   const selectedPeriod = useMemo(() => {
     if (urlPeriod && months.includes(urlPeriod)) return urlPeriod;
-    // Months are sorted desc: index 0 = most recent
     return months[0] ?? currentPeriod;
   }, [urlPeriod, months, currentPeriod]);
 

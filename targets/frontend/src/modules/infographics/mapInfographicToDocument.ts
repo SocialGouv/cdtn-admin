@@ -3,8 +3,10 @@ import { generateCdtnId } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { Infographic } from "./type";
-import { InfographicTemplateDoc } from "@socialgouv/cdtn-types/build/hasura/infographic";
-import { InfographicTemplateReference } from "@socialgouv/cdtn-types/src/hasura/infographic";
+import {
+  InfographicTemplateDoc,
+  InfographicTemplateReference,
+} from "@socialgouv/cdtn-types/";
 
 export const mapInfographicToDocument = (
   data: Infographic,

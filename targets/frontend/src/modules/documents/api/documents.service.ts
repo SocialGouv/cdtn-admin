@@ -47,7 +47,6 @@ export class DocumentsService {
   }
 
   public async publish(id: string, source: SourceKeys | "what_is_new") {
-    // "Quoi de neuf ?" is a single published document: always use this constant initial_id.
     const initialId = source === "what_is_new" ? "what_is_new" : id;
 
     let document = await this.documentsRepository.fetch({
