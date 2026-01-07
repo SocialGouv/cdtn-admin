@@ -230,10 +230,8 @@ export const WhatIsNewDashboard = (): JSX.Element => {
                     weekStart: week.startISO,
                     kind: data.kind,
                     title: data.title,
-                    href: data.href?.trim() ? data.href.trim() : null,
-                    description: data.description?.trim()
-                      ? data.description.trim()
-                      : null,
+                    href: data.href,
+                    description: data.description,
                   },
                 });
                 if (result.error) throw new Error(result.error.message);
@@ -245,13 +243,7 @@ export const WhatIsNewDashboard = (): JSX.Element => {
               onUpdate={async (id, patch) => {
                 const result = await execUpdate({
                   id,
-                  patch: {
-                    ...patch,
-                    href: patch.href?.trim() ? patch.href.trim() : null,
-                    description: patch.description?.trim()
-                      ? patch.description.trim()
-                      : null,
-                  },
+                  patch,
                 });
                 if (result.error) throw new Error(result.error.message);
                 reexecuteItems({ requestPolicy: "network-only" });

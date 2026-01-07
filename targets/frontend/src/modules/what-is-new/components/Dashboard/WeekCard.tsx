@@ -18,51 +18,20 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import { z } from "zod";
-
 import type {
   WhatIsNewItemKind,
   WhatIsNewItemRow,
 } from "../../api/whatIsNewItems.query";
+import { whatIsNewItemSchema } from "../../type";
 import { kindLabel, kindOptions } from "./constants";
-
-const emptyToUndefined = (v: unknown) =>
-  typeof v === "string" && v.trim() === "" ? undefined : v;
-
-const itemFormSchema = z.object({
-  title: z
-    .string()
-    .trim()
-    .min(1, { message: "Le titre est obligatoire." })
-    .max(120, { message: "Le titre est trop long (120 caractères max)." }),
-  href: z.preprocess(
-    emptyToUndefined,
-    z
-      .string()
-      .trim()
-      .url({ message: "Le lien doit être une URL valide." })
-      .max(2048, { message: "Le lien est trop long." })
-      .optional()
-  ),
-  description: z.preprocess(
-    emptyToUndefined,
-    z
-      .string()
-      .trim()
-      .max(500, {
-        message: "La description est trop longue (500 caractères max).",
-      })
-      .optional()
-  ),
-});
 
 type FormErrors = Partial<Record<"title" | "href" | "description", string>>;
 
 type CreateData = {
   kind: WhatIsNewItemKind;
   title: string;
-  href?: string;
-  description?: string;
+  href: string;
+  description: string;
 };
 
 type UpdatePatch = {
@@ -202,6 +171,7 @@ const NewItemForm = ({
           size="small"
           label="Titre"
           value={title}
+          required
           error={Boolean(errors.title)}
           helperText={errors.title}
           onChange={(e) => {
@@ -218,6 +188,7 @@ const NewItemForm = ({
         label="Lien"
         placeholder="https://code.travail.gouv.fr/contribution/..."
         value={href}
+        required
         error={Boolean(errors.href)}
         helperText={errors.href}
         onChange={(e) => {
@@ -233,6 +204,7 @@ const NewItemForm = ({
         multiline
         minRows={2}
         value={description}
+        required
         error={Boolean(errors.description)}
         helperText={errors.description}
         onChange={(e) => {
@@ -249,7 +221,7 @@ const NewItemForm = ({
         <Button
           variant="contained"
           onClick={async () => {
-            const parsed = itemFormSchema.safeParse({
+            const parsed = whatIsNewItemSchema.safeParse({
               title,
               href,
               description,
@@ -281,7 +253,9 @@ const NewItemForm = ({
               setSaving(false);
             }
           }}
-          disabled={saving || !title.trim()}
+          disabled={
+            saving || !title.trim() || !href.trim() || !description.trim()
+          }
         >
           Enregistrer
         </Button>
@@ -385,6 +359,7 @@ const ItemRow = ({
                 size="small"
                 label="Titre"
                 value={title}
+                required
                 error={Boolean(errors.title)}
                 helperText={errors.title}
                 onChange={(e) => {
@@ -401,6 +376,7 @@ const ItemRow = ({
               label="Lien"
               placeholder="https://code.travail.gouv.fr/contribution/..."
               value={href}
+              required
               error={Boolean(errors.href)}
               helperText={errors.href}
               onChange={(e) => {
@@ -417,6 +393,7 @@ const ItemRow = ({
               multiline
               minRows={2}
               value={description}
+              required
               error={Boolean(errors.description)}
               helperText={errors.description}
               onChange={(e) => {
@@ -444,9 +421,11 @@ const ItemRow = ({
 
               <Button
                 variant="contained"
-                disabled={saving || !title.trim()}
+                disabled={
+                  saving || !title.trim() || !href.trim() || !description.trim()
+                }
                 onClick={async () => {
-                  const parsed = itemFormSchema.safeParse({
+                  const parsed = whatIsNewItemSchema.safeParse({
                     title,
                     href,
                     description,

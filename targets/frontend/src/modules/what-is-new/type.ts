@@ -1,9 +1,24 @@
 import { z } from "zod";
 
 export const whatIsNewItemSchema = z.object({
-  title: z.string().min(1, "Le titre est requis"),
-  href: z.string().min(1).optional(),
-  description: z.string().min(1).optional(),
+  title: z
+    .string()
+    .trim()
+    .min(1, { message: "Le titre est obligatoire." })
+    .max(120, { message: "Le titre est trop long (120 caractères max)." }),
+  href: z
+    .string()
+    .trim()
+    .min(1, { message: "Le lien est obligatoire." })
+    .url({ message: "Le lien doit être une URL valide." })
+    .max(2048, { message: "Le lien est trop long." }),
+  description: z
+    .string()
+    .trim()
+    .min(1, { message: "La description est obligatoire." })
+    .max(500, {
+      message: "La description est trop longue (500 caractères max).",
+    }),
 });
 
 export type WhatIsNewItem = z.infer<typeof whatIsNewItemSchema>;

@@ -84,8 +84,8 @@ export type InsertVariables = {
     weekStart: string;
     kind: WhatIsNewItemKind;
     title: string;
-    href?: string | null;
-    description?: string | null;
+    href: string;
+    description: string;
   };
 };
 
