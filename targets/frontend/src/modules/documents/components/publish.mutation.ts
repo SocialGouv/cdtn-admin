@@ -2,7 +2,7 @@ import { OperationResult, useMutation } from "urql";
 
 export const publishMutation = `
 mutation publish(
-  $id: String!,
+  $id: uuid!,
   $source: String!
 ) {
     publish(id: $id, source: $source) {

@@ -14,6 +14,7 @@ export const documentsPublishMutation = `
           source
           is_searchable
           is_available
+          is_published
         ]
       }
     ) {

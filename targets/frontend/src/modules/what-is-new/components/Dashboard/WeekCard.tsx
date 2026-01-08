@@ -30,8 +30,8 @@ type FormErrors = Partial<Record<"title" | "href" | "description", string>>;
 type CreateData = {
   kind: WhatIsNewItemKind;
   title: string;
-  href: string;
-  description: string;
+  href?: string;
+  description?: string;
 };
 
 type UpdatePatch = {
@@ -185,10 +185,9 @@ const NewItemForm = ({
       <TextField
         fullWidth
         size="small"
-        label="Lien"
+        label="Lien (optionnel)"
         placeholder="https://code.travail.gouv.fr/contribution/..."
         value={href}
-        required
         error={Boolean(errors.href)}
         helperText={errors.href}
         onChange={(e) => {
@@ -200,11 +199,10 @@ const NewItemForm = ({
       <TextField
         fullWidth
         size="small"
-        label="Description"
+        label="Description (optionnelle)"
         multiline
         minRows={2}
         value={description}
-        required
         error={Boolean(errors.description)}
         helperText={errors.description}
         onChange={(e) => {
@@ -242,8 +240,8 @@ const NewItemForm = ({
               await onSave({
                 kind,
                 title: parsed.data.title,
-                href: parsed.data.href,
-                description: parsed.data.description,
+                href: parsed.data.href ?? "",
+                description: parsed.data.description ?? "",
               });
               setTitle("");
               setHref("");
@@ -253,9 +251,7 @@ const NewItemForm = ({
               setSaving(false);
             }
           }}
-          disabled={
-            saving || !title.trim() || !href.trim() || !description.trim()
-          }
+          disabled={saving || !title.trim()}
         >
           Enregistrer
         </Button>
@@ -373,10 +369,9 @@ const ItemRow = ({
             <TextField
               fullWidth
               size="small"
-              label="Lien"
+              label="Lien (optionnel)"
               placeholder="https://code.travail.gouv.fr/contribution/..."
               value={href}
-              required
               error={Boolean(errors.href)}
               helperText={errors.href}
               onChange={(e) => {
@@ -389,11 +384,10 @@ const ItemRow = ({
             <TextField
               fullWidth
               size="small"
-              label="Description"
+              label="Description (optionnelle)"
               multiline
               minRows={2}
               value={description}
-              required
               error={Boolean(errors.description)}
               helperText={errors.description}
               onChange={(e) => {
@@ -421,9 +415,7 @@ const ItemRow = ({
 
               <Button
                 variant="contained"
-                disabled={
-                  saving || !title.trim() || !href.trim() || !description.trim()
-                }
+                disabled={saving || !title.trim()}
                 onClick={async () => {
                   const parsed = whatIsNewItemSchema.safeParse({
                     title,
@@ -446,8 +438,8 @@ const ItemRow = ({
                     await onUpdate(item.id, {
                       kind,
                       title: parsed.data.title,
-                      href: parsed.data.href,
-                      description: parsed.data.description,
+                      href: parsed.data.href ?? "",
+                      description: parsed.data.description ?? "",
                     });
                     setIsEditing(false);
                   } finally {

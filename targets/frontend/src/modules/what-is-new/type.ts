@@ -9,16 +9,21 @@ export const whatIsNewItemSchema = z.object({
   href: z
     .string()
     .trim()
-    .min(1, { message: "Le lien est obligatoire." })
-    .url({ message: "Le lien doit être une URL valide." })
-    .max(2048, { message: "Le lien est trop long." }),
+    .max(2048, { message: "Le lien est trop long." })
+    .refine(
+      (val) => !val || val === "" || z.string().url().safeParse(val).success,
+      { message: "Le lien doit être une URL valide." }
+    )
+    .optional()
+    .or(z.literal("")),
   description: z
     .string()
     .trim()
-    .min(1, { message: "La description est obligatoire." })
     .max(500, {
       message: "La description est trop longue (500 caractères max).",
-    }),
+    })
+    .optional()
+    .or(z.literal("")),
 });
 
 export type WhatIsNewItem = z.infer<typeof whatIsNewItemSchema>;

@@ -1,5 +1,13 @@
 import React, { useMemo } from "react";
-import { Button, Divider, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  FormControl,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useRouter } from "next/router";
 import { addMonths, isValid, parse } from "date-fns";
 import { useMutation, useQuery } from "urql";
@@ -52,7 +60,8 @@ export const WhatIsNewDashboard = (): JSX.Element => {
   const minWeekStart = aggData?.agg?.aggregate?.min?.weekStart ?? null;
   const maxWeekStart = aggData?.agg?.aggregate?.max?.weekStart ?? null;
 
-  const minWindow = addMonths(currentMonth, -3);
+  // Date de départ fixe : septembre 2025
+  const minWindow = new Date(2025, 8, 1, 12, 0, 0);
   const maxWindow = currentMonth;
 
   const minFromData = minWeekStart ? parseISODate(minWeekStart) : null;
@@ -152,12 +161,28 @@ export const WhatIsNewDashboard = (): JSX.Element => {
   return (
     <Stack spacing={2}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography variant="h5">
-          {periodToMonthLabel(selectedPeriod)}
-        </Typography>
+        <Typography variant="h5">Quoi de neuf</Typography>
       </Stack>
 
-      <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+      <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
+        <FormControl size="small" sx={{ minWidth: 200 }}>
+          <Select
+            value={selectedPeriod}
+            onChange={(e) => navigateToPeriod(e.target.value)}
+            displayEmpty
+          >
+            {months.map((p) => {
+              const d = parse(p, "MM-yyyy", new Date());
+              const label = isValid(d) ? periodToMonthLabel(p) : p;
+              return (
+                <MenuItem key={p} value={p}>
+                  {label}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+
         <Button
           size="small"
           variant="outlined"
@@ -173,25 +198,8 @@ export const WhatIsNewDashboard = (): JSX.Element => {
           disabled={!hasMoreRecent}
           onClick={() => navigateToPeriod(months[monthIndex - 1])}
         >
-          Mois suivant
+          ←
         </Button>
-
-        <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
-          {visibleMonths.map((p) => {
-            const d = parse(p, "MM-yyyy", new Date());
-            const short = isValid(d) ? toShortLabel(d) : p;
-            return (
-              <Button
-                key={p}
-                size="small"
-                variant={p === selectedPeriod ? "contained" : "text"}
-                onClick={() => navigateToPeriod(p)}
-              >
-                {short}
-              </Button>
-            );
-          })}
-        </Stack>
 
         <Button
           size="small"
@@ -199,7 +207,7 @@ export const WhatIsNewDashboard = (): JSX.Element => {
           disabled={!hasOlder}
           onClick={() => navigateToPeriod(months[monthIndex + 1])}
         >
-          Mois précédent
+          →
         </Button>
       </Stack>
 
