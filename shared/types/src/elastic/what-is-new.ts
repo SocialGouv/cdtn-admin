@@ -5,6 +5,7 @@ export type WhatIsNewItemKind =
   | "mise-a-jour-fonctionnelle";
 
 export type WhatIsNewItemDoc = {
+  title?: string;
   weekStart: string; // YYYY-MM-DD (date-only)
   kind: WhatIsNewItemKind;
   description?: string;

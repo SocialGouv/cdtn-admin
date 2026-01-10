@@ -1,9 +1,6 @@
 import { HasuraDocument, WhatIsNewItemDoc } from "@socialgouv/cdtn-types";
 
-import type {
-  WhatIsNewItemKind,
-  WhatIsNewItemRow,
-} from "./api/whatIsNewItems.query";
+import type { WhatIsNewItemRow } from "./api/whatIsNewItems.query";
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import { generateCdtnId } from "@shared/utils";
 
@@ -15,13 +12,26 @@ const toMetaDescription = (title: string, description?: string) =>
 
 const toSlug = (id: string) => `quoi-de-neuf-${id}`;
 
+const normalizeOptionalText = (value?: string | null) =>
+  value?.trim() || undefined;
+
 export const mapWhatIsNewItemToDocument = (
   item: WhatIsNewItemRow,
   existing?: HasuraDocument<WhatIsNewItemDoc>
 ): HasuraDocument<WhatIsNewItemDoc> => {
   const title = item.title;
-  const description = item.description ?? undefined;
-  const url = item.href ?? undefined;
+  const description = normalizeOptionalText(item.description);
+  const url = normalizeOptionalText(item.href);
+
+  const document: WhatIsNewItemDoc = {
+    title,
+    weekStart: item.weekStart,
+    kind: item.kind,
+    ...(description ? { description } : {}),
+    ...(url ? { url } : {}),
+    ...(item.createdAt ? { createdAt: item.createdAt } : {}),
+    ...(item.updatedAt ? { updatedAt: item.updatedAt } : {}),
+  };
 
   return {
     ...existing,
@@ -35,14 +45,7 @@ export const mapWhatIsNewItemToDocument = (
     is_searchable: true,
     is_published: true,
     is_available: true,
-    document: {
-      weekStart: item.weekStart,
-      kind: item.kind,
-      description,
-      url,
-      createdAt: item.createdAt ?? undefined,
-      updatedAt: item.updatedAt ?? undefined,
-    },
+    document,
   };
 };
 
