@@ -31,7 +31,7 @@
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-types": "workspace:^",
     "@socialgouv/cdtn-utils": "^4.196.0",
-    "axios": "^0.26.1",
+    "axios": "^0.30.0",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.3",
