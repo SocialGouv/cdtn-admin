@@ -22,8 +22,11 @@
     "build:watch": "tsc -w",
     "type-check": "tsc --noEmit"
   },
-  "devDependencies": {
+  "dependencies": {
     "@socialgouv/cdtn-utils": "^4.207.2",
+    "react": "19.2.3"
+  },
+  "devDependencies": {
     "@socialgouv/kali-data-types": "^2.127.0",
     "@socialgouv/legi-data-types": "^2.73.1",
     "typescript": "^5.4.3"
