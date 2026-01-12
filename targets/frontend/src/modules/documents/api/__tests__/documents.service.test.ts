@@ -216,13 +216,6 @@ describe("document service", () => {
             }),
           mutation: jest
             .fn()
-            // DocumentsRepository.removeBySourceAndInitialId()
-            .mockReturnValueOnce({
-              toPromise: () =>
-                Promise.resolve({
-                  data: { delete_documents: { affected_rows: 1 } },
-                }),
-            })
             // DocumentsRepository.update()
             .mockImplementationOnce((_query, variables) => {
               savedUpsertArgs = variables;
@@ -253,7 +246,7 @@ describe("document service", () => {
       expect(cdtnId).toEqual(expectedCdtnId);
       expect(savedUpsertArgs?.upsert?.cdtn_id).toEqual(expectedCdtnId);
       expect(savedUpsertArgs?.upsert?.initial_id).toEqual(itemId);
-      expect(localClient.client.mutation).toHaveBeenCalledTimes(2);
+      expect(localClient.client.mutation).toHaveBeenCalledTimes(1);
     });
 
     it("publish supprime le document si l'item n'existe plus", async () => {
