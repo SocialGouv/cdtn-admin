@@ -2,14 +2,12 @@ import {
   AgreementDoc,
   ContributionDocumentJson,
   ContributionHighlight,
+  DocumentElasticWithSource,
   EditorialContentDoc,
   ElasticFicheTravailEmploi,
+  ExportEsStatus,
   FicheTravailEmploiDoc,
   InfographicTemplateDoc,
-} from "@socialgouv/cdtn-types";
-import type {
-  DocumentElasticWithSource,
-  ExportEsStatus,
   WhatIsNewItemDoc,
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
