@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.64.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.63.0...v2.64.0) (2026-01-12)
+
+### Features
+
+- Mise à jour du sitemap ([#1619](https://github.com/SocialGouv/cdtn-admin/issues/1619)) ([d0253e8](https://github.com/SocialGouv/cdtn-admin/commit/d0253e814cf33983ee47ae6458c640a88d2b2922))
+
 # [2.63.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.8...v2.63.0) (2025-12-16)
 
 ### Features

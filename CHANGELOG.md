@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.64.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.63.0...v2.64.0) (2026-01-12)
+
+### Features
+
+- Mise à jour du sitemap ([#1619](https://github.com/SocialGouv/cdtn-admin/issues/1619)) ([d0253e8](https://github.com/SocialGouv/cdtn-admin/commit/d0253e814cf33983ee47ae6458c640a88d2b2922))
+- **outils:** ajout de l'outil externe Mes démarches travail ([#1622](https://github.com/SocialGouv/cdtn-admin/issues/1622)) ([a70c1ba](https://github.com/SocialGouv/cdtn-admin/commit/a70c1ba4a9cf048552ee9e7e192962eb0276e7b7))
+
 # [2.63.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.62.8...v2.63.0) (2025-12-16)
 
 ### Features
