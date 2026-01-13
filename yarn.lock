@@ -6580,6 +6580,7 @@ __metadata:
     memoizee: 0.4.17
     node-xlsx: ^0.23.0
     p-map: 4
+    react: 18.2.0
     semver: 7.3.5
     simple-git: ^3.19.1
     tar: ^6.2.0
@@ -10500,6 +10501,7 @@ __metadata:
     nodemon: 2.0.22
     p-map: ^4.0.0
     p-queue: ^6.6.2
+    react: 18.2.0
     reflect-metadata: ^0.1.13
     rimraf: 3.0.2
     supertest: ^6.2.2
@@ -12284,6 +12286,7 @@ __metadata:
     p-map: 4.0.0
     p-retry: 5.1.2
     query-string: 7.0.1
+    react: 18.2.0
     semver: 7.3.5
     tar-fs: 2.1.2
     ts-jest: ^27.0.5
