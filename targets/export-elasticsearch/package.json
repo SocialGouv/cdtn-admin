@@ -30,7 +30,7 @@
     "@socialgouv/cdtn-elasticsearch": "workspace:^",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-types": "workspace:^",
-    "@socialgouv/cdtn-utils": "^4.207.2",
+    "@socialgouv/cdtn-utils": "^4.208.2",
     "axios": "^0.26.1",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",

@@ -23,7 +23,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@socialgouv/cdtn-utils": "^4.207.2"
+    "@socialgouv/cdtn-utils": "^4.208.2"
   },
   "devDependencies": {
     "@socialgouv/kali-data-types": "^2.127.0",
