@@ -42,7 +42,6 @@
     "node-fetch": "^2.6.5",
     "p-map": "^4.0.0",
     "p-queue": "^6.6.2",
-    "react": "19.2.3",
     "reflect-metadata": "^0.1.13",
     "zod": "^3.14.2"
   },
