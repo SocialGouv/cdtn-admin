@@ -1,15 +1,20 @@
 -- Delete duplicate theme relations in public.document_relations
 --
+-- OBJECTIF : Supprimer les documents qui apparaissent plusieurs fois dans le même thème
+--
 -- Context / assumptions:
 -- - Themes are stored in public.documents with source = 'themes'
 -- - Theme → Document links are stored in public.document_relations with:
---     document_a = theme cdtn_id
---     document_b = document cdtn_id
+--     document_a = theme cdtn_id (le thème)
+--     document_b = document cdtn_id (le document lié au thème)
 --
--- This migration removes duplicate theme relations, keeping only one relation per
--- (document_a, document_b, type) tuple. The kept relation is chosen based on:
--- 1. Prefer rows with data (data IS NOT NULL)
--- 2. Then smallest id for determinism
+-- Cette migration supprime les relations en double où le même document (document_b)
+-- apparaît plusieurs fois dans le même thème (document_a) avec le même type.
+--
+-- Pour chaque groupe de doublons (même thème + même document + même type),
+-- on garde UNE SEULE relation choisie selon :
+-- 1. On préfère les lignes avec data (data IS NOT NULL)
+-- 2. Puis on prend le plus petit id pour être déterministe
 
 WITH theme_relations AS (
   SELECT dr.*
