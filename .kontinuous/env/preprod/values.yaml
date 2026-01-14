@@ -56,7 +56,6 @@ pg:
       ~tpl~database: "{{ .Values.global.pgDatabase }}"
       ~tpl~owner: "{{ .Values.global.pgUser }}"
       secretName: "pg-db"
-      # need to specify full barman config because we reload from another bucket (prod)
       barmanObjectStore:
         ~tpl~destinationPath: "s3://cdtn-prod-backups/cdtn-admin-2026-01-14_12-00"
         s3Credentials:
