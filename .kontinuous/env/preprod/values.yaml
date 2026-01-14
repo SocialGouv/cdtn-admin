@@ -6,16 +6,6 @@ jobs:
       with:
         sqlFile: .kontinuous/sql/post-restore.sql
         pgSecretRefName: pg-app
-    job-ingester:
-      ~needs: [ hasura ]
-      use: trigger-cronjob
-      with:
-        cronJobName: cron-ingester
-    job-alert:
-      ~needs: [ job-ingester ]
-      use: trigger-cronjob
-      with:
-        cronJobName: cron-alert
 
 hasura:
   imagePackage: hasura
@@ -35,11 +25,10 @@ hasura:
     - name: "HASURA_GRAPHQL_DATABASE_URL"
       value: "postgresql://$(username):$(password)@$(host):$(port)/cdtn-admin?sslmode=require"
 
-www:
-  host: cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
+export:
   env:
-    - name: NEXTAUTH_URL
-      value: https://cdtn-admin-preprod.ovh.fabrique.social.gouv.fr
+    - name: "BRANCH_NAME_SLUG"
+      value: "{{.Values.global.branchSlug32}}"
 
 pg:
   ~chart: pg
@@ -50,14 +39,12 @@ pg:
     value: true
   cnpg-cluster:
     backup:
-      # don't enable backup because we would need a new path each time as the cluster is recreated
       ~tpl~enabled: "false"
     recovery:
       enabled: true
       ~tpl~database: "{{ .Values.global.pgDatabase }}"
       ~tpl~owner: "{{ .Values.global.pgUser }}"
       secretName: "pg-db"
-      # need to specify full barman config because we reload from another bucket (prod)
       barmanObjectStore:
         ~tpl~destinationPath: "s3://cdtn-prod-backups/cdtn-admin-2026-01-14_12-00"
         s3Credentials:
