@@ -50,6 +50,7 @@ pg:
     value: true
   cnpg-cluster:
     backup:
+      # don't enable backup because we would need a new path each time as the cluster is recreated
       ~tpl~enabled: "false"
     recovery:
       enabled: true
