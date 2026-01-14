@@ -58,7 +58,7 @@ pg:
       ~tpl~owner: "{{ .Values.global.pgUser }}"
       secretName: "pg-db"
       barmanObjectStore:
-        ~tpl~destinationPath: "s3://cdtn-prod-backups/cdtn-admin-2026-01-14-12-00"
+        ~tpl~destinationPath: "s3://cdtn-prod-backups/cdtn-admin-2024-03-26-12-33"
         s3Credentials:
           accessKeyId:
             ~tpl~name: "cdtn-prod-backups-access-key"
