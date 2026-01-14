@@ -21,6 +21,14 @@ const query = `query documents($source: String!, $initialId: String) {
   }
 }`;
 
+const queryBySource = `query documents_by_source($source: String!) {
+  documents(where: { source: { _eq: $source } }) {
+    cdtn_id
+    initial_id
+    source
+  }
+}`;
+
 const fetchDocumentBySlug = `
   query get_contrib_by_slug($slug: String!, $source: String!) {
     documents(
@@ -40,9 +48,17 @@ export type QueryDocumentResult = {
   documents: QueryDocument[];
 };
 
+export type QueryDocumentsBySourceResult = {
+  documents: Pick<QueryDocument, "cdtn_id" | "initial_id" | "source">[];
+};
+
 export type DocumentsQueryProps = {
   source: string;
   initialId?: string;
+};
+
+export type DocumentsQueryBySourceProps = {
+  source: string;
 };
 
 export type DocumentsQueryBySlugProps = {
@@ -65,6 +81,21 @@ export const queryDocument = async (
   const data = result?.documents[0];
 
   return data;
+};
+
+export const queryDocumentsBySource = async (
+  client: ApiClient,
+  variables: DocumentsQueryBySourceProps
+): Promise<QueryDocumentsBySourceResult["documents"]> => {
+  const { data: result, error } =
+    await client.query<QueryDocumentsBySourceResult>(queryBySource, variables);
+
+  if (error) {
+    console.log(error);
+    throw error;
+  }
+
+  return result?.documents ?? [];
 };
 
 export const queryDocumentBySlug = async (

@@ -4,7 +4,7 @@
   "dependencies": {
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-slugify": "4.52.1",
-    "@socialgouv/cdtn-utils": "4.196.0",
+    "@socialgouv/cdtn-utils": "^4.208.2",
     "@socialgouv/kali-data": "^2.628.0",
     "get-uri": "3.0.2",
     "got": "11.8.6",
@@ -12,6 +12,7 @@
     "p-map": "4.0.0",
     "p-retry": "5.1.2",
     "query-string": "7.0.1",
+    "react": "18.2.0",
     "semver": "7.3.5",
     "tar-fs": "2.1.2",
     "unist-util-filter": "^2.0.3",

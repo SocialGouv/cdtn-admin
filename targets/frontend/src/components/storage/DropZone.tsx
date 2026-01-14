@@ -1,6 +1,5 @@
-import CSS from "csstype";
-import { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import { useCallback, type CSSProperties } from "react";
+import { useDropzone, type FileWithPath } from "react-dropzone";
 import { CircularProgress } from "@mui/material";
 import { theme } from "../../theme";
 import {
@@ -11,7 +10,7 @@ import {
   ALLOWED_SVG,
 } from "src/lib/secu";
 
-const defaultStyles: CSS.Properties = {
+const defaultStyles: CSSProperties = {
   border: "2px dotted silver",
   borderRadius: theme.space.small,
   padding: theme.space.medium,
@@ -20,7 +19,7 @@ const defaultStyles: CSS.Properties = {
 type Props = {
   onDrop: (files: FormData) => void;
   uploading: boolean;
-  customStyles?: CSS.Properties;
+  customStyles?: CSSProperties;
 };
 
 export function DropZone({
@@ -29,12 +28,10 @@ export function DropZone({
   customStyles,
 }: Props): React.ReactElement {
   const onDrop = useCallback(
-    async (acceptedFiles: any) => {
+    async (acceptedFiles: FileWithPath[]) => {
       const formData = new FormData();
-      for (const i in acceptedFiles) {
-        if (acceptedFiles[i] instanceof File) {
-          formData.append(acceptedFiles[i].path, acceptedFiles[i]);
-        }
+      for (const file of acceptedFiles) {
+        formData.append(file.path ?? file.name, file);
       }
       onDropCallback(formData);
     },
@@ -53,13 +50,14 @@ export function DropZone({
     onDropAccepted: onDrop,
   });
 
-  if (isDragAccept) {
-    defaultStyles.backgroundColor = "dropZone";
-  } else {
-    delete defaultStyles.backgroundColor;
-  }
+  const styles: CSSProperties = {
+    ...defaultStyles,
+    ...(isDragAccept ? { backgroundColor: "dropZone" } : {}),
+    ...customStyles,
+  };
+
   return (
-    <div {...getRootProps()} style={{ ...defaultStyles, ...customStyles }}>
+    <div {...getRootProps()} style={styles}>
       <input {...getInputProps()} />
       {uploading ? <CircularProgress /> : <p>Glissez vos fichiers ici</p>}
     </div>

@@ -16,6 +16,8 @@ import { mapModelToDocument } from "src/modules/models/mapModelToDocument";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { mapInfographicToDocument } from "../../infographics/mapInfographicToDocument";
 import { InfographicRepository } from "../../infographics/api";
+import { mapWhatIsNewItemToDocument } from "../../what-is-new/mapWhatIsNewItemToDocument";
+import { WhatIsNewItemsRepository } from "../../what-is-new/api";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -24,6 +26,7 @@ export class DocumentsService {
   private readonly contributionRepository: ContributionRepository;
   private readonly agreementRepository: AgreementRepository;
   private readonly infographicRepository: InfographicRepository;
+  private readonly whatIsNewItemsRepository: WhatIsNewItemsRepository;
 
   constructor(
     informationsRepository: InformationsRepository,
@@ -31,7 +34,8 @@ export class DocumentsService {
     contributionRepository: ContributionRepository,
     modelRepository: ModelRepository,
     agreementRepository: AgreementRepository,
-    infographicRepository: InfographicRepository
+    infographicRepository: InfographicRepository,
+    whatIsNewItemsRepository: WhatIsNewItemsRepository
   ) {
     this.informationsRepository = informationsRepository;
     this.modelRepository = modelRepository;
@@ -39,12 +43,16 @@ export class DocumentsService {
     this.contributionRepository = contributionRepository;
     this.agreementRepository = agreementRepository;
     this.infographicRepository = infographicRepository;
+    this.whatIsNewItemsRepository = whatIsNewItemsRepository;
   }
 
   public async publish(id: string, source: SourceKeys) {
+    // default behavior: one id = one document
+    const initialId = id;
+
     let document = await this.documentsRepository.fetch({
       source,
-      initialId: id,
+      initialId,
     });
 
     let postTreatment:
@@ -109,7 +117,6 @@ export class DocumentsService {
           };
         }
         break;
-
       case "modeles_de_courriers":
         const model = await this.modelRepository.fetch(id);
         if (!model) {
@@ -121,7 +128,6 @@ export class DocumentsService {
         }
         document = mapModelToDocument(model, document);
         break;
-
       case "infographies":
         const infographic = await this.infographicRepository.fetch(id);
         if (!infographic) {
@@ -144,13 +150,26 @@ export class DocumentsService {
         }
         document = mapAgreementToDocument(agreement, document);
         break;
+      case "what_is_new": {
+        const item = await this.whatIsNewItemsRepository.fetchById(id);
 
+        if (!item) {
+          await this.documentsRepository.removeBySourceAndInitialId({
+            source: "what_is_new",
+            initialId: id,
+          });
+          return id;
+        }
+
+        document = mapWhatIsNewItemToDocument(item, document);
+        break;
+      }
       default:
         throw new Error(`La source ${source} n'est pas implémentée`);
     }
 
     if (!document) {
-      return await this.documentsRepository.remove(id);
+      return await this.documentsRepository.remove(initialId);
     }
 
     const result = await this.documentsRepository.update(document);

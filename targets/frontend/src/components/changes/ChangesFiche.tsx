@@ -1,7 +1,7 @@
 import { Chip } from "@mui/material";
 import { DocumentInfoWithCdtnRef } from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
-import { getRouteBySource } from "@socialgouv/cdtn-utils";
+import { getRouteBySource, type SourceKeys } from "@socialgouv/cdtn-utils";
 import { theme } from "src/theme";
 import { styled } from "@mui/system";
 
@@ -20,7 +20,7 @@ export function ChangesFiche({ documents, type }: Props): JSX.Element {
             <DocumentLink
               target="_blank"
               href={`https://code.travail.gouv.fr/${getRouteBySource(
-                doc.source
+                doc.source as SourceKeys
               )}/${
                 doc.slug && doc.slug !== "" ? doc.slug : slugify(doc.title)
               }`}

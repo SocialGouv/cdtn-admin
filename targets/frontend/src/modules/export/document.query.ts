@@ -27,7 +27,7 @@ type DocumentWIthContentType = {
   document?: { contentType?: string; idcc?: string };
 };
 export type UpdatedDocument = Pick<
-  HasuraDocument<unknown>,
+  HasuraDocument<unknown, SourceKeys>,
   "title" | "source" | "slug" | "cdtn_id" | "initial_id" | "is_published"
 > &
   DocumentWIthContentType;

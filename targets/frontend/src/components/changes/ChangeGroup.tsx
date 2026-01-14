@@ -11,7 +11,7 @@ import type {
   FicheVddInfo,
 } from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
-import { getRouteBySource } from "@socialgouv/cdtn-utils";
+import { getRouteBySource, type SourceKeys } from "@socialgouv/cdtn-utils";
 import { Badge, Box, Card, List, ListItem } from "@mui/material";
 
 import Link from "next/link";
@@ -88,7 +88,7 @@ export function DilaRelatedDocuments({
         target="_blank"
         rel="noopener noreferrer"
         href={`https://code.travail.gouv.fr/${getRouteBySource(
-          docReferences.document.source
+          docReferences.document.source as SourceKeys
         )}/${
           docReferences.document.slug && docReferences.document.slug !== ""
             ? docReferences.document.slug

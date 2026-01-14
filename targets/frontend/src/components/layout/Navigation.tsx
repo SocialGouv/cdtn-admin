@@ -31,8 +31,9 @@ export function Navigation() {
       links: [
         { href: "/contenus", label: "Tous les contenus" },
         { href: "/contributions", label: "Contributions" },
-        { href: "/agreements", label: "Convention collectives" },
+        { href: "/agreements", label: "Conventions collectives" },
         { href: "/infographics", label: "Infographies" },
+        { href: "/what-is-new", label: "Quoi de neuf ?" },
 
         { href: "/models", label: "Modèles de document" },
         { href: "/informations", label: "Pages informations" },
