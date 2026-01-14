@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.65.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.64.0...v2.65.0) (2026-01-14)
+
+### Features
+
+- **quoi-de-neuf:** ajout de la page permettant d'ajouter les éléments par les admins ([#1620](https://github.com/SocialGouv/cdtn-admin/issues/1620)) ([a2de1b6](https://github.com/SocialGouv/cdtn-admin/commit/a2de1b6b9e26c00a9516d868153bd3a51584bc01))
+
 # [2.64.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.63.0...v2.64.0) (2026-01-12)
 
 **Note:** Version bump only for package @shared/utils
