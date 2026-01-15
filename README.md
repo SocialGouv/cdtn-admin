@@ -103,46 +103,16 @@ yarn # to install dep
 yarn workspace export-elasticsearch build # to build project
 ```
 
-#### 2. Run the postgres to add data
+#### 2. Load data from production to local
 
 At the root of the project, please run this command:
 
 ```sh
-docker-compose up -d postgres
+docker compose up -d postgres
+./scripts/dump_db.sh -n cdtn-admin
 ```
 
-#### 3. Load data from production to local
-
-##### 0. Create a dump
-
-```sh
-kubectx ovh-prod pour utiliser le contexte prod
-./scripts/dump_db.sh -n cdtn-admin # Dans le cas où on accepte de relancer l'environnement avec ce dump, alors on peut passer à l'étape 4
-```
-
-##### 1. Restore data
-
-```sh
-docker-compose exec -T postgres pg_restore \
-  --dbname postgres --clean --if-exists --user postgres \
-  --no-owner --no-acl --verbose  < ~/MY_PATH/file.psql
-```
-
-##### 2. Restore roles
-
-```sh
-docker-compose exec -T postgres psql \
-  --dbname postgres --user postgres \
-  < .kontinuous/sql/post-restore.sql
-```
-
-#### 4. Run the other containers
-
-```sh
-docker-compose up -d hasura minio elasticsearch createbuckets
-```
-
-#### 5. Run ingester in development mode
+#### 3. Run ingester in development mode
 
 ```sh
 DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true DISABLE_SITEMAP=true DISABLE_COPY=true HASURA_GRAPHQL_ENDPOINT="http://localhost:8080/v1/graphql" HASURA_GRAPHQL_ADMIN_SECRET="admin1" ELASTICSEARCH_URL_PREPROD="http://localhost:9200" ELASTICSEARCH_URL_PROD="http://localhost:9200" SITEMAP_DESTINATION_FOLDER="sitemap" SITEMAP_NAME="sitemap.xml" SITEMAP_ENDPOINT="http://localhost:3001/api/sitemap" AGREEMENTS_DESTINATION_FOLDER="agreements" AGREEMENTS_DESTINATION_NAME="index.json" BUCKET_DEFAULT_FOLDER="default" BUCKET_DRAFT_FOLDER="draft" BUCKET_PUBLISHED_FOLDER= BUCKET_PREVIEW_FOLDER="preview" BUCKET_ACCESS_KEY="MINIO_ACCESS_KEY" BUCKET_ENDPOINT=http://localhost:9000 BUCKET_NAME="cdtn" BUCKET_SECRET_KEY="MINIO_SECRET_KEY" BUCKET_REGION="us-east-1" CDTN_ADMIN_ENDPOINT="http://localhost:8080/v1/graphql" ELASTICSEARCH_INDEX_PREPROD="cdtn-v2" ELASTICSEARCH_INDEX_PROD="cdtn-v2" FETCH_PAGE_SIZE=1000 FETCH_JOB_CONCURRENCY=5 yarn workspace export-elasticsearch dev
@@ -154,7 +124,7 @@ DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true DISABLE_SITEMAP=true DISABLE_C
 - `DISABLE_SITEMAP` is used to disable copy of the sitemap
 - `DISABLE_AGREEMENTS` is used to disable copy of the agreements
 
-#### 6. Run the export elasticsearch
+#### 4. Run the export elasticsearch
 
 ##### With cli
 

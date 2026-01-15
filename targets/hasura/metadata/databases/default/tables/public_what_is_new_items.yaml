@@ -1,0 +1,108 @@
+table:
+  name: what_is_new_items
+  schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    updated_at:
+      custom_name: updatedAt
+    week_start:
+      custom_name: weekStart
+  custom_column_names:
+    created_at: createdAt
+    updated_at: updatedAt
+    week_start: weekStart
+  custom_root_fields: {}
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - id
+        - week_start
+        - kind
+        - title
+        - href
+        - description
+        - created_at
+        - updated_at
+    comment: ""
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - id
+        - week_start
+        - kind
+        - title
+        - href
+        - description
+        - created_at
+        - updated_at
+    comment: ""
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - id
+        - week_start
+        - kind
+        - title
+        - href
+        - description
+        - created_at
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - id
+        - week_start
+        - kind
+        - title
+        - href
+        - description
+        - created_at
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+    comment: ""
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - week_start
+        - kind
+        - title
+        - href
+        - description
+      filter: {}
+      check: {}
+      set:
+        updated_at: now()
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - week_start
+        - kind
+        - title
+        - href
+        - description
+      filter: {}
+      check: {}
+      set:
+        updated_at: now()
+    comment: ""
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""
+  - role: user
+    permission:
+      filter: {}
+    comment: ""

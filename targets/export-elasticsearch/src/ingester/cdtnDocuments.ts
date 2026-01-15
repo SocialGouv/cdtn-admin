@@ -3,12 +3,12 @@ import {
   ContributionDocumentJson,
   ContributionHighlight,
   DocumentElasticWithSource,
-  DocumentRef,
   EditorialContentDoc,
   ElasticFicheTravailEmploi,
   ExportEsStatus,
   FicheTravailEmploiDoc,
   InfographicTemplateDoc,
+  WhatIsNewItemDoc,
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-utils";
@@ -63,7 +63,8 @@ export async function cdtnDocumentsGen(
   updateDocs: (source: string, documents: unknown[]) => Promise<void>,
   isProd: boolean
 ) {
-  let documentsCount: Partial<ExportEsStatus["documentsCount"]> = {};
+  let documentsCount: Partial<NonNullable<ExportEsStatus["documentsCount"]>> =
+    {};
 
   const themes = await fetchThemes();
 
@@ -126,6 +127,18 @@ export async function cdtnDocumentsGen(
     [SOURCES.INFOGRAPHICS]: infographics.length,
   };
   await updateDocs(SOURCES.INFOGRAPHICS, infographics);
+
+  logger.info("=== Quoi de neuf ? ===");
+  const whatIsNewDocs = await getDocumentBySource<WhatIsNewItemDoc>(
+    "what_is_new",
+    getBreadcrumbs
+  );
+  logger.info(`Fetched ${whatIsNewDocs.length} "Quoi de neuf ?" documents`);
+  documentsCount = {
+    ...documentsCount,
+    what_is_new: whatIsNewDocs.length,
+  };
+  await updateDocs("what_is_new", whatIsNewDocs);
 
   logger.info("=== Contributions ===");
   const contributions: DocumentElasticWithSource<ContributionDocumentJson>[] =
@@ -253,7 +266,7 @@ export async function cdtnDocumentsGen(
   );
   const highlightsWithContrib = highlights.map((highlight) => ({
     ...highlight,
-    refs: highlight.refs.map((ref: DocumentRef) => {
+    refs: highlight.refs.map((ref) => {
       if (!ref.description) {
         const foundContrib = generatedContributions.find(
           (generatedContribution) => {
@@ -351,9 +364,9 @@ export async function cdtnDocumentsGen(
   logger.info("=== Save the documents length ===");
   documentsCount = {
     ...documentsCount,
-    total: Object.values(documentsCount).reduce((a: any, b: any) => a + b, 0),
+    total: Object.values(documentsCount).reduce((a, b) => a + (b ?? 0), 0),
   };
   await updateExportEsStatusWithDocumentsCount(
-    documentsCount as ExportEsStatus["documentsCount"]
+    documentsCount as NonNullable<ExportEsStatus["documentsCount"]>
   );
 }

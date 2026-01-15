@@ -3842,7 +3842,7 @@ __metadata:
   resolution: "@shared/utils@workspace:shared/utils"
   dependencies:
     "@socialgouv/cdtn-types": "workspace:^"
-    "@socialgouv/cdtn-utils": ^4.196.0
+    "@socialgouv/cdtn-utils": ^4.208.2
     "@socialgouv/dila-api-client": ^1.2.4
     "@swc/jest": ^0.2.29
     "@types/uuid": ^9.0.5
@@ -4593,7 +4593,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@socialgouv/cdtn-types@workspace:shared/types"
   dependencies:
-    "@socialgouv/cdtn-utils": ^4.196.0
+    "@socialgouv/cdtn-utils": ^4.208.2
     "@socialgouv/kali-data-types": ^2.127.0
     "@socialgouv/legi-data-types": ^2.73.1
     typescript: ^5.4.3
@@ -4615,17 +4615,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@socialgouv/cdtn-utils@npm:4.196.0, @socialgouv/cdtn-utils@npm:^4.196.0":
-  version: 4.196.0
-  resolution: "@socialgouv/cdtn-utils@npm:4.196.0"
-  checksum: 9f75d2ebb3e3a7d1f868f0be1a7b4f5c4f20dc074ef20c9ff28ce8950d2454d8092d6ed91b3c265bf326c6e23d4ece80af062a5c3be634f89331c73591b8a208
-  languageName: node
-  linkType: hard
-
-"@socialgouv/cdtn-utils@npm:^4.203.0":
-  version: 4.203.0
-  resolution: "@socialgouv/cdtn-utils@npm:4.203.0"
-  checksum: 10218a81ce666f2d8df85b845592c1271336d6e8c60257127946a72d5332ebfe1f6e90543c2eb589f1060aa5659bb33fb75332f5c65787d59d8e3fea4fcd116d
+"@socialgouv/cdtn-utils@npm:^4.208.2":
+  version: 4.208.2
+  resolution: "@socialgouv/cdtn-utils@npm:4.208.2"
+  checksum: 44e3d02d42179cb51ee31032960dfed542cf8fce65d70c5f2897d05eeaa87624136574924abc91db0ae07ad985e99664f0bf446538b7d31f3b85f96ddf2d3d6b
   languageName: node
   linkType: hard
 
@@ -5873,12 +5866,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.2.25, @types/react-dom@npm:^18.0.0":
+"@types/react-dom@npm:^18.0.0":
   version: 18.2.25
   resolution: "@types/react-dom@npm:18.2.25"
   dependencies:
     "@types/react": "*"
   checksum: 85f9278d6456c6cdc76da6806a33b472588cdd029b08dde32e8b5636b25a3eae529b4ac2e08c848a3d7ca44e4e97ee9a3df406c96fa0768de935c8eed6e07590
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^18.2.0":
+  version: 18.3.7
+  resolution: "@types/react-dom@npm:18.3.7"
+  peerDependencies:
+    "@types/react": ^18.0.0
+  checksum: c8b63ec944d2a68992b4dba474003fe55ee1d949c4b9c8fe97eecb2290de23f76acfb670b2f7ceb46a5fc8e46808d1745369b03edda48a7a0cf730eff4c5d315
   languageName: node
   linkType: hard
 
@@ -5891,13 +5893,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:18.2.79":
+"@types/react@npm:*":
   version: 18.2.79
   resolution: "@types/react@npm:18.2.79"
   dependencies:
     "@types/prop-types": "*"
     csstype: ^3.0.2
   checksum: 85aa96e0e88725c84d8fc5f04f10a4da6a1f507dde33557ac9cc211414756867721264bfefd9e02bae1288ce2905351d949b652b931e734ea24519ee5c625138
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.2.0":
+  version: 18.3.27
+  resolution: "@types/react@npm:18.3.27"
+  dependencies:
+    "@types/prop-types": "*"
+    csstype: ^3.2.2
+  checksum: c74d0ab5155226998a52b568f6280536205f8fe4317f77bd5d5258bc131cc9134a2db68dc818cb8e8402a2f229843c4a5bde339faf7e64d441630e569a9e5421
   languageName: node
   linkType: hard
 
@@ -6546,7 +6558,7 @@ __metadata:
     "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-slugify": 4.52.1
     "@socialgouv/cdtn-types": "workspace:^"
-    "@socialgouv/cdtn-utils": 4.196.0
+    "@socialgouv/cdtn-utils": ^4.208.2
     "@socialgouv/contributions-data-types": 3.27.0
     "@socialgouv/dila-api-client": 1.2.4
     "@socialgouv/fiches-travail-data-types": 4.191.0
@@ -6568,6 +6580,7 @@ __metadata:
     memoizee: 0.4.17
     node-xlsx: ^0.23.0
     p-map: 4
+    react: 18.2.0
     semver: 7.3.5
     simple-git: ^3.19.1
     tar: ^6.2.0
@@ -8583,6 +8596,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"csstype@npm:^3.2.2":
+  version: 3.2.3
+  resolution: "csstype@npm:3.2.3"
+  checksum: cb882521b3398958a1ce6ca98c011aec0bde1c77ecaf8a1dd4db3b112a189939beae3b1308243b2fe50fc27eb3edeb0f73a5a4d91d928765dc6d5ecc7bda92ee
+  languageName: node
+  linkType: hard
+
 "csv-parser@npm:^3.0.0":
   version: 3.0.0
   resolution: "csv-parser@npm:3.0.0"
@@ -10459,7 +10479,7 @@ __metadata:
     "@socialgouv/cdtn-elasticsearch": "workspace:^"
     "@socialgouv/cdtn-slugify": ^4.52.1
     "@socialgouv/cdtn-types": "workspace:^"
-    "@socialgouv/cdtn-utils": ^4.196.0
+    "@socialgouv/cdtn-utils": ^4.208.2
     "@swc/cli": 0.1.65
     "@swc/core": 1.2.249
     "@swc/jest": 0.2.37
@@ -10481,6 +10501,7 @@ __metadata:
     nodemon: 2.0.22
     p-map: ^4.0.0
     p-queue: ^6.6.2
+    react: 18.2.0
     reflect-metadata: ^0.1.13
     rimraf: 3.0.2
     supertest: ^6.2.2
@@ -11017,7 +11038,7 @@ __metadata:
     "@socialgouv/cdtn-slugify": ^4.52.1
     "@socialgouv/cdtn-types": "workspace:^"
     "@socialgouv/cdtn-ui": ^4.92.0
-    "@socialgouv/cdtn-utils": ^4.203.0
+    "@socialgouv/cdtn-utils": ^4.208.2
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.5.1
@@ -11038,8 +11059,8 @@ __metadata:
     "@types/jsonwebtoken": ^9.0.6
     "@types/lodash.get": ^4.4.7
     "@types/nodemailer": ^6.4.14
-    "@types/react": 18.2.79
-    "@types/react-dom": 18.2.25
+    "@types/react": ^18.2.0
+    "@types/react-dom": ^18.2.0
     "@urql/exchange-auth": ^2.1.6
     ace-builds: ^1.31.1
     argon2: ^0.30.3
@@ -12243,7 +12264,7 @@ __metadata:
     "@shared/utils": "workspace:^"
     "@socialgouv/cdtn-slugify": 4.52.1
     "@socialgouv/cdtn-types": "workspace:^"
-    "@socialgouv/cdtn-utils": 4.196.0
+    "@socialgouv/cdtn-utils": ^4.208.2
     "@socialgouv/contributions-data-types": ^3.27.0
     "@socialgouv/fiches-travail-data-types": ^4.191.0
     "@socialgouv/fiches-vdd-types": ^2.197.0
@@ -12265,6 +12286,7 @@ __metadata:
     p-map: 4.0.0
     p-retry: 5.1.2
     query-string: 7.0.1
+    react: 18.2.0
     semver: 7.3.5
     tar-fs: 2.1.2
     ts-jest: ^27.0.5
@@ -18931,11 +18953,11 @@ __metadata:
   linkType: hard
 
 "scheduler@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "scheduler@npm:0.23.0"
+  version: 0.23.2
+  resolution: "scheduler@npm:0.23.2"
   dependencies:
     loose-envify: ^1.1.0
-  checksum: d79192eeaa12abef860c195ea45d37cbf2bbf5f66e3c4dcd16f54a7da53b17788a70d109ee3d3dde1a0fd50e6a8fc171f4300356c5aee4fc0171de526bf35f8a
+  checksum: 3e82d1f419e240ef6219d794ff29c7ee415fbdc19e038f680a10c067108e06284f1847450a210b29bbaf97b9d8a97ced5f624c31c681248ac84c80d56ad5a2c4
   languageName: node
   linkType: hard
 

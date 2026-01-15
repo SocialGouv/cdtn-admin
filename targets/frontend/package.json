@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "2.64.0",
+  "version": "2.65.0",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.525.0",
     "@codegouvfr/react-dsfr": "^0.76.4",
@@ -19,7 +19,7 @@
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-ui": "^4.92.0",
-    "@socialgouv/cdtn-utils": "^4.203.0",
+    "@socialgouv/cdtn-utils": "^4.208.2",
     "@tiptap-pro/extension-details": "^2.3.3",
     "@tiptap-pro/extension-details-content": "^2.3.3",
     "@tiptap-pro/extension-details-summary": "^2.3.3",
@@ -78,8 +78,8 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/lodash.get": "^4.4.7",
     "@types/nodemailer": "^6.4.14",
-    "@types/react": "18.2.79",
-    "@types/react-dom": "18.2.25",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "eslint": "^8.41.0",
     "eslint-config-next": "14.1.4",
     "graphql-tag": "^2.12.6",
