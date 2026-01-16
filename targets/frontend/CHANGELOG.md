@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.65.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.65.0...v2.65.1) (2026-01-16)
+
+### Bug Fixes
+
+- **quoi-de-neuf:** correction de l'affichage de la première si celle-ci commence le 1er du mois ([#1626](https://github.com/SocialGouv/cdtn-admin/issues/1626)) ([0d25b9f](https://github.com/SocialGouv/cdtn-admin/commit/0d25b9fc413db9ccebb616dcdd1d09362315c3d3))
+
 # [2.65.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.64.0...v2.65.0) (2026-01-14)
 
 ### Features
