@@ -1,0 +1,3 @@
+-- This migration cannot be reversed as it deletes duplicate data.
+-- There is no way to restore the exact deleted rows.
+-- If you need to rollback, you would need to restore from a database backup.
