@@ -51,7 +51,6 @@ export const generateWeeksForPeriod = (period: string): GeneratedWeek[] => {
   const monthEnd = endOfMonth(monthStart);
 
   let start = startOfWeek(monthStart, { weekStartsOn: 1 });
-  // Compare only the date parts (ignore time) to avoid timezone issues
   const startISO = toISODate(start);
   const monthStartISO = toISODate(monthStart);
   if (startISO < monthStartISO) {
