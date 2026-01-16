@@ -4,7 +4,6 @@ import {
   endOfMonth,
   format,
   isAfter,
-  isBefore,
   isValid,
   parse,
 } from "date-fns";
@@ -52,7 +51,9 @@ export const generateWeeksForPeriod = (period: string): GeneratedWeek[] => {
   const monthEnd = endOfMonth(monthStart);
 
   let start = startOfWeek(monthStart, { weekStartsOn: 1 });
-  if (isBefore(start, monthStart)) {
+  const startISO = toISODate(start);
+  const monthStartISO = toISODate(monthStart);
+  if (startISO < monthStartISO) {
     start = addWeeks(start, 1);
   }
 
