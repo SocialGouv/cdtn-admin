@@ -19,9 +19,13 @@ export function buildThemes(
       parentRelations,
     }) => {
       const breadcrumbs = getBreadcrumbs(cdtnId);
+      const parent = themes.find(
+        (theme) => theme.cdtnId === parentRelations[0].parentThemeId
+      );
       return {
         breadcrumbs: breadcrumbs.slice(0, -1),
         cdtnId,
+        parentSlug: parent?.slug,
         text: title,
         excludeFromSearch: false,
         metaDescription: `Explorez les contenus autour du thème ${title}`,
