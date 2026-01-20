@@ -11,6 +11,7 @@ export type ThemeElastic = {
   description?: string;
   icon?: string;
   position: number;
+  parentSlug?: string;
 };
 
 export type ThemeChildren = {

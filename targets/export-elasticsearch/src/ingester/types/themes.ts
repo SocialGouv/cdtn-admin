@@ -32,6 +32,7 @@ export interface ThemeContent {
   source: SourceKeys;
   title: string;
   description: string;
+  metaDescription: string | null;
   url?: string;
 }
 
