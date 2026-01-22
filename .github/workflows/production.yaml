@@ -198,3 +198,16 @@ jobs:
     name: "Deploy on Kubernetes 🐳"
     uses: socialgouv/workflows/.github/workflows/use-ks-gh-production-atlas.yaml@v1
     secrets: inherit
+
+  notify-mattermost:
+    needs: kontinuous
+    name: "Notify Mattermost 📢"
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Send message to Mattermost
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          TEXT: |-
+            Production deploy: **${{ job.status }}** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) 🚀
