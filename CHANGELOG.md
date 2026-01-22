@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.65.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.65.1...v2.65.2) (2026-01-22)
+
+### Bug Fixes
+
+- **duplica:** suppression des documents qui sont affichés plusieurs fois dans le même thème ([#1623](https://github.com/SocialGouv/cdtn-admin/issues/1623)) ([b11ab39](https://github.com/SocialGouv/cdtn-admin/commit/b11ab393c50664151655deaec6d5ba07e7fb357d))
+
 ## [2.65.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.65.0...v2.65.1) (2026-01-16)
 
 ### Bug Fixes
