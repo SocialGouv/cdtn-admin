@@ -10,6 +10,18 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.ref }}
 
 jobs:
+  notify-start:
+    name: "Notify Mattermost - Start 📢"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send message to Mattermost
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_CHANNEL: s/cdtn/administration-veille
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          TEXT: |-
+            Déploiement en production du site d'administration: **En cours** 🚀 ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}))
+
   build-frontend:
     environment: build-production
     outputs:
@@ -198,3 +210,17 @@ jobs:
     name: "Deploy on Kubernetes 🐳"
     uses: socialgouv/workflows/.github/workflows/use-ks-gh-production-atlas.yaml@v1
     secrets: inherit
+
+  notify-end:
+    needs: kontinuous
+    name: "Notify Mattermost - End 📢"
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Send message to Mattermost
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_CHANNEL: s/cdtn/administration-veille
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          TEXT: |-
+            Déploiement en production du site d'administration: **${{ job.status }}** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) ⚠️
