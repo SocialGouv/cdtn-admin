@@ -82,6 +82,8 @@ hasura:
     fsGroup: 1001
     runAsUser: 1001
     runAsGroup: 1001
+  startupProbe:
+    failureThreshold: 120
   annotations:
     oblik.socialgouv.io/min-request-cpu: "1000m"
     oblik.socialgouv.io/min-request-memory: "1Gi"
