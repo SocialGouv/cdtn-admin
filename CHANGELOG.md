@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.66.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.65.3...v2.66.0) (2026-01-27)
+
+### Features
+
+- add Mattermost notification during the production deployment ([#1630](https://github.com/SocialGouv/cdtn-admin/issues/1630)) ([2815193](https://github.com/SocialGouv/cdtn-admin/commit/28151934e2fc7e46d08340d7ddde8408f6d71157))
+- **themes:** modification de le génération des thèmes pour le nouveau design ([#1628](https://github.com/SocialGouv/cdtn-admin/issues/1628)) ([1aa2e8d](https://github.com/SocialGouv/cdtn-admin/commit/1aa2e8d3b8c2d932028e2722a4fd70f200346137))
+
 ## [2.65.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.65.2...v2.65.3) (2026-01-22)
 
 ### Bug Fixes
