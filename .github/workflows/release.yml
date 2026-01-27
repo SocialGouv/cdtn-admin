@@ -61,3 +61,39 @@ jobs:
           export DEBUG=lerna:*
           export NPM_CONFIG_LOGLEVEL=verbose
           yarn lerna publish from-package --yes --loglevel silly
+
+      - name: Extract latest changelog section
+        id: changelog
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TAG="$(git describe --tags --abbrev=0)"
+          VERSION="${TAG#v}"
+
+          SECTION="$(awk -v ver="$VERSION" '
+            $0 ~ "^# \\["ver"\\]" {in=1}
+            in && $0 ~ "^# \\[" && $0 !~ "^# \\["ver"\\]" {exit}
+            in {print}
+          ' CHANGELOG.md)"
+
+          if [ -z "$SECTION" ]; then
+            SECTION="$(sed -n '1,120p' CHANGELOG.md)"
+          fi
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "changelog<<'EOF'" >> "$GITHUB_OUTPUT"
+          echo "$SECTION" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Notify Mattermost - Release notes
+        if: success()
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_CHANNEL: s-cdtn-dev-suivi-mise-en-prod
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          TEXT: |-
+            Nouvelle release **${{ steps.changelog.outputs.tag }}** publiée.
+
+            ${{ steps.changelog.outputs.changelog }}
