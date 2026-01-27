@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.66.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.1...v2.66.2) (2026-01-27)
+
+### Bug Fixes
+
+- **release:** changelog to upload to mattermost ([9279a67](https://github.com/SocialGouv/cdtn-admin/commit/9279a672bd7a2dbe1f0599a5565560cdb7490d26))
+
 ## [2.66.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.0...v2.66.1) (2026-01-27)
 
 ### Features
