@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.66.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.0...v2.66.1) (2026-01-27)
+
+### Features
+
+- **mattermost:** ajout d'un message après une nouvelle release ([#1633](https://github.com/SocialGouv/cdtn-admin/issues/1633)) ([c3c599e](https://github.com/SocialGouv/cdtn-admin/commit/c3c599e3fbacaafdb08797881462e2ffc0a8a149))
+
 # [2.66.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.65.3...v2.66.0) (2026-01-27)
 
 ### Features
