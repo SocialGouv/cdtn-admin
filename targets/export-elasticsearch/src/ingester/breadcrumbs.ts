@@ -5,7 +5,17 @@ import { Breadcrumb } from "@socialgouv/cdtn-types";
 
 export type GetBreadcrumbsFn = (cdtnId: string) => Breadcrumb[];
 
-function toBreadcrumbs(theme: Theme): Breadcrumb {
+function toBreadcrumbs(
+  theme: Theme,
+  parentTheme: Theme | undefined
+): Breadcrumb {
+  if (parentTheme) {
+    return {
+      label: theme.title,
+      position: theme.parentRelations[0].position,
+      slug: `/${getRouteBySource(SOURCES.THEMES)}/${parentTheme.slug}#${theme.slug}`,
+    };
+  }
   return {
     label: theme.title,
     position: theme.parentRelations[0].position,
@@ -49,18 +59,16 @@ export function buildGetBreadcrumbs(themes: Theme[]): GetBreadcrumbsFn {
   // we might want to set a depth limit for safety reasons
   // it picks a relation and returns an array of all possible breadcrumbs
   function buildAllBreadcrumbs(theme: Theme): (Breadcrumb[] | undefined)[] {
-    const currentBreadcrumb = toBreadcrumbs(theme);
-    const parentTheme = themes.filter(
+    const parentTheme = themes.find(
       (parentTheme) =>
         parentTheme.cdtnId === theme.parentRelations[0].parentThemeId
     );
-    if (!parentTheme.length) {
+    const currentBreadcrumb = toBreadcrumbs(theme, parentTheme);
+    if (!parentTheme) {
       return [[currentBreadcrumb]];
     }
-    return parentTheme.flatMap(buildAllBreadcrumbs).map((breadcrumbs) => {
-      breadcrumbs?.push(currentBreadcrumb);
-      return breadcrumbs;
-    });
+    const parentBreadcrumbs = toBreadcrumbs(parentTheme, undefined);
+    return [[parentBreadcrumbs, currentBreadcrumb]];
   }
 
   const themeToBreadcrumbsMap = new Map(

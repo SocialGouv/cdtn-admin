@@ -19,9 +19,13 @@ export function buildThemes(
       parentRelations,
     }) => {
       const breadcrumbs = getBreadcrumbs(cdtnId);
+      const parent = themes.find(
+        (theme) => theme.cdtnId === parentRelations[0].parentThemeId
+      );
       return {
         breadcrumbs: breadcrumbs.slice(0, -1),
         cdtnId,
+        parentSlug: parent?.slug,
         text: title,
         excludeFromSearch: false,
         metaDescription: `Explorez les contenus autour du thème ${title}`,
@@ -62,13 +66,31 @@ const getContentRelation = (
       ({ position: positionA }, { position: positionB }) =>
         positionA - positionB
     )
-    .map(({ content: { cdtnId, description, url, slug, source, title } }) => ({
-      cdtnId,
-      description,
-      url,
-      slug,
-      source,
-      title,
-      breadcrumbs: getBreadcrumbs(cdtnId),
-    }));
+    .map(
+      ({
+        content: {
+          cdtnId,
+          description,
+          metaDescription,
+          url,
+          slug,
+          source,
+          title,
+        },
+      }) => {
+        const plainTextDescription =
+          source === "infographies"
+            ? (metaDescription ?? description)
+            : description;
+        return {
+          cdtnId,
+          description: plainTextDescription,
+          url,
+          slug,
+          source,
+          title,
+          breadcrumbs: getBreadcrumbs(cdtnId),
+        };
+      }
+    );
 };

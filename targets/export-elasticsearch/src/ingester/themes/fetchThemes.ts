@@ -19,6 +19,7 @@ const graphQLThemesQuery = `
         source
         title
         description: document(path: "description")
+        metaDescription: document(path: "meta_description")
         url: document(path: "url")
       }
       position: data(path: "position")
