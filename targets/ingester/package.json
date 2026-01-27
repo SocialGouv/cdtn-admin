@@ -14,7 +14,7 @@
     "query-string": "7.0.1",
     "react": "18.2.0",
     "semver": "7.3.5",
-    "tar-fs": "2.1.2",
+    "tar-fs": "2.1.4",
     "unist-util-filter": "^2.0.3",
     "unist-util-find": "1.0.4",
     "unist-util-flat-filter": "1.0.0",
