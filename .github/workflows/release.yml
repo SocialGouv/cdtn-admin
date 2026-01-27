@@ -70,22 +70,26 @@ jobs:
 
           TAG="$(git describe --tags --abbrev=0)"
           VERSION="${TAG#v}"
+          VERSION="${VERSION##*@}"
 
           SECTION="$(awk -v ver="$VERSION" '
-            $0 ~ "^# \\["ver"\\]" {in=1}
-            in && $0 ~ "^# \\[" && $0 !~ "^# \\["ver"\\]" {exit}
-            in {print}
+            # WARNING: do not use variable name `in` (reserved keyword in awk)
+            $0 ~ "^##? \\["ver"\\]" {inside=1}
+            inside && $0 ~ "^##? \\[" && $0 !~ "^##? \\["ver"\\]" {exit}
+            inside {print}
           ' CHANGELOG.md)"
 
           if [ -z "$SECTION" ]; then
             SECTION="$(sed -n '1,120p' CHANGELOG.md)"
           fi
 
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "changelog<<'EOF'" >> "$GITHUB_OUTPUT"
-          echo "$SECTION" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
+          {
+            echo "tag=$TAG"
+            echo "version=$VERSION"
+            echo "changelog<<EOF"
+            printf '%s\n' "$SECTION"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Notify Mattermost - Release notes
         if: success()
