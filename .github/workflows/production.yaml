@@ -217,10 +217,20 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - name: Send message to Mattermost
+      - name: Send success message to Mattermost
+        if: needs.kontinuous.result == 'success'
         uses: mattermost/action-mattermost-notify@master
         with:
           MATTERMOST_CHANNEL: s/cdtn/administration-veille
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
           TEXT: |-
-            Déploiement en production du site d'administration **terminé** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) 🎉
+            Déploiement en production du site d'administration **terminé avec succès** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) 🎉
+
+      - name: Send failure message to Mattermost
+        if: needs.kontinuous.result == 'failure'
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_CHANNEL: s/cdtn/administration-veille
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          TEXT: |-
+            Déploiement en production du site d'administration **échoué** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) ❌
