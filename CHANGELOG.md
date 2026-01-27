@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.66.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.2...v2.66.3) (2026-01-27)
+
+### Bug Fixes
+
+- **mattermost:** message which failed with release info ([e4ea806](https://github.com/SocialGouv/cdtn-admin/commit/e4ea806b901c87af381f1bc8e5d389912ccf1801))
+
 ## [2.66.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.1...v2.66.2) (2026-01-27)
 
 ### Bug Fixes
