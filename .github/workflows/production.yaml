@@ -17,7 +17,7 @@ jobs:
       - name: Send message to Mattermost
         uses: mattermost/action-mattermost-notify@master
         with:
-          MATTERMOST_CHANNEL: s/cdtn/administration-veille
+          MATTERMOST_CHANNEL: s-cdtn-administration-veille
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
           TEXT: |-
             Déploiement en production du site d'administration **en cours** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) ⏳
@@ -221,7 +221,7 @@ jobs:
         if: success()
         uses: mattermost/action-mattermost-notify@master
         with:
-          MATTERMOST_CHANNEL: s/cdtn/administration-veille
+          MATTERMOST_CHANNEL: s-cdtn-administration-veille
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
           TEXT: |-
             Déploiement en production du site d'administration **terminé avec succès** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) 🎉
@@ -230,7 +230,7 @@ jobs:
         if: failure()
         uses: mattermost/action-mattermost-notify@master
         with:
-          MATTERMOST_CHANNEL: s/cdtn/administration-veille
+          MATTERMOST_CHANNEL: s-cdtn-administration-veille
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
           TEXT: |-
             Déploiement en production du site d'administration **échoué** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) ❌

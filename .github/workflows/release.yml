@@ -91,7 +91,7 @@ jobs:
         if: success()
         uses: mattermost/action-mattermost-notify@master
         with:
-          MATTERMOST_CHANNEL: s/cdtn/administration-veille
+          MATTERMOST_CHANNEL: s-cdtn-dev-suivi-mise-en-prod
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
           TEXT: |-
             Nouvelle release **${{ steps.changelog.outputs.tag }}** publiée.
