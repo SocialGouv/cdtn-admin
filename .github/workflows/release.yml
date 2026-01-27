@@ -122,9 +122,9 @@ jobs:
           changelog = changelog_path.read_text(encoding="utf-8") if changelog_path.exists() else ""
 
           text = (
-              f"Nouvelle release **{tag}** publiée.\n\n"
+              f"# Nouvelle release du site d'administration **{tag}** publiée.\n\n"
               f"[Workflow]({run_url})\n\n"
-              f"```markdown\n{changelog.strip()}\n```"
+              f"\n{changelog.strip()}\n"
           )
 
           payload = {
