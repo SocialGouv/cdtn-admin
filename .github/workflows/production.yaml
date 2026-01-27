@@ -218,7 +218,7 @@ jobs:
     if: always()
     steps:
       - name: Send success message to Mattermost
-        if: needs.kontinuous.result == 'success'
+        if: success()
         uses: mattermost/action-mattermost-notify@master
         with:
           MATTERMOST_CHANNEL: s/cdtn/administration-veille
@@ -227,7 +227,7 @@ jobs:
             Déploiement en production du site d'administration **terminé avec succès** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) 🎉
 
       - name: Send failure message to Mattermost
-        if: needs.kontinuous.result == 'failure'
+        if: failure()
         uses: mattermost/action-mattermost-notify@master
         with:
           MATTERMOST_CHANNEL: s/cdtn/administration-veille
