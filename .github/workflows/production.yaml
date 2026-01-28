@@ -20,7 +20,7 @@ jobs:
           MATTERMOST_CHANNEL: s-cdtn-administration-veille
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
           TEXT: |-
-            Déploiement en production du site d'administration **en cours** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) ⏳
+            Un déploiement en production du site d'administration est en cours de préparation, **veuillez ne pas lancer de mise à jour des données** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) ⏳
 
   build-frontend:
     environment: build-production
@@ -233,4 +233,4 @@ jobs:
           MATTERMOST_CHANNEL: s-cdtn-administration-veille
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
           TEXT: |-
-            Déploiement en production du site d'administration **échoué** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) ❌
+            Déploiement en production du site d'administration **en échec** ([logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})) ❌
