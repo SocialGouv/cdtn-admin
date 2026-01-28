@@ -101,7 +101,6 @@ jobs:
         if: success()
         shell: bash
         env:
-          MM_CHANNEL: s-cdtn-dev-suivi-mise-en-prod
           TAG: ${{ steps.changelog.outputs.tag }}
           CHANGELOG_FILE: ${{ steps.changelog.outputs.changelog_file }}
           ACTOR: ${{ github.actor }}
@@ -115,7 +114,6 @@ jobs:
           from pathlib import Path
 
           tag = os.environ["TAG"]
-          channel = os.environ["MM_CHANNEL"]
           actor = os.environ.get("ACTOR", "")
           run_url = os.environ.get("RUN_URL", "")
           changelog_path = Path(os.environ["CHANGELOG_FILE"])
@@ -128,7 +126,6 @@ jobs:
           )
 
           payload = {
-              "channel": channel,
               "username": actor,
               "text": text,
           }
