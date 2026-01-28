@@ -140,5 +140,5 @@ jobs:
         if: success()
         uses: mattermost/action-mattermost-notify@master
         with:
-          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_RELEASE_URL }}
           PAYLOAD: ${{ steps.mm_payload.outputs.payload }}
