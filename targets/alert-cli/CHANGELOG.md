@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.66.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.3...v2.66.4) (2026-01-28)
+
+**Note:** Version bump only for package alert-cli
+
 ## [2.66.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.2...v2.66.3) (2026-01-27)
 
 **Note:** Version bump only for package alert-cli

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.66.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.3...v2.66.4) (2026-01-28)
+
+### Bug Fixes
+
+- **mattermost:** set new webhook url ([70e29d0](https://github.com/SocialGouv/cdtn-admin/commit/70e29d0104882ff70cafdfeb514d26a5f59f0fe9))
+- **mattermost:** use the correct channel for dev suivi mise en prod: ([2531557](https://github.com/SocialGouv/cdtn-admin/commit/2531557f4e8bccb6a5dc0ff6eb1018a9ed4010a6))
+
 ## [2.66.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.2...v2.66.3) (2026-01-27)
 
 ### Bug Fixes
