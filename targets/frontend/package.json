@@ -19,7 +19,7 @@
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-ui": "^4.92.0",
-    "@socialgouv/cdtn-utils": "^4.208.2",
+    "@socialgouv/cdtn-utils": "^4.212.0",
     "@tiptap-pro/extension-details": "^2.3.3",
     "@tiptap-pro/extension-details-content": "^2.3.3",
     "@tiptap-pro/extension-details-summary": "^2.3.3",

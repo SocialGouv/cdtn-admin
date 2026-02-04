@@ -4622,6 +4622,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@socialgouv/cdtn-utils@npm:^4.212.0":
+  version: 4.212.0
+  resolution: "@socialgouv/cdtn-utils@npm:4.212.0"
+  peerDependencies:
+    react: ">=19"
+  checksum: 5969554612a057f91f3d315b09b0097760455aa0fb749a3e9c798e813b5e594bf9b52d181df120aa7683efa508a795a9e0501b6fa2368a418618229a83b1ab97
+  languageName: node
+  linkType: hard
+
 "@socialgouv/contributions-data-types@npm:3.27.0":
   version: 3.27.0
   resolution: "@socialgouv/contributions-data-types@npm:3.27.0"
@@ -11038,7 +11047,7 @@ __metadata:
     "@socialgouv/cdtn-slugify": ^4.52.1
     "@socialgouv/cdtn-types": "workspace:^"
     "@socialgouv/cdtn-ui": ^4.92.0
-    "@socialgouv/cdtn-utils": ^4.208.2
+    "@socialgouv/cdtn-utils": ^4.212.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.5.1
