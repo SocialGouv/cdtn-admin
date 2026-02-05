@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.67.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.6...v2.67.0) (2026-02-05)
+
+### Features
+
+- **themes:** ajout de nouvelles icones ([#1635](https://github.com/SocialGouv/cdtn-admin/issues/1635)) ([ad04a76](https://github.com/SocialGouv/cdtn-admin/commit/ad04a76a881cc9c175bcbe21875c06867ee97fe3))
+
 ## [2.66.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.5...v2.66.6) (2026-01-28)
 
 **Note:** Version bump only for package frontend
