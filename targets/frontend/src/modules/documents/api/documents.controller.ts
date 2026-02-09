@@ -11,7 +11,7 @@ import { InfographicRepository } from "../../infographics/api";
 import { WhatIsNewItemsRepository } from "../../what-is-new/api";
 
 const inputSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string(),
   source: z.enum([
     "information",
     "modeles_de_courriers",
