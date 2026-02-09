@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.67.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.67.0...v2.67.1) (2026-02-09)
+
+### Bug Fixes
+
+- **agreement:** erreur lors de la publication d'une convention collective ([#1638](https://github.com/SocialGouv/cdtn-admin/issues/1638)) ([8b9be00](https://github.com/SocialGouv/cdtn-admin/commit/8b9be001f54de7f19f39e659972eb816ff8281bd))
+
 # [2.67.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.6...v2.67.0) (2026-02-05)
 
 ### Features

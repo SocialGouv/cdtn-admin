@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.67.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.67.0...v2.67.1) (2026-02-09)
+
+### Bug Fixes
+
+- **agreement:** erreur lors de la publication d'une convention collective ([#1638](https://github.com/SocialGouv/cdtn-admin/issues/1638)) ([8b9be00](https://github.com/SocialGouv/cdtn-admin/commit/8b9be001f54de7f19f39e659972eb816ff8281bd))
+- **docs:** mise en place du test des widgets dans le projet `code-du-travail-numerique` uniquement ([#1636](https://github.com/SocialGouv/cdtn-admin/issues/1636)) ([0a5ea3b](https://github.com/SocialGouv/cdtn-admin/commit/0a5ea3b6e8d57bc5624d7c76c3b980e40073cf7c))
+
 # [2.67.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.66.6...v2.67.0) (2026-02-05)
 
 ### Features
