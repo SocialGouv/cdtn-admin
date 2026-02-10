@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@socialgouv/cdtn-utils": "^4.208.2",
-    "@socialgouv/kali-data-types": "^2.127.0",
+    "@socialgouv/kali-data-types": "^3.414.1",
     "@socialgouv/legi-data-types": "^2.73.1",
     "typescript": "^5.4.3"
   }
