@@ -49,17 +49,63 @@ export const infographicSchemaInsert = infographicSchema
   .extend({
     newSvg: z
       .array(z.custom<DropzoneFile>())
-      .min(1, "Une infographie au format SVG doit être renseignée"),
+      .min(1, "Une infographie au format SVG doit être renseignée")
+      .refine(
+        (files) => {
+          const validNamePattern = /^[a-zA-Z0-9._-]+$/;
+          return files.every((file) => validNamePattern.test(file.name));
+        },
+        {
+          message:
+            "Le nom du fichier SVG ne doit contenir que des lettres, chiffres, points, tirets et underscores",
+        }
+      ),
     newPdf: z
       .array(z.custom<DropzoneFile>())
-      .min(1, "Le format PDF de l'infographie doit être renseigné"),
+      .min(1, "Le format PDF de l'infographie doit être renseigné")
+      .refine(
+        (files) => {
+          const validNamePattern = /^[a-zA-Z0-9._-]+$/;
+          return files.every((file) => validNamePattern.test(file.name));
+        },
+        {
+          message:
+            "Le nom du fichier PDF ne doit contenir que des lettres, chiffres, points, tirets et underscores",
+        }
+      ),
   })
   .omit({ updatedAt: true, createdAt: true, pdfFile: true, svgFile: true });
 
 export const infographicSchemaUpdate = infographicSchema
   .extend({
-    newSvg: z.array(z.custom<DropzoneFile>()).optional(),
-    newPdf: z.array(z.custom<DropzoneFile>()).optional(),
+    newSvg: z
+      .array(z.custom<DropzoneFile>())
+      .optional()
+      .refine(
+        (files) => {
+          if (!files || files.length === 0) return true;
+          const validNamePattern = /^[a-zA-Z0-9._-]+$/;
+          return files.every((file) => validNamePattern.test(file.name));
+        },
+        {
+          message:
+            "Le nom du fichier SVG ne doit contenir que des lettres, chiffres, points, tirets et underscores",
+        }
+      ),
+    newPdf: z
+      .array(z.custom<DropzoneFile>())
+      .optional()
+      .refine(
+        (files) => {
+          if (!files || files.length === 0) return true;
+          const validNamePattern = /^[a-zA-Z0-9._-]+$/;
+          return files.every((file) => validNamePattern.test(file.name));
+        },
+        {
+          message:
+            "Le nom du fichier PDF ne doit contenir que des lettres, chiffres, points, tirets et underscores",
+        }
+      ),
   })
   .omit({ updatedAt: true, createdAt: true, pdfFile: true, svgFile: true });
 

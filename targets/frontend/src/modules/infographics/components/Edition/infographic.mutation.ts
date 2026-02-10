@@ -40,6 +40,8 @@ const updateInfographicQuery = gql`
           metaDescription
           transcription
           displayDate
+          svg
+          pdf
         ]
       }
     ) {
