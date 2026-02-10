@@ -1,0 +1,181 @@
+[
+  {
+    "file": "data/KALICONT000005635177.json",
+    "previous": {
+      "type": "convention collective",
+      "data": {
+        "num": 1518,
+        "title": "Convention collective nationale des métiers de l'éducation, de la culture, des loisirs et de l'animation agissant pour l'utilité sociale et environnementale, au service des territoires (ÉCLAT) du 28 juin 1988. Étendue par arrêté du 10 janvier 1989 JORF 13 janvier 1989",
+        "id": "KALICONT000005635177",
+        "shortTitle": "Animation",
+        "categorisation": [
+          "Animation",
+          "Éducation, culture, loisirs et animation au service des territoires (ÉCLAT)"
+        ]
+      },
+      "children": [
+        {
+          "type": "section",
+          "data": {
+            "cid": "KALITEXT000005681198",
+            "intOrdre": 0,
+            "title": "Texte de base : Convention collective nationale des métiers de l'éducation, de la culture, des loisirs et de l'animation agissant pour l'utilité sociale et environnementale, au service des territoires (ÉCLAT) du 28 juin 1988. Étendue par arrêté du 10 janvier 1989 JORF 13 janvier 1989",
+            "id": "KALITEXT000005681198",
+            "etat": "VIGUEUR_ETEN"
+          },
+          "children": [
+            {
+              "type": "article",
+              "data": {
+                "cid": "KALIARTI000041695195",
+                "intOrdre": 21474,
+                "id": "KALIARTI000041695195",
+                "content": "<p align=\"center\">Modification de la dénomination de la convention collective à compter du 1er octobre 2019</p><p align=\"left\">Les partenaires sociaux décident de modifier l'intitulé de la convention collective nationale de l'animation comme suit :</p><p align=\"left\">« Convention collective nationale des métiers de l'éducation, de la culture, des loisirs, et de l'animation agissant pour l'utilité sociale et environnementale, au service des territoires ».</p><p align=\"left\">Ils décident de la désigner communément sous l'acronyme « ÉCLAT ».</p><p align=\"left\">Ainsi toute référence, dans la convention collective ainsi que dans l'ensemble des textes qui s'y rattachent, à « convention collective de l'animation », est remplacée par « convention collective nationale des métiers de l'éducation, de la culture, des loisirs et de l'animation agissant pour l'utilité sociale et environnementale, au service des territoires ».</p><p align=\"left\">(<a href=\"/affichIDCC.do?cidTexte=KALITEXT000041686330&categorieLien=cid\">avenant n° 177 du 1er octobre 2019</a>, art. 2 - BOCC 2019-48)</p>",
+                "etat": "VIGUEUR_ETEN",
+                "lstLienModification": [
+                  {
+                    "textCid": "JORFTEXT000043336567",
+                    "textTitle": "Arrêté du 2 avril 2021 - art. 1, v. init.",
+                    "linkType": "ETEND",
+                    "linkOrientation": "cible",
+                    "articleNum": "1",
+                    "articleId": "JORFARTI000043336570",
+                    "natureText": "ARRETE",
+                    "datePubliTexte": "2021-04-08",
+                    "dateSignaTexte": "2021-04-02",
+                    "dateDebutCible": "2999-01-01"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "section",
+              "data": {
+                "cid": "KALISCTA000005725488",
+                "intOrdre": 42949,
+                "title": "Préambule",
+                "id": "KALISCTA000005725488",
+                "etat": "VIGUEUR_ETEN"
+              },
+              "children": [
+                {
+                  "type": "article",
+                  "data": {
+                    "cid": "KALIARTI000005854257",
+                    "intOrdre": 42949,
+                    "id": "KALIARTI000005854257",
+                    "content": "<p>Les organisations signataires de la présente convention conviennent de rappeler que cette convention a pour objet principal d'apporter des garanties conventionnelles à l'ensemble des salariés du secteur et en particulier à ceux qui ne bénéficient d'aucune garantie résultant d'accords d'entreprise.</p><p>Elles ne sauraient admettre que, sous couvert de l'existence de la présente convention, des accords d'entreprise soient mis en cause par la voie de la dénonciation. Leur révision éventuelle ou leur adaptation par rapport à la présente convention doit passer nécessairement par le biais de la négociation collective (1).</p><p><font color=\"#808080\" size=\"1\">(1) Avis n° 1 de la commission d'interprétation du 8 janvier 1990 (étendu par arrêté du 26 octobre 1990, art. 1er).</font></p><p><font color=\"#808080\" size=\"1\">La dénonciation d'un accord collectif doit s'accompagner, quelles que soient les dispositions de cet accord :</font></p><p><font color=\"#808080\" size=\"1\">– des nouvelles propositions de l'employeur ;</font></p><p><font color=\"#808080\" size=\"1\">– des modalités de négociation.</font></p>",
+                    "etat": "VIGUEUR_ETEN",
+                    "lstLienModification": [
+                      {
+                        "textCid": "",
+                        "textTitle": "Convention collective nationale 1988-06-28 en vigueur le 13 janvier 1989 étendue par arrêté du 10 janvier 1989 JORF 13 janvier 1989",
+                        "linkType": "CREATION",
+                        "linkOrientation": "source",
+                        "articleNum": "",
+                        "articleId": "",
+                        "natureText": "",
+                        "datePubliTexte": null,
+                        "dateSignaTexte": null,
+                        "dateDebutCible": null
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "current": {
+      "type": "convention collective",
+      "data": {
+        "num": 1518,
+        "title": "Convention collective nationale des métiers de l'éducation, de la culture, des loisirs et de l'animation agissant pour l'utilité sociale et environnementale, au service des territoires (ÉCLAT) du 28 juin 1988. Étendue par arrêté du 10 janvier 1989 JORF 13 janvier 1989",
+        "id": "KALICONT000005635177",
+        "shortTitle": "Animation",
+        "categorisation": [
+          "Animation",
+          "Éducation, culture, loisirs et animation au service des territoires (ÉCLAT)"
+        ]
+      },
+      "children": [
+        {
+          "type": "section",
+          "data": {
+            "cid": "KALITEXT000005681198",
+            "intOrdre": 0,
+            "title": "Texte de base : Convention collective nationale des métiers de l'éducation, de la culture, des loisirs et de l'animation agissant pour l'utilité sociale et environnementale, au service des territoires (ÉCLAT) du 28 juin 1988. Étendue par arrêté du 10 janvier 1989 JORF 13 janvier 1989",
+            "id": "KALITEXT000005681198",
+            "etat": "VIGUEUR_ETEN"
+          },
+          "children": [
+            {
+              "type": "article",
+              "data": {
+                "cid": "KALIARTI000041695195",
+                "intOrdre": 21474,
+                "id": "KALIARTI000041695195",
+                "content": "<p align=\"center\">Modification de la dénomination de la convention collective à compter du 1er octobre 2019</p><p align=\"left\">Les partenaires sociaux décident de modifier l'intitulé de la convention collective nationale de l'animation comme suit :</p><p align=\"left\">« Convention collective nationale des métiers de l'éducation, de la culture, des loisirs, et de l'animation agissant pour l'utilité sociale et environnementale, au service des territoires ».</p><p align=\"left\">Ils décident de la désigner communément sous l'acronyme « ÉCLAT ».</p><p align=\"left\">Ainsi toute référence, dans la convention collective ainsi que dans l'ensemble des textes qui s'y rattachent, à « convention collective de l'animation », est remplacée par « convention collective nationale des métiers de l'éducation, de la culture, des loisirs et de l'animation agissant pour l'utilité sociale et environnementale, au service des territoires ».</p><p align=\"left\">(<a href=\"/affichIDCC.do?cidTexte=KALITEXT000041686330&categorieLien=cid\">avenant n° 177 du 1er octobre 2019</a>, art. 2 - BOCC 2019-48)</p>",
+                "etat": "VIGUEUR_ETEN",
+                "lstLienModification": [
+                  {
+                    "textCid": "JORFTEXT000043336567",
+                    "textTitle": "Arrêté du 2 avril 2021 - art. 1, v. init.",
+                    "linkType": "ETEND",
+                    "linkOrientation": "cible",
+                    "articleNum": "1",
+                    "articleId": "JORFARTI000043336570",
+                    "natureText": "ARRETE",
+                    "datePubliTexte": "2021-04-08",
+                    "dateSignaTexte": "2021-04-02",
+                    "dateDebutCible": "2999-01-01"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "section",
+              "data": {
+                "cid": "KALISCTA000005725488",
+                "intOrdre": 42949,
+                "title": "Préambule",
+                "id": "KALISCTA000005725488",
+                "etat": "VIGUEUR_ETEN"
+              },
+              "children": [
+                {
+                  "type": "article",
+                  "data": {
+                    "cid": "KALIARTI000005854257",
+                    "intOrdre": 42949,
+                    "id": "KALIARTI000005854257",
+                    "content": "<p>Les organisations signataires de la présente convention conviennent de rappeler que cette convention a pour objet principal d'apporter des garanties conventionnelles à l'ensemble des salariés du secteur et en particulier à ceux qui ne bénéficient d'aucune garantie résultant d'accords d'entreprise.</p><p>Elles ne sauraient admettre que, sous couvert de l'existence de la présente convention, des accords d'entreprise soient mis en cause par la voie de la dénonciation. Leur révision éventuelle ou leur adaptation par rapport à la présente convention doit passer nécessairement par le biais de la négociation collective (1).</p><p><font color=\"#808080\" size=\"1\">(1) Avis n° 1 de la commission d'interprétation du 8 janvier 1990 (étendu par arrêté du 26 octobre 1990, art. 1er).</font></p><p><font color=\"#808080\" size=\"1\">La dénonciation d'un accord collectif doit s'accompagner, quelles que soient les dispositions de cet accord :</font></p><p><font color=\"#808080\" size=\"1\">– des nouvelles propositions de l'employeur ;</font></p><p><font color=\"#808080\" size=\"1\">– des modalités de négociation.</font></p>",
+                    "nota": "   Nota - le titre de la convention collective nationale de l'animation socioculturelle devient : Convention collective nationale de l'animation. (Avenant n° 56 du 6 juin 2001).<p></p>",
+                    "etat": "VIGUEUR_ETEN",
+                    "lstLienModification": [
+                      {
+                        "textCid": "",
+                        "textTitle": "Convention collective nationale 1988-06-28 en vigueur le 13 janvier 1989 étendue par arrêté du 10 janvier 1989 JORF 13 janvier 1989",
+                        "linkType": "CREATION",
+                        "linkOrientation": "source",
+                        "articleNum": "",
+                        "articleId": "",
+                        "natureText": "",
+                        "datePubliTexte": null,
+                        "dateSignaTexte": null,
+                        "dateDebutCible": null
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "type": "kali"
+  }
+]

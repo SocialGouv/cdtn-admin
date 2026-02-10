@@ -4594,7 +4594,7 @@ __metadata:
   resolution: "@socialgouv/cdtn-types@workspace:shared/types"
   dependencies:
     "@socialgouv/cdtn-utils": ^4.208.2
-    "@socialgouv/kali-data-types": ^2.127.0
+    "@socialgouv/kali-data-types": ^3.414.1
     "@socialgouv/legi-data-types": ^2.73.1
     typescript: ^5.4.3
   languageName: unknown
@@ -4678,30 +4678,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@socialgouv/kali-data-types@npm:2.127.0":
-  version: 2.127.0
-  resolution: "@socialgouv/kali-data-types@npm:2.127.0"
-  checksum: 63131706caaf2b8e6a3258df5a5b6ac7943af5254578fbfbf1f6e8327d88331d70aafc89a9477e64cc2318b09cb6018638c3a947dbce155007b55c1415586e5c
+"@socialgouv/kali-data-types@npm:3.414.1, @socialgouv/kali-data-types@npm:^3.414.1":
+  version: 3.414.1
+  resolution: "@socialgouv/kali-data-types@npm:3.414.1"
+  checksum: 168edf90a3c136a5a9b88bb5fcd9ff75f298e61db53cc0b5cc3ee338f01f3aa590fb230212b01cf5737cc4d73ee253ca5865f50ccb7edf0d77757780b45ecd57
   languageName: node
   linkType: hard
 
-"@socialgouv/kali-data-types@npm:^2.127.0":
-  version: 2.574.0
-  resolution: "@socialgouv/kali-data-types@npm:2.574.0"
-  checksum: 650f39605389117b4d3ecdc7549914439e22176bd23edbebe3e9bd72009c51a4e9d72c147218d8790f7976ea24afcea78ac223fcb8c69f93c42c6733937a93bc
-  languageName: node
-  linkType: hard
-
-"@socialgouv/kali-data@npm:^2.628.0":
-  version: 2.628.0
-  resolution: "@socialgouv/kali-data@npm:2.628.0"
+"@socialgouv/kali-data@npm:^3.414.1":
+  version: 3.414.1
+  resolution: "@socialgouv/kali-data@npm:3.414.1"
   dependencies:
     csv-parser: ^3.0.0
     node-xlsx: ^0.23.0
     unist-util-find: 1.0.4
     unist-util-flat-filter: 1.0.0
     unist-util-parents: 1.0.3
-  checksum: fbbc29222be5ab0e78e463591e7b4eb93de87cff03db630d0fb9e0857121135b6c742036068efbb3db05ae69d7c6abfe3c6ca1535d769a6067fb9007155dfdbd
+  checksum: 7743fc1153f18a427aa196d6b61146a1934c2f34e9c953c502b14a7ab24adb625b4ae82c0322ffb05ac22589f414dafdcc2fe22b55ff4e677703ad17dfddd678
   languageName: node
   linkType: hard
 
@@ -6571,7 +6564,7 @@ __metadata:
     "@socialgouv/contributions-data-types": 3.27.0
     "@socialgouv/dila-api-client": 1.2.4
     "@socialgouv/fiches-travail-data-types": 4.191.0
-    "@socialgouv/kali-data-types": 2.127.0
+    "@socialgouv/kali-data-types": 3.414.1
     "@socialgouv/legi-data-types": 2.73.1
     "@types/diff": ^5.0.3
     "@types/jest": ^29.5.12
@@ -12277,8 +12270,8 @@ __metadata:
     "@socialgouv/contributions-data-types": ^3.27.0
     "@socialgouv/fiches-travail-data-types": ^4.191.0
     "@socialgouv/fiches-vdd-types": ^2.197.0
-    "@socialgouv/kali-data": ^2.628.0
-    "@socialgouv/kali-data-types": ^2.127.0
+    "@socialgouv/kali-data": ^3.414.1
+    "@socialgouv/kali-data-types": ^3.414.1
     "@socialgouv/legi-data-types": ^2.73.1
     "@types/gunzip-maybe": ^1.4.0
     "@types/jest": 27.4.1

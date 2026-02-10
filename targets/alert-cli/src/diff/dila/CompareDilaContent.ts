@@ -61,7 +61,9 @@ const kaliArticleDiff = (
   art1: ArticleWithParent<AgreementArticle>,
   art2: ArticleWithParent<AgreementArticle>
 ) =>
-  art1.data.content !== art2.data.content || art1.data.etat !== art2.data.etat;
+  art1.data.content !== art2.data.content ||
+  art1.data.etat !== art2.data.etat ||
+  art1.data.nota != art2.data.nota;
 
 const legiArticleDiff = (
   art1: ArticleWithParent<CodeArticle>,
@@ -223,15 +225,17 @@ const createModifiedAdapter =
         });
       }
     }
-    if ("nota" in node.data && "nota" in previousNode.data) {
-      if (node.data.nota !== previousNode.data.nota) {
-        diffs.push({
-          currentText: node.data.nota,
-          previousText: previousNode.data.nota,
-          type: "nota" as const,
-        });
-      }
+    const currentNota = "nota" in node.data ? node.data.nota : "";
+    const previousNota =
+      "nota" in previousNode.data ? previousNode.data.nota : "";
+    if (currentNota !== previousNota) {
+      diffs.push({
+        currentText: currentNota ?? "",
+        previousText: previousNota ?? "",
+        type: "nota" as const,
+      });
     }
+
     if ("content" in node.data && "content" in previousNode.data) {
       if (node.data.content !== previousNode.data.content) {
         diffs.push({
@@ -241,6 +245,7 @@ const createModifiedAdapter =
         });
       }
     }
+
     if (node.data.etat !== previousNode.data.etat) {
       diffs.push({
         currentText: node.data.etat,
