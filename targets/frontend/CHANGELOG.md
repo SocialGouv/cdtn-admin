@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.67.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.67.1...v2.67.2) (2026-02-10)
+
+### Bug Fixes
+
+- **infographic:** impossible de mettre à jour le fichier SVG ou PDF ([#1639](https://github.com/SocialGouv/cdtn-admin/issues/1639)) ([a7ac635](https://github.com/SocialGouv/cdtn-admin/commit/a7ac635f6323170869a2b08dffdbd319f5e14efe))
+
 ## [2.67.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.67.0...v2.67.1) (2026-02-09)
 
 ### Bug Fixes
