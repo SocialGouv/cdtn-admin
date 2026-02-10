@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.68.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.67.3...v2.68.0) (2026-02-10)
+
+### Features
+
+- **alert:** ajout du suivi des NOTA dans les kali articles ([#1642](https://github.com/SocialGouv/cdtn-admin/issues/1642)) ([7d4f802](https://github.com/SocialGouv/cdtn-admin/commit/7d4f802664ba246734807bdc153e828434ccb469))
+
 ## [2.67.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.67.2...v2.67.3) (2026-02-10)
 
 **Note:** Version bump only for package ingester
