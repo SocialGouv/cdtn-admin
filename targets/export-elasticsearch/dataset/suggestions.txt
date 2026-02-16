@@ -88,7 +88,7 @@
 {"entity": "Grossesse et travail", "value": 3.0214303513580862}
 {"entity": "Indemnit\u00e9 de fin de contrat cdd", "value": 3.0214303513580862}
 {"entity": "Transports routiers et activit\u00e9s auxiliaires du transport", "value": 2.9902815848492397}
-{"entity": "Temps de travail et temps de travail effectif", "value": 2.9902815848492397}
+{"entity": "Temps de travail effectif", "value": 2.9902815848492397}
 {"entity": "Documents de fin de contrat et droit des salari\u00e9s", "value": 2.9902815848492397}
 {"entity": "Sanctions disciplinaires", "value": 2.959132818340394}
 {"entity": "Medaille du travail", "value": 2.959132818340394}
