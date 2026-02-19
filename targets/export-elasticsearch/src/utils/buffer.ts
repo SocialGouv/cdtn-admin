@@ -14,7 +14,7 @@ export async function streamToBuffer(
       }
     );
     readableStream.on("end", () => {
-      resolve(Buffer.concat(chunks));
+      resolve(Buffer.concat(chunks as unknown as Uint8Array[]));
     });
     readableStream.on("error", reject);
   });

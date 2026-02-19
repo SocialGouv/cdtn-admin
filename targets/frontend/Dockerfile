@@ -27,8 +27,9 @@ ENV HUSKY=0
 
 # Install dependencies with pnpm store cache
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
-  --mount=type=secret,id=NPM_TIPTAP_TOKEN,env=NPM_TIPTAP_TOKEN \
-  pnpm install --frozen-lockfile --store-dir=/pnpm/store
+  --mount=type=secret,id=NPM_TIPTAP_TOKEN \
+  sh -c 'export NPM_TIPTAP_TOKEN=$(cat /run/secrets/NPM_TIPTAP_TOKEN 2>/dev/null || true) && \
+    pnpm install --frozen-lockfile --store-dir=/pnpm/store'
 
 # Build shared types
 COPY shared/types ./shared/types/

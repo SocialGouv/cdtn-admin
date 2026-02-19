@@ -30,7 +30,7 @@ ENV HUSKY=0
 
 # Install dependencies with pnpm store cache
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
-  pnpm install --frozen-lockfile --store-dir=/pnpm/store
+  pnpm install --frozen-lockfile --store-dir=/pnpm/store --filter export-elasticsearch...
 
 # Build shared types
 COPY shared/types ./shared/types/
