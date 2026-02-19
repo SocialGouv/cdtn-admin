@@ -17,6 +17,12 @@ Pour initialiser le projet, nous avons besoin d'une dépendance depuis le regist
 Le fichier `.npmTiptapToken.secret` contenant le token sera chargé par le fichier .envrc déjà présent à la racine.
 Il faut ensuite executer `direnv allow` (et il faudra exécuter cette commande après chaque changement du fichier .envrc pour autoriser direnv à charger son contenu automatiquement lorsque le shell est dans le dossier)
 
+Créer le fichier `.env` à partir de l'exemple :
+
+```sh
+cp .env.example .env
+```
+
 Vous pouvez maintenant lancer la commande `pnpm install` pour installer les packages du projet et `pnpm build` pour build les packages.
 
 ## URLs

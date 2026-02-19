@@ -8,6 +8,7 @@ build
 .swc
 
 # Environment files
+.env
 .env.production
 .env.preprod
 
