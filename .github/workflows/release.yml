@@ -28,11 +28,15 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
           token: ${{ steps.token.outputs.token }}
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.0
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: "yarn"
+          cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
           scope: "@socialgouv"
       - name: Update npm (required for npm trusted publishing)
@@ -40,7 +44,7 @@ jobs:
       - name: Install dependencies
         env:
           NPM_TIPTAP_TOKEN: ${{ secrets.TIPTAP_PRO_TOKEN }}
-        run: yarn --immutable
+        run: pnpm install --frozen-lockfile
       - name: Set git
         run: |
           git config --global user.name "${NAME}"
@@ -51,16 +55,16 @@ jobs:
           NAME: ${{ secrets.SOCIALGROOVYBOT_NAME }}
           EMAIL: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
       - name: Build
-        run: yarn build
+        run: pnpm build
       - name: Versionning code
-        run: GH_TOKEN=${GITHUB_TOKEN} yarn lerna version --force-publish --yes --conventional-commits --create-release github
+        run: GH_TOKEN=${GITHUB_TOKEN} pnpm exec lerna version --force-publish --yes --conventional-commits --create-release github
         env:
           GITHUB_TOKEN: ${{ steps.token.outputs.token }}
       - name: Deploy to npm
         run: |
           export DEBUG=lerna:*
           export NPM_CONFIG_LOGLEVEL=verbose
-          yarn lerna publish from-package --yes --loglevel silly
+          pnpm exec lerna publish from-package --yes --loglevel silly
 
       - name: Extract latest changelog section
         id: changelog

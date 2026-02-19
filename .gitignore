@@ -6,14 +6,10 @@ docker-compose.override.yml
 *-error.log
 .swc
 
-# Yarn Berry
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+# pnpm
+.pnpm-store
 
 .npmTiptapToken.secret
 
 local_dump
+

@@ -32,7 +32,7 @@
   },
   "lint-staged": {
     "lib/**": [
-      "yarn lint --cache --fix"
+      "pnpm lint --cache --fix"
     ]
   },
   "sideEffects": false,

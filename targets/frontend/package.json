@@ -93,9 +93,9 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "build": "yarn prebuild && next build",
-    "dev": "yarn predev && NEXTAUTH_URL=http://localhost:3001 NEXTAUTH_SECRET=6ZYMHbt0mxOj9y6mTyG2nJVt2zWDEdckLJz248uflwI= next dev -p 3001",
-    "simulate:start": "yarn build && NEXTAUTH_URL=http://localhost:3001 NEXTAUTH_SECRET=6ZYMHbt0mxOj9y6mTyG2nJVt2zWDEdckLJz248uflwI= yarn workspace frontend start -p 3001",
+    "build": "pnpm prebuild && next build",
+    "dev": "pnpm predev && NEXTAUTH_URL=http://localhost:3001 NEXTAUTH_SECRET=6ZYMHbt0mxOj9y6mTyG2nJVt2zWDEdckLJz248uflwI= next dev -p 3001",
+    "simulate:start": "pnpm build && NEXTAUTH_URL=http://localhost:3001 NEXTAUTH_SECRET=6ZYMHbt0mxOj9y6mTyG2nJVt2zWDEdckLJz248uflwI= pnpm --filter=frontend start -p 3001",
     "lint": "next lint",
     "precommit": "lint-staged",
     "start": "next start",
