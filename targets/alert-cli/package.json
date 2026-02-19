@@ -26,6 +26,7 @@
     "unist-util-select": "4.0.3"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@shared/eslint-config": "workspace:^",
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-types": "workspace:^",

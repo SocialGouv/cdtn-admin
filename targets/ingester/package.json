@@ -24,6 +24,7 @@
     "yargs": "17.1.1"
   },
   "devDependencies": {
+    "@jest/globals": "^27.5.0",
     "@shared/eslint-config": "workspace:^",
     "@socialgouv/cdtn-types": "workspace:^",
     "@socialgouv/contributions-data-types": "^3.27.0",
@@ -34,6 +35,7 @@
     "@types/gunzip-maybe": "^1.4.0",
     "@types/jest": "27.4.1",
     "@types/node": "^16.11.11",
+    "@types/yargs": "^17.0.0",
     "@types/semver": "^7.3.8",
     "@types/tar-fs": "^2.0.1",
     "@types/unist": "^2.0.6",
