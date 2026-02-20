@@ -79,37 +79,6 @@ COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/build /a
 COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
 COPY --from=builder --chown=1000:1000 /app/node_modules /app/node_modules
 
-# Debug: verify key modules exist in the flat node_modules
-RUN echo "=== Checking node_modules structure ===" && \
-  ls -la /app/node_modules/uuid 2>&1 | head -5 && \
-  ls -la /app/node_modules/express 2>&1 | head -5 && \
-  ls -la /app/node_modules/inversify 2>&1 | head -5 && \
-  echo "=== Checking .pnpm existence ===" && \
-  ls -d /app/node_modules/.pnpm 2>&1 || echo "No .pnpm (expected with hoisted)" && \
-  echo "=== Module resolution test ===" && \
-  cd /app/targets/export-elasticsearch && \
-  node -e "console.log('uuid:', require.resolve('uuid'))" && \
-  node -e "console.log('express:', require.resolve('express'))" && \
-  echo "=== Module checks passed ==="
-
-# Smoke test: verify the server starts and /healthz responds
-RUN cd /app/targets/export-elasticsearch && \
-  echo "Starting server smoke test..." && \
-  node build/index.js &>/tmp/server.log & SERVER_PID=$! && \
-  sleep 3 && \
-  if kill -0 $SERVER_PID 2>/dev/null; then \
-  echo "Server is running (PID $SERVER_PID)" && \
-  RESPONSE=$(wget -q -O- http://localhost:8787/healthz 2>&1) && \
-  echo "Health check response: $RESPONSE" && \
-  kill $SERVER_PID 2>/dev/null; \
-  wait $SERVER_PID 2>/dev/null || true; \
-  echo "Smoke test PASSED"; \
-  else \
-  echo "Server failed to start! Logs:" && \
-  cat /tmp/server.log && \
-  exit 1; \
-  fi
-
 USER 1000
 
 WORKDIR /app/targets/export-elasticsearch
