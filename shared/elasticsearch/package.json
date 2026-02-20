@@ -26,7 +26,7 @@
     "lint-staged": "^12.0.0"
   },
   "scripts": {
-    "lint": "npx eslint \"./src/**/*.{js,ts}\"",
+    "lint": "eslint \"./src/**/*.{js,ts}\"",
     "precommit": "lint-staged",
     "test": "jest",
     "test:update": "jest -u"

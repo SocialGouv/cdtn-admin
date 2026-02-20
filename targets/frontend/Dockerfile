@@ -53,8 +53,11 @@ ENV NEXT_PUBLIC_BUCKET_DRAFT_FOLDER=$NEXT_PUBLIC_BUCKET_DRAFT_FOLDER
 COPY shared/eslint-config ./shared/eslint-config/
 COPY targets/frontend ./targets/frontend/
 
-RUN --mount=type=cache,id=next-cache-frontend,target=/app/targets/frontend/.next/cache \
-  pnpm --filter=frontend run build
+RUN --mount=type=cache,id=next-cache-frontend,target=/tmp/.next-cache \
+  cp -a /tmp/.next-cache targets/frontend/.next/cache 2>/dev/null || true && \
+  pnpm --filter=frontend run build && \
+  rm -rf /tmp/.next-cache/* && \
+  cp -a targets/frontend/.next/cache/. /tmp/.next-cache/ 2>/dev/null || true
 
 RUN mkdir -p targets/frontend/node_modules
 

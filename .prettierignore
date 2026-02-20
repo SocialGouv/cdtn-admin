@@ -42,3 +42,6 @@ coverage
 # Kontinuous
 .kontinuous/**
 /.nx/workspace-data
+
+# pnpm
+pnpm-lock.yaml
