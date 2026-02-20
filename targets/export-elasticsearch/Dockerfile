@@ -28,10 +28,10 @@ COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
 
 ENV HUSKY=0
 
-# Enable shameful hoisting so all dependencies are at the root node_modules level.
-# This is needed because Docker COPY dereferences pnpm's symlinks, and without
-# hoisting, transitive dependencies become unreachable in the runner stage.
-RUN echo "shamefully-hoist=true" >> /app/.npmrc
+# Use hoisted node-linker to create a flat npm-like node_modules without symlinks.
+# This is critical for Docker: pnpm's default symlinked structure breaks when
+# Docker COPY dereferences symlinks, making transitive deps unreachable.
+RUN echo "node-linker=hoisted" >> /app/.npmrc
 
 # Install dependencies with pnpm store cache
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
@@ -53,6 +53,21 @@ RUN pnpm --filter=export-elasticsearch run build
 
 RUN mkdir -p /app/targets/export-elasticsearch/node_modules
 
+# Verify the application can start (smoke test during build)
+RUN cd /app/targets/export-elasticsearch && \
+  node -e "try { \
+  require('reflect-metadata'); \
+  require('inversify'); \
+  require('express'); \
+  require('inversify-express-utils'); \
+  require('body-parser'); \
+  require('cors'); \
+  console.log('All runtime modules resolved successfully in builder'); \
+  } catch(e) { \
+  console.error('Module resolution failed in builder:', e.message); \
+  process.exit(1); \
+  }"
+
 
 # Runner stage: minimal Node runtime
 FROM node:$NODE_VERSION AS runner
@@ -73,6 +88,18 @@ COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/package.
 COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
 COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
 COPY --from=builder --chown=1000:1000 /app/node_modules /app/node_modules
+
+# Verify modules are accessible after COPY (catches symlink/copy issues)
+RUN cd /app/targets/export-elasticsearch && \
+  node -e "try { \
+  require('reflect-metadata'); \
+  require('inversify'); \
+  require('express'); \
+  console.log('Runner stage: modules OK'); \
+  } catch(e) { \
+  console.error('Runner stage module resolution failed:', e.message); \
+  process.exit(1); \
+  }"
 
 USER 1000
 
