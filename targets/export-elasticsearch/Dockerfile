@@ -49,7 +49,8 @@ RUN pnpm --filter=export-elasticsearch run build
 # Deploy: creates a standalone directory with flat node_modules (no symlinks)
 # This is essential because Docker COPY dereferences symlinks, breaking pnpm's
 # symlink-based module resolution in multi-stage builds
-RUN pnpm --filter=export-elasticsearch deploy /app/deploy --prod
+# --legacy is needed for pnpm v10 which requires inject-workspace-packages by default
+RUN pnpm --filter=export-elasticsearch deploy /app/deploy --prod --legacy
 
 
 # Runner stage: minimal Node runtime
