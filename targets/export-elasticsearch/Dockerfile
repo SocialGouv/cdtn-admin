@@ -28,6 +28,11 @@ COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
 
 ENV HUSKY=0
 
+# Enable shameful hoisting so all dependencies are at the root node_modules level.
+# This is needed because Docker COPY dereferences pnpm's symlinks, and without
+# hoisting, transitive dependencies become unreachable in the runner stage.
+RUN echo "shamefully-hoist=true" >> /app/.npmrc
+
 # Install dependencies with pnpm store cache
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
   pnpm install --frozen-lockfile --store-dir=/pnpm/store --filter export-elasticsearch...
@@ -66,15 +71,8 @@ COPY --from=builder --chown=1000:1000 /app/shared/elasticsearch /app/shared/elas
 COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
 COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
 COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
-
-# Use cp -a via BuildKit mount to preserve pnpm's symlinks in node_modules.
-# Docker COPY dereferences symlinks, which breaks pnpm's module resolution
-# (transitive dependencies become unreachable without the symlink chain).
-RUN --mount=from=builder,source=/app/node_modules,target=/mnt/nm-root \
-  --mount=from=builder,source=/app/targets/export-elasticsearch/node_modules,target=/mnt/nm-export \
-  cp -a /mnt/nm-root /app/node_modules && \
-  cp -a /mnt/nm-export /app/targets/export-elasticsearch/node_modules && \
-  chown -R 1000:1000 /app/node_modules /app/targets/export-elasticsearch/node_modules
+COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
+COPY --from=builder --chown=1000:1000 /app/node_modules /app/node_modules
 
 USER 1000
 
