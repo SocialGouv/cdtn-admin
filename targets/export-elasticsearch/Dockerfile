@@ -53,21 +53,6 @@ RUN pnpm --filter=export-elasticsearch run build
 
 RUN mkdir -p /app/targets/export-elasticsearch/node_modules
 
-# Verify the application can start (smoke test during build)
-RUN cd /app/targets/export-elasticsearch && \
-  node -e "try { \
-  require('reflect-metadata'); \
-  require('inversify'); \
-  require('express'); \
-  require('inversify-express-utils'); \
-  require('body-parser'); \
-  require('cors'); \
-  console.log('All runtime modules resolved successfully in builder'); \
-  } catch(e) { \
-  console.error('Module resolution failed in builder:', e.message); \
-  process.exit(1); \
-  }"
-
 
 # Runner stage: minimal Node runtime
 FROM node:$NODE_VERSION AS runner
@@ -78,6 +63,7 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
+COPY --from=builder --chown=1000:1000 /app/package.json /app/package.json
 COPY --from=builder --chown=1000:1000 /app/shared/utils/build /app/shared/utils/build
 COPY --from=builder --chown=1000:1000 /app/shared/utils/package.json /app/shared/utils/package.json
 COPY --from=builder --chown=1000:1000 /app/shared/types/build /app/shared/types/build
@@ -89,17 +75,23 @@ COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/build /a
 COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
 COPY --from=builder --chown=1000:1000 /app/node_modules /app/node_modules
 
-# Verify modules are accessible after COPY (catches symlink/copy issues)
+# Full server startup smoke test: start the server, verify /healthz responds
 RUN cd /app/targets/export-elasticsearch && \
-  node -e "try { \
-  require('reflect-metadata'); \
-  require('inversify'); \
-  require('express'); \
-  console.log('Runner stage: modules OK'); \
-  } catch(e) { \
-  console.error('Runner stage module resolution failed:', e.message); \
-  process.exit(1); \
-  }"
+  echo "Starting server smoke test..." && \
+  node build/index.js &>/tmp/server.log & SERVER_PID=$! && \
+  sleep 3 && \
+  if kill -0 $SERVER_PID 2>/dev/null; then \
+  echo "Server is running (PID $SERVER_PID)" && \
+  RESPONSE=$(wget -q -O- http://localhost:8787/healthz 2>&1) && \
+  echo "Health check response: $RESPONSE" && \
+  kill $SERVER_PID 2>/dev/null; \
+  wait $SERVER_PID 2>/dev/null || true; \
+  echo "Smoke test PASSED"; \
+  else \
+  echo "Server failed to start! Logs:" && \
+  cat /tmp/server.log && \
+  exit 1; \
+  fi
 
 USER 1000
 
