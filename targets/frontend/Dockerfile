@@ -72,17 +72,17 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 WORKDIR /app
 
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/shared/utils/build /app/shared/utils/build
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/shared/utils/package.json /app/shared/utils/package.json
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/shared/types/build /app/shared/types/build
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/shared/types/package.json /app/shared/types/package.json
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/frontend/package.json /app/targets/frontend/package.json
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/frontend/next.config.js /app/targets/frontend/next.config.js
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/frontend/public /app/targets/frontend/public
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/frontend/.next /app/targets/frontend/.next
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/frontend/node_modules /app/targets/frontend/node_modules
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/package.json /app/package.json
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/node_modules /app/node_modules
+COPY --from=builder /app/shared/utils/build /app/shared/utils/build
+COPY --from=builder /app/shared/utils/package.json /app/shared/utils/package.json
+COPY --from=builder /app/shared/types/build /app/shared/types/build
+COPY --from=builder /app/shared/types/package.json /app/shared/types/package.json
+COPY --from=builder /app/targets/frontend/package.json /app/targets/frontend/package.json
+COPY --from=builder /app/targets/frontend/next.config.js /app/targets/frontend/next.config.js
+COPY --from=builder /app/targets/frontend/public /app/targets/frontend/public
+COPY --from=builder /app/targets/frontend/.next /app/targets/frontend/.next
+COPY --from=builder /app/targets/frontend/node_modules /app/targets/frontend/node_modules
+COPY --from=builder /app/package.json /app/package.json
+COPY --from=builder /app/node_modules /app/node_modules
 
 USER 1000
 

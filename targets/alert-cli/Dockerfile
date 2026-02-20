@@ -51,8 +51,8 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/alert-cli/dist ./dist/
-COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/alert-cli/package.json ./
+COPY --from=builder /app/targets/alert-cli/dist ./dist/
+COPY --from=builder /app/targets/alert-cli/package.json ./
 
 USER 1000
 
