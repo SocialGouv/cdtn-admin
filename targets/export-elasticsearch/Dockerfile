@@ -28,14 +28,13 @@ COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
 
 ENV HUSKY=0
 
-# Use hoisted node-linker to create a flat npm-like node_modules without symlinks.
-# This is critical for Docker: pnpm's default symlinked structure breaks when
-# Docker COPY dereferences symlinks, making transitive deps unreachable.
-RUN echo "node-linker=hoisted" >> /app/.npmrc
-
 # Install dependencies with pnpm store cache
+# Full install (no --filter) to ensure all transitive deps are available.
+# Tiptap token is needed because frontend's package.json references @tiptap-pro packages.
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
-  pnpm install --frozen-lockfile --store-dir=/pnpm/store --filter export-elasticsearch...
+  --mount=type=secret,id=NPM_TIPTAP_TOKEN \
+  sh -c 'export NPM_TIPTAP_TOKEN=$(cat /run/secrets/NPM_TIPTAP_TOKEN 2>/dev/null || true) && \
+  pnpm install --frozen-lockfile --store-dir=/pnpm/store'
 
 # Build shared types
 COPY shared/types ./shared/types/
@@ -75,7 +74,7 @@ COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/build /a
 COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
 COPY --from=builder --chown=1000:1000 /app/node_modules /app/node_modules
 
-# Full server startup smoke test: start the server, verify /healthz responds
+# Smoke test: verify the server starts and /healthz responds
 RUN cd /app/targets/export-elasticsearch && \
   echo "Starting server smoke test..." && \
   node build/index.js &>/tmp/server.log & SERVER_PID=$! && \
