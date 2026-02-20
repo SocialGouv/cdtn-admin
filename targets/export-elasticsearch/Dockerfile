@@ -61,17 +61,17 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY --from=builder --chown=1000:1000 /app/package.json /app/package.json
-COPY --from=builder --chown=1000:1000 /app/shared/utils/build /app/shared/utils/build
-COPY --from=builder --chown=1000:1000 /app/shared/utils/package.json /app/shared/utils/package.json
-COPY --from=builder --chown=1000:1000 /app/shared/types/build /app/shared/types/build
-COPY --from=builder --chown=1000:1000 /app/shared/types/package.json /app/shared/types/package.json
-COPY --from=builder --chown=1000:1000 /app/shared/elasticsearch /app/shared/elasticsearch
-COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
-COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
-COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
-COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
-COPY --from=builder --chown=1000:1000 /app/node_modules /app/node_modules
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/package.json /app/package.json
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/shared/utils/build /app/shared/utils/build
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/shared/utils/package.json /app/shared/utils/package.json
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/shared/types/build /app/shared/types/build
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/shared/types/package.json /app/shared/types/package.json
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/shared/elasticsearch /app/shared/elasticsearch
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/node_modules /app/node_modules
 
 USER 1000
 

@@ -54,8 +54,8 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY --from=builder --chown=1000:1000 /app/targets/ingester/dist/ /app/dist/
-COPY --from=builder --chown=1000:1000 /app/targets/ingester/package.json /app/
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/ingester/dist/ /app/dist/
+COPY --from=builder --chown=1000:1000 --chmod=555 /app/targets/ingester/package.json /app/
 
 USER 1000
 
