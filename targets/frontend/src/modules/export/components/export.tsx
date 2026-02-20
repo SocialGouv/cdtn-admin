@@ -41,11 +41,11 @@ export function Export(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const interval = window.setInterval(() => {
       getExportEs(true);
     }, 20000); // 20000 milliseconds = 20 seconds
 
-    return () => clearInterval(interval);
+    return () => window.clearInterval(interval);
   }, [getExportEs]);
 
   return (

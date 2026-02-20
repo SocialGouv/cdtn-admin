@@ -1,11 +1,5 @@
 # Dependencies
 node_modules
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
 
 # Build outputs
 dist
@@ -14,6 +8,7 @@ build
 .swc
 
 # Environment files
+.env
 .env.production
 .env.preprod
 
@@ -47,3 +42,6 @@ coverage
 # Kontinuous
 .kontinuous/**
 /.nx/workspace-data
+
+# pnpm
+pnpm-lock.yaml

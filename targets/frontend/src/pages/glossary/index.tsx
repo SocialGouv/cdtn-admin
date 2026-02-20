@@ -27,7 +27,7 @@ const getGlossaryQuery = `
 
 const context = { additionalTypenames: ["glossary"] };
 
-function getTermsByLetter(glossary = []) {
+function getTermsByLetter(glossary: any[] = []) {
   const letterA = "A".charCodeAt(0);
   const alphabet = Array.from({ length: 26 }, (_, index) =>
     String.fromCharCode(letterA + index)
@@ -149,7 +149,7 @@ export function GlossaryPage() {
             {isSearching ? (
               <CircularProgress />
             ) : displayedTerms?.length ? (
-              <TermList termsByLetters={termsByLetters} />
+              <TermList termsByLetters={termsByLetters as any} />
             ) : (
               <h2>Aucun terme trouvé</h2>
             )}

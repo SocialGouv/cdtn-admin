@@ -1,57 +1,80 @@
-ARG NODE_VERSION=24.10.0-alpine
+# syntax=docker/dockerfile:1.7
+ARG NODE_VERSION=24-alpine
 
-FROM node:$NODE_VERSION AS deps
+# Builder stage: install dependencies and build
+FROM node:$NODE_VERSION AS builder
 
+# Native dependencies for some npm packages
 RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
-COPY yarn.lock .yarnrc.yml ./
-COPY .yarn .yarn
+# Enable pnpm via corepack
+ENV PNPM_HOME=/pnpm
+ENV PATH=$PNPM_HOME:$PATH
 
-# hadolint ignore=SC2046
-RUN yarn fetch workspaces focus export-elasticsearch
+RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
 
-FROM deps AS build-types
+# Copy workspace config + lockfile + package.jsons for install
+COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml package.json ./
+COPY shared/types/package.json ./shared/types/
+COPY shared/utils/package.json ./shared/utils/
+COPY shared/elasticsearch/package.json ./shared/elasticsearch/
+COPY shared/eslint-config/package.json ./shared/eslint-config/
+COPY targets/alert-cli/package.json ./targets/alert-cli/
+COPY targets/frontend/package.json ./targets/frontend/
+COPY targets/ingester/package.json ./targets/ingester/
+COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
+
+ENV HUSKY=0
+
+# Install ALL workspace dependencies (no --filter) to ensure transitive deps are available.
+# Tiptap token is needed because frontend's package.json references @tiptap-pro packages.
+RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
+  --mount=type=secret,id=NPM_TIPTAP_TOKEN \
+  sh -c 'export NPM_TIPTAP_TOKEN=$(cat /run/secrets/NPM_TIPTAP_TOKEN 2>/dev/null || true) && \
+  pnpm install --frozen-lockfile --store-dir=/pnpm/store'
+
+# Build shared types
 COPY shared/types ./shared/types/
-RUN yarn workspace @socialgouv/cdtn-types build
+RUN pnpm --filter=@socialgouv/cdtn-types run build
 
-FROM deps AS build-utils
-COPY --from=build-types /app/shared/types /app/shared/types
-COPY shared/utils ./shared/utils
-RUN yarn workspace @shared/utils build
+# Build shared utils
+COPY shared/utils ./shared/utils/
+RUN pnpm --filter=@shared/utils run build
 
-FROM deps as dist
-COPY --from=build-utils /app/shared/utils ./shared/utils
-COPY --from=build-types /app/shared/types ./shared/types
+# Build export-elasticsearch
 COPY shared/eslint-config ./shared/eslint-config/
+COPY shared/elasticsearch ./shared/elasticsearch/
 COPY targets/export-elasticsearch ./targets/export-elasticsearch/
-COPY shared/elasticsearch ./shared/elasticsearch
-RUN yarn workspace export-elasticsearch build
+RUN pnpm --filter=export-elasticsearch run build
 
-RUN yarn workspaces focus --production export-elasticsearch && yarn cache clean
 RUN mkdir -p /app/targets/export-elasticsearch/node_modules
 
-FROM node:$NODE_VERSION
 
-WORKDIR /app
+# Runner stage: minimal Node runtime
+FROM node:$NODE_VERSION AS runner
 
-COPY --from=dist /app/shared/utils/build /app/shared/utils/build
-COPY --from=dist /app/shared/utils/package.json /app/shared/utils/package.json
-COPY --from=dist /app/shared/types/build /app/shared/types/build
-COPY --from=dist /app/shared/types/package.json /app/shared/types/package.json
-COPY --from=dist /app/shared/elasticsearch /app/shared/elasticsearch
-COPY --from=dist /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
-COPY --from=dist /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
-COPY --from=dist /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
-COPY --from=dist /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
-COPY --from=dist /app/node_modules /app/node_modules
-
-
-USER 1000
+RUN apk --update --no-cache add ca-certificates && apk upgrade
 
 ENV NODE_ENV=production
 
+WORKDIR /app
+
+COPY --from=builder /app/package.json /app/package.json
+COPY --from=builder /app/shared/utils/build /app/shared/utils/build
+COPY --from=builder /app/shared/utils/package.json /app/shared/utils/package.json
+COPY --from=builder /app/shared/types/build /app/shared/types/build
+COPY --from=builder /app/shared/types/package.json /app/shared/types/package.json
+COPY --from=builder /app/shared/elasticsearch /app/shared/elasticsearch
+COPY --from=builder /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
+COPY --from=builder /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
+COPY --from=builder /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
+COPY --from=builder /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
+COPY --from=builder /app/node_modules /app/node_modules
+
+USER 1000
+
 WORKDIR /app/targets/export-elasticsearch
 
-CMD ["yarn","start"]
+CMD ["node", "build/index.js"]
