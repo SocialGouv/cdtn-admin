@@ -28,13 +28,7 @@ COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
 
 ENV HUSKY=0
 
-# Use hoisted node-linker to create flat npm-style node_modules without symlinks.
-# This is critical for Docker COPY: pnpm's default symlink structure places transitive
-# deps in .pnpm/node_modules/ which Node.js resolution doesn't traverse.
-RUN echo "node-linker=hoisted" >> /app/.npmrc
-
-# Install ALL workspace dependencies (no --filter) to ensure transitive deps like uuid
-# (from @shared/utils) are properly hoisted to root node_modules.
+# Install ALL workspace dependencies (no --filter) to ensure transitive deps are available.
 # Tiptap token is needed because frontend's package.json references @tiptap-pro packages.
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
   --mount=type=secret,id=NPM_TIPTAP_TOKEN \
