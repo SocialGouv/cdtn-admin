@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "export-elasticsearch",
-  "version": "2.68.0",
+  "version": "2.68.1",
   "license": "MIT",
   "description": "",
   "main": "./build/index.js",

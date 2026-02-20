@@ -1,6 +1,6 @@
 {
   "name": "@shared/utils",
-  "version": "2.68.0",
+  "version": "2.68.1",
   "dependencies": {
     "@socialgouv/cdtn-utils": "^4.208.2",
     "@socialgouv/dila-api-client": "^1.2.4",
