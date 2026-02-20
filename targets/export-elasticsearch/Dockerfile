@@ -46,11 +46,7 @@ COPY shared/elasticsearch ./shared/elasticsearch/
 COPY targets/export-elasticsearch ./targets/export-elasticsearch/
 RUN pnpm --filter=export-elasticsearch run build
 
-# Deploy: creates a standalone directory with flat node_modules (no symlinks)
-# This is essential because Docker COPY dereferences symlinks, breaking pnpm's
-# symlink-based module resolution in multi-stage builds
-# --legacy is needed for pnpm v10 which requires inject-workspace-packages by default
-RUN pnpm --filter=export-elasticsearch deploy /app/deploy --prod --legacy
+RUN mkdir -p /app/targets/export-elasticsearch/node_modules
 
 
 # Runner stage: minimal Node runtime
@@ -60,16 +56,28 @@ RUN apk --update --no-cache add ca-certificates && apk upgrade
 
 ENV NODE_ENV=production
 
-WORKDIR /app/targets/export-elasticsearch
+WORKDIR /app
 
-# Flat node_modules from pnpm deploy (includes all prod deps + workspace packages)
-COPY --from=builder --chown=1000:1000 /app/deploy/node_modules ./node_modules
-COPY --from=builder --chown=1000:1000 /app/deploy/package.json ./package.json
-# Build output from tsc compilation
-COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/build ./build
-# Dataset is needed at runtime but not included in pnpm deploy (not in "files")
-COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/dataset ./dataset
+COPY --from=builder --chown=1000:1000 /app/shared/utils/build /app/shared/utils/build
+COPY --from=builder --chown=1000:1000 /app/shared/utils/package.json /app/shared/utils/package.json
+COPY --from=builder --chown=1000:1000 /app/shared/types/build /app/shared/types/build
+COPY --from=builder --chown=1000:1000 /app/shared/types/package.json /app/shared/types/package.json
+COPY --from=builder --chown=1000:1000 /app/shared/elasticsearch /app/shared/elasticsearch
+COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
+COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
+COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
+
+# Use cp -a via BuildKit mount to preserve pnpm's symlinks in node_modules.
+# Docker COPY dereferences symlinks, which breaks pnpm's module resolution
+# (transitive dependencies become unreachable without the symlink chain).
+RUN --mount=from=builder,source=/app/node_modules,target=/mnt/nm-root \
+  --mount=from=builder,source=/app/targets/export-elasticsearch/node_modules,target=/mnt/nm-export \
+  cp -a /mnt/nm-root /app/node_modules && \
+  cp -a /mnt/nm-export /app/targets/export-elasticsearch/node_modules && \
+  chown -R 1000:1000 /app/node_modules /app/targets/export-elasticsearch/node_modules
 
 USER 1000
+
+WORKDIR /app/targets/export-elasticsearch
 
 CMD ["node", "build/index.js"]
