@@ -28,8 +28,13 @@ COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
 
 ENV HUSKY=0
 
-# Install dependencies with pnpm store cache
-# Full install (no --filter) to ensure all transitive deps are available.
+# Use hoisted node-linker to create flat npm-style node_modules without symlinks.
+# This is critical for Docker COPY: pnpm's default symlink structure places transitive
+# deps in .pnpm/node_modules/ which Node.js resolution doesn't traverse.
+RUN echo "node-linker=hoisted" >> /app/.npmrc
+
+# Install ALL workspace dependencies (no --filter) to ensure transitive deps like uuid
+# (from @shared/utils) are properly hoisted to root node_modules.
 # Tiptap token is needed because frontend's package.json references @tiptap-pro packages.
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
   --mount=type=secret,id=NPM_TIPTAP_TOKEN \
@@ -73,6 +78,19 @@ COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/package.
 COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
 COPY --from=builder --chown=1000:1000 /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
 COPY --from=builder --chown=1000:1000 /app/node_modules /app/node_modules
+
+# Debug: verify key modules exist in the flat node_modules
+RUN echo "=== Checking node_modules structure ===" && \
+  ls -la /app/node_modules/uuid 2>&1 | head -5 && \
+  ls -la /app/node_modules/express 2>&1 | head -5 && \
+  ls -la /app/node_modules/inversify 2>&1 | head -5 && \
+  echo "=== Checking .pnpm existence ===" && \
+  ls -d /app/node_modules/.pnpm 2>&1 || echo "No .pnpm (expected with hoisted)" && \
+  echo "=== Module resolution test ===" && \
+  cd /app/targets/export-elasticsearch && \
+  node -e "console.log('uuid:', require.resolve('uuid'))" && \
+  node -e "console.log('express:', require.resolve('express'))" && \
+  echo "=== Module checks passed ==="
 
 # Smoke test: verify the server starts and /healthz responds
 RUN cd /app/targets/export-elasticsearch && \
