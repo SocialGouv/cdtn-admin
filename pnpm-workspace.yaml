@@ -3,7 +3,7 @@ packages:
   - targets/*
 
 onlyBuiltDependencies:
-  - '@swc/core'
+  - "@swc/core"
   - argon2
   - es5-ext
   - nx
