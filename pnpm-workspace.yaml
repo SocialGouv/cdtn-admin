@@ -1,3 +1,11 @@
 packages:
-  - "shared/*"
-  - "targets/*"
+  - shared/*
+  - targets/*
+
+onlyBuiltDependencies:
+  - '@swc/core'
+  - argon2
+  - es5-ext
+  - nx
+  - sharp
+  - unrs-resolver
