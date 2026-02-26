@@ -74,6 +74,7 @@ WORKDIR /app
 
 COPY --from=builder /app/shared/utils/build /app/shared/utils/build
 COPY --from=builder /app/shared/utils/package.json /app/shared/utils/package.json
+COPY --from=builder /app/shared/utils/node_modules /app/shared/utils/node_modules
 COPY --from=builder /app/shared/types/build /app/shared/types/build
 COPY --from=builder /app/shared/types/package.json /app/shared/types/package.json
 COPY --from=builder /app/targets/frontend/package.json /app/targets/frontend/package.json
