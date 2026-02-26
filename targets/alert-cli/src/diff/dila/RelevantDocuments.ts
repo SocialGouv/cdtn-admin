@@ -14,9 +14,7 @@ export interface RelevantDocumentsExtractor {
   }: Pick<DilaChanges, "modified" | "removed">): Promise<DocumentReferences[]>;
 }
 
-export class RelevantDocumentsExtractorImpl
-  implements RelevantDocumentsExtractor
-{
+export class RelevantDocumentsExtractorImpl implements RelevantDocumentsExtractor {
   async extractReferences({
     modified,
     removed,

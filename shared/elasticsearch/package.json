@@ -21,18 +21,19 @@
     "@babel/core": "^7.15.5",
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "@shared/eslint-config": "workspace:^",
+    "@types/jest": "^27.4.0",
     "jest": "^27.1.1",
     "lint-staged": "^12.0.0"
   },
   "scripts": {
-    "lint": "npx eslint \"./src/**/*.{js,ts}\"",
+    "lint": "eslint \"./src/**/*.{js,ts}\"",
     "precommit": "lint-staged",
     "test": "jest",
     "test:update": "jest -u"
   },
   "lint-staged": {
     "lib/**": [
-      "yarn lint --cache --fix"
+      "pnpm lint --cache --fix"
     ]
   },
   "sideEffects": false,

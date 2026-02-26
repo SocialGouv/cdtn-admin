@@ -1,45 +1,62 @@
-ARG NODE_VERSION=24.10.0-alpine
+# syntax=docker/dockerfile:1.7
+ARG NODE_VERSION=24-alpine
 
-FROM node:$NODE_VERSION AS deps
+# Builder stage: install dependencies and build
+FROM node:$NODE_VERSION AS builder
 
+# Native dependencies for some npm packages
 RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
-COPY yarn.lock .yarnrc.yml ./
-COPY .yarn .yarn
+# Enable pnpm via corepack
+ENV PNPM_HOME=/pnpm
+ENV PATH=$PNPM_HOME:$PATH
 
-# hadolint ignore=SC2046
-RUN yarn fetch workspaces focus ingester
+RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
 
-FROM deps AS build-types
-COPY shared/types ./shared/types
-RUN yarn workspace @socialgouv/cdtn-types build
+# Copy workspace config + lockfile + package.jsons for install
+COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml package.json ./
+COPY shared/types/package.json ./shared/types/
+COPY shared/utils/package.json ./shared/utils/
+COPY shared/elasticsearch/package.json ./shared/elasticsearch/
+COPY shared/eslint-config/package.json ./shared/eslint-config/
+COPY targets/alert-cli/package.json ./targets/alert-cli/
+COPY targets/frontend/package.json ./targets/frontend/
+COPY targets/ingester/package.json ./targets/ingester/
+COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
 
-FROM deps AS build-utils
-COPY --from=build-types /app/shared/types /app/shared/types
-COPY shared/utils ./shared/utils
-RUN yarn workspace @shared/utils build
+ENV HUSKY=0
 
-FROM deps as dist
-COPY --from=build-types /app/shared/types /app/shared/types
-COPY --from=build-utils /app/shared/utils /app/shared/utils
-COPY targets/ingester targets/ingester
+# Install dependencies with pnpm store cache
+RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
+  pnpm install --frozen-lockfile --store-dir=/pnpm/store --filter ingester...
 
-RUN yarn workspace ingester build
+# Build shared types
+COPY shared/types ./shared/types/
+RUN pnpm --filter=@socialgouv/cdtn-types run build
 
-RUN yarn workspaces focus --production ingester && yarn cache clean
+# Build shared utils
+COPY shared/utils ./shared/utils/
+RUN pnpm --filter=@shared/utils run build
+
+# Build ingester
+COPY targets/ingester ./targets/ingester/
+RUN pnpm --filter=ingester run build
 
 
-FROM node:$NODE_VERSION
+# Runner stage: minimal Node runtime
+FROM node:$NODE_VERSION AS runner
 
-WORKDIR /app
-
-COPY --from=dist /app/targets/ingester/dist/ /app/dist/
-COPY --from=dist /app/targets/ingester/package.json /app/
-
-USER 1000
+RUN apk --update --no-cache add ca-certificates && apk upgrade
 
 ENV NODE_ENV=production
 
-CMD ["yarn","start"]
+WORKDIR /app
+
+COPY --from=builder /app/targets/ingester/dist/ /app/dist/
+COPY --from=builder /app/targets/ingester/package.json /app/
+
+USER 1000
+
+CMD ["node", "--enable-source-maps", "--unhandled-rejections=strict", "dist/index.js"]

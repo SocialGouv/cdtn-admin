@@ -17,18 +17,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.0
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: "yarn"
+          cache: "pnpm"
       - name: Install dependencies
         env:
           NPM_TIPTAP_TOKEN: ${{ secrets.TIPTAP_PRO_TOKEN }}
-        run: yarn --immutable
+        run: pnpm install --frozen-lockfile
       - name: Build code
         run: |
-          yarn build
+          pnpm build
       - name: Cache build
         uses: actions/cache@v4
         with:
@@ -56,14 +60,18 @@ jobs:
         with:
           path: ./*
           key: ${{ github.sha }}
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.0
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: "yarn"
+          cache: "pnpm"
       - name: Lint ${{ matrix.repositories }}
         run: |
-          yarn workspace ${{ matrix.repositories }} lint
+          pnpm --filter "${{ matrix.repositories }}" lint
 
   format:
     name: Check format
@@ -75,14 +83,18 @@ jobs:
         with:
           path: ./*
           key: ${{ github.sha }}
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.0
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: "yarn"
+          cache: "pnpm"
       - name: Check format
         run: |
-          yarn format:check
+          pnpm format:check
 
   Type-check:
     name: Type-check
@@ -106,14 +118,18 @@ jobs:
         with:
           path: ./*
           key: ${{ github.sha }}
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.0
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: "yarn"
+          cache: "pnpm"
       - name: Type-check ${{ matrix.repositories }}
         run: |
-          yarn workspace ${{ matrix.repositories }} type-check
+          pnpm --filter "${{ matrix.repositories }}" type-check
 
   test:
     name: Test
@@ -137,14 +153,18 @@ jobs:
         with:
           path: ./*
           key: ${{ github.sha }}
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.0
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: "yarn"
+          cache: "pnpm"
       - name: Test ${{ matrix.repositories }}
         run: |
-          yarn workspace ${{ matrix.repositories }} test
+          pnpm --filter "${{ matrix.repositories }}" test
 
   docker:
     name: Lint Dockerfile

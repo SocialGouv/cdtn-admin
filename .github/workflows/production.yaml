@@ -168,6 +168,8 @@ jobs:
           buildkit-cert-key: "${{ secrets.BUILDKIT_CERT_KEY }}"
           buildkit-svc-count: ${{ vars.BUILDKIT_SVC_COUNT }}
           buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
+          secrets: |
+            NPM_TIPTAP_TOKEN=${{ secrets.NPM_TIPTAP_TOKEN }}
 
   build-hasura:
     environment: build-production

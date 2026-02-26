@@ -1,32 +1,28 @@
 {
   "devDependencies": {
-    "@shared/eslint-config": "workspace:^",
     "husky": "^7.0.2",
     "lerna": "9.0.3",
-    "nps": "^5.10.0",
-    "nps-utils": "^1.7.0",
     "prettier": "^3.6.2"
   },
   "private": true,
   "scripts": {
-    "build": "nps build",
+    "build": "lerna run --stream build",
+    "build:internals": "lerna run --stream --scope shared* build",
+    "build:targets": "lerna run --stream --scope frontend --scope alert-cli build",
     "build:watch": "lerna run --stream build:watch",
-    "dev": "nps dev",
-    "lint": "nps lint",
-    "start": "nps",
-    "test": "nps test",
-    "k8s": "yarn --silent --cwd .k8s",
+    "dev": "pnpm --filter=frontend dev",
+    "dev:simulate-deployment": "pnpm --filter=frontend build && pnpm --filter=frontend start",
+    "e2e": "lerna run --stream --parallel e2e",
+    "lint": "lerna run --stream --parallel lint",
+    "test": "lerna run --stream --parallel test",
+    "type-check": "lerna run --stream --parallel type-check",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md,yml,yaml}\"",
+    "k8s": "pnpm --silent --dir .k8s",
     "prepare": "test -n \"$CI\" || husky install",
     "clean": "lerna clean",
-    "type-check": "nps type-check",
-    "format": "nps format",
-    "format:check": "nps format.check",
     "precommit": "lerna run --exclude-dependents --parallel 1 --since HEAD --stream"
   },
-  "workspaces": [
-    "shared/*",
-    "targets/*"
-  ],
   "name": "cdtn-admin",
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "pnpm@10.30.0"
 }

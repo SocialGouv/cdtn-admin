@@ -17,7 +17,13 @@ Pour initialiser le projet, nous avons besoin d'une dépendance depuis le regist
 Le fichier `.npmTiptapToken.secret` contenant le token sera chargé par le fichier .envrc déjà présent à la racine.
 Il faut ensuite executer `direnv allow` (et il faudra exécuter cette commande après chaque changement du fichier .envrc pour autoriser direnv à charger son contenu automatiquement lorsque le shell est dans le dossier)
 
-Vous pouvez maintenant lancer la commande `yarn install` pour installer les packages du projet et `yarn build` pour build les packages.
+Créer le fichier `.env` à partir de l'exemple :
+
+```sh
+cp .env.example .env
+```
+
+Vous pouvez maintenant lancer la commande `pnpm install` pour installer les packages du projet et `pnpm build` pour build les packages.
 
 ## URLs
 
@@ -48,7 +54,7 @@ This step runs the Ingester script and populate the documentation.
 > Run the Ingester (/!\ hasura must be started):
 >
 > ```sh
-> yarn workspace ingester run cli:dev
+> pnpm --filter=ingester run cli:dev
 > ```
 
 ### alert-cli
@@ -85,7 +91,7 @@ Frontend is reachable at the address <http://localhost:3001>
 > Run the frontend (it starts Hasura as dependency):
 >
 > ```sh
-> yarn workspace frontend dev
+> pnpm --filter=frontend dev
 > ```
 
 ## export-elasticsearch
@@ -99,8 +105,8 @@ This service exposes an API which handle to trigger the export of the data from 
 At the root of the project
 
 ```sh
-yarn # to install dep
-yarn workspace export-elasticsearch build # to build project
+pnpm install
+pnpm --filter=export-elasticsearch build
 ```
 
 #### 2. Load data from production to local
@@ -115,7 +121,7 @@ docker compose up -d postgres
 #### 3. Run ingester in development mode
 
 ```sh
-DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true DISABLE_SITEMAP=true DISABLE_COPY=true HASURA_GRAPHQL_ENDPOINT="http://localhost:8080/v1/graphql" HASURA_GRAPHQL_ADMIN_SECRET="admin1" ELASTICSEARCH_URL_PREPROD="http://localhost:9200" ELASTICSEARCH_URL_PROD="http://localhost:9200" SITEMAP_DESTINATION_FOLDER="sitemap" SITEMAP_NAME="sitemap.xml" SITEMAP_ENDPOINT="http://localhost:3001/api/sitemap" AGREEMENTS_DESTINATION_FOLDER="agreements" AGREEMENTS_DESTINATION_NAME="index.json" BUCKET_DEFAULT_FOLDER="default" BUCKET_DRAFT_FOLDER="draft" BUCKET_PUBLISHED_FOLDER= BUCKET_PREVIEW_FOLDER="preview" BUCKET_ACCESS_KEY="MINIO_ACCESS_KEY" BUCKET_ENDPOINT=http://localhost:9000 BUCKET_NAME="cdtn" BUCKET_SECRET_KEY="MINIO_SECRET_KEY" BUCKET_REGION="us-east-1" CDTN_ADMIN_ENDPOINT="http://localhost:8080/v1/graphql" ELASTICSEARCH_INDEX_PREPROD="cdtn-v2" ELASTICSEARCH_INDEX_PROD="cdtn-v2" FETCH_PAGE_SIZE=1000 FETCH_JOB_CONCURRENCY=5 yarn workspace export-elasticsearch dev
+DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true DISABLE_SITEMAP=true DISABLE_COPY=true HASURA_GRAPHQL_ENDPOINT="http://localhost:8080/v1/graphql" HASURA_GRAPHQL_ADMIN_SECRET="admin1" ELASTICSEARCH_URL_PREPROD="http://localhost:9200" ELASTICSEARCH_URL_PROD="http://localhost:9200" SITEMAP_DESTINATION_FOLDER="sitemap" SITEMAP_NAME="sitemap.xml" SITEMAP_ENDPOINT="http://localhost:3001/api/sitemap" AGREEMENTS_DESTINATION_FOLDER="agreements" AGREEMENTS_DESTINATION_NAME="index.json" BUCKET_DEFAULT_FOLDER="default" BUCKET_DRAFT_FOLDER="draft" BUCKET_PUBLISHED_FOLDER= BUCKET_PREVIEW_FOLDER="preview" BUCKET_ACCESS_KEY="MINIO_ACCESS_KEY" BUCKET_ENDPOINT=http://localhost:9000 BUCKET_NAME="cdtn" BUCKET_SECRET_KEY="MINIO_SECRET_KEY" BUCKET_REGION="us-east-1" CDTN_ADMIN_ENDPOINT="http://localhost:8080/v1/graphql" ELASTICSEARCH_INDEX_PREPROD="cdtn-v2" ELASTICSEARCH_INDEX_PROD="cdtn-v2" FETCH_PAGE_SIZE=1000 FETCH_JOB_CONCURRENCY=5 pnpm --filter=export-elasticsearch dev
 ```
 
 - `DISABLE_LIMIT_EXPORT` is used to disable the limit to run two export in less than one hour
@@ -129,19 +135,19 @@ DISABLE_LIMIT_EXPORT=true DISABLE_AGREEMENTS=true DISABLE_SITEMAP=true DISABLE_C
 ##### With cli
 
 ```sh
-yarn workspace export-elasticsearch run:ingester
+pnpm --filter=export-elasticsearch run:ingester
 ```
 
 ##### On admin
 
 ```sh
-yarn workspace frontend dev
+pnpm --filter=frontend dev
 ```
 
 #### On client
 
 ```sh
-yarn workspace @cdt/frontend dev
+pnpm --filter=@cdt/frontend dev
 ```
 
 1. Go to `http://localhost:3001/`

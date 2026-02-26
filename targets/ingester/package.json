@@ -24,6 +24,7 @@
     "yargs": "17.1.1"
   },
   "devDependencies": {
+    "@jest/globals": "^27.5.0",
     "@shared/eslint-config": "workspace:^",
     "@socialgouv/cdtn-types": "workspace:^",
     "@socialgouv/contributions-data-types": "^3.27.0",
@@ -34,6 +35,7 @@
     "@types/gunzip-maybe": "^1.4.0",
     "@types/jest": "27.4.1",
     "@types/node": "^16.11.11",
+    "@types/yargs": "^17.0.0",
     "@types/semver": "^7.3.8",
     "@types/tar-fs": "^2.0.1",
     "@types/unist": "^2.0.6",
@@ -52,8 +54,8 @@
     "build": "ncc build ./src/cli.ts -o ./dist -s",
     "clean": "rm -rf data/*",
     "cli:dev": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 ncc run -s src/cli.ts",
-    "cli:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 yarn start",
-    "lint": "npx eslint \"./src/**/*.{js,ts}\"",
+    "cli:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:8080/v1/graphql HASURA_GRAPHQL_ADMIN_SECRET=admin1 pnpm start",
+    "lint": "eslint \"./src/**/*.{js,ts}\"",
     "precommit": "lint-staged",
     "start": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
     "test": "jest --passWithNoTests",
@@ -61,7 +63,7 @@
   },
   "lint-staged": {
     "*.{j,t}s": [
-      "npx eslint --cache --fix",
+      "eslint --cache --fix",
       "jest --bail --findRelatedTests"
     ]
   }
