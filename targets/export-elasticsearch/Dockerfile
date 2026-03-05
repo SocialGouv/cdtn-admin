@@ -40,9 +40,6 @@ COPY shared/elasticsearch ./shared/elasticsearch/
 COPY targets/export-elasticsearch ./targets/export-elasticsearch/
 RUN pnpm --filter=export-elasticsearch run build
 
-# Prune to production deps only
-RUN pnpm --filter=export-elasticsearch deploy --legacy --prod /app/pruned
-
 
 # Runner stage
 FROM node:$NODE_VERSION AS runner
@@ -53,11 +50,21 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY --from=builder /app/pruned/node_modules ./node_modules
-COPY --from=builder /app/pruned/package.json ./
-COPY --from=builder /app/targets/export-elasticsearch/build ./build
-COPY --from=builder /app/targets/export-elasticsearch/dataset ./dataset
+COPY --from=builder /app/package.json /app/package.json
+COPY --from=builder /app/shared/utils/build /app/shared/utils/build
+COPY --from=builder /app/shared/utils/package.json /app/shared/utils/package.json
+COPY --from=builder /app/shared/utils/node_modules /app/shared/utils/node_modules
+COPY --from=builder /app/shared/types/build /app/shared/types/build
+COPY --from=builder /app/shared/types/package.json /app/shared/types/package.json
+COPY --from=builder /app/shared/elasticsearch /app/shared/elasticsearch
+COPY --from=builder /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
+COPY --from=builder /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
+COPY --from=builder /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
+COPY --from=builder /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
+COPY --from=builder /app/node_modules /app/node_modules
 
 USER 1000
+
+WORKDIR /app/targets/export-elasticsearch
 
 CMD ["node", "build/index.js"]
