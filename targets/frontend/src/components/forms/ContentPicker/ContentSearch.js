@@ -1,9 +1,14 @@
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-utils";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
-import { Box, Card, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  ListSubheader,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useQuery } from "urql";
 import { theme as th } from "../../../theme";
 
@@ -45,9 +50,15 @@ query searchDocuments($sources: [String!]! = "", $search: String = "") {
 }
 `;
 
+function getCategory(doc) {
+  if (doc.source === SOURCES.THEMES) return "Thèmes";
+  if (doc.source === SOURCES.CDT) return "Articles";
+  return "Documents";
+}
+
 export const ContentSearch = ({ contents = [], onChange }) => {
-  const [suggestions, setSuggestions] = useState([]);
-  const [inputSearchValue, setInputSearchValue] = useState("");
+  const [options, setOptions] = useState([]);
+  const [inputValue, setInputValue] = useState("");
   const [searchValue, , setDebouncedSearchValue] = useDebouncedState("", 500);
 
   const [results] = useQuery({
@@ -61,92 +72,86 @@ export const ContentSearch = ({ contents = [], onChange }) => {
 
   useEffect(() => {
     const allDocuments = results.data?.documents || [];
-    const documents = allDocuments.filter(
-      (document) =>
-        document.source !== SOURCES.THEMES && document.source !== SOURCES.CDT
-    );
-    documents.forEach((document) => {
-      document.category = "document";
-    });
-    const themes = allDocuments.filter(
-      (document) => document.source === SOURCES.THEMES
-    );
-    const articles = allDocuments.filter(
-      (document) => document.source === SOURCES.CDT
-    );
-    setSuggestions([
-      {
-        suggestions: documents,
-        title: "Documents",
-      },
-      { suggestions: articles, title: "Articles" },
-      { suggestions: themes, title: "Thèmes" },
-    ]);
+    const categorized = allDocuments.map((doc) => ({
+      ...doc,
+      category: getCategory(doc),
+    }));
+    setOptions(categorized);
   }, [results.data]);
 
-  const onSearchValueChange = (event, { newValue }) => {
-    setInputSearchValue(newValue);
-    setDebouncedSearchValue(newValue);
-  };
-  const onSuggestionSelected = (
-    _event,
-    {
-      suggestion: {
-        cdtnId,
-        source,
-        title = null,
-        description,
-        slug,
-        isAvailable,
-        isPublished,
-      },
-    }
-  ) => {
-    if (contents.find((content) => content.cdtnId === cdtnId)) {
-      return;
-    }
-    onChange(
-      contents.concat([
-        { cdtnId, description, slug, source, title, isAvailable, isPublished },
-      ])
-    );
-    setInputSearchValue("");
-    setSuggestions([]);
-  };
-
-  const onSuggestionsFetchRequested = async ({ value }) => {
-    setInputSearchValue(value);
-    setDebouncedSearchValue(value);
-  };
-
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
-
-  const inputProps = {
-    onChange: onSearchValueChange,
-    placeholder: "Rechercher et ajouter un contenu",
-    value: inputSearchValue,
-    style: {
-      width: "100%",
-    },
-  };
-
   return (
-    <Autosuggest
-      suggestions={suggestions}
-      onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-      onSuggestionsClearRequested={onSuggestionsClearRequested}
-      onSuggestionSelected={onSuggestionSelected}
-      getSuggestionValue={getSuggestionValue}
-      getSectionSuggestions={getSectionSuggestions}
-      multiSection={true}
-      shouldRenderSuggestions={shouldRenderSuggestions}
-      renderInputComponent={renderInputComponent}
-      renderSuggestion={renderSuggestion}
-      renderSuggestionsContainer={renderSuggestionsContainer}
-      renderSectionTitle={renderSectionTitle}
-      inputProps={inputProps}
+    <Autocomplete
+      options={options}
+      groupBy={(option) => option.category}
+      getOptionLabel={(option) => option.title || ""}
+      inputValue={inputValue}
+      onInputChange={(event, newValue) => {
+        setInputValue(newValue);
+        setDebouncedSearchValue(newValue);
+      }}
+      onChange={(event, value) => {
+        if (!value) return;
+        const { cdtnId, source, title, description, slug, isAvailable, isPublished } = value;
+        if (contents.find((content) => content.cdtnId === cdtnId)) {
+          return;
+        }
+        onChange(
+          contents.concat([
+            { cdtnId, description, slug, source, title, isAvailable, isPublished },
+          ])
+        );
+        setInputValue("");
+        setOptions([]);
+      }}
+      value={null}
+      filterOptions={(x) => x}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          placeholder="Rechercher et ajouter un contenu"
+          sx={{ width: "100%" }}
+        />
+      )}
+      renderOption={(props, option) => (
+        <li {...props} key={option.cdtnId}>
+          {option.title}
+          {option.category === "Documents" && (
+            <strong> | {getLabelBySource(option.source)}</strong>
+          )}
+        </li>
+      )}
+      renderGroup={(params) => (
+        <li key={params.key}>
+          <ListSubheader
+            sx={{
+              backgroundColor: th.colors.neutral,
+              fontWeight: "bold",
+              padding: th.space.xxsmall,
+            }}
+          >
+            {params.group}
+          </ListSubheader>
+          <ul style={{ padding: 0 }}>{params.children}</ul>
+        </li>
+      )}
+      noOptionsText={
+        inputValue.length < 3
+          ? "Tapez au moins 3 caractères"
+          : "Aucun résultat"
+      }
+      sx={{
+        "& .MuiAutocomplete-listbox li": {
+          cursor: "pointer",
+          margin: 0,
+          padding: th.space.xxsmall,
+          "&:nth-of-type(2n + 1)": {
+            backgroundColor: th.colors.highlight,
+          },
+          "&:hover": {
+            backgroundColor: "#dde",
+          },
+        },
+      }}
     />
   );
 };
@@ -155,71 +160,3 @@ ContentSearch.propTypes = {
   contents: PropTypes.array,
   onChange: PropTypes.func.isRequired,
 };
-
-const renderInputComponent = (inputProps) => (
-  <TextField {...inputProps} ref={inputProps.ref} />
-);
-
-function shouldRenderSuggestions(value) {
-  return value.trim().length > 2;
-}
-
-function renderSectionTitle(section) {
-  return section.suggestions.length ? (
-    <Box bg={th.colors.neutral} fontWeight="bold" p={th.space.xxsmall}>
-      {section.title}
-    </Box>
-  ) : null;
-}
-
-function getSectionSuggestions(section) {
-  return section.suggestions;
-}
-
-const getSuggestionValue = (content) => content.title;
-
-const renderSuggestion = (content) => (
-  <div>
-    {content.title}
-    {content.category === "document" && (
-      <strong> | {getLabelBySource(content.source)}</strong>
-    )}
-  </div>
-);
-
-const renderSuggestionsContainer = ({ containerProps, children }) => (
-  <Box
-    sx={{
-      '&[class*="container--open"]': {
-        border: "1px solid #ddd",
-        borderRadius: "4px",
-        maxHeight: "300px",
-        overflow: "scroll",
-        position: "relative",
-        top: "4px",
-      },
-      li: {
-        '&[role="option"]:hover': {
-          backgroundColor: "#dde",
-        },
-        ":nth-of-type(2n + 1)": {
-          backgroundColor: th.colors.highlight,
-        },
-        backgroundColor: "white",
-        cursor: "pointer",
-        margin: "0",
-        padding: th.space.xxsmall,
-        zIndex: 2,
-      },
-      ul: {
-        listStyleType: "none",
-        margin: "0",
-        padding: "0",
-        width: "100%",
-      },
-    }}
-    {...containerProps}
-  >
-    {children}
-  </Box>
-);

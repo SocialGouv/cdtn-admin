@@ -1,8 +1,10 @@
-import { Dialog as ReachDialog } from "@reach/dialog";
-import VisuallyHidden from "@reach/visually-hidden";
+import {
+  Dialog as MuiDialog,
+  DialogContent,
+  IconButton as MuiIconButton,
+} from "@mui/material";
 import PropTypes from "prop-types";
 import { IoMdClose } from "react-icons/io";
-import { IconButton } from "../button";
 import { Stack } from "../layout/Stack";
 
 export function Dialog({
@@ -13,32 +15,31 @@ export function Dialog({
   ...props
 }) {
   return (
-    <ReachDialog
-      css={styles.dialog}
-      isOpen={isOpen}
-      onDismiss={onDismiss}
+    <MuiDialog
+      open={isOpen}
+      onClose={onDismiss}
       aria-label={ariaLabel}
+      maxWidth="md"
+      fullWidth
       {...props}
     >
-      <IconButton css={styles.closeBt} variant="secondary" onClick={onDismiss}>
-        <VisuallyHidden>Close</VisuallyHidden>
-        <IoMdClose />
-      </IconButton>
-      <Stack>{children}</Stack>
-    </ReachDialog>
+      <DialogContent sx={{ position: "relative" }}>
+        <MuiIconButton
+          onClick={onDismiss}
+          aria-label="Close"
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+          }}
+        >
+          <IoMdClose />
+        </MuiIconButton>
+        <Stack>{children}</Stack>
+      </DialogContent>
+    </MuiDialog>
   );
 }
-
-const styles = {
-  closeBt: {
-    position: "absolute",
-    right: "xxsmall",
-    top: "xxsmall",
-  },
-  dialog: {
-    position: "relative",
-  },
-};
 
 Dialog.propTypes = {
   ariaLabel: PropTypes.string,

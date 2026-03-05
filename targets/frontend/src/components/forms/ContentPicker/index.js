@@ -33,8 +33,6 @@ const RootContentPicker = ({ disabled, value: contents = [], onChange }) => {
     <>
       <SortableList
         contents={contents}
-        useDragHandle={true}
-        lockAxis="y"
         onSortEnd={({ oldIndex, newIndex }) => {
           const contentsCopy = [...contents];
           contentsCopy.splice(newIndex, 0, contentsCopy.splice(oldIndex, 1)[0]);

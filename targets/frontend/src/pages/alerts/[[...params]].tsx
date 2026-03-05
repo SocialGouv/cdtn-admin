@@ -1,4 +1,3 @@
-import { Accordion } from "@reach/accordion";
 import { HasuraAlert } from "@socialgouv/cdtn-types";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
@@ -217,14 +216,11 @@ export function AlertPage(): JSX.Element {
                     <AlertTitle alertId={alert.id} info={alert.changes}>
                       {getTitle(alert)}
                     </AlertTitle>
-                    <Accordion
-                      collapsible
-                      multiple
-                      defaultIndex={openIndices}
+                    <div
                       style={{ display: "flex", flexDirection: "column" }}
                     >
                       {accordionItems}
-                    </Accordion>
+                    </div>
                   </Stack>
                 </CardContent>
               </Card>

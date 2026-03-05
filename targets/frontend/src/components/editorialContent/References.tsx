@@ -9,7 +9,7 @@ import { Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import { FormTextField } from "../forms";
 
-export const References = ({ nestName }: { nestName: string }) => {
+export const References = ({ nestName, ...rest }: { nestName: string; [key: string]: any }) => {
   const {
     control,
     register,

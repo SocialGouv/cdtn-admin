@@ -47,7 +47,7 @@ export const MenuSpecial = ({
       className="floating-menu"
       tippyOptions={{ duration: 100 }}
       editor={editor}
-      shouldShow={({ editor, view, state }) => {
+      shouldShow={({ editor, view, state }: any) => {
         // Code extracted from the plugin : https://github.com/ueberdosis/tiptap/blob/main/packages/extension-floating-menu/src/floating-menu-plugin.ts#L74
         const { selection } = state;
         const { $anchor, empty } = selection;
