@@ -7,3 +7,6 @@
 .editable {color: var(--color-secondary)}
 .options {font-style: italic; color: var(--color-altText)}
 .sr-only{display: none;}
+
+/* Disable DSFR external link icon on target="_blank" links — this is a back-office, not a public DSFR site */
+a[target="_blank"]::after { content: none !important; }
