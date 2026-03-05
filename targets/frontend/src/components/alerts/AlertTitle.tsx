@@ -1,6 +1,7 @@
 import { AlertChanges } from "@socialgouv/cdtn-types";
 import React, { useState } from "react";
-import { IoIosLink, IoMdChatbubbles } from "react-icons/io";
+import LinkIcon from "@mui/icons-material/Link";
+import Forum from "@mui/icons-material/Forum";
 import { Box, Stack } from "@mui/material";
 
 import { IconButton } from "../button";
@@ -26,7 +27,7 @@ export const AlertTitle: React.FC<Props> = ({ alertId, info, children }) => {
           href={`https://legifrance.gouv.fr/conv_coll/id/${info.id}`}
         >
           <IconButton>
-            <IoIosLink
+            <LinkIcon
               aria-label="Voir la convention sur legifrance"
               style={{ height: "iconXSmall", width: "iconXSmall" }}
             />
@@ -38,7 +39,7 @@ export const AlertTitle: React.FC<Props> = ({ alertId, info, children }) => {
         sx={{ justifyItems: "flex-end" }}
         onClick={() => setShowComment(!showComment)}
       >
-        <IoMdChatbubbles aria-label="Voir les commentaires" />
+        <Forum aria-label="Voir les commentaires" />
       </IconButton>
       {showComment && <Comments alertId={alertId} />}
     </Stack>

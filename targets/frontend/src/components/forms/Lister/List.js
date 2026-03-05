@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { IoMdClose } from "react-icons/io";
+import Close from "@mui/icons-material/Close";
 import { IconButton } from "src/components/button";
 import { Box, List as Ul, ListItem, Stack } from "@mui/material";
 import { theme } from "src/theme";
@@ -47,7 +47,7 @@ export const List = ({
                     onDeleteEntry(entry);
                   }}
                 >
-                  <IoMdClose
+                  <Close
                     sx={{ flex: "1 0 auto", height: "1rem", width: "1rem" }}
                   />
                 </IconButton>

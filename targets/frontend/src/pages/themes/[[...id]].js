@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import { IoIosArrowDropleftCircle, IoMdAdd, IoMdCreate } from "react-icons/io";
+import ArrowCircleLeft from "@mui/icons-material/ArrowCircleLeft";
+import Add from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
@@ -124,7 +126,7 @@ export function ThemePage() {
                 >
                   <Button>
                     <>
-                      <IoMdCreate
+                      <EditIcon
                         style={{
                           height: theme.sizes.iconSmall,
                           width: theme.sizes.iconSmall,
@@ -184,7 +186,7 @@ const AddAThemeButton = ({ themeId }) => (
       style={{ textDecoration: "none" }}
     >
       <Button mr={theme.space.medium}>
-        <IoMdAdd
+        <Add
           style={{
             height: theme.sizes.iconMedium,
             mr: theme.space.xxsmall,
@@ -217,7 +219,7 @@ const ParentLink = ({ id, ...props }) => (
       }}
     >
       <Box sx={{ alignItems: "center", display: "flex" }}>
-        <IoIosArrowDropleftCircle
+        <ArrowCircleLeft
           style={{
             height: theme.sizes.iconMedium,
             marginRight: theme.space.small,

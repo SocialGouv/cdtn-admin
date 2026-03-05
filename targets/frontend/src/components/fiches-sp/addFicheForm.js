@@ -1,7 +1,8 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { IoMdCheckmark, IoMdClose } from "react-icons/io";
+import Check from "@mui/icons-material/Check";
+import Close from "@mui/icons-material/Close";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useQuery } from "urql";
 
@@ -77,7 +78,7 @@ export function AddFicheSpForm({ onAdd }) {
                   variant="secondary"
                   onClick={() => remove(index)}
                 >
-                  <IoMdClose
+                  <Close
                     sx={{
                       flex: "1 0 auto",
                       height: "iconsXSmall",
@@ -116,7 +117,7 @@ export function AddFicheSpForm({ onAdd }) {
           type="submit"
         >
           {isDirty && Object.keys(errors).length === 0 && (
-            <IoMdCheckmark
+            <Check
               style={{
                 height: theme.sizes.iconSmall,
                 marginRight: theme.space.xsmall,

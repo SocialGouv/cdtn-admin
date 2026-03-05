@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
-import { IoMdCloseCircle } from "react-icons/io";
+import Cancel from "@mui/icons-material/Cancel";
 import { IconButton } from "src/components/button";
 import { Card, Dialog } from "@mui/material";
 import { theme as th } from "../../theme";
@@ -85,7 +85,7 @@ function RootIconPicker({ disabled, value, onChange }) {
               width: th.sizes.iconMedium,
             }}
           >
-            <IoMdCloseCircle
+            <Cancel
               sx={{
                 height: th.sizes.iconSmall,
                 width: th.sizes.iconSmall,

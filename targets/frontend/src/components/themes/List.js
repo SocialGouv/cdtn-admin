@@ -1,7 +1,8 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { IoIosArrowDroprightCircle, IoIosReorder } from "react-icons/io";
+import ArrowCircleRight from "@mui/icons-material/ArrowCircleRight";
+import DragIndicator from "@mui/icons-material/DragIndicator";
 import {
   DndContext,
   closestCenter,
@@ -129,7 +130,7 @@ function ThemeRow({ isAdmin, sortable, theme }) {
           style={{ cursor: "grab", height: "auto", mr: th.space.xsmall }}
           {...listeners}
         >
-          <IoIosReorder
+          <DragIndicator
             style={{
               height: th.sizes.iconMedium,
               width: th.sizes.iconMedium,
@@ -168,7 +169,7 @@ function ThemeRow({ isAdmin, sortable, theme }) {
             }}
           >
             {theme.title}
-            <IoIosArrowDroprightCircle
+            <ArrowCircleRight
               style={{
                 height: th.sizes.iconMedium,
                 marginLeft: th.space.small,

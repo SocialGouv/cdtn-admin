@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { IoMdAdd, IoMdSync, IoMdCloseCircleOutline } from "react-icons/io";
+import Add from "@mui/icons-material/Add";
+import Sync from "@mui/icons-material/Sync";
+import HighlightOff from "@mui/icons-material/HighlightOff";
 import { Button, IconButton } from "src/components/button";
 import { TermList } from "src/components/glossary/TermList";
 import { Layout } from "src/components/layout/auth.layout";
@@ -142,7 +144,7 @@ export function GlossaryPage() {
                     setSearch("");
                   }}
                 >
-                  <IoMdCloseCircleOutline />
+                  <HighlightOff />
                 </IconButton>
               )}
             </form>
@@ -165,7 +167,7 @@ export default GlossaryPage;
 const AddATermButton = () => (
   <Link href="/glossary/edit" passHref style={{ textDecoration: "none" }}>
     <Button size="small">
-      <IoMdAdd style={{ height: "1rem", width: "1rem", marginRight: "2px" }} />
+      <Add style={{ height: "1rem", width: "1rem", marginRight: "2px" }} />
       Ajouter un terme
     </Button>
   </Link>
@@ -198,7 +200,7 @@ const SynchronizeButton = () => {
       onClick={onClick}
       disabled={isDisabled}
     >
-      <IoMdSync style={{ height: "1rem", marginRight: "2px", width: "1rem" }} />
+      <Sync style={{ height: "1rem", marginRight: "2px", width: "1rem" }} />
       Mettre à jour le glossaire sur toutes les pages
     </Button>
   );

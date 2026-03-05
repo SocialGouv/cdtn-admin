@@ -1,5 +1,6 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { IoMdAdd, IoMdTrash } from "react-icons/io";
+import Add from "@mui/icons-material/Add";
+import Delete from "@mui/icons-material/Delete";
 
 import { ContentSectionReference } from "../../types";
 import { Button } from "../button";
@@ -47,7 +48,7 @@ export function ReferenceBlocks({ name }: any) {
                   outline
                   onClick={() => remove(index)}
                 >
-                  <IoMdTrash
+                  <Delete
                     style={{
                       height: theme.sizes.iconSmall,
                       marginRight: theme.space.xsmall,
@@ -97,7 +98,7 @@ export function ReferenceBlocks({ name }: any) {
             append({ label: JURIDIQUES_LABEL });
           }}
         >
-          <IoMdAdd
+          <Add
             style={{
               height: theme.sizes.iconSmall,
               marginRight: theme.space.xsmall,

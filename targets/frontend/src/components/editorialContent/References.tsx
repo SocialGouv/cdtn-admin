@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { IoMdClose } from "react-icons/io";
+import Close from "@mui/icons-material/Close";
 
 import { ContentLink } from "../../types";
 import { Button } from "../button";
@@ -60,7 +60,7 @@ export const References = ({ nestName, ...rest }: { nestName: string; [key: stri
               onClick={() => remove(index)}
               sx={{ flex: "0 0 auto", mt: "medium" }}
             >
-              <IoMdClose style={{ height: "1.5rem", width: "1.5rem" }} />
+              <Close style={{ height: "1.5rem", width: "1.5rem" }} />
             </Button>
           )}
         </Stack>

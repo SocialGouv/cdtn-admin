@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IoMdMap } from "react-icons/io";
+import MapIcon from "@mui/icons-material/Map";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { Box } from "@mui/material";
@@ -14,7 +14,7 @@ export const MapModal = () => {
     <>
       <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
         <Button variant="secondary" onClick={() => setShowThemeMap(true)}>
-          <IoMdMap
+          <MapIcon
             sx={{
               height: theme.sizes.iconMedium,
               mr: theme.space.small,

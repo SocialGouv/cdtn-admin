@@ -1,5 +1,6 @@
 import { getLabelBySource } from "@socialgouv/cdtn-utils";
-import { IoIosReorder, IoMdTrash } from "react-icons/io";
+import DragIndicator from "@mui/icons-material/DragIndicator";
+import Delete from "@mui/icons-material/Delete";
 import {
   DndContext,
   closestCenter,
@@ -98,7 +99,7 @@ function SortableRow({
           }}
           {...listeners}
         >
-          <IoIosReorder
+          <DragIndicator
             style={{
               height: th.sizes.iconMedium,
               width: th.sizes.iconMedium,
@@ -137,7 +138,7 @@ function SortableRow({
             onDeleteContent(cdtnId);
           }}
         >
-          <IoMdTrash
+          <Delete
             style={{ height: th.sizes.iconSmall, width: th.sizes.iconSmall }}
           />
         </Button>

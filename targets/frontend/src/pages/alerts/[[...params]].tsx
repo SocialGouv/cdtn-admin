@@ -1,7 +1,7 @@
 import { HasuraAlert } from "@socialgouv/cdtn-types";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
-import { IoIosInformationCircleOutline } from "react-icons/io";
+import InfoOutlined from "@mui/icons-material/InfoOutlined";
 import { AlertTabs } from "src/components/alerts/AlertTabs";
 import { AlertTitle } from "src/components/alerts/AlertTitle";
 import {
@@ -114,7 +114,7 @@ export function AlertPage(): JSX.Element {
       return (
         <span title={alert.changes.title}>
           IDCC {alert.changes.num}
-          <IoIosInformationCircleOutline
+          <InfoOutlined
             style={{
               height: theme.sizes.iconsXSmall,
               marginLeft: "0.1rem",

@@ -4,7 +4,7 @@ import { Control } from "react-hook-form";
 
 import { FormAutocomplete } from "../";
 import { CombinedError } from "urql";
-import { AutocompleteFreeSoloValueMapping } from "@mui/base/useAutocomplete/useAutocomplete";
+import { AutocompleteFreeSoloValueMapping } from "@mui/material/useAutocomplete";
 
 export type AutocompleteFetcherResult<Type> = {
   data: Type[];

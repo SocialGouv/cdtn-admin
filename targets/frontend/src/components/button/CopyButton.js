@@ -1,7 +1,8 @@
 import { Button } from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { IoMdCheckmark, IoMdClipboard } from "react-icons/io";
+import Check from "@mui/icons-material/Check";
+import ContentPaste from "@mui/icons-material/ContentPaste";
 import { theme } from "../../theme";
 
 export const CopyButton = ({
@@ -35,11 +36,11 @@ export const CopyButton = ({
     >
       {copied ? (
         <>
-          <IoMdCheckmark style={iconSx} /> Copié !
+          <Check style={iconSx} /> Copié !
         </>
       ) : (
         <>
-          <IoMdClipboard style={iconSx} />
+          <ContentPaste style={iconSx} />
           Copier
         </>
       )}

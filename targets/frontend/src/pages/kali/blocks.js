@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect, useMemo, useState } from "react";
-import { IoMdSave } from "react-icons/io";
+import Save from "@mui/icons-material/Save";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
@@ -132,7 +132,7 @@ function CcnBlocks({ id, blocks, onChange }) {
         type="submit"
       >
         <>
-          <IoMdSave
+          <Save
             style={{
               flex: "0 0 auto",
               height: th.sizes.iconSmall,

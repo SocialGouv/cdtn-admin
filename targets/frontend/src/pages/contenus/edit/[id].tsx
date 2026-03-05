@@ -2,7 +2,7 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import { IoMdTrash } from "react-icons/io";
+import Delete from "@mui/icons-material/Delete";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { EditorialContentForm } from "src/components/editorialContent";
@@ -190,7 +190,7 @@ export function EditInformationPage() {
                       setShowDeleteConfirmation(true);
                     }}
                   >
-                    <IoMdTrash
+                    <Delete
                       style={{
                         height: theme.sizes.iconSmall,
                         marginRight: theme.space.xsmall,

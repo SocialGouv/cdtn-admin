@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { IoMdTrash } from "react-icons/io";
+import Delete from "@mui/icons-material/Delete";
 
 import { Button } from "../button";
 import { FormErrorMessage } from "../forms/ErrorMessage";
@@ -100,7 +100,7 @@ export const SectionBlock = ({
         />
         {!onlyBlock && (
           <Button type="button" size="small" onClick={remove} color="error">
-            <IoMdTrash
+            <Delete
               style={{
                 height: "1.5rem",
                 marginRight: "0.8rem",

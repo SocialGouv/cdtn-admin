@@ -16,7 +16,8 @@ import { Badge, Box, Card, List, ListItem } from "@mui/material";
 
 import Link from "next/link";
 import React, { useState } from "react";
-import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import ChevronRight from "@mui/icons-material/ChevronRight";
 import { AccordionButton, Button } from "src/components/button";
 
 import { jsxJoin } from "../../lib/jsx";
@@ -605,7 +606,7 @@ export const ModificationViewer: React.FC<ModificationViewerProps> = ({
         onClick={() => setVisible(!isVisible)}
       >
         Voir les modifications{"   "}
-        {isVisible ? <IoIosArrowDown /> : <IoIosArrowForward />}
+        {isVisible ? <ExpandMore /> : <ChevronRight />}
       </Button>
       {isVisible && (
         <Card id={id} style={{ padding: "25px", marginTop: "10px" }}>

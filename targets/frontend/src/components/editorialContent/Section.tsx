@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import {
-  IoIosArrowDropdown,
-  IoIosArrowDropup,
-  IoIosReorder,
-  IoMdTrash,
-} from "react-icons/io";
+import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUp from "@mui/icons-material/ArrowDropUp";
+import DragIndicator from "@mui/icons-material/DragIndicator";
+import Delete from "@mui/icons-material/Delete";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -93,7 +91,7 @@ function RootSection({
                 sx={{ cursor: "grab" }}
                 {...dragListeners}
               >
-                <IoIosReorder
+                <DragIndicator
                   aria-label="Réordonner les sections"
                   style={{ height: "3rem", width: "3rem" }}
                 />
@@ -116,7 +114,7 @@ function RootSection({
               onClick={() => setOpen(!isOpen)}
             >
               {isOpen ? (
-                <IoIosArrowDropup
+                <ArrowDropUp
                   style={{
                     height: "1.8rem",
                     margin: "0.25rem",
@@ -124,7 +122,7 @@ function RootSection({
                   }}
                 />
               ) : (
-                <IoIosArrowDropdown
+                <ArrowDropDown
                   style={{
                     height: "1.8rem",
                     margin: "0.25rem",
@@ -151,7 +149,7 @@ function RootSection({
                     onClick={() => remove(index)}
                     color="error"
                   >
-                    <IoMdTrash
+                    <Delete
                       style={{
                         height: theme.sizes.iconSmall,
                         marginRight: theme.space.xsmall,

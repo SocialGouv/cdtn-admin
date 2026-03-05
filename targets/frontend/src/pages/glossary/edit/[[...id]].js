@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { IoMdTrash } from "react-icons/io";
+import Delete from "@mui/icons-material/Delete";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { TermForm } from "src/components/glossary/TermForm";
@@ -103,7 +103,7 @@ export function EditTermPage() {
                       setShowDeleteConfirmation(true);
                     }}
                   >
-                    <IoMdTrash
+                    <Delete
                       sx={{ height: "1.5rem", mr: "xsmall", width: "1.5rem" }}
                     />
                     Supprimer le terme

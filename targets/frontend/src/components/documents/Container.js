@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useCallback, useMemo } from "react";
-import { IoMdAdd } from "react-icons/io";
+import Add from "@mui/icons-material/Add";
 import { useSelectionContext } from "src/pages/contenus";
 import { Card, Alert, Box } from "@mui/material";
 import { useMutation, useQuery } from "urql";
@@ -79,7 +79,7 @@ export function DocumentListContainer({ initialFilterValues }) {
           style={{ textDecoration: "none" }}
         >
           <Button size="small" variant="secondary">
-            <IoMdAdd
+            <Add
               sx={{
                 height: theme.sizes.iconSmall,
                 mr: theme.space.xxsmall,

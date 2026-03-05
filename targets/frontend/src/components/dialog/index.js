@@ -4,7 +4,7 @@ import {
   IconButton as MuiIconButton,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { IoMdClose } from "react-icons/io";
+import Close from "@mui/icons-material/Close";
 import { Stack } from "../layout/Stack";
 
 export function Dialog({
@@ -33,7 +33,7 @@ export function Dialog({
             top: 8,
           }}
         >
-          <IoMdClose />
+          <Close />
         </MuiIconButton>
         <Stack>{children}</Stack>
       </DialogContent>

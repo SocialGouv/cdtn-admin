@@ -1,6 +1,6 @@
 import React from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { IoMdAdd } from "react-icons/io";
+import Add from "@mui/icons-material/Add";
 import {
   DndContext,
   closestCenter,
@@ -85,7 +85,7 @@ export function ContentSections({ name, ...rest }: { name: string; [key: string]
             append({ blocks: [{ markdown: "", type: "markdown" }] })
           }
         >
-          <IoMdAdd
+          <Add
             style={{
               height: theme.sizes.iconSmall,
               marginRight: "0.7rem",

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { NextRouter } from "next/router";
-import { IoMdCheckmark } from "react-icons/io";
+import Check from "@mui/icons-material/Check";
 import { Box } from "@mui/material";
 
 import { Button } from "../../components/button";
@@ -25,7 +25,7 @@ const ValidationBar = ({
     >
       <Button variant="contained" disabled={loading || !isDirty} type="submit">
         {isDirty && (
-          <IoMdCheckmark
+          <Check
             style={{
               height: theme.sizes.iconSmall,
               marginRight: theme.space.xsmall,

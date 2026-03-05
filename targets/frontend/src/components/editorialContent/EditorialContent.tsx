@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { IoMdCheckmark } from "react-icons/io";
+import Check from "@mui/icons-material/Check";
 
 import { Content } from "../../types";
 import { Button } from "../button";
@@ -236,7 +236,7 @@ const EditorialContentForm = ({
             disabled={hasError || loading || !isDirty}
           >
             {isDirty && (
-              <IoMdCheckmark
+              <Check
                 style={{
                   height: theme.sizes.iconSmall,
                   marginRight: theme.space.xsmall,
