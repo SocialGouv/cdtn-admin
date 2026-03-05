@@ -5,7 +5,7 @@ import FormatItalicIcon from "@mui/icons-material/FormatItalic";
 import StorageIcon from "@mui/icons-material/Storage";
 import LinkIcon from "@mui/icons-material/Link";
 
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import InfoIcon from "@mui/icons-material/Info";
 import Delete from "@mui/icons-material/Delete";
 

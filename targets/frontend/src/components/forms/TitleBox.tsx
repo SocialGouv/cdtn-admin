@@ -1,5 +1,5 @@
 import { FormLabel, Box } from "@mui/material";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import { fr } from "@codegouvfr/react-dsfr";
 
 export const TitleBox = ({

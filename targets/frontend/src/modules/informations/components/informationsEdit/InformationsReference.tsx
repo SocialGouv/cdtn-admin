@@ -2,7 +2,7 @@ import { Stack, IconButton, FormControl } from "@mui/material";
 import React from "react";
 import { FormTextField } from "src/components/forms";
 import { Control } from "react-hook-form";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteIcon from "@mui/icons-material/Delete";

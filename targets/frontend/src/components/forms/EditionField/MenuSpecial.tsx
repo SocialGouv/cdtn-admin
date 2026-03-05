@@ -9,7 +9,7 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import StorageIcon from "@mui/icons-material/Storage";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import { Node as ProseMirrorNode } from "@tiptap/pm/model";
 
 const tableHTML = `
