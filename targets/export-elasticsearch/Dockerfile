@@ -1,21 +1,17 @@
 # syntax=docker/dockerfile:1.7
 ARG NODE_VERSION=24-alpine
 
-# Builder stage: install dependencies and build
 FROM node:$NODE_VERSION AS builder
 
-# Native dependencies for some npm packages
-RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
+RUN apk add --update --no-cache python3 make g++
 
 WORKDIR /app
 
-# Enable pnpm via corepack
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
 
 RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
 
-# Copy workspace config + lockfile + package.jsons for install
 COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml package.json ./
 COPY shared/types/package.json ./shared/types/
 COPY shared/utils/package.json ./shared/utils/
@@ -28,31 +24,27 @@ COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
 
 ENV HUSKY=0
 
-# Install ALL workspace dependencies (no --filter) to ensure transitive deps are available.
-# Tiptap token is needed because frontend's package.json references @tiptap-pro packages.
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
   --mount=type=secret,id=NPM_TIPTAP_TOKEN \
   sh -c 'export NPM_TIPTAP_TOKEN=$(cat /run/secrets/NPM_TIPTAP_TOKEN 2>/dev/null || true) && \
   pnpm install --frozen-lockfile --store-dir=/pnpm/store'
 
-# Build shared types
 COPY shared/types ./shared/types/
 RUN pnpm --filter=@socialgouv/cdtn-types run build
 
-# Build shared utils
 COPY shared/utils ./shared/utils/
 RUN pnpm --filter=@shared/utils run build
 
-# Build export-elasticsearch
 COPY shared/eslint-config ./shared/eslint-config/
 COPY shared/elasticsearch ./shared/elasticsearch/
 COPY targets/export-elasticsearch ./targets/export-elasticsearch/
 RUN pnpm --filter=export-elasticsearch run build
 
-RUN mkdir -p /app/targets/export-elasticsearch/node_modules
+# Prune to production deps only
+RUN pnpm --filter=export-elasticsearch deploy --prod /app/pruned
 
 
-# Runner stage: minimal Node runtime
+# Runner stage
 FROM node:$NODE_VERSION AS runner
 
 RUN apk --update --no-cache add ca-certificates && apk upgrade
@@ -61,21 +53,11 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY --from=builder /app/package.json /app/package.json
-COPY --from=builder /app/shared/utils/build /app/shared/utils/build
-COPY --from=builder /app/shared/utils/package.json /app/shared/utils/package.json
-COPY --from=builder /app/shared/utils/node_modules /app/shared/utils/node_modules
-COPY --from=builder /app/shared/types/build /app/shared/types/build
-COPY --from=builder /app/shared/types/package.json /app/shared/types/package.json
-COPY --from=builder /app/shared/elasticsearch /app/shared/elasticsearch
-COPY --from=builder /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
-COPY --from=builder /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
-COPY --from=builder /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
-COPY --from=builder /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
-COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/pruned/node_modules ./node_modules
+COPY --from=builder /app/pruned/package.json ./
+COPY --from=builder /app/targets/export-elasticsearch/build ./build
+COPY --from=builder /app/targets/export-elasticsearch/dataset ./dataset
 
 USER 1000
-
-WORKDIR /app/targets/export-elasticsearch
 
 CMD ["node", "build/index.js"]

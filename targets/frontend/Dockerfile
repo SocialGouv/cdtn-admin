@@ -1,18 +1,15 @@
 # syntax=docker/dockerfile:1.7
 ARG NODE_VERSION=24-alpine
 
-# Builder stage: install dependencies and build
 FROM node:$NODE_VERSION AS builder
 
 WORKDIR /app
 
-# Enable pnpm via corepack
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
 
 RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
 
-# Copy workspace config + lockfile + package.jsons for install
 COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml package.json ./
 COPY shared/types/package.json ./shared/types/
 COPY shared/utils/package.json ./shared/utils/
@@ -25,21 +22,17 @@ COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
 
 ENV HUSKY=0
 
-# Install dependencies with pnpm store cache
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
   --mount=type=secret,id=NPM_TIPTAP_TOKEN \
   sh -c 'export NPM_TIPTAP_TOKEN=$(cat /run/secrets/NPM_TIPTAP_TOKEN 2>/dev/null || true) && \
   pnpm install --frozen-lockfile --store-dir=/pnpm/store'
 
-# Build shared types
 COPY shared/types ./shared/types/
 RUN pnpm --filter=@socialgouv/cdtn-types run build
 
-# Build shared utils
 COPY shared/utils ./shared/utils/
 RUN pnpm --filter=@shared/utils run build
 
-# App build args
 ARG NEXT_PUBLIC_BASE_PATH
 ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
 ARG NEXT_PUBLIC_BUCKET_PUBLIC_ENDPOINT
@@ -49,7 +42,6 @@ ENV NEXT_PUBLIC_BUCKET_DEFAULT_FOLDER=$NEXT_PUBLIC_BUCKET_DEFAULT_FOLDER
 ARG NEXT_PUBLIC_BUCKET_DRAFT_FOLDER
 ENV NEXT_PUBLIC_BUCKET_DRAFT_FOLDER=$NEXT_PUBLIC_BUCKET_DRAFT_FOLDER
 
-# Copy source code and build with Next.js cache persisted across builds
 COPY shared/eslint-config ./shared/eslint-config/
 COPY targets/frontend ./targets/frontend/
 
@@ -59,10 +51,8 @@ RUN --mount=type=cache,id=next-cache-frontend,target=/tmp/.next-cache \
   rm -rf /tmp/.next-cache/* && \
   cp -a targets/frontend/.next/cache/. /tmp/.next-cache/ 2>/dev/null || true
 
-RUN mkdir -p targets/frontend/node_modules
 
-
-# Runner stage: minimal Node runtime
+# Runner stage: standalone output — no node_modules copy needed
 FROM node:$NODE_VERSION AS runner
 
 RUN apk --update --no-cache add ca-certificates && apk upgrade
@@ -72,21 +62,13 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 WORKDIR /app
 
-COPY --from=builder /app/shared/utils/build /app/shared/utils/build
-COPY --from=builder /app/shared/utils/package.json /app/shared/utils/package.json
-COPY --from=builder /app/shared/utils/node_modules /app/shared/utils/node_modules
-COPY --from=builder /app/shared/types/build /app/shared/types/build
-COPY --from=builder /app/shared/types/package.json /app/shared/types/package.json
-COPY --from=builder /app/targets/frontend/package.json /app/targets/frontend/package.json
-COPY --from=builder /app/targets/frontend/next.config.js /app/targets/frontend/next.config.js
-COPY --from=builder /app/targets/frontend/public /app/targets/frontend/public
-COPY --from=builder /app/targets/frontend/.next /app/targets/frontend/.next
-COPY --from=builder /app/targets/frontend/node_modules /app/targets/frontend/node_modules
-COPY --from=builder /app/package.json /app/package.json
-COPY --from=builder /app/node_modules /app/node_modules
+# Standalone output contains only the files needed to run
+COPY --from=builder /app/targets/frontend/.next/standalone ./
+COPY --from=builder /app/targets/frontend/.next/static ./targets/frontend/.next/static
+COPY --from=builder /app/targets/frontend/public ./targets/frontend/public
 
 USER 1000
 
 WORKDIR /app/targets/frontend
 
-CMD ["./node_modules/.bin/next", "start"]
+CMD ["node", "server.js"]

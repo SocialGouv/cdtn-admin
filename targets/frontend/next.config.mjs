@@ -28,6 +28,7 @@ const nextConfig = {
       string_decoder: { browser: "./noop.mjs" },
     },
   },
+  output: "standalone",
   serverExternalPackages: ["winston"],
   transpilePackages: ["@shared/utils", "@codegouvfr/react-dsfr", "tss-react"],
 };
