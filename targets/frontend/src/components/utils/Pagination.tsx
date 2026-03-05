@@ -1,5 +1,7 @@
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import {
+  KeyboardArrowLeft as KeyboardArrowLeftIcon,
+  KeyboardArrowRight as KeyboardArrowRightIcon,
+} from "./dsfrIcons";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import { useEffect, useState } from "react";

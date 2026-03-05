@@ -1,7 +1,7 @@
 import micromark from "micromark";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import Visibility from "@mui/icons-material/Visibility";
+import { Visibility } from "../utils/dsfrIcons";
 
 import { Button } from "../button";
 import { Dialog } from "../dialog";

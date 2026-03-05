@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { NextRouter } from "next/router";
-import Check from "@mui/icons-material/Check";
+import { Check } from "src/components/utils/dsfrIcons";
 import { Box } from "@mui/material";
 
 import { Button } from "../../components/button";

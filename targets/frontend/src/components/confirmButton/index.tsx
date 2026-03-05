@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Close from "@mui/icons-material/Close";
+import { Close } from "../utils/dsfrIcons";
 import { Button as BaseButton } from "@mui/material";
 
 const buttonPropTypes = {

@@ -1,6 +1,5 @@
 import { Button, IconButton, Stack } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
+import { Delete as DeleteIcon, Add as AddIcon } from "../../utils/dsfrIcons";
 import React from "react";
 import { TitleBox } from "../TitleBox";
 import { FormTextField } from "../";

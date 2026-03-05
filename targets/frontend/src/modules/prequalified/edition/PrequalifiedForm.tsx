@@ -9,9 +9,11 @@ import { Button, Chip, Stack, IconButton, FormControl } from "@mui/material";
 import { AutocompleteList } from "src/components/forms/AutocompleteList";
 import { useContributionSearchCdtnReferencesQuery } from "src/components/contributions/answers/references/cdtnReferencesSearch.query";
 import { CdtnReference } from "src/components/contributions";
-import DeleteIcon from "@mui/icons-material/Delete";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import {
+  Delete as DeleteIcon,
+  KeyboardArrowDown as KeyboardArrowDownIcon,
+  KeyboardArrowUp as KeyboardArrowUpIcon,
+} from "src/components/utils/dsfrIcons";
 
 type PrequalifiedFormParams = {
   data?: Prequalified;

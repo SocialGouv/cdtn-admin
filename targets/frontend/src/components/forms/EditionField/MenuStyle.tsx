@@ -1,13 +1,15 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { BubbleMenu, Editor } from "@tiptap/react";
-import FormatBoldIcon from "@mui/icons-material/FormatBold";
-import FormatItalicIcon from "@mui/icons-material/FormatItalic";
-import StorageIcon from "@mui/icons-material/Storage";
-import LinkIcon from "@mui/icons-material/Link";
+import {
+  FormatBold as FormatBoldIcon,
+  FormatItalic as FormatItalicIcon,
+  Storage as StorageIcon,
+  Link as LinkIcon,
+  Info as InfoIcon,
+  Delete,
+} from "../../utils/dsfrIcons";
 
 import { styled } from "@mui/material/styles";
-import InfoIcon from "@mui/icons-material/Info";
-import Delete from "@mui/icons-material/Delete";
 
 const setLink = (editor: Editor) => {
   const previousUrl = editor.getAttributes("link").href;

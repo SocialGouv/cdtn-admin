@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUp from "@mui/icons-material/ArrowDropUp";
-import DragIndicator from "@mui/icons-material/DragIndicator";
-import Delete from "@mui/icons-material/Delete";
+import {
+  ArrowDropDown,
+  ArrowDropUp,
+  DragIndicator,
+  Delete,
+} from "../utils/dsfrIcons";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 

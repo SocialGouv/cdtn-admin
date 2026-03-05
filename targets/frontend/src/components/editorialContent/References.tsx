@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import Close from "@mui/icons-material/Close";
+import { Close } from "../utils/dsfrIcons";
 
 import { ContentLink } from "../../types";
 import { Button } from "../button";

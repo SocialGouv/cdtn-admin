@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useListAgreementQuery } from "./list.query";
 import { useRouter } from "next/router";
 import { Tooltip } from "@mui/material";
-import GavelIcon from "@mui/icons-material/Gavel";
+import { Gavel as GavelIcon } from "src/components/utils/dsfrIcons";
 import Filter from "./Filter";
 import { DataList } from "../../../../components/list";
 

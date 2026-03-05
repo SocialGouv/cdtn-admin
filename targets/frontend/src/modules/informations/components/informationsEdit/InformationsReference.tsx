@@ -3,9 +3,11 @@ import React from "react";
 import { FormTextField } from "src/components/forms";
 import { Control } from "react-hook-form";
 import { styled } from "@mui/material/styles";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  ArrowUpward as ArrowUpwardIcon,
+  ArrowDownward as ArrowDownwardIcon,
+  Delete as DeleteIcon,
+} from "src/components/utils/dsfrIcons";
 
 export type InformationsReferenceProps = {
   name: string;

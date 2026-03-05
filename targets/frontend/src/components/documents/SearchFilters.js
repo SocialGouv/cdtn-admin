@@ -1,7 +1,7 @@
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-utils";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import Search from "@mui/icons-material/Search";
+import { Search } from "../utils/dsfrIcons";
 import {
   Box,
   FormControlLabel,

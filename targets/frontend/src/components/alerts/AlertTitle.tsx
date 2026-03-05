@@ -1,7 +1,6 @@
 import { AlertChanges } from "@socialgouv/cdtn-types";
 import React, { useState } from "react";
-import LinkIcon from "@mui/icons-material/Link";
-import Forum from "@mui/icons-material/Forum";
+import { Link as LinkIcon, Forum } from "../utils/dsfrIcons";
 import { Box, Stack } from "@mui/material";
 
 import { IconButton } from "../button";

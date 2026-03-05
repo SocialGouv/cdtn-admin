@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import Check from "@mui/icons-material/Check";
+import { Check } from "../utils/dsfrIcons";
 
 import { Content } from "../../types";
 import { Button } from "../button";

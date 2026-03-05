@@ -1,7 +1,7 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Delete from "@mui/icons-material/Delete";
+import { Delete } from "src/components/utils/dsfrIcons";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { Layout } from "src/components/layout/auth.layout";

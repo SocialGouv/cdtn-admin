@@ -1,6 +1,6 @@
 import React from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import Add from "@mui/icons-material/Add";
+import { Add } from "../utils/dsfrIcons";
 import {
   DndContext,
   closestCenter,

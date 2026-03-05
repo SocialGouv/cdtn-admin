@@ -14,8 +14,7 @@ import {
 } from "@mui/material";
 import { useUnseenAlertWarningAnswerQuery } from "./warning.query";
 import { useState } from "react";
-import DoneIcon from "@mui/icons-material/Done";
-import InfoIcon from "@mui/icons-material/Info";
+import { Done as DoneIcon, Info as InfoIcon } from "../../utils/dsfrIcons";
 import { format, parseISO } from "date-fns";
 import { useSeenAlertWarnings } from "./warning.mutation";
 

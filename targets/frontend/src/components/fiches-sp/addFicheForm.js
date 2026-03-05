@@ -1,8 +1,7 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import Check from "@mui/icons-material/Check";
-import Close from "@mui/icons-material/Close";
+import { Check, Close } from "../utils/dsfrIcons";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useQuery } from "urql";
 

@@ -1,5 +1,5 @@
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import Add from "@mui/icons-material/Add";
+import { Add } from "../utils/dsfrIcons";
 import { Box } from "@mui/material";
 
 import { Button } from "../button";

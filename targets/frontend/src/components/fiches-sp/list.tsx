@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
+import { CheckCircleOutline } from "../utils/dsfrIcons";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
 import { theme } from "src/theme";
 import {

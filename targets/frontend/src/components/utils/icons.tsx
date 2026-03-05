@@ -1,6 +1,5 @@
 import { fr } from "@codegouvfr/react-dsfr";
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
+import { Check as CheckIcon, Clear as ClearIcon } from "./dsfrIcons";
 export const Check = ({ text }: { text?: string }): JSX.Element => {
   return (
     <CheckIcon

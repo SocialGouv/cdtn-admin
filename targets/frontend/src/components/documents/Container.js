@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useCallback, useMemo } from "react";
-import Add from "@mui/icons-material/Add";
+import { Add } from "../utils/dsfrIcons";
 import { useSelectionContext } from "src/pages/contenus";
 import { Card, Alert, Box } from "@mui/material";
 import { useMutation, useQuery } from "urql";

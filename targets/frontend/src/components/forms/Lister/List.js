@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import Close from "@mui/icons-material/Close";
+import { Close } from "../../utils/dsfrIcons";
 import { IconButton } from "src/components/button";
 import { Box, List as Ul, ListItem, Stack } from "@mui/material";
 import { theme } from "src/theme";

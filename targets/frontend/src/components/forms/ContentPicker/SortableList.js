@@ -1,6 +1,5 @@
 import { getLabelBySource } from "@socialgouv/cdtn-utils";
-import DragIndicator from "@mui/icons-material/DragIndicator";
-import Delete from "@mui/icons-material/Delete";
+import { DragIndicator, Delete } from "../../utils/dsfrIcons";
 import {
   DndContext,
   closestCenter,

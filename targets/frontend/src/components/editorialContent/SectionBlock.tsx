@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import Delete from "@mui/icons-material/Delete";
+import { Delete } from "../utils/dsfrIcons";
 
 import { Button } from "../button";
 import { FormErrorMessage } from "../forms/ErrorMessage";

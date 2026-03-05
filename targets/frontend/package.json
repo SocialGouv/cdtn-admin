@@ -9,7 +9,6 @@
     "@hapi/boom": "^9.1.4",
     "@hookform/error-message": "^2.0.0",
     "@hookform/resolvers": "^3.3.1",
-    "@mui/icons-material": "^6.5.0",
     "@mui/material": "^6.5.0",
     "@mui/types": "^7.2.14",
     "@mui/x-date-pickers": "^7.13.0",

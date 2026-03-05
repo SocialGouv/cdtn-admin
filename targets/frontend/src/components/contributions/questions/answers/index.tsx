@@ -1,4 +1,4 @@
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import { SentimentVeryDissatisfied as SentimentVeryDissatisfiedIcon } from "../../../utils/dsfrIcons";
 import { Skeleton, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import { List } from "./List";

@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import Add from "@mui/icons-material/Add";
-import Sync from "@mui/icons-material/Sync";
-import HighlightOff from "@mui/icons-material/HighlightOff";
+import { Add, Sync, HighlightOff } from "src/components/utils/dsfrIcons";
 import { Button, IconButton } from "src/components/button";
 import { TermList } from "src/components/glossary/TermList";
 import { Layout } from "src/components/layout/auth.layout";

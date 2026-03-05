@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import ArrowCircleLeft from "@mui/icons-material/ArrowCircleLeft";
-import Add from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
+import {
+  ArrowCircleLeft,
+  Add,
+  Edit as EditIcon,
+} from "src/components/utils/dsfrIcons";
 import { Button } from "src/components/button";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";

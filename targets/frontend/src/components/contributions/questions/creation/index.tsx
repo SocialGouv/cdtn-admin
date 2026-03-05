@@ -3,7 +3,7 @@ import { useQuestionCreationMutation } from "./question.mutation";
 import { useQuestionCreationDataQuery } from "./question.query";
 import { useRouter } from "next/router";
 import { CircularProgress, Link, Stack, Typography } from "@mui/material";
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import { SentimentVeryDissatisfied as SentimentVeryDissatisfiedIcon } from "../../../utils/dsfrIcons";
 
 export const NewQuestion = (): JSX.Element => {
   const router = useRouter();

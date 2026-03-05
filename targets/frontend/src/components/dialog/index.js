@@ -4,7 +4,7 @@ import {
   IconButton as MuiIconButton,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import Close from "@mui/icons-material/Close";
+import { Close } from "../utils/dsfrIcons";
 import { Stack } from "../layout/Stack";
 
 export function Dialog({

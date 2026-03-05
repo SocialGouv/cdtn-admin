@@ -16,9 +16,7 @@ import {
 } from "@mui/material";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
-import Delete from "@mui/icons-material/Delete";
-import HighlightOff from "@mui/icons-material/HighlightOff";
-import Download from "@mui/icons-material/Download";
+import { Delete, HighlightOff, Download } from "src/components/utils/dsfrIcons";
 import { CopyButton } from "src/components/button/CopyButton";
 import { Layout } from "src/components/layout/auth.layout";
 import { DropZone } from "src/components/storage/DropZone";

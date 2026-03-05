@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import Add from "@mui/icons-material/Add";
+import { Add } from "src/components/utils/dsfrIcons";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { UserList } from "src/components/user/List";

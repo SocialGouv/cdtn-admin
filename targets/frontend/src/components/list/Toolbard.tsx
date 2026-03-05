@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import PublishIcon from "@mui/icons-material/Publish";
+import { Publish as PublishIcon } from "../utils/dsfrIcons";
 import * as React from "react";
 
 interface ToolbarProps {

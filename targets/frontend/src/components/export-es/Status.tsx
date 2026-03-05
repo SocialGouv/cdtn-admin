@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { fr } from "@codegouvfr/react-dsfr";
 import React from "react";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { ContentCopy as ContentCopyIcon } from "../utils/dsfrIcons";
 
 type StatusProps = {
   status?: StatusType;

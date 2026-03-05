@@ -1,6 +1,5 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
-import Add from "@mui/icons-material/Add";
-import Delete from "@mui/icons-material/Delete";
+import { Add, Delete } from "../utils/dsfrIcons";
 
 import { ContentSectionReference } from "../../types";
 import { Button } from "../button";

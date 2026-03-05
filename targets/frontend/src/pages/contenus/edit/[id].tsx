@@ -2,7 +2,7 @@ import slugify from "@socialgouv/cdtn-slugify";
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import Delete from "@mui/icons-material/Delete";
+import { Delete } from "src/components/utils/dsfrIcons";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { EditorialContentForm } from "src/components/editorialContent";

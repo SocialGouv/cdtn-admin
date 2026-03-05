@@ -1,7 +1,7 @@
 import { HasuraAlert } from "@socialgouv/cdtn-types";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
-import InfoOutlined from "@mui/icons-material/InfoOutlined";
+import { InfoOutlined } from "src/components/utils/dsfrIcons";
 import { AlertTabs } from "src/components/alerts/AlertTabs";
 import { AlertTitle } from "src/components/alerts/AlertTitle";
 import {

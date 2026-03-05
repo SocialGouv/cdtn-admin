@@ -10,9 +10,11 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-import DescriptionIcon from "@mui/icons-material/Description";
-import CloseIcon from "@mui/icons-material/Close";
-import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
+import {
+  Description as DescriptionIcon,
+  Close as CloseIcon,
+  DoNotDisturb as DoNotDisturbIcon,
+} from "../../../utils/dsfrIcons";
 import React, { useEffect, useState } from "react";
 import { StatusContainer } from "../../status";
 import { useRouter } from "next/router";

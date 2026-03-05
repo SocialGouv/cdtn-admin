@@ -1,8 +1,6 @@
 import { Status } from "@socialgouv/cdtn-types";
 import React, { ReactNode } from "react";
-import SyncProblem from "@mui/icons-material/SyncProblem";
-import Timelapse from "@mui/icons-material/Timelapse";
-import TimerOff from "@mui/icons-material/TimerOff";
+import { SyncProblem, Timelapse, TimerOff } from "../utils/dsfrIcons";
 import { Chip } from "@mui/material";
 
 import { ConfirmButton } from "../confirmButton";

@@ -1,8 +1,7 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import ArrowCircleRight from "@mui/icons-material/ArrowCircleRight";
-import DragIndicator from "@mui/icons-material/DragIndicator";
+import { ArrowCircleRight, DragIndicator } from "../utils/dsfrIcons";
 import {
   DndContext,
   closestCenter,

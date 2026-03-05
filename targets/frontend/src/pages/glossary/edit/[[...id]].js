@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Delete from "@mui/icons-material/Delete";
+import { Delete } from "src/components/utils/dsfrIcons";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { TermForm } from "src/components/glossary/TermForm";

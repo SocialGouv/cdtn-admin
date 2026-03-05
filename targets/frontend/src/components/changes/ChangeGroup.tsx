@@ -16,8 +16,7 @@ import { Badge, Box, Card, List, ListItem } from "@mui/material";
 
 import Link from "next/link";
 import React, { useState } from "react";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import ChevronRight from "@mui/icons-material/ChevronRight";
+import { ExpandMore, ChevronRight } from "../utils/dsfrIcons";
 import { AccordionButton, Button } from "src/components/button";
 
 import { jsxJoin } from "../../lib/jsx";

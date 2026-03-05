@@ -1,5 +1,5 @@
 import { Editor, FloatingMenu } from "@tiptap/react";
-import Delete from "@mui/icons-material/Delete";
+import { Delete } from "../../utils/dsfrIcons";
 import {
   DeleteColumn,
   DeleteRow,

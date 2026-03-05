@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
-import Cancel from "@mui/icons-material/Cancel";
+import { Cancel } from "../utils/dsfrIcons";
 import { IconButton } from "src/components/button";
 import { Card, Dialog } from "@mui/material";
 import { theme as th } from "../../theme";

@@ -8,8 +8,7 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import { MoreVert as MoreVertIcon, AccountCircle } from "../utils/dsfrIcons";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import { theme } from "src/theme";

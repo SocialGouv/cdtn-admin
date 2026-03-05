@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import { ArrowForwardIosSharp as ArrowForwardIosSharpIcon } from "../utils/dsfrIcons";
 import { NavigationItem, NavigationItemProps } from "./NavigationItem";
 
 type NavigationGroupProps = {

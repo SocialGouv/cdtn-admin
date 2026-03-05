@@ -1,8 +1,7 @@
 import { Button } from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import Check from "@mui/icons-material/Check";
-import ContentPaste from "@mui/icons-material/ContentPaste";
+import { Check, ContentPaste } from "../utils/dsfrIcons";
 import { theme } from "../../theme";
 
 export const CopyButton = ({
