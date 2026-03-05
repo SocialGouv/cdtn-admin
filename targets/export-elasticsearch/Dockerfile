@@ -41,7 +41,7 @@ COPY targets/export-elasticsearch ./targets/export-elasticsearch/
 RUN pnpm --filter=export-elasticsearch run build
 
 # Prune to production deps only
-RUN pnpm --filter=export-elasticsearch deploy --prod /app/pruned
+RUN pnpm --filter=export-elasticsearch deploy --legacy --prod /app/pruned
 
 
 # Runner stage
