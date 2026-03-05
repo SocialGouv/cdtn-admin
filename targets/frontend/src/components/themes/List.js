@@ -73,7 +73,7 @@ const List = ({ relations, updateThemesPosition }) => {
       {displayedThemes.length === 0 ? (
         <Alert severity="success" sx={{ mb: "small" }}>
           <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
-            Il n'y a aucun thème pour le moment !
+            Il n&apos;y a aucun thème pour le moment !
           </p>
         </Alert>
       ) : (

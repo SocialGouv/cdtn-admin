@@ -25,9 +25,7 @@ function Index({
   return (
     <ConfirmButton disabled={isDisabled} onClick={onClick} {...buttonProps}>
       {status === "running" && <Timelapse style={{ marginRight: ".2rem" }} />}
-      {status === "failed" && (
-        <SyncProblem style={{ marginRight: ".2rem" }} />
-      )}
+      {status === "failed" && <SyncProblem style={{ marginRight: ".2rem" }} />}
       {status === "timeout" && <TimerOff style={{ marginRight: ".2rem" }} />}
       {children}
       {status === "failed" && (

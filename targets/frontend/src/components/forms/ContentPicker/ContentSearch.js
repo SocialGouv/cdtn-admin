@@ -91,13 +91,29 @@ export const ContentSearch = ({ contents = [], onChange }) => {
       }}
       onChange={(event, value) => {
         if (!value) return;
-        const { cdtnId, source, title, description, slug, isAvailable, isPublished } = value;
+        const {
+          cdtnId,
+          source,
+          title,
+          description,
+          slug,
+          isAvailable,
+          isPublished,
+        } = value;
         if (contents.find((content) => content.cdtnId === cdtnId)) {
           return;
         }
         onChange(
           contents.concat([
-            { cdtnId, description, slug, source, title, isAvailable, isPublished },
+            {
+              cdtnId,
+              description,
+              slug,
+              source,
+              title,
+              isAvailable,
+              isPublished,
+            },
           ])
         );
         setInputValue("");
@@ -135,9 +151,7 @@ export const ContentSearch = ({ contents = [], onChange }) => {
         </li>
       )}
       noOptionsText={
-        inputValue.length < 3
-          ? "Tapez au moins 3 caractères"
-          : "Aucun résultat"
+        inputValue.length < 3 ? "Tapez au moins 3 caractères" : "Aucun résultat"
       }
       sx={{
         "& .MuiAutocomplete-listbox li": {

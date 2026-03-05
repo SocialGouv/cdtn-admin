@@ -216,9 +216,7 @@ export function AlertPage(): JSX.Element {
                     <AlertTitle alertId={alert.id} info={alert.changes}>
                       {getTitle(alert)}
                     </AlertTitle>
-                    <div
-                      style={{ display: "flex", flexDirection: "column" }}
-                    >
+                    <div style={{ display: "flex", flexDirection: "column" }}>
                       {accordionItems}
                     </div>
                   </Stack>

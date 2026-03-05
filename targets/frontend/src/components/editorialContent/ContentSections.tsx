@@ -21,7 +21,13 @@ import { SortableSection } from "./Section";
 import { Box } from "@mui/material";
 import { theme } from "src/theme";
 
-export function ContentSections({ name, ...rest }: { name: string; [key: string]: any }) {
+export function ContentSections({
+  name,
+  ...rest
+}: {
+  name: string;
+  [key: string]: any;
+}) {
   const {
     control,
     formState: { errors },

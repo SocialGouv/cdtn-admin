@@ -88,9 +88,7 @@ export function ThemeSearch({ onChange }) {
         );
       }}
       noOptionsText={
-        inputValue.length < 2
-          ? "Tapez au moins 2 caractères"
-          : "Aucun résultat"
+        inputValue.length < 2 ? "Tapez au moins 2 caractères" : "Aucun résultat"
       }
       slotProps={{
         listbox: {
