@@ -31,6 +31,10 @@ function createIcon(iconClass: string, displayName: string) {
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
+          width: sizes[fontSize as keyof typeof sizes] || fontSize,
+          height: sizes[fontSize as keyof typeof sizes] || fontSize,
+          "--icon-size":
+            sizes[fontSize as keyof typeof sizes] || fontSize,
           ...sx,
         }}
       />
