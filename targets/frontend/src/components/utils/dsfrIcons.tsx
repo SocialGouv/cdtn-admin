@@ -78,10 +78,7 @@ export const ContentPaste = createIcon("ri-clipboard-line", "ContentPaste");
 // Navigation / Arrows
 export const ExpandMore = createIcon("ri-arrow-down-s-line", "ExpandMore");
 export const ExpandMoreIcon = ExpandMore;
-export const ChevronRight = createIcon(
-  "ri-arrow-right-s-line",
-  "ChevronRight"
-);
+export const ChevronRight = createIcon("ri-arrow-right-s-line", "ChevronRight");
 export const ChevronRightIcon = ChevronRight;
 export const ChevronLeft = createIcon("ri-arrow-left-s-line", "ChevronLeft");
 export const ChevronLeftIcon = ChevronLeft;
@@ -134,10 +131,7 @@ export const InfoIcon = Info;
 export const InfoOutlined = createIcon("ri-information-line", "InfoOutlined");
 export const Help = createIcon("ri-question-line", "Help");
 export const HelpIcon = Help;
-export const ErrorOutline = createIcon(
-  "ri-error-warning-line",
-  "ErrorOutline"
-);
+export const ErrorOutline = createIcon("ri-error-warning-line", "ErrorOutline");
 export const ErrorOutlineIcon = ErrorOutline;
 export const SyncProblem = createIcon("ri-error-warning-line", "SyncProblem");
 export const Timelapse = createIcon("ri-timer-line", "Timelapse");

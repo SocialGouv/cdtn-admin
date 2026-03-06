@@ -11,6 +11,14 @@
 /* Disable DSFR external link icon on target="_blank" links — this is a back-office, not a public DSFR site */
 a[target="_blank"]::after { content: none !important; }
 
+/* DSFR icon wrapper — ensure icons have proper dimensions and alignment */
+[class^="ri-"], [class*=" ri-"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
 /* DSFR icon size overrides — the default --icon-size is set on ::before, so we must target it there */
 .dsfr-icon--sm::before, .dsfr-icon--sm::after { --icon-size: 1rem !important; }
 .dsfr-icon--lg::before, .dsfr-icon--lg::after { --icon-size: 2.125rem !important; }

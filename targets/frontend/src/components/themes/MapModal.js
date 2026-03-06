@@ -14,9 +14,7 @@ export const MapModal = () => {
     <>
       <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
         <Button variant="secondary" onClick={() => setShowThemeMap(true)}>
-          <MapIcon
-            style={{ marginRight: theme.space.small }}
-          />
+          <MapIcon style={{ marginRight: theme.space.small }} />
           Carte des thèmes
         </Button>
       </Box>

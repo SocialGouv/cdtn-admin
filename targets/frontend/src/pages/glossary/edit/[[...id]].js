@@ -103,9 +103,7 @@ export function EditTermPage() {
                       setShowDeleteConfirmation(true);
                     }}
                   >
-                    <Delete
-                      style={{ marginRight: "0.8rem" }}
-                    />
+                    <Delete style={{ marginRight: "0.8rem" }} />
                     Supprimer le terme
                   </Button>
                 </Box>
