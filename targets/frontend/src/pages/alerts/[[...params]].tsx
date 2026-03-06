@@ -1,7 +1,6 @@
 import { HasuraAlert } from "@socialgouv/cdtn-types";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
-import { Gavel } from "src/components/utils/dsfrIcons";
 import { AlertTabs } from "src/components/alerts/AlertTabs";
 import { AlertTitle } from "src/components/alerts/AlertTitle";
 import {
@@ -114,7 +113,6 @@ export function AlertPage(): JSX.Element {
     if (alert.changes.type === "dila" && alert.changes.num) {
       return (
         <span>
-          <Gavel fontSize="small" style={{ marginRight: "4px" }} />
           IDCC {alert.changes.num}
           <span
             style={{
@@ -141,16 +139,16 @@ export function AlertPage(): JSX.Element {
     } else {
       return (
         <span>
-          {alert.changes.title}
+          {date} ({alert.ref})
           <span
             style={{
               color: theme.colors.muted,
               fontWeight: 400,
-              fontSize: theme.fontSizes.xsmall,
+              fontSize: theme.fontSizes.small,
               marginLeft: "0.5rem",
             }}
           >
-            {date} ({alert.ref})
+            {alert.changes.title}
           </span>
         </span>
       );

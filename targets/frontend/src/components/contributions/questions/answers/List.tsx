@@ -35,11 +35,11 @@ type AnswerCheck = {
 const contentTypes = {
   ANSWER: {
     description: "Afficher la réponse",
-    icon: <DescriptionIcon fontSize="small" />,
+    icon: <span style={{ display: "inline-flex", alignItems: "center" }}><DescriptionIcon fontSize="small" /></span>,
   },
   NOTHING: {
     description: "La convention collective ne prévoit rien",
-    icon: <CloseIcon fontSize="small" />,
+    icon: <span style={{ display: "inline-flex", alignItems: "center" }}><CloseIcon fontSize="small" /></span>,
   },
   CDT: {
     description: "La convention collective renvoie au Code du Travail",
@@ -52,7 +52,7 @@ const contentTypes = {
   },
   UNKNOWN: {
     description: "Nous n'avons pas la réponse",
-    icon: <DoNotDisturbIcon fontSize="small" />,
+    icon: <span style={{ display: "inline-flex", alignItems: "center" }}><DoNotDisturbIcon fontSize="small" /></span>,
   },
   SP: {
     description: "Fiche service public",
@@ -60,7 +60,7 @@ const contentTypes = {
   },
   GENERIC_NO_CDT: {
     description: "Le code du travail ne prévoit rien",
-    icon: <CloseIcon fontSize="small" />,
+    icon: <span style={{ display: "inline-flex", alignItems: "center" }}><CloseIcon fontSize="small" /></span>,
   },
 };
 
