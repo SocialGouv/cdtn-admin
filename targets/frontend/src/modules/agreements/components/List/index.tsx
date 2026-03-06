@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { useListAgreementQuery } from "./list.query";
 import { useRouter } from "next/router";
-import { Chip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import Filter from "./Filter";
 import { DataList } from "../../../../components/list";
 
@@ -37,12 +37,14 @@ export const AgreementList = (): JSX.Element => {
             return (
               <>
                 {value ? (
-                  <Chip
-                    label="Traitée CDTN"
-                    size="small"
-                    color="success"
-                    variant="outlined"
-                  />
+                  <Tooltip title="Convention collective traitée par le CDTN">
+                    <span
+                      className="ri-scales-3-line dsfr-icon--sm"
+                      aria-label="Convention collective traitée par le CDTN"
+                      role="img"
+                      style={{ color: "#18753C" }}
+                    />
+                  </Tooltip>
                 ) : undefined}
               </>
             );

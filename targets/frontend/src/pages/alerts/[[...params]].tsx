@@ -1,6 +1,6 @@
 import { HasuraAlert } from "@socialgouv/cdtn-types";
 import { useRouter } from "next/router";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { AlertTabs } from "src/components/alerts/AlertTabs";
 import { AlertTitle } from "src/components/alerts/AlertTitle";
 import {
@@ -124,6 +124,22 @@ export function AlertPage(): JSX.Element {
           >
             {alert.changes.title}
           </span>
+          <span
+            style={{
+              color: theme.colors.muted,
+              fontWeight: 400,
+              fontSize: theme.fontSizes.xsmall,
+              marginLeft: "0.5rem",
+            }}
+          >
+            {date} ({alert.ref})
+          </span>
+        </span>
+      );
+    } else if (alert.changes.type === "dares") {
+      return (
+        <span>
+          {alert.changes.title}
           <span
             style={{
               color: theme.colors.muted,
