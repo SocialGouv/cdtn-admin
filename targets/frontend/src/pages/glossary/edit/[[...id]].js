@@ -104,7 +104,7 @@ export function EditTermPage() {
                     }}
                   >
                     <Delete
-                      sx={{ height: "1.5rem", mr: "xsmall", width: "1.5rem" }}
+                      style={{ marginRight: "0.8rem" }}
                     />
                     Supprimer le terme
                   </Button>

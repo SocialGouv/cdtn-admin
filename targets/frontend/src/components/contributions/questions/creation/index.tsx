@@ -48,7 +48,7 @@ export const NewQuestion = (): JSX.Element => {
   if (error) {
     return (
       <Stack alignItems="center" spacing={2}>
-        <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
+        <SentimentVeryDissatisfiedIcon color="error" fontSize="large" />
         <Typography variant="h5" component="h3" color="error">
           Une erreur est survenue
         </Typography>

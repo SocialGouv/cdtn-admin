@@ -1,44 +1,45 @@
-import { Box, type BoxProps } from "@mui/material";
-import { forwardRef } from "react";
+import { type CSSProperties, forwardRef } from "react";
 
-type IconProps = Omit<BoxProps, "component"> & {
+type IconProps = Omit<
+  React.HTMLAttributes<HTMLSpanElement>,
+  "className" | "style"
+> & {
   titleAccess?: string;
   fontSize?: "small" | "medium" | "large" | "inherit";
+  color?: string;
+  style?: CSSProperties;
 };
 
-const sizes = {
-  small: "1rem",
-  medium: "1.5rem",
-  large: "2.125rem",
-  inherit: "inherit",
+// Maps fontSize prop to CSS class that targets ::before/::after
+// Default DSFR icon size is 1.5rem (medium), so no class needed for that
+const sizeClasses: Record<string, string> = {
+  small: "dsfr-icon--sm",
+  large: "dsfr-icon--lg",
 };
 
-function createIcon(iconClass: string, displayName: string) {
-  const Icon = forwardRef<HTMLElement, IconProps>(
-    ({ titleAccess, fontSize = "medium", sx, ...props }, ref) => (
-      <Box
-        component="i"
-        ref={ref}
-        className={iconClass}
-        aria-hidden={titleAccess ? undefined : true}
-        aria-label={titleAccess}
-        role={titleAccess ? "img" : undefined}
-        {...props}
-        sx={{
-          fontSize: sizes[fontSize as keyof typeof sizes] || fontSize,
-          verticalAlign: "middle",
-          lineHeight: 1,
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: sizes[fontSize as keyof typeof sizes] || fontSize,
-          height: sizes[fontSize as keyof typeof sizes] || fontSize,
-          "--icon-size":
-            sizes[fontSize as keyof typeof sizes] || fontSize,
-          ...sx,
-        }}
-      />
-    )
+function createIcon(iconId: string, displayName: string) {
+  const Icon = forwardRef<HTMLSpanElement, IconProps>(
+    ({ titleAccess, fontSize = "medium", color, style, ...props }, ref) => {
+      const sizeClass = sizeClasses[fontSize];
+      const className = sizeClass ? `${iconId} ${sizeClass}` : iconId;
+      const a11y = titleAccess
+        ? { "aria-label": titleAccess, role: "img" as const }
+        : { "aria-hidden": true as const };
+
+      return (
+        <span
+          ref={ref}
+          className={className}
+          {...a11y}
+          style={
+            color || style
+              ? { ...style, color: color || style?.color }
+              : undefined
+          }
+          {...props}
+        />
+      );
+    }
   );
   Icon.displayName = displayName;
   return Icon;
@@ -77,7 +78,10 @@ export const ContentPaste = createIcon("ri-clipboard-line", "ContentPaste");
 // Navigation / Arrows
 export const ExpandMore = createIcon("ri-arrow-down-s-line", "ExpandMore");
 export const ExpandMoreIcon = ExpandMore;
-export const ChevronRight = createIcon("ri-arrow-right-s-line", "ChevronRight");
+export const ChevronRight = createIcon(
+  "ri-arrow-right-s-line",
+  "ChevronRight"
+);
 export const ChevronRightIcon = ChevronRight;
 export const ChevronLeft = createIcon("ri-arrow-left-s-line", "ChevronLeft");
 export const ChevronLeftIcon = ChevronLeft;
@@ -130,7 +134,10 @@ export const InfoIcon = Info;
 export const InfoOutlined = createIcon("ri-information-line", "InfoOutlined");
 export const Help = createIcon("ri-question-line", "Help");
 export const HelpIcon = Help;
-export const ErrorOutline = createIcon("ri-error-warning-line", "ErrorOutline");
+export const ErrorOutline = createIcon(
+  "ri-error-warning-line",
+  "ErrorOutline"
+);
 export const ErrorOutlineIcon = ErrorOutline;
 export const SyncProblem = createIcon("ri-error-warning-line", "SyncProblem");
 export const Timelapse = createIcon("ri-timer-line", "Timelapse");

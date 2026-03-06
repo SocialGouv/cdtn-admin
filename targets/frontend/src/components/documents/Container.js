@@ -80,11 +80,8 @@ export function DocumentListContainer({ initialFilterValues }) {
         >
           <Button size="small" variant="secondary">
             <Add
-              sx={{
-                height: theme.sizes.iconSmall,
-                mr: theme.space.xxsmall,
-                width: theme.sizes.iconSmall,
-              }}
+              fontSize="small"
+              style={{ marginRight: theme.space.xxsmall }}
             />
             Ajouter un contenu
           </Button>

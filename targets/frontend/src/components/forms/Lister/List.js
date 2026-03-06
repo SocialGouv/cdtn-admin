@@ -47,9 +47,7 @@ export const List = ({
                     onDeleteEntry(entry);
                   }}
                 >
-                  <Close
-                    sx={{ flex: "1 0 auto", height: "1rem", width: "1rem" }}
-                  />
+                  <Close fontSize="small" />
                 </IconButton>
               </Box>
             )}

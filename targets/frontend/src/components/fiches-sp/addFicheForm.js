@@ -77,13 +77,7 @@ export function AddFicheSpForm({ onAdd }) {
                   variant="secondary"
                   onClick={() => remove(index)}
                 >
-                  <Close
-                    sx={{
-                      flex: "1 0 auto",
-                      height: "iconsXSmall",
-                      width: "iconsXSmall",
-                    }}
-                  />
+                  <Close fontSize="small" />
                 </IconButton>
               )}
               {index === fields.length - 1 && (

@@ -114,7 +114,7 @@ export function AlertPage(): JSX.Element {
     if (alert.changes.type === "dila" && alert.changes.num) {
       return (
         <span>
-          <Gavel fontSize="small" sx={{ mr: 0.5 }} />
+          <Gavel fontSize="small" style={{ marginRight: "4px" }} />
           IDCC {alert.changes.num}
           <span
             style={{

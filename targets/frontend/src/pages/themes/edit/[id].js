@@ -175,11 +175,8 @@ export function EditThemePage() {
                       }}
                     >
                       <Delete
-                        sx={{
-                          height: "iconSmall",
-                          mr: "xsmall",
-                          width: "iconSmall",
-                        }}
+                        fontSize="small"
+                        style={{ marginRight: "0.8rem" }}
                       />
                       Supprimer le thème
                     </Button>

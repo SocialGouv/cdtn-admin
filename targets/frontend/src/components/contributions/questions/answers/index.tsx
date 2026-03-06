@@ -26,7 +26,7 @@ export const Answers = ({ questionId }: Props): JSX.Element => {
   if (data === "not_found") {
     return (
       <Stack alignItems="center" spacing={2}>
-        <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
+        <SentimentVeryDissatisfiedIcon color="error" fontSize="large" />
         <Typography variant="h5" component="h3" color="error">
           Question non trouvée
         </Typography>
@@ -38,7 +38,7 @@ export const Answers = ({ questionId }: Props): JSX.Element => {
   if (data === "error") {
     return (
       <Stack alignItems="center" spacing={2}>
-        <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
+        <SentimentVeryDissatisfiedIcon color="error" fontSize="large" />
         <Typography variant="h5" component="h3" color="error">
           Une erreur est survenue
         </Typography>

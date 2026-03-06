@@ -85,12 +85,7 @@ function RootIconPicker({ disabled, value, onChange }) {
               width: th.sizes.iconMedium,
             }}
           >
-            <Cancel
-              sx={{
-                height: th.sizes.iconSmall,
-                width: th.sizes.iconSmall,
-              }}
-            />
+            <Cancel fontSize="small" />
           </IconButton>
         )}
       </div>

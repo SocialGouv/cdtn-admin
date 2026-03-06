@@ -36,7 +36,7 @@ export function NavigationGroup({
       <AccordionHeader
         aria-controls="panel1d-content"
         id="panel1d-header"
-        expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
+        expandIcon={<ArrowForwardIosSharpIcon fontSize="small" />}
       >
         <Stack
           direction="row"
