@@ -8,7 +8,7 @@ import React, { PropsWithChildren } from "react";
 import { Controller } from "react-hook-form";
 import { CommonFormProps } from "../type";
 import { TitleBox } from "src/components/forms/TitleBox";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 
 type OptionProps = {
   label: string;

@@ -1,4 +1,4 @@
-import SendIcon from "@mui/icons-material/Send";
+import { Send as SendIcon } from "../../utils/dsfrIcons";
 import { AlertColor, Box, Button, FormControl } from "@mui/material";
 import * as React from "react";
 import { useMemo } from "react";

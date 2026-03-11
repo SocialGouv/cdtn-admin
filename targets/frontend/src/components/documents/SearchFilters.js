@@ -1,7 +1,7 @@
 import { getLabelBySource, SOURCES } from "@socialgouv/cdtn-utils";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { IoMdSearch } from "react-icons/io";
+import { Search } from "../utils/dsfrIcons";
 import {
   Box,
   FormControlLabel,
@@ -73,7 +73,7 @@ export function SearchFilters({ initialValues, onSearchUpdate }) {
           ))}
         </Select>
         <Button sx={{ marginLeft: "20px" }}>
-          <IoMdSearch style={{ marginRight: "5px" }} /> Rechercher
+          <Search style={{ marginRight: "5px" }} /> Rechercher
         </Button>
         <Box sx={{ alignSelf: "flex-end", marginLeft: "20px" }}>
           <div htmlFor="itemsPerPage">

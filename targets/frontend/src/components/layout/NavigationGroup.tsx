@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import { ArrowForwardIosSharp as ArrowForwardIosSharpIcon } from "../utils/dsfrIcons";
 import { NavigationItem, NavigationItemProps } from "./NavigationItem";
 
 type NavigationGroupProps = {
@@ -36,7 +36,7 @@ export function NavigationGroup({
       <AccordionHeader
         aria-controls="panel1d-content"
         id="panel1d-header"
-        expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
+        expandIcon={<ArrowForwardIosSharpIcon fontSize="small" />}
       >
         <Stack
           direction="row"

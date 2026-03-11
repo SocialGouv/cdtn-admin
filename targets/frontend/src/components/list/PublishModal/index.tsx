@@ -1,5 +1,5 @@
 import { Alert, Box, Button, Modal, Stack, Typography } from "@mui/material";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import { fr } from "@codegouvfr/react-dsfr";
 import { usePublishMutation } from "../../../modules/documents/components/publish.mutation";
 import { Source } from "../type";

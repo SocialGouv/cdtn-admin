@@ -4,12 +4,14 @@ import {
   getText,
   getTextSerializersFromSchema,
 } from "@tiptap/react";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import GridOnIcon from "@mui/icons-material/GridOn";
-import StorageIcon from "@mui/icons-material/Storage";
-import { styled } from "@mui/system";
+import {
+  FormatListBulleted as FormatListBulletedIcon,
+  FormatListNumbered as FormatListNumberedIcon,
+  AddPhotoAlternate as AddPhotoAlternateIcon,
+  GridOn as GridOnIcon,
+  Storage as StorageIcon,
+} from "../../utils/dsfrIcons";
+import { styled } from "@mui/material/styles";
 import { Node as ProseMirrorNode } from "@tiptap/pm/model";
 
 const tableHTML = `
@@ -47,7 +49,7 @@ export const MenuSpecial = ({
       className="floating-menu"
       tippyOptions={{ duration: 100 }}
       editor={editor}
-      shouldShow={({ editor, view, state }) => {
+      shouldShow={({ editor, view, state }: any) => {
         // Code extracted from the plugin : https://github.com/ueberdosis/tiptap/blob/main/packages/extension-floating-menu/src/floating-menu-plugin.ts#L74
         const { selection } = state;
         const { $anchor, empty } = selection;

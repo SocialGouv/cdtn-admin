@@ -8,9 +8,11 @@ import {
   TableRow,
 } from "@mui/material";
 import { Content } from "./index";
-import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import {
+  PauseCircleOutline as PauseCircleOutlineIcon,
+  CheckCircleOutline as CheckCircleOutlineIcon,
+  ErrorOutline as ErrorOutlineIcon,
+} from "../../utils/dsfrIcons";
 
 type ContentWithProgression = Content & {
   status: "pending" | "processing" | "done" | "error";

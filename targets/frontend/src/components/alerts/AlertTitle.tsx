@@ -1,7 +1,7 @@
 import { AlertChanges } from "@socialgouv/cdtn-types";
 import React, { useState } from "react";
-import { IoIosLink, IoMdChatbubbles } from "react-icons/io";
-import { Box, Stack } from "@mui/material";
+import { Link as LinkIcon, Forum } from "../utils/dsfrIcons";
+import { Box, Stack, Chip, Tooltip } from "@mui/material";
 
 import { IconButton } from "../button";
 import { Comments } from "../comments";
@@ -15,32 +15,35 @@ type Props = {
 export const AlertTitle: React.FC<Props> = ({ alertId, info, children }) => {
   const [showComment, setShowComment] = useState(false);
   return (
-    <Stack direction="row" alignItems="center" justifyContent="space-between">
-      <AlertStatus alertId={alertId} />
-      <h2 style={{ marginBottom: "0" }}>{children}</h2>
-      {info.type === "dila" && info.num && (
-        <a
-          style={{ paddingLeft: "0.8rem", paddingRight: "0.8rem" }}
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://legifrance.gouv.fr/conv_coll/id/${info.id}`}
-        >
-          <IconButton>
-            <IoIosLink
-              aria-label="Voir la convention sur legifrance"
-              style={{ height: "iconXSmall", width: "iconXSmall" }}
-            />
+    <>
+      <Stack direction="row" alignItems="center" spacing={1}>
+        <AlertStatus alertId={alertId} />
+        <h3 style={{ marginBottom: 0, marginTop: 0, flex: 1 }}>{children}</h3>
+        {info.type === "dila" && info.num && (
+          <Tooltip title="Voir sur Légifrance">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`https://legifrance.gouv.fr/conv_coll/id/${info.id}`}
+              style={{ display: "inline-flex" }}
+            >
+              <Chip
+                icon={<LinkIcon fontSize="small" />}
+                label="Légifrance"
+                size="small"
+                variant="outlined"
+                clickable
+              />
+            </a>
+          </Tooltip>
+        )}
+        <Tooltip title="Commentaires">
+          <IconButton onClick={() => setShowComment(!showComment)}>
+            <Forum aria-label="Voir les commentaires" fontSize="small" />
           </IconButton>
-        </a>
-      )}
-      <Box sx={{ flex: "1 1 0" }} />
-      <IconButton
-        sx={{ justifyItems: "flex-end" }}
-        onClick={() => setShowComment(!showComment)}
-      >
-        <IoMdChatbubbles aria-label="Voir les commentaires" />
-      </IconButton>
+        </Tooltip>
+      </Stack>
       {showComment && <Comments alertId={alertId} />}
-    </Stack>
+    </>
   );
 };

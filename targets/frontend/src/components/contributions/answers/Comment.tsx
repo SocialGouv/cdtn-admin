@@ -8,7 +8,7 @@ import {
 } from "../type";
 import { fr } from "@codegouvfr/react-dsfr";
 import { statusesMapping } from "../status/data";
-import { Delete } from "@mui/icons-material";
+import { Delete } from "../../utils/dsfrIcons";
 
 const isAnswerComments = (
   comment: AnswerComments | AnswerStatus

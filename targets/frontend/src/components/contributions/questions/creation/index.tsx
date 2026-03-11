@@ -3,7 +3,7 @@ import { useQuestionCreationMutation } from "./question.mutation";
 import { useQuestionCreationDataQuery } from "./question.query";
 import { useRouter } from "next/router";
 import { CircularProgress, Link, Stack, Typography } from "@mui/material";
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import { SentimentVeryDissatisfied as SentimentVeryDissatisfiedIcon } from "../../../utils/dsfrIcons";
 
 export const NewQuestion = (): JSX.Element => {
   const router = useRouter();
@@ -48,7 +48,7 @@ export const NewQuestion = (): JSX.Element => {
   if (error) {
     return (
       <Stack alignItems="center" spacing={2}>
-        <SentimentVeryDissatisfiedIcon color="error" sx={{ fontSize: 70 }} />
+        <SentimentVeryDissatisfiedIcon color="error" fontSize="large" />
         <Typography variant="h5" component="h3" color="error">
           Une erreur est survenue
         </Typography>

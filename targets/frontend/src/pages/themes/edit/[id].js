@@ -1,7 +1,7 @@
 import slugify from "@socialgouv/cdtn-slugify";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { IoMdTrash } from "react-icons/io";
+import { Delete } from "src/components/utils/dsfrIcons";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { Layout } from "src/components/layout/auth.layout";
@@ -174,12 +174,9 @@ export function EditThemePage() {
                         setShowDeleteConfirmation(true);
                       }}
                     >
-                      <IoMdTrash
-                        sx={{
-                          height: "iconSmall",
-                          mr: "xsmall",
-                          width: "iconSmall",
-                        }}
+                      <Delete
+                        fontSize="small"
+                        style={{ marginRight: "0.8rem" }}
                       />
                       Supprimer le thème
                     </Button>

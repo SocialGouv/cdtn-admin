@@ -4,7 +4,7 @@ import { Controller } from "react-hook-form";
 
 import { CommonFormProps } from "../type";
 import { Editor } from "./Editor";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import { buildFilePathUrl } from "../../utils";
 
 type FormEditionProps = CommonFormProps & {

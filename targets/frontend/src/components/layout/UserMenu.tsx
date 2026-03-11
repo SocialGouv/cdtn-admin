@@ -8,8 +8,7 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { IoMdContact } from "react-icons/io";
+import { MoreVert as MoreVertIcon, AccountCircle } from "../utils/dsfrIcons";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import { theme } from "src/theme";
@@ -48,7 +47,7 @@ export function UserMenu() {
             }
             label="Thème"
           />
-          <IoMdContact style={{ fontSize: theme.fontSizes.icons }} />
+          <AccountCircle style={{ fontSize: theme.fontSizes.icons }} />
           <Typography
             style={{
               fontWeight: theme.fontWeights.semibold,

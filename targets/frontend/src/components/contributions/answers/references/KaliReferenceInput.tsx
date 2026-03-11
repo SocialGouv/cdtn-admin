@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import { FormTextField } from "../../../forms";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Delete as DeleteIcon } from "../../../utils/dsfrIcons";
 import { useContributionSearchKaliReferenceQuery } from "./kaliReferencesSearch.query";
 import { Agreement, Answer, KaliArticle } from "../../type";
 import { Result } from "./ReferenceInput";

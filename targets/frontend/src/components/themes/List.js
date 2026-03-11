@@ -1,12 +1,23 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { IoIosArrowDroprightCircle, IoIosReorder } from "react-icons/io";
+import { ArrowCircleRight, DragIndicator } from "../utils/dsfrIcons";
 import {
-  SortableContainer,
-  SortableElement,
-  SortableHandle,
-} from "react-sortable-hoc";
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { IconButton } from "src/components/button";
 import { useSession } from "next-auth/react";
 import { Alert, Card, Box } from "@mui/material";
@@ -23,7 +34,6 @@ const formatRelationsIntoThemes = (relations = []) =>
 const List = ({ relations, updateThemesPosition }) => {
   const { data } = useSession();
   const isAdmin = data?.user.isAdmin;
-  // Prevent visual glitch when reordering themes
   const [displayedThemes, setDisplayedThemes] = useState(
     formatRelationsIntoThemes(relations)
   );
@@ -31,38 +41,62 @@ const List = ({ relations, updateThemesPosition }) => {
     setDisplayedThemes(formatRelationsIntoThemes(relations));
   }, [relations]);
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = displayedThemes.findIndex((t) => t.cdtnId === active.id);
+    const newIndex = displayedThemes.findIndex((t) => t.cdtnId === over.id);
+    const newThemes = arrayMove(displayedThemes, oldIndex, newIndex);
+
+    setDisplayedThemes(newThemes);
+    updateThemesPosition({
+      objects: newThemes.map((theme, index) => ({
+        data: { position: index },
+        document_b: theme.cdtnId,
+        id: theme.relationId,
+        type: "theme",
+      })),
+    });
+  }
+
   return (
     <>
       {displayedThemes.length === 0 ? (
         <Alert severity="success" sx={{ mb: "small" }}>
           <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
-            Il n’y a aucun thème pour le moment !
+            Il n&apos;y a aucun thème pour le moment !
           </p>
         </Alert>
       ) : (
-        <ThemeList
-          themes={displayedThemes}
-          isAdmin={isAdmin}
-          useDragHandle={true}
-          lockAxis="y"
-          onSortEnd={({ oldIndex, newIndex }) => {
-            displayedThemes.splice(
-              newIndex,
-              0,
-              displayedThemes.splice(oldIndex, 1)[0]
-            );
-            updateThemesPosition({
-              objects: displayedThemes.map((theme, index) => ({
-                data: { position: index },
-                document_b: theme.cdtnId,
-                id: theme.relationId,
-                type: "theme",
-              })),
-            });
-            // prevent visual glitch when reordering
-            setDisplayedThemes(displayedThemes);
-          }}
-        />
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={displayedThemes.map((t) => t.cdtnId)}
+            strategy={verticalListSortingStrategy}
+          >
+            <ol style={{ margin: 0, padding: 0, listStyle: "none" }}>
+              {displayedThemes.map((theme) => (
+                <ThemeRow
+                  key={theme.cdtnId}
+                  theme={theme}
+                  isAdmin={isAdmin}
+                  sortable={displayedThemes.length > 1}
+                />
+              ))}
+            </ol>
+          </SortableContext>
+        </DndContext>
       )}
     </>
   );
@@ -74,81 +108,76 @@ List.propTypes = {
 
 export { List };
 
-const ThemeList = SortableContainer(({ themes, ...props }) => (
-  <ol style={{ margin: 0, padding: 0, listStyle: "none" }}>
-    {themes.map((theme, index) => (
-      <ThemeRow
-        key={theme.cdtnId}
-        index={index}
-        theme={theme}
-        sortable={themes.length > 1}
-        {...props}
-      />
-    ))}
-  </ol>
-));
+function ThemeRow({ isAdmin, sortable, theme }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: theme.cdtnId });
 
-const ThemeRow = SortableElement(({ isAdmin, sortable, theme }) => (
-  <li
-    style={{
-      alignItems: "stretch",
-      display: "flex",
-      justifyContent: "stretch",
-      marginBottom: th.space.small,
-    }}
-  >
-    {isAdmin && sortable && <SortHandle />}
-    <Link
-      href={`/themes/${theme.cdtnId}`}
-      passHref
-      style={{ textDecoration: "none" }}
-    >
-      <Card
-        style={{
-          ":hover": { boxShadow: "cardHover" },
-          ":link, :visited": { color: "text" },
-          color: "text",
-          cursor: "pointer",
-          display: "block",
-          flex: 1,
-          justifyContent: "space-between",
-          textDecoration: "none",
-          padding: "30px",
-          width: "fit-content",
-        }}
-      >
-        <Box
-          sx={{
-            alignItems: "center",
-            fontSize: "1.2rem",
-            justifyContent: "space-between",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            display: "flex",
-          }}
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    alignItems: "stretch",
+    display: "flex",
+    justifyContent: "stretch",
+    marginBottom: th.space.small,
+  };
+
+  return (
+    <li ref={setNodeRef} style={style} {...attributes}>
+      {isAdmin && sortable && (
+        <IconButton
+          variant="secondary"
+          style={{ cursor: "grab", height: "auto", mr: th.space.xsmall }}
+          {...listeners}
         >
-          {theme.title}
-          <IoIosArrowDroprightCircle
+          <DragIndicator
             style={{
               height: th.sizes.iconMedium,
-              marginLeft: th.space.small,
               width: th.sizes.iconMedium,
             }}
           />
-        </Box>
-      </Card>
-    </Link>
-  </li>
-));
-
-const SortHandle = SortableHandle(() => (
-  <IconButton
-    variant="secondary"
-    style={{ cursor: "grab", height: "auto", mr: th.space.xsmall }}
-  >
-    <IoIosReorder
-      style={{ height: th.sizes.iconMedium, width: th.sizes.iconMedium }}
-    />
-  </IconButton>
-));
+        </IconButton>
+      )}
+      <Link
+        href={`/themes/${theme.cdtnId}`}
+        passHref
+        style={{ textDecoration: "none" }}
+      >
+        <Card
+          style={{
+            ":hover": { boxShadow: "cardHover" },
+            ":link, :visited": { color: "text" },
+            color: "text",
+            cursor: "pointer",
+            display: "block",
+            flex: 1,
+            justifyContent: "space-between",
+            textDecoration: "none",
+            padding: "30px",
+            width: "fit-content",
+          }}
+        >
+          <Box
+            sx={{
+              alignItems: "center",
+              fontSize: "1.2rem",
+              justifyContent: "space-between",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              display: "flex",
+            }}
+          >
+            {theme.title}
+            <ArrowCircleRight
+              style={{
+                height: th.sizes.iconMedium,
+                marginLeft: th.space.small,
+                width: th.sizes.iconMedium,
+              }}
+            />
+          </Box>
+        </Card>
+      </Link>
+    </li>
+  );
+}

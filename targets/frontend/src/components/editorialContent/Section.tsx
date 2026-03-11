@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import {
-  IoIosArrowDropdown,
-  IoIosArrowDropup,
-  IoIosReorder,
-  IoMdTrash,
-} from "react-icons/io";
-// @ts-ignore
-import { SortableElement, sortableHandle } from "react-sortable-hoc";
+  ArrowDropDown,
+  ArrowDropUp,
+  DragIndicator,
+  Delete,
+} from "../utils/dsfrIcons";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 import { ContentSection } from "../../types";
 import { Button, IconButton } from "../button";
@@ -19,32 +19,41 @@ import { Card, CardContent, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import { theme } from "src/theme";
 
-const DragHandle = sortableHandle(() => (
-  <IconButton variant="outlined" sx={{ cursor: "grab" }}>
-    <IoIosReorder
-      aria-label="Réordonner les sections"
-      style={{ height: "3rem", width: "3rem" }}
-    />
-  </IconButton>
-));
-
 type SectionProps = {
+  id: string;
   block: ContentSection;
   blockIndex: number;
   name: string;
   numberOfBlocks: number;
-  remove: any;
-  open: boolean;
+  remove: (index: number) => void;
+  open?: boolean;
 };
 
-const RootSection = ({
+export function SortableSection(props: SectionProps) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: props.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes}>
+      <RootSection {...props} dragListeners={listeners} />
+    </div>
+  );
+}
+
+function RootSection({
   block,
   blockIndex: index,
   name,
   numberOfBlocks,
   remove,
   open = true,
-}: SectionProps) => {
+  dragListeners,
+}: SectionProps & { dragListeners?: Record<string, unknown> }) {
   const {
     control,
     formState: { errors },
@@ -78,7 +87,18 @@ const RootSection = ({
             alignItems="center"
             spacing={2}
           >
-            {numberOfBlocks > 1 && <DragHandle />}
+            {numberOfBlocks > 1 && (
+              <IconButton
+                variant="outlined"
+                sx={{ cursor: "grab" }}
+                {...dragListeners}
+              >
+                <DragIndicator
+                  aria-label="Réordonner les sections"
+                  style={{ height: "3rem", width: "3rem" }}
+                />
+              </IconButton>
+            )}
 
             <FormTextField
               name={`${name}.title`}
@@ -96,7 +116,7 @@ const RootSection = ({
               onClick={() => setOpen(!isOpen)}
             >
               {isOpen ? (
-                <IoIosArrowDropup
+                <ArrowDropUp
                   style={{
                     height: "1.8rem",
                     margin: "0.25rem",
@@ -104,7 +124,7 @@ const RootSection = ({
                   }}
                 />
               ) : (
-                <IoIosArrowDropdown
+                <ArrowDropDown
                   style={{
                     height: "1.8rem",
                     margin: "0.25rem",
@@ -131,7 +151,7 @@ const RootSection = ({
                     onClick={() => remove(index)}
                     color="error"
                   >
-                    <IoMdTrash
+                    <Delete
                       style={{
                         height: theme.sizes.iconSmall,
                         marginRight: theme.space.xsmall,
@@ -153,6 +173,4 @@ const RootSection = ({
       </Card>
     </Li>
   );
-};
-
-export const SortableSection = SortableElement(React.memo(RootSection));
+}

@@ -9,7 +9,7 @@ import {
   ExpandMore as ExpandMoreIcon,
   ChevronRight as ChevronRightIcon,
   MoreVert as MoreVertIcon,
-} from "@mui/icons-material";
+} from "../utils/dsfrIcons";
 import { Box } from "@mui/material";
 import { theme } from "src/theme";
 

@@ -28,7 +28,7 @@ export function UserPage() {
   return (
     <Layout title="Création de compte">
       <Stack>
-        <UserForm onSubmit={handleCreate} />
+        <UserForm onSubmit={handleCreate} user={null} />
       </Stack>
     </Layout>
   );

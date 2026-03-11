@@ -5,7 +5,7 @@ import { CommonFormProps } from "../type";
 import Dropzone from "react-dropzone";
 import { TitleBox } from "src/components/forms/TitleBox";
 import { Chip, FormControl, FormHelperText, Typography } from "@mui/material";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 
 export interface Accept {
   [key: string]: readonly string[];

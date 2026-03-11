@@ -5,7 +5,7 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import StarterKit from "@tiptap/starter-kit";
 import React, { useEffect, useState } from "react";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import { fr } from "@codegouvfr/react-dsfr";
 
 import { TitleBox } from "../TitleBox";

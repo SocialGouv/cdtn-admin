@@ -1,4 +1,3 @@
-import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { TextField } from "@mui/material";
@@ -29,9 +28,21 @@ export function CommentForm({ onSubmit }) {
           {...register("comment", { required: true })}
           placeholder="Laisser un commentaire..."
         />
-        <VisuallyHidden>
+        <span
+          style={{
+            position: "absolute",
+            width: 1,
+            height: 1,
+            padding: 0,
+            margin: -1,
+            overflow: "hidden",
+            clip: "rect(0, 0, 0, 0)",
+            whiteSpace: "nowrap",
+            borderWidth: 0,
+          }}
+        >
           <Button type="submit">Envoyer le commentaire</Button>
-        </VisuallyHidden>
+        </span>
       </div>
     </form>
   );

@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { IoIosAdd } from "react-icons/io";
+import { Add } from "src/components/utils/dsfrIcons";
 import { Layout } from "src/components/layout/auth.layout";
 import { Stack } from "src/components/layout/Stack";
 import { UserList } from "src/components/user/List";
@@ -40,7 +40,7 @@ export function UserPage() {
           }}
         >
           <Button onClick={() => router.push("/users/new")}>
-            <IoIosAdd /> Ajouter un utilisateur
+            <Add /> Ajouter un utilisateur
           </Button>
         </Box>
         <UserList onDeleteUser={onDeleteUser} />

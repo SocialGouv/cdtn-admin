@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IoMdMap } from "react-icons/io";
+import { MapIcon } from "../utils/dsfrIcons";
 import { Button } from "src/components/button";
 import { Dialog } from "src/components/dialog";
 import { Box } from "@mui/material";
@@ -14,13 +14,7 @@ export const MapModal = () => {
     <>
       <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
         <Button variant="secondary" onClick={() => setShowThemeMap(true)}>
-          <IoMdMap
-            sx={{
-              height: theme.sizes.iconMedium,
-              mr: theme.space.small,
-              width: theme.sizes.iconMedium,
-            }}
-          />
+          <MapIcon style={{ marginRight: theme.space.small }} />
           Carte des thèmes
         </Button>
       </Box>
@@ -28,23 +22,15 @@ export const MapModal = () => {
         isOpen={showThemeMap}
         onDismiss={() => setShowThemeMap(false)}
         aria-label="Carte des thèmes"
-        style={{
-          margin: 0,
-          maxHeight: "90vh",
-          padding: 0,
-          width: "75%",
-          right: "10px",
-          top: "80px",
-          position: "absolute",
-        }}
+        maxWidth="lg"
+        fullWidth
       >
         <Box
           sx={{
-            maxHeight: "90vh",
-            maxWidth: "100%",
-            overflow: "scroll",
+            maxHeight: "75vh",
+            overflow: "auto",
+            p: "2rem",
           }}
-          p="2rem"
         >
           <Map setShowThemeMap={setShowThemeMap} />
         </Box>

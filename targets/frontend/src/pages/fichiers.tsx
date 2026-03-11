@@ -16,11 +16,7 @@ import {
 } from "@mui/material";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
-import {
-  IoIosTrash,
-  IoMdCloseCircleOutline,
-  IoMdDownload,
-} from "react-icons/io";
+import { Delete, HighlightOff, Download } from "src/components/utils/dsfrIcons";
 import { CopyButton } from "src/components/button/CopyButton";
 import { Layout } from "src/components/layout/auth.layout";
 import { DropZone } from "src/components/storage/DropZone";
@@ -133,7 +129,7 @@ function FilesPage() {
                 setSearch("");
               }}
             >
-              <IoMdCloseCircleOutline />
+              <HighlightOff />
             </IconButton>
           )}
         </Box>
@@ -218,7 +214,7 @@ function FilesPage() {
                         padding: "20px",
                       }}
                     >
-                      <IoMdDownload
+                      <Download
                         style={{
                           flex: "0 0 auto",
                           ...iconSx,
@@ -290,7 +286,7 @@ function FilesPage() {
                         }}
                         sx={{ flex: "0 0 auto", mx: theme.space.xsmall }}
                       >
-                        <IoIosTrash style={iconSx} />
+                        <Delete style={iconSx} />
                         Supprimer
                       </Button>
                     </Card>

@@ -1,5 +1,5 @@
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import { IoMdAdd } from "react-icons/io";
+import { Add } from "../utils/dsfrIcons";
 import { Box } from "@mui/material";
 
 import { Button } from "../button";
@@ -42,7 +42,7 @@ export const SectionBlocks = ({ name }: SectionBlockProps) => {
             append({ markdown: "", type: "markdown" });
           }}
         >
-          <IoMdAdd
+          <Add
             style={{
               height: theme.sizes.iconSmall,
               marginRight: theme.space.xsmall,

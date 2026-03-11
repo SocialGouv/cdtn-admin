@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useListAgreementQuery } from "./list.query";
 import { useRouter } from "next/router";
 import { Tooltip } from "@mui/material";
-import GavelIcon from "@mui/icons-material/Gavel";
 import Filter from "./Filter";
 import { DataList } from "../../../../components/list";
 
@@ -39,7 +38,12 @@ export const AgreementList = (): JSX.Element => {
               <>
                 {value ? (
                   <Tooltip title="Convention collective traitée par le CDTN">
-                    <GavelIcon fontSize="small" />
+                    <span
+                      className="ri-scales-3-line dsfr-icon--sm"
+                      aria-label="Convention collective traitée par le CDTN"
+                      role="img"
+                      style={{ color: "#18753C" }}
+                    />
                   </Tooltip>
                 ) : undefined}
               </>

@@ -10,9 +10,11 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-import DescriptionIcon from "@mui/icons-material/Description";
-import CloseIcon from "@mui/icons-material/Close";
-import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
+import {
+  Description as DescriptionIcon,
+  Close as CloseIcon,
+  DoNotDisturb as DoNotDisturbIcon,
+} from "../../../utils/dsfrIcons";
 import React, { useEffect, useState } from "react";
 import { StatusContainer } from "../../status";
 import { useRouter } from "next/router";
@@ -33,11 +35,19 @@ type AnswerCheck = {
 const contentTypes = {
   ANSWER: {
     description: "Afficher la réponse",
-    icon: <DescriptionIcon fontSize="small" />,
+    icon: (
+      <span style={{ display: "inline-flex", alignItems: "center" }}>
+        <DescriptionIcon fontSize="small" />
+      </span>
+    ),
   },
   NOTHING: {
     description: "La convention collective ne prévoit rien",
-    icon: <CloseIcon fontSize="small" />,
+    icon: (
+      <span style={{ display: "inline-flex", alignItems: "center" }}>
+        <CloseIcon fontSize="small" />
+      </span>
+    ),
   },
   CDT: {
     description: "La convention collective renvoie au Code du Travail",
@@ -50,7 +60,11 @@ const contentTypes = {
   },
   UNKNOWN: {
     description: "Nous n'avons pas la réponse",
-    icon: <DoNotDisturbIcon fontSize="small" />,
+    icon: (
+      <span style={{ display: "inline-flex", alignItems: "center" }}>
+        <DoNotDisturbIcon fontSize="small" />
+      </span>
+    ),
   },
   SP: {
     description: "Fiche service public",
@@ -58,7 +72,11 @@ const contentTypes = {
   },
   GENERIC_NO_CDT: {
     description: "Le code du travail ne prévoit rien",
-    icon: <CloseIcon fontSize="small" />,
+    icon: (
+      <span style={{ display: "inline-flex", alignItems: "center" }}>
+        <CloseIcon fontSize="small" />
+      </span>
+    ),
   },
 };
 

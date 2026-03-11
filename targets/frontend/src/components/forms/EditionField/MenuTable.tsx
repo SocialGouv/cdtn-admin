@@ -1,5 +1,5 @@
 import { Editor, FloatingMenu } from "@tiptap/react";
-import Delete from "@mui/icons-material/Delete";
+import { Delete } from "../../utils/dsfrIcons";
 import {
   DeleteColumn,
   DeleteRow,
@@ -8,7 +8,7 @@ import {
   InsertRowBottom,
   InsertRowTop,
 } from "./icons";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 
 export const MenuTable = ({ editor }: { editor: Editor | null }) => {
   return editor ? (
@@ -16,7 +16,7 @@ export const MenuTable = ({ editor }: { editor: Editor | null }) => {
       className="floating-menu"
       tippyOptions={{ duration: 100, maxWidth: 500 }}
       editor={editor}
-      shouldShow={({ editor, state }) => editor.isActive("table")}
+      shouldShow={({ editor, state }: any) => editor.isActive("table")}
     >
       <button
         onClick={() => editor.chain().focus().addColumnBefore().run()}

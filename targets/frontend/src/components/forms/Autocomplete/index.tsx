@@ -1,9 +1,9 @@
-import {
+import type {
   AutocompleteCloseReason,
   AutocompleteFreeSoloValueMapping,
   AutocompleteInputChangeReason,
   FilterOptionsState,
-} from "@mui/base/useAutocomplete/useAutocomplete";
+} from "@mui/material/useAutocomplete";
 import {
   Autocomplete,
   CircularProgress,

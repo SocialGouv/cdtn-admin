@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { IoMdClose } from "react-icons/io";
+import { Close } from "../utils/dsfrIcons";
 
 import { ContentLink } from "../../types";
 import { Button } from "../button";
@@ -9,7 +9,13 @@ import { Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import { FormTextField } from "../forms";
 
-export const References = ({ nestName }: { nestName: string }) => {
+export const References = ({
+  nestName,
+  ...rest
+}: {
+  nestName: string;
+  [key: string]: any;
+}) => {
   const {
     control,
     register,
@@ -60,7 +66,7 @@ export const References = ({ nestName }: { nestName: string }) => {
               onClick={() => remove(index)}
               sx={{ flex: "0 0 auto", mt: "medium" }}
             >
-              <IoMdClose style={{ height: "1.5rem", width: "1.5rem" }} />
+              <Close style={{ height: "1.5rem", width: "1.5rem" }} />
             </Button>
           )}
         </Stack>

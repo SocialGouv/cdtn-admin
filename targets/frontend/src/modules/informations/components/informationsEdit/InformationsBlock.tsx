@@ -2,10 +2,12 @@ import { Stack, IconButton } from "@mui/material";
 import React from "react";
 import { FormRadioGroup } from "src/components/forms";
 import { Control, useWatch } from "react-hook-form";
-import { styled } from "@mui/system";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { styled } from "@mui/material/styles";
+import {
+  ArrowUpward as ArrowUpwardIcon,
+  ArrowDownward as ArrowDownwardIcon,
+  Delete as DeleteIcon,
+} from "src/components/utils/dsfrIcons";
 
 import { InformationsBlockText } from "./InformationsBlockText";
 import { InformationsBlockGraphic } from "./InformationsBlockGraphic";

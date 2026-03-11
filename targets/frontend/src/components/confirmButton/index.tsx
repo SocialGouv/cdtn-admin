@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { MdClose } from "react-icons/md";
+import { Close } from "../utils/dsfrIcons";
 import { Button as BaseButton } from "@mui/material";
 
 const buttonPropTypes = {
@@ -36,7 +36,7 @@ export const ConfirmButton = React.forwardRef(function useConfirmButton(
     <BaseButton {...props} ref={ref} onClick={onClickCustom}>
       {needConfirm ? (
         <>
-          Vraiment ? <MdClose onClick={cancel} />
+          Vraiment ? <Close onClick={cancel} />
         </>
       ) : (
         children

@@ -13,10 +13,12 @@ import {
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import HelpIcon from "@mui/icons-material/Help";
+import {
+  Help as HelpIcon,
+  ExpandMore as ExpandMoreIcon,
+} from "../../../utils/dsfrIcons";
 import { z } from "zod";
 import { FormSelect, FormTextField } from "src/components/forms";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Message, QuestionBase, questionRelationSchema } from "../../type";
 import { SnackBar } from "../../../utils/SnackBar";
 import { LoadingButton } from "../../../button/LoadingButton";

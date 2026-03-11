@@ -1,8 +1,6 @@
-import { Accordion } from "@reach/accordion";
 import { HasuraAlert } from "@socialgouv/cdtn-types";
 import { useRouter } from "next/router";
-import React, { useMemo } from "react";
-import { IoIosInformationCircleOutline } from "react-icons/io";
+import { useMemo } from "react";
 import { AlertTabs } from "src/components/alerts/AlertTabs";
 import { AlertTitle } from "src/components/alerts/AlertTitle";
 import {
@@ -111,28 +109,64 @@ export function AlertPage(): JSX.Element {
   const { alerts_aggregate, alerts } = data;
 
   function getTitle(alert: HasuraAlertNoUpdate) {
+    const date = new Date(alert.created_at).toLocaleDateString();
     if (alert.changes.type === "dila" && alert.changes.num) {
       return (
-        <span title={alert.changes.title}>
+        <span>
           IDCC {alert.changes.num}
-          <IoIosInformationCircleOutline
+          <span
             style={{
-              height: theme.sizes.iconsXSmall,
-              marginLeft: "0.1rem",
-              marginRight: "0.1rem",
-              width: theme.sizes.iconsXSmall,
-              verticalAlign: "super",
+              color: theme.colors.muted,
+              fontWeight: 400,
+              fontSize: theme.fontSizes.small,
+              marginLeft: "0.5rem",
             }}
-          />
-          - {new Date(alert.created_at).toLocaleDateString()} ({alert.ref})
+          >
+            {alert.changes.title}
+          </span>
+          <span
+            style={{
+              color: theme.colors.muted,
+              fontWeight: 400,
+              fontSize: theme.fontSizes.xsmall,
+              marginLeft: "0.5rem",
+            }}
+          >
+            {date} ({alert.ref})
+          </span>
+        </span>
+      );
+    } else if (alert.changes.type === "dares") {
+      return (
+        <span>
+          {alert.changes.title}
+          <span
+            style={{
+              color: theme.colors.muted,
+              fontWeight: 400,
+              fontSize: theme.fontSizes.xsmall,
+              marginLeft: "0.5rem",
+            }}
+          >
+            {date} ({alert.ref})
+          </span>
         </span>
       );
     } else {
       return (
-        <>
-          {alert.changes.title} -{" "}
-          {new Date(alert.created_at).toLocaleDateString()} ({alert.ref})
-        </>
+        <span>
+          {date} ({alert.ref})
+          <span
+            style={{
+              color: theme.colors.muted,
+              fontWeight: 400,
+              fontSize: theme.fontSizes.small,
+              marginLeft: "0.5rem",
+            }}
+          >
+            {alert.changes.title}
+          </span>
+        </span>
       );
     }
   }
@@ -217,14 +251,9 @@ export function AlertPage(): JSX.Element {
                     <AlertTitle alertId={alert.id} info={alert.changes}>
                       {getTitle(alert)}
                     </AlertTitle>
-                    <Accordion
-                      collapsible
-                      multiple
-                      defaultIndex={openIndices}
-                      style={{ display: "flex", flexDirection: "column" }}
-                    >
+                    <div style={{ display: "flex", flexDirection: "column" }}>
                       {accordionItems}
-                    </Accordion>
+                    </div>
                   </Stack>
                 </CardContent>
               </Card>

@@ -1,4 +1,21 @@
-import { darken, rgba, transparentize } from "polished";
+// CSS color helpers (replaces polished)
+function hexToRgb(hex: string) {
+  const h = hex.replace("#", "");
+  const n = parseInt(h, 16);
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+function darken(amount: number, hex: string) {
+  const { r, g, b } = hexToRgb(hex);
+  const f = 1 - amount;
+  return `rgb(${Math.round(r * f)}, ${Math.round(g * f)}, ${Math.round(b * f)})`;
+}
+function rgba(hex: string, alpha: number) {
+  const { r, g, b } = hexToRgb(hex);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+function transparentize(amount: number, hex: string) {
+  return rgba(hex, 1 - amount);
+}
 
 export const theme = {
   alerts: {

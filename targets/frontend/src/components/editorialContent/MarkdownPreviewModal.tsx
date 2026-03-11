@@ -1,7 +1,7 @@
 import micromark from "micromark";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { IoIosEye } from "react-icons/io";
+import { Visibility } from "../utils/dsfrIcons";
 
 import { Button } from "../button";
 import { Dialog } from "../dialog";
@@ -24,7 +24,7 @@ export const MarkdownPreviewModal = ({
             size="small"
             onClick={() => setShowMarkdownPreview(true)}
           >
-            <IoIosEye
+            <Visibility
               style={{
                 height: theme.sizes.iconSmall,
                 marginRight: theme.space.small,

@@ -1,11 +1,13 @@
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
-import DescriptionIcon from "@mui/icons-material/Description";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import CloudDoneIcon from "@mui/icons-material/CloudDone";
-import CloudOffIcon from "@mui/icons-material/CloudOff";
-import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import {
+  Check as CheckIcon,
+  Clear as ClearIcon,
+  Description as DescriptionIcon,
+  EditNote as EditNoteIcon,
+  Visibility as VisibilityIcon,
+  CloudDone as CloudDoneIcon,
+  CloudOff as CloudOffIcon,
+  TaskAlt as TaskAltIcon,
+} from "../../utils/dsfrIcons";
 import { fr } from "@codegouvfr/react-dsfr";
 
 export type StatusesMapping = {

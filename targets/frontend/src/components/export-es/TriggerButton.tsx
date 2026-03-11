@@ -1,6 +1,6 @@
 import { Status } from "@socialgouv/cdtn-types";
 import React, { ReactNode } from "react";
-import { MdSyncProblem, MdTimelapse, MdTimerOff } from "react-icons/md";
+import { SyncProblem, Timelapse, TimerOff } from "../utils/dsfrIcons";
 import { Chip } from "@mui/material";
 
 import { ConfirmButton } from "../confirmButton";
@@ -22,11 +22,9 @@ function Index({
 }: TriggerButtonProps) {
   return (
     <ConfirmButton disabled={isDisabled} onClick={onClick} {...buttonProps}>
-      {status === "running" && <MdTimelapse style={{ marginRight: ".2rem" }} />}
-      {status === "failed" && (
-        <MdSyncProblem style={{ marginRight: ".2rem" }} />
-      )}
-      {status === "timeout" && <MdTimerOff style={{ marginRight: ".2rem" }} />}
+      {status === "running" && <Timelapse style={{ marginRight: ".2rem" }} />}
+      {status === "failed" && <SyncProblem style={{ marginRight: ".2rem" }} />}
+      {status === "timeout" && <TimerOff style={{ marginRight: ".2rem" }} />}
       {children}
       {status === "failed" && (
         <Chip

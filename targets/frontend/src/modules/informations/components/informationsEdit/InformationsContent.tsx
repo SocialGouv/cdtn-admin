@@ -8,12 +8,14 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import React from "react";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  ExpandMore as ExpandMoreIcon,
+  ArrowUpward as ArrowUpwardIcon,
+  ArrowDownward as ArrowDownwardIcon,
+  Delete as DeleteIcon,
+} from "src/components/utils/dsfrIcons";
 import { Control, useFieldArray, useWatch } from "react-hook-form";
 
 import { Information } from "../../type";

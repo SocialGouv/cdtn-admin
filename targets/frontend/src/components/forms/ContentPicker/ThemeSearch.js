@@ -1,9 +1,8 @@
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import Autosuggest from "react-autosuggest";
 import { useDebouncedState } from "src/hooks/index";
-import { Box, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import { useQuery } from "urql";
 import { theme as th } from "../../../theme";
 
@@ -31,8 +30,8 @@ query searchThemes($sources: [String!]! = "", $search: String = "") {
 `;
 
 export function ThemeSearch({ onChange }) {
-  const [suggestions, setSuggestions] = useState([]);
-  const [inputSearchValue, setInputSearchValue] = useState("");
+  const [options, setOptions] = useState([]);
+  const [inputValue, setInputValue] = useState("");
   const [searchValue, , setDebouncedSearchValue] = useDebouncedState("", 500);
 
   const [results] = useQuery({
@@ -45,48 +44,66 @@ export function ThemeSearch({ onChange }) {
   });
 
   useEffect(() => {
-    setSuggestions(results.data?.documents || []);
+    setOptions(results.data?.documents || []);
   }, [results.data]);
 
-  const onSearchValueChange = (event, { newValue }) => {
-    setInputSearchValue(newValue);
-  };
-
-  const onSuggestionSelected = (
-    event,
-    { suggestion: { cdtnId, source, title = null, themeDocuments } }
-  ) => {
-    const position = themeDocuments.aggregate.count;
-    onChange({ cdtnId, position, source, title });
-  };
-
-  const onSuggestionsFetchRequested = async ({ value }) => {
-    setDebouncedSearchValue(value);
-    setInputSearchValue(value);
-  };
-
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
-
-  const inputProps = {
-    onChange: onSearchValueChange,
-    placeholder: "Entrer le nom d'un thème et sélectionner le (ex: travail)",
-    value: inputSearchValue,
-  };
   return (
-    <Autosuggest
-      suggestions={suggestions}
-      onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-      onSuggestionsClearRequested={onSuggestionsClearRequested}
-      onSuggestionSelected={onSuggestionSelected}
-      getSuggestionValue={getSuggestionValue}
-      shouldRenderSuggestions={shouldRenderSuggestions}
-      renderInputComponent={renderInputComponent}
-      renderSuggestion={renderSuggestion}
-      renderSuggestionsContainer={renderSuggestionsContainer}
-      inputProps={inputProps}
-      alwaysRenderSuggestions
+    <Autocomplete
+      options={options}
+      getOptionLabel={(option) => option.title || ""}
+      inputValue={inputValue}
+      onInputChange={(event, newValue) => {
+        setInputValue(newValue);
+        setDebouncedSearchValue(newValue);
+      }}
+      onChange={(event, value) => {
+        if (!value) return;
+        const { cdtnId, source, title, themeDocuments } = value;
+        const position = themeDocuments.aggregate.count;
+        onChange({ cdtnId, position, source, title });
+      }}
+      value={null}
+      filterOptions={(x) => x}
+      open={inputValue.length >= 2}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          placeholder="Entrer le nom d'un thème et sélectionner le (ex: travail)"
+          sx={{ padding: th.space.xxsmall, width: "100%" }}
+        />
+      )}
+      renderOption={(props, option) => {
+        const parent = option.parentRelation[0]?.document?.title;
+        return (
+          <li {...props} key={option.cdtnId}>
+            <Box sx={{ lineHeight: 1.2 }}>
+              <Typography variant="body2" color="text.secondary">
+                {parent}
+              </Typography>
+              <Typography variant="body1" className="fr-text--bold">
+                {option.title}
+              </Typography>
+            </Box>
+          </li>
+        );
+      }}
+      noOptionsText={
+        inputValue.length < 2 ? "Tapez au moins 2 caractères" : "Aucun résultat"
+      }
+      slotProps={{
+        listbox: {
+          sx: {
+            "& .MuiAutocomplete-option": {
+              cursor: "pointer",
+              margin: 0,
+              padding: th.space.padding,
+            },
+            ".MuiAutocomplete-option[aria-selected='true']": {
+              backgroundColor: th.colors.info,
+            },
+          },
+        },
+      }}
     />
   );
 }
@@ -94,75 +111,3 @@ export function ThemeSearch({ onChange }) {
 ThemeSearch.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
-
-const renderInputComponent = (inputProps) => (
-  <TextField
-    {...inputProps}
-    sx={{ padding: th.space.xxsmall, width: "100%" }}
-  />
-);
-
-function shouldRenderSuggestions(value) {
-  return value.trim().length >= 2;
-}
-
-const getSuggestionValue = (content) => content.title;
-
-function renderSuggestion(content) {
-  const parent = content.parentRelation[0]?.document?.title;
-  const parentTitle = parent;
-  return (
-    <Box sx={{ lineHeight: 1.2 }}>
-      <Typography variant="body2" color="text.secondary">
-        {parentTitle}
-      </Typography>
-      <Typography variant="body1" className="fr-text--bold">
-        {content.title}
-      </Typography>
-    </Box>
-  );
-}
-
-function renderSuggestionsContainer({ containerProps, children }) {
-  return (
-    <Box
-      {...containerProps}
-      sx={{
-        position: "relative",
-      }}
-    >
-      <Box
-        sx={{
-          ".react-autosuggest__suggestion--highlighted": {
-            backgroundColor: th.colors.info,
-          },
-          '[class*="container--open"] &': {
-            border: "1px solid",
-            borderRadius: "4px",
-            left: 0,
-            maxHeight: "300px",
-            overflow: "scroll",
-            position: "absolute",
-            right: 0,
-            top: "4px",
-          },
-          backgroundColor: th.colors.white,
-          li: {
-            cursor: "pointer",
-            margin: "0",
-            padding: th.space.padding,
-          },
-
-          ul: {
-            listStyleType: "none",
-            margin: "0",
-            padding: "0",
-          },
-          zIndex: 1,
-        }}
-      >
-        {children}
-      </Box>
-    </Box>
-  );
-}

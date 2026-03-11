@@ -8,14 +8,16 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Menu as MenuIcon } from "../utils/dsfrIcons";
 
 import { useEffect, useState } from "react";
 import { LogoAdmin } from "./LogoAdmin";
 import { Navigation } from "./Navigation";
 import { UserMenu } from "./UserMenu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import {
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+} from "../utils/dsfrIcons";
 import { fr } from "@codegouvfr/react-dsfr";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { SnackBar } from "../utils/SnackBar";

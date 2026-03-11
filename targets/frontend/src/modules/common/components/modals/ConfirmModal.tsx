@@ -1,5 +1,5 @@
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import { fr } from "@codegouvfr/react-dsfr";
 
 export type ConfirmModalProps = {

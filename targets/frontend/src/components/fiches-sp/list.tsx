@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { CheckCircleOutline } from "../utils/dsfrIcons";
 import { SelectionContext } from "src/pages/contenus/fiches-sp";
 import { theme } from "src/theme";
 import {
@@ -96,9 +96,9 @@ function getStatus({ status, cdtn_id, is_available, is_published }: any) {
     if (is_published) {
       return (
         <Typography style={{ color: theme.colors.positive }}>
-          <IoMdCheckmarkCircleOutline
+          <CheckCircleOutline
             aria-label="la fiche est disponible"
-            title="La fiche est disponible"
+            titleAccess="La fiche est disponible"
           />
         </Typography>
       );

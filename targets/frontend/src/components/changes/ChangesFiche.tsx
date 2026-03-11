@@ -3,7 +3,7 @@ import { DocumentInfoWithCdtnRef } from "@socialgouv/cdtn-types";
 import slugify from "@socialgouv/cdtn-slugify";
 import { getRouteBySource, type SourceKeys } from "@socialgouv/cdtn-utils";
 import { theme } from "src/theme";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 
 type Props = {
   documents: DocumentInfoWithCdtnRef[];
