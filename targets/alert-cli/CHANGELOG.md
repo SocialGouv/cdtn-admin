@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.69.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.68.1...v2.69.0) (2026-03-11)
+
+### Features
+
+- **alert:** ne pas empêcher les alertes de tourner si le site travail-emploi n'est pas disponible ([#1646](https://github.com/SocialGouv/cdtn-admin/issues/1646)) ([d1b6aad](https://github.com/SocialGouv/cdtn-admin/commit/d1b6aad14513834d2022b7259f1358cca2bbfb52))
+- **deps:** mise à jour de nextjs en 16 ; react en 19 ; react-dsfr en 1.32 ([#1645](https://github.com/SocialGouv/cdtn-admin/issues/1645)) ([08c827e](https://github.com/SocialGouv/cdtn-admin/commit/08c827e71b003818f441a71db8de31f391471f75))
+- migration de yarn à pnpm ([#1644](https://github.com/SocialGouv/cdtn-admin/issues/1644)) ([8ec322e](https://github.com/SocialGouv/cdtn-admin/commit/8ec322e1bbe2cf64e4bc30b947e89f9359e78ffb))
+
 ## [2.68.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.68.0...v2.68.1) (2026-02-20)
 
 **Note:** Version bump only for package alert-cli
