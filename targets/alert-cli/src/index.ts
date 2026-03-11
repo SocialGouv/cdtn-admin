@@ -1,4 +1,4 @@
-import { gqlClient } from "@shared/utils";
+import { gqlClient, sendMattermostMessage } from "@shared/utils";
 import { GithubApi } from "./utils/github";
 import { SourcesRepository } from "./repositories/SourcesRepository";
 import { AlertRepository } from "./repositories/AlertRepository";
@@ -52,7 +52,20 @@ export async function run(
 }
 
 async function main() {
-  await runDares();
+  try {
+    await runDares();
+  } catch (error: unknown) {
+    const webhook = process.env.MATTERMOST_WEBHOOK;
+    if (!webhook) {
+      throw error;
+    }
+    console.error(error);
+    await sendMattermostMessage(
+      webhook,
+      "Echec de la mise à jour des alertes concernant les IDCC provenant de la DARES.",
+      process.env.MATTERMOST_CHANNEL_EXPORT
+    );
+  }
   const githubToken = process.env.GITHUB_TOKEN;
   if (!githubToken) {
     throw new Error("GITHUB_TOKEN is not defined");
