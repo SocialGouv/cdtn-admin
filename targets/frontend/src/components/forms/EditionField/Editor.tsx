@@ -34,6 +34,41 @@ export type EditorProps = {
 
 const emptyHtml = "<p></p>";
 
+export const defaultExtensions: Extensions = [
+  StarterKit,
+  Table.configure({
+    resizable: true,
+  }),
+  TableRow,
+  TableHeader,
+  TableCell,
+  Details.configure({
+    persist: false,
+    HTMLAttributes: {
+      class: "details",
+    },
+  }),
+  DetailsSummary,
+  DetailsContent,
+  Placeholder.configure({
+    includeChildren: true,
+    placeholder: ({ node }) => {
+      if (node.type.name === "detailsSummary") {
+        return "Titre de la section";
+      }
+      return "";
+    },
+  }),
+  Link.configure({
+    openOnClick: false,
+    HTMLAttributes: {
+      rel: null,
+    },
+  }),
+  Alert,
+  Title,
+];
+
 export const Editor = ({
   label,
   content,
@@ -48,41 +83,6 @@ export const Editor = ({
   const [focus, setFocus] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [isInfoModalOpened, openInfoModal] = useState<boolean>(false);
-
-  const defaultExtensions: Extensions = [
-    StarterKit,
-    Table.configure({
-      resizable: true,
-    }),
-    TableRow,
-    TableHeader,
-    TableCell,
-    Details.configure({
-      persist: false,
-      HTMLAttributes: {
-        class: "details",
-      },
-    }),
-    DetailsSummary,
-    DetailsContent,
-    Placeholder.configure({
-      includeChildren: true,
-      placeholder: ({ node }) => {
-        if (node.type.name === "detailsSummary") {
-          return "Titre de la section";
-        }
-        return "";
-      },
-    }),
-    Link.configure({
-      openOnClick: false,
-      HTMLAttributes: {
-        rel: null,
-      },
-    }),
-    Alert,
-    Title,
-  ];
 
   const editor = useEditor({
     content,

@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: ajout de colonne dans tableau via addColumnAfter 1`] = `"<div class="tableWrapper"><table style="min-width: 75px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Col 1</p></th><th colspan="1" rowspan="1"><p>Col 2</p></th><th colspan="1" rowspan="1"><p><br class="ProseMirror-trailingBreak"></p></th></tr><tr><td colspan="1" rowspan="1"><p><br class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p><br class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p><br class="ProseMirror-trailingBreak"></p></td></tr></tbody></table></div>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: ajout de ligne dans tableau via addRowAfter 1`] = `"<div class="tableWrapper"><table style="min-width: 50px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Col 1</p></th><th colspan="1" rowspan="1"><p>Col 2</p></th></tr><tr><td colspan="1" rowspan="1"><p>Ligne 1</p></td><td colspan="1" rowspan="1"><p>Ligne 2</p></td></tr><tr><td colspan="1" rowspan="1"><p><br class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p><br class="ProseMirror-trailingBreak"></p></td></tr></tbody></table></div>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: alerte via setAlert 1`] = `"<div class="alert"><p>Ceci est un message d'alerte important</p></div>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: blockquote via toggleBlockquote 1`] = `"<blockquote><p>Ceci est une citation importante.</p></blockquote>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: code block via toggleCodeBlock 1`] = `"<pre><code>const x = 42;</code></pre>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: combinaison de commandes 1`] = `"<ul><li><p>Paragraphe avec <strong>texte en grasPoint 1</strong></p></li><li><p>Point 2</p></li></ul>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: contenu vide 1`] = `"<p data-placeholder="" class="is-empty is-editor-empty"><br class="ProseMirror-trailingBreak"></p>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: fusion de cellules via mergeCells 1`] = `"<div class="tableWrapper"><table style="min-width: 50px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>En-tête fusionné</p></th><th colspan="1" rowspan="1"><p><br class="ProseMirror-trailingBreak"></p></th></tr><tr><td colspan="1" rowspan="1"><p><br class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p><br class="ProseMirror-trailingBreak"></p></td></tr></tbody></table></div>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: hard break via setHardBreak 1`] = `"<p>Première ligne<br>Deuxième ligne<br>Troisième ligne</p>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: horizontal rule via setHorizontalRule 1`] = `"<p>Texte avant</p><hr><p>Texte après</p>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: insertion de texte via insertContent 1`] = `"<p>Ceci est un paragraphe simple.</p>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: lien via setLink 1`] = `"<p>Visitez notre <a target="_blank" href="https://example.com">site web</a></p>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: liste imbriquée via sinkListItem 1`] = `"<ul><li><p>Élément parent 1</p><ul><li><p>Élément enfant 1.1</p></li><li><p>Élément enfant 1.2</p></li></ul></li><li><p>Élément parent 2</p></li></ul>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: liste numérotée via toggleOrderedList 1`] = `"<ol><li><p>Première étape</p></li><li><p>Deuxième étape</p></li><li><p>Troisième étape</p></li></ol>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: liste à puces via toggleBulletList 1`] = `"<ul><li><p>Premier élément</p></li><li><p>Deuxième élément</p></li><li><p>Troisième élément</p></li></ul>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: section dépliable via setDetails 1`] = `"<div class="details" data-type="details"><button type="button"></button><div><summary>Titre de la section</summary><div data-type="detailsContent" hidden="hidden"><p><br class="ProseMirror-trailingBreak"></p></div></div></div>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: sous-titre via toggleTitle 1`] = `"<span class="sub-title">Sous-titre</span>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: tableau via insertTable 1`] = `"<div class="tableWrapper"><table style="min-width: 50px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>En-tête 1</p></th><th colspan="1" rowspan="1"><p>En-tête 2</p></th></tr><tr><td colspan="1" rowspan="1"><p>Cellule 1</p></td><td colspan="1" rowspan="1"><p>Cellule 2</p></td></tr><tr><td colspan="1" rowspan="1"><p><br class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p><br class="ProseMirror-trailingBreak"></p></td></tr></tbody></table></div>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: texte en gras via toggleBold 1`] = `"<p>Texte normal <strong>texte en gras</strong> texte normal</p>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: texte en italique via toggleItalic 1`] = `"<p>Texte normal <em>texte en italique</em> texte normal</p>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: texte gras et italique combinés 1`] = `"<p>Texte <strong>gras <em>et italique</em></strong> normal</p>"`;
+
+exports[`Editor - HTML Snapshots avec commandes Tiptap snapshot: titre via toggleTitle 1`] = `"<span class="title">Titre principal</span>"`;
