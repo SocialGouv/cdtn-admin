@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.70.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.69.0...v2.70.0) (2026-03-24)
+
+### Features
+
+- mise à jour de la méthode pour récupérer le contenu du ministère ([e89c189](https://github.com/SocialGouv/cdtn-admin/commit/e89c189c482bcbcf072d041e3d0c5b970745eb81))
+
 # [2.69.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.68.1...v2.69.0) (2026-03-11)
 
 ### Features

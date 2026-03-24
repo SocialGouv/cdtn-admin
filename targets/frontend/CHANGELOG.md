@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.70.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.69.0...v2.70.0) (2026-03-24)
+
+### Features
+
+- **tiptap:** ajout de tests unitaires sur tiptap ([#1649](https://github.com/SocialGouv/cdtn-admin/issues/1649)) ([2a4c66e](https://github.com/SocialGouv/cdtn-admin/commit/2a4c66e08ba08f7475c777c39b11d07af9aad591))
+
 # [2.69.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.68.1...v2.69.0) (2026-03-11)
 
 ### Features
