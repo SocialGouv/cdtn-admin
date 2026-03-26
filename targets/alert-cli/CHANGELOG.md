@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.70.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.70.0...v2.70.1) (2026-03-26)
+
+### Bug Fixes
+
+- ajout du user agent pour télécharger le fichier des conventions collectives ([#1651](https://github.com/SocialGouv/cdtn-admin/issues/1651)) ([836ba07](https://github.com/SocialGouv/cdtn-admin/commit/836ba07e314d9ab9ca6b96c7a633c7eb24e12e21))
+
 # [2.70.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.69.0...v2.70.0) (2026-03-24)
 
 ### Features
