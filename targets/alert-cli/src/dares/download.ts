@@ -9,8 +9,12 @@ export async function downloadFileInTempFolder(
 ): Promise<string> {
   const tempDir = os.tmpdir();
   const filePath = path.join(tempDir, nameOfFile);
-
-  const response = await axios.get(url, { responseType: "stream" });
+  const response = await axios.get(url, {
+    headers: {
+      "User-Agent": process.env.USER_AGENT,
+    },
+    responseType: "stream",
+  });
   const writer = fs.createWriteStream(filePath);
   response.data.pipe(writer);
 
