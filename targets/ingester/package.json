@@ -4,7 +4,7 @@
   "dependencies": {
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-slugify": "4.52.1",
-    "@socialgouv/cdtn-utils": "^4.208.2",
+    "@socialgouv/cdtn-utils": "^4.222.0",
     "@socialgouv/kali-data": "^3.414.1",
     "get-uri": "3.0.2",
     "got": "11.8.6",

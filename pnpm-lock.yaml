@@ -57,8 +57,8 @@ importers:
   shared/types:
     devDependencies:
       '@socialgouv/cdtn-utils':
-        specifier: ^4.208.2
-        version: 4.214.0(react@19.2.4)
+        specifier: ^4.222.0
+        version: 4.222.0(react@19.2.4)
       '@socialgouv/kali-data-types':
         specifier: ^3.414.1
         version: 3.414.1
@@ -72,8 +72,8 @@ importers:
   shared/utils:
     dependencies:
       '@socialgouv/cdtn-utils':
-        specifier: ^4.208.2
-        version: 4.214.0(react@19.2.4)
+        specifier: ^4.222.0
+        version: 4.222.0(react@19.2.4)
       '@socialgouv/dila-api-client':
         specifier: ^1.2.4
         version: 1.2.4(encoding@0.1.13)
@@ -127,8 +127,8 @@ importers:
         specifier: 4.52.1
         version: 4.52.1
       '@socialgouv/cdtn-utils':
-        specifier: ^4.208.2
-        version: 4.214.0(react@19.2.4)
+        specifier: ^4.222.0
+        version: 4.222.0(react@19.2.4)
       '@socialgouv/dila-api-client':
         specifier: 1.2.4
         version: 1.2.4(encoding@0.1.13)
@@ -251,8 +251,8 @@ importers:
         specifier: workspace:^
         version: link:../../shared/types
       '@socialgouv/cdtn-utils':
-        specifier: ^4.208.2
-        version: 4.214.0(react@19.2.4)
+        specifier: ^4.222.0
+        version: 4.222.0(react@19.2.4)
       axios:
         specifier: ^0.26.1
         version: 0.26.1
@@ -393,8 +393,8 @@ importers:
         specifier: ^4.52.1
         version: 4.52.1
       '@socialgouv/cdtn-utils':
-        specifier: ^4.212.0
-        version: 4.214.0(react@19.2.4)
+        specifier: ^4.222.0
+        version: 4.222.0(react@19.2.4)
       '@tiptap-pro/extension-details':
         specifier: ^2.3.3
         version: 2.21.5(@tiptap/core@2.27.2(@tiptap/pm@2.27.2))(@tiptap/pm@2.27.2)
@@ -595,8 +595,8 @@ importers:
         specifier: 4.52.1
         version: 4.52.1
       '@socialgouv/cdtn-utils':
-        specifier: ^4.208.2
-        version: 4.214.0(react@19.2.4)
+        specifier: ^4.222.0
+        version: 4.222.0(react@19.2.4)
       '@socialgouv/kali-data':
         specifier: ^3.414.1
         version: 3.418.0
@@ -2488,8 +2488,8 @@ packages:
   '@socialgouv/cdtn-slugify@4.52.1':
     resolution: {integrity: sha512-zcsqNr69GNDtsYC8vicEe0Dg1wWbFApewh0t/vtIaXauL/QKxCg2jrXGWOJw6bg4sJIDHU6VIo2W57SAG2v4jA==}
 
-  '@socialgouv/cdtn-utils@4.214.0':
-    resolution: {integrity: sha512-2Rz5j2/bnpMMEnaQyCwc8+9PfrlX0tuqQn4oz/qnDIwS211VFShO1Fc0ZfsWisOI9rOyHNTCQA8Vn3FfLweoRQ==}
+  '@socialgouv/cdtn-utils@4.222.0':
+    resolution: {integrity: sha512-nVjADagxIG1KCt6NzsBS712sCepIRHrfKWE0GFM0t3WzUYgWldrWW3/ZjcDj9zW5oNg8Z9smztEceYZBoz099Q==}
     peerDependencies:
       react: '>=19'
 
@@ -11452,7 +11452,7 @@ snapshots:
     dependencies:
       '@types/jest': 26.0.24
 
-  '@socialgouv/cdtn-utils@4.214.0(react@19.2.4)':
+  '@socialgouv/cdtn-utils@4.222.0(react@19.2.4)':
     dependencies:
       react: 19.2.4
 
