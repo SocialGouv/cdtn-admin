@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.71.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.70.1...v2.71.0) (2026-03-30)
+
+### Features
+
+- **actualites:** ajout des types dans l'admin ([#1654](https://github.com/SocialGouv/cdtn-admin/issues/1654)) ([4e6b2b7](https://github.com/SocialGouv/cdtn-admin/commit/4e6b2b7326f82ef6214f3f5aca812b9eca464204))
+
 ## [2.70.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.70.0...v2.70.1) (2026-03-26)
 
 **Note:** Version bump only for package @shared/utils
