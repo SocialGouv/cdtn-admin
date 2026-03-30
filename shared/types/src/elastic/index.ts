@@ -10,3 +10,4 @@ export * from "./modeles-de-courrier";
 export * from "./highlights";
 export * from "./infographic";
 export * from "./what-is-new";
+export * from "./news";

@@ -14,3 +14,4 @@ export * from "./prequalified";
 export * from "./themes";
 export * from "./glossary";
 export * from "./infographic";
+export * from "./news";
