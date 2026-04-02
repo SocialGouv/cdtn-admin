@@ -149,7 +149,7 @@ export const NewsForm = ({
                   setSnack({
                     open: true,
                     severity: "success",
-                    message: "L'actualitée a été publiée",
+                    message: "L'actualité a été publiée",
                   });
                   setIsPublishing(false);
                 } catch (e: any) {
