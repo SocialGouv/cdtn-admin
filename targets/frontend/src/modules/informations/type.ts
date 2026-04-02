@@ -88,7 +88,6 @@ export const informationSchema = z.object({
   intro: z.string().nullable().optional(),
   referenceLabel: z.string().nullable().optional(),
   sectionDisplayMode: z.string().optional(),
-  dismissalProcess: z.boolean(),
   updatedAt: z.string().nullable().optional(),
   contents: z.array(informationContentSchema),
   references: z.array(referenceSchema),
