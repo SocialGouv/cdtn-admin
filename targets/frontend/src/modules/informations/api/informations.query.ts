@@ -14,7 +14,6 @@ export const informationsQuery = gql`
       title
       updatedAt
       displayDate
-      dismissalProcess
       contents(order_by: { order: asc }) {
         id
         name

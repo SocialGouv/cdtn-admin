@@ -191,23 +191,6 @@ const EditorialContentForm = ({
             ]}
           />
         </Box>
-        <Box sx={{ mb: "1rem" }}>
-          <FormControlLabel
-            control={
-              <Controller
-                name={"document.dismissalProcess"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Checkbox
-                    checked={value}
-                    onChange={(e) => onChange(e.target.checked)}
-                  />
-                )}
-              />
-            }
-            label="Dossier licenciement"
-          />
-        </Box>
         <ContentSections
           control={control}
           register={register}

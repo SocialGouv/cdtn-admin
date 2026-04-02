@@ -13,7 +13,6 @@ import { InformationsResult } from "./Informations.query";
 import { Information, informationSchema } from "../../type";
 import { InformationsContent } from "./InformationsContent";
 import { InformationsReference } from "./InformationsReference";
-import { FormCheckbox } from "src/components/forms/Checkbox";
 import { LoadingButton } from "../../../../components/button/LoadingButton";
 
 export type InformationsFormProps = {
@@ -30,7 +29,7 @@ export const InformationsForm = ({
   onPublish,
 }: InformationsFormProps): JSX.Element => {
   const { control, handleSubmit } = useForm<Information>({
-    defaultValues: data ?? { title: "", dismissalProcess: false },
+    defaultValues: data ?? { title: "" },
     resolver: zodResolver(informationSchema),
     shouldFocusError: true,
   });
@@ -112,11 +111,6 @@ export const InformationsForm = ({
               rules={{ required: true }}
             />
           </FormControl>
-          <FormCheckbox
-            control={control}
-            label="Dossier licenciement"
-            name="dismissalProcess"
-          />
           <Typography variant="h5">Sections</Typography>
           {!!contents.length && (
             <FormRadioGroup
@@ -215,7 +209,7 @@ export const InformationsForm = ({
             <Button
               type="button"
               color="error"
-              disabled={!onDelete || data?.dismissalProcess}
+              disabled={!onDelete}
               onClick={() => onDelete && onDelete()}
             >
               Supprimer
