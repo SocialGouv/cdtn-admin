@@ -245,5 +245,11 @@ exports.documentMapping = {
     variants: {
       type: "text",
     },
+
+    // used for sort
+    date: {
+      type: "date",
+      format: "dd/MM/yyyy",
+    },
   },
 };

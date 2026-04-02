@@ -1,0 +1,50 @@
+table:
+  name: news_cdtn_references
+  schema: news
+configuration:
+  column_config:
+    cdtn_id:
+      custom_name: cdtnId
+    news_id:
+      custom_name: newsId
+  custom_column_names:
+    cdtn_id: cdtnId
+    news_id: newsId
+  custom_root_fields: {}
+object_relationships:
+  - name: document
+    using:
+      foreign_key_constraint_on: cdtn_id
+  - name: news
+    using:
+      foreign_key_constraint_on: news_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - cdtn_id
+        - news_id
+    comment: ""
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - cdtn_id
+        - news_id
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - cdtn_id
+        - news_id
+      filter: {}
+      check: {}
+    comment: ""
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""

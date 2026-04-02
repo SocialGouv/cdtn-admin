@@ -58,6 +58,7 @@ export async function toUrlEntries(
     `/themes`,
     `/convention-collective`,
     `/infographie`,
+    "/actualite",
   ].map((path) => toUrlEntry(`${baseUrl}${path}`, latestPostDate));
 
   const glossaryPages = glossaryTerms.map(({ slug, updated_at }) =>
@@ -171,6 +172,7 @@ async function getDocuments() {
     SOURCES.TOOLS,
     SOURCES.THEMES,
     SOURCES.INFOGRAPHICS,
+    SOURCES.NEWS,
   ];
   const PAGE_SIZE = 300;
   const limit = pLimit(5);

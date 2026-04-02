@@ -8,6 +8,7 @@ import {
   ExportEsStatus,
   FicheTravailEmploiDoc,
   InfographicTemplateDoc,
+  NewsTemplateDoc,
   WhatIsNewItemDoc,
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
@@ -34,6 +35,7 @@ import { generateEditorialContents } from "./informations/generate";
 import { mergeRelatedDocumentsToEditorialContents } from "./informations/mergeRelatedDocumentsToEditorialContents";
 import { updateExportStatuses } from "./documents/updateExportStatuses";
 import { generateInfographics } from "./infographics";
+import { generateNews } from "./news";
 
 /**
  * Find duplicate slugs
@@ -127,6 +129,18 @@ export async function cdtnDocumentsGen(
     [SOURCES.INFOGRAPHICS]: infographics.length,
   };
   await updateDocs(SOURCES.INFOGRAPHICS, infographics);
+
+  logger.info("=== Actualités ===");
+  const newsDocs = await getDocumentBySource<NewsTemplateDoc>(
+    SOURCES.NEWS,
+    getBreadcrumbs
+  );
+  const news = await generateNews(newsDocs);
+  documentsCount = {
+    ...documentsCount,
+    [SOURCES.NEWS]: news.length,
+  };
+  await updateDocs(SOURCES.NEWS, news);
 
   logger.info("=== Quoi de neuf ? ===");
   const whatIsNewDocs = await getDocumentBySource<WhatIsNewItemDoc>(
