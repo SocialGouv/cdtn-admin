@@ -18,6 +18,8 @@ import { mapInfographicToDocument } from "../../infographics/mapInfographicToDoc
 import { InfographicRepository } from "../../infographics/api";
 import { mapWhatIsNewItemToDocument } from "../../what-is-new/mapWhatIsNewItemToDocument";
 import { WhatIsNewItemsRepository } from "../../what-is-new/api";
+import { NewsRepository } from "../../news/api";
+import { mapNewsToDocument } from "../../news/mapNewsToDocument";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -27,6 +29,7 @@ export class DocumentsService {
   private readonly agreementRepository: AgreementRepository;
   private readonly infographicRepository: InfographicRepository;
   private readonly whatIsNewItemsRepository: WhatIsNewItemsRepository;
+  private readonly newsRepository: NewsRepository;
 
   constructor(
     informationsRepository: InformationsRepository,
@@ -35,7 +38,8 @@ export class DocumentsService {
     modelRepository: ModelRepository,
     agreementRepository: AgreementRepository,
     infographicRepository: InfographicRepository,
-    whatIsNewItemsRepository: WhatIsNewItemsRepository
+    whatIsNewItemsRepository: WhatIsNewItemsRepository,
+    newsRepository: NewsRepository
   ) {
     this.informationsRepository = informationsRepository;
     this.modelRepository = modelRepository;
@@ -44,6 +48,7 @@ export class DocumentsService {
     this.agreementRepository = agreementRepository;
     this.infographicRepository = infographicRepository;
     this.whatIsNewItemsRepository = whatIsNewItemsRepository;
+    this.newsRepository = newsRepository;
   }
 
   public async publish(id: string, source: SourceKeys) {
@@ -162,6 +167,18 @@ export class DocumentsService {
         }
 
         document = mapWhatIsNewItemToDocument(item, document);
+        break;
+      }
+      case "actualites": {
+        const news = await this.newsRepository.fetch(id);
+        if (!news) {
+          throw new NotFoundError({
+            message: `No news found with id ${id}`,
+            name: "NOT_FOUND",
+            cause: null,
+          });
+        }
+        document = mapNewsToDocument(news, document);
         break;
       }
       default:

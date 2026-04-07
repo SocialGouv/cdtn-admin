@@ -6,10 +6,11 @@ import { DocumentsRepository } from "../documents.repository";
 import { ContributionRepository } from "../../../contribution";
 import { ModelRepository } from "../../../models/api";
 import { AgreementRepository } from "../../../agreements/api";
-import { GqlClient, generateCdtnId } from "@shared/utils";
+import { generateCdtnId, GqlClient } from "@shared/utils";
 import { InfographicRepository } from "../../../infographics/api";
 import { WhatIsNewItemsRepository } from "../../../what-is-new/api";
 import { SOURCES } from "@socialgouv/cdtn-utils";
+import { NewsRepository } from "../../../news/api";
 
 jest.mock("../../../common/getGlossaryContent.ts", () => {
   return {
@@ -171,7 +172,8 @@ describe("document service", () => {
       new ModelRepository(client),
       new AgreementRepository(client),
       new InfographicRepository(client),
-      new WhatIsNewItemsRepository(client)
+      new WhatIsNewItemsRepository(client),
+      new NewsRepository(client)
     );
 
     await service.publish("1234", "contributions");
@@ -239,7 +241,8 @@ describe("document service", () => {
         new ModelRepository(localClient),
         new AgreementRepository(localClient),
         new InfographicRepository(localClient),
-        new WhatIsNewItemsRepository(localClient)
+        new WhatIsNewItemsRepository(localClient),
+        new NewsRepository(client)
       );
 
       const cdtnId = await service.publish(itemId, "what_is_new");
@@ -284,7 +287,8 @@ describe("document service", () => {
         new ModelRepository(localClient),
         new AgreementRepository(localClient),
         new InfographicRepository(localClient),
-        new WhatIsNewItemsRepository(localClient)
+        new WhatIsNewItemsRepository(localClient),
+        new NewsRepository(client)
       );
 
       const cdtnId = await service.publish(itemId, "what_is_new");

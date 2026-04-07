@@ -17,7 +17,8 @@ export type Source =
   | "contributions"
   | "conventions_collectives"
   | "infographies"
-  | "what_is_new";
+  | "what_is_new"
+  | "actualites";
 
 export type PublishProps = {
   id: string;

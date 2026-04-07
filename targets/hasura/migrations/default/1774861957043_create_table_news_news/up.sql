@@ -1,0 +1,2 @@
+CREATE TABLE "news"."news" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "created_at" timestamptz NOT NULL DEFAULT now(), "updated_at" timestamptz NOT NULL DEFAULT now(), "display_date" date NOT NULL, "title" text NOT NULL, "content" text NOT NULL, "meta_title" text NOT NULL, "meta_description" text NOT NULL, PRIMARY KEY ("id") , UNIQUE ("id"));COMMENT ON TABLE "news"."news" IS E'Contient les pages actualités du CDTN';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
