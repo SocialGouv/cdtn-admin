@@ -80,7 +80,6 @@ export type EditorialContentDoc = {
   intro: string;
   introWithGlossary: string;
   section_display_mode?: EditorialSectionDisplayMode;
-  dismissalProcess?: boolean;
   contents: EditorialContentBaseContentPart[];
   references?: EditoralContentReferenceBloc[];
   description: string;

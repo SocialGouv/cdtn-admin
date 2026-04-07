@@ -15,7 +15,6 @@ const informationsQuery = gql`
       sectionDisplayMode
       title
       updatedAt
-      dismissalProcess
       displayDate
       contents(order_by: { order: asc }) {
         id

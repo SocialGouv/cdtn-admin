@@ -28,7 +28,6 @@ export const mapInformationToDocument = async (
       introWithGlossary,
       description: data.description,
       sectionDisplayMode: data.sectionDisplayMode,
-      dismissalProcess: data.dismissalProcess,
       references: data.references.length
         ? [
             {

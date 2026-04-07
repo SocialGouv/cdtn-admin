@@ -12,7 +12,6 @@ const information: InformationsResult = {
   description: "description information",
   metaTitle: "titre meta information",
   metaDescription: "description meta information",
-  dismissalProcess: true,
   sectionDisplayMode: "tab",
   intro: "intro information",
   contents: [
@@ -72,8 +71,6 @@ describe("InformationForm", () => {
       screen.getAllByLabelText<HTMLInputElement>("Description Meta");
     const [inputInfoIntro] =
       screen.getAllByLabelText<HTMLInputElement>("Intro");
-    const [inputInfoDismissalProcess] =
-      screen.getAllByLabelText<HTMLInputElement>("Dossier licenciement");
     const [inputContentAccordion] =
       screen.getAllByLabelText<HTMLInputElement>("Accordéon");
     const [inputContentTab] =
@@ -104,7 +101,6 @@ describe("InformationForm", () => {
       "description meta information"
     );
     expect(inputInfoIntro.value).toContain("intro information");
-    expect(inputInfoDismissalProcess.checked).toEqual(true);
 
     // Partie Contenus
     expect(inputContentAccordion.checked).toEqual(false);
