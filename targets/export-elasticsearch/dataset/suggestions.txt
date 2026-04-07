@@ -1,601 +1,608 @@
-{"entity": "Cong\u00e9s pay\u00e9s", "value": 24.10311293099437}
-{"entity": "Convention collective", "value": 23.017387123291922}
-{"entity": "Rupture conventionnelle", "value": 16.56507375180308}
-{"entity": "Heures suppl\u00e9mentaires", "value": 14.052394025405984}
-{"entity": "Indemnit\u00e9 licenciement", "value": 12.392784576489383}
-{"entity": "Rupture conventionnelle individuelle indemnit\u00e9 de rupture", "value": 12.361763839126455}
-{"entity": "Licenciement pour inaptitude", "value": 12.098087571541575}
-{"entity": "Pr\u00e9avis d\u00e9mission", "value": 11.787880197912305}
-{"entity": "Comment calculer le montant de l'indemnit\u00e9 de licenciement", "value": 11.741349091867914}
-{"entity": "Proc\u00e9dure de licenciement", "value": 10.8107269709801}
-{"entity": "P\u00e9riode d'essai", "value": 10.298884804491802}
-{"entity": "Indemnit\u00e9s de licenciement", "value": 9.554387107781553}
-{"entity": "Licenciement \u00e9conomique", "value": 8.949482729204473}
-{"entity": "Arr\u00eat maladie", "value": 8.313557613264468}
-{"entity": "Cong\u00e9s pay\u00e9s et maladie", "value": 8.220495401175686}
-{"entity": "Rupture conventionnelle cdi", "value": 7.9413087649093415}
-{"entity": "Acquisition cong\u00e9s pay\u00e9s pendant arr\u00eat maladie", "value": 7.9413087649093415}
-{"entity": "P\u00e9riode d'essai : rupture et d\u00e9lai de pr\u00e9venance", "value": 7.817225815457634}
-{"entity": "Fiche de paie", "value": 7.569059916554217}
-{"entity": "Cong\u00e9s \u00e9v\u00e9nement familial", "value": 7.429466598421045}
-{"entity": "Cong\u00e9s d'anciennet\u00e9", "value": 7.336404386332263}
-{"entity": "Cong\u00e9s", "value": 7.3208940176508}
-{"entity": "Grille salaire convention collective", "value": 7.119259224791773}
-{"entity": "Comment calculer les indemnit\u00e9s de d\u00e9part \u00e0 la retraite ?", "value": 7.088238487428846}
-{"entity": "Licenciement inaptitude", "value": 6.8400725885254285}
-{"entity": "Avenant au contrat de travail", "value": 6.653948164347867}
-{"entity": "Solde de tout compte", "value": 6.359251159400059}
-{"entity": "Prime d'anciennet\u00e9", "value": 6.250678578629814}
-{"entity": "Accident du travail", "value": 6.204147472585423}
-{"entity": "L'employeur a t il le droit d'imposer des cong\u00e9s pay\u00e9s", "value": 6.064554154452251}
-{"entity": "Combien de jours de cong\u00e9s en cas de d\u00e9c\u00e8s d'un proche ?", "value": 6.049043785770787}
-{"entity": "D\u00e9mission cdi", "value": 5.816388255548834}
-{"entity": "Les cong\u00e9s pour \u00e9v\u00e9nements familiaux", "value": 5.7698571495044435}
-{"entity": "Salaire", "value": 5.7078156747785895}
-{"entity": "Harc\u00e8lement moral", "value": 5.568222356645418}
-{"entity": "Maintien de salaire et maladie", "value": 5.521691250601027}
-{"entity": "Contrat de travail", "value": 5.242504614334682}
-{"entity": "Temps de pause", "value": 5.211483876971756}
-{"entity": "Salaire minimum", "value": 5.164952770927365}
-{"entity": "Alternance et contrat d'apprentissage", "value": 5.164952770927365}
-{"entity": "Mise a pied conservatoire", "value": 5.025359452794193}
-{"entity": "Cong\u00e9s li\u00e9s \u00e0 la vie familiale (mariage, d\u00e9c\u00e8s, naissance...)", "value": 4.994338715431265}
-{"entity": "Maintien de salaire arr\u00eat maladie", "value": 4.88576613466102}
-{"entity": "Licenciement pour faute grave", "value": 4.792703922572239}
-{"entity": "Cong\u00e9 paternit\u00e9", "value": 4.792703922572239}
-{"entity": "Cong\u00e9 parental", "value": 4.7461728165278485}
-{"entity": "Rupture de p\u00e9riode d'essai", "value": 4.637600235757604}
-{"entity": "Indemnit\u00e9 de licenciement", "value": 4.57555876103175}
-{"entity": "Heures compl\u00e9mentaires", "value": 4.420455074217115}
-{"entity": "D\u00e9mission", "value": 4.35841359949126}
-{"entity": "Quelles sont les indemnit\u00e9s de rupture conventionnelle?", "value": 4.311882493446869}
-{"entity": "Accident du travail et maintien de salaire", "value": 4.265351387402479}
-{"entity": "Simulateur calcul indemnit\u00e9 de licenciement pour inaptitude", "value": 4.218820281358088}
-{"entity": "Temps partiel", "value": 4.156778806632234}
-{"entity": "Mi-temps th\u00e9rapeutique", "value": 4.125758069269307}
-{"entity": "Mutuelle sant\u00e9 obligatoire", "value": 4.125758069269307}
-{"entity": "Pr\u00e9avis de licenciement et de d\u00e9mission", "value": 4.094737331906379}
-{"entity": "Visite m\u00e9dicale travail", "value": 3.908612907728817}
-{"entity": "Forfait jour", "value": 3.8465714330029623}
-{"entity": "Changement des horaires de travail", "value": 3.831061064321499}
-{"entity": "Particuliers employeurs et emploi \u00e0 domicile", "value": 3.8155506956400354}
-{"entity": "Suivi m\u00e9dical et m\u00e9decine du travail", "value": 3.800040326958572}
-{"entity": "Jours f\u00e9ri\u00e9s jours ch\u00f4m\u00e9s", "value": 3.7845299582771084}
-{"entity": "Rupture cdd", "value": 3.722488483551254}
-{"entity": "Primes", "value": 3.7069781148697905}
-{"entity": "D\u00e9mission et pr\u00e9avis", "value": 3.6294262714624725}
-{"entity": "Arr\u00eat maladie : indemnisation", "value": 3.5518744280551546}
-{"entity": "Jours f\u00e9ri\u00e9s", "value": 3.5363640593736916}
-{"entity": "Enfant malade", "value": 3.5363640593736916}
-{"entity": "Convocation entretien pr\u00e9alable de licenciement", "value": 3.505343322010764}
-{"entity": "Cong\u00e9 pour d\u00e9c\u00e8s grand parent", "value": 3.4898329533293007}
-{"entity": "Jours de fractionnement", "value": 3.4588122159663737}
-{"entity": "Medaille du travail", "value": 3.4433018472849097}
-{"entity": "Mon employeur peut-il m'imposer des cong\u00e9s pay\u00e9s ?", "value": 3.4433018472849097}
-{"entity": "Cong\u00e9 maternit\u00e9", "value": 3.4433018472849097}
-{"entity": "Frais de d\u00e9placement trajet domicile travail", "value": 3.4433018472849097}
-{"entity": "Comment d\u00e9missionner en arr\u00eat maladie ?", "value": 3.3967707412405193}
-{"entity": "Cong\u00e9s sp\u00e9ciaux (sabbatique, d\u00e9m\u00e9nagement...)", "value": 3.3812603725590558}
-{"entity": "Anciennet\u00e9", "value": 3.3812603725590558}
-{"entity": "Lettre de convocation \u00e0 un entretien pr\u00e9alable pour sanction disciplinaire", "value": 3.3657500038775923}
-{"entity": "D\u00e9lai de paiement du solde de tout compte", "value": 3.3347292665146653}
-{"entity": "Cong\u00e9 enfant malade", "value": 3.3192188978332013}
-{"entity": "Entretien professionnel", "value": 3.303708529151738}
-{"entity": "Absence injustifi\u00e9e", "value": 3.2881981604702744}
-{"entity": "Modification horaires de travail", "value": 3.2881981604702744}
-{"entity": "Inaptitude professionnelle", "value": 3.22615668574442}
-{"entity": "Retard dans le paiement du salaire", "value": 3.195135948381493}
-{"entity": "M\u00e9tallurgie", "value": 3.1796255797000295}
-{"entity": "Sanctions disciplinaires", "value": 3.1796255797000295}
-{"entity": "Heures de d\u00e9l\u00e9gation", "value": 3.148604842337102}
-{"entity": "Documents de fin de contrat et droit des salari\u00e9s", "value": 3.086563367611248}
-{"entity": "Indemnit\u00e9 de d\u00e9part \u00e0 la retraite", "value": 3.0710529989297846}
-{"entity": "Abandon de poste", "value": 3.0400322615668576}
-{"entity": "Grossesse et travail", "value": 3.0245218928853936}
-{"entity": "Modification du contrat de travail", "value": 3.0090115242039306}
-{"entity": "Transports routiers et activit\u00e9s auxiliaires du transport", "value": 2.9935011555224667}
-{"entity": "Maladie, accident du travail et maladie professionnelle", "value": 2.9624804181595397}
-{"entity": "CDD", "value": 2.9624804181595397}
-{"entity": "Clause de non concurrence", "value": 2.9314596807966127}
-{"entity": "Dur\u00e9e du pr\u00e9avis de d\u00e9mission", "value": 2.915949312115149}
-{"entity": "Cong\u00e9s sans solde", "value": 2.8694182060707583}
-{"entity": "Fractionnement cong\u00e9s pay\u00e9s jours ouvr\u00e9s", "value": 2.8383974687078313}
-{"entity": "Calcul solde de tout compte et primes", "value": 2.8228871000263673}
-{"entity": "Mod\u00e8le type lettre de licenciement", "value": 2.8073767313449043}
-{"entity": "R\u00e9mun\u00e9ration", "value": 2.7918663626634403}
-{"entity": "Repos compensateur", "value": 2.7918663626634403}
-{"entity": "Travailler le dimanche", "value": 2.714314519256123}
-{"entity": "Changement de planning", "value": 2.683293781893196}
-{"entity": "Affichage obligatoire", "value": 2.683293781893196}
-{"entity": "Contrat d'apprentissage", "value": 2.667783413211732}
-{"entity": "Attestation france travail", "value": 2.6522730445302685}
-{"entity": "D\u00e9m\u00e9nagement", "value": 2.636762675848805}
-{"entity": "Repos hebdomadaire", "value": 2.605741938485878}
-{"entity": "D\u00e9lai de pr\u00e9venance p\u00e9riode d'essai", "value": 2.5902315698044145}
-{"entity": "Licenciement pour inaptitude et indemnit\u00e9s", "value": 2.52819009507856}
-{"entity": "D\u00e9c\u00e8s", "value": 2.52819009507856}
-{"entity": "Fin et rupture du contrat", "value": 2.5126797263970966}
-{"entity": "Bulletin de salaire", "value": 2.4971693577156326}
-{"entity": "Indemnit\u00e9 de fin de contrat cdd", "value": 2.4661486203527057}
-{"entity": "Indemnit\u00e9 compensatrice de cong\u00e9s pay\u00e9s", "value": 2.4351278829897787}
-{"entity": "13\u00e8me mois", "value": 2.388596776945388}
-{"entity": "Heures suppl\u00e9mentaires non pay\u00e9es", "value": 2.388596776945388}
-{"entity": "Idcc", "value": 2.3730864082639243}
-{"entity": "Cong\u00e9 exceptionnel", "value": 2.3730864082639243}
-{"entity": "Prime de d\u00e9part \u00e0 la retraite", "value": 2.3265553022195338}
-{"entity": "Licenciement pour motif personnel ou disciplinaire", "value": 2.3110449335380703}
-{"entity": "T\u00e9l\u00e9travail", "value": 2.2955345648566063}
-{"entity": "Convention collective nationale", "value": 2.2955345648566063}
-{"entity": "Dur\u00e9e du travail et temps de travail", "value": 2.2800241961751433}
-{"entity": "Visite de reprise", "value": 2.2800241961751433}
-{"entity": "Inaptitude", "value": 2.26451382749368}
-{"entity": "Obligation de s\u00e9curit\u00e9 de r\u00e9sultat de l'employeur", "value": 2.26451382749368}
-{"entity": "Certificat de travail", "value": 2.249003458812216}
-{"entity": "Anciennet\u00e9 calcul", "value": 2.2334930901307524}
-{"entity": "Cse", "value": 2.217982721449289}
-{"entity": "Absence", "value": 2.217982721449289}
-{"entity": "Assistante maternelle", "value": 2.2024723527678254}
-{"entity": "Arr\u00eat de travail", "value": 2.2024723527678254}
-{"entity": "Dur\u00e9e du travail", "value": 2.2024723527678254}
-{"entity": "Modalit\u00e9s de calcul indemnit\u00e9s de licenciement", "value": 2.186961984086362}
-{"entity": "\u00c9lections cse", "value": 2.186961984086362}
-{"entity": "Simulateur calcul indemnit\u00e9 de licenciement", "value": 2.171451615404898}
-{"entity": "Annualisation du temps de travail", "value": 2.171451615404898}
-{"entity": "Temps partiel th\u00e9rapeutique", "value": 2.171451615404898}
-{"entity": "Indemnit\u00e9 compensatrice de pr\u00e9avis", "value": 2.140430878041971}
-{"entity": "Comit\u00e9 social et \u00e9conomique (CSE)", "value": 2.140430878041971}
-{"entity": "Augmentation de salaire", "value": 2.1249205093605075}
-{"entity": "Le paiement des heures suppl\u00e9mentaires", "value": 2.109410140679044}
-{"entity": "Qui paye le compl\u00e9ment de salaire en arr\u00eat maladie ?", "value": 2.109410140679044}
-{"entity": "Cdd transform\u00e9 en cdi", "value": 2.09389977199758}
-{"entity": "Re\u00e7u pour solde de tout compte", "value": 2.09389977199758}
-{"entity": "Licenciement abusif", "value": 2.09389977199758}
-{"entity": "Licenciement pour motif \u00e9conomique", "value": 2.0473686659531896}
-{"entity": "Lettre de d\u00e9mission", "value": 2.031858297271726}
-{"entity": "Absences pour maladie", "value": 2.031858297271726}
-{"entity": "Simulateur indemnit\u00e9 compensatrice de cong\u00e9s pay\u00e9s", "value": 2.031858297271726}
-{"entity": "H\u00f4tels, caf\u00e9s, restaurants", "value": 2.0163479285902626}
-{"entity": "Mise \u00e0 pied disciplinaire", "value": 1.9853271912273354}
-{"entity": "Heures de nuit", "value": 1.9698168225458719}
-{"entity": "Licenciement \u00e9conomique proc\u00e9dure", "value": 1.9543064538644086}
-{"entity": "Temps de travail et temps de travail effectif", "value": 1.9543064538644086}
-{"entity": "Arr\u00eat de travail : droits et obligations", "value": 1.9543064538644086}
-{"entity": "Documents de fin de contrat d\u00e9lai", "value": 1.9387960851829447}
-{"entity": "Temp\u00e9rature l\u00e9gale pour travailler", "value": 1.9232857165014812}
-{"entity": "Quelle est la majoration des heures de nuit ?", "value": 1.9232857165014812}
-{"entity": "Pr\u00e9avis", "value": 1.9232857165014812}
-{"entity": "Comment sont pay\u00e9s les dimanches ?", "value": 1.9077753478200177}
-{"entity": "Cong\u00e9 mariage", "value": 1.9077753478200177}
-{"entity": "Rtt", "value": 1.9077753478200177}
-{"entity": "Droit de retrait", "value": 1.9077753478200177}
-{"entity": "Activit\u00e9 partielle et r\u00e9duction du temps de travail", "value": 1.9077753478200177}
-{"entity": "Panier repas obligatoire ou pas", "value": 1.8922649791385542}
-{"entity": "Inaptitude au travail", "value": 1.8922649791385542}
-{"entity": "Surveillance des salari\u00e9s par cam\u00e9ra", "value": 1.8922649791385542}
-{"entity": "Cumuler deux emplois", "value": 1.8767546104570905}
-{"entity": "Services de l'automobile (Commerce et r\u00e9paration de l'automobile, du cycle et du motocycle, activit\u00e9s connexes, contr\u00f4le technique automobile, formation des conducteurs)", "value": 1.8767546104570905}
-{"entity": "Astreinte", "value": 1.8767546104570905}
-{"entity": "Retraite", "value": 1.8767546104570905}
-{"entity": "Quelles sont les nouvelles modalit\u00e9s de remboursement des frais de d\u00e9placement domicile-travail ?", "value": 1.8767546104570905}
-{"entity": "Accident de trajet", "value": 1.8302235044127}
-{"entity": "Accords d'entreprise", "value": 1.8302235044127}
-{"entity": "Temps de trajet travail", "value": 1.8147131357312363}
-{"entity": "Jours f\u00e9ri\u00e9s travaill\u00e9s", "value": 1.8147131357312363}
-{"entity": "Calcul de cong\u00e9s pay\u00e9s", "value": 1.8147131357312363}
-{"entity": "Temps de travail et dur\u00e9e l\u00e9gale", "value": 1.8147131357312363}
-{"entity": "Maternit\u00e9, paternit\u00e9 et adoption", "value": 1.7992027670497728}
-{"entity": "Csp", "value": 1.7992027670497728}
-{"entity": "Particuliers employeurs", "value": 1.7836923983683093}
-{"entity": "Cong\u00e9 pacs", "value": 1.7836923983683093}
-{"entity": "Apprentissage", "value": 1.7836923983683093}
-{"entity": "Femme enceinte travail", "value": 1.7836923983683093}
-{"entity": "Clause de mobilit\u00e9", "value": 1.7681820296868458}
-{"entity": "Cong\u00e9 d\u00e9c\u00e8s", "value": 1.752671661005382}
-{"entity": "Pause d\u00e9jeuner", "value": 1.7371612923239186}
-{"entity": "Remise documents fin de contrat d\u00e9lai", "value": 1.7216509236424549}
-{"entity": "Promesse d'embauche", "value": 1.7216509236424549}
-{"entity": "Pr\u00e9avis cdi", "value": 1.7216509236424549}
-{"entity": "Pr\u00e9avis de d\u00e9part \u00e0 la retraite", "value": 1.7061405549609916}
-{"entity": "Harc\u00e8lement moral au travail", "value": 1.7061405549609916}
-{"entity": "Harc\u00e8lement au travail", "value": 1.7061405549609916}
-{"entity": "Dur\u00e9e p\u00e9riode d'essai", "value": 1.6751198175980642}
-{"entity": "Fermeture de l'entreprise et cong\u00e9s pay\u00e9s", "value": 1.6596094489166007}
-{"entity": "Activit\u00e9 partielle (anciennement ch\u00f4mage partiel)", "value": 1.6440990802351372}
-{"entity": "Bulletin de paie", "value": 1.6285887115536737}
-{"entity": "Saisir le Conseil de prud'hommes", "value": 1.6285887115536737}
-{"entity": "Prime de pr\u00e9carit\u00e9", "value": 1.6285887115536737}
-{"entity": "Classification", "value": 1.6285887115536737}
-{"entity": "Contrat cdi", "value": 1.61307834287221}
-{"entity": "Code du travail", "value": 1.5975679741907465}
-{"entity": "Entretien pr\u00e9alable au licenciement", "value": 1.5975679741907465}
-{"entity": "Formation professionnelle", "value": 1.582057605509283}
-{"entity": "Dur\u00e9e du pr\u00e9avis", "value": 1.5665472368278195}
-{"entity": "Cong\u00e9s pay\u00e9s acquisition", "value": 1.5510368681463558}
-{"entity": "Convocation entretien pr\u00e9alable \u00e0 une sanction disciplinaire", "value": 1.5355264994648923}
-{"entity": "Cdd remplacement", "value": 1.5200161307834288}
-{"entity": "Maladie professionnelle", "value": 1.5200161307834288}
-{"entity": "Journ\u00e9e de solidarit\u00e9", "value": 1.5045057621019653}
-{"entity": "D\u00e9c\u00e8s employeur", "value": 1.5045057621019653}
-{"entity": "Travailleurs \u00e9trangers", "value": 1.5045057621019653}
-{"entity": "Cong\u00e9s pay\u00e9s et fractionnement", "value": 1.5045057621019653}
-{"entity": "D\u00e9lai de carence cdd", "value": 1.4889953934205016}
-{"entity": "Mod\u00e8le convocation entretien pr\u00e9alable licenciement", "value": 1.4889953934205016}
-{"entity": "Calcul solde de tout compte", "value": 1.4889953934205016}
-{"entity": "Branche des salari\u00e9s en portage salarial", "value": 1.4579746560575746}
-{"entity": "Renouvellement cdd", "value": 1.4579746560575746}
-{"entity": "B\u00e2timent ETAM", "value": 1.4424642873761109}
-{"entity": "B\u00e2timent Ouvriers (entreprises occupant plus de 10 salari\u00e9s)", "value": 1.4269539186946474}
-{"entity": "Retraite progressive", "value": 1.4269539186946474}
-{"entity": "D\u00e9marches d\u00e9part \u00e0 la retraite", "value": 1.4114435500131837}
-{"entity": "Rupture p\u00e9riode essai", "value": 1.3959331813317202}
-{"entity": "Travailleurs en situation de handicap", "value": 1.3959331813317202}
-{"entity": "Force majeure, prise d'acte et r\u00e9siliation judiciaire", "value": 1.3959331813317202}
-{"entity": "Syntec", "value": 1.3959331813317202}
-{"entity": "Avertissement", "value": 1.3804228126502567}
-{"entity": "Temps d\u2019\u00e9quivalence, astreintes et temps d'habillage", "value": 1.3649124439687932}
-{"entity": "Travail de nuit", "value": 1.3649124439687932}
-{"entity": "Inspection du travail", "value": 1.3494020752873295}
-{"entity": "Commerces de gros", "value": 1.3494020752873295}
-{"entity": "Cdd et p\u00e9riode d'essai", "value": 1.3494020752873295}
-{"entity": "Licenciement pour inaptitude professionnelle", "value": 1.333891706605866}
-{"entity": "Cong\u00e9s impos\u00e9s par l' employeur", "value": 1.333891706605866}
-{"entity": "Proc\u00e9dure et licenciement pour motif \u00e9conomique", "value": 1.333891706605866}
-{"entity": "Droit d\u2019alerte et de retrait des salari\u00e9s", "value": 1.3183813379244025}
-{"entity": "Licenciement pour faute", "value": 1.3183813379244025}
-{"entity": "R\u00e8glement int\u00e9rieur", "value": 1.3183813379244025}
-{"entity": "Jours f\u00e9ri\u00e9s travaill\u00e9s r\u00e9cup\u00e9ration", "value": 1.3183813379244025}
-{"entity": "Smic", "value": 1.302870969242939}
-{"entity": "Contrat cdd", "value": 1.302870969242939}
-{"entity": "Int\u00e9rim", "value": 1.302870969242939}
-{"entity": "Pause", "value": 1.2873606005614753}
-{"entity": "S\u00e9curit\u00e9 au travail", "value": 1.2873606005614753}
-{"entity": "Statut des salari\u00e9s prot\u00e9g\u00e9s", "value": 1.2718502318800118}
-{"entity": "Am\u00e9nagement du poste de travail", "value": 1.2718502318800118}
-{"entity": "Commerces de d\u00e9tail non alimentaires : antiquit\u00e9s, brocante, galeries d'art (\u0153uvres d'art), arts de la table, coutellerie, droguerie, \u00e9quipement du foyer, bazars, commerces m\u00e9nagers, mod\u00e9lisme, jeux, jouets, pu\u00e9rinatalit\u00e9, maroquinerie, presse et jeux de hasard ou pronostics, produits de la vape", "value": 1.2718502318800118}
-{"entity": "Temps de travail", "value": 1.2718502318800118}
-{"entity": "Calcul indemnit\u00e9s de cong\u00e8s pay\u00e9s", "value": 1.2718502318800118}
-{"entity": "R\u00e8glement int\u00e9rieur d\u2019une entreprise", "value": 1.2563398631985483}
-{"entity": "Sauvegarde, redressement et liquidation judiciaire", "value": 1.2563398631985483}
-{"entity": "Boulangerie-p\u00e2tisserie (entreprises artisanales)", "value": 1.2408294945170848}
-{"entity": "Contrat de professionnalisation", "value": 1.2408294945170848}
-{"entity": "Mise \u00e0 pied", "value": 1.2408294945170848}
-{"entity": "Temps de travail effectif", "value": 1.225319125835621}
-{"entity": "Attestation de travail", "value": 1.225319125835621}
-{"entity": "Contingent heures suppl\u00e9mentaires", "value": 1.2098087571541574}
-{"entity": "D\u00e9part volontaire \u00e0 la retraite", "value": 1.2098087571541574}
-{"entity": "Arr\u00eat maladie longue dur\u00e9e", "value": 1.2098087571541574}
-{"entity": "Temps de trajet", "value": 1.194298388472694}
-{"entity": "Cong\u00e9s et r\u00e9mun\u00e9ration de la formation", "value": 1.1632776511097669}
-{"entity": "Hygi\u00e8ne, s\u00e9curit\u00e9 et conditions de travail", "value": 1.1632776511097669}
-{"entity": "Grossesse", "value": 1.1632776511097669}
-{"entity": "Faute grave", "value": 1.1632776511097669}
-{"entity": "Lettre licenciement", "value": 1.1632776511097669}
-{"entity": "Astreinte et temps de travail effectif", "value": 1.1632776511097669}
-{"entity": "Avantages en nature", "value": 1.1477672824283032}
-{"entity": "Indemnit\u00e9 de pr\u00e9carit\u00e9", "value": 1.1477672824283032}
-{"entity": "Date paiement salaire", "value": 1.1477672824283032}
-{"entity": "Cesu", "value": 1.13225691374684}
-{"entity": "Compte personnel de formation (CPF)", "value": 1.13225691374684}
-{"entity": "Stage", "value": 1.13225691374684}
-{"entity": "Harc\u00e8lement moral et sexuel", "value": 1.13225691374684}
-{"entity": "Sant\u00e9 au travail", "value": 1.1167465450653762}
-{"entity": "Convention collective applicable", "value": 1.1012361763839127}
-{"entity": "Restauration rapide", "value": 1.1012361763839127}
-{"entity": "Salaire apprenti", "value": 1.085725807702449}
-{"entity": "Cong\u00e9 li\u00e9 \u00e0 la maladie ou handicap de l'enfant", "value": 1.085725807702449}
-{"entity": "Avenant", "value": 1.085725807702449}
-{"entity": "Cotisations sociales et patronales", "value": 1.085725807702449}
-{"entity": "Cse entreprise", "value": 1.0702154390209855}
-{"entity": "Harc\u00e8lement", "value": 1.054705070339522}
-{"entity": "Personnel des cabinets d'experts-comptables et de commissaires aux comptes", "value": 1.0391947016580585}
-{"entity": "Aide, accompagnement, soins et services \u00e0 domicile (BAD)", "value": 1.0081739642951313}
-{"entity": "Industries des jeux, jouets, articles de f\u00eates et ornements de No\u00ebl, articles de pu\u00e9riculture et voitures d'enfants, mod\u00e9lisme et industries connexes", "value": 0.9926635956136677}
-{"entity": "Rupture et fin d'un CDD - CTT", "value": 0.9926635956136677}
-{"entity": "Rqth", "value": 0.9926635956136677}
-{"entity": "Remboursements de frais et avantages", "value": 0.9771532269322043}
-{"entity": "CDI", "value": 0.9771532269322043}
-{"entity": "\u00c9pargne salariale, participation et interessement", "value": 0.9461324895692771}
-{"entity": "Fin de cdd", "value": 0.9461324895692771}
-{"entity": "B\u00e2timent Ouvriers (entreprises occupant jusqu'\u00e0 10 salari\u00e9s)", "value": 0.9461324895692771}
-{"entity": "Am\u00e9nagement du temps de travail", "value": 0.9461324895692771}
-{"entity": "Entreprises de propret\u00e9 et services associ\u00e9s", "value": 0.91511175220635}
-{"entity": "Discrimination", "value": 0.91511175220635}
-{"entity": "Jeunes travailleurs, alternance et stages", "value": 0.8996013835248864}
-{"entity": "Prime", "value": 0.8685806461619593}
-{"entity": "Mise \u00e0 disposition, d\u00e9tachement et portage salarial", "value": 0.8685806461619593}
-{"entity": "Maladie", "value": 0.8530702774804958}
-{"entity": "Calcul nombre de jours de cong\u00e8s pay\u00e9s", "value": 0.8530702774804958}
-{"entity": "P\u00e9riode essai", "value": 0.8530702774804958}
-{"entity": "D\u00e9l\u00e9gu\u00e9 syndical", "value": 0.8375599087990321}
-{"entity": "Travailleur de nuit", "value": 0.8375599087990321}
-{"entity": "Formation", "value": 0.8375599087990321}
-{"entity": "Bureaux d'\u00e9tudes techniques, cabinets d'ing\u00e9nieurs-conseils et soci\u00e9t\u00e9s de conseils", "value": 0.8375599087990321}
-{"entity": "Heures pour recherche d'emploi", "value": 0.8220495401175686}
-{"entity": "Invalidit\u00e9", "value": 0.806539171436105}
-{"entity": "Pr\u00e9vention des risques", "value": 0.806539171436105}
-{"entity": "Pharmacie d'officine", "value": 0.7910288027546415}
-{"entity": "Maternit\u00e9", "value": 0.7910288027546415}
-{"entity": "Remise solde de tout compte", "value": 0.7910288027546415}
-{"entity": "Document unique d'\u00e9valuation des risques", "value": 0.7755184340731779}
-{"entity": "Cdd dur\u00e9e", "value": 0.7755184340731779}
-{"entity": "Repos", "value": 0.7600080653917144}
-{"entity": "Industries chimiques et connexes", "value": 0.7600080653917144}
-{"entity": "Arr\u00eat de travail indemnisation", "value": 0.7444976967102508}
-{"entity": "Emploi direct par l'employeur particulier", "value": 0.7444976967102508}
-{"entity": "Entretien pr\u00e9alable", "value": 0.7444976967102508}
-{"entity": "Entreprises de pr\u00e9vention et de s\u00e9curit\u00e9", "value": 0.7444976967102508}
-{"entity": "Entreprises de la maintenance, distribution et location de mat\u00e9riels agricoles, de travaux publics, de b\u00e2timent, de manutention, de motoculture de plaisance et activit\u00e9s connexes, dite SDLM", "value": 0.7289873280287873}
-{"entity": "Les syndicats", "value": 0.7289873280287873}
-{"entity": "Droit du conseiller prud'homal", "value": 0.7289873280287873}
-{"entity": "Embauche", "value": 0.7289873280287873}
-{"entity": "Formalit\u00e9s d'embauche", "value": 0.6979665906658601}
-{"entity": "Duerp", "value": 0.6824562219843966}
-{"entity": "Entreprises de services \u00e0 la personne", "value": 0.6824562219843966}
-{"entity": "\u00c9ducation, culture, loisirs et animation au service des territoires (\u00c9CLAT)", "value": 0.6824562219843966}
-{"entity": "Rupture conventionnelle collective et d\u00e9part volontaire", "value": 0.6824562219843966}
-{"entity": "Contrat", "value": 0.6824562219843966}
-{"entity": "Equipements de travail et de protection", "value": 0.6824562219843966}
-{"entity": "Elections professionnelles et \u00e0 la repr\u00e9sentation", "value": 0.6514354846214695}
-{"entity": "B\u00e2timent Cadres", "value": 0.6514354846214695}
-{"entity": "Immobilier : administrateurs de biens, soci\u00e9t\u00e9s immobili\u00e8res, agents immobiliers", "value": 0.6359251159400059}
-{"entity": "Entretien professionnel et conseil en \u00e9volution professionnelle (CEP)", "value": 0.6359251159400059}
-{"entity": "Risques professionnels et pr\u00e9ventions", "value": 0.6204147472585424}
-{"entity": "Commerce de d\u00e9tail et de gros \u00e0 pr\u00e9dominance alimentaire", "value": 0.6204147472585424}
-{"entity": "Coiffure et professions connexes", "value": 0.6204147472585424}
-{"entity": "Contestation du licenciement", "value": 0.5893940098956152}
-{"entity": "Quelles sont les heures de nuit", "value": 0.5738836412141516}
-{"entity": "Prestataires de services dans le domaine du secteur tertiaire", "value": 0.5738836412141516}
-{"entity": "Plan de pr\u00e9vention", "value": 0.5738836412141516}
-{"entity": "Usages", "value": 0.5738836412141516}
-{"entity": "Acteurs du lien social et familial (centres sociaux et socioculturels, associations d'accueil de jeunes enfants, associations de d\u00e9veloppement social local)", "value": 0.5583732725326881}
-{"entity": "Gr\u00e8ve", "value": 0.5583732725326881}
-{"entity": "Acompte", "value": 0.5583732725326881}
-{"entity": "D\u00e9part anticip\u00e9 et retraite progressive", "value": 0.5428629038512245}
-{"entity": "Gardiens, concierges et employ\u00e9s d'immeubles", "value": 0.5428629038512245}
-{"entity": "Fractionnement", "value": 0.5428629038512245}
-{"entity": "Conflit, contr\u00f4le et contentieux", "value": 0.5428629038512245}
-{"entity": "Prime de participation", "value": 0.5428629038512245}
-{"entity": "Hospitalisation priv\u00e9e : \u00e9tablissements priv\u00e9s d'hospitalisation, de soins, de cure et de garde \u00e0 but non lucratif (FEHAP)", "value": 0.5118421664882974}
-{"entity": "Commission sant\u00e9 s\u00e9curit\u00e9 et conditions de travail", "value": 0.49633179780683384}
-{"entity": "Attestation pole emploi d\u00e9lai", "value": 0.49633179780683384}
-{"entity": "R\u00e9seaux de transports publics urbains de voyageurs", "value": 0.49633179780683384}
-{"entity": "Actions de formation", "value": 0.49633179780683384}
-{"entity": "Personnel des cabinets m\u00e9dicaux", "value": 0.49633179780683384}
-{"entity": "Repr\u00e9sentation du personnel et n\u00e9gociation collective", "value": 0.49633179780683384}
-{"entity": "Risques chimiques", "value": 0.49633179780683384}
-{"entity": "Salari\u00e9s permanents des entreprises de travail temporaire", "value": 0.4808214291253703}
-{"entity": "Libert\u00e9 et vie priv\u00e9e du salari\u00e9", "value": 0.4808214291253703}
-{"entity": "Organismes de formation", "value": 0.4808214291253703}
-{"entity": "Travail du dimanche", "value": 0.46531106044390674}
-{"entity": "Repr\u00e9sentant syndical", "value": 0.46531106044390674}
-{"entity": "Paternit\u00e9", "value": 0.4498006917624432}
-{"entity": "Assistant(e) maternel(e)", "value": 0.43429032308097965}
-{"entity": "Accord de performance collective", "value": 0.43429032308097965}
-{"entity": "Prime macron", "value": 0.41877995439951604}
-{"entity": "Codit", "value": 0.41877995439951604}
-{"entity": "Mise \u00e0 la retraite", "value": 0.41877995439951604}
-{"entity": "Commerce de d\u00e9tail de l'habillement et des articles textiles", "value": 0.4032695857180525}
-{"entity": "Blanchisserie, laverie, location de linge, nettoyage \u00e0 sec, pressing et teinturerie", "value": 0.4032695857180525}
-{"entity": "Bdese", "value": 0.4032695857180525}
-{"entity": "Plasturgie", "value": 0.4032695857180525}
-{"entity": "Article de loi", "value": 0.4032695857180525}
-{"entity": "Travail ill\u00e9gal", "value": 0.38775921703658894}
-{"entity": "Travaux publics (Tome III : ETAM)", "value": 0.38775921703658894}
-{"entity": "Ateliers et chantiers d'insertion", "value": 0.38775921703658894}
-{"entity": "Hospitalisation priv\u00e9e", "value": 0.38775921703658894}
-{"entity": "B\u00e2timent de la r\u00e9gion parisienne : ouvriers, employ\u00e9s, techniciens et agents de ma\u00eetrise, ing\u00e9nieurs, assimil\u00e9s et cadres", "value": 0.3722488483551254}
-{"entity": "Aides financi\u00e8res et exon\u00e9rations", "value": 0.3722488483551254}
-{"entity": "Commerce des articles de sport et \u00e9quipements de loisirs", "value": 0.35673847967366185}
-{"entity": "Activit\u00e9s industrielles de boulangerie et p\u00e2tisserie", "value": 0.35673847967366185}
-{"entity": "Travail de nuit et en soir\u00e9e", "value": 0.35673847967366185}
-{"entity": "Jours f\u00e9ri\u00e9s et ponts", "value": 0.35673847967366185}
-{"entity": "Dimanches", "value": 0.35673847967366185}
-{"entity": "Ppv", "value": 0.3412281109921983}
-{"entity": "Handicap\u00e9s : \u00e9tablissements et services pour les personnes inadapt\u00e9es et handicap\u00e9es", "value": 0.3412281109921983}
-{"entity": "Parfumerie, esth\u00e9tique", "value": 0.3412281109921983}
-{"entity": "Restauration de collectivit\u00e9s", "value": 0.32571774231073475}
-{"entity": "N\u00e9gociation dans l'entreprise", "value": 0.32571774231073475}
-{"entity": "Voyageurs de commerce, repr\u00e9sentants de commerce, placiers, VRP", "value": 0.3102073736292712}
-{"entity": "Boucherie - poissonnerie", "value": 0.3102073736292712}
-{"entity": "Travaux publics (Tome II : Ouvriers)", "value": 0.3102073736292712}
-{"entity": "Organismes gestionnaires de foyers et services pour jeunes travailleurs", "value": 0.3102073736292712}
-{"entity": "Cabinets dentaires", "value": 0.3102073736292712}
-{"entity": "Jeunes travailleurs", "value": 0.2946970049478076}
-{"entity": "Papeterie : commerce de d\u00e9tail de papeterie, fournitures de bureau, bureautique et informatique, librairie", "value": 0.2946970049478076}
-{"entity": "Sport", "value": 0.2946970049478076}
-{"entity": "Participation", "value": 0.2946970049478076}
-{"entity": "M\u00e9thodes de recrutement", "value": 0.2946970049478076}
-{"entity": "Ports et manutention", "value": 0.2946970049478076}
-{"entity": "Allocations", "value": 0.2946970049478076}
-{"entity": "T\u00e9l\u00e9communications", "value": 0.27918663626634405}
-{"entity": "Entreprises de courtage d'assurances et/ou de r\u00e9assurances", "value": 0.2636762675848805}
-{"entity": "Fleuristes, vente et services des animaux familiers", "value": 0.2636762675848805}
-{"entity": "Optique-lunetterie de d\u00e9tail", "value": 0.2636762675848805}
-{"entity": "Emplois aid\u00e9s, demandeurs d'emploi et insertion", "value": 0.24816589890341692}
-{"entity": "Distributeurs conseils hors domicile (bi\u00e8res, eaux min\u00e9rales et de table, boissons gazeuses ou non gazeuses, boissons aux jus de fruits, sirops, jus de fruits, boissons lact\u00e9es et gaz carbonique)", "value": 0.24816589890341692}
-{"entity": "Formalit\u00e9s obligatoires", "value": 0.24816589890341692}
-{"entity": "Spectacle vivant (entreprises du secteur priv\u00e9)", "value": 0.24816589890341692}
-{"entity": "Confiserie, chocolaterie, biscuiterie (d\u00e9taillants et d\u00e9taillants-fabricants)", "value": 0.23265553022195337}
-{"entity": "Grands magasins et magasins populaires", "value": 0.23265553022195337}
-{"entity": "Cadres des travaux publics", "value": 0.23265553022195337}
-{"entity": "Notariat", "value": 0.23265553022195337}
-{"entity": "Services de sant\u00e9 au travail interentreprises", "value": 0.23265553022195337}
-{"entity": "Menuiseries, charpentes et constructions industrialis\u00e9es et portes planes", "value": 0.23265553022195337}
-{"entity": "Industrie pharmaceutique", "value": 0.21714516154048982}
-{"entity": "Commerce de d\u00e9tail alimentaire sp\u00e9cialis\u00e9", "value": 0.21714516154048982}
-{"entity": "Chaleur et canicule au travail", "value": 0.21714516154048982}
-{"entity": "Installation, entretien, r\u00e9paration et d\u00e9pannage de mat\u00e9riel a\u00e9raulique, thermique et frigorifique", "value": 0.20163479285902625}
-{"entity": "Commerce de d\u00e9tail alimentaire non sp\u00e9cialis\u00e9", "value": 0.20163479285902625}
-{"entity": "Nombre de trimestres de retraite", "value": 0.20163479285902625}
-{"entity": "Imprimeries de labeur et industries graphiques", "value": 0.20163479285902625}
-{"entity": "Industries carri\u00e8res  et mat\u00e9riaux de construction", "value": 0.20163479285902625}
-{"entity": "\u00c9tablissements m\u00e9dico-sociaux de l'union intersyndicale des secteurs sanitaires et sociaux", "value": 0.20163479285902625}
-{"entity": "Maisons d'\u00e9tudiants", "value": 0.20163479285902625}
-{"entity": "Missions locales et PAIO", "value": 0.20163479285902625}
-{"entity": "Pompes fun\u00e8bres", "value": 0.20163479285902625}
-{"entity": "Mutuelle et protection sociale", "value": 0.20163479285902625}
-{"entity": "Local de travail", "value": 0.1861244241775627}
-{"entity": "Cong\u00e9s li\u00e9s \u00e0 une autre activit\u00e9", "value": 0.1861244241775627}
-{"entity": "Entreprises artistiques et culturelles", "value": 0.1861244241775627}
-{"entity": "Entreprises de travaux et services agricoles, ruraux et forestiers (ETARF)", "value": 0.1861244241775627}
-{"entity": "Accord professionnel relatif aux cadres de direction des soci\u00e9t\u00e9s d'assurances", "value": 0.1861244241775627}
-{"entity": "Entreprises de commission, de courtage et de commerce intracommunautaire et d'importation-exportation de France m\u00e9tropolitaine (CCNIE)", "value": 0.17061405549609915}
-{"entity": "Lutte contre les discriminations", "value": 0.17061405549609915}
-{"entity": "Entreprises de la publicit\u00e9 et assimil\u00e9es", "value": 0.17061405549609915}
-{"entity": "P\u00e2tisserie", "value": 0.17061405549609915}
-{"entity": "Financement et formation", "value": 0.1551036868146356}
-{"entity": "Espaces de loisirs, d'attractions et culturels (CCNELAC)", "value": 0.1551036868146356}
-{"entity": "Coop\u00e9ratives agricoles, unions de coop\u00e9ratives agricoles et SICA de fleurs, de fruits et l\u00e9gumes et de pommes de terre (M\u00e9tropole)", "value": 0.1551036868146356}
-{"entity": "Presse quotidienne et hebdomadaire en r\u00e9gions", "value": 0.1551036868146356}
-{"entity": "Mat\u00e9riaux de construction (n\u00e9goce)", "value": 0.1551036868146356}
-{"entity": "Enseignement priv\u00e9 ind\u00e9pendant", "value": 0.1551036868146356}
-{"entity": "H\u00f4tellerie de plein air", "value": 0.1551036868146356}
-{"entity": "Handicap", "value": 0.1551036868146356}
-{"entity": "Bricolage (vente au d\u00e9tail en libre-service)", "value": 0.13959331813317202}
-{"entity": "Commerces et services de l'audiovisuel, de l'\u00e9lectronique et de l'\u00e9quipement m\u00e9nager", "value": 0.13959331813317202}
-{"entity": "Bijouterie, joaillerie, orf\u00e8vrerie, horlogerie (BJOH)", "value": 0.13959331813317202}
-{"entity": "Entreprises du paysage", "value": 0.13959331813317202}
-{"entity": "Montant de la pension de retraite", "value": 0.13959331813317202}
-{"entity": "Collaborateurs salari\u00e9s des entreprises d'\u00e9conomistes de la construction et des m\u00e9treurs-v\u00e9rificateurs", "value": 0.13959331813317202}
-{"entity": "Taxis", "value": 0.13959331813317202}
-{"entity": "Personnel des organismes de s\u00e9curit\u00e9 sociale", "value": 0.13959331813317202}
-{"entity": "Maisons \u00e0 succursales de vente au d\u00e9tail d'habillement", "value": 0.13959331813317202}
-{"entity": "V\u00e9t\u00e9rinaires : personnel salari\u00e9 des cabinets et cliniques v\u00e9t\u00e9rinaires", "value": 0.13959331813317202}
-{"entity": "Production et transformation des papiers et cartons", "value": 0.12408294945170846}
-{"entity": "Assainissement et maintenance industrielle", "value": 0.12408294945170846}
-{"entity": "Laboratoires de biologie m\u00e9dicale extrahospitaliers", "value": 0.12408294945170846}
-{"entity": "Mutuelle et retraite", "value": 0.12408294945170846}
-{"entity": "Vins, cidres, jus de fruits, sirops, spiritueux et liqueurs de France", "value": 0.12408294945170846}
-{"entity": "Soci\u00e9t\u00e9s d'assurances", "value": 0.12408294945170846}
-{"entity": "Coop\u00e9ratives agricoles de c\u00e9r\u00e9ales, de meunerie, d'approvisionnement, d'alimentation du b\u00e9tail et d'ol\u00e9agineux", "value": 0.12408294945170846}
-{"entity": "Organismes du r\u00e9gime g\u00e9n\u00e9ral de s\u00e9curit\u00e9 sociale agents de direction (18 septembre 2018)", "value": 0.12408294945170846}
-{"entity": "Lait : industrie laiti\u00e8re", "value": 0.12408294945170846}
-{"entity": "Entreprises de vente \u00e0 distance", "value": 0.12408294945170846}
-{"entity": "N\u00e9goce de l'ameublement", "value": 0.12408294945170846}
-{"entity": "Type de contrat", "value": 0.12408294945170846}
-{"entity": "Demandeurs d\u2019emploi", "value": 0.12408294945170846}
-{"entity": "Salari\u00e9s des cabinets d'avocats", "value": 0.10857258077024491}
-{"entity": "Journalistes", "value": 0.10857258077024491}
-{"entity": "Personnels des agences g\u00e9n\u00e9rales d'assurances", "value": 0.10857258077024491}
-{"entity": "Rupture conventionnelle onf", "value": 0.10857258077024491}
-{"entity": "Proth\u00e9sistes dentaires et personnels des laboratoires de proth\u00e8ses dentaires", "value": 0.10857258077024491}
-{"entity": "Thermique : \u00e9quipements thermiques (ouvriers, employ\u00e9s, techniciens et agents de ma\u00eetrise)", "value": 0.10857258077024491}
-{"entity": "Entreprises de l'industrie et des commerces en gros des viandes", "value": 0.10857258077024491}
-{"entity": "Presse (Information sp\u00e9cialis\u00e9e [employ\u00e9s, techniciens, agents de ma\u00eetrise et cadres])", "value": 0.10857258077024491}
-{"entity": "Cin\u00e9ma : distribution de films (cadres et agents de ma\u00eetrise)", "value": 0.10857258077024491}
-{"entity": "Institutions de retraite compl\u00e9mentaire (personnel)", "value": 0.10857258077024491}
-{"entity": "Commerces de gros de l'habillement, de la mercerie, de la chaussure et du jouet", "value": 0.10857258077024491}
-{"entity": "Principales caract\u00e9ristiques", "value": 0.10857258077024491}
-{"entity": "Production agricole et CUMA", "value": 0.09306221208878135}
-{"entity": "Personnels des structures associatives cyn\u00e9g\u00e9tiques", "value": 0.09306221208878135}
-{"entity": "Adoption", "value": 0.09306221208878135}
-{"entity": "Industrie textile", "value": 0.09306221208878135}
-{"entity": "Cabinets ou entreprises de g\u00e9om\u00e8tres-experts, g\u00e9om\u00e8tres-topographes, photogramm\u00e8tres et experts fonciers", "value": 0.09306221208878135}
-{"entity": "Publicit\u00e9 directe : entreprises de logistique en publicit\u00e9 directe", "value": 0.09306221208878135}
-{"entity": "Banque", "value": 0.09306221208878135}
-{"entity": "Entreprises de transport et services maritimes (personnels navigants officiers)", "value": 0.09306221208878135}
-{"entity": "Cdd", "value": 0.09306221208878135}
-{"entity": "Industries et commerce de la r\u00e9cup\u00e9ration", "value": 0.09306221208878135}
-{"entity": "Op\u00e9rateurs de voyages et guides", "value": 0.0775518434073178}
-{"entity": "Salari\u00e9s au pair", "value": 0.0775518434073178}
-{"entity": "Entreprises d'ambulances Ouvriers, employ\u00e9s et techniciens (Guyane)", "value": 0.0775518434073178}
-{"entity": "Activit\u00e9s de production des eaux embouteill\u00e9es, de boissons rafra\u00eechissantes sans alcool et de bi\u00e8re", "value": 0.0775518434073178}
-{"entity": "Industries de la transformation des volailles", "value": 0.0775518434073178}
-{"entity": "Accords-convention d'entreprise Cit\u00e9 de la musique", "value": 0.0775518434073178}
-{"entity": "Casinos", "value": 0.0775518434073178}
-{"entity": "Maroquinerie, articles de voyage, chasse sellerie, gainerie, bracelets en cuir : industries", "value": 0.0775518434073178}
-{"entity": "Enseignement priv\u00e9 non lucratif (EPNL)", "value": 0.0775518434073178}
-{"entity": "S\u00e9curit\u00e9 sociale : praticiens-conseils du r\u00e9gime g\u00e9n\u00e9ral", "value": 0.0775518434073178}
-{"entity": "Activit\u00e9s de march\u00e9s financiers", "value": 0.0775518434073178}
-{"entity": "Horlogerie-bijouterie (commerce de d\u00e9tail)", "value": 0.0775518434073178}
-{"entity": "Caf\u00e9t\u00e9rias et assimil\u00e9s (cha\u00eenes)", "value": 0.0775518434073178}
-{"entity": "P\u00e2tes alimentaires s\u00e8ches et couscous non pr\u00e9par\u00e9", "value": 0.0775518434073178}
-{"entity": "Entreprises d'architecture", "value": 0.0775518434073178}
-{"entity": "Professions r\u00e9glement\u00e9es aupr\u00e8s des juridictions", "value": 0.0775518434073178}
-{"entity": "Remont\u00e9es m\u00e9caniques et domaines skiables", "value": 0.0775518434073178}
-{"entity": "Groupement des armateurs de services de passages d'eau (personnel navigant)", "value": 0.0775518434073178}
-{"entity": "Fabrication et commerce des produits \u00e0 usage pharmaceutique, parapharmaceutique et v\u00e9t\u00e9rinaire", "value": 0.0775518434073178}
-{"entity": "N\u00e9goce et prestations de services dans les domaines m\u00e9dico-techniques", "value": 0.0775518434073178}
-{"entity": "Aides \u00e0 l'insertion et \u00e0 la formation", "value": 0.0775518434073178}
-{"entity": "Construction-promotion", "value": 0.0775518434073178}
-{"entity": "Politique de l\u2019emploi", "value": 0.0775518434073178}
-{"entity": "Transport a\u00e9rien : personnel au sol", "value": 0.06204147472585423}
-{"entity": "Personnels des soci\u00e9t\u00e9s anonymes et fondations d'HLM", "value": 0.06204147472585423}
-{"entity": "Entreprises de navigation : personnel s\u00e9dentaire", "value": 0.06204147472585423}
-{"entity": "Centres de lutte contre le cancer", "value": 0.06204147472585423}
-{"entity": "P\u00f4le emploi", "value": 0.06204147472585423}
-{"entity": "Entreprises de d\u00e9sinfection, d\u00e9sinsectisation et d\u00e9ratisation (3D)", "value": 0.06204147472585423}
-{"entity": "Mutualit\u00e9", "value": 0.06204147472585423}
-{"entity": "B\u00e2timent et travaux publics et activit\u00e9s annexes ETAM (Martinique)", "value": 0.06204147472585423}
-{"entity": "Manutention portuaire du port de Fort-de-France", "value": 0.06204147472585423}
-{"entity": "Industries de produits alimentaires \u00e9labor\u00e9s", "value": 0.06204147472585423}
-{"entity": "Quincaillerie, fournitures industrielles, fers, m\u00e9taux et \u00e9quipement de la maison (commerces)", "value": 0.06204147472585423}
-{"entity": "Entreprises au service de la cr\u00e9ation et de l'\u00e9v\u00e9nement", "value": 0.06204147472585423}
-{"entity": "Industries du cartonnage", "value": 0.06204147472585423}
-{"entity": "Professions de la photographie", "value": 0.046531106044390674}
-{"entity": "Difficult\u00e9s de l'entreprise", "value": 0.046531106044390674}
-{"entity": "Industrie du p\u00e9trole", "value": 0.046531106044390674}
-{"entity": "Agences de presse (employ\u00e9s, techniciens et cadres)", "value": 0.046531106044390674}
-{"entity": "La certification professionnelle", "value": 0.046531106044390674}
-{"entity": "Conchyliculture", "value": 0.046531106044390674}
-{"entity": "Omnipraticiens exer\u00e7ant dans les centres de sant\u00e9 miniers", "value": 0.046531106044390674}
-{"entity": "Industries alimentaires diverses", "value": 0.046531106044390674}
-{"entity": "Exploitations frigorifiques", "value": 0.046531106044390674}
-{"entity": "Industrie et services nautiques", "value": 0.046531106044390674}
-{"entity": "Soci\u00e9t\u00e9s d'assistance", "value": 0.046531106044390674}
-{"entity": "Caves coop\u00e9ratives vinicoles et leurs unions", "value": 0.046531106044390674}
-{"entity": "Personnel des offices publics de l'habitat", "value": 0.046531106044390674}
-{"entity": "Travail m\u00e9canique du bois, des scieries, du n\u00e9goce et de l'importation des bois", "value": 0.046531106044390674}
-{"entity": "Jardineries et graineteries", "value": 0.046531106044390674}
-{"entity": "N\u00e9goce et distribution de combustibles solides, liquides, gazeux et produits p\u00e9troliers", "value": 0.046531106044390674}
-{"entity": "Industrie de la chaussure et des articles chaussants", "value": 0.046531106044390674}
-{"entity": "Commissaires de justice et soci\u00e9t\u00e9s de ventes volontaires", "value": 0.046531106044390674}
-{"entity": "Activit\u00e9s du d\u00e9chet", "value": 0.046531106044390674}
-{"entity": "Personnels des activit\u00e9s hippiques", "value": 0.031020737362927115}
-{"entity": "B\u00e2timent et travaux publics ETAM (Guadeloupe)", "value": 0.031020737362927115}
-{"entity": "D\u00e9taillants en chaussures", "value": 0.031020737362927115}
-{"entity": "Production audiovisuelle", "value": 0.031020737362927115}
-{"entity": "Industries de l'habillement", "value": 0.031020737362927115}
-{"entity": "Exploitation cin\u00e9matographique", "value": 0.031020737362927115}
-{"entity": "Caoutchouc", "value": 0.031020737362927115}
-{"entity": "Charcuterie de d\u00e9tail", "value": 0.031020737362927115}
-{"entity": "Organismes de tourisme", "value": 0.031020737362927115}
-{"entity": "Production cin\u00e9matographique", "value": 0.031020737362927115}
-{"entity": "Travail a\u00e9rien : personnel navigant des essais et r\u00e9ceptions", "value": 0.031020737362927115}
-{"entity": "Couture parisienne", "value": 0.031020737362927115}
-{"entity": "Conseil et service en \u00e9levage", "value": 0.031020737362927115}
-{"entity": "R\u00e9gies de quartier", "value": 0.031020737362927115}
-{"entity": "Tourisme social et familial", "value": 0.031020737362927115}
-{"entity": "Manutention ferroviaire et travaux connexes", "value": 0.031020737362927115}
-{"entity": "Cin\u00e9ma : distribution de films (employ\u00e9s et ouvriers)", "value": 0.031020737362927115}
-{"entity": "Lin : rouissage et teillage du lin", "value": 0.031020737362927115}
-{"entity": "Banque : personnel des banques de la Guadeloupe, de Saint-Martin et de Saint-Barth\u00e9lemy", "value": 0.031020737362927115}
-{"entity": "Banque populaire", "value": 0.031020737362927115}
-{"entity": "Entreprises d'expertises en mati\u00e8re d'\u00e9valuations industrielles et commerciales", "value": 0.031020737362927115}
-{"entity": "Distribution et commerce de gros des papiers-cartons", "value": 0.031020737362927115}
-{"entity": "Coop\u00e9ratives de consommation (23 novembre 2018)", "value": 0.031020737362927115}
-{"entity": "Produits du sol, engrais et produits connexes : n\u00e9goce et industrie", "value": 0.031020737362927115}
-{"entity": "Recours \u00e0 un organisme de service \u00e0 la personne", "value": 0.031020737362927115}
-{"entity": "\u00c9diteurs de la presse magazine Employ\u00e9s et cadres (30 octobre 2017)", "value": 0.031020737362927115}
-{"entity": "R\u00e9partition pharmaceutique", "value": 0.031020737362927115}
-{"entity": "N\u00e9gociation de branche", "value": 0.031020737362927115}
-{"entity": "Miroiterie (transformation et n\u00e9goce du verre)", "value": 0.015510368681463558}
-{"entity": "Ciment : industrie de la fabrication des ciments", "value": 0.015510368681463558}
-{"entity": "Industries de fabrication m\u00e9canique du verre", "value": 0.015510368681463558}
-{"entity": "Soci\u00e9t\u00e9s financi\u00e8res", "value": 0.015510368681463558}
-{"entity": "M\u00e9tiers de la transformation des grains", "value": 0.015510368681463558}
-{"entity": "Golf", "value": 0.015510368681463558}
-{"entity": "Coop\u00e9ratives agricoles laiti\u00e8res", "value": 0.015510368681463558}
-{"entity": "R\u00e9gime de retraite", "value": 0.015510368681463558}
-{"entity": "Personnel des \u00e9levages aquacoles", "value": 0.015510368681463558}
-{"entity": "Mareyeurs-exp\u00e9diteurs", "value": 0.015510368681463558}
-{"entity": "\u00c9dition", "value": 0.015510368681463558}
-{"entity": "Production de films d'animation", "value": 0.015510368681463558}
-{"entity": "Distribution directe", "value": 0.015510368681463558}
-{"entity": "Conserveries coop\u00e9ratives et SICA", "value": 0.015510368681463558}
-{"entity": "Portage de presse", "value": 0.015510368681463558}
-{"entity": "Cdi", "value": 0.015510368681463558}
-{"entity": "Restauration ferroviaire", "value": 0.015510368681463558}
-{"entity": "Industries c\u00e9ramiques de France", "value": 0.015510368681463558}
-{"entity": "Personnel des parcs et jardins zoologiques priv\u00e9s", "value": 0.015510368681463558}
-{"entity": "Branche ferroviaire", "value": 0.015510368681463558}
+{"entity": "Indemnit\u00e9 de licenciement", "value": 30.98371170311148}
+{"entity": "Cong\u00e9s pay\u00e9s", "value": 29.014796694609352}
+{"entity": "Convention collective", "value": 22.59777452939948}
+{"entity": "Rupture conventionnelle", "value": 21.482205184809523}
+{"entity": "Heures suppl\u00e9mentaires", "value": 18.82715312788998}
+{"entity": "Rupture conventionnelle individuelle indemnit\u00e9 de rupture", "value": 12.052146415679722}
+{"entity": "Licenciement pour inaptitude", "value": 17.007398347304676}
+{"entity": "Pr\u00e9avis d\u00e9mission", "value": 11.634497777512603}
+{"entity": "Comment calculer le montant de l'indemnit\u00e9 de licenciement", "value": 11.380925390053996}
+{"entity": "Proc\u00e9dure de licenciement", "value": 15.485964022553025}
+{"entity": "P\u00e9riode d'essai", "value": 15.098147429969274}
+{"entity": "Licenciement \u00e9conomique", "value": 8.696041287551086}
+{"entity": "Cong\u00e9s pay\u00e9s et maladie", "value": 8.099400375883775}
+{"entity": "Arr\u00eat maladie", "value": 8.084484353092092}
+{"entity": "Acquisition cong\u00e9s pay\u00e9s pendant arr\u00eat maladie", "value": 7.7563318516750694}
+{"entity": "P\u00e9riode d'essai : rupture et d\u00e9lai de pr\u00e9venance", "value": 7.65191969213329}
+{"entity": "Rupture conventionnelle cdi", "value": 7.637003669341607}
+{"entity": "Fiche de paie", "value": 7.4281793502580475}
+{"entity": "Cong\u00e9s \u00e9v\u00e9nement familial", "value": 7.2491870767578535}
+{"entity": "Cong\u00e9s d'anciennet\u00e9", "value": 7.174606962799439}
+{"entity": "Cong\u00e9s", "value": 12.174606962799439}
+{"entity": "Comment calculer les indemnit\u00e9s de d\u00e9part \u00e0 la retraite ?", "value": 7.040362757674294}
+{"entity": "Grille salaire convention collective", "value": 6.995614689299245}
+{"entity": "Licenciement inaptitude", "value": 6.577966051132126}
+{"entity": "Avenant au contrat de travail", "value": 6.503385937173713}
+{"entity": "Solde de tout compte", "value": 6.2796455952984696}
+{"entity": "Prime d'anciennet\u00e9", "value": 6.1006533217982755}
+{"entity": "Accident du travail", "value": 6.085737299006593}
+{"entity": "Combien de jours de cong\u00e9s en cas de d\u00e9c\u00e8s d'un proche ?", "value": 6.011157185048178}
+{"entity": "L'employeur a t il le droit d'imposer des cong\u00e9s pay\u00e9s", "value": 5.906745025506399}
+{"entity": "D\u00e9mission cdi", "value": 5.772500820381254}
+{"entity": "Les cong\u00e9s pour \u00e9v\u00e9nements familiaux", "value": 5.623340592464426}
+{"entity": "Salaire", "value": 10.593508546881061}
+{"entity": "Harc\u00e8lement moral", "value": 5.474180364547597}
+{"entity": "Maintien de salaire et maladie", "value": 5.429432296172549}
+{"entity": "Contrat de travail", "value": 10.116195817547208}
+{"entity": "Alternance et contrat d'apprentissage", "value": 5.116195817547209}
+{"entity": "Temps de pause", "value": 5.0863637719638435}
+{"entity": "Salaire minimum", "value": 5.041615703588795}
+{"entity": "Cong\u00e9s li\u00e9s \u00e0 la vie familiale (mariage, d\u00e9c\u00e8s, naissance...)", "value": 4.967035589630381}
+{"entity": "Mise a pied conservatoire", "value": 4.847707407296918}
+{"entity": "Maintien de salaire arr\u00eat maladie", "value": 4.758211270546821}
+{"entity": "Licenciement pour faute grave", "value": 4.743295247755138}
+{"entity": "Cong\u00e9 paternit\u00e9", "value": 4.668715133796724}
+{"entity": "Cong\u00e9 parental", "value": 9.638883088213358}
+{"entity": "Rupture de p\u00e9riode d'essai", "value": 4.504638883088214}
+{"entity": "Heures compl\u00e9mentaires", "value": 4.32564660958802}
+{"entity": "D\u00e9mission", "value": 9.295814564004655}
+{"entity": "Quelles sont les indemnit\u00e9s de rupture conventionnelle?", "value": 4.176486381671191}
+{"entity": "Accident du travail et maintien de salaire", "value": 4.131738313296143}
+{"entity": "Pr\u00e9avis de licenciement et de d\u00e9mission", "value": 9.101906267712778}
+{"entity": "Temps partiel", "value": 4.101906267712777}
+{"entity": "Simulateur calcul indemnit\u00e9 de licenciement pour inaptitude", "value": 4.057158199337729}
+{"entity": "Mi-temps th\u00e9rapeutique", "value": 4.042242176546046}
+{"entity": "Mutuelle sant\u00e9 obligatoire", "value": 3.997494108170997}
+{"entity": "Forfait jour", "value": 3.803585811879121}
+{"entity": "Visite m\u00e9dicale travail", "value": 3.788669789087438}
+{"entity": "Jours f\u00e9ri\u00e9s jours ch\u00f4m\u00e9s", "value": 3.7439217207123896}
+{"entity": "Particuliers employeurs et emploi \u00e0 domicile", "value": 3.7439217207123896}
+{"entity": "Changement des horaires de travail", "value": 3.7140896751290238}
+{"entity": "Suivi m\u00e9dical et m\u00e9decine du travail", "value": 8.684257629545659}
+{"entity": "Jours f\u00e9ri\u00e9s", "value": 3.6693416067539752}
+{"entity": "Primes", "value": 8.609677515587244}
+{"entity": "Rupture cdd", "value": 3.594761492795561}
+{"entity": "D\u00e9mission et pr\u00e9avis", "value": 3.520181378837147}
+{"entity": "Arr\u00eat maladie : indemnisation", "value": 8.505265356045463}
+{"entity": "Convocation entretien pr\u00e9alable de licenciement", "value": 3.4456012648787326}
+{"entity": "Medaille du travail", "value": 3.4456012648787326}
+{"entity": "Enfant malade", "value": 3.43068524208705}
+{"entity": "Cong\u00e9 pour d\u00e9c\u00e8s grand parent", "value": 3.400853196503684}
+{"entity": "Frais de d\u00e9placement trajet domicile travail", "value": 3.3859371737120014}
+{"entity": "Jours de fractionnement", "value": 3.3859371737120014}
+{"entity": "Cong\u00e9 maternit\u00e9", "value": 3.3710211509203183}
+{"entity": "Mon employeur peut-il m'imposer des cong\u00e9s pay\u00e9s ?", "value": 3.3561051281286356}
+{"entity": "Cong\u00e9s sp\u00e9ciaux (sabbatique, d\u00e9m\u00e9nagement...)", "value": 8.341189105336953}
+{"entity": "Comment d\u00e9missionner en arr\u00eat maladie ?", "value": 3.3113570597535875}
+{"entity": "Anciennet\u00e9", "value": 3.296441036961905}
+{"entity": "Lettre de convocation \u00e0 un entretien pr\u00e9alable pour sanction disciplinaire", "value": 3.296441036961905}
+{"entity": "D\u00e9lai de paiement du solde de tout compte", "value": 3.2815250141702217}
+{"entity": "Absence injustifi\u00e9e", "value": 3.2218609230034905}
+{"entity": "Modification horaires de travail", "value": 3.2218609230034905}
+{"entity": "Cong\u00e9 enfant malade", "value": 3.2218609230034905}
+{"entity": "Entretien professionnel", "value": 3.2218609230034905}
+{"entity": "Indemnit\u00e9s", "value": 3.177112854628442}
+{"entity": "Inaptitude professionnelle", "value": 3.1621968318367593}
+{"entity": "Retard dans le paiement du salaire", "value": 3.1025327406700276}
+{"entity": "Sanctions disciplinaires", "value": 8.102532740670028}
+{"entity": "Heures de d\u00e9l\u00e9gation", "value": 3.072700695086662}
+{"entity": "Indemnit\u00e9 de d\u00e9part \u00e0 la retraite", "value": 3.072700695086662}
+{"entity": "Documents de fin de contrat et droit des salari\u00e9s", "value": 8.057784672294979}
+{"entity": "M\u00e9tallurgie", "value": 3.057784672294979}
+{"entity": "CDD", "value": 7.998120581128248}
+{"entity": "Abandon de poste", "value": 7.9682885355448825}
+{"entity": "Transports routiers et activit\u00e9s auxiliaires du transport", "value": 2.9533725127531993}
+{"entity": "Grossesse et travail", "value": 2.9384564899615166}
+{"entity": "Modification du contrat de travail", "value": 7.9235404671698335}
+{"entity": "Dur\u00e9e du pr\u00e9avis de d\u00e9mission", "value": 2.878792398794785}
+{"entity": "Maladie, accident du travail et maladie professionnelle", "value": 7.848960353211419}
+{"entity": "Clause de non concurrence", "value": 7.848960353211419}
+{"entity": "Cong\u00e9s sans solde", "value": 2.8042122848363715}
+{"entity": "R\u00e9mun\u00e9ration", "value": 7.759464216461323}
+{"entity": "Fractionnement cong\u00e9s pay\u00e9s jours ouvr\u00e9s", "value": 2.759464216461323}
+{"entity": "Calcul solde de tout compte et primes", "value": 2.759464216461323}
+{"entity": "Repos compensateur", "value": 2.759464216461323}
+{"entity": "Mod\u00e8le type lettre de licenciement", "value": 2.729632170877957}
+{"entity": "Pr\u00e9voyance", "value": 2.7147161480862745}
+{"entity": "Travailler le dimanche", "value": 2.6550520569195433}
+{"entity": "Affichage obligatoire", "value": 2.6252200113361774}
+{"entity": "Attestation france travail", "value": 2.6252200113361774}
+{"entity": "Contrat d'apprentissage", "value": 7.610303988544494}
+{"entity": "Changement de planning", "value": 2.6103039885444947}
+{"entity": "D\u00e9lai de pr\u00e9venance p\u00e9riode d'essai", "value": 2.5655559201694462}
+{"entity": "Grille de salaire", "value": 2.5655559201694462}
+{"entity": "D\u00e9m\u00e9nagement", "value": 2.5655559201694462}
+{"entity": "Repos hebdomadaire", "value": 2.550639897377763}
+{"entity": "D\u00e9c\u00e8s", "value": 2.490975806211032}
+{"entity": "Panier repas", "value": 2.476059783419349}
+{"entity": "Fin et rupture du contrat", "value": 2.461143760627666}
+{"entity": "Bulletin de salaire", "value": 7.446227737835983}
+{"entity": "Licenciement pour inaptitude et indemnit\u00e9s", "value": 2.4313117150443007}
+{"entity": "Indemnit\u00e9 de fin de contrat cdd", "value": 2.401479669460935}
+{"entity": "Indemnit\u00e9s frais de repas", "value": 2.401479669460935}
+{"entity": "Indemnit\u00e9 compensatrice de cong\u00e9s pay\u00e9s", "value": 2.371647623877569}
+{"entity": "Idcc", "value": 2.3567316010858863}
+{"entity": "Heures suppl\u00e9mentaires non pay\u00e9es", "value": 2.3418155782942036}
+{"entity": "Prime de d\u00e9part \u00e0 la retraite", "value": 2.3268995555025205}
+{"entity": "13\u00e8me mois", "value": 2.311983532710838}
+{"entity": "Fiche de poste", "value": 2.311983532710838}
+{"entity": "Cong\u00e9 exceptionnel", "value": 2.2970675099191555}
+{"entity": "Dur\u00e9e du travail et temps de travail", "value": 2.2821514871274724}
+{"entity": "Obligation de s\u00e9curit\u00e9 de r\u00e9sultat de l'employeur", "value": 2.2672354643357897}
+{"entity": "Licenciement pour motif personnel ou disciplinaire", "value": 7.252319441544107}
+{"entity": "Convention collective nationale", "value": 2.252319441544107}
+{"entity": "Visite de reprise", "value": 2.237403418752424}
+{"entity": "T\u00e9l\u00e9travail", "value": 2.222487395960741}
+{"entity": "Inaptitude", "value": 2.222487395960741}
+{"entity": "Arr\u00eat de travail", "value": 2.1926553503773754}
+{"entity": "Certificat de travail", "value": 2.1926553503773754}
+{"entity": "Dur\u00e9e du travail", "value": 7.177739327585693}
+{"entity": "Simulateur calcul indemnit\u00e9 de licenciement", "value": 2.1777393275856927}
+{"entity": "Cse", "value": 2.1777393275856927}
+{"entity": "Assistante maternelle", "value": 2.16282330479401}
+{"entity": "Anciennet\u00e9 calcul", "value": 2.16282330479401}
+{"entity": "Absence", "value": 2.16282330479401}
+{"entity": "Modalit\u00e9s de calcul indemnit\u00e9s de licenciement", "value": 2.147907282002327}
+{"entity": "\u00c9lections cse", "value": 2.132991259210644}
+{"entity": "Temps partiel th\u00e9rapeutique", "value": 2.1180752364189614}
+{"entity": "Annualisation du temps de travail", "value": 2.1031592136272783}
+{"entity": "Comit\u00e9 social et \u00e9conomique (CSE)", "value": 7.088243190835596}
+{"entity": "Augmentation de salaire", "value": 2.0882431908355956}
+{"entity": "Indemnit\u00e9 compensatrice de pr\u00e9avis", "value": 2.073327168043913}
+{"entity": "Cdd transform\u00e9 en cdi", "value": 2.05841114525223}
+{"entity": "Coefficient", "value": 2.05841114525223}
+{"entity": "Re\u00e7u pour solde de tout compte", "value": 2.05841114525223}
+{"entity": "Qui paye le compl\u00e9ment de salaire en arr\u00eat maladie ?", "value": 2.043495122460547}
+{"entity": "Licenciement abusif", "value": 2.0285790996688644}
+{"entity": "Le paiement des heures suppl\u00e9mentaires", "value": 2.0285790996688644}
+{"entity": "Licenciement pour motif \u00e9conomique", "value": 7.013663076877181}
+{"entity": "Absences pour maladie", "value": 1.9987470540854986}
+{"entity": "H\u00f4tels, caf\u00e9s, restaurants", "value": 1.9838310312938157}
+{"entity": "Simulateur indemnit\u00e9 compensatrice de cong\u00e9s pay\u00e9s", "value": 1.968915008502133}
+{"entity": "Jours f\u00e9ri\u00e9s travaill\u00e9s", "value": 1.968915008502133}
+{"entity": "Lettre de d\u00e9mission", "value": 1.95399898571045}
+{"entity": "Heures de nuit", "value": 1.95399898571045}
+{"entity": "Arr\u00eat de travail : droits et obligations", "value": 6.939082962918768}
+{"entity": "Mise \u00e0 pied disciplinaire", "value": 1.9241669401270844}
+{"entity": "Quelle est la majoration des heures de nuit ?", "value": 1.9092509173354018}
+{"entity": "Pr\u00e9avis", "value": 1.894334894543719}
+{"entity": "Licenciement \u00e9conomique proc\u00e9dure", "value": 1.894334894543719}
+{"entity": "Temps de travail et temps de travail effectif", "value": 1.8794188717520361}
+{"entity": "Temp\u00e9rature l\u00e9gale pour travailler", "value": 1.8794188717520361}
+{"entity": "Cong\u00e9 mariage", "value": 1.8794188717520361}
+{"entity": "Activit\u00e9 partielle et r\u00e9duction du temps de travail", "value": 1.8645028489603532}
+{"entity": "Comment sont pay\u00e9s les dimanches ?", "value": 1.8645028489603532}
+{"entity": "Documents de fin de contrat d\u00e9lai", "value": 1.8645028489603532}
+{"entity": "Quelles sont les nouvelles modalit\u00e9s de remboursement des frais de d\u00e9placement domicile-travail ?", "value": 1.8495868261686705}
+{"entity": "Panier repas obligatoire ou pas", "value": 1.8495868261686705}
+{"entity": "Droit de retrait", "value": 1.8495868261686705}
+{"entity": "Services de l'automobile (Commerce et r\u00e9paration de l'automobile, du cycle et du motocycle, activit\u00e9s connexes, contr\u00f4le technique automobile, formation des conducteurs)", "value": 1.8495868261686705}
+{"entity": "Inaptitude au travail", "value": 6.849586826168671}
+{"entity": "Surveillance des salari\u00e9s par cam\u00e9ra", "value": 1.8346708033769876}
+{"entity": "Rtt", "value": 1.8346708033769876}
+{"entity": "Retraite", "value": 6.8197547805853045}
+{"entity": "Cumuler deux emplois", "value": 1.8197547805853047}
+{"entity": "Astreinte", "value": 1.8197547805853047}
+{"entity": "Accident de trajet", "value": 1.7750067122102562}
+{"entity": "Temps de travail et dur\u00e9e l\u00e9gale", "value": 1.7600906894185735}
+{"entity": "Femme enceinte travail", "value": 1.7600906894185735}
+{"entity": "Accords d'entreprise", "value": 1.7600906894185735}
+{"entity": "Csp", "value": 1.7600906894185735}
+{"entity": "Temps de trajet travail", "value": 1.7600906894185735}
+{"entity": "Calcul de cong\u00e9s pay\u00e9s", "value": 1.7451746666268906}
+{"entity": "Maternit\u00e9, paternit\u00e9 et adoption", "value": 6.745174666626891}
+{"entity": "Clause de mobilit\u00e9", "value": 1.7302586438352077}
+{"entity": "Apprentissage", "value": 1.7302586438352077}
+{"entity": "Particuliers employeurs", "value": 6.730258643835207}
+{"entity": "Cong\u00e9 d\u00e9c\u00e8s", "value": 1.7302586438352077}
+{"entity": "Promesse d'embauche", "value": 1.715342621043525}
+{"entity": "Cong\u00e9 pacs", "value": 1.715342621043525}
+{"entity": "Pause d\u00e9jeuner", "value": 1.700426598251842}
+{"entity": "Pr\u00e9avis de d\u00e9part \u00e0 la retraite", "value": 1.6855105754601591}
+{"entity": "Pr\u00e9avis cdi", "value": 1.6855105754601591}
+{"entity": "Planning", "value": 1.6705945526684765}
+{"entity": "Harc\u00e8lement moral au travail", "value": 1.6705945526684765}
+{"entity": "Remise documents fin de contrat d\u00e9lai", "value": 1.6705945526684765}
+{"entity": "Activit\u00e9 partielle (anciennement ch\u00f4mage partiel)", "value": 6.655678529876794}
+{"entity": "Dur\u00e9e p\u00e9riode d'essai", "value": 1.6556785298767938}
+{"entity": "Harc\u00e8lement au travail", "value": 1.6407625070851108}
+{"entity": "Saisir le Conseil de prud'hommes", "value": 6.610930461501745}
+{"entity": "Contrat cdi", "value": 1.5960144387100623}
+{"entity": "Prime de pr\u00e9carit\u00e9", "value": 1.5960144387100623}
+{"entity": "Formation professionnelle", "value": 1.5960144387100623}
+{"entity": "Bulletin de paie", "value": 1.5960144387100623}
+{"entity": "Fermeture de l'entreprise et cong\u00e9s pay\u00e9s", "value": 1.5960144387100623}
+{"entity": "Dur\u00e9e du pr\u00e9avis", "value": 1.5960144387100623}
+{"entity": "Classification", "value": 1.5661823931266967}
+{"entity": "Entretien pr\u00e9alable au licenciement", "value": 1.5512663703350138}
+{"entity": "Code du travail", "value": 1.536350347543331}
+{"entity": "Journ\u00e9e de solidarit\u00e9", "value": 1.5214343247516482}
+{"entity": "Cong\u00e9s pay\u00e9s acquisition", "value": 1.5065183019599653}
+{"entity": "Cdd remplacement", "value": 1.5065183019599653}
+{"entity": "Travailleurs \u00e9trangers", "value": 6.506518301959965}
+{"entity": "Convocation entretien pr\u00e9alable \u00e0 une sanction disciplinaire", "value": 1.5065183019599653}
+{"entity": "Maladie professionnelle", "value": 1.4916022791682826}
+{"entity": "Mod\u00e8le convocation entretien pr\u00e9alable licenciement", "value": 1.4766862563765997}
+{"entity": "D\u00e9c\u00e8s employeur", "value": 1.4766862563765997}
+{"entity": "Calcul solde de tout compte", "value": 1.4617702335849168}
+{"entity": "Cong\u00e9s pay\u00e9s et fractionnement", "value": 1.4617702335849168}
+{"entity": "Branche des salari\u00e9s en portage salarial", "value": 1.4617702335849168}
+{"entity": "D\u00e9lai de carence cdd", "value": 1.4617702335849168}
+{"entity": "Renouvellement cdd", "value": 1.4319381880015511}
+{"entity": "Retraite progressive", "value": 1.4021061424181858}
+{"entity": "B\u00e2timent Ouvriers (entreprises occupant plus de 10 salari\u00e9s)", "value": 1.3871901196265028}
+{"entity": "B\u00e2timent ETAM", "value": 1.3871901196265028}
+{"entity": "Rupture p\u00e9riode essai", "value": 1.3871901196265028}
+{"entity": "D\u00e9marches d\u00e9part \u00e0 la retraite", "value": 1.3871901196265028}
+{"entity": "Syntec", "value": 1.37227409683482}
+{"entity": "Travailleurs en situation de handicap", "value": 6.37227409683482}
+{"entity": "Jours f\u00e9ri\u00e9s travaill\u00e9s r\u00e9cup\u00e9ration", "value": 1.3573580740431372}
+{"entity": "Force majeure, prise d'acte et r\u00e9siliation judiciaire", "value": 6.342442051251455}
+{"entity": "Temps d\u2019\u00e9quivalence, astreintes et temps d'habillage", "value": 6.342442051251455}
+{"entity": "Avertissement", "value": 1.3424420512514543}
+{"entity": "Travail de nuit", "value": 1.3275260284597716}
+{"entity": "Commerces de gros", "value": 1.3275260284597716}
+{"entity": "Licenciement pour faute", "value": 1.3126100056680887}
+{"entity": "Cdd et p\u00e9riode d'essai", "value": 1.3126100056680887}
+{"entity": "Inspection du travail", "value": 6.3126100056680885}
+{"entity": "Cong\u00e9s impos\u00e9s par l' employeur", "value": 1.3126100056680887}
+{"entity": "Proc\u00e9dure et licenciement pour motif \u00e9conomique", "value": 6.297693982876406}
+{"entity": "Contrat cdd", "value": 1.2827779600847231}
+{"entity": "Licenciement pour inaptitude professionnelle", "value": 1.2827779600847231}
+{"entity": "Temps de travail", "value": 6.282777960084723}
+{"entity": "Droit d\u2019alerte et de retrait des salari\u00e9s", "value": 6.282777960084723}
+{"entity": "Smic", "value": 1.2827779600847231}
+{"entity": "Int\u00e9rim", "value": 6.26786193729304}
+{"entity": "R\u00e8glement int\u00e9rieur", "value": 1.2678619372930402}
+{"entity": "Contrat de professionnalisation", "value": 6.252945914501357}
+{"entity": "Calcul indemnit\u00e9s de cong\u00e8s pay\u00e9s", "value": 1.2529459145013573}
+{"entity": "S\u00e9curit\u00e9 au travail", "value": 6.252945914501357}
+{"entity": "Pause", "value": 1.2529459145013573}
+{"entity": "Statut des salari\u00e9s prot\u00e9g\u00e9s", "value": 6.238029891709674}
+{"entity": "Commerces de d\u00e9tail non alimentaires : antiquit\u00e9s, brocante, galeries d'art (\u0153uvres d'art), arts de la table, coutellerie, droguerie, \u00e9quipement du foyer, bazars, commerces m\u00e9nagers, mod\u00e9lisme, jeux, jouets, pu\u00e9rinatalit\u00e9, maroquinerie, presse et jeux de hasard ou pronostics, produits de la vape", "value": 1.2380298917096746}
+{"entity": "Boulangerie-p\u00e2tisserie (entreprises artisanales)", "value": 1.2380298917096746}
+{"entity": "Am\u00e9nagement du poste de travail", "value": 1.2231138689179917}
+{"entity": "Sauvegarde, redressement et liquidation judiciaire", "value": 6.2231138689179915}
+{"entity": "Attestation de travail", "value": 1.2081978461263088}
+{"entity": "R\u00e8glement int\u00e9rieur d\u2019une entreprise", "value": 6.208197846126309}
+{"entity": "Arr\u00eat maladie longue dur\u00e9e", "value": 1.2081978461263088}
+{"entity": "Temps de travail effectif", "value": 1.193281823334626}
+{"entity": "Mise \u00e0 pied", "value": 1.193281823334626}
+{"entity": "Contingent heures suppl\u00e9mentaires", "value": 1.1783658005429432}
+{"entity": "Faute grave", "value": 1.1783658005429432}
+{"entity": "D\u00e9part volontaire \u00e0 la retraite", "value": 6.178365800542943}
+{"entity": "Temps de trajet", "value": 1.1634497777512602}
+{"entity": "Date paiement salaire", "value": 1.1634497777512602}
+{"entity": "Cong\u00e9s et r\u00e9mun\u00e9ration de la formation", "value": 6.148533754959578}
+{"entity": "Lettre licenciement", "value": 1.1485337549595778}
+{"entity": "Astreinte et temps de travail effectif", "value": 1.1336177321678949}
+{"entity": "Avantages en nature", "value": 1.1336177321678949}
+{"entity": "Grossesse", "value": 1.1336177321678949}
+{"entity": "Stage", "value": 6.118701709376212}
+{"entity": "Hygi\u00e8ne, s\u00e9curit\u00e9 et conditions de travail", "value": 6.118701709376212}
+{"entity": "Compte personnel de formation (CPF)", "value": 1.1037856865845292}
+{"entity": "Salaire apprenti", "value": 1.1037856865845292}
+{"entity": "Cesu", "value": 6.103785686584529}
+{"entity": "Indemnit\u00e9 de pr\u00e9carit\u00e9", "value": 1.1037856865845292}
+{"entity": "Sant\u00e9 au travail", "value": 6.103785686584529}
+{"entity": "Harc\u00e8lement moral et sexuel", "value": 6.088869663792846}
+{"entity": "Restauration rapide", "value": 1.0739536410011634}
+{"entity": "Convention collective applicable", "value": 6.073953641001164}
+{"entity": "Personnel des cabinets d'experts-comptables et de commissaires aux comptes", "value": 1.0590376182094807}
+{"entity": "Cse entreprise", "value": 1.0590376182094807}
+{"entity": "Cong\u00e9 li\u00e9 \u00e0 la maladie ou handicap de l'enfant", "value": 6.044121595417797}
+{"entity": "Avenant", "value": 1.0441215954177978}
+{"entity": "Cotisations sociales et patronales", "value": 6.044121595417797}
+{"entity": "Harc\u00e8lement", "value": 1.0142895498344322}
+{"entity": "Remboursements de frais et avantages", "value": 6.014289549834432}
+{"entity": "Aide, accompagnement, soins et services \u00e0 domicile (BAD)", "value": 0.9695414814593837}
+{"entity": "Industries des jeux, jouets, articles de f\u00eates et ornements de No\u00ebl, articles de pu\u00e9riculture et voitures d'enfants, mod\u00e9lisme et industries connexes", "value": 0.9695414814593837}
+{"entity": "Rupture et fin d'un CDD - CTT", "value": 5.969541481459384}
+{"entity": "CDI", "value": 5.969541481459384}
+{"entity": "Rqth", "value": 0.9695414814593837}
+{"entity": "B\u00e2timent Ouvriers (entreprises occupant jusqu'\u00e0 10 salari\u00e9s)", "value": 0.9247934130843353}
+{"entity": "\u00c9pargne salariale, participation et interessement", "value": 5.924793413084335}
+{"entity": "Fin de cdd", "value": 0.9247934130843353}
+{"entity": "Am\u00e9nagement du temps de travail", "value": 5.909877390292652}
+{"entity": "Entreprises de propret\u00e9 et services associ\u00e9s", "value": 0.8949613675009696}
+{"entity": "Discrimination", "value": 0.8800453447092867}
+{"entity": "Jeunes travailleurs, alternance et stages", "value": 5.865129321917604}
+{"entity": "Mise \u00e0 disposition, d\u00e9tachement et portage salarial", "value": 5.850213299125921}
+{"entity": "Prime", "value": 0.8352972763342382}
+{"entity": "Calcul nombre de jours de cong\u00e8s pay\u00e9s", "value": 0.8352972763342382}
+{"entity": "P\u00e9riode essai", "value": 0.8203812535425554}
+{"entity": "Maladie", "value": 0.8203812535425554}
+{"entity": "Formation", "value": 5.820381253542555}
+{"entity": "Heures pour recherche d'emploi", "value": 5.8054652307508725}
+{"entity": "Bureaux d'\u00e9tudes techniques, cabinets d'ing\u00e9nieurs-conseils et soci\u00e9t\u00e9s de conseils", "value": 0.8054652307508726}
+{"entity": "Travailleur de nuit", "value": 0.8054652307508726}
+{"entity": "D\u00e9l\u00e9gu\u00e9 syndical", "value": 0.8054652307508726}
+{"entity": "Cdd dur\u00e9e", "value": 0.7905492079591898}
+{"entity": "Invalidit\u00e9", "value": 0.7756331851675069}
+{"entity": "Pr\u00e9vention des risques", "value": 5.775633185167507}
+{"entity": "Maternit\u00e9", "value": 5.760717162375824}
+{"entity": "Industries chimiques et connexes", "value": 0.7607171623758241}
+{"entity": "Document unique d'\u00e9valuation des risques", "value": 0.7607171623758241}
+{"entity": "Pharmacie d'officine", "value": 0.7607171623758241}
+{"entity": "Remise solde de tout compte", "value": 0.7607171623758241}
+{"entity": "Repos", "value": 5.730885116792458}
+{"entity": "Entreprises de pr\u00e9vention et de s\u00e9curit\u00e9", "value": 0.7308851167924584}
+{"entity": "Arr\u00eat de travail indemnisation", "value": 0.7308851167924584}
+{"entity": "Emploi direct par l'employeur particulier", "value": 5.730885116792458}
+{"entity": "Droit du conseiller prud'homal", "value": 5.730885116792458}
+{"entity": "Entretien pr\u00e9alable", "value": 0.7159690940007756}
+{"entity": "Les syndicats", "value": 5.7159690940007755}
+{"entity": "Entreprises de la maintenance, distribution et location de mat\u00e9riels agricoles, de travaux publics, de b\u00e2timent, de manutention, de motoculture de plaisance et activit\u00e9s connexes, dite SDLM", "value": 0.7010530712090929}
+{"entity": "Embauche", "value": 5.701053071209093}
+{"entity": "Contrat", "value": 0.68613704841741}
+{"entity": "Rupture conventionnelle collective et d\u00e9part volontaire", "value": 5.68613704841741}
+{"entity": "Entreprises de services \u00e0 la personne", "value": 0.6712210256257272}
+{"entity": "Equipements de travail et de protection", "value": 5.671221025625727}
+{"entity": "Formalit\u00e9s d'embauche", "value": 5.671221025625727}
+{"entity": "Duerp", "value": 0.6563050028340444}
+{"entity": "\u00c9ducation, culture, loisirs et animation au service des territoires (\u00c9CLAT)", "value": 0.6563050028340444}
+{"entity": "B\u00e2timent Cadres", "value": 0.6413889800423616}
+{"entity": "Coiffure et professions connexes", "value": 0.6264729572506786}
+{"entity": "Elections professionnelles et \u00e0 la repr\u00e9sentation", "value": 5.626472957250678}
+{"entity": "Entretien professionnel et conseil en \u00e9volution professionnelle (CEP)", "value": 0.6115569344589958}
+{"entity": "Risques professionnels et pr\u00e9ventions", "value": 5.611556934458996}
+{"entity": "Immobilier : administrateurs de biens, soci\u00e9t\u00e9s immobili\u00e8res, agents immobiliers", "value": 0.6115569344589958}
+{"entity": "Commerce de d\u00e9tail et de gros \u00e0 pr\u00e9dominance alimentaire", "value": 0.596640911667313}
+{"entity": "Contestation du licenciement", "value": 5.566808866083948}
+{"entity": "Usages", "value": 0.5668088660839474}
+{"entity": "Repas", "value": 0.5668088660839474}
+{"entity": "Plan de pr\u00e9vention", "value": 0.5518928432922646}
+{"entity": "Quelles sont les heures de nuit", "value": 0.5518928432922646}
+{"entity": "Prestataires de services dans le domaine du secteur tertiaire", "value": 0.5518928432922646}
+{"entity": "Gr\u00e8ve", "value": 5.551892843292265}
+{"entity": "Acompte", "value": 0.5518928432922646}
+{"entity": "Prime de participation", "value": 0.5369768205005817}
+{"entity": "Acteurs du lien social et familial (centres sociaux et socioculturels, associations d'accueil de jeunes enfants, associations de d\u00e9veloppement social local)", "value": 0.5369768205005817}
+{"entity": "Conflit, contr\u00f4le et contentieux", "value": 0.5369768205005817}
+{"entity": "Gardiens, concierges et employ\u00e9s d'immeubles", "value": 0.5369768205005817}
+{"entity": "Fractionnement", "value": 0.5220607977088989}
+{"entity": "D\u00e9part anticip\u00e9 et retraite progressive", "value": 5.522060797708899}
+{"entity": "R\u00e9seaux de transports publics urbains de voyageurs", "value": 0.5071447749172161}
+{"entity": "Hospitalisation priv\u00e9e : \u00e9tablissements priv\u00e9s d'hospitalisation, de soins, de cure et de garde \u00e0 but non lucratif (FEHAP)", "value": 0.5071447749172161}
+{"entity": "Actions de formation", "value": 5.492228752125533}
+{"entity": "Commission sant\u00e9 s\u00e9curit\u00e9 et conditions de travail", "value": 0.49222875212553324}
+{"entity": "Repr\u00e9sentation du personnel et n\u00e9gociation collective", "value": 5.477312729333851}
+{"entity": "Salari\u00e9s permanents des entreprises de travail temporaire", "value": 0.47731272933385044}
+{"entity": "Risques chimiques", "value": 5.477312729333851}
+{"entity": "Personnel des cabinets m\u00e9dicaux", "value": 0.47731272933385044}
+{"entity": "Organismes de formation", "value": 0.47731272933385044}
+{"entity": "Attestation pole emploi d\u00e9lai", "value": 0.47731272933385044}
+{"entity": "Libert\u00e9 et vie priv\u00e9e du salari\u00e9", "value": 5.462396706542168}
+{"entity": "Repr\u00e9sentant syndical", "value": 0.4474806837504848}
+{"entity": "Travail du dimanche", "value": 0.4474806837504848}
+{"entity": "Paternit\u00e9", "value": 5.432564660958802}
+{"entity": "Mise \u00e0 la retraite", "value": 5.432564660958802}
+{"entity": "Assistant(e) maternel(e)", "value": 5.417648638167119}
+{"entity": "Accord de performance collective", "value": 5.417648638167119}
+{"entity": "Blanchisserie, laverie, location de linge, nettoyage \u00e0 sec, pressing et teinturerie", "value": 0.4027326153754363}
+{"entity": "Codit", "value": 0.4027326153754363}
+{"entity": "Prime macron", "value": 0.4027326153754363}
+{"entity": "Commerce de d\u00e9tail de l'habillement et des articles textiles", "value": 0.4027326153754363}
+{"entity": "Article de loi", "value": 0.38781659258375345}
+{"entity": "Plasturgie", "value": 0.38781659258375345}
+{"entity": "Hospitalisation priv\u00e9e", "value": 0.38781659258375345}
+{"entity": "Bdese", "value": 0.38781659258375345}
+{"entity": "Travail ill\u00e9gal", "value": 5.372900569792071}
+{"entity": "Ateliers et chantiers d'insertion", "value": 0.37290056979207065}
+{"entity": "Dimanches", "value": 5.372900569792071}
+{"entity": "Travaux publics (Tome III : ETAM)", "value": 0.37290056979207065}
+{"entity": "Commerce des articles de sport et \u00e9quipements de loisirs", "value": 0.37290056979207065}
+{"entity": "Activit\u00e9s industrielles de boulangerie et p\u00e2tisserie", "value": 0.3579845470003878}
+{"entity": "Aides financi\u00e8res et exon\u00e9rations", "value": 5.357984547000388}
+{"entity": "Jours f\u00e9ri\u00e9s et ponts", "value": 5.357984547000388}
+{"entity": "B\u00e2timent de la r\u00e9gion parisienne : ouvriers, employ\u00e9s, techniciens et agents de ma\u00eetrise, ing\u00e9nieurs, assimil\u00e9s et cadres", "value": 0.3579845470003878}
+{"entity": "Travail de nuit et en soir\u00e9e", "value": 5.343068524208705}
+{"entity": "Ppv", "value": 0.343068524208705}
+{"entity": "Handicap\u00e9s : \u00e9tablissements et services pour les personnes inadapt\u00e9es et handicap\u00e9es", "value": 0.3281525014170222}
+{"entity": "Parfumerie, esth\u00e9tique", "value": 0.3281525014170222}
+{"entity": "Boucherie - poissonnerie", "value": 0.3281525014170222}
+{"entity": "Sport", "value": 0.3132364786253393}
+{"entity": "Travaux publics (Tome II : Ouvriers)", "value": 0.3132364786253393}
+{"entity": "Organismes gestionnaires de foyers et services pour jeunes travailleurs", "value": 0.3132364786253393}
+{"entity": "Restauration de collectivit\u00e9s", "value": 0.3132364786253393}
+{"entity": "N\u00e9gociation dans l'entreprise", "value": 5.313236478625339}
+{"entity": "Voyageurs de commerce, repr\u00e9sentants de commerce, placiers, VRP", "value": 0.2983204558336565}
+{"entity": "Cabinets dentaires", "value": 0.2983204558336565}
+{"entity": "Allocations", "value": 5.2983204558336565}
+{"entity": "Participation", "value": 0.2834044330419737}
+{"entity": "M\u00e9thodes de recrutement", "value": 5.283404433041974}
+{"entity": "Papeterie : commerce de d\u00e9tail de papeterie, fournitures de bureau, bureautique et informatique, librairie", "value": 0.2834044330419737}
+{"entity": "Ports et manutention", "value": 0.2834044330419737}
+{"entity": "Jeunes travailleurs", "value": 5.283404433041974}
+{"entity": "T\u00e9l\u00e9communications", "value": 0.26848841025029085}
+{"entity": "Cadres des travaux publics", "value": 0.25357238745860805}
+{"entity": "Entreprises de courtage d'assurances et/ou de r\u00e9assurances", "value": 0.25357238745860805}
+{"entity": "Optique-lunetterie de d\u00e9tail", "value": 0.25357238745860805}
+{"entity": "Fleuristes, vente et services des animaux familiers", "value": 0.25357238745860805}
+{"entity": "Spectacle vivant (entreprises du secteur priv\u00e9)", "value": 0.23865636466692522}
+{"entity": "Distributeurs conseils hors domicile (bi\u00e8res, eaux min\u00e9rales et de table, boissons gazeuses ou non gazeuses, boissons aux jus de fruits, sirops, jus de fruits, boissons lact\u00e9es et gaz carbonique)", "value": 0.23865636466692522}
+{"entity": "Formalit\u00e9s obligatoires", "value": 5.238656364666925}
+{"entity": "Notariat", "value": 0.23865636466692522}
+{"entity": "Emplois aid\u00e9s, demandeurs d'emploi et insertion", "value": 5.238656364666925}
+{"entity": "Services de sant\u00e9 au travail interentreprises", "value": 0.2237403418752424}
+{"entity": "Menuiseries, charpentes et constructions industrialis\u00e9es et portes planes", "value": 0.2237403418752424}
+{"entity": "Confiserie, chocolaterie, biscuiterie (d\u00e9taillants et d\u00e9taillants-fabricants)", "value": 0.2237403418752424}
+{"entity": "Grands magasins et magasins populaires", "value": 0.2237403418752424}
+{"entity": "Chaleur et canicule au travail", "value": 0.20882431908355956}
+{"entity": "Industrie pharmaceutique", "value": 0.20882431908355956}
+{"entity": "Installation, entretien, r\u00e9paration et d\u00e9pannage de mat\u00e9riel a\u00e9raulique, thermique et frigorifique", "value": 0.20882431908355956}
+{"entity": "Industries carri\u00e8res  et mat\u00e9riaux de construction", "value": 0.20882431908355956}
+{"entity": "Commerce de d\u00e9tail alimentaire sp\u00e9cialis\u00e9", "value": 0.20882431908355956}
+{"entity": "Imprimeries de labeur et industries graphiques", "value": 0.19390829629187673}
+{"entity": "Maisons d'\u00e9tudiants", "value": 0.19390829629187673}
+{"entity": "Nombre de trimestres de retraite", "value": 5.193908296291877}
+{"entity": "Lutte contre les discriminations", "value": 0.19390829629187673}
+{"entity": "\u00c9tablissements m\u00e9dico-sociaux de l'union intersyndicale des secteurs sanitaires et sociaux", "value": 0.19390829629187673}
+{"entity": "Commerce de d\u00e9tail alimentaire non sp\u00e9cialis\u00e9", "value": 0.19390829629187673}
+{"entity": "Pompes fun\u00e8bres", "value": 0.19390829629187673}
+{"entity": "Mutuelle et protection sociale", "value": 5.193908296291877}
+{"entity": "Missions locales et PAIO", "value": 0.19390829629187673}
+{"entity": "Accord professionnel relatif aux cadres de direction des soci\u00e9t\u00e9s d'assurances", "value": 0.19390829629187673}
+{"entity": "Cong\u00e9s li\u00e9s \u00e0 une autre activit\u00e9", "value": 5.178992273500194}
+{"entity": "Local de travail", "value": 5.178992273500194}
+{"entity": "Entreprises de travaux et services agricoles, ruraux et forestiers (ETARF)", "value": 0.1789922735001939}
+{"entity": "Entreprises artistiques et culturelles", "value": 0.1789922735001939}
+{"entity": "Handicap", "value": 0.1640762507085111}
+{"entity": "P\u00e2tisserie", "value": 0.1640762507085111}
+{"entity": "Entreprises de commission, de courtage et de commerce intracommunautaire et d'importation-exportation de France m\u00e9tropolitaine (CCNIE)", "value": 0.1640762507085111}
+{"entity": "Entreprises de la publicit\u00e9 et assimil\u00e9es", "value": 0.1640762507085111}
+{"entity": "Enseignement priv\u00e9 ind\u00e9pendant", "value": 0.14916022791682826}
+{"entity": "Bricolage (vente au d\u00e9tail en libre-service)", "value": 0.14916022791682826}
+{"entity": "Taxis", "value": 0.14916022791682826}
+{"entity": "H\u00f4tellerie de plein air", "value": 0.14916022791682826}
+{"entity": "Personnel des organismes de s\u00e9curit\u00e9 sociale", "value": 0.14916022791682826}
+{"entity": "Mat\u00e9riaux de construction (n\u00e9goce)", "value": 0.14916022791682826}
+{"entity": "Presse quotidienne et hebdomadaire en r\u00e9gions", "value": 0.14916022791682826}
+{"entity": "Coop\u00e9ratives agricoles, unions de coop\u00e9ratives agricoles et SICA de fleurs, de fruits et l\u00e9gumes et de pommes de terre (M\u00e9tropole)", "value": 0.14916022791682826}
+{"entity": "Financement et formation", "value": 5.149160227916829}
+{"entity": "Espaces de loisirs, d'attractions et culturels (CCNELAC)", "value": 0.14916022791682826}
+{"entity": "V\u00e9t\u00e9rinaires : personnel salari\u00e9 des cabinets et cliniques v\u00e9t\u00e9rinaires", "value": 0.13424420512514543}
+{"entity": "Maisons \u00e0 succursales de vente au d\u00e9tail d'habillement", "value": 0.13424420512514543}
+{"entity": "Commerces et services de l'audiovisuel, de l'\u00e9lectronique et de l'\u00e9quipement m\u00e9nager", "value": 0.13424420512514543}
+{"entity": "Collaborateurs salari\u00e9s des entreprises d'\u00e9conomistes de la construction et des m\u00e9treurs-v\u00e9rificateurs", "value": 0.13424420512514543}
+{"entity": "Montant de la pension de retraite", "value": 5.134244205125145}
+{"entity": "Entreprises du paysage", "value": 0.13424420512514543}
+{"entity": "Bijouterie, joaillerie, orf\u00e8vrerie, horlogerie (BJOH)", "value": 0.13424420512514543}
+{"entity": "Demandeurs d\u2019emploi", "value": 5.134244205125145}
+{"entity": "Production et transformation des papiers et cartons", "value": 0.11932818233346261}
+{"entity": "Laboratoires de biologie m\u00e9dicale extrahospitaliers", "value": 0.11932818233346261}
+{"entity": "Coop\u00e9ratives agricoles de c\u00e9r\u00e9ales, de meunerie, d'approvisionnement, d'alimentation du b\u00e9tail et d'ol\u00e9agineux", "value": 0.11932818233346261}
+{"entity": "Vins, cidres, jus de fruits, sirops, spiritueux et liqueurs de France", "value": 0.11932818233346261}
+{"entity": "Entreprises de vente \u00e0 distance", "value": 0.11932818233346261}
+{"entity": "Entreprises de l'industrie et des commerces en gros des viandes", "value": 0.11932818233346261}
+{"entity": "Soci\u00e9t\u00e9s d'assurances", "value": 0.11932818233346261}
+{"entity": "Organismes du r\u00e9gime g\u00e9n\u00e9ral de s\u00e9curit\u00e9 sociale agents de direction (18 septembre 2018)", "value": 0.11932818233346261}
+{"entity": "Assainissement et maintenance industrielle", "value": 0.11932818233346261}
+{"entity": "N\u00e9goce de l'ameublement", "value": 0.11932818233346261}
+{"entity": "Mutuelle et retraite", "value": 0.11932818233346261}
+{"entity": "Type de contrat", "value": 5.119328182333462}
+{"entity": "Lait : industrie laiti\u00e8re", "value": 0.11932818233346261}
+{"entity": "Cin\u00e9ma : distribution de films (cadres et agents de ma\u00eetrise)", "value": 0.10441215954177978}
+{"entity": "Proth\u00e9sistes dentaires et personnels des laboratoires de proth\u00e8ses dentaires", "value": 0.10441215954177978}
+{"entity": "Journalistes", "value": 0.10441215954177978}
+{"entity": "Thermique : \u00e9quipements thermiques (ouvriers, employ\u00e9s, techniciens et agents de ma\u00eetrise)", "value": 0.10441215954177978}
+{"entity": "Salari\u00e9s des cabinets d'avocats", "value": 0.10441215954177978}
+{"entity": "Rupture conventionnelle onf", "value": 0.10441215954177978}
+{"entity": "Personnels des agences g\u00e9n\u00e9rales d'assurances", "value": 0.10441215954177978}
+{"entity": "Commerces de gros de l'habillement, de la mercerie, de la chaussure et du jouet", "value": 0.10441215954177978}
+{"entity": "Presse (Information sp\u00e9cialis\u00e9e [employ\u00e9s, techniciens, agents de ma\u00eetrise et cadres])", "value": 0.10441215954177978}
+{"entity": "Industrie textile", "value": 0.10441215954177978}
+{"entity": "Principales caract\u00e9ristiques", "value": 5.10441215954178}
+{"entity": "Institutions de retraite compl\u00e9mentaire (personnel)", "value": 0.10441215954177978}
+{"entity": "Production agricole et CUMA", "value": 0.08949613675009695}
+{"entity": "Personnels des structures associatives cyn\u00e9g\u00e9tiques", "value": 0.08949613675009695}
+{"entity": "Activit\u00e9s de march\u00e9s financiers", "value": 0.08949613675009695}
+{"entity": "Banque", "value": 0.08949613675009695}
+{"entity": "Publicit\u00e9 directe : entreprises de logistique en publicit\u00e9 directe", "value": 0.08949613675009695}
+{"entity": "Cabinets ou entreprises de g\u00e9om\u00e8tres-experts, g\u00e9om\u00e8tres-topographes, photogramm\u00e8tres et experts fonciers", "value": 0.08949613675009695}
+{"entity": "Aides \u00e0 l'insertion et \u00e0 la formation", "value": 5.089496136750097}
+{"entity": "Adoption", "value": 5.089496136750097}
+{"entity": "Cdd", "value": 0.08949613675009695}
+{"entity": "Entreprises d'architecture", "value": 0.08949613675009695}
+{"entity": "Casinos", "value": 0.08949613675009695}
+{"entity": "Groupement des armateurs de services de passages d'eau (personnel navigant)", "value": 0.08949613675009695}
+{"entity": "Entreprises de transport et services maritimes (personnels navigants officiers)", "value": 0.08949613675009695}
+{"entity": "Industries et commerce de la r\u00e9cup\u00e9ration", "value": 0.08949613675009695}
+{"entity": "Fabrication et commerce des produits \u00e0 usage pharmaceutique, parapharmaceutique et v\u00e9t\u00e9rinaire", "value": 0.07458011395841413}
+{"entity": "Salari\u00e9s au pair", "value": 5.074580113958414}
+{"entity": "Professions r\u00e9glement\u00e9es aupr\u00e8s des juridictions", "value": 0.07458011395841413}
+{"entity": "Enseignement priv\u00e9 non lucratif (EPNL)", "value": 0.07458011395841413}
+{"entity": "Entreprises d'ambulances Ouvriers, employ\u00e9s et techniciens (Guyane)", "value": 0.07458011395841413}
+{"entity": "Activit\u00e9s de production des eaux embouteill\u00e9es, de boissons rafra\u00eechissantes sans alcool et de bi\u00e8re", "value": 0.07458011395841413}
+{"entity": "Op\u00e9rateurs de voyages et guides", "value": 0.07458011395841413}
+{"entity": "Remont\u00e9es m\u00e9caniques et domaines skiables", "value": 0.07458011395841413}
+{"entity": "Maroquinerie, articles de voyage, chasse sellerie, gainerie, bracelets en cuir : industries", "value": 0.07458011395841413}
+{"entity": "P\u00e2tes alimentaires s\u00e8ches et couscous non pr\u00e9par\u00e9", "value": 0.07458011395841413}
+{"entity": "N\u00e9goce et prestations de services dans les domaines m\u00e9dico-techniques", "value": 0.07458011395841413}
+{"entity": "Caf\u00e9t\u00e9rias et assimil\u00e9s (cha\u00eenes)", "value": 0.07458011395841413}
+{"entity": "Industries de la transformation des volailles", "value": 0.07458011395841413}
+{"entity": "Accords-convention d'entreprise Cit\u00e9 de la musique", "value": 0.07458011395841413}
+{"entity": "Horlogerie-bijouterie (commerce de d\u00e9tail)", "value": 0.07458011395841413}
+{"entity": "Construction-promotion", "value": 0.07458011395841413}
+{"entity": "S\u00e9curit\u00e9 sociale : praticiens-conseils du r\u00e9gime g\u00e9n\u00e9ral", "value": 0.07458011395841413}
+{"entity": "Politique de l\u2019emploi", "value": 5.074580113958414}
+{"entity": "Industries de produits alimentaires \u00e9labor\u00e9s", "value": 0.059664091166731305}
+{"entity": "Entreprises de navigation : personnel s\u00e9dentaire", "value": 0.059664091166731305}
+{"entity": "B\u00e2timent et travaux publics et activit\u00e9s annexes ETAM (Martinique)", "value": 0.059664091166731305}
+{"entity": "Centres de lutte contre le cancer", "value": 0.059664091166731305}
+{"entity": "Industries du cartonnage", "value": 0.059664091166731305}
+{"entity": "Manutention portuaire du port de Fort-de-France", "value": 0.059664091166731305}
+{"entity": "Personnels des soci\u00e9t\u00e9s anonymes et fondations d'HLM", "value": 0.059664091166731305}
+{"entity": "P\u00f4le emploi", "value": 0.059664091166731305}
+{"entity": "Mutualit\u00e9", "value": 0.059664091166731305}
+{"entity": "Transport a\u00e9rien : personnel au sol", "value": 0.059664091166731305}
+{"entity": "Entreprises au service de la cr\u00e9ation et de l'\u00e9v\u00e9nement", "value": 0.059664091166731305}
+{"entity": "Activit\u00e9s du d\u00e9chet", "value": 0.059664091166731305}
+{"entity": "Entreprises de d\u00e9sinfection, d\u00e9sinsectisation et d\u00e9ratisation (3D)", "value": 0.059664091166731305}
+{"entity": "Quincaillerie, fournitures industrielles, fers, m\u00e9taux et \u00e9quipement de la maison (commerces)", "value": 0.059664091166731305}
+{"entity": "Industrie du p\u00e9trole", "value": 0.04474806837504847}
+{"entity": "Agences de presse (employ\u00e9s, techniciens et cadres)", "value": 0.04474806837504847}
+{"entity": "Exploitations frigorifiques", "value": 0.04474806837504847}
+{"entity": "Charcuterie de d\u00e9tail", "value": 0.04474806837504847}
+{"entity": "Conchyliculture", "value": 0.04474806837504847}
+{"entity": "La certification professionnelle", "value": 5.044748068375048}
+{"entity": "Couture parisienne", "value": 0.04474806837504847}
+{"entity": "Omnipraticiens exer\u00e7ant dans les centres de sant\u00e9 miniers", "value": 0.04474806837504847}
+{"entity": "Professions de la photographie", "value": 0.04474806837504847}
+{"entity": "Industries alimentaires diverses", "value": 0.04474806837504847}
+{"entity": "Industrie et services nautiques", "value": 0.04474806837504847}
+{"entity": "Personnel des offices publics de l'habitat", "value": 0.04474806837504847}
+{"entity": "Caves coop\u00e9ratives vinicoles et leurs unions", "value": 0.04474806837504847}
+{"entity": "Travail m\u00e9canique du bois, des scieries, du n\u00e9goce et de l'importation des bois", "value": 0.04474806837504847}
+{"entity": "Difficult\u00e9s de l'entreprise", "value": 5.044748068375048}
+{"entity": "Commissaires de justice et soci\u00e9t\u00e9s de ventes volontaires", "value": 0.04474806837504847}
+{"entity": "Industrie de la chaussure et des articles chaussants", "value": 0.04474806837504847}
+{"entity": "N\u00e9goce et distribution de combustibles solides, liquides, gazeux et produits p\u00e9troliers", "value": 0.04474806837504847}
+{"entity": "Soci\u00e9t\u00e9s d'assistance", "value": 0.04474806837504847}
+{"entity": "Jardineries et graineteries", "value": 0.04474806837504847}
+{"entity": "Production cin\u00e9matographique", "value": 0.029832045583365652}
+{"entity": "Tourisme social et familial", "value": 0.029832045583365652}
+{"entity": "Coop\u00e9ratives de consommation (23 novembre 2018)", "value": 0.029832045583365652}
+{"entity": "Distribution et commerce de gros des papiers-cartons", "value": 0.029832045583365652}
+{"entity": "Personnels des activit\u00e9s hippiques", "value": 0.029832045583365652}
+{"entity": "Organismes de tourisme", "value": 0.029832045583365652}
+{"entity": "R\u00e9gies de quartier", "value": 0.029832045583365652}
+{"entity": "Exploitation cin\u00e9matographique", "value": 0.029832045583365652}
+{"entity": "Production audiovisuelle", "value": 0.029832045583365652}
+{"entity": "D\u00e9taillants en chaussures", "value": 0.029832045583365652}
+{"entity": "Industries de l'habillement", "value": 0.029832045583365652}
+{"entity": "Cin\u00e9ma : distribution de films (employ\u00e9s et ouvriers)", "value": 0.029832045583365652}
+{"entity": "Recours \u00e0 un organisme de service \u00e0 la personne", "value": 0.029832045583365652}
+{"entity": "Caoutchouc", "value": 0.029832045583365652}
+{"entity": "Travail a\u00e9rien : personnel navigant des essais et r\u00e9ceptions", "value": 0.029832045583365652}
+{"entity": "B\u00e2timent et travaux publics ETAM (Guadeloupe)", "value": 0.029832045583365652}
+{"entity": "N\u00e9gociation de branche", "value": 5.029832045583365}
+{"entity": "Manutention ferroviaire et travaux connexes", "value": 0.029832045583365652}
+{"entity": "\u00c9diteurs de la presse magazine Employ\u00e9s et cadres (30 octobre 2017)", "value": 0.029832045583365652}
+{"entity": "Produits du sol, engrais et produits connexes : n\u00e9goce et industrie", "value": 0.029832045583365652}
+{"entity": "R\u00e9partition pharmaceutique", "value": 0.029832045583365652}
+{"entity": "Banque populaire", "value": 0.029832045583365652}
+{"entity": "Banque : personnel des banques de la Guadeloupe, de Saint-Martin et de Saint-Barth\u00e9lemy", "value": 0.029832045583365652}
+{"entity": "Lin : rouissage et teillage du lin", "value": 0.029832045583365652}
+{"entity": "Conseil et service en \u00e9levage", "value": 0.029832045583365652}
+{"entity": "Entreprises d'expertises en mati\u00e8re d'\u00e9valuations industrielles et commerciales", "value": 0.029832045583365652}
+{"entity": "Production de films d'animation", "value": 0.014916022791682826}
+{"entity": "Miroiterie (transformation et n\u00e9goce du verre)", "value": 0.014916022791682826}
+{"entity": "Portage de presse", "value": 0.014916022791682826}
+{"entity": "Conserveries coop\u00e9ratives et SICA", "value": 0.014916022791682826}
+{"entity": "Branche ferroviaire", "value": 0.014916022791682826}
+{"entity": "Ciment : industrie de la fabrication des ciments", "value": 0.014916022791682826}
+{"entity": "M\u00e9tiers de la transformation des grains", "value": 0.014916022791682826}
+{"entity": "Soci\u00e9t\u00e9s financi\u00e8res", "value": 0.014916022791682826}
+{"entity": "Industries de fabrication m\u00e9canique du verre", "value": 0.014916022791682826}
+{"entity": "Restauration ferroviaire", "value": 0.014916022791682826}
+{"entity": "Personnel des parcs et jardins zoologiques priv\u00e9s", "value": 0.014916022791682826}
+{"entity": "Cdi", "value": 0.014916022791682826}
+{"entity": "Golf", "value": 0.014916022791682826}
+{"entity": "Personnel des \u00e9levages aquacoles", "value": 0.014916022791682826}
+{"entity": "Coop\u00e9ratives agricoles laiti\u00e8res", "value": 0.014916022791682826}
+{"entity": "Mareyeurs-exp\u00e9diteurs", "value": 0.014916022791682826}
+{"entity": "\u00c9dition", "value": 0.014916022791682826}
+{"entity": "Industries c\u00e9ramiques de France", "value": 0.014916022791682826}
+{"entity": "R\u00e9gime de retraite", "value": 5.014916022791683}
+{"entity": "Distribution directe", "value": 0.014916022791682826}
