@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.72.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.71.0...v2.72.0) (2026-04-07)
+
+### Bug Fixes
+
+- update suggestions - boost themes & add synonym ([1b672ac](https://github.com/SocialGouv/cdtn-admin/commit/1b672acdeb52214c0b2c2663d53aaa561fcfbc4c))
+
+### Features
+
+- **actualites:** ajout des actualités (liste/ajout/modification) ([#1655](https://github.com/SocialGouv/cdtn-admin/issues/1655)) ([c32f837](https://github.com/SocialGouv/cdtn-admin/commit/c32f8379967cb46b8843df7194763e561bf7e487))
+
 # [2.71.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.70.1...v2.71.0) (2026-03-30)
 
 **Note:** Version bump only for package @socialgouv/cdtn-elasticsearch
