@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.72.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.72.0...v2.72.1) (2026-04-08)
+
+### Bug Fixes
+
+- next-env file ([e7a6b84](https://github.com/SocialGouv/cdtn-admin/commit/e7a6b84dd1ad6da714c8b6d8a18171dcca1f0f92))
+
 # [2.72.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.71.0...v2.72.0) (2026-04-07)
 
 ### Bug Fixes
