@@ -51,7 +51,6 @@
 {"entity": "Pr\u00e9avis de licenciement et de d\u00e9mission", "value": 9.101906267712778}
 {"entity": "Temps partiel", "value": 4.101906267712777}
 {"entity": "Simulateur calcul indemnit\u00e9 de licenciement pour inaptitude", "value": 4.057158199337729}
-{"entity": "Mi-temps th\u00e9rapeutique", "value": 4.042242176546046}
 {"entity": "Mutuelle sant\u00e9 obligatoire", "value": 3.997494108170997}
 {"entity": "Forfait jour", "value": 3.803585811879121}
 {"entity": "Visite m\u00e9dicale travail", "value": 3.788669789087438}
