@@ -31,7 +31,7 @@
     "@socialgouv/cdtn-slugify": "^4.52.1",
     "@socialgouv/cdtn-types": "workspace:^",
     "@socialgouv/cdtn-utils": "^4.222.0",
-    "axios": "^0.26.1",
+    "axios": "^1.15.0",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.3",
@@ -44,7 +44,7 @@
     "p-queue": "^6.6.2",
     "react": "^19.1.0",
     "reflect-metadata": "^0.1.13",
-    "zod": "^3.14.2"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@shared/eslint-config": "workspace:^",
