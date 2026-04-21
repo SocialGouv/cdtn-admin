@@ -16,7 +16,10 @@ import { getCcSupported } from "./getCcSupported";
 import { fetchAgreementUnextended } from "./fetchCcUnextended";
 import { getCcInfos } from "./getCcInfos";
 import { generateContent } from "./generateContent";
-import { getContributionContent } from "./getContributionContent";
+import {
+  getContributionContent,
+  getContributionText,
+} from "./getContributionContent";
 import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
 import pMap from "p-map";
@@ -91,15 +94,20 @@ export async function generateContributions(
         ? contrib.breadcrumbs
         : (breadcrumbsOfRootContributionsPerIndex[contrib.questionIndex] ?? []);
 
+    const contributionContent = getContributionContent(content);
+    const text = getContributionText(content, contrib.description);
+
     const contribution: ContributionElasticDocumentLightRelatedContent = {
       ...contrib,
       ...doc,
+      ...contributionContent,
       ...generateMetadata(ccnData, contrib, breadcrumbs),
-      ...getContributionContent(content),
+      ...content,
       breadcrumbs,
       highlight,
       messageBlock,
       references,
+      text,
     };
 
     delete contribution.contentWithGlossary;

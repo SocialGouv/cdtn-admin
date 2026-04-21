@@ -40,7 +40,6 @@ describe("generateMetadata", () => {
         );
 
         expect(metadata.title).toBe("Question");
-        expect(metadata.text).toBe("Description");
         expect(metadata.metas.title).toBe("Question");
         expect(metadata.metas.description).toBe("Description");
       });
@@ -64,7 +63,6 @@ describe("generateMetadata", () => {
         );
 
         expect(metadata.title).toBe("Question");
-        expect(metadata.text).toBe("Description");
         expect(metadata.metas.title).toBe("Question");
         expect(metadata.metas.description).toBe("Description");
       });
@@ -97,7 +95,6 @@ describe("generateMetadata", () => {
         );
 
         expect(metadata.title).toBe("Question");
-        expect(metadata.text).toBe("Description");
         expect(metadata.metas.title).toBe("SEO Title - CC Short title");
         expect(metadata.metas.description).toBe("Question - Description");
       });
@@ -121,7 +118,6 @@ describe("generateMetadata", () => {
         );
 
         expect(metadata.title).toBe("Question");
-        expect(metadata.text).toBe("Description");
         expect(metadata.metas.title).toBe("Breadcrumb 2 - CC Short title");
         expect(metadata.metas.description).toBe("Question - Description");
       });
