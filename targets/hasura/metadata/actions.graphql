@@ -20,6 +20,12 @@ type Query {
   ): RecentKaliReferenceOutput
 }
 
+type Mutation {
+  updateDocsFromQuestion(
+    questionId: uuid!
+  ): updateDocsFromQuestionOutput
+}
+
 input PreviewDocument {
   cdtn_id: String
   document: jsonb
@@ -84,6 +90,10 @@ type publishOutput {
 }
 
 type publishAllOutput {
+  count: Int!
+}
+
+type updateDocsFromQuestionOutput {
   count: Int!
 }
 

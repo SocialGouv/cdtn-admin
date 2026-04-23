@@ -25,6 +25,15 @@ actions:
     permissions:
       - role: user
       - role: super
+  - name: updateDocsFromQuestion
+    definition:
+      kind: synchronous
+      handler: '{{API_URL}}/actions/update-docs-contrib-question'
+      forward_client_headers: true
+      timeout: 300
+    permissions:
+      - role: super
+    comment: Action pour mettre à jour les documents suite à la mise à jour d'une question
 custom_types:
   enums: []
   input_objects:
@@ -58,4 +67,5 @@ custom_types:
     - name: RecentKaliReferenceOutput
     - name: publishOutput
     - name: publishAllOutput
+    - name: updateDocsFromQuestionOutput
   scalars: []

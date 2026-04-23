@@ -91,3 +91,14 @@ export const getAllContributionsByQuestionId = gql`
     }
   }
 `;
+
+export const getQuestionById = gql`
+  query fetch_question($id: uuid!) {
+    contribution_questions_by_pk(id: $id) {
+      seo_title
+      id
+      order
+      content
+    }
+  }
+`;

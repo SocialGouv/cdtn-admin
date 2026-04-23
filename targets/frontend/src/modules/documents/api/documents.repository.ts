@@ -1,17 +1,15 @@
 import { ApiClient } from "src/lib/api";
 import {
-  documentsDeleteByCdtnIdMutation,
   documentsDeleteBySourceAndInitialIdMutation,
   documentsDeleteMutation,
   documentsPublishMutation,
 } from "./documents.mutation";
 import {
   DocumentsQueryBySlugProps,
-  DocumentsQueryBySourceProps,
   DocumentsQueryProps,
+  queryContributionDocumentsByQuestionIndex,
   queryDocument,
   queryDocumentBySlug,
-  queryDocumentsBySource,
 } from "./documents.query";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 
@@ -25,14 +23,6 @@ export class DocumentsRepository {
   async fetch(variables: DocumentsQueryProps) {
     try {
       return await queryDocument(this.client, variables);
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  async fetchBySource(variables: DocumentsQueryBySourceProps) {
-    try {
-      return await queryDocumentsBySource(this.client, variables);
     } catch (e) {
       throw e;
     }
@@ -104,28 +94,18 @@ export class DocumentsRepository {
     }
   }
 
-  async removeByCdtnId(cdtnId: string): Promise<string | undefined> {
-    try {
-      const { data, error } = await this.client.mutation<any>(
-        documentsDeleteByCdtnIdMutation,
-        { cdtnId }
-      );
-      if (error) {
-        console.log("Error while removing document: ", cdtnId, error);
-        throw error;
-      }
-      return data?.delete_documents_by_pk?.cdtn_id;
-    } catch (error) {
-      console.log("Error while removing document: ", cdtnId, error);
-      throw error;
-    }
-  }
-
   async fetchDocumentBySlug(variables: DocumentsQueryBySlugProps) {
     try {
       return await queryDocumentBySlug(this.client, variables);
     } catch (e) {
       throw e;
     }
+  }
+
+  async fetchContributionDocumentsByQuestionIndex(questionIndex: number) {
+    return await queryContributionDocumentsByQuestionIndex(
+      this.client,
+      questionIndex
+    );
   }
 }
