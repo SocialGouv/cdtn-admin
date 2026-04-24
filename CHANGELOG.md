@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.72.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.72.2...v2.72.3) (2026-04-24)
+
+### Bug Fixes
+
+- **contribution:** mise à jour des documents quand on modifie une question ([#1667](https://github.com/SocialGouv/cdtn-admin/issues/1667)) ([e1511d6](https://github.com/SocialGouv/cdtn-admin/commit/e1511d68a71e51d5ca7d7386b9e691c07a3688bc))
+
 ## [2.72.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.72.1...v2.72.2) (2026-04-10)
 
 ### Bug Fixes
