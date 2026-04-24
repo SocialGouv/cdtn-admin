@@ -9,6 +9,8 @@ const ingester = async (): Promise<string> => {
         process.env.HASURA_GRAPHQL_ADMIN_SECRET,
         process.env.ELASTICSEARCH_URL_PREPROD,
         process.env.ELASTICSEARCH_TOKEN_INGEST_PREPROD,
+        process.env.ELASTICSEARCH_USER_INGEST_PREPROD,
+        process.env.ELASTICSEARCH_PASSWORD_INGEST_PREPROD,
         process.env.BRANCH_NAME_SLUG
           ? `cdtn-${process.env.BRANCH_NAME_SLUG}`
           : process.env.ELASTICSEARCH_INDEX_PREPROD,
