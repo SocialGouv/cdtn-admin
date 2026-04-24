@@ -19,7 +19,7 @@ export const questionUpdateMutation = gql`
     ) {
       __typename
     }
-    publishAll(questionId: $id, source: "contributions") {
+    updateDocsFromQuestion(questionId: $id) {
       count
     }
   }

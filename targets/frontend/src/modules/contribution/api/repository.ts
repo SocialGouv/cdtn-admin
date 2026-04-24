@@ -3,12 +3,20 @@ import {
   getAllContributionsByQuestionId,
   getContributionAnswerById,
   getGenericAnswerByQuestionId,
+  getQuestionById,
 } from "./query";
-import { ContributionsAnswers } from "@socialgouv/cdtn-types";
+import {
+  ContributionQuestion,
+  ContributionsAnswers,
+} from "@socialgouv/cdtn-types";
 import { updatePublicationMutation } from "./mutation";
 
 interface FetchContribPkData {
   contribution_answers_by_pk: ContributionsAnswers;
+}
+
+interface FetchQuestionData {
+  contribution_questions_by_pk: ContributionQuestion;
 }
 
 interface FetchContribQuestionIdData {
@@ -96,5 +104,21 @@ export class ContributionRepository {
     if (error) {
       throw error;
     }
+  }
+
+  async fetchQuestion(id: string): Promise<ContributionQuestion> {
+    const { error, data } = await this.client.query<FetchQuestionData>(
+      getQuestionById,
+      {
+        id,
+      }
+    );
+    if (error) {
+      throw error;
+    }
+    if (!data) {
+      throw new Error(`Aucune question pour l'id ${id}`);
+    }
+    return data.contribution_questions_by_pk;
   }
 }

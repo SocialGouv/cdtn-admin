@@ -1,5 +1,6 @@
 import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { ApiClient } from "src/lib/api";
+import { gql } from "@shared/utils";
 
 const query = `query documents($source: String!, $initialId: String) {
   documents(
@@ -38,6 +39,28 @@ const fetchDocumentBySlug = `
       }
     ) {
       document
+    }
+  }
+`;
+
+const fetchContributionDocumentsByQuestionIndex = gql`
+  query get_contrib_by_question_index($questionIndex: Int!) {
+    documents(
+      where: {
+        source: { _eq: "contributions" }
+        document: { _contains: { questionIndex: $questionIndex } }
+      }
+    ) {
+      cdtn_id
+      initial_id
+      source
+      document
+      slug
+      text
+      title
+      meta_description
+      is_available
+      is_searchable
     }
   }
 `;
@@ -113,4 +136,19 @@ export const queryDocumentBySlug = async (
   const data = result?.documents[0];
 
   return data;
+};
+
+export const queryContributionDocumentsByQuestionIndex = async (
+  client: ApiClient,
+  questionIndex: number
+): Promise<QueryDocument[] | undefined> => {
+  const { data: result, error } = await client.query<QueryDocumentResult>(
+    fetchContributionDocumentsByQuestionIndex,
+    { questionIndex }
+  );
+  if (error) {
+    console.log(error);
+    throw error;
+  }
+  return result?.documents;
 };
