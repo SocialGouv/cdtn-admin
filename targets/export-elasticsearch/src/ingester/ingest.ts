@@ -19,6 +19,8 @@ export async function ingest(
   cdtnAdminEndpointSecret: string | undefined,
   esUrl: string | undefined,
   esTokenIngest: string | undefined,
+  esUserIngest: string | undefined,
+  esPasswordIngest: string | undefined,
   esIndexPrefix: string | undefined,
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
@@ -31,6 +33,8 @@ export async function ingest(
     cdtnAdminEndpointSecret,
     esUrl,
     esTokenIngest,
+    esUserIngest,
+    esPasswordIngest,
     esIndexPrefix,
     suggestIndexName,
     bufferSize,
@@ -44,6 +48,8 @@ async function runIngester(
   cdtnAdminEndpointSecret: string | undefined,
   esUrl: string | undefined,
   esTokenIngest: string | undefined,
+  esUserIngest: string | undefined,
+  esPasswordIngest: string | undefined,
   esIndexPrefix: string | undefined,
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
@@ -68,7 +74,14 @@ async function runIngester(
               apiKey: esTokenIngest,
             },
           }
-        : {}
+        : esUserIngest && esPasswordIngest
+          ? {
+              auth: {
+                username: esUserIngest,
+                password: esPasswordIngest,
+              },
+            }
+          : {}
     )
   );
 
