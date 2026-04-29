@@ -277,9 +277,7 @@ const getParents = (node: WithParent<DilaNode> | null) => {
     if (isSectionData(tempNode.data)) {
       chain.unshift(tempNode.data.title);
     } else {
-      throw new Error(
-        "An article cannot be a parent of an article or a section"
-      );
+      // Skip it, sometimes a section can have no title (example : https://www.legifrance.gouv.fr/conv_coll/article/KALIARTI000005778323?idConteneur=KALICONT000005635221)
     }
     tempNode = tempNode.parent;
   }
