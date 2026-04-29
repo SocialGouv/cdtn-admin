@@ -8,6 +8,7 @@ import {
   ExportEsStatus,
   FicheTravailEmploiDoc,
   InfographicTemplateDoc,
+  MailTemplateDoc,
   NewsTemplateDoc,
   WhatIsNewItemDoc,
 } from "@socialgouv/cdtn-types";
@@ -36,6 +37,7 @@ import { mergeRelatedDocumentsToEditorialContents } from "./informations/mergeRe
 import { updateExportStatuses } from "./documents/updateExportStatuses";
 import { generateInfographics } from "./infographics";
 import { generateNews } from "./news";
+import { htmlToText } from "./utils/textConverter";
 
 /**
  * Find duplicate slugs
@@ -76,10 +78,11 @@ export async function cdtnDocumentsGen(
     await fetchContributionDocumentToPublish(isProd);
 
   logger.info("=== Courriers ===");
-  const modelesDeCourriers = await getDocumentBySource(
+  const modelesDeCourriers = await getDocumentBySource<MailTemplateDoc>(
     SOURCES.LETTERS,
     getBreadcrumbs
   );
+  modelesDeCourriers.forEach((m) => (m.text = htmlToText(m.html)));
   documentsCount = {
     ...documentsCount,
     [SOURCES.LETTERS]: modelesDeCourriers.length,

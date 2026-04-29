@@ -38,7 +38,7 @@
 {"entity": "Temps de pause", "value": 5.0863637719638435}
 {"entity": "Salaire minimum", "value": 5.041615703588795}
 {"entity": "Cong\u00e9s li\u00e9s \u00e0 la vie familiale (mariage, d\u00e9c\u00e8s, naissance...)", "value": 4.967035589630381}
-{"entity": "Mise a pied conservatoire", "value": 4.847707407296918}
+{"entity": "Mise \u00e0 pied conservatoire", "value": 4.847707407296918}
 {"entity": "Maintien de salaire arr\u00eat maladie", "value": 4.758211270546821}
 {"entity": "Licenciement pour faute grave", "value": 4.743295247755138}
 {"entity": "Cong\u00e9 paternit\u00e9", "value": 4.668715133796724}
@@ -88,7 +88,7 @@
 {"entity": "Indemnit\u00e9 de d\u00e9part \u00e0 la retraite", "value": 3.072700695086662}
 {"entity": "Documents de fin de contrat et droit des salari\u00e9s", "value": 8.057784672294979}
 {"entity": "M\u00e9tallurgie", "value": 3.057784672294979}
-{"entity": "CDD", "value": 7.998120581128248}
+{"entity": "CDD", "value": 10.098120581128248}
 {"entity": "Abandon de poste", "value": 7.9682885355448825}
 {"entity": "Transports routiers et activit\u00e9s auxiliaires du transport", "value": 2.9533725127531993}
 {"entity": "Grossesse et travail", "value": 2.9384564899615166}
@@ -188,7 +188,7 @@
 {"entity": "Accords d'entreprise", "value": 1.7600906894185735}
 {"entity": "Csp", "value": 1.7600906894185735}
 {"entity": "Temps de trajet travail", "value": 1.7600906894185735}
-{"entity": "Calcul de cong\u00e9s pay\u00e9s", "value": 1.7451746666268906}
+{"entity": "Calcul de cong\u00e9s pay\u00e9s", "value": 2.5451746666268906}
 {"entity": "Maternit\u00e9, paternit\u00e9 et adoption", "value": 6.745174666626891}
 {"entity": "Clause de mobilit\u00e9", "value": 1.7302586438352077}
 {"entity": "Apprentissage", "value": 1.7302586438352077}
@@ -211,7 +211,6 @@
 {"entity": "Formation professionnelle", "value": 1.5960144387100623}
 {"entity": "Bulletin de paie", "value": 1.5960144387100623}
 {"entity": "Fermeture de l'entreprise et cong\u00e9s pay\u00e9s", "value": 1.5960144387100623}
-{"entity": "Dur\u00e9e du pr\u00e9avis", "value": 1.5960144387100623}
 {"entity": "Classification", "value": 1.5661823931266967}
 {"entity": "Entretien pr\u00e9alable au licenciement", "value": 1.5512663703350138}
 {"entity": "Code du travail", "value": 1.536350347543331}
@@ -246,7 +245,6 @@
 {"entity": "Inspection du travail", "value": 6.3126100056680885}
 {"entity": "Cong\u00e9s impos\u00e9s par l' employeur", "value": 1.3126100056680887}
 {"entity": "Proc\u00e9dure et licenciement pour motif \u00e9conomique", "value": 6.297693982876406}
-{"entity": "Contrat cdd", "value": 1.2827779600847231}
 {"entity": "Licenciement pour inaptitude professionnelle", "value": 1.2827779600847231}
 {"entity": "Temps de travail", "value": 6.282777960084723}
 {"entity": "Droit d\u2019alerte et de retrait des salari\u00e9s", "value": 6.282777960084723}
@@ -266,7 +264,6 @@
 {"entity": "R\u00e8glement int\u00e9rieur d\u2019une entreprise", "value": 6.208197846126309}
 {"entity": "Arr\u00eat maladie longue dur\u00e9e", "value": 1.2081978461263088}
 {"entity": "Temps de travail effectif", "value": 1.193281823334626}
-{"entity": "Mise \u00e0 pied", "value": 1.193281823334626}
 {"entity": "Contingent heures suppl\u00e9mentaires", "value": 1.1783658005429432}
 {"entity": "Faute grave", "value": 1.1783658005429432}
 {"entity": "D\u00e9part volontaire \u00e0 la retraite", "value": 6.178365800542943}
@@ -276,7 +273,7 @@
 {"entity": "Lettre licenciement", "value": 1.1485337549595778}
 {"entity": "Astreinte et temps de travail effectif", "value": 1.1336177321678949}
 {"entity": "Avantages en nature", "value": 1.1336177321678949}
-{"entity": "Grossesse", "value": 1.1336177321678949}
+{"entity": "Aménagement grossesse", "value": 1.1336177321678949}
 {"entity": "Stage", "value": 6.118701709376212}
 {"entity": "Hygi\u00e8ne, s\u00e9curit\u00e9 et conditions de travail", "value": 6.118701709376212}
 {"entity": "Compte personnel de formation (CPF)", "value": 1.1037856865845292}
@@ -308,7 +305,6 @@
 {"entity": "Jeunes travailleurs, alternance et stages", "value": 5.865129321917604}
 {"entity": "Mise \u00e0 disposition, d\u00e9tachement et portage salarial", "value": 5.850213299125921}
 {"entity": "Prime", "value": 0.8352972763342382}
-{"entity": "Calcul nombre de jours de cong\u00e8s pay\u00e9s", "value": 0.8352972763342382}
 {"entity": "P\u00e9riode essai", "value": 0.8203812535425554}
 {"entity": "Maladie", "value": 0.8203812535425554}
 {"entity": "Formation", "value": 5.820381253542555}
@@ -501,7 +497,6 @@
 {"entity": "Cabinets ou entreprises de g\u00e9om\u00e8tres-experts, g\u00e9om\u00e8tres-topographes, photogramm\u00e8tres et experts fonciers", "value": 0.08949613675009695}
 {"entity": "Aides \u00e0 l'insertion et \u00e0 la formation", "value": 5.089496136750097}
 {"entity": "Adoption", "value": 5.089496136750097}
-{"entity": "Cdd", "value": 0.08949613675009695}
 {"entity": "Entreprises d'architecture", "value": 0.08949613675009695}
 {"entity": "Casinos", "value": 0.08949613675009695}
 {"entity": "Groupement des armateurs de services de passages d'eau (personnel navigant)", "value": 0.08949613675009695}

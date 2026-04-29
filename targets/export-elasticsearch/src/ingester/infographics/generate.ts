@@ -5,6 +5,7 @@ import {
 } from "@socialgouv/cdtn-types";
 import pMap from "p-map";
 import { generateLinkedContent } from "./generateLinkedContent";
+import { htmlToText } from "../utils/textConverter";
 
 export const generateInfographics = async (
   infographics: DocumentElasticWithSource<InfographicTemplateDoc>[]
@@ -21,6 +22,7 @@ export const generateInfographics = async (
         ...infographicWithoutRefs,
         source: "infographies",
         linkedContent,
+        text: htmlToText(infographic.transcription),
       };
     },
     { concurrency: 5 }

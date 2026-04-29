@@ -4,6 +4,7 @@ import {
   InfographicElasticDocument,
 } from "@socialgouv/cdtn-types";
 import { getRelatedIdsDocuments } from "./getRelatedIdsDocuments";
+import { htmlToText } from "../utils/textConverter";
 
 interface Return {
   documents: DocumentElasticWithSource<EditorialContentDoc>[];
@@ -18,54 +19,64 @@ export const generateEditorialContents = (
     const introWithGlossary = document.introWithGlossary;
     delete document.intro;
     delete document.introWithGlossary;
+
+    const contents = document.contents?.map((content: any) => {
+      content.blocks = content.blocks.map((block: any) => {
+        const htmlWithGlossary = block.htmlWithGlossary;
+        delete block.markdown;
+        delete block.htmlWithGlossary;
+        if (block.type === "graphic") {
+          const infographic = infographics.find(
+            (info) => info.id === block.infographic_id
+          );
+          if (!infographic) {
+            throw new Error(
+              `No infographic found for information page ${document.title}/${
+                document.cdtnId
+              } (block: ${JSON.stringify(block)})`
+            );
+          }
+          content.references = [
+            {
+              label: "Références juridiques",
+              links: infographic.references.map((ref, index) => ({
+                url: ref.url,
+                type: ref.type,
+                title: ref.title,
+                order: index + 1,
+              })),
+            },
+          ];
+          return {
+            ...block,
+            size: infographic.pdfFilesizeOctet,
+            type: "graphic",
+            imgUrl: infographic.svgFilename,
+            altText: infographic.title,
+            fileUrl: infographic.pdfFilename,
+            html: infographic.transcription,
+            slug: infographic.slug,
+          };
+        }
+        return {
+          ...block,
+          html: htmlWithGlossary,
+        };
+      });
+      return content;
+    });
+
+    const text = contents
+      ?.flatMap((c: { blocks: { html: string }[] }) =>
+        c.blocks.map((b) => htmlToText(b.html))
+      )
+      .join("\n\n");
+
     return {
       ...document,
       intro: introWithGlossary,
-      contents: document.contents.map((content: any) => {
-        content.blocks = content.blocks.map((block: any) => {
-          const htmlWithGlossary = block.htmlWithGlossary;
-          delete block.markdown;
-          delete block.htmlWithGlossary;
-          if (block.type === "graphic") {
-            const infographic = infographics.find(
-              (info) => info.id === block.infographic_id
-            );
-            if (!infographic) {
-              throw new Error(
-                `No infographic found for information page ${document.title}/${
-                  document.cdtnId
-                } (block: ${JSON.stringify(block)})`
-              );
-            }
-            content.references = [
-              {
-                label: "Références juridiques",
-                links: infographic.references.map((ref, index) => ({
-                  url: ref.url,
-                  type: ref.type,
-                  title: ref.title,
-                  order: index + 1,
-                })),
-              },
-            ];
-            return {
-              ...block,
-              size: infographic.pdfFilesizeOctet,
-              type: "graphic",
-              imgUrl: infographic.svgFilename,
-              altText: infographic.title,
-              fileUrl: infographic.pdfFilename,
-              html: infographic.transcription,
-              slug: infographic.slug,
-            };
-          }
-          return {
-            ...block,
-            html: htmlWithGlossary,
-          };
-        });
-        return content;
-      }),
+      contents,
+      text,
     };
   });
   const relatedIdsDocuments = getRelatedIdsDocuments(documentsOptimized);

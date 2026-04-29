@@ -111,7 +111,7 @@ async function runIngester(
       client,
       documents,
       indexName: `${DOCUMENT_INDEX_NAME}-${ts}`,
-      size: 800,
+      size: 400,
     });
   };
   await cdtnDocumentsGen(updateDocs, isProd);

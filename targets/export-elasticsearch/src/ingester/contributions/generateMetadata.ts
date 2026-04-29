@@ -43,7 +43,6 @@ const generateGenericMetadata = (
 ): ContributionMetadata => {
   return {
     title: contribution.questionName,
-    text: contribution.description,
     metas: {
       title: contribution.questionName,
       description: contribution.description,
@@ -58,7 +57,6 @@ const generateCustomMetadata = (
 ): ContributionMetadata => {
   return {
     title: contribution.questionName,
-    text: contribution.description,
     metas: {
       title: generateMetaTitle(
         contribution.seoTitle,
