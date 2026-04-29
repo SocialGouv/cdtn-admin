@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.73.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.73.0...v2.73.1) (2026-04-29)
+
+### Features
+
+- migration vers une instance interne d'ES pour la preprod ([c08e225](https://github.com/SocialGouv/cdtn-admin/commit/c08e225a67c7f423428e1b131ffa2a831b2c3534))
+
 # [2.73.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.72.3...v2.73.0) (2026-04-29)
 
 ### Bug Fixes
