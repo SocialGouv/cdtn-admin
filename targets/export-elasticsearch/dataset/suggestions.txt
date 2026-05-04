@@ -48,7 +48,7 @@
 {"entity": "D\u00e9mission", "value": 9.295814564004655}
 {"entity": "Quelles sont les indemnit\u00e9s de rupture conventionnelle?", "value": 4.176486381671191}
 {"entity": "Accident du travail et maintien de salaire", "value": 4.131738313296143}
-{"entity": "Pr\u00e9avis de licenciement et de d\u00e9mission", "value": 9.101906267712778}
+{"entity": "Pr\u00e9avis de licenciement", "value": 9.101906267712778}
 {"entity": "Temps partiel", "value": 4.101906267712777}
 {"entity": "Simulateur calcul indemnit\u00e9 de licenciement pour inaptitude", "value": 4.057158199337729}
 {"entity": "Mutuelle sant\u00e9 obligatoire", "value": 3.997494108170997}
@@ -125,7 +125,6 @@
 {"entity": "Prime de d\u00e9part \u00e0 la retraite", "value": 2.3268995555025205}
 {"entity": "13\u00e8me mois", "value": 2.311983532710838}
 {"entity": "Fiche de poste", "value": 2.311983532710838}
-{"entity": "Cong\u00e9 exceptionnel", "value": 2.2970675099191555}
 {"entity": "Dur\u00e9e du travail et temps de travail", "value": 2.2821514871274724}
 {"entity": "Obligation de s\u00e9curit\u00e9 de r\u00e9sultat de l'employeur", "value": 2.2672354643357897}
 {"entity": "Licenciement pour motif personnel ou disciplinaire", "value": 7.252319441544107}
@@ -237,7 +236,6 @@
 {"entity": "Jours f\u00e9ri\u00e9s travaill\u00e9s r\u00e9cup\u00e9ration", "value": 1.3573580740431372}
 {"entity": "Force majeure, prise d'acte et r\u00e9siliation judiciaire", "value": 6.342442051251455}
 {"entity": "Temps d\u2019\u00e9quivalence, astreintes et temps d'habillage", "value": 6.342442051251455}
-{"entity": "Avertissement", "value": 1.3424420512514543}
 {"entity": "Travail de nuit", "value": 1.3275260284597716}
 {"entity": "Commerces de gros", "value": 1.3275260284597716}
 {"entity": "Licenciement pour faute", "value": 1.3126100056680887}
