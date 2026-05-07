@@ -31,7 +31,7 @@ export class ExportController implements interfaces.Controller {
       body.environment,
       process.env.DISABLE_LIMIT_EXPORT ? 0 : 15
     );
-    this.service.runExport(body.userId, body.environment);
+    this.service.runExport(body.userId, body.environment, body.reference);
     return {
       isRunning: true,
     };

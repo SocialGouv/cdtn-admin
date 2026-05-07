@@ -6,10 +6,17 @@ import { z } from "zod";
 
 import { name } from "../../utils";
 
+const ValidatorReferenceValues = z.object({
+  smicHourly: z.number().positive(),
+});
+
 const ValidatorCreateExportEsStatus = z.object({
   environment: z.nativeEnum(Environment),
   userId: z.string().uuid(),
+  reference: ValidatorReferenceValues.optional(),
 });
+
+export type ReferenceValues = z.infer<typeof ValidatorReferenceValues>;
 
 export type ValidatorCreateExportEsStatusType = z.infer<
   typeof ValidatorCreateExportEsStatus

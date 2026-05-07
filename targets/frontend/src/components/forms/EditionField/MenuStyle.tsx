@@ -7,6 +7,7 @@ import {
   Link as LinkIcon,
   Info as InfoIcon,
   Delete,
+  Gavel as GavelIcon,
 } from "../../utils/dsfrIcons";
 
 import { styled } from "@mui/material/styles";
@@ -36,7 +37,15 @@ const setLink = (editor: Editor) => {
     .run();
 };
 
-export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
+export const MenuStyle = ({
+  editor,
+  challengerEnabled = false,
+  onChallenger,
+}: {
+  editor: Editor | null;
+  challengerEnabled?: boolean;
+  onChallenger?: (from: number, to: number) => void;
+}) => {
   return editor ? (
     <StyledBubbleMenu
       className="bubble-menu"
@@ -125,6 +134,19 @@ export const MenuStyle = ({ editor }: { editor: Editor | null }) => {
           title="Supprimer l'infographie"
         >
           <Delete />
+        </button>
+      )}
+      {challengerEnabled && onChallenger && (
+        <button
+          onClick={() => {
+            const { from, to } = editor.state.selection;
+            onChallenger(from, to);
+          }}
+          className={editor.isActive("challenger") ? "is-active" : ""}
+          type="button"
+          title="Challenger les montants avec une valeur de référence"
+        >
+          <GavelIcon fontSize="small" />
         </button>
       )}
     </StyledBubbleMenu>

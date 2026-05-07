@@ -7,19 +7,34 @@ import {
 } from "@socialgouv/cdtn-types";
 import { fetchFicheSp } from "./fetchFicheSp";
 
+const hasChallenger = (html: string): boolean =>
+  html.includes("data-challenger-formula");
+
+const withSmic = (
+  base: { content: string; infographics: ContributionInfographicFull[] },
+  smicHourlyValue: number | undefined
+) =>
+  smicHourlyValue !== undefined && hasChallenger(base.content)
+    ? { ...base, smicValue: smicHourlyValue }
+    : base;
+
 export const generateContent = async (
   contribGeneric:
     | DocumentElasticWithSource<ContributionDocumentJson>
     | undefined,
   contrib: DocumentElasticWithSource<ContributionDocumentJson>,
-  infographicDocuments: InfographicElasticDocument[]
+  infographicDocuments: InfographicElasticDocument[],
+  smicHourlyValue?: number
 ): Promise<ContributionContent> => {
   switch (contrib.type) {
     case "content":
-      return {
-        content: contrib.contentWithGlossary,
-        infographics: mapInfographic(contrib, infographicDocuments),
-      };
+      return withSmic(
+        {
+          content: contrib.contentWithGlossary,
+          infographics: mapInfographic(contrib, infographicDocuments),
+        },
+        smicHourlyValue
+      );
     case "fiche-sp": {
       const ficheSpContent = await fetchFicheSp(contrib.ficheSpId);
       return {
@@ -46,10 +61,13 @@ export const generateContent = async (
         );
       }
       if (contribGeneric.type === "content") {
-        return {
-          content: contribGeneric.contentWithGlossary,
-          infographics: mapInfographic(contribGeneric, infographicDocuments),
-        };
+        return withSmic(
+          {
+            content: contribGeneric.contentWithGlossary,
+            infographics: mapInfographic(contribGeneric, infographicDocuments),
+          },
+          smicHourlyValue
+        );
       } else if (contribGeneric.type === "fiche-sp") {
         const ficheSpContent = await fetchFicheSp(contribGeneric.ficheSpId);
         return {

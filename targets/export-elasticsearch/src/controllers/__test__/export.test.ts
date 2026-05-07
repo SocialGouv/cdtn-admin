@@ -137,5 +137,47 @@ describe("ExportController /export", () => {
         })
       );
     });
+
+    it("should accept a valid reference parameter", async () => {
+      const res = await request(server.build())
+        .post("/export")
+        .send({
+          environment: Environment.preproduction,
+          userId: "890ca91b-f150-4957-9bb2-8500940815f0",
+          reference: { smicHourly: 12.5 },
+        });
+      expect(res.statusCode).toEqual(200);
+      expect(res.body).toEqual({ isRunning: true });
+    });
+
+    it("should reject a non-positive smicHourly", async () => {
+      const res = await request(server.build())
+        .post("/export")
+        .send({
+          environment: Environment.preproduction,
+          userId: "890ca91b-f150-4957-9bb2-8500940815f0",
+          reference: { smicHourly: -1 },
+        });
+      expect(res.statusCode).toEqual(400);
+      expect(res.body.errors[0]).toEqual(
+        expect.objectContaining({
+          path: ["reference", "smicHourly"],
+        })
+      );
+    });
+
+    it("should reject a reference without smicHourly", async () => {
+      const res = await request(server.build()).post("/export").send({
+        environment: Environment.preproduction,
+        userId: "890ca91b-f150-4957-9bb2-8500940815f0",
+        reference: {},
+      });
+      expect(res.statusCode).toEqual(400);
+      expect(res.body.errors[0]).toEqual(
+        expect.objectContaining({
+          path: ["reference", "smicHourly"],
+        })
+      );
+    });
   });
 });

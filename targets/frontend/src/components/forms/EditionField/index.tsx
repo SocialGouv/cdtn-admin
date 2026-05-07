@@ -10,6 +10,7 @@ import { buildFilePathUrl } from "../../utils";
 type FormEditionProps = CommonFormProps & {
   infographicEnabled?: boolean;
   onInfographicChange?: (id: string, state: "added" | "deleted") => void;
+  challengerEnabled?: boolean;
 };
 
 export const FormEditionField = ({
@@ -20,6 +21,7 @@ export const FormEditionField = ({
   disabled,
   infographicEnabled = false,
   onInfographicChange,
+  challengerEnabled = false,
 }: FormEditionProps) => {
   return (
     <Controller
@@ -37,6 +39,7 @@ export const FormEditionField = ({
             isError={!!error}
             infographicEnabled={infographicEnabled}
             onInfographicChange={onInfographicChange}
+            challengerEnabled={challengerEnabled}
           />
           {error && (
             <StyledFormHelperText>{error.message}</StyledFormHelperText>

@@ -1,8 +1,13 @@
 import { Worker } from "worker_threads";
+import type { ReferenceValues } from "../controllers/middlewares/export";
 
-export const runWorkerIngesterProduction = async (): Promise<string> => {
+export const runWorkerIngesterProduction = async (
+  reference?: ReferenceValues
+): Promise<string> => {
   return new Promise((resolve, reject) => {
-    const worker = new Worker("./build/workers/ingester-prod.js");
+    const worker = new Worker("./build/workers/ingester-prod.js", {
+      workerData: { reference },
+    });
     worker.on("message", resolve);
     worker.on("error", reject);
     worker.on("exit", (code) => {
@@ -13,9 +18,13 @@ export const runWorkerIngesterProduction = async (): Promise<string> => {
   });
 };
 
-export const runWorkerIngesterPreproduction = async (): Promise<string> => {
+export const runWorkerIngesterPreproduction = async (
+  reference?: ReferenceValues
+): Promise<string> => {
   return new Promise((resolve, reject) => {
-    const worker = new Worker("./build/workers/ingester-preprod.js");
+    const worker = new Worker("./build/workers/ingester-preprod.js", {
+      workerData: { reference },
+    });
     worker.on("message", resolve);
     worker.on("error", reject);
     worker.on("exit", (code) => {

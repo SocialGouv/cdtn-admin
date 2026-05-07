@@ -1,9 +1,11 @@
 import { ingest } from "../ingester";
-import { parentPort } from "worker_threads";
+import { parentPort, workerData } from "worker_threads";
+import type { ReferenceValues } from "../controllers/middlewares/export";
 
 const ingester = async (): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     try {
+      const reference: ReferenceValues | undefined = workerData?.reference;
       await ingest(
         process.env.HASURA_GRAPHQL_ENDPOINT,
         process.env.HASURA_GRAPHQL_ADMIN_SECRET,
@@ -16,7 +18,9 @@ const ingester = async (): Promise<string> => {
           : process.env.ELASTICSEARCH_INDEX_PREPROD,
         undefined,
         undefined,
-        undefined
+        undefined,
+        false,
+        reference
       );
       resolve("Export elasticsearch completed successfully");
     } catch (error: unknown) {

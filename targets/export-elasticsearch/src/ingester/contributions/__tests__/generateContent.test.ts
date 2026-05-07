@@ -266,4 +266,57 @@ describe("generateContent", () => {
       ],
     });
   });
+
+  it("includes smicValue when content has a challenger span", async () => {
+    const contribution: any = {
+      type: "content",
+      contentWithGlossary:
+        '<p><span data-challenger-formula="smic_monthly_35h">2 109,25 €</span></p>',
+    };
+
+    const result: any = await generateContent(undefined, contribution, [], 12);
+
+    expect(result.smicValue).toBe(12);
+    expect(result.content).toContain("data-challenger-formula");
+  });
+
+  it("does not include smicValue when content has no challenger span", async () => {
+    const contribution: any = {
+      type: "content",
+      contentWithGlossary: "<p>plain content with no challenger</p>",
+    };
+
+    const result: any = await generateContent(undefined, contribution, [], 12);
+
+    expect(result.smicValue).toBeUndefined();
+  });
+
+  it("does not include smicValue when no SMIC value is provided", async () => {
+    const contribution: any = {
+      type: "content",
+      contentWithGlossary:
+        '<p><span data-challenger-formula="smic_hourly">10 €</span></p>',
+    };
+
+    const result: any = await generateContent(undefined, contribution, []);
+
+    expect(result.smicValue).toBeUndefined();
+  });
+
+  it("includes smicValue on cdt type when generic content has a challenger", async () => {
+    const contribution: any = {
+      type: "cdt",
+      genericAnswerId: "GENERIC_WITH_CHALLENGER",
+    };
+    const generic: any = {
+      id: "GENERIC_WITH_CHALLENGER",
+      type: "content",
+      contentWithGlossary:
+        '<p><span data-challenger-formula="smic_hourly">10 €</span></p>',
+    };
+
+    const result: any = await generateContent(generic, contribution, [], 12);
+
+    expect(result.smicValue).toBe(12);
+  });
 });
