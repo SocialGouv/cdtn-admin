@@ -443,7 +443,7 @@ export function SmicImpact({
             <CircularProgress />
           </Box>
         ) : (
-          <DetailTable details={displayedDetails} onlyChanged={false} />
+          <DetailTable details={displayedDetails} onlyChanged={true} />
         )}
       </Box>
 

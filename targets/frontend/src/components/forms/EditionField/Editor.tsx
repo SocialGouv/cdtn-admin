@@ -18,13 +18,7 @@ import { DetailsSummary } from "@tiptap-pro/extension-details-summary";
 import { DetailsContent } from "@tiptap-pro/extension-details-content";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { Link } from "@tiptap/extension-link";
-import {
-  Alert,
-  Challenger,
-  ChallengerFormula,
-  Infographic,
-  Title,
-} from "./extensions";
+import { Alert, Challenger, Infographic, Title } from "./extensions";
 
 const smicQuery = gql`
   query SmicCurrentValueEditor {
@@ -48,6 +42,7 @@ import {
   BulkChallengerDialog,
   detectAmountsInRange,
 } from "./component/BulkChallengerDialog";
+import { ChallengerFormula } from "@socialgouv/cdtn-utils";
 
 export type EditorProps = {
   label: string;

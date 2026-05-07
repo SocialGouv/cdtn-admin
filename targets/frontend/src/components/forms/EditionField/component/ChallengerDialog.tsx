@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Box,
@@ -15,12 +15,14 @@ import {
   Typography,
 } from "@mui/material";
 import { gql, useQuery } from "urql";
+import { parseAmount } from "./utils";
 import {
   CHALLENGER_FORMULAS,
   ChallengerFormula,
-  HOURS_PER_MONTH,
   computeChallengerReference,
-} from "../extensions/Challenger";
+  HOURS_PER_MONTH,
+  formatChallengerEur,
+} from "@shared/utils/build/src/challenger.utils";
 
 const smicCurrentValueQuery = gql`
   query SmicCurrentValue {
@@ -41,21 +43,6 @@ type SmicRow = {
 type SmicQueryResult = {
   reference_value_smic_values: SmicRow[];
 };
-
-function formatEur(value: number): string {
-  return (
-    new Intl.NumberFormat("fr-FR", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(value) + "\u00a0€"
-  );
-}
-
-function parseAmount(text: string): number | null {
-  const cleaned = text.replace(/€/g, "").replace(/\s+/g, "").replace(/,/g, ".");
-  const value = parseFloat(cleaned);
-  return isNaN(value) ? null : value;
-}
 
 export type ChallengerDialogProps = {
   open: boolean;
@@ -189,14 +176,14 @@ export function ChallengerDialog({
               </Typography>
               <Typography variant="body2">
                 Montant rédigé&nbsp;:{" "}
-                <strong>{formatEur(parsedAmount!)}</strong>
+                <strong>{formatChallengerEur(parsedAmount!)}</strong>
               </Typography>
               <Typography variant="body2">
                 Valeur de référence&nbsp;:{" "}
-                <strong>{formatEur(reference)}</strong> (
+                <strong>{formatChallengerEur(reference)}</strong> (
                 {selectedFormulaDef?.label}
                 {formula === "smic_monthly_35h" &&
-                  `, ${formatEur(currentSmic.hourlyValue * HOURS_PER_MONTH)}`}
+                  `, ${formatChallengerEur(currentSmic.hourlyValue * HOURS_PER_MONTH)}`}
                 , au{" "}
                 {new Date(currentSmic.applicationDate).toLocaleDateString(
                   "fr-FR"
@@ -206,7 +193,7 @@ export function ChallengerDialog({
               {publishedAmount !== null && (
                 <Typography variant="body2" sx={{ mt: 0.5 }}>
                   → Montant publié&nbsp;:{" "}
-                  <strong>{formatEur(publishedAmount)}</strong>{" "}
+                  <strong>{formatChallengerEur(publishedAmount)}</strong>{" "}
                   <em>
                     (le plus favorable au salarié
                     {publishedAmount > parsedAmount!

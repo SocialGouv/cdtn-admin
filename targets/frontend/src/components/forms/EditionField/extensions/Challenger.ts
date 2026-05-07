@@ -1,91 +1,12 @@
 import { Mark } from "@tiptap/core";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
-
-export type ChallengerFormula =
-  | "smic_hourly"
-  | "smic_monthly_35h"
-  | "smic_monthly_custom"
-  | "smic_annual"
-  | "smic_monthly_percent"
-  | "smic_monthly_multiple";
-
-export type ChallengerFormulaWithParam = Extract<
-  ChallengerFormula,
-  "smic_monthly_custom" | "smic_monthly_percent" | "smic_monthly_multiple"
->;
-
-export const CHALLENGER_FORMULAS: {
-  value: ChallengerFormula;
-  label: string;
-  paramLabel?: string;
-}[] = [
-  { value: "smic_hourly", label: "SMIC horaire" },
-  {
-    value: "smic_monthly_35h",
-    label: "SMIC mensuel — 35h (151,67 h × SMIC horaire)",
-  },
-  {
-    value: "smic_monthly_custom",
-    label: "SMIC mensuel personnalisé",
-    paramLabel: "Nombre d'heures / semaine",
-  },
-  { value: "smic_annual", label: "SMIC annuel" },
-  {
-    value: "smic_monthly_percent",
-    label: "% du SMIC mensuel",
-    paramLabel: "Pourcentage (%)",
-  },
-  {
-    value: "smic_monthly_multiple",
-    label: "Multiple du SMIC mensuel",
-    paramLabel: "Facteur (multiplicateur)",
-  },
-];
-
-export const HOURS_PER_MONTH = (35 * 52) / 12; // 151.6667
-
-export function computeChallengerReference(
-  formula: ChallengerFormula,
-  parameter: string | null | undefined,
-  smicHourly: number
-): number {
-  const param = parameter ? parseFloat(parameter) : NaN;
-  switch (formula) {
-    case "smic_hourly":
-      return smicHourly;
-    case "smic_monthly_35h":
-      return smicHourly * HOURS_PER_MONTH;
-    case "smic_monthly_custom":
-      return isNaN(param) ? 0 : smicHourly * ((param * 52) / 12);
-    case "smic_annual":
-      return smicHourly * HOURS_PER_MONTH * 12;
-    case "smic_monthly_percent":
-      return isNaN(param) ? 0 : smicHourly * HOURS_PER_MONTH * (param / 100);
-    case "smic_monthly_multiple":
-      return isNaN(param) ? 0 : smicHourly * HOURS_PER_MONTH * param;
-  }
-}
-
-export function formatChallengerEur(value: number): string {
-  return (
-    new Intl.NumberFormat("fr-FR", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(value) + " €"
-  );
-}
-
-export function parseChallengerAmount(text: string): number | null {
-  const cleaned = text
-    .replace(/[€$£]/g, "")
-    .replace(/[\s ]/g, "")
-    .replace(",", ".")
-    .trim();
-  if (!cleaned) return null;
-  const num = parseFloat(cleaned);
-  return isNaN(num) ? null : num;
-}
+import { ChallengerFormula } from "@shared/utils/build/src/challenger.utils";
+import {
+  computeChallengerReference,
+  formatChallengerEur,
+} from "@socialgouv/cdtn-utils";
+import { parseAmount } from "../component/utils";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -178,7 +99,7 @@ export const Challenger = Mark.create({
                   mark.attrs.parameter,
                   smicHourly
                 );
-                const original = parseChallengerAmount(node.text ?? "");
+                const original = parseAmount(node.text ?? "");
                 // Only display the SMIC override when it is strictly greater
                 // than the value typed by the author. Otherwise we leave the
                 // text untouched so the original amount stays visible.

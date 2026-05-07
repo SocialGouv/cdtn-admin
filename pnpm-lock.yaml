@@ -399,8 +399,8 @@ importers:
         specifier: ^4.52.1
         version: 4.52.1
       '@socialgouv/cdtn-utils':
-        specifier: ^4.222.0
-        version: 4.222.0(react@19.2.4)
+        specifier: ^4.229.0
+        version: 4.229.0(react@19.2.4)
       '@tiptap-pro/extension-details':
         specifier: ^2.3.3
         version: 2.21.5(@tiptap/core@2.27.2(@tiptap/pm@2.27.2))(@tiptap/pm@2.27.2)
@@ -2499,6 +2499,11 @@ packages:
 
   '@socialgouv/cdtn-utils@4.222.0':
     resolution: {integrity: sha512-nVjADagxIG1KCt6NzsBS712sCepIRHrfKWE0GFM0t3WzUYgWldrWW3/ZjcDj9zW5oNg8Z9smztEceYZBoz099Q==}
+    peerDependencies:
+      react: '>=19'
+
+  '@socialgouv/cdtn-utils@4.229.0':
+    resolution: {integrity: sha512-3gHGJGPNHMoWVstDR1m2oSxNBJ1ev7+DEw6JDNQ/vl8GWsFV9GDjYkN578RFxwJ/3iFsZXwZSd8qS8EMThjGWQ==}
     peerDependencies:
       react: '>=19'
 
@@ -11502,6 +11507,10 @@ snapshots:
       '@types/jest': 26.0.24
 
   '@socialgouv/cdtn-utils@4.222.0(react@19.2.4)':
+    dependencies:
+      react: 19.2.4
+
+  '@socialgouv/cdtn-utils@4.229.0(react@19.2.4)':
     dependencies:
       react: 19.2.4
 

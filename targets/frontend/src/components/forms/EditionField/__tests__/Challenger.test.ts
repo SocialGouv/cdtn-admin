@@ -1,14 +1,8 @@
 import { Editor } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 
-import {
-  Challenger,
-  ChallengerFormula,
-  computeChallengerReference,
-  formatChallengerEur,
-  HOURS_PER_MONTH,
-  parseChallengerAmount,
-} from "../extensions/Challenger";
+import { Challenger } from "../extensions";
+import { parseChallengerAmount } from "@shared/utils/build/src/challenger.utils";
 
 const mockRect = {
   top: 0,
@@ -86,73 +80,6 @@ describe("parseChallengerAmount", () => {
       expect(parseChallengerAmount(input)).toBeNull();
     }
   );
-});
-
-describe("computeChallengerReference", () => {
-  const smic = 12; // arbitrary hourly value
-
-  it("computes smic_hourly", () => {
-    expect(computeChallengerReference("smic_hourly", null, smic)).toBe(smic);
-  });
-
-  it("computes smic_monthly_35h", () => {
-    expect(computeChallengerReference("smic_monthly_35h", null, smic)).toBe(
-      smic * HOURS_PER_MONTH
-    );
-  });
-
-  it("computes smic_monthly_custom with parameter", () => {
-    expect(computeChallengerReference("smic_monthly_custom", "30", smic)).toBe(
-      smic * ((30 * 52) / 12)
-    );
-  });
-
-  it("returns 0 for smic_monthly_custom without parameter", () => {
-    expect(computeChallengerReference("smic_monthly_custom", null, smic)).toBe(
-      0
-    );
-  });
-
-  it("computes smic_annual", () => {
-    expect(computeChallengerReference("smic_annual", null, smic)).toBe(
-      smic * HOURS_PER_MONTH * 12
-    );
-  });
-
-  it("computes smic_monthly_percent", () => {
-    expect(
-      computeChallengerReference("smic_monthly_percent", "50", smic)
-    ).toBeCloseTo(smic * HOURS_PER_MONTH * 0.5);
-  });
-
-  it("returns 0 for smic_monthly_percent without parameter", () => {
-    expect(computeChallengerReference("smic_monthly_percent", null, smic)).toBe(
-      0
-    );
-  });
-
-  it("computes smic_monthly_multiple", () => {
-    expect(
-      computeChallengerReference("smic_monthly_multiple", "1.5", smic)
-    ).toBeCloseTo(smic * HOURS_PER_MONTH * 1.5);
-  });
-
-  it("returns 0 for smic_monthly_multiple without parameter", () => {
-    expect(
-      computeChallengerReference("smic_monthly_multiple", null, smic)
-    ).toBe(0);
-  });
-});
-
-describe("formatChallengerEur", () => {
-  it("formats with French separators and € suffix", () => {
-    const formatted = formatChallengerEur(1823.03);
-    expect(formatted).toMatch(/^1[\s ]823,03\s?€$/);
-  });
-
-  it("always shows two decimals", () => {
-    expect(formatChallengerEur(10)).toMatch(/^10,00\s?€$/);
-  });
 });
 
 describe("Challenger extension commands", () => {
@@ -285,7 +212,7 @@ describe("Challenger decoration", () => {
     );
   });
 
-  const formulasWithoutParam: ChallengerFormula[] = [
+  const formulasWithoutParam = [
     "smic_hourly",
     "smic_monthly_35h",
     "smic_annual",

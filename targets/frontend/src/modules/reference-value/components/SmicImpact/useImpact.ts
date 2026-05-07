@@ -4,7 +4,7 @@ import {
   CHALLENGER_FORMULAS,
   ChallengerFormula,
   computeChallengerReference,
-} from "src/components/forms/EditionField/extensions/Challenger";
+} from "@socialgouv/cdtn-utils";
 
 const challengerAnswersQuery = gql`
   query ChallengerAnnotatedAnswers {
