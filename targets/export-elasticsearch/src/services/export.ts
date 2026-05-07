@@ -10,6 +10,7 @@ import {
   runWorkerIngesterPreproduction,
   runWorkerIngesterProduction,
 } from "../workers";
+import type { ReferenceValues } from "../controllers/middlewares/export";
 import { CopyContainerService } from "./copy";
 import { SitemapService } from "./sitemap";
 import { AgreementsService } from "./agreements";
@@ -30,7 +31,8 @@ export class ExportService {
 
   async runExport(
     userId: string,
-    environment: Environment
+    environment: Environment,
+    reference?: ReferenceValues
   ): Promise<ExportEsStatus> {
     logger.info(`[${userId}] run export for ${environment}`);
     const id = randomUUID();
@@ -53,9 +55,9 @@ export class ExportService {
         );
         logger.info(startMessage);
         if (environment === Environment.preproduction) {
-          await runWorkerIngesterPreproduction();
+          await runWorkerIngesterPreproduction(reference);
         } else {
-          await runWorkerIngesterProduction();
+          await runWorkerIngesterProduction(reference);
         }
       }
       if (!process.env.DISABLE_SITEMAP) {

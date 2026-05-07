@@ -37,6 +37,7 @@ export function Navigation() {
         { href: "/what-is-new", label: "Quoi de neuf ?" },
         { href: "/models", label: "Modèles de document" },
         { href: "/informations", label: "Pages informations" },
+        { href: "/valeurs-de-reference", label: "Valeurs de référence" },
       ],
     },
     other: {

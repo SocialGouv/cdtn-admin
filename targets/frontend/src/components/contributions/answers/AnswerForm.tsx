@@ -272,6 +272,7 @@ export const AnswerForm = ({
                 }
               }}
               infographicEnabled={true}
+              challengerEnabled={true}
             />
           </FormControl>
         )}

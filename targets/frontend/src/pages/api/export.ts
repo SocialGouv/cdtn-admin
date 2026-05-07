@@ -30,12 +30,15 @@ const main = (req: NextApiRequest, res: NextApiResponse) => {
 
   // POST
   if (req.method === "POST") {
-    const { environment, userId } = req.body;
+    const { environment, userId, reference } = req.body;
+    const payload = {
+      environment,
+      userId,
+      ...(reference !== undefined ? { reference } : {}),
+    };
+
     fetch(URL_EXPORT + "/export", {
-      body: JSON.stringify({
-        environment,
-        userId,
-      }),
+      body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json",
       },

@@ -26,6 +26,7 @@
 - "!include model_models_other_references.yaml"
 - "!include news_news.yaml"
 - "!include news_news_cdtn_references.yaml"
+- "!include reference_value_smic_values.yaml"
 - "!include public_alert_notes.yaml"
 - "!include public_alert_status.yaml"
 - "!include public_alert_warnings.yaml"

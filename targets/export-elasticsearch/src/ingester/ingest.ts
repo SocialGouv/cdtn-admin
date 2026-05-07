@@ -13,6 +13,7 @@ import { logger } from "@shared/utils";
 import { cdtnDocumentsGen } from "./cdtnDocuments";
 import { context } from "./context";
 import { populateSuggestions } from "./suggestion";
+import type { ReferenceValues } from "../controllers/middlewares/export";
 
 export async function ingest(
   cdtnAdminEndpoint: string | undefined,
@@ -25,7 +26,8 @@ export async function ingest(
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
   suggestFile: string | undefined,
-  isProd = false
+  isProd = false,
+  reference?: ReferenceValues
 ) {
   context.provide();
   await runIngester(
@@ -39,7 +41,8 @@ export async function ingest(
     suggestIndexName,
     bufferSize,
     suggestFile,
-    isProd
+    isProd,
+    reference
   );
 }
 
@@ -54,7 +57,8 @@ async function runIngester(
   suggestIndexName: string | undefined,
   bufferSize: number | undefined,
   suggestFile: string | undefined,
-  isProd: boolean
+  isProd: boolean,
+  reference?: ReferenceValues
 ) {
   const ES_INDEX_PREFIX = esIndexPrefix ?? "cdtn";
 
@@ -91,6 +95,7 @@ async function runIngester(
   context.set("suggestIndexName", suggestIndexName);
   context.set("bufferSize", bufferSize);
   context.set("suggestFile", suggestFile);
+  context.set("reference", reference);
   const ts = Date.now();
   logger.info(`Using cdtn elasticsearch ${ELASTICSEARCH_URL}`);
 

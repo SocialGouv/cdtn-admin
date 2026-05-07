@@ -28,12 +28,12 @@ export function Export(): JSX.Element {
   const { data } = useSession();
   const user = data?.user;
 
-  const onTrigger = (env: Environment) => {
+  const onTrigger = (env: Environment, smicHourly: number) => {
     if (!user) {
       alert("Vous devez être connecté pour effectuer cette action");
       return;
     }
-    runExportEs(env, user);
+    runExportEs(env, user, smicHourly);
   };
 
   useEffect(() => {
@@ -171,22 +171,24 @@ export function Export(): JSX.Element {
       <ShowDocumentsToUpdateModal
         open={validateExportPreprodModal}
         name="Pre-Prod"
+        environment={Environment.preproduction}
         onClose={() => setValidateExportPreprodModal(false)}
         onCancel={() => setValidateExportPreprodModal(false)}
-        onValidate={() => {
+        onValidate={(smicHourly) => {
           setValidateExportPreprodModal(false);
-          onTrigger(Environment.preproduction);
+          onTrigger(Environment.preproduction, smicHourly);
         }}
         date={getLatestDeployDate(Environment.preproduction)}
       />
       <ShowDocumentsToUpdateModal
         open={validateExportProdModal}
         name="Prod"
+        environment={Environment.production}
         onClose={() => setValidateExportProdModal(false)}
         onCancel={() => setValidateExportProdModal(false)}
-        onValidate={() => {
+        onValidate={(smicHourly) => {
           setValidateExportProdModal(false);
-          onTrigger(Environment.production);
+          onTrigger(Environment.production, smicHourly);
         }}
         date={getLatestDeployDate(Environment.production)}
       />
