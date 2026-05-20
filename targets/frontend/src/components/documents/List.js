@@ -1,9 +1,11 @@
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import Link from "next/link";
 import PropTypes from "prop-types";
+import { useRef, useEffect } from "react";
 import { useSelectionContext } from "src/pages/contenus";
 import { theme } from "src/theme";
 import {
+  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -13,11 +15,56 @@ import {
 import { Check, Cross } from "../utils/icons";
 
 export function DocumentList({ documents }) {
+  const [selectedItems, setSelectedItems] = useSelectionContext();
+  const checkboxRef = useRef(null);
+
+  // Visual state of a row checkbox (mirrors DocumentRow logic)
+  const isVisuallyChecked = (doc) =>
+    doc.cdtnId in selectedItems ? !doc.isPublished : doc.isPublished;
+
+  const checkedCount = documents.filter(isVisuallyChecked).length;
+  const allSelected = documents.length > 0 && checkedCount === documents.length;
+  const someSelected = checkedCount > 0 && !allSelected;
+
+  useEffect(() => {
+    if (checkboxRef.current) {
+      checkboxRef.current.indeterminate = someSelected;
+    }
+  }, [someSelected]);
+
+  const toggleSelectAll = () => {
+    const updated = { ...selectedItems };
+    // target: check all if not all checked, uncheck all otherwise
+    const targetChecked = !allSelected;
+    documents.forEach((doc) => {
+      // A doc is visually checked by default when isPublished=true
+      // To reach targetChecked, we need to toggle only if default !== target
+      if (doc.isPublished !== targetChecked) {
+        updated[doc.cdtnId] = !doc.isPublished;
+      } else {
+        delete updated[doc.cdtnId];
+      }
+    });
+    setSelectedItems(updated);
+  };
+
   return (
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell />
+          <TableCell>
+            <div class="fr-checkbox-group">
+              <input
+                ref={checkboxRef}
+                type="checkbox"
+                id="select-all"
+                checked={allSelected}
+                onChange={toggleSelectAll}
+                aria-label="Tout sélectionner"
+              />
+              <label className="fr-label" htmlFor="select-all" />
+            </div>
+          </TableCell>
           <TableCell sx={{ textAlign: "left" }}>Document</TableCell>
           <TableCell sx={{ textAlign: "center" }}>Publié</TableCell>
           <TableCell sx={{ textAlign: "center" }}>Disponible</TableCell>

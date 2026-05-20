@@ -29,14 +29,16 @@ export const generateAgreements = async (
         })
         .filter((item) => item.contentType !== "UNKNOWN");
 
-      const answers = contributionByIdccNotUnknown.map((data) => {
-        return {
-          slug: data.slug,
-          question: data.questionName,
-          questionIndex: data.questionIndex,
-          theme: getTheme(data),
-        };
-      });
+      const answers = contributionByIdccNotUnknown
+        .filter((data) => data.isPublished)
+        .map((data) => {
+          return {
+            slug: data.slug,
+            question: data.questionName,
+            questionIndex: data.questionIndex,
+            theme: getTheme(data),
+          };
+        });
 
       const articlesByTheme = await getAgreementsArticlesByTheme(cc.num);
 
