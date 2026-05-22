@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.74.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.73.4...v2.74.0) (2026-05-22)
+
+### Features
+
+- **contribution:** ajout d'un challenger pour les modifications du SMIC sur les contributions ([#1679](https://github.com/SocialGouv/cdtn-admin/issues/1679)) ([4681353](https://github.com/SocialGouv/cdtn-admin/commit/468135307a52b02620880ce705a23a969a34c244))
+
 ## [2.73.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.73.3...v2.73.4) (2026-05-20)
 
 **Note:** Version bump only for package @socialgouv/cdtn-types
