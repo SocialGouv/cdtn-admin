@@ -19,9 +19,6 @@ export default function DocumentList({
 }: Props): JSX.Element {
   return (
     <>
-      <Typography mb={1}>
-        <strong>Inclus dans la mise à jour :</strong>
-      </Typography>
       <ul style={{ maxHeight: "60vh", overflow: "auto" }}>
         <li>
           Documents avec une source externe (fiches service public, fiches

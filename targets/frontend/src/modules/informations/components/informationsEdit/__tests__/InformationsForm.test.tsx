@@ -48,6 +48,22 @@ const onSubmit = jest.fn(() => Promise.resolve());
 
 (global as any).ClipboardEvent = ClipboardEventMock;
 (global as any).DragEvent = DragEventMock;
+jest.mock("urql", () => {
+  const actual = jest.requireActual("urql");
+
+  return {
+    ...actual,
+    useQuery: jest.fn(() => [
+      {
+        data: {
+          reference_value_smic_values: [],
+        },
+        fetching: false,
+        error: undefined,
+      },
+    ]),
+  };
+});
 
 describe("InformationForm", () => {
   afterEach(() => {

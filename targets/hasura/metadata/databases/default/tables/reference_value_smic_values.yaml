@@ -1,0 +1,61 @@
+table:
+  name: smic_values
+  schema: reference_value
+configuration:
+  column_config:
+    application_date:
+      custom_name: applicationDate
+    created_at:
+      custom_name: createdAt
+    created_by:
+      custom_name: createdBy
+    hourly_value:
+      custom_name: hourlyValue
+  custom_column_names:
+    application_date: applicationDate
+    created_at: createdAt
+    created_by: createdBy
+    hourly_value: hourlyValue
+  custom_root_fields: {}
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - application_date
+        - created_by
+        - hourly_value
+        - id
+        - note
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - application_date
+        - created_by
+        - hourly_value
+        - id
+        - note
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - application_date
+        - created_at
+        - created_by
+        - hourly_value
+        - id
+        - note
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+        - application_date
+        - created_at
+        - created_by
+        - hourly_value
+        - id
+        - note
+      filter: {}
+      allow_aggregations: true

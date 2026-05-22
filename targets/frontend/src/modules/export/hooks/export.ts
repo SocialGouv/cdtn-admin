@@ -16,7 +16,11 @@ type ExportEsState = {
 export function useExportEs(): [
   ExportEsState,
   (hideLoader: boolean) => void,
-  (environment: Environment, user: Session["user"]) => void,
+  (
+    environment: Environment,
+    user: Session["user"],
+    smicHourly?: number
+  ) => void,
   (env: Environment) => Date,
 ] {
   const [state, setState] = useState<ExportEsState>({
@@ -70,7 +74,11 @@ export function useExportEs(): [
     return lastestCompleted?.created_at;
   };
 
-  const runExportEs = (environment: Environment, user: Session["user"]) => {
+  const runExportEs = (
+    environment: Environment,
+    user: Session["user"],
+    smicHourly?: number
+  ) => {
     const randomId = generateInitialId();
     const newExportEs: ExportEsStatus = {
       created_at: new Date(),
@@ -99,6 +107,7 @@ export function useExportEs(): [
       body: JSON.stringify({
         environment,
         userId: user.id,
+        ...(smicHourly !== undefined ? { reference: { smicHourly } } : {}),
       }),
       headers: {
         "Content-Type": "application/json",

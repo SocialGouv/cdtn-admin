@@ -16,6 +16,8 @@ import { getCcSupported } from "./getCcSupported";
 import { fetchAgreementUnextended } from "./fetchCcUnextended";
 import { getCcInfos } from "./getCcInfos";
 import { generateContent } from "./generateContent";
+import { context } from "../context";
+import type { ReferenceValues } from "../../controllers/middlewares/export";
 import {
   getContributionContent,
   getContributionText,
@@ -52,6 +54,9 @@ export async function generateContributions(
   const generatedContributions: ContributionElasticDocumentLightRelatedContent[] =
     [];
 
+  const reference = context.get<ReferenceValues | undefined>("reference");
+  const smicHourlyValue = reference?.smicHourly;
+
   for (let i = 0; i < contributions.length; i++) {
     const contrib = contributions[i];
     const contribGeneric = contributions.find(
@@ -62,7 +67,8 @@ export async function generateContributions(
     const content = await generateContent(
       contribGeneric,
       contrib,
-      infographicDocuments
+      infographicDocuments,
+      smicHourlyValue
     );
 
     const messageBlock = await generateMessageBlock(contribGeneric, contrib);

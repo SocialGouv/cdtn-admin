@@ -33,6 +33,7 @@ export type ContributionInfographicFull = {
 export interface ContributionContentBase {
   content: string;
   infographics: ContributionInfographicFull[];
+  smicValue?: number;
 }
 
 export interface ContributionFicheSpContent {

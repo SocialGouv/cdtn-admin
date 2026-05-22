@@ -22,6 +22,7 @@ query GetDocuments($updated_at: timestamptz!, $sources: [String!]) {
 
 type QueryProps = {
   date: Date;
+  pause?: boolean;
 };
 type DocumentWIthContentType = {
   document?: { contentType?: string; idcc?: string };
@@ -34,6 +35,11 @@ export type UpdatedDocument = Pick<
 
 export type ResultUpdatedDocument = Map<SourceKeys, readonly UpdatedDocument[]>;
 
+export type UseDocumentsQueryResult = {
+  docs: ResultUpdatedDocument;
+  fetching: boolean;
+};
+
 type QueryResult = {
   documents: UpdatedDocument[];
 };
@@ -42,9 +48,12 @@ function compareTitles(a: UpdatedDocument, b: UpdatedDocument): number {
   return a.title.localeCompare(b.title);
 }
 
+const EMPTY_DOCS: ResultUpdatedDocument = new Map();
+
 export const useDocumentsQuery = ({
   date,
-}: QueryProps): ResultUpdatedDocument => {
+  pause,
+}: QueryProps): UseDocumentsQueryResult => {
   const [result] = useQuery<QueryResult>({
     query: getDocumentsUpdatedAfterDateQuery,
     variables: {
@@ -56,15 +65,16 @@ export const useDocumentsQuery = ({
         SOURCES.INFOGRAPHICS,
       ],
     },
-    requestPolicy: "network-only",
+    requestPolicy: "cache-and-network",
+    pause,
   });
   if (!result.data) {
-    return new Map();
+    return { docs: EMPTY_DOCS, fetching: result.fetching };
   }
 
   const grouped = groupBy(result.data.documents, (data) => data.source);
   grouped.forEach((array, key) => {
     grouped.set(key, array.slice().sort(compareTitles));
   });
-  return grouped;
+  return { docs: grouped, fetching: result.fetching };
 };

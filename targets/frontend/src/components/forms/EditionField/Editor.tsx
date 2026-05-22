@@ -7,6 +7,7 @@ import StarterKit from "@tiptap/starter-kit";
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import { fr } from "@codegouvfr/react-dsfr";
+import { gql, useQuery } from "urql";
 
 import { TitleBox } from "../TitleBox";
 import { MenuSpecial } from "./MenuSpecial";
@@ -17,9 +18,31 @@ import { DetailsSummary } from "@tiptap-pro/extension-details-summary";
 import { DetailsContent } from "@tiptap-pro/extension-details-content";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { Link } from "@tiptap/extension-link";
-import { Alert, Infographic, Title } from "./extensions";
+import { Alert, Challenger, Infographic, Title } from "./extensions";
+
+const smicQuery = gql`
+  query SmicCurrentValueEditor {
+    reference_value_smic_values(order_by: { applicationDate: desc }) {
+      id
+      hourlyValue
+      applicationDate
+    }
+  }
+`;
+type SmicEditorRow = {
+  id: string;
+  hourlyValue: number;
+  applicationDate: string;
+};
+type SmicEditorResult = { reference_value_smic_values: SmicEditorRow[] };
 import { NodeSelection } from "@tiptap/pm/state";
 import { AddInfographyDialog } from "./component/AddInfographyDialog";
+import { ChallengerDialog } from "./component/ChallengerDialog";
+import {
+  BulkChallengerDialog,
+  detectAmountsInRange,
+} from "./component/BulkChallengerDialog";
+import { ChallengerFormula } from "@socialgouv/cdtn-utils";
 
 export type EditorProps = {
   label: string;
@@ -30,6 +53,7 @@ export type EditorProps = {
   infographicEnabled: boolean;
   infographicBaseUrl: string;
   onInfographicChange?: (infoId: string, state: "added" | "deleted") => void;
+  challengerEnabled?: boolean;
 };
 
 const emptyHtml = "<p></p>";
@@ -69,7 +93,19 @@ export const defaultExtensions: Extensions = [
   Title,
 ];
 
-export const Editor = ({
+type ChallengerDialogState = {
+  open: boolean;
+  selectedText: string;
+  existingFormula: ChallengerFormula | null;
+  existingParameter: string | null;
+};
+
+type BulkChallengerDialogState = {
+  open: boolean;
+  range: { from: number; to: number } | null;
+};
+
+export const Editor = function Editor({
   label,
   content,
   onUpdate,
@@ -78,22 +114,44 @@ export const Editor = ({
   isError = false,
   infographicEnabled,
   onInfographicChange,
-}: EditorProps) => {
+  challengerEnabled = false,
+}: EditorProps) {
+  const [smicResult] = useQuery<SmicEditorResult>({
+    query: smicQuery,
+    requestPolicy: "cache-and-network",
+    pause: !challengerEnabled,
+  });
+  const today = new Date().toISOString().split("T")[0];
+  const allSmic = smicResult.data?.reference_value_smic_values ?? [];
+  const currentSmic = allSmic.find((v) => v.applicationDate <= today) ?? null;
+
   const [currentContent, setCurrentContent] = useState(content);
   const [focus, setFocus] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [isInfoModalOpened, openInfoModal] = useState<boolean>(false);
+  const [challengerDialog, setChallengerDialog] =
+    useState<ChallengerDialogState>({
+      open: false,
+      selectedText: "",
+      existingFormula: null,
+      existingParameter: null,
+    });
+  const [bulkChallengerDialog, setBulkChallengerDialog] =
+    useState<BulkChallengerDialogState>({
+      open: false,
+      range: null,
+    });
 
   const editor = useEditor({
     content,
     editable: !disabled,
-    extensions: !infographicEnabled
-      ? defaultExtensions
-      : defaultExtensions.concat(
-          Infographic.configure({
-            baseUrl: infographicBaseUrl,
-          })
-        ),
+    extensions: [
+      ...defaultExtensions,
+      ...(infographicEnabled
+        ? [Infographic.configure({ baseUrl: infographicBaseUrl })]
+        : []),
+      ...(challengerEnabled ? [Challenger] : []),
+    ],
     onUpdate: ({ editor, transaction }) => {
       if (infographicEnabled && onInfographicChange && transaction.docChanged) {
         // Detect if an infography has been deleted or added
@@ -138,10 +196,57 @@ export const Editor = ({
   }, [disabled]);
 
   useEffect(() => {
-    // We need to focus on the infographic to edit it
+    if (!editor || !challengerEnabled) return;
+    const ext = editor.extensionManager.extensions.find(
+      (e) => e.name === "challenger"
+    );
+    if (!ext) return;
+    ext.storage.smicHourly = currentSmic?.hourlyValue ?? null;
+    // Dispatch a no-op transaction to trigger re-decoration
+    editor.view.dispatch(editor.state.tr);
+  }, [editor, currentSmic?.hourlyValue, challengerEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
 
+      // Clic sur un montant challengé : ouvrir la dialog de modification.
+      // On cible aussi le wrapper de décoration (span[data-challenger-computed])
+      // qui est l'élément visible quand le SMIC est disponible.
+      if (
+        challengerEnabled &&
+        !disabled &&
+        editor &&
+        (target.closest("span.challenger") !== null ||
+          target.closest("span[data-challenger-computed]") !== null)
+      ) {
+        const coords = editor.view.posAtCoords({
+          left: event.clientX,
+          top: event.clientY,
+        });
+        if (coords) {
+          editor
+            .chain()
+            .focus()
+            .setTextSelection(coords.pos)
+            .extendMarkRange("challenger")
+            .run();
+          const { from, to } = editor.state.selection;
+          const selectedText = editor.state.doc.textBetween(from, to);
+          const attrs = editor.getAttributes("challenger");
+          if (attrs.formula) {
+            setChallengerDialog({
+              open: true,
+              selectedText,
+              existingFormula: attrs.formula as ChallengerFormula,
+              existingParameter: attrs.parameter ?? null,
+            });
+          }
+        }
+        return;
+      }
+
+      // We need to focus on the infographic to edit it
       if (
         target.tagName === "IMG" &&
         target.closest(".infographic") &&
@@ -165,7 +270,7 @@ export const Editor = ({
     return () => {
       document.removeEventListener("click", handleClick);
     };
-  }, [editor]);
+  }, [editor, challengerEnabled, disabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -177,7 +282,34 @@ export const Editor = ({
           disabled={disabled}
           htmlFor={label}
         >
-          <MenuStyle editor={editor} />
+          <MenuStyle
+            editor={editor}
+            challengerEnabled={challengerEnabled}
+            onChallenger={(from, to) => {
+              if (!editor) return;
+              const detected = detectAmountsInRange(editor, from, to);
+              if (detected.length === 1) {
+                const amount = detected[0];
+                editor
+                  .chain()
+                  .focus()
+                  .setTextSelection({ from: amount.from, to: amount.to })
+                  .run();
+                const attrs = editor.getAttributes("challenger");
+                setChallengerDialog({
+                  open: true,
+                  selectedText: amount.rawText,
+                  existingFormula: (attrs.formula as ChallengerFormula) ?? null,
+                  existingParameter: attrs.parameter ?? null,
+                });
+              } else {
+                setBulkChallengerDialog({
+                  open: true,
+                  range: { from, to },
+                });
+              }
+            }}
+          />
           <MenuSpecial
             editor={editor}
             infographicEnabled={infographicEnabled}
@@ -213,6 +345,33 @@ export const Editor = ({
             openInfoModal(false);
           }}
         />
+      )}
+      {challengerEnabled && (
+        <>
+          <ChallengerDialog
+            open={challengerDialog.open}
+            selectedText={challengerDialog.selectedText}
+            existingFormula={challengerDialog.existingFormula}
+            existingParameter={challengerDialog.existingParameter}
+            onConfirm={(formula, parameter) => {
+              editor?.chain().focus().setChallenger(formula, parameter).run();
+              setChallengerDialog((s) => ({ ...s, open: false }));
+            }}
+            onRemove={() => {
+              editor?.chain().focus().unsetChallenger().run();
+              setChallengerDialog((s) => ({ ...s, open: false }));
+            }}
+            onClose={() => setChallengerDialog((s) => ({ ...s, open: false }))}
+          />
+          <BulkChallengerDialog
+            open={bulkChallengerDialog.open}
+            editor={editor}
+            range={bulkChallengerDialog.range}
+            onClose={() =>
+              setBulkChallengerDialog((s) => ({ ...s, open: false }))
+            }
+          />
+        </>
       )}
     </>
   );
@@ -261,6 +420,38 @@ const StyledEditorContent = styled(EditorContent)(() => {
       ".infographic": {
         marginBottom: "1.6rem",
         color: fr.colors.decisions.text.default,
+      },
+      // Challenger sans valeur SMIC disponible : affichage original
+      "span.challenger": {
+        borderBottom: "2px dashed #0053b3",
+        paddingBottom: "1px",
+        cursor: "help",
+      },
+      // Décoration ProseMirror : wrapper ajouté quand le SMIC est disponible.
+      // Affiche la valeur calculée dynamiquement (jamais persistée dans le HTML).
+      "span[data-challenger-computed]": {
+        fontSize: "0px",
+        "& span.challenger": {
+          borderBottom: "none",
+          paddingBottom: "0",
+          "&::after": {
+            content: "none",
+          },
+        },
+        "&::before": {
+          content: "attr(data-challenger-computed)",
+          fontSize: "1rem",
+          color: "#0053b3",
+          borderBottom: "2px dashed #0053b3",
+          paddingBottom: "1px",
+          cursor: "help",
+        },
+        "&::after": {
+          content: '" ⚖"',
+          fontSize: "11px",
+          color: "#0053b3",
+          verticalAlign: "super",
+        },
       },
       ".ProseMirror-selectednode": {
         border: "1px solid #6f8ac9",
