@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.75.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.74.0...v2.75.0) (2026-05-28)
+
+### Features
+
+- **contribution:** ajout de méthodes de calcul sur le SMIC annuel ([#1685](https://github.com/SocialGouv/cdtn-admin/issues/1685)) ([2238334](https://github.com/SocialGouv/cdtn-admin/commit/223833465fb584aea750d446e3fb21b165cb2d3e))
+
 # [2.74.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.73.4...v2.74.0) (2026-05-22)
 
 ### Features
