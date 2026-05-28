@@ -227,4 +227,87 @@ describe("Challenger decoration", () => {
       expect(findComputedWrapper(editor)).not.toBeNull();
     }
   );
+
+  describe("smic_annual_custom_monthly", () => {
+    // smicHourly * param * 12 — param = heures/mois
+    it("decorates with correct annual value (param = heures/mois)", () => {
+      // 12 * 100 * 12 = 14 400 €
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_annual_custom_monthly" data-challenger-parameter="100">1 000,00 €</span></p>',
+        12
+      );
+      const wrapper = findComputedWrapper(editor);
+      expect(wrapper).not.toBeNull();
+      expect(wrapper?.getAttribute("data-challenger-computed")).toMatch(
+        /14.+400,00/
+      );
+    });
+
+    it("does not decorate when reference is lower than original", () => {
+      // 12 * 10 * 12 = 1 440 € < 2 000 €
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_annual_custom_monthly" data-challenger-parameter="10">2 000,00 €</span></p>',
+        12
+      );
+      expect(findComputedWrapper(editor)).toBeNull();
+    });
+
+    it("does not decorate when parameter is missing", () => {
+      // param absent → computeChallengerReference retourne 0 → pas de décoration
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_annual_custom_monthly">500,00 €</span></p>',
+        12
+      );
+      expect(findComputedWrapper(editor)).toBeNull();
+    });
+
+    it("does not decorate when parameter is invalid", () => {
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_annual_custom_monthly" data-challenger-parameter="abc">500,00 €</span></p>',
+        12
+      );
+      expect(findComputedWrapper(editor)).toBeNull();
+    });
+  });
+
+  describe("smic_annual_custom_week", () => {
+    // smicHourly * param * 52 — param = heures/semaine
+    it("decorates with correct annual value (param = heures/semaine)", () => {
+      // 12 * 35 * 52 = 21 840 €
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_annual_custom_week" data-challenger-parameter="35">1 000,00 €</span></p>',
+        12
+      );
+      const wrapper = findComputedWrapper(editor);
+      expect(wrapper).not.toBeNull();
+      expect(wrapper?.getAttribute("data-challenger-computed")).toMatch(
+        /21.+840,00/
+      );
+    });
+
+    it("does not decorate when reference is lower than original", () => {
+      // 12 * 5 * 52 = 3 120 € < 5 000 €
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_annual_custom_week" data-challenger-parameter="5">5 000,00 €</span></p>',
+        12
+      );
+      expect(findComputedWrapper(editor)).toBeNull();
+    });
+
+    it("does not decorate when parameter is missing", () => {
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_annual_custom_week">500,00 €</span></p>',
+        12
+      );
+      expect(findComputedWrapper(editor)).toBeNull();
+    });
+
+    it("does not decorate when parameter is invalid", () => {
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_annual_custom_week" data-challenger-parameter="abc">500,00 €</span></p>',
+        12
+      );
+      expect(findComputedWrapper(editor)).toBeNull();
+    });
+  });
 });
