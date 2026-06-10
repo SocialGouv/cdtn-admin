@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.75.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.75.0...v2.75.1) (2026-06-10)
+
+### Features
+
+- **outils:** renommage de l'outil Trouver sa CC ([#1669](https://github.com/SocialGouv/cdtn-admin/issues/1669)) ([18b2931](https://github.com/SocialGouv/cdtn-admin/commit/18b29314fa1e9bee105dac4e5beaf319ae4a75a9))
+
 # [2.75.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.74.0...v2.75.0) (2026-05-28)
 
 ### Features
