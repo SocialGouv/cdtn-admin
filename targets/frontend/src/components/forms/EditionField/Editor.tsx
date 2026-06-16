@@ -296,11 +296,19 @@ export const Editor = function Editor({
                   .setTextSelection({ from: amount.from, to: amount.to })
                   .run();
                 const attrs = editor.getAttributes("challenger");
+                // Si une marque challenger existe déjà, on l'édite (formule +
+                // paramètre de la marque, liés). Sinon on pré-remplit avec la
+                // détection « (XX% du SMIC) » (formule + paramètre détectés, liés).
+                const hasExistingMark = Boolean(attrs.formula);
                 setChallengerDialog({
                   open: true,
                   selectedText: amount.rawText,
-                  existingFormula: (attrs.formula as ChallengerFormula) ?? null,
-                  existingParameter: attrs.parameter ?? null,
+                  existingFormula: hasExistingMark
+                    ? (attrs.formula as ChallengerFormula)
+                    : amount.formula || null,
+                  existingParameter: hasExistingMark
+                    ? (attrs.parameter ?? null)
+                    : amount.parameter || null,
                 });
               } else {
                 setBulkChallengerDialog({

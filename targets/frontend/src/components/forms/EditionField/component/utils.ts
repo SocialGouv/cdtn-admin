@@ -23,6 +23,20 @@ function makeAmountRegex() {
 
 const CONTEXT_CHARS = 50;
 
+// Repère une mention « (XX% du SMIC) » et en extrait le pourcentage. Tolère :
+// parenthèses optionnelles, espaces (y compris NBSP/U+202F couverts par \s) autour
+// du %, casse libre de SMIC, décimales (« 120,5 »). Les quantificateurs d'espaces
+// sont bornés (pas de backtracking superlinéaire). La lookahead négative écarte
+// « % du SMIC horaire/annuel » : on ne pré-remplit que la base mensuelle 35h.
+const SMIC_PERCENT_REGEX =
+  /\(?\s{0,4}(\d{1,9}(?:[.,]\d{1,3})?)\s{0,4}%\s{0,4}du\s{1,4}smic\b(?!\s{0,4}(?:horaire|annuel))/i;
+
+export function detectSmicPercentage(context: string): string | null {
+  const m = context.match(SMIC_PERCENT_REGEX);
+  // Normalise la virgule décimale en point pour rester parseable par parseFloat.
+  return m ? m[1].replace(",", ".") : null;
+}
+
 export function parseAmount(text: string): number | null {
   const cleaned = text.replace(/€/g, "").replace(/\s+/g, "").replace(/,/g, ".");
   const value = parseFloat(cleaned);
@@ -63,15 +77,23 @@ export function detectAmountsInRange(
     lastTextEnd = nodePos + text.length;
   });
 
-  const amounts: DetectedAmount[] = [];
+  // First pass: collect all amount matches so we know each one's neighbours.
   const regex = makeAmountRegex();
+  const rawMatches: {
+    text: string;
+    startCharIdx: number;
+    endCharIdx: number;
+  }[] = [];
   let match: RegExpExecArray | null;
-  let id = 0;
   while ((match = regex.exec(flatText)) !== null) {
     const startCharIdx = match.index;
     const endCharIdx = startCharIdx + match[0].length;
     if (endCharIdx > charToPos.length) continue;
+    rawMatches.push({ text: match[0], startCharIdx, endCharIdx });
+  }
 
+  return rawMatches.map((m, k) => {
+    const { startCharIdx, endCharIdx } = m;
     const matchStart = charToPos[startCharIdx];
     const matchEnd = charToPos[endCharIdx - 1] + 1;
 
@@ -88,21 +110,31 @@ export function detectAmountsInRange(
       .slice(endCharIdx, ctxAfterEnd)
       .replace(/\n+/g, " ");
 
-    amounts.push({
-      id: id++,
-      rawText: match[0],
+    // Association du « (XX% du SMIC) » : on ne regarde qu'APRÈS le montant, dans
+    // une fenêtre bornée au montant suivant. Ainsi un pourcentage qui appartient
+    // à un autre montant (montant intercalé) n'est jamais rattaché à celui-ci.
+    const nextStart =
+      k + 1 < rawMatches.length
+        ? rawMatches[k + 1].startCharIdx
+        : flatText.length;
+    const pctWindow = flatText
+      .slice(endCharIdx, Math.min(nextStart, endCharIdx + CONTEXT_CHARS))
+      .replace(/\n+/g, " ");
+    const percentage = detectSmicPercentage(pctWindow);
+
+    return {
+      id: k,
+      rawText: m.text,
       from: matchStart,
       to: matchEnd,
       contextBefore,
       contextAfter,
-      parsedValue: parseAmount(match[0]),
-      formula: "",
-      parameter: "",
+      parsedValue: parseAmount(m.text),
+      formula: percentage ? "smic_monthly_percent" : "",
+      parameter: percentage ?? "",
       alreadyChallenged,
-    });
-  }
-
-  return amounts;
+    };
+  });
 }
 
 export function applyAmountsToEditor(

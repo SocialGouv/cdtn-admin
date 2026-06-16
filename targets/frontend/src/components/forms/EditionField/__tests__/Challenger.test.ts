@@ -1,8 +1,16 @@
 import { Editor } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
+import Table from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableHeader from "@tiptap/extension-table-header";
+import TableCell from "@tiptap/extension-table-cell";
 
 import { Challenger } from "../extensions";
-import { parseAmount } from "../component/utils";
+import {
+  detectAmountsInRange,
+  detectSmicPercentage,
+  parseAmount,
+} from "../component/utils";
 
 const mockRect = {
   top: 0,
@@ -58,6 +66,25 @@ const createEditor = (content: string, smicHourly: number | null = null) => {
   );
   if (ext) ext.storage.smicHourly = smicHourly;
   editor.view.dispatch(editor.state.tr);
+  return editor;
+};
+
+const createTableEditor = (content: string) => {
+  const element = document.createElement("div");
+  document.body.appendChild(element);
+  const editor = new Editor({
+    element,
+    extensions: [
+      StarterKit,
+      Challenger,
+      Table,
+      TableRow,
+      TableHeader,
+      TableCell,
+    ],
+    content,
+  });
+  editors.push(editor);
   return editor;
 };
 
@@ -309,5 +336,147 @@ describe("Challenger decoration", () => {
       );
       expect(findComputedWrapper(editor)).toBeNull();
     });
+  });
+
+  describe("smic_monthly_percent", () => {
+    // référence = smicHoraire * HOURS_PER_MONTH (≈151,67) * param/100
+    it("decorates with XX% of the monthly 35h SMIC", () => {
+      // 12 * 151,6667 * 120/100 ≈ 2 184 €
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_monthly_percent" data-challenger-parameter="120">1 000,00 €</span></p>',
+        12
+      );
+      const wrapper = findComputedWrapper(editor);
+      expect(wrapper).not.toBeNull();
+      expect(wrapper?.getAttribute("data-challenger-computed")).toMatch(
+        /2.+184,00/
+      );
+    });
+
+    it("accepts a decimal percentage", () => {
+      // 12 * 151,6667 * 150,5/100 ≈ 2 739 €
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_monthly_percent" data-challenger-parameter="150.5">1 000,00 €</span></p>',
+        12
+      );
+      const wrapper = findComputedWrapper(editor);
+      expect(wrapper).not.toBeNull();
+      expect(wrapper?.getAttribute("data-challenger-computed")).toMatch(
+        /2.+739/
+      );
+    });
+
+    it("does not decorate when reference is lower than original", () => {
+      // 12 * 151,6667 * 50/100 ≈ 910 € < 2 000 €
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_monthly_percent" data-challenger-parameter="50">2 000,00 €</span></p>',
+        12
+      );
+      expect(findComputedWrapper(editor)).toBeNull();
+    });
+
+    it("does not decorate when the percentage parameter is missing", () => {
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_monthly_percent">500,00 €</span></p>',
+        12
+      );
+      expect(findComputedWrapper(editor)).toBeNull();
+    });
+
+    it("does not decorate when the percentage parameter is invalid", () => {
+      const editor = createEditor(
+        '<p><span data-challenger-formula="smic_monthly_percent" data-challenger-parameter="abc">500,00 €</span></p>',
+        12
+      );
+      expect(findComputedWrapper(editor)).toBeNull();
+    });
+  });
+});
+
+describe("detectSmicPercentage", () => {
+  it.each([
+    ["1 800 € (120% du SMIC)", "120"],
+    ["(120 % du Smic)", "120"],
+    ["120% du SMIC", "120"],
+    ["rémunération à 105,5% du smic", "105.5"],
+    ["1 800 € (120 % du SMIC) garanti", "120"],
+    ["130% du SMIC mensuel", "130"],
+    ["120% du SMIC, soit le minimum", "120"],
+  ])("extracts the percentage from %p", (input, expected) => {
+    expect(detectSmicPercentage(input)).toBe(expected);
+  });
+
+  it.each([
+    ["a bare percentage without 'du SMIC'", "120%"],
+    ["'du SMIC' without a percentage", "valeur du SMIC"],
+    ["a plain amount", "1 800 euros"],
+    ["empty text", ""],
+    ["a 'SMIC horaire' qualifier (different base)", "120% du SMIC horaire"],
+    ["a 'SMIC annuel' qualifier (different base)", "130% du SMIC annuel"],
+  ])("returns null for %s", (_label, input) => {
+    expect(detectSmicPercentage(input)).toBeNull();
+  });
+});
+
+describe("detectAmountsInRange — '% du SMIC' prefill", () => {
+  const detectAll = (editor: Editor) =>
+    detectAmountsInRange(editor, 0, editor.state.doc.content.size);
+
+  it("prefills the percentage formula when an amount is followed by '(XX% du SMIC)'", () => {
+    const editor = createEditor("<p>1 800 € (120% du SMIC)</p>");
+    const amounts = detectAll(editor);
+    expect(amounts).toHaveLength(1);
+    expect(amounts[0].formula).toBe("smic_monthly_percent");
+    expect(amounts[0].parameter).toBe("120");
+  });
+
+  it("detects the percentage when written inside a table cell", () => {
+    const editor = createTableEditor(
+      "<table><tbody><tr><td>1 800 € (120% du SMIC)</td></tr></tbody></table>"
+    );
+    const withPct = detectAll(editor).find(
+      (a) => a.formula === "smic_monthly_percent"
+    );
+    expect(withPct).toBeDefined();
+    expect(withPct?.parameter).toBe("120");
+  });
+
+  it("leaves the formula empty for an amount without a percentage mention", () => {
+    const editor = createEditor("<p>1 800 €</p>");
+    const amounts = detectAll(editor);
+    expect(amounts).toHaveLength(1);
+    expect(amounts[0].formula).toBe("");
+    expect(amounts[0].parameter).toBe("");
+  });
+
+  it("associates the percentage only with the nearest preceding amount", () => {
+    // The "130% du SMIC" qualifies the 2 000 € salary, NOT the 500 € prime that
+    // sits before it — the prime must stay unchallenged.
+    const editor = createEditor(
+      "<p>Prime de 500 € versée. Salaire 2 000 € soit 130% du SMIC</p>"
+    );
+    const amounts = detectAll(editor);
+    expect(amounts).toHaveLength(2);
+    const prime = amounts.find((a) => a.rawText.includes("500"));
+    const salaire = amounts.find((a) => a.rawText.includes("2"));
+    expect(prime?.formula).toBe("");
+    expect(salaire?.formula).toBe("smic_monthly_percent");
+    expect(salaire?.parameter).toBe("130");
+  });
+
+  it("does not associate the percentage across an intervening amount in another cell", () => {
+    const editor = createTableEditor(
+      "<table><tbody><tr><td>1 200 €</td><td>2 000 € soit 130% du SMIC</td></tr></tbody></table>"
+    );
+    const amounts = detectAll(editor);
+    const first = amounts.find((a) => a.rawText.includes("1"));
+    expect(first?.formula).toBe("");
+  });
+
+  it("does not prefill for a non-monthly 'du SMIC horaire' mention", () => {
+    const editor = createEditor("<p>12 € (120% du SMIC horaire)</p>");
+    const amounts = detectAll(editor);
+    expect(amounts).toHaveLength(1);
+    expect(amounts[0].formula).toBe("");
   });
 });
