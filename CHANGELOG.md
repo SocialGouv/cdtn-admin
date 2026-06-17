@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.76.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.75.1...v2.76.0) (2026-06-17)
+
+### Features
+
+- **contribution:** détection automatique des salaires en % du SMIC dans le challenger ([#1689](https://github.com/SocialGouv/cdtn-admin/issues/1689)) ([a91b9b8](https://github.com/SocialGouv/cdtn-admin/commit/a91b9b8ef1c07ec28748ea61ef5eaaa66cbb2b2b))
+- **scripts:** dump de la BDD à une date précise (PITR) ([#1687](https://github.com/SocialGouv/cdtn-admin/issues/1687)) ([dab4fff](https://github.com/SocialGouv/cdtn-admin/commit/dab4fff43c7f197298543a9ae694593b47bff3e9))
+
 ## [2.75.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.75.0...v2.75.1) (2026-06-10)
 
 ### Features
