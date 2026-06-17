@@ -2,6 +2,12 @@ packages:
   - shared/*
   - targets/*
 
+# xlsx (transitif via node-xlsx) est épinglé sur cdn.sheetjs.com (hors registre npm), dont
+# l'egress est BLOQUÉ depuis les runners PIC (ECONNRESET au handshake TLS). On le redirige vers
+# le miroir npm @e965/xlsx (contenu SheetJS identique, API stable).
+overrides:
+  xlsx: "npm:@e965/xlsx@0.20.3"
+
 onlyBuiltDependencies:
   - "@swc/core"
   - argon2
