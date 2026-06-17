@@ -1,0 +1,97 @@
+# ============================================================================
+# cdtn-admin (back-office + pipeline data CDTN) — CI + CD sur GitLab PIC.
+#   build   : 5 images via BuildKit DinD mutualisé (ci-common), `parallel: matrix`
+#             (frontend, hasura, ingester, alert, export). GitHub reste source de vérité.
+#   publish : chart Helm UNIQUE `charts/cdtn-admin` (multi-workloads) en OCI (appVersion = sha
+#             commun aux 5 images).
+#   deploy  : DÉCLENCHE cdtn-gitops (trigger multi-projet, CI_JOB_TOKEN + allowlist inbound)
+#             en passant CHART_NAME=cdtn-admin / CHART_VERSION. Pas de token gitops ici.
+# Déploiement : Atlas v2 (zone dev) via ArgoCD synchronisant cdtn-gitops.
+# Voir docs/30-migrations/cdtn.md.
+#
+# ⚠ Build-secret `NPM_TIPTAP_TOKEN` (registre privé @tiptap-pro) REQUIS pour frontend & export
+#   (le .npmrc référence ${NPM_TIPTAP_TOKEN} ; install KO sans). Passé via `BUILD_SECRETS` —
+#   support ajouté au backend DinD de ci-common. Variable CI/CD `NPM_TIPTAP_TOKEN` (masquée).
+# ============================================================================
+
+include:
+  - project: socialgouv/produits-dnum/communs/ci-common
+    ref: main
+    file: templates/image-build.yml
+  - project: socialgouv/produits-dnum/communs/ci-common
+    ref: main
+    file: templates/publish-chart.yml
+
+variables:
+  CHART_DIR: charts/cdtn-admin
+  CHART_VERSION: "0.0.0-sha.${CI_COMMIT_SHORT_SHA}"
+
+stages:
+  - build
+  - publish
+  - deploy
+
+workflow:
+  auto_cancel:
+    on_new_commit: interruptible
+  rules:
+    - if: $CI_COMMIT_BRANCH
+
+.build-rules: &build-rules
+  - if: $CI_COMMIT_BRANCH =~ /^(feat|fix|chore|migration)\//
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# ---------------------------------------------------------------------------
+# BUILD : 5 images via le backend DinD mutualisé (ci-common). cdtn = produit -> DinD.
+# Chaque cible a son Dockerfile/contexte ; frontend & export reçoivent le build-secret tiptap.
+# ---------------------------------------------------------------------------
+build:
+  extends: .build-dind
+  interruptible: true
+  parallel:
+    matrix:
+      - COMPONENT: frontend
+        BUILD_IMAGE: "$CI_REGISTRY_IMAGE/frontend"
+        BUILD_DOCKERFILE: "targets/frontend/Dockerfile"
+        BUILD_SECRETS: "NPM_TIPTAP_TOKEN"
+      - COMPONENT: hasura
+        BUILD_IMAGE: "$CI_REGISTRY_IMAGE/hasura"
+        BUILD_CONTEXT: "targets/hasura"
+        BUILD_DOCKERFILE: "Dockerfile"
+      - COMPONENT: ingester
+        BUILD_IMAGE: "$CI_REGISTRY_IMAGE/ingester"
+        BUILD_DOCKERFILE: "targets/ingester/Dockerfile"
+      - COMPONENT: alert
+        BUILD_IMAGE: "$CI_REGISTRY_IMAGE/alert"
+        BUILD_DOCKERFILE: "targets/alert-cli/Dockerfile"
+      - COMPONENT: export
+        BUILD_IMAGE: "$CI_REGISTRY_IMAGE/export"
+        BUILD_DOCKERFILE: "targets/export-elasticsearch/Dockerfile"
+        BUILD_SECRETS: "NPM_TIPTAP_TOKEN"
+  variables:
+    BUILD_CONTEXT: "."
+    BUILD_TAGS: "sha-$CI_COMMIT_SHA,$CI_COMMIT_REF_SLUG"
+  rules: *build-rules
+
+# PUBLISH : chart Helm UNIQUE (multi-workloads). appVersion = sha = tag commun aux 5 images.
+publish-chart:
+  extends: .publish-chart
+  needs: ["build"]
+  rules: *build-rules
+
+# DEPLOY : déclenche cdtn-gitops (bump de la dépendance `cdtn-admin` du wrapper apps/cdtn-dev).
+deploy-dev:
+  stage: deploy
+  needs: ["publish-chart"]
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  variables:
+    DEPLOY_ACTION: deploy
+    DEPLOY_ENV: cdtn-dev
+    CHART_NAME: cdtn-admin
+  trigger:
+    project: socialgouv/produits-dnum/travail/cdtn/cdtn-gitops
+    branch: main
+    strategy: depend
+  environment:
+    name: dev

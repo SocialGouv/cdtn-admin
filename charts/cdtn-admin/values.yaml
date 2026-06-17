@@ -1,0 +1,130 @@
+# Valeurs par défaut cdtn-admin — plateforme-agnostique. Le spécifique-env vit dans le gitops.
+# Aucun secret ici : référencés PAR NOM (créés par ExternalSecrets côté gitops).
+#
+# ⚠ Les Services www/hasura/export portent LITTÉRALEMENT ces noms (URLs internes en dur :
+#   http://hasura/v1/graphql · http://export · http://www/api/sitemap).
+# ⚠ LimitRange Atlas : limits.memory / requests.memory ≤ 2 (sinon pod forbidden).
+
+global:
+  imageRegistry: ""           # ex. pic-registry.sg.social.gouv.fr/socialgouv/.../cdtn/cdtn-admin
+  imagePullSecrets: []        # ex. [{ name: registry-pull-secret }]
+  extraLabels: {}
+
+# Tag commun aux 5 images (défaut = appVersion = sha posé par la CI).
+imageTag: ""
+imagePullPolicy: IfNotPresent
+
+# Stakater Reloader (opt-in) : restart du workload quand un ConfigMap/Secret (envFrom) change.
+reloader:
+  auto: false
+
+# --- Workloads de type service (Deployment + Service + ConfigMap [+ Ingress]) -------------
+services:
+  www:
+    enabled: true
+    image: frontend
+    replicaCount: 1
+    port: 3000
+    probePath: /healthz
+    service: { port: 80 }
+    secrets: [www, hasura, s3, tipimail]
+    resources:
+      requests: { cpu: "200m", memory: "384Mi" }
+      limits: { cpu: "500m", memory: "512Mi" }
+    configMap:
+      data:
+        NODE_ENV: "production"
+        PRODUCTION: "true"
+        HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
+        URL_EXPORT: "http://export:8787"
+    extraEnv: []
+    ingress:
+      enabled: false
+      className: ""
+      host: ""
+      annotations: {}
+      tls: { enabled: true, secretName: "" }
+
+  hasura:
+    enabled: true
+    image: hasura
+    replicaCount: 1
+    port: 8080
+    probePath: /healthz
+    service: { port: 80 }
+    secrets: [hasura]
+    resources:
+      requests: { cpu: "500m", memory: "1Gi" }
+      limits: { cpu: "1500m", memory: "2Gi" }
+    configMap:
+      data:
+        HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
+        HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "public"
+        HASURA_GRAPHQL_SERVER_PORT: "8080"
+        HASURA_GRAPHQL_NO_OF_RETRIES: "60"
+        HASURA_GRAPHQL_V1_BOOLEAN_NULL_COLLAPSE: "true"
+        HASURA_GRAPHQL_ENABLED_LOG_TYPES: "startup, http-log, webhook-log, websocket-log, query-log"
+    # HASURA_GRAPHQL_DATABASE_URL ← secret CNPG <cluster>-app (clé uri). Le nom du secret
+    # est piloté par le gitops (cnpg.name). Défaut alignable : cluster-cdtn-app.
+    extraEnv:
+      - name: HASURA_GRAPHQL_DATABASE_URL
+        valueFrom:
+          secretKeyRef:
+            name: cluster-cdtn-app
+            key: uri
+
+  export:
+    enabled: true
+    image: export
+    replicaCount: 1
+    port: 8787
+    probePath: /healthz
+    service: { port: 80 }
+    secrets: [export-elasticsearch, s3, hasura]
+    resources:
+      requests: { cpu: "500m", memory: "2Gi" }
+      limits: { cpu: "1500m", memory: "4Gi" }
+    configMap:
+      data:
+        NODE_ENV: "production"
+        LOG_LEVEL: "info"
+        HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
+        SITEMAP_ENDPOINT: "http://www/api/sitemap"
+        BUCKET_DEFAULT_FOLDER: "default"
+        BUCKET_DRAFT_FOLDER: "draft"
+        BUCKET_PUBLISHED_FOLDER: "published"
+        BUCKET_PREVIEW_FOLDER: "preview"
+        ELASTICSEARCH_INDEX_PREPROD: "cdtn-dev-v2"
+        ELASTICSEARCH_INDEX_PROD: "cdtn-dev-v2"
+    extraEnv: []
+
+# --- Workloads de type CronJob ------------------------------------------------------------
+cronjobs:
+  ingester:
+    enabled: true
+    image: ingester
+    schedule: "0 1 * * *"
+    secrets: [hasura]
+    resources:
+      requests: { cpu: "750m", memory: "1536Mi" }
+      limits: { cpu: "1500m", memory: "3Gi" }
+    configMap:
+      data:
+        NODE_ENV: "production"
+        HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
+        URL_EXPORT: "http://export:8787"
+    extraEnv: []
+
+  alert:
+    enabled: true
+    image: alert
+    schedule: "30 2 * * *"
+    secrets: [alert]
+    resources:
+      requests: { cpu: "750m", memory: "2Gi" }
+      limits: { cpu: "1500m", memory: "4Gi" }
+    configMap:
+      data:
+        NODE_ENV: "production"
+        HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
+    extraEnv: []

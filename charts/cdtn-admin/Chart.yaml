@@ -1,0 +1,8 @@
+apiVersion: v2
+name: cdtn-admin
+description: cdtn-admin (back-office + pipeline data CDTN) — chart agnostique multi-workloads (www, hasura, export, ingester, alert).
+type: application
+# version + appVersion posées par la CI au publish (0.0.0-sha.<sha> / sha-<sha>).
+# appVersion = tag commun aux 5 images (build matrix).
+version: 0.1.0
+appVersion: "0.1.0"
