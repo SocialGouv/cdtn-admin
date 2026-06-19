@@ -1,0 +1,36 @@
+[project]
+name = "analysis"
+version = "0.1.0"
+description = "Notebook-based analytics for cdtn-admin (Matomo search statistics)"
+readme = "README.md"
+authors = [
+    { name = "maxgfr", email = "25312957+maxgfr@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "asyncpg>=0.31.0",
+    "matplotlib>=3.11.0",
+    "pandas>=3.0.3",
+    "pydantic-settings>=2.14.2",
+    "seaborn>=0.13.2",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.22,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.3.0",
+    "jupyterlab>=4.6.0",
+    "ruff>=0.15.18",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 88
+# Notebooks are exploratory research code; lint/format only the package source.
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

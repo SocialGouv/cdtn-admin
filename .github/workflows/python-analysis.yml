@@ -1,0 +1,39 @@
+name: Python analysis
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "analysis/**"
+      - ".github/workflows/python-analysis.yml"
+  pull_request:
+    paths:
+      - "analysis/**"
+      - ".github/workflows/python-analysis.yml"
+
+concurrency:
+  cancel-in-progress: true
+  group: python-analysis-${{ github.ref }}
+
+jobs:
+  lint:
+    name: Lint & format
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: analysis
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          working-directory: analysis
+      - name: Install dependencies
+        run: uv sync --frozen
+      - name: Ruff lint
+        run: uv run ruff check .
+      - name: Ruff format
+        run: uv run ruff format --check .
