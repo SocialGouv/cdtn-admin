@@ -126,6 +126,7 @@ export const ArrowForwardIosSharp = createIcon(
 export const ArrowForwardIosSharpIcon = ArrowForwardIosSharp;
 
 // Info / Status
+export const Lightbulb = createIcon("ri-lightbulb-line", "Lightbulb");
 export const Info = createIcon("ri-information-fill", "Info");
 export const InfoIcon = Info;
 export const InfoOutlined = createIcon("ri-information-line", "InfoOutlined");

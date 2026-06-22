@@ -18,7 +18,13 @@ import { DetailsSummary } from "@tiptap-pro/extension-details-summary";
 import { DetailsContent } from "@tiptap-pro/extension-details-content";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { Link } from "@tiptap/extension-link";
-import { Alert, Challenger, Infographic, Title } from "./extensions";
+import {
+  Alert,
+  Challenger,
+  GoodToKnow,
+  Infographic,
+  Title,
+} from "./extensions";
 
 const smicQuery = gql`
   query SmicCurrentValueEditor {
@@ -91,6 +97,7 @@ export const defaultExtensions: Extensions = [
   }),
   Alert,
   Title,
+  GoodToKnow,
 ];
 
 type ChallengerDialogState = {
@@ -420,6 +427,11 @@ const StyledEditorContent = styled(EditorContent)(() => {
       ".infographic": {
         marginBottom: "1.6rem",
         color: fr.colors.decisions.text.default,
+      },
+      "span.good-to-know": {
+        "&::before": {
+          content: '"💡 "',
+        },
       },
       // Challenger sans valeur SMIC disponible : affichage original
       "span.challenger": {

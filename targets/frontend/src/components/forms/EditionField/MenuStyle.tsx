@@ -6,6 +6,7 @@ import {
   Storage as StorageIcon,
   Link as LinkIcon,
   Info as InfoIcon,
+  Lightbulb as LightbulbIcon,
   Delete,
   Gavel as GavelIcon,
 } from "../../utils/dsfrIcons";
@@ -123,6 +124,16 @@ export const MenuStyle = ({
         disabled={editor.isActive("alert")}
       >
         <InfoIcon />
+      </button>
+      <button
+        onClick={() => {
+          editor?.chain().focus().toggleGoodToKnow().run();
+        }}
+        className={editor.isActive("goodToKnow") ? "is-active" : ""}
+        type="button"
+        title="Bon à savoir"
+      >
+        <LightbulbIcon />
       </button>
       {editor.isActive("infographic") && (
         <button
