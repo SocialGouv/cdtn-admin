@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.77.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.76.0...v2.77.0) (2026-06-22)
+
+### Features
+
+- **contribution:** ajout du type bon à savoir ([#1691](https://github.com/SocialGouv/cdtn-admin/issues/1691)) ([2528235](https://github.com/SocialGouv/cdtn-admin/commit/25282351d9ac791988d36f803f62ab66a1bc9aa5))
+
 # [2.76.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.75.1...v2.76.0) (2026-06-17)
 
 ### Features
