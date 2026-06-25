@@ -22,8 +22,8 @@ cp .env.example .env        # then fill in the PG_MATOMO_* credentials
 
 The `.env` holds the connection to the Matomo database:
 
-| Variable           | Description                       |
-| ------------------ | --------------------------------- |
+| Variable             | Description                       |
+| -------------------- | --------------------------------- |
 | `PG_MATOMO_USER`     | database user                     |
 | `PG_MATOMO_PASSWORD` | database password                 |
 | `PG_MATOMO_HOST`     | host (e.g. the Matomo PG replica) |
