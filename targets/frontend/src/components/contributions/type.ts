@@ -161,7 +161,11 @@ export const questionBaseSchema = z.object({
     .min(1, "Une question doit être renseignée"),
   order: z.coerce.number(),
   message_id: z.string().uuid().optional(),
-  seo_title: z.string().optional(),
+  seo_title: z
+    .string({
+      required_error: "Une nom SEO doit être renseigné",
+    })
+    .min(1, "Un nom SEO doit être renseigné"),
 });
 
 export const commentsSchema = z.object({
