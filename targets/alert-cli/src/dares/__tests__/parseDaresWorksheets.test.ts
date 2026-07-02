@@ -44,9 +44,9 @@ describe("parseDaresWorksheets", () => {
     });
 
     it("never returns the 9998 / 9999 sentinel codes", () => {
-      expect(
-        result.some(({ num }) => num === 9998 || num === 9999)
-      ).toBe(false);
+      expect(result.some(({ num }) => num === 9998 || num === 9999)).toBe(
+        false
+      );
     });
 
     it("returns unique IDCC numbers", () => {
@@ -87,7 +87,14 @@ describe("parseDaresWorksheets", () => {
             ["Note d'introduction"],
             [],
             BRANCHE_HEADER,
-            ["00029", "Établissements privés (FEHAP)", "Général", "National", 1, ""],
+            [
+              "00029",
+              "Établissements privés (FEHAP)",
+              "Général",
+              "National",
+              1,
+              "",
+            ],
           ],
         },
       ]);
