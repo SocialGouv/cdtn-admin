@@ -5,7 +5,7 @@ import path from "path";
 
 jest.mock("axios");
 
-describe("extractXlsxFromUrl", () => {
+describe("extractDaresXlsxFromMT", () => {
   it("should extract xlsx file from url", async () => {
     const html = `
       <html>
@@ -34,6 +34,22 @@ describe("extractXlsxFromUrl", () => {
     );
   });
 
+  it("should pick the DARES file when several xlsx links are present", async () => {
+    const html = `
+      <html>
+        <body>
+          <a href="/sites/travail-emploi/files/2025-12/Grille_de_classification_et_conventions_collectives_2025.xlsx">Grille</a>
+          <a href="/sites/travail-emploi/files/2026-06/Dares_Suivi_Historique_convention_collective_Juin2026.xlsx">DARES</a>
+        </body>
+      </html>
+    `;
+    (axios.get as jest.Mock).mockResolvedValueOnce({ data: html });
+    const result = await extractDaresXlsxFromMT();
+    expect(result).toBe(
+      "https://travail-emploi.gouv.fr/sites/travail-emploi/files/2026-06/Dares_Suivi_Historique_convention_collective_Juin2026.xlsx"
+    );
+  });
+
   it("should work with a real dares html page", async () => {
     const html = fs
       .readFileSync(path.join(__dirname, "../__mocks__/page_dares.html"))
@@ -42,7 +58,7 @@ describe("extractXlsxFromUrl", () => {
     (axios.get as jest.Mock).mockResolvedValueOnce({ data: html });
     const result = await extractDaresXlsxFromMT();
     expect(result).toBe(
-      "https://travail-emploi.gouv.fr/IMG/xlsx/dares_donnes_identifiant_convention_collective_septembre24.xlsx"
+      "https://travail-emploi.gouv.fr/sites/travail-emploi/files/2026-06/Dares_Suivi_Historique_convention_collective_Juin2026.xlsx"
     );
   });
 });
