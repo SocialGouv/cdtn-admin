@@ -43,6 +43,14 @@ describe("parseDaresWorksheets", () => {
       expect(result.find((agreement) => agreement.num === 1)).toBeUndefined();
     });
 
+    it("ignores the 'Accords et statuts' sheet (enterprise agreements)", () => {
+      // "France active" (code 5630) lives in the second sheet and must NOT be
+      // parsed: only branch conventions (IDCC) are tracked.
+      expect(
+        result.find((agreement) => agreement.num === 5630)
+      ).toBeUndefined();
+    });
+
     it("never returns the 9998 / 9999 sentinel codes", () => {
       expect(result.some(({ num }) => num === 9998 || num === 9999)).toBe(
         false

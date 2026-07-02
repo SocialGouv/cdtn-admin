@@ -7,10 +7,11 @@ interface Worksheet {
 
 // Depuis juin 2026, la DARES publie un fichier "Suivi historique" qui contient
 // l'intégralité des conventions (historiques + en vigueur) réparties sur
-// plusieurs onglets. On ne garde que les conventions de branche actuellement en
-// vigueur (IDCCactif = 1), ce qui correspond à l'ancienne liste
-// "CODES EN VIGUEUR". Le README du fichier précise : « Pour retrouver la liste
-// des conventions collectives actuellement en vigueur, il suffit de filtrer la
+// plusieurs onglets. On ne garde QUE les conventions de branche actuellement en
+// vigueur (onglet "Conventions de branche", IDCCactif = 1) : on ignore
+// volontairement l'onglet "Accords et statuts" (accords d'entreprise / statuts
+// particuliers). Le README du fichier précise : « Pour retrouver la liste des
+// conventions collectives actuellement en vigueur, il suffit de filtrer la
 // variable IDCCactif [...] sur la modalité 1. »
 const BRANCHE_SHEET_NAME = "Conventions de branche";
 const HEADER_IDCC = "idcc";
