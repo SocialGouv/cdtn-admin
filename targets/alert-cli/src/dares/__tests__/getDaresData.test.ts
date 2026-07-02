@@ -5,26 +5,44 @@ jest.mock("../fetchDaresXlsx", () => {
     fetchDaresXlsx: () => {
       return [
         {
-          name: "Liste IDCC-Publication",
+          name: "Lisez-moi",
+          data: [["Note"], ["Dictionnaire des variables"]],
+        },
+        {
+          name: "Conventions de branche",
           data: [
-            ["IDENTIFIANT DE CONVENTION COLLECTIVE (IDCC) : "],
             [
-              null,
-              "CODES EN VIGUEUR POUR LE REMPLISSAGE de la DADS-U et de la DSN",
+              "IDCC",
+              "Libellé",
+              "Régime",
+              "Champ d'application",
+              "IDCCactif",
+              "NouvIDCC",
             ],
-            [],
-            ["IDCC", "TITRE DE LA CONVENTION"],
             [
-              "0016",
+              "00016",
               "Convention collective nationale des transports routiers et activités auxiliaires du transport",
+              "Général",
+              "National",
+              1,
+              "",
             ],
-            ["0018", "Convention collective nationale de l'industrie textile"],
             [
-              "0029",
-              "Convention collective nationale des établissements privés d'hospitalisation, de soins, de cure et de garde à but non lucratif (FEHAP, convention de 1951)",
+              "00001",
+              "Convention collective pour le commerce stéphanois",
+              "Général",
+              "Local",
+              0,
+              "01415",
             ],
-            ["9998", "___Convention non encore en vigueur___"],
-            ["9999", "___Sans convention collective___"],
+            [
+              "00018",
+              "Convention collective nationale de l'industrie textile",
+              "Général",
+              "National",
+              1,
+              "",
+            ],
           ],
         },
       ];
@@ -33,7 +51,7 @@ jest.mock("../fetchDaresXlsx", () => {
 });
 
 describe("getDaresData", () => {
-  it("should work", async () => {
+  it("returns the in-force branch conventions parsed from the DARES xlsx", async () => {
     const result = await getDaresData();
     expect(result).toEqual([
       {
@@ -43,10 +61,6 @@ describe("getDaresData", () => {
       {
         name: "Convention collective nationale de l'industrie textile",
         num: 18,
-      },
-      {
-        name: "Convention collective nationale des établissements privés d'hospitalisation, de soins, de cure et de garde à but non lucratif (FEHAP, convention de 1951)",
-        num: 29,
       },
     ]);
   });
