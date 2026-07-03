@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.1...v2.77.2) (2026-07-03)
+
+### Bug Fixes
+
+- **dares:** exclut les accords et statuts des alertes de suppression ([#1696](https://github.com/SocialGouv/cdtn-admin/issues/1696)) ([95c388b](https://github.com/SocialGouv/cdtn-admin/commit/95c388b64ee83162db941ad02ee3043f3b34d939))
+
 ## [2.77.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.0...v2.77.1) (2026-07-02)
 
 **Note:** Version bump only for package frontend
