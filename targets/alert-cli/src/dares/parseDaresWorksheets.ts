@@ -22,9 +22,10 @@ const ACCORDS_SHEET_NAME = "Accords et statuts";
 const HEADER_IDCC = "idcc";
 const HEADER_NAME = "libelle";
 const HEADER_ACTIVE = "idccactif";
-// L'onglet "Accords et statuts" nomme sa colonne de codes "CODE" (et non
-// "IDCC").
+// L'onglet "Accords et statuts" nomme ses colonnes "CODE" / "CODEactif" (et non
+// "IDCC" / "IDCCactif").
 const HEADER_CODE = "code";
+const HEADER_CODE_ACTIVE = "codeactif";
 const SENTINEL_CODES = [9998, 9999];
 
 const stripAccents = (value: string): string =>
@@ -99,32 +100,42 @@ export const parseDaresWorksheets = (worksheets: Worksheet[]): Agreement[] => {
     }, []);
 };
 
-// Localise la colonne des codes de l'onglet "Accords et statuts". Son en-tête,
-// comme celui des conventions de branche, n'est pas à une position fixe : on
-// résout la colonne "CODE" par son libellé.
-const locateCodeColumn = (
+// Localise, dans l'onglet "Accords et statuts", la colonne des codes ("CODE")
+// et celle d'activité ("CODEactif"). Comme pour les conventions de branche,
+// l'en-tête n'est pas à une position fixe : on résout les colonnes par leur
+// libellé. `activeIndex` vaut -1 si la colonne d'activité est absente.
+const locateAccordsColumns = (
   data: any[][]
-): { headerRowIndex: number; codeIndex: number } | null => {
+): { headerRowIndex: number; codeIndex: number; activeIndex: number } | null => {
   for (let rowIndex = 0; rowIndex < data.length; rowIndex++) {
     const row = data[rowIndex] ?? [];
     const codeIndex = row.findIndex((cell) => normalize(cell) === HEADER_CODE);
     if (codeIndex !== -1) {
-      return { headerRowIndex: rowIndex, codeIndex };
+      const activeIndex = row.findIndex(
+        (cell) => normalize(cell) === HEADER_CODE_ACTIVE
+      );
+      return { headerRowIndex: rowIndex, codeIndex, activeIndex };
     }
   }
   return null;
 };
 
-// Extrait les codes de l'onglet "Accords et statuts" (IDCC 5XXX, ex. 5623
-// "France active"). Ces accords/statuts sont présents dans notre BDD
+// Extrait les codes des accords/statuts EN VIGUEUR de l'onglet "Accords et
+// statuts" (IDCC 5XXX comme 5623 "France active", mais aussi des accords à
+// codes bas type 804 VRP). Ces accords/statuts sont présents dans notre BDD
 // (kali-data) mais volontairement absents des conventions de branche parsées :
 // sans cette liste, la comparaison les remonterait à tort comme « à supprimer »
 // (cf. difference.ts). On ne les parse donc PAS comme des conventions — on ne
 // récupère que leurs codes pour les exclure des suppressions.
 //
+// On ne garde que les accords ACTIFS (CODEactif = 1), par symétrie avec les
+// conventions de branche (IDCCactif = 1) : un accord inactif dans le fichier
+// DARES reste, lui, un candidat légitime à la suppression.
+//
 // Résilient : si l'onglet ou sa colonne "CODE" est introuvable (fichier DARES
 // sans cet onglet), on renvoie une liste vide et on retombe sur l'ancien
-// comportement plutôt que de planter.
+// comportement plutôt que de planter. Si seule la colonne "CODEactif" manque
+// (activeIndex === -1), on n'applique pas le filtre d'activité.
 export const parseDaresAccordsStatutsCodes = (
   worksheets: Worksheet[]
 ): number[] => {
@@ -135,16 +146,19 @@ export const parseDaresAccordsStatutsCodes = (
     return [];
   }
 
-  const header = locateCodeColumn(sheet.data);
+  const header = locateAccordsColumns(sheet.data);
   if (!header) {
     return [];
   }
 
-  const { headerRowIndex, codeIndex } = header;
+  const { headerRowIndex, codeIndex, activeIndex } = header;
 
   return sheet.data
     .slice(headerRowIndex + 1)
     .reduce<number[]>((codes, row) => {
+      if (activeIndex !== -1 && Number(row[activeIndex]) !== 1) {
+        return codes;
+      }
       const num = parseInt(String(row[codeIndex] ?? ""), 10);
       if (!num || SENTINEL_CODES.indexOf(num) !== -1) {
         return codes;

@@ -153,12 +153,20 @@ describe("parseDaresAccordsStatutsCodes", () => {
   describe("real DARES 'Suivi historique' file (Juin 2026)", () => {
     const codes = parseDaresAccordsStatutsCodes(xlsx.parse(FIXTURE));
 
-    it("collects the codes of the 'Accords et statuts' sheet", () => {
-      // 5623 / 5630 sont des accords/statuts : présents dans notre BDD mais
-      // absents des conventions de branche. On doit les récupérer pour ne pas
-      // les remonter comme « à supprimer ».
+    it("collects the codes of the in-force accords/statuts (CODEactif = 1)", () => {
+      // 5623 / 5630 sont des accords/statuts en vigueur : présents dans notre
+      // BDD mais absents des conventions de branche. On doit les récupérer pour
+      // ne pas les remonter comme « à supprimer ».
       expect(codes).toContain(5623);
       expect(codes).toContain(5630);
+    });
+
+    it("excludes inactive accords/statuts (CODEactif = 0)", () => {
+      // 5004 ("Statut EPAVN villes nouvelles") et 926 sont inactifs dans la
+      // DARES : ils restent des candidats légitimes à la suppression, donc on
+      // ne les met PAS dans la liste d'exclusion.
+      expect(codes).not.toContain(5004);
+      expect(codes).not.toContain(926);
     });
 
     it("does not return the branch conventions", () => {
@@ -183,7 +191,7 @@ describe("parseDaresAccordsStatutsCodes", () => {
     ).toEqual([]);
   });
 
-  it("locates the CODE column even when the header is reordered / not first", () => {
+  it("locates the CODE / CODEactif columns even when reordered / not first, and filters inactive", () => {
     const codes = parseDaresAccordsStatutsCodes([
       {
         name: "Accords et statuts",
@@ -191,6 +199,7 @@ describe("parseDaresAccordsStatutsCodes", () => {
           ["Note d'introduction"],
           ["Libellé", "CODEactif", "CODE"],
           ["France active", 1, "05623"],
+          ["Statut archivé", 0, "05004"],
         ],
       },
     ]);
