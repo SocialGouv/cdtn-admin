@@ -20,8 +20,10 @@ Run it (``--demo`` needs no credentials; the live form reads ``MATOMO_*`` from
     uv run python -m analysis.reports.contrib_weekly_views \
         --start 2024-09-01 --end 2026-07-01
 
-Outputs a PNG chart and a CSV of the weekly table under ``--out`` (default
-``analysis/output/``), and prints a peak→latest decline comparison.
+Outputs a three-panel PNG (absolute weekly views, indexed-to-peak declines, and
+the congés-vs-retraite relative gap) plus CSVs (raw weekly, ``_semaine``
+week-over-week, ``_ecart`` relative gap) under ``--out`` (default
+``analysis/output/``), and prints the decline + relative comparison tables.
 """
 
 from __future__ import annotations
@@ -220,10 +222,16 @@ def build_chart(
     out_path: Path,
     contributions: tuple[Contribution, ...] = CONTRIBUTIONS,
 ) -> None:
-    """Render a two-panel chart: absolute weekly views, and indexed-to-first-week."""
+    """Render a three-panel chart: absolute weekly views, indexed-to-peak, and
+    the relative gap between the two contributions."""
     specs = _series_specs(contributions)
-    fig, (ax_abs, ax_idx) = plt.subplots(
-        2, 1, figsize=(14, 10), sharex=True, constrained_layout=True
+    fig, (ax_abs, ax_idx, ax_gap) = plt.subplots(
+        3,
+        1,
+        figsize=(14, 14),
+        sharex=True,
+        constrained_layout=True,
+        height_ratios=[3, 3, 2],
     )
 
     # Panel 1 — absolute weekly views.
@@ -265,6 +273,31 @@ def build_chart(
     ax_idx.set_ylabel("% du pic", color=MUTED, fontsize=10)
     ax_idx.set_ylim(0, 110)
     _style_axis(ax_idx)
+
+    # Panel 3 — relative gap: the two contributions' totals share a base-100
+    # index at the first week, and this is the % by which the target sits above
+    # (>0, green) or below (<0, red) the reference. It isolates whether the
+    # change on the target contribution helps or hurts vs. the comparison one.
+    ref, target = contributions[0], contributions[1]
+    rel = relative_comparison(df, contributions)
+    gap = rel["écart %"]
+    ax_gap.plot(rel["semaine"], gap, color="#4a3aa7", linewidth=2)
+    ax_gap.axhline(0, color=MUTED, linewidth=0.8, linestyle=":")
+    ax_gap.fill_between(
+        rel["semaine"], gap, 0, where=gap >= 0, alpha=0.12, color="#1baf7a"
+    )
+    ax_gap.fill_between(
+        rel["semaine"], gap, 0, where=gap < 0, alpha=0.12, color="#e34948"
+    )
+    ax_gap.set_title(
+        f"Écart {target.key} vs {ref.key} (total, base 100 à la 1re semaine) — "
+        f"% · >0 = {target.key} tient mieux",
+        color=INK,
+        fontsize=13,
+        loc="left",
+    )
+    ax_gap.set_ylabel("écart %", color=MUTED, fontsize=10)
+    _style_axis(ax_gap)
 
     fig.savefig(out_path, dpi=130)
     plt.close(fig)
@@ -320,6 +353,89 @@ def weekly_comparison(
         out[f"{c.key} total"] = total
         out[f"{c.key} Δ%/sem"] = (total.pct_change() * 100).round(1)
     return out
+
+
+def _total(df: pd.DataFrame, c: Contribution) -> pd.Series:
+    """Total weekly views (générique + perso Σ CC) for one contribution."""
+    return df[f"{c.key}_generic"] + df[f"{c.key}_perso"]
+
+
+def _index_100(series: pd.Series) -> pd.Series:
+    """Index a series to 100 at its first non-zero week (common baseline)."""
+    base = next((v for v in series if v > 0), None) or 1.0
+    return series / base * 100.0
+
+
+def relative_comparison(
+    df: pd.DataFrame,
+    contributions: tuple[Contribution, ...] = CONTRIBUTIONS,
+) -> pd.DataFrame:
+    """Compare the two contributions' TOTAL views on a common base-100 index.
+
+    Each total (générique + perso Σ CC) is indexed to 100 at the first week, so
+    both start level and the gap isolates *relative* performance rather than raw
+    volume. ``écart %`` = how much the 2nd contribution (target, e.g. congés) is
+    above/below the 1st (reference, e.g. retraite) versus that shared baseline:
+    a growing negative gap means the target loses audience faster — i.e. the
+    change on it under-performs the reference.
+    """
+    ref, target = contributions[0], contributions[1]
+    ref_idx = _index_100(_total(df, ref))
+    tgt_idx = _index_100(_total(df, target))
+    return pd.DataFrame(
+        {
+            "semaine": df["week"],
+            f"{ref.key} idx100": ref_idx.round(1),
+            f"{target.key} idx100": tgt_idx.round(1),
+            "écart pts": (tgt_idx - ref_idx).round(1),
+            "écart %": (tgt_idx / ref_idx * 100 - 100).round(1),
+        }
+    )
+
+
+def comparison_summary(
+    df: pd.DataFrame,
+    contributions: tuple[Contribution, ...] = CONTRIBUTIONS,
+) -> pd.DataFrame:
+    """Headline per-contribution total decline + the difference between the two.
+
+    The last row is the gap in peak→latest decline (target − reference): the
+    single number answering "are the changes on the target relevant?".
+    """
+    rows: list[dict[str, Any]] = []
+    declines: dict[str, float] = {}
+    for c in contributions:
+        total = _total(df, c)
+        first = next((v for v in total if v > 0), total.iloc[0])
+        peak = total.max()
+        latest = total.iloc[-1]
+        peak_drop = (1 - latest / peak) * 100 if peak else 0.0
+        declines[c.key] = peak_drop
+        rows.append(
+            {
+                "contribution": c.label,
+                "total 1re sem": round(first),
+                "total pic": round(peak),
+                "total dernière": round(latest),
+                "baisse pic→dernière": f"-{peak_drop:.0f}%",
+                "évol. 1re→dernière": f"{(latest / first - 1) * 100:+.0f}%"
+                if first
+                else "n/a",
+            }
+        )
+    ref, target = contributions[0], contributions[1]
+    gap = declines[target.key] - declines[ref.key]
+    rows.append(
+        {
+            "contribution": f"➜ écart de baisse ({target.key} − {ref.key})",
+            "total 1re sem": "",
+            "total pic": "",
+            "total dernière": "",
+            "baisse pic→dernière": f"{gap:+.0f} pts",
+            "évol. 1re→dernière": "",
+        }
+    )
+    return pd.DataFrame(rows)
 
 
 # --------------------------------------------------------------------------- #
@@ -499,25 +615,32 @@ def main(argv: list[str] | None = None) -> None:
     suffix = "demo" if args.demo else args.metric
     csv_path = args.out / f"contrib_weekly_{suffix}.csv"
     weekly_csv_path = args.out / f"contrib_weekly_{suffix}_semaine.csv"
+    relative_csv_path = args.out / f"contrib_weekly_{suffix}_ecart.csv"
     png_path = args.out / f"contrib_weekly_{suffix}.png"
 
     df.to_csv(csv_path, index=False)
     weekly = weekly_comparison(df)
     weekly.to_csv(weekly_csv_path, index=False)
+    relative = relative_comparison(df)
+    relative.to_csv(relative_csv_path, index=False)
     build_chart(df, metric_label, png_path)
 
-    table = decline_table(df)
-    print(f"\n{len(df)} semaines, {df['week'].iloc[0]} → {df['week'].iloc[-1]}")
-    print("\nComparaison des baisses (pic → dernière semaine):")
-    print(table.to_string(index=False))
-    print("\nSemaine par semaine (toutes les semaines) :")
     with pd.option_context(
         "display.max_rows", None, "display.width", None, "display.max_columns", None
     ):
+        print(f"\n{len(df)} semaines, {df['week'].iloc[0]} → {df['week'].iloc[-1]}")
+        print("\nComparaison des baisses (pic → dernière semaine):")
+        print(decline_table(df).to_string(index=False))
+        print("\nSynthèse totaux + écart de baisse entre les deux :")
+        print(comparison_summary(df).to_string(index=False))
+        print("\nSemaine par semaine (toutes les semaines) :")
         print(weekly.to_string(index=False))
+        print("\nÉcart relatif congés vs retraite (base 100 à la 1re semaine) :")
+        print(relative.to_string(index=False))
     print(f"\n✓ Chart        : {png_path}")
     print(f"✓ CSV          : {csv_path}")
     print(f"✓ CSV semaine  : {weekly_csv_path}")
+    print(f"✓ CSV écart    : {relative_csv_path}")
 
 
 if __name__ == "__main__":
