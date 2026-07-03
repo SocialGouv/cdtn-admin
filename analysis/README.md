@@ -39,6 +39,37 @@ uv run jupyter lab          # open notebooks/search_stats.ipynb
 `search_stats.ipynb` aggregates `search` / `selectResult` events from
 `matomo_partitioned` into search sessions and charts how results are selected.
 
+## Reports
+
+### Weekly views — générique vs. personalized contributions
+
+`analysis/src/analysis/reports/contrib_weekly_views.py` charts, per contribution,
+the weekly views of the single **générique** page against the **summed** views of
+all per-convention-collective **personalized** pages. Personalized URLs are matched
+across the slug migration (flat `/contribution/{idcc}-{slug}` **and** nested
+`/contribution/{slug}/{idcc}-{cc}`) so each series stays continuous. It uses the
+Matomo **HTTP Reporting API** (`MATOMO_*` in `.env`), not the SQL replica.
+
+```bash
+# synthetic data, no credentials needed — proves the pipeline & shows the output
+uv run python -m analysis.reports.contrib_weekly_views --demo
+
+# live — reads MATOMO_BASE_URL / MATOMO_SITE_ID / MATOMO_TOKEN_AUTH from .env
+uv run python -m analysis.reports.contrib_weekly_views --start 2024-09-01 --end 2026-07-01
+```
+
+Outputs a two-panel PNG (absolute weekly views + each series indexed to its own
+peak, to compare the declines) and two CSVs under `analysis/output/`: the raw
+weekly table and a `_semaine` week-by-week comparison (générique / perso Σ / total
++ week-over-week `Δ%`). It also prints the peak→latest decline table and the full
+weekly table. Use `--metric visits` for `nb_visits`; `--refresh` to bypass the cache.
+
+The Matomo call for ~100 weeks takes 2-3 min, so the raw result is **cached** to
+`analysis/output/.cache/` keyed by the date range — the first run is slow, the rest
+are instant. The companion playground is `notebooks/contrib_weekly_views.ipynb`
+(`uv run jupyter lab notebooks/contrib_weekly_views.ipynb`); set `DEMO = True` there
+for an instant, credential-free preview.
+
 ## Usage in code
 
 ```python
