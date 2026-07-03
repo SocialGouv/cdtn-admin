@@ -1,0 +1,3 @@
+-- Suppression de données : pas de rollback possible (comme les migrations
+-- précédentes 1727795072418_clean_dares_alerts et
+-- 1782950400000_clean_dares_alerts_todo).
