@@ -48,13 +48,7 @@ jest.mock("../fetchDaresXlsx", () => {
         {
           name: "Accords et statuts",
           data: [
-            [
-              "CODE",
-              "Libellé",
-              "Champ d'application",
-              "CODEactif",
-              "NouvCODE",
-            ],
+            ["CODE", "Libellé", "Champ d'application", "CODEactif", "NouvCODE"],
             ["05623", "France active", "National", 1, ""],
             ["05630", "Statut particulier", "National", 1, ""],
             ["05004", "Statut inactif (archivé)", "National", 0, ""],

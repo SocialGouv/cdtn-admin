@@ -254,8 +254,8 @@ describe("parseDaresSuccessorCodes", () => {
   });
 
   it("returns an empty map when the sheets are absent", () => {
-    expect(parseDaresSuccessorCodes([{ name: "Lisez-moi", data: [] }]).size).toBe(
-      0
-    );
+    expect(
+      parseDaresSuccessorCodes([{ name: "Lisez-moi", data: [] }]).size
+    ).toBe(0);
   });
 });

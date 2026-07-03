@@ -3,8 +3,11 @@ import { getDaresData } from "./getDaresData";
 import { getAgreements } from "./getAgreementsData";
 
 export async function getDifferenceBetweenIndexAndDares(): Promise<Diff> {
-  const { agreements: daresDataList, accordsStatutsCodes, successorCodes } =
-    await getDaresData();
+  const {
+    agreements: daresDataList,
+    accordsStatutsCodes,
+    successorCodes,
+  } = await getDaresData();
   const AgreementDataList = await getAgreements();
 
   // Renseigne le code successeur (NouvIDCC / NouvCODE) quand la DARES indique

@@ -110,7 +110,11 @@ export const parseDaresWorksheets = (worksheets: Worksheet[]): Agreement[] => {
 // libellé. `activeIndex` vaut -1 si la colonne d'activité est absente.
 const locateAccordsColumns = (
   data: any[][]
-): { headerRowIndex: number; codeIndex: number; activeIndex: number } | null => {
+): {
+  headerRowIndex: number;
+  codeIndex: number;
+  activeIndex: number;
+} | null => {
   for (let rowIndex = 0; rowIndex < data.length; rowIndex++) {
     const row = data[rowIndex] ?? [];
     const codeIndex = row.findIndex((cell) => normalize(cell) === HEADER_CODE);
@@ -157,18 +161,16 @@ export const parseDaresAccordsStatutsCodes = (
 
   const { headerRowIndex, codeIndex, activeIndex } = header;
 
-  return sheet.data
-    .slice(headerRowIndex + 1)
-    .reduce<number[]>((codes, row) => {
-      if (activeIndex !== -1 && Number(row[activeIndex]) !== 1) {
-        return codes;
-      }
-      const num = parseInt(String(row[codeIndex] ?? ""), 10);
-      if (!num || SENTINEL_CODES.indexOf(num) !== -1) {
-        return codes;
-      }
-      return codes.indexOf(num) === -1 ? [...codes, num] : codes;
-    }, []);
+  return sheet.data.slice(headerRowIndex + 1).reduce<number[]>((codes, row) => {
+    if (activeIndex !== -1 && Number(row[activeIndex]) !== 1) {
+      return codes;
+    }
+    const num = parseInt(String(row[codeIndex] ?? ""), 10);
+    if (!num || SENTINEL_CODES.indexOf(num) !== -1) {
+      return codes;
+    }
+    return codes.indexOf(num) === -1 ? [...codes, num] : codes;
+  }, []);
 };
 
 // Construit la table "ancien code -> nouveau code" à partir des colonnes
