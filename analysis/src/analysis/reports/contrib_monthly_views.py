@@ -25,10 +25,17 @@ Outputs one wide CSV (one row per contribution: ``{YYYY-MM}_generic`` /
 ``cumul_perso`` / ``cumul_total``, sorted by total desc) and a top-N stacked-bar
 PNG under ``--out`` (default ``analysis/output/``).
 
-Note: a couple of slugs exist on the site only in personalized form (slug-migration
-leftovers with no generic page, e.g. ``indemnites-depart-a-la-retraite``); their
-views map to no enumerated generic contribution and are ignored. Add a slug-alias
-map here if that ever needs to be captured.
+Two consequences of taking the slug list from the *current* sitemap:
+
+* A few slugs exist on the site only in personalized form (slug-migration leftovers
+  with no generic page, e.g. ``indemnites-depart-a-la-retraite``); their views map
+  to no enumerated generic contribution and are ignored.
+* Conversely, a contribution whose slug was recently created or renamed shows **0
+  views**: the current slug has no pageviews recorded under it for the period (the
+  traffic sits under the old slug). Such rows are kept in the CSV but dropped from
+  the bar chart.
+
+Add a slug-alias (old -> current) map here if either needs to be captured.
 """
 
 from __future__ import annotations
@@ -334,8 +341,8 @@ def write_csv(df: pd.DataFrame, path: Path) -> None:
     df.to_csv(path)
 
 
-def _style_axis(ax: plt.Axes) -> None:
-    ax.grid(True, axis="x", color=GRID, linewidth=0.8)
+def _style_axis(ax: plt.Axes, *, axis: str = "both") -> None:
+    ax.grid(True, axis=axis, color=GRID, linewidth=0.8)
     ax.set_axisbelow(True)
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
@@ -344,35 +351,81 @@ def _style_axis(ax: plt.Axes) -> None:
     ax.tick_params(colors=MUTED, labelsize=9)
 
 
-def build_top_chart(
+def _month_keys(df: pd.DataFrame) -> list[str]:
+    """The ``YYYY-MM`` month keys present in the table, in chronological order."""
+    return [
+        c[:-8] for c in df.columns if c.endswith("_generic") and c != "cumul_generic"
+    ]
+
+
+def build_bar_chart(
     df: pd.DataFrame,
     metric_label: str,
     out_path: Path,
-    top_n: int = 15,
+    top_n: int | None = None,
 ) -> None:
-    """Horizontal stacked bars — top-N contributions by total views over the range.
+    """Horizontal stacked bars per contribution, ordered by total views.
 
     Each bar splits générique (blue) vs perso Σ CC (red); the two validated hues
-    encode the role. Contributions are ordered by ``cumul_total`` descending.
+    encode the role. Contributions with no views over the range are dropped (a
+    sitemap slug absent from Matomo — a recent or renamed page — would only add
+    empty bars). ``top_n`` keeps the N largest; ``None`` (the default) draws every
+    remaining contribution.
     """
-    top = df.head(top_n).iloc[::-1]  # reverse so the largest sits at the top
+    ranked = df[df["cumul_total"] > 0]
+    if top_n is not None:
+        ranked = ranked.head(top_n)
+    top = ranked.iloc[::-1]  # reverse so the largest sits at the top
     labels = [s if len(s) <= 42 else s[:39] + "…" for s in top.index]
     generic = top["cumul_generic"]
     perso = top["cumul_perso"]
 
-    height = max(4.0, 0.45 * len(top) + 1.5)
+    height = max(4.0, 0.32 * len(top) + 1.5)
     fig, ax = plt.subplots(figsize=(12, height), constrained_layout=True)
     ax.barh(labels, generic, color=GENERIC_COLOR, label="générique")
     ax.barh(labels, perso, left=generic, color=PERSO_COLOR, label="perso (Σ CC)")
     ax.set_title(
-        f"Top {len(top)} contributions — {metric_label} cumulées (générique + perso)",
+        f"{len(top)} contributions — {metric_label} cumulées (générique + perso)",
         color=INK,
         fontsize=13,
         loc="left",
     )
     ax.set_xlabel(metric_label, color=MUTED, fontsize=10)
     ax.legend(frameon=False, fontsize=9, loc="lower right")
-    _style_axis(ax)
+    _style_axis(ax, axis="x")
+    fig.savefig(out_path, dpi=130)
+    plt.close(fig)
+
+
+def build_evolution_chart(
+    df: pd.DataFrame,
+    metric_label: str,
+    out_path: Path,
+) -> None:
+    """Line chart of the monthly evolution, summed over every contribution.
+
+    Three lines — générique, perso Σ CC and their total — so the overall monthly
+    trend (générique vs. personnalisées) over the range reads at a glance.
+    """
+    months = _month_keys(df)
+    generic = [df[f"{mk}_generic"].sum() for mk in months]
+    perso = [df[f"{mk}_perso"].sum() for mk in months]
+    total = [g + p for g, p in zip(generic, perso, strict=True)]
+
+    fig, ax = plt.subplots(figsize=(11, 6), constrained_layout=True)
+    ax.plot(months, generic, "-o", color=GENERIC_COLOR, linewidth=2, label="générique")
+    ax.plot(months, perso, "-o", color=PERSO_COLOR, linewidth=2, label="perso (Σ CC)")
+    ax.plot(months, total, "--o", color=INK, linewidth=1.5, alpha=0.6, label="total")
+    ax.set_title(
+        f"Évolution mensuelle — {metric_label} (toutes les contributions)",
+        color=INK,
+        fontsize=13,
+        loc="left",
+    )
+    ax.set_ylabel(metric_label, color=MUTED, fontsize=10)
+    ax.set_ylim(bottom=0)
+    ax.legend(frameon=False, fontsize=9)
+    _style_axis(ax, axis="y")
     fig.savefig(out_path, dpi=130)
     plt.close(fig)
 
@@ -391,7 +444,10 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="views = pageviews (nb_hits, default); visits = nb_visits",
     )
     parser.add_argument(
-        "--top", type=int, default=15, help="number of contributions in the chart"
+        "--top",
+        type=int,
+        default=None,
+        help="limit the bar chart / printed table to the N largest (default: all)",
     )
     parser.add_argument(
         "--demo",
@@ -435,13 +491,16 @@ def main(argv: list[str] | None = None) -> None:
     args.out.mkdir(parents=True, exist_ok=True)
     suffix = "demo" if args.demo else args.metric
     csv_path = args.out / f"contrib_monthly_{suffix}.csv"
-    png_path = args.out / f"contrib_monthly_{suffix}.png"
+    bar_path = args.out / f"contrib_monthly_{suffix}.png"
+    evo_path = args.out / f"contrib_monthly_{suffix}_evolution.png"
 
     write_csv(df, csv_path)
-    build_top_chart(df, metric_label, png_path, top_n=args.top)
+    build_bar_chart(df, metric_label, bar_path, top_n=args.top)
+    build_evolution_chart(df, metric_label, evo_path)
 
     total_generic = int(df["cumul_generic"].sum())
     total_perso = int(df["cumul_perso"].sum())
+    scope = "toutes" if args.top is None else f"top {args.top}"
     with pd.option_context(
         "display.max_rows", None, "display.width", None, "display.max_columns", None
     ):
@@ -454,10 +513,18 @@ def main(argv: list[str] | None = None) -> None:
             f"générique {total_generic} · perso Σ {total_perso} · "
             f"total {total_generic + total_perso}"
         )
-        print(f"\nTop {args.top} par vues cumulées :")
+        n_zero = int((df["cumul_total"] == 0).sum())
+        if n_zero:
+            print(
+                f"({n_zero} contributions à 0 vue — slug sitemap absent de Matomo sur "
+                "la période, page récente ou renommée ; exclues du graphe, gardées "
+                "dans le CSV)"
+            )
+        print(f"\nContributions ({scope}) par vues cumulées :")
         print(df.head(args.top).to_string())
-    print(f"\n✓ CSV   : {csv_path}")
-    print(f"✓ Chart : {png_path}")
+    print(f"\n✓ CSV        : {csv_path}")
+    print(f"✓ Bar chart  : {bar_path}")
+    print(f"✓ Évolution  : {evo_path}")
 
 
 if __name__ == "__main__":
