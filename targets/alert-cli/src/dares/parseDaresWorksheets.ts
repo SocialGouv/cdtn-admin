@@ -26,6 +26,10 @@ const HEADER_ACTIVE = "idccactif";
 // "IDCC" / "IDCCactif").
 const HEADER_CODE = "code";
 const HEADER_CODE_ACTIVE = "codeactif";
+// Colonnes du code successeur : une convention/accord fusionné(e) y pointe vers
+// le code qui le remplace (NouvIDCC côté branche, NouvCODE côté accords).
+const HEADER_NOUV_IDCC = "nouvidcc";
+const HEADER_NOUV_CODE = "nouvcode";
 const SENTINEL_CODES = [9998, 9999];
 
 const stripAccents = (value: string): string =>
@@ -165,4 +169,63 @@ export const parseDaresAccordsStatutsCodes = (
       }
       return codes.indexOf(num) === -1 ? [...codes, num] : codes;
     }, []);
+};
+
+// Construit la table "ancien code -> nouveau code" à partir des colonnes
+// NouvIDCC (onglet "Conventions de branche") et NouvCODE (onglet "Accords et
+// statuts"). Une convention/accord supprimé(e) ou fusionné(e) y pointe vers son
+// code successeur : on l'affiche dans le message de l'alerte (« devenue IDCC
+// XXXX ») pour aider au traitement. On parcourt TOUTES les lignes (y compris
+// inactives) car c'est précisément sur elles que le successeur est renseigné.
+export const parseDaresSuccessorCodes = (
+  worksheets: Worksheet[]
+): Map<number, number> => {
+  const successors = new Map<number, number>();
+
+  const collect = (
+    sheetName: string,
+    codeHeader: string,
+    nouvHeader: string
+  ): void => {
+    const sheet = worksheets.find((worksheet) => worksheet.name === sheetName);
+    if (!sheet) {
+      return;
+    }
+
+    let headerRowIndex = -1;
+    let codeIndex = -1;
+    let nouvIndex = -1;
+    for (let rowIndex = 0; rowIndex < sheet.data.length; rowIndex++) {
+      const row = sheet.data[rowIndex] ?? [];
+      const c = row.findIndex((cell) => normalize(cell) === codeHeader);
+      const n = row.findIndex((cell) => normalize(cell) === nouvHeader);
+      if (c !== -1 && n !== -1) {
+        headerRowIndex = rowIndex;
+        codeIndex = c;
+        nouvIndex = n;
+        break;
+      }
+    }
+    if (headerRowIndex === -1) {
+      return;
+    }
+
+    for (const row of sheet.data.slice(headerRowIndex + 1)) {
+      const num = parseInt(String(row[codeIndex] ?? ""), 10);
+      const newNum = parseInt(String(row[nouvIndex] ?? ""), 10);
+      if (
+        !num ||
+        !newNum ||
+        SENTINEL_CODES.indexOf(num) !== -1 ||
+        successors.has(num)
+      ) {
+        continue;
+      }
+      successors.set(num, newNum);
+    }
+  };
+
+  collect(BRANCHE_SHEET_NAME, HEADER_IDCC, HEADER_NOUV_IDCC);
+  collect(ACCORDS_SHEET_NAME, HEADER_CODE, HEADER_NOUV_CODE);
+  return successors;
 };

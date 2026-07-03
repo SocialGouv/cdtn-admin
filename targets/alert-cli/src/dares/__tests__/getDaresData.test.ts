@@ -84,4 +84,10 @@ describe("getDaresData", () => {
     const result = await getDaresData();
     expect(result.accordsStatutsCodes).toEqual([5623, 5630]);
   });
+
+  it("builds the successor table from NouvIDCC / NouvCODE", async () => {
+    // La ligne inactive 00001 pointe vers son successeur 01415 (NouvIDCC).
+    const result = await getDaresData();
+    expect(result.successorCodes.get(1)).toBe(1415);
+  });
 });

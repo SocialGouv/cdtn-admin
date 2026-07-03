@@ -281,6 +281,16 @@ export function RemovedChanges({ changes }: ChangesProps): JSX.Element {
               </b>
               présente dans la base de données du CDTN mais absente dans le
               fichier de la DARES
+              {change.newNum ? (
+                <>
+                  {" "}
+                  (remplacée par l&apos;IDCC
+                  <b style={{ marginLeft: "4px", marginRight: "4px" }}>
+                    {change.newNum}
+                  </b>
+                  d&apos;après la DARES)
+                </>
+              ) : null}
             </ListItem>
           ))}
         </>

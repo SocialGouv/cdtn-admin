@@ -24,5 +24,8 @@ export const getDaresData = async (): Promise<DaresData> => {
     // absent des conventions de branche. Il doit donc être exclu des
     // suppressions.
     accordsStatutsCodes: [5623],
+    // 44 (industries chimiques) a été remplacée par l'IDCC 1234 d'après la
+    // DARES : le newNum doit se retrouver dans l'alerte de suppression.
+    successorCodes: new Map<number, number>([[44, 1234]]),
   });
 };

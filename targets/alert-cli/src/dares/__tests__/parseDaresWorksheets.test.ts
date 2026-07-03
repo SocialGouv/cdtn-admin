@@ -4,6 +4,7 @@ import xlsx from "node-xlsx";
 import {
   parseDaresWorksheets,
   parseDaresAccordsStatutsCodes,
+  parseDaresSuccessorCodes,
 } from "../parseDaresWorksheets";
 
 const FIXTURE = path.join(
@@ -204,5 +205,57 @@ describe("parseDaresAccordsStatutsCodes", () => {
       },
     ]);
     expect(codes).toEqual([5623]);
+  });
+});
+
+describe("parseDaresSuccessorCodes", () => {
+  describe("real DARES 'Suivi historique' file (Juin 2026)", () => {
+    const successors = parseDaresSuccessorCodes(xlsx.parse(FIXTURE));
+
+    it("maps an old branch IDCC to its NouvIDCC successor", () => {
+      // 00001 (commerce stéphanois, archivé) -> 01415.
+      expect(successors.get(1)).toBe(1415);
+      expect(successors.get(2)).toBe(18);
+    });
+
+    it("maps an old accord CODE to its NouvCODE successor", () => {
+      // 00926 (secours minières, archivé) -> 05527.
+      expect(successors.get(926)).toBe(5527);
+    });
+
+    it("does not map codes that have no successor (in-force conventions)", () => {
+      // 16 (transports routiers) est en vigueur : pas de successeur.
+      expect(successors.has(16)).toBe(false);
+    });
+  });
+
+  it("combines both sheets and ignores empty successor cells", () => {
+    const successors = parseDaresSuccessorCodes([
+      {
+        name: "Conventions de branche",
+        data: [
+          ["IDCC", "Libellé", "IDCCactif", "NouvIDCC"],
+          ["00002", "Archivée", 0, "00018"],
+          ["00016", "En vigueur", 1, ""],
+        ],
+      },
+      {
+        name: "Accords et statuts",
+        data: [
+          ["CODE", "Libellé", "CODEactif", "NouvCODE"],
+          ["00926", "Archivé", 0, "05527"],
+        ],
+      },
+    ]);
+    expect(Array.from(successors.entries())).toEqual([
+      [2, 18],
+      [926, 5527],
+    ]);
+  });
+
+  it("returns an empty map when the sheets are absent", () => {
+    expect(parseDaresSuccessorCodes([{ name: "Lisez-moi", data: [] }]).size).toBe(
+      0
+    );
   });
 });

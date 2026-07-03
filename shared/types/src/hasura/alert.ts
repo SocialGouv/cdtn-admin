@@ -153,10 +153,14 @@ export type DaresAlertChanges = {
   added: {
     name: string;
     num: number;
+    // Code successeur d'après la DARES (NouvIDCC / NouvCODE).
+    newNum?: number;
   }[];
   removed: {
     name: string;
     num: number;
+    // Code successeur d'après la DARES (NouvIDCC / NouvCODE).
+    newNum?: number;
   }[];
   documents: [];
 };

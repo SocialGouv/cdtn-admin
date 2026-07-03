@@ -23,6 +23,7 @@ export const saveDiff = async (diff: Diff) => {
           {
             name: agreement.name,
             num: agreement.num,
+            newNum: agreement.newNum,
           },
         ],
         added: [],
@@ -48,6 +49,7 @@ export const saveDiff = async (diff: Diff) => {
           {
             name: agreement.name,
             num: agreement.num,
+            newNum: agreement.newNum,
           },
         ],
         removed: [],
