@@ -27,7 +27,9 @@ class MatomoReportingConnector:
     Usage::
 
         with MatomoReportingConnector() as matomo:
-            weeks = matomo.get_page_urls_by_week("2025-01-01", "2025-12-31")
+            months = matomo.get_page_urls(
+                "2026-01-01", "2026-06-30", period="month"
+            )
     """
 
     def __init__(
@@ -64,27 +66,31 @@ class MatomoReportingConnector:
             raise MatomoReportingError(data.get("message", "unknown Matomo error"))
         return data
 
-    def get_page_urls_by_week(
+    def get_page_urls(
         self,
         date_start: str,
         date_end: str,
         *,
+        period: str = "week",
         label_pattern: str | None = None,
     ) -> dict[str, list[dict[str, Any]]]:
-        """Return the flat page-URL report for every week in ``[start, end]``.
+        """Return the flat page-URL report for every ``period`` in ``[start, end]``.
 
-        The result maps a Matomo week label (``"2025-01-06,2025-01-12"``) to the
-        flat list of page-URL rows for that week. Each row carries at least
+        The result maps a Matomo period label to that period's flat list of
+        page-URL rows. Labels are range-strings: ``"2025-01-06,2025-01-12"`` for a
+        week, ``"2026-01-01,2026-01-31"`` for a month. Each row carries at least
         ``label``/``url`` and the ``nb_hits`` (page views) and ``nb_visits``
         metrics. ``filter_limit=-1`` disables Matomo's default truncation so we
         get *every* personalized URL, not just the top N.
 
+        ``period`` is any Matomo period (``"week"``, ``"month"``, …); a date range
+        with ``period="month"`` yields one bucket per calendar month.
         ``label_pattern`` (a regex) is pushed down to Matomo as a server-side
         ``label`` filter, so only matching page paths cross the wire — passing
         ``"contribution"`` shrinks a whole-site report to just the pages we plot.
         """
         params: dict[str, Any] = {
-            "period": "week",
+            "period": period,
             "date": f"{date_start},{date_end}",
             "flat": 1,
             "filter_limit": -1,
