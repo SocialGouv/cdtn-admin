@@ -69,6 +69,16 @@ top-N `générique` vs `perso Σ CC` stacked-bar PNG. It also prints the top tab
 Use `--metric visits` for `nb_visits`, `--top N` to size the chart, `--refresh` to
 bypass the cache.
 
+> **Limite connue — agrégation « Autres » de Matomo.** Matomo plafonne le nombre de
+> lignes conservées par rapport à l'archivage (`datatable_archiving_maximum_rows_actions`)
+> et replie la longue traîne des pages `/contribution/` dans un bucket
+> `/contribution/ - Autres` que `filter_limit=-1` ne peut pas désagréger. Le rapport
+> est donc fiable pour les contributions à **fort trafic**, mais **sous-compte la
+> traîne** (pages perso par CC, contributions à faible trafic qui lisent alors 0).
+> `autres_by_month()` chiffre ce volume non ventilé (≈ la moitié du total sur
+> jan–juin 2026). Correctif complet : relever la limite d'archivage côté serveur
+> Matomo, ou passer par un segment / le log d'actions brut.
+
 The raw Matomo result is **cached** to `analysis/output/.cache/` keyed by the date
 range, so re-running with a different metric or chart is instant. The companion
 playground is `notebooks/contrib_monthly_views.ipynb`

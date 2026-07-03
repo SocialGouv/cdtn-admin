@@ -25,7 +25,18 @@ Outputs one wide CSV (one row per contribution: ``{YYYY-MM}_generic`` /
 ``cumul_perso`` / ``cumul_total``, sorted by total desc) and a top-N stacked-bar
 PNG under ``--out`` (default ``analysis/output/``).
 
-Two consequences of taking the slug list from the *current* sitemap:
+**Known limitation — Matomo "Others" aggregation (undercount).** Matomo caps the
+number of rows kept per report at archive time
+(``datatable_archiving_maximum_rows_actions``); the long tail of ``/contribution/``
+pages is folded server-side into a ``/contribution/ - Autres`` bucket that
+``filter_limit=-1`` cannot disaggregate. This report therefore captures the
+high-traffic contributions faithfully but **undercounts the long tail** (many per-CC
+pages, and low-traffic contributions that then read 0). :func:`autres_by_month`
+surfaces the size of that unattributed bucket so the gap is explicit. Fixing it
+fully requires raising the Matomo archiving limit server-side, or a per-contribution
+segment / raw-log query.
+
+Two further consequences of taking the slug list from the *current* sitemap:
 
 * A few slugs exist on the site only in personalized form (slug-migration leftovers
   with no generic page, e.g. ``indemnites-depart-a-la-retraite``); their views map
@@ -66,6 +77,9 @@ _CONTRIB_PREFIX = "/contribution/"
 _GENERIC_PATH_RE = re.compile(r"^/contribution/(?!\d+-)([^/]+)/?$")
 # Flat personalized scheme, once the /contribution/ prefix is stripped: {idcc}-{slug}.
 _FLAT_PERSO_RE = re.compile(r"^\d+-(.+)$")
+# Matomo folds the long tail into an aggregate row labelled ".../ - Autres" (or
+# "Others" in English) in flat mode; we surface these instead of silently dropping.
+_AUTRES_RE = re.compile(r"\s-\s(?:autres|others)\s*$", re.IGNORECASE)
 
 # Matomo metric field -> human name. "views" = pageviews (nb_hits); the user asked
 # for "vues", so that is the default; visits (nb_visits) is available via --metric.
@@ -228,6 +242,30 @@ def aggregate_months(
 
     df = pd.DataFrame(records).set_index("slug")
     return df.sort_values("cumul_total", ascending=False)
+
+
+def autres_by_month(
+    months: dict[str, list[dict[str, Any]]],
+    metric_field: str,
+) -> pd.Series:
+    """Views Matomo folded into the ``/contribution/ - Autres`` aggregate, per month.
+
+    These are the long-tail contribution pages Matomo dropped into an "Others"
+    bucket at archive time — the volume this report cannot attribute to a specific
+    contribution (see the module docstring). Returned as a Series indexed by month
+    key, so it can be shown next to the per-contribution table to make the gap
+    explicit.
+    """
+    out: dict[str, float] = {}
+    for label, rows in months.items():
+        month_key = _month_key(label)
+        total = 0.0
+        for row in rows:
+            raw = str(row.get("url") or row.get("label") or "")
+            if _CONTRIB_PREFIX.rstrip("/") in raw and _AUTRES_RE.search(raw):
+                total += _to_number(row.get(metric_field))
+        out[month_key] = round(total)
+    return pd.Series(out, name="autres").sort_index()
 
 
 # --------------------------------------------------------------------------- #
@@ -500,6 +538,8 @@ def main(argv: list[str] | None = None) -> None:
 
     total_generic = int(df["cumul_generic"].sum())
     total_perso = int(df["cumul_perso"].sum())
+    autres = autres_by_month(months, metric_field)
+    tail = int(autres.sum())
     scope = "toutes" if args.top is None else f"top {args.top}"
     with pd.option_context(
         "display.max_rows", None, "display.width", None, "display.max_columns", None
@@ -516,10 +556,19 @@ def main(argv: list[str] | None = None) -> None:
         n_zero = int((df["cumul_total"] == 0).sum())
         if n_zero:
             print(
-                f"({n_zero} contributions à 0 vue — slug sitemap absent de Matomo sur "
-                "la période, page récente ou renommée ; exclues du graphe, gardées "
-                "dans le CSV)"
+                f"({n_zero} contributions à 0 vue — vues probablement noyées dans le "
+                "bucket « Autres » ci-dessous ; gardées dans le CSV, exclues du graphe)"
             )
+        if tail:
+            attributed = total_generic + total_perso
+            share = 100 * tail / (attributed + tail) if attributed + tail else 0
+            print(
+                f"\n⚠ Longue traîne NON ventilée (Matomo « Autres ») : {tail} vues "
+                f"sur la période ({share:.0f}% du total) — non attribuable par "
+                "contribution (limite d'archivage Matomo ; voir docstring)."
+            )
+            par_mois = ", ".join(f"{m}={int(v)}" for m, v in autres.items())
+            print(f"  par mois : {par_mois}")
         print(f"\nContributions ({scope}) par vues cumulées :")
         print(df.head(args.top).to_string())
     print(f"\n✓ CSV        : {csv_path}")
