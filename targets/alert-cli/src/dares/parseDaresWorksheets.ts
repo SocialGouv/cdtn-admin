@@ -14,9 +14,22 @@ interface Worksheet {
 // conventions collectives actuellement en vigueur, il suffit de filtrer la
 // variable IDCCactif [...] sur la modalité 1. »
 const BRANCHE_SHEET_NAME = "Conventions de branche";
+// Onglet des accords d'entreprise / statuts particuliers (IDCC 5XXX). On ne le
+// parse PAS comme des conventions de branche, mais on en extrait les codes pour
+// ne pas les remonter à tort comme « à supprimer » (voir
+// parseDaresAccordsStatutsCodes).
+const ACCORDS_SHEET_NAME = "Accords et statuts";
 const HEADER_IDCC = "idcc";
 const HEADER_NAME = "libelle";
 const HEADER_ACTIVE = "idccactif";
+// L'onglet "Accords et statuts" nomme ses colonnes "CODE" / "CODEactif" (et non
+// "IDCC" / "IDCCactif").
+const HEADER_CODE = "code";
+const HEADER_CODE_ACTIVE = "codeactif";
+// Colonnes du code successeur : une convention/accord fusionné(e) y pointe vers
+// le code qui le remplace (NouvIDCC côté branche, NouvCODE côté accords).
+const HEADER_NOUV_IDCC = "nouvidcc";
+const HEADER_NOUV_CODE = "nouvcode";
 const SENTINEL_CODES = [9998, 9999];
 
 const stripAccents = (value: string): string =>
@@ -89,4 +102,132 @@ export const parseDaresWorksheets = (worksheets: Worksheet[]): Agreement[] => {
       const name = rawName.replace(/\(.*annexée.*\)/gi, "").trim();
       return [...agreements, { name, num }];
     }, []);
+};
+
+// Localise, dans l'onglet "Accords et statuts", la colonne des codes ("CODE")
+// et celle d'activité ("CODEactif"). Comme pour les conventions de branche,
+// l'en-tête n'est pas à une position fixe : on résout les colonnes par leur
+// libellé. `activeIndex` vaut -1 si la colonne d'activité est absente.
+const locateAccordsColumns = (
+  data: any[][]
+): {
+  headerRowIndex: number;
+  codeIndex: number;
+  activeIndex: number;
+} | null => {
+  for (let rowIndex = 0; rowIndex < data.length; rowIndex++) {
+    const row = data[rowIndex] ?? [];
+    const codeIndex = row.findIndex((cell) => normalize(cell) === HEADER_CODE);
+    if (codeIndex !== -1) {
+      const activeIndex = row.findIndex(
+        (cell) => normalize(cell) === HEADER_CODE_ACTIVE
+      );
+      return { headerRowIndex: rowIndex, codeIndex, activeIndex };
+    }
+  }
+  return null;
+};
+
+// Extrait les codes des accords/statuts EN VIGUEUR de l'onglet "Accords et
+// statuts" (IDCC 5XXX comme 5623 "France active", mais aussi des accords à
+// codes bas type 804 VRP). Ces accords/statuts sont présents dans notre BDD
+// (kali-data) mais volontairement absents des conventions de branche parsées :
+// sans cette liste, la comparaison les remonterait à tort comme « à supprimer »
+// (cf. difference.ts). On ne les parse donc PAS comme des conventions — on ne
+// récupère que leurs codes pour les exclure des suppressions.
+//
+// On ne garde que les accords ACTIFS (CODEactif = 1), par symétrie avec les
+// conventions de branche (IDCCactif = 1) : un accord inactif dans le fichier
+// DARES reste, lui, un candidat légitime à la suppression.
+//
+// Résilient : si l'onglet ou sa colonne "CODE" est introuvable (fichier DARES
+// sans cet onglet), on renvoie une liste vide et on retombe sur l'ancien
+// comportement plutôt que de planter. Si seule la colonne "CODEactif" manque
+// (activeIndex === -1), on n'applique pas le filtre d'activité.
+export const parseDaresAccordsStatutsCodes = (
+  worksheets: Worksheet[]
+): number[] => {
+  const sheet = worksheets.find(
+    (worksheet) => worksheet.name === ACCORDS_SHEET_NAME
+  );
+  if (!sheet) {
+    return [];
+  }
+
+  const header = locateAccordsColumns(sheet.data);
+  if (!header) {
+    return [];
+  }
+
+  const { headerRowIndex, codeIndex, activeIndex } = header;
+
+  return sheet.data.slice(headerRowIndex + 1).reduce<number[]>((codes, row) => {
+    if (activeIndex !== -1 && Number(row[activeIndex]) !== 1) {
+      return codes;
+    }
+    const num = parseInt(String(row[codeIndex] ?? ""), 10);
+    if (!num || SENTINEL_CODES.indexOf(num) !== -1) {
+      return codes;
+    }
+    return codes.indexOf(num) === -1 ? [...codes, num] : codes;
+  }, []);
+};
+
+// Construit la table "ancien code -> nouveau code" à partir des colonnes
+// NouvIDCC (onglet "Conventions de branche") et NouvCODE (onglet "Accords et
+// statuts"). Une convention/accord supprimé(e) ou fusionné(e) y pointe vers son
+// code successeur : on l'affiche dans le message de l'alerte (« devenue IDCC
+// XXXX ») pour aider au traitement. On parcourt TOUTES les lignes (y compris
+// inactives) car c'est précisément sur elles que le successeur est renseigné.
+export const parseDaresSuccessorCodes = (
+  worksheets: Worksheet[]
+): Map<number, number> => {
+  const successors = new Map<number, number>();
+
+  const collect = (
+    sheetName: string,
+    codeHeader: string,
+    nouvHeader: string
+  ): void => {
+    const sheet = worksheets.find((worksheet) => worksheet.name === sheetName);
+    if (!sheet) {
+      return;
+    }
+
+    let headerRowIndex = -1;
+    let codeIndex = -1;
+    let nouvIndex = -1;
+    for (let rowIndex = 0; rowIndex < sheet.data.length; rowIndex++) {
+      const row = sheet.data[rowIndex] ?? [];
+      const c = row.findIndex((cell) => normalize(cell) === codeHeader);
+      const n = row.findIndex((cell) => normalize(cell) === nouvHeader);
+      if (c !== -1 && n !== -1) {
+        headerRowIndex = rowIndex;
+        codeIndex = c;
+        nouvIndex = n;
+        break;
+      }
+    }
+    if (headerRowIndex === -1) {
+      return;
+    }
+
+    for (const row of sheet.data.slice(headerRowIndex + 1)) {
+      const num = parseInt(String(row[codeIndex] ?? ""), 10);
+      const newNum = parseInt(String(row[nouvIndex] ?? ""), 10);
+      if (
+        !num ||
+        !newNum ||
+        SENTINEL_CODES.indexOf(num) !== -1 ||
+        successors.has(num)
+      ) {
+        continue;
+      }
+      successors.set(num, newNum);
+    }
+  };
+
+  collect(BRANCHE_SHEET_NAME, HEADER_IDCC, HEADER_NOUV_IDCC);
+  collect(ACCORDS_SHEET_NAME, HEADER_CODE, HEADER_NOUV_CODE);
+  return successors;
 };

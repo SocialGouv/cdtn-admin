@@ -17,8 +17,30 @@ describe("getDifferenceBetweenIndexAndDares", () => {
         {
           name: "Convention collective nationale des industries chimiques et connexes",
           num: 44,
+          newNum: 1234,
         },
       ],
     });
+  });
+
+  it("attaches the DARES successor code (NouvIDCC/NouvCODE) to removed alerts", async () => {
+    // 44 a été remplacée par l'IDCC 1234 (cf. table successorCodes du mock).
+    const { removedAgreementsFromDares } =
+      await getDifferenceBetweenIndexAndDares();
+    expect(
+      removedAgreementsFromDares.find((agreement) => agreement.num === 44)
+        ?.newNum
+    ).toBe(1234);
+  });
+
+  it("does not flag accords/statuts (IDCC 5XXX) as removed", async () => {
+    // 5623 est dans notre BDD et dans les codes "Accords et statuts" de la
+    // DARES, mais absent des conventions de branche : il ne doit jamais être
+    // remonté comme « à supprimer ».
+    const { removedAgreementsFromDares } =
+      await getDifferenceBetweenIndexAndDares();
+    expect(
+      removedAgreementsFromDares.find((agreement) => agreement.num === 5623)
+    ).toBeUndefined();
   });
 });

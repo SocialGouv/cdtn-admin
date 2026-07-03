@@ -45,6 +45,15 @@ jest.mock("../fetchDaresXlsx", () => {
             ],
           ],
         },
+        {
+          name: "Accords et statuts",
+          data: [
+            ["CODE", "Libellé", "Champ d'application", "CODEactif", "NouvCODE"],
+            ["05623", "France active", "National", 1, ""],
+            ["05630", "Statut particulier", "National", 1, ""],
+            ["05004", "Statut inactif (archivé)", "National", 0, ""],
+          ],
+        },
       ];
     },
   };
@@ -53,7 +62,7 @@ jest.mock("../fetchDaresXlsx", () => {
 describe("getDaresData", () => {
   it("returns the in-force branch conventions parsed from the DARES xlsx", async () => {
     const result = await getDaresData();
-    expect(result).toEqual([
+    expect(result.agreements).toEqual([
       {
         name: "Convention collective nationale des transports routiers et activités auxiliaires du transport",
         num: 16,
@@ -63,5 +72,16 @@ describe("getDaresData", () => {
         num: 18,
       },
     ]);
+  });
+
+  it("collects the 'Accords et statuts' codes (to exclude them from removals)", async () => {
+    const result = await getDaresData();
+    expect(result.accordsStatutsCodes).toEqual([5623, 5630]);
+  });
+
+  it("builds the successor table from NouvIDCC / NouvCODE", async () => {
+    // La ligne inactive 00001 pointe vers son successeur 01415 (NouvIDCC).
+    const result = await getDaresData();
+    expect(result.successorCodes.get(1)).toBe(1415);
   });
 });
