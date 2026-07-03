@@ -14,9 +14,17 @@ interface Worksheet {
 // conventions collectives actuellement en vigueur, il suffit de filtrer la
 // variable IDCCactif [...] sur la modalité 1. »
 const BRANCHE_SHEET_NAME = "Conventions de branche";
+// Onglet des accords d'entreprise / statuts particuliers (IDCC 5XXX). On ne le
+// parse PAS comme des conventions de branche, mais on en extrait les codes pour
+// ne pas les remonter à tort comme « à supprimer » (voir
+// parseDaresAccordsStatutsCodes).
+const ACCORDS_SHEET_NAME = "Accords et statuts";
 const HEADER_IDCC = "idcc";
 const HEADER_NAME = "libelle";
 const HEADER_ACTIVE = "idccactif";
+// L'onglet "Accords et statuts" nomme sa colonne de codes "CODE" (et non
+// "IDCC").
+const HEADER_CODE = "code";
 const SENTINEL_CODES = [9998, 9999];
 
 const stripAccents = (value: string): string =>
@@ -88,5 +96,59 @@ export const parseDaresWorksheets = (worksheets: Worksheet[]): Agreement[] => {
       }
       const name = rawName.replace(/\(.*annexée.*\)/gi, "").trim();
       return [...agreements, { name, num }];
+    }, []);
+};
+
+// Localise la colonne des codes de l'onglet "Accords et statuts". Son en-tête,
+// comme celui des conventions de branche, n'est pas à une position fixe : on
+// résout la colonne "CODE" par son libellé.
+const locateCodeColumn = (
+  data: any[][]
+): { headerRowIndex: number; codeIndex: number } | null => {
+  for (let rowIndex = 0; rowIndex < data.length; rowIndex++) {
+    const row = data[rowIndex] ?? [];
+    const codeIndex = row.findIndex((cell) => normalize(cell) === HEADER_CODE);
+    if (codeIndex !== -1) {
+      return { headerRowIndex: rowIndex, codeIndex };
+    }
+  }
+  return null;
+};
+
+// Extrait les codes de l'onglet "Accords et statuts" (IDCC 5XXX, ex. 5623
+// "France active"). Ces accords/statuts sont présents dans notre BDD
+// (kali-data) mais volontairement absents des conventions de branche parsées :
+// sans cette liste, la comparaison les remonterait à tort comme « à supprimer »
+// (cf. difference.ts). On ne les parse donc PAS comme des conventions — on ne
+// récupère que leurs codes pour les exclure des suppressions.
+//
+// Résilient : si l'onglet ou sa colonne "CODE" est introuvable (fichier DARES
+// sans cet onglet), on renvoie une liste vide et on retombe sur l'ancien
+// comportement plutôt que de planter.
+export const parseDaresAccordsStatutsCodes = (
+  worksheets: Worksheet[]
+): number[] => {
+  const sheet = worksheets.find(
+    (worksheet) => worksheet.name === ACCORDS_SHEET_NAME
+  );
+  if (!sheet) {
+    return [];
+  }
+
+  const header = locateCodeColumn(sheet.data);
+  if (!header) {
+    return [];
+  }
+
+  const { headerRowIndex, codeIndex } = header;
+
+  return sheet.data
+    .slice(headerRowIndex + 1)
+    .reduce<number[]>((codes, row) => {
+      const num = parseInt(String(row[codeIndex] ?? ""), 10);
+      if (!num || SENTINEL_CODES.indexOf(num) !== -1) {
+        return codes;
+      }
+      return codes.indexOf(num) === -1 ? [...codes, num] : codes;
     }, []);
 };

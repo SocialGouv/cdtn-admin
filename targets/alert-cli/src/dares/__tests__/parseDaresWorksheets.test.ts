@@ -1,7 +1,10 @@
 import fs from "fs";
 import path from "path";
 import xlsx from "node-xlsx";
-import { parseDaresWorksheets } from "../parseDaresWorksheets";
+import {
+  parseDaresWorksheets,
+  parseDaresAccordsStatutsCodes,
+} from "../parseDaresWorksheets";
 
 const FIXTURE = path.join(
   __dirname,
@@ -143,5 +146,54 @@ describe("parseDaresWorksheets", () => {
 
   it("uses the committed fixture that actually ships in the repo", () => {
     expect(fs.existsSync(FIXTURE)).toBe(true);
+  });
+});
+
+describe("parseDaresAccordsStatutsCodes", () => {
+  describe("real DARES 'Suivi historique' file (Juin 2026)", () => {
+    const codes = parseDaresAccordsStatutsCodes(xlsx.parse(FIXTURE));
+
+    it("collects the codes of the 'Accords et statuts' sheet", () => {
+      // 5623 / 5630 sont des accords/statuts : présents dans notre BDD mais
+      // absents des conventions de branche. On doit les récupérer pour ne pas
+      // les remonter comme « à supprimer ».
+      expect(codes).toContain(5623);
+      expect(codes).toContain(5630);
+    });
+
+    it("does not return the branch conventions", () => {
+      // 16 (transports routiers) est une convention de branche, pas un accord.
+      expect(codes).not.toContain(16);
+    });
+
+    it("never returns the 9998 / 9999 sentinel codes", () => {
+      expect(codes.some((code) => code === 9998 || code === 9999)).toBe(false);
+    });
+
+    it("returns unique codes", () => {
+      expect(new Set(codes).size).toBe(codes.length);
+    });
+  });
+
+  it("returns an empty list when the 'Accords et statuts' sheet is absent", () => {
+    expect(
+      parseDaresAccordsStatutsCodes([
+        { name: "Conventions de branche", data: [["IDCC"]] },
+      ])
+    ).toEqual([]);
+  });
+
+  it("locates the CODE column even when the header is reordered / not first", () => {
+    const codes = parseDaresAccordsStatutsCodes([
+      {
+        name: "Accords et statuts",
+        data: [
+          ["Note d'introduction"],
+          ["Libellé", "CODEactif", "CODE"],
+          ["France active", 1, "05623"],
+        ],
+      },
+    ]);
+    expect(codes).toEqual([5623]);
   });
 });

@@ -18,5 +18,11 @@ export async function getAgreements(): Promise<GetAgreementData[]> {
       name: "Convention collective nationale des industries chimiques et connexes",
       num: 44,
     },
+    {
+      // Accord/statut présent dans notre BDD mais dans l'onglet "Accords et
+      // statuts" de la DARES : ne doit PAS être remonté comme « à supprimer ».
+      name: "France active",
+      num: 5623,
+    },
   ]);
 }
