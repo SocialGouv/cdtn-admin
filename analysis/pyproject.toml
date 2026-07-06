@@ -12,6 +12,7 @@ dependencies = [
     "httpx>=0.28.1",
     "matplotlib>=3.11.0",
     "pandas>=3.0.3",
+    "plotly>=6.8.0",
     "pydantic-settings>=2.14.2",
     "seaborn>=0.13.2",
 ]
