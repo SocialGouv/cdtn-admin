@@ -1,4 +1,15 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+# Strip Jupyter notebook outputs so none are committed (analysis playground, etc.).
+staged_nbs=$(git diff --cached --name-only --diff-filter=ACM | grep '\.ipynb$' || true)
+if [ -n "$staged_nbs" ]; then
+  command -v python3 >/dev/null 2>&1 || {
+    echo "✗ python3 requis pour nettoyer les sorties des notebooks avant commit" >&2
+    exit 1
+  }
+  echo "$staged_nbs" | xargs python3 analysis/scripts/strip_nb_outputs.py || exit 1
+  echo "$staged_nbs" | xargs git add || exit 1
+fi
+
 pnpm run precommit;

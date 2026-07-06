@@ -4,6 +4,7 @@ node_modules
 .env.preprod
 docker-compose.override.yml
 .vscode
+.DS_Store
 *-error.log
 .swc
 
@@ -24,4 +25,9 @@ __pycache__/
 *.egg-info/
 build/
 dist/
+analysis/output/
+# Notebook exports (nbconvert HTML/PDF and any bundled asset folder)
+analysis/notebooks/*.html
+analysis/notebooks/*.pdf
+analysis/notebooks/*_files/
 
