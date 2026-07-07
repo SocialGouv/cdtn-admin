@@ -301,7 +301,11 @@ def fetch_live_months(
         # Only page paths containing "contribution" cross the wire (server-side
         # filter); every URL we count lives under /contribution/.
         months = matomo.get_page_urls(
-            start, end, period="month", label_pattern="contribution"
+            start,
+            end,
+            period="month",
+            filter_pattern="contribution",
+            filter_column="label",
         )
     print(f"✓ {len(months)} mois reçus en {time.perf_counter() - t0:.0f}s", flush=True)
 
