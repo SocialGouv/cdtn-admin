@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.3...v2.77.4) (2026-07-07)
+
+### Bug Fixes
+
+- **sitemap:** filtrer que sur les documents de type contribution ([6deb18c](https://github.com/SocialGouv/cdtn-admin/commit/6deb18c5a66ffd05a25d6fe85d99638bebdd99a4))
+
 ## [2.77.3](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.2...v2.77.3) (2026-07-07)
 
 ### Bug Fixes
