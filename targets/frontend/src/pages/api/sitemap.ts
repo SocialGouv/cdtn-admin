@@ -21,7 +21,9 @@ const slugStartsWithNumber = (slug: string) => {
 
 const findCCSlug = (idcc: string, document: Document[]): string | undefined => {
   const idccNum = parseInt(idcc);
-  return document.find((doc) => doc.document.num === idccNum)?.slug;
+  return document.find((doc) => {
+    return doc.source === SOURCES.CONTRIBUTIONS && doc.document.num === idccNum;
+  })?.slug;
 };
 
 export async function toUrlEntries(
