@@ -19,6 +19,11 @@ const slugStartsWithNumber = (slug: string) => {
   return !isNaN(parseInt(firstElement));
 };
 
+const findCCSlug = (idcc: string, document: Document[]): string | undefined => {
+  const idccNum = parseInt(idcc);
+  return document.find((doc) => doc.document.num === idccNum)?.slug;
+};
+
 export async function toUrlEntries(
   documents: Document[],
   glossaryTerms: Document[],
@@ -40,7 +45,16 @@ export async function toUrlEntries(
       (source === "contribution" && !slugStartsWithNumber(doc.slug))
         ? 0.7
         : 0.5;
-    const projectURL = `${baseUrl}/${source}/${doc.slug}`;
+    let projectURL = `${baseUrl}/${source}/${doc.slug}`;
+    if (
+      doc.document.questionIndex === 50 &&
+      source === "contribution" &&
+      doc.document.idcc !== "0000"
+    ) {
+      const slugAfterFirstDash = doc.slug.slice(doc.slug.indexOf("-") + 1);
+      projectURL = `${baseUrl}/${source}/${slugAfterFirstDash}/${findCCSlug(doc.document.idcc, documents) ?? doc.document.idcc}`;
+    }
+    // const projectURL = `${baseUrl}/${source}/${doc.slug}`;
     return toUrlEntry(projectURL, date, priority);
   });
 

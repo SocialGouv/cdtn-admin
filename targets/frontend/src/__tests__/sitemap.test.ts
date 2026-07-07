@@ -41,16 +41,48 @@ describe("Sitemap", () => {
       document: {},
     },
     {
+      slug: "1031-convention-collective-nationale-des-personnels-familles-rurales",
+      source: "conventions_collectives",
+      updated_at: "2020-11-16T15:46:34.470855+00:00",
+      document: {
+        num: 1031,
+      },
+    },
+    {
       updated_at: "2022-01-19T11:07:11.31437+00:00",
-      slug: "1634-quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite",
+      slug: "1031-quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite",
       source: "contributions",
-      document: {},
+      document: {
+        idcc: "1031",
+        questionIndex: 43,
+      },
     },
     {
       updated_at: "2022-01-19T11:07:11.31437+00:00",
       slug: "quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite",
       source: "contributions",
-      document: {},
+      document: {
+        idcc: "0000",
+        questionIndex: 43,
+      },
+    },
+    {
+      updated_at: "2022-01-19T11:07:11.31437+00:00",
+      slug: "1031-les-conges-pour-evenements-familiaux",
+      source: "contributions",
+      document: {
+        idcc: "1031",
+        questionIndex: 50,
+      },
+    },
+    {
+      updated_at: "2022-01-19T11:07:11.31437+00:00",
+      slug: "les-conges-pour-evenements-familiaux",
+      source: "contributions",
+      document: {
+        idcc: "0000",
+        questionIndex: 50,
+      },
     },
   ];
   const glossaryTerms: Document[] = [
@@ -74,8 +106,11 @@ describe("Sitemap", () => {
       "<url><loc>base.url/fiche-ministere-travail/5-questions-reponses-sur-le-versement-du-salaire</loc><lastmod>2022-01-11T00:31:27.321Z</lastmod><priority>0.5</priority></url>",
       "<url><loc>base.url/information/indemnite-inflation-infographies</loc><lastmod>2022-01-07T13:09:02.024Z</lastmod><priority>0.7</priority></url>",
       "<url><loc>base.url/themes/greve</loc><lastmod>2020-11-16T15:46:33.470Z</lastmod><priority>0.5</priority></url>",
-      "<url><loc>base.url/contribution/1634-quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite</loc><lastmod>2022-01-19T11:07:11.314Z</lastmod><priority>0.5</priority></url>",
+      "<url><loc>base.url/convention-collective/1031-convention-collective-nationale-des-personnels-familles-rurales</loc><lastmod>2020-11-16T15:46:34.470Z</lastmod><priority>0.5</priority></url>",
+      "<url><loc>base.url/contribution/1031-quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite</loc><lastmod>2022-01-19T11:07:11.314Z</lastmod><priority>0.5</priority></url>",
       "<url><loc>base.url/contribution/quelles-sont-les-conditions-dindemnisation-pendant-le-conge-de-maternite</loc><lastmod>2022-01-19T11:07:11.314Z</lastmod><priority>0.7</priority></url>",
+      "<url><loc>base.url/contribution/les-conges-pour-evenements-familiaux/1031-convention-collective-nationale-des-personnels-familles-rurales</loc><lastmod>2022-01-19T11:07:11.314Z</lastmod><priority>0.5</priority></url>",
+      "<url><loc>base.url/contribution/les-conges-pour-evenements-familiaux</loc><lastmod>2022-01-19T11:07:11.314Z</lastmod><priority>0.7</priority></url>",
     ]);
     expect(staticPages.length).toEqual(14);
     expect(staticPages[0]).toContain("<url><loc>base.url/a-propos</loc>");
