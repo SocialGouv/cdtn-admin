@@ -77,4 +77,5 @@ class ReportingSettings(BaseSettings):
 
     matomo_base_url: str
     matomo_site_id: int
-    matomo_token_auth: str
+    # Défaut ``anonymous`` : suffit quand le site autorise le reporting anonyme.
+    matomo_token_auth: str = "anonymous"
